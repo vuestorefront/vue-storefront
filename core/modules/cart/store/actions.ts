@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import { sha3_224 } from 'js-sha3'
 import { currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore'
@@ -49,20 +50,21 @@ const actions: ActionTree<CartState, RootState> = {
   clear (context) {
     context.commit(types.CART_LOAD_CART, [])
     context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
-    if (rootStore.state.config.cart.synchronize) {
-      rootStore.dispatch('cart/serverCreate', { guestCart: !rootStore.state.config.orders.directBackendSync }, {root: true}) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
+
+    if (config.cart.synchronize) {
+      context.dispatch('serverCreate', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
     }
   },
   save (context) {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
-    if (rootStore.state.config.cart.synchronize && !isServer) {
+    if (config.cart.synchronize && !isServer) {
       const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
       if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
         context.state.cartServerPullAt = Date.now()
         context.state.cartItemsHash = newItemsHash
-        TaskQueue.execute({ url: rootStore.state.config.cart.pull_endpoint, // sync the cart
+        return TaskQueue.execute({ url: config.cart.pull_endpoint, // sync the cart
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -92,10 +94,9 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
-    if (rootStore.state.config.cart.synchronize_totals && !isServer) {
+    if (config.cart.synchronize_totals  && !isServer) {
       if ((Date.now() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
-        context.state.cartServerPullAt = Date.now()
-        TaskQueue.execute({ url: rootStore.state.config.cart.totals_endpoint, // sync the cart
+        TaskQueue.execute({ url: config.cart.totals_endpoint, // sync the cart
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -111,9 +112,9 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverCreate (context, { guestCart = false }) {
-    if (rootStore.state.config.cart.synchronize && !isServer) {
+    if (config.cart.synchronize && !isServer) {
       if ((Date.now() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
-        const task = { url: guestCart ? rootStore.state.config.cart.create_endpoint.replace('{{token}}', '') : rootStore.state.config.cart.create_endpoint, // sync the cart
+        const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -131,7 +132,8 @@ const actions: ActionTree<CartState, RootState> = {
     if (!cartItem.quoteId) {
       cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
     }
-    return TaskQueue.execute({ url: rootStore.state.config.cart.updateitem_endpoint, // sync the cart
+
+    return TaskQueue.execute({ url: config.cart.updateitem_endpoint, // sync the cart
       payload: {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -143,7 +145,7 @@ const actions: ActionTree<CartState, RootState> = {
       callback_event: 'store:cart/servercartAfterItemUpdated'
     }).then(task => {
       // eslint-disable-next-line no-useless-return
-      if (rootStore.state.config.cart.synchronize_totals && context.state.cartItems.length > 0) {
+      if (config.cart.synchronize_totals && context.state.cartItems.length > 0) {
         context.dispatch('refreshTotals')
       }
       return task
@@ -154,7 +156,7 @@ const actions: ActionTree<CartState, RootState> = {
       cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
     }
     cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
-    return TaskQueue.execute({ url: rootStore.state.config.cart.deleteitem_endpoint, // sync the cart
+    return TaskQueue.execute({ url: config.cart.deleteitem_endpoint, // sync the cart
       payload: {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -167,7 +169,7 @@ const actions: ActionTree<CartState, RootState> = {
       callback_event: 'store:cart/servercartAfterItemDeleted'
     }).then(task => {
       // eslint-disable-next-line no-useless-return
-      if (rootStore.state.config.cart.synchronize_totals && context.state.cartItems.length > 0) {
+      if (config.cart.synchronize_totals && context.state.cartItems.length > 0) {
         context.dispatch('refreshTotals')
       }
       return task
@@ -190,7 +192,7 @@ const actions: ActionTree<CartState, RootState> = {
       Vue.prototype.$db.cartsCollection.getItem('current-cart', (err, storedItems) => {
         if (err) throw new Error(err)
 
-        if (rootStore.state.config.cart.synchronize) {
+        if (config.cart.synchronize) {
           Vue.prototype.$db.cartsCollection.getItem('current-cart-token', (err, token) => {
             if (err) throw new Error(err)
             // TODO: if token is null create cart server side and store the token!
@@ -198,7 +200,7 @@ const actions: ActionTree<CartState, RootState> = {
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
               Logger.info('Cart token received from cache.', 'cache', token)()
               Logger.info('Pulling cart from server.','cart')()
-              context.dispatch('serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.serverMergeByDefault })
+              context.dispatch('serverPull', { forceClientState: false, dryRun: !config.cart.serverMergeByDefault })
             } else {
               Logger.info('Creating server cart token', 'cart')()
               context.dispatch('serverCreate', { guestCart: false })
@@ -229,7 +231,7 @@ const actions: ActionTree<CartState, RootState> = {
     for (let product of productsToAdd) {
       if (typeof product === 'undefined' || product === null) continue
       if (product.qty && typeof product.qty !== 'number') product.qty = parseInt(product.qty)
-      if ((rootStore.state.config.useZeroPriceProduct)? product.priceInclTax < 0 : product.priceInclTax <= 0  ) {
+      if ((config.useZeroPriceProduct)? product.priceInclTax < 0 : product.priceInclTax <= 0  ) {
         rootStore.dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t('Product price is unknown, product cannot be added to the cart!'),
@@ -237,7 +239,7 @@ const actions: ActionTree<CartState, RootState> = {
         })
         continue
       }
-      if (rootStore.state.config.entities.optimize && rootStore.state.config.entities.optimizeShoppingCart) {
+      if (config.entities.optimize && config.entities.optimizeShoppingCart) {
         product = omit(product, ['configurable_children', 'configurable_options', 'media_gallery', 'description', 'category', 'category_ids', 'product_links', 'stock', 'description'])
       }
       if (product.errors !== null && typeof product.errors !== 'undefined') {
@@ -284,12 +286,12 @@ const actions: ActionTree<CartState, RootState> = {
             action1: { label: i18n.t('OK') },
             action2: null
           }
-          if (!rootStore.state.config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
+          if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
             notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: () => {
               dispatch('goToCheckout')
             }}
           }
-          if (rootStore.state.config.cart.synchronize && !forceServerSilence) {
+          if (config.cart.synchronize && !forceServerSilence) {
             dispatch('serverPull', { forceClientState: true })
           } else {
             rootStore.dispatch('notification/spawnNotification', notificationData)
@@ -307,7 +309,7 @@ const actions: ActionTree<CartState, RootState> = {
       removeByParentSku = payload.removeByParentSku
     }
     commit(types.CART_DEL_ITEM, { product, removeByParentSku })
-    if (rootStore.state.config.cart.synchronize && product.server_item_id) {
+    if (config.cart.synchronize && product.server_item_id) {
       dispatch('serverPull', { forceClientState: true })
     }
   },
@@ -319,13 +321,13 @@ const actions: ActionTree<CartState, RootState> = {
       removeByParentSku = payload.removeByParentSku
     }
     commit(types.CART_DEL_NON_CONFIRMED_ITEM, { product })
-    if (rootStore.state.config.cart.synchronize && product.server_item_id) {
+    if (config.cart.synchronize && product.server_item_id) {
       dispatch('serverPull', { forceClientState: true })
     }
   },
   updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false }) {
     commit(types.CART_UPD_ITEM, { product, qty })
-    if (rootStore.state.config.cart.synchronize && product.server_item_id && !forceServerSilence) {
+    if (config.cart.synchronize && product.server_item_id && !forceServerSilence) {
       dispatch('serverPull', { forceClientState: true })
     }
   },
@@ -333,8 +335,8 @@ const actions: ActionTree<CartState, RootState> = {
     commit(types.CART_UPD_ITEM_PROPS, { product })
   },
   getPaymentMethods (context) {
-    if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
-      TaskQueue.execute({ url: rootStore.state.config.cart.paymentmethods_endpoint,
+    if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+      TaskQueue.execute({ url: config.cart.paymentmethods_endpoint,
         payload: {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
@@ -363,8 +365,8 @@ const actions: ActionTree<CartState, RootState> = {
   },
   getShippingMethods (context, address) {
     return new Promise((resolve, reject) => {
-      if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
-        TaskQueue.execute({ url: rootStore.state.config.cart.shippingmethods_endpoint,
+      if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+        TaskQueue.execute({ url: config.cart.shippingmethods_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -389,7 +391,7 @@ const actions: ActionTree<CartState, RootState> = {
   refreshTotals (context, methodsData) {
     return new Promise((resolve, reject) => {
       const storeView = currentStoreView()
-      if (rootStore.state.config.cart.synchronize_totals) {
+      if (config.cart.synchronize_totals) {
         if (!methodsData) {
           let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
           const shippingMethods = context.rootGetters['shipping/shippingMethods']
@@ -410,7 +412,7 @@ const actions: ActionTree<CartState, RootState> = {
           }
         }
         if (methodsData.country && methodsData.carrier_code) {
-          TaskQueue.execute({ url: rootStore.state.config.cart.shippinginfo_endpoint,
+          TaskQueue.execute({ url: config.cart.shippinginfo_endpoint,
             payload: {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -444,8 +446,8 @@ const actions: ActionTree<CartState, RootState> = {
   },
   removeCoupon (context) {
     return new Promise((resolve, reject) => {
-      if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
-        TaskQueue.execute({ url: rootStore.state.config.cart.deletecoupon_endpoint,
+      if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+        TaskQueue.execute({ url: config.cart.deletecoupon_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -466,8 +468,8 @@ const actions: ActionTree<CartState, RootState> = {
   },
   applyCoupon (context, couponCode) {
     return new Promise((resolve, reject) => {
-      if (rootStore.state.config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
-        TaskQueue.execute({ url: rootStore.state.config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
+      if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+        TaskQueue.execute({ url: config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -493,7 +495,7 @@ const actions: ActionTree<CartState, RootState> = {
       if (err) {
         Logger.error(err, 'cart')()
       }
-      if (!rootStore.state.config.cart.bypassCartLoaderForAuthorizedUsers || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
+      if (!config.cart.bypassCartLoaderForAuthorizedUsers || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
         rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
       }
     })
@@ -503,7 +505,7 @@ const actions: ActionTree<CartState, RootState> = {
     if (event.resultCode === 200) {
       Logger.info('Server cart token created.', 'cart', cartToken)()
       rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
-      rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !rootStore.state.config.cart.serverMergeByDefault }, { root: true })
+      rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !config.cart.serverMergeByDefault }, { root: true })
     } else {
       let resultString = event.result ? toString(event.result) : null
       if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
@@ -566,9 +568,9 @@ const actions: ActionTree<CartState, RootState> = {
           Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')()
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
           if (!event.dry_run) {
-            if (event.force_client_state || !rootStore.state.config.cart.serverSyncCanRemoveLocalItems) {
+            if (event.force_client_state || !config.cart.serverSyncCanRemoveLocalItems) {
               rootStore.dispatch('cart/serverUpdateItem', {
-                sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
+                sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
                 qty: clientItem.qty,
                 product_option: clientItem.product_option
               }, { root: true }).then((event) => {
@@ -585,9 +587,9 @@ const actions: ActionTree<CartState, RootState> = {
           Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'wrong_qty', 'client_qty': clientItem.qty, 'server_qty': serverItem.qty })
           if (!event.dry_run) {
-            if (event.force_client_state || !rootStore.state.config.cart.serverSyncCanModifyLocalItems) {
+            if (event.force_client_state || !config.cart.serverSyncCanModifyLocalItems) {
               rootStore.dispatch('cart/serverUpdateItem', {
-                sku: clientItem.parentSku && rootStore.state.config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
+                sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
                 qty: clientItem.qty,
                 item_id: serverItem.item_id,
                 quoteId: serverItem.quote_id,
@@ -710,7 +712,7 @@ const actions: ActionTree<CartState, RootState> = {
           action1: { label: i18n.t('OK') },
           action2: null
         }
-        if (!rootStore.state.config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
+        if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
           notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: () => {
             context.dispatch('goToCheckout')
           }}

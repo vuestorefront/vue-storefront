@@ -17,7 +17,7 @@
       "elasticCacheQuota": 4096
     },
     "seo": {
-      "useUrlDispatcher": false
+      "useUrlDispatcher": true
     },    
     "console": {
       "showErrorOnProduction" : true,
