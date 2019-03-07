@@ -267,3 +267,10 @@ Execute the following line on your project's root folder:
 
 The code basically looks into all project files for all ```i18n.t('some string')``` and ```$t('some string') ``` occurrences, parses an extracts the quoted text of each occurrence, and saves it into a pipe-separated CSV file, which you might help you to get your missing translations.
 
+## Running vue-storefront-api on a different machine than magento / images not working
+When you separate vue-storefront-api and magento2 by putting them on different servers, it is necessary to link the vue-storefront-api machine with magento media folder via network folder. `sshsfs` is suggested for this.
+Once the network connection is established, the correct folder needs to be pointed in the vue-storefront-api config
+```
+"assetPath": "/../var/magento2-sample-data/pub/media", 
+```
+It is necessary for the correct product image creation by the vue-storefront-api. If this is not set corectly, images will just be placeholders regardless the fact the rest of the setup works and you can see products and categories correctly synced.
