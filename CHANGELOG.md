@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
 - Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
 - Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
+- Update to babel 7 - @lukeromanowicz (#2554)
 
 ## [1.8.3] - 2019.03.03
 
