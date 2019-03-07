@@ -104,7 +104,7 @@
         >
           {{ $t('Go to checkout') }}
         </button-full>
-        <instant-checkout-btn class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium mt20" />
+        <instant-checkout v-if="isInstantCheckoutRegistered" class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium mt20" />
       </div>
     </div>
   </div>
@@ -112,11 +112,12 @@
 
 <script>
 import i18n from '@vue-storefront/i18n'
+import { isModuleRegistered } from '@vue-storefront/core/lib/module'
+
 import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart'
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
-
-import InstantCheckoutBtn from 'src/modules/instant-checkout/components/Button.vue'
+import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
@@ -129,7 +130,7 @@ export default {
     ButtonFull,
     ButtonOutline,
     BaseInput,
-    InstantCheckoutBtn
+    InstantCheckout
   },
   mixins: [
     Microcart,
@@ -140,7 +141,8 @@ export default {
     return {
       addCouponPressed: false,
       couponCode: '',
-      componentLoaded: false
+      componentLoaded: false,
+      isInstantCheckoutRegistered: isModuleRegistered('instant-checkout')
     }
   },
   props: {
