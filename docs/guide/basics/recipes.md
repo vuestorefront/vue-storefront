@@ -267,3 +267,5 @@ Execute the following line on your project's root folder:
 
 The code basically looks into all project files for all ```i18n.t('some string')``` and ```$t('some string') ``` occurrences, parses an extracts the quoted text of each occurrence, and saves it into a pipe-separated CSV file, which you might help you to get your missing translations.
 
+## Syncing magento and vue-storefront-api servers / Fix for "An error occurred validating the nonce"
+There might be an issue with JWT token validation if one of the servers is more than 600 seconds behind the other. The 600 seconds limit is defined on Magento side by its `\Magento\Integration\Model\Oauth\Nonce\Generator::TIME_DEVIATION`. To fix this issue you need to make sure both severs `date` command show the same datetime  (or both at least below 10 minute difference). This can be done by utilizing `tzdata` package (sudo dpkg-reconfigure tzdata) or setting it directly with `date` package (e.g: `sudo date --set "23 Mar 2019 12:00:00"`, but providing the current datetime)
