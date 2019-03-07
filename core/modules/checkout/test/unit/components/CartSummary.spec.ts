@@ -2,6 +2,8 @@ import {shallowMount} from '@vue/test-utils'
 
 import { CartSummary } from '../../../components/CartSummary'
 
+jest.mock('@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart');
+
 describe('CartSummary', () => {
 
   it('can be initialized', () => {
@@ -10,6 +12,6 @@ describe('CartSummary', () => {
       mixins: [CartSummary]
     });
 
-    expect(wrapper.exists()).toBe(true);
+    expect(wrapper.isVueInstance()).toBe(true);
   })
 });
