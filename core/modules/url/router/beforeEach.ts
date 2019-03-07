@@ -11,12 +11,7 @@ import Vue from 'vue'
 
 export const UrlDispatchMapper = async (to) => {
   const routeData = await store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query })
-  if (routeData) {
-    Object.keys(routeData.params).map(key => {
-      to.params[key] = routeData.params[key]
-    })
-    return routeData
-  }
+  return Object.assign({}, to, routeData)
 }
 export function beforeEach(to: Route, from: Route, next) {
   if (isServer) {
