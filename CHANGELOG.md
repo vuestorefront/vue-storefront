@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit tests of cart module written in jest - @lukeromanowicz (#2305)
 
 ### Fixed
-- 
+- Gallery low quality image in offline mode when high quality already cached - @patzick (#2557)
 
 ### Changed / Improved
 - The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
