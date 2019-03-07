@@ -43,7 +43,7 @@
               <router-link
                 v-else
                 class="px25 py20 cl-accent no-underline col-xs"
-                :to="localizedRoute({ name: 'category', params: { id: category.id, slug: category.slug }})"
+                :to="localizedRoute({ name: 'category', fullPath: category.url_path, params: { id: category.id, slug: category.slug }})"
               >
                 {{ category.name }}
               </router-link>
@@ -53,6 +53,7 @@
               :category-links="category.children_data"
               :id="category.id"
               :parent-slug="category.slug"
+              :parent-path="category.url_path"
             />
           </li>
           <li @click="closeMenu" v-if="isCurrentMenuShowed" class="bg-cl-secondary">
