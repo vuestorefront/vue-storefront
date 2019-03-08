@@ -120,11 +120,11 @@ export default {
     }
   },
   props: {
-    originalProduct: {
+    originalProductId: {
       type: Number,
       required: true
     },
-    currentProduct: {
+    currentProductId: {
       type: Number,
       required: true
     }
@@ -142,11 +142,11 @@ export default {
       }
     },
     refreshList () {
-      this.$store.dispatch('review/list', { productId: this.originalProduct })
+      this.$store.dispatch('review/list', { productId: this.originalProductId })
     },
     submit () {
       this.addReview({
-        'product_id': this.currentProduct,
+        'product_id': this.currentProductId,
         'title': this.formData.summary,
         'detail': this.formData.review,
         'nickname': this.formData.name,
