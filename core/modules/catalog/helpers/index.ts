@@ -474,12 +474,6 @@ export function configureProductAsync (context, { product, configuration, select
       desiredProductFound = true
     }
 
-    if (typeof navigator !== 'undefined') {
-      if (selectedVariant && !navigator.onLine && context.state.offlineImage) { // this is fix for not preloaded images for offline
-        selectedVariant.image = context.state.offlineImage
-        Logger.debug('Image offline fallback to ', context.state.offlineImage)()
-      }
-    }
     if (selectedVariant) {
       if (!desiredProductFound) { // update the configuration
         populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
