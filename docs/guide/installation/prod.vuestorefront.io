@@ -40,6 +40,7 @@ server {
 		text/javascript
 		application/javascript
 		application/json
+    text/xml
 		text/json;
 
 	location / {
