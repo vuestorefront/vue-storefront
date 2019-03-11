@@ -15,9 +15,48 @@
       <slide
         v-for="(images, index) in gallery"
         :key="images.src">
-        <div class="bg-cl-secondary" :class="{'video-container h-100 flex relative': images.video}">
+        <div class="product-image-container bg-cl-secondary" :class="{'video-container w-100 h-100 flex relative': images.video}">
+          <!-- <transition-group name="fade" mode="out-in"> -->
+          <!-- <div class="aaaclass">
+            TEST
+          </div> -->
+          <!-- <transition-group name="fade" mode="out-in"> -->
           <img
-            v-show="hideImageAtIndex !== index"
+            v-show="!lowerQualityLoaded && !highQualityLoaded"
+            key="placeholderImage"
+            class="inline-flex mw-100"
+            src="/assets/placeholder.svg"
+            ref="images"
+            :alt="productName | htmlDecode"
+            @load="placeholderLoaded=true"
+          >
+          <img
+            v-show="lowerQualityLoaded && !highQualityLoaded && hideImageAtIndex !== index"
+            key="lowQualityImage"
+            class="product-image inline-flex mw-100"
+            :src="images.loading"
+            @load="lowerQualityLoaded=true"
+            ref="images"
+            :alt="productName | htmlDecode"
+            data-testid="productGalleryImage"
+            itemprop="image"
+          >
+          <img
+            v-show="highQualityLoaded && hideImageAtIndex !== index"
+            key="highQualityImage"
+            class="product-image inline-flex mw-100"
+            :src="images.src"
+            @load="highQualityLoaded=true"
+            ref="images"
+            @dblclick="openOverlay"
+            :alt="productName | htmlDecode"
+            data-testid="productGalleryImage"
+            itemprop="image"
+          >
+          <!-- </transition-group> -->
+          <!-- </transition-group> -->
+          <!-- <img
+            v-show="placeholderLoaded && hideImageAtIndex !== index"
             class="product-image inline-flex pointer mw-100"
             v-lazy="images"
             ref="images"
@@ -25,7 +64,7 @@
             :alt="productName | htmlDecode"
             data-testid="productGalleryImage"
             itemprop="image"
-          >
+          > -->
           <product-video
             v-if="images.video && (index === currentPage)"
             v-bind="images.video"
@@ -66,7 +105,10 @@ export default {
     return {
       carouselTransitionSpeed: 0,
       currentPage: 0,
-      hideImageAtIndex: null
+      hideImageAtIndex: null,
+      placeholderLoaded: false,
+      lowerQualityLoaded: false,
+      highQualityLoaded: false
     }
   },
   components: {
@@ -130,6 +172,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// @import "~theme/css/animations/transitions";
+.fade-enter-active {
+  transition: opacity 2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 .media-gallery-carousel {
   position: relative;
   text-align: center;
@@ -139,6 +188,20 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
+}
+.product-image-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  // min-height: 200px;
+  width: 100%;
+}
+.product-image {
+  // height: 100%;
+  width: 100%;
+  height: auto;
 }
 img {
   opacity: 1;
