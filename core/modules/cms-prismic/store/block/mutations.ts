@@ -5,23 +5,22 @@ import CmsBlockState from '../../types/CmsBlockState'
 const mutations: MutationTree<CmsBlockState> = {
   /**
    * Store CMS
-   * @param {} state
-   * @param {} cms
+   * @param {any} state
+   * @param {Object} cms
    */
-  [types.CMS_PRISMIC_ADD_CONTENT_BY_ID] (state, cms ) {
-    const record = state.id.find(c => c.id === cms['id'])
-    if (!record) {
-      state.id.push(cms)
-    }
-  },
-  [types.CMS_PRISMIC_ADD_CONTENT_BY_TYPE] (state, cms) {
-    const record = state.type.find(c => c.type === cms[0]['type'])
-    if (!record) {
-      for (let item of cms) {
-        state.type.push(item)
+  [types.CMS_PRISMIC_ADD_CONTENT] (state, cms ) {
+    console.log('###', 'add content')
+    if (cms.lenght > 1) {
+      console.log('###', 'add multiple')
+      cms.forEach((element) => {
+       state.items[element.id] = element.data
+      })
+    } else {
+      if (cms[0] && cms[0].id) {
+        state.items[cms[0].id] = cms[0].data
       }
     }
-  }
+  },
 }
 
 export default mutations

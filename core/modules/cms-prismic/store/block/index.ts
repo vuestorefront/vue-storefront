@@ -10,8 +10,7 @@ export const cmsBlockStorageKey = 'prismic'
 export const cmsBlockModule: Module<CmsBlockState, RootState> = {
   namespaced: true,
   state: {
-    type: [],
-    id: []
+    items: {}
   },
   getters,
   actions,

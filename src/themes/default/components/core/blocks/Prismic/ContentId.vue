@@ -24,11 +24,6 @@ export default {
       required: false
     }
   },
-  mounted () {
-    this.$store.dispatch('prismic/load', {
-      contentId: this.contentId
-    })
-  },
   computed: {
     data () {
       return this.$store.getters[`prismic/contentById`](this.contentId)
