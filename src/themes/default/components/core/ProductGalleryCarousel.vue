@@ -16,55 +16,36 @@
         v-for="(images, index) in gallery"
         :key="images.src">
         <div class="product-image-container bg-cl-secondary" :class="{'video-container w-100 h-100 flex relative': images.video}">
-          <!-- <transition-group name="fade" mode="out-in"> -->
-          <!-- <div class="aaaclass">
-            TEST
-          </div> -->
-          <!-- <transition-group name="fade" mode="out-in"> -->
           <img
-            v-show="!lowerQualityLoaded && !highQualityLoaded"
+            v-show="placeholderImagesMap[index]"
             key="placeholderImage"
             class="inline-flex mw-100"
             src="/assets/placeholder.svg"
             ref="images"
             :alt="productName | htmlDecode"
-            @load="placeholderLoaded=true"
           >
           <img
-            v-show="lowerQualityLoaded && !highQualityLoaded && hideImageAtIndex !== index"
+            v-show="lowerQualityImagesMap[index]"
             key="lowQualityImage"
             class="product-image inline-flex mw-100"
             :src="images.loading"
-            @load="lowerQualityLoaded=true"
+            @load="lowerQualityImageLoaded(index)"
             ref="images"
             :alt="productName | htmlDecode"
             data-testid="productGalleryImage"
             itemprop="image"
           >
           <img
-            v-show="highQualityLoaded && hideImageAtIndex !== index"
-            key="highQualityImage"
-            class="product-image inline-flex mw-100"
+            v-show="highQualityImagesLoadedMap[index]"
             :src="images.src"
-            @load="highQualityLoaded=true"
+            @load="highQualityImageLoaded(index)"
+            class="product-image inline-flex pointer mw-100"
             ref="images"
             @dblclick="openOverlay"
             :alt="productName | htmlDecode"
             data-testid="productGalleryImage"
             itemprop="image"
           >
-          <!-- </transition-group> -->
-          <!-- </transition-group> -->
-          <!-- <img
-            v-show="placeholderLoaded && hideImageAtIndex !== index"
-            class="product-image inline-flex pointer mw-100"
-            v-lazy="images"
-            ref="images"
-            @dblclick="openOverlay"
-            :alt="productName | htmlDecode"
-            data-testid="productGalleryImage"
-            itemprop="image"
-          > -->
           <product-video
             v-if="images.video && (index === currentPage)"
             v-bind="images.video"
@@ -87,6 +68,11 @@ import ProductVideo from './ProductVideo'
 
 export default {
   name: 'ProductGalleryCarousel',
+  components: {
+    Carousel,
+    Slide,
+    ProductVideo
+  },
   props: {
     gallery: {
       type: Array,
@@ -106,15 +92,32 @@ export default {
       carouselTransitionSpeed: 0,
       currentPage: 0,
       hideImageAtIndex: null,
-      placeholderLoaded: false,
-      lowerQualityLoaded: false,
-      highQualityLoaded: false
+      lowerQualityImagesLoadedMap: {},
+      highQualityImagesLoadedMap: {}
     }
   },
-  components: {
-    Carousel,
-    Slide,
-    ProductVideo
+  computed: {
+    placeholderImagesMap () {
+      let visibilityMap = {}
+      this.gallery.forEach((image, index) => {
+        visibilityMap[index] = !this.lowerQualityImagesLoadedMap[index] && !this.highQualityImagesLoadedMap[index]
+      })
+      return visibilityMap
+    },
+    lowerQualityImagesMap () {
+      let visibilityMap = {}
+      this.gallery.forEach((image, index) => {
+        visibilityMap[index] = !!this.lowerQualityImagesLoadedMap[index] && !this.highQualityImagesLoadedMap[index] && this.hideImageAtIndex !== index
+      })
+      return visibilityMap
+    },
+    highQualityImagesMap () {
+      let visibilityMap = {}
+      this.gallery.forEach((image, index) => {
+        visibilityMap[index] = !!this.highQualityImagesLoadedMap[index] && this.hideImageAtIndex !== index
+      })
+      return visibilityMap
+    }
   },
   beforeMount () {
     this.$bus.$on('filter-changed-product', this.selectVariant)
@@ -166,6 +169,12 @@ export default {
     },
     onVideoStarted (index) {
       this.hideImageAtIndex = index
+    },
+    lowerQualityImageLoaded (index) {
+      this.$set(this.lowerQualityImagesLoadedMap, index, true)
+    },
+    highQualityImageLoaded (index) {
+      this.$set(this.highQualityImagesLoadedMap, index, true)
     }
   }
 }
@@ -195,11 +204,10 @@ export default {
   flex-grow: 1;
   justify-content: center;
   align-items: center;
-  // min-height: 200px;
   width: 100%;
+  height: 100%;
 }
 .product-image {
-  // height: 100%;
   width: 100%;
   height: auto;
 }
