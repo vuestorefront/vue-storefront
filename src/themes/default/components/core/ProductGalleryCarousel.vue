@@ -37,6 +37,7 @@
           >
           <img
             v-show="highQualityImagesLoadedMap[index]"
+            key="highQualityImage"
             :src="images.src"
             @load="highQualityImageLoaded(index)"
             class="product-image inline-flex pointer mw-100"
@@ -181,13 +182,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import "~theme/css/animations/transitions";
-.fade-enter-active {
-  transition: opacity 2s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
 .media-gallery-carousel {
   position: relative;
   text-align: center;
