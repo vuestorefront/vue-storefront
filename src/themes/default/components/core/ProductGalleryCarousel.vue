@@ -106,7 +106,7 @@ export default {
       if (store.state.config.products.gallery.mergeConfigurableChildren) {
         let option = this.configuration[store.state.config.products.gallery.variantsGroupAttribute]
         if (typeof option !== 'undefined' && option !== null) {
-          let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option.id))
+          let index = this.gallery.findIndex(obj => obj.id && String(obj.id) === String(option.id))
           this.navigate(index)
         }
       }
