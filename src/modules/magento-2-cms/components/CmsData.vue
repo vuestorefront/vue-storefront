@@ -54,7 +54,7 @@ export default {
       return currentStoreView()
     },
     storeView () {
-      return (this.isMultistoreEnable && this.currentStore) ? this.currentStore.storeId : 0
+      return (this.isMultistoreEnable && this.currentStore) ? this.currentStore.storeId : 1
     }
   },
   data () {
