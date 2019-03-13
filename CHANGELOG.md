@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 
 
 ### Changed / Improved
--
+- Improved ProductGalleryCarousel component to handle nonnumeric options id’s - @danieldomurad (#2586)
 
 ## [1.9.0-rc.1] - 2019.03.07
 
@@ -29,7 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
 - Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
 - Update to babel 7 - @lukeromanowicz (#2554)
-- Improved ProductGalleryCarousel component to handle nonnumeric options id’s - @danieldomurad
 
 ## [1.8.3] - 2019.03.03
 
