@@ -18,7 +18,7 @@
             }
           })"
           data-testid="productLink"
-          @click.native="$emit('product-navigate')"
+          @click.native="$store.commit('ui/setMicrocart', false)"
         >
           {{ product.name | htmlDecode }}
         </router-link>
