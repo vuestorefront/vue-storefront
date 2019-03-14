@@ -605,6 +605,35 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle"> 
+<a href="https://www.vaimo.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/vaimo-logo.png"
+            alt="Vaimo"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="https://www.makingwaves.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/making-waves.png"
+            alt="Making Waves"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+<tr>
+      <td align="center" valign="middle"> 
+<a href="https://www.bluebirdday.nl/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/Blue-Bird.png"
+            alt="BlueBird Day"
+            height="30"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
 <a href="">
           <img
             src=""
@@ -613,7 +642,25 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
 </td>
-  <td align="center" valign="middle"> 
+      <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
 <a href="">
           <img
             src=""
