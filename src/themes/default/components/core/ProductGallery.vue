@@ -1,9 +1,6 @@
 <template>
   <div class="media-gallery" :class="{'media-gallery--loaded': carouselLoaded}">
-    <div v-show="OfflineOnly">
-      <img class="offline-image" v-lazy="offline" :src="offline.src" ref="offline" alt="">
-    </div>
-    <div v-show="OnlineOnly" class="relative">
+    <div class="relative">
       <product-gallery-overlay
         v-if="isZoomOpen"
         :current-slide="currentSlide"
@@ -30,7 +27,6 @@ import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/
 import ProductGalleryOverlay from './ProductGalleryOverlay'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import NoSSR from 'vue-no-ssr'
-import VueOfflineMixin from 'vue-offline/mixin'
 const ProductGalleryCarousel = () => import(/* webpackChunkName: "vsf-product-gallery-carousel" */ './ProductGalleryCarousel.vue')
 
 export default {
@@ -41,7 +37,6 @@ export default {
   },
   mixins: [
     ProductGallery,
-    VueOfflineMixin,
     onEscapePress
   ],
   watch: {
@@ -96,8 +91,5 @@ export default {
   &--loaded {
     background-image: none;
   }
-}
-.offline-image {
-  width: 100%;
 }
 </style>

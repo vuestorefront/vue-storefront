@@ -10,7 +10,7 @@ services:
       VS_ENV: dev
     network_mode: host
     volumes:
-      - '.babelrc:/var/www/.babelrc'
+      - './babel.config.js:/var/www/babel.config.js'
       - './config:/var/www/config'
       - './core:/var/www/core'
       - './ecosystem.json:/var/www/ecosystem.json'

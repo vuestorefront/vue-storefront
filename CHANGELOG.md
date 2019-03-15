@@ -4,19 +4,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.9.0-rc.1] - UNRELEASED
+## [1.10.0-rc.1] - UNRELEASED
+
+### Added
+- 
+
+### Fixed
+- 
+
+### Changed / Improved
+- Number of displayed products is now visible on PLP on desktop - @awierzbiak (#2504)
+
+## [1.9.0-rc.1] - 2019.03.07
 
 ### Added
 - The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and reimport Your products to properly set `url_path` fields - #2010 - @pkarw
+- Unit tests of cart module written in jest - @lukeromanowicz (#2305)
+
 ### Fixed
-- 
+- Gallery low quality image in offline mode when high quality already cached - @patzick (#2557)
+
 ### Changed / Improved
 - The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
-- Material Icons are loaded asynchronously - @JKrupinski  @filrak (#2060)
+- Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
+- Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
+- Update to babel 7 - @lukeromanowicz (#2554)
 
 ## [1.8.3] - 2019.03.03
 
 ### Added
+- Payment Request API integration - @qiqqq (#2306)
 - New reactive helper to check online state. Usage: `import { onlineHelper } from '@vue-storefront/core/helpers'` and then `onlineHelper.isOnline` - @patzick (#2510)
 - Cart count config, allows you to display the item count instead of a sum of the item quantities - @pauluse (#2483)
 - Video support in Product Gallery component. - @rain2o (#2433)

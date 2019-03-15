@@ -6,7 +6,6 @@
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
               :gallery="gallery"
-              :offline="offlineImage"
               :configuration="configuration"
               :product="product"
             />
