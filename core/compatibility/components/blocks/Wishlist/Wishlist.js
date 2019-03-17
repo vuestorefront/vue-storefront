@@ -3,7 +3,7 @@ import { Wishlist } from '@vue-storefront/core/modules/wishlist/components/Wishl
 export default {
   name: 'Wishlist',
   props: {
-    // depreciated
+    // deprecated
     product: {
       type: Object,
       required: false,

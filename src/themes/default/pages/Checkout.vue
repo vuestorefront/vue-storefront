@@ -1,7 +1,7 @@
 <template>
   <div id="checkout">
     <div class="container">
-      <div class="row" v-show="!orderPlaced">
+      <div class="row" v-show="!isThankYouPage">
         <div class="col-sm-7 col-xs-12 pb70">
           <div class="checkout-title py5 px20">
             <h1>
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <thank-you-page v-show="orderPlaced" />
+    <thank-you-page v-show="isThankYouPage" />
   </div>
 </template>
 

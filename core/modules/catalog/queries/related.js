@@ -1,5 +1,5 @@
-import SearchQuery from '@vue-storefront/store/lib/search/searchQuery'
-import store from '@vue-storefront/store'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import store from '@vue-storefront/core/store'
 
 export function prepareRelatedQuery (key, sku) {
   let relatedProductsQuery = new SearchQuery()

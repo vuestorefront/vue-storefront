@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import store from '@vue-storefront/store'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import store from '@vue-storefront/core/store'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   name: 'CmsData',

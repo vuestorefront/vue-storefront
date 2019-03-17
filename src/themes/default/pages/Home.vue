@@ -84,8 +84,6 @@ export default {
     let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
     let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })
 
-    await store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null })
-
     const newProductsResult = await store.dispatch('product/list', {
       query: newProductsQuery,
       size: 8,
@@ -105,6 +103,9 @@ export default {
     if (coolBagsResult) {
       store.state.homepage.coolbags_collection = coolBagsResult.items
     }
+
+    await store.dispatch('promoted/updateHeadImage')
+    await store.dispatch('promoted/updatePromotedOffers')
   }
 }
 </script>

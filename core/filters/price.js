@@ -1,4 +1,4 @@
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 /**
  * Converts number to price string

@@ -1,23 +1,31 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
-import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
+import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import RootState from '@vue-storefront/core/types/RootState'
 import UserState from '../types/UserState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
-import { UserProfile } from '../types/UserProfile';
+import { UserProfile } from '../types/UserProfile'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 // import router from '@vue-storefront/core/router'
 
 const actions: ActionTree<UserState, RootState> = {
   startSession (context) {
+    const storeView = currentStoreView()
+    const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+    const user = localStorage.getItem(`${dbNamePrefix}shop/user/current-user`);
+    if (user) {
+      context.commit(types.USER_INFO_LOADED, JSON.parse(user))  
+    }
+
     context.commit(types.USER_START_SESSION)
     const cache = Vue.prototype.$db.usersCollection
     cache.getItem('current-token', (err, res) => {
       if (err) {
-        console.error(err)
+        Logger.error(err, 'user')()
         return
       }
 
@@ -28,7 +36,7 @@ const actions: ActionTree<UserState, RootState> = {
         if (rootStore.state.config.usePriceTiers) {
           Vue.prototype.$db.usersCollection.getItem('current-user', (err, userData) => {
             if (err) {
-              console.error(err)
+              Logger.error(err, 'user')()
               return
             }
 
@@ -47,7 +55,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Send password reset link for specific e-mail
    */
   resetPassword (context, { email }) {
-    TaskQueue.execute({ url: rootStore.state.config.users.resetPassword_endpoint,
+    return TaskQueue.execute({ url: rootStore.state.config.users.resetPassword_endpoint,
       payload: {
         method: 'POST',
         mode: 'cors',
@@ -57,8 +65,6 @@ const actions: ActionTree<UserState, RootState> = {
         },
         body: JSON.stringify({ email: email })
       }
-    }).then((response) => {
-      return response
     })
   },
   /**
@@ -120,7 +126,7 @@ const actions: ActionTree<UserState, RootState> = {
       const usersCollection = Vue.prototype.$db.usersCollection
       usersCollection.getItem('current-refresh-token', (err, refreshToken) => {
         if (err) {
-          console.error(err)
+          Logger.error(err, 'user')()
         }
         let url = rootStore.state.config.users.refresh_endpoint
         if (rootStore.state.config.storeViews.multistore) {
@@ -177,7 +183,7 @@ const actions: ActionTree<UserState, RootState> = {
       if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
         cache.getItem('current-user', (err, res) => {
           if (err) {
-            console.error(err)
+            Logger.error(err, 'user')()
             return
           }
 
@@ -189,7 +195,7 @@ const actions: ActionTree<UserState, RootState> = {
 
             resolve(res)
             resolvedFromCache = true
-            console.log('Current user served from cache')
+            Logger.log('Current user served from cache', 'user')()
           }
         })
       }
@@ -313,7 +319,7 @@ const actions: ActionTree<UserState, RootState> = {
     // TODO: Make it as an extension from users module
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
-        console.debug('No User token, user unathorized')
+        Logger.debug('No User token, user unathorized', 'user')()
         return resolve(null)
       }
       const cache = Vue.prototype.$db.ordersHistoryCollection
@@ -322,7 +328,7 @@ const actions: ActionTree<UserState, RootState> = {
       if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
         cache.getItem('orders-history', (err, res) => {
           if (err) {
-            console.error(err)
+            Logger.error(err, 'user')()
             return
           }
 
@@ -332,7 +338,7 @@ const actions: ActionTree<UserState, RootState> = {
 
             resolve(res)
             resolvedFromCache = true
-            console.log('Current user order history served from cache')
+            Logger.log('Current user order history served from cache', 'user')()
           }
         })
       }

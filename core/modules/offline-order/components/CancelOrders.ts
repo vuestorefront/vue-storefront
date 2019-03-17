@@ -1,7 +1,8 @@
 import * as localForage from 'localforage'
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 
-import UniversalStorage from '@vue-storefront/store/lib/storage'
+import UniversalStorage from '@vue-storefront/core/store/lib/storage'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export const CancelOrders = {
   methods: {
@@ -17,8 +18,8 @@ export const CancelOrders = {
           ordersCollection.removeItem(id)
         }
       }).catch(err => {
-        console.error(err)
-        console.log('Not transmitted orders have been deleted')
+        Logger.error(err, 'offline-order')()
+        Logger.log('Not transmitted orders have been deleted', 'offline-order')()
       })
     }
   }

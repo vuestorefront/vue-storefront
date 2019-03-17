@@ -4,10 +4,11 @@ import i18n from '@vue-storefront/i18n'
 import CartState from '../types/CartState'
 import RootState from '@vue-storefront/core/types/RootState'
 import AppliedCoupon from '../types/AppliedCoupon'
+import { onlineHelper } from '@vue-storefront/core/helpers'
 
 const getters: GetterTree<CartState, RootState> = {
   totals (state) {
-    if (state.platformTotalSegments) {
+    if (state.platformTotalSegments && onlineHelper.isOnline) {
       return state.platformTotalSegments
     } else {
       let shipping = state.shipping instanceof Array ? state.shipping[0] : state.shipping
@@ -45,7 +46,11 @@ const getters: GetterTree<CartState, RootState> = {
       return totalsArray
     }
   },
-  totalQuantity (state) {
+  totalQuantity (state, getters, rootStore) {
+    if (rootStore.config.cart.minicartCountType === 'items') {
+      return state.cartItems.length
+    }
+
     return sumBy(state.cartItems, (p) => {
       return p.qty
     })

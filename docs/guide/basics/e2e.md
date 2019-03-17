@@ -10,6 +10,6 @@ To open cypress just run:
 
 `yarn test:e2e`
 
-To run all test in background:
+To run all test in the background:
 
 `yarn test:e2e:ci`

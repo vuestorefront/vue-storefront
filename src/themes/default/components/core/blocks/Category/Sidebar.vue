@@ -1,20 +1,18 @@
 <template>
   <div class="sidebar">
-    <h4>
-      {{ $t('Filter') }}
+    <h4 class="sidebar__header">
+      <span> {{ $t('Filter') }} </span>
+      <button
+        class="no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
+        @click="resetAllFilters"
+        v-show="hasActiveFilters"
+      >
+        {{ $t('Clear') }}
+      </button>
     </h4>
-    <button
-      class="visible-xs no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
-      @click="resetAllFilters"
-      :class="{'button-disabled': Object.keys(activeFilters).length === 0}"
-      :disabled="Object.keys(activeFilters).length === 0"
-    >
-      {{ $t('Clear') }}
-    </button>
     <div
-      v-for="(filter, filterIndex) in filters"
+      v-for="(filter, filterIndex) in availableFilters"
       :key="filterIndex"
-      v-if="filter.length"
     >
       <h5>
         {{ $t(filterIndex + '_filter') }}
@@ -54,10 +52,10 @@
           :content="price.label"
         />
       </div>
-      <div v-else>
+      <div v-else class="sidebar__inline-selecors">
         <generic-selector
           context="category"
-          class="price-select mb10 block"
+          class="mr10 mb10 block"
           :code="filterIndex"
           v-for="(option, index) in filter"
           :key="index"
@@ -101,3 +99,18 @@ export default {
   mixins: [Sidebar]
 }
 </script>
+
+<style lang="scss" scoped>
+.sidebar {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 47px;
+  }
+
+  &__inline-selecors {
+    display: flex;
+  }
+}
+</style>

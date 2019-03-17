@@ -49,7 +49,7 @@
               },
               {
                 condition: !$v.personalDetails.firstName.minLength,
-                text: $t('Name must have at least 3 letters.')
+                text: $t('Name must have at least 2 letters.')
               }
             ]"
           />
@@ -62,10 +62,10 @@
             v-model.trim="personalDetails.lastName"
             @blur="$v.personalDetails.lastName.$touch()"
             autocomplete="family-name"
-            :validation="{
+            :validations="[{
               condition: $v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required,
               text: $t('Field is required')
-            }"
+            }]"
           />
 
           <base-input
@@ -109,10 +109,10 @@
               v-model="password"
               @blur="$v.password.$touch()"
               autocomplete="new-password"
-              :validation="{
+              :validations="[{
                 condition: $v.password.$error && !$v.password.required,
                 text: $t('Field is required.')
-              }"
+              }]"
             />
 
             <base-input
@@ -140,10 +140,10 @@
               @click="acceptConditions = !acceptConditions"
               @blur="$v.acceptConditions.$touch()"
               v-model="acceptConditions"
-              :validation="{
+              :validations="[{
                 condition: !$v.acceptConditions.required && $v.acceptConditions.$error,
                 text: $t('You must accept the terms and conditions.')
-              }"
+              }]"
             >
               {{ $t('I accept ') }}
               <span
@@ -242,7 +242,7 @@ export default {
     personalDetails: {
       firstName: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(2)
       },
       lastName: {
         required

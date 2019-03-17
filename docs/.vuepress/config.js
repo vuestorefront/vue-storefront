@@ -34,6 +34,7 @@ module.exports = {
           title: 'Basics',
           collapsable: false,
           children: [
+            'basics/release-cycle',
             'basics/project-structure',
             'basics/configuration',
             'basics/contributing',
@@ -43,7 +44,8 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
-            'basics/e2e'
+            'basics/e2e',
+            'basics/url'
           ],
         },
         {
@@ -83,6 +85,7 @@ module.exports = {
             'data/database-tool',
             'data/entity-types',
             'data/static-data',
+            'data/data-loader'
           ],
         },
         {
@@ -102,11 +105,7 @@ module.exports = {
             'vuex/vuex-conventions',
             'vuex/product-store',
             'vuex/category-store',
-            'vuex/cart-store',
-            'vuex/checkout-store',
-            'vuex/order-store',
             'vuex/stock-store',
-            'vuex/user-store',
             'vuex/attribute-store',
           ],
         },

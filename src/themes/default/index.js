@@ -1,10 +1,10 @@
-import { setupMultistoreRoutes } from '@vue-storefront/store/lib/multistore'
+import { setupMultistoreRoutes } from '@vue-storefront/core/lib/multistore'
 import App from './App.vue'
 import routes from './router'
 import Vue from 'vue'
 import VueProgressBar from 'vue-progressbar'
 import '@vue-storefront/core/lib/passive-listeners'
-
+import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 Vue.use(VueProgressBar)
 
 const themeEntry = App
@@ -14,7 +14,7 @@ function initTheme (app, router, store, config, ssrContext) {
   // To do so please execlude the desired storeView from the config.storeViews.mapStoreUrlsFor and map the urls by Your own like:
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   setupMultistoreRoutes(config, router, routes)
-  router.addRoutes(routes)
+  RouterManager.addRoutes(routes, router)
 }
 
 export {

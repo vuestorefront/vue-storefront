@@ -1,7 +1,7 @@
 <template>
   <div
-    class="microcart mw-100 fixed cl-accent"
-    :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary', { active: showMicrocart }]"
+    class="microcart cl-accent"
+    :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary']"
     data-testid="microcart"
   >
     <div class="row middle-xs bg-cl-primary top-sm">
@@ -104,6 +104,7 @@
         >
           {{ $t('Go to checkout') }}
         </button-full>
+        <instant-checkout v-if="isInstantCheckoutRegistered" class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium mt20" />
       </div>
     </div>
   </div>
@@ -111,9 +112,12 @@
 
 <script>
 import i18n from '@vue-storefront/i18n'
+import { isModuleRegistered } from '@vue-storefront/core/lib/module'
+
 import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart'
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
+import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
@@ -125,7 +129,8 @@ export default {
     Product,
     ButtonFull,
     ButtonOutline,
-    BaseInput
+    BaseInput,
+    InstantCheckout
   },
   mixins: [
     Microcart,
@@ -136,7 +141,8 @@ export default {
     return {
       addCouponPressed: false,
       couponCode: '',
-      componentLoaded: false
+      componentLoaded: false,
+      isInstantCheckoutRegistered: isModuleRegistered('instant-checkout')
     }
   },
   props: {
@@ -144,11 +150,6 @@ export default {
       type: Boolean,
       required: false,
       default: () => false
-    }
-  },
-  computed: {
-    showMicrocart () {
-      return this.isMicrocartOpen && this.componentLoaded
     }
   },
   mounted () {
@@ -190,22 +191,6 @@ export default {
 
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
-
-  .microcart {
-    top: 0;
-    right: 0;
-    z-index: 3;
-    height: 100%;
-    width: 800px;
-    min-width: 320px;
-    transform: translateX(100%);
-    transition: transform 300ms $motion-main;
-    overflow-y: auto;
-    overflow-x: hidden;
-    &.active {
-      transform: translateX(0)
-    }
-  }
 
   .close {
     i {

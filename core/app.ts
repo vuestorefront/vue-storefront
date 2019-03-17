@@ -2,6 +2,8 @@ import { Store } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import Vue from 'vue'
 import buildTimeConfig from 'config'
+import { isServer } from '@vue-storefront/core/helpers'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 // Plugins
 import i18n from '@vue-storefront/i18n'
@@ -19,7 +21,7 @@ import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 import { registerTheme } from '@vue-storefront/core/lib/themes'
 import { themeEntry } from 'theme/index.js'
 import { registerModules } from '@vue-storefront/core/lib/module'
-import { prepareStoreView } from '@vue-storefront/store/lib/multistore'
+import { prepareStoreView } from '@vue-storefront/core/lib/multistore'
 
 import * as coreMixins from '@vue-storefront/core/mixins'
 import * as coreFilters from '@vue-storefront/core/filters'
@@ -27,11 +29,11 @@ import * as corePlugins from '@vue-storefront/core/compatibility/plugins'
 
 import { once } from '@vue-storefront/core/helpers'
 import { takeOverConsole } from '@vue-storefront/core/helpers/log'
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 
 import { enabledModules } from './modules-entry'
 
-// Will be depreciated in 1.8
+// Will be deprecated in 1.8
 import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
 import { registerExtensions as extensions } from 'src/extensions'
 
@@ -58,19 +60,12 @@ let router: VueRouter = null
 
 Vue.use(VueRouter)
 
-// Will be depreciated in 1.7. Now we are using Logger instead of logs
-if (buildTimeConfig.console.verbosityLevel !== 'display-everything' && process.env.NODE_ENV === 'production') {
-  once('__TAKE_OVER_CONSOLE__', () => {
-    takeOverConsole(buildTimeConfig.console.verbosityLevel)
-  })
-}
-
 const createApp  = async (ssrContext, config): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
   router = createRouter()
   // sync router with vuex 'router' store
   sync(store, router)
   // TODO: Don't mutate the state directly, use mutation instead
-  store.state.version = '1.7.0'
+  store.state.version = process.env.APPVERSION
   store.state.config = config
   store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
   if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
@@ -113,7 +108,7 @@ const createApp  = async (ssrContext, config): Promise<{app: Vue, router: VueRou
   const app = new Vue(vueOptions)
 
   const appContext = {
-    isServer: typeof window !== 'undefined',
+    isServer,
     ssrContext
   }
 

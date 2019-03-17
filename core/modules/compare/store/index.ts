@@ -8,6 +8,7 @@ import CompareState from '../types/CompareState'
 export const module: Module<CompareState, RootState> = {
   namespaced: true,
   state: {
+    loaded: false,
     items: []
   },
   getters,

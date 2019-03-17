@@ -68,7 +68,7 @@
               },
               {
                 condition: !$v.payment.firstName.minLength,
-                text: $t('Name must have at least 3 letters.')
+                text: $t('Name must have at least 2 letters.')
               }
             ]"
           />
@@ -81,10 +81,10 @@
             v-model.trim="payment.lastName"
             @blur="$v.payment.lastName.$touch()"
             autocomplete="family-name"
-            :validation="{
+            :validations="[{
               condition: $v.payment.lastName.$error && !$v.payment.lastName.required,
               text: $t('Field is required')
-            }"
+            }]"
           />
 
           <base-input
@@ -95,10 +95,10 @@
             v-model.trim="payment.streetAddress"
             @blur="$v.payment.streetAddress.$touch()"
             autocomplete="address-line1"
-            :validation="{
+            :validations="[{
               condition: $v.payment.streetAddress.$error && !$v.payment.streetAddress.required,
               text: $t('Field is required')
-            }"
+            }]"
           />
 
           <base-input
@@ -109,10 +109,10 @@
             v-model.trim="payment.apartmentNumber"
             @blur="$v.payment.apartmentNumber.$touch()"
             autocomplete="address-line2"
-            :validation="{
+            :validations="[{
               condition: $v.payment.apartmentNumber.$error && !$v.payment.apartmentNumber.required,
               text: $t('Field is required')
-            }"
+            }]"
           />
 
           <base-input
@@ -123,10 +123,10 @@
             v-model.trim="payment.city"
             @blur="$v.payment.city.$touch()"
             autocomplete="address-level2"
-            :validation="{
+            :validations="[{
               condition: $v.payment.city.$error && !$v.payment.city.required,
               text: $t('Field is required')
-            }"
+            }]"
           />
 
           <base-input
@@ -203,10 +203,10 @@
               v-model.trim="payment.company"
               @blur="$v.payment.company.$touch()"
               autocomplete="organization"
-              :validation="{
+              :validations="[{
                 condition: $v.payment.company.$error && !$v.payment.company.required,
                 text: $t('Field is required')
-              }"
+              }]"
             />
 
             <base-input
@@ -349,7 +349,7 @@ export default {
         payment: {
           firstName: {
             required,
-            minLength: minLength(3)
+            minLength: minLength(2)
           },
           lastName: {
             required
@@ -380,7 +380,7 @@ export default {
         payment: {
           firstName: {
             required,
-            minLength: minLength(3)
+            minLength: minLength(2)
           },
           lastName: {
             required
@@ -403,7 +403,7 @@ export default {
           },
           zipCode: {
             required,
-            minLength: minLength(4)
+            minLength: minLength(3)
           },
           city: {
             required

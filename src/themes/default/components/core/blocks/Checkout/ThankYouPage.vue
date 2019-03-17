@@ -50,7 +50,7 @@
               {{ $t('What we can improve?') }}
             </h3>
             <p class="mb25">
-              {{ $t('Your feedback is important fo us. Let us know what we could improve.') }}
+              {{ $t('Your feedback is important for us. Let us know what we could improve.') }}
             </p>
             <form @submit.prevent="sendFeedback">
               <base-textarea
@@ -73,13 +73,13 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import Composite from '@vue-storefront/core/mixins/composite'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
+import { isServer } from '@vue-storefront/core/helpers'
 
 export default {
   name: 'ThankYouPage',
@@ -94,11 +94,11 @@ export default {
       return this.$store.state.order.last_order_confirmation ? this.$store.state.order.last_order_confirmation.confirmation : {}
     },
     isNotificationSupported () {
-      if (Vue.prototype.$isServer || !('Notification' in window)) return false
+      if (isServer || !('Notification' in window)) return false
       return 'Notification' in window
     },
     isPermissionGranted () {
-      if (Vue.prototype.$isServer || !('Notification' in window)) return false
+      if (isServer || !('Notification' in window)) return false
       return Notification.permission === 'granted'
     },
     checkoutPersonalEmailAddress () {
@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     requestNotificationPermission () {
-      if (Vue.prototype.$isServer) return false
+      if (isServer) return false
       if ('Notification' in window && Notification.permission !== 'granted') {
         Notification.requestPermission()
       }
@@ -119,7 +119,7 @@ export default {
       this.sendEmail(
         {
           sourceAddress: this.checkoutPersonalEmailAddress,
-          targetAddress: this.mailerElements.contactAddress,
+          targetAddress: this.mailerElements,
           subject: this.$t('What we can improve?'),
           emailText: this.feedback
         },
@@ -136,7 +136,7 @@ export default {
       if (this.mailerElements.sendConfirmation) {
         this.sendEmail(
           {
-            sourceAddress: this.mailerElements.contactAddress,
+            sourceAddress: this.mailerElements,
             targetAddress: this.checkoutPersonalEmailAddress,
             subject: this.$t('Confirmation of receival'),
             emailText: this.$t(`Dear customer,\n\nWe have received your letter.\nThank you for your feedback!`),

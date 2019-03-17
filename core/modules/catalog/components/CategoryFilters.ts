@@ -21,8 +21,11 @@ export default {
       // todo: get rid of this one
       this.$bus.$emit('filter-reset')
       this.$store.dispatch('category/resetFilters')
-      this.$store.dispatch('category/searchProductQuery', buildFilterProductsQuery(this.category, this.activeFilters))
-      this.$store.dispatch('category/products', {searchProductQuery: this.getCurrentCategoryProductQuery})
+      this.$store.dispatch('category/searchProductQuery', {})
+      this.$store.dispatch('category/mergeSearchOptions', {
+        searchProductQuery: buildFilterProductsQuery(this.category, this.activeFilters)
+      })
+      this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
     }
   }
 }

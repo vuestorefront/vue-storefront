@@ -19,21 +19,18 @@
         <slot/>
       </label>
     </div>
-    <template v-if="validation">
-      <span
-        class="block cl-error h6"
-        v-if="validation.condition"
-        data-testid="errorMessage"
-      >
-        {{ validation.text }}
-      </span>
-    </template>
+    <ValidationMessages v-if="validations" :validations="validations"/>
   </div>
 </template>
 
 <script>
+import ValidationMessages from './ValidationMessages.vue'
+
 export default {
   name: 'BaseCheckbox',
+  components: {
+    ValidationMessages
+  },
   props: {
     id: {
       type: String,
@@ -43,10 +40,9 @@ export default {
       type: Boolean,
       required: true
     },
-    validation: {
-      type: Object,
-      required: false,
-      default: () => { }
+    validations: {
+      type: Array,
+      default: () => []
     },
     disabled: {
       type: Boolean,
