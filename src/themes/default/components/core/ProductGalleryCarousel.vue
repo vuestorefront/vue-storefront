@@ -45,6 +45,9 @@
 import store from '@vue-storefront/core/store'
 import { Carousel, Slide } from 'vue-carousel'
 import ProductVideo from './ProductVideo'
+import reduce from 'lodash-es/reduce'
+import map from 'lodash-es/map'
+import isEqual from 'lodash-es/isEqual'
 
 export default {
   name: 'ProductGalleryCarousel',
@@ -104,9 +107,12 @@ export default {
     },
     selectVariant () {
       if (store.state.config.products.gallery.mergeConfigurableChildren) {
-        let option = this.configuration[store.state.config.products.gallery.variantsGroupAttribute]
-        if (typeof option !== 'undefined' && option !== null) {
-          let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option.id))
+        let option = reduce(map(this.configuration, 'attribute_code'), (result, attribute) => {
+          result[attribute] = this.configuration[attribute].id
+          return result
+        }, {})
+        if (option) {
+          let index = this.gallery.findIndex(obj => obj.id && isEqual(obj.id, option))
           this.navigate(index)
         }
       }

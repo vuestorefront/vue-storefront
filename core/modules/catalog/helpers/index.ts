@@ -4,8 +4,10 @@ import { calculateProductTax } from '../helpers/tax'
 import flattenDeep from 'lodash-es/flattenDeep'
 import omit from 'lodash-es/omit'
 import remove from 'lodash-es/remove'
-import groupBy from 'lodash-es/groupBy'
+import reduce from 'lodash-es/reduce'
+import map from 'lodash-es/map'
 import toString from 'lodash-es/toString'
+import forEach from 'lodash-es/forEach'
 import union from 'lodash-es/union'
 // TODO: Remove this dependency
 import { optionLabel } from './optionLabel'
@@ -552,24 +554,23 @@ export function getMediaGallery (product) {
 
 export function configurableChildrenImages(product) {
   let configurableChildrenImages = []
-    let variantsGroupBy = rootStore.state.config.products.gallery.variantsGroupAttribute
-    if (product.configurable_children && product.configurable_children.length > 0 && product.configurable_children[0][variantsGroupBy]) {
-        let groupedByAttribute = groupBy(product.configurable_children, child => {
-            return child[variantsGroupBy]
-        })
-        Object.keys(groupedByAttribute).forEach(confChild => {
-            if (groupedByAttribute[confChild][0].image) {
-                configurableChildrenImages.push({
-                    'src': getThumbnailPath(groupedByAttribute[confChild][0].image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                    'loading': getThumbnailPath(groupedByAttribute[confChild][0].image, 310, 300),
-                    'id': confChild
-                })
-            }
-        })
-    } else {
-        configurableChildrenImages = attributeImages(product)
-    }
-    return configurableChildrenImages
+  if (product.configurable_children && product.configurable_children.length > 0) {
+    let configurableAttributes = map(product.configurable_options, 'attribute_code')
+    forEach(product.configurable_children, child => {
+      let id = reduce(configurableAttributes, (result, attribute) => {
+        result[attribute] = child[attribute]
+        return result
+      }, {})
+      configurableChildrenImages.push({
+        'src': getThumbnailPath(child.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
+        'loading': getThumbnailPath(product.image, 310, 300),
+        'id': id
+      })
+    })
+  } else {
+    configurableChildrenImages = attributeImages(product)
+  }
+  return configurableChildrenImages
 }
 
 /**
