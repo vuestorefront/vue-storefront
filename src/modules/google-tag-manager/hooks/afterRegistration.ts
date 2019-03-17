@@ -1,4 +1,4 @@
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export function afterRegistration(Vue, config, store, isServer) {
   if (config.analytics.id && !isServer) {
@@ -68,9 +68,7 @@ export function afterRegistration(Vue, config, store, isServer) {
       // Measuring Purchases
       if (type === 'order/order/LAST_ORDER_CONFIRMATION') {
         const orderId = payload.confirmation.backendOrderId
-        const products = payload.order.products.map(product => {
-          return getProduct(product)
-        })
+        const products = payload.order.products.map(product => getProduct(product))
         store.dispatch(
           'user/getOrdersHistory',
           { refresh: true, useCache: false }
