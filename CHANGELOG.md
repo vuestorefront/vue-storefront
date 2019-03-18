@@ -4,14 +4,6 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-[Unreleased]
-- Update recipes.md to add information on what to do for images to work when you put vue-storefront-api on a different 
-server
-- Update recipes.md to add information on how to avoid and fix JWT token invalidation error
-- Update `prod.vuestorefront.io` nginx config in docs to remove text/html from gzipped types and avoid `duplicate MIME 
-type "text/html"` Warning in nginx logs
-
-
 ## [1.8.3] - 2019.03.03
 
 ### Added
