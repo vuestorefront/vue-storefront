@@ -274,3 +274,6 @@ Once the network connection is established, the correct folder needs to be point
 "assetPath": "/../var/magento2-sample-data/pub/media", 
 ```
 It is necessary for the correct product image creation by the vue-storefront-api. If this is not set corectly, images will just be placeholders regardless the fact the rest of the setup works and you can see products and categories correctly synced.
+
+## Syncing magento and vue-storefront-api servers / Fix for "An error occurred validating the nonce"
+There might be an issue with JWT token validation if one of the servers is more than 600 seconds behind the other. The 600 seconds limit is defined on Magento side by its `\Magento\Integration\Model\Oauth\Nonce\Generator::TIME_DEVIATION`. To fix this issue you need to make sure both severs `date` command show the same datetime  (or both at least below 10 minute difference). This can be done by utilizing `tzdata` package (sudo dpkg-reconfigure tzdata) or setting it directly with `date` package (e.g: `sudo date --set "23 Mar 2019 12:00:00"`, but providing the current datetime)
