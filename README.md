@@ -20,7 +20,6 @@ If you're new and need some guidance feel free to visit out [forum](https://foru
 - `@pkarw` (integrations and backend related stuff)
 - `@ptomczyk` (frontend related stuff)
 - `@Bartek Igielski`(frontend and magento-specific related stuff)
-- `@George` (mostly backend and integration related stuff but can also help with frontend)
 
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
