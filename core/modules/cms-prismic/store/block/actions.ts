@@ -12,22 +12,20 @@ const actions: ActionTree<CmsBlockState, RootState> = {
    *
    * @param context
    * @param {string} type
-   * @param {string} orderings
+   * @param {string} tag
    * @param {string} contentId
    * @param {string} filter
    * @param {string} filterOption
    * @param skipCache
    * @returns {Promise<T> & Promise<any>}
    */
-  load (context, {type, orderings, contentId, filter, filterOption}) {
+  load (context, {type, tag, contentId, filter, filterOption}) {
     if (!config.prismic) {
       throw new Error(`[CmsPrismic Module] Module configuration was not found.`)
     }
-    const prismicParams = getPrismicParams(type, orderings, contentId, filter, filterOption)
-    const getter = prismicParams.getterName
+    const prismicParams = getPrismicParams(type, tag, contentId, filter, filterOption)
     const parameter = prismicParams.parameter
-    if (!context.getters[getter][parameter]) { // fetch if document is not set in store
-      console.log('!!!2', prismicParams.url)
+    if (!context.getters.contentMap[parameter]) { // fetch if document is not set in store
       return fetch(prismicParams.url, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -37,12 +35,10 @@ const actions: ActionTree<CmsBlockState, RootState> = {
           return response.json()
         })
         .then((json) => {
-          console.log('!!!lel1', json)
           if (!json.result) {
             return false
           }
-          console.log('!!!lel')
-          context.commit(types.CMS_PRISMIC_ADD_CONTENT, json.result.results)
+          context.commit(types.CMS_PRISMIC_ADD_CONTENT, { data: json.result.results, index: parameter })
           return json.result
         })
         .catch((err) => {

@@ -6,18 +6,19 @@ const mutations: MutationTree<CmsBlockState> = {
   /**
    * Store CMS
    * @param {any} state
-   * @param {Object} cms
+   * @param {Object} data
+   * @param {String} index
    */
-  [types.CMS_PRISMIC_ADD_CONTENT] (state, cms ) {
-    console.log('###', 'add content')
-    if (cms.lenght > 1) {
-      console.log('###', 'add multiple')
-      cms.forEach((element) => {
-       state.items[element.id] = element.data
+  [types.CMS_PRISMIC_ADD_CONTENT] (state, {data, index}) {
+    if (data.length > 1) {
+      let res = []
+      data.forEach((element) => {
+        res.push(element.data)
       })
+      state.items[index] = res
     } else {
-      if (cms[0] && cms[0].id) {
-        state.items[cms[0].id] = cms[0].data
+      if (data[0] && data[0].id) {
+        state.items[index] = [data[0].data]
       }
     }
   },

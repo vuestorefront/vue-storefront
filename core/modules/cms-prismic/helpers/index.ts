@@ -1,10 +1,8 @@
 import config from 'config'
 
-const getPrismicParams = (type, orderings, contentId, filter, filterOption) => {
-  console.log('!!!id ', contentId, ' || ', type)
+const getPrismicParams = (type, tag, contentId, filter, filterOption) => {
   let url
-  let getterName = 'contentById'
-  let parameter = 'id'
+  let parameter = contentId
   switch(true) {
     case contentId && !filter:
       url = (config.prismic.contentId)
@@ -16,22 +14,20 @@ const getPrismicParams = (type, orderings, contentId, filter, filterOption) => {
         .replace('{{filter}}', filter)
         .replace('{{filterOption}}', filterOption)
       break;
-    case type:
-      getterName = 'contentByType'
-      parameter = 'type'
+    case type && !contentId:
+      parameter = type
       url = (config.prismic.byType)
         .replace('{{type}}', type)
       break;
-    case orderings:
-      getterName = 'contentByTag'
-      parameter = 'tag'
+    case tag && !contentId:
+      parameter = '#' + tag
       url = (config.prismic.byTag)
-        .replace('{{tag}}', orderings)
+        .replace('{{tag}}', tag)
       break;
     default:
       throw new Error(`[CmsPrismic Module] Give fetching parameter`)
   }
-  return { url: url, getterName: getterName, parameter: parameter }
+  return { url: url, parameter: parameter }
 }
 
 export {getPrismicParams}

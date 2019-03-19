@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     data () {
-      return this.$store.getters[`prismic/contentById`](this.contentId)
+      return this.$store.getters[`prismic/contentMap`][this.contentId]
     }
   }
 }
