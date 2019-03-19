@@ -4,9 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.8.4]
+## [1.9.0-rc.2] - 2019.03.07
 
-- fized multistore splitted cache
+- Fixed always common cache issue for multistore - @filrak (#2595)
+## [1.9.0-rc.1] - 2019.03.07
+
+### Added
+- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and reimport Your products to properly set `url_path` fields - #2010 - @pkarw
+- Unit tests of cart module written in jest - @lukeromanowicz (#2305)
+
+### Fixed
+- Gallery low quality image in offline mode when high quality already cached - @patzick (#2557)
+
+### Changed / Improved
+- The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
+- Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
+- Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
+- Update to babel 7 - @lukeromanowicz (#2554)
+
 ## [1.8.3] - 2019.03.03
 
 ### Added
@@ -42,7 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve tsconfig for better IDE paths support - @patzick, @filrak (#2474)
 - fix breadcrumbs changing too early - @filrak, @pkarw (#2469, #2529)
 - improved product gallery load view, shows correct image on reload - @patzick (#2481, #2482, #2488, #2501)
-- Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489) 
+- Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489)
 - Added async sidebar component with async off-screen components error handling and fetch retrying after coming back online - @filrak (#2408, #2451)
 - Inconsistent filters behaviour - clear filters on page load - @patzick (#2435)
 - fix price is never below 0 and user can't add 0 or below 0 products to cart - @RakowskiPrzemyslaw (#2437)
