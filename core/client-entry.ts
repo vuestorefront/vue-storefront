@@ -20,14 +20,14 @@ declare var window: any
 const invokeClientEntry = async () => {
   const config = Object.assign(buildTimeConfig, window.__INITIAL_STATE__.config ? window.__INITIAL_STATE__.config : buildTimeConfig)
 
-  // Get storeCode prom server (receiver either from cache header or env variable)
+  // Get storeCode from server (received either from cache header or env variable)
   let storeCode =  window.__INITIAL_STATE__.user.current_storecode
   const { app, router, store } = await createApp(null, config, storeCode)
 
   if (window.__INITIAL_STATE__) {
     store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: buildTimeConfig }))
   }
-  
+
   store.dispatch('url/registerDynamicRoutes')
   function _commonErrorHandler (err, reject) {
     if (err.message.indexOf('query returned empty result') > 0) {
