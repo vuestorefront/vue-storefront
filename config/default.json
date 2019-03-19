@@ -83,7 +83,7 @@
     "defaultStoreCode": "",
     "storeViews": {
       "multistore": false,
-      "commonCache": true,
+      "commonCache": false,
       "mapStoreUrlsFor": ["de", "it"],
       "de": {
         "storeCode": "de",
