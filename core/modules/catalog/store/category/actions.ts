@@ -204,9 +204,6 @@ const actions: ActionTree<CategoryState, RootState> = {
       Logger.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')()
     } else {
       prefetchGroupProducts = true
-      // TODO Test include i exclude as null
-      includeFields = null
-      excludeFields = null
       if (rootStore.state.twoStageCachingDisabled) {
         Logger.log('Two stage caching is disabled runtime because of no performance gain')()
       } else {
