@@ -81,6 +81,7 @@
       "useInitialStateFilter": true
     },
     "defaultStoreCode": "",
+    "multisiteCommonCache": true,
     "storeViews": {
       "multistore": false,
       "mapStoreUrlsFor": ["de", "it"],

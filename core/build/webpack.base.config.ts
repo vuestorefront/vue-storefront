@@ -45,6 +45,7 @@ const postcssConfig =  {
 const isProd = process.env.NODE_ENV === 'production'
 // todo: usemultipage-webpack-plugin for multistore
 export default {
+  devtool: 'source-map',
   plugins: [
     new webpack.ProgressPlugin(),
     // new BundleAnalyzerPlugin({

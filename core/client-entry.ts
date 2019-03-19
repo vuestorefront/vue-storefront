@@ -20,16 +20,12 @@ declare var window: any
 const invokeClientEntry = async () => {
   const config = Object.assign(buildTimeConfig, window.__INITIAL_STATE__.config ? window.__INITIAL_STATE__.config : buildTimeConfig)
 
-  const { app, router, store } = await createApp(null, config)
+  // Get storeCode prom server (receiver either from cache header or env variable)
+  let storeCode =  window.__INITIAL_STATE__.user.current_storecode
+  const { app, router, store } = await createApp(null, config, storeCode)
 
-  let storeCode = null // select the storeView by prefetched vuex store state (prefetched serverside)
   if (window.__INITIAL_STATE__) {
     store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: buildTimeConfig }))
-  }
-  if (config.storeViews.multistore === true) {
-    if ((storeCode = store.state.user.current_storecode)) {
-      prepareStoreView(storeCode)
-    }
   }
 
   function _commonErrorHandler (err, reject) {
@@ -228,12 +224,12 @@ const invokeClientEntry = async () => {
       }))
 
       const usersCollection = new UniversalStorage(localForage.createInstance({
-        name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+        name: (config.multisiteCommonCache ? '' : dbNamePrefix) + 'shop',
         storeName: 'user',
         driver: localForage[config.localForage.defaultDrivers['user']]
       }))
       const cartsCollection = new UniversalStorage(localForage.createInstance({
-        name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+        name: (config.multisiteCommonCache ? '' : dbNamePrefix) + 'shop',
         storeName: 'carts',
         driver: localForage[config.localForage.defaultDrivers['carts']]
       }))
