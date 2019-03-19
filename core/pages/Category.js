@@ -4,7 +4,7 @@ import toString from 'lodash-es/toString'
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/core/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/core/helpers'
+import { baseFilterProductsQuery, buildFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -108,6 +108,23 @@ export default {
     } catch (err) {
       Logger.error(err)()
       throw err
+    }
+  },
+  async beforeRouteEnter (to, from, next) {
+    if (!isServer && !from.name) { // Loading category products to cache on SSR render
+      next(vm => {
+        const defaultFilters = store.state.config.products.defaultFilters
+        let parentCategory = store.getters['category/getCurrentCategory']
+        let query = store.getters['category/getCurrentCategoryProductQuery']
+        if (!query.searchProductQuery) {
+          store.dispatch('category/mergeSearchOptions', {
+            searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters)
+          })
+        }
+        store.dispatch('category/products', query)
+      })
+    } else {
+      next()
     }
   },
   beforeMount () {
