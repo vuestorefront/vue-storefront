@@ -10,6 +10,8 @@ For example, when the `category.url_path` is set to `women/frauen-20` the produc
 `http://localhost:3000/de/women/frauen-20`
 ...
 
+**Please note:** The `config.products.useShortCatalogUrls` should be set to `false` in order to have `urlDispatcher` working properly. It may interfere with the Url Dispatcher mechanism.
+
 ## How to customize the mapping mechanism
 
 The `url` module contains the Vuex Store actions that are responsible for proper mapping the content with URLs.
