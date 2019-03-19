@@ -158,6 +158,7 @@ export default {
       return bottomOfPage || pageHeight < visible
     },
     pullMoreProducts () {
+      if (typeof navigator !== 'undefined' && !navigator.onLine) return
       let current = this.getCurrentCategoryProductQuery.current + this.getCurrentCategoryProductQuery.perPage
       this.mergeSearchOptions({
         append: true,
