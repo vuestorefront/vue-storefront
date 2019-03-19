@@ -81,9 +81,9 @@
       "useInitialStateFilter": true
     },
     "defaultStoreCode": "",
-    "multisiteCommonCache": true,
     "storeViews": {
       "multistore": false,
+      "commonCache": true,
       "mapStoreUrlsFor": ["de", "it"],
       "de": {
         "storeCode": "de",
@@ -226,7 +226,6 @@
     },
     "cart": {
       "bypassCartLoaderForAuthorizedUsers": true,
-      "multisiteCommonCart": true,
       "serverMergeByDefault": true,
       "serverSyncCanRemoveLocalItems": false,
       "serverSyncCanModifyLocalItems": false,

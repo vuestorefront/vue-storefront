@@ -224,12 +224,12 @@ const invokeClientEntry = async () => {
       }))
 
       const usersCollection = new UniversalStorage(localForage.createInstance({
-        name: (config.multisiteCommonCache ? '' : dbNamePrefix) + 'shop',
+        name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
         storeName: 'user',
         driver: localForage[config.localForage.defaultDrivers['user']]
       }))
       const cartsCollection = new UniversalStorage(localForage.createInstance({
-        name: (config.multisiteCommonCache ? '' : dbNamePrefix) + 'shop',
+        name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
         storeName: 'carts',
         driver: localForage[config.localForage.defaultDrivers['carts']]
       }))
