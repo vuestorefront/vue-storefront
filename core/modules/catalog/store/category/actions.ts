@@ -330,7 +330,10 @@ const actions: ActionTree<CategoryState, RootState> = {
         size: perPage,
         excludeFields: null,
         includeFields: null,
-        updateState: false // not update the product listing - this request is only for caching
+        configuration: configuration,
+        sort: sort,
+        updateState: false, // not update the product listing - this request is only for caching
+        prefetchGroupProducts: prefetchGroupProducts
       }).catch((err) => {
         Logger.info("Problem with second stage caching - couldn't store the data", 'category')()
         Logger.info(err, 'category')()
