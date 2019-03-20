@@ -474,12 +474,6 @@ export function configureProductAsync (context, { product, configuration, select
       desiredProductFound = true
     }
 
-    if (typeof navigator !== 'undefined') {
-      if (selectedVariant && !navigator.onLine && context.state.offlineImage) { // this is fix for not preloaded images for offline
-        selectedVariant.image = context.state.offlineImage
-        Logger.debug('Image offline fallback to ', context.state.offlineImage)()
-      }
-    }
     if (selectedVariant) {
       if (!desiredProductFound) { // update the configuration
         populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
@@ -537,6 +531,7 @@ export function getMediaGallery (product) {
               mediaGallery.push({
                 'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
                 'loading': getThumbnailPath(mediaItem.image, 310, 300),
+                'error': getThumbnailPath(mediaItem.image, 310, 300),
                 'video': mediaItem.vid
               })
           }
@@ -562,6 +557,7 @@ export function configurableChildrenImages(product) {
                 configurableChildrenImages.push({
                     'src': getThumbnailPath(groupedByAttribute[confChild][0].image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
                     'loading': getThumbnailPath(groupedByAttribute[confChild][0].image, 310, 300),
+                    'error': getThumbnailPath(groupedByAttribute[confChild][0].image, 310, 300),
                     'id': confChild
                 })
             }
@@ -583,7 +579,8 @@ export function attributeImages(product) {
             if(product[attribute]) {
                 attributeImages.push({
                     'src': getThumbnailPath(product[attribute], rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                    'loading': getThumbnailPath(product[attribute], 310, 300)
+                    'loading': getThumbnailPath(product[attribute], 310, 300),
+                    'error': getThumbnailPath(product[attribute], 310, 300)
                 })
             }
         }
