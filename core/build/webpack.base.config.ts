@@ -7,6 +7,7 @@ import autoprefixer from 'autoprefixer';
 import HTMLPlugin from 'html-webpack-plugin';
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 import webpack from 'webpack';
+import moment from 'moment';
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
@@ -76,10 +77,15 @@ export default {
       filename: 'index.amp.html',
       chunksSortMode: 'none',
       inject: isProd == false
+    }),
+    new webpack.DefinePlugin({
+      'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
+      'process.env.__BUILDTIME__': JSON.stringify(moment().format('YYYY-MM-DD HH:mm:ss'))
     })
   ],
+  devtool: 'source-map',
   entry: {
-    app: ['babel-polyfill', './core/client-entry.ts']
+    app: ['@babel/polyfill', './core/client-entry.ts']
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
