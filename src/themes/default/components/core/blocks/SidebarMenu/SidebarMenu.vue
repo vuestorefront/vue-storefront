@@ -44,10 +44,10 @@
               class="subcategory-item"
             >
               <sub-btn
+                v-if="category.children_count > 0"
                 class="bg-cl-transparent brdr-none fs-medium"
                 :id="category.id"
                 :name="category.name"
-                v-if="category.children_count > 0"
               />
               <router-link
                 v-else

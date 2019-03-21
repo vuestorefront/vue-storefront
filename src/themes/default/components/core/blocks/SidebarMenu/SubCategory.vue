@@ -50,7 +50,7 @@
       </li>
     </ul>
     <ul
-      v-if="myAccountLinks"
+      v-if="myAccountLinks && path.length == 0"
       class="sidebar-submenu fixed w-100 p0 bg-cl-primary"
       :style="styles"
     >
@@ -124,7 +124,8 @@ export default {
       }
     },
     ...mapState({
-      submenu: state => state.ui.submenu
+      submenu: state => state.ui.submenu,
+      path: state => state.ui.submenu.path
     }),
     getSubmenu () {
       return this.submenu
@@ -156,6 +157,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
   .sidebar-submenu {
     left: 0;
