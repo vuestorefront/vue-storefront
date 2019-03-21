@@ -19,11 +19,7 @@
             {{ $t('Search') }}
           </label>
           <div class="search-input-group">
-            <i
-              class="material-icons search-icon"
-            >
-              search
-            </i>
+            <i class="material-icons search-icon">search</i>
             <input
               ref="search"
               id="search"
@@ -57,15 +53,23 @@
           </div>
         </transition>
       </div>
-      <div v-show="OnlineOnly" v-if="visibleProducts.length >= 18" class="buttons-set align-center py35 mt20 px40">
-        <button @click="seeMore" v-if="readMore"
-                class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
-                type="button">
+      <div
+        v-show="OnlineOnly"
+        v-if="visibleProducts.length >= 18"
+        class="buttons-set align-center py35 mt20 px40"
+      >
+        <button
+          @click="seeMore" v-if="readMore"
+          class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
+          type="button"
+        >
           {{ $t('Load more') }}
         </button>
-        <button @click="closeSearchpanel"
-                class="no-outline brdr-none p15 fs-medium-small close-button"
-                type="button">
+        <button
+          @click="closeSearchpanel"
+          class="no-outline brdr-none p15 fs-medium-small close-button"
+          type="button"
+        >
           {{ $t('Close') }}
         </button>
       </div>
