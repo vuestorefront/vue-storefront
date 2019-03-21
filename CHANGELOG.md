@@ -19,9 +19,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
 - Update to babel 7 - @lukeromanowicz (#2554)
 
+## [1.8.4] - UNRELEASED
+
+### Added
+
+### Fixed
+- Problem with incomplete category products load for offline use - @patzick (#2543)
+- Category products view crash on scrolling down in offline mode - @patzick (#2569)
+
+### Changed / Improved
+- Category and Homepage products are now cached for offline use on SSR entry - @patzick (@1698)
+
 ## [1.8.3] - 2019.03.03
 
 ### Added
+- Payment Request API integration - @qiqqq (#2306)
 - New reactive helper to check online state. Usage: `import { onlineHelper } from '@vue-storefront/core/helpers'` and then `onlineHelper.isOnline` - @patzick (#2510)
 - Cart count config, allows you to display the item count instead of a sum of the item quantities - @pauluse (#2483)
 - Video support in Product Gallery component. - @rain2o (#2433)
