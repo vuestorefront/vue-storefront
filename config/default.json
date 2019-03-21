@@ -3,6 +3,9 @@
       "host": "localhost",
       "port": 3000
     },
+    "api": {
+      "url": "http://localhost:8080"
+    },
     "elasticsearch": {
       "httpAuth": "",
       "host": "localhost:8080/api/catalog",
