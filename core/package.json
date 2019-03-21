@@ -25,7 +25,7 @@
     "vue-lazyload": "^1.2.6",
     "vue-meta": "^1.5.3",
     "vue-observe-visibility": "^0.4.1",
-    "vue-offline": "^1.0.8",
+    "vue-offline": "^2.0.6",
     "vue-router": "^3.0.1",
     "vue-server-renderer": "^2.6.6",
     "vuelidate": "^0.6.2",

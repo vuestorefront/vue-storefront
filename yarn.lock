@@ -14388,10 +14388,10 @@ vue-observe-visibility@^0.4.1:
   resolved "https://registry.yarnpkg.com/vue-observe-visibility/-/vue-observe-visibility-0.4.3.tgz#b2694a83c94b274f566e03a497df51540e2daedc"
   integrity sha512-YyyO3a5OUkgpmC0NEf+xWJR0jVdFWzVbKRDzUumOVMhfr3+jxXEycYNHCM3rEO5lcj3ZNJpDomZEYEx0Wqqh9A==
 
-vue-offline@^1.0.8:
-  version "1.0.204"
-  resolved "https://registry.yarnpkg.com/vue-offline/-/vue-offline-1.0.204.tgz#9c9c0e98fc29cb3334b57848dd4c6f6cd9607d6d"
-  integrity sha512-4dYUE81k9tLSPbx7qlJDyKw2QNdNL7aJMuBAfrAhtCjZdZsiXoaS56QApZaTh8BV3yG6sbTdbAD6hDaEYHe3EQ==
+vue-offline@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/vue-offline/-/vue-offline-2.0.6.tgz#b37aee78a0256ee5e7baa3f993012caf93742ebe"
+  integrity sha512-vJA34zhgKUWy7tiOyiFrFKOncZayoRn+HpVKtSbUauz+6BF4t+5y0Mke0TPlFBsqE7ywHdhcF/CxGWaLsihYZQ==
 
 vue-progressbar@^0.7.5:
   version "0.7.5"
