@@ -1,7 +1,10 @@
 <template>
   <div class="sidebar-menu fixed mw-100 bg-cl-secondary">
     <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
-      <div class="col-xs bg-cl-primary" v-if="submenu.depth">
+      <div
+        v-if="submenu.depth"
+        class="col-xs bg-cl-primary"
+      >
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
       </div>
       <div class="col-xs bg-cl-primary">
@@ -36,7 +39,10 @@
             @click="closeMenu"
             v-for="category in visibleCategories"
           >
-            <div v-if="isCurrentMenuShowed" class="subcategory-item">
+            <div
+              v-if="isCurrentMenuShowed"
+              class="subcategory-item"
+            >
               <sub-btn
                 class="bg-cl-transparent brdr-none fs-medium"
                 :id="category.id"
