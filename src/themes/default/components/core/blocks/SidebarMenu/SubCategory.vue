@@ -50,7 +50,7 @@
       </li>
     </ul>
     <ul
-      v-if="myAccountLinks && path.length == 0"
+      v-if="myAccountLinks && !path.length"
       class="sidebar-submenu fixed w-100 p0 bg-cl-primary"
       :style="styles"
     >
