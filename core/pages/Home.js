@@ -1,31 +1,29 @@
-// 3rd party dependecies
 import { mapGetters } from 'vuex'
 
-// Core dependecies
-import EventBus from '@vue-storefront/core/plugins/event-bus'
-import i18n from '@vue-storefront/core/lib/i18n'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import i18n from '@vue-storefront/i18n'
 
-// Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'Home',
   mixins: [Composite],
   computed: {
-    ...mapGetters({
-      rootCategories: 'category/list'
-    })
+    ...mapGetters('category', ['getCategories']),
+    rootCategories () {
+      return this.getCategories
+    }
   },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    return new Promise((resolve, reject) => {
-      console.log('Entering asyncData for Home root ' + new Date())
-      EventBus.$emitFilter('home-after-load', { store: store, route: route }).then((results) => {
-        return resolve()
-      }).catch((err) => {
-        console.error(err)
-        return resolve()
-      })
-    })
+  async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
+    if (context) context.output.cacheTags.add(`home`)
+    Logger.info('Calling asyncData in Home Page (core)')()
+    try {
+      await EventBus.$emitFilter('home-after-load', { store: store, route: route })
+    } catch (e) {
+      Logger.error(e)()
+      throw e
+    }
   },
   beforeMount () {
     this.$store.dispatch('category/reset')

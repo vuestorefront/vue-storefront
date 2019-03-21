@@ -1,3 +1,5 @@
+import { isServer } from '@vue-storefront/core/helpers'
+
 export default {
   data () {
     return {
@@ -19,6 +21,11 @@ export default {
       this.setCurrentPage()
     }
   },
+  computed: {
+    canGoBack () {
+      return !this.isHistoryEmpty() && this.isProductPage
+    }
+  },
   created () {
     this.setCurrentPage()
   },
@@ -26,6 +33,14 @@ export default {
     setCurrentPage () {
       this.isProductPage = this.productPageRoutes.includes(this.$route.name)
       this.isCheckoutPage = this.$route.name === 'checkout'
+    },
+    // Check if history is empty
+    isHistoryEmpty () {
+      if (!isServer) {
+        return window.history.length <= 1
+      }
+
+      return false
     }
   }
 }

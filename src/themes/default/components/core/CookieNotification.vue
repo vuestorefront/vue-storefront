@@ -15,7 +15,10 @@
             <i
               class="material-icons icon p15 pointer"
               @click="accept"
+              @keyup.enter="accept"
               data-testid="closeCookieButton"
+              tabindex="0"
+              role="button"
             >
               close
             </i>
@@ -27,7 +30,7 @@
 </template>
 
 <script>
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 export default {
   props: {
     detailsLinkText: {

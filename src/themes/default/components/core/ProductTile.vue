@@ -5,26 +5,20 @@
   >
     <router-link
       class="block no-underline product-link"
-      :to="localizedRoute({
-        name: product.type_id + '-product',
-        params: {
-          parentSku: product.parentSku ? product.parentSku : product.sku,
-          slug: product.slug,
-          childSku: product.sku
-        }
-      })"
+      :to="productLink"
       data-testid="productLink"
     >
       <div
         class="product-image relative bg-cl-secondary"
-        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]">
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }, {'product-image--loaded': imageLoaded}]">
         <img
+          class="product-image__content"
           :alt="product.name"
-          :src="thumbnailObj.loading"
-          v-lazy="thumbnailObj"
+          :src="thumbnailObj.src"
           height="300"
           width="310"
           data-testid="productImage"
+          @load="imageLoaded = true"
         >
       </div>
 
@@ -57,23 +51,37 @@
 </template>
 
 <script>
-import config from 'config'
-import rootStore from '@vue-storefront/store'
-import ProductTile from '@vue-storefront/core/components/ProductTile'
+import rootStore from '@vue-storefront/core/store'
+import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
 
 export default {
   mixins: [ProductTile],
+  data () {
+    return {
+      imageLoaded: false
+    }
+  },
   props: {
     labelsActive: {
       type: Boolean,
       requred: false,
       default: true
+    },
+    onlyImage: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   methods: {
+    onProductPriceUpdate (product) {
+      if (product.sku === this.product.sku) {
+        Object.assign(this.product, product)
+      }
+    },
     visibilityChanged (isVisible, entry) {
       if (isVisible) {
-        if (config.products.configurableChildrenStockPrefetchDynamic && config.products.filterUnavailableVariants) {
+        if (rootStore.state.config.products.configurableChildrenStockPrefetchDynamic && rootStore.products.filterUnavailableVariants) {
           const skus = [this.product.sku]
           if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
             for (const confChild of this.product.configurable_children) {
@@ -90,12 +98,11 @@ export default {
       }
     }
   },
-  created () {
-    this.$bus.$on('product-after-priceupdate', (product) => {
-      if (product.sku === this.product.sku) {
-        Object.assign(this.product, product)
-      }
-    })
+  beforeMount () {
+    this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate)
+  },
+  beforeDestroy () {
+    this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate)
   }
 }
 </script>
@@ -138,6 +145,33 @@ $color-white: color(white);
   width: 100%;
   overflow: hidden;
   max-height: 300px;
+  height: 100%;
+  min-height: 155px;
+  display: flex;
+  align-items: flex-end;
+  background-image: url('/assets/placeholder.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60% auto;
+
+  @media (min-width: 768px) {
+    min-height: 190px;
+  }
+  @media (min-width: 1200px) {
+    min-height: 300px;
+  }
+
+  &__content {
+    display: none;
+  }
+
+  &--loaded {
+    background-image: none;
+
+    .product-image__content {
+      display: block;
+    }
+  }
 
   &:hover {
     img {

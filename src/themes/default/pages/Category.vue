@@ -5,18 +5,18 @@
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <div class="row middle-sm">
           <h1 class="col-sm-9 category-title mb10"> {{ category.name }} </h1>
-          <div class="sorting col-sm-3 align-right"><SortBy /></div>
+          <div class="sorting col-sm-3 align-right"><sort-by /></div>
         </div>
       </div>
       <div class="container">
         <div class="row m0">
           <button
-            class="col-xs-5 mt25 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 sans-serif fs-medium-small"
+            class="col-xs-5 mt25 mr15 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 sans-serif fs-medium-small"
             @click="openFilters"
           >
             {{ $t('Filters') }}
           </button>
-          <div class="mobile-sorting col-xs-6 mt25"><SortBy /></div>
+          <div class="mobile-sorting col-xs-6 mt25"><sort-by /></div>
         </div>
       </div>
     </header>
@@ -25,14 +25,14 @@
         <div class="col-md-3 start-xs category-filters">
           <sidebar :filters="filters.available"/>
         </div>
-        <div class="col-md-3 start-xs mobile-filters" v-if="mobileFilters">
+        <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
           <div class="close-container absolute w-100">
             <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>
           <sidebar class="mobile-filters-body" :filters="filters.available"/>
         </div>
-        <p class="col-xs-12 hidden-md m0 px20 cl-secondary">{{ productsCounter }} items</p>
-        <div class="col-md-9 pt20 px10 border-box products-list">
+        <div class="col-md-9 px10 border-box products-list">
+          <p class="col-xs-12 end-md m0 pb20 cl-secondary">{{ productsTotal }} {{ $t('items') }}</p>
           <div v-if="isCategoryEmpty" class="hidden-xs">
             <h4 data-testid="noProductsInfo">{{ $t('No products found!') }}</h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
@@ -66,7 +66,7 @@ export default {
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
     return new Promise((resolve, reject) => {
-      store.state.category.current_product_query = Object.assign(store.state.category.current_product_query, { // this is just an example how can you modify the search criteria in child components
+      store.dispatch('category/mergeSearchOptions', { // this is just an example how can you modify the search criteria in child components
         sort: 'updated_at:desc'
         // searchProductQuery: builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }) // this is an example on how to modify the ES query, please take a look at the @vue-storefront/core/helpers for refernce on how to build valid query
       })
@@ -79,6 +79,13 @@ export default {
     },
     closeFilters () {
       this.mobileFilters = false
+    },
+    notify () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: this.$t('Please select the field which You like to sort by'),
+        action1: { label: this.$t('OK') }
+      })
     }
   },
   mixins: [Category]

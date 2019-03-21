@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ReturnIcon from '@vue-storefront/core/components/blocks/Header/ReturnIcon'
+import ReturnIcon from '@vue-storefront/core/compatibility/components/blocks/Header/ReturnIcon'
 
 export default {
   mixins: [ReturnIcon]

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import GenericSelector from '@vue-storefront/core/components/GenericSelector'
+import GenericSelector from '@vue-storefront/core/compatibility/components/GenericSelector'
 export default {
   mixins: [GenericSelector]
 }
@@ -26,6 +26,7 @@ export default {
     height: 40px;
     padding-left: 8px;
     padding-right: 8px;
+    min-width: 50px;
 
     &:hover,
     &:focus {

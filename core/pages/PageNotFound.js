@@ -1,20 +1,19 @@
-// 3rd party dependecies
-import builder from 'bodybuilder'
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 
-// Core dependecies
-import i18n from '@vue-storefront/core/lib/i18n'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import i18n from '@vue-storefront/i18n'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
-// Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'PageNotFound',
   mixins: [Composite],
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      console.log('Entering asyncData for PageNotFound ' + new Date())
-      let ourBestsellersQuery = builder().query('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
+      Logger.log('Entering asyncData for PageNotFound ' + new Date())()
+      if (context) context.output.cacheTags.add(`page-not-found`)
+      let ourBestsellersQuery = prepareQuery({ queryConfig: 'bestSellers' })
       store.dispatch('category/list', {}).then(categories => {
         store.dispatch('product/list', {
           query: ourBestsellersQuery,
@@ -26,7 +25,7 @@ export default {
             EventBus.$emitFilter('pagenotfound-after-load', { store: store, route: route }).then(results => {
               return resolve()
             }).catch(err => {
-              console.error(err)
+              Logger.error(err)()
               return resolve()
             })
           }

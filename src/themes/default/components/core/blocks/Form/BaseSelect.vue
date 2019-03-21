@@ -7,11 +7,11 @@
         'empty': !selected
       }"
       :autocomplete="autocomplete"
-      @focus="$emit('focus');"
-      @blur="$emit('blur');"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
       @change="$emit('input', $event.target.value)"
     >
-      <option v-if="!selected"/>
+      <option disabled selected value v-if="!selected"/>
       <option
         v-for="(option, key) in options"
         :key="key"
@@ -23,24 +23,54 @@
     </select>
     <label>{{ placeholder }}</label>
 
-    <template if="validations">
-      <span
-        v-for="(validation, index) in validations"
-        :key="index"
-        v-if="validation.condition"
-        class="block cl-error h6"
-      >
-        {{ validation.text }}
-      </span>
-    </template>
+    <ValidationMessages v-if="validations" :validations="validations"/>
   </div>
 </template>
 
 <script>
-import BaseSelect from '@vue-storefront/core/components/blocks/Form/BaseSelect'
+import ValidationMessages from './ValidationMessages.vue'
 
 export default {
-  mixins: [BaseSelect]
+  name: 'BaseSelect',
+  components: {
+    ValidationMessages
+  },
+  props: {
+    id: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    name: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    options: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
+    selected: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    placeholder: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    autocomplete: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    validations: {
+      type: Array,
+      default: () => []
+    }
+  }
 }
 </script>
 
@@ -71,7 +101,6 @@ export default {
 
   select {
     @extend .h4;
-    padding: 10px 0;
     border: none;
     border-bottom: 1px solid $color-tertiary;
     width: 100%;
@@ -98,7 +127,7 @@ export default {
     position: absolute;
     pointer-events: none;
     user-select: none;
-    left: 13px;
+    left: 0;
     top: 10px;
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;

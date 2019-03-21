@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import Product from '@vue-storefront/core/components/blocks/Checkout/Product'
+import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
 
 export default {
   mixins: [Product]

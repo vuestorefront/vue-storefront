@@ -1,10 +1,19 @@
 <template>
   <div class="sidebar">
-    <h4>
-      {{ $t('Filter') }}
+    <h4 class="sidebar__header">
+      <span> {{ $t('Filter') }} </span>
+      <button
+        class="no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
+        @click="resetAllFilters"
+        v-show="hasActiveFilters"
+      >
+        {{ $t('Clear') }}
+      </button>
     </h4>
-    <div v-for="(filter, filterIndex) in filters"
-         :key="filterIndex" v-if="filter.length">
+    <div
+      v-for="(filter, filterIndex) in availableFilters"
+      :key="filterIndex"
+    >
       <h5>
         {{ $t(filterIndex + '_filter') }}
       </h5>
@@ -12,7 +21,6 @@
       <div v-if="filterIndex==='color'">
         <color-selector
           context="category"
-          :attribute_code="color"
           code="color"
           v-for="(color, index) in filter"
           :key="index"
@@ -23,10 +31,9 @@
       <div v-else-if="filterIndex==='size'">
         <size-selector
           context="category"
-          :attribute_code="size"
           code="size"
           class="size-select mr10 mb10"
-          v-for="(size, index) in filter"
+          v-for="(size, index) in sortById(filter)"
           :key="index"
           :id="size.id"
           :label="size.label"
@@ -35,7 +42,6 @@
       <div v-else-if="filterIndex==='price'">
         <price-selector
           context="category"
-          :attribute_code="price"
           class="price-select mb10 block"
           code="price"
           v-for="(price, index) in filter"
@@ -44,14 +50,12 @@
           :from="price.from"
           :to="price.to"
           :content="price.label"
-          :label="price.label"
         />
       </div>
-      <div v-else>
+      <div v-else class="sidebar__inline-selecors">
         <generic-selector
           context="category"
-          :attribute_code="filter.attribute_code"
-          class="price-select mb10 block"
+          class="mr10 mb10 block"
           :code="filterIndex"
           v-for="(option, index) in filter"
           :key="index"
@@ -78,7 +82,7 @@
 </template>
 
 <script>
-import Sidebar from '@vue-storefront/core/components/blocks/Category/Sidebar'
+import Sidebar from '@vue-storefront/core/compatibility/components/blocks/Category/Sidebar'
 
 import ColorSelector from 'theme/components/core/ColorSelector'
 import SizeSelector from 'theme/components/core/SizeSelector'
@@ -95,3 +99,18 @@ export default {
   mixins: [Sidebar]
 }
 </script>
+
+<style lang="scss" scoped>
+.sidebar {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 47px;
+  }
+
+  &__inline-selecors {
+    display: flex;
+  }
+}
+</style>

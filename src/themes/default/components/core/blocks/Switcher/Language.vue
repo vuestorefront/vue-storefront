@@ -23,30 +23,37 @@
 </template>
 <script>
 import Modal from 'theme/components/core/Modal.vue'
-import config from 'config'
+import store from '@vue-storefront/core/store'
 export default {
   components: {
     Modal
   },
   data () {
     return {
-      minCountryPerColumn: 3
+      minCountryPerColumn: 3,
+      componentLoaded: false
     }
   },
   computed: {
     storeViews () {
-      return config.storeViews
+      return store.state.config.storeViews
     },
     config () {
-      return config
+      return store.state.config
     },
     enableColumns () {
-      var enableStoreViews = Object.keys(config.storeViews).filter((key) => {
-        var value = config.storeViews[key]
+      var enableStoreViews = Object.keys(store.state.config.storeViews).filter((key) => {
+        var value = store.state.config.storeViews[key]
         return (typeof value === 'object' && value.disabled === false)
       })
       return enableStoreViews.length > this.minCountryPerColumn
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.componentLoaded = true
+      this.$bus.$emit('modal-show', 'modal-switcher')
+    })
   },
   methods: {
     close () {

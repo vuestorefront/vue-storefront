@@ -19,7 +19,7 @@
           </nav>
         </div>
         <div class="static-content h4 lh35 col-sm-9">
-          <static-content :file="$props.page"/>
+          <component :is="activeComponent" />
         </div>
       </div>
     </div>
@@ -27,14 +27,14 @@
 </template>
 
 <script>
-import i18n from '@vue-storefront/core/lib/i18n'
+import i18n from '@vue-storefront/i18n'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
-import StaticContent from 'theme/components/theme/StaticContent'
+import StaticExample from 'theme/components/theme/blocks/Static/Example'
+import StaticShortExample from 'theme/components/theme/blocks/Static/Short'
 
 export default {
   components: {
-    Breadcrumbs,
-    StaticContent
+    Breadcrumbs
   },
   metaInfo () {
     return {
@@ -52,16 +52,23 @@ export default {
       required: true
     }
   },
+  computed: {
+    activeComponent () {
+      const matchedNav = this.navigation.find(nav => nav.link === this.$route.path)
+      return matchedNav ? matchedNav.component : null
+    }
+  },
   data () {
     return {
       navigation: [
-        { title: i18n.t('About us'), link: '/about-us' },
-        { title: i18n.t('Customer service'), link: '/customer-service' },
-        { title: i18n.t('Store locator'), link: '/store-locator' },
-        { title: i18n.t('Delivery'), link: '/delivery' },
-        { title: i18n.t('Return policy'), link: '/returns' },
-        { title: i18n.t('Privacy policy'), link: '/privacy' },
-        { title: i18n.t('Contact us'), link: '/contact' }
+        { title: i18n.t('About us'), link: '/about-us', component: StaticExample },
+        { title: i18n.t('Customer service'), link: '/customer-service', component: StaticShortExample },
+        { title: i18n.t('Store locator'), link: '/store-locator', component: StaticExample },
+        { title: i18n.t('Delivery'), link: '/delivery', component: StaticShortExample },
+        { title: i18n.t('Return policy'), link: '/returns', component: StaticExample },
+        { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticShortExample },
+        { title: i18n.t('Size guide'), link: '/size-guide', component: StaticExample },
+        { title: i18n.t('Contact us'), link: '/contact', component: StaticShortExample }
       ]
     }
   }

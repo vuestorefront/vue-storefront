@@ -1,13 +1,13 @@
-// 3rd party dependecies
+import Vue from 'vue'
+import i18n from '@vue-storefront/i18n'
+import store from '@vue-storefront/core/store'
 import VueOfflineMixin from 'vue-offline/mixin'
+import { mapGetters } from 'vuex'
 
-// Core dependecies
-import i18n from '@vue-storefront/core/lib/i18n'
-import config from 'config'
-
-// Core mixins
 import Composite from '@vue-storefront/core/mixins/composite'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { isServer } from '@vue-storefront/core/helpers'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'Checkout',
@@ -16,7 +16,7 @@ export default {
     return {
       stockCheckCompleted: false,
       stockCheckOK: false,
-      orderPlaced: false,
+      confirmation: null, // order confirmation from server
       activeSection: {
         personalDetails: true,
         shipping: false,
@@ -39,59 +39,13 @@ export default {
       focusedField: null
     }
   },
-  beforeMount () {
-    this.$store.dispatch('cart/load').then(() => {
-      if (this.$store.state.cart.cartItems.length === 0) {
-        this.$bus.$emit('notification', {
-          type: 'warning',
-          message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
-        this.$router.push('/')
-      } else {
-        this.stockCheckCompleted = false
-        const checkPromises = []
-        for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
-          if (product.onlineStockCheckid) {
-            checkPromises.push(new Promise((resolve, reject) => {
-              global.$VS.db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
-                if (err || !item) {
-                  if (err) console.error(err)
-                  resolve(null)
-                } else {
-                  product.stock = item.result
-                  resolve(product)
-                }
-              })
-            }))
-          }
-        }
-        Promise.all(checkPromises).then((checkedProducts) => {
-          this.stockCheckCompleted = true
-          this.stockCheckOK = true
-          for (let chp of checkedProducts) {
-            if (chp && chp.stock) {
-              if (!chp.stock.is_in_stock) {
-                this.stockCheckOK = false
-                chp.errors.stock = i18n.t('Out of stock!')
-                this.$bus.$emit('notification', {
-                  type: 'error',
-                  message: chp.name + i18n.t(' is out of the stock!'),
-                  action1: { label: i18n.t('OK'), action: 'close' }
-                })
-              }
-            }
-          }
-        })
-      }
+  computed: {
+    ...mapGetters({
+      isVirtualCart: 'cart/isVirtualCart',
+      isThankYouPage: 'checkout/isThankYouPage'
     })
-    const storeView = currentStoreView()
-    let country = this.$store.state.checkout.shippingDetails.country
-    if (!country) country = storeView.i18n.defaultCountry
-    this.$bus.$emit('checkout-before-shippingMethods', country)
-    this.$store.dispatch('cart/getPaymentMethods')
   },
-  created () {
+  beforeMount () {
     // TO-DO: Use one event with name as apram
     this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
@@ -106,15 +60,59 @@ export default {
     this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$on('checkout-after-validationError', this.focusField)
+    if (!this.isThankYouPage) {
+      this.$store.dispatch('cart/load').then(() => {
+        if (this.$store.state.cart.cartItems.length === 0) {
+          this.notifyEmptyCart()
+          this.$router.push(this.localizedRoute('/'))
+        } else {
+          this.stockCheckCompleted = false
+          const checkPromises = []
+          for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
+            if (product.onlineStockCheckid) {
+              checkPromises.push(new Promise((resolve, reject) => {
+                Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
+                  if (err || !item) {
+                    if (err) Logger.error(err)()
+                    resolve(null)
+                  } else {
+                    product.stock = item.result
+                    resolve(product)
+                  }
+                })
+              }))
+            }
+          }
+          Promise.all(checkPromises).then((checkedProducts) => {
+            this.stockCheckCompleted = true
+            this.stockCheckOK = true
+            for (let chp of checkedProducts) {
+              if (chp && chp.stock) {
+                if (!chp.stock.is_in_stock) {
+                  this.stockCheckOK = false
+                  chp.errors.stock = i18n.t('Out of stock!')
+                  this.notifyOutStock(chp)
+                }
+              }
+            }
+          })
+        }
+      })
+    }
+    const storeView = currentStoreView()
+    let country = this.$store.state.checkout.shippingDetails.country
+    if (!country) country = storeView.i18n.defaultCountry
+    this.$bus.$emit('checkout-before-shippingMethods', country)
+    this.$store.dispatch('cart/getPaymentMethods')
   },
-  destroyed () {
+  beforeDestroy () {
     this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$off('cart-after-delete', this.onCartAfterUpdate)
     this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
     this.$bus.$off('checkout-after-shippingDetails', this.onAfterShippingDetails)
     this.$bus.$off('checkout-after-paymentDetails', this.onAfterPaymentDetails)
     this.$bus.$off('checkout-after-cartSummary', this.onAfterCartSummary)
-    this.$bus.$off('checkout-before-placeOrder') // this is intentional exception as the payment methods are dynamically binding to the before-placeOrder event
+    this.$bus.$off('checkout-before-placeOrder', this.onBeforePlaceOrder)
     this.$bus.$off('checkout-do-placeOrder', this.onDoPlaceOrder)
     this.$bus.$off('checkout-before-edit', this.onBeforeEdit)
     this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)
@@ -129,12 +127,8 @@ export default {
   methods: {
     onCartAfterUpdate (payload) {
       if (this.$store.state.cart.cartItems.length === 0) {
-        this.$bus.$emit('notification', {
-          type: 'warning',
-          message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
-        this.$router.push('/')
+        this.notifyEmptyCart()
+        this.$router.push(this.localizedRoute('/'))
       }
     },
     onAfterShippingMethodChanged (payload) {
@@ -149,10 +143,10 @@ export default {
         this.$forceUpdate()
       })
     },
-    onAfterPlaceOrder (order) {
-      this.orderPlaced = true
+    onAfterPlaceOrder (payload) {
+      this.confirmation = payload.confirmation
       this.$store.dispatch('checkout/setThankYouPage', true)
-      console.log(this.order)
+      Logger.debug(payload.order)()
     },
     onBeforeEdit (section) {
       this.activateSection(section)
@@ -167,12 +161,8 @@ export default {
     },
     onDoPlaceOrder (additionalPayload) {
       if (this.$store.state.cart.cartItems.length === 0) {
-        this.$bus.$emit('notification', {
-          type: 'warning',
-          message: i18n.t('Shopping cart is empty. Please add some products before entering Checkout'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
-        this.$router.push('/')
+        this.notifyEmptyCart()
+        this.$router.push(this.localizedRoute('/'))
       } else {
         this.payment.paymentMethodAdditional = additionalPayload
         this.placeOrder()
@@ -196,7 +186,12 @@ export default {
     onAfterPersonalDetails (receivedData, validationResult) {
       this.personalDetails = receivedData
       this.validationResults.personalDetails = validationResult
-      this.activateSection('shipping')
+
+      if (this.isVirtualCart === true) {
+        this.activateSection('payment')
+      } else {
+        this.activateSection('shipping')
+      }
       this.savePersonalDetails()
       this.focusedField = null
     },
@@ -227,25 +222,17 @@ export default {
         if (this.stockCheckCompleted) {
           if (!this.stockCheckOK) {
             isValid = false
-            this.$bus.$emit('notification', {
-              type: 'error',
-              message: i18n.t('Some of the ordered products are not available!'),
-              action1: { label: i18n.t('OK'), action: 'close' }
-            })
+            this.notifyNotAvailable()
           }
         } else {
-          this.$bus.$emit('notification', {
-            type: 'warning',
-            message: i18n.t('Stock check in progress, please wait while available stock quantities are checked'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
+          this.notifyStockCheck()
           isValid = false
         }
       }
       return isValid
     },
     activateHashSection () {
-      if (typeof window !== 'undefined') {
+      if (!isServer) {
         var urlStep = window.location.hash.replace('#', '')
         if (this.activeSection.hasOwnProperty(urlStep) && this.activeSection[urlStep] === false) {
           this.activateSection(urlStep)
@@ -256,11 +243,7 @@ export default {
     },
     checkConnection (isOnline) {
       if (!isOnline) {
-        this.$bus.$emit('notification', {
-          type: 'warning',
-          message: i18n.t('There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
+        this.notifyNoConnection()
       }
     },
     activateSection (sectionToActivate) {
@@ -268,13 +251,13 @@ export default {
         this.activeSection[section] = false
       }
       this.activeSection[sectionToActivate] = true
-      if (typeof window !== 'undefined') window.location.href = window.location.origin + window.location.pathname + '#' + sectionToActivate
+      if (!isServer) window.location.href = window.location.origin + window.location.pathname + '#' + sectionToActivate
     },
     // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
     getPaymentMethod () {
       let paymentMethod = this.payment.paymentMethod
-      if (config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
-        paymentMethod = config.orders.payment_methods_mapping[paymentMethod]
+      if (store.state.config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
+        paymentMethod = store.state.config.orders.payment_methods_mapping[paymentMethod]
       }
       return paymentMethod
     },
@@ -284,20 +267,6 @@ export default {
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {
-          shippingAddress: {
-            region: this.shipping.state,
-            region_id: this.shipping.region_id ? this.shipping.region_id : 0,
-            country_id: this.shipping.country,
-            street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
-            company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
-            telephone: this.shipping.phoneNumber,
-            postcode: this.shipping.zipCode,
-            city: this.shipping.city,
-            firstname: this.shipping.firstName,
-            lastname: this.shipping.lastName,
-            email: this.personalDetails.emailAddress,
-            region_code: this.shipping.region_code ? this.shipping.region_code : ''
-          },
           billingAddress: {
             region: this.payment.state,
             region_id: this.payment.region_id ? this.payment.region_id : 0,
@@ -313,11 +282,27 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
-          shipping_method_code: this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.method_code,
-          shipping_carrier_code: this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.method_code,
+          shipping_method_code: this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
+          shipping_carrier_code: this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
+        }
+      }
+      if (!this.isVirtualCart) {
+        this.order.addressInformation.shippingAddress = {
+          region: this.shipping.state,
+          region_id: this.shipping.region_id ? this.shipping.region_id : 0,
+          country_id: this.shipping.country,
+          street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
+          company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
+          telephone: this.shipping.phoneNumber,
+          postcode: this.shipping.zipCode,
+          city: this.shipping.city,
+          firstname: this.shipping.firstName,
+          lastname: this.shipping.lastName,
+          email: this.personalDetails.emailAddress,
+          region_code: this.shipping.region_code ? this.shipping.region_code : ''
         }
       }
       return this.order
@@ -327,11 +312,7 @@ export default {
       if (this.checkStocks()) {
         this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
       } else {
-        this.$bus.$emit('notification', {
-          type: 'error',
-          message: i18n.t('Some of the ordered products are not available!'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
+        this.notifyNotAvailable()
       }
     },
     savePersonalDetails () {
@@ -361,5 +342,12 @@ export default {
       title: this.$route.meta.title || i18n.t('Checkout'),
       meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
     }
+  },
+  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
+    return new Promise((resolve, reject) => {
+      if (context) context.output.cacheTags.add(`checkout`)
+      if (context) context.server.response.redirect('/')
+      resolve()
+    })
   }
 }

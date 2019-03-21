@@ -42,10 +42,16 @@
             v-model="firstName"
             @blur="$v.firstName.$touch()"
             :placeholder="$t('First name *')"
-            :validation="{
-              condition: !$v.firstName.required && $v.firstName.$error,
-              text: $t('Field is required.')
-            }"
+            :validations="[
+              {
+                condition: !$v.firstName.required && $v.firstName.$error,
+                text: $t('Field is required.')
+              },
+              {
+                condition: !$v.firstName.minLength,
+                text: $t('Name must have at least 2 letters.')
+              }
+            ]"
           />
           <base-input
             class="col-xs-6"
@@ -55,10 +61,10 @@
             v-model="lastName"
             @blur="$v.lastName.$touch()"
             :placeholder="$t('Last name *')"
-            :validation="{
+            :validations="[{
               condition: !$v.lastName.required && $v.lastName.$error,
               text: $t('Field is required.')
-            }"
+            }]"
           />
         </div>
         <base-input
@@ -107,10 +113,10 @@
           @click="conditions = !conditions"
           @blur="$v.conditions.$reset()"
           @change="$v.conditions.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.conditions.required && $v.conditions.$error,
             text: $t('You must accept the terms and conditions.')
-          }"
+          }]"
         >
           {{ $t('I accept terms and conditions') }} *
         </base-checkbox>
@@ -130,7 +136,7 @@
   </div>
 </template>
 <script>
-import Register from '@vue-storefront/core/components/blocks/Auth/Register'
+import Register from '@vue-storefront/core/compatibility/components/blocks/Auth/Register'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
@@ -143,6 +149,7 @@ export default {
       email
     },
     firstName: {
+      minLength: minLength(2),
       required
     },
     lastName: {
@@ -165,6 +172,34 @@ export default {
     ButtonFull,
     BaseCheckbox,
     BaseInput
+  },
+  methods: {
+    register () {
+      if (this.$v.$invalid) {
+        this.$v.$touch()
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Please fix the validation errors'),
+          action1: { label: this.$t('OK') }
+        })
+        return
+      }
+      this.callRegister()
+    },
+    onSuccess () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: this.$t('You are logged in!'),
+        action1: { label: this.$t('OK') }
+      })
+    },
+    onFailure (result) {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: result.result,
+        action1: { label: this.$t('OK') }
+      })
+    }
   }
 }
 </script>

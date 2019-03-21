@@ -3,7 +3,7 @@
     <div class="relative">
       <textarea
         class="
-          py10 w-100 border-box brdr-none brdr-bottom
+          mt10 pb10 w-100 border-box brdr-none brdr-bottom-1
           brdr-cl-primary h4 sans-serif
         "
         :class="{empty: value === ''}"
@@ -23,33 +23,68 @@
       </label>
     </div>
 
-    <template v-if="validation">
-      <span
-        class="block cl-error h6"
-        v-if="validation.condition"
-      >
-        {{ validation.text }}
-      </span>
-    </template>
-
-    <template v-else-if="validations">
-      <span
-        v-for="(validation, index) in validations"
-        :key="index"
-        v-if="validation.condition"
-        class="block cl-error h6"
-      >
-        {{ validation.text }}
-      </span>
-    </template>
+    <ValidationMessages v-if="validations" :validations="validations"/>
   </div>
 </template>
 
 <script>
-import BaseTextarea from '@vue-storefront/core/components/blocks/Form/BaseTextarea'
+import ValidationMessages from './ValidationMessages.vue'
 
 export default {
-  mixins: [BaseTextarea]
+  name: 'BaseTextarea',
+  components: {
+    ValidationMessages
+  },
+  data () {
+    return {
+      iconActive: false,
+      icon: 'visibility'
+    }
+  },
+  props: {
+    type: {
+      type: String,
+      required: true
+    },
+    value: {
+      type: [String, Number],
+      required: true
+    },
+    name: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    placeholder: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    autocomplete: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    focus: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    autofocus: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    validations: {
+      type: Array,
+      default: () => []
+    }
+  },
+  mounted () {
+    if (this.focus) {
+      this.$refs[this.name].focus()
+    }
+  }
 }
 </script>
 
@@ -70,13 +105,14 @@ export default {
     }
     resize: none;
     background: inherit;
+    min-height: 100px;
   }
 
   label {
     color: #999;
     position: absolute;
     pointer-events: none;
-    left: 5px;
+    left: 0;
     top: 10px;
     transition: 0.2s ease all;
   }

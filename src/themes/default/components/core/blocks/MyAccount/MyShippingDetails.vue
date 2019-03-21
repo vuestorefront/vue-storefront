@@ -37,7 +37,7 @@
             },
             {
               condition: !$v.shippingDetails.firstName.minLength,
-              text: $t('Name must have at least 3 letters.')
+              text: $t('Name must have at least 2 letters.')
             }
           ]"
         />
@@ -50,10 +50,10 @@
           :placeholder="`${$t('Last name')} *`"
           v-model.trim="shippingDetails.lastName"
           @input="$v.shippingDetails.lastName.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.shippingDetails.lastName.required && $v.shippingDetails.lastName.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-checkbox
@@ -74,10 +74,10 @@
           :placeholder="`${$t('Street name')} *`"
           v-model.trim="shippingDetails.street"
           @input="$v.shippingDetails.street.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.shippingDetails.street.required && $v.shippingDetails.street.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
@@ -88,10 +88,10 @@
           :placeholder="`${$t('House/Apartment number')} *`"
           v-model.trim="shippingDetails.house"
           @input="$v.shippingDetails.house.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.shippingDetails.house.required && $v.shippingDetails.house.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
@@ -102,10 +102,10 @@
           :placeholder="`${$t('City')} *`"
           v-model.trim="shippingDetails.city"
           @input="$v.shippingDetails.city.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.shippingDetails.city.required && $v.shippingDetails.city.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
@@ -169,7 +169,7 @@
         <div class="col-xs-12 col-sm-6">
           <button-full
             @click.native="updateDetails"
-            :class="{ 'button-disabled': $v.$invalid }"
+            :disabled="$v.$invalid"
           >
             {{ $t('Update my shipping details') }}
           </button-full>
@@ -224,7 +224,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import MyShippingDetails from '@vue-storefront/core/components/blocks/MyAccount/MyShippingDetails'
+import MyShippingDetails from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyShippingDetails'
 
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import Tooltip from 'theme/components/core/Tooltip'
@@ -255,7 +255,7 @@ export default {
     shippingDetails: {
       firstName: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(2)
       },
       lastName: {
         required

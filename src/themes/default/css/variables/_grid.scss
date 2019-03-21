@@ -1,0 +1,43 @@
+// Grid
+// ====
+// Settings for grid project
+//
+// stylelint-disable indentation, number-no-trailing-zeros
+
+// Grid breakpoints
+//
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+$breakpoints: (
+        xs: 1px,
+        xsm: 400px,
+        sm: 768px,
+        md: 1025px,
+        lg: 1200px
+);
+
+// Grid columns
+// ------------
+// Set the width of the gutters.
+
+$grid-gutter-widths: (
+        xs: 10px,
+        sm: 30px,
+        md: 30px,
+        lg: 30px
+) !default;
+$test: 2;
+$screen: "only screen";
+
+// breakpoint settings look helpers/bs-variables
+$media-lg: "#{$screen} and (min-width:#{map-get($breakpoints, lg)})"; // min 1200px
+$media-md-up: "#{$screen} and (min-width:#{map-get($breakpoints, md)})"; //min 1025px
+$media-md: "#{$screen} and (min-width:#{map-get($breakpoints, md)}) and (max-width:#{map-get($breakpoints, lg) - 1})"; //min 1025px max 1199px
+$media-to-md: "#{$screen} and (max-width:#{map-get($breakpoints, lg) - 1})"; //max 1199px
+$media-sm-up: "#{$screen} and (min-width:#{map-get($breakpoints, sm)})"; // min 768px
+$media-sm: "#{$screen} and (min-width:#{map-get($breakpoints, sm)}) and (max-width:#{map-get($breakpoints, md) - 1})"; // min 768 max 1024px
+$media-to-sm: "#{$screen} and (max-width:#{map-get($breakpoints, md) - 1})"; // max 1024px
+$media-xs: "#{$screen} and (max-width:#{map-get($breakpoints, sm) - 1})"; // max 767px
+$media-xs-up: "#{$screen} and (min-width:#{map-get($breakpoints, xs)})";// min 1px
+$media-to-xxs: "#{$screen} and (max-width:#{map-get($breakpoints, xsm)})"; // max 400px

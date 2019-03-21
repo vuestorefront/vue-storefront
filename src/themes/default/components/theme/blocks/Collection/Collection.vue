@@ -6,8 +6,9 @@
   />
 </template>
 <script>
-import builder from 'bodybuilder'
+
 import ProductsSlider from 'theme/components/core/ProductsSlider'
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 
 export default {
   name: 'Collection',
@@ -44,18 +45,17 @@ export default {
       }
     }
   },
-  beforeMount () {
-    let inspirationsQuery = builder().query('match', 'category.name', this.category).build()
+  async beforeMount () {
+    let inspirationsQuery = prepareQuery({queryConfig: 'inspirations'})
 
-    this.$store.dispatch('product/list', {
+    const res = await this.$store.dispatch('product/list', {
       query: inspirationsQuery,
       size: 12,
       sort: 'created_at:desc'
-    }).then(res => {
-      if (res) {
-        this.products = res.items
-      }
     })
+    if (res) {
+      this.products = res.items
+    }
   },
   components: {
     ProductsSlider

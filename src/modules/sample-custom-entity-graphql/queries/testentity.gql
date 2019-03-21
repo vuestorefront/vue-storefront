@@ -1,0 +1,8 @@
+query testentity ($filter: TestInput) {
+  testentity(
+    filter: $filter
+  )
+  {
+    hits
+  }
+}
