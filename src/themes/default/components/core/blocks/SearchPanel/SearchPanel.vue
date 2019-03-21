@@ -29,6 +29,7 @@
               id="search"
               v-model="search"
               @input="makeSearch"
+              @blur="$v.search.$touch()"
               class="search-panel-input"
               :placeholder="$t('Type what you are looking for...')"
               type="text"
@@ -48,8 +49,11 @@
           @click.native="closeSearchpanel"
         />
         <transition name="fade">
-          <div v-if="emptyResults" class="no-results relative center-xs h4 col-md-12">
-            {{ $t('No results were found.') }}
+          <div
+            v-if="getNoResultsMessage"
+            class="no-results relative center-xs h4 col-md-12"
+          >
+            {{ $t(getNoResultsMessage) }}
           </div>
         </transition>
       </div>
@@ -74,6 +78,7 @@ import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/Se
 import ProductTile from 'theme/components/core/ProductTile'
 import VueOfflineMixin from 'vue-offline/mixin'
 import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel'
+import { minLength } from 'vuelidate/lib/validators'
 
 export default {
   components: {
@@ -81,6 +86,11 @@ export default {
     CategoryPanel
   },
   mixins: [SearchPanel, VueOfflineMixin],
+  validations: {
+    search: {
+      minLength: minLength(3)
+    }
+  },
   data () {
     return {
       selectedCategoryIds: []
@@ -105,6 +115,15 @@ export default {
         })
       })
       return Object.keys(categoriesMap).map(categoryId => categoriesMap[categoryId])
+    },
+    getNoResultsMessage () {
+      let msg = ''
+      if (!this.$v.search.minLength) {
+        msg = 'Searched term should consist of at least 3 characters.'
+      } else if (this.emptyResults) {
+        msg = 'No results were found.'
+      }
+      return msg
     }
   },
   watch: {
