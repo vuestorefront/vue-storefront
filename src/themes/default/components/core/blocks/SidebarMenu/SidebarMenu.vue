@@ -211,7 +211,7 @@ $color-mine-shaft: color(mine-shaft);
 .sidebar-menu {
   height: 100vh;
   width: 350px;
-  overflow: hidden;
+  overflow: hidden auto;
 
   @media (max-width: 767px) {
     width: 100vh;
