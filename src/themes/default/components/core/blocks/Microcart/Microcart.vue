@@ -105,6 +105,11 @@
           {{ $t('Go to checkout') }}
         </button-full>
         <instant-checkout v-if="isInstantCheckoutRegistered" class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium mt20" />
+        <button-full
+          @click.native="clearCart"
+        >
+          Clear cart
+        </button-full>
       </div>
     </div>
   </div>
