@@ -18,7 +18,10 @@
     <div class="row">
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
-          <li @click="closeMenu" class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary">
+          <li
+            @click="closeMenu"
+            class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary"
+          >
             <router-link
               class="block px25 py20 cl-accent no-underline"
               :to="localizedRoute('/')"
@@ -56,7 +59,11 @@
               :parent-path="category.url_path"
             />
           </li>
-          <li @click="closeMenu" v-if="isCurrentMenuShowed" class="bg-cl-secondary">
+          <li
+            v-if="isCurrentMenuShowed"
+            @click="closeMenu"
+            class="bg-cl-secondary"
+          >
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
               :to="localizedRoute('/sale')"
@@ -65,7 +72,11 @@
               {{ $t('Sale') }}
             </router-link>
           </li>
-          <li @click="closeMenu" v-if="isCurrentMenuShowed" class="bg-cl-secondary">
+          <li
+            v-if="isCurrentMenuShowed"
+            @click="closeMenu"
+            class="bg-cl-secondary"
+          >
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
               :to="localizedRoute('/magazine')"
@@ -74,7 +85,11 @@
               {{ $t('Magazine') }}
             </router-link>
           </li>
-          <li @click="closeMenu" v-if="compareIsActive && isCurrentMenuShowed" class="bg-cl-secondary">
+          <li
+            v-if="compareIsActive && isCurrentMenuShowed"
+            @click="closeMenu"
+            class="bg-cl-secondary"
+          >
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
               :to="localizedRoute('/compare')"
@@ -83,7 +98,10 @@
               {{ $t('Compare products') }}
             </router-link>
           </li>
-          <li @click="login" class="brdr-bottom-1 brdr-cl-secondary bg-cl-secondary flex">
+          <li
+            @click="login"
+            class="brdr-bottom-1 brdr-cl-secondary bg-cl-secondary flex"
+          >
             <sub-btn
               v-if="currentUser"
               :name="$t('My account')"
