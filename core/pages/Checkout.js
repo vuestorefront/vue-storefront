@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/core/store'
-import VueOfflineMixin from 'vue-offline/mixin'
+import { VueOfflineMixin } from 'vue-offline'
 import { mapGetters } from 'vuex'
 
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -122,7 +122,7 @@ export default {
   },
   watch: {
     '$route': 'activateHashSection',
-    'OnlineOnly': 'onNetworkStatusCheck'
+    'isOnline': 'onNetworkStatusCheck'
   },
   methods: {
     onCartAfterUpdate (payload) {

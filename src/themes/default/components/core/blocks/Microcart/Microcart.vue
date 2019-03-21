@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="row py20">
-        <div v-if="OnlineOnly && !addCouponPressed" class="col-xs-12">
+        <div v-if="isOnline && !addCouponPressed" class="col-xs-12">
           <button
             class="p0 brdr-none serif fs-medium-small cl-accent bg-cl-transparent"
             type="button"
@@ -67,7 +67,7 @@
             {{ $t('Add a discount code') }}
           </button>
         </div>
-        <div v-if="OnlineOnly && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
+        <div v-if="isOnline && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
           <div class="coupon-input">
             <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>
             <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon"/>
@@ -115,7 +115,7 @@ import i18n from '@vue-storefront/i18n'
 import { isModuleRegistered } from '@vue-storefront/core/lib/module'
 
 import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart'
-import VueOfflineMixin from 'vue-offline/mixin'
+import { VueOfflineMixin } from 'vue-offline'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'
 

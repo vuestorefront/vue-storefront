@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="row" v-if="OnlineOnly">
+    <div class="row" v-if="isOnline">
       <i class="material-icons icon">error</i>
       <span>An error occured while loading the component. </span>
       <div>
@@ -8,7 +8,7 @@
         <span class="link" @click="close"> Close</span>
       </div>
     </div>
-    <div class="row" v-if="OfflineOnly">
+    <div class="row" v-if="isOffline">
       <i class="material-icons icon">error</i>
       <span>Component couldn't be loaded due to lack of network connectivity.</span>
       <span class="link" @click="close">Close</span>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import VueOfflineMixin from 'vue-offline/mixin'
+import { VueOfflineMixin } from 'vue-offline'
 
 export default {
   name: 'LoadingError',

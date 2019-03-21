@@ -15,23 +15,23 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 pl20 pr20">
-            <h3 v-if="OnlineOnly" >
+            <h3 v-if="isOnline" >
               {{ $t('Your purchase') }}
             </h3>
-            <p v-if="OnlineOnly" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
-            <p v-if="OnlineOnly && lastOrderConfirmation" v-html="this.$t('The server order id has been set to ') + lastOrderConfirmation.backendOrderId"/>
-            <p v-if="OnlineOnly" v-html="this.$t('E-mail us at <b>demo@vuestorefront.io</b> with any questions, suggestions how we could improve products or shopping experience')"/>
+            <p v-if="isOnline" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
+            <p v-if="isOnline && lastOrderConfirmation" v-html="this.$t('The server order id has been set to ') + lastOrderConfirmation.backendOrderId"/>
+            <p v-if="isOnline" v-html="this.$t('E-mail us at <b>demo@vuestorefront.io</b> with any questions, suggestions how we could improve products or shopping experience')"/>
 
-            <h4 v-if="OfflineOnly">
+            <h4 v-if="isOffline">
               {{ $t('You are offline') }}
             </h4>
-            <p v-if="OfflineOnly && !isNotificationSupported" >
+            <p v-if="isOffline && !isNotificationSupported" >
               {{ $t('To finish the order just come back to our store while online. Your order will be sent to the server as soon as you come back here while online and then confirmed regarding the stock quantities of selected items') }}
             </p>
-            <p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted" >
+            <p v-if="isOffline && isNotificationSupported && !isPermissionGranted" >
               {{ $t("You can allow us to remind you about the order via push notification after coming back online. You'll only need to click on it to confirm.") }}
             </p>
-            <p v-if="OfflineOnly && isNotificationSupported && isPermissionGranted" >
+            <p v-if="isOffline && isNotificationSupported && isPermissionGranted" >
               <strong>{{ $t('You will receive Push notification after coming back online. You can confirm the order by clicking on it') }}</strong>
             </p>
             <p v-if="!isPermissionGranted && isNotificationSupported">
@@ -77,7 +77,7 @@ import Composite from '@vue-storefront/core/mixins/composite'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
-import VueOfflineMixin from 'vue-offline/mixin'
+import { VueOfflineMixin } from 'vue-offline'
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
 import { isServer } from '@vue-storefront/core/helpers'
 

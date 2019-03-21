@@ -1,10 +1,5 @@
-import VueOffline from 'vue-offline'
-
 export const ProductGallery = {
   name: 'ProductGallery',
-  components: {
-    VueOffline
-  },
   props: {
     gallery: {
       type: Array,
@@ -22,7 +17,5 @@ export const ProductGallery = {
       type: Object,
       required: true
     }
-  },
-  computed: {
   }
 }

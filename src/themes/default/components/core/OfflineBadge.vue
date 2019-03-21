@@ -1,7 +1,7 @@
 <template>
   <no-ssr>
     <div
-      v-show="OfflineOnly"
+      v-show="isOffline"
       class="offline-badge fixed w-100 p10 bg-cl-th-error cl-white center-xs"
     >
       {{ $t('You are offline, some of the functionalities are limited') }}
@@ -11,7 +11,7 @@
 
 <script>
 import NoSSR from 'vue-no-ssr'
-import VueOfflineMixin from 'vue-offline/mixin'
+import { VueOfflineMixin } from 'vue-offline'
 
 export default {
   components: {

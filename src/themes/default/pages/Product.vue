@@ -220,7 +220,7 @@
         </div>
       </div>
     </section>
-    <reviews v-show="OnlineOnly"/>
+    <reviews v-show="isOnline"/>
     <related-products
       type="upsell"
       :heading="$t('We found other products you might like')"
@@ -233,7 +233,7 @@
 <script>
 import { minValue } from 'vuelidate/lib/validators'
 import Product from '@vue-storefront/core/pages/Product'
-import VueOfflineMixin from 'vue-offline/mixin'
+import { VueOfflineMixin } from 'vue-offline'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
 import AddToCart from 'theme/components/core/AddToCart.vue'

@@ -53,7 +53,7 @@
           </div>
         </transition>
       </div>
-      <div v-show="OnlineOnly" v-if="visibleProducts.length >= 18" class="buttons-set align-center py35 mt20 px40">
+      <div v-show="isOnline" v-if="visibleProducts.length >= 18" class="buttons-set align-center py35 mt20 px40">
         <button @click="seeMore" v-if="readMore"
                 class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
                 type="button">
@@ -72,7 +72,7 @@
 <script>
 import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel'
 import ProductTile from 'theme/components/core/ProductTile'
-import VueOfflineMixin from 'vue-offline/mixin'
+import { VueOfflineMixin } from 'vue-offline'
 import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel'
 
 export default {
