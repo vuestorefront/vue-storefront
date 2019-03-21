@@ -193,7 +193,6 @@ export default {
     clearCart () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
-        item: this.product,
         message: i18n.t('Are you sure you would like to remove all the items from the shopping cart?'),
         action1: { label: i18n.t('OK'),
           action: () => {
