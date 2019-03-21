@@ -704,21 +704,18 @@ const actions: ActionTree<CartState, RootState> = {
         rootStore.commit('cart/' + types.CART_DEL_NON_CONFIRMED_ITEM, { product: originalCartItem }, {root: true})
       }
     } else {
-      const isThisNewItemAddedToTheCart = (!originalCartItem || !originalCartItem.item_id)
-      if (isThisNewItemAddedToTheCart) {
-        let notificationData = {
-          type: 'success',
-          message: i18n.t('Product has been added to the cart!'),
-          action1: { label: i18n.t('OK') },
-          action2: null
-        }
-        if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
-          notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: () => {
-            context.dispatch('goToCheckout')
-          }}
-        }
-        rootStore.dispatch('notification/spawnNotification', notificationData)
+      let notificationData = {
+        type: 'success',
+        message: i18n.t('Product has been added to the cart!'),
+        action1: { label: i18n.t('OK') },
+        action2: null
       }
+      if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
+        notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: () => {
+          context.dispatch('goToCheckout')
+        }}
+      }
+      rootStore.dispatch('notification/spawnNotification', notificationData)
     }
   },
   toggleMicrocart ({ commit }) {
