@@ -7,10 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.10.0-rc.1] - UNRELEASED
 
 ### Added
-- 
+-
 
 ### Fixed
-- 
+- Removed childSku parameter in url for non-configurable products when using urlDispatcher - @Aekal (#2605)
 
 ### Changed / Improved
 - Improved ProductGalleryCarousel component to handle nonnumeric options id’s - @danieldomurad (#2586)
