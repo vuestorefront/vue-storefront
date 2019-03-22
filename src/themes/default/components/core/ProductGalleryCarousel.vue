@@ -15,11 +15,32 @@
       <slide
         v-for="(images, index) in gallery"
         :key="images.src">
-        <div class="bg-cl-secondary" :class="{'video-container h-100 flex relative': images.video}">
+        <div class="product-image-container bg-cl-secondary" :class="{'video-container w-100 h-100 flex relative': images.video}">
           <img
-            v-show="hideImageAtIndex !== index"
+            v-show="placeholderImagesMap[index]"
+            key="placeholderImage"
+            class="inline-flex mw-100"
+            src="/assets/placeholder.svg"
+            ref="images"
+            :alt="productName | htmlDecode"
+          >
+          <img
+            v-show="lowerQualityImagesMap[index]"
+            key="lowQualityImage"
+            class="product-image inline-flex mw-100"
+            :src="images.loading"
+            @load="lowerQualityImageLoaded(index)"
+            ref="images"
+            :alt="productName | htmlDecode"
+            data-testid="productGalleryImage"
+            itemprop="image"
+          >
+          <img
+            v-show="highQualityImagesLoadedMap[index]"
+            key="highQualityImage"
+            :src="images.src"
+            @load="highQualityImageLoaded(index)"
             class="product-image inline-flex pointer mw-100"
-            v-lazy="images"
             ref="images"
             @dblclick="openOverlay"
             :alt="productName | htmlDecode"
@@ -48,6 +69,11 @@ import ProductVideo from './ProductVideo'
 
 export default {
   name: 'ProductGalleryCarousel',
+  components: {
+    Carousel,
+    Slide,
+    ProductVideo
+  },
   props: {
     gallery: {
       type: Array,
@@ -66,13 +92,33 @@ export default {
     return {
       carouselTransitionSpeed: 0,
       currentPage: 0,
-      hideImageAtIndex: null
+      hideImageAtIndex: null,
+      lowerQualityImagesLoadedMap: {},
+      highQualityImagesLoadedMap: {}
     }
   },
-  components: {
-    Carousel,
-    Slide,
-    ProductVideo
+  computed: {
+    placeholderImagesMap () {
+      let visibilityMap = {}
+      this.gallery.forEach((image, index) => {
+        visibilityMap[index] = !this.lowerQualityImagesLoadedMap[index] && !this.highQualityImagesLoadedMap[index]
+      })
+      return visibilityMap
+    },
+    lowerQualityImagesMap () {
+      let visibilityMap = {}
+      this.gallery.forEach((image, index) => {
+        visibilityMap[index] = !!this.lowerQualityImagesLoadedMap[index] && !this.highQualityImagesLoadedMap[index] && this.hideImageAtIndex !== index
+      })
+      return visibilityMap
+    },
+    highQualityImagesMap () {
+      let visibilityMap = {}
+      this.gallery.forEach((image, index) => {
+        visibilityMap[index] = !!this.highQualityImagesLoadedMap[index] && this.hideImageAtIndex !== index
+      })
+      return visibilityMap
+    }
   },
   beforeMount () {
     this.$bus.$on('filter-changed-product', this.selectVariant)
@@ -129,6 +175,12 @@ export default {
     },
     onVideoStarted (index) {
       this.hideImageAtIndex = index
+    },
+    lowerQualityImageLoaded (index) {
+      this.$set(this.lowerQualityImagesLoadedMap, index, true)
+    },
+    highQualityImageLoaded (index) {
+      this.$set(this.highQualityImagesLoadedMap, index, true)
     }
   }
 }
@@ -144,6 +196,19 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
+}
+.product-image-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.product-image {
+  width: 100%;
+  height: auto;
 }
 img {
   opacity: 1;
