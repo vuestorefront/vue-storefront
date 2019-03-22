@@ -4,10 +4,7 @@ import { calculateProductTax } from '../helpers/tax'
 import flattenDeep from 'lodash-es/flattenDeep'
 import omit from 'lodash-es/omit'
 import remove from 'lodash-es/remove'
-import reduce from 'lodash-es/reduce'
-import map from 'lodash-es/map'
 import toString from 'lodash-es/toString'
-import forEach from 'lodash-es/forEach'
 import union from 'lodash-es/union'
 // TODO: Remove this dependency
 import { optionLabel } from './optionLabel'
@@ -555,9 +552,9 @@ export function getMediaGallery (product) {
 export function configurableChildrenImages(product) {
   let configurableChildrenImages = []
   if (product.configurable_children && product.configurable_children.length > 0) {
-    let configurableAttributes = map(product.configurable_options, 'attribute_code')
-    forEach(product.configurable_children, child => {
-      let id = reduce(configurableAttributes, (result, attribute) => {
+    let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
+    product.configurable_children.forEach(child => {
+      let id = configurableAttributes.reduce((result, attribute) => {
         result[attribute] = child[attribute]
         return result
       }, {})
