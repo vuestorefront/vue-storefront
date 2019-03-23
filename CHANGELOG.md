@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed / Improved
 - Improved ProductGalleryCarousel component to handle nonnumeric options id’s - @danieldomurad (#2586)
 - Number of displayed products is now visible on PLP on desktop - @awierzbiak (#2504)
+- Improved visibility of product SKU in wishlist  - @PanMisza (#2606)
 
 ## [1.9.0-rc.1] - 2019.03.07
 
