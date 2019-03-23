@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Search component result message when search term is less than 3 letters - @robwozniak (#2561)
 - Removed childSku parameter in url for non-configurable products when using urlDispatcher - @Aekal (#2605)
 - Image lazy loading after SSR reload - @pkarw (#2641)
+- Modules can add custom URL - @pkarw (#2601)
 
 ## [1.9.0-rc.1] - 2019.03.07
 
