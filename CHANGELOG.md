@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Fixed
+- Confirmation popup 'Product has beed added to cart' is displayed only once - @JKrupinski (#2610)
 - Moved My Account options from Categories - @bartdominiak (#2612)
 
 ### Changed / Improved
