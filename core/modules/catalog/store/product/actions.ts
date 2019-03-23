@@ -61,7 +61,7 @@ const actions: ActionTree<ProductState, RootState> = {
       const categoryIds = product.category.reverse().map((cat => cat.category_id))
 
       subloaders.push(
-        context.dispatch('category/list', {}, { root: true }).then((categories) => {
+        context.dispatch('category/list', { 'key': 'id', 'value': categoryIds }, { root: true }).then((categories) => {
           const catList = []
 
           for (let catId of categoryIds) {

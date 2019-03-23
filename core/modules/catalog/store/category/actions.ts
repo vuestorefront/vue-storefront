@@ -35,22 +35,24 @@ const actions: ActionTree<CategoryState, RootState> = {
    */
   list (context, { parent = null, key = null, value = null, level = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = rootStore.state.config.entities.optimize ? rootStore.state.config.entities.category.includeFields : null, excludeFields = rootStore.state.config.entities.optimize ? rootStore.state.config.entities.category.excludeFields : null, skipCache = false }) {
     const commit = context.commit
-
     let customizedQuery = false // that means the parameteres are != defaults; with defaults parameter the data could be get from window.__INITIAL_STATE__ - this is optimisation trick
     let searchQuery = new SearchQuery()
     if (parent && typeof parent !== 'undefined') {
       searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': typeof parent === 'object' ? parent.id : parent }})
       customizedQuery = true
     }
-
     if (level !== null) {
       searchQuery = searchQuery.applyFilter({key: 'level', value: {'eq': level}})
-      if (level !== rootStore.state.config.entities.category.categoriesDynamicPrefetchLevel) // if this is the default level we're getting the results from window.__INITIAL_STATE__ not querying the server
+      if (level !== rootStore.state.config.entities.category.categoriesDynamicPrefetchLevel && !isServer) // if this is the default level we're getting the results from window.__INITIAL_STATE__ not querying the server
       customizedQuery = true
     }
 
     if (key !== null) {
-      searchQuery = searchQuery.applyFilter({key: key, value: {'eq': value}})
+      if (Array.isArray(value)) {
+        searchQuery = searchQuery.applyFilter({key: key, value: {'in': value}})
+      } else {
+        searchQuery = searchQuery.applyFilter({key: key, value: {'eq': value}})
+      }
       customizedQuery = true
     }
 
