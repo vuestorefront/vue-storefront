@@ -18,7 +18,7 @@
         </button>
       </div>
     </div>
-    <div class="row">
+    <div class="sidebar-menu__container row">
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
           <li
@@ -239,6 +239,11 @@ $color-mine-shaft: color(mine-shaft);
 
   @media (max-width: 767px) {
     width: 100vh;
+  }
+
+  &__container {
+    overflow-y: auto;
+    height: calc(100% - 55px);
   }
 
   &__list {
