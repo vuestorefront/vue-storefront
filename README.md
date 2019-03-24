@@ -15,12 +15,11 @@ The project is in the **production ready** phase.
 
 **Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
-If you're new and need some guidance feel free to reach anyone from the core team on our slack:
+If you're new and need some guidance feel free to visit out [forum](https://forum.vuestorefront.io/) or reach anyone from the core team on our slack:
 - `@Filip Rakowski` (frontend, architecture and best practices related stuff)
 - `@pkarw` (integrations and backend related stuff)
 - `@ptomczyk` (frontend related stuff)
 - `@Bartek Igielski`(frontend and magento-specific related stuff)
-- `@George` (mostly backend and integration related stuff but can also help with frontend)
 
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
@@ -29,6 +28,8 @@ Want to invest some time in building the future of eCommerce? we are looking for
 See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakowski/vue-storefront-basics)
 
 **Read [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md) before making any pull request. Pull request that doesn't meet these requirements will not be merged**
+
+
 
 ## See it in action
 
@@ -605,6 +606,35 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle"> 
+<a href="https://www.vaimo.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/vaimo-logo.png"
+            alt="Vaimo"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="https://www.makingwaves.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/making-waves.png"
+            alt="Making Waves"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+<tr>
+      <td align="center" valign="middle"> 
+<a href="https://www.bluebirdday.nl/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/Blue-Bird.png"
+            alt="BlueBird Day"
+            height="30"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
 <a href="">
           <img
             src=""
@@ -613,7 +643,25 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
 </td>
-  <td align="center" valign="middle"> 
+      <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
 <a href="">
           <img
             src=""

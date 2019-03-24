@@ -7,12 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.10.0-rc.1] - UNRELEASED
 
 ### Added
-- 
+-
 
 ### Fixed
-- 
+- Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
+- Confirmation popup 'Product has beed added to cart' is displayed only once - @JKrupinski (#2610)
+- Moved My Account options from Categories - @bartdominiak (#2612)
 
 ### Changed / Improved
+- Improved ProductGalleryCarousel component to handle nonnumeric options id’s - @danieldomurad (#2586)
 - Number of displayed products is now visible on PLP on desktop - @awierzbiak (#2504)
 
 ## [1.9.0-rc.1] - 2019.03.07
@@ -29,6 +32,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
 - Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
 - Update to babel 7 - @lukeromanowicz (#2554)
+
+## [1.8.4] - UNRELEASED
+
+### Added
+
+### Fixed
+- Problem with incomplete category products load for offline use - @patzick (#2543)
+- Category products view crash on scrolling down in offline mode - @patzick (#2569)
+
+### Changed / Improved
+- Category and Homepage products are now cached for offline use on SSR entry - @patzick (@1698)
 
 ## [1.8.3] - 2019.03.03
 
