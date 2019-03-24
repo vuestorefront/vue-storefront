@@ -549,18 +549,16 @@ export function configurableChildrenImages(product) {
   let configurableChildrenImages = []
   if (product.configurable_children && product.configurable_children.length > 0) {
     let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
-    product.configurable_children.forEach(child => {
-      let id = configurableAttributes.reduce((result, attribute) => {
-        result[attribute] = child[attribute]
-        return result
-      }, {})
-      configurableChildrenImages.push({
-        'src': getThumbnailPath(product.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
+    configurableChildrenImages = product.configurable_children.map(child =>
+      ({
+        'src': getThumbnailPath(child.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
         'loading': getThumbnailPath(product.image, 310, 300),
-        'error': getThumbnailPath(product.image, 310, 300),
-        'id': id
+        'id': configurableAttributes.reduce((result, attribute) => {
+          result[attribute] = child[attribute]
+          return result
+        }, {})
       })
-    })
+    )
   } else {
     configurableChildrenImages = attributeImages(product)
   }
