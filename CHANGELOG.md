@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed / Improved
 - Category and Homepage products are now cached for offline use on SSR entry - @patzick (@1698)
+- Instant focus to search input field after click on search icon in navbar - @ca1zr (#2608)
 
 ## [1.8.3] - 2019.03.03
 
