@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.10.0-rc.1] - UNRELEASED
 
 ### Added
-- 
+-
 
 ### Fixed
-- 
+- Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
+- Confirmation popup 'Product has beed added to cart' is displayed only once - @JKrupinski (#2610)
+- Moved My Account options from Categories - @bartdominiak (#2612)
 
 ### Changed / Improved
 - Improved ProductGalleryCarousel component to handle nonnumeric options id’s - @danieldomurad (#2586)
