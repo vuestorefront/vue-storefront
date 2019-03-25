@@ -59,7 +59,7 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
-    if (config.cart.synchronize && !isServer) {
+    if (config.cart.synchronize && !isServer && (typeof navigator !== 'undefined' ? navigator.onLine : true) && context.rootState.cart.cartServerToken) {
       const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
       if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
         context.state.cartServerPullAt = Date.now()
@@ -94,7 +94,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
-    if (config.cart.synchronize_totals  && !isServer) {
+    if (config.cart.synchronize_totals  && !isServer && (typeof navigator !== 'undefined' ? navigator.onLine : true) && context.rootState.cart.cartServerToken) {
       if ((Date.now() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
         TaskQueue.execute({ url: config.cart.totals_endpoint, // sync the cart
           payload: {
@@ -335,7 +335,7 @@ const actions: ActionTree<CartState, RootState> = {
     commit(types.CART_UPD_ITEM_PROPS, { product })
   },
   getPaymentMethods (context) {
-    if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+    if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true) && context.rootState.cart.cartServerToken) {
       TaskQueue.execute({ url: config.cart.paymentmethods_endpoint,
         payload: {
           method: 'GET',
@@ -365,7 +365,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   getShippingMethods (context, address) {
     return new Promise((resolve, reject) => {
-      if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+      if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true) && context.rootState.cart.cartServerToken) {
         TaskQueue.execute({ url: config.cart.shippingmethods_endpoint,
           payload: {
             method: 'POST',
@@ -391,7 +391,7 @@ const actions: ActionTree<CartState, RootState> = {
   refreshTotals (context, methodsData) {
     return new Promise((resolve, reject) => {
       const storeView = currentStoreView()
-      if (config.cart.synchronize_totals) {
+      if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true) && context.rootState.cart.cartServerToken) {
         if (!methodsData) {
           let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
           const shippingMethods = context.rootGetters['shipping/shippingMethods']

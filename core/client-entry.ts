@@ -246,7 +246,7 @@ const invokeClientEntry = async () => {
             currentCartId = store.state.cart.cartServerToken
           }
 
-          if (!currentToken && store.state.user.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+          if (!currentToken && store.state.user.token) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
             currentToken = store.state.user.token
           }
           const fetchQueue = []
