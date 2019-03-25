@@ -15,7 +15,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { isServer } from '@vue-storefront/core/helpers'
+import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
 
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
@@ -59,7 +59,7 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
-    if (config.cart.synchronize && !isServer && (typeof navigator !== 'undefined' ? navigator.onLine : true) && context.state.cartServerToken) {
+    if (config.cart.synchronize && !isServer && onlineHelper.isOnline && context.state.cartServerToken) {
       const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
       if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
         context.state.cartServerPullAt = Date.now()
@@ -94,7 +94,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
-    if (config.cart.synchronize_totals  && !isServer && (typeof navigator !== 'undefined' ? navigator.onLine : true) && context.state.cartServerToken) {
+    if (config.cart.synchronize_totals  && !isServer && onlineHelper.isOnline && context.state.cartServerToken) {
       if ((Date.now() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
         TaskQueue.execute({ url: config.cart.totals_endpoint, // sync the cart
           payload: {
@@ -335,7 +335,7 @@ const actions: ActionTree<CartState, RootState> = {
     commit(types.CART_UPD_ITEM_PROPS, { product })
   },
   getPaymentMethods (context) {
-    if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true) && context.state.cartServerToken) {
+    if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
       TaskQueue.execute({ url: config.cart.paymentmethods_endpoint,
         payload: {
           method: 'GET',
@@ -365,7 +365,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   getShippingMethods (context, address) {
     return new Promise((resolve, reject) => {
-      if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true) && context.state.cartServerToken) {
+      if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
         TaskQueue.execute({ url: config.cart.shippingmethods_endpoint,
           payload: {
             method: 'POST',
@@ -391,7 +391,7 @@ const actions: ActionTree<CartState, RootState> = {
   refreshTotals (context, methodsData) {
     return new Promise((resolve, reject) => {
       const storeView = currentStoreView()
-      if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true) && context.state.cartServerToken) {
+      if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
         if (!methodsData) {
           let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
           const shippingMethods = context.rootGetters['shipping/shippingMethods']
@@ -446,7 +446,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   removeCoupon (context) {
     return new Promise((resolve, reject) => {
-      if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+      if (config.cart.synchronize_totals && onlineHelper.isOnline) {
         TaskQueue.execute({ url: config.cart.deletecoupon_endpoint,
           payload: {
             method: 'POST',
@@ -468,7 +468,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   applyCoupon (context, couponCode) {
     return new Promise((resolve, reject) => {
-      if (config.cart.synchronize_totals && (typeof navigator !== 'undefined' ? navigator.onLine : true)) {
+      if (config.cart.synchronize_totals && onlineHelper.isOnline) {
         TaskQueue.execute({ url: config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
           payload: {
             method: 'POST',
