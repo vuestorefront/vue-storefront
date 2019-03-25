@@ -2,7 +2,6 @@ import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/commo
 
 import i18n from '@vue-storefront/i18n'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
@@ -14,22 +13,20 @@ export default {
       Logger.log('Entering asyncData for PageNotFound ' + new Date())()
       if (context) context.output.cacheTags.add(`page-not-found`)
       let ourBestsellersQuery = prepareQuery({ queryConfig: 'bestSellers' })
-      store.dispatch('category/list', {}).then(categories => {
-        store.dispatch('product/list', {
-          query: ourBestsellersQuery,
-          size: 8,
-          sort: 'created_at:desc'
-        }).then(res => {
-          if (res) {
-            store.state.homepage.bestsellers = res.items
-            EventBus.$emitFilter('pagenotfound-after-load', { store: store, route: route }).then(results => {
-              return resolve()
-            }).catch(err => {
-              Logger.error(err)()
-              return resolve()
-            })
-          }
-        })
+      store.dispatch('product/list', {
+        query: ourBestsellersQuery,
+        size: 8,
+        sort: 'created_at:desc'
+      }).then(res => {
+        if (res) {
+          store.state.homepage.bestsellers = res.items
+          EventBus.$emitFilter('pagenotfound-after-load', { store: store, route: route }).then(results => {
+            return resolve()
+          }).catch(err => {
+            Logger.error(err)()
+            return resolve()
+          })
+        }
       })
     })
   },
