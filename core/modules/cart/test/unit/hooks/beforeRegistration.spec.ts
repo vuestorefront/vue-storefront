@@ -20,8 +20,8 @@ describe('Cart beforeRegistration', () => {
 
   it('hook initializes cart cache without sufix in name', () => {
     const config = {
-      cart: {
-        multisiteCommonCart: true
+      storeViews: {
+        commonCache: true
       },
       localForage: {
         defaultDrivers: {
@@ -41,8 +41,8 @@ describe('Cart beforeRegistration', () => {
 
   it('hook initializes cart cache with storeCode sufix in name', () => {
     const config = {
-      cart: {
-        multisiteCommonCart: false
+      storeViews: {
+        commonCache: false
       },
       localForage: {
         defaultDrivers: {

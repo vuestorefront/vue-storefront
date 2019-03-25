@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Modules can add custom URL - @pkarw (#2601)
 - Url routes fixes - @pkarw (#2598, #2645, #2614)
 - Fix for shopping cart actions when the `cartId` has been cleared out - @pkarw (#2567)
+- Fixed always common cache issue for multistore - @filrak (#2595)
 
 ## [1.9.0-rc.1] - 2019.03.07
 
