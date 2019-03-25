@@ -57,7 +57,7 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
-    const synchronizationInterval = rootStore.state.config.cart.synchronizationInterval
+    const synchronizationInterval = rootStore.state.config.cart.synchronizationInterval || 1000 // defaults to 1 second if setting not found
     debounce(() => {
       if (rootStore.state.config.cart.synchronize && !Vue.prototype.$isServer) {
         const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
