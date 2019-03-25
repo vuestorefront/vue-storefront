@@ -17,6 +17,8 @@ const moduleConfig: VueStorefrontModuleConfig = {
 const module = createModule(moduleConfig)
 ````
 - `@vue-storefront/store` package has been depreciated. Just change imports to `@vue-storefront/core/store`.
+- `breadCrumbRoutes` helper has been refactored to `formatBreadCrumbRoutes`
+
 ## 1.7 -> 1.8
 Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/CHANGELOG.md)
 
