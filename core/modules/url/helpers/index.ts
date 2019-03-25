@@ -50,20 +50,33 @@ export function normalizeUrlPath(url: string): string {
     const queryPos = url.indexOf('?')
     if (queryPos > 0) url = url.slice(0, queryPos)
   }
-  return url  
+  return url
 }
 
 export function formatCategoryLink(category: { url_path: string, slug: string }): string {
-  return rootStore.state.config.seo.useUrlDispatcher ? ('/' + category.url_path) : ((rootStore.state.config.products.useShortCatalogUrls ? '/' : '/c/') + category.slug)  
+  return rootStore.state.config.seo.useUrlDispatcher ? ('/' + category.url_path) : ((rootStore.state.config.products.useShortCatalogUrls ? '/' : '/c/') + category.slug)
 }
 
-export function formatProductLink(product: { parentSku?: string, sku: string, url_path?: string, type_id: string , slug: string}, storeCode): string | LocalizedRoute {
-  if(rootStore.state.config.seo.useUrlDispatcher && product.url_path) {
-    const routeData: LocalizedRoute = {
-      fullPath: product.url_path,
-      params: {
-        childSku: product.sku === product.parentSku ? null : product.sku
+export function formatProductLink(
+  product: {
+    parentSku?: string,
+    sku: string,
+    url_path?: string,
+    type_id: string,
+    slug: string,
+    configurable_children: []
+  },
+  storeCode
+): string | LocalizedRoute {
+  if (rootStore.state.config.seo.useUrlDispatcher && product.url_path) {
+    let routeData: LocalizedRoute;
+    if (product.configurable_children && product.configurable_children.length > 0) {
+      routeData = {
+        fullPath: product.url_path,
+        params: { childSku: product.sku }
       }
+    } else {
+      routeData = { fullPath: product.url_path }
     }
     return localizedDispatcherRoute(routeData, storeCode)
   } else {

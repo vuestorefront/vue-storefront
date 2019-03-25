@@ -4,9 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.9.0-rc.2] - 2019.03.07
+## [1.9.0-rc.2] - UNRELEASED
 
+### Fixed
+- Payment issue when no address set - @szafran89 (#2593)
+- Search component result message when search term is less than 3 letters - @robwozniak (#2561)
+- Removed childSku parameter in url for non-configurable products when using urlDispatcher - @Aekal (#2605)
+- Image lazy loading after SSR reload - @pkarw (#2641)
+- Modules can add custom URL - @pkarw (#2601)
 - Fixed always common cache issue for multistore - @filrak (#2595)
+
 ## [1.9.0-rc.1] - 2019.03.07
 
 ### Added
@@ -21,6 +28,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
 - Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
 - Update to babel 7 - @lukeromanowicz (#2554)
+
+## [1.8.4] - UNRELEASED
+
+### Added
+
+### Fixed
+- Problem with incomplete category products load for offline use - @patzick (#2543)
+- Category products view crash on scrolling down in offline mode - @patzick (#2569)
+
+### Changed / Improved
+- Category and Homepage products are now cached for offline use on SSR entry - @patzick (@1698)
 
 ## [1.8.3] - 2019.03.03
 

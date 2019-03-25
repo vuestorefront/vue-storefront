@@ -578,10 +578,6 @@ const actions: ActionTree<ProductState, RootState> = {
       // get original product
       const productOriginal = context.getters.productOriginal
 
-      if (!context.state.offlineImage) {
-        context.state.offlineImage = productThumbnailPath(productOriginal ? productOriginal /** in case if it's not yet set */ : productVariant, true)
-        Logger.debug('Image offline fallback set to ' + context.state.offlineImage, 'product')()
-      }
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })

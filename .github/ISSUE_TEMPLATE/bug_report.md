@@ -29,6 +29,7 @@ If you can handle fixing this bug by yourself and later propose a Pull Request w
 - Browser: <!-- Your browser, version -->
 - OS: <!-- Your operating system, version -->
 - Node: <!-- Version of Node.js used to run the project -->
+- Code Version: <!-- Tag, branch or commit determining which version of code is used -->
 
 ## Additional information
 <!-- If you think that any additional information would be useful, please provide them here. -->
