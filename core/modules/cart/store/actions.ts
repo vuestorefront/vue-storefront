@@ -661,7 +661,7 @@ const actions: ActionTree<CartState, RootState> = {
         }
       }
       Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: event.dry_run, event: event }) // send the difflog
-        Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
+      Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
     } else {
       Logger.error(event.result, 'cart') // override with guest cart()
       if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
