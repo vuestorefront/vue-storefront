@@ -230,6 +230,7 @@
       "serverSyncCanRemoveLocalItems": false,
       "serverSyncCanModifyLocalItems": false,
       "synchronize": true,
+      "synchronizationInterval": 5000,
       "synchronize_totals": true,
       "setCustomProductOptions": true,
       "setConfigurableProductOptions": true,

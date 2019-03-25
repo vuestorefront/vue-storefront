@@ -14,6 +14,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import debounce from 'lodash-es/debounce'
 
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
@@ -56,39 +57,42 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
-    if (rootStore.state.config.cart.synchronize && !Vue.prototype.$isServer) {
-      const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
-      if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
-        context.state.cartServerPullAt = Date.now()
-        context.state.cartItemsHash = newItemsHash
-        TaskQueue.execute({ url: rootStore.state.config.cart.pull_endpoint, // sync the cart
-          payload: {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors'
-          },
-          silent: true,
-          force_client_state: forceClientState,
-          dry_run: dryRun,
-          callback_event: 'store:cart/servercartAfterPulled'
-        }).then(task => {
-          const storeView = currentStoreView()
-          if ((Date.now() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
-            context.state.cartServerMethodsRefreshAt = Date.now()
-            Logger.debug('Refreshing payment & shipping methods', 'cart')()
-            rootStore.dispatch('cart/getPaymentMethods')
-            if (context.state.cartItems.length > 0) {
-              let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
-              rootStore.dispatch('cart/getShippingMethods', {
-                country_id: country
-              })
+    const synchronizationInterval = rootStore.state.config.cart.synchronizationInterval || 1000 // defaults to 1 second if setting not found
+    debounce(() => {
+      if (rootStore.state.config.cart.synchronize && !Vue.prototype.$isServer) {
+        const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
+        if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
+          context.state.cartServerPullAt = Date.now()
+          context.state.cartItemsHash = newItemsHash
+          TaskQueue.execute({ url: rootStore.state.config.cart.pull_endpoint, // sync the cart
+            payload: {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json' },
+              mode: 'cors'
+            },
+            silent: true,
+            force_client_state: forceClientState,
+            dry_run: dryRun,
+            callback_event: 'store:cart/servercartAfterPulled'
+          }).then(task => {
+            const storeView = currentStoreView()
+            if ((Date.now() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
+              context.state.cartServerMethodsRefreshAt = Date.now()
+              Logger.debug('Refreshing payment & shipping methods', 'cart')()
+              rootStore.dispatch('cart/getPaymentMethods')
+              if (context.state.cartItems.length > 0) {
+                let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
+                rootStore.dispatch('cart/getShippingMethods', {
+                  country_id: country
+                })
+              }
             }
-          }
-        })
-      } else {
-        Logger.log('Too short interval for refreshing the cart or items not changed' + newItemsHash + context.state.cartItemsHash, 'cart')()
+          })
+        } else {
+          Logger.log('Too short interval for refreshing the cart or items not changed' + newItemsHash + context.state.cartItemsHash, 'cart')()
+        }
       }
-    }
+    }, synchronizationInterval)()
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
     if (rootStore.state.config.cart.synchronize_totals && !Vue.prototype.$isServer) {
@@ -657,7 +661,7 @@ const actions: ActionTree<CartState, RootState> = {
         }
       }
       Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: event.dry_run, event: event }) // send the difflog
-       Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
+        Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
     } else {
       Logger.error(event.result, 'cart') // override with guest cart()
       if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
