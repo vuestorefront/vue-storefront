@@ -437,6 +437,7 @@ describe('Cart actions', () => {
     it('pulls latest totals from server', async () => {
       const contextMock = {
         state: {
+          cartServerToken: 'some-token',
           cartServerTotalsAt: 1000000000,
         }
       };
@@ -457,6 +458,7 @@ describe('Cart actions', () => {
     it('pulls latest totals from server forcing client state if it\'s configured to do so', async () => {
       const contextMock = {
         state: {
+          cartServerToken: 'some-token',
           cartServerTotalsAt: 1000000000,
         }
       };
@@ -477,6 +479,7 @@ describe('Cart actions', () => {
     it('does not do anything if last totals sync was done recently', () => {
       const contextMock = {
         state: {
+          cartServerToken: 'some-token',
           cartServerTotalsAt: 1000000000,
         }
       };
@@ -494,7 +497,11 @@ describe('Cart actions', () => {
     });
 
     it('does not do anything if totals synchronization is off', () => {
-      const contextMock = {};
+      const contextMock = {
+        state: {
+          cartServerToken: 'some-token'
+        }
+      };
 
       config.cart = { synchronize_totals: false };
 
