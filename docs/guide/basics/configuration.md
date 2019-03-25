@@ -105,12 +105,15 @@ This option is used only in the [Multistore setup](../integrations/multistore.md
 ```json
 "storeViews": {
   "multistore": false,
+  "commonCache": true,
   "mapStoreUrlsFor": ["de", "it"],
 ```
 
 If the `storeViews.multistore` is set to `true` you'll see the `LanguageSwitcher.vue` included in the footer and all the [multistore operations](../integrations/multistore.md) will be included in the request flow.
 
 You should add all the multistore codes to the `mapStoreUrlsFor` as this property is used by [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts) -> `setupMultistoreRoutes` method to add the `/<store_code>/p/....` and other standard routes. By accessing them you're [instructing Vue Storefront to switch the current store](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) settings (i18n, API requests with specific storeCode etc...)
+
+`commonCache` is refering to llocal browser cache. If it's set to false (default) the cache of cart, catalog, user data etc is shared between storeViews with default prefix (shop). Otherwise each of them is stored separately (storecode-shop prefix).
 
 `storeViews` section contains one or more additional store views configured to serve proper i18n translations, tax settings etc. Please find the docs for this section below.
 
