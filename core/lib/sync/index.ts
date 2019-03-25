@@ -32,12 +32,12 @@ function execute (task) { // not offline task
   task = _prepareTask(task)
   // Logger.info('New sync task [execute] ' + task.url, 'sync', task)()
   const usersCollection = new UniversalStorage(localForage.createInstance({
-    name: (rootStore.state.config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+    name: (rootStore.state.config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
     storeName: 'user',
     driver: localForage[rootStore.state.config.localForage.defaultDrivers['user']]
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
-    name: (rootStore.state.config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+    name: (rootStore.state.config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
     storeName: 'carts',
     driver: localForage[rootStore.state.config.localForage.defaultDrivers['carts']]
   }))
