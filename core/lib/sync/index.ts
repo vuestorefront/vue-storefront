@@ -60,10 +60,9 @@ function execute (task) { // not offline task
           if (!currentCartId && rootStore.state.cart.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
             currentCartId = rootStore.state.cart.cartServerToken
           }
-          if (!currentToken && rootStore.state.user.token) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
-            currentToken = rootStore.state.user.token
-          }
-          taskExecute(task, currentToken, currentCartId).then((result) => {
+          const token = currentToken ? currentToken : rootStore.getters['user/getUserToken']
+
+          taskExecute(task, token, currentCartId).then((result) => {
             resolve(result)
           }).catch(err => {
             reject(err)
