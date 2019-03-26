@@ -31,13 +31,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
 - Update to babel 7 - @lukeromanowicz (#2554)
 
-## [1.8.4] - UNRELEASED
 
-### Added
+## [1.8.4] - 2019.03.26
 
 ### Fixed
 - Problem with incomplete category products load for offline use - @patzick (#2543)
 - Category products view crash on scrolling down in offline mode - @patzick (#2569)
+- Default propery issue for the col-xs-* classes - @cnviradiya (#2558)
+- Wishlist and compare list not cached properly - @filrak (#2580)
 
 ### Changed / Improved
 - Category and Homepage products are now cached for offline use on SSR entry - @patzick (@1698)
