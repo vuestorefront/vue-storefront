@@ -30,6 +30,7 @@
 <script>
 // query constructor
 import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
+import { isServer } from '@vue-storefront/core/helpers'
 
 // Core pages
 import Home from '@vue-storefront/core/pages/Home'
@@ -87,8 +88,7 @@ export default {
     const newProductsResult = await store.dispatch('product/list', {
       query: newProductsQuery,
       size: 8,
-      sort: 'created_at:desc',
-      includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
+      sort: 'created_at:desc'
     })
     if (newProductsResult) {
       store.state.homepage.new_collection = newProductsResult.items
@@ -106,6 +106,20 @@ export default {
 
     await store.dispatch('promoted/updateHeadImage')
     await store.dispatch('promoted/updatePromotedOffers')
+  },
+  beforeRouteEnter (to, from, next) {
+    if (!isServer && !from.name) { // Loading products to cache on SSR render
+      next(vm => {
+        let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
+        vm.$store.dispatch('product/list', {
+          query: newProductsQuery,
+          size: 8,
+          sort: 'created_at:desc'
+        })
+      })
+    } else {
+      next()
+    }
   }
 }
 </script>
