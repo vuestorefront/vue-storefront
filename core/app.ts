@@ -65,7 +65,7 @@ const createApp  = async (ssrContext, config): Promise<{app: Vue, router: VueRou
   // sync router with vuex 'router' store
   sync(store, router)
   // TODO: Don't mutate the state directly, use mutation instead
-  store.state.version = '1.8.3'
+  store.state.version = '1.8.4'
   store.state.config = config
   store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
   if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext

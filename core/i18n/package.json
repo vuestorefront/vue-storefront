@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/i18n",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "description": "Vue Storefront i18n",
   "license": "MIT",
   "main": "index.ts",
