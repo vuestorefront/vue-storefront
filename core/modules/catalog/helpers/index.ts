@@ -526,16 +526,23 @@ export function configureProductAsync (context, { product, configuration, select
 export function getMediaGallery (product) {
   let mediaGallery = []
   if (product.media_gallery) {
-      for (let mediaItem of product.media_gallery) {
-          if (mediaItem.image) {
-              mediaGallery.push({
-                'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                'loading': getThumbnailPath(mediaItem.image, 310, 300),
-                'error': getThumbnailPath(mediaItem.image, 310, 300),
-                'video': mediaItem.vid
-              })
-          }
+    for (let mediaItem of product.media_gallery) {
+      if (mediaItem.image) {
+        let video = mediaItem.vid
+
+        if (video && video.video_id) {
+          video.id = video.video_id
+          delete video.video_id
+        }
+
+        mediaGallery.push({
+          'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
+          'loading': getThumbnailPath(mediaItem.image, 310, 300),
+          'error': getThumbnailPath(mediaItem.image, 310, 300),
+          'video': video
+        })
       }
+    }
   }
   return mediaGallery
 }
