@@ -25,7 +25,7 @@ export function beforeEach(to: Route, from: Route, next) {
 
   const fullPath = normalizeUrlPath(to.fullPath)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
-  const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name.startsWith('urldispatcher')
+  const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name && to.name.startsWith('urldispatcher')
   if (!to.matched.length || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
     UrlDispatchMapper(to).then((routeData) => {
       if (routeData) {
