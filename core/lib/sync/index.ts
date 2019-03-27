@@ -32,12 +32,12 @@ function execute (task) { // not offline task
   task = _prepareTask(task)
   // Logger.info('New sync task [execute] ' + task.url, 'sync', task)()
   const usersCollection = new UniversalStorage(localForage.createInstance({
-    name: (rootStore.state.config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+    name: (rootStore.state.config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
     storeName: 'user',
     driver: localForage[rootStore.state.config.localForage.defaultDrivers['user']]
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
-    name: (rootStore.state.config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+    name: (rootStore.state.config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
     storeName: 'carts',
     driver: localForage[rootStore.state.config.localForage.defaultDrivers['carts']]
   }))
@@ -60,10 +60,9 @@ function execute (task) { // not offline task
           if (!currentCartId && rootStore.state.cart.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
             currentCartId = rootStore.state.cart.cartServerToken
           }
-          if (!currentToken && rootStore.state.user.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
-            currentToken = rootStore.state.user.token
-          }
-          taskExecute(task, currentToken, currentCartId).then((result) => {
+          const token = currentToken ? currentToken : rootStore.getters['user/getUserToken']
+
+          taskExecute(task, token, currentCartId).then((result) => {
             resolve(result)
           }).catch(err => {
             reject(err)

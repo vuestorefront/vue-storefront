@@ -50,6 +50,7 @@ import Notification from 'theme/components/core/Notification.vue'
 import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
 import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
+import { isServer } from '@vue-storefront/core/helpers'
 import Head from 'theme/head'
 
 const SidebarMenu = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
@@ -85,7 +86,7 @@ export default {
       EventBus.$emit('modal-show', 'modal-order-confirmation')
     },
     fetchMenuData () {
-      return this.$store.dispatch('category/list', { includeFields: this.$store.state.config.entities.optimize ? this.$store.state.config.entities.category.includeFields : null })
+      return this.$store.dispatch('category/list', { level: this.$store.state.config.entities.category.categoriesDynamicPrefetch && this.$store.state.config.entities.category.categoriesDynamicPrefetchLevel ? this.$store.state.config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: this.$store.state.config.entities.optimize && isServer ? this.$store.state.config.entities.category.includeFields : null, skipCache: isServer })
     }
   },
   serverPrefetch () {

@@ -87,11 +87,9 @@ export default {
       const defaultFilters = store.state.config.products.defaultFilters
       store.dispatch('category/resetFilters')
       EventBus.$emit('filter-reset')
-
-      await store.dispatch('category/list', { level: store.state.config.entities.category.categoriesDynamicPrefetch && store.state.config.entities.category.categoriesDynamicPrefetchLevel ? store.state.config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.category.includeFields : null })
       await store.dispatch('attribute/list', { // load filter attributes for this specific category
         filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-        includeFields: store.state.config.entities.optimize && Vue.prototype.$isServer ? store.state.config.entities.attribute.includeFields : null
+        includeFields: store.state.config.entities.optimize && isServer ? store.state.config.entities.attribute.includeFields : null
       })
       const parentCategory = await store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
       let query = store.getters['category/getCurrentCategoryProductQuery']
