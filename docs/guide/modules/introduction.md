@@ -277,7 +277,7 @@ export const registerModules: VueStorefrontModule[] = [Cart]
 
 ## Creating third party modules
 
-If you want to create third party module just copy the `src/modules/module-template` raw code to your repo. Don't use any transpilation and build tools since it prevents proper tree shaking and optimization. Building handled by Vue Storefront build tools. Package name needst to start with `vsf-` prefix to be included into Vue Storefront build process
+If you want to create third party module just copy the `src/modules/module-template` raw code to your repo. Don't use any transpilation and build tools since it prevents proper tree shaking and optimization. Building is handled by Vue Storefront build tools. Package name needs to start with `vsf-` prefix to be included into Vue Storefront build process.
 
 ## Contributions
 
