@@ -36,7 +36,7 @@ export const Payment = {
     }
   },
   mounted () {
-    if (this.payment.firstName.length === 0) {
+    if (!!this.payment.firstName) {
       this.initializeBillingAddress()
     } else {
       if (this.payment.company) {

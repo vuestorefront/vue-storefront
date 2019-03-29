@@ -3,6 +3,7 @@
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
 ## 1.8 -> 1.9
+- `cart.multisiteCommonCart` config property changed to `storeViews.commonCache`
 - Way of creating VS Modules was changed to use factory method instead of explict object creation. Even though the feature is backward compatible we highly encourage all developers to refactor their modules to use new syntax.
 
 The proces of creating new module with factory method and looks like following:
@@ -16,6 +17,8 @@ const moduleConfig: VueStorefrontModuleConfig = {
 const module = createModule(moduleConfig)
 ````
 - `@vue-storefront/store` package has been depreciated. Just change imports to `@vue-storefront/core/store`.
+- `breadCrumbRoutes` helper has been refactored to `formatBreadCrumbRoutes`
+
 ## 1.7 -> 1.8
 Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/CHANGELOG.md)
 
