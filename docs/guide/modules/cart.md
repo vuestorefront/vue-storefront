@@ -82,7 +82,8 @@ Cart Store is designed to handle all actions related the shopping cart.
     payment: [],
     cartItemsHash: '',
     bypassCount: 0,
-    cartItems: [] // TODO: check if it's properly namespaced
+    cartItems: [], // TODO: check if it's properly namespaced
+    isAddingToCart: false
   },
 ```
 
@@ -101,6 +102,7 @@ The cart state data:
 - `shipping` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
 - `payment` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
 - `cartItems` - collection of the cart items; the item format is the same as described in [ElasticSearch Data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md) - the `product` class; the only difference is that the (int) `qty` field is added
+- `isAddingToCart` - (bool) which holds whether an item is being added to cart. This is used to determine if the **Add to cart** button should be disabled or not
 
 ### Events
 
