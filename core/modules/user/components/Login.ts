@@ -11,8 +11,9 @@ export const Login = {
     }
   },
   methods: {
-    close () {
+    close (e) {
       // TODO Move to theme
+      if (e) localStorage.removeItem('redirect')
       this.$bus.$emit('modal-hide', 'modal-signup')
     },
     callLogin () {
