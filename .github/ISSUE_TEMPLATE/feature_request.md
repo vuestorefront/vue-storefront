@@ -12,7 +12,7 @@ about: Suggest an idea for this project
 ## What are the acceptance criteria 
 <!-- List the acceptance criteria for this task in a form of a list. -->
 
-- [ ] 
+- [ ] ...
 
 ## Can you complete this feature request by yourself?
 
