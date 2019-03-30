@@ -68,6 +68,9 @@ const getters: GetterTree<CartState, RootState> = {
     return state.cartItems.every((itm) => {
       return itm.type_id === 'downloadable' || itm.type_id === 'virtual' // check for downloadable & virtual products
     })
+  },
+  isAddingToCart (state) {
+    return state.isAddingToCart
   }
 }
 

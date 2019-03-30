@@ -12,6 +12,11 @@ export const AddToCart = {
       default: false
     }
   },
+  computed: {
+    isAddingToCart () {
+      return this.$store.getters['cart/isAddingToCart']
+    }
+  },
   methods: {
     addToCart (product: Product) {
       this.$store.dispatch('cart/addItem', { productToAdd: product })

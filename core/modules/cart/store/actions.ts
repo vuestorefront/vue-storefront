@@ -292,7 +292,14 @@ const actions: ActionTree<CartState, RootState> = {
             }}
           }
           if (config.cart.synchronize && !forceServerSilence) {
+            commit(types.CART_ADDING_PRODUCT, true)
             dispatch('serverPull', { forceClientState: true })
+              .then(() => {
+                commit(types.CART_ADDING_PRODUCT, false)
+              })
+              .catch(() => {
+                commit(types.CART_ADDING_PRODUCT, false)
+              })
           } else {
             rootStore.dispatch('notification/spawnNotification', notificationData)
           }
@@ -541,6 +548,7 @@ const actions: ActionTree<CartState, RootState> = {
       let clientCartUpdateRequired = false
       let cartHasItems = false
       let clientCartAddItems = []
+      let serverCartAddItems = []
       let productActionOptions = ((serverItem) => {
         return new Promise(resolve => {
           if (serverItem.product_type === 'configurable') {
@@ -569,13 +577,18 @@ const actions: ActionTree<CartState, RootState> = {
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
           if (!event.dry_run) {
             if (event.force_client_state || !config.cart.serverSyncCanRemoveLocalItems) {
-              rootStore.dispatch('cart/serverUpdateItem', {
-                sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
-                qty: clientItem.qty,
-                product_option: clientItem.product_option
-              }, { root: true }).then((event) => {
-                _afterServerItemUpdated(event, clientItem)
-              })
+              serverCartAddItems.push(
+                new Promise(resolve => {
+                  rootStore.dispatch('cart/serverUpdateItem', {
+                    sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
+                    qty: clientItem.qty,
+                    product_option: clientItem.product_option
+                  }, { root: true }).then((event) => {
+                    _afterServerItemUpdated(event, clientItem)
+                    resolve()
+                  })
+                })
+              )
               serverCartUpdateRequired = true
             } else {
               rootStore.dispatch('cart/removeItem', {
@@ -666,6 +679,10 @@ const actions: ActionTree<CartState, RootState> = {
         })
       })
 
+      Promise.all(serverCartAddItems).then(() => {
+        context.commit(types.CART_ADDING_PRODUCT, false)
+      })
+
       if (!event.dry_run) {
         if ((!serverCartUpdateRequired || clientCartUpdateRequired) && cartHasItems) {
           rootStore.dispatch('cart/refreshTotals')
@@ -681,6 +698,7 @@ const actions: ActionTree<CartState, RootState> = {
         rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
         Logger.error(event.result, 'cart')()
       }
+      context.commit(types.CART_ADDING_PRODUCT, false)
     }
   },
   servercartAfterItemUpdated (context, event) {

@@ -16,5 +16,6 @@ export default interface CartState {
   payment: any,
   cartItemsHash: string,
   bypassCount: number,
-  cartItems: any[]
+  cartItems: any[],
+  isAddingToCart: boolean
 }
