@@ -19,7 +19,7 @@ if (config.server.useOutputCache) {
 export default merge(base, {
   mode: 'development',
   target: 'node',
-  entry: ['babel-polyfill', './core/server-entry.ts'],
+  entry: ['@babel/polyfill', './core/server-entry.ts'],
   output: {
     filename: 'server-bundle.js',
     libraryTarget: 'commonjs2'

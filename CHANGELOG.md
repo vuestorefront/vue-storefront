@@ -4,8 +4,62 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
- - changed default storeId from `0` to `1` for multistore and cmsdata logic
+## [1.10.0-rc.1] - UNRELEASED
+
+### Added
+-
+
+### Fixed
+- Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
+- Confirmation popup 'Product has beed added to cart' is displayed only once - @JKrupinski (#2610)
+- Moved My Account options from Categories - @bartdominiak (#2612)
+
+### Changed / Improved
+- Improved ProductGalleryCarousel component to handle nonnumeric options id’s - @danieldomurad (#2586)
+- Number of displayed products is now visible on PLP on desktop - @awierzbiak (#2504)
+- Improved visibility of product SKU in wishlist  - @PanMisza (#2606)
+- Instant focus to search input field after click on search icon in navbar - @ca1zr (#2608)
+- Added support for the newest node version - @gdomiciano (#2669)
+- Default storeId from `0` to `1` for multistore and cmsdata logic - @janmyszkier (#2590)
+
+## [1.9.0-rc.2] - UNRELEASED
+
+### Fixed
+- Payment issue when no address set - @szafran89 (#2593)
+- Search component result message when search term is less than 3 letters - @robwozniak (#2561)
+- Removed childSku parameter in url for non-configurable products when using urlDispatcher - @Aekal (#2605)
+- Image lazy loading after SSR reload - @pkarw (#2641)
+- Modules can add custom URL - @pkarw (#2601)
+- Url routes fixes - @pkarw (#2598, #2645, #2614)
+- Fix for shopping cart actions when the `cartId` has been cleared out - @pkarw (#2567)
+- Fixed always common cache issue for multistore - @filrak (#2595)
+
+## [1.9.0-rc.1] - 2019.03.07
+
+### Added
+- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and reimport Your products to properly set `url_path` fields - #2010 - @pkarw
+- Unit tests of cart module written in jest - @lukeromanowicz (#2305)
+
+### Fixed
+- Gallery low quality image in offline mode when high quality already cached - @patzick (#2557)
+
+### Changed / Improved
+- The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
+- Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
+- Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
+- Update to babel 7 - @lukeromanowicz (#2554)
+
+
+## [1.8.4] - 2019.03.26
+
+### Fixed
+- Problem with incomplete category products load for offline use - @patzick (#2543)
+- Category products view crash on scrolling down in offline mode - @patzick (#2569)
+- Default propery issue for the col-xs-* classes - @cnviradiya (#2558)
+- Wishlist and compare list not cached properly - @filrak (#2580)
+
+### Changed / Improved
+- Category and Homepage products are now cached for offline use on SSR entry - @patzick (@1698)
 
 ## [1.8.3] - 2019.03.03
 
@@ -42,7 +96,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve tsconfig for better IDE paths support - @patzick, @filrak (#2474)
 - fix breadcrumbs changing too early - @filrak, @pkarw (#2469, #2529)
 - improved product gallery load view, shows correct image on reload - @patzick (#2481, #2482, #2488, #2501)
-- Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489) 
+- Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489)
 - Added async sidebar component with async off-screen components error handling and fetch retrying after coming back online - @filrak (#2408, #2451)
 - Inconsistent filters behaviour - clear filters on page load - @patzick (#2435)
 - fix price is never below 0 and user can't add 0 or below 0 products to cart - @RakowskiPrzemyslaw (#2437)

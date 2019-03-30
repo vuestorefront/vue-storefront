@@ -5,6 +5,9 @@ import UserState from '../types/UserState'
 const getters: GetterTree<UserState, RootState> = {
   isLoggedIn (state) {
     return state.current !== null
+  },
+  getUserToken (state) {
+    return state.token
   }
 }
 

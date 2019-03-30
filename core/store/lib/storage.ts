@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import * as localForage from 'localforage'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { isServer } from '@vue-storefront/core/helpers'
 
 const CACHE_TIMEOUT = 800
 const CACHE_TIMEOUT_ITERATE = 2000
@@ -51,7 +52,7 @@ class LocalForageCacheDriver {
     const dbName = collection._config.name
     this._storageQuota = storageQuota
 
-    if (this._storageQuota && !Vue.prototype.$isServer) {
+    if (this._storageQuota && !isServer) {
       const storageQuota = this._storageQuota
       const iterateFnc = this.iterate.bind(this)
       const removeItemFnc = this.removeItem.bind(this)
@@ -84,7 +85,7 @@ class LocalForageCacheDriver {
     if (typeof this.cacheErrorsCount[collectionName] === 'undefined') {
       this.cacheErrorsCount[collectionName] = 0
     }
-    if (Vue.prototype.$isServer) {
+    if (isServer) {
       this._localCache = {}
     } else {
       if (typeof Vue.prototype.$localCache === 'undefined') {
@@ -144,7 +145,7 @@ class LocalForageCacheDriver {
       })
     }
 
-    if (!Vue.prototype.$isServer) {
+    if (!isServer) {
       if (this.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER && this._useLocalCacheByDefault) {
         if (!this._persistenceErrorNotified) {
           Logger.error('Persistent cache disabled becasue of previous errors [get]', key)()
@@ -294,7 +295,7 @@ class LocalForageCacheDriver {
         resolve(null)
       })
     }
-    if (!Vue.prototype.$isServer) {
+    if (!isServer) {
       if (this.cacheErrorsCount[this._collectionName] >= DISABLE_PERSISTANCE_AFTER_SAVE && this._useLocalCacheByDefault) {
         if (!this._persistenceErrorNotified) {
           Logger.error('Persistent cache disabled becasue of previous errors [set]', key)()
