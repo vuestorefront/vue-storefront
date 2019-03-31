@@ -19,16 +19,13 @@
             {{ $t('Search') }}
           </label>
           <div class="search-input-group">
-            <i
-              class="material-icons search-icon"
-            >
-              search
-            </i>
+            <i class="material-icons search-icon">search</i>
             <input
               ref="search"
               id="search"
               v-model="search"
               @input="makeSearch"
+              @blur="$v.search.$touch()"
               class="search-panel-input"
               :placeholder="$t('Type what you are looking for...')"
               type="text"
@@ -48,20 +45,31 @@
           @click.native="closeSearchpanel"
         />
         <transition name="fade">
-          <div v-if="emptyResults" class="no-results relative center-xs h4 col-md-12">
-            {{ $t('No results were found.') }}
+          <div
+            v-if="getNoResultsMessage"
+            class="no-results relative center-xs h4 col-md-12"
+          >
+            {{ $t(getNoResultsMessage) }}
           </div>
         </transition>
       </div>
-      <div v-show="OnlineOnly" v-if="visibleProducts.length >= 18" class="buttons-set align-center py35 mt20 px40">
-        <button @click="seeMore" v-if="readMore"
-                class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
-                type="button">
+      <div
+        v-show="OnlineOnly"
+        v-if="visibleProducts.length >= 18"
+        class="buttons-set align-center py35 mt20 px40"
+      >
+        <button
+          @click="seeMore" v-if="readMore"
+          class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
+          type="button"
+        >
           {{ $t('Load more') }}
         </button>
-        <button @click="closeSearchpanel"
-                class="no-outline brdr-none p15 fs-medium-small close-button"
-                type="button">
+        <button
+          @click="closeSearchpanel"
+          class="no-outline brdr-none p15 fs-medium-small close-button"
+          type="button"
+        >
           {{ $t('Close') }}
         </button>
       </div>
@@ -74,6 +82,7 @@ import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/Se
 import ProductTile from 'theme/components/core/ProductTile'
 import VueOfflineMixin from 'vue-offline/mixin'
 import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel'
+import { minLength } from 'vuelidate/lib/validators'
 
 export default {
   components: {
@@ -81,6 +90,11 @@ export default {
     CategoryPanel
   },
   mixins: [SearchPanel, VueOfflineMixin],
+  validations: {
+    search: {
+      minLength: minLength(3)
+    }
+  },
   data () {
     return {
       selectedCategoryIds: []
@@ -105,12 +119,25 @@ export default {
         })
       })
       return Object.keys(categoriesMap).map(categoryId => categoriesMap[categoryId])
+    },
+    getNoResultsMessage () {
+      let msg = ''
+      if (!this.$v.search.minLength) {
+        msg = 'Searched term should consist of at least 3 characters.'
+      } else if (this.emptyResults) {
+        msg = 'No results were found.'
+      }
+      return msg
     }
   },
   watch: {
     categories () {
       this.selectedCategoryIds = []
     }
+  },
+  mounted () {
+    // add autofocus to search input field
+    this.$refs.search.focus()
   }
 }
 </script>

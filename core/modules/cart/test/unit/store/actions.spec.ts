@@ -8,6 +8,7 @@ import { sha3_224 } from 'js-sha3';
 import { TaskQueue } from "../../../../../lib/sync";
 import * as coreHelper from '@vue-storefront/core/helpers';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { onlineHelper } from '@vue-storefront/core/helpers';
 
 jest.mock('@vue-storefront/core/store',() => ({
   dispatch: jest.fn(),
@@ -30,12 +31,17 @@ jest.mock('@vue-storefront/core/lib/sync', () => ({ TaskQueue: {
   execute: jest.fn()
 }}));
 jest.mock('@vue-storefront/core/app', () => ({ router: jest.fn() }));
+jest.mock('@vue-storefront/core/lib/search/searchQuery', () => jest.fn());
 jest.mock('@vue-storefront/core/helpers', () => ({
   get isServer() {
     return true
+  },
+  onlineHelper: {
+    get isOnline() {
+      return true
+    }
   }
 }));
-jest.mock('@vue-storefront/core/lib/search/searchQuery', () => jest.fn());
 
 Vue.prototype.$bus = {
   $emit: jest.fn()
@@ -44,6 +50,7 @@ Vue.prototype.$bus = {
 describe('Cart actions', () => {
 
   const isServerSpy = jest.spyOn((coreHelper as any).default, 'isServer', 'get');
+  const isOnlineSpy = jest.spyOn(onlineHelper, 'isOnline', 'get');
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -122,6 +129,7 @@ describe('Cart actions', () => {
   describe('serverPull', () => {
 
     it('pulls latest cart data and refreshes payment/shipping methods when there are products in cart', async () => {
+      isOnlineSpy.mockReturnValueOnce(true);
       const contextMock = {
         dispatch: jest.fn(),
         state: {
@@ -172,6 +180,7 @@ describe('Cart actions', () => {
     });
 
     it('pulls shipping methods with default country if none is set in shipping details', async () => {
+      isOnlineSpy.mockReturnValueOnce(true);
       const contextMock = {
         dispatch: jest.fn(),
         state: {
@@ -437,6 +446,7 @@ describe('Cart actions', () => {
     it('pulls latest totals from server', async () => {
       const contextMock = {
         state: {
+          cartServerToken: 'some-token',
           cartServerTotalsAt: 1000000000,
         }
       };
@@ -457,6 +467,7 @@ describe('Cart actions', () => {
     it('pulls latest totals from server forcing client state if it\'s configured to do so', async () => {
       const contextMock = {
         state: {
+          cartServerToken: 'some-token',
           cartServerTotalsAt: 1000000000,
         }
       };
@@ -477,6 +488,7 @@ describe('Cart actions', () => {
     it('does not do anything if last totals sync was done recently', () => {
       const contextMock = {
         state: {
+          cartServerToken: 'some-token',
           cartServerTotalsAt: 1000000000,
         }
       };
@@ -494,7 +506,11 @@ describe('Cart actions', () => {
     });
 
     it('does not do anything if totals synchronization is off', () => {
-      const contextMock = {};
+      const contextMock = {
+        state: {
+          cartServerToken: 'some-token'
+        }
+      };
 
       config.cart = { synchronize_totals: false };
 
@@ -737,6 +753,7 @@ describe('Cart actions', () => {
   describe('serverDeleteItem', () => {
 
     it('sends a delete item from cart request to backend server and updates totals', async () => {
+      isOnlineSpy.mockReturnValueOnce(true);
       const contextMock = {
         dispatch: jest.fn(),
         state: {

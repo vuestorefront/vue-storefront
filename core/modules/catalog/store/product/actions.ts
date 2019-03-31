@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { breadCrumbRoutes, productThumbnailPath, isServer } from '@vue-storefront/core/helpers'
+import { formatBreadCrumbRoutes, productThumbnailPath, isServer } from '@vue-storefront/core/helpers'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { configureProductAsync,
   doPlatformPricesSync,
@@ -25,6 +25,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import toString from 'lodash-es/toString'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -39,11 +40,9 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Setup product breadcrumbs path
    */
-  setupBreadcrumbs (context, { product }) {
-    let subloaders = []
-    let breadcrumbRoutes = null
+  async setupBreadcrumbs (context, { product }) {
     let breadcrumbsName = null
-    let setbrcmb = (path) => {
+    let setBreadcrumbRoutesFromPath = (path) => {
       if (path.findIndex(itm => {
         return itm.slug === context.rootGetters['category/getCurrentCategory'].slug
       }) < 0) {
@@ -54,18 +53,22 @@ const actions: ActionTree<ProductState, RootState> = {
         }) // current category at the end
       }
       // deprecated, TODO: base on breadcrumbs module
-      context.state.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
+      breadcrumbsName = product.name
+      const breadcrumbs = {
+        routes: formatBreadCrumbRoutes(path),
+        current: breadcrumbsName,
+        name: breadcrumbsName
+      }
+      context.commit(types.CATALOG_SET_BREADCRUMBS, breadcrumbs)
     }
 
     if (product.category && product.category.length > 0) {
       const categoryIds = product.category.reverse().map((cat => cat.category_id))
-
-      subloaders.push(
-        context.dispatch('category/list', {}, { root: true }).then((categories) => {
+      await context.dispatch('category/list',  { key: 'id', value: categoryIds }, { root: true }).then(async (categories) => {
           const catList = []
 
           for (let catId of categoryIds) {
-            let category = categories.items.find((itm) => { return itm['id'] === parseInt(catId) })
+            let category = categories.items.find((itm) => { return toString(itm['id']) === toString(catId) })
             if (category) {
               catList.push(category)
             }
@@ -80,30 +83,18 @@ const actions: ActionTree<ProductState, RootState> = {
               catForBreadcrumbs = cat
             }
           }
-
           if (typeof catForBreadcrumbs !== 'undefined') {
-            context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
-              setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
+            await context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
+              setBreadcrumbRoutesFromPath(context.rootGetters['category/getCurrentCategoryPath'])
             }).catch(err => {
-              setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
+              setBreadcrumbRoutesFromPath(context.rootGetters['category/getCurrentCategoryPath'])
               Logger.error(err)()
             })
           } else {
-            setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
+            setBreadcrumbRoutesFromPath(context.rootGetters['category/getCurrentCategoryPath'])
           }
-        }).catch(err => {
-          Logger.error(err)()
         })
-      )
     }
-    breadcrumbsName = product.name
-    const breadcrumbs = {
-      routes: breadCrumbRoutes,
-      current: breadcrumbsName,
-      name: breadcrumbsName
-    }
-    context.commit(types.CATALOG_SET_BREADCRUMBS, breadcrumbs)
-    return Promise.all(subloaders)
   },
   doPlatformPricesSync (context, { products }) {
     return doPlatformPricesSync(products)
