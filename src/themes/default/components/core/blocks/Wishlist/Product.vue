@@ -18,7 +18,7 @@
         })">
           {{ product.name | htmlDecode }}
         </router-link>
-        <div class="h6 cl-bg-secondary pt5">{{ product.sku }}</div>
+        <div class="h6 cl-bg-tertiary pt5 sku">{{ product.sku }}</div>
       </div>
     </div>
     <div class="col-xs flex py15 align-right">

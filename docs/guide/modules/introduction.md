@@ -150,7 +150,7 @@ You can take a look at [module template](https://github.com/DivanteLtd/vue-store
 
 ## Module registration
 
-All modules including the core ones are registered in `theme/modules/index.ts` file. Thanks to this approach you can easly modify any of core modules object before registration (read more [here](#extending-and-overriding-vue-storefront-modules)).
+All modules including the core ones are registered in `src/modules/index.ts` file. Thanks to this approach you can easily modify any of core modules object before registration (read more [here](#extending-and-overriding-vue-storefront-modules)).
 
 All VS modules from `registerModules` will be registered during shop initialisation.
 
@@ -277,7 +277,7 @@ export const registerModules: VueStorefrontModule[] = [Cart]
 
 ## Creating third party modules
 
-If you want to create third party module just copy the `src/modules/module-template` raw code to your repo. Don't use any transpilation and build tools since it prevents proper tree shaking and optimization. Building handled by Vue Storefront build tools. Package name needst to start with `vsf-` prefix to be included into Vue Storefront build process
+If you want to create third party module just copy the `src/modules/module-template` raw code to your repo. Don't use any transpilation and build tools since it prevents proper tree shaking and optimization. Building is handled by Vue Storefront build tools. Package name needs to start with `vsf-` prefix to be included into Vue Storefront build process.
 
 ## Contributions
 

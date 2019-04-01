@@ -137,7 +137,6 @@
 <script>
 import { mapState } from 'vuex'
 import i18n from '@vue-storefront/i18n'
-
 import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu'
 import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
 import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
