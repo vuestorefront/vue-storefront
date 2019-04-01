@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved visibility of product SKU in wishlist  - @PanMisza (#2606)
 - Instant focus to search input field after click on search icon in navbar - @ca1zr (#2608)
 - Added support for the newest node version - @gdomiciano (#2669)
-- Used `$bus` plugin instead of EventBus import - @szafran89
+- Used `$bus` plugin instead of EventBus import - @szafran89 (#2630)
 
 ## [1.9.0-rc.2] - UNRELEASED
 
