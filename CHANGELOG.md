@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Instant focus to search input field after click on search icon in navbar - @ca1zr (#2608)
 - Added support for the newest node version - @gdomiciano (#2669)
 - Default storeId from `0` to `1` for multistore and cmsdata logic - @janmyszkier (#2590)
+- Used `$bus` plugin instead of EventBus import - @szafran89 (#2630)
 
 ## [1.9.0-rc.2] - UNRELEASED
 

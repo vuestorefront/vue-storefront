@@ -39,7 +39,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue'
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
@@ -83,7 +82,7 @@ export default {
     onOrderConfirmation (payload) {
       this.loadOrderConfirmation = true
       this.ordersData = payload
-      EventBus.$emit('modal-show', 'modal-order-confirmation')
+      this.$bus.$emit('modal-show', 'modal-order-confirmation')
     },
     fetchMenuData () {
       return this.$store.dispatch('category/list', { level: this.$store.state.config.entities.category.categoriesDynamicPrefetch && this.$store.state.config.entities.category.categoriesDynamicPrefetchLevel ? this.$store.state.config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: this.$store.state.config.entities.optimize && isServer ? this.$store.state.config.entities.category.includeFields : null, skipCache: isServer })
@@ -102,10 +101,10 @@ export default {
     this.$router.afterEach((to, from) => {
       this.$Progress.finish()
     })
-    EventBus.$on('offline-order-confirmation', this.onOrderConfirmation)
+    this.$bus.$on('offline-order-confirmation', this.onOrderConfirmation)
   },
   beforeDestroy () {
-    EventBus.$off('offline-order-confirmation', this.onOrderConfirmation)
+    this.$bus.$off('offline-order-confirmation', this.onOrderConfirmation)
   },
   metaInfo: Head,
   components: {
