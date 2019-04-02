@@ -635,10 +635,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle"> 
-<a href="">
+<a href="https://kodbruket.se/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/kodbruket.png"
+            alt="Kodbrucket"
             height="40"
           >
         </a>
