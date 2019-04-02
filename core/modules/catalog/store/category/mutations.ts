@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
-import { slugify, breadCrumbRoutes } from '@vue-storefront/core/helpers'
+import { slugify, formatBreadCrumbRoutes } from '@vue-storefront/core/helpers'
 import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
 import CategoryState from '../../types/CategoryState'
 import rootStore from '@vue-storefront/core/store'
@@ -14,7 +14,7 @@ const mutations: MutationTree<CategoryState> = {
   },
   [types.CATEGORY_UPD_CURRENT_CATEGORY_PATH] (state, path) {
     state.current_path = path // TODO: store to cache
-    state.breadcrumbs.routes = breadCrumbRoutes(state.current_path)
+    state.breadcrumbs.routes = formatBreadCrumbRoutes(state.current_path)
   },
   [types.CATEGORY_UPD_CATEGORIES] (state, categories) {
     for (let category of categories.items) {

@@ -54,7 +54,7 @@ export function prepareStoreView (storeCode: string) : StoreView {
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
     storeCode: '',
-    storeId: 0
+    storeId: 1
   }
   const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
   if (storeCode) { // current store code
@@ -113,7 +113,7 @@ export function adjustMultistoreApiUrl (url: string) : string {
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
-  if (typeof routeObj === 'object' && routeObj && (<LocalizedRoute>routeObj).fullPath) return localizedDispatcherRoute(<LocalizedRoute>Object.assign({}, routeObj, { params: null }), storeCode)
+  if (routeObj && (<LocalizedRoute>routeObj).fullPath && rootStore.state.config.seo.useUrlDispatcher) return localizedDispatcherRoute(<LocalizedRoute>Object.assign({}, routeObj, { params: null }), storeCode)
   if (storeCode && routeObj && rootStore.state.config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {

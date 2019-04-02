@@ -180,7 +180,7 @@ export default {
       this.$forceUpdate()
     },
     onAfterFilterChanged (filterOption) {
-      EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
+      this.$bus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
       const prevOption = this.configuration[filterOption.attribute_code]
       this.configuration[filterOption.attribute_code] = filterOption
       this.$forceUpdate() // this is to update the available options regarding current selection
@@ -213,7 +213,7 @@ export default {
     onUserPricesRefreshed () {
       if (this.$route.params.parentSku) {
         this.$store.dispatch('product/reset')
-        EventBus.$emit('product-before-load', { store: this.$store, route: this.$route })
+        this.$bus.$emit('product-before-load', { store: this.$store, route: this.$route })
         this.$store.dispatch('product/single', {
           options: {
             sku: this.$route.params.parentSku,
