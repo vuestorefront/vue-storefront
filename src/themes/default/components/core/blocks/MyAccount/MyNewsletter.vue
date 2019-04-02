@@ -31,7 +31,6 @@
         class="col-xs-12 mb25"
         id="generalAgreement"
         v-model="user.isSubscribed"
-        @click="isEdited ? user.isSubscribed = !user.isSubscribed : null"
         :disabled="!isEdited"
       >
         {{ $t('I want to receive a newsletter, and agree to its terms') }}

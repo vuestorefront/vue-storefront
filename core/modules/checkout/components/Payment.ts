@@ -111,7 +111,6 @@ export const Payment = {
       }
     },
     useShippingAddress () {
-      this.sendToShippingAddress = !this.sendToShippingAddress
       if (this.sendToShippingAddress) {
         let shippingDetails = this.$store.state.checkout.shippingDetails
         this.payment = {
@@ -134,7 +133,6 @@ export const Payment = {
       }
     },
     useBillingAddress () {
-      this.sendToBillingAddress = !this.sendToBillingAddress
       if (this.sendToBillingAddress) {
         let id = this.currentUser.default_billing
         let addresses = this.currentUser.addresses
@@ -164,7 +162,6 @@ export const Payment = {
       }
     },
     useGenerateInvoice () {
-      this.generateInvoice = !this.generateInvoice
       if (!this.generateInvoice) {
         this.payment.company = ''
         this.payment.taxId = ''
