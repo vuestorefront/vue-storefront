@@ -277,7 +277,6 @@
         "Price: High to low":"final_price:desc"
       },
       "gallery": {
-        "variantsGroupAttribute": "color",
         "mergeConfigurableChildren": true,
         "imageAttributes": ["image","thumbnail","small_image"],
         "width": 600,
