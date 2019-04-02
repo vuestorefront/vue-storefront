@@ -547,25 +547,22 @@ export function getMediaGallery (product) {
 
 export function configurableChildrenImages(product) {
   let configurableChildrenImages = []
-    let variantsGroupBy = rootStore.state.config.products.gallery.variantsGroupAttribute
-    if (product.configurable_children && product.configurable_children.length > 0 && product.configurable_children[0][variantsGroupBy]) {
-        let groupedByAttribute = groupBy(product.configurable_children, child => {
-            return child[variantsGroupBy]
-        })
-        Object.keys(groupedByAttribute).forEach(confChild => {
-            if (groupedByAttribute[confChild][0].image) {
-                configurableChildrenImages.push({
-                    'src': getThumbnailPath(groupedByAttribute[confChild][0].image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                    'loading': getThumbnailPath(groupedByAttribute[confChild][0].image, 310, 300),
-                    'error': getThumbnailPath(groupedByAttribute[confChild][0].image, 310, 300),
-                    'id': confChild
-                })
-            }
-        })
-    } else {
-        configurableChildrenImages = attributeImages(product)
-    }
-    return configurableChildrenImages
+  if (product.configurable_children && product.configurable_children.length > 0) {
+    let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
+    configurableChildrenImages = product.configurable_children.map(child =>
+      ({
+        'src': getThumbnailPath(child.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
+        'loading': getThumbnailPath(product.image, 310, 300),
+        'id': configurableAttributes.reduce((result, attribute) => {
+          result[attribute] = child[attribute]
+          return result
+        }, {})
+      })
+    )
+  } else {
+    configurableChildrenImages = attributeImages(product)
+  }
+  return configurableChildrenImages
 }
 
 /**
