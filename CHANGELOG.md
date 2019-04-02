@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.10.0-rc.1] - UNRELEASED
 
 ### Added
--
+- Global config api path under `api.url` - @BartoszLiburski (#2622)
 
 ### Fixed
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
