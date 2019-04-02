@@ -141,7 +141,7 @@ app.get('*', (req, res, next) => {
       return next()
     }
     const context = {
-      url: req.url,
+      url: decodeURI(req.url),
       output: {
         prepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: output.prepend() { return context.renderStyles() } to attach styles
         append: (context) => { return '' },

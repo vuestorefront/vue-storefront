@@ -1,3 +1,12 @@
+---
+name: 1. First PR for Vue Storefront
+about: Is it your first PR for Vue Storefront and you're not sure what to pick? No worries, we got you covered! Pick this template.
+
+---
+
+This is my first PR for storefront or i'm not sure which other PR should i choose.
+<!-- If that's correct then just go along with this template. You can click 'preview' above to see how it will be shown at the end -->
+
 ### Related issues
 <!--  Put related issue number which this PR is closing. For example #123 -->
 
