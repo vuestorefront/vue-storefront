@@ -110,7 +110,6 @@
           class="mb35"
           id="terms"
           v-model="conditions"
-          @click="conditions = !conditions"
           @blur="$v.conditions.$reset()"
           @change="$v.conditions.$touch()"
           :validations="[{
