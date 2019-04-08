@@ -422,6 +422,7 @@ class Storefront extends Abstract {
           graphQlHost = backendPath.replace('https://', '').replace('http://', '')
         }
 
+        config.api.url = backendPath
         config.graphql.host = graphQlHost
         config.graphql.port = graphQlPort
         config.elasticsearch.host = `${backendPath}/api/catalog`

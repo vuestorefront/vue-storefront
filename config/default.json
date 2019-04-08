@@ -18,7 +18,7 @@
     },
     "seo": {
       "useUrlDispatcher": true
-    },    
+    },
     "console": {
       "showErrorOnProduction" : true,
       "verbosityLevel": "display-everything"
@@ -31,6 +31,9 @@
     "graphql":{
       "host": "localhost",
       "port": 8080
+    },
+    "api": {
+      "url": "http://localhost:8080"
     },
     "elasticsearch": {
       "httpAuth": "",
@@ -51,9 +54,9 @@
         "cutoff_frequency":  0.01,
         "max_expansions": 3,
         "minimum_should_match": "75%",
-        "prefix_length": 2, 
+        "prefix_length": 2,
         "boost_mode": "multiply",
-        "score_mode": "multiply", 
+        "score_mode": "multiply",
         "max_boost": 100,
         "function_min_score": 1
       },
@@ -277,7 +280,6 @@
         "Price: High to low":"final_price:desc"
       },
       "gallery": {
-        "variantsGroupAttribute": "color",
         "mergeConfigurableChildren": true,
         "imageAttributes": ["image","thumbnail","small_image"],
         "width": 600,
@@ -397,6 +399,10 @@
     "theme": "@vue-storefront/theme-default",
     "analytics": {
       "id": false
+    },
+    "googleTagManager": {
+      "id": false,
+      "debug": true
     },
     "hotjar": {
       "id": false

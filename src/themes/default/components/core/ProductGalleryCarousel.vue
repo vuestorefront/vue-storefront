@@ -150,9 +150,14 @@ export default {
     },
     selectVariant () {
       if (store.state.config.products.gallery.mergeConfigurableChildren) {
-        let option = this.configuration[store.state.config.products.gallery.variantsGroupAttribute]
-        if (typeof option !== 'undefined' && option !== null) {
-          let index = this.gallery.findIndex(obj => obj.id && String(obj.id) === String(option.id))
+        let configurableAttributes = this.configuration.map(option => option.attribute_code)
+        let option = configurableAttributes.reduce((result, attribute) => {
+          result[attribute] = this.configuration[attribute].id
+          return result
+        }, {})
+        if (option) {
+          let index = this.gallery.findIndex(
+            obj => obj.id && Object.entries(obj.id).toSTring() === Object.entries(option).toString(), option)
           this.navigate(index)
         }
       }

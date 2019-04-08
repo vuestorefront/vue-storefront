@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - make installer work for windows - @Flyingmana (#2616)
 -
+- Global config api path under `api.url` - @BartoszLiburski (#2622)
+- Google Tag Manager integration - @talalus (#841)
 
 ### Fixed
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
@@ -23,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for the newest node version - @gdomiciano (#2669)
 - Default storeId from `0` to `1` for multistore and cmsdata logic - @janmyszkier (#2590)
 - Used `$bus` plugin instead of EventBus import - @szafran89 (#2630)
+- BaseCheckbox now uses v-model. @click is not needed anymore - @haukebri (#2630)
+- Image selection supporting multiple configurable options - @mdesmet (#2599)
 
 ## [1.9.0-rc.2] - UNRELEASED
 
