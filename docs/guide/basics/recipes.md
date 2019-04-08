@@ -53,7 +53,7 @@ In a case of
 ```
 
 See the discussion in [#137](https://github.com/DivanteLtd/vue-storefront/issues/137).
-Please also check the [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Database%20tool.md)
+Please also check the [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/data/database-tool.md)
 
 ## What's the recommended way to use git on custom development
 
@@ -195,7 +195,7 @@ Yes, I believe it could. You should expose the API accordingly to our [spec](../
 
 ## Is there any documentation on integrating payment gateways?
 
-We're working on kind of boilerplate for payment modules. Right now please just take a look at a [live example](https://github.com/develodesign/vue-storefront-stripe) and try to follow the design patterns from there. The task where boilerplate + docs will show up is [https://github.com/DivanteLtd/vue-storefront/issues/923](https://github.com/DivanteLtd/vue-storefront/issues/923).
+We're working on kind of boilerplate for payment modules. Right now please just take a look at a [live example](https://github.com/develodesign/vsf-payment-stripe) and try to follow the design patterns from there. The task where boilerplate + docs will show up is [https://github.com/DivanteLtd/vue-storefront/issues/923](https://github.com/DivanteLtd/vue-storefront/issues/923).
 
 ## Is there any internationalization support?
 
