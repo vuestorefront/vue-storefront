@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - make installer work for windows - @Flyingmana (#2616)
--
+- "Clear cart" button in the cart - @jablpiotrek (#2587)
 - Global config api path under `api.url` - @BartoszLiburski (#2622)
 - Google Tag Manager integration - @talalus (#841)
 
@@ -42,6 +42,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Checkout copy address data will sync on later change - @haukebri (#2661)
 - Fixed Safari style for sort-by select - @haukebri (#2642)
 - fixed My orders in My Profile not refreshed after putting an order - @filrak (#2559)
+- Fixed static file handler to immediately return 404 status for missing files - @grimason (#2685)
+- Fixed maxAge Response Header for static files and Content-Type for Service Worker - @grimason (#2686)
 
 ## [1.9.0-rc.1] - 2019.03.07
 
