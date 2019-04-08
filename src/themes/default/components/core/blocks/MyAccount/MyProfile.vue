@@ -79,7 +79,6 @@
         class="col-xs-12 mb15"
         id="changePassword"
         v-model="changePassword"
-        @click="changePassword = !changePassword"
       >
         {{ $t('Change my password') }}
       </base-checkbox>
@@ -141,7 +140,6 @@
         class="col-xs-12 mb15 mt10"
         id="addCompany"
         v-model="addCompany"
-        @click="addCompany = !addCompany"
       >
         {{ $t('I have a company and want to receive an invoice for every order') }}
       </base-checkbox>
@@ -429,7 +427,7 @@ export default {
       },
       postcode: {
         required,
-        minLength: minLength(5)
+        minLength: minLength(3)
       },
       city: {
         required

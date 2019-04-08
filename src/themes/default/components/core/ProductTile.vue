@@ -5,14 +5,7 @@
   >
     <router-link
       class="block no-underline product-link"
-      :to="localizedRoute({
-        name: product.type_id + '-product',
-        params: {
-          parentSku: product.parentSku ? product.parentSku : product.sku,
-          slug: product.slug,
-          childSku: product.sku
-        }
-      })"
+      :to="productLink"
       data-testid="productLink"
     >
       <div
@@ -60,23 +53,22 @@
 <script>
 import rootStore from '@vue-storefront/core/store'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
+import { isServer } from '@vue-storefront/core/helpers'
 
 export default {
   mixins: [ProductTile],
   data () {
     return {
-      imageLoaded: false
+      imageLoaded: isServer
     }
   },
   props: {
     labelsActive: {
       type: Boolean,
-      requred: false,
       default: true
     },
     onlyImage: {
       type: Boolean,
-      required: false,
       default: false
     }
   },
@@ -152,13 +144,21 @@ $color-white: color(white);
   width: 100%;
   overflow: hidden;
   max-height: 300px;
-  height: 270px;
+  height: 100%;
+  min-height: 155px;
   display: flex;
   align-items: flex-end;
   background-image: url('/assets/placeholder.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 60% auto;
+
+  @media (min-width: 768px) {
+    min-height: 190px;
+  }
+  @media (min-width: 1200px) {
+    min-height: 300px;
+  }
 
   &__content {
     display: none;

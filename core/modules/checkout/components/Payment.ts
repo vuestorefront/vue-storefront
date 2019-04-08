@@ -23,7 +23,8 @@ export const Payment = {
   },
   computed: {
     ...mapState({
-      currentUser: (state: RootState) => state.user.current
+      currentUser: (state: RootState) => state.user.current,
+      shippingDetails: (state:RootState) => state.checkout.shippingDetails
     }),
     ...mapGetters({
       paymentMethods: 'payment/paymentMethods',
@@ -36,7 +37,7 @@ export const Payment = {
     }
   },
   mounted () {
-    if (this.payment.firstName.length === 0) {
+    if (!!this.payment.firstName) {
       this.initializeBillingAddress()
     } else {
       if (this.payment.company) {
@@ -44,6 +45,16 @@ export const Payment = {
       }
     }
     this.changePaymentMethod()
+  },
+  watch:{
+    shippingDetails:{
+      handler () {
+        if (this.sendToShippingAddress) {
+          this.copyShippingToBillingAddress();
+        }
+      },
+      deep: true
+    }
   },
   methods: {
     sendDataToCheckout () {
@@ -111,21 +122,8 @@ export const Payment = {
       }
     },
     useShippingAddress () {
-      this.sendToShippingAddress = !this.sendToShippingAddress
       if (this.sendToShippingAddress) {
-        let shippingDetails = this.$store.state.checkout.shippingDetails
-        this.payment = {
-          firstName: shippingDetails.firstName,
-          lastName: shippingDetails.lastName,
-          country: shippingDetails.country,
-          state: shippingDetails.state,
-          city: shippingDetails.city,
-          streetAddress: shippingDetails.streetAddress,
-          apartmentNumber: shippingDetails.apartmentNumber,
-          zipCode: shippingDetails.zipCode,
-          phoneNumber: shippingDetails.phoneNumber,
-          paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
-        }
+        this.copyShippingToBillingAddress();
         this.sendToBillingAddress = false
         this.generateInvoice = false
       } else {
@@ -133,8 +131,21 @@ export const Payment = {
         this.generateInvoice = false
       }
     },
+    copyShippingToBillingAddress(){
+      this.payment = {
+        firstName: this.shippingDetails.firstName,
+        lastName: this.shippingDetails.lastName,
+        country: this.shippingDetails.country,
+        state: this.shippingDetails.state,
+        city: this.shippingDetails.city,
+        streetAddress: this.shippingDetails.streetAddress,
+        apartmentNumber: this.shippingDetails.apartmentNumber,
+        zipCode: this.shippingDetails.zipCode,
+        phoneNumber: this.shippingDetails.phoneNumber,
+        paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
+      }
+    },
     useBillingAddress () {
-      this.sendToBillingAddress = !this.sendToBillingAddress
       if (this.sendToBillingAddress) {
         let id = this.currentUser.default_billing
         let addresses = this.currentUser.addresses
@@ -164,7 +175,6 @@ export const Payment = {
       }
     },
     useGenerateInvoice () {
-      this.generateInvoice = !this.generateInvoice
       if (!this.generateInvoice) {
         this.payment.company = ''
         this.payment.taxId = ''

@@ -31,8 +31,8 @@
           </div>
           <sidebar class="mobile-filters-body" :filters="filters.available"/>
         </div>
-        <p class="col-xs-12 hidden-md m0 px20 cl-secondary">{{ productsTotal }} {{ $t('items') }}</p>
-        <div class="col-md-9 pt20 px10 border-box products-list">
+        <div class="col-md-9 px10 border-box products-list">
+          <p class="col-xs-12 end-md m0 pb20 cl-secondary">{{ productsTotal }} {{ $t('items') }}</p>
           <div v-if="isCategoryEmpty" class="hidden-xs">
             <h4 data-testid="noProductsInfo">{{ $t('No products found!') }}</h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>

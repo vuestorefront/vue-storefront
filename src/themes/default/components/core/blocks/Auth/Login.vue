@@ -48,7 +48,6 @@
             class="col-xs-7 col-sm-6 mb35"
             id="remember"
             v-model="remember"
-            @click="remember = !remember"
           >
             {{ $t('Remember me') }}
           </base-checkbox>

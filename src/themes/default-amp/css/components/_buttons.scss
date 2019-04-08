@@ -15,12 +15,10 @@
     border-radius: 50%;
     opacity: .2;
     transform: translate(-50%, -50%) scale(0);
+    visibility: hidden;
   }
   &:not(:active):after {
     animation: ripple-effect 1s ease-out;
-  }
-  &::after {
-    visibility: hidden;
   }
   &:focus {
     &::after {
