@@ -249,7 +249,7 @@ export default {
             })
           }
           this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
-          EventBus.$emitFilter('category-after-load', { store: this.$store, route: route })
+          this.$bus.$emitFilter('category-after-load', { store: this.$store, route: route })
         }
       }).catch(err => {
         if (err.message.indexOf('query returned empty result') > 0) {
