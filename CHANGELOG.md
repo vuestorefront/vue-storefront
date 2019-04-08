@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - "Clear cart" button in the cart - @jablpiotrek (#2587)
+- Global config api path under `api.url` - @BartoszLiburski (#2622)
+- Google Tag Manager integration - @talalus (#841)
 
 ### Fixed
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
@@ -22,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for the newest node version - @gdomiciano (#2669)
 - Default storeId from `0` to `1` for multistore and cmsdata logic - @janmyszkier (#2590)
 - Used `$bus` plugin instead of EventBus import - @szafran89 (#2630)
+- BaseCheckbox now uses v-model. @click is not needed anymore - @haukebri (#2630)
+- Image selection supporting multiple configurable options - @mdesmet (#2599)
 
 ## [1.9.0-rc.2] - UNRELEASED
 
@@ -34,6 +38,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Url routes fixes - @pkarw (#2598, #2645, #2614)
 - Fix for shopping cart actions when the `cartId` has been cleared out - @pkarw (#2567)
 - Fixed always common cache issue for multistore - @filrak (#2595)
+- Checkout copy address data will sync on later change - @haukebri (#2661)
+- Fixed Safari style for sort-by select - @haukebri (#2642)
+- fixed My orders in My Profile not refreshed after putting an order - @filrak (#2559)
 
 ## [1.9.0-rc.1] - 2019.03.07
 
