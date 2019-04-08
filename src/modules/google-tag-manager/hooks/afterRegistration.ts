@@ -1,7 +1,7 @@
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export function afterRegistration(Vue, config, store, isServer) {
-  if (config.analytics.id && !isServer) {
+  if (config.googleTagManager.id && !isServer) {
 
     const storeView = currentStoreView(),
       currencyCode = storeView.i18n.currencyCode
