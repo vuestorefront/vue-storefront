@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.10.0-rc.1] - UNRELEASED
 
 ### Added
+- make installer work for windows - @Flyingmana (#2616)
 - "Clear cart" button in the cart - @jablpiotrek (#2587)
 - Global config api path under `api.url` - @BartoszLiburski (#2622)
 - Google Tag Manager integration - @talalus (#841)
