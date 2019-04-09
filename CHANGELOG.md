@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BaseCheckbox now uses v-model. @click is not needed anymore - @haukebri (#2630)
 - Image selection supporting multiple configurable options - @mdesmet (#2599)
 - Product video - retrieve video id from 'video_id' field (if set) instead of 'id' - @afirlejczyk
+- Webpack config improvement - @yogeshsuhagiya (#2689)
+- BaseSelect input event - @ResuBaka (#2683)
 
 ## [1.9.0-rc.2] - UNRELEASED
 
