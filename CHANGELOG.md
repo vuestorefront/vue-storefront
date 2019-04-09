@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fixed My orders in My Profile not refreshed after putting an order - @filrak (#2559)
 - Fixed static file handler to immediately return 404 status for missing files - @grimason (#2685)
 - Fixed maxAge Response Header for static files and Content-Type for Service Worker - @grimason (#2686)
+- Refreshing product page on mobile device - @patzick (#2484)
 
 ## [1.9.0-rc.1] - 2019.03.07
 
