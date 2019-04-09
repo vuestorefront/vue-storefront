@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Number of displayed products is now visible on PLP on desktop - @awierzbiak (#2504)
 - Improved visibility of product SKU in wishlist  - @PanMisza (#2606)
 - Instant focus to search input field after click on search icon in navbar - @ca1zr (#2608)
+- Login flow from authorized pages after session expired, show the modal with new error message and redirect after login - @gdomiciano, @natalledm (#2674)
 - Added support for the newest node version - @gdomiciano (#2669)
 - Default storeId from `0` to `1` for multistore and cmsdata logic - @janmyszkier (#2590)
 - Used `$bus` plugin instead of EventBus import - @szafran89 (#2630)
