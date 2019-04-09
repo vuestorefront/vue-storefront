@@ -18,7 +18,7 @@
     },
     "seo": {
       "useUrlDispatcher": true
-    },    
+    },
     "console": {
       "showErrorOnProduction" : true,
       "verbosityLevel": "display-everything"
@@ -54,9 +54,9 @@
         "cutoff_frequency":  0.01,
         "max_expansions": 3,
         "minimum_should_match": "75%",
-        "prefix_length": 2, 
+        "prefix_length": 2,
         "boost_mode": "multiply",
-        "score_mode": "multiply", 
+        "score_mode": "multiply",
         "max_boost": 100,
         "function_min_score": 1
       },
@@ -399,6 +399,10 @@
     "theme": "@vue-storefront/theme-default",
     "analytics": {
       "id": false
+    },
+    "googleTagManager": {
+      "id": false,
+      "debug": true
     },
     "hotjar": {
       "id": false
