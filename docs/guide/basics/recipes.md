@@ -1,9 +1,8 @@
 # FAQ and Recipes
 
-Below you can find solutions for most common problems and advises for typical config changes required by Vue Storefront.
-If you solved any new issues by yourself please let us know on [slack](http://vuestorefront.slack.com) and we will add them to the list so others don't need to reinvent the wheel.
+Below, you can find solutions for the most common problems and advice for typical config changes required by Vue Storefront. If you solved any new issues by yourself, please let us know on [Slack](http://vuestorefront.slack.com) and we will add them to the list so others don't need to reinvent the wheel.
 
-## Problem starting Docker while installing the vue-storefront
+## Problem starting Docker while installing vue-storefront
 
 In case you get the following error:
 
@@ -19,7 +18,7 @@ In case you get the following error:
 
 Please check:
 
-- if there is `docker-compose` command available, if not please do install it;
+- if there is `docker-compose` command available. If not, please install it;
 - please check the output of running `docker-compose up -d` manually inside the `vue-storefront-api` instance. On some production environments docker is limited for the superusers, in many cases it's just a matter of `/var/run/docker.sock` permissions to be changed (for example to 755)
 
 ## Product not displayed (illegal_argument_exception)
