@@ -57,4 +57,4 @@ Here’s how to submit a pull request. **Pull requests that don't meet these req
 
 ## New features
 
-If you are making any new feature make sure it's adjusted to our new, modular approach. Read more [here](../modules/introduction.md)
+If you are making any new feature, make sure it's adjusted to our new, modular approach. Read more [here](../modules/introduction.md)
