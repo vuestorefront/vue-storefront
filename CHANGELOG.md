@@ -28,8 +28,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BaseCheckbox now uses v-model. @click is not needed anymore - @haukebri (#2630)
 - Image selection supporting multiple configurable options - @mdesmet (#2599)
 - Product video - retrieve video id from 'video_id' field (if set) instead of 'id' - @afirlejczyk
+- Fixed static file handler to immediately return 404 status for missing files - @grimason (#2685)
+- Fixed maxAge Response Header for static files and Content-Type for Service Worker - @grimason (#2686)
 
-## [1.9.0-rc.2] - UNRELEASED
+## [1.9.0] - UNRELEASED
+
+### Fixed
+- 
+
+## [1.9.0-rc.2] - 2019.04.10
 
 ### Fixed
 - Payment issue when no address set - @szafran89 (#2593)
@@ -43,8 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Checkout copy address data will sync on later change - @haukebri (#2661)
 - Fixed Safari style for sort-by select - @haukebri (#2642)
 - fixed My orders in My Profile not refreshed after putting an order - @filrak (#2559)
-- Fixed static file handler to immediately return 404 status for missing files - @grimason (#2685)
-- Fixed maxAge Response Header for static files and Content-Type for Service Worker - @grimason (#2686)
+- Refreshing product page on mobile device - @patzick (#2484)
 
 ## [1.9.0-rc.1] - 2019.03.07
 
