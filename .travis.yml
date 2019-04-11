@@ -1,10 +1,5 @@
 sudo: required
-addons:
-  chrome: stable
 language: node_js
-node_js:
-  - "8"
-  - "10"
 
 cache:
   yarn: true
@@ -14,15 +9,28 @@ cache:
 install:
   - yarn
 
-script:
-  - yarn lint
-  - yarn build
-
 jobs:
   include:
-    # - yarn test:unit
-    - stage: e2e
-      if: branch IN (master, develop)
+    - stage: Build
       script:
-        - yarn installer:ci
-        # - yarn test:e2e:ci
+        - yarn lint
+        - yarn build
+      node_js: "8"
+    - script:
+        - yarn lint
+        - yarn build
+      node_js: "10"
+
+    - stage: Tests
+      script: yarn test:unit
+      name: "Unit Tests NodeJS 8"
+      node_js: "8"
+    - script: yarn test:unit
+      name: "Unit Tests NodeJS 10"
+      node_js: "10"
+    - script: yarn installer:ci
+      name: "E2E Tests"
+      if: branch IN (master, develop)
+      node_js: "8"
+      addons:
+        chrome: stable

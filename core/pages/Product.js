@@ -62,8 +62,9 @@ export default {
     if (context) context.output.cacheTags.add(`product`)
     return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
-  watch: {
-    '$route.params.parentSku': 'validateRoute'
+  beforeRouteUpdate (to, from, next) {
+    this.validateRoute(to) // TODO: remove because client-entry.ts is executing `asyncData` anyway
+    next()
   },
   beforeDestroy () {
     this.$bus.$off('product-after-removevariant')
@@ -90,10 +91,10 @@ export default {
     this.$store.dispatch('recently-viewed/addItem', this.product)
   },
   methods: {
-    validateRoute () {
+    validateRoute (route = this.$route) {
       if (!this.loading) {
         this.loading = true
-        this.$store.dispatch('product/fetchAsync', { parentSku: this.$route.params.parentSku, childSku: this.$route && this.$route.params && this.$route.params.childSku ? this.$route.params.childSku : null }).then(res => {
+        this.$store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null }).then(res => {
           this.loading = false
           this.defaultOfflineImage = this.product.image
           this.onStateCheck()
@@ -179,7 +180,7 @@ export default {
       this.$forceUpdate()
     },
     onAfterFilterChanged (filterOption) {
-      EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
+      this.$bus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
       const prevOption = this.configuration[filterOption.attribute_code]
       this.configuration[filterOption.attribute_code] = filterOption
       this.$forceUpdate() // this is to update the available options regarding current selection
@@ -212,7 +213,7 @@ export default {
     onUserPricesRefreshed () {
       if (this.$route.params.parentSku) {
         this.$store.dispatch('product/reset')
-        EventBus.$emit('product-before-load', { store: this.$store, route: this.$route })
+        this.$bus.$emit('product-before-load', { store: this.$store, route: this.$route })
         this.$store.dispatch('product/single', {
           options: {
             sku: this.$route.params.parentSku,

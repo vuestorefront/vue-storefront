@@ -12,31 +12,6 @@
           >
             <div class="start-md">
               <h3 class="cl-accent weight-400">
-                {{ $t('Departments') }}
-              </h3>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/c/women-20')" exact>
-                  {{ $t('Women fashion') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/c/men-11')" exact>
-                  {{ $t("Men's fashion") }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
-                  {{ $t('Kidswear') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>
-                  {{ $t('Home') }}
-                </router-link>
-              </div>
-            </div>
-            <div class="start-md">
-              <h3 class="cl-accent weight-400">
                 {{ $t('Orders') }}
               </h3>
               <div class="mt15">
@@ -142,6 +117,7 @@
         </div>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links" data-testid="bottomLinks">
+            <li class="footer__version-info"> {{ getVersionInfo }} </li>
             <li class="inline-flex">
               <router-link
                 class="cl-tertiary mr10 underline"
@@ -178,6 +154,9 @@ export default {
   computed: {
     multistoreEnabled () {
       return this.$store.state.config.storeViews.multistore
+    },
+    getVersionInfo () {
+      return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
     }
   },
   components: {
@@ -209,11 +188,30 @@ $color-secondary: color(secondary);
 }
 .links {
   list-style-type: none;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
 }
 
 .bottom-links {
   @media (max-width: 767px) {
     padding: 0;
+  }
+}
+
+.footer__version-info {
+  display: flex;
+  color: $color-secondary;
+  font-size: 0.7rem;
+  @media (min-width: 768px) {
+    margin-right: 1rem;
+    font-size: 0.8rem;
   }
 }
 
