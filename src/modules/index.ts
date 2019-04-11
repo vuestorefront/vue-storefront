@@ -17,6 +17,7 @@ import { PromotedOffers } from './promoted-offers'
 import { Ui } from './ui-store'
 // import { GoogleAnalytics } from './google-analytics';
 // import { Hotjar } from './hotjar';
+// import { Intercom } from './intercom';
 import { googleTagManager } from './google-tag-manager';
 import { AmpRenderer } from './amp-renderer';
 import { PaymentBackendMethods } from './payment-backend-methods';
@@ -71,6 +72,7 @@ export const registerModules: VueStorefrontModule[] = [
   googleTagManager,
   // GoogleAnalytics,
   // Hotjar,
+  // Intercom
   PaymentBackendMethods,
   PaymentCashOnDelivery,
   RawOutputExample,
