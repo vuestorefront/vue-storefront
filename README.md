@@ -635,28 +635,28 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle"> 
-<a href="">
+<a href="https://kodbruket.se/">
           <img
-            src=""
-            alt=""
-            height="40"
+            src="https://divante.co/partners/Vue-Storefront/kodbruket.png"
+            alt="Kodbrucket"
+            height="25"
           >
         </a>
 </td>
       <td align="center" valign="middle"> 
-<a href="">
+<a href="https://portaltech.reply.com/portaltech/en/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/Portaltech-Reply-LOGO-RGB.png"
+            alt="Portaltech Reply"
             height="40"
           >
         </a>
 </td>
     <td align="center" valign="middle"> 
-<a href="">
+<a href="www.interactivated.nl">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/interactivated-logo.png"
+            alt="Interactivated"
             height="40"
           >
         </a>
