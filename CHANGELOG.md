@@ -37,6 +37,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - 
 
+### Changed / Improved
+- The default storeId is taken from the configurations - @nuovecode (#2718)
+
 ## [1.9.0-rc.2] - 2019.04.10
 
 ### Fixed
