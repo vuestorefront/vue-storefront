@@ -199,6 +199,23 @@ const actions: ActionTree<CategoryState, RootState> = {
       }
     })
   },
+  pullMoreProducts(context, { route, store }) {
+    let current = context.getters.getCurrentCategoryProductQuery.current +  context.getters.getCurrentCategoryProductQuery.perPage
+    context.dispatch('mergeSearchOptions', {
+      append: true,
+      route: route,
+      store: store,
+      current
+    })
+    Vue.set(context.state.pagination, 'current', context.getters.getCurrentCategoryProductQuery.current)
+    Vue.set(context.state.pagination, 'perPage', context.getters.getCurrentCategoryProductQuery.perPage)
+    if (context.getters.getCurrentCategoryProductQuery.current <= context.rootGetters['product/getCurrentList'].total) {
+      context.dispatch('mergeSearchOptions', {
+        searchProductQuery: buildFilterProductsQuery(context.state.current, context.state.filters.chosen)
+      })
+      return context.dispatch('products', context.getters.getCurrentCategoryProductQuery)
+    }
+  },
   updateProductsFilters (context, { filterOption = null, sortOption = null }) {
     Vue.set(context.state.pagination, 'current', 0)
     if (filterOption) {

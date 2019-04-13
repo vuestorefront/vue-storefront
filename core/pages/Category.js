@@ -1,7 +1,7 @@
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/core/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { baseFilterProductsQuery, buildFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
+import { baseFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -151,23 +151,9 @@ export default {
       const bottomOfPage = visible + scrollY >= pageHeight
       return bottomOfPage || pageHeight < visible
     },
-    pullMoreProducts () { // TODO: move the logic to vuex action
+    pullMoreProducts () {
       if (typeof navigator !== 'undefined' && !navigator.onLine) return
-      let current = this.getCurrentCategoryProductQuery.current + this.getCurrentCategoryProductQuery.perPage
-      this.mergeSearchOptions({
-        append: true,
-        route: this.$route,
-        store: this.$store,
-        current
-      })
-      this.pagination.current = this.getCurrentCategoryProductQuery.current
-      this.pagination.perPage = this.getCurrentCategoryProductQuery.perPage
-      if (this.getCurrentCategoryProductQuery.current <= this.productsTotal) {
-        this.mergeSearchOptions({
-          searchProductQuery: buildFilterProductsQuery(this.category, this.filters.chosen)
-        })
-        return this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
-      }
+      this.$store.dispatch('category/pullMoreProducts', { route: this.$route, store: this.$store })
     },
     onFilterChanged (filterOption) {
       this.$store.dispatch('category/updateProductsFilters', { filterOption })
@@ -175,7 +161,7 @@ export default {
     onSortOrderChanged (param) {
       if (param.attribute) this.$store.dispatch('category/updateProductsFilters', { sortOption: param.attribute })
     },
-    validateRoute (route = this.$route) {
+    validateRoute (route = this.$route) { // TODO: Merge with asyncData
       this.$store.dispatch('category/resetFilters')
       this.$bus.$emit('filter-reset')
 
@@ -213,7 +199,7 @@ export default {
         }
       })
     },
-    onUserPricesRefreshed () {
+    onUserPricesRefreshed () { // TODO: Move to Vuex
       const defaultFilters = store.state.config.products.defaultFilters
       this.$store.dispatch('category/single', {
         key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug',
