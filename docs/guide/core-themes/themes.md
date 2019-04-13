@@ -12,12 +12,14 @@ To use any of the themes located in `src/themes`, just change the `theme` proper
 
 ## Creating your own themes
 
-There are two ways of creating your own VS theme
+To create your own VS theme, you can copy and modify the default theme which is fully-styled and ready to work out of the box (it's the one that you can find on our demo).
+To do so:
 
-1. Copying and modifying the default theme which is fully-styled and ready to work out of the box (it's the one that you can find on our demo)
-2. Copying and modifying theme-starter which contains only data and no styling. It requires more work to have it production-ready (you need to style it from scratch) but if your designs are much different than our default theme you'd probably want to start with this one.
-
-To create your own theme just copy the `theme-starter` or `default` folder located in `src/themes` and change its name to your new theme's name. Next, change the name property in your theme `package.json` file. You can use this name in your config file to change the active theme. After adding a new theme you need to run `yarn install` so lerna can detect a new theme. Now you can start the development of your own theme for Vue Storefront!
+1. Copy the `default` folder located in `src/themes` and change its name to your new theme's name.
+1. Change the `name` property in your theme's `package.json` file.
+1. Insert this name in the `theme` property of your config file in `config/local.json`.
+1. Run `yarn install` so lerna can detect a new theme.
+1. Start developing your own theme for Vue Storefront!
 
 Only official themes tested and accepted by the community should be in a `master` branch. Please develop your own themes on separate branches and keep them updated with `master` to be sure it works with the newest core.
 
@@ -49,7 +51,6 @@ Below you can find the list of files that are essential for your theme to work:
 ## Official Vue Storefront themes included with the template:
 
 - `default` - Default VS theme always with the newest features. The easiest way to adopt VS in your shop is taking this one and modifying it to your needs (check [gogetgold.com](https://www.gogetgold.com/) as an example)
-- `theme-starter` - boilerplate for developing VS themes. If you want to create a new theme copy and rename this folder.
 - `catalog` - VS catalog theme - currently in alpha
 
 ## Related
