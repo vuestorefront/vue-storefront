@@ -1,5 +1,3 @@
-import rootStore from '@vue-storefront/core/store'
-
 // replaced with generic ProductCustomOption
 export default {
   name: 'PriceSelector',
@@ -49,17 +47,11 @@ export default {
   },
   methods: {
     filterChanged (filterOption) {
-      if (rootStore.state.config.filters.multipleSelect && this.context === 'category'){
+      if (filterOption.attribute_code === this.code) {
         if (filterOption.id === this.id) {
           this.active = !this.active
-        }
-      } else {
-        if (filterOption.attribute_code === this.code) {
-          if (filterOption.id === this.id) {
-            this.active = !this.active
-          } else {
-            this.active = false
-          }
+        } else {
+          this.active = false
         }
       }
     },

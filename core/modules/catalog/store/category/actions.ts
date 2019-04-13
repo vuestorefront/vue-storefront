@@ -218,38 +218,36 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   updateProductsFilters (context, { filterOption = null, sortOption = null, fetchProducts = true }) {
     Vue.set(context.state.pagination, 'current', 0)
-    if (!filterOption.attribute_code || !filterOption.id) {
-      return
-    }
-
-    let filterIdsArray = []
-    let filterObject = {
-      attribute_code: filterOption.attribute_code,
-      id: filterIdsArray,
-      label: filterOption.label
-    }
-    if (rootStore.state.config.filters.multipleSelect) {
-      if (context.state.filters.chosen[filterOption.attribute_code]) { // if there is something in vuex filters.choosen add it to local object
-        filterObject.id = context.state.filters.chosen[filterOption.attribute_code].id
+    if (filterOption && filterOption.attribute_code && filterOption.id) {
+      let filterIdsArray = []
+      let filterObject = {
+        attribute_code: filterOption.attribute_code,
+        id: filterIdsArray,
+        label: filterOption.label
       }
-      if (filterObject.id.includes(filterOption.id)) { // means that user want to deactivate filter, so delete this array element
-        Vue.delete(context.state.filters.chosen, filterOption.attribute_code) 
-        if (filterObject.id.length > 1) {
-          let index = filterObject.id.indexOf(filterOption.id)
-          if (index > -1) {
-            filterObject.id.splice(index, 1)
-            Vue.set(context.state.filters.chosen, filterOption.attribute_code, filterObject)
+      if (rootStore.state.config.filters.multipleSelect && filterOption.attribute_code !== 'price') {
+        if (context.state.filters.chosen[filterOption.attribute_code]) { // if there is something in vuex filters.choosen add it to local object
+          filterObject.id = context.state.filters.chosen[filterOption.attribute_code].id
+        }
+        if (filterObject.id.includes(filterOption.id)) { // means that user want to deactivate filter, so delete this array element
+          Vue.delete(context.state.filters.chosen, filterOption.attribute_code) 
+          if (filterObject.id.length > 1) {
+            let index = filterObject.id.indexOf(filterOption.id)
+            if (index > -1) {
+              filterObject.id.splice(index, 1)
+              Vue.set(context.state.filters.chosen, filterOption.attribute_code, filterObject)
+            }
           }
+        } else {
+          filterObject.id.push(filterOption.id)
+          Vue.set(context.state.filters.chosen, filterOption.attribute_code, filterObject)
         }
       } else {
-        filterObject.id.push(filterOption.id)
-        Vue.set(context.state.filters.chosen, filterOption.attribute_code, filterObject)
-      }
-    } else {
-      if (context.state.filters.chosen[filterOption.attribute_code] && ((toString(filterOption.id) === toString(context.state.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === context.state.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
-        Vue.delete(context.state.filters.chosen, filterOption.attribute_code)
-      } else {
-        Vue.set(context.state.filters.chosen, filterOption.attribute_code, filterOption)
+        if (context.state.filters.chosen[filterOption.attribute_code] && ((toString(filterOption.id) === toString(context.state.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === context.state.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
+          Vue.delete(context.state.filters.chosen, filterOption.attribute_code)
+        } else {
+          Vue.set(context.state.filters.chosen, filterOption.attribute_code, filterOption)
+        }
       }
     }
     let filterQr = buildFilterProductsQuery(context.state.current, context.state.filters.chosen)

@@ -2,7 +2,7 @@ export function buildFilterQueryString ({ route, filters }) {
   let queryString = {}
   for (let prop in filters.chosen) {
     if (prop === 'price') {
-      let range = filters.chosen[prop].id[0].split('-')
+      let range = (Array.isArray(filters.chosen[prop].id) ? filters.chosen[prop].id[0] : filters.chosen[prop].id).split('-')
       queryString[prop] = range[0] + '-' + range[1]
     } else {
       queryString[prop] = filters.chosen[prop].id.join(',')
