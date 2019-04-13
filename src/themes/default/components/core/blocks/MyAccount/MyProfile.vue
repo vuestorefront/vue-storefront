@@ -49,10 +49,10 @@
         :placeholder="$t('Last name')"
         v-model.trim="currentUser.lastname"
         @input="$v.currentUser.lastname.$touch()"
-        :validation="{
+        :validations="[{
           condition: !$v.currentUser.lastname.required,
           text: $t('Field is required')
-        }"
+        }]"
       />
 
       <base-input
@@ -79,7 +79,6 @@
         class="col-xs-12 mb15"
         id="changePassword"
         v-model="changePassword"
-        @click="changePassword = !changePassword"
       >
         {{ $t('Change my password') }}
       </base-checkbox>
@@ -93,10 +92,10 @@
           :placeholder="$t('Current password *')"
           v-model="oldPassword"
           @input="$v.oldPassword.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.oldPassword.required && $v.oldPassword.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <div class="hidden-xs hidden-sm col-md-6 mb15 mt10"/>
@@ -109,10 +108,10 @@
           :placeholder="$t('New password *')"
           v-model="password"
           @input="$v.password.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.password.required && $v.password.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
@@ -141,7 +140,6 @@
         class="col-xs-12 mb15 mt10"
         id="addCompany"
         v-model="addCompany"
-        @click="addCompany = !addCompany"
       >
         {{ $t('I have a company and want to receive an invoice for every order') }}
       </base-checkbox>
@@ -155,10 +153,10 @@
           :placeholder="$t('Company name *')"
           v-model.trim="userCompany.company"
           @input="$v.userCompany.company.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.userCompany.company.required && $v.userCompany.company.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
@@ -169,10 +167,10 @@
           :placeholder="$t('Street name *')"
           v-model.trim="userCompany.street"
           @input="$v.userCompany.street.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.userCompany.street.required && $v.userCompany.street.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
@@ -183,10 +181,10 @@
           :placeholder="$t('House/Apartment number *')"
           v-model.trim="userCompany.house"
           @input="$v.userCompany.house.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.userCompany.house.required && $v.userCompany.house.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
@@ -197,10 +195,10 @@
           :placeholder="$t('City *')"
           v-model.trim="userCompany.city"
           @input="$v.userCompany.city.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.userCompany.city.required && $v.userCompany.city.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
@@ -429,7 +427,7 @@ export default {
       },
       postcode: {
         required,
-        minLength: minLength(5)
+        minLength: minLength(3)
       },
       city: {
         required

@@ -5,26 +5,20 @@
   >
     <router-link
       class="block no-underline product-link"
-      :to="localizedRoute({
-        name: product.type_id + '-product',
-        params: {
-          parentSku: product.parentSku ? product.parentSku : product.sku,
-          slug: product.slug,
-          childSku: product.sku
-        }
-      })"
+      :to="productLink"
       data-testid="productLink"
     >
       <div
         class="product-image relative bg-cl-secondary"
-        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]">
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }, {'product-image--loaded': imageLoaded}]">
         <img
+          class="product-image__content"
           :alt="product.name"
           :src="thumbnailObj.src"
-          v-lazy="thumbnailObj"
           height="300"
           width="310"
           data-testid="productImage"
+          @load="imageLoaded = true"
         >
       </div>
 
@@ -57,20 +51,24 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
+import { isServer } from '@vue-storefront/core/helpers'
 
 export default {
   mixins: [ProductTile],
+  data () {
+    return {
+      imageLoaded: isServer
+    }
+  },
   props: {
     labelsActive: {
       type: Boolean,
-      requred: false,
       default: true
     },
     onlyImage: {
       type: Boolean,
-      required: false,
       default: false
     }
   },
@@ -146,6 +144,33 @@ $color-white: color(white);
   width: 100%;
   overflow: hidden;
   max-height: 300px;
+  height: 100%;
+  min-height: 155px;
+  display: flex;
+  align-items: flex-end;
+  background-image: url('/assets/placeholder.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60% auto;
+
+  @media (min-width: 768px) {
+    min-height: 190px;
+  }
+  @media (min-width: 1200px) {
+    min-height: 300px;
+  }
+
+  &__content {
+    display: none;
+  }
+
+  &--loaded {
+    background-image: none;
+
+    .product-image__content {
+      display: block;
+    }
+  }
 
   &:hover {
     img {

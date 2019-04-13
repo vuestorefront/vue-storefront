@@ -6,12 +6,12 @@
       :style="styles"
     >
       <li
-        class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
         v-if="parentSlug"
+        class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
       >
         <router-link
           class="px25 py20 cl-accent no-underline col-xs"
-          :to="localizedRoute({ name: 'category', params: { id: id, slug: parentSlug }})"
+          :to="localizedRoute({ name: 'category', fullPath: parentPath, params: { id: id, slug: parentSlug }})"
           data-testid="categoryLink"
         >
           {{ $t('View all') }}
@@ -22,31 +22,35 @@
         :key="link.slug"
         v-for="link in children"
       >
-        <div v-if="isCurrentMenuShowed" class="subcategory-item">
+        <div
+          v-if="isCurrentMenuShowed"
+          class="subcategory-item"
+        >
           <sub-btn
+            v-if="link.children_count > 0"
             class="bg-cl-transparent brdr-none fs-medium"
             :id="link.id"
             :name="link.name"
-            v-if="link.children_count > 0"
           />
           <router-link
             v-else
             class="px25 py20 cl-accent no-underline col-xs"
-            :to="localizedRoute({ name: 'category', params: { id: link.id, slug: link.slug }})"
+            :to="localizedRoute({ name: 'category', fullPath: link.url_path, params: { id: link.id, slug: link.slug }})"
           >
             {{ link.name }}
           </router-link>
         </div>
         <sub-category
+          v-if="link.children_count > 0"
           :category-links="link.children_data"
           :id="link.id"
-          v-if="link.children_count > 0"
           :parent-slug="link.slug"
+          :parent-path="link.url_path"
         />
       </li>
     </ul>
     <ul
-      v-if="myAccountLinks"
+      v-if="myAccountLinks && !path.length"
       class="sidebar-submenu fixed w-100 p0 bg-cl-primary"
       :style="styles"
     >
@@ -64,7 +68,11 @@
         </router-link>
       </li>
       <li class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex">
-        <a href="#" class="px25 py20 cl-accent no-underline col-xs" @click.prevent="logout">
+        <a
+          href="#"
+          class="px25 py20 cl-accent no-underline col-xs"
+          @click.prevent="logout"
+        >
           {{ $t('Logout') }}
         </a>
       </li>
@@ -96,6 +104,11 @@ export default {
       required: false,
       default: ''
     },
+    parentPath: {
+      type: String,
+      required: false,
+      default: ''
+    },
     myAccountLinks: {
       type: null,
       required: false,
@@ -111,7 +124,8 @@ export default {
       }
     },
     ...mapState({
-      submenu: state => state.ui.submenu
+      submenu: state => state.ui.submenu,
+      path: state => state.ui.submenu.path
     }),
     getSubmenu () {
       return this.submenu
@@ -143,6 +157,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
   .sidebar-submenu {
     left: 0;

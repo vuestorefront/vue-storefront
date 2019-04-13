@@ -6,7 +6,6 @@
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
               :gallery="gallery"
-              :offline="offlineImage"
               :configuration="configuration"
               :product="product"
             />
@@ -46,7 +45,7 @@
                   class="h2 cl-mine-shaft weight-700"
                   v-if="!product.special_price && product.priceInclTax"
                 >
-                  {{ product.priceInclTax * product.qty | price }}
+                  {{ product.qty > 0 ? product.priceInclTax * product.qty : product.priceInclTax | price }}
                 </div>
               </div>
               <div
@@ -138,22 +137,24 @@
               v-else-if="product.custom_options && product.custom_options.length > 0 && !loading"
               :product="product"
             />
-            <div class="row m0 mb15" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
-              <div>
-                <label class="qty-label flex" for="quantity">{{ $t('Quantity') }}</label>
-                <input
-                  type="number"
-                  min="0"
-                  class="m0 no-outline qty-input py10 brdr-cl-primary bg-cl-transparent h4"
-                  id="quantity"
-                  focus
-                  v-model="product.qty"
-                >
-              </div>
+            <div class="row m0 mb35" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
+              <base-input-number
+                :name="$t('Quantity')"
+                v-model="product.qty"
+                :min="1"
+                @blur="$v.$touch()"
+                :validations="[
+                  {
+                    condition: $v.product.qty.$error && !$v.product.qty.minValue,
+                    text: $t('Quantity must be above 0')
+                  }
+                ]"
+              />
             </div>
             <div class="row m0">
               <add-to-cart
                 :product="product"
+                :disabled="$v.product.qty.$error && !$v.product.qty.minValue"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -230,6 +231,7 @@
 </template>
 
 <script>
+import { minValue } from 'vuelidate/lib/validators'
 import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
@@ -248,6 +250,8 @@ import ProductGallery from 'theme/components/core/ProductGallery'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
+import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+
 export default {
   components: {
     'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
@@ -265,7 +269,8 @@ export default {
     RelatedProducts,
     Reviews,
     SizeSelector,
-    WebShare
+    WebShare,
+    BaseInputNumber
   },
   mixins: [Product, VueOfflineMixin],
   data () {
@@ -292,6 +297,13 @@ export default {
         message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
         action1: { label: this.$t('OK') }
       })
+    }
+  },
+  validations: {
+    product: {
+      qty: {
+        minValue: minValue(1)
+      }
     }
   }
 }
@@ -463,18 +475,6 @@ $bg-secondary: color(secondary, $colors-background);
 .product-image {
   mix-blend-mode: multiply;
   width: 460px;
-}
-
-.qty-input {
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  width: 90px;
-}
-
-.qty-label {
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 14px;
 }
 
 .web-share {

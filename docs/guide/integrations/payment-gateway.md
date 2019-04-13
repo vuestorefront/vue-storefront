@@ -32,7 +32,7 @@ Here is an example of "Cash on delivery" payment method main logic. It's placed 
 
 ```js
 import InfoComponent from '../components/Info.vue'
-import rootStore from '@vue-storefront/store'
+import rootStore from '@vue-storefront/core/store'
 
 export function afterRegistration({ Vue, config, store, isServer }) {
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
@@ -40,7 +40,7 @@ export function afterRegistration({ Vue, config, store, isServer }) {
     Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
   }
 
-  if (!Vue.prototype.$isServer) {
+  if (!isServer) {
     // Update the methods
     let paymentMethodConfig = {
       'title': 'Cash on delivery',

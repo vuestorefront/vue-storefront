@@ -61,10 +61,10 @@
             v-model="lastName"
             @blur="$v.lastName.$touch()"
             :placeholder="$t('Last name *')"
-            :validation="{
+            :validations="[{
               condition: !$v.lastName.required && $v.lastName.$error,
               text: $t('Field is required.')
-            }"
+            }]"
           />
         </div>
         <base-input
@@ -110,13 +110,12 @@
           class="mb35"
           id="terms"
           v-model="conditions"
-          @click="conditions = !conditions"
           @blur="$v.conditions.$reset()"
           @change="$v.conditions.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.conditions.required && $v.conditions.$error,
             text: $t('You must accept the terms and conditions.')
-          }"
+          }]"
         >
           {{ $t('I accept terms and conditions') }} *
         </base-checkbox>

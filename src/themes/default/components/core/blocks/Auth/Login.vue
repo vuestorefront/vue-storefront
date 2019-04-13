@@ -38,17 +38,16 @@
           v-model="password"
           @blur="$v.password.$touch()"
           :placeholder="$t('Password *')"
-          :validation="{
+          :validations="[{
             condition: !$v.password.required && $v.password.$error,
             text: $t('Field is required.')
-          }"
+          }]"
         />
         <div class="row">
           <base-checkbox
             class="col-xs-7 col-sm-6 mb35"
             id="remember"
             v-model="remember"
-            @click="remember = !remember"
           >
             {{ $t('Remember me') }}
           </base-checkbox>

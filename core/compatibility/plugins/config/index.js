@@ -1,6 +1,6 @@
-import store from '@vue-storefront/store'
+import store from '@vue-storefront/core/store'
 const config = store.state.config
-// depreciated, use vuex store instead
+// deprecated, use vuex store instead
 const ConfigPlugin = {
   install (Vue) {
     if (!Vue.prototype.$config) {

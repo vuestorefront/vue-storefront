@@ -38,11 +38,10 @@ server {
 	gzip_types
 		text/css
 		text/javascript
-		text/xml
 		application/javascript
 		application/json
-		text/json
-		text/html;
+    text/xml
+		text/json;
 
 	location / {
 		proxy_pass http://localhost:3000/;

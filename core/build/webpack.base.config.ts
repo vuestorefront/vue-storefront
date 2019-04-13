@@ -7,6 +7,7 @@ import autoprefixer from 'autoprefixer';
 import HTMLPlugin from 'html-webpack-plugin';
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 import webpack from 'webpack';
+import moment from 'moment';
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
@@ -19,7 +20,7 @@ import themeRoot from './theme-path';
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
-const themedIndex = path.join(themeRoot, 'index.template.html')
+const themedIndex = path.join(themeRoot, '/templates/index.template.html')
 const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.template.html')
 const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
 const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
@@ -76,10 +77,15 @@ export default {
       filename: 'index.amp.html',
       chunksSortMode: 'none',
       inject: isProd == false
+    }),
+    new webpack.DefinePlugin({
+      'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
+      'process.env.__BUILDTIME__': JSON.stringify(moment().format('YYYY-MM-DD HH:mm:ss'))
     })
   ],
+  devtool: 'source-map',
   entry: {
-    app: ['babel-polyfill', './core/client-entry.ts']
+    app: ['@babel/polyfill', './core/client-entry.ts']
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
@@ -110,7 +116,7 @@ export default {
       'theme/resource': themeResources,
 
       // Backward compatible
-      '@vue-storefront/store/lib/multistore' : path.resolve(__dirname, '../lib/multistore.ts'),
+      '@vue-storefront/core/store/lib/multistore' : path.resolve(__dirname, '../lib/multistore.ts'),
     }
   },
   module: {
