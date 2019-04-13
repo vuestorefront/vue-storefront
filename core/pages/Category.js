@@ -7,6 +7,7 @@ import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multi
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters, mapActions } from 'vuex'
+import { buildFilterQueryString } from '@vue-storefront/core/modules/catalog/helpers/url'
 
 export default {
   name: 'Category',
@@ -157,6 +158,9 @@ export default {
     },
     onFilterChanged (filterOption) {
       this.$store.dispatch('category/updateProductsFilters', { filterOption })
+      if (store.state.config.filters.deepLinking) {
+        this.$router.push(buildFilterQueryString( this.$route, this.filters ))
+      }
     },
     onSortOrderChanged (param) {
       if (param.attribute) this.$store.dispatch('category/updateProductsFilters', { sortOption: param.attribute })
