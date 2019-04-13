@@ -10,6 +10,11 @@ export const categoryModule: Module<CategoryState, RootState> = {
   state: {
     list: [],
     current: {},
+    pagination: {
+      perPage: 50,
+      current: 0,
+      enabled: false
+    },    
     filters: {
       available: {},
       chosen: {}

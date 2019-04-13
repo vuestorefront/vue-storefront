@@ -252,6 +252,11 @@
       "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
       "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
     },
+    "filters": {
+      "multipleSelect": false,
+      "deepLinking": true,
+      "metaTitleByFilters": true
+    },
     "products": {
       "useShortCatalogUrls": false,
       "useMagentoUrlKeys": true,

@@ -14,8 +14,7 @@ import CategoryState from '../../types/CategoryState'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { isServer } from '@vue-storefront/core/helpers'
-
+import { isServer, baseFilterProductsQuery, buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -199,6 +198,77 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
       }
     })
+  },
+  updateProductsFilters (context, { filterOption = null, sortOption = null }) {
+    Vue.set(context.state.pagination, 'current', 0)
+    if (filterOption) {
+      if (context.state.filters.chosen[filterOption.attribute_code] && ((toString(filterOption.id) === toString(context.state.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === context.state.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
+        Vue.delete(context.state.filters.chosen, filterOption.attribute_code)
+      } else {
+        Vue.set(context.state.filters.chosen, filterOption.attribute_code, filterOption)
+      }
+    }
+
+    let filterQr = buildFilterProductsQuery(context.state.current, context.state.filters.chosen)
+
+    const filtersConfig = Object.assign({}, context.state.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
+    let updatedSearchOptions = {
+      populateAggregations: false,
+      searchProductQuery: filterQr,
+      current: context.state.pagination.current,
+      perPage: context.state.pagination.perPage,
+      configuration: filtersConfig,
+      append: false,
+      includeFields: null,
+      excludeFields: null,
+      sort: sortOption ? sortOption : context.getters.getCurrentCategoryProductQuery.sort
+    }
+    context.dispatch('mergeSearchOptions', updatedSearchOptions)
+    context.dispatch('products', context.getters.getCurrentCategoryProductQuery).then((res) => {
+    }) // because already aggregated
+  },
+  initialProductsQuery (context, { route, parentCategory, defaultFilters }) {
+    let query = context.getters.getCurrentCategoryProductQuery
+    if (rootStore.state.config.filters.deepLinking) {
+      if (route.query) {
+        for (const prop in route.query) {
+          let filterObject = {}
+          if (defaultFilters.indexOf(prop) !== -1) {
+            if (prop === 'price') {
+              let range = route.query[prop].split('-')
+
+              filterObject = {
+                attribute_code: prop,
+                id: [range[0] + '-' + range[1]],
+                label: '$' + range[0] + ' - ' + '$' + range[1]
+              }
+            } else {
+              filterObject = {
+                attribute_code: prop,
+                id: route.query[prop].split(',')
+              }
+            }
+            Vue.set(context.state.filters.chosen, prop, filterObject)
+          }
+        }
+      }
+      let hasFilters = !(Object.keys(context.state.filters.chosen).length === 0 && context.state.filters.chosen.constructor === Object)
+      if (hasFilters) {
+        const fsC = Object.assign({}, context.state.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
+        const filterQr = buildFilterProductsQuery(parentCategory, context.state.filters.chosen, defaultFilters)
+
+        query = Object.assign(query, {
+          searchProductQuery: filterQr,
+          configuration: fsC
+        })
+      }
+    }
+    if (!query.searchProductQuery) {
+      context.dispatch('mergeSearchOptions', {
+        searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters)
+      })
+    }    
+    return query
   },
   /**
    * Filter category products

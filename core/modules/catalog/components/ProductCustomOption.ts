@@ -1,3 +1,5 @@
+import rootStore from '@vue-storefront/core/store'
+
 export const ProductCustomOption = {
   name: 'ProductCustomOption',
   props: {
@@ -37,13 +39,18 @@ export const ProductCustomOption = {
   },
   methods: {
     filterChanged (filterOption) {
-      if (filterOption.attribute_code === this.code) {
+      if(rootStore.state.config.filters.multipleSelect && this.context === 'category'){
         if (filterOption.id === this.id) {
           this.active = !this.active
-        } else {
-          this.active = false
         }
-        // filterOption.id === this.id ? this.active = true : this.active = false
+      } else {
+        if (filterOption.attribute_code === this.code) {
+          if (filterOption.id === this.id) {
+            this.active = !this.active
+          } else {
+            this.active = false
+          }
+        }
       }
     },
     filterReset (filterOption) {

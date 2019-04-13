@@ -1,6 +1,3 @@
-import Vue from 'vue'
-import toString from 'lodash-es/toString'
-
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/core/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
@@ -16,17 +13,12 @@ export default {
   mixins: [Composite],
   data () {
     return {
-      pagination: {
-        perPage: 50,
-        current: 0,
-        enabled: false
-      },
       bottom: false,
       lazyLoadProductsOnscroll: true
     }
   },
   computed: {
-    ...mapGetters('category', ['getCurrentCategory', 'getCurrentCategoryProductQuery', 'getAllCategoryFilters', 'getCategoryBreadcrumbs', 'getCurrentCategoryPath']),
+    ...mapGetters('category', ['getCurrentCategory', 'getCurrentCategoryProductQuery', 'getAllCategoryFilters', 'getCategoryBreadcrumbs', 'getCurrentCategoryPath', 'getCurrentPagination']),
     products () {
       return this.$store.state.product.list.items
     },
@@ -35,6 +27,9 @@ export default {
     },
     productsTotal () {
       return this.$store.state.product.list.total
+    },
+    pagination () {
+      return this.getCurrentPagination
     },
     currentQuery () {
       return this.getCurrentCategoryProductQuery
@@ -92,12 +87,7 @@ export default {
         includeFields: store.state.config.entities.optimize && isServer ? store.state.config.entities.attribute.includeFields : null
       })
       const parentCategory = await store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
-      let query = store.getters['category/getCurrentCategoryProductQuery']
-      if (!query.searchProductQuery) {
-        store.dispatch('category/mergeSearchOptions', {
-          searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters)
-        })
-      }
+      const query = await store.dispatch('category/initialProductsQuery', { route, defaultFilters, parentCategory })
       const subloaders = await store.dispatch('category/products', query)
       if (subloaders) {
         await Promise.all(subloaders)
@@ -161,7 +151,7 @@ export default {
       const bottomOfPage = visible + scrollY >= pageHeight
       return bottomOfPage || pageHeight < visible
     },
-    pullMoreProducts () {
+    pullMoreProducts () { // TODO: move the logic to vuex action
       if (typeof navigator !== 'undefined' && !navigator.onLine) return
       let current = this.getCurrentCategoryProductQuery.current + this.getCurrentCategoryProductQuery.perPage
       this.mergeSearchOptions({
@@ -180,49 +170,10 @@ export default {
       }
     },
     onFilterChanged (filterOption) {
-      this.pagination.current = 0
-      if (this.filters.chosen[filterOption.attribute_code] && ((toString(filterOption.id) === toString(this.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === this.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
-        Vue.delete(this.filters.chosen, filterOption.attribute_code)
-      } else {
-        Vue.set(this.filters.chosen, filterOption.attribute_code, filterOption)
-      }
-
-      let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
-
-      const filtersConfig = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
-      this.mergeSearchOptions({
-        populateAggregations: false,
-        searchProductQuery: filterQr,
-        current: this.pagination.current,
-        perPage: this.pagination.perPage,
-        configuration: filtersConfig,
-        append: false,
-        includeFields: null,
-        excludeFields: null
-      })
-      this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery).then((res) => {
-      }) // because already aggregated
+      this.$store.dispatch('category/updateProductsFilters', { filterOption })
     },
     onSortOrderChanged (param) {
-      this.pagination.current = 0
-      if (param.attribute) {
-        const filtersConfig = Object.assign({}, this.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
-        let filterQr = buildFilterProductsQuery(this.category, this.filters.chosen)
-        this.mergeSearchOptions({
-          sort: param.attribute,
-          searchProductQuery: filterQr,
-          current: this.pagination.current,
-          perPage: this.pagination.perPage,
-          configuration: filtersConfig,
-          append: false,
-          includeFields: null,
-          excludeFields: null
-        })
-        this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery).then((res) => {
-        })
-      } else {
-        this.notify()
-      }
+      if (param.attribute) this.$store.dispatch('category/updateProductsFilters', { sortOption: param.attribute })
     },
     validateRoute (route = this.$route) {
       this.$store.dispatch('category/resetFilters')
