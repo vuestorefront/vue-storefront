@@ -1,3 +1,5 @@
+import rootStore from '@vue-storefront/core/store'
+
 // replaced with generic ProductCustomOption
 export default {
   name: 'PriceSelector',
@@ -25,11 +27,16 @@ export default {
     context: {
       type: null,
       default: ''
+    },
+    checked: {
+      type: Boolean,
+      required: false,
+      default: () => false
     }
   },
   data () {
     return {
-      active: false
+      active: this.checked
     }
   },
   beforeMount () {
@@ -42,17 +49,18 @@ export default {
   },
   methods: {
     filterChanged (filterOption) {
-      if (filterOption.attribute_code === this.code) {
+      if (rootStore.state.config.filters.multipleSelect && this.context === 'category'){
         if (filterOption.id === this.id) {
-          if (this.active) {
-            this.active = false
-          } else {
-            this.active = true
-          }
-        } else {
-          this.active = false
+          this.active = !this.active
         }
-        // filterOption.id === this.id ? this.active = true : this.active = false
+      } else {
+        if (filterOption.attribute_code === this.code) {
+          if (filterOption.id === this.id) {
+            this.active = !this.active
+          } else {
+            this.active = false
+          }
+        }
       }
     },
     filterReset (filterOption) {
