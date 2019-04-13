@@ -100,7 +100,7 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters, defaul
       filterQr = filterQr.applyFilter({key: filter.attribute_code, value: {'in': filter.id}, scope: 'catalog'})
     } else { // multi should be possible filter here?
       const rangeqr = {}
-      if (rootStore.state.config.multipleSelect) {
+      if (rootStore.state.config.filters.multipleSelect) {
         let rangerArray = filter['id'][0].split("-")
         if(rangerArray.lenght <= 1) {
           return

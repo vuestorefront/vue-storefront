@@ -22,9 +22,10 @@
         <color-selector
           context="category"
           code="color"
-          v-for="(color, index) in filter"
-          :key="index"
+          v-for="(color) in filter"
+          :key="color.id"
           :id="color.id"
+          :checked="activeFilters[filterIndex] && (activeFilters[filterIndex].id.indexOf(color.id)>=0 || activeFilters[filterIndex].id === color.id)"
           :label="color.label"
         />
       </div>
@@ -33,9 +34,10 @@
           context="category"
           code="size"
           class="size-select mr10 mb10"
-          v-for="(size, index) in sortById(filter)"
-          :key="index"
+          v-for="(size) in sortById(filter)"
+          :key="size.id"
           :id="size.id"
+          :checked="activeFilters[filterIndex] && (activeFilters[filterIndex].id.indexOf(size.id)>=0 || activeFilters[filterIndex].id === size.id)"
           :label="size.label"
         />
       </div>
@@ -44,12 +46,13 @@
           context="category"
           class="price-select mb10 block"
           code="price"
-          v-for="(price, index) in filter"
-          :key="index"
+          v-for="(price) in filter"
+          :key="price.id"
           :id="price.id"
           :from="price.from"
           :to="price.to"
           :content="price.label"
+          :checked="activeFilters[filterIndex] && (activeFilters[filterIndex].id.indexOf(price.id)>=0 || activeFilters[filterIndex].id === price.id)"
         />
       </div>
       <div v-else class="sidebar__inline-selecors">
@@ -57,9 +60,10 @@
           context="category"
           class="mr10 mb10 block"
           :code="filterIndex"
-          v-for="(option, index) in filter"
-          :key="index"
+          v-for="(option) in filter"
+          :key="option.id"
           :id="option.id"
+          :checked="activeFilters[filterIndex] && (activeFilters[filterIndex].id.indexOf(option.id)>=0 || activeFilters[filterIndex].id === option.id)"
           :label="option.label"
         />
       </div>

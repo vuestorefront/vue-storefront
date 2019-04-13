@@ -436,7 +436,13 @@ export function findConfigurableChildAsync({ product, configuration = null, sele
     } else {
       return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
         if (!configuration[configProperty] || typeof configuration[configProperty].id === 'undefined') return true // skip empty
-        return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
+        if (Array.isArray(configuration[configProperty].id)) {
+          return configuration[configProperty].id.find(configVal => {
+            return toString(configurableChild[configProperty]) === toString(configVal)
+          })
+        } else {
+          return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
+        }
       })
     }
   })

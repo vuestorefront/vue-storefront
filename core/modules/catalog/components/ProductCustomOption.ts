@@ -22,11 +22,16 @@ export const ProductCustomOption = {
       type: null,
       required: false,
       default: () => false
-    }
+    },
+    checked: {
+      type: Boolean,
+      required: false,
+      default: () => false
+    },    
   },
   data () {
     return {
-      active: false
+      active: this.checked
     }
   },
   beforeMount () {

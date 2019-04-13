@@ -81,8 +81,10 @@ export default {
     try {
       if (context) context.output.cacheTags.add(`category`)
       const defaultFilters = store.state.config.products.defaultFilters
-      store.dispatch('category/resetFilters')
-      EventBus.$emit('filter-reset')
+      if (isServer || !store.state.config.filters.deepLinking) {
+        store.dispatch('category/resetFilters')
+        EventBus.$emit('filter-reset')
+      }
       await store.dispatch('attribute/list', { // load filter attributes for this specific category
         filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         includeFields: store.state.config.entities.optimize && isServer ? store.state.config.entities.attribute.includeFields : null
@@ -102,7 +104,7 @@ export default {
     }
   },
   async beforeRouteEnter (to, from, next) {
-    if (!isServer && !from.name) { // Loading category products to cache on SSR render
+    /* if (!isServer && !from.name) { // Loading category products to cache on SSR render
       next(vm => {
         const defaultFilters = store.state.config.products.defaultFilters
         let parentCategory = store.getters['category/getCurrentCategory']
@@ -116,7 +118,8 @@ export default {
       })
     } else {
       next()
-    }
+    } */
+    next()
   },
   beforeMount () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
@@ -140,7 +143,9 @@ export default {
     }
   },
   beforeRouteUpdate (to, from, next) {
-    this.validateRoute(to)
+    if (from.path !== to.path) { // category changed - not just filters
+      this.validateRoute(to)
+    }
     next()
   },
   methods: {
@@ -157,9 +162,9 @@ export default {
       this.$store.dispatch('category/pullMoreProducts', { route: this.$route, store: this.$store })
     },
     onFilterChanged (filterOption) {
-      this.$store.dispatch('category/updateProductsFilters', { filterOption })
+      this.$store.dispatch('category/updateProductsFilters', { filterOption, fetchProducts: !store.state.config.filters.deepLinking })
       if (store.state.config.filters.deepLinking) {
-        this.$router.push(buildFilterQueryString( this.$route, this.filters ))
+        this.$router.push({ query: buildFilterQueryString({ route: this.$route, filters: this.filters }) }) // will execute asyncData anyway
       }
     },
     onSortOrderChanged (param) {

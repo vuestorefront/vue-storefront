@@ -216,18 +216,43 @@ const actions: ActionTree<CategoryState, RootState> = {
       return context.dispatch('products', context.getters.getCurrentCategoryProductQuery)
     }
   },
-  updateProductsFilters (context, { filterOption = null, sortOption = null }) {
+  updateProductsFilters (context, { filterOption = null, sortOption = null, fetchProducts = true }) {
     Vue.set(context.state.pagination, 'current', 0)
-    if (filterOption) {
+    if (!filterOption.attribute_code || !filterOption.id) {
+      return
+    }
+
+    let filterIdsArray = []
+    let filterObject = {
+      attribute_code: filterOption.attribute_code,
+      id: filterIdsArray,
+      label: filterOption.label
+    }
+    if (rootStore.state.config.filters.multipleSelect) {
+      if (context.state.filters.chosen[filterOption.attribute_code]) { // if there is something in vuex filters.choosen add it to local object
+        filterObject.id = context.state.filters.chosen[filterOption.attribute_code].id
+      }
+      if (filterObject.id.includes(filterOption.id)) { // means that user want to deactivate filter, so delete this array element
+        Vue.delete(context.state.filters.chosen, filterOption.attribute_code) 
+        if (filterObject.id.length > 1) {
+          let index = filterObject.id.indexOf(filterOption.id)
+          if (index > -1) {
+            filterObject.id.splice(index, 1)
+            Vue.set(context.state.filters.chosen, filterOption.attribute_code, filterObject)
+          }
+        }
+      } else {
+        filterObject.id.push(filterOption.id)
+        Vue.set(context.state.filters.chosen, filterOption.attribute_code, filterObject)
+      }
+    } else {
       if (context.state.filters.chosen[filterOption.attribute_code] && ((toString(filterOption.id) === toString(context.state.filters.chosen[filterOption.attribute_code].id)) || filterOption.id === context.state.filters.chosen[filterOption.attribute_code].id)) { // for price filter it's a string
         Vue.delete(context.state.filters.chosen, filterOption.attribute_code)
       } else {
         Vue.set(context.state.filters.chosen, filterOption.attribute_code, filterOption)
       }
     }
-
     let filterQr = buildFilterProductsQuery(context.state.current, context.state.filters.chosen)
-
     const filtersConfig = Object.assign({}, context.state.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
     let updatedSearchOptions = {
       populateAggregations: false,
@@ -241,7 +266,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       sort: sortOption ? sortOption : context.getters.getCurrentCategoryProductQuery.sort
     }
     context.dispatch('mergeSearchOptions', updatedSearchOptions)
-    context.dispatch('products', context.getters.getCurrentCategoryProductQuery).then((res) => {
+    if (fetchProducts) context.dispatch('products', context.getters.getCurrentCategoryProductQuery).then((res) => {
     }) // because already aggregated
   },
   initialProductsQuery (context, { route, parentCategory, defaultFilters }) {
@@ -273,7 +298,6 @@ const actions: ActionTree<CategoryState, RootState> = {
       if (hasFilters) {
         const fsC = Object.assign({}, context.state.filters.chosen) // create a copy because it will be used asynchronously (take a look below)
         const filterQr = buildFilterProductsQuery(parentCategory, context.state.filters.chosen, defaultFilters)
-
         query = Object.assign(query, {
           searchProductQuery: filterQr,
           configuration: fsC
@@ -414,7 +438,7 @@ const actions: ActionTree<CategoryState, RootState> = {
             }
             context.dispatch('addAvailableFilter', {
               key: attrToFilter,
-              options: filterOptions
+              options: filterOptions.sort() // sort is used in order to keep the same positions
             })
           }
         }

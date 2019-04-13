@@ -1,5 +1,6 @@
 import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { mapGetters } from 'vuex'
+import rootStore from '@vue-storefront/core/store'
 import pickBy from 'lodash-es/pickBy'
 
 export default {
@@ -26,7 +27,7 @@ export default {
     }
   },
   mounted () {
-    this.resetAllFilters()
+    if (!rootStore.state.config.filters.deepLinking) this.resetAllFilters()
   },
   methods: {
     sortById (filters) {
