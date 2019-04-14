@@ -12,11 +12,7 @@ export function beforeEach(to: Route, from: Route, next) {
     } else {
       if (!rootStore.getters['user/isLoggedIn']) {
         next('/')
-        rootStore.dispatch('notification/spawnNotification', {
-          type: 'error',
-          message: i18n.t('You need to be logged in to see this page'),
-          action1: { label: i18n.t('OK') }
-        })
+        localStorage.setItem('redirect', from.path)
       } else {
         if (!from.name) {
           next('/')
@@ -24,7 +20,7 @@ export function beforeEach(to: Route, from: Route, next) {
             router.push(to.path)
           }, 0)
         } else {
-          next()          
+          next()
         }
       }
     }

@@ -66,6 +66,8 @@
 import store from '@vue-storefront/core/store'
 import { Carousel, Slide } from 'vue-carousel'
 import ProductVideo from './ProductVideo'
+import reduce from 'lodash-es/reduce'
+import map from 'lodash-es/map'
 
 export default {
   name: 'ProductGalleryCarousel',
@@ -150,14 +152,13 @@ export default {
     },
     selectVariant () {
       if (store.state.config.products.gallery.mergeConfigurableChildren) {
-        let configurableAttributes = this.configuration.map(option => option.attribute_code)
-        let option = configurableAttributes.reduce((result, attribute) => {
+        const option = reduce(map(this.configuration, 'attribute_code'), (result, attribute) => {
           result[attribute] = this.configuration[attribute].id
           return result
         }, {})
         if (option) {
-          let index = this.gallery.findIndex(
-            obj => obj.id && Object.entries(obj.id).toSTring() === Object.entries(option).toString(), option)
+          const index = this.gallery.findIndex(
+            obj => obj.id && Object.entries(obj.id).toString() === Object.entries(option).toString(), option)
           this.navigate(index)
         }
       }
