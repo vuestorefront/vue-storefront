@@ -91,7 +91,7 @@ export default {
     this.$store.dispatch('recently-viewed/addItem', this.product)
   },
   methods: {
-    validateRoute (route = this.$route) {
+    validateRoute (route = this.$route) { // TODO: Merge with asyncData
       if (!this.loading) {
         this.loading = true
         this.$store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null }).then(res => {
@@ -128,7 +128,7 @@ export default {
       currentConfig[option.attribute_code] = option
       return isOptionAvailableAsync(this.$store, { product: this.product, configuration: currentConfig })
     },
-    onAfterCustomOptionsChanged (payload) {
+    onAfterCustomOptionsChanged (payload) { // TODO: Move to Vuex
       let priceDelta = 0
       let priceDeltaInclTax = 0
       for (const optionValue of Object.values(payload.optionValues)) {
@@ -146,7 +146,7 @@ export default {
       this.product.price = this.originalProduct.price + priceDelta
       this.product.priceInclTax = this.originalProduct.priceInclTax + priceDeltaInclTax
     },
-    onAfterBundleOptionsChanged (payload) {
+    onAfterBundleOptionsChanged (payload) { // TODO: Move to Vuex
       let priceDelta = 0
       let priceDeltaInclTax = 0
       for (const optionValue of Object.values(payload.optionValues)) {
@@ -166,7 +166,7 @@ export default {
         this.$router.replace({ name: 'product', params: { parentSku: this.parentProduct.sku, childSku: this.product.sku, slug: this.parentProduct.slug } })
       }
     },
-    onAfterPriceUpdate (product) {
+    onAfterPriceUpdate (product) { // TODO: move to vuex
       if (product.sku === this.product.sku) {
         // join selected variant object to the store
         this.$store.dispatch('product/setCurrent', omit(product, ['name']))
@@ -179,7 +179,7 @@ export default {
     onAfterVariantChanged (payload) {
       this.$forceUpdate()
     },
-    onAfterFilterChanged (filterOption) {
+    onAfterFilterChanged (filterOption) { // TODO: move to Vuex: product/updateProductFilters
       this.$bus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
       const prevOption = this.configuration[filterOption.attribute_code]
       this.configuration[filterOption.attribute_code] = filterOption

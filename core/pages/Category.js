@@ -1,6 +1,5 @@
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/core/store'
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { baseFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
@@ -79,25 +78,7 @@ export default {
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     Logger.info('Entering asyncData in Category Page (core)')()
     try {
-      if (context) context.output.cacheTags.add(`category`)
-      const defaultFilters = store.state.config.products.defaultFilters
-      if (isServer || !store.state.config.filters.deepLinking) {
-        store.dispatch('category/resetFilters')
-        EventBus.$emit('filter-reset')
-      }
-      await store.dispatch('attribute/list', { // load filter attributes for this specific category
-        filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-        includeFields: store.state.config.entities.optimize && isServer ? store.state.config.entities.attribute.includeFields : null
-      })
-      const parentCategory = await store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
-      const query = await store.dispatch('category/initialProductsQuery', { route, defaultFilters, parentCategory })
-      const subloaders = await store.dispatch('category/products', query)
-      if (subloaders) {
-        await Promise.all(subloaders)
-        await EventBus.$emitFilter('category-after-load', { store: store, route: route })
-      } else {
-        throw new Error('Category query returned empty result')
-      }
+      return store.dispatch('category/fetchAsync', { slug: route.params.slug, route: route, ssrContext: context })
     } catch (err) {
       Logger.error(err)()
       throw err
@@ -142,9 +123,20 @@ export default {
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
   },
-  beforeRouteUpdate (to, from, next) {
+  async beforeRouteUpdate (to, from, next) {
     if (from.path !== to.path) { // category changed - not just filters
-      this.validateRoute(to)
+      try {
+        await this.$store.dispatch('category/fetchAsync', { route: to, context: null, slug: to.params.slug })
+      } catch (err) {
+        if (err.message.indexOf('query returned empty result') > 0) {
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
+            action1: { label: i18n.t('OK') }
+          })
+          this.$router.push(localizedRoute('/', currentStoreView().storeCode))
+        }
+      }
     }
     next()
   },
@@ -169,44 +161,6 @@ export default {
     },
     onSortOrderChanged (param) {
       if (param.attribute) this.$store.dispatch('category/updateProductsFilters', { sortOption: param.attribute })
-    },
-    validateRoute (route = this.$route) { // TODO: Merge with asyncData
-      this.$store.dispatch('category/resetFilters')
-      this.$bus.$emit('filter-reset')
-
-      this.$store.dispatch('category/single', { key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then(category => {
-        if (!category) {
-          this.$router.push(this.localizedRoute('/'))
-        } else {
-          this.pagination.current = 0
-          let searchProductQuery = baseFilterProductsQuery(this.getCurrentCategory, store.state.config.products.defaultFilters)
-          this.$bus.$emit('current-category-changed', this.getCurrentCategoryPath)
-          this.mergeSearchOptions({ // base prototype from the asyncData is being used here
-            current: this.pagination.current,
-            perPage: this.pagination.perPage,
-            store: this.$store,
-            route: this.$route,
-            append: false,
-            populateAggregations: true
-          })
-          if (!this.getCurrentCategoryProductQuery.searchProductQuery) {
-            this.mergeSearchOptions({
-              searchProductQuery
-            })
-          }
-          this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
-          this.$bus.$emitFilter('category-after-load', { store: this.$store, route: route })
-        }
-      }).catch(err => {
-        if (err.message.indexOf('query returned empty result') > 0) {
-          this.$store.dispatch('notification/spawnNotification', {
-            type: 'error',
-            message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
-            action1: { label: i18n.t('OK') }
-          })
-          this.$router.push(localizedRoute('/', currentStoreView().storeCode))
-        }
-      })
     },
     onUserPricesRefreshed () { // TODO: Move to Vuex
       const defaultFilters = store.state.config.products.defaultFilters

@@ -183,7 +183,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       if (state.list.length > 0 && !skipCache) { // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
         let category = state.list.find((itm) => { return itm[key] === value })
         // Check if category exists in the store OR we have recursively reached Default category (id=1)
-        if (category && value >= rootStore.state.config.entities.category.categoriesRootCategorylId/** root category parent */) {
+        if (category) {
           foundInLocalCache = true
           setcat(null, category)
         }
@@ -308,6 +308,28 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     }    
     return query
+  },
+  async fetchAsync (context, { slug, ssrContext, route }) {
+    if (ssrContext) ssrContext.output.cacheTags.add(`category`)
+    const defaultFilters = rootStore.state.config.products.defaultFilters
+    if (isServer || !rootStore.state.config.filters.deepLinking) {
+      context.dispatch('resetFilters')
+      Vue.prototype.$bus.$emit('filter-reset')
+    }
+    await context.dispatch('attribute/list', { // load filter attributes for this specific category
+      filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+      includeFields: rootStore.state.config.entities.optimize && isServer ? rootStore.state.config.entities.attribute.includeFields : null
+    }, { root: true })
+    const parentCategory = await context.dispatch('single', { key: rootStore.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: slug })
+    const query = await context.dispatch('initialProductsQuery', { route, defaultFilters, parentCategory })
+    const subloaders = await context.dispatch('products', query)
+    if (subloaders) {
+      Vue.prototype.$bus.$emit('current-category-changed', context.getters.getCurrentCategoryPath)
+      await Promise.all(subloaders)
+      await Vue.prototype.$bus.$emitFilter('category-after-load', { store: context, route: route })
+    } else {
+      throw new Error('Category query returned empty result')
+    }
   },
   /**
    * Filter category products
