@@ -11,7 +11,6 @@ export default {
   mixins: [Composite],
   computed: {
     ...mapGetters('category', ['getCategories']),
-    ...mapGetters('user', ['isLoggedIn']),
     rootCategories () {
       return this.getCategories
     }
@@ -28,15 +27,6 @@ export default {
   },
   beforeMount () {
     this.$store.dispatch('category/reset')
-  },
-  mounted () {
-    if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup')
-  },
-  watch: {
-    isLoggedIn () {
-      this.$router.push(localStorage.getItem('redirect'))
-      localStorage.removeItem('redirect')
-    }
   },
   metaInfo () {
     return {
