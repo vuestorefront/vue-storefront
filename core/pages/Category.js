@@ -92,7 +92,6 @@ export default {
     } else {
       next()
     }
-    next()
   },
   beforeMount () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
