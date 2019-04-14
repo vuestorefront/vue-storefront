@@ -1,6 +1,6 @@
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/core/store'
-import { baseFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
+import { isServer } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -162,20 +162,8 @@ export default {
     onSortOrderChanged (param) {
       if (param.attribute) this.$store.dispatch('category/updateProductsFilters', { sortOption: param.attribute })
     },
-    onUserPricesRefreshed () { // TODO: Move to Vuex
-      const defaultFilters = store.state.config.products.defaultFilters
-      this.$store.dispatch('category/single', {
-        key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug',
-        value: this.$route.params.slug
-      }).then((parentCategory) => {
-        if (!this.getCurrentCategoryProductQuery.searchProductQuery) {
-          this.mergeSearchOptions({
-            searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters),
-            skipCache: true
-          })
-        }
-        this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
-      })
+    onUserPricesRefreshed () {
+      this.$store.dispatch('category/fetchAsync', { route: this.$route, context: null, slug: this.$route.params.slug, skipCache: true })
     }
   },
   metaInfo () {

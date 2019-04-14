@@ -267,7 +267,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     if (fetchProducts) context.dispatch('products', context.getters.getCurrentCategoryProductQuery).then((res) => {
     }) // because already aggregated
   },
-  initialProductsQuery (context, { route, parentCategory, defaultFilters }) {
+  initialProductsQuery (context, { route, parentCategory, defaultFilters, skipCache = false }) {
     let query = context.getters.getCurrentCategoryProductQuery
     if (rootStore.state.config.filters.deepLinking) {
       if (route.query) {
@@ -304,12 +304,13 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     if (!query.searchProductQuery) {
       context.dispatch('mergeSearchOptions', {
-        searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters)
+        searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters),
+        skipCache
       })
     }    
     return query
   },
-  async fetchAsync (context, { slug, ssrContext, route }) {
+  async fetchAsync (context, { slug, ssrContext, route, skipCache = false }) {
     if (ssrContext) ssrContext.output.cacheTags.add(`category`)
     const defaultFilters = rootStore.state.config.products.defaultFilters
     if (isServer || !rootStore.state.config.filters.deepLinking) {
@@ -321,7 +322,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       includeFields: rootStore.state.config.entities.optimize && isServer ? rootStore.state.config.entities.attribute.includeFields : null
     }, { root: true })
     const parentCategory = await context.dispatch('single', { key: rootStore.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: slug })
-    const query = await context.dispatch('initialProductsQuery', { route, defaultFilters, parentCategory })
+    const query = await context.dispatch('initialProductsQuery', { route, defaultFilters, parentCategory, skipCache })
     const subloaders = await context.dispatch('products', query)
     if (subloaders) {
       Vue.prototype.$bus.$emit('current-category-changed', context.getters.getCurrentCategoryPath)
