@@ -267,7 +267,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     if (fetchProducts) context.dispatch('products', context.getters.getCurrentCategoryProductQuery).then((res) => {
     }) // because already aggregated
   },
-  initialProductsQuery (context, { route, parentCategory, defaultFilters, skipCache = false }) {
+  initialProductsQuery (context, { route, parentCategory, defaultFilters, skipCache = false, cacheOnly = false }) {
     let query = context.getters.getCurrentCategoryProductQuery
     if (rootStore.state.config.filters.deepLinking) {
       if (route.query) {
@@ -305,12 +305,13 @@ const actions: ActionTree<CategoryState, RootState> = {
     if (!query.searchProductQuery) {
       context.dispatch('mergeSearchOptions', {
         searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters),
-        skipCache
+        skipCache,
+        cacheOnly
       })
     }    
     return query
   },
-  async fetchAsync (context, { slug, ssrContext, route, skipCache = false }) {
+  async fetchAsync (context, { slug, ssrContext, route, skipCache = false, cacheOnly = false }) {
     if (ssrContext) ssrContext.output.cacheTags.add(`category`)
     const defaultFilters = rootStore.state.config.products.defaultFilters
     if (isServer || !rootStore.state.config.filters.deepLinking) {
@@ -322,7 +323,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       includeFields: rootStore.state.config.entities.optimize && isServer ? rootStore.state.config.entities.attribute.includeFields : null
     }, { root: true })
     const parentCategory = await context.dispatch('single', { key: rootStore.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: slug })
-    const query = await context.dispatch('initialProductsQuery', { route, defaultFilters, parentCategory, skipCache })
+    const query = await context.dispatch('initialProductsQuery', { route, defaultFilters, parentCategory, skipCache, cacheOnly })
     const subloaders = await context.dispatch('products', query)
     if (subloaders) {
       Vue.prototype.$bus.$emit('current-category-changed', context.getters.getCurrentCategoryPath)
@@ -335,7 +336,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Filter category products
    */
-  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false }) {
+  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false, cacheOnly = false }) {
     context.dispatch('setSearchOptions', {
       populateAggregations,
       filters,
@@ -362,6 +363,11 @@ const actions: ActionTree<CategoryState, RootState> = {
         Logger.log('Two stage caching is disabled by the config')()
       }
     }
+    if (cacheOnly) {
+      excludeFields = null
+      includeFields = null
+      Logger.log('Caching request only, no state update')()
+    }
     let t0 = new Date().getTime()
 
     const precachedQuery = searchProductQuery
@@ -374,7 +380,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       configuration: configuration,
       append: append,
       sort: sort,
-      updateState: true,
+      updateState: cacheOnly ? false : true,
       prefetchGroupProducts: prefetchGroupProducts
     }).then((res) => {
       let t1 = new Date().getTime()
@@ -474,7 +480,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     })
 
-    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled) { // second stage - request for caching entities
+    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled && !cacheOnly) { // second stage - request for caching entities; if cacheOnly set - the caching took place with the stage1 request!
       Logger.log('Using two stage caching for performance optimization - executing second stage product caching', 'category') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize()
       rootStore.dispatch('product/list', {
         query: precachedQuery,

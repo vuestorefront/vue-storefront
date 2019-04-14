@@ -85,21 +85,13 @@ export default {
     }
   },
   async beforeRouteEnter (to, from, next) {
-    /* if (!isServer && !from.name) { // Loading category products to cache on SSR render
+    if (!isServer && !from.name) { // Loading category products to cache on SSR render
       next(vm => {
-        const defaultFilters = store.state.config.products.defaultFilters
-        let parentCategory = store.getters['category/getCurrentCategory']
-        let query = store.getters['category/getCurrentCategoryProductQuery']
-        if (!query.searchProductQuery) {
-          store.dispatch('category/mergeSearchOptions', {
-            searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters)
-          })
-        }
-        store.dispatch('category/products', query)
+        store.dispatch('category/fetchAsync', { route: to, context: null, slug: to.params.slug, cacheOnly: true })
       })
     } else {
       next()
-    } */
+    }
     next()
   },
   beforeMount () {
