@@ -128,7 +128,7 @@ const invokeClientEntry = async () => {
       const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
       const ordersCollection = new UniversalStorage(localForage.createInstance({
-        name: 'shop',
+        name: dbNamePrefix + 'shop',
         storeName: 'orders',
         driver: localForage[config.localForage.defaultDrivers['orders']]
       }))

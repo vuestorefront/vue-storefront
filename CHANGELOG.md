@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved My Account options from Categories - @bartdominiak (#2612)
 - Fix displaying (and adding) reviews for configurable products - @afirlejczyk (#2660) 
 - Image switching fix - @pkarw (#2709)
+- Respect store code on order/PROCESS_QUEUE for shop store - @zulcom (#2727)
 
 ### Changed / Improved
 - Improved ProductGalleryCarousel component to handle nonnumeric options id’s - @danieldomurad (#2586)
