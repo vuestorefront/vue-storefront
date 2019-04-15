@@ -64,13 +64,13 @@ For your own implementation you should create a `local.json` file in the same di
 While making themes in Vue Storefront in most cases all you need to take care of is creating your own HTML and CSS markup. All required business logic is exposed by core with it's core modules and can be easly injected into any of theme components.
 The mechanism of injecting core business logic into themes is very simple. We are using Vue.js mixins to keep upgradable business logic in the core. 
 
-Business logic from core component can be easly injected into any theme component as a Vue.js mixin. We can easly inject it into any of our theme components just my importing it and adding as a mixin ( eg `mixins: [Microcart]` is what you need to use core Microcart logic). This is all you need to make use of core business logic inside your theme. With this approach we can easly ship updates to all core components without breaking your shop.
+Business logic from core component can be easly injected into any theme component as a Vue.js mixin. We can easly inject it into any of our theme components just by importing it and adding it as a mixin ( eg `mixins: [Microcart]` is what you need to use core Microcart logic). This is all you need to make use of core business logic inside your theme. With this approach we can easly ship updates to all core components without breaking your shop.
 
-The easiest way to create your own theme is to create a copy of the default one, change it's name in it's `package.json` file, change active theme in `config/local.jso`n and run `yarn` to make lerna linking (which we are using for monorepos).
+The easiest way to create your own theme is to create a copy of the default one, change it's name in it's `package.json` file, change active theme in `config/local.json` and run `yarn` to make lerna linking (which we are using for monorepos).
 
 ## Offline mode and cache
 
-Vue Storefront is still working even while user is offline. 
+Vue Storefront is still working even while a user is offline. 
 
 We managed to do this by making heavy use of the browser cache. 
 For the static assets (only prod) we are using sw-precache plugin (config can be found in `core/build/webpack.prod.sw.config.js` ). They are cached in Service Worker and can be inspected under `Application/Cache Storage` tab of your Developer Tools.
@@ -79,7 +79,7 @@ For the static assets (only prod) we are using sw-precache plugin (config can be
 Please mind that Service Worker is working only on production mode. 
 :::
 
-For the catalog and store data cache we are using IndexedDB and Local Storage. We are also prefetching products from visited categories so once you enter one all of it's products are available offline. The mechanism of offline storage is located under core/lin./storage.
+For the catalog and store data cache we are using IndexedDB and Local Storage. We are also prefetching products from visited categories so once you enter one, all of it's products are available offline. The mechanism of offline storage is located under `core/store/lib/storage.ts`.
 
 We are using some of cached data even while user is online to display the content instantly. This is why Vue Storefront is so fast.
 
