@@ -31,9 +31,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Product video - retrieve video id from 'video_id' field (if set) instead of 'id' - @afirlejczyk
 - Fixed static file handler to immediately return 404 status for missing files - @grimason (#2685)
 - Fixed maxAge Response Header for static files and Content-Type for Service Worker - @grimason (#2686)
-- Default log verbosity is changed to show only errors - lromanowicz (#2717)
+- Default log verbosity is changed to show only errors - @lromanowicz (#2717)
 - Logger refactor + now it takes `showErrorOnProduction` into account - @lromanowicz - (#2717)
 - Jest updated from 24.1 to 24.7 along with typings - @lromanowicz - (#2717)
+- Jest globals added to .eslint - @lromanowicz (#2717)
 
 ## [1.9.0] - UNRELEASED
 
