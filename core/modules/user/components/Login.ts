@@ -11,11 +11,6 @@ export const Login = {
     }
   },
   methods: {
-    close (e) {
-      // TODO Move to theme
-      if (e) localStorage.removeItem('redirect')
-      this.$bus.$emit('modal-hide', 'modal-signup')
-    },
     callLogin () {
       this.$bus.$emit('notification-progress-start', i18n.t('Authorization in progress ...'))
       this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {

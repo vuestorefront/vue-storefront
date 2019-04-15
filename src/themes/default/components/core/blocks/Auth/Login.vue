@@ -99,6 +99,10 @@ export default {
     }
   },
   methods: {
+    close (e) {
+      if (e) localStorage.removeItem('redirect')
+      this.$bus.$emit('modal-hide', 'modal-signup')
+    },
     login () {
       if (this.$v.$invalid) {
         this.$v.$touch()
