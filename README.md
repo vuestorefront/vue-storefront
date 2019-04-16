@@ -664,10 +664,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
    <td align="center" valign="middle"> 
-<a href="">
+<a href="https://www.sutunam.com/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/Sutunam_H_Logo_LightBg.png"
+            alt="Sutunam"
             height="40"
           >
         </a>
