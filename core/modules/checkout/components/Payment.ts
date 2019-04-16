@@ -1,7 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
-const Countries = require('@vue-storefront/i18n/resource/countries.json')
 import toString from 'lodash-es/toString'
+const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Payment = {
   name: 'Payment',
@@ -37,7 +37,7 @@ export const Payment = {
     }
   },
   mounted () {
-    if (!!this.payment.firstName) {
+    if (this.payment.firstName) {
       this.initializeBillingAddress()
     } else {
       if (this.payment.company) {
@@ -46,14 +46,19 @@ export const Payment = {
     }
     this.changePaymentMethod()
   },
-  watch:{
-    shippingDetails:{
+  watch: {
+    shippingDetails: {
       handler () {
         if (this.sendToShippingAddress) {
-          this.copyShippingToBillingAddress();
+          this.copyShippingToBillingAddress()
         }
       },
       deep: true
+    },
+    sendToShippingAddress: {
+      handler () {
+        this.useShippingAddress()
+      }
     }
   },
   methods: {
@@ -123,7 +128,7 @@ export const Payment = {
     },
     useShippingAddress () {
       if (this.sendToShippingAddress) {
-        this.copyShippingToBillingAddress();
+        this.copyShippingToBillingAddress()
         this.sendToBillingAddress = false
         this.generateInvoice = false
       } else {
@@ -131,7 +136,7 @@ export const Payment = {
         this.generateInvoice = false
       }
     },
-    copyShippingToBillingAddress(){
+    copyShippingToBillingAddress () {
       this.payment = {
         firstName: this.shippingDetails.firstName,
         lastName: this.shippingDetails.lastName,
