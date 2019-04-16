@@ -3,9 +3,7 @@ import buildTimeConfig from 'config'
 const bgColorStyle = (color) => `color: white; background: ${color}; padding: 4px; font-weight: bold; font-size: 0.8em'`
 
 /** VS message logger. By default works only on dev mode */
-class Logger
-{
-
+class Logger {
   /**
    * Logger verbosity level
    */
@@ -27,10 +25,10 @@ class Logger
    * @param verbosityLevel
    * @param showErrorOnProduction
    */
-  constructor(verbosityLevel: string = 'display-everything', showErrorOnProduction: boolean = false) {
-    this.verbosityLevel = verbosityLevel;
-    this.showErrorOnProduction = showErrorOnProduction;
-    this.isProduction = process.env.NODE_ENV === 'production';
+  constructor (verbosityLevel: string = 'display-everything', showErrorOnProduction: boolean = false) {
+    this.verbosityLevel = verbosityLevel
+    this.showErrorOnProduction = showErrorOnProduction
+    this.isProduction = process.env.NODE_ENV === 'production'
   }
 
   /**
@@ -40,30 +38,24 @@ class Logger
   convertToString (payload: any) {
     if (typeof payload === 'string' || typeof payload === 'boolean' || typeof payload === 'number') return payload
     if (payload && payload.message) return payload.message
-    return JSON.stringify(payload) 
+    return JSON.stringify(payload)
   }
 
   /**
    * Check if method can print into console
    *
-   * @param string method
+   * @param {string} method
    */
-  canPrint(method: string) {
-    let allowedMethods = [];
+  canPrint (method: string) {
+    const allowedMethods = []
 
     if (this.verbosityLevel === 'display-everything' && this.isProduction === false) {
-      allowedMethods = ['info', 'warn', 'error', 'debug']
-    } else if (this.verbosityLevel === 'only-errors' && (this.isProduction === false || this.showErrorOnProduction === true )) {
-      allowedMethods = ['error']
-    } else if (this.verbosityLevel === 'no-console' || (this.isProduction === true && this.showErrorOnProduction === false)) {
-      allowedMethods = []
+      allowedMethods.push(...['info', 'warn', 'error', 'debug'])
+    } else if (this.verbosityLevel === 'only-errors' && (this.isProduction === false || this.showErrorOnProduction === true)) {
+      allowedMethods.push('error')
     }
 
-    if (allowedMethods.indexOf(method) === -1) {
-      return false;
-    }
-
-    return true;
+    return allowedMethods.indexOf(method) !== -1
   }
 
   /**
@@ -75,14 +67,18 @@ class Logger
    * @param context meaningful data related to this message
    */
   debug (message: any, tag: string = null, context: any = null) : () => void {
-    if (!isServer && this.canPrint('debug')) {
-      if (tag) {
-        return console.debug.bind(window.console, '%cVSF%c %c' + tag +'%c ' + this.convertToString(message), bgColorStyle('grey'), 'color: inherit', bgColorStyle('gray'), 'font-weight: normal', context);
-      } else {
-        return console.debug.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('grey'), 'font-weight: normal', context);
-      }
+    if (!this.canPrint('debug')) {
+      return () => {}
+    }
+
+    if (isServer) {
+      return console.debug.bind(console, (tag ? `[${tag}] ` : '') + this.convertToString(message), context)
+    }
+
+    if (tag) {
+      return console.debug.bind(window.console, '%cVSF%c %c' + tag + '%c ' + this.convertToString(message), bgColorStyle('grey'), 'color: inherit', bgColorStyle('gray'), 'font-weight: normal', context)
     } else {
-      return function () {}
+      return console.debug.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('grey'), 'font-weight: normal', context)
     }
   }
 
@@ -95,7 +91,7 @@ class Logger
    * @param context meaningful data related to this message
    */
   log (message: any, tag: string = null, context: any = null) : () => void {
-    return this.info(message, tag, context);
+    return this.info(message, tag, context)
   }
 
   /**
@@ -107,18 +103,22 @@ class Logger
    * @param context meaningful data related to this message
    */
   info (message: any, tag: string = null, context: any = null) : () => void {
-    if (!isServer && this.canPrint('info')) {
-      if (tag) {
-        return console.log.bind(window.console, '%cVSF%c %c' + tag +'%c ' + this.convertToString(message), bgColorStyle('green'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
-      } else {
-        return console.log.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('green'), 'font-weight: bold', context);
-      }
+    if (!this.canPrint('info')) {
+      return () => {}
+    }
+
+    if (isServer) {
+      return console.log.bind(console, (tag ? `[${tag}] ` : '') + this.convertToString(message), context)
+    }
+
+    if (tag) {
+      return console.log.bind(window.console, '%cVSF%c %c' + tag + '%c ' + this.convertToString(message), bgColorStyle('green'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context)
     } else {
-      return function () {}
+      return console.log.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('green'), 'font-weight: bold', context)
     }
   }
 
-    /**
+  /**
    * Inform about potential problems that may be a cause of app break
    * Don't forget to invoke created function after passing arguments to keep context
    * `Logger.warn(...args)()`
@@ -127,18 +127,17 @@ class Logger
    * @param context meaningful data related to this message
    */
   warn (message: any, tag: string = null, context: any = null) : () => void {
-    if (this.canPrint('warn')) {
-      if (!isServer) {
-        if (tag) {
-          return console.warn.bind(window.console, '%cVSF%c %c' + tag +'%c ' + this.convertToString(message), bgColorStyle('orange'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
-        } else {
-          return console.warn.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('orange'), 'font-weight: bold', context);
-        }
-      } else {
-        return console.warn.bind(console, message, context);
-      }
+    if (!this.canPrint('warn')) {
+      return () => {}
+    }
+    if (isServer) {
+      return console.warn.bind(console, (tag ? `[${tag}] ` : '') + this.convertToString(message), context)
+    }
+
+    if (tag) {
+      return console.warn.bind(window.console, '%cVSF%c %c' + tag + '%c ' + this.convertToString(message), bgColorStyle('orange'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context)
     } else {
-      return function () {}
+      return console.warn.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('orange'), 'font-weight: bold', context)
     }
   }
 
@@ -151,21 +150,25 @@ class Logger
    * @param context meaningful data related to this message
    */
   error (message: any, tag: string = null, context: any = null) : () => void {
-    if (this.canPrint('error')) { // we should display SSR errors for better monitoring + error handling
-      if (!isServer) {
-        if (tag) {
-          return console.error.bind(window.console, '%cVSF%c %c' + tag +'%c ' + this.convertToString(message), bgColorStyle('red'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
-        } else {
-          return console.error.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('red'), 'font-weight: bold', context);
-        }
-      } else {
-        return console.error.bind(console, message, context);
-      }
-    } else {
-      return function () {}
+    if (isServer) { // always show errors in SSR
+      return console.error.bind(console, (tag ? `[${tag}] ` : '') + this.convertToString(message), context)
     }
+
+    if (this.canPrint('error')) {
+      if (tag) {
+        return console.error.bind(window.console, '%cVSF%c %c' + tag + '%c ' + this.convertToString(message), bgColorStyle('red'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context)
+      } else {
+        return console.error.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('red'), 'font-weight: bold', context)
+      }
+    }
+
+    return () => {}
   }
 }
 
-const logger = new Logger(buildTimeConfig.console.verbosityLevel);
+const logger = new Logger(
+  buildTimeConfig.console.verbosityLevel,
+  buildTimeConfig.console.showErrorOnProduction
+)
+
 export {logger as Logger}
