@@ -49,7 +49,7 @@ export default {
   },
   beforeMount () {
     // the user might already be logged in, so check the subscription status
-    this.onLoggedIn()
+    if (this.$store.state.user.current) this.onLoggedIn()
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
   },
   beforeDestroy () {
