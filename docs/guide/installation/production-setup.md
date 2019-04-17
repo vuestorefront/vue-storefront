@@ -13,7 +13,7 @@ Assumptions for the rest of this tutorial:
 - You're having root access to Debian Linux machine;
 - We'll be using the default local ports `3000` for [`vue-storefront`](https://github.com/DivanteLtd/vue-storefront) and `8080` for [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api); the ports **should not be exposed** as they will be hidden behind **NGINX proxy**;
 - We're using **prod.vuestorefront.io** as a domain name - please replace it with your host URL address;
-- We assume that you have SSL certificate for **prod.vuestorefront.io** (or your domain of course). SSL encryption is required for PWA + service workers;
+- We assume that you do not have SSL certificate for your domain yet. While SSL encryption is required for PWA + service workers it will be installed using the steps described below. If you want to use your existing certificate, it's entirely up to you.
 
 General Solution Architecture:
 _USER -> NGINX proxy -> vue-storefront / vue-storefront-api_
@@ -42,15 +42,15 @@ apt-get update
 apt-get install curl
 apt-get install git
 
-curl -sL https://deb.nodesource.com/setup_8.x | bash -
+curl -sL https://deb.nodesource.com/setup_10.x | bash -
 apt-get install -y nodejs
 npm install -g yarn
 
 apt-get install redis-server
 
 apt-get install openjdk-8-jre
-curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.9.deb
-dpkg -i elasticsearch-5.6.9.deb
+curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.16.deb
+dpkg -i elasticsearch-5.6.16.deb
 /etc/init.d/elasticsearch start
 
 apt-get install imagemagick
@@ -70,82 +70,44 @@ Some additional materials:
 
 #### Nginx configuration
 
-[Here is the complete `/etc/nginx/sites-enabled/prod.vuestorefront.io` file](https://github.com/DivanteLtd/vue-storefront/tree/master/docs/guide/installation/etc/nginx/sites-enabled/prod.vuestorefront.io).
-
 Create NGINX config file from the template (please run as a root user):
 
 ```bash
 curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/prod.vuestorefront.io > /etc/nginx/sites-available/prod.vuestorefront.io
 ln -s /etc/nginx/sites-available/prod.vuestorefront.io /etc/nginx/sites-enabled/prod.vuestorefront.io
 ```
-
-**Install the SSL certificate**
-
-```bash
-mkdir /etc/nginx/ssl
-nano /etc/nginx/ssl/prod.vuestorefront.io.chained.crt
-nano /etc/nginx/ssl/prod.vuestorefront.io.key
-nano /etc/nginx/ssl/dhparam.pem
-```
-
 Now you can run the NGINX:
 
 ```bash
 /etc/init.d/nginx restart
 ```
 
-Please find the full comments on the following sections of the file below:
+This will allow you to run your site without the SSL certificate
 
-```
-server {
-	listen 80;
-	server_name prod.vuestorefront.io;
-	return 301 https://prod.vuestorefront.io$request_uri;
-}
-```
+**Install the SSL certificate**
 
-This section runs the standard http://prod.vuestorefront.io and creates a wildcard redirect from http://prod.vuestorefront.io/* -> https://prod.vuestorefront.io/. SSL secured connection is a must for run PWA and use service-workers.
+SSL secured connection is a must for run PWA and use service-workers.
 
+For SSL we'll be using Free SSL solution called `Let's Enrypt`
+
+Navigate to https://certbot.eff.org/, select the operating system you are using and follow the instructions
+
+After you're done with the installation, open the file at `/etc/nginx/sites-enabled/prod.vuestorefront.io-ssl` and add `http2` after the `server_name` value (but before the semicolon!). It should look like this: 
 ```
 server {
 	listen 443 ssl;
 	server_name prod.vuestorefront.io http2;
 
 	ssl on;
+	(...the rest of the config...)
+}
 ```
 
-We're using `http2` but it's not required. This section is for setting up the SSL secured virtual host of Vue Storefront frontend.
+`http2` is not required, but can optimize the experience for browsers which support it. More details on http/2 can be found at https://developers.google.com/web/fundamentals/performance/http2/  
 
-```
-ssl_certificate /etc/nginx/ssl/prod.vuestorefront.io.chained.crt;
-ssl_certificate_key /etc/nginx/ssl/prod.vuestorefront.io.key;
-```
+##### Some notes on the provided nginx config 
 
-We assume that the certificate related files are stored in the `/etc/nginx/ssl/`. Please point it to your certificate files.
-
-```
-ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
-ssl_prefer_server_ciphers on;
-ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:DHE-RSA-AES256-SHA;
-ssl_ecdh_curve secp384r1;
-ssl_session_timeout 10m;
-ssl_session_cache shared:SSL:10m;
-ssl_session_tickets off;
-ssl_stapling on;
-ssl_stapling_verify on;
-resolver 8.8.8.8 8.8.4.4 valid=300s;
-resolver_timeout 5s;
-
-ssl_dhparam /etc/nginx/ssl/dhparam.pem;
-
-add_header Strict-Transport-Security "max-age=31536000" always;
-add_header X-Frame-Options DENY;
-add_header X-Content-Type-Options nosniff;
-add_header X-XSS-Protection "1; mode=block";
-add_header X-Robots-Tag none;
-```
-
-Here we go with the SSL settings - based on our best experiences from the past. Please read details in the [NGINX documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) if you like ;)
+Vue Storefront SSR responses contain the full markup + JSON objects included for speed-up the first page view. Unfortunately - among with significant JS bundle sizes - it can generate a significant network load. You can see in the provided nginx config that we're optimizing it with using gzip compression server side.
 
 ```
 gzip on;
@@ -156,20 +118,17 @@ gzip_types
   text/xml
   application/javascript
   application/json
-  text/json
-  text/html;
-}
+  text/json;
 ```
 
-Vue Storefront SSR responses contain the full markup + JSON objects included for speed-up the first page view. Unfortunately - among with significant JS bundle sizes - it can generate a significant network load. We're optimizing it with using gzip compression server side.
-
+We're also using [`proxy_pass`](http://nginx.org/en/docs/http/ngx_http_proxy_module.html) from the `ngx_http_proxy_module` to pull the content from the Vue Storefront nodejs server. Site will be available under https://prod.vuestorefront.io/
 ```
 location / {
   proxy_pass http://localhost:3000/;
 }
 ```
 
-We're using [`proxy_pass`](http://nginx.org/en/docs/http/ngx_http_proxy_module.html) from the `ngx_http_proxy_module` to pull the content from the Vue Storefront nodejs server. Site will be available under https://prod.vuestorefront.io/
+The same module is used for providing user with the static assets. Assets will be available under: https://prod.vuestorefront.io/assets
 
 ```
 location /assets/ {
@@ -177,15 +136,14 @@ location /assets/ {
 }
 ```
 
-The same module is used for providing user with the static assets. Assets will be available under: https://prod.vuestorefront.io/assets
-
+The next proxy section is used for serving the API. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). API will be available under: https://prod.vuestorefront.io/api
 ```
 location /api/ {
   proxy_pass http://localhost:8080/api/;
 }
 ```
 
-The next proxy section is used for serving the API. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). API will be available under: https://prod.vuestorefront.io/api
+The last proxy is used for serving product images. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). Images will be available under: https://prod.vuestorefront.io/img
 
 ```
 location /img/ {
@@ -193,7 +151,7 @@ location /img/ {
 }
 ```
 
-The last proxy is used for serving product images. It's a proxy to [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) app running on `8080` port (default config). Images will be available under: https://prod.vuestorefront.io/img
+If you like to know more about nginx configuration, please find more details in the [NGINX documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) 
 
 #### Apache2 configuration
 
@@ -252,16 +210,14 @@ It may take a few minutes. Once the modules are installed we can set configurati
 
 The full configuration files are available here to download: [vue-storefront](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront/config) and [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/installation/vue-storefront-api/config).
 
-Please create the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` files accordingly.
-
+Please create the `vue-storefront-api/config/local.json` and `vue-storefront/config/local.json` files accordingly by copying default.json into local.json by using `cp` command:
 ```bash
-curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront-api/config/local.json > /home/www/vuestorefront/vue-storefront-api/config/local.json
+cp /home/www/vuestorefront/vue-storefront-api/config/default.json /home/www/vuestorefront/vue-storefront-api/config/local.json
 ```
 
-... and ...
-
+...and ...
 ```bash
-curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront/config/local.json > /home/www/vuestorefront/vue-storefront/config/local.json
+cp /home/www/vuestorefront/vue-storefront/config/default.json /home/www/vuestorefront/vue-storefront/config/local.json
 ```
 
 Please find the key sections of the `vue-storefront/config/local.json` file described in below:
@@ -318,6 +274,12 @@ We're setting up the product's endpoint to https://prod.vuestorefront.io/api/cat
 ```
 
 There are 27 more instances of `prod.vuestorefront.io` to be replaced with your production URL address in this file - please just do so :)
+
+If you want to see how the local.json should look like after your modifications, the configs we prepared for `prod.vuestorefront.io` are available under: 
+
+[vue-storefront local.json](https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront-api/config/local.json)
+
+[vue-storefront-api local.json](https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/vue-storefront/config/local.json)
 
 #### Vue Storefront API configuration
 
