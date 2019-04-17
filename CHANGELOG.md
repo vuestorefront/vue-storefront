@@ -41,6 +41,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
 - Update to babel 7 - @lukeromanowicz (#2554)
 
+## [1.8.5] - 2019.04.17
+
+### Fixed
+- Memory leaks on SSR with Vue.use - @patzick (#2745)
 
 ## [1.8.4] - 2019.03.26
 

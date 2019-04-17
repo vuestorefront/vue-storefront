@@ -28,7 +28,6 @@ import * as coreFilters from '@vue-storefront/core/filters'
 import * as corePlugins from '@vue-storefront/core/compatibility/plugins'
 
 import { once } from '@vue-storefront/core/helpers'
-import { takeOverConsole } from '@vue-storefront/core/helpers/log'
 import store from '@vue-storefront/core/store'
 
 import { enabledModules } from './modules-entry'
@@ -58,7 +57,9 @@ function createRouter (): VueRouter {
 
 let router: VueRouter = null
 
-Vue.use(VueRouter)
+once('__VUE_EXTEND_RR__', () => {
+  Vue.use(VueRouter)
+})
 
 const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
   router = createRouter()
@@ -74,13 +75,14 @@ const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: V
   store.state.storeView = storeView
   // store.state.shipping.methods = shippingMethods
 
-  Vue.use(Vuelidate)
-  Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
-  Vue.use(Meta)
-  Vue.use(VueObserveVisibility)
-
+  
   // to depreciate in near future
   once('__VUE_EXTEND__', () => {
+    Vue.use(Vuelidate)
+    Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
+    Vue.use(Meta)
+    Vue.use(VueObserveVisibility)
+
     Object.keys(corePlugins).forEach(key => {
       Vue.use(corePlugins[key])
     })
