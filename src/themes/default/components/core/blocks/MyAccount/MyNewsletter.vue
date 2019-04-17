@@ -72,6 +72,14 @@ export default {
     },
     edit () {
       this.isEdited = true
+    },
+    updateNewsletter () {
+      if (this.user.isSubscribed) {
+        this.subscribe()
+      } else {
+        this.unsubscribe()
+      }
+      this.exitSection()
     }
   },
   mixins: [MyNewsletter]
