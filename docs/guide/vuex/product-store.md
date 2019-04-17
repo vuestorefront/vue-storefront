@@ -1,8 +1,8 @@
 # Product Vuex Store
 
-Product Store is designed to handle all actions related the product data. It's responsible for loading the list of products or a single product as well as configuring the configurable products and managing the products attachments.
+The Product Store is designed to handle all actions related product data. It's responsible for loading the list of products or a single product as well as configuring the configurable products and managing the product attachments.
 
-This module works pretty tightly with Elastic Search and operates on the [Product data format](../data/elasticsearch.md)
+This module works pretty tightly with Elasticsearch and operates on the [Product data format](../data/elasticsearch.md)
 
 ## State
 
@@ -19,14 +19,14 @@ const state = {
 };
 ```
 
-Product state is generally populated by just two methods [list](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L395) and [single](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L428) and cleared to the defaults by [reset](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L215)
+The product state is generally populated by just two methods - [list](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L395) and [single](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L428) - and cleared to the defaults by [reset](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L215).
 
 The product state data:
 
-- `breadcrumbs` - this is the list of routes used by the [Breadcrumbs component](https://github.com/DivanteLtd/vue-storefront/blob/master/core/components/Breadcrumbs.js)
-- `current` - this is the product object with selected `configurable_children` variant - so it's the base product with attributes overridden by the values from selected `configurable_children` variant; it's used on [Product.vue page](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/pages/Product.vue#L203) this is the product which is added to the cart after "Add to cart"
-- `current_options` - it's a list used to populate the variant selector on the [Product.vue page](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/themes/default/pages/Product.vue#L56) it contains dictionary of attributes x possible attribute values and labels and it's populated by [setupVariants](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L344) based on the `configurable_children` property
-- `current_configuration` is a current product configuration - dictionary of selected variant attributes; for example it contains dictionary of selected product attributes:
+- `breadcrumbs` - This is the list of routes used by the [Breadcrumbs component](https://github.com/DivanteLtd/vue-storefront/blob/master/core/components/Breadcrumbs.js)
+- `current` - This is the product object with selected `configurable_children` variant, so it's the base product with attributes overridden by the values from selected `configurable_children` variant; it's used on [Product.vue page](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/pages/Product.vue#L203). This is the product which is added to the cart after "Add to cart"
+- `current_options` - A list used to populate the variant selector on the [Product.vue page](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/themes/default/pages/Product.vue#L56). It contains dictionary of attributes and possible attribute values and labels, and it's populated by [setupVariants](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L344) based on the `configurable_children` property.
+- `current_configuration` A a current product configuration. A dictionary of selected variant attributes; for example, it contains a  dictionary of selected product attributes:
 
 ```json
 {
@@ -35,25 +35,25 @@ The product state data:
 }
 ```
 
-Please note, that we're using the Magento like EAV attributes structure - so the values here are an attribute value indexes not the values itself. Please take a look at [Data formats](../data/elasticsearch.md) for a reference
+Please note, we're using the Magento-like EAV attributes structure so the values here are attribute value indexes, not the values itself. Please take a look at [Data formats](../data/elasticsearch.md) for a reference.
 
-- `parent` - if the current product is a `type_id="single"` then in this variable the parent, `configurable` product is stored. This data is populated only on `Product.vue` by [checkConfigurableParent](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L323)
-- `list` - this is an Array of products loaded by [list](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L395)
-- `original` - used only for `configurable` products; this is the base product with no variant selected
-- `related` - this is dictionary of related products; set outside this store (for [example here](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Product/Related.vue)) by calling and [related action](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L528)
+- `parent` - If the current product is a `type_id="single"`, then in this variable the parent, `configurable` product is stored. This data is populated only on `Product.vue` by [checkConfigurableParent](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L323)
+- `list` - This is an array of products loaded by [list](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L395)
+- `original` - Used only for `configurable` products, this is the base product with no selected variant.
+- `related` - This is dictionary of related products; set outside this store (for [example here](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Product/Related.vue)) by calling and [related action](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L528)
 
 ## Events
 
 The following events are published from `product` store:
 
-- `EventBus.$emit('product-after-priceupdate', product)` - from [syncProductPrice](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L33) after product price is synced with Magento;
-- `EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })` from `configureProductAsync` (called by `product/configure` action after `product/single`). This event provides the information about selected product variant on the product page
-- `EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, result: resp })` - this event emits the current product list as it's returned by `product/list` providing the current filters etc. You can mark specific product list identifier by setting `meta` property; it's important because on single page this event can be executed multiple time for each individual block of products
-- `EventBus.$emit('product-after-single', { key: key, options: options, product: cachedProduct })` - after single product has been loaded (invoked by `product/single` action)
-- `EventBus.$emit('product-after-related', { key: key, items: items })` - invoked whenever the related products block is set for the current product; the key is the name of the related block and items are related products
-- `EventBus.$emit('product-after-original', { original: product })` - invoked by `product/single` whenever product has been loaded
-- `EventBus.$emit('product-after-parent', { parent: product })` - invoked externally by `product/checkConfigurableParent` provides the current single product configurable parent
-- `EventBus.$emit('product-after-reset', { })` - after product has been reseted (for example in the process of moving from one product page to another)
+- `EventBus.$emit('product-after-priceupdate', product)` - from [syncProductPrice](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L33) after product price is synced with Magento.
+- `EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })` from `configureProductAsync` (called by `product/configure` action after `product/single`). This event provides the information about selected product variant on the product page.
+- `EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, result: resp })` - this event emits the current product list as it's returned by `product/list`providing the current filters, etc. You can mark the specific product list identifier by setting the `meta` property; it's important because on a single page, this event can be executed multiple time for each individual block of products.
+- `EventBus.$emit('product-after-single', { key: key, options: options, product: cachedProduct })` - After single product has been loaded (invoked by `product/single` action).
+- `EventBus.$emit('product-after-related', { key: key, items: items })` - Invoked whenever the related products block is set for the current product; the key is the name of the related block and items are related products.
+- `EventBus.$emit('product-after-original', { original: product })` - Invoked by `product/single` whenever product has been loaded.
+- `EventBus.$emit('product-after-parent', { parent: product })` - Invoked externally by `product/checkConfigurableParent` provides the current single product configurable parent.
+- `EventBus.$emit('product-after-reset', { })` - After product has been reseted (for example in the process of moving from one product page to another).
 
 ## Actions
 
@@ -61,7 +61,7 @@ The product store provides following public actions:
 
 ### `setupBreadcrumbs (context, { product })`
 
-This method is in charge of setting `state.breadcrumbs` to be used on `Product.vue` page. It's called from `Product.vue:fetchData`. The `product` parameter is a [ElasticSearch product object](../data/elasticsearch.md)
+This method is in charge of setting `state.breadcrumbs` to be used on `Product.vue` page. It's called from `Product.vue:fetchData`. The `product` parameter is a [ElasticSearch product object](../data/elasticsearch.md).
 
 ### `syncPlatformPricesOver(context, { skus })`
 
