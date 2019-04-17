@@ -55,15 +55,18 @@
 <script>
 import Vue from 'vue'
 import { required, minLength } from 'vuelidate/lib/validators'
+import { once } from '@vue-storefront/core/helpers'
 
 // GoogleMaps cannot be included while in SSR
 if (process.browser) {
   const VueGoogleMaps = require('vue2-google-maps')
-  Vue.use(VueGoogleMaps, {
-    load: {
-      key: 'AIzaSyBQwWyTufRQqwJajpxqcCPfdgH27qKWNzc',
-      libraries: 'places'
-    }
+  once('__VUE_EXTEND_DROPPOINT__', () => {
+    Vue.use(VueGoogleMaps, {
+      load: {
+        key: 'AIzaSyBQwWyTufRQqwJajpxqcCPfdgH27qKWNzc',
+        libraries: 'places'
+      }
+    })
   })
 }
 
