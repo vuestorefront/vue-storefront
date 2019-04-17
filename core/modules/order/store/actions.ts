@@ -59,11 +59,9 @@ const actions: ActionTree<OrderState, RootState> = {
         commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
         rootStore.dispatch('notification/spawnNotification', {
           type: 'error',
-          message: i18n.t('The order can not be transfered because of server error. Order has been queued'),
+          message: i18n.t('The order can not be transferred because of server error'),
           action1: { label: i18n.t('OK') }
         })
-        order.transmited = false // queue order
-        commit(types.ORDER_PLACE_ORDER, order) // archive this order but not trasmit it second time
         Vue.prototype.$bus.$emit('notification-progress-stop')
         throw e
       }
