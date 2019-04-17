@@ -2,8 +2,11 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { once } from '@vue-storefront/core/helpers'
 
-Vue.use(VueI18n)
+once('__VUE_EXTEND_I18N__', () => {
+  Vue.use(VueI18n)
+})
 
 const loadedLanguages = ['en-US']
 const i18n = new VueI18n({
