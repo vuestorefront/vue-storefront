@@ -163,7 +163,7 @@
             v-model="shipping.country"
             autocomplete="country-name"
             @blur="$v.shipping.country.$touch()"
-            @change="$v.shipping.country.$touch(); changeCountry();"
+            @change.native="$v.shipping.country.$touch(); changeCountry();"
           />
 
           <base-input

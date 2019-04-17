@@ -1,15 +1,18 @@
 import VueAnalytics from 'vue-analytics'
 import { router } from '@vue-storefront/core/app'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { once } from '@vue-storefront/core/helpers'
 
 export function beforeRegistration({ Vue, config, store, isServer }) {
   if (config.analytics.id && !isServer) {
-    Vue.use(VueAnalytics, {
-      id: config.analytics.id,
-      router,
-      ecommerce: {
-        enabled: true
-      }
+    once('__VUE_EXTEND_ANALYTICS__', () => {
+      Vue.use(VueAnalytics, {
+        id: config.analytics.id,
+        router,
+        ecommerce: {
+          enabled: true
+        }
+      })
     })
   } else {
     Logger.warn(
