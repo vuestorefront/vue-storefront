@@ -96,7 +96,7 @@ Now you can run the NGINX:
 
 Please find the full comments on the following sections of the file below:
 
-```js
+```
 server {
 	listen 80;
 	server_name prod.vuestorefront.io;
@@ -106,7 +106,7 @@ server {
 
 This section runs the standard http://prod.vuestorefront.io and creates a wildcard redirect from http://prod.vuestorefront.io/* -> https://prod.vuestorefront.io/. SSL secured connection is a must for run PWA and use service-workers.
 
-```js
+```
 server {
 	listen 443 ssl;
 	server_name prod.vuestorefront.io http2;
