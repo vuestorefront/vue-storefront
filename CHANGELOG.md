@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.3] - 2019.04.18
+- Switching between login and register form needs 2nd attempt - @SylarRuby (#2693)
+
+### Fixed
+Emits sends a global event which opens the model. It also listens for a "touch" to close the modal. Both Register.vue and Login.vue's form input has an event listener called $touch() while using a validation. As it's also being focused, when you touch an element, the validation then triggers. Removing the focus prevents the validation from triggering.
+
 ## [1.8.5] - 2019.04.17
 
 ### Fixed
@@ -55,7 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve tsconfig for better IDE paths support - @patzick, @filrak (#2474)
 - fix breadcrumbs changing too early - @filrak, @pkarw (#2469, #2529)
 - improved product gallery load view, shows correct image on reload - @patzick (#2481, #2482, #2488, #2501)
-- Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489) 
+- Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489)
 - Added async sidebar component with async off-screen components error handling and fetch retrying after coming back online - @filrak (#2408, #2451)
 - Inconsistent filters behaviour - clear filters on page load - @patzick (#2435)
 - fix price is never below 0 and user can't add 0 or below 0 products to cart - @RakowskiPrzemyslaw (#2437)
