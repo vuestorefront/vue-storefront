@@ -3,8 +3,6 @@ import config from 'config'
 import { Module } from 'vuex'
 import { newsletterState } from '../types/newsletterState'
 import { cacheStorage } from '../'
-import CmsBlockState from "core/modules/cms/types/CmsBlockState";
-import RootState from "core/types/RootState";
 
 export const module: Module<newsletterState, any> ={
   namespaced: true,
