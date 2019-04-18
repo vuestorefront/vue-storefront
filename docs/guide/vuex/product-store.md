@@ -61,13 +61,13 @@ The product store provides following public actions:
 
 ### `setupBreadcrumbs (context, { product })`
 
-This method is in charge of setting `state.breadcrumbs` to be used on `Product.vue` page. It's called from `Product.vue:fetchData`. The `product` parameter is a [ElasticSearch product object](../data/elasticsearch.md).
+This method is in charge of setting `state.breadcrumbs` to be used on the `Product.vue` page. It's called from `Product.vue:fetchData`. The `product` parameter is an [Elasticsearch product object](../data/elasticsearch.md).
 
 ### `syncPlatformPricesOver(context, { skus })`
 
 When the config option `products.alwaysSyncPlatformPricesOver` is on, Vue Storefront will request the current product prices each time when `product/single` or `product/list` action is dispatched. It's called exclusively by these actions and shouldn't be called manually. This method calls `vue-storefront-api` proxy to get the current prices from Magento or any other backend CMS.
 
-`skus` - this is an Array with product SKU's to be synchronized
+`skus` - this is an array with product SKUs to be synchronized.
 
 ### `setupAssociated (context, { product })`
 
@@ -75,61 +75,61 @@ This method is called as a subsequent call of `Product.vue:fetchData` or `produc
 
 ### `checkConfigurableParent (context, {product})`
 
-This method is called by `Product.vue:fetchData` to check if current, simple product has got an configurable parent. If so the redirect is being made to the parent product. It's a fix for [#508](https://github.com/DivanteLtd/vue-storefront/issues/508)
+This method is called by `Product.vue:fetchData` to check if current, simple product has got an configurable parent. If so, the redirect is being made to the parent product. It's a fix for [#508](https://github.com/DivanteLtd/vue-storefront/issues/508)
 
 ### `setupVariants (context, { product })`
 
-This method is subsequently called by `Product.vue:fetchData` to load all configurable attributes defined in `product.configurable_options` and then to populate `state.current_configuration` and `state.current_options`. The main usage of this action is to prepare product to be configured by the user on the product page and to display the product configurator UI properly
+This method is subsequently called by `Product.vue:fetchData` to load all configurable attributes defined in `product.configurable_options` and then to populate `state.current_configuration` and `state.current_options`. The main usage of this action is to prepare a product to be configured by the user on the product page and to display the product configurator UI properly.
 
 ### `list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = true, updateState = true, meta = {} })`
 
-This is the key method to load the product list. It returns the `Promise` that contains the product list object. This method should be used everywhere you need to get products data. When `config.tax.calculateServerSide=false` this method runs product taxes calculator and synchronizes prices with Magento if it's required.
+This is the key method to load the product list. It returns the Promise that contains the product list object. This method should be used everywhere you need to get product data. When `config.tax.calculateServerSide=false` this method runs product taxes calculator and synchronizes prices with Magento if it's required.
 
 **Events**: this method emits product list as `EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })`
 
 :::warning Important
-This method synchronizes products for offline usage by: storing the whole query results object into `localForage` and by caching each product individually (to be used on the Product page for example)
+This method synchronizes products for offline usage by storing the whole query results object into `localForage` and by caching each product individually (to be used on the product page, for example).
 :::
 
-- `query` - this is the `bodybuilder` ElasticSearch query (please check `bodybuilder` package or for example `Home.vue` for a reference how to use it)
+- `query` - This is the `bodybuilder` Elasticsearch query (please check `bodybuilder` package or for example `Home.vue` for a reference how to use it).
 
-- `start`, `size` - both parameters are used for paging; start is the starting index; size is a page size
+- `start`, `size` - Both parameters are used for paging; start is the starting index; size is a page size.
 
-- `entityType` - by default it's of course set to `product` and it's mapped to ElasticSearch entity class
+- `entityType` - By default it's of course set to `product` and it's mapped to Elasticsearch entity class.
 
-- `sort` - product attribute using to sort, this field must be mapped in ElasticSearch as a numeric field
+- `sort` - Product attribute using to sort. This field must be mapped in Elasticsearch as a numeric field,
 
-- `prefetchGroupProducts` - by default it's set to true and causes `setupAssociated` action to be dispatched to get all the associated products
+- `prefetchGroupProducts` - By default, it's set to true and causes the `setupAssociated` action to be dispatched to get all the associated products
 
-- `updateState` - if you set this to false, the `state.list` will not be updated - just the products will be returned
+- `updateState` - If you set this to false, the `state.list` will not be updated, just the products will be returned.
 
-- `meta` - this is an optional attribute which is returned with `product-after-list` event; it can be used for example to mark any specific ES call.
+- `meta` - This is an optional attribute which is returned with the `product-after-list` event; it can be used for example to mark any specific ES call.
 
 ### `single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, key = 'sku' })`
 
-This method subsequently dispatched `product/list` action to get the products and synchronize the taxes/prices. When the product has been recently downloaded via `product/list` this method will return the cached version from `localForage` - but update the cache anyway.
+This method subsequently dispatches the `product/list` action to get the products and synchronize the taxes/prices. When the product has been recently downloaded via `product/list` this method will return the cached version from `localForage`, but update the cache anyway.
 
 ### `configure (context, { product = null, configuration, selectDefaultVariant = true })`
 
-This action is used to configure the `configurable` product with specified attributes. It gets the `configuration` object which should have the following format: `{ attribute_code: attribute_value_id }` and finds the `product.configurable_children` item which complies to this configuration. Then it merges this specific `configurable_child` with product itself - for example setting the product.price to the configurable price, color, size etc. The method is used on: `Product.vue` page for allowing user to select color, size etc. The second usage for it is on `Category.vue` page - after user selects some filters, the resulting products are configured to display the proper images (related to selected color and size) and prices.
+This action is used to configure the `configurable` product with specified attributes. It gets the `configuration` object, which should have the following format: `{ attribute_code: attribute_value_id }` and finds the `product.configurable_children` item which complies to this configuration. Then, it merges this specific `configurable_child` with the product itself - for example, setting the product.price to the configurable price, color, size etc. This method is used on: `Product.vue` page for allowing user to select color, size etc. The second usage for it is on `Category.vue` page after user selects some filters - the resulting products are configured to display the proper images (related to selected color and size) and prices.
 
 If `selectDefaultVariant` is set to true (default), the `state.current` will be altered with configured product.
 
 ### `setCurrent (context, productVariant)`
 
-Auxiliary method just to set `state.current` to productVariant
+Auxiliary method just to set `state.current` to productVariant.
 
 ### `setOriginal (context, originalProduct)`
 
-Auxiliary method just to set `state.original` to originalProduct
+Auxiliary method just to set `state.original` to originalProduct.
 
 ### `related (context, { key = 'related-products', items })`
 
-Alters `state.related` dictionary to set specific list of related products to be displayed on `Product.vue` page (`RelatedProducts` component is used for this)
+Alters `state.related` dictionary to set specific list of related products to be displayed on `Product.vue` page (`RelatedProducts` component is used for this).
 
 ## Getters
 
-All state members should have been accessed only by getters. Please take a look at the state reference for data formats
+All state members should have been accessed only by getters. Please take a look at the state reference for data formats.
 
 ```js
 const getters = {
