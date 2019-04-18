@@ -16,7 +16,6 @@
           class="mb35"
           type="email"
           name="email"
-          focus
           v-model="email"
           @blur="$v.email.$touch()"
           :placeholder="$t('E-mail address *')"
