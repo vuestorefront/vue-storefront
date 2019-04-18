@@ -20,7 +20,6 @@
           autocomplete="email"
           v-model="email"
           @blur="$v.email.$touch()"
-          focus
           :placeholder="$t('E-mail address *')"
           :validations="[
             {
