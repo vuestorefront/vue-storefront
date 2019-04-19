@@ -10,7 +10,7 @@ import { required, email } from 'vuelidate/lib/validators'
  * - `isSubscribed: boolean` - returns true if user subscribed to the newsletter in this session
  * 
  * #### Methods
- * - `submit(success?: Function, failure?: Function)` dispatches `newsletter-mailchimp/subscribe` with `email` data property. `success(res)` and `failure(err)` are callback functions called depending on subscription result and contain response info or error.
+ * - `checkStatus(success?: Function, failure?: Function)` dispatches `newsletter/status` with `email` data property. `success(res)` and `failure(err)` are callback functions called depending on subscription result and contain response info or error.
  * 
  */
 export default {
