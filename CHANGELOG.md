@@ -51,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - ESlint throwing errors about undefined jest globals in tests - @lukeromanowicz (#2702)
 - Fixed changing the country when entering shipping address in checkout not updating shipping costs - @revlis-x (#2691)
+- Correct magento order id in my orders - @mdesmet (#2763)
 
 ## [1.9.0-rc.2] - 2019.04.10
 
