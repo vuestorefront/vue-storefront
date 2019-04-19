@@ -13,6 +13,7 @@ import i18n from '@vue-storefront/i18n'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { isServer } from '@vue-storefront/core/helpers'
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -235,7 +236,7 @@ export function doPlatformPricesSync (products) {
       } else { // empty list of products
         resolve(products)
       }
-      if (!rootStore.state.config.products.waitForPlatformSync && !Vue.prototype.$isServer) {
+      if (!rootStore.state.config.products.waitForPlatformSync && !isServer) {
         Logger.log('Returning products, the prices yet to come from backend!')()
         for (let product of products) {
           product.price_is_current = false // in case we're syncing up the prices we should mark if we do have current or not
@@ -473,12 +474,6 @@ export function configureProductAsync (context, { product, configuration, select
       desiredProductFound = true
     }
 
-    if (typeof navigator !== 'undefined') {
-      if (selectedVariant && !navigator.onLine && context.state.offlineImage) { // this is fix for not preloaded images for offline
-        selectedVariant.image = context.state.offlineImage
-        Logger.debug('Image offline fallback to ', context.state.offlineImage)()
-      }
-    }
     if (selectedVariant) {
       if (!desiredProductFound) { // update the configuration
         populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
@@ -531,15 +526,23 @@ export function configureProductAsync (context, { product, configuration, select
 export function getMediaGallery (product) {
   let mediaGallery = []
   if (product.media_gallery) {
-      for (let mediaItem of product.media_gallery) {
-          if (mediaItem.image) {
-              mediaGallery.push({
-                'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                'loading': getThumbnailPath(mediaItem.image, 310, 300),
-                'video': mediaItem.vid
-              })
-          }
+    for (let mediaItem of product.media_gallery) {
+      if (mediaItem.image) {
+        let video = mediaItem.vid
+
+        if (video && video.video_id) {
+          video.id = video.video_id
+          delete video.video_id
+        }
+
+        mediaGallery.push({
+          'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
+          'loading': getThumbnailPath(mediaItem.image, 310, 300),
+          'error': getThumbnailPath(mediaItem.image, 310, 300),
+          'video': video
+        })
       }
+    }
   }
   return mediaGallery
 }
@@ -551,24 +554,22 @@ export function getMediaGallery (product) {
 
 export function configurableChildrenImages(product) {
   let configurableChildrenImages = []
-    let variantsGroupBy = rootStore.state.config.products.gallery.variantsGroupAttribute
-    if (product.configurable_children && product.configurable_children.length > 0 && product.configurable_children[0][variantsGroupBy]) {
-        let groupedByAttribute = groupBy(product.configurable_children, child => {
-            return child[variantsGroupBy]
-        })
-        Object.keys(groupedByAttribute).forEach(confChild => {
-            if (groupedByAttribute[confChild][0].image) {
-                configurableChildrenImages.push({
-                    'src': getThumbnailPath(groupedByAttribute[confChild][0].image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                    'loading': getThumbnailPath(groupedByAttribute[confChild][0].image, 310, 300),
-                    'id': confChild
-                })
-            }
-        })
-    } else {
-        configurableChildrenImages = attributeImages(product)
-    }
-    return configurableChildrenImages
+  if (product.configurable_children && product.configurable_children.length > 0) {
+    let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
+    configurableChildrenImages = product.configurable_children.map(child =>
+      ({
+        'src': getThumbnailPath(child.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
+        'loading': getThumbnailPath(product.image, 310, 300),
+        'id': configurableAttributes.reduce((result, attribute) => {
+          result[attribute] = child[attribute]
+          return result
+        }, {})
+      })
+    )
+  } else {
+    configurableChildrenImages = attributeImages(product)
+  }
+  return configurableChildrenImages
 }
 
 /**
@@ -582,7 +583,8 @@ export function attributeImages(product) {
             if(product[attribute]) {
                 attributeImages.push({
                     'src': getThumbnailPath(product[attribute], rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                    'loading': getThumbnailPath(product[attribute], 310, 300)
+                    'loading': getThumbnailPath(product[attribute], 310, 300),
+                    'error': getThumbnailPath(product[attribute], 310, 300)
                 })
             }
         }

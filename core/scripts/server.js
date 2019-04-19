@@ -103,15 +103,18 @@ function invalidateCache (req, res) {
 }
 
 const serve = (path, cache, options) => express.static(resolve(path), Object.assign({
-  maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
+  maxAge: cache && isProd ? 2592000000 : 0, // 1 month in milliseconds = 1000 * 60 * 60 * 24 * 30 = 2592000000
+  fallthrough: false
 }, options))
 
 const themeRoot = require('../build/theme-path')
 
 app.use('/dist', serve('dist', true))
 app.use('/assets', serve(themeRoot + '/assets', true))
-app.use('/service-worker.js', serve('dist/service-worker.js', {
-  setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
+app.use('/service-worker.js', serve('dist/service-worker.js', false, {
+  setHeaders: function (res, path, stat) {
+    res.set('Content-Type', 'text/javascript; charset=UTF-8')
+  }
 }))
 
 const serverExtensions = require(resolve('src/server'))
@@ -141,7 +144,7 @@ app.get('*', (req, res, next) => {
       return next()
     }
     const context = {
-      url: req.url,
+      url: decodeURI(req.url),
       output: {
         prepend: (context) => { return '' }, // these functions can be replaced in the Vue components to append or prepend some content AFTER all other things are rendered. So in this function You may call: output.prepend() { return context.renderStyles() } to attach styles
         append: (context) => { return '' },

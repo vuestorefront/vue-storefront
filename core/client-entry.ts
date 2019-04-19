@@ -20,18 +20,15 @@ declare var window: any
 const invokeClientEntry = async () => {
   const config = Object.assign(buildTimeConfig, window.__INITIAL_STATE__.config ? window.__INITIAL_STATE__.config : buildTimeConfig)
 
-  const { app, router, store } = await createApp(null, config)
+  // Get storeCode from server (received either from cache header or env variable)
+  let storeCode =  window.__INITIAL_STATE__.user.current_storecode
+  const { app, router, store } = await createApp(null, config, storeCode)
 
-  let storeCode = null // select the storeView by prefetched vuex store state (prefetched serverside)
   if (window.__INITIAL_STATE__) {
     store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: buildTimeConfig }))
   }
-  if (config.storeViews.multistore === true) {
-    if ((storeCode = store.state.user.current_storecode)) {
-      prepareStoreView(storeCode)
-    }
-  }
 
+  store.dispatch('url/registerDynamicRoutes')
   function _commonErrorHandler (err, reject) {
     if (err.message.indexOf('query returned empty result') > 0) {
       rootStore.dispatch('notification/spawnNotification', {
@@ -68,7 +65,6 @@ const invokeClientEntry = async () => {
       _commonErrorHandler(err, next)
     })
   }
-
   router.onReady(() => {
     router.beforeResolve((to, from, next) => {
       if (!from.name) return next() // do not resolve asyncData on server render - already been done
@@ -88,14 +84,10 @@ const invokeClientEntry = async () => {
           }
         }
       }
-      let diffed = false
-      const activated = matched.filter((c, i) => {
-        return diffed || (diffed = (prevMatched[i] !== c))
-      })
-      if (!activated.length) {
+      if (!matched.length) {
         return next()
       }
-      Promise.all(activated.map((c: any) => { // TODO: update me for mixins support
+      Promise.all(matched.map((c: any) => { // TODO: update me for mixins support
         const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
         union(components, [c]).map(SubComponent => {
           if (SubComponent.preAsyncData) {
@@ -136,7 +128,7 @@ const invokeClientEntry = async () => {
       const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
       const ordersCollection = new UniversalStorage(localForage.createInstance({
-        name: 'shop',
+        name: dbNamePrefix + 'shop',
         storeName: 'orders',
         driver: localForage[config.localForage.defaultDrivers['orders']]
       }))
@@ -228,12 +220,12 @@ const invokeClientEntry = async () => {
       }))
 
       const usersCollection = new UniversalStorage(localForage.createInstance({
-        name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+        name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
         storeName: 'user',
         driver: localForage[config.localForage.defaultDrivers['user']]
       }))
       const cartsCollection = new UniversalStorage(localForage.createInstance({
-        name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+        name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
         storeName: 'carts',
         driver: localForage[config.localForage.defaultDrivers['carts']]
       }))
@@ -251,7 +243,7 @@ const invokeClientEntry = async () => {
             currentCartId = store.state.cart.cartServerToken
           }
 
-          if (!currentToken && store.state.user.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+          if (!currentToken && store.state.user.token) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
             currentToken = store.state.user.token
           }
           const fetchQueue = []

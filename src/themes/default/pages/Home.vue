@@ -44,6 +44,8 @@ import Onboard from 'theme/components/theme/blocks/Home/Onboard'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { mapGetters } from 'vuex'
+
 export default {
   mixins: [Home],
   components: {
@@ -54,6 +56,7 @@ export default {
     TileLinks
   },
   computed: {
+    ...mapGetters('user', ['isLoggedIn']),
     categories () {
       return this.getCategories
     },
@@ -75,6 +78,15 @@ export default {
         this.$bus.$emit('modal-toggle', 'modal-onboard')
         this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
       }
+    }
+  },
+  mounted () {
+    if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup')
+  },
+  watch: {
+    isLoggedIn () {
+      this.$router.push(localStorage.getItem('redirect'))
+      localStorage.removeItem('redirect')
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data

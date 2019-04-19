@@ -37,7 +37,6 @@
             class="col-xs-12 mb15"
             id="sendToShippingAddressCheckbox"
             v-model="sendToShippingAddress"
-            @click="useShippingAddress"
             v-if="!isVirtualCart"
           >
             {{ $t('Copy address data from shipping') }}
