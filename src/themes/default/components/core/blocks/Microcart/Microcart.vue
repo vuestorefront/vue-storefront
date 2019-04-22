@@ -4,26 +4,36 @@
     :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary']"
     data-testid="microcart"
   >
-    <div class="row middle-xs bg-cl-primary top-sm">
-      <div class="col-xs-10">
-        <h2
-          v-if="productsInCart.length"
-          class="cl-accent mt60 mb35 ml40 heading"
-        >
-          {{ $t('Shopping cart') }}
-        </h2>
-      </div>
-      <div class="col-xs-2 end-xs">
+    <div class="row bg-cl-primary px40 actions">
+      <div class="col-xs end-xs">
         <button
           type="button"
           class="p0 brdr-none bg-cl-transparent close"
           @click="closeMicrocartExtend"
           data-testid="closeMicrocart"
         >
-          <i class="material-icons p15 cl-accent">
+          <i class="material-icons py20 cl-accent">
             close
           </i>
         </button>
+      </div>
+    </div>
+    <div class="row middle-xs bg-cl-primary top-sm px40 actions">
+      <div class="col-xs-12 col-sm">
+        <h2
+          v-if="productsInCart.length"
+          class="cl-accent mt35 mb35"
+        >
+          {{ $t('Shopping cart') }}
+        </h2>
+      </div>
+      <div class="col-xs-12 col-sm mt35 mb35 mt0">
+        <button-full
+          v-if="productsInCart.length"
+          @click.native="clearCart"
+        >
+          Clear cart
+        </button-full>
       </div>
     </div>
 
@@ -105,11 +115,6 @@
           {{ $t('Go to checkout') }}
         </button-full>
         <instant-checkout v-if="isInstantCheckoutRegistered" class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium mt20" />
-        <button-full
-          @click.native="clearCart"
-        >
-          Clear cart
-        </button-full>
       </div>
     </div>
   </div>
@@ -222,13 +227,11 @@ export default {
     }
   }
 
-  .heading {
+  .mt0 {
     @media (max-width: 767px) {
-      margin: 12px 0 12px 15px;
-      font-size: 24px;
+      margin-top: 0;
     }
   }
-
   .products {
     @media (max-width: 767px) {
       padding: 30px 15px;
