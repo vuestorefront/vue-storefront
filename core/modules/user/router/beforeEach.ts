@@ -2,13 +2,12 @@ import { Route } from 'vue-router'
 import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import { isServer } from '@vue-storefront/core/helpers'
-import { router } from '@vue-storefront/core/app'
 
 export async function beforeEach(to: Route, from: Route, next) {
   const requiresAuth = to.matched.some(route => route.meta.requiresAuth)
   if (requiresAuth) {
     if (isServer) {
-      next('/')
+      next()
     } else {
       await rootStore.dispatch('user/startSession')
       if (!rootStore.getters['user/isLoggedIn']) {
@@ -19,14 +18,7 @@ export async function beforeEach(to: Route, from: Route, next) {
           action1: { label: i18n.t('OK') }
         })
       } else {
-        if (!from.name) {
-          next('/')
-          setTimeout(()=> {
-            router.push(to.path)
-          }, 0)
-        } else {
-          next()          
-        }
+        next()
       }
     }
   } else {

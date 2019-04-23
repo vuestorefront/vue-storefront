@@ -24,7 +24,9 @@
           </nav>
         </div>
         <div class="col-md-9">
-          <component :is="this.$props.activeBlock" />
+          <no-ssr>
+            <component :is="this.$props.activeBlock" />
+          </no-ssr>
         </div>
       </div>
     </div>
@@ -40,6 +42,7 @@ import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
 import MyRecentlyViewed from '../components/core/blocks/MyAccount/MyRecentlyViewed'
+import NoSSR from 'vue-no-ssr'
 
 export default {
   data () {
@@ -62,7 +65,8 @@ export default {
     MyNewsletter,
     MyOrders,
     MyOrder,
-    MyRecentlyViewed
+    MyRecentlyViewed,
+    'no-ssr': NoSSR
   },
   mixins: [MyAccount],
   methods: {
