@@ -9,7 +9,6 @@ import UserState from '../types/UserState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { UserProfile } from '../types/UserProfile'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { isServer } from '@vue-storefront/core/helpers'
 // import router from '@vue-storefront/core/router'
 
@@ -18,7 +17,6 @@ const actions: ActionTree<UserState, RootState> = {
     if (isServer || context.getters.isLocalSessionReaded) return
     context.commit(types.USER_LOCAL_SESSION_READED, true)
 
-    const storeView = currentStoreView()
     const user = localStorage.getItem(`shop/user/current-user`);
     if (user) {
       context.commit(types.USER_INFO_LOADED, JSON.parse(user))  
