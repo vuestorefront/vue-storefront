@@ -4,7 +4,7 @@
       <i class="material-icons cl-accent mr5">
         cancel
       </i>
-      Clear cart
+      {{ $t('Clear cart') }}
     </span>
   </button>
 </template>
