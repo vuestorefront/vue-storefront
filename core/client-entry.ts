@@ -254,7 +254,7 @@ const invokeClientEntry = async () => {
               mutex[id] = true // mark this task as being processed
               fetchQueue.push(() => {
                 return execute(task, currentToken, currentCartId).then(executedTask => {
-                  syncTaskCollection.setItem(executedTask.task_id.toString(), executedTask)
+                  syncTaskCollection.removeItem(executedTask.task_id.toString()) // remove successfully executed task from the queue
                   mutex[id] = false
                 }).catch(err => {
                   mutex[id] = false
