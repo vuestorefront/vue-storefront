@@ -177,6 +177,7 @@
           "description",
           "configurable_options",
           "tsk",
+          "custom_options",
           "custom_attributes",
           "size_options",
           "regular_price",
