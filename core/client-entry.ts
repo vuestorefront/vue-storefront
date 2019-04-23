@@ -213,11 +213,7 @@ const invokeClientEntry = async () => {
       // event.data.config - configuration, endpoints etc
       const storeView = currentStoreView()
       const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-
-      const syncTaskCollection = new UniversalStorage(localForage.createInstance({
-        name: dbNamePrefix + 'shop',
-        storeName: 'syncTasks'
-      }))
+      const syncTaskCollection = Vue.prototype.$db.syncTaskCollection
 
       const usersCollection = new UniversalStorage(localForage.createInstance({
         name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
@@ -254,7 +250,7 @@ const invokeClientEntry = async () => {
               mutex[id] = true // mark this task as being processed
               fetchQueue.push(() => {
                 return execute(task, currentToken, currentCartId).then(executedTask => {
-                  syncTaskCollection.removeItem(executedTask.task_id.toString()) // remove successfully executed task from the queue
+                  syncTaskCollection.removeItem(id) // remove successfully executed task from the queue
                   mutex[id] = false
                 }).catch(err => {
                   mutex[id] = false
