@@ -4,12 +4,13 @@ import i18n from '@vue-storefront/i18n'
 import { isServer } from '@vue-storefront/core/helpers'
 import { router } from '@vue-storefront/core/app'
 
-export function beforeEach(to: Route, from: Route, next) {
+export async function beforeEach(to: Route, from: Route, next) {
   const requiresAuth = to.matched.some(route => route.meta.requiresAuth)
   if (requiresAuth) {
     if (isServer) {
       next('/')
     } else {
+      await rootStore.dispatch('user/startSession')
       if (!rootStore.getters['user/isLoggedIn']) {
         next('/')
         rootStore.dispatch('notification/spawnNotification', {

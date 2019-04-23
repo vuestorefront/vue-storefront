@@ -10,10 +10,13 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { UserProfile } from '../types/UserProfile'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { isServer } from '@vue-storefront/core/helpers'
 // import router from '@vue-storefront/core/router'
 
 const actions: ActionTree<UserState, RootState> = {
-  startSession (context) {
+  async startSession (context) {
+    if (isServer) return
+    console.error('---> STARTING SESSION!!! ' + context.getters['isUserSession'] + ' -- ' + isServer)
     const storeView = currentStoreView()
     const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
     const user = localStorage.getItem(`${dbNamePrefix}shop/user/current-user`);
@@ -171,7 +174,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Load current user profile
    */
-  me (context, { refresh = true, useCache = true }) {
+  me (context, { refresh = true, useCache = true } = {}) {
     return new Promise((resolve, reject) => {
       if (!context.state.token) {
         Logger.warn('No User token, user unauthorized', 'user')()
