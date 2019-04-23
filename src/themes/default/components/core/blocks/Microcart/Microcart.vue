@@ -27,13 +27,11 @@
           {{ $t('Shopping cart') }}
         </h2>
       </div>
-      <div class="col-xs-12 col-sm mt35 mb35 mt0">
-        <button-full
+      <div class="col-xs-12 col-sm mt35 mb35 mt0 end-sm clearcart-col">
+        <clear-cart-button
           v-if="productsInCart.length"
           @click.native="clearCart"
-        >
-          Clear cart
-        </button-full>
+        />
       </div>
     </div>
 
@@ -130,6 +128,7 @@ import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartButton'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import Product from 'theme/components/core/blocks/Microcart/Product'
@@ -137,6 +136,7 @@ import Product from 'theme/components/core/blocks/Microcart/Product'
 export default {
   components: {
     Product,
+    ClearCartButton,
     ButtonFull,
     ButtonOutline,
     BaseInput,
@@ -232,6 +232,14 @@ export default {
       margin-top: 0;
     }
   }
+
+  .clearcart {
+    &-col {
+      display: flex;
+      align-self: center;
+    }
+  }
+
   .products {
     @media (max-width: 767px) {
       padding: 30px 15px;
