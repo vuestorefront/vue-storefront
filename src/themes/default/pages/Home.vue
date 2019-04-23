@@ -4,7 +4,7 @@
 
     <promoted-offers/>
 
-    <section class="new-collection container px15">
+    <section class="new-collection container px15" v-if="everythingNewCollection.length">
       <div>
         <header class="col-md-12">
           <h2 class="align-center cl-accent">{{ $t('Everything new') }}</h2>
