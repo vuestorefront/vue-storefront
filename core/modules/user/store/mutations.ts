@@ -30,6 +30,9 @@ const mutations: MutationTree<UserState> = {
     state.token = ''
     state.current = null
     state.session_started = null
+  },
+  [types.USER_LOCAL_SESSION_READED] (state, readed = false) {
+    state.local_session_readed = readed
   }
 }
 
