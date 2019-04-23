@@ -347,10 +347,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
     </tr>
     <tr>
       <td align="center" valign="middle">
-         <a href="http://www.acidgreen.com.au/">
+         <a href="https://www.newfantastic.com">
           <img
-            src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg"
-            alt="Acid Green"
+            src="https://divante.co/partners/Vue-Storefront/newfantasticLogo.png"
+            alt="New Fantastic"
             width="150"
           >
         </a>
@@ -673,8 +673,55 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     </tr>
+    <tr>
+      <td align="center" valign="middle"> 
+    <a href="http://www.acidgreen.com.au/">
+          <img
+            src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg"
+            alt="Acid Green"
+            width="150"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+      <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
   </tbody>
-</table>
+</table> 
 
 Partners are encouraged to support the project in various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partners by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
 
