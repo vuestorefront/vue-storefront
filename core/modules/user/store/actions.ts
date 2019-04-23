@@ -19,8 +19,7 @@ const actions: ActionTree<UserState, RootState> = {
     context.commit(types.USER_LOCAL_SESSION_READED, true)
 
     const storeView = currentStoreView()
-    const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-    const user = localStorage.getItem(`${dbNamePrefix}shop/user/current-user`);
+    const user = localStorage.getItem(`shop/user/current-user`);
     if (user) {
       context.commit(types.USER_INFO_LOADED, JSON.parse(user))  
     }
