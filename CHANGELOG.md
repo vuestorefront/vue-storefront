@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - ESlint throwing errors about undefined jest globals in tests - @lukeromanowicz (#2702)
 - Fixed changing the country when entering shipping address in checkout not updating shipping costs - @revlis-x (#2691)
+- Infinite loop on multistore page after reload - @patzick (#2713)
+- Refreshing MyAccount page on multistore - @patzick (#2780)
 - "Toggle password visible" button in password fields works the right way - @lromanowicz (#2772)
 
 ## [1.9.0-rc.2] - 2019.04.10
