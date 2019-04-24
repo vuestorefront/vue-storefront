@@ -14,7 +14,7 @@
       "dynamicConfigContinueOnError": false,
       "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
       "dynamicConfigInclude": [],
-      "elasticCacheQuota": 4096
+      "elasticCacheQuota": 3096
     },
     "seo": {
       "useUrlDispatcher": true

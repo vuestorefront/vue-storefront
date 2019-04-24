@@ -76,13 +76,7 @@ function execute (task) { // not offline task
 /** Clear sync tasks that were not transmitted yet */
 function clearNotTransmited () {
   const storeView = currentStoreView()
-  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-
-  const syncTaskCollection = new UniversalStorage(localForage.createInstance({
-    name: dbNamePrefix + 'shop',
-    storeName: 'syncTasks',
-    driver: localForage[rootStore.state.config.localForage.defaultDrivers['syncTasks']]
-  }))
+  const syncTaskCollection = Vue.prototype.$db.syncTaskCollection
   syncTaskCollection.iterate((task, id, iterationNumber) => {
     if (!task.transmited) {
       syncTaskCollection.removeItem(id)
