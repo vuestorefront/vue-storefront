@@ -2,7 +2,7 @@
   <div class="mb35">
     <!-- My newsletter header -->
     <div class="row mb15">
-      <div class="col-xs-12 col-sm-6" :class="{ 'cl-accent' : !isEdited }">
+      <div class="col-xs-12 col-sm-6">
         <h3 class="m0 mb5">
           {{ $t('My newsletter') }}
         </h3>
@@ -20,14 +20,14 @@
       <base-checkbox
         class="col-xs-12 mb25 cl-primary"
         id="generalAgreement"
-        v-model="user.isSubscribed"
-        @click="user.isSubscribed = !user.isSubscribed, edit()"
+        :value="user.isSubscribed"
+        @click="edit()"
       >
         {{ $t('I want to receive a newsletter, and agree to its terms') }}
       </base-checkbox>
 
       <div class="col-xs-12 col-sm-6">
-        <button-full @click.native="updateNewsletter" :disabled="!isEdited">
+        <button-full @click.native="updateNewsletter">
           {{ $t('Update my preferences') }}
         </button-full>
       </div>
@@ -47,12 +47,11 @@ export default {
   },
   data () {
     return {
-      isEdited: false
     }
   },
   methods: {
     edit () {
-      this.isEdited = true
+      this.user.isSubscribed = !this.user.isSubscribed
     }
   },
   mixins: [MyNewsletter]
