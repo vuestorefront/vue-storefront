@@ -13,7 +13,8 @@ Vue Storefront is a standalone PWA storefront for your eCommerce, possible to co
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
 The project is in the **production ready** phase.
 
-**Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
+**Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-
+storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
 If you're new and need some guidance feel free to visit out [forum](https://forum.vuestorefront.io/) or reach anyone from the core team on our slack:
 - `@Filip Rakowski` (frontend, architecture and best practices related stuff)
@@ -29,6 +30,7 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
 
 **Read [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md) before making any pull request. Pull request that doesn't meet these requirements will not be merged**
 
+PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI library for eCommerce.
 
 
 ## See it in action
@@ -345,10 +347,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
     </tr>
     <tr>
       <td align="center" valign="middle">
-         <a href="http://www.acidgreen.com.au/">
+         <a href="https://www.newfantastic.com">
           <img
-            src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg"
-            alt="Acid Green"
+            src="https://divante.co/partners/Vue-Storefront/newfantasticLogo.png"
+            alt="New Fantastic"
             width="150"
           >
         </a>
@@ -635,6 +637,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle"> 
+<a href="https://kodbruket.se/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/kodbruket.png"
+            alt="Kodbrucket"
+            height="25"
+          >
+        </a>
+</td>
+      <td align="center" valign="middle"> 
+<a href="https://portaltech.reply.com/portaltech/en/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/Portaltech-Reply-LOGO-RGB.png"
+            alt="Portaltech Reply"
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="www.interactivated.nl">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/interactivated-logo.png"
+            alt="Interactivated"
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="https://www.sutunam.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/Sutunam_H_Logo_LightBg.png"
+            alt="Sutunam"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle"> 
+    <a href="http://www.acidgreen.com.au/">
+          <img
+            src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg"
+            alt="Acid Green"
+            width="150"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
 <a href="">
           <img
             src=""
@@ -672,7 +721,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
 </td>
     </tr>
   </tbody>
-</table>
+</table> 
 
 Partners are encouraged to support the project in various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partners by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
 
