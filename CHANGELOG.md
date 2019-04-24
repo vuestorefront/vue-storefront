@@ -63,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Display prices in products added in offline mode. - @patzick (#2450)
 - Updated cypress dependency for e2e tests - @lukeromanowicz (#2518)
 - Improved styles on recommendation filters, product tile and numeric input - @patzick (#2458)
+- Removed editing mode from My Newsletter section - @aniamusial (#2766)
 
 ### Deprecated / Removed
 - `@vue-storefront/store` package deprecated - @filrak
