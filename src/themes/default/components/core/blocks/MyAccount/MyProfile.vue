@@ -22,7 +22,7 @@
     <!-- My profile body (edit mode) -->
     <div class="row" v-if="isEdited">
       <base-input
-        class="col-xs-12 col-md-6 mb25"
+        class="col-xs-12 col-md-6 mb10"
         type="text"
         name="first-name"
         autocomplete="given-name"
@@ -42,7 +42,7 @@
       />
 
       <base-input
-        class="col-xs-12 col-md-6 mb25"
+        class="col-xs-12 col-md-6 mb10"
         type="text"
         name="last-name"
         autocomplete="family-name"
@@ -56,7 +56,7 @@
       />
 
       <base-input
-        class="col-xs-12 col-md-6 mb25"
+        class="col-xs-12 col-md-6 mb10"
         type="email"
         name="email-address"
         autocomplete="email"
@@ -148,7 +148,7 @@
 
       <template v-if="addCompany">
         <base-input
-          class="col-xs-12 mb25"
+          class="col-xs-12 mb10"
           type="text"
           name="company-name"
           autocomplete="organization"
@@ -162,7 +162,7 @@
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="street-address"
           autocomplete="address-line1"
@@ -176,7 +176,7 @@
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="apartment-number"
           autocomplete="address-line2"
@@ -190,7 +190,7 @@
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="city"
           autocomplete="address-level2"
@@ -204,7 +204,7 @@
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="state"
           autocomplete="address-level1"
@@ -213,7 +213,7 @@
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="zip-code"
           autocomplete="postal-code"
@@ -233,7 +233,7 @@
         />
 
         <base-select
-          class="col-xs-12 col-md-6 mb25"
+          class="col-xs-12 col-md-6 mb10"
           name="countries"
           :options="countryOptions"
           :selected="userCompany.country"
@@ -251,7 +251,7 @@
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="taxId"
           autocomplete="tax-id"
@@ -271,7 +271,7 @@
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="phone-number"
           autocomplete="tel"
