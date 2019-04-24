@@ -29,7 +29,6 @@ export default {
       } else {
         this.unsubscribe()
       }
-      this.exitSection()
     }
   }
 }

@@ -7,16 +7,6 @@
           {{ $t('My newsletter') }}
         </h3>
       </div>
-      <div class="col-xs-12 col-sm-6">
-        <div class="lh30 flex end-md" v-if="!isEdited">
-          <a href="#" class="cl-tertiary flex" @click.prevent="edit">
-            <span class="pr5">
-              {{ $t('Edit newsletter preferences') }}
-            </span>
-            <i class="material-icons cl-tertiary">edit</i>
-          </a>
-        </div>
-      </div>
     </div>
 
     <!-- My newsletter body (both modes) -->
@@ -28,25 +18,18 @@
       </div>
 
       <base-checkbox
-        class="col-xs-12 mb25"
+        class="col-xs-12 mb25 cl-primary"
         id="generalAgreement"
         v-model="user.isSubscribed"
-        @click="isEdited ? user.isSubscribed = !user.isSubscribed : null"
-        :disabled="!isEdited"
+        @click="user.isSubscribed = !user.isSubscribed, edit()"
       >
         {{ $t('I want to receive a newsletter, and agree to its terms') }}
       </base-checkbox>
 
-      <div class="col-xs-12 col-sm-6" v-if="isEdited">
-        <button-full @click.native="updateNewsletter">
+      <div class="col-xs-12 col-sm-6">
+        <button-full @click.native="updateNewsletter" :disabled="!isEdited">
           {{ $t('Update my preferences') }}
         </button-full>
-      </div>
-
-      <div class="col-xs-12 col-sm-6 flex middle-xs py10" v-if="isEdited">
-        <a href="#" @click="exitSection" class="h4 cl-accent">
-          {{ $t('Cancel') }}
-        </a>
       </div>
     </div>
   </div>
@@ -68,9 +51,6 @@ export default {
     }
   },
   methods: {
-    exitSection () {
-      this.isEdited = false
-    },
     edit () {
       this.isEdited = true
     }
