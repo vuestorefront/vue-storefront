@@ -34,7 +34,7 @@
       <div class="col-xs-11 col-sm-9 col-md-10">
         <div class="row">
           <base-input
-            class="col-xs-12 col-md-6 mb25"
+            class="col-xs-12 col-md-6 mb10"
             type="text"
             :autofocus="true"
             name="first-name"
@@ -55,7 +55,7 @@
           />
 
           <base-input
-            class="col-xs-12 col-md-6 mb25"
+            class="col-xs-12 col-md-6 mb10"
             type="text"
             name="last-name"
             :placeholder="$t('Last name *')"
@@ -69,7 +69,7 @@
           />
 
           <base-input
-            class="col-xs-12 mb25"
+            class="col-xs-12 mb10"
             type="email"
             name="email-address"
             :placeholder="$t('Email address *')"
@@ -101,7 +101,7 @@
 
           <template v-if="createAccount && !currentUser">
             <base-input
-              class="col-xs-12 mb25 mt10"
+              class="col-xs-12 mb10 mt10"
               type="password"
               name="password"
               ref="password"
