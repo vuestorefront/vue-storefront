@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Global config api path under `api.url` - @BartoszLiburski (#2622)
 - Google Tag Manager integration - @talalus (#841)
 - Portuguese (pt-PT) translation - @xlcnd (#2695)
+- Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
 
 ### Fixed
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Respect store code on order/PROCESS_QUEUE for shop store - @zulcom (#2727)
 - Unexpected `window.localStorage` use in user module actions - @zulcom (#2735)
 - Fix handling state of same address checkbox in the checkout - @lukeromanowicz (#2730)
+- Fix for `everythingNew` collection on home page - @vishal-7037 (#2761)
 
 ### Changed / Improved
 - Improved ProductGalleryCarousel component to handle nonnumeric options id’s - @danieldomurad (#2586)
