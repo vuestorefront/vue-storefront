@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Global config api path under `api.url` - @BartoszLiburski (#2622)
 - Google Tag Manager integration - @talalus (#841)
 - Portuguese (pt-PT) translation - @xlcnd (#2695)
+- Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
 
 ### Fixed
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
