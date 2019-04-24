@@ -111,7 +111,7 @@ export function localizedRoute (routeObj: Route | string, storeCode: string) {
 export function setupMultistoreRoutes (config, router, routes) {
   if (config.storeViews.mapStoreUrlsFor.length > 1 && config.storeViews.multistore === true) {
     for (let storeCode of config.storeViews.mapStoreUrlsFor) {
-      if (storeCode || (config.defaultStoreCode !== storeCode)) {
+      if (storeCode && (config.defaultStoreCode !== storeCode)) {
         let storeRoutes = []
         for (let route of routes) {
           const localRoute = localizedRoute(Object.assign({}, route), storeCode)
