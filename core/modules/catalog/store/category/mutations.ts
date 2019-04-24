@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
-import { slugify, breadCrumbRoutes } from '@vue-storefront/core/helpers'
+import { slugify, formatBreadCrumbRoutes } from '@vue-storefront/core/helpers'
 import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
 import CategoryState from '../../types/CategoryState'
 import rootStore from '@vue-storefront/core/store'
@@ -14,7 +14,7 @@ const mutations: MutationTree<CategoryState> = {
   },
   [types.CATEGORY_UPD_CURRENT_CATEGORY_PATH] (state, path) {
     state.current_path = path // TODO: store to cache
-    state.breadcrumbs.routes = breadCrumbRoutes(state.current_path)
+    state.breadcrumbs.routes = formatBreadCrumbRoutes(state.current_path)
   },
   [types.CATEGORY_UPD_CATEGORIES] (state, categories) {
     for (let category of categories.items) {
@@ -22,7 +22,7 @@ const mutations: MutationTree<CategoryState> = {
         if (category.children_data) {
           for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
             if (subcat.name) {
-              subcat = Object.assign(subcat, { slug: (subcat.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '') })
+              subcat = Object.assign(subcat, { slug: subcat.slug ? subcat.slug : ((subcat.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '')) })
               catSlugSetter(subcat)
             }
           }

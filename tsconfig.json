@@ -14,7 +14,8 @@
     "baseUrl": ".",
     "types": [
       "reflect-metadata",
-      "node"
+      "node",
+      "jest"
     ],
     "paths": {
       "core/*": ["core/*"],
@@ -30,10 +31,11 @@
     "src/**/*.vue",
     "core/**/*.ts",
     "core/**/*.vue",
-    "tests/**/*.ts",
+    "test/**/*.ts",
     "module/**/*.ts",
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.spec.ts"
   ]
 }

@@ -29,7 +29,7 @@ The first phase of cycle we're mostly focusing on features and improvements. Bra
 ### 2. Release Candidate phase
 
 At some point, when milestone for next minor versions is completed, we're creating new branch from `develop` called `release/vx.y` (example: `release/v1.9`).
-After that new branch is tagged as first RC for version (example `v1.9.0-rc.1`). Then it's ready for testing by community.
+After that new branch is tagged as first RC for version (example `v1.10.0-rc.1`). Then it's ready for testing by community.
 During tests, feedback and stabilization there could be multiple Release Candidate versions on this branch. When improvement is made on this phase, then branch should be created from actual `release/vx.y` and should not contain features at this point - only improvements for current release.
 After merging a set of bugfixes and improvements into `release/*` branch, it needs to be tagged as the next RC version and merged into the `develop` branch, to update it.
 

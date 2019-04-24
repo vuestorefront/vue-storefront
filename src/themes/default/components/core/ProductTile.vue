@@ -5,14 +5,7 @@
   >
     <router-link
       class="block no-underline product-link"
-      :to="localizedRoute({
-        name: product.type_id + '-product',
-        params: {
-          parentSku: product.parentSku ? product.parentSku : product.sku,
-          slug: product.slug,
-          childSku: product.sku
-        }
-      })"
+      :to="productLink"
       data-testid="productLink"
     >
       <div
@@ -60,23 +53,22 @@
 <script>
 import rootStore from '@vue-storefront/core/store'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
+import { isServer } from '@vue-storefront/core/helpers'
 
 export default {
   mixins: [ProductTile],
   data () {
     return {
-      imageLoaded: false
+      imageLoaded: isServer
     }
   },
   props: {
     labelsActive: {
       type: Boolean,
-      requred: false,
       default: true
     },
     onlyImage: {
       type: Boolean,
-      required: false,
       default: false
     }
   },

@@ -20,7 +20,6 @@ const SOURCE_FRONTEND_CONFIG_FILE = 'config/default.json'
 const TARGET_BACKEND_CONFIG_FILE = 'config/local.json'
 const SOURCE_BACKEND_CONFIG_FILE = 'config/default.json'
 
-const STOREFRONT_GIT_URL = 'https://github.com/DivanteLtd/vue-storefront'
 const STOREFRONT_BACKEND_GIT_URL = 'https://github.com/DivanteLtd/vue-storefront-api'
 const MAGENTO_SAMPLE_DATA_GIT_URL = 'https://github.com/magento/magento2-sample-data.git'
 const STOREFRONT_REMOTE_BACKEND_URL = 'https://demo.vuestorefront.io'
@@ -357,8 +356,14 @@ class Backend extends Abstract {
     return new Promise((resolve, reject) => {
       Message.info('Starting backend server...')
 
-      if (shell.exec(`nohup npm run dev > ${Abstract.backendLogStream} 2>&1 &`).code !== 0) {
-        reject(new Error('Can\'t start dev server.', VUE_STOREFRONT_BACKEND_LOG_FILE))
+      if (isWindows()) {
+        if (shell.exec(`start /min npm run dev > ${Abstract.backendLogStream} 2>&1 &`).code !== 0) {
+          reject(new Error('Can\'t start dev server.', VUE_STOREFRONT_BACKEND_LOG_FILE))
+        }
+      } else {
+        if (shell.exec(`nohup npm run dev > ${Abstract.backendLogStream} 2>&1 &`).code !== 0) {
+          reject(new Error('Can\'t start dev server.', VUE_STOREFRONT_BACKEND_LOG_FILE))
+        }
       }
 
       resolve()
@@ -417,6 +422,7 @@ class Storefront extends Abstract {
           graphQlHost = backendPath.replace('https://', '').replace('http://', '')
         }
 
+        config.api.url = backendPath
         config.graphql.host = graphQlHost
         config.graphql.port = graphQlPort
         config.elasticsearch.host = `${backendPath}/api/catalog`
@@ -491,8 +497,14 @@ class Storefront extends Abstract {
     return new Promise((resolve, reject) => {
       Message.info('Starting storefront server...')
 
-      if (shell.exec(`nohup npm run dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
-        reject(new Error('Can\'t start storefront server.', VUE_STOREFRONT_LOG_FILE))
+      if (isWindows()) {
+        if (shell.exec(`start /min npm run dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
+          reject(new Error('Can\'t start storefront server.', VUE_STOREFRONT_LOG_FILE))
+        }
+      } else {
+        if (shell.exec(`nohup npm run dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
+          reject(new Error('Can\'t start storefront server.', VUE_STOREFRONT_LOG_FILE))
+        }
       }
 
       resolve(answers)
@@ -593,19 +605,6 @@ class Manager extends Abstract {
       .then(this.storefront.createConfig.bind(this.storefront))
       .then(this.storefront.npmBuild.bind(this.storefront))
       .then(this.storefront.runDevEnvironment.bind(this.storefront))
-  }
-
-  /**
-   * Check user OS and shows error if not supported
-   */
-  static checkUserOS () {
-    if (isWindows()) {
-      Message.error([
-        'Unfortunately currently only Linux and OSX are supported.',
-        'To install vue-storefront on your mac please go threw manual installation process provided in documentation:',
-        `${STOREFRONT_GIT_URL}/blob/master/doc/Installing%20on%20Windows.md`
-      ])
-    }
   }
 
   /**
@@ -832,11 +831,6 @@ Abstract.storefrontLogStream = '/dev/null'
 Abstract.backendLogStream = '/dev/null'
 
 if (require.main.filename === __filename) {
-  /**
-   * Pre-loading staff
-   */
-  Manager.checkUserOS()
-
   /**
    * This is where all the magic happens
    */

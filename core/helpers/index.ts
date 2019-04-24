@@ -2,6 +2,7 @@ import rootStore from '@vue-storefront/core/store'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { remove as removeAccents } from 'remove-accents'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
 
 /**
@@ -50,16 +51,15 @@ export function getThumbnailPath (relativeUrl, width, height) {
  * Re-format category path to be suitable for breadcrumb
  * @param {Array} categoryPath
  */
-export function breadCrumbRoutes (categoryPath) {
-  const tmpRts = []
-  for (let sc of categoryPath) {
-    tmpRts.push({
-      name: sc.name,
-      route_link: (rootStore.state.config.products.useShortCatalogUrls ? '/' : '/c/') + sc.slug
+export function formatBreadCrumbRoutes (categoryPath) {
+  const breadCrumbRoutesArray = []
+  for (let category of categoryPath) {
+    breadCrumbRoutesArray.push({
+      name: category.name,
+      route_link: formatCategoryLink(category)
     })
   }
-
-  return tmpRts
+  return breadCrumbRoutesArray
 }
 
 /**
