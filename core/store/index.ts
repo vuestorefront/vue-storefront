@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
+import { once } from '@vue-storefront/core/helpers'
 
-Vue.use(Vuex)
+once('__VUE_EXTEND_VUEX__', () => {
+  Vue.use(Vuex)
+})
 
 const state = {
   version: '',

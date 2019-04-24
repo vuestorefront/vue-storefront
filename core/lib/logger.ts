@@ -1,6 +1,5 @@
 import { isServer } from '@vue-storefront/core/helpers'
 import buildTimeConfig from 'config'
-
 const bgColorStyle = (color) => `color: white; background: ${color}; padding: 4px; font-weight: bold; font-size: 0.8em'`
 
 /** VS message logger. By default works only on dev mode */
@@ -35,6 +34,16 @@ class Logger
   }
 
   /**
+   * Convert message to string - as it may be object, array either primitive
+   * @param payload
+   */
+  convertToString (payload: any) {
+    if (typeof payload === 'string' || typeof payload === 'boolean' || typeof payload === 'number') return payload
+    if (payload && payload.message) return payload.message
+    return JSON.stringify(payload) 
+  }
+
+  /**
    * Check if method can print into console
    *
    * @param string method
@@ -65,12 +74,12 @@ class Logger
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  debug (message: string, tag: string = null, context: any = null) : () => void {
+  debug (message: any, tag: string = null, context: any = null) : () => void {
     if (!isServer && this.canPrint('debug')) {
       if (tag) {
-        return console.debug.bind(window.console, '%cVSF%c %c' + tag +'%c ' + message, bgColorStyle('grey'), 'color: inherit', bgColorStyle('gray'), 'font-weight: normal', context);
+        return console.debug.bind(window.console, '%cVSF%c %c' + tag +'%c ' + this.convertToString(message), bgColorStyle('grey'), 'color: inherit', bgColorStyle('gray'), 'font-weight: normal', context);
       } else {
-        return console.debug.bind(window.console, '%cVSF%c ' + message, bgColorStyle('white'), 'font-weight: normal', context);
+        return console.debug.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('grey'), 'font-weight: normal', context);
       }
     } else {
       return function () {}
@@ -85,7 +94,7 @@ class Logger
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  log (message: string, tag: string = null, context: any = null) : () => void {
+  log (message: any, tag: string = null, context: any = null) : () => void {
     return this.info(message, tag, context);
   }
 
@@ -97,12 +106,12 @@ class Logger
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  info (message: string, tag: string = null, context: any = null) : () => void {
+  info (message: any, tag: string = null, context: any = null) : () => void {
     if (!isServer && this.canPrint('info')) {
       if (tag) {
-        return console.log.bind(window.console, '%cVSF%c %c' + tag +'%c ' + message, bgColorStyle('green'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
+        return console.log.bind(window.console, '%cVSF%c %c' + tag +'%c ' + this.convertToString(message), bgColorStyle('green'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
       } else {
-        return console.log.bind(window.console, '%cVSF%c ' + message, bgColorStyle('green'), 'font-weight: bold', context);
+        return console.log.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('green'), 'font-weight: bold', context);
       }
     } else {
       return function () {}
@@ -117,12 +126,16 @@ class Logger
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  warn (message: string, tag: string = null, context: any = null) : () => void {
-    if (!isServer && this.canPrint('warn')) {
-      if (tag) {
-        return console.warn.bind(window.console, '%cVSF%c %c' + tag +'%c ' + message, bgColorStyle('orange'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
+  warn (message: any, tag: string = null, context: any = null) : () => void {
+    if (this.canPrint('warn')) {
+      if (!isServer) {
+        if (tag) {
+          return console.warn.bind(window.console, '%cVSF%c %c' + tag +'%c ' + this.convertToString(message), bgColorStyle('orange'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
+        } else {
+          return console.warn.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('orange'), 'font-weight: bold', context);
+        }
       } else {
-        return console.warn.bind(window.console, '%cVSF%c ' + message, bgColorStyle('orange'), 'font-weight: bold', context);
+        return console.warn.bind(console, message, context);
       }
     } else {
       return function () {}
@@ -137,12 +150,16 @@ class Logger
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  error (message: string, tag: string = null, context: any = null) : () => void {
-    if (!isServer && this.canPrint('error')) {
-      if (tag) {
-        return console.error.bind(window.console, '%cVSF%c %c' + tag +'%c ' + message, bgColorStyle('red'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
+  error (message: any, tag: string = null, context: any = null) : () => void {
+    if (this.canPrint('error')) { // we should display SSR errors for better monitoring + error handling
+      if (!isServer) {
+        if (tag) {
+          return console.error.bind(window.console, '%cVSF%c %c' + tag +'%c ' + this.convertToString(message), bgColorStyle('red'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context);
+        } else {
+          return console.error.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('red'), 'font-weight: bold', context);
+        }
       } else {
-        return console.error.bind(window.console, '%cVSF%c ' + message, bgColorStyle('red'), 'font-weight: bold', context);
+        return console.error.bind(console, message, context);
       }
     } else {
       return function () {}

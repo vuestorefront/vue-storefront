@@ -4,6 +4,51 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - UNRELEASED
+
+### Fixed
+- ESlint throwing errors about undefined jest globals in tests - @lukeromanowicz (#2702)
+- Fixed changing the country when entering shipping address in checkout not updating shipping costs - @revlis-x (#2691)
+- Infinite loop on multistore page after reload - @patzick (#2713)
+- Refreshing MyAccount page on multistore - @patzick (#2780)
+- "Toggle password visible" button in password fields works the right way - @lromanowicz (#2772)
+
+## [1.9.0-rc.2] - 2019.04.10
+
+### Fixed
+- Payment issue when no address set - @szafran89 (#2593)
+- Search component result message when search term is less than 3 letters - @robwozniak (#2561)
+- Removed childSku parameter in url for non-configurable products when using urlDispatcher - @Aekal (#2605)
+- Image lazy loading after SSR reload - @pkarw (#2641)
+- Modules can add custom URL - @pkarw (#2601)
+- Url routes fixes - @pkarw (#2598, #2645, #2614)
+- Fix for shopping cart actions when the `cartId` has been cleared out - @pkarw (#2567)
+- Fixed always common cache issue for multistore - @filrak (#2595)
+- Checkout copy address data will sync on later change - @haukebri (#2661)
+- Fixed Safari style for sort-by select - @haukebri (#2642)
+- fixed My orders in My Profile not refreshed after putting an order - @filrak (#2559)
+- Refreshing product page on mobile device - @patzick (#2484)
+
+## [1.9.0-rc.1] - 2019.03.07
+
+### Added
+- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and reimport Your products to properly set `url_path` fields - #2010 - @pkarw
+- Unit tests of cart module written in jest - @lukeromanowicz (#2305)
+
+### Fixed
+- Gallery low quality image in offline mode when high quality already cached - @patzick (#2557)
+
+### Changed / Improved
+- The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
+- Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
+- Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
+- Update to babel 7 - @lukeromanowicz (#2554)
+
+## [1.8.5] - 2019.04.17
+
+### Fixed
+- Memory leaks on SSR with Vue.use - @patzick (#2745)
+
 ## [1.8.4] - 2019.03.26
 
 ### Fixed
@@ -50,7 +95,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve tsconfig for better IDE paths support - @patzick, @filrak (#2474)
 - fix breadcrumbs changing too early - @filrak, @pkarw (#2469, #2529)
 - improved product gallery load view, shows correct image on reload - @patzick (#2481, #2482, #2488, #2501)
-- Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489) 
+- Fix an issue where the index.html template within a theme is ignored - @EnthrallRecords (#2489)
 - Added async sidebar component with async off-screen components error handling and fetch retrying after coming back online - @filrak (#2408, #2451)
 - Inconsistent filters behaviour - clear filters on page load - @patzick (#2435)
 - fix price is never below 0 and user can't add 0 or below 0 products to cart - @RakowskiPrzemyslaw (#2437)

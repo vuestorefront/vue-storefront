@@ -3,6 +3,7 @@ import rootStore from '@vue-storefront/core/store'
 import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 import fetch from 'isomorphic-fetch'
 import { slugify } from '@vue-storefront/core/helpers'
+import queryString from 'query-string'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
@@ -20,9 +21,6 @@ export class SearchAdapter {
     if (!this.entities[Request.type]) {
       throw new Error('No entity type registered for ' + Request.type )
     }
-
-    const buildURLQuery = obj => Object.entries(obj).map(pair => pair.map(encodeURIComponent).join('=')).join('&')
-
     let ElasticsearchQueryBody = {}
     if (Request.searchQuery instanceof SearchQuery) {
       ElasticsearchQueryBody = await prepareElasticsearchQueryBody(Request.searchQuery)
@@ -76,7 +74,7 @@ export class SearchAdapter {
       httpQuery.request = JSON.stringify(ElasticsearchQueryBody)
     }
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
-    url = url + '?' + buildURLQuery(httpQuery)
+    url = url + '?' + queryString.stringify(httpQuery)
     return fetch(url, { method: rootStore.state.config.elasticsearch.queryMethod,
       mode: 'cors',
       headers: {
@@ -94,7 +92,7 @@ export class SearchAdapter {
     if (resp.hasOwnProperty('hits')) {
       return {
         items: map(resp.hits.hits, hit => {
-          return Object.assign(hit._source, { _score: hit._score, slug: (hit._source.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '') }) // TODO: assign slugs server side
+          return Object.assign(hit._source, { _score: hit._score, slug: hit._source.slug ? hit._source.slug : ((hit._source.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '')) }) // TODO: assign slugs server side
         }), // TODO: add scoring information
         total: resp.hits.total,
         start: start,

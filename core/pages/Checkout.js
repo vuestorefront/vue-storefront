@@ -16,7 +16,6 @@ export default {
     return {
       stockCheckCompleted: false,
       stockCheckOK: false,
-      orderPlaced: false,
       confirmation: null, // order confirmation from server
       activeSection: {
         personalDetails: true,
@@ -42,7 +41,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isVirtualCart: 'cart/isVirtualCart'
+      isVirtualCart: 'cart/isVirtualCart',
+      isThankYouPage: 'checkout/isThankYouPage'
     })
   },
   beforeMount () {
@@ -60,43 +60,45 @@ export default {
     this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$on('checkout-after-validationError', this.focusField)
-    this.$store.dispatch('cart/load').then(() => {
-      if (this.$store.state.cart.cartItems.length === 0) {
-        this.notifyEmptyCart()
-        this.$router.push(this.localizedRoute('/'))
-      } else {
-        this.stockCheckCompleted = false
-        const checkPromises = []
-        for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
-          if (product.onlineStockCheckid) {
-            checkPromises.push(new Promise((resolve, reject) => {
-              Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
-                if (err || !item) {
-                  if (err) Logger.error(err)()
-                  resolve(null)
-                } else {
-                  product.stock = item.result
-                  resolve(product)
-                }
-              })
-            }))
-          }
-        }
-        Promise.all(checkPromises).then((checkedProducts) => {
-          this.stockCheckCompleted = true
-          this.stockCheckOK = true
-          for (let chp of checkedProducts) {
-            if (chp && chp.stock) {
-              if (!chp.stock.is_in_stock) {
-                this.stockCheckOK = false
-                chp.errors.stock = i18n.t('Out of stock!')
-                this.notifyOutStock(chp)
-              }
+    if (!this.isThankYouPage) {
+      this.$store.dispatch('cart/load').then(() => {
+        if (this.$store.state.cart.cartItems.length === 0) {
+          this.notifyEmptyCart()
+          this.$router.push(this.localizedRoute('/'))
+        } else {
+          this.stockCheckCompleted = false
+          const checkPromises = []
+          for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
+            if (product.onlineStockCheckid) {
+              checkPromises.push(new Promise((resolve, reject) => {
+                Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
+                  if (err || !item) {
+                    if (err) Logger.error(err)()
+                    resolve(null)
+                  } else {
+                    product.stock = item.result
+                    resolve(product)
+                  }
+                })
+              }))
             }
           }
-        })
-      }
-    })
+          Promise.all(checkPromises).then((checkedProducts) => {
+            this.stockCheckCompleted = true
+            this.stockCheckOK = true
+            for (let chp of checkedProducts) {
+              if (chp && chp.stock) {
+                if (!chp.stock.is_in_stock) {
+                  this.stockCheckOK = false
+                  chp.errors.stock = i18n.t('Out of stock!')
+                  this.notifyOutStock(chp)
+                }
+              }
+            }
+          })
+        }
+      })
+    }
     const storeView = currentStoreView()
     let country = this.$store.state.checkout.shippingDetails.country
     if (!country) country = storeView.i18n.defaultCountry
@@ -143,8 +145,8 @@ export default {
     },
     onAfterPlaceOrder (payload) {
       this.confirmation = payload.confirmation
-      this.orderPlaced = true
       this.$store.dispatch('checkout/setThankYouPage', true)
+      this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
       Logger.debug(payload.order)()
     },
     onBeforeEdit (section) {
