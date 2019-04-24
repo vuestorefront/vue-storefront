@@ -9,5 +9,5 @@ export default interface UserState {
   current_storecode: string,
   session_started: Date,
   orders_history: any,
-  local_session_readed: boolean
+  local_data_loaded: boolean
 }

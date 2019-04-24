@@ -14,8 +14,8 @@ import { isServer } from '@vue-storefront/core/helpers'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession (context) {
-    if (isServer || context.getters.isLocalSessionReaded) return
-    context.commit(types.USER_LOCAL_SESSION_READED, true)
+    if (isServer || context.getters.isLocalDataLoaded) return
+    context.commit(types.USER_LOCAL_DATA_LOADED, true)
 
     const user = localStorage.getItem(`shop/user/current-user`);
     if (user) {

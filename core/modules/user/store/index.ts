@@ -16,7 +16,7 @@ export const module: Module<UserState, RootState> = {
     current_storecode: '',
     session_started: new Date(),
     orders_history: null,
-    local_session_readed: false
+    local_data_loaded: false
   },
   getters,
   actions,
