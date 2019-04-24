@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     edit () {
-      this.user.isSubscribed = !this.user.isSubscribed
+      this.$set(this.user, 'isSubscribed', !this.user.isSubscribed)
     }
   },
   mixins: [MyNewsletter]
