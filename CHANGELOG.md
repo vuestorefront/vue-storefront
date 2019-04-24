@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Infinite loop on multistore page after reload - @patzick (#2713)
 - Refreshing MyAccount page on multistore - @patzick (#2780)
 - "Toggle password visible" button in password fields works the right way - @lromanowicz (#2772)
+- Range queries to elasticsearch - @oskar1233 (#2746)
 
 ## [1.9.0-rc.2] - 2019.04.10
 
