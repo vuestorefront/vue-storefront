@@ -118,7 +118,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
             Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
           }
         }
-        if (!task.silent && (jsonResponse.result && jsonResponse.result.code !== 'ENOTFOUND' && !silentMode)) {
+        if (!task.silent && (typeof jsonResponse.result === 'string' && jsonResponse.result.code !== 'ENOTFOUND' && !silentMode)) {
           rootStore.dispatch('notification/spawnNotification', {
             type: 'error',
             message: i18n.t(jsonResponse.result),
