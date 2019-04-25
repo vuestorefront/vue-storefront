@@ -12,26 +12,26 @@ export default {
     unsubscribe () {
       this.$store.dispatch('mailchimp/unsubscribe', this.$store.state.user.current.email).then(() => {
         this.user.isSubscribed = false
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'success',
+          message: this.$t('Unsubscribed from newsletter'),
+          action1: { label: this.$t('OK') }
+        })
       }).catch(err =>
         this.$emit('unsubscription-error', err)
       )
-      this.$store.dispatch('notification/spawnNotification', {
-        type: 'success',
-        message: this.$t('Unsubscribed from newsletter'),
-        action1: { label: this.$t('OK') }
-      })
     },
     subscribe () {
       this.$store.dispatch('mailchimp/subscribe', this.$store.state.user.current.email).then(() => {
         this.user.isSubscribed = true
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'success',
+          message: this.$t('Succesfully subscried to newsletter!'),
+          action1: { label: this.$t('OK') }
+        })
       }).catch(err =>
         this.$emit('subscription-error', err)
       )
-      this.$store.dispatch('notification/spawnNotification', {
-        type: 'success',
-        message: this.$t('Succesfully subscribed to newsletter!'),
-        action1: { label: this.$t('OK') }
-      })
     },
     updateNewsletter () {
       if (this.user.isSubscribed) {
