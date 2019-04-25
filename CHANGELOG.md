@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - "Toggle password visible" button in password fields works the right way - @lromanowicz (#2772)
 - Range queries to elasticsearch - @oskar1233 (#2746)
 - BaseInput has min height now to avoid jumping on forms - @patzick (#2771)
+- Orders with invalid address don't stack anymore and have proper notification popup - @AndreiBelokopytov, @lukeromanowicz (#2663)
 
 ## [1.9.0-rc.2] - 2019.04.10
 

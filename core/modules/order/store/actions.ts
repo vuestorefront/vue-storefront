@@ -47,7 +47,7 @@ const actions: ActionTree<OrderState, RootState> = {
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',
             body: JSON.stringify(order)
-          },
+          }
         })
         Vue.prototype.$bus.$emit('notification-progress-stop')
 
@@ -60,6 +60,7 @@ const actions: ActionTree<OrderState, RootState> = {
           return task
         } else if (task.resultCode === 400) {
           commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
+
           Logger.error('Internal validation error; Order entity is not compliant with the schema: ' + JSON.stringify(task.result), 'order')()
           dispatch('notification/spawnNotification', {
             type: 'error',
@@ -67,20 +68,27 @@ const actions: ActionTree<OrderState, RootState> = {
             action1: { label: i18n.t('OK') }
           }, {root: true})
 
+          order.transmited = true // we don't want to enqueue it
+          commit(types.ORDER_PLACE_ORDER, order) // archive this order but not trasmit it second time
+
           return task
         }
 
         throw new Error('Unhandled place order request error')
-      } catch (e) {
+      } catch (e) { // it is assummed that this is probably network/server side issue
         commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
+
         dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t('The order can not be transfered because of server error. Order has been queued'),
           action1: { label: i18n.t('OK') }
         }, {root: true})
-        order.transmited = false // queue order
-        commit(types.ORDER_PLACE_ORDER, order) // archive this order but not trasmit it second time
+
+        order.transmited = false // enqueue order
+        commit(types.ORDER_PLACE_ORDER, order) // archive this order and trasmit it next time the QUEUE is published
+
         Vue.prototype.$bus.$emit('notification-progress-stop')
+
         throw e
       }
     }
