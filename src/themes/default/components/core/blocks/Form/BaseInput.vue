@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative base-input">
     <div class="relative">
       <input
         class="
@@ -128,6 +128,10 @@ export default {
   $color-black: color(black);
   $color-puerto-rico: color(puerto-rico);
   $color-hover: color(tertiary, $colors-background);
+
+  .base-input {
+    min-height: 4.5rem;
+  }
 
   input {
     background: inherit;

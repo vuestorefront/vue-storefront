@@ -35,7 +35,7 @@
         <div class="row">
           <base-checkbox
             v-if="currentUser && hasShippingDetails()"
-            class="col-xs-12 mb25"
+            class="col-xs-12 mb10"
             id="shipToMyAddressCheckbox"
             @click="useMyAddress"
             v-model="shipToMyAddress"
@@ -44,7 +44,7 @@
           </base-checkbox>
 
           <base-input
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 col-sm-6 mb10"
             type="text"
             name="first-name"
             :placeholder="$t('First name *')"
@@ -64,7 +64,7 @@
           />
 
           <base-input
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 col-sm-6 mb10"
             type="text"
             name="last-name"
             :placeholder="$t('Last name *')"
@@ -78,7 +78,7 @@
           />
 
           <base-input
-            class="col-xs-12 mb25"
+            class="col-xs-12 mb10"
             type="text"
             name="street-address"
             :placeholder="$t('Street name *')"
@@ -92,7 +92,7 @@
           />
 
           <base-input
-            class="col-xs-12 mb25"
+            class="col-xs-12 mb10"
             type="text"
             name="apartment-number"
             :placeholder="$t('House/Apartment number *')"
@@ -106,7 +106,7 @@
           />
 
           <base-input
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 col-sm-6 mb10"
             type="text"
             name="city"
             :placeholder="$t('City *')"
@@ -120,7 +120,7 @@
           />
 
           <base-input
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 col-sm-6 mb10"
             type="text"
             name="state"
             :placeholder="$t('State / Province')"
@@ -129,7 +129,7 @@
           />
 
           <base-input
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 col-sm-6 mb10"
             type="text"
             name="zip-code"
             :placeholder="$t('Zip-code *')"
@@ -149,7 +149,7 @@
           />
 
           <base-select
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 col-sm-6 mb10"
             name="countries"
             :options="countryOptions"
             :selected="shipping.country"
@@ -167,7 +167,7 @@
           />
 
           <base-input
-            class="col-xs-12 mb25"
+            class="col-xs-12 mb10"
             type="text"
             name="phone-number"
             :placeholder="$t('Phone Number')"
