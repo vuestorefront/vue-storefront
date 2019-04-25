@@ -1,5 +1,5 @@
 ---
-name: question
+name: Question
 about: If you are not sure how something works or want discuss something just describe your doubts.
 labels: question
 ---
