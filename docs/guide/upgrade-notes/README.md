@@ -20,6 +20,7 @@ const module = createModule(moduleConfig)
 - `breadCrumbRoutes` helper has been refactored to `formatBreadCrumbRoutes`
 - orders which fail validation in API are assumed to have http code 400 instead of 500
 - notification message about invalid order address now uses email configured in mailer section instead of hardcoded one
+- Added validation for UTF8 alpha and alphanumeric characters in most checkout fields
 
 ## 1.7 -> 1.8
 Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/CHANGELOG.md)
