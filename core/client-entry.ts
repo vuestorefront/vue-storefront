@@ -177,7 +177,7 @@ const invokeClientEntry = async () => {
                         message: i18n.t('Address provided in checkout contains invalid data. Please check if all required fields are filled in and also contact us on {email} to resolve this issue for future. Your order has been canceled.', { email: config.mailer.contactAddress }),
                         action1: { label: i18n.t('OK') }
                       })
-                    } else if (jsonResponse.code === 500 && jsonResponse.result === "Error: Error while adding products") {
+                    } else if (jsonResponse.code === 500 && jsonResponse.result === i18n.t('Error: Error while adding products')) {
                       rootStore.dispatch('notification/spawnNotification', {
                         type: 'error',
                         message: i18n.t('Some products you\'ve ordered are out of stock. Your order has been canceled.'),
