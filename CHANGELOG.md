@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - "Toggle password visible" button in password fields works the right way - @lromanowicz (#2772)
 - Range queries to elasticsearch - @oskar1233 (#2746)
 - BaseInput has min height now to avoid jumping on forms - @patzick (#2771)
+- Build ServiceWorker on Docker - @patzick (#2793)
 
 ## [1.9.0-rc.2] - 2019.04.10
 
