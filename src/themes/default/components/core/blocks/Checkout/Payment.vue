@@ -316,6 +316,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
+import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
 import { Payment } from '@vue-storefront/core/modules/checkout/components/Payment'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
@@ -349,26 +350,32 @@ export default {
         payment: {
           firstName: {
             required,
-            minLength: minLength(2)
+            minLength: minLength(2),
+            unicodeAlpha
           },
           lastName: {
-            required
+            required,
+            unicodeAlpha
           },
           country: {
             required
           },
           streetAddress: {
-            required
+            required,
+            unicodeAlphaNum
           },
           apartmentNumber: {
-            required
+            required,
+            unicodeAlphaNum
           },
           zipCode: {
             required,
-            minLength: minLength(3)
+            minLength: minLength(3),
+            unicodeAlphaNum
           },
           city: {
-            required
+            required,
+            unicodeAlpha
           },
           paymentMethod: {
             required
@@ -380,13 +387,16 @@ export default {
         payment: {
           firstName: {
             required,
-            minLength: minLength(2)
+            minLength: minLength(2),
+            unicodeAlpha
           },
           lastName: {
-            required
+            required,
+            unicodeAlpha
           },
           company: {
-            required
+            required,
+            unicodeAlphaNum
           },
           taxId: {
             required,
@@ -396,17 +406,21 @@ export default {
             required
           },
           streetAddress: {
-            required
+            required,
+            unicodeAlphaNum
           },
           apartmentNumber: {
-            required
+            required,
+            unicodeAlphaNum
           },
           zipCode: {
             required,
-            minLength: minLength(3)
+            minLength: minLength(3),
+            unicodeAlphaNum
           },
           city: {
-            required
+            required,
+            unicodeAlpha
           },
           paymentMethod: {
             required

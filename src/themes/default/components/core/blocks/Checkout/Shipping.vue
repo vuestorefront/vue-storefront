@@ -254,6 +254,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
+import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
 import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipping'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
@@ -285,29 +286,35 @@ export default {
     shipping: {
       firstName: {
         required,
-        minLength: minLength(2)
+        minLength: minLength(2),
+        unicodeAlpha
       },
       lastName: {
-        required
+        required,
+        unicodeAlpha
       },
       country: {
         required
       },
       streetAddress: {
-        required
+        required,
+        unicodeAlphaNum
       },
       apartmentNumber: {
-        required
+        required,
+        unicodeAlphaNum
       },
       shippingMethod: {
         required
       },
       zipCode: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(3),
+        unicodeAlphaNum
       },
       city: {
-        required
+        required,
+        unicodeAlpha
       }
     }
   }
