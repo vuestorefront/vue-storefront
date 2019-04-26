@@ -147,6 +147,7 @@ const invokeClientEntry = async () => {
             const orderId = id
 
             Logger.log('Pushing out order ' + orderId)()
+            /** @todo refactor order synchronisation to proper handling through vuex actions to avoid code duplication */
             return fetch(config.orders.endpoint,
               {
                 method: 'POST',
@@ -162,10 +163,31 @@ const invokeClientEntry = async () => {
               }
             })
               .then(jsonResponse => {
-                if (jsonResponse && jsonResponse.code === 200) {
+                if (jsonResponse) {
                   Logger.info('Response for: ' + orderId + ' = ' + JSON.stringify(jsonResponse.result))()
-                  orderData.transmited = true
+                  orderData.transmited = true // by default don't retry to transmit this order
                   orderData.transmited_at = new Date()
+
+                  if (jsonResponse.code !== 200) {
+                    Logger.error(jsonResponse, 'order-sync')()
+
+                    if (jsonResponse.code === 400) {
+                      rootStore.dispatch('notification/spawnNotification', {
+                        type: 'error',
+                        message: i18n.t('Address provided in checkout contains invalid data. Please check if all required fields are filled in and also contact us on {email} to resolve this issue for future. Your order has been canceled.', { email: config.mailer.contactAddress }),
+                        action1: { label: i18n.t('OK') }
+                      })
+                    } else if (jsonResponse.code === 500 && jsonResponse.result === "Error: Error while adding products") {
+                      rootStore.dispatch('notification/spawnNotification', {
+                        type: 'error',
+                        message: i18n.t('Some products you\'ve ordered are out of stock. Your order has been canceled.'),
+                        action1: { label: i18n.t('OK') }
+                      })
+                    } else {
+                      orderData.transmited = false // probably some server related error. Enqueue
+                    }
+                  }
+
                   ordersCollection.setItem(orderId.toString(), orderData)
                 } else {
                   Logger.error(jsonResponse)()
