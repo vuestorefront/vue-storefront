@@ -18,6 +18,8 @@ const module = createModule(moduleConfig)
 ````
 - `@vue-storefront/store` package has been depreciated. Just change imports to `@vue-storefront/core/store`.
 - `breadCrumbRoutes` helper has been refactored to `formatBreadCrumbRoutes`
+- orders which fail validation in API are assumed to have http code 400 instead of 500
+- notification message about invalid order address now uses email configured in mailer section instead of hardcoded one
 
 ## 1.7 -> 1.8
 Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/CHANGELOG.md)
