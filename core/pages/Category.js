@@ -110,23 +110,24 @@ export default {
       throw err
     }
   },
-  async beforeRouteEnter (to, from, next) {
-    if (!isServer && !from.name) { // Loading category products to cache on SSR render
-      next(vm => {
-        const defaultFilters = store.state.config.products.defaultFilters
-        let parentCategory = store.getters['category/getCurrentCategory']
-        let query = store.getters['category/getCurrentCategoryProductQuery']
-        if (!query.searchProductQuery) {
-          store.dispatch('category/mergeSearchOptions', {
-            searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters)
-          })
-        }
-        store.dispatch('category/products', query)
-      })
-    } else {
-      next()
-    }
-  },
+  // todo: https://github.com/DivanteLtd/vue-storefront/issues/2682
+  // async beforeRouteEnter (to, from, next) {
+  //   if (!isServer && !from.name) { // Loading category products to cache on SSR render
+  //     next(vm => {
+  //       const defaultFilters = store.state.config.products.defaultFilters
+  //       let parentCategory = store.getters['category/getCurrentCategory']
+  //       let query = store.getters['category/getCurrentCategoryProductQuery']
+  //       if (!query.searchProductQuery) {
+  //         store.dispatch('category/mergeSearchOptions', {
+  //           searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters)
+  //         })
+  //       }
+  //       store.dispatch('category/products', query)
+  //     })
+  //   } else {
+  //     next()
+  //   }
+  // },
   beforeMount () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
     this.$bus.$on('list-change-sort', this.onSortOrderChanged)
