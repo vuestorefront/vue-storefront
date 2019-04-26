@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import rootStore from '@vue-storefront/core/store'
+import rootStore from '@vue-storefront/store'
 import i18n from '@vue-storefront/i18n'
 import { sha3_224 } from 'js-sha3'
 import { currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore'
@@ -45,13 +45,14 @@ const actions: ActionTree<CartState, RootState> = {
   serverTokenClear (context) {
     context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
-  clear (context) {
-    context.commit(types.CART_LOAD_CART, [])
-    context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
-    if (rootStore.state.config.cart.synchronize) {
-      rootStore.dispatch('cart/serverCreate', { guestCart: !rootStore.state.config.orders.directBackendSync }, {root: true}) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
-    }
-  },
+  // clear (context) {
+  //   console.log('clear cart id token here')
+  //   context.commit(types.CART_LOAD_CART, [])
+  //   context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
+  //   if (rootStore.state.config.cart.synchronize && !rootStore.state.config.orders.directBackendSync) {
+  //     rootStore.dispatch('cart/serverCreate', { guestCart: !rootStore.state.config.orders.directBackendSync }, {root: true}) // guest cart when not using directBackendSync because when the order hasn't been passed to magento yet it will repopulate your cart
+  //   }
+  // },
   save (context) {
     context.commit(types.CART_SAVE)
   },
@@ -309,6 +310,16 @@ const actions: ActionTree<CartState, RootState> = {
     if (rootStore.state.config.cart.synchronize && product.server_item_id) {
       dispatch('serverPull', { forceClientState: true })
     }
+  },
+
+  clear (context) {
+    context.commit(types.CART_LOAD_CART, [])
+    // context.commit(types.CART_SAVE, [])
+    context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
+    if (rootStore.state.config.cart.synchronize && !rootStore.state.config.orders.directBackendSync) {
+      rootStore.dispatch('cart/serverCreate', { guestCart: !rootStore.state.config.orders.directBackendSync }, {root: true}) // guest cart when not using directBackendSync because when the order hasn't been passed to magento yet it will repopulate your cart
+    } else {
+      rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true }) }
   },
   removeNonConfirmedVariants ({ commit, dispatch }, payload) {
     let removeByParentSku = true // backward compatibility call format
