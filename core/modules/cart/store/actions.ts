@@ -47,12 +47,11 @@ const actions: ActionTree<CartState, RootState> = {
   serverTokenClear (context) {
     context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
-  clear (context) {
-    context.commit(types.CART_LOAD_CART, [])
-    context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
-
-    if (config.cart.synchronize) {
-      context.dispatch('serverCreate', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
+  async clear (context, { recreateAndSyncCart = true }) {
+    await context.commit(types.CART_LOAD_CART, [])
+    if (recreateAndSyncCart && config.cart.synchronize) {
+      await context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
+      await context.dispatch('serverCreate', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
     }
   },
   save (context) {
@@ -87,6 +86,8 @@ const actions: ActionTree<CartState, RootState> = {
               })
             }
           }
+        }).catch(err => {
+          Logger.error(err, 'cart')()
         })
       } else {
         Logger.log('Too short interval for refreshing the cart or items not changed' + newItemsHash + context.state.cartItemsHash, 'cart')()
@@ -411,7 +412,7 @@ const actions: ActionTree<CartState, RootState> = {
             payment_method: payment ? payment.code : null
           }
         }
-        if (methodsData.country && methodsData.carrier_code) {
+        if (methodsData.country && methodsData.carrier_code && context.state.cartServerToken) {
           TaskQueue.execute({ url: config.cart.shippinginfo_endpoint,
             payload: {
               method: 'POST',
@@ -446,7 +447,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   removeCoupon (context) {
     return new Promise((resolve, reject) => {
-      if (config.cart.synchronize_totals && onlineHelper.isOnline) {
+      if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
         TaskQueue.execute({ url: config.cart.deletecoupon_endpoint,
           payload: {
             method: 'POST',
@@ -468,7 +469,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   applyCoupon (context, couponCode) {
     return new Promise((resolve, reject) => {
-      if (config.cart.synchronize_totals && onlineHelper.isOnline) {
+      if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
         TaskQueue.execute({ url: config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
           payload: {
             method: 'POST',

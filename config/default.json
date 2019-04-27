@@ -21,7 +21,7 @@
     },
     "console": {
       "showErrorOnProduction" : false,
-      "verbosityLevel": "only-errors"
+      "verbosityLevel": "display-everything"
     },
     "redis": {
       "host": "localhost",

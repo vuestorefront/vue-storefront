@@ -17,7 +17,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
       const result = await dispatch('order/placeOrder', order, {root: true})
       if (!result.resultCode || result.resultCode === 200) {
         Vue.prototype.$db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
-        dispatch('cart/clear', {}, {root: true})
+        await dispatch('cart/clear', {}, {root: true})
         if (state.personalDetails.createAccount) {
           commit(types.CHECKOUT_DROP_PASSWORD)
         }
