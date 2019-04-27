@@ -3,6 +3,7 @@
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
 ## 1.8 -> 1.9
+- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields 
 - `cart.multisiteCommonCart` config property changed to `storeViews.commonCache`
 - Way of creating VS Modules was changed to use factory method instead of explict object creation. Even though the feature is backward compatible we highly encourage all developers to refactor their modules to use new syntax.
 
