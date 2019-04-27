@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.9.0] - UNRELEASED
 
+### Added
+- validation for UTF8 alpha and alphanumeric characters in most checkout fields - @lromanowicz (#2653)
+
 ### Fixed
 - ESlint throwing errors about undefined jest globals in tests - @lukeromanowicz (#2702)
 - Fixed changing the country when entering shipping address in checkout not updating shipping costs - @revlis-x (#2691)
@@ -18,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Offline orders with out of stock products don't stack anymore and get canceled after going back to online - @lukeromanowicz (#2740)
 - Build ServiceWorker on Docker - @patzick (#2793)
 - Product image load after comming back to online - @patzick (#2573)
+- Insufficent validation for city field in checkout address - @lromanowicz (#2653) 
 
 ## [1.9.0-rc.2] - 2019.04.10
 
