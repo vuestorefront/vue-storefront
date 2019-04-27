@@ -275,6 +275,13 @@ const actions: ActionTree<CartState, RootState> = {
             action1: { label: i18n.t('OK') }
           })
         }
+        if (result.status === 'not_enough_stock') {
+          rootStore.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: i18n.t("not enough in stock", {name:product.name, qty:result.qty}),
+            action1: { label: i18n.t('OK') }
+          })
+        }
         if (result.status === 'ok' || result.status === 'volatile') {
           commit(types.CART_ADD_ITEM, { product })
           productHasBeenAdded = true
