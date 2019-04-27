@@ -273,3 +273,4 @@
 "My Recently viewed products","My Recently viewed products"
 "No products yet","No products yet"
 "The server order id has been set to ","The server order id has been set to "
+"not enough in stock","We don't have as many {name} as you requested. Only {qty} available"
