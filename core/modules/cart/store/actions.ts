@@ -58,7 +58,7 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
-    const isUserInCheckout = (Date.now() - context.rootGetters.checkout.getModifiedAt) <= 1000 * 60 * 5
+    const isUserInCheckout = context.rootGetters['checkout/isUserInCheckout']
     if (isUserInCheckout) forceClientState = true // never surprise the user in checkout - #
     if (config.cart.synchronize && !isServer && onlineHelper.isOnline && context.state.cartServerToken) {
       const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
@@ -708,18 +708,22 @@ const actions: ActionTree<CartState, RootState> = {
         rootStore.commit('cart/' + types.CART_DEL_NON_CONFIRMED_ITEM, { product: originalCartItem }, {root: true})
       }
     } else {
-      let notificationData = {
-        type: 'success',
-        message: i18n.t('Product has been added to the cart!'),
-        action1: { label: i18n.t('OK') },
-        action2: null
+      const isUserInCheckout = context.rootGetters['checkout/isUserInCheckout']
+      if (!isUserInCheckout) { // if user is in the checkout - this callback is just a result of server sync
+        const isThisNewItemAddedToTheCart = (!originalCartItem || !originalCartItem.item_id)
+        let notificationData = {
+          type: 'success',
+          message: isThisNewItemAddedToTheCart ? i18n.t('Product has been added to the cart!') : i18n.t('Product quantity has been updated!'),
+          action1: { label: i18n.t('OK') },
+          action2: null
+        }
+        if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
+          notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: () => {
+            context.dispatch('goToCheckout')
+          }}
+        }
+        rootStore.dispatch('notification/spawnNotification', notificationData)
       }
-      if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
-        notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: () => {
-          context.dispatch('goToCheckout')
-        }}
-      }
-      rootStore.dispatch('notification/spawnNotification', notificationData)
     }
   },
   toggleMicrocart ({ commit }) {

@@ -35,6 +35,9 @@ const actions: ActionTree<CheckoutState, RootState> = {
       }
     }
   },
+  setModifiedAt({ commit }, timestamp) {
+    commit(types.CHECKOUT_SET_MODIFIED_AT, timestamp)    
+  },
   savePersonalDetails ({ commit }, personalDetails) {
     // todo: create and move perdonal details vuex
     commit(types.CHECKOUT_SAVE_PERSONAL_DETAILS, personalDetails)
