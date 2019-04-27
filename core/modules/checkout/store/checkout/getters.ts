@@ -3,7 +3,8 @@ import CheckoutState from '../../types/CheckoutState'
 import RootState from '@vue-storefront/core/types/RootState'
 
 const getters: GetterTree<CheckoutState, RootState> = {
-  isThankYouPage: state => state.isThankYouPage
+  isThankYouPage: state => state.isThankYouPage,
+  getModifiedAt: state => state.modifiedAt
 }
 
 export default getters

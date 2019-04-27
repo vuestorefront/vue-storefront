@@ -58,6 +58,8 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
+    const isUserInCheckout = (Date.now() - context.rootGetters.checkout.getModifiedAt) <= 1000 * 60 * 5
+    if (isUserInCheckout) forceClientState = true // never surprise the user in checkout - #
     if (config.cart.synchronize && !isServer && onlineHelper.isOnline && context.state.cartServerToken) {
       const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
       if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
@@ -112,7 +114,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
     }
   },
-  serverCreate (context, { guestCart = false }) {
+  serverCreate (context, { guestCart = false, forceClientState = false }) {
     if (config.cart.synchronize && !isServer) {
       if ((Date.now() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
         const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
@@ -121,6 +123,7 @@ const actions: ActionTree<CartState, RootState> = {
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors'
           },
+          force_client_state: forceClientState,
           silent: true,
           callback_event: 'store:cart/servercartAfterCreated'
         }
@@ -491,7 +494,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
     })
   },
-  userAfterLoggedin () {
+  userAfterLoggedin (context) {
     Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
       if (err) {
         Logger.error(err, 'cart')()
@@ -506,7 +509,7 @@ const actions: ActionTree<CartState, RootState> = {
     if (event.resultCode === 200) {
       Logger.info('Server cart token created.', 'cart', cartToken)()
       rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
-      rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !config.cart.serverMergeByDefault }, { root: true })
+      rootStore.dispatch('cart/serverPull', { forceClientState: event.force_client_state || false, dryRun: !config.cart.serverMergeByDefault }, { root: true })
     } else {
       let resultString = event.result ? toString(event.result) : null
       if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
