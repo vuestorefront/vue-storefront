@@ -47,9 +47,9 @@ const actions: ActionTree<CartState, RootState> = {
   serverTokenClear (context) {
     context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
-  async clear (context, { recreateAndSyncCart = true }) {
+  async clear (context, options = { recreateAndSyncCart: true }) {
     await context.commit(types.CART_LOAD_CART, [])
-    if (recreateAndSyncCart && config.cart.synchronize) {
+    if (options.recreateAndSyncCart && config.cart.synchronize) {
       await context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
       await context.dispatch('serverCreate', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
     }
