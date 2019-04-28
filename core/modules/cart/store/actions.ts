@@ -711,7 +711,7 @@ const actions: ActionTree<CartState, RootState> = {
       const isUserInCheckout = context.rootGetters['checkout/isUserInCheckout']
       if (!isUserInCheckout) { // if user is in the checkout - this callback is just a result of server sync
         const isThisNewItemAddedToTheCart = (!originalCartItem || !originalCartItem.item_id)
-        let notificationData = {
+        const notificationData = {
           type: 'success',
           message: isThisNewItemAddedToTheCart ? i18n.t('Product has been added to the cart!') : i18n.t('Product quantity has been updated!'),
           action1: { label: i18n.t('OK') },
