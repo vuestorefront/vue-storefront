@@ -41,8 +41,7 @@
             <p>
               <button-outline
                 color="dark"
-                @click.native="$router.push('/')"
-                >
+                @click.native="$router.push('/')">
                 {{ $t('Return to shopping') }}
               </button-outline>
             </p>
