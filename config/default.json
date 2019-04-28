@@ -417,6 +417,7 @@
     "cms_page": {
       "max_count": 500
     },
+    "priceFilterBuckets": [50, 100, 150],
     "usePriceTiers": false,
     "useZeroPriceProduct": true,
     "query": {

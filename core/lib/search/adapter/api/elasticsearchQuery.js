@@ -2,8 +2,11 @@ import getFunctionScores from './elasticsearch/score'
 import getMultiMatchConfig from './elasticsearch/multimatch'
 import getBoosts from './elasticsearch/boost'
 import getMapping from './elasticsearch/mapping'
+import createRanges from './elasticsearch/ranges'
 import cloneDeep from 'lodash-es/cloneDeep'
 import config from 'config'
+
+const ranges = createRanges(config.priceFilterBuckets)
 
 export async function prepareElasticsearchQueryBody (searchQuery) {
   const bodybuilder = await import(/* webpackChunkName: "bodybuilder" */ 'bodybuilder')
@@ -84,14 +87,7 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
           query = query.aggregation('terms', attrToFilter.field + optionsPrfeix, aggregationSize)
         } else {
           query = query.aggregation('terms', attrToFilter.field)
-          query.aggregation('range', 'price', {
-            ranges: [
-              { from: 0, to: 50 },
-              { from: 50, to: 100 },
-              { from: 100, to: 150 },
-              { from: 150 }
-            ]
-          })
+          query.aggregation('range', 'price', { ranges })
         }
       }
     }
