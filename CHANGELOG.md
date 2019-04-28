@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Build ServiceWorker on Docker - @patzick (#2793)
 - Product image load after comming back to online - @patzick (#2573)
 - Insufficent validation for city field in checkout address - @lromanowicz (#2653) 
+- Incorrect hover activity on the 'filter by categories' in the search view on mobile - @idodidodi (#2783)
 
 ## [1.9.0-rc.2] - 2019.04.10
 
