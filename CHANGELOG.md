@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
 - Confirmation popup 'Product has beed added to cart' is displayed only once - @JKrupinski (#2610)
 - Moved My Account options from Categories - @bartdominiak (#2612)
-- Fix displaying (and adding) reviews for configurable products - @afirlejczyk (#2660) 
+- Fix displaying (and adding) reviews for configurable products - @afirlejczyk (#2660)
 - Image switching fix - @pkarw (#2709)
 - Respect store code on order/PROCESS_QUEUE for shop store - @zulcom (#2727)
 - Unexpected `window.localStorage` use in user module actions - @zulcom (#2735)
@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The default storeId is taken from the configurations - @nuovecode (#2718)
 - Multitab cart sync - @BartoszLiburski (#2547)
 - Status filter in Related Products query (#2805)
+- Added return to shopping button on ThenkYou page - @ZeevGerstner (#2818)
 
 ## [1.9.0] - UNRELEASED
 
