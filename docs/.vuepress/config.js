@@ -18,7 +18,13 @@ module.exports = {
     ],
     sidebar: {
       '/guide/': [
-        '',
+      	{
+          title : 'General Information',
+          collapsible: false,
+          children: [
+            'general/introduction'
+          ]
+	      },
         'upgrade-notes/',
         {
           title: 'Installation',
