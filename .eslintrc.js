@@ -1,11 +1,11 @@
 module.exports = {
   root: true,
-  env: { 'browser': true, 'jest': true },
+  env: { browser: true, jest: true },
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',
     ecmaVersion: 8,
-    sourceType: "module"
+    sourceType: 'module'
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: [
@@ -19,6 +19,9 @@ module.exports = {
   plugins: ['vue', 'vue-storefront', '@typescript-eslint'],
   // add your custom rules here
   rules: {
+    '@typescript-eslint/camelcase': 0,
+    semi: 'off',
+    '@typescript-eslint/semi': ['error'],
     // Prettier rules these rulles should never be hit, as prettier formattes the code so
     // so these will never get hit
     'no-tabs': 'error',
@@ -36,12 +39,11 @@ module.exports = {
       }
     ],
     'array-bracket-spacing': ['error', 'never'],
-    semi: ['error', 'always'],
     // disabled the rules because of line breaks that comes from prettier
     'standard/computed-property-even-spacing': 0,
     /* max attributes-per-line and order-in-components
-    ** we should use this later, when eslint-plugin-vue will support auto fixing this
-    */
+     ** we should use this later, when eslint-plugin-vue will support auto fixing this
+     */
     'vue/max-attributes-per-line': 0,
     'vue/order-in-components': 0,
     'vue/attributes-order': 0,
@@ -54,10 +56,10 @@ module.exports = {
     'generator-star-spacing': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-    'no-restricted-imports': [2, { 'paths': ['lodash-es'] }],
+    'no-restricted-imports': [2, { paths: ['lodash-es'] }],
     'vue-storefront/no-corecomponent-import': 'error',
     'vue-storefront/no-corecomponent': 'error',
     'vue-storefront/no-corepage-import': 'error',
     'vue-storefront/no-corepage': 'error'
   }
-}
+};
