@@ -1,7 +1,8 @@
 import { mapState, mapGetters } from 'vuex';
 import RootState from '@vue-storefront/core/types/RootState';
-const Countries = require('@vue-storefront/i18n/resource/countries.json');
 import toString from 'lodash-es/toString';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Countries = require('@vue-storefront/i18n/resource/countries.json');
 
 export const Shipping = {
   name: 'Shipping',

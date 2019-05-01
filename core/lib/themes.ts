@@ -6,6 +6,7 @@ export function registerTheme(
   config,
   ssrContext
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const themeEntryPoint = require('theme/index.js');
   if (themeEntryPoint != null && themeEntryPoint.initTheme) {
     themeEntryPoint.initTheme(app, routes, store, config, ssrContext); // register theme

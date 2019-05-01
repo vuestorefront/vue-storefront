@@ -1,10 +1,5 @@
 import { module } from './store';
 import { createModule } from '@vue-storefront/core/lib/module';
-
-import {
-  VueStorefrontModule,
-  VueStorefrontModuleConfig
-} from '@vue-storefront/core/lib/module';
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
 import { beforeEach } from './router/beforeEach';
 

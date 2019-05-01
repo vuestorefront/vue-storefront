@@ -15,7 +15,7 @@ export const actions: ActionTree<ExampleState, any> = {
           commit(types.SET_USERS, userData);
           resolve(userData);
         })
-        .catch(() => reject());
+        .catch((e) => reject(e));
     });
   },
   // if you are using cache in your module it's a good practice to allow develoeprs to choose either to use it or not

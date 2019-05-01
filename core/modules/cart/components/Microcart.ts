@@ -19,7 +19,7 @@ export const Microcart = {
     }
   },
   methods: {
-    applyCoupon(code: String): Promise<boolean> {
+    applyCoupon(code: string): Promise<boolean> {
       return this.$store.dispatch('cart/applyCoupon', code);
     },
     removeCoupon(): Promise<boolean> {

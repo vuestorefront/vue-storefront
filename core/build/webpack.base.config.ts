@@ -8,6 +8,7 @@ import HTMLPlugin from 'html-webpack-plugin';
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 import webpack from 'webpack';
 import moment from 'moment';
+import themeRoot from './theme-path';
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
@@ -15,8 +16,6 @@ fs.writeFileSync(
 );
 
 const themesRoot = '../../src/themes';
-
-import themeRoot from './theme-path';
 const themeResources = themeRoot + '/resource';
 const themeCSS = themeRoot + '/css';
 const themeApp = themeRoot + '/App.vue';
@@ -34,6 +33,7 @@ const themedIndexAmp = path.join(
   '/templates/index.amp.template.html'
 );
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js');
 translationPreprocessor(
   [
@@ -75,7 +75,7 @@ export default {
         : 'src/index.template.html',
       filename: 'index.html',
       chunksSortMode: 'none',
-      inject: isProd == false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
+      inject: isProd === false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexMinimal)
@@ -83,7 +83,7 @@ export default {
         : 'src/index.minimal.template.html',
       filename: 'index.minimal.html',
       chunksSortMode: 'none',
-      inject: isProd == false
+      inject: isProd === false
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexBasic)
@@ -91,7 +91,7 @@ export default {
         : 'src/index.basic.template.html',
       filename: 'index.basic.html',
       chunksSortMode: 'none',
-      inject: isProd == false
+      inject: isProd === false
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexAmp)
@@ -99,7 +99,7 @@ export default {
         : 'src/index.amp.template.html',
       filename: 'index.amp.html',
       chunksSortMode: 'none',
-      inject: isProd == false
+      inject: isProd === false
     }),
     new webpack.DefinePlugin({
       'process.env.__APPVERSION__': JSON.stringify(

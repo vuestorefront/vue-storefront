@@ -1,16 +1,28 @@
 'use strict';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const shell = require('shelljs');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const mkdirp = require('mkdirp');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const exists = require('fs-exists-sync');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const message = require('print-message');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const inquirer = require('inquirer');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const jsonFile = require('jsonfile');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const urlParser = require('url-parse');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const isWindows = require('is-windows');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const isEmptyDir = require('empty-dir');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const commandExists = require('command-exists');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const program = require('commander');
 
 const SAMPLE_DATA_PATH = 'var/magento2-sample-data';
@@ -32,6 +44,20 @@ const LOG_DIR = `${STOREFRONT_DIRECTORY}/var/log`;
 const INSTALL_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/install.log`;
 const VUE_STOREFRONT_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/vue-storefront.log`;
 const VUE_STOREFRONT_BACKEND_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/vue-storefront-api.log`;
+
+/**
+ * Abstract class for field initialization
+ */
+class Abstract {
+  /**
+   * Constructor
+   *
+   * Initialize fields
+   */
+  constructor(answers) {
+    this.answers = answers;
+  }
+}
 
 /**
  * Message management
@@ -110,19 +136,7 @@ class Message {
   }
 }
 
-/**
- * Abstract class for field initialization
- */
-class Abstract {
-  /**
-   * Constructor
-   *
-   * Initialize fields
-   */
-  constructor(answers) {
-    this.answers = answers;
-  }
-}
+
 
 /**
  * Scripts for initialization backend

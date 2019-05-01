@@ -1,8 +1,10 @@
 import path from 'path';
 import merge from 'webpack-merge';
 import baseClientConfig from './webpack.client.config';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const themeRoot = require('./theme-path');
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'));
 
 const prodClientConfig = merge(baseClientConfig, {

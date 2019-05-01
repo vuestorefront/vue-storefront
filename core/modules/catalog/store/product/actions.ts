@@ -634,7 +634,7 @@ const actions: ActionTree<ProductState, RootState> = {
           }
         } else if (
           !skipCache ||
-          ('simple' === prod.type_id || 'downloadable' === prod.type_id)
+          (prod.type_id === 'simple' || prod.type_id === 'downloadable')
         ) {
           if (setCurrentProduct) context.dispatch('setCurrent', prod);
         }
@@ -669,13 +669,13 @@ const actions: ActionTree<ProductState, RootState> = {
               };
               if (setCurrentProduct || selectDefaultVariant) {
                 const subConfigPromises = [];
-                if ('bundle' === prd.type_id) {
+                if (prd.type_id === 'bundle') {
                   subConfigPromises.push(
                     context.dispatch('configureBundleAsync', prd)
                   );
                 }
 
-                if ('grouped' === prd.type_id) {
+                if (prd.type_id === 'grouped') {
                   subConfigPromises.push(
                     context.dispatch('configureGroupedAsync', prd)
                   );
@@ -745,12 +745,12 @@ const actions: ActionTree<ProductState, RootState> = {
               subConfigPromises.push(
                 context.dispatch('setupVariants', { product: res })
               );
-              if ('bundle' === res.type_id) {
+              if (res.type_id === 'bundle') {
                 subConfigPromises.push(
                   context.dispatch('configureBundleAsync', res)
                 );
               }
-              if ('grouped' === res.type_id) {
+              if (res.type_id === 'grouped') {
                 subConfigPromises.push(
                   context.dispatch('configureGroupedAsync', res)
                 );
@@ -943,10 +943,8 @@ const actions: ActionTree<ProductState, RootState> = {
                 .useDynamicAttributeLoader
                 ? productFields
                 : null,
-              only_visible: rootStore.state.config.entities.product
-                .useDynamicAttributeLoader
-                ? true
-                : false,
+              only_visible: !!rootStore.state.config.entities.product
+                .useDynamicAttributeLoader,
               only_user_defined: true,
               includeFields: rootStore.state.config.entities.optimize
                 ? rootStore.state.config.entities.attribute.includeFields

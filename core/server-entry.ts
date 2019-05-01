@@ -48,7 +48,7 @@ function _ssrHydrateSubcomponents(
           store,
           route: router.currentRoute,
           context: null
-        } /*AsyncDataLoaderActionContext*/
+        } /* AsyncDataLoaderActionContext */
       )
         .then(r => {
           if (buildTimeConfig.ssr.useInitialStateFilter) {

@@ -65,6 +65,7 @@ export default {
           this.identifier
         );
       }
+      return false;
     }
   }
 };

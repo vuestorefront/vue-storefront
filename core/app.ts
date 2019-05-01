@@ -2,7 +2,8 @@ import { Store } from 'vuex';
 import RootState from '@vue-storefront/core/types/RootState';
 import Vue from 'vue';
 import buildTimeConfig from 'config';
-import { isServer } from '@vue-storefront/core/helpers';
+import { once, isServer } from '@vue-storefront/core/helpers';
+
 import { Logger } from '@vue-storefront/core/lib/logger';
 
 // Plugins
@@ -27,7 +28,6 @@ import * as coreMixins from '@vue-storefront/core/mixins';
 import * as coreFilters from '@vue-storefront/core/filters';
 import * as corePlugins from '@vue-storefront/core/compatibility/plugins';
 
-import { once } from '@vue-storefront/core/helpers';
 import store from '@vue-storefront/core/store';
 
 import { enabledModules } from './modules-entry';
@@ -72,7 +72,7 @@ const createApp = async (
   // TODO: Don't mutate the state directly, use mutation instead
   store.state.version = process.env.APPVERSION;
   store.state.config = config;
-  store.state.__DEMO_MODE__ = config.demomode === true ? true : false;
+  store.state.__DEMO_MODE__ = config.demomode === true;
   if (ssrContext) Vue.prototype.$ssrRequestContext = ssrContext;
   if (!store.state.config) store.state.config = buildTimeConfig; // if provided from SSR, don't replace it
   const storeView = prepareStoreView(storeCode); // prepare the default storeView

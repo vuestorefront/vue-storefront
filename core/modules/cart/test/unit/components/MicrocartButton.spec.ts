@@ -21,7 +21,7 @@ describe('MicrocartButton', () => {
 
     const wrapper = mountMixinWithStore(MicrocartButton, storeMock);
 
-    expect((<any>wrapper.vm).quantity).toEqual(
+    expect((wrapper.vm as any).quantity).toEqual(
       storeMock.modules.cart.getters.totalQuantity()
     );
   });
@@ -40,7 +40,7 @@ describe('MicrocartButton', () => {
 
     const wrapper = mountMixinWithStore(MicrocartButton, storeMock);
 
-    (<any>wrapper.vm).toggleMicrocart();
+    (wrapper.vm as any).toggleMicrocart();
 
     expect(storeMock.modules.cart.actions.toggleMicrocart).toBeCalled();
   });

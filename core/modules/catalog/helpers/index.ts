@@ -11,9 +11,8 @@ import union from 'lodash-es/union';
 import { optionLabel } from './optionLabel';
 import i18n from '@vue-storefront/i18n';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import { getThumbnailPath } from '@vue-storefront/core/helpers';
+import { getThumbnailPath, isServer } from '@vue-storefront/core/helpers';
 import { Logger } from '@vue-storefront/core/lib/logger';
-import { isServer } from '@vue-storefront/core/helpers';
 
 function _filterRootProductByStockitem(
   context,
@@ -32,6 +31,343 @@ function _filterRootProductByStockitem(
       if (rootStore.state.config.products.listOutOfStockProducts === false) {
         errorCallback(new Error('Product query returned an empty result'));
       }
+    }
+  }
+}
+
+function _prepareProductOption(product) {
+  let product_option = {
+    extension_attributes: {
+      custom_options: [],
+      configurable_item_options: [],
+      bundle_options: []
+    }
+  };
+  /* if (product.product_option) {
+    product_option = product.product_option
+  } */
+  return product_option;
+}
+
+export function setConfigurableProductOptionsAsync(
+  context,
+  { product, configuration }
+) {
+  if (product.configurable_options) {
+    const product_option = _prepareProductOption(product);
+    /* eslint camelcase: "off" */
+    const configurable_item_options =
+      product_option.extension_attributes.configurable_item_options;
+    for (const configKey of Object.keys(configuration)) {
+      const configOption = configuration[configKey];
+      if (
+        configOption.attribute_code &&
+        configOption.attribute_code !== 'price'
+      ) {
+        const option = product.configurable_options.find(co => {
+          return co.attribute_code === configOption.attribute_code;
+        });
+
+        if (!option) {
+          Logger.error(
+            'Wrong option id for setProductOptions',
+            configOption.attribute_code
+          )();
+          return null;
+        }
+        let existingOption = configurable_item_options.find(cop => {
+          return cop.option_id === option.attribute_id;
+        });
+        if (!existingOption) {
+          existingOption = {
+            option_id: option.attribute_id,
+            option_value: configOption.id,
+            label: i18n.t(configOption.attribute_code),
+            value: configOption.label
+          };
+          configurable_item_options.push(existingOption);
+        }
+        existingOption.option_value = configOption.id;
+        existingOption.label = i18n.t(configOption.attribute_code);
+        existingOption.value = configOption.label;
+      }
+    }
+    // Logger.debug('Server product options object', product_option)()
+    return product_option;
+  } else {
+    return null;
+  }
+}
+
+function _internalMapOptions(productOption) {
+  const optionsMapped = [];
+  for (let option of productOption.extension_attributes
+    .configurable_item_options) {
+    optionsMapped.push({
+      label: option.label,
+      value: option.value
+    });
+  }
+  productOption.extension_attributes.configurable_item_options = productOption.extension_attributes.configurable_item_options.map(
+    op => {
+      return omit(op, ['label', 'value']);
+    }
+  );
+  return optionsMapped;
+}
+
+export function populateProductConfigurationAsync(
+  context,
+  { product, selectedVariant }
+) {
+  if (product.configurable_options) {
+    for (let option of product.configurable_options) {
+      let attribute_code;
+      let attribute_label;
+      if (option.attribute_code) {
+        attribute_code = option.attribute_code;
+        attribute_label = option.label
+          ? option.label
+          : option.frontend_label
+          ? option.frontend_label
+          : option.default_frontend_label;
+      } else {
+        if (option.attribute_id) {
+          let attr =
+            context.rootState.attribute.list_by_id[option.attribute_id];
+          if (!attr) {
+            Logger.error(
+              'Wrong attribute given in configurable_options - can not find by attribute_id',
+              option
+            )();
+            continue;
+          } else {
+            attribute_code = attr.attribute_code;
+            attribute_label = attr.frontend_label
+              ? attr.frontend_label
+              : attr.default_frontend_label;
+          }
+        } else {
+          Logger.error(
+            'Wrong attribute given in configurable_options - no attribute_code / attribute_id',
+            option
+          )();
+        }
+      }
+      let selectedOption = null;
+      if (selectedVariant.custom_attributes) {
+        selectedOption = selectedVariant.custom_attributes.find(a => {
+          // this is without the "label"
+          return a.attribute_code === attribute_code;
+        });
+      } else {
+        selectedOption = {
+          attribute_code: attribute_code,
+          value: selectedVariant[attribute_code]
+        };
+      }
+      const selectedOptionMeta = option.values.find(ov => {
+        return ov.value_index === selectedOption.value;
+      });
+      if (selectedOptionMeta) {
+        selectedOption.label = selectedOptionMeta.label
+          ? selectedOptionMeta.label
+          : selectedOptionMeta.default_label;
+        selectedOption.value_data = selectedOptionMeta.value_data;
+      }
+
+      const confVal = {
+        attribute_code: attribute_code,
+        id: selectedOption.value,
+        label: selectedOption.label
+          ? selectedOption.label
+          : /* if not set - find by attribute */ optionLabel(
+              context.rootState.attribute,
+              {
+                attributeKey: selectedOption.attribute_code,
+                searchBy: 'code',
+                optionId: selectedOption.value
+              }
+            )
+      };
+      context.state.current_configuration[attribute_code] = confVal;
+      // @deprecated fallback for VS <= 1.0RC
+      if (
+        !('setupVariantByAttributeCode' in rootStore.state.config.products) ||
+        rootStore.state.config.products.setupVariantByAttributeCode === false
+      ) {
+        const fallbackKey = attribute_label;
+        context.state.current_configuration[
+          fallbackKey.toLowerCase()
+        ] = confVal; // @deprecated fallback for VS <= 1.0RC
+      }
+    }
+    if (rootStore.state.config.cart.setConfigurableProductOptions) {
+      const productOption = setConfigurableProductOptionsAsync(context, {
+        product: product,
+        configuration: context.state.current_configuration
+      }); // set the custom options
+      if (productOption) {
+        product.options = _internalMapOptions(productOption);
+        product.product_option = productOption;
+      }
+    }
+  }
+  return selectedVariant;
+}
+
+export function findConfigurableChildAsync({
+  product,
+  configuration = null,
+  selectDefaultChildren = false,
+  availabilityCheck = true
+}) {
+  let selectedVariant = product.configurable_children.find(
+    configurableChild => {
+      if (availabilityCheck) {
+        if (
+          configurableChild.stock &&
+          !rootStore.state.config.products.listOutOfStockProducts
+        ) {
+          if (!configurableChild.stock.is_in_stock) {
+            return false;
+          }
+        }
+      }
+      if (configurableChild.status >= 2 /** disabled product */) {
+        return false;
+      }
+      if (selectDefaultChildren) {
+        return true; // return first
+      }
+      if (configuration.sku) {
+        return configurableChild.sku === configuration.sku; // by sku or first one
+      } else {
+        return Object.keys(omit(configuration, ['price'])).every(
+          configProperty => {
+            if (
+              !configuration[configProperty] ||
+              typeof configuration[configProperty].id === 'undefined'
+            )
+              return true; // skip empty
+            return (
+              toString(configurableChild[configProperty]) ===
+              toString(configuration[configProperty].id)
+            );
+          }
+        );
+      }
+    }
+  );
+  return selectedVariant;
+}
+
+export function configureProductAsync(
+  context,
+  {
+    product,
+    configuration,
+    selectDefaultVariant = true,
+    fallbackToDefaultWhenNoAvailable = true,
+    setProductErorrs = false
+  }
+) {
+  // use current product if product wasn't passed
+  if (product === null) product = context.getters.productCurrent;
+  const hasConfigurableChildren =
+    product.configurable_children && product.configurable_children.length > 0;
+
+  if (hasConfigurableChildren) {
+    // handle custom_attributes for easier comparing in the future
+    product.configurable_children.forEach(child => {
+      let customAttributesAsObject = {};
+      if (child.custom_attributes) {
+        child.custom_attributes.forEach(attr => {
+          customAttributesAsObject[attr.attribute_code] = attr.value;
+        });
+        // add values from custom_attributes in a different form
+        Object.assign(child, customAttributesAsObject);
+      }
+    });
+    // find selected variant
+    let desiredProductFound = false;
+    let selectedVariant = findConfigurableChildAsync({
+      product,
+      configuration,
+      availabilityCheck: true
+    });
+    if (!selectedVariant) {
+      if (fallbackToDefaultWhenNoAvailable) {
+        selectedVariant = findConfigurableChildAsync({
+          product,
+          selectDefaultChildren: true,
+          availabilityCheck: true
+        }); // return first available child
+        desiredProductFound = false;
+      } else {
+        desiredProductFound = false;
+      }
+    } else {
+      desiredProductFound = true;
+    }
+
+    if (selectedVariant) {
+      if (!desiredProductFound) {
+        // update the configuration
+        populateProductConfigurationAsync(context, {
+          product: product,
+          selectedVariant: selectedVariant
+        });
+        configuration = context.state.current_configuration;
+      }
+      if (setProductErorrs) {
+        product.errors = {}; // clear the product errors
+      }
+      product.is_configured = true;
+
+      if (
+        rootStore.state.config.cart.setConfigurableProductOptions &&
+        !selectDefaultVariant &&
+        !(Object.keys(configuration).length === 1 && configuration.sku)
+      ) {
+        // the condition above: if selectDefaultVariant - then "setCurrent" is seeting the configurable options; if configuration = { sku: '' } -> this is a special case when not configuring the product but just searching by sku
+        const productOption = setConfigurableProductOptionsAsync(context, {
+          product: product,
+          configuration: configuration
+        }); // set the custom options
+        if (productOption) {
+          selectedVariant.product_option = productOption;
+          selectedVariant.options = _internalMapOptions(productOption);
+        }
+      } /* else {
+        Logger.debug('Skipping configurable options setup', configuration)()
+      } */
+      const fieldsToOmit = ['name'];
+      if (selectedVariant.image === '') fieldsToOmit.push('image');
+      selectedVariant = omit(selectedVariant, fieldsToOmit); // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
+      // use chosen variant
+      if (selectDefaultVariant) {
+        context.dispatch('setCurrent', selectedVariant);
+      }
+      Vue.prototype.$bus.$emit('product-after-configure', {
+        product: product,
+        configuration: configuration,
+        selectedVariant: selectedVariant
+      });
+    }
+    if (!selectedVariant && setProductErorrs) {
+      // can not find variant anyway, even the default one
+      product.errors.variants = i18n.t('No available product variants');
+      if (selectDefaultVariant) {
+        context.dispatch('setCurrent', product); // without the configuration
+      }
+    }
+    return selectedVariant;
+  } else {
+    if (fallbackToDefaultWhenNoAvailable) {
+      return product;
+    } else {
+      return null;
     }
   }
 }
@@ -390,69 +726,6 @@ export function calculateTaxes(products, store) {
   });
 }
 
-function _prepareProductOption(product) {
-  let product_option = {
-    extension_attributes: {
-      custom_options: [],
-      configurable_item_options: [],
-      bundle_options: []
-    }
-  };
-  /* if (product.product_option) {
-    product_option = product.product_option
-  } */
-  return product_option;
-}
-export function setConfigurableProductOptionsAsync(
-  context,
-  { product, configuration }
-) {
-  if (product.configurable_options) {
-    const product_option = _prepareProductOption(product);
-    /* eslint camelcase: "off" */
-    const configurable_item_options =
-      product_option.extension_attributes.configurable_item_options;
-    for (const configKey of Object.keys(configuration)) {
-      const configOption = configuration[configKey];
-      if (
-        configOption.attribute_code &&
-        configOption.attribute_code !== 'price'
-      ) {
-        const option = product.configurable_options.find(co => {
-          return co.attribute_code === configOption.attribute_code;
-        });
-
-        if (!option) {
-          Logger.error(
-            'Wrong option id for setProductOptions',
-            configOption.attribute_code
-          )();
-          return null;
-        }
-        let existingOption = configurable_item_options.find(cop => {
-          return cop.option_id === option.attribute_id;
-        });
-        if (!existingOption) {
-          existingOption = {
-            option_id: option.attribute_id,
-            option_value: configOption.id,
-            label: i18n.t(configOption.attribute_code),
-            value: configOption.label
-          };
-          configurable_item_options.push(existingOption);
-        }
-        existingOption.option_value = configOption.id;
-        existingOption.label = i18n.t(configOption.attribute_code);
-        existingOption.value = configOption.label;
-      }
-    }
-    // Logger.debug('Server product options object', product_option)()
-    return product_option;
-  } else {
-    return null;
-  }
-}
-
 export function setCustomProductOptionsAsync(
   context,
   { product, customOptions }
@@ -469,279 +742,6 @@ export function setBundleProductOptionsAsync(
   const productOption = _prepareProductOption(product);
   productOption.extension_attributes.bundle_options = bundleOptions;
   return productOption;
-}
-
-function _internalMapOptions(productOption) {
-  const optionsMapped = [];
-  for (let option of productOption.extension_attributes
-    .configurable_item_options) {
-    optionsMapped.push({
-      label: option.label,
-      value: option.value
-    });
-  }
-  productOption.extension_attributes.configurable_item_options = productOption.extension_attributes.configurable_item_options.map(
-    op => {
-      return omit(op, ['label', 'value']);
-    }
-  );
-  return optionsMapped;
-}
-
-export function populateProductConfigurationAsync(
-  context,
-  { product, selectedVariant }
-) {
-  if (product.configurable_options) {
-    for (let option of product.configurable_options) {
-      let attribute_code;
-      let attribute_label;
-      if (option.attribute_code) {
-        attribute_code = option.attribute_code;
-        attribute_label = option.label
-          ? option.label
-          : option.frontend_label
-          ? option.frontend_label
-          : option.default_frontend_label;
-      } else {
-        if (option.attribute_id) {
-          let attr =
-            context.rootState.attribute.list_by_id[option.attribute_id];
-          if (!attr) {
-            Logger.error(
-              'Wrong attribute given in configurable_options - can not find by attribute_id',
-              option
-            )();
-            continue;
-          } else {
-            attribute_code = attr.attribute_code;
-            attribute_label = attr.frontend_label
-              ? attr.frontend_label
-              : attr.default_frontend_label;
-          }
-        } else {
-          Logger.error(
-            'Wrong attribute given in configurable_options - no attribute_code / attribute_id',
-            option
-          )();
-        }
-      }
-      let selectedOption = null;
-      if (selectedVariant.custom_attributes) {
-        selectedOption = selectedVariant.custom_attributes.find(a => {
-          // this is without the "label"
-          return a.attribute_code === attribute_code;
-        });
-      } else {
-        selectedOption = {
-          attribute_code: attribute_code,
-          value: selectedVariant[attribute_code]
-        };
-      }
-      const selectedOptionMeta = option.values.find(ov => {
-        return ov.value_index === selectedOption.value;
-      });
-      if (selectedOptionMeta) {
-        selectedOption.label = selectedOptionMeta.label
-          ? selectedOptionMeta.label
-          : selectedOptionMeta.default_label;
-        selectedOption.value_data = selectedOptionMeta.value_data;
-      }
-
-      const confVal = {
-        attribute_code: attribute_code,
-        id: selectedOption.value,
-        label: selectedOption.label
-          ? selectedOption.label
-          : /*if not set - find by attribute */ optionLabel(
-              context.rootState.attribute,
-              {
-                attributeKey: selectedOption.attribute_code,
-                searchBy: 'code',
-                optionId: selectedOption.value
-              }
-            )
-      };
-      context.state.current_configuration[attribute_code] = confVal;
-      // @deprecated fallback for VS <= 1.0RC
-      if (
-        !('setupVariantByAttributeCode' in rootStore.state.config.products) ||
-        rootStore.state.config.products.setupVariantByAttributeCode === false
-      ) {
-        const fallbackKey = attribute_label;
-        context.state.current_configuration[
-          fallbackKey.toLowerCase()
-        ] = confVal; // @deprecated fallback for VS <= 1.0RC
-      }
-    }
-    if (rootStore.state.config.cart.setConfigurableProductOptions) {
-      const productOption = setConfigurableProductOptionsAsync(context, {
-        product: product,
-        configuration: context.state.current_configuration
-      }); // set the custom options
-      if (productOption) {
-        product.options = _internalMapOptions(productOption);
-        product.product_option = productOption;
-      }
-    }
-  }
-  return selectedVariant;
-}
-
-export function findConfigurableChildAsync({
-  product,
-  configuration = null,
-  selectDefaultChildren = false,
-  availabilityCheck = true
-}) {
-  let selectedVariant = product.configurable_children.find(
-    configurableChild => {
-      if (availabilityCheck) {
-        if (
-          configurableChild.stock &&
-          !rootStore.state.config.products.listOutOfStockProducts
-        ) {
-          if (!configurableChild.stock.is_in_stock) {
-            return false;
-          }
-        }
-      }
-      if (configurableChild.status >= 2 /**disabled product*/) {
-        return false;
-      }
-      if (selectDefaultChildren) {
-        return true; // return first
-      }
-      if (configuration.sku) {
-        return configurableChild.sku === configuration.sku; // by sku or first one
-      } else {
-        return Object.keys(omit(configuration, ['price'])).every(
-          configProperty => {
-            if (
-              !configuration[configProperty] ||
-              typeof configuration[configProperty].id === 'undefined'
-            )
-              return true; // skip empty
-            return (
-              toString(configurableChild[configProperty]) ===
-              toString(configuration[configProperty].id)
-            );
-          }
-        );
-      }
-    }
-  );
-  return selectedVariant;
-}
-
-export function configureProductAsync(
-  context,
-  {
-    product,
-    configuration,
-    selectDefaultVariant = true,
-    fallbackToDefaultWhenNoAvailable = true,
-    setProductErorrs = false
-  }
-) {
-  // use current product if product wasn't passed
-  if (product === null) product = context.getters.productCurrent;
-  const hasConfigurableChildren =
-    product.configurable_children && product.configurable_children.length > 0;
-
-  if (hasConfigurableChildren) {
-    // handle custom_attributes for easier comparing in the future
-    product.configurable_children.forEach(child => {
-      let customAttributesAsObject = {};
-      if (child.custom_attributes) {
-        child.custom_attributes.forEach(attr => {
-          customAttributesAsObject[attr.attribute_code] = attr.value;
-        });
-        // add values from custom_attributes in a different form
-        Object.assign(child, customAttributesAsObject);
-      }
-    });
-    // find selected variant
-    let desiredProductFound = false;
-    let selectedVariant = findConfigurableChildAsync({
-      product,
-      configuration,
-      availabilityCheck: true
-    });
-    if (!selectedVariant) {
-      if (fallbackToDefaultWhenNoAvailable) {
-        selectedVariant = findConfigurableChildAsync({
-          product,
-          selectDefaultChildren: true,
-          availabilityCheck: true
-        }); // return first available child
-        desiredProductFound = false;
-      } else {
-        desiredProductFound = false;
-      }
-    } else {
-      desiredProductFound = true;
-    }
-
-    if (selectedVariant) {
-      if (!desiredProductFound) {
-        // update the configuration
-        populateProductConfigurationAsync(context, {
-          product: product,
-          selectedVariant: selectedVariant
-        });
-        configuration = context.state.current_configuration;
-      }
-      if (setProductErorrs) {
-        product.errors = {}; // clear the product errors
-      }
-      product.is_configured = true;
-
-      if (
-        rootStore.state.config.cart.setConfigurableProductOptions &&
-        !selectDefaultVariant &&
-        !(Object.keys(configuration).length === 1 && configuration.sku)
-      ) {
-        // the condition above: if selectDefaultVariant - then "setCurrent" is seeting the configurable options; if configuration = { sku: '' } -> this is a special case when not configuring the product but just searching by sku
-        const productOption = setConfigurableProductOptionsAsync(context, {
-          product: product,
-          configuration: configuration
-        }); // set the custom options
-        if (productOption) {
-          selectedVariant.product_option = productOption;
-          selectedVariant.options = _internalMapOptions(productOption);
-        }
-      } /* else {
-        Logger.debug('Skipping configurable options setup', configuration)()
-      } */
-      const fieldsToOmit = ['name'];
-      if (selectedVariant.image === '') fieldsToOmit.push('image');
-      selectedVariant = omit(selectedVariant, fieldsToOmit); // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
-      // use chosen variant
-      if (selectDefaultVariant) {
-        context.dispatch('setCurrent', selectedVariant);
-      }
-      Vue.prototype.$bus.$emit('product-after-configure', {
-        product: product,
-        configuration: configuration,
-        selectedVariant: selectedVariant
-      });
-    }
-    if (!selectedVariant && setProductErorrs) {
-      // can not find variant anyway, even the default one
-      product.errors.variants = i18n.t('No available product variants');
-      if (selectDefaultVariant) {
-        context.dispatch('setCurrent', product); // without the configuration
-      }
-    }
-    return selectedVariant;
-  } else {
-    if (fallbackToDefaultWhenNoAvailable) {
-      return product;
-    } else {
-      return null;
-    }
-  }
 }
 
 /**
@@ -777,10 +777,33 @@ export function getMediaGallery(product) {
 }
 
 /**
+ * Get images from configured attribute images
+ */
+export function attributeImages(product) {
+  let attributeImages = [];
+  if (rootStore.state.config.products.gallery.imageAttributes) {
+    for (let attribute of rootStore.state.config.products.gallery
+      .imageAttributes) {
+      if (product[attribute]) {
+        attributeImages.push({
+          src: getThumbnailPath(
+            product[attribute],
+            rootStore.state.config.products.gallery.width,
+            rootStore.state.config.products.gallery.height
+          ),
+          loading: getThumbnailPath(product[attribute], 310, 300),
+          error: getThumbnailPath(product[attribute], 310, 300)
+        });
+      }
+    }
+  }
+  return attributeImages;
+}
+
+/**
  * Get configurable_children images from product if any
  * otherwise get attribute images
  */
-
 export function configurableChildrenImages(product) {
   let configurableChildrenImages = [];
   if (
@@ -806,29 +829,4 @@ export function configurableChildrenImages(product) {
     configurableChildrenImages = attributeImages(product);
   }
   return configurableChildrenImages;
-}
-
-/**
- * Get images from configured attribute images
- */
-
-export function attributeImages(product) {
-  let attributeImages = [];
-  if (rootStore.state.config.products.gallery.imageAttributes) {
-    for (let attribute of rootStore.state.config.products.gallery
-      .imageAttributes) {
-      if (product[attribute]) {
-        attributeImages.push({
-          src: getThumbnailPath(
-            product[attribute],
-            rootStore.state.config.products.gallery.width,
-            rootStore.state.config.products.gallery.height
-          ),
-          loading: getThumbnailPath(product[attribute], 310, 300),
-          error: getThumbnailPath(product[attribute], 310, 300)
-        });
-      }
-    }
-  }
-  return attributeImages;
 }

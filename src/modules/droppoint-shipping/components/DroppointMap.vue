@@ -84,6 +84,7 @@ import { once } from '@vue-storefront/core/helpers';
 
 // GoogleMaps cannot be included while in SSR
 if (process.browser) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const VueGoogleMaps = require('vue2-google-maps');
   once('__VUE_EXTEND_DROPPOINT__', () => {
     Vue.use(VueGoogleMaps, {

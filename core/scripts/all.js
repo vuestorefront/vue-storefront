@@ -1,8 +1,8 @@
 'use strict';
 
-const shell = require('shelljs');
-const jsonFile = require('jsonfile');
-const installer = require('./installer');
+import * as shell from 'shelljs';
+import * as jsonFile from 'jsonfile';
+import * as installer from './installer';
 
 class Manager extends installer.Manager {
   /**

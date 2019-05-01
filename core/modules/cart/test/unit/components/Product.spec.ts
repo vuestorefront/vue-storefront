@@ -19,43 +19,43 @@ describe('MicrocartProduct', () => {
   });
 
   it('thumbnail in online mode returns thumbnail in lower size', () => {
-    (<Mock>productThumbnailPath).mockReturnValueOnce('thumbnail-path');
+    (productThumbnailPath as Mock).mockReturnValueOnce('thumbnail-path');
 
     Object.defineProperty(navigator, 'onLine', {
       value: true,
       configurable: true
     });
 
-    const product = {} as Product;
+    const product = ({} as any) as Product;
     const wrapper = mountMixin(MicrocartProduct, { propsData: { product } });
     const getThumbnail = jest.fn(() => 'resized-thumbnail-path');
 
     wrapper.setMethods({ getThumbnail });
 
-    expect((<any>wrapper.vm).thumbnail).toEqual('resized-thumbnail-path');
+    expect((wrapper.vm as any).thumbnail).toEqual('resized-thumbnail-path');
     expect(getThumbnail).toBeCalledWith('thumbnail-path', 150, 150);
   });
 
   it('thumbnail in offline mode returns thumbnail in greater size', () => {
-    (<Mock>productThumbnailPath).mockReturnValueOnce('thumbnail-path');
+    (productThumbnailPath as Mock).mockReturnValueOnce('thumbnail-path');
 
     Object.defineProperty(navigator, 'onLine', {
       value: false,
       configurable: true
     });
 
-    const product = {} as Product;
+    const product = ({} as any) as Product;
     const wrapper = mountMixin(MicrocartProduct, { propsData: { product } });
     const getThumbnail = jest.fn(() => 'resized-thumbnail-path');
 
     wrapper.setMethods({ getThumbnail });
 
-    expect((<any>wrapper.vm).thumbnail).toEqual('resized-thumbnail-path');
+    expect((wrapper.vm as any).thumbnail).toEqual('resized-thumbnail-path');
     expect(getThumbnail).toBeCalledWith('thumbnail-path', 310, 300);
   });
 
   it('removeFromCart dispatches removeItem to remove product from cart', () => {
-    const product = {} as Product;
+    const product = ({} as any) as Product;
     const storeMock = {
       modules: {
         cart: {
@@ -71,7 +71,7 @@ describe('MicrocartProduct', () => {
       propsData: { product }
     });
 
-    (<any>wrapper.vm).removeFromCart();
+    (wrapper.vm as any).removeFromCart();
 
     expect(storeMock.modules.cart.actions.removeItem).toBeCalledWith(
       expect.anything(),
@@ -81,7 +81,7 @@ describe('MicrocartProduct', () => {
   });
 
   it('updateQuantity dispatches updateQuantity update product quantity in cart', () => {
-    const product = {} as Product;
+    const product = ({} as any) as Product;
     const qty = 123;
     const storeMock = {
       modules: {
@@ -98,7 +98,7 @@ describe('MicrocartProduct', () => {
       propsData: { product }
     });
 
-    (<any>wrapper.vm).updateQuantity(qty);
+    (wrapper.vm as any).updateQuantity(qty);
 
     expect(storeMock.modules.cart.actions.updateQuantity).toBeCalledWith(
       expect.anything(),

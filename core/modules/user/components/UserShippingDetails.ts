@@ -1,5 +1,6 @@
-const Countries = require('@vue-storefront/i18n/resource/countries.json');
 import toString from 'lodash-es/toString';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Countries = require('@vue-storefront/i18n/resource/countries.json');
 
 export const UserShippingDetails = {
   name: 'MyShippingDetails',

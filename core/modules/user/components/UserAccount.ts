@@ -1,5 +1,6 @@
-const Countries = require('@vue-storefront/core/i18n/resource/countries.json');
 import toString from 'lodash-es/toString';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Countries = require('@vue-storefront/core/i18n/resource/countries.json');
 
 export const UserAccount = {
   name: 'UserAccount',
