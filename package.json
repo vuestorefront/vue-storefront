@@ -42,7 +42,8 @@
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
     "lint": "eslint --ext .js,.vue core src",
-    "lerna": "lerna"
+    "lerna": "lerna",
+    "format": "prettier --write 'core/modules/catalog/**/*.{js,vue,ts,json}'"
   },
   "dependencies": {
     "@types/webpack": "^4.4.23",
@@ -131,6 +132,7 @@
     "phantomjs-prebuilt": "^2.1.10",
     "postcss-flexbugs-fixes": "^3.3.1",
     "postcss-loader": "^2.1.5",
+    "prettier": "^1.17.0",
     "print-message": "^2.1.0",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.1.0",
