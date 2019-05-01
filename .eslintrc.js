@@ -3,20 +3,42 @@ module.exports = {
   env: { 'browser': true, 'jest': true },
   parser: 'vue-eslint-parser',
   parserOptions: {
-    parser: "babel-eslint",
+    parser: '@typescript-eslint/parser',
     ecmaVersion: 8,
     sourceType: "module"
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: [
-    'plugin:vue/recommended', 'standard'
+    'plugin:vue/recommended',
+    'standard',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'prettier/@typescript-eslint',
+    'prettier/vue'
   ],
-  plugins: [
-    'vue',
-    'vue-storefront'
-  ],
+  plugins: ['vue', 'vue-storefront', '@typescript-eslint'],
   // add your custom rules here
   rules: {
+    // Prettier rules these rulles should never be hit, as prettier formattes the code so
+    // so these will never get hit
+    'no-tabs': 'error',
+    quotes: [
+      'error',
+      'single',
+      { avoidEscape: true, allowTemplateLiterals: true }
+    ],
+    'space-before-function-paren': [
+      'error',
+      {
+        anonymous: 'never',
+        named: 'never',
+        asyncArrow: 'always'
+      }
+    ],
+    'array-bracket-spacing': ['error', 'never'],
+    semi: ['error', 'always'],
+    // disabled the rules because of line breaks that comes from prettier
+    'standard/computed-property-even-spacing': 0,
     /* max attributes-per-line and order-in-components
     ** we should use this later, when eslint-plugin-vue will support auto fixing this
     */

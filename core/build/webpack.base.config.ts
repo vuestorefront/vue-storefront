@@ -123,7 +123,7 @@ export default {
     rules: [
       {
         enforce: 'pre',
-        test: /\.(js|vue)$/,
+        test: /\.(js|vue,ts)$/,
         loader: 'eslint-loader',
         exclude: [/node_modules/, /test/]
       },
