@@ -2,9 +2,18 @@
   <div class="media-zoom-carousel">
     <div class="media-zoom-carousel__container row flex">
       <ul class="media-zoom-carousel__thumbs m0 p0">
-        <li class="media-zoom-carousel__thumb" v-for="(images, key) in gallery" :key="images.src">
+        <li
+          class="media-zoom-carousel__thumb"
+          v-for="(images, key) in gallery"
+          :key="images.src"
+        >
           <span class="bg-cl-secondary block">
-            <img :src="images.src" ref="images" @click="navigate(key)" :alt="productName | htmlDecode">
+            <img
+              :src="images.src"
+              ref="images"
+              @click="navigate(key)"
+              :alt="productName | htmlDecode"
+            />
           </span>
         </li>
       </ul>
@@ -22,11 +31,11 @@
           :speed="carouselTransitionSpeed"
           @pageChange="pageChange"
         >
-          <slide
-            v-for="(images, index) in gallery"
-            :key="images.src">
-            <div class="media-zoom-carousel__slide  bg-cl-secondary"
-                 :class="{'video-container h-100 flex relative': images.video}">
+          <slide v-for="(images, index) in gallery" :key="images.src">
+            <div
+              class="media-zoom-carousel__slide  bg-cl-secondary"
+              :class="{ 'video-container h-100 flex relative': images.video }"
+            >
               <img
                 v-show="hideImageAtIndex !== index"
                 class="product-image inline-flex pointer mw-100"
@@ -35,12 +44,13 @@
                 :alt="productName | htmlDecode"
                 data-testid="productGalleryImage"
                 itemprop="image"
-              >
+              />
               <product-video
-                v-if="images.video && (index === currentPage)"
+                v-if="images.video && index === currentPage"
                 v-bind="images.video"
                 :index="index"
-                @video-started="onVideoStarted"/>
+                @video-started="onVideoStarted"
+              />
             </div>
           </slide>
         </carousel>
@@ -50,8 +60,8 @@
 </template>
 
 <script>
-import { Carousel, Slide } from 'vue-carousel'
-import ProductVideo from './ProductVideo'
+import { Carousel, Slide } from 'vue-carousel';
+import ProductVideo from './ProductVideo';
 
 export default {
   name: 'ProductGalleryZoomCarousel',
@@ -70,47 +80,51 @@ export default {
       required: true
     }
   },
-  data () {
+  data() {
     return {
       carouselTransitionSpeed: 300,
       currentPage: 0,
       hideImageAtIndex: null
-    }
+    };
   },
   components: {
     Carousel,
     Slide,
     ProductVideo
   },
-  mounted () {
-    this.navigate(this.currentSlide)
+  mounted() {
+    this.navigate(this.currentSlide);
     if (this.$refs.zoomCarousel) {
-      let navigation = this.$refs.zoomCarousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')
-      let pagination = this.$refs.zoomCarousel.$children.find(c => c.$el.className === 'VueCarousel-pagination')
+      let navigation = this.$refs.zoomCarousel.$children.find(
+        c => c.$el.className === 'VueCarousel-navigation'
+      );
+      let pagination = this.$refs.zoomCarousel.$children.find(
+        c => c.$el.className === 'VueCarousel-pagination'
+      );
       if (navigation !== undefined) {
-        navigation.$on('navigationclick', this.increaseCarouselTransitionSpeed)
+        navigation.$on('navigationclick', this.increaseCarouselTransitionSpeed);
       }
       if (pagination !== undefined) {
-        pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed)
+        pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed);
       }
     }
   },
   methods: {
-    navigate (key) {
-      this.$refs.zoomCarousel.goToPage(key)
+    navigate(key) {
+      this.$refs.zoomCarousel.goToPage(key);
     },
-    increaseCarouselTransitionSpeed () {
-      this.carouselTransitionSpeed = 500
+    increaseCarouselTransitionSpeed() {
+      this.carouselTransitionSpeed = 500;
     },
-    pageChange (index) {
-      this.currentPage = index
-      this.hideImageAtIndex = null
+    pageChange(index) {
+      this.currentPage = index;
+      this.hideImageAtIndex = null;
     },
-    onVideoStarted (index) {
-      this.hideImageAtIndex = index
+    onVideoStarted(index) {
+      this.hideImageAtIndex = index;
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -208,7 +222,6 @@ export default {
       margin: 0 auto;
     }
   }
-
 }
 
 .video-container {

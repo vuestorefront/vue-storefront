@@ -1,10 +1,7 @@
 <template>
   <div class="sidebar-menu fixed mw-100 bg-cl-secondary">
     <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
-      <div
-        v-if="submenu.depth"
-        class="col-xs bg-cl-primary"
-      >
+      <div v-if="submenu.depth" class="col-xs bg-cl-primary">
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
       </div>
       <div class="col-xs bg-cl-primary">
@@ -39,10 +36,7 @@
             @click="closeMenu"
             v-for="category in visibleCategories"
           >
-            <div
-              v-if="isCurrentMenuShowed"
-              class="subcategory-item"
-            >
+            <div v-if="isCurrentMenuShowed" class="subcategory-item">
               <sub-btn
                 v-if="category.children_count > 0"
                 class="bg-cl-transparent brdr-none fs-medium"
@@ -52,7 +46,13 @@
               <router-link
                 v-else
                 class="px25 py20 cl-accent no-underline col-xs"
-                :to="localizedRoute({ name: 'category', fullPath: category.url_path, params: { id: category.id, slug: category.slug }})"
+                :to="
+                  localizedRoute({
+                    name: 'category',
+                    fullPath: category.url_path,
+                    params: { id: category.id, slug: category.slug }
+                  })
+                "
               >
                 {{ category.name }}
               </router-link>
@@ -135,11 +135,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import i18n from '@vue-storefront/i18n'
-import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu'
-import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
-import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
+import { mapState } from 'vuex';
+import i18n from '@vue-storefront/i18n';
+import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu';
+import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn';
+import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory';
 
 export default {
   components: {
@@ -147,7 +147,7 @@ export default {
     SubBtn
   },
   mixins: [SidebarMenu],
-  data () {
+  data() {
     return {
       myAccountLinks: [
         {
@@ -182,48 +182,50 @@ export default {
         }
       ],
       componentLoaded: false
-    }
+    };
   },
   computed: {
-    mainListStyles () {
-      return this.submenu.depth ? `transform: translateX(${this.submenu.depth * 100}%)` : false
+    mainListStyles() {
+      return this.submenu.depth
+        ? `transform: translateX(${this.submenu.depth * 100}%)`
+        : false;
     },
     ...mapState({
       submenu: state => state.ui.submenu,
       currentUser: state => state.user.current
     }),
-    getSubmenu () {
-      return this.submenu
+    getSubmenu() {
+      return this.submenu;
     },
-    visibleCategories () {
+    visibleCategories() {
       return this.categories.filter(category => {
-        return category.product_count > 0 || category.children_count > 0
-      })
+        return category.product_count > 0 || category.children_count > 0;
+      });
     },
-    isCurrentMenuShowed () {
-      return !this.getSubmenu || !this.getSubmenu.depth
+    isCurrentMenuShowed() {
+      return !this.getSubmenu || !this.getSubmenu.depth;
     }
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
-      this.componentLoaded = true
-    })
+      this.componentLoaded = true;
+    });
   },
   methods: {
-    login () {
+    login() {
       if (!this.currentUser && this.isCurrentMenuShowed) {
         this.$nextTick(() => {
-          this.$bus.$emit('modal-show', 'modal-signup')
-          this.$router.push({ name: 'my-account' })
-        })
+          this.$bus.$emit('modal-show', 'modal-signup');
+          this.$router.push({ name: 'my-account' });
+        });
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@import "~theme/css/animations/transitions";
+@import '~theme/css/animations/transitions';
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
 $bg-secondary: color(secondary, $colors-background);
@@ -275,7 +277,8 @@ $color-mine-shaft: color(mine-shaft);
   }
 
   button {
-    color: $color-mine-shaft;a {
+    color: $color-mine-shaft;
+    a {
       color: $color-mine-shaft;
     }
   }
@@ -291,6 +294,5 @@ $color-mine-shaft: color(mine-shaft);
       }
     }
   }
-
 }
 </style>

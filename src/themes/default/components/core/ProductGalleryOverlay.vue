@@ -3,7 +3,8 @@
     <i
       class="media-zoom__close material-icons p15 cl-bg-tertiary pointer"
       @click="$emit('close')"
-    >close</i>
+      >close</i
+    >
     <no-ssr>
       <product-gallery-zoom-carousel
         v-if="showProductGalleryZoomCarousel"
@@ -15,8 +16,11 @@
   </div>
 </template>
 <script>
-import NoSSR from 'vue-no-ssr'
-const ProductGalleryZoomCarousel = () => import(/* webpackChunkName: "vsf-product-gallery-zoom-carousel" */ './ProductGalleryZoomCarousel.vue')
+import NoSSR from 'vue-no-ssr';
+const ProductGalleryZoomCarousel = () =>
+  import(
+    /* webpackChunkName: "vsf-product-gallery-zoom-carousel" */ './ProductGalleryZoomCarousel.vue'
+  );
 
 export default {
   name: 'ProductGalleryOverlay',
@@ -36,23 +40,23 @@ export default {
       default: ''
     }
   },
-  data () {
+  data() {
     return {
       showProductGalleryZoomCarousel: false
-    }
+    };
   },
   components: {
     'no-ssr': NoSSR,
     ProductGalleryZoomCarousel
   },
-  mounted () {
-    this.$store.commit('ui/setOverlay', true)
-    this.showProductGalleryZoomCarousel = true
+  mounted() {
+    this.$store.commit('ui/setOverlay', true);
+    this.showProductGalleryZoomCarousel = true;
   },
-  destroyed () {
-    this.$store.commit('ui/setOverlay', false)
+  destroyed() {
+    this.$store.commit('ui/setOverlay', false);
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 @import '~theme/css/base/global_vars';

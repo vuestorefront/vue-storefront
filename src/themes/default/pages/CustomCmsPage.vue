@@ -8,14 +8,13 @@
     <p>
       (by identifier, it handles current store view if multistore is enable)
     </p>
-    <cms-data :identifier="'about-us'" :type="'Page'"/>
+    <cms-data :identifier="'about-us'" :type="'Page'" />
 
-    <h2>Cms block content
-    </h2>
+    <h2>Cms block content</h2>
     <p>
       (by identifier, it handles current store view if multistore is enable)
     </p>
-    <cms-data :identifier="'contact-us-info'" :type="'Block'"/>
+    <cms-data :identifier="'contact-us-info'" :type="'Block'" />
 
     <h2>
       Cms page content
@@ -36,13 +35,13 @@
 </template>
 
 <script>
-import CmsData from 'src/modules/magento-2-cms/components/CmsData'
+import CmsData from 'src/modules/magento-2-cms/components/CmsData';
 
 export default {
   components: {
     CmsData
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -59,6 +58,5 @@ $color-secondary: color(secondary);
     color: $color-secondary;
     text-decoration: underline;
   }
-
 }
 </style>

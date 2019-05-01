@@ -1,9 +1,9 @@
-import { Module } from 'vuex'
-import actions from './actions'
-import getters from './getters'
-import mutations from './mutations'
-import RootState from '@vue-storefront/core/types/RootState'
-import CategoryState from '../../types/CategoryState'
+import { Module } from 'vuex';
+import actions from './actions';
+import getters from './getters';
+import mutations from './mutations';
+import RootState from '@vue-storefront/core/types/RootState';
+import CategoryState from '../../types/CategoryState';
 
 export const categoryModule: Module<CategoryState, RootState> = {
   namespaced: true,
@@ -23,4 +23,4 @@ export const categoryModule: Module<CategoryState, RootState> = {
   getters,
   actions,
   mutations
-}
+};

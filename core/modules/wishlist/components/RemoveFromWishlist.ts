@@ -1,6 +1,6 @@
-import Product from '@vue-storefront/core/modules/catalog/types/Product'
-import { Wishlist as WishlistModule } from '../'
-import wishlistMountedMixin from '@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin'
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
+import { Wishlist as WishlistModule } from '../';
+import wishlistMountedMixin from '@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin';
 
 export const RemoveFromWishlist = {
   name: 'RemoveFromWishlist',
@@ -12,9 +12,9 @@ export const RemoveFromWishlist = {
     }
   },
   methods: {
-    removeFromWishlist (product: Product) {
-      WishlistModule.register()
-      this.$store.dispatch('wishlist/removeItem', product)
+    removeFromWishlist(product: Product) {
+      WishlistModule.register();
+      this.$store.dispatch('wishlist/removeItem', product);
     }
   }
-}
+};

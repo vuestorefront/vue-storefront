@@ -1,23 +1,23 @@
-import { Wishlist as WishlistModule } from '../'
-import wishlistMountedMixin from '@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin'
+import { Wishlist as WishlistModule } from '../';
+import wishlistMountedMixin from '@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin';
 
 export const Wishlist = {
   name: 'Wishlist',
   mixins: [wishlistMountedMixin],
-  created () {
-    WishlistModule.register()
+  created() {
+    WishlistModule.register();
   },
   computed: {
-    isWishlistOpen () {
-      return this.$store.state.ui.wishlist
+    isWishlistOpen() {
+      return this.$store.state.ui.wishlist;
     },
-    productsInWishlist () {
-      return this.$store.state.wishlist.items
+    productsInWishlist() {
+      return this.$store.state.wishlist.items;
     }
   },
   methods: {
-    closeWishlist () {
-      this.$store.dispatch('ui/toggleWishlist')
+    closeWishlist() {
+      this.$store.dispatch('ui/toggleWishlist');
     }
   }
-}
+};

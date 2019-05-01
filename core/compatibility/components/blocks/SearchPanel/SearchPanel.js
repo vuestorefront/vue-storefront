@@ -1,21 +1,21 @@
-import { Search } from '@vue-storefront/core/modules/catalog/components/Search'
+import { Search } from '@vue-storefront/core/modules/catalog/components/Search';
 
 // Moved to search module
 export default {
   mixins: [Search],
-  data () {
+  data() {
     return {
       componentLoaded: false
-    }
+    };
   },
   computed: {
-    showPanel () {
-      return this.isOpen && this.componentLoaded
+    showPanel() {
+      return this.isOpen && this.componentLoaded;
     }
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
-      this.componentLoaded = true
-    })
+      this.componentLoaded = true;
+    });
   }
-}
+};

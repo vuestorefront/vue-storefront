@@ -5,14 +5,8 @@
       v-for="(tile, index) in social_tiles"
       :key="index"
     >
-      <div
-        class="tile center-xs middle-xs"
-      >
-        <img
-          class="tile-image"
-          v-lazy="tile.image"
-          :alt="tile.alt"
-        >
+      <div class="tile center-xs middle-xs">
+        <img class="tile-image" v-lazy="tile.image" :alt="tile.alt" />
       </div>
     </div>
   </div>
@@ -21,7 +15,7 @@
 <script>
 export default {
   name: 'TileLinks',
-  data () {
+  data() {
     return {
       social_tiles: [
         {
@@ -49,12 +43,12 @@ export default {
           alt: 'Man is holding a watter bottle'
         }
       ]
-    }
+    };
   }
-}
+};
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import '~theme/css/animations/transitions';
 
 .tile {

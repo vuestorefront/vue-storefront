@@ -22,7 +22,7 @@
   </button>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
 export default {
   name: 'SubBtn',
   props: {
@@ -45,20 +45,21 @@ export default {
     })
   },
   methods: {
-    next () {
-      if (this.$store.state.config.entities.category.categoriesDynamicPrefetch) this.$store.dispatch('category/list', { parent: this.id })
+    next() {
+      if (this.$store.state.config.entities.category.categoriesDynamicPrefetch)
+        this.$store.dispatch('category/list', { parent: this.id });
       this.$store.commit('ui/setSubmenu', {
         id: this.id,
         depth: ++this.submenu.depth
-      })
+      });
     },
-    back () {
+    back() {
       this.$store.commit('ui/setSubmenu', {
         depth: --this.submenu.depth
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 @import '~theme/css/variables/colors';

@@ -1,8 +1,8 @@
-import { Module } from 'vuex'
-import actions from './actions'
-import getters from './getters'
-import mutations from './mutations'
-import CartState from '../types/CartState'
+import { Module } from 'vuex';
+import actions from './actions';
+import getters from './getters';
+import mutations from './mutations';
+import CartState from '../types/CartState';
 
 export const module: Module<CartState, any> = {
   namespaced: true,
@@ -28,6 +28,5 @@ export const module: Module<CartState, any> = {
   },
   getters,
   actions,
-  mutations,
-}
-
+  mutations
+};

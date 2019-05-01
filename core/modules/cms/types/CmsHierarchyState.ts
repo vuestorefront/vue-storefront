@@ -1,3 +1,3 @@
 export default interface CmsHierarchyState {
-  items: any[]
+  items: any[];
 }

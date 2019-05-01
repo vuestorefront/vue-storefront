@@ -1,4 +1,4 @@
 export default interface CmsPageState {
-  items: any[],
-  current: any
+  items: any[];
+  current: any;
 }

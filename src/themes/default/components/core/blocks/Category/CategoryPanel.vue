@@ -1,8 +1,6 @@
 <template>
   <div class="categories">
-    <div
-      class="categories__handler"
-    >
+    <div class="categories__handler">
       <h4 class="categories__heading">
         {{ $t('Filter by categories') }}
       </h4>
@@ -11,7 +9,9 @@
         <button
           :key="category.category_id"
           class="categories__button no-outline bg-cl-transparent py10 px20"
-          :class="{ 'categories__button--active': value.includes(category.category_id) }"
+          :class="{
+            'categories__button--active': value.includes(category.category_id)
+          }"
           type="button"
           @click="toggleCategory(category)"
         >
@@ -34,25 +34,27 @@ export default {
       default: () => []
     }
   },
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
   methods: {
-    toggleCategory (category) {
-      const isSelected = this.value.includes(category.category_id)
+    toggleCategory(category) {
+      const isSelected = this.value.includes(category.category_id);
       if (isSelected) {
-        this.$emit('input', this.value.filter(categoryId => categoryId !== category.category_id))
+        this.$emit(
+          'input',
+          this.value.filter(categoryId => categoryId !== category.category_id)
+        );
       } else {
-        this.$emit('input', [...this.value, category.category_id])
+        this.$emit('input', [...this.value, category.category_id]);
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@import "~theme/css/variables/colors";
+@import '~theme/css/variables/colors';
 
 .categories {
   &__heading {

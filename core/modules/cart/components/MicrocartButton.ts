@@ -1,21 +1,20 @@
-
 export const MicrocartButton = {
   name: 'MicrocartButton',
-  mounted () {
+  mounted() {
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) {
-        this.$store.dispatch('cart/load')
+        this.$store.dispatch('cart/load');
       }
-    })
+    });
   },
   methods: {
-    toggleMicrocart () {
-      this.$store.dispatch('cart/toggleMicrocart')
+    toggleMicrocart() {
+      this.$store.dispatch('cart/toggleMicrocart');
     }
   },
   computed: {
-    quantity () {
-      return this.$store.getters['cart/totalQuantity']
+    quantity() {
+      return this.$store.getters['cart/totalQuantity'];
     }
   }
-}
+};

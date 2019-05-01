@@ -1,4 +1,4 @@
-import Product from '@vue-storefront/core/modules/catalog/types/Product'
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 export const AddToCart = {
   name: 'AddToCart',
@@ -13,8 +13,8 @@ export const AddToCart = {
     }
   },
   methods: {
-    addToCart (product: Product) {
-      this.$store.dispatch('cart/addItem', { productToAdd: product })
+    addToCart(product: Product) {
+      this.$store.dispatch('cart/addItem', { productToAdd: product });
     }
   }
-}
+};

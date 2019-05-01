@@ -1,7 +1,7 @@
 // You can extend Vue Storefront server routes by binding to the Express.js (expressApp) in here
-module.exports.registerUserServerRoutes = (expressApp) => {
-  require('./robots')(expressApp)
-}
+module.exports.registerUserServerRoutes = expressApp => {
+  require('./robots')(expressApp);
+};
 
 // Use can use dynamic config by using this function below:
 // (Needs to return a Promise)

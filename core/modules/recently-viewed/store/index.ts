@@ -1,8 +1,8 @@
-import { Module } from 'vuex'
-import actions from './actions'
-import mutations from './mutations'
-import RootState from '@vue-storefront/core/types/RootState'
-import RecentlyViewedState from '../types/RecentlyViewedState'
+import { Module } from 'vuex';
+import actions from './actions';
+import mutations from './mutations';
+import RootState from '@vue-storefront/core/types/RootState';
+import RecentlyViewedState from '../types/RecentlyViewedState';
 
 export const module: Module<RecentlyViewedState, RootState> = {
   namespaced: true,
@@ -11,5 +11,4 @@ export const module: Module<RecentlyViewedState, RootState> = {
   },
   actions,
   mutations
-}
-
+};

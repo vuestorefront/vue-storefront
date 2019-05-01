@@ -7,10 +7,7 @@
         :key="index"
       >
         <router-link :to="localizedRoute(banner.link)">
-          <div
-            class="offer"
-            v-lazy:background-image="banner.image"
-          >
+          <div class="offer" v-lazy:background-image="banner.image">
             <h2 class="title m0 h1">
               {{ banner.title }}
             </h2>
@@ -33,7 +30,9 @@
               v-lazy:background-image="banner.image"
             >
               <h2 class="title m0 h1">{{ banner.title }}</h2>
-              <p class="subtitle m0 serif h3 uppercase">{{ banner.subtitle }}</p>
+              <p class="subtitle m0 serif h3 uppercase">
+                {{ banner.subtitle }}
+              </p>
             </div>
           </router-link>
         </div>
@@ -66,7 +65,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'PromotedOffers',
@@ -82,83 +81,83 @@ export default {
       banners: 'promoted/getPromotedOffers'
     })
   },
-  async created () {
-    await this.updatePromotedOffers()
+  async created() {
+    await this.updatePromotedOffers();
   },
   methods: {
     ...mapActions({
       updatePromotedOffers: 'promoted/updatePromotedOffers'
     })
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-  .offer-container {
-    &:last-child {
-      padding-bottom: 0;
-    }
+.offer-container {
+  &:last-child {
+    padding-bottom: 0;
   }
-  .offer {
-    height: 735px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    opacity: 1;
-    transition: 0.3s all;
+}
+.offer {
+  height: 735px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 1;
+  transition: 0.3s all;
 
-    &:hover {
-      opacity: 0.9;
-    }
-
-    @media (max-width: 767px) {
-      height: 200px;
-    }
-
-    .title {
-      text-align: center;
-      margin-top: 2rem;
-      @media (max-width: 767px) {
-        background-color: rgba(255,255,255,0.4);
-        padding: 0.5rem;
-        line-height: 2.4rem;
-      }
-    }
-
-    .subtitle {
-      font-family: 'Roboto', sans-serif;
-      @media (max-width: 767px) {
-        background-color: rgba(255,255,255,0.4);
-        padding: 0.5rem;
-      }
-    }
+  &:hover {
+    opacity: 0.9;
   }
-  .offer-small {
-    height: 360px;
 
-    @media (max-width: 767px) {
-      height: 200px;
-    }
+  @media (max-width: 767px) {
+    height: 200px;
   }
-  .offer-product {
-    height: 330px;
-    background-position: 50% 20%;
 
-    @media (max-width: 767px) {
-      height: 330px;
-    }
-  }
   .title {
+    text-align: center;
+    margin-top: 2rem;
     @media (max-width: 767px) {
-      font-size: 36px;
+      background-color: rgba(255, 255, 255, 0.4);
+      padding: 0.5rem;
+      line-height: 2.4rem;
     }
   }
+
   .subtitle {
+    font-family: 'Roboto', sans-serif;
     @media (max-width: 767px) {
-      font-size: 18px;
+      background-color: rgba(255, 255, 255, 0.4);
+      padding: 0.5rem;
     }
   }
+}
+.offer-small {
+  height: 360px;
+
+  @media (max-width: 767px) {
+    height: 200px;
+  }
+}
+.offer-product {
+  height: 330px;
+  background-position: 50% 20%;
+
+  @media (max-width: 767px) {
+    height: 330px;
+  }
+}
+.title {
+  @media (max-width: 767px) {
+    font-size: 36px;
+  }
+}
+.subtitle {
+  @media (max-width: 767px) {
+    font-size: 18px;
+  }
+}
 </style>

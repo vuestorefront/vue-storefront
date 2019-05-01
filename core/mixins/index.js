@@ -1,7 +1,4 @@
-import { thumbnail } from './thumbnail.js'
-import { multistore } from './multistore.js'
+import { thumbnail } from './thumbnail.js';
+import { multistore } from './multistore.js';
 
-export {
-  thumbnail,
-  multistore
-}
+export { thumbnail, multistore };

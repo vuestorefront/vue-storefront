@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['cms-content', { 'container': sync }]"
+    :class="['cms-content', { container: sync }]"
     v-if="data"
     v-html="data.content"
   />
@@ -39,31 +39,33 @@ export default {
     })
   }) */
   // },
-  created () {
-    let queryKey = ''
-    let queryValue = ''
+  created() {
+    let queryKey = '';
+    let queryValue = '';
     if (this.id) {
-      queryKey = 'id'
-      queryValue = this.id
+      queryKey = 'id';
+      queryValue = this.id;
     } else if (this.identifier) {
-      queryKey = 'identifier'
-      queryValue = this.identifier
+      queryKey = 'identifier';
+      queryValue = this.identifier;
     }
     if (queryKey && queryValue) {
       this.$store.dispatch('cmsBlock/single', {
         key: queryKey,
         value: queryValue
-      })
+      });
     }
   },
   computed: {
-    data () {
+    data() {
       if (this.id) {
-        return this.$store.getters[`cmsBlock/cmsBlockId`](this.id)
+        return this.$store.getters[`cmsBlock/cmsBlockId`](this.id);
       } else if (this.identifier) {
-        return this.$store.getters[`cmsBlock/cmsBlockIdentifier`](this.identifier)
+        return this.$store.getters[`cmsBlock/cmsBlockIdentifier`](
+          this.identifier
+        );
       }
     }
   }
-}
+};
 </script>

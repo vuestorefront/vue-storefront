@@ -73,4 +73,4 @@ module.exports = `<html lang="en">
 </style></div>
   <div>Waiting for compilation...</div>
 </body>
-</html>`
+</html>`;

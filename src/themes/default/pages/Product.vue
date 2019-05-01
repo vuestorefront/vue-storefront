@@ -16,55 +16,92 @@
               :routes="breadcrumbs.routes"
               :active-route="breadcrumbs.name"
             />
-            <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
+            <h1
+              class="mb20 mt0 cl-mine-shaft product-name"
+              data-testid="productName"
+              itemprop="name"
+            >
               {{ product.name | htmlDecode }}
-              <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share"/>
+              <web-share
+                :title="product.name | htmlDecode"
+                text="Check this product!"
+                class="web-share"
+              />
             </h1>
             <div class="mb20 uppercase cl-secondary">
               sku: {{ product.sku }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-              <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
+              <meta
+                itemprop="priceCurrency"
+                :content="currentStore.i18n.currencyCode"
+              />
+              <meta
+                itemprop="price"
+                :content="parseFloat(product.priceInclTax).toFixed(2)"
+              />
               <div
                 class="mb40 price serif"
                 v-if="product.type_id !== 'grouped'"
               >
                 <div
                   class="h3 cl-secondary"
-                  v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
+                  v-if="
+                    product.special_price &&
+                      product.priceInclTax &&
+                      product.originalPriceInclTax
+                  "
                 >
                   <span class="h2 cl-mine-shaft weight-700">
-                    {{ product.priceInclTax * product.qty | price }}
-                  </span>&nbsp;
+                    {{ (product.priceInclTax * product.qty) | price }} </span
+                  >&nbsp;
                   <span class="price-original h3">
-                    {{ product.originalPriceInclTax * product.qty | price }}
+                    {{ (product.originalPriceInclTax * product.qty) | price }}
                   </span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
                   v-if="!product.special_price && product.priceInclTax"
                 >
-                  {{ product.qty > 0 ? product.priceInclTax * product.qty : product.priceInclTax | price }}
+                  {{
+                    product.qty > 0
+                      ? product.priceInclTax * product.qty
+                      : product.priceInclTax | price
+                  }}
                 </div>
               </div>
               <div
                 class="cl-primary variants"
-                v-if="product.type_id =='configurable' && !loading"
+                v-if="product.type_id == 'configurable' && !loading"
               >
-                <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
+                <div
+                  class="error"
+                  v-if="
+                    product.errors && Object.keys(product.errors).length > 0
+                  "
+                >
                   {{ product.errors | formatProductMessages }}
                 </div>
                 <div
                   class="h5"
                   v-for="(option, index) in product.configurable_options"
-                  v-if="(!product.errors || Object.keys(product.errors).length === 0) && Object.keys(configuration).length > 0"
+                  v-if="
+                    (!product.errors ||
+                      Object.keys(product.errors).length === 0) &&
+                      Object.keys(configuration).length > 0
+                  "
                   :key="index"
                 >
                   <div class="variants-label" data-testid="variantsLabel">
                     {{ option.label }}
                     <span class="weight-700">
-                      {{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}
+                      {{
+                        configuration[
+                          option.attribute_code
+                            ? option.attribute_code
+                            : option.label.toLowerCase()
+                        ].label
+                      }}
                     </span>
                   </div>
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
@@ -77,7 +114,10 @@
                         :label="c.label"
                         context="product"
                         :code="option.attribute_code"
-                        :class="{ active: c.id == configuration[option.attribute_code].id }"
+                        :class="{
+                          active:
+                            c.id == configuration[option.attribute_code].id
+                        }"
                       />
                     </div>
                     <div class="sizes" v-else-if="option.label == 'Size'">
@@ -90,7 +130,10 @@
                         context="product"
                         :code="option.attribute_code"
                         class="mr10 mb10"
-                        :class="{ active: s.id == configuration[option.attribute_code].id }"
+                        :class="{
+                          active:
+                            s.id == configuration[option.attribute_code].id
+                        }"
                         v-focus-clean
                       />
                     </div>
@@ -104,7 +147,10 @@
                         context="product"
                         :code="option.attribute_code"
                         class="mr10 mb10"
-                        :class="{ active: s.id == configuration[option.attribute_code].id }"
+                        :class="{
+                          active:
+                            s.id == configuration[option.attribute_code].id
+                        }"
                         v-focus-clean
                       />
                     </div>
@@ -126,18 +172,31 @@
               </div>
             </div>
             <product-links
-              v-if="product.type_id =='grouped' && !loading"
+              v-if="product.type_id == 'grouped' && !loading"
               :products="product.product_links"
             />
             <product-bundle-options
-              v-if="product.bundle_options && product.bundle_options.length > 0 && !loading"
+              v-if="
+                product.bundle_options &&
+                  product.bundle_options.length > 0 &&
+                  !loading
+              "
               :product="product"
             />
             <product-custom-options
-              v-else-if="product.custom_options && product.custom_options.length > 0 && !loading"
+              v-else-if="
+                product.custom_options &&
+                  product.custom_options.length > 0 &&
+                  !loading
+              "
               :product="product"
             />
-            <div class="row m0 mb35" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
+            <div
+              class="row m0 mb35"
+              v-if="
+                product.type_id !== 'grouped' && product.type_id !== 'bundle'
+              "
+            >
               <base-input-number
                 :name="$t('Quantity')"
                 v-model="product.qty"
@@ -145,7 +204,8 @@
                 @blur="$v.$touch()"
                 :validations="[
                   {
-                    condition: $v.product.qty.$error && !$v.product.qty.minValue,
+                    condition:
+                      $v.product.qty.$error && !$v.product.qty.minValue,
                     text: $t('Quantity must be above 0')
                   }
                 ]"
@@ -164,7 +224,11 @@
               </div>
               <div class="col-xs-6 col-sm-3 col-md-6 product__add-to-compare">
                 <button
-                  @click="isOnCompare ? removeFromList('compare') : addToList('compare')"
+                  @click="
+                    isOnCompare
+                      ? removeFromList('compare')
+                      : addToList('compare')
+                  "
                   class="
                     p0 inline-flex middle-xs bg-cl-transparent brdr-none
                     action h5 pointer cl-secondary
@@ -192,7 +256,7 @@
       </h2>
       <div
         class="h4 details-wrapper"
-        :class="{'details-wrapper--open': detailsOpen}"
+        :class="{ 'details-wrapper--open': detailsOpen }"
       >
         <div class="row between-md m0">
           <div class="col-xs-12 col-sm-6">
@@ -213,14 +277,11 @@
               />
             </ul>
           </div>
-          <div
-            class="details-overlay"
-            @click="showDetails"
-          />
+          <div class="details-overlay" @click="showDetails" />
         </div>
       </div>
     </section>
-    <reviews :product-id="originalProduct.id" v-show="OnlineOnly"/>
+    <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
     <related-products
       type="upsell"
       :heading="$t('We found other products you might like')"
@@ -231,30 +292,33 @@
 </template>
 
 <script>
-import { minValue } from 'vuelidate/lib/validators'
-import Product from '@vue-storefront/core/pages/Product'
-import VueOfflineMixin from 'vue-offline/mixin'
-import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
-import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
-import AddToCart from 'theme/components/core/AddToCart.vue'
-import GenericSelector from 'theme/components/core/GenericSelector'
-import ColorSelector from 'theme/components/core/ColorSelector.vue'
-import SizeSelector from 'theme/components/core/SizeSelector.vue'
-import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
-import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
-import ProductTile from 'theme/components/core/ProductTile.vue'
-import ProductLinks from 'theme/components/core/ProductLinks.vue'
-import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
-import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
-import ProductGallery from 'theme/components/core/ProductGallery'
-import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
-import focusClean from 'theme/components/theme/directives/focusClean'
-import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
-import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+import { minValue } from 'vuelidate/lib/validators';
+import Product from '@vue-storefront/core/pages/Product';
+import VueOfflineMixin from 'vue-offline/mixin';
+import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue';
+import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue';
+import AddToCart from 'theme/components/core/AddToCart.vue';
+import GenericSelector from 'theme/components/core/GenericSelector';
+import ColorSelector from 'theme/components/core/ColorSelector.vue';
+import SizeSelector from 'theme/components/core/SizeSelector.vue';
+import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue';
+import ProductAttribute from 'theme/components/core/ProductAttribute.vue';
+import ProductTile from 'theme/components/core/ProductTile.vue';
+import ProductLinks from 'theme/components/core/ProductLinks.vue';
+import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue';
+import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue';
+import ProductGallery from 'theme/components/core/ProductGallery';
+import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers';
+import focusClean from 'theme/components/theme/directives/focusClean';
+import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare';
+import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber';
 
 export default {
   components: {
-    'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
+    WishlistButton: () =>
+      import(
+        /* webpackChunkName: "wishlist" */ 'theme/components/core/blocks/Wishlist/AddToWishlist'
+      ),
     AddToCart,
     Breadcrumbs,
     ColorSelector,
@@ -273,30 +337,34 @@ export default {
     BaseInputNumber
   },
   mixins: [Product, VueOfflineMixin],
-  data () {
+  data() {
     return {
       detailsOpen: false
-    }
+    };
   },
   directives: { focusClean },
   methods: {
-    showDetails (event) {
-      this.detailsOpen = true
-      event.target.classList.add('hidden')
+    showDetails(event) {
+      this.detailsOpen = true;
+      event.target.classList.add('hidden');
     },
-    notifyOutStock () {
+    notifyOutStock() {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
-        message: this.$t('The product is out of stock and cannot be added to the cart!'),
+        message: this.$t(
+          'The product is out of stock and cannot be added to the cart!'
+        ),
         action1: { label: this.$t('OK') }
-      })
+      });
     },
-    notifyWrongAttributes () {
+    notifyWrongAttributes() {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
-        message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
+        message: this.$t(
+          'No such configuration for the product. Please do choose another combination of attributes.'
+        ),
         action1: { label: this.$t('OK') }
-      })
+      });
     }
   },
   validations: {
@@ -306,7 +374,7 @@ export default {
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -374,7 +442,7 @@ $bg-secondary: color(secondary, $colors-background);
     padding-bottom: 30px;
   }
 
- .sizes {
+  .sizes {
     @media (max-width: 767px) {
       width: 100%;
     }

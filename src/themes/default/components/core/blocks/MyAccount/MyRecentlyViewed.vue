@@ -9,7 +9,7 @@
     </div>
     <div class="row">
       <div class="col-xs-12" v-if="items && items.length > 0">
-        <product-listing columns="3" :products="items"/>
+        <product-listing columns="3" :products="items" />
       </div>
       <div class="col-xs-12 h4" v-else>
         <p>{{ $t('No products yet') }}</p>
@@ -19,13 +19,13 @@
 </template>
 
 <script>
-import RecentlyViewed from '@vue-storefront/core/modules/recently-viewed/components/RecentlyViewed'
-import ProductListing from 'theme/components/core/ProductListing.vue'
+import RecentlyViewed from '@vue-storefront/core/modules/recently-viewed/components/RecentlyViewed';
+import ProductListing from 'theme/components/core/ProductListing.vue';
 
 export default {
   mixins: [RecentlyViewed],
   components: {
     ProductListing
   }
-}
+};
 </script>

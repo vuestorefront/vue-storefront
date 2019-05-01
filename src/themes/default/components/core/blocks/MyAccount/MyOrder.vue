@@ -8,7 +8,9 @@
       <div class="col-xs-12 col-md-6">
         <h3 class="m0 mb5 mt5">
           {{ $t('Order #') }}{{ order.entity_id }}
-          <span class="brdr-1 brdr-cl-bg-secondary py5 px10 ml20 sans-serif fs-medium-small weight-400 cl-secondary">
+          <span
+            class="brdr-1 brdr-cl-bg-secondary py5 px10 ml20 sans-serif fs-medium-small weight-400 cl-secondary"
+          >
             {{ order.status | capitalize }}
           </span>
         </h3>
@@ -18,7 +20,14 @@
     <div class="row fs16 mb20">
       <div class="col-xs-12 h4">
         <p>{{ order.created_at | date('MMMM D, YYYY') }}</p>
-        <p class="mt35"><a href="#" class="underline" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a></p>
+        <p class="mt35">
+          <a
+            href="#"
+            class="underline"
+            @click.prevent="remakeOrder(skipGrouped(order.items))"
+            >{{ $t('Remake order') }}</a
+          >
+        </p>
       </div>
     </div>
     <div class="row fs16 mb35">
@@ -35,12 +44,26 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="item in skipGrouped(order.items)" :key="item.item_id">
-              <td class="fs-medium lh25" :data-th="$t('Product Name')">{{ item.name }}</td>
-              <td class="fs-medium lh25" :data-th="$t('SKU')">{{ item.sku }}</td>
-              <td class="fs-medium lh25" :data-th="$t('Price')">{{ item.price_incl_tax | price }}</td>
-              <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">{{ item.qty_ordered }}</td>
-              <td class="fs-medium lh25" :data-th="$t('Subtotal')">{{ item.row_total_incl_tax | price }}</td>
+            <tr
+              class="brdr-top-1 brdr-cl-bg-secondary"
+              v-for="item in skipGrouped(order.items)"
+              :key="item.item_id"
+            >
+              <td class="fs-medium lh25" :data-th="$t('Product Name')">
+                {{ item.name }}
+              </td>
+              <td class="fs-medium lh25" :data-th="$t('SKU')">
+                {{ item.sku }}
+              </td>
+              <td class="fs-medium lh25" :data-th="$t('Price')">
+                {{ item.price_incl_tax | price }}
+              </td>
+              <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">
+                {{ item.qty_ordered }}
+              </td>
+              <td class="fs-medium lh25" :data-th="$t('Subtotal')">
+                {{ item.row_total_incl_tax | price }}
+              </td>
             </tr>
           </tbody>
           <tfoot>
@@ -54,7 +77,12 @@
             </tr>
             <tr>
               <td colspan="4" class="align-right">{{ $t('Tax') }}</td>
-              <td>{{ order.tax_amount + order.discount_tax_compensation_amount | price }}</td>
+              <td>
+                {{
+                  (order.tax_amount + order.discount_tax_compensation_amount)
+                    | price
+                }}
+              </td>
             </tr>
             <tr v-if="order.discount_amount">
               <td colspan="4" class="align-right">{{ $t('Discount') }}</td>
@@ -75,8 +103,12 @@
           <div class="col-sm-6 col-md-3">
             <h5>{{ $t('Shipping address') }}</h5>
             <address>
-              <p>{{ shippingAddress.firstname }} {{ shippingAddress.lastname }}</p>
-              <p>{{ shippingAddress.street[0] }} {{ shippingAddress.street[1] }}</p>
+              <p>
+                {{ shippingAddress.firstname }} {{ shippingAddress.lastname }}
+              </p>
+              <p>
+                {{ shippingAddress.street[0] }} {{ shippingAddress.street[1] }}
+              </p>
               <p>{{ shippingAddress.postcode }} {{ shippingAddress.city }}</p>
               <p>{{ shippingAddress.country }}</p>
             </address>
@@ -88,8 +120,12 @@
           <div class="col-sm-6 col-md-3">
             <h5>{{ $t('Billing address') }}</h5>
             <address>
-              <p>{{ billingAddress.firstname }} {{ billingAddress.lastname }}</p>
-              <p>{{ billingAddress.street[0] }} {{ billingAddress.street[1] }}</p>
+              <p>
+                {{ billingAddress.firstname }} {{ billingAddress.lastname }}
+              </p>
+              <p>
+                {{ billingAddress.street[0] }} {{ billingAddress.street[1] }}
+              </p>
               <p>{{ billingAddress.postcode }} {{ billingAddress.city }}</p>
               <p>{{ billingAddress.country }}</p>
             </address>
@@ -105,16 +141,15 @@
 </template>
 
 <script>
-import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
-import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
+import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder';
+import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon';
 
 export default {
   mixins: [MyOrder],
   components: {
     ReturnIcon
   }
-
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -131,7 +166,8 @@ table {
     border-top: none;
   }
 
-  th, td {
+  th,
+  td {
     text-align: left;
     padding: 20px;
 
@@ -141,13 +177,11 @@ table {
       @media (max-width: 767px) {
         text-align: left;
       }
-
     }
 
     @media (max-width: 1199px) {
       padding: 10px;
     }
-
   }
 
   thead {
@@ -157,10 +191,9 @@ table {
   }
 
   tbody {
-
     tr {
       @media (max-width: 767px) {
-        display: block
+        display: block;
       }
 
       &:nth-child(even) {
@@ -168,7 +201,6 @@ table {
           background-color: $color-white-smoke;
         }
       }
-
     }
 
     td {
@@ -194,27 +226,24 @@ table {
         }
       }
     }
-
   }
 
   tfoot {
-
     tr {
       @media (max-width: 767px) {
-        display: block
+        display: block;
       }
 
       &:last-child {
         td:last-child {
-         padding-bottom: 20px
+          padding-bottom: 20px;
         }
       }
-
     }
 
     td {
       @media (max-width: 767px) {
-        display: block
+        display: block;
       }
 
       &:first-child {
@@ -229,20 +258,17 @@ table {
           padding: 5px 20px 0 20px;
         }
       }
-
     }
-
   }
 
   i {
     vertical-align: middle;
   }
-
 }
 
 a {
   &:after {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     bottom: 0;
@@ -262,5 +288,4 @@ a {
 address {
   font-style: normal;
 }
-
 </style>

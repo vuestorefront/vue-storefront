@@ -12,10 +12,11 @@
       :speed="carouselTransitionSpeed"
       @pageChange="pageChange"
     >
-      <slide
-        v-for="(images, index) in gallery"
-        :key="images.src">
-        <div class="product-image-container bg-cl-secondary" :class="{'video-container w-100 h-100 flex relative': images.video}">
+      <slide v-for="(images, index) in gallery" :key="images.src">
+        <div
+          class="product-image-container bg-cl-secondary"
+          :class="{ 'video-container w-100 h-100 flex relative': images.video }"
+        >
           <img
             v-show="placeholderImagesMap[index]"
             key="placeholderImage"
@@ -23,7 +24,7 @@
             src="/assets/placeholder.svg"
             ref="images"
             :alt="productName | htmlDecode"
-          >
+          />
           <img
             v-show="lowerQualityImagesMap[index]"
             key="lowQualityImage"
@@ -34,7 +35,7 @@
             :alt="productName | htmlDecode"
             data-testid="productGalleryImage"
             itemprop="image"
-          >
+          />
           <img
             v-show="highQualityImagesLoadedMap[index]"
             key="highQualityImage"
@@ -46,28 +47,30 @@
             :alt="productName | htmlDecode"
             data-testid="productGalleryImage"
             itemprop="image"
-          >
+          />
           <product-video
-            v-if="images.video && (index === currentPage)"
+            v-if="images.video && index === currentPage"
             v-bind="images.video"
             :index="index"
-            @video-started="onVideoStarted"/>
+            @video-started="onVideoStarted"
+          />
         </div>
       </slide>
     </carousel>
     <i
       class="zoom-in material-icons p15 cl-bgs-tertiary pointer"
       @click="openOverlay"
-    >zoom_in</i>
+      >zoom_in</i
+    >
   </div>
 </template>
 
 <script>
-import store from '@vue-storefront/core/store'
-import { Carousel, Slide } from 'vue-carousel'
-import ProductVideo from './ProductVideo'
-import reduce from 'lodash-es/reduce'
-import map from 'lodash-es/map'
+import store from '@vue-storefront/core/store';
+import { Carousel, Slide } from 'vue-carousel';
+import ProductVideo from './ProductVideo';
+import reduce from 'lodash-es/reduce';
+import map from 'lodash-es/map';
 
 export default {
   name: 'ProductGalleryCarousel',
@@ -90,101 +93,121 @@ export default {
       required: true
     }
   },
-  data () {
+  data() {
     return {
       carouselTransitionSpeed: 0,
       currentPage: 0,
       hideImageAtIndex: null,
       lowerQualityImagesLoadedMap: {},
       highQualityImagesLoadedMap: {}
-    }
+    };
   },
   computed: {
-    placeholderImagesMap () {
-      let visibilityMap = {}
+    placeholderImagesMap() {
+      let visibilityMap = {};
       this.gallery.forEach((image, index) => {
-        visibilityMap[index] = !this.lowerQualityImagesLoadedMap[index] && !this.highQualityImagesLoadedMap[index]
-      })
-      return visibilityMap
+        visibilityMap[index] =
+          !this.lowerQualityImagesLoadedMap[index] &&
+          !this.highQualityImagesLoadedMap[index];
+      });
+      return visibilityMap;
     },
-    lowerQualityImagesMap () {
-      let visibilityMap = {}
+    lowerQualityImagesMap() {
+      let visibilityMap = {};
       this.gallery.forEach((image, index) => {
-        visibilityMap[index] = !!this.lowerQualityImagesLoadedMap[index] && !this.highQualityImagesLoadedMap[index] && this.hideImageAtIndex !== index
-      })
-      return visibilityMap
+        visibilityMap[index] =
+          !!this.lowerQualityImagesLoadedMap[index] &&
+          !this.highQualityImagesLoadedMap[index] &&
+          this.hideImageAtIndex !== index;
+      });
+      return visibilityMap;
     },
-    highQualityImagesMap () {
-      let visibilityMap = {}
+    highQualityImagesMap() {
+      let visibilityMap = {};
       this.gallery.forEach((image, index) => {
-        visibilityMap[index] = !!this.highQualityImagesLoadedMap[index] && this.hideImageAtIndex !== index
-      })
-      return visibilityMap
+        visibilityMap[index] =
+          !!this.highQualityImagesLoadedMap[index] &&
+          this.hideImageAtIndex !== index;
+      });
+      return visibilityMap;
     }
   },
-  beforeMount () {
-    this.$bus.$on('filter-changed-product', this.selectVariant)
-    this.$bus.$on('product-after-load', this.selectVariant)
+  beforeMount() {
+    this.$bus.$on('filter-changed-product', this.selectVariant);
+    this.$bus.$on('product-after-load', this.selectVariant);
   },
-  mounted () {
-    this.selectVariant()
+  mounted() {
+    this.selectVariant();
     if (this.$refs.carousel) {
-      let navigation = this.$refs.carousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')
-      let pagination = this.$refs.carousel.$children.find(c => c.$el.className === 'VueCarousel-pagination')
+      let navigation = this.$refs.carousel.$children.find(
+        c => c.$el.className === 'VueCarousel-navigation'
+      );
+      let pagination = this.$refs.carousel.$children.find(
+        c => c.$el.className === 'VueCarousel-pagination'
+      );
       if (navigation !== undefined) {
-        navigation.$on('navigationclick', this.increaseCarouselTransitionSpeed)
+        navigation.$on('navigationclick', this.increaseCarouselTransitionSpeed);
       }
       if (pagination !== undefined) {
-        pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed)
+        pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed);
       }
     }
-    this.$emit('loaded')
+    this.$emit('loaded');
   },
-  beforeDestroy () {
-    this.$bus.$off('filter-changed-product', this.selectVariant)
-    this.$bus.$off('product-after-load', this.selectVariant)
+  beforeDestroy() {
+    this.$bus.$off('filter-changed-product', this.selectVariant);
+    this.$bus.$off('product-after-load', this.selectVariant);
   },
   methods: {
-    navigate (index) {
+    navigate(index) {
       if (this.$refs.carousel) {
-        this.$refs.carousel.goToPage(index)
+        this.$refs.carousel.goToPage(index);
       }
     },
-    selectVariant () {
+    selectVariant() {
       if (store.state.config.products.gallery.mergeConfigurableChildren) {
-        const option = reduce(map(this.configuration, 'attribute_code'), (result, attribute) => {
-          result[attribute] = this.configuration[attribute].id
-          return result
-        }, {})
+        const option = reduce(
+          map(this.configuration, 'attribute_code'),
+          (result, attribute) => {
+            result[attribute] = this.configuration[attribute].id;
+            return result;
+          },
+          {}
+        );
         if (option) {
           const index = this.gallery.findIndex(
-            obj => obj.id && Object.entries(obj.id).toString() === Object.entries(option).toString(), option)
-          this.navigate(index)
+            obj =>
+              obj.id &&
+              Object.entries(obj.id).toString() ===
+                Object.entries(option).toString(),
+            option
+          );
+          this.navigate(index);
         }
       }
     },
-    openOverlay () {
-      const currentSlide = this.$refs.carousel.currentPage
-      this.$emit('toggle', currentSlide)
+    openOverlay() {
+      const currentSlide = this.$refs.carousel.currentPage;
+      this.$emit('toggle', currentSlide);
     },
-    increaseCarouselTransitionSpeed () {
-      this.carouselTransitionSpeed = 500
+    increaseCarouselTransitionSpeed() {
+      this.carouselTransitionSpeed = 500;
     },
-    pageChange (index) {
-      this.currentPage = index
-      this.hideImageAtIndex = null
+    pageChange(index) {
+      this.currentPage = index;
+      this.hideImageAtIndex = null;
     },
-    onVideoStarted (index) {
-      this.hideImageAtIndex = index
+    onVideoStarted(index) {
+      this.hideImageAtIndex = index;
     },
-    lowerQualityImageLoaded (index) {
-      this.$set(this.lowerQualityImagesLoadedMap, index, true)
+    lowerQualityImageLoaded(index) {
+      this.$set(this.lowerQualityImagesLoadedMap, index, true);
     },
-    highQualityImageLoaded (index) {
-      this.$set(this.highQualityImagesLoadedMap, index, true)
+    highQualityImageLoaded(index) {
+      this.$set(this.highQualityImagesLoadedMap, index, true);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -219,13 +242,13 @@ img {
     opacity: 0.9;
   }
 }
-img[lazy=error] {
+img[lazy='error'] {
   width: 100%;
 }
-img[lazy=loading] {
+img[lazy='loading'] {
   width: 100%;
 }
-img[lazy=loaded] {
+img[lazy='loaded'] {
   -webkit-animation: none;
   animation: none;
 }
@@ -267,7 +290,7 @@ img[lazy=loaded] {
   }
   &:hover {
     .VueCarousel-navigation {
-      opacity: .9;
+      opacity: 0.9;
     }
     .VueCarousel-navigation-button {
       transition: opacity 3s;

@@ -2,8 +2,12 @@
   <div class="loader-container absolute">
     <div class="loader-inner-container absolute">
       <div class="spinner relative">
-        <div class="double-bounce1 absolute w-100 brdr-circle bg-cl-th-success"/>
-        <div class="double-bounce2 absolute w-100 brdr-circle bg-cl-th-success"/>
+        <div
+          class="double-bounce1 absolute w-100 brdr-circle bg-cl-th-success"
+        />
+        <div
+          class="double-bounce2 absolute w-100 brdr-circle bg-cl-th-success"
+        />
       </div>
     </div>
   </div>
@@ -12,7 +16,7 @@
 <script>
 export default {
   name: 'LoaderScoped'
-}
+};
 </script>
 
 <style lang="scss" scoped>

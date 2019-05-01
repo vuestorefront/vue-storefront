@@ -18,16 +18,30 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="(product, key) in order.products" :key="key">
+            <tr
+              class="brdr-top-1 brdr-cl-bg-secondary"
+              v-for="(product, key) in order.products"
+              :key="key"
+            >
               <td class="fs-medium lh25" :data-th="$t('Product Name')">
                 {{ product.name }}
-                <span class="block mt5 lh16 fs-medium-small" v-for="(option, key) in product.options" :key="key">
+                <span
+                  class="block mt5 lh16 fs-medium-small"
+                  v-for="(option, key) in product.options"
+                  :key="key"
+                >
                   <strong>{{ option.label }}: </strong> {{ option.value }}
                 </span>
               </td>
-              <td class="fs-medium lh25" :data-th="$t('Price')">{{ product.priceInclTax | price }}</td>
-              <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">{{ product.qty }}</td>
-              <td class="fs-medium lh25" :data-th="$t('Subtotal')">{{ product.priceInclTax * product.qty | price }}</td>
+              <td class="fs-medium lh25" :data-th="$t('Price')">
+                {{ product.priceInclTax | price }}
+              </td>
+              <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">
+                {{ product.qty }}
+              </td>
+              <td class="fs-medium lh25" :data-th="$t('Subtotal')">
+                {{ (product.priceInclTax * product.qty) | price }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -47,10 +61,10 @@
 </template>
 
 <script>
-import { ConfirmOrders } from '@vue-storefront/core/modules/offline-order/components/ConfirmOrders'
-import { CancelOrders } from '@vue-storefront/core/modules/offline-order/components/CancelOrders'
-import Modal from 'theme/components/core/Modal'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { ConfirmOrders } from '@vue-storefront/core/modules/offline-order/components/ConfirmOrders';
+import { CancelOrders } from '@vue-storefront/core/modules/offline-order/components/CancelOrders';
+import Modal from 'theme/components/core/Modal';
+import ButtonFull from 'theme/components/theme/ButtonFull.vue';
 
 export default {
   props: {
@@ -60,27 +74,27 @@ export default {
       default: () => []
     }
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
-      this.$bus.$emit('modal-show', 'modal-order-confirmation')
-    })
+      this.$bus.$emit('modal-show', 'modal-order-confirmation');
+    });
   },
   methods: {
-    confirmOrders () {
-      ConfirmOrders.methods.confirmOrders.call(this)
-      this.$bus.$emit('modal-hide', 'modal-order-confirmation')
+    confirmOrders() {
+      ConfirmOrders.methods.confirmOrders.call(this);
+      this.$bus.$emit('modal-hide', 'modal-order-confirmation');
     },
-    cancelOrders () {
-      CancelOrders.methods.cancelOrders.call(this)
-      this.$bus.$emit('modal-hide', 'modal-order-confirmation')
+    cancelOrders() {
+      CancelOrders.methods.cancelOrders.call(this);
+      this.$bus.$emit('modal-hide', 'modal-order-confirmation');
     }
   },
   components: {
     Modal,
     ButtonFull
   },
-  mixins: [ ConfirmOrders, CancelOrders ]
-}
+  mixins: [ConfirmOrders, CancelOrders]
+};
 </script>
 
 <style lang="scss" scoped>
@@ -101,7 +115,8 @@ table {
     border-top: none;
   }
 
-  th, td {
+  th,
+  td {
     text-align: left;
     padding: 20px;
 
@@ -111,13 +126,11 @@ table {
       @media (max-width: 767px) {
         text-align: left;
       }
-
     }
 
     @media (max-width: 1199px) {
       padding: 10px;
     }
-
   }
 
   thead {
@@ -127,10 +140,9 @@ table {
   }
 
   tbody {
-
     tr {
       @media (max-width: 767px) {
-        display: block
+        display: block;
       }
 
       &:nth-child(even) {
@@ -138,7 +150,6 @@ table {
           background-color: $color-white-smoke;
         }
       }
-
     }
 
     td {
@@ -166,27 +177,24 @@ table {
         }
       }
     }
-
   }
 
   tfoot {
-
     tr {
       @media (max-width: 767px) {
-        display: block
+        display: block;
       }
 
       &:last-child {
         td:last-child {
-         padding-bottom: 20px
+          padding-bottom: 20px;
         }
       }
-
     }
 
     td {
       @media (max-width: 767px) {
-        display: block
+        display: block;
       }
 
       &:first-child {
@@ -201,15 +209,12 @@ table {
           padding: 5px 20px 0 20px;
         }
       }
-
     }
-
   }
 
   i {
     vertical-align: middle;
   }
-
 }
 
 .cancel-order {

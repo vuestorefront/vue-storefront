@@ -1,11 +1,11 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import RootState from '@vue-storefront/core/types/RootState'
-import { once } from '@vue-storefront/core/helpers'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import RootState from '@vue-storefront/core/types/RootState';
+import { once } from '@vue-storefront/core/helpers';
 
 once('__VUE_EXTEND_VUEX__', () => {
-  Vue.use(Vuex)
-})
+  Vue.use(Vuex);
+});
 
 const state = {
   version: '',
@@ -40,11 +40,11 @@ const state = {
   userTokenInvalidated: null,
   userTokenInvalidateAttemptsCount: 0,
   userTokenInvalidateLock: 0
-}
+};
 
 let rootStore = new Vuex.Store<RootState>({
   // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenanigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
   state
-})
+});
 
-export default rootStore
+export default rootStore;

@@ -1,3 +1,3 @@
 export default interface RecentlyViewedState {
-  items: any[]
+  items: any[];
 }

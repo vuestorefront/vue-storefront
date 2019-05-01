@@ -1,8 +1,15 @@
 <template>
-  <div class="searchpanel fixed mw-100 bg-cl-primary cl-accent" :class="{ active: showPanel }">
+  <div
+    class="searchpanel fixed mw-100 bg-cl-primary cl-accent"
+    :class="{ active: showPanel }"
+  >
     <div class="row">
       <div class="col-md-12 end-xs">
-        <i class="material-icons p15 pointer cl-accent" @click="closeSearchpanel">close</i>
+        <i
+          class="material-icons p15 pointer cl-accent"
+          @click="closeSearchpanel"
+          >close</i
+        >
       </div>
     </div>
     <div class="col-md-12 end-xs">
@@ -17,7 +24,7 @@
         :placeholder="$t('Type what you are looking for...')"
         type="text"
         autofocus="true"
-      >
+      />
     </div>
     <ApolloQuery
       :query="require('../../../graphql/ProductList.gql')"
@@ -25,7 +32,12 @@
     >
       <template slot-scope="{ result: { loading, error, data } }">
         <div v-if="data" class="col-md-12 product-listing pl35 pt20 row">
-          <product-tile @click.native="closeSearchpanel" :key="Product.id" v-for="Product in data.ProductList" :product="Product"/>
+          <product-tile
+            @click.native="closeSearchpanel"
+            :key="Product.id"
+            v-for="Product in data.ProductList"
+            :product="Product"
+          />
           <transition name="fade">
             <div v-if="error" class="no-results relative center-xs h4">
               {{ $t('No results were found.') }}
@@ -38,20 +50,20 @@
 </template>
 
 <script>
-import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel'
-import ProductTile from 'theme/components/core/ProductTile'
+import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel';
+import ProductTile from 'theme/components/core/ProductTile';
 
 export default {
   components: {
     ProductTile
   },
   mixins: [SearchPanel],
-  data () {
+  data() {
     return {
       query: ''
-    }
+    };
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

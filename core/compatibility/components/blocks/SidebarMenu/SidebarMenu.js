@@ -1,6 +1,6 @@
-import { mapState, mapGetters } from 'vuex'
-import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
-import { CompareButton } from '@vue-storefront/core/modules/compare/components/CompareButton.ts'
+import { mapState, mapGetters } from 'vuex';
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress';
+import { CompareButton } from '@vue-storefront/core/modules/compare/components/CompareButton.ts';
 
 // deprecated as theme-specific
 export default {
@@ -8,28 +8,34 @@ export default {
   mixins: [onEscapePress, CompareButton],
   computed: {
     ...mapGetters('category', ['getCategories']),
-    categories () {
-      return this.getCategories.filter((op) => {
-        return op.level === (this.$store.state.config.entities.category.categoriesDynamicPrefetchLevel ? this.$store.state.config.entities.category.categoriesDynamicPrefetchLevel : 2) // display only the root level (level =1 => Default Category), categoriesDynamicPrefetchLevel = 2 by default
-      })
+    categories() {
+      return this.getCategories.filter(op => {
+        return (
+          op.level ===
+          (this.$store.state.config.entities.category
+            .categoriesDynamicPrefetchLevel
+            ? this.$store.state.config.entities.category
+                .categoriesDynamicPrefetchLevel
+            : 2)
+        ); // display only the root level (level =1 => Default Category), categoriesDynamicPrefetchLevel = 2 by default
+      });
     },
     ...mapState({
       isOpen: state => state.ui.sidebar
     }),
-    compareIsActive () {
+    compareIsActive() {
       // Computed property renamed to 'isEmpty'
-      return !this.isEmpty
+      return !this.isEmpty;
     }
   },
-  created () {
-  },
+  created() {},
   methods: {
-    onEscapePress () {
-      this.closeMenu()
+    onEscapePress() {
+      this.closeMenu();
     },
-    closeMenu () {
-      this.$store.commit('ui/setSidebar', false)
-      this.$store.commit('ui/setMicrocart', false)
+    closeMenu() {
+      this.$store.commit('ui/setSidebar', false);
+      this.$store.commit('ui/setMicrocart', false);
     }
   }
-}
+};

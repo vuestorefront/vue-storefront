@@ -1,5 +1,5 @@
-import { mapState, mapGetters } from 'vuex'
-import RootState from '@vue-storefront/core/types/RootState'
+import { mapState, mapGetters } from 'vuex';
+import RootState from '@vue-storefront/core/types/RootState';
 
 export const PersonalDetails = {
   name: 'PersonalDetails',
@@ -13,7 +13,7 @@ export const PersonalDetails = {
       required: false
     }
   },
-  data () {
+  data() {
     return {
       isFilled: false,
       personalDetails: this.$store.state.checkout.personalDetails,
@@ -22,7 +22,7 @@ export const PersonalDetails = {
       password: '',
       rPassword: '',
       isValidationError: false
-    }
+    };
   },
   computed: {
     ...mapState({
@@ -33,48 +33,52 @@ export const PersonalDetails = {
     })
   },
   methods: {
-    onLoggedIn (receivedData) {
+    onLoggedIn(receivedData) {
       this.personalDetails = {
         firstName: receivedData.firstname,
         lastName: receivedData.lastname,
         emailAddress: receivedData.email
-      }
+      };
     },
-    sendDataToCheckout () {
+    sendDataToCheckout() {
       if (this.createAccount) {
-        this.personalDetails.password = this.password
-        this.personalDetails.createAccount = true
+        this.personalDetails.password = this.password;
+        this.personalDetails.createAccount = true;
       } else {
-        this.personalDetails.createAccount = false
+        this.personalDetails.createAccount = false;
       }
-      this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
-      this.isFilled = true
-      this.isValidationError = false
+      this.$bus.$emit(
+        'checkout-after-personalDetails',
+        this.personalDetails,
+        this.$v
+      );
+      this.isFilled = true;
+      this.isValidationError = false;
     },
-    edit () {
+    edit() {
       if (this.isFilled) {
-        this.$bus.$emit('checkout-before-edit', 'personalDetails')
+        this.$bus.$emit('checkout-before-edit', 'personalDetails');
       }
     },
-    gotoAccount () {
-      this.$bus.$emit('modal-show', 'modal-signup')
+    gotoAccount() {
+      this.$bus.$emit('modal-show', 'modal-signup');
     }
   },
-  updated () {
+  updated() {
     // Perform focusing on a field, name of which is passed through 'focusedField' prop
     if (this.focusedField && !this.isValidationError) {
       if (this.focusedField === 'password') {
-        this.isValidationError = true
-        this.password = ''
-        this.rPassword = ''
-        this.$refs['password'].setFocus('password')
+        this.isValidationError = true;
+        this.password = '';
+        this.rPassword = '';
+        this.$refs['password'].setFocus('password');
       }
     }
   },
-  beforeMount () {
-    this.$bus.$on('user-after-loggedin', this.onLoggedIn)
+  beforeMount() {
+    this.$bus.$on('user-after-loggedin', this.onLoggedIn);
   },
-  destroyed () {
-    this.$bus.$off('user-after-loggedin', this.onLoggedIn)
+  destroyed() {
+    this.$bus.$off('user-after-loggedin', this.onLoggedIn);
   }
-}
+};

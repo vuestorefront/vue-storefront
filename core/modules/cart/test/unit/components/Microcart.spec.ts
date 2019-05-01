@@ -1,13 +1,12 @@
-import { mountMixinWithStore } from "@vue-storefront/unit-tests/utils";
+import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
 
-import AppliedCoupon from '../../../types/AppliedCoupon'
-import CartTotalSegments from '../../../types/CartTotalSegments'
-import Product from "@vue-storefront/core/modules/catalog/types/Product";
+import AppliedCoupon from '../../../types/AppliedCoupon';
+import CartTotalSegments from '../../../types/CartTotalSegments';
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
-import { Microcart } from '../../../components/Microcart'
+import { Microcart } from '../../../components/Microcart';
 
 describe('Microcart', () => {
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -26,7 +25,9 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    expect((<any> wrapper.vm).productsInCart).toBe(storeMock.modules.cart.state.cartItems);
+    expect((<any>wrapper.vm).productsInCart).toBe(
+      storeMock.modules.cart.state.cartItems
+    );
   });
 
   it('appliedCoupon returns currently set coupon', () => {
@@ -43,7 +44,9 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    expect((<any> wrapper.vm).appliedCoupon).toEqual(storeMock.modules.cart.getters.coupon());
+    expect((<any>wrapper.vm).appliedCoupon).toEqual(
+      storeMock.modules.cart.getters.coupon()
+    );
   });
 
   it('totals returns cart totals', () => {
@@ -60,7 +63,9 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    expect((<any> wrapper.vm).totals).toEqual(storeMock.modules.cart.getters.totals());
+    expect((<any>wrapper.vm).totals).toEqual(
+      storeMock.modules.cart.getters.totals()
+    );
   });
 
   it('isOpen returns cart state if it is open', () => {
@@ -77,7 +82,9 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    expect((<any> wrapper.vm).isOpen).toBe(storeMock.modules.cart.state.isMicrocartOpen);
+    expect((<any>wrapper.vm).isOpen).toBe(
+      storeMock.modules.cart.state.isMicrocartOpen
+    );
   });
 
   it('applyCoupon dispatches applyCupon action to save it', () => {
@@ -95,9 +102,13 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    (<any> wrapper.vm).applyCoupon(couponCode);
+    (<any>wrapper.vm).applyCoupon(couponCode);
 
-    expect(storeMock.modules.cart.actions.applyCoupon).toBeCalledWith(expect.anything(), "foo", undefined);
+    expect(storeMock.modules.cart.actions.applyCoupon).toBeCalledWith(
+      expect.anything(),
+      'foo',
+      undefined
+    );
   });
 
   it('removeCoupon dispatches removeCoupon action to delete it', () => {
@@ -114,7 +125,7 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    (<any> wrapper.vm).removeCoupon();
+    (<any>wrapper.vm).removeCoupon();
 
     expect(storeMock.modules.cart.actions.removeCoupon).toBeCalled();
   });
@@ -133,7 +144,7 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    (<any> wrapper.vm).toggleMicrocart();
+    (<any>wrapper.vm).toggleMicrocart();
 
     expect(storeMock.modules.ui.actions.toggleMicrocart).toBeCalled();
   });

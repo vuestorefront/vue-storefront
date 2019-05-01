@@ -1,18 +1,18 @@
-import Vue from 'vue'
-import i18n from '@vue-storefront/i18n'
-import store from '@vue-storefront/core/store'
-import VueOfflineMixin from 'vue-offline/mixin'
-import { mapGetters } from 'vuex'
+import Vue from 'vue';
+import i18n from '@vue-storefront/i18n';
+import store from '@vue-storefront/core/store';
+import VueOfflineMixin from 'vue-offline/mixin';
+import { mapGetters } from 'vuex';
 
-import Composite from '@vue-storefront/core/mixins/composite'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { isServer } from '@vue-storefront/core/helpers'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import Composite from '@vue-storefront/core/mixins/composite';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { isServer } from '@vue-storefront/core/helpers';
+import { Logger } from '@vue-storefront/core/lib/logger';
 
 export default {
   name: 'Checkout',
   mixins: [Composite, VueOfflineMixin],
-  data () {
+  data() {
     return {
       stockCheckCompleted: false,
       stockCheckOK: false,
@@ -37,7 +37,7 @@ export default {
       },
       userId: null,
       focusedField: null
-    }
+    };
   },
   computed: {
     ...mapGetters({
@@ -45,162 +45,197 @@ export default {
       isThankYouPage: 'checkout/isThankYouPage'
     })
   },
-  beforeMount () {
+  beforeMount() {
     // TO-DO: Use one event with name as apram
-    this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
-    this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
-    this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
-    this.$bus.$on('checkout-after-shippingDetails', this.onAfterShippingDetails)
-    this.$bus.$on('checkout-after-paymentDetails', this.onAfterPaymentDetails)
-    this.$bus.$on('checkout-after-cartSummary', this.onAfterCartSummary)
-    this.$bus.$on('checkout-before-placeOrder', this.onBeforePlaceOrder)
-    this.$bus.$on('checkout-do-placeOrder', this.onDoPlaceOrder)
-    this.$bus.$on('checkout-before-edit', this.onBeforeEdit)
-    this.$bus.$on('order-after-placed', this.onAfterPlaceOrder)
-    this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
-    this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
-    this.$bus.$on('checkout-after-validationError', this.focusField)
+    this.$bus.$on('cart-after-update', this.onCartAfterUpdate);
+    this.$bus.$on('cart-after-delete', this.onCartAfterUpdate);
+    this.$bus.$on(
+      'checkout-after-personalDetails',
+      this.onAfterPersonalDetails
+    );
+    this.$bus.$on(
+      'checkout-after-shippingDetails',
+      this.onAfterShippingDetails
+    );
+    this.$bus.$on('checkout-after-paymentDetails', this.onAfterPaymentDetails);
+    this.$bus.$on('checkout-after-cartSummary', this.onAfterCartSummary);
+    this.$bus.$on('checkout-before-placeOrder', this.onBeforePlaceOrder);
+    this.$bus.$on('checkout-do-placeOrder', this.onDoPlaceOrder);
+    this.$bus.$on('checkout-before-edit', this.onBeforeEdit);
+    this.$bus.$on('order-after-placed', this.onAfterPlaceOrder);
+    this.$bus.$on(
+      'checkout-before-shippingMethods',
+      this.onBeforeShippingMethods
+    );
+    this.$bus.$on(
+      'checkout-after-shippingMethodChanged',
+      this.onAfterShippingMethodChanged
+    );
+    this.$bus.$on('checkout-after-validationError', this.focusField);
     if (!this.isThankYouPage) {
       this.$store.dispatch('cart/load').then(() => {
         if (this.$store.state.cart.cartItems.length === 0) {
-          this.notifyEmptyCart()
-          this.$router.push(this.localizedRoute('/'))
+          this.notifyEmptyCart();
+          this.$router.push(this.localizedRoute('/'));
         } else {
-          this.stockCheckCompleted = false
-          const checkPromises = []
-          for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
+          this.stockCheckCompleted = false;
+          const checkPromises = [];
+          for (let product of this.$store.state.cart.cartItems) {
+            // check the results of online stock check
             if (product.onlineStockCheckid) {
-              checkPromises.push(new Promise((resolve, reject) => {
-                Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
-                  if (err || !item) {
-                    if (err) Logger.error(err)()
-                    resolve(null)
-                  } else {
-                    product.stock = item.result
-                    resolve(product)
-                  }
+              checkPromises.push(
+                new Promise((resolve, reject) => {
+                  Vue.prototype.$db.syncTaskCollection.getItem(
+                    product.onlineStockCheckid,
+                    (err, item) => {
+                      if (err || !item) {
+                        if (err) Logger.error(err)();
+                        resolve(null);
+                      } else {
+                        product.stock = item.result;
+                        resolve(product);
+                      }
+                    }
+                  );
                 })
-              }))
+              );
             }
           }
-          Promise.all(checkPromises).then((checkedProducts) => {
-            this.stockCheckCompleted = true
-            this.stockCheckOK = true
+          Promise.all(checkPromises).then(checkedProducts => {
+            this.stockCheckCompleted = true;
+            this.stockCheckOK = true;
             for (let chp of checkedProducts) {
               if (chp && chp.stock) {
                 if (!chp.stock.is_in_stock) {
-                  this.stockCheckOK = false
-                  chp.errors.stock = i18n.t('Out of stock!')
-                  this.notifyOutStock(chp)
+                  this.stockCheckOK = false;
+                  chp.errors.stock = i18n.t('Out of stock!');
+                  this.notifyOutStock(chp);
                 }
               }
             }
-          })
+          });
         }
-      })
+      });
     }
-    const storeView = currentStoreView()
-    let country = this.$store.state.checkout.shippingDetails.country
-    if (!country) country = storeView.i18n.defaultCountry
-    this.$bus.$emit('checkout-before-shippingMethods', country)
-    this.$store.dispatch('cart/getPaymentMethods')
+    const storeView = currentStoreView();
+    let country = this.$store.state.checkout.shippingDetails.country;
+    if (!country) country = storeView.i18n.defaultCountry;
+    this.$bus.$emit('checkout-before-shippingMethods', country);
+    this.$store.dispatch('cart/getPaymentMethods');
   },
-  beforeDestroy () {
-    this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
-    this.$bus.$off('cart-after-delete', this.onCartAfterUpdate)
-    this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
-    this.$bus.$off('checkout-after-shippingDetails', this.onAfterShippingDetails)
-    this.$bus.$off('checkout-after-paymentDetails', this.onAfterPaymentDetails)
-    this.$bus.$off('checkout-after-cartSummary', this.onAfterCartSummary)
-    this.$bus.$off('checkout-before-placeOrder', this.onBeforePlaceOrder)
-    this.$bus.$off('checkout-do-placeOrder', this.onDoPlaceOrder)
-    this.$bus.$off('checkout-before-edit', this.onBeforeEdit)
-    this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)
-    this.$bus.$off('checkout-before-shippingMethods', this.onBeforeShippingMethods)
-    this.$bus.$off('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
-    this.$bus.$off('checkout-after-validationError', this.focusField)
+  beforeDestroy() {
+    this.$bus.$off('cart-after-update', this.onCartAfterUpdate);
+    this.$bus.$off('cart-after-delete', this.onCartAfterUpdate);
+    this.$bus.$off(
+      'checkout-after-personalDetails',
+      this.onAfterPersonalDetails
+    );
+    this.$bus.$off(
+      'checkout-after-shippingDetails',
+      this.onAfterShippingDetails
+    );
+    this.$bus.$off('checkout-after-paymentDetails', this.onAfterPaymentDetails);
+    this.$bus.$off('checkout-after-cartSummary', this.onAfterCartSummary);
+    this.$bus.$off('checkout-before-placeOrder', this.onBeforePlaceOrder);
+    this.$bus.$off('checkout-do-placeOrder', this.onDoPlaceOrder);
+    this.$bus.$off('checkout-before-edit', this.onBeforeEdit);
+    this.$bus.$off('order-after-placed', this.onAfterPlaceOrder);
+    this.$bus.$off(
+      'checkout-before-shippingMethods',
+      this.onBeforeShippingMethods
+    );
+    this.$bus.$off(
+      'checkout-after-shippingMethodChanged',
+      this.onAfterShippingMethodChanged
+    );
+    this.$bus.$off('checkout-after-validationError', this.focusField);
   },
   watch: {
-    '$route': 'activateHashSection',
-    'OnlineOnly': 'onNetworkStatusCheck'
+    $route: 'activateHashSection',
+    OnlineOnly: 'onNetworkStatusCheck'
   },
   methods: {
-    onCartAfterUpdate (payload) {
+    onCartAfterUpdate(payload) {
       if (this.$store.state.cart.cartItems.length === 0) {
-        this.notifyEmptyCart()
-        this.$router.push(this.localizedRoute('/'))
+        this.notifyEmptyCart();
+        this.$router.push(this.localizedRoute('/'));
       }
     },
-    onAfterShippingMethodChanged (payload) {
-      this.$store.dispatch('cart/refreshTotals', payload)
-      this.shippingMethod = payload
+    onAfterShippingMethodChanged(payload) {
+      this.$store.dispatch('cart/refreshTotals', payload);
+      this.shippingMethod = payload;
     },
-    onBeforeShippingMethods (country) {
-      this.$store.dispatch('cart/getShippingMethods', {
-        country_id: country
-      }).then(() => {
-        this.$store.dispatch('cart/refreshTotals')
-        this.$forceUpdate()
-      })
+    onBeforeShippingMethods(country) {
+      this.$store
+        .dispatch('cart/getShippingMethods', {
+          country_id: country
+        })
+        .then(() => {
+          this.$store.dispatch('cart/refreshTotals');
+          this.$forceUpdate();
+        });
     },
-    onAfterPlaceOrder (payload) {
-      this.confirmation = payload.confirmation
-      this.$store.dispatch('checkout/setThankYouPage', true)
-      this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
-      Logger.debug(payload.order)()
+    onAfterPlaceOrder(payload) {
+      this.confirmation = payload.confirmation;
+      this.$store.dispatch('checkout/setThankYouPage', true);
+      this.$store.dispatch('user/getOrdersHistory', {
+        refresh: true,
+        useCache: true
+      });
+      Logger.debug(payload.order)();
     },
-    onBeforeEdit (section) {
-      this.activateSection(section)
+    onBeforeEdit(section) {
+      this.activateSection(section);
     },
-    onBeforePlaceOrder (userId) {
+    onBeforePlaceOrder(userId) {
       if (userId) {
-        this.userId = userId.toString()
+        this.userId = userId.toString();
       }
     },
-    onAfterCartSummary (receivedData) {
-      this.cartSummary = receivedData
+    onAfterCartSummary(receivedData) {
+      this.cartSummary = receivedData;
     },
-    onDoPlaceOrder (additionalPayload) {
+    onDoPlaceOrder(additionalPayload) {
       if (this.$store.state.cart.cartItems.length === 0) {
-        this.notifyEmptyCart()
-        this.$router.push(this.localizedRoute('/'))
+        this.notifyEmptyCart();
+        this.$router.push(this.localizedRoute('/'));
       } else {
-        this.payment.paymentMethodAdditional = additionalPayload
-        this.placeOrder()
+        this.payment.paymentMethodAdditional = additionalPayload;
+        this.placeOrder();
       }
     },
-    onAfterPaymentDetails (receivedData, validationResult) {
-      this.payment = receivedData
-      this.validationResults.payment = validationResult
-      this.activateSection('orderReview')
-      this.savePaymentDetails()
+    onAfterPaymentDetails(receivedData, validationResult) {
+      this.payment = receivedData;
+      this.validationResults.payment = validationResult;
+      this.activateSection('orderReview');
+      this.savePaymentDetails();
     },
-    onAfterShippingDetails (receivedData, validationResult) {
-      this.shipping = receivedData
-      this.validationResults.shipping = validationResult
-      this.activateSection('payment')
-      this.saveShippingDetails()
+    onAfterShippingDetails(receivedData, validationResult) {
+      this.shipping = receivedData;
+      this.validationResults.shipping = validationResult;
+      this.activateSection('payment');
+      this.saveShippingDetails();
 
-      const storeView = currentStoreView()
-      storeView.tax.defaultCountry = this.shipping.country
+      const storeView = currentStoreView();
+      storeView.tax.defaultCountry = this.shipping.country;
     },
-    onAfterPersonalDetails (receivedData, validationResult) {
-      this.personalDetails = receivedData
-      this.validationResults.personalDetails = validationResult
+    onAfterPersonalDetails(receivedData, validationResult) {
+      this.personalDetails = receivedData;
+      this.validationResults.personalDetails = validationResult;
 
       if (this.isVirtualCart === true) {
-        this.activateSection('payment')
+        this.activateSection('payment');
       } else {
-        this.activateSection('shipping')
+        this.activateSection('shipping');
       }
-      this.savePersonalDetails()
-      this.focusedField = null
+      this.savePersonalDetails();
+      this.focusedField = null;
     },
-    onNetworkStatusCheck (isOnline) {
-      this.checkConnection(isOnline)
+    onNetworkStatusCheck(isOnline) {
+      this.checkConnection(isOnline);
     },
-    checkStocks () {
-      let isValid = true
+    checkStocks() {
+      let isValid = true;
       for (let child of this.$children) {
         if (child.hasOwnProperty('$v')) {
           if (child.$v.$invalid) {
@@ -208,12 +243,12 @@ export default {
             // If so, then ignore validation of account creation fields.
             if (child.$v.hasOwnProperty('personalDetails')) {
               if (child.$v.personalDetails.$invalid) {
-                isValid = false
-                break
+                isValid = false;
+                break;
               }
             } else {
-              isValid = false
-              break
+              isValid = false;
+              break;
             }
           }
         }
@@ -222,50 +257,69 @@ export default {
       if (typeof navigator !== 'undefined' && navigator.onLine) {
         if (this.stockCheckCompleted) {
           if (!this.stockCheckOK) {
-            isValid = false
-            this.notifyNotAvailable()
+            isValid = false;
+            this.notifyNotAvailable();
           }
         } else {
-          this.notifyStockCheck()
-          isValid = false
+          this.notifyStockCheck();
+          isValid = false;
         }
       }
-      return isValid
+      return isValid;
     },
-    activateHashSection () {
+    activateHashSection() {
       if (!isServer) {
-        var urlStep = window.location.hash.replace('#', '')
-        if (this.activeSection.hasOwnProperty(urlStep) && this.activeSection[urlStep] === false) {
-          this.activateSection(urlStep)
+        var urlStep = window.location.hash.replace('#', '');
+        if (
+          this.activeSection.hasOwnProperty(urlStep) &&
+          this.activeSection[urlStep] === false
+        ) {
+          this.activateSection(urlStep);
         } else if (urlStep === '') {
-          this.activateSection('personalDetails')
+          this.activateSection('personalDetails');
         }
       }
     },
-    checkConnection (isOnline) {
+    checkConnection(isOnline) {
       if (!isOnline) {
-        this.notifyNoConnection()
+        this.notifyNoConnection();
       }
     },
-    activateSection (sectionToActivate) {
+    activateSection(sectionToActivate) {
       for (let section in this.activeSection) {
-        this.activeSection[section] = false
+        this.activeSection[section] = false;
       }
-      this.activeSection[sectionToActivate] = true
-      if (!isServer) window.location.href = window.location.origin + window.location.pathname + '#' + sectionToActivate
+      this.activeSection[sectionToActivate] = true;
+      if (!isServer)
+        window.location.href =
+          window.location.origin +
+          window.location.pathname +
+          '#' +
+          sectionToActivate;
     },
     // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
-    getPaymentMethod () {
-      let paymentMethod = this.payment.paymentMethod
-      if (store.state.config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
-        paymentMethod = store.state.config.orders.payment_methods_mapping[paymentMethod]
+    getPaymentMethod() {
+      let paymentMethod = this.payment.paymentMethod;
+      if (
+        store.state.config.orders.payment_methods_mapping.hasOwnProperty(
+          paymentMethod
+        )
+      ) {
+        paymentMethod =
+          store.state.config.orders.payment_methods_mapping[paymentMethod];
       }
-      return paymentMethod
+      return paymentMethod;
     },
-    prepareOrder () {
+    prepareOrder() {
       this.order = {
-        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : (this.userId ? this.userId : ''),
-        cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
+        user_id: this.$store.state.user.current
+          ? this.$store.state.user.current.id.toString()
+          : this.userId
+          ? this.userId
+          : '',
+        cart_id: this.$store.state.cart.cartServerToken
+          ? this.$store.state.cart.cartServerToken
+          : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {
           billingAddress: {
@@ -280,16 +334,22 @@ export default {
             firstname: this.payment.firstName,
             lastname: this.payment.lastName,
             email: this.personalDetails.emailAddress,
-            region_code: this.payment.region_code ? this.payment.region_code : '',
+            region_code: this.payment.region_code
+              ? this.payment.region_code
+              : '',
             vat_id: this.payment.taxId
           },
-          shipping_method_code: this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
-          shipping_carrier_code: this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
+          shipping_method_code: this.shippingMethod.method_code
+            ? this.shippingMethod.method_code
+            : this.shipping.shippingMethod,
+          shipping_carrier_code: this.shippingMethod.carrier_code
+            ? this.shippingMethod.carrier_code
+            : this.shipping.shippingCarrier,
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
         }
-      }
+      };
       if (!this.isVirtualCart) {
         this.order.addressInformation.shippingAddress = {
           region: this.shipping.state,
@@ -303,52 +363,64 @@ export default {
           firstname: this.shipping.firstName,
           lastname: this.shipping.lastName,
           email: this.personalDetails.emailAddress,
-          region_code: this.shipping.region_code ? this.shipping.region_code : ''
-        }
+          region_code: this.shipping.region_code
+            ? this.shipping.region_code
+            : ''
+        };
       }
-      return this.order
+      return this.order;
     },
-    placeOrder () {
-      this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
+    placeOrder() {
+      this.checkConnection({
+        online: typeof navigator !== 'undefined' ? navigator.onLine : true
+      });
       if (this.checkStocks()) {
-        this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
+        this.$store.dispatch('checkout/placeOrder', {
+          order: this.prepareOrder()
+        });
       } else {
-        this.notifyNotAvailable()
+        this.notifyNotAvailable();
       }
     },
-    savePersonalDetails () {
-      this.$store.dispatch('checkout/savePersonalDetails', this.personalDetails)
+    savePersonalDetails() {
+      this.$store.dispatch(
+        'checkout/savePersonalDetails',
+        this.personalDetails
+      );
     },
-    saveShippingDetails () {
-      this.$store.dispatch('checkout/saveShippingDetails', this.shipping)
+    saveShippingDetails() {
+      this.$store.dispatch('checkout/saveShippingDetails', this.shipping);
     },
-    savePaymentDetails () {
-      this.$store.dispatch('checkout/savePaymentDetails', this.payment)
+    savePaymentDetails() {
+      this.$store.dispatch('checkout/savePaymentDetails', this.payment);
     },
-    focusField (fieldName) {
+    focusField(fieldName) {
       if (fieldName === 'password') {
-        window.scrollTo(0, 0)
-        this.activateSection('personalDetails')
-        this.focusedField = fieldName
+        window.scrollTo(0, 0);
+        this.activateSection('personalDetails');
+        this.focusedField = fieldName;
       }
       if (fieldName === 'email-address') {
-        window.scrollTo(0, 0)
-        this.activateSection('personalDetails')
-        this.focusedField = fieldName
+        window.scrollTo(0, 0);
+        this.activateSection('personalDetails');
+        this.focusedField = fieldName;
       }
     }
   },
-  metaInfo () {
+  metaInfo() {
     return {
       title: this.$route.meta.title || i18n.t('Checkout'),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
-    }
+      meta: this.$route.meta.description
+        ? [{ vmid: 'description', description: this.$route.meta.description }]
+        : []
+    };
   },
-  asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
+  asyncData({ store, route, context }) {
+    // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
-      if (context) context.output.cacheTags.add(`checkout`)
-      if (context) context.server.response.redirect('/')
-      resolve()
-    })
+      if (context) context.output.cacheTags.add(`checkout`);
+      if (context) context.server.response.redirect('/');
+      resolve();
+    });
   }
-}
+};

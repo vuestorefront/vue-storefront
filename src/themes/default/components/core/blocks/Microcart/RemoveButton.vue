@@ -1,5 +1,7 @@
 <template>
-  <button class="brdr-none bg-cl-transparent p0 middle-xs inline-flex cl-secondary">
+  <button
+    class="brdr-none bg-cl-transparent p0 middle-xs inline-flex cl-secondary"
+  >
     <span class="hidden-xs h6">
       {{ $t('Remove') }}
     </span>

@@ -1,5 +1,8 @@
 <template>
-  <div class="media-gallery" :class="{'media-gallery--loaded': carouselLoaded}">
+  <div
+    class="media-gallery"
+    :class="{ 'media-gallery--loaded': carouselLoaded }"
+  >
     <div class="relative w-100">
       <product-gallery-overlay
         v-if="isZoomOpen"
@@ -23,11 +26,14 @@
 </template>
 
 <script>
-import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts'
-import ProductGalleryOverlay from './ProductGalleryOverlay'
-import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
-import NoSSR from 'vue-no-ssr'
-const ProductGalleryCarousel = () => import(/* webpackChunkName: "vsf-product-gallery-carousel" */ './ProductGalleryCarousel.vue')
+import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts';
+import ProductGalleryOverlay from './ProductGalleryOverlay';
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress';
+import NoSSR from 'vue-no-ssr';
+const ProductGalleryCarousel = () =>
+  import(
+    /* webpackChunkName: "vsf-product-gallery-carousel" */ './ProductGalleryCarousel.vue'
+  );
 
 export default {
   components: {
@@ -35,42 +41,39 @@ export default {
     'no-ssr': NoSSR,
     ProductGalleryOverlay
   },
-  mixins: [
-    ProductGallery,
-    onEscapePress
-  ],
+  mixins: [ProductGallery, onEscapePress],
   watch: {
-    '$route': 'validateRoute'
+    $route: 'validateRoute'
   },
-  data () {
+  data() {
     return {
       isZoomOpen: false,
       showProductGalleryCarousel: false,
       currentSlide: 0,
       carouselLoaded: false
-    }
+    };
   },
-  mounted () {
-    this.showProductGalleryCarousel = true
+  mounted() {
+    this.showProductGalleryCarousel = true;
   },
   methods: {
-    openOverlay (currentSlide) {
-      this.currentSlide = currentSlide
-      this.toggleZoom()
+    openOverlay(currentSlide) {
+      this.currentSlide = currentSlide;
+      this.toggleZoom();
     },
-    validateRoute () {
-      this.$forceUpdate()
+    validateRoute() {
+      this.$forceUpdate();
     },
-    toggleZoom () {
-      this.isZoomOpen = !this.isZoomOpen
+    toggleZoom() {
+      this.isZoomOpen = !this.isZoomOpen;
     },
-    onEscapePress () {
+    onEscapePress() {
       if (this.isZoomOpen) {
-        this.toggleZoom()
+        this.toggleZoom();
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -86,7 +89,7 @@ export default {
   background-position: center;
   background-size: 40% auto;
 
-  @media only screen and (min-width:768px) {
+  @media only screen and (min-width: 768px) {
     min-height: inherit;
   }
 

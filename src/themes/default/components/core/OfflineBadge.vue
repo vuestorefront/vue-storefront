@@ -10,15 +10,15 @@
 </template>
 
 <script>
-import NoSSR from 'vue-no-ssr'
-import VueOfflineMixin from 'vue-offline/mixin'
+import NoSSR from 'vue-no-ssr';
+import VueOfflineMixin from 'vue-offline/mixin';
 
 export default {
   components: {
     'no-ssr': NoSSR
   },
   mixins: [VueOfflineMixin]
-}
+};
 </script>
 <style scoped>
 .offline-badge {

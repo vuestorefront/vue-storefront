@@ -4,16 +4,16 @@ import base from './webpack.base.config';
 import VueSSRPlugin from 'vue-ssr-webpack-plugin';
 
 // when output cache is enabled generate cache version key
-import config from 'config'
-import fs from 'fs'
-import path from 'path'
-import uuid from 'uuid/v4'
+import config from 'config';
+import fs from 'fs';
+import path from 'path';
+import uuid from 'uuid/v4';
 
 if (config.server.useOutputCache) {
   fs.writeFileSync(
     path.join(__dirname, 'cache-version.json'),
     JSON.stringify(uuid())
-  )
+  );
 }
 
 export default merge(base, {
@@ -36,4 +36,4 @@ export default merge(base, {
     }),
     new VueSSRPlugin()
   ]
-})
+});

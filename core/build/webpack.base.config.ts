@@ -12,38 +12,53 @@ import moment from 'moment';
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
   JSON.stringify(config)
-)
+);
 
-const themesRoot = '../../src/themes'
+const themesRoot = '../../src/themes';
 
 import themeRoot from './theme-path';
-const themeResources = themeRoot + '/resource'
-const themeCSS = themeRoot + '/css'
-const themeApp = themeRoot + '/App.vue'
-const themedIndex = path.join(themeRoot, '/templates/index.template.html')
-const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.template.html')
-const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
-const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
+const themeResources = themeRoot + '/resource';
+const themeCSS = themeRoot + '/css';
+const themeApp = themeRoot + '/App.vue';
+const themedIndex = path.join(themeRoot, '/templates/index.template.html');
+const themedIndexMinimal = path.join(
+  themeRoot,
+  '/templates/index.minimal.template.html'
+);
+const themedIndexBasic = path.join(
+  themeRoot,
+  '/templates/index.basic.template.html'
+);
+const themedIndexAmp = path.join(
+  themeRoot,
+  '/templates/index.amp.template.html'
+);
 
-const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
-translationPreprocessor([
-  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/'),
-  path.resolve(__dirname, themeResources + '/i18n/')
-], config)
+const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js');
+translationPreprocessor(
+  [
+    path.resolve(
+      __dirname,
+      '../../node_modules/@vue-storefront/i18n/resource/i18n/'
+    ),
+    path.resolve(__dirname, themeResources + '/i18n/')
+  ],
+  config
+);
 
-const postcssConfig =  {
+const postcssConfig = {
   loader: 'postcss-loader',
   options: {
     ident: 'postcss',
-    plugins: (loader) => [
+    plugins: loader => [
       require('postcss-flexbugs-fixes'),
       require('autoprefixer')({
-        flexbox: 'no-2009',
-      }),
+        flexbox: 'no-2009'
+      })
     ]
   }
 };
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = process.env.NODE_ENV === 'production';
 // todo: usemultipage-webpack-plugin for multistore
 export default {
   plugins: [
@@ -55,32 +70,44 @@ export default {
     new VueLoaderPlugin(),
     // generate output HTML
     new HTMLPlugin({
-      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
+      template: fs.existsSync(themedIndex)
+        ? themedIndex
+        : 'src/index.template.html',
       filename: 'index.html',
       chunksSortMode: 'none',
       inject: isProd == false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
     }),
     new HTMLPlugin({
-      template: fs.existsSync(themedIndexMinimal) ? themedIndexMinimal : 'src/index.minimal.template.html',
+      template: fs.existsSync(themedIndexMinimal)
+        ? themedIndexMinimal
+        : 'src/index.minimal.template.html',
       filename: 'index.minimal.html',
       chunksSortMode: 'none',
       inject: isProd == false
     }),
     new HTMLPlugin({
-      template: fs.existsSync(themedIndexBasic) ? themedIndexBasic: 'src/index.basic.template.html',
+      template: fs.existsSync(themedIndexBasic)
+        ? themedIndexBasic
+        : 'src/index.basic.template.html',
       filename: 'index.basic.html',
       chunksSortMode: 'none',
       inject: isProd == false
     }),
     new HTMLPlugin({
-      template: fs.existsSync(themedIndexAmp) ? themedIndexAmp: 'src/index.amp.template.html',
+      template: fs.existsSync(themedIndexAmp)
+        ? themedIndexAmp
+        : 'src/index.amp.template.html',
       filename: 'index.amp.html',
       chunksSortMode: 'none',
       inject: isProd == false
     }),
     new webpack.DefinePlugin({
-      'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
-      'process.env.__BUILDTIME__': JSON.stringify(moment().format('YYYY-MM-DD HH:mm:ss'))
+      'process.env.__APPVERSION__': JSON.stringify(
+        require('../../package.json').version
+      ),
+      'process.env.__BUILDTIME__': JSON.stringify(
+        moment().format('YYYY-MM-DD HH:mm:ss')
+      )
     })
   ],
   devtool: 'source-map',
@@ -93,30 +120,27 @@ export default {
     filename: '[name].[hash].js'
   },
   resolveLoader: {
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, themesRoot)
-    ],
+    modules: ['node_modules', path.resolve(__dirname, themesRoot)]
   },
   resolve: {
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, themesRoot)
-    ],
+    modules: ['node_modules', path.resolve(__dirname, themesRoot)],
     extensions: ['.js', '.vue', '.gql', '.graphqls', '.ts'],
     alias: {
       // Main aliases
-      'config': path.resolve(__dirname, './config.json'),
-      'src': path.resolve(__dirname, '../../src'),
+      config: path.resolve(__dirname, './config.json'),
+      src: path.resolve(__dirname, '../../src'),
 
       // Theme aliases
-      'theme': themeRoot,
+      theme: themeRoot,
       'theme/app': themeApp,
       'theme/css': themeCSS,
       'theme/resource': themeResources,
 
       // Backward compatible
-      '@vue-storefront/core/store/lib/multistore' : path.resolve(__dirname, '../lib/multistore.ts'),
+      '@vue-storefront/core/store/lib/multistore': path.resolve(
+        __dirname,
+        '../lib/multistore.ts'
+      )
     }
   },
   module: {
@@ -132,7 +156,7 @@ export default {
         loader: 'vue-loader',
         options: {
           preserveWhitespace: false,
-          postcss: [autoprefixer()],
+          postcss: [autoprefixer()]
         }
       },
       {
@@ -161,20 +185,11 @@ export default {
       },
       {
         test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          postcssConfig
-        ]
+        use: ['vue-style-loader', 'css-loader', postcssConfig]
       },
       {
         test: /\.scss$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          postcssConfig,
-          'sass-loader'
-        ]
+        use: ['vue-style-loader', 'css-loader', postcssConfig, 'sass-loader']
       },
       {
         test: /\.sass$/,
@@ -201,4 +216,4 @@ export default {
       }
     ]
   }
-}
+};

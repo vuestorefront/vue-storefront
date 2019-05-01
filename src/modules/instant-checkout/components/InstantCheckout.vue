@@ -1,24 +1,23 @@
 <template>
-  <button
-    v-if="supported"
-    @click="showPayment"
-  >
+  <button v-if="supported" @click="showPayment">
     {{ $t('Instant Checkout') }}
   </button>
 </template>
 
 <script>
-import i18n from '@vue-storefront/i18n'
-import rootStore from '@vue-storefront/core/store'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-const storeView = currentStoreView()
+import i18n from '@vue-storefront/i18n';
+import rootStore from '@vue-storefront/core/store';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+const storeView = currentStoreView();
 
 export default {
   name: 'InstantCheckoutButton',
-  data () {
+  data() {
     return {
       supported: false,
-      country: rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry,
+      country: rootStore.state.checkout.shippingDetails.country
+        ? rootStore.state.checkout.shippingDetails.country
+        : storeView.tax.defaultCountry,
       paymentMethods: [
         {
           supportedMethods: ['basic-card'],
@@ -35,240 +34,310 @@ export default {
         shippingType: 'shipping'
       },
       shippingOptions: []
-    }
+    };
   },
   computed: {
-    platformTotal () {
-      return this.$store.state.cart.platformTotalSegments
+    platformTotal() {
+      return this.$store.state.cart.platformTotalSegments;
     },
-    bucket () {
-      const bucket = []
+    bucket() {
+      const bucket = [];
 
       // Add products
       this.$store.state.cart.cartItems.forEach(product => {
         bucket.push({
           label: product.name,
-          amount: { currency: storeView.i18n.currencyCode, value: product.priceInclTax }
-        })
-      })
+          amount: {
+            currency: storeView.i18n.currencyCode,
+            value: product.priceInclTax
+          }
+        });
+      });
 
       // If synchronization is disabled add shipping and return
       if (this.platformTotal === null) {
         if (this.selectedShippingOption.length > 0) {
           bucket.push({
             label: i18n.t('Shipping'),
-            amount: { currency: storeView.i18n.currencyCode, value: this.selectedShippingOption[0].amount.value }
-          })
+            amount: {
+              currency: storeView.i18n.currencyCode,
+              value: this.selectedShippingOption[0].amount.value
+            }
+          });
         }
 
-        return bucket
+        return bucket;
       }
 
       // If synchronization is eanbled get shipping and discount values from Magento
       const shipping = this.platformTotal.filter(segment => {
-        return segment.code === 'shipping'
-      })
+        return segment.code === 'shipping';
+      });
       if (shipping.length > 0) {
         bucket.push({
           label: shipping[0].title,
-          amount: { currency: storeView.i18n.currencyCode, value: shipping[0].value }
-        })
+          amount: {
+            currency: storeView.i18n.currencyCode,
+            value: shipping[0].value
+          }
+        });
       }
 
       const discount = this.platformTotal.filter(segment => {
-        return segment.code === 'discount'
-      })
+        return segment.code === 'discount';
+      });
       if (discount.length > 0) {
         bucket.push({
           label: discount[0].title,
-          amount: { currency: storeView.i18n.currencyCode, value: discount[0].value }
-        })
+          amount: {
+            currency: storeView.i18n.currencyCode,
+            value: discount[0].value
+          }
+        });
       }
 
-      return bucket
+      return bucket;
     },
-    selectedShippingOption () {
+    selectedShippingOption() {
       return this.shippingOptions.filter(option => {
-        return option.selected
-      })
+        return option.selected;
+      });
     },
-    total () {
+    total() {
       // If synchronization is disabled calculate totals
       if (this.platformTotal === null) {
-        let subtotal = 0
+        let subtotal = 0;
 
         this.$store.state.cart.cartItems.forEach(product => {
-          subtotal += parseFloat(product.priceInclTax)
-        })
+          subtotal += parseFloat(product.priceInclTax);
+        });
 
         if (this.selectedShippingOption.length > 0) {
-          subtotal += parseFloat(this.selectedShippingOption[0].amount.value)
+          subtotal += parseFloat(this.selectedShippingOption[0].amount.value);
         }
 
         return {
           label: i18n.t('Grand total'),
           amount: { currency: storeView.i18n.currencyCode, value: subtotal }
-        }
+        };
       }
 
       // If synchronization is enabled return total taken from Magento
       const total = this.platformTotal.filter(segment => {
-        return segment.code === 'grand_total'
-      })
+        return segment.code === 'grand_total';
+      });
       if (total.length > 0) {
         return {
           label: total[0].title,
-          amount: { currency: storeView.i18n.currencyCode, value: total[0].value }
-        }
+          amount: {
+            currency: storeView.i18n.currencyCode,
+            value: total[0].value
+          }
+        };
       }
 
-      return {}
+      return {};
     },
-    paymentDetails () {
+    paymentDetails() {
       return {
         displayItems: this.bucket,
         shippingOptions: this.shippingOptions,
         total: this.total
-      }
+      };
     }
   },
   methods: {
-    showPayment () {
-      const payment = new PaymentRequest(this.paymentMethods, this.paymentDetails, this.paymentOptions)
+    showPayment() {
+      const payment = new PaymentRequest(
+        this.paymentMethods,
+        this.paymentDetails,
+        this.paymentOptions
+      );
 
-      payment.addEventListener('shippingoptionchange', this.shippingOptionChange)
-      payment.addEventListener('shippingaddresschange', this.shippingAddressChange)
+      payment.addEventListener(
+        'shippingoptionchange',
+        this.shippingOptionChange
+      );
+      payment.addEventListener(
+        'shippingaddresschange',
+        this.shippingAddressChange
+      );
 
       payment
         .show()
         .then(response => {
           // TODO handle payment
-          this.$store.dispatch('order/placeOrder', this.createOrder(response), {root: true}).then(result => {
-            if (!result.resultCode || result.resultCode === 200) {
-              response.complete()
-              this.$store.dispatch('checkout/setThankYouPage', true)
-              this.$store.commit('ui/setMicrocart', false)
-              this.$router.push(this.localizedRoute('/checkout'))
-              this.$store.dispatch('cart/clear', {}, {root: true})
-            }
-          })
+          this.$store
+            .dispatch('order/placeOrder', this.createOrder(response), {
+              root: true
+            })
+            .then(result => {
+              if (!result.resultCode || result.resultCode === 200) {
+                response.complete();
+                this.$store.dispatch('checkout/setThankYouPage', true);
+                this.$store.commit('ui/setMicrocart', false);
+                this.$router.push(this.localizedRoute('/checkout'));
+                this.$store.dispatch('cart/clear', {}, { root: true });
+              }
+            });
         })
         .catch(e => {
-          console.log(e)
-        })
+          console.log(e);
+        });
     },
-    shippingOptionChange (event) {
-      const selectedId = event.target.shippingOption
+    shippingOptionChange(event) {
+      const selectedId = event.target.shippingOption;
 
       this.shippingOptions.forEach(option => {
-        option.selected = option.id === selectedId
-      })
+        option.selected = option.id === selectedId;
+      });
 
       const dataToUpdate = new Promise((resolve, reject) => {
-        this.$store.dispatch('cart/refreshTotals', {
-          country: this.country,
-          method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
-          carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
-          payment_method: null
-        }).then(() => {
-          resolve({
-            displayItems: this.bucket,
-            shippingOptions: this.shippingOptions,
-            total: this.total
+        this.$store
+          .dispatch('cart/refreshTotals', {
+            country: this.country,
+            method_code:
+              this.selectedShippingOption.length > 0
+                ? this.selectedShippingOption[0].id
+                : null,
+            carrier_code:
+              this.selectedShippingOption.length > 0
+                ? this.selectedShippingOption[0].carrier_code
+                : null,
+            payment_method: null
           })
-        }).catch(e => {
-          console.error(e)
-          reject(e)
-        })
-      })
+          .then(() => {
+            resolve({
+              displayItems: this.bucket,
+              shippingOptions: this.shippingOptions,
+              total: this.total
+            });
+          })
+          .catch(e => {
+            console.error(e);
+            reject(e);
+          });
+      });
 
-      event.updateWith(dataToUpdate)
+      event.updateWith(dataToUpdate);
     },
-    shippingAddressChange (event) {
-      const shippingAddress = event.target.shippingAddress
-      this.country = shippingAddress.country
+    shippingAddressChange(event) {
+      const shippingAddress = event.target.shippingAddress;
+      this.country = shippingAddress.country;
 
       const dataToUpdate = new Promise((resolve, reject) => {
         this.updateShippingOptions(true)
           .then(() => {
             return this.$store.dispatch('cart/refreshTotals', {
               country: this.country,
-              method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
-              carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
+              method_code:
+                this.selectedShippingOption.length > 0
+                  ? this.selectedShippingOption[0].id
+                  : null,
+              carrier_code:
+                this.selectedShippingOption.length > 0
+                  ? this.selectedShippingOption[0].carrier_code
+                  : null,
               payment_method: null
-            })
-          }).then(() => {
+            });
+          })
+          .then(() => {
             resolve({
               displayItems: this.bucket,
               shippingOptions: this.shippingOptions,
               total: this.total
-            })
-          }).catch(e => {
-            console.error(e)
-            reject(e)
+            });
           })
-      })
+          .catch(e => {
+            console.error(e);
+            reject(e);
+          });
+      });
 
-      event.updateWith(dataToUpdate)
+      event.updateWith(dataToUpdate);
     },
-    updateShippingOptions (setDefault = false) {
+    updateShippingOptions(setDefault = false) {
       return new Promise((resolve, reject) => {
-        rootStore.dispatch('cart/getShippingMethods', {
-          country_id: this.country
-        }).then(() => {
-          this.shippingOptions = []
-          this.$store.state.shipping.methods.forEach(method => {
-            this.shippingOptions.push({
-              id: method.method_code,
-              carrier_code: method.carrier_code,
-              label: method.method_title,
-              selected: setDefault ? this.$store.state.shipping.methods[0].method_code === method.method_code : false,
-              amount: {
-                currency: storeView.i18n.currencyCode,
-                value: method.price_incl_tax
-              }
-            })
+        rootStore
+          .dispatch('cart/getShippingMethods', {
+            country_id: this.country
           })
-          resolve()
-        }).catch(e => {
-          console.error(e)
-          reject(e)
-        })
-      })
+          .then(() => {
+            this.shippingOptions = [];
+            this.$store.state.shipping.methods.forEach(method => {
+              this.shippingOptions.push({
+                id: method.method_code,
+                carrier_code: method.carrier_code,
+                label: method.method_title,
+                selected: setDefault
+                  ? this.$store.state.shipping.methods[0].method_code ===
+                    method.method_code
+                  : false,
+                amount: {
+                  currency: storeView.i18n.currencyCode,
+                  value: method.price_incl_tax
+                }
+              });
+            });
+            resolve();
+          })
+          .catch(e => {
+            console.error(e);
+            reject(e);
+          });
+      });
     },
-    createOrder (paymentResponse) {
+    createOrder(paymentResponse) {
       return {
-        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
-        cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
+        user_id: this.$store.state.user.current
+          ? this.$store.state.user.current.id.toString()
+          : '',
+        cart_id: this.$store.state.cart.cartServerToken
+          ? this.$store.state.cart.cartServerToken
+          : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {
           shippingAddress: {
             region: '',
             region_id: 0,
             country_id: paymentResponse.shippingAddress.country,
-            street: [paymentResponse.shippingAddress.addressLine[0], paymentResponse.shippingAddress.addressLine[1]],
-            company: paymentResponse.shippingAddress.organization ? paymentResponse.shippingAddress.organization : 'NA',
+            street: [
+              paymentResponse.shippingAddress.addressLine[0],
+              paymentResponse.shippingAddress.addressLine[1]
+            ],
+            company: paymentResponse.shippingAddress.organization
+              ? paymentResponse.shippingAddress.organization
+              : 'NA',
             telephone: paymentResponse.shippingAddress.phone,
             postcode: paymentResponse.shippingAddress.postalCode,
             city: paymentResponse.shippingAddress.city,
             firstname: paymentResponse.shippingAddress.recipient,
             lastname: paymentResponse.shippingAddress.recipient,
             email: paymentResponse.payerEmail,
-            region_code: paymentResponse.shippingAddress.region ? paymentResponse.shippingAddress.region : ''
+            region_code: paymentResponse.shippingAddress.region
+              ? paymentResponse.shippingAddress.region
+              : ''
           },
           billingAddress: {
             region: '',
             region_id: 0,
             country_id: paymentResponse.shippingAddress.country,
-            street: [paymentResponse.shippingAddress.addressLine[0], paymentResponse.shippingAddress.addressLine[1]],
-            company: paymentResponse.shippingAddress.organization ? paymentResponse.shippingAddress.organization : 'NA',
+            street: [
+              paymentResponse.shippingAddress.addressLine[0],
+              paymentResponse.shippingAddress.addressLine[1]
+            ],
+            company: paymentResponse.shippingAddress.organization
+              ? paymentResponse.shippingAddress.organization
+              : 'NA',
             telephone: paymentResponse.payerPhone,
             postcode: paymentResponse.shippingAddress.postalCode,
             city: paymentResponse.shippingAddress.city,
             firstname: paymentResponse.payerName,
             lastname: paymentResponse.payerName,
             email: paymentResponse.payerEmail,
-            region_code: paymentResponse.shippingAddress.region ? paymentResponse.shippingAddress.region : '',
+            region_code: paymentResponse.shippingAddress.region
+              ? paymentResponse.shippingAddress.region
+              : '',
             vat_id: ''
           },
           shipping_method_code: this.selectedShippingOption[0].id,
@@ -276,14 +345,14 @@ export default {
           payment_method_code: 'cashondelivery',
           payment_method_additional: {}
         }
-      }
+      };
     }
   },
-  mounted () {
+  mounted() {
     if (window.PaymentRequest) {
-      this.supported = true
-      this.updateShippingOptions()
+      this.supported = true;
+      this.updateShippingOptions();
     }
   }
-}
+};
 </script>

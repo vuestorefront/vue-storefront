@@ -4,14 +4,20 @@
       <div class="col-xs-1 col-sm-2 col-md-1">
         <div
           class="number-circle lh35 cl-white brdr-circle align-center weight-700"
-          :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
+          :class="{
+            'bg-cl-th-accent': isActive || isFilled,
+            'bg-cl-tertiary': !isFilled && !isActive
+          }"
         >
           2
         </div>
       </div>
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
-          <div class="col-xs-12 col-md-7" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
+          <div
+            class="col-xs-12 col-md-7"
+            :class="{ 'cl-bg-tertiary': !isFilled && !isActive }"
+          >
             <h3 class="m0 mb5">
               {{ $t('Shipping') }}
             </h3>
@@ -30,7 +36,7 @@
       </div>
     </div>
     <div class="row pl20" v-if="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-11 col-sm-9 col-md-10">
         <div class="row">
           <base-checkbox
@@ -53,7 +59,9 @@
             autocomplete="given-name"
             :validations="[
               {
-                condition: $v.shipping.firstName.$error && !$v.shipping.firstName.required,
+                condition:
+                  $v.shipping.firstName.$error &&
+                  !$v.shipping.firstName.required,
                 text: $t('Field is required')
               },
               {
@@ -71,10 +79,13 @@
             v-model.trim="shipping.lastName"
             @blur="$v.shipping.lastName.$touch()"
             autocomplete="family-name"
-            :validations="[{
-              condition: $v.shipping.lastName.$error && !$v.shipping.lastName.required,
-              text: $t('Field is required')
-            }]"
+            :validations="[
+              {
+                condition:
+                  $v.shipping.lastName.$error && !$v.shipping.lastName.required,
+                text: $t('Field is required')
+              }
+            ]"
           />
 
           <base-input
@@ -85,10 +96,14 @@
             v-model.trim="shipping.streetAddress"
             @blur="$v.shipping.streetAddress.$touch()"
             autocomplete="address-line1"
-            :validations="[{
-              condition: $v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required,
-              text: $t('Field is required')
-            }]"
+            :validations="[
+              {
+                condition:
+                  $v.shipping.streetAddress.$error &&
+                  !$v.shipping.streetAddress.required,
+                text: $t('Field is required')
+              }
+            ]"
           />
 
           <base-input
@@ -99,10 +114,14 @@
             v-model.trim="shipping.apartmentNumber"
             @blur="$v.shipping.apartmentNumber.$touch()"
             autocomplete="address-line2"
-            :validations="[{
-              condition: $v.shipping.apartmentNumber.$error && !$v.shipping.apartmentNumber.required,
-              text: $t('Field is required')
-            }]"
+            :validations="[
+              {
+                condition:
+                  $v.shipping.apartmentNumber.$error &&
+                  !$v.shipping.apartmentNumber.required,
+                text: $t('Field is required')
+              }
+            ]"
           />
 
           <base-input
@@ -113,10 +132,13 @@
             v-model.trim="shipping.city"
             @blur="$v.shipping.city.$touch()"
             autocomplete="address-level2"
-            :validations="[{
-              condition: $v.shipping.city.$error && !$v.shipping.city.required,
-              text: $t('Field is required')
-            }]"
+            :validations="[
+              {
+                condition:
+                  $v.shipping.city.$error && !$v.shipping.city.required,
+                text: $t('Field is required')
+              }
+            ]"
           />
 
           <base-input
@@ -138,7 +160,8 @@
             autocomplete="postal-code"
             :validations="[
               {
-                condition: $v.shipping.zipCode.$error && !$v.shipping.zipCode.required,
+                condition:
+                  $v.shipping.zipCode.$error && !$v.shipping.zipCode.required,
                 text: $t('Field is required')
               },
               {
@@ -156,14 +179,18 @@
             :placeholder="$t('Country *')"
             :validations="[
               {
-                condition: $v.shipping.country.$error && !$v.shipping.country.required,
+                condition:
+                  $v.shipping.country.$error && !$v.shipping.country.required,
                 text: $t('Field is required')
               }
             ]"
             v-model="shipping.country"
             autocomplete="country-name"
             @blur="$v.shipping.country.$touch()"
-            @change.native="$v.shipping.country.$touch(); changeCountry();"
+            @change.native="
+              $v.shipping.country.$touch();
+              changeCountry();
+            "
           />
 
           <base-input
@@ -178,26 +205,40 @@
           <h4 class="col-xs-12">
             {{ $t('Shipping method') }}
           </h4>
-          <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6">
-            <label class="radioStyled"> {{ method.method_title }} | {{ method.amount | price }}
+          <div
+            v-for="(method, index) in shippingMethods"
+            :key="index"
+            class="col-md-6"
+          >
+            <label class="radioStyled">
+              {{ method.method_title }} | {{ method.amount | price }}
               <input
                 type="radio"
                 :value="method.method_code"
                 name="shipping-method"
                 v-model="shipping.shippingMethod"
-                @change="$v.shipping.shippingMethod.$touch(); changeShippingMethod();"
-              >
-              <span class="checkmark"/>
+                @change="
+                  $v.shipping.shippingMethod.$touch();
+                  changeShippingMethod();
+                "
+              />
+              <span class="checkmark" />
             </label>
           </div>
-          <span class="validation-error" v-if="$v.shipping.shippingMethod.$error && !$v.shipping.shippingMethod.required">
+          <span
+            class="validation-error"
+            v-if="
+              $v.shipping.shippingMethod.$error &&
+                !$v.shipping.shippingMethod.required
+            "
+          >
             {{ $t('Field is required') }}
           </span>
         </div>
       </div>
     </div>
     <div class="row" v-if="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 col-md-8 my30 px20">
@@ -213,26 +254,22 @@
       </div>
     </div>
     <div class="row pl20" v-if="!isActive && isFilled">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
           <div class="col-xs-12 h4" data-testid="shippingAddressSummary">
-            <p>
-              {{ shipping.firstName }} {{ shipping.lastName }}
-            </p>
-            <p>
-              {{ shipping.streetAddress }} {{ shipping.apartmentNumber }}
-            </p>
-            <p>
-              {{ shipping.city }} {{ shipping.zipCode }}
-            </p>
+            <p>{{ shipping.firstName }} {{ shipping.lastName }}</p>
+            <p>{{ shipping.streetAddress }} {{ shipping.apartmentNumber }}</p>
+            <p>{{ shipping.city }} {{ shipping.zipCode }}</p>
             <p>
               <span v-if="shipping.state">{{ shipping.state }}, </span>
               <span>{{ getCountryName() }}</span>
             </p>
             <div v-if="shipping.phoneNumber">
               <span class="pr15">{{ shipping.phoneNumber }}</span>
-              <tooltip>{{ $t('Phone number may be needed by carrier') }}</tooltip>
+              <tooltip>{{
+                $t('Phone number may be needed by carrier')
+              }}</tooltip>
             </div>
             <div class="col-xs-12">
               <h4>
@@ -240,9 +277,17 @@
               </h4>
             </div>
             <div class="col-md-6 mb15">
-              <label class="radioStyled"> {{ getShippingMethod().method_title }} | {{ getShippingMethod().amount | price }}
-                <input type="radio" value="" checked disabled name="chosen-shipping-method">
-                <span class="checkmark"/>
+              <label class="radioStyled">
+                {{ getShippingMethod().method_title }} |
+                {{ getShippingMethod().amount | price }}
+                <input
+                  type="radio"
+                  value=""
+                  checked
+                  disabled
+                  name="chosen-shipping-method"
+                />
+                <span class="checkmark" />
               </label>
             </div>
           </div>
@@ -253,14 +298,14 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators'
-import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipping'
+import { required, minLength } from 'vuelidate/lib/validators';
+import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipping';
 
-import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
-import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
-import ButtonFull from 'theme/components/theme/ButtonFull'
-import Tooltip from 'theme/components/core/Tooltip'
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox';
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput';
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect';
+import ButtonFull from 'theme/components/theme/ButtonFull';
+import Tooltip from 'theme/components/core/Tooltip';
 
 export default {
   components: {
@@ -272,13 +317,13 @@ export default {
   },
   mixins: [Shipping],
   computed: {
-    countryOptions () {
-      return this.countries.map((item) => {
+    countryOptions() {
+      return this.countries.map(item => {
         return {
           value: item.code,
           label: item.name
-        }
-      })
+        };
+      });
     }
   },
   validations: {
@@ -311,5 +356,5 @@ export default {
       }
     }
   }
-}
+};
 </script>
