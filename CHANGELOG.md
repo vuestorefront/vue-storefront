@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multitab cart sync - @BartoszLiburski (#2547)
 - Status filter in Related Products query (#2805)
 - Added return to shopping button on ThenkYou page - @ZeevGerstner (#2818)
+- Added optional attributes to catalog/product.ts - @ZeevGerstner (#2792)
 
 ## [1.9.0] - UNRELEASED
 
