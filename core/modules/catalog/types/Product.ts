@@ -1,15 +1,12 @@
 export default interface Product {
   category: Array<Object>
   category_ids: Array<string>
-  climate?: string
   color: string
   color_options?: Array<number>
   configurable_children: Array<Object>
   configurable_options: Array<Object>
   custom_attributes?: any
   description: string
-  eco_collection?: string
-  erin_recommends?: string
   errors?: Object
   final_price: number
   gift_message_available: string
@@ -30,7 +27,6 @@ export default interface Product {
   options?: Array<Object>
   parentSku?: string
   pattern?: string
-  performance_fabric?: string
   price: number
   priceInclTax?: number
   priceTax?: number
