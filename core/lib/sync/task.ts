@@ -47,6 +47,11 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       currentToken = rootStore.state.userTokenInvalidated
     }
   }
+  const isCartIdRequired = task.url.includes('{{cartId}}') // this is bypass for #2592
+  if (isCartIdRequired && !currentCartId) {// by some reason we does't have the  cart id yet
+    reject ('Error executing sync task ' + task.url + ' the required cartId  argument is null. Re-creating shopping cart synchro.')
+    return
+  }
   let url = task.url.replace('{{token}}', (currentToken == null) ? '' : currentToken).replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
   if (rootStore.state.config.storeViews.multistore) {
     url = adjustMultistoreApiUrl(url)

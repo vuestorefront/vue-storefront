@@ -199,12 +199,13 @@ export default {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
         message: i18n.t('Are you sure you would like to remove all the items from the shopping cart?'),
-        action1: { label: i18n.t('OK'),
-          action: () => {
-            this.$store.dispatch('cart/clear')
+        action1: { label: i18n.t('Cancel'), action: 'close' },
+        action2: { label: i18n.t('OK'),
+          action: async () => {
+            await this.$store.dispatch('cart/clear', { recreateAndSyncCart: false }) // just clear the items without sync
+            await this.$store.dispatch('cart/serverPull', { forceClientState: true })
           }
         },
-        action2: { label: i18n.t('Cancel'), action: 'close' },
         hasNoTimeout: true
       })
     }
