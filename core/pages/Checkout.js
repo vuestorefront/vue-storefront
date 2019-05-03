@@ -46,6 +46,7 @@ export default {
     })
   },
   beforeMount () {
+    this.$store.dispatch('checkout/setModifiedAt', Date.now())
     // TO-DO: Use one event with name as apram
     this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
@@ -106,6 +107,7 @@ export default {
     this.$store.dispatch('cart/getPaymentMethods')
   },
   beforeDestroy () {
+    this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
     this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$off('cart-after-delete', this.onCartAfterUpdate)
     this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
