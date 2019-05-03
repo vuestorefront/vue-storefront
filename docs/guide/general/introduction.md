@@ -121,4 +121,4 @@ You may not believe me but this is all you need to know to start working with Vu
 ## Video with training
 You can also watch a video recording from 4th Vue Storefront hackathon with free introduction training
 
-[Video : Vue Storefront Starting Guide](https://youtu.be/IL2HMtvf_hw)
+[![0.jpg](http://img.youtube.com/vi/IL2HMtvf_hw/0.jpg)](https://youtu.be/IL2HMtvf_hw)
