@@ -27,7 +27,7 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
       },
       resultPorcessor: (resp, start, size) => {
         if (resp === null) {
-          throw new Error('Invalid GraphQL result - null not exepcted')
+          throw new Error('Invalid GraphQL result - null not expected')
         }
         if (resp.hasOwnProperty('data')) {
           return processESResponseType(resp.data.testentity, start, size)
