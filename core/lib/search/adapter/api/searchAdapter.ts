@@ -99,7 +99,8 @@ export class SearchAdapter {
         total: resp.hits.total,
         start: start,
         perPage: size,
-        aggregations: resp.aggregations
+        aggregations: resp.aggregations,
+        suggestions: resp.suggest
       }
     } else {
       if (resp.error) {

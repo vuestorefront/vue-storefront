@@ -121,5 +121,9 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
   }
   const queryBody = query.build()
 
+  if (searchQuery.suggest) {
+    queryBody.suggest = searchQuery.suggest
+  }
+
   return queryBody
 }
