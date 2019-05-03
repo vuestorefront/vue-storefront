@@ -107,7 +107,8 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
           aggregations: {},
           offline: true,
           cache: true,
-          noresults: true
+          noresults: true,
+          suggestions: {}
         }
         resolve(res)
       }
