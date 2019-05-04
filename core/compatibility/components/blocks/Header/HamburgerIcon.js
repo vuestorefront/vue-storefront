@@ -1,4 +1,4 @@
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 
 // deprecated as theme specific
 export default {
@@ -7,8 +7,8 @@ export default {
     isOpen: state => state.ui.sidebar
   }),
   methods: {
-    openSidebarMenu() {
-      this.$store.commit('ui/setSidebar', !this.isOpen);
+    openSidebarMenu () {
+      this.$store.commit('ui/setSidebar', !this.isOpen)
     }
   }
-};
+}

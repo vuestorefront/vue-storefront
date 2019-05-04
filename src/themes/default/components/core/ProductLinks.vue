@@ -1,37 +1,15 @@
 <template>
   <div class="links py10">
-    <div
-      class="between-md"
-      v-for="(productLink, index) in products"
-      :key="index"
-    >
+    <div class="between-md" v-for="(productLink, index) in products" :key="index">
       <div class="py10" v-if="productLink.product">
         <div class="row middle-xs h4 mb10">
-          <p class="col-xs-7 serif m0">
-            {{ productLink.product.name | htmlDecode }}
-          </p>
+          <p class="col-xs-7 serif m0">{{ productLink.product.name | htmlDecode }}</p>
           <div class="col-xs-4 cl-bg-tertiary">
-            <div
-              v-if="
-                productLink.product.special_price &&
-                  productLink.product.priceInclTax &&
-                  productLink.product.originalPriceInclTax
-              "
-            >
-              <span class="price-special">{{
-                productLink.product.priceInclTax | price
-              }}</span
-              >&nbsp;
-              <span class="price-original">{{
-                productLink.product.originalPriceInclTax | price
-              }}</span>
+            <div v-if="productLink.product.special_price && productLink.product.priceInclTax && productLink.product.originalPriceInclTax">
+              <span class="price-special">{{ productLink.product.priceInclTax | price }}</span>&nbsp;
+              <span class="price-original" >{{ productLink.product.originalPriceInclTax | price }}</span>
             </div>
-            <div
-              v-if="
-                !productLink.product.special_price &&
-                  productLink.product.priceInclTax
-              "
-            >
+            <div v-if="!productLink.product.special_price && productLink.product.priceInclTax">
               {{ productLink.product.priceInclTax | price }}
             </div>
           </div>
@@ -47,7 +25,7 @@
             min="1"
             autofocus
             v-model.number="productLink.product.qty"
-          />
+          >
         </div>
       </div>
     </div>
@@ -62,7 +40,7 @@ export default {
       required: true
     }
   }
-};
+}
 </script>
 
 <style scoped>

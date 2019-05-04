@@ -2,11 +2,8 @@
   <div>
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs
-          :routes="[{ name: 'Homepage', route_link: '/' }]"
-          :active-route="$props.title"
-        />
-        <h2 class="fs-big">{{ $props.title }}</h2>
+        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
+        <h2 class="fs-big"> {{ $props.title }}</h2>
       </div>
     </div>
 
@@ -16,11 +13,7 @@
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
               <li class="mb10" v-for="page in navigation" :key="page.id">
-                <router-link
-                  :to="localizedRoute(page.link)"
-                  class="cl-accent relative"
-                  >{{ page.title }}</router-link
-                >
+                <router-link :to="localizedRoute(page.link)" class="cl-accent relative">{{ page.title }}</router-link>
               </li>
             </ul>
           </nav>
@@ -34,22 +27,20 @@
 </template>
 
 <script>
-import i18n from '@vue-storefront/i18n';
-import Breadcrumbs from 'theme/components/core/Breadcrumbs';
-import StaticExample from 'theme/components/theme/blocks/Static/Example';
-import StaticShortExample from 'theme/components/theme/blocks/Static/Short';
+import i18n from '@vue-storefront/i18n'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs'
+import StaticExample from 'theme/components/theme/blocks/Static/Example'
+import StaticShortExample from 'theme/components/theme/blocks/Static/Short'
 
 export default {
   components: {
     Breadcrumbs
   },
-  metaInfo() {
+  metaInfo () {
     return {
       title: this.$route.meta.title || this.$props.title,
-      meta: this.$route.meta.description
-        ? [{ vmid: 'description', description: this.$route.meta.description }]
-        : []
-    };
+      meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
+    }
   },
   props: {
     title: {
@@ -62,60 +53,26 @@ export default {
     }
   },
   computed: {
-    activeComponent() {
-      const matchedNav = this.navigation.find(
-        nav => nav.link === this.$route.path
-      );
-      return matchedNav ? matchedNav.component : null;
+    activeComponent () {
+      const matchedNav = this.navigation.find(nav => nav.link === this.$route.path)
+      return matchedNav ? matchedNav.component : null
     }
   },
-  data() {
+  data () {
     return {
       navigation: [
-        {
-          title: i18n.t('About us'),
-          link: '/about-us',
-          component: StaticExample
-        },
-        {
-          title: i18n.t('Customer service'),
-          link: '/customer-service',
-          component: StaticShortExample
-        },
-        {
-          title: i18n.t('Store locator'),
-          link: '/store-locator',
-          component: StaticExample
-        },
-        {
-          title: i18n.t('Delivery'),
-          link: '/delivery',
-          component: StaticShortExample
-        },
-        {
-          title: i18n.t('Return policy'),
-          link: '/returns',
-          component: StaticExample
-        },
-        {
-          title: i18n.t('Privacy policy'),
-          link: '/privacy',
-          component: StaticShortExample
-        },
-        {
-          title: i18n.t('Size guide'),
-          link: '/size-guide',
-          component: StaticExample
-        },
-        {
-          title: i18n.t('Contact us'),
-          link: '/contact',
-          component: StaticShortExample
-        }
+        { title: i18n.t('About us'), link: '/about-us', component: StaticExample },
+        { title: i18n.t('Customer service'), link: '/customer-service', component: StaticShortExample },
+        { title: i18n.t('Store locator'), link: '/store-locator', component: StaticExample },
+        { title: i18n.t('Delivery'), link: '/delivery', component: StaticShortExample },
+        { title: i18n.t('Return policy'), link: '/returns', component: StaticExample },
+        { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticShortExample },
+        { title: i18n.t('Size guide'), link: '/size-guide', component: StaticExample },
+        { title: i18n.t('Contact us'), link: '/contact', component: StaticShortExample }
       ]
-    };
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -129,7 +86,7 @@ $border-primary: color(primary, $colors-border);
   }
 
   a::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;

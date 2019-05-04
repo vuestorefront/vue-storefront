@@ -1,22 +1,22 @@
-import webpack from 'webpack';
-import merge from 'webpack-merge';
-import base from './webpack.base.config';
-import VueSSRClientPlugin from 'vue-server-renderer/client-plugin';
+import webpack from 'webpack'
+import merge from 'webpack-merge'
+import base from './webpack.base.config'
+import VueSSRClientPlugin from 'vue-server-renderer/client-plugin'
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const config = merge(base, {
   optimization: {
-    splitChunks: {
+    splitChunks:  {
       cacheGroups: {
         commons: {
           test: /[\\/]node_modules[\\/](vue|vuex|vue-router|vue-meta|vue-i18n|vuex-router-sync|localforage)[\\/]/,
           name: 'vendor',
-          chunks: 'all'
-        }
-      }
+          chunks: 'all',
+        },
+      },
     },
-    runtimeChunk: {
-      name: 'manifest'
+      runtimeChunk: {
+      name: "manifest",
     }
   },
   mode: 'development',
@@ -32,7 +32,7 @@ const config = merge(base, {
       'process.env.VUE_ENV': '"client"'
     }),
     new VueSSRClientPlugin()
-  ]
-});
+  ],
+})
 
 export default config;

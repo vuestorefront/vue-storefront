@@ -15,9 +15,7 @@
           <thead>
             <tr>
               <th class="p20 serif lh20">{{ $t('Order ID') }}</th>
-              <th class="p20 serif lh20 hide-on-xs">
-                {{ $t('Date and time') }}
-              </th>
+              <th class="p20 serif lh20 hide-on-xs">{{ $t('Date and time') }}</th>
               <th class="p20 serif lh20 hide-on-xs">{{ $t('Author') }}</th>
               <th class="p20 serif lh20 hide-on-xs">{{ $t('Value') }}</th>
               <th class="p20 serif lh20 hide-on-xs">{{ $t('Type') }}</th>
@@ -26,45 +24,21 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              class="brdr-top-1 brdr-cl-bg-secondary"
-              v-for="order in ordersHistory"
-              :key="order.entity_id"
-            >
+            <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="order in ordersHistory" :key="order.entity_id">
               <td class="fs-medium lh25">#{{ order.increment_id }}</td>
-              <td class="fs-medium lh25 hide-on-xs">
-                {{ order.created_at | date }}
-              </td>
-              <td class="fs-medium lh25 hide-on-xs">
-                {{ order.customer_firstname }} {{ order.customer_lastname }}
-              </td>
-              <td class="fs-medium lh25 hide-on-xs">
-                {{ order.grand_total | price }}
-              </td>
+              <td class="fs-medium lh25 hide-on-xs">{{ order.created_at | date }}</td>
+              <td class="fs-medium lh25 hide-on-xs">{{ order.customer_firstname }} {{ order.customer_lastname }}</td>
+              <td class="fs-medium lh25 hide-on-xs">{{ order.grand_total | price }}</td>
               <td class="fs-medium lh25 hide-on-xs">{{ $t('Purchase') }}</td>
-              <td class="fs-medium lh25 hide-on-xs">
-                {{ order.status | capitalize }}
-              </td>
+              <td class="fs-medium lh25 hide-on-xs">{{ order.status | capitalize }}</td>
               <td class="fs-medium lh25">
                 <span class="relative dropdown">
                   <i class="material-icons cl-secondary pointer">more_horiz</i>
-                  <div
-                    class="dropdown-content bg-cl-primary align-left sans-serif lh20 weight-400 fs-medium-small py5"
-                  >
-                    <router-link
-                      class="no-underline block py10 px15"
-                      :to="
-                        localizedRoute(`/my-account/orders/${order.entity_id}`)
-                      "
-                    >
+                  <div class="dropdown-content bg-cl-primary align-left sans-serif lh20 weight-400 fs-medium-small py5">
+                    <router-link class="no-underline block py10 px15" :to="localizedRoute(`/my-account/orders/${order.entity_id}`)">
                       {{ $t('View order') }}
                     </router-link>
-                    <a
-                      href="#"
-                      class="no-underline block py10 px15"
-                      @click.prevent="remakeOrder(skipGrouped(order.items))"
-                      >{{ $t('Remake order') }}</a
-                    >
+                    <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a>
                   </div>
                 </span>
               </td>
@@ -76,15 +50,16 @@
         <p>{{ $t('No orders yet') }}</p>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
-import MyOrders from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrders';
+import MyOrders from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrders'
 
 export default {
   mixins: [MyOrders]
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -97,8 +72,7 @@ table {
   border-collapse: collapse;
   width: 100%;
 
-  th,
-  td {
+  th, td {
     text-align: left;
     padding: 20px;
 
@@ -111,15 +85,19 @@ table {
     }
 
     &.hide-on-xs {
+
       @media (max-width: 767px) {
         display: none;
       }
+
     }
+
   }
 
   i {
     vertical-align: middle;
   }
+
 }
 
 .dropdown {
@@ -139,21 +117,24 @@ table {
     top: 100%;
     width: 160px;
     z-index: 1;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
   }
 
   a {
-    opacity: 0.6;
+    opacity: .6;
 
     &:hover,
     &:focus {
       background-color: $color-icon-hover;
       opacity: 1;
     }
+
   }
 
   &:hover .dropdown-content {
     display: block;
   }
+
 }
+
 </style>

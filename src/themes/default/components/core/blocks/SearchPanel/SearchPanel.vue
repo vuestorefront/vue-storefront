@@ -30,18 +30,12 @@
               :placeholder="$t('Type what you are looking for...')"
               type="text"
               autofocus="true"
-            />
+            >
           </div>
         </div>
       </div>
-      <div
-        v-if="visibleProducts.length && categories.length > 1"
-        class="categories"
-      >
-        <category-panel
-          :categories="categories"
-          v-model="selectedCategoryIds"
-        />
+      <div v-if="visibleProducts.length && categories.length > 1" class="categories">
+        <category-panel :categories="categories" v-model="selectedCategoryIds"/>
       </div>
       <div class="product-listing row">
         <product-tile
@@ -65,8 +59,7 @@
         class="buttons-set align-center py35 mt20 px40"
       >
         <button
-          @click="seeMore"
-          v-if="readMore"
+          @click="seeMore" v-if="readMore"
           class="no-outline brdr-none py15 px20 bg-cl-mine-shaft :bg-cl-th-secondary cl-white fs-medium-small"
           type="button"
         >
@@ -85,11 +78,11 @@
 </template>
 
 <script>
-import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel';
-import ProductTile from 'theme/components/core/ProductTile';
-import VueOfflineMixin from 'vue-offline/mixin';
-import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel';
-import { minLength } from 'vuelidate/lib/validators';
+import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel'
+import ProductTile from 'theme/components/core/ProductTile'
+import VueOfflineMixin from 'vue-offline/mixin'
+import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel'
+import { minLength } from 'vuelidate/lib/validators'
 
 export default {
   components: {
@@ -102,61 +95,57 @@ export default {
       minLength: minLength(3)
     }
   },
-  data() {
+  data () {
     return {
       selectedCategoryIds: []
-    };
+    }
   },
   computed: {
-    visibleProducts() {
-      const productList = this.products || [];
+    visibleProducts () {
+      const productList = this.products || []
       if (this.selectedCategoryIds.length) {
-        return productList.filter(product =>
-          product.category_ids.some(categoryId => {
-            const catId = parseInt(categoryId);
-            return this.selectedCategoryIds.includes(catId);
-          })
-        );
+        return productList.filter(product => product.category_ids.some(categoryId => {
+          const catId = parseInt(categoryId)
+          return this.selectedCategoryIds.includes(catId)
+        }))
       }
-      return productList;
+      return productList
     },
-    categories() {
-      const categoriesMap = {};
+    categories () {
+      const categoriesMap = {}
       this.products.forEach(product => {
         [...product.category].forEach(category => {
-          categoriesMap[category.category_id] = category;
-        });
-      });
-      return Object.keys(categoriesMap).map(
-        categoryId => categoriesMap[categoryId]
-      );
+          categoriesMap[category.category_id] = category
+        })
+      })
+      return Object.keys(categoriesMap).map(categoryId => categoriesMap[categoryId])
     },
-    getNoResultsMessage() {
-      let msg = '';
+    getNoResultsMessage () {
+      let msg = ''
       if (!this.$v.search.minLength) {
-        msg = 'Searched term should consist of at least 3 characters.';
+        msg = 'Searched term should consist of at least 3 characters.'
       } else if (this.emptyResults) {
-        msg = 'No results were found.';
+        msg = 'No results were found.'
       }
-      return msg;
+      return msg
     }
   },
   watch: {
-    categories() {
-      this.selectedCategoryIds = [];
+    categories () {
+      this.selectedCategoryIds = []
     }
   },
-  mounted() {
+  mounted () {
     // add autofocus to search input field
-    this.$refs.search.focus();
+    this.$refs.search.focus()
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/animations/transitions';
-@import '~theme/css/variables/grid';
-@import '~theme/css/variables/typography';
+@import "~theme/css/animations/transitions";
+@import "~theme/css/variables/grid";
+@import "~theme/css/variables/typography";
 
 .searchpanel {
   height: 100vh;
@@ -183,12 +172,12 @@ export default {
   }
 
   .row {
-    margin-left: -map-get($grid-gutter-widths, lg) / 2;
-    margin-right: -map-get($grid-gutter-widths, lg) / 2;
+    margin-left: - map-get($grid-gutter-widths, lg) / 2;
+    margin-right: - map-get($grid-gutter-widths, lg) / 2;
 
     @media #{$media-xs} {
-      margin-right: -map-get($grid-gutter-widths, xs) / 2;
-      margin-left: -map-get($grid-gutter-widths, xs) / 2;
+      margin-right: - map-get($grid-gutter-widths, xs) / 2;
+      margin-left: - map-get($grid-gutter-widths, xs) / 2;
     }
   }
 

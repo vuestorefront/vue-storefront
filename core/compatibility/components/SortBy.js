@@ -1,18 +1,18 @@
-import { CategorySort } from '@vue-storefront/core/modules/catalog/components/CategorySort';
+import { CategorySort } from '@vue-storefront/core/modules/catalog/components/CategorySort'
 
 export default {
   name: 'SortBy',
   methods: {
-    changeOrder() {
+    changeOrder () {
       // renamed to sort
-      this.sort();
+      this.sort()
     }
   },
   computed: {
-    sortByAttribute() {
+    sortByAttribute () {
       // renamed to sortingOptions
-      return this.$store.state.config.products.sortByAttributes;
+      return this.$store.state.config.products.sortByAttributes
     }
   },
   mixins: [CategorySort]
-};
+}

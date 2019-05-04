@@ -9,8 +9,7 @@
               width="450"
               height="500"
               layout="responsive"
-              type="slides"
-            >
+              type="slides">
               <amp-img
                 class="product-image"
                 layout="responsive"
@@ -18,8 +17,7 @@
                 :key="image.src"
                 :src="image.src"
                 :width="450"
-                :height="500"
-              />
+                :height="500"/>
             </amp-carousel>
           </div>
           <div class="col-xs-12 col-md-5 data">
@@ -28,102 +26,67 @@
               :routes="breadcrumbs.routes"
               :active-route="breadcrumbs"
             />
-            <h1
-              class="mb20 mt0 cl-mine-shaft product-name"
-              data-testid="productName"
-              itemprop="name"
-            >
+            <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
             </h1>
             <div class="mb20 uppercase cl-secondary">
               sku: {{ product.sku }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-              <meta
-                itemprop="priceCurrency"
-                :content="currentStore.i18n.currencyCode"
-              />
-              <meta
-                itemprop="price"
-                :content="parseFloat(product.priceInclTax).toFixed(2)"
-              />
+              <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
+              <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
               <div
                 class="mb40 price serif"
                 v-if="product.type_id !== 'grouped'"
               >
                 <div
                   class="h3 cl-secondary"
-                  v-if="
-                    product.special_price &&
-                      product.priceInclTax &&
-                      product.originalPriceInclTax
-                  "
+                  v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
                 >
                   <span class="h2 cl-mine-shaft weight-700">
-                    {{ (product.priceInclTax * product.qty) | price }} </span
-                  >&nbsp;
+                    {{ product.priceInclTax * product.qty | price }}
+                  </span>&nbsp;
                   <span class="price-original h3">
-                    {{ (product.originalPriceInclTax * product.qty) | price }}
+                    {{ product.originalPriceInclTax * product.qty | price }}
                   </span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
                   v-if="!product.special_price && product.priceInclTax"
                 >
-                  {{ (product.priceInclTax * product.qty) | price }}
+                  {{ product.priceInclTax * product.qty | price }}
                 </div>
               </div>
               <div
                 class="cl-primary variants"
-                v-if="product.type_id == 'configurable' && !loading"
+                v-if="product.type_id =='configurable' && !loading"
               >
-                <div
-                  class="error"
-                  v-if="
-                    product.errors && Object.keys(product.errors).length > 0
-                  "
-                >
+                <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
                   {{ product.errors | formatProductMessages }}
                 </div>
               </div>
             </div>
             <product-links
-              v-if="product.type_id == 'grouped' && !loading"
+              v-if="product.type_id =='grouped' && !loading"
               :products="product.product_links"
             />
             <product-bundle-options
-              v-if="
-                product.bundle_options &&
-                  product.bundle_options.length > 0 &&
-                  !loading
-              "
+              v-if="product.bundle_options && product.bundle_options.length > 0 && !loading"
               :product="product"
             />
             <product-custom-options
-              v-else-if="
-                product.custom_options &&
-                  product.custom_options.length > 0 &&
-                  !loading
-              "
+              v-else-if="product.custom_options && product.custom_options.length > 0 && !loading"
               :product="product"
             />
             <div class="row m0">
-              <router-link
-                class="button-full text-center block w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium col-xs-12 col-sm-4 col-md-6"
-                :to="
-                  localizedRoute({
-                    name: product.type_id + '-product',
-                    params: {
-                      parentSku: product.parentSku
-                        ? product.parentSku
-                        : product.sku,
-                      slug: product.slug,
-                      childSku: product.sku
-                    }
-                  })
-                "
-                >Check available sizes</router-link
-              >
+              <router-link class="button-full text-center block w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium col-xs-12 col-sm-4 col-md-6" :to="localizedRoute({
+                name: product.type_id + '-product',
+                params: {
+                  parentSku: product.parentSku ? product.parentSku : product.sku,
+                  slug: product.slug,
+                  childSku: product.sku
+                }
+              })">Check available sizes</router-link>
             </div>
           </div>
         </section>
@@ -135,7 +98,7 @@
       </h2>
       <div
         class="h4 details-wrapper"
-        :class="{ 'details-wrapper--open': detailsOpen }"
+        :class="{'details-wrapper--open': detailsOpen}"
       >
         <div class="row between-md m0">
           <div class="col-xs-12 col-sm-6">
@@ -163,20 +126,20 @@
 </template>
 
 <script>
-import Product from '@vue-storefront/core/pages/Product';
-import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue';
-import GenericSelector from 'theme/components/core/GenericSelector';
-import ColorSelector from 'theme/components/core/ColorSelector.vue';
-import SizeSelector from 'theme/components/core/SizeSelector.vue';
-import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue';
-import ProductAttribute from 'theme/components/core/ProductAttribute.vue';
-import ProductTile from 'theme/components/core/ProductTile.vue';
-import ProductLinks from 'theme/components/core/ProductLinks.vue';
-import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue';
-import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue';
-import ProductGallery from 'theme/components/core/ProductGallery';
-import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers';
-import focusClean from 'theme/components/theme/directives/focusClean';
+import Product from '@vue-storefront/core/pages/Product'
+import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
+import GenericSelector from 'theme/components/core/GenericSelector'
+import ColorSelector from 'theme/components/core/ColorSelector.vue'
+import SizeSelector from 'theme/components/core/SizeSelector.vue'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
+import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
+import ProductTile from 'theme/components/core/ProductTile.vue'
+import ProductLinks from 'theme/components/core/ProductLinks.vue'
+import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
+import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
+import ProductGallery from 'theme/components/core/ProductGallery'
+import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
+import focusClean from 'theme/components/theme/directives/focusClean'
 
 export default {
   components: {
@@ -194,37 +157,33 @@ export default {
     SizeSelector
   },
   mixins: [Product],
-  data() {
+  data () {
     return {
       detailsOpen: false
-    };
+    }
   },
   directives: { focusClean },
   methods: {
-    showDetails(event) {
-      this.detailsOpen = true;
-      event.target.classList.add('hidden');
+    showDetails (event) {
+      this.detailsOpen = true
+      event.target.classList.add('hidden')
     }
   },
-  asyncData({ store, route, context }) {
-    context.output.template = 'amp';
-    context.output.appendHead = context => {
-      return (
-        '<script async src="https://cdn.ampproject.org/v0.js"><' +
-        '/script>' +
-        '<script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"><' +
-        '/script>'
-      );
-    };
+  asyncData ({ store, route, context }) {
+    context.output.template = 'amp'
+    context.output.appendHead = (context) => {
+      return '<script async src="https://cdn.ampproject.org/v0.js"><' + '/script>' +
+      '<script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"><' + '/script>'
+    }
     // const oldRenderer = context.renderStyles
     // context.renderStyles = (context) => {
     //   return oldRenderer().replace('<style>', '<style amp-custom>')
     // }
     return new Promise((resolve, reject) => {
-      resolve();
-    });
+      resolve()
+    })
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -286,7 +245,7 @@ $color-suva-gray: color(suva-gray);
     padding-bottom: 30px;
   }
 
-  .sizes {
+ .sizes {
     @media (max-width: 767px) {
       width: 100%;
     }
@@ -414,15 +373,16 @@ $color-suva-gray: color(suva-gray);
   mix-blend-mode: multiply;
   vertical-align: top;
 }
+
 </style>
 
 <style lang="scss">
+
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
 $color-suva-gray: color(suva-gray);
 
-.amp-carousel-button-prev,
-.amp-carousel-button-next {
+.amp-carousel-button-prev, .amp-carousel-button-next {
   background: none;
   outline: 0;
   display: none;
@@ -448,10 +408,9 @@ $color-suva-gray: color(suva-gray);
 
 .product-gallery {
   &:hover {
-    .amp-carousel-button-prev,
-    .amp-carousel-button-next {
-      display: initial;
-    }
+      .amp-carousel-button-prev, .amp-carousel-button-next {
+        display: initial;
+      }
   }
 }
 
@@ -466,4 +425,5 @@ $color-suva-gray: color(suva-gray);
     content: 'keyboard_arrow_right';
   }
 }
+
 </style>

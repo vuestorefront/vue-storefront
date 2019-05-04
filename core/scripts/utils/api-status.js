@@ -4,10 +4,10 @@
  * @param {json} [result='OK'] Text message or result information object
  */
 module.exports = (res, result = 'OK', code = 200, meta = null) => {
-  let apiResult = { code: code, result: result };
+  let apiResult = { code: code, result: result }
   if (meta !== null) {
-    apiResult.meta = meta;
+    apiResult.meta = meta
   }
-  res.status(code).json(apiResult);
-  return result;
-};
+  res.status(code).json(apiResult)
+  return result
+}

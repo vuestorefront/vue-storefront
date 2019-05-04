@@ -7,11 +7,7 @@
             <span class="pr5">
               {{ message }}
             </span>
-            <router-link
-              :to="localizedRoute('detailsLink')"
-              :title="detailsLinkText"
-              class="cl-bg-tertiary"
-            >
+            <router-link :to="localizedRoute('detailsLink')" :title="detailsLinkText" class="cl-bg-tertiary">
               {{ detailsLinkText }}
             </router-link>
           </div>
@@ -34,7 +30,7 @@
 </template>
 
 <script>
-import i18n from '@vue-storefront/i18n';
+import i18n from '@vue-storefront/i18n'
 export default {
   props: {
     detailsLinkText: {
@@ -47,44 +43,34 @@ export default {
     },
     message: {
       type: String,
-      default: i18n.t(
-        'We use cookies to give you the best shopping experience.'
-      )
+      default: i18n.t('We use cookies to give you the best shopping experience.')
     }
   },
-  data() {
+  data () {
     return {
       isOpen: false
-    };
-  },
-  methods: {
-    accept() {
-      this.setVisited();
-      this.isOpen = false;
-    },
-    setVisited() {
-      this.$store.dispatch('claims/set', {
-        claimCode: 'cookiesAccepted',
-        value: true
-      });
     }
   },
-  created() {
-    this.$store
-      .dispatch('claims/check', { claimCode: 'cookiesAccepted' })
-      .then(cookieClaim => {
-        if (!cookieClaim) {
-          this.isOpen = true;
-          this.$store.dispatch('claims/set', {
-            claimCode: 'cookiesAccepted',
-            value: false
-          });
-        } else {
-          this.isOpen = !cookieClaim.value;
-        }
-      });
+  methods: {
+    accept () {
+      this.setVisited()
+      this.isOpen = false
+    },
+    setVisited () {
+      this.$store.dispatch('claims/set', {claimCode: 'cookiesAccepted', value: true})
+    }
+  },
+  created () {
+    this.$store.dispatch('claims/check', {claimCode: 'cookiesAccepted'}).then((cookieClaim) => {
+      if (!cookieClaim) {
+        this.isOpen = true
+        this.$store.dispatch('claims/set', {claimCode: 'cookiesAccepted', value: false})
+      } else {
+        this.isOpen = !cookieClaim.value
+      }
+    })
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,32 +1,33 @@
 <template>
-  <div>
-    This page is rendered with no JavaScripts attached - no layout at all
-  </div>
+  <div>This page is rendered with no JavaScripts attached - no layout at all</div>
 </template>
 
 <script>
 export default {
   name: 'NoJSExample',
-  asyncData({ store, route, context }) {
-    context.output.template = '';
-    context.output.append = context => {
-      return '<div>This content has been dynamically appended</div>';
-    };
-    context.output.prepend = context => {
-      return '<div>this content has been dynamically prepended</div>';
-    };
+  asyncData ({ store, route, context }) {
+    context.output.template = ''
+    context.output.append = (context) => {
+      return '<div>This content has been dynamically appended</div>'
+    }
+    context.output.prepend = (context) => {
+      return '<div>this content has been dynamically prepended</div>'
+    }
     return new Promise((resolve, reject) => {
-      resolve();
-    });
+      resolve()
+    })
   },
-  data() {
+  data () {
     return {
-      exampleData: 'Data from base component'
-    };
+      'exampleData': 'Data from base component'
+    }
   },
-  components: {}
-};
+  components: {
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+
+</style>

@@ -2,7 +2,7 @@
   <div class="mb35">
     <!-- My profile header -->
     <div class="row mb15">
-      <div class="col-xs-12 col-sm-6" :class="{ 'cl-accent': !isEdited }">
+      <div class="col-xs-12 col-sm-6" :class="{ 'cl-accent' : !isEdited }">
         <h3 class="m0 mb5">
           {{ $t('My profile') }}
         </h3>
@@ -49,12 +49,10 @@
         :placeholder="$t('Last name')"
         v-model.trim="currentUser.lastname"
         @input="$v.currentUser.lastname.$touch()"
-        :validations="[
-          {
-            condition: !$v.currentUser.lastname.required,
-            text: $t('Field is required')
-          }
-        ]"
+        :validations="[{
+          condition: !$v.currentUser.lastname.required,
+          text: $t('Field is required')
+        }]"
       />
 
       <base-input
@@ -94,15 +92,13 @@
           :placeholder="$t('Current password *')"
           v-model="oldPassword"
           @input="$v.oldPassword.$touch()"
-          :validations="[
-            {
-              condition: !$v.oldPassword.required && $v.oldPassword.$error,
-              text: $t('Field is required')
-            }
-          ]"
+          :validations="[{
+            condition: !$v.oldPassword.required && $v.oldPassword.$error,
+            text: $t('Field is required')
+          }]"
         />
 
-        <div class="hidden-xs hidden-sm col-md-6 mb15 mt10" />
+        <div class="hidden-xs hidden-sm col-md-6 mb15 mt10"/>
 
         <base-input
           class="col-xs-12 col-md-6 mb15 mt10"
@@ -112,12 +108,10 @@
           :placeholder="$t('New password *')"
           v-model="password"
           @input="$v.password.$touch()"
-          :validations="[
-            {
-              condition: !$v.password.required && $v.password.$error,
-              text: $t('Field is required')
-            }
-          ]"
+          :validations="[{
+            condition: !$v.password.required && $v.password.$error,
+            text: $t('Field is required')
+          }]"
         />
 
         <base-input
@@ -147,9 +141,7 @@
         id="addCompany"
         v-model="addCompany"
       >
-        {{
-          $t('I have a company and want to receive an invoice for every order')
-        }}
+        {{ $t('I have a company and want to receive an invoice for every order') }}
       </base-checkbox>
 
       <template v-if="addCompany">
@@ -161,14 +153,10 @@
           :placeholder="$t('Company name *')"
           v-model.trim="userCompany.company"
           @input="$v.userCompany.company.$touch()"
-          :validations="[
-            {
-              condition:
-                !$v.userCompany.company.required &&
-                $v.userCompany.company.$error,
-              text: $t('Field is required')
-            }
-          ]"
+          :validations="[{
+            condition: !$v.userCompany.company.required && $v.userCompany.company.$error,
+            text: $t('Field is required')
+          }]"
         />
 
         <base-input
@@ -179,13 +167,10 @@
           :placeholder="$t('Street name *')"
           v-model.trim="userCompany.street"
           @input="$v.userCompany.street.$touch()"
-          :validations="[
-            {
-              condition:
-                !$v.userCompany.street.required && $v.userCompany.street.$error,
-              text: $t('Field is required')
-            }
-          ]"
+          :validations="[{
+            condition: !$v.userCompany.street.required && $v.userCompany.street.$error,
+            text: $t('Field is required')
+          }]"
         />
 
         <base-input
@@ -196,13 +181,10 @@
           :placeholder="$t('House/Apartment number *')"
           v-model.trim="userCompany.house"
           @input="$v.userCompany.house.$touch()"
-          :validations="[
-            {
-              condition:
-                !$v.userCompany.house.required && $v.userCompany.house.$error,
-              text: $t('Field is required')
-            }
-          ]"
+          :validations="[{
+            condition: !$v.userCompany.house.required && $v.userCompany.house.$error,
+            text: $t('Field is required')
+          }]"
         />
 
         <base-input
@@ -213,13 +195,10 @@
           :placeholder="$t('City *')"
           v-model.trim="userCompany.city"
           @input="$v.userCompany.city.$touch()"
-          :validations="[
-            {
-              condition:
-                !$v.userCompany.city.required && $v.userCompany.city.$error,
-              text: $t('Field is required')
-            }
-          ]"
+          :validations="[{
+            condition: !$v.userCompany.city.required && $v.userCompany.city.$error,
+            text: $t('Field is required')
+          }]"
         />
 
         <base-input
@@ -241,9 +220,7 @@
           @input="$v.userCompany.postcode.$touch()"
           :validations="[
             {
-              condition:
-                !$v.userCompany.postcode.required &&
-                $v.userCompany.postcode.$error,
+              condition: !$v.userCompany.postcode.required && $v.userCompany.postcode.$error,
               text: $t('Field is required')
             },
             {
@@ -261,9 +238,7 @@
           :placeholder="$t('Country *')"
           :validations="[
             {
-              condition:
-                $v.userCompany.country.$error &&
-                !$v.userCompany.country.required,
+              condition: $v.userCompany.country.$error && !$v.userCompany.country.required,
               text: $t('Field is required')
             }
           ]"
@@ -283,8 +258,7 @@
           @input="$v.userCompany.taxId.$touch()"
           :validations="[
             {
-              condition:
-                !$v.userCompany.taxId.required && $v.userCompany.taxId.$error,
+              condition: !$v.userCompany.taxId.required && $v.userCompany.taxId.$error,
               text: $t('Field is required')
             },
             {
@@ -302,6 +276,7 @@
           :placeholder="$t('Phone Number')"
           v-model.trim="userCompany.phone"
         />
+
       </template>
 
       <div class="col-xs-12 col-sm-6">
@@ -322,7 +297,9 @@
     <!-- My profile summary -->
     <div class="row fs16 mb35" v-else>
       <div class="col-xs-12 h4">
-        <p>{{ currentUser.firstname }} {{ currentUser.lastname }}</p>
+        <p>
+          {{ currentUser.firstname }} {{ currentUser.lastname }}
+        </p>
         <p>
           {{ currentUser.email }}
         </p>
@@ -333,11 +310,7 @@
           v-model="addCompany"
           disabled
         >
-          {{
-            $t(
-              'I have a company and want to receive an invoice for every order'
-            )
-          }}
+          {{ $t('I have a company and want to receive an invoice for every order') }}
         </base-checkbox>
         <template v-if="addCompany">
           <p class="mb25">
@@ -349,7 +322,9 @@
               {{ userCompany.house }}
             </span>
           </p>
-          <p class="mb25">{{ userCompany.city }} {{ userCompany.postcode }}</p>
+          <p class="mb25">
+            {{ userCompany.city }} {{ userCompany.postcode }}
+          </p>
           <p class="mb25">
             <span v-if="userCompany.region">{{ userCompany.region }}, </span>
             <span>
@@ -372,14 +347,14 @@
 </template>
 
 <script>
-import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
-import MyProfile from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyProfile';
+import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
+import MyProfile from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyProfile'
 
-import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox';
-import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect';
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput';
-import ButtonFull from 'theme/components/theme/ButtonFull';
-import Tooltip from 'theme/components/core/Tooltip';
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
   components: {
@@ -391,29 +366,25 @@ export default {
   },
   mixins: [MyProfile],
   computed: {
-    countryOptions() {
-      return this.countries.map(item => {
+    countryOptions () {
+      return this.countries.map((item) => {
         return {
           value: item.code,
           label: item.name
-        };
-      });
+        }
+      })
     }
   },
   methods: {
-    checkValidation() {
+    checkValidation () {
       if (this.changePassword && this.addCompany) {
-        return this.$v.$invalid;
+        return this.$v.$invalid
       } else if (this.changePassword && !this.addCompany) {
-        return (
-          this.$v.currentUser.$invalid ||
-          this.$v.password.$invalid ||
-          this.$v.rPassword.$invalid
-        );
+        return this.$v.currentUser.$invalid || this.$v.password.$invalid || this.$v.rPassword.$invalid
       } else if (!this.changePassword && this.addCompany) {
-        return this.$v.currentUser.$invalid || this.$v.userCompany.$invalid;
+        return this.$v.currentUser.$invalid || this.$v.userCompany.$invalid
       } else {
-        return this.$v.currentUser.$invalid;
+        return this.$v.currentUser.$invalid
       }
     }
   },
@@ -467,5 +438,5 @@ export default {
       }
     }
   }
-};
+}
 </script>

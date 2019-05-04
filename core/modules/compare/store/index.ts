@@ -1,9 +1,9 @@
-import { Module } from 'vuex';
-import actions from './actions';
-import getters from './getters';
-import mutations from './mutations';
-import RootState from '@vue-storefront/core/types/RootState';
-import CompareState from '../types/CompareState';
+import { Module } from 'vuex'
+import actions from './actions'
+import getters from './getters'
+import mutations from './mutations'
+import RootState from "@vue-storefront/core/types/RootState"
+import CompareState from '../types/CompareState'
 
 export const module: Module<CompareState, RootState> = {
   namespaced: true,
@@ -14,4 +14,4 @@ export const module: Module<CompareState, RootState> = {
   getters,
   actions,
   mutations
-};
+}

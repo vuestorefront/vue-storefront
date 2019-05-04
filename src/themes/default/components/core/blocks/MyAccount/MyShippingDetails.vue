@@ -2,7 +2,7 @@
   <div class="mb35">
     <!-- My shipping details header -->
     <div class="row mb15">
-      <div class="col-xs-12 col-sm-6" :class="{ 'cl-accent': !isEdited }">
+      <div class="col-xs-12 col-sm-6" :class="{ 'cl-accent' : !isEdited }">
         <h3 class="m0 mb5">
           {{ $t('My shipping details') }}
         </h3>
@@ -32,9 +32,7 @@
           @input="$v.shippingDetails.firstName.$touch()"
           :validations="[
             {
-              condition:
-                !$v.shippingDetails.firstName.required &&
-                $v.shippingDetails.firstName.$error,
+              condition: !$v.shippingDetails.firstName.required && $v.shippingDetails.firstName.$error,
               text: $t('Field is required')
             },
             {
@@ -52,14 +50,10 @@
           :placeholder="`${$t('Last name')} *`"
           v-model.trim="shippingDetails.lastName"
           @input="$v.shippingDetails.lastName.$touch()"
-          :validations="[
-            {
-              condition:
-                !$v.shippingDetails.lastName.required &&
-                $v.shippingDetails.lastName.$error,
-              text: $t('Field is required')
-            }
-          ]"
+          :validations="[{
+            condition: !$v.shippingDetails.lastName.required && $v.shippingDetails.lastName.$error,
+            text: $t('Field is required')
+          }]"
         />
 
         <base-checkbox
@@ -80,14 +74,10 @@
           :placeholder="`${$t('Street name')} *`"
           v-model.trim="shippingDetails.street"
           @input="$v.shippingDetails.street.$touch()"
-          :validations="[
-            {
-              condition:
-                !$v.shippingDetails.street.required &&
-                $v.shippingDetails.street.$error,
-              text: $t('Field is required')
-            }
-          ]"
+          :validations="[{
+            condition: !$v.shippingDetails.street.required && $v.shippingDetails.street.$error,
+            text: $t('Field is required')
+          }]"
         />
 
         <base-input
@@ -98,14 +88,10 @@
           :placeholder="`${$t('House/Apartment number')} *`"
           v-model.trim="shippingDetails.house"
           @input="$v.shippingDetails.house.$touch()"
-          :validations="[
-            {
-              condition:
-                !$v.shippingDetails.house.required &&
-                $v.shippingDetails.house.$error,
-              text: $t('Field is required')
-            }
-          ]"
+          :validations="[{
+            condition: !$v.shippingDetails.house.required && $v.shippingDetails.house.$error,
+            text: $t('Field is required')
+          }]"
         />
 
         <base-input
@@ -116,14 +102,10 @@
           :placeholder="`${$t('City')} *`"
           v-model.trim="shippingDetails.city"
           @input="$v.shippingDetails.city.$touch()"
-          :validations="[
-            {
-              condition:
-                !$v.shippingDetails.city.required &&
-                $v.shippingDetails.city.$error,
-              text: $t('Field is required')
-            }
-          ]"
+          :validations="[{
+            condition: !$v.shippingDetails.city.required && $v.shippingDetails.city.$error,
+            text: $t('Field is required')
+          }]"
         />
 
         <base-input
@@ -145,9 +127,7 @@
           @input="$v.shippingDetails.postcode.$touch()"
           :validations="[
             {
-              condition:
-                !$v.shippingDetails.postcode.required &&
-                $v.shippingDetails.postcode.$error,
+              condition: !$v.shippingDetails.postcode.required && $v.shippingDetails.postcode.$error,
               text: $t('Field is required')
             },
             {
@@ -165,9 +145,7 @@
           :placeholder="$t('Country *')"
           :validations="[
             {
-              condition:
-                $v.shippingDetails.country.$error &&
-                !$v.shippingDetails.country.required,
+              condition: $v.shippingDetails.country.$error && !$v.shippingDetails.country.required,
               text: $t('Field is required')
             }
           ]"
@@ -186,10 +164,13 @@
           v-model.trim="shippingDetails.phone"
         />
 
-        <div class="hidden-xs col-sm-6 mb25" />
+        <div class="hidden-xs col-sm-6 mb25"/>
 
         <div class="col-xs-12 col-sm-6">
-          <button-full @click.native="updateDetails" :disabled="$v.$invalid">
+          <button-full
+            @click.native="updateDetails"
+            :disabled="$v.$invalid"
+          >
             {{ $t('Update my shipping details') }}
           </button-full>
         </div>
@@ -204,7 +185,9 @@
     <!-- My shipping details summary -->
     <div class="row fs16 mb35" v-else>
       <div class="col-xs-12 h4">
-        <p>{{ shippingDetails.firstName }} {{ shippingDetails.lastName }}</p>
+        <p>
+          {{ shippingDetails.firstName }} {{ shippingDetails.lastName }}
+        </p>
         <base-checkbox
           v-if="useCompanyAddress"
           class="col-xs-12 mb25"
@@ -225,9 +208,7 @@
           {{ shippingDetails.city }} {{ shippingDetails.postcode }}
         </p>
         <p class="mb25">
-          <span v-if="shippingDetails.region"
-            >{{ shippingDetails.region }},
-          </span>
+          <span v-if="shippingDetails.region">{{ shippingDetails.region }}, </span>
           {{ getCountryName() }}
         </p>
         <div class="mb25">
@@ -242,14 +223,14 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
-import MyShippingDetails from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyShippingDetails';
+import { required, minLength } from 'vuelidate/lib/validators'
+import MyShippingDetails from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyShippingDetails'
 
-import ButtonFull from 'theme/components/theme/ButtonFull';
-import Tooltip from 'theme/components/core/Tooltip';
-import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox';
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput';
-import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect';
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import Tooltip from 'theme/components/core/Tooltip'
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 
 export default {
   components: {
@@ -261,13 +242,13 @@ export default {
   },
   mixins: [MyShippingDetails],
   computed: {
-    countryOptions() {
-      return this.countries.map(item => {
+    countryOptions () {
+      return this.countries.map((item) => {
         return {
           value: item.code,
           label: item.name
-        };
-      });
+        }
+      })
     }
   },
   validations: {
@@ -297,5 +278,5 @@ export default {
       }
     }
   }
-};
+}
 </script>

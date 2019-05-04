@@ -1,9 +1,14 @@
 <template>
-  <products-slider :products="products" :config="sliderConfig" :title="title" />
+  <products-slider
+    :products="products"
+    :config="sliderConfig"
+    :title="title"
+  />
 </template>
 <script>
-import ProductsSlider from 'theme/components/core/ProductsSlider';
-import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common';
+
+import ProductsSlider from 'theme/components/core/ProductsSlider'
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 
 export default {
   name: 'Collection',
@@ -21,7 +26,7 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       products: [],
       sliderConfig: {
@@ -30,30 +35,30 @@ export default {
         paginationEnabled: false,
         loop: true
       }
-    };
+    }
   },
   computed: {
     currentIndex: {
       cache: false,
-      get() {
-        return this.$refs.carousel ? this.$refs.carousel.currentPage : 0;
+      get () {
+        return this.$refs.carousel ? this.$refs.carousel.currentPage : 0
       }
     }
   },
-  async beforeMount() {
-    let inspirationsQuery = prepareQuery({ queryConfig: 'inspirations' });
+  async beforeMount () {
+    let inspirationsQuery = prepareQuery({queryConfig: 'inspirations'})
 
     const res = await this.$store.dispatch('product/list', {
       query: inspirationsQuery,
       size: 12,
       sort: 'created_at:desc'
-    });
+    })
     if (res) {
-      this.products = res.items;
+      this.products = res.items
     }
   },
   components: {
     ProductsSlider
   }
-};
+}
 </script>

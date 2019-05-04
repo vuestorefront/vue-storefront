@@ -11,9 +11,7 @@
       {{ $t('Log in') }}
     </header>
     <div v-if="hasRedirect" class="pt10 pb10 px65 redirect-error">
-      <p class="h5 mb0 mt0">
-        {{ $t('You need to be logged in to see this page') }}
-      </p>
+      <p class="h5 mb0 mt0">{{ $t('You need to be logged in to see this page') }}</p>
     </div>
     <div class="modal-content pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="login" novalidate>
@@ -43,12 +41,10 @@
           v-model="password"
           @blur="$v.password.$touch()"
           :placeholder="$t('Password *')"
-          :validations="[
-            {
-              condition: !$v.password.required && $v.password.$error,
-              text: $t('Field is required.')
-            }
-          ]"
+          :validations="[{
+            condition: !$v.password.required && $v.password.$error,
+            text: $t('Field is required.')
+          }]"
         />
         <div class="row">
           <base-checkbox
@@ -79,12 +75,12 @@
 </template>
 
 <script>
-import Login from '@vue-storefront/core/compatibility/components/blocks/Auth/Login';
+import Login from '@vue-storefront/core/compatibility/components/blocks/Auth/Login'
 
-import ButtonFull from 'theme/components/theme/ButtonFull.vue';
-import BaseCheckbox from '../Form/BaseCheckbox.vue';
-import BaseInput from '../Form/BaseInput.vue';
-import { required, email } from 'vuelidate/lib/validators';
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import BaseCheckbox from '../Form/BaseCheckbox.vue'
+import BaseInput from '../Form/BaseInput.vue'
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   mixins: [Login],
@@ -97,54 +93,52 @@ export default {
       required
     }
   },
-  data() {
+  data () {
     return {
       hasRedirect: !!localStorage.getItem('redirect')
-    };
+    }
   },
   methods: {
-    close(e) {
-      if (e) localStorage.removeItem('redirect');
-      this.$bus.$emit('modal-hide', 'modal-signup');
+    close (e) {
+      if (e) localStorage.removeItem('redirect')
+      this.$bus.$emit('modal-hide', 'modal-signup')
     },
-    login() {
+    login () {
       if (this.$v.$invalid) {
-        this.$v.$touch();
+        this.$v.$touch()
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: this.$t('Please fix the validation errors'),
           action1: { label: this.$t('OK') }
-        });
-        return;
+        })
+        return
       }
-      this.callLogin();
+      this.callLogin()
     },
-    remindPassword() {
+    remindPassword () {
       if (!(typeof navigator !== 'undefined' && navigator.onLine)) {
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
-          message: this.$t(
-            'Reset password feature does not work while offline!'
-          ),
+          message: this.$t('Reset password feature does not work while offline!'),
           action1: { label: this.$t('OK') }
-        });
+        })
       } else {
-        this.callForgotPassword();
+        this.callForgotPassword()
       }
     },
-    onSuccess() {
+    onSuccess () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
         message: this.$t('You are logged in!'),
         action1: { label: this.$t('OK') }
-      });
+      })
     },
-    onFailure(result) {
+    onFailure (result) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: this.$t(result.result),
         action1: { label: this.$t('OK') }
-      });
+      })
     }
   },
   components: {
@@ -152,7 +146,7 @@ export default {
     BaseCheckbox,
     BaseInput
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -161,14 +155,14 @@ export default {
 $color-error: color(error);
 $white: color(white);
 
-.modal-content {
-  @media (max-width: 400px) {
-    padding-left: 20px;
-    padding-right: 20px;
+  .modal-content {
+    @media (max-width: 400px) {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
   }
-}
-.redirect-error {
-  background-color: $color-error;
-  color: $white;
-}
+  .redirect-error {
+    background-color: $color-error;
+    color: $white;
+  }
 </style>

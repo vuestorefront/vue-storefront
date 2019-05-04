@@ -1,7 +1,7 @@
-import { isServer } from '@vue-storefront/core/helpers';
+import { isServer } from '@vue-storefront/core/helpers'
 
 export default {
-  data() {
+  data () {
     return {
       productPageRoutes: [
         'product',
@@ -14,33 +14,33 @@ export default {
       ],
       isProductPage: false,
       isCheckoutPage: false
-    };
+    }
   },
   watch: {
-    '$route.name': function() {
-      this.setCurrentPage();
+    '$route.name': function () {
+      this.setCurrentPage()
     }
   },
   computed: {
-    canGoBack() {
-      return !this.isHistoryEmpty() && this.isProductPage;
+    canGoBack () {
+      return !this.isHistoryEmpty() && this.isProductPage
     }
   },
-  created() {
-    this.setCurrentPage();
+  created () {
+    this.setCurrentPage()
   },
   methods: {
-    setCurrentPage() {
-      this.isProductPage = this.productPageRoutes.includes(this.$route.name);
-      this.isCheckoutPage = this.$route.name === 'checkout';
+    setCurrentPage () {
+      this.isProductPage = this.productPageRoutes.includes(this.$route.name)
+      this.isCheckoutPage = this.$route.name === 'checkout'
     },
     // Check if history is empty
-    isHistoryEmpty() {
+    isHistoryEmpty () {
       if (!isServer) {
-        return window.history.length <= 1;
+        return window.history.length <= 1
       }
 
-      return false;
+      return false
     }
   }
-};
+}

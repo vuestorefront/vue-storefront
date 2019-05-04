@@ -1,6 +1,6 @@
-import { Module } from 'vuex';
-import NotificationItem from '../types/NotificationItem';
-import NotificationState from '../types/NotificationState';
+import { Module } from 'vuex'
+import NotificationItem from '../types/NotificationItem'
+import NotificationState from '../types/NotificationState'
 
 export const module: Module<NotificationState, any> = {
   namespaced: true,
@@ -11,38 +11,33 @@ export const module: Module<NotificationState, any> = {
     notifications: state => state.notifications
   },
   mutations: {
-    add(state, payload) {
-      state.notifications.push(payload);
+    add (state, payload) {
+      state.notifications.push(payload)
     },
-    remove(state, index) {
-      state.notifications.splice(index, 1);
+    remove (state, index) {
+      state.notifications.splice(index, 1)
     }
   },
   actions: {
-    spawnNotification(
-      { commit, state, dispatch },
-      notification: NotificationItem
-    ) {
-      if (
-        state.notifications.length > 0 &&
-        state.notifications[state.notifications.length - 1].message ===
-          notification.message
+    spawnNotification ({ commit, state, dispatch }, notification: NotificationItem) {
+      if (state.notifications.length > 0
+        && state.notifications[state.notifications.length - 1].message === notification.message
       ) {
-        return;
+        return
       }
-      commit('add', notification);
+      commit('add', notification)
       if (!notification.hasNoTimeout) {
         setTimeout(() => {
-          dispatch('removeNotification');
-        }, notification.timeToLive || 5000);
+          dispatch('removeNotification')
+        }, notification.timeToLive || 5000)
       }
     },
-    removeNotification({ commit, state }, index?: number) {
+    removeNotification ({ commit, state }, index?: number) {
       if (!index) {
-        commit('remove', state.notifications.length - 1);
+        commit('remove', state.notifications.length - 1)
       } else {
-        commit('remove', index);
+        commit('remove', index)
       }
     }
   }
-};
+}

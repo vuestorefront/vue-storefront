@@ -1,4 +1,4 @@
-import VueOffline from 'vue-offline';
+import VueOffline from 'vue-offline'
 
 export const ProductGallery = {
   name: 'ProductGallery',
@@ -23,5 +23,6 @@ export const ProductGallery = {
       required: true
     }
   },
-  computed: {}
-};
+  computed: {
+  }
+}

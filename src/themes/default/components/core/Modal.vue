@@ -1,17 +1,15 @@
 <template>
   <transition name="fade-in-down">
-    <div class="modal" v-if="isVisible" ref="modal" @click.self="close">
+    <div
+      class="modal"
+      v-if="isVisible"
+      ref="modal"
+      @click.self="close"
+    >
       <div class="modal-wrapper">
         <div class="modal-center">
-          <div
-            class="modal-container bg-cl-primary"
-            ref="modal-content"
-            :style="style"
-          >
-            <header
-              class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary"
-              v-if="$slots.header"
-            >
+          <div class="modal-container bg-cl-primary" ref="modal-content" :style="style">
+            <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary" v-if="$slots.header">
               <i
                 slot="close"
                 class="modal-close material-icons p15 cl-bg-tertiary"
@@ -20,12 +18,12 @@
               >
                 close
               </i>
-              <slot name="header" />
+              <slot name="header"/>
             </header>
             <div class="modal-content pt30 pb60 px65" v-if="$slots.content">
-              <slot name="content" />
+              <slot name="content"/>
             </div>
-            <slot />
+            <slot/>
           </div>
         </div>
       </div>
@@ -34,52 +32,52 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
-import onEscapePress from '@vue-storefront/core/mixins/onEscapePress';
+import { mapMutations } from 'vuex'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 
 export default {
   name: 'Modal',
-  data() {
+  data () {
     return {
       isVisible: false
-    };
-  },
-  methods: {
-    onHide(name, state, params) {
-      return name === this.name ? this.toggle(false) : false;
-    },
-    onShow(name, state, params) {
-      return name === this.name ? this.toggle(true) : false;
-    },
-    onToggle(name, state, params) {
-      if (name === this.name) {
-        state = typeof state === 'undefined' ? !this.isVisible : state;
-        this.toggle(state);
-      }
-    },
-    onEscapePress() {
-      this.close();
-    },
-    ...mapMutations('ui', ['setOverlay']),
-    toggle(state) {
-      this.isVisible = state;
-      state
-        ? this.setOverlay(state)
-        : setTimeout(() => this.setOverlay(state), this.delay);
-    },
-    close() {
-      this.toggle(false);
     }
   },
-  beforeMount() {
-    this.$bus.$on('modal-toggle', this.onToggle);
-    this.$bus.$on('modal-show', this.onShow);
-    this.$bus.$on('modal-hide', this.onHide);
+  methods: {
+    onHide (name, state, params) {
+      return name === this.name ? this.toggle(false) : false
+    },
+    onShow (name, state, params) {
+      return name === this.name ? this.toggle(true) : false
+    },
+    onToggle (name, state, params) {
+      if (name === this.name) {
+        state = typeof state === 'undefined' ? !this.isVisible : state
+        this.toggle(state)
+      }
+    },
+    onEscapePress () {
+      this.close()
+    },
+    ...mapMutations('ui', [
+      'setOverlay'
+    ]),
+    toggle (state) {
+      this.isVisible = state
+      state ? this.setOverlay(state) : setTimeout(() => this.setOverlay(state), this.delay)
+    },
+    close () {
+      this.toggle(false)
+    }
   },
-  beforeDestroy() {
-    this.$bus.$off('modal-toggle', this.onToggle);
-    this.$bus.$off('modal-show', this.onShow);
-    this.$bus.$off('modal-hide', this.onHide);
+  beforeMount () {
+    this.$bus.$on('modal-toggle', this.onToggle)
+    this.$bus.$on('modal-show', this.onShow)
+    this.$bus.$on('modal-hide', this.onHide)
+  },
+  beforeDestroy () {
+    this.$bus.$off('modal-toggle', this.onToggle)
+    this.$bus.$off('modal-show', this.onShow)
+    this.$bus.$off('modal-hide', this.onHide)
   },
   mixins: [onEscapePress],
   props: {
@@ -98,11 +96,11 @@ export default {
     }
   },
   computed: {
-    style() {
-      return this.width ? `width: ${this.width}px` : false;
+    style () {
+      return this.width ? `width: ${this.width}px` : false
     }
   }
-};
+}
 </script>
 
 <style lang="scss">
@@ -137,7 +135,7 @@ $z-index-modal: map-get($z-index, modal);
     margin: 0 auto;
     max-width: 100%;
     max-height: 100%;
-    z-index: $z-index-modal + 1;
+    z-index: $z-index-modal+1;
     pointer-events: auto;
 
     @media (max-width: 600px) {
@@ -151,7 +149,7 @@ $z-index-modal: map-get($z-index, modal);
     position: relative;
 
     > * {
-      margin: 0;
+        margin: 0;
     }
 
     @media (max-width: 600px) {

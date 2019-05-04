@@ -6,7 +6,7 @@
          py10 w-100 border-box brdr-none brdr-bottom-1
          brdr-cl-primary h4 sans-serif
        "
-        :class="{ pr30: type === 'password', empty: value === '' }"
+        :class="{pr30: type === 'password', empty: value === ''}"
         :type="type === 'password' ? passType : type"
         :name="name"
         :autocomplete="autocomplete"
@@ -17,7 +17,7 @@
         @blur="$emit('blur')"
         @keyup.enter="$emit('keyup.enter', $event.target.value)"
         @keyup="$emit('keyup', $event)"
-      />
+      >
       <label>{{ placeholder }}</label>
     </div>
     <button
@@ -33,24 +33,24 @@
     >
       {{ icon }}
     </button>
-    <ValidationMessages v-if="validations" :validations="validations" />
+    <ValidationMessages v-if="validations" :validations="validations"/>
   </div>
 </template>
 
 <script>
-import ValidationMessages from './ValidationMessages.vue';
+import ValidationMessages from './ValidationMessages.vue'
 
 export default {
   name: 'BaseInput',
   components: {
     ValidationMessages
   },
-  data() {
+  data () {
     return {
       passType: 'password',
       iconActive: false,
       icon: 'visibility'
-    };
+    }
   },
   props: {
     type: {
@@ -92,83 +92,82 @@ export default {
     }
   },
   methods: {
-    togglePassType() {
+    togglePassType () {
       if (this.passType === 'password') {
-        this.passType = 'text';
-        this.icon = 'visibility_off';
+        this.passType = 'text'
+        this.icon = 'visibility_off'
       } else {
-        this.passType = 'password';
-        this.icon = 'visibility';
+        this.passType = 'password'
+        this.icon = 'visibility'
       }
     },
     // setFocus sets focus on a field which has a value of 'ref' tag equal to fieldName
-    setFocus(fieldName) {
+    setFocus (fieldName) {
       if (this.name === fieldName) {
-        this.$refs[this.name].focus();
+        this.$refs[this.name].focus()
       }
     }
   },
-  created() {
+  created () {
     if (this.type === 'password') {
-      this.iconActive = true;
+      this.iconActive = true
     }
   },
-  mounted() {
+  mounted () {
     if (this.focus) {
-      this.$refs[this.name].focus();
+      this.$refs[this.name].focus()
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$color-tertiary: color(tertiary);
-$color-black: color(black);
-$color-puerto-rico: color(puerto-rico);
-$color-hover: color(tertiary, $colors-background);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $color-tertiary: color(tertiary);
+  $color-black: color(black);
+  $color-puerto-rico: color(puerto-rico);
+  $color-hover: color(tertiary, $colors-background);
 
-input {
-  background: inherit;
+  input {
+    background: inherit;
 
-  &:hover,
-  &:focus {
-    outline: none;
-    border-color: $color-puerto-rico;
+    &:hover,
+    &:focus {
+      outline: none;
+      border-color: $color-puerto-rico;
+    }
+
+    &:disabled,
+    &:disabled + label {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+  label {
+    color:#999;
+    position:absolute;
+    pointer-events:none;
+    user-select: none;
+    left: 0;
+    top: 10px;
+    transition:0.2s ease all;
+    -moz-transition:0.2s ease all;
+    -webkit-transition:0.2s ease all;
+  }
+  input:focus ~ label, input:not(.empty) ~ label{
+    top: -10px;
+    font-size:14px;
+    color:$color-puerto-rico;
   }
 
-  &:disabled,
-  &:disabled + label {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
+  .icon {
+    right: 6px;
+    top: 10px;
+    &:hover,
+    &:focus {
+      color: $color-hover;
+    }
   }
-}
-label {
-  color: #999;
-  position: absolute;
-  pointer-events: none;
-  user-select: none;
-  left: 0;
-  top: 10px;
-  transition: 0.2s ease all;
-  -moz-transition: 0.2s ease all;
-  -webkit-transition: 0.2s ease all;
-}
-input:focus ~ label,
-input:not(.empty) ~ label {
-  top: -10px;
-  font-size: 14px;
-  color: $color-puerto-rico;
-}
-
-.icon {
-  right: 6px;
-  top: 10px;
-  &:hover,
-  &:focus {
-    color: $color-hover;
-  }
-}
 </style>

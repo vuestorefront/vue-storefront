@@ -1,3 +1,5 @@
+
+
 export const module = {
   namespaced: true,
   state: {
@@ -5,14 +7,14 @@ export const module = {
     current: null
   },
   mutations: {
-    set(state, payload) {
-      state.routes = payload.routes;
-      state.current = payload.current;
+    set (state, payload) {
+      state.routes = payload.routes
+      state.current = payload.current
     }
   },
   actions: {
-    set({ commit }, payload) {
-      commit('set', payload);
+    set ({ commit }, payload) {
+      commit('set', payload)
     }
   }
-};
+}

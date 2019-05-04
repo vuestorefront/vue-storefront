@@ -19,31 +19,31 @@ export const ProductVideo = {
       default: 0
     }
   },
-  data() {
+  data () {
     return {
       videoStarted: false,
       iframeLoaded: false
-    };
+    }
   },
   methods: {
-    initVideo() {
-      this.videoStarted = true;
-      this.$emit('video-started', this.index);
+    initVideo () {
+      this.videoStarted = true
+      this.$emit('video-started', this.index)
     },
-    iframeIsLoaded() {
-      this.iframeLoaded = true;
+    iframeIsLoaded () {
+      this.iframeLoaded = true
     }
   },
   computed: {
-    embedUrl() {
+    embedUrl () {
       switch (this.type) {
-        case 'youtube':
-          return `https://www.youtube.com/embed/${this.id}?autoplay=1`;
-        case 'vimeo':
-          return `https://player.vimeo.com/video/${this.id}?autoplay=1`;
+        case "youtube":
+          return `https://www.youtube.com/embed/${this.id}?autoplay=1`
+        case "vimeo":
+          return `https://player.vimeo.com/video/${this.id}?autoplay=1`
         default:
-          return;
+          return
       }
     }
   }
-};
+}

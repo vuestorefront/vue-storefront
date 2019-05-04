@@ -1,11 +1,7 @@
 <template>
   <section class="main-slider w-100 bg-cl-th-accent cl-white">
     <no-ssr>
-      <carousel
-        :per-page="1"
-        pagination-active-color="#ffffff"
-        pagination-color="#e0e0e0"
-      >
+      <carousel :per-page="1" pagination-active-color="#ffffff" pagination-color="#e0e0e0">
         <slide v-for="(slide, index) in slides" :key="index">
           <div class="container w-100" v-lazy:background-image="slide.image">
             <div class="row middle-xs center-xs">
@@ -16,10 +12,7 @@
                 >
                   {{ slide.subtitle }}
                 </p>
-                <h1
-                  class="title mt0 mb30 align-center"
-                  data-testid="mainSliderTitle"
-                >
+                <h1 class="title mt0 mb30 align-center" data-testid="mainSliderTitle">
                   {{ slide.title }}
                 </h1>
                 <div class="align-center inline-flex">
@@ -37,45 +30,46 @@
 </template>
 
 <script>
-import NoSSR from 'vue-no-ssr';
-import sliderData from 'theme/resource/slider.json';
-import ButtonOutline from 'theme/components/theme/ButtonOutline';
+import NoSSR from 'vue-no-ssr'
+import sliderData from 'theme/resource/slider.json'
+import ButtonOutline from 'theme/components/theme/ButtonOutline'
 
 export default {
-  data() {
+  data () {
     return {
       currentSlide: 1,
       slides: [],
       totalSlides: 1
-    };
+    }
   },
   components: {
     ButtonOutline,
-    Carousel: () => import('vue-carousel').then(Slider => Slider.Carousel),
-    Slide: () => import('vue-carousel').then(Slider => Slider.Slide),
+    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
+    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide),
     'no-ssr': NoSSR
   },
   methods: {
-    updateSliderData(data) {
-      this.slides = data.slides;
-      this.totalSlides = data.total;
+    updateSliderData (data) {
+      this.slides = data.slides
+      this.totalSlides = data.total
     }
   },
-  mounted() {
+  mounted () {
     setInterval(() => {
-      this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
-    }, 5000);
+      this.currentSlide = (this.currentSlide + 1) % (this.totalSlides)
+    }, 5000)
   },
-  created() {
-    this.updateSliderData(sliderData);
+  created () {
+    this.updateSliderData(sliderData)
   }
-};
+}
 </script>
 <style lang="scss">
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
 $color-white: color(white);
 .main-slider {
+
   @media (max-width: 767px) {
     display: none;
   }

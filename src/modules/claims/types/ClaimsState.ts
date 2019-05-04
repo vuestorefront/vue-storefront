@@ -1,1 +1,2 @@
-export default interface ClaimsState {}
+export default interface ClaimsState {
+}

@@ -2,12 +2,8 @@
   <div class="loader-container fixed" v-if="isVisible">
     <div class="loader-inner-container fixed">
       <div class="spinner relative">
-        <div
-          class="double-bounce1 absolute w-100 brdr-circle bg-cl-th-success"
-        />
-        <div
-          class="double-bounce2 absolute w-100 brdr-circle bg-cl-th-success"
-        />
+        <div class="double-bounce1 absolute w-100 brdr-circle bg-cl-th-success"/>
+        <div class="double-bounce2 absolute w-100 brdr-circle bg-cl-th-success"/>
       </div>
       <div
         class="loader-message-container mt15 py5 px15 align-center h6 cl-white"
@@ -20,36 +16,36 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 
 export default {
   name: 'Loader',
-  data() {
+  data () {
     return {
       message: null
-    };
+    }
   },
   methods: {
-    show(message = null) {
-      this.message = message;
-      this.$store.commit('ui/setLoader', true);
+    show (message = null) {
+      this.message = message
+      this.$store.commit('ui/setLoader', true)
     },
-    hide() {
-      this.$store.commit('ui/setLoader', false);
+    hide () {
+      this.$store.commit('ui/setLoader', false)
     }
   },
   computed: mapState({
     isVisible: state => state.ui.loader
   }),
-  beforeMount() {
-    this.$bus.$on('notification-progress-start', this.show);
-    this.$bus.$on('notification-progress-stop', this.hide);
+  beforeMount () {
+    this.$bus.$on('notification-progress-start', this.show)
+    this.$bus.$on('notification-progress-stop', this.hide)
   },
-  beforeDestroy() {
-    this.$bus.$off('notification-progress-start', this.show);
-    this.$bus.$off('notification-progress-stop', this.hide);
+  beforeDestroy () {
+    this.$bus.$off('notification-progress-start', this.show)
+    this.$bus.$off('notification-progress-stop', this.hide)
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

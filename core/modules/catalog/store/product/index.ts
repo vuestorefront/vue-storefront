@@ -1,9 +1,9 @@
-import { Module } from 'vuex';
-import actions from './actions';
-import getters from './getters';
-import mutations from './mutations';
-import RootState from '@vue-storefront/core/types/RootState';
-import ProductState from '../../types/ProductState';
+import { Module } from 'vuex'
+import actions from './actions'
+import getters from './getters'
+import mutations from './mutations'
+import RootState from '@vue-storefront/core/types/RootState'
+import ProductState from '../../types/ProductState'
 
 export const productModule: Module<ProductState, RootState> = {
   namespaced: true,
@@ -33,4 +33,4 @@ export const productModule: Module<ProductState, RootState> = {
   getters,
   actions,
   mutations
-};
+}

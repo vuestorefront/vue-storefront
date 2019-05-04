@@ -1,6 +1,6 @@
-import { productThumbnailPath } from '@vue-storefront/core/helpers';
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers';
+import { productThumbnailPath } from '@vue-storefront/core/helpers'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 
 export const ProductTile = {
   name: 'ProductTile',
@@ -10,33 +10,33 @@ export const ProductTile = {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       clicks: 0,
       placeholder: '/assets/placeholder.jpg'
-    };
+    }
   },
   computed: {
-    productLink() {
-      return formatProductLink(this.product, currentStoreView().storeCode);
-    },
-    thumbnail() {
+    productLink () {
+      return formatProductLink(this.product, currentStoreView().storeCode)
+    },  
+    thumbnail () {
       // todo: play with the image based on category page filters - eg. when 'red' color is chosen, the image is going to be 'red'
-      let thumbnail = productThumbnailPath(this.product);
-      return this.getThumbnail(thumbnail, 310, 300);
+      let thumbnail = productThumbnailPath(this.product)
+      return this.getThumbnail(thumbnail, 310, 300)
     },
-    thumbnailObj() {
+    thumbnailObj () {
       return {
         src: this.thumbnail,
         loading: this.placeholder,
         error: this.placeholder
-      };
+      }
     },
-    isOnSale() {
-      return this.product.sale === '1' ? 'sale' : '';
+    isOnSale () {
+      return this.product.sale === '1' ? 'sale' : ''
     },
-    isNew() {
-      return this.product.new === '1' ? 'new' : '';
+    isNew () {
+      return this.product.new === '1' ? 'new' : ''
     }
   }
-};
+}

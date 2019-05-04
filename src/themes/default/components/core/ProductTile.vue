@@ -10,12 +10,7 @@
     >
       <div
         class="product-image relative bg-cl-secondary"
-        :class="[
-          { sale: labelsActive && isOnSale },
-          { new: labelsActive && isNew },
-          { 'product-image--loaded': imageLoaded }
-        ]"
-      >
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }, {'product-image--loaded': imageLoaded}]">
         <img
           class="product-image__content"
           :alt="product.name"
@@ -24,7 +19,7 @@
           width="310"
           data-testid="productImage"
           @load="imageLoaded = true"
-        />
+        >
       </div>
 
       <p class="mb0 cl-accent mt10" v-if="!onlyImage">
@@ -33,33 +28,21 @@
 
       <span
         class="price-original mr5 lh30 cl-secondary"
-        v-if="
-          product.special_price &&
-            parseFloat(product.originalPriceInclTax) > 0 &&
-            !onlyImage
-        "
+        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0 && !onlyImage"
       >
         {{ product.originalPriceInclTax | price }}
       </span>
 
       <span
         class="price-special lh30 cl-accent weight-700"
-        v-if="
-          product.special_price &&
-            parseFloat(product.special_price) > 0 &&
-            !onlyImage
-        "
+        v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
       >
         {{ product.priceInclTax | price }}
       </span>
 
       <span
         class="lh30 cl-secondary"
-        v-if="
-          !product.special_price &&
-            parseFloat(product.priceInclTax) > 0 &&
-            !onlyImage
-        "
+        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0 && !onlyImage"
       >
         {{ product.priceInclTax | price }}
       </span>
@@ -68,16 +51,16 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/core/store';
-import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts';
-import { isServer } from '@vue-storefront/core/helpers';
+import rootStore from '@vue-storefront/core/store'
+import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
+import { isServer } from '@vue-storefront/core/helpers'
 
 export default {
   mixins: [ProductTile],
-  data() {
+  data () {
     return {
       imageLoaded: isServer
-    };
+    }
   },
   props: {
     labelsActive: {
@@ -90,45 +73,37 @@ export default {
     }
   },
   methods: {
-    onProductPriceUpdate(product) {
+    onProductPriceUpdate (product) {
       if (product.sku === this.product.sku) {
-        Object.assign(this.product, product);
+        Object.assign(this.product, product)
       }
     },
-    visibilityChanged(isVisible, entry) {
+    visibilityChanged (isVisible, entry) {
       if (isVisible) {
-        if (
-          rootStore.state.config.products
-            .configurableChildrenStockPrefetchDynamic &&
-          rootStore.products.filterUnavailableVariants
-        ) {
-          const skus = [this.product.sku];
-          if (
-            this.product.type_id === 'configurable' &&
-            this.product.configurable_children &&
-            this.product.configurable_children.length > 0
-          ) {
+        if (rootStore.state.config.products.configurableChildrenStockPrefetchDynamic && rootStore.products.filterUnavailableVariants) {
+          const skus = [this.product.sku]
+          if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
             for (const confChild of this.product.configurable_children) {
-              const cachedItem = rootStore.state.stock.cache[confChild.id];
+              const cachedItem = rootStore.state.stock.cache[confChild.id]
               if (typeof cachedItem === 'undefined' || cachedItem === null) {
-                skus.push(confChild.sku);
+                skus.push(confChild.sku)
               }
             }
             if (skus.length > 0) {
-              rootStore.dispatch('stock/list', { skus: skus }); // store it in the cache
+              rootStore.dispatch('stock/list', { skus: skus }) // store it in the cache
             }
           }
         }
       }
     }
   },
-  beforeMount() {
-    this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate);
+  beforeMount () {
+    this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate)
   },
-  beforeDestroy() {
-    this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate);
+  beforeDestroy () {
+    this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate)
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -220,7 +195,7 @@ $color-white: color(white);
     transform: scale(1);
     transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
 
-    &[lazy='loaded'] {
+    &[lazy="loaded"] {
       animation: products-loaded;
       animation-duration: 0.3s;
     }

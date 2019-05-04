@@ -1,14 +1,14 @@
 <template>
   <div
-    :class="['cms-content', { container: sync }]"
+    :class="['cms-content', { 'container': sync }]"
     v-if="data"
     v-html="data.content"
   />
 </template>
 
 <script>
-import store from '@vue-storefront/core/store';
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import store from '@vue-storefront/core/store'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   name: 'CmsData',
@@ -33,51 +33,50 @@ export default {
       required: false
     }
   },
-  created() {
-    this.$store.dispatch('cms/loadCms', {
-      url: this.getEndpointPath(),
-      type: this.type
-    });
+  created () {
+    this.$store.dispatch(
+      'cms/loadCms',
+      {
+        url: this.getEndpointPath(),
+        type: this.type
+      }
+    )
   },
   computed: {
-    data() {
+    data () {
       if (this.id) {
-        return this.$store.getters[`cms/get${this.type}`](this.id);
+        return this.$store.getters[`cms/get${this.type}`](this.id)
       } else {
-        return this.$store.getters[`cms/get${this.type}Identifier`](
-          this.identifier
-        );
+        return this.$store.getters[`cms/get${this.type}Identifier`](this.identifier)
       }
     },
-    currentStore() {
-      return currentStoreView();
+    currentStore () {
+      return currentStoreView()
     },
-    storeView() {
-      return this.isMultistoreEnable && this.currentStore
-        ? this.currentStore.storeId
-        : 1;
+    storeView () {
+      return (this.isMultistoreEnable && this.currentStore) ? this.currentStore.storeId : 1
     }
   },
-  data() {
+  data () {
     return {
       isMultistoreEnable: store.state.config.storeViews.multistore
-    };
+    }
   },
   methods: {
-    getEndpointPath() {
-      let url;
+    getEndpointPath () {
+      let url
       if (this.id) {
-        url = store.state.config.cms.endpoint
+        url = (store.state.config.cms.endpoint)
           .replace('{{type}}', this.type)
-          .replace('{{cmsId}}', this.id);
+          .replace('{{cmsId}}', this.id)
       } else if (this.identifier) {
-        url = store.state.config.cms.endpointIdentifier
+        url = (store.state.config.cms.endpointIdentifier)
           .replace('{{type}}', this.type)
           .replace('{{cmsIdentifier}}', this.identifier)
-          .replace('{{storeId}}', this.storeView);
+          .replace('{{storeId}}', this.storeView)
       }
-      return url;
+      return url
     }
   }
-};
+}
 </script>

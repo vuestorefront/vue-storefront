@@ -1,69 +1,61 @@
-'use strict';
+'use strict'
 
-const shell = require('shelljs');
-const jsonFile = require('jsonfile');
-const installer = require('./installer');
+const shell = require('shelljs')
+const jsonFile = require('jsonfile')
+const installer = require('./installer')
 
 class Manager extends installer.Manager {
   /**
    * {@inheritDoc}
    */
-  initBackend() {
+  initBackend () {
     if (Manager.isBackendInstalledLocally()) {
-      return this.backend
-        .goToDirectory(Manager.getBackendDirectory())
+      return this.backend.goToDirectory(Manager.getBackendDirectory())
         .then(this.backend.dockerComposeUp.bind(this.backend))
-        .then(this.backend.runDevEnvironment.bind(this.backend));
+        .then(this.backend.runDevEnvironment.bind(this.backend))
     } else {
-      return Promise.resolve();
+      return Promise.resolve()
     }
   }
 
   /**
    * {@inheritDoc}
    */
-  initStorefront() {
-    return this.storefront
-      .goToDirectory()
+  initStorefront () {
+    return this.storefront.goToDirectory()
       .then(this.storefront.npmBuild.bind(this.storefront))
-      .then(this.storefront.runDevEnvironment.bind(this.storefront));
+      .then(this.storefront.runDevEnvironment.bind(this.storefront))
   }
 
   /**
    * {@inheritDoc}
    */
-  static showWelcomeMessage() {
+  static showWelcomeMessage () {
     installer.Message.greeting([
       'Hi, seat, relax...',
-      "I'll start everything for you ;)"
-    ]);
+      'I\'ll start everything for you ;)'
+    ])
   }
 
   /**
    * {@inheritDoc}
    */
-  showGoodbyeMessage() {
+  showGoodbyeMessage () {
     return new Promise((resolve, reject) => {
-      installer.Message.greeting(
-        [
-          'Congratulations!',
-          '',
-          "You've just successfully started vue-storefront.",
-          'All required servers are running in the background',
-          '',
-          'Storefront: http://localhost:3000',
-          'Backend: ' +
-            (Manager.isBackendInstalledLocally()
-              ? 'http://localhost:8080'
-              : installer.STOREFRONT_REMOTE_BACKEND_URL),
-          '',
-          'Good Luck!'
-        ],
-        true
-      );
+      installer.Message.greeting([
+        'Congratulations!',
+        '',
+        'You\'ve just successfully started vue-storefront.',
+        'All required servers are running in the background',
+        '',
+        'Storefront: http://localhost:3000',
+        'Backend: ' + (Manager.isBackendInstalledLocally() ? 'http://localhost:8080' : installer.STOREFRONT_REMOTE_BACKEND_URL),
+        '',
+        'Good Luck!'
+      ], true)
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -71,16 +63,14 @@ class Manager extends installer.Manager {
    *
    * @returns {boolean}
    */
-  static isBackendInstalledLocally() {
+  static isBackendInstalledLocally () {
     if (typeof installer.Abstract.wasLocalBackendInstalled === 'undefined') {
-      let config = jsonFile.readFileSync(installer.TARGET_BACKEND_CONFIG_FILE);
+      let config = jsonFile.readFileSync(installer.TARGET_BACKEND_CONFIG_FILE)
 
-      installer.Abstract.wasLocalBackendInstalled = Boolean(
-        config.install.is_local_backend
-      );
+      installer.Abstract.wasLocalBackendInstalled = Boolean(config.install.is_local_backend)
     }
 
-    return Boolean(installer.Abstract.wasLocalBackendInstalled);
+    return Boolean(installer.Abstract.wasLocalBackendInstalled)
   }
 
   /**
@@ -88,41 +78,40 @@ class Manager extends installer.Manager {
    *
    * @returns {string}
    */
-  static getBackendDirectory() {
+  static getBackendDirectory () {
     if (typeof installer.Abstract.backendDir === 'undefined') {
-      let config = jsonFile.readFileSync(installer.TARGET_BACKEND_CONFIG_FILE);
+      let config = jsonFile.readFileSync(installer.TARGET_BACKEND_CONFIG_FILE)
 
-      installer.Abstract.backendDir = config.install.backend_dir;
+      installer.Abstract.backendDir = config.install.backend_dir
     }
 
-    return installer.Abstract.backendDir;
+    return installer.Abstract.backendDir
   }
 }
 
 /**
  * Predefine class static variables
  */
-installer.Abstract.wasLocalBackendInstalled = undefined;
-installer.Abstract.backendDir = undefined;
+installer.Abstract.wasLocalBackendInstalled = undefined
+installer.Abstract.backendDir = undefined
 
 /**
  * Pre-loading staff
  */
-Manager.checkUserOS();
+Manager.checkUserOS()
 Manager.showWelcomeMessage();
 
 /**
  * This is where all the magic happens
  */
-(async function() {
-  let manager = new Manager();
+(async function () {
+  let manager = new Manager()
 
-  await manager
-    .tryToCreateLogFiles()
+  await manager.tryToCreateLogFiles()
     .then(manager.initBackend.bind(manager))
     .then(manager.initStorefront.bind(manager))
     .then(manager.showGoodbyeMessage.bind(manager))
-    .catch(installer.Message.error);
+    .catch(installer.Message.error)
 
-  shell.exit(0);
-})();
+  shell.exit(0)
+})()

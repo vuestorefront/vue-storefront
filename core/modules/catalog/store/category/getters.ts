@@ -1,6 +1,6 @@
-import { GetterTree } from 'vuex';
-import RootState from '@vue-storefront/core/types/RootState';
-import CategoryState from '../../types/CategoryState';
+import { GetterTree } from 'vuex'
+import RootState from '@vue-storefront/core/types/RootState'
+import CategoryState from '../../types/CategoryState'
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCurrentCategory: state => state.current,
@@ -19,6 +19,6 @@ const getters: GetterTree<CategoryState, RootState> = {
    * @deprecated use getCategories instead
    */
   list: (state, getters) => getters.getCategories
-};
+}
 
-export default getters;
+export default getters

@@ -10,12 +10,15 @@
         {{ $t('Clear') }}
       </button>
     </h4>
-    <div v-for="(filter, filterIndex) in availableFilters" :key="filterIndex">
+    <div
+      v-for="(filter, filterIndex) in availableFilters"
+      :key="filterIndex"
+    >
       <h5>
         {{ $t(filterIndex + '_filter') }}
       </h5>
 
-      <div v-if="filterIndex === 'color'">
+      <div v-if="filterIndex==='color'">
         <color-selector
           context="category"
           code="color"
@@ -25,7 +28,7 @@
           :label="color.label"
         />
       </div>
-      <div v-else-if="filterIndex === 'size'">
+      <div v-else-if="filterIndex==='size'">
         <size-selector
           context="category"
           code="size"
@@ -36,7 +39,7 @@
           :label="size.label"
         />
       </div>
-      <div v-else-if="filterIndex === 'price'">
+      <div v-else-if="filterIndex==='price'">
         <price-selector
           context="category"
           class="price-select mb10 block"
@@ -79,12 +82,12 @@
 </template>
 
 <script>
-import Sidebar from '@vue-storefront/core/compatibility/components/blocks/Category/Sidebar';
+import Sidebar from '@vue-storefront/core/compatibility/components/blocks/Category/Sidebar'
 
-import ColorSelector from 'theme/components/core/ColorSelector';
-import SizeSelector from 'theme/components/core/SizeSelector';
-import PriceSelector from 'theme/components/core/PriceSelector';
-import GenericSelector from 'theme/components/core/GenericSelector';
+import ColorSelector from 'theme/components/core/ColorSelector'
+import SizeSelector from 'theme/components/core/SizeSelector'
+import PriceSelector from 'theme/components/core/PriceSelector'
+import GenericSelector from 'theme/components/core/GenericSelector'
 
 export default {
   components: {
@@ -94,7 +97,7 @@ export default {
     GenericSelector
   },
   mixins: [Sidebar]
-};
+}
 </script>
 
 <style lang="scss" scoped>

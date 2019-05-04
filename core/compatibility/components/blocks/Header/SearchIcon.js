@@ -1,4 +1,4 @@
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 
 export default {
   name: 'SearchIcon',
@@ -8,8 +8,8 @@ export default {
     })
   },
   methods: {
-    toggleSearchpanel() {
-      this.$store.commit('ui/setSearchpanel', !this.isOpen);
+    toggleSearchpanel () {
+      this.$store.commit('ui/setSearchpanel', !this.isOpen)
     }
   }
-};
+}

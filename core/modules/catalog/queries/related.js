@@ -1,24 +1,18 @@
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery';
-import store from '@vue-storefront/core/store';
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import store from '@vue-storefront/core/store'
 
-export function prepareRelatedQuery(key, sku) {
-  let relatedProductsQuery = new SearchQuery();
+export function prepareRelatedQuery (key, sku) {
+  let relatedProductsQuery = new SearchQuery()
 
-  relatedProductsQuery = relatedProductsQuery.applyFilter({
-    key: key,
-    value: { in: sku }
-  });
+  relatedProductsQuery = relatedProductsQuery.applyFilter({key: key, value: {'in': sku}})
 
   relatedProductsQuery = relatedProductsQuery
-    .applyFilter({ key: 'visibility', value: { in: [2, 3, 4] } })
-    .applyFilter({ key: 'status', value: { in: [1] } });
+    .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
+    .applyFilter({key: 'status', value: {'in': [1]}})
 
   if (store.state.config.products.listOutOfStockProducts === false) {
-    relatedProductsQuery = relatedProductsQuery.applyFilter({
-      key: 'stock.is_in_stock',
-      value: { eq: true }
-    });
+    relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
   }
 
-  return relatedProductsQuery;
+  return relatedProductsQuery
 }

@@ -11,13 +11,7 @@
       >
         <router-link
           class="px25 py20 cl-accent no-underline col-xs"
-          :to="
-            localizedRoute({
-              name: 'category',
-              fullPath: parentPath,
-              params: { id: id, slug: parentSlug }
-            })
-          "
+          :to="localizedRoute({ name: 'category', fullPath: parentPath, params: { id: id, slug: parentSlug }})"
           data-testid="categoryLink"
         >
           {{ $t('View all') }}
@@ -28,7 +22,10 @@
         :key="link.slug"
         v-for="link in children"
       >
-        <div v-if="isCurrentMenuShowed" class="subcategory-item">
+        <div
+          v-if="isCurrentMenuShowed"
+          class="subcategory-item"
+        >
           <sub-btn
             v-if="link.children_count > 0"
             class="bg-cl-transparent brdr-none fs-medium"
@@ -38,13 +35,7 @@
           <router-link
             v-else
             class="px25 py20 cl-accent no-underline col-xs"
-            :to="
-              localizedRoute({
-                name: 'category',
-                fullPath: link.url_path,
-                params: { id: link.id, slug: link.slug }
-              })
-            "
+            :to="localizedRoute({ name: 'category', fullPath: link.url_path, params: { id: link.id, slug: link.slug }})"
           >
             {{ link.name }}
           </router-link>
@@ -89,9 +80,9 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex';
-import SubBtn from './SubBtn.vue';
-import i18n from '@vue-storefront/i18n';
+import { mapState } from 'vuex'
+import SubBtn from './SubBtn.vue'
+import i18n from '@vue-storefront/i18n'
 
 export default {
   name: 'SubCategory',
@@ -125,74 +116,58 @@ export default {
     }
   },
   computed: {
-    children() {
-      if (
-        !this.$store.state.config.entities.category.categoriesDynamicPrefetch &&
-        (this.categoryLinks &&
-          this.categoryLinks.length > 0 &&
-          this.categoryLinks[0].name)
-      ) {
-        // we're using dynamic prefetching and getting just category.children_data.id from 1.7
-        return this.categoryLinks;
+    children () {
+      if (!this.$store.state.config.entities.category.categoriesDynamicPrefetch && (this.categoryLinks && this.categoryLinks.length > 0 && this.categoryLinks[0].name)) { // we're using dynamic prefetching and getting just category.children_data.id from 1.7
+        return this.categoryLinks
       } else {
-        return this.$store.state.category.list.filter(c => {
-          return c.parent_id === this.id;
-        }); // return my child categories
+        return this.$store.state.category.list.filter(c => { return c.parent_id === this.id }) // return my child categories
       }
     },
     ...mapState({
       submenu: state => state.ui.submenu,
       path: state => state.ui.submenu.path
     }),
-    getSubmenu() {
-      return this.submenu;
+    getSubmenu () {
+      return this.submenu
     },
-    styles() {
-      const pos = this.submenu.path.indexOf(this.id);
-      return pos !== -1
-        ? {
-            zIndex: pos + 1
-          }
-        : false;
+    styles () {
+      const pos = this.submenu.path.indexOf(this.id)
+      return pos !== -1 ? {
+        zIndex: pos + 1
+      } : false
     },
-    isCurrentMenuShowed() {
-      return (
-        this.getSubmenu &&
-        this.getSubmenu.depth &&
-        this.getSubmenu.path[this.getSubmenu.depth - 1] === this.id
-      );
+    isCurrentMenuShowed () {
+      return this.getSubmenu && this.getSubmenu.depth && this.getSubmenu.path[this.getSubmenu.depth - 1] === this.id
     }
   },
   methods: {
-    logout() {
-      this.$bus.$emit('user-before-logout');
-      this.$router.push(this.localizedRoute('/'));
+    logout () {
+      this.$bus.$emit('user-before-logout')
+      this.$router.push(this.localizedRoute('/'))
     },
-    notify(title) {
+    notify (title) {
       if (title === 'My loyalty card' || title === 'My product reviews') {
         this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
-          message: i18n.t(
-            'This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'
-          ),
+          message: i18n.t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
           action1: { label: i18n.t('OK') }
-        });
+        })
       }
     }
   }
-};
+}
 </script>
 
 <style scoped>
-.sidebar-submenu {
-  left: 0;
-  top: 0;
-  min-height: 100%;
-  transform: translateX(-100%);
-}
+  .sidebar-submenu {
+    left: 0;
+    top: 0;
+    min-height: 100%;
+    transform: translateX(-100%);
+  }
 
-.subcategory-item {
-  display: flex;
-  width: 100%;
-}
+  .subcategory-item {
+    display: flex;
+    width: 100%;
+  }
 </style>

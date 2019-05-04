@@ -36,23 +36,24 @@
 </template>
 
 <script>
-import MyNewsletter from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyNewsletter';
-import ButtonFull from 'theme/components/theme/ButtonFull.vue';
-import BaseCheckbox from '../Form/BaseCheckbox.vue';
+import MyNewsletter from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyNewsletter'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import BaseCheckbox from '../Form/BaseCheckbox.vue'
 
 export default {
   components: {
     ButtonFull,
     BaseCheckbox
   },
-  data() {
-    return {};
+  data () {
+    return {
+    }
   },
   methods: {
-    edit() {
-      this.$set(this.user, 'isSubscribed', !this.user.isSubscribed);
+    edit () {
+      this.$set(this.user, 'isSubscribed', !this.user.isSubscribed)
     }
   },
   mixins: [MyNewsletter]
-};
+}
 </script>

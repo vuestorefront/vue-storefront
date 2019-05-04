@@ -1,4 +1,5 @@
 <template>
+
   <div class="mb15 mt20 payment-cash-on-delivery-info-container">
     <h4 class="mt0">
       Payment Information
@@ -9,13 +10,14 @@
       </p>
     </div>
   </div>
+
 </template>
 
 <script>
 export default {
   name: 'PaymentCashOnDelivery',
-  data() {
-    return {};
+  data () {
+    return {}
   }
-};
+}
 </script>

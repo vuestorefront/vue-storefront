@@ -1,5 +1,5 @@
-import { mapGetters } from 'vuex';
-import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart';
+import { mapGetters } from 'vuex'
+import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart'
 
 export const CartSummary = {
   name: 'CartSummary',
@@ -10,4 +10,4 @@ export const CartSummary = {
       isVirtualCart: 'cart/isVirtualCart'
     })
   }
-};
+}

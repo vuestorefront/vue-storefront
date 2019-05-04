@@ -4,7 +4,7 @@
  */
 
 export default {
-  mounted() {
-    this.$store.dispatch('wishlist/load');
+  mounted () {
+    this.$store.dispatch('wishlist/load')
   }
-};
+}

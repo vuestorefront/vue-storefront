@@ -1,11 +1,11 @@
-import { createModule } from '@vue-storefront/core/lib/module';
-import { beforeRegistration } from './hooks/beforeRegistration';
-import { module } from './store';
+import { createModule } from '@vue-storefront/core/lib/module'
+import { beforeRegistration } from './hooks/beforeRegistration'
+import { module } from './store'
 
-const KEY = 'claims';
+const KEY = 'claims'
 
 export const Claims = createModule({
   key: KEY,
-  store: { modules: [{ key: KEY, module }] },
+  store: { modules: [{ key: KEY, module }]},
   beforeRegistration
-});
+}) 

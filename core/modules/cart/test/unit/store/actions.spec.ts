@@ -1,23 +1,23 @@
-import Vue from 'vue';
+import Vue from 'vue'
 
 import * as types from '../../../store/mutation-types';
 import cartActions from '../../../store/actions';
 import config from 'config';
 import rootStore from '@vue-storefront/core/store';
 import { sha3_224 } from 'js-sha3';
-import { TaskQueue } from '../../../../../lib/sync';
+import { TaskQueue } from "../../../../../lib/sync";
 import * as coreHelper from '@vue-storefront/core/helpers';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { onlineHelper } from '@vue-storefront/core/helpers';
 
-jest.mock('@vue-storefront/core/store', () => ({
+jest.mock('@vue-storefront/core/store',() => ({
   dispatch: jest.fn(),
   state: {}
 }));
 jest.mock('config', () => ({}));
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
-jest.mock('js-sha3', () => ({ sha3_224: jest.fn() }));
-jest.mock('@vue-storefront/core/lib/multistore', () => ({
+jest.mock('js-sha3',() => ({ sha3_224: jest.fn() }));
+jest.mock('@vue-storefront/core/lib/multistore',() => ({
   currentStoreView: jest.fn(),
   localizedRoute: jest.fn()
 }));
@@ -27,20 +27,18 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
     debug: jest.fn(() => () => {})
   }
 }));
-jest.mock('@vue-storefront/core/lib/sync', () => ({
-  TaskQueue: {
-    execute: jest.fn()
-  }
-}));
+jest.mock('@vue-storefront/core/lib/sync', () => ({ TaskQueue: {
+  execute: jest.fn()
+}}));
 jest.mock('@vue-storefront/core/app', () => ({ router: jest.fn() }));
 jest.mock('@vue-storefront/core/lib/search/searchQuery', () => jest.fn());
 jest.mock('@vue-storefront/core/helpers', () => ({
   get isServer() {
-    return true;
+    return true
   },
   onlineHelper: {
     get isOnline() {
-      return true;
+      return true
     }
   }
 }));
@@ -50,19 +48,14 @@ Vue.prototype.$bus = {
 };
 
 describe('Cart actions', () => {
-  const isServerSpy = jest.spyOn(
-    (coreHelper as any).default,
-    'isServer',
-    'get'
-  );
+
+  const isServerSpy = jest.spyOn((coreHelper as any).default, 'isServer', 'get');
   const isOnlineSpy = jest.spyOn(onlineHelper, 'isOnline', 'get');
 
   beforeEach(() => {
     jest.clearAllMocks();
     (rootStore as any).state = {};
-    Object.keys(config).forEach(function(key) {
-      delete config[key];
-    });
+    Object.keys(config).forEach(function(key) { delete config[key]; });
   });
 
   it('serverTokenClear clears cart token', () => {
@@ -73,10 +66,7 @@ describe('Cart actions', () => {
 
     wrapper(cartActions);
 
-    expect(contextMock.commit).toBeCalledWith(
-      types.CART_LOAD_CART_SERVER_TOKEN,
-      null
-    );
+    expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART_SERVER_TOKEN, null);
   });
 
   it('clear deletes all cart products and token', () => {
@@ -90,10 +80,7 @@ describe('Cart actions', () => {
     wrapper(cartActions);
 
     expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART, []);
-    expect(contextMock.commit).toBeCalledWith(
-      types.CART_LOAD_CART_SERVER_TOKEN,
-      null
-    );
+    expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART_SERVER_TOKEN, null);
   });
 
   it('clear dispatches creating a new cart on server with direct backend sync when its configured', () => {
@@ -109,9 +96,7 @@ describe('Cart actions', () => {
 
     wrapper(cartActions);
 
-    expect(contextMock.dispatch).toBeCalledWith('serverCreate', {
-      guestCart: false
-    });
+    expect(contextMock.dispatch).toBeCalledWith('serverCreate', { guestCart: false});
   });
 
   it('clear dispatches creating a new cart on server with queuing when direct backend sync is not configured', () => {
@@ -127,9 +112,7 @@ describe('Cart actions', () => {
 
     wrapper(cartActions);
 
-    expect(contextMock.dispatch).toBeCalledWith('serverCreate', {
-      guestCart: true
-    });
+    expect(contextMock.dispatch).toBeCalledWith('serverCreate', { guestCart: true});
   });
 
   it('save dispatches cart save mutation', () => {
@@ -144,6 +127,7 @@ describe('Cart actions', () => {
   });
 
   describe('serverPull', () => {
+
     it('pulls latest cart data and refreshes payment/shipping methods when there are products in cart', async () => {
       isOnlineSpy.mockReturnValueOnce(true);
       const contextMock = {
@@ -153,7 +137,7 @@ describe('Cart actions', () => {
           cartServerToken: 'some-token',
           cartItemsHash: 'some-sha-hash',
           cartServerPullAt: 1000000000,
-          cartServerMethodsRefreshAt: 0
+          cartServerMethodsRefreshAt: 0,
         }
       };
 
@@ -167,21 +151,19 @@ describe('Cart actions', () => {
       };
 
       const expectedState = {
-        cartItems: [{ sku: 'foo' }],
+        cartItems: [{sku: 'foo'}],
         cartServerToken: 'some-token',
         cartItemsHash: 'new-hash',
         cartServerPullAt: 1000003000,
-        cartServerMethodsRefreshAt: 1000003000
+        cartServerMethodsRefreshAt: 1000003000,
       };
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => expectedState.cartServerPullAt);
       (sha3_224 as any).mockReturnValueOnce(expectedState.cartItemsHash);
       (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => {
-        contextMock.state.cartItems = contextMock.state.cartItems.concat(
-          expectedState.cartItems
-        );
-        return Promise.resolve({});
+        contextMock.state.cartItems = contextMock.state.cartItems.concat(expectedState.cartItems);
+        return Promise.resolve({})
       });
 
       const wrapper = (actions: any) => actions.serverPull(contextMock, {});
@@ -190,9 +172,10 @@ describe('Cart actions', () => {
 
       expect(TaskQueue.execute).toBeCalled();
       expect(rootStore.dispatch).toBeCalledWith('cart/getPaymentMethods');
-      expect(rootStore.dispatch).toBeCalledWith('cart/getShippingMethods', {
-        country_id: rootStore.state.checkout.shippingDetails.country
-      });
+      expect(rootStore.dispatch).toBeCalledWith(
+        'cart/getShippingMethods',
+        { country_id: rootStore.state.checkout.shippingDetails.country }
+      );
       expect(contextMock.state).toEqual(expectedState);
     });
 
@@ -205,46 +188,43 @@ describe('Cart actions', () => {
           cartServerToken: 'some-token',
           cartItemsHash: 'some-sha-hash',
           cartServerPullAt: 1000000000,
-          cartServerMethodsRefreshAt: 0
+          cartServerMethodsRefreshAt: 0,
         }
       };
 
       config.cart = { synchronize: true };
       (rootStore as any).state = {
         checkout: {
-          shippingDetails: {}
+          shippingDetails: { }
         }
       };
 
       const expectedState = {
-        cartItems: [{ sku: 'foo' }],
+        cartItems: [{sku: 'foo'}],
         cartItemsHash: 'new-hash',
-        cartServerPullAt: 1000003000
+        cartServerPullAt: 1000003000,
       };
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => expectedState.cartServerPullAt);
       (sha3_224 as any).mockReturnValueOnce(expectedState.cartItemsHash);
       (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => {
-        contextMock.state.cartItems = contextMock.state.cartItems.concat(
-          expectedState.cartItems
-        );
-        return Promise.resolve({});
+        contextMock.state.cartItems = contextMock.state.cartItems.concat(expectedState.cartItems);
+        return Promise.resolve({})
       });
-      (currentStoreView as jest.Mock).mockReturnValueOnce({
-        tax: { defaultCountry: 'us' }
-      });
+      (currentStoreView as jest.Mock).mockReturnValueOnce({ tax: { defaultCountry: 'us' } });
 
       const wrapper = (actions: any) => actions.serverPull(contextMock, {});
 
       await wrapper(cartActions);
 
-      expect(rootStore.dispatch).toBeCalledWith('cart/getShippingMethods', {
-        country_id: 'us'
-      });
+      expect(rootStore.dispatch).toBeCalledWith(
+        'cart/getShippingMethods',
+        { country_id: 'us' }
+      );
     });
 
-    it("doesn't update shipping methods if cart is empty", async () => {
+    it('doesn\'t update shipping methods if cart is empty', async () => {
       const contextMock = {
         dispatch: jest.fn(),
         state: {
@@ -252,7 +232,7 @@ describe('Cart actions', () => {
           cartServerToken: 'some-token',
           cartItemsHash: 'some-sha-hash',
           cartServerPullAt: 1000000000,
-          cartServerMethodsRefreshAt: 0
+          cartServerMethodsRefreshAt: 0,
         }
       };
 
@@ -268,26 +248,25 @@ describe('Cart actions', () => {
       const expectedState = {
         cartItems: [],
         cartItemsHash: 'new-hash',
-        cartServerPullAt: 1000003000
+        cartServerPullAt: 1000003000,
       };
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => expectedState.cartServerPullAt);
       (sha3_224 as any).mockReturnValueOnce(expectedState.cartItemsHash);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
       const wrapper = (actions: any) => actions.serverPull(contextMock, {});
 
       await wrapper(cartActions);
 
-      expect(rootStore.dispatch).not.toBeCalledWith('cart/getShippingMethods', {
-        country_id: 'us'
-      });
+      expect(rootStore.dispatch).not.toBeCalledWith(
+        'cart/getShippingMethods',
+        { country_id: 'us' }
+      );
     });
 
-    it("doesn't update payment methods if they were synced recently", async () => {
+    it('doesn\'t update payment methods if they were synced recently', async () => {
       const contextMock = {
         dispatch: jest.fn(),
         state: {
@@ -295,7 +274,7 @@ describe('Cart actions', () => {
           cartServerToken: 'some-token',
           cartItemsHash: 'some-sha-hash',
           cartServerPullAt: 1000000000,
-          cartServerMethodsRefreshAt: 1000000000
+          cartServerMethodsRefreshAt: 1000000000,
         }
       };
 
@@ -304,15 +283,13 @@ describe('Cart actions', () => {
       const expectedState = {
         cartItems: [],
         cartItemsHash: 'new-hash',
-        cartServerPullAt: 1000003000
+        cartServerPullAt: 1000003000,
       };
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => expectedState.cartServerPullAt);
       (sha3_224 as any).mockReturnValueOnce(expectedState.cartItemsHash);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
       const wrapper = (actions: any) => actions.serverPull(contextMock, {});
 
@@ -321,7 +298,7 @@ describe('Cart actions', () => {
       expect(rootStore.dispatch).not.toBeCalled();
     });
 
-    it("doesn't update payment methods if they were synced recently", async () => {
+    it('doesn\'t update payment methods if they were synced recently', async () => {
       const contextMock = {
         dispatch: jest.fn(),
         state: {
@@ -329,7 +306,7 @@ describe('Cart actions', () => {
           cartServerToken: 'some-token',
           cartItemsHash: 'some-sha-hash',
           cartServerPullAt: 1000000000,
-          cartServerMethodsRefreshAt: 1000000000
+          cartServerMethodsRefreshAt: 1000000000,
         }
       };
 
@@ -338,15 +315,13 @@ describe('Cart actions', () => {
       const expectedState = {
         cartItems: [],
         cartItemsHash: 'new-hash',
-        cartServerPullAt: 1000003000
+        cartServerPullAt: 1000003000,
       };
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => expectedState.cartServerPullAt);
       (sha3_224 as any).mockReturnValueOnce(expectedState.cartItemsHash);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
       const wrapper = (actions: any) => actions.serverPull(contextMock, {});
 
@@ -355,43 +330,38 @@ describe('Cart actions', () => {
       expect(rootStore.dispatch).not.toBeCalled();
     });
 
-    it(
-      'pulls latest cart data and even when the cart was updated recently but the hash has changed' +
-        '(so cart items or token wer modified)',
-      () => {
-        const contextMock = {
-          dispatch: jest.fn(),
-          state: {
-            cartItems: [],
-            cartServerToken: 'some-token',
-            cartItemsHash: 'some-sha-hash',
-            cartServerPullAt: 1000000000,
-            cartServerMethodsRefreshAt: 1000000000
-          }
-        };
-
-        config.cart = { synchronize: true };
-
-        const expectedState = {
+    it('pulls latest cart data and even when the cart was updated recently but the hash has changed' +
+      '(so cart items or token wer modified)', () => {
+      const contextMock = {
+        dispatch: jest.fn(),
+        state: {
           cartItems: [],
-          cartItemsHash: 'new-hash',
-          cartServerPullAt: 1000000050
-        };
+          cartServerToken: 'some-token',
+          cartItemsHash: 'some-sha-hash',
+          cartServerPullAt: 1000000000,
+          cartServerMethodsRefreshAt: 1000000000,
+        }
+      };
 
-        isServerSpy.mockReturnValueOnce(false);
-        Date.now = jest.fn(() => expectedState.cartServerPullAt);
-        (sha3_224 as any).mockReturnValueOnce(expectedState.cartItemsHash);
-        (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-          Promise.resolve({})
-        );
+      config.cart = { synchronize: true };
 
-        const wrapper = (actions: any) => actions.serverPull(contextMock, {});
+      const expectedState = {
+        cartItems: [],
+        cartItemsHash: 'new-hash',
+        cartServerPullAt: 1000000050,
+      };
 
-        wrapper(cartActions);
+      isServerSpy.mockReturnValueOnce(false);
+      Date.now = jest.fn(() => expectedState.cartServerPullAt);
+      (sha3_224 as any).mockReturnValueOnce(expectedState.cartItemsHash);
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
-        expect(TaskQueue.execute).toBeCalled();
-      }
-    );
+      const wrapper = (actions: any) => actions.serverPull(contextMock, {});
+
+      wrapper(cartActions);
+
+      expect(TaskQueue.execute).toBeCalled();
+    });
 
     it('performs a cart update request with dry run and forcing client state if its configured to do so', () => {
       const contextMock = {
@@ -401,7 +371,7 @@ describe('Cart actions', () => {
           cartServerToken: 'some-token',
           cartItemsHash: 'some-sha-hash',
           cartServerPullAt: 1000000000,
-          cartServerMethodsRefreshAt: 1000000000
+          cartServerMethodsRefreshAt: 1000000000,
         }
       };
 
@@ -410,30 +380,22 @@ describe('Cart actions', () => {
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => 1000003000);
       (sha3_224 as any).mockReturnValueOnce(contextMock.state.cartItemsHash);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
-      const wrapper = (actions: any) =>
-        actions.serverPull(contextMock, {
-          forceClientState: true,
-          dryRun: true
-        });
+      const wrapper = (actions: any) => actions.serverPull(contextMock, { forceClientState: true, dryRun: true });
 
       wrapper(cartActions);
 
-      expect(TaskQueue.execute).toBeCalledWith(
-        expect.objectContaining({ dry_run: true, force_client_state: true })
-      );
+      expect(TaskQueue.execute).toBeCalledWith(expect.objectContaining({ dry_run: true, force_client_state: true, }));
     });
 
-    it("does not do anything if last cart sync was recently and the cart state hasn't been changed since then", () => {
+    it('does not do anything if last cart sync was recently and the cart state hasn\'t been changed since then', () => {
       const contextMock = {
         dispatch: jest.fn(),
         state: {
           cartServerToken: 'some-token',
           cartItemsHash: 'some-sha-hash',
-          cartServerPullAt: 1000000000
+          cartServerPullAt: 1000000000,
         }
       };
 
@@ -452,7 +414,7 @@ describe('Cart actions', () => {
 
     it('does not do anything if synchronization is off', () => {
       const contextMock = {
-        dispatch: jest.fn()
+        dispatch: jest.fn(),
       };
 
       config.cart = { synchronize: false };
@@ -480,11 +442,12 @@ describe('Cart actions', () => {
   });
 
   describe('serverTotals', () => {
+
     it('pulls latest totals from server', async () => {
       const contextMock = {
         state: {
           cartServerToken: 'some-token',
-          cartServerTotalsAt: 1000000000
+          cartServerTotalsAt: 1000000000,
         }
       };
 
@@ -492,9 +455,7 @@ describe('Cart actions', () => {
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => 1000003000);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
       const wrapper = (actions: any) => actions.serverTotals(contextMock, {});
 
@@ -503,11 +464,11 @@ describe('Cart actions', () => {
       expect(TaskQueue.execute).toBeCalled();
     });
 
-    it("pulls latest totals from server forcing client state if it's configured to do so", async () => {
+    it('pulls latest totals from server forcing client state if it\'s configured to do so', async () => {
       const contextMock = {
         state: {
           cartServerToken: 'some-token',
-          cartServerTotalsAt: 1000000000
+          cartServerTotalsAt: 1000000000,
         }
       };
 
@@ -515,25 +476,20 @@ describe('Cart actions', () => {
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => 1000003000);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
-      const wrapper = (actions: any) =>
-        actions.serverTotals(contextMock, { forceClientState: true });
+      const wrapper = (actions: any) => actions.serverTotals(contextMock, { forceClientState: true });
 
       await wrapper(cartActions);
 
-      expect(TaskQueue.execute).toBeCalledWith(
-        expect.objectContaining({ force_client_state: true })
-      );
+      expect(TaskQueue.execute).toBeCalledWith(expect.objectContaining({ force_client_state: true }))
     });
 
     it('does not do anything if last totals sync was done recently', () => {
       const contextMock = {
         state: {
           cartServerToken: 'some-token',
-          cartServerTotalsAt: 1000000000
+          cartServerTotalsAt: 1000000000,
         }
       };
 
@@ -579,10 +535,11 @@ describe('Cart actions', () => {
   });
 
   describe('serverCreate', () => {
+
     it('requests to backend for creation of a new cart', async () => {
       const contextMock = {
         state: {
-          cartServerCreatedAt: 1000000000
+          cartServerCreatedAt: 1000000000,
         }
       };
 
@@ -590,9 +547,7 @@ describe('Cart actions', () => {
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => 1000003000);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
       const wrapper = (actions: any) => actions.serverCreate(contextMock, {});
 
@@ -604,7 +559,7 @@ describe('Cart actions', () => {
     it('requests to backend for creation of guest cart', async () => {
       const contextMock = {
         state: {
-          cartServerCreatedAt: 1000000000
+          cartServerCreatedAt: 1000000000,
         }
       };
 
@@ -615,23 +570,18 @@ describe('Cart actions', () => {
 
       isServerSpy.mockReturnValueOnce(false);
       Date.now = jest.fn(() => 1000003000);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
-      const wrapper = (actions: any) =>
-        actions.serverCreate(contextMock, { guestCart: true });
+      const wrapper = (actions: any) => actions.serverCreate(contextMock, { guestCart: true });
 
       await wrapper(cartActions);
-      expect(TaskQueue.execute).toBeCalledWith(
-        expect.objectContaining({ url: 'http://example.url/guest-cart/' })
-      );
+      expect(TaskQueue.execute).toBeCalledWith(expect.objectContaining({ url: 'http://example.url/guest-cart/' }))
     });
 
     it('does not do anything if last totals sync was done recently', () => {
       const contextMock = {
         state: {
-          cartServerCreatedAt: 1000000000
+          cartServerCreatedAt: 1000000000,
         }
       };
 
@@ -673,12 +623,13 @@ describe('Cart actions', () => {
   });
 
   describe('serverUpdateItem', () => {
+
     it('sends an item update request to backend server and updates totals', async () => {
       const contextMock = {
         dispatch: jest.fn(),
         state: {
-          cartServerToken: 'SOME-TOKEN',
-          cartItems: [{ sku: '123' }]
+          cartServerToken: "SOME-TOKEN",
+          cartItems: [{sku: '123'}]
         }
       };
 
@@ -693,24 +644,21 @@ describe('Cart actions', () => {
       };
 
       isServerSpy.mockReturnValueOnce(false);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
-      const wrapper = (actions: any) =>
-        actions.serverUpdateItem(contextMock, cartItemMock);
+      const wrapper = (actions: any) => actions.serverUpdateItem(contextMock, cartItemMock);
 
       await wrapper(cartActions);
 
       expect(TaskQueue.execute).toBeCalled();
-      expect(contextMock.dispatch).toBeCalledWith('refreshTotals');
+      expect(contextMock.dispatch).toBeCalledWith('refreshTotals')
     });
 
     it('sends an item update request to backend server and sets its quoteId to cart token, if none has been set before', async () => {
       const contextMock = {
         dispatch: jest.fn(),
         state: {
-          cartServerToken: 'SOME-TOKEN'
+          cartServerToken: "SOME-TOKEN",
         }
       };
 
@@ -724,34 +672,29 @@ describe('Cart actions', () => {
       };
 
       isServerSpy.mockReturnValueOnce(false);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
-      const wrapper = (actions: any) =>
-        actions.serverUpdateItem(contextMock, cartItemMock);
+      const wrapper = (actions: any) => actions.serverUpdateItem(contextMock, cartItemMock);
 
       await wrapper(cartActions);
 
-      expect(TaskQueue.execute).toBeCalledWith(
-        expect.objectContaining({
-          payload: {
-            body: '{"cartItem":{"sku":"123","quoteId":"SOME-TOKEN"}}',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            mode: 'cors'
-          }
-        })
-      );
+      expect(TaskQueue.execute).toBeCalledWith(expect.objectContaining({
+        payload: {
+          body: '{"cartItem":{"sku":"123","quoteId":"SOME-TOKEN"}}',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          mode: 'cors'
+        }
+      }));
     });
 
-    it("sends an item update request but doesn't call refresh totals if the cart after update is empty", async () => {
+    it('sends an item update request but doesn\'t call refresh totals if the cart after update is empty', async () => {
       const contextMock = {
         dispatch: jest.fn(),
         state: {
-          cartServerToken: 'SOME-TOKEN',
+          cartServerToken: "SOME-TOKEN",
           cartItems: []
         }
       };
@@ -767,12 +710,9 @@ describe('Cart actions', () => {
       };
 
       isServerSpy.mockReturnValueOnce(false);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
-      const wrapper = (actions: any) =>
-        actions.serverUpdateItem(contextMock, cartItemMock);
+      const wrapper = (actions: any) => actions.serverUpdateItem(contextMock, cartItemMock);
 
       await wrapper(cartActions);
 
@@ -780,12 +720,12 @@ describe('Cart actions', () => {
       expect(contextMock.dispatch).not.toBeCalled();
     });
 
-    it("sends an item update request but doesn't call refresh totals if totals sync is configured off", async () => {
+    it('sends an item update request but doesn\'t call refresh totals if totals sync is configured off', async () => {
       const contextMock = {
         dispatch: jest.fn(),
         state: {
-          cartServerToken: 'SOME-TOKEN',
-          cartItems: [{ sku: '123' }]
+          cartServerToken: "SOME-TOKEN",
+          cartItems: [{sku: '123'}]
         }
       };
 
@@ -799,12 +739,9 @@ describe('Cart actions', () => {
       };
 
       isServerSpy.mockReturnValueOnce(false);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
-      const wrapper = (actions: any) =>
-        actions.serverUpdateItem(contextMock, cartItemMock);
+      const wrapper = (actions: any) => actions.serverUpdateItem(contextMock, cartItemMock);
 
       await wrapper(cartActions);
 
@@ -814,13 +751,14 @@ describe('Cart actions', () => {
   });
 
   describe('serverDeleteItem', () => {
+
     it('sends a delete item from cart request to backend server and updates totals', async () => {
       isOnlineSpy.mockReturnValueOnce(true);
       const contextMock = {
         dispatch: jest.fn(),
         state: {
-          cartServerToken: 'SOME-TOKEN',
-          cartItems: [{ sku: '123' }]
+          cartServerToken: "SOME-TOKEN",
+          cartItems: [{sku: '123'}]
         }
       };
 
@@ -835,73 +773,62 @@ describe('Cart actions', () => {
       };
 
       isServerSpy.mockReturnValueOnce(false);
-      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-        Promise.resolve({})
-      );
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
-      const wrapper = (actions: any) =>
-        actions.serverDeleteItem(contextMock, cartItemMock);
+      const wrapper = (actions: any) => actions.serverDeleteItem(contextMock, cartItemMock);
 
       await wrapper(cartActions);
 
       expect(TaskQueue.execute).toBeCalled();
-      expect(contextMock.dispatch).toBeCalledWith('refreshTotals');
+      expect(contextMock.dispatch).toBeCalledWith('refreshTotals')
     });
 
-    it(
-      'sends a delete item from cart request to backend server and sets its quoteId to cart token, ' +
-        'if none has been set before',
-      async () => {
-        const contextMock = {
-          dispatch: jest.fn(),
-          state: {
-            cartServerToken: 'SOME-TOKEN'
-          }
-        };
+    it('sends a delete item from cart request to backend server and sets its quoteId to cart token, ' +
+      'if none has been set before', async () => {
+      const contextMock = {
+        dispatch: jest.fn(),
+        state: {
+          cartServerToken: "SOME-TOKEN",
+        }
+      };
 
-        config.cart = {
-          synchronize_totals: false,
-          deleteitem_endpoint: 'http://endpoint.com/cart/delete-item'
-        };
+      config.cart = {
+        synchronize_totals: false,
+        deleteitem_endpoint: 'http://endpoint.com/cart/delete-item'
+      };
 
-        const cartItemMock = {
-          sku: '123'
-        };
-
-        isServerSpy.mockReturnValueOnce(false);
-        (TaskQueue.execute as jest.Mock).mockImplementationOnce(() =>
-          Promise.resolve({})
-        );
-
-        const wrapper = (actions: any) =>
-          actions.serverDeleteItem(contextMock, cartItemMock);
-
-        await wrapper(cartActions);
-
-        expect(TaskQueue.execute).toBeCalledWith(
-          expect.objectContaining({
-            payload: {
-              body: '{"cartItem":{"sku":"123","quoteId":"SOME-TOKEN"}}',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              method: 'POST',
-              mode: 'cors'
-            }
-          })
-        );
-      }
-    );
-
-    it("sends a delete item from cart request but doesn't call refresh totals if the cart after update is empty", async () => {
       const cartItemMock = {
         sku: '123'
+      };
+
+      isServerSpy.mockReturnValueOnce(false);
+      (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
+
+      const wrapper = (actions: any) => actions.serverDeleteItem(contextMock, cartItemMock);
+
+      await wrapper(cartActions);
+
+      expect(TaskQueue.execute).toBeCalledWith(expect.objectContaining({
+        payload: {
+          body: '{"cartItem":{"sku":"123","quoteId":"SOME-TOKEN"}}',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          mode: 'cors'
+        }
+      }));
+    });
+
+    it('sends a delete item from cart request but doesn\'t call refresh totals if the cart after update is empty', async () => {
+      const cartItemMock = {
+        sku: '123',
       };
 
       const contextMock = {
         dispatch: jest.fn(),
         state: {
-          cartServerToken: 'SOME-TOKEN',
+          cartServerToken: "SOME-TOKEN",
           cartItems: [cartItemMock]
         }
       };
@@ -917,8 +844,7 @@ describe('Cart actions', () => {
         return Promise.resolve({});
       });
 
-      const wrapper = (actions: any) =>
-        actions.serverDeleteItem(contextMock, cartItemMock);
+      const wrapper = (actions: any) => actions.serverDeleteItem(contextMock, cartItemMock);
 
       await wrapper(cartActions);
 
@@ -926,7 +852,7 @@ describe('Cart actions', () => {
       expect(contextMock.dispatch).not.toBeCalled();
     });
 
-    it("sends a delete item from cart request but doesn't call refresh totals if totals sync is configured off", async () => {
+    it('sends a delete item from cart request but doesn\'t call refresh totals if totals sync is configured off', async () => {
       const cartItemMock = {
         sku: '123'
       };
@@ -934,7 +860,7 @@ describe('Cart actions', () => {
       const contextMock = {
         dispatch: jest.fn(),
         state: {
-          cartServerToken: 'SOME-TOKEN',
+          cartServerToken: "SOME-TOKEN",
           cartItems: [cartItemMock]
         }
       };
@@ -950,8 +876,7 @@ describe('Cart actions', () => {
         return Promise.resolve({});
       });
 
-      const wrapper = (actions: any) =>
-        actions.serverDeleteItem(contextMock, cartItemMock);
+      const wrapper = (actions: any) => actions.serverDeleteItem(contextMock, cartItemMock);
 
       await wrapper(cartActions);
 

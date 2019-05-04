@@ -8,12 +8,12 @@ export default {
     }
   },
   methods: {
-    goBack() {
+    goBack () {
       if (this.to) {
-        this.$router.push(this.to);
+        this.$router.push(this.to)
       } else {
-        this.$router.back();
+        this.$router.back()
       }
     }
   }
-};
+}

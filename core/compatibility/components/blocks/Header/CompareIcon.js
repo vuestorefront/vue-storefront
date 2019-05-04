@@ -1,12 +1,12 @@
-import { CompareButton } from '@vue-storefront/core/modules/compare/components/CompareButton.ts';
+import { CompareButton } from '@vue-storefront/core/modules/compare/components/CompareButton.ts'
 
 export default {
   name: 'CompareIcon',
   mixins: [CompareButton],
   computed: {
-    isActive() {
+    isActive () {
       // Computed Property renamed to 'isEmpty'
-      return !this.isEmpty;
+      return !this.isEmpty
     }
   }
-};
+}

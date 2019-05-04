@@ -1,7 +1,6 @@
-import { isServer } from '@vue-storefront/core/helpers';
-import buildTimeConfig from 'config';
-const bgColorStyle = color =>
-  `color: white; background: ${color}; padding: 4px; font-weight: bold; font-size: 0.8em'`;
+import { isServer } from '@vue-storefront/core/helpers'
+import buildTimeConfig from 'config'
+const bgColorStyle = (color) => `color: white; background: ${color}; padding: 4px; font-weight: bold; font-size: 0.8em'`
 
 /** VS message logger. By default works only on dev mode */
 class Logger {
@@ -26,28 +25,20 @@ class Logger {
    * @param verbosityLevel
    * @param showErrorOnProduction
    */
-  constructor(
-    verbosityLevel: string = 'display-everything',
-    showErrorOnProduction: boolean = false
-  ) {
-    this.verbosityLevel = verbosityLevel;
-    this.showErrorOnProduction = showErrorOnProduction;
-    this.isProduction = process.env.NODE_ENV === 'production';
+  constructor (verbosityLevel: string = 'display-everything', showErrorOnProduction: boolean = false) {
+    this.verbosityLevel = verbosityLevel
+    this.showErrorOnProduction = showErrorOnProduction
+    this.isProduction = process.env.NODE_ENV === 'production'
   }
 
   /**
    * Convert message to string - as it may be object, array either primitive
    * @param payload
    */
-  convertToString(payload: any) {
-    if (
-      typeof payload === 'string' ||
-      typeof payload === 'boolean' ||
-      typeof payload === 'number'
-    )
-      return payload;
-    if (payload && payload.message) return payload.message;
-    return JSON.stringify(payload);
+  convertToString (payload: any) {
+    if (typeof payload === 'string' || typeof payload === 'boolean' || typeof payload === 'number') return payload
+    if (payload && payload.message) return payload.message
+    return JSON.stringify(payload)
   }
 
   /**
@@ -55,22 +46,16 @@ class Logger {
    *
    * @param {string} method
    */
-  canPrint(method: string) {
-    const allowedMethods = [];
+  canPrint (method: string) {
+    const allowedMethods = []
 
-    if (
-      this.verbosityLevel === 'display-everything' &&
-      this.isProduction === false
-    ) {
-      allowedMethods.push(...['info', 'warn', 'error', 'debug']);
-    } else if (
-      this.verbosityLevel === 'only-errors' &&
-      (this.isProduction === false || this.showErrorOnProduction === true)
-    ) {
-      allowedMethods.push('error');
+    if (this.verbosityLevel === 'display-everything' && this.isProduction === false) {
+      allowedMethods.push(...['info', 'warn', 'error', 'debug'])
+    } else if (this.verbosityLevel === 'only-errors' && (this.isProduction === false || this.showErrorOnProduction === true)) {
+      allowedMethods.push('error')
     }
 
-    return allowedMethods.indexOf(method) !== -1;
+    return allowedMethods.indexOf(method) !== -1
   }
 
   /**
@@ -81,37 +66,19 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  debug(message: any, tag: string = null, context: any = null): () => void {
+  debug (message: any, tag: string = null, context: any = null) : () => void {
     if (!this.canPrint('debug')) {
-      return () => {};
+      return () => {}
     }
 
     if (isServer) {
-      return console.debug.bind(
-        console,
-        (tag ? `[${tag}] ` : '') + this.convertToString(message),
-        context
-      );
+      return console.debug.bind(console, (tag ? `[${tag}] ` : '') + this.convertToString(message), context)
     }
 
     if (tag) {
-      return console.debug.bind(
-        window.console,
-        '%cVSF%c %c' + tag + '%c ' + this.convertToString(message),
-        bgColorStyle('grey'),
-        'color: inherit',
-        bgColorStyle('gray'),
-        'font-weight: normal',
-        context
-      );
+      return console.debug.bind(window.console, '%cVSF%c %c' + tag + '%c ' + this.convertToString(message), bgColorStyle('grey'), 'color: inherit', bgColorStyle('gray'), 'font-weight: normal', context)
     } else {
-      return console.debug.bind(
-        window.console,
-        '%cVSF%c ' + this.convertToString(message),
-        bgColorStyle('grey'),
-        'font-weight: normal',
-        context
-      );
+      return console.debug.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('grey'), 'font-weight: normal', context)
     }
   }
 
@@ -123,8 +90,8 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  log(message: any, tag: string = null, context: any = null): () => void {
-    return this.info(message, tag, context);
+  log (message: any, tag: string = null, context: any = null) : () => void {
+    return this.info(message, tag, context)
   }
 
   /**
@@ -135,37 +102,19 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  info(message: any, tag: string = null, context: any = null): () => void {
+  info (message: any, tag: string = null, context: any = null) : () => void {
     if (!this.canPrint('info')) {
-      return () => {};
+      return () => {}
     }
 
     if (isServer) {
-      return console.log.bind(
-        console,
-        (tag ? `[${tag}] ` : '') + this.convertToString(message),
-        context
-      );
+      return console.log.bind(console, (tag ? `[${tag}] ` : '') + this.convertToString(message), context)
     }
 
     if (tag) {
-      return console.log.bind(
-        window.console,
-        '%cVSF%c %c' + tag + '%c ' + this.convertToString(message),
-        bgColorStyle('green'),
-        'color: inherit',
-        bgColorStyle('gray'),
-        'font-weight: bold',
-        context
-      );
+      return console.log.bind(window.console, '%cVSF%c %c' + tag + '%c ' + this.convertToString(message), bgColorStyle('green'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context)
     } else {
-      return console.log.bind(
-        window.console,
-        '%cVSF%c ' + this.convertToString(message),
-        bgColorStyle('green'),
-        'font-weight: bold',
-        context
-      );
+      return console.log.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('green'), 'font-weight: bold', context)
     }
   }
 
@@ -177,36 +126,18 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  warn(message: any, tag: string = null, context: any = null): () => void {
+  warn (message: any, tag: string = null, context: any = null) : () => void {
     if (!this.canPrint('warn')) {
-      return () => {};
+      return () => {}
     }
     if (isServer) {
-      return console.warn.bind(
-        console,
-        (tag ? `[${tag}] ` : '') + this.convertToString(message),
-        context
-      );
+      return console.warn.bind(console, (tag ? `[${tag}] ` : '') + this.convertToString(message), context)
     }
 
     if (tag) {
-      return console.warn.bind(
-        window.console,
-        '%cVSF%c %c' + tag + '%c ' + this.convertToString(message),
-        bgColorStyle('orange'),
-        'color: inherit',
-        bgColorStyle('gray'),
-        'font-weight: bold',
-        context
-      );
+      return console.warn.bind(window.console, '%cVSF%c %c' + tag + '%c ' + this.convertToString(message), bgColorStyle('orange'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context)
     } else {
-      return console.warn.bind(
-        window.console,
-        '%cVSF%c ' + this.convertToString(message),
-        bgColorStyle('orange'),
-        'font-weight: bold',
-        context
-      );
+      return console.warn.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('orange'), 'font-weight: bold', context)
     }
   }
 
@@ -218,45 +149,26 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  error(message: any, tag: string = null, context: any = null): () => void {
-    if (isServer) {
-      // always show errors in SSR
-      return console.error.bind(
-        console,
-        (tag ? `[${tag}] ` : '') + this.convertToString(message),
-        context
-      );
+  error (message: any, tag: string = null, context: any = null) : () => void {
+    if (isServer) { // always show errors in SSR
+      return console.error.bind(console, (tag ? `[${tag}] ` : '') + this.convertToString(message), context)
     }
 
     if (this.canPrint('error')) {
       if (tag) {
-        return console.error.bind(
-          window.console,
-          '%cVSF%c %c' + tag + '%c ' + this.convertToString(message),
-          bgColorStyle('red'),
-          'color: inherit',
-          bgColorStyle('gray'),
-          'font-weight: bold',
-          context
-        );
+        return console.error.bind(window.console, '%cVSF%c %c' + tag + '%c ' + this.convertToString(message), bgColorStyle('red'), 'color: inherit', bgColorStyle('gray'), 'font-weight: bold', context)
       } else {
-        return console.error.bind(
-          window.console,
-          '%cVSF%c ' + this.convertToString(message),
-          bgColorStyle('red'),
-          'font-weight: bold',
-          context
-        );
+        return console.error.bind(window.console, '%cVSF%c ' + this.convertToString(message), bgColorStyle('red'), 'font-weight: bold', context)
       }
     }
 
-    return () => {};
+    return () => {}
   }
 }
 
 const logger = new Logger(
   buildTimeConfig.console.verbosityLevel,
   buildTimeConfig.console.showErrorOnProduction
-);
+)
 
-export { logger as Logger };
+export {logger as Logger}

@@ -16,7 +16,7 @@
           <div class="col-xs-2 visible-xs" />
           <div class="col-sm-4 col-xs-4 center-xs">
             <div>
-              <logo width="auto" height="41px" />
+              <logo width="auto" height="41px"/>
             </div>
           </div>
           <div class="col-xs-2 visible-xs" />
@@ -26,14 +26,14 @@
         </div>
       </div>
     </header>
-    <div class="header-placeholder" />
+    <div class="header-placeholder"/>
   </div>
 </template>
 
 <script>
-import CurrentPage from 'theme/mixins/currentPage';
-import Logo from 'theme/components/core/Logo';
-import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon';
+import CurrentPage from 'theme/mixins/currentPage'
+import Logo from 'theme/components/core/Logo'
+import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
 
 export default {
   components: {
@@ -41,7 +41,7 @@ export default {
     ReturnIcon
   },
   mixins: [CurrentPage]
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -85,13 +85,12 @@ header {
     }
   }
   .col-xs-2:first-of-type {
-    padding-left: 0;
+      padding-left: 0;
   }
   .col-xs-2:last-of-type {
-    padding-right: 0;
+      padding-right: 0;
   }
-  a,
-  span {
+  a, span {
     font-size: 12px;
   }
 }

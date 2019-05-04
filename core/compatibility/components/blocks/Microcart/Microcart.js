@@ -1,17 +1,19 @@
 // Core dependecies
-import { Microcart } from '@vue-storefront/core/modules/cart/components/Microcart.ts';
+import { Microcart } from '@vue-storefront/core/modules/cart/components/Microcart.ts'
 
 export default {
   methods: {
-    closeMicrocart() {
+    closeMicrocart () {
       // Method renamed to 'toggleMicrocart'
-      this.toggleMicrocart();
+      this.toggleMicrocart()
     }
   },
   computed: {
-    isMicrocartOpen() {
-      return this.$store.state.ui.microcart;
+    isMicrocartOpen () {
+      return this.$store.state.ui.microcart
     }
   },
-  mixins: [Microcart]
-};
+  mixins: [
+    Microcart
+  ]
+}

@@ -7,9 +7,7 @@
       <form @submit.prevent="submit(onSuccesfulSubmission)" novalidate>
         <div class="mb35">
           <p class="h4">
-            {{
-              $t('Sign up to our newsletter and receive a coupon for 10% off!')
-            }}
+            {{ $t('Sign up to our newsletter and receive a coupon for 10% off!') }}
           </p>
           <base-input
             focus
@@ -43,32 +41,30 @@
   </modal>
 </template>
 <script>
-import { Subscribe } from 'src/modules/mailchimp/components/Subscribe';
-import i18n from '@vue-storefront/i18n';
+import { Subscribe } from 'src/modules/mailchimp/components/Subscribe'
+import i18n from '@vue-storefront/i18n'
 
-import ButtonFull from 'theme/components/theme/ButtonFull.vue';
-import Modal from 'theme/components/core/Modal';
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue';
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import Modal from 'theme/components/core/Modal'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
 
 export default {
-  mounted() {
+  mounted () {
     this.$nextTick(() => {
-      this.$bus.$emit('modal-show', 'modal-newsletter');
-    });
+      this.$bus.$emit('modal-show', 'modal-newsletter')
+    })
   },
-  beforeDestroy() {
-    this.$off('validation-error');
+  beforeDestroy () {
+    this.$off('validation-error')
   },
   methods: {
-    onSuccesfulSubmission() {
+    onSuccesfulSubmission () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
-        message: i18n.t(
-          'You have been successfully subscribed to our newsletter!'
-        ),
+        message: i18n.t('You have been successfully subscribed to our newsletter!'),
         action1: { label: i18n.t('OK') }
-      });
-      this.$bus.$emit('modal-hide', 'modal-newsletter');
+      })
+      this.$bus.$emit('modal-hide', 'modal-newsletter')
     }
   },
   components: {
@@ -76,6 +72,8 @@ export default {
     Modal,
     BaseInput
   },
-  mixins: [Subscribe]
-};
+  mixins: [
+    Subscribe
+  ]
+}
 </script>

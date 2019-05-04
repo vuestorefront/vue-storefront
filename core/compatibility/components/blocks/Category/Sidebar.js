@@ -1,6 +1,6 @@
-import { buildFilterProductsQuery } from '@vue-storefront/core/helpers';
-import { mapGetters } from 'vuex';
-import pickBy from 'lodash-es/pickBy';
+import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
+import { mapGetters } from 'vuex'
+import pickBy from 'lodash-es/pickBy'
 
 export default {
   name: 'CategorySidebar',
@@ -11,51 +11,37 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('category', [
-      'getCurrentCategory',
-      'getActiveCategoryFilters',
-      'getCurrentCategoryProductQuery'
-    ]),
-    category() {
-      return this.getCurrentCategory;
+    ...mapGetters('category', ['getCurrentCategory', 'getActiveCategoryFilters', 'getCurrentCategoryProductQuery']),
+    category () {
+      return this.getCurrentCategory
     },
-    activeFilters() {
-      return this.getActiveCategoryFilters;
+    activeFilters () {
+      return this.getActiveCategoryFilters
     },
-    availableFilters() {
-      return pickBy(this.filters, filter => {
-        return filter.length;
-      });
+    availableFilters () {
+      return pickBy(this.filters, (filter) => { return (filter.length) })
     },
-    hasActiveFilters() {
-      return Object.keys(this.activeFilters).length !== 0;
+    hasActiveFilters () {
+      return Object.keys(this.activeFilters).length !== 0
     }
   },
-  mounted() {
-    this.resetAllFilters();
+  mounted () {
+    this.resetAllFilters()
   },
   methods: {
-    sortById(filters) {
-      return [...filters].sort((a, b) => {
-        return a.id - b.id;
-      });
+    sortById (filters) {
+      return [...filters].sort((a, b) => { return a.id - b.id })
     },
-    resetAllFilters() {
+    resetAllFilters () {
       if (this.hasActiveFilters) {
-        this.$bus.$emit('filter-reset');
-        this.$store.dispatch('category/resetFilters');
-        this.$store.dispatch('category/searchProductQuery', {});
+        this.$bus.$emit('filter-reset')
+        this.$store.dispatch('category/resetFilters')
+        this.$store.dispatch('category/searchProductQuery', {})
         this.$store.dispatch('category/mergeSearchOptions', {
-          searchProductQuery: buildFilterProductsQuery(
-            this.category,
-            this.activeFilters
-          )
-        });
-        this.$store.dispatch(
-          'category/products',
-          this.getCurrentCategoryProductQuery
-        );
+          searchProductQuery: buildFilterProductsQuery(this.category, this.activeFilters)
+        })
+        this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
       }
     }
   }
-};
+}

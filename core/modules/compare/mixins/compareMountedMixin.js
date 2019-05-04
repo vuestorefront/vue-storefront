@@ -4,7 +4,7 @@
  */
 
 export default {
-  mounted() {
-    this.$store.dispatch('compare/load');
+  mounted () {
+    this.$store.dispatch('compare/load')
   }
-};
+}

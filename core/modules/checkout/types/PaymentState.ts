@@ -1,3 +1,3 @@
 export default interface PaymentState {
-  methods: any[];
+  methods: any[]
 }

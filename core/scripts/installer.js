@@ -1,37 +1,35 @@
-'use strict';
+'use strict'
 
-const path = require('path');
-const shell = require('shelljs');
-const mkdirp = require('mkdirp');
-const exists = require('fs-exists-sync');
-const message = require('print-message');
-const inquirer = require('inquirer');
-const jsonFile = require('jsonfile');
-const urlParser = require('url-parse');
-const isWindows = require('is-windows');
-const isEmptyDir = require('empty-dir');
-const commandExists = require('command-exists');
-const program = require('commander');
+const path = require('path')
+const shell = require('shelljs')
+const mkdirp = require('mkdirp')
+const exists = require('fs-exists-sync')
+const message = require('print-message')
+const inquirer = require('inquirer')
+const jsonFile = require('jsonfile')
+const urlParser = require('url-parse')
+const isWindows = require('is-windows')
+const isEmptyDir = require('empty-dir')
+const commandExists = require('command-exists')
+const program = require('commander')
 
-const SAMPLE_DATA_PATH = 'var/magento2-sample-data';
-const TARGET_FRONTEND_CONFIG_FILE = 'config/local.json';
-const SOURCE_FRONTEND_CONFIG_FILE = 'config/default.json';
+const SAMPLE_DATA_PATH = 'var/magento2-sample-data'
+const TARGET_FRONTEND_CONFIG_FILE = 'config/local.json'
+const SOURCE_FRONTEND_CONFIG_FILE = 'config/default.json'
 
-const TARGET_BACKEND_CONFIG_FILE = 'config/local.json';
-const SOURCE_BACKEND_CONFIG_FILE = 'config/default.json';
+const TARGET_BACKEND_CONFIG_FILE = 'config/local.json'
+const SOURCE_BACKEND_CONFIG_FILE = 'config/default.json'
 
-const STOREFRONT_BACKEND_GIT_URL =
-  'https://github.com/DivanteLtd/vue-storefront-api';
-const MAGENTO_SAMPLE_DATA_GIT_URL =
-  'https://github.com/magento/magento2-sample-data.git';
-const STOREFRONT_REMOTE_BACKEND_URL = 'https://demo.vuestorefront.io';
+const STOREFRONT_BACKEND_GIT_URL = 'https://github.com/DivanteLtd/vue-storefront-api'
+const MAGENTO_SAMPLE_DATA_GIT_URL = 'https://github.com/magento/magento2-sample-data.git'
+const STOREFRONT_REMOTE_BACKEND_URL = 'https://demo.vuestorefront.io'
 
-const STOREFRONT_DIRECTORY = shell.pwd();
+const STOREFRONT_DIRECTORY = shell.pwd()
 
-const LOG_DIR = `${STOREFRONT_DIRECTORY}/var/log`;
-const INSTALL_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/install.log`;
-const VUE_STOREFRONT_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/vue-storefront.log`;
-const VUE_STOREFRONT_BACKEND_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/vue-storefront-api.log`;
+const LOG_DIR = `${STOREFRONT_DIRECTORY}/var/log`
+const INSTALL_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/install.log`
+const VUE_STOREFRONT_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/vue-storefront.log`
+const VUE_STOREFRONT_BACKEND_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/vue-storefront-api.log`
 
 /**
  * Message management
@@ -42,10 +40,12 @@ class Message {
    *
    * @param text
    */
-  static info(text) {
-    text = Array.isArray(text) ? text : [text];
+  static info (text) {
+    text = Array.isArray(text) ? text : [text]
 
-    message([...text], { color: 'blue', border: false, marginTop: 1 });
+    message([
+      ...text
+    ], {color: 'blue', border: false, marginTop: 1})
   }
 
   /**
@@ -54,26 +54,29 @@ class Message {
    * @param text
    * @param logFile
    */
-  static error(text, logFile = INSTALL_LOG_FILE) {
-    text = Array.isArray(text) ? text : [text];
+  static error (text, logFile = INSTALL_LOG_FILE) {
+    text = Array.isArray(text) ? text : [text]
 
     // show trace if exception occurred
     if (text[0] instanceof Error) {
-      text = text[0].stack.split('\n');
+      text = text[0].stack.split('\n')
     }
 
-    let logDetailsInfo = `Please check log file for details: ${logFile}`;
+    let logDetailsInfo = `Please check log file for details: ${logFile}`
 
     if (!Abstract.logsWereCreated) {
-      logDetailsInfo = 'Try to fix problem with logs to see the error details.';
+      logDetailsInfo = 'Try to fix problem with logs to see the error details.'
     }
 
-    message(['ERROR', '', ...text, '', logDetailsInfo], {
-      borderColor: 'red',
-      marginBottom: 1
-    });
+    message([
+      'ERROR',
+      '',
+      ...text,
+      '',
+      logDetailsInfo
+    ], {borderColor: 'red', marginBottom: 1})
 
-    shell.exit(1);
+    shell.exit(1)
   }
 
   /**
@@ -81,14 +84,13 @@ class Message {
    *
    * @param text
    */
-  static warning(text) {
-    text = Array.isArray(text) ? text : [text];
+  static warning (text) {
+    text = Array.isArray(text) ? text : [text]
 
-    message(['WARNING:', ...text], {
-      color: 'yellow',
-      border: false,
-      marginTop: 1
-    });
+    message([
+      'WARNING:',
+      ...text
+    ], {color: 'yellow', border: false, marginTop: 1})
   }
 
   /**
@@ -97,16 +99,12 @@ class Message {
    * @param text
    * @param isLastMessage
    */
-  static greeting(text, isLastMessage = false) {
-    text = Array.isArray(text) ? text : [text];
+  static greeting (text, isLastMessage = false) {
+    text = Array.isArray(text) ? text : [text]
 
-    message(
-      [...text],
-      Object.assign(isLastMessage ? { marginTop: 1 } : {}, {
-        borderColor: 'green',
-        marginBottom: 1
-      })
-    );
+    message([
+      ...text
+    ], Object.assign(isLastMessage ? {marginTop: 1} : {}, {borderColor: 'green', marginBottom: 1}))
   }
 }
 
@@ -119,8 +117,8 @@ class Abstract {
    *
    * Initialize fields
    */
-  constructor(answers) {
-    this.answers = answers;
+  constructor (answers) {
+    this.answers = answers
   }
 }
 
@@ -133,25 +131,19 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  cloneRepository() {
+  cloneRepository () {
     return new Promise((resolve, reject) => {
-      const backendDir = path.normalize(this.answers.backend_dir);
-      const gitPath = path.normalize(this.answers.git_path);
+      const backendDir = path.normalize(this.answers.backend_dir)
+      const gitPath = path.normalize(this.answers.git_path)
 
-      Message.info(`Cloning backend into '${backendDir}'...`);
+      Message.info(`Cloning backend into '${backendDir}'...`)
 
-      if (
-        shell.exec(
-          `${gitPath} clone ${STOREFRONT_BACKEND_GIT_URL} '${backendDir}' > ${
-            Abstract.infoLogStream
-          } 2>&1`
-        ).code !== 0
-      ) {
-        reject(new Error(`Can't clone backend into '${backendDir}'.`));
+      if (shell.exec(`${gitPath} clone ${STOREFRONT_BACKEND_GIT_URL} '${backendDir}' > ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+        reject(new Error(`Can't clone backend into '${backendDir}'.`))
       }
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -159,20 +151,20 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  goToDirectory(backendDir = null) {
+  goToDirectory (backendDir = null) {
     return new Promise((resolve, reject) => {
-      const dir = this.answers ? this.answers.backend_dir : backendDir;
+      const dir = this.answers ? this.answers.backend_dir : backendDir
 
-      Message.info(`Trying change directory to '${dir}'...`);
+      Message.info(`Trying change directory to '${dir}'...`)
 
       if (shell.cd(path.normalize(dir)).code !== 0) {
-        reject(new Error(`Can't change directory to '${dir}'.`));
+        reject(new Error(`Can't change directory to '${dir}'.`))
       }
 
-      Message.info(`Working in directory '${shell.pwd()}'...`);
+      Message.info(`Working in directory '${shell.pwd()}'...`)
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -180,16 +172,16 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  npmInstall() {
+  npmInstall () {
     return new Promise((resolve, reject) => {
-      Message.info('Installing backend npm...');
+      Message.info('Installing backend npm...')
 
       if (shell.exec(`npm i >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
-        reject(new Error("Can't install backend npm."));
+        reject(new Error('Can\'t install backend npm.'))
       }
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -197,19 +189,17 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  dockerComposeUp() {
+  dockerComposeUp () {
     return new Promise((resolve, reject) => {
-      Message.info('Starting Docker in background...');
+      Message.info('Starting Docker in background...')
 
       if (shell.exec(`docker-compose up -d > /dev/null 2>&1`).code !== 0) {
-        reject(new Error("Can't start Docker in background."));
+        reject(new Error('Can\'t start Docker in background.'))
       }
       // Adding 20sec timer for ES to get up and running
       // before starting restoration and migration processes
-      setTimeout(() => {
-        resolve();
-      }, 20000);
-    });
+      setTimeout(() => { resolve() }, 20000)
+    })
   }
 
   /**
@@ -217,44 +207,38 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  validateM2Integration() {
+  validateM2Integration () {
     return new Promise((resolve, reject) => {
-      const Magento2Client = require('magento2-rest-client').Magento2Client;
+      const Magento2Client = require('magento2-rest-client').Magento2Client
 
-      Message.info(`Validating Magento integration configuration...`);
+      Message.info(`Validating Magento integration configuration...`)
 
-      let m2Url = urlParser(this.answers.m2_url).href;
-      let apiUrl = urlParser(this.answers.m2_api_url).href;
+      let m2Url = urlParser(this.answers.m2_url).href
+      let apiUrl = urlParser(this.answers.m2_api_url).href
 
       if (!m2Url.length) {
-        reject(new Error('Invalid Magento URL supplied.'));
+        reject(new Error('Invalid Magento URL supplied.'))
       }
       if (!apiUrl.length) {
-        reject(new Error('Invalid Magento rest API URL supplied.'));
+        reject(new Error('Invalid Magento rest API URL supplied.'))
       }
 
       let options = {
-        url: apiUrl,
-        consumerKey: this.answers.m2_api_consumer_key,
-        consumerSecret: this.answers.m2_api_consumer_secret,
-        accessToken: this.answers.m2_api_access_token,
-        accessTokenSecret: this.answers.m2_api_access_token_secret
-      };
-      let client = Magento2Client(options);
+        'url': apiUrl,
+        'consumerKey': this.answers.m2_api_consumer_key,
+        'consumerSecret': this.answers.m2_api_consumer_secret,
+        'accessToken': this.answers.m2_api_access_token,
+        'accessTokenSecret': this.answers.m2_api_access_token_secret
+      }
+      let client = Magento2Client(options)
 
-      client.categories
-        .list()
-        .then(categories => {
-          resolve();
+      client.categories.list()
+        .then((categories) => {
+          resolve()
+        }).catch((e) => {
+          reject(new Error('Invalid Magento integration settings. Original error: ' + e))
         })
-        .catch(e => {
-          reject(
-            new Error(
-              'Invalid Magento integration settings. Original error: ' + e
-            )
-          );
-        });
-    });
+    })
   }
 
   /**
@@ -262,50 +246,37 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  createConfig() {
+  createConfig () {
     return new Promise((resolve, reject) => {
-      let config;
+      let config
 
-      Message.info(
-        `Creating backend config '${TARGET_BACKEND_CONFIG_FILE}'...`
-      );
+      Message.info(`Creating backend config '${TARGET_BACKEND_CONFIG_FILE}'...`)
 
       try {
-        config = jsonFile.readFileSync(SOURCE_BACKEND_CONFIG_FILE);
-        let host = urlParser(this.answers.images_endpoint).hostname;
+        config = jsonFile.readFileSync(SOURCE_BACKEND_CONFIG_FILE)
+        let host = urlParser(this.answers.images_endpoint).hostname
 
         if (!host.length) {
-          throw new Error();
+          throw new Error()
         }
 
-        config.imageable.whitelist.allowedHosts.push(host);
+        config.imageable.whitelist.allowedHosts.push(host)
 
-        config.magento2.url = urlParser(this.answers.m2_url).href;
-        config.magento2.imgUrl = this.answers.m2_url
-          ? urlParser(this.answers.m2_url).href + '/pub/media/catalog/product'
-          : config.magento2.imgUrl;
-        config.magento2.api.url =
-          urlParser(this.answers.m2_api_url).href || config.magento2.api.url;
-        config.magento2.api.consumerKey =
-          this.answers.m2_api_consumer_key || config.magento2.api.consumerKey;
-        config.magento2.api.consumerSecret =
-          this.answers.m2_api_consumer_secret ||
-          config.magento2.api.consumerSecret;
-        config.magento2.api.accessToken =
-          this.answers.m2_api_access_token || config.magento2.api.accessToken;
-        config.magento2.api.accessTokenSecret =
-          this.answers.m2_api_access_token_secret ||
-          config.magento2.api.accessTokenSecret;
+        config.magento2.url = urlParser(this.answers.m2_url).href
+        config.magento2.imgUrl = this.answers.m2_url ? urlParser(this.answers.m2_url).href + '/pub/media/catalog/product' : config.magento2.imgUrl
+        config.magento2.api.url = urlParser(this.answers.m2_api_url).href || config.magento2.api.url
+        config.magento2.api.consumerKey = this.answers.m2_api_consumer_key || config.magento2.api.consumerKey
+        config.magento2.api.consumerSecret = this.answers.m2_api_consumer_secret || config.magento2.api.consumerSecret
+        config.magento2.api.accessToken = this.answers.m2_api_access_token || config.magento2.api.accessToken
+        config.magento2.api.accessTokenSecret = this.answers.m2_api_access_token_secret || config.magento2.api.accessTokenSecret
 
-        jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, {
-          spaces: 2
-        });
+        jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
-        reject(new Error("Can't create backend config. Original error: " + e));
+        reject(new Error('Can\'t create backend config. Original error: ' + e))
       }
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -313,19 +284,16 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  restoreElasticSearch() {
+  restoreElasticSearch () {
     return new Promise((resolve, reject) => {
-      Message.info('Restoring data for ElasticSearch...');
+      Message.info('Restoring data for ElasticSearch...')
 
-      if (
-        shell.exec(`npm run restore >> ${Abstract.infoLogStream} 2>&1`).code !==
-        0
-      ) {
-        reject(new Error("Can't restore data for ElasticSearch."));
+      if (shell.exec(`npm run restore >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+        reject(new Error('Can\'t restore data for ElasticSearch.'))
       }
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -333,19 +301,16 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  migrateElasticSearch() {
+  migrateElasticSearch () {
     return new Promise((resolve, reject) => {
-      Message.info('Migrating data into ElasticSearch...');
+      Message.info('Migrating data into ElasticSearch...')
 
-      if (
-        shell.exec(`npm run migrate >> ${Abstract.infoLogStream} 2>&1`).code !==
-        0
-      ) {
-        reject(new Error("Can't migrate data into ElasticSearch."));
+      if (shell.exec(`npm run migrate >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+        reject(new Error('Can\'t migrate data into ElasticSearch.'))
       }
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -353,19 +318,16 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  importElasticSearch() {
+  importElasticSearch () {
     return new Promise((resolve, reject) => {
-      Message.info('Importing data from Magento into ElasticSearch...');
+      Message.info('Importing data from Magento into ElasticSearch...')
 
-      if (
-        shell.exec(`yarn mage2vs import >> ${Abstract.infoLogStream} 2>&1`)
-          .code !== 0
-      ) {
-        reject(new Error("Can't import data into ElasticSearch."));
+      if (shell.exec(`yarn mage2vs import >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+        reject(new Error('Can\'t import data into ElasticSearch.'))
       }
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -373,30 +335,16 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  cloneMagentoSampleData() {
+  cloneMagentoSampleData () {
     return new Promise((resolve, reject) => {
-      Message.info(
-        `Cloning Magento 2 Sample Data into '${SAMPLE_DATA_PATH}'...`
-      );
+      Message.info(`Cloning Magento 2 Sample Data into '${SAMPLE_DATA_PATH}'...`)
 
-      if (
-        shell.exec(
-          `${
-            this.answers.git_path
-          } clone ${MAGENTO_SAMPLE_DATA_GIT_URL} ${SAMPLE_DATA_PATH} >> ${
-            Abstract.infoLogStream
-          } 2>&1`
-        ).code !== 0
-      ) {
-        reject(
-          new Error(
-            `Can't clone Magento 2 Sample Data into '${SAMPLE_DATA_PATH}'...`
-          )
-        );
+      if (shell.exec(`${this.answers.git_path} clone ${MAGENTO_SAMPLE_DATA_GIT_URL} ${SAMPLE_DATA_PATH} >> ${Abstract.infoLogStream} 2>&1`).code !== 0) {
+        reject(new Error(`Can't clone Magento 2 Sample Data into '${SAMPLE_DATA_PATH}'...`))
       }
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -404,39 +352,22 @@ class Backend extends Abstract {
    *
    * @returns {Promise}
    */
-  runDevEnvironment() {
+  runDevEnvironment () {
     return new Promise((resolve, reject) => {
-      Message.info('Starting backend server...');
+      Message.info('Starting backend server...')
 
       if (isWindows()) {
-        if (
-          shell.exec(
-            `start /min npm run dev > ${Abstract.backendLogStream} 2>&1 &`
-          ).code !== 0
-        ) {
-          reject(
-            new Error(
-              "Can't start dev server.",
-              VUE_STOREFRONT_BACKEND_LOG_FILE
-            )
-          );
+        if (shell.exec(`start /min npm run dev > ${Abstract.backendLogStream} 2>&1 &`).code !== 0) {
+          reject(new Error('Can\'t start dev server.', VUE_STOREFRONT_BACKEND_LOG_FILE))
         }
       } else {
-        if (
-          shell.exec(`nohup npm run dev > ${Abstract.backendLogStream} 2>&1 &`)
-            .code !== 0
-        ) {
-          reject(
-            new Error(
-              "Can't start dev server.",
-              VUE_STOREFRONT_BACKEND_LOG_FILE
-            )
-          );
+        if (shell.exec(`nohup npm run dev > ${Abstract.backendLogStream} 2>&1 &`).code !== 0) {
+          reject(new Error('Can\'t start dev server.', VUE_STOREFRONT_BACKEND_LOG_FILE))
         }
       }
 
-      resolve();
-    });
+      resolve()
+    })
   }
 }
 
@@ -449,22 +380,20 @@ class Storefront extends Abstract {
    *
    * @returns {Promise}
    */
-  goToDirectory() {
+  goToDirectory () {
     return new Promise((resolve, reject) => {
       if (Abstract.wasLocalBackendInstalled) {
-        Message.info(`Trying change directory to '${STOREFRONT_DIRECTORY}'...`);
+        Message.info(`Trying change directory to '${STOREFRONT_DIRECTORY}'...`)
 
         if (shell.cd(STOREFRONT_DIRECTORY).code !== 0) {
-          reject(
-            new Error(`Can't change directory to '${STOREFRONT_DIRECTORY}'.`)
-          );
+          reject(new Error(`Can't change directory to '${STOREFRONT_DIRECTORY}'.`))
         }
 
-        Message.info(`Working in directory '${STOREFRONT_DIRECTORY}'...`);
+        Message.info(`Working in directory '${STOREFRONT_DIRECTORY}'...`)
       }
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -472,80 +401,74 @@ class Storefront extends Abstract {
    *
    * @returns {Promise}
    */
-  createConfig() {
+  createConfig () {
     return new Promise((resolve, reject) => {
-      let config;
+      let config
 
-      Message.info(
-        `Creating storefront config '${TARGET_FRONTEND_CONFIG_FILE}'...`
-      );
+      Message.info(`Creating storefront config '${TARGET_FRONTEND_CONFIG_FILE}'...`)
 
       try {
-        config = jsonFile.readFileSync(SOURCE_FRONTEND_CONFIG_FILE);
+        config = jsonFile.readFileSync(SOURCE_FRONTEND_CONFIG_FILE)
 
-        let backendPath;
-        let graphQlHost;
-        let graphQlPort = 8080;
+        let backendPath
+        let graphQlHost
+        let graphQlPort = 8080
 
         if (Abstract.wasLocalBackendInstalled) {
-          graphQlHost = 'localhost';
-          backendPath = 'http://localhost:8080';
+          graphQlHost = 'localhost'
+          backendPath = 'http://localhost:8080'
         } else {
-          backendPath = STOREFRONT_REMOTE_BACKEND_URL;
-          graphQlHost = backendPath
-            .replace('https://', '')
-            .replace('http://', '');
+          backendPath = STOREFRONT_REMOTE_BACKEND_URL
+          graphQlHost = backendPath.replace('https://', '').replace('http://', '')
         }
 
-        config.api.url = backendPath;
-        config.graphql.host = graphQlHost;
-        config.graphql.port = graphQlPort;
-        config.elasticsearch.host = `${backendPath}/api/catalog`;
-        config.orders.endpoint = `${backendPath}/api/order`;
-        config.products.endpoint = `${backendPath}/api/product`;
-        config.users.endpoint = `${backendPath}/api/user`;
-        config.users.history_endpoint = `${backendPath}/api/user/order-history?token={{token}}`;
-        config.users.resetPassword_endpoint = `${backendPath}/api/user/reset-password`;
-        config.users.changePassword_endpoint = `${backendPath}/api/user/change-password?token={{token}}`;
-        config.users.login_endpoint = `${backendPath}/api/user/login`;
-        config.users.create_endpoint = `${backendPath}/api/user/create`;
-        config.users.me_endpoint = `${backendPath}/api/user/me?token={{token}}`;
-        config.users.refresh_endpoint = `${backendPath}/api/user/refresh`;
-        config.stock.endpoint = `${backendPath}/api/stock`;
-        config.cart.create_endpoint = `${backendPath}/api/cart/create?token={{token}}`;
-        config.cart.updateitem_endpoint = `${backendPath}/api/cart/update?token={{token}}&cartId={{cartId}}`;
-        config.cart.deleteitem_endpoint = `${backendPath}/api/cart/delete?token={{token}}&cartId={{cartId}}`;
-        config.cart.pull_endpoint = `${backendPath}/api/cart/pull?token={{token}}&cartId={{cartId}}`;
-        config.cart.totals_endpoint = `${backendPath}/api/cart/totals?token={{token}}&cartId={{cartId}}`;
-        config.cart.paymentmethods_endpoint = `${backendPath}/api/cart/payment-methods?token={{token}}&cartId={{cartId}}`;
-        config.cart.shippingmethods_endpoint = `${backendPath}/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}`;
-        config.cart.shippinginfo_endpoint = `${backendPath}/api/cart/shipping-information?token={{token}}&cartId={{cartId}}`;
-        config.cart.collecttotals_endpoint = `${backendPath}/api/cart/collect-totals?token={{token}}&cartId={{cartId}}`;
-        config.cart.deletecoupon_endpoint = `${backendPath}/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}`;
-        config.cart.applycoupon_endpoint = `${backendPath}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}`;
-        config.reviews.create_endpoint = `${backendPath}/api/review/create?token={{token}}`;
+        config.api.url = backendPath
+        config.graphql.host = graphQlHost
+        config.graphql.port = graphQlPort
+        config.elasticsearch.host = `${backendPath}/api/catalog`
+        config.orders.endpoint = `${backendPath}/api/order`
+        config.products.endpoint = `${backendPath}/api/product`
+        config.users.endpoint = `${backendPath}/api/user`
+        config.users.history_endpoint = `${backendPath}/api/user/order-history?token={{token}}`
+        config.users.resetPassword_endpoint = `${backendPath}/api/user/reset-password`
+        config.users.changePassword_endpoint = `${backendPath}/api/user/change-password?token={{token}}`
+        config.users.login_endpoint = `${backendPath}/api/user/login`
+        config.users.create_endpoint = `${backendPath}/api/user/create`
+        config.users.me_endpoint = `${backendPath}/api/user/me?token={{token}}`
+        config.users.refresh_endpoint = `${backendPath}/api/user/refresh`
+        config.stock.endpoint = `${backendPath}/api/stock`
+        config.cart.create_endpoint = `${backendPath}/api/cart/create?token={{token}}`
+        config.cart.updateitem_endpoint = `${backendPath}/api/cart/update?token={{token}}&cartId={{cartId}}`
+        config.cart.deleteitem_endpoint = `${backendPath}/api/cart/delete?token={{token}}&cartId={{cartId}}`
+        config.cart.pull_endpoint = `${backendPath}/api/cart/pull?token={{token}}&cartId={{cartId}}`
+        config.cart.totals_endpoint = `${backendPath}/api/cart/totals?token={{token}}&cartId={{cartId}}`
+        config.cart.paymentmethods_endpoint = `${backendPath}/api/cart/payment-methods?token={{token}}&cartId={{cartId}}`
+        config.cart.shippingmethods_endpoint = `${backendPath}/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}`
+        config.cart.shippinginfo_endpoint = `${backendPath}/api/cart/shipping-information?token={{token}}&cartId={{cartId}}`
+        config.cart.collecttotals_endpoint = `${backendPath}/api/cart/collect-totals?token={{token}}&cartId={{cartId}}`
+        config.cart.deletecoupon_endpoint = `${backendPath}/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}`
+        config.cart.applycoupon_endpoint = `${backendPath}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}`
+        config.reviews.create_endpoint = `${backendPath}/api/review/create?token={{token}}`
 
-        config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`;
-        config.mailer.endpoint.send = `${backendPath}/api/ext/mail-service/send-email`;
-        config.mailer.endpoint.token = `${backendPath}/api/ext/mail-service/get-token`;
-        config.images.baseUrl = this.answers.images_endpoint;
-        config.cms.endpoint = `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`;
-        config.cms.endpointIdentifier = `${backendPath}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}`;
+        config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
+        config.mailer.endpoint.send = `${backendPath}/api/ext/mail-service/send-email`
+        config.mailer.endpoint.token = `${backendPath}/api/ext/mail-service/get-token`
+        config.images.baseUrl = this.answers.images_endpoint
+        config.cms.endpoint = `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`
+        config.cms.endpointIdentifier = `${backendPath}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}`
 
         config.install = {
           is_local_backend: Abstract.wasLocalBackendInstalled,
           backend_dir: this.answers.backend_dir || false
-        };
+        }
 
-        jsonFile.writeFileSync(TARGET_FRONTEND_CONFIG_FILE, config, {
-          spaces: 2
-        });
+        jsonFile.writeFileSync(TARGET_FRONTEND_CONFIG_FILE, config, {spaces: 2})
       } catch (e) {
-        reject(new Error("Can't create storefront config."));
+        reject(new Error('Can\'t create storefront config.'))
       }
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -553,21 +476,16 @@ class Storefront extends Abstract {
    *
    * @returns {Promise}
    */
-  npmBuild() {
+  npmBuild () {
     return new Promise((resolve, reject) => {
-      Message.info('Build storefront npm...');
+      Message.info('Build storefront npm...')
 
-      if (
-        shell.exec(`npm run build > ${Abstract.storefrontLogStream} 2>&1`)
-          .code !== 0
-      ) {
-        reject(
-          new Error("Can't build storefront npm.", VUE_STOREFRONT_LOG_FILE)
-        );
+      if (shell.exec(`npm run build > ${Abstract.storefrontLogStream} 2>&1`).code !== 0) {
+        reject(new Error('Can\'t build storefront npm.', VUE_STOREFRONT_LOG_FILE))
       }
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -575,34 +493,22 @@ class Storefront extends Abstract {
    *
    * @returns {Promise}
    */
-  runDevEnvironment(answers) {
+  runDevEnvironment (answers) {
     return new Promise((resolve, reject) => {
-      Message.info('Starting storefront server...');
+      Message.info('Starting storefront server...')
 
       if (isWindows()) {
-        if (
-          shell.exec(
-            `start /min npm run dev >> ${Abstract.storefrontLogStream} 2>&1 &`
-          ).code !== 0
-        ) {
-          reject(
-            new Error("Can't start storefront server.", VUE_STOREFRONT_LOG_FILE)
-          );
+        if (shell.exec(`start /min npm run dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
+          reject(new Error('Can\'t start storefront server.', VUE_STOREFRONT_LOG_FILE))
         }
       } else {
-        if (
-          shell.exec(
-            `nohup npm run dev >> ${Abstract.storefrontLogStream} 2>&1 &`
-          ).code !== 0
-        ) {
-          reject(
-            new Error("Can't start storefront server.", VUE_STOREFRONT_LOG_FILE)
-          );
+        if (shell.exec(`nohup npm run dev >> ${Abstract.storefrontLogStream} 2>&1 &`).code !== 0) {
+          reject(new Error('Can\'t start storefront server.', VUE_STOREFRONT_LOG_FILE))
         }
       }
 
-      resolve(answers);
-    });
+      resolve(answers)
+    })
   }
 }
 
@@ -612,11 +518,11 @@ class Manager extends Abstract {
    *
    * Assign backend and storefront entities
    */
-  constructor(answers) {
-    super(answers);
+  constructor (answers) {
+    super(answers)
 
-    this.backend = new Backend(answers);
-    this.storefront = new Storefront(answers);
+    this.backend = new Backend(answers)
+    this.storefront = new Storefront(answers)
   }
 
   /**
@@ -625,35 +531,35 @@ class Manager extends Abstract {
    *
    * @returns {Promise}
    */
-  tryToCreateLogFiles() {
+  tryToCreateLogFiles () {
     return new Promise((resolve, reject) => {
-      Message.info('Trying to create log files...');
+      Message.info('Trying to create log files...')
 
       try {
-        mkdirp.sync(LOG_DIR, { mode: parseInt('0755', 8) });
+        mkdirp.sync(LOG_DIR, {mode: parseInt('0755', 8)})
 
         let logFiles = [
           INSTALL_LOG_FILE,
           VUE_STOREFRONT_BACKEND_LOG_FILE,
           VUE_STOREFRONT_LOG_FILE
-        ];
+        ]
 
         for (let logFile of logFiles) {
           if (shell.touch(logFile).code !== 0 || !exists(logFile)) {
-            throw new Error();
+            throw new Error()
           }
         }
 
-        Abstract.logsWereCreated = true;
-        Abstract.infoLogStream = INSTALL_LOG_FILE;
-        Abstract.storefrontLogStream = VUE_STOREFRONT_LOG_FILE;
-        Abstract.backendLogStream = VUE_STOREFRONT_BACKEND_LOG_FILE;
+        Abstract.logsWereCreated = true
+        Abstract.infoLogStream = INSTALL_LOG_FILE
+        Abstract.storefrontLogStream = VUE_STOREFRONT_LOG_FILE
+        Abstract.backendLogStream = VUE_STOREFRONT_BACKEND_LOG_FILE
       } catch (e) {
-        Message.warning("Can't create log files.");
+        Message.warning('Can\'t create log files.')
       }
 
-      resolve();
-    });
+      resolve()
+    })
   }
 
   /**
@@ -661,22 +567,20 @@ class Manager extends Abstract {
    *
    * @returns {Promise}
    */
-  initBackend() {
+  initBackend () {
     if (this.answers.is_remote_backend === false) {
-      Abstract.wasLocalBackendInstalled = true;
+      Abstract.wasLocalBackendInstalled = true
       if (this.answers.m2_api_oauth2 === true) {
-        return this.backend
-          .validateM2Integration()
+        return this.backend.validateM2Integration()
           .then(this.backend.cloneRepository.bind(this.backend))
           .then(this.backend.goToDirectory.bind(this.backend))
           .then(this.backend.npmInstall.bind(this.backend))
           .then(this.backend.createConfig.bind(this.backend))
           .then(this.backend.dockerComposeUp.bind(this.backend))
           .then(this.backend.importElasticSearch.bind(this.backend))
-          .then(this.backend.runDevEnvironment.bind(this.backend));
+          .then(this.backend.runDevEnvironment.bind(this.backend))
       } else {
-        return this.backend
-          .cloneRepository()
+        return this.backend.cloneRepository()
           .then(this.backend.goToDirectory.bind(this.backend))
           .then(this.backend.npmInstall.bind(this.backend))
           .then(this.backend.createConfig.bind(this.backend))
@@ -684,10 +588,10 @@ class Manager extends Abstract {
           .then(this.backend.restoreElasticSearch.bind(this.backend))
           .then(this.backend.migrateElasticSearch.bind(this.backend))
           .then(this.backend.cloneMagentoSampleData.bind(this.backend))
-          .then(this.backend.runDevEnvironment.bind(this.backend));
+          .then(this.backend.runDevEnvironment.bind(this.backend))
       }
     } else {
-      return Promise.resolve();
+      return Promise.resolve()
     }
   }
 
@@ -696,22 +600,21 @@ class Manager extends Abstract {
    *
    * @returns {Promise}
    */
-  initStorefront() {
-    return this.storefront
-      .goToDirectory()
+  initStorefront () {
+    return this.storefront.goToDirectory()
       .then(this.storefront.createConfig.bind(this.storefront))
       .then(this.storefront.npmBuild.bind(this.storefront))
-      .then(this.storefront.runDevEnvironment.bind(this.storefront));
+      .then(this.storefront.runDevEnvironment.bind(this.storefront))
   }
 
   /**
    * Shows message rendered on the very beginning
    */
-  static showWelcomeMessage() {
+  static showWelcomeMessage () {
     Message.greeting([
       'Hi, welcome to the vue-storefront installation.',
-      "Let's configure it together :)"
-    ]);
+      'Let\'s configure it together :)'
+    ])
   }
 
   /**
@@ -719,32 +622,24 @@ class Manager extends Abstract {
    *
    * @returns {Promise}
    */
-  showGoodbyeMessage() {
+  showGoodbyeMessage () {
     return new Promise((resolve, reject) => {
-      Message.greeting(
-        [
-          'Congratulations!',
-          '',
-          "You've just successfully installed vue-storefront.",
-          'All required servers are running in background',
-          '',
-          'Storefront: http://localhost:3000',
-          'Backend: ' +
-            (Abstract.wasLocalBackendInstalled
-              ? 'http://localhost:8080'
-              : STOREFRONT_REMOTE_BACKEND_URL),
-          '',
-          Abstract.logsWereCreated
-            ? `Logs: ${LOG_DIR}/`
-            : "You don't have log files created.",
-          '',
-          'Good Luck!'
-        ],
-        true
-      );
+      Message.greeting([
+        'Congratulations!',
+        '',
+        'You\'ve just successfully installed vue-storefront.',
+        'All required servers are running in background',
+        '',
+        'Storefront: http://localhost:3000',
+        'Backend: ' + (Abstract.wasLocalBackendInstalled ? 'http://localhost:8080' : STOREFRONT_REMOTE_BACKEND_URL),
+        '',
+        Abstract.logsWereCreated ? `Logs: ${LOG_DIR}/` : 'You don\'t have log files created.',
+        '',
+        'Good Luck!'
+      ], true)
 
-      resolve();
-    });
+      resolve()
+    })
   }
 }
 
@@ -763,17 +658,17 @@ let questions = [
   {
     type: 'input',
     name: 'git_path',
-    message: "Please provide Git path (if it's not globally installed)",
+    message: 'Please provide Git path (if it\'s not globally installed)',
     default: 'git',
-    when: function(answers) {
-      return answers.is_remote_backend === false;
+    when: function (answers) {
+      return answers.is_remote_backend === false
     },
-    validate: function(value) {
+    validate: function (value) {
       if (!commandExists.sync(value)) {
-        return 'Invalid git path. Try again ;)';
+        return 'Invalid git path. Try again ;)'
       }
 
-      return true;
+      return true
     }
   },
   {
@@ -781,21 +676,21 @@ let questions = [
     name: 'backend_dir',
     message: 'Please provide path for installing backend locally',
     default: '../vue-storefront-api',
-    when: function(answers) {
-      return answers.is_remote_backend === false;
+    when: function (answers) {
+      return answers.is_remote_backend === false
     },
-    validate: function(value) {
+    validate: function (value) {
       try {
-        mkdirp.sync(value, { mode: parseInt('0755', 8) });
+        mkdirp.sync(value, {mode: parseInt('0755', 8)})
 
         if (!isEmptyDir.sync(value)) {
-          return 'Please provide path to empty directory.';
+          return 'Please provide path to empty directory.'
         }
       } catch (error) {
-        return "Can't access to write in this directory. Try again ;)";
+        return 'Can\'t access to write in this directory. Try again ;)'
       }
 
-      return true;
+      return true
     }
   },
   {
@@ -807,8 +702,8 @@ let questions = [
       'http://localhost:8080/img/',
       'Custom url'
     ],
-    when: function(answers) {
-      return answers.is_remote_backend === false;
+    when: function (answers) {
+      return answers.is_remote_backend === false
     }
   },
   {
@@ -816,27 +711,24 @@ let questions = [
     name: 'images_endpoint',
     message: 'Please provide path for images endpoint',
     default: `${STOREFRONT_REMOTE_BACKEND_URL}/img/`,
-    when: function(answers) {
-      let isProvideByYourOwn = answers.images_endpoint === 'Custom url';
+    when: function (answers) {
+      let isProvideByYourOwn = answers.images_endpoint === 'Custom url'
 
-      return isProvideByYourOwn || answers.is_remote_backend === true;
+      return isProvideByYourOwn || answers.is_remote_backend === true
     },
-    filter: function(url) {
-      let prefix = 'http://';
-      let prefixSsl = 'https://';
+    filter: function (url) {
+      let prefix = 'http://'
+      let prefixSsl = 'https://'
 
-      url = url.trim();
+      url = url.trim()
 
       // add http:// if no protocol set
-      if (
-        url.substr(0, prefix.length) !== prefix &&
-        url.substr(0, prefixSsl.length) !== prefixSsl
-      ) {
-        url = prefix + url;
+      if (url.substr(0, prefix.length) !== prefix && url.substr(0, prefixSsl.length) !== prefixSsl) {
+        url = prefix + url
       }
 
       // add extra slash as suffix if was not set
-      return url.slice(-1) === '/' ? url : `${url}/`;
+      return url.slice(-1) === '/' ? url : `${url}/`
     }
   },
   {
@@ -844,8 +736,8 @@ let questions = [
     name: 'm2_url',
     message: 'Please provide your Magento url',
     default: 'http://demo-magento2.vuestorefront.io',
-    when: function(answers) {
-      return answers.is_remote_backend === false;
+    when: function (answers) {
+      return answers.is_remote_backend === false
     }
   },
   {
@@ -853,8 +745,8 @@ let questions = [
     name: 'm2_api_oauth2',
     message: `Would You like to perform initial data import from Magento2 instance?`,
     default: false,
-    when: function(answers) {
-      return answers.is_remote_backend === false;
+    when: function (answers) {
+      return answers.is_remote_backend === false
     }
   },
   {
@@ -862,24 +754,21 @@ let questions = [
     name: 'm2_api_url',
     message: 'Please provide the URL to your Magento rest API',
     default: 'http://demo-magento2.vuestorefront.io/rest',
-    when: function(answers) {
-      return answers.m2_api_oauth2 === true;
+    when: function (answers) {
+      return answers.m2_api_oauth2 === true
     },
-    filter: function(url) {
-      let prefix = 'http://';
-      let prefixSsl = 'https://';
+    filter: function (url) {
+      let prefix = 'http://'
+      let prefixSsl = 'https://'
 
-      url = url.trim();
+      url = url.trim()
 
       // add http:// if no protocol set
-      if (
-        url.substr(0, prefix.length) !== prefix &&
-        url.substr(0, prefixSsl.length) !== prefixSsl
-      ) {
-        url = prefix + url;
+      if (url.substr(0, prefix.length) !== prefix && url.substr(0, prefixSsl.length) !== prefixSsl) {
+        url = prefix + url
       }
 
-      return url;
+      return url
     }
   },
   {
@@ -887,8 +776,8 @@ let questions = [
     name: 'm2_api_consumer_key',
     message: 'Please provide your consumer key',
     default: 'byv3730rhoulpopcq64don8ukb8lf2gq',
-    when: function(answers) {
-      return answers.m2_api_oauth2 === true;
+    when: function (answers) {
+      return answers.m2_api_oauth2 === true
     }
   },
   {
@@ -896,8 +785,8 @@ let questions = [
     name: 'm2_api_consumer_secret',
     message: 'Please provide your consumer secret',
     default: 'u9q4fcobv7vfx9td80oupa6uhexc27rb',
-    when: function(answers) {
-      return answers.m2_api_oauth2 === true;
+    when: function (answers) {
+      return answers.m2_api_oauth2 === true
     }
   },
   {
@@ -905,8 +794,8 @@ let questions = [
     name: 'm2_api_access_token',
     message: 'Please provide your access token',
     default: '040xx3qy7s0j28o3q0exrfop579cy20m',
-    when: function(answers) {
-      return answers.m2_api_oauth2 === true;
+    when: function (answers) {
+      return answers.m2_api_oauth2 === true
     }
   },
   {
@@ -914,33 +803,32 @@ let questions = [
     name: 'm2_api_access_token_secret',
     message: 'Please provide your access token secret',
     default: '7qunl3p505rubmr7u1ijt7odyialnih9',
-    when: function(answers) {
-      return answers.m2_api_oauth2 === true;
+    when: function (answers) {
+      return answers.m2_api_oauth2 === true
     }
   }
-];
+]
 
-async function processAnswers(answers) {
-  let manager = new Manager(answers);
+async function processAnswers (answers) {
+  let manager = new Manager(answers)
 
-  await manager
-    .tryToCreateLogFiles()
+  await manager.tryToCreateLogFiles()
     .then(manager.initBackend.bind(manager))
     .then(manager.initStorefront.bind(manager))
     .then(manager.showGoodbyeMessage.bind(manager))
-    .catch(Message.error);
+    .catch(Message.error)
 
-  shell.exit(0);
+  shell.exit(0)
 }
 
 /**
  * Predefine class static variables
  */
-Abstract.wasLocalBackendInstalled = false;
-Abstract.logsWereCreated = false;
-Abstract.infoLogStream = '/dev/null';
-Abstract.storefrontLogStream = '/dev/null';
-Abstract.backendLogStream = '/dev/null';
+Abstract.wasLocalBackendInstalled = false
+Abstract.logsWereCreated = false
+Abstract.infoLogStream = '/dev/null'
+Abstract.storefrontLogStream = '/dev/null'
+Abstract.backendLogStream = '/dev/null'
 
 if (require.main.filename === __filename) {
   /**
@@ -949,23 +837,23 @@ if (require.main.filename === __filename) {
 
   program
     .option('--default-config', 'Run with default configuration')
-    .parse(process.argv);
+    .parse(process.argv)
 
   if (program.defaultConfig) {
-    const defaultConfig = {};
+    const defaultConfig = {}
     questions.forEach(question => {
-      defaultConfig[question.name] = question.default;
-    });
-    processAnswers(defaultConfig);
+      defaultConfig[question.name] = question.default
+    })
+    processAnswers(defaultConfig)
   } else {
-    Manager.showWelcomeMessage();
-    inquirer.prompt(questions).then(answers => processAnswers(answers));
+    Manager.showWelcomeMessage()
+    inquirer.prompt(questions).then(answers => processAnswers(answers))
   }
 } else {
-  module.exports.Message = Message;
-  module.exports.Manager = Manager;
-  module.exports.Abstract = Abstract;
-  module.exports.STOREFRONT_REMOTE_BACKEND_URL = STOREFRONT_REMOTE_BACKEND_URL;
-  module.exports.TARGET_FRONTEND_CONFIG_FILE = TARGET_FRONTEND_CONFIG_FILE;
-  module.exports.TARGET_BACKEND_CONFIG_FILE = TARGET_BACKEND_CONFIG_FILE;
+  module.exports.Message = Message
+  module.exports.Manager = Manager
+  module.exports.Abstract = Abstract
+  module.exports.STOREFRONT_REMOTE_BACKEND_URL = STOREFRONT_REMOTE_BACKEND_URL
+  module.exports.TARGET_FRONTEND_CONFIG_FILE = TARGET_FRONTEND_CONFIG_FILE
+  module.exports.TARGET_BACKEND_CONFIG_FILE = TARGET_BACKEND_CONFIG_FILE
 }

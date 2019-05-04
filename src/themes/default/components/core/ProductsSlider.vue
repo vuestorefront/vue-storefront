@@ -16,7 +16,10 @@
             <div class="center-xs cool-stuff-collection">
               <no-ssr>
                 <carousel v-bind="config" @pageChange="setMuted">
-                  <slide v-for="product in products" :key="product.id">
+                  <slide
+                    v-for="product in products"
+                    :key="product.id"
+                  >
                     <product-tile
                       class="collection-product"
                       :product="product"
@@ -35,8 +38,8 @@
 </template>
 
 <script>
-import NoSSR from 'vue-no-ssr';
-import ProductTile from 'theme/components/core/ProductTile';
+import NoSSR from 'vue-no-ssr'
+import ProductTile from 'theme/components/core/ProductTile'
 
 export default {
   name: 'ProductsSlider',
@@ -55,22 +58,22 @@ export default {
     }
   },
   components: {
-    Carousel: () => import('vue-carousel').then(Slider => Slider.Carousel),
-    Slide: () => import('vue-carousel').then(Slider => Slider.Slide),
+    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
+    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide),
     ProductTile,
     'no-ssr': NoSSR
   },
-  data() {
+  data () {
     return {
       currentPage: 0
-    };
+    }
   },
   methods: {
-    setMuted(currentPage) {
-      this.currentPage = currentPage;
+    setMuted (currentPage) {
+      this.currentPage = currentPage
     }
   }
-};
+}
 </script>
 
 <style lang="scss">
@@ -81,10 +84,10 @@ $color-product-bg: color(secondary, $colors-background);
 .collection-slider {
   overflow: hidden;
   .VueCarousel-wrapper {
-    overflow: visible !important;
+    overflow: visible!important;
     &:before,
     &:after {
-      content: '';
+      content: "";
       height: 100%;
       position: absolute;
       top: 0;
@@ -109,21 +112,11 @@ $color-product-bg: color(secondary, $colors-background);
     }
     &:before {
       right: 100%;
-      background: linear-gradient(
-        to right,
-        $color-product-bg 0%,
-        $color-product-bg 40%,
-        rgba($color-product-bg, 0.2) 100%
-      );
+      background: linear-gradient(to right, $color-product-bg 0%,$color-product-bg 40%,rgba($color-product-bg,0.2) 100%);
     }
     &:after {
       left: 100%;
-      background: linear-gradient(
-        to left,
-        $color-product-bg 0%,
-        $color-product-bg 40%,
-        rgba($color-product-bg, 0.2) 100%
-      );
+      background: linear-gradient(to left, $color-product-bg 0%,$color-product-bg 40%,rgba($color-product-bg,0.2) 100%);
     }
   }
 }

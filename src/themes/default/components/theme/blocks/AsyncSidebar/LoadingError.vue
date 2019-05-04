@@ -10,34 +10,32 @@
     </div>
     <div class="row" v-if="OfflineOnly">
       <i class="material-icons icon">error</i>
-      <span
-        >Component couldn't be loaded due to lack of network connectivity.</span
-      >
+      <span>Component couldn't be loaded due to lack of network connectivity.</span>
       <span class="link" @click="close">Close</span>
     </div>
   </div>
 </template>
 
 <script>
-import VueOfflineMixin from 'vue-offline/mixin';
+import VueOfflineMixin from 'vue-offline/mixin'
 
 export default {
   name: 'LoadingError',
   mixins: [VueOfflineMixin],
-  mounted() {
+  mounted () {
     this.$on('online', () => {
-      this.reload();
-    });
+      this.reload()
+    })
   },
   methods: {
-    reload() {
-      this.$emit('reload');
+    reload () {
+      this.$emit('reload')
     },
-    close() {
-      this.$emit('close');
+    close () {
+      this.$emit('close')
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

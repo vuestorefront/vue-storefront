@@ -1,5 +1,5 @@
-import onEscapePress from '@vue-storefront/core/mixins/onEscapePress';
-import { Wishlist } from '@vue-storefront/core/modules/wishlist/components/Wishlist';
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
+import { Wishlist } from '@vue-storefront/core/modules/wishlist/components/Wishlist'
 export default {
   name: 'Wishlist',
   props: {
@@ -7,14 +7,14 @@ export default {
     product: {
       type: Object,
       required: false,
-      default: () => {}
+      default: () => { }
     }
   },
   methods: {
     // theme-specific
-    onEscapePress() {
-      this.closeWishlist();
+    onEscapePress () {
+      this.closeWishlist()
     }
   },
-  mixins: [Wishlist, onEscapePress]
-};
+  mixins: [ Wishlist, onEscapePress ]
+}

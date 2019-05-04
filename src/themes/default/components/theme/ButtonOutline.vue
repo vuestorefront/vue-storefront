@@ -4,14 +4,10 @@
     :to="localizedRoute(link)"
     class="button-outline no-outline py15 bg-cl-transparent h4 no-underline sans-serif fs-medium"
     :class="{
-      light: color === 'light',
-      'brdr-white': color === 'light',
-      'cl-white': color === 'light',
-      dark: color === 'dark',
-      'brdr-darkgray': color === 'dark',
-      'cl-secondary': color === 'dark',
-      px0: link ? true : false,
-      px40: link ? false : true
+      light : color === 'light', 'brdr-white' : color === 'light', 'cl-white' : color === 'light',
+      dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'cl-secondary' : color === 'dark',
+      px0 : link ? true : false,
+      px40 : link ? false : true
     }"
   >
     <slot>
@@ -21,7 +17,7 @@
 </template>
 
 <script>
-import focusClean from 'theme/components/theme/directives/focusClean';
+import focusClean from 'theme/components/theme/directives/focusClean'
 
 export default {
   name: 'ButtonOutline',
@@ -37,35 +33,35 @@ export default {
       required: false
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$dark-border: color(secondary);
-$white: color(white);
-$black: color(black);
+  @import '~theme/css/variables/colors';
+  @import '~theme/css/helpers/functions/color';
+  $dark-border: color(secondary);
+  $white: color(white);
+  $black: color(black);
 
-.button-outline {
-  border: 2px solid;
-  min-width: 250px;
-}
-.dark {
-  border: 1px solid $dark-border;
-  &:hover,
-  &:focus {
-    color: $white;
-    background: $black;
-    border-color: $black;
+  .button-outline {
+    border: 2px solid;
+    min-width: 250px;
   }
-}
-.light {
-  &:hover,
-  &:focus {
-    color: $black;
-    background: $white;
-    border-color: $white;
+  .dark {
+    border: 1px solid $dark-border;
+    &:hover,
+    &:focus {
+      color: $white;
+      background: $black;
+      border-color: $black;
+    }
   }
-}
+  .light {
+    &:hover,
+    &:focus {
+      color: $black;
+      background: $white;
+      border-color: $white;
+    }
+  }
 </style>

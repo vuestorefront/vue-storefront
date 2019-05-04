@@ -1,3 +1,3 @@
 export default interface ShippingState {
-  methods: any[];
+  methods: any[]
 }

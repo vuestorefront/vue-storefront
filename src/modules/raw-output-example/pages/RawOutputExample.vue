@@ -7,21 +7,24 @@
 <script>
 export default {
   name: 'RawOutputExample',
-  asyncData({ store, route, context }) {
-    context.server.response.setHeader('Content-Type', 'text/xml');
-    context.output.template = '';
+  asyncData ({ store, route, context }) {
+    context.server.response.setHeader('Content-Type', 'text/xml')
+    context.output.template = ''
     return new Promise((resolve, reject) => {
-      resolve();
-    });
+      resolve()
+    })
   },
-  data() {
+  data () {
     return {
-      exampleData: 'Data from base component'
-    };
+      'exampleData': 'Data from base component'
+    }
   },
-  components: {}
-};
+  components: {
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+
+</style>
