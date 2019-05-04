@@ -5,13 +5,13 @@ import { required, email } from 'vuelidate/lib/validators'
  *
  * #### Data
  * - `email: String` - email that will be used for subscription, validated with vuelidate (email, required)
- * 
+ *
  * ### Computed
  * - `isSubscribed: boolean` - returns true if user subscribed to the newsletter in this session
- * 
+ *
  * #### Methods
  * - `submit(success?: Function, failure?: Function)` dispatches `newsletter-mailchimp/subscribe` with `email` data property. `success(res)` and `failure(err)` are callback functions called depending on subscription result and contain response info or error.
- * 
+ *
  */
 export const Subscribe = {
   name: 'MailchimpSubscribe',
@@ -35,12 +35,13 @@ export const Subscribe = {
         }).catch(err => {
           if (failure) failure(err)
         }
-      )}
+        )
+      }
     }
   },
   computed: {
     isSubscribed (): boolean {
       return this.$store.state.mailchimp.subscribed
     }
-  },
+  }
 }

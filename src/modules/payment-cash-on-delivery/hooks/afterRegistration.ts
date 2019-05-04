@@ -1,7 +1,7 @@
 import InfoComponent from '../components/Info.vue'
 import rootStore from '@vue-storefront/core/store'
 
-export function afterRegistration({ Vue, config, store, isServer }) {
+export function afterRegistration ({ Vue, config, store, isServer }) {
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
   let correctPaymentMethod = false
   const placeOrder = () => {

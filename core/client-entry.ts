@@ -21,7 +21,7 @@ const invokeClientEntry = async () => {
   const config = Object.assign(buildTimeConfig, window.__INITIAL_STATE__.config ? window.__INITIAL_STATE__.config : buildTimeConfig)
 
   // Get storeCode from server (received either from cache header or env variable)
-  let storeCode =  window.__INITIAL_STATE__.user.current_storecode
+  let storeCode = window.__INITIAL_STATE__.user.current_storecode
   const { app, router, store } = await createApp(null, config, storeCode)
 
   if (window.__INITIAL_STATE__) {

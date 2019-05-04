@@ -9,14 +9,14 @@ import HTMLPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
 import moment from 'moment';
 
+import themeRoot from './theme-path';
+
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
   JSON.stringify(config)
 )
 
 const themesRoot = '../../src/themes'
-
-import themeRoot from './theme-path';
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
@@ -31,15 +31,15 @@ translationPreprocessor([
   path.resolve(__dirname, themeResources + '/i18n/')
 ], config)
 
-const postcssConfig =  {
+const postcssConfig = {
   loader: 'postcss-loader',
   options: {
     ident: 'postcss',
     plugins: (loader) => [
       require('postcss-flexbugs-fixes'),
       require('autoprefixer')({
-        flexbox: 'no-2009',
-      }),
+        flexbox: 'no-2009'
+      })
     ]
   }
 };
@@ -67,13 +67,13 @@ export default {
       inject: isProd == false
     }),
     new HTMLPlugin({
-      template: fs.existsSync(themedIndexBasic) ? themedIndexBasic: 'src/index.basic.template.html',
+      template: fs.existsSync(themedIndexBasic) ? themedIndexBasic : 'src/index.basic.template.html',
       filename: 'index.basic.html',
       chunksSortMode: 'none',
       inject: isProd == false
     }),
     new HTMLPlugin({
-      template: fs.existsSync(themedIndexAmp) ? themedIndexAmp: 'src/index.amp.template.html',
+      template: fs.existsSync(themedIndexAmp) ? themedIndexAmp : 'src/index.amp.template.html',
       filename: 'index.amp.html',
       chunksSortMode: 'none',
       inject: isProd == false
@@ -96,7 +96,7 @@ export default {
     modules: [
       'node_modules',
       path.resolve(__dirname, themesRoot)
-    ],
+    ]
   },
   resolve: {
     modules: [
@@ -116,7 +116,7 @@ export default {
       'theme/resource': themeResources,
 
       // Backward compatible
-      '@vue-storefront/core/store/lib/multistore' : path.resolve(__dirname, '../lib/multistore.ts'),
+      '@vue-storefront/core/store/lib/multistore': path.resolve(__dirname, '../lib/multistore.ts')
     }
   },
   module: {
@@ -132,7 +132,7 @@ export default {
         loader: 'vue-loader',
         options: {
           preserveWhitespace: false,
-          postcss: [autoprefixer()],
+          postcss: [autoprefixer()]
         }
       },
       {

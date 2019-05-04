@@ -1,6 +1,6 @@
 import * as types from './../store/checkout/mutation-types'
 
-export function afterRegistration({ Vue, config, store, isServer }) {
+export function afterRegistration ({ Vue, config, store, isServer }) {
   store.subscribe((mutation, state) => {
     const type = mutation.type
 

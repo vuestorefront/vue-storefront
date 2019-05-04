@@ -29,9 +29,8 @@ function _sleep (time) {
 }
 
 function _internalExecute (resolve, reject, task: Task, currentToken, currentCartId) {
-
   if (currentToken !== null && rootStore.state.userTokenInvalidateLock > 0) { // invalidate lock set
-    Logger.log('Waiting for rootStore.state.userTokenInvalidateLock to release for '+ task.url, 'sync')()
+    Logger.log('Waiting for rootStore.state.userTokenInvalidateLock to release for ' + task.url, 'sync')()
     _sleep(1000).then(() => {
       Logger.log('Another try for rootStore.state.userTokenInvalidateLock for ' + task.url, 'sync')()
       _internalExecute(resolve, reject, task, currentToken, currentCartId)

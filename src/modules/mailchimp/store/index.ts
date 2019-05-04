@@ -4,11 +4,11 @@ import { Module } from 'vuex'
 import { mailchimpState } from '../types/mailchimpState'
 import { cacheStorage } from '../'
 
-export const module: Module<mailchimpState, any> ={
+export const module: Module<mailchimpState, any> = {
   namespaced: true,
   state: {
     isSubscribed: null,
-    email: null,
+    email: null
   },
   mutations: {
     [types.NEWSLETTER_SUBSCRIBE] (state) {
@@ -55,7 +55,7 @@ export const module: Module<mailchimpState, any> ={
           }).catch(err => {
             reject(err)
           })
-      })
+        })
       }
     }
   }

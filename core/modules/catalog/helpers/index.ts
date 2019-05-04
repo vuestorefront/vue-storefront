@@ -395,7 +395,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
       const confVal = {
         attribute_code: attribute_code,
         id: selectedOption.value,
-        label: selectedOption.label ? selectedOption.label : /*if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+        label: selectedOption.label ? selectedOption.label : /* if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
       }
       context.state.current_configuration[attribute_code] = confVal
       // @deprecated fallback for VS <= 1.0RC
@@ -415,9 +415,8 @@ export function populateProductConfigurationAsync (context, { product, selectedV
   return selectedVariant
 }
 
-export function findConfigurableChildAsync({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
+export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
   let selectedVariant = product.configurable_children.find((configurableChild) => {
-
     if (availabilityCheck) {
       if (configurableChild.stock && !rootStore.state.config.products.listOutOfStockProducts) {
         if (!configurableChild.stock.is_in_stock) {
@@ -425,7 +424,7 @@ export function findConfigurableChildAsync({ product, configuration = null, sele
         }
       }
     }
-    if (configurableChild.status >= 2/**disabled product*/) {
+    if (configurableChild.status >= 2/** disabled product */) {
       return false
     }
     if (selectDefaultChildren) {
@@ -495,7 +494,7 @@ export function configureProductAsync (context, { product, configuration, select
         Logger.debug('Skipping configurable options setup', configuration)()
       } */
       const fieldsToOmit = ['name']
-      if (selectedVariant.image === "") fieldsToOmit.push('image')
+      if (selectedVariant.image === '') fieldsToOmit.push('image')
       selectedVariant = omit(selectedVariant, fieldsToOmit) // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
       // use chosen variant
       if (selectDefaultVariant) {
@@ -552,7 +551,7 @@ export function getMediaGallery (product) {
  * otherwise get attribute images
  */
 
-export function configurableChildrenImages(product) {
+export function configurableChildrenImages (product) {
   let configurableChildrenImages = []
   if (product.configurable_children && product.configurable_children.length > 0) {
     let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
@@ -576,19 +575,18 @@ export function configurableChildrenImages(product) {
  * Get images from configured attribute images
  */
 
-export function attributeImages(product) {
-    let attributeImages = []
-    if (rootStore.state.config.products.gallery.imageAttributes) {
-        for (let attribute of rootStore.state.config.products.gallery.imageAttributes) {
-            if(product[attribute]) {
-                attributeImages.push({
-                    'src': getThumbnailPath(product[attribute], rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                    'loading': getThumbnailPath(product[attribute], 310, 300),
-                    'error': getThumbnailPath(product[attribute], 310, 300)
-                })
-            }
-        }
+export function attributeImages (product) {
+  let attributeImages = []
+  if (rootStore.state.config.products.gallery.imageAttributes) {
+    for (let attribute of rootStore.state.config.products.gallery.imageAttributes) {
+      if (product[attribute]) {
+        attributeImages.push({
+          'src': getThumbnailPath(product[attribute], rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
+          'loading': getThumbnailPath(product[attribute], 310, 300),
+          'error': getThumbnailPath(product[attribute], 310, 300)
+        })
+      }
     }
-    return attributeImages
+  }
+  return attributeImages
 }
-
