@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Google Tag Manager integration - @talalus (#841)
 - Portuguese (pt-PT) translation - @xlcnd (#2695)
 - Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
-- added back-button on orde detail page [#2819]
+- Added back-button on orde detail page [#2819]
 
 ### Fixed
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
@@ -25,8 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unexpected `window.localStorage` use in user module actions - @zulcom (#2735)
 - Fix handling state of same address checkbox in the checkout - @lukeromanowicz (#2730)
 - Fix for `everythingNew` collection on home page - @vishal-7037 (#2761)
+- Fixed `Clear cart` option as it previously was not syncing the changes with server - therefore when the user was logged in and cleard the cart all the products were restored - @pkarw (#2587)
+- Fixed the cart sync for a rare case that current cart token was empty - @pkarw (#2592)
 
 ### Changed / Improved
+- Changed the order number (from `entity_id` to `increment_id`) on MyOrders and MyOrder pages - @pkarw (#2743)
+- Disabled the server cart sync in case user is in the checkout - @pkarw (#2749)
 - Improved ProductGalleryCarousel component to handle nonnumeric options id’s - @danieldomurad (#2586)
 - Number of displayed products is now visible on PLP on desktop - @awierzbiak (#2504)
 - Improved visibility of product SKU in wishlist  - @PanMisza (#2606)
@@ -49,7 +53,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The default storeId is taken from the configurations - @nuovecode (#2718)
 - Multitab cart sync - @BartoszLiburski (#2547)
 - Status filter in Related Products query (#2805)
+- The "Apply button was too big, I have reduced its size - @idodidodi (#2807)
 - Added return to shopping button on ThenkYou page - @ZeevGerstner (#2818)
+- Added optional attributes to catalog/product.ts - @ZeevGerstner (#2792)
 
 ## [1.9.0] - UNRELEASED
 

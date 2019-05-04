@@ -85,7 +85,8 @@ export default {
   },
   watch: {
     isLoggedIn () {
-      this.$router.push(localStorage.getItem('redirect'))
+      const redirectObj = localStorage.getItem('redirect')
+      if (redirectObj) this.$router.push(redirectObj)
       localStorage.removeItem('redirect')
     }
   },
