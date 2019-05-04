@@ -1,2 +1,3 @@
 core/build/*.js
 node_modules
+packages/theme-capybara
