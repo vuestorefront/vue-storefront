@@ -10,8 +10,8 @@ const options = {
     nightly: 'Next build (latest features, could be unstable) '
   },
   installation: {
-    installer: "Installer (MacOS/Linux only)",
-    manual: "Manual installation"
+    installer: 'Installer (MacOS/Linux only)',
+    manual: 'Manual installation'
   }
 }
 
@@ -51,7 +51,7 @@ inquirer
       message: 'Would you like to use friendly installer or install Vue Storefront manually?',
       choices: [
         options.installation.installer,
-        'Manual installation'
+        options.installation.manual
       ]
     }
   ])
