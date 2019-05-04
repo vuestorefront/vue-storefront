@@ -42,8 +42,7 @@
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
     "lint": "eslint --ext .js,.vue,.ts core src",
-    "lerna": "lerna",
-    "format": "prettier --write '{core,src}/**/*.{js,vue,ts,json}'"
+    "lerna": "lerna"
   },
   "dependencies": {
     "@types/webpack": "^4.4.23",
@@ -111,13 +110,11 @@
     "detect-installed": "^2.0.4",
     "empty-dir": "^1.0.0",
     "eslint": "^5.0.0",
-    "eslint-config-prettier": "^4.2.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.1.0",
     "eslint-plugin-vue": "^5.2.2",
@@ -136,7 +133,6 @@
     "phantomjs-prebuilt": "^2.1.10",
     "postcss-flexbugs-fixes": "^3.3.1",
     "postcss-loader": "^2.1.5",
-    "prettier": "^1.17.0",
     "print-message": "^2.1.0",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.1.0",

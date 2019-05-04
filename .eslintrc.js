@@ -11,36 +11,26 @@ module.exports = {
   extends: [
     'plugin:vue/recommended',
     'standard',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-    'prettier/@typescript-eslint',
-    'prettier/vue'
+    'plugin:@typescript-eslint/recommended'
   ],
   plugins: ['vue', 'vue-storefront', '@typescript-eslint'],
   // add your custom rules here
   rules: {
+    '@typescript-eslint/no-var-requires': 1,
+    '@typescript-eslint/indent': ['error', 2],
     '@typescript-eslint/camelcase': 0,
     semi: 'off',
-    '@typescript-eslint/semi': ['error'],
-    // Prettier rules these rulles should never be hit, as prettier formattes the code so
-    // so these will never get hit
-    'no-tabs': 'error',
-    quotes: [
-      'error',
-      'single',
-      { avoidEscape: true, allowTemplateLiterals: true }
-    ],
-    'space-before-function-paren': [
-      'error',
-      {
-        anonymous: 'never',
-        named: 'never',
-        asyncArrow: 'always'
-      }
-    ],
-    'array-bracket-spacing': ['error', 'never'],
-    // disabled the rules because of line breaks that comes from prettier
-    'standard/computed-property-even-spacing': 0,
+    '@typescript-eslint/semi': 0,
+    '@typescript-eslint/member-delimiter-style': ['error', { 'multiline': { 'delimiter': 'comma', 'requireLast': false }, 'singleline': { 'delimiter': 'comma' } }],
+    '@typescript-eslint/no-empty-interface': 1,
+    '@typescript-eslint/no-use-before-define': 1,
+    'handle-callback-err': 1,
+    '@typescript-eslint/class-name-casing': 1,
+    'prefer-promise-reject-errors': 1,
+    'import/no-duplicates': ['warning'],
+    'vue/return-in-computed-property': 1,
+    'vue/no-use-v-if-with-v-for': 1,
+    'vue/no-unused-components': 1,
     /* max attributes-per-line and order-in-components
      ** we should use this later, when eslint-plugin-vue will support auto fixing this
      */
