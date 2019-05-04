@@ -78,7 +78,9 @@ function execute(task) {
             // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
             currentCartId = rootStore.state.cart.cartServerToken;
           }
-          const token = currentToken || rootStore.getters['user/getUserToken'];
+          const token = currentToken
+            ? currentToken
+            : rootStore.getters['user/getUserToken'];
 
           taskExecute(task, token, currentCartId)
             .then(result => {

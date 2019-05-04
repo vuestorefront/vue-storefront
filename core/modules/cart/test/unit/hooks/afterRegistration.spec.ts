@@ -49,7 +49,7 @@ describe('Cart afterRegistration', () => {
     const storeSpy = jest.spyOn(store, 'subscribe');
     const cartCacheHandler = jest.fn();
 
-    (cartCacheHandlerFactory as Mock).mockReturnValueOnce(cartCacheHandler);
+    (<Mock>cartCacheHandlerFactory).mockReturnValueOnce(cartCacheHandler);
 
     afterRegistration({ Vue, config: {}, store, isServer: true });
 

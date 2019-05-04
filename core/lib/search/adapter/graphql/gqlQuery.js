@@ -1,16 +1,39 @@
-function processNestedFieldFilter(filter) {
-  let processedFilter = {};
-  let filterAttributes = filter.attribute.split('.');
-  if (filterAttributes.length > 1) {
-    let nestedFilter = filter.value;
-    for (let i = filterAttributes.length - 1; i >= 0; i--) {
-      nestedFilter = { [filterAttributes[i]]: nestedFilter };
-    }
-    processedFilter = nestedFilter;
-  } else {
-    processedFilter[filter.attribute] = filter.value;
+export function prepareGraphQlBody(Request) {
+  // @TODO Create graphQl query builder uses gqlQuery.body params
+  // below is a simple demo test products search query
+
+  let query = ``;
+  let queryVariables = prepareQueryVars(Request);
+  switch (Request.type) {
+    case 'product':
+      query = require('./queries/products.gql');
+      break;
+    case 'attribute':
+      query = require('./queries/customAttributeMetadata.gql');
+      break;
+    case 'category':
+      query = require('./queries/categories.gql');
+      break;
+    case 'taxrule':
+      query = require('./queries/taxrule.gql');
+      break;
+    case 'cms_page':
+      query = require('./queries/cmsPage.gql');
+      break;
+    case 'cms_block':
+      query = require('./queries/cmsBlock.gql');
+      break;
+    case 'cms_hierarhy':
+      query = require('./queries/cmsHierarchy.gql');
+      break;
   }
-  return processedFilter;
+
+  const body = JSON.stringify({
+    query,
+    variables: queryVariables
+  });
+
+  return body;
 }
 
 export function prepareQueryVars(Request) {
@@ -63,40 +86,17 @@ export function prepareQueryVars(Request) {
   return queryVariables;
 }
 
-export function prepareGraphQlBody(Request) {
-  // @TODO Create graphQl query builder uses gqlQuery.body params
-  // below is a simple demo test products search query
-
-  let query = ``;
-  let queryVariables = prepareQueryVars(Request);
-  switch (Request.type) {
-    case 'product':
-      query = require('./queries/products.gql');
-      break;
-    case 'attribute':
-      query = require('./queries/customAttributeMetadata.gql');
-      break;
-    case 'category':
-      query = require('./queries/categories.gql');
-      break;
-    case 'taxrule':
-      query = require('./queries/taxrule.gql');
-      break;
-    case 'cms_page':
-      query = require('./queries/cmsPage.gql');
-      break;
-    case 'cms_block':
-      query = require('./queries/cmsBlock.gql');
-      break;
-    case 'cms_hierarhy':
-      query = require('./queries/cmsHierarchy.gql');
-      break;
+function processNestedFieldFilter(filter) {
+  let processedFilter = {};
+  let filterAttributes = filter.attribute.split('.');
+  if (filterAttributes.length > 1) {
+    let nestedFilter = filter.value;
+    for (let i = filterAttributes.length - 1; i >= 0; i--) {
+      nestedFilter = { [filterAttributes[i]]: nestedFilter };
+    }
+    processedFilter = nestedFilter;
+  } else {
+    processedFilter[filter.attribute] = filter.value;
   }
-
-  const body = JSON.stringify({
-    query,
-    variables: queryVariables
-  });
-
-  return body;
+  return processedFilter;
 }

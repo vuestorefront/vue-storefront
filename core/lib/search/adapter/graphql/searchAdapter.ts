@@ -12,7 +12,7 @@ import SearchQuery from '../../searchQuery';
 export class SearchAdapter {
   public entities: any;
 
-  public constructor() {
+  constructor() {
     this.entities = [];
     this.initBaseTypes();
   }
@@ -21,7 +21,7 @@ export class SearchAdapter {
    * @param {Request} Request request object
    * @return {Promise}
    */
-  public search(Request) {
+  search(Request) {
     if (!(Request.searchQuery instanceof SearchQuery)) {
       throw new Error(
         'SearchQuery instance has wrong class required to process with graphQl request.'
@@ -93,7 +93,7 @@ export class SearchAdapter {
    * @param {function} resultPorcessor process results of response
    * @return {Object}
    */
-  public registerEntityType(
+  registerEntityType(
     entityType,
     { url = '', gql, queryProcessor, resultPorcessor }
   ) {
@@ -116,7 +116,7 @@ export class SearchAdapter {
    * @param {function} resultPorcessor process results of response
    * @return {Object}
    */
-  public registerEntityTypeByQuery(
+  registerEntityTypeByQuery(
     entityType,
     { url = '', query, queryProcessor, resultPorcessor }
   ) {
@@ -132,7 +132,7 @@ export class SearchAdapter {
   }
 
   // initialise default entitypes
-  public initBaseTypes() {
+  initBaseTypes() {
     this.registerEntityType('product', {
       gql: './queries/products.gql',
       queryProcessor: query => {

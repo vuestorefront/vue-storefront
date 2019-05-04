@@ -4,7 +4,6 @@ import baseServerConfig from './webpack.server.config';
 
 import themeRoot from './theme-path';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'));
 
 export default extendedConfig(baseServerConfig, {

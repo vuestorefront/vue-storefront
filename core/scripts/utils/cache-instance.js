@@ -1,10 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import TagCache from 'redis-tag-cache';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const fs = require('fs');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+const TagCache = require('redis-tag-cache').default;
 const config = require('config');
 let cache = false;
 

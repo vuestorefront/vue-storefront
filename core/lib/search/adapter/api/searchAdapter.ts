@@ -12,12 +12,12 @@ import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse
 export class SearchAdapter {
   public entities: any;
 
-  public constructor() {
+  constructor() {
     this.entities = [];
     this.initBaseTypes();
   }
 
-  public async search(Request) {
+  async search(Request) {
     if (!this.entities[Request.type]) {
       throw new Error('No entity type registered for ' + Request.type);
     }
@@ -105,7 +105,7 @@ export class SearchAdapter {
     });
   }
 
-  public handleResult(resp, type, start = 0, size = 50): SearchResponse {
+  handleResult(resp, type, start = 0, size = 50): SearchResponse {
     if (resp === null) {
       throw new Error('Invalid ES result - null not exepcted');
     }
@@ -142,7 +142,7 @@ export class SearchAdapter {
     }
   }
 
-  public registerEntityType(
+  registerEntityType(
     entityType,
     { url = '', queryProcessor, resultPorcessor }
   ) {
@@ -156,7 +156,7 @@ export class SearchAdapter {
     return this;
   }
 
-  public initBaseTypes() {
+  initBaseTypes() {
     this.registerEntityType('product', {
       queryProcessor: query => {
         // function that can modify the query each time before it's being executed

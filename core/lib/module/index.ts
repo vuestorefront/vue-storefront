@@ -26,13 +26,17 @@ function isModuleRegistered(key: string): boolean {
   return registeredModules.some(m => m.key === key);
 }
 
+function createModule(config: VueStorefrontModuleConfig): VueStorefrontModule {
+  return new VueStorefrontModule(config);
+}
+
+function extendModule(moduleConfig: VueStorefrontModuleConfig) {
+  moduleExtendings.push(moduleConfig);
+}
+
 class VueStorefrontModule {
   private _isRegistered = false;
-  private _c: VueStorefrontModuleConfig;
-
-  public constructor(_c: VueStorefrontModuleConfig) {
-    this._c = _c;
-  }
+  constructor(private _c: VueStorefrontModuleConfig) {}
 
   private static _extendStore(
     storeInstance: any,
@@ -169,14 +173,6 @@ class VueStorefrontModule {
       }
     }
   }
-}
-
-function createModule(config: VueStorefrontModuleConfig): VueStorefrontModule {
-  return new VueStorefrontModule(config);
-}
-
-function extendModule(moduleConfig: VueStorefrontModuleConfig) {
-  moduleExtendings.push(moduleConfig);
 }
 
 export {

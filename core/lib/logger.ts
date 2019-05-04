@@ -8,17 +8,17 @@ class Logger {
   /**
    * Logger verbosity level
    */
-  public verbosityLevel: string;
+  verbosityLevel: string;
 
   /**
    * Is production environment
    */
-  public isProduction: boolean;
+  isProduction: boolean;
 
   /**
    * Force to show error on production
    */
-  public showErrorOnProduction: boolean;
+  showErrorOnProduction: boolean;
 
   /**
    * Logger constructor
@@ -26,7 +26,7 @@ class Logger {
    * @param verbosityLevel
    * @param showErrorOnProduction
    */
-  public constructor(
+  constructor(
     verbosityLevel: string = 'display-everything',
     showErrorOnProduction: boolean = false
   ) {
@@ -39,7 +39,7 @@ class Logger {
    * Convert message to string - as it may be object, array either primitive
    * @param payload
    */
-  public convertToString(payload: any) {
+  convertToString(payload: any) {
     if (
       typeof payload === 'string' ||
       typeof payload === 'boolean' ||
@@ -55,7 +55,7 @@ class Logger {
    *
    * @param {string} method
    */
-  public canPrint(method: string) {
+  canPrint(method: string) {
     const allowedMethods = [];
 
     if (
@@ -81,7 +81,7 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public debug(message: any, tag: string = null, context: any = null): () => void {
+  debug(message: any, tag: string = null, context: any = null): () => void {
     if (!this.canPrint('debug')) {
       return () => {};
     }
@@ -123,7 +123,7 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public log(message: any, tag: string = null, context: any = null): () => void {
+  log(message: any, tag: string = null, context: any = null): () => void {
     return this.info(message, tag, context);
   }
 
@@ -135,7 +135,7 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public info(message: any, tag: string = null, context: any = null): () => void {
+  info(message: any, tag: string = null, context: any = null): () => void {
     if (!this.canPrint('info')) {
       return () => {};
     }
@@ -177,7 +177,7 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public warn(message: any, tag: string = null, context: any = null): () => void {
+  warn(message: any, tag: string = null, context: any = null): () => void {
     if (!this.canPrint('warn')) {
       return () => {};
     }
@@ -218,7 +218,7 @@ class Logger {
    * @param tag short tag specifying area where message was spawned (eg. cart, sync, module)
    * @param context meaningful data related to this message
    */
-  public error(message: any, tag: string = null, context: any = null): () => void {
+  error(message: any, tag: string = null, context: any = null): () => void {
     if (isServer) {
       // always show errors in SSR
       return console.error.bind(

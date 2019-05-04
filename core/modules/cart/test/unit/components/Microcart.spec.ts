@@ -16,7 +16,7 @@ describe('Microcart', () => {
       modules: {
         cart: {
           state: {
-            cartItems: [({} as any) as Product]
+            cartItems: [{} as Product]
           },
           namespaced: true
         }
@@ -25,7 +25,7 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    expect((wrapper.vm as any).productsInCart).toBe(
+    expect((<any>wrapper.vm).productsInCart).toBe(
       storeMock.modules.cart.state.cartItems
     );
   });
@@ -35,7 +35,7 @@ describe('Microcart', () => {
       modules: {
         cart: {
           getters: {
-            coupon: () => (({} as any) as AppliedCoupon)
+            coupon: () => ({} as AppliedCoupon)
           },
           namespaced: true
         }
@@ -44,7 +44,7 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    expect((wrapper.vm as any).appliedCoupon).toEqual(
+    expect((<any>wrapper.vm).appliedCoupon).toEqual(
       storeMock.modules.cart.getters.coupon()
     );
   });
@@ -54,7 +54,7 @@ describe('Microcart', () => {
       modules: {
         cart: {
           getters: {
-            totals: () => (({} as any) as CartTotalSegments)
+            totals: () => ({} as CartTotalSegments)
           },
           namespaced: true
         }
@@ -63,7 +63,7 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    expect((wrapper.vm as any).totals).toEqual(
+    expect((<any>wrapper.vm).totals).toEqual(
       storeMock.modules.cart.getters.totals()
     );
   });
@@ -82,7 +82,7 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    expect((wrapper.vm as any).isOpen).toBe(
+    expect((<any>wrapper.vm).isOpen).toBe(
       storeMock.modules.cart.state.isMicrocartOpen
     );
   });
@@ -102,7 +102,7 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    (wrapper.vm as any).applyCoupon(couponCode);
+    (<any>wrapper.vm).applyCoupon(couponCode);
 
     expect(storeMock.modules.cart.actions.applyCoupon).toBeCalledWith(
       expect.anything(),
@@ -125,7 +125,7 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    (wrapper.vm as any).removeCoupon();
+    (<any>wrapper.vm).removeCoupon();
 
     expect(storeMock.modules.cart.actions.removeCoupon).toBeCalled();
   });
@@ -144,7 +144,7 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    (wrapper.vm as any).toggleMicrocart();
+    (<any>wrapper.vm).toggleMicrocart();
 
     expect(storeMock.modules.ui.actions.toggleMicrocart).toBeCalled();
   });

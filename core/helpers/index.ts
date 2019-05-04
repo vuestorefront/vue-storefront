@@ -104,6 +104,48 @@ export function productThumbnailPath(product, ignoreConfig = false) {
   return thumbnail;
 }
 
+export function buildFilterProductsQuery(
+  currentCategory,
+  chosenFilters,
+  defaultFilters = null
+) {
+  let filterQr = baseFilterProductsQuery(
+    currentCategory,
+    defaultFilters == null
+      ? rootStore.state.config.products.defaultFilters
+      : defaultFilters
+  );
+
+  // add choosedn filters
+  for (let code of Object.keys(chosenFilters)) {
+    const filter = chosenFilters[code];
+
+    if (filter.attribute_code !== 'price') {
+      filterQr = filterQr.applyFilter({
+        key: filter.attribute_code,
+        value: { eq: filter.id },
+        scope: 'catalog'
+      });
+    } else {
+      // multi should be possible filter here?
+      const rangeqr = {};
+      if (filter.from) {
+        rangeqr['gte'] = filter.from;
+      }
+      if (filter.to) {
+        rangeqr['lte'] = filter.to;
+      }
+      filterQr = filterQr.applyFilter({
+        key: filter.attribute_code,
+        value: rangeqr,
+        scope: 'catalog'
+      });
+    }
+  }
+
+  return filterQr;
+}
+
 export function baseFilterProductsQuery(parentCategory, filters = []) {
   // TODO add aggregation of color_options and size_options fields
   let searchProductQuery = new SearchQuery();
@@ -153,48 +195,6 @@ export function baseFilterProductsQuery(parentCategory, filters = []) {
     value: { in: childCats }
   });
   return searchProductQuery;
-}
-
-export function buildFilterProductsQuery(
-  currentCategory,
-  chosenFilters,
-  defaultFilters = null
-) {
-  let filterQr = baseFilterProductsQuery(
-    currentCategory,
-    defaultFilters == null
-      ? rootStore.state.config.products.defaultFilters
-      : defaultFilters
-  );
-
-  // add choosedn filters
-  for (let code of Object.keys(chosenFilters)) {
-    const filter = chosenFilters[code];
-
-    if (filter.attribute_code !== 'price') {
-      filterQr = filterQr.applyFilter({
-        key: filter.attribute_code,
-        value: { eq: filter.id },
-        scope: 'catalog'
-      });
-    } else {
-      // multi should be possible filter here?
-      const rangeqr = {};
-      if (filter.from) {
-        rangeqr['gte'] = filter.from;
-      }
-      if (filter.to) {
-        rangeqr['lte'] = filter.to;
-      }
-      filterQr = filterQr.applyFilter({
-        key: filter.attribute_code,
-        value: rangeqr,
-        scope: 'catalog'
-      });
-    }
-  }
-
-  return filterQr;
 }
 
 export function once(key, fn) {

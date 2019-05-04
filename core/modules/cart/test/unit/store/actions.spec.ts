@@ -6,11 +6,9 @@ import config from 'config';
 import rootStore from '@vue-storefront/core/store';
 import { sha3_224 } from 'js-sha3';
 import { TaskQueue } from '../../../../../lib/sync';
-// eslint-disable-next-line import/no-duplicates
 import * as coreHelper from '@vue-storefront/core/helpers';
-// eslint-disable-next-line import/no-duplicates
-import { onlineHelper } from '@vue-storefront/core/helpers';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { onlineHelper } from '@vue-storefront/core/helpers';
 
 jest.mock('@vue-storefront/core/store', () => ({
   dispatch: jest.fn(),

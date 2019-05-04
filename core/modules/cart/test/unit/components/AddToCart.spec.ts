@@ -6,7 +6,7 @@ import { AddToCart } from '../../../components/AddToCart';
 
 describe('AddToCart', () => {
   it('addToCart dispatches addItem action', () => {
-    const product = {} as any as Product;
+    const product = {} as Product;
 
     const storeMock = {
       modules: {
@@ -23,7 +23,7 @@ describe('AddToCart', () => {
       propsData: { product }
     });
 
-    (wrapper.vm as any).addToCart(product);
+    (<any>wrapper.vm).addToCart(product);
 
     expect(storeMock.modules.cart.actions.addItem).toBeCalledWith(
       expect.anything(),

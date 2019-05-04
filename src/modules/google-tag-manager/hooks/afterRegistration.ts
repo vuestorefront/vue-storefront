@@ -2,8 +2,8 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 
 export function afterRegistration(Vue, config, store, isServer) {
   if (config.googleTagManager.id && !isServer) {
-    const storeView = currentStoreView();
-    const currencyCode = storeView.i18n.currencyCode;
+    const storeView = currentStoreView(),
+      currencyCode = storeView.i18n.currencyCode;
 
     const getProduct = item => {
       const {
@@ -11,7 +11,7 @@ export function afterRegistration(Vue, config, store, isServer) {
         id,
         sku,
         priceInclTax: price,
-        category,
+        category: category,
         qty: quantity
       } = item;
       let product = {

@@ -40,7 +40,6 @@ export function loadLanguageAsync(lang: string): Promise<string> {
           })
           .catch(err => {
             Logger.debug('Unable to load translation')();
-            Logger.error(err);
             return '';
           });
       }
