@@ -19,7 +19,7 @@
   
 # What are VS modules?
 
-You can think about each module as a one, independent feature available in Vue Storefront with all it's logic and dependencys inside. This 'one feature' however is a common denominator that links all the features inside. For example common denominator for adding product to the cart, receiving list of items that are in a cart or applying a cart coupon is obviously a `cart` and `cart` is not a feature of anything bigger than itself (it's common denominator is a shop) so it should be a module. Wishlist, Reviews or Newsletter are also a good examples of modules as we intuitively think about them as a standalone features. 
+You can think about each module as a one, independent feature available in Vue Storefront with all its logic and dependencies inside. This 'one feature' however is a common denominator that links all the features inside. For example common denominator for adding product to the cart, receiving list of items that are in a cart or applying a cart coupon is obviously a `cart` and `cart` is not a feature of anything bigger than itself (it's common denominator is a shop) so it should be a module. Wishlist, Reviews or Newsletter are also a good examples of modules as we intuitively think about them as a standalone features. 
 
 # Motivation
 
@@ -31,7 +31,7 @@ Let's say we have a box with 90 lego bricks that we can use to build some fancy 
 
 Cool, but there is one problem - since we have all our bricks in one box they look more or less like this:
 
-<img src="http://www.robomiku.ee/wp-content/uploads/2016/10/9027.png" style="width: 150px;" />
+![lego](http://www.robomiku.ee/wp-content/uploads/2016/10/9027.png)
 
 When we want to replace the green bricks with, let's say, the black ones we need to look for each green brick separately among all the others which can take a lot of time... and there is still a chance that we will miss some of them! Not to mention that finding the particular green brick that we need to finish the palm tree we are building ([this one!](https://www.thedailybrick.co.uk/media/catalog/product/cache/1/image/700x700/9df78eab33525d08d6e5fb8d27136e95/l/e/lego_small_palm_leaf_8_x_3__6148__lego-green-small-palm-leaf-8-x-3-6148-30-257873-61.jpg)) will require looking for it among all the other bricks which can make this task extremely difficult and time-consuming.
 
@@ -41,7 +41,7 @@ So how we make this horrible situation better?
 
 Introducing... (drums in the background) **_bricks grouped by colors_**! (wows in the background)
 
-<img src="https://sh-s7-live-s.legocdn.com/is/image/LEGO/6177?$PDPDefault$" style="width: 150px;" />
+![lego2](https://sh-s7-live-s.legocdn.com/is/image/LEGO/6177?$PDPDefault$)
 
 When we have our bricks grouped by their colors (and in a separate boxes - modules) it's much easier to find this green brick that we needed for a palm tree since we only need to search in a small subset of all bricks. Moreover when we want to replace green bricks with the black ones then instead of looking for all the grren represenattives one by one we are just replacing their box with the one containing black bricks. We also don't need to worry that something was left since we know that all the green bricks were in the box.
 
