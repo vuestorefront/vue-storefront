@@ -177,6 +177,6 @@
     "src/themes/*",
     "docs",
     "core/modules/*",
-    "test/unit"
+    "packages/*"
   ]
 }

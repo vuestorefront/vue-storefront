@@ -1,0 +1,12 @@
+{
+  "name": "@vue-storefront/theme-capybara",
+  "version": "0.0.0.alpha.0",
+  "private": true,
+  "description": "New default theme for Vue Storefront",
+  "main": "index.js",
+  "author": "filrak <frakowski@divante.pl> and contributors",
+  "license": "MIT",
+  "dependencies": {
+    "vue": "^2.6.6"
+  }
+}
