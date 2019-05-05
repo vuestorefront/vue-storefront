@@ -28,8 +28,8 @@ module.exports = {
             'installation/linux-mac',
             'installation/windows',
             'installation/magento',
-            'installation/production-setup'
-          ]
+            'installation/production-setup',
+          ],
         },
         {
           title: 'Basics',
@@ -45,8 +45,8 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
-            'basics/e2e'
-          ]
+            'basics/e2e',
+          ],
         },
         {
           title: 'Core and themes',
@@ -60,8 +60,8 @@ module.exports = {
             'core-themes/service-workers',
             'core-themes/webpack',
             'core-themes/plugins',
-            'core-themes/stylesheets'
-          ]
+            'core-themes/stylesheets',
+          ],
         },
         {
           title: 'Components',
