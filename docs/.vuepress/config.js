@@ -15,7 +15,7 @@ module.exports = {
         text: 'Medium',
         link:
           'https://medium.com/the-vue-storefront-journal/introduction-to-vue-storefront-a-quick-getting-started-guide-d119023ed67d',
-      }
+      },
     ],
     sidebar: {
       '/guide/': [
