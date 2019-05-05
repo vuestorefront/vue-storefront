@@ -45,7 +45,7 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
-            'basics/e2e',
+            'basics/e2e'
           ],
         },
         {
@@ -72,7 +72,7 @@ module.exports = {
             'components/product',
             'components/modal',
             'components/events-list'
-          ]
+          ],
         },
         {
           title: 'Data in Vue Storefront',
@@ -86,7 +86,7 @@ module.exports = {
             'data/entity-types',
             'data/static-data',
             'data/data-loader'
-          ]
+          ],
         },
         {
           title: 'Extensions',
