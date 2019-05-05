@@ -94,8 +94,8 @@ module.exports = {
           children: [
             'extensions/introduction',
             'extensions/extending-api',
-            'extensions/extending-server-side-routes'
-          ]
+            'extensions/extending-server-side-routes',
+          ],
         },
         {
           title: 'Working with Vuex',
@@ -106,8 +106,8 @@ module.exports = {
             'vuex/product-store',
             'vuex/category-store',
             'vuex/stock-store',
-            'vuex/attribute-store'
-          ]
+            'vuex/attribute-store',
+          ],
         },
         {
           title: 'Modules',
@@ -118,8 +118,8 @@ module.exports = {
             // 'modules/catalog',
             'modules/user',
             'modules/checkout',
-            'modules/order'
-          ]
+            'modules/order',
+          ],
         },
         {
           title: 'Integrations',
@@ -133,12 +133,12 @@ module.exports = {
             'integrations/tier-prices-sync',
             'integrations/totals-sync',
             'integrations/multistore',
-            'integrations/product-reviews'
-          ]
-        }
-      ]
-    }
+            'integrations/product-reviews',
+          ],
+        },
+      ],
+    },
   },
   title: 'Vue Storefront',
-  description: 'Headless PWA for eCommerce'
+  description: 'Headless PWA for eCommerce',
 };
