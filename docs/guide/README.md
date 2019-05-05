@@ -6,7 +6,7 @@ Vue Storefront is rather a complex solution with a lot of possibilities. Learnin
 
 ## What is Vue Storefront
 
-Vue Storefront is a headless and backend-agnostic eCommerce Progressive Web App written in Vue.js. The fact that it's using headless architecture allows Vue Storefront to be connected with any eCommerce platform so it can be a frontend PWA for Magento, Shopify, BigCommerce, WooCommerce etc.
+Vue Storefront is a headless and backend-agnostic eCommerce ddProgressive Web App written in Vue.js. The fact that it's using headless architecture allows Vue Storefront to be connected with any eCommerce platform so it can be a frontend PWA for Magento, Shopify, BigCommerce, WooCommerce etc.
 
 Key features of Vue Storefront are:
 
@@ -17,10 +17,10 @@ Key features of Vue Storefront are:
 - no limitations in theming and customization
 - being Open Source with MIT license
 - a lot of focus on developer experience
-- out of the box Server-Side Rendering (for SEO)
+- out-of-the-box Server-Side Rendering (for SEO)
 - offline mode
 
-## How it connects with backend platforms?
+## How does it connects with backend platforms?
 
 Vue Storefront manages to be platform agnostic thanks to the [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api) and dedicated API connectors for eCommerce backend platforms. The data format in vue-storefront-api is always the same for any platform which means no matter which eCommerce backend you'll use your frontend remains without changes.
 
@@ -39,7 +39,7 @@ Some of the backend platforms already have their integrations (Magento 2, Magent
 
 The blue parts on the diagram are responsible for offline cache and will be explained later in the article.
 
-## How it works?
+## How does it work?
 
 There are 3 concepts you need to be familiar with while working with Vue Storefront.
 
@@ -74,7 +74,7 @@ For your own implementation, you should create a `local.json` file in the same d
 While making themes in Vue Storefront in most cases all you need to take care of is creating your own HTML and CSS markup. All required business logic is exposed by the core with its core modules and can be easily injected into any of the theme components.
 The mechanism of injecting core business logic into themes is very simple. We are using Vue.js mixins to keep upgradable business logic in the core.
 
-Business logic from core component can be easily injected into any theme component as a Vue.js mixin. We can easily inject it into any of our theme components just by importing it and adding it as a mixin ( eg `mixins: [Microcart]` is what you need to use core Microcart logic). This is all you need to make use of core business logic inside your theme. With this approach, we can easily ship updates to all core components without breaking your shop.
+Business logic from the core component can be easily injected into any theme component as a Vue.js mixin. We can easily inject it into any of our theme components just by importing it and adding it as a mixin ( eg `mixins: [Microcart]` is what you need to use core Microcart logic). This is all you need to make use of core business logic inside your theme. With this approach, we can easily ship updates to all core components without breaking your shop.
 
 The easiest way to create your own theme is to create a copy of the default one, change it's name in it's `package.json` file, change active theme in `config/local.json` and run `yarn` to make lerna linking (which we are using for monorepos).
 
@@ -86,7 +86,7 @@ We managed to do this by making heavy use of the browser cache.
 For the static assets (only prod) we are using the sw-precache plugin (config can be found in `core/build/webpack.prod.sw.config.js` ). They are cached in Service Worker and can be inspected under `Application/Cache Storage` tab of your Developer Tools.
 
 :::warning
-Please mind that Service Worker is working only on production mode.
+Please keep in mind that Service Worker is working only on production mode.
 :::
 
 For the catalog and store data cache, we are using IndexedDB and Local Storage. We are also prefetching products from visited categories so once you enter one, all of it's products are available offline. The mechanism of offline storage is located under `core/store/lib/storage.ts`.
