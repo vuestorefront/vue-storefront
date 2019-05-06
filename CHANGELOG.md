@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix for `everythingNew` collection on home page - @vishal-7037 (#2761)
 - Fixed `Clear cart` option as it previously was not syncing the changes with server - therefore when the user was logged in and cleard the cart all the products were restored - @pkarw (#2587)
 - Fixed the cart sync for a rare case that current cart token was empty - @pkarw (#2592)
+- Use event bus to emit 'application-after-init' event (#2852)
 
 ### Changed / Improved
 - Changed the order number (from `entity_id` to `increment_id`) on MyOrders and MyOrder pages - @pkarw (#2743)
