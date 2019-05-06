@@ -13,7 +13,7 @@
     <div class="modal-content pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="login" novalidate>
         <base-input
-          class="mb35"
+          class="mb10"
           type="email"
           name="email"
           focus
@@ -32,7 +32,7 @@
           ]"
         />
         <base-input
-          class="mb35"
+          class="mb10"
           type="password"
           name="password"
           v-model="password"
@@ -45,7 +45,7 @@
         />
         <div class="row">
           <base-checkbox
-            class="col-xs-7 col-sm-6 mb35"
+            class="col-xs-7 col-sm-6 mb20"
             id="remember"
             v-model="remember"
             @click="remember = !remember"

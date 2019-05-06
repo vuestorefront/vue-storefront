@@ -15,11 +15,36 @@
       <slide
         v-for="(images, index) in gallery"
         :key="images.src">
-        <div class="bg-cl-secondary" :class="{'video-container h-100 flex relative': images.video}">
+        <div class="product-image-container bg-cl-secondary" :class="{'video-container w-100 h-100 flex relative': images.video}">
           <img
-            v-show="hideImageAtIndex !== index"
+            v-show="placeholderImagesMap[index]"
+            key="placeholderImage"
+            class="inline-flex mw-100"
+            src="/assets/placeholder.svg"
+            ref="images"
+            :alt="productName | htmlDecode"
+          >
+          <img
+            v-if="!lowerQualityImagesErrorsMap[index] || isOnline"
+            v-show="lowerQualityImagesMap[index]"
+            key="lowQualityImage"
+            class="product-image inline-flex mw-100"
+            :src="images.loading"
+            @load="lowerQualityImageLoaded(index, true)"
+            @error="lowerQualityImageLoaded(index, false)"
+            ref="images"
+            :alt="productName | htmlDecode"
+            data-testid="productGalleryImage"
+            itemprop="image"
+          >
+          <img
+            v-if="!highQualityImagesErrorsMap[index] || isOnline"
+            v-show="highQualityImagesLoadedMap[index]"
+            key="highQualityImage"
+            :src="images.src"
+            @load="highQualityImageLoaded(index, true)"
+            @error="highQualityImageLoaded(index, false)"
             class="product-image inline-flex pointer mw-100"
-            v-lazy="images"
             ref="images"
             @dblclick="openOverlay"
             :alt="productName | htmlDecode"
@@ -45,9 +70,15 @@
 import store from '@vue-storefront/core/store'
 import { Carousel, Slide } from 'vue-carousel'
 import ProductVideo from './ProductVideo'
+import { onlineHelper } from '@vue-storefront/core/helpers'
 
 export default {
   name: 'ProductGalleryCarousel',
+  components: {
+    Carousel,
+    Slide,
+    ProductVideo
+  },
   props: {
     gallery: {
       type: Array,
@@ -66,13 +97,38 @@ export default {
     return {
       carouselTransitionSpeed: 0,
       currentPage: 0,
-      hideImageAtIndex: null
+      hideImageAtIndex: null,
+      lowerQualityImagesLoadedMap: {},
+      highQualityImagesLoadedMap: {},
+      lowerQualityImagesErrorsMap: {},
+      highQualityImagesErrorsMap: {}
     }
   },
-  components: {
-    Carousel,
-    Slide,
-    ProductVideo
+  computed: {
+    placeholderImagesMap () {
+      let visibilityMap = {}
+      this.gallery.forEach((image, index) => {
+        visibilityMap[index] = !this.lowerQualityImagesLoadedMap[index] && !this.highQualityImagesLoadedMap[index]
+      })
+      return visibilityMap
+    },
+    lowerQualityImagesMap () {
+      let visibilityMap = {}
+      this.gallery.forEach((image, index) => {
+        visibilityMap[index] = !!this.lowerQualityImagesLoadedMap[index] && !this.highQualityImagesLoadedMap[index] && this.hideImageAtIndex !== index
+      })
+      return visibilityMap
+    },
+    highQualityImagesMap () {
+      let visibilityMap = {}
+      this.gallery.forEach((image, index) => {
+        visibilityMap[index] = !!this.highQualityImagesLoadedMap[index] && this.hideImageAtIndex !== index
+      })
+      return visibilityMap
+    },
+    isOnline () {
+      return onlineHelper.isOnline
+    }
   },
   beforeMount () {
     this.$bus.$on('filter-changed-product', this.selectVariant)
@@ -124,6 +180,14 @@ export default {
     },
     onVideoStarted (index) {
       this.hideImageAtIndex = index
+    },
+    lowerQualityImageLoaded (index, success = true) {
+      this.$set(this.lowerQualityImagesLoadedMap, index, success)
+      this.$set(this.lowerQualityImagesErrorsMap, index, !success)
+    },
+    highQualityImageLoaded (index, success = true) {
+      this.$set(this.highQualityImagesLoadedMap, index, success)
+      this.$set(this.highQualityImagesErrorsMap, index, !success)
     }
   }
 }
@@ -139,6 +203,19 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
+}
+.product-image-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.product-image {
+  width: 100%;
+  height: auto;
 }
 img {
   opacity: 1;

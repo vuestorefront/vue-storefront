@@ -61,18 +61,17 @@ once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
 })
 
-const createApp  = async (ssrContext, config): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
+const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
   router = createRouter()
   // sync router with vuex 'router' store
   sync(store, router)
   // TODO: Don't mutate the state directly, use mutation instead
-  store.state.version = '1.8.4'
+  store.state.version = process.env.APPVERSION
   store.state.config = config
   store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
   if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
   if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
-
-  const storeView = prepareStoreView(null) // prepare the default storeView
+  const storeView = prepareStoreView(storeCode) // prepare the default storeView
   store.state.storeView = storeView
   // store.state.shipping.methods = shippingMethods
 

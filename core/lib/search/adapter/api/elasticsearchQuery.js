@@ -20,7 +20,7 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
     // apply default filters
     appliedFilters.forEach(filter => {
       if (filter.scope === 'default') {
-        if (rangeOperators.every(rangeOperator => filter.value.hasOwnProperty(rangeOperator))) {
+        if (Object.keys(filter.value).every(v => rangeOperators.includes(v))) {
           // process range filters
           query = query.filter('range', filter.attribute, filter.value)
         } else {

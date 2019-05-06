@@ -6,7 +6,7 @@ import SWPrecachePlugin from 'sw-precache-webpack-plugin';
 module.exports = merge(base, {
   mode: 'production',
   target: 'web',
-  entry: ['babel-polyfill', './core/service-worker/index.js'],
+  entry: ['@babel/polyfill', './core/service-worker/index.js'],
   output: {
     filename: 'core-service-worker.js'
   },
