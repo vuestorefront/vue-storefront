@@ -58,6 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The "Apply button was too big, I have reduced its size - @idodidodi (#2807)
 - Added return to shopping button on ThenkYou page - @ZeevGerstner (#2818)
 - Added optional attributes to catalog/product.ts - @ZeevGerstner (#2792)
+- Formatted dates in CHANGELOG.md to match ISO standard - @phoenixdev-kl (#2839)
 
 ## [1.9.0] - UNRELEASED
 
@@ -134,7 +135,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Way of creating VS Modules was changed to use factory method instead of explict object creation. - @filrak (#2434)
 - Added clear filters button on desktop also and only show if filters are applied - @DaanKouters (#2342)
 - Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2422, #2423, #2425, #2426)
-- Formatted dates in CHANGELOG.md to match ISO standard - @phoenixdev-kl
 - Fixed design issue of Country label on Edge 17 & Firefox - @ananth-iyer (#2390, #2399)
 - Wishlist and compare items are loaded from local cache only once, instead of every time when module component is rendered - @patzick (#2431)
 - Country field is filled by first counry from the list in cart in paymen section - @RakowskiPrzemyslaw (#2428)
