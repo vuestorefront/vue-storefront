@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - validation for UTF8 alpha and alphanumeric characters in most checkout fields - @lromanowicz (#2653)
+- helper to process config urls with default endpoint host `config.api.host` - @patzick (#2858)
 
 ### Fixed
 - ESlint throwing errors about undefined jest globals in tests - @lukeromanowicz (#2702)
