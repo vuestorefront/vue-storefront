@@ -6,7 +6,7 @@ Please be aware of i18n issues while writing your own themes/extensions and keep
 
 ## Using i18n in code
 
-When you're working with plain JS module you can simply use the translation helper:
+When you're working with a plain JS module, you can simply use the translation helper:
 
 ```js
 import i18n from '@vue-storefront/i18n';
@@ -25,7 +25,7 @@ If you're working with `.vue` components the matter is even simpler with Vue dir
     </span>
 ```
 
-For all helper methods and directives along with available parameters please do check the [vue-i18n documentation](http://kazupon.github.io/vue-i18n/introduction.html).
+For all helper methods and directives, along with available parameters, please do check the [vue-i18n documentation](http://kazupon.github.io/vue-i18n/introduction.html).
 
 ## Working with translations
 
