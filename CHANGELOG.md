@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Product image load after comming back to online - @patzick (#2573)
 - Insufficent validation for city field in checkout address - @lromanowicz (#2653) 
 - Incorrect hover activity on the 'filter by categories' in the search view on mobile - @idodidodi (#2783)
+- Unit tests written in JavaScript now support async/await functions and dynamic import - @michaelKurowski, @lukeromanowicz (#2851)
 
 ## [1.9.0-rc.2] - 2019.04.10
 
