@@ -2,6 +2,9 @@
 
 We're trying to keep the upgrade process as easy as it's possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
+## 1.9 -> 1.10
+- Event 'application-after-init' is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
+
 ## 1.8 -> 1.9
 - `cart.multisiteCommonCart` config property changed to `storeViews.commonCache`
 - Way of creating VS Modules was changed to use factory method instead of explict object creation. Even though the feature is backward compatible we highly encourage all developers to refactor their modules to use new syntax.
