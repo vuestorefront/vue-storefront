@@ -101,12 +101,13 @@
         </SfAccordion>
       </div>
       <div class="products">
-        <!-- <SfProductCard
+        <SfProductCard
           class="products__product-card"
-          v-for="i in 6"
-          :key="i"
-          title="Cream Beach Bag"
-          :price="{ regularPrice: '10,99 $' }"
+          v-for="product in products"
+          :key="product.id"
+          :title="product.name"
+          :price="{ regularPrice: product.priceInclTax | price, specialPrice: product.specialpriceInclTax | price }"
+          :image="getProductThumbnail(product)"
           :rating="{ max: 5, score: 4 }"
         />
         <SfPagination
@@ -114,7 +115,7 @@
           :current.sync="currentPage"
           :total="20"
           :visible="5"
-        /> -->
+        />
       </div>
     </div>
 
@@ -197,16 +198,24 @@
 </template>
 
 <script>
+/**
+ * - check 'price' filter and why it's not displaying sign
+ */
+import Category from "@vue-storefront/core/pages/Category.js"
 import SfSidebar from "@storefrontui/vue/dist/SfSidebar.vue";
 import SfButton from "@storefrontui/vue/dist/SfButton.vue";
 import SfList from "@storefrontui/vue/dist/SfList.vue";
 import SfFilter from "@storefrontui/vue/dist/SfFilter.vue";
 import SfMenuItem from "@storefrontui/vue/dist/SfMenuItem.vue";
 import SfAccordion from "@storefrontui/vue/dist/SfAccordion.vue";
+import SfProductCard from "@storefrontui/vue/dist/SfProductCard.vue"
 import FiltersIcon from "../components/FiltersIcon.vue"
-// temporary, check why it's not installed globally. Probably because of vue versions mismatch - remove vue from deps in sfui
-import SfListItem from "@storefrontui/vue/dist/SfListItem.vue";
+
+import { productThumbnailPath } from '@vue-storefront/core/helpers'
+
+
 export default {
+  mixins: [Category],
   data () {
     return {
       isFilterSidebarOpen: false,
@@ -216,15 +225,22 @@ export default {
       },
     }
   },
+  methods: {
+    // TODO: Use productThumbnailPath in Vuex
+    getProductThumbnail (product) {
+      let thumbnail = productThumbnailPath(product)
+      return this.getThumbnail(thumbnail, 310, 300)
+    }
+  },
   components: {
     SfButton,
     SfList,
     SfFilter,
-    SfListItem,
     SfSidebar,
     SfMenuItem,
     SfAccordion,
-    FiltersIcon
+    FiltersIcon,
+    SfProductCard,
   }
 }
 </script>

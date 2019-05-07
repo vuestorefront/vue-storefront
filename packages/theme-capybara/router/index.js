@@ -1,10 +1,19 @@
 import Home from '../pages/Home.vue'
 import Category from '../pages/Category.vue'
+import config from 'config'
 
-// Temporary routes
-const routes = [
+let routes = [
   { component: Home, path: '/' },
-  { component: Category, path: '/category' }
 ]
+
+if (!config.products.useShortCatalogUrls) {
+  routes = routes.concat([
+    { name: 'category', path: '/c/:slug', component: Category },
+  ])
+} else {
+  routes = routes.concat([
+    { name: 'category', path: '/:slug', component: Category }
+  ])
+}
 
 export default routes
