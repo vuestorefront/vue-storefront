@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Google Tag Manager integration - @talalus (#841)
 - Portuguese (pt-PT) translation - @xlcnd (#2695)
 - Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
-- added back-button on orde detail page [#2819]
+- Added back-button on orde detail page [#2819]
+- Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
 
 ### Fixed
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
@@ -25,8 +26,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unexpected `window.localStorage` use in user module actions - @zulcom (#2735)
 - Fix handling state of same address checkbox in the checkout - @lukeromanowicz (#2730)
 - Fix for `everythingNew` collection on home page - @vishal-7037 (#2761)
+- Fixed `Clear cart` option as it previously was not syncing the changes with server - therefore when the user was logged in and cleard the cart all the products were restored - @pkarw (#2587)
+- Fixed the cart sync for a rare case that current cart token was empty - @pkarw (#2592)
 
 ### Changed / Improved
+- Changed the order number (from `entity_id` to `increment_id`) on MyOrders and MyOrder pages - @pkarw (#2743)
+- Disabled the server cart sync in case user is in the checkout - @pkarw (#2749)
 - Improved ProductGalleryCarousel component to handle nonnumeric options id’s - @danieldomurad (#2586)
 - Number of displayed products is now visible on PLP on desktop - @awierzbiak (#2504)
 - Improved visibility of product SKU in wishlist  - @PanMisza (#2606)
@@ -49,18 +54,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The default storeId is taken from the configurations - @nuovecode (#2718)
 - Multitab cart sync - @BartoszLiburski (#2547)
 - Status filter in Related Products query (#2805)
+- The "Apply button was too big, I have reduced its size - @idodidodi (#2807)
 - Added return to shopping button on ThenkYou page - @ZeevGerstner (#2818)
+- Added optional attributes to catalog/product.ts - @ZeevGerstner (#2792)
 
-## [1.9.0] - UNRELEASED
+## [1.9.0] - 2019.05.06
+
+### Added
+- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and reimport Your products to properly set `url_path` fields - #2010 - @pkarw
+- Unit tests of cart module written in jest - @lukeromanowicz (#2305)
+- validation for UTF8 alpha and alphanumeric characters in most checkout fields - @lromanowicz (#2653)
+- helper to process config urls with default endpoint host `config.api.host` - @patzick (#2858)
+
+### Changed / Improved
+- The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
+- Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
+- Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
+- Update to babel 7 - @lukeromanowicz (#2554)
 
 ### Fixed
-- ESlint throwing errors about undefined jest globals in tests - @lukeromanowicz (#2702)
-- Fixed changing the country when entering shipping address in checkout not updating shipping costs - @revlis-x (#2691)
-- Correct magento order id in my orders - @mdesmet (#2763)
-
-## [1.9.0-rc.2] - 2019.04.10
-
-### Fixed
+- Gallery low quality image in offline mode when high quality already cached - @patzick (#2557)
 - Payment issue when no address set - @szafran89 (#2593)
 - Search component result message when search term is less than 3 letters - @robwozniak (#2561)
 - Removed childSku parameter in url for non-configurable products when using urlDispatcher - @Aekal (#2605)
@@ -73,28 +86,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed Safari style for sort-by select - @haukebri (#2642)
 - fixed My orders in My Profile not refreshed after putting an order - @filrak (#2559)
 - Refreshing product page on mobile device - @patzick (#2484)
+- ESlint throwing errors about undefined jest globals in tests - @lukeromanowicz (#2702)
+- Fixed changing the country when entering shipping address in checkout not updating shipping costs - @revlis-x (#2691)
+- Instant Checkout fix - @qiqqq (#2750)
+- Infinite loop on multistore page after reload - @patzick (#2713)
+- Refreshing MyAccount page on multistore - @patzick (#2780)
+- "Toggle password visible" button in password fields works the right way - @lromanowicz (#2772)
+- Range queries to elasticsearch - @oskar1233 (#2746)
+- BaseInput has min height now to avoid jumping on forms - @patzick (#2771)
+- Orders with invalid address don't stack anymore in the queue and have proper notification popup - @AndreiBelokopytov, @lukeromanowicz (#2663)
+- Offline orders with out of stock products don't stack anymore and get canceled after going back to online - @lukeromanowicz (#2740)
+- Build ServiceWorker on Docker - @patzick (#2793)
+- Product image load after comming back to online - @patzick (#2573)
+- Insufficent validation for city field in checkout address - @lromanowicz (#2653) 
+- Incorrect hover activity on the 'filter by categories' in the search view on mobile - @idodidodi (#2783)
+- Unit tests written in JavaScript now support async/await functions and dynamic import - @michaelKurowski, @lukeromanowicz (#2851)
 
-## [1.9.0-rc.1] - 2019.03.07
-
-### Added
-- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and reimport Your products to properly set `url_path` fields - #2010 - @pkarw
-- Unit tests of cart module written in jest - @lukeromanowicz (#2305)
-
-### Fixed
-- Gallery low quality image in offline mode when high quality already cached - @patzick (#2557)
-
-### Changed / Improved
-- The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
-- Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
-- Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
-- Update to babel 7 - @lukeromanowicz (#2554)
-
-## [1.8.5] - 2019.04.17
+## [1.8.5] - 2019-04-17
 
 ### Fixed
 - Memory leaks on SSR with Vue.use - @patzick (#2745)
 
-## [1.8.4] - 2019.03.26
+## [1.8.4] - 2019-03-26
 
 ### Fixed
 - Problem with incomplete category products load for offline use - @patzick (#2543)
@@ -105,7 +118,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed / Improved
 - Category and Homepage products are now cached for offline use on SSR entry - @patzick (@1698)
 
-## [1.8.3] - 2019.03.03
+## [1.8.3] - 2019-03-03
 
 ### Added
 - Payment Request API integration - @qiqqq (#2306)
@@ -126,6 +139,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Way of creating VS Modules was changed to use factory method instead of explict object creation. - @filrak (#2434)
 - Added clear filters button on desktop also and only show if filters are applied - @DaanKouters (#2342)
 - Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2422, #2423, #2425, #2426)
+- Formatted dates in CHANGELOG.md to match ISO standard - @phoenixdev-kl
 - Fixed design issue of Country label on Edge 17 & Firefox - @ananth-iyer (#2390, #2399)
 - Wishlist and compare items are loaded from local cache only once, instead of every time when module component is rendered - @patzick (#2431)
 - Country field is filled by first counry from the list in cart in paymen section - @RakowskiPrzemyslaw (#2428)
@@ -153,16 +167,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated / Removed
 - `@vue-storefront/store` package deprecated - @filrak
 
-## [1.8.2] - 2019.02.11
+## [1.8.2] - 2019-02-11
 - Fixed docker-compose configuration for network_mode and TS build config - @lukeromanowicz (#2415)
 
-## [1.8.1] - 2019.02.10
+## [1.8.1] - 2019-02-10
 This is hot-fix release for fixing the payment methods switching issue when both: `payments-cash-on-delivery` and `payments-backend-methods` modules enabled.
 
 ### Changed / Improved
  - Fixed doubled invlication of `placeOrder` when both: `payments-cash-on-delivery` and `payments-backend-methods` modules enabled - #2405
 
-## [1.8.0] - 2019.02.07
+## [1.8.0] - 2019-02-07
 Additional migration tips are available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/upgrade-notes/README.md).
 
 ### Added
@@ -225,12 +239,12 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Removed compare button from product mobile view - @patzick (#2370)
 - Configurable options attribute descriptor - @pkarw (#2384)
 
-## [1.7.3] - 2019.01.31
+## [1.7.3] - 2019-01-31
 ### Fixed
 - Output cache between build, cache versioning added - @igloczek (#2309)
 - Missing `no-ssr` wrapper around user specific content, which leads to broken app in production mode - @igloczek (#2314)
 
-## [1.7.2] - 2019.01.28
+## [1.7.2] - 2019-01-28
 ### Fixed
 - clear search filters on mobile - @patzick (#2282)
 - SSR problem on checkout page on reload - @vue-kacper (#2220)
@@ -255,11 +269,11 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Banners title background on mobile - @patzick (#2272)
 - New main site look - @patzick (#2266)
 
-## [1.7.1] - 2019.01.15
+## [1.7.1] - 2019-01-15
 ### Fixed
 - Corrected scrolled sidebar menu position
 
-## [1.7.0] - 2019.01.15
+## [1.7.0] - 2019-01-15
 ### Added
 - Dynamic categories prefetching — @pkarw #2100
 - Per-route codesplitting for SSR pages — @patzick #2068
@@ -314,7 +328,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - extendStore depreciation - @filrak #2143
 - ValidationError class depreciation - @filrak #2143
 
-## [1.6.0] - 2018.12.05
+## [1.6.0] - 2018-12-05
 ### Added
 - Lazy loading for SSR and non-SSR routes
 - app splitted into modules
@@ -335,7 +349,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Header, Form components, (baseCheckbox, BaseInput, BaseRadioButton, BaseSelect, Basetextarea) Loader, MainSlider, Footer, SearchIcon, ForgotPass, SignUp and Modal core components moved to theme
 - extendStore deprecaiated and moved to compatibility folder
 
-## [1.5.0] - 2018.10.22
+## [1.5.0] - 2018-10-22
 
 ### Added
 - Contact form mailer - #1875 - Akbar Abdrakhmanov @akbarik
@@ -357,7 +371,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Mailchimp / Newsletter modules rebuilt - Filip Rakowski @filrak
 - Search component UX fixes - #1862 - Adrian Cagaanan @diboy2
 
-## [1.4.0] - 2018.10.05
+## [1.4.0] - 2018-10-05
 
 ### Added
 - GraphQL support - #1616 - Yuri Boyko @yuriboyko, Vladimir Plastovets @VladimirPlastovets => [PHOENIX MEDIA](https://www.phoenix-media.eu/)
@@ -383,7 +397,7 @@ Additional migration tips are available [here](https://github.com/DivanteLtd/vue
 - Infinite scroll on mobile browsers - #1755 - Kacper Wierzbicki @vue-kacper
 - Coupon codes - #1759 - Tomek Kikowski @qiqqq
 
-## [1.3.0] - 2018.08.31
+## [1.3.0] - 2018-08-31
 
 ### Added
 - TypeScript support - please check [TypeScript Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/basics/typescript.md) for details
