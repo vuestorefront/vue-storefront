@@ -169,8 +169,7 @@ export const onlineHelper = Vue.observable({
 !isServer && window.addEventListener('online', () => { onlineHelper.isOnline = true })
 !isServer && window.addEventListener('offline', () => { onlineHelper.isOnline = false })
 
-export const processURLAddress = (url:string = '') => {
+export const processURLAddress = (url: string = '') => {
   if (url.startsWith('/')) return `${config.api.url}${url}`
   return url
 }
-

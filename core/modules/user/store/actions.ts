@@ -19,7 +19,7 @@ const actions: ActionTree<UserState, RootState> = {
 
     const user = localStorage.getItem(`shop/user/current-user`);
     if (user) {
-      context.commit(types.USER_INFO_LOADED, JSON.parse(user))  
+      context.commit(types.USER_INFO_LOADED, JSON.parse(user))
     }
 
     context.commit(types.USER_START_SESSION)

@@ -232,7 +232,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       excludeFields = null
       includeFields = null
       Logger.log('Caching request only, no state update')()
-    }    
+    }
     let t0 = new Date().getTime()
 
     const precachedQuery = searchProductQuery
@@ -245,7 +245,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       configuration: configuration,
       append: append,
       sort: sort,
-      updateState: cacheOnly ? false : true,
+      updateState: !cacheOnly,
       prefetchGroupProducts: prefetchGroupProducts
     }).then((res) => {
       let t1 = new Date().getTime()

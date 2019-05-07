@@ -6,7 +6,7 @@ interface SearchResponse {
   aggregations: any,
   offline?: boolean,
   cache?: boolean,
-  noresults?: boolean
+  noresults?: boolean,
   suggestions: any
 }
 

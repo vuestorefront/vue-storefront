@@ -123,8 +123,8 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           }
         }
 
-        if (!task.silent && jsonResponse.result && (typeof jsonResponse.result === 'string' || ((jsonResponse.result.result || jsonResponse.result.message) && jsonResponse.result.code !== 'ENOTFOUND') && !silentMode)) {
-          const message = typeof jsonResponse.result === 'string' ?  jsonResponse.result :typeof jsonResponse.result.result === 'string' ? jsonResponse.result.result : jsonResponse.result.message
+        if (!task.silent && jsonResponse.result && (typeof jsonResponse.result === 'string' || (((jsonResponse.result.result || jsonResponse.result.message) && jsonResponse.result.code !== 'ENOTFOUND') && !silentMode))) {
+          const message = typeof jsonResponse.result === 'string' ? jsonResponse.result : typeof jsonResponse.result.result === 'string' ? jsonResponse.result.result : jsonResponse.result.message
 
           rootStore.dispatch('notification/spawnNotification', {
             type: 'error',
