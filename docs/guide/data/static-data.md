@@ -8,15 +8,13 @@ Until version 1.6, the `magento2-cms-extention` (we can find it in: `src/modules
 
 ### How it works?
 
-To display CMS data we need a `SnowdogApps/magento2-cms-api` module installed in the Magento 2 instance.
-The extension fetches data using API and lets display compiled content on the storefront. You can display block and pages by id or identifiers, it supports also different store id in multi-languages  store.
-More details you can find [here](https://github.com/DivanteLtd/vue-storefront/tree/master/src/modules/magento-2-cms)
+To display CMS data, we need a `SnowdogApps/magento2-cms-api` module installed in the Magento 2 instance. The extension fetches data using the API and displays compiled content on the storefront. You can display blocks and pages by ID or identifiers—it supports different store IDs in a multi-languages store. Find more details [here](https://github.com/DivanteLtd/vue-storefront/tree/master/src/modules/magento-2-cms)
 
 This solution will be deprecated soon.
 
 ## New solution
 
-From version 1.6, thanks to @yuriboyko, we have better solution for static data – it's added to ElasticSearch database and using qraphgl query, displayed on the storefront.
+From version 1.6, thanks to @yuriboyko,we have a better solution for static data—it's added to the Elasticsearch database and is using qraphQL query, displayed on the storefront.
 
 ### How it works?
 
@@ -29,9 +27,10 @@ Static data are pumped to ElasticSearch db with entityTypes:
 - `cms_block` for blocks
 - `cms_page` for pages
 
-Using new Cms Core Module  and two components (for CMS Block and for CMS Page) we easily displayed on storefront. Check out the example CMS Page Component.
+Using a new CMS Core Module and two components (for CMS Block and for CMS Page) we easily display on storefront. Check out the example CMS Page Component.
 
-The route for the CMS Page is set in default theme:
+The route for the CMS Page is set in the default theme:
+
 ```js
 { name: 'cms-page', path: '/i/:slug', component: CmsPage }])
 ```

@@ -408,7 +408,7 @@ const actions: ActionTree<CartState, RootState> = {
             country: country,
             method_code: shipping ? shipping.method_code : null,
             carrier_code: shipping ? shipping.carrier_code : null,
-            payment_method: payment.code
+            payment_method: payment ? payment.code : null
           }
         }
         if (methodsData.country && methodsData.carrier_code) {
