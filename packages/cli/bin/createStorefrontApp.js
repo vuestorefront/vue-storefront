@@ -16,7 +16,7 @@ const options = {
 }
 
 const tasks = {
-  installDeps: {
+  installDepsYarn: {
     title: 'Installing dependencies',
     task: () => execa.shell('cd vue-storefront && yarn')
   },
@@ -30,7 +30,7 @@ const tasks = {
   },
   runInstaller: {
     title: 'Running installer',
-    task: () => spawn.execFileSync('yarn', ['installer'], {stdio: 'inherit', cwd: "vue-storefront"})
+    task: () => spawn.execFileSync('yarn', ['installer'], {stdio: 'inherit', cwd: 'vue-storefront'})
   }
 }
 
@@ -45,15 +45,6 @@ inquirer
         options.version.nightly
       ]
     },
-    // {
-    //   type: 'list',
-    //   name: 'git',
-    //   message: 'Do you want to set up git upstream',
-    //   choices: [
-    //     options.version.stable,
-    //     options.version.nightly
-    //   ]
-    // },
     {
       type: 'list',
       name: 'installation',
@@ -68,9 +59,9 @@ inquirer
     const taskQueue = []
     if (answers.version === options.version.stable) taskQueue.push(tasks.cloneMaster)
     if (answers.version === options.version.nightly) taskQueue.push(tasks.cloneDevelop)
-    taskQueue.push(tasks.installDeps)
     if (answers.installation === options.installation.installer) {
+      taskQueue.push(tasks.installDeps)
       taskQueue.push(tasks.runInstaller)
     }
     new Listr(taskQueue).run()
-  });
+  })

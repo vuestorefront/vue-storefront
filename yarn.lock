@@ -1844,9 +1844,9 @@
     vue-router "^3.0.2"
     vue-slider-component "^3.0.5"
 
-"@storefrontui/vue@^0.0.1-aplha.8":
-  version "0.0.1-aplha.8"
-  resolved "https://registry.yarnpkg.com/@storefrontui/vue/-/vue-0.0.1-aplha.8.tgz#0827e63c547c58704520c8df63b91887ddaf3122"
+"@storefrontui/vue@^0.0.1-aplha.10":
+  version "0.0.1-aplha.10"
+  resolved "https://registry.yarnpkg.com/@storefrontui/vue/-/vue-0.0.1-aplha.10.tgz#17598bb38034110abb197be4d3213a815ecbb0d0"
   dependencies:
     "@snowdog/alpaca-components" "^0.3.0-alpha.5"
     node-sass "^4.11.0"
@@ -2990,7 +2990,6 @@ babel-plugin-dynamic-import-node@^1.2.0:
 babel-plugin-dynamic-import-node@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-dynamic-import-node/-/babel-plugin-dynamic-import-node-2.2.0.tgz#c0adfb07d95f4a4495e9aaac6ec386c4d7c2524e"
-  integrity sha512-fP899ELUnTaBcIzmrW7nniyqqdYWrWuJUyPWHxFa/c7r7hS6KC8FscNfLlBNIoPSc55kYMGEEKjPjJGCLbE1qA==
   dependencies:
     object.assign "^4.1.0"
 
