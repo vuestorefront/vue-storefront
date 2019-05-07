@@ -7,6 +7,7 @@ interface SearchResponse {
   offline?: boolean,
   cache?: boolean,
   noresults?: boolean
+  suggestions: any
 }
 
 export {

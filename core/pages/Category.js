@@ -118,7 +118,8 @@ export default {
         let query = store.getters['category/getCurrentCategoryProductQuery']
         if (!query.searchProductQuery) {
           store.dispatch('category/mergeSearchOptions', {
-            searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters)
+            searchProductQuery: baseFilterProductsQuery(parentCategory, defaultFilters),
+            cacheOnly: true// this is cache only request
           })
         }
         store.dispatch('category/products', query)

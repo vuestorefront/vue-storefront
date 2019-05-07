@@ -337,7 +337,7 @@ const actions: ActionTree<ProductState, RootState> = {
           if (!prod[cacheByKey]) {
             cacheByKey = 'id'
           }
-          const cacheKey = entityKeyName(cacheByKey, prod[cacheByKey])
+          const cacheKey = entityKeyName(cacheByKey, prod[(cacheByKey === 'sku' && prod['parentSku']) ? 'parentSku' : cacheByKey]) // to avoid caching products by configurable_children.sku
           if (isCacheable) { // store cache only for full loads
             cache.setItem(cacheKey, prod)
               .catch((err) => {

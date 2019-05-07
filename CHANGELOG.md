@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Portuguese (pt-PT) translation - @xlcnd (#2695)
 - Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
 - Added back-button on orde detail page [#2819]
+- Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
 
 ### Fixed
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
@@ -57,16 +58,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added return to shopping button on ThenkYou page - @ZeevGerstner (#2818)
 - Added optional attributes to catalog/product.ts - @ZeevGerstner (#2792)
 
-## [1.9.0] - UNRELEASED
+## [1.9.0] - 2019.05.06
+
+### Added
+- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and reimport Your products to properly set `url_path` fields - #2010 - @pkarw
+- Unit tests of cart module written in jest - @lukeromanowicz (#2305)
+- validation for UTF8 alpha and alphanumeric characters in most checkout fields - @lromanowicz (#2653)
+- helper to process config urls with default endpoint host `config.api.host` - @patzick (#2858)
+
+### Changed / Improved
+- The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
+- Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
+- Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
+- Update to babel 7 - @lukeromanowicz (#2554)
 
 ### Fixed
-- ESlint throwing errors about undefined jest globals in tests - @lukeromanowicz (#2702)
-- Fixed changing the country when entering shipping address in checkout not updating shipping costs - @revlis-x (#2691)
-- Correct magento order id in my orders - @mdesmet (#2763)
-
-## [1.9.0-rc.2] - 2019.04.10
-
-### Fixed
+- Gallery low quality image in offline mode when high quality already cached - @patzick (#2557)
 - Payment issue when no address set - @szafran89 (#2593)
 - Search component result message when search term is less than 3 letters - @robwozniak (#2561)
 - Removed childSku parameter in url for non-configurable products when using urlDispatcher - @Aekal (#2605)
@@ -79,21 +86,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed Safari style for sort-by select - @haukebri (#2642)
 - fixed My orders in My Profile not refreshed after putting an order - @filrak (#2559)
 - Refreshing product page on mobile device - @patzick (#2484)
-
-## [1.9.0-rc.1] - 2019-03-07
-
-### Added
-- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and reimport Your products to properly set `url_path` fields - #2010 - @pkarw
-- Unit tests of cart module written in jest - @lukeromanowicz (#2305)
-
-### Fixed
-- Gallery low quality image in offline mode when high quality already cached - @patzick (#2557)
-
-### Changed / Improved
-- The `core/helpers` parsing URL methods exchanged to `query-string` package - @pkarw (#2446)
-- Unit tests in Karma are now removed in favor of jest - @lukeromanowicz (#2305)
-- Material Icons are loaded asynchronously - @JKrupinski, @filrak (#2060)
-- Update to babel 7 - @lukeromanowicz (#2554)
+- ESlint throwing errors about undefined jest globals in tests - @lukeromanowicz (#2702)
+- Fixed changing the country when entering shipping address in checkout not updating shipping costs - @revlis-x (#2691)
+- Instant Checkout fix - @qiqqq (#2750)
+- Infinite loop on multistore page after reload - @patzick (#2713)
+- Refreshing MyAccount page on multistore - @patzick (#2780)
+- "Toggle password visible" button in password fields works the right way - @lromanowicz (#2772)
+- Range queries to elasticsearch - @oskar1233 (#2746)
+- BaseInput has min height now to avoid jumping on forms - @patzick (#2771)
+- Orders with invalid address don't stack anymore in the queue and have proper notification popup - @AndreiBelokopytov, @lukeromanowicz (#2663)
+- Offline orders with out of stock products don't stack anymore and get canceled after going back to online - @lukeromanowicz (#2740)
+- Build ServiceWorker on Docker - @patzick (#2793)
+- Product image load after comming back to online - @patzick (#2573)
+- Insufficent validation for city field in checkout address - @lromanowicz (#2653) 
+- Incorrect hover activity on the 'filter by categories' in the search view on mobile - @idodidodi (#2783)
+- Unit tests written in JavaScript now support async/await functions and dynamic import - @michaelKurowski, @lukeromanowicz (#2851)
 
 ## [1.8.5] - 2019-04-17
 

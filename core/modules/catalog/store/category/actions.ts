@@ -201,7 +201,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Filter category products
    */
-  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false }) {
+  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false, cacheOnly = false }) {
     context.dispatch('setSearchOptions', {
       populateAggregations,
       filters,
@@ -228,6 +228,11 @@ const actions: ActionTree<CategoryState, RootState> = {
         Logger.log('Two stage caching is disabled by the config')()
       }
     }
+    if (cacheOnly) {
+      excludeFields = null
+      includeFields = null
+      Logger.log('Caching request only, no state update')()
+    }    
     let t0 = new Date().getTime()
 
     const precachedQuery = searchProductQuery
@@ -240,7 +245,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       configuration: configuration,
       append: append,
       sort: sort,
-      updateState: true,
+      updateState: cacheOnly ? false : true,
       prefetchGroupProducts: prefetchGroupProducts
     }).then((res) => {
       let t1 = new Date().getTime()
@@ -340,7 +345,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     })
 
-    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled) { // second stage - request for caching entities
+    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled && !cacheOnly) { // second stage - request for caching entities; if cacheOnly set - the caching took place with the stage1 request!
       Logger.log('Using two stage caching for performance optimization - executing second stage product caching', 'category') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize()
       rootStore.dispatch('product/list', {
         query: precachedQuery,

@@ -143,7 +143,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
 export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[]): void {
   if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
     for (let storeCode of config.storeViews.mapStoreUrlsFor) {
-      if (storeCode) {
+      if (storeCode && (config.defaultStoreCode !== storeCode)) {
         let storeRoutes = []
         for (let route of routes) {
           const localRoute = localizedRoute(Object.assign({}, route), storeCode)

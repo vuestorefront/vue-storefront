@@ -11,7 +11,7 @@
 "This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Tato funkce zatím nebyla zavedena! Prosíme, podívejte se na https://github.com/DivanteLtd/vue-storefront/issues pro podrobný návod!"
 "The product is out of stock and cannot be added to the cart!","Produkt není na skladě a nelze ho přidat do košíku!"
 "Product has been added to the cart!","Produkt byl přidán do košíku!"
-"Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io","Interní chyba ověření. Zkontrolujte, zda jsou vyplněna všechna povinná pole. Kontaktujte nás prosím na contributors@vuestorefront.io"
+"Internal validation error. Please check if all required fields are filled in. Please contact us on {email}","Interní chyba ověření. Zkontrolujte, zda jsou vyplněna všechna povinná pole. Kontaktujte nás prosím na {email}"
 "Product {productName} has been added to the compare!","Produkt {productName} byl přidán k porovnání!"
 "Product {productName} has been removed from compare!","Produkt {productName} byl odstraněn z porovnávání!"
 "Product {productName} has been added to wishlist!","Produkt {productName} byl přidán do seznamu přání!"
