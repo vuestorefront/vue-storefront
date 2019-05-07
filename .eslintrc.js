@@ -51,5 +51,15 @@ module.exports = {
     'vue-storefront/no-corecomponent': 'error',
     'vue-storefront/no-corepage-import': 'error',
     'vue-storefront/no-corepage': 'error'
-  }
+  },
+  overrides: [
+    {
+      // @todo check if this is closed https://github.com/typescript-eslint/typescript-eslint/issues/342
+      // This is an issue with interfaces so we need to wait until it fixed.
+      files: ['core/**/*.ts'],
+      rules: {
+        'no-undef': 1
+      }
+    }
+  ]
 };

@@ -45,7 +45,7 @@ const mutations: MutationTree<CategoryState> = {
     }
     if (state.list) {
       categories.items.map(newCat => {
-        if (!state.list.find(existingCat => existingCat.id == newCat.id)) {
+        if (!state.list.find(existingCat => existingCat.id === newCat.id)) {
           state.list.push(newCat)
         }
       })

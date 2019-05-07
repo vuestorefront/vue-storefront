@@ -128,7 +128,7 @@ describe('Cart actions', () => {
     it('pulls latest cart data and refreshes payment/shipping methods when there are products in cart', async () => {
       isOnlineSpy.mockReturnValueOnce(true);
       const contextMock = {
-        rootGetters: { checkout: { isUserInCheckout: () => false }},
+        rootGetters: { checkout: { isUserInCheckout: () => false } },
         dispatch: jest.fn(),
         state: {
           cartItems: [],
@@ -180,7 +180,7 @@ describe('Cart actions', () => {
     it('pulls shipping methods with default country if none is set in shipping details', async () => {
       isOnlineSpy.mockReturnValueOnce(true);
       const contextMock = {
-        rootGetters: { checkout: { isUserInCheckout: () => false }},
+        rootGetters: { checkout: { isUserInCheckout: () => false } },
         dispatch: jest.fn(),
         state: {
           cartItems: [],
@@ -301,7 +301,7 @@ describe('Cart actions', () => {
 
     it('doesn\'t update payment methods if they were synced recently', async () => {
       const contextMock = {
-        rootGetters: { checkout: { isUserInCheckout: () => false }},
+        rootGetters: { checkout: { isUserInCheckout: () => false } },
         dispatch: jest.fn(),
         state: {
           cartItems: [],
