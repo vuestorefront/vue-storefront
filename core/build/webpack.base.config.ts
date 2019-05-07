@@ -9,12 +9,13 @@ import HTMLPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
 import moment from 'moment';
 
-import themeRoot from './theme-path';
-
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
   JSON.stringify(config)
 )
+
+// eslint-disable-next-line import/first
+import themeRoot from './theme-path';
 
 const themesRoot = '../../src/themes'
 const themeResources = themeRoot + '/resource'
