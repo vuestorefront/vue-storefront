@@ -11,7 +11,7 @@
 "This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","此功能尚未实现！ 请查看我们的开发路线图https://github.com/DivanteLtd/vue-storefront/issues!"
 "The product is out of stock and cannot be added to the cart!","该商品缺货，无法添加到购物车!"
 "Product has been added to the cart!","已成功将商品加入购物车!"
-"Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io","内部验证错误。 请检查是否填写了所有必填字段。请通过contributors@vuestorefront.io与我们联系"
+"Internal validation error. Please check if all required fields are filled in. Please contact us on {email}","内部验证错误。 请检查是否填写了所有必填字段。请通过 {email} 与我们联系"
 "Product {productName} has been added to the compare!","商品 {productName} 已经添加到比较列表中!"
 "Product {productName} has been removed from compare!","商品 {productName} 已从比较列表中移除!"
 "Product {productName} has been added to wishlist!","商品 {productName} 已添加到心愿单!"

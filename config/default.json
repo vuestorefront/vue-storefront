@@ -37,7 +37,7 @@
     },
     "elasticsearch": {
       "httpAuth": "",
-      "host": "localhost:8080/api/catalog",
+      "host": "/api/catalog",
       "index": "vue_storefront_catalog",
       "min_score": 0.02,
       "csrTimeout": 5000,
@@ -95,7 +95,7 @@
         "name": "German Store",
         "url": "/de",
         "elasticsearch": {
-          "host": "localhost:8080/api/catalog",
+          "host": "/api/catalog",
           "index": "vue_storefront_catalog_de"
         },
         "tax": {
@@ -122,7 +122,7 @@
         "name": "Italian Store",
         "url": "/it",
         "elasticsearch": {
-          "host": "localhost:8080/api/catalog",
+          "host": "/api/catalog",
           "index": "vue_storefront_catalog_it"
         },
         "tax": {

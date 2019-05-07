@@ -1,10 +1,10 @@
 # ElasticSearch data formats
 
-The service is using ElasticSearch data format compliant with ElasticSuite for Magento 1.x/2.x from [Smile](https://github.com/Smile-SA/smile-magento-elasticsearch).
+The service is using the Elasticsearch data format compliant with ElasticSuite for Magento 1.x/2.x from [Smile](https://github.com/Smile-SA/smile-magento-elasticsearch).
 
 ## Product type
 
-The product data format is combined form of the following Magento2 REST API calls:
+The product data format is a combined form of the following Magento2 REST API calls:
 
 - [catalogProductRepositoryV1GetListGet](http://devdocs.magento.com/swagger/#!/catalogProductRepositoryV1/catalogProductRepositoryV1GetListGet)
 - [catalogInventoryStockRegistryV1GetStockItemBySkuGet](http://devdocs.magento.com/swagger/#!/catalogInventoryStockRegistryV1/catalogInventoryStockRegistryV1GetStockItemBySkuGet)
@@ -1118,7 +1118,7 @@ The suggested data format is a combined result of:
 
 # Example ElasticSearch queries
 
-ElasticSearch is the main data store and [elasticsearch-js library](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/index.html) is used for accesing the data store. We're alsos using [bodybuilder module](https://www.npmjs.com/package/bodybuilder) for easier ES query building.
+Elasticsearch is the main data store and [elasticsearch-js library](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/index.html) is used for accessing the data store. We're alsos using the [bodybuilder module](https://www.npmjs.com/package/bodybuilder) for easier ES query building.
 
 ## Product search
 

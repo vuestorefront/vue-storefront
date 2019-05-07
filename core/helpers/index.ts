@@ -4,6 +4,7 @@ import { remove as removeAccents } from 'remove-accents'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
+import config from 'config'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -167,3 +168,8 @@ export const onlineHelper = Vue.observable({
 })
 !isServer && window.addEventListener('online',  () => onlineHelper.isOnline = true)
 !isServer && window.addEventListener('offline', () => onlineHelper.isOnline = false)
+
+export const processURLAddress = (url:string = '') => {
+  if (url.startsWith('/')) return `${config.api.url}${url}`
+  return url
+}

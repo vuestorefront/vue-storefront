@@ -25,5 +25,8 @@ module.exports = {
   ],
   transformIgnorePatterns: [
     '<rootDir>/node_modules/(?!lodash)'
+  ],
+  setupFiles: [
+    '<rootDir>/test/unit/setupTestEnvironment.js'
   ]
 }
