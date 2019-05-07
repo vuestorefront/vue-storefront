@@ -1,13 +1,13 @@
 # Introduction
 
-All data processing and remote requests should be managed by Vuex data stores. Core module contains more than [10 default data stores](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules) and can be easily extended by [store extensions](../extensions/extensions.md).
-You can modify the existing store actions by responding to events. Events are specified in the docs below and could be found in the [core module](https://github.com/DivanteLtd/vue-storefront/tree/master/core), where `EventBus.$emit` has been mostly used for Vuex Actions.
+All data processing and remote requests should be managed by Vuex data stores. The core module contains more than [10 default data stores](https://github.com/DivanteLtd/vue-storefront/tree/master/core/store/modules) and can be easily extended by [store extensions](../extensions/extensions.md).
+You can modify the existing store actions by responding to events. Events are specified in the docs below and can be found in the [core module](https://github.com/DivanteLtd/vue-storefront/tree/master/core), where `EventBus.$emit` has been mostly used for Vuex Actions.
 
-**You should put all the REST calls, Elasticsearch data queries inside the Vuex Actions**. This is our default design pattern for managing the data.
+**You should put all the REST calls, Elasticsearch data queries inside the Vuex Actions.** This is our default design pattern for managing the data.
 
 ## Vuex conventions
 
-Before you start working with vuex, it's recommended to get familiar with our [vuex conventions](./vuex-conventions.md)
+Before you start working with Vuex, it's recommended to get familiar with our [vuex conventions](./vuex-conventions.md)
 
 ## Vuex modules
 
@@ -24,7 +24,7 @@ Before you start working with vuex, it's recommended to get familiar with our [v
 
 ## Override existing core modules
 
-Existing core modules can be overridden in themes store. Just import any core store modules and override it using `extendStore()` utility method like the example given below in `themes/default/store/ui-store.js`.
+Existing core modules can be overridden in the themes store. Just import any core store modules and override them using the `extendStore()` utility method like the example given below in `themes/default/store/ui-store.js`.
 
 ```
 import coreStore from '@vue-storefront/core/store/modules/ui-store'

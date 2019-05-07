@@ -1,8 +1,8 @@
 # Working with stylesheets in the 'default' theme
 
-Default theme CSS is designed to be easily maintainable which implies the smallest possible files footprint. We are using flexbox and reusable atomic classes to prevent CSS files rapid growth. We're trying to avoid nesting CSS classes (maximum nesting level is 1) to make them easier to understand and debug.
+The default theme’s CSS is designed to be easily maintainable, which implies the smallest possible files footprint. We are using flexbox and reusable atomic classes to prevent CSS files’ rapid growth. We're trying to avoid nesting CSS classes (maximum nesting level is 1) to make them easier to understand and debug.
 
-All (S)CSS files should be placed in `src/themes/{theme_name}/css` folder.
+All (S)CSS files should be placed in the `src/themes/{theme_name}/css` folder.
 
 All atomic classes should be created on demand (e.g. we're creating `pt-20` class for `padding-top: 20px` only when we need to use it). Following that rule will help you avoid unused CSS.
 
@@ -16,19 +16,19 @@ In your own themes other than `default` you don't need to follow our technology 
 
 ## How to style UI elements in Vue Storefront
 
-Let's say we have a small piece of UI and we want to style it according to mocks provided by our graphic designer.
+Let's say we have a small piece of UI and want to style it according to mocks provided by our graphic designer.
 
 ```html
 <div>Hello Vuers!</div>
 ```
 
-According to mocks the above `<div>` should have 20px padding top and bottom (y-axis), 10px padding left and right (x-axis), black background, white text color and display inline-flex.
+According to mocks the above `<div>`should have 20px padding top and bottom (y-axis), 10px padding left and right (x-axis), a black background, white text color, and display inline-flex.
 
 Let's check the [CSS folder](https://github.com/DivanteLtd/vue-storefront/tree/master/src/themes/default/css) and find the required classes.
 
 For padding top/bottom there is `py-x` class where `py` means 'padding y-axis' and `x` is a size in px. We will use `py-20` in this case. Same with x-axis - we will use `px-10`.
 
-For colors we will use `c-white` for `color: white` property and `bg-black` for `background-color: black`.
+For colors, we will use `c-white` for `color: white` property and `bg-black` for `background-color: black`.
 
 Now our `<div>` should look like this:
 
@@ -36,7 +36,7 @@ Now our `<div>` should look like this:
 <div class="py-20 px-10 c-white bg-black">Hello Vuers!</div>
 ```
 
-The `display` properties aren't commonly used across the project, therefore, they are not handled by atomic classes. We can add properties like this in a "normal" way - via a class in component's `<style>` section.
+The `display` properties aren't commonly used across the project, therefore, they are not handled by atomic classes. We can add properties like this in a "normal" way, via a class in the component's `<style>` section.
 
 Now our finished piece of UI should look like this:
 
@@ -54,9 +54,9 @@ Now our finished piece of UI should look like this:
 
 ## Extending (S)CSS files
 
-If you can't find CSS rule that you need please read the rules below before extending current stylesheets
+If you can't find a CSS rule that you need, please read the rules below before extending current stylesheets:
 
-1. Don't create new files in `default/css/` folder. If you think something is missing please contact us on [slack](http://vuestorefront.slack.com) before creating a new file.
+1. Don't create new files in `default/css/` folder. If you think something is missing, please contact us on [slack](http://vuestorefront.slack.com) before creating a new file.
 2. Follow the conventions! Usually, you can find arrays in the top of each SCSS file with sizes or colors and loops below them that iterates through these arrays to generate CSS classes. Please see the [margin.scss](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/css/margin.scss) file.
 
 On the top you can find arrays of sizes (in px and %):
