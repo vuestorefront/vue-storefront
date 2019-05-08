@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix for `everythingNew` collection on home page - @vishal-7037 (#2761)
 - Fixed `Clear cart` option as it previously was not syncing the changes with server - therefore when the user was logged in and cleard the cart all the products were restored - @pkarw (#2587)
 - Fixed the cart sync for a rare case that current cart token was empty - @pkarw (#2592)
+- Use event bus to emit 'application-after-init' event (#2852)
 
 ### Changed / Improved
 - Changed the order number (from `entity_id` to `increment_id`) on MyOrders and MyOrder pages - @pkarw (#2743)
@@ -58,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The "Apply button was too big, I have reduced its size - @idodidodi (#2807)
 - Added return to shopping button on ThenkYou page - @ZeevGerstner (#2818)
 - Added optional attributes to catalog/product.ts - @ZeevGerstner (#2792)
+- Formatted dates in CHANGELOG.md to match ISO standard - @phoenixdev-kl (#2839)
 
 ## [1.9.0] - 2019.05.06
 
@@ -140,7 +142,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Way of creating VS Modules was changed to use factory method instead of explict object creation. - @filrak (#2434)
 - Added clear filters button on desktop also and only show if filters are applied - @DaanKouters (#2342)
 - Improved docs at contributing.md and configuration.md (spelling etc.) - @ruthgeridema (#2421, #2422, #2423, #2425, #2426)
-- Formatted dates in CHANGELOG.md to match ISO standard - @phoenixdev-kl
 - Fixed design issue of Country label on Edge 17 & Firefox - @ananth-iyer (#2390, #2399)
 - Wishlist and compare items are loaded from local cache only once, instead of every time when module component is rendered - @patzick (#2431)
 - Country field is filled by first counry from the list in cart in paymen section - @RakowskiPrzemyslaw (#2428)
