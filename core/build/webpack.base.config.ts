@@ -125,7 +125,7 @@ export default {
         enforce: 'pre',
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
-        exclude: [/node_modules/, /test/]
+        exclude: [/node_modules(?!\/(\@.*\/)?vsf-)/, /test/]
       },
       {
         test: /\.vue$/,
@@ -139,9 +139,10 @@ export default {
         test: /\.ts$/,
         loader: 'ts-loader',
         options: {
-          appendTsSuffixTo: [/\.vue$/]
+          appendTsSuffixTo: [/\.vue$/],
+          allowTsInNodeModules: true
         },
-        exclude: /node_modules/
+        exclude: /node_modules(?!\/(\@.*\/)?vsf-)/
       },
       {
         test: /\.js$/,
@@ -149,7 +150,8 @@ export default {
         include: [
           path.resolve(__dirname, '../../node_modules/@vue-storefront'),
           path.resolve(__dirname, '../../src'),
-          path.resolve(__dirname, '../../core')
+          path.resolve(__dirname, '../../core'),
+          /node_modules\/(\@.*\/)?vsf-.*/
         ]
       },
       {
@@ -196,7 +198,7 @@ export default {
       },
       {
         test: /\.(graphqls|gql)$/,
-        exclude: /node_modules/,
+        exclude: /node_modules(?!\/(\@.*\/)?vsf-)/,
         loader: ['graphql-tag/loader']
       }
     ]
