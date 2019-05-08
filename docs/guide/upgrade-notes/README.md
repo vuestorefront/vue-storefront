@@ -2,6 +2,9 @@
 
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
+## 1.9 -> 1.10
+- Event 'application-after-init' is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
+
 ## 1.8 -> 1.9
 - The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields 
 - `cart.multisiteCommonCart` config property changed to `storeViews.commonCache`
