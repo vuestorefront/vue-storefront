@@ -10,6 +10,7 @@ import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { optionLabel } from '../../helpers/optionLabel'
+import { router } from '@vue-storefront/core/app'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -113,6 +114,15 @@ const actions: ActionTree<CategoryState, RootState> = {
       }
     }
     commit(types.CATEGORY_SET_AVAILABLE_FILTERS, filters)
+  },
+  async switchSearchFilter({ dispatch }, filterVariant) {
+    const xx = Object.assign({}, router.currentRoute.query) // await dispatch('getCurrentFilters')
+    if(xx[filterVariant.name] && xx[filterVariant.name] === filterVariant.value.id) {
+      delete xx[filterVariant.name]
+    } else {
+      xx[filterVariant.name] = filterVariant.value.id
+    }
+    router.push({query: xx})
   }
 }
 
