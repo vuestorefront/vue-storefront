@@ -24,8 +24,8 @@
           code="color"
           v-for="(color, index) in filter"
           :key="index"
-          :id="color.id"
-          :label="color.label"
+          :variant="color"
+          @change="$emit('changeFilter', {name: filterIndex, value: $event})"
         />
       </div>
       <div v-else-if="filterIndex==='size'">
@@ -35,8 +35,8 @@
           class="size-select mr10 mb10"
           v-for="(size, index) in sortById(filter)"
           :key="index"
-          :id="size.id"
-          :label="size.label"
+          :variant="size"
+          @change="$emit('changeFilter', {name: filterIndex, value: $event})"
         />
       </div>
       <div v-else-if="filterIndex==='price'">
@@ -50,6 +50,8 @@
           :from="price.from"
           :to="price.to"
           :content="price.label"
+          :variant="price"
+          @change="$emit('changeFilter', {name: filterIndex, value: $event})"
         />
       </div>
       <div v-else class="sidebar__inline-selecors">
@@ -59,8 +61,8 @@
           :code="filterIndex"
           v-for="(option, index) in filter"
           :key="index"
-          :id="option.id"
-          :label="option.label"
+          :variant="option"
+          @change="$emit('changeFilter', {name: filterIndex, value: $event})"
         />
       </div>
     </div>
@@ -96,7 +98,17 @@ export default {
     PriceSelector,
     GenericSelector
   },
-  mixins: [Sidebar]
+  mixins: [Sidebar],
+  computed: {
+    hasActiveFilters () {
+      return true
+    }
+  },
+  methods: {
+    resetAllFilters () {
+      this.$store.dispatch('category-magento/resetFilters')
+    }
+  }
 }
 </script>
 
