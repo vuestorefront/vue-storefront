@@ -87,8 +87,8 @@ export function productThumbnailPath (product, ignoreConfig = false) {
   return thumbnail
 }
 
-export function buildFilterProductsQuery (currentCategory, chosenFilters, defaultFilters = null) {
-  let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? rootStore.state.config.products.defaultFilters : defaultFilters)
+export function buildFilterProductsQuery (currentCategory, chosenFilters = {}, defaultFilters = null) {
+  let filterQr = baseFilterProductsQuery(currentCategory, !defaultFilters ? rootStore.state.config.products.defaultFilters : defaultFilters)
 
   // add choosedn filters
   for (let code of Object.keys(chosenFilters)) {
