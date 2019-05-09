@@ -289,6 +289,14 @@
         "default": 10,
         "size": 10,
         "color": 10
+      },
+      "priceFilters": {
+        "ranges": [
+          { "from": 0, "to": 50 },
+          { "from": 50, "to": 100 },
+          { "from": 100, "to": 150 },
+          { "from": 150 }
+        ]
       }
     },
     "orders": {

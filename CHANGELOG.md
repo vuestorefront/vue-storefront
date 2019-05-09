@@ -60,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added return to shopping button on ThenkYou page - @ZeevGerstner (#2818)
 - Added optional attributes to catalog/product.ts - @ZeevGerstner (#2792)
 - Formatted dates in CHANGELOG.md to match ISO standard - @phoenixdev-kl (#2839)
+- Moved Filter Price Ranges (used for ES aggregations and UI Filter) to the config - @jpetar (#2873)
 
 ## [1.9.0] - 2019.05.06
 
