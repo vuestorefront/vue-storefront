@@ -3,6 +3,8 @@ import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
 
 const getters: GetterTree<CategoryState, RootState> = {
+  getCategories: (state) => state.categories,
+  getCategoryProducts: (state) => state.products
 }
 
 export default getters

@@ -1,13 +1,18 @@
 // import Vue from 'vue'
 import { MutationTree } from 'vuex'
-// import * as types from './mutation-types'
-// import { slugify, formatBreadCrumbRoutes } from '@vue-storefront/core/helpers'
-// import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
+import * as types from './mutation-types'
 import CategoryState from './CategoryState'
-// import rootStore from '@vue-storefront/core/store'
-// import { Logger } from '@vue-storefront/core/lib/logger'
 
 const mutations: MutationTree<CategoryState> = {
+  [types.CATEGORY_SET_PRODUCTS] (state, products = []) {
+    state.products = products
+  },
+  [types.CATEGORY_SET_CATEGORIES] (state, categories = []) {
+    state.categories = categories
+  },
+  [types.CATEGORY_SET_AVAILABLE_FILTERS] (state, availableFilters = {}) {
+    state.availableFilters = availableFilters
+  }
 }
 
 export default mutations
