@@ -23,13 +23,16 @@
     <div class="container pb60">
       <div class="row m0 pt15">
         <div class="col-md-3 start-xs category-filters">
-          <sidebar :filters="filters.available"/>
+          <sidebar
+            :filters="getAvailableFilters"
+            @changeFilter="changeFilter"
+          />
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
           <div class="close-container absolute w-100">
             <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>
-          <sidebar class="mobile-filters-body" :filters="filters.available"/>
+          <sidebar class="mobile-filters-body" :filters="getAvailableFilters"/>
         </div>
         <div class="col-md-9 px10 border-box products-list">
           <p class="col-xs-12 end-md m0 pb20 cl-secondary">{{ productsTotal }} {{ $t('items') }}</p>
@@ -45,12 +48,12 @@
 </template>
 
 <script>
-import Category from '@vue-storefront/core/pages/Category'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
-// import builder from 'bodybuilder'
+import { isServer } from '@vue-storefront/core/helpers'
+import config from 'config'
 
 export default {
   components: {
@@ -64,14 +67,40 @@ export default {
       mobileFilters: false
     }
   },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
-    return new Promise((resolve, reject) => {
-      store.dispatch('category/mergeSearchOptions', { // this is just an example how can you modify the search criteria in child components
-        sort: 'updated_at:desc'
-        // searchProductQuery: builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }) // this is an example on how to modify the ES query, please take a look at the @vue-storefront/core/helpers for refernce on how to build valid query
+  computed: {
+    products () {
+      return this.$store.getters['category-magento/getCategoryProducts']
+    },
+    category () {
+      return this.$store.getters['category-magento/getCurrentCategory']
+    },
+    productsTotal () {
+      return this.products.length
+    },
+    isCategoryEmpty () {
+      return this.productsTotal === 0
+    },
+    breadcrumbs () {
+      return {
+        routes: []
+      }
+    },
+    getAvailableFilters () {
+      return this.$store.getters['category-magento/getAvailableFilters']
+    }
+  },
+  async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
+    console.error('ASYNC DATA CATEGORY', route)
+    try {
+      await store.dispatch('attribute/list', { // load filter attributes for this specific category
+        filterValues: config.products.defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+        includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
       })
-      resolve()
-    })
+      //   // const category = await store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
+      await store.dispatch('category-magento/searchProducts', {filters: route.query})
+    } catch (e) {
+      console.error('Problem with Category asyncData', e)
+    }
   },
   methods: {
     openFilters () {
@@ -86,9 +115,11 @@ export default {
         message: this.$t('Please select the field which You like to sort by'),
         action1: { label: this.$t('OK') }
       })
+    },
+    async changeFilter (filterVariant) {
+      this.$store.dispatch('category-magento/switchSearchFilter', filterVariant)
     }
-  },
-  mixins: [Category]
+  }
 }
 </script>
 
