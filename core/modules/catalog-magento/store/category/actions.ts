@@ -34,11 +34,11 @@ const actions: ActionTree<CategoryState, RootState> = {
     })
     return chosenFilter
   },
-  async searchProducts ({ commit, dispatch }, { category, filters } = {}) {
+  async searchProducts ({ commit, getters, dispatch }, { category, filters } = {}) {
     await dispatch('initCategoryModule')
     // const category = await store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
     const currentFilters = await dispatch('getCurrentFilters', filters)
-    const searchCategory = category ? category : await dispatch('getCurrentCategory')
+    const searchCategory = category ? category : getters.getCurrentCategory // await dispatch('getCurrentCategory')
     let filterQr = buildFilterProductsQuery(searchCategory, currentFilters)
     const searchResult = await quickSearchByQuery({ query: filterQr })
     commit(types.CATEGORY_SET_PRODUCTS, searchResult.items)
@@ -60,9 +60,9 @@ const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Fetch and process filters from current category and sets them in available filters.
    */
-  async getAvailableFilters ({ commit, dispatch, rootState }) {
+  async getAvailableFilters ({ commit, getters, rootState }) {
     const filters = {}
-    const searchCategory = await dispatch('getCurrentCategory')
+    const searchCategory = getters.getCurrentCategory
     let filterQr = buildFilterProductsQuery(searchCategory)
     const searchResult = await quickSearchByQuery({ query: filterQr })
     if (searchResult && searchResult.aggregations) { // populate filter aggregates
