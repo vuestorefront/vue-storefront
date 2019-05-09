@@ -4,7 +4,8 @@ import CategoryState from './CategoryState'
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state) => state.categories,
-  getCategoryProducts: (state) => state.products
+  getCategoryProducts: (state) => state.products,
+  getAvailableFilters: state => state.availableFilters
 }
 
 export default getters

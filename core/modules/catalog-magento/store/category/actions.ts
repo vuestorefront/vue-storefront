@@ -23,12 +23,23 @@ const actions: ActionTree<CategoryState, RootState> = {
       await dispatch('getAvailableFilters')
     }
   },
-  async searchProducts ({ commit, dispatch, rootState }, { category } = {}) {
+  async getCurrentFilters ({ getters, rootState }, filters) {
+    const currentQuery = filters ? filters : rootState.route.query
+    const chosenFilter = {}
+    Object.keys(currentQuery).map(filterKey => {
+      const filter = getters.getAvailableFilters[filterKey]
+      const queryValue = currentQuery[filterKey]
+      const variant = filter.find(filterVariant => filterVariant.id === queryValue)
+      chosenFilter[filterKey] = {...variant, attribute_code: filterKey}
+    })
+    return chosenFilter
+  },
+  async searchProducts ({ commit, dispatch }, { category, filters } = {}) {
     await dispatch('initCategoryModule')
-    console.error('QUERIES', rootState.route.query)
     // const category = await store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
+    const currentFilters = await dispatch('getCurrentFilters', filters)
     const searchCategory = category ? category : await dispatch('getCurrentCategory')
-    let filterQr = buildFilterProductsQuery(searchCategory)
+    let filterQr = buildFilterProductsQuery(searchCategory, currentFilters)
     const searchResult = await quickSearchByQuery({ query: filterQr })
     commit(types.CATEGORY_SET_PRODUCTS, searchResult.items)
 
