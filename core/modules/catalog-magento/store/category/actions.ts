@@ -30,14 +30,22 @@ const actions: ActionTree<CategoryState, RootState> = {
     Object.keys(currentQuery).map(filterKey => {
       const filter = getters.getAvailableFilters[filterKey]
       const queryValue = currentQuery[filterKey]
-      // TODO if query value is an array then we have multifilter
-      const variant = filter.find(filterVariant => filterVariant.id === queryValue)
-      chosenFilter[filterKey] = {...variant, attribute_code: filterKey}
+      if (Array.isArray(queryValue)) {
+        queryValue.map(singleValue => {
+          const variant = filter.find(filterVariant => filterVariant.id === singleValue)
+          if (!chosenFilter[filterKey] || !Array.isArray(chosenFilter[filterKey])) chosenFilter[filterKey] = []
+          chosenFilter[filterKey].push({...variant, attribute_code: filterKey})
+        })
+      } else {
+        const variant = filter.find(filterVariant => filterVariant.id === queryValue)
+        chosenFilter[filterKey] = {...variant, attribute_code: filterKey}
+      }
     })
     return chosenFilter
   },
   async searchProducts ({ commit, getters, dispatch }, { category, filters } = {}) {
     await dispatch('initCategoryModule')
+    console.error("SEARCH IN: " + router.currentRoute.fullPath)
     // const category = await store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
     const currentFilters = await dispatch('getCurrentFilters', filters)
     const searchCategory = category ? category : getters.getCurrentCategory // await dispatch('getCurrentCategory')
@@ -123,6 +131,9 @@ const actions: ActionTree<CategoryState, RootState> = {
       query[filterVariant.name] = filterVariant.value.id
     }
     router.push({query})
+  },
+  async resetFilters() {
+    router.push({query: {}})
   }
 }
 

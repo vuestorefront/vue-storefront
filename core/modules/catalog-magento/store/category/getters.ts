@@ -6,8 +6,8 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state) => state.categories,
   getCategoryProducts: (state) => state.products,
   getAvailableFilters: state => state.availableFilters,
-  getCurrentCategory: (state, getters) => {
-    return getters.getCategories[0]
+  getCurrentCategory: (state, getters, routeState) => {
+    return getters.getCategories.find(category => routeState.route.path.includes(category.url_path)) || {}
   }
 }
 
