@@ -29,6 +29,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     Object.keys(currentQuery).map(filterKey => {
       const filter = getters.getAvailableFilters[filterKey]
       const queryValue = currentQuery[filterKey]
+      // TODO if query value is an array then we have multifilter
       const variant = filter.find(filterVariant => filterVariant.id === queryValue)
       chosenFilter[filterKey] = {...variant, attribute_code: filterKey}
     })
