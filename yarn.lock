@@ -1844,14 +1844,13 @@
     vue-router "^3.0.2"
     vue-slider-component "^3.0.5"
 
-"@storefrontui/vue@^0.0.1-aplha.12":
-  version "0.0.1-aplha.12"
-  resolved "https://registry.yarnpkg.com/@storefrontui/vue/-/vue-0.0.1-aplha.12.tgz#5c1edb33e331c0da4c14ad81a8a99091ca2ac1c5"
+"@storefrontui/vue@^0.0.1-aplha.15":
+  version "0.0.1-aplha.15"
+  resolved "https://registry.yarnpkg.com/@storefrontui/vue/-/vue-0.0.1-aplha.15.tgz#ea02567c89b18f984d68b4c60b6f14d1ef7267bc"
   dependencies:
     "@snowdog/alpaca-components" "^0.3.0-alpha.5"
     node-sass "^4.11.0"
     sass-loader "^7.1.0"
-    vue "^2.6.8"
 
 "@types/anymatch@*":
   version "1.3.0"

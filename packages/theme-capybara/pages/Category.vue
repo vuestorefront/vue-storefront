@@ -13,92 +13,13 @@
           <FiltersIcon />
           Filters
         </SfButton>
-        <span class="navbar__products-count"><strong>256</strong> items</span>
+        <span class="navbar__products-count"><strong>{{ productsTotal }}</strong> items</span>
       </div>
     </div>
 
-      <div class="main">
+    <div class="main">
       <div class="sidebar desktop-only">
-        <SfAccordion>
-          <SfAccordionItem :open="true">
-            <h3 slot="label">Clothing</h3>
-            <SfList slot="content" class="sidebar__category-list">
-              <SfListItem>
-                <SfMenuItem label="All" count="280" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Skirts" count="23" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Sweaters" count="54" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Dresses" count="34" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="T-shirts" count="56" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Pants" count="7" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Underwear" count="12" />
-              </SfListItem>
-            </SfList>
-          </SfAccordionItem>
-          <SfAccordionItem>
-            <h3 slot="label">Accesorries</h3>
-            <SfList slot="content" class="sidebar__category-list">
-              <SfListItem>
-                <SfMenuItem label="All" count="280" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Skirts" count="23" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Sweaters" count="54" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Dresses" count="34" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="T-shirts" count="56" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Pants" count="7" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Underwear" count="12" />
-              </SfListItem>
-            </SfList>
-          </SfAccordionItem>
-          <SfAccordionItem>
-            <h3 slot="label">Shoes</h3>
-            <SfList slot="content" class="sidebar__category-list">
-              <SfListItem>
-                <SfMenuItem label="All" count="280" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Skirts" count="23" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Sweaters" count="54" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Dresses" count="34" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="T-shirts" count="56" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Pants" count="7" />
-              </SfListItem>
-              <SfListItem>
-                <SfMenuItem label="Underwear" count="12" />
-              </SfListItem>
-            </SfList>
-          </SfAccordionItem>
-        </SfAccordion>
+       <CategoriesSidebar :categories="categories"/>
       </div>
       <div class="products">
         <SfProductCard
@@ -106,9 +27,8 @@
           v-for="product in products"
           :key="product.id"
           :title="product.name"
-          :price="{ regularPrice: product.priceInclTax | price, specialPrice: product.specialpriceInclTax | price }"
+          :price="{ regularPrice: formatPrice(product.priceInclTax), specialPrice: formatPrice(product.specialpriceInclTax) }"
           :image="getProductThumbnail(product)"
-          :rating="{ max: 5, score: 4 }"
         />
         <SfPagination
           class="products__pagination"
@@ -122,125 +42,84 @@
      <SfSidebar
       :visible="isFilterSidebarOpen"
       @close="isFilterSidebarOpen = false"
+      class="filters"
     >
-      <h3>Collection</h3>
-      <SfList>
-        <SfListItem>
-          <SfFilter
-            :group.sync="filters.collection"
-            label="Summer fly"
-            value="summer-fly"
-            count="10"
-          />
-        </SfListItem>
-        <SfListItem>
-          <SfFilter
-            :group.sync="filters.collection"
-            label="Best 2018"
-            value="best-2018"
-            count="23"
-          />
-        </SfListItem>
-        <SfListItem>
-          <SfFilter
-            :group.sync="filters.collection"
-            label="Your choice"
-            value="your-choice"
-            count="54"
-          />
-        </SfListItem>
-      </SfList>
-      <h3>Color</h3>
-      <SfList>
-        <SfListItem>
-          <SfFilter
-            :group.sync="filters.color"
-            label="Red"
-            value="red"
-            color="#990611"
-          />
-        </SfListItem>
-        <SfListItem>
-          <SfFilter
-            :group.sync="filters.color"
-            label="Yellow"
-            value="yellow"
-            color="#DCA742"
-          />
-        </SfListItem>
-        <SfListItem>
-          <SfFilter
-            :group.sync="filters.color"
-            label="Black"
-            value="black"
-            color="black"
-          />
-        </SfListItem>
-        <SfListItem>
-          <SfFilter
-            :group.sync="filters.color"
-            label="Blue"
-            value="blue"
-            color="#004F97"
-          />
-        </SfListItem>
-        <SfListItem>
-          <SfFilter
-            :group.sync="filters.color"
-            label="White"
-            value="white"
-            color="white"
-          />
-        </SfListItem>
-      </SfList>
+      <div :key="title" v-for="(filtersEntity, title) in filters.available">
+        <h3 class="filters__title">{{ title }}</h3>
+        <SfFilter v-model="activeFilters[title]">
+          <SfList>
+            <SfListItem v-for="filter in filtersEntity" :key="filter.id">
+              <SfFilterItem
+                :label="filter.label"
+                :value="filter.id"
+                :color="title === 'color' ? filter.label : null"
+              />
+            </SfListItem>
+          </SfList>
+        </SfFilter>
+      </div>
     </SfSidebar>
   </div>
 </template>
 
 <script>
-/**
- * - check 'price' filter and why it's not displaying sign
- */
 import Category from "@vue-storefront/core/pages/Category.js"
 import SfSidebar from "@storefrontui/vue/dist/SfSidebar.vue";
+import SfPagination from "@storefrontui/vue/dist/SfPagination.vue";
 import SfButton from "@storefrontui/vue/dist/SfButton.vue";
 import SfList from "@storefrontui/vue/dist/SfList.vue";
 import SfFilter from "@storefrontui/vue/dist/SfFilter.vue";
-import SfMenuItem from "@storefrontui/vue/dist/SfMenuItem.vue";
+import SfFilterItem from "@storefrontui/vue/dist/SfFilterItem.vue";
 import SfAccordion from "@storefrontui/vue/dist/SfAccordion.vue";
 import SfProductCard from "@storefrontui/vue/dist/SfProductCard.vue"
-import FiltersIcon from "../components/FiltersIcon.vue"
+import FiltersIcon from "theme/components/category/FiltersIcon.vue"
+import CategoriesSidebar from "theme/components/category/CategoriesSidebar"
 
+import { mapGetters } from "vuex";
 import { productThumbnailPath } from '@vue-storefront/core/helpers'
-
+import { price } from "@vue-storefront/core/filters/price.js"
 
 export default {
   mixins: [Category],
   data () {
     return {
       isFilterSidebarOpen: false,
-      filters: {
-        color: null,
-        collection: null
-      },
+      activeFilters: {}
     }
+  },
+  computed: {
+    ...mapGetters("category", ["getCategories"]),
+    categories() {
+      return this.getCategories
+    }
+  },
+  mounted () {
+    Object.keys(this.filters.available).forEach(item => {
+      this.activeFilters[item] = []
+    })
+    
   },
   methods: {
     // TODO: Use productThumbnailPath in Vuex
     getProductThumbnail (product) {
       let thumbnail = productThumbnailPath(product)
-      return this.getThumbnail(thumbnail, 310, 300)
+      return this.getThumbnail(thumbnail, 300, 400)
+    },
+    formatPrice (toFormat) {
+      return price(toFormat)
     }
   },
   components: {
     SfButton,
     SfList,
     SfFilter,
+    SfFilterItem,
     SfSidebar,
-    SfMenuItem,
     SfAccordion,
-    FiltersIcon,
     SfProductCard,
+    SfPagination,
+    FiltersIcon,
+    CategoriesSidebar
   }
 }
 </script>
@@ -350,6 +229,12 @@ export default {
   @media (min-width: $desktop-min) {
     width: 80%;
     padding: $spacer-big;
+  }
+}
+
+.filters {
+  &__title:first-letter  {
+    text-transform: uppercase
   }
 }
 </style>

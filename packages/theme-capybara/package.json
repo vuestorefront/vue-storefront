@@ -6,7 +6,7 @@
   "author": "filrak <frakowski@divante.pl> and contributors",
   "license": "MIT",
   "dependencies": {
-    "@storefrontui/vue": "^0.0.1-aplha.12",
+    "@storefrontui/vue": "^0.0.1-aplha.15",
     "@vue-storefront/core": "^1.9.0",
     "vue": "^2.6.6"
   },

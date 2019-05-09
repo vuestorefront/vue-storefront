@@ -5,6 +5,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import "@storefrontui/vue/dist/css/all.scss";
+
 export default {
 }
 </script>
+
