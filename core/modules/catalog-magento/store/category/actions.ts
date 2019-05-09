@@ -116,13 +116,13 @@ const actions: ActionTree<CategoryState, RootState> = {
     commit(types.CATEGORY_SET_AVAILABLE_FILTERS, filters)
   },
   async switchSearchFilter({ dispatch }, filterVariant) {
-    const xx = Object.assign({}, router.currentRoute.query) // await dispatch('getCurrentFilters')
-    if(xx[filterVariant.name] && xx[filterVariant.name] === filterVariant.value.id) {
-      delete xx[filterVariant.name]
+    const query = Object.assign({}, router.currentRoute.query) // await dispatch('getCurrentFilters')
+    if(query[filterVariant.name] && query[filterVariant.name] === filterVariant.value.id) {
+      delete query[filterVariant.name]
     } else {
-      xx[filterVariant.name] = filterVariant.value.id
+      query[filterVariant.name] = filterVariant.value.id
     }
-    router.push({query: xx})
+    router.push({query})
   }
 }
 
