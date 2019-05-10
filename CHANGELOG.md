@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed the cart sync for a rare case that current cart token was empty - @pkarw (#2592)
 - Use event bus to emit 'application-after-init' event (#2852)
 - Validation of fields 'company name' and 'tax' in checkout doesn't work correctly - @dimasch (#2741)
+- Fixed wrong price displayed in instant checkout module - @vishal-7037 (#2884)
 
 ### Changed / Improved
 - Changed the order number (from `entity_id` to `increment_id`) on MyOrders and MyOrder pages - @pkarw (#2743)
