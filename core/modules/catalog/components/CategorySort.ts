@@ -8,12 +8,24 @@ export const CategorySort = {
   methods: {
     // emit to category, todo: move all logic inside
     sort () {
-      this.$bus.$emit('list-change-sort', { attribute: this.sortby })
+      this.$emit('sortChange', this.sortby)
+      // this.$bus.$emit('list-change-sort', { attribute: this.sortby })
     }
   },
   computed: {
     sortingOptions () {
       return this.$store.state.config.products.sortByAttributes
+    },
+    sortingVariants () {
+      let variants = []
+      Object.keys(this.sortingOptions).map(label => {
+        variants.push({
+          label: label,
+          id: this.sortingOptions[label],
+          type: 'sort'
+        })
+      })
+      return variants
     }
   }
 }

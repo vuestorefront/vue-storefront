@@ -26,7 +26,7 @@
           :key="index"
           :variant="color"
           :is-active="getCurrentFilters[filterIndex] && getCurrentFilters[filterIndex].id === color.id"
-          @change="$emit('changeFilter', {name: filterIndex, value: $event})"
+          @change="$emit('changeFilter', $event)"
         />
       </div>
       <div v-else-if="filterIndex==='size'">
@@ -38,7 +38,7 @@
           :key="index"
           :variant="size"
           :is-active="getCurrentFilters[filterIndex] && getCurrentFilters[filterIndex].id === size.id"
-          @change="$emit('changeFilter', {name: filterIndex, value: $event})"
+          @change="$emit('changeFilter', $event)"
         />
       </div>
       <div v-else-if="filterIndex==='price'">
@@ -54,7 +54,7 @@
           :content="price.label"
           :variant="price"
           :is-active="getCurrentFilters[filterIndex] && getCurrentFilters[filterIndex].id === price.id"
-          @change="$emit('changeFilter', {name: filterIndex, value: $event})"
+          @change="$emit('changeFilter', $event)"
         />
       </div>
       <div v-else class="sidebar__inline-selecors">
@@ -66,7 +66,7 @@
           :key="index"
           :variant="option"
           :is-active="getCurrentFilters[filterIndex] && getCurrentFilters[filterIndex].id === option.id"
-          @change="$emit('changeFilter', {name: filterIndex, value: $event})"
+          @change="$emit('changeFilter', $event)"
         />
       </div>
     </div>

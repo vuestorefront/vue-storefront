@@ -6,7 +6,7 @@
       v-model="sortby"
       @change="changeOrder">
       <option selected="selected" disabled value="">{{ $t('Sort By') }}</option>
-      <option v-for="(option, label) in sortByAttribute" :disabled="sortby === option" :value="option" :key="option" >{{ $t(label) }}</option>
+      <option v-for="variant in sortingVariants" :disabled="sortby === variant.id" :value="variant" :key="variant.id" >{{ $t(variant.label) }}</option>
     </select>
   </div>
 </template>

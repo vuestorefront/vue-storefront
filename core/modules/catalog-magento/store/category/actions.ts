@@ -11,6 +11,7 @@ import toString from 'lodash-es/toString'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { optionLabel } from '../../helpers/optionLabel'
 import { router } from '@vue-storefront/core/app'
+import FilterVariant from '../../types/FilterVariant';
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -26,10 +27,10 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async searchProducts ({ commit, getters, dispatch }, { filters, route } = {}) {
     await dispatch('initCategoryModule')
-    const currentFilters = getters.calculateFilters(filters)
+    const searchQuery = getters.calculateFilters(filters)
     const searchCategory = getters.calculateCurrentCategory(route)
-    let filterQr = buildFilterProductsQuery(searchCategory, currentFilters)
-    const searchResult = await quickSearchByQuery({ query: filterQr })
+    let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
+    const searchResult = await quickSearchByQuery({ query: filterQr, sort: searchQuery.sort })
     commit(types.CATEGORY_SET_PRODUCTS, searchResult.items)
 
     return searchResult.items
@@ -56,7 +57,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     const searchResult = await quickSearchByQuery({ query: filterQr })
     if (searchResult && searchResult.aggregations) { // populate filter aggregates
       for (let attrToFilter of config.products.defaultFilters) { // fill out the filter options
-        let filterOptions = []
+        let filterOptions:Array<FilterVariant> = []
 
         let uniqueFilterValues = new Set<string>()
         if (attrToFilter !== 'price') {
@@ -76,7 +77,8 @@ const actions: ActionTree<CategoryState, RootState> = {
             if (trim(label) !== '') { // is there any situation when label could be empty and we should still support it?
               filterOptions.push({
                 id: key,
-                label: label
+                label: label,
+                type: attrToFilter
               })
             }
           });
@@ -89,6 +91,7 @@ const actions: ActionTree<CategoryState, RootState> = {
             for (let option of searchResult.aggregations['agg_range_' + attrToFilter].buckets) {
               filterOptions.push({
                 id: option.key,
+                type: attrToFilter,
                 from: option.from,
                 to: option.to,
                 label: (index === 0 || (index === count - 1)) ? (option.to ? '< ' + currencySign + option.to : '> ' + currencySign + option.from) : currencySign + option.from + (option.to ? ' - ' + option.to : '')// TODO: add better way for formatting, extract currency sign
@@ -99,15 +102,25 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
         filters[attrToFilter] = filterOptions
       }
+      // Add sort to available filters
+      let variants = []
+      Object.keys(config.products.sortByAttributes).map(label => {
+        variants.push({
+          label: label,
+          id: config.products.sortByAttributes[label],
+          type: 'sort'
+        })
+      })
+      filters['sort'] = variants
     }
     commit(types.CATEGORY_SET_AVAILABLE_FILTERS, filters)
   },
-  async switchSearchFilter({ dispatch }, filterVariant) {
+  async switchSearchFilter({ dispatch }, filterVariant:FilterVariant) {
     const query = Object.assign({}, router.currentRoute.query) // await dispatch('getCurrentFilters')
-    if(query[filterVariant.name] && query[filterVariant.name] === filterVariant.value.id) {
-      delete query[filterVariant.name]
+    if(query[filterVariant.type] && query[filterVariant.type] === filterVariant.id) {
+      delete query[filterVariant.type]
     } else {
-      query[filterVariant.name] = filterVariant.value.id
+      query[filterVariant.type] = filterVariant.id
     }
     router.push({query})
   },
