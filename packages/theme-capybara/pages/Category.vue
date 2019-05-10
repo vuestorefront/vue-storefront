@@ -30,12 +30,6 @@
           :price="{ regularPrice: formatPrice(product.priceInclTax), specialPrice: formatPrice(product.specialpriceInclTax) }"
           :image="getProductThumbnail(product)"
         />
-        <SfPagination
-          class="products__pagination"
-          :current.sync="currentPage"
-          :total="20"
-          :visible="5"
-        />
       </div>
     </div>
 
@@ -65,7 +59,6 @@
 <script>
 import Category from "@vue-storefront/core/pages/Category.js"
 import SfSidebar from "@storefrontui/vue/dist/SfSidebar.vue";
-import SfPagination from "@storefrontui/vue/dist/SfPagination.vue";
 import SfButton from "@storefrontui/vue/dist/SfButton.vue";
 import SfList from "@storefrontui/vue/dist/SfList.vue";
 import SfFilter from "@storefrontui/vue/dist/SfFilter.vue";
@@ -84,7 +77,12 @@ export default {
   data () {
     return {
       isFilterSidebarOpen: false,
-      activeFilters: {}
+      activeFilters: {
+        color: [],
+        erin_recommends: [],
+        price: [],
+        size: []
+      }
     }
   },
   computed: {
@@ -92,12 +90,6 @@ export default {
     categories() {
       return this.getCategories
     }
-  },
-  mounted () {
-    Object.keys(this.filters.available).forEach(item => {
-      this.activeFilters[item] = []
-    })
-    
   },
   methods: {
     // TODO: Use productThumbnailPath in Vuex
@@ -117,7 +109,6 @@ export default {
     SfSidebar,
     SfAccordion,
     SfProductCard,
-    SfPagination,
     FiltersIcon,
     CategoriesSidebar
   }
@@ -211,13 +202,10 @@ export default {
   flex-wrap: wrap;
   align-items: flex-start;
   align-content: flex-start;
+  justify-content: space-between;
   &__product-card {
     width: 50%;
-    justify-content: center;
     @media (min-width: $tablet-min) {
-      width: 33%;
-    }
-    @media (min-width: $desktop-min) {
       width: 25%;
     }
   }

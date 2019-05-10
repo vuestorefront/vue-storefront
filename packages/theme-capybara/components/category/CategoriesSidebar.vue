@@ -22,7 +22,7 @@ export default {
   props: {
     categories: {
       required: true,
-      type: Object
+      type: Array
     }
   },
   components: {

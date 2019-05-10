@@ -4,6 +4,8 @@ const inquirer = require('inquirer')
 const Listr = require('Listr')
 const execa = require('execa')
 const spawn = require('child_process')
+const fs = require('fs')
+
 const options = {
   version: {
     stable: 'Latest stable build (recommended for production)',
@@ -16,7 +18,7 @@ const options = {
 }
 
 const tasks = {
-  installDepsYarn: {
+  installDeps: {
     title: 'Installing dependencies',
     task: () => execa.shell('cd vue-storefront && yarn')
   },
@@ -33,35 +35,38 @@ const tasks = {
     task: () => spawn.execFileSync('yarn', ['installer'], {stdio: 'inherit', cwd: 'vue-storefront'})
   }
 }
-
-inquirer
-  .prompt([
-    {
-      type: 'list',
-      name: 'version',
-      message: 'Whaich version of Vue Storefront you\'d like to install?',
-      choices: [
-        options.version.stable,
-        options.version.nightly
-      ]
-    },
-    {
-      type: 'list',
-      name: 'installation',
-      message: 'Would you like to use friendly installer or install Vue Storefront manually?',
-      choices: [
-        options.installation.installer,
-        options.installation.manual
-      ]
-    }
-  ])
-  .then(answers => {
-    const taskQueue = []
-    if (answers.version === options.version.stable) taskQueue.push(tasks.cloneMaster)
-    if (answers.version === options.version.nightly) taskQueue.push(tasks.cloneDevelop)
-    if (answers.installation === options.installation.installer) {
-      taskQueue.push(tasks.installDeps)
-      taskQueue.push(tasks.runInstaller)
-    }
-    new Listr(taskQueue).run()
-  })
+if (fs.existsSync('vue-storefront')) {
+  console.error('Vue Storefront is already installed in this directory. Aborting.')
+} else {
+  inquirer
+    .prompt([
+      {
+        type: 'list',
+        name: 'version',
+        message: 'Whaich version of Vue Storefront you\'d like to install?',
+        choices: [
+          options.version.stable,
+          options.version.nightly
+        ]
+      },
+      {
+        type: 'list',
+        name: 'installation',
+        message: 'Would you like to use friendly installer or install Vue Storefront manually?',
+        choices: [
+          options.installation.installer,
+          options.installation.manual
+        ]
+      }
+    ])
+    .then(answers => {
+      const taskQueue = []
+      if (answers.version === options.version.stable) taskQueue.push(tasks.cloneMaster)
+      if (answers.version === options.version.nightly) taskQueue.push(tasks.cloneDevelop)
+      if (answers.installation === options.installation.installer) {
+        taskQueue.push(tasks.installDeps)
+        taskQueue.push(tasks.runInstaller)
+      }
+      new Listr(taskQueue).run()
+    })
+}
