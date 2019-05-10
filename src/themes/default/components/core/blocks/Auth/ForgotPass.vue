@@ -52,7 +52,7 @@
           <p class="py30 mb80">
             {{ $t("We've sent password reset instructions to your email. Check your inbox and follow the link.") }}
           </p>
-          <button-full class="mb35" type="submit">
+          <button-full class="mb35" type="link" @click.native="switchElem">
             {{ $t('Back to login') }}
           </button-full>
         </form>
