@@ -10,7 +10,7 @@ const getters: GetterTree<CategoryState, RootState> = {
     const currentRoute = route ? route : rootState.route
     return getters.getCategories.find(category => currentRoute.path.includes(category.url_path)) || {}
   },
-  getCurrentCategory: (state, getters) => getters.calculateCurrentCategory(),
+  getCurrentCategory: (state, getters, rootState) => getters.calculateCurrentCategory(rootState.route),
   calculateFilters: (state, getters, rootState) => (filters) => {
     const currentQuery = filters ? filters : rootState.route.query
     const chosenFilter = {}
@@ -30,9 +30,7 @@ const getters: GetterTree<CategoryState, RootState> = {
     })
     return chosenFilter
   },
-  getCurrentFilters: (state, getters) => {
-    return getters.calculateFilters()
-  },
+  getCurrentFilters: (state, getters, rootState) => getters.calculateFilters(rootState.route.query),
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length
 }
 
