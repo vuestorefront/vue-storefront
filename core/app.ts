@@ -116,7 +116,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   registerExtensions(extensions, app, router, store, config, ssrContext)
   registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
 
-  app.$emit('application-after-init', app)
+  Vue.prototype.$bus.$emit('application-after-init', app)
 
   return { app, router, store }
 }
