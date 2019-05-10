@@ -25,6 +25,7 @@
           v-for="(color, index) in filter"
           :key="index"
           :variant="color"
+          :is-active="getCurrentFilters[filterIndex] && getCurrentFilters[filterIndex].id === color.id"
           @change="$emit('changeFilter', {name: filterIndex, value: $event})"
         />
       </div>
@@ -36,6 +37,7 @@
           v-for="(size, index) in sortById(filter)"
           :key="index"
           :variant="size"
+          :is-active="getCurrentFilters[filterIndex] && getCurrentFilters[filterIndex].id === size.id"
           @change="$emit('changeFilter', {name: filterIndex, value: $event})"
         />
       </div>
@@ -51,6 +53,7 @@
           :to="price.to"
           :content="price.label"
           :variant="price"
+          :is-active="getCurrentFilters[filterIndex] && getCurrentFilters[filterIndex].id === price.id"
           @change="$emit('changeFilter', {name: filterIndex, value: $event})"
         />
       </div>
@@ -62,6 +65,7 @@
           v-for="(option, index) in filter"
           :key="index"
           :variant="option"
+          :is-active="getCurrentFilters[filterIndex] && getCurrentFilters[filterIndex].id === option.id"
           @change="$emit('changeFilter', {name: filterIndex, value: $event})"
         />
       </div>
@@ -102,6 +106,9 @@ export default {
   computed: {
     hasActiveFilters () {
       return this.$store.getters['category-magento/hasActiveFilters']
+    },
+    getCurrentFilters () {
+      return this.$store.getters['category-magento/getCurrentFilters']
     }
   },
   methods: {
