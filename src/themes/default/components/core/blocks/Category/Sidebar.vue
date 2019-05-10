@@ -101,7 +101,7 @@ export default {
   mixins: [Sidebar],
   computed: {
     hasActiveFilters () {
-      return true
+      return this.$store.getters['category-magento/hasActiveFilters']
     }
   },
   methods: {

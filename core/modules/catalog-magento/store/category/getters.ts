@@ -32,7 +32,8 @@ const getters: GetterTree<CategoryState, RootState> = {
   },
   getCurrentFilters: (state, getters) => {
     return getters.calculateFilters()
-  }
+  },
+  hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length
 }
 
 export default getters
