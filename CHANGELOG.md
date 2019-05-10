@@ -29,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed `Clear cart` option as it previously was not syncing the changes with server - therefore when the user was logged in and cleard the cart all the products were restored - @pkarw (#2587)
 - Fixed the cart sync for a rare case that current cart token was empty - @pkarw (#2592)
 - Use event bus to emit 'application-after-init' event (#2852)
+- Validation of fields 'company name' and 'tax' in checkout doesn't work correctly - @dimasch (#2741)
+- Fixed wrong price displayed in instant checkout module - @vishal-7037 (#2884)
 
 ### Changed / Improved
 - Changed the order number (from `entity_id` to `increment_id`) on MyOrders and MyOrder pages - @pkarw (#2743)
@@ -59,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added return to shopping button on ThenkYou page - @ZeevGerstner (#2818)
 - Added optional attributes to catalog/product.ts - @ZeevGerstner (#2792)
 - Formatted dates in CHANGELOG.md to match ISO standard - @phoenixdev-kl (#2839)
+- Moved Filter Price Ranges (used for ES aggregations and UI Filter) to the config - @jpetar (#2873)
 
 ## [1.9.0] - 2019.05.06
 
