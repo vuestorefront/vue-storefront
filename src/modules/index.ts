@@ -24,7 +24,6 @@ import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
 import { Magento2CMS } from './magento-2-cms'
 import { InstantCheckout } from './instant-checkout'
-import { BackToTop } from './vsf-back-to-top'
 
 // import { Example } from './module-template'
 
@@ -77,7 +76,6 @@ export const registerModules: VueStorefrontModule[] = [
   RawOutputExample,
   AmpRenderer,
   InstantCheckout,
-  Url,
-  BackToTop,
+  Url
   // Example
 ]

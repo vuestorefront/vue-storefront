@@ -154,7 +154,7 @@
 import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
-import BackToTop from 'src/modules/vsf-back-to-top/components/BackToTop'
+import BackToTop from 'theme/components/core/BackToTop'
 
 export default {
   mixins: [CurrentPage],
