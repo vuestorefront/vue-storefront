@@ -188,7 +188,6 @@
             class="col-xs-12 mb15"
             id="generateInvoiceCheckbox"
             v-model="generateInvoice"
-            @click="useGenerateInvoice"
           >
             {{ $t('I want to generate an invoice for the company') }}
           </base-checkbox>
