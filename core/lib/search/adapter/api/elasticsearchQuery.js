@@ -20,7 +20,7 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
     // apply default filters
     appliedFilters.forEach(filter => {
       if (filter.scope === 'default') {
-        if (rangeOperators.every(rangeOperator => filter.value.hasOwnProperty(rangeOperator))) {
+        if (Object.keys(filter.value).every(v => rangeOperators.includes(v))) {
           // process range filters
           query = query.filter('range', filter.attribute, filter.value)
         } else {
@@ -84,14 +84,7 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
           query = query.aggregation('terms', attrToFilter.field + optionsPrfeix, aggregationSize)
         } else {
           query = query.aggregation('terms', attrToFilter.field)
-          query.aggregation('range', 'price', {
-            ranges: [
-              { from: 0, to: 50 },
-              { from: 50, to: 100 },
-              { from: 100, to: 150 },
-              { from: 150 }
-            ]
-          })
+          query.aggregation('range', 'price', config.products.priceFilters)
         }
       }
     }
@@ -120,6 +113,10 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
     }
   }
   const queryBody = query.build()
+
+  if (searchQuery.suggest) {
+    queryBody.suggest = searchQuery.suggest
+  }
 
   return queryBody
 }

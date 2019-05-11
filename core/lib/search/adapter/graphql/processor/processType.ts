@@ -16,7 +16,8 @@ export function processESResponseType (resp, start, size): SearchResponse {
     total: resp.hits.total,
     start: start,
     perPage: size,
-    aggregations: resp.aggregations
+    aggregations: resp.aggregations,
+    suggestions: resp.suggest
   }
 
   return response
@@ -40,7 +41,8 @@ export function processProductsType (resp, start, size): SearchResponse {
     total: resp.total_count,
     start: start,
     perPage: size,
-    aggregations: resp.aggregations
+    aggregations: resp.aggregations,
+    suggestions: resp.suggest
   }
 
   return response
@@ -52,7 +54,8 @@ export function processCmsType (resp, start, size): SearchResponse {
     total: resp.total_count,
     start: start,
     perPage: size,
-    aggregations: resp.aggregations
+    aggregations: resp.aggregations,
+    suggestions: resp.suggest
   }
 
   return response

@@ -13,7 +13,7 @@
             {{ $t('Add review') }}
           </h2>
           <form action="#" @submit.prevent="outOfScope()">
-            <div class="mb25 pt50">
+            <div class="mb10 pt50">
               <base-input
                 type="text"
                 :placeholder="$t('First name') + ' *'"
@@ -31,7 +31,7 @@
                 ]"
               />
             </div>
-            <div class="mb25">
+            <div class="mb10">
               <base-input
                 type="email"
                 :placeholder="$t('Email address') + ' *'"
@@ -49,7 +49,7 @@
                 ]"
               />
             </div>
-            <div class="mb25">
+            <div class="mb10">
               <base-input
                 type="text"
                 :placeholder="$t('Summary') + ' *'"

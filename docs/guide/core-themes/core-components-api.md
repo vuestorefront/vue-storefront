@@ -7,7 +7,7 @@ In the case of injectable components (like modal) or the ones triggered by Vuex 
 
 ## AddToCart
 
-This component represents a single button that when pressed adds a product to cart. Right now this component is used on Product page only.
+This component represents a single button that, when pressed, adds a product to the cart.
 
 ### Props
 

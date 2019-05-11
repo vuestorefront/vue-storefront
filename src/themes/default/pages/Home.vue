@@ -4,7 +4,7 @@
 
     <promoted-offers/>
 
-    <section class="new-collection container px15">
+    <section class="new-collection container px15" v-if="everythingNewCollection && everythingNewCollection.length">
       <div>
         <header class="col-md-12">
           <h2 class="align-center cl-accent">{{ $t('Everything new') }}</h2>
@@ -85,7 +85,8 @@ export default {
   },
   watch: {
     isLoggedIn () {
-      this.$router.push(localStorage.getItem('redirect'))
+      const redirectObj = localStorage.getItem('redirect')
+      if (redirectObj) this.$router.push(redirectObj)
       localStorage.removeItem('redirect')
     }
   },
