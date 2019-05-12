@@ -54,6 +54,7 @@
 import rootStore from '@vue-storefront/core/store'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
 import { isServer } from '@vue-storefront/core/helpers'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 
 export default {
   mixins: [ProductTile],
@@ -80,7 +81,7 @@ export default {
     },
     visibilityChanged (isVisible, entry) {
       if (isVisible) {
-        if (rootStore.state.config.products.configurableChildrenStockPrefetchDynamic && rootStore.products.filterUnavailableVariants) {
+        if (ConfigManager.getConfig().products.configurableChildrenStockPrefetchDynamic && rootStore.products.filterUnavailableVariants) {
           const skus = [this.product.sku]
           if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
             for (const confChild of this.product.configurable_children) {

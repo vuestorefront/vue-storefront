@@ -5,13 +5,12 @@ import { ActionTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import OrderState from '../types/OrderState'
 import { Order } from '../types/Order'
-import rootStore from '@vue-storefront/core/store'
 import { isOnline } from '@vue-storefront/core/lib/search'
 import i18n from '@vue-storefront/i18n'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { sha3_224 } from 'js-sha3'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import config from 'config'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 
 const actions: ActionTree<OrderState, RootState> = {
   /**
@@ -20,6 +19,7 @@ const actions: ActionTree<OrderState, RootState> = {
    * @param {Order} order order data to be send
    */
   async placeOrder ({ commit, getters, dispatch }, order:Order) {
+    const config = ConfigManager.getConfig()
     // Check if order is already processed/processing
     const currentOrderHash = sha3_224(JSON.stringify(order))
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
@@ -32,7 +32,7 @@ const actions: ActionTree<OrderState, RootState> = {
     }
 
     Vue.prototype.$bus.$emit('order-before-placed', { order: order })
-    if (!rootStore.state.config.orders.directBackendSync || !isOnline()) {
+    if (!ConfigManager.getConfig().orders.directBackendSync || !isOnline()) {
       commit(types.ORDER_PLACE_ORDER, order)
       Vue.prototype.$bus.$emit('order-after-placed', { order: order })
       return {
@@ -41,7 +41,7 @@ const actions: ActionTree<OrderState, RootState> = {
     } else {
       Vue.prototype.$bus.$emit('notification-progress-start', i18n.t('Processing order...'))
       try {
-        const task:any = await TaskQueue.execute({ url: rootStore.state.config.orders.endpoint, // sync the order
+        const task:any = await TaskQueue.execute({ url: ConfigManager.getConfig().orders.endpoint, // sync the order
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

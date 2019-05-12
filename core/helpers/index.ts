@@ -1,10 +1,8 @@
-import rootStore from '@vue-storefront/core/store'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { remove as removeAccents } from 'remove-accents'
-import { Logger } from '@vue-storefront/core/lib/logger'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
-import config from 'config'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager';
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -30,12 +28,13 @@ export function slugify (text) {
  * @returns {*}
  */
 export function getThumbnailPath (relativeUrl, width, height) {
-  if (rootStore.state.config.images.useExactUrlsNoProxy) {
+  const config = ConfigManager.getConfig()
+  if (config.images.useExactUrlsNoProxy) {
     return relativeUrl // this is exact url mode
   } else {
     let resultUrl
     if (relativeUrl && (relativeUrl.indexOf('://') > 0 || relativeUrl.indexOf('?') > 0 || relativeUrl.indexOf('&') > 0)) relativeUrl = encodeURIComponent(relativeUrl)
-    let baseUrl = rootStore.state.config.images.proxyUrl ? rootStore.state.config.images.proxyUrl : rootStore.state.config.images.baseUrl // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy opertions
+    let baseUrl = config.images.proxyUrl ? config.images.proxyUrl : config.images.baseUrl // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy opertions
     if (baseUrl.indexOf('{{') >= 0) {
       baseUrl = baseUrl.replace('{{url}}', relativeUrl)
       baseUrl = baseUrl.replace('{{width}}', width)
@@ -44,7 +43,7 @@ export function getThumbnailPath (relativeUrl, width, height) {
     } else {
       resultUrl = `${baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}`
     }
-    return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? resultUrl : rootStore.state.config.images.productPlaceholder || ''
+    return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? resultUrl : config.images.productPlaceholder || ''
   }
 }
 
@@ -88,7 +87,7 @@ export function productThumbnailPath (product, ignoreConfig = false) {
 }
 
 export function buildFilterProductsQuery (currentCategory, chosenFilters, defaultFilters = null) {
-  let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? rootStore.state.config.products.defaultFilters : defaultFilters)
+  let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? ConfigManager.getConfig().products.defaultFilters : defaultFilters)
 
   // add choosedn filters
   for (let code of Object.keys(chosenFilters)) {
@@ -117,7 +116,7 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
     .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
     .applyFilter({key: 'status', value: {'in': [0, 1]}}) /* 2 = disabled, 4 = out of stock */
 
-  if (rootStore.state.config.products.listOutOfStockProducts === false) {
+  if (ConfigManager.getConfig().products.listOutOfStockProducts === false) {
     searchProductQuery = searchProductQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
   }
   // Add available catalog filters
@@ -170,6 +169,7 @@ export const onlineHelper = Vue.observable({
 !isServer && window.addEventListener('offline', () => onlineHelper.isOnline = false)
 
 export const processURLAddress = (url:string = '') => {
+  const config = ConfigManager.getConfig()
   if (url.startsWith('/')) return `${config.api.url}${url}`
   return url
 }

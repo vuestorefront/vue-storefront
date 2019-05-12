@@ -45,6 +45,7 @@ import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/Promote
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters } from 'vuex'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 
 export default {
   mixins: [Home],
@@ -91,7 +92,7 @@ export default {
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    const config = store.state.config
+    const config = ConfigManager.getConfig()
 
     Logger.info('Calling asyncData in Home (theme)')()
 

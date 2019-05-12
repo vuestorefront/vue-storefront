@@ -7,6 +7,7 @@ import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 import { currentStoreView } from '../multistore'
 import { isServer } from '@vue-storefront/core/helpers'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 
 /** Syncs given task. If user is offline requiest will be sent to the server after restored connection */
 function queue (task) {
@@ -16,7 +17,7 @@ function queue (task) {
   return new Promise((resolve, reject) => {
     tasksCollection.setItem(task.task_id.toString(), task, (err, resp) => {
       if (err) Logger.error(err, 'sync')()
-      Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
+      Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: ConfigManager.getConfig() }) // process checkout queue
       resolve(task)
     }).catch((reason) => {
       Logger.error(reason, 'sync')() // it doesn't work on SSR
@@ -32,14 +33,14 @@ function execute (task) { // not offline task
   task = _prepareTask(task)
   // Logger.info('New sync task [execute] ' + task.url, 'sync', task)()
   const usersCollection = new UniversalStorage(localForage.createInstance({
-    name: (rootStore.state.config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
+    name: (ConfigManager.getConfig().storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
     storeName: 'user',
-    driver: localForage[rootStore.state.config.localForage.defaultDrivers['user']]
+    driver: localForage[ConfigManager.getConfig().localForage.defaultDrivers['user']]
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
-    name: (rootStore.state.config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
+    name: (ConfigManager.getConfig().storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
     storeName: 'carts',
-    driver: localForage[rootStore.state.config.localForage.defaultDrivers['carts']]
+    driver: localForage[ConfigManager.getConfig().localForage.defaultDrivers['carts']]
   }))
   return new Promise((resolve, reject) => {
     if (isServer) {

@@ -1,5 +1,5 @@
-import store from '@vue-storefront/core/store'
-const config = store.state.config
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+const config = ConfigManager.getConfig()
 // deprecated, use vuex store instead
 const ConfigPlugin = {
   install (Vue) {
@@ -7,7 +7,7 @@ const ConfigPlugin = {
       Object.defineProperties(Vue.prototype, {
         $config: {
           get: function () {
-            return config
+            return ConfigManager.getConfig()
           }
         }
       })

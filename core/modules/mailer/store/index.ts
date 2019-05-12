@@ -1,12 +1,12 @@
-import config from 'config'
-import i18n from '@vue-storefront/i18n'
 import MailItem from '../types/MailItem'
 import { Module } from 'vuex'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 
 export const module: Module<any, any> = {
   namespaced: true,
   actions: {
     sendEmail (context, letter: MailItem) {
+      const config = ConfigManager.getConfig()
       return new Promise((resolve, reject) => {
         fetch(config.mailer.endpoint.token)
         .then(res => res.json())

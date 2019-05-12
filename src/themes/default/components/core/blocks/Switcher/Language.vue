@@ -23,7 +23,7 @@
 </template>
 <script>
 import Modal from 'theme/components/core/Modal.vue'
-import store from '@vue-storefront/core/store'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 export default {
   components: {
     Modal
@@ -36,14 +36,14 @@ export default {
   },
   computed: {
     storeViews () {
-      return store.state.config.storeViews
+      return ConfigManager.getConfig().storeViews
     },
     config () {
-      return store.state.config
+      return ConfigManager.getConfig()
     },
     enableColumns () {
-      var enableStoreViews = Object.keys(store.state.config.storeViews).filter((key) => {
-        var value = store.state.config.storeViews[key]
+      var enableStoreViews = Object.keys(ConfigManager.getConfig().storeViews).filter((key) => {
+        var value = ConfigManager.getConfig().storeViews[key]
         return (typeof value === 'object' && value.disabled === false)
       })
       return enableStoreViews.length > this.minCountryPerColumn

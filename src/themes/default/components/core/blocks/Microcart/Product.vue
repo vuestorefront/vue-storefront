@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/core/store'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
 import RemoveButton from './RemoveButton'
@@ -105,7 +105,7 @@ export default {
   mixins: [Product],
   data () {
     return {
-      displayItemDiscounts: rootStore.state.config.cart.displayItemDiscounts
+      displayItemDiscounts: ConfigManager.getConfig().cart.displayItemDiscounts
     }
   }
 }

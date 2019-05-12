@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import store from '@vue-storefront/core/store'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
@@ -59,18 +59,18 @@ export default {
   },
   data () {
     return {
-      isMultistoreEnable: store.state.config.storeViews.multistore
+      isMultistoreEnable: ConfigManager.getConfig().storeViews.multistore
     }
   },
   methods: {
     getEndpointPath () {
       let url
       if (this.id) {
-        url = (store.state.config.cms.endpoint)
+        url = (ConfigManager.getConfig().cms.endpoint)
           .replace('{{type}}', this.type)
           .replace('{{cmsId}}', this.id)
       } else if (this.identifier) {
-        url = (store.state.config.cms.endpointIdentifier)
+        url = (ConfigManager.getConfig().cms.endpointIdentifier)
           .replace('{{type}}', this.type)
           .replace('{{cmsIdentifier}}', this.identifier)
           .replace('{{storeId}}', this.storeView)

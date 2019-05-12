@@ -1,9 +1,9 @@
-import rootStore from '@vue-storefront/core/store'
 import { prepareQueryVars } from './gqlQuery'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import fetch from 'isomorphic-fetch'
 import {processESResponseType, processProductsType, processCmsType} from './processor/processType'
 import SearchQuery from '../../searchQuery'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 
 export class SearchAdapter {
 
@@ -45,7 +45,7 @@ export class SearchAdapter {
     if (this.entities[Request.type].url) {
       urlGql = this.entities[Request.type].url
     } else {
-      urlGql = rootStore.state.config.server.protocol + '://' + rootStore.state.config.graphql.host + ':' + rootStore.state.config.graphql.port + '/graphql'
+      urlGql = ConfigManager.getConfig().server.protocol + '://' + ConfigManager.getConfig().graphql.host + ':' + ConfigManager.getConfig().graphql.port + '/graphql'
       const urlStoreCode = (storeView.storeCode !== '') ? encodeURIComponent(storeView.storeCode) + '/' : ''
       urlGql = urlGql + '/' + urlStoreCode
     }

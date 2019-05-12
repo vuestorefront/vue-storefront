@@ -10,6 +10,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import { VSF, VueStorefrontModuleConfig } from './types'
 import { doesStoreAlreadyExists, mergeStores } from './helpers'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 
 const moduleExtendings: VueStorefrontModuleConfig[] = []
 const registeredModules: VueStorefrontModuleConfig[] = []
@@ -49,7 +50,7 @@ class VueStorefrontModule {
 
   private static _extendRouter (routerInstance, routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
     if (routes) {
-      setupMultistoreRoutes(rootStore.state.config, routerInstance, routes)
+      setupMultistoreRoutes(ConfigManager.getConfig(), routerInstance, routes)
       RouterManager.addRoutes(routes, routerInstance)
     }
     if (beforeEach) routerInstance.beforeEach(beforeEach)
@@ -83,7 +84,7 @@ class VueStorefrontModule {
       let areStoresUnique = true
       const VSF: VSF = {
         Vue, 
-        config: rootStore.state.config, 
+        config: ConfigManager.getConfig(), 
         store: rootStore, 
         isServer
       }
@@ -107,7 +108,7 @@ class VueStorefrontModule {
             this._c.beforeRegistration(VSF) 
           } else {
             Logger.warn('You are using outdated signature for beforeRegistration hook that soon will be deprecated and module will stop working properly. Please update to the new signature that can be found in our docs: https://docs.vuestorefront.io/guide/modules/introduction.html#beforeregistration', 'module', this._c.key)()
-            this._c.beforeRegistration(Vue, rootStore.state.config, rootStore, isServer)
+            this._c.beforeRegistration(Vue, ConfigManager.getConfig(), rootStore, isServer)
           }
         }
         if (this._c.store) VueStorefrontModule._extendStore(rootStore, this._c.store.modules, this._c.store.plugin)
@@ -119,7 +120,7 @@ class VueStorefrontModule {
             this._c.afterRegistration(VSF)
            } else {
             Logger.warn('You are using outdated signature for afterRegistration hook that soon will be deprecated and module will stop working properly. Please update to the new signature that can be found in our docs: https://docs.vuestorefront.io/guide/modules/introduction.html#afterregistration', 'module', this._c.key)()
-            this._c.afterRegistration(Vue, rootStore.state.config, rootStore, isServer)
+            this._c.afterRegistration(Vue, ConfigManager.getConfig(), rootStore, isServer)
            } 
         }
         return this._c

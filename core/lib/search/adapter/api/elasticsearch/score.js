@@ -1,6 +1,6 @@
-import config from 'config'
-
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 export default function getFunctionScores () {
+  const config = ConfigManager.getConfig()
   if (!config.elasticsearch.hasOwnProperty('searchScoring')) {
     return false
   }

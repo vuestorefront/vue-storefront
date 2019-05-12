@@ -1,20 +1,20 @@
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import store from '@vue-storefront/core/store'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 
 export function prepareQuery ({queryText = '', filters = [], queryConfig = ''}) {
   let query = new SearchQuery()
   // prepare filters and searchText
   if (filters.length === 0 && queryConfig !== '') {
     // try get filters from config
-    if (store.state.config.hasOwnProperty('query') && store.state.config.query.hasOwnProperty(queryConfig) && store.state.config.query[queryConfig].hasOwnProperty('filter')) {
-      filters = store.state.config.query[queryConfig].filter
+    if (ConfigManager.getConfig().hasOwnProperty('query') && ConfigManager.getConfig().query.hasOwnProperty(queryConfig) && ConfigManager.getConfig().query[queryConfig].hasOwnProperty('filter')) {
+      filters = ConfigManager.getConfig().query[queryConfig].filter
     }
   }
 
   if (queryText === '') {
     // try to get searchText from config
-    if (store.state.config.hasOwnProperty('query') && store.state.config.query.hasOwnProperty(queryConfig) && store.state.config.query[queryConfig].hasOwnProperty('searchText')) {
-      queryText = store.state.config.query[queryConfig].searchText
+    if (ConfigManager.getConfig().hasOwnProperty('query') && ConfigManager.getConfig().query.hasOwnProperty(queryConfig) && ConfigManager.getConfig().query[queryConfig].hasOwnProperty('searchText')) {
+      queryText = ConfigManager.getConfig().query[queryConfig].searchText
     }
   }
 

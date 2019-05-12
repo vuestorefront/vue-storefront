@@ -1,6 +1,5 @@
 import { setupMultistoreRoutes } from '@vue-storefront/core/lib/multistore'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
-import config from 'config'
 import routes from './router'
 
 export default function (app, router, store) {

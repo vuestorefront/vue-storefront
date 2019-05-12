@@ -3,9 +3,10 @@ import getMultiMatchConfig from './elasticsearch/multimatch'
 import getBoosts from './elasticsearch/boost'
 import getMapping from './elasticsearch/mapping'
 import cloneDeep from 'lodash-es/cloneDeep'
-import config from 'config'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 
 export async function prepareElasticsearchQueryBody (searchQuery) {
+  const config = ConfigManager.getConfig()
   const bodybuilder = await import(/* webpackChunkName: "bodybuilder" */ 'bodybuilder')
   const optionsPrfeix = '_options'
   const queryText = searchQuery.getSearchText()

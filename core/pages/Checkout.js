@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
-import store from '@vue-storefront/core/store'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { mapGetters } from 'vuex'
 
@@ -259,8 +259,8 @@ export default {
     // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
     getPaymentMethod () {
       let paymentMethod = this.payment.paymentMethod
-      if (store.state.config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
-        paymentMethod = store.state.config.orders.payment_methods_mapping[paymentMethod]
+      if (ConfigManager.getConfig().orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
+        paymentMethod = ConfigManager.getConfig().orders.payment_methods_mapping[paymentMethod]
       }
       return paymentMethod
     },

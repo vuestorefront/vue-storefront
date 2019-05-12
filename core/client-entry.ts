@@ -5,8 +5,6 @@ import union from 'lodash-es/union'
 import { createApp } from '@vue-storefront/core/app'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
 import rootStore from '@vue-storefront/core/store'
-
-import buildTimeConfig from 'config'
 import { execute } from '@vue-storefront/core/lib/sync/task'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 import i18n from '@vue-storefront/i18n'
@@ -15,17 +13,18 @@ import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-orde
 import '@vue-storefront/core/service-worker/registration' // register the service worker
 import { AsyncDataLoader } from './lib/async-data-loader'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
 declare var window: any
 
 const invokeClientEntry = async () => {
-  const config = Object.assign(buildTimeConfig, window.__INITIAL_STATE__.config ? window.__INITIAL_STATE__.config : buildTimeConfig)
+  const config = Object.assign(ConfigManager.getBaseConfig(), window.__INITIAL_STATE__.config ? window.__INITIAL_STATE__.config : ConfigManager.getBaseConfig())
 
   // Get storeCode from server (received either from cache header or env variable)
   let storeCode =  window.__INITIAL_STATE__.user.current_storecode
   const { app, router, store } = await createApp(null, config, storeCode)
 
   if (window.__INITIAL_STATE__) {
-    store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: buildTimeConfig }))
+    store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: ConfigManager.getBaseConfig() }))
   }
 
   store.dispatch('url/registerDynamicRoutes')
