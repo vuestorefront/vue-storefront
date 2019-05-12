@@ -14,7 +14,7 @@
     <div class="modal-content pt30 pb60 px65 cl-secondary">
       <template v-if="!passwordSent">
         <form @submit.prevent="sendEmail" novalidate>
-          <div class="mb35">
+          <div class="mb20">
             <p class="mb45">
               {{ $t('Enter your email to receive instructions on how to reset your password.') }}
             </p>
