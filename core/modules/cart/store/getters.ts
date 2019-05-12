@@ -7,6 +7,9 @@ import AppliedCoupon from '../types/AppliedCoupon'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 
 const getters: GetterTree<CartState, RootState> = {
+  getCartToken (state) {
+    return state.cartServerToken
+  },
   totals (state) {
     if (state.platformTotalSegments && onlineHelper.isOnline) {
       return state.platformTotalSegments

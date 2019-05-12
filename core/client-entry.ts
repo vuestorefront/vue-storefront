@@ -233,66 +233,37 @@ const invokeClientEntry = async () => {
   EventBus.$on('sync/PROCESS_QUEUE', data => {
     if (typeof navigator !== 'undefined' && navigator.onLine) {
       // event.data.config - configuration, endpoints etc
-      const storeView = currentStoreView()
-      const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
       const syncTaskCollection = Vue.prototype.$db.syncTaskCollection
+      const currentUserToken = rootStore.getters['user/getUserToken']
+      const currentCartToken = rootStore.getters['cart/getCartToken']
 
-      const usersCollection = new UniversalStorage(localForage.createInstance({
-        name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
-        storeName: 'user',
-        driver: localForage[config.localForage.defaultDrivers['user']]
-      }))
-      const cartsCollection = new UniversalStorage(localForage.createInstance({
-        name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
-        storeName: 'carts',
-        driver: localForage[config.localForage.defaultDrivers['carts']]
-      }))
-
-      usersCollection.getItem('current-token', (err, currentToken) => { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!
-        if (err) {
-          Logger.error(err)()
-        }
-        cartsCollection.getItem('current-cart-token', (err, currentCartId) => {
-          if (err) {
-            Logger.error(err)()
-          }
-
-          if (!currentCartId && store.state.cart.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
-            currentCartId = store.state.cart.cartServerToken
-          }
-
-          if (!currentToken && store.state.user.token) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
-            currentToken = store.state.user.token
-          }
-          const fetchQueue = []
-          Logger.debug('Current User token = ' + currentToken)()
-          Logger.debug('Current Cart token = ' + currentCartId)()
-          syncTaskCollection.iterate((task, id, iterationNumber) => {
-            if (task && !task.transmited && !mutex[id]) { // not sent to the server yet
-              mutex[id] = true // mark this task as being processed
-              fetchQueue.push(() => {
-                return execute(task, currentToken, currentCartId).then(executedTask => {
-                  syncTaskCollection.removeItem(id) // remove successfully executed task from the queue
-                  mutex[id] = false
-                }).catch(err => {
-                  mutex[id] = false
-                  Logger.error(err)()
-                })
-              })
-            }
-          }, (err, result) => {
-            if (err) Logger.error(err)()
-            Logger.debug('Iteration has completed')()
-            // execute them serially
-            serial(fetchQueue)
-              .then(res => {
-                Logger.debug('Processing sync tasks queue has finished')()
-              })
-          }).catch(err => {
-            // This code runs if there were any errors
-            Logger.log(err)()
+      const fetchQueue = []
+      Logger.debug('Current User token = ' + currentUserToken)()
+      Logger.debug('Current Cart token = ' + currentCartToken)()
+      syncTaskCollection.iterate((task, id, iterationNumber) => {
+        if (task && !task.transmited && !mutex[id]) { // not sent to the server yet
+          mutex[id] = true // mark this task as being processed
+          fetchQueue.push(() => {
+            return execute(task, currentUserToken, currentCartToken).then(executedTask => {
+              syncTaskCollection.removeItem(id) // remove successfully executed task from the queue
+              mutex[id] = false
+            }).catch(err => {
+              mutex[id] = false
+              Logger.error(err)()
+            })
           })
-        })
+        }
+      }, (err, result) => {
+        if (err) Logger.error(err)()
+        Logger.debug('Iteration has completed')()
+        // execute them serially
+        serial(fetchQueue)
+          .then(res => {
+            Logger.debug('Processing sync tasks queue has finished')()
+          })
+      }).catch(err => {
+        // This code runs if there were any errors
+        Logger.log(err)()
       })
     }
   })

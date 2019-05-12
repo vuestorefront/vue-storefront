@@ -306,12 +306,6 @@ const actions: ActionTree<UserState, RootState> = {
         action1: { label: i18n.t('OK') }
       })
     }
-    const usersCollection = Vue.prototype.$db.usersCollection
-    usersCollection.setItem('current-token', '')
-
-    if (rootStore.state.route.path === '/my-account') {
-      // router.push('/')
-    }
   },
   /**
    * Load user's orders history
