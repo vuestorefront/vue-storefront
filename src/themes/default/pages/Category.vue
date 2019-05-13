@@ -2,7 +2,7 @@
   <div id="category">
     <header class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
+        <breadcrumbs :routes="getBreadcrumbs" :active-route="category.name" />
         <div class="row middle-sm">
           <h1 class="col-sm-9 category-title mb10"> {{ category.name }} </h1>
           <div class="sorting col-sm-3 align-right"><sort-by @sortChange="changeFilter"/></div>
@@ -80,10 +80,8 @@ export default {
     isCategoryEmpty () {
       return this.productsTotal === 0
     },
-    breadcrumbs () {
-      return {
-        routes: []
-      }
+    getBreadcrumbs () {
+      return this.$store.getters['category-magento/getBreadcrumbs'].filter(breadcrumb => breadcrumb.name !== this.category.name)
     },
     getAvailableFilters () {
       return this.$store.getters['category-magento/getAvailableFilters']

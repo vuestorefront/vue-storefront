@@ -35,9 +35,6 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     return searchResult.items
   },
-  async getCurrentCategory ({ dispatch, rootState }) {
-    return await dispatch('category/single', { key: config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: rootState.route.params.slug }, {root: true})
-  },
   async fetchCategories ({ dispatch }) {
     const res = await dispatch('category/list', {}, {root: true})
     return res.items

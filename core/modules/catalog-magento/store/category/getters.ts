@@ -1,6 +1,7 @@
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
+import { calculateBreadcrumbs } from '../../helpers/categoryHelpers'
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state) => state.categories,
@@ -37,7 +38,11 @@ const getters: GetterTree<CategoryState, RootState> = {
   },
   getCurrentFilters: (state, getters, rootState) => getters.calculateFilters(rootState.route.query).filters,
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
-  getSystemFilterNames: () => ['sort']
+  getSystemFilterNames: () => ['sort'],
+  getBreadcrumbs: (state, getters) => {
+    if (!getters.getCurrentCategory) return []
+    return calculateBreadcrumbs(getters.getCategories, getters.getCurrentCategory.id)
+  }
 }
 
 export default getters
