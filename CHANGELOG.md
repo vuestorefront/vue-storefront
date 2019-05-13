@@ -57,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Jest globals added to .eslint - @lromanowicz (#2717)
 - The default storeId is taken from the configurations - @nuovecode (#2718)
 - Multitab cart sync - @BartoszLiburski (#2547)
+- Back to login button now shows the Login modal window instead of closing it - @RGijsberts (#2882)
 - Status filter in Related Products query (#2805)
 - The "Apply button was too big, I have reduced its size - @idodidodi (#2807)
 - Added return to shopping button on ThenkYou page - @ZeevGerstner (#2818)
