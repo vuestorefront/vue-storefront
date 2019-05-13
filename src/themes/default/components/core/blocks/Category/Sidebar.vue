@@ -88,12 +88,11 @@
 </template>
 
 <script>
-import Sidebar from '@vue-storefront/core/compatibility/components/blocks/Category/Sidebar'
-
 import ColorSelector from 'theme/components/core/ColorSelector'
 import SizeSelector from 'theme/components/core/SizeSelector'
 import PriceSelector from 'theme/components/core/PriceSelector'
 import GenericSelector from 'theme/components/core/GenericSelector'
+import pickBy from 'lodash-es/pickBy'
 
 export default {
   components: {
@@ -102,18 +101,29 @@ export default {
     PriceSelector,
     GenericSelector
   },
-  mixins: [Sidebar],
+  props: {
+    filters: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     hasActiveFilters () {
       return this.$store.getters['category-magento/hasActiveFilters']
     },
     getCurrentFilters () {
       return this.$store.getters['category-magento/getCurrentFilters']
+    },
+    availableFilters () {
+      return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters['category-magento/getSystemFilterNames'].includes(filterType)) })
     }
   },
   methods: {
     resetAllFilters () {
       this.$store.dispatch('category-magento/resetFilters')
+    },
+    sortById (filters) {
+      return [...filters].sort((a, b) => { return a.id - b.id })
     }
   }
 }
