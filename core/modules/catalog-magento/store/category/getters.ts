@@ -2,8 +2,6 @@ import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
 
-const specialFields = ['sort']
-
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state) => state.categories,
   getCategoryProducts: (state) => state.products,
@@ -22,7 +20,7 @@ const getters: GetterTree<CategoryState, RootState> = {
       const filter = getters.getAvailableFilters[filterKey]
       const queryValue = currentQuery[filterKey]
       if (!filter) return
-      if (specialFields.includes(filterKey)) {
+      if (getters.getSystemFilterNames.includes(filterKey)) {
         searchQuery[filterKey] = queryValue
       } else if (Array.isArray(queryValue)) {
         queryValue.map(singleValue => {
@@ -38,7 +36,8 @@ const getters: GetterTree<CategoryState, RootState> = {
     return searchQuery
   },
   getCurrentFilters: (state, getters, rootState) => getters.calculateFilters(rootState.route.query).filters,
-  hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length
+  hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
+  getSystemFilterNames: () => ['sort']
 }
 
 export default getters
