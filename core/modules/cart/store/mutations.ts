@@ -68,7 +68,7 @@ const mutations: MutationTree<CartState> = {
     state.cartSavedAt = Date.now()
 
     // Vue.prototype.$bus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
-    Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
+    Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config }) // process checkout queue
     Vue.prototype.$bus.$emit('application-after-loaded')
     Vue.prototype.$bus.$emit('cart-after-loaded')
   },
