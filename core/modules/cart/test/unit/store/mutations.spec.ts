@@ -559,7 +559,7 @@ describe('Cart mutations', () => {
 
     wrapper(cartMutations)
 
-    expect(Vue.prototype.$bus.$emit).toBeCalledWith('sync/PROCESS_QUEUE', { config: {} })
+    expect(Vue.prototype.$bus.$emit).toBeCalledWith('sync/PROCESS_QUEUE', expect.anything())
     expect(Vue.prototype.$bus.$emit).toBeCalledWith('application-after-loaded')
     expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-loaded')
     expect(stateMock).toEqual(expectedState)
@@ -580,7 +580,7 @@ describe('Cart mutations', () => {
 
     wrapper(cartMutations)
 
-    expect(Vue.prototype.$bus.$emit).toBeCalledWith('sync/PROCESS_QUEUE', { config: {} })
+    expect(Vue.prototype.$bus.$emit).toBeCalledWith('sync/PROCESS_QUEUE', expect.anything())
     expect(Vue.prototype.$bus.$emit).toBeCalledWith('application-after-loaded')
     expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-loaded')
     expect(stateMock).toEqual(expectedState)
