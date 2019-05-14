@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
 - Added back-button on orde detail page [#2819]
 - Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
+- Added back to top functionality - @vishal-7037 (#2866)
 
 ### Fixed
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
@@ -56,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Jest globals added to .eslint - @lromanowicz (#2717)
 - The default storeId is taken from the configurations - @nuovecode (#2718)
 - Multitab cart sync - @BartoszLiburski (#2547)
+- Back to login button now shows the Login modal window instead of closing it - @RGijsberts (#2882)
 - Status filter in Related Products query (#2805)
 - The "Apply button was too big, I have reduced its size - @idodidodi (#2807)
 - Added return to shopping button on ThenkYou page - @ZeevGerstner (#2818)
