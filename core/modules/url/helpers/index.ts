@@ -16,7 +16,6 @@ export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: s
 export function processDynamicRoute(routeData: LocalizedRoute, fullPath: string, addToRoutes: boolean = true): LocalizedRoute[] {
   const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
-  
     if (addToRoutes) {
       const routes = []
       const rootDynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + fullPath, name: `urldispatcher-${fullPath}` })

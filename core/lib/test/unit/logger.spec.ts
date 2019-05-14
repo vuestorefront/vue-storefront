@@ -1,7 +1,6 @@
 import * as coreHelper from '@vue-storefront/core/helpers'
 import config from 'config'
 
-
 jest.mock('config', () => ({}))
 jest.mock('@vue-storefront/core/helpers', () => ({
   get isServer () {

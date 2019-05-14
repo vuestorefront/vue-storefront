@@ -19,7 +19,6 @@ const actions: ActionTree<OrderState, RootState> = {
    * @param {Order} order order data to be send
    */
   async placeOrder ({ commit, getters, dispatch }, order:Order) {
-  
     // Check if order is already processed/processing
     const currentOrderHash = sha3_224(JSON.stringify(order))
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)

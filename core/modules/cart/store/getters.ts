@@ -48,7 +48,6 @@ const getters: GetterTree<CartState, RootState> = {
     }
   },
   totalQuantity (state, getters, rootStore) {
-  
     if (config.cart.minicartCountType === 'items') {
       return state.cartItems.length
     }

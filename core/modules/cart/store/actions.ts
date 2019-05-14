@@ -224,7 +224,6 @@ const actions: ActionTree<CartState, RootState> = {
     router.push(localizedRoute('/checkout', currentStoreView().storeCode))
   },
   addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
-  
     let productsToAdd = []
     if (productToAdd.type_id === 'grouped') { // TODO: add bundle support
       productsToAdd = productToAdd.product_links.filter((pl) => { return pl.link_type === 'associated' }).map((pl) => { return pl.product })
@@ -319,14 +318,11 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   removeNonConfirmedVariants ({ commit, dispatch }, payload) {
-    let removeByParentSku = true // backward compatibility call format
     let product = payload
     if(payload.product) { // new call format since 1.4
       product = payload.product
-      removeByParentSku = payload.removeByParentSku
     }
     commit(types.CART_DEL_NON_CONFIRMED_ITEM, { product })
-  
     if (config.cart.synchronize && product.server_item_id) {
       dispatch('serverPull', { forceClientState: true })
     }
@@ -507,7 +503,6 @@ const actions: ActionTree<CartState, RootState> = {
     })
   },
   servercartAfterCreated (context, event) {
-  
     const cartToken = event.result
     if (event.resultCode === 200) {
       Logger.info('Server cart token created.', 'cart', cartToken)()
