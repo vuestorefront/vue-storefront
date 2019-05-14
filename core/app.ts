@@ -61,7 +61,6 @@ once('__VUE_EXTEND_RR__', () => {
 })
 
 const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
-  Object.assign(globalConfig, config) // copy the config data into the global singleton
   router = createRouter()
   // sync router with vuex 'router' store
   sync(store, router)
