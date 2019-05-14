@@ -179,7 +179,7 @@ const actions: ActionTree<CartState, RootState> = {
       return task
     })
   },
-  load (context) {
+  load (context, cartLoadOptions: { forceClientState: boolean } = { forceClientState: true }) {
     return new Promise((resolve, reject) => {
       if (isServer) return
       const commit = context.commit
@@ -204,7 +204,7 @@ const actions: ActionTree<CartState, RootState> = {
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
               Logger.info('Cart token received from cache.', 'cache', token)()
               Logger.info('Pulling cart from server.','cart')()
-              context.dispatch('serverPull', { forceClientState: false, dryRun: !config.cart.serverMergeByDefault })
+              context.dispatch('serverPull', { forceClientState: cartLoadOptions.forceClientState, dryRun: !config.cart.serverMergeByDefault })
             } else {
               Logger.info('Creating server cart token', 'cart')()
               context.dispatch('serverCreate', { guestCart: false })
