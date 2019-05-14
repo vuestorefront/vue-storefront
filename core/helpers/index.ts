@@ -2,7 +2,7 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { remove as removeAccents } from 'remove-accents'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
-import config from 'config';
+import config from 'config'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
