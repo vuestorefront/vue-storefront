@@ -156,7 +156,6 @@ const actions: ActionTree<CartState, RootState> = {
     })
   },
   serverDeleteItem (context, cartItem) {
-  
     if (!cartItem.quoteId) {
       cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
     }
