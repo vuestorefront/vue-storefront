@@ -65,7 +65,7 @@
           {{ product.priceInclTax * product.qty | price }}
         </span>
       </div>
-      <div class="prices" v-else-if="product.totals">
+      <div class="prices" v-else-if="product.totals && onli">
         <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
           {{ product.totals.row_total_incl_tax - product.totals.discount_amount | price }}&nbsp;
         </span>
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
 import RemoveButton from './RemoveButton'
@@ -105,7 +105,7 @@ export default {
   mixins: [Product],
   data () {
     return {
-      displayItemDiscounts: rootStore.state.config.cart.displayItemDiscounts
+      displayItemDiscounts: config.cart.displayItemDiscounts
     }
   }
 }
