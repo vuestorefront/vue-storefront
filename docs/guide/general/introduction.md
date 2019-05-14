@@ -1,4 +1,3 @@
-
 # Introduction to Vue Storefront
 
 Vue Storefront is a rather complex solution with a lot of possibilities. Learning all of them can take some time. In this introduction, we will learn all of its crucial concepts in a few minutes, which is enough to start playing with [Vue Storefront](https://www.vuestorefront.io/).
