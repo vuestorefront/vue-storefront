@@ -12,7 +12,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import * as entities from '@vue-storefront/core/store/lib/entities'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
 
@@ -53,7 +53,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     return
   }
   let url = task.url.replace('{{token}}', (currentToken == null) ? '' : currentToken).replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
-  if (ConfigManager.getConfig().storeViews.multistore) {
+  if (config.storeViews.multistore) {
     url = adjustMultistoreApiUrl(url)
   }
   let silentMode = false
@@ -77,7 +77,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           if (isNaN(rootStore.state.userTokenInvalidateLock) || isUndefined(rootStore.state.userTokenInvalidateLock)) rootStore.state.userTokenInvalidateLock = 0
 
           silentMode = true
-          if (ConfigManager.getConfig().users.autoRefreshTokens) {
+          if (config.users.autoRefreshTokens) {
             if (!rootStore.state.userTokenInvalidateLock) {
               rootStore.state.userTokenInvalidateLock++
               if (rootStore.state.userTokenInvalidateAttemptsCount >= AUTO_REFRESH_MAX_ATTEMPTS) {
@@ -179,6 +179,6 @@ export function initializeSyncTaskStorage () {
   Vue.prototype.$db.syncTaskCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'syncTasks',
-    driver: localForage[ConfigManager.getConfig().localForage.defaultDrivers['syncTasks']]
+    driver: localForage[config.localForage.defaultDrivers['syncTasks']]
   }))
 }

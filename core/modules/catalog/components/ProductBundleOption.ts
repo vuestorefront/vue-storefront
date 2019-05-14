@@ -1,4 +1,4 @@
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 export const ProductBundleOption = {
   name: 'ProductBundleOption',
@@ -37,12 +37,12 @@ export const ProductBundleOption = {
   },
   mounted() {
     this.setDefaultValues()
-    if (ConfigManager.getConfig().usePriceTiers) {
+    if (config.usePriceTiers) {
       this.$bus.$on('product-after-setup-associated', this.setDefaultValues)
     }
   },
   beforeDestroy () {
-    if (ConfigManager.getConfig().usePriceTiers) {
+    if (config.usePriceTiers) {
       this.$bus.$off('product-after-setup-associated', this.setDefaultValues)
     }
   },

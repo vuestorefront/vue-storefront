@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 import { Carousel, Slide } from 'vue-carousel'
 import ProductVideo from './ProductVideo'
 import reduce from 'lodash-es/reduce'
@@ -161,7 +161,7 @@ export default {
       }
     },
     selectVariant () {
-      if (ConfigManager.getConfig().products.gallery.mergeConfigurableChildren) {
+      if (config.products.gallery.mergeConfigurableChildren) {
         const option = reduce(map(this.configuration, 'attribute_code'), (result, attribute) => {
           result[attribute] = this.configuration[attribute].id
           return result

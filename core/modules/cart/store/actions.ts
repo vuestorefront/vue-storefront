@@ -15,7 +15,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
@@ -48,7 +48,7 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
   async clear (context, options = { recreateAndSyncCart: true }) {
-    const config = ConfigManager.getConfig()
+  
     await context.commit(types.CART_LOAD_CART, [])
     if (options.recreateAndSyncCart && config.cart.synchronize) {
       await context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
@@ -59,7 +59,7 @@ const actions: ActionTree<CartState, RootState> = {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
-    const config = ConfigManager.getConfig()
+  
     const isUserInCheckout = context.rootGetters['checkout/isUserInCheckout']
     if (isUserInCheckout) forceClientState = true // never surprise the user in checkout - #
     if (config.cart.synchronize && !isServer && onlineHelper.isOnline && context.state.cartServerToken) {
@@ -99,7 +99,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
-    const config = ConfigManager.getConfig()
+  
     if (config.cart.synchronize_totals  && !isServer && onlineHelper.isOnline && context.state.cartServerToken) {
       if ((Date.now() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
         TaskQueue.execute({ url: config.cart.totals_endpoint, // sync the cart
@@ -118,7 +118,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverCreate (context, { guestCart = false, forceClientState = false }) {
-    const config = ConfigManager.getConfig()
+  
     if (config.cart.synchronize && !isServer) {
       if ((Date.now() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
         const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
@@ -137,7 +137,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverUpdateItem (context, cartItem) {
-    const config = ConfigManager.getConfig()
+  
     if (!cartItem.quoteId) {
       cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
     }
@@ -161,7 +161,7 @@ const actions: ActionTree<CartState, RootState> = {
     })
   },
   serverDeleteItem (context, cartItem) {
-    const config = ConfigManager.getConfig()
+  
     if (!cartItem.quoteId) {
       cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
     }
@@ -186,7 +186,7 @@ const actions: ActionTree<CartState, RootState> = {
     })
   },
   load (context) {
-    const config = ConfigManager.getConfig()
+  
     return new Promise((resolve, reject) => {
       if (isServer) return
       const commit = context.commit
@@ -231,7 +231,7 @@ const actions: ActionTree<CartState, RootState> = {
     router.push(localizedRoute('/checkout', currentStoreView().storeCode))
   },
   addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
-    const config = ConfigManager.getConfig()
+  
     let productsToAdd = []
     if (productToAdd.type_id === 'grouped') { // TODO: add bundle support
       productsToAdd = productToAdd.product_links.filter((pl) => { return pl.link_type === 'associated' }).map((pl) => { return pl.product })
@@ -314,7 +314,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   removeItem ({ commit, dispatch }, payload) {
-    const config = ConfigManager.getConfig()
+  
     let removeByParentSku = true // backward compatibility call format
     let product = payload
     if(payload.product) { // new call format since 1.4
@@ -334,13 +334,13 @@ const actions: ActionTree<CartState, RootState> = {
       removeByParentSku = payload.removeByParentSku
     }
     commit(types.CART_DEL_NON_CONFIRMED_ITEM, { product })
-    const config = ConfigManager.getConfig()
+  
     if (config.cart.synchronize && product.server_item_id) {
       dispatch('serverPull', { forceClientState: true })
     }
   },
   updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false }) {
-    const config = ConfigManager.getConfig()
+  
     commit(types.CART_UPD_ITEM, { product, qty })
     if (config.cart.synchronize && product.server_item_id && !forceServerSilence) {
       dispatch('serverPull', { forceClientState: true })
@@ -350,7 +350,7 @@ const actions: ActionTree<CartState, RootState> = {
     commit(types.CART_UPD_ITEM_PROPS, { product })
   },
   getPaymentMethods (context) {
-    const config = ConfigManager.getConfig()
+  
     if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
       TaskQueue.execute({ url: config.cart.paymentmethods_endpoint,
         payload: {
@@ -380,7 +380,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   getShippingMethods (context, address) {
-    const config = ConfigManager.getConfig()
+  
     return new Promise((resolve, reject) => {
       if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
         TaskQueue.execute({ url: config.cart.shippingmethods_endpoint,
@@ -406,7 +406,7 @@ const actions: ActionTree<CartState, RootState> = {
     })
   },
   refreshTotals (context, methodsData) {
-    const config = ConfigManager.getConfig()
+  
     return new Promise((resolve, reject) => {
       const storeView = currentStoreView()
       if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
@@ -463,7 +463,7 @@ const actions: ActionTree<CartState, RootState> = {
     })
   },
   removeCoupon (context) {
-    const config = ConfigManager.getConfig()
+  
     return new Promise((resolve, reject) => {
       if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
         TaskQueue.execute({ url: config.cart.deletecoupon_endpoint,
@@ -486,7 +486,7 @@ const actions: ActionTree<CartState, RootState> = {
     });
   },
   applyCoupon (context, couponCode) {
-    const config = ConfigManager.getConfig()
+  
     return new Promise((resolve, reject) => {
       if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
         TaskQueue.execute({ url: config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
@@ -511,7 +511,7 @@ const actions: ActionTree<CartState, RootState> = {
     })
   },
   userAfterLoggedin (context) {
-    const config = ConfigManager.getConfig()
+  
     Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
       if (err) {
         Logger.error(err, 'cart')()
@@ -522,7 +522,7 @@ const actions: ActionTree<CartState, RootState> = {
     })
   },
   servercartAfterCreated (context, event) {
-    const config = ConfigManager.getConfig()
+  
     const cartToken = event.result
     if (event.resultCode === 200) {
       Logger.info('Server cart token created.', 'cart', cartToken)()
@@ -557,7 +557,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   servercartAfterPulled (context, event) {
-    const config = ConfigManager.getConfig()
+  
     if (event.resultCode === 200) {
       let diffLog = []
       let serverCartUpdateRequired = false
@@ -707,7 +707,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   servercartAfterItemUpdated (context, event) {
-    const config = ConfigManager.getConfig()
+  
     const originalCartItem = JSON.parse(event.payload.body).cartItem
     if (event.resultCode !== 200) {
       // TODO: add the strategy to configure behaviour if the product is (confirmed) out of the stock

@@ -1,6 +1,6 @@
 import * as coreHelper from '@vue-storefront/core/helpers'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
-const config = ConfigManager.getConfig()
+import config from 'config'
+
 
 jest.mock('config', () => ({}))
 jest.mock('@vue-storefront/core/helpers', () => ({

@@ -1,6 +1,6 @@
 import { MicrocartProduct } from '@vue-storefront/core/modules/cart/components/Product.ts'
 import i18n from '@vue-storefront/i18n'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 export default {
   data () {
@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     removeItem () {
-      if (ConfigManager.getConfig().cart.askBeforeRemoveProduct) {
+      if (config.cart.askBeforeRemoveProduct) {
         this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
           item: this.product,

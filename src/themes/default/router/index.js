@@ -1,5 +1,4 @@
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
-const config = ConfigManager.getConfig()
+import config from 'config'
 
 const Home = () => import(/* webpackChunkName: "vsf-home" */ 'theme/pages/Home.vue')
 const PageNotFound = () => import(/* webpackChunkName: "vsf-not-found" */ 'theme/pages/PageNotFound.vue')

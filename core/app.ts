@@ -33,7 +33,7 @@ import { enabledModules } from './modules-entry'
 // Will be deprecated in 1.8
 import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
 import { registerExtensions as extensions } from 'src/extensions'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import globalConfig from 'config'
 
 function createRouter (): VueRouter {
   return new VueRouter({
@@ -61,7 +61,7 @@ once('__VUE_EXTEND_RR__', () => {
 })
 
 const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
-  ConfigManager.setConfig(config)
+  Object.assign(globalConfig, config) // copy the config data into the global singleton
   router = createRouter()
   // sync router with vuex 'router' store
   sync(store, router)
@@ -70,7 +70,7 @@ const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: V
   store.state.config = config // @deprecated 
   store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
   if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
-  if (!store.state.config) store.state.config = ConfigManager.getBaseConfig() //  @deprecated - we should avoid the `ConfigManager.getConfig()`
+  if (!store.state.config) store.state.config = globalConfig //  @deprecated - we should avoid the `config`
   const storeView = prepareStoreView(storeCode) // prepare the default storeView
   store.state.storeView = storeView
   // store.state.shipping.methods = shippingMethods
@@ -115,7 +115,7 @@ const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: V
 
   registerModules(enabledModules, appContext)
   registerExtensions(extensions, app, router, store, config, ssrContext)
-  registerTheme(ConfigManager.getBaseConfig().theme, app, router, store, ConfigManager.getConfig(), ssrContext)
+  registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
 
   Vue.prototype.$bus.$emit('application-after-init', app)
 

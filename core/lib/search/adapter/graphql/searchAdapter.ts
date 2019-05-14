@@ -3,7 +3,7 @@ import { currentStoreView, prepareStoreView } from '../../../multistore'
 import fetch from 'isomorphic-fetch'
 import {processESResponseType, processProductsType, processCmsType} from './processor/processType'
 import SearchQuery from '../../searchQuery'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 export class SearchAdapter {
 
@@ -45,7 +45,7 @@ export class SearchAdapter {
     if (this.entities[Request.type].url) {
       urlGql = this.entities[Request.type].url
     } else {
-      urlGql = ConfigManager.getConfig().server.protocol + '://' + ConfigManager.getConfig().graphql.host + ':' + ConfigManager.getConfig().graphql.port + '/graphql'
+      urlGql = config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
       const urlStoreCode = (storeView.storeCode !== '') ? encodeURIComponent(storeView.storeCode) + '/' : ''
       urlGql = urlGql + '/' + urlStoreCode
     }

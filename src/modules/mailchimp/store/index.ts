@@ -2,7 +2,7 @@ import * as types from './mutation-types'
 import { Module } from 'vuex'
 import { mailchimpState } from '../types/mailchimpState'
 import { cacheStorage } from '../'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 export const module: Module<mailchimpState, any> ={
   namespaced: true,
@@ -23,7 +23,7 @@ export const module: Module<mailchimpState, any> ={
   },
   actions: {
     subscribe ({ commit, state }, email): Promise<Response> {
-      const config = ConfigManager.getConfig() 
+     
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.mailchimp.endpoint, {
@@ -43,7 +43,7 @@ export const module: Module<mailchimpState, any> ={
       }
     },
     unsubscribe ({ commit, state }, email): Promise<Response> {
-      const config = ConfigManager.getConfig()
+    
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.mailchimp.endpoint, {

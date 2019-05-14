@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 import store from '@vue-storefront/core/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
@@ -84,7 +84,7 @@ export default {
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
     this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
-    if (ConfigManager.getConfig().usePriceTiers) {
+    if (config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -192,7 +192,7 @@ export default {
         fallbackToDefaultWhenNoAvailable: false,
         setProductErorrs: true
       }).then((selectedVariant) => {
-        if (ConfigManager.getConfig().products.setFirstVarianAsDefaultInURL) {
+        if (config.products.setFirstVarianAsDefaultInURL) {
           this.$router.push({params: { childSku: selectedVariant.sku }})
         }
         if (!selectedVariant) {

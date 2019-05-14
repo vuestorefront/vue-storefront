@@ -13,18 +13,18 @@ import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-orde
 import '@vue-storefront/core/service-worker/registration' // register the service worker
 import { AsyncDataLoader } from './lib/async-data-loader'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import globalConfig from 'config'
 declare var window: any
 
 const invokeClientEntry = async () => {
-  const config = Object.assign(ConfigManager.getBaseConfig(), window.__INITIAL_STATE__.config ? window.__INITIAL_STATE__.config : ConfigManager.getBaseConfig())
+  const dynamicRuntimeConfig = Object.assign(globalConfig, window.__INITIAL_STATE__.config ? window.__INITIAL_STATE__.config : globalConfig)
 
   // Get storeCode from server (received either from cache header or env variable)
   let storeCode =  window.__INITIAL_STATE__.user.current_storecode
-  const { app, router, store } = await createApp(null, config, storeCode)
+  const { app, router, store } = await createApp(null, dynamicRuntimeConfig, storeCode)
 
   if (window.__INITIAL_STATE__) {
-    store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: ConfigManager.getBaseConfig() }))
+    store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: globalConfig }))
   }
 
   store.dispatch('url/registerDynamicRoutes')
@@ -71,7 +71,7 @@ const invokeClientEntry = async () => {
       const matched = router.getMatchedComponents(to)
       const prevMatched = router.getMatchedComponents(from)
       if (to) { // this is from url
-        if (config.storeViews.multistore === true) {
+        if (globalConfig.storeViews.multistore === true) {
           const storeCode = storeCodeFromRoute(to)
           const currentStore = currentStoreView()
           if (storeCode !== '' && storeCode !== null) {
@@ -87,7 +87,7 @@ const invokeClientEntry = async () => {
         return next()
       }
       Promise.all(matched.map((c: any) => { // TODO: update me for mixins support
-        const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
+        const components = c.mixins && globalConfig.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
         union(components, [c]).map(SubComponent => {
           if (SubComponent.preAsyncData) {
             SubComponent.preAsyncData({ store, route: to })
@@ -129,7 +129,7 @@ const invokeClientEntry = async () => {
       const ordersCollection = new UniversalStorage(localForage.createInstance({
         name: dbNamePrefix + 'shop',
         storeName: 'orders',
-        driver: localForage[config.localForage.defaultDrivers['orders']]
+        driver: localForage[globalConfig.localForage.defaultDrivers['orders']]
       }))
 
       const fetchQueue = []
@@ -237,14 +237,14 @@ const invokeClientEntry = async () => {
       const syncTaskCollection = Vue.prototype.$db.syncTaskCollection
 
       const usersCollection = new UniversalStorage(localForage.createInstance({
-        name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
+        name: (globalConfig.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
         storeName: 'user',
-        driver: localForage[config.localForage.defaultDrivers['user']]
+        driver: localForage[globalConfig.localForage.defaultDrivers['user']]
       }))
       const cartsCollection = new UniversalStorage(localForage.createInstance({
-        name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
+        name: (globalConfig.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
         storeName: 'carts',
-        driver: localForage[config.localForage.defaultDrivers['carts']]
+        driver: localForage[globalConfig.localForage.defaultDrivers['carts']]
       }))
 
       usersCollection.getItem('current-token', (err, currentToken) => { // TODO: if current token is null we should postpone the queue and force re-login - only if the task requires LOGIN!

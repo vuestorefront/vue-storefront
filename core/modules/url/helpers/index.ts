@@ -1,5 +1,5 @@
 import { router } from '@vue-storefront/core/app'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 import { localizedDispatcherRoute, localizedRoute, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
 import { RouteConfig } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
@@ -16,7 +16,7 @@ export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: s
 export function processDynamicRoute(routeData: LocalizedRoute, fullPath: string, addToRoutes: boolean = true): LocalizedRoute[] {
   const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
-    const config = ConfigManager.getConfig()
+  
     if (addToRoutes) {
       const routes = []
       const rootDynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + fullPath, name: `urldispatcher-${fullPath}` })
@@ -24,7 +24,7 @@ export function processDynamicRoute(routeData: LocalizedRoute, fullPath: string,
       if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
         for (let storeCode of config.storeViews.mapStoreUrlsFor) {
           if (storeCode) {
-            const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((ConfigManager.getConfig().defaultStoreCode !== storeCode) ? (storeCode + '/') : '') + fullPath, name: `urldispatcher-${fullPath}-${storeCode}` })
+            const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((config.defaultStoreCode !== storeCode) ? (storeCode + '/') : '') + fullPath, name: `urldispatcher-${fullPath}-${storeCode}` })
             routes.push(dynamicRoute)
           }
         }
@@ -54,7 +54,7 @@ export function normalizeUrlPath(url: string): string {
 }
 
 export function formatCategoryLink(category: { url_path: string, slug: string }): string {
-  return ConfigManager.getConfig().seo.useUrlDispatcher ? ('/' + category.url_path) : ((ConfigManager.getConfig().products.useShortCatalogUrls ? '/' : '/c/') + category.slug)
+  return config.seo.useUrlDispatcher ? ('/' + category.url_path) : ((config.products.useShortCatalogUrls ? '/' : '/c/') + category.slug)
 }
 
 export function formatProductLink(
@@ -68,7 +68,7 @@ export function formatProductLink(
   },
   storeCode
 ): string | LocalizedRoute {
-  if (ConfigManager.getConfig().seo.useUrlDispatcher && product.url_path) {
+  if (config.seo.useUrlDispatcher && product.url_path) {
     let routeData: LocalizedRoute;
     if (product.configurable_children && product.configurable_children.length > 0) {
       routeData = {

@@ -15,7 +15,7 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 
 const actions: ActionTree<CategoryState, RootState> = {
@@ -34,7 +34,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  list (context, { parent = null, key = null, value = null, level = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = ConfigManager.getConfig().entities.optimize ? ConfigManager.getConfig().entities.category.includeFields : null, excludeFields = ConfigManager.getConfig().entities.optimize ? ConfigManager.getConfig().entities.category.excludeFields : null, skipCache = false, updateState = true }) {
+  list (context, { parent = null, key = null, value = null, level = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.entities.optimize ? config.entities.category.includeFields : null, excludeFields = config.entities.optimize ? config.entities.category.excludeFields : null, skipCache = false, updateState = true }) {
     const commit = context.commit
     let customizedQuery = false // that means the parameteres are != defaults; with defaults parameter the data could be get from window.__INITIAL_STATE__ - this is optimisation trick
     let searchQuery = new SearchQuery()
@@ -44,7 +44,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     if (level !== null) {
       searchQuery = searchQuery.applyFilter({key: 'level', value: {'eq': level}})
-      if (level !== ConfigManager.getConfig().entities.category.categoriesDynamicPrefetchLevel && !isServer) // if this is the default level we're getting the results from window.__INITIAL_STATE__ not querying the server
+      if (level !== config.entities.category.categoriesDynamicPrefetchLevel && !isServer) // if this is the default level we're getting the results from window.__INITIAL_STATE__ not querying the server
       customizedQuery = true
     }
 
@@ -112,7 +112,7 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     return new Promise((resolve, reject) => {
       const fetchCat = ({ key, value }) => {
-        if (key !== 'id' || value >= ConfigManager.getConfig().entities.category.categoriesRootCategorylId/* root category */) {
+        if (key !== 'id' || value >= config.entities.category.categoriesRootCategorylId/* root category */) {
           context.dispatch('list', { key: key, value: value }).then(res => {
             if (res && res.items && res.items.length) {
               setcat(null, res.items[0])
@@ -148,7 +148,7 @@ const actions: ActionTree<CategoryState, RootState> = {
             if (!category) {
               return
             }
-            if (category.parent_id >= ConfigManager.getConfig().entities.category.categoriesRootCategorylId) {
+            if (category.parent_id >= config.entities.category.categoriesRootCategorylId) {
               dispatch('single', { key: 'id', value: category.parent_id, setCurrentCategory: false, setCurrentCategoryPath: false }).then((sc) => { // TODO: move it to the server side for one requests OR cache in indexedDb
                 if (!sc) {
                   commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
@@ -185,7 +185,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       if (state.list.length > 0 && !skipCache) { // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
         let category = state.list.find((itm) => { return itm[key] === value })
         // Check if category exists in the store OR we have recursively reached Default category (id=1)
-        if (category && value >= ConfigManager.getConfig().entities.category.categoriesRootCategorylId/** root category parent */) {
+        if (category && value >= config.entities.category.categoriesRootCategorylId/** root category parent */) {
           foundInLocalCache = true
           setcat(null, category)
         }
@@ -218,9 +218,9 @@ const actions: ActionTree<CategoryState, RootState> = {
     })
 
     let prefetchGroupProducts = true
-    if (ConfigManager.getConfig().entities.twoStageCaching && ConfigManager.getConfig().entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
-      includeFields = ConfigManager.getConfig().entities.productListWithChildren.includeFields // we need configurable_children for filters to work
-      excludeFields = ConfigManager.getConfig().entities.productListWithChildren.excludeFields
+    if (config.entities.twoStageCaching && config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
+      includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
+      excludeFields = config.entities.productListWithChildren.excludeFields
       prefetchGroupProducts = false
       Logger.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')()
     } else {
@@ -266,12 +266,12 @@ const actions: ActionTree<CategoryState, RootState> = {
         // rootStore.state.category.filters = { color: [], size: [], price: [] }
         return []
       } else {
-        if (ConfigManager.getConfig().products.filterUnavailableVariants && ConfigManager.getConfig().products.configurableChildrenStockPrefetchStatic) { // prefetch the stock items
+        if (config.products.filterUnavailableVariants && config.products.configurableChildrenStockPrefetchStatic) { // prefetch the stock items
           const skus = []
           let prefetchIndex = 0
           res.items.map(i => {
-            if (ConfigManager.getConfig().products.configurableChildrenStockPrefetchStaticPrefetchCount > 0) {
-              if (prefetchIndex > ConfigManager.getConfig().products.configurableChildrenStockPrefetchStaticPrefetchCount) return
+            if (config.products.configurableChildrenStockPrefetchStaticPrefetchCount > 0) {
+              if (prefetchIndex > config.products.configurableChildrenStockPrefetchStaticPrefetchCount) return
             }
             skus.push(i.sku) // main product sku to be checked anyway
             if (i.type_id === 'configurable' && i.configurable_children && i.configurable_children.length > 0) {
@@ -348,7 +348,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     })
 
-    if (ConfigManager.getConfig().entities.twoStageCaching && ConfigManager.getConfig().entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled && !cacheOnly) { // second stage - request for caching entities; if cacheOnly set - the caching took place with the stage1 request!
+    if (config.entities.twoStageCaching && config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled && !cacheOnly) { // second stage - request for caching entities; if cacheOnly set - the caching took place with the stage1 request!
       Logger.log('Using two stage caching for performance optimization - executing second stage product caching', 'category') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize()
       rootStore.dispatch('product/list', {
         query: precachedQuery,

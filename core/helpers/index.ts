@@ -2,7 +2,7 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { remove as removeAccents } from 'remove-accents'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager';
+import config from 'config';
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -28,7 +28,6 @@ export function slugify (text) {
  * @returns {*}
  */
 export function getThumbnailPath (relativeUrl, width, height) {
-  const config = ConfigManager.getConfig()
   if (config.images.useExactUrlsNoProxy) {
     return relativeUrl // this is exact url mode
   } else {
@@ -87,7 +86,7 @@ export function productThumbnailPath (product, ignoreConfig = false) {
 }
 
 export function buildFilterProductsQuery (currentCategory, chosenFilters, defaultFilters = null) {
-  let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? ConfigManager.getConfig().products.defaultFilters : defaultFilters)
+  let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? config.products.defaultFilters : defaultFilters)
 
   // add choosedn filters
   for (let code of Object.keys(chosenFilters)) {
@@ -116,7 +115,7 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
     .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
     .applyFilter({key: 'status', value: {'in': [0, 1]}}) /* 2 = disabled, 4 = out of stock */
 
-  if (ConfigManager.getConfig().products.listOutOfStockProducts === false) {
+  if (config.products.listOutOfStockProducts === false) {
     searchProductQuery = searchProductQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
   }
   // Add available catalog filters
@@ -169,7 +168,6 @@ export const onlineHelper = Vue.observable({
 !isServer && window.addEventListener('offline', () => onlineHelper.isOnline = false)
 
 export const processURLAddress = (url:string = '') => {
-  const config = ConfigManager.getConfig()
   if (url.startsWith('/')) return `${config.api.url}${url}`
   return url
 }

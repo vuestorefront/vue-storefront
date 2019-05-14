@@ -7,7 +7,7 @@ import omit from 'lodash-es/omit'
 import pick from 'lodash-es/pick'
 import buildTimeConfig from 'config'
 import { AsyncDataLoader } from '@vue-storefront/core/lib/async-data-loader'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 function _commonErrorHandler (err, reject) {
@@ -32,12 +32,12 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
   })).then(() => {
     AsyncDataLoader.flush({ store, route: router.currentRoute, context: null } /*AsyncDataLoaderActionContext*/).then((r) => {
       if (buildTimeConfig.ssr.useInitialStateFilter) {
-        context.state = omit(store.state, ConfigManager.getConfig().ssr.initialStateFilter)
+        context.state = omit(store.state, config.ssr.initialStateFilter)
       } else {
         context.state = store.state
       }
       if (!buildTimeConfig.server.dynamicConfigReload) { // if dynamic config reload then we're sending config along with the request
-        context.state = omit(store.state, buildTimeConfig.ssr.useInitialStateFilter ?  [...ConfigManager.getConfig().ssr.initialStateFilter, 'config'] : ['config'])
+        context.state = omit(store.state, buildTimeConfig.ssr.useInitialStateFilter ?  [...config.ssr.initialStateFilter, 'config'] : ['config'])
       } else {
         const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
         const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
@@ -66,7 +66,7 @@ export default async context => {
     router.push(context.url)
     context.meta = meta
     router.onReady(() => {
-      if (ConfigManager.getConfig().storeViews.multistore === true) {
+      if (config.storeViews.multistore === true) {
         let storeCode = context.vs.storeCode // this is from http header or env variable
         if (router.currentRoute) { // this is from url
           storeCode = storeCodeFromRoute(router.currentRoute)

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import CartState from '../types/CartState'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 const mutations: MutationTree<CartState> = {
   /**
@@ -67,8 +67,8 @@ const mutations: MutationTree<CartState> = {
     state.cartIsLoaded = true
     state.cartSavedAt = Date.now()
 
-    // Vue.prototype.$bus.$emit('order/PROCESS_QUEUE', { config: ConfigManager.getConfig() }) // process checkout queue
-    Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: ConfigManager.getConfig() }) // process checkout queue
+    // Vue.prototype.$bus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
+    Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
     Vue.prototype.$bus.$emit('application-after-loaded')
     Vue.prototype.$bus.$emit('cart-after-loaded')
   },

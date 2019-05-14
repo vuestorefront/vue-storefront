@@ -1,6 +1,6 @@
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
+
 export default function getBoosts (attribute = '') {
-  const config = ConfigManager.getConfig()
   let searchableAttributes = [
   ]
 

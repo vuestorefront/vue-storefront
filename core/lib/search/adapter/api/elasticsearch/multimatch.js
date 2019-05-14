@@ -1,10 +1,10 @@
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
+
 export default function getMultiMatchConfig (queryText) {
   return getConfig(queryText)
 }
 
 function getConfig (queryText) {
-  const config = ConfigManager.getConfig()
   let scoringConfig = config.elasticsearch.hasOwnProperty('searchScoring') ? config.elasticsearch.searchScoring : {}
   let minimumShouldMatch = ''
   if (config.elasticsearch.queryMethod === 'GET') {

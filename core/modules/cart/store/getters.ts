@@ -5,7 +5,7 @@ import CartState from '../types/CartState'
 import RootState from '@vue-storefront/core/types/RootState'
 import AppliedCoupon from '../types/AppliedCoupon'
 import { onlineHelper } from '@vue-storefront/core/helpers'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 const getters: GetterTree<CartState, RootState> = {
   totals (state) {
@@ -48,7 +48,7 @@ const getters: GetterTree<CartState, RootState> = {
     }
   },
   totalQuantity (state, getters, rootStore) {
-    const config = ConfigManager.getConfig()
+  
     if (config.cart.minicartCountType === 'items') {
       return state.cartItems.length
     }

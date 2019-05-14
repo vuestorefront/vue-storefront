@@ -2,8 +2,7 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { once } from '@vue-storefront/core/helpers'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
-const config = ConfigManager.getConfig()
+import config from 'config'
 
 once('__VUE_EXTEND_I18N__', () => {
   Vue.use(VueI18n)

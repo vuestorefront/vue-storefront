@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import toString from 'lodash-es/toString'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/core/store'
@@ -74,10 +74,10 @@ export default {
       route: route,
       current: 0,
       perPage: 50,
-      sort: ConfigManager.getConfig().entities.productList.sort,
-      filters: ConfigManager.getConfig().products.defaultFilters,
-      includeFields: ConfigManager.getConfig().entities.optimize && isServer ? ConfigManager.getConfig().entities.productList.includeFields : null,
-      excludeFields: ConfigManager.getConfig().entities.optimize && isServer ? ConfigManager.getConfig().entities.productList.excludeFields : null,
+      sort: config.entities.productList.sort,
+      filters: config.products.defaultFilters,
+      includeFields: config.entities.optimize && isServer ? config.entities.productList.includeFields : null,
+      excludeFields: config.entities.optimize && isServer ? config.entities.productList.excludeFields : null,
       append: false
     })
   },
@@ -85,14 +85,14 @@ export default {
     Logger.info('Entering asyncData in Category Page (core)')()
     try {
       if (context) context.output.cacheTags.add(`category`)
-      const defaultFilters = ConfigManager.getConfig().products.defaultFilters
+      const defaultFilters = config.products.defaultFilters
       store.dispatch('category/resetFilters')
       EventBus.$emit('filter-reset')
       await store.dispatch('attribute/list', { // load filter attributes for this specific category
         filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-        includeFields: ConfigManager.getConfig().entities.optimize && isServer ? ConfigManager.getConfig().entities.attribute.includeFields : null
+        includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
       })
-      const parentCategory = await store.dispatch('category/single', { key: ConfigManager.getConfig().products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
+      const parentCategory = await store.dispatch('category/single', { key: config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
       let query = store.getters['category/getCurrentCategoryProductQuery']
       if (!query.searchProductQuery) {
         store.dispatch('category/mergeSearchOptions', {
@@ -114,7 +114,7 @@ export default {
   async beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading category products to cache on SSR render
       next(vm => {
-        const defaultFilters = ConfigManager.getConfig().products.defaultFilters
+        const defaultFilters = config.products.defaultFilters
         let parentCategory = store.getters['category/getCurrentCategory']
         let query = store.getters['category/getCurrentCategoryProductQuery']
         if (!query.searchProductQuery) {
@@ -132,7 +132,7 @@ export default {
   beforeMount () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
     this.$bus.$on('list-change-sort', this.onSortOrderChanged)
-    if (ConfigManager.getConfig().usePriceTiers) {
+    if (config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -145,7 +145,7 @@ export default {
   beforeDestroy () {
     this.$bus.$off('list-change-sort', this.onSortOrderChanged)
     this.$bus.$off('filter-changed-category', this.onFilterChanged)
-    if (ConfigManager.getConfig().usePriceTiers) {
+    if (config.usePriceTiers) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -235,7 +235,7 @@ export default {
           this.$router.push(this.localizedRoute('/'))
         } else {
           this.pagination.current = 0
-          let searchProductQuery = baseFilterProductsQuery(this.getCurrentCategory, ConfigManager.getConfig().products.defaultFilters)
+          let searchProductQuery = baseFilterProductsQuery(this.getCurrentCategory, config.products.defaultFilters)
           this.$bus.$emit('current-category-changed', this.getCurrentCategoryPath)
           this.mergeSearchOptions({ // base prototype from the asyncData is being used here
             current: this.pagination.current,
@@ -265,7 +265,7 @@ export default {
       })
     },
     onUserPricesRefreshed () {
-      const defaultFilters = ConfigManager.getConfig().products.defaultFilters
+      const defaultFilters = config.products.defaultFilters
       this.$store.dispatch('category/single', {
         key: this.$config.products.useMagentoUrlKeys ? 'url_key' : 'slug',
         value: this.$route.params.slug

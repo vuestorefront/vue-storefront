@@ -1,5 +1,5 @@
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 export function prepareRelatedQuery (key, sku) {
   let relatedProductsQuery = new SearchQuery()
@@ -10,7 +10,7 @@ export function prepareRelatedQuery (key, sku) {
     .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
     .applyFilter({key: 'status', value: {'in': [1]}})
 
-  if (ConfigManager.getConfig().products.listOutOfStockProducts === false) {
+  if (config.products.listOutOfStockProducts === false) {
     relatedProductsQuery = relatedProductsQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
   }
 

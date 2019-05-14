@@ -7,7 +7,7 @@ import { getSearchAdapter } from './search/adapter/searchAdapterFactory'
 import { SearchRequest } from '@vue-storefront/core/types/search/SearchRequest'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 // TODO - use one from helpers instead
 export function isOnline () : boolean {
@@ -47,7 +47,7 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
     if (excludeFields) Request._sourceExclude = excludeFields
     if (includeFields) Request._sourceInclude = includeFields
 
-    if (ConfigManager.getConfig().usePriceTiers && (entityType === 'product') && rootStore.state.user.groupId) {
+    if (config.usePriceTiers && (entityType === 'product') && rootStore.state.user.groupId) {
         Request.groupId = rootStore.state.user.groupId
     }
 
@@ -76,7 +76,7 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
       delete Request.groupId
     }
 
-    if (ConfigManager.getConfig().usePriceTiers && rootStore.state.user.groupToken) {
+    if (config.usePriceTiers && rootStore.state.user.groupToken) {
         Request.groupToken = rootStore.state.user.groupToken
     }
 
@@ -88,7 +88,7 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
       const res = searchAdapter.entities[Request.type].resultPorcessor(resp, start, size)
 
       if (res) { // otherwise it can be just a offline mode
-        cache.setItem(cacheKey, res, null, ConfigManager.getConfig().elasticsearch.disableLocalStorageQueriesCache).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+        cache.setItem(cacheKey, res, null, config.elasticsearch.disableLocalStorageQueriesCache).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
         if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
           Logger.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
           res.cache = false

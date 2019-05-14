@@ -26,7 +26,7 @@ import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import toString from 'lodash-es/toString'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -105,7 +105,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   syncPlatformPricesOver (context, { skus }) {
     const storeView = currentStoreView()
-    return TaskQueue.execute({ url: ConfigManager.getConfig().products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
+    return TaskQueue.execute({ url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -283,12 +283,12 @@ const actions: ActionTree<ProductState, RootState> = {
       Logger.debug('Entity cache is disabled for productList')()
     }
 
-    if (ConfigManager.getConfig().entities.optimize) {
+    if (config.entities.optimize) {
       if (excludeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
-        excludeFields = ConfigManager.getConfig().entities.product.excludeFields
+        excludeFields = config.entities.product.excludeFields
       }
       if (includeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
-        includeFields = ConfigManager.getConfig().entities.product.includeFields
+        includeFields = config.entities.product.includeFields
       }
     }
     return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
@@ -302,7 +302,7 @@ const actions: ActionTree<ProductState, RootState> = {
           if (!product.parentSku) {
             product.parentSku = product.sku
           }
-          if (ConfigManager.getConfig().products.setFirstVarianAsDefaultInURL && product.hasOwnProperty('configurable_children') && product.configurable_children.length > 0) {
+          if (config.products.setFirstVarianAsDefaultInURL && product.hasOwnProperty('configurable_children') && product.configurable_children.length > 0) {
             product.sku = product.configurable_children[0].sku
           }
           if (configuration) {
@@ -479,12 +479,12 @@ const actions: ActionTree<ProductState, RootState> = {
             Logger.debug('Product:single - result from localForage (for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()), 'product')()
             const _returnProductFromCacheHelper = (subresults) => {
               const cachedProduct = setupProduct(res)
-              if (ConfigManager.getConfig().products.alwaysSyncPlatformPricesOver) {
+              if (config.products.alwaysSyncPlatformPricesOver) {
                 doPlatformPricesSync([cachedProduct]).then((products) => {
                     Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
                     resolve(products[0])
                 })
-                if (!ConfigManager.getConfig().products.waitForPlatformSync) {
+                if (!config.products.waitForPlatformSync) {
                     Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
                     resolve(cachedProduct)
                 }
@@ -573,7 +573,7 @@ const actions: ActionTree<ProductState, RootState> = {
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
-      if (!ConfigManager.getConfig().products.gallery.mergeConfigurableChildren) {
+      if (!config.products.gallery.mergeConfigurableChildren) {
           context.commit(types.CATALOG_UPD_GALLERY, attributeImages(productVariant))
       }
       context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
@@ -616,13 +616,13 @@ const actions: ActionTree<ProductState, RootState> = {
       let subloaders = []
       if (product) {
         const productFields = Object.keys(product).filter(fieldName => {
-          return ConfigManager.getConfig().entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
+          return config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
         })
         const attributesPromise = context.dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
-          filterValues: ConfigManager.getConfig().entities.product.useDynamicAttributeLoader ? productFields : null,
-          only_visible: ConfigManager.getConfig().entities.product.useDynamicAttributeLoader ? true : false,
+          filterValues: config.entities.product.useDynamicAttributeLoader ? productFields : null,
+          only_visible: config.entities.product.useDynamicAttributeLoader ? true : false,
           only_user_defined: true,
-          includeFields: ConfigManager.getConfig().entities.optimize ? ConfigManager.getConfig().entities.attribute.includeFields : null
+          includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
         }, { root: true }) // TODO: it might be refactored to kind of: `await context.dispatch('attributes/list) - or using new Promise() .. to wait for attributes to be loaded before executing the next action. However it may decrease the performance - so for now we're just waiting with the breadcrumbs
         if (isServer) {
           subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
@@ -642,7 +642,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
         context.dispatch('setProductGallery', { product: product })
 
-        if (ConfigManager.getConfig().products.preventConfigurableChildrenDirectAccess) {
+        if (config.products.preventConfigurableChildrenDirectAccess) {
           subloaders.push(context.dispatch('checkConfigurableParent', { product: product }))
         }
       } else { // error or redirect
@@ -664,10 +664,10 @@ const actions: ActionTree<ProductState, RootState> = {
 
   setProductGallery(context, { product }) {
       if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_children')) {
-        if (!ConfigManager.getConfig().products.gallery.mergeConfigurableChildren && product.is_configured) {
+        if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
            context.commit(types.CATALOG_UPD_GALLERY, attributeImages(context.state.current))
         } else {
-          let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== ConfigManager.getConfig().images.productPlaceholder })
+          let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
           context.commit(types.CATALOG_UPD_GALLERY, productGallery)
         }
       } else {

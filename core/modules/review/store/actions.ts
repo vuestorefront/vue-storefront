@@ -11,7 +11,7 @@ import rootStore from '@vue-storefront/core/store'
 import Review from '@vue-storefront/core/modules/review/types/Review'
 import { ReviewRequest } from '@vue-storefront/core/modules/review/types/ReviewRequest'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { ConfigManager } from '@vue-storefront/core/lib/config-manager'
+import config from 'config'
 
 const actions: ActionTree<ReviewState, RootState> = {
   /**
@@ -57,9 +57,9 @@ const actions: ActionTree<ReviewState, RootState> = {
 
     Vue.prototype.$bus.$emit('notification-progress-start', i18n.t('Adding a review ...'))
 
-    let url = ConfigManager.getConfig().reviews.create_endpoint
+    let url = config.reviews.create_endpoint
 
-    if (ConfigManager.getConfig().storeViews.multistore) {
+    if (config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)
     }
 
