@@ -20,7 +20,7 @@ module.exports = {
       '/guide/': [
       	{
           title : 'General Information',
-          collapsible: false,
+          collapsable: false,
           children: [
             'general/introduction'
           ]
