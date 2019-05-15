@@ -25,7 +25,7 @@
           v-for="(color, index) in filter"
           :key="index"
           :variant="color"
-          :is-active="getCurrentFilters[filterIndex] && getCurrentFilters[filterIndex].id === color.id"
+          :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
       </div>
@@ -37,7 +37,7 @@
           v-for="(size, index) in sortById(filter)"
           :key="index"
           :variant="size"
-          :is-active="getCurrentFilters[filterIndex] && getCurrentFilters[filterIndex].id === size.id"
+          :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
       </div>
@@ -53,7 +53,7 @@
           :to="price.to"
           :content="price.label"
           :variant="price"
-          :is-active="getCurrentFilters[filterIndex] && getCurrentFilters[filterIndex].id === price.id"
+          :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
       </div>
@@ -65,7 +65,7 @@
           v-for="(option, index) in filter"
           :key="index"
           :variant="option"
-          :is-active="getCurrentFilters[filterIndex] && getCurrentFilters[filterIndex].id === option.id"
+          :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
       </div>

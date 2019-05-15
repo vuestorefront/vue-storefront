@@ -12,21 +12,11 @@
 </template>
 
 <script>
-import GenericSelector from '@vue-storefront/core/compatibility/components/GenericSelector'
 import config from 'config'
+import filterMixin from 'theme/mixins/filterMixin.ts'
 
 export default {
-  mixins: [GenericSelector],
-  props: {
-    variant: {
-      type: Object,
-      default: () => ({})
-    },
-    isActive: {
-      type: Boolean,
-      default: false
-    }
-  },
+  mixins: [filterMixin],
   methods: {
     colorFrom (label) {
       if (config.products.colorMappings) {

@@ -10,17 +10,10 @@
 </template>
 
 <script>
+import filterMixin from 'theme/mixins/filterMixin.ts'
+
 export default {
-  props: {
-    variant: {
-      type: Object,
-      default: () => ({})
-    },
-    isActive: {
-      type: Boolean,
-      default: false
-    }
-  }
+  mixins: [filterMixin]
 }
 </script>
 
