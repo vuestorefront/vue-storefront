@@ -7,12 +7,12 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state) => state.categories,
   getCategoryProducts: (state) => state.products,
   getAvailableFilters: state => state.availableFilters,
-  calculateCurrentCategory: (state, getters, rootState) => (route) => {
+  getCurrentCategoryFrom: (state, getters, rootState) => (route = this.$route) => {
     const currentRoute = route ? route : rootState.route
     return getters.getCategories.find(category => currentRoute.path.includes(category.url_path)) || {}
   },
-  getCurrentCategory: (state, getters, rootState) => getters.calculateCurrentCategory(rootState.route),
-  calculateFilters: (state, getters, rootState) => (filters) => {
+  getCurrentCategory: (state, getters, rootState) => getters.getCurrentCategoryFrom(rootState.route),
+  getCurrentFiltersFrom: (state, getters, rootState) => (filters) => {
     const currentQuery = filters ? filters : rootState.route.query
     const searchQuery = {
       filters: {}
@@ -36,7 +36,7 @@ const getters: GetterTree<CategoryState, RootState> = {
     })
     return searchQuery
   },
-  getCurrentFilters: (state, getters, rootState) => getters.calculateFilters(rootState.route.query).filters,
+  getCurrentFilters: (state, getters, rootState) => getters.getCurrentFiltersFrom(rootState.route.query).filters,
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
   getSystemFilterNames: () => ['sort'],
   getBreadcrumbs: (state, getters) => {
