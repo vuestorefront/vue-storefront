@@ -5,6 +5,8 @@
     "esModuleInterop": true
   },
   "exclude": [
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "!node_modules/vsf-*/**/*.ts",
+    "!node_modules/@*/vsf-*/**/*.ts"
   ]
 }
