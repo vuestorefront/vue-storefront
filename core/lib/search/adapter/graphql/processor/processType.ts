@@ -1,14 +1,14 @@
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import map from 'lodash-es/map'
 import { slugify } from '@vue-storefront/core/helpers'
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 
 export function processESResponseType (resp, start, size): SearchResponse {
   const response = {
     items: map(resp.hits.hits, hit => {
       return Object.assign(hit._source, {
         _score: hit._score,
-        slug: hit._source.slug ? hit._source.slug : ((hit._source.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys)
+        slug: hit._source.slug ? hit._source.slug : ((hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys)
           ? hit._source.url_key
           : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : ''))
       }) // TODO: assign slugs server side
@@ -32,7 +32,7 @@ export function processProductsType (resp, start, size): SearchResponse {
         delete item._score
       }
       options['slug'] = item.slug ? item.slug : ((item.url_key &&
-      rootStore.state.config.products.useMagentoUrlKeys)
+      config.products.useMagentoUrlKeys)
         ? item.url_key : (item.name
           ? slugify(item.name) + '-' + item.id : ''))
 

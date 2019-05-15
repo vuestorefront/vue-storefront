@@ -161,7 +161,7 @@ export default {
   name: 'MainFooter',
   computed: {
     multistoreEnabled () {
-      return this.$store.state.config.storeViews.multistore
+      return this.$config.storeViews.multistore
     },
     getVersionInfo () {
       return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
