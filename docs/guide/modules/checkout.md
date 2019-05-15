@@ -142,7 +142,6 @@ The step is named `NewStep` and is placed just after the `PersonalDetails` step;
     >
 ```
 
-
 ### Then, modify the checkout component
 
 1. **Insert the NewStep component in the checkout template** at the desired position. For example, you could place it between the Personal Details and Shipping steps:
@@ -159,25 +158,36 @@ The step is named `NewStep` and is placed just after the `PersonalDetails` step;
     this.$bus.$on('checkout-after-newStep', this.onAfterNewStep)
 ```
 
-3. **Specify how to jump to the next step** by creating the method `onAfterNewStep`; in this example, the next step is the shipping form:
+3. **Specify how to jump from the previous step to NewStep**. Modify the `onAfterPersonalDetails()` method in order to activate the `newStep` section instead of the `shipping` step:
+```javascript
+    onAfterPersonalDetails (receivedData, validationResult) {
+      this.personalDetails = receivedData
+      this.validationResults.personalDetails = validationResult
+      this.activateSection('newStep') // show the new step
+      this.savePersonalDetails()
+      this.focusedField = null
+    }
+```
+This is assuming that the new checkout step follows the Personal Details step; if this is not the case, you will need to modify the `onAfter` metod of whatever step precedes `NewStep`.
+
+4. **Specify how to jump from NewStep to the next step** by creating the method `onAfterNewStep`; in this example, the next step is the shipping form:
 ```javascript
     onAfterNewStep (receivedData, validationResult) {
       this.newStep = receivedData
       this.validationResults.newStep = validationResult
       this.activateSection('shipping') // change 'shipping' to whatever you want the next step to be
-      this.saveNewStepData() // include only if newStep has state
+      this.saveNewStep() // include this line only if newStep has state
     }
 ```
 Note that calling `activateSection('shipping')` is what ultimately shows the next checkout step to the user.
 
-4. **If needed, save NewStep state** by defining a non-empty method `saveNewStepData()`; for example:
+5. **If needed, save NewStep state** by defining a non-empty method `saveNewStep()`; for example:
 ```javascript
     saveNewStep () {
       this.$store.dispatch('checkout/saveNewStep', this.newStep)
     },
 ```
-
-5. **Specify how to jump from the previous step to NewStep** by modifying the `onAfterPersonalDetails()` method, assuming `PersonalDetails` is the step that precedes our new step.
+This is needed only if your new step has state, in which case you will also need to define the `checkout/saveNewStep` action in Vuex.
 
 
 ## Store
