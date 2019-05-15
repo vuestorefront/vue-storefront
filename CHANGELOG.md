@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
 - Added back-button on orde detail page [#2819]
 - Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
+- npm packages with the prefix `vsf-` will be processed by webpack during build, this also works for scoped packages i.e. `@example/vsf-` - @zimme (#2271, #2395)
+- Added back to top functionality - @vishal-7037 (#2866)
 
 ### Fixed
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
@@ -29,8 +31,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed `Clear cart` option as it previously was not syncing the changes with server - therefore when the user was logged in and cleard the cart all the products were restored - @pkarw (#2587)
 - Fixed the cart sync for a rare case that current cart token was empty - @pkarw (#2592)
 - Use event bus to emit 'application-after-init' event (#2852)
+- Validation of fields 'company name' and 'tax' in checkout doesn't work correctly - @dimasch (#2741)
+- Fixed wrong price displayed in instant checkout module - @vishal-7037 (#2884)
 
 ### Changed / Improved
+- Changed the way to access the configuration. Currently the `rootStore.state.config` is deprecated. Please do use the `import config from 'config'` > `config` instead - @pkarw (#2649)
 - Changed the order number (from `entity_id` to `increment_id`) on MyOrders and MyOrder pages - @pkarw (#2743)
 - Disabled the server cart sync in case user is in the checkout - @pkarw (#2749)
 - Improved ProductGalleryCarousel component to handle nonnumeric options id’s - @danieldomurad (#2586)
@@ -54,11 +59,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Jest globals added to .eslint - @lromanowicz (#2717)
 - The default storeId is taken from the configurations - @nuovecode (#2718)
 - Multitab cart sync - @BartoszLiburski (#2547)
+- Back to login button now shows the Login modal window instead of closing it - @RGijsberts (#2882)
 - Status filter in Related Products query (#2805)
 - The "Apply button was too big, I have reduced its size - @idodidodi (#2807)
 - Added return to shopping button on ThenkYou page - @ZeevGerstner (#2818)
 - Added optional attributes to catalog/product.ts - @ZeevGerstner (#2792)
 - Formatted dates in CHANGELOG.md to match ISO standard - @phoenixdev-kl (#2839)
+- Moved Filter Price Ranges (used for ES aggregations and UI Filter) to the config - @jpetar (#2873)
 
 ## [1.9.0] - 2019.05.06
 
@@ -100,7 +107,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Offline orders with out of stock products don't stack anymore and get canceled after going back to online - @lukeromanowicz (#2740)
 - Build ServiceWorker on Docker - @patzick (#2793)
 - Product image load after comming back to online - @patzick (#2573)
-- Insufficent validation for city field in checkout address - @lromanowicz (#2653) 
+- Insufficent validation for city field in checkout address - @lromanowicz (#2653)
 - Incorrect hover activity on the 'filter by categories' in the search view on mobile - @idodidodi (#2783)
 - Unit tests written in JavaScript now support async/await functions and dynamic import - @michaelKurowski, @lukeromanowicz (#2851)
 

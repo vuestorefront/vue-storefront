@@ -14,7 +14,7 @@ export const CategorySort = {
   },
   computed: {
     sortingOptions () {
-      return this.$store.state.config.products.sortByAttributes
+      return this.$config.products.sortByAttributes
     },
     sortingVariants () {
       let variants = []

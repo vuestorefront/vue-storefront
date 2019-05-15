@@ -84,14 +84,7 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
           query = query.aggregation('terms', attrToFilter.field + optionsPrfeix, aggregationSize)
         } else {
           query = query.aggregation('terms', attrToFilter.field)
-          query.aggregation('range', 'price', {
-            ranges: [
-              { from: 0, to: 50 },
-              { from: 50, to: 100 },
-              { from: 100, to: 150 },
-              { from: 150 }
-            ]
-          })
+          query.aggregation('range', 'price', config.products.priceFilters)
         }
       }
     }

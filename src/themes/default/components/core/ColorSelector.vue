@@ -12,9 +12,11 @@
 </template>
 
 <script>
+import GenericSelector from '@vue-storefront/core/compatibility/components/GenericSelector'
 import config from 'config'
 
 export default {
+  mixins: [GenericSelector],
   props: {
     variant: {
       type: Object,
