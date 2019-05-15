@@ -146,7 +146,7 @@ The step is named `NewStep` and is placed just after the `PersonalDetails` step;
 ### Then, modify the checkout component
 
 1. **Insert the NewStep component in the checkout template** at the desired position. For example, you could place it between the Personal Details and Shipping steps:
-```javascript
+```vue
   <personal-details class="line relative" :is-active="activeSection.personalDetails" :focused-field="focusedField"/>
   <new-step class="line relative" :is-active="activeSection.newStep">
   <shipping class="line relative" :is-active="activeSection.shipping" v-if="!isVirtualCart"/>
