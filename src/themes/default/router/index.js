@@ -1,4 +1,5 @@
 import config from 'config'
+
 const Home = () => import(/* webpackChunkName: "vsf-home" */ 'theme/pages/Home.vue')
 const PageNotFound = () => import(/* webpackChunkName: "vsf-not-found" */ 'theme/pages/PageNotFound.vue')
 const ErrorPage = () => import(/* webpackChunkName: "vsf-error" */ 'theme/pages/Error.vue')
