@@ -94,7 +94,12 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters = {}, d
   for (let code of Object.keys(chosenFilters)) {
     const filter = chosenFilters[code]
 
-    if (filter.attribute_code !== 'price') {
+    if (Array.isArray(filter)) {
+      const type = filter[0].attribute_code
+      const values = filter.map(filter => filter.id)
+      filterQr = filterQr.applyFilter({key: type, value: {'in': values}, scope: 'catalog'})
+      // TODO add support for multiple prices
+    } else if (filter.attribute_code !== 'price') {
       filterQr = filterQr.applyFilter({key: filter.attribute_code, value: {'eq': filter.id}, scope: 'catalog'})
     } else { // multi should be possible filter here?
       const rangeqr = {}
