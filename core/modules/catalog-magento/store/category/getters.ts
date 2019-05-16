@@ -7,7 +7,7 @@ import FilterVariant from '../../types/FilterVariant'
 import { optionLabel } from '../../helpers/optionLabel'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
-import { compareByLabel } from './categoryLogic'
+import { compareByLabel } from './logic/categoryLogic'
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state) => state.categories || [],
