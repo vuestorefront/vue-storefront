@@ -23,7 +23,8 @@
       "core/modules/*": ["./core/modules/*"],
       "@vue-storefront/*": ["./"]
     },
-    "lib": ["es2017", "dom"]
+    "lib": ["es2017", "dom"],
+    "preserveConstEnums": true
   },
   "files": ["shims.d.ts"],
   "include": [
@@ -37,9 +38,6 @@
     "node_modules/@*/vsf-*/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "!node_modules/vsf-*/**/*.ts",
-    "!node_modules/@*/vsf-*/**/*.ts",
     "**/*.spec.ts"
   ]
 }

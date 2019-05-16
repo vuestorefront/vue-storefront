@@ -2,11 +2,10 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "preserveSymlinks": true
   },
   "exclude": [
     "**/*.spec.ts",
-    "!node_modules/vsf-*/**/*.ts",
-    "!node_modules/@*/vsf-*/**/*.ts"
   ]
 }

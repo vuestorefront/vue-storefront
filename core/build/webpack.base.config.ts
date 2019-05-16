@@ -125,7 +125,7 @@ export default {
         enforce: 'pre',
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
-        exclude: [/node_modules(?!\/(\@.*\/)?vsf-)/, /test/]
+        exclude: [/node_modules(?!\/(\@.*\/)?vsf-).*/, /test/]
       },
       {
         test: /\.vue$/,
@@ -142,7 +142,7 @@ export default {
           appendTsSuffixTo: [/\.vue$/],
           allowTsInNodeModules: true
         },
-        exclude: /node_modules(?!\/(\@.*\/)?vsf-)/
+        exclude: /node_modules(?!\/(\@.*\/)?vsf-).*/
       },
       {
         test: /\.js$/,
