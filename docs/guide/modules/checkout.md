@@ -136,7 +136,7 @@ The step is named `NewStep` and is placed just after the `PersonalDetails` step;
 ```
 
 3. **Call the sendDataToCheckout method** when the button to the next section is clicked. This could be achieved in the template like this:
-```javascript
+```vue
     <button-full
       @click.native="sendDataToCheckout"
     >
