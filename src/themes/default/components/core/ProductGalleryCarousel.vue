@@ -25,21 +25,25 @@
             :alt="productName | htmlDecode"
           >
           <img
+            v-if="!lowerQualityImagesErrorsMap[index] || isOnline"
             v-show="lowerQualityImagesMap[index]"
             key="lowQualityImage"
             class="product-image inline-flex mw-100"
             :src="images.loading"
-            @load="lowerQualityImageLoaded(index)"
+            @load="lowerQualityImageLoaded(index, true)"
+            @error="lowerQualityImageLoaded(index, false)"
             ref="images"
             :alt="productName | htmlDecode"
             data-testid="productGalleryImage"
             itemprop="image"
           >
           <img
+            v-if="!highQualityImagesErrorsMap[index] || isOnline"
             v-show="highQualityImagesLoadedMap[index]"
             key="highQualityImage"
             :src="images.src"
-            @load="highQualityImageLoaded(index)"
+            @load="highQualityImageLoaded(index, true)"
+            @error="highQualityImageLoaded(index, false)"
             class="product-image inline-flex pointer mw-100"
             ref="images"
             @dblclick="openOverlay"
@@ -63,11 +67,12 @@
 </template>
 
 <script>
-import store from '@vue-storefront/core/store'
+import config from 'config'
 import { Carousel, Slide } from 'vue-carousel'
 import ProductVideo from './ProductVideo'
 import reduce from 'lodash-es/reduce'
 import map from 'lodash-es/map'
+import { onlineHelper } from '@vue-storefront/core/helpers'
 
 export default {
   name: 'ProductGalleryCarousel',
@@ -96,7 +101,9 @@ export default {
       currentPage: 0,
       hideImageAtIndex: null,
       lowerQualityImagesLoadedMap: {},
-      highQualityImagesLoadedMap: {}
+      highQualityImagesLoadedMap: {},
+      lowerQualityImagesErrorsMap: {},
+      highQualityImagesErrorsMap: {}
     }
   },
   computed: {
@@ -120,6 +127,9 @@ export default {
         visibilityMap[index] = !!this.highQualityImagesLoadedMap[index] && this.hideImageAtIndex !== index
       })
       return visibilityMap
+    },
+    isOnline () {
+      return onlineHelper.isOnline
     }
   },
   beforeMount () {
@@ -151,7 +161,7 @@ export default {
       }
     },
     selectVariant () {
-      if (store.state.config.products.gallery.mergeConfigurableChildren) {
+      if (config.products.gallery.mergeConfigurableChildren) {
         const option = reduce(map(this.configuration, 'attribute_code'), (result, attribute) => {
           result[attribute] = this.configuration[attribute].id
           return result
@@ -177,11 +187,13 @@ export default {
     onVideoStarted (index) {
       this.hideImageAtIndex = index
     },
-    lowerQualityImageLoaded (index) {
-      this.$set(this.lowerQualityImagesLoadedMap, index, true)
+    lowerQualityImageLoaded (index, success = true) {
+      this.$set(this.lowerQualityImagesLoadedMap, index, success)
+      this.$set(this.lowerQualityImagesErrorsMap, index, !success)
     },
-    highQualityImageLoaded (index) {
-      this.$set(this.highQualityImagesLoadedMap, index, true)
+    highQualityImageLoaded (index, success = true) {
+      this.$set(this.highQualityImagesLoadedMap, index, success)
+      this.$set(this.highQualityImagesErrorsMap, index, !success)
     }
   }
 }

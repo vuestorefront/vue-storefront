@@ -53,7 +53,7 @@
           </base-checkbox>
 
           <base-input
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 col-sm-6 mb10"
             type="text"
             name="first-name"
             :placeholder="$t('First name *')"
@@ -73,7 +73,7 @@
           />
 
           <base-input
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 col-sm-6 mb10"
             type="text"
             name="last-name"
             :placeholder="$t('Last name *')"
@@ -87,7 +87,7 @@
           />
 
           <base-input
-            class="col-xs-12 mb25"
+            class="col-xs-12 mb10"
             type="text"
             name="street-address"
             :placeholder="$t('Street name *')"
@@ -101,7 +101,7 @@
           />
 
           <base-input
-            class="col-xs-12 mb25"
+            class="col-xs-12 mb10"
             type="text"
             name="apartment-number"
             :placeholder="$t('House/Apartment number *')"
@@ -115,7 +115,7 @@
           />
 
           <base-input
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 col-sm-6 mb10"
             type="text"
             name="city"
             :placeholder="$t('City *')"
@@ -129,7 +129,7 @@
           />
 
           <base-input
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 col-sm-6 mb10"
             type="text"
             name="state"
             :placeholder="$t('State / Province')"
@@ -138,7 +138,7 @@
           />
 
           <base-input
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 col-sm-6 mb10"
             type="text"
             name="zip-code"
             :placeholder="$t('Zip-code *')"
@@ -158,7 +158,7 @@
           />
 
           <base-select
-            class="col-xs-12 col-sm-6 mb25"
+            class="col-xs-12 col-sm-6 mb10"
             name="countries"
             :options="countryOptions"
             :selected="payment.country"
@@ -176,7 +176,7 @@
           />
 
           <base-input
-            class="col-xs-12 mb25"
+            class="col-xs-12 mb10"
             type="text"
             name="phone-number"
             :placeholder="$t('Phone Number')"
@@ -188,14 +188,13 @@
             class="col-xs-12 mb15"
             id="generateInvoiceCheckbox"
             v-model="generateInvoice"
-            @click="useGenerateInvoice"
           >
             {{ $t('I want to generate an invoice for the company') }}
           </base-checkbox>
 
           <template v-if="generateInvoice">
             <base-input
-              class="col-xs-12 mb25"
+              class="col-xs-12 mb10"
               type="text"
               name="company-name"
               :placeholder="$t('Company name *')"
@@ -209,7 +208,7 @@
             />
 
             <base-input
-              class="col-xs-12 mb25"
+              class="col-xs-12 mb10"
               type="text"
               name="tax-id"
               :placeholder="$t('Tax identification number *')"
@@ -315,6 +314,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
+import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
 import { Payment } from '@vue-storefront/core/modules/checkout/components/Payment'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
@@ -348,26 +348,32 @@ export default {
         payment: {
           firstName: {
             required,
-            minLength: minLength(2)
+            minLength: minLength(2),
+            unicodeAlpha
           },
           lastName: {
-            required
+            required,
+            unicodeAlpha
           },
           country: {
             required
           },
           streetAddress: {
-            required
+            required,
+            unicodeAlphaNum
           },
           apartmentNumber: {
-            required
+            required,
+            unicodeAlphaNum
           },
           zipCode: {
             required,
-            minLength: minLength(3)
+            minLength: minLength(3),
+            unicodeAlphaNum
           },
           city: {
-            required
+            required,
+            unicodeAlpha
           },
           paymentMethod: {
             required
@@ -379,13 +385,16 @@ export default {
         payment: {
           firstName: {
             required,
-            minLength: minLength(2)
+            minLength: minLength(2),
+            unicodeAlpha
           },
           lastName: {
-            required
+            required,
+            unicodeAlpha
           },
           company: {
-            required
+            required,
+            unicodeAlphaNum
           },
           taxId: {
             required,
@@ -395,17 +404,21 @@ export default {
             required
           },
           streetAddress: {
-            required
+            required,
+            unicodeAlphaNum
           },
           apartmentNumber: {
-            required
+            required,
+            unicodeAlphaNum
           },
           zipCode: {
             required,
-            minLength: minLength(3)
+            minLength: minLength(3),
+            unicodeAlphaNum
           },
           city: {
-            required
+            required,
+            unicodeAlpha
           },
           paymentMethod: {
             required

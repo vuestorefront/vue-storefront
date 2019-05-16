@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
-import rootStore from '@vue-storefront/core/store'
 import * as types from './mutation-types'
 import CartState from '../types/CartState'
+import config from 'config'
 
 const mutations: MutationTree<CartState> = {
   /**
@@ -67,8 +67,8 @@ const mutations: MutationTree<CartState> = {
     state.cartIsLoaded = true
     state.cartSavedAt = Date.now()
 
-    // Vue.prototype.$bus.$emit('order/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
-    Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
+    // Vue.prototype.$bus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
+    Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config }) // process checkout queue
     Vue.prototype.$bus.$emit('application-after-loaded')
     Vue.prototype.$bus.$emit('cart-after-loaded')
   },

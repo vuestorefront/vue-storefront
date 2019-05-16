@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import i18n from '@vue-storefront/i18n'
 import RootState from '@vue-storefront/core/types/RootState'
 import CheckoutState from '../../types/CheckoutState'
 import { Logger } from '@vue-storefront/core/lib/logger'
@@ -17,23 +16,17 @@ const actions: ActionTree<CheckoutState, RootState> = {
       const result = await dispatch('order/placeOrder', order, {root: true})
       if (!result.resultCode || result.resultCode === 200) {
         Vue.prototype.$db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
-        dispatch('cart/clear', {}, {root: true})
+        await dispatch('cart/clear', {}, {root: true})
         if (state.personalDetails.createAccount) {
           commit(types.CHECKOUT_DROP_PASSWORD)
         }
       }
     } catch (e) {
-      if (e.name === 'ValidationError') {
-        Logger.error('Internal validation error; Order entity is not compliant with the schema' + e.messages, 'checkout')()
-        dispatch('notification/spawnNotification', {
-          type: 'error',
-          message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io'),
-          action1: { label: i18n.t('OK') }
-        }, {root: true})
-      } else {
-        Logger.error(e, 'checkout')()
-      }
+      Logger.error(e, 'checkout')()
     }
+  },
+  setModifiedAt({ commit }, timestamp) {
+    commit(types.CHECKOUT_SET_MODIFIED_AT, timestamp)    
   },
   savePersonalDetails ({ commit }, personalDetails) {
     // todo: create and move perdonal details vuex

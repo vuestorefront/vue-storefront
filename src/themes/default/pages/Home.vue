@@ -45,6 +45,7 @@ import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/Promote
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters } from 'vuex'
+import config from 'config'
 
 export default {
   mixins: [Home],
@@ -85,13 +86,12 @@ export default {
   },
   watch: {
     isLoggedIn () {
-      this.$router.push(localStorage.getItem('redirect'))
+      const redirectObj = localStorage.getItem('redirect')
+      if (redirectObj) this.$router.push(redirectObj)
       localStorage.removeItem('redirect')
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    const config = store.state.config
-
     Logger.info('Calling asyncData in Home (theme)')()
 
     let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })

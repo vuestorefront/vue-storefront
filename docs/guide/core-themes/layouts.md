@@ -1,40 +1,39 @@
 # Layouts and advanced output operations
 
-Starting from version 1.4.0 Vue Storefront allows you to switch the HTML templates and layouts dynamically in the SSR mode.
+Starting from version 1.4.0, Vue Storefront allows you to switch the HTML templates and layouts dynamically in the SSR mode.
 
 This feature can be very useful for non-standard rendering scenarios like:
 
-- generating the XML output,
-- generating the AMPHTML pages,
+- Generating the XML output
+- Generating the AMPHTML pages
 - generating widgets without `<head>` section
 
 ## How it works
 
-Before 1.4.0 Vue Storefront generated the output by a mix of:
+Before 1.4.0, Vue Storefront generated the output by a mix of:
 
-- taking the base HTML template `src/index.template.html`,
-- rendering the `src/themes/default/App.vue` root component,
-- injecting the Vue SSR output into the template + adding CSS styles, script references etc. [Read more on Vue SSR Styles and Scripts injection](https://ssr.vuejs.org/guide/build-config.html#client-config)
+- Taking the base HTML template `src/index.template.html`,
+- Rendering the `src/themes/default/App.vue` root component,
+- Injecting the Vue SSR output into the template + adding CSS styles, script references etc. [Read more on Vue SSR Styles and Scripts injection](https://ssr.vuejs.org/guide/build-config.html#client-config)
 
-This mode is still in place and it's enabled by default.
-What we've changed is **you can now select which HTML template + layout your app is routing in per-route manner**.
+This mode is still in place and is enabled by default. What we've changed is that **you can now select which HTML template and layout your app is routing in per-route manner.**
 
 ## Changelog
 
-The changes we've introduced:
+The changes we’ve introduced include:
 
-- now distinct routes can set `context.output.template` in `asyncData` method. By doing so you can skip using `dist/index.html` (which contains typical HTML5 elements - like `<head>`). This is important when we're going to generate either AMPHTML pages (that cannot contain any `<script>` tags) or XML files - you name it
-- distinct routes can set `meta.layout` and by doing so switch the previously constant `App.vue` layout file
-- you've got access to server `context` object in `asyncData` and two new features - `output.prepend` and `output.append` have been created to allow you control the rendering flow of the template
+- Distinct routes can now set `context.output.template` in `asyncData` method. By doing so, you can skip using `dist/index.html` (which contains typical HTML5 elements - like `<head>`). This is important when we're going to generate either AMPHTML pages (that cannot contain any `<script>` tags) or XML files - you name it.
+- Distinct routes can set `meta.layout` and by doing so, switch the previously constant `App.vue` layout file.
+- Access to server `context` object in `asyncData` and two new features - `output.prepend` and `output.append` have been created to allow you to control the rendering flow of the template.
 
 ## Templates
 
-We've added two new HTML templates + two Vue layouts.
+We added two new HTML templates + two Vue layouts.
 
 Templates:
 
-- `index.basic.template.html` - which contains the standard HTML markup + CSS injection
-- `index.minimal.template.html` - which contains the standard HTML markup without any additional injects - so when you render a Vue component its output will be pasted into `<body>` and that's all. Probably good starting point for [AMPHTML implementation](https://www.ampstart.com/)
+- `index.basic.template.html` - We added two new HTML templates + two Vue layouts.
+- `index.minimal.template.html` - which contains the standard HTML markup without any additional injects, so when you render a Vue component, its output will be pasted into `<body>` and that's all. Probably good starting point for [AMPHTML implementation](https://www.ampstart.com/)
 
 You can add more templates. All you need is to set the proper `config.ssr.templates` variable:
 
@@ -51,7 +50,7 @@ You can add more templates. All you need is to set the proper `config.ssr.templa
     },
 ```
 
-Templates paths are relative to the root folder of `vue-storefront`. You can also set the template to none (`""`) to skip it. This option can be useful for XML / JSON / widgets rendering that does not require the whole HTML layout.
+Templates paths are relative to the root folder of `vue-storefront`. You can also set the template to none ("") to skip it. This option can be useful for XML / JSON / widgets rendering that does not require the whole HTML layout.
 
 ## Examples
 
@@ -106,9 +105,9 @@ context.output.template = '';
 
 These two statements:
 
-- set the HTTP header (by accessing ExpressJS response object - `contextserver.response`. There is also `contextserver.request` and `context.app` - the ExpressJS application)- set `output.template` to none which will cause to skip the HTML template rendering at all.
+- Set the HTTP header (by accessing ExpressJS response object—  `contextserver.response`. There is also `contextserver.request` and `context.app` - the ExpressJS application)- set `output.template` to none, which will skip the HTML template rendering at all.
 
-### Switching off layout + injecting dynamic content
+### Switching off layout and injecting dynamic content
 
 Example URL: `http://localhost:3000/append-prepend.html`
 
@@ -165,8 +164,8 @@ context.output.prepend = context => {
 
 These two statements:
 
-- set `output.template` to none which will cause to skip the HTML template rendering at all.
-- add the `output.append` and `output.prepend` methods to the server context.
+- Set `output.template` to none, which will cause to skip the HTML template rendering at all.
+- Add the `output.append` and `output.prepend` methods to the server context.
 
 The output will be generated with this logic:
 
@@ -182,6 +181,6 @@ const contentAppend =
 output = contentPrepend + output + contentAppend;
 ```
 
-Please note, that the `context` contains a lot of interesting features you can use to control the CSS, SCRIPT and META injection. [Read more on Vue SSR Styles and Scripts injection](https://ssr.vuejs.org/guide/build-config.html#client-config)
+Please note that the `context` contains a lot of interesting features you can use to control the CSS, SCRIPT and META injection. [Read more on Vue SSR Styles and Scripts injection](https://ssr.vuejs.org/guide/build-config.html#client-config)
 
 **Note: [The context object = Vue.prototype.$ssrContext](https://ssr.vuejs.org/guide/head.html)**

@@ -11,7 +11,7 @@
 "This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Essa funcionalidade não foi implementada ainda! Por favor dê uma olhada em https://github.com/DivanteLtd/vue-storefront/issues nosso planejamento!"
 "The product is out of stock and cannot be added to the cart!","Produto não possui estoque e não pode ser adicionado ao carrinho!"
 "Product has been added to the cart!","Produto foi adicionado ao carrinho!"
-"Internal validation error. Please check if all required fields are filled in. Please contact us on contributors@vuestorefront.io","Erro interno de validação. Por favor verifique se todos os campos obrigatórios estão preenchidos. Por favor contate-nos em contributors@vuestorefront.io"
+"Internal validation error. Please check if all required fields are filled in. Please contact us on {email}","Erro interno de validação. Por favor verifique se todos os campos obrigatórios estão preenchidos. Por favor contate-nos em {email}"
 "Product {productName} has been added to the compare!","Produto {productName} foi adicionado para comparação!"
 "Product {productName} has been removed from compare!","Produto {productName} foi removido da comparação!"
 "Product {productName} has been added to wishlist!","Produto {productName} foi adicionado à lista de desejos!"
