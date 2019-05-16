@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
 - Added back-button on orde detail page [#2819]
 - Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
-- npm packages with the prefix `vsf-` will be processed by webpack during build, this also works for scoped packages i.e. `@example/vsf-` - @zimme (#2271, #2395)
 - Added back to top functionality - @vishal-7037 (#2866)
 
 ### Fixed
@@ -107,7 +106,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Offline orders with out of stock products don't stack anymore and get canceled after going back to online - @lukeromanowicz (#2740)
 - Build ServiceWorker on Docker - @patzick (#2793)
 - Product image load after comming back to online - @patzick (#2573)
-- Insufficent validation for city field in checkout address - @lromanowicz (#2653)
+- Insufficent validation for city field in checkout address - @lromanowicz (#2653) 
 - Incorrect hover activity on the 'filter by categories' in the search view on mobile - @idodidodi (#2783)
 - Unit tests written in JavaScript now support async/await functions and dynamic import - @michaelKurowski, @lukeromanowicz (#2851)
 
