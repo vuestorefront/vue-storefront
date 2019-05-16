@@ -195,7 +195,7 @@ This is needed only if your new step has state, in which case you will also nee
 ### State
 
 ```js
- state: {
+  state: {
     order: {},
     personalDetails: {
       firstName: '',
@@ -212,6 +212,7 @@ This is needed only if your new step has state, in which case you will also nee
       apartmentNumber: '',
       city: '',
       state: '',
+      region_id: 0,
       zipCode: '',
       phoneNumber: '',
       shippingMethod: ''
@@ -225,15 +226,19 @@ This is needed only if your new step has state, in which case you will also nee
       apartmentNumber: '',
       city: '',
       state: '',
+      region_id: 0,
       zipCode: '',
       phoneNumber: '',
       taxId: '',
-      paymentMethod: ''
-    }
+      paymentMethod: '',
+      paymentMethodAdditional: {}
+    },
+    isThankYouPage: false,
+    modifiedAt: 0
   }
 ```
 
-Checkout state is centralized around the [Order object](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json) and the address data given by the user within the checkout process, to be stored for further use in the `localForage`.
+The state of the Checkout module contains both the [Order object](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json) and the information given by the user during the checkout process, to be stored for further use in the `localForage`.
 
 The state is modified by [`placeOrder`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L11) action and [`load`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L41) which loads the state from browser database.
 
