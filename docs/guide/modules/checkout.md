@@ -192,6 +192,8 @@ This is needed only if your new step has state, in which case you will also nee
 
 ## Store
 
+The Checkout Store is designed to handle the passage from user's cart to actual order; it defines actions such as saving the information given by the user during checkout, and placing the order.
+
 ### State
 
 ```js
