@@ -95,7 +95,7 @@ export default {
         includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
       })
       //   // const category = await store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
-      await store.dispatch('category-magento/loadCategoryProducts', {filters: route.query, route})
+      await store.dispatch('category-magento/loadCategoryProducts', {route})
     } catch (e) {
       console.error('Problem with Category asyncData', e)
     }
