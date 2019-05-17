@@ -1,13 +1,13 @@
 import * as types from './mutation-types'
-import config from 'config'
 import { Module } from 'vuex'
 import { newsletterState } from '../types/newsletterState'
 import { cacheStorage } from '../'
+import config from 'config'
 
 export const module: Module<newsletterState, any> ={
   namespaced: true,
   state: {
-    isSubscribed: false,
+    isSubscribed: null,
     email: null,
   },
   getters: {
@@ -27,6 +27,7 @@ export const module: Module<newsletterState, any> ={
   },
   actions: {
     status ({ commit, state }, email): Promise<Response> {
+
       return new Promise((resolve, reject) => {
         fetch(config.newsletter.endpoint + '?email=' + encodeURIComponent(email), {
           method: 'GET',
@@ -47,6 +48,7 @@ export const module: Module<newsletterState, any> ={
       })
     },
     subscribe ({ commit, state }, email): Promise<Response> {
+
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.newsletter.endpoint, {
@@ -66,6 +68,7 @@ export const module: Module<newsletterState, any> ={
       }
     },
     unsubscribe ({ commit, state }, email): Promise<Response> {
+
       if (state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.newsletter.endpoint, {

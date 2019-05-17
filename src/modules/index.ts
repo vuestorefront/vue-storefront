@@ -76,6 +76,6 @@ export const registerModules: VueStorefrontModule[] = [
   RawOutputExample,
   AmpRenderer,
   InstantCheckout,
-  Url,
+  Url
   // Example
 ]
