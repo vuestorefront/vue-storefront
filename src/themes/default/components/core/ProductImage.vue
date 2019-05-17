@@ -94,6 +94,7 @@ export default {
   }
   img{
     height: auto;
+    align-self: center;
     opacity: 1;
     mix-blend-mode: multiply;
     vertical-align: top;
