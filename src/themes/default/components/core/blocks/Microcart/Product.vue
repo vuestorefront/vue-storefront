@@ -67,7 +67,7 @@
       </div>
       <div class="prices" v-else-if="isOnline && product.totals">
         <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
-          {{ product.totals.row_total_incl_tax - product.totals.discount_amount | price }}&nbsp;
+          {{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }}&nbsp;
         </span>
         <span class="h6 serif price-original" v-if="product.totals.discount_amount">
           {{ product.totals.row_total_incl_tax | price }}
