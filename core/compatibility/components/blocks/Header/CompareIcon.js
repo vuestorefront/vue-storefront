@@ -7,6 +7,9 @@ export default {
     isActive () {
       // Computed Property renamed to 'isEmpty'
       return !this.isEmpty
+    },
+    getTotalProducts () {
+      return this.totalProducts
     }
   }
 }

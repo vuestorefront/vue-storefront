@@ -6,6 +6,9 @@ export const CompareButton = {
   computed: {
     isEmpty () : boolean {
       return this.$store.getters['compare/isEmpty']
+    },
+    totalProducts () {
+      return this.$store.getters['compare/totalProducts']
     }
   }
 }

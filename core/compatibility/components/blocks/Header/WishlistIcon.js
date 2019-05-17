@@ -13,6 +13,9 @@ export default {
     // deprecated in this component
     isWishlistOpen () {
       return this.$store.state.ui.wishlist
+    },
+    getwishlistItemsCount () {
+      return this.$store.getters['wishlist/wishlistItemCount']
     }
   },
   methods: {

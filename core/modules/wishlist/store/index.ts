@@ -13,7 +13,8 @@ export const module:Module<WishlistState, RootState> = {
   actions,
   mutations,
   getters: {
-    isWishlistLoaded: state => state.loaded
+    isWishlistLoaded: state => state.loaded,
+    wishlistItemCount: (state) => state.items.length
   }
 }
 

@@ -1,6 +1,13 @@
 <template>
   <router-link :to="localizedRoute('/compare')" class="compare-icon no-underline inline-flex" v-if="isActive">
     <i class="material-icons">compare</i>
+    <span
+      class="compare-count absolute flex center-xs middle-xs border-box py0 px2 h6 lh16 weight-700 cl-white bg-cl-silver"
+      v-cloak
+      v-show="getTotalProducts"
+    >
+      {{ getTotalProducts }}
+    </span>
   </router-link>
 </template>
 
@@ -11,3 +18,13 @@ export default {
   mixins: [CompareIcon]
 }
 </script>
+
+<style scoped>
+  .compare-count {
+    top: 7px;
+    left: 50%;
+    min-width: 16px;
+    min-height: 16px;
+    border-radius: 10px;
+  }
+</style>
