@@ -177,12 +177,13 @@
 
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
+import config from 'config'
 
 export default {
   name: 'MainFooter',
   computed: {
     multistoreEnabled () {
-      return this.$config.storeViews.multistore
+      return config.storeViews.multistore
     }
   },
   mixins: [CurrentPage]

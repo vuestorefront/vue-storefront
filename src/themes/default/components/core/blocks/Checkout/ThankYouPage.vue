@@ -82,6 +82,7 @@ import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
 import { isServer } from '@vue-storefront/core/helpers'
+import config from 'config'
 
 export default {
   name: 'ThankYouPage',
@@ -107,7 +108,7 @@ export default {
       return this.$store.state.checkout.personalDetails.emailAddress
     },
     mailerElements () {
-      return this.$config.mailer.contactAddress
+      return config.mailer.contactAddress
     }
   },
   methods: {

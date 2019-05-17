@@ -165,7 +165,7 @@ export default {
       if (this.searchZipcode) {
         this.loading = true
         this.error = null
-        let endpoint = this.$config.droppointShipping[this.shippingMethod].endpoint
+        let endpoint = config.droppointShipping[this.shippingMethod].endpoint
 
         this.$store.dispatch('droppoint-shipping/fetch', {
           url: endpoint + '/zipcode/' + encodeURIComponent(this.searchZipcode),

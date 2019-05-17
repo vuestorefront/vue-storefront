@@ -1,3 +1,4 @@
+import config from 'config'
 export const CategorySort = {
   name: 'SortBy',
   data () {
@@ -13,7 +14,7 @@ export const CategorySort = {
   },
   computed: {
     sortingOptions () {
-      return this.$config.products.sortByAttributes
+      return config.products.sortByAttributes
     }
   }
 }

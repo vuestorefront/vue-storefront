@@ -23,6 +23,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import config from 'config'
 export default {
   name: 'SubBtn',
   props: {
@@ -46,7 +47,7 @@ export default {
   },
   methods: {
     next () {
-      if (this.$config.entities.category.categoriesDynamicPrefetch) this.$store.dispatch('category/list', { parent: this.id })
+      if (config.entities.category.categoriesDynamicPrefetch) this.$store.dispatch('category/list', { parent: this.id })
       this.$store.commit('ui/setSubmenu', {
         id: this.id,
         depth: ++this.submenu.depth
