@@ -179,7 +179,7 @@ const actions: ActionTree<CartState, RootState> = {
       return task
     })
   },
-  load (context, { forceClientState = true }:{forceClientState?:boolean} = {}) {
+  load (context, { forceClientState = false }:{forceClientState?:boolean} = {}) {
     return new Promise((resolve, reject) => {
       if (isServer) return
       const commit = context.commit

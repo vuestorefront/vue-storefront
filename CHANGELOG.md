@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added back to top functionality - @vishal-7037 (#2866)
 
 ### Fixed
+- Products removed from the cart are no longer add back on the conectivity return - @pkarw (#2898)
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
 - Confirmation popup 'Product has beed added to cart' is displayed only once - @JKrupinski (#2610)
 - Moved My Account options from Categories - @bartdominiak (#2612)
