@@ -16,10 +16,10 @@
 - [Adding new features as VS modules](#adding-new-features-as-vs-modules)
 - [Extending and overriding Vue Storefront modules](#extending-and-overriding-vue-storefront-modules)
 - [Creating third party modules](#Creating-3rd-party-modules)
-
+  
 # What are VS modules?
 
-You can think about each module as a one, independent feature available in Vue Storefront with all it's logic and dependencys inside. This 'one feature' however is a common denominator that links all the features inside. For example common denominator for adding product to the cart, receiving list of items that are in a cart or applying a cart coupon is obviously a `cart` and `cart` is not a feature of anything bigger than itself (it's common denominator is a shop) so it should be a module. Wishlist, Reviews or Newsletter are also a good examples of modules as we intuitively think about them as a standalone features.
+You can think about each module as a one, independent feature available in Vue Storefront with all it's logic and dependencys inside. This 'one feature' however is a common denominator that links all the features inside. For example common denominator for adding product to the cart, receiving list of items that are in a cart or applying a cart coupon is obviously a `cart` and `cart` is not a feature of anything bigger than itself (it's common denominator is a shop) so it should be a module. Wishlist, Reviews or Newsletter are also a good examples of modules as we intuitively think about them as a standalone features. 
 
 # Motivation
 
@@ -102,7 +102,7 @@ Entry point for vue-router. You can provide additional routes and [navigation gu
 
 Function that'll be called before registering the module both on server and client side. You have access to VSF object here.
 
-The `VSF` object is an instance of your Vue Storefront shop. It contains following properties
+The `VSF` object is an instance of your Vue Storefront shop. It contains following properties 
 ````js
     Vue?: VueConstructor,
     config?: Object,
@@ -113,7 +113,7 @@ The `VSF` object is an instance of your Vue Storefront shop. It contains followi
 
 Function that'll be called after registering the module both on server and client side. You have access to VSF object here.
 
-The `VSF` object is an instance of your Vue Storefront shop. It contains following properties
+The `VSF` object is an instance of your Vue Storefront shop. It contains following properties 
 ````js
     Vue?: VueConstructor,
     config?: Object,
@@ -277,7 +277,7 @@ export const registerModules: VueStorefrontModule[] = [Cart]
 
 ## Creating third party modules
 
-If you want to create third party module just copy the `src/modules/module-template` raw code to your repo. Don't use any transpilation and build tools since it prevents proper tree shaking and optimization. Building is handled by Vue Storefront build tools. Package name needs to start with `vsf-` prefix to be included into Vue Storefront build process. Scoped package names also work i.e. `@example/vsf-`
+If you want to create third party module just copy the `src/modules/module-template` raw code to your repo. Don't use any transpilation and build tools since it prevents proper tree shaking and optimization. Building is handled by Vue Storefront build tools. Package name needs to start with `vsf-` prefix to be included into Vue Storefront build process.
 
 ## Contributions
 
