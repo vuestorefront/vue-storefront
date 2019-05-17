@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     thumbnail () {
-      return this.getThumbnail(this.product.image, 310, 300)
+      return this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height)
     }
   }
 }

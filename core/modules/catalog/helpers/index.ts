@@ -533,8 +533,8 @@ export function getMediaGallery (product) {
 
         mediaGallery.push({
           'src': getThumbnailPath(mediaItem.image, config.products.gallery.width, config.products.gallery.height),
-          'loading': getThumbnailPath(mediaItem.image, 310, 300),
-          'error': getThumbnailPath(mediaItem.image, 310, 300),
+          'loading': getThumbnailPath(mediaItem.image, config.products.thumbnails.width, config.products.thumbnails.height),
+          'error': getThumbnailPath(mediaItem.image, config.products.thumbnails.width, config.products.thumbnails.height),
           'video': video
         })
       }
@@ -555,7 +555,7 @@ export function configurableChildrenImages(product) {
     configurableChildrenImages = product.configurable_children.map(child =>
       ({
         'src': getThumbnailPath(child.image, config.products.gallery.width, config.products.gallery.height),
-        'loading': getThumbnailPath(product.image, 310, 300),
+        'loading': getThumbnailPath(product.image, config.products.thumbnails.width, config.products.thumbnails.height),
         'id': configurableAttributes.reduce((result, attribute) => {
           result[attribute] = child[attribute]
           return result
@@ -579,8 +579,8 @@ export function attributeImages(product) {
             if(product[attribute]) {
                 attributeImages.push({
                     'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
-                    'loading': getThumbnailPath(product[attribute], 310, 300),
-                    'error': getThumbnailPath(product[attribute], 310, 300)
+                    'loading': getThumbnailPath(product[attribute], config.products.thumbnails.width, config.products.thumbnails.height),
+                    'error': getThumbnailPath(product[attribute], config.products.thumbnails.width, config.products.thumbnails.height)
                 })
             }
         }
