@@ -33,7 +33,7 @@ Here is an example of a "Cash on delivery" payment method main logic. It's place
 
 ```js
 import InfoComponent from '../components/Info.vue'
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 
 export function afterRegistration({ Vue, config, store, isServer }) {
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
