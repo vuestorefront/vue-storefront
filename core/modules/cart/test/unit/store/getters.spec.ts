@@ -181,7 +181,7 @@ describe('Cart getters', () => {
 
     const wrapper = (getters: any) => getters.totalQuantity(stateMock, {}, rootStoreMock);
 
-    expect(wrapper(cartGetters)).toBe(2);
+    expect(wrapper(cartGetters)).toBe(3);
   });
 
   it('coupon returns coupon information when coupon has been applied to the cart', () => {

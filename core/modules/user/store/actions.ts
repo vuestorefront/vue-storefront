@@ -10,6 +10,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { UserProfile } from '../types/UserProfile'
 import { isServer } from '@vue-storefront/core/helpers'
+import config from 'config'
 // import router from '@vue-storefront/core/router'
 
 const actions: ActionTree<UserState, RootState> = {
@@ -34,7 +35,7 @@ const actions: ActionTree<UserState, RootState> = {
         context.commit(types.USER_TOKEN_CHANGED, { newToken: res })
         context.dispatch('sessionAfterAuthorized')
 
-        if (rootStore.state.config.usePriceTiers) {
+        if (config.usePriceTiers) {
           cache.getItem('current-user', (err, userData) => {
             if (err) {
               Logger.error(err, 'user')()
@@ -56,7 +57,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Send password reset link for specific e-mail
    */
   resetPassword (context, { email }) {
-    return TaskQueue.execute({ url: rootStore.state.config.users.resetPassword_endpoint,
+    return TaskQueue.execute({ url: config.users.resetPassword_endpoint,
       payload: {
         method: 'POST',
         mode: 'cors',
@@ -72,8 +73,8 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   login (context, { username, password }) {
-    let url = rootStore.state.config.users.login_endpoint
-    if (rootStore.state.config.storeViews.multistore) {
+    let url = config.users.login_endpoint
+    if (config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)
     }
     return fetch(url, { method: 'POST',
@@ -98,8 +99,8 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   register (context, { email, firstname, lastname, password }) {
-    let url = rootStore.state.config.users.create_endpoint
-    if (rootStore.state.config.storeViews.multistore) {
+    let url = config.users.create_endpoint
+    if (config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)
     }
     return fetch(url, { method: 'POST',
@@ -129,8 +130,8 @@ const actions: ActionTree<UserState, RootState> = {
         if (err) {
           Logger.error(err, 'user')()
         }
-        let url = rootStore.state.config.users.refresh_endpoint
-        if (rootStore.state.config.storeViews.multistore) {
+        let url = config.users.refresh_endpoint
+        if (config.storeViews.multistore) {
           url = adjustMultistoreApiUrl(url)
         }
         return fetch(url, { method: 'POST',
@@ -155,8 +156,8 @@ const actions: ActionTree<UserState, RootState> = {
    * @param context
    * @param userData
    */
-  setUserGroup (context, userData) {
-    if (rootStore.state.config.usePriceTiers) {
+  setUserGroup(context, userData) {
+    if (config.usePriceTiers) {
       if (userData.groupToken) {
         context.commit(types.USER_GROUP_TOKEN_CHANGED, userData.groupToken)
       }
@@ -202,7 +203,7 @@ const actions: ActionTree<UserState, RootState> = {
       }
 
       if (refresh) {
-        TaskQueue.execute({ url: rootStore.state.config.users.me_endpoint,
+        TaskQueue.execute({ url: config.users.me_endpoint,
           payload: { method: 'GET',
             mode: 'cors',
             headers: {
@@ -235,8 +236,9 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Update user profile with data from My Account page
    */
-  async update (context, userData: UserProfile) {
-    await TaskQueue.queue({ url: rootStore.state.config.users.me_endpoint,
+  async update (context, userData:UserProfile) {
+    await TaskQueue.queue({ 
+      url: config.users.me_endpoint,
       payload: {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -253,7 +255,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Change user password
    */
   changePassword (context, passwordData) {
-    return TaskQueue.execute({ url: rootStore.state.config.users.changePassword_endpoint,
+    return TaskQueue.execute({ url: config.users.changePassword_endpoint,
       payload: {
         method: 'POST',
         mode: 'cors',
@@ -345,7 +347,7 @@ const actions: ActionTree<UserState, RootState> = {
       }
 
       if (refresh) {
-        return TaskQueue.execute({ url: rootStore.state.config.users.history_endpoint,
+        return TaskQueue.execute({ url: config.users.history_endpoint,
           payload: { method: 'GET',
             mode: 'cors',
             headers: {

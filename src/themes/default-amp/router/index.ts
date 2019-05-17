@@ -3,9 +3,7 @@
 import Category from '../pages/Category.vue'
 import Product from '../pages/Product.vue'
 import { RouteConfig } from 'vue-router'
-
 import config from 'config'
-
 let routes: RouteConfig[] = [
 ]
 if (!config.products.useShortCatalogUrls) {

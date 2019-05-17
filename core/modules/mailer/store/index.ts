@@ -1,7 +1,6 @@
-import config from 'config'
-import i18n from '@vue-storefront/i18n'
 import MailItem from '../types/MailItem'
 import { Module } from 'vuex'
+import config from 'config'
 
 export const module: Module<any, any> = {
   namespaced: true,

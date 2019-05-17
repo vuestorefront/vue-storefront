@@ -182,7 +182,7 @@ export default {
   name: 'MainFooter',
   computed: {
     multistoreEnabled () {
-      return this.$store.state.config.storeViews.multistore
+      return this.$config.storeViews.multistore
     }
   },
   mixins: [CurrentPage]

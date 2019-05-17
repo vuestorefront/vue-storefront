@@ -1,4 +1,4 @@
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 
 export const ProductBundleOption = {
   name: 'ProductBundleOption',
@@ -37,12 +37,12 @@ export const ProductBundleOption = {
   },
   mounted () {
     this.setDefaultValues()
-    if (rootStore.state.config.usePriceTiers) {
+    if (config.usePriceTiers) {
       this.$bus.$on('product-after-setup-associated', this.setDefaultValues)
     }
   },
   beforeDestroy () {
-    if (rootStore.state.config.usePriceTiers) {
+    if (config.usePriceTiers) {
       this.$bus.$off('product-after-setup-associated', this.setDefaultValues)
     }
   },

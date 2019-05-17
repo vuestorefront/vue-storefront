@@ -1,6 +1,5 @@
 import { Route } from 'vue-router'
 import rootStore from '@vue-storefront/core/store'
-import i18n from '@vue-storefront/i18n'
 import { isServer } from '@vue-storefront/core/helpers'
 
 export async function beforeEach (to: Route, from: Route, next) {

@@ -14,6 +14,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
+import config from 'config';
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -22,7 +23,7 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
       product.errors.variants = i18n.t('No available product variants')
       context.state.current.errors = product.errors
       Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
-      if (rootStore.state.config.products.listOutOfStockProducts === false) {
+      if (config.products.listOutOfStockProducts === false) {
         errorCallback(new Error('Product query returned an empty result'))
       }
     }
@@ -35,7 +36,7 @@ export function isOptionAvailableAsync (context, { product, configuration }) {
 }
 
 function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
-  if (rootStore.state.config.products.filterUnavailableVariants) {
+  if (config.products.filterUnavailableVariants) {
     if (product.type_id === 'configurable' && product.configurable_children) {
       for (const stockItem of stockItems) {
         const confChild = product.configurable_children.find(p => { return p.id === stockItem.product_id })
@@ -83,7 +84,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
 
 export function filterOutUnavailableVariants (context, product) {
   return new Promise((resolve, reject) => {
-    if (rootStore.state.config.products.filterUnavailableVariants) {
+    if (config.products.filterUnavailableVariants) {
       const _filterConfigurableHelper = () => {
         if (product.type_id === 'configurable' && product.configurable_children) {
           const stockItems = []
@@ -167,8 +168,8 @@ export function syncProductPrice (product, backProduct) { // TODO: we probably n
  */
 export function doPlatformPricesSync (products) {
   return new Promise((resolve, reject) => {
-    if (rootStore.state.config.products.alwaysSyncPlatformPricesOver) {
-      if (rootStore.state.config.products.clearPricesBeforePlatformSync) {
+    if (config.products.alwaysSyncPlatformPricesOver) {
+      if (config.products.clearPricesBeforePlatformSync) {
         for (let product of products) { // clear out the prices as we need to sync them with Magento
           product.priceInclTax = null
           product.originalPriceInclTax = null
@@ -236,7 +237,7 @@ export function doPlatformPricesSync (products) {
       } else { // empty list of products
         resolve(products)
       }
-      if (!rootStore.state.config.products.waitForPlatformSync && !isServer) {
+      if (!config.products.waitForPlatformSync && !isServer) {
         Logger.log('Returning products, the prices yet to come from backend!')()
         for (let product of products) {
           product.price_is_current = false // in case we're syncing up the prices we should mark if we do have current or not
@@ -255,7 +256,7 @@ export function doPlatformPricesSync (products) {
  */
 export function calculateTaxes (products, store) {
   return new Promise((resolve, reject) => {
-    if (rootStore.state.config.tax.calculateServerSide) {
+    if (config.tax.calculateServerSide) {
       Logger.debug('Taxes calculated server side, skipping')()
       doPlatformPricesSync(products).then((products) => {
         resolve(products)
@@ -399,12 +400,12 @@ export function populateProductConfigurationAsync (context, { product, selectedV
       }
       context.state.current_configuration[attribute_code] = confVal
       // @deprecated fallback for VS <= 1.0RC
-      if (!('setupVariantByAttributeCode' in rootStore.state.config.products) || rootStore.state.config.products.setupVariantByAttributeCode === false) {
+      if (!('setupVariantByAttributeCode' in config.products) || config.products.setupVariantByAttributeCode === false) {
         const fallbackKey = attribute_label
         context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
       }
     }
-    if (rootStore.state.config.cart.setConfigurableProductOptions) {
+    if (config.cart.setConfigurableProductOptions) {
       const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: context.state.current_configuration }) // set the custom options
       if (productOption) {
         product.options = _internalMapOptions(productOption)
@@ -418,7 +419,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
 export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
   let selectedVariant = product.configurable_children.find((configurableChild) => {
     if (availabilityCheck) {
-      if (configurableChild.stock && !rootStore.state.config.products.listOutOfStockProducts) {
+      if (configurableChild.stock && !config.products.listOutOfStockProducts) {
         if (!configurableChild.stock.is_in_stock) {
           return false
         }
@@ -483,7 +484,7 @@ export function configureProductAsync (context, { product, configuration, select
       }
       product.is_configured = true
 
-      if (rootStore.state.config.cart.setConfigurableProductOptions && !selectDefaultVariant && !(Object.keys(configuration).length === 1 && configuration.sku)) {
+      if (config.cart.setConfigurableProductOptions && !selectDefaultVariant && !(Object.keys(configuration).length === 1 && configuration.sku)) {
         // the condition above: if selectDefaultVariant - then "setCurrent" is seeting the configurable options; if configuration = { sku: '' } -> this is a special case when not configuring the product but just searching by sku
         const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: configuration }) // set the custom options
         if (productOption) {
@@ -535,7 +536,7 @@ export function getMediaGallery (product) {
         }
 
         mediaGallery.push({
-          'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
+          'src': getThumbnailPath(mediaItem.image, config.products.gallery.width, config.products.gallery.height),
           'loading': getThumbnailPath(mediaItem.image, 310, 300),
           'error': getThumbnailPath(mediaItem.image, 310, 300),
           'video': video
@@ -557,7 +558,7 @@ export function configurableChildrenImages (product) {
     let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
     configurableChildrenImages = product.configurable_children.map(child =>
       ({
-        'src': getThumbnailPath(child.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
+        'src': getThumbnailPath(child.image, config.products.gallery.width, config.products.gallery.height),
         'loading': getThumbnailPath(product.image, 310, 300),
         'id': configurableAttributes.reduce((result, attribute) => {
           result[attribute] = child[attribute]
@@ -574,18 +575,18 @@ export function configurableChildrenImages (product) {
 /**
  * Get images from configured attribute images
  */
-
-export function attributeImages (product) {
-  let attributeImages = []
-  if (rootStore.state.config.products.gallery.imageAttributes) {
-    for (let attribute of rootStore.state.config.products.gallery.imageAttributes) {
-      if (product[attribute]) {
-        attributeImages.push({
-          'src': getThumbnailPath(product[attribute], rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-          'loading': getThumbnailPath(product[attribute], 310, 300),
-          'error': getThumbnailPath(product[attribute], 310, 300)
-        })
-      }
+export function attributeImages(product) {
+    let attributeImages = []
+    if (config.products.gallery.imageAttributes) {
+        for (let attribute of config.products.gallery.imageAttributes) {
+            if(product[attribute]) {
+                attributeImages.push({
+                    'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
+                    'loading': getThumbnailPath(product[attribute], 310, 300),
+                    'error': getThumbnailPath(product[attribute], 310, 300)
+                })
+            }
+        }
     }
   }
   return attributeImages
