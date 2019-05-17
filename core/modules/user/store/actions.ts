@@ -299,7 +299,7 @@ const actions: ActionTree<UserState, RootState> = {
     context.dispatch('cart/serverTokenClear', {}, { root: true })
         .then(() => {context.dispatch('clearCurrentUser')})
         .then(() => {Vue.prototype.$bus.$emit('user-after-logout')})
-        .then(() => {context.dispatch('cart/clear', {}, { root: true })})
+        .then(() => {context.dispatch('cart/clear', { recreateAndSyncCart: true }, { root: true })})
     if (!silent) {
       rootStore.dispatch('notification/spawnNotification', {
         type: 'success',
