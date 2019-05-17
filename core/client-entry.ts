@@ -3,7 +3,6 @@ import union from 'lodash-es/union'
 
 import { createApp } from '@vue-storefront/core/app'
 import rootStore from '@vue-storefront/core/store'
-import buildTimeConfig from 'config'
 import { registerSyncTaskProcessor } from '@vue-storefront/core/lib/sync/task'
 import i18n from '@vue-storefront/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
