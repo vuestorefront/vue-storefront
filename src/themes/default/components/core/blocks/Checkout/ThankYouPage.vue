@@ -107,7 +107,7 @@ export default {
       return this.$store.state.checkout.personalDetails.emailAddress
     },
     mailerElements () {
-      return this.$store.state.config.mailer.contactAddress
+      return this.$config.mailer.contactAddress
     }
   },
   methods: {

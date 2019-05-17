@@ -11,7 +11,7 @@ export default {
   computed: {
     sortByAttribute () {
       // renamed to sortingOptions
-      return this.$store.state.config.products.sortByAttributes
+      return this.$config.products.sortByAttributes
     }
   },
   mixins: [CategorySort]
