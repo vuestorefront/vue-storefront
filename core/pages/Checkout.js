@@ -62,7 +62,7 @@ export default {
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$on('checkout-after-validationError', this.focusField)
     if (!this.isThankYouPage) {
-      this.$store.dispatch('cart/load', { forceClientState: true }).then(() => {
+      this.$store.dispatch('cart/load').then(() => {
         if (this.$store.state.cart.cartItems.length === 0) {
           this.notifyEmptyCart()
           this.$router.push(this.localizedRoute('/'))
