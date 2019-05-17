@@ -56,6 +56,7 @@
 import Vue from 'vue'
 import { required, minLength } from 'vuelidate/lib/validators'
 import { once } from '@vue-storefront/core/helpers'
+import config from 'config'
 
 // GoogleMaps cannot be included while in SSR
 if (process.browser) {
