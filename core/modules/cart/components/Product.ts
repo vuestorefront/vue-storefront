@@ -13,8 +13,8 @@ export const MicrocartProduct = {
     thumbnail () {
       const thumbnail = productThumbnailPath(this.product)
       if (typeof navigator !== 'undefined' && !navigator.onLine) {
-        return this.getThumbnail(thumbnail, config.products.gallery.width, config.products.gallery.height) // for offline support we do need to have ProductTile version
-      } else return this.getThumbnail(thumbnail, config.cart.thumbnail.width, config.cart.thumbnail.height)
+        return this.getThumbnail(thumbnail, config.products.thumbnails.width, config.products.thumbnails.height) // for offline support we do need to have ProductTile version
+      } else return this.getThumbnail(thumbnail, config.cart.thumbnails.width, config.cart.thumbnails.height)
     }
   },
   methods: {

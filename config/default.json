@@ -229,7 +229,7 @@
       }
     },
     "cart": {
-      "thumbnail": {
+      "thumbnails": {
         "width": 150,
         "height": 150
       },
