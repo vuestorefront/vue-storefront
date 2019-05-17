@@ -156,7 +156,7 @@ const actions: ActionTree<UserState, RootState> = {
    * @param context
    * @param userData
    */
-  setUserGroup(context, userData) {
+  setUserGroup (context, userData) {
     if (config.usePriceTiers) {
       if (userData.groupToken) {
         context.commit(types.USER_GROUP_TOKEN_CHANGED, userData.groupToken)
@@ -236,8 +236,8 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Update user profile with data from My Account page
    */
-  async update (context, userData:UserProfile) {
-    await TaskQueue.queue({ 
+  async update (context, userData: UserProfile) {
+    await TaskQueue.queue({
       url: config.users.me_endpoint,
       payload: {
         method: 'POST',

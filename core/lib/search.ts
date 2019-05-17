@@ -48,7 +48,7 @@ export const quickSearchByQuery = async ({ query, start = 0, size = 50, entityTy
     if (includeFields) Request._sourceInclude = includeFields
 
     if (config.usePriceTiers && (entityType === 'product') && rootStore.state.user.groupId) {
-        Request.groupId = rootStore.state.user.groupId
+      Request.groupId = rootStore.state.user.groupId
     }
 
     const cache = Vue.prototype.$db.elasticCacheCollection // switch to appcache?
@@ -77,7 +77,7 @@ export const quickSearchByQuery = async ({ query, start = 0, size = 50, entityTy
     }
 
     if (config.usePriceTiers && rootStore.state.user.groupToken) {
-        Request.groupToken = rootStore.state.user.groupToken
+      Request.groupToken = rootStore.state.user.groupToken
     }
 
     if (!searchAdapter.entities[Request.type]) {

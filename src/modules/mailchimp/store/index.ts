@@ -23,7 +23,6 @@ export const module: Module<mailchimpState, any> = {
   },
   actions: {
     subscribe ({ commit, state }, email): Promise<Response> {
-     
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.mailchimp.endpoint, {
@@ -43,7 +42,6 @@ export const module: Module<mailchimpState, any> = {
       }
     },
     unsubscribe ({ commit, state }, email): Promise<Response> {
-    
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
           fetch(config.mailchimp.endpoint, {

@@ -575,18 +575,17 @@ export function configurableChildrenImages (product) {
 /**
  * Get images from configured attribute images
  */
-export function attributeImages(product) {
-    let attributeImages = []
-    if (config.products.gallery.imageAttributes) {
-        for (let attribute of config.products.gallery.imageAttributes) {
-            if(product[attribute]) {
-                attributeImages.push({
-                    'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
-                    'loading': getThumbnailPath(product[attribute], 310, 300),
-                    'error': getThumbnailPath(product[attribute], 310, 300)
-                })
-            }
-        }
+export function attributeImages (product) {
+  let attributeImages = []
+  if (config.products.gallery.imageAttributes) {
+    for (let attribute of config.products.gallery.imageAttributes) {
+      if (product[attribute]) {
+        attributeImages.push({
+          'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
+          'loading': getThumbnailPath(product[attribute], 310, 300),
+          'error': getThumbnailPath(product[attribute], 310, 300)
+        })
+      }
     }
   }
   return attributeImages

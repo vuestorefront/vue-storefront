@@ -7,7 +7,7 @@ import config from 'config'
 export function initCacheStorage (key, localised = true) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-  const cacheDriver = config.localForage && config.localForage.defaultDrivers[key] 
+  const cacheDriver = config.localForage && config.localForage.defaultDrivers[key]
     ? config.localForage.defaultDrivers[key]
     : 'LOCALSTORAGE'
 

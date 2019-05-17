@@ -43,8 +43,9 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     if (level !== null) {
       searchQuery = searchQuery.applyFilter({key: 'level', value: {'eq': level}})
-      if (level !== config.entities.category.categoriesDynamicPrefetchLevel && !isServer) // if this is the default level we're getting the results from window.__INITIAL_STATE__ not querying the server
-      customizedQuery = true
+      if (level !== config.entities.category.categoriesDynamicPrefetchLevel && !isServer) { // if this is the default level we're getting the results from window.__INITIAL_STATE__ not querying the server
+        customizedQuery = true
+      }
     }
 
     if (key !== null) {

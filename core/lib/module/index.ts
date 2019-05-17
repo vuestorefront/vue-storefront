@@ -83,9 +83,9 @@ class VueStorefrontModule {
     if (!this._isRegistered) {
       let areStoresUnique = true
       const VSF: VSF = {
-        Vue, 
-        config: config, 
-        store: rootStore, 
+        Vue,
+        config: config,
+        store: rootStore,
         isServer
       }
 
@@ -121,7 +121,7 @@ class VueStorefrontModule {
           } else {
             Logger.warn('You are using outdated signature for afterRegistration hook that soon will be deprecated and module will stop working properly. Please update to the new signature that can be found in our docs: https://docs.vuestorefront.io/guide/modules/introduction.html#afterregistration', 'module', this._c.key)()
             this._c.afterRegistration(Vue, config, rootStore, isServer)
-           } 
+          }
         }
         return this._c
       }

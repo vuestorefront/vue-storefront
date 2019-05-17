@@ -48,7 +48,6 @@ export function currentStoreView (): StoreView {
   return rootStore.state.storeView
 }
 
-
 export function prepareStoreView (storeCode: string): StoreView {
   let storeView = { // current, default store
     tax: config.tax,
@@ -114,7 +113,7 @@ export function adjustMultistoreApiUrl (url: string): string {
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
-  if (routeObj && (<LocalizedRoute>routeObj).fullPath && config.seo.useUrlDispatcher) return localizedDispatcherRoute(<LocalizedRoute>Object.assign({}, routeObj, { params: null }), storeCode)
+  if (routeObj && (routeObj as LocalizedRoute).fullPath && config.seo.useUrlDispatcher) return localizedDispatcherRoute(Object.assign({}, routeObj, { params: null }) as LocalizedRoute, storeCode)
   if (storeCode && routeObj && config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
