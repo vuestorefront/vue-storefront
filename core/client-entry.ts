@@ -20,18 +20,15 @@ declare var window: any
 const invokeClientEntry = async () => {
   const config = Object.assign(buildTimeConfig, window.__INITIAL_STATE__.config ? window.__INITIAL_STATE__.config : buildTimeConfig)
 
-  const { app, router, store } = await createApp(null, config)
+  // Get storeCode from server (received either from cache header or env variable)
+  let storeCode =  window.__INITIAL_STATE__.user.current_storecode
+  const { app, router, store } = await createApp(null, config, storeCode)
 
-  let storeCode = null // select the storeView by prefetched vuex store state (prefetched serverside)
   if (window.__INITIAL_STATE__) {
     store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: buildTimeConfig }))
   }
-  if (config.storeViews.multistore === true) {
-    if ((storeCode = store.state.user.current_storecode)) {
-      prepareStoreView(storeCode)
-    }
-  }
 
+  store.dispatch('url/registerDynamicRoutes')
   function _commonErrorHandler (err, reject) {
     if (err.message.indexOf('query returned empty result') > 0) {
       rootStore.dispatch('notification/spawnNotification', {
@@ -68,7 +65,6 @@ const invokeClientEntry = async () => {
       _commonErrorHandler(err, next)
     })
   }
-
   router.onReady(() => {
     router.beforeResolve((to, from, next) => {
       if (!from.name) return next() // do not resolve asyncData on server render - already been done
@@ -88,14 +84,10 @@ const invokeClientEntry = async () => {
           }
         }
       }
-      let diffed = false
-      const activated = matched.filter((c, i) => {
-        return diffed || (diffed = (prevMatched[i] !== c))
-      })
-      if (!activated.length) {
+      if (!matched.length) {
         return next()
       }
-      Promise.all(activated.map((c: any) => { // TODO: update me for mixins support
+      Promise.all(matched.map((c: any) => { // TODO: update me for mixins support
         const components = c.mixins && config.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
         union(components, [c]).map(SubComponent => {
           if (SubComponent.preAsyncData) {
@@ -155,6 +147,7 @@ const invokeClientEntry = async () => {
             const orderId = id
 
             Logger.log('Pushing out order ' + orderId)()
+            /** @todo refactor order synchronisation to proper handling through vuex actions to avoid code duplication */
             return fetch(config.orders.endpoint,
               {
                 method: 'POST',
@@ -170,10 +163,31 @@ const invokeClientEntry = async () => {
               }
             })
               .then(jsonResponse => {
-                if (jsonResponse && jsonResponse.code === 200) {
+                if (jsonResponse) {
                   Logger.info('Response for: ' + orderId + ' = ' + JSON.stringify(jsonResponse.result))()
-                  orderData.transmited = true
+                  orderData.transmited = true // by default don't retry to transmit this order
                   orderData.transmited_at = new Date()
+
+                  if (jsonResponse.code !== 200) {
+                    Logger.error(jsonResponse, 'order-sync')()
+
+                    if (jsonResponse.code === 400) {
+                      rootStore.dispatch('notification/spawnNotification', {
+                        type: 'error',
+                        message: i18n.t('Address provided in checkout contains invalid data. Please check if all required fields are filled in and also contact us on {email} to resolve this issue for future. Your order has been canceled.', { email: config.mailer.contactAddress }),
+                        action1: { label: i18n.t('OK') }
+                      })
+                    } else if (jsonResponse.code === 500 && jsonResponse.result === i18n.t('Error: Error while adding products')) {
+                      rootStore.dispatch('notification/spawnNotification', {
+                        type: 'error',
+                        message: i18n.t('Some products you\'ve ordered are out of stock. Your order has been canceled.'),
+                        action1: { label: i18n.t('OK') }
+                      })
+                    } else {
+                      orderData.transmited = false // probably some server related error. Enqueue
+                    }
+                  }
+
                   ordersCollection.setItem(orderId.toString(), orderData)
                 } else {
                   Logger.error(jsonResponse)()
@@ -228,12 +242,12 @@ const invokeClientEntry = async () => {
       }))
 
       const usersCollection = new UniversalStorage(localForage.createInstance({
-        name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+        name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
         storeName: 'user',
         driver: localForage[config.localForage.defaultDrivers['user']]
       }))
       const cartsCollection = new UniversalStorage(localForage.createInstance({
-        name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+        name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
         storeName: 'carts',
         driver: localForage[config.localForage.defaultDrivers['carts']]
       }))
@@ -251,7 +265,7 @@ const invokeClientEntry = async () => {
             currentCartId = store.state.cart.cartServerToken
           }
 
-          if (!currentToken && store.state.user.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
+          if (!currentToken && store.state.user.token) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
             currentToken = store.state.user.token
           }
           const fetchQueue = []

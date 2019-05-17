@@ -40,10 +40,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .button-full {
-    min-width: 250px;
-  }
   .disabled {
     background-color: gray
+  }
+</style>
+
+<style lang="scss">
+  .button-full {
+    min-width: 250px;
   }
 </style>

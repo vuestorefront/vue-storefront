@@ -10,7 +10,7 @@ export function afterRegistration({ Vue, config, store, isServer }) {
     }
   }
 
-  if (!Vue.prototype.$isServer) {
+  if (!isServer) {
     // Update the methods
     let paymentMethodConfig = {
       'title': 'Cash on delivery',
@@ -28,16 +28,18 @@ export function afterRegistration({ Vue, config, store, isServer }) {
     // Mount the info component when required.
     Vue.prototype.$bus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
       let methods = store.state['payment-backend-methods'].methods
-      let method = methods.find(item => (item.code === paymentMethodCode))
-      if (paymentMethodCode === 'cashondelivery' && ((typeof method !== 'undefined' && !method.is_server_method) || typeof method === 'undefined') /* otherwise it could be a `payment-backend-methods` module */) {
-        correctPaymentMethod = true
+      if (methods) {
+        let method = methods.find(item => (item.code === paymentMethodCode))
+        if (paymentMethodCode === 'cashondelivery' && ((typeof method !== 'undefined' && !method.is_server_method) || typeof method === 'undefined') /* otherwise it could be a `payment-backend-methods` module */) {
+          correctPaymentMethod = true
 
-        // Dynamically inject a component into the order review section (optional)
-        const Component = Vue.extend(InfoComponent)
-        const componentInstance = (new Component())
-        componentInstance.$mount('#checkout-order-review-additional')
-      } else {
-        correctPaymentMethod = false
+          // Dynamically inject a component into the order review section (optional)
+          const Component = Vue.extend(InfoComponent)
+          const componentInstance = (new Component())
+          componentInstance.$mount('#checkout-order-review-additional')
+        } else {
+          correctPaymentMethod = false
+        }
       }
     })
   }

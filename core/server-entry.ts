@@ -60,11 +60,11 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
 export default async context => {
   const { app, router, store } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
   return new Promise((resolve, reject) => {
+    context.output.cacheTags = new Set<string>()
     const meta = (app as any).$meta()
     router.push(context.url)
     context.meta = meta
     router.onReady(() => {
-      context.output.cacheTags = new Set<string>()
       if (store.state.config.storeViews.multistore === true) {
         let storeCode = context.vs.storeCode // this is from http header or env variable
         if (router.currentRoute) { // this is from url

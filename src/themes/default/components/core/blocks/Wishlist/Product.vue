@@ -3,6 +3,7 @@
     <div @click="closeWishlist">
       <router-link :to="localizedRoute({
         name: product.type_id + '-product',
+        fullPath: product.url_path,
         params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
       })">
         <img v-lazy="thumbnail" >
@@ -12,6 +13,7 @@
       <div @click="closeWishlist">
         <router-link :to="localizedRoute({
           name: product.type_id + '-product',
+          fullPath: product.url_path,
           params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
         })">
           {{ product.name | htmlDecode }}

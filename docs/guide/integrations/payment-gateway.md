@@ -41,7 +41,7 @@ export function afterRegistration({ Vue, config, store, isServer }) {
     Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
   }
 
-  if (!Vue.prototype.$isServer) {
+  if (!isServer) {
     // Update the methods
     let paymentMethodConfig = {
       'title': 'Cash on delivery',

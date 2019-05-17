@@ -27,8 +27,10 @@ In the first phase of the cycle, we're mostly focusing on features and improveme
 
 ### 2. Release Candidate phase
 
-At some point, when the milestone for the next minor version is completed, we're creating a new branch from `develop` called `release/vx.y` (example: `release/v1.9`).
-. After that new branch is tagged as the first RC for version (example `v1.9.0-rc.1`), ready for testing by the community. During tests, feedback, and stabilization, there could be multiple Release Candidate versions on this branch. When improvement is made in this phase, the branch should be created from the actual `release/vx.y` and should not contain features at this point, only improvements for the current release. After merging a set of bug fixes and improvements into the `release/*` branch, it needs to be tagged as the next RC version and merged into the `develop` branch, to update it.
+At some point, when milestone for next minor versions is completed, we're creating new branch from `develop` called `release/vx.y` (example: `release/v1.9`).
+After that new branch is tagged as first RC for version (example `v1.9.0-rc.2`). Then it's ready for testing by community.
+During tests, feedback and stabilization there could be multiple Release Candidate versions on this branch. When improvement is made on this phase, then branch should be created from actual `release/vx.y` and should not contain features at this point - only improvements for current release.
+After merging a set of bugfixes and improvements into `release/*` branch, it needs to be tagged as the next RC version and merged into the `develop` branch, to update it.
 
 ![Release Candidate phase](./assets/release-cycle-2.png)
 

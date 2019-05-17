@@ -17,7 +17,7 @@
       "elasticCacheQuota": 4096
     },
     "seo": {
-      "useUrlDispatcher": false
+      "useUrlDispatcher": true
     },    
     "console": {
       "showErrorOnProduction" : true,
@@ -32,9 +32,12 @@
       "host": "localhost",
       "port": 8080
     },
+    "api": {
+      "url": "http://localhost:8080"
+    },
     "elasticsearch": {
       "httpAuth": "",
-      "host": "localhost:8080/api/catalog",
+      "host": "/api/catalog",
       "index": "vue_storefront_catalog",
       "min_score": 0.02,
       "csrTimeout": 5000,
@@ -83,6 +86,7 @@
     "defaultStoreCode": "",
     "storeViews": {
       "multistore": false,
+      "commonCache": true,
       "mapStoreUrlsFor": ["de", "it"],
       "de": {
         "storeCode": "de",
@@ -91,7 +95,7 @@
         "name": "German Store",
         "url": "/de",
         "elasticsearch": {
-          "host": "localhost:8080/api/catalog",
+          "host": "/api/catalog",
           "index": "vue_storefront_catalog_de"
         },
         "tax": {
@@ -118,7 +122,7 @@
         "name": "Italian Store",
         "url": "/it",
         "elasticsearch": {
-          "host": "localhost:8080/api/catalog",
+          "host": "/api/catalog",
           "index": "vue_storefront_catalog_it"
         },
         "tax": {
@@ -144,7 +148,7 @@
       "twoStageCaching": true,
       "optimizeShoppingCart": true,
       "category": {
-        "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count", "path"],
+        "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "url_path", "product_count", "path"],
         "excludeFields": [ "sgn" ],
         "categoriesRootCategorylId": 2,
         "categoriesDynamicPrefetchLevel": 2,
@@ -155,11 +159,11 @@
       },
       "productList": {
         "sort": "",
-        "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_key", "status", "tier_prices", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax" ],
+        "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_path", "url_key", "status", "tier_prices", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax" ],
         "excludeFields": [ "description", "configurable_options", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options" ]
       },
       "productListWithChildren": {
-        "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "configurable_children.tier_prices", "product_links", "url_key", "status", "tier_prices"],
+        "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "configurable_children.tier_prices", "product_links", "url_path", "url_key", "status", "tier_prices"],
         "excludeFields": [ "description", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options"]
       },
       "review": {
@@ -192,6 +196,7 @@
           "tax_class_id",
           "media_gallery",
           "url_key",
+          "url_path",
           "max_price",
           "minimal_regular_price",
           "special_price",
@@ -225,7 +230,6 @@
     },
     "cart": {
       "bypassCartLoaderForAuthorizedUsers": true,
-      "multisiteCommonCart": true,
       "serverMergeByDefault": true,
       "serverSyncCanRemoveLocalItems": false,
       "serverSyncCanModifyLocalItems": false,
@@ -351,7 +355,7 @@
     },
     "demomode": false,
     "tax": {
-      "defaultCountry": "PL",
+      "defaultCountry": "US",
       "defaultRegion": "",
       "sourcePriceIncludesTax": false,
       "calculateServerSide": true

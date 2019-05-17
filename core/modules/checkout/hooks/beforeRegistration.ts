@@ -7,7 +7,7 @@ export function beforeRegistration({ Vue, config, store, isServer }) {
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
   Vue.prototype.$db.checkoutFieldsCollection = new UniversalStorage(localForage.createInstance({
-    name: (config.cart.multisiteCommonCart ? '' : dbNamePrefix) + 'shop',
+    name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
     storeName: 'checkoutFieldValues',
     driver: localForage[config.localForage.defaultDrivers['checkoutFieldValues']]
   }))

@@ -29,9 +29,8 @@ function _sleep (time) {
 }
 
 function _internalExecute (resolve, reject, task: Task, currentToken, currentCartId) {
-
   if (currentToken !== null && rootStore.state.userTokenInvalidateLock > 0) { // invalidate lock set
-    Logger.log('Waiting for rootStore.state.userTokenInvalidateLock to release for '+ task.url, 'sync')()
+    Logger.log('Waiting for rootStore.state.userTokenInvalidateLock to release for ' + task.url, 'sync')()
     _sleep(1000).then(() => {
       Logger.log('Another try for rootStore.state.userTokenInvalidateLock for ' + task.url, 'sync')()
       _internalExecute(resolve, reject, task, currentToken, currentCartId)
@@ -118,14 +117,18 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
             Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
           }
         }
-        if (!task.silent && (jsonResponse.result && jsonResponse.result.code !== 'ENOTFOUND' && !silentMode)) {
+
+        if (!task.silent && jsonResponse.result && (typeof jsonResponse.result === 'string' || ((jsonResponse.result.result || jsonResponse.result.message) && jsonResponse.result.code !== 'ENOTFOUND') && !silentMode)) {
+          const message = typeof jsonResponse.result === 'string' ?  jsonResponse.result :typeof jsonResponse.result.result === 'string' ? jsonResponse.result.result : jsonResponse.result.message
+
           rootStore.dispatch('notification/spawnNotification', {
             type: 'error',
-            message: i18n.t(jsonResponse.result),
+            message: i18n.t(message),
             action1: { label: i18n.t('OK') }
           })
         }
       }
+
       Logger.debug('Response for: ' + task.task_id + ' = ' + JSON.stringify(jsonResponse.result), 'sync')()
       task.transmited = true
       task.transmited_at = new Date()

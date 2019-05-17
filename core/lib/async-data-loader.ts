@@ -36,13 +36,13 @@ const AsyncDataLoader = {
   flush : function (actionContext: AsyncDataLoaderActionContext) {
     if (!actionContext.category) actionContext.category = DEFAULT_ACTION_CATEGORY
     const actionsToExecute = this.queue.filter(ac => (!ac.category || !actionContext.category) || ac.category === actionContext.category && (!ac.executedAt)).map(ac => {
+      ac.executedAt = new Date()
       return ac.execute(actionContext) // function must return Promise
     })
     if (actionsToExecute.length > 0) {
       Logger.info('Executing data loader actions(' + actionsToExecute.length + ')', 'dataloader')()
     }
-    return Promise.all(actionsToExecute).then(results => {
-      actionsToExecute.map(ac => ac.executedAt = new Date())
+    return Promise.all(actionsToExecute).then(results => {      
       return results
     })
   }

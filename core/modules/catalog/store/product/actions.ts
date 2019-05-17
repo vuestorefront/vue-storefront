@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { breadCrumbRoutes, productThumbnailPath, isServer } from '@vue-storefront/core/helpers'
+import { formatBreadCrumbRoutes, productThumbnailPath, isServer } from '@vue-storefront/core/helpers'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { configureProductAsync,
   doPlatformPricesSync,
@@ -25,6 +25,8 @@ import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
 import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import toString from 'lodash-es/toString'
+
 const PRODUCT_REENTER_TIMEOUT = 20000
 
 const actions: ActionTree<ProductState, RootState> = {
@@ -38,32 +40,35 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Setup product breadcrumbs path
    */
-  setupBreadcrumbs (context, { product }) {
-    let subloaders = []
-    let breadcrumbRoutes = null
+  async setupBreadcrumbs (context, { product }) {
     let breadcrumbsName = null
-    let setbrcmb = (path) => {
+    let setBreadcrumbRoutesFromPath = (path) => {
       if (path.findIndex(itm => {
         return itm.slug === context.rootGetters['category/getCurrentCategory'].slug
       }) < 0) {
         path.push({
+          url_path: context.rootGetters['category/getCurrentCategory'].url_path,
           slug: context.rootGetters['category/getCurrentCategory'].slug,
           name: context.rootGetters['category/getCurrentCategory'].name
         }) // current category at the end
       }
       // deprecated, TODO: base on breadcrumbs module
-      context.state.breadcrumbs.routes = breadCrumbRoutes(path) // TODO: change to store.commit call?
+      breadcrumbsName = product.name
+      const breadcrumbs = {
+        routes: formatBreadCrumbRoutes(path),
+        current: breadcrumbsName,
+        name: breadcrumbsName
+      }
+      context.commit(types.CATALOG_SET_BREADCRUMBS, breadcrumbs)
     }
 
     if (product.category && product.category.length > 0) {
       const categoryIds = product.category.reverse().map((cat => cat.category_id))
-
-      subloaders.push(
-        context.dispatch('category/list', {}, { root: true }).then((categories) => {
+      await context.dispatch('category/list',  { key: 'id', value: categoryIds }, { root: true }).then(async (categories) => {
           const catList = []
 
           for (let catId of categoryIds) {
-            let category = categories.items.find((itm) => { return itm['id'] === parseInt(catId) })
+            let category = categories.items.find((itm) => { return toString(itm['id']) === toString(catId) })
             if (category) {
               catList.push(category)
             }
@@ -78,31 +83,18 @@ const actions: ActionTree<ProductState, RootState> = {
               catForBreadcrumbs = cat
             }
           }
-
           if (typeof catForBreadcrumbs !== 'undefined') {
-            context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
-              setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
+            await context.dispatch('category/single', { key: 'id', value: catForBreadcrumbs.id }, { root: true }).then(() => { // this sets up category path and current category
+              setBreadcrumbRoutesFromPath(context.rootGetters['category/getCurrentCategoryPath'])
             }).catch(err => {
-              setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
+              setBreadcrumbRoutesFromPath(context.rootGetters['category/getCurrentCategoryPath'])
               Logger.error(err)()
             })
           } else {
-            setbrcmb(context.rootGetters['category/getCurrentCategoryPath'])
+            setBreadcrumbRoutesFromPath(context.rootGetters['category/getCurrentCategoryPath'])
           }
-        }).catch(err => {
-          Logger.error(err)()
         })
-      )
     }
-    // TODO: To repreciate and use breadcrumbs module
-    context.state.breadcrumbs.name = product.name
-    breadcrumbsName = product.name
-    const breadcrumbs = {
-      routes: breadCrumbRoutes,
-      current: breadcrumbsName
-    }
-    context.commit(types.CATALOG_SET_BREADCRUMBS, breadcrumbs)
-    return Promise.all(subloaders)
   },
   doPlatformPricesSync (context, { products }) {
     return doPlatformPricesSync(products)
@@ -282,7 +274,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !Vue.prototype.$isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
+  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
     let isCacheable = (includeFields === null && excludeFields === null)
     if (isCacheable) {
       Logger.debug('Entity cache is enabled for productList')()
@@ -316,6 +308,18 @@ const actions: ActionTree<ProductState, RootState> = {
             let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
             Object.assign(product, selectedVariant)
           }
+          if (product.url_path) {
+            rootStore.dispatch('url/registerMapping', {
+              url: product.url_path,
+              routeData: {
+                params: {
+                  'parentSku': product.parentSku,
+                  'slug': product.slug
+                },
+                'name': product.type_id + '-product'
+              }
+            }, { root: true })
+          }
         }
       }
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
@@ -334,14 +338,14 @@ const actions: ActionTree<ProductState, RootState> = {
           if (!prod[cacheByKey]) {
             cacheByKey = 'id'
           }
-          const cacheKey = entityKeyName(cacheByKey, prod[cacheByKey])
+          const cacheKey = entityKeyName(cacheByKey, prod[(cacheByKey === 'sku' && prod['parentSku']) ? 'parentSku' : cacheByKey]) // to avoid caching products by configurable_children.sku
           if (isCacheable) { // store cache only for full loads
             cache.setItem(cacheKey, prod)
               .catch((err) => {
                 Logger.error('Cannot store cache for ' + cacheKey, err)()
               })
           }
-          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !Vue.prototype.$isServer) {
+          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !isServer) {
             context.dispatch('setupAssociated', { product: prod })
           }
         }
@@ -565,10 +569,6 @@ const actions: ActionTree<ProductState, RootState> = {
       // get original product
       const productOriginal = context.getters.productOriginal
 
-      if (!context.state.offlineImage) {
-        context.state.offlineImage = productThumbnailPath(productOriginal ? productOriginal /** in case if it's not yet set */ : productVariant, true)
-        Logger.debug('Image offline fallback set to ' + context.state.offlineImage, 'product')()
-      }
       // check if passed variant is the same as original
       const productUpdated = Object.assign({}, productOriginal, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
@@ -623,7 +623,7 @@ const actions: ActionTree<ProductState, RootState> = {
           only_user_defined: true,
           includeFields: rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null
         }, { root: true }) // TODO: it might be refactored to kind of: `await context.dispatch('attributes/list) - or using new Promise() .. to wait for attributes to be loaded before executing the next action. However it may decrease the performance - so for now we're just waiting with the breadcrumbs
-        if (Vue.prototype.$isServer) {
+        if (isServer) {
           subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
           subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
         } else {

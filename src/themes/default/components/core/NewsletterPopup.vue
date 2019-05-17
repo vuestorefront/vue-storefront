@@ -5,7 +5,7 @@
     </p>
     <div slot="content">
       <form @submit.prevent="submit(onSuccesfulSubmission)" novalidate>
-        <div class="mb35">
+        <div class="mb10">
           <p class="h4">
             {{ $t('Sign up to our newsletter and receive a coupon for 10% off!') }}
           </p>

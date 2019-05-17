@@ -3,7 +3,9 @@
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
 ## 1.8 -> 1.9
-- The way to create VS Modules was changed to use the factory method instead of explicit object creation. Even though the feature is backward compatible, we highly encourage all developers to refactor their modules to use new syntax.
+- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields 
+- `cart.multisiteCommonCart` config property changed to `storeViews.commonCache`
+- Way of creating VS Modules was changed to use factory method instead of explict object creation. Even though the feature is backward compatible we highly encourage all developers to refactor their modules to use new syntax.
 
 The process of creating a new module with the factory method looks like the following:
 ````js
@@ -15,7 +17,16 @@ const moduleConfig: VueStorefrontModuleConfig = {
 
 const module = createModule(moduleConfig)
 ````
-- `@vue-storefront/store` package has been depreciated. Just change imports to  `@vue-storefront/core/store`.
+- `@vue-storefront/store` package has been depreciated. Just change imports to `@vue-storefront/core/store`.
+- `breadCrumbRoutes` helper has been refactored to `formatBreadCrumbRoutes`
+- orders which fail validation in API are assumed to have http code 400 instead of 500
+- notification message about invalid order address now uses email configured in mailer section instead of hardcoded one
+- Added validation for UTF8 alpha and alphanumeric characters in most checkout fields
+- Update your local.json config and set default `api.url` path, without it you may have problems with elasticsearch queries.
+
+### Troubleshooting 
+- In case of CORS problem after upgrade check your elasticsearch url in config file. Best practice for that change can be found [here](https://github.com/DivanteLtd/vue-storefront/commit/77fc9c2765068303879c75ef9ed4a4b98f6763b6)
+
 ## 1.7 -> 1.8
 Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/CHANGELOG.md)
 
