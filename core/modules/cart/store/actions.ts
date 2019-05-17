@@ -400,10 +400,10 @@ const actions: ActionTree<CartState, RootState> = {
           let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
           const shippingMethods = context.rootGetters['shipping/shippingMethods']
           const paymentMethods = context.rootGetters['payment/paymentMethods']
-          let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default) : null
+          let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default && !item.offline /* don't sync offline only shipping methods with the serrver */) : null
           let payment = paymentMethods && Array.isArray(paymentMethods) ? paymentMethods.find(item => item.default) : null
           if (!shipping && shippingMethods && shippingMethods.length > 0) {
-            shipping = shippingMethods[0]
+            shipping = shippingMethods.find(item => !item.offline)
           }
           if (!payment && paymentMethods && paymentMethods.length > 0) {
             payment = paymentMethods[0]
