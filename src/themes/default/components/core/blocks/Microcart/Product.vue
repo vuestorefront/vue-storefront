@@ -25,7 +25,7 @@
         <div class="h6 cl-bg-tertiary pt5 sku" data-testid="productSku">
           {{ product.sku }}
         </div>
-        <div class="h6 cl-bg-tertiary pt5 options" v-if="product.totals && product.totals.options">
+        <div class="h6 cl-bg-tertiary pt5 options" v-if="isOnline && product.totals && product.totals.options">
           <div v-for="opt in product.totals.options" :key="opt.label">
             <span class="opn">{{ opt.label }}: </span>
             <span class="opv" v-html="opt.value" />
@@ -65,7 +65,7 @@
           {{ product.priceInclTax * product.qty | price }}
         </span>
       </div>
-      <div class="prices" v-else-if="product.totals">
+      <div class="prices" v-else-if="isOnline && product.totals">
         <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
           {{ product.totals.row_total_incl_tax - product.totals.discount_amount | price }}&nbsp;
         </span>
@@ -96,6 +96,7 @@ import Product from '@vue-storefront/core/compatibility/components/blocks/Microc
 
 import RemoveButton from './RemoveButton'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+import { onlineHelper } from '@vue-storefront/core/helpers'
 
 export default {
   components: {
@@ -103,6 +104,11 @@ export default {
     BaseInputNumber
   },
   mixins: [Product],
+  computed: {
+    isOnline () {
+      return onlineHelper.isOnline
+    }
+  },
   data () {
     return {
       displayItemDiscounts: rootStore.state.config.cart.displayItemDiscounts
