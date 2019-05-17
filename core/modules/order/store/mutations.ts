@@ -3,7 +3,7 @@ import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import * as entities from '@vue-storefront/core/store/lib/entities'
 import OrderState from '../types/OrderState'
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const mutations: MutationTree<OrderState> = {
@@ -21,7 +21,7 @@ const mutations: MutationTree<OrderState> = {
     ordersCollection.setItem(orderId.toString(), order, (err, resp) => {
       if (err) Logger.error(err, 'order')()
       if (!order.transmited) {
-        Vue.prototype.$bus.$emit('order/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
+        Vue.prototype.$bus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
       }
       Logger.info('Order placed, orderId = ' + orderId, 'order')()
     }).catch((reason) => {

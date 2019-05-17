@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
 import RemoveButton from './RemoveButton'
@@ -111,7 +111,7 @@ export default {
   },
   data () {
     return {
-      displayItemDiscounts: rootStore.state.config.cart.displayItemDiscounts
+      displayItemDiscounts: config.cart.displayItemDiscounts
     }
   }
 }

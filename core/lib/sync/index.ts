@@ -4,6 +4,7 @@ import rootStore from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { execute as taskExecute, _prepareTask } from './task'
 import { isServer } from '@vue-storefront/core/helpers'
+import config from 'config'
 
 /** Syncs given task. If user is offline requiest will be sent to the server after restored connection */
 function queue (task) {
@@ -13,7 +14,7 @@ function queue (task) {
   return new Promise((resolve, reject) => {
     tasksCollection.setItem(task.task_id.toString(), task, (err, resp) => {
       if (err) Logger.error(err, 'sync')()
-      Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
+      Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
       resolve(task)
     }).catch((reason) => {
       Logger.error(reason, 'sync')() // it doesn't work on SSR

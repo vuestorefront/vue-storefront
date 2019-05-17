@@ -2,7 +2,6 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import rootStore from '@vue-storefront/core/store'
-import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import { sha3_224 } from 'js-sha3'
 import { currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore'
@@ -16,6 +15,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
+import config from 'config'
 
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
@@ -179,7 +179,7 @@ const actions: ActionTree<CartState, RootState> = {
       return task
     })
   },
-  load (context) {
+  load (context, { forceClientState = false }:{forceClientState?:boolean} = {}) {
     return new Promise((resolve, reject) => {
       if (isServer) return
       const commit = context.commit
@@ -204,7 +204,7 @@ const actions: ActionTree<CartState, RootState> = {
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
               Logger.info('Cart token received from cache.', 'cache', token)()
               Logger.info('Pulling cart from server.','cart')()
-              context.dispatch('serverPull', { forceClientState: false, dryRun: !config.cart.serverMergeByDefault })
+              context.dispatch('serverPull', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
             } else {
               Logger.info('Creating server cart token', 'cart')()
               context.dispatch('serverCreate', { guestCart: false })
@@ -318,11 +318,9 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   removeNonConfirmedVariants ({ commit, dispatch }, payload) {
-    let removeByParentSku = true // backward compatibility call format
     let product = payload
     if(payload.product) { // new call format since 1.4
       product = payload.product
-      removeByParentSku = payload.removeByParentSku
     }
     commit(types.CART_DEL_NON_CONFIRMED_ITEM, { product })
     if (config.cart.synchronize && product.server_item_id) {

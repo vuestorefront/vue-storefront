@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
-import store from '@vue-storefront/core/store'
+import config from 'config'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { mapGetters } from 'vuex'
 
@@ -62,7 +62,7 @@ export default {
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$on('checkout-after-validationError', this.focusField)
     if (!this.isThankYouPage) {
-      this.$store.dispatch('cart/load').then(() => {
+      this.$store.dispatch('cart/load', { forceClientState: true }).then(() => {
         if (this.$store.state.cart.cartItems.length === 0) {
           this.notifyEmptyCart()
           this.$router.push(this.localizedRoute('/'))
@@ -259,8 +259,8 @@ export default {
     // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
     getPaymentMethod () {
       let paymentMethod = this.payment.paymentMethod
-      if (store.state.config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
-        paymentMethod = store.state.config.orders.payment_methods_mapping[paymentMethod]
+      if (config.orders.payment_methods_mapping.hasOwnProperty(paymentMethod)) {
+        paymentMethod = config.orders.payment_methods_mapping[paymentMethod]
       }
       return paymentMethod
     },

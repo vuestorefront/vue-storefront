@@ -270,11 +270,11 @@ We added Reviews support, however, Magento 2 is still lacking Reviews support in
 
 ### Upgrade step-by-step
 
-#### `global.$VS` replaced with `rootStore` and `config` was moved to `rootStore.state.config`
+#### `global.$VS` replaced with `rootStore` and `config` was moved to `config`
 
 To get access to rootStore, import it by
 
-`import rootStore from '@vue-storefront/core/store'`
+`import config from 'config'`
 
 #### cms extenstion was renamed to extension-magento2-cms
 
