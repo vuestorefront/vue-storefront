@@ -1,14 +1,11 @@
 import Vue from 'vue'
-import * as localForage from 'localforage'
 import union from 'lodash-es/union'
 
 import { createApp } from '@vue-storefront/core/app'
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
 import rootStore from '@vue-storefront/core/store'
 
 import buildTimeConfig from 'config'
-import { execute } from '@vue-storefront/core/lib/sync/task'
-import UniversalStorage from '@vue-storefront/core/store/lib/storage'
+import { registerSyncTaskProcessor } from '@vue-storefront/core/lib/sync/task'
 import i18n from '@vue-storefront/i18n'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
@@ -70,7 +67,6 @@ const invokeClientEntry = async () => {
       if (!from.name) return next() // do not resolve asyncData on server render - already been done
       if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
       const matched = router.getMatchedComponents(to)
-      const prevMatched = router.getMatchedComponents(from)
       if (to) { // this is from url
         if (config.storeViews.multistore === true) {
           const storeCode = storeCodeFromRoute(to)
@@ -106,168 +102,7 @@ const invokeClientEntry = async () => {
     })
     app.$mount('#app')
   })
-  /*
-  * serial executes Promises sequentially.
-  * @param {funcs} An array of funcs that return promises.
-  * @example
-  * const urls = ['/url1', '/url2', '/url3']
-  * serial(urls.map(url => () => $.ajax(url)))
-  *     .then(Logger.log.bind(Logger))()
-  */
-  const serial = funcs =>
-    funcs.reduce((promise, func) =>
-      promise.then(result => func().then(Array.prototype.concat.bind(result))), Promise.resolve([]))
-
-  const orderMutex = {}
-  // TODO: move to external file
-  EventBus.$on('order/PROCESS_QUEUE', event => {
-    if (typeof navigator !== 'undefined' && navigator.onLine) {
-      Logger.log('Sending out orders queue to server ...')()
-
-      const storeView = currentStoreView()
-      const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-
-      const ordersCollection = new UniversalStorage(localForage.createInstance({
-        name: dbNamePrefix + 'shop',
-        storeName: 'orders',
-        driver: localForage[config.localForage.defaultDrivers['orders']]
-      }))
-
-      const fetchQueue = []
-      ordersCollection.iterate((order, id, iterationNumber) => {
-        // Resulting key/value pair -- this callback
-        // will be executed for every item in the
-        // database.
-
-        if (!order.transmited && !orderMutex[id]) { // not sent to the server yet
-          orderMutex[id] = true
-          fetchQueue.push(() => {
-            const config = event.config
-            const orderData = order
-            const orderId = id
-
-            Logger.log('Pushing out order ' + orderId)()
-            /** @todo refactor order synchronisation to proper handling through vuex actions to avoid code duplication */
-            return fetch(config.orders.endpoint,
-              {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(orderData)
-              }).then(response => {
-              const contentType = response.headers.get('content-type')
-              if (contentType && contentType.includes('application/json')) {
-                return response.json()
-              } else {
-                orderMutex[id] = false
-                Logger.error('Error with response - bad content-type!')()
-              }
-            })
-              .then(jsonResponse => {
-                if (jsonResponse) {
-                  Logger.info('Response for: ' + orderId + ' = ' + JSON.stringify(jsonResponse.result))()
-                  orderData.transmited = true // by default don't retry to transmit this order
-                  orderData.transmited_at = new Date()
-
-                  if (jsonResponse.code !== 200) {
-                    Logger.error(jsonResponse, 'order-sync')()
-
-                    if (jsonResponse.code === 400) {
-                      rootStore.dispatch('notification/spawnNotification', {
-                        type: 'error',
-                        message: i18n.t('Address provided in checkout contains invalid data. Please check if all required fields are filled in and also contact us on {email} to resolve this issue for future. Your order has been canceled.', { email: config.mailer.contactAddress }),
-                        action1: { label: i18n.t('OK') }
-                      })
-                    } else if (jsonResponse.code === 500 && jsonResponse.result === i18n.t('Error: Error while adding products')) {
-                      rootStore.dispatch('notification/spawnNotification', {
-                        type: 'error',
-                        message: i18n.t('Some products you\'ve ordered are out of stock. Your order has been canceled.'),
-                        action1: { label: i18n.t('OK') }
-                      })
-                    } else {
-                      orderData.transmited = false // probably some server related error. Enqueue
-                    }
-                  }
-
-                  ordersCollection.setItem(orderId.toString(), orderData)
-                } else {
-                  Logger.error(jsonResponse)()
-                }
-                orderMutex[id] = false
-              }).catch(err => {
-                if (config.orders.offline_orders.notification.enabled) {
-                  navigator.serviceWorker.ready.then(registration => {
-                    registration.sync.register('orderSync')
-                      .then(() => {
-                        Logger.log('Order sync registered')()
-                      })
-                      .catch(error => {
-                        Logger.log('Unable to sync', error)()
-                      })
-                  })
-                }
-                Logger.error('Error sending order: ' + orderId, err)()
-                orderMutex[id] = false
-              })
-          })
-        }
-      }, (err, result) => {
-        if (err) Logger.error(err)()
-        Logger.log('Iteration has completed')()
-
-        // execute them serially
-        serial(fetchQueue)
-          .then(res => {
-            Logger.info('Processing orders queue has finished')()
-            // store.dispatch('cart/serverPull', { forceClientState: false })
-          })
-      }).catch(err => {
-        // This code runs if there were any errors
-        Logger.log(err)()
-      })
-    }
-  })
-
-  // Process the background tasks
-  // todo rewrite and split across modules and move to task lib
-  const mutex = {}
-  EventBus.$on('sync/PROCESS_QUEUE', data => {
-    if (typeof navigator !== 'undefined' && navigator.onLine) {
-      // event.data.config - configuration, endpoints etc
-      const syncTaskCollection = Vue.prototype.$db.syncTaskCollection
-      const currentUserToken = rootStore.getters['user/getUserToken']
-      const currentCartToken = rootStore.getters['cart/getCartToken']
-
-      const fetchQueue = []
-      Logger.debug('Current User token = ' + currentUserToken)()
-      Logger.debug('Current Cart token = ' + currentCartToken)()
-      syncTaskCollection.iterate((task, id, iterationNumber) => {
-        if (task && !task.transmited && !mutex[id]) { // not sent to the server yet
-          mutex[id] = true // mark this task as being processed
-          fetchQueue.push(() => {
-            return execute(task, currentUserToken, currentCartToken).then(executedTask => {
-              syncTaskCollection.removeItem(id) // remove successfully executed task from the queue
-              mutex[id] = false
-            }).catch(err => {
-              mutex[id] = false
-              Logger.error(err)()
-            })
-          })
-        }
-      }, (err, result) => {
-        if (err) Logger.error(err)()
-        Logger.debug('Iteration has completed')()
-        // execute them serially
-        serial(fetchQueue)
-          .then(res => {
-            Logger.debug('Processing sync tasks queue has finished')()
-          })
-      }).catch(err => {
-        // This code runs if there were any errors
-        Logger.log(err)()
-      })
-    }
-  })
-
+  registerSyncTaskProcessor()
   window.addEventListener('online', () => { onNetworkStatusChange(store) })
 }
 

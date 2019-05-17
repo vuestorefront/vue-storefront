@@ -3,9 +3,6 @@ import Vue from 'vue'
 import rootStore from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { execute as taskExecute, _prepareTask } from './task'
-import * as localForage from 'localforage'
-import UniversalStorage from '@vue-storefront/core/store/lib/storage'
-import { currentStoreView } from '../multistore'
 import { isServer } from '@vue-storefront/core/helpers'
 
 /** Syncs given task. If user is offline requiest will be sent to the server after restored connection */
