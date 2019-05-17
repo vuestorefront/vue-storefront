@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Some deprecated config options: `useShortCatalogUrls` and `setupVariantByAttributeCode` have been removed - @pkarw (#2915)
 
 ### Fixed
+- Microcart tax + discount totals fix - @pkarw (#2892)
 - Login/Register errorr message added in case of FetchError (no network connectivity) - @pkarw
 - Products removed from the cart are no longer add back on the conectivity return - @pkarw (#2898)
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
