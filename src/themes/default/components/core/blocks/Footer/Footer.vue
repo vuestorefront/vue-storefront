@@ -155,13 +155,14 @@ import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 import BackToTop from 'theme/components/core/BackToTop'
+import config from 'config'
 
 export default {
   mixins: [CurrentPage],
   name: 'MainFooter',
   computed: {
     multistoreEnabled () {
-      return this.$config.storeViews.multistore
+      return config.storeViews.multistore
     },
     getVersionInfo () {
       return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
