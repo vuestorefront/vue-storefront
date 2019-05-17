@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update to babel 7 - @lukeromanowicz (#2554)
 
 ### Fixed
+- For first time setup of the SSR Cache, a local cache-version.json file is required. The path has been removed from .gitignore and a template has been added. - @rio-vps
 - Gallery low quality image in offline mode when high quality already cached - @patzick (#2557)
 - Payment issue when no address set - @szafran89 (#2593)
 - Search component result message when search term is less than 3 letters - @robwozniak (#2561)
