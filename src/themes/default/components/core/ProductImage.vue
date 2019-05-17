@@ -1,17 +1,34 @@
 <template>
   <div>
-    <div
-      v-show="showPlaceholder">placeholder</div>
-    <div
+    <img
+      src="/assets/placeholder.svg"
+      v-show="showPlaceholder"
+      itemprop="image"
+      key="placeholderImage"
+      ref="images"
+      class="mw-100 inline-flex">
+    <img
+      :src="images.loading"
+      :alt="alt"
       v-if="!lowerQualityImageError || isOnline"
       v-show="showLowerQualityImage"
       @load="lowerQualityImageLoaded(true)"
-      @error="lowerQualityImageLoaded(false)">loweQulaityImag</div>
-    <div
+      @error="lowerQualityImageLoaded(false)"
+      itemprop="image"
+      key="lowQualityImage"
+      ref="images"
+      class="mw-100 inline-flex">
+    <img
+      :src="images.src"
+      :alt="alt"
       v-if="!highQualityImageError || isOnline"
       v-show="showHighQualityImage"
       @load="highQualityImageLoaded(true)"
-      @error="highQualityImageLoaded(false)">highQualityImage</div>
+      @error="highQualityImageLoaded(false)"
+      itemprop="image"
+      key="highQualityImage"
+      ref="images"
+      class="mw-100 inline-flex">
   </div>
 </template>
 <script>
@@ -21,14 +38,22 @@ export default {
     images: {
       type: Object,
       required: true
+    },
+    alt: {
+      type: String,
+      required: true
+    },
+    hidden: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
       lowerQualityImageLoad: false,
-      lowerQualityImageError: false,
+      lowerQualityImageError: true,
       highQualityImageLoad: false,
-      highQualityImageError: false
+      highQualityImageError: true
     }
   },
   computed: {
@@ -36,10 +61,10 @@ export default {
       return !this.showLowerQualityImage && !this.showHighQualityImage
     },
     showLowerQualityImage () {
-      return !!this.lowerQualityImageLoad && !this.highQualityImageLoad
+      return !!this.lowerQualityImageLoad && !this.highQualityImageLoad && !this.hidden
     },
     showHighQualityImage () {
-      return !!this.highQualityImageLoad
+      return !!this.highQualityImageLoad && !this.hidden
     },
     isOnline () {
       return onlineHelper.isOnline
@@ -47,7 +72,6 @@ export default {
   },
   methods: {
     lowerQualityImageLoaded (success = true) {
-      console.log(success)
       this.lowerQualityImageLoad = success
       this.lowerQualityImageError = !success
     },
@@ -58,3 +82,23 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  div{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  img{
+    height: auto;
+    opacity: 1;
+    mix-blend-mode: multiply;
+    vertical-align: top;
+    &:hover{
+      opacity: 0.9
+    }
+  }
+</style>
