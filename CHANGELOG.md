@@ -17,8 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
 - Added back to top functionality - @vishal-7037 (#2866)
 
+### Removed
+- Some deprecated config options: `useShortCatalogUrls` and `setupVariantByAttributeCode` have been removed - @pkarw (#2915)
+
 ### Fixed
-- Login/Register errorr message added in case of FetchError (no network connectivity) - @pkarrw
+- Login/Register errorr message added in case of FetchError (no network connectivity) - @pkarw
 - Products removed from the cart are no longer add back on the conectivity return - @pkarw (#2898)
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
 - Confirmation popup 'Product has beed added to cart' is displayed only once - @JKrupinski (#2610)

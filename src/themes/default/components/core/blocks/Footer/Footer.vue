@@ -60,6 +60,11 @@
                 </router-link>
               </div>
               <div class="mt15">
+                <router-link class="cl-secondary" :to="localizedRoute('/i/customer-service')" exact>
+                  {{ $t('Customer service (Magento CMS)') }}
+                </router-link>
+              </div>
+              <div class="mt15">
                 <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>
                   {{ $t('Store locator') }}
                 </router-link>

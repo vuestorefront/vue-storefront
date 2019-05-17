@@ -237,8 +237,6 @@ There is an SEO redirects generator for NGINX -> `https://serverfault.com/a/4415
 npm run seo redirects — —oldFormat=true | false
 ```
 
-- `oldFormat` - Should be set accordingly to the `vue-storefront/config/local.json` setting of `products.useShortCatalogUrls` (`oldFormat` = `!useShortCatalogUrls`)
-
 Please make sure that `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and you have ElasticSearch synchronized with the Magento2 instance using the current version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront).
 
 **Please note:** As `url_key` field must be unique across categories collection. Therefore, we're by default generating its value based on name and category ID. Please [switch this option off](https://github.com/DivanteLtd/mage2vuestorefront/#initial-vue-storefront-import) if you'd like to keep the `url_key` as they come from Magento2.

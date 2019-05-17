@@ -23,25 +23,18 @@ const actions: ActionTree<CmsPageState, RootState> = {
    * @returns {Promise<T> & Promise<any>}
    */
   list (context, { filterValues = null, filterField = 'identifier', size = 150, start = 0, excludeFields = null, includeFields = null, skipCache = false }) {
-    if (skipCache || (!context.state.items || context.state.items.length === 0)) {
-      let query = new SearchQuery()
-      if (filterValues) {
-        query = query.applyFilter({key: filterField, value: {'like': filterValues}})
-      }
-      return quickSearchByQuery({ query, entityType: 'cms_page', excludeFields, includeFields })
-      .then((resp) => {
-        context.commit(types.CMS_PAGE_UPDATE_CMS_PAGES, resp.items)
-        return resp.items
-      })
-      .catch(err => {
-        Logger.error(err, 'cms')()
-      })
-    } else {
-      return new Promise((resolve, reject) => {
-        let resp = context.state.items
-        resolve(resp)
-      })
+    let query = new SearchQuery()
+    if (filterValues) {
+      query = query.applyFilter({key: filterField, value: {'like': filterValues}})
     }
+    return quickSearchByQuery({ query, entityType: 'cms_page', excludeFields, includeFields })
+    .then((resp) => {
+      context.commit(types.CMS_PAGE_UPDATE_CMS_PAGES, resp.items)
+      return resp.items
+    })
+    .catch(err => {
+      Logger.error(err, 'cms')()
+    })
   },
 
   /**

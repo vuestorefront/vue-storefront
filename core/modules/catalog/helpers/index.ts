@@ -399,11 +399,6 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         label: selectedOption.label ? selectedOption.label : /*if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
       }
       context.state.current_configuration[attribute_code] = confVal
-      // @deprecated fallback for VS <= 1.0RC
-      if (!('setupVariantByAttributeCode' in config.products) || config.products.setupVariantByAttributeCode === false) {
-        const fallbackKey = attribute_label
-        context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
-      }
     }
     if (config.cart.setConfigurableProductOptions) {
       const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: context.state.current_configuration }) // set the custom options
