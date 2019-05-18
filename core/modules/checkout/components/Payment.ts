@@ -59,6 +59,16 @@ export const Payment = {
       handler () {
         this.useShippingAddress()
       }
+    },
+    sendToBillingAddress: {
+      handler () {
+        this.useBillingAddress()
+      }
+    },
+    generateInvoice: {
+      handler () {
+        this.useGenerateInvoice()
+      }
     }
   },
   methods: {
