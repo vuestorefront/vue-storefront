@@ -33,11 +33,10 @@ const actions: ActionTree<CategoryState, RootState> = {
     return searchResult.items
   },
   async findCategories () {
-    const res = await CategoryService.getCategories()
-    return res.items
+    return await CategoryService.getCategories()
   },
-  async loadCategories ({ commit, dispatch }) {
-    const categories = await dispatch('findCategories')
+  async loadCategories ({ commit }) {
+    const categories = await CategoryService.getCategories()
     commit(types.CATEGORY_SET_CATEGORIES, categories)
     return categories
   },

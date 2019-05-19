@@ -51,7 +51,8 @@ const getCategories = async ({ parent = null, key = null, value = null, level = 
   if (onlyNotEmpty === true) {
     searchQuery = searchQuery.applyFilter({key: 'product_count', value: {'gt': 0}})
   }
-  return await quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields })
+  const response = await quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields })
+  return response.items
 }
 
 interface ProductResolver {
