@@ -35,6 +35,7 @@ module.exports = {
             'cookbook/setup',
             'cookbook/integration',
             'cookbook/extend-module',
+            'cookbook/theme',
             'cookbook/common-pitfall',
           ],
         },

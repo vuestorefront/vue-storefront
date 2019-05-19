@@ -1,1 +1,3 @@
-# Chapter 6. Common Pitfalls 
+# Chapter 7. Common Pitfalls 
+
+## Coming soon!
