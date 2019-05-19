@@ -64,10 +64,13 @@ const actions: ActionTree<CategoryState, RootState> = {
       queryFilter.push(filterVariant.id)
     }
     currentQuery[filterVariant.type] = queryFilter
-    router.push({query: currentQuery})
+    await dispatch('changeRouterFilterParameters', currentQuery)
   },
-  async resetFilters() {
-    router.push({query: {}})
+  async resetFilters({dispatch}) {
+    await dispatch('changeRouterFilterParameters', {})
+  },
+  async changeRouterFilterParameters(context, query) {
+    router.push({query})
   }
 }
 
