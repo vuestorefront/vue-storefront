@@ -8,6 +8,7 @@ import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { router } from '@vue-storefront/core/app'
 import FilterVariant from '../../types/FilterVariant'
 import { CategoryService } from '@vue-storefront/core/data-resolver'
+import { changeFilterQuery } from './logic/categoryLogic';
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -54,17 +55,8 @@ const actions: ActionTree<CategoryState, RootState> = {
     commit(types.CATEGORY_SET_AVAILABLE_FILTERS, filters)
   },
   async switchSearchFilter({ dispatch }, filterVariant:FilterVariant) {
-    // TODO: not duplicate system filters like sort
-    const currentQuery = JSON.parse(JSON.stringify(router.currentRoute.query))
-    let queryFilter = currentQuery[filterVariant.type] || []
-    if (!Array.isArray(queryFilter)) queryFilter = [queryFilter]
-    if(queryFilter.includes(filterVariant.id)) {
-      queryFilter = queryFilter.filter(value => value !== filterVariant.id)
-    } else {
-      queryFilter.push(filterVariant.id)
-    }
-    currentQuery[filterVariant.type] = queryFilter
-    await dispatch('changeRouterFilterParameters', currentQuery)
+    const newQuery = changeFilterQuery({currentQuery: router.currentRoute.query, filterVariant})
+    await dispatch('changeRouterFilterParameters', newQuery)
   },
   async resetFilters({dispatch}) {
     await dispatch('changeRouterFilterParameters', {})
