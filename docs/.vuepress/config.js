@@ -27,6 +27,18 @@ module.exports = {
 	      },
         'upgrade-notes/',
         {
+          title: 'Cookbook',
+          collapsable: false,
+          children: [
+            'cookbook/data-import',
+            'cookbook/elastic',
+            'cookbook/setup',
+            'cookbook/integration',
+            'cookbook/extend-module',
+            'cookbook/common-pitfall',
+          ],
+        },
+        {
           title: 'Installation',
           collapsable: false,
           children: [
@@ -140,7 +152,6 @@ module.exports = {
             'integrations/tier-prices-sync',
             'integrations/totals-sync',
             'integrations/multistore',
-            'integrations/product-reviews',
           ],
         },
       ],
