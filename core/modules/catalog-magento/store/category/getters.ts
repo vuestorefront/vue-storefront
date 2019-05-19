@@ -7,7 +7,7 @@ import FilterVariant from '../../types/FilterVariant'
 import { optionLabel } from '../../helpers/optionLabel'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
-import { compareByLabel } from './logic/categoryLogic'
+import { compareByLabel, getFiltersFromQuery } from './logic/categoryLogic'
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state) => state.categories || [],
@@ -82,27 +82,7 @@ const getters: GetterTree<CategoryState, RootState> = {
   getAvailableFilters: state => state.availableFilters,
   getCurrentFiltersFrom: (state, getters, rootState) => (filters) => {
     const currentQuery = filters ? filters : rootState.route.query
-    const searchQuery = {
-      filters: {}
-    }
-    Object.keys(currentQuery).forEach(filterKey => {
-      const filter = getters.getAvailableFilters[filterKey]
-      const queryValue = currentQuery[filterKey]
-      if (!filter) return
-      if (getters.getSystemFilterNames.includes(filterKey)) {
-        searchQuery[filterKey] = queryValue
-      } else if (Array.isArray(queryValue)) {
-        queryValue.map(singleValue => {
-          const variant = filter.find(filterVariant => filterVariant.id === singleValue)
-          if (!searchQuery.filters[filterKey] || !Array.isArray(searchQuery.filters[filterKey])) searchQuery.filters[filterKey] = []
-          searchQuery.filters[filterKey].push({...variant, attribute_code: filterKey})
-        })
-      } else {
-        const variant = filter.find(filterVariant => filterVariant.id === queryValue)
-        searchQuery.filters[filterKey] = {...variant, attribute_code: filterKey}
-      }
-    })
-    return searchQuery
+    return getFiltersFromQuery({availableFilters: getters.getAvailableFilters, filtersQuery: currentQuery})
   },
   getCurrentFilters: (state, getters, rootState) => getters.getCurrentFiltersFrom(rootState.route.query).filters,
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
