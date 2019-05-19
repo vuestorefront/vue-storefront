@@ -7,6 +7,7 @@ import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { router } from '@vue-storefront/core/app'
 import FilterVariant from '../../types/FilterVariant'
+import { CategoryService } from '@vue-storefront/core/data-resolver'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -31,8 +32,8 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     return searchResult.items
   },
-  async findCategories ({ dispatch }) {
-    const res = await dispatch('category/list', {}, {root: true})
+  async findCategories () {
+    const res = await CategoryService.getCategories()
     return res.items
   },
   async loadCategories ({ commit, dispatch }) {
