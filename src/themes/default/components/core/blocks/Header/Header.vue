@@ -5,7 +5,7 @@
       :class="{ 'is-visible': navVisible }"
     >
       <div class="container px15">
-        <div class="row between-xs middle-xs" v-if="!isCheckoutPage">
+        <div class="row between-xs middle-xs" v-if="!isCheckoutPage || isThankYouPage">
           <div class="col-md-4 col-xs-2 middle-xs">
             <div>
               <template v-if="!canGoBack">
@@ -37,7 +37,7 @@
             </div>
           </div>
         </div>
-        <div class="row between-xs middle-xs px15 py5" v-if="isCheckoutPage">
+        <div class="row between-xs middle-xs px15 py5" v-if="isCheckoutPage && !isThankYouPage">
           <div class="col-xs-5 col-md-3 middle-xs">
             <div>
               <router-link :to="localizedRoute('/')" class="cl-tertiary links">
@@ -103,7 +103,10 @@ export default {
     ...mapState({
       isOpenLogin: state => state.ui.signUp,
       currentUser: state => state.user.current
-    })
+    }),
+    isThankYouPage () {
+      return this.$store.state.checkout.isThankYouPage ? this.$store.state.checkout.isThankYouPage : false
+    }
   },
   beforeMount () {
     window.addEventListener('scroll', () => {

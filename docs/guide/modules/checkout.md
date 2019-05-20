@@ -118,12 +118,86 @@ Component handling all the shipping logic
 - `changeShippingMethod` - if `getCurrentShippingMethod` exists, emits `checkout-after-shippingMethodChanged` bus event
 - `notInMethods` - checks if passed method is present in `shippingMethods`
 
+## How to add a custom checkout step
+
+We now show an example of how to add a new step to the checkout page of Vue Storefront.
+
+The step is named `NewStep` and is placed just after the `PersonalDetails` step; changing the step's name and position requires small modifications to the procedure.
+
+### First, create the NewStep component
+
+1. **Create the NewStep component** according to your needs. To do it quickly, make a copy of the `PersonalDetails` component, name it `NewStep` and customize it.
+
+2. **Customize the sendDataToCheckout method** of the `NewStep` component so that it emits the event `checkout-after-newStep`; for example:
+```javascript
+    sendDataToCheckout () {
+      this.$bus.$emit('checkout-after-newStep', this.newStep, this.$v)
+    }
+```
+
+3. **Call the sendDataToCheckout method** when the button to the next section is clicked. This could be achieved in the template like this:
+```vue
+    <button-full
+      @click.native="sendDataToCheckout"
+    >
+```
+
+### Then, modify the checkout component
+
+1. **Insert the NewStep component in the checkout template** at the desired position. For example, you could place it between the Personal Details and Shipping steps:
+```vue
+  <personal-details class="line relative" :is-active="activeSection.personalDetails" :focused-field="focusedField"/>
+  <new-step class="line relative" :is-active="activeSection.newStep">
+  <shipping class="line relative" :is-active="activeSection.shipping" v-if="!isVirtualCart"/>
+  <payment class="line relative" :is-active="activeSection.payment"/>
+  <order-review class="line relative" :is-active="activeSection.orderReview"/>
+```
+
+2. **Listen for the checkout-after-newStep event** by adding the following listener to the `beforeMount()` function:
+```javascript
+    this.$bus.$on('checkout-after-newStep', this.onAfterNewStep)
+```
+
+3. **Specify how to jump from the previous step to NewStep**. Modify the `onAfterPersonalDetails()` method in order to activate the `newStep` section instead of the `shipping` step:
+```javascript
+    onAfterPersonalDetails (receivedData, validationResult) {
+      this.personalDetails = receivedData
+      this.validationResults.personalDetails = validationResult
+      this.activateSection('newStep') // show the new step
+      this.savePersonalDetails()
+      this.focusedField = null
+    }
+```
+This is assuming that the new checkout step follows the Personal Details step; if this is not the case, you will need to modify the `onAfter` metod of whatever step precedes `NewStep`.
+
+4. **Specify how to jump from NewStep to the next step** by creating the method `onAfterNewStep`; in this example, the next step is the shipping form:
+```javascript
+    onAfterNewStep (receivedData, validationResult) {
+      this.newStep = receivedData
+      this.validationResults.newStep = validationResult
+      this.activateSection('shipping') // change 'shipping' to whatever you want the next step to be
+      this.saveNewStep() // include this line only if newStep has state
+    }
+```
+Note that calling `activateSection('shipping')` is what ultimately shows the next checkout step to the user.
+
+5. **If needed, save NewStep state** by defining a non-empty method `saveNewStep()`; for example:
+```javascript
+    saveNewStep () {
+      this.$store.dispatch('checkout/saveNewStep', this.newStep)
+    },
+```
+This is needed only if your new step has state, in which case you will also need to define the `checkout/saveNewStep` action in Vuex.
+
+
 ## Store
+
+The Checkout Store is designed to handle the passage from user's cart to actual order; it defines actions such as saving the information given by the user during checkout, and placing the order.
 
 ### State
 
 ```js
- state: {
+  state: {
     order: {},
     personalDetails: {
       firstName: '',
@@ -140,6 +214,7 @@ Component handling all the shipping logic
       apartmentNumber: '',
       city: '',
       state: '',
+      region_id: 0,
       zipCode: '',
       phoneNumber: '',
       shippingMethod: ''
@@ -153,15 +228,19 @@ Component handling all the shipping logic
       apartmentNumber: '',
       city: '',
       state: '',
+      region_id: 0,
       zipCode: '',
       phoneNumber: '',
       taxId: '',
-      paymentMethod: ''
-    }
+      paymentMethod: '',
+      paymentMethodAdditional: {}
+    },
+    isThankYouPage: false,
+    modifiedAt: 0
   }
 ```
 
-Checkout state is centralized around the [Order object](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json) and the address data given by the user within the checkout process, to be stored for further use in the `localForage`.
+The state of the Checkout module contains both the [Order object](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json) and the information given by the user during the checkout process, to be stored for further use in the `localForage`.
 
 The state is modified by [`placeOrder`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L11) action and [`load`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L41) which loads the state from browser database.
 
