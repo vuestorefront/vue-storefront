@@ -5,9 +5,12 @@
         <i class="material-icons p15 pointer cl-accent" @click="closeWishlist">close</i>
       </div>
     </div>
-    <h2 v-if="productsInWishlist.length" class="cl-accent ml30">
-      {{ $t('Wishlist') }}
-    </h2>
+    <div class="row middle-xs px40">
+      <h2 v-if="productsInWishlist.length" class="col-xs-12 col-sm cl-accent">
+        {{ $t('Wishlist') }}
+      </h2>
+      <clear-wishlist-button v-if="productsInWishlist.length" @click.native="clearWishlist" class="col-xs-12 col-sm mt35 mb35 end-sm"/>
+    </div>
     <h4 v-if="!productsInWishlist.length" class="cl-accent ml30">
       {{ $t('Your wishlist is empty.') }}
     </h4>
@@ -27,6 +30,8 @@
 <script>
 import Wishlist from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Wishlist'
 import Product from 'theme/components/core/blocks/Wishlist/Product'
+import ClearWishlistButton from 'theme/components/core/blocks/Wishlist/ClearWishlistButton'
+import i18n from '@vue-storefront/i18n'
 
 export default {
   props: {
@@ -37,7 +42,23 @@ export default {
     }
   },
   components: {
-    Product
+    Product,
+    ClearWishlistButton
+  },
+  methods: {
+    clearWishlist () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'warning',
+        message: i18n.t('Are you sure you would like to remove all the items from the wishlist?'),
+        action1: { label: i18n.t('OK'),
+          action: () => {
+            this.$store.dispatch('wishlist/clear')
+          }
+        },
+        action2: { label: i18n.t('Cancel'), action: 'close' },
+        hasNoTimeout: true
+      })
+    }
   },
   mixins: [Wishlist]
 }
