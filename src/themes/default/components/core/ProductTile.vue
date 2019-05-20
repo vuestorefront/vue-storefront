@@ -169,6 +169,7 @@ $color-white: color(white);
 
     .product-image__content {
       display: block;
+      transform: translateZ(0);
     }
   }
 
