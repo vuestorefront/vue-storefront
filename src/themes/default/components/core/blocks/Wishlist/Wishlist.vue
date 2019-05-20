@@ -48,7 +48,7 @@ export default {
     clearWishlist () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
-        message: i18n.t('Are you sure you would like to remove all the items from the wishlist?'),
+        message: this.$t('Are you sure you would like to remove all the items from the wishlist?'),
         action1: { label: i18n.t('OK'),
           action: () => {
             this.$store.dispatch('wishlist/clear')
