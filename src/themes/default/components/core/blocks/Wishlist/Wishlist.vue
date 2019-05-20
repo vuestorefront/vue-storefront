@@ -54,7 +54,7 @@ export default {
             this.$store.dispatch('wishlist/clear')
           }
         },
-        action2: { label: i18n.t('Cancel'), action: 'close' },
+        action2: { label: this.$t('Cancel'), action: 'close' },
         hasNoTimeout: true
       })
     }
