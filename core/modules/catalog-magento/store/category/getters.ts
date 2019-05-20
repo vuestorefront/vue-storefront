@@ -81,10 +81,10 @@ const getters: GetterTree<CategoryState, RootState> = {
   },
   getAvailableFilters: state => state.availableFilters,
   getCurrentFiltersFrom: (state, getters, rootState) => (filters) => {
-    const currentQuery = filters ? filters : rootState.route.query
+    const currentQuery = filters ? filters : rootState.route[products.routerFiltersSource]
     return getFiltersFromQuery({availableFilters: getters.getAvailableFilters, filtersQuery: currentQuery})
   },
-  getCurrentFilters: (state, getters, rootState) => getters.getCurrentFiltersFrom(rootState.route.query).filters,
+  getCurrentFilters: (state, getters, rootState) => getters.getCurrentFiltersFrom(rootState.route[products.routerFiltersSource]).filters,
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
   getSystemFilterNames: () => ['sort'],
   getBreadcrumbs: (state, getters) => {

@@ -9,6 +9,7 @@ import { router } from '@vue-storefront/core/app'
 import FilterVariant from '../../types/FilterVariant'
 import { CategoryService } from '@vue-storefront/core/data-resolver'
 import { changeFilterQuery } from './logic/categoryLogic';
+import { products } from 'config'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -24,7 +25,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async loadCategoryProducts ({ commit, getters, dispatch }, { route } = {}) {
     await dispatch('initCategoryModule')
-    const searchQuery = getters.getCurrentFiltersFrom(route.query)
+    const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     const searchCategory = getters.getCategoryFrom(route.path)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
     const searchResult = await quickSearchByQuery({ query: filterQr, sort: searchQuery.sort })
@@ -55,14 +56,14 @@ const actions: ActionTree<CategoryState, RootState> = {
     commit(types.CATEGORY_SET_AVAILABLE_FILTERS, filters)
   },
   async switchSearchFilter({ dispatch }, filterVariant:FilterVariant) {
-    const newQuery = changeFilterQuery({currentQuery: router.currentRoute.query, filterVariant})
+    const newQuery = changeFilterQuery({currentQuery: router.currentRoute[products.routerFiltersSource], filterVariant})
     await dispatch('changeRouterFilterParameters', newQuery)
   },
   async resetFilters({dispatch}) {
     await dispatch('changeRouterFilterParameters', {})
   },
   async changeRouterFilterParameters(context, query) {
-    router.push({query})
+    router.push({[products.routerFiltersSource]: query})
   }
 }
 
