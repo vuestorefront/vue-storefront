@@ -2,16 +2,13 @@
   <div class="media-zoom-carousel">
     <div class="media-zoom-carousel__container row flex">
       <ul class="media-zoom-carousel__thumbs m0 p0">
-        <li class="media-zoom-carousel__thumb" v-for="(images, key) in gallery" :key="images.src">
+        <li class="media-zoom-carousel__thumb" v-for="(images, index) in gallery" :key="images.src">
           <product-image
             :images="images"
             :alt="productName | htmlDecode"
             :hidden="hideImageAtIndex === index"
             @click.native="navigate(key)"
             class="bg-cl-secondary"/>
-        <!-- <span class="bg-cl-secondary block">
-          <img :src="images.src" ref="images" @click="navigate(key)" :alt="productName | htmlDecode">
-        </span> -->
         </li>
       </ul>
       <div class="media-zoom-carousel__gallery">
@@ -37,15 +34,6 @@
                 :images="images"
                 :alt="productName | htmlDecode"
                 :hidden="hideImageAtIndex === index" />
-              <!-- <img
-                v-show="hideImageAtIndex !== index"
-                class="product-image inline-flex pointer mw-100"
-                v-lazy="images"
-                ref="images"
-                :alt="productName | htmlDecode"
-                data-testid="productGalleryImage"
-                itemprop="image"
-              > -->
               <product-video
                 v-if="images.video && (index === currentPage)"
                 v-bind="images.video"
