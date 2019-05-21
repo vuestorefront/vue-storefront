@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added back-button on orde detail page [#2819]
 - Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
 - Added back to top functionality - @vishal-7037 (#2866)
+- Button for filters acceptance added with new styles for clear filters button - @965750 (#2811)
 
 ### Fixed
 - Products removed from the cart are no longer add back on the conectivity return - @pkarw (#2898)
