@@ -1,13 +1,13 @@
 import map from 'lodash-es/map'
-import rootStore from '@vue-storefront/core/store'
 import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 import fetch from 'isomorphic-fetch'
-import { slugify } from '@vue-storefront/core/helpers'
+import { slugify, processURLAddress } from '@vue-storefront/core/helpers'
 import queryString from 'query-string'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
+import config from 'config'
 
 export class SearchAdapter {
   public entities: any
@@ -25,7 +25,7 @@ export class SearchAdapter {
     if (Request.searchQuery instanceof SearchQuery) {
       ElasticsearchQueryBody = await prepareElasticsearchQueryBody(Request.searchQuery)
       if (Request.searchQuery.getSearchText() !== '') {
-        ElasticsearchQueryBody['min_score'] = rootStore.state.config.elasticsearch.min_score
+        ElasticsearchQueryBody['min_score'] = config.elasticsearch.min_score
       }
     } else {
       // backward compatibility for old themes uses bodybuilder
@@ -42,10 +42,7 @@ export class SearchAdapter {
 
     Request.index = storeView.elasticsearch.index
 
-    let url = storeView.elasticsearch.host
-    if (!url.startsWith('http')) {
-      url = 'http://' + url
-    }
+    let url = processURLAddress(storeView.elasticsearch.host)
 
     if (this.entities[Request.type].url) {
       url = this.entities[Request.type].url
@@ -70,18 +67,18 @@ export class SearchAdapter {
     if (!Request.index || !Request.type) {
       throw new Error('Query.index and Query.type are required arguments for executing ElasticSearch query')
     }
-    if (rootStore.state.config.elasticsearch.queryMethod === 'GET') {
+    if (config.elasticsearch.queryMethod === 'GET') {
       httpQuery.request = JSON.stringify(ElasticsearchQueryBody)
     }
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + queryString.stringify(httpQuery)
-    return fetch(url, { method: rootStore.state.config.elasticsearch.queryMethod,
+    return fetch(url, { method: config.elasticsearch.queryMethod,
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: rootStore.state.config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
+      body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
     }).then(resp => { return resp.json() })
   }
 
@@ -92,12 +89,13 @@ export class SearchAdapter {
     if (resp.hasOwnProperty('hits')) {
       return {
         items: map(resp.hits.hits, hit => {
-          return Object.assign(hit._source, { _score: hit._score, slug: hit._source.slug ? hit._source.slug : ((hit._source.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '')) }) // TODO: assign slugs server side
+          return Object.assign(hit._source, { _score: hit._score, slug: hit._source.slug ? hit._source.slug : ((hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '')) }) // TODO: assign slugs server side
         }), // TODO: add scoring information
         total: resp.hits.total,
         start: start,
         perPage: size,
-        aggregations: resp.aggregations
+        aggregations: resp.aggregations,
+        suggestions: resp.suggest
       }
     } else {
       if (resp.error) {

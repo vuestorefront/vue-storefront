@@ -48,7 +48,7 @@ export default {
       this.$store.state.cart.cartItems.forEach(product => {
         bucket.push({
           label: product.name,
-          amount: { currency: storeView.i18n.currencyCode, value: product.priceInclTax }
+          amount: { currency: storeView.i18n.currencyCode, value: (product.qty * product.priceInclTax) }
         })
       })
 
@@ -237,6 +237,18 @@ export default {
       })
     },
     createOrder (paymentResponse) {
+      // Shipping first name and last name
+      const shippingRecipient = paymentResponse.shippingAddress.recipient.split(' ')
+      const shippingFirstName = shippingRecipient[0]
+      shippingRecipient.shift()
+      const shippingLastName = shippingRecipient.join(' ') || i18n.t('(lastname not provided)')
+
+      // Billing first name and last name
+      const billingRecipient = paymentResponse.payerName.split(' ')
+      const billingFirstName = billingRecipient[0]
+      billingRecipient.shift()
+      const billingLastName = billingRecipient.join(' ') || i18n.t('(lastname not provided)')
+
       return {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
@@ -251,8 +263,8 @@ export default {
             telephone: paymentResponse.shippingAddress.phone,
             postcode: paymentResponse.shippingAddress.postalCode,
             city: paymentResponse.shippingAddress.city,
-            firstname: paymentResponse.shippingAddress.recipient,
-            lastname: paymentResponse.shippingAddress.recipient,
+            firstname: shippingFirstName,
+            lastname: shippingLastName,
             email: paymentResponse.payerEmail,
             region_code: paymentResponse.shippingAddress.region ? paymentResponse.shippingAddress.region : ''
           },
@@ -265,8 +277,8 @@ export default {
             telephone: paymentResponse.payerPhone,
             postcode: paymentResponse.shippingAddress.postalCode,
             city: paymentResponse.shippingAddress.city,
-            firstname: paymentResponse.payerName,
-            lastname: paymentResponse.payerName,
+            firstname: billingFirstName,
+            lastname: billingLastName,
             email: paymentResponse.payerEmail,
             region_code: paymentResponse.shippingAddress.region ? paymentResponse.shippingAddress.region : '',
             vat_id: ''

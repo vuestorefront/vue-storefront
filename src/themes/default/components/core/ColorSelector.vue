@@ -13,14 +13,14 @@
 
 <script>
 import GenericSelector from '@vue-storefront/core/compatibility/components/GenericSelector'
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 export default {
   mixins: [GenericSelector],
   methods: {
     colorFrom (label) {
-      if (rootStore.state.config.products.colorMappings) {
-        if (typeof rootStore.state.config.products.colorMappings[label] !== 'undefined') {
-          label = rootStore.state.config.products.colorMappings[label]
+      if (config.products.colorMappings) {
+        if (typeof config.products.colorMappings[label] !== 'undefined') {
+          label = config.products.colorMappings[label]
         }
       }
       if (label.indexOf('/') >= 0) label = label.replace('/', ',') // to be honest - this is a hack for colors like "ink/white"

@@ -12,6 +12,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import * as entities from '@vue-storefront/core/store/lib/entities'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
+import config from 'config'
 
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
 
@@ -29,9 +30,8 @@ function _sleep (time) {
 }
 
 function _internalExecute (resolve, reject, task: Task, currentToken, currentCartId) {
-
   if (currentToken !== null && rootStore.state.userTokenInvalidateLock > 0) { // invalidate lock set
-    Logger.log('Waiting for rootStore.state.userTokenInvalidateLock to release for '+ task.url, 'sync')()
+    Logger.log('Waiting for rootStore.state.userTokenInvalidateLock to release for ' + task.url, 'sync')()
     _sleep(1000).then(() => {
       Logger.log('Another try for rootStore.state.userTokenInvalidateLock for ' + task.url, 'sync')()
       _internalExecute(resolve, reject, task, currentToken, currentCartId)
@@ -47,8 +47,13 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       currentToken = rootStore.state.userTokenInvalidated
     }
   }
+  const isCartIdRequired = task.url.includes('{{cartId}}') // this is bypass for #2592
+  if (isCartIdRequired && !currentCartId) {// by some reason we does't have the  cart id yet
+    reject ('Error executing sync task ' + task.url + ' the required cartId  argument is null. Re-creating shopping cart synchro.')
+    return
+  }
   let url = task.url.replace('{{token}}', (currentToken == null) ? '' : currentToken).replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
-  if (rootStore.state.config.storeViews.multistore) {
+  if (config.storeViews.multistore) {
     url = adjustMultistoreApiUrl(url)
   }
   let silentMode = false
@@ -72,7 +77,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           if (isNaN(rootStore.state.userTokenInvalidateLock) || isUndefined(rootStore.state.userTokenInvalidateLock)) rootStore.state.userTokenInvalidateLock = 0
 
           silentMode = true
-          if (rootStore.state.config.users.autoRefreshTokens) {
+          if (config.users.autoRefreshTokens) {
             if (!rootStore.state.userTokenInvalidateLock) {
               rootStore.state.userTokenInvalidateLock++
               if (rootStore.state.userTokenInvalidateAttemptsCount >= AUTO_REFRESH_MAX_ATTEMPTS) {
@@ -118,14 +123,18 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
             Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
           }
         }
-        if (!task.silent && (jsonResponse.result && jsonResponse.result.code !== 'ENOTFOUND' && !silentMode)) {
+
+        if (!task.silent && jsonResponse.result && (typeof jsonResponse.result === 'string' || ((jsonResponse.result.result || jsonResponse.result.message) && jsonResponse.result.code !== 'ENOTFOUND') && !silentMode)) {
+          const message = typeof jsonResponse.result === 'string' ?  jsonResponse.result :typeof jsonResponse.result.result === 'string' ? jsonResponse.result.result : jsonResponse.result.message
+
           rootStore.dispatch('notification/spawnNotification', {
             type: 'error',
-            message: i18n.t(jsonResponse.result),
+            message: i18n.t(message),
             action1: { label: i18n.t('OK') }
           })
         }
       }
+
       Logger.debug('Response for: ' + task.task_id + ' = ' + JSON.stringify(jsonResponse.result), 'sync')()
       task.transmited = true
       task.transmited_at = new Date()
@@ -170,6 +179,6 @@ export function initializeSyncTaskStorage () {
   Vue.prototype.$db.syncTaskCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'syncTasks',
-    driver: localForage[rootStore.state.config.localForage.defaultDrivers['syncTasks']]
+    driver: localForage[config.localForage.defaultDrivers['syncTasks']]
   }))
 }

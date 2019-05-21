@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import * as types from './../store/mutation-types'
 
-export function afterRegistration({ Vue, config, store, isServer }){
+export async function afterRegistration({ Vue, config, store, isServer }){
   if (!isServer) {
-    store.dispatch('user/startSession')
+    await store.dispatch('user/startSession')
 
     Vue.prototype.$bus.$on('user-before-logout', () => {
       store.dispatch('user/logout', { silent: false })

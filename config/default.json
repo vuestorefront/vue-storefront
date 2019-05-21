@@ -21,7 +21,7 @@
     },
     "console": {
       "showErrorOnProduction" : false,
-      "verbosityLevel": "only-errors"
+      "verbosityLevel": "display-everything"
     },
     "redis": {
       "host": "localhost",
@@ -37,7 +37,7 @@
     },
     "elasticsearch": {
       "httpAuth": "",
-      "host": "localhost:8080/api/catalog",
+      "host": "/api/catalog",
       "index": "vue_storefront_catalog",
       "min_score": 0.02,
       "csrTimeout": 5000,
@@ -95,7 +95,7 @@
         "name": "German Store",
         "url": "/de",
         "elasticsearch": {
-          "host": "localhost:8080/api/catalog",
+          "host": "/api/catalog",
           "index": "vue_storefront_catalog_de"
         },
         "tax": {
@@ -122,7 +122,7 @@
         "name": "Italian Store",
         "url": "/it",
         "elasticsearch": {
-          "host": "localhost:8080/api/catalog",
+          "host": "/api/catalog",
           "index": "vue_storefront_catalog_it"
         },
         "tax": {
@@ -289,6 +289,14 @@
         "default": 10,
         "size": 10,
         "color": 10
+      },
+      "priceFilters": {
+        "ranges": [
+          { "from": 0, "to": 50 },
+          { "from": 50, "to": 100 },
+          { "from": 100, "to": 150 },
+          { "from": 150 }
+        ]
       }
     },
     "orders": {
