@@ -4,7 +4,8 @@ import { initializeSyncTaskStorage } from './sync/task'
 import Vue from 'vue'
 import queryString from 'query-string'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
-import VueRouter, { RouteConfig, RawLocation } from 'vue-router';
+import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
+import config from 'config'
 
 export interface LocalizedRoute {
   path?: string,
@@ -48,13 +49,12 @@ export function currentStoreView () : StoreView {
 }
 
 export function prepareStoreView (storeCode: string) : StoreView {
-  const config = rootStore.state.config
   let storeView = { // current, default store
     tax: config.tax,
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
     storeCode: '',
-    storeId: 0
+    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1
   }
   const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
   if (storeCode) { // current store code
@@ -82,7 +82,7 @@ export function prepareStoreView (storeCode: string) : StoreView {
 
 export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocation | string) : string {
   if (matchedRouteOrUrl) {
-    for (const storeCode of rootStore.state.config.storeViews.mapStoreUrlsFor) {
+    for (const storeCode of config.storeViews.mapStoreUrlsFor) {
       let urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
       if (urlPath.length > 0 && urlPath[0] !== '/') urlPath = '/' + urlPath
       if (urlPath.startsWith('/' + storeCode + '/') || urlPath === '/' + storeCode) {
@@ -113,8 +113,8 @@ export function adjustMultistoreApiUrl (url: string) : string {
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
-  if (routeObj && (<LocalizedRoute>routeObj).fullPath && rootStore.state.config.seo.useUrlDispatcher) return localizedDispatcherRoute(<LocalizedRoute>Object.assign({}, routeObj, { params: null }), storeCode)
-  if (storeCode && routeObj && rootStore.state.config.defaultStoreCode !== storeCode) {
+  if (routeObj && (<LocalizedRoute>routeObj).fullPath && config.seo.useUrlDispatcher) return localizedDispatcherRoute(<LocalizedRoute>Object.assign({}, routeObj, { params: null }), storeCode)
+  if (storeCode && routeObj && config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
         routeObj.name = storeCode + '-' + routeObj.name
@@ -133,7 +133,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
     return '/' + storeCode + routeObj
   } 
   if (routeObj && routeObj.fullPath) { // case of using dispatcher
-    const routeCodePrefix = rootStore.state.config.defaultStoreCode !== storeCode ? `/${storeCode}` : ''
+    const routeCodePrefix = config.defaultStoreCode !== storeCode ? `/${storeCode}` : ''
     const qrStr = queryString.stringify(routeObj.params)
     return `${routeCodePrefix}/${routeObj.fullPath}${qrStr ? `?${qrStr}` : ''}`
   }

@@ -67,9 +67,11 @@
 </template>
 
 <script>
-import store from '@vue-storefront/core/store'
+import config from 'config'
 import { Carousel, Slide } from 'vue-carousel'
 import ProductVideo from './ProductVideo'
+import reduce from 'lodash-es/reduce'
+import map from 'lodash-es/map'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 
 export default {
@@ -159,10 +161,14 @@ export default {
       }
     },
     selectVariant () {
-      if (store.state.config.products.gallery.mergeConfigurableChildren) {
-        let option = this.configuration[store.state.config.products.gallery.variantsGroupAttribute]
-        if (typeof option !== 'undefined' && option !== null) {
-          let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option.id))
+      if (config.products.gallery.mergeConfigurableChildren) {
+        const option = reduce(map(this.configuration, 'attribute_code'), (result, attribute) => {
+          result[attribute] = this.configuration[attribute].id
+          return result
+        }, {})
+        if (option) {
+          const index = this.gallery.findIndex(
+            obj => obj.id && Object.entries(obj.id).toString() === Object.entries(option).toString(), option)
           this.navigate(index)
         }
       }

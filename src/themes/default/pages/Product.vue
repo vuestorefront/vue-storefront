@@ -21,7 +21,7 @@
               <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share"/>
             </h1>
             <div class="mb20 uppercase cl-secondary">
-              sku: {{ product.sku }}
+              {{ $t('SKU') }}: {{ product.sku }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
@@ -220,7 +220,7 @@
         </div>
       </div>
     </section>
-    <reviews v-show="OnlineOnly"/>
+    <reviews :product-id="originalProduct.id" v-show="OnlineOnly"/>
     <related-products
       type="upsell"
       :heading="$t('We found other products you might like')"

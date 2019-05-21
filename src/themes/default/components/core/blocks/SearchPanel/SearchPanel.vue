@@ -134,6 +134,10 @@ export default {
     categories () {
       this.selectedCategoryIds = []
     }
+  },
+  mounted () {
+    // add autofocus to search input field
+    this.$refs.search.focus()
   }
 }
 </script>

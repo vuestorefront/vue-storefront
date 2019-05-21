@@ -37,7 +37,6 @@
               <base-checkbox
                 class="col-xs-11 col-sm-12 col-md-8 bg-cl-secondary p15 mb35 ml10"
                 id="acceptTermsCheckbox"
-                @click="orderReview.terms = !orderReview.terms"
                 @blur="$v.orderReview.terms.$touch()"
                 v-model="orderReview.terms"
                 :validations="[{

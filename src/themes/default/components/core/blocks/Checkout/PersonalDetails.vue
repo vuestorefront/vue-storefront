@@ -93,7 +93,6 @@
             v-if="!currentUser"
             class="col-xs-12 mb15"
             id="createAccountCheckbox"
-            @click="createAccount = !createAccount"
             v-model="createAccount"
           >
             {{ $t('I want to create an account') }}
@@ -137,7 +136,6 @@
             <base-checkbox
               class="col-xs-12 mb15"
               id="acceptConditions"
-              @click="acceptConditions = !acceptConditions"
               @blur="$v.acceptConditions.$touch()"
               v-model="acceptConditions"
               :validations="[{
