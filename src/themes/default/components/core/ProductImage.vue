@@ -51,9 +51,9 @@ export default {
   data () {
     return {
       lowerQualityImageLoad: false,
-      lowerQualityImageError: true,
+      lowerQualityImageError: false,
       highQualityImageLoad: false,
-      highQualityImageError: true
+      highQualityImageError: false
     }
   },
   computed: {
