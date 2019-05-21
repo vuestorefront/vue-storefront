@@ -61,10 +61,10 @@ export default {
       return !this.showLowerQualityImage && !this.showHighQualityImage
     },
     showLowerQualityImage () {
-      return !!this.lowerQualityImageLoad && !this.highQualityImageLoad && !this.hidden
+      return this.lowerQualityImageLoad && !this.highQualityImageLoad && !this.hidden
     },
     showHighQualityImage () {
-      return !!this.highQualityImageLoad && !this.hidden
+      return this.highQualityImageLoad && !this.hidden
     },
     isOnline () {
       return onlineHelper.isOnline
