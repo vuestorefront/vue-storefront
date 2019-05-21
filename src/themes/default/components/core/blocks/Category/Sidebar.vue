@@ -2,13 +2,13 @@
   <div class="sidebar">
     <h4 class="sidebar__header">
       <span> {{ $t('Filter') }} </span>
-      <button
-        class="no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
+      <span
+        class="px40 h4 weight-400 pointer sans-serif"
         @click="resetAllFilters"
         v-show="hasActiveFilters"
       >
-        {{ $t('Clear') }}
-      </button>
+        {{ $t('Clear filters') }}
+      </span>
     </h4>
     <div
       v-for="(filter, filterIndex) in availableFilters"
