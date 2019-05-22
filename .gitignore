@@ -29,6 +29,7 @@ core/resource/i18n/nl-NL.json
 core/resource/i18n/pl-PL.json
 core/resource/i18n/pt-BR.json
 core/resource/i18n/ru-RU.json
+*.iml
 
 #unit testing
 /test/unit/coverage

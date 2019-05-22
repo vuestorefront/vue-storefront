@@ -19,6 +19,7 @@ const state = {
   shipping: {},
   user: {},
   ui: {},
+  newsletter: {},
   wishlist: {},
   attribute: '',
   category: {

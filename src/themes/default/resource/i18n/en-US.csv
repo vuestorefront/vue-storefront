@@ -114,6 +114,7 @@
 "My loyalty card","My loyalty card"
 "My product reviews","My product reviews"
 "Wishlist","Wishlist"
+"Clear wishlist","Clear wishlist"
 "Your wishlist is empty.","Your wishlist is empty."
 "Add to cart","Add to cart"
 "Select color ","Select color "
@@ -273,3 +274,4 @@
 "My Recently viewed products","My Recently viewed products"
 "No products yet","No products yet"
 "The server order id has been set to ","The server order id has been set to "
+"Are you sure you would like to remove all the items from the wishlist?","Are you sure you would like to remove all the items from the wishlist?"
