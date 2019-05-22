@@ -1,7 +1,7 @@
 // import { extendModule } from '@vue-storefront/core/lib/module'
 import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
 import { Catalog } from "@vue-storefront/core/modules/catalog"
-import CatalogMagento from "@vue-storefront/core/modules/catalog-magento"
+import CatalogNext from "@vue-storefront/core/modules/catalog-next"
 import { Cart } from '@vue-storefront/core/modules/cart'
 import { Checkout } from '@vue-storefront/core/modules/checkout'
 import { Compare } from '@vue-storefront/core/modules/compare'
@@ -78,6 +78,6 @@ export const registerModules: VueStorefrontModule[] = [
   AmpRenderer,
   InstantCheckout,
   Url,
-  CatalogMagento
+  CatalogNext
   // Example
 ]

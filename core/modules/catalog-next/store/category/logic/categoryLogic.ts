@@ -1,4 +1,4 @@
-import FilterVariant from 'core/modules/catalog-magento/types/FilterVariant';
+import FilterVariant from 'core/modules/catalog-next/types/FilterVariant';
 
 export const compareByLabel = ( a, b ) => {
   if ( a.label < b.label ){

@@ -69,10 +69,10 @@ export default {
   },
   computed: {
     products () {
-      return this.$store.getters['category-magento/getCategoryProducts']
+      return this.$store.getters['category-next/getCategoryProducts']
     },
     category () {
-      return this.$store.getters['category-magento/getCurrentCategory']
+      return this.$store.getters['category-next/getCurrentCategory']
     },
     productsTotal () {
       return this.products.length
@@ -81,10 +81,10 @@ export default {
       return this.productsTotal === 0
     },
     getBreadcrumbs () {
-      return this.$store.getters['category-magento/getBreadcrumbs'].filter(breadcrumb => breadcrumb.name !== this.category.name)
+      return this.$store.getters['category-next/getBreadcrumbs'].filter(breadcrumb => breadcrumb.name !== this.category.name)
     },
     getAvailableFilters () {
-      return this.$store.getters['category-magento/getAvailableFilters']
+      return this.$store.getters['category-next/getAvailableFilters']
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
@@ -95,7 +95,7 @@ export default {
         includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
       })
       //   // const category = await store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
-      await store.dispatch('category-magento/loadCategoryProducts', {route})
+      await store.dispatch('category-next/loadCategoryProducts', {route})
     } catch (e) {
       console.error('Problem with Category asyncData', e)
     }
@@ -115,7 +115,7 @@ export default {
       })
     },
     async changeFilter (filterVariant) {
-      this.$store.dispatch('category-magento/switchSearchFilter', filterVariant)
+      this.$store.dispatch('category-next/switchSearchFilter', filterVariant)
     }
   }
 }

@@ -109,18 +109,18 @@ export default {
   },
   computed: {
     hasActiveFilters () {
-      return this.$store.getters['category-magento/hasActiveFilters']
+      return this.$store.getters['category-next/hasActiveFilters']
     },
     getCurrentFilters () {
-      return this.$store.getters['category-magento/getCurrentFilters']
+      return this.$store.getters['category-next/getCurrentFilters']
     },
     availableFilters () {
-      return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters['category-magento/getSystemFilterNames'].includes(filterType)) })
+      return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType)) })
     }
   },
   methods: {
     resetAllFilters () {
-      this.$store.dispatch('category-magento/resetFilters')
+      this.$store.dispatch('category-next/resetFilters')
     },
     sortById (filters) {
       return [...filters].sort((a, b) => { return a.id - b.id })

@@ -1,4 +1,4 @@
-import { getFiltersFromQuery } from "@vue-storefront/core/modules/catalog-magento/store/category/logic/categoryLogic";
+import { getFiltersFromQuery } from "@vue-storefront/core/modules/catalog-next/store/category/logic/categoryLogic";
 
 describe('getFiltersFromQuery method', () => {
   let availableFilters

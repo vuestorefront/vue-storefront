@@ -1,5 +1,5 @@
-import { changeFilterQuery } from '@vue-storefront/core/modules/catalog-magento/store/category/logic/categoryLogic';
-import FilterVariant from '@vue-storefront/core/modules/catalog-magento/types/FilterVariant';
+import { changeFilterQuery } from '@vue-storefront/core/modules/catalog-next/store/category/logic/categoryLogic';
+import FilterVariant from '@vue-storefront/core/modules/catalog-next/types/FilterVariant';
 
 describe('changeFilterQuery method', () => {
   it('should not change query when no filter variant provided', () => {
