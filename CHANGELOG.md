@@ -12,10 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Global config api path under `api.url` - @BartoszLiburski (#2622)
 - Google Tag Manager integration - @talalus (#841)
 - Portuguese (pt-PT) translation - @xlcnd (#2695)
+- Module Mailchimp is removed in favor of more generic Newsletter - @mdesmet (#2558)
 - Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
 - Added back-button on orde detail page [#2819]
 - Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
 - Added back to top functionality - @vishal-7037 (#2866)
+- Added "Clear wishlist" button - @aniamusial (#2806)
 
 ### Fixed
 - Products removed from the cart are no longer add back on the conectivity return - @pkarw (#2898)
