@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unexpected `window.localStorage` use in user module actions - @zulcom (#2735)
 - Fix handling state of same address checkbox in the checkout - @lukeromanowicz (#2730)
 - Fix for `everythingNew` collection on home page - @vishal-7037 (#2761)
+- Fixed display of chevron arrows when there is only one product image - RGijsberts - (#2911)
 - Fixed `Clear cart` option as it previously was not syncing the changes with server - therefore when the user was logged in and cleard the cart all the products were restored - @pkarw (#2587)
 - Fixed the cart sync for a rare case that current cart token was empty - @pkarw (#2592)
 - Use event bus to emit 'application-after-init' event (#2852)
