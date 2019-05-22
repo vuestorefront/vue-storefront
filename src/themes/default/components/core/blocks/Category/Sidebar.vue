@@ -1,9 +1,9 @@
 <template>
   <div class="sidebar">
-    <h4 class="sidebar__header">
+    <h4 class="sidebar__header relative mt35 mb20">
       <span> {{ $t('Filter') }} </span>
       <span
-        class="px40 h4 weight-400 pointer sans-serif"
+        class="weight-400 sidebar__header__clear pointer sans-serif absolute"
         @click="resetAllFilters"
         v-show="hasActiveFilters"
       >
@@ -103,10 +103,14 @@ export default {
 <style lang="scss" scoped>
 .sidebar {
   &__header {
-    display: flex;
     justify-content: space-between;
     align-items: center;
     min-height: 47px;
+    &__clear {
+      right: 0;
+      bottom: -10px;
+      font-size: .8em;
+    }
   }
 
   &__inline-selecors {
