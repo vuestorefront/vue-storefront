@@ -45,7 +45,8 @@ export const checkoutModule: Module<CheckoutState, RootState> = {
       paymentMethod: '',
       paymentMethodAdditional: {}
     },
-    isThankYouPage: false
+    isThankYouPage: false,
+    modifiedAt: 0
   },
   getters,
   actions,

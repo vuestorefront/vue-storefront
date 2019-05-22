@@ -97,7 +97,6 @@ export const Shipping = {
       return false
     },
     useMyAddress () {
-      this.shipToMyAddress = !this.shipToMyAddress
       if (this.shipToMyAddress) {
         this.shipping = {
           firstName: this.myAddressDetails.firstname,

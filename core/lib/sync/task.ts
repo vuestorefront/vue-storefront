@@ -12,6 +12,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import * as entities from '@vue-storefront/core/store/lib/entities'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
+import config from 'config'
 
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
 
@@ -46,8 +47,13 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       currentToken = rootStore.state.userTokenInvalidated
     }
   }
+  const isCartIdRequired = task.url.includes('{{cartId}}') // this is bypass for #2592
+  if (isCartIdRequired && !currentCartId) {// by some reason we does't have the  cart id yet
+    reject ('Error executing sync task ' + task.url + ' the required cartId  argument is null. Re-creating shopping cart synchro.')
+    return
+  }
   let url = task.url.replace('{{token}}', (currentToken == null) ? '' : currentToken).replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
-  if (rootStore.state.config.storeViews.multistore) {
+  if (config.storeViews.multistore) {
     url = adjustMultistoreApiUrl(url)
   }
   let silentMode = false
@@ -71,7 +77,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           if (isNaN(rootStore.state.userTokenInvalidateLock) || isUndefined(rootStore.state.userTokenInvalidateLock)) rootStore.state.userTokenInvalidateLock = 0
 
           silentMode = true
-          if (rootStore.state.config.users.autoRefreshTokens) {
+          if (config.users.autoRefreshTokens) {
             if (!rootStore.state.userTokenInvalidateLock) {
               rootStore.state.userTokenInvalidateLock++
               if (rootStore.state.userTokenInvalidateAttemptsCount >= AUTO_REFRESH_MAX_ATTEMPTS) {
@@ -173,6 +179,6 @@ export function initializeSyncTaskStorage () {
   Vue.prototype.$db.syncTaskCollection = new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'syncTasks',
-    driver: localForage[rootStore.state.config.localForage.defaultDrivers['syncTasks']]
+    driver: localForage[config.localForage.defaultDrivers['syncTasks']]
   }))
 }

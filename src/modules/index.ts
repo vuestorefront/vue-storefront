@@ -7,7 +7,7 @@ import { Compare } from '@vue-storefront/core/modules/compare'
 import { Review } from '@vue-storefront/core/modules/review'
 import { Mailer } from '@vue-storefront/core/modules/mailer'
 import { Wishlist } from '@vue-storefront/core/modules/wishlist'
-import { Mailchimp } from '../modules/mailchimp'
+import { Newsletter } from '@vue-storefront/core/modules/newsletter'
 import { Notification } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
 import { Url } from '@vue-storefront/core/modules/url'
@@ -17,6 +17,7 @@ import { PromotedOffers } from './promoted-offers'
 import { Ui } from './ui-store'
 // import { GoogleAnalytics } from './google-analytics';
 // import { Hotjar } from './hotjar';
+import { googleTagManager } from './google-tag-manager';
 import { AmpRenderer } from './amp-renderer';
 import { PaymentBackendMethods } from './payment-backend-methods';
 import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
@@ -59,7 +60,7 @@ export const registerModules: VueStorefrontModule[] = [
   Review,
   Mailer,
   Wishlist,
-  Mailchimp,
+  Newsletter,
   Notification,
   Ui,
   RecentlyViewed,
@@ -67,6 +68,7 @@ export const registerModules: VueStorefrontModule[] = [
   Claims,
   PromotedOffers,
   Magento2CMS,
+  googleTagManager,
   // GoogleAnalytics,
   // Hotjar,
   PaymentBackendMethods,
@@ -74,6 +76,6 @@ export const registerModules: VueStorefrontModule[] = [
   RawOutputExample,
   AmpRenderer,
   InstantCheckout,
-  Url,
+  Url
   // Example
 ]
