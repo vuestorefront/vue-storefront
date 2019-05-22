@@ -30,6 +30,9 @@ const module = createModule(moduleConfig)
 - Added validation for UTF8 alpha and alphanumeric characters in most checkout fields
 - Update your local.json config and set default `api.url` path, without it you may have problems with elasticsearch queries.
 
+### Troubleshooting 
+- In case of CORS problem after upgrade check your elasticsearch url in config file. Best practice for that change can be found [here](https://github.com/DivanteLtd/vue-storefront/commit/77fc9c2765068303879c75ef9ed4a4b98f6763b6)
+
 ## 1.7 -> 1.8
 Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/CHANGELOG.md)
 
