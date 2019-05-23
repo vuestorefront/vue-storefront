@@ -57,7 +57,7 @@ export default {
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
   },
   computed: {
-    isSubscribed () : Boolean {
+    isSubscribed (): boolean {
       return this.$store.getters['newsletter/isSubscribed']
     }
   }

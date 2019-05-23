@@ -235,7 +235,7 @@ describe('SubscriptionStatus', () => {
       }
     });
 
-    (<any> wrapper.vm).checkStatus()
+    (wrapper.vm as any).checkStatus()
 
     expect(storeMock.modules.newsletter.actions.status).toBeCalled()
   })
@@ -270,7 +270,7 @@ describe('SubscriptionStatus', () => {
       }
     });
 
-    (<any> wrapper.vm).checkStatus()
+    (wrapper.vm as any).checkStatus()
 
     expect(storeMock.modules.newsletter.actions.status).toBeCalled()
   })
@@ -305,7 +305,7 @@ describe('SubscriptionStatus', () => {
       }
     });
 
-    await (<any> wrapper.vm).checkStatus()
+    await (wrapper.vm as any).checkStatus()
 
     expect(storeMock.modules.newsletter.actions.status).toBeCalled()
   })
@@ -342,7 +342,7 @@ describe('SubscriptionStatus', () => {
 
     const errorHandler = jest.fn()
 
-    await (<any> wrapper.vm).checkStatus(()=>{}, errorHandler)
+    await (wrapper.vm as any).checkStatus(() => {}, errorHandler)
 
     expect(errorHandler).toBeCalled()
   })

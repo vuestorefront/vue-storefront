@@ -4,7 +4,7 @@ import { newsletterState } from '../types/newsletterState'
 import { cacheStorage } from '../'
 import config from 'config'
 
-export const module: Module<newsletterState, any> ={
+export const module: Module<newsletterState, any> = {
   namespaced: true,
   state: {
     isSubscribed: null,
@@ -27,7 +27,6 @@ export const module: Module<newsletterState, any> ={
   },
   actions: {
     status ({ commit, state }, email): Promise<Response> {
-
       return new Promise((resolve, reject) => {
         fetch(config.newsletter.endpoint + '?email=' + encodeURIComponent(email), {
           method: 'GET',
@@ -35,16 +34,16 @@ export const module: Module<newsletterState, any> ={
           mode: 'cors'
         }).then(res => res.json())
           .then(res => {
-          if(res.result === 'subscribed') {
-            commit(types.SET_EMAIL, email)
-            commit(types.NEWSLETTER_SUBSCRIBE)
-          } else {
-            commit(types.NEWSLETTER_UNSUBSCRIBE)
-          }
-          resolve(res)
-        }).catch(err => {
-          reject(err)
-        })
+            if (res.result === 'subscribed') {
+              commit(types.SET_EMAIL, email)
+              commit(types.NEWSLETTER_SUBSCRIBE)
+            } else {
+              commit(types.NEWSLETTER_UNSUBSCRIBE)
+            }
+            resolve(res)
+          }).catch(err => {
+            reject(err)
+          })
       })
     },
     subscribe ({ commit, state }, email): Promise<Response> {
