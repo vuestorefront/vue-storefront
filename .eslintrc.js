@@ -24,6 +24,7 @@ module.exports = {
     '@typescript-eslint/member-delimiter-style': ['error', { 'multiline': { 'delimiter': 'comma', 'requireLast': false }, 'singleline': { 'delimiter': 'comma' } }],
     '@typescript-eslint/no-empty-interface': 1,
     '@typescript-eslint/no-use-before-define': 1,
+    '@typescript-eslint/no-explicit-any': 0,
     'handle-callback-err': 1,
     '@typescript-eslint/class-name-casing': 1,
     'prefer-promise-reject-errors': 1,
