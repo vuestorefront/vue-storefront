@@ -12,10 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Global config api path under `api.url` - @BartoszLiburski (#2622)
 - Google Tag Manager integration - @talalus (#841)
 - Portuguese (pt-PT) translation - @xlcnd (#2695)
+- Module Mailchimp is removed in favor of more generic Newsletter - @mdesmet (#2558)
 - Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
 - Added back-button on orde detail page [#2819]
 - Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
+- Added linting for typescript files @ResuBaka (#2843)
 - Added back to top functionality - @vishal-7037 (#2866)
+- Button for filters acceptance added with new styles for clear filters button - @965750 (#2811)
+- Added "Clear wishlist" button - @aniamusial (#2806)
 
 ### Fixed
 - Products removed from the cart are no longer add back on the conectivity return - @pkarw (#2898)
@@ -28,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unexpected `window.localStorage` use in user module actions - @zulcom (#2735)
 - Fix handling state of same address checkbox in the checkout - @lukeromanowicz (#2730)
 - Fix for `everythingNew` collection on home page - @vishal-7037 (#2761)
+- Fixed display of chevron arrows when there is only one product image - RGijsberts - (#2911)
 - Fixed `Clear cart` option as it previously was not syncing the changes with server - therefore when the user was logged in and cleard the cart all the products were restored - @pkarw (#2587)
 - Fixed the cart sync for a rare case that current cart token was empty - @pkarw (#2592)
 - Use event bus to emit 'application-after-init' event (#2852)
