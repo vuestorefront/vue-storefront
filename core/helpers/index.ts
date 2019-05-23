@@ -147,7 +147,6 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
   return searchProductQuery
 }
 
-
 export function once (key, fn) {
   const { process = {} } = global
   const processKey = key + '__ONCE__'
@@ -161,13 +160,14 @@ export function once (key, fn) {
 export const isServer: boolean = typeof window === 'undefined'
 
 // Online/Offline helper
-export const onlineHelper = Vue.observable({ 
-  isOnline: isServer || navigator.onLine 
+export const onlineHelper = Vue.observable({
+  isOnline: isServer || navigator.onLine
 })
-!isServer && window.addEventListener('online',  () => onlineHelper.isOnline = true)
-!isServer && window.addEventListener('offline', () => onlineHelper.isOnline = false)
 
-export const processURLAddress = (url:string = '') => {
+!isServer && window.addEventListener('online', () => { onlineHelper.isOnline = true })
+!isServer && window.addEventListener('offline', () => { onlineHelper.isOnline = false })
+
+export const processURLAddress = (url: string = '') => {
   if (url.startsWith('/')) return `${config.api.url}${url}`
   return url
 }

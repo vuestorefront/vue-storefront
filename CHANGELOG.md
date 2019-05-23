@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
 - Added back-button on orde detail page [#2819]
 - Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
+- Added linting for typescript files @ResuBaka (#2843)
 - Added back to top functionality - @vishal-7037 (#2866)
 - Button for filters acceptance added with new styles for clear filters button - @965750 (#2811)
 - Added "Clear wishlist" button - @aniamusial (#2806)
