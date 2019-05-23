@@ -670,7 +670,7 @@ const actions: ActionTree<ProductState, RootState> = {
         context.commit(types.CATALOG_UPD_GALLERY, productGallery)
       }
     } else {
-      let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== rootStore.state.config.images.productPlaceholder })
+      let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
       context.commit(types.CATALOG_UPD_GALLERY, productGallery)
     }
   },
