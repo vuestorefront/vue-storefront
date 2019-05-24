@@ -35,7 +35,10 @@ export default {
   props: {
     image: {
       type: Object,
-      default: () => ({})
+      default: () => ({
+        src: '',
+        loading: ''
+      })
     },
     alt: {
       type: String,
