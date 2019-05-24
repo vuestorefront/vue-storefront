@@ -45,7 +45,7 @@ export default {
 
   .button-outline {
     border: 2px solid;
-    min-width: 250px;
+    min-width: 220px;
   }
   .dark {
     border: 1px solid $dark-border;
