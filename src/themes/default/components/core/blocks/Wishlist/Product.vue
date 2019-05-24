@@ -104,11 +104,11 @@ export default {
 </script>
 
 <style scoped>
-  .col-xs {
-    flex-direction: column;
-  }
+.col-xs {
+  flex-direction: column;
+}
 
-  input {
-    width: 30px;
-  }
+input {
+  width: 30px;
+}
 </style>

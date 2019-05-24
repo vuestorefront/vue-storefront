@@ -160,128 +160,128 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/animations/transitions';
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
+@import '~theme/css/animations/transitions';
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
 
-  $bg-secondary: color(secondary, $colors-background);
-  $border-secondary: color(secondary, $colors-border);
-  $color-white: color(white);
+$bg-secondary: color(secondary, $colors-background);
+$border-secondary: color(secondary, $colors-border);
+$color-white: color(white);
 
-  .addToCart {
-    &.button-full {
-      min-width: inherit;
+.addToCart {
+  &.button-full {
+    min-width: inherit;
+  }
+}
+
+.product {
+  @media (max-width: 767px) {
+    padding-bottom: 10px;
+  }
+}
+
+.price-original {
+  text-decoration: line-through;
+}
+
+%label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: $border-secondary;
+  text-transform: uppercase;
+  color: $color-white;
+  font-size: 12px;
+}
+
+.product-image {
+  width: 100%;
+  overflow: hidden;
+  max-height: 300px;
+  height: 100%;
+  min-height: 155px;
+  display: flex;
+  align-items: flex-end;
+  background-image: url('/assets/placeholder.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60% auto;
+
+  @media (min-width: 768px) {
+    min-height: 190px;
+  }
+  @media (min-width: 1200px) {
+    min-height: 300px;
+  }
+
+  &__content {
+    display: none;
+  }
+
+  &--loaded {
+    background-image: none;
+
+    .product-image__content {
+      display: block;
+      transform: translateZ(0);
     }
   }
 
-  .product {
-    @media (max-width: 767px) {
-      padding-bottom: 10px;
+  &:hover {
+    img {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    &.sale::after,
+    &.new::after {
+      opacity: 0.8;
     }
   }
 
-  .price-original {
-    text-decoration: line-through;
-  }
+  img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    margin: auto;
+    mix-blend-mode: darken;
+    opacity: 0.8;
+    transform: scale(1);
+    transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
 
-  %label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    background-color: $border-secondary;
-    text-transform: uppercase;
-    color: $color-white;
-    font-size: 12px;
-  }
-
-  .product-image {
-    width: 100%;
-    overflow: hidden;
-    max-height: 300px;
-    height: 100%;
-    min-height: 155px;
-    display: flex;
-    align-items: flex-end;
-    background-image: url('/assets/placeholder.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 60% auto;
-
-    @media (min-width: 768px) {
-      min-height: 190px;
-    }
-    @media (min-width: 1200px) {
-      min-height: 300px;
+    &[lazy="loaded"] {
+      animation: products-loaded;
+      animation-duration: 0.3s;
     }
 
-    &__content {
-      display: none;
-    }
-
-    &--loaded {
-      background-image: none;
-
-      .product-image__content {
-        display: block;
-        transform: translateZ(0);
+    @keyframes products-loaded {
+      from {
+        opacity: 0;
       }
-    }
-
-    &:hover {
-      img {
-        opacity: 1;
-        transform: scale(1.1);
-      }
-
-      &.sale::after,
-      &.new::after {
+      to {
         opacity: 0.8;
       }
     }
+  }
 
-    img {
-      max-height: 100%;
-      max-width: 100%;
-      width: auto;
-      height: auto;
-      margin: auto;
-      mix-blend-mode: darken;
-      opacity: 0.8;
-      transform: scale(1);
-      transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
-
-      &[lazy="loaded"] {
-        animation: products-loaded;
-        animation-duration: 0.3s;
-      }
-
-      @keyframes products-loaded {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 0.8;
-        }
-      }
-    }
-
-    &.sale {
-      &::after {
-        @extend %label;
-        content: 'Sale';
-      }
-    }
-
-    &.new {
-      &::after {
-        @extend %label;
-        content: 'New';
-      }
+  &.sale {
+    &::after {
+      @extend %label;
+      content: 'Sale';
     }
   }
+
+  &.new {
+    &::after {
+      @extend %label;
+      content: 'New';
+    }
+  }
+}
 </style>
