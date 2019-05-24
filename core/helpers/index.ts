@@ -171,3 +171,11 @@ export const processURLAddress = (url: string = '') => {
   if (url.startsWith('/')) return `${config.api.url}${url}`
   return url
 }
+
+export function bottomVisible () {
+  const scrollY = window.scrollY
+  const visible = window.innerHeight
+  const pageHeight = document.documentElement.scrollHeight
+  const bottomOfPage = visible + scrollY >= pageHeight
+  return bottomOfPage || pageHeight < visible
+}
