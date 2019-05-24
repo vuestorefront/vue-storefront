@@ -17,11 +17,10 @@
         :key="images.src">
         <div class="product-image-container bg-cl-secondary" :class="{'video-container w-100 h-100 flex relative': images.video}">
           <product-image
-            class="product-image inline-flex mw-100"
-            :images="images"
-            :hidden="hideImageAtIndex === index"
-            :alt="productName | htmlDecode"
-            @dblclick.native="openOverlay"/>
+            @dblclick="openOverlay"
+            class="product-image pointer"
+            :image="images"
+            :alt="productName | htmlDecode"/>
           <product-video
             v-if="images.video && (index === currentPage)"
             v-bind="images.video"
@@ -135,6 +134,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~theme/css/animations/transitions';
 .media-gallery-carousel {
   position: relative;
   text-align: center;
@@ -145,25 +145,15 @@ export default {
   bottom: 0;
   right: 0;
 }
-img {
-  opacity: 1;
+.product-image{
   mix-blend-mode: multiply;
-  vertical-align: top;
-  &:hover {
-    opacity: 0.9;
+  opacity: 1;
+  will-change: transform;
+  transition: .3s opacity $motion-main;
+  &:hover{
+    opacity: .9;
   }
 }
-img[lazy=error] {
-  width: 100%;
-}
-img[lazy=loading] {
-  width: 100%;
-}
-img[lazy=loaded] {
-  -webkit-animation: none;
-  animation: none;
-}
-
 .video-container {
   align-items: center;
   justify-content: center;

@@ -2,13 +2,11 @@
   <div class="media-zoom-carousel">
     <div class="media-zoom-carousel__container row flex">
       <ul class="media-zoom-carousel__thumbs m0 p0">
-        <li class="media-zoom-carousel__thumb" v-for="(images, index) in gallery" :key="images.src">
+        <li class="media-zoom-carousel__thumb bg-cl-secondary" v-for="(images, index) in gallery" :key="images.src">
           <product-image
-            :images="images"
-            :alt="productName | htmlDecode"
-            :hidden="hideImageAtIndex === index"
-            @click.native="navigate(key)"
-            class="bg-cl-secondary"/>
+            @click="navigate(index)"
+            :image="images"
+            :alt="productName | htmlDecode"/>
         </li>
       </ul>
       <div class="media-zoom-carousel__gallery">
@@ -31,9 +29,8 @@
             <div class="media-zoom-carousel__slide  bg-cl-secondary"
                  :class="{'video-container h-100 flex relative': images.video}">
               <product-image
-                :images="images"
-                :alt="productName | htmlDecode"
-                :hidden="hideImageAtIndex === index" />
+                :image="images"
+                :alt="productName | htmlDecode"/>
               <product-video
                 v-if="images.video && (index === currentPage)"
                 v-bind="images.video"
@@ -115,13 +112,13 @@ export default {
 
 <style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
-
+@import '~theme/css/animations/transitions';
 .media-zoom-carousel {
   * {
     box-sizing: border-box;
   }
 
-  &__container {
+  &__container{
     position: absolute;
     top: 0;
     left: 0;
@@ -134,17 +131,18 @@ export default {
     max-height: 100%;
     justify-content: space-evenly;
 
-    @media (max-width: 767px) {
+    @media (max-width: 767px){
       top: 50%;
-      transform: translateY(-50%);
       bottom: auto;
       height: auto;
+      transform: translate3d(0, -50%, 0);
     }
   }
 
-  &__thumbs {
+  &__thumbs{
     list-style: none;
     padding-right: 20px;
+    width:100%;
     max-width: 140px;
     height: 100%;
     overflow: auto;
@@ -159,7 +157,7 @@ export default {
     }
   }
 
-  &__thumb {
+  &__thumb{
     margin-bottom: 20px;
     max-width: 100%;
     cursor: pointer;
@@ -168,24 +166,22 @@ export default {
       margin-bottom: 0;
     }
 
-    img {
-      display: block;
-      max-width: 100%;
-      width: auto;
+    & > div{
       mix-blend-mode: multiply;
       opacity: 0.9;
+      will-change: transform;
+      transition: .3s opacity $motion-main;
 
-      &:hover {
+      &:hover{
         opacity: 1;
       }
     }
   }
 
-  &__gallery {
+  &__gallery{
     max-width: 600px;
     height: 100%;
     flex: 1;
-
     @media (max-width: 767px) {
       height: auto;
     }
@@ -195,22 +191,15 @@ export default {
     height: 100%;
   }
 
-  &__slide {
+  &__slide{
     height: 100%;
     max-height: 100%;
-
-    img {
-      max-height: 100%;
+    & > div {
       mix-blend-mode: multiply;
-      max-width: 100%;
-      height: auto;
-      align-self: center;
-      margin: 0 auto;
+    padding-bottom: calc(710% / (600 / 100));
     }
   }
-
 }
-
 .video-container {
   align-items: center;
   justify-content: center;
