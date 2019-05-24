@@ -5,7 +5,7 @@ import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/core/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { baseFilterProductsQuery, buildFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
+import { baseFilterProductsQuery, buildFilterProductsQuery, isServer, bottomVisible } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -138,7 +138,7 @@ export default {
     }
     if (!isServer && this.lazyLoadProductsOnscroll) {
       window.addEventListener('scroll', () => {
-        this.bottom = this.bottomVisible()
+        this.bottom = bottomVisible()
       }, {passive: true})
     }
   },
@@ -156,13 +156,6 @@ export default {
   },
   methods: {
     ...mapActions('category', ['mergeSearchOptions']),
-    bottomVisible () {
-      const scrollY = window.scrollY
-      const visible = window.innerHeight
-      const pageHeight = document.documentElement.scrollHeight
-      const bottomOfPage = visible + scrollY >= pageHeight
-      return bottomOfPage || pageHeight < visible
-    },
     pullMoreProducts () {
       if (typeof navigator !== 'undefined' && !navigator.onLine) return
       let current = this.getCurrentCategoryProductQuery.current + this.getCurrentCategoryProductQuery.perPage
