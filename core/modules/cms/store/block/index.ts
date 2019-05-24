@@ -10,7 +10,7 @@ export const cmsBlockStorageKey = 'cms-blocks'
 export const cmsBlockModule: Module<CmsBlockState, RootState> = {
   namespaced: true,
   state: {
-    items: [],
+    items: []
   },
   getters,
   actions,

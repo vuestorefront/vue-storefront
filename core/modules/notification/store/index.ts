@@ -20,8 +20,8 @@ export const module: Module<NotificationState, any> = {
   },
   actions: {
     spawnNotification ({ commit, state, dispatch }, notification: NotificationItem) {
-      if (state.notifications.length > 0
-        && state.notifications[state.notifications.length - 1].message === notification.message
+      if (state.notifications.length > 0 &&
+        state.notifications[state.notifications.length - 1].message === notification.message
       ) {
         return
       }

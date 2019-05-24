@@ -24,7 +24,7 @@ export const Payment = {
   computed: {
     ...mapState({
       currentUser: (state: RootState) => state.user.current,
-      shippingDetails: (state:RootState) => state.checkout.shippingDetails
+      shippingDetails: (state: RootState) => state.checkout.shippingDetails
     }),
     ...mapGetters({
       paymentMethods: 'payment/paymentMethods',

@@ -36,5 +36,6 @@ export default interface CheckoutState {
     paymentMethod: string,
     paymentMethodAdditional: any
   },
-  isThankYouPage: boolean
+  isThankYouPage: boolean,
+  modifiedAt: number
 }

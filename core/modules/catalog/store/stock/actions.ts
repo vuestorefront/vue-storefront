@@ -8,6 +8,7 @@ import StockState from '../../types/StockState'
 import rootStore from '@vue-storefront/core/store'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import config from 'config'
 
 const actions: ActionTree<StockState, RootState> = {
   /**
@@ -15,8 +16,8 @@ const actions: ActionTree<StockState, RootState> = {
    */
   check (context, { product, qty = 1 }) {
     return new Promise((resolve, reject) => {
-      if (rootStore.state.config.stock.synchronize) {
-        TaskQueue.queue({ url: rootStore.state.config.stock.endpoint + '/check?sku=' + encodeURIComponent(product.sku),
+      if (config.stock.synchronize) {
+        TaskQueue.queue({ url: config.stock.endpoint + '/check?sku=' + encodeURIComponent(product.sku),
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -24,7 +25,7 @@ const actions: ActionTree<StockState, RootState> = {
           },
           product_sku: product.sku,
           callback_event: 'store:stock/stockAfterCheck'
-        }).then((task:any) => {
+        }).then((task: any) => {
           resolve({ qty: product.stock ? product.stock.qty : 0, status: product.stock ? (product.stock.is_in_stock ? 'ok' : 'out_of_stock') : 'ok', onlineCheckTaskId: task.task_id }) // if online we can return ok because it will be verified anyway
         })
       } else {
@@ -37,8 +38,8 @@ const actions: ActionTree<StockState, RootState> = {
    */
   list (context, { skus }) {
     return new Promise((resolve, reject) => {
-      if (rootStore.state.config.stock.synchronize) {
-        TaskQueue.execute({ url: rootStore.state.config.stock.endpoint + '/list?skus=' + encodeURIComponent(skus.join(',')),
+      if (config.stock.synchronize) {
+        TaskQueue.execute({ url: config.stock.endpoint + '/list?skus=' + encodeURIComponent(skus.join(',')),
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -70,7 +71,7 @@ const actions: ActionTree<StockState, RootState> = {
       rootStore.dispatch('cart/getItem', event.product_sku).then((cartItem) => {
         if (cartItem && event.result.code !== 'ENOTFOUND') {
           if (!event.result.is_in_stock) {
-            if (!rootStore.state.config.stock.allowOutOfStockInCart) {
+            if (!config.stock.allowOutOfStockInCart) {
               Logger.log('Removing product from cart' + event.product_sku, 'stock')()
               rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: { sku: event.product_sku } }, {root: true})
             } else {

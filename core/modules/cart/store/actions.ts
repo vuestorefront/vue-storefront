@@ -2,10 +2,9 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import rootStore from '@vue-storefront/core/store'
-import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import { sha3_224 } from 'js-sha3'
-import { currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import omit from 'lodash-es/omit'
 import RootState from '@vue-storefront/core/types/RootState'
 import CartState from '../types/CartState'
@@ -16,6 +15,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
+import config from 'config'
 
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
@@ -47,18 +47,19 @@ const actions: ActionTree<CartState, RootState> = {
   serverTokenClear (context) {
     context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
-  clear (context) {
-    context.commit(types.CART_LOAD_CART, [])
-    context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
-
-    if (config.cart.synchronize) {
-      context.dispatch('serverCreate', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
+  async clear (context, options = { recreateAndSyncCart: true }) {
+    await context.commit(types.CART_LOAD_CART, [])
+    if (options.recreateAndSyncCart && config.cart.synchronize) {
+      await context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
+      await context.dispatch('serverCreate', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
     }
   },
   save (context) {
     context.commit(types.CART_SAVE)
   },
   serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
+    const isUserInCheckout = context.rootGetters['checkout/isUserInCheckout']
+    if (isUserInCheckout) forceClientState = true // never surprise the user in checkout - #
     if (config.cart.synchronize && !isServer && onlineHelper.isOnline && context.state.cartServerToken) {
       const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
       if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
@@ -87,6 +88,8 @@ const actions: ActionTree<CartState, RootState> = {
               })
             }
           }
+        }).catch(err => {
+          Logger.error(err, 'cart')()
         })
       } else {
         Logger.log('Too short interval for refreshing the cart or items not changed' + newItemsHash + context.state.cartItemsHash, 'cart')()
@@ -94,7 +97,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
-    if (config.cart.synchronize_totals  && !isServer && onlineHelper.isOnline && context.state.cartServerToken) {
+    if (config.cart.synchronize_totals && !isServer && onlineHelper.isOnline && context.state.cartServerToken) {
       if ((Date.now() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
         TaskQueue.execute({ url: config.cart.totals_endpoint, // sync the cart
           payload: {
@@ -111,7 +114,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
     }
   },
-  serverCreate (context, { guestCart = false }) {
+  serverCreate (context, { guestCart = false, forceClientState = false }) {
     if (config.cart.synchronize && !isServer) {
       if ((Date.now() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
         const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
@@ -120,6 +123,7 @@ const actions: ActionTree<CartState, RootState> = {
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors'
           },
+          force_client_state: forceClientState,
           silent: true,
           callback_event: 'store:cart/servercartAfterCreated'
         }
@@ -175,7 +179,7 @@ const actions: ActionTree<CartState, RootState> = {
       return task
     })
   },
-  load (context) {
+  load (context, { forceClientState = false }: {forceClientState?: boolean} = {}) {
     return new Promise((resolve, reject) => {
       if (isServer) return
       const commit = context.commit
@@ -199,8 +203,8 @@ const actions: ActionTree<CartState, RootState> = {
             if (token) { // previously set token
               commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
               Logger.info('Cart token received from cache.', 'cache', token)()
-              Logger.info('Pulling cart from server.','cart')()
-              context.dispatch('serverPull', { forceClientState: false, dryRun: !config.cart.serverMergeByDefault })
+              Logger.info('Pulling cart from server.', 'cart')()
+              context.dispatch('serverPull', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
             } else {
               Logger.info('Creating server cart token', 'cart')()
               context.dispatch('serverCreate', { guestCart: false })
@@ -231,7 +235,7 @@ const actions: ActionTree<CartState, RootState> = {
     for (let product of productsToAdd) {
       if (typeof product === 'undefined' || product === null) continue
       if (product.qty && typeof product.qty !== 'number') product.qty = parseInt(product.qty)
-      if ((config.useZeroPriceProduct)? product.priceInclTax < 0 : product.priceInclTax <= 0  ) {
+      if ((config.useZeroPriceProduct) ? product.priceInclTax < 0 : product.priceInclTax <= 0) {
         rootStore.dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t('Product price is unknown, product cannot be added to the cart!'),
@@ -287,9 +291,10 @@ const actions: ActionTree<CartState, RootState> = {
             action2: null
           }
           if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
-            notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: () => {
-              dispatch('goToCheckout')
-            }}
+            notificationData.action2 = { label: i18n.t('Proceed to checkout'),
+              action: () => {
+                dispatch('goToCheckout')
+              }}
           }
           if (config.cart.synchronize && !forceServerSilence) {
             dispatch('serverPull', { forceClientState: true })
@@ -304,7 +309,7 @@ const actions: ActionTree<CartState, RootState> = {
   removeItem ({ commit, dispatch }, payload) {
     let removeByParentSku = true // backward compatibility call format
     let product = payload
-    if(payload.product) { // new call format since 1.4
+    if (payload.product) { // new call format since 1.4
       product = payload.product
       removeByParentSku = payload.removeByParentSku
     }
@@ -314,11 +319,9 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   removeNonConfirmedVariants ({ commit, dispatch }, payload) {
-    let removeByParentSku = true // backward compatibility call format
     let product = payload
-    if(payload.product) { // new call format since 1.4
+    if (payload.product) { // new call format since 1.4
       product = payload.product
-      removeByParentSku = payload.removeByParentSku
     }
     commit(types.CART_DEL_NON_CONFIRMED_ITEM, { product })
     if (config.cart.synchronize && product.server_item_id) {
@@ -408,10 +411,10 @@ const actions: ActionTree<CartState, RootState> = {
             country: country,
             method_code: shipping ? shipping.method_code : null,
             carrier_code: shipping ? shipping.carrier_code : null,
-            payment_method: payment.code
+            payment_method: payment ? payment.code : null
           }
         }
-        if (methodsData.country && methodsData.carrier_code) {
+        if (methodsData.country && methodsData.carrier_code && context.state.cartServerToken) {
           TaskQueue.execute({ url: config.cart.shippinginfo_endpoint,
             payload: {
               method: 'POST',
@@ -429,7 +432,7 @@ const actions: ActionTree<CartState, RootState> = {
             },
             silent: true,
             callback_event: 'store:cart/servercartAfterTotals'
-          }).then((task : any) => {
+          }).then((task: any) => {
             if (task.result) {
               resolve(task.result)
             }
@@ -446,7 +449,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   removeCoupon (context) {
     return new Promise((resolve, reject) => {
-      if (config.cart.synchronize_totals && onlineHelper.isOnline) {
+      if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
         TaskQueue.execute({ url: config.cart.deletecoupon_endpoint,
           payload: {
             method: 'POST',
@@ -454,7 +457,7 @@ const actions: ActionTree<CartState, RootState> = {
             mode: 'cors'
           },
           silent: true
-        }).then((task : any) => {
+        }).then((task: any) => {
           if (task.result) {
             context.dispatch('refreshTotals')
             resolve(task.result)
@@ -468,7 +471,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   applyCoupon (context, couponCode) {
     return new Promise((resolve, reject) => {
-      if (config.cart.synchronize_totals && onlineHelper.isOnline) {
+      if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
         TaskQueue.execute({ url: config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
           payload: {
             method: 'POST',
@@ -476,7 +479,7 @@ const actions: ActionTree<CartState, RootState> = {
             mode: 'cors'
           },
           silent: true
-        }).then((task:any) => {
+        }).then((task: any) => {
           if (task.result === true) {
             context.dispatch('refreshTotals')
             resolve(task.result)
@@ -490,7 +493,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
     })
   },
-  userAfterLoggedin () {
+  userAfterLoggedin (context) {
     Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
       if (err) {
         Logger.error(err, 'cart')()
@@ -505,7 +508,7 @@ const actions: ActionTree<CartState, RootState> = {
     if (event.resultCode === 200) {
       Logger.info('Server cart token created.', 'cart', cartToken)()
       rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
-      rootStore.dispatch('cart/serverPull', { forceClientState: false, dryRun: !config.cart.serverMergeByDefault }, { root: true })
+      rootStore.dispatch('cart/serverPull', { forceClientState: event.force_client_state || false, dryRun: !config.cart.serverMergeByDefault }, { root: true })
     } else {
       let resultString = event.result ? toString(event.result) : null
       if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
@@ -541,7 +544,7 @@ const actions: ActionTree<CartState, RootState> = {
       let clientCartUpdateRequired = false
       let cartHasItems = false
       let clientCartAddItems = []
-      let productActionOptions = ((serverItem) => {
+      let productActionOptions = (serverItem) => {
         return new Promise(resolve => {
           if (serverItem.product_type === 'configurable') {
             let searchQuery = new SearchQuery()
@@ -555,7 +558,7 @@ const actions: ActionTree<CartState, RootState> = {
             resolve({ sku: serverItem.sku })
           }
         })
-      })
+      }
       const serverItems = event.result
       const clientItems = rootStore.state.cart.cartItems
       for (const clientItem of clientItems) {
@@ -672,7 +675,7 @@ const actions: ActionTree<CartState, RootState> = {
         }
       }
       Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: event.dry_run, event: event }) // send the difflog
-       Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
+      Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
     } else {
       Logger.error(event.result, 'cart') // override with guest cart()
       if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
@@ -704,18 +707,23 @@ const actions: ActionTree<CartState, RootState> = {
         rootStore.commit('cart/' + types.CART_DEL_NON_CONFIRMED_ITEM, { product: originalCartItem }, {root: true})
       }
     } else {
-      let notificationData = {
-        type: 'success',
-        message: i18n.t('Product has been added to the cart!'),
-        action1: { label: i18n.t('OK') },
-        action2: null
+      const isUserInCheckout = context.rootGetters['checkout/isUserInCheckout']
+      if (!isUserInCheckout) { // if user is in the checkout - this callback is just a result of server sync
+        const isThisNewItemAddedToTheCart = (!originalCartItem || !originalCartItem.item_id)
+        const notificationData = {
+          type: 'success',
+          message: isThisNewItemAddedToTheCart ? i18n.t('Product has been added to the cart!') : i18n.t('Product quantity has been updated!'),
+          action1: { label: i18n.t('OK') },
+          action2: null
+        }
+        if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
+          notificationData.action2 = { label: i18n.t('Proceed to checkout'),
+            action: () => {
+              context.dispatch('goToCheckout')
+            }}
+        }
+        rootStore.dispatch('notification/spawnNotification', notificationData)
       }
-      if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
-        notificationData.action2 = { label: i18n.t('Proceed to checkout'), action: () => {
-          context.dispatch('goToCheckout')
-        }}
-      }
-      rootStore.dispatch('notification/spawnNotification', notificationData)
     }
   },
   toggleMicrocart ({ commit }) {

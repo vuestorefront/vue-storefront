@@ -28,6 +28,5 @@ export const module: Module<CartState, any> = {
   },
   getters,
   actions,
-  mutations,
+  mutations
 }
-

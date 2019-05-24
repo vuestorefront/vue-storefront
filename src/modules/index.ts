@@ -1,17 +1,17 @@
 // import { extendModule } from '@vue-storefront/core/lib/module'
 import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
-import { Catalog } from "@vue-storefront/core/modules/catalog"
+import { Catalog } from '@vue-storefront/core/modules/catalog'
 import { Cart } from '@vue-storefront/core/modules/cart'
 import { Checkout } from '@vue-storefront/core/modules/checkout'
 import { Compare } from '@vue-storefront/core/modules/compare'
 import { Review } from '@vue-storefront/core/modules/review'
 import { Mailer } from '@vue-storefront/core/modules/mailer'
 import { Wishlist } from '@vue-storefront/core/modules/wishlist'
-import { Mailchimp } from '../modules/mailchimp'
+import { Newsletter } from '@vue-storefront/core/modules/newsletter'
 import { Notification } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
 import { Url } from '@vue-storefront/core/modules/url'
-import { Homepage } from "./homepage"
+import { Homepage } from './homepage'
 import { Claims } from './claims'
 import { PromotedOffers } from './promoted-offers'
 import { Ui } from './ui-store'
@@ -60,7 +60,7 @@ export const registerModules: VueStorefrontModule[] = [
   Review,
   Mailer,
   Wishlist,
-  Mailchimp,
+  Newsletter,
   Notification,
   Ui,
   RecentlyViewed,
@@ -76,6 +76,6 @@ export const registerModules: VueStorefrontModule[] = [
   RawOutputExample,
   AmpRenderer,
   InstantCheckout,
-  Url,
+  Url
   // Example
 ]

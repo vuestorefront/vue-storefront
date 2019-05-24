@@ -14,7 +14,7 @@
     <div class="modal-content pt30 pb60 px65 cl-secondary">
       <template v-if="!passwordSent">
         <form @submit.prevent="sendEmail" novalidate>
-          <div class="mb35">
+          <div class="mb20">
             <p class="mb45">
               {{ $t('Enter your email to receive instructions on how to reset your password.') }}
             </p>
@@ -52,7 +52,7 @@
           <p class="py30 mb80">
             {{ $t("We've sent password reset instructions to your email. Check your inbox and follow the link.") }}
           </p>
-          <button-full class="mb35" type="submit">
+          <button-full class="mb35" type="link" @click.native="switchElem">
             {{ $t('Back to login') }}
           </button-full>
         </form>

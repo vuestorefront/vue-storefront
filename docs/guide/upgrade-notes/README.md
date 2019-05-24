@@ -1,12 +1,19 @@
 # Upgrade notes
 
-We're trying to keep the upgrade process as easy as it's possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
+We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
+
+## 1.9 -> 1.10
+- Event 'application-after-init' is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
+
+## 1.9 -> 1.10
+- Module Mailchimp is removed in favor of Newsletter. `local.json` configuration under key `mailchimp` moved to key `newsletter`.
 
 ## 1.8 -> 1.9
+- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields 
 - `cart.multisiteCommonCart` config property changed to `storeViews.commonCache`
 - Way of creating VS Modules was changed to use factory method instead of explict object creation. Even though the feature is backward compatible we highly encourage all developers to refactor their modules to use new syntax.
 
-The proces of creating new module with factory method and looks like following:
+The process of creating a new module with the factory method looks like the following:
 ````js
 import { createModule } from '@vue-storefront/core/lib/module'
 
@@ -18,63 +25,68 @@ const module = createModule(moduleConfig)
 ````
 - `@vue-storefront/store` package has been depreciated. Just change imports to `@vue-storefront/core/store`.
 - `breadCrumbRoutes` helper has been refactored to `formatBreadCrumbRoutes`
+- orders which fail validation in API are assumed to have http code 400 instead of 500
+- notification message about invalid order address now uses email configured in mailer section instead of hardcoded one
+- Added validation for UTF8 alpha and alphanumeric characters in most checkout fields
+- Update your local.json config and set default `api.url` path, without it you may have problems with elasticsearch queries.
+
+### Troubleshooting 
+- In case of CORS problem after upgrade check your elasticsearch url in config file. Best practice for that change can be found [here](https://github.com/DivanteLtd/vue-storefront/commit/77fc9c2765068303879c75ef9ed4a4b98f6763b6)
 
 ## 1.7 -> 1.8
 Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/CHANGELOG.md)
 
-- `store/types` have been moved to new module called `core/types`.
+- `store/types` have moved to new module named `core/types`.
 - `store/lib/search` has been moved to `core/lib/search`.
-- `store/lib/multistore.ts` has been [moved](https://github.com/patzick/vue-storefront/commit/d42cdc44fc204dd10b173894d52dbeff244913f5#diff-87917f882ffc57fb755b1cc82ffa9e28L11) to `core/lib/multistore.ts`
+- `store/lib/multistore.ts` has been [moved] to (https://github.com/patzick/vue-storefront/commit/d42cdc44fc204dd10b173894d52dbeff244913f5#diff-87917f882ffc57fb755b1cc82ffa9e28L11) to `core/lib/multistore.ts`
 - new [styles](https://github.com/patzick/vue-storefront/commit/d42cdc44fc204dd10b173894d52dbeff244913f5#diff-ae72dc903f169eb56d716cd5ac99df35R1) file for form elements
-- removed unused `src/themes/default/filters/index.js` file - check if you're not using it as well
+- Removed unused `src/themes/default/filters/index.js` file. Check if you're not using it as well.
 - `src/themes/default/resource/head.js` has been moved to `src/themes/default/head.js`
 - `src/themes/default/index.basic.template.html` has been moved to `src/themes/default/templates/index.basic.template.html`
 - `src/themes/default/index.minimal.template.html` has been moved to `src/themes/default/templates/index.minimal.template.html`
 - `src/themes/default/index.template.html` has been moved to `src/themes/default/templates/index.template.html`
 
-
-
 ## 1.6 -> 1.7
 
-Starting from Vue Storefront 1.7 we've changed the Caching strategy + Offline ready features:
-- by default, the ElasticSearch Queries are executed using `GET` method - and therefore are cached by Service Worker (`config.elasticsearch.queryMethod` - set it to POST for the previous behavior and if You're using graphql),
-- by default products and queries cache is set in the `LocalStorage` with a quota set to 4MB (`config.server.elasticCacheQuota`). If the storage quota is set, the cache purging is executed each 30s using LRU algorithm. Local Storage is limited to 5MB in most browsers
-- we've added `config.server. disableLocalStorageQueriesCache` which is set to `true` by default. When this option is `on` then we're not storing the ElasticSearch results in local cache - this is due to the fact that results are by default cached in Service Worker cache anyway.
-- `module.extend` has been changed to `extendModule`. You can find usage example in `src/modules/index.ts`.
-- [routes](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422#diff-a334a7caeb7f61836f8c1178d92de3e0), [layouts](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422#diff-48863b9fe31d7713222ec5709ef5a4fa) and component, which are not visible at page rendering are now loaded when they are needed
+Starting from Vue Storefront 1.7, we changed the caching strategy and offline-ready features:
+- By default, the Elasticsearch Queries are executed using `GET` method and therefore are cached by Service Worker (`config.elasticsearch.queryMethod` — set it to POST for the previous behavior and if you're using graphql).
+- By default, products and queries cache is set in `LocalStorage` with a quota set to 4MB (`config.server.elasticCacheQuota`). If the storage quota is set, the cache purging is executed every 30 seconds using the LRU algorithm. Local Storage is limited to 5MB in most browsers.
+- We added `config.server. disableLocalStorageQueriesCache`, which is set to `true` by default. When this option is on, we're not storing the Elasticsearch results in the local cache because results are by default cached in the Service Worker cache anyway.
+- `module.extend` has been changed to `extendModule`. You can find usage examples in `src/modules/index.ts`.
+- [routes](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422#diff-a334a7caeb7f61836f8c1178d92de3e0), [layouts](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422#diff-48863b9fe31d7713222ec5709ef5a4fa), and component, which are not visible at page rendering are now loaded when they are needed.
 - Every store manipulation should be done by dispatching actions. Invoke store dispatch on `category/mergeSearchOptions` when manipulating `store.state.category.current_product_query` somewhere.
 - [here](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422) are all changes in default themes
 
-Backward compatibility - to reverse to the 1.0-1.6 behavior please set:
-- set `config.server.disableLocalStorageQueriesCache` = `false`,
-- set `config.elasticsearch.queryMethod` = `POST`
-- set `config.localForage.defaultDrivers.elasticCache` = `INDEXEDDB`
+Backward compatibility: To reverse to the 1.0–1.6 behavior:
+- Set `config.server.disableLocalStorageQueriesCache` = `false`,
+- Set `config.elasticsearch.queryMethod` = `POST`
+- Set `config.localForage.defaultDrivers.elasticCache` = `INDEXEDDB`
 
-**NOTE:** The offline mode may not work properly in the development mode (localhost) because of Service Workers + lack of the bundle prefetching (bundles lazy loading).
+**NOTE:** Offline mode may not work properly in development mode (localhost) because of Service Workers and lack of bundle prefetching (bundles lazy loading).
 
-With 1.7 the number of attribute descriptors that are loaded on the product page is now limited and dynamically adjusted to the fields used in the product. This behaviour shouldn't have any negative impact on Your app, hovewer if You havent used the `attribute/list` action explicitly based on all attributes loaded by default (up to 1.6) this may cause the problems. You can switch off dynamic loader by setting the `config.entities.product.useDynamicAttributeLoader=false`. Details: [#2137](https://github.com/DivanteLtd/vue-storefront/pull/2137/files)
+With 1.7, the number of attribute descriptors that are loaded on the product page is limited and dynamically adjusted to the fields used in the product. This behavior shouldn't have any negative impact on your app; however, if you haven’t used the `attribute/list` action explicitly based on all attributes loaded by default (up to 1.6), this may cause problems. You can switch off the dynamic loader by setting the `config.entities.product.useDynamicAttributeLoader=false`. Details: [#2137](https://github.com/DivanteLtd/vue-storefront/pull/2137/files)
 
-Dynamic Categories prefetching (#2076). Starting with Vue Storefront 1.7 we've added a configuration option `config.entities.category.categoriesDynamicPrefetch` (by default set to `true`). This option switches the way the category tree is being fetched. Previously we were fetching the full categories tree. In some cases it can generate even few MB of payload. Currently with this option in place we're pre-fetching the categories on demand while user is browsing the category tree
+Dynamic Categories prefetching (#2076). Starting with Vue Storefront 1.7, we added a configuration option `config.entities.category.categoriesDynamicPrefetch` (by default set to `true`). TThis option switches the way the category tree is being fetched. Previously, we were fetching the full categories tree. In some cases, it can generate even a few MB of payload. Currently with this option in place, we're pre-fetching the categories on demand while the user is browsing the category tree.
 
-**NOTE:** Since we're no longer generating `category.slug` client's side - we need to have `category.url_key` field unique. If Your Magento2 url_keys are unique it will work without any changes. If not - please do use [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) to re-import the categories. There is a new `categories` importer option `--generateUniqueUrlKeys` which is set to true by default.
+**NOTE:** Since we're no longer generating `category.slug` client-side, we need to have `category.url_key` field unique. If Your Magento2 url_keys are unique it will work without any changes. If not - please do use [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) to re-import the categories. There is a new `categories` importer option `--generateUniqueUrlKeys` which is set to true by default.
 
 With the new modules architecture available from 1.6 we've [updated the payment modules guide](https://github.com/DivanteLtd/vue-storefront/pull/2135). If You've used the custom payment (and basically any other) extensions please make sure You've already ported them to [new modules architecture](https://docs.vuestorefront.io/guide/modules/introduction.html).
 
 
 ## 1.5 -> 1.6
 
-With 1.6 we've introduced new modular architecture and moved most of theme-specific logic from core to default theme. It's probably the biggest update in VS history and the first step to making future upgrades more and more seamless.
+With 1.6, we introduced new modular architecture and moved most of the theme-specific logic from the core to the default theme. It's probably the biggest update in VS history and the first step to making future upgrades more seamless.
 
-Due to architectural changes `core/components` and `core/store/modules` folders were removed and reorganised into modules ( `core/modules`). In most cases, the components API remained the same (if not we provided an API bridge in `core/compatibility/components` folder which allows you to benefit from new features without making changes in your theme). It's a good idea to look for imports referring to deleted folders after migration to be sure that we made a full update.
+Due to architectural changes, `core/components` and `core/store/modules` folders were removed and reorganised into modules ( `core/modules`). In most cases, the components API remained the same (if not, we provided an API bridge in `core/compatibility/components` folder which allows you to benefit from new features without making changes in your theme). It's a good idea to look for imports referring to deleted folders after migration to be sure that we made a full update.
 
-Overall theme upgrade for default theme requires 105 files to be changed but 85% of this changes is just a new import path for core component which makes this update time-consuming but easy to follow and not risky.
+Overall, the theme upgrade for the default theme requires 105 files to be changed, but 85% of these changes are just a new import paths for the core component, which makes this update time-consuming, but easy to follow and not risky.
 
-[Here](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f) you can find detailed information (as a upgrade commit with notes) about what needs to be changed in theme to support VS 1.6.
+[Here](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f) you can find detailed information (as an upgrade commit with notes) about what needs to be changed in the theme to support VS 1.6.
 
 #### Global changes
-- Notifications are now based on Vuex Store instead of Event Bus. We've also pulled hardcoded notifications from core to theme
+- Notifications are now based on Vuex Store instead of Event Bus. We also pulled hardcoded notifications from core to theme.
 
-Change in every component:
+Change every component:
 ````js
 this.$bus.$emit('notification',
 ````
@@ -82,7 +94,7 @@ to:
 ````js
 this.$store.dispatch('notification/spawnNotification',
 ````
-Change in every store:
+Change every store:
 ````js
 Vue.prototype.$bus.$emit('notification',
 ````
@@ -91,19 +103,20 @@ to:
 rootStore.dispatch('notification/spawnNotification',
 ````
 and make sure you are importing `rootStore`.
-- Lazy loading for non-SSR routes is now available
 
-You can now [use dynamic imports to lazy load non-SSR routes](https://router.vuejs.org/guide/advanced/lazy-loading.html). You can find examples from default theme [here](https://github.com/DivanteLtd/vue-storefront/tree/develop/src/themes/default/router)
+- Lazy loading for non-SSR routes is now available.
 
-- Extensions are now rewritten to modules (and extensions system will be deprecated in 1.7).
+You can now [use dynamic imports to lazy load non-SSR routes](https://router.vuejs.org/guide/advanced/lazy-loading.html). You can find examples from the default theme [here](https://github.com/DivanteLtd/vue-storefront/tree/develop/src/themes/default/router)
 
-If you haven't modified any extensions directly you don't need to change anything. If you made such changes you'd probably need to rewrite your extension to a module.
+- Extensions are now rewritten to modules (and the extensions system will be depreciated in 1.7).
 
-- Old event bus is moved to the compatibility folder. From now we are trying to create new features without it and slowly depreciate event bus whenever it's possible. It'll be replaced with some enhanced module-based mechanism with event autosuggestion support.
+If you haven't modified any extensions directly, you don't need to change anything. If you made such changes, you probably need to rewrite your extension to a module.
 
-change all `@vue-storefront/core/plugins/event-bus` imports to `@vue-storefront/core/compatibility/plugins/event-bus`
+- The old event bus is moved to the compatibility folder. From now we are trying to create new features without it and slowly depreciate the event bus whenever possible. It'll be replaced with some enhanced module-based mechanism with event autosuggestion support.
 
-#### Components that were moved or API was changed and the compatibility component was created.
+Change all `@vue-storefront/core/plugins/event-bus` imports to `@vue-storefront/core/compatibility/plugins/event-bus`
+
+#### Components that were moved or the API was changed and the compatibility component was created.
 
 Required action: Change the import path. In case of additional changes click on a component name to see how to update.
 
@@ -154,7 +167,7 @@ Required action: Change the import path. In case of additional changes click on 
 
 #### Components that were moved from core to theme
 
-Required action: Add moved content and remove core import. In case of additional changes click on a component name to see how to update.
+Required action: Add moved content and remove core import. In case of additional changes, click on a component name to see how to update.
 
 - [`Loader.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a2791ef5c57fb2459362720b4a624e53)
 - [`Modal.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-527c2bb9d04213a2aaf1aac75673bc71) + static content removed
@@ -185,7 +198,7 @@ Required action: Add moved content and remove core import. In case of additional
 - [`Checkout.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-1c6544c28d075f275812201fa42755de) notifications moved to theme
 - [`MyAccount.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-bb873f532ed9a2efbb157af79a70e0f7) notifications moved to theme
 - [`Product.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-174db65df8e0c43df20b73b5bf16881b) minor changes in attribute var names that may influence the markup, notifications moved to theme
-- [`Static.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a3a9b6eeeba4c915c1ea1aae1c489ecc) Static pages are no longed using markdown files.
+- [`Static.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-a3a9b6eeeba4c915c1ea1aae1c489ecc) static pages are no longed using markdown files.
 
 ## 1.4 -> 1.5
 
@@ -193,15 +206,15 @@ Required action: Add moved content and remove core import. In case of additional
 
 #### New Modules API
 
-With 1.5.0 we've introduced new heavily refactored modules API. We've tried to keep the old theme components backward compatible - so now You can few some "mock" components in the `/core/components` just referencing to the `/modules/<module>/components` original. Please read [how modules work and are structured](../modules/introduction.md) to check if it's implies any changes to Your theme. As it may seem like massive changes (lot of files added/removed/renamed) - It should not impact Your custom code.
+With 1.5.0, we introduced a new, heavily refactored modules API. We tried to keep the old theme components backward compatible, so now you can view some "mock" components in the `/core/components` referencing to the `/modules/<module>/components` original. Please read [how modules work and are structured](../modules/introduction.md) to check if it implies any changes to your theme. Though it may seem like a lot of changes (a lot of files were added/removed/renamed), it should not impact your custom code.
 
 #### New Newsletter module
 
-The existing newsletter integration module was pretty chaotic and messy. @filrak has rewritten it from scratch. If You've relied on existing newsletter module logic / events / etc. it could have affected Your code (low probability).
+The existing newsletter-integration module was pretty chaotic and messy. @filrak has rewritten it from scratch. If you've relied on existing newsletter module logic / events / etc., it could have affected your code (low probability).
 
 #### Memory leaks fixed
 
-We've fixed SSR memory leaks with #1882. It should not affect Your custom code - but if You've modified any SSR features please just make sure that everything still works just fine.
+We fixed SSR memory leaks with #1882. It should not affect your custom code, but if you've modified any SSR features, please make sure that everything still works just fine.
 
 ## 1.3 -> 1.4
 
@@ -209,34 +222,37 @@ We've fixed SSR memory leaks with #1882. It should not affect Your custom code -
 
 #### GraphQL
 
-We've added GraphQL support. Please read more on the [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md). Starting from this release **bodybuilder** package is **deprecated**. You should use **SearchQuery** internal class that can be used against API and GraphQL endpoints. Read more on [how to query data](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md).
+We added GraphQL support. Please read more on the [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md). Starting from this release, the **bodybuilder** package is **deprecated**. You should use the **SearchQuery** internal class that can be used against API and GraphQL endpoints. Read more on [how to query data](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md).
 
-#### SSR - Advanced output + cache
+#### SSR: Advanced output and cache
 
-However, this change is not involving any required actions to port the code but please just be aware that we're supporting [SSR Cache](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/SSR%20Cache.md) + [dynamic layout changes](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Layouts%20and%20advanced%20output%20operations.md) etc. If You're using modified version of the theme - You can hardly use these without updating `themes/YourTheme/App.vue` to the new format (check the default theme for details).
+This change does not involve any required actions to port the code, but please be aware that we're supporting [SSR Cache](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/SSR%20Cache.md) + [dynamic layout changes](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Layouts%20and%20advanced%20output%20operations.md) etc. If you're using the modified version of the theme, you can hardly use these without updating `themes/YourTheme/App.vue` to the new format (check the default theme for details).
 
 #### Reviews
 
-We've added the Reviews support, however, Magento2 is still lacking Reviews support in the REST API. To have reviews up and running please add the https://github.com/DivanteLtd/magento2-review-api to Your Magento2 instance.
+We added Reviews support, however, Magento 2 is still lacking Reviews support in the REST API. To have reviews up and running, please add the https://github.com/DivanteLtd/magento2-review-api to your Magento 2 instance.
 
 #### Microcart
 
 1. We moved core functionalities of coupon codes to API modules:
 
-   - **coupon** computed value is now **appliedCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
+   - **Coupon** computed value is now **appliedCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
    - **removeCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
    - **applyCoupon** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
    - **totals** -> **cartTotals** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
    - **shipping** -> **cartShipping** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
    - **payment** -> **cartPayment** ([read more](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/api-modules/cart.md))
 
-2. We moved/renamed methods responsible for UI to default theme:
+2. We moved/renamed methods responsible for UI to the default theme:
    - **addDiscountCoupon** - toggle coupon form
    - **removeCoupon** -> **clearCoupon** - removing coupon by dispatch removeCoupon API method and toggle coupon form
    - **applyCoupon** -> **setCoupon** - submit coupon form by dispatch applyCoupon API method
    - **enterCoupon** - was removed, because @keyup="enterCoupon" we changed to @keyup.enter="setCoupon"
-3. We moved \$emit with notification about appliedCoupon and removedCoupon from vuex store to default theme. Now applyCoupon and removeCoupon returns promise which you can handle by ourself.
-4. We moved VueOfflineMixin and onEscapePress mixins to theme component. Core component is clean from UI stuff now.
+   
+3. We moved $emit with notification about appliedCoupon and removedCoupon from Vuex store to the default theme. Now applyCoupon and removeCoupon returns promise, which you can handle by yourself.
+
+4. We moved VueOfflineMixin and onEscapePress mixins to the theme component. The core component is clean from UI stuff now.
+
 5. We've replaced one method `Microcart` - `cartTotals` -> `totals`
 
 #### Assets
@@ -249,22 +265,22 @@ We've added the Reviews support, however, Magento2 is still lacking Reviews supp
 
 #### i18n
 
-1. We removed all the theme specific translations for the core.
+1. We removed all the theme-specific translations for the core.
 
 ## 1.2 -> 1.3
 
 ### Changes
 
-1. We've removed event emit from client-entry.js with online status information. Instead of this, we are using now [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
-2. We've removed isOnline variable from Microcart.js, instead of this, we are using now variables from [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
+1. We removed event emit from client-entry.js with online status information. Instead, we are now using [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
+2. We removed the isOnline variable from Microcart.js. Instead, we are now using variables from [vue-offline](https://github.com/filrak/vue-offline) mixin. [#1494](https://github.com/DivanteLtd/vue-storefront/issues/1494)
 
-### Upgrade step by step
+### Upgrade step-by-step
 
-#### `global.$VS` replaced with `rootStore` and `config` was moved to `rootStore.state.config`
+#### `global.$VS` replaced with `rootStore` and `config` was moved to `config`
 
-To get access to rootStore import it by
+To get access to rootStore, import it by
 
-`import rootStore from '@vue-storefront/core/store'`
+`import config from 'config'`
 
 #### cms extenstion was renamed to extension-magento2-cms
 
@@ -274,7 +290,7 @@ Import of CmsData must be changed in `CustomCmsPage.vue` component to:
 
 ## 1.1 -> 1.2 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.2.0))
 
-There were no breaking-changes introduced. No special treatment needed :)
+There were no breaking-changes introduced. No special treatment needed 😃
 
 ## 1.0 -> 1.1 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.1.0))
 
@@ -286,9 +302,9 @@ Instead of exporting an object in `{theme}/plugins/index.js` just use `Vue.use(p
 
 #### Microcart logic moved to API module (partially)
 
-Starting from the Microcart we are moving most of the logic to core modules along with unit testing them [read more](https://github.com/DivanteLtd/vue-storefront/issues/1213).
+Starting from Microcart, we are moving most of the logic to core modules along with unit testing them. [Read more](https://github.com/DivanteLtd/vue-storefront/issues/1213).
 
-Changes that happened in `Microcart.js` core component and `Microcart.vue` component from default theme
+Changes that happened in `Microcart.js` core component and `Microcart.vue` component from default theme:
 
 - `closeMicrocart` renamed to `closeMicrocartExtend`
 - `items` renamed to `productsInCart`
@@ -296,37 +312,37 @@ Changes that happened in `Microcart.js` core component and `Microcart.vue` compo
 
 #### `theme/app-extend.js` removed
 
-It was redundant
+It was redundant.
 
 #### `{theme}/service-worker-ext.js` moved to `{theme}/service-worker/index.js`
 
-Now it mirrors `core/` folder structure which is desired behaviour
+Now it mirrors `core/` folder structure, which is desired behaviour.
 
 ### vue-storefront-api docker support has been extended
 
-We've added the possibility to run the `vue-storefront-api` fully in Docker (previously just the Elastic and Redis images were present in the `docker-compose.yml`. Please read the [README.md](https://github.com/DivanteLtd/vue-storefront-api) for more details.
+We added the possibility to run the `vue-storefront-api` fully in Docker (previously, just the Elastic and Redis images were present in the `docker-compose.yml`. Please read the [README.md](https://github.com/DivanteLtd/vue-storefront-api) for more details.
 
-**PLEASE NOTE:** We've changed the structure of the `elasticsearch` section of the config files, moving `esIndexes` to `elasticsearch.indices` etc. There is an automatic migration that will update Your config files automatically by running: `npm run migrate` in the `vue-storefront-api` folder.
+**PLEASE NOTE:** We changed the structure of the `elasticsearch` section of the config files, moving `esIndexes` to `elasticsearch.indices` etc. There is an automatic migration that will update your config files automatically by running: `npm run migrate` in the `vue-storefront-api` folder.
 
 ### Default storage of the shopping carts and user data moved to localStorage
 
-Currently, there is an config option to setup the default local storage configs: https://github.com/DivanteLtd/vue-storefront/blob/271a33fc6e712b978e10b91447b05529b6d04801/config/default.json#L148. If You like the previous behaviour of storing the carts in the indexedDb - please change the config backend to `INDEXEDDB`.
+Currently, there is a config option to set up the default local storage configs: https://github.com/DivanteLtd/vue-storefront/blob/271a33fc6e712b978e10b91447b05529b6d04801/config/default.json#L148. If you like the previous behavior of storing the carts in the indexedDb, please change the config backend to `INDEXEDDB`.
 
 ### mage2vuestorefront improvements
 
-However non-breaking changes - lot of improvements have been added to the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) importer. For example - fixed special_price sync. For such a changes - please update [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and re-import Your products. We've also added the dynamic on/demand indexing.
+A lot of improvements have been added to the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) importer. importer. For example, fixed special_price sync. For such changes, please update [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) and re-import your products. We also added the dynamic on/demand indexing.
 
 ### New features
 
-We added [`vue-progressbar`](https://github.com/hilongjw/vue-progressbar) to default theme which can be found in `App.vue` file
+We added [`vue-progressbar`](https://github.com/hilongjw/vue-progressbar) to default theme, which can be found in `App.vue` file.
 
 ## 1.0RC-3 -> 1.0([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0))
 
-This is official, stable release of Vue Storefront.
+This is the official, stable release of Vue Storefront.
 
-1. We've renamed `the core/components/*.vue` -> `the core/components/*.js`
-2. We've renamed `the core/pages/*.vue` -> `the core/pages/*.js`
-3. We've removed `corePage` and `coreComponent` helpers and created an es-lint rule to migrate the `import` statements automatically (with `--fix` parameter)
+1. We renamed `the core/components/*.vue` -> `the core/components/*.js`
+2. We renamed `the core/pages/*.vue` -> `the core/pages/*.js`
+3. We removed `corePage` and `coreComponent` helpers and created an es-lint rule to migrate the `import` statements automatically (with `--fix` parameter)
 
 You should replace the mixin declarations from the previous version:
 
@@ -352,15 +368,16 @@ export default {
 </script>
 ```
 
-4. We've added Multistore support. It shouldn't imply any breaking changes to the existing themes / extensions (by default it's just disabled). More info on that: <a href="https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Multistore%20setup.md">How to setup Multistore mode</a>.
+4. We've added Multistore support. It shouldn't imply any breaking changes to the existing themes / extensions (by default it's just disabled). 
 
 ## 1.0RC-2 -> 1.0RC-3 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0-rc.3))
 
 This release contains three important refactoring efforts:
 
-1. We've changed the user-account endpoints and added the token-reneval mechanism which is configured by `config.users.autoRefreshTokens`; if set to true and user token will expire - VS will try to refresh it.
+1. We changed the user-account endpoints and added the token-reneval mechanism, which is configured by
+`config.users.autoRefreshTokens`. If set to true and user token will expire, VS will try to refresh it.
 
-2. Moreover, we've separated the user-account entpoints - so please copy the following defaults from `default.json` to Your `local.json` and set the correct api endpoints:
+2. We separated the user-account endpoints, so please copy the following defaults from `default.json` to Your `local.json` and set the correct API endpoints:
 
 ```json
     "users": {
@@ -378,7 +395,7 @@ This release contains three important refactoring efforts:
 
 The endpoints are also set by the `yarn installer` so You can try to reinstall VS using this command.
 
-3. We've optimized the performance by limiting the fields loaded each time in JSON objects from the backend. Please review the `config/default.json` and if some required / used by Your app fields are missing there - please copy the following fragment to the `config/local.json` and add the required fields:
+3. We optimized the performance by limiting the fields loaded each time in JSON objects from the backend. Please review the `config/default.json`and if some fields required / used by your app are missing, copy the following fragment to the `config/local.json` and add the required fields:
 
 ```json
     "entities": {
@@ -405,25 +422,25 @@ The endpoints are also set by the `yarn installer` so You can try to reinstall V
     },
 ```
 
-If `optimize` is set to false - it's a fallback to the previous behaviour (getting all fields).
+If `optimize` is set to false, it's a fallback to the previous behaviour (getting all fields).
 
-4. Another cool feature is `twoStageCaching` enabled by default. It means that for the Category page VS is getting only the minimum number of JSON fields required to display the ProductTiles and shortly after it downloads by the second request the full objects to store them in local cache.
+4. Another cool feature is `twoStageCaching` enabled by default. It means that for the Category page, VS is getting only the minimum number of JSON fields required to display the ProductTiles. Shortly after, it downloads the full objects by the second request to store them in the local cache.
 
-5. We've tweaked the Service Worker to better cache the app - it sometimes can generate kind of frustration if your home page is now cached in the SW (previously was not). Feel free to use `Clear Storage` in Your Developers tools :)
+5. We tweaked the Service Worker to better cache the app; it sometimes can generate frustration if your home page is now cached in the SW (previously was not). Feel free to use `Clear Storage` in your Developers tools :)
 
-6. The `mage2vuestorefront` tool got update and now it's loading the `media_gallery` with additional media per product. We've also put some MediaGallery component on the product page.
+6. The `mage2vuestorefront` tool got update and now it's loading the `media_gallery` with additional media per product. We also put some MediaGallery components on the product page.
 
-7. Product and Category pages got refactored - and it's a massive refactoring moving all the logic to the Vuex stores. So If You played with the core - `fetchData`/`loadData` functions probably Your code will be affected by this change.
+7.Product and Category pages got refactored. It's a massive refactoring moving all the logic to the Vuex stores, so if you played with the core `fetchData`/`loadData` functions, your code may be affected by this change.
 
 ## 1.0RC -> 1.0RC-2 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0-rc.2))
 
-This release brings some cool new features (Magento 1.x support, Magento 2 external checkout, My Orders, Discount codes) together with some minor refactors.
+This release brings some cool new features (Magento 1.x support, Magento 2 external checkout, My Orders, Discount Codes) together with some minor refactors.
 
-Unfortunately with the refactors there comes two manual changes that need to be applied to Your custom themes after the update.
+Unfortunately, with the refactors comes two manual changes that need to be applied to your custom themes after the update.
 
 Here You can check an **[example how did we migrated our own default_m1 theme to RC-2](https://github.com/DivanteLtd/vue-storefront/commit/111519c04acec272657e7eefec7ea8405da95f13)**.
 
-1. We've changed `ColorButton`, `SizeButton`, `PriceButton` in the `core` to `ColorSelector`, `SizeSelector`, `PriceSelector` and added the `GenericSelector` for all other attribute types. Because of this change, the `coreComponent('ColorButton')` must be changed to `coreComponent('ColorSelector')` etc.
+1. We changed `ColorButton`, `SizeButton`, `PriceButton` in the `core` to `ColorSelector`, `SizeSelector`, `PriceSelector` and added the `GenericSelector` for all other attribute types. Because of this change, the `coreComponent('ColorButton')` must be changed to `coreComponent('ColorSelector')` etc.
 
 2. We added the Vuex Stores extensibility to the themes. If You're getting the following build error:
 
@@ -432,4 +449,4 @@ ERROR in ./core/store/index.js
 Module not found: Error: Can't resolve 'theme/store' in '***/vue-storefront/core/store'
 ```
 
-It means, that You need to copy the [template store](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/store/index.js) to: `<Your custom theme folder>/store`.
+It means, that you need to copy the template store to: `<Your custom theme folder>/store`.
