@@ -18,14 +18,16 @@
             />
             <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
-              <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share"/>
+              <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share" />
             </h1>
-            <div class="mb20 uppercase cl-secondary">
+            <div class="mb20 uppercase cl-secondary" itemprop="sku" :content="product.sku">
               {{ $t('SKU') }}: {{ product.sku }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
               <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
+              <meta itemprop="availability" :content="googleStructuredData.availability">
+              <meta itemprop="url" :content="product.url_path">
               <div
                 class="mb40 price serif"
                 v-if="product.type_id !== 'grouped'"
@@ -220,7 +222,7 @@
         </div>
       </div>
     </section>
-    <reviews :product-id="originalProduct.id" v-show="OnlineOnly"/>
+    <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
     <related-products
       type="upsell"
       :heading="$t('We found other products you might like')"
@@ -279,6 +281,13 @@ export default {
     }
   },
   directives: { focusClean },
+  computed: {
+    googleStructuredData () {
+      return {
+        availability: (this.product && this.product.stock.is_in_stock) ? 'InStock' : 'OutOfStock'
+      }
+    }
+  },
   methods: {
     showDetails (event) {
       this.detailsOpen = true
