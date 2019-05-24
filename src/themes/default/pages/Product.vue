@@ -26,7 +26,7 @@
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
               <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
-              <meta itemprop="availability" :content="googleStructuredData.availability">
+              <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="product.url_path">
               <div
                 class="mb40 price serif"
@@ -282,9 +282,9 @@ export default {
   },
   directives: { focusClean },
   computed: {
-    googleStructuredData () {
+    structuredData () {
       return {
-        availability: (this.product && this.product.stock.is_in_stock) ? 'InStock' : 'OutOfStock'
+        availability: (this.product.stock.is_in_stock) ? 'InStock' : 'OutOfStock'
       }
     }
   },

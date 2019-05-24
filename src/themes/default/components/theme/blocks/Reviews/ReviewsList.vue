@@ -4,6 +4,7 @@
       {{ $t('No reviews have been posted yet. Please don\'t hesitate to share Your opinion and write the first review!') }}
     </div>
     <div class="mt50" v-for="(item, index) in itemsPerPage" :key="index" v-if="item.review_status" itemprop="review" itemscope itemtype="http://schema.org/Review">
+      <meta itemprop="itemReviewed" :content="productName | htmlDecode">
       <h4 class="weight-400 m0" itemprop="reviewAspect" :content="item.title">
         {{ item.title }}
       </h4>
@@ -34,6 +35,8 @@
 </template>
 
 <script>
+import Product from '@vue-storefront/core/pages/Product'
+
 export default {
   props: {
     perPage: {
@@ -51,6 +54,7 @@ export default {
       currentPage: 1
     }
   },
+  mixins: [Product],
   computed: {
     itemsPerPage () {
       let start = ((this.currentPage - 1) * this.perPage)
