@@ -4,7 +4,8 @@
   	{{{ meta.inject().title.text() }}}
 		{{{ meta.inject().meta.text() }}}
 		<meta name="generator" content="Vue Storefront">
-		{{{ meta.inject().link.text() }}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    {{{ meta.inject().link.text() }}}
 		{{{ meta.inject().script.text() }}}
 		<script type="text/javascript">
 			WebFontConfig = {
@@ -18,15 +19,15 @@
 				wf.async = 'true';
 				var s = document.getElementsByTagName('script')[0];
 				s.parentNode.insertBefore(wf, s);
-			})(); 
+			})();
 		</script>
 		{{{ renderResourceHints() }}}
 		{{{ renderStyles() }}}
-		{{{ output.appendHead() }}}		
+		{{{ output.appendHead() }}}
 	</head>
   <body>
 		<!--vue-ssr-outlet-->
     {{{ renderState() }}}
-    {{{ renderScripts() }}}		
+    {{{ renderScripts() }}}
   </body>
 </html>
