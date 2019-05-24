@@ -10,4 +10,3 @@ export const stockModule: Module<StockState, RootState> = {
     cache: {}
   }
 }
-

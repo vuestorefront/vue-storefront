@@ -450,7 +450,7 @@ class Storefront extends Abstract {
         config.cart.applycoupon_endpoint = `${backendPath}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}`
         config.reviews.create_endpoint = `${backendPath}/api/review/create?token={{token}}`
 
-        config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
+        config.newsletter.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
         config.mailer.endpoint.send = `${backendPath}/api/ext/mail-service/send-email`
         config.mailer.endpoint.token = `${backendPath}/api/ext/mail-service/get-token`
         config.images.baseUrl = this.answers.images_endpoint

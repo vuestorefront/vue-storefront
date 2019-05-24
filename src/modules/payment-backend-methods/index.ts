@@ -8,7 +8,7 @@ const store = {
     methods: null
   },
   mutations: {
-     [types.SET_BACKEND_PAYMENT_METHODS](state, paymentMethods) {
+    [types.SET_BACKEND_PAYMENT_METHODS] (state, paymentMethods) {
       state.methods = paymentMethods
     }
   }

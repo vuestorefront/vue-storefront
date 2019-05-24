@@ -7,4 +7,3 @@ export const module: Module<ClaimsState, RootState> = {
   namespaced: true,
   actions
 }
-

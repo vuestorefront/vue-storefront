@@ -4,7 +4,7 @@
       {{ $t('Newsletter') }}
     </p>
     <div slot="content">
-      <form @submit.prevent="submit(onSuccesfulSubmission)" novalidate>
+      <form @submit.prevent="subscribe(onSuccesfulSubmission)" novalidate>
         <div class="mb10">
           <p class="h4">
             {{ $t('Sign up to our newsletter and receive a coupon for 10% off!') }}
@@ -41,7 +41,8 @@
   </modal>
 </template>
 <script>
-import { Subscribe } from 'src/modules/mailchimp/components/Subscribe'
+import SubscriptionStatus from '@vue-storefront/core/modules/newsletter/mixins/SubscriptionStatus'
+import Subscribe from '@vue-storefront/core/modules/newsletter/mixins/Subscribe'
 import i18n from '@vue-storefront/i18n'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
@@ -73,7 +74,7 @@ export default {
     BaseInput
   },
   mixins: [
-    Subscribe
+    SubscriptionStatus, Subscribe
   ]
 }
 </script>
