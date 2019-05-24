@@ -1,14 +1,14 @@
 <template>
   <div class="sidebar">
-    <h4 class="sidebar__header">
+    <h4 class="sidebar__header relative mt35 mb20">
       <span> {{ $t('Filter') }} </span>
-      <button
-        class="no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif"
+      <span
+        class="weight-400 sidebar__header__clear pointer sans-serif absolute"
         @click="resetAllFilters"
         v-show="hasActiveFilters"
       >
-        {{ $t('Clear') }}
-      </button>
+        {{ $t('Clear filters') }}
+      </span>
     </h4>
     <div
       v-for="(filter, filterIndex) in availableFilters"
@@ -103,10 +103,14 @@ export default {
 <style lang="scss" scoped>
 .sidebar {
   &__header {
-    display: flex;
     justify-content: space-between;
     align-items: center;
     min-height: 47px;
+    &__clear {
+      right: 0;
+      bottom: -10px;
+      font-size: .8em;
+    }
   }
 
   &__inline-selecors {
