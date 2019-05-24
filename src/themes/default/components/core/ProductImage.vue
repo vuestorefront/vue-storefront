@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import { setTimeout } from 'timers'
 export default {
   props: {
     image: {
@@ -62,10 +61,7 @@ export default {
   },
   methods: {
     imageLoaded (type) {
-      const delay = 1000
-      setTimeout(() => {
-        this[`${type}QualityImage`] = true
-      }, delay)
+      this[`${type}QualityImage`] = true
     }
   }
 }
