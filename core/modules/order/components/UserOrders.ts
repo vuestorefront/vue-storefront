@@ -1,3 +1,4 @@
+import { mapGetters } from 'vuex';
 
 /**
  * Component responsible for displaying user orders. Requires User module.
@@ -6,13 +7,14 @@ export const UserOrders = {
   name: 'UserOrders',
   computed: {
     ordersHistory () {
-      return this.$store.state.user.orders_history.items
+      return this.ordersHistoryItems()
     },
     isHistoryEmpty () {
-      return this.$store.state.user.orders_history.items.length < 1
+      return this.ordersHistoryItems().length < 1
     }
   },
   methods: {
+    ...mapGetters('user', ['ordersHistoryItems']),
     remakeOrder (products) {
       products.forEach(item => {
         this.$store.dispatch('product/single', { options: { sku: item.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {

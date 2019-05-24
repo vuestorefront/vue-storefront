@@ -1,9 +1,10 @@
 import { isServer, bottomVisible } from '@vue-storefront/core/helpers'
-import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
+import MyOrders from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrders'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'UserOrders',
-  mixins: [MyOrder],
+  mixins: [MyOrders],
   data () {
     return {
       pagination: {
@@ -31,15 +32,11 @@ export default {
   },
   computed: {
     ordersHistory () {
-      let items = []
-      items = this.$store.state.user.orders_history.items
+      let items = this.ordersHistoryItems()
       if (!isServer && this.lazyLoadOrdersOnscroll) {
         items = this.paginate(items, this.pagination.perPage, this.pagination.current)
       }
       return items
-    },
-    isHistoryEmpty () {
-      return this.$store.state.user.orders_history.items.length < 1
     }
   },
   methods: {
