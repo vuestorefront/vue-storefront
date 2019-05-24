@@ -1,105 +1,89 @@
 <template>
-  <div>
+  <div class="box">
     <img
-      src="/assets/placeholder.svg"
       v-show="showPlaceholder"
-      itemprop="image"
-      key="placeholderImage"
-      ref="images"
-      class="mw-100 inline-flex">
-    <img
-      :src="images.loading"
+      src="/assets/placeholder.svg"
       :alt="alt"
-      v-if="!lowerQualityImageError || isOnline"
-      v-show="showLowerQualityImage"
-      @load="lowerQualityImageLoaded(true)"
-      @error="lowerQualityImageLoaded(false)"
-      itemprop="image"
-      key="lowQualityImage"
+      key="placeholder"
       ref="images"
-      class="mw-100 inline-flex">
-    <img
-      :src="images.src"
-      :alt="alt"
-      v-if="!highQualityImageError || isOnline"
-      v-show="showHighQualityImage"
-      @load="highQualityImageLoaded(true)"
-      @error="highQualityImageLoaded(false)"
       itemprop="image"
+      class="image image--placeholder">
+    <img
+      v-show="showLowerQuality"
+      :src="image.loading"
+      :alt="alt"
+      @load="imageLoaded('lower')"
+      key="lowerQualityImage"
+      ref="images"
+      itemprop="image"
+      class="image">
+    <img
+      v-if="lowerQualityImage"
+      v-show="showHighQuality"
+      :src="image.src"
+      :alt="alt"
+      @load="imageLoaded('high')"
       key="highQualityImage"
       ref="images"
-      class="mw-100 inline-flex">
+      itemprop="image"
+      class="image">
   </div>
 </template>
+
 <script>
-import { onlineHelper } from '@vue-storefront/core/helpers'
 export default {
   props: {
-    images: {
+    image: {
       type: Object,
-      required: true
+      default: () => ({})
     },
     alt: {
       type: String,
-      required: true
-    },
-    hidden: {
-      type: Boolean,
-      default: false
+      default: ''
     }
   },
   data () {
     return {
-      lowerQualityImageLoad: false,
-      lowerQualityImageError: false,
-      highQualityImageLoad: false,
-      highQualityImageError: false
+      lowerQualityImage: false,
+      highQualityImage: false
     }
   },
   computed: {
     showPlaceholder () {
-      return !this.showLowerQualityImage && !this.showHighQualityImage
+      return !this.showLowerQuality && !this.showHighQuality
     },
-    showLowerQualityImage () {
-      return this.lowerQualityImageLoad && !this.highQualityImageLoad && !this.hidden
+    showLowerQuality () {
+      return this.lowerQualityImage && !this.showHighQuality
     },
-    showHighQualityImage () {
-      return this.highQualityImageLoad && !this.hidden
-    },
-    isOnline () {
-      return onlineHelper.isOnline
+    showHighQuality () {
+      return this.highQualityImage
     }
   },
   methods: {
-    lowerQualityImageLoaded (success = true) {
-      this.lowerQualityImageLoad = success
-      this.lowerQualityImageError = !success
-    },
-    highQualityImageLoaded (success = true) {
-      this.highQualityImageLoad = success
-      this.highQualityImageError = !success
+    imageLoaded (type) {
+      this[`${type}QualityImage`] = true
     }
   }
 }
 </script>
+
 <style lang="scss" scoped>
-  div{
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    justify-content: center;
-    align-content: center;
+  .box{
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: 0;
+    padding-bottom: 124%;
   }
-  img{
-    height: auto;
-    align-self: center;
-    opacity: 1;
+  .image{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width:100%;
+    max-width: 100%;
+    transform: translate3d(-50%, -50%, 0);
     mix-blend-mode: multiply;
-    vertical-align: top;
-    &:hover{
-      opacity: 0.9
+    &--placeholder{
+      width: auto;
     }
   }
 </style>
