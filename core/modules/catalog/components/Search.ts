@@ -18,6 +18,16 @@ export const Search = {
       readMore: true
     }
   },
+  mounted() {
+    this.search = this.$store.state.user.recent_search;
+
+    if (!!this.search) {
+      this.makeSearch();
+    }
+  },
+  beforeDestroy() {
+    this.$store.dispatch('user/updateRecentSearch', { query: this.search });
+  },
   methods: {
     onEscapePress () {
       this.closeSearchpanel()
