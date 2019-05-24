@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" v-on="$listeners">
     <img
       v-show="showPlaceholder"
       src="/assets/placeholder.svg"
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { setTimeout } from 'timers'
 export default {
   props: {
     image: {
@@ -61,7 +62,10 @@ export default {
   },
   methods: {
     imageLoaded (type) {
-      this[`${type}QualityImage`] = true
+      const delay = 1000
+      setTimeout(() => {
+        this[`${type}QualityImage`] = true
+      }, delay)
     }
   }
 }
@@ -72,19 +76,21 @@ export default {
     position: relative;
     width: 100%;
     height: 0;
-    padding-bottom: 124%;
+    padding-bottom: calc(740% / (600 / 100));
     overflow: hidden;
+    mix-blend-mode: multiply;
   }
+
   .image{
+    max-width: 100%;
+    height: auto;
     position: absolute;
     top: 50%;
     left: 50%;
-    width:100%;
-    max-width: 100%;
+    width: auto;
     height: 100%;
-    max-height: 100%;
     transform: translate3d(-50%, -50%, 0);
-    mix-blend-mode: multiply;
+
     &--placeholder{
       width: auto;
       height: auto;
