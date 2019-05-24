@@ -73,6 +73,7 @@ export default {
     width: 100%;
     height: 0;
     padding-bottom: 124%;
+    overflow: hidden;
   }
   .image{
     position: absolute;
@@ -80,10 +81,13 @@ export default {
     left: 50%;
     width:100%;
     max-width: 100%;
+    height: 100%;
+    max-height: 100%;
     transform: translate3d(-50%, -50%, 0);
     mix-blend-mode: multiply;
     &--placeholder{
       width: auto;
+      height: auto;
     }
   }
 </style>
