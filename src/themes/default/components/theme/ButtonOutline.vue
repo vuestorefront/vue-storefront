@@ -43,7 +43,6 @@ $black: color(black);
 
 .button-outline {
   border: 2px solid;
-  width: 100px;
   height: 62px;
 }
 
