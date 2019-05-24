@@ -188,6 +188,6 @@ export const bottomHelper = Vue.observable({
   isBottom: false
 })
 
-!isServer &&  window.addEventListener('scroll', () => {
+!isServer && window.addEventListener('scroll', () => {
   bottomHelper.isBottom = bottomVisible()
 }, {passive: true})
