@@ -174,12 +174,12 @@ export const processURLAddress = (url: string = '') => {
 
 export function bottomVisible () {
   if (isServer) {
-    return true
+    return false
   }
   const scrollY = window.scrollY
   const visible = window.innerHeight
   const pageHeight = document.documentElement.scrollHeight
   const bottomOfPage = visible + scrollY >= pageHeight
-  
+
   return bottomOfPage || pageHeight < visible
 }
