@@ -183,3 +183,11 @@ export function bottomVisible () {
 
   return bottomOfPage || pageHeight < visible
 }
+
+export const bottomHelper = Vue.observable({
+  isBottom: false
+})
+
+!isServer &&  window.addEventListener('scroll', () => {
+  bottomHelper.isBottom = bottomVisible()
+}, {passive: true})

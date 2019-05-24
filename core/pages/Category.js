@@ -5,7 +5,7 @@ import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/core/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { baseFilterProductsQuery, buildFilterProductsQuery, isServer, bottomVisible } from '@vue-storefront/core/helpers'
+import { baseFilterProductsQuery, buildFilterProductsQuery, isServer, bottomHelper } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
@@ -22,7 +22,6 @@ export default {
         current: 0,
         enabled: false
       },
-      bottom: false,
       lazyLoadProductsOnscroll: true
     }
   },
@@ -57,11 +56,14 @@ export default {
     },
     breadcrumbs () {
       return this.getCategoryBreadcrumbs
+    },
+    isBottom () {
+      return bottomHelper.isBottom
     }
   },
   watch: {
-    bottom (bottom) {
-      if (bottom) {
+    isBottom (isBottom) {
+      if (isBottom) {
         this.pullMoreProducts()
       }
     }
@@ -135,11 +137,6 @@ export default {
     if (config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
-    }
-    if (!isServer && this.lazyLoadProductsOnscroll) {
-      window.addEventListener('scroll', () => {
-        this.bottom = bottomVisible()
-      }, {passive: true})
     }
   },
   beforeDestroy () {

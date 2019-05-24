@@ -1,4 +1,4 @@
-import { isServer, bottomVisible } from '@vue-storefront/core/helpers'
+import { bottomHelper } from '@vue-storefront/core/helpers'
 import MyOrders from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrders'
 import { mapGetters } from 'vuex';
 
@@ -12,31 +12,27 @@ export default {
         current: 0,
         enabled: false
       },
-      bottom: false,
-      lazyLoadOrdersOnscroll: true
+      lazyLoadOrdersOnScroll: true
     }
   },
   watch: {
-    bottom (bottom) {
-      if (bottom) {
+    isBottom (newState) {
+      if (newState) {
         ++this.pagination.current
       }
     }
   },
-  beforeMount () {
-    if (!isServer && this.lazyLoadOrdersOnscroll) {
-      window.addEventListener('scroll', () => {
-        this.bottom = bottomVisible()
-      }, {passive: true})
-    }
-  },
+
   computed: {
     ordersHistory () {
       let items = this.ordersHistoryItems()
-      if (!isServer && this.lazyLoadOrdersOnscroll) {
+      if (this.lazyLoadOrdersOnScroll) {
         items = this.paginate(items, this.pagination.perPage, this.pagination.current)
       }
       return items
+    },
+    isBottom () {
+      return bottomHelper.isBottom
     }
   },
   methods: {
