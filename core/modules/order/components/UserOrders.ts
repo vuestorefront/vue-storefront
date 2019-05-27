@@ -7,14 +7,14 @@ export const UserOrders = {
   name: 'UserOrders',
   computed: {
     ordersHistory () {
-      return this.ordersHistoryItems()
+      return this.getOrdersHistory
     },
     isHistoryEmpty () {
-      return this.ordersHistoryItems().length < 1
+      return this.getOrdersHistory.length < 1
     }
   },
   methods: {
-    ...mapGetters('user', ['ordersHistoryItems']),
+    ...mapGetters('user', ['getOrdersHistory']),
     remakeOrder (products) {
       products.forEach(item => {
         this.$store.dispatch('product/single', { options: { sku: item.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {

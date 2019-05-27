@@ -10,7 +10,7 @@ const getters: GetterTree<UserState, RootState> = {
   getUserToken (state) {
     return state.token
   },
-  ordersHistoryItems (state) {
+  getOrdersHistory (state) {
     return state.orders_history.items
   }
 }

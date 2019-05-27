@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     ordersHistory () {
-      let items = this.ordersHistoryItems()
+      let items = this.getOrdersHistory
       if (this.lazyLoadOrdersOnScroll) {
         items = this.paginate(items, this.pagination.perPage, this.pagination.current)
       }
