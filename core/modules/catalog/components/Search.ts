@@ -19,7 +19,7 @@ export const Search = {
     }
   },
   mounted() {
-    this.search = this.$store.state.user.recent_search;
+    this.search = this.$store.getters(['user/getRecentSearch']);
 
     if (!!this.search) {
       this.makeSearch();

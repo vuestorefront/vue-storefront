@@ -9,7 +9,8 @@ const getters: GetterTree<UserState, RootState> = {
   isLocalDataLoaded: state => state.local_data_loaded,
   getUserToken (state) {
     return state.token
-  }
+  },
+  getRecentSearch: state => state.recent_search
 }
 
 export default getters
