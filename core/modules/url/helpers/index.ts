@@ -13,7 +13,7 @@ export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: s
   return parametrizedRoute
 }
 
-export function processDynamicRoute(routeData: LocalizedRoute, fullPath: string, addToRoutes: boolean = true): LocalizedRoute[] {
+export function processDynamicRoute (routeData: LocalizedRoute, fullPath: string, addToRoutes: boolean = true): LocalizedRoute[] {
   const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
     if (addToRoutes) {
@@ -39,11 +39,11 @@ export function processDynamicRoute(routeData: LocalizedRoute, fullPath: string,
   }
 }
 
-export function findRouteByPath(fullPath: string): RouteConfig {
+export function findRouteByPath (fullPath: string): RouteConfig {
   return RouterManager.findByPath(fullPath)
 }
 
-export function normalizeUrlPath(url: string): string {
+export function normalizeUrlPath (url: string): string {
   if (url && url.length > 0) {
     if (url[0] === '/') url = url.slice(1)
     const queryPos = url.indexOf('?')
@@ -56,7 +56,7 @@ export function formatCategoryLink(category: { url_path: string, slug: string })
   return config.seo.useUrlDispatcher ? ('/' + category.url_path) : ('/c/' + category.slug)
 }
 
-export function formatProductLink(
+export function formatProductLink (
   product: {
     parentSku?: string,
     sku: string,

@@ -7,14 +7,13 @@ import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import { serial } from '@vue-storefront/core/helpers'
 
-export function beforeRegistration({ Vue, config, store, isServer }) {
+export function beforeRegistration ({ Vue, config, store, isServer }) {
   Vue.prototype.$db.ordersCollection = new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'orders',
     driver: localForage[config.localForage.defaultDrivers['orders']]
   }))
-
-    if (!isServer) {
+  if (!isServer) {
     const orderMutex = {}
     // TODO: move to external file
     EventBus.$on('order/PROCESS_QUEUE', event => {

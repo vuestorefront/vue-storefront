@@ -1,7 +1,6 @@
-import * as types from './../store/mutation-types'
+import * as types from './../store/mutation-types'
 
-export function afterRegistration({ Vue, config, store, isServer }) {
-
+export function afterRegistration ({ Vue, config, store, isServer }) {
   let correctPaymentMethod = false
 
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
@@ -30,6 +29,3 @@ export function afterRegistration({ Vue, config, store, isServer }) {
     })
   }
 }
-
-
-

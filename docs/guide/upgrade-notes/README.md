@@ -5,6 +5,9 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 ## 1.9 -> 1.10
 - Event 'application-after-init' is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
 
+## 1.9 -> 1.10
+- Module Mailchimp is removed in favor of Newsletter. `local.json` configuration under key `mailchimp` moved to key `newsletter`.
+
 ## 1.8 -> 1.9
 - The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields 
 - `cart.multisiteCommonCart` config property changed to `storeViews.commonCache`
@@ -26,6 +29,9 @@ const module = createModule(moduleConfig)
 - notification message about invalid order address now uses email configured in mailer section instead of hardcoded one
 - Added validation for UTF8 alpha and alphanumeric characters in most checkout fields
 - Update your local.json config and set default `api.url` path, without it you may have problems with elasticsearch queries.
+
+### Troubleshooting 
+- In case of CORS problem after upgrade check your elasticsearch url in config file. Best practice for that change can be found [here](https://github.com/DivanteLtd/vue-storefront/commit/77fc9c2765068303879c75ef9ed4a4b98f6763b6)
 
 ## 1.7 -> 1.8
 Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/CHANGELOG.md)

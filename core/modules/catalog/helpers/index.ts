@@ -396,7 +396,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
       const confVal = {
         attribute_code: attribute_code,
         id: selectedOption.value,
-        label: selectedOption.label ? selectedOption.label : /*if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+        label: selectedOption.label ? selectedOption.label : /* if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
       }
       context.state.current_configuration[attribute_code] = confVal
     }
@@ -411,9 +411,8 @@ export function populateProductConfigurationAsync (context, { product, selectedV
   return selectedVariant
 }
 
-export function findConfigurableChildAsync({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
+export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
   let selectedVariant = product.configurable_children.find((configurableChild) => {
-
     if (availabilityCheck) {
       if (configurableChild.stock && !config.products.listOutOfStockProducts) {
         if (!configurableChild.stock.is_in_stock) {
@@ -421,7 +420,7 @@ export function findConfigurableChildAsync({ product, configuration = null, sele
         }
       }
     }
-    if (configurableChild.status >= 2/**disabled product*/) {
+    if (configurableChild.status >= 2/** disabled product */) {
       return false
     }
     if (selectDefaultChildren) {
@@ -491,7 +490,7 @@ export function configureProductAsync (context, { product, configuration, select
         Logger.debug('Skipping configurable options setup', configuration)()
       } */
       const fieldsToOmit = ['name']
-      if (selectedVariant.image === "") fieldsToOmit.push('image')
+      if (selectedVariant.image === '') fieldsToOmit.push('image')
       selectedVariant = omit(selectedVariant, fieldsToOmit) // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
       // use chosen variant
       if (selectDefaultVariant) {
@@ -548,7 +547,7 @@ export function getMediaGallery (product) {
  * otherwise get attribute images
  */
 
-export function configurableChildrenImages(product) {
+export function configurableChildrenImages (product) {
   let configurableChildrenImages = []
   if (product.configurable_children && product.configurable_children.length > 0) {
     let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
@@ -571,7 +570,6 @@ export function configurableChildrenImages(product) {
 /**
  * Get images from configured attribute images
  */
-
 export function attributeImages(product) {
     let attributeImages = []
     if (config.products.gallery.imageAttributes) {
@@ -585,6 +583,6 @@ export function attributeImages(product) {
             }
         }
     }
-    return attributeImages
+  }
+  return attributeImages
 }
-

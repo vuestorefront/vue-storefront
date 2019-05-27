@@ -1,8 +1,8 @@
-import { ActionTree } from "vuex"
+import { ActionTree } from 'vuex'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import RootState from '@vue-storefront/core/types/RootState';
-import CmsHierarchyState from "../../types/CmsHierarchyState"
+import CmsHierarchyState from '../../types/CmsHierarchyState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<CmsHierarchyState, RootState> = {
@@ -16,7 +16,7 @@ const actions: ActionTree<CmsHierarchyState, RootState> = {
    * @param {any} includeFields
    * @returns {Promise<T> & Promise<any>}
    */
-  list (context, { id, entityType = 'cms_hierarchy', excludeFields = null, includeFields = null}) {
+  list (context, {id, entityType = 'cms_hierarchy', excludeFields = null, includeFields = null}) {
     let query = new SearchQuery()
 
     if (id) {

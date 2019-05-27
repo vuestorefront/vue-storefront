@@ -20,7 +20,7 @@ const actions: ActionTree<UserState, RootState> = {
 
     const user = localStorage.getItem(`shop/user/current-user`);
     if (user) {
-      context.commit(types.USER_INFO_LOADED, JSON.parse(user))  
+      context.commit(types.USER_INFO_LOADED, JSON.parse(user))
     }
 
     context.commit(types.USER_START_SESSION)
@@ -156,7 +156,7 @@ const actions: ActionTree<UserState, RootState> = {
    * @param context
    * @param userData
    */
-  setUserGroup(context, userData) {
+  setUserGroup (context, userData) {
     if (config.usePriceTiers) {
       if (userData.groupToken) {
         context.commit(types.USER_GROUP_TOKEN_CHANGED, userData.groupToken)
@@ -236,8 +236,9 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Update user profile with data from My Account page
    */
-  async update (context, userData:UserProfile) {
-    await TaskQueue.queue({ url: config.users.me_endpoint,
+  async update (context, userData: UserProfile) {
+    await TaskQueue.queue({
+      url: config.users.me_endpoint,
       payload: {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -283,13 +284,13 @@ const actions: ActionTree<UserState, RootState> = {
     })
   },
   clearCurrentUser (context) {
-      context.commit(types.USER_GROUP_TOKEN_CHANGED, '')
-      context.commit(types.USER_GROUP_CHANGED, null)
-      context.commit(types.USER_INFO_LOADED, null)
-      context.dispatch('wishlist/clear', null, {root: true})
-      context.dispatch('checkout/savePersonalDetails', {}, {root: true})
-      context.dispatch('checkout/saveShippingDetails', {}, {root: true})
-      context.dispatch('checkout/savePaymentDetails', {}, {root: true})
+    context.commit(types.USER_GROUP_TOKEN_CHANGED, '')
+    context.commit(types.USER_GROUP_CHANGED, null)
+    context.commit(types.USER_INFO_LOADED, null)
+    context.dispatch('wishlist/clear', null, {root: true})
+    context.dispatch('checkout/savePersonalDetails', {}, {root: true})
+    context.dispatch('checkout/saveShippingDetails', {}, {root: true})
+    context.dispatch('checkout/savePaymentDetails', {}, {root: true})
   },
   /**
    * Logout user
@@ -365,7 +366,7 @@ const actions: ActionTree<UserState, RootState> = {
       }
     })
   },
-  userAfterUpdate(context, event) {
+  userAfterUpdate (context, event) {
     if (event.resultCode === 200) {
       rootStore.dispatch('notification/spawnNotification', {
         type: 'success',

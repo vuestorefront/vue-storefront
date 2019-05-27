@@ -27,7 +27,7 @@ const actions: ActionTree<ReviewState, RootState> = {
    * @param {any} includeFields
    * @returns {Promise<T> & Promise<any>}
    */
-  list (context, { productId, approved = true, start = 0, size = 50, entityType = 'review', sort = '', excludeFields = null, includeFields = null}) {
+  list (context, {productId, approved = true, start = 0, size = 50, entityType = 'review', sort = '', excludeFields = null, includeFields = null}) {
     let query = new SearchQuery()
 
     if (productId) {
@@ -53,7 +53,7 @@ const actions: ActionTree<ReviewState, RootState> = {
    * @returns {Promise<void>}
    */
   async add (context, reviewData: Review) {
-    const review:ReviewRequest = {review: reviewData}
+    const review: ReviewRequest = {review: reviewData}
 
     Vue.prototype.$bus.$emit('notification-progress-start', i18n.t('Adding a review ...'))
 

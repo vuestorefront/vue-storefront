@@ -268,7 +268,7 @@ img[lazy=loaded] {
   .VueCarousel-navigation {
     opacity: 0;
     &--disabled {
-      opacity: 0.3;
+      display: none;
     }
   }
   .VueCarousel-dot {

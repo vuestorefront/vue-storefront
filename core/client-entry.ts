@@ -14,9 +14,9 @@ import globalConfig from 'config'
 declare var window: any
 
 const invokeClientEntry = async () => {
-  const dynamicRuntimeConfig = window.__INITIAL_STATE__.config  ? Object.assign(globalConfig, window.__INITIAL_STATE__.config) : globalConfig
+  const dynamicRuntimeConfig = window.__INITIAL_STATE__.config ? Object.assign(globalConfig, window.__INITIAL_STATE__.config) : globalConfig
   // Get storeCode from server (received either from cache header or env variable)
-  let storeCode =  window.__INITIAL_STATE__.user.current_storecode
+  let storeCode = window.__INITIAL_STATE__.user.current_storecode
   const { app, router, store } = await createApp(null, dynamicRuntimeConfig, storeCode)
 
   if (window.__INITIAL_STATE__) {
