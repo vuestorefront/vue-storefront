@@ -35,16 +35,16 @@
           </div>
         </div>
         <div class="col-xs-12 col-md-3 serif">
-          <div v-if="!product.totals">
-            <span class="h4 cl-error" v-if="product.special_price">{{ product.priceInclTax * product.qty | price }} </span>
-            <span class="price-original h5" v-if="product.special_price" >{{ product.originalPriceInclTax * product.qty | price }}</span>
-            <span v-if="!product.special_price" class="h4">{{ product.priceInclTax * product.qty | price }}</span>
-          </div>
-          <div v-if="product.totals">
-            <span class="h4 cl-error" v-if="product.totals.discount_amount">{{ product.totals.row_total_incl_tax - product.totals.discount_amount | price }} </span>
+          <div v-if="isOnline && product.totals">
+            <span class="h4 cl-error" v-if="product.totals.discount_amount">{{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }} </span>
             <span class="price-original h5" v-if="product.totals.discount_amount" >{{ product.totals.row_total_incl_tax | price }}</span>
             <span v-if="!product.totals.discount_amount" class="h4">{{ product.totals.row_total_incl_tax | price }}</span>
           </div>
+          <div v-else>
+            <span class="h4 cl-error" v-if="product.special_price">{{ product.priceInclTax * product.qty | price }} </span>
+            <span class="price-original h5" v-if="product.special_price" >{{ product.originalPriceInclTax * product.qty | price }}</span>
+            <span v-if="!product.special_price" class="h4">{{ product.priceInclTax * product.qty | price }}</span>
+          </div>          
         </div>
       </div>
     </div>
@@ -53,8 +53,14 @@
 
 <script>
 import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
+import { onlineHelper } from '@vue-storefront/core/helpers'
 
 export default {
+  computed: {
+    isOnline () {
+      return onlineHelper.isOnline
+    }
+  },
   mixins: [Product]
 }
 </script>
