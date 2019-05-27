@@ -414,7 +414,7 @@ const actions: ActionTree<CartState, RootState> = {
             payment_method: payment ? payment.code : null
           }
         }
-        if (methodsData.country && methodsData.carrier_code && context.state.cartServerToken) {
+        if (methodsData.country && context.state.cartServerToken) {
           TaskQueue.execute({ url: config.cart.shippinginfo_endpoint,
             payload: {
               method: 'POST',
@@ -441,7 +441,7 @@ const actions: ActionTree<CartState, RootState> = {
             reject(e)
           })
         } else {
-          context.dispatch('cart/serverTotals', {}, { root: true })
+          Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
           resolve()
         }
       }
