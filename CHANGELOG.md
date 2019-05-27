@@ -65,6 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added optional attributes to catalog/product.ts - @ZeevGerstner (#2792)
 - Formatted dates in CHANGELOG.md to match ISO standard - @phoenixdev-kl (#2839)
 - Moved Filter Price Ranges (used for ES aggregations and UI Filter) to the config - @jpetar (#2873)
+- Extra space if not found products in everything new section home page - @cnviradiya (#2846)
 
 ## [1.9.0] - 2019.05.06
 
