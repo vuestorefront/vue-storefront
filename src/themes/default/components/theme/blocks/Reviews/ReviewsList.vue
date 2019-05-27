@@ -3,8 +3,8 @@
     <div class="mt50 h5" v-if="!itemsPerPage || itemsPerPage.length === 0">
       {{ $t('No reviews have been posted yet. Please don\'t hesitate to share Your opinion and write the first review!') }}
     </div>
-    <div class="mt50" v-for="(item, index) in itemsPerPage" :key="index" v-if="item.review_status" itemprop="review" itemscope itemtype="http://schema.org/Review">
-      <meta itemprop="itemReviewed" :content="productName | htmlDecode">
+    <div class="mt50" v-for="(item, index) in itemsPerPage" :key="index" itemprop="review" itemscope itemtype="http://schema.org/Review">
+      <meta itemprop="itemReviewed" :content="productName | htmlDecode" />
       <h4 class="weight-400 m0" itemprop="reviewAspect" :content="item.title">
         {{ item.title }}
       </h4>
@@ -59,7 +59,7 @@ export default {
     itemsPerPage () {
       let start = ((this.currentPage - 1) * this.perPage)
       let end = start + this.perPage
-      return this.items.slice(start, end)
+      return this.items.slice(start, end).filter(review => !!review.review_status)
     },
     pageCount () {
       return Math.floor(this.items.length / this.perPage) + Math.min(1, this.items.length % this.perPage)
