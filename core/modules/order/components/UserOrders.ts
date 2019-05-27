@@ -22,6 +22,8 @@ export const UserOrders = {
           this.$store.dispatch('cart/addItem', { productToAdd: product }).then(() => { })
         })
       })
+      // Redirect to the cart straight away.
+      this.$router.push(this.localizedRoute('/checkout'))
     },
     skipGrouped (items) {
       return items.filter((item) => {

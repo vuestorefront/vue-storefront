@@ -182,6 +182,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated cypress dependency for e2e tests - @lukeromanowicz (#2518)
 - Improved styles on recommendation filters, product tile and numeric input - @patzick (#2458)
 - Removed editing mode from My Newsletter section - @aniamusial (#2766)
+- Clicking Remake order now adds your items and redirects you to the checkout - @mikesheward (#2710)
+
 
 ### Deprecated / Removed
 - `@vue-storefront/store` package deprecated - @filrak
