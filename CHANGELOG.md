@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.1] - 2019.05.27
+
+### Fixed
+- Remove security vulnerabilities by updating project dependencies - @patzick (#2942)
+- Fix Configurable Products not accessible in CSR when children visibility is set to "not visible individually" - @revlis-x (#2933)
+- ProductTile placeholders are visible on SSR - @patzick (#2939)
+
 ## [1.9.0] - 2019.05.06
 
 ### Added
@@ -45,7 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Offline orders with out of stock products don't stack anymore and get canceled after going back to online - @lukeromanowicz (#2740)
 - Build ServiceWorker on Docker - @patzick (#2793)
 - Product image load after comming back to online - @patzick (#2573)
-- Insufficent validation for city field in checkout address - @lromanowicz (#2653) 
+- Insufficent validation for city field in checkout address - @lromanowicz (#2653)
 - Incorrect hover activity on the 'filter by categories' in the search view on mobile - @idodidodi (#2783)
 - Unit tests written in JavaScript now support async/await functions and dynamic import - @michaelKurowski, @lukeromanowicz (#2851)
 
