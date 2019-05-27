@@ -1,5 +1,5 @@
-const Countries = require('@vue-storefront/i18n/resource/countries.json')
 import toString from 'lodash-es/toString'
+const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const UserShippingDetails = {
   name: 'MyShippingDetails',

@@ -25,7 +25,7 @@ const actions: ActionTree<StockState, RootState> = {
           },
           product_sku: product.sku,
           callback_event: 'store:stock/stockAfterCheck'
-        }).then((task:any) => {
+        }).then((task: any) => {
           resolve({ qty: product.stock ? product.stock.qty : 0, status: product.stock ? (product.stock.is_in_stock ? 'ok' : 'out_of_stock') : 'ok', onlineCheckTaskId: task.task_id }) // if online we can return ok because it will be verified anyway
         })
       } else {

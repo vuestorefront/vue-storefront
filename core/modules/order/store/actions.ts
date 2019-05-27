@@ -18,7 +18,7 @@ const actions: ActionTree<OrderState, RootState> = {
    * @param {Object} commit method
    * @param {Order} order order data to be send
    */
-  async placeOrder ({ commit, getters, dispatch }, order:Order) {
+  async placeOrder ({ commit, getters, dispatch }, order: Order) {
     // Check if order is already processed/processing
     const currentOrderHash = sha3_224(JSON.stringify(order))
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
@@ -40,7 +40,7 @@ const actions: ActionTree<OrderState, RootState> = {
     } else {
       Vue.prototype.$bus.$emit('notification-progress-start', i18n.t('Processing order...'))
       try {
-        const task:any = await TaskQueue.execute({ url: config.orders.endpoint, // sync the order
+        const task: any = await TaskQueue.execute({ url: config.orders.endpoint, // sync the order
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

@@ -1,14 +1,13 @@
-import { mountMixinWithStore } from "@vue-storefront/unit-tests/utils";
+import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
 
 import Subscribe from '../../../mixins/Subscribe'
 
-jest.mock('vuelidate/lib/validators',() => ({
+jest.mock('vuelidate/lib/validators', () => ({
   email: {},
   required: {}
 }))
 
 describe('Subscribe', () => {
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -21,7 +20,7 @@ describe('Subscribe', () => {
             subscribe: jest.fn()
           },
           namespaced: true
-        },
+        }
       }
     };
 
@@ -33,7 +32,7 @@ describe('Subscribe', () => {
       }
     });
 
-    (<any> wrapper.vm).subscribe()
+    (wrapper.vm as any).subscribe()
 
     expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '', undefined);
   })
@@ -46,7 +45,7 @@ describe('Subscribe', () => {
             subscribe: jest.fn(() => true)
           },
           namespaced: true
-        },
+        }
       }
     };
 
@@ -60,7 +59,7 @@ describe('Subscribe', () => {
 
     const successCallback = jest.fn()
 
-    await (<any> wrapper.vm).subscribe(successCallback)
+    await (wrapper.vm as any).subscribe(successCallback)
 
     expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '', undefined);
     expect(successCallback).toBeCalledWith(true)
@@ -71,10 +70,10 @@ describe('Subscribe', () => {
       modules: {
         newsletter: {
           actions: {
-            subscribe: jest.fn(()=> Promise.reject('subscription failed'))
+            subscribe: jest.fn(() => Promise.reject('subscription failed'))
           },
           namespaced: true
-        },
+        }
       }
     };
 
@@ -86,7 +85,7 @@ describe('Subscribe', () => {
       }
     });
 
-    await (<any> wrapper.vm).subscribe(()=>{})
+    await (wrapper.vm as any).subscribe(() => {})
 
     expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '', undefined);
   })
@@ -96,10 +95,10 @@ describe('Subscribe', () => {
       modules: {
         newsletter: {
           actions: {
-            subscribe: jest.fn(()=> Promise.reject('subscription failed'))
+            subscribe: jest.fn(() => Promise.reject('subscription failed'))
           },
           namespaced: true
-        },
+        }
       }
     };
 
@@ -113,7 +112,7 @@ describe('Subscribe', () => {
 
     const errorCallback = jest.fn()
 
-    await (<any> wrapper.vm).subscribe(()=>{}, errorCallback)
+    await (wrapper.vm as any).subscribe(() => {}, errorCallback)
 
     expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '', undefined);
     expect(errorCallback).toBeCalledWith('subscription failed')

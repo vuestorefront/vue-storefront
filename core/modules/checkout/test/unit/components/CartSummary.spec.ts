@@ -5,10 +5,9 @@ import { CartSummary } from '../../../components/CartSummary'
 jest.mock('@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart');
 
 describe('CartSummary', () => {
-
   it('can be initialized', () => {
     const wrapper = shallowMount({
-      template: "<div />",
+      template: '<div />',
       mixins: [CartSummary]
     });
 
