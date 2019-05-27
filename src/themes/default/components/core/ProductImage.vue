@@ -9,20 +9,23 @@
       itemprop="image"
       class="image image--placeholder">
     <img
+      v-if="!lowerQualityImageError || isOnline"
       v-show="showLowerQuality"
       :src="image.loading"
       :alt="alt"
-      @load="imageLoaded('lower')"
+      @load="imageLoaded('lower', true)"
+      @error="imageLoaded('lower', false)"
       key="lowerQualityImage"
       ref="images"
       itemprop="image"
       class="image">
     <img
-      v-if="lowerQualityImage"
+      v-if="!highQualityImageError || isOnline"
       v-show="showHighQuality"
       :src="image.src"
       :alt="alt"
-      @load="imageLoaded('high')"
+      @load="imageLoaded('high', true)"
+      @error="imageLoaded('high', false)"
       key="highQualityImage"
       ref="images"
       itemprop="image"
@@ -31,6 +34,8 @@
 </template>
 
 <script>
+import { onlineHelper } from '@vue-storefront/core/helpers'
+import { isOnline } from '@vue-storefront/core/lib/search';
 export default {
   props: {
     image: {
@@ -48,8 +53,13 @@ export default {
   data () {
     return {
       lowerQualityImage: false,
-      highQualityImage: false
+      lowerQualityImageError: false,
+      highQualityImage: false,
+      highQualityImageError: false
     }
+  },
+  watch: {
+    isOnline (online){}
   },
   computed: {
     showPlaceholder () {
@@ -60,11 +70,15 @@ export default {
     },
     showHighQuality () {
       return this.highQualityImage
+    },
+    isOnline (value) {
+      return onlineHelper.isOnline
     }
   },
   methods: {
-    imageLoaded (type) {
-      this[`${type}QualityImage`] = true
+    imageLoaded (type,success = true) {
+      this[`${type}QualityImage`] = success
+      this[`${type}QualityImageError`] = !success
     }
   }
 }
