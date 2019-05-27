@@ -54,6 +54,12 @@ In a case of
 See the discussion in [#137](https://github.com/DivanteLtd/vue-storefront/issues/137).
 Please also check the [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Database%20tool.md)
 
+## HTTP 400 / CORS errors when trying to retrieve detailed product information from API
+
+If all the other requests work without any issues then it's highly possible that your products have too many attributes. All of them are included in ElasticSearch query sent via GET request which might become too long. Try to limit amount of attributes that are indexed and later used for this product view.
+
+This answer is valid until [this issue is resolved](https://github.com/DivanteLtd/vue-storefront/issues/2167).
+
 ## What's the recommended way to use git on custom development
 
 One of the options is to do kind of a fork, or just get the whole repo to your git service. Then, if you want to do some VS updates, you probably need to just pull the changes from our origins. Another option will be available as soon as we manage to separate the core as an npm module.
