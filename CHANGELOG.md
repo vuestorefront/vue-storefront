@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use event bus to emit 'application-after-init' event (#2852)
 - Validation of fields 'company name' and 'tax' in checkout doesn't work correctly - @dimasch (#2741)
 - Fixed wrong price displayed in instant checkout module - @vishal-7037 (#2884)
+- Subscribe button responsive - @exlo89 (#2886)
 
 ### Changed / Improved
 - Changed the way to access the configuration. Currently the `rootStore.state.config` is deprecated. Please do use the `import config from 'config'` > `config` instead - @pkarw (#2649)
