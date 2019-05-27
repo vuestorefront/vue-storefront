@@ -17,7 +17,7 @@
 
     <section class="container pb60 px15">
       <div class="row center-xs">
-        <header class="col-md-12 pt40">
+        <header class="col-md-12" :class="{ pt40: everythingNewCollection && everythingNewCollection.length }">
           <h2 class="align-center cl-accent">{{ $t('Get inspired') }}</h2>
         </header>
       </div>
