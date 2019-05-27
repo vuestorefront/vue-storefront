@@ -1,5 +1,5 @@
 <template>
-  <div class="box" v-on="$listeners">
+  <div class="image" v-on="$listeners">
     <img
       v-show="showPlaceholder"
       src="/assets/placeholder.svg"
@@ -7,7 +7,7 @@
       key="placeholder"
       ref="images"
       itemprop="image"
-      class="image image--placeholder">
+      class="image__thumb image__thumb--placeholder">
     <img
       v-if="!lowerQualityImageError || isOnline"
       v-show="showLowerQuality"
@@ -18,7 +18,7 @@
       key="lowerQualityImage"
       ref="images"
       itemprop="image"
-      class="image">
+      class="image__thumb">
     <img
       v-if="!highQualityImageError || isOnline"
       v-show="showHighQuality"
@@ -29,7 +29,7 @@
       key="highQualityImage"
       ref="images"
       itemprop="image"
-      class="image">
+      class="image__thumb">
   </div>
 </template>
 
@@ -85,28 +85,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .box{
+  .image{
     position: relative;
     width: 100%;
     height: 0;
     padding-bottom: calc(740% / (600 / 100));
     overflow: hidden;
     mix-blend-mode: multiply;
-  }
-
-  .image{
-    max-width: 100%;
-    height: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: auto;
-    height: 100%;
-    transform: translate3d(-50%, -50%, 0);
-
-    &--placeholder{
-      width: auto;
+    &__thumb{
+      max-width: 100%;
       height: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: auto;
+      height: 100%;
+      transform: translate3d(-50%, -50%, 0);
+      &--placeholder{
+        width: auto;
+        height: auto;
+      }
     }
   }
 </style>
