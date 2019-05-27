@@ -172,7 +172,7 @@ export const processURLAddress = (url: string = '') => {
   return url
 }
 
-export function bottomVisible () {
+export const isBottomVisible = () => {
   if (isServer) {
     return false
   }
@@ -183,11 +183,3 @@ export function bottomVisible () {
 
   return bottomOfPage || pageHeight < visible
 }
-
-export const bottomHelper = Vue.observable({
-  isBottom: false
-})
-
-!isServer && window.addEventListener('scroll', () => {
-  bottomHelper.isBottom = bottomVisible()
-}, {passive: true})

@@ -1,10 +1,10 @@
-import { bottomHelper } from '@vue-storefront/core/helpers'
 import MyOrders from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrders'
 import { mapGetters } from 'vuex';
+import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 
 export default {
   name: 'UserOrders',
-  mixins: [MyOrders],
+  mixins: [MyOrders, onBottomScroll],
   data () {
     return {
       pagination: {
@@ -15,14 +15,6 @@ export default {
       lazyLoadOrdersOnScroll: true
     }
   },
-  watch: {
-    isBottom (newState) {
-      if (newState) {
-        ++this.pagination.current
-      }
-    }
-  },
-
   computed: {
     ordersHistory () {
       let items = this.ordersHistoryItems()
@@ -30,14 +22,14 @@ export default {
         items = this.paginate(items, this.pagination.perPage, this.pagination.current)
       }
       return items
-    },
-    isBottom () {
-      return bottomHelper.isBottom
     }
   },
   methods: {
     paginate (array, page_size, page_number) {
       return array.slice(0, (page_number + 1) * page_size);
+    },
+    onBottomScroll () {
+      ++this.pagination.current
     }
   }
 }

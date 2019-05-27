@@ -5,16 +5,17 @@ import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/core/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { baseFilterProductsQuery, buildFilterProductsQuery, isServer, bottomHelper } from '@vue-storefront/core/helpers'
+import { baseFilterProductsQuery, buildFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters, mapActions } from 'vuex'
+import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 
 export default {
   name: 'Category',
-  mixins: [Composite],
+  mixins: [Composite, onBottomScroll],
   data () {
     return {
       pagination: {
@@ -56,16 +57,6 @@ export default {
     },
     breadcrumbs () {
       return this.getCategoryBreadcrumbs
-    },
-    isBottom () {
-      return bottomHelper.isBottom
-    }
-  },
-  watch: {
-    isBottom (isBottom) {
-      if (isBottom) {
-        this.pullMoreProducts()
-      }
     }
   },
   preAsyncData ({ store, route }) {
@@ -153,6 +144,9 @@ export default {
   },
   methods: {
     ...mapActions('category', ['mergeSearchOptions']),
+    onBottomScroll () {
+      this.pullMoreProducts()
+    },
     pullMoreProducts () {
       if (typeof navigator !== 'undefined' && !navigator.onLine) return
       let current = this.getCurrentCategoryProductQuery.current + this.getCurrentCategoryProductQuery.perPage
