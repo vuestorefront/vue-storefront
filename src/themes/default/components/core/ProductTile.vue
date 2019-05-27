@@ -53,14 +53,13 @@
 <script>
 import rootStore from '@vue-storefront/core/store'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
-import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 
 export default {
   mixins: [ProductTile],
   data () {
     return {
-      imageLoaded: isServer
+      imageLoaded: false
     }
   },
   props: {
