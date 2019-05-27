@@ -44,11 +44,12 @@ export const Search = {
     makeSearch () {
       if (this.search !== '' && this.search !== undefined) {
         let query = this.buildSearchQuery(this.search)
-        this.start = 0
+        let startValue = 0;
+        this.start = startValue
         this.readMore = true
         this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then(resp => {
           this.products = resp.items
-          this.start = this.start + this.size
+          this.start = startValue + this.size
           this.emptyResults = resp.items.length < 1
         }).catch((err) => {
           Logger.error(err, 'components-search')()
@@ -61,14 +62,15 @@ export const Search = {
     seeMore () {
       if (this.search !== '' && this.search !== undefined) {
         let query = this.buildSearchQuery(this.search)
-        this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then((resp) => {
+        let startValue = this.start;
+        this.$store.dispatch('product/list', { query, start: startValue, size: this.size, updateState: false }).then((resp) => {
           let page = Math.floor(resp.total / this.size)
           let exceeed = resp.total - this.size * page
           if (resp.start === resp.total - exceeed) {
             this.readMore = false
           }
           this.products = this.products.concat(resp.items)
-          this.start = this.start + this.size
+          this.start = startValue + this.size
           this.emptyResults = this.products.length < 1
         }).catch((err) => {
           Logger.error(err, 'components-search')()
