@@ -9,7 +9,7 @@ export default {
     return {
       pagination: {
         perPage: 10,
-        current: 0,
+        current: 1,
         enabled: false
       },
       lazyLoadOrdersOnScroll: true
@@ -19,15 +19,12 @@ export default {
     ordersHistory () {
       let items = this.getOrdersHistory
       if (this.lazyLoadOrdersOnScroll) {
-        items = this.paginate(items, this.pagination.perPage, this.pagination.current)
+        items = items.slice(0, (this.pagination.perPage + 1) *  this.pagination.current)
       }
       return items
     }
   },
   methods: {
-    paginate (array, page_size, page_number) {
-      return array.slice(0, (page_number + 1) * page_size);
-    },
     onBottomScroll () {
       ++this.pagination.current
     }

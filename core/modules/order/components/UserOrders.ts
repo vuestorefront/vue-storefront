@@ -6,6 +6,7 @@ import { mapGetters } from 'vuex';
 export const UserOrders = {
   name: 'UserOrders',
   computed: {
+    ...mapGetters('user', ['getOrdersHistory']),
     ordersHistory () {
       return this.getOrdersHistory
     },
@@ -14,7 +15,6 @@ export const UserOrders = {
     }
   },
   methods: {
-    ...mapGetters('user', ['getOrdersHistory']),
     remakeOrder (products) {
       products.forEach(item => {
         this.$store.dispatch('product/single', { options: { sku: item.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
