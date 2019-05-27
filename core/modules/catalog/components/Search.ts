@@ -18,14 +18,14 @@ export const Search = {
       readMore: true
     }
   },
-  mounted() {
+  mounted () {
     this.search = localStorage.getItem(`shop/user/searchQuery`);
 
-    if (!!this.search) {
+    if (this.search) {
       this.makeSearch();
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     localStorage.setItem(`shop/user/searchQuery`, this.search);
   },
   methods: {

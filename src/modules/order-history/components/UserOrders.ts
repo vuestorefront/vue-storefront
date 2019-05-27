@@ -19,7 +19,7 @@ export default {
     ordersHistory () {
       let items = this.getOrdersHistory
       if (this.lazyLoadOrdersOnScroll) {
-        items = items.slice(0, (this.pagination.perPage + 1) *  this.pagination.current)
+        items = items.slice(0, (this.pagination.perPage + 1) * this.pagination.current)
       }
       return items
     }
