@@ -386,9 +386,6 @@ const actions: ActionTree<UserState, RootState> = {
     Logger.info('User session authorised ', 'user')()
     rootStore.dispatch('user/me', { refresh: navigator.onLine }, { root: true }).then((us) => {}) // this will load user cart
     rootStore.dispatch('user/getOrdersHistory', { refresh: navigator.onLine }, { root: true }).then((us) => {})
-  },
-  updateRecentSearch(context, { query }) {
-    context.commit(types.USER_RECENT_SEARCH_UPDATED, query)
   }
 }
 

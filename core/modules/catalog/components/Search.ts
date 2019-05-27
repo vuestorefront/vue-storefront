@@ -19,14 +19,14 @@ export const Search = {
     }
   },
   mounted() {
-    this.search = this.$store.getters(['user/getRecentSearch']);
+    this.search = localStorage.getItem(`shop/user/searchQuery`);
 
     if (!!this.search) {
       this.makeSearch();
     }
   },
   beforeDestroy() {
-    this.$store.dispatch('user/updateRecentSearch', { query: this.search });
+    localStorage.setItem(`shop/user/searchQuery`, this.search);
   },
   methods: {
     onEscapePress () {

@@ -33,9 +33,6 @@ const mutations: MutationTree<UserState> = {
   },
   [types.USER_LOCAL_DATA_LOADED] (state, readed = false) {
     state.local_data_loaded = readed
-  },
-  [types.USER_RECENT_SEARCH_UPDATED] (state, query = '') {
-    state.recent_search = query
   }
 }
 
