@@ -18,6 +18,16 @@ export const Search = {
       readMore: true
     }
   },
+  mounted() {
+    this.search = localStorage.getItem(`shop/user/searchQuery`);
+
+    if (!!this.search) {
+      this.makeSearch();
+    }
+  },
+  beforeDestroy() {
+    localStorage.setItem(`shop/user/searchQuery`, this.search);
+  },
   methods: {
     onEscapePress () {
       this.closeSearchpanel()
