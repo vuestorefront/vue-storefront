@@ -9,6 +9,9 @@ const getters: GetterTree<UserState, RootState> = {
   isLocalDataLoaded: state => state.local_data_loaded,
   getUserToken (state) {
     return state.token
+  },
+  getOrdersHistory (state) {
+    return state.orders_history ? state.orders_history.items : []
   }
 }
 
