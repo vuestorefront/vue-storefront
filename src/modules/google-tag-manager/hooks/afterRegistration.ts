@@ -1,13 +1,12 @@
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
-export function afterRegistration(Vue, config, store, isServer) {
+export function afterRegistration (Vue, config, store, isServer) {
   if (config.googleTagManager.id && !isServer) {
-
-    const storeView = currentStoreView(),
-      currencyCode = storeView.i18n.currencyCode
+    const storeView = currentStoreView()
+    const currencyCode = storeView.i18n.currencyCode
 
     const getProduct = (item) => {
-      const { name, id, sku, priceInclTax: price, category: category, qty: quantity } = item
+      const { name, id, sku, priceInclTax: price, category, qty: quantity } = item
       let product = {
         name,
         id,
@@ -25,10 +24,8 @@ export function afterRegistration(Vue, config, store, isServer) {
     }
 
     store.subscribe(({ type, payload }, state) => {
-
       // Adding a Product to a Shopping Cart
       if (type === 'cart/cart/ADD') {
-
         Vue.gtm.trackEvent({
           event: 'addToCart',
           ecommerce: {
@@ -54,11 +51,10 @@ export function afterRegistration(Vue, config, store, isServer) {
 
       // Measuring Views of Product Details
       if (type === 'product/product/SET_PRODUCT_CURRENT') {
-
         Vue.gtm.trackEvent({
           ecommerce: {
             detail: {
-              'actionField': { 'list': '' },// 'detail' actions have an optional list property.
+              'actionField': { 'list': '' }, // 'detail' actions have an optional list property.
               'products': [getProduct(payload)]
             }
           }
@@ -94,7 +90,6 @@ export function afterRegistration(Vue, config, store, isServer) {
           }
         })
       }
-
     })
   }
 }

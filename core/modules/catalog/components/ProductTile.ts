@@ -19,7 +19,7 @@ export const ProductTile = {
   computed: {
     productLink () {
       return formatProductLink(this.product, currentStoreView().storeCode)
-    },  
+    },
     thumbnail () {
       // todo: play with the image based on category page filters - eg. when 'red' color is chosen, the image is going to be 'red'
       let thumbnail = productThumbnailPath(this.product)

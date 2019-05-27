@@ -3,17 +3,16 @@ import Vue from 'vue'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { beforeRegistration } from '../../../hooks/beforeRegistration';
+import * as localForage from 'localforage';
 import Mock = jest.Mock;
-import * as localForage from "localforage";
 
-jest.mock('localforage', () => ({ createInstance: jest.fn(), someDriver: {}} ));
+jest.mock('localforage', () => ({ createInstance: jest.fn(), someDriver: {} }));
 jest.mock('@vue-storefront/core/store/lib/storage', () => jest.fn());
 jest.mock('@vue-storefront/core/lib/multistore', () => ({ currentStoreView: jest.fn() }));
 
 Vue.prototype.$db = {};
 
 describe('Cart beforeRegistration', () => {
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -31,8 +30,8 @@ describe('Cart beforeRegistration', () => {
     };
     const storageMock = {foo: 'bar'};
 
-    (<Mock> currentStoreView).mockReturnValueOnce({});
-    (<Mock><unknown> UniversalStorage).mockImplementationOnce(() => storageMock);
+    (currentStoreView as Mock).mockReturnValueOnce({});
+    (UniversalStorage as unknown as Mock).mockImplementationOnce(() => storageMock);
 
     beforeRegistration({ Vue, config, store: undefined, isServer: undefined });
 
@@ -52,8 +51,8 @@ describe('Cart beforeRegistration', () => {
     };
     const storageMock = {foo: 'bar'};
 
-    (<Mock> currentStoreView).mockReturnValueOnce({ storeCode: 'baz'});
-    (<Mock><unknown> UniversalStorage).mockImplementationOnce(() => storageMock);
+    (currentStoreView as Mock).mockReturnValueOnce({ storeCode: 'baz' });
+    (UniversalStorage as unknown as Mock).mockImplementationOnce(() => storageMock);
 
     beforeRegistration({ Vue, config, store: undefined, isServer: undefined });
 

@@ -25,7 +25,7 @@ const actions: ActionTree<AttributeState, RootState> = {
         if (filterField === 'attribute_code') return (typeof context.state.list_by_code[fv] === 'undefined' || context.state.list_by_code[fv] === null)
       })
       if (!filterValues || filterValues.length === 0) {
-        Logger.info('Skipping attribute load - attributes already loaded', 'attr', { orgFilterValues, filterField})()
+        Logger.info('Skipping attribute load - attributes already loaded', 'attr', { orgFilterValues, filterField })()
         return Promise.resolve({
           items: Object.values(context.state.list_by_code)
         })

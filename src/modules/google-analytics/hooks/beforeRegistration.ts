@@ -3,7 +3,7 @@ import { router } from '@vue-storefront/core/app'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { once } from '@vue-storefront/core/helpers'
 
-export function beforeRegistration({ Vue, config, store, isServer }) {
+export function beforeRegistration ({ Vue, config, store, isServer }) {
   if (config.analytics.id && !isServer) {
     once('__VUE_EXTEND_ANALYTICS__', () => {
       Vue.use(VueAnalytics, {
