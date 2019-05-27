@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Remove security vulnerabilities by updating project dependencies - @patzick (#2942)
 - Fix Configurable Products not accessible in CSR when children visibility is set to "not visible individually" - @revlis-x (#2933)
+- ProductTile placeholders are visible on SSR - @patzick (#2939)
 
 ## [1.9.0] - 2019.05.06
 
