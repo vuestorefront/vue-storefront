@@ -55,10 +55,10 @@
 </template>
 
 <script>
-import MyOrders from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrders'
+import UserOrder from 'src/modules/order-history/components/UserOrders'
 
 export default {
-  mixins: [MyOrders]
+  mixins: [UserOrder]
 }
 </script>
 
