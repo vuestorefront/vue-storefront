@@ -15,10 +15,14 @@
       <slide
         v-for="(images, index) in gallery"
         :key="images.src">
-        <div class="product-image-container bg-cl-secondary" :class="{'video-container w-100 h-100 flex relative': images.video}">
+        <div
+          class="product-image-container bg-cl-secondary"
+          :class="{'video-container w-100 h-100 flex relative': images.video}">
           <product-image
+            v-show="hideImageAtIndex !== index"
             @dblclick="openOverlay"
             class="product-image pointer"
+            :class="{'product-image--video': images.video}"
             :image="images"
             :alt="productName | htmlDecode"/>
           <product-video
@@ -152,6 +156,9 @@ export default {
   transition: .3s opacity $motion-main;
   &:hover{
     opacity: .9;
+  }
+  &--video{
+    padding-bottom: calc(319% / (568 / 100));
   }
 }
 .video-container {

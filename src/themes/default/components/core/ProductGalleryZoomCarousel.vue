@@ -4,6 +4,7 @@
       <ul class="media-zoom-carousel__thumbs m0 p0">
         <li class="media-zoom-carousel__thumb bg-cl-secondary" v-for="(images, index) in gallery" :key="images.src">
           <product-image
+            :class="{'thumb-video': images.video}"
             @click="navigate(index)"
             :image="images"
             :alt="productName | htmlDecode"/>
@@ -26,9 +27,11 @@
           <slide
             v-for="(images, index) in gallery"
             :key="images.src">
-            <div class="media-zoom-carousel__slide  bg-cl-secondary"
+            <div class="media-zoom-carousel__slide bg-cl-secondary"
                  :class="{'video-container h-100 flex relative': images.video}">
               <product-image
+                v-show="hideImageAtIndex !== index"
+                :class="{'image--video': images.video}"
                 :image="images"
                 :alt="productName | htmlDecode"/>
               <product-video
@@ -166,7 +169,7 @@ export default {
       margin-bottom: 0;
     }
 
-    & > div{
+    & > .image{
       mix-blend-mode: multiply;
       opacity: 0.9;
       will-change: transform;
@@ -194,11 +197,17 @@ export default {
   &__slide{
     height: 100%;
     max-height: 100%;
-    & > div {
+    & > .image {
       mix-blend-mode: multiply;
     padding-bottom: calc(710% / (600 / 100));
     }
+    .image--video{
+      padding-bottom: calc(319% / (568 / 100));
+    }
   }
+}
+.thumb-video{
+  padding-bottom: calc(319% / (568 / 100));
 }
 .video-container {
   align-items: center;
