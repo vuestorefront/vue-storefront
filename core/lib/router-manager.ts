@@ -4,7 +4,7 @@ import VueRouter, { RouteConfig } from 'vue-router'
 
 const RouterManager = {
   _registeredRoutes: new Array<RouteConfig>(),
-  addRoutes : function (routes: RouteConfig[], routerInstance: VueRouter = router): void {
+  addRoutes: function (routes: RouteConfig[], routerInstance: VueRouter = router): void {
     this._registeredRoutes.push(...routes)
     router.addRoutes(routes)
   },
@@ -13,7 +13,7 @@ const RouterManager = {
   },
   findByPath: function (fullPath: string): RouteConfig {
     return this._registeredRoutes.find(r => r.fullPath === fullPath)
-  }  
+  }
 }
 
 export { RouterManager }

@@ -1,10 +1,10 @@
-import { ActionTree } from "vuex"
+import { ActionTree } from 'vuex'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import * as types from './mutation-types'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import RootState from '@vue-storefront/core/types/RootState';
-import CmsPageState from "../../types/CmsPageState"
-import { cacheStorage  } from '../../'
+import CmsPageState from '../../types/CmsPageState'
+import { cacheStorage } from '../../'
 import { cmsPagesStorageKey } from './'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
@@ -29,13 +29,13 @@ const actions: ActionTree<CmsPageState, RootState> = {
         query = query.applyFilter({key: filterField, value: {'like': filterValues}})
       }
       return quickSearchByQuery({ query, entityType: 'cms_page', excludeFields, includeFields })
-      .then((resp) => {
-        context.commit(types.CMS_PAGE_UPDATE_CMS_PAGES, resp.items)
-        return resp.items
-      })
-      .catch(err => {
-        Logger.error(err, 'cms')()
-      })
+        .then((resp) => {
+          context.commit(types.CMS_PAGE_UPDATE_CMS_PAGES, resp.items)
+          return resp.items
+        })
+        .catch(err => {
+          Logger.error(err, 'cms')()
+        })
     } else {
       return new Promise((resolve, reject) => {
         let resp = context.state.items
@@ -61,18 +61,18 @@ const actions: ActionTree<CmsPageState, RootState> = {
     }
     if (skipCache || (!context.state.items || context.state.items.length === 0) || !context.state.items.find(p => p[key] === value)) {
       return quickSearchByQuery({ query, entityType: 'cms_page', excludeFields, includeFields })
-      .then((resp) => {
-        if (resp && resp.items && resp.items.length > 0) {
-          context.commit(types.CMS_PAGE_ADD_CMS_PAGE, resp.items[0])
-          if (setCurrent) context.commit(types.CMS_PAGE_SET_CURRENT, resp.items[0])
-          return resp.items[0]
-        } else {
-          throw new Error('CMS query returned empty result')
-        }
-      })
-      .catch(err => {
-        throw err
-      })
+        .then((resp) => {
+          if (resp && resp.items && resp.items.length > 0) {
+            context.commit(types.CMS_PAGE_ADD_CMS_PAGE, resp.items[0])
+            if (setCurrent) context.commit(types.CMS_PAGE_SET_CURRENT, resp.items[0])
+            return resp.items[0]
+          } else {
+            throw new Error('CMS query returned empty result')
+          }
+        })
+        .catch(err => {
+          throw err
+        })
     } else {
       return new Promise((resolve, reject) => {
         let resp = context.state.items.find(p => p[key] === value)
@@ -98,7 +98,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
   },
 
   addItem ({ commit }, page) {
-    commit(types.CMS_PAGE_ADD_CMS_PAGE, page )
+    commit(types.CMS_PAGE_ADD_CMS_PAGE, page)
   }
 
 }

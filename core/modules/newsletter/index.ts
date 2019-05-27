@@ -6,6 +6,6 @@ export const KEY = 'newsletter'
 export const cacheStorage = initCacheStorage(KEY)
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
-  store: { modules: [{ key: KEY, module }] },
+  store: { modules: [{ key: KEY, module }] }
 }
 export const Newsletter = new VueStorefrontModule(moduleConfig)

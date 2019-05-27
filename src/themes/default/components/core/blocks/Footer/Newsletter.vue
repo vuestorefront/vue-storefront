@@ -2,12 +2,12 @@
   <div class="newsletter py25 px15 bg-cl-secondary" v-if="!isSubscribed">
     <div class="container">
       <div class="newsletter-content m0 row middle-sm start-md">
-        <div class="col-md-9 col-xs-12">
+        <div class="col-md-8 col-xs-12">
           <h3 class="h3 cl-accent weight-400 m0">
             {{ $t('Subscribe to the newsletter and receive a coupon for 10% off') }}
           </h3>
         </div>
-        <div class="newsletter-button col-md-3 col-xs-12 end-md">
+        <div class="newsletter-button col-md-4 col-xs-12 end-md">
           <button-outline
             @click.native="showNewsletterPopup"
             color="dark"

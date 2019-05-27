@@ -16,8 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
 - Added back-button on orde detail page [#2819]
 - Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
+- Added linting for typescript files @ResuBaka (#2843)
 - Added back to top functionality - @vishal-7037 (#2866)
+- Button for filters acceptance added with new styles for clear filters button - @965750 (#2811)
 - Added "Clear wishlist" button - @aniamusial (#2806)
+- Remembering last search query - @webdiver, @patzick (#2787)
+- Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810) 
+- OrderNumber on ThankYouPage - @Flyingmana (#2743)
 
 ### Fixed
 - Products removed from the cart are no longer add back on the conectivity return - @pkarw (#2898)
@@ -30,11 +35,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unexpected `window.localStorage` use in user module actions - @zulcom (#2735)
 - Fix handling state of same address checkbox in the checkout - @lukeromanowicz (#2730)
 - Fix for `everythingNew` collection on home page - @vishal-7037 (#2761)
+- Fixed display of chevron arrows when there is only one product image - RGijsberts - (#2911)
 - Fixed `Clear cart` option as it previously was not syncing the changes with server - therefore when the user was logged in and cleard the cart all the products were restored - @pkarw (#2587)
 - Fixed the cart sync for a rare case that current cart token was empty - @pkarw (#2592)
 - Use event bus to emit 'application-after-init' event (#2852)
 - Validation of fields 'company name' and 'tax' in checkout doesn't work correctly - @dimasch (#2741)
 - Fixed wrong price displayed in instant checkout module - @vishal-7037 (#2884)
+- Subscribe button responsive - @exlo89, @webdiver, @przemyslawspaczek (#2886)
 
 ### Changed / Improved
 - Changed the way to access the configuration. Currently the `rootStore.state.config` is deprecated. Please do use the `import config from 'config'` > `config` instead - @pkarw (#2649)
@@ -68,6 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added optional attributes to catalog/product.ts - @ZeevGerstner (#2792)
 - Formatted dates in CHANGELOG.md to match ISO standard - @phoenixdev-kl (#2839)
 - Moved Filter Price Ranges (used for ES aggregations and UI Filter) to the config - @jpetar (#2873)
+- Added some structured data to product page - @cewald (#2910)
 
 ## [1.9.0] - 2019.05.06
 
