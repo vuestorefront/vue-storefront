@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use event bus to emit 'application-after-init' event (#2852)
 - Validation of fields 'company name' and 'tax' in checkout doesn't work correctly - @dimasch (#2741)
 - Fixed wrong price displayed in instant checkout module - @vishal-7037 (#2884)
+- Incorrect working of checkboxes in checkout - @dimasch (#2730)
 - Fixed ios input zoom on category page - @victorkadup (#2815)
 - Fixed Load more in Search Results not working when typed to fast - @Flyingmana (#2659, #2946)
 - Subscribe button responsive - @exlo89, @webdiver, @przemyslawspaczek (#2886)
