@@ -35,7 +35,7 @@
 
 <script>
 import { onlineHelper } from '@vue-storefront/core/helpers'
-import { isOnline } from '@vue-storefront/core/lib/search';
+
 export default {
   props: {
     image: {
@@ -58,9 +58,6 @@ export default {
       highQualityImageError: false
     }
   },
-  watch: {
-    isOnline (online){}
-  },
   computed: {
     showPlaceholder () {
       return !this.showLowerQuality && !this.showHighQuality
@@ -76,7 +73,7 @@ export default {
     }
   },
   methods: {
-    imageLoaded (type,success = true) {
+    imageLoaded (type, success = true) {
       this[`${type}QualityImage`] = success
       this[`${type}QualityImageError`] = !success
     }
