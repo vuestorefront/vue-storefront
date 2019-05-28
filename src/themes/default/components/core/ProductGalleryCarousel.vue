@@ -113,8 +113,9 @@ export default {
           return result
         }, {})
         if (option) {
-          const index = this.gallery.findIndex(
+          let index = this.gallery.findIndex(
             obj => obj.id && Object.entries(obj.id).toString() === Object.entries(option).toString(), option)
+          if (index < 0) index = this.gallery.findIndex(obj => obj.id && obj.id.color === option.color)
           this.navigate(index)
         }
       }
