@@ -1,6 +1,6 @@
 # GraphQL Action Plan
 
-Starting with Vue Storefront 1.4.0 (currently on develop branch), we're supporting two ways of getting data from the backend:
+Starting with Vue Storefront 1.4.0, we're supporting two ways of getting data from the backend:
 
 - existing `api` mode, which is using ElasticSearch DSL as a query language
 - new `graphql` mode, which is using GraphQL queries.
