@@ -58,11 +58,11 @@ const actions: ActionTree<CartState, RootState> = {
   async serverPullMethods (context) {
     const storeView = currentStoreView()
     Logger.debug('Refreshing payment & shipping methods', 'cart')()
-    await context.dispatch('cart/getPaymentMethods', {}, { root: true })
+    await context.dispatch('getPaymentMethods')
     let country = context.rootState.checkout.shippingDetails.country ? context.rootState.checkout.shippingDetails.country : storeView.tax.defaultCountry
-    await context.dispatch('cart/getShippingMethods', {
+    await context.dispatch('getShippingMethods', {
       country_id: country
-    }, { root: true })
+    })
   },
   async serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
     const isUserInCheckout = context.rootGetters['checkout/isUserInCheckout']
@@ -570,7 +570,7 @@ const actions: ActionTree<CartState, RootState> = {
                 qty: clientItem.qty,
                 product_option: clientItem.product_option
               })
-              _afterServerItemUpdated(event, clientItem)
+              _afterServerItemUpdated(context, event, clientItem)
               serverCartUpdateRequired = true
             } else {
               context.dispatch('removeItem', {
@@ -590,7 +590,7 @@ const actions: ActionTree<CartState, RootState> = {
                 quoteId: serverItem.quote_id,
                 product_option: clientItem.product_option
               })
-              _afterServerItemUpdated(event, clientItem)
+              _afterServerItemUpdated(context, event, clientItem)
               serverCartUpdateRequired = true
             } else {
               await context.dispatch('updateItem', {
