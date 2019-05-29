@@ -5,7 +5,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
-import { serial } from '@vue-storefront/core/helpers'
+import { serial, onlineHelper } from '@vue-storefront/core/helpers'
 
 export function beforeRegistration ({ Vue, config, store, isServer }) {
   Vue.prototype.$db.ordersCollection = new UniversalStorage(localForage.createInstance({
@@ -16,8 +16,8 @@ export function beforeRegistration ({ Vue, config, store, isServer }) {
   if (!isServer) {
     const orderMutex = {}
     // TODO: move to external file
-    EventBus.$on('order/PROCESS_QUEUE', event => {
-    if (typeof navigator !== 'undefined' && navigator.onLine) {
+    EventBus.$on('order/PROCESS_QUEUE', async event => {
+    if (onlineHelper.isOnline) {
       Logger.log('Sending out orders queue to server ...')()
 
       const storeView = currentStoreView()
@@ -30,21 +30,20 @@ export function beforeRegistration ({ Vue, config, store, isServer }) {
       }))
 
       const fetchQueue = []
-      ordersCollection.iterate((order, id, iterationNumber) => {
+      ordersCollection.iterate((order, id) => {
         // Resulting key/value pair -- this callback
         // will be executed for every item in the
         // database.
 
         if (!order.transmited && !orderMutex[id]) { // not sent to the server yet
           orderMutex[id] = true
-          fetchQueue.push(() => {
-            const config = event.config
-            const orderData = order
-            const orderId = id
-
-            Logger.log('Pushing out order ' + orderId)()
+          const config = event.config
+          const orderData = order
+          const orderId = id
+          Logger.log('Pushing out order ' + orderId)()
+          fetchQueue.push(
             /** @todo refactor order synchronisation to proper handling through vuex actions to avoid code duplication */
-            return fetch(config.orders.endpoint,
+            fetch(config.orders.endpoint,
               {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -104,17 +103,15 @@ export function beforeRegistration ({ Vue, config, store, isServer }) {
                 Logger.error('Error sending order: ' + orderId, err)()
                 orderMutex[id] = false
               })
-          })
+          )
         }
-      }, (err, result) => {
+      }, (err) => {
         if (err) Logger.error(err)()
         Logger.log('Iteration has completed')()
 
         // execute them serially
         serial(fetchQueue)
-          .then(res => {
-            Logger.info('Processing orders queue has finished')()
-          })
+        Logger.info('Processing orders queue has finished')()
       }).catch(err => {
         // This code runs if there were any errors
         Logger.log(err)()

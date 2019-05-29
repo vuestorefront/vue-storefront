@@ -181,6 +181,12 @@ export const processURLAddress = (url: string = '') => {
   * serial(urls.map(url => () => $.ajax(url)))
   *     .then(Logger.log.bind(Logger))()
   */
- export const serial = funcs =>
- funcs.reduce((promise, func) =>
-   promise.then(result => func().then(Array.prototype.concat.bind(result))), Promise.resolve([]))
+export const serial = async promises => {
+  const results = []
+  for (const item of promises) {
+    const result = await item;
+    results.push(result)
+  }
+  return results
+}
+ 
