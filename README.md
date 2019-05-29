@@ -693,10 +693,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
       <td align="center" valign="middle"> 
-<a href="">
+<a href="https://zero1.co.uk/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/zero-1_logo.png"
+            alt="Zero1"
             height="40"
           >
         </a>
