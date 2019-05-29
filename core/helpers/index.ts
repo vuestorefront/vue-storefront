@@ -172,7 +172,6 @@ export const processURLAddress = (url: string = '') => {
   return url
 }
 
-
 /*
   * serial executes Promises sequentially.
   * @param {funcs} An array of funcs that return promises.
@@ -184,3 +183,16 @@ export const processURLAddress = (url: string = '') => {
  export const serial = funcs =>
  funcs.reduce((promise, func) =>
    promise.then(result => func().then(Array.prototype.concat.bind(result))), Promise.resolve([]))
+
+export const isBottomVisible = () => {
+  if (isServer) {
+    return false
+  }
+  const scrollY = window.scrollY
+  const visible = window.innerHeight
+  const pageHeight = document.documentElement.scrollHeight
+  const bottomOfPage = visible + scrollY >= pageHeight
+
+  return bottomOfPage || pageHeight < visible
+}
+

@@ -51,6 +51,13 @@ export const Shipping = {
       return this.$store.state.payment.methods
     }
   },
+  watch: {
+    shipToMyAddress: {
+      handler () {
+        this.useMyAddress()
+      }
+    }
+  },
   mounted () {
     if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
       let shipping = this.shippingMethods.find(item => item.default)

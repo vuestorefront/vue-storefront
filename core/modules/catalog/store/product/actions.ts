@@ -306,7 +306,7 @@ const actions: ActionTree<ProductState, RootState> = {
           }
           if (configuration) {
             let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
-            Object.assign(product, selectedVariant)
+            Object.assign(product, omit(selectedVariant, ['visibility']))
           }
           if (product.url_path) {
             rootStore.dispatch('url/registerMapping', {
