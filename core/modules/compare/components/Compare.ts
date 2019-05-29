@@ -5,7 +5,7 @@ export const Compare = {
   name: 'Compare',
   mixins: [compareMountedMixin],
   computed: {
-    items () : Product[] {
+    items (): Product[] {
       return this.$store.state.compare.items
     },
     allComparableAttributes () {
@@ -29,7 +29,7 @@ export const Compare = {
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     return new Promise((resolve, reject) => {
       if (context) context.output.cacheTags.add(`compare`)
-        resolve()
+      resolve()
     })
   }
 }

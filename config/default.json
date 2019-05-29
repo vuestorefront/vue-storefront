@@ -394,7 +394,7 @@
       "fullLanguageName": "English",
       "bundleAllStoreviewLanguages": true
     },
-    "mailchimp": {
+    "newsletter": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
     },
     "mailer": {

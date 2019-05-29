@@ -15,4 +15,3 @@ export const module: Module<OrderState, RootState> = {
   mutations,
   getters
 }
-

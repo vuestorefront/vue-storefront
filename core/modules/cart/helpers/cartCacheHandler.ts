@@ -1,6 +1,6 @@
-import * as types from "../store/mutation-types";
+import * as types from '../store/mutation-types';
 
-export function cartCacheHandlerFactory(Vue) {
+export function cartCacheHandlerFactory (Vue) {
   return (mutation, state) => {
     const type = mutation.type;
 

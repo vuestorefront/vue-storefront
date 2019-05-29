@@ -33,6 +33,15 @@
             <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>
           <sidebar class="mobile-filters-body" :filters="getAvailableFilters"/>
+          <div class="relative pb20 pt15">
+            <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
+          </div>
+          <button-full
+            class="mb20 btn__filter"
+            @click.native="closeFilters"
+          >
+            {{ $t('Filter') }}
+          </button-full>
         </div>
         <div class="col-md-9 px10 border-box products-list">
           <p class="col-xs-12 end-md m0 pb20 cl-secondary">{{ productsTotal }} {{ $t('items') }}</p>
@@ -54,9 +63,11 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
 export default {
   components: {
+    ButtonFull,
     ProductListing,
     Breadcrumbs,
     Sidebar,
@@ -122,6 +133,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .btn {
+    &__filter {
+      min-width: 100px;
+    }
+  }
+  .divider {
+    width: calc(100vw - 8px);
+    bottom: 20px;
+    left: -36px;
+  }
   .category-filters {
     width: 242px;
   }
