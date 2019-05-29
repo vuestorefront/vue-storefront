@@ -11,10 +11,11 @@ import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multi
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters, mapActions } from 'vuex'
+import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 
 export default {
   name: 'Category',
-  mixins: [Composite],
+  mixins: [Composite, onBottomScroll],
   data () {
     return {
       pagination: {
@@ -22,7 +23,6 @@ export default {
         current: 0,
         enabled: false
       },
-      bottom: false,
       lazyLoadProductsOnscroll: true
     }
   },
@@ -57,13 +57,6 @@ export default {
     },
     breadcrumbs () {
       return this.getCategoryBreadcrumbs
-    }
-  },
-  watch: {
-    bottom (bottom) {
-      if (bottom) {
-        this.pullMoreProducts()
-      }
     }
   },
   preAsyncData ({ store, route }) {
@@ -136,11 +129,6 @@ export default {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
-    if (!isServer && this.lazyLoadProductsOnscroll) {
-      window.addEventListener('scroll', () => {
-        this.bottom = this.bottomVisible()
-      }, {passive: true})
-    }
   },
   beforeDestroy () {
     this.$bus.$off('list-change-sort', this.onSortOrderChanged)
@@ -156,12 +144,8 @@ export default {
   },
   methods: {
     ...mapActions('category', ['mergeSearchOptions']),
-    bottomVisible () {
-      const scrollY = window.scrollY
-      const visible = window.innerHeight
-      const pageHeight = document.documentElement.scrollHeight
-      const bottomOfPage = visible + scrollY >= pageHeight
-      return bottomOfPage || pageHeight < visible
+    onBottomScroll () {
+      this.pullMoreProducts()
     },
     pullMoreProducts () {
       if (typeof navigator !== 'undefined' && !navigator.onLine) return

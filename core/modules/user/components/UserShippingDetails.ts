@@ -38,6 +38,13 @@ export const UserShippingDetails = {
   mounted () {
     this.shippingDetails = this.getShippingDetails()
   },
+  watch: {
+    useCompanyAddress: {
+      handler () {
+        this.fillCompanyAddress()
+      }
+    }
+  },
   methods: {
     onLoggedIn () {
       this.currentUser = Object.assign({}, this.$store.state.user.current)
