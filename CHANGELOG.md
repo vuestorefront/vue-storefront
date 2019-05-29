@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added back to top functionality - @vishal-7037 (#2866)
 - Button for filters acceptance added with new styles for clear filters button - @965750 (#2811)
 - Added "Clear wishlist" button - @aniamusial (#2806)
+- Make all links with the primary color - @hackbard (#2932)
+- Remembering last search query - @webdiver, @patzick (#2787)
+- Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810) 
+- OrderNumber on ThankYouPage - @Flyingmana (#2743)
+- Extracted ProductImage component to support faster images loading - @przemyslawspaczek (#2925)
 
 ### Fixed
 - Products removed from the cart are no longer add back on the conectivity return - @pkarw (#2898)
@@ -38,6 +43,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use event bus to emit 'application-after-init' event (#2852)
 - Validation of fields 'company name' and 'tax' in checkout doesn't work correctly - @dimasch (#2741)
 - Fixed wrong price displayed in instant checkout module - @vishal-7037 (#2884)
+- Incorrect working of checkboxes in checkout - @dimasch (#2730)
+- Fixed ios input zoom on category page - @victorkadup (#2815)
+- Fixed Load more in Search Results not working when typed to fast - @Flyingmana (#2659, #2946)
+- Subscribe button responsive - @exlo89, @webdiver, @przemyslawspaczek (#2886)
 
 ### Changed / Improved
 - Changed the way to access the configuration. Currently the `rootStore.state.config` is deprecated. Please do use the `import config from 'config'` > `config` instead - @pkarw (#2649)
@@ -71,6 +80,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added optional attributes to catalog/product.ts - @ZeevGerstner (#2792)
 - Formatted dates in CHANGELOG.md to match ISO standard - @phoenixdev-kl (#2839)
 - Moved Filter Price Ranges (used for ES aggregations and UI Filter) to the config - @jpetar (#2873)
+- Extra space if not found products in everything new section home page - @cnviradiya (#2846)
+- Load custom fonts without webfont.js - @jahvi (#2944)
+- Added some structured data to product page - @cewald (#2910)
+
+## [1.9.1] - 2019.05.27
+
+### Fixed
+- Remove security vulnerabilities by updating project dependencies - @patzick (#2942)
+- Fix Configurable Products not accessible in CSR when children visibility is set to "not visible individually" - @revlis-x (#2933)
+- ProductTile placeholders are visible on SSR - @patzick (#2939)
 
 ## [1.9.0] - 2019.05.06
 
@@ -87,6 +106,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update to babel 7 - @lukeromanowicz (#2554)
 
 ### Fixed
+- For first time setup of the SSR Cache, a local cache-version.json file is required. The path has been removed from .gitignore and a template has been added. - @rio-vps
 - Gallery low quality image in offline mode when high quality already cached - @patzick (#2557)
 - Payment issue when no address set - @szafran89 (#2593)
 - Search component result message when search term is less than 3 letters - @robwozniak (#2561)
@@ -112,7 +132,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Offline orders with out of stock products don't stack anymore and get canceled after going back to online - @lukeromanowicz (#2740)
 - Build ServiceWorker on Docker - @patzick (#2793)
 - Product image load after comming back to online - @patzick (#2573)
-- Insufficent validation for city field in checkout address - @lromanowicz (#2653) 
+- Insufficent validation for city field in checkout address - @lromanowicz (#2653)
 - Incorrect hover activity on the 'filter by categories' in the search view on mobile - @idodidodi (#2783)
 - Unit tests written in JavaScript now support async/await functions and dynamic import - @michaelKurowski, @lukeromanowicz (#2851)
 
@@ -176,6 +196,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated cypress dependency for e2e tests - @lukeromanowicz (#2518)
 - Improved styles on recommendation filters, product tile and numeric input - @patzick (#2458)
 - Removed editing mode from My Newsletter section - @aniamusial (#2766)
+- Clicking Remake order now adds your items and redirects you to the checkout - @mikesheward (#2710)
+
 
 ### Deprecated / Removed
 - `@vue-storefront/store` package deprecated - @filrak
