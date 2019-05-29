@@ -1,6 +1,7 @@
 module.exports = {
   base: '/',
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
+  port: 8081,
   themeConfig: {
     repo: 'DivanteLtd/vue-storefront',
     docsDir: 'docs',
@@ -26,6 +27,19 @@ module.exports = {
           ]
 	      },
         'upgrade-notes/',
+        {
+          title: 'Cookbook',
+          collapsable: false,
+          children: [
+            'cookbook/data-import',
+            'cookbook/elastic',
+            'cookbook/setup',
+            'cookbook/integration',
+            'cookbook/extend-module',
+            'cookbook/theme',
+            'cookbook/common-pitfall',
+          ],
+        },
         {
           title: 'Installation',
           collapsable: false,
@@ -140,7 +154,6 @@ module.exports = {
             'integrations/tier-prices-sync',
             'integrations/totals-sync',
             'integrations/multistore',
-            'integrations/product-reviews',
           ],
         },
       ],
