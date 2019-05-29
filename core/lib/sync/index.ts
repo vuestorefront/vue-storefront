@@ -5,9 +5,10 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { execute as taskExecute, _prepareTask } from './task'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
+import Task from '@vue-storefront/core/lib/sync/types/Task'
 
 /** Syncs given task. If user is offline requiest will be sent to the server after restored connection */
-function queue (task) {
+async function queue (task) {
   const tasksCollection = Vue.prototype.$db.syncTaskCollection
   task = _prepareTask(task)
   Logger.info('Sync task queued ' + task.url, 'sync', { task })()
@@ -24,7 +25,7 @@ function queue (task) {
 }
 
 /** Runs given task. If user is offline request will fail */
-function execute (task) { // not offline task
+async function execute (task): Promise<Task> { // not offline task
   task = _prepareTask(task)
   return new Promise((resolve, reject) => {
     if (isServer) {

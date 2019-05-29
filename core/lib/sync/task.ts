@@ -206,7 +206,7 @@ export function registerSyncTaskProcessor () {
           }).catch(err => {
             mutex[id] = false
             Logger.error(err)()
-          })
+          }))
         }
       }, (err) => {
         if (err) Logger.error(err)()
@@ -214,9 +214,6 @@ export function registerSyncTaskProcessor () {
         // execute them serially
         serial(fetchQueue)
         Logger.debug('Processing sync tasks queue has finished')()
-      }).catch(err => {
-        // This code runs if there were any errors
-        Logger.log(err)()
       })
     }
   })  

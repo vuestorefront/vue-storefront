@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import { sha3_224 } from 'js-sha3'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
@@ -20,26 +19,25 @@ import config from 'config'
 const CART_PULL_INTERVAL_MS = 2000
 const CART_CREATE_INTERVAL_MS = 1000
 const CART_TOTALS_INTERVAL_MS = 200
-const CART_METHODS_INTERVAL_MS = 1000 * 60 * 10 // refresh methods each 10 min
+const CART_METHODS_INTERVAL_MS = 2000 // refresh methods each 2 s when anything changed in the cart
 const MAX_BYPASS_COUNT = 10
 
-function _updateClientItem (event, clientItem) {
+async function _updateClientItem (context, event, clientItem) {
   if (typeof event.result.item_id !== 'undefined') {
-    rootStore.dispatch('cart/updateItem', { product: { server_item_id: event.result.item_id, sku: clientItem.sku, server_cart_id: event.result.quote_id, prev_qty: clientItem.qty } }, { root: true }) // update the server_id reference
+    await context.dispatch('updateItem', { product: { server_item_id: event.result.item_id, sku: clientItem.sku, server_cart_id: event.result.quote_id, prev_qty: clientItem.qty } }) // update the server_id reference
     Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: clientItem })
   }
 }
 
-function _afterServerItemUpdated (event, clientItem = null) {
+async function _afterServerItemUpdated (context, event, clientItem = null) {
   Logger.debug('Cart item server sync' + event, 'cart')()
   if (clientItem === null) {
-    rootStore.dispatch('cart/getItem', event.result.sku, { root: true }).then((cartItem) => {
-      if (cartItem) {
-        _updateClientItem(event, cartItem)
-      }
-    })
+    const cartItem = await context.dispatch('getItem', event.result.sku)
+    if (cartItem) {
+      await _updateClientItem(context, event, cartItem)
+    }
   } else {
-    _updateClientItem(event, clientItem)
+    await _updateClientItem(context, event, clientItem)
   }
 }
 
@@ -57,7 +55,16 @@ const actions: ActionTree<CartState, RootState> = {
   save (context) {
     context.commit(types.CART_SAVE)
   },
-  serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
+  async serverPullMethods (context) {
+    const storeView = currentStoreView()
+    Logger.debug('Refreshing payment & shipping methods', 'cart')()
+    await context.dispatch('cart/getPaymentMethods', {}, { root: true })
+    let country = context.rootState.checkout.shippingDetails.country ? context.rootState.checkout.shippingDetails.country : storeView.tax.defaultCountry
+    await context.dispatch('cart/getShippingMethods', {
+      country_id: country
+    }, { root: true })
+  },
+  async serverPull (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
     const isUserInCheckout = context.rootGetters['checkout/isUserInCheckout']
     if (isUserInCheckout) forceClientState = true // never surprise the user in checkout - #
     if (config.cart.synchronize && !isServer && onlineHelper.isOnline && context.state.cartServerToken) {
@@ -65,7 +72,7 @@ const actions: ActionTree<CartState, RootState> = {
       if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
         context.state.cartServerPullAt = Date.now()
         context.state.cartItemsHash = newItemsHash
-        return TaskQueue.execute({ url: config.cart.pull_endpoint, // sync the cart
+        const task = await TaskQueue.execute({ url: config.cart.pull_endpoint, // sync the cart
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -75,25 +82,14 @@ const actions: ActionTree<CartState, RootState> = {
           force_client_state: forceClientState,
           dry_run: dryRun,
           callback_event: 'store:cart/servercartAfterPulled'
-        }).then(task => {
-          const storeView = currentStoreView()
-          if ((Date.now() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
-            context.state.cartServerMethodsRefreshAt = Date.now()
-            Logger.debug('Refreshing payment & shipping methods', 'cart')()
-            rootStore.dispatch('cart/getPaymentMethods')
-            if (context.state.cartItems.length > 0) {
-              let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
-              rootStore.dispatch('cart/getShippingMethods', {
-                country_id: country
-              })
-            }
-          }
-        }).catch(err => {
-          Logger.error(err, 'cart')()
         })
+        return task
       } else {
         Logger.log('Too short interval for refreshing the cart or items not changed' + newItemsHash + context.state.cartItemsHash, 'cart')()
+        return null
       }
+    } else {
+      return null
     }
   },
   serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
@@ -129,7 +125,11 @@ const actions: ActionTree<CartState, RootState> = {
         }
         TaskQueue.execute(task)
         return task
+      } else {
+        return null
       }
+    } else {
+      return null
     }
   },
   serverUpdateItem (context, cartItem) {
@@ -236,11 +236,11 @@ const actions: ActionTree<CartState, RootState> = {
       if (typeof product === 'undefined' || product === null) continue
       if (product.qty && typeof product.qty !== 'number') product.qty = parseInt(product.qty)
       if ((config.useZeroPriceProduct) ? product.priceInclTax < 0 : product.priceInclTax <= 0) {
-        rootStore.dispatch('notification/spawnNotification', {
+        dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t('Product price is unknown, product cannot be added to the cart!'),
           action1: { label: i18n.t('OK') }
-        })
+        }, { root: true })
         continue
       }
       if (config.entities.optimize && config.entities.optimizeShoppingCart) {
@@ -251,11 +251,11 @@ const actions: ActionTree<CartState, RootState> = {
         for (let errKey in product.errors) {
           if (product.errors[errKey]) {
             productCanBeAdded = false
-            rootStore.dispatch('notification/spawnNotification', {
+            dispatch('notification/spawnNotification', {
               type: 'error',
               message: product.errors[errKey],
               action1: { label: i18n.t('OK') }
-            })
+            }, { root: true })
           }
         }
         if (!productCanBeAdded) {
@@ -266,18 +266,18 @@ const actions: ActionTree<CartState, RootState> = {
       dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true}).then(result => {
         product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result
         if (result.status === 'volatile') {
-          rootStore.dispatch('notification/spawnNotification', {
+          dispatch('notification/spawnNotification', {
             type: 'warning',
             message: i18n.t('The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.'),
             action1: { label: i18n.t('OK') }
-          })
+          }, { root: true })
         }
         if (result.status === 'out_of_stock') {
-          rootStore.dispatch('notification/spawnNotification', {
+          dispatch('notification/spawnNotification', {
             type: 'error',
             message: i18n.t('The product is out of stock and cannot be added to the cart!'),
             action1: { label: i18n.t('OK') }
-          })
+          }, { root: true })
         }
         if (result.status === 'ok' || result.status === 'volatile') {
           commit(types.CART_ADD_ITEM, { product })
@@ -299,7 +299,7 @@ const actions: ActionTree<CartState, RootState> = {
           if (config.cart.synchronize && !forceServerSilence) {
             dispatch('serverPull', { forceClientState: true })
           } else {
-            rootStore.dispatch('notification/spawnNotification', notificationData)
+            dispatch('notification/spawnNotification', notificationData, { root: true })
           }
         }
         productIndex++
@@ -337,115 +337,108 @@ const actions: ActionTree<CartState, RootState> = {
   updateItem ({ commit }, { product }) {
     commit(types.CART_UPD_ITEM_PROPS, { product })
   },
-  getPaymentMethods (context) {
+  async getPaymentMethods (context) {
     if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
-      TaskQueue.execute({ url: config.cart.paymentmethods_endpoint,
+      const task = await TaskQueue.execute({ url: config.cart.paymentmethods_endpoint,
         payload: {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           mode: 'cors'
         },
         silent: true
-      }).then((task: any) => {
-        let backendMethods = task.result
-        let paymentMethods = context.rootGetters['payment/paymentMethods'].slice(0).filter((itm) => {
-          return (typeof itm !== 'object' || !itm.is_server_method)
-        }) // copy
-        let uniqueBackendMethods = []
-        for (let i = 0; i < backendMethods.length; i++) {
-          if (typeof backendMethods[i] === 'object' && !paymentMethods.find(item => item.code === backendMethods[i].code)) {
-            backendMethods[i].is_server_method = true
-            paymentMethods.push(backendMethods[i])
-            uniqueBackendMethods.push(backendMethods[i])
-          }
-        }
-        rootStore.dispatch('payment/replaceMethods', paymentMethods, { root: true })
-        Vue.prototype.$bus.$emit('set-unique-payment-methods', uniqueBackendMethods)
-      }).catch(e => {
-        Logger.error(e, 'cart')()
       })
+      let backendMethods = task.result
+      let paymentMethods = context.rootGetters['payment/paymentMethods'].slice(0).filter((itm) => {
+        return (typeof itm !== 'object' || !itm.is_server_method)
+      }) // copy
+      let uniqueBackendMethods = []
+      for (let i = 0; i < backendMethods.length; i++) {
+        if (typeof backendMethods[i] === 'object' && !paymentMethods.find(item => item.code === backendMethods[i].code)) {
+          backendMethods[i].is_server_method = true
+          paymentMethods.push(backendMethods[i])
+          uniqueBackendMethods.push(backendMethods[i])
+        }
+      }
+      await context.dispatch('payment/replaceMethods', paymentMethods, { root: true })
+      Vue.prototype.$bus.$emit('set-unique-payment-methods', uniqueBackendMethods)
+      return task.result
     }
   },
-  getShippingMethods (context, address) {
-    return new Promise((resolve, reject) => {
-      if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
-        TaskQueue.execute({ url: config.cart.shippingmethods_endpoint,
+  async getShippingMethods (context, address) {
+    if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
+      const task = await TaskQueue.execute({ url: config.cart.shippingmethods_endpoint,
+        payload: {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors',
+          body: JSON.stringify({
+            address: address
+          })
+        },
+        silent: true
+      })
+      if (task.result.length > 0) {
+        await context.dispatch('shipping/replaceMethods', task.result.map(method => Object.assign(method, { is_server_method: true })), { root: true })
+        return task.result
+      }
+    }
+  },
+  async refreshTotals (context, methodsData) {
+    if ((Date.now() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
+      await context.dispatch('serverPullMethods') // pull the shipping and payment methods available for the current cart content          
+      context.state.cartServerMethodsRefreshAt = Date.now()
+    }              
+    const storeView = currentStoreView()
+    if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
+      if (!methodsData) {
+        let country = context.rootState.checkout.shippingDetails.country ? context.rootState.checkout.shippingDetails.country : storeView.tax.defaultCountry
+        const shippingMethods = context.rootGetters['shipping/shippingMethods']
+        const paymentMethods = context.rootGetters['payment/paymentMethods']
+        let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default && !item.offline /* don't sync offline only shipping methods with the serrver */) : null
+        let payment = paymentMethods && Array.isArray(paymentMethods) ? paymentMethods.find(item => item.default) : null
+        if (!shipping && shippingMethods && shippingMethods.length > 0) {
+          shipping = shippingMethods.find(item => !item.offline)
+        }
+        if (!payment && paymentMethods && paymentMethods.length > 0) {
+          payment = paymentMethods[0]
+        }
+        methodsData = {
+          country: country
+        }
+        if(shipping) {
+          if(shipping.method_code) {
+            methodsData['method_code'] = shipping.method_code
+          }
+          if(shipping.carrier_code) {
+            methodsData['carrier_code'] = shipping.carrier_code
+          }
+        }
+        if(payment && payment.code) methodsData['payment_method'] = payment.code
+      }
+      if (methodsData.country && context.state.cartServerToken) {
+        const task = await TaskQueue.execute({ url: config.cart.shippinginfo_endpoint,
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',
             body: JSON.stringify({
-              address: address
+              addressInformation: {
+                shippingAddress: {
+                  countryId: methodsData.country
+                },
+                shippingCarrierCode: methodsData.carrier_code,
+                shippingMethodCode: methodsData.method_code
+              }
             })
           },
-          silent: true
-        }).then((task: any) => {
-          if (task.result.length > 0) {
-            rootStore.dispatch('shipping/replaceMethods', task.result, { root: true })
-            resolve(task.result)
-          }
-        }).catch(e => {
-          Logger.error(e, 'cart')()
-          reject(e)
+          silent: true,
+          callback_event: 'store:cart/servercartAfterTotals'
         })
+        return task.result
+      } else {
+        Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
       }
-    })
-  },
-  refreshTotals (context, methodsData) {
-    return new Promise((resolve, reject) => {
-      const storeView = currentStoreView()
-      if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
-        if (!methodsData) {
-          let country = rootStore.state.checkout.shippingDetails.country ? rootStore.state.checkout.shippingDetails.country : storeView.tax.defaultCountry
-          const shippingMethods = context.rootGetters['shipping/shippingMethods']
-          const paymentMethods = context.rootGetters['payment/paymentMethods']
-          let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default && !item.offline /* don't sync offline only shipping methods with the serrver */) : null
-          let payment = paymentMethods && Array.isArray(paymentMethods) ? paymentMethods.find(item => item.default) : null
-          if (!shipping && shippingMethods && shippingMethods.length > 0) {
-            shipping = shippingMethods.find(item => !item.offline)
-          }
-          if (!payment && paymentMethods && paymentMethods.length > 0) {
-            payment = paymentMethods[0]
-          }
-          methodsData = {
-            country: country,
-            method_code: shipping ? shipping.method_code : null,
-            carrier_code: shipping ? shipping.carrier_code : null,
-            payment_method: payment ? payment.code : null
-          }
-        }
-        if (methodsData.country && context.state.cartServerToken) {
-          TaskQueue.execute({ url: config.cart.shippinginfo_endpoint,
-            payload: {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              mode: 'cors',
-              body: JSON.stringify({
-                addressInformation: {
-                  shippingAddress: {
-                    countryId: methodsData.country
-                  },
-                  shippingCarrierCode: methodsData.carrier_code,
-                  shippingMethodCode: methodsData.method_code
-                }
-              })
-            },
-            silent: true,
-            callback_event: 'store:cart/servercartAfterTotals'
-          }).then((task: any) => {
-            if (task.result) {
-              resolve(task.result)
-            }
-          }).catch(e => {
-            Logger.error(e, 'cart')()
-            reject(e)
-          })
-        } else {
-          Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
-          resolve()
-        }
-      }
-    })
+    }
   },
   removeCoupon (context) {
     return new Promise((resolve, reject) => {
@@ -499,7 +492,7 @@ const actions: ActionTree<CartState, RootState> = {
         Logger.error(err, 'cart')()
       }
       if (!config.cart.bypassCartLoaderForAuthorizedUsers || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
-        rootStore.dispatch('cart/serverCreate', { guestCart: false }, { root: true })
+        context.dispatch('serverCreate', { guestCart: false })
       }
     })
   },
@@ -507,21 +500,21 @@ const actions: ActionTree<CartState, RootState> = {
     const cartToken = event.result
     if (event.resultCode === 200) {
       Logger.info('Server cart token created.', 'cart', cartToken)()
-      rootStore.commit(types.SN_CART + '/' + types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
-      rootStore.dispatch('cart/serverPull', { forceClientState: event.force_client_state || false, dryRun: !config.cart.serverMergeByDefault }, { root: true })
+      context.commit(types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
+      context.dispatch('serverPull', { forceClientState: event.force_client_state || false, dryRun: !config.cart.serverMergeByDefault })
     } else {
       let resultString = event.result ? toString(event.result) : null
       if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
-        if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
-          Logger.log('Bypassing with guest cart' + rootStore.state.cart.bypassCount, 'cart')()
-          rootStore.state.cart.bypassCount = rootStore.state.cart.bypassCount + 1
-          rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
+        if (context.rootState.cart.bypassCount < MAX_BYPASS_COUNT) {
+          Logger.log('Bypassing with guest cart' + context.rootState.cart.bypassCount, 'cart')()
+          context.rootState.cart.bypassCount = context.rootState.cart.bypassCount + 1
+          context.dispatch('serverCreate', { guestCart: true })
           Logger.error(event.result, 'cart')()
         }
       }
     }
   },
-  servercartAfterTotals (context, event) {
+  async servercartAfterTotals (context, event) {
     if (event.resultCode === 200) {
       const totalsObj = event.result.totals ? event.result.totals : event.result
       Logger.info('Overriding server totals. ', 'cart', totalsObj)()
@@ -530,14 +523,14 @@ const actions: ActionTree<CartState, RootState> = {
       for (let item of totalsObj.items) {
         if (item.options && isString(item.options)) item.options = JSON.parse(item.options)
         itemsAfterTotal[item.item_id] = item
-        rootStore.dispatch('cart/updateItem', { product: { server_item_id: item.item_id, totals: item, qty: item.qty } }, { root: true }) // update the server_id reference
+        await context.dispatch('updateItem', { product: { server_item_id: item.item_id, totals: item, qty: item.qty } }) // update the server_id reference
       }
-      rootStore.commit(types.SN_CART + '/' + types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: totalsObj, platformTotalSegments: platformTotalSegments })
+      context.commit(types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: totalsObj, platformTotalSegments: platformTotalSegments })
     } else {
       Logger.error(event.result, 'cart')()
     }
   },
-  servercartAfterPulled (context, event) {
+  async servercartAfterPulled (context, event) {
     if (event.resultCode === 200) {
       let diffLog = []
       let serverCartUpdateRequired = false
@@ -549,7 +542,7 @@ const actions: ActionTree<CartState, RootState> = {
           if (serverItem.product_type === 'configurable') {
             let searchQuery = new SearchQuery()
             searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': serverItem.sku}})
-            rootStore.dispatch('product/list', {query: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
+            context.dispatch('product/list', {query: searchQuery, start: 0, size: 1, updateState: false}, { root: true }).then((resp) => {
               if (resp.items.length >= 1) {
                 resolve({ sku: resp.items[0].sku, childSku: serverItem.sku })
               }
@@ -560,7 +553,7 @@ const actions: ActionTree<CartState, RootState> = {
         })
       }
       const serverItems = event.result
-      const clientItems = rootStore.state.cart.cartItems
+      const clientItems = context.rootState.cart.cartItems
       for (const clientItem of clientItems) {
         cartHasItems = true
         const serverItem = serverItems.find((itm) => {
@@ -572,18 +565,17 @@ const actions: ActionTree<CartState, RootState> = {
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
           if (!event.dry_run) {
             if (event.force_client_state || !config.cart.serverSyncCanRemoveLocalItems) {
-              rootStore.dispatch('cart/serverUpdateItem', {
+              const event = await context.dispatch('serverUpdateItem', {
                 sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
                 qty: clientItem.qty,
                 product_option: clientItem.product_option
-              }, { root: true }).then((event) => {
-                _afterServerItemUpdated(event, clientItem)
               })
+              _afterServerItemUpdated(event, clientItem)
               serverCartUpdateRequired = true
             } else {
-              rootStore.dispatch('cart/removeItem', {
+              context.dispatch('removeItem', {
                 product: clientItem
-              }, { root: true })
+              })
             }
           }
         } else if (serverItem.qty !== clientItem.qty) {
@@ -591,27 +583,26 @@ const actions: ActionTree<CartState, RootState> = {
           diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'wrong_qty', 'client_qty': clientItem.qty, 'server_qty': serverItem.qty })
           if (!event.dry_run) {
             if (event.force_client_state || !config.cart.serverSyncCanModifyLocalItems) {
-              rootStore.dispatch('cart/serverUpdateItem', {
+              const event = await context.dispatch('serverUpdateItem', {
                 sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
                 qty: clientItem.qty,
                 item_id: serverItem.item_id,
                 quoteId: serverItem.quote_id,
                 product_option: clientItem.product_option
-              }, { root: true }).then((event) => {
-                _afterServerItemUpdated(event, clientItem)
               })
+              _afterServerItemUpdated(event, clientItem)
               serverCartUpdateRequired = true
             } else {
-              rootStore.dispatch('cart/updateItem', {
+              await context.dispatch('updateItem', {
                 product: serverItem
-              }, { root: true })
+              })
             }
           }
         } else {
           Logger.info('Server and client item with SKU ' + clientItem.sku + ' synced. Updating cart.', 'cart', 'cart')()
           // Logger.log('Updating server id to ', { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option })()
           if (!event.dry_run) {
-            rootStore.dispatch('cart/updateItem', { product: { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option } }, { root: true })
+            await context.dispatch('updateItem', { product: { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option } })
           }
         }
       }
@@ -631,16 +622,16 @@ const actions: ActionTree<CartState, RootState> = {
 
                 Logger.log('Removing item' + serverItem.sku + serverItem.item_id, 'cart')()
                 serverCartUpdateRequired = true
-                rootStore.dispatch('cart/serverDeleteItem', {
+                await context.dispatch('serverDeleteItem', {
                   sku: serverItem.sku,
                   item_id: serverItem.item_id,
                   quoteId: serverItem.quote_id
-                }, { root: true })
+                })
               } else {
                 clientCartAddItems.push(
                   new Promise(resolve => {
                     productActionOptions(serverItem).then((actionOtions) => {
-                      rootStore.dispatch('product/single', { options: actionOtions, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
+                      context.dispatch('product/single', { options: actionOtions, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }, { root: true }).then((product) => {
                         resolve({ product: product, serverItem: serverItem })
                       })
                     })
@@ -663,25 +654,23 @@ const actions: ActionTree<CartState, RootState> = {
           if (serverItem.product_option) {
             product.product_option = serverItem.product_option
           }
-          rootStore.dispatch('cart/addItem', { productToAdd: product, forceServerSilence: true }).then(() => {
-          // rootStore.dispatch('cart/updateItem', { product: product })
-          })
+          context.dispatch('addItem', { productToAdd: product, forceServerSilence: true })
         })
       })
 
       if (!event.dry_run) {
         if ((!serverCartUpdateRequired || clientCartUpdateRequired) && cartHasItems) {
-          rootStore.dispatch('cart/refreshTotals')
+          await context.dispatch('refreshTotals')
         }
       }
       Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: event.dry_run, event: event }) // send the difflog
       Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
     } else {
       Logger.error(event.result, 'cart') // override with guest cart()
-      if (rootStore.state.cart.bypassCount < MAX_BYPASS_COUNT) {
-        Logger.log('Bypassing with guest cart' + rootStore.state.cart.bypassCount, 'cart')()
-        rootStore.state.cart.bypassCount = rootStore.state.cart.bypassCount + 1
-        rootStore.dispatch('cart/serverCreate', { guestCart: true }, { root: true })
+      if (context.rootState.cart.bypassCount < MAX_BYPASS_COUNT) {
+        Logger.log('Bypassing with guest cart' + context.rootState.cart.bypassCount, 'cart')()
+        context.rootState.cart.bypassCount = context.rootState.cart.bypassCount + 1
+        context.dispatch('serverCreate', { guestCart: true })
         Logger.error(event.result, 'cart')()
       }
     }
@@ -691,20 +680,20 @@ const actions: ActionTree<CartState, RootState> = {
     if (event.resultCode !== 200) {
       // TODO: add the strategy to configure behaviour if the product is (confirmed) out of the stock
       if (originalCartItem.item_id) {
-        rootStore.dispatch('cart/getItem', originalCartItem.sku, { root: true }).then((cartItem) => {
+        context.dispatch('getItem', originalCartItem.sku).then((cartItem) => {
           if (cartItem) {
             Logger.log('Restoring qty after error' + originalCartItem.sku + cartItem.prev_qty, 'cart')()
             if (cartItem.prev_qty > 0) {
-              rootStore.dispatch('cart/updateItem', { product: { qty: cartItem.prev_qty } }, { root: true }) // update the server_id reference
+              context.dispatch('updateItem', { product: { qty: cartItem.prev_qty } }) // update the server_id reference
               Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: cartItem })
             } else {
-              rootStore.dispatch('cart/removeItem', { product: cartItem, removeByParentSku: false }, { root: true }) // update the server_id reference
+              context.dispatch('removeItem', { product: cartItem, removeByParentSku: false }) // update the server_id reference
             }
           }
         })
       } else {
         Logger.warn('Removing product from cart', 'cart', originalCartItem)()
-        rootStore.commit('cart/' + types.CART_DEL_NON_CONFIRMED_ITEM, { product: originalCartItem }, {root: true})
+        context.commit(types.CART_DEL_NON_CONFIRMED_ITEM, { product: originalCartItem })
       }
     } else {
       const isUserInCheckout = context.rootGetters['checkout/isUserInCheckout']
@@ -722,7 +711,7 @@ const actions: ActionTree<CartState, RootState> = {
               context.dispatch('goToCheckout')
             }}
         }
-        rootStore.dispatch('notification/spawnNotification', notificationData)
+        context.dispatch('notification/spawnNotification', notificationData, { root: true })
       }
     }
   },
