@@ -25,9 +25,9 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async loadCategoryProducts ({ commit, getters, dispatch }, { route } = {}) {
     await dispatch('initCategoryModule')
-    const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     const searchCategory = getters.getCategoryFrom(route.path)
     await dispatch('loadCategoryFilters', searchCategory)
+    const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
     const searchResult = await quickSearchByQuery({ query: filterQr, sort: searchQuery.sort })
     let configuredProducts = searchResult.items.map(product => {
