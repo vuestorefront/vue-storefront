@@ -435,8 +435,11 @@ export function findConfigurableChildAsync ({ product, configuration = null, sel
       return configurableChild.sku === configuration.sku // by sku or first one
     } else {
       return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
-        if (!configuration[configProperty] || typeof configuration[configProperty].id === 'undefined') return true // skip empty
-        return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
+        let configurationPropertyFilters = configuration[configProperty] || []
+        if (!Array.isArray(configurationPropertyFilters)) configurationPropertyFilters = [configurationPropertyFilters]
+        const configurationIds = configurationPropertyFilters.map(filter => filter.id).filter(filterId => !!filterId)
+        if (!configurationIds.length) return true // skip empty
+        return configurationIds.includes(configurableChild[configProperty])
       })
     }
   })
