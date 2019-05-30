@@ -8,8 +8,9 @@ import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { router } from '@vue-storefront/core/app'
 import FilterVariant from '../../types/FilterVariant'
 import { CategoryService } from '@vue-storefront/core/data-resolver'
-import { changeFilterQuery } from './logic/categoryLogic';
+import { changeFilterQuery } from './logic/categoryLogic'
 import { products } from 'config'
+import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -29,7 +30,11 @@ const actions: ActionTree<CategoryState, RootState> = {
     await dispatch('loadCategoryFilters', searchCategory)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
     const searchResult = await quickSearchByQuery({ query: filterQr, sort: searchQuery.sort })
-    commit(types.CATEGORY_SET_PRODUCTS, searchResult.items)
+    let configuredProducts = searchResult.items.map(product => {
+      const configuredProductVariant = configureProductAsync({}, {product, configuration: searchQuery.filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
+      return Object.assign(product, configuredProductVariant)
+    })
+    commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
     // await dispatch('loadAvailableFiltersFrom', searchResult)
 
     return searchResult.items
