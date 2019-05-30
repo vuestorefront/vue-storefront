@@ -14,6 +14,7 @@ export const Cms = createModule({
     { key: 'cmsPage', module: cmsPageModule },
     { key: 'cmsBlock', module: cmsBlockModule },
     { key: 'cmsHierarchy', module: cmsHierarchyModule }
-  ], plugin },
+  ],
+  plugin },
   beforeRegistration
 })

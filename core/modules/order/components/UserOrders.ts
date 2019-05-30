@@ -1,3 +1,4 @@
+import { mapGetters } from 'vuex';
 
 /**
  * Component responsible for displaying user orders. Requires User module.
@@ -5,11 +6,12 @@
 export const UserOrders = {
   name: 'UserOrders',
   computed: {
+    ...mapGetters('user', ['getOrdersHistory']),
     ordersHistory () {
-      return this.$store.state.user.orders_history.items
+      return this.getOrdersHistory
     },
     isHistoryEmpty () {
-      return this.$store.state.user.orders_history.items.length < 1
+      return this.getOrdersHistory.length < 1
     }
   },
   methods: {
@@ -20,6 +22,8 @@ export const UserOrders = {
           this.$store.dispatch('cart/addItem', { productToAdd: product }).then(() => { })
         })
       })
+      // Redirect to the cart straight away.
+      this.$router.push(this.localizedRoute('/checkout'))
     },
     skipGrouped (items) {
       return items.filter((item) => {

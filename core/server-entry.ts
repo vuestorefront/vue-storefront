@@ -30,14 +30,14 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
       return Promise.resolve(null)
     }
   })).then(() => {
-    AsyncDataLoader.flush({ store, route: router.currentRoute, context: null } /*AsyncDataLoaderActionContext*/).then((r) => {
+    AsyncDataLoader.flush({ store, route: router.currentRoute, context: null } /* AsyncDataLoaderActionContext */).then((r) => {
       if (buildTimeConfig.ssr.useInitialStateFilter) {
         context.state = omit(store.state, config.ssr.initialStateFilter)
       } else {
         context.state = store.state
       }
       if (!buildTimeConfig.server.dynamicConfigReload) { // if dynamic config reload then we're sending config along with the request
-        context.state = omit(store.state, buildTimeConfig.ssr.useInitialStateFilter ?  [...config.ssr.initialStateFilter, 'config'] : ['config'])
+        context.state = omit(store.state, buildTimeConfig.ssr.useInitialStateFilter ? [...config.ssr.initialStateFilter, 'config'] : ['config'])
       } else {
         const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
         const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
@@ -49,7 +49,7 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
           context.state.config = omit(context.state.config, excludeFromConfig)
         }
       }
-      resolve (app)
+      resolve(app)
     }).catch(err => {
       _commonErrorHandler(err, reject)
     })
