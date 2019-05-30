@@ -3,10 +3,13 @@
     <h4 class="sidebar__header relative mt35 mb20">
       <span> {{ $t('Filter') }} </span>
       <span
-        class="weight-400 sidebar__header__clear pointer sans-serif absolute"
+        class="weight-400 sidebar__header__clear pointer sans-serif absolute flex lh25"
         @click="resetAllFilters"
         v-show="hasActiveFilters"
       >
+        <i class="material-icons cl-accent mr5">
+          cancel
+        </i>
         {{ $t('Clear filters') }}
       </span>
     </h4>
