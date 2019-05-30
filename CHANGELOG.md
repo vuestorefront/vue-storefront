@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remembering last search query - @webdiver, @patzick (#2787)
 - Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810) 
 - OrderNumber on ThankYouPage - @Flyingmana (#2743)
+- Extracted ProductImage component to support faster images loading - @przemyslawspaczek (#2925)
 
 ### Fixed
 - Products removed from the cart are no longer add back on the conectivity return - @pkarw (#2898)
