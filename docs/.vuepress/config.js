@@ -1,7 +1,6 @@
 module.exports = {
   base: '/',
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
-  port: 8081,
   themeConfig: {
     repo: 'DivanteLtd/vue-storefront',
     docsDir: 'docs',
