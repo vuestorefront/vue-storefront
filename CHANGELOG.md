@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.9.2] - 2019.05.31
 
 ### Fixed
+- Fixed Instant Checkout visible on  Safari - @przspa (#2991)
+- Fixed Search Sidebar on Safari - @przspa (#2990)
+- Fixed Country label style - @przspa (#2989)
 - BaseInputNumber for qty of the product in the cart can change by using arrows - @przspa (#2988)
 
 ## [1.9.1] - 2019.05.27
