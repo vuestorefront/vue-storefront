@@ -258,7 +258,7 @@ const actions: ActionTree<CartState, RootState> = {
           continue
         }
       }
-      const record = state.cartItems.find(p => p.sku === product.sku)
+      const record = state.cartItems.find(p => p.sku === product.sku && JSON.stringify(p.product_option) === JSON.stringify(product.product_option))
       dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true}).then(result => {
         product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result
         if (result.status === 'volatile') {
@@ -561,7 +561,7 @@ const actions: ActionTree<CartState, RootState> = {
       for (const clientItem of clientItems) {
         cartHasItems = true
         const serverItem = serverItems.find((itm) => {
-          return itm.sku === clientItem.sku || itm.sku.indexOf(clientItem.sku + '-') === 0 /* bundle products */
+          return itm.sku === clientItem.sku && JSON.stringify(itm.product_option) === JSON.stringify(clientItem.product_option) || itm.sku.indexOf(clientItem.sku + '-') === 0 /* bundle products */
         })
 
         if (!serverItem) {
@@ -616,7 +616,7 @@ const actions: ActionTree<CartState, RootState> = {
       for (const serverItem of serverItems) {
         if (serverItem) {
           const clientItem = clientItems.find((itm) => {
-            return itm.sku === serverItem.sku || serverItem.sku.indexOf(itm.sku + '-') === 0 /* bundle products */
+            return itm.sku === serverItem.sku && JSON.stringify(itm.product_option) === JSON.stringify(serverItem.product_option) || serverItem.sku.indexOf(itm.sku + '-') === 0 /* bundle products */
           })
           if (!clientItem) {
             Logger.info('No client item for' + serverItem.sku, 'cart')()
