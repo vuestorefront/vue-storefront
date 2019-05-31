@@ -55,6 +55,7 @@ const actions: ActionTree<CartState, RootState> = {
   save (context) {
     context.commit(types.CART_SAVE)
   },
+  /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
   async serverPullMethods (context) {
     const storeView = currentStoreView()
     Logger.debug('Refreshing payment & shipping methods', 'cart')()
@@ -72,6 +73,7 @@ const actions: ActionTree<CartState, RootState> = {
       if ((Date.now() - context.state.cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
         context.state.cartServerPullAt = Date.now()
         context.state.cartItemsHash = newItemsHash
+        /** @todo: move this call to data resolver; shouldn't be a part of public API no more */
         const task = await TaskQueue.execute({ url: config.cart.pull_endpoint, // sync the cart
           payload: {
             method: 'GET',
@@ -92,7 +94,8 @@ const actions: ActionTree<CartState, RootState> = {
       return null
     }
   },
-  serverTotals (context, { forceClientState = false }) { // pull current cart FROM the server
+  /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
+  serverTotals (context) {
     if (config.cart.synchronize_totals && !isServer && onlineHelper.isOnline && context.state.cartServerToken) {
       if ((Date.now() - context.state.cartServerTotalsAt) >= CART_TOTALS_INTERVAL_MS) {
         TaskQueue.execute({ url: config.cart.totals_endpoint, // sync the cart
@@ -102,7 +105,6 @@ const actions: ActionTree<CartState, RootState> = {
             mode: 'cors'
           },
           silent: true,
-          force_client_state: forceClientState,
           callback_event: 'store:cart/servercartAfterTotals'
         })
       } else {
@@ -110,6 +112,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
     }
   },
+  /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
   serverCreate (context, { guestCart = false, forceClientState = false }) {
     if (config.cart.synchronize && !isServer) {
       if ((Date.now() - context.state.cartServerCreatedAt) >= CART_CREATE_INTERVAL_MS) {
@@ -132,6 +135,7 @@ const actions: ActionTree<CartState, RootState> = {
       return null
     }
   },
+  /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
   serverUpdateItem (context, cartItem) {
     if (!cartItem.quoteId) {
       cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
@@ -147,14 +151,9 @@ const actions: ActionTree<CartState, RootState> = {
         })
       },
       callback_event: 'store:cart/servercartAfterItemUpdated'
-    }).then(task => {
-      // eslint-disable-next-line no-useless-return
-      if (config.cart.synchronize_totals && context.state.cartItems.length > 0) {
-        context.dispatch('refreshTotals')
-      }
-      return task
     })
   },
+  /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
   serverDeleteItem (context, cartItem) {
     if (!cartItem.quoteId) {
       cartItem = Object.assign(cartItem, { quoteId: context.state.cartServerToken })
@@ -171,14 +170,9 @@ const actions: ActionTree<CartState, RootState> = {
       },
       silent: true,
       callback_event: 'store:cart/servercartAfterItemDeleted'
-    }).then(task => {
-      // eslint-disable-next-line no-useless-return
-      if (config.cart.synchronize_totals && context.state.cartItems.length > 0) {
-        context.dispatch('refreshTotals')
-      }
-      return task
     })
   },
+  /** @description this method is part of "public" cart API */
   load (context, { forceClientState = false }: {forceClientState?: boolean} = {}) {
     return new Promise((resolve, reject) => {
       if (isServer) return
@@ -217,19 +211,24 @@ const actions: ActionTree<CartState, RootState> = {
     })
   },
   // This should be a getter, just sayin
-  getItem ({ commit, dispatch, state }, sku) {
+  getItem ({ state }, sku) {
     return state.cartItems.find(p => p.sku === sku)
   },
   goToCheckout (context) {
     router.push(localizedRoute('/checkout', currentStoreView().storeCode))
   },
-  addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false }) {
+  /** @description this method is part of "public" cart API */
+  addItem ({ dispatch }, { productToAdd, forceServerSilence = false }) {
     let productsToAdd = []
     if (productToAdd.type_id === 'grouped') { // TODO: add bundle support
       productsToAdd = productToAdd.product_links.filter((pl) => { return pl.link_type === 'associated' }).map((pl) => { return pl.product })
     } else {
       productsToAdd.push(productToAdd)
     }
+    return dispatch('addItems', { productsToAdd: productsToAdd, forceServerSilence })
+  },
+  /** @description this method is part of "public" cart API */
+  addItems ({ commit, dispatch, state }, { productsToAdd, forceServerSilence = false }) {
     let productHasBeenAdded = false
     let productIndex = 0
     for (let product of productsToAdd) {
@@ -306,6 +305,7 @@ const actions: ActionTree<CartState, RootState> = {
       })
     }
   },
+  /** @description this method is part of "public" cart API */
   removeItem ({ commit, dispatch }, payload) {
     let removeByParentSku = true // backward compatibility call format
     let product = payload
@@ -328,6 +328,7 @@ const actions: ActionTree<CartState, RootState> = {
       dispatch('serverPull', { forceClientState: true })
     }
   },
+  /** @description this method is part of "public" cart API */
   updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false }) {
     commit(types.CART_UPD_ITEM, { product, qty })
     if (config.cart.synchronize && product.server_item_id && !forceServerSilence) {
@@ -337,6 +338,7 @@ const actions: ActionTree<CartState, RootState> = {
   updateItem ({ commit }, { product }) {
     commit(types.CART_UPD_ITEM_PROPS, { product })
   },
+  /** @todo move the network call to data resolver, the method should not be part of public API but probably should stay in the Vuex*/
   async getPaymentMethods (context) {
     if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
       const task = await TaskQueue.execute({ url: config.cart.paymentmethods_endpoint,
@@ -364,6 +366,7 @@ const actions: ActionTree<CartState, RootState> = {
       return task.result
     }
   },
+  /** @todo move the network call to data resolver, the method should not be part of public API but probably should stay in the Vuex*/  
   async getShippingMethods (context, address) {
     if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
       const task = await TaskQueue.execute({ url: config.cart.shippingmethods_endpoint,
@@ -383,12 +386,14 @@ const actions: ActionTree<CartState, RootState> = {
       }
     }
   },
+  /** @description this method is part of "public" cart API */
   async refreshTotals (context, methodsData) {
     if ((Date.now() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
       await context.dispatch('serverPullMethods') // pull the shipping and payment methods available for the current cart content          
       context.state.cartServerMethodsRefreshAt = Date.now()
     }              
     const storeView = currentStoreView()
+    let hasShippingInformation = false
     if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
       if (!methodsData) {
         let country = context.rootState.checkout.shippingDetails.country ? context.rootState.checkout.shippingDetails.country : storeView.tax.defaultCountry
@@ -407,39 +412,46 @@ const actions: ActionTree<CartState, RootState> = {
         }
         if(shipping) {
           if(shipping.method_code) {
+            hasShippingInformation = true // there are some edge cases when the backend returns no shipping info
             methodsData['method_code'] = shipping.method_code
           }
           if(shipping.carrier_code) {
+            hasShippingInformation = true
             methodsData['carrier_code'] = shipping.carrier_code
           }
         }
         if(payment && payment.code) methodsData['payment_method'] = payment.code
       }
       if (methodsData.country && context.state.cartServerToken) {
-        const task = await TaskQueue.execute({ url: config.cart.shippinginfo_endpoint,
-          payload: {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors',
-            body: JSON.stringify({
-              addressInformation: {
-                shippingAddress: {
-                  countryId: methodsData.country
-                },
-                shippingCarrierCode: methodsData.carrier_code,
-                shippingMethodCode: methodsData.method_code
-              }
-            })
-          },
-          silent: true,
-          callback_event: 'store:cart/servercartAfterTotals'
-        })
-        return task.result
+        if (hasShippingInformation) {
+          const task = await TaskQueue.execute({ url: config.cart.shippinginfo_endpoint,
+            payload: {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              mode: 'cors',
+              body: JSON.stringify({
+                addressInformation: {
+                  shippingAddress: {
+                    countryId: methodsData.country
+                  },
+                  shippingCarrierCode: methodsData.carrier_code,
+                  shippingMethodCode: methodsData.method_code
+                }
+              })
+            },
+            silent: true,
+            callback_event: 'store:cart/servercartAfterTotals'
+          })
+          return task.result
+        } else {
+          return context.dispatch('serverTotals')
+        }
       } else {
         Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
       }
     }
   },
+  /** @description this method is part of "public" cart API */
   removeCoupon (context) {
     return new Promise((resolve, reject) => {
       if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
@@ -462,6 +474,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
     });
   },
+  /** @description this method is part of "public" cart API */
   applyCoupon (context, couponCode) {
     return new Promise((resolve, reject) => {
       if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
@@ -533,6 +546,7 @@ const actions: ActionTree<CartState, RootState> = {
   async servercartAfterPulled (context, event) {
     if (event.resultCode === 200) {
       let diffLog = []
+      let totalsShouldBeRefreshed = false
       let serverCartUpdateRequired = false
       let clientCartUpdateRequired = false
       let cartHasItems = false
@@ -572,6 +586,7 @@ const actions: ActionTree<CartState, RootState> = {
               })
               _afterServerItemUpdated(context, event, clientItem)
               serverCartUpdateRequired = true
+              totalsShouldBeRefreshed = true
             } else {
               context.dispatch('removeItem', {
                 product: clientItem
@@ -591,6 +606,7 @@ const actions: ActionTree<CartState, RootState> = {
                 product_option: clientItem.product_option
               })
               _afterServerItemUpdated(context, event, clientItem)
+              totalsShouldBeRefreshed = true
               serverCartUpdateRequired = true
             } else {
               await context.dispatch('updateItem', {
@@ -622,6 +638,7 @@ const actions: ActionTree<CartState, RootState> = {
 
                 Logger.log('Removing item' + serverItem.sku + serverItem.item_id, 'cart')()
                 serverCartUpdateRequired = true
+                totalsShouldBeRefreshed = true
                 await context.dispatch('serverDeleteItem', {
                   sku: serverItem.sku,
                   item_id: serverItem.item_id,
@@ -643,9 +660,12 @@ const actions: ActionTree<CartState, RootState> = {
         }
       }
       if (clientCartAddItems.length) {
+        totalsShouldBeRefreshed = true
         clientCartUpdateRequired = true
         cartHasItems = true
       }
+      diffLog.push({ 'party': 'client', 'status': clientCartUpdateRequired ? 'updateRequired' : 'no-changes' })
+      diffLog.push({ 'party': 'server', 'status': serverCartUpdateRequired ? 'updateRequired' : 'no-changes' })
       Promise.all(clientCartAddItems).then((items) => {
         items.map(({ product, serverItem }) => {
           product.server_item_id = serverItem.item_id
@@ -659,7 +679,7 @@ const actions: ActionTree<CartState, RootState> = {
       })
 
       if (!event.dry_run) {
-        if ((!serverCartUpdateRequired || clientCartUpdateRequired) && cartHasItems) {
+        if (totalsShouldBeRefreshed && cartHasItems) {
           await context.dispatch('refreshTotals')
         }
       }
