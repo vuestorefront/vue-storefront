@@ -219,7 +219,7 @@ const actions: ActionTree<CartState, RootState> = {
     return dispatch('addItems', { productsToAdd: productsToAdd, forceServerSilence })
   },
   /** @description this method is part of "public" cart API */
-  addItems ({ commit, dispatch, state }, { productsToAdd, forceServerSilence = false }) {
+  async addItems ({ commit, dispatch, state, getters }, { productsToAdd, forceServerSilence = false }) {
     let productHasBeenAdded = false
     let productIndex = 0
     for (let product of productsToAdd) {
@@ -253,48 +253,46 @@ const actions: ActionTree<CartState, RootState> = {
         }
       }
       const record = state.cartItems.find(p => p.sku === product.sku)
-      dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true}).then(result => {
-        product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result
-        if (result.status === 'volatile') {
-          dispatch('notification/spawnNotification', {
-            type: 'warning',
-            message: i18n.t('The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.'),
-            action1: { label: i18n.t('OK') }
-          }, { root: true })
+      const result = await dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true})
+      product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result
+      if (result.status === 'volatile') {
+        dispatch('notification/spawnNotification', {
+          type: 'warning',
+          message: i18n.t('The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.'),
+          action1: { label: i18n.t('OK') }
+        }, { root: true })
+      }
+      if (result.status === 'out_of_stock') {
+        dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: i18n.t('The product is out of stock and cannot be added to the cart!'),
+          action1: { label: i18n.t('OK') }
+        }, { root: true })
+      }
+      if (result.status === 'ok' || result.status === 'volatile') {
+        commit(types.CART_ADD_ITEM, { product })
+        productHasBeenAdded = true
+      }
+      if (productIndex === (productsToAdd.length - 1) && productHasBeenAdded) {
+        let notificationData = {
+          type: 'success',
+          message: i18n.t('Product has been added to the cart!'),
+          action1: { label: i18n.t('OK') },
+          action2: null
         }
-        if (result.status === 'out_of_stock') {
-          dispatch('notification/spawnNotification', {
-            type: 'error',
-            message: i18n.t('The product is out of stock and cannot be added to the cart!'),
-            action1: { label: i18n.t('OK') }
-          }, { root: true })
+        if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
+          notificationData.action2 = { label: i18n.t('Proceed to checkout'),
+            action: () => {
+              dispatch('goToCheckout')
+            }}
         }
-        if (result.status === 'ok' || result.status === 'volatile') {
-          commit(types.CART_ADD_ITEM, { product })
-          productHasBeenAdded = true
+        if (!config.cart.synchronize || forceServerSilence) {
+          dispatch('notification/spawnNotification', notificationData, { root: true })
         }
-        if (productIndex === (productsToAdd.length - 1) && productHasBeenAdded) {
-          let notificationData = {
-            type: 'success',
-            message: i18n.t('Product has been added to the cart!'),
-            action1: { label: i18n.t('OK') },
-            action2: null
-          }
-          if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
-            notificationData.action2 = { label: i18n.t('Proceed to checkout'),
-              action: () => {
-                dispatch('goToCheckout')
-              }}
-          }
-          if (config.cart.synchronize && !forceServerSilence) {
-            dispatch('serverPull', { forceClientState: true })
-          } else {
-            dispatch('notification/spawnNotification', notificationData, { root: true })
-          }
-        }
-        productIndex++
-      })
+      }
+      productIndex++
     }
+    if (getters.isCartSyncEnabled) dispatch('serverPull', { forceClientState: true })
   },
   /** @description this method is part of "public" cart API */
   removeItem ({ commit, dispatch }, payload) {
