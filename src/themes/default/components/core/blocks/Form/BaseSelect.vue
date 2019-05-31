@@ -84,13 +84,11 @@ export default {
   $color-hover: color(tertiary, $colors-background);
 
 .select-wrapper {
-  position: relative;
   &::after {
     content: '';
     display: block;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 1rem;
     right: 10px;
     width: 0;
     height: 0;
