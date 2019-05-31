@@ -449,6 +449,9 @@
           }
         ]
       }
+    },
+    "redirect404": {
+      "notAllowedExtensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
     }
 
 }

@@ -125,7 +125,20 @@ app.get('*', (req, res, next) => {
   const s = Date.now()
   const errorHandler = err => {
     if (err && err.code === 404) {
-      res.redirect('/page-not-found')
+      const contains = (target, pattern) => {
+        var value = 0
+        pattern.forEach(word => {
+          value = value + target.includes(word)
+        })
+        return (value >= 1)
+      }
+      if (contains(req.url, config.redirect404.notAllowedExtensions)) {
+        console.error(`Resource not found : ${req.url}`)
+        next()
+      } else {
+        res.redirect('/page-not-found')
+        console.error(`Redirect for resource not found : ${req.url}`)
+      }
     } else {
       res.redirect('/error')
       console.error(`Error during render : ${req.url}`)
