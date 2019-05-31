@@ -84,6 +84,7 @@ export default {
   $color-hover: color(tertiary, $colors-background);
 
 .select-wrapper {
+  position: relative;
   &::after {
     content: '';
     display: block;
@@ -128,6 +129,7 @@ export default {
     pointer-events: none;
     user-select: none;
     top: 10px;
+    left: 8px;
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
