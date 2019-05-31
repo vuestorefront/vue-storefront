@@ -173,42 +173,33 @@ const actions: ActionTree<CartState, RootState> = {
     })
   },
   /** @description this method is part of "public" cart API */
-  load (context, { forceClientState = false }: {forceClientState?: boolean} = {}) {
-    return new Promise((resolve, reject) => {
-      if (isServer) return
-      const commit = context.commit
-      const state = context.state
+  async load (context, { forceClientState = false }: {forceClientState?: boolean} = {}) {
+    if (isServer) return
+    const commit = context.commit
+    const state = context.state
 
-      if ((!state.shipping || !state.shipping.method_code) && (Array.isArray(context.rootGetters['shipping/shippingMethods']))) {
-        let shippingMethod = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
-        commit(types.CART_UPD_SHIPPING, shippingMethod)
+    if ((!state.shipping || !state.shipping.method_code) && (Array.isArray(context.rootGetters['shipping/shippingMethods']))) {
+      let shippingMethod = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
+      commit(types.CART_UPD_SHIPPING, shippingMethod)
+    }
+    if ((!state.payment || !state.payment.code) && Array.isArray(context.rootGetters['payment/paymentMethods'])) {
+      let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
+      commit(types.CART_UPD_PAYMENT, paymentMethod)
+    }
+    const storedItems = await Vue.prototype.$db.cartsCollection.getItem('current-cart')
+    if (config.cart.synchronize) {
+      const token = await Vue.prototype.$db.cartsCollection.getItem('current-cart-token')
+      if (token) { // previously set token
+        commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
+        Logger.info('Cart token received from cache.', 'cache', token)()
+        Logger.info('Pulling cart from server.', 'cart')()
+        context.dispatch('serverPull', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
+      } else {
+        Logger.info('Creating server cart token', 'cart')()
+        context.dispatch('serverCreate', { guestCart: false })
       }
-      if ((!state.payment || !state.payment.code) && Array.isArray(context.rootGetters['payment/paymentMethods'])) {
-        let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
-        commit(types.CART_UPD_PAYMENT, paymentMethod)
-      }
-      Vue.prototype.$db.cartsCollection.getItem('current-cart', (err, storedItems) => {
-        if (err) throw new Error(err)
-
-        if (config.cart.synchronize) {
-          Vue.prototype.$db.cartsCollection.getItem('current-cart-token', (err, token) => {
-            if (err) throw new Error(err)
-            // TODO: if token is null create cart server side and store the token!
-            if (token) { // previously set token
-              commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
-              Logger.info('Cart token received from cache.', 'cache', token)()
-              Logger.info('Pulling cart from server.', 'cart')()
-              context.dispatch('serverPull', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
-            } else {
-              Logger.info('Creating server cart token', 'cart')()
-              context.dispatch('serverCreate', { guestCart: false })
-            }
-          })
-        }
-        commit(types.CART_LOAD_CART, storedItems)
-        resolve(storedItems)
-      })
-    })
+    }
+    commit(types.CART_LOAD_CART, storedItems)
   },
   // This should be a getter, just sayin
   getItem ({ state }, sku) {
@@ -452,52 +443,40 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   /** @description this method is part of "public" cart API */
-  removeCoupon (context) {
-    return new Promise((resolve, reject) => {
-      if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
-        TaskQueue.execute({ url: config.cart.deletecoupon_endpoint,
-          payload: {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors'
-          },
-          silent: true
-        }).then((task: any) => {
-          if (task.result) {
-            context.dispatch('refreshTotals')
-            resolve(task.result)
-          }
-        }).catch(e => {
-          Logger.error(e, 'cart')()
-          reject(e)
-        })
+  async removeCoupon (context) {
+    if (context.getters.isTotalsSyncEnabled) {
+      const task = await TaskQueue.execute({ url: config.cart.deletecoupon_endpoint,
+        payload: {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors'
+        },
+        silent: true
+      })
+      if (task.result) {
+        context.dispatch('refreshTotals')
+        return task.result
       }
-    });
+    }
+    return null
   },
   /** @description this method is part of "public" cart API */
-  applyCoupon (context, couponCode) {
-    return new Promise((resolve, reject) => {
-      if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
-        TaskQueue.execute({ url: config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
-          payload: {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors'
-          },
-          silent: true
-        }).then((task: any) => {
-          if (task.result === true) {
-            context.dispatch('refreshTotals')
-            resolve(task.result)
-          } else {
-            reject(false)
-          }
-        }).catch(e => {
-          Logger.log(e, 'cart')()
-          reject(e)
-        })
+  async applyCoupon (context, couponCode) {
+    if (context.getters.isTotalsSyncEnabled) {
+      const task = await TaskQueue.execute({ url: config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
+        payload: {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors'
+        },
+        silent: true
+      })
+      if (task.result === true) {
+        context.dispatch('refreshTotals')
+        return task.result
       }
-    })
+    }
+    return null
   },
   userAfterLoggedin (context) {
     Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
