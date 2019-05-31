@@ -1,4 +1,4 @@
-# Cart module
+# Review module
 
 This module contains all the logic, components and store related to review operations.
 
