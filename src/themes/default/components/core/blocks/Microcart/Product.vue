@@ -54,7 +54,7 @@
       </div>
     </div>
     <div class="flex py15 mr10 align-right start-xs between-sm actions">
-      <div class="prices" v-if="!displayItemDiscounts">
+      <div class="prices" v-if="!displayItemDiscounts || !isOnline">
         <span class="h4 serif cl-error price-special" v-if="product.special_price">
           {{ product.priceInclTax * product.qty | price }}&nbsp;
         </span>
