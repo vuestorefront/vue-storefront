@@ -44,7 +44,7 @@
             <span class="h4 cl-error" v-if="product.special_price">{{ product.priceInclTax * product.qty | price }} </span>
             <span class="price-original h5" v-if="product.special_price" >{{ product.originalPriceInclTax * product.qty | price }}</span>
             <span v-if="!product.special_price" class="h4">{{ product.priceInclTax * product.qty | price }}</span>
-          </div>          
+          </div>
         </div>
       </div>
     </div>

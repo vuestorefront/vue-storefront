@@ -28,13 +28,13 @@ const actions: ActionTree<CmsPageState, RootState> = {
       query = query.applyFilter({key: filterField, value: {'like': filterValues}})
     }
     return quickSearchByQuery({ query, entityType: 'cms_page', excludeFields, includeFields })
-    .then((resp) => {
-      context.commit(types.CMS_PAGE_UPDATE_CMS_PAGES, resp.items)
-      return resp.items
-    })
-    .catch(err => {
-      Logger.error(err, 'cms')()
-    })
+      .then((resp) => {
+        context.commit(types.CMS_PAGE_UPDATE_CMS_PAGES, resp.items)
+        return resp.items
+      })
+      .catch(err => {
+        Logger.error(err, 'cms')()
+      })
   },
 
   /**

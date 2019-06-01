@@ -327,7 +327,7 @@ const actions: ActionTree<CartState, RootState> = {
   updateItem ({ commit }, { product }) {
     commit(types.CART_UPD_ITEM_PROPS, { product })
   },
-  /** @todo move the network call to data resolver, the method should not be part of public API but probably should stay in the Vuex*/
+  /** @todo move the network call to data resolver, the method should not be part of public API but probably should stay in the Vuex */
   async getPaymentMethods (context) {
     if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
       const task = await TaskQueue.execute({ url: config.cart.paymentmethods_endpoint,
@@ -355,7 +355,7 @@ const actions: ActionTree<CartState, RootState> = {
       return task.result
     }
   },
-  /** @todo move the network call to data resolver, the method should not be part of public API but probably should stay in the Vuex*/  
+  /** @todo move the network call to data resolver, the method should not be part of public API but probably should stay in the Vuex */
   async getShippingMethods (context, address) {
     if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
       const task = await TaskQueue.execute({ url: config.cart.shippingmethods_endpoint,
@@ -378,9 +378,9 @@ const actions: ActionTree<CartState, RootState> = {
   /** @description this method is part of "public" cart API */
   async refreshTotals (context, methodsData) {
     if ((Date.now() - context.state.cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
-      await context.dispatch('serverPullMethods') // pull the shipping and payment methods available for the current cart content          
+      await context.dispatch('serverPullMethods') // pull the shipping and payment methods available for the current cart content
       context.state.cartServerMethodsRefreshAt = Date.now()
-    }              
+    }
     const storeView = currentStoreView()
     let hasShippingInformation = false
     if (config.cart.synchronize_totals && onlineHelper.isOnline && context.state.cartServerToken) {
@@ -399,17 +399,17 @@ const actions: ActionTree<CartState, RootState> = {
         methodsData = {
           country: country
         }
-        if(shipping) {
-          if(shipping.method_code) {
+        if (shipping) {
+          if (shipping.method_code) {
             hasShippingInformation = true // there are some edge cases when the backend returns no shipping info
             methodsData['method_code'] = shipping.method_code
           }
-          if(shipping.carrier_code) {
+          if (shipping.carrier_code) {
             hasShippingInformation = true
             methodsData['carrier_code'] = shipping.carrier_code
           }
         }
-        if(payment && payment.code) methodsData['payment_method'] = payment.code
+        if (payment && payment.code) methodsData['payment_method'] = payment.code
       }
       if (methodsData.country && context.state.cartServerToken) {
         if (hasShippingInformation) {

@@ -32,7 +32,7 @@ export const UserSingleOrder = {
       }
       await this.$store.dispatch('cart/addItems', { productsToAdd })
       // Redirect to the cart straight away.
-      this.$router.push(this.localizedRoute('/checkout'))      
+      this.$router.push(this.localizedRoute('/checkout'))
     },
     skipGrouped (items) {
       return items.filter((item) => {

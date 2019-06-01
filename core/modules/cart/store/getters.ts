@@ -12,10 +12,10 @@ const getters: GetterTree<CartState, RootState> = {
     return state.cartServerToken
   },
   isTotalsSyncEnabled (state) {
-    return config.cart.synchronize_totals && onlineHelper.isOnline && state.cartServerToken    
+    return config.cart.synchronize_totals && onlineHelper.isOnline && state.cartServerToken
   },
   isCartSyncEnabled (state) {
-    return config.cart.synchronize && onlineHelper.isOnline && state.cartServerToken    
+    return config.cart.synchronize && onlineHelper.isOnline && state.cartServerToken
   },
   totals (state) {
     if (state.platformTotalSegments && onlineHelper.isOnline) {

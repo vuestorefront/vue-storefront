@@ -216,5 +216,5 @@ export function registerSyncTaskProcessor () {
         Logger.debug('Processing sync tasks queue has finished')()
       })
     }
-  })  
+  })
 }
