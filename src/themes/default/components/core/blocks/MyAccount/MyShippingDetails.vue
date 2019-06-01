@@ -61,7 +61,6 @@
           class="col-xs-12 mb10"
           id="addCompanyFilled"
           v-model="useCompanyAddress"
-          @click="fillCompanyAddress"
         >
           {{ $t("Use my company's address details") }}
         </base-checkbox>

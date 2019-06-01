@@ -20,7 +20,7 @@
       <base-checkbox
         class="col-xs-12 mb25 cl-primary"
         id="generalAgreement"
-        :value="user.isSubscribed"
+        v-model="user.isSubscribed"
         @click="edit()"
       >
         {{ $t('I want to receive a newsletter, and agree to its terms') }}
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import MyNewsletter from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyNewsletter'
+import { Newsletter } from '@vue-storefront/core/modules/newsletter/components/Newsletter'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 
@@ -51,9 +51,16 @@ export default {
   },
   methods: {
     edit () {
-      this.$set(this.user, 'isSubscribed', !this.user.isSubscribed)
+      this.isEdited = true
+    },
+    updateNewsletter () {
+      if (this.user.isSubscribed) {
+        this.subscribe()
+      } else {
+        this.unsubscribe()
+      }
     }
   },
-  mixins: [MyNewsletter]
+  mixins: [Newsletter]
 }
 </script>

@@ -15,21 +15,21 @@ const getters: GetterTree<CartState, RootState> = {
       let shipping = state.shipping instanceof Array ? state.shipping[0] : state.shipping
       let payment = state.payment instanceof Array ? state.payment[0] : state.payment
       const totalsArray = [
-          {
-            code: 'subtotalInclTax',
-            title: i18n.t('Subtotal incl. tax'),
-            value: sumBy(state.cartItems, (p) => {
-              return p.qty * p.priceInclTax
-            })
-          },
-          {
-            code: 'grand_total',
-            title: i18n.t('Grand total'),
-            value: sumBy(state.cartItems, (p) => {
-              return p.qty * p.priceInclTax + (shipping ? shipping.price_incl_tax : 0)
-            })
-          }
-        ]
+        {
+          code: 'subtotalInclTax',
+          title: i18n.t('Subtotal incl. tax'),
+          value: sumBy(state.cartItems, (p) => {
+            return p.qty * p.priceInclTax
+          })
+        },
+        {
+          code: 'grand_total',
+          title: i18n.t('Grand total'),
+          value: sumBy(state.cartItems, (p) => {
+            return p.qty * p.priceInclTax + (shipping ? shipping.price_incl_tax : 0)
+          })
+        }
+      ]
       if (payment) {
         totalsArray.push({
           code: 'payment',
@@ -56,7 +56,7 @@ const getters: GetterTree<CartState, RootState> = {
       return p.qty
     })
   },
-  coupon (state) : AppliedCoupon | false {
+  coupon (state): AppliedCoupon | false {
     if (!(state.platformTotals && state.platformTotals.hasOwnProperty('coupon_code'))) {
       return false
     }

@@ -1,7 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
-const Countries = require('@vue-storefront/i18n/resource/countries.json')
 import toString from 'lodash-es/toString'
+const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {
   name: 'Shipping',
@@ -49,6 +49,13 @@ export const Shipping = {
     },
     paymentMethod () {
       return this.$store.state.payment.methods
+    }
+  },
+  watch: {
+    shipToMyAddress: {
+      handler () {
+        this.useMyAddress()
+      }
     }
   },
   mounted () {
