@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/core/store'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
@@ -48,7 +49,10 @@ export default {
       this.$store.state.cart.cartItems.forEach(product => {
         bucket.push({
           label: product.name,
-          amount: { currency: storeView.i18n.currencyCode, value: (product.qty * product.priceInclTax) }
+          amount: {
+            currency: storeView.i18n.currencyCode,
+            value: this.getProductPrice(product)
+          }
         })
       })
 
@@ -289,6 +293,21 @@ export default {
           payment_method_additional: {}
         }
       }
+    },
+    getProductPrice(product) {
+      if (!config.cart.displayItemDiscounts) {
+        return product.qty * product.priceInclTax
+      }
+
+      if (product.totals) {
+        if (product.totals.discount_amount) {
+          return product.totals.row_total_incl_tax - product.totals.discount_amount
+        } else {
+          return product.totals.row_total_incl_tax
+        }
+      }
+
+      return product.regular_price * product.qty
     }
   },
   mounted () {
