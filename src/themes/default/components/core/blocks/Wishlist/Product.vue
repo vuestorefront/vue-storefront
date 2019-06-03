@@ -1,12 +1,12 @@
 <template>
   <li class="row pr55 py20">
-    <div @click="closeWishlist">
+    <div class="image" @click="closeWishlist">
       <router-link :to="localizedRoute({
         name: product.type_id + '-product',
         fullPath: product.url_path,
         params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
       })">
-        <img v-lazy="thumbnail" >
+        <product-image :image="image"/>
       </router-link>
     </div>
     <div class="col-xs between-xs flex pl40 py15">
@@ -39,13 +39,23 @@
 
 <script>
 import Product from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Product'
+import ProductImage from 'theme/components/core/ProductImage'
 import RemoveButton from './RemoveButton'
 
 export default {
   components: {
-    RemoveButton
+    RemoveButton,
+    ProductImage
   },
-  mixins: [Product]
+  mixins: [Product],
+  computed: {
+    image () {
+      return {
+        loading: this.thumbnail,
+        src: this.thumbnail
+      }
+    }
+  }
 }
 </script>
 
@@ -55,5 +65,8 @@ export default {
 }
 input {
   width: 30px;
+}
+.image{
+  flex: 0 0 121px;
 }
 </style>
