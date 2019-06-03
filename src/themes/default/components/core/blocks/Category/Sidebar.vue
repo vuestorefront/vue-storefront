@@ -1,9 +1,9 @@
 <template>
   <div class="sidebar">
-    <h4 class="sidebar__header relative mt35 mb20">
+    <h4 class="sidebar__header relative mt35 mb20 flex">
       <span> {{ $t('Filter') }} </span>
       <span
-        class="weight-400 sidebar__header__clear pointer sans-serif absolute flex lh25"
+        class="weight-400 sidebar__header__clear pointer sans-serif flex lh25 mt5"
         @click="resetAllFilters"
         v-show="hasActiveFilters"
       >
@@ -109,10 +109,13 @@ export default {
     justify-content: space-between;
     align-items: center;
     min-height: 47px;
+    flex-wrap: wrap;
     &__clear {
-      right: 0;
-      bottom: -10px;
       font-size: .8em;
+      min-width: 102px;
+      @media only screen and (min-width: 768px) and (max-width: 770px) {
+        margin-top: 20px;
+      }
     }
   }
 
