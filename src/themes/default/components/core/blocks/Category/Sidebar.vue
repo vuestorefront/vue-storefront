@@ -3,7 +3,7 @@
     <h4 class="sidebar__header relative mt35 mb20 flex">
       <span> {{ $t('Filter') }} </span>
       <span
-        class="weight-400 sidebar__header__clear pointer sans-serif flex lh25 mt5"
+        class="weight-400 sidebar__header__clear pointer sans-serif flex lh25"
         @click="resetAllFilters"
         v-show="hasActiveFilters"
       >
@@ -107,7 +107,6 @@ export default {
 .sidebar {
   &__header {
     justify-content: space-between;
-    align-items: center;
     min-height: 47px;
     flex-wrap: wrap;
     &__clear {
