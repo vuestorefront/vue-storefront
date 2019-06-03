@@ -2,7 +2,6 @@
   <li class="row flex-nowrap py10">
     <div>
       <div class="ml10 bg-cl-secondary">
-        <!-- <img class="image" v-lazy="thumbnail" alt="" > -->
         <product-image :image="image"/>
       </div>
     </div>
