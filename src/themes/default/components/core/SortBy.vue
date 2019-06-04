@@ -39,7 +39,6 @@ export default {
             border-radius: 0;
             background-color: transparent;
             margin-right: 0;
-            appearance: none;
             &:focus {
                 outline: none;
             }
