@@ -95,6 +95,7 @@ export default {
   },
   data () {
     return {
+      carouselTransition: true,
       carouselTransitionSpeed: 0,
       currentPage: 0,
       hideImageAtIndex: null,
@@ -102,6 +103,14 @@ export default {
       highQualityImagesLoadedMap: {},
       lowerQualityImagesErrorsMap: {},
       highQualityImagesErrorsMap: {}
+    }
+  },
+  watch: {
+    configuration: {
+      handler (value) {
+        this.carouselTransition = false
+      },
+      deep: true
     }
   },
   computed: {
@@ -136,16 +145,6 @@ export default {
   },
   mounted () {
     this.selectVariant()
-    if (this.$refs.carousel) {
-      let navigation = this.$refs.carousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')
-      let pagination = this.$refs.carousel.$children.find(c => c.$el.className === 'VueCarousel-pagination')
-      if (navigation !== undefined) {
-        navigation.$on('navigationclick', this.increaseCarouselTransitionSpeed)
-      }
-      if (pagination !== undefined) {
-        pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed)
-      }
-    }
     this.$emit('loaded')
   },
   beforeDestroy () {
@@ -171,10 +170,10 @@ export default {
       const currentSlide = this.$refs.carousel.currentPage
       this.$emit('toggle', currentSlide)
     },
-    increaseCarouselTransitionSpeed () {
-      this.carouselTransitionSpeed = 500
-    },
     pageChange (index) {
+      this.carouselTransitionSpeed = this.carouselTransition ? 500 : 0
+      this.carouselTransition = true
+
       this.currentPage = index
       this.hideImageAtIndex = null
     },
