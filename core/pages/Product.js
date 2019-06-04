@@ -127,7 +127,9 @@ export default {
     isOptionAvailable (option) { // check if the option is available
       let currentConfig = Object.assign({}, this.configuration)
       currentConfig[option.attribute_code] = option
-      return isOptionAvailableAsync(this.$store, { product: this.product, configuration: currentConfig })
+      const x = isOptionAvailableAsync(this.$store, { product: this.product, configuration: currentConfig })
+      console.error(x)
+      return true // TODO fix checking
     },
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0
