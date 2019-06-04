@@ -274,6 +274,10 @@
       "colorMappings": {
         "Melange graphite": "#eeeeee"
       },
+      "defaultSortBy": {
+        "attribute": "updated_at",
+        "order": "desc"
+      },
       "sortByAttributes": {
         "Latest": "updated_at",
         "Price: Low to high":"final_price",

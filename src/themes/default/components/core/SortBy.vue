@@ -14,7 +14,12 @@
 <script>
 import SortBy from '@vue-storefront/core/compatibility/components/SortBy'
 export default {
-  mixins: [SortBy]
+  mixins: [SortBy],
+  data () {
+    return {
+      sortby: this.$store.state.config.products.defaultSortBy.attribute
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
