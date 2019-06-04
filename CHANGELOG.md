@@ -83,7 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Extra space if not found products in everything new section home page - @cnviradiya (#2846)
 - Load custom fonts without webfont.js - @jahvi (#2944)
 - Added some structured data to product page - @cewald (#2910)
-- Changed Image Gallery behavior in offline mode, now you see single offline image - przspa(#2863)
+- Changed Image Gallery behavior in offline mode, now you see single offline image - @przspa(#2863)
 
 ## [1.9.1] - 2019.05.27
 
