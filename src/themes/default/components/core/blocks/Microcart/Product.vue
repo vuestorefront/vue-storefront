@@ -62,7 +62,7 @@
           {{ product.originalPriceInclTax * product.qty | price }}
         </span>
         <span class="h4 serif price-regular" v-else data-testid="productPrice">
-          {{ product.originalPriceInclTax * product.qty | price }}
+          {{ (product.originalPriceInclTax ? product.originalPriceInclTax : product.priceInclTax) * product.qty | price }}
         </span>
       </div>
       <div class="prices" v-else-if="isOnline && product.totals">

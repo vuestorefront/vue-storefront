@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Microcart tax + discount totals fix - @pkarw (#2892)
+- Microcart offline prices now forced down to original prices - @pkarw (#3012)
 - Login/Register errorr message added in case of FetchError (no network connectivity) - @pkarw
 - Products removed from the cart are no longer add back on the conectivity return - @pkarw (#2898)
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
