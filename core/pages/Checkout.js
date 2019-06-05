@@ -138,12 +138,8 @@ export default {
       this.shippingMethod = payload
     },
     onBeforeShippingMethods (country) {
-      this.$store.dispatch('cart/syncShippingMethods', {
-        country_id: country
-      }).then(() => {
-        this.$store.dispatch('cart/syncTotals')
-        this.$forceUpdate()
-      })
+      this.$store.dispatch('cart/syncTotals')
+      this.$forceUpdate()
     },
     onAfterPlaceOrder (payload) {
       this.confirmation = payload.confirmation

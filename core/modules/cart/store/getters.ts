@@ -4,15 +4,31 @@ import i18n from '@vue-storefront/i18n'
 import CartState from '../types/CartState'
 import RootState from '@vue-storefront/core/types/RootState'
 import AppliedCoupon from '../types/AppliedCoupon'
-import { onlineHelper } from '@vue-storefront/core/helpers'
+import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
+import { sha3_224 } from 'js-sha3'
 
 const getters: GetterTree<CartState, RootState> = {
   getCartToken (state) {
     return state.cartServerToken
   },
+  getShippingMethod (state) {
+    return state.shipping
+  },
+  getPaymentMethod (state) {
+    return state.payment
+  },
+  getLastCartHash (state) {
+    return state.cartItemsHash
+  },
+  isCartHashChanged (state) {
+    return sha3_224(JSON.stringify({ items: state.cartItems, token: state.cartServerToken })) !== state.cartItemsHash
+  },
+  getCartItems (state) {
+    return state.cartItems
+  },
   isTotalsSyncEnabled (state) {
-    return config.cart.synchronize_totals && onlineHelper.isOnline
+    return config.cart.synchronize_totals && onlineHelper.isOnline && !isServer
   },
   isCartConnected (state) {
     return !!state.cartServerToken
@@ -20,7 +36,7 @@ const getters: GetterTree<CartState, RootState> = {
   isCartSyncEnabled (state) {
     return config.cart.synchronize && onlineHelper.isOnline
   },
-  totals (state) {
+  getTotals (state) {
     if (state.platformTotalSegments && onlineHelper.isOnline) {
       return state.platformTotalSegments
     } else {
@@ -59,7 +75,7 @@ const getters: GetterTree<CartState, RootState> = {
       return totalsArray
     }
   },
-  totalQuantity (state, getters, rootStore) {
+  getItemsTotalQuantity (state, getters, rootStore) {
     if (config.cart.minicartCountType === 'items') {
       return state.cartItems.length
     }
@@ -68,7 +84,7 @@ const getters: GetterTree<CartState, RootState> = {
       return p.qty
     })
   },
-  coupon (state): AppliedCoupon | false {
+  getCoupon (state): AppliedCoupon | false {
     if (!(state.platformTotals && state.platformTotals.hasOwnProperty('coupon_code'))) {
       return false
     }
@@ -76,6 +92,18 @@ const getters: GetterTree<CartState, RootState> = {
       code: state.platformTotals.coupon_code,
       discount: state.platformTotals.discount_amount
     }
+  },
+  /** @deprecated */
+  coupon (state) {
+    return this.getCoupon(state)
+  },
+  /** @deprecated */
+  totalQuantity (state) {
+    return this.getItemsTotalQuantity(state)
+  },  
+  /** @deprecated */
+  totals (state) {
+    return this.getTotals(state)
   },
   isVirtualCart (state) {
     return state.cartItems.every((itm) => {

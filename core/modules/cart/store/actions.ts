@@ -2,7 +2,6 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
-import { sha3_224 } from 'js-sha3'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import omit from 'lodash-es/omit'
 import RootState from '@vue-storefront/core/types/RootState'
@@ -13,7 +12,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
+import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 
@@ -25,6 +24,7 @@ const MAX_BYPASS_COUNT = 10
 let _cartServerPullAt = 0
 let _cartServerTotalsAt = 0
 let _cartServerMethodsRefreshAt = 0
+let _connectBypassCount = 0
 
 /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
 async function _serverShippingInfo ({ methodsData }) {
@@ -153,7 +153,7 @@ const actions: ActionTree<CartState, RootState> = {
   /** Clear the cart content + re-connect to newly created guest cart */
   async clear (context, options = { recreateAndSyncCart: true }) {
     await context.commit(types.CART_LOAD_CART, [])
-    if (options.recreateAndSyncCart && config.cart.synchronize) {
+    if (options.recreateAndSyncCart && context.getters.isCartSyncEnabled) {
       await context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
       await context.dispatch('connect', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
     }
@@ -181,7 +181,7 @@ const actions: ActionTree<CartState, RootState> = {
   async syncShippingMethods (context) {
     const storeView = currentStoreView()
     Logger.debug('Refreshing shipping methods', 'cart')()
-    let country = context.rootState.checkout.shippingDetails.country ? context.rootState.checkout.shippingDetails.country : storeView.tax.defaultCountry
+    let country = context.rootGetters['checkout/getShippingDetails'].country ? context.rootGetters['checkout/getShippingDetails'].country : storeView.tax.defaultCountry
     const shippingMethodsTask = await _serverGetShippingMethods({
       country_id: country
     })
@@ -193,11 +193,10 @@ const actions: ActionTree<CartState, RootState> = {
   async sync (context, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
     const isUserInCheckout = context.rootGetters['checkout/isUserInCheckout']
     if (isUserInCheckout) forceClientState = true // never surprise the user in checkout - #
-    if (config.cart.synchronize && !isServer && onlineHelper.isOnline && context.state.cartServerToken) {
-      const newItemsHash = sha3_224(JSON.stringify({ items: context.state.cartItems, token: context.state.cartServerToken }))
-      if ((Date.now() - _cartServerPullAt) >= CART_PULL_INTERVAL_MS || (newItemsHash !== context.state.cartItemsHash)) {
+    if (context.getters.isCartSyncEnabled && context.getters.isCartConnected) {
+      if ((Date.now() - _cartServerPullAt) >= CART_PULL_INTERVAL_MS || (context.getters.isCartHashChanged)) {
         _cartServerPullAt = Date.now()
-        context.state.cartItemsHash = newItemsHash
+        context.commit(types.CART_SAVE_HASH)
         /** @todo: move this call to data resolver; shouldn't be a part of public API no more */
         const task = await TaskQueue.execute({ url: config.cart.pull_endpoint, // sync the cart
           payload: {
@@ -208,12 +207,12 @@ const actions: ActionTree<CartState, RootState> = {
           silent: true,
         }).then(task => {
           if (task.resultCode === 200) {
-            context.dispatch('merge', { serverItems: task.result, clientItems: context.state.cartItems, dryRun: dryRun, forceClientState: forceClientState })
+            context.dispatch('merge', { serverItems: task.result, clientItems: context.getters.getCartItems, dryRun: dryRun, forceClientState: forceClientState })
           } else {
             Logger.error(task.result, 'cart') // override with guest cart()
-            if (context.rootState.cart.bypassCount < MAX_BYPASS_COUNT) {
-              Logger.log('Bypassing with guest cart' + context.rootState.cart.bypassCount, 'cart')()
-              context.rootState.cart.bypassCount = context.rootState.cart.bypassCount + 1
+            if (_connectBypassCount < MAX_BYPASS_COUNT) {
+              Logger.log('Bypassing with guest cart' + _connectBypassCount, 'cart')()
+              _connectBypassCount = _connectBypassCount+ 1
               context.dispatch('connect', { guestCart: true })
               Logger.error(task.result, 'cart')()
             }
@@ -221,7 +220,7 @@ const actions: ActionTree<CartState, RootState> = {
         })
         return task
       } else {
-        Logger.log('Too short interval for refreshing the cart or items not changed' + newItemsHash + context.state.cartItemsHash, 'cart')()
+        Logger.log('Too short interval for refreshing the cart or items not changed', 'cart')()
         return null
       }
     } else {
@@ -237,13 +236,13 @@ const actions: ActionTree<CartState, RootState> = {
   async load (context, { forceClientState = false }: {forceClientState?: boolean} = {}) {
     if (isServer) return
     const commit = context.commit
-    const state = context.state
-
-    if ((!state.shipping || !state.shipping.method_code) && (Array.isArray(context.rootGetters['shipping/shippingMethods']))) {
+    const cartShippingMethod = context.getters.getShippingMethod
+    if ((!cartShippingMethod || !cartShippingMethod.method_code) && (Array.isArray(context.rootGetters['shipping/shippingMethods']))) {
       let shippingMethod = context.rootGetters['shipping/shippingMethods'].find(item => item.default)
       commit(types.CART_UPD_SHIPPING, shippingMethod)
     }
-    if ((!state.payment || !state.payment.code) && Array.isArray(context.rootGetters['payment/paymentMethods'])) {
+    const cartPaymentMethpd = context.getters.getPaymentMethod
+    if ((!cartPaymentMethpd || !cartPaymentMethpd.code) && Array.isArray(context.rootGetters['payment/paymentMethods'])) {
       let paymentMethod = context.rootGetters['payment/paymentMethods'].find(item => item.default)
       commit(types.CART_UPD_PAYMENT, paymentMethod)
     }
@@ -263,8 +262,8 @@ const actions: ActionTree<CartState, RootState> = {
     commit(types.CART_LOAD_CART, storedItems)
   },
   /** Get one single item from the client's cart */
-  getItem ({ state }, sku) {
-    return state.cartItems.find(p => p.sku === sku)
+  getItem ({ state, getters }, sku) {
+    return getters.getCartItems.find(p => p.sku === sku)
   },
   goToCheckout (context) {
     router.push(localizedRoute('/checkout', currentStoreView().storeCode))
@@ -313,7 +312,7 @@ const actions: ActionTree<CartState, RootState> = {
           continue
         }
       }
-      const record = state.cartItems.find(p => p.sku === product.sku)
+      const record = getters.getCartItems.find(p => p.sku === product.sku)
       const result = await dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true})
       product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result
       if (result.status === 'volatile') {
@@ -347,7 +346,7 @@ const actions: ActionTree<CartState, RootState> = {
               dispatch('goToCheckout')
             }}
         }
-        if (!config.cart.synchronize || forceServerSilence) {
+        if (!getters.isCartSyncEnabled || forceServerSilence) {
           dispatch('notification/spawnNotification', notificationData, { root: true })
         }
       }
@@ -356,7 +355,7 @@ const actions: ActionTree<CartState, RootState> = {
     if (getters.isCartSyncEnabled && getters.isCartConnected) dispatch('sync', { forceClientState: true })
   },
   /** remove single item from the server cart by payload.sku or by payload.product.sku @description this method is part of "public" cart API */
-  removeItem ({ commit, dispatch }, payload) {
+  removeItem ({ commit, dispatch, getters }, payload) {
     let removeByParentSku = true // backward compatibility call format
     let product = payload
     if (payload.product) { // new call format since 1.4
@@ -364,14 +363,14 @@ const actions: ActionTree<CartState, RootState> = {
       removeByParentSku = payload.removeByParentSku
     }
     commit(types.CART_DEL_ITEM, { product, removeByParentSku })
-    if (config.cart.synchronize && product.server_item_id) {
+    if (getters.isCartSyncEnabled && product.server_item_id) {
       dispatch('sync', { forceClientState: true })
     }
   },
   /** this action just updates the product quantity in the cart - by product.sku @description this method is part of "public" cart API */
-  updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false }) {
+  updateQuantity ({ commit, dispatch, getters }, { product, qty, forceServerSilence = false }) {
     commit(types.CART_UPD_ITEM, { product, qty })
-    if (config.cart.synchronize && product.server_item_id && !forceServerSilence) {
+    if (getters.isCartSyncEnabled && product.server_item_id && !forceServerSilence) {
       dispatch('sync', { forceClientState: true })
     }
   },
@@ -398,16 +397,18 @@ const actions: ActionTree<CartState, RootState> = {
         Logger.error(task.result, 'cart')()
       }      
     }
-    if ((Date.now() - _cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS) {
+    if ((Date.now() - _cartServerMethodsRefreshAt) >= CART_METHODS_INTERVAL_MS && context.getters.isCartHashChanged) {
       await context.dispatch('syncShippingMethods') // pull the shipping and payment methods available for the current cart content
       await context.dispatch('syncPaymentMethods') // pull the shipping and payment methods available for the current cart content
       _cartServerMethodsRefreshAt = Date.now()
+    } else {
+      Logger.debug('Skipping payment & shipping methods update as cart has not been changed', 'cart')()
     }
     const storeView = currentStoreView()
     let hasShippingInformation = false
     if (context.getters.isTotalsSyncEnabled && context.getters.isCartConnected) {
       if (!methodsData) {
-        let country = context.rootState.checkout.shippingDetails.country ? context.rootState.checkout.shippingDetails.country : storeView.tax.defaultCountry
+        let country = context.rootGetters['checkout/getShippingDetails'].country ? context.rootGetters['checkout/getShippingDetails'].country : storeView.tax.defaultCountry
         const shippingMethods = context.rootGetters['shipping/shippingMethods']
         const paymentMethods = context.rootGetters['payment/paymentMethods']
         let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default && !item.offline /* don't sync offline only shipping methods with the serrver */) : null
@@ -433,7 +434,7 @@ const actions: ActionTree<CartState, RootState> = {
         }
         if (payment && payment.code) methodsData['payment_method'] = payment.code
       }
-      if (methodsData.country && context.state.cartServerToken) {
+      if (methodsData.country && context.getters.isCartConnected) {
         if (hasShippingInformation) {
           return _serverShippingInfo({ methodsData }).then(_afterTotals)
         } else {
@@ -507,9 +508,9 @@ const actions: ActionTree<CartState, RootState> = {
         } else {
           let resultString = task.result ? toString(task.result) : null
           if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
-            if (context.rootState.cart.bypassCount < MAX_BYPASS_COUNT) {
-              Logger.log('Bypassing with guest cart' + context.rootState.cart.bypassCount, 'cart')()
-              context.rootState.cart.bypassCount = context.rootState.cart.bypassCount + 1
+            if (_connectBypassCount < MAX_BYPASS_COUNT) {
+              Logger.log('Bypassing with guest cart' + _connectBypassCount, 'cart')()
+              _connectBypassCount = _connectBypassCount + 1
               context.dispatch('connect', { guestCart: true })
               Logger.error(task.result, 'cart')()
             }
@@ -615,7 +616,7 @@ const actions: ActionTree<CartState, RootState> = {
         if (!dryRun) {
           if (forceClientState || !config.cart.serverSyncCanRemoveLocalItems) {
             const event = await _serverUpdateItem({
-              cartServerToken: context.state.cartServerToken,
+              cartServerToken: context.getters.getCartToken
               cartItem: {
                 sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
                 qty: clientItem.qty,
@@ -637,7 +638,7 @@ const actions: ActionTree<CartState, RootState> = {
         if (!dryRun) {
           if (forceClientState || !config.cart.serverSyncCanModifyLocalItems) {
             const event = await _serverUpdateItem({
-              cartServerToken: context.state.cartServerToken,
+              cartServerToken: context.getters.getCartToken,
               cartItem: {
                 sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
                 qty: clientItem.qty,
@@ -679,7 +680,7 @@ const actions: ActionTree<CartState, RootState> = {
               serverCartUpdateRequired = true
               totalsShouldBeRefreshed = true
               await _serverDeleteItem({
-                cartServerToken: context.state.cartServerToken,
+                cartServerToken: context.getters.getCartToken,
                 cartItem: {
                   sku: serverItem.sku,
                   item_id: serverItem.item_id,
@@ -724,6 +725,7 @@ const actions: ActionTree<CartState, RootState> = {
       if (totalsShouldBeRefreshed && cartHasItems) {
         await context.dispatch('syncTotals')
       }
+      context.commit(types.CART_SAVE_HASH) // update the cart hash
     }
     Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: dryRun, event: event }) // send the difflog
     Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()

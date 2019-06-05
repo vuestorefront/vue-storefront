@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Thumbnail sizes are now configurable within the `config.products.thumbnails` and `config.cart.thumbnails` - @pkarw (#2897)
 
 ### Removed
+- The getter `cart/totals` has ben replaced with `cart/getTotals` - @pkarw (#2522)
+- The getter `cart/coupon` has ben replaced with `cart/getCoupon` - @pkarw (#2522)
+- The getter `cart/totalQuantity` has ben replaced with `cart/getItemsTotalQuantity` - @pkarw (#2522)
+- The event `cart-before-save` has been removed - @pkarw (#2522)
 - The action `cart/save` has been removed - @pkarw - (#2522)
 - Some deprecated config options: `useShortCatalogUrls` and `setupVariantByAttributeCode` have been removed - @pkarw (#2915)
 - Button for filters acceptance added with new styles for clear filters button - @965750 (#2811)

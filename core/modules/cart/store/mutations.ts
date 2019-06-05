@@ -3,6 +3,7 @@ import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import CartState from '../types/CartState'
 import config from 'config'
+import { sha3_224 } from 'js-sha3'
 
 const mutations: MutationTree<CartState> = {
   /**
@@ -23,8 +24,8 @@ const mutations: MutationTree<CartState> = {
       record.qty += parseInt((product.qty ? product.qty : 1))
     }
   },
-  [types.CART_SAVE] (state) {
-    Vue.prototype.$bus.$emit('cart-before-save', { items: state.cartItems })
+  [types.CART_SAVE_HASH] (state) {
+    state.cartItemsHash = sha3_224(JSON.stringify({ items: state.cartItems, token: state.cartServerToken }))
   },
   [types.CART_DEL_ITEM] (state, { product, removeByParentSku = true }) {
     Vue.prototype.$bus.$emit('cart-before-delete', { items: state.cartItems })
