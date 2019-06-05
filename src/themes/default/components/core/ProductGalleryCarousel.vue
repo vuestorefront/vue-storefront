@@ -95,6 +95,7 @@ export default {
   },
   data () {
     return {
+      carouselTransition: true,
       carouselTransitionSpeed: 0,
       currentColor: 0,
       currentPage: 0,
@@ -103,6 +104,14 @@ export default {
       highQualityImagesLoadedMap: {},
       lowerQualityImagesErrorsMap: {},
       highQualityImagesErrorsMap: {}
+    }
+  },
+  watch: {
+    configuration: {
+      handler (value) {
+        this.carouselTransition = false
+      },
+      deep: true
     }
   },
   computed: {
