@@ -3,7 +3,7 @@ import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import CartState from '../types/CartState'
 import config from 'config'
-import { sha3_224 } from 'js-sha3'
+import { calcItemsHmac } from '@vue-storefront/core/helpers'
 
 const mutations: MutationTree<CartState> = {
   /**
@@ -24,9 +24,13 @@ const mutations: MutationTree<CartState> = {
       record.qty += parseInt((product.qty ? product.qty : 1))
     }
   },
-  [types.CART_SAVE_HASH] (state) {
-    state.cartItemsHash = sha3_224(JSON.stringify({ items: state.cartItems, token: state.cartServerToken }))
+  [types.CART_SAVE_HASH] (state, hash = null) {
+    state.cartItemsHash = hash
   },
+  [types.CART_CALC_HASH] (state) {
+    state.cartServerLastSyncDate = new Date().getTime()
+    state.cartItemsHash = calcItemsHmac(state.cartItems, state.cartServerToken )
+  },  
   [types.CART_DEL_ITEM] (state, { product, removeByParentSku = true }) {
     Vue.prototype.$bus.$emit('cart-before-delete', { items: state.cartItems })
     state.cartItems = state.cartItems.filter(p => p.sku !== product.sku && (p.parentSku !== product.sku || removeByParentSku === false))

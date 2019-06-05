@@ -3,6 +3,7 @@ import { remove as removeAccents } from 'remove-accents'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
 import config from 'config'
+import { sha3_224 } from 'js-sha3'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -200,3 +201,9 @@ export const isBottomVisible = () => {
 
   return bottomOfPage || pageHeight < visible
 }
+
+// helper to calcuate the hash of the shopping cart
+export const calcItemsHmac = (items, token) => {
+  return sha3_224(JSON.stringify({ items, token: token }))
+}
+

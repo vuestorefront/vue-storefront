@@ -12,12 +12,11 @@ export const module: Module<CartState, any> = {
     platformTotals: null,
     platformTotalSegments: null,
     cartIsLoaded: false,
-    bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
     shipping: [],
     payment: [],
     cartItemsHash: '',
-    bypassCount: 0,
+    cartServerLastSyncDate: 0,
     cartItems: [] // TODO: check if it's properly namespaced
   },
   getters,

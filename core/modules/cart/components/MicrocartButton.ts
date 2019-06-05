@@ -15,7 +15,7 @@ export const MicrocartButton = {
   },
   computed: {
     quantity () {
-      return this.$store.getters['getItemsTotalQuantity']
+      return this.$store.getters['cart/getItemsTotalQuantity']
     }
   }
 }

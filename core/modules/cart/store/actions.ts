@@ -139,12 +139,13 @@ const actions: ActionTree<CartState, RootState> = {
     await context.commit(types.CART_LOAD_CART, [])
     if (options.recreateAndSyncCart && context.getters.isCartSyncEnabled) {
       await context.commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
+      await context.commit(types.CART_SAVE_HASH, null)
       await context.dispatch('connect', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
     }
   },
   /** Refresh the payment methods with the backend */
   async syncPaymentMethods (context) {
-    if (context.getters.isCartSyncEnabled && context.getters.isCartConnected && (context.getters.isCartHashEmtpyOrChanged)) {
+    if (context.getters.isCartSyncEnabled && context.getters.isCartConnected && (context.getters.isSyncRequired)) {
       Logger.debug('Refreshing payment methods', 'cart')()
       const paymentMethodsTask = await _serverGetPaymentMethods()
           let backendMethods = paymentMethodsTask.result
@@ -167,7 +168,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   /** Refresh the shipping methods with the backend */  
   async syncShippingMethods (context) {
-      if (context.getters.isCartSyncEnabled && context.getters.isCartConnected && (context.getters.isCartHashEmtpyOrChanged)) {
+      if (context.getters.isCartSyncEnabled && context.getters.isCartConnected && (context.getters.isSyncRequired)) {
       const storeView = currentStoreView()
       Logger.debug('Refreshing shipping methods', 'cart')()
       let country = context.rootGetters['checkout/getShippingDetails'].country ? context.rootGetters['checkout/getShippingDetails'].country : storeView.tax.defaultCountry
@@ -186,7 +187,7 @@ const actions: ActionTree<CartState, RootState> = {
     const isUserInCheckout = context.rootGetters['checkout/isUserInCheckout']
     if (isUserInCheckout) forceClientState = true // never surprise the user in checkout - #
     if (context.getters.isCartSyncEnabled && context.getters.isCartConnected) {
-      if (context.getters.isCartHashEmtpyOrChanged) { // cart hash empty or not changed
+      if (context.getters.isSyncRequired) { // cart hash empty or not changed
         /** @todo: move this call to data resolver; shouldn't be a part of public API no more */
         const task = await TaskQueue.execute({ url: config.cart.pull_endpoint, // sync the cart
           payload: {
@@ -210,7 +211,8 @@ const actions: ActionTree<CartState, RootState> = {
         })
         return task
       } else {
-        Logger.log('Cart does not need to be updated - no changes', 'cart')()
+        Logger.log('Cart does not need to be updated - no changes - updating just the totals', 'cart')()
+        await context.dispatch('syncTotals')
         return null
       }
     } else {
@@ -237,8 +239,14 @@ const actions: ActionTree<CartState, RootState> = {
       commit(types.CART_UPD_PAYMENT, paymentMethod)
     }
     const storedItems = await Vue.prototype.$db.cartsCollection.getItem('current-cart')
+    commit(types.CART_LOAD_CART, storedItems)
     if (config.cart.synchronize) {
       const token = await Vue.prototype.$db.cartsCollection.getItem('current-cart-token')
+      const hash = await Vue.prototype.$db.cartsCollection.getItem('current-cart-hash')
+      if (hash) {
+        commit(types.CART_SAVE_HASH, hash)
+        Logger.info('Cart hash received from cache.', 'cache', hash)()
+      }
       if (token) { // previously set token
         commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
         Logger.info('Cart token received from cache.', 'cache', token)()
@@ -249,7 +257,6 @@ const actions: ActionTree<CartState, RootState> = {
         await context.dispatch('connect', { guestCart: false })
       }
     }
-    commit(types.CART_LOAD_CART, storedItems)
   },
   /** Get one single item from the client's cart */
   getItem ({ state, getters }, sku) {
@@ -387,7 +394,7 @@ const actions: ActionTree<CartState, RootState> = {
         Logger.error(task.result, 'cart')()
       }      
     }
-    if (context.getters.isCartHashEmtpyOrChanged) {
+    if (context.getters.isSyncRequired) {
       await context.dispatch('syncShippingMethods') // pull the shipping and payment methods available for the current cart content
       await context.dispatch('syncPaymentMethods') // pull the shipping and payment methods available for the current cart content
     } else {
@@ -514,7 +521,7 @@ const actions: ActionTree<CartState, RootState> = {
   /**  merge shopping cart with the server results; if dryRun = true only the diff phase is being executed */
   async merge (context, { serverItems, clientItems, dryRun = false, forceClientState = false }) {
     let diffLog = []
-    let totalsShouldBeRefreshed = !!!context.getters.getLastCartHash // when empty it means no sync has yet been executed
+    let totalsShouldBeRefreshed = context.getters.isSyncRequired // when empty it means no sync has yet been executed
     let serverCartUpdateRequired = false
     let clientCartUpdateRequired = false
     let cartHasItems = false
@@ -711,10 +718,10 @@ const actions: ActionTree<CartState, RootState> = {
     })
 
     if (!dryRun) {
-      context.commit(types.CART_SAVE_HASH) // update the cart hash
       if (totalsShouldBeRefreshed && cartHasItems) {
         await context.dispatch('syncTotals')
       }
+      context.commit(types.CART_CALC_HASH) // update the cart hash
     }
     Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: dryRun, event: event }) // send the difflog
     Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()

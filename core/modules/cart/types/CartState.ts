@@ -4,11 +4,10 @@ export default interface CartState {
   platformTotals: any,
   platformTotalSegments: any,
   cartIsLoaded: boolean,
-  bypassToAnon: boolean,
   cartServerToken: string,
   shipping: any,
   payment: any,
   cartItemsHash: string,
-  bypassCount: number,
+  cartServerLastSyncDate: number,
   cartItems: any[]
 }

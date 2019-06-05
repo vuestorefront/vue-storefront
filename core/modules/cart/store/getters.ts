@@ -4,13 +4,17 @@ import i18n from '@vue-storefront/i18n'
 import CartState from '../types/CartState'
 import RootState from '@vue-storefront/core/types/RootState'
 import AppliedCoupon from '../types/AppliedCoupon'
-import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
+import { onlineHelper, isServer, calcItemsHmac } from '@vue-storefront/core/helpers'
 import config from 'config'
-import { sha3_224 } from 'js-sha3'
+import { Logger } from '@vue-storefront/core/lib/logger'
+
 
 const getters: GetterTree<CartState, RootState> = {
   getCartToken (state) {
     return state.cartServerToken
+  },
+  getLastSyncDate (state) {
+    return state.cartServerLastSyncDate
   },
   getShippingMethod (state) {
     return state.shipping
@@ -21,11 +25,17 @@ const getters: GetterTree<CartState, RootState> = {
   getLastCartHash (state) {
     return state.cartItemsHash
   },
+  getCurrentCartHash (state) {
+    return calcItemsHmac(state.cartItems, state.cartServerToken)
+  },  
   isCartHashChanged (state) {
-    return sha3_224(JSON.stringify({ items: state.cartItems, token: state.cartServerToken })) !== state.cartItemsHash
+    return (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) 
+  },
+  isSyncRequired (state) {
+    return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !!!state.cartServerLastSyncDate // first load - never synced
   },
   isCartHashEmtpyOrChanged (state) {
-    return !!!this.getLastCartHash || this.isCartHashChanged(state)
+    return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) 
   },
   getCartItems (state) {
     return state.cartItems
@@ -98,15 +108,15 @@ const getters: GetterTree<CartState, RootState> = {
   },
   /** @deprecated */
   coupon (state) {
-    return this.getCoupon(state)
+    Logger.error('The getter cart.coupon has been deprecated please change to cart.getters.getCoupon()')()
   },
   /** @deprecated */
   totalQuantity (state) {
-    return this.getItemsTotalQuantity(state)
+    Logger.error('The getter cart.totalQuantity has been deprecated please change to cart.getters.getItemsTotalQuantity()')()
   },  
   /** @deprecated */
   totals (state) {
-    return this.getTotals(state)
+    Logger.error('The getter cart.totals has been deprecated please change to cart.getters.getTotals()')()
   },
   isVirtualCart (state) {
     return state.cartItems.every((itm) => {
