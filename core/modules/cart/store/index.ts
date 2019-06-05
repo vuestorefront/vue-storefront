@@ -12,12 +12,6 @@ export const module: Module<CartState, any> = {
     platformTotals: null,
     platformTotalSegments: null,
     cartIsLoaded: false,
-    cartServerPullAt: 0,
-    cartServerTotalsAt: 0,
-    cartServerCreatedAt: 0,
-    cartServerMethodsRefreshAt: 0,
-    cartServerBypassAt: 0,
-    cartSavedAt: Date.now(),
     bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
     shipping: [],

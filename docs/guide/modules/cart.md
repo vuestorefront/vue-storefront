@@ -184,7 +184,7 @@ Gets a list of payment methods from the backend and saves them to `cart.payment`
 
 Gets a list of shipping methods from the backend and saves them to `cart.shipping` store state. Country ID is passed to this method in a mandatory `address` parameter.
 
-#### `refreshTotals (context, methodsData)`
+#### `syncTotals (context, methodsData)`
 
 This method sends request to the backend to collect cart totals. It calls different backend endpoints depending on if payment and shipping methods information is available or not.
 

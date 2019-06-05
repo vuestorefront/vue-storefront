@@ -165,7 +165,7 @@ export default {
       })
 
       const dataToUpdate = new Promise((resolve, reject) => {
-        this.$store.dispatch('cart/refreshTotals', {
+        this.$store.dispatch('cart/syncTotals', {
           country: this.country,
           method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
           carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
@@ -191,7 +191,7 @@ export default {
       const dataToUpdate = new Promise((resolve, reject) => {
         this.updateShippingOptions(true)
           .then(() => {
-            return this.$store.dispatch('cart/refreshTotals', {
+            return this.$store.dispatch('cart/syncTotals', {
               country: this.country,
               method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
               carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
@@ -213,7 +213,7 @@ export default {
     },
     updateShippingOptions (setDefault = false) {
       return new Promise((resolve, reject) => {
-        rootStore.dispatch('cart/getShippingMethods', {
+        rootStore.dispatch('cart/syncShippingMethods', {
           country_id: this.country
         }).then(() => {
           this.shippingOptions = []

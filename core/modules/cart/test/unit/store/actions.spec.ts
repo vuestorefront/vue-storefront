@@ -124,7 +124,7 @@ describe('Cart actions', () => {
     expect(contextMock.commit).toBeCalledWith(types.CART_SAVE);
   });
 
-  describe('serverPull', () => {
+  describe('sync', () => {
     it('pulls latest cart data and refreshes payment/shipping methods when there are products in cart', async () => {
       isOnlineSpy.mockReturnValueOnce(true);
       const contextMock = {
@@ -171,7 +171,7 @@ describe('Cart actions', () => {
       expect(TaskQueue.execute).toBeCalled();
       expect(rootStore.dispatch).toBeCalledWith('cart/getPaymentMethods');
       expect(rootStore.dispatch).toBeCalledWith(
-        'cart/getShippingMethods',
+        'cart/syncShippingMethods',
         { country_id: rootStore.state.checkout.shippingDetails.country }
       );
       expect(contextMock.state).toEqual(expectedState);
@@ -218,7 +218,7 @@ describe('Cart actions', () => {
       await wrapper(cartActions);
 
       expect(rootStore.dispatch).toBeCalledWith(
-        'cart/getShippingMethods',
+        'cart/syncShippingMethods',
         { country_id: 'us' }
       );
     });
@@ -261,7 +261,7 @@ describe('Cart actions', () => {
       await wrapper(cartActions);
 
       expect(rootStore.dispatch).not.toBeCalledWith(
-        'cart/getShippingMethods',
+        'cart/syncShippingMethods',
         { country_id: 'us' }
       );
     });
@@ -660,7 +660,7 @@ describe('Cart actions', () => {
       await wrapper(cartActions);
 
       expect(TaskQueue.execute).toBeCalled();
-      expect(contextMock.dispatch).toBeCalledWith('refreshTotals')
+      expect(contextMock.dispatch).toBeCalledWith('syncTotals')
     });
 
     it('sends an item update request to backend server and sets its quoteId to cart token, if none has been set before', async () => {
@@ -788,7 +788,7 @@ describe('Cart actions', () => {
       await wrapper(cartActions);
 
       expect(TaskQueue.execute).toBeCalled();
-      expect(contextMock.dispatch).toBeCalledWith('refreshTotals')
+      expect(contextMock.dispatch).toBeCalledWith('syncTotals')
     });
 
     it('sends a delete item from cart request to backend server and sets its quoteId to cart token, ' +

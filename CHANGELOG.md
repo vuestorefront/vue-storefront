@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Thumbnail sizes are now configurable within the `config.products.thumbnails` and `config.cart.thumbnails` - @pkarw (#2897)
 
 ### Removed
+- The action `cart/save` has been removed - @pkarw - (#2522)
 - Some deprecated config options: `useShortCatalogUrls` and `setupVariantByAttributeCode` have been removed - @pkarw (#2915)
 - Button for filters acceptance added with new styles for clear filters button - @965750 (#2811)
 - Added "Clear wishlist" button - @aniamusial (#2806)
@@ -56,6 +57,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Subscribe button responsive - @exlo89, @webdiver, @przemyslawspaczek (#2886)
 
 ### Changed / Improved
+- The action `cart/userAfterLoggedin` got renamed to `cart/authorize` - @pkarw (#2522)
+- The action `cart/refreshTotals` got renamed to `cart/syncTotals` - @pkarw (#2522)
+- The action `cart/serverPull` got renamed to `cart/sync` - @pkarw - (#2522)
 - The way we're getting the user and cart tokens got refactored - @pkarw (#2513)
 - Changed the way to access the configuration. Currently the `rootStore.state.config` is deprecated. Please do use the `import config from 'config'` > `config` instead - @pkarw (#2649)
 - Changed the order number (from `entity_id` to `increment_id`) on MyOrders and MyOrder pages - @pkarw (#2743)

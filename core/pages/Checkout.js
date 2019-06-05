@@ -134,14 +134,14 @@ export default {
       }
     },
     onAfterShippingMethodChanged (payload) {
-      this.$store.dispatch('cart/refreshTotals', payload)
+      this.$store.dispatch('cart/syncTotals', payload)
       this.shippingMethod = payload
     },
     onBeforeShippingMethods (country) {
-      this.$store.dispatch('cart/getShippingMethods', {
+      this.$store.dispatch('cart/syncShippingMethods', {
         country_id: country
       }).then(() => {
-        this.$store.dispatch('cart/refreshTotals')
+        this.$store.dispatch('cart/syncTotals')
         this.$forceUpdate()
       })
     },

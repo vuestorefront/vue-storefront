@@ -193,7 +193,7 @@ const actions: ActionTree<UserState, RootState> = {
             context.commit(types.USER_INFO_LOADED, res)
             context.dispatch('setUserGroup', res)
             Vue.prototype.$bus.$emit('user-after-loggedin', res)
-            rootStore.dispatch('cart/userAfterLoggedin')
+            rootStore.dispatch('cart/authorize')
 
             resolve(res)
             resolvedFromCache = true
@@ -219,7 +219,7 @@ const actions: ActionTree<UserState, RootState> = {
             }
             if (!resolvedFromCache && resp.resultCode === 200) {
               Vue.prototype.$bus.$emit('user-after-loggedin', resp.result)
-              rootStore.dispatch('cart/userAfterLoggedin')
+              rootStore.dispatch('cart/authorize')
               resolve(resp)
             } else {
               resolve(null)
@@ -284,6 +284,7 @@ const actions: ActionTree<UserState, RootState> = {
     })
   },
   clearCurrentUser (context) {
+    context.commit(types.USER_TOKEN_CHANGED, '')
     context.commit(types.USER_GROUP_TOKEN_CHANGED, '')
     context.commit(types.USER_GROUP_CHANGED, null)
     context.commit(types.USER_INFO_LOADED, null)
@@ -297,7 +298,7 @@ const actions: ActionTree<UserState, RootState> = {
    */
   logout (context, { silent = false }) {
     context.commit(types.USER_END_SESSION)
-    context.dispatch('cart/serverTokenClear', {}, { root: true })
+    context.dispatch('cart/disconnect', {}, { root: true })
       .then(() => { context.dispatch('clearCurrentUser') })
       .then(() => { Vue.prototype.$bus.$emit('user-after-logout') })
       .then(() => { context.dispatch('cart/clear', { recreateAndSyncCart: true }, { root: true }) })
