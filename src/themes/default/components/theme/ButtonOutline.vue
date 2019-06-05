@@ -43,13 +43,13 @@ $black: color(black);
 
 .button-outline {
   border: 2px solid;
-  width: 100px;
   height: 62px;
 }
 
 @media screen and (min-width: 900px) {
   .button-outline {
-    min-width: 250px;
+    border: 2px solid;
+    min-width: 220px;
   }
 }
 .dark {

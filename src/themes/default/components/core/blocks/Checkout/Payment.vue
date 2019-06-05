@@ -47,7 +47,6 @@
             class="col-xs-12 mb15"
             id="sendToBillingAddressCheckbox"
             v-model="sendToBillingAddress"
-            @click="useBillingAddress"
           >
             {{ $t('Use my billing data') }}
           </base-checkbox>
