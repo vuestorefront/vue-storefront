@@ -13,8 +13,10 @@ export const AddToCart = {
     }
   },
   methods: {
-    addToCart (product: Product) {
-      this.$store.dispatch('cart/addItem', { productToAdd: product })
+    async addToCart (product: Product) {
+      this.disabled = true
+      await this.$store.dispatch('cart/addItem', { productToAdd: product })
+      this.disabled = false
     }
   }
 }

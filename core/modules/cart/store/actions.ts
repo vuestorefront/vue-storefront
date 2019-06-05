@@ -197,15 +197,15 @@ const actions: ActionTree<CartState, RootState> = {
             mode: 'cors'
           },
           silent: true,
-        }).then(task => {
+        }).then(async task => {
           if (task.resultCode === 200) {
-            context.dispatch('merge', { serverItems: task.result, clientItems: context.getters.getCartItems, dryRun: dryRun, forceClientState: forceClientState })
+            await context.dispatch('merge', { serverItems: task.result, clientItems: context.getters.getCartItems, dryRun: dryRun, forceClientState: forceClientState })
           } else {
             Logger.error(task.result, 'cart') // override with guest cart()
             if (_connectBypassCount < MAX_BYPASS_COUNT) {
               Logger.log('Bypassing with guest cart' + _connectBypassCount, 'cart')()
               _connectBypassCount = _connectBypassCount+ 1
-              context.dispatch('connect', { guestCart: true })
+              await context.dispatch('connect', { guestCart: true })
               Logger.error(task.result, 'cart')()
             }
           }
@@ -348,7 +348,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
       productIndex++
     }
-    if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) dispatch('sync', { forceClientState: true })
+    if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) return dispatch('sync', { forceClientState: true })
   },
   /** remove single item from the server cart by payload.sku or by payload.product.sku @description this method is part of "public" cart API */
   removeItem ({ commit, dispatch, getters }, payload) {
