@@ -7,7 +7,7 @@
           <h1 class="col-sm-9 category-title mb10"> {{ category.name }} </h1>
           <div class="sorting col-sm-3 align-right">
             <label>{{ $t('Sort by') }}:</label>
-            <sort-by />
+            <sort-by :has-label="true" />
           </div>
         </div>
       </div>

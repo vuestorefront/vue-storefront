@@ -5,7 +5,7 @@
       class="cl-secondary"
       v-model="sortby"
       @change="changeOrder">
-      <option selected="selected" disabled value="">{{ $t('Sort By') }}</option>
+      <option selected="selected" disabled value="" v-if="!hasLabel">{{ $t('Sort By') }}</option>
       <option v-for="(option, label) in sortByAttribute" :disabled="sortby === option" :value="option" :key="option" >{{ $t(label) }}</option>
     </select>
   </div>
@@ -15,6 +15,13 @@
 import SortBy from '@vue-storefront/core/compatibility/components/SortBy'
 export default {
   mixins: [SortBy],
+  props: {
+    hasLabel: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
   data () {
     return {
       sortby: this.$store.state.config.products.defaultSortBy.attribute
