@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Button for filters acceptance added with new styles for clear filters button with clear icon - @965750 (#2811)
 - Added "Clear wishlist" button - @aniamusial (#2806)
 - Make all links with the primary color - @hackbard (#2932)
+- add yarn.lock to dockerfile build - @Flyingmana (#3006)
 - Remembering last search query - @webdiver, @patzick (#2787)
 - Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810) 
 - OrderNumber on ThankYouPage - @Flyingmana (#2743)
