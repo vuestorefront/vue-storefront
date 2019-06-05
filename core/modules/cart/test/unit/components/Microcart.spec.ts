@@ -33,7 +33,7 @@ describe('Microcart', () => {
       modules: {
         cart: {
           getters: {
-            coupon: () => ({} as any as AppliedCoupon)
+            getCoupon: () => ({} as any as AppliedCoupon)
           },
           namespaced: true
         }
@@ -50,7 +50,7 @@ describe('Microcart', () => {
       modules: {
         cart: {
           getters: {
-            totals: () => ({} as any as CartTotalSegments)
+            getTotals: () => ({} as any as CartTotalSegments)
           },
           namespaced: true
         }

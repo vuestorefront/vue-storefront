@@ -12,7 +12,7 @@ describe('MicrocartButton', () => {
       modules: {
         cart: {
           getters: {
-            totalQuantity: () => 123
+            getItemsTotalQuantity: () => 123
           },
           namespaced: true
         }

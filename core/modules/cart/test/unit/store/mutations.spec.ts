@@ -1,5 +1,8 @@
 import Vue from 'vue'
 
+jest.mock('@vue-storefront/core/helpers', () => ({
+  once: (str) => jest.fn()
+}))
 import * as types from '../../../store/mutation-types'
 import cartMutations from '../../../store/mutations'
 
@@ -122,34 +125,6 @@ describe('Cart mutations', () => {
     })
   })
 
-  it('CART_SAVE emits cart-before-save and updates save date', () => {
-    const stateMock = {
-      cartItems: [
-        {
-          qty: 10,
-          sku: 'foo'
-        }
-      ],
-      cartSavedAt: new Date(0)
-    }
-    const expectedState = {
-      cartItems: [
-        {
-          qty: 10,
-          sku: 'foo'
-        }
-      ],
-      cartSavedAt: 1445412480000
-    }
-    const wrapper = (mutations: any) => mutations[types.CART_SAVE](stateMock)
-
-    Date.now = jest.fn(() => expectedState.cartSavedAt)
-
-    wrapper(cartMutations)
-
-    expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-before-save', {items: stateMock.cartItems})
-    expect(stateMock).toEqual(expectedState)
-  })
 
   describe('CART_DEL_ITEM', () => {
     it('removes product from cart by sku', () => {
@@ -160,11 +135,9 @@ describe('Cart mutations', () => {
             sku: 'foo'
           }
         ],
-        cartSavedAt: new Date(0)
       }
       const expectedState = {
-        cartItems: [],
-        cartSavedAt: 1445412480000
+        cartItems: []
       }
       const wrapper = (mutations: any) => mutations[types.CART_DEL_ITEM](
         stateMock,
@@ -173,8 +146,6 @@ describe('Cart mutations', () => {
           removeByParentSku: false
         }
       )
-
-      Date.now = jest.fn(() => expectedState.cartSavedAt)
 
       wrapper(cartMutations)
 
@@ -195,12 +166,10 @@ describe('Cart mutations', () => {
             qty: 10,
             sku: 'foo'
           }
-        ],
-        cartSavedAt: new Date(0)
+        ]
       }
       const expectedState = {
-        cartItems: [],
-        cartSavedAt: 1445412480000
+        cartItems: []
       }
       const wrapper = (mutations: any) => mutations[types.CART_DEL_ITEM](
         stateMock,
@@ -208,8 +177,6 @@ describe('Cart mutations', () => {
           product: {parentSku: 'foo'}
         }
       )
-
-      Date.now = jest.fn(() => expectedState.cartSavedAt)
 
       wrapper(cartMutations)
 
@@ -232,13 +199,10 @@ describe('Cart mutations', () => {
             qty: 10,
             sku: 'foo'
           }
-        ],
-        cartSavedAt: new Date(0)
+        ]
       }
       const expectedState = {
-        cartItems: [],
-        cartSavedAt: 1445412480000
-      }
+        cartItems: [],      }
       const wrapper = (mutations: any) => mutations[types.CART_DEL_NON_CONFIRMED_ITEM](
         stateMock,
         {
@@ -246,9 +210,6 @@ describe('Cart mutations', () => {
           removeByParentSku: false
         }
       )
-
-      Date.now = jest.fn(() => expectedState.cartSavedAt)
-
       wrapper(cartMutations)
 
       expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-before-delete', {
@@ -268,12 +229,10 @@ describe('Cart mutations', () => {
             qty: 10,
             sku: 'foo'
           }
-        ],
-        cartSavedAt: new Date(0)
+        ]
       }
       const expectedState = {
-        cartItems: [],
-        cartSavedAt: 1445412480000
+        cartItems: []
       }
       const wrapper = (mutations: any) => mutations[types.CART_DEL_NON_CONFIRMED_ITEM](
         stateMock,
@@ -281,8 +240,6 @@ describe('Cart mutations', () => {
           product: {parentSku: 'foo'}
         }
       )
-
-      Date.now = jest.fn(() => expectedState.cartSavedAt)
 
       wrapper(cartMutations)
 
@@ -305,7 +262,6 @@ describe('Cart mutations', () => {
             server_item_id: 123
           }
         ],
-        cartSavedAt: new Date(0)
       }
       const expectedState = {
         cartItems: [
@@ -315,7 +271,6 @@ describe('Cart mutations', () => {
             server_item_id: 123
           }
         ],
-        cartSavedAt: 1445412480000
       }
       const wrapper = (mutations: any) => mutations[types.CART_DEL_NON_CONFIRMED_ITEM](
         stateMock,
@@ -324,8 +279,6 @@ describe('Cart mutations', () => {
           removeByParentSku: false
         }
       )
-
-      Date.now = jest.fn(() => expectedState.cartSavedAt)
 
       wrapper(cartMutations)
 
@@ -343,8 +296,7 @@ describe('Cart mutations', () => {
             sku: 'foo',
             qty: 10
           }
-        ],
-        cartSavedAt: new Date(0)
+        ]
       }
       const expectedState = {
         cartItems: [
@@ -352,8 +304,7 @@ describe('Cart mutations', () => {
             qty: 20,
             sku: 'foo'
           }
-        ],
-        cartSavedAt: 1445412480000
+        ]
       }
       const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM](
         stateMock,
@@ -362,9 +313,6 @@ describe('Cart mutations', () => {
           qty: 20
         }
       )
-
-      Date.now = jest.fn(() => expectedState.cartSavedAt)
-
       wrapper(cartMutations)
 
       // unfortunately before and after events return a reference to the same object, therefore
@@ -382,7 +330,6 @@ describe('Cart mutations', () => {
             qty: 10
           }
         ],
-        cartSavedAt: 0
       }
       const expectedState = { ...stateMock }
       const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM](
@@ -392,8 +339,6 @@ describe('Cart mutations', () => {
           qty: 20
         }
       )
-
-      Date.now = jest.fn(() => expectedState.cartSavedAt)
 
       wrapper(cartMutations)
 
@@ -412,7 +357,6 @@ describe('Cart mutations', () => {
             qty: 10
           }
         ],
-        cartSavedAt: new Date(0)
       }
       const expectedState = {
         cartItems: [
@@ -422,7 +366,6 @@ describe('Cart mutations', () => {
             someProp: 'baz'
           }
         ],
-        cartSavedAt: 1445412480000
       }
       const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM_PROPS](
         stateMock,
@@ -436,8 +379,6 @@ describe('Cart mutations', () => {
         firstEmitCall.push(eventName)
         firstEmitCall.push(args)
       })
-      Date.now = jest.fn(() => expectedState.cartSavedAt)
-
       wrapper(cartMutations)
 
       expect(firstEmitCall).toEqual(['cart-before-itemchanged', { item: expectedState.cartItems[0] }])
@@ -455,7 +396,6 @@ describe('Cart mutations', () => {
             qty: 10
           }
         ],
-        cartSavedAt: 0
       }
       const expectedState = {
         cartItems: [
@@ -466,7 +406,6 @@ describe('Cart mutations', () => {
             someProp: 'baz'
           }
         ],
-        cartSavedAt: 1445412480000
       }
       const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM_PROPS](
         stateMock,
@@ -480,8 +419,6 @@ describe('Cart mutations', () => {
         firstEmitCall.push(eventName)
         firstEmitCall.push(args)
       })
-      Date.now = jest.fn(() => expectedState.cartSavedAt)
-
       wrapper(cartMutations)
 
       expect(firstEmitCall).toEqual(['cart-before-itemchanged', { item: expectedState.cartItems[0] }])
@@ -498,7 +435,6 @@ describe('Cart mutations', () => {
             qty: 10
           }
         ],
-        cartSavedAt: 0
       }
       const expectedState = { ...stateMock }
       const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM_PROPS](
@@ -507,8 +443,6 @@ describe('Cart mutations', () => {
           product: {sku: 'qux', someProp: 'baz', qty: 20}
         }
       )
-
-      Date.now = jest.fn(() => expectedState.cartSavedAt)
 
       wrapper(cartMutations)
 
@@ -520,18 +454,14 @@ describe('Cart mutations', () => {
   it('CART_UPD_SHIPPING sets given shipping method', () => {
     const stateMock = {
       shipping: 'foo',
-      cartSavedAt: 0
     }
     const expectedState = {
       shipping: 'bar',
-      cartSavedAt: 1445412480000
     }
     const wrapper = (mutations: any) => mutations[types.CART_UPD_SHIPPING](
       stateMock,
       expectedState.shipping
     )
-
-    Date.now = jest.fn(() => expectedState.cartSavedAt)
 
     wrapper(cartMutations)
 
@@ -548,15 +478,11 @@ describe('Cart mutations', () => {
         }
       ],
       cartIsLoaded: true,
-      cartSavedAt: 1445412480000
     }
     const wrapper = (mutations: any) => mutations[types.CART_LOAD_CART](
       stateMock,
       expectedState.cartItems
     )
-
-    Date.now = jest.fn(() => expectedState.cartSavedAt)
-
     wrapper(cartMutations)
 
     expect(Vue.prototype.$bus.$emit).toBeCalledWith('sync/PROCESS_QUEUE', expect.anything())
@@ -570,13 +496,10 @@ describe('Cart mutations', () => {
     const expectedState = {
       cartItems: [],
       cartIsLoaded: true,
-      cartSavedAt: 1445412480000
     }
     const wrapper = (mutations: any) => mutations[types.CART_LOAD_CART](
       stateMock
     )
-
-    Date.now = jest.fn(() => expectedState.cartSavedAt)
 
     wrapper(cartMutations)
 
@@ -604,7 +527,6 @@ describe('Cart mutations', () => {
   it('CART_UPD_TOTALS updates totals related data', () => {
     const stateMock = {}
     const expectedState = {
-      cartServerTotalsAt: 1445412480000,
       itemsAfterPlatformTotals: ['foo'],
       platformTotals: {
         bar: 1 /** @todo replace with real alike data to show what it can be filled with */
@@ -635,18 +557,14 @@ describe('Cart mutations', () => {
   it('CART_UPD_PAYMENT sets given payment method', () => {
     const stateMock = {
       payment: 'foo',
-      cartSavedAt: 0
     }
     const expectedState = {
       payment: 'bar',
-      cartSavedAt: 1445412480000
     }
     const wrapper = (mutations: any) => mutations[types.CART_UPD_PAYMENT](
       stateMock,
       expectedState.payment
     )
-
-    Date.now = jest.fn(() => expectedState.cartSavedAt)
 
     wrapper(cartMutations)
 
