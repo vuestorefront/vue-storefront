@@ -24,6 +24,9 @@ const getters: GetterTree<CartState, RootState> = {
   isCartHashChanged (state) {
     return sha3_224(JSON.stringify({ items: state.cartItems, token: state.cartServerToken })) !== state.cartItemsHash
   },
+  isCartHashEmtpyOrChanged (state) {
+    return !!!this.getLastCartHash || this.isCartHashChanged(state)
+  },
   getCartItems (state) {
     return state.cartItems
   },
