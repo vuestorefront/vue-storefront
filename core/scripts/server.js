@@ -132,8 +132,18 @@ app.get('*', (req, res, next) => {
         })
         return (value >= 1)
       }
-      if (contains(req.url, config.redirect404.notAllowedExtensions)) {
+      if (contains(req.url, config.server.customErrors.http404.notAllowedExtensions)) {
         console.error(`Resource not found : ${req.url}`)
+        res.setHeader('Content-Type', 'text/html')
+        res.status(404).end('<html lang="en">\n' +
+          '    <head>\n' +
+          '      <meta charset="utf-8">\n' +
+          '      <title>Resource is not found</title>\n' +
+          '    </head>\n' +
+          '    <body>\n' +
+          '      Vue Storefront: Resource is not found' +
+          '    </body>\n' +
+          '  </html>')
         next()
       } else {
         res.redirect('/page-not-found')

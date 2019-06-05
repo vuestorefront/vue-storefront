@@ -14,7 +14,12 @@
       "dynamicConfigContinueOnError": false,
       "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
       "dynamicConfigInclude": [],
-      "elasticCacheQuota": 4096
+      "elasticCacheQuota": 4096,
+      "customErrors": {
+        "http404": {
+          "notAllowedExtensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
+        }
+      }
     },
     "seo": {
       "useUrlDispatcher": true
@@ -449,10 +454,6 @@
           }
         ]
       }
-    },
-    "redirect404": {
-      "notAllowedExtensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
     }
-
 }
 
