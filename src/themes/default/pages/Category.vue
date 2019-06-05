@@ -4,7 +4,11 @@
       <div class="container">
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <div class="row middle-sm">
-          <h1 class="col-sm-9 category-title mb10"> {{ category.name }} </h1>
+          <h1 class="col-sm-6 category-title mb10"> {{ category.name }} </h1>
+          <div class="sorting col-sm-3 align-right">
+            <label>{{ $t('Columns') }}:</label>
+            <columns />
+          </div>
           <div class="sorting col-sm-3 align-right"><sort-by /></div>
         </div>
       </div>
@@ -46,7 +50,7 @@
             <h4 data-testid="noProductsInfo">{{ $t('No products found!') }}</h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
-          <product-listing columns="3" :products="products" />
+          <product-listing :columns="defaultColumn" :products="products" />
         </div>
       </div>
     </div>
@@ -59,6 +63,7 @@ import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
+import Columns from '../components/core/Columns.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 // import builder from 'bodybuilder'
 
@@ -68,11 +73,13 @@ export default {
     ProductListing,
     Breadcrumbs,
     Sidebar,
-    SortBy
+    SortBy,
+    Columns
   },
   data () {
     return {
-      mobileFilters: false
+      mobileFilters: false,
+      defaultColumn: 3
     }
   },
   asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
@@ -83,6 +90,12 @@ export default {
       })
       resolve()
     })
+  },
+  beforeMount () {
+    this.$bus.$on('column-change', this.columnChange)
+  },
+  beforeDestroy () {
+    this.$bus.$off('column-change', this.columnChange)
   },
   methods: {
     openFilters () {
@@ -97,6 +110,9 @@ export default {
         message: this.$t('Please select the field which You like to sort by'),
         action1: { label: this.$t('OK') }
       })
+    },
+    columnChange (column) {
+      this.defaultColumn = column
     }
   },
   mixins: [Category]

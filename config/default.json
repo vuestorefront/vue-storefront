@@ -297,7 +297,8 @@
           { "from": 100, "to": 150 },
           { "from": 150 }
         ]
-      }
+      },
+      "columns": [2, 3, 4, 6]
     },
     "orders": {
       "directBackendSync": true,
