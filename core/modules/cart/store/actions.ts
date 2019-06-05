@@ -144,8 +144,8 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   /** Refresh the payment methods with the backend */
-  async syncPaymentMethods (context) {
-    if (context.getters.isCartSyncEnabled && context.getters.isCartConnected && (context.getters.isSyncRequired)) {
+  async syncPaymentMethods (context, { forceServerSync = false }) {
+    if (context.getters.isCartSyncEnabled && context.getters.isCartConnected && (context.getters.isTotalsSyncRequired || forceServerSync)) {
       Logger.debug('Refreshing payment methods', 'cart')()
       const paymentMethodsTask = await _serverGetPaymentMethods()
           let backendMethods = paymentMethodsTask.result
@@ -167,8 +167,8 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   /** Refresh the shipping methods with the backend */  
-  async syncShippingMethods (context) {
-      if (context.getters.isCartSyncEnabled && context.getters.isCartConnected && (context.getters.isSyncRequired)) {
+  async syncShippingMethods (context, { forceServerSync = false }) {
+      if (context.getters.isCartSyncEnabled && context.getters.isCartConnected && (context.getters.isTotalsSyncRequired || forceServerSync)) {
       const storeView = currentStoreView()
       Logger.debug('Refreshing shipping methods', 'cart')()
       let country = context.rootGetters['checkout/getShippingDetails'].country ? context.rootGetters['checkout/getShippingDetails'].country : storeView.tax.defaultCountry
@@ -189,6 +189,7 @@ const actions: ActionTree<CartState, RootState> = {
     if (context.getters.isCartSyncEnabled && context.getters.isCartConnected) {
       if (context.getters.isSyncRequired) { // cart hash empty or not changed
         /** @todo: move this call to data resolver; shouldn't be a part of public API no more */
+        context.commit(types.CART_MARK_SYNC)
         const task = await TaskQueue.execute({ url: config.cart.pull_endpoint, // sync the cart
           payload: {
             method: 'GET',
@@ -211,8 +212,6 @@ const actions: ActionTree<CartState, RootState> = {
         })
         return task
       } else {
-        Logger.log('Cart does not need to be updated - no changes - updating just the totals', 'cart')()
-        await context.dispatch('syncTotals')
         return null
       }
     } else {
@@ -376,7 +375,8 @@ const actions: ActionTree<CartState, RootState> = {
     commit(types.CART_UPD_ITEM_PROPS, { product })
   },
   /** refreshes the backend information with the backend @description this method is part of "public" cart API */
-  async syncTotals (context, methodsData) {
+  async syncTotals (context, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null}) {
+    let methodsData = payload ? payload.methodsData : null
     /** helper method to update the UI */
     const _afterTotals = async (task) => {
       if (task.resultCode === 200) {
@@ -390,19 +390,20 @@ const actions: ActionTree<CartState, RootState> = {
           await context.dispatch('updateItem', { product: { server_item_id: item.item_id, totals: item, qty: item.qty } }) // update the server_id reference
         }
         context.commit(types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: totalsObj, platformTotalSegments: platformTotalSegments })
+        context.commit(types.CART_MARK_TOTALS_SYNC)
       } else {
         Logger.error(task.result, 'cart')()
       }      
     }
-    if (context.getters.isSyncRequired) {
-      await context.dispatch('syncShippingMethods') // pull the shipping and payment methods available for the current cart content
-      await context.dispatch('syncPaymentMethods') // pull the shipping and payment methods available for the current cart content
+    if (context.getters.isTotalsSyncRequired || payload.forceServerSync) {
+      await context.dispatch('syncShippingMethods', !!payload.forceServerSync) // pull the shipping and payment methods available for the current cart content
+      await context.dispatch('syncPaymentMethods', !!payload.forceServerSync) // pull the shipping and payment methods available for the current cart content
     } else {
       Logger.debug('Skipping payment & shipping methods update as cart has not been changed', 'cart')()
     }
     const storeView = currentStoreView()
     let hasShippingInformation = false
-    if (context.getters.isTotalsSyncEnabled && context.getters.isCartConnected) {
+    if (context.getters.isTotalsSyncEnabled && context.getters.isCartConnected && (context.getters.isTotalsSyncRequired || payload.forceServerSync)) {
       if (!methodsData) {
         let country = context.rootGetters['checkout/getShippingDetails'].country ? context.rootGetters['checkout/getShippingDetails'].country : storeView.tax.defaultCountry
         const shippingMethods = context.rootGetters['shipping/shippingMethods']
@@ -441,9 +442,9 @@ const actions: ActionTree<CartState, RootState> = {
       }
     }
   },
-  async refreshTotals (context, methodsData) {
+  async refreshTotals (context, payload) {
     Logger.warn('The "cart/refreshTotals" action is deprecated and will not be supported with the Vue Storefront 1.11', 'cart')()
-    return context.dispatch('syncTotals', methodsData)    
+    return context.dispatch('syncTotals', payload)    
   },
   /** remove discount code from the cart + sync totals @description this method is part of "public" cart API */
   async removeCoupon (context) {
@@ -457,7 +458,7 @@ const actions: ActionTree<CartState, RootState> = {
         silent: true
       })
       if (task.result) {
-        context.dispatch('syncTotals')
+        context.dispatch('syncTotals', { forceServerSync: true })
         return task.result
       }
     }
@@ -475,7 +476,7 @@ const actions: ActionTree<CartState, RootState> = {
         silent: true
       })
       if (task.result === true) {
-        context.dispatch('syncTotals')
+        context.dispatch('syncTotals', { forceServerSync: true })
         return task.result
       }
     }
@@ -521,7 +522,7 @@ const actions: ActionTree<CartState, RootState> = {
   /**  merge shopping cart with the server results; if dryRun = true only the diff phase is being executed */
   async merge (context, { serverItems, clientItems, dryRun = false, forceClientState = false }) {
     let diffLog = []
-    let totalsShouldBeRefreshed = context.getters.isSyncRequired // when empty it means no sync has yet been executed
+    let totalsShouldBeRefreshed = context.getters.isTotalsSyncRequired // when empty it means no sync has yet been executed
     let serverCartUpdateRequired = false
     let clientCartUpdateRequired = false
     let cartHasItems = false

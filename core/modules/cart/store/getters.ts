@@ -16,6 +16,9 @@ const getters: GetterTree<CartState, RootState> = {
   getLastSyncDate (state) {
     return state.cartServerLastSyncDate
   },
+  getLastTotalsSyncDate (state) {
+    return state.cartServerLastSyncDate
+  },  
   getShippingMethod (state) {
     return state.shipping
   },
@@ -34,6 +37,9 @@ const getters: GetterTree<CartState, RootState> = {
   isSyncRequired (state) {
     return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !!!state.cartServerLastSyncDate // first load - never synced
   },
+  isTotalsSyncRequired (state) {
+    return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !!!state.cartServerLastTotalsSyncDate // first load - never synced
+  },  
   isCartHashEmtpyOrChanged (state) {
     return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) 
   },

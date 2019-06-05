@@ -166,10 +166,13 @@ export default {
 
       const dataToUpdate = new Promise((resolve, reject) => {
         this.$store.dispatch('cart/syncTotals', {
-          country: this.country,
-          method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
-          carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
-          payment_method: null
+          methodsData: {
+            country: this.country,
+            method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
+            carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
+            payment_method: null
+          },
+          forceServerSync: true
         }).then(() => {
           resolve({
             displayItems: this.bucket,
@@ -192,10 +195,13 @@ export default {
         this.updateShippingOptions(true)
           .then(() => {
             return this.$store.dispatch('cart/syncTotals', {
-              country: this.country,
-              method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
-              carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
-              payment_method: null
+              methodsData: {
+                country: this.country,
+                method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
+                carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
+                payment_method: null
+              },
+              forceServerSync: true
             })
           }).then(() => {
             resolve({

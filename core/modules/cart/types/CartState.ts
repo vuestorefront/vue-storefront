@@ -9,5 +9,6 @@ export default interface CartState {
   payment: any,
   cartItemsHash: string,
   cartServerLastSyncDate: number,
+  cartServerLastTotalsSyncDate: number,
   cartItems: any[]
 }

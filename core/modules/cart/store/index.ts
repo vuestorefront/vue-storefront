@@ -17,6 +17,7 @@ export const module: Module<CartState, any> = {
     payment: [],
     cartItemsHash: '',
     cartServerLastSyncDate: 0,
+    cartServerLastTotalsSyncDate: 0,
     cartItems: [] // TODO: check if it's properly namespaced
   },
   getters,
