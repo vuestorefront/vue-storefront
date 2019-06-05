@@ -84,9 +84,8 @@ Cart state is automatically loaded from `localForage` collection after page has 
 The cart state data:
 
 - `itemsAfterPlatformTotals` - helper collection, dictionary where the key is Magento cart item `item_id` that stores the totals information per item - received from Magento; it's automatically populated when `config.cart.synchronize_totals` is enabled;
-- `platformTotals` - similarly to above item, here we have the full totals from Magento for the current shopping cart. These collections are populated by [`cart/serverTotals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/actions.js#L49) and the event handler for [`servercart-after-totals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L30)
+- `platformTotals` - similarly to above item, here we have the full totals from Magento for the current shopping cart. These collections are populated by [`cart/syncTotals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/actions.js#L49) and the event handler for [`servercart-after-totals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L30)
 - `cartIsLoaded` (bool) - true after dispatching `cart/load`
-- `cartServerPullAt` (int) - timestamp for the last server cart synchronization set by [`servercart-after-pulled`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L45) - enabled when `cart/synchronize` is set to true in the config,
 - `shipping` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
 - `payment` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
 - `cartItems` - collection of the cart items; the item format is the same as described in [ElasticSearch Data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md) - the `product` class; the only difference is that the (int) `qty` field is added
@@ -109,7 +108,7 @@ The following events are published from `cart` store:
 
 The cart store provides following public actions:
 
-#### `serverTokenClear (context)`
+#### `disconnect (context)`
 
 Helper method used to clear the current server cart id (used for cart synchronization)
 
@@ -121,21 +120,17 @@ This method is called after order has been placed to empty the `cartItems` colle
 
 Method used to save the cart to the `localForage` browser collection
 
-#### `serverPull (context, { forceClientState = false })`
+#### `sync (context, { forceClientState = false })`
 
 This method is used to synchronize the current state of the cart items back and forth between server and current client state. When the `forceClientState` is set to false the communication is one-way only (client -> server). This action is called automatically on any shopping cart change when the `cart.synchronize` is set to true.
 
-#### `serverTotals (context, { forceClientState = false })`
+#### `syncTotals (context, { forceClientState = false })`
 
 Method is called whenever the cart totals should have been synchronized with the server (after `serverPull`). This method overrides local shopping cart grand totals and specific item values (for example prices after discount).
 
-#### `serverCreate (context, { guestCart = false })`
+#### `connect (context, { guestCart = false })`
 
 Action is dispatched to create the server cart and store the cart id (for further synchronization)
-
-#### `serverUpdateItem (context, cartItem)`, `serverDeleteItem (context, cartItem)`
-
-Actions called whenever the shopping cart item should be synchronized with server side (pushes changes to the server). Basically this method is called within [`servercart-after-pulled`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L45)
 
 #### `load (context)`
 
@@ -153,10 +148,6 @@ This action is used to add the `productToAdd` to the cart, if `config.cart.synch
 
 As you may imagine :) This action simply removes the product from the shopping cart and synchronizes the server cart when set. You must at least specify the `product.sku`.
 
-#### `removeNonConfirmedVariants ({ commit, dispatch }, product)`
-
-This action simply removes the non-confirmed product from the shopping cart and synchronizes the server cart when set. You must at least specify the `product.sku`.
-
 #### `updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false })`
 
 This method is called whenever user changes the quantity of product in the cart (called from `Microcart.vue`). The parameter `qty` is the new quantity of product and by using `forceServerSilence` you may control if the server cart synchronization is being executed or not.
@@ -165,11 +156,11 @@ This method is called whenever user changes the quantity of product in the cart 
 
 Updates item properties.
 
-#### `getPaymentMethods (context)`
+#### `syncPaymentMethods (context)`
 
 Gets a list of payment methods from the backend and saves them to `cart.payment` store state.
 
-#### `getShippingMethods (context, address)`
+#### `syncShippingMethods (context, address)`
 
 Gets a list of shipping methods from the backend and saves them to `cart.shipping` store state. Country ID is passed to this method in a mandatory `address` parameter.
 
@@ -183,7 +174,108 @@ All state members should have been accessed only by getters. Please take a look 
 
 ```js
 const getters = {
-  current: state => state.current,
-  list: state => state.list,
+
+  getCartToken (state) {
+    return state.cartServerToken
+  },
+  getLastSyncDate (state) {
+    return state.cartServerLastSyncDate
+  },
+  getLastTotalsSyncDate (state) {
+    return state.cartServerLastSyncDate
+  },  
+  getShippingMethod (state) {
+    return state.shipping
+  },
+  getPaymentMethod (state) {
+    return state.payment
+  },
+  getLastCartHash (state) {
+    return state.cartItemsHash
+  },
+  getCurrentCartHash (state) {
+    return calcItemsHmac(state.cartItems, state.cartServerToken)
+  },  
+  isCartHashChanged (state) {
+    return (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) 
+  },
+  isSyncRequired (state) {
+    return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !!!state.cartServerLastSyncDate // first load - never synced
+  },
+  isTotalsSyncRequired (state) {
+    return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !!!state.cartServerLastTotalsSyncDate // first load - never synced
+  },  
+  isCartHashEmtpyOrChanged (state) {
+    return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) 
+  },
+  getCartItems (state) {
+    return state.cartItems
+  },
+  isTotalsSyncEnabled (state) {
+    return config.cart.synchronize_totals && onlineHelper.isOnline && !isServer
+  },
+  isCartConnected (state) {
+    return !!state.cartServerToken
+  },
+  isCartSyncEnabled (state) {
+    return config.cart.synchronize && onlineHelper.isOnline
+  },
+  getTotals (state) {
+    if (state.platformTotalSegments && onlineHelper.isOnline) {
+      return state.platformTotalSegments
+    } else {
+      let shipping = state.shipping instanceof Array ? state.shipping[0] : state.shipping
+      let payment = state.payment instanceof Array ? state.payment[0] : state.payment
+      const totalsArray = [
+        {
+          code: 'subtotalInclTax',
+          title: i18n.t('Subtotal incl. tax'),
+          value: sumBy(state.cartItems, (p) => {
+            return p.qty * p.priceInclTax
+          })
+        },
+        {
+          code: 'grand_total',
+          title: i18n.t('Grand total'),
+          value: sumBy(state.cartItems, (p) => {
+            return p.qty * p.priceInclTax + (shipping ? shipping.price_incl_tax : 0)
+          })
+        }
+      ]
+      if (payment) {
+        totalsArray.push({
+          code: 'payment',
+          title: i18n.t(payment.title),
+          value: payment.costInclTax
+        })
+      }
+      if (shipping) {
+        totalsArray.push({
+          code: 'shipping',
+          title: i18n.t(shipping.method_title),
+          value: shipping.price_incl_tax
+        })
+      }
+      return totalsArray
+    }
+  },
+  getItemsTotalQuantity (state, getters, rootStore) {
+    if (config.cart.minicartCountType === 'items') {
+      return state.cartItems.length
+    }
+
+    return sumBy(state.cartItems, (p) => {
+      return p.qty
+    })
+  },
+  getCoupon (state): AppliedCoupon | false {
+    if (!(state.platformTotals && state.platformTotals.hasOwnProperty('coupon_code'))) {
+      return false
+    }
+    return {
+      code: state.platformTotals.coupon_code,
+      discount: state.platformTotals.discount_amount
+    }
+  },
 };
 ```

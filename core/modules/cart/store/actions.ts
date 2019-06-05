@@ -53,7 +53,7 @@ async function _serverTotals (): Promise<Task> {
   })
 }
 /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
-async function _serverCreate ({ guestCart = false, forceClientState = false }): Promise<Task> {
+async function _connect ({ guestCart = false, forceClientState = false }): Promise<Task> {
   const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
     payload: {
       method: 'POST',
@@ -496,7 +496,7 @@ const actions: ActionTree<CartState, RootState> = {
   /** connect cart to the server and set the cart token */
   async connect (context, { guestCart = false, forceClientState = false }) {
     if (context.getters.isCartSyncEnabled) {
-      return _serverCreate({ guestCart, forceClientState }).then(task => {
+      return _connect({ guestCart, forceClientState }).then(task => {
         const cartToken = task.result
         if (task.resultCode === 200) {
           Logger.info('Server cart token created.', 'cart', cartToken)()

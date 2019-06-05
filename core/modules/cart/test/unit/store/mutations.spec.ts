@@ -623,8 +623,6 @@ describe('Cart mutations', () => {
       }
     )
 
-    Date.now = jest.fn(() => expectedState.cartServerTotalsAt)
-
     wrapper(cartMutations)
 
     expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-updatetotals', {

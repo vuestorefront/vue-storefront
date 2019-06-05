@@ -128,7 +128,7 @@ This method is used to synchronize the current state of the cart items back and 
 
 Method is called whenever the cart totals should have been synchronized with the server (after `serverPull`). This method overrides local shopping cart grand totals and specific item values (for example prices after discount).
 
-#### `serverCreate (context, { guestCart = false })`
+#### `connect (context, { guestCart = false })`
 
 Action is dispatched to create the server cart and store the cart id (for further synchronization)
 
