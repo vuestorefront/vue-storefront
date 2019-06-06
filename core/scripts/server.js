@@ -122,16 +122,21 @@ app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
 
 app.get('*', (req, res, next) => {
+  const contains = (target, pattern) => {
+    var value = 0
+    pattern.forEach(word => {
+      value = value + target.includes(word)
+    })
+    return (value >= 1)
+  }
+
+  if (contains(req.url, config.server.ssrDisabledFor.extensions)) {
+    return
+  }
+
   const s = Date.now()
   const errorHandler = err => {
     if (err && err.code === 404) {
-      const contains = (target, pattern) => {
-        var value = 0
-        pattern.forEach(word => {
-          value = value + target.includes(word)
-        })
-        return (value >= 1)
-      }
       if (contains(req.url, config.server.customErrors.http404.notAllowedExtensions)) {
         console.error(`Resource not found : ${req.url}`)
         res.setHeader('Content-Type', 'text/html')
