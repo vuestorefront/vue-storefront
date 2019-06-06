@@ -47,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Jest globals added to .eslint - @lromanowicz (#2717)
 - The default storeId is taken from the configurations - @nuovecode (#2718)
 - Multitab cart sync - @BartoszLiburski (#2547)
+- Improved Size Guide feature so it shows in a modal popup instead of a new page - RGijsberts - (#3027)
 
 ## [1.9.0] - UNRELEASED
 
