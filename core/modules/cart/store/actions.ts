@@ -272,7 +272,7 @@ const actions: ActionTree<CartState, RootState> = {
     } else {
       productsToAdd.push(productToAdd)
     }
-    return dispatch('addItems', { productsToAdd: productsToAdd, forceServerSilence })
+    return await dispatch('addItems', { productsToAdd: productsToAdd, forceServerSilence })
   },
   /** add multiple items to the client's cart and execute single sync with the server when needed  @description this method is part of "public" cart API */
   async addItems ({ commit, dispatch, state, getters }, { productsToAdd, forceServerSilence = false }) {
