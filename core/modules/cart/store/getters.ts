@@ -17,7 +17,7 @@ const getters: GetterTree<CartState, RootState> = {
     return state.cartServerLastSyncDate
   },
   getLastTotalsSyncDate (state) {
-    return state.cartServerLastSyncDate
+    return state.cartServerLastTotalsSyncDate
   },  
   getShippingMethod (state) {
     return state.shipping
