@@ -31,7 +31,7 @@ const getters: GetterTree<CartState, RootState> = {
   getCurrentCartHash (state) {
     return calcItemsHmac(state.cartItems, state.cartServerToken)
   },  
-  isCartHashChanged (state) {
+  isCartHashChanged (state, getters) {
     return (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) 
   },
   isSyncRequired (state) {
