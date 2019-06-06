@@ -265,7 +265,7 @@ const actions: ActionTree<CartState, RootState> = {
     router.push(localizedRoute('/checkout', currentStoreView().storeCode))
   },
   /** add item to the client's cart + sync with server if enabled @description this method is part of "public" cart API */
-  addItem ({ dispatch }, { productToAdd, forceServerSilence = false }) {
+  async addItem ({ dispatch }, { productToAdd, forceServerSilence = false }) {
     let productsToAdd = []
     if (productToAdd.type_id === 'grouped') { // TODO: add bundle support
       productsToAdd = productToAdd.product_links.filter((pl) => { return pl.link_type === 'associated' }).map((pl) => { return pl.product })
