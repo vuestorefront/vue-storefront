@@ -32,7 +32,7 @@ const getters: GetterTree<CartState, RootState> = {
     return calcItemsHmac(state.cartItems, state.cartServerToken)
   },  
   isCartHashChanged (state, getters) {
-    return (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) 
+    return getters.getCurrentCartHash !== state.cartItemsHash) 
   },
   isSyncRequired (state) {
     return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !!!state.cartServerLastSyncDate // first load - never synced
