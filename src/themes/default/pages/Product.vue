@@ -110,9 +110,9 @@
                         v-focus-clean
                       />
                     </div>
-                    <router-link
-                      to="/size-guide"
+                    <span
                       v-if="option.label == 'Size'"
+                      @click="openSizeGuide"
                       class="
                         p0 ml30 inline-flex middle-xs no-underline h5
                         action size-guide pointer cl-secondary
@@ -122,7 +122,7 @@
                       <span>
                         {{ $t('Size guide') }}
                       </span>
-                    </router-link>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -229,6 +229,7 @@
     />
     <promoted-offers single-banner />
     <related-products type="related" />
+    <SizeGuide />
   </div>
 </template>
 
@@ -253,6 +254,8 @@ import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/Promote
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
+
 
 export default {
   components: {
@@ -272,7 +275,8 @@ export default {
     Reviews,
     SizeSelector,
     WebShare,
-    BaseInputNumber
+    BaseInputNumber,
+    SizeGuide
   },
   mixins: [Product, VueOfflineMixin],
   data () {
@@ -306,6 +310,9 @@ export default {
         message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
         action1: { label: this.$t('OK') }
       })
+    },
+    openSizeGuide () {
+      this.$bus.$emit('modal-show', 'modal-sizeguide')
     }
   },
   validations: {
