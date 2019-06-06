@@ -256,7 +256,6 @@ import WebShare from '@vue-storefront/core/modules/social-share/components/WebSh
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
 
-
 export default {
   components: {
     'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
