@@ -1,7 +1,7 @@
 <template>
   <modal name="modal-sizeguide" :width="620">
     <div slot="header">
-      {{ $t('Size Guide') }}
+      Size Guide
     </div>
     <div slot="content"> <SizeGuideContent /> </div>
   </modal>
