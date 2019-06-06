@@ -4,12 +4,12 @@
       <div class="container">
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <div class="row middle-sm">
-          <h1 class="col-sm-6 category-title mb10"> {{ category.name }} </h1>
-          <div class="sorting col-sm-3 align-right">
-            <label>{{ $t('Columns') }}:</label>
+          <h1 class="col-sm-8 category-title mb10"> {{ category.name }} </h1>
+          <div class="sorting col-sm-2 align-right mt50">
+            <label class="mr10">{{ $t('Columns') }}:</label>
             <columns />
           </div>
-          <div class="sorting col-sm-3 align-right"><sort-by /></div>
+          <div class="sorting col-sm-2 align-right mt50"><sort-by /></div>
         </div>
       </div>
       <div class="container">
@@ -218,4 +218,9 @@ export default {
   .close {
     margin-left: auto;
   }
+</style>
+<style lang="scss">
+.product-image {
+  max-height: unset !important;
+}
 </style>
