@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.9.1] - 2019.05.27
 
+### Added
+- Improve performace with preventing render 404 page on the server side if some of static content is missed, simple 404 response uses instead - #3002 - Yuri Boyko @yuriboyko, Anton Lobodenko @sniffy1988 => [PHOENIX MEDIA](https://www.phoenix-media.eu/)
+
 ### Fixed
 - Remove security vulnerabilities by updating project dependencies - @patzick (#2942)
 - Fix Configurable Products not accessible in CSR when children visibility is set to "not visible individually" - @revlis-x (#2933)
