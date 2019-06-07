@@ -15,7 +15,7 @@ export default {
   data () {
     return {
       column: 3,
-      productsColumns: this.$store.state.config.products.columns
+      productsColumns: [2, 3, 4, 6]
     }
   },
   methods: {
