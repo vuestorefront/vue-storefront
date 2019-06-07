@@ -437,9 +437,9 @@ export function findConfigurableChildAsync ({ product, configuration = null, sel
       return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
         let configurationPropertyFilters = configuration[configProperty] || []
         if (!Array.isArray(configurationPropertyFilters)) configurationPropertyFilters = [configurationPropertyFilters]
-        const configurationIds = configurationPropertyFilters.map(filter => filter.id).filter(filterId => !!filterId)
+        const configurationIds = configurationPropertyFilters.map(filter => toString(filter.id)).filter(filterId => !!filterId)
         if (!configurationIds.length) return true // skip empty
-        return configurationIds.includes(configurableChild[configProperty])
+        return configurationIds.includes(toString(configurableChild[configProperty]))
       })
     }
   })

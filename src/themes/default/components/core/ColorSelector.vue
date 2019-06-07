@@ -19,6 +19,7 @@ export default {
   mixins: [filterMixin],
   methods: {
     colorFrom (label) {
+      if (!label) return ''
       if (config.products.colorMappings) {
         if (typeof config.products.colorMappings[label] !== 'undefined') {
           label = config.products.colorMappings[label]

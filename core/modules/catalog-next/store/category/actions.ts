@@ -39,6 +39,21 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     return searchResult.items
   },
+  async cacheProducts ({ commit, getters, dispatch }, { route } = {}) {
+    const searchCategory = getters.getCategoryFrom(route.path)
+    const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
+    let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
+
+    console.error('CACHE 2 step...')
+    const xx = await dispatch('product/list', {
+      query: filterQr,
+      sort: searchQuery.sort,
+      updateState: false // not update the product listing - this request is only for caching
+    }, { root: true })
+    console.error('RETURNED PRODUCTS', xx)
+
+    // return searchResult.items
+  },
   async findCategories () {
     return await CategoryService.getCategories()
   },

@@ -111,6 +111,9 @@ export default {
       console.error('Problem with Category asyncData', e)
     }
   },
+  async mounted () {
+    await this.$store.dispatch('category-next/cacheProducts', { route: this.$route })
+  },
   methods: {
     openFilters () {
       this.mobileFilters = true

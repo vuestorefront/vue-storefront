@@ -60,10 +60,12 @@ module.exports = merge(base, {
         {
           urlPattern: '/img/(.*)',
           handler: 'fastest'
-        }, {
-          urlPattern: '/api/catalog/*',
+        },
+        {
+          urlPattern: /(http[s]?:\/\/)?(\/)?([^\/\s]+\/)?(api\/catalog\/)(.*)/g,
           handler: 'networkFirst'
-        }, {
+        },
+        {
           urlPattern: '/api/*',
           handler: 'networkFirst'
         }, {
