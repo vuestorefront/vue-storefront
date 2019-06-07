@@ -7,7 +7,7 @@
           <h1 class="col-sm-8 category-title mb10"> {{ category.name }} </h1>
           <div class="sorting col-sm-2 align-right mt50">
             <label class="mr10">{{ $t('Columns') }}:</label>
-            <columns />
+            <columns @change-column="columnChange" />
           </div>
           <div class="sorting col-sm-2 align-right mt50"><sort-by /></div>
         </div>
@@ -90,12 +90,6 @@ export default {
       })
       resolve()
     })
-  },
-  beforeMount () {
-    this.$bus.$on('column-change', this.columnChange)
-  },
-  beforeDestroy () {
-    this.$bus.$off('column-change', this.columnChange)
   },
   methods: {
     openFilters () {

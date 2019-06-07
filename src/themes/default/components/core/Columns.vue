@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     changeColumn () {
-      this.$bus.$emit('column-change', this.column)
+      this.$emit('change-column', this.column)
     }
   }
 }
