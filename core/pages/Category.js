@@ -61,13 +61,15 @@ export default {
   },
   preAsyncData ({ store, route }) {
     Logger.log('preAsyncData query setup')()
+    const currentProductQuery = store.getters['category/getCurrentCategoryProductQuery']
+    const sort = currentProductQuery && currentProductQuery.sort ? currentProductQuery.sort : config.entities.productList.sort
     store.dispatch('category/setSearchOptions', {
       populateAggregations: true,
       store: store,
       route: route,
       current: 0,
       perPage: 50,
-      sort: config.entities.productList.sort,
+      sort,
       filters: config.products.defaultFilters,
       includeFields: config.entities.optimize && isServer ? config.entities.productList.includeFields : null,
       excludeFields: config.entities.optimize && isServer ? config.entities.productList.excludeFields : null,
