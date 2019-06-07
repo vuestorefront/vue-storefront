@@ -118,15 +118,17 @@ export default {
   },
   data () {
     return {
-      itemThumbnail: null
+      itemThumbnail: []
     }
   },
   methods: {
     getProductThumbnail (productSku) {
-      this.$store.dispatch('product/single', { options: { sku: productSku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
-        this.itemThumbnail = getThumbnailPath(product.image, 80, 80)
-      })
-      return this.itemThumbnail
+      if (this.itemThumbnail[productSku] === undefined || this.itemThumbnail[productSku] === null) {
+        this.$store.dispatch('product/single', { options: { sku: productSku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false, skipCache: true }).then((product) => {
+          this.itemThumbnail[productSku] = getThumbnailPath(product.image, 80, 80)
+        })
+      }
+      return this.itemThumbnail[productSku]
     }
   }
 
