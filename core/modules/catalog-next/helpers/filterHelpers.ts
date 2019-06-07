@@ -1,17 +1,10 @@
 import FilterVariant from 'core/modules/catalog-next/types/FilterVariant';
 
-export const compareByLabel = ( a, b ) => {
-  if ( a.label < b.label ){
-    return -1
-  }
-  if ( a.label > b.label ){
-    return 1
-  }
-  return 0
-}
-
 export const getSystemFilterNames:Array<String> = ['sort']
 
+/**
+ * Creates new filtersQuery (based on currentQuery) by modifying specific filter variant.
+ */
 export const changeFilterQuery = ({currentQuery = {}, filterVariant}:{currentQuery?:any, filterVariant?:FilterVariant} = {}) => {
   const newQuery = JSON.parse(JSON.stringify(currentQuery))
   if (!filterVariant) return newQuery

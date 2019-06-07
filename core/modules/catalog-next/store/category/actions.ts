@@ -8,7 +8,7 @@ import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { router } from '@vue-storefront/core/app'
 import FilterVariant from '../../types/FilterVariant'
 import { CategoryService } from '@vue-storefront/core/data-resolver'
-import { changeFilterQuery } from './logic/categoryLogic'
+import { changeFilterQuery } from '../../helpers/filterHelpers'
 import { products } from 'config'
 import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 

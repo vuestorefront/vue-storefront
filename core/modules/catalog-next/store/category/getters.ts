@@ -1,13 +1,13 @@
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
-import { calculateBreadcrumbs } from '../../helpers/categoryHelpers'
+import { compareByLabel, calculateBreadcrumbs } from '../../helpers/categoryHelpers'
 import { products } from 'config'
 import FilterVariant from '../../types/FilterVariant'
 import { optionLabel } from '../../helpers/optionLabel'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
-import { compareByLabel, getFiltersFromQuery } from './logic/categoryLogic'
+import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state) => state.categories || [],

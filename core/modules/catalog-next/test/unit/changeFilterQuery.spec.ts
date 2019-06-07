@@ -1,4 +1,4 @@
-import { changeFilterQuery } from '@vue-storefront/core/modules/catalog-next/store/category/logic/categoryLogic';
+import { changeFilterQuery } from '@vue-storefront/core/modules/catalog-next/helpers/filterHelpers';
 import FilterVariant from '@vue-storefront/core/modules/catalog-next/types/FilterVariant';
 
 describe('changeFilterQuery method', () => {
