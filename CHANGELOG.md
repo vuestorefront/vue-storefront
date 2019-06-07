@@ -47,6 +47,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed ios input zoom on category page - @victorkadup (#2815)
 - Fixed Load more in Search Results not working when typed to fast - @Flyingmana (#2659, #2946)
 - Subscribe button responsive - @exlo89, @webdiver, @przemyslawspaczek (#2886)
+- Multiple instances for searchAdapter invocations - @bratok (#2960)
+- Fix sortBy for the category page - @Jensderond (#2868)
 
 ### Changed / Improved
 - Changed the way to access the configuration. Currently the `rootStore.state.config` is deprecated. Please do use the `import config from 'config'` > `config` instead - @pkarw (#2649)
