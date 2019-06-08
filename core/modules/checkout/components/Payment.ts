@@ -141,7 +141,9 @@ export const Payment = {
         this.copyShippingToBillingAddress()
         this.sendToBillingAddress = false
         this.generateInvoice = false
-      } else {
+      }
+
+      if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
         this.payment = this.$store.state.checkout.paymentDetails
         this.generateInvoice = false
       }
@@ -184,7 +186,9 @@ export const Payment = {
           }
         }
         this.sendToShippingAddress = false
-      } else {
+      }
+
+      if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
         this.payment = this.$store.state.checkout.paymentDetails
         this.generateInvoice = false
       }
