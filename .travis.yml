@@ -12,17 +12,17 @@ install:
 jobs:
   include:
     - &build
-    - stage: Build
+      stage: Build
       script:
         - yarn lint
         - yarn build
       node_js: "10"
 
     - <<: *build
-        node_js: '8'
+      node_js: '8'
 
     - &unit
-    - stage: Tests
+      stage: Tests
       script: yarn test:unit
       name: "Unit Tests"
       node_js: "10"
@@ -31,7 +31,7 @@ jobs:
       node_js: "8"
 
     - &installer
-    - script: yarn installer:ci
+      script: yarn installer:ci
       name: "Installer test"
       if: branch IN (master, develop)
       node_js: "10"
