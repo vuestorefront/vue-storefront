@@ -22,19 +22,19 @@ jobs:
       node_js: '8'
 
     - &unit
-      stage: Tests
+      stage: Test
       script: yarn test:unit
-      name: "NodeJS 10 unit Tests"
+      name: "NodeJS 10 unit tests"
       node_js: "10"
 
     - <<: *unit
-      name: "NodeJS 8 unit Tests"
+      name: "NodeJS 8 unit tests"
       node_js: "8"
 
     - &installer
       script: yarn installer:ci
       name: "NodeJS 10 installer test"
-      if: branch IN (master, develop, feature/refactor-travis)
+      if: branch IN (master, develop)
       node_js: "10"
       addons:
         chrome: stable
