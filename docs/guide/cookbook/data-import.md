@@ -2,15 +2,15 @@
 
 In this chapter, we will cover : 
 - [Introduction](#_0-introduction)
-- [Data Migration for Elasticsearch](#_1-data-migration-for-elasticsearch)
-- [Data pump](#_2-data-pump)
+- [Data Mapping Migration for Elasticsearch](#_1-data-migration-for-elasticsearch)
+- [Data Pump](#_2-data-pump)
 - [Data imports and tools](#_3-data-imports-and-tools)
 ## 0. Introduction
 When you decide to migrate your web store to Vue Storefront, the first thing you need to do is filling the store (Elasticsearch) with data. This chapter deals with all the hassles related to data migration for Vue Storefront. 
 <br />
 <br />
 
-## 1. Data Migration for Elasticsearch
+## 1. Data Mapping Migration for Elasticsearch
 
 Vue Storefront uses Elasticsearch as a primary data store. Additionally Vue Storefront uses Redis for a cache layer and Kue for queue processing. 
 Although all these data stores are basically schema-free, some mappings and meta data should be imported for setting Elasticsearch indices and so forth. 
@@ -19,7 +19,8 @@ Vue Storefront uses a data-migration mechanism based on [node-migrate](https://g
 
 ### 1. Preparation
 You need a [Vue Storefront API](https://github.com/DivanteLtd/vue-storefront-api) instance [installed](setup.html) on your machine to run the migration. <br />
-You need an Elasticsearch instance  [running](setup.html) into which the data will be migrated
+You need an Elasticsearch instance  [running](setup.html) into which the data will be migrated.
+
 ### 2. Recipe
 1. Run a node script from **Vue Storefront API root path** which is configured out of the box.
 ```bash
@@ -70,7 +71,7 @@ File '/home/dex/code/vue/vue-backend/config/local.json' updated.
   migration : complete
   
 ```
-You may also watch it in [bash playback](https://asciinema.org/a/C9z7daIJAog0xPhNlzwoHhBl4)
+:vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/C9z7daIJAog0xPhNlzwoHhBl4)
 
 3. In order to verify whether mapping is successfully done or not, you may send a `curl` request against Elasticsearch API as follows : 
 ```bash
@@ -367,7 +368,7 @@ Please replace `http://localhost:9200` with your Elasticsearch endpoint if you c
 
 ### 3. Peep into the kitchen (what happens internally) 
 ![architecture-data-import-part](../images/GitHub-Architecture-VS-data-import.png)
-We worked on the part in the red rectangle of the architecture as a preparation for data import. 
+We worked in the red rectangle part of the architecture as a preparation for data import. 
 
 What we did in a simple term, we taught Elasticsearch types and sorts of data(mapping, also known as schema) we will use for Vue Storefront API later on. 
 
@@ -379,19 +380,19 @@ Upon running `npm run migrate`, it runs the pre-configured [migration scripts](h
   Now, you are all set to proceed to pump your data into the store. 
   
 ### 4. Chef's secret (protip)
-#### Deal with `index not found exception` 
+#### Tip 1. Deal with `index not found exception` 
 If you encountered with the exception as follows during the migration script :
 
 ![index_not_found_exception](../images/sss.png)
 
-It means you don't have the temporary index `vue_storefront_caalog_temp` which is required. 
+It means you don't have the temporary index `vue_storefront_catalog_temp` which is required. 
 Solution is :
 ```bash
 npm run restore
 ```
 This will create the necessary temporary index, then the necessary temp index will be deleted by the steps mentioned [above](#_3-peep-into-the-kitchen-what-happens-internally) when the migration is finished
 
-#### Add a new migration script
+#### Tip 2. Add a new migration script
 You might need to write your own migration script. In that case, you can do so by adding a file under the `./migrations` directory though this is not a recommended way. `node-migrate` provides you with the cli command for the purpose as follows : 
 ```bash
 npm run migrate create name-of-migration
@@ -438,7 +439,7 @@ module.exports.down = function(next) {
 };
 ```
 
-#### Execute migration multiple times
+#### Tip 3. Execute migration multiple times
 If you run a migration multiple times using `npm run migrate`, it will only run the migration once and subsequent execution will be ignored and only repeat the result as follows :
 
 ![migration complete](../images/npm-run-migrate-result.png)
@@ -450,12 +451,308 @@ This happens because `node-migrate` knows it was already executed before by chec
 <br />
 
 
-## 2. Data pump
+## 2. Data Pump
+A retail business can't start without stocking products in the shop in the first place. Likewise, starting an online shop business requires products in stock online (data store) too. 
+
+Starting Vue Storefront is not an exception. We need to pump your data (products, categories, tax rules and so on) into the primary data store for Vue Storefront which is Elasticsearch. We also use Redis cache in between for enhancing performance.  
+
+By using Elasticsearch as a data store in the architecture, we could make the platform backend-agnostic along with many other advantages such as performance and scalability.  
+
+In this recipe we will walk you with **Magento 2** example. 
+
 ### 1. Preparation
-We need 
-### 2. Recipe
+You need a [Vue Storefront API]() instance [installed]() for backend.
+<br />
+You need an Elasticsearch instance [running](/guide/cookbook/setup.html#coming-soon) with mapping is done as in [*Recipe 1 Data Mapping Migration for Elasticsearch*](#_1-data-mapping-migration-for-elasticsearch)
+<br />
+You need [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) downloaded for data bridge. This instance is backend-dependant (in this case, Magento 2), you may replace it with other data bridges such as [coreshop-vsbridge](https://github.com/DivanteLtd/coreshop-vsbridge), [shopware2vuestorefront](https://github.com/DivanteLtd/shopware2vuestorefront) to your advantage. 
+<br />
+Finally, you need a Magento 2 instance as a data source to pump your data from. (For [Recipe B](#_2-2-recipe-b-using-on-premise) only)
+
+We are going to import entities as follows : 
+- Products
+- Categories
+- Taxrules
+- Attributes
+- Product-to-categories
+- Reviews (require custom module [Divante/ReviewApi](https://github.com/DivanteLtd/magento2-review-api))
+- Cms Blocks & Pages (require custom module [SnowdogApps/magento2-cms-api](https://github.com/SnowdogApps/magento2-cms-api))
+
+### 2-1. Recipe A (Using Demo)
+Going with Demo data you can quickly experience the whole itinerary. If you want to work with your original data right away, look to [Recipe B](#_2-2-recipe-b-using-on-premise)
+1. Start with npm install from **mage2vuestorefront root path** which installs dependencies for the project. 
+```bash
+npm install
+```
+
+2. Set required options by setting config values or ENV variables. 
+```bash
+export TIME_TO_EXIT=2000
+export MAGENTO_CONSUMER_KEY=byv3730rhoulpopcq64don8ukb8lf2gq
+export MAGENTO_CONSUMER_SECRET=u9q4fcobv7vfx9td80oupa6uhexc27rb
+export MAGENTO_ACCESS_TOKEN=040xx3qy7s0j28o3q0exrfop579cy20m
+export MAGENTO_ACCESS_TOKEN_SECRET=7qunl3p505rubmr7u1ijt7odyialnih9
+
+echo 'Default store - in our case United States / en'
+export MAGENTO_URL=http://demo-magento2.vuestorefront.io/rest
+export INDEX_NAME=vue_storefront_catalog
+```
+What this means is explained in more detail at the same step of [Recipe B](#_2-2-recipe-b-using-on-premise).
+
+3. Run the following command to import categories from demo store at `mage2vuestorefront/src`:
+```bash
+node --harmony cli.js categories --removeNonExistent=true
+```
+:vhs: You may watch the result in [bash playback :movie_camera:](https://asciinema.org/a/75MTwaet3IO3vOCdDyCVOAgqL)
+
+Run the following commands to finish the pumping : 
+
+```bash
+node --harmony cli.js productcategories
+node --harmony cli.js attributes --removeNonExistent=true
+node --harmony cli.js taxrule --removeNonExistent=true
+node --harmony cli.js products --removeNonExistent=true --partitions=1
+node --harmony cli.js reviews
+node --harmony cli.js blocks
+node --harmony cli.js pages
+```
+### 2-2. Recipe B (Using On-premise)
+1. Start with npm install from **mage2vuestorefront root path** which installs dependencies for the project. 
+```bash
+npm install
+```
+<style>
+img[alt*="data_pump"] {
+   border: 1px #000 solid;
+}
+</style>
+2. Get a Magento Integration credentials by following these steps :
+
+- Login to your data pump source **Admin** and go to **Extensions** > **Integrations** as follows :
+
+![data_pump_1](../images/data_pump_1.png)
+
+- Click **Add New Integration** button in as follows : 
+
+![data_pump_2](../images/data_pump_2.png)
+
+- Populate fields as you need it in the following :
+ 
+![data_pump_3](../images/data_pump_3.png)
+
+- Click **API** tab in the left sidebar. This screen lets you pick which API endpoint you will allow for this integration :  
+
+![data_pump_6](../images/data_pump_6.png)
+
+- If you are not sure, select *All* in **Resource Access** as follows :
+
+![data_pump_7](../images/data_pump_7.png)
+
+- Click **Save** from previous screen will get you following screen :
+
+![data_pump_5](../images/data_pump_5.png)
+
+- In the previous screen, we successfully created an integration credentials, yet another step needs to be done in there, which is **Activate** button to click that will take you to the following screen :
+ 
+![data_pump_8](../images/data_pump_8.png)
+
+- This screen asks you to confirm endpoints that you want to grant for the integration. If you are OK with it, you are good to click **Allow**.
+
+![data_pump_9](../images/data_pump_9.png)
+
+- Then the application will prompt you with newly created tokens for your integration. Copy them, we will use them next step.
+
+3. Set required options by setting config values or ENV variables using the credentials acquired during the previous step.
+```bash
+export TIME_TO_EXIT=2000
+export MAGENTO_CONSUMER_KEY=lv1unkldzkcex68l3eojut4j66qqho8w
+export MAGENTO_CONSUMER_SECRET=zhkuqvweo0bsg14noujqje49x3wht0qr
+export MAGENTO_ACCESS_TOKEN=z6ftgc5005212bc6lnszxa7d7ocl8hgc
+export MAGENTO_ACCESS_TOKEN_SECRET=h8tikjq9sz7tqm6hyhdfgs96krb6qzyk
+
+echo 'Default store - in our case United States / en'
+export MAGENTO_URL=http://local.magento/rest # Replace the url with your Magento 2 URL
+export INDEX_NAME=vue_storefront_catalog # This will be the name of the index we use
+```
+:::tip Note
+- **Access Token** and **Access Token Secret** may change over time since they are created by a request made with **Consumer Key** and **Consumer Secret**. 
+- Replace *http://local.magento/*  with the URL on which your Magento 2 is running. 
+:::
+
+4. Now is the time for data import. Run the following command at **`mage2vuestorefront/src`** :
+
+```bash
+node --harmony cli.js categories --removeNonExistent=true
+```
+
+Successful result shows as follows : 
+```bash
+2019-06-09T05:43:23.330Z - debug: Elasticsearch module initialized!
+info: Winston logging library initialized.
+2019-06-09T05:43:23.402Z - info: Connected correctly to server
+2019-06-09T05:43:23.402Z - info: TRANSACTION KEY = 1560059003367
+debug: Calling API endpoint: GET http://local.magento/rest/V1/categories
+debug: Response received.
+Dest. cat path =  default-category-2
+debug: Calling API endpoint: GET http://local.magento/rest/V1/categories/2
+debug: Response received.
+Dest. cat path =  default-category-2
+2019-06-09T05:43:24.042Z - debug: Storing extended category data to cache under: vue_storefront_catalog_cat_2
+debug: Calling API endpoint: GET http://local.magento/rest/V1/categories/44
+debug: Calling API endpoint: GET http://local.magento/rest/V1/categories/29
+debug: Calling API endpoint: GET http://local.magento/rest/V1/categories/30
+debug: Calling API endpoint: GET http://local.magento/rest/V1/categories/31
+debug: Calling API endpoint: GET http://local.magento/rest/V1/categories/32
+
+... # abridged
+
+debug: Response received.
+Dest. cat path =  women/bottoms-women/shorts-women/shorts-34
+2019-06-09T05:44:32.360Z - debug: Storing extended category data to cache under: vue_storefront_catalog_cat_34
+2019-06-09T05:44:32.360Z - info: Importing 1 of 2 - [(34) Shorts] with tsk = 1560059042304
+2019-06-09T05:44:32.360Z - info: Tasks count = 0
+2019-06-09T05:44:32.361Z - info: No tasks to process. All records processed!
+2019-06-09T05:44:32.361Z - info: Cleaning up with tsk = 1560059042304
+2019-06-09T05:44:32.363Z - info: Task done! Exiting in 30s...
+2019-06-09T05:44:32.380Z - info:  
+{ took: 10,
+  timed_out: false,
+  total: 13,
+  deleted: 0,
+  batches: 1,
+  version_conflicts: 13,
+  noops: 0,
+  retries: { bulk: 0, search: 0 },
+  throttled_millis: 0,
+  requests_per_second: -1,
+  throttled_until_millis: 0,
+  failures: [] }
+```
+
+:vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/BnDQONQSs3WSVvh0SUjHRJeNo)
+
+:::tip Note
+- `--removeNonExistent` option means all records that were found in the index but currently don't exist in the API feed will be removed. Please use this option **ONLY** for the full reindex!
+- `--harmony` flag means we are enabling of cutting-edge ECMAScript 6, staged features because we need it. [more info](https://nodejs.org/en/docs/es6/)
+
+:::
+
+
+5. In order to verify it was imported as planned, please run the command as follows :
+
+```bash
+curl -XGET "http://localhost:9200/vue_storefront_catalog/_search?pretty=true" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "terms": {
+      "_type": [ "category" ] 
+    }
+  }
+}'
+```
+
+:::tip Note
+The index name we set in ENV variables above at the step 3 is used in the command as : `http://localhost:9200/`**vue_storefront_catalog**`/_search?pretty=true` 
+:::
+
+A successful result will be something like this :
+```bash
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 5,
+    "successful" : 5,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 39,
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "vue_storefront_catalog_1559623128",
+        "_type" : "category",
+        "_id" : "44",
+        "_score" : 1.0,
+        "_source" : {
+          "id" : 44,
+          "parent_id" : 2,
+          "name" : "What's New",
+          "is_active" : true,
+          "position" : 1,
+          "level" : 2,
+          "product_count" : 0,
+          "children_data" : [ ],
+          "children" : "",
+          "created_at" : "2019-05-21 09:04:41",
+          "updated_at" : "2019-05-21 09:04:41",
+          "path" : "1/2/44",
+          "available_sort_by" : [ ],
+          "include_in_menu" : true,
+          "display_mode" : "PAGE",
+          "is_anchor" : "0",
+          "children_count" : "0",
+          "url_key" : "whats-new-44",
+          "url_path" : "what-is-new/whats-new-44",
+          "slug" : "whats-new-44",
+          "tsk" : 1560059042304
+        }
+      },
+
+    ... # abridged
+```
+Now import other remaining entities in the same fashion : 
+
+```bash
+node --harmony cli.js productcategories
+node --harmony cli.js attributes --removeNonExistent=true
+node --harmony cli.js taxrule --removeNonExistent=true
+node --harmony cli.js products --removeNonExistent=true --partitions=1
+```
+
+:::tip Note
+`--partitions=1` flag denotes parallel mode. Value set here will become the process count. Thus, *1* means single process mode. 
+:::
+
+6. In order to import `reviews` and `cms`, we need to install additional Magento 2 modules, so that we can expose required API. 
+
+Download and install [Review API module](https://github.com/DivanteLtd/magento2-review-api) and run the following : 
+```bash
+node --harmony cli.js reviews
+```
+Download and install [CMS API module](https://github.com/SnowdogApps/magento2-cms-api) and run the following : 
+```bash
+node --harmony cli.js blocks
+node --harmony cli.js pages
+```
+
 ### 3. Peep into the kitchen (what happens internally) 
+![data_pump_design](../images/datum_pump_design.png)
+We worked in the red rectangle part of the architecture as pumping the data.
+
+During the recipe we imported the source data from Magento 2 into Elasticsearch as a data store  which could make the platform backend-agnostic along with many other advantages such as performance, scalability, and more than anything, PWA. 
+
+We started with demo data pump. [Divante Ltd.](https://vuestorefront.io/) prepared demo store for demonstration purpose so that we could quickly learn the process of data pump. 
+
+Recipe B started creating an integration entry in Magento 2 Admin in order to grant a permission for data pump. Magento 2 asks you basic information with respect to the integration including ACL(access control list) that deals with permissions by each endpoint. Once you are done, Magento 2 will present you with credentials and tokens. 
+
+Providing those credentials in config file, or in this case we set ENV variables, allows the [`src/cli.js`](https://github.com/DivanteLtd/mage2vuestorefront/blob/master/src/cli.js) script file to run the pumping. In a deeper look into [`src/cli.js`](https://github.com/DivanteLtd/mage2vuestorefront/blob/master/src/cli.js), you will notice functions that handle each entity. Inside the function, there is a [`factory`](https://github.com/DivanteLtd/mage2vuestorefront/blob/master/src/adapters/factory.js) method that takes an `adapter` injected as a parameter - in this recipe, it was `magento` - which represents a backend type of data source, and the other parameter is `driver` which represents entity type you are importing, say, `products`. There is another `adapter` whose name is `nosql` which is Elasticsearch. The ultimate pump logic locates [`abstract`](https://github.com/DivanteLtd/mage2vuestorefront/blob/master/src/adapters/abstract.js) that loads `nosql` as `db` at `constructor` and executes `run` method with individual logic inherited within. You may find individual `drivers` for `magento adapter` in [`magento`](https://github.com/DivanteLtd/mage2vuestorefront/tree/master/src/adapters/magento) folder.
+
+Now, you are ready to serve your **Vue Storefront** instance with your original products! 
+
 ### 4. Chef's secret (protip)
+#### Tip 1. Product image is not synced
+
+#### Tip 2. Taking advantage of Delta Indexer
+
+#### Tip 3. When you have imported multiple data source
+
+#### Tip 4. Dealing with `version_conflict_engine_exception` 
+
+#### Tip 5. Options available for `cli.js`
+
+<!-- #### Tip 6. How to switch data source -->
 
 <br />
 <br />
