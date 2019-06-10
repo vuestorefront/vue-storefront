@@ -149,6 +149,13 @@ export default {
     onBottomScroll () {
       this.pullMoreProducts()
     },
+    bottomVisible () {
+      const scrollY = Math.ceil(window.scrollY)
+      const visible = window.innerHeight
+      const pageHeight = document.documentElement.scrollHeight
+      const bottomOfPage = visible + scrollY >= pageHeight
+      return bottomOfPage || pageHeight < visible
+    },
     pullMoreProducts () {
       if (typeof navigator !== 'undefined' && !navigator.onLine) return
       let current = this.getCurrentCategoryProductQuery.current + this.getCurrentCategoryProductQuery.perPage

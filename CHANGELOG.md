@@ -86,6 +86,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Extra space if not found products in everything new section home page - @cnviradiya (#2846)
 - Load custom fonts without webfont.js - @jahvi (#2944)
 - Added some structured data to product page - @cewald (#2910)
+- Refactored Travis config @Tjitse-E (#3035)
+
+## [1.9.2] - 2019.06.10
+
+### Fixed
+- Instant Checkout visible on  Safari - @przspa (#2991)
+- Search Sidebar on Safari - @przspa (#2990)
+- Country label style - @przspa (#2989)
+- BaseInputNumber for qty of the product in the cart can change by using arrows - @przspa (#2988)
+- Category load depending on zoom level - @przspa (#2704)
+- Add yarn.lock to dockerfile build - @Flyingmana (#3006)
+- Inconsistent behaviour of picture slider on PDP - @przspa (#2757)
 
 ## [1.9.1] - 2019.05.27
 

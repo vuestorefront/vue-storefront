@@ -76,7 +76,9 @@ export default {
   },
   data () {
     return {
+      carouselTransition: true,
       carouselTransitionSpeed: 0,
+      currentColor: 0,
       currentPage: 0,
       hideImageAtIndex: null
     }
@@ -88,16 +90,10 @@ export default {
   },
   mounted () {
     this.selectVariant()
-    if (this.$refs.carousel) {
-      let navigation = this.$refs.carousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')
-      let pagination = this.$refs.carousel.$children.find(c => c.$el.className === 'VueCarousel-pagination')
-      if (navigation !== undefined) {
-        navigation.$on('navigationclick', this.increaseCarouselTransitionSpeed)
-      }
-      if (pagination !== undefined) {
-        pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed)
-      }
-    }
+
+    const {color} = this.configuration
+    this.currentColor = color.id
+
     this.$emit('loaded')
   },
   beforeDestroy () {
@@ -128,10 +124,18 @@ export default {
       const currentSlide = this.$refs.carousel.currentPage
       this.$emit('toggle', currentSlide)
     },
-    increaseCarouselTransitionSpeed () {
-      this.carouselTransitionSpeed = 500
+    switchCarouselSpeed () {
+      const {color} = this.configuration
+      if (color && this.currentColor !== color.id) {
+        this.currentColor = color.id
+        this.carouselTransitionSpeed = 0
+      } else {
+        this.carouselTransitionSpeed = 500
+      }
     },
     pageChange (index) {
+      this.switchCarouselSpeed()
+
       this.currentPage = index
       this.hideImageAtIndex = null
     },
