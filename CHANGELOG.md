@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
 - Added linting for typescript files @ResuBaka (#2843)
 - Added back to top functionality - @vishal-7037 (#2866)
-- Button for filters acceptance added with new styles for clear filters button - @965750 (#2811)
+- Button for filters acceptance added with new styles for clear filters button with clear icon - @965750 (#2811)
 - Added "Clear wishlist" button - @aniamusial (#2806)
 - Make all links with the primary color - @hackbard (#2932)
 - Remembering last search query - @webdiver, @patzick (#2787)
@@ -47,6 +47,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed ios input zoom on category page - @victorkadup (#2815)
 - Fixed Load more in Search Results not working when typed to fast - @Flyingmana (#2659, #2946)
 - Subscribe button responsive - @exlo89, @webdiver, @przemyslawspaczek (#2886)
+- Multiple instances for searchAdapter invocations - @bratok (#2960)
+- Fixed issue with login popup state not resetting on mobile devices - @aniamusial (#2699)
+- Fix sortBy for the category page - @Jensderond (#2868)
 
 ### Changed / Improved
 - Changed the way to access the configuration. Currently the `rootStore.state.config` is deprecated. Please do use the `import config from 'config'` > `config` instead - @pkarw (#2649)

@@ -85,13 +85,9 @@ export default {
       mobileFilters: false
     }
   },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
-    return new Promise((resolve, reject) => {
-      store.dispatch('category/mergeSearchOptions', { // this is just an example how can you modify the search criteria in child components
-        sort: 'updated_at:desc'
-        // searchProductQuery: builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }) // this is an example on how to modify the ES query, please take a look at the @vue-storefront/core/helpers for refernce on how to build valid query
-      })
-      resolve()
+  async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
+    await store.dispatch('category/mergeSearchOptions', { // this is just an example how can you modify the search criteria in child components
+      // searchProductQuery: builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }) // this is an example on how to modify the ES query, please take a look at the @vue-storefront/core/helpers for refernce on how to build valid query
     })
   },
   methods: {
