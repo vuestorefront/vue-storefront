@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810) 
 - OrderNumber on ThankYouPage - @Flyingmana (#2743)
 - Extracted ProductImage component to support faster images loading - @przemyslawspaczek (#2925)
+- Improve performace with preventing render 404 page on the server side if some of static content is missed, simple 404 response uses instead - [PHOENIX MEDIA](https://www.phoenix-media.eu/) - Yuri Boyko @yuriboyko, Anton Lobodenko @sniffy1988 (#3002)
 
 ### Fixed
 - Products removed from the cart are no longer add back on the conectivity return - @pkarw (#2898)
@@ -100,9 +101,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Inconsistent behaviour of picture slider on PDP - @przspa (#2757)
 
 ## [1.9.1] - 2019.05.27
-
-### Added
-- Improve performace with preventing render 404 page on the server side if some of static content is missed, simple 404 response uses instead - #3002 - Yuri Boyko @yuriboyko, Anton Lobodenko @sniffy1988 => [PHOENIX MEDIA](https://www.phoenix-media.eu/)
 
 ### Fixed
 - Remove security vulnerabilities by updating project dependencies - @patzick (#2942)
