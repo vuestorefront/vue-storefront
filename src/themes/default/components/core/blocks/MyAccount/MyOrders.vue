@@ -25,7 +25,7 @@
           </thead>
           <tbody>
             <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="order in ordersHistory" :key="order.entity_id">
-              <td class="fs-medium lh25">{{ order.entity_id }}</td>
+              <td class="fs-medium lh25">#{{ order.increment_id }}</td>
               <td class="fs-medium lh25 hide-on-xs">{{ order.created_at | date }}</td>
               <td class="fs-medium lh25 hide-on-xs">{{ order.customer_firstname }} {{ order.customer_lastname }}</td>
               <td class="fs-medium lh25 hide-on-xs">{{ order.grand_total | price }}</td>
@@ -55,10 +55,10 @@
 </template>
 
 <script>
-import MyOrders from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrders'
+import UserOrder from 'src/modules/order-history/components/UserOrders'
 
 export default {
-  mixins: [MyOrders]
+  mixins: [UserOrder]
 }
 </script>
 

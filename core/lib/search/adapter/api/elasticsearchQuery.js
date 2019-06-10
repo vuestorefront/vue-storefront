@@ -7,7 +7,7 @@ import config from 'config'
 
 export async function prepareElasticsearchQueryBody (searchQuery) {
   const bodybuilder = await import(/* webpackChunkName: "bodybuilder" */ 'bodybuilder')
-  const optionsPrfeix = '_options'
+  const optionsPrefix = '_options'
   const queryText = searchQuery.getSearchText()
   const rangeOperators = ['gt', 'lt', 'gte', 'lte', 'moreq', 'from', 'to']
   let query = bodybuilder.default()
@@ -69,7 +69,7 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
 
     if (hasCatalogFilters) {
       query = query.orFilter('bool', (b) => attrFilterBuilder(b))
-        .orFilter('bool', (b) => attrFilterBuilder(b, optionsPrfeix).filter('match', 'type_id', 'configurable')) // the queries can vary based on the product type
+        .orFilter('bool', (b) => attrFilterBuilder(b, optionsPrefix).filter('match', 'type_id', 'configurable')) // the queries can vary based on the product type
     }
   }
 
@@ -81,17 +81,10 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
         if (attrToFilter.field !== 'price') {
           let aggregationSize = { size: config.products.filterAggregationSize[attrToFilter.field] || config.products.filterAggregationSize.default }
           query = query.aggregation('terms', getMapping(attrToFilter.field), aggregationSize)
-          query = query.aggregation('terms', attrToFilter.field + optionsPrfeix, aggregationSize)
+          query = query.aggregation('terms', attrToFilter.field + optionsPrefix, aggregationSize)
         } else {
           query = query.aggregation('terms', attrToFilter.field)
-          query.aggregation('range', 'price', {
-            ranges: [
-              { from: 0, to: 50 },
-              { from: 50, to: 100 },
-              { from: 100, to: 150 },
-              { from: 150 }
-            ]
-          })
+          query.aggregation('range', 'price', config.products.priceFilters)
         }
       }
     }
@@ -120,6 +113,10 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
     }
   }
   const queryBody = query.build()
+
+  if (searchQuery.suggest) {
+    queryBody.suggest = searchQuery.suggest
+  }
 
   return queryBody
 }

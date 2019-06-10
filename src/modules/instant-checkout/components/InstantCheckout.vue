@@ -48,7 +48,7 @@ export default {
       this.$store.state.cart.cartItems.forEach(product => {
         bucket.push({
           label: product.name,
-          amount: { currency: storeView.i18n.currencyCode, value: product.priceInclTax }
+          amount: { currency: storeView.i18n.currencyCode, value: (product.qty * product.priceInclTax) }
         })
       })
 

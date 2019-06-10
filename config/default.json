@@ -26,9 +26,9 @@
     },
     "seo": {
       "useUrlDispatcher": true
-    },    
+    },
     "console": {
-      "showErrorOnProduction" : true,
+      "showErrorOnProduction" : false,
       "verbosityLevel": "display-everything"
     },
     "redis": {
@@ -62,9 +62,9 @@
         "cutoff_frequency":  0.01,
         "max_expansions": 3,
         "minimum_should_match": "75%",
-        "prefix_length": 2, 
+        "prefix_length": 2,
         "boost_mode": "multiply",
-        "score_mode": "multiply", 
+        "score_mode": "multiply",
         "max_boost": 100,
         "function_min_score": 1
       },
@@ -166,7 +166,7 @@
         "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices", "frontend_input" ]
       },
       "productList": {
-        "sort": "",
+        "sort": "updated_at:desc",
         "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_path", "url_key", "status", "tier_prices", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax" ],
         "excludeFields": [ "description", "configurable_options", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options" ]
       },
@@ -288,7 +288,6 @@
         "Price: High to low":"final_price:desc"
       },
       "gallery": {
-        "variantsGroupAttribute": "color",
         "mergeConfigurableChildren": true,
         "imageAttributes": ["image","thumbnail","small_image"],
         "width": 600,
@@ -298,6 +297,14 @@
         "default": 10,
         "size": 10,
         "color": 10
+      },
+      "priceFilters": {
+        "ranges": [
+          { "from": 0, "to": 50 },
+          { "from": 50, "to": 100 },
+          { "from": 100, "to": 150 },
+          { "from": 150 }
+        ]
       }
     },
     "orders": {
@@ -394,7 +401,7 @@
       "fullLanguageName": "English",
       "bundleAllStoreviewLanguages": true
     },
-    "mailchimp": {
+    "newsletter": {
       "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
     },
     "mailer": {
@@ -408,6 +415,10 @@
     "theme": "@vue-storefront/theme-default",
     "analytics": {
       "id": false
+    },
+    "googleTagManager": {
+      "id": false,
+      "debug": true
     },
     "hotjar": {
       "id": false

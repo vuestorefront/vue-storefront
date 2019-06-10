@@ -37,7 +37,6 @@
             class="col-xs-12 mb15"
             id="sendToShippingAddressCheckbox"
             v-model="sendToShippingAddress"
-            @click="useShippingAddress"
             v-if="!isVirtualCart"
           >
             {{ $t('Copy address data from shipping') }}
@@ -48,7 +47,6 @@
             class="col-xs-12 mb15"
             id="sendToBillingAddressCheckbox"
             v-model="sendToBillingAddress"
-            @click="useBillingAddress"
           >
             {{ $t('Use my billing data') }}
           </base-checkbox>
@@ -189,7 +187,6 @@
             class="col-xs-12 mb15"
             id="generateInvoiceCheckbox"
             v-model="generateInvoice"
-            @click="useGenerateInvoice"
           >
             {{ $t('I want to generate an invoice for the company') }}
           </base-checkbox>
