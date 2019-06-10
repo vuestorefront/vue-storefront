@@ -145,7 +145,7 @@ export default {
 
 .searchpanel {
   height: 100vh;
-  width: 928px;
+  width: 800px;
   top: 0;
   right: 0;
   z-index: 3;
