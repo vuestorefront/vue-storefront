@@ -30,7 +30,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/no-var-requires': 0,
     'handle-callback-err': 1,
-    'prefer-promise-reject-errors': 1,
+    'prefer-promise-reject-errors': 0,
     'import/no-duplicates': ['warning'],
     'vue/return-in-computed-property': 1,
     'vue/no-use-v-if-with-v-for': 0,

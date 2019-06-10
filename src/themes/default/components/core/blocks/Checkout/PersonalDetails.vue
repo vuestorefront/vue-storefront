@@ -224,14 +224,12 @@ import { PersonalDetails } from '@vue-storefront/core/modules/checkout/component
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
-import Modal from 'theme/components/core/Modal'
 import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
   components: {
     ButtonFull,
     Tooltip,
-    Modal,
     BaseCheckbox,
     BaseInput
   },

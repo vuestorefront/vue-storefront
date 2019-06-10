@@ -116,15 +116,13 @@ import ButtonFull from 'theme/components/theme/ButtonFull'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import Modal from 'theme/components/core/Modal'
 import { OrderReview } from '@vue-storefront/core/modules/checkout/components/OrderReview'
-import ValidationError from 'theme/components/core/ValidationError'
 
 export default {
   components: {
     BaseCheckbox,
     ButtonFull,
     CartSummary,
-    Modal,
-    ValidationError
+    Modal
   },
   mixins: [OrderReview, Composite],
   validations: {

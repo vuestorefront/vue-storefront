@@ -30,6 +30,33 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
   }
 }
 
+export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
+  let selectedVariant = product.configurable_children.find((configurableChild) => {
+    if (availabilityCheck) {
+      if (configurableChild.stock && !config.products.listOutOfStockProducts) {
+        if (!configurableChild.stock.is_in_stock) {
+          return false
+        }
+      }
+    }
+    if (configurableChild.status >= 2/** disabled product */) {
+      return false
+    }
+    if (selectDefaultChildren) {
+      return true // return first
+    }
+    if (configuration.sku) {
+      return configurableChild.sku === configuration.sku // by sku or first one
+    } else {
+      return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
+        if (!configuration[configProperty] || typeof configuration[configProperty].id === 'undefined') return true // skip empty
+        return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
+      })
+    }
+  })
+  return selectedVariant
+}
+
 export function isOptionAvailableAsync (context, { product, configuration }) {
   const variant = findConfigurableChildAsync({ product: product, configuration: configuration, availabilityCheck: true })
   return typeof variant !== 'undefined' && variant !== null
@@ -72,6 +99,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
           context.state.current_options[optionKey] = optionsAvailable
         }
       }
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
       if (totalOptions === 0) {
         product.errors.variants = i18n.t('No available product variants')
@@ -416,33 +444,6 @@ export function populateProductConfigurationAsync (context, { product, selectedV
   return selectedVariant
 }
 
-export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
-  let selectedVariant = product.configurable_children.find((configurableChild) => {
-    if (availabilityCheck) {
-      if (configurableChild.stock && !config.products.listOutOfStockProducts) {
-        if (!configurableChild.stock.is_in_stock) {
-          return false
-        }
-      }
-    }
-    if (configurableChild.status >= 2/** disabled product */) {
-      return false
-    }
-    if (selectDefaultChildren) {
-      return true // return first
-    }
-    if (configuration.sku) {
-      return configurableChild.sku === configuration.sku // by sku or first one
-    } else {
-      return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
-        if (!configuration[configProperty] || typeof configuration[configProperty].id === 'undefined') return true // skip empty
-        return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
-      })
-    }
-  })
-  return selectedVariant
-}
-
 export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true, setProductErorrs = false }) {
   // use current product if product wasn't passed
   if (product === null) product = context.getters.productCurrent
@@ -548,6 +549,25 @@ export function getMediaGallery (product) {
 }
 
 /**
+ * Get images from configured attribute images
+ */
+export function attributeImages (product) {
+  let attributeImages = []
+  if (config.products.gallery.imageAttributes) {
+    for (let attribute of config.products.gallery.imageAttributes) {
+      if (product[attribute]) {
+        attributeImages.push({
+          'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
+          'loading': getThumbnailPath(product[attribute], 310, 300),
+          'error': getThumbnailPath(product[attribute], 310, 300)
+        })
+      }
+    }
+  }
+  return attributeImages
+}
+
+/**
  * Get configurable_children images from product if any
  * otherwise get attribute images
  */
@@ -570,23 +590,4 @@ export function configurableChildrenImages (product) {
     configurableChildrenImages = attributeImages(product)
   }
   return configurableChildrenImages
-}
-
-/**
- * Get images from configured attribute images
- */
-export function attributeImages (product) {
-  let attributeImages = []
-  if (config.products.gallery.imageAttributes) {
-    for (let attribute of config.products.gallery.imageAttributes) {
-      if (product[attribute]) {
-        attributeImages.push({
-          'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
-          'loading': getThumbnailPath(product[attribute], 310, 300),
-          'error': getThumbnailPath(product[attribute], 310, 300)
-        })
-      }
-    }
-  }
-  return attributeImages
 }

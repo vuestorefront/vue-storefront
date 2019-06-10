@@ -1,4 +1,4 @@
-interface SearchRequest {
+export default interface SearchRequest {
   store: any,
   type: string,
   searchQuery: any,
@@ -9,8 +9,4 @@ interface SearchRequest {
   sort: string,
   _sourceExclude?: string,
   _sourceInclude?: string
-}
-
-export {
-  SearchRequest
 }

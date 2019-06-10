@@ -52,23 +52,13 @@
 import { mapState } from 'vuex'
 import CurrentPage from 'theme/mixins/currentPage'
 import Header from 'theme/components/core//blocks/Header/Header'
-import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
-import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
-import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
 import Logo from 'theme/components/core/Logo'
-import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon'
-import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
 import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
 import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
 
 export default {
   components: {
-    AccountIcon,
-    CompareIcon,
-    HamburgerIcon,
     Logo,
-    MicrocartIcon,
-    ReturnIcon,
     SearchIcon,
     WishlistIcon
   },
