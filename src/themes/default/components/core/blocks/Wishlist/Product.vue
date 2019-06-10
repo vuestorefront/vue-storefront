@@ -2,7 +2,7 @@
   <li class="row pr55 py20">
     <div @click="closeWishlist">
       <router-link :to="localizedRoute({
-        name: 'configurable-product',
+        name: product.type_id + '-product',
         params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
       })">
         <img v-lazy="thumbnail" >
@@ -11,7 +11,7 @@
     <div class="col-xs between-xs flex pl40 py15">
       <div @click="closeWishlist">
         <router-link :to="localizedRoute({
-          name: 'configurable-product',
+          name: product.type_id + '-product',
           params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
         })">
           {{ product.name | htmlDecode }}
