@@ -156,7 +156,7 @@ export default {
   methods: {
     ...mapActions('category', ['mergeSearchOptions']),
     bottomVisible () {
-      const scrollY = window.scrollY
+      const scrollY = Math.ceil(window.scrollY)
       const visible = window.innerHeight
       const pageHeight = document.documentElement.scrollHeight
       const bottomOfPage = visible + scrollY >= pageHeight
