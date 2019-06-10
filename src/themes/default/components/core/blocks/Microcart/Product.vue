@@ -48,7 +48,7 @@
         <base-input-number
           :name="$t('Quantity')"
           :value="product.qty"
-          @blur="updateQuantity"
+          @input="updateQuantity"
           :min="1"
         />
       </div>
