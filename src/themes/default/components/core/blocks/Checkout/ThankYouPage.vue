@@ -20,7 +20,7 @@
             </h3>
             <p v-if="OnlineOnly" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
             <p v-if="OnlineOnly && lastOrderConfirmation" v-html="this.$t('The server order id has been set to ') + lastOrderConfirmation.backendOrderId"/>
-            <p v-if="OnlineOnly" v-html="this.$t('E-mail us at <b>demo@vuestorefront.io</b> with any questions, suggestions how we could improve products or shopping experience')"/>
+            <p v-if="OnlineOnly && lastOrderConfirmation.orderNumber" v-html="this.$t('The OrderNumber is ') + lastOrderConfirmation.orderNumber"/>
 
             <h4 v-if="OfflineOnly">
               {{ $t('You are offline') }}
@@ -39,11 +39,14 @@
                 {{ $t('Allow notification about the order') }}
               </button-outline>
             </p>
+            <p>
+              <button-outline
+                color="dark"
+                @click.native="$router.push('/')">
+                {{ $t('Return to shopping') }}
+              </button-outline>
+            </p>
             <div id="thank-you-extensions"/>
-            <h4>
-              {{ $t('Your Account') }}
-            </h4>
-            <p v-html="this.$t('You can log to your account using e-mail and password defined earlier. On your account you can <b>edit your profile data,</b> check <b>history of transactions,</b> edit <b>subscription to newsletter.</b>')"/>
           </div>
           <div class="col-md-6 bg-cl-secondary thank-you-improvment">
             <h3>
@@ -105,7 +108,7 @@ export default {
       return this.$store.state.checkout.personalDetails.emailAddress
     },
     mailerElements () {
-      return this.$store.state.config.mailer.contactAddress
+      return this.$config.mailer.contactAddress
     }
   },
   methods: {

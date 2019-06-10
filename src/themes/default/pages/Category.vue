@@ -5,7 +5,10 @@
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <div class="row middle-sm">
           <h1 class="col-sm-9 category-title mb10"> {{ category.name }} </h1>
-          <div class="sorting col-sm-3 align-right"><sort-by /></div>
+          <div class="sorting col-sm-3 align-right">
+            <label>{{ $t('Sort by') }}:</label>
+            <sort-by :has-label="true" />
+          </div>
         </div>
       </div>
       <div class="container">
@@ -30,9 +33,18 @@
             <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>
           <sidebar class="mobile-filters-body" :filters="filters.available"/>
+          <div class="relative pb20 pt15">
+            <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
+          </div>
+          <button-full
+            class="mb20 btn__filter"
+            @click.native="closeFilters"
+          >
+            {{ $t('Filter') }}
+          </button-full>
         </div>
-        <p class="col-xs-12 hidden-md m0 px20 cl-secondary">{{ productsTotal }} {{ $t('items') }}</p>
-        <div class="col-md-9 pt20 px10 border-box products-list">
+        <div class="col-md-9 px10 border-box products-list">
+          <p class="col-xs-12 end-md m0 pb20 cl-secondary">{{ productsTotal }} {{ $t('items') }}</p>
           <div v-if="isCategoryEmpty" class="hidden-xs">
             <h4 data-testid="noProductsInfo">{{ $t('No products found!') }}</h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
@@ -50,10 +62,12 @@ import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 // import builder from 'bodybuilder'
 
 export default {
   components: {
+    ButtonFull,
     ProductListing,
     Breadcrumbs,
     Sidebar,
@@ -64,13 +78,10 @@ export default {
       mobileFilters: false
     }
   },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
-    return new Promise((resolve, reject) => {
-      store.dispatch('category/mergeSearchOptions', { // this is just an example how can you modify the search criteria in child components
-        sort: 'updated_at:desc'
-        // searchProductQuery: builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }) // this is an example on how to modify the ES query, please take a look at the @vue-storefront/core/helpers for refernce on how to build valid query
-      })
-      resolve()
+  async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
+    await store.dispatch('category/mergeSearchOptions', { // this is just an example how can you modify the search criteria in child components
+      sort: store.state.config.products.defaultSortBy.attribute + (store.state.config.products.defaultSortBy.order ? ':' + store.state.config.products.defaultSortBy.order : '')
+      // searchProductQuery: builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }) // this is an example on how to modify the ES query, please take a look at the @vue-storefront/core/helpers for refernce on how to build valid query
     })
   },
   methods: {
@@ -93,6 +104,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .btn {
+    &__filter {
+      min-width: 100px;
+    }
+  }
+  .divider {
+    width: calc(100vw - 8px);
+    bottom: 20px;
+    left: -36px;
+  }
   .category-filters {
     width: 242px;
   }
@@ -112,6 +133,12 @@ export default {
 
   .category-title {
     line-height: 65px;
+  }
+
+  .sorting {
+    label {
+      margin-right: 10px;
+    }
   }
 
   @media (max-width: 64em) {

@@ -28,7 +28,7 @@
               @blur="$v.search.$touch()"
               class="search-panel-input"
               :placeholder="$t('Type what you are looking for...')"
-              type="text"
+              type="search"
               autofocus="true"
             >
           </div>
@@ -134,6 +134,10 @@ export default {
     categories () {
       this.selectedCategoryIds = []
     }
+  },
+  mounted () {
+    // add autofocus to search input field
+    this.$refs.search.focus()
   }
 }
 </script>

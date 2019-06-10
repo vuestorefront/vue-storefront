@@ -4,5 +4,5 @@ export default interface PromotedOffersState {
     smallBanners: any[],
     productBanners: any[]
   },
-  headImage: Object
+  headImage: Record<string, any>
 }

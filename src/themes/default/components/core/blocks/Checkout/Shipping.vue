@@ -37,7 +37,6 @@
             v-if="currentUser && hasShippingDetails()"
             class="col-xs-12 mb10"
             id="shipToMyAddressCheckbox"
-            @click="useMyAddress"
             v-model="shipToMyAddress"
           >
             {{ $t('Ship to my default address') }}

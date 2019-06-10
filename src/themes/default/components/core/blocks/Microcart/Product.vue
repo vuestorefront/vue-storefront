@@ -7,9 +7,21 @@
     </div>
     <div class="col-xs flex pl35 py15 start-xs between-sm details">
       <div>
-        <div class="serif h4 name">
+        <router-link
+          class="serif h4 name"
+          :to="localizedRoute({
+            name: product.type_id + '-product',
+            params: {
+              parentSku: product.parentSku ? product.parentSku : product.sku,
+              slug: product.slug,
+              childSku: product.sku
+            }
+          })"
+          data-testid="productLink"
+          @click.native="$store.commit('ui/setMicrocart', false)"
+        >
           {{ product.name | htmlDecode }}
-        </div>
+        </router-link>
         <div class="h6 cl-bg-tertiary pt5 sku" data-testid="productSku">
           {{ product.sku }}
         </div>
@@ -79,7 +91,7 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
 import RemoveButton from './RemoveButton'
@@ -93,7 +105,7 @@ export default {
   mixins: [Product],
   data () {
     return {
-      displayItemDiscounts: rootStore.state.config.cart.displayItemDiscounts
+      displayItemDiscounts: config.cart.displayItemDiscounts
     }
   }
 }

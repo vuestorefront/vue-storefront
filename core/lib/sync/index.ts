@@ -7,6 +7,7 @@ import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 import { currentStoreView } from '../multistore'
 import { isServer } from '@vue-storefront/core/helpers'
+import config from 'config'
 
 /** Syncs given task. If user is offline requiest will be sent to the server after restored connection */
 function queue (task) {
@@ -16,7 +17,7 @@ function queue (task) {
   return new Promise((resolve, reject) => {
     tasksCollection.setItem(task.task_id.toString(), task, (err, resp) => {
       if (err) Logger.error(err, 'sync')()
-      Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
+      Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
       resolve(task)
     }).catch((reason) => {
       Logger.error(reason, 'sync')() // it doesn't work on SSR
@@ -32,14 +33,14 @@ function execute (task) { // not offline task
   task = _prepareTask(task)
   // Logger.info('New sync task [execute] ' + task.url, 'sync', task)()
   const usersCollection = new UniversalStorage(localForage.createInstance({
-    name: (rootStore.state.config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
+    name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
     storeName: 'user',
-    driver: localForage[rootStore.state.config.localForage.defaultDrivers['user']]
+    driver: localForage[config.localForage.defaultDrivers['user']]
   }))
   const cartsCollection = new UniversalStorage(localForage.createInstance({
-    name: (rootStore.state.config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
+    name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
     storeName: 'carts',
-    driver: localForage[rootStore.state.config.localForage.defaultDrivers['carts']]
+    driver: localForage[config.localForage.defaultDrivers['carts']]
   }))
   return new Promise((resolve, reject) => {
     if (isServer) {
@@ -60,7 +61,7 @@ function execute (task) { // not offline task
           if (!currentCartId && rootStore.state.cart.cartServerToken) { // this is workaround; sometimes after page is loaded indexedb returns null despite the cart token is properly set
             currentCartId = rootStore.state.cart.cartServerToken
           }
-          const token = currentToken ? currentToken : rootStore.getters['user/getUserToken']
+          const token = currentToken || rootStore.getters['user/getUserToken']
 
           taskExecute(task, token, currentCartId).then((result) => {
             resolve(result)
@@ -76,13 +77,7 @@ function execute (task) { // not offline task
 /** Clear sync tasks that were not transmitted yet */
 function clearNotTransmited () {
   const storeView = currentStoreView()
-  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-
-  const syncTaskCollection = new UniversalStorage(localForage.createInstance({
-    name: dbNamePrefix + 'shop',
-    storeName: 'syncTasks',
-    driver: localForage[rootStore.state.config.localForage.defaultDrivers['syncTasks']]
-  }))
+  const syncTaskCollection = Vue.prototype.$db.syncTaskCollection
   syncTaskCollection.iterate((task, id, iterationNumber) => {
     if (!task.transmited) {
       syncTaskCollection.removeItem(id)

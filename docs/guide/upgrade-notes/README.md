@@ -2,6 +2,12 @@
 
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
+## 1.9 -> 1.10
+- Event 'application-after-init' is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
+
+## 1.9 -> 1.10
+- Module Mailchimp is removed in favor of Newsletter. `local.json` configuration under key `mailchimp` moved to key `newsletter`.
+
 ## 1.8 -> 1.9
 - The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields 
 - `cart.multisiteCommonCart` config property changed to `storeViews.commonCache`
@@ -272,11 +278,11 @@ We added Reviews support, however, Magento 2 is still lacking Reviews support in
 
 ### Upgrade step-by-step
 
-#### `global.$VS` replaced with `rootStore` and `config` was moved to `rootStore.state.config`
+#### `global.$VS` replaced with `rootStore` and `config` was moved to `config`
 
 To get access to rootStore, import it by
 
-`import rootStore from '@vue-storefront/core/store'`
+`import config from 'config'`
 
 #### cms extenstion was renamed to extension-magento2-cms
 

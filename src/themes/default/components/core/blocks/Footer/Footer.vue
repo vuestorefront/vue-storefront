@@ -140,6 +140,13 @@
         </div>
       </div>
     </div>
+    <back-to-top bottom="20px" right="20px" visibleoffset="200">
+      <button type="button" class="btn-top button no-outline brdr-none cl-white bg-cl-mine-shaft :bg-cl-th-secondary py10 px10">
+        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+          <path d="M23.245 20l-11.245-14.374-11.219 14.374-.781-.619 12-15.381 12 15.391-.755.609z" fill="white" />
+        </svg>
+      </button>
+    </back-to-top>
   </footer>
 </template>
 
@@ -147,13 +154,14 @@
 import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
+import BackToTop from 'theme/components/core/BackToTop'
 
 export default {
   mixins: [CurrentPage],
   name: 'MainFooter',
   computed: {
     multistoreEnabled () {
-      return this.$store.state.config.storeViews.multistore
+      return this.$config.storeViews.multistore
     },
     getVersionInfo () {
       return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
@@ -161,7 +169,8 @@ export default {
   },
   components: {
     Newsletter,
-    LanguageSwitcher
+    LanguageSwitcher,
+    BackToTop
   }
 }
 </script>

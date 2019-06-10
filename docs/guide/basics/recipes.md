@@ -52,7 +52,7 @@ In a case of
 ```
 
 See the discussion in [#137](https://github.com/DivanteLtd/vue-storefront/issues/137).
-Please also check the [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Database%20tool.md)
+Please also check the [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/data/database-tool.md)
 
 ## HTTP 400 / CORS errors when trying to retrieve detailed product information from API
 

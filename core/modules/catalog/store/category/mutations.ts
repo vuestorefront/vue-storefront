@@ -4,7 +4,7 @@ import * as types from './mutation-types'
 import { slugify, formatBreadCrumbRoutes } from '@vue-storefront/core/helpers'
 import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
 import CategoryState from '../../types/CategoryState'
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const mutations: MutationTree<CategoryState> = {
@@ -22,7 +22,7 @@ const mutations: MutationTree<CategoryState> = {
         if (category.children_data) {
           for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
             if (subcat.name) {
-              subcat = Object.assign(subcat, { slug: subcat.slug ? subcat.slug : ((subcat.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '')) })
+              subcat = Object.assign(subcat, { slug: subcat.slug ? subcat.slug : ((subcat.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '')) })
               catSlugSetter(subcat)
             }
           }
@@ -45,7 +45,7 @@ const mutations: MutationTree<CategoryState> = {
     }
     if (state.list) {
       categories.items.map(newCat => {
-        if (!state.list.find(existingCat => existingCat.id == newCat.id)) {
+        if (!state.list.find(existingCat => existingCat.id === newCat.id)) {
           state.list.push(newCat)
         }
       })
