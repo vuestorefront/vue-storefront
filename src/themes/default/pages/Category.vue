@@ -4,7 +4,9 @@
       <div class="container">
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <div class="row middle-sm">
-          <h1 class="col-sm-9 category-title mb10"> {{ category.name }} </h1>
+          <h1 class="col-sm-9 category-title mb10">
+            {{ category.name }}
+          </h1>
           <div class="sorting col-sm-3 align-right">
             <label>{{ $t('Sort by') }}:</label>
             <sort-by :has-label="true" />
