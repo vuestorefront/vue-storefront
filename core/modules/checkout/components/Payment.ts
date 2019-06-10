@@ -140,12 +140,10 @@ export const Payment = {
       if (this.sendToShippingAddress) {
         this.copyShippingToBillingAddress()
         this.sendToBillingAddress = false
-        this.generateInvoice = false
       }
 
       if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
         this.payment = this.$store.state.checkout.paymentDetails
-        this.generateInvoice = false
       }
     },
     copyShippingToBillingAddress () {
