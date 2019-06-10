@@ -89,8 +89,7 @@ export default {
     content: '';
     display: block;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 1rem;
     right: 10px;
     width: 0;
     height: 0;
@@ -129,6 +128,7 @@ export default {
     pointer-events: none;
     user-select: none;
     top: 10px;
+    left: 8px;
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
