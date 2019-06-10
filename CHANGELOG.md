@@ -97,6 +97,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BaseInputNumber for qty of the product in the cart can change by using arrows - @przspa (#2988)
 - Category load depending on zoom level - @przspa (#2704)
 - Add yarn.lock to dockerfile build - @Flyingmana (#3006)
+- Inconsistent behaviour of picture slider on PDP - @przspa (#2757)
 
 ## [1.9.1] - 2019.05.27
 
