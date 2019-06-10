@@ -5,7 +5,10 @@
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <div class="row middle-sm">
           <h1 class="col-sm-9 category-title mb10"> {{ category.name }} </h1>
-          <div class="sorting col-sm-3 align-right"><sort-by /></div>
+          <div class="sorting col-sm-3 align-right">
+            <label>{{ $t('Sort by') }}:</label>
+            <sort-by :has-label="true" />
+          </div>
         </div>
       </div>
       <div class="container">
@@ -77,6 +80,7 @@ export default {
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
     await store.dispatch('category/mergeSearchOptions', { // this is just an example how can you modify the search criteria in child components
+      sort: store.state.config.products.defaultSortBy.attribute + (store.state.config.products.defaultSortBy.order ? ':' + store.state.config.products.defaultSortBy.order : '')
       // searchProductQuery: builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }) // this is an example on how to modify the ES query, please take a look at the @vue-storefront/core/helpers for refernce on how to build valid query
     })
   },
@@ -129,6 +133,12 @@ export default {
 
   .category-title {
     line-height: 65px;
+  }
+
+  .sorting {
+    label {
+      margin-right: 10px;
+    }
   }
 
   @media (max-width: 64em) {
