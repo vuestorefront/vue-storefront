@@ -4,9 +4,14 @@
       name="sortby"
       class="cl-secondary"
       v-model="sortby"
-      @change="changeOrder">
-      <option selected="selected" disabled value="">{{ $t('Sort By') }}</option>
-      <option v-for="(option, label) in sortByAttribute" :disabled="sortby === option" :value="option" :key="option" >{{ $t(label) }}</option>
+      @change="changeOrder"
+    >
+      <option selected="selected" disabled value="">
+        {{ $t('Sort By') }}
+      </option>
+      <option v-for="(option, label) in sortByAttribute" :disabled="sortby === option" :value="option" :key="option">
+        {{ $t(label) }}
+      </option>
     </select>
   </div>
 </template>

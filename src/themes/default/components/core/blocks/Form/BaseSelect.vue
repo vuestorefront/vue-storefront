@@ -12,7 +12,7 @@
       @change="$emit('change', $event.target.value)"
       @input="$emit('input', $event.target.value)"
     >
-      <option disabled selected value v-if="!selected"/>
+      <option disabled selected value v-if="!selected" />
       <option
         v-for="(option, key) in options"
         :key="key"
@@ -24,7 +24,7 @@
     </select>
     <label>{{ placeholder }}</label>
 
-    <ValidationMessages v-if="validations" :validations="validations"/>
+    <ValidationMessages v-if="validations" :validations="validations" />
   </div>
 </template>
 

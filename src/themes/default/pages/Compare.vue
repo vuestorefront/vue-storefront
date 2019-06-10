@@ -2,7 +2,7 @@
   <div class="compare">
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" active-route="Compare"/>
+        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" active-route="Compare" />
         <h2>{{ title }}</h2>
       </div>
     </div>
@@ -15,7 +15,9 @@
                 {{ $t('Products') }}
               </div>
               <ul class="compare__features-list">
-                <li class="compare__features-item">{{ $t('SKU') }}</li>
+                <li class="compare__features-item">
+                  {{ $t('SKU') }}
+                </li>
                 <li v-for="(attr, index) in all_comparable_attributes" :key="index" class="compare__features-item">
                   {{ attr.default_frontend_label }}
                 </li>
@@ -25,10 +27,10 @@
               <ul class="compare__products-columns">
                 <li v-for="(product, index) in items" :key="index" class="compare__product" data-testid="comparedProduct">
                   <div class="compare__top-info">
-                    <div class="check"/>
-                    <product-tile class="col-md-12 collection-product" :product="product"/>
+                    <div class="check" />
+                    <product-tile class="col-md-12 collection-product" :product="product" />
                     <span class="compare__remove" @click="removeFromCompare(product)">
-                      <remove-button/>
+                      <remove-button />
                     </span>
                   </div>
                   <ul class="compare__features-list">

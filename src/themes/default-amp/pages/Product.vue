@@ -9,7 +9,8 @@
               width="450"
               height="500"
               layout="responsive"
-              type="slides">
+              type="slides"
+            >
               <amp-img
                 class="product-image"
                 layout="responsive"
@@ -17,7 +18,8 @@
                 :key="image.src"
                 :src="image.src"
                 :width="450"
-                :height="500"/>
+                :height="500"
+              />
             </amp-carousel>
           </div>
           <div class="col-xs-12 col-md-5 data">
@@ -86,7 +88,10 @@
                   slug: product.slug,
                   childSku: product.sku
                 }
-              })">Check available sizes</router-link>
+              })"
+              >
+                Check available sizes
+              </router-link>
             </div>
           </div>
         </section>

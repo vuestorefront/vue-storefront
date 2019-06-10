@@ -1,9 +1,9 @@
 <template>
   <div class="default-layout">
-    <overlay v-if="overlayActive"/>
-    <loader/>
+    <overlay v-if="overlayActive" />
+    <loader />
     <div id="viewport" class="w-100 relative">
-      <main-header/>
+      <main-header />
       <async-sidebar
         :async-component="SearchPanel"
         :is-open="isSearchPanelOpen"
@@ -25,13 +25,13 @@
         :is-open="isWishlistOpen"
         @close="$store.commit('ui/setWishlist')"
       />
-      <slot/>
-      <main-footer/>
-      <notification/>
-      <sign-up/>
-      <cookie-notification/>
-      <offline-badge/>
-      <order-confirmation :orders-data="ordersData" v-if="loadOrderConfirmation"/>
+      <slot />
+      <main-footer />
+      <notification />
+      <sign-up />
+      <cookie-notification />
+      <offline-badge />
+      <order-confirmation :orders-data="ordersData" v-if="loadOrderConfirmation" />
     </div>
     <vue-progress-bar />
   </div>
