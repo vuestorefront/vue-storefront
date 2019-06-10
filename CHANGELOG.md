@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Clear wishlist" button - @aniamusial (#2806)
 - Make all links with the primary color - @hackbard (#2932)
 - Remembering last search query - @webdiver, @patzick (#2787)
-- Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810) 
+- Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810)
 - OrderNumber on ThankYouPage - @Flyingmana (#2743)
 - Extracted ProductImage component to support faster images loading - @przemyslawspaczek (#2925)
 
@@ -47,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed ios input zoom on category page - @victorkadup (#2815)
 - Fixed Load more in Search Results not working when typed to fast - @Flyingmana (#2659, #2946)
 - Subscribe button responsive - @exlo89, @webdiver, @przemyslawspaczek (#2886)
+- Fixed product link in wishlist - @michasik (#2987)
 
 ### Changed / Improved
 - Changed the way to access the configuration. Currently the `rootStore.state.config` is deprecated. Please do use the `import config from 'config'` > `config` instead - @pkarw (#2649)
