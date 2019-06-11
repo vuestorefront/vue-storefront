@@ -24,16 +24,13 @@ const mutations: MutationTree<CartState> = {
       record.qty += parseInt((product.qty ? product.qty : 1))
     }
   },
-  [types.CART_SAVE_HASH] (state, hash = null) {
+  [types.CART_SET_ITEMS_HASH] (state, hash = null) {
     state.cartItemsHash = hash
   },
-  [types.CART_CALC_HASH] (state) {
-    state.cartItemsHash = calcItemsHmac(state.cartItems, state.cartServerToken)
-  },
-  [types.CART_MARK_SYNC] (state) {
+  [types.CART_SET_SYNC] (state) {
     state.cartServerLastSyncDate = new Date().getTime()
   },
-  [types.CART_MARK_TOTALS_SYNC] (state) {
+  [types.CART_SET_TOTALS_SYNC] (state) {
     state.cartServerLastTotalsSyncDate = new Date().getTime()
   },
   [types.CART_DEL_ITEM] (state, { product, removeByParentSku = true }) {

@@ -139,7 +139,7 @@ const actions: ActionTree<CartState, RootState> = {
     await commit(types.CART_LOAD_CART, [])
     if (options.recreateAndSyncCart && getters.isCartSyncEnabled) {
       await commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
-      await commit(types.CART_SAVE_HASH, null)
+      await commit(types.CART_SET_ITEMS_HASH, null)
       await dispatch('connect', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
     }
   },
@@ -189,7 +189,7 @@ const actions: ActionTree<CartState, RootState> = {
     if (getters.isCartSyncEnabled && getters.isCartConnected) {
       if (getters.isSyncRequired) { // cart hash empty or not changed
         /** @todo: move this call to data resolver; shouldn't be a part of public API no more */
-        commit(types.CART_MARK_SYNC)
+        commit(types.CART_SET_SYNC)
         const task = await TaskQueue.execute({ url: config.cart.pull_endpoint, // sync the cart
           payload: {
             method: 'GET',
@@ -242,7 +242,7 @@ const actions: ActionTree<CartState, RootState> = {
       const token = await Vue.prototype.$db.cartsCollection.getItem('current-cart-token')
       const hash = await Vue.prototype.$db.cartsCollection.getItem('current-cart-hash')
       if (hash) {
-        commit(types.CART_SAVE_HASH, hash)
+        commit(types.CART_SET_ITEMS_HASH, hash)
         Logger.info('Cart hash received from cache.', 'cache', hash)()
       }
       if (token) { // previously set token
@@ -389,7 +389,7 @@ const actions: ActionTree<CartState, RootState> = {
           await dispatch('updateItem', { product: { server_item_id: item.item_id, totals: item, qty: item.qty } }) // update the server_id reference
         }
         commit(types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: totalsObj, platformTotalSegments: platformTotalSegments })
-        commit(types.CART_MARK_TOTALS_SYNC)
+        commit(types.CART_SET_TOTALS_SYNC)
       } else {
         Logger.error(task.result, 'cart')()
       }
@@ -723,7 +723,7 @@ const actions: ActionTree<CartState, RootState> = {
       if (totalsShouldBeRefreshed && cartHasItems) {
         await dispatch('syncTotals')
       }
-      commit(types.CART_CALC_HASH) // update the cart hash
+      commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash) // update the cart hash
     }
     Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: dryRun, event: event }) // send the difflog
     Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
