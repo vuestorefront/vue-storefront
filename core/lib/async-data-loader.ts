@@ -7,7 +7,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 
 const DEFAULT_ACTION_CATEGORY = 'asyncData'
 // Data loader queues all the data fetching operations and runs them at once - to be usedf for example in the `asyncData()` functions
-interface AsyncDataLoaderActionContext {
+export interface AsyncDataLoaderActionContext {
   category?: string,
   route: any,
   store: any,
@@ -15,7 +15,7 @@ interface AsyncDataLoaderActionContext {
 }
 
 // Data loader queues all the data fetching operations and runs them at once - to be usedf for example in the `asyncData()` functions
-interface AsyncDataLoaderAction {
+export interface AsyncDataLoaderAction {
   execute: any, // this function must return a Promise
   category?: string,
   name?: string,
@@ -24,7 +24,7 @@ interface AsyncDataLoaderAction {
 }
 
 /** AsyncDataLoader helper for queueing the data fetching operations. The main purpose is to decentralize the `asyncData()` SSR method */
-const AsyncDataLoader = {
+export const AsyncDataLoader = {
 
   queue: new Array<AsyncDataLoaderAction>(),
 
@@ -47,5 +47,3 @@ const AsyncDataLoader = {
     })
   }
 }
-
-export { AsyncDataLoader, AsyncDataLoaderActionContext, AsyncDataLoaderAction }

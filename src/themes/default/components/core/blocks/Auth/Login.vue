@@ -11,7 +11,9 @@
       {{ $t('Log in') }}
     </header>
     <div v-if="hasRedirect" class="pt10 pb10 px65 redirect-error">
-      <p class="h5 mb0 mt0">{{ $t('You need to be logged in to see this page') }}</p>
+      <p class="h5 mb0 mt0">
+        {{ $t('You need to be logged in to see this page') }}
+      </p>
     </div>
     <div class="modal-content pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="login" novalidate>

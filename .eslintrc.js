@@ -25,13 +25,18 @@ module.exports = {
     '@typescript-eslint/no-empty-interface': 1,
     '@typescript-eslint/no-use-before-define': 1,
     '@typescript-eslint/no-explicit-any': 0,
-    'handle-callback-err': 1,
     '@typescript-eslint/class-name-casing': 1,
-    'prefer-promise-reject-errors': 1,
+    '@typescript-eslint/no-unused-vars': 0,
+    '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/no-var-requires': 0,
+    'handle-callback-err': 1,
+    'prefer-promise-reject-errors': 0,
     'import/no-duplicates': ['warning'],
     'vue/return-in-computed-property': 1,
-    'vue/no-use-v-if-with-v-for': 1,
+    'vue/no-use-v-if-with-v-for': 0,
     'vue/no-unused-components': 1,
+    'vue/no-v-html': 0,
+    'vue/no-template-shadow': 2,
     /* max attributes-per-line and order-in-components
      ** we should use this later, when eslint-plugin-vue will support auto fixing this
      */

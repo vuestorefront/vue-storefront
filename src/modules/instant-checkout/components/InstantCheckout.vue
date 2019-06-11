@@ -292,7 +292,7 @@ export default {
     }
   },
   mounted () {
-    if (window.PaymentRequest) {
+    if (window.PaymentRequest && !window.ApplePaySession) {
       this.supported = true
       this.updateShippingOptions()
     }
