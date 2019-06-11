@@ -18,20 +18,24 @@
         })">
           {{ product.name | htmlDecode }}
         </router-link>
-        <div class="h6 cl-bg-tertiary pt5 sku">{{ product.sku }}</div>
+        <div class="h6 cl-bg-tertiary pt5 sku">
+          {{ product.sku }}
+        </div>
       </div>
     </div>
     <div class="col-xs flex py15 align-right">
       <div>
         <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
-        <span class="price-original" v-if="product.special_price" >{{ product.originalPriceInclTax | price }}</span>
+        <span class="price-original" v-if="product.special_price">{{ product.originalPriceInclTax | price }}</span>
 
         <span v-if="!product.special_price">
           {{ product.priceInclTax | price }}
         </span>
       </div>
       <div>
-        <div class="mt5"><span @click="removeFromWishlist(product)"><remove-button class="cl-accent" /></span></div>
+        <div class="mt5">
+          <span @click="removeFromWishlist(product)"><remove-button class="cl-accent" /></span>
+        </div>
       </div>
     </div>
   </li>

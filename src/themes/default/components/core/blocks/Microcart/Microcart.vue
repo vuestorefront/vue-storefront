@@ -78,9 +78,11 @@
         <div v-if="OnlineOnly && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
           <div class="coupon-input">
             <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>
-            <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon"/>
+            <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon" />
           </div>
-          <button-outline color="dark" :disabled="!couponCode" @click.native="setCoupon">{{ $t('Add discount code') }}</button-outline>
+          <button-outline color="dark" :disabled="!couponCode" @click.native="setCoupon">
+            {{ $t('Add discount code') }}
+          </button-outline>
         </div>
       </div>
 

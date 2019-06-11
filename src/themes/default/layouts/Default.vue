@@ -1,9 +1,9 @@
 <template>
   <div class="default-layout">
-    <overlay v-if="overlayActive"/>
-    <loader/>
+    <overlay v-if="overlayActive" />
+    <loader />
     <div id="viewport" class="w-100 relative">
-      <main-header/>
+      <main-header />
       <async-sidebar
         :async-component="SearchPanel"
         :is-open="isSearchPanelOpen"
@@ -25,13 +25,13 @@
         :is-open="isWishlistOpen"
         @close="$store.commit('ui/setWishlist')"
       />
-      <slot/>
-      <main-footer/>
-      <notification/>
-      <sign-up/>
-      <cookie-notification/>
-      <offline-badge/>
-      <order-confirmation :orders-data="ordersData" v-if="loadOrderConfirmation"/>
+      <slot />
+      <main-footer />
+      <notification />
+      <sign-up />
+      <cookie-notification />
+      <offline-badge />
+      <order-confirmation :orders-data="ordersData" v-if="loadOrderConfirmation" />
     </div>
     <vue-progress-bar />
   </div>
@@ -44,7 +44,6 @@ import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
 import Overlay from 'theme/components/core/Overlay.vue'
 import Loader from 'theme/components/core/Loader.vue'
-import Modal from 'theme/components/core/Modal.vue'
 import Notification from 'theme/components/core/Notification.vue'
 import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
 import CookieNotification from 'theme/components/core/CookieNotification.vue'
@@ -110,11 +109,10 @@ export default {
   components: {
     MainHeader,
     MainFooter,
-    SidebarMenu,
+    SidebarMenu, // eslint-disable-line vue/no-unused-components
     Overlay,
     Loader,
     Notification,
-    Modal,
     SignUp,
     CookieNotification,
     OfflineBadge,

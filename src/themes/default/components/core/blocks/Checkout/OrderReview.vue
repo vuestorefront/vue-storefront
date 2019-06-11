@@ -20,10 +20,12 @@
       </div>
     </div>
     <div class="row pl20 pr20" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div id="checkout-order-review-additional-container">
-          <div id="checkout-order-review-additional">&nbsp;</div>
+          <div id="checkout-order-review-additional">
+&nbsp;
+          </div>
         </div>
         <div class="row mb15 mt20">
           <div class="col-xs-12">
@@ -58,7 +60,7 @@
       </div>
     </div>
     <div class="row" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 col-md-8 px20">
@@ -77,7 +79,7 @@
       </div>
     </div>
 
-    <modal name="modal-terms" >
+    <modal name="modal-terms">
       <p slot="header">
         {{ $t('Terms and conditions') }}
       </p>
@@ -114,15 +116,13 @@ import ButtonFull from 'theme/components/theme/ButtonFull'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import Modal from 'theme/components/core/Modal'
 import { OrderReview } from '@vue-storefront/core/modules/checkout/components/OrderReview'
-import ValidationError from 'theme/components/core/ValidationError'
 
 export default {
   components: {
     BaseCheckbox,
     ButtonFull,
     CartSummary,
-    Modal,
-    ValidationError
+    Modal
   },
   mixins: [OrderReview, Composite],
   validations: {
