@@ -1,6 +1,6 @@
 <template>
   <div class="row p25 between-xs">
-    <product-image :image="image" class="blend"/>
+    <img class="blend" v-lazy="thumbnail">
     <div class="col-xs">
       <div class="row">
         <div class="col-xs-12 col-md-9 pb15">
@@ -57,21 +57,9 @@
 
 <script>
 import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
-import ProductImage from 'theme/components/core/ProductImage'
 
 export default {
-  mixins: [Product],
-  components: {
-    ProductImage
-  },
-  computed: {
-    image () {
-      return {
-        loading: this.thumbnail,
-        src: this.thumbnail
-      }
-    }
-  }
+  mixins: [Product]
 }
 </script>
 
@@ -81,8 +69,5 @@ export default {
 }
 .blend {
   mix-blend-mode: multiply;
-  align-self: center;
-  flex: 0 0 121px;
-  padding-bottom: 32.68%;
 }
 </style>
