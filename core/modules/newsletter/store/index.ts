@@ -1,10 +1,10 @@
 import * as types from './mutation-types'
 import { Module } from 'vuex'
-import { newsletterState } from '../types/newsletterState'
+import { NewsletterState } from '../types/NewsletterState'
 import { cacheStorage } from '../'
 import config from 'config'
 
-export const module: Module<newsletterState, any> = {
+export const module: Module<NewsletterState, any> = {
   namespaced: true,
   state: {
     isSubscribed: null,

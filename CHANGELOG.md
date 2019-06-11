@@ -31,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Clear wishlist" button - @aniamusial (#2806)
 - Make all links with the primary color - @hackbard (#2932)
 - Remembering last search query - @webdiver, @patzick (#2787)
-- Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810) 
+- Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810)
 - OrderNumber on ThankYouPage - @Flyingmana (#2743)
 - Extracted ProductImage component to support faster images loading - @przemyslawspaczek (#2925)
 
@@ -59,6 +59,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed ios input zoom on category page - @victorkadup (#2815)
 - Fixed Load more in Search Results not working when typed to fast - @Flyingmana (#2659, #2946)
 - Subscribe button responsive - @exlo89, @webdiver, @przemyslawspaczek (#2886)
+- Multiple instances for searchAdapter invocations - @bratok (#2960)
+- Fixed issue with login popup state not resetting on mobile devices - @aniamusial (#2699)
+- Fix sortBy for the category page - @Jensderond (#2868)
 
 ### Changed / Improved
 - The action `cart/userAfterLoggedin` got renamed to `cart/authorize` - @pkarw (#2522)
@@ -99,6 +102,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Extra space if not found products in everything new section home page - @cnviradiya (#2846)
 - Load custom fonts without webfont.js - @jahvi (#2944)
 - Added some structured data to product page - @cewald (#2910)
+- Refactored Travis config @Tjitse-E (#3035)
+
+## [1.9.2] - 2019.06.10
+
+### Fixed
+- Instant Checkout visible on  Safari - @przspa (#2991)
+- Search Sidebar on Safari - @przspa (#2990)
+- Country label style - @przspa (#2989)
+- BaseInputNumber for qty of the product in the cart can change by using arrows - @przspa (#2988)
+- Category load depending on zoom level - @przspa (#2704)
+- Add yarn.lock to dockerfile build - @Flyingmana (#3006)
+- Inconsistent behaviour of picture slider on PDP - @przspa (#2757)
 
 ## [1.9.1] - 2019.05.27
 

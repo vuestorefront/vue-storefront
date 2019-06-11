@@ -2,7 +2,7 @@
 
 Vue Storefront gets all of its data from [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api) endpoints, operating on top of the Elasticsearch data store.
 
-If you installed the project using `npm run installer`  command,  the database has been set up, data imported from demo-dump, and everything should be just fine.
+If you installed the project using `yarn installer`  command,  the database has been set up, data imported from demo-dump, and everything should be just fine.
 
 After more extensive data operations, like custom imports using [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) or [magento1-vsbridge](https://github.com/DivanteLtd/magento1-vsbridge), there is a need to reindex the Elasticsearch and set up the proper metadata for fields.
 
@@ -20,7 +20,7 @@ In this case, there is a db tool inside your local `vue-storefront-api` installa
 Please go to `vue-storefront-api` directory and run:
 
 ```bash
-npm run db rebuild`
+yarn db rebuild
 ```
 
 This command will:
@@ -34,7 +34,7 @@ This command will:
 You can specify different (than this set in `config/local.json`) index name by running:
 
 ```bash
-npm run db rebuild -- --indexName=custom_index_name
+yarn db rebuild -- --indexName=custom_index_name
 ```
 
 ## Creating the new index
@@ -42,7 +42,7 @@ npm run db rebuild -- --indexName=custom_index_name
 If you want to create a new, empty index please run:
 
 ```bash
-npm run db new
+yarn db new
 ```
 
 This tool will drop your current index and create a new, empty one with all the metafields set.
@@ -50,7 +50,7 @@ This tool will drop your current index and create a new, empty one with all the 
 You can specify different (than this set in `config/local.json`) index name by running:
 
 ```bash
-npm run db rebuild -- --indexName=custom_index_name
+yarn db rebuild -- --indexName=custom_index_name
 ```
 
 ## Changing the index structure / adding new fields / changing the types
@@ -72,5 +72,5 @@ The format is compliant with [ES DSL for schema modifications](https://www.elast
 After the changes, run the following indexing command:
 
 ```bash
-npm run db rebuild
+yarn db rebuild
 ```

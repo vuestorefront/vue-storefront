@@ -5,11 +5,15 @@
       <div class="row">
         <div class="col-xs-12 col-md-9 pb15">
           <div class="mb15">
-            <div class="h4 weight-400 cl-accent serif">{{ product.name | htmlDecode }}</div>
+            <div class="h4 weight-400 cl-accent serif">
+              {{ product.name | htmlDecode }}
+            </div>
             <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
               {{ product.errors | formatProductMessages }}
             </div>
-            <div class="h5 cl-tertiary pt5">{{ product.sku }}</div>
+            <div class="h5 cl-tertiary pt5">
+              {{ product.sku }}
+            </div>
             <div class="h6 cl-bg-tertiary pt5 options" v-if="product.totals && product.totals.options">
               <div v-for="opt in product.totals.options" :key="opt.label">
                 <span class="opn">{{ opt.label }}: </span>
@@ -42,7 +46,7 @@
           </div>
           <div v-else>
             <span class="h4 cl-error" v-if="product.special_price">{{ product.priceInclTax * product.qty | price }} </span>
-            <span class="price-original h5" v-if="product.special_price" >{{ product.originalPriceInclTax * product.qty | price }}</span>
+            <span class="price-original h5" v-if="product.special_price">{{ product.originalPriceInclTax * product.qty | price }}</span>
             <span v-if="!product.special_price" class="h4">{{ product.priceInclTax * product.qty | price }}</span>
           </div>
         </div>

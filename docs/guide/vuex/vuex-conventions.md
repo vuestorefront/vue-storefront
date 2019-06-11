@@ -79,7 +79,7 @@ The Vuex state, except of mutations, should always be accessed by getters, inclu
 
 * Start from `is` when returns Boolean, or `get` otherwise
 * Answer to question `what am I returning?`
-* Contain module name to ensure that getter is unique through whole Vuex, but t doesn’t have to start with that name. First, it should have a natural name, so for example we have module `category` and in the state `availableFilters`. So `what am I returning?` -> `available Filters` and this filters are `category filters`. It's not a Boolean, it’s an array or map so we’re starting with `get` -> `getAvailableCategoryFilters`
+* Contain module name to ensure that getter is unique through whole Vuex, but it doesn’t have to start with that name. First, it should have a natural name, so for example we have module `category` and in the state `availableFilters`. So `what am I returning?` -> `available Filters` and this filters are `category filters`. It's not a Boolean, it’s an array or map so we’re starting with `get` -> `getAvailableCategoryFilters`
 
 Good examples:
 

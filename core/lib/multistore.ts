@@ -112,6 +112,17 @@ export function adjustMultistoreApiUrl (url: string): string {
   return url
 }
 
+export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): LocalizedRoute | string {
+  if (typeof routeObj === 'string') {
+    return '/' + storeCode + routeObj
+  }
+  if (routeObj && routeObj.fullPath) { // case of using dispatcher
+    const routeCodePrefix = config.defaultStoreCode !== storeCode ? `/${storeCode}` : ''
+    const qrStr = queryString.stringify(routeObj.params)
+    return `${routeCodePrefix}/${routeObj.fullPath}${qrStr ? `?${qrStr}` : ''}`
+  }
+  return routeObj
+}
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
   if (routeObj && (routeObj as LocalizedRoute).fullPath && config.seo.useUrlDispatcher) return localizedDispatcherRoute(Object.assign({}, routeObj, { params: null }) as LocalizedRoute, storeCode)
   if (storeCode && routeObj && config.defaultStoreCode !== storeCode) {
@@ -125,17 +136,6 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
     } else {
       return '/' + storeCode + routeObj
     }
-  }
-  return routeObj
-}
-export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): LocalizedRoute | string {
-  if (typeof routeObj === 'string') {
-    return '/' + storeCode + routeObj
-  }
-  if (routeObj && routeObj.fullPath) { // case of using dispatcher
-    const routeCodePrefix = config.defaultStoreCode !== storeCode ? `/${storeCode}` : ''
-    const qrStr = queryString.stringify(routeObj.params)
-    return `${routeCodePrefix}/${routeObj.fullPath}${qrStr ? `?${qrStr}` : ''}`
   }
   return routeObj
 }
