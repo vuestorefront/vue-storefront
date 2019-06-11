@@ -14,22 +14,26 @@
     >
       <slide
         v-for="(images, index) in gallery"
-        :key="images.src">
+        :key="images.src"
+      >
         <div
           class="product-image-container bg-cl-secondary"
-          :class="{'video-container w-100 h-100 flex relative': images.video}">
+          :class="{'video-container w-100 h-100 flex relative': images.video}"
+        >
           <product-image
             v-show="hideImageAtIndex !== index"
             @dblclick="openOverlay"
             class="product-image pointer"
             :class="{'product-image--video': images.video}"
             :image="images"
-            :alt="productName | htmlDecode"/>
+            :alt="productName | htmlDecode"
+          />
           <product-video
             v-if="images.video && (index === currentPage)"
             v-bind="images.video"
             :index="index"
-            @video-started="onVideoStarted"/>
+            @video-started="onVideoStarted"
+          />
         </div>
       </slide>
     </carousel>

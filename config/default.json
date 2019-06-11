@@ -232,6 +232,10 @@
       }
     },
     "cart": {
+      "thumbnails": {
+        "width": 150,
+        "height": 150
+      },
       "bypassCartLoaderForAuthorizedUsers": true,
       "serverMergeByDefault": true,
       "serverSyncCanRemoveLocalItems": false,
@@ -243,20 +247,19 @@
       "askBeforeRemoveProduct": true,
       "displayItemDiscounts": true,
       "minicartCountType": "quantities",
-      "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
-      "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
-      "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
-      "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
-      "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}",
-      "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-      "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-      "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-      "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-      "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-      "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+      "create_endpoint": "/api/cart/create?token={{token}}",
+      "updateitem_endpoint": "/api/cart/update?token={{token}}&cartId={{cartId}}",
+      "deleteitem_endpoint": "/api/cart/delete?token={{token}}&cartId={{cartId}}",
+      "pull_endpoint": "/api/cart/pull?token={{token}}&cartId={{cartId}}",
+      "totals_endpoint": "/api/cart/totals?token={{token}}&cartId={{cartId}}",
+      "paymentmethods_endpoint": "/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+      "shippingmethods_endpoint": "/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+      "shippinginfo_endpoint": "/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+      "collecttotals_endpoint": "/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+      "deletecoupon_endpoint": "/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+      "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
     },
     "products": {
-      "useShortCatalogUrls": false,
       "useMagentoUrlKeys": true,
       "setFirstVarianAsDefaultInURL": false,
       "configurableChildrenStockPrefetchStatic": false,
@@ -269,7 +272,7 @@
       "clearPricesBeforePlatformSync": false,
       "waitForPlatformSync": false,
       "setupVariantByAttributeCode": true,
-      "endpoint": "http://localhost:8080/api/product",
+      "endpoint": "/api/product",
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
       "filterFieldMapping": {
         "category.name": "category.name.keyword"
@@ -292,6 +295,10 @@
         "width": 600,
         "height": 744
       },
+      "thumbnails": {
+        "width": 310,
+        "height": 300
+      },
       "filterAggregationSize": {
         "default": 10,
         "size": 10,
@@ -308,7 +315,7 @@
     },
     "orders": {
       "directBackendSync": true,
-      "endpoint": "http://localhost:8080/api/order",
+      "endpoint": "/api/order",
       "payment_methods_mapping": {
       },
       "offline_orders": {
@@ -340,23 +347,23 @@
       }
     },
     "reviews": {
-      "create_endpoint": "http://localhost:8080/api/review/create"
+      "create_endpoint": "/api/review/create"
     },
     "users": {
       "autoRefreshTokens": true,
-      "endpoint": "http://localhost:8080/api/user",
-      "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",
-      "resetPassword_endpoint": "http://localhost:8080/api/user/reset-password",
-      "changePassword_endpoint": "http://localhost:8080/api/user/change-password?token={{token}}",
-      "login_endpoint": "http://localhost:8080/api/user/login",
-      "create_endpoint": "http://localhost:8080/api/user/create",
-      "me_endpoint": "http://localhost:8080/api/user/me?token={{token}}",
-      "refresh_endpoint": "http://localhost:8080/api/user/refresh"
+      "endpoint": "/api/user",
+      "history_endpoint": "/api/user/order-history?token={{token}}",
+      "resetPassword_endpoint": "/api/user/reset-password",
+      "changePassword_endpoint": "/api/user/change-password?token={{token}}",
+      "login_endpoint": "/api/user/login",
+      "create_endpoint": "/api/user/create",
+      "me_endpoint": "/api/user/me?token={{token}}",
+      "refresh_endpoint": "/api/user/refresh"
     },
     "stock": {
       "synchronize": true,
       "allowOutOfStockInCart": true,
-      "endpoint": "http://localhost:8080/api/stock"
+      "endpoint": "/api/stock"
     },
     "images": {
       "useExactUrlsNoProxy": false,
@@ -401,12 +408,12 @@
       "bundleAllStoreviewLanguages": true
     },
     "newsletter": {
-      "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
+      "endpoint": "/api/ext/mailchimp-subscribe/subscribe"
     },
     "mailer": {
       "endpoint": {
-        "send": "http://localhost:8080/api/ext/mail-service/send-email",
-        "token": "http://localhost:8080/api/ext/mail-service/get-token"
+        "send": "/api/ext/mail-service/send-email",
+        "token": "/api/ext/mail-service/get-token"
       },
       "contactAddress": "contributors@vuestorefront.io",
       "sendConfirmation": true
@@ -423,8 +430,8 @@
       "id": false
     },
     "cms": {
-      "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",
-      "endpointIdentifier": "http://localhost:8080/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
+      "endpoint": "/api/ext/cms-data/cms{{type}}/{{cmsId}}",
+      "endpointIdentifier": "/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
     },
     "cms_block": {
       "max_count": 500

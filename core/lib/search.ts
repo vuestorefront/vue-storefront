@@ -8,6 +8,7 @@ import { SearchRequest } from '@vue-storefront/core/types/search/SearchRequest'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
+import { isServer } from '@vue-storefront/core/helpers'
 
 // TODO - use one from helpers instead
 export function isOnline (): boolean {
@@ -99,19 +100,24 @@ export const quickSearchByQuery = async ({ query, start = 0, size = 50, entityTy
       }
     }).catch(err => {
       if (!servedFromCache) {
-        Logger.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
-        const res = {
-          items: [],
-          total: 0,
-          start: 0,
-          perPage: 0,
-          aggregations: {},
-          offline: true,
-          cache: true,
-          noresults: true,
-          suggestions: {}
+        if (!isServer) {
+          Logger.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
+          const res = {
+            items: [],
+            total: 0,
+            start: 0,
+            perPage: 0,
+            aggregations: {},
+            offline: true,
+            cache: true,
+            noresults: true,
+            suggestions: {}
+          }
+          resolve(res)
+        } else {
+          Logger.error('Can not connect the vue-storefront-api / ElasticSearch instance!', 'search', err)()
+          reject(err)
         }
-        resolve(res)
       }
       reject(err)
     })

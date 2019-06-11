@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.10.0-rc.1] - UNRELEASED
 
 ### Added
-- make installer work for windows - @Flyingmana (#2616)
+- Make installer work for windows - @Flyingmana (#2616)
 - "Clear cart" button in the cart - @jablpiotrek (#2587)
 - Global config api path under `api.url` - @BartoszLiburski (#2622)
 - Google Tag Manager integration - @talalus (#841)
@@ -18,16 +18,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
 - Added linting for typescript files @ResuBaka (#2843)
 - Added back to top functionality - @vishal-7037 (#2866)
-- Button for filters acceptance added with new styles for clear filters button with clear icon - @965750 (#2811)
+- Thumbnail sizes are now configurable within the `config.products.thumbnails` and `config.cart.thumbnails` - @pkarw (#2897)
+
+### Removed
+- The getter `cart/totals` has ben replaced with `cart/getTotals` - @pkarw (#2522)
+- The getter `cart/coupon` has ben replaced with `cart/getCoupon` - @pkarw (#2522)
+- The getter `cart/totalQuantity` has ben replaced with `cart/getItemsTotalQuantity` - @pkarw (#2522)
+- The event `cart-before-save` has been removed - @pkarw (#2522)
+- The action `cart/save` has been removed - @pkarw - (#2522)
+- Some deprecated config options: `useShortCatalogUrls` and `setupVariantByAttributeCode` have been removed - @pkarw (#2915)
+- Button for filters acceptance added with new styles for clear filters button - @965750 (#2811)
 - Added "Clear wishlist" button - @aniamusial (#2806)
 - Make all links with the primary color - @hackbard (#2932)
 - Remembering last search query - @webdiver, @patzick (#2787)
-- Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810) 
+- Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810)
 - OrderNumber on ThankYouPage - @Flyingmana (#2743)
 - Extracted ProductImage component to support faster images loading - @przemyslawspaczek (#2925)
 - Improve performace with preventing render 404 page on the server side if some of static content is missed, simple 404 response uses instead - [PHOENIX MEDIA](https://www.phoenix-media.eu/) - Yuri Boyko @yuriboyko, Anton Lobodenko @sniffy1988 (#3002)
+- Added Products column change functionality - @vishal-7037 (#3017)
+- Add support for api.url in the Task module - @basvanpoppel (#3011)
 
 ### Fixed
+- Microcart tax + discount totals fix - @pkarw (#2892)
+- Microcart offline prices now forced down to original prices - @pkarw (#3012)
+- Login/Register errorr message added in case of FetchError (no network connectivity) - @pkarw
 - Products removed from the cart are no longer add back on the conectivity return - @pkarw (#2898)
 - Sidebar menu wasn't possible to scroll - @PanMisza (#2627)
 - Confirmation popup 'Product has beed added to cart' is displayed only once - @JKrupinski (#2610)
@@ -51,8 +65,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multiple instances for searchAdapter invocations - @bratok (#2960)
 - Fixed issue with login popup state not resetting on mobile devices - @aniamusial (#2699)
 - Fix sortBy for the category page - @Jensderond (#2868)
+- Fixed incorrect prices in Instant Checkout (PR API) - @qiqqq (#2874)
 
 ### Changed / Improved
+- The action `cart/userAfterLoggedin` got renamed to `cart/authorize` - @pkarw (#2522)
+- The action `cart/refreshTotals` got renamed to `cart/syncTotals` - @pkarw (#2522)
+- The action `cart/serverPull` got renamed to `cart/sync` - @pkarw - (#2522)
+- The way we're getting the user and cart tokens got refactored - @pkarw (#2513)
 - Changed the way to access the configuration. Currently the `rootStore.state.config` is deprecated. Please do use the `import config from 'config'` > `config` instead - @pkarw (#2649)
 - Changed the order number (from `entity_id` to `increment_id`) on MyOrders and MyOrder pages - @pkarw (#2743)
 - Disabled the server cart sync in case user is in the checkout - @pkarw (#2749)
@@ -87,6 +106,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Extra space if not found products in everything new section home page - @cnviradiya (#2846)
 - Load custom fonts without webfont.js - @jahvi (#2944)
 - Added some structured data to product page - @cewald (#2910)
+- Improved the Size Guide feature so it opens in a modal popup instead of a new page - @RGijsberts - (#2913)
 - Refactored Travis config @Tjitse-E (#3035)
 
 ## [1.9.2] - 2019.06.10

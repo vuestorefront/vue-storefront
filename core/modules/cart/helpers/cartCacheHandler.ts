@@ -20,6 +20,12 @@ export function cartCacheHandlerFactory (Vue) {
       return Vue.prototype.$db.cartsCollection.setItem('current-cart-token', state.cart.cartServerToken).catch((reason) => {
         console.error(reason)
       })
+    } else if (
+      type.endsWith(types.CART_SET_ITEMS_HASH)
+    ) {
+      return Vue.prototype.$db.cartsCollection.setItem('current-cart-hash', state.cart.cartItemsHash).catch((reason) => {
+        console.error(reason)
+      })
     }
   }
 }

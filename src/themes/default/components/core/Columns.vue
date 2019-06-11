@@ -1,35 +1,29 @@
 <template>
-  <div class="sort-by">
+  <div class="columns">
     <select
-      name="sortby"
+      name="column"
       class="cl-secondary"
-      v-model="sortby"
-      @change="changeOrder"
+      v-model="column"
+      @change="changeColumn"
     >
-      <option selected="selected" disabled value="" v-if="!hasLabel">
-        {{ $t('Sort By') }}
-      </option>
-      <option v-for="(option, label) in sortByAttribute" :disabled="sortby === option" :value="option" :key="option">
-        {{ $t(label) }}
+      <option v-for="(option) in productsColumns" :value="option" :key="option">
+        {{ option }}
       </option>
     </select>
   </div>
 </template>
 
 <script>
-import SortBy from '@vue-storefront/core/compatibility/components/SortBy'
 export default {
-  mixins: [SortBy],
-  props: {
-    hasLabel: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
-  },
   data () {
     return {
-      sortby: this.$store.state.config.products.defaultSortBy.attribute
+      column: 3,
+      productsColumns: [2, 3, 4, 6]
+    }
+  },
+  methods: {
+    changeColumn () {
+      this.$emit('change-column', this.column)
     }
   }
 }
@@ -39,7 +33,7 @@ export default {
     @import '~theme/css/variables/colors';
     @import '~theme/css/helpers/functions/color';
     $color-tertiary: color(tertiary);
-    .sort-by {
+    .columns {
         display: inline-flex;
         position: relative;
         border-bottom: 1px solid $color-tertiary;
@@ -64,7 +58,7 @@ export default {
         }
     }
     @media (max-width: 770px) {
-      .sort-by {
+      .columns {
         width: 100%;
       }
     }
