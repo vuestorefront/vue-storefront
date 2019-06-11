@@ -53,7 +53,7 @@ export function normalizeUrlPath (url: string): string {
 }
 
 export function formatCategoryLink (category: { url_path: string, slug: string }): string {
-  return config.seo.useUrlDispatcher ? ('/' + category.url_path) : ((config.products.useShortCatalogUrls ? '/' : '/c/') + category.slug)
+  return config.seo.useUrlDispatcher ? ('/' + category.url_path) : ('/c/' + category.slug)
 }
 
 export function formatProductLink (

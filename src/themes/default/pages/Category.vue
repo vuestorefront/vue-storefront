@@ -9,7 +9,10 @@
             <label class="mr10">{{ $t('Columns') }}:</label>
             <columns @change-column="columnChange" />
           </div>
-          <div class="sorting col-sm-2 align-right mt50"><sort-by /></div>
+          <div class="sorting col-sm-2 align-right mt50">
+            <label>{{ $t('Sort by') }}:</label>
+            <sort-by :has-label="true" />
+          </div>
         </div>
       </div>
       <div class="container">
@@ -20,20 +23,22 @@
           >
             {{ $t('Filters') }}
           </button>
-          <div class="mobile-sorting col-xs-6 mt25"><sort-by /></div>
+          <div class="mobile-sorting col-xs-6 mt25">
+            <sort-by />
+          </div>
         </div>
       </div>
     </header>
     <div class="container pb60">
       <div class="row m0 pt15">
         <div class="col-md-3 start-xs category-filters">
-          <sidebar :filters="filters.available"/>
+          <sidebar :filters="filters.available" />
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
           <div class="close-container absolute w-100">
             <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>
-          <sidebar class="mobile-filters-body" :filters="filters.available"/>
+          <sidebar class="mobile-filters-body" :filters="filters.available" />
           <div class="relative pb20 pt15">
             <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
           </div>
@@ -45,9 +50,13 @@
           </button-full>
         </div>
         <div class="col-md-9 px10 border-box products-list">
-          <p class="col-xs-12 end-md m0 pb20 cl-secondary">{{ productsTotal }} {{ $t('items') }}</p>
+          <p class="col-xs-12 end-md m0 pb20 cl-secondary">
+            {{ productsTotal }} {{ $t('items') }}
+          </p>
           <div v-if="isCategoryEmpty" class="hidden-xs">
-            <h4 data-testid="noProductsInfo">{{ $t('No products found!') }}</h4>
+            <h4 data-testid="noProductsInfo">
+              {{ $t('No products found!') }}
+            </h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
           <product-listing :columns="defaultColumn" :products="products" />
@@ -82,13 +91,10 @@ export default {
       defaultColumn: 3
     }
   },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
-    return new Promise((resolve, reject) => {
-      store.dispatch('category/mergeSearchOptions', { // this is just an example how can you modify the search criteria in child components
-        sort: 'updated_at:desc'
-        // searchProductQuery: builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }) // this is an example on how to modify the ES query, please take a look at the @vue-storefront/core/helpers for refernce on how to build valid query
-      })
-      resolve()
+  async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
+    await store.dispatch('category/mergeSearchOptions', { // this is just an example how can you modify the search criteria in child components
+      sort: store.state.config.products.defaultSortBy.attribute + (store.state.config.products.defaultSortBy.order ? ':' + store.state.config.products.defaultSortBy.order : '')
+      // searchProductQuery: builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }) // this is an example on how to modify the ES query, please take a look at the @vue-storefront/core/helpers for refernce on how to build valid query
     })
   },
   methods: {
@@ -143,6 +149,12 @@ export default {
 
   .category-title {
     line-height: 65px;
+  }
+
+  .sorting {
+    label {
+      margin-right: 10px;
+    }
   }
 
   @media (max-width: 64em) {
