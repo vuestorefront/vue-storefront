@@ -290,7 +290,7 @@ export default {
         }
       }
     },
-    getProductPrice(product) {
+    getProductPrice (product) {
       if (!config.cart.displayItemDiscounts) {
         return product.qty * product.priceInclTax
       }
