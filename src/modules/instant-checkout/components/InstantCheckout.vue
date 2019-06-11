@@ -79,16 +79,6 @@ export default {
         })
       }
 
-      const discount = this.platformTotal.filter(segment => {
-        return segment.code === 'discount'
-      })
-      if (discount.length > 0) {
-        bucket.push({
-          label: discount[0].title,
-          amount: { currency: storeView.i18n.currencyCode, value: discount[0].value }
-        })
-      }
-
       return bucket
     },
     selectedShippingOption () {
