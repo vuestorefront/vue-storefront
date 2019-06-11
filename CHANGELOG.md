@@ -102,6 +102,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Extra space if not found products in everything new section home page - @cnviradiya (#2846)
 - Load custom fonts without webfont.js - @jahvi (#2944)
 - Added some structured data to product page - @cewald (#2910)
+- Improved the Size Guide feature so it opens in a modal popup instead of a new page - @RGijsberts - (#2913)
 - Refactored Travis config @Tjitse-E (#3035)
 
 ## [1.9.2] - 2019.06.10
