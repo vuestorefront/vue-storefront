@@ -2,7 +2,7 @@
   <li class="row flex-nowrap py10">
     <div>
       <div class="ml10 bg-cl-secondary">
-        <img class="image" v-lazy="thumbnail" alt="">
+        <product-image :image="image"/>
       </div>
     </div>
     <div class="col-xs flex pl35 py15 start-xs between-sm details">
@@ -48,7 +48,7 @@
         <base-input-number
           :name="$t('Quantity')"
           :value="product.qty"
-          @input="updateQuantity"
+          @blur="updateQuantity"
           :min="1"
         />
       </div>
@@ -93,19 +93,28 @@
 <script>
 import config from 'config'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
-
+import ProductImage from 'theme/components/core/ProductImage'
 import RemoveButton from './RemoveButton'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 
 export default {
   components: {
     RemoveButton,
-    BaseInputNumber
+    BaseInputNumber,
+    ProductImage
   },
   mixins: [Product],
   data () {
     return {
       displayItemDiscounts: config.cart.displayItemDiscounts
+    }
+  },
+  computed: {
+    image () {
+      return {
+        loading: this.thumbnail,
+        src: this.thumbnail
+      }
     }
   }
 }
