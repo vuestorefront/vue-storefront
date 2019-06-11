@@ -1,7 +1,9 @@
 <template>
   <div class="droppoint-map">
     <input type="text" v-model="searchZipcode" :placeholder="$t('Zipcode')">
-    <button @click="getDroppoints">{{ $t('Update') }}</button>
+    <button @click="getDroppoints">
+      {{ $t('Update') }}
+    </button>
 
     {{ error }}
 
@@ -14,7 +16,8 @@
         :animation="selected.id === m.id? 1:0"
         :clickable="true"
         :icon="m.icon"
-        @click="selectDroppoint(m)" />
+        @click="selectDroppoint(m)"
+      />
     </gmap-map>
 
     <input type="text" v-model="shipping.phoneNumber" :placeholder="$t('Phone Number')"
@@ -40,13 +43,13 @@
 
     </span>
 
-    <span :key="index" v-for="(m, index) in droppoints" @click="selectDroppoint(m)" >
+    <span :key="index" v-for="(m, index) in droppoints" @click="selectDroppoint(m)">
       <label class="radioStyled">
         <p>{{ m.name }}</p>
         <p>{{ m.streetname }}</p>
         <p>{{ m.zipcode }} {{ m.city }}</p>
-        <input type="radio" v-model="selected" :value="m" >
-        <span class="checkmark"/>
+        <input type="radio" v-model="selected" :value="m">
+        <span class="checkmark" />
       </label>
     </span>
   </div>

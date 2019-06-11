@@ -41,9 +41,10 @@
     "test:unit": "jest -c test/unit/jest.conf.js",
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
-    "lint": "eslint --ext .js,.vue,.ts core src",
+    "lint": "eslint --ext .js,.vue,.ts core src --fix",
     "lerna": "lerna"
   },
+  "pre-commit": [ "lint" ],
   "dependencies": {
     "@types/webpack": "^4.4.23",
     "@types/webpack-dev-server": "^3.1.1",
@@ -134,6 +135,7 @@
     "phantomjs-prebuilt": "^2.1.10",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "^3.0.0",
+    "pre-commit": "^1.2.2",
     "print-message": "^2.1.0",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.1.0",

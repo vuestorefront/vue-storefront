@@ -4,7 +4,7 @@
       {{ $t('No reviews have been posted yet. Please don\'t hesitate to share Your opinion and write the first review!') }}
     </div>
     <div class="mt50" v-for="(item, index) in itemsPerPage" :key="index" itemprop="review" itemscope itemtype="http://schema.org/Review">
-      <meta itemprop="itemReviewed" :content="productName | htmlDecode" />
+      <meta itemprop="itemReviewed" :content="productName | htmlDecode">
       <h4 class="weight-400 m0" itemprop="reviewAspect" :content="item.title">
         {{ item.title }}
       </h4>

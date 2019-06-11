@@ -158,7 +158,7 @@
         "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices", "frontend_input" ]
       },
       "productList": {
-        "sort": "",
+        "sort": "updated_at:desc",
         "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_path", "url_key", "status", "tier_prices", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax" ],
         "excludeFields": [ "description", "configurable_options", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options" ]
       },
@@ -273,6 +273,10 @@
       },
       "colorMappings": {
         "Melange graphite": "#eeeeee"
+      },
+      "defaultSortBy": {
+        "attribute": "updated_at",
+        "order": "desc"
       },
       "sortByAttributes": {
         "Latest": "updated_at",

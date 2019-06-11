@@ -20,6 +20,18 @@ process.noDeprecation = true
 
 const app = express()
 
+function createRenderer (bundle, clientManifest, template) {
+  // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
+  return require('vue-server-renderer').createBundleRenderer(bundle, {
+    clientManifest,
+    // runInNewContext: false,
+    cache: require('lru-cache')({
+      max: 1000,
+      maxAge: 1000 * 60 * 15
+    })
+  })
+}
+
 const templatesCache = {}
 let renderer
 for (const tplName of Object.keys(config.ssr.templates)) {
@@ -45,18 +57,6 @@ if (isProd) {
   require(resolve('core/build/dev-server'))(app, (bundle, template) => {
     templatesCache['default'] = compile(template, compileOptions) // Important Notice: template switching doesn't work with dev server because of the HMR
     renderer = createRenderer(bundle)
-  })
-}
-
-function createRenderer (bundle, clientManifest, template) {
-  // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
-  return require('vue-server-renderer').createBundleRenderer(bundle, {
-    clientManifest,
-    // runInNewContext: false,
-    cache: require('lru-cache')({
-      max: 1000,
-      maxAge: 1000 * 60 * 15
-    })
   })
 }
 
