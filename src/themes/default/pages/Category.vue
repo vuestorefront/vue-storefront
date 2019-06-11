@@ -4,11 +4,14 @@
       <div class="container">
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <div class="row middle-sm">
-          <h1 class="col-sm-9 category-title mb10">
+          <h1 class="col-sm-8 category-title mb10">
             {{ category.name }}
           </h1>
-          <div class="sorting col-sm-3 align-right">
-            <label>{{ $t('Sort by') }}:</label>
+          <div class="sorting col-sm-2 align-right mt50">
+            <label class="mr10">{{ $t('Columns') }}:</label>
+            <columns @change-column="columnChange" />
+          </div>
+          <div class="sorting col-sm-2 align-right mt50">
             <sort-by :has-label="true" />
           </div>
         </div>
@@ -57,7 +60,7 @@
             </h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
-          <product-listing columns="3" :products="products" />
+          <product-listing :columns="defaultColumn" :products="products" />
         </div>
       </div>
     </div>
@@ -70,6 +73,7 @@ import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
+import Columns from '../components/core/Columns.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 // import builder from 'bodybuilder'
 
@@ -79,11 +83,13 @@ export default {
     ProductListing,
     Breadcrumbs,
     Sidebar,
-    SortBy
+    SortBy,
+    Columns
   },
   data () {
     return {
-      mobileFilters: false
+      mobileFilters: false,
+      defaultColumn: 3
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
@@ -105,6 +111,9 @@ export default {
         message: this.$t('Please select the field which You like to sort by'),
         action1: { label: this.$t('OK') }
       })
+    },
+    columnChange (column) {
+      this.defaultColumn = column
     }
   },
   mixins: [Category]
@@ -216,4 +225,9 @@ export default {
   .close {
     margin-left: auto;
   }
+</style>
+<style lang="scss">
+.product-image {
+  max-height: unset !important;
+}
 </style>
