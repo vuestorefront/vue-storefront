@@ -4,8 +4,11 @@
       name="column"
       class="cl-secondary"
       v-model="column"
-      @change="changeColumn">
-      <option v-for="(option) in productsColumns" :value="option" :key="option">{{ option }}</option>
+      @change="changeColumn"
+    >
+      <option v-for="(option) in productsColumns" :value="option" :key="option">
+        {{ option }}
+      </option>
     </select>
   </div>
 </template>

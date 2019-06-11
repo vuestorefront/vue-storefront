@@ -3,7 +3,9 @@
     <div slot="header">
       Size Guide
     </div>
-    <div slot="content"> <SizeGuideContent /> </div>
+    <div slot="content">
+      <SizeGuideContent />
+    </div>
   </modal>
 </template>
 
