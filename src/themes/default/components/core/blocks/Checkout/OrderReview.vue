@@ -134,11 +134,6 @@ export default {
   },
   methods: {
     onSuccess () {
-      this.$store.dispatch('notification/spawnNotification', {
-        type: 'success',
-        message: this.$t('You are logged in!'),
-        action1: { label: this.$t('OK') }
-      })
     },
     onFailure (result) {
       this.$store.dispatch('notification/spawnNotification', {
