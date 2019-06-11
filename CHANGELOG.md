@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for api.url in the Task module - @basvanpoppel (#3011)
 
 ### Fixed
+- Special price got zeroed - @pkarw (#2940)
 - Microcart tax + discount totals fix - @pkarw (#2892)
 - Microcart offline prices now forced down to original prices - @pkarw (#3012)
 - Login/Register errorr message added in case of FetchError (no network connectivity) - @pkarw
