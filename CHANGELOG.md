@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810)
 - OrderNumber on ThankYouPage - @Flyingmana (#2743)
 - Extracted ProductImage component to support faster images loading - @przemyslawspaczek (#2925)
+- Add support for api.url in the Task module - @basvanpoppel (#3011)
 
 ### Fixed
 - Microcart tax + discount totals fix - @pkarw (#2892)

@@ -12,6 +12,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import * as entities from '@vue-storefront/core/store/lib/entities'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
+import { processURLAddress } from '@vue-storefront/core/helpers'
 import { serial } from '@vue-storefront/core/helpers'
 import config from 'config'
 import { onlineHelper } from '@vue-storefront/core/helpers'
@@ -55,6 +56,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     return
   }
   let url = task.url.replace('{{token}}', (currentToken == null) ? '' : currentToken).replace('{{cartId}}', (currentCartId == null) ? '' : currentCartId)
+  url = processURLAddress(url); // use relative url paths
   if (config.storeViews.multistore) {
     url = adjustMultistoreApiUrl(url)
   }
