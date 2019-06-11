@@ -66,6 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed issue with login popup state not resetting on mobile devices - @aniamusial (#2699)
 - Fix sortBy for the category page - @Jensderond (#2868)
 - Fixed incorrect prices in Instant Checkout (PR API) - @qiqqq (#2874)
+- Incorrect `user_id` set on the order object - @pkarw (#2966)
 
 ### Changed / Improved
 - The action `cart/userAfterLoggedin` got renamed to `cart/authorize` - @pkarw (#2522)
