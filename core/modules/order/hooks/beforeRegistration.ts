@@ -5,7 +5,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
-import { serial, onlineHelper } from '@vue-storefront/core/helpers'
+import { serial, onlineHelper, processURLAddress } from '@vue-storefront/core/helpers'
 
 export function beforeRegistration ({ Vue, config, store, isServer }) {
   Vue.prototype.$db.ordersCollection = new UniversalStorage(localForage.createInstance({
@@ -43,7 +43,7 @@ export function beforeRegistration ({ Vue, config, store, isServer }) {
             Logger.log('Pushing out order ' + orderId)()
             fetchQueue.push(
               /** @todo refactor order synchronisation to proper handling through vuex actions to avoid code duplication */
-              fetch(config.orders.endpoint,
+              fetch(processURLAddress(config.orders.endpoint),
                 {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
