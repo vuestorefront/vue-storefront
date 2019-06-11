@@ -12,6 +12,7 @@ export interface LocalizedRoute {
   hash?: string,
   params?: object,
   fullPath?: string,
+  host?: string
 }
 
 export interface StoreView {
@@ -77,18 +78,42 @@ export function prepareStoreView (storeCode: string) : StoreView {
     initializeSyncTaskStorage()
     Vue.prototype.$db.currentStoreCode = storeView.storeCode
   }
+
   return storeView
 }
 
 export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocation | string) : string {
   if (matchedRouteOrUrl) {
     for (const storeCode of rootStore.state.config.storeViews.mapStoreUrlsFor) {
+
+      const store = rootStore.state.config.storeViews[storeCode]
       let urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
+
       if (urlPath.length > 0 && urlPath[0] !== '/') urlPath = '/' + urlPath
-      if (urlPath.startsWith('/' + storeCode + '/') || urlPath === '/' + storeCode) {
+
+      // handle resolving by path
+      if (urlPath.startsWith(`${store.url}/`) || urlPath === store.url) {
+        return storeCode
+      }
+
+      // handle resolving by domain+path
+      let url = ''
+
+      if (typeof matchedRouteOrUrl === 'object') {
+        if (matchedRouteOrUrl['host']) {
+          url = matchedRouteOrUrl['host'] + urlPath
+        } else {
+          return '' // this route does not have url so there is nothing to do here
+        }
+      } else {
+        url = <string> matchedRouteOrUrl
+      }
+
+      if (url.startsWith(`${store.url}/`) || urlPath === store.url) {
         return storeCode
       }
     }
+
     return ''
   } else {
     return ''
@@ -114,7 +139,7 @@ export function adjustMultistoreApiUrl (url: string) : string {
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
   if (routeObj && (<LocalizedRoute>routeObj).fullPath && rootStore.state.config.seo.useUrlDispatcher) return localizedDispatcherRoute(<LocalizedRoute>Object.assign({}, routeObj, { params: null }), storeCode)
-  if (storeCode && routeObj && rootStore.state.config.defaultStoreCode !== storeCode) {
+  if (storeCode && routeObj && rootStore.state.config.defaultStoreCode !== storeCode && rootStore.state.config.storeViews[storeCode].appendStoreCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
         routeObj.name = storeCode + '-' + routeObj.name
@@ -131,7 +156,7 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): LocalizedRoute | string {
   if (typeof routeObj === 'string') {
     return '/' + storeCode + routeObj
-  } 
+  }
   if (routeObj && routeObj.fullPath) { // case of using dispatcher
     const routeCodePrefix = rootStore.state.config.defaultStoreCode !== storeCode ? `/${storeCode}` : ''
     const qrStr = queryString.stringify(routeObj.params)

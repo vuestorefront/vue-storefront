@@ -147,6 +147,13 @@ This is the store name as displayed in the `Language/Switcher.vue`.
 ```
 
 This URL is used only in the `Switcher` component. Typically it equals just to `/<store_code>`. Sometimes you may like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. Just take a look at how [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) generates the list of the stores.
+It accepts not only path, but also domains as well.
+
+```json
+    "appendStoreCode": true,
+```
+
+By default store codes are appended at the end of every url. If you want to use domain only as store url, you can set it to `false`.
 
 ```json
     "elasticsearch": {
