@@ -241,7 +241,7 @@ const actions: ActionTree<UserState, RootState> = {
       callback_event: 'store:user/userAfterUpdate'
     })
   },
-  refreshCurrentUser (context, userData) {
+  setCurrentUser (context, userData) {
     context.commit(types.USER_INFO_LOADED, userData)
   },
   /**
@@ -367,7 +367,7 @@ const actions: ActionTree<UserState, RootState> = {
         message: i18n.t('Account data has successfully been updated'),
         action1: { label: i18n.t('OK') }
       })
-      rootStore.dispatch('user/refreshCurrentUser', event.result)
+      rootStore.dispatch('user/setCurrentUser', event.result)
     }
   },
   sessionAfterAuthorized (context, event) {
