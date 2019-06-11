@@ -15,7 +15,6 @@ const compileOptions = {
   interpolate: /{{{([\s\S]+?)}}}/g
 }
 const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.ssrDisabledFor.extensions.join('|')})$`)
-const NOT_ALLOWED_CUSTOMERROR404_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.customErrors.http404.notAllowedExtensions.join('|')})$`)
 
 const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true
@@ -135,7 +134,7 @@ app.get('*', (req, res, next) => {
   const s = Date.now()
   const errorHandler = err => {
     if (err && err.code === 404) {
-      if (NOT_ALLOWED_CUSTOMERROR404_EXTENSIONS_REGEX.test(req.url)) {
+      if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
         apiStatus(res, 'Vue Storefront: Resource is not found', 404)
         console.error(`Resource is not found : ${req.url}`)
         next()
