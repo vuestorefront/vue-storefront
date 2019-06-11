@@ -149,6 +149,13 @@ export default {
     onBottomScroll () {
       this.pullMoreProducts()
     },
+    bottomVisible () {
+      const scrollY = Math.ceil(window.scrollY)
+      const visible = window.innerHeight
+      const pageHeight = document.documentElement.scrollHeight
+      const bottomOfPage = visible + scrollY >= pageHeight
+      return bottomOfPage || pageHeight < visible
+    },
     pullMoreProducts () {
       if (typeof navigator !== 'undefined' && !navigator.onLine) return
       let current = this.getCurrentCategoryProductQuery.current + this.getCurrentCategoryProductQuery.perPage
@@ -216,7 +223,7 @@ export default {
       this.$store.dispatch('category/resetFilters')
       this.$bus.$emit('filter-reset')
 
-      this.$store.dispatch('category/single', { key: this.$config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then(category => {
+      this.$store.dispatch('category/single', { key: config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then(category => {
         if (!category) {
           this.$router.push(this.localizedRoute('/'))
         } else {
@@ -253,7 +260,7 @@ export default {
     onUserPricesRefreshed () {
       const defaultFilters = config.products.defaultFilters
       this.$store.dispatch('category/single', {
-        key: this.$config.products.useMagentoUrlKeys ? 'url_key' : 'slug',
+        key: config.products.useMagentoUrlKeys ? 'url_key' : 'slug',
         value: this.$route.params.slug
       }).then((parentCategory) => {
         if (!this.getCurrentCategoryProductQuery.searchProductQuery) {

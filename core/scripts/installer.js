@@ -32,6 +32,20 @@ const VUE_STOREFRONT_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/vue-storefront.
 const VUE_STOREFRONT_BACKEND_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/vue-storefront-api.log`
 
 /**
+ * Abstract class for field initialization
+ */
+class Abstract {
+  /**
+   * Constructor
+   *
+   * Initialize fields
+   */
+  constructor (answers) {
+    this.answers = answers
+  }
+}
+
+/**
  * Message management
  */
 class Message {
@@ -105,20 +119,6 @@ class Message {
     message([
       ...text
     ], Object.assign(isLastMessage ? {marginTop: 1} : {}, {borderColor: 'green', marginBottom: 1}))
-  }
-}
-
-/**
- * Abstract class for field initialization
- */
-class Abstract {
-  /**
-   * Constructor
-   *
-   * Initialize fields
-   */
-  constructor (answers) {
-    this.answers = answers
   }
 }
 

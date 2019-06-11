@@ -9,7 +9,7 @@
       <h2 v-if="productsInWishlist.length" class="col-xs-12 col-sm cl-accent">
         {{ $t('Wishlist') }}
       </h2>
-      <clear-wishlist-button v-if="productsInWishlist.length" @click="clearWishlist" class="col-xs-12 col-sm mt35 mb35 end-sm"/>
+      <clear-wishlist-button v-if="productsInWishlist.length" @click="clearWishlist" class="col-xs-12 col-sm mt35 mb35 end-sm" />
     </div>
     <h4 v-if="!productsInWishlist.length" class="cl-accent ml30">
       {{ $t('Your wishlist is empty.') }}
@@ -22,7 +22,7 @@
       {{ $t('to find something beautiful for You!') }}
     </div>
     <ul class="products">
-      <product v-for="product in productsInWishlist" :key="product.id" :product="product" />
+      <product v-for="wishlistProduct in productsInWishlist" :key="wishlistProduct.id" :product="wishlistProduct" />
     </ul>
   </div>
 </template>

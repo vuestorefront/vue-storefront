@@ -3,9 +3,8 @@
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
 ## 1.9 -> 1.10
-- Event 'application-after-init' is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
-
-## 1.9 -> 1.10
+- Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
+- The lowest supported node version  is currently 8.10.0,
 - Module Mailchimp is removed in favor of Newsletter. `local.json` configuration under key `mailchimp` moved to key `newsletter`.
 
 ## 1.8 -> 1.9
@@ -32,6 +31,8 @@ const module = createModule(moduleConfig)
 
 ### Troubleshooting 
 - In case of CORS problem after upgrade check your elasticsearch url in config file. Best practice for that change can be found [here](https://github.com/DivanteLtd/vue-storefront/commit/77fc9c2765068303879c75ef9ed4a4b98f6763b6)
+
+- In case of app crashing, especially when opening `vue devtools` in browser, try setting `storeViews.commonCache` to `false`.
 
 ## 1.7 -> 1.8
 Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/blob/master/CHANGELOG.md)
@@ -162,7 +163,6 @@ Required action: Change the import path. In case of additional changes click on 
 - [`Wishlist/Product.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-7c0514d730223832fd2e1fae9d5f2068)
 - [`Wishlist.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-8dc4f61d36ae2b2ffc2a4c4603e844b8)
 - [`Collection.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-26a650b112a3b01efd1ff3a5c752aba1)
-- [`CustomCmsPage.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-8e52fc16e52baec382994cc11445d222) (extension)
 - [`Home.vue`](https://github.com/DivanteLtd/vue-storefront/commit/cc17b5bfa43a9510815aea14dce8bafac382bc7f#diff-91bc0c9fe9fa95dd88900beff8975200)
 
 #### Components that were moved from core to theme

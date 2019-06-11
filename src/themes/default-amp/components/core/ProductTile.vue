@@ -10,7 +10,8 @@
     >
       <div
         class="product-image relative bg-cl-secondary"
-        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]">
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
+      >
         <amp-img
           :alt="product.name"
           :src="thumbnailObj.src"

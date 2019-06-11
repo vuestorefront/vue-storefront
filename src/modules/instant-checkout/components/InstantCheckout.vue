@@ -143,7 +143,7 @@ export default {
               this.$store.dispatch('checkout/setThankYouPage', true)
               this.$store.commit('ui/setMicrocart', false)
               this.$router.push(this.localizedRoute('/checkout'))
-              this.$store.dispatch('cart/clear', {}, {root: true})
+              this.$store.dispatch('cart/clear', { recreateAndSyncCart: true }, {root: true})
             }
           })
         })
@@ -159,11 +159,14 @@ export default {
       })
 
       const dataToUpdate = new Promise((resolve, reject) => {
-        this.$store.dispatch('cart/refreshTotals', {
-          country: this.country,
-          method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
-          carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
-          payment_method: null
+        this.$store.dispatch('cart/syncTotals', {
+          methodsData: {
+            country: this.country,
+            method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
+            carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
+            payment_method: null
+          },
+          forceServerSync: true
         }).then(() => {
           resolve({
             displayItems: this.bucket,
@@ -185,11 +188,14 @@ export default {
       const dataToUpdate = new Promise((resolve, reject) => {
         this.updateShippingOptions(true)
           .then(() => {
-            return this.$store.dispatch('cart/refreshTotals', {
-              country: this.country,
-              method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
-              carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
-              payment_method: null
+            return this.$store.dispatch('cart/syncTotals', {
+              methodsData: {
+                country: this.country,
+                method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
+                carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
+                payment_method: null
+              },
+              forceServerSync: true
             })
           }).then(() => {
             resolve({
@@ -207,9 +213,9 @@ export default {
     },
     updateShippingOptions (setDefault = false) {
       return new Promise((resolve, reject) => {
-        rootStore.dispatch('cart/getShippingMethods', {
+        rootStore.dispatch('cart/syncShippingMethods', {
           country_id: this.country
-        }).then(() => {
+        }, { forceServerSync: true }).then(() => {
           this.shippingOptions = []
           this.$store.state.shipping.methods.forEach(method => {
             this.shippingOptions.push({
@@ -301,7 +307,7 @@ export default {
     }
   },
   mounted () {
-    if (window.PaymentRequest) {
+    if (window.PaymentRequest && !window.ApplePaySession) {
       this.supported = true
       this.updateShippingOptions()
     }

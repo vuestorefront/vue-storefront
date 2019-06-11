@@ -10,12 +10,14 @@
     >
       <div
         class="product-image relative bg-cl-secondary"
-        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]">
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
+      >
         <product-image
           class="product-image__content"
           :image="thumbnailObj"
           :alt="product.name | htmlDecode"
-          data-testid="productImage"/>
+          data-testid="productImage"
+        />
       </div>
 
       <p class="mb0 cl-accent mt10" v-if="!onlyImage">
