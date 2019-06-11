@@ -172,110 +172,21 @@ This method sends request to the backend to collect cart totals. It calls differ
 
 All state members should have been accessed only by getters. Please take a look at the state reference for data formats
 
-```js
-const getters = {
-
-  getCartToken (state) {
-    return state.cartServerToken
-  },
-  getLastSyncDate (state) {
-    return state.cartServerLastSyncDate
-  },
-  getLastTotalsSyncDate (state) {
-    return state.cartServerLastSyncDate
-  },  
-  getShippingMethod (state) {
-    return state.shipping
-  },
-  getPaymentMethod (state) {
-    return state.payment
-  },
-  getLastCartHash (state) {
-    return state.cartItemsHash
-  },
-  getCurrentCartHash (state) {
-    return calcItemsHmac(state.cartItems, state.cartServerToken)
-  },  
-  isCartHashChanged (state) {
-    return (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) 
-  },
-  isSyncRequired (state) {
-    return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !!!state.cartServerLastSyncDate // first load - never synced
-  },
-  isTotalsSyncRequired (state) {
-    return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !!!state.cartServerLastTotalsSyncDate // first load - never synced
-  },  
-  isCartHashEmtpyOrChanged (state) {
-    return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) 
-  },
-  getCartItems (state) {
-    return state.cartItems
-  },
-  isTotalsSyncEnabled (state) {
-    return config.cart.synchronize_totals && onlineHelper.isOnline && !isServer
-  },
-  isCartConnected (state) {
-    return !!state.cartServerToken
-  },
-  isCartSyncEnabled (state) {
-    return config.cart.synchronize && onlineHelper.isOnline
-  },
-  getTotals (state) {
-    if (state.platformTotalSegments && onlineHelper.isOnline) {
-      return state.platformTotalSegments
-    } else {
-      let shipping = state.shipping instanceof Array ? state.shipping[0] : state.shipping
-      let payment = state.payment instanceof Array ? state.payment[0] : state.payment
-      const totalsArray = [
-        {
-          code: 'subtotalInclTax',
-          title: i18n.t('Subtotal incl. tax'),
-          value: sumBy(state.cartItems, (p) => {
-            return p.qty * p.priceInclTax
-          })
-        },
-        {
-          code: 'grand_total',
-          title: i18n.t('Grand total'),
-          value: sumBy(state.cartItems, (p) => {
-            return p.qty * p.priceInclTax + (shipping ? shipping.price_incl_tax : 0)
-          })
-        }
-      ]
-      if (payment) {
-        totalsArray.push({
-          code: 'payment',
-          title: i18n.t(payment.title),
-          value: payment.costInclTax
-        })
-      }
-      if (shipping) {
-        totalsArray.push({
-          code: 'shipping',
-          title: i18n.t(shipping.method_title),
-          value: shipping.price_incl_tax
-        })
-      }
-      return totalsArray
-    }
-  },
-  getItemsTotalQuantity (state, getters, rootStore) {
-    if (config.cart.minicartCountType === 'items') {
-      return state.cartItems.length
-    }
-
-    return sumBy(state.cartItems, (p) => {
-      return p.qty
-    })
-  },
-  getCoupon (state): AppliedCoupon | false {
-    if (!(state.platformTotals && state.platformTotals.hasOwnProperty('coupon_code'))) {
-      return false
-    }
-    return {
-      code: state.platformTotals.coupon_code,
-      discount: state.platformTotals.discount_amount
-    }
-  },
-};
-```
+- `getCartToken` - get the current cart token, if empty it does mean we need to call an action `cart/connect` prior to sync with the server,
+- `getLastSyncDate` - this is an integer, timestamp of the last shopping cart sync with the server
+- `getLastTotalsSyncDate` - integer, timestamp of the last totals sync with the server,
+- `getShippingMethod` - object, gets currently selected shipping method in the Checkout,
+- `getPaymentMethod` - object, gets current payment method selected in the checkout,
+- `getLastCartHash` - get the last saved hash/HMAC of the cart items + server token that let's you track the changes of the shipping cart. Hash is being saved by the server sync,
+- `getCurrentCartHash` - get the current hash/HMAC of the cart items + server token. Coparing it to the `getLastCartHash` value let you know if we need a server sync or not,
+- `isCartHashChanged` - comparing the `getLastCartHash` with the `getCurrentCartHash` in order to verify if we need a server sync or not,
+- `isSyncRequired` - checking if the `isCartHashChanged` is true OR if this is the first sync attempt (after the SSR),
+- `isTotalsSyncRequired` - same as `isSyncRequired` but for the totals (not the cart items),
+- `isCartHashEmtpyOrChanged` - checks if `isCartHashChanged` or empty,
+- `getCartItems` - array of products in the shopping cart,
+- `isTotalsSyncEnabled` - check if the `config.cart.synchronize` is true + if we're online + if this is CSR request,
+- `isCartConnected` - check if the `getCartToken` is not empty - which means the `cart/connect` action has been called and we're OK to sync with the server,
+- `isCartSyncEnabled` - the same as `isTotalsSyncEnabled` but for totals (`config.cart.synchronize_totals` flag),
+- `getTotals` - array with the total segments,
+- `getItemsTotalQuantity` - get the sum of all the items in the shopping cart,
+- `getCoupon` - get the currently applied discount code,
