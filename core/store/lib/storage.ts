@@ -58,7 +58,7 @@ class LocalForageCacheDriver {
         let storageSize = 0
         this.iterate((item, id, number) => {
           storageSize += roughSizeOfObject(item)
-        }, (err, result) => {
+        }, (err, result) => { // eslint-disable-line handle-callback-err
           if ((storageSize / 1024) > storageQuota) {
             Logger.info('Clearing out the storage ', 'cache', { storageSizeKB: Math.round(storageSize / 1024), storageQuotaKB: storageQuota })()
             const howManyItemsToRemove = 100
@@ -68,7 +68,7 @@ class LocalForageCacheDriver {
                 removeItemFnc(id)
                 keysPurged.push(id)
               }
-            }, (err, result) => {
+            }, (err, result) => { // eslint-disable-line handle-callback-err
               Logger.info('Cache purged', 'cache', { keysPurged })()
             })
           } else {

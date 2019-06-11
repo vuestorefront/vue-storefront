@@ -70,13 +70,6 @@ Cart Store is designed to handle all actions related the shopping cart.
     platformTotals: null,
     platformTotalSegments: null,
     cartIsLoaded: false,
-    cartServerPullAt: 0,
-    cartServerTotalsAt: 0,
-    cartServerCreatedAt: 0,
-    cartServerMethodsRefreshAt: 0,
-    cartServerBypassAt: 0,
-    cartSavedAt: new Date(),
-    bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
     shipping: [],
     payment: [],
@@ -91,13 +84,8 @@ Cart state is automatically loaded from `localForage` collection after page has 
 The cart state data:
 
 - `itemsAfterPlatformTotals` - helper collection, dictionary where the key is Magento cart item `item_id` that stores the totals information per item - received from Magento; it's automatically populated when `config.cart.synchronize_totals` is enabled;
-- `platformTotals` - similarly to above item, here we have the full totals from Magento for the current shopping cart. These collections are populated by [`cart/serverTotals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/actions.js#L49) and the event handler for [`servercart-after-totals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L30)
+- `platformTotals` - similarly to above item, here we have the full totals from Magento for the current shopping cart. These collections are populated by [`cart/syncTotals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/actions.js#L49) and the event handler for [`servercart-after-totals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L30)
 - `cartIsLoaded` (bool) - true after dispatching `cart/load`
-- `cartServerPullAt` (int) - timestamp for the last server cart synchronization set by [`servercart-after-pulled`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L45) - enabled when `cart/synchronize` is set to true in the config,
-- `cartServerTotalsAt` - (int) timestamp for the latest server totals synchronization set by ['servercart-after-totals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L30)
-- `cartServerCreatedAt` - (int) timestamp for the last server cart id sync set by [`servercart-after-created`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L8)
-- `cartSavedAt` - (int) timestamp for the latest cart - localForage (local browser) state sync,
-- `bypassToAnon` - (bool) whenever there is a client's quote lock on the cart (for example the cart is currently in sync with Magento etc.) we're using the guest cart for current order; in that case this value is set to true,
 - `shipping` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
 - `payment` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
 - `cartItems` - collection of the cart items; the item format is the same as described in [ElasticSearch Data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md) - the `product` class; the only difference is that the (int) `qty` field is added
@@ -120,7 +108,7 @@ The following events are published from `cart` store:
 
 The cart store provides following public actions:
 
-#### `serverTokenClear (context)`
+#### `disconnect (context)`
 
 Helper method used to clear the current server cart id (used for cart synchronization)
 
@@ -132,21 +120,17 @@ This method is called after order has been placed to empty the `cartItems` colle
 
 Method used to save the cart to the `localForage` browser collection
 
-#### `serverPull (context, { forceClientState = false })`
+#### `sync (context, { forceClientState = false })`
 
 This method is used to synchronize the current state of the cart items back and forth between server and current client state. When the `forceClientState` is set to false the communication is one-way only (client -> server). This action is called automatically on any shopping cart change when the `cart.synchronize` is set to true.
 
-#### `serverTotals (context, { forceClientState = false })`
+#### `syncTotals (context, { forceClientState = false })`
 
 Method is called whenever the cart totals should have been synchronized with the server (after `serverPull`). This method overrides local shopping cart grand totals and specific item values (for example prices after discount).
 
-#### `serverCreate (context, { guestCart = false })`
+#### `connect (context, { guestCart = false })`
 
 Action is dispatched to create the server cart and store the cart id (for further synchronization)
-
-#### `serverUpdateItem (context, cartItem)`, `serverDeleteItem (context, cartItem)`
-
-Actions called whenever the shopping cart item should be synchronized with server side (pushes changes to the server). Basically this method is called within [`servercart-after-pulled`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L45)
 
 #### `load (context)`
 
@@ -164,10 +148,6 @@ This action is used to add the `productToAdd` to the cart, if `config.cart.synch
 
 As you may imagine :) This action simply removes the product from the shopping cart and synchronizes the server cart when set. You must at least specify the `product.sku`.
 
-#### `removeNonConfirmedVariants ({ commit, dispatch }, product)`
-
-This action simply removes the non-confirmed product from the shopping cart and synchronizes the server cart when set. You must at least specify the `product.sku`.
-
 #### `updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false })`
 
 This method is called whenever user changes the quantity of product in the cart (called from `Microcart.vue`). The parameter `qty` is the new quantity of product and by using `forceServerSilence` you may control if the server cart synchronization is being executed or not.
@@ -176,15 +156,15 @@ This method is called whenever user changes the quantity of product in the cart 
 
 Updates item properties.
 
-#### `getPaymentMethods (context)`
+#### `syncPaymentMethods (context)`
 
 Gets a list of payment methods from the backend and saves them to `cart.payment` store state.
 
-#### `getShippingMethods (context, address)`
+#### `syncShippingMethods (context, address)`
 
 Gets a list of shipping methods from the backend and saves them to `cart.shipping` store state. Country ID is passed to this method in a mandatory `address` parameter.
 
-#### `refreshTotals (context, methodsData)`
+#### `syncTotals (context, methodsData)`
 
 This method sends request to the backend to collect cart totals. It calls different backend endpoints depending on if payment and shipping methods information is available or not.
 
@@ -192,9 +172,21 @@ This method sends request to the backend to collect cart totals. It calls differ
 
 All state members should have been accessed only by getters. Please take a look at the state reference for data formats
 
-```js
-const getters = {
-  current: state => state.current,
-  list: state => state.list,
-};
-```
+- `getCartToken` - get the current cart token, if empty it does mean we need to call an action `cart/connect` prior to sync with the server,
+- `getLastSyncDate` - this is an integer, timestamp of the last shopping cart sync with the server
+- `getLastTotalsSyncDate` - integer, timestamp of the last totals sync with the server,
+- `getShippingMethod` - object, gets currently selected shipping method in the Checkout,
+- `getPaymentMethod` - object, gets current payment method selected in the checkout,
+- `getLastCartHash` - get the last saved hash/HMAC of the cart items + server token that let's you track the changes of the shipping cart. Hash is being saved by the server sync,
+- `getCurrentCartHash` - get the current hash/HMAC of the cart items + server token. Coparing it to the `getLastCartHash` value let you know if we need a server sync or not,
+- `isCartHashChanged` - comparing the `getLastCartHash` with the `getCurrentCartHash` in order to verify if we need a server sync or not,
+- `isSyncRequired` - checking if the `isCartHashChanged` is true OR if this is the first sync attempt (after the SSR),
+- `isTotalsSyncRequired` - same as `isSyncRequired` but for the totals (not the cart items),
+- `isCartHashEmtpyOrChanged` - checks if `isCartHashChanged` or empty,
+- `getCartItems` - array of products in the shopping cart,
+- `isTotalsSyncEnabled` - check if the `config.cart.synchronize` is true + if we're online + if this is CSR request,
+- `isCartConnected` - check if the `getCartToken` is not empty - which means the `cart/connect` action has been called and we're OK to sync with the server,
+- `isCartSyncEnabled` - the same as `isTotalsSyncEnabled` but for totals (`config.cart.synchronize_totals` flag),
+- `getTotals` - array with the total segments,
+- `getItemsTotalQuantity` - get the sum of all the items in the shopping cart,
+- `getCoupon` - get the currently applied discount code,

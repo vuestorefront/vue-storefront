@@ -9,7 +9,8 @@
               width="450"
               height="500"
               layout="responsive"
-              type="slides">
+              type="slides"
+            >
               <amp-img
                 class="product-image"
                 layout="responsive"
@@ -17,7 +18,8 @@
                 :key="image.src"
                 :src="image.src"
                 :width="450"
-                :height="500"/>
+                :height="500"
+              />
             </amp-carousel>
           </div>
           <div class="col-xs-12 col-md-5 data">
@@ -86,7 +88,10 @@
                   slug: product.slug,
                   childSku: product.sku
                 }
-              })">Check available sizes</router-link>
+              })"
+              >
+                Check available sizes
+              </router-link>
             </div>
           </div>
         </section>
@@ -127,34 +132,20 @@
 
 <script>
 import Product from '@vue-storefront/core/pages/Product'
-import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
-import GenericSelector from 'theme/components/core/GenericSelector'
-import ColorSelector from 'theme/components/core/ColorSelector.vue'
-import SizeSelector from 'theme/components/core/SizeSelector.vue'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
-import ProductTile from 'theme/components/core/ProductTile.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
-import ProductGallery from 'theme/components/core/ProductGallery'
-import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 
 export default {
   components: {
     Breadcrumbs,
-    ColorSelector,
-    GenericSelector,
     ProductAttribute,
     ProductBundleOptions,
     ProductCustomOptions,
-    ProductGallery,
-    ProductLinks,
-    ProductTile,
-    PromotedOffers,
-    RelatedProducts,
-    SizeSelector
+    ProductLinks
   },
   mixins: [Product],
   data () {

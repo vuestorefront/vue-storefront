@@ -41,9 +41,9 @@ export default {
     },
     offlineImage () {
       return {
-        src: this.getThumbnail(this.product.image, 310, 300),
-        error: this.getThumbnail(this.product.image, 310, 300),
-        loading: this.getThumbnail(this.product.image, 310, 300)
+        src: this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height),
+        error: this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height),
+        loading: this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height)
       }
     },
     image () {

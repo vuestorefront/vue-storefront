@@ -18,12 +18,11 @@ import { PromotedOffers } from './promoted-offers'
 import { Ui } from './ui-store'
 // import { GoogleAnalytics } from './google-analytics';
 // import { Hotjar } from './hotjar';
-// import { googleTagManager } from './google-tag-manager';
+import { googleTagManager } from './google-tag-manager';
 import { AmpRenderer } from './amp-renderer';
 import { PaymentBackendMethods } from './payment-backend-methods';
 import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
-import { Magento2CMS } from './magento-2-cms'
 import { InstantCheckout } from './instant-checkout'
 import { OrderHistory } from './order-history'
 
@@ -69,8 +68,7 @@ export const registerModules: VueStorefrontModule[] = [
   Homepage,
   Claims,
   PromotedOffers,
-  Magento2CMS,
-  // googleTagManager,
+  googleTagManager,
   // GoogleAnalytics,
   // Hotjar,
   PaymentBackendMethods,

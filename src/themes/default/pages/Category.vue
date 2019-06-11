@@ -4,8 +4,16 @@
       <div class="container">
         <breadcrumbs :routes="getBreadcrumbs" :active-route="category.name" />
         <div class="row middle-sm">
-          <h1 class="col-sm-9 category-title mb10"> {{ category.name }} </h1>
-          <div class="sorting col-sm-3 align-right"><sort-by @sortChange="changeFilter"/></div>
+          <h1 class="col-sm-8 category-title mb10">
+            {{ category.name }}
+          </h1>
+          <div class="sorting col-sm-2 align-right mt50">
+            <label class="mr10">{{ $t('Columns') }}:</label>
+            <columns @change-column="columnChange" />
+          </div>
+          <div class="sorting col-sm-2 align-right mt50">
+            <sort-by :has-label="true" @sortChange="changeFilter" />
+          </div>
         </div>
       </div>
       <div class="container">
@@ -16,23 +24,22 @@
           >
             {{ $t('Filters') }}
           </button>
-          <div class="mobile-sorting col-xs-6 mt25"><sort-by @sortChange="changeFilter"/></div>
+          <div class="mobile-sorting col-xs-6 mt25">
+            <sort-by @sortChange="changeFilter" />
+          </div>
         </div>
       </div>
     </header>
     <div class="container pb60">
       <div class="row m0 pt15">
         <div class="col-md-3 start-xs category-filters">
-          <sidebar
-            :filters="getAvailableFilters"
-            @changeFilter="changeFilter"
-          />
+          <sidebar :filters="filters.available" @sortChange="changeFilter" />
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
           <div class="close-container absolute w-100">
             <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>
-          <sidebar class="mobile-filters-body" :filters="getAvailableFilters"/>
+          <sidebar class="mobile-filters-body" :filters="getAvailableFilters" />
           <div class="relative pb20 pt15">
             <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
           </div>
@@ -44,12 +51,16 @@
           </button-full>
         </div>
         <div class="col-md-9 px10 border-box products-list">
-          <p class="col-xs-12 end-md m0 pb20 cl-secondary">{{ productsTotal }} {{ $t('items') }}</p>
+          <p class="col-xs-12 end-md m0 pb20 cl-secondary">
+            {{ productsTotal }} {{ $t('items') }}
+          </p>
           <div v-if="isCategoryEmpty" class="hidden-xs">
-            <h4 data-testid="noProductsInfo">{{ $t('No products found!') }}</h4>
+            <h4 data-testid="noProductsInfo">
+              {{ $t('No products found!') }}
+            </h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
-          <product-listing columns="3" :products="products" />
+          <product-listing :columns="defaultColumn" :products="products" />
         </div>
       </div>
     </div>
@@ -63,6 +74,7 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
+import Columns from '../components/core/Columns.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
 export default {
@@ -71,11 +83,13 @@ export default {
     ProductListing,
     Breadcrumbs,
     Sidebar,
-    SortBy
+    SortBy,
+    Columns
   },
   data () {
     return {
-      mobileFilters: false
+      mobileFilters: false,
+      defaultColumn: 3
     }
   },
   computed: {
@@ -130,6 +144,9 @@ export default {
     },
     async changeFilter (filterVariant) {
       this.$store.dispatch('category-next/switchSearchFilter', filterVariant)
+    },
+    columnChange (column) {
+      this.defaultColumn = column
     }
   }
 }
@@ -165,6 +182,12 @@ export default {
 
   .category-title {
     line-height: 65px;
+  }
+
+  .sorting {
+    label {
+      margin-right: 10px;
+    }
   }
 
   @media (max-width: 64em) {
@@ -234,4 +257,9 @@ export default {
   .close {
     margin-left: auto;
   }
+</style>
+<style lang="scss">
+.product-image {
+  max-height: unset !important;
+}
 </style>

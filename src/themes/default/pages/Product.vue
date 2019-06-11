@@ -101,9 +101,9 @@
                         @change="changeFilter"
                       />
                     </div>
-                    <router-link
-                      to="/size-guide"
+                    <span
                       v-if="option.label == 'Size'"
+                      @click="openSizeGuide"
                       class="
                         p0 ml30 inline-flex middle-xs no-underline h5
                         action size-guide pointer cl-secondary
@@ -113,7 +113,7 @@
                       <span>
                         {{ $t('Size guide') }}
                       </span>
-                    </router-link>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -220,6 +220,7 @@
     />
     <promoted-offers single-banner />
     <related-products type="related" />
+    <SizeGuide />
   </div>
 </template>
 
@@ -235,7 +236,6 @@ import ColorSelector from 'theme/components/core/ColorSelector.vue'
 import SizeSelector from 'theme/components/core/SizeSelector.vue'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
-import ProductTile from 'theme/components/core/ProductTile.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
@@ -244,6 +244,7 @@ import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/Promote
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
 
 export default {
   components: {
@@ -257,13 +258,13 @@ export default {
     ProductCustomOptions,
     ProductGallery,
     ProductLinks,
-    ProductTile,
     PromotedOffers,
     RelatedProducts,
     Reviews,
     SizeSelector,
     WebShare,
-    BaseInputNumber
+    BaseInputNumber,
+    SizeGuide
   },
   mixins: [Product, VueOfflineMixin],
   data () {
@@ -335,6 +336,9 @@ export default {
     },
     changeFilter (variant) {
       this.$bus.$emit('filter-changed-product', Object.assign({ attribute_code: variant.type} , variant))
+    },
+    openSizeGuide () {
+      this.$bus.$emit('modal-show', 'modal-sizeguide')
     }
   },
   validations: {
