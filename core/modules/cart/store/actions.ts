@@ -149,7 +149,7 @@ const actions: ActionTree<CartState, RootState> = {
       Logger.debug('Refreshing payment methods', 'cart')()
       const paymentMethodsTask = await _serverGetPaymentMethods()
           let backendMethods = paymentMethodsTask.result
-      let paymentMethods = context.rootGetters['payment/paymentMethods'].slice(0).filter((itm) => {
+      let paymentMethods = context.rootGetters['payment/paymentMethods'].filter((itm) => {
         return (typeof itm !== 'object' || !itm.is_server_method)
       }) // copy
       let uniqueBackendMethods = []
