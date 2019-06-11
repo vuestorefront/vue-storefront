@@ -10,7 +10,6 @@
             <columns @change-column="columnChange" />
           </div>
           <div class="sorting col-sm-2 align-right mt50">
-            <label>{{ $t('Sort by') }}:</label>
             <sort-by :has-label="true" />
           </div>
         </div>
