@@ -128,7 +128,7 @@ app.get('*', (req, res, next) => {
   const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.ssrDisabledFor.extensions.join('|')})$`)
   const NOT_ALLOWED_CUSTOMERROR404_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.customErrors.http404.notAllowedExtensions.join('|')})$`)
   if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
-    utils.apiStatus(res, 'Vue Storefront: Resource is not found', 404)
+    apiStatus(res, 'Vue Storefront: Resource is not found', 404)
     return
   }
 
@@ -136,7 +136,7 @@ app.get('*', (req, res, next) => {
   const errorHandler = err => {
     if (err && err.code === 404) {
       if (NOT_ALLOWED_CUSTOMERROR404_EXTENSIONS_REGEX.test(req.url)) {
-        utils.apiStatus(res, 'Vue Storefront: Resource is not found', 404)
+        apiStatus(res, 'Vue Storefront: Resource is not found', 404)
         console.error(`Resource is not found : ${req.url}`)
         next()
       } else {
