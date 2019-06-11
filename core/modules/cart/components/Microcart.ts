@@ -9,10 +9,10 @@ export const Microcart = {
       return this.$store.state.cart.cartItems
     },
     appliedCoupon (): AppliedCoupon | false {
-      return this.$store.getters['cart/coupon']
+      return this.$store.getters['cart/getCoupon']
     },
     totals (): CartTotalSegments {
-      return this.$store.getters['cart/totals']
+      return this.$store.getters['cart/getTotals']
     },
     isOpen (): boolean {
       return this.$store.state.cart.isMicrocartOpen

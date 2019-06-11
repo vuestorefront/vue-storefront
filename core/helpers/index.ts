@@ -3,6 +3,7 @@ import { remove as removeAccents } from 'remove-accents'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
 import config from 'config'
+import { sha3_224 } from 'js-sha3'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -172,6 +173,23 @@ export const processURLAddress = (url: string = '') => {
   return url
 }
 
+/*
+  * serial executes Promises sequentially.
+  * @param {funcs} An array of funcs that return promises.
+  * @example
+  * const urls = ['/url1', '/url2', '/url3']
+  * serial(urls.map(url => () => $.ajax(url)))
+  *     .then(Logger.log.bind(Logger))()
+  */
+export const serial = async promises => {
+  const results = []
+  for (const item of promises) {
+    const result = await item;
+    results.push(result)
+  }
+  return results
+}
+
 export const isBottomVisible = () => {
   if (isServer) {
     return false
@@ -182,4 +200,9 @@ export const isBottomVisible = () => {
   const bottomOfPage = visible + scrollY >= pageHeight
 
   return bottomOfPage || pageHeight < visible
+}
+
+// helper to calcuate the hash of the shopping cart
+export const calcItemsHmac = (items, token) => {
+  return sha3_224(JSON.stringify({ items, token: token }))
 }

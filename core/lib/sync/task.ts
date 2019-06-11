@@ -12,7 +12,9 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import * as entities from '@vue-storefront/core/store/lib/entities'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
+import { serial } from '@vue-storefront/core/helpers'
 import config from 'config'
+import { onlineHelper } from '@vue-storefront/core/helpers'
 
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
 
@@ -181,4 +183,38 @@ export function initializeSyncTaskStorage () {
     storeName: 'syncTasks',
     driver: localForage[config.localForage.defaultDrivers['syncTasks']]
   }))
+}
+
+export function registerSyncTaskProcessor () {
+  const mutex = {}
+  Vue.prototype.$bus.$on('sync/PROCESS_QUEUE', async data => {
+    if (onlineHelper.isOnline) {
+      // event.data.config - configuration, endpoints etc
+      const syncTaskCollection = Vue.prototype.$db.syncTaskCollection
+      const currentUserToken = rootStore.getters['user/getUserToken']
+      const currentCartToken = rootStore.getters['cart/getCartToken']
+
+      const fetchQueue = []
+      Logger.debug('Current User token = ' + currentUserToken)()
+      Logger.debug('Current Cart token = ' + currentCartToken)()
+      syncTaskCollection.iterate((task, id) => {
+        if (task && !task.transmited && !mutex[id]) { // not sent to the server yet
+          mutex[id] = true // mark this task as being processed
+          fetchQueue.push(execute(task, currentUserToken, currentCartToken).then(executedTask => {
+            syncTaskCollection.removeItem(id) // remove successfully executed task from the queue
+            mutex[id] = false
+          }).catch(err => {
+            mutex[id] = false
+            Logger.error(err)()
+          }))
+        }
+      }, (err) => {
+        if (err) Logger.error(err)()
+        Logger.debug('Iteration has completed')()
+        // execute them serially
+        serial(fetchQueue)
+        Logger.debug('Processing sync tasks queue has finished')()
+      })
+    }
+  })
 }

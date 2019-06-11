@@ -195,7 +195,7 @@ export default {
     onFailure (result) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
-        message: result.result,
+        message: this.$t(result.result),
         action1: { label: this.$t('OK') }
       })
     }
