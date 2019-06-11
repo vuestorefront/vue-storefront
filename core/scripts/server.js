@@ -14,6 +14,8 @@ const compileOptions = {
   escape: /{{([^{][\s\S]+?[^}])}}/g,
   interpolate: /{{{([\s\S]+?)}}}/g
 }
+const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.ssrDisabledFor.extensions.join('|')})$`)
+const NOT_ALLOWED_CUSTOMERROR404_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.customErrors.http404.notAllowedExtensions.join('|')})$`)
 
 const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true
@@ -125,8 +127,6 @@ app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
 
 app.get('*', (req, res, next) => {
-  const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.ssrDisabledFor.extensions.join('|')})$`)
-  const NOT_ALLOWED_CUSTOMERROR404_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.customErrors.http404.notAllowedExtensions.join('|')})$`)
   if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
     apiStatus(res, 'Vue Storefront: Resource is not found', 404)
     return
