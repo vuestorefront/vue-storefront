@@ -22,7 +22,7 @@ const actions: ActionTree<CmsPageState, RootState> = {
    * @param {any} includeFields
    * @returns {Promise<T> & Promise<any>}
    */
-  list (context, { filterValues = null, filterField = 'identifier', size = 150, start = 0, excludeFields = null, includeFields = null, skipCache = false }) {
+  async list ({ commit }, { filterValues = null, filterField = 'identifier', size = 150, start = 0, excludeFields = null, includeFields = null, skipCache = false }) {
     let query = new SearchQuery()
     if (filterValues) {
       query = query.applyFilter({key: filterField, value: {'like': filterValues}})
