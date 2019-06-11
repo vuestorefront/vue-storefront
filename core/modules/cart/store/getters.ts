@@ -8,7 +8,6 @@ import { onlineHelper, isServer, calcItemsHmac } from '@vue-storefront/core/help
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-
 const getters: GetterTree<CartState, RootState> = {
   getCartToken (state) {
     return state.cartServerToken
@@ -18,7 +17,7 @@ const getters: GetterTree<CartState, RootState> = {
   },
   getLastTotalsSyncDate (state) {
     return state.cartServerLastTotalsSyncDate
-  },  
+  },
   getShippingMethod (state) {
     return state.shipping
   },
@@ -30,18 +29,18 @@ const getters: GetterTree<CartState, RootState> = {
   },
   getCurrentCartHash (state) {
     return calcItemsHmac(state.cartItems, state.cartServerToken)
-  },  
+  },
   isCartHashChanged (state, getters) {
-    return getters.getCurrentCartHash !== state.cartItemsHash) 
+    return getters.getCurrentCartHash !== state.cartItemsHash
   },
   isSyncRequired (state) {
-    return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !!!state.cartServerLastSyncDate // first load - never synced
+    return !state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !state.cartServerLastSyncDate // first load - never synced
   },
   isTotalsSyncRequired (state) {
-    return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !!!state.cartServerLastTotalsSyncDate // first load - never synced
-  },  
+    return !state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !state.cartServerLastTotalsSyncDate // first load - never synced
+  },
   isCartHashEmtpyOrChanged (state) {
-    return !!!state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) 
+    return !state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash)
   },
   getCartItems (state) {
     return state.cartItems
@@ -119,7 +118,7 @@ const getters: GetterTree<CartState, RootState> = {
   /** @deprecated */
   totalQuantity (state) {
     Logger.error('The getter cart.totalQuantity has been deprecated please change to cart.getters.getItemsTotalQuantity()')()
-  },  
+  },
   /** @deprecated */
   totals (state) {
     Logger.error('The getter cart.totals has been deprecated please change to cart.getters.getTotals()')()

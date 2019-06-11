@@ -194,7 +194,6 @@ describe('Cart actions', () => {
   });
 
   describe('syncTotals', () => {
-
     it('does not do anything if totals synchronization is off', () => {
       const contextMock = {
         rootGetters: { checkout: { isUserInCheckout: () => false } },

@@ -1,10 +1,10 @@
 import Vue from 'vue'
+import * as types from '../../../store/mutation-types'
+import cartMutations from '../../../store/mutations'
 
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: (str) => jest.fn()
 }))
-import * as types from '../../../store/mutation-types'
-import cartMutations from '../../../store/mutations'
 
 Vue.prototype.$bus = {
   $emit: jest.fn()
@@ -125,7 +125,6 @@ describe('Cart mutations', () => {
     })
   })
 
-
   describe('CART_DEL_ITEM', () => {
     it('removes product from cart by sku', () => {
       const stateMock = {
@@ -134,7 +133,7 @@ describe('Cart mutations', () => {
             qty: 10,
             sku: 'foo'
           }
-        ],
+        ]
       }
       const expectedState = {
         cartItems: []
@@ -202,7 +201,7 @@ describe('Cart mutations', () => {
         ]
       }
       const expectedState = {
-        cartItems: [],      }
+        cartItems: [] }
       const wrapper = (mutations: any) => mutations[types.CART_DEL_NON_CONFIRMED_ITEM](
         stateMock,
         {
@@ -261,7 +260,7 @@ describe('Cart mutations', () => {
             sku: 'foo',
             server_item_id: 123
           }
-        ],
+        ]
       }
       const expectedState = {
         cartItems: [
@@ -270,7 +269,7 @@ describe('Cart mutations', () => {
             sku: 'foo',
             server_item_id: 123
           }
-        ],
+        ]
       }
       const wrapper = (mutations: any) => mutations[types.CART_DEL_NON_CONFIRMED_ITEM](
         stateMock,
@@ -329,7 +328,7 @@ describe('Cart mutations', () => {
             sku: 'foo',
             qty: 10
           }
-        ],
+        ]
       }
       const expectedState = { ...stateMock }
       const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM](
@@ -356,7 +355,7 @@ describe('Cart mutations', () => {
             someProp: 'bar',
             qty: 10
           }
-        ],
+        ]
       }
       const expectedState = {
         cartItems: [
@@ -365,7 +364,7 @@ describe('Cart mutations', () => {
             sku: 'foo',
             someProp: 'baz'
           }
-        ],
+        ]
       }
       const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM_PROPS](
         stateMock,
@@ -395,7 +394,7 @@ describe('Cart mutations', () => {
             someProp: 'bar',
             qty: 10
           }
-        ],
+        ]
       }
       const expectedState = {
         cartItems: [
@@ -405,7 +404,7 @@ describe('Cart mutations', () => {
             sku: 'bar',
             someProp: 'baz'
           }
-        ],
+        ]
       }
       const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM_PROPS](
         stateMock,
@@ -434,7 +433,7 @@ describe('Cart mutations', () => {
             someProp: 'bar',
             qty: 10
           }
-        ],
+        ]
       }
       const expectedState = { ...stateMock }
       const wrapper = (mutations: any) => mutations[types.CART_UPD_ITEM_PROPS](
@@ -453,10 +452,10 @@ describe('Cart mutations', () => {
 
   it('CART_UPD_SHIPPING sets given shipping method', () => {
     const stateMock = {
-      shipping: 'foo',
+      shipping: 'foo'
     }
     const expectedState = {
-      shipping: 'bar',
+      shipping: 'bar'
     }
     const wrapper = (mutations: any) => mutations[types.CART_UPD_SHIPPING](
       stateMock,
@@ -477,7 +476,7 @@ describe('Cart mutations', () => {
           qty: 10
         }
       ],
-      cartIsLoaded: true,
+      cartIsLoaded: true
     }
     const wrapper = (mutations: any) => mutations[types.CART_LOAD_CART](
       stateMock,
@@ -495,7 +494,7 @@ describe('Cart mutations', () => {
     const stateMock = {}
     const expectedState = {
       cartItems: [],
-      cartIsLoaded: true,
+      cartIsLoaded: true
     }
     const wrapper = (mutations: any) => mutations[types.CART_LOAD_CART](
       stateMock
@@ -556,10 +555,10 @@ describe('Cart mutations', () => {
 
   it('CART_UPD_PAYMENT sets given payment method', () => {
     const stateMock = {
-      payment: 'foo',
+      payment: 'foo'
     }
     const expectedState = {
-      payment: 'bar',
+      payment: 'bar'
     }
     const wrapper = (mutations: any) => mutations[types.CART_UPD_PAYMENT](
       stateMock,

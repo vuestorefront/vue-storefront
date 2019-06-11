@@ -206,4 +206,3 @@ export const isBottomVisible = () => {
 export const calcItemsHmac = (items, token) => {
   return sha3_224(JSON.stringify({ items, token: token }))
 }
-
