@@ -60,6 +60,11 @@
                 </router-link>
               </div>
               <div class="mt15">
+                <router-link class="cl-secondary" :to="localizedRoute('/i/customer-service')" exact>
+                  {{ $t('Customer service (Magento CMS)') }}
+                </router-link>
+              </div>
+              <div class="mt15">
                 <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>
                   {{ $t('Store locator') }}
                 </router-link>
@@ -157,13 +162,14 @@ import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 import BackToTop from 'theme/components/core/BackToTop'
+import config from 'config'
 
 export default {
   mixins: [CurrentPage],
   name: 'MainFooter',
   computed: {
     multistoreEnabled () {
-      return this.$config.storeViews.multistore
+      return config.storeViews.multistore
     },
     getVersionInfo () {
       return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
