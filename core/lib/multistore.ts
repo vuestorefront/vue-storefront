@@ -11,7 +11,7 @@ export interface LocalizedRoute {
   path?: string,
   name?: string,
   hash?: string,
-  params?: object,
+  params?: { [key: string]: unknown; },
   fullPath?: string
 }
 
@@ -113,7 +113,7 @@ export function adjustMultistoreApiUrl (url: string): string {
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
-  if (routeObj && (routeObj as LocalizedRoute).fullPath && config.seo.useUrlDispatcher) return localizedDispatcherRoute(Object.assign({}, routeObj, { params: null }) as LocalizedRoute, storeCode)
+  if (routeObj && (routeObj as LocalizedRoute).fullPath && config.seo.useUrlDispatcher) return localizedDispatcherRoute(Object.assign({}, routeObj) as LocalizedRoute, storeCode)
   if (storeCode && routeObj && config.defaultStoreCode !== storeCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
