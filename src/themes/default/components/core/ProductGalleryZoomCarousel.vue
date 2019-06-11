@@ -7,7 +7,8 @@
             :class="{'thumb-video': images.video}"
             @click="navigate(index)"
             :image="images"
-            :alt="productName | htmlDecode"/>
+            :alt="productName | htmlDecode"
+          />
         </li>
       </ul>
       <div class="media-zoom-carousel__gallery">
@@ -26,19 +27,23 @@
         >
           <slide
             v-for="(images, index) in gallery"
-            :key="images.src">
+            :key="images.src"
+          >
             <div class="media-zoom-carousel__slide bg-cl-secondary"
-                 :class="{'video-container h-100 flex relative': images.video}">
+                 :class="{'video-container h-100 flex relative': images.video}"
+            >
               <product-image
                 v-show="hideImageAtIndex !== index"
                 :class="{'image--video': images.video}"
                 :image="images"
-                :alt="productName | htmlDecode"/>
+                :alt="productName | htmlDecode"
+              />
               <product-video
                 v-if="images.video && (index === currentPage)"
                 v-bind="images.video"
                 :index="index"
-                @video-started="onVideoStarted"/>
+                @video-started="onVideoStarted"
+              />
             </div>
           </slide>
         </carousel>

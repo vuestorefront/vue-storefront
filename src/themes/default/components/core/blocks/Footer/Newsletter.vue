@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <newsletter-popup v-if="loadNewsletterPopup"/>
+    <newsletter-popup v-if="loadNewsletterPopup" />
   </div>
 </template>
 

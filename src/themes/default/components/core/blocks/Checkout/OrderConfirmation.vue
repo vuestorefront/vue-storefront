@@ -11,23 +11,37 @@
         <table class="brdr-1 brdr-cl-bg-secondary">
           <thead>
             <tr>
-              <th class="serif lh20">{{ $t('Product Name') }}</th>
-              <th class="serif lh20">{{ $t('Price') }}</th>
-              <th class="serif lh20">{{ $t('Qty') }}</th>
-              <th class="serif lh20">{{ $t('Subtotal') }}</th>
+              <th class="serif lh20">
+                {{ $t('Product Name') }}
+              </th>
+              <th class="serif lh20">
+                {{ $t('Price') }}
+              </th>
+              <th class="serif lh20">
+                {{ $t('Qty') }}
+              </th>
+              <th class="serif lh20">
+                {{ $t('Subtotal') }}
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="(product, key) in order.products" :key="key">
+            <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="(product, productKey) in order.products" :key="productKey">
               <td class="fs-medium lh25" :data-th="$t('Product Name')">
                 {{ product.name }}
-                <span class="block mt5 lh16 fs-medium-small" v-for="(option, key) in product.options" :key="key">
+                <span class="block mt5 lh16 fs-medium-small" v-for="(option, optionKey) in product.options" :key="optionKey">
                   <strong>{{ option.label }}: </strong> {{ option.value }}
                 </span>
               </td>
-              <td class="fs-medium lh25" :data-th="$t('Price')">{{ product.priceInclTax | price }}</td>
-              <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">{{ product.qty }}</td>
-              <td class="fs-medium lh25" :data-th="$t('Subtotal')">{{ product.priceInclTax * product.qty | price }}</td>
+              <td class="fs-medium lh25" :data-th="$t('Price')">
+                {{ product.priceInclTax | price }}
+              </td>
+              <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">
+                {{ product.qty }}
+              </td>
+              <td class="fs-medium lh25" :data-th="$t('Subtotal')">
+                {{ product.priceInclTax * product.qty | price }}
+              </td>
             </tr>
           </tbody>
         </table>
