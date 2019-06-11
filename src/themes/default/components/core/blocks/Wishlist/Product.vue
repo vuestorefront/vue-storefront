@@ -1,6 +1,6 @@
 <template>
   <li class="row pr55 py20">
-    <div @click="closeWishlist">
+    <div class="image" @click="closeWishlist">
       <router-link :to="localizedRoute({
         name: product.type_id + '-product',
         fullPath: product.url_path,
