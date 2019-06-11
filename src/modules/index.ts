@@ -22,7 +22,6 @@ import { AmpRenderer } from './amp-renderer';
 import { PaymentBackendMethods } from './payment-backend-methods';
 import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
-import { Magento2CMS } from './magento-2-cms'
 import { InstantCheckout } from './instant-checkout'
 import { OrderHistory } from './order-history'
 
@@ -68,7 +67,6 @@ export const registerModules: VueStorefrontModule[] = [
   Homepage,
   Claims,
   PromotedOffers,
-  Magento2CMS,
   googleTagManager,
   // GoogleAnalytics,
   // Hotjar,

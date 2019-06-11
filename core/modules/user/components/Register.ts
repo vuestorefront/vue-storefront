@@ -43,6 +43,7 @@ export const Register = {
         }
       }).catch(err => {
         // TODO Move to theme
+        this.onFailure({ result: 'Unexpected authorization error. Check your Network conection.' })
         this.$bus.$emit('notification-progress-stop')
         Logger.error(err, 'user')()
       })

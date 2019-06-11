@@ -205,7 +205,7 @@ export default {
         action2: { label: i18n.t('OK'),
           action: async () => {
             await this.$store.dispatch('cart/clear', { recreateAndSyncCart: false }) // just clear the items without sync
-            await this.$store.dispatch('cart/serverPull', { forceClientState: true })
+            await this.$store.dispatch('cart/sync', { forceClientState: true })
           }
         },
         hasNoTimeout: true

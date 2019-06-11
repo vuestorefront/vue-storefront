@@ -46,10 +46,12 @@ import Overlay from 'theme/components/core/Overlay.vue'
 import Loader from 'theme/components/core/Loader.vue'
 import Notification from 'theme/components/core/Notification.vue'
 import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
+import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide.vue'
 import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import { isServer } from '@vue-storefront/core/helpers'
 import Head from 'theme/head'
+import config from 'config'
 
 const SidebarMenu = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
 const Microcart = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue')
@@ -84,7 +86,7 @@ export default {
       this.$bus.$emit('modal-show', 'modal-order-confirmation')
     },
     fetchMenuData () {
-      return this.$store.dispatch('category/list', { level: this.$config.entities.category.categoriesDynamicPrefetch && this.$config.entities.category.categoriesDynamicPrefetchLevel ? this.$config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: this.$config.entities.optimize && isServer ? this.$config.entities.category.includeFields : null, skipCache: isServer })
+      return this.$store.dispatch('category/list', { level: config.entities.category.categoriesDynamicPrefetch && config.entities.category.categoriesDynamicPrefetchLevel ? config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: config.entities.optimize && isServer ? config.entities.category.includeFields : null, skipCache: isServer })
     }
   },
   serverPrefetch () {
@@ -114,6 +116,7 @@ export default {
     Loader,
     Notification,
     SignUp,
+    SizeGuide,
     CookieNotification,
     OfflineBadge,
     OrderConfirmation,
