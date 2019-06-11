@@ -30,6 +30,33 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
   }
 }
 
+export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
+  let selectedVariant = product.configurable_children.find((configurableChild) => {
+    if (availabilityCheck) {
+      if (configurableChild.stock && !config.products.listOutOfStockProducts) {
+        if (!configurableChild.stock.is_in_stock) {
+          return false
+        }
+      }
+    }
+    if (configurableChild.status >= 2/** disabled product */) {
+      return false
+    }
+    if (selectDefaultChildren) {
+      return true // return first
+    }
+    if (configuration.sku) {
+      return configurableChild.sku === configuration.sku // by sku or first one
+    } else {
+      return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
+        if (!configuration[configProperty] || typeof configuration[configProperty].id === 'undefined') return true // skip empty
+        return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
+      })
+    }
+  })
+  return selectedVariant
+}
+
 export function isOptionAvailableAsync (context, { product, configuration }) {
   const variant = findConfigurableChildAsync({ product: product, configuration: configuration, availabilityCheck: true })
   return typeof variant !== 'undefined' && variant !== null
@@ -72,6 +99,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
           context.state.current_options[optionKey] = optionsAvailable
         }
       }
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
       if (totalOptions === 0) {
         product.errors.variants = i18n.t('No available product variants')
@@ -399,11 +427,6 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         label: selectedOption.label ? selectedOption.label : /* if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
       }
       context.state.current_configuration[attribute_code] = confVal
-      // @deprecated fallback for VS <= 1.0RC
-      if (!('setupVariantByAttributeCode' in config.products) || config.products.setupVariantByAttributeCode === false) {
-        const fallbackKey = attribute_label
-        context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
-      }
     }
     if (config.cart.setConfigurableProductOptions) {
       const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: context.state.current_configuration }) // set the custom options
@@ -413,33 +436,6 @@ export function populateProductConfigurationAsync (context, { product, selectedV
       }
     }
   }
-  return selectedVariant
-}
-
-export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
-  let selectedVariant = product.configurable_children.find((configurableChild) => {
-    if (availabilityCheck) {
-      if (configurableChild.stock && !config.products.listOutOfStockProducts) {
-        if (!configurableChild.stock.is_in_stock) {
-          return false
-        }
-      }
-    }
-    if (configurableChild.status >= 2/** disabled product */) {
-      return false
-    }
-    if (selectDefaultChildren) {
-      return true // return first
-    }
-    if (configuration.sku) {
-      return configurableChild.sku === configuration.sku // by sku or first one
-    } else {
-      return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
-        if (!configuration[configProperty] || typeof configuration[configProperty].id === 'undefined') return true // skip empty
-        return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
-      })
-    }
-  })
   return selectedVariant
 }
 
@@ -537,39 +533,14 @@ export function getMediaGallery (product) {
 
         mediaGallery.push({
           'src': getThumbnailPath(mediaItem.image, config.products.gallery.width, config.products.gallery.height),
-          'loading': getThumbnailPath(mediaItem.image, 310, 300),
-          'error': getThumbnailPath(mediaItem.image, 310, 300),
+          'loading': getThumbnailPath(mediaItem.image, config.products.thumbnails.width, config.products.thumbnails.height),
+          'error': getThumbnailPath(mediaItem.image, config.products.thumbnails.width, config.products.thumbnails.height),
           'video': video
         })
       }
     }
   }
   return mediaGallery
-}
-
-/**
- * Get configurable_children images from product if any
- * otherwise get attribute images
- */
-
-export function configurableChildrenImages (product) {
-  let configurableChildrenImages = []
-  if (product.configurable_children && product.configurable_children.length > 0) {
-    let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
-    configurableChildrenImages = product.configurable_children.map(child =>
-      ({
-        'src': getThumbnailPath(child.image, config.products.gallery.width, config.products.gallery.height),
-        'loading': getThumbnailPath(product.image, 310, 300),
-        'id': configurableAttributes.reduce((result, attribute) => {
-          result[attribute] = child[attribute]
-          return result
-        }, {})
-      })
-    )
-  } else {
-    configurableChildrenImages = attributeImages(product)
-  }
-  return configurableChildrenImages
 }
 
 /**
@@ -589,4 +560,29 @@ export function attributeImages (product) {
     }
   }
   return attributeImages
+}
+
+/**
+ * Get configurable_children images from product if any
+ * otherwise get attribute images
+ */
+
+export function configurableChildrenImages (product) {
+  let configurableChildrenImages = []
+  if (product.configurable_children && product.configurable_children.length > 0) {
+    let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
+    configurableChildrenImages = product.configurable_children.map(child =>
+      ({
+        'src': getThumbnailPath(child.image, config.products.gallery.width, config.products.gallery.height),
+        'loading': getThumbnailPath(product.image, config.products.thumbnails.width, config.products.thumbnails.height),
+        'id': configurableAttributes.reduce((result, attribute) => {
+          result[attribute] = child[attribute]
+          return result
+        }, {})
+      })
+    )
+  } else {
+    configurableChildrenImages = attributeImages(product)
+  }
+  return configurableChildrenImages
 }

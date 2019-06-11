@@ -1,9 +1,9 @@
 <template>
   <div class="default-layout">
-    <overlay v-if="overlayActive"/>
-    <loader/>
+    <overlay v-if="overlayActive" />
+    <loader />
     <div id="viewport" class="w-100 relative">
-      <main-header/>
+      <main-header />
       <async-sidebar
         :async-component="SearchPanel"
         :is-open="isSearchPanelOpen"
@@ -25,13 +25,13 @@
         :is-open="isWishlistOpen"
         @close="$store.commit('ui/setWishlist')"
       />
-      <slot/>
-      <main-footer/>
-      <notification/>
-      <sign-up/>
-      <cookie-notification/>
-      <offline-badge/>
-      <order-confirmation :orders-data="ordersData" v-if="loadOrderConfirmation"/>
+      <slot />
+      <main-footer />
+      <notification />
+      <sign-up />
+      <cookie-notification />
+      <offline-badge />
+      <order-confirmation :orders-data="ordersData" v-if="loadOrderConfirmation" />
     </div>
     <vue-progress-bar />
   </div>
@@ -44,7 +44,6 @@ import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
 import Overlay from 'theme/components/core/Overlay.vue'
 import Loader from 'theme/components/core/Loader.vue'
-import Modal from 'theme/components/core/Modal.vue'
 import Notification from 'theme/components/core/Notification.vue'
 import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide.vue'
@@ -52,6 +51,7 @@ import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import { isServer } from '@vue-storefront/core/helpers'
 import Head from 'theme/head'
+import config from 'config'
 
 const SidebarMenu = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
 const Microcart = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue')
@@ -86,7 +86,7 @@ export default {
       this.$bus.$emit('modal-show', 'modal-order-confirmation')
     },
     fetchMenuData () {
-      return this.$store.dispatch('category/list', { level: this.$config.entities.category.categoriesDynamicPrefetch && this.$config.entities.category.categoriesDynamicPrefetchLevel ? this.$config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: this.$config.entities.optimize && isServer ? this.$config.entities.category.includeFields : null, skipCache: isServer })
+      return this.$store.dispatch('category/list', { level: config.entities.category.categoriesDynamicPrefetch && config.entities.category.categoriesDynamicPrefetchLevel ? config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: config.entities.optimize && isServer ? config.entities.category.includeFields : null, skipCache: isServer })
     }
   },
   serverPrefetch () {
@@ -111,11 +111,10 @@ export default {
   components: {
     MainHeader,
     MainFooter,
-    SidebarMenu,
+    SidebarMenu, // eslint-disable-line vue/no-unused-components
     Overlay,
     Loader,
     Notification,
-    Modal,
     SignUp,
     SizeGuide,
     CookieNotification,

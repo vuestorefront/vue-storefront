@@ -98,7 +98,7 @@
           }]"
         />
 
-        <div class="hidden-xs hidden-sm col-md-6 mb15 mt10"/>
+        <div class="hidden-xs hidden-sm col-md-6 mb15 mt10" />
 
         <base-input
           class="col-xs-12 col-md-6 mb15 mt10"
@@ -276,7 +276,6 @@
           :placeholder="$t('Phone Number')"
           v-model.trim="userCompany.phone"
         />
-
       </template>
 
       <div class="col-xs-12 col-sm-6">

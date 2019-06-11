@@ -229,6 +229,10 @@
       }
     },
     "cart": {
+      "thumbnails": {
+        "width": 150,
+        "height": 150
+      },
       "bypassCartLoaderForAuthorizedUsers": true,
       "serverMergeByDefault": true,
       "serverSyncCanRemoveLocalItems": false,
@@ -253,7 +257,6 @@
       "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
     },
     "products": {
-      "useShortCatalogUrls": false,
       "useMagentoUrlKeys": true,
       "setFirstVarianAsDefaultInURL": false,
       "configurableChildrenStockPrefetchStatic": false,
@@ -265,7 +268,6 @@
       "alwaysSyncPlatformPricesOver": false,
       "clearPricesBeforePlatformSync": false,
       "waitForPlatformSync": false,
-      "setupVariantByAttributeCode": true,
       "endpoint": "http://localhost:8080/api/product",
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
       "filterFieldMapping": {
@@ -273,6 +275,10 @@
       },
       "colorMappings": {
         "Melange graphite": "#eeeeee"
+      },
+      "defaultSortBy": {
+        "attribute": "updated_at",
+        "order": "desc"
       },
       "sortByAttributes": {
         "Latest": "updated_at",
@@ -284,6 +290,10 @@
         "imageAttributes": ["image","thumbnail","small_image"],
         "width": 600,
         "height": 744
+      },
+      "thumbnails": {
+        "width": 310,
+        "height": 300
       },
       "filterAggregationSize": {
         "default": 10,
