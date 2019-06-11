@@ -1,4 +1,4 @@
-export default interface SearchRequest {
+export interface SearchRequest {
   store: any,
   type: string,
   searchQuery: any,

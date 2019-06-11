@@ -1,4 +1,4 @@
-export default interface SearchResponse {
+export interface SearchResponse {
   items: any[],
   total: number,
   start: number,
