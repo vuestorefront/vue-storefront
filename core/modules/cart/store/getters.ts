@@ -33,14 +33,14 @@ const getters: GetterTree<CartState, RootState> = {
   isCartHashChanged (state, getters) {
     return getters.getCurrentCartHash !== state.cartItemsHash
   },
-  isSyncRequired (state) {
-    return !state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !state.cartServerLastSyncDate // first load - never synced
+  isSyncRequired (state, getters) {
+    return !state.cartItemsHash || (getters.getCurrentCartHash !== state.cartItemsHash) || !state.cartServerLastSyncDate // first load - never synced
   },
-  isTotalsSyncRequired (state) {
-    return !state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash) || !state.cartServerLastTotalsSyncDate // first load - never synced
+  isTotalsSyncRequired (state, getters) {
+    return !state.cartItemsHash || (getters.getCurrentCartHash !== state.cartItemsHash) || !state.cartServerLastTotalsSyncDate // first load - never synced
   },
-  isCartHashEmtpyOrChanged (state) {
-    return !state.cartItemsHash || (calcItemsHmac(state.cartItems, state.cartServerToken) !== state.cartItemsHash)
+  isCartHashEmtpyOrChanged (state, getters) {
+    return !state.cartItemsHash || (getters.getCurrentCartHash !== state.cartItemsHash)
   },
   getCartItems (state) {
     return state.cartItems
@@ -52,7 +52,7 @@ const getters: GetterTree<CartState, RootState> = {
     return !!state.cartServerToken
   },
   isCartSyncEnabled (state) {
-    return config.cart.synchronize && onlineHelper.isOnline
+    return config.cart.synchronize && onlineHelper.isOnline && !isServer
   },
   getTotals (state) {
     if (state.platformTotalSegments && onlineHelper.isOnline) {
