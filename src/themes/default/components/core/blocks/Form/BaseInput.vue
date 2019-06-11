@@ -33,7 +33,7 @@
     >
       {{ icon }}
     </button>
-    <ValidationMessages v-if="validations" :validations="validations"/>
+    <ValidationMessages v-if="validations" :validations="validations" />
   </div>
 </template>
 

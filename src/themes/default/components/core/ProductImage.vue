@@ -7,7 +7,8 @@
       key="placeholder"
       ref="images"
       itemprop="image"
-      class="image__thumb image__thumb--placeholder">
+      class="image__thumb image__thumb--placeholder"
+    >
     <img
       v-if="!lowerQualityImageError || isOnline"
       v-show="showLowerQuality"
@@ -18,7 +19,8 @@
       key="lowerQualityImage"
       ref="images"
       itemprop="image"
-      class="image__thumb">
+      class="image__thumb"
+    >
     <img
       v-if="!highQualityImageError || isOnline"
       v-show="showHighQuality"
@@ -29,7 +31,8 @@
       key="highQualityImage"
       ref="images"
       itemprop="image"
-      class="image__thumb">
+      class="image__thumb"
+    >
   </div>
 </template>
 

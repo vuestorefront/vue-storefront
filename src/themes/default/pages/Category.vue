@@ -4,7 +4,9 @@
       <div class="container">
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <div class="row middle-sm">
-          <h1 class="col-sm-9 category-title mb10"> {{ category.name }} </h1>
+          <h1 class="col-sm-9 category-title mb10">
+            {{ category.name }}
+          </h1>
           <div class="sorting col-sm-3 align-right">
             <label>{{ $t('Sort by') }}:</label>
             <sort-by :has-label="true" />
@@ -19,20 +21,22 @@
           >
             {{ $t('Filters') }}
           </button>
-          <div class="mobile-sorting col-xs-6 mt25"><sort-by /></div>
+          <div class="mobile-sorting col-xs-6 mt25">
+            <sort-by />
+          </div>
         </div>
       </div>
     </header>
     <div class="container pb60">
       <div class="row m0 pt15">
         <div class="col-md-3 start-xs category-filters">
-          <sidebar :filters="filters.available"/>
+          <sidebar :filters="filters.available" />
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
           <div class="close-container absolute w-100">
             <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>
-          <sidebar class="mobile-filters-body" :filters="filters.available"/>
+          <sidebar class="mobile-filters-body" :filters="filters.available" />
           <div class="relative pb20 pt15">
             <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
           </div>
@@ -44,9 +48,13 @@
           </button-full>
         </div>
         <div class="col-md-9 px10 border-box products-list">
-          <p class="col-xs-12 end-md m0 pb20 cl-secondary">{{ productsTotal }} {{ $t('items') }}</p>
+          <p class="col-xs-12 end-md m0 pb20 cl-secondary">
+            {{ productsTotal }} {{ $t('items') }}
+          </p>
           <div v-if="isCategoryEmpty" class="hidden-xs">
-            <h4 data-testid="noProductsInfo">{{ $t('No products found!') }}</h4>
+            <h4 data-testid="noProductsInfo">
+              {{ $t('No products found!') }}
+            </h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
           <product-listing columns="3" :products="products" />

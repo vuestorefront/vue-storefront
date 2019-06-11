@@ -1,4 +1,4 @@
-interface SearchResponse {
+export interface SearchResponse {
   items: any[],
   total: number,
   start: number,
@@ -8,8 +8,4 @@ interface SearchResponse {
   cache?: boolean,
   noresults?: boolean,
   suggestions: any
-}
-
-export {
-  SearchResponse
 }
