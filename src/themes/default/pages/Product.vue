@@ -5,7 +5,6 @@
         <section class="row m0 between-xs">
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
-              :offline="image"
               :gallery="gallery"
               :configuration="configuration"
               :product="product"
