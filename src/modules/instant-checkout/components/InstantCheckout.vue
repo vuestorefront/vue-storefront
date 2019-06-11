@@ -221,7 +221,7 @@ export default {
       return new Promise((resolve, reject) => {
         rootStore.dispatch('cart/syncShippingMethods', {
           country_id: this.country
-        }).then(() => {
+        }, { forceServerSync: true }).then(() => {
           this.shippingOptions = []
           this.$store.state.shipping.methods.forEach(method => {
             this.shippingOptions.push({

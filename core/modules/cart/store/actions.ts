@@ -396,8 +396,8 @@ const actions: ActionTree<CartState, RootState> = {
     }
     if (getters.isTotalsSyncRequired || payload.forceServerSync) {
       await Promise.all([
-        dispatch('syncShippingMethods', !!payload.forceServerSync), // pull the shipping and payment methods available for the current cart content
-        dispatch('syncPaymentMethods', !!payload.forceServerSync) // pull the shipping and payment methods available for the current cart content
+        dispatch('syncShippingMethods', { forceServerSync: !!payload.forceServerSync }), // pull the shipping and payment methods available for the current cart content
+        dispatch('syncPaymentMethods', { forceServerSync: !!payload.forceServerSync }) // pull the shipping and payment methods available for the current cart content
       ])
     } else {
       Logger.debug('Skipping payment & shipping methods update as cart has not been changed', 'cart')()
