@@ -427,11 +427,6 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         label: selectedOption.label ? selectedOption.label : /* if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
       }
       context.state.current_configuration[attribute_code] = confVal
-      // @deprecated fallback for VS <= 1.0RC
-      if (!('setupVariantByAttributeCode' in config.products) || config.products.setupVariantByAttributeCode === false) {
-        const fallbackKey = attribute_label
-        context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
-      }
     }
     if (config.cart.setConfigurableProductOptions) {
       const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: context.state.current_configuration }) // set the custom options
@@ -538,8 +533,8 @@ export function getMediaGallery (product) {
 
         mediaGallery.push({
           'src': getThumbnailPath(mediaItem.image, config.products.gallery.width, config.products.gallery.height),
-          'loading': getThumbnailPath(mediaItem.image, 310, 300),
-          'error': getThumbnailPath(mediaItem.image, 310, 300),
+          'loading': getThumbnailPath(mediaItem.image, config.products.thumbnails.width, config.products.thumbnails.height),
+          'error': getThumbnailPath(mediaItem.image, config.products.thumbnails.width, config.products.thumbnails.height),
           'video': video
         })
       }
@@ -579,7 +574,7 @@ export function configurableChildrenImages (product) {
     configurableChildrenImages = product.configurable_children.map(child =>
       ({
         'src': getThumbnailPath(child.image, config.products.gallery.width, config.products.gallery.height),
-        'loading': getThumbnailPath(product.image, 310, 300),
+        'loading': getThumbnailPath(product.image, config.products.thumbnails.width, config.products.thumbnails.height),
         'id': configurableAttributes.reduce((result, attribute) => {
           result[attribute] = child[attribute]
           return result
