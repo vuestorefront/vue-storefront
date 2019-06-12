@@ -85,13 +85,16 @@ export function prepareStoreView (storeCode: string): StoreView {
 export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocation | string): string {
   if (matchedRouteOrUrl) {
     for (const storeCode of config.storeViews.mapStoreUrlsFor) {
-      const store = rootStore.state.config.storeViews[storeCode]
-      let urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
-
-      if (urlPath.length > 0 && urlPath[0] !== '/') urlPath = '/' + urlPath
+      const store = config.storeViews[storeCode]
 
       // handle resolving by path
-      if (urlPath.startsWith(`${store.url}/`) || urlPath === store.url) {
+      const matchingPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
+      let normalizedPath = matchingPath // assume that matching string is a path
+      if (matchingPath.length > 0 && matchingPath[0] !== '/') {
+        normalizedPath = '/' + matchingPath
+      }
+
+      if (normalizedPath.startsWith(`${store.url}/`) || normalizedPath === store.url) {
         return storeCode
       }
 
@@ -100,15 +103,15 @@ export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocat
 
       if (typeof matchedRouteOrUrl === 'object') {
         if (matchedRouteOrUrl['host']) {
-          url = matchedRouteOrUrl['host'] + urlPath
+          url = matchedRouteOrUrl['host'] + normalizedPath
         } else {
           return '' // this route does not have url so there is nothing to do here
         }
       } else {
-        url = <string> matchedRouteOrUrl
+        url = matchedRouteOrUrl as string
       }
 
-      if (url.startsWith(`${store.url}/`) || urlPath === store.url) {
+      if (url.startsWith(`${store.url}/`) || url === store.url) {
         return storeCode
       }
     }
