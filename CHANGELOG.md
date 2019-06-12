@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810)
 - OrderNumber on ThankYouPage - @Flyingmana (#2743)
 - Extracted ProductImage component to support faster images loading - @przemyslawspaczek (#2925)
+- Improve performace with preventing render 404 page on the server side if some of static content is missed, simple 404 response uses instead - [PHOENIX MEDIA](https://www.phoenix-media.eu/) - Yuri Boyko @yuriboyko, Anton Lobodenko @sniffy1988 (#3002)
 - Added Products column change functionality - @vishal-7037 (#3017)
 - Add support for api.url in the Task module - @basvanpoppel (#3011)
 

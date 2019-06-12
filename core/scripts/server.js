@@ -14,6 +14,7 @@ const compileOptions = {
   escape: /{{([^{][\s\S]+?[^}])}}/g,
   interpolate: /{{{([\s\S]+?)}}}/g
 }
+const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.ssrDisabledFor.extensions.join('|')})$`)
 
 const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true
@@ -125,10 +126,22 @@ app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
 
 app.get('*', (req, res, next) => {
+  if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
+    apiStatus(res, 'Vue Storefront: Resource is not found', 404)
+    return
+  }
+
   const s = Date.now()
   const errorHandler = err => {
     if (err && err.code === 404) {
-      res.redirect('/page-not-found')
+      if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
+        apiStatus(res, 'Vue Storefront: Resource is not found', 404)
+        console.error(`Resource is not found : ${req.url}`)
+        next()
+      } else {
+        res.redirect('/page-not-found')
+        console.error(`Redirect for resource not found : ${req.url}`)
+      }
     } else {
       res.redirect('/error')
       console.error(`Error during render : ${req.url}`)
