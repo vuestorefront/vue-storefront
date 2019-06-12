@@ -11,16 +11,23 @@
       v-cloak
       v-show="getwishlistItemsCount"
     >
-      {{ getwishlistItemsCount }}
+      {{ getWishListQty }}
     </span>
   </button>
 </template>
 
 <script>
 import WishlistIcon from '@vue-storefront/core/compatibility/components/blocks/Header/WishlistIcon'
+import wishlistMountedMixin from '@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin'
+import { WishlistButton } from '@vue-storefront/core/modules/wishlist/components/WishlistButton'
 
 export default {
-  mixins: [WishlistIcon]
+  mixins: [WishlistIcon, wishlistMountedMixin, WishlistButton],
+  computed: {
+    getWishListQty () {
+      return this.$store.state['wishlist'].items.length
+    }
+  }
 }
 </script>
 
