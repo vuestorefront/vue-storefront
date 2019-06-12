@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for api.url in the Task module - @basvanpoppel (#3011)
 
 ### Fixed
+- Special price got zeroed - @pkarw (#2940)
 - Microcart tax + discount totals fix - @pkarw (#2892)
 - Microcart offline prices now forced down to original prices - @pkarw (#3012)
 - Login/Register errorr message added in case of FetchError (no network connectivity) - @pkarw
@@ -67,6 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix sortBy for the category page - @Jensderond (#2868)
 - Fixed incorrect prices in Instant Checkout (PR API) - @qiqqq (#2874)
 - Incorrect `user_id` set on the order object - @pkarw (#2966)
+- Problem with SSR render on product page with logged in user - @patzick (#2888)
 
 ### Changed / Improved
 - The action `cart/userAfterLoggedin` got renamed to `cart/authorize` - @pkarw (#2522)
