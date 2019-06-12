@@ -46,7 +46,6 @@ import Overlay from 'theme/components/core/Overlay.vue'
 import Loader from 'theme/components/core/Loader.vue'
 import Notification from 'theme/components/core/Notification.vue'
 import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
-import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide.vue'
 import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import { isServer } from '@vue-storefront/core/helpers'
@@ -116,7 +115,6 @@ export default {
     Loader,
     Notification,
     SignUp,
-    SizeGuide,
     CookieNotification,
     OfflineBadge,
     OrderConfirmation,
