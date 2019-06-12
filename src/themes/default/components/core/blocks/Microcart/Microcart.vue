@@ -4,26 +4,34 @@
     :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary']"
     data-testid="microcart"
   >
-    <div class="row middle-xs bg-cl-primary top-sm">
-      <div class="col-xs-10">
-        <h2
-          v-if="productsInCart.length"
-          class="cl-accent mt60 mb35 ml40 heading"
-        >
-          {{ $t('Shopping cart') }}
-        </h2>
-      </div>
-      <div class="col-xs-2 end-xs">
+    <div class="row bg-cl-primary px40 actions">
+      <div class="col-xs end-xs">
         <button
           type="button"
           class="p0 brdr-none bg-cl-transparent close"
           @click="closeMicrocartExtend"
           data-testid="closeMicrocart"
         >
-          <i class="material-icons p15 cl-accent">
+          <i class="material-icons py20 cl-accent">
             close
           </i>
         </button>
+      </div>
+    </div>
+    <div class="row middle-xs bg-cl-primary top-sm px40 actions">
+      <div class="col-xs-12 col-sm">
+        <h2
+          v-if="productsInCart.length"
+          class="cl-accent mt35 mb35"
+        >
+          {{ $t('Shopping cart') }}
+        </h2>
+      </div>
+      <div class="col-xs-12 col-sm mt35 mb35 mt0 end-sm clearcart-col">
+        <clear-cart-button
+          v-if="productsInCart.length"
+          @click.native="clearCart"
+        />
       </div>
     </div>
 
@@ -70,9 +78,11 @@
         <div v-if="OnlineOnly && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">
           <div class="coupon-input">
             <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>
-            <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon"/>
+            <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon" />
           </div>
-          <button-outline color="dark" :disabled="!couponCode" @click.native="setCoupon">{{ $t('Add discount code') }}</button-outline>
+          <button-outline color="dark" :disabled="!couponCode" @click.native="setCoupon">
+            {{ $t('Add discount code') }}
+          </button-outline>
         </div>
       </div>
 
@@ -120,6 +130,7 @@ import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartButton'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import Product from 'theme/components/core/blocks/Microcart/Product'
@@ -127,6 +138,7 @@ import Product from 'theme/components/core/blocks/Microcart/Product'
 export default {
   components: {
     Product,
+    ClearCartButton,
     ButtonFull,
     ButtonOutline,
     BaseInput,
@@ -184,6 +196,20 @@ export default {
     },
     onEscapePress () {
       this.closeMicrocart()
+    },
+    clearCart () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'warning',
+        message: i18n.t('Are you sure you would like to remove all the items from the shopping cart?'),
+        action1: { label: i18n.t('Cancel'), action: 'close' },
+        action2: { label: i18n.t('OK'),
+          action: async () => {
+            await this.$store.dispatch('cart/clear', { recreateAndSyncCart: false }) // just clear the items without sync
+            await this.$store.dispatch('cart/sync', { forceClientState: true })
+          }
+        },
+        hasNoTimeout: true
+      })
     }
   }
 }
@@ -204,10 +230,16 @@ export default {
     }
   }
 
-  .heading {
+  .mt0 {
     @media (max-width: 767px) {
-      margin: 12px 0 12px 15px;
-      font-size: 24px;
+      margin-top: 0;
+    }
+  }
+
+  .clearcart {
+    &-col {
+      display: flex;
+      align-self: center;
     }
   }
 

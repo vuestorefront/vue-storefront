@@ -338,13 +338,6 @@ These endpoints should point to the `vue-storefront-api` instance and typically,
 ## Products
 
 ```json
-"products": {
-  "useShortCatalogUrls": false,
-```
-
-When this option is set to `true`, Vue Storefront will use the alternative routing for products and categories without the `/p/` and `/c/` prefixes.  It may be useful for search-engine optimization purposes.
-
-```json
   "useMagentoUrlKeys": false,
 ```
 
@@ -401,11 +394,6 @@ This is related to `alwaysSyncPlatformPricesOver` and when it's set to true, the
 
 This is related to `alwaysSyncPlatformPricesOver`. When true, Vue Storefront will wait for dynamic prices before rendering the page. Otherwise, the product and category pages will be rendered using the default (Elasticsearch-based) prices and then asynchronously override them with current ones.
 
-```json
-  "setupVariantByAttributeCode": true,
-```
-
-This is a deprecated value. When set to false, Vue Storefront will use `slugify(attribute.name)` instead of `attribute.attribute_code` to construct filter and product configurators. It was provided to maintain the backward compatibility with some platforms that didn't provide the attribute_code property. Currently not used.
 
 ```json
   "endpoint": "http://localhost:8080/api/product",

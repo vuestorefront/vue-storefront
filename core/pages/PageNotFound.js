@@ -7,7 +7,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 export default {
   name: 'PageNotFound',
   mixins: [Composite],
-  async asyncData ({ store, routlo, context }) { // this is for SSR purposes to prefetch data
+  async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     Logger.log('Entering asyncData for PageNotFound ' + new Date())()
     if (context) context.output.cacheTags.add(`page-not-found`)
     let ourBestsellersQuery = prepareQuery({ queryConfig: 'bestSellers' })

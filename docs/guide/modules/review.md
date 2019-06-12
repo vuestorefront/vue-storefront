@@ -70,13 +70,6 @@ Cart Store is designed to handle all actions related the shopping cart.
     platformTotals: null,
     platformTotalSegments: null,
     cartIsLoaded: false,
-    cartServerPullAt: 0,
-    cartServerTotalsAt: 0,
-    cartServerCreatedAt: 0,
-    cartServerMethodsRefreshAt: 0,
-    cartServerBypassAt: 0,
-    cartSavedAt: new Date(),
-    bypassToAnon: false,
     cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
     shipping: [],
     payment: [],
@@ -93,11 +86,6 @@ The cart state data:
 - `itemsAfterPlatformTotals` - helper collection, dictionary where the key is Magento cart item `item_id` that stores the totals information per item - received from Magento; it's automatically populated when `config.cart.synchronize_totals` is enabled;
 - `platformTotals` - similarly to above item, here we have the full totals from Magento for the current shopping cart. These collections are populated by [`cart/serverTotals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/actions.js#L49) and the event handler for [`servercart-after-totals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L30)
 - `cartIsLoaded` (bool) - true after dispatching `cart/load`
-- `cartServerPullAt` (int) - timestamp for the last server cart synchronization set by [`servercart-after-pulled`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L45) - enabled when `cart/synchronize` is set to true in the config,
-- `cartServerTotalsAt` - (int) timestamp for the latest server totals synchronization set by ['servercart-after-totals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L30)
-- `cartServerCreatedAt` - (int) timestamp for the last server cart id sync set by [`servercart-after-created`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L8)
-- `cartSavedAt` - (int) timestamp for the latest cart - localForage (local browser) state sync,
-- `bypassToAnon` - (bool) whenever there is a client's quote lock on the cart (for example the cart is currently in sync with Magento etc.) we're using the guest cart for current order; in that case this value is set to true,
 - `shipping` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
 - `payment` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
 - `cartItems` - collection of the cart items; the item format is the same as described in [ElasticSearch Data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md) - the `product` class; the only difference is that the (int) `qty` field is added
@@ -140,7 +128,7 @@ This method is used to synchronize the current state of the cart items back and 
 
 Method is called whenever the cart totals should have been synchronized with the server (after `serverPull`). This method overrides local shopping cart grand totals and specific item values (for example prices after discount).
 
-#### `serverCreate (context, { guestCart = false })`
+#### `connect (context, { guestCart = false })`
 
 Action is dispatched to create the server cart and store the cart id (for further synchronization)
 
@@ -184,7 +172,7 @@ Gets a list of payment methods from the backend and saves them to `cart.payment`
 
 Gets a list of shipping methods from the backend and saves them to `cart.shipping` store state. Country ID is passed to this method in a mandatory `address` parameter.
 
-#### `refreshTotals (context, methodsData)`
+#### `syncTotals (context, methodsData)`
 
 This method sends request to the backend to collect cart totals. It calls different backend endpoints depending on if payment and shipping methods information is available or not.
 

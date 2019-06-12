@@ -5,7 +5,7 @@
       :class="{ active: active }"
       :aria-label="$t('Price ') + content"
     >
-      <span class="bg-cl-transparent absolute block square"/>
+      <span class="bg-cl-transparent absolute block square" />
     </button>
     <span>{{ content }}</span>
   </div>

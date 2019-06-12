@@ -2,18 +2,30 @@
   <li class="row flex-nowrap py10">
     <div>
       <div class="ml10 bg-cl-secondary">
-        <img class="image" v-lazy="thumbnail" alt="" >
+        <img class="image" v-lazy="thumbnail" alt="">
       </div>
     </div>
     <div class="col-xs flex pl35 py15 start-xs between-sm details">
       <div>
-        <div class="serif h4 name">
+        <router-link
+          class="serif h4 name"
+          :to="localizedRoute({
+            name: product.type_id + '-product',
+            params: {
+              parentSku: product.parentSku ? product.parentSku : product.sku,
+              slug: product.slug,
+              childSku: product.sku
+            }
+          })"
+          data-testid="productLink"
+          @click.native="$store.commit('ui/setMicrocart', false)"
+        >
           {{ product.name | htmlDecode }}
-        </div>
+        </router-link>
         <div class="h6 cl-bg-tertiary pt5 sku" data-testid="productSku">
           {{ product.sku }}
         </div>
-        <div class="h6 cl-bg-tertiary pt5 options" v-if="product.totals && product.totals.options">
+        <div class="h6 cl-bg-tertiary pt5 options" v-if="isOnline && product.totals && product.totals.options">
           <div v-for="opt in product.totals.options" :key="opt.label">
             <span class="opn">{{ opt.label }}: </span>
             <span class="opv" v-html="opt.value" />
@@ -36,26 +48,26 @@
         <base-input-number
           :name="$t('Quantity')"
           :value="product.qty"
-          @blur="updateQuantity"
+          @input="updateQuantity"
           :min="1"
         />
       </div>
     </div>
     <div class="flex py15 mr10 align-right start-xs between-sm actions">
-      <div class="prices" v-if="!displayItemDiscounts">
+      <div class="prices" v-if="!displayItemDiscounts || !isOnline">
         <span class="h4 serif cl-error price-special" v-if="product.special_price">
           {{ product.priceInclTax * product.qty | price }}&nbsp;
         </span>
         <span class="h6 serif price-original" v-if="product.special_price">
           {{ product.originalPriceInclTax * product.qty | price }}
         </span>
-        <span class="h4 serif price-regular" v-if="!product.special_price" data-testid="productPrice">
-          {{ product.priceInclTax * product.qty | price }}
+        <span class="h4 serif price-regular" v-else data-testid="productPrice">
+          {{ (product.originalPriceInclTax ? product.originalPriceInclTax : product.priceInclTax) * product.qty | price }}
         </span>
       </div>
-      <div class="prices" v-else-if="product.totals">
+      <div class="prices" v-else-if="isOnline && product.totals">
         <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
-          {{ product.totals.row_total_incl_tax - product.totals.discount_amount | price }}&nbsp;
+          {{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }}&nbsp;
         </span>
         <span class="h6 serif price-original" v-if="product.totals.discount_amount">
           {{ product.totals.row_total_incl_tax | price }}
@@ -79,11 +91,12 @@
 </template>
 
 <script>
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
 import RemoveButton from './RemoveButton'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+import { onlineHelper } from '@vue-storefront/core/helpers'
 
 export default {
   components: {
@@ -91,9 +104,14 @@ export default {
     BaseInputNumber
   },
   mixins: [Product],
+  computed: {
+    isOnline () {
+      return onlineHelper.isOnline
+    }
+  },
   data () {
     return {
-      displayItemDiscounts: rootStore.state.config.cart.displayItemDiscounts
+      displayItemDiscounts: config.cart.displayItemDiscounts
     }
   }
 }

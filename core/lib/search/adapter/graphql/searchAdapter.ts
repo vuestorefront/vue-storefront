@@ -1,15 +1,14 @@
-import rootStore from '@vue-storefront/core/store'
 import { prepareQueryVars } from './gqlQuery'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import fetch from 'isomorphic-fetch'
 import {processESResponseType, processProductsType, processCmsType} from './processor/processType'
 import SearchQuery from '../../searchQuery'
+import config from 'config'
 
 export class SearchAdapter {
-
   public entities: any
 
-  constructor () {
+  public constructor () {
     this.entities = []
     this.initBaseTypes()
   }
@@ -18,13 +17,13 @@ export class SearchAdapter {
    * @param {Request} Request request object
    * @return {Promise}
   */
-  search (Request) {
+  public search (Request) {
     if (!(Request.searchQuery instanceof SearchQuery)) {
       throw new Error('SearchQuery instance has wrong class required to process with graphQl request.')
     }
 
     if (!this.entities[Request.type]) {
-      throw new Error('No entity type registered for ' + Request.type )
+      throw new Error('No entity type registered for ' + Request.type)
     }
 
     const storeView = (Request.store === null) ? currentStoreView() : prepareStoreView(Request.store)
@@ -45,19 +44,19 @@ export class SearchAdapter {
     if (this.entities[Request.type].url) {
       urlGql = this.entities[Request.type].url
     } else {
-      urlGql = rootStore.state.config.server.protocol + '://' + rootStore.state.config.graphql.host + ':' + rootStore.state.config.graphql.port + '/graphql'
+      urlGql = config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
       const urlStoreCode = (storeView.storeCode !== '') ? encodeURIComponent(storeView.storeCode) + '/' : ''
       urlGql = urlGql + '/' + urlStoreCode
     }
 
     return fetch(urlGql, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: gqlQueryBody
-      })
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: gqlQueryBody
+    })
       .then(resp => {
         return resp.json()
       })
@@ -71,7 +70,7 @@ export class SearchAdapter {
    * @param {function} resultPorcessor process results of response
    * @return {Object}
   */
-  registerEntityType (entityType, { url = '', gql, queryProcessor, resultPorcessor }) {
+  public registerEntityType (entityType, { url = '', gql, queryProcessor, resultPorcessor }) {
     this.entities[entityType] = {
       query: require(`${gql}`),
       queryProcessor: queryProcessor,
@@ -91,7 +90,7 @@ export class SearchAdapter {
    * @param {function} resultPorcessor process results of response
    * @return {Object}
   */
-  registerEntityTypeByQuery (entityType, { url = '', query, queryProcessor, resultPorcessor }) {
+  public registerEntityTypeByQuery (entityType, { url = '', query, queryProcessor, resultPorcessor }) {
     this.entities[entityType] = {
       query: query,
       queryProcessor: queryProcessor,
@@ -104,14 +103,14 @@ export class SearchAdapter {
   }
 
   // initialise default entitypes
-  initBaseTypes() {
+  public initBaseTypes () {
     this.registerEntityType('product', {
       gql: './queries/products.gql',
       queryProcessor: (query) => {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) =>  {
+      resultPorcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -133,7 +132,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) =>  {
+      resultPorcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -154,7 +153,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) =>  {
+      resultPorcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -175,7 +174,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) =>  {
+      resultPorcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -197,7 +196,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) =>  {
+      resultPorcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -219,7 +218,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) =>  {
+      resultPorcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -241,7 +240,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) =>  {
+      resultPorcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -263,7 +262,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) =>  {
+      resultPorcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }

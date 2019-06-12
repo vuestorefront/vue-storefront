@@ -9,9 +9,10 @@
       :autocomplete="autocomplete"
       @focus="$emit('focus')"
       @blur="$emit('blur')"
-      @change="$emit('input', $event.target.value)"
+      @change="$emit('change', $event.target.value)"
+      @input="$emit('input', $event.target.value)"
     >
-      <option disabled selected value v-if="!selected"/>
+      <option disabled selected value v-if="!selected" />
       <option
         v-for="(option, key) in options"
         :key="key"
@@ -23,7 +24,7 @@
     </select>
     <label>{{ placeholder }}</label>
 
-    <ValidationMessages v-if="validations" :validations="validations"/>
+    <ValidationMessages v-if="validations" :validations="validations" />
   </div>
 </template>
 
@@ -88,8 +89,7 @@ export default {
     content: '';
     display: block;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 1rem;
     right: 10px;
     width: 0;
     height: 0;
@@ -128,6 +128,7 @@ export default {
     pointer-events: none;
     user-select: none;
     top: 10px;
+    left: 8px;
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;

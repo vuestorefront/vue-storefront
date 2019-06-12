@@ -8,14 +8,15 @@ import { processDynamicRoute, normalizeUrlPath } from '../helpers'
 import { isServer } from '@vue-storefront/core/helpers'
 import { storeCodeFromRoute, prepareStoreView, currentStoreView, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
 import Vue from 'vue'
+import config from 'config'
 
 export const UrlDispatchMapper = async (to) => {
   const routeData = await store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query })
   return Object.assign({}, to, routeData)
 }
-export function beforeEach(to: Route, from: Route, next) {
+export function beforeEach (to: Route, from: Route, next) {
   if (isServer) {
-    if (store.state.config.storeViews.multistore) { // this is called before server-entry.ts router.onReady - so we have to make sure we're in the right store context
+    if (config.storeViews.multistore) { // this is called before server-entry.ts router.onReady - so we have to make sure we're in the right store context
       const storeCode = storeCodeFromRoute(to)
       if (storeCode) {
         prepareStoreView(storeCode)
@@ -43,7 +44,7 @@ export function beforeEach(to: Route, from: Route, next) {
     }).catch(e => {
       Logger.error(e, 'dispatcher')()
       if (!isServer) {
-        next('/page-not-found') 
+        next('/page-not-found')
       } else {
         const storeCode = currentStoreView().storeCode
         Vue.prototype.$ssrRequestContext.server.response.redirect((storeCode !== '' ? ('/' + storeCode) : '') + '/page-not-found') // TODO: Refactor this one after @filrak will give us a way to access ServerContext from Modules directly :-)
