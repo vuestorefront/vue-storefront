@@ -163,7 +163,7 @@
           v-model.trim="shippingDetails.phone"
         />
 
-        <div class="hidden-xs col-sm-6 mb25"/>
+        <div class="hidden-xs col-sm-6 mb25" />
 
         <div class="col-xs-12 col-sm-6">
           <button-full

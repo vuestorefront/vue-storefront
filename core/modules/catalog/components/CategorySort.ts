@@ -1,6 +1,5 @@
-
+import config from 'config'
 import { mapGetters } from 'vuex'
-
 export const CategorySort = {
   name: 'SortBy',
   data () {
@@ -27,7 +26,7 @@ export const CategorySort = {
   computed: {
     ...mapGetters('category', ['getCurrentCategoryProductQuery']),
     sortingOptions () {
-      return this.$config.products.sortByAttributes
+      return config.products.sortByAttributes
     }
   }
 }

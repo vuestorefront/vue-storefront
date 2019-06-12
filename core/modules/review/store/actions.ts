@@ -12,6 +12,7 @@ import Review from '@vue-storefront/core/modules/review/types/Review'
 import { ReviewRequest } from '@vue-storefront/core/modules/review/types/ReviewRequest'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
+import { processURLAddress } from '@vue-storefront/core/helpers'
 
 const actions: ActionTree<ReviewState, RootState> = {
   /**
@@ -64,7 +65,7 @@ const actions: ActionTree<ReviewState, RootState> = {
     }
 
     try {
-      await fetch(url, {
+      await fetch(processURLAddress(url), {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain, */*',

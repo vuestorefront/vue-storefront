@@ -1,10 +1,11 @@
 import * as types from './mutation-types'
 import { Module } from 'vuex'
-import { newsletterState } from '../types/newsletterState'
+import { NewsletterState } from '../types/NewsletterState'
 import { cacheStorage } from '../'
 import config from 'config'
+import { processURLAddress } from '@vue-storefront/core/helpers'
 
-export const module: Module<newsletterState, any> = {
+export const module: Module<NewsletterState, any> = {
   namespaced: true,
   state: {
     isSubscribed: null,
@@ -28,7 +29,7 @@ export const module: Module<newsletterState, any> = {
   actions: {
     status ({ commit, state }, email): Promise<Response> {
       return new Promise((resolve, reject) => {
-        fetch(config.newsletter.endpoint + '?email=' + encodeURIComponent(email), {
+        fetch(processURLAddress(config.newsletter.endpoint) + '?email=' + encodeURIComponent(email), {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           mode: 'cors'
@@ -49,7 +50,7 @@ export const module: Module<newsletterState, any> = {
     subscribe ({ commit, state }, email): Promise<Response> {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
-          fetch(config.newsletter.endpoint, {
+          fetch(processURLAddress(config.newsletter.endpoint), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',
@@ -68,7 +69,7 @@ export const module: Module<newsletterState, any> = {
     unsubscribe ({ commit, state }, email): Promise<Response> {
       if (state.isSubscribed) {
         return new Promise((resolve, reject) => {
-          fetch(config.newsletter.endpoint, {
+          fetch(processURLAddress(config.newsletter.endpoint), {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',

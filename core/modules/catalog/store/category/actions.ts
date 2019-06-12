@@ -115,7 +115,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         if (key !== 'id' || value >= config.entities.category.categoriesRootCategorylId/* root category */) {
           context.dispatch('list', { key: key, value: value }).then(res => {
             if (res && res.items && res.items.length) {
-              setcat(null, res.items[0])
+              setcat(null, res.items[0]) // eslint-disable-line @typescript-eslint/no-use-before-define
             } else {
               reject(new Error('Category query returned empty result ' + key + ' = ' + value))
             }
