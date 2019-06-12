@@ -5,9 +5,9 @@ const RouterManager = {
   _registeredRoutes: new Array<RouteConfig>(),
   addRoutes: function (routes: RouteConfig[], routerInstance: VueRouter = router): void {
     const uniqueRoutes = routes.filter(
-      (route) => this._registeredRoutes.findIndex(
+      (route) => !!this._registeredRoutes.find(
         (registeredRoute) => registeredRoute.name === route.name && registeredRoute.path === route.path
-      ) === -1
+      )
     )
     this._registeredRoutes.push(...uniqueRoutes)
     router.addRoutes(uniqueRoutes)

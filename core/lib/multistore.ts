@@ -149,7 +149,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
 }
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
   if (routeObj && (routeObj as LocalizedRoute).fullPath && config.seo.useUrlDispatcher) return localizedDispatcherRoute(Object.assign({}, routeObj, { params: null }) as LocalizedRoute, storeCode)
-  if (storeCode && routeObj && config.defaultStoreCode !== storeCode && config.state.config.storeViews[storeCode].appendStoreCode) {
+  if (storeCode && routeObj && config.defaultStoreCode !== storeCode && config.storeViews[storeCode].appendStoreCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
         routeObj.name = storeCode + '-' + routeObj.name
