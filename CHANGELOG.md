@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added linting for typescript files @ResuBaka (#2843)
 - Added back to top functionality - @vishal-7037 (#2866)
 - Thumbnail sizes are now configurable within the `config.products.thumbnails` and `config.cart.thumbnails` - @pkarw (#2897)
+- Added items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
 
 ### Removed
 - The getter `cart/totals` has ben replaced with `cart/getTotals` - @pkarw (#2522)
