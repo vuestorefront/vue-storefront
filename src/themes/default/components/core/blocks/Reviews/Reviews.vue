@@ -84,12 +84,14 @@
               >
                 {{ $t('Add review') }}
               </button-full>
-              <span
-                class="fs-medium ml20 cl-gray lh30 py5 block"
-                v-if="!currentUser"
-              >
-                {{ $t('or') }} <a href="#" class="cl-primary" @click.prevent="login()">{{ $t('login') }}</a> {{ $t('to account') }}
-              </span>
+              <no-ssr>
+                <span
+                  class="fs-medium ml20 cl-gray lh30 py5 block"
+                  v-if="!currentUser"
+                >
+                  {{ $t('or') }} <a href="#" class="cl-primary" @click.prevent="login()">{{ $t('login') }}</a> {{ $t('to account') }}
+                </span>
+              </no-ssr>
             </div>
           </form>
         </div>
@@ -107,6 +109,8 @@ import ButtonFull from 'theme/components/theme/ButtonFull'
 import ReviewsList from 'theme/components/theme/blocks/Reviews/ReviewsList'
 import { Reviews } from '@vue-storefront/core/modules/review/components/Reviews'
 import { AddReview } from '@vue-storefront/core/modules/review/components/AddReview'
+import NoSSR from 'vue-no-ssr'
+
 export default {
   name: 'Reviews',
   data () {
@@ -205,7 +209,8 @@ export default {
     ButtonFull,
     BaseInput,
     BaseTextarea,
-    ReviewsList
+    ReviewsList,
+    'no-ssr': NoSSR
   }
 }
 </script>
