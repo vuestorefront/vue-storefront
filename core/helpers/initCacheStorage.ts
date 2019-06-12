@@ -11,19 +11,9 @@ export function initCacheStorage (key, localised = true) {
     ? config.localForage.defaultDrivers[key]
     : 'LOCALSTORAGE'
 
-  if (localised) {
-    const cacheStorage = new UniversalStorage(localForage.createInstance({
-      name: dbNamePrefix + 'shop',
-      storeName: key,
-      driver: localForage[cacheDriver]
-    }))
-    return cacheStorage
-  } else {
-    const cacheStorage = new UniversalStorage(localForage.createInstance({
-      name: 'shop',
-      storeName: key,
-      driver: localForage[cacheDriver]
-    }))
-    return cacheStorage
-  }
+  return new UniversalStorage(localForage.createInstance({
+    name: localised ? `${dbNamePrefix}shop` : 'shop',
+    storeName: key,
+    driver: localForage[cacheDriver]
+  }))
 }
