@@ -183,8 +183,6 @@ export function syncProductPrice (product, backProduct) { // TODO: we probably n
   if (product.priceInclTax >= product.originalPriceInclTax) {
     product.specialPriceInclTax = 0
     product.special_price = 0
-  } else {
-    product.special_price = 0 // the same price as original; it's not a promotion
   }
   Vue.prototype.$bus.$emit('product-after-priceupdate', product)
   // Logger.log(product.sku, product, backProduct)()
