@@ -3,6 +3,7 @@ import { remove as removeAccents } from 'remove-accents'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
 import config from 'config'
+import { sha3_224 } from 'js-sha3'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -85,30 +86,6 @@ export function productThumbnailPath (product, ignoreConfig = false) {
   return thumbnail
 }
 
-export function buildFilterProductsQuery (currentCategory, chosenFilters, defaultFilters = null) {
-  let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? config.products.defaultFilters : defaultFilters)
-
-  // add choosedn filters
-  for (let code of Object.keys(chosenFilters)) {
-    const filter = chosenFilters[code]
-
-    if (filter.attribute_code !== 'price') {
-      filterQr = filterQr.applyFilter({key: filter.attribute_code, value: {'eq': filter.id}, scope: 'catalog'})
-    } else { // multi should be possible filter here?
-      const rangeqr = {}
-      if (filter.from) {
-        rangeqr['gte'] = filter.from
-      }
-      if (filter.to) {
-        rangeqr['lte'] = filter.to
-      }
-      filterQr = filterQr.applyFilter({key: filter.attribute_code, value: rangeqr, scope: 'catalog'})
-    }
-  }
-
-  return filterQr
-}
-
 export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
   let searchProductQuery = new SearchQuery()
   searchProductQuery = searchProductQuery
@@ -147,6 +124,29 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
   return searchProductQuery
 }
 
+export function buildFilterProductsQuery (currentCategory, chosenFilters, defaultFilters = null) {
+  let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? config.products.defaultFilters : defaultFilters)
+
+  // add choosedn filters
+  for (let code of Object.keys(chosenFilters)) {
+    const filter = chosenFilters[code]
+
+    if (filter.attribute_code !== 'price') {
+      filterQr = filterQr.applyFilter({key: filter.attribute_code, value: {'eq': filter.id}, scope: 'catalog'})
+    } else { // multi should be possible filter here?
+      const rangeqr = {}
+      if (filter.from) {
+        rangeqr['gte'] = filter.from
+      }
+      if (filter.to) {
+        rangeqr['lte'] = filter.to
+      }
+      filterQr = filterQr.applyFilter({key: filter.attribute_code, value: rangeqr, scope: 'catalog'})
+    }
+  }
+
+  return filterQr
+}
 
 export function once (key, fn) {
   const { process = {} } = global
@@ -161,13 +161,48 @@ export function once (key, fn) {
 export const isServer: boolean = typeof window === 'undefined'
 
 // Online/Offline helper
-export const onlineHelper = Vue.observable({ 
-  isOnline: isServer || navigator.onLine 
+export const onlineHelper = Vue.observable({
+  isOnline: isServer || navigator.onLine
 })
-!isServer && window.addEventListener('online',  () => onlineHelper.isOnline = true)
-!isServer && window.addEventListener('offline', () => onlineHelper.isOnline = false)
 
-export const processURLAddress = (url:string = '') => {
+!isServer && window.addEventListener('online', () => { onlineHelper.isOnline = true })
+!isServer && window.addEventListener('offline', () => { onlineHelper.isOnline = false })
+
+export const processURLAddress = (url: string = '') => {
   if (url.startsWith('/')) return `${config.api.url}${url}`
   return url
+}
+
+/*
+  * serial executes Promises sequentially.
+  * @param {funcs} An array of funcs that return promises.
+  * @example
+  * const urls = ['/url1', '/url2', '/url3']
+  * serial(urls.map(url => () => $.ajax(url)))
+  *     .then(Logger.log.bind(Logger))()
+  */
+export const serial = async promises => {
+  const results = []
+  for (const item of promises) {
+    const result = await item;
+    results.push(result)
+  }
+  return results
+}
+
+export const isBottomVisible = () => {
+  if (isServer) {
+    return false
+  }
+  const scrollY = window.scrollY
+  const visible = window.innerHeight
+  const pageHeight = document.documentElement.scrollHeight
+  const bottomOfPage = visible + scrollY >= pageHeight
+
+  return bottomOfPage || pageHeight < visible
+}
+
+// helper to calcuate the hash of the shopping cart
+export const calcItemsHmac = (items, token) => {
+  return sha3_224(JSON.stringify({ items, token: token }))
 }

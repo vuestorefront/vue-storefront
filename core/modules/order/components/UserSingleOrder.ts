@@ -23,13 +23,16 @@ export const UserSingleOrder = {
     }
   },
   methods: {
-    remakeOrder (items) {
-      items.forEach(item => {
-        this.$store.dispatch('product/single', { options: { sku: item.sku }, setCurrentProduct: false, selectDefaultVariant: false }).then((product) => {
-          product.qty = item.qty_ordered
-          this.$store.dispatch('cart/addItem', { productToAdd: product }).then(() => { })
-        })
-      })
+    async remakeOrder (products) {
+      const productsToAdd = []
+      for (const item of products) {
+        const product = await this.$store.dispatch('product/single', { options: { sku: item.sku }, setCurrentProduct: false, selectDefaultVariant: false })
+        product.qty = item.qty_ordered
+        productsToAdd.push(product)
+      }
+      await this.$store.dispatch('cart/addItems', { productsToAdd })
+      // Redirect to the cart straight away.
+      this.$router.push(this.localizedRoute('/checkout'))
     },
     skipGrouped (items) {
       return items.filter((item) => {

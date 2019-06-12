@@ -18,7 +18,13 @@ module.exports = {
     ],
     sidebar: {
       '/guide/': [
-        '',
+      	{
+          title : 'General Information',
+          collapsible: false,
+          children: [
+            'general/introduction'
+          ]
+	      },
         'upgrade-notes/',
         {
           title: 'Installation',
@@ -95,6 +101,7 @@ module.exports = {
             'extensions/introduction',
             'extensions/extending-api',
             'extensions/extending-server-side-routes',
+            'extensions/extensions-to-modify-results'
           ],
         },
         {
@@ -119,6 +126,7 @@ module.exports = {
             'modules/user',
             'modules/checkout',
             'modules/order',
+            //'modules/review'
           ],
         },
         {

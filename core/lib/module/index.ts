@@ -18,9 +18,9 @@ const registeredModules: VueStorefrontModuleConfig[] = []
 function registerModules (modules: VueStorefrontModule[], context): void {
   modules.forEach(m => m.register())
   Logger.info('VS Modules registration finished.', 'module', {
-      succesfulyRegistered: registeredModules.length + ' / ' + modules.length,
-      registrationOrder: registeredModules
-    }
+    succesfulyRegistered: registeredModules.length + ' / ' + modules.length,
+    registrationOrder: registeredModules
+  }
   )()
 }
 
@@ -28,22 +28,18 @@ function isModuleRegistered (key: string): boolean {
   return registeredModules.some(m => m.key === key)
 }
 
-function createModule (config: VueStorefrontModuleConfig): VueStorefrontModule {
-  return new VueStorefrontModule(config)
-}
-
-function extendModule(moduleConfig: VueStorefrontModuleConfig) {
+function extendModule (moduleConfig: VueStorefrontModuleConfig) {
   moduleExtendings.push(moduleConfig)
 }
 
-
 class VueStorefrontModule {
   private _isRegistered = false
-  constructor (
-    private _c: VueStorefrontModuleConfig,
-  ) { }
+  private _c: VueStorefrontModuleConfig
+  public constructor (_c: VueStorefrontModuleConfig) {
+    this._c = _c
+  }
 
-  private static _extendStore (storeInstance: any, modules: { key: string, module: Module<any, any> }[], plugin: any) : void {
+  private static _extendStore (storeInstance: any, modules: { key: string, module: Module<any, any> }[], plugin: any): void {
     if (modules) modules.forEach(store => storeInstance.registerModule(store.key, store.module))
     if (plugin) storeInstance.subscribe(plugin)
   }
@@ -78,14 +74,14 @@ class VueStorefrontModule {
   public set config (config) {
     this._c = config
   }
-  
+
   public register (): VueStorefrontModuleConfig | void {
     if (!this._isRegistered) {
       let areStoresUnique = true
       const VSF: VSF = {
-        Vue, 
-        config: config, 
-        store: rootStore, 
+        Vue,
+        config: config,
+        store: rootStore,
         isServer
       }
 
@@ -104,8 +100,8 @@ class VueStorefrontModule {
 
       if (areStoresUnique) {
         if (this._c.beforeRegistration) {
-          if (this._c.beforeRegistration.length === 1 ) { 
-            this._c.beforeRegistration(VSF) 
+          if (this._c.beforeRegistration.length === 1) {
+            this._c.beforeRegistration(VSF)
           } else {
             Logger.warn('You are using outdated signature for beforeRegistration hook that soon will be deprecated and module will stop working properly. Please update to the new signature that can be found in our docs: https://docs.vuestorefront.io/guide/modules/introduction.html#beforeregistration', 'module', this._c.key)()
             this._c.beforeRegistration(Vue, config, rootStore, isServer)
@@ -116,17 +112,21 @@ class VueStorefrontModule {
         registeredModules.push(this._c)
         this._isRegistered = true
         if (this._c.afterRegistration) {
-          if (this._c.afterRegistration.length === 1 ) {
+          if (this._c.afterRegistration.length === 1) {
             this._c.afterRegistration(VSF)
-           } else {
+          } else {
             Logger.warn('You are using outdated signature for afterRegistration hook that soon will be deprecated and module will stop working properly. Please update to the new signature that can be found in our docs: https://docs.vuestorefront.io/guide/modules/introduction.html#afterregistration', 'module', this._c.key)()
             this._c.afterRegistration(Vue, config, rootStore, isServer)
-           } 
+          }
         }
         return this._c
       }
     }
   }
+}
+
+function createModule (config: VueStorefrontModuleConfig): VueStorefrontModule {
+  return new VueStorefrontModule(config)
 }
 
 export {

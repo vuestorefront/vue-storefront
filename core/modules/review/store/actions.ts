@@ -12,6 +12,7 @@ import Review from '@vue-storefront/core/modules/review/types/Review'
 import { ReviewRequest } from '@vue-storefront/core/modules/review/types/ReviewRequest'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
+import { processURLAddress } from '@vue-storefront/core/helpers'
 
 const actions: ActionTree<ReviewState, RootState> = {
   /**
@@ -27,7 +28,7 @@ const actions: ActionTree<ReviewState, RootState> = {
    * @param {any} includeFields
    * @returns {Promise<T> & Promise<any>}
    */
-  list (context, { productId, approved = true, start = 0, size = 50, entityType = 'review', sort = '', excludeFields = null, includeFields = null}) {
+  list (context, {productId, approved = true, start = 0, size = 50, entityType = 'review', sort = '', excludeFields = null, includeFields = null}) {
     let query = new SearchQuery()
 
     if (productId) {
@@ -53,7 +54,7 @@ const actions: ActionTree<ReviewState, RootState> = {
    * @returns {Promise<void>}
    */
   async add (context, reviewData: Review) {
-    const review:ReviewRequest = {review: reviewData}
+    const review: ReviewRequest = {review: reviewData}
 
     Vue.prototype.$bus.$emit('notification-progress-start', i18n.t('Adding a review ...'))
 
@@ -64,7 +65,7 @@ const actions: ActionTree<ReviewState, RootState> = {
     }
 
     try {
-      await fetch(url, {
+      await fetch(processURLAddress(url), {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain, */*',

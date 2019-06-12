@@ -32,6 +32,20 @@ const VUE_STOREFRONT_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/vue-storefront.
 const VUE_STOREFRONT_BACKEND_LOG_FILE = `${STOREFRONT_DIRECTORY}/var/log/vue-storefront-api.log`
 
 /**
+ * Abstract class for field initialization
+ */
+class Abstract {
+  /**
+   * Constructor
+   *
+   * Initialize fields
+   */
+  constructor (answers) {
+    this.answers = answers
+  }
+}
+
+/**
  * Message management
  */
 class Message {
@@ -105,20 +119,6 @@ class Message {
     message([
       ...text
     ], Object.assign(isLastMessage ? {marginTop: 1} : {}, {borderColor: 'green', marginBottom: 1}))
-  }
-}
-
-/**
- * Abstract class for field initialization
- */
-class Abstract {
-  /**
-   * Constructor
-   *
-   * Initialize fields
-   */
-  constructor (answers) {
-    this.answers = answers
   }
 }
 
@@ -450,7 +450,7 @@ class Storefront extends Abstract {
         config.cart.applycoupon_endpoint = `${backendPath}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}`
         config.reviews.create_endpoint = `${backendPath}/api/review/create?token={{token}}`
 
-        config.mailchimp.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
+        config.newsletter.endpoint = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
         config.mailer.endpoint.send = `${backendPath}/api/ext/mail-service/send-email`
         config.mailer.endpoint.token = `${backendPath}/api/ext/mail-service/get-token`
         config.images.baseUrl = this.answers.images_endpoint

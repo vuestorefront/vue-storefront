@@ -24,7 +24,7 @@ export const Payment = {
   computed: {
     ...mapState({
       currentUser: (state: RootState) => state.user.current,
-      shippingDetails: (state:RootState) => state.checkout.shippingDetails
+      shippingDetails: (state: RootState) => state.checkout.shippingDetails
     }),
     ...mapGetters({
       paymentMethods: 'payment/paymentMethods',
@@ -58,6 +58,16 @@ export const Payment = {
     sendToShippingAddress: {
       handler () {
         this.useShippingAddress()
+      }
+    },
+    sendToBillingAddress: {
+      handler () {
+        this.useBillingAddress()
+      }
+    },
+    generateInvoice: {
+      handler () {
+        this.useGenerateInvoice()
       }
     }
   },
@@ -130,10 +140,10 @@ export const Payment = {
       if (this.sendToShippingAddress) {
         this.copyShippingToBillingAddress()
         this.sendToBillingAddress = false
-        this.generateInvoice = false
-      } else {
+      }
+
+      if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
         this.payment = this.$store.state.checkout.paymentDetails
-        this.generateInvoice = false
       }
     },
     copyShippingToBillingAddress () {
@@ -174,7 +184,9 @@ export const Payment = {
           }
         }
         this.sendToShippingAddress = false
-      } else {
+      }
+
+      if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
         this.payment = this.$store.state.checkout.paymentDetails
         this.generateInvoice = false
       }

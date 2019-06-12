@@ -4,7 +4,7 @@ import { onlineHelper } from '@vue-storefront/core/helpers'
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/helpers', () => ({
   onlineHelper: {
-    get isOnline() {
+    get isOnline () {
       return true
     }
   }
@@ -23,7 +23,10 @@ describe('Cart getters', () => {
         {'code': 'subtotal', 'title': 'Subtotal', 'value': 39.36},
         {'code': 'shipping', 'title': 'Shipping & Handling (Flat Rate - Fixed)', 'value': 5},
         {'code': 'discount', 'title': 'Discount', 'value': -4.8},
-        {'code': 'tax', 'title': 'Tax', 'value': 6.26, 'area': 'taxes',
+        {'code': 'tax',
+          'title': 'Tax',
+          'value': 6.26,
+          'area': 'taxes',
           'extension_attributes': {
             'tax_grandtotal_details': [{
               'amount': 6.26,
@@ -34,7 +37,7 @@ describe('Cart getters', () => {
         {'code': 'grand_total', 'title': 'Grand Total', 'value': 38.46, 'area': 'footer'}
       ]
     };
-    const wrapper = (getters: any) => getters.totals(stateMock);
+    const wrapper = (getters: any) => getters.getTotals(stateMock);
 
     expect(wrapper(cartGetters)).toEqual(stateMock.platformTotalSegments);
   });
@@ -47,11 +50,11 @@ describe('Cart getters', () => {
         {qty: 2, priceInclTax: 2}
       ]
     };
-    const wrapper = (getters: any) => getters.totals(stateMock);
+    const wrapper = (getters: any) => getters.getTotals(stateMock);
 
     expect(wrapper(cartGetters)).toEqual([
-      {"code": "subtotalInclTax", "title": "Subtotal incl. tax", "value": 5},
-      {"code": "grand_total", "title": "Grand total", "value": 5}
+      {'code': 'subtotalInclTax', 'title': 'Subtotal incl. tax', 'value': 5},
+      {'code': 'grand_total', 'title': 'Grand total', 'value': 5}
     ]);
   });
 
@@ -67,11 +70,11 @@ describe('Cart getters', () => {
         {qty: 2, priceInclTax: 2}
       ]
     };
-    const wrapper = (getters: any) => getters.totals(stateMock);
+    const wrapper = (getters: any) => getters.getTotals(stateMock);
 
     expect(wrapper(cartGetters)).toEqual([
-      {"code": "subtotalInclTax", "title": "Subtotal incl. tax", "value": 5},
-      {"code": "grand_total", "title": "Grand total", "value": 5}
+      {'code': 'subtotalInclTax', 'title': 'Subtotal incl. tax', 'value': 5},
+      {'code': 'grand_total', 'title': 'Grand total', 'value': 5}
     ]);
   });
 
@@ -84,20 +87,20 @@ describe('Cart getters', () => {
       ],
       payment: {
         title: 'payment',
-        costInclTax: 4,
+        costInclTax: 4
       },
       shipping: {
         method_title: 'shipping',
-        price_incl_tax: 8,
+        price_incl_tax: 8
       }
     };
-    const wrapper = (getters: any) => getters.totals(stateMock);
+    const wrapper = (getters: any) => getters.getTotals(stateMock);
 
     expect(wrapper(cartGetters)).toEqual([
-      {"code": "subtotalInclTax", "title": "Subtotal incl. tax", "value": 5},
-      {"code": "grand_total", "title": "Grand total", "value": 21},
-      {"code": "payment", "title": "payment", "value": 4},
-      {"code": "shipping", "title": "shipping", "value": 8}
+      {'code': 'subtotalInclTax', 'title': 'Subtotal incl. tax', 'value': 5},
+      {'code': 'grand_total', 'title': 'Grand total', 'value': 21},
+      {'code': 'payment', 'title': 'payment', 'value': 4},
+      {'code': 'shipping', 'title': 'shipping', 'value': 8}
     ]);
   });
 
@@ -111,31 +114,31 @@ describe('Cart getters', () => {
       payment: [
         {
           title: 'payment',
-          costInclTax: 4,
+          costInclTax: 4
         },
         {
           title: 'another-payment',
-          costInclTax: 16,
+          costInclTax: 16
         }
       ],
       shipping: [
         {
           method_title: 'shipping',
-          price_incl_tax: 8,
+          price_incl_tax: 8
         },
         {
           method_title: 'another-shipping',
-          price_incl_tax: 32,
+          price_incl_tax: 32
         }
       ]
     };
-    const wrapper = (getters: any) => getters.totals(stateMock);
+    const wrapper = (getters: any) => getters.getTotals(stateMock);
 
     expect(wrapper(cartGetters)).toEqual([
-      {"code": "subtotalInclTax", "title": "Subtotal incl. tax", "value": 5},
-      {"code": "grand_total", "title": "Grand total", "value": 21},
-      {"code": "payment", "title": "payment", "value": 4},
-      {"code": "shipping", "title": "shipping", "value": 8}
+      {'code': 'subtotalInclTax', 'title': 'Subtotal incl. tax', 'value': 5},
+      {'code': 'grand_total', 'title': 'Grand total', 'value': 21},
+      {'code': 'payment', 'title': 'payment', 'value': 4},
+      {'code': 'shipping', 'title': 'shipping', 'value': 8}
     ]);
   });
 
@@ -155,7 +158,7 @@ describe('Cart getters', () => {
       }
     };
 
-    const wrapper = (getters: any) => getters.totalQuantity(stateMock, {}, rootStoreMock);
+    const wrapper = (getters: any) => getters.getItemsTotalQuantity(stateMock, {}, rootStoreMock);
 
     expect(wrapper(cartGetters)).toBe(3);
   });
@@ -176,7 +179,7 @@ describe('Cart getters', () => {
       }
     };
 
-    const wrapper = (getters: any) => getters.totalQuantity(stateMock, {}, rootStoreMock);
+    const wrapper = (getters: any) => getters.getItemsTotalQuantity(stateMock, {}, rootStoreMock);
 
     expect(wrapper(cartGetters)).toBe(3);
   });
@@ -188,7 +191,7 @@ describe('Cart getters', () => {
         discount_amount: 1.23
       }
     };
-    const wrapper = (getters: any) => getters.coupon(stateMock);
+    const wrapper = (getters: any) => getters.getCoupon(stateMock);
 
     expect(wrapper(cartGetters)).toEqual({
       code: stateMock.platformTotals.coupon_code,
@@ -198,7 +201,7 @@ describe('Cart getters', () => {
 
   it('coupon returns false given no coupons applied to the cart', () => {
     const stateMock = {};
-    const wrapper = (getters: any) => getters.coupon(stateMock);
+    const wrapper = (getters: any) => getters.getCoupon(stateMock);
 
     expect(wrapper(cartGetters)).toBe(false);
   });

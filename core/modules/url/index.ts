@@ -13,4 +13,3 @@ export const Url = createModule({
   store: { modules: [{ key: KEY, module }] },
   router: { beforeEach }
 })
-

@@ -11,10 +11,11 @@ import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multi
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters, mapActions } from 'vuex'
+import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 
 export default {
   name: 'Category',
-  mixins: [Composite],
+  mixins: [Composite, onBottomScroll],
   data () {
     return {
       pagination: {
@@ -22,7 +23,6 @@ export default {
         current: 0,
         enabled: false
       },
-      bottom: false,
       lazyLoadProductsOnscroll: true
     }
   },
@@ -59,22 +59,17 @@ export default {
       return this.getCategoryBreadcrumbs
     }
   },
-  watch: {
-    bottom (bottom) {
-      if (bottom) {
-        this.pullMoreProducts()
-      }
-    }
-  },
   preAsyncData ({ store, route }) {
     Logger.log('preAsyncData query setup')()
+    const currentProductQuery = store.getters['category/getCurrentCategoryProductQuery']
+    const sort = currentProductQuery && currentProductQuery.sort ? currentProductQuery.sort : config.entities.productList.sort
     store.dispatch('category/setSearchOptions', {
       populateAggregations: true,
       store: store,
       route: route,
       current: 0,
       perPage: 50,
-      sort: config.entities.productList.sort,
+      sort,
       filters: config.products.defaultFilters,
       includeFields: config.entities.optimize && isServer ? config.entities.productList.includeFields : null,
       excludeFields: config.entities.optimize && isServer ? config.entities.productList.excludeFields : null,
@@ -136,11 +131,6 @@ export default {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
-    if (!isServer && this.lazyLoadProductsOnscroll) {
-      window.addEventListener('scroll', () => {
-        this.bottom = this.bottomVisible()
-      }, {passive: true})
-    }
   },
   beforeDestroy () {
     this.$bus.$off('list-change-sort', this.onSortOrderChanged)
@@ -156,8 +146,11 @@ export default {
   },
   methods: {
     ...mapActions('category', ['mergeSearchOptions']),
+    onBottomScroll () {
+      this.pullMoreProducts()
+    },
     bottomVisible () {
-      const scrollY = window.scrollY
+      const scrollY = Math.ceil(window.scrollY)
       const visible = window.innerHeight
       const pageHeight = document.documentElement.scrollHeight
       const bottomOfPage = visible + scrollY >= pageHeight
@@ -230,7 +223,7 @@ export default {
       this.$store.dispatch('category/resetFilters')
       this.$bus.$emit('filter-reset')
 
-      this.$store.dispatch('category/single', { key: this.$config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then(category => {
+      this.$store.dispatch('category/single', { key: config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then(category => {
         if (!category) {
           this.$router.push(this.localizedRoute('/'))
         } else {
@@ -267,7 +260,7 @@ export default {
     onUserPricesRefreshed () {
       const defaultFilters = config.products.defaultFilters
       this.$store.dispatch('category/single', {
-        key: this.$config.products.useMagentoUrlKeys ? 'url_key' : 'slug',
+        key: config.products.useMagentoUrlKeys ? 'url_key' : 'slug',
         value: this.$route.params.slug
       }).then((parentCategory) => {
         if (!this.getCurrentCategoryProductQuery.searchProductQuery) {

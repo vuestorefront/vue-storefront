@@ -2,12 +2,14 @@
   <div id="home">
     <head-image />
 
-    <promoted-offers/>
+    <promoted-offers />
 
     <section class="new-collection container px15" v-if="everythingNewCollection && everythingNewCollection.length">
       <div>
         <header class="col-md-12">
-          <h2 class="align-center cl-accent">{{ $t('Everything new') }}</h2>
+          <h2 class="align-center cl-accent">
+            {{ $t('Everything new') }}
+          </h2>
         </header>
       </div>
       <div class="row center-xs">
@@ -17,13 +19,15 @@
 
     <section class="container pb60 px15">
       <div class="row center-xs">
-        <header class="col-md-12 pt40">
-          <h2 class="align-center cl-accent">{{ $t('Get inspired') }}</h2>
+        <header class="col-md-12" :class="{ pt40: everythingNewCollection && everythingNewCollection.length }">
+          <h2 class="align-center cl-accent">
+            {{ $t('Get inspired') }}
+          </h2>
         </header>
       </div>
       <tile-links />
     </section>
-    <Onboard/>
+    <Onboard />
   </div>
 </template>
 

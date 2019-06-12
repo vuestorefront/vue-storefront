@@ -17,7 +17,6 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 
-
 const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Reset current category and path
@@ -39,13 +38,14 @@ const actions: ActionTree<CategoryState, RootState> = {
     let customizedQuery = false // that means the parameteres are != defaults; with defaults parameter the data could be get from window.__INITIAL_STATE__ - this is optimisation trick
     let searchQuery = new SearchQuery()
     if (parent && typeof parent !== 'undefined') {
-      searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': typeof parent === 'object' ? parent.id : parent }})
+      searchQuery = searchQuery.applyFilter({key: 'parent_id', value: { 'eq': typeof parent === 'object' ? parent.id : parent }})
       customizedQuery = true
     }
     if (level !== null) {
       searchQuery = searchQuery.applyFilter({key: 'level', value: {'eq': level}})
-      if (level !== config.entities.category.categoriesDynamicPrefetchLevel && !isServer) // if this is the default level we're getting the results from window.__INITIAL_STATE__ not querying the server
-      customizedQuery = true
+      if (level !== config.entities.category.categoriesDynamicPrefetchLevel && !isServer) { // if this is the default level we're getting the results from window.__INITIAL_STATE__ not querying the server
+        customizedQuery = true
+      }
     }
 
     if (key !== null) {
@@ -66,26 +66,26 @@ const actions: ActionTree<CategoryState, RootState> = {
       customizedQuery = true
     }
     if (skipCache || ((!context.state.list || context.state.list.length === 0) || customizedQuery)) {
-    return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields }).then((resp) => {
-      for (let category of resp.items) {
-        if (category.url_path && updateState) {
-          rootStore.dispatch('url/registerMapping', {
-            url: category.url_path,
-            routeData: {
-              params: {
-                'slug': category.slug
-              },
-              'name': 'category'
-            }
-          }, { root: true })
+      return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields }).then((resp) => {
+        for (let category of resp.items) {
+          if (category.url_path && updateState) {
+            rootStore.dispatch('url/registerMapping', {
+              url: category.url_path,
+              routeData: {
+                params: {
+                  'slug': category.slug
+                },
+                'name': 'category'
+              }
+            }, { root: true })
+          }
         }
-      }
-      if (updateState) {
-        commit(types.CATEGORY_UPD_CATEGORIES, Object.assign(resp, { includeFields, excludeFields }))
-        Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
-      }
-      return resp
-    })
+        if (updateState) {
+          commit(types.CATEGORY_UPD_CATEGORIES, Object.assign(resp, { includeFields, excludeFields }))
+          Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
+        }
+        return resp
+      })
     } else {
       return new Promise((resolve, reject) => {
         let resp = { items: context.state.list, total: context.state.list.length }
@@ -105,7 +105,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * @param {String} value
    * @param {Bool} setCurrentCategory default=true and means that state.current_category is set to the one loaded
    */
-  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true,  populateRequestCacheTags = true, skipCache = false }) {
+  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true, populateRequestCacheTags = true, skipCache = false }) {
     const state = context.state
     const commit = context.commit
     const dispatch = context.dispatch
@@ -115,18 +115,16 @@ const actions: ActionTree<CategoryState, RootState> = {
         if (key !== 'id' || value >= config.entities.category.categoriesRootCategorylId/* root category */) {
           context.dispatch('list', { key: key, value: value }).then(res => {
             if (res && res.items && res.items.length) {
-              setcat(null, res.items[0])
+              setcat(null, res.items[0]) // eslint-disable-line @typescript-eslint/no-use-before-define
             } else {
               reject(new Error('Category query returned empty result ' + key + ' = ' + value))
             }
           }).catch(reject)
         } else {
           reject(new Error('Category query returned empty result ' + key + ' = ' + value))
-          return
         }
       }
       let setcat = (error, mainCategory) => {
-
         if (!mainCategory) {
           fetchCat({ key, value })
           return
@@ -235,7 +233,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       excludeFields = null
       includeFields = null
       Logger.log('Caching request only, no state update')()
-    }    
+    }
     let t0 = new Date().getTime()
 
     const precachedQuery = searchProductQuery
@@ -248,7 +246,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       configuration: configuration,
       append: append,
       sort: sort,
-      updateState: cacheOnly ? false : true,
+      updateState: !cacheOnly,
       prefetchGroupProducts: prefetchGroupProducts
     }).then((res) => {
       let t1 = new Date().getTime()
@@ -376,7 +374,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     return productPromise
   },
   addAvailableFilter ({commit}, {key, options} = {}) {
-    if(key) commit(types.CATEGORY_ADD_AVAILABLE_FILTER, {key, options})
+    if (key) commit(types.CATEGORY_ADD_AVAILABLE_FILTER, {key, options})
   },
   resetFilters (context) {
     context.commit(types.CATEGORY_REMOVE_FILTERS)

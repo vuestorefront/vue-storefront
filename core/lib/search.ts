@@ -8,9 +8,10 @@ import { SearchRequest } from '@vue-storefront/core/types/search/SearchRequest'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
+import { isServer } from '@vue-storefront/core/helpers'
 
 // TODO - use one from helpers instead
-export function isOnline () : boolean {
+export function isOnline (): boolean {
   if (typeof navigator !== 'undefined') {
     return navigator.onLine
   } else {
@@ -26,7 +27,7 @@ export function isOnline () : boolean {
  * @param {Int} size page size
  * @return {Promise}
  */
-export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<SearchResponse> => {
+export const quickSearchByQuery = async ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<SearchResponse> => {
   const searchAdapter = await getSearchAdapter()
   if (size <= 0) size = 50
   if (start < 0) start = 0
@@ -48,7 +49,7 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
     if (includeFields) Request._sourceInclude = includeFields
 
     if (config.usePriceTiers && (entityType === 'product') && rootStore.state.user.groupId) {
-        Request.groupId = rootStore.state.user.groupId
+      Request.groupId = rootStore.state.user.groupId
     }
 
     const cache = Vue.prototype.$db.elasticCacheCollection // switch to appcache?
@@ -77,11 +78,11 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
     }
 
     if (config.usePriceTiers && rootStore.state.user.groupToken) {
-        Request.groupToken = rootStore.state.user.groupToken
+      Request.groupToken = rootStore.state.user.groupToken
     }
 
     if (!searchAdapter.entities[Request.type]) {
-      throw new Error('No entity type registered for ' + Request.type )
+      throw new Error('No entity type registered for ' + Request.type)
     }
 
     searchAdapter.search(Request).then((resp) => { // we're always trying to populate cache - when online
@@ -99,19 +100,24 @@ export const quickSearchByQuery  = async ({ query, start = 0, size = 50, entityT
       }
     }).catch(err => {
       if (!servedFromCache) {
-        Logger.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
-        const res = {
-          items: [],
-          total: 0,
-          start: 0,
-          perPage: 0,
-          aggregations: {},
-          offline: true,
-          cache: true,
-          noresults: true,
-          suggestions: {}
+        if (!isServer) {
+          Logger.debug('No results and offline ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
+          const res = {
+            items: [],
+            total: 0,
+            start: 0,
+            perPage: 0,
+            aggregations: {},
+            offline: true,
+            cache: true,
+            noresults: true,
+            suggestions: {}
+          }
+          resolve(res)
+        } else {
+          Logger.error('Can not connect the vue-storefront-api / ElasticSearch instance!', 'search', err)()
+          reject(err)
         }
-        resolve(res)
       }
       reject(err)
     })

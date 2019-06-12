@@ -12,4 +12,3 @@ export const module: Module<RecentlyViewedState, RootState> = {
   actions,
   mutations
 }
-
