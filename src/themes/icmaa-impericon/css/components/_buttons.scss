@@ -1,0 +1,47 @@
+.ripple {
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 120px;
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    opacity: .2;
+    transform: translate(-50%, -50%) scale(0);
+    visibility: hidden;
+  }
+  &:not(:active):after {
+    animation: ripple-effect 1s ease-out;
+  }
+  &:focus {
+    &::after {
+      visibility: visible;
+    }
+  }
+  &-dark {
+    &::after {
+      background-color: #ddd;
+    }
+  }
+}
+
+.button-disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+button,
+.button {
+  outline: none;
+  cursor: pointer;
+  margin: 0;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
+}
