@@ -9,11 +9,7 @@
       <div>
         <router-link
           class="serif h4 name"
-          :to="localizedRoute({
-            name: product.type_id + '-product',
-            fullPath: product.url_path,
-            params: { childSku: product.sku }
-          })"
+          :to="productLink"
           data-testid="productLink"
           @click.native="$store.commit('ui/setMicrocart', false)"
         >
@@ -90,6 +86,8 @@
 <script>
 import config from 'config'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 
 import RemoveButton from './RemoveButton'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
@@ -104,6 +102,11 @@ export default {
     return {
       displayItemDiscounts: config.cart.displayItemDiscounts
     }
+  },
+  computed: {
+    productLink () {
+      return formatProductLink(this.product, currentStoreView().storeCode)
+    },
   }
 }
 </script>

@@ -63,13 +63,13 @@ export function formatProductLink (
     url_path?: string,
     type_id: string,
     slug: string,
-    configurable_children: []
+    options: [],
   },
   storeCode
 ): string | LocalizedRoute {
   if (config.seo.useUrlDispatcher && product.url_path) {
     let routeData: LocalizedRoute;
-    if (product.configurable_children && product.configurable_children.length > 0) {
+    if (product.options && product.options.length > 0) {
       routeData = {
         fullPath: product.url_path,
         params: { childSku: product.sku }
