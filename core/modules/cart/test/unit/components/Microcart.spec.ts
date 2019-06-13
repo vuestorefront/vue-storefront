@@ -33,7 +33,7 @@ describe('Microcart', () => {
       modules: {
         cart: {
           getters: {
-            coupon: () => ({} as any as AppliedCoupon)
+            getCoupon: () => ({} as any as AppliedCoupon)
           },
           namespaced: true
         }
@@ -42,7 +42,7 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    expect((wrapper.vm as any).appliedCoupon).toEqual(storeMock.modules.cart.getters.coupon());
+    expect((wrapper.vm as any).appliedCoupon).toEqual(storeMock.modules.cart.getters.getCoupon());
   });
 
   it('totals returns cart totals', () => {
@@ -50,7 +50,7 @@ describe('Microcart', () => {
       modules: {
         cart: {
           getters: {
-            totals: () => ({} as any as CartTotalSegments)
+            getTotals: () => ({} as any as CartTotalSegments)
           },
           namespaced: true
         }
@@ -59,7 +59,7 @@ describe('Microcart', () => {
 
     const wrapper = mountMixinWithStore(Microcart, storeMock);
 
-    expect((wrapper.vm as any).totals).toEqual(storeMock.modules.cart.getters.totals());
+    expect((wrapper.vm as any).totals).toEqual(storeMock.modules.cart.getters.getTotals());
   });
 
   it('isOpen returns cart state if it is open', () => {

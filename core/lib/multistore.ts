@@ -12,7 +12,8 @@ export interface LocalizedRoute {
   name?: string,
   hash?: string,
   params?: object,
-  fullPath?: string
+  fullPath?: string,
+  host?: string
 }
 
 export interface StoreView {
@@ -77,23 +78,50 @@ export function prepareStoreView (storeCode: string): StoreView {
     initializeSyncTaskStorage()
     Vue.prototype.$db.currentStoreCode = storeView.storeCode
   }
+
   return storeView
 }
 
 export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocation | string): string {
   if (matchedRouteOrUrl) {
-    for (const storeCode of config.storeViews.mapStoreUrlsFor) {
-      let urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
-      if (urlPath.length > 0 && urlPath[0] !== '/') urlPath = '/' + urlPath
-      if (urlPath.startsWith('/' + storeCode + '/') || urlPath === '/' + storeCode) {
+    for (let storeCode of config.storeViews.mapStoreUrlsFor) {
+      const store = config.storeViews[storeCode]
+
+      // handle resolving by path
+      const matchingPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
+      let normalizedPath = matchingPath // assume that matching string is a path
+      if (matchingPath.length > 0 && matchingPath[0] !== '/') {
+        normalizedPath = '/' + matchingPath
+      }
+
+      if (normalizedPath.startsWith(`${store.url}/`) || normalizedPath === store.url) {
+        return storeCode
+      }
+
+      // handle resolving by domain+path
+      let url = ''
+
+      if (typeof matchedRouteOrUrl === 'object') {
+        if (matchedRouteOrUrl['host']) {
+          url = matchedRouteOrUrl['host'] + normalizedPath
+        } else {
+          return '' // this route does not have url so there is nothing to do here
+        }
+      } else {
+        url = matchedRouteOrUrl as string
+      }
+
+      if (url.startsWith(`${store.url}/`) || url === store.url) {
         return storeCode
       }
     }
+
     return ''
   } else {
     return ''
   }
 }
+
 export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | string): LocalizedRoute | string {
   const storeCodeInRoute = storeCodeFromRoute(matchedRouteOrUrl)
   if (storeCodeInRoute !== '') {
@@ -103,6 +131,7 @@ export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | st
     return matchedRouteOrUrl
   }
 }
+
 export function adjustMultistoreApiUrl (url: string): string {
   const storeView = currentStoreView()
   if (storeView.storeCode) {
@@ -125,7 +154,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
 }
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
   if (routeObj && (routeObj as LocalizedRoute).fullPath && config.seo.useUrlDispatcher) return localizedDispatcherRoute(Object.assign({}, routeObj, { params: null }) as LocalizedRoute, storeCode)
-  if (storeCode && routeObj && config.defaultStoreCode !== storeCode) {
+  if (storeCode && routeObj && config.defaultStoreCode !== storeCode && config.storeViews[storeCode].appendStoreCode) {
     if (typeof routeObj === 'object') {
       if (routeObj.name) {
         routeObj.name = storeCode + '-' + routeObj.name
