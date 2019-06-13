@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [1.11.0-rc.1] - UNRELEASED
+
+### Added
+- Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
+
+### Fixed
+- 
+
+### Changed / Improved
+- 
+
 ## [1.10.0-rc.1] - UNRELEASED
 
 ### Added
@@ -19,7 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added linting for typescript files @ResuBaka (#2843)
 - Added back to top functionality - @vishal-7037 (#2866)
 - Thumbnail sizes are now configurable within the `config.products.thumbnails` and `config.cart.thumbnails` - @pkarw (#2897)
-- Added items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
+- In multistore mode it's now possible to configure multiple instances with different hosts, not only the paths - @lukeromanowicz (#3048).
+- In multistore mode now there is a possibility to skip appending storecode to url with `appendStoreCode` config option - @lukeromanowicz (#3048).
 
 ### Removed
 - The getter `cart/totals` has ben replaced with `cart/getTotals` - @pkarw (#2522)
@@ -68,7 +81,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed issue with login popup state not resetting on mobile devices - @aniamusial (#2699)
 - Fix sortBy for the category page - @Jensderond (#2868)
 - Fixed incorrect prices in Instant Checkout (PR API) - @qiqqq (#2874)
+- Fixed placeholders in gallery in offline mode - @przspa (#2863)
 - Incorrect `user_id` set on the order object - @pkarw (#2966)
+- Problem with SSR render on product page with logged in user - @patzick (#2888)
 
 ### Changed / Improved
 - The action `cart/userAfterLoggedin` got renamed to `cart/authorize` - @pkarw (#2522)

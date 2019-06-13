@@ -2,7 +2,7 @@
   <li class="row flex-nowrap py10">
     <div>
       <div class="ml10 bg-cl-secondary">
-        <img class="image" v-lazy="thumbnail" alt="">
+        <product-image :image="image" />
       </div>
     </div>
     <div class="col-xs flex pl35 py15 start-xs between-sm details">
@@ -94,6 +94,7 @@
 import config from 'config'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
+import ProductImage from 'theme/components/core/ProductImage'
 import RemoveButton from './RemoveButton'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import { onlineHelper } from '@vue-storefront/core/helpers'
@@ -101,12 +102,19 @@ import { onlineHelper } from '@vue-storefront/core/helpers'
 export default {
   components: {
     RemoveButton,
-    BaseInputNumber
+    BaseInputNumber,
+    ProductImage
   },
   mixins: [Product],
   computed: {
     isOnline () {
       return onlineHelper.isOnline
+    },
+    image () {
+      return {
+        loading: this.thumbnail,
+        src: this.thumbnail
+      }
     }
   },
   data () {
