@@ -4,7 +4,7 @@ In Vue Storefront, we can use CMS Static Blocks and CMS Static Pages from Magent
 
 ## Old solution
 
-Until version 1.6, the `magento2-cms-extention` (we can find it in: `src/modules/magento-2-cms/`).
+Until version 1.6, the `magento2-cms-extention` (we can find it in: `src/modules/magento-2-cms/`). It's deprecated.
 
 ### How it works?
 
