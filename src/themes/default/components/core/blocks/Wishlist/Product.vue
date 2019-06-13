@@ -7,7 +7,7 @@
         params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
       })"
       >
-        <product-image :image="image"/>
+        <product-image :image="image" />
       </router-link>
     </div>
     <div class="col-xs between-xs flex pl40 py15">

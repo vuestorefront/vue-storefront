@@ -19,7 +19,7 @@
         />
       </no-ssr>
     </div>
-    <product-image v-else :image="offline"/>
+    <product-image v-else :image="offline" />
   </div>
 </template>
 
