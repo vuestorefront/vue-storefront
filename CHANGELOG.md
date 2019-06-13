@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added linting for typescript files @ResuBaka (#2843)
 - Added back to top functionality - @vishal-7037 (#2866)
 - Thumbnail sizes are now configurable within the `config.products.thumbnails` and `config.cart.thumbnails` - @pkarw (#2897)
+- In multistore mode it's now possible to configure multiple instances with different hosts, not only the paths - @lukeromanowicz (#3048).
+- In multistore mode now there is a possibility to skip appending storecode to url with `appendStoreCode` config option - @lukeromanowicz (#3048).
 
 ### Removed
 - The getter `cart/totals` has ben replaced with `cart/getTotals` - @pkarw (#2522)
@@ -39,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for api.url in the Task module - @basvanpoppel (#3011)
 
 ### Fixed
+- Special price got zeroed - @pkarw (#2940)
 - Microcart tax + discount totals fix - @pkarw (#2892)
 - Microcart offline prices now forced down to original prices - @pkarw (#3012)
 - Login/Register errorr message added in case of FetchError (no network connectivity) - @pkarw
@@ -66,7 +69,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed issue with login popup state not resetting on mobile devices - @aniamusial (#2699)
 - Fix sortBy for the category page - @Jensderond (#2868)
 - Fixed incorrect prices in Instant Checkout (PR API) - @qiqqq (#2874)
+- Fixed placeholders in gallery in offline mode - @przspa (#2863)
 - Incorrect `user_id` set on the order object - @pkarw (#2966)
+- Problem with SSR render on product page with logged in user - @patzick (#2888)
 
 ### Changed / Improved
 - The action `cart/userAfterLoggedin` got renamed to `cart/authorize` - @pkarw (#2522)

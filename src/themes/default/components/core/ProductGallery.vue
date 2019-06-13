@@ -1,6 +1,6 @@
 <template>
-  <div class="media-gallery" :class="{'media-gallery--loaded': carouselLoaded}">
-    <div class="relative w-100">
+  <div class="media-gallery">
+    <div v-if="isOnline" class="relative w-100">
       <product-gallery-overlay
         v-if="isZoomOpen"
         :current-slide="currentSlide"
@@ -19,6 +19,7 @@
         />
       </no-ssr>
     </div>
+    <product-image v-else :image="offline" />
   </div>
 </template>
 
@@ -27,13 +28,17 @@ import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/
 import ProductGalleryOverlay from './ProductGalleryOverlay'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import NoSSR from 'vue-no-ssr'
+import ProductImage from './ProductImage'
+import { onlineHelper } from '@vue-storefront/core/helpers'
+
 const ProductGalleryCarousel = () => import(/* webpackChunkName: "vsf-product-gallery-carousel" */ './ProductGalleryCarousel.vue')
 
 export default {
   components: {
     ProductGalleryCarousel,
     'no-ssr': NoSSR,
-    ProductGalleryOverlay
+    ProductGalleryOverlay,
+    ProductImage
   },
   mixins: [
     ProductGallery,
@@ -52,6 +57,11 @@ export default {
   },
   mounted () {
     this.showProductGalleryCarousel = true
+  },
+  computed: {
+    isOnline (value) {
+      return onlineHelper.isOnline
+    }
   },
   methods: {
     openOverlay (currentSlide) {
@@ -81,10 +91,6 @@ export default {
   display: flex;
   align-items: center;
   min-height: calc(90vw * 1.1);
-  background-image: url('/assets/placeholder.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 40% auto;
 
   @media only screen and (min-width:768px) {
     min-height: inherit;
