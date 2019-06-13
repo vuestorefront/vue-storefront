@@ -48,18 +48,15 @@ export default {
   },
   mixins: [Product],
   computed: {
-<<<<<<< HEAD
     productLink () {
       return formatProductLink(this.product, currentStoreView().storeCode)
     },
-=======
     image () {
       return {
         loading: this.thumbnail,
         src: this.thumbnail
       }
     }
->>>>>>> develop
   }
 }
 </script>
