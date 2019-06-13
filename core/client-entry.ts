@@ -67,7 +67,8 @@ const invokeClientEntry = async () => {
       const matched = router.getMatchedComponents(to)
       if (to) { // this is from url
         if (globalConfig.storeViews.multistore === true) {
-          const storeCode = storeCodeFromRoute(to)
+          const currentRoute = Object.assign({}, to, {host: window.location.host})
+          const storeCode = storeCodeFromRoute(currentRoute)
           const currentStore = currentStoreView()
           if (storeCode !== '' && storeCode !== null) {
             if (storeCode !== currentStore.storeCode) {
