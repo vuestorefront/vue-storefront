@@ -97,7 +97,6 @@
         "storeId": 3,
         "name": "German Store",
         "url": "/de",
-        "appendStoreCode": true,
         "elasticsearch": {
           "host": "/api/catalog",
           "index": "vue_storefront_catalog_de"
@@ -125,7 +124,6 @@
         "storeId": 4,
         "name": "Italian Store",
         "url": "/it",
-        "appendStoreCode": true,
         "elasticsearch": {
           "host": "/api/catalog",
           "index": "vue_storefront_catalog_it"

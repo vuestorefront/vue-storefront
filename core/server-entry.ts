@@ -68,9 +68,8 @@ export default async context => {
     router.onReady(() => {
       if (config.storeViews.multistore === true) {
         let storeCode = context.vs.storeCode // this is from http header or env variable
-        if (storeCode === undefined && router.currentRoute) { // this is from url
-          const currentRoute = Object.assign({}, router.currentRoute, {host: context.server.request.headers.host})
-          storeCode = storeCodeFromRoute(currentRoute)
+        if (router.currentRoute) { // this is from url
+          storeCode = storeCodeFromRoute(router.currentRoute)
         }
         if (storeCode !== '' && storeCode !== null) {
           prepareStoreView(storeCode)
