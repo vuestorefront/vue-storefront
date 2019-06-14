@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Category load depending on zoom level - @przspa (#2704)
 - Add yarn.lock to dockerfile build - @Flyingmana (#3006)
 - Inconsistent behaviour of picture slider on PDP - @przspa (#2757)
+- Remove static definition of `cashondelivery` in payment module - @danielmaier42 (#2983)
 
 ## [1.9.1] - 2019.05.27
 
