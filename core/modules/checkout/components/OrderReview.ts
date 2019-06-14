@@ -1,4 +1,5 @@
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
+import RootState from '@vue-storefront/core/types/RootState'
 import i18n from '@vue-storefront/i18n'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
@@ -19,6 +20,9 @@ export const OrderReview = {
     }
   },
   computed: {
+    ...mapState({
+      shippingDetails: (state: RootState) => state.checkout.shippingDetails
+    }),
     ...mapGetters({
       isVirtualCart: 'cart/isVirtualCart'
     })
@@ -37,7 +41,18 @@ export const OrderReview = {
         email: this.$store.state.checkout.personalDetails.emailAddress,
         password: this.$store.state.checkout.personalDetails.password,
         firstname: this.$store.state.checkout.personalDetails.firstName,
-        lastname: this.$store.state.checkout.personalDetails.lastName
+        lastname: this.$store.state.checkout.personalDetails.lastName,
+        addresses: [{
+          firstname: this.shippingDetails.firstName,
+          lastname: this.shippingDetails.lastName,
+          street: [this.shippingDetails.streetAddress, this.shippingDetails.apartmentNumber],
+          city: this.shippingDetails.city,
+          ...(this.shippingDetails.state ? { region: { region: this.shippingDetails.state } } : {}),
+          country_id: this.shippingDetails.country,
+          postcode: this.shippingDetails.zipCode,
+          ...(this.shippingDetails.phoneNumber ? { telephone: this.shippingDetails.phoneNumber } : {}),
+          default_shipping: true
+        }]
       }).then(async (result) => {
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
