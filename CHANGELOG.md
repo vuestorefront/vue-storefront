@@ -126,7 +126,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added some structured data to product page - @cewald (#2910)
 - Improved the Size Guide feature so it opens in a modal popup instead of a new page - @RGijsberts - (#2913)
 - Refactored Travis config @Tjitse-E (#3035)
-- Shipping address is saved as default when not logged in user chooses to create account during checkout (#2636)
+- Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
 
 ## [1.9.2] - 2019.06.10
 
