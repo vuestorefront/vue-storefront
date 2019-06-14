@@ -110,17 +110,15 @@ export default {
         loading: this.thumbnail,
         src: this.thumbnail
       }
+    },
+    productLink () {
+      return formatProductLink(this.product, currentStoreView().storeCode)
     }
   },
   data () {
     return {
       displayItemDiscounts: config.cart.displayItemDiscounts
     }
-  },
-  computed: {
-    productLink () {
-      return formatProductLink(this.product, currentStoreView().storeCode)
-    },
   }
 }
 </script>

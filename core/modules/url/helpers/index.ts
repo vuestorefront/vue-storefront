@@ -63,7 +63,7 @@ export function formatProductLink (
     url_path?: string,
     type_id: string,
     slug: string,
-    options: [],
+    options: []
   },
   storeCode
 ): string | LocalizedRoute {

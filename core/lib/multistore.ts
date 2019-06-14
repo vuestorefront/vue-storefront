@@ -11,7 +11,7 @@ export interface LocalizedRoute {
   path?: string,
   name?: string,
   hash?: string,
-  params?: { [key: string]: unknown; },
+  params?: { [key: string]: unknown },
   fullPath?: string,
   host?: string
 }

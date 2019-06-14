@@ -2,7 +2,7 @@
   <li class="row pr55 py20">
     <div class="image" @click="closeWishlist">
       <router-link :to="productLink">
-        <img v-lazy="thumbnail" >
+        <img v-lazy="thumbnail">
       </router-link>
     </div>
     <div class="col-xs between-xs flex pl40 py15">
@@ -39,12 +39,10 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 
 import RemoveButton from './RemoveButton'
-import ProductImage from 'theme/components/core/ProductImage'
 
 export default {
   components: {
-    RemoveButton,
-    ProductImage
+    RemoveButton
   },
   mixins: [Product],
   computed: {
