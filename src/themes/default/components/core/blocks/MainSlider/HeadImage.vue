@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import ButtonOutline from 'theme/components/theme/ButtonOutline'
+// import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    ButtonOutline
+    // ButtonOutline
   },
   data () {
     return {

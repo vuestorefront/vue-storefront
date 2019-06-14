@@ -1,5 +1,4 @@
 import config from 'config'
-
 export const ConfirmOrders = {
   methods: {
     confirmOrders () {

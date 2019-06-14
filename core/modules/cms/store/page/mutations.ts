@@ -14,7 +14,7 @@ const mutations: MutationTree<CmsPageState> = {
   [types.CMS_PAGE_SET_CURRENT] (state, current) {
     state.current = current
   },
-  [types.CMS_PAGE_ADD_CMS_PAGE] (state, cmsPage ) {
+  [types.CMS_PAGE_ADD_CMS_PAGE] (state, cmsPage) {
     const record = state.items.find(c => c.id === cmsPage.id)
     if (!record) {
       state.items.push(cmsPage)

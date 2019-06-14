@@ -6,17 +6,17 @@ import VueSSRClientPlugin from 'vue-server-renderer/client-plugin'
 
 const config = merge(base, {
   optimization: {
-    splitChunks:  {
+    splitChunks: {
       cacheGroups: {
         commons: {
-          test: /[\\/]node_modules[\\/](vue|vuex|vue-router|vue-meta|vue-i18n|vuex-router-sync|vue-meta|localforage)[\\/]/,
+          test: /[\\/]node_modules[\\/](vue|vuex|vue-router|vue-meta|vue-i18n|vuex-router-sync|localforage)[\\/]/,
           name: 'vendor',
-          chunks: 'all',
-        },
-      },
+          chunks: 'all'
+        }
+      }
     },
-      runtimeChunk: {
-      name: "manifest",
+    runtimeChunk: {
+      name: 'manifest'
     }
   },
   mode: 'development',
@@ -32,7 +32,7 @@ const config = merge(base, {
       'process.env.VUE_ENV': '"client"'
     }),
     new VueSSRClientPlugin()
-  ],
+  ]
 })
 
 export default config;

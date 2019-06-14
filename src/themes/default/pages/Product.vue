@@ -5,6 +5,7 @@
         <section class="row m0 between-xs">
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
+              :offline="image"
               :gallery="gallery"
               :configuration="configuration"
               :product="product"
@@ -18,14 +19,16 @@
             />
             <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
-              <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share"/>
+              <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share" />
             </h1>
-            <div class="mb20 uppercase cl-secondary">
-              sku: {{ product.sku }}
+            <div class="mb20 uppercase cl-secondary" itemprop="sku" :content="product.sku">
+              {{ $t('SKU') }}: {{ product.sku }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
               <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
+              <meta itemprop="availability" :content="structuredData.availability">
+              <meta itemprop="url" :content="product.url_path">
               <div
                 class="mb40 price serif"
                 v-if="product.type_id !== 'grouped'"
@@ -108,9 +111,9 @@
                         v-focus-clean
                       />
                     </div>
-                    <router-link
-                      to="/size-guide"
+                    <span
                       v-if="option.label == 'Size'"
+                      @click="openSizeGuide"
                       class="
                         p0 ml30 inline-flex middle-xs no-underline h5
                         action size-guide pointer cl-secondary
@@ -120,7 +123,7 @@
                       <span>
                         {{ $t('Size guide') }}
                       </span>
-                    </router-link>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -220,13 +223,14 @@
         </div>
       </div>
     </section>
-    <reviews v-show="OnlineOnly"/>
+    <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
     <related-products
       type="upsell"
       :heading="$t('We found other products you might like')"
     />
     <promoted-offers single-banner />
     <related-products type="related" />
+    <SizeGuide />
   </div>
 </template>
 
@@ -242,7 +246,6 @@ import ColorSelector from 'theme/components/core/ColorSelector.vue'
 import SizeSelector from 'theme/components/core/SizeSelector.vue'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
-import ProductTile from 'theme/components/core/ProductTile.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
@@ -251,6 +254,7 @@ import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/Promote
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
 
 export default {
   components: {
@@ -264,13 +268,13 @@ export default {
     ProductCustomOptions,
     ProductGallery,
     ProductLinks,
-    ProductTile,
     PromotedOffers,
     RelatedProducts,
     Reviews,
     SizeSelector,
     WebShare,
-    BaseInputNumber
+    BaseInputNumber,
+    SizeGuide
   },
   mixins: [Product, VueOfflineMixin],
   data () {
@@ -279,6 +283,13 @@ export default {
     }
   },
   directives: { focusClean },
+  computed: {
+    structuredData () {
+      return {
+        availability: (this.product.stock.is_in_stock) ? 'InStock' : 'OutOfStock'
+      }
+    }
+  },
   methods: {
     showDetails (event) {
       this.detailsOpen = true
@@ -297,6 +308,9 @@ export default {
         message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
         action1: { label: this.$t('OK') }
       })
+    },
+    openSizeGuide () {
+      this.$bus.$emit('modal-show', 'modal-sizeguide')
     }
   },
   validations: {

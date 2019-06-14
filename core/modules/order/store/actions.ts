@@ -5,7 +5,6 @@ import { ActionTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import OrderState from '../types/OrderState'
 import { Order } from '../types/Order'
-import rootStore from '@vue-storefront/core/store'
 import { isOnline } from '@vue-storefront/core/lib/search'
 import i18n from '@vue-storefront/i18n'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
@@ -19,7 +18,7 @@ const actions: ActionTree<OrderState, RootState> = {
    * @param {Object} commit method
    * @param {Order} order order data to be send
    */
-  async placeOrder ({ commit, getters, dispatch }, order:Order) {
+  async placeOrder ({ commit, getters, dispatch }, order: Order) {
     // Check if order is already processed/processing
     const currentOrderHash = sha3_224(JSON.stringify(order))
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
@@ -32,7 +31,7 @@ const actions: ActionTree<OrderState, RootState> = {
     }
 
     Vue.prototype.$bus.$emit('order-before-placed', { order: order })
-    if (!rootStore.state.config.orders.directBackendSync || !isOnline()) {
+    if (!config.orders.directBackendSync || !isOnline()) {
       commit(types.ORDER_PLACE_ORDER, order)
       Vue.prototype.$bus.$emit('order-after-placed', { order: order })
       return {
@@ -41,7 +40,7 @@ const actions: ActionTree<OrderState, RootState> = {
     } else {
       Vue.prototype.$bus.$emit('notification-progress-start', i18n.t('Processing order...'))
       try {
-        const task:any = await TaskQueue.execute({ url: rootStore.state.config.orders.endpoint, // sync the order
+        const task: any = await TaskQueue.execute({ url: config.orders.endpoint, // sync the order
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

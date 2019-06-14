@@ -1,7 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
-const Countries = require('@vue-storefront/i18n/resource/countries.json')
 import toString from 'lodash-es/toString'
+const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {
   name: 'Shipping',
@@ -51,6 +51,13 @@ export const Shipping = {
       return this.$store.state.payment.methods
     }
   },
+  watch: {
+    shipToMyAddress: {
+      handler () {
+        this.useMyAddress()
+      }
+    }
+  },
   mounted () {
     if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
       let shipping = this.shippingMethods.find(item => item.default)
@@ -97,7 +104,6 @@ export const Shipping = {
       return false
     },
     useMyAddress () {
-      this.shipToMyAddress = !this.shipToMyAddress
       if (this.shipToMyAddress) {
         this.shipping = {
           firstName: this.myAddressDetails.firstname,

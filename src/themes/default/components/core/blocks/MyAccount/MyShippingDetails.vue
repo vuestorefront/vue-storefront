@@ -61,7 +61,6 @@
           class="col-xs-12 mb10"
           id="addCompanyFilled"
           v-model="useCompanyAddress"
-          @click="fillCompanyAddress"
         >
           {{ $t("Use my company's address details") }}
         </base-checkbox>
@@ -164,7 +163,7 @@
           v-model.trim="shippingDetails.phone"
         />
 
-        <div class="hidden-xs col-sm-6 mb25"/>
+        <div class="hidden-xs col-sm-6 mb25" />
 
         <div class="col-xs-12 col-sm-6">
           <button-full

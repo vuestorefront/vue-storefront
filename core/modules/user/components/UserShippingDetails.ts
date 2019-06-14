@@ -1,5 +1,5 @@
-const Countries = require('@vue-storefront/i18n/resource/countries.json')
 import toString from 'lodash-es/toString'
+const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const UserShippingDetails = {
   name: 'MyShippingDetails',
@@ -37,6 +37,13 @@ export const UserShippingDetails = {
   },
   mounted () {
     this.shippingDetails = this.getShippingDetails()
+  },
+  watch: {
+    useCompanyAddress: {
+      handler () {
+        this.fillCompanyAddress()
+      }
+    }
   },
   methods: {
     onLoggedIn () {

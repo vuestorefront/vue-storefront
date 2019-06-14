@@ -16,7 +16,7 @@
           <div class="col-xs-2 visible-xs" />
           <div class="col-sm-4 col-xs-4 center-xs">
             <div>
-              <logo width="auto" height="41px"/>
+              <logo width="auto" height="41px" />
             </div>
           </div>
           <div class="col-xs-2 visible-xs" />
@@ -26,7 +26,7 @@
         </div>
       </div>
     </header>
-    <div class="header-placeholder"/>
+    <div class="header-placeholder" />
   </div>
 </template>
 
