@@ -55,7 +55,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     // return searchResult.items
   },
   async findCategories () {
-    return await CategoryService.getCategories()
+    return CategoryService.getCategories()
   },
   async loadCategories ({ commit }) {
     const categories = await CategoryService.getCategories()
@@ -66,7 +66,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * Fetch and process filters from current category and sets them in available filters.
    */
   async loadCategoryFilters ({ dispatch, getters }, category) {
-    const searchCategory = category ? category : getters.getCurrentCategory
+    const searchCategory = category || getters.getCurrentCategory
     let filterQr = buildFilterProductsQuery(searchCategory)
     const searchResult = await quickSearchByQuery({ query: filterQr })
     await dispatch('loadAvailableFiltersFrom', searchResult)
@@ -75,14 +75,14 @@ const actions: ActionTree<CategoryState, RootState> = {
     const filters = getters.getAvailableFiltersFrom(aggregations)
     commit(types.CATEGORY_SET_AVAILABLE_FILTERS, filters)
   },
-  async switchSearchFilter({ dispatch }, filterVariant:FilterVariant) {
+  async switchSearchFilter ({ dispatch }, filterVariant: FilterVariant) {
     const newQuery = changeFilterQuery({currentQuery: router.currentRoute[products.routerFiltersSource], filterVariant})
     await dispatch('changeRouterFilterParameters', newQuery)
   },
-  async resetFilters({dispatch}) {
+  async resetFilters ({dispatch}) {
     await dispatch('changeRouterFilterParameters', {})
   },
-  async changeRouterFilterParameters(context, query) {
+  async changeRouterFilterParameters (context, query) {
     router.push({[products.routerFiltersSource]: query})
   }
 }

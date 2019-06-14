@@ -1,11 +1,11 @@
 import FilterVariant from 'core/modules/catalog-next/types/FilterVariant';
 
-export const getSystemFilterNames:Array<String> = ['sort']
+export const getSystemFilterNames: string[] = ['sort']
 
 /**
  * Creates new filtersQuery (based on currentQuery) by modifying specific filter variant.
  */
-export const changeFilterQuery = ({currentQuery = {}, filterVariant}:{currentQuery?:any, filterVariant?:FilterVariant} = {}) => {
+export const changeFilterQuery = ({currentQuery = {}, filterVariant}: {currentQuery?: any, filterVariant?: FilterVariant} = {}) => {
   const newQuery = JSON.parse(JSON.stringify(currentQuery))
   if (!filterVariant) return newQuery
   if (getSystemFilterNames.includes(filterVariant.type)) {
@@ -17,7 +17,7 @@ export const changeFilterQuery = ({currentQuery = {}, filterVariant}:{currentQue
   } else {
     let queryFilter = newQuery[filterVariant.type] || []
     if (!Array.isArray(queryFilter)) queryFilter = [queryFilter]
-    if(queryFilter.includes(filterVariant.id)) {
+    if (queryFilter.includes(filterVariant.id)) {
       queryFilter = queryFilter.filter(value => value !== filterVariant.id)
     } else {
       queryFilter.push(filterVariant.id)

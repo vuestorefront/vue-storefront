@@ -62,7 +62,7 @@ module.exports = merge(base, {
           handler: 'fastest'
         },
         {
-          urlPattern: /(http[s]?:\/\/)?(\/)?([^\/\s]+\/)?(api\/catalog\/)(.*)/g,
+          urlPattern: /(http[s]?:\/\/)?(\/)?([^\/\s]+\/)?(api\/catalog\/)(.*)/g, // eslint-disable-line no-useless-escape
           handler: 'networkFirst'
         },
         {

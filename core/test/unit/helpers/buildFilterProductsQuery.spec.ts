@@ -4,7 +4,7 @@ jest.mock('remove-accents', () => jest.fn());
 jest.mock('@vue-storefront/core/modules/url/helpers', () => jest.fn());
 jest.mock('config', () => ({
   products: {
-    "defaultFilters": ["color", "size", "price", "erin_recommends"]
+    'defaultFilters': ['color', 'size', 'price', 'erin_recommends']
   }
 }));
 
@@ -12,49 +12,49 @@ describe('buildFilterProductsQuery method', () => {
   let currentCategory
 
   beforeEach(() => {
-    currentCategory = {  
-      "path":"1/2/20",
-      "is_active":true,
-      "level":2,
-      "product_count":0,
-      "children_count":"8",
-      "parent_id":2,
-      "name":"Women",
-      "id":20,
-      "url_path":"women/women-20",
-      "url_key":"women-20",
-      "children_data":[  
-        {  
-          "id":21,
-          "children_data":[  
-            {  
-              "id":23
+    currentCategory = {
+      'path': '1/2/20',
+      'is_active': true,
+      'level': 2,
+      'product_count': 0,
+      'children_count': '8',
+      'parent_id': 2,
+      'name': 'Women',
+      'id': 20,
+      'url_path': 'women/women-20',
+      'url_key': 'women-20',
+      'children_data': [
+        {
+          'id': 21,
+          'children_data': [
+            {
+              'id': 23
             },
-            {  
-              "id":24
+            {
+              'id': 24
             },
-            {  
-              "id":25
+            {
+              'id': 25
             },
-            {  
-              "id":26
+            {
+              'id': 26
             }
           ]
         },
-        {  
-          "id":22,
-          "children_data":[  
-            {  
-              "id":27
+        {
+          'id': 22,
+          'children_data': [
+            {
+              'id': 27
             },
-            {  
-              "id":28
+            {
+              'id': 28
             }
           ]
         }
       ],
-      "_score":null,
-      "slug":"women-20"
+      '_score': null,
+      'slug': 'women-20'
     }
   });
 
@@ -69,16 +69,16 @@ describe('buildFilterProductsQuery method', () => {
     const filters = {
       color: [
         {
-          "id":"49",
-          "label":"Black",
-          "type":"color",
-          "attribute_code":"color"
+          'id': '49',
+          'label': 'Black',
+          'type': 'color',
+          'attribute_code': 'color'
         },
         {
-          "id":"50",
-          "label":"Blue",
-          "type":"color",
-          "attribute_code":"color"
+          'id': '50',
+          'label': 'Blue',
+          'type': 'color',
+          'attribute_code': 'color'
         }
       ]
     }
@@ -91,12 +91,12 @@ describe('buildFilterProductsQuery method', () => {
   it('should build query with single price from 0 filter', () => {
     const filters = {
       price: {
-        "id": "0.0-50.0",
-        "type":"price",
-        "from":0,
-        "to":50,
-        "label":"< $50",
-        "attribute_code":"price"
+        'id': '0.0-50.0',
+        'type': 'price',
+        'from': 0,
+        'to': 50,
+        'label': '< $50',
+        'attribute_code': 'price'
       }
     }
     const result = buildFilterProductsQuery(currentCategory, filters)
@@ -108,12 +108,12 @@ describe('buildFilterProductsQuery method', () => {
   it('should build query with single price between 50-100 filter', () => {
     const filters = {
       price: {
-        "id": "50.0-100.0",
-        "type":"price",
-        "from":50,
-        "to":100,
-        "label":"$50 - 100",
-        "attribute_code":"price"
+        'id': '50.0-100.0',
+        'type': 'price',
+        'from': 50,
+        'to': 100,
+        'label': '$50 - 100',
+        'attribute_code': 'price'
       }
     }
     const result = buildFilterProductsQuery(currentCategory, filters)
@@ -126,12 +126,12 @@ describe('buildFilterProductsQuery method', () => {
   it('should build query with price filters', () => {
     const filters = {
       price: [{
-        "id": "0.0-50.0",
-        "type":"price",
-        "from":0,
-        "to":50,
-        "label":"< $50",
-        "attribute_code":"price"
+        'id': '0.0-50.0',
+        'type': 'price',
+        'from': 0,
+        'to': 50,
+        'label': '< $50',
+        'attribute_code': 'price'
       }]
     }
     const result = buildFilterProductsQuery(currentCategory, filters)

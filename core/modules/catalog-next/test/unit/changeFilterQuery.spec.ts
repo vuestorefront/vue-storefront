@@ -20,7 +20,7 @@ describe('changeFilterQuery method', () => {
 
   it('should add filter to array', () => {
     const currentQuery = {}
-    const filterVariant:FilterVariant = {
+    const filterVariant: FilterVariant = {
       id: '33',
       label: 'Red',
       type: 'color'
@@ -33,7 +33,7 @@ describe('changeFilterQuery method', () => {
     const currentQuery = {
       color: ['23', '33']
     }
-    const filterVariant:FilterVariant = {
+    const filterVariant: FilterVariant = {
       id: '33',
       label: 'Red',
       type: 'color'
@@ -41,10 +41,10 @@ describe('changeFilterQuery method', () => {
     const result = changeFilterQuery({currentQuery, filterVariant})
     expect(result).toEqual({color: ['23']})
   });
-  
+
   it('should add sort filter', () => {
     const currentQuery = {}
-    const filterVariant:FilterVariant = {
+    const filterVariant: FilterVariant = {
       id: 'final_price',
       label: 'Price: Low to high',
       type: 'sort'
@@ -55,7 +55,7 @@ describe('changeFilterQuery method', () => {
 
   it('should remove sort filter', () => {
     const currentQuery = {sort: 'final_price'}
-    const filterVariant:FilterVariant = {
+    const filterVariant: FilterVariant = {
       id: 'final_price',
       label: 'Price: Low to high',
       type: 'sort'
@@ -66,7 +66,7 @@ describe('changeFilterQuery method', () => {
 
   it('should change sort filter', () => {
     const currentQuery = {sort: 'final_price'}
-    const filterVariant:FilterVariant = {
+    const filterVariant: FilterVariant = {
       id: 'updated_at',
       label: 'Latest',
       type: 'sort'

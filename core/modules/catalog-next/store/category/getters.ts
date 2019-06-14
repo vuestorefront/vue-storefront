@@ -12,7 +12,7 @@ import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state) => state.categories || [],
   getCategoryProducts: (state) => state.products,
-  getCategoryFrom: (state, getters) => (path:string = '') => {
+  getCategoryFrom: (state, getters) => (path: string = '') => {
     return getters.getCategories.find(category => path.includes(category.url_path)) || {}
   },
   getCurrentCategory: (state, getters, rootState) => getters.getCategoryFrom(rootState.route.path),
@@ -20,7 +20,7 @@ const getters: GetterTree<CategoryState, RootState> = {
     const filters = {}
     if (aggregations) { // populate filter aggregates
       for (let attrToFilter of products.defaultFilters) { // fill out the filter options
-        let filterOptions:Array<FilterVariant> = []
+        let filterOptions: FilterVariant[] = []
 
         let uniqueFilterValues = new Set<string>()
         if (attrToFilter !== 'price') {
@@ -81,7 +81,7 @@ const getters: GetterTree<CategoryState, RootState> = {
   },
   getAvailableFilters: state => state.availableFilters,
   getCurrentFiltersFrom: (state, getters, rootState) => (filters) => {
-    const currentQuery = filters ? filters : rootState.route[products.routerFiltersSource]
+    const currentQuery = filters || rootState.route[products.routerFiltersSource]
     return getFiltersFromQuery({availableFilters: getters.getAvailableFilters, filtersQuery: currentQuery})
   },
   getCurrentFilters: (state, getters, rootState) => getters.getCurrentFiltersFrom(rootState.route[products.routerFiltersSource]).filters,

@@ -336,7 +336,7 @@ export default {
       })
     },
     changeFilter (variant) {
-      this.$bus.$emit('filter-changed-product', Object.assign({ attribute_code: variant.type} , variant))
+      this.$bus.$emit('filter-changed-product', Object.assign({attribute_code: variant.type}, variant))
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
