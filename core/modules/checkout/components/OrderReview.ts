@@ -1,5 +1,4 @@
-import { mapState, mapGetters } from 'vuex'
-import RootState from '@vue-storefront/core/types/RootState'
+import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
@@ -20,16 +19,15 @@ export const OrderReview = {
     }
   },
   computed: {
-    ...mapState({
-      shippingDetails: (state: RootState) => state.checkout.shippingDetails
-    }),
     ...mapGetters({
-      isVirtualCart: 'cart/isVirtualCart'
+      isVirtualCart: 'cart/isVirtualCart',
+      getShippingDetails: 'checkout/getShippingDetails',
+      getPersonalDetails: 'checkout/getPersonalDetails'
     })
   },
   methods: {
     placeOrder () {
-      if (this.$store.state.checkout.personalDetails.createAccount) {
+      if (this.getPersonalDetails.createAccount) {
         this.register()
       } else {
         this.$bus.$emit('checkout-before-placeOrder')
@@ -37,23 +35,26 @@ export const OrderReview = {
     },
     async register () {
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
-      this.$store.dispatch('user/register', {
-        email: this.$store.state.checkout.personalDetails.emailAddress,
-        password: this.$store.state.checkout.personalDetails.password,
-        firstname: this.$store.state.checkout.personalDetails.firstName,
-        lastname: this.$store.state.checkout.personalDetails.lastName,
-        addresses: [{
-          firstname: this.shippingDetails.firstName,
-          lastname: this.shippingDetails.lastName,
-          street: [this.shippingDetails.streetAddress, this.shippingDetails.apartmentNumber],
-          city: this.shippingDetails.city,
-          ...(this.shippingDetails.state ? { region: { region: this.shippingDetails.state } } : {}),
-          country_id: this.shippingDetails.country,
-          postcode: this.shippingDetails.zipCode,
-          ...(this.shippingDetails.phoneNumber ? { telephone: this.shippingDetails.phoneNumber } : {}),
-          default_shipping: true
-        }]
-      }).then(async (result) => {
+
+      try {
+        const result = await this.$store.dispatch('user/register', {
+          email: this.getPersonalDetails.emailAddress,
+          password: this.getPersonalDetails.password,
+          firstname: this.getPersonalDetails.firstName,
+          lastname: this.getPersonalDetails.lastName,
+          addresses: [{
+            firstname: this.getShippingDetails.firstName,
+            lastname: this.getShippingDetails.lastName,
+            street: [this.getShippingDetails.streetAddress, this.getShippingDetails.apartmentNumber],
+            city: this.getShippingDetails.city,
+            ...(this.getShippingDetails.state ? { region: { region: this.getShippingDetails.state } } : {}),
+            country_id: this.getShippingDetails.country,
+            postcode: this.getShippingDetails.zipCode,
+            ...(this.getShippingDetails.phoneNumber ? { telephone: this.getShippingDetails.phoneNumber } : {}),
+            default_shipping: true
+          }]
+        })
+
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
           this.onFailure(result)
@@ -71,10 +72,10 @@ export const OrderReview = {
           this.$bus.$emit('checkout-before-placeOrder', result.result.id)
           this.onSuccess()
         }
-      }).catch(err => {
+      } catch (err) {
         this.$bus.$emit('notification-progress-stop')
         Logger.error(err, 'checkout')()
-      })
+      }
     }
   }
 }

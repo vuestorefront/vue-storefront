@@ -109,7 +109,7 @@ const actions: ActionTree<UserState, RootState> = {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ customer: { email: email, firstname: firstname, lastname: lastname, addresses: addresses }, password: password })
+      body: JSON.stringify({ customer: { email, firstname, lastname, addresses }, password })
     }).then(resp => { return resp.json() })
   },
 
