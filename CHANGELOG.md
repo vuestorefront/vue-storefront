@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Fixed
--
+- Fixed product link in wishlist and microcart - @michasik (#2987)
 
 ### Changed / Improved
 -
@@ -84,7 +84,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed placeholders in gallery in offline mode - @przspa (#2863)
 - Incorrect `user_id` set on the order object - @pkarw (#2966)
 - Problem with SSR render on product page with logged in user - @patzick (#2888)
-- Fixed product link in wishlist and microcart - @michasik (#2987)
 
 ### Changed / Improved
 - The action `cart/userAfterLoggedin` got renamed to `cart/authorize` - @pkarw (#2522)
