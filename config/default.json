@@ -120,31 +120,25 @@
         }
       },
       "it": {
+        "extend": "de",
         "storeCode": "it",
         "disabled": true,
         "storeId": 4,
         "name": "Italian Store",
         "url": "/it",
-        "appendStoreCode": true,
         "elasticsearch": {
           "host": "/api/catalog",
           "index": "vue_storefront_catalog_it"
         },
         "tax": {
-          "sourcePriceIncludesTax": false,
-          "defaultCountry": "IT",
-          "defaultRegion": "",
-          "calculateServerSide": true
+          "defaultCountry": "IT"
         },
         "i18n": {
           "fullCountryName": "Italy",
           "fullLanguageName": "Italian",
           "defaultCountry": "IT",
           "defaultLanguage": "IT",
-          "defaultLocale": "it-IT",
-          "currencyCode": "EUR",
-          "currencySign": "EUR",
-          "dateFormat": "HH:mm D-M-YYYY"
+          "defaultLocale": "it-IT"
         }
       }
     },

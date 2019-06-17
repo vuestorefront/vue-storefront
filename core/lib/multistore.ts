@@ -20,7 +20,7 @@ export interface LocalizedRoute {
 
 export interface StoreView {
   storeCode: string,
-  inherit?: string,
+  extend?: string,
   disabled?: boolean,
   storeId: any,
   name?: string,
@@ -53,11 +53,20 @@ export function currentStoreView (): StoreView {
 }
 
 export function getFinalStoreviewConfigInMultistoreMode (storeView: StoreView): StoreView {
-  if (storeView.inherit) {
+  if (storeView.extend) {
+    const originalParent = storeView.extend
+
     if (!config.storeViews[storeView.storeCode]) {
-      Logger.error(`Storeview "${storeView.inherit}" doesn't exist!`)()
+      Logger.error(`Storeview "${storeView.extend}" doesn't exist!`)()
     } else {
-      storeView = merge({}, [getFinalStoreviewConfigInMultistoreMode(config.storeViews[storeView.storeCode]), storeView])
+      delete storeView.extend
+
+      storeView = merge(
+        {},
+        getFinalStoreviewConfigInMultistoreMode(config.storeViews[storeView.storeCode]),
+        storeView
+      )
+      storeView.extend = originalParent
     }
   }
 
@@ -78,14 +87,11 @@ export function prepareStoreView (storeCode: string): StoreView {
     if ((storeView = config.storeViews[storeCode])) {
       storeView.storeCode = storeCode
       rootStore.state.user.current_storecode = storeCode
+      storeView = getFinalStoreviewConfigInMultistoreMode(storeView)
     }
   } else {
     storeView.storeCode = config.defaultStoreCode || ''
     rootStore.state.user.current_storecode = config.defaultStoreCode || ''
-  }
-
-  if (storeViewHasChanged) {
-    storeView = getFinalStoreviewConfigInMultistoreMode(storeView)
   }
 
   loadLanguageAsync(storeView.i18n.defaultLocale)
