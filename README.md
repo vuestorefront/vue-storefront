@@ -706,6 +706,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     <td align="center" valign="middle"> 
+<a href="https://www.novusweb.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/blue_novusweb.png"
+            alt="Novusweb"
+            height="30"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="www.trellis.co">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/trellis.png"
+            alt="Trellis"
+            height="30"
+          >
+        </a>
+</td>
+    </tr>
+      <tr>
+      <td align="center" valign="middle"> 
+<a href="https://ittweb.net/it?utm_source=referral&utm_medium=vsf&utm_campaign=partners">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/ITTweb.png"
+            alt="ITT Web"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
 <a href="">
           <img
             src=""
