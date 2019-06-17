@@ -33,7 +33,7 @@
     <div class="container pb60">
       <div class="row m0 pt15">
         <div class="col-md-3 start-xs category-filters">
-          <sidebar :filters="getAvailableFilters" @sortChange="changeFilter" />
+          <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
           <div class="close-container absolute w-100">
