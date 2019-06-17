@@ -9,7 +9,7 @@
       data-testid="productLink"
     >
       <div
-        class="product-image relative bg-cl-secondary"
+        class="product-image relative"
         :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
       >
         <product-image
@@ -116,7 +116,6 @@ export default {
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
 
-$bg-secondary: color(secondary, $colors-background);
 $border-secondary: color(secondary, $colors-border);
 $color-white: color(white);
 
@@ -151,24 +150,8 @@ $color-white: color(white);
   height: 100%;
   max-height: 300px;
 
-  &:hover{
-    .product-image__content{
-      opacity: 1;
-      transform: scale(1.1);
-    }
-    &.sale::after,
-    &.new::after{
-      opacity: .8;
-    }
-  }
   &__content{
-
     padding-bottom: calc(300% / (257 / 100));
-    mix-blend-mode: darken;
-    opacity: .8;
-    transform: scale(1);
-    will-change: transform;
-    transition: .3s opacity $motion-main, .3s transform $motion-main;
     @media (min-width: 768px) {
       padding-bottom: calc(208% / (168 / 100));
     }

@@ -91,7 +91,6 @@ export default {
     height: 0;
     padding-bottom: calc(740% / (600 / 100));
     overflow: hidden;
-    mix-blend-mode: multiply;
     &__thumb{
       max-width: 100%;
       height: auto;

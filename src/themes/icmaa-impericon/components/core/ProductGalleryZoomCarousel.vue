@@ -2,7 +2,7 @@
   <div class="media-zoom-carousel">
     <div class="media-zoom-carousel__container row flex">
       <ul class="media-zoom-carousel__thumbs m0 p0">
-        <li class="media-zoom-carousel__thumb bg-cl-secondary" v-for="(images, index) in gallery" :key="images.src">
+        <li class="media-zoom-carousel__thumb" v-for="(images, index) in gallery" :key="images.src">
           <product-image
             :class="{'thumb-video': images.video}"
             @click="navigate(index)"
@@ -29,7 +29,7 @@
             v-for="(images, index) in gallery"
             :key="images.src"
           >
-            <div class="media-zoom-carousel__slide bg-cl-secondary"
+            <div class="media-zoom-carousel__slide"
                  :class="{'video-container h-100 flex relative': images.video}"
             >
               <product-image
@@ -173,17 +173,6 @@ export default {
     &:last-of-type {
       margin-bottom: 0;
     }
-
-    & > .image{
-      mix-blend-mode: multiply;
-      opacity: 0.9;
-      will-change: transform;
-      transition: .3s opacity $motion-main;
-
-      &:hover{
-        opacity: 1;
-      }
-    }
   }
 
   &__gallery{
@@ -203,8 +192,7 @@ export default {
     height: 100%;
     max-height: 100%;
     & > .image {
-      mix-blend-mode: multiply;
-    padding-bottom: calc(710% / (600 / 100));
+      padding-bottom: calc(710% / (600 / 100));
     }
     .image--video{
       padding-bottom: calc(319% / (568 / 100));

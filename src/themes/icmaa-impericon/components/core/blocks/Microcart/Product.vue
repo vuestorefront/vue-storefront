@@ -1,7 +1,7 @@
 <template>
   <li class="row flex-nowrap py10">
     <div>
-      <div class="ml10 bg-cl-secondary">
+      <div class="ml10">
         <img class="image" v-lazy="thumbnail" alt="">
       </div>
     </div>
@@ -113,7 +113,6 @@ export default {
 
 <style lang="scss" scoped>
   .image {
-    mix-blend-mode: multiply;
     vertical-align: top;
     width: 150px;
     @media (max-width: 767px) {

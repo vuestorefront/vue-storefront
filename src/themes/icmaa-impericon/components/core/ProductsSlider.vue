@@ -9,7 +9,7 @@
         </header>
       </div>
     </div>
-    <div class="bg-cl-secondary collection-slider">
+    <div class="collection-slider">
       <div class="container px15">
         <div class="row">
           <div class="col-md-12">
@@ -135,7 +135,6 @@ $color-product-bg: color(secondary, $colors-background);
 
   .product-image {
     height: auto;
-    will-change: opacity;
 
     img {
       max-width: 100%;

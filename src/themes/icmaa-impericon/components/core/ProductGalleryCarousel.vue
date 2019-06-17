@@ -17,7 +17,7 @@
         :key="images.src"
       >
         <div
-          class="product-image-container bg-cl-secondary"
+          class="product-image-container"
           :class="{'video-container w-100 h-100 flex relative': images.video}"
         >
           <product-image
@@ -159,13 +159,6 @@ export default {
   right: 0;
 }
 .product-image{
-  mix-blend-mode: multiply;
-  opacity: 1;
-  will-change: transform;
-  transition: .3s opacity $motion-main;
-  &:hover{
-    opacity: .9;
-  }
   &--video{
     padding-bottom: calc(319% / (568 / 100));
   }
