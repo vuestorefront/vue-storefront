@@ -735,10 +735,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle"> 
-<a href="">
+<a href="https://www.yireo.com/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/yireo-logo-trans-520x520.png"
+            alt="Yireo"
             height="40"
           >
         </a>
