@@ -1,12 +1,12 @@
 {
   "name": "@vue-storefront/docs",
   "private": true,
-  "version": "1.9.0",
+  "version": "1.9.2",
   "scripts": {
     "docs:dev": "vuepress dev",
     "docs:build": "vuepress build"
   },
   "dependencies": {
-    "vuepress": "^0.14.2"
+    "vuepress": "^0.14.11"
   }
 }
