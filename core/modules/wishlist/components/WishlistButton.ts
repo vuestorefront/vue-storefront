@@ -1,12 +1,17 @@
+import wishlistMountedMixin from '@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin'
+import { mapGetters } from 'vuex'
+
 export const WishlistButton = {
+  mixins: [wishlistMountedMixin],
+  computed: {
+    ...mapGetters('wishlist', ['getWishlistItemsCount']),
+    getwishlistProductCount () {
+      return this.getWishlistItemsCount
+    }
+  },
   methods: {
     toggleWishlist () {
       this.$store.dispatch('ui/toggleWishlist')
-    }
-  },
-  computed: {
-    wishlistItemsCount () {
-      return this.$store.getters['wishlist/wishlistItemCount']
     }
   }
 }

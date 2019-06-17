@@ -4,18 +4,25 @@
     <span
       class="compare-count absolute flex center-xs middle-xs border-box py0 px2 h6 lh16 weight-700 cl-white bg-cl-silver"
       v-cloak
-      v-show="getTotalProducts"
+      v-show="getcompareProductCount"
     >
-      {{ getTotalProducts }}
+      {{ getcompareProductCount }}
     </span>
   </router-link>
 </template>
 
 <script>
 import CompareIcon from '@vue-storefront/core/compatibility/components/blocks/Header/CompareIcon'
+import { mapGetters } from 'vuex'
 
 export default {
-  mixins: [CompareIcon]
+  mixins: [CompareIcon],
+  computed: {
+    ...mapGetters('compare', ['getCompareProductsCount']),
+    getcompareProductCount () {
+      return this.getCompareProductsCount
+    }
+  }
 }
 </script>
 

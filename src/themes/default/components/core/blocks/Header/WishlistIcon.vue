@@ -9,25 +9,18 @@
     <span
       class="whishlist-count absolute flex center-xs middle-xs border-box py0 px2 h6 lh16 weight-700 cl-white bg-cl-silver"
       v-cloak
-      v-show="getwishlistItemsCount"
+      v-show="getwishlistProductCount"
     >
-      {{ getWishListQty }}
+      {{ getwishlistProductCount }}
     </span>
   </button>
 </template>
 
 <script>
 import WishlistIcon from '@vue-storefront/core/compatibility/components/blocks/Header/WishlistIcon'
-import wishlistMountedMixin from '@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin'
-import { WishlistButton } from '@vue-storefront/core/modules/wishlist/components/WishlistButton'
 
 export default {
-  mixins: [WishlistIcon, wishlistMountedMixin, WishlistButton],
-  computed: {
-    getWishListQty () {
-      return this.$store.state['wishlist'].items.length
-    }
-  }
+  mixins: [WishlistIcon]
 }
 </script>
 

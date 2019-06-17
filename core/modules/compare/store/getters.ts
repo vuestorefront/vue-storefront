@@ -6,7 +6,7 @@ const getters: GetterTree<CompareState, RootState> = {
   isEmpty: (state) => state.items.length === 0,
   isOnCompare: (state) => (product) => state.items.find(p => p.sku === product.sku),
   isCompareLoaded: state => state.loaded,
-  totalProducts: (state) => state.items.length
+  getCompareProductsCount: (state) => state.items.length
 }
 
 export default getters
