@@ -79,7 +79,7 @@ const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: V
   // to depreciate in near future
   once('__VUE_EXTEND__', () => {
     Vue.use(Vuelidate)
-    Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5, observer: true})
+    Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
     Vue.use(Meta)
     Vue.use(VueObserveVisibility)
 
