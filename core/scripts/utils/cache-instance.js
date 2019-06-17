@@ -6,7 +6,12 @@ let cache = false
 
 if (config.server.useOutputCache) {
   const cacheVersionPath = path.resolve(path.join('core', 'build', 'cache-version.json'))
-  const cacheKey = JSON.parse(fs.readFileSync(cacheVersionPath) || '')
+  let cacheKey = ''
+  try {
+    cacheKey = JSON.parse(fs.readFileSync(cacheVersionPath) || '')
+  } catch (err) {
+    console.error(err)
+  }
   const redisConfig = Object.assign(config.redis, { keyPrefix: cacheKey })
 
   console.log('Redis cache set', redisConfig)

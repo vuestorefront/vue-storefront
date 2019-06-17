@@ -4,7 +4,7 @@
 import { Route } from 'vue-router'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-export function beforeEach(to: Route, from: Route, next) {
+export function beforeEach (to: Route, from: Route, next) {
   Logger.info('We are going to visit' + to.name)()
   next()
 }

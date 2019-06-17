@@ -2,10 +2,13 @@
   <div class="media-zoom-carousel">
     <div class="media-zoom-carousel__container row flex">
       <ul class="media-zoom-carousel__thumbs m0 p0">
-        <li class="media-zoom-carousel__thumb" v-for="(images, key) in gallery" :key="images.src">
-          <span class="bg-cl-secondary block">
-            <img :src="images.src" ref="images" @click="navigate(key)" :alt="productName | htmlDecode">
-          </span>
+        <li class="media-zoom-carousel__thumb bg-cl-secondary" v-for="(images, index) in gallery" :key="images.src">
+          <product-image
+            :class="{'thumb-video': images.video}"
+            @click="navigate(index)"
+            :image="images"
+            :alt="productName | htmlDecode"
+          />
         </li>
       </ul>
       <div class="media-zoom-carousel__gallery">
@@ -24,23 +27,23 @@
         >
           <slide
             v-for="(images, index) in gallery"
-            :key="images.src">
-            <div class="media-zoom-carousel__slide  bg-cl-secondary"
-                 :class="{'video-container h-100 flex relative': images.video}">
-              <img
+            :key="images.src"
+          >
+            <div class="media-zoom-carousel__slide bg-cl-secondary"
+                 :class="{'video-container h-100 flex relative': images.video}"
+            >
+              <product-image
                 v-show="hideImageAtIndex !== index"
-                class="product-image inline-flex pointer mw-100"
-                v-lazy="images"
-                ref="images"
+                :class="{'image--video': images.video}"
+                :image="images"
                 :alt="productName | htmlDecode"
-                data-testid="productGalleryImage"
-                itemprop="image"
-              >
+              />
               <product-video
                 v-if="images.video && (index === currentPage)"
                 v-bind="images.video"
                 :index="index"
-                @video-started="onVideoStarted"/>
+                @video-started="onVideoStarted"
+              />
             </div>
           </slide>
         </carousel>
@@ -51,6 +54,7 @@
 
 <script>
 import { Carousel, Slide } from 'vue-carousel'
+import ProductImage from './ProductImage'
 import ProductVideo from './ProductVideo'
 
 export default {
@@ -80,6 +84,7 @@ export default {
   components: {
     Carousel,
     Slide,
+    ProductImage,
     ProductVideo
   },
   mounted () {
@@ -115,13 +120,13 @@ export default {
 
 <style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
-
+@import '~theme/css/animations/transitions';
 .media-zoom-carousel {
   * {
     box-sizing: border-box;
   }
 
-  &__container {
+  &__container{
     position: absolute;
     top: 0;
     left: 0;
@@ -134,17 +139,18 @@ export default {
     max-height: 100%;
     justify-content: space-evenly;
 
-    @media (max-width: 767px) {
+    @media (max-width: 767px){
       top: 50%;
-      transform: translateY(-50%);
       bottom: auto;
       height: auto;
+      transform: translate3d(0, -50%, 0);
     }
   }
 
-  &__thumbs {
+  &__thumbs{
     list-style: none;
     padding-right: 20px;
+    width:100%;
     max-width: 140px;
     height: 100%;
     overflow: auto;
@@ -159,7 +165,7 @@ export default {
     }
   }
 
-  &__thumb {
+  &__thumb{
     margin-bottom: 20px;
     max-width: 100%;
     cursor: pointer;
@@ -168,24 +174,22 @@ export default {
       margin-bottom: 0;
     }
 
-    img {
-      display: block;
-      max-width: 100%;
-      width: auto;
+    & > .image{
       mix-blend-mode: multiply;
       opacity: 0.9;
+      will-change: transform;
+      transition: .3s opacity $motion-main;
 
-      &:hover {
+      &:hover{
         opacity: 1;
       }
     }
   }
 
-  &__gallery {
+  &__gallery{
     max-width: 600px;
     height: 100%;
     flex: 1;
-
     @media (max-width: 767px) {
       height: auto;
     }
@@ -195,22 +199,21 @@ export default {
     height: 100%;
   }
 
-  &__slide {
+  &__slide{
     height: 100%;
     max-height: 100%;
-
-    img {
-      max-height: 100%;
+    & > .image {
       mix-blend-mode: multiply;
-      max-width: 100%;
-      height: auto;
-      align-self: center;
-      margin: 0 auto;
+    padding-bottom: calc(710% / (600 / 100));
+    }
+    .image--video{
+      padding-bottom: calc(319% / (568 / 100));
     }
   }
-
 }
-
+.thumb-video{
+  padding-bottom: calc(319% / (568 / 100));
+}
 .video-container {
   align-items: center;
   justify-content: center;

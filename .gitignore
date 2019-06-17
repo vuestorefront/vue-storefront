@@ -31,5 +31,7 @@ core/resource/i18n/pt-BR.json
 core/resource/i18n/ru-RU.json
 _alpaca.scss
 sfui.scss
+*.iml
+
 #unit testing
 /test/unit/coverage
