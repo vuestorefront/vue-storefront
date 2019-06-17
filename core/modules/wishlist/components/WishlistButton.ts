@@ -4,10 +4,7 @@ import { mapGetters } from 'vuex'
 export const WishlistButton = {
   mixins: [wishlistMountedMixin],
   computed: {
-    ...mapGetters('wishlist', ['getWishlistItemsCount']),
-    getwishlistProductCount () {
-      return this.getWishlistItemsCount
-    }
+    ...mapGetters('wishlist', ['getWishlistItemsCount'])
   },
   methods: {
     toggleWishlist () {
