@@ -84,7 +84,7 @@ export function prepareStoreView (storeCode: string): StoreView {
 
 export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocation | string): string {
   if (matchedRouteOrUrl) {
-    for (const storeCode of config.storeViews.mapStoreUrlsFor) {
+    for (let storeCode of config.storeViews.mapStoreUrlsFor) {
       const store = config.storeViews[storeCode]
 
       // handle resolving by path
@@ -121,6 +121,7 @@ export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocat
     return ''
   }
 }
+
 export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | string): LocalizedRoute | string {
   const storeCodeInRoute = storeCodeFromRoute(matchedRouteOrUrl)
   if (storeCodeInRoute !== '') {
@@ -130,6 +131,7 @@ export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | st
     return matchedRouteOrUrl
   }
 }
+
 export function adjustMultistoreApiUrl (url: string): string {
   const storeView = currentStoreView()
   if (storeView.storeCode) {
