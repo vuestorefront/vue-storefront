@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.0-rc.1] - UNRELEASED
 
 ### Added
-- 
+- Inherit storeview config after another storeview in multistore mode - @lukeromanowicz (#3057)
 
 ### Fixed
 - 
