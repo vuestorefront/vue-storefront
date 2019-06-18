@@ -23,7 +23,7 @@ export const AddToCart = {
       const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
       if (diffLog.clientNotifications && diffLog.clientNotifications.length > 0) {
         diffLog.clientNotifications.forEach(notificationData => {
-          this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })          
+          this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
         })
       }
       this.isAddingToCart = false
