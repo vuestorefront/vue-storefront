@@ -52,7 +52,7 @@ export function currentStoreView (): StoreView {
   return rootStore.state.storeView
 }
 
-export function getFinalStoreviewConfigInMultistoreMode (storeView: StoreView): StoreView {
+export function getExtendedStoreviewConfigInMultistoreMode (storeView: StoreView): StoreView {
   if (storeView.extend) {
     const originalParent = storeView.extend
 
@@ -63,7 +63,7 @@ export function getFinalStoreviewConfigInMultistoreMode (storeView: StoreView): 
 
       storeView = merge(
         {},
-        getFinalStoreviewConfigInMultistoreMode(config.storeViews[storeView.storeCode]),
+        getExtendedStoreviewConfigInMultistoreMode(config.storeViews[storeView.storeCode]),
         storeView
       )
       storeView.extend = originalParent
@@ -84,10 +84,10 @@ export function prepareStoreView (storeCode: string): StoreView {
   const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
 
   if (storeCode) { // current store code
-    if ((storeView = config.storeViews[storeCode])) {
-      storeView.storeCode = storeCode
+    if ((config.storeViews[storeCode])) {
+      storeView = merge(storeView, config.storeViews[storeCode])
       rootStore.state.user.current_storecode = storeCode
-      storeView = getFinalStoreviewConfigInMultistoreMode(storeView)
+      storeView = getExtendedStoreviewConfigInMultistoreMode(storeView)
     }
   } else {
     storeView.storeCode = config.defaultStoreCode || ''
