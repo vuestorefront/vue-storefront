@@ -30,7 +30,7 @@ export function loadLanguageAsync (lang: string): Promise<string> {
           i18n.setLocaleMessage(lang, msgs.default)
           loadedLanguages.push(lang)
           return setI18nLanguage(lang)
-        }).catch(err => {
+        }).catch(err => { // eslint-disable-line handle-callback-err
           Logger.debug('Unable to load translation')()
           return ''
         })

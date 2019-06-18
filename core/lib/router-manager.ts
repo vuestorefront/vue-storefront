@@ -1,12 +1,16 @@
-import { Logger } from '@vue-storefront/core/lib/logger'
 import { router } from '@vue-storefront/core/app'
 import VueRouter, { RouteConfig } from 'vue-router'
 
 const RouterManager = {
   _registeredRoutes: new Array<RouteConfig>(),
   addRoutes: function (routes: RouteConfig[], routerInstance: VueRouter = router): void {
-    this._registeredRoutes.push(...routes)
-    router.addRoutes(routes)
+    const uniqueRoutes = routes.filter(
+      (route) => this._registeredRoutes.findIndex(
+        (registeredRoute) => registeredRoute.name === route.name && registeredRoute.path === route.path
+      ) === -1
+    )
+    this._registeredRoutes.push(...uniqueRoutes)
+    router.addRoutes(uniqueRoutes)
   },
   findByName: function (name: string): RouteConfig {
     return this._registeredRoutes.find(r => r.name === name)
