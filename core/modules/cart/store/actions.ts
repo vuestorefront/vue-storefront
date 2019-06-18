@@ -520,22 +520,22 @@ const actions: ActionTree<CartState, RootState> = {
         if (task.resultCode === 200) {
           Logger.info('Server cart token created.', 'cart', cartToken)()
           commit(types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
-          dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
+          return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
         } else {
           let resultString = task.result ? toString(task.result) : null
           if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
             if (_connectBypassCount < MAX_BYPASS_COUNT) {
               Logger.log('Bypassing with guest cart' + _connectBypassCount, 'cart')()
               _connectBypassCount = _connectBypassCount + 1
-              dispatch('connect', { guestCart: true })
               Logger.error(task.result, 'cart')()
+              return dispatch('connect', { guestCart: true })
             }
           }
         }
       })
     } else {
       Logger.warn('Cart sync is disabled by the config', 'cart')()
-      return null
+      return _getDifflogPrototype()
     }
   },
   /**  merge shopping cart with the server results; if dryRun = true only the diff phase is being executed */
@@ -610,7 +610,7 @@ const actions: ActionTree<CartState, RootState> = {
               }}
           }
           diffLog.clientNotifications.push(notificationData) // display the notification only for newly added products
-        }        
+        }
       }
       if (clientItem === null) {
         const cartItem = await dispatch('getItem', event.result.sku)
@@ -704,7 +704,7 @@ const actions: ActionTree<CartState, RootState> = {
                   quoteId: serverItem.quote_id
                 }
               })
-              diffLog.serverResponses.push({ 'status': res.resultCode, 'sku': clientItem.sku, 'result': res })
+              diffLog.serverResponses.push({ 'status': res.resultCode, 'sku': serverItem.sku, 'result': res })
             } else {
               clientCartAddItems.push(
                 new Promise(resolve => {
