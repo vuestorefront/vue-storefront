@@ -6,7 +6,9 @@ const execa = require('execa')
 const spawn = require('child_process')
 const fs = require('fs')
 
-module.exports = function (installaltionDir) {
+module.exports = function (installationDir) {
+  installationDir = installationDir || 'vue-storefront'
+
   const options = {
     version: {
       stable: 'Latest stable build (recommended for production)',
@@ -21,24 +23,24 @@ module.exports = function (installaltionDir) {
   const tasks = {
     installDeps: {
       title: 'Installing dependencies',
-      task: () => execa.shell('cd '+ installaltionDir + ' && yarn')
+      task: () => execa.shell('cd '+ installationDir + ' && yarn')
     },
     cloneMaster: {
       title: 'Copying Vue Storefront files',
-      task: () => execa.shell('git clone --quiet --single-branch --branch master https://github.com/DivanteLtd/vue-storefront.git ' + installaltionDir + ' && cd ' + installaltionDir + '/core/scripts && git remote rm origin')
+      task: () => execa.shell('git clone --quiet --single-branch --branch master https://github.com/DivanteLtd/vue-storefront.git ' + installationDir + ' && cd ' + installationDir + '/core/scripts && git remote rm origin')
     },
     cloneDevelop: {
       title: 'Copying Vue Storefront files',
-      task: () => execa.shell('git clone --quiet --single-branch --branch develop https://github.com/DivanteLtd/vue-storefront.git ' + installaltionDir + ' && cd ' + installaltionDir + '/core/scripts && git remote rm origin')
+      task: () => execa.shell('git clone --quiet --single-branch --branch develop https://github.com/DivanteLtd/vue-storefront.git ' + installationDir + ' && cd ' + installationDir + '/core/scripts && git remote rm origin')
     },
     runInstaller: {
       title: 'Running installer',
-      task: () => spawn.execFileSync('yarn', ['installer'], {stdio: 'inherit', cwd: installaltionDir})
+      task: () => spawn.execFileSync('yarn', ['installer'], {stdio: 'inherit', cwd: installationDir})
     }
   }
   
-  if (fs.existsSync(installaltionDir)) {
-    console.error('Vue Storefront is already installed in directory ./' + installaltionDir + '. Aborting.')
+  if (fs.existsSync(installationDir)) {
+    console.error('Vue Storefront is already installed in directory ./' + installationDir + '. Aborting.')
   } else {
     inquirer
       .prompt([
