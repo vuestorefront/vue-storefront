@@ -73,7 +73,7 @@ export const registerModules: VueStorefrontModule[] = [
   PaymentBackendMethods,
   PaymentCashOnDelivery,
   RawOutputExample,
-  // AmpRenderer,
+  AmpRenderer,
   InstantCheckout,
   Url,
   OrderHistory
