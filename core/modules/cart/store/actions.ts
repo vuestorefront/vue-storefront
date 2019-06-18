@@ -19,6 +19,10 @@ import Task from '@vue-storefront/core/lib/sync/types/Task'
 const MAX_BYPASS_COUNT = 10
 let _connectBypassCount = 0
 
+function _getDifflogPrototype () {
+  return { items: [], serverResponses: [], clientNotifications: [] }
+}
+
 /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
 async function _serverShippingInfo ({ methodsData }) {
   const task = await TaskQueue.execute({ url: config.cart.shippinginfo_endpoint,
@@ -185,6 +189,7 @@ const actions: ActionTree<CartState, RootState> = {
   /** Sync the shopping cart with server along with totals (when needed) and shipping / payment methods */
   async sync ({ getters, rootGetters, commit, dispatch }, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
     const isUserInCheckout = rootGetters['checkout/isUserInCheckout']
+    let diffLog = null
     if (isUserInCheckout) forceClientState = true // never surprise the user in checkout - #
     if (getters.isCartSyncEnabled && getters.isCartConnected) {
       if (getters.isSyncRequired) { // cart hash empty or not changed
@@ -199,7 +204,7 @@ const actions: ActionTree<CartState, RootState> = {
           silent: true
         }).then(async task => {
           if (task.resultCode === 200) {
-            await dispatch('merge', { serverItems: task.result, clientItems: getters.getCartItems, dryRun: dryRun, forceClientState: forceClientState })
+            diffLog = await dispatch('merge', { serverItems: task.result, clientItems: getters.getCartItems, dryRun: dryRun, forceClientState: forceClientState })
           } else {
             Logger.error(task.result, 'cart') // override with guest cart()
             if (_connectBypassCount < MAX_BYPASS_COUNT) {
@@ -210,7 +215,7 @@ const actions: ActionTree<CartState, RootState> = {
             }
           }
         })
-        return task
+        return diffLog
       } else {
         return null
       }
@@ -277,15 +282,16 @@ const actions: ActionTree<CartState, RootState> = {
   async addItems ({ commit, dispatch, getters }, { productsToAdd, forceServerSilence = false }) {
     let productHasBeenAdded = false
     let productIndex = 0
+    const diffLog = _getDifflogPrototype()
     for (let product of productsToAdd) {
       if (typeof product === 'undefined' || product === null) continue
       if (product.qty && typeof product.qty !== 'number') product.qty = parseInt(product.qty)
       if ((config.useZeroPriceProduct) ? product.priceInclTax < 0 : product.priceInclTax <= 0) {
-        dispatch('notification/spawnNotification', {
+        diffLog.clientNotifications.push({
           type: 'error',
           message: i18n.t('Product price is unknown, product cannot be added to the cart!'),
           action1: { label: i18n.t('OK') }
-        }, { root: true })
+        })
         continue
       }
       if (config.entities.optimize && config.entities.optimizeShoppingCart) {
@@ -296,11 +302,11 @@ const actions: ActionTree<CartState, RootState> = {
         for (let errKey in product.errors) {
           if (product.errors[errKey]) {
             productCanBeAdded = false
-            dispatch('notification/spawnNotification', {
+            diffLog.clientNotifications.push({
               type: 'error',
               message: product.errors[errKey],
               action1: { label: i18n.t('OK') }
-            }, { root: true })
+            })
           }
         }
         if (!productCanBeAdded) {
@@ -311,18 +317,18 @@ const actions: ActionTree<CartState, RootState> = {
       const result = await dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true})
       product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result
       if (result.status === 'volatile') {
-        dispatch('notification/spawnNotification', {
+        diffLog.clientNotifications.push({
           type: 'warning',
           message: i18n.t('The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.'),
           action1: { label: i18n.t('OK') }
-        }, { root: true })
+        })
       }
       if (result.status === 'out_of_stock') {
-        dispatch('notification/spawnNotification', {
+        diffLog.clientNotifications.push({
           type: 'error',
           message: i18n.t('The product is out of stock and cannot be added to the cart!'),
           action1: { label: i18n.t('OK') }
-        }, { root: true })
+        })
       }
       if (result.status === 'ok' || result.status === 'volatile') {
         commit(types.CART_ADD_ITEM, { product })
@@ -342,15 +348,19 @@ const actions: ActionTree<CartState, RootState> = {
             }}
         }
         if (!getters.isCartSyncEnabled || forceServerSilence) {
-          dispatch('notification/spawnNotification', notificationData, { root: true })
+          diffLog.clientNotifications.push(notificationData)
         }
       }
       productIndex++
     }
-    if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) return dispatch('sync', { forceClientState: true })
+    if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
+      return dispatch('sync', { forceClientState: true })
+    } else {
+      return diffLog
+    }
   },
   /** remove single item from the server cart by payload.sku or by payload.product.sku @description this method is part of "public" cart API */
-  removeItem ({ commit, dispatch, getters }, payload) {
+  async removeItem ({ commit, dispatch, getters }, payload) {
     let removeByParentSku = true // backward compatibility call format
     let product = payload
     if (payload.product) { // new call format since 1.4
@@ -359,14 +369,22 @@ const actions: ActionTree<CartState, RootState> = {
     }
     commit(types.CART_DEL_ITEM, { product, removeByParentSku })
     if (getters.isCartSyncEnabled && product.server_item_id) {
-      dispatch('sync', { forceClientState: true })
+      return dispatch('sync', { forceClientState: true })
+    } else {
+      const diffLog = _getDifflogPrototype()
+      diffLog.items.push({ 'party': 'client', 'status': 'no-item', 'sku': product.sku })
+      return diffLog
     }
   },
   /** this action just updates the product quantity in the cart - by product.sku @description this method is part of "public" cart API */
-  updateQuantity ({ commit, dispatch, getters }, { product, qty, forceServerSilence = false }) {
+  async updateQuantity ({ commit, dispatch, getters }, { product, qty, forceServerSilence = false }) {
     commit(types.CART_UPD_ITEM, { product, qty })
     if (getters.isCartSyncEnabled && product.server_item_id && !forceServerSilence) {
-      dispatch('sync', { forceClientState: true })
+      return dispatch('sync', { forceClientState: true })
+    } else {
+      const diffLog = _getDifflogPrototype()
+      diffLog.items.push({ 'party': 'client', 'status': 'wrong-qty', 'sku': product.sku, 'client-qty': qty })
+      return diffLog
     }
   },
   /** this action merges in new product properties into existing cart item (by sku) @description this method is part of "public" cart API */
@@ -522,7 +540,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   /**  merge shopping cart with the server results; if dryRun = true only the diff phase is being executed */
   async merge ({ getters, dispatch, commit, rootGetters }, { serverItems, clientItems, dryRun = false, forceClientState = false }) {
-    const diffLog = []
+    const diffLog = _getDifflogPrototype()
     let totalsShouldBeRefreshed = getters.isTotalsSyncRequired // when empty it means no sync has yet been executed
     let serverCartUpdateRequired = false
     let clientCartUpdateRequired = false
@@ -556,9 +574,10 @@ const actions: ActionTree<CartState, RootState> = {
     /** helper - sub method to react for the server response after the sync */
     const _afterServerItemUpdated = async function ({ dispatch, commit }, event, clientItem = null) {
       Logger.debug('Cart item server sync' + event, 'cart')()
+      diffLog.serverResponses.push({ 'status': event.resultCode, 'sku': clientItem.sku, 'result': event })
       if (event.resultCode !== 200) {
         // TODO: add the strategy to configure behaviour if the product is (confirmed) out of the stock
-        if (clientItem.item_id) {
+        if (clientItem.server_item_id) {
           dispatch('getItem', clientItem.sku).then((cartItem) => {
             if (cartItem) {
               Logger.log('Restoring qty after error' + clientItem.sku + cartItem.prev_qty, 'cart')()
@@ -577,7 +596,7 @@ const actions: ActionTree<CartState, RootState> = {
       } else {
         const isUserInCheckout = rootGetters['checkout/isUserInCheckout']
         if (!isUserInCheckout) { // if user is in the checkout - this callback is just a result of server sync
-          const isThisNewItemAddedToTheCart = (!clientItem || !clientItem.item_id)
+          const isThisNewItemAddedToTheCart = (!clientItem || !clientItem.server_item_id)
           const notificationData = {
             type: 'success',
             message: isThisNewItemAddedToTheCart ? i18n.t('Product has been added to the cart!') : i18n.t('Product quantity has been updated!'),
@@ -590,8 +609,8 @@ const actions: ActionTree<CartState, RootState> = {
                 dispatch('goToCheckout')
               }}
           }
-          dispatch('notification/spawnNotification', notificationData, { root: true })
-        }
+          diffLog.clientNotifications.push(notificationData) // display the notification only for newly added products
+        }        
       }
       if (clientItem === null) {
         const cartItem = await dispatch('getItem', event.result.sku)
@@ -610,7 +629,7 @@ const actions: ActionTree<CartState, RootState> = {
 
       if (!serverItem) {
         Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')()
-        diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no_item' })
+        diffLog.items.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no-item' })
         if (!dryRun) {
           if (forceClientState || !config.cart.serverSyncCanRemoveLocalItems) {
             const event = await _serverUpdateItem({
@@ -632,7 +651,7 @@ const actions: ActionTree<CartState, RootState> = {
         }
       } else if (serverItem.qty !== clientItem.qty) {
         Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
-        diffLog.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'wrong_qty', 'client_qty': clientItem.qty, 'server_qty': serverItem.qty })
+        diffLog.items.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
         if (!dryRun) {
           if (forceClientState || !config.cart.serverSyncCanModifyLocalItems) {
             const event = await _serverUpdateItem({
@@ -669,7 +688,7 @@ const actions: ActionTree<CartState, RootState> = {
         })
         if (!clientItem) {
           Logger.info('No client item for' + serverItem.sku, 'cart')()
-          diffLog.push({ 'party': 'client', 'sku': serverItem.sku, 'status': 'no_item' })
+          diffLog.items.push({ 'party': 'client', 'sku': serverItem.sku, 'status': 'no-item' })
 
           if (!dryRun) {
             if (forceClientState) {
@@ -677,7 +696,7 @@ const actions: ActionTree<CartState, RootState> = {
               Logger.log('Removing item' + serverItem.sku + serverItem.item_id, 'cart')()
               serverCartUpdateRequired = true
               totalsShouldBeRefreshed = true
-              await _serverDeleteItem({
+              const res = await _serverDeleteItem({
                 cartServerToken: getters.getCartToken,
                 cartItem: {
                   sku: serverItem.sku,
@@ -685,6 +704,7 @@ const actions: ActionTree<CartState, RootState> = {
                   quoteId: serverItem.quote_id
                 }
               })
+              diffLog.serverResponses.push({ 'status': res.resultCode, 'sku': clientItem.sku, 'result': res })
             } else {
               clientCartAddItems.push(
                 new Promise(resolve => {
@@ -705,8 +725,8 @@ const actions: ActionTree<CartState, RootState> = {
       clientCartUpdateRequired = true
       cartHasItems = true
     }
-    diffLog.push({ 'party': 'client', 'status': clientCartUpdateRequired ? 'updateRequired' : 'no-changes' })
-    diffLog.push({ 'party': 'server', 'status': serverCartUpdateRequired ? 'updateRequired' : 'no-changes' })
+    diffLog.items.push({ 'party': 'client', 'status': clientCartUpdateRequired ? 'update-required' : 'no-changes' })
+    diffLog.items.push({ 'party': 'server', 'status': serverCartUpdateRequired ? 'update-required' : 'no-changes' })
     Promise.all(clientCartAddItems).then((items) => {
       items.map(({ product, serverItem }) => {
         product.server_item_id = serverItem.item_id
@@ -727,6 +747,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
     Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: dryRun, event: event }) // send the difflog
     Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
+    return diffLog
   },
   toggleMicrocart ({ commit }) {
     commit(types.CART_TOGGLE_MICROCART)
