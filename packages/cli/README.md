@@ -1,6 +1,6 @@
 # Storefront CLI
 
-This is a beta verison of CLI for Vue Storefront.
+This is a beta version of CLI for Vue Storefront.
 
 ## Installation
 
