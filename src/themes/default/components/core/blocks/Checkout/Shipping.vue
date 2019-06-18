@@ -203,7 +203,7 @@
             <button-full
               data-testid="shippingSubmit"
               @click.native="sendDataToCheckout"
-              :disabled="$v.shipping.$invalid"
+              :disabled="$v.shipping.$invalid || shippingMethods.length <= 0"
             >
               {{ $t('Continue to payment') }}
             </button-full>
