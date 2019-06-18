@@ -54,7 +54,7 @@ export const Shipping = {
   watch: {
     shippingMethods: {
       handler () {
-        this.checkDefaultShippingMethod()        
+        this.checkDefaultShippingMethod()
       }
     },
     shipToMyAddress: {
