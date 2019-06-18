@@ -246,7 +246,11 @@ app.get('*', (req, res, next) => {
   }
 
   if (config.server.dynamicConfigReload) {
-    delete require.cache[require.resolve('config')]
+    const cachedConfigModule = require.cache[require.resolve('config')]
+    if (cachedConfigModule) {
+      delete cachedConfigModule.parent.children
+      delete cachedConfigModule
+    }
     config = require('config') // reload config
     if (typeof serverExtensions.configProvider === 'function') {
       serverExtensions.configProvider(req).then(loadedConfig => {
