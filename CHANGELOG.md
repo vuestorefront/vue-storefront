@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve performace with preventing render 404 page on the server side if some of static content is missed, simple 404 response uses instead - [PHOENIX MEDIA](https://www.phoenix-media.eu/) - Yuri Boyko @yuriboyko, Anton Lobodenko @sniffy1988 (#3002)
 - Added Products column change functionality - @vishal-7037 (#3017)
 - Add support for api.url in the Task module - @basvanpoppel (#3011)
+- Back icon on product page causing inconsistent behavior - @patzick (#3056)
 
 ### Fixed
 - Special price got zeroed - @pkarw (#2940)
