@@ -25,3 +25,7 @@ With all `product/list` Vuex action calls the `url/registerMapping` action is be
 ## Custom URLs for CMS pages and other content types
 
 You can use the Url Dispatcher feature with all content types. The only thing You need to change is to customize the `url/mappingFallback` Vuex action to properly query other content sources.
+
+## Modules
+
+* [vsf-mapping-fallback](https://github.com/kodbruket/vsf-mapping-fallback) simplifies the process of adding URL mappings
