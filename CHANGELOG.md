@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Back icon on product page causing inconsistent behavior - @patzick (#3056)
 
 ### Fixed
+- Back button on the Error page has been fixed - @pkarw (#3077)
 - Special price got zeroed - @pkarw (#2940)
 - Microcart tax + discount totals fix - @pkarw (#2892)
 - Microcart offline prices now forced down to original prices - @pkarw (#3012)
