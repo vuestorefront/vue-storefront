@@ -4,7 +4,6 @@ In this chapter, we will cover :
 - [Introduction](#_0-introduction)
 - [Data Mapping Migration for Elasticsearch](#_1-data-migration-for-elasticsearch)
 - [Data Pump](#_2-data-pump)
-- [Data imports and tools](#_3-data-imports-and-tools)
 ## 0. Introduction
 When you decide to migrate your web store to Vue Storefront, the first thing you need to do is filling the store (Elasticsearch) with data. This chapter deals with all the hassles related to data migration for Vue Storefront. 
 <br />
@@ -380,7 +379,7 @@ Upon running `npm run migrate`, it runs the pre-configured [migration scripts](h
   Now, you are all set to proceed to pump your data into the store. 
   
 ### 4. Chef's secret (protip)
-#### Tip 1. Deal with `index not found exception` 
+#### Secret 1. Deal with `index not found exception` 
 If you encountered with the exception as follows during the migration script :
 
 ![index_not_found_exception](../images/sss.png)
@@ -392,7 +391,7 @@ npm run restore
 ```
 This will create the necessary temporary index, then the necessary temp index will be deleted by the steps mentioned [above](#_3-peep-into-the-kitchen-what-happens-internally) when the migration is finished
 
-#### Tip 2. Add a new migration script
+#### Secret 2. Add a new migration script
 You might need to write your own migration script. In that case, you can do so by adding a file under the `./migrations` directory though this is not a recommended way. `node-migrate` provides you with the cli command for the purpose as follows : 
 ```bash
 npm run migrate create name-of-migration
@@ -439,7 +438,7 @@ module.exports.down = function(next) {
 };
 ```
 
-#### Tip 3. Execute migration multiple times
+#### Secret 3. Execute migration multiple times
 If you run a migration multiple times using `npm run migrate`, it will only run the migration once and subsequent execution will be ignored and only repeat the result as follows :
 
 ![migration complete](../images/npm-run-migrate-result.png)
@@ -493,7 +492,6 @@ export MAGENTO_CONSUMER_SECRET=u9q4fcobv7vfx9td80oupa6uhexc27rb
 export MAGENTO_ACCESS_TOKEN=040xx3qy7s0j28o3q0exrfop579cy20m
 export MAGENTO_ACCESS_TOKEN_SECRET=7qunl3p505rubmr7u1ijt7odyialnih9
 
-echo 'Default store - in our case United States / en'
 export MAGENTO_URL=http://demo-magento2.vuestorefront.io/rest
 export INDEX_NAME=vue_storefront_catalog
 ```
@@ -570,7 +568,6 @@ export MAGENTO_CONSUMER_SECRET=zhkuqvweo0bsg14noujqje49x3wht0qr
 export MAGENTO_ACCESS_TOKEN=z6ftgc5005212bc6lnszxa7d7ocl8hgc
 export MAGENTO_ACCESS_TOKEN_SECRET=h8tikjq9sz7tqm6hyhdfgs96krb6qzyk
 
-echo 'Default store - in our case United States / en'
 export MAGENTO_URL=http://local.magento/rest # Replace the url with your Magento 2 URL
 export INDEX_NAME=vue_storefront_catalog # This will be the name of the index we use
 ```
@@ -727,6 +724,11 @@ node --harmony cli.js blocks
 node --harmony cli.js pages
 ```
 
+7. Finally, reindex the Elasticsearch making sure up-to-date with data source. 
+```bash
+npm run db rebuild
+```
+ 
 ### 3. Peep into the kitchen (what happens internally) 
 ![data_pump_design](../images/datum_pump_design.png)
 We worked in the red rectangle part of the architecture as pumping the data.
@@ -742,26 +744,255 @@ Providing those credentials in config file, or in this case we set ENV variables
 Now, you are ready to serve your **Vue Storefront** instance with your original products! 
 
 ### 4. Chef's secret (protip)
-#### Tip 1. Product image is not synced
+#### Secret 1. Product image is not synced
+When your products are successfully imported, there is another important thing to consider, that is product images. However, you should whitelist your source domain in order to fetch the images asynchronously. Otherwise, you will see a sad screen like this :
 
-#### Tip 2. Taking advantage of Delta Indexer
+![image_fails. data_pump](../images/img_catalog_prod_fail.png)
 
-#### Tip 3. When you have imported multiple data source
+Go to **Vue Storefront API** root and find `local.json` under `config` folder. 
+:::tip Info
+`local.json` is the file created during the installation. It contains all the configuration for your Vue Storefront API instance. If you don't have it, you should copy the template from [`default.json`](https://github.com/DivanteLtd/vue-storefront-api/blob/master/config/default.json) from the same directory and populate fields as you need it. 
+::: 
+ 
+Find `imageable` node and add your source domain under `whitelist/allowedHosts` as follows : 
+```json
+  "imageable": {
+    "namespace": "",
+    "maxListeners": 512,
+    "imageSizeLimit": 1024,
+    "whitelist": {
+      "allowedHosts": [
+        ".*divante.pl",
+        ".*vuestorefront.io",
+        "localhost",
+        // add a source domain here 
+        "degi.magento"
+      ]
+    },
 
-#### Tip 4. Dealing with `version_conflict_engine_exception` 
+```
+Now, restart **Vue Storefront API** instance, reload the page and *Presto!* 
 
-#### Tip 5. Options available for `cli.js`
+![image_fails. data_pump](../images/img_catalog_prod.png)
 
+#### Secret 2. Taking advantage of Delta Indexer
+:::tip Quote
+*There are only two hard things in Computer Science: <strong>cache invalidation</strong> and <strong>naming things.</strong>*
+ 
+*-- Phil Karlton*
+::: 
+
+In every corner of computer science, engineers should take care of resource economics. Likewise, **Vue Storefront** devised a method to deal with optimization as well. With that said, it'd be redundant and inefficient to run full reindex every time a product is added to data source (e.g. Magento 2). We have the solution for that problem : *Delta Indexer* 
+
+ A greek letter *Delta* normally means *`quantity changed`* in a plain math, which sounds plausible for the job it does. 
+   
+Now, run the following command at **mage2vuestorefront/src** :
+```bash
+node --harmony cli.js productsdelta
+```   
+
+Successful result would be something like this : 
+```bash
+# ... abridged
+
+2019-06-16T10:55:34.354Z - info: Product sub-stage 6: Getting product categories for dress_girl
+2019-06-16T10:55:34.354Z - info: Using category_ids binding for dress_girl: 2,6,7
+Dest. product path =  default-category-2/dress-girl-1.html
+2019-06-16T10:55:34.355Z - info: Product sub-stages done for dress_girl
+2019-06-16T10:55:34.356Z - info: Importing 0 of 3 - [(1 - dress_girl) Dress Girl ] with tsk = 1560682531040
+2019-06-16T10:55:34.356Z - info: Tasks count = 2
+debug: Response received.
+2019-06-16T10:55:34.404Z - info: Product sub-stage 6: Getting product categories for trans_bng
+2019-06-16T10:55:34.404Z - info: Using category_ids binding for trans_bng: 2,3,6,4,7
+Dest. product path =  default-category-2/trans-boys-and-girls-2.html
+2019-06-16T10:55:34.405Z - info: Product sub-stages done for trans_bng
+2019-06-16T10:55:34.405Z - info: Importing 1 of 3 - [(2 - trans_bng) Trans Boys and Girls] with tsk = 1560682531040
+2019-06-16T10:55:34.405Z - info: Tasks count = 1
+debug: Response received.
+2019-06-16T10:55:34.480Z - info: Product sub-stage 6: Getting product categories for romantic_t
+2019-06-16T10:55:34.480Z - info: Using category_ids binding for romantic_t: 6,7,8
+Dest. product path =  girls/girls-6/romantic-t-3.html
+2019-06-16T10:55:34.481Z - info: Product sub-stages done for romantic_t
+2019-06-16T10:55:34.481Z - info: Importing 2 of 3 - [(3 - romantic_t) Romantic T] with tsk = 1560682531040
+2019-06-16T10:55:34.481Z - info: Tasks count = 0
+2019-06-16T10:55:34.482Z - debug: --L:0 Level done! Current page: 1 of 1
+2019-06-16T10:55:34.482Z - info: All pages processed!
+2019-06-16T10:55:34.482Z - info: Task done! Exiting in 30s...
+
+```
+
+:vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/DWaasVJ5RXhSn7Aoc7PqDLG3F)
+
+Now, newly added products are also present in Elasticsearch, hence synced with Vue Storefront. 
+
+:::warning Caution !
+You need to have cache entry for categories or it will be aborted as follows : 
+:::
+
+![delta_error](../images/delta_error.png)
+
+**Solution** is : run the categories import first, then delta import 
+```bash
+node --harmony cli.js categories
+node --harmony cli.js productsdelta
+```
+
+
+#### Secret 3. When you have imported multiple data source
+As Magento is famous for having a powerful multi stores feature, **Vue Storefront** is also ready to take on the feature smoothly. 
+You can have multiple indexes by specifying index name when you import data with [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront). 
+
+Setting the ENV variable for `INDEX_NAME` differently for each store will create corresponding index in Elasticsearch. 
+You may as well need to provide different API base endpoint as per the store name. 
+
+```bash
+# ... abridged
+export MAGENTO_ACCESS_TOKEN_SECRET=7qunl3p505rubmr7u1ijt7odyialnih9
+
+export MAGENTO_URL=http://demo-magento2.vuestorefront.io/rest
+# Change REST API base endpoint 
+export INDEX_NAME=vue_storefront_catalog 
+# Change INDEX_NAME variable to be distinguishable from each store
+```
+
+You also need to inform **Vue Storefront** and **Vue Storefront API** of the multi stores information.
+[further instruction](guide/integrations/multistore.html#vue-storefront-and-vue-storefront-api-configuration)
+ 
+#### Secret 4. Dealing with `version_conflict_engine_exception` 
+`version_conflict_engine_exception` basically means there was a race condition while executing your Elasticsearch command. Elasticsearch is parallel and asynchronous so it is possible an older version might overwrite a newer version by accident. 
+
+So it has means to protect a newer version of documents making it sure immutable from an older version of it, and `version_conflict_engine_exception` is one of them. 
+
+Repeating the same request would simply resolve the conflict. But if it doesn't, sending a flag `conflicts=proceed` should ignore the conflict, however, you should take responsibility for consequences of those force updates.
+ 
+<!-- `cleanup` method will run the delete query with `conflicts=proceed` for you. 
+```bash
+node cli.js cleanup --transactionKey=$(date +%s)
+```-->
+
+
+#### Secret 5. Options available for `cli.js`
+`cli.js` takes care of all the commands for imports; it's the entrance to **mage2vuestorefront**. It not only accepts all the commands but also accepts options along with them. While majority of commands accepts similar sorts of options, but a few options only apply to a certain commands.
+:::tip Note
+Values in the example show default values hereunder
+:::
+
+```bash
+cli.js attributes \ 
+  --adapter=magento \
+  --removeNonExistent=false
+```
+`adapter` option denotes which adapter you will use for data source. Basically you wouldn't need to change the default value which is `magento`
+
+`removeNonExistent` option removes entries that exist in index but don't exist in data source. 
 <!-- #### Tip 6. How to switch data source -->
 
-<br />
-<br />
-<br />
+```bash
+cli.js categories \ 
+  --adapter=magento \
+  --removeNonExistent=false \
+  --extendedCategories=true \
+  --generateUniqueUrlKeys=true
+```
+`extendedCategories` option enables to import extended information about a category; such as `created_at`, `path`, `included_in_menu` and so on.  
 
-## 3. Data imports and tools
-### 1. Preparation
-We need 
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally) 
-### 4. Chef's secret (protip)
+`generateUniqueUrlKeys` option enables to generate url key during the import using `slugfied name` + `-` + `id`.
+
+```bash
+cli.js cleanup \
+  --adapter=magento \
+  --cleanupType=product \
+  --transactionKey=0
+```
+`cleanup` command is used to remove entries inserted before the current insert. Any entry with timestamp earlier than the current import will be removed by this command. This is what executes when `--removeNonExistent` option is `true`. 
+:::warning Caution !
+`cleanup` command is not intended to be used from commandline. It's **INTERNAL USE ONLY**. If you use it alone from command line, it will purge the index with designated index type whose transaction key is different from the current transaction key, which means all the entries for the type stored so far will be gone. please use it with care.
+:::
+
+`cleanupType` option denotes index type that you want to purge.
+
+`transactionKey` option means timestamp of the execution which will distinguish your transaction from others.
+
+```bash
+cli.js fullreindex \
+  --adapter=magento \
+  --partitions=1 \
+  --partitionSize=50 \
+  --initQueue=true \
+  --skus= \
+  --extendedCategories=true \
+  --generateUniqueUrlKeys=true 
+```
+`fullreindex` is one command that will run all the other imports command in sequence.
+
+`partitions` option flag denotes parallel mode. Value set here will become the process count. Thus, 1 means single process mode.
+
+`partitionSize` option denotes so called `pageSize` that configures returned collection size by each request.
+
+`initQueue` option enables queue mode so that process runs in parallel.
+
+`skus` option fetch a query result by only a set of skus. 
+
+```bash
+cli.js productcategories \
+  --adapter=magento
+```
+`productcategories` is a command to fetch the data of `magento`'s `catalog_category_product` table. The table stores the information of index with respect to which category contains which products along with product position in that category. 
+
+```bash
+cli.js products \
+  --adapter=magento \
+  --partitions=1 \
+  --partitionSize=50 \
+  --initQueue=true \
+  --skus= \
+  --removeNonExistent=false \
+  --updatedAfter= \
+  --page=
+```
+`updatedAfter` option confines a product query by only ones updated after this value. 
+
+`page` option means so-called `setCurPage` in Magento. It helps you fetch data from a certain page, whose page size is defined by `partitionsSize`. 
+
+```bash
+cli.js productsdelta \
+  --adapter=magento \
+  --partitions=1 \
+  --partitionSize=50 \
+  --initQueue=true \ 
+  --skus= \
+  --removeNonExistent=false
+```
+
+```bash
+cli.js productsworker \ 
+  --adapter=magento \
+  --partitions=1
+```
+`productsworker` is a command to run a process that was stacked in a queue scheduled to import products.
+
+```bash
+cli.js reviews \
+  --adapter=magento \
+  --removeNonExistent=false
+```
+
+```bash
+cli.js taxrule \
+  --adapter=magento \
+  --removeNonExistent=false
+```
+
+```bash
+cli.js blocks \ 
+  --adapter=magento \
+  --removeNonExistent=false
+```
+
+```bash
+cli.js pages \
+  --adapter=magento \
+  --removeNonExistent=false
+```
+
 
