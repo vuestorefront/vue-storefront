@@ -76,6 +76,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - NaN displayed as shipping method - button disabled - @aniamusial (#2881)
 
 ### Changed / Improved
+- The `cart/sync`, `cart/addItems`, `cart/removeItem` and `cart/updateQuantity` now returns the `diffLog` object with all the notifications, server statuses and items changed during the shopping cart sync
+- The `cart/addItem` is no longer displaying the error messages - please use the `diffLog.clientNorifications` to update the UI instead (take a look at the `AddToCart.ts` for a reference)
 - The action `cart/userAfterLoggedin` got renamed to `cart/authorize` - @pkarw (#2522)
 - The action `cart/refreshTotals` got renamed to `cart/syncTotals` - @pkarw (#2522)
 - The action `cart/serverPull` got renamed to `cart/sync` - @pkarw - (#2522)

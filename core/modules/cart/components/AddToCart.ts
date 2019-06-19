@@ -20,7 +20,12 @@ export const AddToCart = {
   methods: {
     async addToCart (product: Product) {
       this.isAddingToCart = true
-      await this.$store.dispatch('cart/addItem', { productToAdd: product })
+      const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
+      if (diffLog.clientNotifications && diffLog.clientNotifications.length > 0) {
+        diffLog.clientNotifications.forEach(notificationData => {
+          this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
+        })
+      }
       this.isAddingToCart = false
     }
   }
