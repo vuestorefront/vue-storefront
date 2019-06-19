@@ -75,6 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Incorrect `user_id` set on the order object - @pkarw (#2966)
 - Problem with SSR render on product page with logged in user - @patzick (#2888)
 - NaN displayed as shipping method - button disabled - @aniamusial (#2881)
+- Logo on the Error page has been fixed - @przspa (#3077)
 - No placeholders / no photos for Get Inspire section in offline - @przspa (#3072)
 
 ### Changed / Improved
