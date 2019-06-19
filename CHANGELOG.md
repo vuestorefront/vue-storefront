@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.2] - 2019.06.10
+
+### Fixed
+- Instant Checkout visible on  Safari - @przspa (#2991)
+- Search Sidebar on Safari - @przspa (#2990)
+- Country label style - @przspa (#2989)
+- BaseInputNumber for qty of the product in the cart can change by using arrows - @przspa (#2988)
+- Category load depending on zoom level - @przspa (#2704)
+- Add yarn.lock to dockerfile build - @Flyingmana (#3006)
+- Inconsistent behaviour of picture slider on PDP - @przspa (#2757)
+
 ## [1.9.1] - 2019.05.27
 
 ### Fixed

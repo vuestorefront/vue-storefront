@@ -47,7 +47,7 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
         </a>
       </td>
       <td align="left" valign="top">
-        Try out our open demo and if you like it <strong>first give us some star on Github ★</strong> and then contact us on <a href="https://slack.vuestorefront.io">Slack</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to <a href="http://demo-magento2.vuestorefront.io">Magento 2.2</a> with shopping carts and users synchronization so You can make an order (which unfortunatelly won't be shipped ;P). <br /><br />If You like to see Magento 1 integration demo please <a href="https://vuestorefront.io">do contact us</a>.
+        Try out our open demo and if you like it <strong>first give us some star on Github ★</strong> and then contact us on <a href="https://slack.vuestorefront.io">Slack</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to <a href="http://demo-magento2.vuestorefront.io">Magento 2.2</a> with shopping carts and users synchronization so You can make an order (which unfortunately won't be shipped ;P). <br /><br />If You like to see Magento 1 integration demo please <a href="https://vuestorefront.io">do contact us</a>.
       </td>
     </tr>
   </tbody>
@@ -153,9 +153,13 @@ Tutorial series on creating themes for Vue Storefront:
 - [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
 - [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge), [Magento 1.9 native indexer](https://github.com/DivanteLtd/magento1-vsbridge-indexer)
 - [Vue Storefront + with Magento checkout](https://github.com/Vendic/magento2-external-checkout)
-- [Vue Storefront + BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront)
-- [Vue Storefront + WooCommerce](https://github.com/DivanteLtd/woocommerce2vuestorefront)
+- [Vue Storefront + Shopware6](https://github.com/DivanteLtd/shopware2vuestorefront)
+- [Vue Storefront + Epi Server](https://github.com/makingwaves/epi-commerce-to-vue-storefront)
+- [Vue Storefront + Spree Commerce](https://github.com/spark-solutions/spree2vuestorefront)
 - [Vue Storefront + Pimcore](https://github.com/DivanteLtd/coreshop-vsbridge)
+- [Vue Storefront + Odoo ERP](https://github.com/cristian-g/vsf-odoo)
+- [PoC: Vue Storefront + BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront)
+- [PoC: Vue Storefront + WooCommerce](https://github.com/DivanteLtd/woocommerce2vuestorefront)
 - [Magento2 Product Reviews](https://divanteltd.github.io/vue-storefront/guide/integrations/reviews.html)
 - [PayPal Payments integration](https://divanteltd.github.io/vue-storefront/guide/integrations/paypal-payments.html)
 - [Direct prices sync with Magento](https://divanteltd.github.io/vue-storefront/guide/integrations/direct-prices-sync.html)
@@ -697,6 +701,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/zero-1_logo.png"
             alt="Zero1"
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="https://www.novusweb.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/blue_novusweb.png"
+            alt="Novusweb"
+            height="30"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="www.trellis.co">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/trellis.png"
+            alt="Trellis"
+            height="30"
+          >
+        </a>
+</td>
+    </tr>
+      <tr>
+      <td align="center" valign="middle"> 
+<a href="https://ittweb.net/it?utm_source=referral&utm_medium=vsf&utm_campaign=partners">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/ITTweb.png"
+            alt="ITT Web"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="https://www.yireo.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/yireo-logo-trans-520x520.png"
+            alt="Yireo"
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
             height="40"
           >
         </a>
