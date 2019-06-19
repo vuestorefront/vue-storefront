@@ -73,7 +73,7 @@ export default {
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
     this.$bus.$off('product-after-bundleoptions')
-    if (store.state.usePriceTiers) {
+    if (config.usePriceTiers) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
