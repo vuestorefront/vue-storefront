@@ -9,7 +9,9 @@
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
               <template>
-                <return-icon class="p15 icon bg-cl-secondary pointer" to="/" />
+                <a class="inline-flex brdr-none p15 icon bg-cl-secondary pointer" href="/" data-testid="returnButton">
+                  <i class="material-icons">keyboard_backspace</i>
+                </a>
               </template>
             </div>
           </div>
@@ -33,12 +35,10 @@
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
 import Logo from 'theme/components/core/Logo'
-import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
 
 export default {
   components: {
-    Logo,
-    ReturnIcon
+    Logo
   },
   mixins: [CurrentPage]
 }
