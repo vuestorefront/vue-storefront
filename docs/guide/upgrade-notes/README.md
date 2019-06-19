@@ -7,6 +7,7 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 - The lowest supported node version  is currently 8.10.0,
 - Module Mailchimp is removed in favor of Newsletter. `local.json` configuration under key `mailchimp` moved to key `newsletter`.
 - In multistore mode now there is a possibility to skip appending storecode to url with `appendStoreCode` config option. To keep the original behavior, it should be set to true. - @lukeromanowicz (#3048).
+- The `cart/addItem` is no longer displaying the error messages - please use the `diffLog.clientNorifications` to update the UI instead (take a look at the `AddToCart.ts` for a reference)
 
 ## 1.8 -> 1.9
 - The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields 

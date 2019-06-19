@@ -16,6 +16,7 @@ export const UserOrders = {
   },
   methods: {
     async remakeOrder (products) {
+      this.$bus.$emit('notification-progress-start', this.$t('Please wait ...'))
       const productsToAdd = []
       for (const item of products) {
         const product = await this.$store.dispatch('product/single', { options: { sku: item.sku }, setCurrentProduct: false, selectDefaultVariant: false })
@@ -23,6 +24,7 @@ export const UserOrders = {
         productsToAdd.push(product)
       }
       await this.$store.dispatch('cart/addItems', { productsToAdd })
+      this.$bus.$emit('notification-progress-stop', {})
       // Redirect to the cart straight away.
       this.$router.push(this.localizedRoute('/checkout'))
     },
