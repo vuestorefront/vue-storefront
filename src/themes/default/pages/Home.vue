@@ -71,7 +71,7 @@ export default {
     coolBagsCollection () {
       return this.$store.state.homepage.coolbags_collection
     },
-    isOnline(){
+    isOnline () {
       return onlineHelper.isOnline
     }
   },
