@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
 - Get also none product image thumbnails via API - @cewald, @resubaka (#3207)
 - Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
+- Added possibility to change color or size of the product that is already in the cart - @andrzejewsky (#2346)
 
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)

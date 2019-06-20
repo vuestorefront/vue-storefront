@@ -282,38 +282,6 @@ export default {
         return []
       }
       return this.product.configurable_options
-    },
-    getAvailableFilters () {
-      let filtersMap = {}
-      // TODO move to helper
-      if (this.product && this.product.configurable_options) {
-        this.product.configurable_options.forEach(configurableOption => {
-          const type = configurableOption.attribute_code
-          const filterVariants = configurableOption.values.map(({value_index, label}) => {
-            let currentVariant = this.options[type].find(config => config.id === value_index)
-            label = label || (currentVariant ? currentVariant.label : value_index)
-            return {id: value_index, label, type}
-          })
-          const availableOptions = filterVariants.filter(option => this.isOptionAvailable(option))
-          filtersMap[type] = availableOptions
-        })
-      }
-      return filtersMap
-    },
-    getSelectedFilters () {
-      // TODO move to helper when refactoring product page
-      let selectedFilters = {}
-      if (this.configuration && this.product) {
-        Object.keys(this.configuration).map(filterType => {
-          const filter = this.configuration[filterType]
-          selectedFilters[filterType] = {
-            id: filter.id,
-            label: filter.label,
-            type: filterType
-          }
-        })
-      }
-      return selectedFilters
     }
   },
   methods: {
