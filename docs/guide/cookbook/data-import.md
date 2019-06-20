@@ -863,7 +863,7 @@ You also need to inform **Vue Storefront** and **Vue Storefront API** of the mul
 
 So it has means to protect a newer version of documents making it sure immutable from an older version of it, and `version_conflict_engine_exception` is one of them. 
 
-Repeating the same request would simply resolve the conflict. But if it doesn't, sending a flag `conflicts=proceed` should ignore the conflict, however, you should take responsibility for consequences of those force updates.
+Repeating the same request would simply resolve the conflict. But if it doesn't, sending a flag `conflicts=proceed` should ignore the conflict, however, you should take responsibility for consequences of those force updates. [more info](https://www.elastic.co/guide/en/elasticsearch/guide/current/optimistic-concurrency-control.html)
  
 <!-- `cleanup` method will run the delete query with `conflicts=proceed` for you. 
 ```bash
