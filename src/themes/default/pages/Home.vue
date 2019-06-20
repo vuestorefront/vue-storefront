@@ -17,7 +17,7 @@
       </div>
     </section>
 
-    <section class="container pb60 px15">
+    <section v-if="isOnline" class="container pb60 px15">
       <div class="row center-xs">
         <header class="col-md-12" :class="{ pt40: everythingNewCollection && everythingNewCollection.length }">
           <h2 class="align-center cl-accent">
@@ -34,7 +34,7 @@
 <script>
 // query constructor
 import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
-import { isServer } from '@vue-storefront/core/helpers'
+import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
 
 // Core pages
 import Home from '@vue-storefront/core/pages/Home'
@@ -70,6 +70,9 @@ export default {
     },
     coolBagsCollection () {
       return this.$store.state.homepage.coolbags_collection
+    },
+    isOnline () {
+      return onlineHelper.isOnline
     }
   },
   created () {
