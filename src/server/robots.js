@@ -1,6 +1,6 @@
 const fs = require('fs')
 const themePath = require('../../core/build/theme-path')
-const robots = `${themePath}/assets/robots.txt`
+const robots = `${themePath}/robots.txt`
 
 module.exports = expressApp => {
   expressApp.get('/robots.txt', (req, res) => {
