@@ -52,6 +52,11 @@ export const Shipping = {
     }
   },
   watch: {
+    shippingMethods: {
+      handler () {
+        this.checkDefaultShippingMethod()
+      }
+    },
     shipToMyAddress: {
       handler () {
         this.useMyAddress()
@@ -59,16 +64,19 @@ export const Shipping = {
     }
   },
   mounted () {
-    if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
-      let shipping = this.shippingMethods.find(item => item.default)
-      if (!shipping && this.shippingMethods && this.shippingMethods.length > 0) {
-        shipping = this.shippingMethods[0]
-      }
-      this.shipping.shippingMethod = shipping.method_code
-      this.shipping.shippingCarrier = shipping.carrier_code
-    }
+    this.checkDefaultShippingMethod()
   },
   methods: {
+    checkDefaultShippingMethod () {
+      if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
+        let shipping = this.shippingMethods.find(item => item.default)
+        if (!shipping && this.shippingMethods && this.shippingMethods.length > 0) {
+          shipping = this.shippingMethods[0]
+        }
+        this.shipping.shippingMethod = shipping.method_code
+        this.shipping.shippingCarrier = shipping.carrier_code
+      }
+    },
     onAfterShippingSet (receivedData) {
       this.shipping = receivedData
       this.isFilled = true
