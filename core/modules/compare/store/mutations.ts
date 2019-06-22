@@ -20,6 +20,9 @@ const mutations: MutationTree<CompareState> = {
   },
   [types.COMPARE_LOAD_COMPARE] (state, storedItems) {
     state.items = storedItems || []
+  },
+  [types.SET_COMPARE_LOADED] (state, isLoaded: boolean = true) {
+    state.loaded = isLoaded
   }
 }
 

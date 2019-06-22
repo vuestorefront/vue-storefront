@@ -1,6 +1,6 @@
 # Modal component
 
-Simple modal component. Visibility of modal container is based on internal state `isVisible`. We can set this state by `$emit` event on global `$bus` event.
+Simple modal component. Visibility of modal container is based on internal state `isVisible`. We can set this state with the `$emit` event on the global `$bus` event.
 
 ## Basic usage
 
@@ -36,4 +36,4 @@ Simple modal component. Visibility of modal container is based on internal state
 
 ### Styles
 
-Core component doesn't have css styles. If you want to see an example of our implementation please look [here](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/Modal.vue)
+Core component doesn't have CSS styles. If you want to see an example of our implementation please look [here](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/Modal.vue)

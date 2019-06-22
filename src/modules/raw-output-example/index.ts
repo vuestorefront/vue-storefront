@@ -1,11 +1,8 @@
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
+import { createModule } from '@vue-storefront/core/lib/module'
 import { routes } from './router/routes'
 
 const KEY = 'raw-output-example'
-
-const moduleConfig: VueStorefrontModuleConfig = {
+export const RawOutputExample = createModule({
   key: KEY,
   router: { routes }
-}
-
-export const RawOutputExample = new VueStorefrontModule(moduleConfig)
+})

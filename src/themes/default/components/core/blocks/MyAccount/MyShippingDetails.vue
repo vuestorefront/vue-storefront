@@ -23,7 +23,7 @@
     <div class="row" v-if="isEdited">
       <template>
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="first-name"
           autocomplete="given-name"
@@ -43,73 +43,72 @@
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="last-name"
           autocomplete="family-name"
           :placeholder="`${$t('Last name')} *`"
           v-model.trim="shippingDetails.lastName"
           @input="$v.shippingDetails.lastName.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.shippingDetails.lastName.required && $v.shippingDetails.lastName.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-checkbox
           v-if="hasBillingAddress()"
-          class="col-xs-12 mb25"
+          class="col-xs-12 mb10"
           id="addCompanyFilled"
           v-model="useCompanyAddress"
-          @click="fillCompanyAddress"
         >
           {{ $t("Use my company's address details") }}
         </base-checkbox>
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="street-address"
           autocomplete="address-line1"
           :placeholder="`${$t('Street name')} *`"
           v-model.trim="shippingDetails.street"
           @input="$v.shippingDetails.street.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.shippingDetails.street.required && $v.shippingDetails.street.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="apartment-number"
           autocomplete="address-line2"
           :placeholder="`${$t('House/Apartment number')} *`"
           v-model.trim="shippingDetails.house"
           @input="$v.shippingDetails.house.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.shippingDetails.house.required && $v.shippingDetails.house.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="city"
           autocomplete="address-level2"
           :placeholder="`${$t('City')} *`"
           v-model.trim="shippingDetails.city"
           @input="$v.shippingDetails.city.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.shippingDetails.city.required && $v.shippingDetails.city.$error,
             text: $t('Field is required')
-          }"
+          }]"
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="state"
           autocomplete="address-level1"
@@ -118,7 +117,7 @@
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="zip-code"
           autocomplete="postal-code"
@@ -138,7 +137,7 @@
         />
 
         <base-select
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           name="countries"
           :options="countryOptions"
           :selected="shippingDetails.country"
@@ -156,7 +155,7 @@
         />
 
         <base-input
-          class="col-xs-12 col-sm-6 mb25"
+          class="col-xs-12 col-sm-6 mb10"
           type="text"
           name="phone-number"
           autocomplete="tel"
@@ -164,7 +163,7 @@
           v-model.trim="shippingDetails.phone"
         />
 
-        <div class="hidden-xs col-sm-6 mb25"/>
+        <div class="hidden-xs col-sm-6 mb25" />
 
         <div class="col-xs-12 col-sm-6">
           <button-full

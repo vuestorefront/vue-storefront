@@ -1,7 +1,7 @@
 <template>
   <div class="inspiration-tile w-100">
     <router-link
-      :to="localizedRoute({ name: product.type_id + '-product', params: { parentSku: product.sku, slug: product.slug }})"
+      :to="localizedRoute({ name: product.type_id + '-product', fullPath: product.url_path, params: { parentSku: product.sku, slug: product.slug }})"
     >
       <div class="product-image bg-cl-secondary">
         <img :src="thumbnail" class="product-thumbnail">
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import config from 'config'
 export default {
   name: 'Inspirations',
   props: {
@@ -21,7 +22,7 @@ export default {
   },
   computed: {
     thumbnail () {
-      return this.getThumbnail(this.product.image, 310, 300)
+      return this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height)
     }
   }
 }

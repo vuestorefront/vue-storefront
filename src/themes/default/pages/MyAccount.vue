@@ -18,13 +18,17 @@
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
               <li class="mb20" v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
-                <router-link :to="localizedRoute(page.link)" class="cl-accent">{{ page.title }}</router-link>
+                <router-link :to="localizedRoute(page.link)" class="cl-accent">
+                  {{ page.title }}
+                </router-link>
               </li>
             </ul>
           </nav>
         </div>
         <div class="col-md-9">
-          <component :is="this.$props.activeBlock" />
+          <no-ssr>
+            <component :is="this.$props.activeBlock" />
+          </no-ssr>
         </div>
       </div>
     </div>
@@ -40,6 +44,7 @@ import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
 import MyRecentlyViewed from '../components/core/blocks/MyAccount/MyRecentlyViewed'
+import NoSSR from 'vue-no-ssr'
 
 export default {
   data () {
@@ -62,7 +67,8 @@ export default {
     MyNewsletter,
     MyOrders,
     MyOrder,
-    MyRecentlyViewed
+    MyRecentlyViewed,
+    'no-ssr': NoSSR
   },
   mixins: [MyAccount],
   methods: {

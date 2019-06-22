@@ -10,10 +10,15 @@
       </i>
       {{ $t('Log in') }}
     </header>
+    <div v-if="hasRedirect" class="pt10 pb10 px65 redirect-error">
+      <p class="h5 mb0 mt0">
+        {{ $t('You need to be logged in to see this page') }}
+      </p>
+    </div>
     <div class="modal-content pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="login" novalidate>
         <base-input
-          class="mb35"
+          class="mb10"
           type="email"
           name="email"
           focus
@@ -32,23 +37,22 @@
           ]"
         />
         <base-input
-          class="mb35"
+          class="mb10"
           type="password"
           name="password"
           v-model="password"
           @blur="$v.password.$touch()"
           :placeholder="$t('Password *')"
-          :validation="{
+          :validations="[{
             condition: !$v.password.required && $v.password.$error,
             text: $t('Field is required.')
-          }"
+          }]"
         />
         <div class="row">
           <base-checkbox
-            class="col-xs-7 col-sm-6 mb35"
+            class="col-xs-7 col-sm-6 mb20"
             id="remember"
             v-model="remember"
-            @click="remember = !remember"
           >
             {{ $t('Remember me') }}
           </base-checkbox>
@@ -91,7 +95,16 @@ export default {
       required
     }
   },
+  data () {
+    return {
+      hasRedirect: !!localStorage.getItem('redirect')
+    }
+  },
   methods: {
+    close (e) {
+      if (e) localStorage.removeItem('redirect')
+      this.$bus.$emit('modal-hide', 'modal-signup')
+    },
     login () {
       if (this.$v.$invalid) {
         this.$v.$touch()
@@ -139,10 +152,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-error: color(error);
+$white: color(white);
+
   .modal-content {
     @media (max-width: 400px) {
       padding-left: 20px;
       padding-right: 20px;
     }
+  }
+  .redirect-error {
+    background-color: $color-error;
+    color: $white;
   }
 </style>

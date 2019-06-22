@@ -2,12 +2,12 @@
 
 :::warning Note
 Temporary file for core components API. List of props, public methods and data that are available to use via mixin insertion.
-In case of injectable components (like modal) or the ones triggered by Vuex actions you should write them down also. Feel free to write some description/new api proposal for each documented component.
+In the case of injectable components (like modal) or the ones triggered by Vuex actions you should write them down also. Feel free to write some description/new api proposal for each documented component.
 :::
 
 ## AddToCart
 
-This component represents a single button that when pressed adds a product to cart. Right now this component is used on Product page only.
+This component represents a single button that, when pressed, adds a product to the cart.
 
 ### Props
 
@@ -61,8 +61,8 @@ This component represents an input with validation.
 
 ### Data
 
-- `passType` - copy of password type for toggle password visibility
-- `iconActive` - boolean prop that defines if visibility button is enabled
+- `passType` - a copy of password type for toggle password visibility
+- `iconActive` - a boolean prop that defines if visibility button is enabled
 - `icon` - default material icon name for visibility button
 
 ### Methods
@@ -88,18 +88,18 @@ No methods
 
 ## ColorSelector
 
-This components represents a button that is used for visualizing different options, specifically product filters. It is used on category's Sidebar and Product pages.
+This component represents a button that is used for visualizing different options, specifically product filters. It is used on category's Sidebar and Product pages.
 
 ### Props
 
-- `label` - label that is shown on the component button.
-- `id` - identifier that unifies an option among others in array.
+- `label` - a label that is shown on the component button.
+- `id` - an identifier that unifies an option among others in an array.
 - `code` - a name of an option that the component is being used to represent (currently 'color').
 - `context` - a name of an entity that the component belongs to (currently one of 'category' or 'product').
 
 ### Data
 
-- `active` - boolean prop that defines if button is pressed and is active.
+- `active` - a boolean prop that defines if the button is pressed and is active.
 
 ### Methods
 
@@ -114,7 +114,7 @@ _label_ - same as _label_ prop.
 
 #### beforeMount
 
-If current route's name is not 'product' defines 2 event listeners. First one is `filter-reset` that sets _active_ prop to false. Second is `filter-changed-<context>`, where context is a value of _context_ prop. This event listener toggles the value of _active_ prop depending on which instance of ColorSelector component was passed to it as a parameter.
+If the current route's name is not 'product' defines 2 event listeners. First one is `filter-reset` that sets _active_ prop to false. Second is `filter-changed-<context>`, where context is a value of _context_ prop. This event listener toggles the value of _active_ prop depending on which instance of ColorSelector component was passed to it as a parameter.
 
 #### beforeDestroy
 
@@ -122,7 +122,7 @@ Removes event listeners defined in `beforeMount` hook.
 
 ## Loader
 
-This component is used for visualizing loading process, when something is happening in the background. It is currently used when account is being registered, password is being reset and user is logging in.
+This component is used for visualizing loading process, when something is happening in the background. It is currently used when an account is being registered, the password is being reset and the user is logging in.
 
 ### Props
 
@@ -130,7 +130,7 @@ No props
 
 ### Data
 
-- `message` - A message that is shown while loading process is on.
+- `message` - A message that is shown while the loading process is on.
 - `isVisible` - Computed property which is equal to UI-store's _loader_ property. This prop defines whether to show or hide the spinner.
 
 ### Methods
@@ -139,7 +139,7 @@ No props
 
 #### Parameters
 
-_message_ - A text that is shown when loading process is on.
+_message_ - A text that is shown when the loading process is on.
 
 - `hide` - Calls UI-store mutation 'ui/setLoader', which hides a spinner.
 
@@ -173,7 +173,7 @@ No methods
 
 ## Newsletter popup (should be using modal)
 
-Shows popup modal window where user can enter his/her newsletter subscription preferences, currently only email address. This component is used in a Footer page.
+Shows popup modal window where the user can enter his/her newsletter subscription preferences, currently only email address. This component is used in a Footer page.
 
 ### Props
 
@@ -189,7 +189,7 @@ No data
 
 ## Notification
 
-Shows notifications after some actions being performed in shop. There are four types of notifications: success, error, warning and info.
+Shows notifications after some actions being performed in the shop. There are four types of notifications: success, error, warning and info.
 
 ### Props
 
@@ -269,12 +269,12 @@ No data
 
 ## PriceSelector
 
-Represents one of the options on Category page. Shows price range and allows user to choose one of the ranges.
+Represents one of the options on the Category page. Shows price range and allows the user to choose one of the ranges.
 
 ### Props
 
 - `content` - text that shows the price range
-- `id` - unique identifier of the option
+- `id` - the unique identifier of the option
 - `code` - options' code, equals to 'price'
 - `from` - minimum value of the price range
 - `to` - maximum value of the price range
@@ -309,7 +309,7 @@ Shows attributes that a specific product has. Used on Product Page.
 
 ### Props
 
-- `product` - reference to product that the attribute belongs to
+- `product` - reference to the product that the attribute belongs to
 - `attribute` - attribute itself
 - `emptyPlaceholder` - a string that is shown if an attribute has no value
 
@@ -330,11 +330,11 @@ Extracts attribute's label and value(-s) from _product_ and _attribute_ properti
 
 ## ProductLinks
 
-If product is grouped (which means it consists of several products) this component shows list of compound products. Used on Product page.
+If the product is grouped (which means it consists of several products) this component shows a list of compound products. Used on the Product page.
 
 ### Props
 
-- `products` - array of compound products of a given product
+- `products` - the array of compound products of a given product
 
 ### Data
 
@@ -350,8 +350,8 @@ Shows given array of products on a page in a given number of columns. Used on Ca
 
 ### Props
 
-- `product` - array of products to show
-- `columns` - number of columns to display on a page. Each product is displayed with ProductTile component.
+- `product` - an array of products to show
+- `columns` - the number of columns to display on a page. Each product is displayed with ProductTile component.
 
 ### Data
 
@@ -369,7 +369,7 @@ Shows product tiles slider. Used in Collection component in _default_ theme.
 
 - `title` - a title of a slider
 - `products` - an array of products to show in a slider
-- `config` - and object that defines configuration of a slider, like number of tiles to show on a page, pagination and looping.
+- `config` - and object that defines the configuration of a slider, like the number of tiles to show on a page, pagination and looping.
 
 ### Data
 
@@ -381,7 +381,7 @@ No methods
 
 ## ProductTile
 
-Shows a product in a compact way when several products are shown on one page. Used in many places, such as Home page, Search panel, 404 page and so on.
+Shows a product in a compact way when several products are shown on one page. Used in many places, such as Home page, Search panel, 404 pages and so on.
 
 ### Props
 
@@ -403,13 +403,13 @@ Represents one of the options of a product, namely product's size. Used on Categ
 ### Props
 
 - `label` - a string that represents the size
-- `id` - unique identifier of the size
+- `id` - the unique identifier of the size
 - `code` - a code name of an option, which is 'size'
 - `context` - a name of an entity that the component belongs to (currently one of 'category' or 'product')
 
 ### Data
 
-`active` - boolean prop that defines if button is pressed and is active.
+`active` - a boolean prop that defines if the button is pressed and is active.
 
 ### Methods
 
@@ -476,19 +476,18 @@ No props
 
 ### Data
 
-- `stockCheckCompleted` - a boolean prop that shows if all products in cart (if any) have been checked for availability (whether they are in stock or not).
-- `stockCheckOK` - a boolean prop that shows if all products in cart are in stock.
-- `orderPlaced` - a boolean prop that is set to true after `order-after-placed` event has been triggered, defining a successful placement of an order.
-- `activeSection` - an object that consists of 4 boolean props: _personalDetails_, _shipping_, _payment_ and _orderReview_, - that define which section of Checkout page is currently active. At any point of time only one section can be active.
+- `stockCheckCompleted` - a boolean prop that shows if all products in the cart (if any) have been checked for availability (whether they are in stock or not).
+- `stockCheckOK` - a boolean prop that shows if all products in the cart are in stock.
+- `activeSection` - an object that consists of 4 boolean props: _personalDetails_, _shipping_, _payment_ and _orderReview_, - that define which section of Checkout page is currently active. At any point in time only one section can be active.
 - `order` - an order object, that consists of all necessary order information that will be sent to the backend to place it.
 - `personalDetails` - an object that contains personal details part of the Checkout page.
 - `shipping` - an object that contains shipping details part of the Checkout page.
 - `payment` - an object that contains payment details part of the Checkout page.
 - `orderReview` - _this prop is not used_
-- `cartSummary` - this prop is supposed to be filled after `checkout.cartSummary` event has been triggered. _But this event is not triggered anywhere, therefore this prop currently has no usage._
+- `cartSummary` - this prop is supposed to be filled after `checkout.cartSummary` the event has been triggered. _But this event is not triggered anywhere, therefore this prop currently has no usage._
 - `validationResults` - an object that keeps validation result of 3 child components: Personal Details, Shipping Details and Payment Details. _Currently all the validation happens within those 3 child components and there's no need to store the result in a parent component. This prop is redundant._
 - `userId` - this new user ID is returned by child OrderReview component if a user registers a new account at checkout. It is then sent to the backend to bind an order to the user.
-- `isValid` - this boolean computed property defines if an order can be placed. If there's any validation error within any child component or _stockCheckOK_ prop is not true, this returns false and an order won't be placed.
+- `isValid` - this boolean computed property defines if an order can be placed. If there's any validation error within any child component or _stockCheckOK_ prop is not true, this returns false and order won't be placed.
 
 ### Methods
 
@@ -506,7 +505,7 @@ _sectionToActivate_ - a name of a section that needs to be activated.
 
 - `prepareOrder ()` - returns an order object that will be sent to the backend.
 
-- `placeOrder ()` - if _isValid_ prop is true dispatches `'checkout/placeOrder'` action which will place the order, otherwise fires a notification about existence of validation errors.
+- `placeOrder ()` - if _isValid_ prop is true dispatches `'checkout/placeOrder'` action which will place the order, otherwise fires a notification about the existence of validation errors.
 
 - `savePersonalDetails ()` - dispatches `'checkout/savePersonalDetails'` action which will save checkout personal details information (from _personalDetails_ prop) to the Vuex store.
 
@@ -525,13 +524,13 @@ Defines several event listeners to communicate with child components.
 - **'checkout.shipping'** event listener receives shipping details information from Shipping child component and activates next section of the Checkout page (which is payment details).
 - **'checkout.payment'** event listener receives payment details information from Payment child component and activates next section of the Checkout page (which is order review).
 - **'checkout.cartSummary'** - _this event listener is not called anywhere._
-- **'checkout.placeOrder'** event listener is called by OrderReview child component. It has an optional _userId_ parameter that is passed to it in case user registers a new account at the checkout. With or without _userId_ this event listener calls _placeOrder_ method.
-- **'checkout.edit'** event listener activates a section of Checkout page, name of which is passed to it in a parameter.
-- **'order-after-placed'** event listener sets _orderPlaced_ prop to true.
+- **'checkout.placeOrder'** the event listener is called by OrderReview child component. It has an optional _userId_ parameter that is passed to it in case user registers a new account at the checkout. With or without _userId_ this event listener calls _placeOrder_ method.
+- **'checkout.edit'** event listener activates a section of the Checkout page, the name of which is passed to it in a parameter.
+- **'order-after-placed'** event listener is called after placed order.
 
 #### beforeMount
 
-Checks if cart is not empty. If it is, then a notification is fired. Otherwise, sets promises that will check availability of the products from the cart and if they are all in stock.
+Checks if the cart is not empty. If it is, then a notification is fired. Otherwise, sets promises that will check the availability of the products from the cart and if they are all in stock.
 
 #### destroyed
 
@@ -541,12 +540,12 @@ Removes all event listeners that were previously defined in `created` hook.
 
 ### Props
 
-`title` - title of the Compare page
+`title` - the title of the Compare page
 
 ### Data
 
 - `attributesByCode` - a computed property that returns the list of all product attributes by their code. Gets its value from `'attribute/attributeListByCode'` Vuex store getter.
-- `attributesById` - a computed property that return the list of all product attributes by their Id. Gets its value from `'attribute/attributeListById'` Vuex store getter. _This prop is not used anywhere._
+- `attributesById` - a computed property that returns the list of all product attributes by their Id. Gets its value from `'attribute/attributeListById'` Vuex store getter. _This prop is not used anywhere._
 - `items` - returns the list of products that were chosen for comparison from Vuex store.
 - `all_comparable_attributes` - returns the subset of attributes from `attributesByCode` prop that have `is_comparable` property set to true.
 
@@ -566,7 +565,7 @@ Dispatches `'compare/load'` action that loads the list of products to compare fr
 
 ## Home
 
-Home page has been refactored to the new core proposal (1.0RC) and the [docs has been moved](../components/home-page.md).
+The home page has been refactored to the new core proposal (1.0RC) and the [docs has been moved](../components/home-page.md).
 
 ## MyAccount
 
@@ -580,7 +579,7 @@ Home page has been refactored to the new core proposal (1.0RC) and the [docs has
 
 ### Methods
 
-`notify (title)` - this is a temporary method that notifies user if he presses on a link of a section that is not yet implemented.
+`notify (title)` - this is a temporary method that notifies the user if he presses on a link of a section that is not yet implemented.
 
 ### Hooks
 
@@ -594,7 +593,7 @@ Defines several event listeners to communicate with child components.
 
 #### mounted
 
-Checks if there's a user token in localStorage. If not, redirects user to Home page.
+Checks if there's a user token in localStorage. If not, redirects user to the Home page.
 
 #### destroyed
 
@@ -624,4 +623,4 @@ Since the app is using SSR, this method prefetches and resolves the asynchronous
 
 ## Product
 
-Product page has been refactored to the new core proposal (1.0RC) and the [docs has been moved](../components/product.md).
+The Product page has been refactored to the new core proposal (1.0RC) and the [docs has been moved](../components/product.md).

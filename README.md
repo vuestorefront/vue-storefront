@@ -13,14 +13,14 @@ Vue Storefront is a standalone PWA storefront for your eCommerce, possible to co
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
 The project is in the **production ready** phase.
 
-**Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
+**Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-
+storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
-If you're new and need some guidance feel free to reach anyone from core team on our slack:
+If you're new and need some guidance feel free to visit out [forum](https://forum.vuestorefront.io/) or reach anyone from the core team on our slack:
 - `@Filip Rakowski` (frontend, architecture and best practices related stuff)
 - `@pkarw` (integrations and backend related stuff)
 - `@ptomczyk` (frontend related stuff)
 - `@Bartek Igielski`(frontend and magento-specific related stuff)
-- `@George` (mostly backend and integration related stuff but can also help with frontend)
 
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
@@ -28,7 +28,10 @@ Want to invest some time in building the future of eCommerce? we are looking for
 
 See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakowski/vue-storefront-basics)
 
-**Read [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md) before making any pull request. Pull request that don't meet this requirements will not be merged**
+**Read [contribution rules](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md) before making any pull request. Pull request that doesn't meet these requirements will not be merged**
+
+PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI library for eCommerce.
+
 
 ## See it in action
 
@@ -44,7 +47,7 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
         </a>
       </td>
       <td align="left" valign="top">
-        Try out our open demo and if you like it <strong>first give us some star on Github ★</strong> and then contact us on <a href="https://slack.vuestorefront.io">Slack</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to <a href="http://demo-magento2.vuestorefront.io">Magento 2.2</a> with shopping carts and users synchronization so You can make an order (which unfortunatelly won't be shipped ;P). <br /><br />If You like to see Magento 1 integration demo please <a href="https://vuestorefront.io">do contact us</a>.
+        Try out our open demo and if you like it <strong>first give us some star on Github ★</strong> and then contact us on <a href="https://slack.vuestorefront.io">Slack</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to <a href="http://demo-magento2.vuestorefront.io">Magento 2.2</a> with shopping carts and users synchronization so You can make an order (which unfortunately won't be shipped ;P). <br /><br />If You like to see Magento 1 integration demo please <a href="https://vuestorefront.io">do contact us</a>.
       </td>
     </tr>
   </tbody>
@@ -65,6 +68,13 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
 
 Yes! There are more than 10 implementations happening right now and many live shops (check [awesome Vue Storefront list](https://github.com/frqnck/awesome-vue-storefront)).
 
+## Browser Compatibility
+
+* last 2 Chrome versions
+* last 2 Firefox versions
+* last 2 Edge versions
+* Internet Explorer 10
+
 ## Join the community on Slack
 
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg)
@@ -74,13 +84,13 @@ If you have any questions or ideas feel free to join our slack: https://vuestore
 [Here](https://github.com/DivanteLtd/vue-storefront/milestones) you can find the accepted roadmap for current milestone and what you can expect with next release.
 
 #### Roadmap planning
-[Here](https://github.com/DivanteLtd/vue-storefront/projects/3) you can vote for feature requests and see which ones were accepted. The most upvoted ones will be added to next milestones. You can also join the slack channel `#roadmap-planning` where we discuss the next milestones.
+[Here](https://github.com/DivanteLtd/vue-storefront/projects/3) you can vote for feature requests and see which ones were accepted. The most upvoted ones will be added to the next milestones. You can also join the slack channel `#roadmap-planning` where we discuss the next milestones.
 
 The process of adding new features to the roadmap looks like this:
 1. You create an issue and label it as `feature request`.
 2. One of VS Core team verifies the feature request and if the explanation is clear, it is added to the `Roadmap` project so it's visible in the board.
 3. Now people can vote for this feature to be added into next milestone with `thumb up` emoji.
-4. Feature requests with biggest popularity will be added into next milestones.
+4. Feature requests with the biggest popularity will be added into next milestones.
 
 We are planning 1-2 milestones ahead. Our milestones are based on requirements from community, partners and production implementations.
 
@@ -150,9 +160,13 @@ Tutorial series on creating themes for Vue Storefront:
 - [Vue Storefront + Magento](https://github.com/DivanteLtd/mage2vuestorefront)
 - [Vue Storefront + Magento 1.9](https://github.com/DivanteLtd/magento1-vsbridge), [Magento 1.9 native indexer](https://github.com/DivanteLtd/magento1-vsbridge-indexer)
 - [Vue Storefront + with Magento checkout](https://github.com/Vendic/magento2-external-checkout)
-- [Vue Storefront + BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront)
-- [Vue Storefront + WooCommerce](https://github.com/DivanteLtd/woocommerce2vuestorefront)
+- [Vue Storefront + Shopware6](https://github.com/DivanteLtd/shopware2vuestorefront)
+- [Vue Storefront + Epi Server](https://github.com/makingwaves/epi-commerce-to-vue-storefront)
+- [Vue Storefront + Spree Commerce](https://github.com/spark-solutions/spree2vuestorefront)
 - [Vue Storefront + Pimcore](https://github.com/DivanteLtd/coreshop-vsbridge)
+- [Vue Storefront + Odoo ERP](https://github.com/cristian-g/vsf-odoo)
+- [PoC: Vue Storefront + BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront)
+- [PoC: Vue Storefront + WooCommerce](https://github.com/DivanteLtd/woocommerce2vuestorefront)
 - [Magento2 Product Reviews](https://divanteltd.github.io/vue-storefront/guide/integrations/reviews.html)
 - [PayPal Payments integration](https://divanteltd.github.io/vue-storefront/guide/integrations/paypal-payments.html)
 - [Direct prices sync with Magento](https://divanteltd.github.io/vue-storefront/guide/integrations/direct-prices-sync.html)
@@ -171,7 +185,7 @@ Check [Vue Storefront Awesome](https://github.com/frqnck/awesome-vue-storefront)
 
 ## The business challenges
 
-Vue Storefront was created to solve a set of key business challenges from the world of shopping experience. Our goal for the application is to provide the solution with:
+Vue Storefront was created to solve a set of key business challenges from the world of the shopping experience. Our goal for the application is to provide the solution with:
 
 - The ultrafast front-end for the store - with the PWA approach we can now render the catalog of products within milliseconds;
 - The endurance for traffic overloads on the store;
@@ -193,7 +207,7 @@ Besides a big improvement for the shopping experience, we also want to create a 
 
 ## The design
 
-The application is prepared to be fully customized in design through theming system.
+The application is prepared to be fully customized in design through the theming system.
 With the current version we work on raw, basic template of typical eCommerce for a fashion industry.
 In the project we used [Material Icons](https://github.com/google/material-design-icons).
 
@@ -206,11 +220,7 @@ Here you can read more about the process of [designing PWA for eCommerce](https:
 The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
 
 ## Other platforms
-Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/coreshop-vsbridge) to give you an idea on how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
-
-## The license
-
-Vue Storefront source code is completely free and released under the [MIT License](https://github.com/DivanteLtd/vue-storefront/blob/master/LICENSE).
+Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/coreshop-vsbridge) to give you an idea of how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
 
 ## Contributing
 
@@ -220,7 +230,7 @@ If you have discovered a 🐜 or have a feature suggestion, feel free to create 
 
 ## Workshops
 
-If you like our project and would like to learn more on how to create Progressive Web Apps you can ask us for dedicated workshop at your office! Conducted by Vue Storefront core contributors! All the profits are used for supporting Vue Storefront development. [Learn more](https://products.divante.co/vuestorefront/)
+If you like our project and would like to learn more on how to create Progressive Web Apps you can ask us for a dedicated workshop at your office! Conducted by Vue Storefront core contributors! All the profits are used for supporting Vue Storefront development. [Learn more](https://products.divante.co/vuestorefront/)
 
 ## Support us!
 
@@ -268,28 +278,28 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.wagento.com">
+          <a href="https://vendic.nl/">
           <img
-            src="https://www.wagento.com/media/wysiwyg/logo-color-tagline_4x.png"
-            alt="Wagento"
+            src="https://divante.co/partners/Vue-Storefront/vendic-rood.png"
+            alt="Vendic"
             width="150"
           >
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="http://www.summasolutions.net">
+     <a href="https://www.getnoticed.nl/">
           <img
-            src="https://divante.co/partners/Vue-Storefront/summa_logo_horizontal_rgb.jpg"
-            alt="Summa Solutions"
+            src="https://user-images.githubusercontent.com/18116406/38860463-87a9fff4-4230-11e8-8017-e5ffb73e77f9.png"
+            alt="Get.Noticed"
             width="150"
           >
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="http://www.acidgreen.com.au/">
+       <a href="https://www.bitbull.it/">
           <img
-            src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg"
-            alt="Acid Green"
+            src="https://user-images.githubusercontent.com/18116406/38270766-b0bc4fc0-3784-11e8-9463-99d88950ca9a.png"
+            alt="Bitbull"
             width="150"
           >
         </a>
@@ -315,57 +325,57 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://magenest.com/">
+         <a href="https://www.phoenix-media.eu/">
           <img
-            src="https://user-images.githubusercontent.com/18116406/37145068-3326bdf8-22c0-11e8-9bc1-0b9b2377129f.png"
-            alt="Magenest"
+            src="https://divante.co/partners/Vue-Storefront/PHOENIX_MEDIA_Logo_transparent.png"
+            alt="Phoenix Media"
             width="150"
           >
-        </a>
+        </a> 
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.ecommbits.com/en/">
+       <a href="https://www.absolutewebservices.com">
           <img
-            src="https://user-images.githubusercontent.com/18116406/37145348-ea9c8ba2-22c0-11e8-9a91-d1a1da9af782.png"
-            alt="ECOMMBITS"
-            width="150"
+            src="https://divante.co/partners/Vue-Storefront/absolute-logo.png"
+            alt="Absolute Web Services"
+            height="50"
           >
-        </a>
+        </a> 
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.optiweb.com/">
+   <a href="https://www.dnd.fr/">
           <img
-            src="https://user-images.githubusercontent.com/18116406/37145626-9d48077c-22c1-11e8-82fd-dda1268d05e9.png"
-            alt="Optiweb"
-            width="150"
+            src="https://divante.co/partners/Vue-Storefront/dnd-logo.png"
+            alt="Agency DnD"
+            height="40"
           >
         </a>
       </td>
     </tr>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://www.bitbull.it/">
+         <a href="https://www.newfantastic.com">
           <img
-            src="https://user-images.githubusercontent.com/18116406/38270766-b0bc4fc0-3784-11e8-9463-99d88950ca9a.png"
-            alt="Bitbull"
+            src="https://divante.co/partners/Vue-Storefront/newfantasticLogo.png"
+            alt="New Fantastic"
             width="150"
           >
         </a>
       </td>
        <td align="center" valign="middle">
-        <a href="https://vendic.nl/">
+    <a href="https://www.wagento.com">
           <img
-            src="https://divante.co/partners/Vue-Storefront/vendic-rood.png"
-            alt="Vendic"
+            src="https://www.wagento.com/media/wysiwyg/logo-color-tagline_4x.png"
+            alt="Wagento"
             width="150"
           >
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.getnoticed.nl/">
+        <a href="http://www.summasolutions.net">
           <img
-            src="https://user-images.githubusercontent.com/18116406/38860463-87a9fff4-4230-11e8-8017-e5ffb73e77f9.png"
-            alt="Get.Noticed"
+            src="https://divante.co/partners/Vue-Storefront/summa_logo_horizontal_rgb.jpg"
+            alt="Summa Solutions"
             width="150"
           >
         </a>
@@ -456,10 +466,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.phoenix-media.eu/">
+           <a href="https://magenest.com/">
           <img
-            src="https://divante.co/partners/Vue-Storefront/PHOENIX_MEDIA_Logo_transparent.png"
-            alt="Phoenix Media"
+            src="https://user-images.githubusercontent.com/18116406/37145068-3326bdf8-22c0-11e8-9bc1-0b9b2377129f.png"
+            alt="Magenest"
             width="150"
           >
         </a>
@@ -521,11 +531,11 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.absolutewebservices.com">
+       <a href="https://www.ecommbits.com/en/">
           <img
-            src="https://divante.co/partners/Vue-Storefront/absolute-logo.png"
-            alt="Absolute Web Services"
-            height="50"
+            src="https://user-images.githubusercontent.com/18116406/37145348-ea9c8ba2-22c0-11e8-9a91-d1a1da9af782.png"
+            alt="ECOMMBITS"
+            width="150"
           >
         </a>
       </td>
@@ -576,10 +586,151 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a></td>
     </tr>
+         <tr>
+     <td align="center" valign="middle"> 
+<a href="https://webisoft.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/webisoft.png"
+            alt="Webisoft"
+            height="30"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="http://madepeople.se">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/MadePeople.png"
+            alt="Made People"
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle"> 
+  <a href="https://www.optiweb.com/">
+          <img
+            src="https://user-images.githubusercontent.com/18116406/37145626-9d48077c-22c1-11e8-82fd-dda1268d05e9.png"
+            alt="Optiweb"
+            width="150"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="https://www.vaimo.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/vaimo-logo.png"
+            alt="Vaimo"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="https://www.makingwaves.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/making-waves.png"
+            alt="Making Waves"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+<tr>
+      <td align="center" valign="middle"> 
+<a href="https://www.bluebirdday.nl/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/Blue-Bird.png"
+            alt="BlueBird Day"
+            height="30"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="https://kodbruket.se/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/kodbruket.png"
+            alt="Kodbrucket"
+            height="25"
+          >
+        </a>
+</td>
+      <td align="center" valign="middle"> 
+<a href="https://portaltech.reply.com/portaltech/en/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/Portaltech-Reply-LOGO-RGB.png"
+            alt="Portaltech Reply"
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="www.interactivated.nl">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/interactivated-logo.png"
+            alt="Interactivated"
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="https://www.sutunam.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/Sutunam_H_Logo_LightBg.png"
+            alt="Sutunam"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle"> 
+    <a href="http://www.acidgreen.com.au/">
+          <img
+            src="https://cdn.dribbble.com/users/469310/screenshots/3865916/acidgreen_logo.jpg"
+            alt="Acid Green"
+            width="150"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="https://www.bergwerk.ag/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/BERGWERK_Logo.png"
+            alt="BERGWERK"
+            height="40"
+          >
+        </a>
+</td>
+      <td align="center" valign="middle"> 
+<a href="https://zero1.co.uk/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/zero-1_logo.png"
+            alt="Zero1"
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
   </tbody>
-</table>
+</table> 
 
-Partners are encouraged to support the project by various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partners by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
+Partners are encouraged to support the project in various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partners by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
 
 If you like to become our Partner just let us know via contributors@vuestorefront.io.
 
@@ -588,3 +739,7 @@ If you like to become our Partner just let us know via contributors@vuestorefron
 <img width="880" alt="Vue Storefront - Annimations in the sidebar cart" src="https://user-images.githubusercontent.com/18116406/33559769-2840fb70-d90e-11e7-8f2b-298f35d1b412.gif">
 
 <img width="880" alt="Vue Storefront - Annimations on producy card" src="https://user-images.githubusercontent.com/18116406/33560504-3105dac6-d910-11e7-847d-70ef8e944321.gif">
+
+## The license
+
+Vue Storefront source code is completely free and released under the [MIT License](https://github.com/DivanteLtd/vue-storefront/blob/master/LICENSE).

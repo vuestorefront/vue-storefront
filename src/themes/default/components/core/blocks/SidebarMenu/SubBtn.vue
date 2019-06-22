@@ -1,7 +1,7 @@
 <template>
   <button
-    class="inline-flex between-xs w-100 px25 py20 pr15 serif cl-accent"
     v-if="type === 'next'"
+    class="inline-flex between-xs w-100 px25 py20 pr15 serif cl-accent"
     type="button"
     @click.stop="next()"
     :aria-label="$t('Show subcategories')"
@@ -11,8 +11,8 @@
     <i class="material-icons">keyboard_arrow_right</i>
   </button>
   <button
-    class="inline-flex p15 between-xs"
     v-else
+    class="inline-flex p15 between-xs"
     type="button"
     @click.stop="back()"
     :aria-label="$t('Back')"
@@ -23,6 +23,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import config from 'config'
 export default {
   name: 'SubBtn',
   props: {
@@ -46,7 +47,7 @@ export default {
   },
   methods: {
     next () {
-      if (this.$store.state.config.entities.category.categoriesDynamicPrefetch) this.$store.dispatch('category/list', { parent: this.id })
+      if (config.entities.category.categoriesDynamicPrefetch) this.$store.dispatch('category/list', { parent: this.id })
       this.$store.commit('ui/setSubmenu', {
         id: this.id,
         depth: ++this.submenu.depth

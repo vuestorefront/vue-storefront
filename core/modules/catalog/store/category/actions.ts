@@ -2,8 +2,8 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
-import { entityKeyName } from '@vue-storefront/store/lib/entities'
-import rootStore from '@vue-storefront/store'
+import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
+import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import chunk from 'lodash-es/chunk'
 import trim from 'lodash-es/trim'
@@ -14,7 +14,8 @@ import CategoryState from '../../types/CategoryState'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
-
+import { isServer } from '@vue-storefront/core/helpers'
+import config from 'config'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -32,24 +33,27 @@ const actions: ActionTree<CategoryState, RootState> = {
    * @param {Object} commit promise
    * @param {Object} parent parent category
    */
-  list (context, { parent = null, key = null, value = null, level = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = rootStore.state.config.entities.optimize ? rootStore.state.config.entities.category.includeFields : null, excludeFields = rootStore.state.config.entities.optimize ? rootStore.state.config.entities.category.excludeFields : null, skipCache = false }) {
+  list (context, { parent = null, key = null, value = null, level = null, onlyActive = true, onlyNotEmpty = false, size = 4000, start = 0, sort = 'position:asc', includeFields = config.entities.optimize ? config.entities.category.includeFields : null, excludeFields = config.entities.optimize ? config.entities.category.excludeFields : null, skipCache = false, updateState = true }) {
     const commit = context.commit
-
     let customizedQuery = false // that means the parameteres are != defaults; with defaults parameter the data could be get from window.__INITIAL_STATE__ - this is optimisation trick
     let searchQuery = new SearchQuery()
     if (parent && typeof parent !== 'undefined') {
-      searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': typeof parent === 'object' ? parent.id : parent }})
+      searchQuery = searchQuery.applyFilter({key: 'parent_id', value: { 'eq': typeof parent === 'object' ? parent.id : parent }})
       customizedQuery = true
     }
-
     if (level !== null) {
       searchQuery = searchQuery.applyFilter({key: 'level', value: {'eq': level}})
-      if (level !== rootStore.state.config.entities.category.categoriesDynamicPrefetchLevel) // if this is the default level we're getting the results from window.__INITIAL_STATE__ not querying the server
-      customizedQuery = true
+      if (level !== config.entities.category.categoriesDynamicPrefetchLevel && !isServer) { // if this is the default level we're getting the results from window.__INITIAL_STATE__ not querying the server
+        customizedQuery = true
+      }
     }
 
     if (key !== null) {
-      searchQuery = searchQuery.applyFilter({key: key, value: {'eq': value}})
+      if (Array.isArray(value)) {
+        searchQuery = searchQuery.applyFilter({key: key, value: {'in': value}})
+      } else {
+        searchQuery = searchQuery.applyFilter({key: key, value: {'eq': value}})
+      }
       customizedQuery = true
     }
 
@@ -62,15 +66,32 @@ const actions: ActionTree<CategoryState, RootState> = {
       customizedQuery = true
     }
     if (skipCache || ((!context.state.list || context.state.list.length === 0) || customizedQuery)) {
-    return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields }).then((resp) => {
-      commit(types.CATEGORY_UPD_CATEGORIES, Object.assign(resp, { includeFields, excludeFields }))
-      Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
-      return resp
-    })
+      return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields }).then((resp) => {
+        for (let category of resp.items) {
+          if (category.url_path && updateState) {
+            rootStore.dispatch('url/registerMapping', {
+              url: category.url_path,
+              routeData: {
+                params: {
+                  'slug': category.slug
+                },
+                'name': 'category'
+              }
+            }, { root: true })
+          }
+        }
+        if (updateState) {
+          commit(types.CATEGORY_UPD_CATEGORIES, Object.assign(resp, { includeFields, excludeFields }))
+          Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
+        }
+        return resp
+      })
     } else {
       return new Promise((resolve, reject) => {
         let resp = { items: context.state.list, total: context.state.list.length }
-        Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
+        if (updateState) {
+          Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
+        }
         resolve(resp)
       })
     }
@@ -84,28 +105,26 @@ const actions: ActionTree<CategoryState, RootState> = {
    * @param {String} value
    * @param {Bool} setCurrentCategory default=true and means that state.current_category is set to the one loaded
    */
-  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true,  populateRequestCacheTags = true, skipCache = false }) {
+  single (context, { key, value, setCurrentCategory = true, setCurrentCategoryPath = true, populateRequestCacheTags = true, skipCache = false }) {
     const state = context.state
     const commit = context.commit
     const dispatch = context.dispatch
 
     return new Promise((resolve, reject) => {
       const fetchCat = ({ key, value }) => {
-        if (key !== 'id' || value >= rootStore.state.config.entities.category.categoriesRootCategorylId/* root category */) {
+        if (key !== 'id' || value >= config.entities.category.categoriesRootCategorylId/* root category */) {
           context.dispatch('list', { key: key, value: value }).then(res => {
             if (res && res.items && res.items.length) {
-              setcat(null, res.items[0])
+              setcat(null, res.items[0]) // eslint-disable-line @typescript-eslint/no-use-before-define
             } else {
               reject(new Error('Category query returned empty result ' + key + ' = ' + value))
             }
           }).catch(reject)
         } else {
           reject(new Error('Category query returned empty result ' + key + ' = ' + value))
-          return
         }
       }
       let setcat = (error, mainCategory) => {
-
         if (!mainCategory) {
           fetchCat({ key, value })
           return
@@ -127,7 +146,7 @@ const actions: ActionTree<CategoryState, RootState> = {
             if (!category) {
               return
             }
-            if (category.parent_id >= rootStore.state.config.entities.category.categoriesRootCategorylId) {
+            if (category.parent_id >= config.entities.category.categoriesRootCategorylId) {
               dispatch('single', { key: 'id', value: category.parent_id, setCurrentCategory: false, setCurrentCategoryPath: false }).then((sc) => { // TODO: move it to the server side for one requests OR cache in indexedDb
                 if (!sc) {
                   commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
@@ -164,13 +183,13 @@ const actions: ActionTree<CategoryState, RootState> = {
       if (state.list.length > 0 && !skipCache) { // SSR - there were some issues with using localForage, so it's the reason to use local state instead, when possible
         let category = state.list.find((itm) => { return itm[key] === value })
         // Check if category exists in the store OR we have recursively reached Default category (id=1)
-        if (category && value >= rootStore.state.config.entities.category.categoriesRootCategorylId/** root category parent */) {
+        if (category && value >= config.entities.category.categoriesRootCategorylId/** root category parent */) {
           foundInLocalCache = true
           setcat(null, category)
         }
       }
       if (!foundInLocalCache) {
-        if (skipCache || Vue.prototype.$isServer) {
+        if (skipCache || isServer) {
           fetchCat({ key, value })
         } else {
           const catCollection = Vue.prototype.$db.categoriesCollection
@@ -183,7 +202,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Filter category products
    */
-  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false }) {
+  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false, cacheOnly = false }) {
     context.dispatch('setSearchOptions', {
       populateAggregations,
       filters,
@@ -197,9 +216,9 @@ const actions: ActionTree<CategoryState, RootState> = {
     })
 
     let prefetchGroupProducts = true
-    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !Vue.prototype.$isServer && !rootStore.state.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
-      includeFields = rootStore.state.config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
-      excludeFields = rootStore.state.config.entities.productListWithChildren.excludeFields
+    if (config.entities.twoStageCaching && config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled) { // only client side, only when two stage caching enabled
+      includeFields = config.entities.productListWithChildren.includeFields // we need configurable_children for filters to work
+      excludeFields = config.entities.productListWithChildren.excludeFields
       prefetchGroupProducts = false
       Logger.log('Using two stage caching for performance optimization - executing first stage product pre-fetching')()
     } else {
@@ -209,6 +228,11 @@ const actions: ActionTree<CategoryState, RootState> = {
       } else {
         Logger.log('Two stage caching is disabled by the config')()
       }
+    }
+    if (cacheOnly) {
+      excludeFields = null
+      includeFields = null
+      Logger.log('Caching request only, no state update')()
     }
     let t0 = new Date().getTime()
 
@@ -222,7 +246,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       configuration: configuration,
       append: append,
       sort: sort,
-      updateState: true,
+      updateState: !cacheOnly,
       prefetchGroupProducts: prefetchGroupProducts
     }).then((res) => {
       let t1 = new Date().getTime()
@@ -240,12 +264,12 @@ const actions: ActionTree<CategoryState, RootState> = {
         // rootStore.state.category.filters = { color: [], size: [], price: [] }
         return []
       } else {
-        if (rootStore.state.config.products.filterUnavailableVariants && rootStore.state.config.products.configurableChildrenStockPrefetchStatic) { // prefetch the stock items
+        if (config.products.filterUnavailableVariants && config.products.configurableChildrenStockPrefetchStatic) { // prefetch the stock items
           const skus = []
           let prefetchIndex = 0
           res.items.map(i => {
-            if (rootStore.state.config.products.configurableChildrenStockPrefetchStaticPrefetchCount > 0) {
-              if (prefetchIndex > rootStore.state.config.products.configurableChildrenStockPrefetchStaticPrefetchCount) return
+            if (config.products.configurableChildrenStockPrefetchStaticPrefetchCount > 0) {
+              if (prefetchIndex > config.products.configurableChildrenStockPrefetchStaticPrefetchCount) return
             }
             skus.push(i.sku) // main product sku to be checked anyway
             if (i.type_id === 'configurable' && i.configurable_children && i.configurable_children.length > 0) {
@@ -322,7 +346,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       })
     })
 
-    if (rootStore.state.config.entities.twoStageCaching && rootStore.state.config.entities.optimize && !Vue.prototype.$isServer && !rootStore.state.twoStageCachingDisabled) { // second stage - request for caching entities
+    if (config.entities.twoStageCaching && config.entities.optimize && !isServer && !rootStore.state.twoStageCachingDisabled && !cacheOnly) { // second stage - request for caching entities; if cacheOnly set - the caching took place with the stage1 request!
       Logger.log('Using two stage caching for performance optimization - executing second stage product caching', 'category') // TODO: in this case we can pre-fetch products in advance getting more products than set by pageSize()
       rootStore.dispatch('product/list', {
         query: precachedQuery,
@@ -330,7 +354,10 @@ const actions: ActionTree<CategoryState, RootState> = {
         size: perPage,
         excludeFields: null,
         includeFields: null,
-        updateState: false // not update the product listing - this request is only for caching
+        configuration: configuration,
+        sort: sort,
+        updateState: false, // not update the product listing - this request is only for caching
+        prefetchGroupProducts: prefetchGroupProducts
       }).catch((err) => {
         Logger.info("Problem with second stage caching - couldn't store the data", 'category')()
         Logger.info(err, 'category')()
@@ -347,7 +374,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     return productPromise
   },
   addAvailableFilter ({commit}, {key, options} = {}) {
-    if(key) commit(types.CATEGORY_ADD_AVAILABLE_FILTER, {key, options})
+    if (key) commit(types.CATEGORY_ADD_AVAILABLE_FILTER, {key, options})
   },
   resetFilters (context) {
     context.commit(types.CATEGORY_REMOVE_FILTERS)

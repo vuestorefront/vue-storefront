@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
-import { entityKeyName } from '@vue-storefront/store/lib/entities'
+import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
 import TaxState from '../../types/TaxState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 

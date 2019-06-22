@@ -5,8 +5,8 @@
         <section class="row m0 between-xs">
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
+              :offline="image"
               :gallery="gallery"
-              :offline="offlineImage"
               :configuration="configuration"
               :product="product"
             />
@@ -19,14 +19,16 @@
             />
             <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
-              <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share"/>
+              <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share" />
             </h1>
-            <div class="mb20 uppercase cl-secondary">
-              sku: {{ product.sku }}
+            <div class="mb20 uppercase cl-secondary" itemprop="sku" :content="product.sku">
+              {{ $t('SKU') }}: {{ product.sku }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
               <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
+              <meta itemprop="availability" :content="structuredData.availability">
+              <meta itemprop="url" :content="product.url_path">
               <div
                 class="mb40 price serif"
                 v-if="product.type_id !== 'grouped'"
@@ -46,7 +48,7 @@
                   class="h2 cl-mine-shaft weight-700"
                   v-if="!product.special_price && product.priceInclTax"
                 >
-                  {{ product.priceInclTax * product.qty | price }}
+                  {{ product.qty > 0 ? product.priceInclTax * product.qty : product.priceInclTax | price }}
                 </div>
               </div>
               <div
@@ -109,9 +111,9 @@
                         v-focus-clean
                       />
                     </div>
-                    <router-link
-                      to="/size-guide"
+                    <span
                       v-if="option.label == 'Size'"
+                      @click="openSizeGuide"
                       class="
                         p0 ml30 inline-flex middle-xs no-underline h5
                         action size-guide pointer cl-secondary
@@ -121,7 +123,7 @@
                       <span>
                         {{ $t('Size guide') }}
                       </span>
-                    </router-link>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -138,22 +140,24 @@
               v-else-if="product.custom_options && product.custom_options.length > 0 && !loading"
               :product="product"
             />
-            <div class="row m0 mb15" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
-              <div>
-                <label class="qty-label flex" for="quantity">{{ $t('Quantity') }}</label>
-                <input
-                  type="number"
-                  min="0"
-                  class="m0 no-outline qty-input py10 brdr-cl-primary bg-cl-transparent h4"
-                  id="quantity"
-                  focus
-                  v-model="product.qty"
-                >
-              </div>
+            <div class="row m0 mb35" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
+              <base-input-number
+                :name="$t('Quantity')"
+                v-model="product.qty"
+                :min="1"
+                @blur="$v.$touch()"
+                :validations="[
+                  {
+                    condition: $v.product.qty.$error && !$v.product.qty.minValue,
+                    text: $t('Quantity must be above 0')
+                  }
+                ]"
+              />
             </div>
             <div class="row m0">
               <add-to-cart
                 :product="product"
+                :disabled="$v.product.qty.$error && !$v.product.qty.minValue"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -219,17 +223,19 @@
         </div>
       </div>
     </section>
-    <reviews v-show="OnlineOnly"/>
+    <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
     <related-products
       type="upsell"
       :heading="$t('We found other products you might like')"
     />
     <promoted-offers single-banner />
     <related-products type="related" />
+    <SizeGuide />
   </div>
 </template>
 
 <script>
+import { minValue } from 'vuelidate/lib/validators'
 import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
@@ -240,7 +246,6 @@ import ColorSelector from 'theme/components/core/ColorSelector.vue'
 import SizeSelector from 'theme/components/core/SizeSelector.vue'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
-import ProductTile from 'theme/components/core/ProductTile.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
@@ -248,6 +253,9 @@ import ProductGallery from 'theme/components/core/ProductGallery'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
+import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
+
 export default {
   components: {
     'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
@@ -260,12 +268,13 @@ export default {
     ProductCustomOptions,
     ProductGallery,
     ProductLinks,
-    ProductTile,
     PromotedOffers,
     RelatedProducts,
     Reviews,
     SizeSelector,
-    WebShare
+    WebShare,
+    BaseInputNumber,
+    SizeGuide
   },
   mixins: [Product, VueOfflineMixin],
   data () {
@@ -274,6 +283,13 @@ export default {
     }
   },
   directives: { focusClean },
+  computed: {
+    structuredData () {
+      return {
+        availability: (this.product.stock.is_in_stock) ? 'InStock' : 'OutOfStock'
+      }
+    }
+  },
   methods: {
     showDetails (event) {
       this.detailsOpen = true
@@ -292,6 +308,16 @@ export default {
         message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
         action1: { label: this.$t('OK') }
       })
+    },
+    openSizeGuide () {
+      this.$bus.$emit('modal-show', 'modal-sizeguide')
+    }
+  },
+  validations: {
+    product: {
+      qty: {
+        minValue: minValue(1)
+      }
     }
   }
 }
@@ -463,18 +489,6 @@ $bg-secondary: color(secondary, $colors-background);
 .product-image {
   mix-blend-mode: multiply;
   width: 460px;
-}
-
-.qty-input {
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  width: 90px;
-}
-
-.qty-label {
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 14px;
 }
 
 .web-share {

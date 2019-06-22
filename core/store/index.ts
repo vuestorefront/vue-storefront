@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
+import { once } from '@vue-storefront/core/helpers'
 
-Vue.use(Vuex)
+once('__VUE_EXTEND_VUEX__', () => {
+  Vue.use(Vuex)
+})
 
 const state = {
   version: '',
@@ -16,6 +19,7 @@ const state = {
   shipping: {},
   user: {},
   ui: {},
+  newsletter: {},
   wishlist: {},
   attribute: '',
   category: {
@@ -40,7 +44,7 @@ const state = {
 }
 
 let rootStore = new Vuex.Store<RootState>({
-  // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
+  // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenanigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
   state
 })
 

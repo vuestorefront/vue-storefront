@@ -18,7 +18,13 @@ module.exports = {
     ],
     sidebar: {
       '/guide/': [
-        '',
+      	{
+          title : 'General Information',
+          collapsible: false,
+          children: [
+            'general/introduction'
+          ]
+	      },
         'upgrade-notes/',
         {
           title: 'Installation',
@@ -34,6 +40,7 @@ module.exports = {
           title: 'Basics',
           collapsable: false,
           children: [
+            'basics/release-cycle',
             'basics/project-structure',
             'basics/configuration',
             'basics/contributing',
@@ -43,7 +50,8 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
-            'basics/e2e'
+            'basics/e2e',
+            'basics/url'
           ],
         },
         {
@@ -93,6 +101,7 @@ module.exports = {
             'extensions/introduction',
             'extensions/extending-api',
             'extensions/extending-server-side-routes',
+            'extensions/extensions-to-modify-results'
           ],
         },
         {
@@ -117,6 +126,7 @@ module.exports = {
             'modules/user',
             'modules/checkout',
             'modules/order',
+            //'modules/review'
           ],
         },
         {

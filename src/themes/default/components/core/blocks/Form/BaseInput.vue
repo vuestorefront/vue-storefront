@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative base-input">
     <div class="relative">
       <input
         class="
@@ -33,33 +33,23 @@
     >
       {{ icon }}
     </button>
-    <template v-if="validation">
-      <span class="block cl-error h6 mt8" v-if="validation.condition">
-        {{ validation.text }}
-      </span>
-    </template>
-    <template v-else-if="validations">
-      <span
-        v-for="(validation, index) in validations"
-        :key="index"
-        v-if="validation.condition"
-        class="block cl-error h6 mt8"
-        data-testid="errorMessage"
-      >
-        {{ validation.text }}
-      </span>
-    </template>
+    <ValidationMessages v-if="validations" :validations="validations" />
   </div>
 </template>
 
 <script>
+import ValidationMessages from './ValidationMessages.vue'
+
 export default {
   name: 'BaseInput',
+  components: {
+    ValidationMessages
+  },
   data () {
     return {
       passType: 'password',
       iconActive: false,
-      icon: 'visibility'
+      icon: 'visibility_off'
     }
   },
   props: {
@@ -96,14 +86,8 @@ export default {
       required: false,
       default: false
     },
-    validation: {
-      type: Object,
-      required: false,
-      default: () => { }
-    },
     validations: {
       type: Array,
-      required: false,
       default: () => []
     }
   },
@@ -111,10 +95,10 @@ export default {
     togglePassType () {
       if (this.passType === 'password') {
         this.passType = 'text'
-        this.icon = 'visibility_off'
+        this.icon = 'visibility'
       } else {
         this.passType = 'password'
-        this.icon = 'visibility'
+        this.icon = 'visibility_off'
       }
     },
     // setFocus sets focus on a field which has a value of 'ref' tag equal to fieldName
@@ -144,6 +128,10 @@ export default {
   $color-black: color(black);
   $color-puerto-rico: color(puerto-rico);
   $color-hover: color(tertiary, $colors-background);
+
+  .base-input {
+    min-height: 4.5rem;
+  }
 
   input {
     background: inherit;

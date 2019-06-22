@@ -2,16 +2,16 @@
 
 Vue storefront uses two primary data sources:
 
-1. IndexedDb/WebSQL data store in the browser - using [localForage](https://github.com/localForage/localForage)
-2. Server data source via [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api) - which API is compliant with ElasticSearch (regarding product catalog)
+1. IndexedDb/WebSQL data store in the browser using [localForage](https://github.com/localForage/localForage)
+2. Server data source via [vue-storefront-api](https://github.com/DivanteLtd/vue-storefront-api), which is compliant with Elasticsearch (regarding product catalog).
 
 ## Local data store
 
-You can access localForage repositories thru `Vue.prototype.$db` object anywhere in the code BUT all data-related operations SHOULD be placed in Vuex stores.
+You can access localForage repositories through the `Vue.prototype.$db` object anywhere in the code, BUT all data-related operations SHOULD be placed in Vuex stores.
 
 Details on localForage API can be found [here](http://localforage.github.io/localForage/)
 
-We basically have following data stores accessible in the browser (`/core/store/index.ts`):
+We basically have the following data stores accessible in the browser (`/core/store/index.ts`):
 
 ```js
 Vue.prototype.$db = {
@@ -107,7 +107,7 @@ Here you have an example on how the Vuex store should be constructed. Please not
 
 ```js
 import * as types from '../mutation-types';
-import { ValidationError } from '@vue-storefront/store/lib/exceptions';
+import { ValidationError } from '@vue-storefront/core/store/lib/exceptions';
 import * as entities from '../../lib/entities';
 import * as sw from '@vue-storefront/core/lib/sw';
 import config from '../../config';
@@ -191,7 +191,7 @@ export default {
 
 ## Data formats & validation
 
-Data formats for vue-storefront and vue-storefront-api are the same JSON files. There is [Ajv validator](https://github.com/epoberezkin/ajv) used for the validation.
+Data formats for vue-storefront and vue-storefront-api are the same JSON files. There is [Ajv validator](https://github.com/epoberezkin/ajv) issied for the validation.
 
 The convention is that schemas are stored under `/core/store/modules/<module-name>/<model-name>.schema.json` - for example [Order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/modules/order/order.schema.json).
 
@@ -226,7 +226,7 @@ Validation errors format:
 
 ### Orders
 
-`Orders` repository stores all orders transmitted and _to be transmitted_ (aka order queue) used by service worker.
+`Orders` repository stores all orders transmitted and to be transmitted (aka order queue) used by the Service Worker.
 
 ![Orders data format as seen on Developers Tools](../images/orders-localstorage.png)
 
@@ -296,11 +296,11 @@ Here you have a [validation schema for order](https://github.com/DivanteLtd/vue-
 
 ### Categories
 
-`Categories` is a hash organized by category 'slug' (for example for category with name = 'Example category', slug is 'example-category')
+`Categories` is a hash organized by category 'slug' (for example, for the category with name = 'Example category', the slug is 'example-category').
 
 ![Categories data format as seen on Developers Tools](../images/categories-localstorage.png)
 
-If category do have any child categories - you have an access to them via `children_data` property.
+If the category has any child categories, you have access to them via the `children_data` property.
 
 ```json
 {
@@ -339,8 +339,7 @@ If category do have any child categories - you have an access to them via `child
 
 ### Carts
 
-`Carts` is a store for a shopping cart with a default key `current-cart` representing a current shopping cart.
-Cart object is an array consisting of Products with an additional field `qty` in case when 2+ items are ordered.
+`Carts` is a store for a shopping cart with a default key `current-cart` representing a current shopping cart. Cart object is an array consisting of products with an additional field `qty` in the case when two or more items are ordered.
 
 ![Carts data format as seen on Developers Tools](../images/cart-localstorage.png)
 

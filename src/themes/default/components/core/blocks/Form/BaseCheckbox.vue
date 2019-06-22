@@ -9,31 +9,32 @@
         @keyup.enter="$emit('click')"
         @click="$emit('click')"
         @blur="$emit('blur')"
-        @change="$emit('change')"
+        @change="$emit('change', $event.target.checked)"
         :disabled="disabled"
       >
       <label
         class="pl35 lh30 h4 pointer"
         :for="id"
       >
-        <slot/>
+        <slot />
       </label>
     </div>
-    <template v-if="validation">
-      <span
-        class="block cl-error h6"
-        v-if="validation.condition"
-        data-testid="errorMessage"
-      >
-        {{ validation.text }}
-      </span>
-    </template>
+    <ValidationMessages v-if="validations" :validations="validations" />
   </div>
 </template>
 
 <script>
+import ValidationMessages from './ValidationMessages.vue'
+
 export default {
   name: 'BaseCheckbox',
+  components: {
+    ValidationMessages
+  },
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
   props: {
     id: {
       type: String,
@@ -43,10 +44,9 @@ export default {
       type: Boolean,
       required: true
     },
-    validation: {
-      type: Object,
-      required: false,
-      default: () => { }
+    validations: {
+      type: Array,
+      default: () => []
     },
     disabled: {
       type: Boolean,

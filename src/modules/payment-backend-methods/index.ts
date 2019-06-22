@@ -1,4 +1,4 @@
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
+import { createModule } from '@vue-storefront/core/lib/module'
 import { afterRegistration } from './hooks/afterRegistration'
 import * as types from './store/mutation-types'
 
@@ -8,18 +8,15 @@ const store = {
     methods: null
   },
   mutations: {
-     [types.SET_BACKEND_PAYMENT_METHODS](state, paymentMethods) {
+    [types.SET_BACKEND_PAYMENT_METHODS] (state, paymentMethods) {
       state.methods = paymentMethods
     }
   }
 }
 
 const KEY = 'payment-backend-methods'
-
-const moduleConfig: VueStorefrontModuleConfig = {
+export const PaymentBackendMethods = createModule({
   key: KEY,
   store: { modules: [{ key: KEY, module: store }] },
   afterRegistration
-}
-
-export const PaymentBackendMethods = new VueStorefrontModule(moduleConfig)
+})

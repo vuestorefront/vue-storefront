@@ -1,43 +1,23 @@
 # Working with plugins
 
-In Vue Storefront there are two types of plugins:
+If you want to register a Vue plugin in Vue Storefront, the right place to do this is your theme entry `{theme}/index.js`.
 
-- **Core plugins** - placed in `core/plugins` and available for any theme and extension. You shouldn't modify these plugins as they are part of upgradable core.
-- **Theme plugins** - placed in `src/{theme}/plugins` and available only for specific theme
+````js
+// {theme}/index.js
+import SomePlugin from 'some-plugin'
 
-Each of these plugins works and is registered like a normal Vue.js plugin. You can read about them [here](https://vuejs.org/v2/guide/plugins.html)
+Vue.use(SomePlugin)
+````
 
-## Core plugins
+## Dealing with server-side code
 
-Core plugins are exported in `core/plugins/index.js` file as JavaScript objects
+Vue Storefront code is actually executed two times: once on the server side to generate an SSR page and then once on the client side. A majority of Vue plugins are ui-specific and rely on the `window` object that doesn't exist on the server side.
 
-```js
-export { EventBusPlugin, ConfigPlugin };
-```
+To make sure your plugin is registered only on the client side, you can use `isServer` helper.
 
-and then registered in `core/app.js`
+````js
+import { isServer } from '@vue-storefront/core/helpers'
+import SomePlugin from 'some-plugin'
 
-```js
-Object.keys(pluginsObject).forEach(function(key) {
-  Vue.use(pluginsObject[key]);
-});
-```
-
-Currently there are two core plugins:
-
-- **config** - This plugin is responsible for easy access to your storefront config. It can be accessed via `this.$config` alias
-- **event-bus** - Global Event Bus that can be used in any place of the application via `this.$bus` alias. It also provides some functionalities for intercepting and modifying core events.
-
-## Theme plugins
-
-It's a good practice to register theme plugins under `{theme}/plugins` folder.
-
-```js
-import Vuetify from 'vuetify';
-// import other plugins
-
-Vue.use(Vuetify);
-// other plugins
-```
-
-If you want to make a custom plugin for your theme, you should create a directory for it in `src/{theme}/plugins` (eg. `src/{theme}/plugins/custom_plugin`) and register it in `src/{theme}/plugins/index.js` like a 3rd party plugin in example above.
+if (!isServer ) Vue.use(SomePlugin)
+````
