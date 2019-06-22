@@ -1,21 +1,21 @@
-import { Category } from "core/modules/catalog-next/types/Category";
+import { Category } from 'core/modules/catalog-next/types/Category';
 
 declare namespace DataResolver {
 
   interface CategorySearchOptions {
     parentId?: number,
-    filters?: Map<string, Array<string> | string>,
+    filters?: Map<string, string[] | string>,
     level?: number,
-    onlyActive?: Boolean,
-    onlyNotEmpty?: Boolean,
+    onlyActive?: boolean,
+    onlyNotEmpty?: boolean,
     size?: number,
     start?: number,
     sort?: string,
-    includeFields?: Array<string>, 
-    excludeFields?: Array<string>
+    includeFields?: string[],
+    excludeFields?: string[]
   }
 
   interface CategoryService {
-    getCategories: (searchRequest?: CategorySearchOptions) => Promise<Array<Category>>
+    getCategories: (searchRequest?: CategorySearchOptions) => Promise<Category[]>
   }
 }

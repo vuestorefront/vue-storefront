@@ -15,7 +15,7 @@ const getCategories = async ({
   sort = 'position:asc',
   includeFields = config.entities.optimize ? config.entities.category.includeFields : null,
   excludeFields = config.entities.optimize ? config.entities.category.excludeFields : null
-}: DataResolver.CategorySearchOptions = {}): Promise<Array<Category>> => {
+}: DataResolver.CategorySearchOptions = {}): Promise<Category[]> => {
   let searchQuery = new SearchQuery()
   if (parentId) {
     searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': parentId}})
@@ -40,9 +40,9 @@ const getCategories = async ({
     searchQuery = searchQuery.applyFilter({key: 'product_count', value: {'gt': 0}})
   }
   const response = await quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields })
-  return response.items as Array<Category>
+  return response.items as Category[]
 }
 
-export const CategoryService:DataResolver.CategoryService = {
+export const CategoryService: DataResolver.CategoryService = {
   getCategories
 }
