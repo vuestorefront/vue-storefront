@@ -8,9 +8,10 @@ import { optionLabel } from '../../helpers/optionLabel'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
 import { getFiltersFromQuery } from '../../helpers/filterHelpers'
+import { Category } from '../../types/Category';
 
 const getters: GetterTree<CategoryState, RootState> = {
-  getCategories: (state) => state.categories || [],
+  getCategories: (state): Category[] => Object.values(state.categoriesMap),
   getCategoryProducts: (state) => state.products,
   getCategoryFrom: (state, getters) => (path: string = '') => {
     return getters.getCategories.find(category => path.includes(category.url_path)) || {}

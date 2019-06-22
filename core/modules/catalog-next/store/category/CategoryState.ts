@@ -1,5 +1,7 @@
+import { Category } from '../../types/Category';
+
 export default interface CategoryState {
-  categories: any,
+  categoriesMap: { [id: string]: Category },
   availableFilters: any,
   products: any
 }

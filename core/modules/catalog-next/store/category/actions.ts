@@ -11,21 +11,12 @@ import { CategoryService } from '@vue-storefront/core/data-resolver'
 import { changeFilterQuery } from '../../helpers/filterHelpers'
 import { products } from 'config'
 import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
+import { DataResolver } from 'core/data-resolver/types/DataResolver';
+import { Category } from '../../types/Category';
 
 const actions: ActionTree<CategoryState, RootState> = {
-  /**
-   * Initialise category module.
-   * - gets available categories
-   * - gets available filters for current category
-   */
-  async initCategoryModule ({ getters, dispatch }) {
-    if (!getters.getCategories.length) {
-      await dispatch('loadCategories')
-    }
-  },
-  async loadCategoryProducts ({ commit, getters, dispatch }, { route } = {}) {
-    await dispatch('initCategoryModule')
-    const searchCategory = getters.getCategoryFrom(route.path)
+  async loadCategoryProducts ({ commit, getters, dispatch }, { route, category } = {}) {
+    const searchCategory = category || getters.getCategoryFrom(route.path)
     await dispatch('loadCategoryFilters', searchCategory)
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
@@ -57,10 +48,16 @@ const actions: ActionTree<CategoryState, RootState> = {
   async findCategories () {
     return CategoryService.getCategories()
   },
-  async loadCategories ({ commit }) {
-    const categories = await CategoryService.getCategories()
-    commit(types.CATEGORY_SET_CATEGORIES, categories)
+  async loadCategories ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
+    const categories = await CategoryService.getCategories(categorySearchOptions)
+    commit(types.CATEGORY_ADD_CATEGORIES, categories)
     return categories
+  },
+  async loadCategory ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category> {
+    const categories: Category[] = await CategoryService.getCategories(categorySearchOptions)
+    const category: Category = categories && categories.length ? categories[0] : null
+    commit(types.CATEGORY_ADD_CATEGORY, category)
+    return category
   },
   /**
    * Fetch and process filters from current category and sets them in available filters.

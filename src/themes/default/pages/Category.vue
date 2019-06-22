@@ -119,8 +119,15 @@ export default {
         filterValues: config.products.defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
       })
-      //   // const category = await store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
-      await store.dispatch('category-next/loadCategoryProducts', {route})
+      const categoryFilters = new Map()
+      if (store.state.config.products.useMagentoUrlKeys) {
+        const searchPath = route.path.substring(1) // TODO change in mage2vuestorefront to url_paths starts with / sign
+        categoryFilters.set('url_path', searchPath)
+      } else {
+        categoryFilters.set('slug', route.params.slug)
+      }
+      const currentCategory = await store.dispatch('category-next/loadCategory', {filters: categoryFilters})
+      await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
     } catch (e) {
       console.error('Problem with Category asyncData', e)
     }

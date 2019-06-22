@@ -8,7 +8,7 @@ import CategoryState from './CategoryState'
 export const categoryModule: Module<CategoryState, RootState> = {
   namespaced: true,
   state: {
-    categories: [],
+    categoriesMap: {},
     availableFilters: {},
     products: []
   },

@@ -1,5 +1,6 @@
 export interface ChildrenData {
-  id: number
+  id: number,
+  children_data?: ChildrenData[]
 }
 
 export interface Category {
