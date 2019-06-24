@@ -15,14 +15,14 @@ import { DataResolver } from 'core/data-resolver/types/DataResolver';
 import { Category } from '../../types/Category';
 
 const actions: ActionTree<CategoryState, RootState> = {
-  async loadCategoryProducts ({ commit, getters, dispatch }, { route, category } = {}) {
+  async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category } = {}) {
     const searchCategory = category || getters.getCategoryFrom(route.path)
     await dispatch('loadCategoryFilters', searchCategory)
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
     const searchResult = await quickSearchByQuery({ query: filterQr, sort: searchQuery.sort })
     let configuredProducts = searchResult.items.map(product => {
-      const configuredProductVariant = configureProductAsync({}, {product, configuration: searchQuery.filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
+      const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: searchQuery.filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
       return Object.assign(product, configuredProductVariant)
     })
     commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
@@ -83,7 +83,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     router.push({[products.routerFiltersSource]: query})
   },
   async loadCategoryBreadcrumbs ({ dispatch }, category: Category) {
-    let parentCategory:Category = null
+    let parentCategory: Category = null
     while (!parentCategory || parentCategory.level > 1) {
       const categoryFilters = new Map()
       const parentId = parentCategory ? parentCategory.parent_id : category.parent_id
