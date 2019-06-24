@@ -81,6 +81,16 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async changeRouterFilterParameters (context, query) {
     router.push({[products.routerFiltersSource]: query})
+  },
+  async loadCategoryBreadcrumbs ({ dispatch }, category: Category) {
+    let parentCategory:Category = null
+    while (!parentCategory || parentCategory.level > 1) {
+      const categoryFilters = new Map()
+      const parentId = parentCategory ? parentCategory.parent_id : category.parent_id
+      categoryFilters.set('id', parentId)
+      parentCategory = await dispatch('loadCategory', {filters: categoryFilters})
+      if (!parentCategory) break
+    }
   }
 }
 

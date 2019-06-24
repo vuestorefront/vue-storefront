@@ -124,6 +124,7 @@ export default {
       // categoryFilters.set('slug', route.params.slug) // If you have disabled config.products.useMagentoUrlKeys in your project then use this way
       const currentCategory = await store.dispatch('category-next/loadCategory', {filters: categoryFilters})
       await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
+      await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
     } catch (e) {
       console.error('Problem with Category asyncData', e)
     }
@@ -137,13 +138,6 @@ export default {
     },
     closeFilters () {
       this.mobileFilters = false
-    },
-    notify () {
-      this.$store.dispatch('notification/spawnNotification', {
-        type: 'error',
-        message: this.$t('Please select the field which You like to sort by'),
-        action1: { label: this.$t('OK') }
-      })
     },
     async changeFilter (filterVariant) {
       this.$store.dispatch('category-next/switchSearchFilter', filterVariant)
