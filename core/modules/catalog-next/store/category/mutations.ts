@@ -25,6 +25,9 @@ const mutations: MutationTree<CategoryState> = {
   },
   [types.CATEGORY_SET_AVAILABLE_FILTERS] (state, availableFilters = {}) {
     state.availableFilters = availableFilters
+  },
+  [types.CATEGORY_SET_HIERARCHY_MAP] (state, hierarchyMap = {}) {
+    state.categoriesHierarchyIds = hierarchyMap
   }
 }
 

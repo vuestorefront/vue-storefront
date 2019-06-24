@@ -10,7 +10,8 @@ export const categoryModule: Module<CategoryState, RootState> = {
   state: {
     categoriesMap: {},
     availableFilters: {},
-    products: []
+    products: [],
+    categoriesHierarchyIds: []
   },
   getters,
   actions,

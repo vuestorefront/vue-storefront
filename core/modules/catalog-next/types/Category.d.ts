@@ -4,7 +4,7 @@ export interface ChildrenData {
 }
 
 export interface Category {
-  path: string,
+  path?: string,
   is_active: boolean,
   level: number,
   product_count: number,

@@ -91,7 +91,8 @@ const getters: GetterTree<CategoryState, RootState> = {
   getBreadcrumbs: (state, getters) => {
     if (!getters.getCurrentCategory) return []
     return calculateBreadcrumbs(getters.getCategories, getters.getCurrentCategory.id)
-  }
+  },
+  getCategoriesHierarchyIdsMap: state => state.categoriesHierarchyIds
 }
 
 export default getters

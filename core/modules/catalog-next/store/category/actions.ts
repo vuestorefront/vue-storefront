@@ -13,6 +13,7 @@ import { products } from 'config'
 import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 import { DataResolver } from 'core/data-resolver/types/DataResolver';
 import { Category } from '../../types/Category';
+import { _prepareCategoryMaps } from '../../helpers/categoryHelpers';
 
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category } = {}) {
@@ -82,14 +83,24 @@ const actions: ActionTree<CategoryState, RootState> = {
   async changeRouterFilterParameters (context, query) {
     router.push({[products.routerFiltersSource]: query})
   },
-  async loadCategoryBreadcrumbs ({ dispatch }, category: Category) {
-    let parentCategory: Category = null
-    while (!parentCategory || parentCategory.level > 1) {
-      const categoryFilters = new Map()
-      const parentId = parentCategory ? parentCategory.parent_id : category.parent_id
-      categoryFilters.set('id', parentId)
-      parentCategory = await dispatch('loadCategory', {filters: categoryFilters})
-      if (!parentCategory) break
+  async loadCategoryBreadcrumbs ({ dispatch, getters }, category: Category) {
+    const categoryFilters = new Map()
+    const categoryHierarchy = getters.getCategoriesHierarchyIdsMap.find(categoryMapping => categoryMapping.includes(category.id))
+    categoryFilters.set('id', categoryHierarchy)
+    await dispatch('loadCategories', {filters: categoryFilters})
+  },
+  /**
+   * [INTERNAL USE]
+   * Loads firstLevel category and creates map of categories hierarchy ids.
+   * This is an internalMethod invoked after module registration.
+   */
+  async _prepareCategoriesMap ({ dispatch, commit }) {
+    const categoryFilters = new Map()
+    categoryFilters.set('level', 1)
+    const parentCategory = await dispatch('loadCategory', {filters: categoryFilters})
+    if (parentCategory) {
+      const categoryBreadcrumbsMap = _prepareCategoryMaps(parentCategory)
+      commit(types.CATEGORY_SET_HIERARCHY_MAP, categoryBreadcrumbsMap)
     }
   }
 }
