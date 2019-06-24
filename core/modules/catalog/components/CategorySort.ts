@@ -20,7 +20,7 @@ export const CategorySort = {
   methods: {
     // emit to category, todo: move all logic inside
     sort () {
-      this.$emit('sortChange', this.sortby)
+      this.$emit('change', this.sortby)
       // this.$bus.$emit('list-change-sort', { attribute: this.sortby })
     }
   },

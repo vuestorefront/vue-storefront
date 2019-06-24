@@ -12,7 +12,7 @@
             <columns @change-column="columnChange" />
           </div>
           <div class="sorting col-sm-2 align-right mt50">
-            <sort-by :has-label="true" @sortChange="changeFilter" />
+            <sort-by :has-label="true" @change="changeFilter" />
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@
             {{ $t('Filters') }}
           </button>
           <div class="mobile-sorting col-xs-6 mt25">
-            <sort-by @sortChange="changeFilter" />
+            <sort-by @change="changeFilter" />
           </div>
         </div>
       </div>
@@ -113,19 +113,15 @@ export default {
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
-    console.error('ASYNC DATA CATEGORY', route)
     try {
       await store.dispatch('attribute/list', { // load filter attributes for this specific category
         filterValues: config.products.defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
       })
       const categoryFilters = new Map()
-      if (store.state.config.products.useMagentoUrlKeys) {
-        const searchPath = route.path.substring(1) // TODO change in mage2vuestorefront to url_paths starts with / sign
-        categoryFilters.set('url_path', searchPath)
-      } else {
-        categoryFilters.set('slug', route.params.slug)
-      }
+      const searchPath = route.path.substring(1) // TODO change in mage2vuestorefront to url_paths starts with / sign
+      categoryFilters.set('url_path', searchPath)
+      // categoryFilters.set('slug', route.params.slug) // If you have disabled config.products.useMagentoUrlKeys in your project then use this way
       const currentCategory = await store.dispatch('category-next/loadCategory', {filters: categoryFilters})
       await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
     } catch (e) {
