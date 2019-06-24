@@ -1,10 +1,7 @@
 <template>
   <div class="sidebar-menu fixed mw-100 bg-cl-secondary">
     <div class="row brdr-bottom-1 brdr-cl-bg-secondary">
-      <div
-        v-if="submenu.depth"
-        class="col-xs bg-cl-primary"
-      >
+      <div v-if="submenu.depth" class="col-xs bg-cl-primary">
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
       </div>
       <div class="col-xs bg-cl-primary">
@@ -23,59 +20,15 @@
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
           <li
             @click="closeMenu"
+            :key="link.id"
+            v-for="link in getMainNavigation"
             class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary"
           >
             <router-link
               class="block px25 py20 cl-accent no-underline"
-              :to="localizedRoute('/')"
-              exact
+              :to="localizedRoute(link.route)"
             >
-              {{ $t('Home') }}
-            </router-link>
-          </li>
-          <li
-            class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
-            :key="category.slug"
-            @click="closeMenu"
-            v-for="category in visibleCategories"
-          >
-            <div
-              v-if="isCurrentMenuShowed"
-              class="subcategory-item"
-            >
-              <sub-btn
-                v-if="category.children_count > 0"
-                class="bg-cl-transparent brdr-none fs-medium"
-                :id="category.id"
-                :name="category.name"
-              />
-              <router-link
-                v-else
-                class="px25 py20 cl-accent no-underline col-xs"
-                :to="localizedRoute({ name: 'category', fullPath: category.url_path, params: { id: category.id, slug: category.slug }})"
-              >
-                {{ category.name }}
-              </router-link>
-            </div>
-
-            <sub-category
-              :category-links="category.children_data"
-              :id="category.id"
-              :parent-slug="category.slug"
-              :parent-path="category.url_path"
-            />
-          </li>
-          <li
-            v-if="isCurrentMenuShowed"
-            @click="closeMenu"
-            class="bg-cl-secondary"
-          >
-            <router-link
-              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
-              :to="localizedRoute('/sale')"
-              exact
-            >
-              {{ $t('Sale') }}
+              {{ link.name }}
             </router-link>
           </li>
           <li
@@ -135,7 +88,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu'
 import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
@@ -192,13 +145,14 @@ export default {
       submenu: state => state.ui.submenu,
       currentUser: state => state.user.current
     }),
+    ...mapGetters(
+      { jsonBlockByIdentifier: 'icmaaCmsBlock/jsonBlockByIdentifier' }
+    ),
+    getMainNavigation () {
+      return this.jsonBlockByIdentifier('navigation-main')
+    },
     getSubmenu () {
       return this.submenu
-    },
-    visibleCategories () {
-      return this.categories.filter(category => {
-        return category.product_count > 0 || category.children_count > 0
-      })
     },
     isCurrentMenuShowed () {
       return !this.getSubmenu || !this.getSubmenu.depth

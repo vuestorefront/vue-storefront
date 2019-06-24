@@ -24,6 +24,8 @@ import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
 import { InstantCheckout } from './instant-checkout'
 import { OrderHistory } from './order-history'
+// ICMAA modules
+import { IcmaaCms } from './icmaa-cms'
 
 // import { Example } from './module-template'
 
@@ -76,6 +78,7 @@ export const registerModules: VueStorefrontModule[] = [
   AmpRenderer,
   InstantCheckout,
   Url,
-  OrderHistory
+  OrderHistory,
+  IcmaaCms
   // Example
 ]

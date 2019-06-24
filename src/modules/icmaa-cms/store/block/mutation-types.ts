@@ -1,0 +1,1 @@
+export const ICMAA_CMS_BLOCK_ADD_CMS_BLOCK = 'ADD_CMS_BLOCK'

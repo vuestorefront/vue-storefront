@@ -84,7 +84,7 @@ export default {
       this.$bus.$emit('modal-show', 'modal-order-confirmation')
     },
     fetchMenuData () {
-      return this.$store.dispatch('category/list', { level: this.$config.entities.category.categoriesDynamicPrefetch && this.$config.entities.category.categoriesDynamicPrefetchLevel ? this.$config.entities.category.categoriesDynamicPrefetchLevel : null, includeFields: this.$config.entities.optimize && isServer ? this.$config.entities.category.includeFields : null, skipCache: isServer })
+      return this.$store.dispatch('icmaaCmsBlock/single', { value: 'navigation-main' })
     }
   },
   serverPrefetch () {
