@@ -139,4 +139,38 @@ describe('buildFilterProductsQuery method', () => {
     expect(categoryFilter).toBeDefined()
     expect(categoryFilter.value.lte).toEqual(50)
   });
+
+  it('should build query with color and erin_recommends filters', () => {
+    const filters = {
+      color: [
+        {
+          'id': '49',
+          'label': 'Black',
+          'type': 'color',
+          'attribute_code': 'color'
+        },
+        {
+          'id': '50',
+          'label': 'Blue',
+          'type': 'color',
+          'attribute_code': 'color'
+        }
+      ],
+      erin_recommends: [
+        {
+          'id': '1',
+          'label': 'Yes',
+          'type': 'erin_recommends',
+          'attribute_code': 'erin_recommends'
+        }
+      ]
+    }
+    const result = buildFilterProductsQuery(currentCategory, filters)
+    const colorFilter = result._appliedFilters.find(filter => filter.attribute === 'color')
+    expect(colorFilter).toBeDefined()
+    expect(colorFilter.value.in).toEqual(['49', '50'])
+    const erinFilter = result._appliedFilters.find(filter => filter.attribute === 'erin_recommends')
+    expect(erinFilter).toBeDefined()
+    expect(erinFilter.value.in).toEqual(['1'])
+  });
 });
