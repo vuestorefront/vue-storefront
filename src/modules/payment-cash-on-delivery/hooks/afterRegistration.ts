@@ -1,12 +1,13 @@
 import InfoComponent from '../components/Info.vue'
 import rootStore from '@vue-storefront/core/store'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 export function afterRegistration ({ Vue, config, store, isServer }) {
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
   let correctPaymentMethod = false
   const placeOrder = () => {
     if (correctPaymentMethod) {
-      Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
+      EventBus.$emit('checkout-do-placeOrder', {})
     }
   }
 
@@ -23,10 +24,10 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
     }
     rootStore.dispatch('payment/addMethod', paymentMethodConfig)
 
-    Vue.prototype.$bus.$on('checkout-before-placeOrder', placeOrder)
+    EventBus.$on('checkout-before-placeOrder', placeOrder)
 
     // Mount the info component when required.
-    Vue.prototype.$bus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
+    EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
       let methods = store.state['payment-backend-methods'].methods
       if (methods) {
         let method = methods.find(item => (item.code === paymentMethodCode))

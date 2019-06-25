@@ -6,11 +6,12 @@ import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
 import CategoryState from '../../types/CategoryState'
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {
     state.current = category
-    Vue.prototype.$bus.$emit('category-after-current', { category: category })
+    EventBus.$emit('category-after-current', { category: category })
   },
   [types.CATEGORY_UPD_CURRENT_CATEGORY_PATH] (state, path) {
     state.current_path = path // TODO: store to cache

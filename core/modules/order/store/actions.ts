@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import * as types from './mutation-types'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { ActionTree } from 'vuex'
@@ -30,15 +30,15 @@ const actions: ActionTree<OrderState, RootState> = {
       order.store_code = storeView.storeCode
     }
 
-    Vue.prototype.$bus.$emit('order-before-placed', { order: order })
+    EventBus.$emit('order-before-placed', { order: order })
     if (!config.orders.directBackendSync || !isOnline()) {
       commit(types.ORDER_PLACE_ORDER, order)
-      Vue.prototype.$bus.$emit('order-after-placed', { order: order })
+      EventBus.$emit('order-after-placed', { order: order })
       return {
         resultCode: 200
       }
     } else {
-      Vue.prototype.$bus.$emit('notification-progress-start', i18n.t('Processing order...'))
+      EventBus.$emit('notification-progress-start', i18n.t('Processing order...'))
       try {
         const task: any = await TaskQueue.execute({ url: config.orders.endpoint, // sync the order
           payload: {
@@ -48,13 +48,13 @@ const actions: ActionTree<OrderState, RootState> = {
             body: JSON.stringify(order)
           }
         })
-        Vue.prototype.$bus.$emit('notification-progress-stop')
+        EventBus.$emit('notification-progress-stop')
 
         if (task.resultCode === 200) {
           order.transmited = true
           commit(types.ORDER_PLACE_ORDER, order) // archive this order but not trasmit it second time
           commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order: order, confirmation: task.result })
-          Vue.prototype.$bus.$emit('order-after-placed', { order: order, confirmation: task.result })
+          EventBus.$emit('order-after-placed', { order: order, confirmation: task.result })
 
           return task
         } else if (task.resultCode === 400) {
@@ -86,7 +86,7 @@ const actions: ActionTree<OrderState, RootState> = {
         order.transmited = false // enqueue order
         commit(types.ORDER_PLACE_ORDER, order) // archive this order and trasmit it next time the QUEUE is published
 
-        Vue.prototype.$bus.$emit('notification-progress-stop')
+        EventBus.$emit('notification-progress-stop')
 
         throw e
       }

@@ -5,6 +5,7 @@ import * as entities from '@vue-storefront/core/store/lib/entities'
 import OrderState from '../types/OrderState'
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const mutations: MutationTree<OrderState> = {
   /**
@@ -21,7 +22,7 @@ const mutations: MutationTree<OrderState> = {
     ordersCollection.setItem(orderId.toString(), order, (err, resp) => {
       if (err) Logger.error(err, 'order')()
       if (!order.transmited) {
-        Vue.prototype.$bus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
+        EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
       }
       Logger.info('Order placed, orderId = ' + orderId, 'order')()
     }).catch((reason) => {

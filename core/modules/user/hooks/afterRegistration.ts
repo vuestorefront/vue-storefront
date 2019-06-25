@@ -1,11 +1,11 @@
-import Vue from 'vue'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import * as types from './../store/mutation-types'
 
 export async function afterRegistration ({ Vue, config, store, isServer }) {
   if (!isServer) {
     await store.dispatch('user/startSession')
 
-    Vue.prototype.$bus.$on('user-before-logout', () => {
+    EventBus.$on('user-before-logout', () => {
       store.dispatch('user/logout', { silent: false })
       // TODO: Move it to theme
       store.commit('ui/setSubmenu', {
@@ -13,7 +13,7 @@ export async function afterRegistration ({ Vue, config, store, isServer }) {
       })
     })
 
-    Vue.prototype.$bus.$on('user-after-loggedin', receivedData => {
+    EventBus.$on('user-after-loggedin', receivedData => {
       // TODO: Make independent of checkout module
       store.dispatch('checkout/savePersonalDetails', {
         firstName: receivedData.firstname,

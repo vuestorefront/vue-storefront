@@ -11,6 +11,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { UserProfile } from '../types/UserProfile'
 import { isServer, processURLAddress } from '@vue-storefront/core/helpers'
 import config from 'config'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 // import router from '@vue-storefront/core/router'
 
 const actions: ActionTree<UserState, RootState> = {
@@ -48,9 +49,9 @@ const actions: ActionTree<UserState, RootState> = {
           })
         }
       } else {
-        Vue.prototype.$bus.$emit('session-after-nonauthorized')
+        EventBus.$emit('session-after-nonauthorized')
       }
-      Vue.prototype.$bus.$emit('session-after-started')
+      EventBus.$emit('session-after-started')
     })
   },
   /**
@@ -185,7 +186,7 @@ const actions: ActionTree<UserState, RootState> = {
           if (res) {
             context.commit(types.USER_INFO_LOADED, res)
             context.dispatch('setUserGroup', res)
-            Vue.prototype.$bus.$emit('user-after-loggedin', res)
+            EventBus.$emit('user-after-loggedin', res)
             rootStore.dispatch('cart/authorize')
 
             resolve(res)
@@ -211,7 +212,7 @@ const actions: ActionTree<UserState, RootState> = {
               context.dispatch('setUserGroup', resp.result)
             }
             if (!resolvedFromCache && resp.resultCode === 200) {
-              Vue.prototype.$bus.$emit('user-after-loggedin', resp.result)
+              EventBus.$emit('user-after-loggedin', resp.result)
               rootStore.dispatch('cart/authorize')
               resolve(resp)
             } else {
@@ -293,7 +294,7 @@ const actions: ActionTree<UserState, RootState> = {
     context.commit(types.USER_END_SESSION)
     context.dispatch('cart/disconnect', {}, { root: true })
       .then(() => { context.dispatch('clearCurrentUser') })
-      .then(() => { Vue.prototype.$bus.$emit('user-after-logout') })
+      .then(() => { EventBus.$emit('user-after-logout') })
       .then(() => { context.dispatch('cart/clear', { recreateAndSyncCart: true }, { root: true }) })
     if (!silent) {
       rootStore.dispatch('notification/spawnNotification', {
@@ -325,7 +326,7 @@ const actions: ActionTree<UserState, RootState> = {
 
           if (res) {
             context.commit(types.USER_ORDERS_HISTORY_LOADED, res)
-            Vue.prototype.$bus.$emit('user-after-loaded-orders', res)
+            EventBus.$emit('user-after-loaded-orders', res)
 
             resolve(res)
             resolvedFromCache = true
@@ -346,7 +347,7 @@ const actions: ActionTree<UserState, RootState> = {
         }).then((resp: any) => {
           if (resp.code === 200) {
             context.commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
-            Vue.prototype.$bus.$emit('user-after-loaded-orders', resp.result)
+            EventBus.$emit('user-after-loaded-orders', resp.result)
           }
           if (!resolvedFromCache) {
             resolve(resp.code === 200 ? resp : null)

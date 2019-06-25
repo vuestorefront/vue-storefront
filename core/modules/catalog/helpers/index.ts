@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import rootStore from '@vue-storefront/core/store'
 import { calculateProductTax } from '../helpers/tax'
 import flattenDeep from 'lodash-es/flattenDeep'
@@ -22,7 +22,7 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
     if (stockItem.is_in_stock === false) {
       product.errors.variants = i18n.t('No available product variants')
       context.state.current.errors = product.errors
-      Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
+      EventBus.$emit('product-after-removevariant', { product: product })
       if (config.products.listOutOfStockProducts === false) {
         errorCallback(new Error('Product query returned an empty result'))
       }
@@ -87,7 +87,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
             const variant = isOptionAvailableAsync(context, { product: product, configuration: config })
             if (!variant) {
               Logger.log('No variant for' + opt, 'helper')()
-              Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
+              EventBus.$emit('product-after-removevariant', { product: product })
               removedOptions++
               return false
             } else {
@@ -104,7 +104,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
       if (totalOptions === 0) {
         product.errors.variants = i18n.t('No available product variants')
         context.state.current.errors = product.errors
-        Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
+        EventBus.$emit('product-after-removevariant', { product: product })
       }
     }
   }
@@ -184,7 +184,7 @@ export function syncProductPrice (product, backProduct) { // TODO: we probably n
     product.special_price_incl_tax = 0
     product.special_price = 0
   }
-  Vue.prototype.$bus.$emit('product-after-priceupdate', product)
+  EventBus.$emit('product-after-priceupdate', product)
   // Logger.log(product.sku, product, backProduct)()
   return product
 }
@@ -495,7 +495,7 @@ export function configureProductAsync (context, { product, configuration, select
       if (selectDefaultVariant) {
         context.dispatch('setCurrent', selectedVariant)
       }
-      Vue.prototype.$bus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
+      EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
     }
     if (!selectedVariant && setProductErorrs) { // can not find variant anyway, even the default one
       product.errors.variants = i18n.t('No available product variants')

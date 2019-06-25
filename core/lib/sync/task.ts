@@ -7,6 +7,7 @@ import fetch from 'isomorphic-fetch'
 import * as localForage from 'localforage'
 import rootStore from '@vue-storefront/core/store'
 import { adjustMultistoreApiUrl, currentStoreView } from '@vue-storefront/core/lib/multistore'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
@@ -89,7 +90,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
                 rootStore.state.userTokenInvalidateLock = -1
                 rootStore.dispatch('user/logout', { silent: true })
                 TaskQueue.clearNotTransmited()
-                Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
+                EventBus.$emit('modal-show', 'modal-signup')
                 rootStore.dispatch('notification/spawnNotification', {
                   type: 'error',
                   message: i18n.t('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.'),
@@ -107,14 +108,14 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
                   } else {
                     rootStore.state.userTokenInvalidateLock = -1
                     rootStore.dispatch('user/logout', { silent: true })
-                    Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
+                    EventBus.$emit('modal-show', 'modal-signup')
                     TaskQueue.clearNotTransmited()
                     Logger.error('Error refreshing user token' + resp.result, 'sync')()
                   }
                 }).catch((excp) => {
                   rootStore.state.userTokenInvalidateLock = -1
                   rootStore.dispatch('user/logout', { silent: true })
-                  Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
+                  EventBus.$emit('modal-show', 'modal-signup')
                   TaskQueue.clearNotTransmited()
                   Logger.error('Error refreshing user token' + excp, 'sync')()
                 })
@@ -124,7 +125,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           } else {
             Logger.info('Invalidation process is disabled (autoRefreshTokens is set to false)', 'sync')()
             rootStore.dispatch('user/logout', { silent: true })
-            Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
+            EventBus.$emit('modal-show', 'modal-signup')
           }
         }
 
@@ -151,7 +152,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
         if (task.callback_event.startsWith('store:')) {
           rootStore.dispatch(task.callback_event.split(':')[1], task)
         } else {
-          Vue.prototype.$bus.$emit(task.callback_event, task)
+          EventBus.$emit(task.callback_event, task)
         }
       }
       if (!rootStore.state.userTokenInvalidateLock) { // in case we're revalidaing the token - user must wait for it
@@ -189,7 +190,7 @@ export function initializeSyncTaskStorage () {
 
 export function registerSyncTaskProcessor () {
   const mutex = {}
-  Vue.prototype.$bus.$on('sync/PROCESS_QUEUE', async data => {
+  EventBus.$on('sync/PROCESS_QUEUE', async data => {
     if (onlineHelper.isOnline) {
       // event.data.config - configuration, endpoints etc
       const syncTaskCollection = Vue.prototype.$db.syncTaskCollection

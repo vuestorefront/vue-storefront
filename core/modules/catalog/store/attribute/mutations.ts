@@ -4,6 +4,7 @@ import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
 import * as types from './mutation-types'
 import AttributeState from '../../types/AttributeState'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const mutations: MutationTree<AttributeState> = {
   /**
@@ -34,7 +35,7 @@ const mutations: MutationTree<AttributeState> = {
     }
     Vue.set(state, 'list_by_code', attrHashByCode)
     Vue.set(state, 'list_by_id', attrHashById)
-    Vue.prototype.$bus.$emit('product-after-attributes-loaded')
+    EventBus.$emit('product-after-attributes-loaded')
   }
 }
 

@@ -6,7 +6,7 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 - We've fixed the naming strategy for product prices; The following fields were renamed: `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; The names have been kept and marked as @deprecated. These fields will be **removed with Vue Storefront 2.0rc-1**.
 
 ## 1.9 -> 1.10
-- Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
+- Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`EventBus.$on()`) now
 - The lowest supported node version  is currently 8.10.0,
 - Module Mailchimp is removed in favor of Newsletter. `local.json` configuration under key `mailchimp` moved to key `newsletter`.
 - In multistore mode now there is a possibility to skip appending storecode to url with `appendStoreCode` config option. To keep the original behavior, it should be set to true. - @lukeromanowicz (#3048).
@@ -102,7 +102,7 @@ this.$store.dispatch('notification/spawnNotification',
 ````
 Change every store:
 ````js
-Vue.prototype.$bus.$emit('notification',
+EventBus.$emit('notification',
 ````
 to:
 ````js

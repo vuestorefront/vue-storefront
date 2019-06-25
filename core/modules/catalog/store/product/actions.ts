@@ -27,6 +27,7 @@ import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import toString from 'lodash-es/toString'
 import config from 'config'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -353,7 +354,7 @@ const actions: ActionTree<ProductState, RootState> = {
         if (updateState) {
           context.commit(types.CATALOG_UPD_PRODUCTS, { products: resp, append: append })
         }
-        Vue.prototype.$bus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
+        EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
         return resp
       })
     })
@@ -371,7 +372,7 @@ const actions: ActionTree<ProductState, RootState> = {
         skipCache: true
       })
       .then(() => { context.dispatch('setCurrent', product) })
-      .then(() => { Vue.prototype.$bus.$emit('product-after-setup-associated') })
+      .then(() => { EventBus.$emit('product-after-setup-associated') })
   },
 
   /**
@@ -444,7 +445,7 @@ const actions: ActionTree<ProductState, RootState> = {
           if (res && res.items && res.items.length) {
             let prd = res.items[0]
             const _returnProductNoCacheHelper = (subresults) => {
-              Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
+              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
               resolve(setupProduct(prd))
             }
             if (setCurrentProduct || selectDefaultVariant) {
@@ -480,15 +481,15 @@ const actions: ActionTree<ProductState, RootState> = {
               const cachedProduct = setupProduct(res)
               if (config.products.alwaysSyncPlatformPricesOver) {
                 doPlatformPricesSync([cachedProduct]).then((products) => {
-                  Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
+                  EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
                   resolve(products[0])
                 })
                 if (!config.products.waitForPlatformSync) {
-                  Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+                  EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
                   resolve(cachedProduct)
                 }
               } else {
-                Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+                EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
                 resolve(cachedProduct)
               }
             }
@@ -685,11 +686,11 @@ const actions: ActionTree<ProductState, RootState> = {
       context.state.productLoadPromise = new Promise((resolve, reject) => {
         context.state.productLoadStart = Date.now()
         Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
-        Vue.prototype.$bus.$emit('product-before-load', { store: rootStore, route: route })
+        EventBus.$emit('product-before-load', { store: rootStore, route: route })
         context.dispatch('reset').then(() => {
           context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
             Promise.all(subpromises).then(subresults => {
-              Vue.prototype.$bus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
+              EventBus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
                 context.state.productLoadStart = null
                 return resolve()
               }).catch((err) => {

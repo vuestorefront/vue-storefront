@@ -15,6 +15,7 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const MAX_BYPASS_COUNT = 10
 let _connectBypassCount = 0
@@ -165,7 +166,7 @@ const actions: ActionTree<CartState, RootState> = {
         }
       }
       await dispatch('payment/replaceMethods', paymentMethods, { root: true })
-      Vue.prototype.$bus.$emit('set-unique-payment-methods', uniqueBackendMethods)
+      EventBus.$emit('set-unique-payment-methods', uniqueBackendMethods)
     } else {
       Logger.debug('Payment methods does not need to be updated', 'cart')()
     }
@@ -567,7 +568,7 @@ const actions: ActionTree<CartState, RootState> = {
     const _updateClientItem = async function ({ dispatch }, event, clientItem) {
       if (typeof event.result.item_id !== 'undefined') {
         await dispatch('updateItem', { product: { server_item_id: event.result.item_id, sku: clientItem.sku, server_cart_id: event.result.quote_id, prev_qty: clientItem.qty } }) // update the server_id reference
-        Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: clientItem })
+        EventBus.$emit('cart-after-itemchanged', { item: clientItem })
       }
     }
 
@@ -583,7 +584,7 @@ const actions: ActionTree<CartState, RootState> = {
               Logger.log('Restoring qty after error' + clientItem.sku + cartItem.prev_qty, 'cart')()
               if (cartItem.prev_qty > 0) {
                 dispatch('updateItem', { product: { qty: cartItem.prev_qty } }) // update the server_id reference
-                Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: cartItem })
+                EventBus.$emit('cart-after-itemchanged', { item: cartItem })
               } else {
                 dispatch('removeItem', { product: cartItem, removeByParentSku: false }) // update the server_id reference
               }
@@ -745,7 +746,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
       commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash) // update the cart hash
     }
-    Vue.prototype.$bus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: dryRun, event: event }) // send the difflog
+    EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: dryRun, event: event }) // send the difflog
     Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
     return diffLog
   },

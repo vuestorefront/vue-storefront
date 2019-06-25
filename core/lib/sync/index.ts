@@ -6,6 +6,7 @@ import { execute as taskExecute, _prepareTask } from './task'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 /** Syncs given task. If user is offline requiest will be sent to the server after restored connection */
 async function queue (task) {
@@ -15,7 +16,7 @@ async function queue (task) {
   return new Promise((resolve, reject) => {
     tasksCollection.setItem(task.task_id.toString(), task, (err, resp) => {
       if (err) Logger.error(err, 'sync')()
-      Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
+      EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
       resolve(task)
     }).catch((reason) => {
       Logger.error(reason, 'sync')() // it doesn't work on SSR
