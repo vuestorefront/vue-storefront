@@ -1,4 +1,4 @@
-function isSpecialPriceActive(fromDate, toDate) {
+function isSpecialPriceActive (fromDate, toDate) {
   const now = new Date()
   fromDate = fromDate ? new Date(fromDate) : false
   toDate = toDate ? new Date(toDate) : false
@@ -6,7 +6,7 @@ function isSpecialPriceActive(fromDate, toDate) {
   if (!fromDate && !toDate) {
     return true
   }
-  
+
   if (fromDate && toDate) {
     return fromDate < now && toDate > now
   }
@@ -48,7 +48,7 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
   product.price_tax = price_excl_tax * rate_factor
   product.price_incl_tax = price_excl_tax + product.price_tax
 
-   let special_price_excl_tax = product.special_price
+  let special_price_excl_tax = product.special_price
   if (sourcePriceInclTax) {
     special_price_excl_tax = product.special_price / (1 + rate_factor)
     product.special_price = special_price_excl_tax
@@ -103,7 +103,7 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
       if (configurableChild.final_price) {
         if (configurableChild.final_price < configurableChild.price) { // compare the prices with the product final price if provided; final prices is used in case of active catalog promo rules for example
           if (configurableChild.final_price < configurableChild.special_price) { // for VS - special_price is any price lowered than regular price (`price`); in Magento there is a separate mechanism for setting the `special_prices`
-          configurableChild.price = configurableChild.special_price // if the `final_price` is lower than the original `special_price` - it means some catalog rules were applied over it
+            configurableChild.price = configurableChild.special_price // if the `final_price` is lower than the original `special_price` - it means some catalog rules were applied over it
           }
           configurableChild.special_to_date = null
           configurableChild.special_from_date = null
@@ -121,7 +121,7 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
 
       configurableChild.price_tax = price_excl_tax * rate_factor
       configurableChild.price_incl_tax = price_excl_tax + configurableChild.price_tax
-      
+
       let special_price_excl_tax = parseFloat(configurableChild.special_price)
 
       if (sourcePriceInclTax) {
@@ -175,7 +175,7 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
         product.original_price_tax = configurableChild.original_price_tax
 
         /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
-        product.priceInclTax = product.price_incl_tax 
+        product.priceInclTax = product.price_incl_tax
         product.priceTax = product.price_tax
         product.specialPriceInclTax = product.special_price_incl_tax
         product.specialPriceTax = product.special_price_tax
@@ -209,7 +209,7 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
     product.price_tax = 0
     product.special_price_incl_tax = 0
     product.special_price_tax = 0
- 
+
     /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
     product.priceInclTax = product.price
     product.priceTax = 0
@@ -228,8 +228,8 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
         configurableChildren.priceInclTax = configurableChildren.price
         configurableChildren.priceTax = 0
         configurableChildren.specialPriceInclTax = 0
-        configurableChildren.specialPriceTax = 0 
-        /** END */     
+        configurableChildren.specialPriceTax = 0
+        /** END */
       }
     }
   }
