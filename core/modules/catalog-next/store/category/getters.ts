@@ -1,17 +1,19 @@
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
-import { compareByLabel, calculateBreadcrumbs } from '../../helpers/categoryHelpers'
+import { compareByLabel } from '../../helpers/categoryHelpers'
 import { products } from 'config'
 import FilterVariant from '../../types/FilterVariant'
 import { optionLabel } from '../../helpers/optionLabel'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
 import { getFiltersFromQuery } from '../../helpers/filterHelpers'
-import { Category } from '../../types/Category';
+import { Category } from '../../types/Category'
+import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state): Category[] => Object.values(state.categoriesMap),
+  getCategoriesMap: (state): { [id: string]: Category} => state.categoriesMap,
   getCategoryProducts: (state) => state.products,
   getCategoryFrom: (state, getters) => (path: string = '') => {
     return getters.getCategories.find(category => path.includes(category.url_path)) || {}
@@ -90,7 +92,11 @@ const getters: GetterTree<CategoryState, RootState> = {
   getSystemFilterNames: () => ['sort'],
   getBreadcrumbs: (state, getters) => {
     if (!getters.getCurrentCategory) return []
-    return calculateBreadcrumbs(getters.getCategories, getters.getCurrentCategory.id)
+    const categoryHierarchyIds = getters.getCategoriesHierarchyIdsMap.find(categoryMapping => categoryMapping.includes(getters.getCurrentCategory.id))
+    let resultCategoryList = categoryHierarchyIds.map(categoryId => {
+      return getters.getCategoriesMap[categoryId]
+    })
+    return parseCategoryPath(resultCategoryList)
   },
   getCategoriesHierarchyIdsMap: state => state.categoriesHierarchyIds
 }
