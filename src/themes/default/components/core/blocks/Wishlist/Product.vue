@@ -1,23 +1,13 @@
 <template>
   <li class="row pr55 py20">
     <div class="image" @click="closeWishlist">
-      <router-link :to="localizedRoute({
-        name: product.type_id + '-product',
-        fullPath: product.url_path,
-        params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
-      })"
-      >
-        <product-image :image="image" />
+      <router-link :to="productLink">
+        <img v-lazy="thumbnail">
       </router-link>
     </div>
     <div class="col-xs between-xs flex pl40 py15">
       <div @click="closeWishlist">
-        <router-link :to="localizedRoute({
-          name: product.type_id + '-product',
-          fullPath: product.url_path,
-          params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
-        })"
-        >
+        <router-link :to="productLink">
           {{ product.name | htmlDecode }}
         </router-link>
         <div class="h6 cl-bg-tertiary pt5 sku">
@@ -45,16 +35,20 @@
 
 <script>
 import Product from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Product'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
+
 import RemoveButton from './RemoveButton'
-import ProductImage from 'theme/components/core/ProductImage'
 
 export default {
   components: {
-    RemoveButton,
-    ProductImage
+    RemoveButton
   },
   mixins: [Product],
   computed: {
+    productLink () {
+      return formatProductLink(this.product, currentStoreView().storeCode)
+    },
     image () {
       return {
         loading: this.thumbnail,
