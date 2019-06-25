@@ -77,6 +77,23 @@ import config from 'config'
 import Columns from '../components/core/Columns.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 
+const composeInitialPageState = async (store, route) => {
+  try {
+    await store.dispatch('attribute/list', { // load filter attributes for this specific category
+      filterValues: config.products.defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+      includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
+    })
+    const searchPath = route.path.substring(1) // TODO change in mage2vuestorefront to url_paths starts with / sign
+    const categoryFilters = { 'url_path': searchPath }
+    // const categoryFilters = { 'slug': route.params.slug } // If you have disabled config.products.useMagentoUrlKeys in your project then use this way
+    const currentCategory = await store.dispatch('category-next/loadCategory', {filters: categoryFilters})
+    await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
+    await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
+  } catch (e) {
+    console.error('Problem with setting Category initial data!', e)
+  }
+}
+
 export default {
   components: {
     ButtonFull,
@@ -113,23 +130,16 @@ export default {
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
-    try {
-      await store.dispatch('attribute/list', { // load filter attributes for this specific category
-        filterValues: config.products.defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-        includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
-      })
-      const searchPath = route.path.substring(1) // TODO change in mage2vuestorefront to url_paths starts with / sign
-      const categoryFilters = { 'url_path': searchPath }
-      // const categoryFilters = { 'slug': route.params.slug } // If you have disabled config.products.useMagentoUrlKeys in your project then use this way
-      const currentCategory = await store.dispatch('category-next/loadCategory', {filters: categoryFilters})
-      await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
-      await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
-    } catch (e) {
-      console.error('Problem with Category asyncData', e)
-    }
+    await composeInitialPageState(store, route)
   },
-  async mounted () {
-    await this.$store.dispatch('category-next/cacheProducts', { route: this.$route })
+  async beforeRouteEnter (to, from, next) {
+    if (isServer || from.name) next() // SSR render, no need to invoke SW caching here
+    else {
+      next(async vm => {
+        await composeInitialPageState(vm.$store, to)
+        await vm.$store.dispatch('category-next/cacheProducts', { route: to })
+      })
+    }
   },
   methods: {
     openFilters () {

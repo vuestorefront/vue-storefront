@@ -84,6 +84,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     router.push({[products.routerFiltersSource]: query})
   },
   async loadCategoryBreadcrumbs ({ dispatch, getters }, category: Category) {
+    if (!category) return
     const categoryHierarchy = getters.getCategoriesHierarchyIdsMap.find(categoryMapping => categoryMapping.includes(category.id))
     const categoryFilters = { 'id': categoryHierarchy }
     await dispatch('loadCategories', {filters: categoryFilters})
