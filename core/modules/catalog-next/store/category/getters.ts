@@ -92,7 +92,7 @@ const getters: GetterTree<CategoryState, RootState> = {
   getSystemFilterNames: () => ['sort'],
   getBreadcrumbs: (state, getters) => {
     if (!getters.getCurrentCategory) return []
-    const categoryHierarchyIds = getters.getCategoriesHierarchyIdsMap.find(categoryMapping => categoryMapping.includes(getters.getCurrentCategory.id))
+    const categoryHierarchyIds = getters.getCategoriesHierarchyIdsMap.find(categoryMapping => categoryMapping.includes(getters.getCurrentCategory.id)) || []
     let resultCategoryList = categoryHierarchyIds.map(categoryId => {
       return getters.getCategoriesMap[categoryId]
     })
