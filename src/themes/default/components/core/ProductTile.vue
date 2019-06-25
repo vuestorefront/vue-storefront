@@ -3,6 +3,15 @@
     class="product align-center w-100 pb20"
     v-observe-visibility="visibilityChanged"
   >
+        <div class="product__icons">
+          <AddToWishlist :product="product">
+            <!-- <input type="checkbox" class="product__checkbox" :id="id"> -->
+            <div>{{id}}</div>
+            <label :for="id" class="product__icon product__icon--wish">
+              <i class="pr5 material-icons">{{ favoriteIcon }}</i>
+            </label>
+          </AddToWishlist>
+        </div>
     <router-link
       class="block no-underline product-link"
       :to="productLink"
@@ -53,11 +62,21 @@ import rootStore from '@vue-storefront/core/store'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
 import config from 'config'
 import ProductImage from './ProductImage'
+import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
+import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
+// import { RemoveFromWishlist } from '@vue-storefront/core/modules/wishlist/components/RemoveFromWishlist'
 
 export default {
-  mixins: [ProductTile],
+    data () {
+    return {
+      id: null
+    }
+  },
+  mixins: [ProductTile, IsOnWishlist],
   components: {
-    ProductImage
+    ProductImage,
+    AddToWishlist,
+    // RemoveFromWishlist
   },
   props: {
     labelsActive: {
@@ -75,6 +94,9 @@ export default {
         src: this.thumbnail,
         loading: this.thumbnail
       }
+    },
+        favoriteIcon () {
+      return this.isOnWishlist ? 'favorite' : 'favorite_border'
     }
   },
   methods: {
@@ -105,6 +127,9 @@ export default {
   beforeMount () {
     this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate)
   },
+    mounted () {
+    this.id = this._uid
+  },
   beforeDestroy () {
     this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate)
   }
@@ -121,8 +146,31 @@ $border-secondary: color(secondary, $colors-border);
 $color-white: color(white);
 
 .product {
+  position: relative;
   @media (max-width: 767px) {
     padding-bottom: 10px;
+  }
+  &__icons{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+  }
+  &__icon{
+    opacity: 0;
+    z-index: 10;
+    cursor: pointer;
+  }
+  &__checkbox {
+    display: none;
+  }
+  &__checkbox:checked ~ &__icon--wish {
+    opacity: 1;
+  }
+  &:hover{
+    .product__icon{
+      opacity: 1;
+    }
   }
 }
 
