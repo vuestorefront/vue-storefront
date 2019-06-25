@@ -2,6 +2,9 @@
 
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
+## 1.10 -> 1.11
+- We've fixed the naming strategy for product prices; The following fields were renamed: `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; The names have been kept and marked as @deprecated. These fields will be **removed with Vue Storefront 2.0rc-1**.
+
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
 - The lowest supported node version  is currently 8.10.0,
