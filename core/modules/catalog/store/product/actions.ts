@@ -123,7 +123,7 @@ const actions: ActionTree<ProductState, RootState> = {
     let subloaders = []
     if (product.type_id === 'grouped') {
       product.price = 0
-      product.priceInclTax = 0
+      product.price_incl_tax = 0
       Logger.debug(product.name + ' SETUP ASSOCIATED', product.type_id)()
       if (product.product_links && product.product_links.length > 0) {
         for (let pl of product.product_links) {
@@ -139,7 +139,7 @@ const actions: ActionTree<ProductState, RootState> = {
                 pl.product = asocProd
                 pl.product.qty = 1
                 product.price += pl.product.price
-                product.priceInclTax += pl.product.priceInclTax
+                product.price_incl_tax += pl.product.price_incl_tax
                 product.tax += pl.product.tax
               } else {
                 Logger.error('Product link not found', pl.linked_product_sku)()
@@ -153,7 +153,7 @@ const actions: ActionTree<ProductState, RootState> = {
     }
     if (product.type_id === 'bundle') {
       product.price = 0
-      product.priceInclTax = 0
+      product.price_incl_tax = 0
       Logger.debug(product.name + ' SETUP ASSOCIATED', product.type_id)()
       if (product.bundle_options && product.bundle_options.length > 0) {
         for (let bo of product.bundle_options) {
@@ -173,7 +173,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
                 if (pl.id === defaultOption.id) {
                   product.price += pl.product.price * pl.product.qty
-                  product.priceInclTax += pl.product.priceInclTax * pl.product.qty
+                  product.price_incl_tax += pl.product.price_incl_tax * pl.product.qty
                   product.tax += pl.product.tax * pl.product.qty
                 }
               } else {

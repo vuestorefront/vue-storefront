@@ -286,7 +286,7 @@ const actions: ActionTree<CartState, RootState> = {
     for (let product of productsToAdd) {
       if (typeof product === 'undefined' || product === null) continue
       if (product.qty && typeof product.qty !== 'number') product.qty = parseInt(product.qty)
-      if ((config.useZeroPriceProduct) ? product.priceInclTax < 0 : product.priceInclTax <= 0) {
+      if ((config.useZeroPriceProduct) ? product.price_incl_tax < 0 : product.price_incl_tax <= 0) {
         diffLog.clientNotifications.push({
           type: 'error',
           message: i18n.t('Product price is unknown, product cannot be added to the cart!'),

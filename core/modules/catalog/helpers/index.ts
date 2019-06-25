@@ -168,20 +168,20 @@ export function filterOutUnavailableVariants (context, product) {
 
 export function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well
   product.sgn = backProduct.sgn // copy the signature for the modified price
-  product.priceInclTax = backProduct.price_info.final_price
+  product.price_incl_tax = backProduct.price_info.final_price
   product.originalPriceInclTax = backProduct.price_info.regular_price
-  product.specialPriceInclTax = backProduct.price_info.special_price
+  product.special_price_incl_tax = backProduct.price_info.special_price
 
   product.special_price = backProduct.price_info.extension_attributes.tax_adjustments.special_price
   product.price = backProduct.price_info.extension_attributes.tax_adjustments.final_price
   product.originalPrice = backProduct.price_info.extension_attributes.tax_adjustments.regular_price
 
-  product.priceTax = product.priceInclTax - product.price
-  product.specialPriceTax = product.specialPriceInclTax - product.special_price
+  product.price_tax = product.price_incl_tax - product.price
+  product.special_price_tax = product.special_price_incl_tax - product.special_price
   product.originalPriceTax = product.originalPriceInclTax - product.originalPrice
 
-  if (product.priceInclTax >= product.originalPriceInclTax) {
-    product.specialPriceInclTax = 0
+  if (product.price_incl_tax >= product.originalPriceInclTax) {
+    product.special_price_incl_tax = 0
     product.special_price = 0
   }
   Vue.prototype.$bus.$emit('product-after-priceupdate', product)
@@ -197,30 +197,30 @@ export function doPlatformPricesSync (products) {
     if (config.products.alwaysSyncPlatformPricesOver) {
       if (config.products.clearPricesBeforePlatformSync) {
         for (let product of products) { // clear out the prices as we need to sync them with Magento
-          product.priceInclTax = null
+          product.price_incl_tax = null
           product.originalPriceInclTax = null
-          product.specialPriceInclTax = null
+          product.special_price_incl_tax = null
 
           product.special_price = null
           product.price = null
           product.originalPrice = null
 
-          product.priceTax = null
-          product.specialPriceTax = null
+          product.price_tax = null
+          product.special_price_tax = null
           product.originalPriceTax = null
 
           if (product.configurable_children) {
             for (let sc of product.configurable_children) {
-              sc.priceInclTax = null
+              sc.price_incl_tax = null
               sc.originalPriceInclTax = null
-              sc.specialPriceInclTax = null
+              sc.special_price_incl_tax = null
 
               sc.special_price = null
               sc.price = null
               sc.originalPrice = null
 
-              sc.priceTax = null
-              sc.specialPriceTax = null
+              sc.price_tax = null
+              sc.special_price_tax = null
               sc.originalPriceTax = null
             }
           }

@@ -35,14 +35,14 @@
         class="price-special lh30 cl-accent weight-700"
         v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
       >
-        {{ product.priceInclTax | price }}
+        {{ product.price_incl_tax | price }}
       </span>
 
       <span
         class="lh30 cl-secondary"
-        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0 && !onlyImage"
+        v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
       >
-        {{ product.priceInclTax | price }}
+        {{ product.price_incl_tax | price }}
       </span>
     </router-link>
   </div>

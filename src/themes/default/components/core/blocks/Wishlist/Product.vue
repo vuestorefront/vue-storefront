@@ -17,11 +17,11 @@
     </div>
     <div class="col-xs flex py15 align-right">
       <div>
-        <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
+        <span class="price-special" v-if="product.special_price">{{ product.price_incl_tax | price }}</span>&nbsp;
         <span class="price-original" v-if="product.special_price">{{ product.originalPriceInclTax | price }}</span>
 
         <span v-if="!product.special_price">
-          {{ product.priceInclTax | price }}
+          {{ product.price_incl_tax | price }}
         </span>
       </div>
       <div>

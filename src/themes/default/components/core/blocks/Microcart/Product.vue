@@ -49,13 +49,13 @@
     <div class="flex py15 mr10 align-right start-xs between-sm actions">
       <div class="prices" v-if="!displayItemDiscounts || !isOnline">
         <span class="h4 serif cl-error price-special" v-if="product.special_price">
-          {{ product.priceInclTax * product.qty | price }}&nbsp;
+          {{ product.price_incl_tax * product.qty | price }}&nbsp;
         </span>
         <span class="h6 serif price-original" v-if="product.special_price">
           {{ product.originalPriceInclTax * product.qty | price }}
         </span>
         <span class="h4 serif price-regular" v-else data-testid="productPrice">
-          {{ (product.originalPriceInclTax ? product.originalPriceInclTax : product.priceInclTax) * product.qty | price }}
+          {{ (product.originalPriceInclTax ? product.originalPriceInclTax : product.price_incl_tax) * product.qty | price }}
         </span>
       </div>
       <div class="prices" v-else-if="isOnline && product.totals">

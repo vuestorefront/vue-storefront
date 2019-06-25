@@ -65,14 +65,14 @@ const getters: GetterTree<CartState, RootState> = {
           code: 'subtotalInclTax',
           title: i18n.t('Subtotal incl. tax'),
           value: sumBy(state.cartItems, (p) => {
-            return p.qty * p.priceInclTax
+            return p.qty * p.price_incl_tax
           })
         },
         {
           code: 'grand_total',
           title: i18n.t('Grand total'),
           value: sumBy(state.cartItems, (p) => {
-            return p.qty * p.priceInclTax + (shipping ? shipping.price_incl_tax : 0)
+            return p.qty * p.price_incl_tax + (shipping ? shipping.price_incl_tax : 0)
           })
         }
       ]
