@@ -123,7 +123,7 @@ export default {
   },
   methods: {
     resetAllFilters () {
-      this.$store.dispatch('category-next/resetFilters')
+      this.$store.dispatch('category-next/resetSearchFilters')
     },
     sortById (filters) {
       return [...filters].sort((a, b) => { return a.id - b.id })
