@@ -7,6 +7,7 @@ import CategoryState from '../../types/CategoryState'
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {
@@ -31,7 +32,7 @@ const mutations: MutationTree<CategoryState> = {
       }
       catSlugSetter(category)
       if (categories.includeFields == null) {
-        const catCollection = Vue.prototype.$db.categoriesCollection
+        const catCollection = StorageManager.get('categoriesCollection')
         try {
           catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
             Logger.error(reason, 'category') // it doesn't work on SSR

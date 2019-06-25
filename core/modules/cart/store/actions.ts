@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import i18n from '@vue-storefront/i18n'
@@ -16,6 +15,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 const MAX_BYPASS_COUNT = 10
 let _connectBypassCount = 0
@@ -242,11 +242,11 @@ const actions: ActionTree<CartState, RootState> = {
       let paymentMethod = rootGetters['payment/paymentMethods'].find(item => item.default)
       commit(types.CART_UPD_PAYMENT, paymentMethod)
     }
-    const storedItems = await Vue.prototype.$db.cartsCollection.getItem('current-cart')
+    const storedItems = await StorageManager.get('cartsCollection').getItem('current-cart')
     commit(types.CART_LOAD_CART, storedItems)
     if (config.cart.synchronize) {
-      const token = await Vue.prototype.$db.cartsCollection.getItem('current-cart-token')
-      const hash = await Vue.prototype.$db.cartsCollection.getItem('current-cart-hash')
+      const token = await StorageManager.get('cartsCollection').getItem('current-cart-token')
+      const hash = await StorageManager.get('cartsCollection').getItem('current-cart-hash')
       if (hash) {
         commit(types.CART_SET_ITEMS_HASH, hash)
         Logger.info('Cart hash received from cache.', 'cache', hash)()
@@ -504,7 +504,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   /** authorize the cart after user got logged in using the current cart token */
   authorize ({ dispatch }) {
-    Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
+    StorageManager.get('usersCollection').getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
       if (err) {
         Logger.error(err, 'cart')()
       }

@@ -80,7 +80,7 @@ const getters: GetterTree<CartState, RootState> = {
         totalsArray.push({
           code: 'payment',
           title: i18n.t(payment.title),
-          value: payment.costInclTax
+          value: payment.cost_incl_tax
         })
       }
       if (shipping) {

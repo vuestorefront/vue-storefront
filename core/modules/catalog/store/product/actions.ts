@@ -28,6 +28,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import toString from 'lodash-es/toString'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -325,7 +326,7 @@ const actions: ActionTree<ProductState, RootState> = {
       }
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
-        const cache = Vue.prototype.$db.elasticCacheCollection
+        const cache = StorageManager.get('elasticCacheCollection')
         for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
           if (prod.configurable_children) {
             for (let configurableChild of prod.configurable_children) {
@@ -401,7 +402,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
-      const cache = Vue.prototype.$db.elasticCacheCollection
+      const cache = StorageManager.get('elasticCacheCollection')
 
       const setupProduct = (prod) => {
         // set product quantity to 1

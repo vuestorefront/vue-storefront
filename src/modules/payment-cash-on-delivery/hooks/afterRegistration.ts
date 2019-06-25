@@ -17,7 +17,7 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
       'title': 'Cash on delivery',
       'code': 'cashondelivery',
       'cost': 0,
-      'costInclTax': 0,
+      'cost_incl_tax': 0,
       'default': true,
       'offline': true,
       'is_server_method': false

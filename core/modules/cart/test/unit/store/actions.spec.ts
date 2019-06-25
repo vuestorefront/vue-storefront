@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 import * as types from '../../../store/mutation-types';
 import cartActions from '../../../store/actions';
 import config from 'config';
@@ -7,7 +5,6 @@ import rootStore from '@vue-storefront/core/store';
 import { sha3_224 } from 'js-sha3';
 import { TaskQueue } from '../../../../../lib/sync';
 import * as coreHelper from '@vue-storefront/core/helpers';
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { onlineHelper } from '@vue-storefront/core/helpers';
 
 jest.mock('@vue-storefront/core/store', () => ({
@@ -45,7 +42,7 @@ jest.mock('@vue-storefront/core/helpers', () => ({
   }
 }));
 
-Vue.prototype.$bus = {
+const EventBus = {
   $emit: jest.fn()
 };
 

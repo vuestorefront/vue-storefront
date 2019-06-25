@@ -82,12 +82,12 @@ describe('Cart getters', () => {
   but no platformTotalSegments`, () => {
     const stateMock = {
       cartItems: [
-        {qty: 1, priceInclTax: 1},
-        {qty: 2, priceInclTax: 2}
+        {qty: 1, price_incl_tax: 1},
+        {qty: 2, price_incl_tax: 2}
       ],
       payment: {
         title: 'payment',
-        costInclTax: 4
+        cost_incl_tax: 4
       },
       shipping: {
         method_title: 'shipping',
@@ -114,11 +114,11 @@ describe('Cart getters', () => {
       payment: [
         {
           title: 'payment',
-          costInclTax: 4
+          cost_incl_tax: 4
         },
         {
           title: 'another-payment',
-          costInclTax: 16
+          cost_incl_tax: 16
         }
       ],
       shipping: [

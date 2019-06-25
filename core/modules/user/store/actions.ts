@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import rootStore from '@vue-storefront/core/store'
@@ -12,7 +11,7 @@ import { UserProfile } from '../types/UserProfile'
 import { isServer, processURLAddress } from '@vue-storefront/core/helpers'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-// import router from '@vue-storefront/core/router'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession (context) {
@@ -25,7 +24,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
 
     context.commit(types.USER_START_SESSION)
-    const cache = Vue.prototype.$db.usersCollection
+    const cache = StorageManager.get('usersCollection')
     cache.getItem('current-token', (err, res) => {
       if (err) {
         Logger.error(err, 'user')()
@@ -119,7 +118,7 @@ const actions: ActionTree<UserState, RootState> = {
   */
   refresh (context) {
     return new Promise((resolve, reject) => {
-      const usersCollection = Vue.prototype.$db.usersCollection
+      const usersCollection = StorageManager.get('usersCollection')
       usersCollection.getItem('current-refresh-token', (err, refreshToken) => {
         if (err) {
           Logger.error(err, 'user')()
@@ -173,7 +172,7 @@ const actions: ActionTree<UserState, RootState> = {
         Logger.warn('No User token, user unauthorized', 'user')()
         return resolve(null)
       }
-      const cache = Vue.prototype.$db.usersCollection
+      const cache = StorageManager.get('usersCollection')
       let resolvedFromCache = false
 
       if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
@@ -314,7 +313,7 @@ const actions: ActionTree<UserState, RootState> = {
         Logger.debug('No User token, user unathorized', 'user')()
         return resolve(null)
       }
-      const cache = Vue.prototype.$db.ordersHistoryCollection
+      const cache = StorageManager.get('ordersHistoryCollection')
       let resolvedFromCache = false
 
       if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user

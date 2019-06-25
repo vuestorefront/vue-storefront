@@ -6,13 +6,14 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import { serial, onlineHelper, processURLAddress } from '@vue-storefront/core/helpers'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 export function beforeRegistration ({ Vue, config, store, isServer }) {
-  Vue.prototype.$db.ordersCollection = new UniversalStorage(localForage.createInstance({
+  StorageManager.register('ordersCollection', new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'orders',
     driver: localForage[config.localForage.defaultDrivers['orders']]
-  }))
+  })))
   if (!isServer) {
     const orderMutex = {}
     // TODO: move to external file

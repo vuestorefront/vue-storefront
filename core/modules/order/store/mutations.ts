@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import * as entities from '@vue-storefront/core/store/lib/entities'
@@ -6,6 +5,7 @@ import OrderState from '../types/OrderState'
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 const mutations: MutationTree<OrderState> = {
   /**
@@ -13,7 +13,7 @@ const mutations: MutationTree<OrderState> = {
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
    */
   [types.ORDER_PLACE_ORDER] (state, order) {
-    const ordersCollection = Vue.prototype.$db.ordersCollection
+    const ordersCollection = StorageManager.get('ordersCollection')
     const orderId = entities.uniqueEntityId(order) // timestamp as a order id is not the best we can do but it's enough
     order.order_id = orderId.toString()
     order.created_at = new Date()

@@ -71,7 +71,7 @@ export default {
           for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
             if (product.onlineStockCheckid) {
               checkPromises.push(new Promise((resolve, reject) => {
-                Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
+                StorageManager.get('syncTaskCollection').getItem(product.onlineStockCheckid, (err, item) => {
                   if (err || !item) {
                     if (err) Logger.error(err)()
                     resolve(null)

@@ -1,15 +1,11 @@
-import Vue from 'vue'
 import * as types from '../../../store/mutation-types'
 import cartMutations from '../../../store/mutations'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: (str) => jest.fn()
 }))
 
-Vue.prototype.$bus = {
-  $emit: jest.fn()
-}
+EventBus.$emit = jest.fn()
 
 jest.mock('@vue-storefront/core/store', () => ({
   state: {

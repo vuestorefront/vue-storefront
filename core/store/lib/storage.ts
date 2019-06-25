@@ -8,6 +8,8 @@ const CACHE_TIMEOUT_ITERATE = 2000
 const DISABLE_PERSISTANCE_AFTER = 1
 const DISABLE_PERSISTANCE_AFTER_SAVE = 30
 
+const _globalCache = {}
+
 function roughSizeOfObject (object) {
   const objectList = []
   const stack = [ object ]
@@ -86,16 +88,13 @@ class LocalForageCacheDriver {
     if (isServer) {
       this._localCache = {}
     } else {
-      if (typeof Vue.prototype.$localCache === 'undefined') {
-        Vue.prototype.$localCache = {}
+      if (typeof _globalCache[dbName] === 'undefined') {
+        _globalCache[dbName] = {}
       }
-      if (typeof Vue.prototype.$localCache[dbName] === 'undefined') {
-        Vue.prototype.$localCache[dbName] = {}
+      if (typeof _globalCache[dbName][collectionName] === 'undefined') {
+        _globalCache[dbName][collectionName] = {}
       }
-      if (typeof Vue.prototype.$localCache[dbName][collectionName] === 'undefined') {
-        Vue.prototype.$localCache[dbName][collectionName] = {}
-      }
-      this._localCache = Vue.prototype.$localCache[dbName][collectionName]
+      this._localCache = _globalCache[dbName][collectionName]
     }
     this._collectionName = collectionName
     this._dbName = dbName
