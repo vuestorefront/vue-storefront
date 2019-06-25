@@ -301,9 +301,9 @@ export default {
       return filtersMap
     },
     getSelectedFilters () {
-      // TODO move to helper
+      // TODO move to helper when refactoring product page
       let selectedFilters = {}
-      if (this.configuration) {
+      if (this.configuration && this.product) {
         Object.keys(this.configuration).map(filterType => {
           const filter = this.configuration[filterType]
           selectedFilters[filterType] = {

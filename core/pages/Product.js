@@ -185,11 +185,11 @@ export default {
     onAfterFilterChanged (filterOption) {
       this.$bus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
       const prevOption = this.configuration[filterOption.attribute_code]
-      this.configuration[filterOption.attribute_code] = filterOption
+      let changedConfig = Object.assign({}, this.configuration, {[filterOption.attribute_code]: filterOption})
       this.$forceUpdate() // this is to update the available options regarding current selection
       this.$store.dispatch('product/configure', {
         product: this.product,
-        configuration: this.configuration,
+        configuration: changedConfig,
         selectDefaultVariant: true,
         fallbackToDefaultWhenNoAvailable: false,
         setProductErorrs: true
