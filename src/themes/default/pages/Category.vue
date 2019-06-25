@@ -12,7 +12,11 @@
             <columns @change-column="columnChange" />
           </div>
           <div class="sorting col-sm-2 align-right mt50">
-            <sort-by :has-label="true" @change="changeFilter" />
+            <sort-by
+              :has-label="true"
+              @change="changeFilter"
+              :value="getCurrentSearchQuery.sort"
+            />
           </div>
         </div>
       </div>
@@ -25,7 +29,10 @@
             {{ $t('Filters') }}
           </button>
           <div class="mobile-sorting col-xs-6 mt25">
-            <sort-by @change="changeFilter" />
+            <sort-by
+              @change="changeFilter"
+              :value="getCurrentSearchQuery.sort"
+            />
           </div>
         </div>
       </div>
@@ -39,7 +46,7 @@
           <div class="close-container absolute w-100">
             <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>
-          <sidebar class="mobile-filters-body" :filters="getAvailableFilters" />
+          <sidebar class="mobile-filters-body" :filters="getAvailableFilters" @changeFilter="changeFilter" />
           <div class="relative pb20 pt15">
             <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
           </div>
@@ -76,6 +83,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import Columns from '../components/core/Columns.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { mapGetters } from 'vuex'
 
 const composeInitialPageState = async (store, route) => {
   try {
@@ -110,6 +118,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('category-next', ['getCurrentSearchQuery']),
     products () {
       return this.$store.getters['category-next/getCategoryProducts']
     },
