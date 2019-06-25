@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.0-rc.1] - UNRELEASED
 
 ### Added
-- Apache2 proxy header support for store based on host @resubka (#3143)
+- Apache2 proxy header support for store based on host @resubaka (#3143)
 
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)
