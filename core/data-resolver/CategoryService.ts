@@ -6,7 +6,7 @@ import { Category } from 'core/modules/catalog-next/types/Category';
 
 const getCategories = async ({
   parentId = null,
-  filters = new Map(),
+  filters = {},
   level = null,
   onlyActive = true,
   onlyNotEmpty = false,
@@ -24,7 +24,7 @@ const getCategories = async ({
     searchQuery = searchQuery.applyFilter({key: 'level', value: {'eq': level}})
   }
 
-  for (var [key, value] of filters) {
+  for (var [key, value] of Object.entries(filters)) {
     if (Array.isArray(value)) {
       searchQuery = searchQuery.applyFilter({key: key, value: {'in': value}})
     } else {

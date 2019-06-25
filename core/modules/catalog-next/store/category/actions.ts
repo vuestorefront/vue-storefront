@@ -84,9 +84,8 @@ const actions: ActionTree<CategoryState, RootState> = {
     router.push({[products.routerFiltersSource]: query})
   },
   async loadCategoryBreadcrumbs ({ dispatch, getters }, category: Category) {
-    const categoryFilters = new Map()
     const categoryHierarchy = getters.getCategoriesHierarchyIdsMap.find(categoryMapping => categoryMapping.includes(category.id))
-    categoryFilters.set('id', categoryHierarchy)
+    const categoryFilters = { 'id': categoryHierarchy }
     await dispatch('loadCategories', {filters: categoryFilters})
   },
   /**
@@ -95,8 +94,7 @@ const actions: ActionTree<CategoryState, RootState> = {
    * This is an internalMethod invoked after module registration.
    */
   async _prepareCategoriesMap ({ dispatch, commit }) {
-    const categoryFilters = new Map()
-    categoryFilters.set('level', 1)
+    const categoryFilters = { 'level': 1 }
     const parentCategory = await dispatch('loadCategory', {filters: categoryFilters})
     if (parentCategory) {
       const categoryBreadcrumbsMap = _prepareCategoryMaps(parentCategory)

@@ -118,10 +118,9 @@ export default {
         filterValues: config.products.defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
         includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
       })
-      const categoryFilters = new Map()
       const searchPath = route.path.substring(1) // TODO change in mage2vuestorefront to url_paths starts with / sign
-      categoryFilters.set('url_path', searchPath)
-      // categoryFilters.set('slug', route.params.slug) // If you have disabled config.products.useMagentoUrlKeys in your project then use this way
+      const categoryFilters = { 'url_path': searchPath }
+      // const categoryFilters = { 'slug': route.params.slug } // If you have disabled config.products.useMagentoUrlKeys in your project then use this way
       const currentCategory = await store.dispatch('category-next/loadCategory', {filters: categoryFilters})
       await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
       await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)

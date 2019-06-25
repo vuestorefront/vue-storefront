@@ -4,7 +4,7 @@ declare namespace DataResolver {
 
   interface CategorySearchOptions {
     parentId?: number,
-    filters?: Map<string, string[] | string>,
+    filters?: { [key: string]: string[] | string },
     level?: number,
     onlyActive?: boolean,
     onlyNotEmpty?: boolean,
