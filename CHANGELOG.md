@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)
+- Resolve problem with getting CMS block from cache - @qiqqq (#2499)
 
 ### Changed / Improved
 -
@@ -19,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.10.0-rc.1] - 2019.06.19
 
 ### Added
+- Cast cart_id as string - Order schema expects string, Magento does not generate a string as cart id in every case - @DaanKouters (#3097)
 - Make installer work for windows - @Flyingmana (#2616)
 - "Clear cart" button in the cart - @jablpiotrek (#2587)
 - Global config api path under `api.url` - @BartoszLiburski (#2622)
