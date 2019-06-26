@@ -23,7 +23,7 @@ export default {
   metaInfo () {
     return {
       title: this.$route.meta.title || i18n.t('404 Page Not Found'),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+      meta: this.$route.meta.description ? [{ vmid: 'description', content: this.$route.meta.description }] : []
     }
   }
 }

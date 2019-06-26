@@ -287,7 +287,7 @@ export default {
         }
       ],
       title: htmlDecode(this.category.meta_title || this.categoryName),
-      meta: this.category.meta_description ? [{ vmid: 'description', description: htmlDecode(this.category.meta_description) }] : []
+      meta: this.category.meta_description ? [{ vmid: 'description', content: htmlDecode(this.category.meta_description) }] : [{ vmid: 'description', description: htmlDecode(this.categoryName) }]
     }
   }
 }
