@@ -1,4 +1,3 @@
-import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
 import { Category, ChildrenData } from '../types/Category';
 
 export const compareByLabel = (a, b) => {
@@ -11,7 +10,7 @@ export const compareByLabel = (a, b) => {
   return 0
 }
 
-export const _prepareCategoryMaps = (category: Category|ChildrenData) => {
+export const _prepareCategoryHierarchyMap = (category: Category|ChildrenData) => {
   let categoriesMaps = []
   if (category) {
     let categoryLevelMap = [category.id]
@@ -19,7 +18,7 @@ export const _prepareCategoryMaps = (category: Category|ChildrenData) => {
     if (category.children_data) {
       category.children_data.forEach((childrenData: ChildrenData) => {
         let childrenDataLevelMap = [...categoryLevelMap]
-        const childrenDataChildrenMaps = _prepareCategoryMaps(childrenData)
+        const childrenDataChildrenMaps = _prepareCategoryHierarchyMap(childrenData)
         childrenDataChildrenMaps.forEach(childrenDataChildrenMap => {
           let childLevel = [...childrenDataLevelMap, ...childrenDataChildrenMap]
           categoriesMaps.push(childLevel)

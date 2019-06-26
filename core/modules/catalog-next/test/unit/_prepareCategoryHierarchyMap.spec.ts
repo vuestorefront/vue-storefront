@@ -1,9 +1,9 @@
-import { _prepareCategoryMaps } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers';
+import { _prepareCategoryHierarchyMap } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers';
 import { Category } from '../../types/Category';
 
 jest.mock('@vue-storefront/core/modules/breadcrumbs/helpers', () => jest.fn());
 
-describe('_prepareCategoryMaps method', () => {
+describe('_prepareCategoryHierarchyMap method', () => {
   let parentCategory: Category
 
   beforeEach(() => {
@@ -22,13 +22,13 @@ describe('_prepareCategoryMaps method', () => {
   })
 
   it('should return empty array when no category provided', () => {
-    const result = _prepareCategoryMaps(null)
+    const result = _prepareCategoryHierarchyMap(null)
     expect(result).toBeDefined()
     expect(result.length).toEqual(0)
   });
 
   it('should return single array when parent category has no children data', () => {
-    const result = _prepareCategoryMaps(parentCategory)
+    const result = _prepareCategoryHierarchyMap(parentCategory)
     expect(result).toBeDefined()
     expect(result.length).toEqual(1)
     expect(result[0]).toEqual([2])
@@ -43,7 +43,7 @@ describe('_prepareCategoryMaps method', () => {
         id: 20
       }
     ]
-    const result = _prepareCategoryMaps(parentCategory)
+    const result = _prepareCategoryHierarchyMap(parentCategory)
     expect(result).toBeDefined()
     expect(result.length).toEqual(3)
     expect(result[0]).toEqual([2])
@@ -77,7 +77,7 @@ describe('_prepareCategoryMaps method', () => {
         ]
       }
     ]
-    const result = _prepareCategoryMaps(parentCategory)
+    const result = _prepareCategoryHierarchyMap(parentCategory)
     expect(result).toBeDefined()
     expect(result.length).toEqual(10)
     expect(result[0]).toEqual([2])

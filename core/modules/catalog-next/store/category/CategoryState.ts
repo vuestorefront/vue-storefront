@@ -18,5 +18,5 @@ export default interface CategoryState {
    *   [2, 22]
    * ]
    */
-  categoriesHierarchyIds: number[][]
+  categoriesHierarchyMap: number[][]
 }

@@ -93,13 +93,13 @@ const getters: GetterTree<CategoryState, RootState> = {
   getSystemFilterNames: () => ['sort'],
   getBreadcrumbs: (state, getters) => {
     if (!getters.getCurrentCategory) return []
-    const categoryHierarchyIds = getters.getCategoriesHierarchyIdsMap.find(categoryMapping => categoryMapping.includes(getters.getCurrentCategory.id)) || []
+    const categoryHierarchyIds = getters.getCategoriesHierarchyMap.find(categoryMapping => categoryMapping.includes(getters.getCurrentCategory.id)) || []
     let resultCategoryList = categoryHierarchyIds.map(categoryId => {
       return getters.getCategoriesMap[categoryId]
     })
     return parseCategoryPath(resultCategoryList)
   },
-  getCategoriesHierarchyIdsMap: state => state.categoriesHierarchyIds,
+  getCategoriesHierarchyMap: state => state.categoriesHierarchyMap,
   getCategorySearchProductsStats: state => state.searchProductsStats || {},
   getCategoryProductsTotal: (state, getters) => getters.getCategorySearchProductsStats.total || 0
 }

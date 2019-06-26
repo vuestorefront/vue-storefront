@@ -30,7 +30,7 @@ const mutations: MutationTree<CategoryState> = {
     state.availableFilters = availableFilters
   },
   [types.CATEGORY_SET_HIERARCHY_MAP] (state, hierarchyMap = {}) {
-    state.categoriesHierarchyIds = hierarchyMap
+    state.categoriesHierarchyMap = hierarchyMap
   },
   [types.CATEGORY_SET_SEARCH_PRODUCTS_STATS] (state, stats = {}) {
     state.searchProductsStats = stats

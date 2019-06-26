@@ -13,7 +13,7 @@ import { products } from 'config'
 import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 import { DataResolver } from 'core/data-resolver/types/DataResolver';
 import { Category } from '../../types/Category';
-import { _prepareCategoryMaps } from '../../helpers/categoryHelpers';
+import { _prepareCategoryHierarchyMap } from '../../helpers/categoryHelpers';
 
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category } = {}) {
@@ -102,7 +102,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async loadCategoryBreadcrumbs ({ dispatch, getters }, category: Category) {
     if (!category) return
-    const categoryHierarchy = getters.getCategoriesHierarchyIdsMap.find(categoryMapping => categoryMapping.includes(category.id))
+    const categoryHierarchy = getters.getCategoriesHierarchyMap.find(categoryMapping => categoryMapping.includes(category.id))
     const categoryFilters = { 'id': categoryHierarchy }
     await dispatch('loadCategories', {filters: categoryFilters})
   },
@@ -111,11 +111,11 @@ const actions: ActionTree<CategoryState, RootState> = {
    * Loads firstLevel category and creates map of categories hierarchy ids.
    * This is an internalMethod invoked after module registration.
    */
-  async _prepareCategoriesMap ({ dispatch, commit }) {
+  async _prepareCategoriesHierarchyMap ({ dispatch, commit }) {
     const categoryFilters = { 'level': 1 }
     const parentCategory = await dispatch('loadCategory', {filters: categoryFilters})
     if (parentCategory) {
-      const categoryBreadcrumbsMap = _prepareCategoryMaps(parentCategory)
+      const categoryBreadcrumbsMap = _prepareCategoryHierarchyMap(parentCategory)
       commit(types.CATEGORY_SET_HIERARCHY_MAP, categoryBreadcrumbsMap)
     }
   }
