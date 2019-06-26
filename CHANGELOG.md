@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)
+- Resolve problem with getting CMS block from cache - @qiqqq (#2499)
 
 ### Changed / Improved
 -
