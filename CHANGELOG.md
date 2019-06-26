@@ -11,10 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
 
 ### Fixed
-- 
+- Fixed product link in wishlist and microcart - @michasik (#2987)
 
 ### Changed / Improved
-- 
+-
 
 ## [1.10.0-rc.1] - 2019.06.19
 
