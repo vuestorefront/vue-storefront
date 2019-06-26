@@ -9,7 +9,7 @@ import UserState from '../types/UserState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { UserProfile } from '../types/UserProfile'
-import { isServer } from '@vue-storefront/core/helpers'
+import { isServer, processURLAddress } from '@vue-storefront/core/helpers'
 import config from 'config'
 // import router from '@vue-storefront/core/router'
 
@@ -77,7 +77,7 @@ const actions: ActionTree<UserState, RootState> = {
     if (config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)
     }
-    return fetch(url, { method: 'POST',
+    return fetch(processURLAddress(url), { method: 'POST',
       mode: 'cors',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -98,12 +98,12 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Login user and return user profile and current token
    */
-  register (context, { email, firstname, lastname, password }) {
+  async register (context, { email, firstname, lastname, password }) {
     let url = config.users.create_endpoint
     if (config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)
     }
-    return fetch(url, { method: 'POST',
+    return fetch(processURLAddress(url), { method: 'POST',
       mode: 'cors',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -111,13 +111,6 @@ const actions: ActionTree<UserState, RootState> = {
       },
       body: JSON.stringify({ customer: { email: email, firstname: firstname, lastname: lastname }, password: password })
     }).then(resp => { return resp.json() })
-      .then((resp) => {
-        if (resp.code === 200) {
-          context.dispatch('login', { username: email, password: password }).then(result => { // login user
-          })
-        }
-        return resp
-      })
   },
 
   /**
@@ -134,7 +127,7 @@ const actions: ActionTree<UserState, RootState> = {
         if (config.storeViews.multistore) {
           url = adjustMultistoreApiUrl(url)
         }
-        return fetch(url, { method: 'POST',
+        return fetch(processURLAddress(url), { method: 'POST',
           mode: 'cors',
           headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -248,7 +241,7 @@ const actions: ActionTree<UserState, RootState> = {
       callback_event: 'store:user/userAfterUpdate'
     })
   },
-  refreshCurrentUser (context, userData) {
+  setCurrentUser (context, userData) {
     context.commit(types.USER_INFO_LOADED, userData)
   },
   /**
@@ -374,7 +367,7 @@ const actions: ActionTree<UserState, RootState> = {
         message: i18n.t('Account data has successfully been updated'),
         action1: { label: i18n.t('OK') }
       })
-      rootStore.dispatch('user/refreshCurrentUser', event.result)
+      rootStore.dispatch('user/setCurrentUser', event.result)
     }
   },
   sessionAfterAuthorized (context, event) {

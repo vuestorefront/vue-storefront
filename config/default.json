@@ -14,7 +14,10 @@
       "dynamicConfigContinueOnError": false,
       "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
       "dynamicConfigInclude": [],
-      "elasticCacheQuota": 3096
+      "elasticCacheQuota": 4096,
+      "ssrDisabledFor": {
+        "extensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
+      }
     },
     "seo": {
       "useUrlDispatcher": true
@@ -94,6 +97,7 @@
         "storeId": 3,
         "name": "German Store",
         "url": "/de",
+        "appendStoreCode": true,
         "elasticsearch": {
           "host": "/api/catalog",
           "index": "vue_storefront_catalog_de"
@@ -121,6 +125,7 @@
         "storeId": 4,
         "name": "Italian Store",
         "url": "/it",
+        "appendStoreCode": true,
         "elasticsearch": {
           "host": "/api/catalog",
           "index": "vue_storefront_catalog_it"
@@ -472,6 +477,5 @@
         ]
       }
     }
-
 }
 

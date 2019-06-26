@@ -2,21 +2,14 @@
   <li class="row flex-nowrap py10">
     <div>
       <div class="ml10 bg-cl-secondary">
-        <img class="image" v-lazy="thumbnail" alt="">
+        <product-image :image="image" />
       </div>
     </div>
     <div class="col-xs flex pl35 py15 start-xs between-sm details">
       <div>
         <router-link
           class="serif h4 name"
-          :to="localizedRoute({
-            name: product.type_id + '-product',
-            params: {
-              parentSku: product.parentSku ? product.parentSku : product.sku,
-              slug: product.slug,
-              childSku: product.sku
-            }
-          })"
+          :to="productLink"
           data-testid="productLink"
           @click.native="$store.commit('ui/setMicrocart', false)"
         >
@@ -93,7 +86,10 @@
 <script>
 import config from 'config'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 
+import ProductImage from 'theme/components/core/ProductImage'
 import RemoveButton from './RemoveButton'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import { onlineHelper } from '@vue-storefront/core/helpers'
@@ -101,12 +97,22 @@ import { onlineHelper } from '@vue-storefront/core/helpers'
 export default {
   components: {
     RemoveButton,
-    BaseInputNumber
+    BaseInputNumber,
+    ProductImage
   },
   mixins: [Product],
   computed: {
     isOnline () {
       return onlineHelper.isOnline
+    },
+    image () {
+      return {
+        loading: this.thumbnail,
+        src: this.thumbnail
+      }
+    },
+    productLink () {
+      return formatProductLink(this.product, currentStoreView().storeCode)
     }
   },
   data () {

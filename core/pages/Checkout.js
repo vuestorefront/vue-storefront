@@ -35,7 +35,6 @@ export default {
         shipping: { $invalid: true },
         payment: { $invalid: true }
       },
-      userId: null,
       focusedField: null
     }
   },
@@ -104,7 +103,6 @@ export default {
     let country = this.$store.state.checkout.shippingDetails.country
     if (!country) country = storeView.i18n.defaultCountry
     this.$bus.$emit('checkout-before-shippingMethods', country)
-    this.$store.dispatch('cart/getPaymentMethods')
   },
   beforeDestroy () {
     this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
@@ -141,8 +139,11 @@ export default {
       this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
       this.$forceUpdate()
     },
-    onAfterPlaceOrder (payload) {
+    async onAfterPlaceOrder (payload) {
       this.confirmation = payload.confirmation
+      if (this.$store.state.checkout.personalDetails.createAccount) {
+        await this.$store.dispatch('user/login', { username: this.$store.state.checkout.personalDetails.emailAddress, password: this.$store.state.checkout.personalDetails.password })
+      }
       this.$store.dispatch('checkout/setThankYouPage', true)
       this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
       Logger.debug(payload.order)()
@@ -150,10 +151,7 @@ export default {
     onBeforeEdit (section) {
       this.activateSection(section)
     },
-    onBeforePlaceOrder (userId) {
-      if (userId) {
-        this.userId = userId.toString()
-      }
+    onBeforePlaceOrder (payload) {
     },
     onAfterCartSummary (receivedData) {
       this.cartSummary = receivedData
@@ -262,7 +260,7 @@ export default {
     },
     prepareOrder () {
       this.order = {
-        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : (this.userId ? this.userId : ''),
+        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {

@@ -38,6 +38,7 @@ export const Register = {
             this.rPassword = ''
           }
         } else {
+          this.$store.dispatch('login', { username: this.email, password: this.password })
           this.onSuccess()
           this.close()
         }
