@@ -7,6 +7,9 @@ const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_SET_PRODUCTS] (state, products = []) {
     state.products = products
   },
+  [types.CATEGORY_ADD_PRODUCTS] (state, products = []) {
+    state.products.push(...products)
+  },
   [types.CATEGORY_ADD_CATEGORY] (state, category: Category) {
     if (category) {
       let newCategoryEntry = {}
@@ -28,6 +31,9 @@ const mutations: MutationTree<CategoryState> = {
   },
   [types.CATEGORY_SET_HIERARCHY_MAP] (state, hierarchyMap = {}) {
     state.categoriesHierarchyIds = hierarchyMap
+  },
+  [types.CATEGORY_SET_SEARCH_PRODUCTS_STATS] (state, stats = {}) {
+    state.searchProductsStats = stats
   }
 }
 

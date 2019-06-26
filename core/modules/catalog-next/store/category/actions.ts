@@ -21,13 +21,34 @@ const actions: ActionTree<CategoryState, RootState> = {
     await dispatch('loadCategoryFilters', searchCategory)
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
-    const searchResult = await quickSearchByQuery({ query: filterQr, sort: searchQuery.sort })
-    let configuredProducts = searchResult.items.map(product => {
+    const {items, perPage, start, total} = await quickSearchByQuery({ query: filterQr, sort: searchQuery.sort })
+    commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
+    let configuredProducts = items.map(product => {
       const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: searchQuery.filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
       return Object.assign(product, configuredProductVariant)
     })
     commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
     // await dispatch('loadAvailableFiltersFrom', searchResult)
+
+    return items
+  },
+  async loadMoreCategoryProducts ({ commit, getters, rootState }) {
+    const { perPage, start, total } = getters.getCategorySearchProductsStats
+    if (start >= total || total < perPage) return
+
+    const searchQuery = getters.getCurrentSearchQuery
+    let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
+    const searchResult = await quickSearchByQuery({ query: filterQr, sort: searchQuery.sort, start: start + perPage, size: perPage })
+    commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, {
+      perPage: searchResult.perPage,
+      start: searchResult.start,
+      total: searchResult.total
+    })
+    let configuredProducts = searchResult.items.map(product => {
+      const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: searchQuery.filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
+      return Object.assign(product, configuredProductVariant)
+    })
+    commit(types.CATEGORY_ADD_PRODUCTS, configuredProducts)
 
     return searchResult.items
   },

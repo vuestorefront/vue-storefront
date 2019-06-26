@@ -1,9 +1,11 @@
 import { Category } from '../../types/Category';
+import Product from 'core/modules/catalog/types/Product';
 
 export default interface CategoryState {
   categoriesMap: { [id: string]: Category },
   availableFilters: any,
-  products: any,
+  products: Product[],
+  searchProductsStats: any,
   /**
    * TODO: need to have better name for this
    *

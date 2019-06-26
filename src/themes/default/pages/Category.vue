@@ -84,6 +84,7 @@ import config from 'config'
 import Columns from '../components/core/Columns.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { mapGetters } from 'vuex'
+import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 
 const composeInitialPageState = async (store, route) => {
   try {
@@ -111,10 +112,12 @@ export default {
     SortBy,
     Columns
   },
+  mixins: [onBottomScroll],
   data () {
     return {
       mobileFilters: false,
-      defaultColumn: 3
+      defaultColumn: 3,
+      loadingProducts: false
     }
   },
   computed: {
@@ -126,7 +129,7 @@ export default {
       return this.$store.getters['category-next/getCurrentCategory']
     },
     productsTotal () {
-      return this.products.length
+      return this.$store.getters['category-next/getCategoryProductsTotal']
     },
     isCategoryEmpty () {
       return this.productsTotal === 0
@@ -162,6 +165,17 @@ export default {
     },
     columnChange (column) {
       this.defaultColumn = column
+    },
+    async onBottomScroll () {
+      if (this.loadingProducts) return
+      this.loadingProducts = true
+      try {
+        await this.$store.dispatch('category-next/loadMoreCategoryProducts')
+      } catch (e) {
+        console.error('Problem with fetching more products', e)
+      } finally {
+        this.loadingProducts = false
+      }
     }
   }
 }

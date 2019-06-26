@@ -11,6 +11,7 @@ export const categoryModule: Module<CategoryState, RootState> = {
     categoriesMap: {},
     availableFilters: {},
     products: [],
+    searchProductsStats: {},
     categoriesHierarchyIds: []
   },
   getters,

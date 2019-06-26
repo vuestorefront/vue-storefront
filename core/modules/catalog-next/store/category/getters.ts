@@ -99,7 +99,9 @@ const getters: GetterTree<CategoryState, RootState> = {
     })
     return parseCategoryPath(resultCategoryList)
   },
-  getCategoriesHierarchyIdsMap: state => state.categoriesHierarchyIds
+  getCategoriesHierarchyIdsMap: state => state.categoriesHierarchyIds,
+  getCategorySearchProductsStats: state => state.searchProductsStats || {},
+  getCategoryProductsTotal: (state, getters) => getters.getCategorySearchProductsStats.total || 0
 }
 
 export default getters
