@@ -4,7 +4,7 @@ export interface ChildrenData {
 }
 
 export interface Category {
-  path?: string,
+  path: string,
   is_active: boolean,
   level: number,
   product_count: number,
@@ -14,5 +14,6 @@ export interface Category {
   id: number,
   url_path: string,
   url_key: string,
-  children_data: ChildrenData[]
+  children_data: ChildrenData[],
+  slug: string
 }
