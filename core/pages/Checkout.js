@@ -337,7 +337,7 @@ export default {
   metaInfo () {
     return {
       title: this.$route.meta.title || i18n.t('Checkout'),
-      meta: this.$route.meta.description ? [{ vmid: 'description', content: this.$route.meta.description }] : []
+      meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }] : []
     }
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
