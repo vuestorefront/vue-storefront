@@ -36,7 +36,7 @@ import { registerExtensions as extensions } from 'src/extensions'
 import globalConfig from 'config'
 
 import { injectDependencies } from '@vue-storefront/module'
-import { appInitInvoker } from '@vue-storefront/module/hooks'
+import { appInitExecutor } from '@vue-storefront/module/hooks'
 
 function createRouter (): VueRouter {
   return new VueRouter({
@@ -118,8 +118,8 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   registerModules(enabledModules, appContext)
   registerExtensions(extensions, app, router, store, config, ssrContext)
   registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
-  
-  appInitInvoker()
+
+  appInitExecutor()
   // will be depreciated in 2,0
   Vue.prototype.$bus.$emit('application-after-init', app)
 
