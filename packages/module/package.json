@@ -2,7 +2,8 @@
   "name": "@vue-storefront/module",
   "version": "0.0.1",
   "description": "Vue Storefront modules implementation",
-  "main": "index.js",
+  "main": "index.ts",
+  "typings": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

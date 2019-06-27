@@ -35,7 +35,7 @@ import { registerExtensions } from '@vue-storefront/core/compatibility/lib/exten
 import { registerExtensions as extensions } from 'src/extensions'
 import globalConfig from 'config'
 
-import { injectDependencies } from '@vue-storefront/module'
+import { injectReferences } from '@vue-storefront/module'
 import { appInitExecutor } from '@vue-storefront/module/hooks'
 
 function createRouter (): VueRouter {
@@ -114,7 +114,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     ssrContext
   }
 
-  injectDependencies(app, store, router, config)
+  injectReferences(app, store, router, config)
   registerModules(enabledModules, appContext)
   registerExtensions(extensions, app, router, store, config, ssrContext)
   registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
