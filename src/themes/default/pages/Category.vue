@@ -145,8 +145,12 @@ export default {
     await composeInitialPageState(store, route)
   },
   async beforeRouteEnter (to, from, next) {
-    if (isServer || from.name) next() // SSR render, no need to invoke SW caching here
-    else {
+    if (isServer) next() // SSR no need to invoke SW caching here
+    else if (from.name) { // SSR but client side invocation, we need to cache products
+      next(async vm => {
+        await vm.$store.dispatch('category-next/cacheProducts', { route: to })
+      })
+    } else { // Pure CSR, with no initial category state
       next(async vm => {
         await composeInitialPageState(vm.$store, to)
         await vm.$store.dispatch('category-next/cacheProducts', { route: to })
