@@ -36,7 +36,7 @@ import { registerExtensions as extensions } from 'src/extensions'
 import globalConfig from 'config'
 
 import { injectReferences } from '@vue-storefront/module'
-import { appInitExecutor } from '@vue-storefront/module/hooks'
+import { afterAppInitExecutor } from '@vue-storefront/module/hooks'
 
 function createRouter (): VueRouter {
   return new VueRouter({
@@ -77,7 +77,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   store.state.storeView = storeView
   // store.state.shipping.methods = shippingMethods
 
-  // to depreciate in near future
+  // @depreciate to depreciate in near future
   once('__VUE_EXTEND__', () => {
     Vue.use(Vuelidate)
     Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
@@ -119,8 +119,8 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   registerExtensions(extensions, app, router, store, config, ssrContext)
   registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
 
-  appInitExecutor()
-  // will be depreciated in 2,0
+  afterAppInitExecutor()
+  // @depreciate will be depreciated in 2,0
   Vue.prototype.$bus.$emit('application-after-init', app)
 
   return { app, router, store }

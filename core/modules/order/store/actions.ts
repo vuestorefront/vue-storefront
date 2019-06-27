@@ -11,7 +11,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { sha3_224 } from 'js-sha3'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
-
+import { beforePlaceOrderExecutor } from "@vue-storefront/module/hooks"
 const actions: ActionTree<OrderState, RootState> = {
   /**
    * Place order - send it to service worker queue
@@ -29,8 +29,9 @@ const actions: ActionTree<OrderState, RootState> = {
     if (storeView.storeCode) {
       order.store_code = storeView.storeCode
     }
-
+    // @depreciate to be depreciated in 2.0
     Vue.prototype.$bus.$emit('order-before-placed', { order: order })
+    order = beforePlaceOrderExecutor(order)
     if (!config.orders.directBackendSync || !isOnline()) {
       commit(types.ORDER_PLACE_ORDER, order)
       Vue.prototype.$bus.$emit('order-after-placed', { order: order })
