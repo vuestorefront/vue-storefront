@@ -2,10 +2,10 @@
   <div id="category">
     <header class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="getBreadcrumbs" :active-route="category.name" />
+        <breadcrumbs :routes="getBreadcrumbs" :active-route="getCurrentCategory.name" />
         <div class="row middle-sm">
           <h1 class="col-sm-8 category-title mb10">
-            {{ category.name }}
+            {{ getCurrentCategory.name }}
           </h1>
           <div class="sorting col-sm-2 align-right mt50">
             <label class="mr10">{{ $t('Columns') }}:</label>
@@ -59,7 +59,7 @@
         </div>
         <div class="col-md-9 px10 border-box products-list">
           <p class="col-xs-12 end-md m0 pb20 cl-secondary">
-            {{ productsTotal }} {{ $t('items') }}
+            {{ getCategoryProductsTotal }} {{ $t('items') }}
           </p>
           <div v-if="isCategoryEmpty" class="hidden-xs">
             <h4 data-testid="noProductsInfo">
@@ -67,7 +67,7 @@
             </h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
-          <product-listing :columns="defaultColumn" :products="products" />
+          <product-listing :columns="defaultColumn" :products="getCategoryProducts" />
         </div>
       </div>
     </div>
@@ -121,24 +121,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('category-next', ['getCurrentSearchQuery']),
-    products () {
-      return this.$store.getters['category-next/getCategoryProducts']
-    },
-    category () {
-      return this.$store.getters['category-next/getCurrentCategory']
-    },
-    productsTotal () {
-      return this.$store.getters['category-next/getCategoryProductsTotal']
-    },
+    ...mapGetters({
+      getCurrentSearchQuery: 'category-next/getCurrentSearchQuery',
+      getCategoryProducts: 'category-next/getCategoryProducts',
+      getCurrentCategory: 'category-next/getCurrentCategory',
+      getCategoryProductsTotal: 'category-next/getCategoryProductsTotal',
+      getAvailableFilters: 'category-next/getAvailableFilters'
+    }),
     isCategoryEmpty () {
-      return this.productsTotal === 0
+      return this.getCategoryProductsTotal === 0
     },
     getBreadcrumbs () {
-      return this.$store.getters['category-next/getBreadcrumbs'].filter(breadcrumb => breadcrumb.name !== this.category.name)
-    },
-    getAvailableFilters () {
-      return this.$store.getters['category-next/getAvailableFilters']
+      return this.$store.getters['category-next/getBreadcrumbs'].filter(breadcrumb => breadcrumb.name !== this.getCurrentCategory.name)
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
