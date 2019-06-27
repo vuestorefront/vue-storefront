@@ -1,6 +1,4 @@
-import { Store } from "vuex"
-
-interface StorefrontModule {(
+export interface StorefrontModule {(
   app: any,
   store: any,
   router: any,
