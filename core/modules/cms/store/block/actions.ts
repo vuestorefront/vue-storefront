@@ -54,7 +54,11 @@ const actions: ActionTree<CmsBlockState, RootState> = {
    */
   single (context, { key = 'identifier', value, excludeFields = null, includeFields = null, skipCache = false }) {
     const state = context.state
-    if (skipCache || (!state.items || state.items.length === 0)) {
+    let cmsBlock = []
+    if (state.items && state.items.length > 0) {
+      cmsBlock = state.items.filter(item => item[key] === value)
+    }
+    if (skipCache || cmsBlock.length === 0) {
       let query = new SearchQuery()
       if (value) {
         query = query.applyFilter({key: key, value: {'like': value}})
@@ -69,16 +73,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
         })
     } else {
       return new Promise((resolve, reject) => {
-        if (state.items.length > 0) {
-          let cmsBlock = state.items.find((itm) => { return itm[key] === value })
-          if (cmsBlock) {
-            resolve(cmsBlock)
-          } else {
-            reject(new Error('CMS block query returned empty result ' + key + ' = ' + value))
-          }
-        } else {
-          resolve()
-        }
+        resolve(cmsBlock[0])
       })
     }
   },

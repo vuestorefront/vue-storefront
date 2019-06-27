@@ -8,31 +8,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.0-rc.1] - UNRELEASED
 
 ### Added
-- 
+- Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
 
 ### Fixed
-- 
+- Fixed product link in wishlist and microcart - @michasik (#2987)
+- Resolve problem with getting CMS block from cache - @qiqqq (#2499)
 
 ### Changed / Improved
-- 
+-
 
-## [1.10.0-rc.1] - UNRELEASED
+## [1.10.0-rc.1] - 2019.06.19
 
 ### Added
+- Cast cart_id as string - Order schema expects string, Magento does not generate a string as cart id in every case - @DaanKouters (#3097)
 - Make installer work for windows - @Flyingmana (#2616)
 - "Clear cart" button in the cart - @jablpiotrek (#2587)
 - Global config api path under `api.url` - @BartoszLiburski (#2622)
 - Google Tag Manager integration - @talalus (#841)
 - Portuguese (pt-PT) translation - @xlcnd (#2695)
 - Module Mailchimp is removed in favor of more generic Newsletter - @mdesmet (#2558)
-- Added `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
-- Added back-button on orde detail page [#2819]
-- Added Elastic Search Suggestions in the Search Response - @jpetar (#2853)
-- Added linting for typescript files @ResuBaka (#2843)
-- Added back to top functionality - @vishal-7037 (#2866)
+- `syncTasks` cleanup, `elasticCacheQuota` lowered to 3096KB - @pkarw (#2729)
+- Back-button on orde detail page [#2819]
+- Elastic Search Suggestions in the Search Response - @jpetar (#2853)
+- Linting for typescript files @ResuBaka (#2843)
+- Back to top functionality - @vishal-7037 (#2866)
 - Thumbnail sizes are now configurable within the `config.products.thumbnails` and `config.cart.thumbnails` - @pkarw (#2897)
 - In multistore mode it's now possible to configure multiple instances with different hosts, not only the paths - @lukeromanowicz (#3048, #3052).
-- In multistore mode now there is a possibility to skip appending storecode to url with `appendStoreCode` config option - @lukeromanowicz (#3048, #3052).
+- In multistore mode now there is a possibility to skip appending storecode to url with `appendStoreCode` config option - @lukeromanowicz (#3048, #3052, #3074).
+- Add support for api.url in the Task module - @basvanpoppel (#3011)
+- Products column change functionality - @vishal-7037 (#3017)
+- New Module order-history this provides the pagination via lazy laod - @hackbard (#2810)
+- OrderNumber on ThankYouPage - @Flyingmana (#2743)
 
 ### Removed
 - The getter `cart/totals` has ben replaced with `cart/getTotals` - @pkarw (#2522)
@@ -44,15 +50,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Button for filters acceptance added with new styles for clear filters button - @965750 (#2811)
 - Added "Clear wishlist" button - @aniamusial (#2806)
 - Make all links with the primary color - @hackbard (#2932)
-- Remembering last search query - @webdiver, @patzick (#2787)
-- Added new Module order-history this provides the pagination via lazy laod - @hackbard (#2810)
-- OrderNumber on ThankYouPage - @Flyingmana (#2743)
-- Extracted ProductImage component to support faster images loading - @przemyslawspaczek (#2925)
-- Improve performace with preventing render 404 page on the server side if some of static content is missed, simple 404 response uses instead - [PHOENIX MEDIA](https://www.phoenix-media.eu/) - Yuri Boyko @yuriboyko, Anton Lobodenko @sniffy1988 (#3002)
-- Added Products column change functionality - @vishal-7037 (#3017)
-- Add support for api.url in the Task module - @basvanpoppel (#3011)
 
 ### Fixed
+- Back button on the Error page has been fixed - @pkarw (#3077)
 - Special price got zeroed - @pkarw (#2940)
 - Microcart tax + discount totals fix - @pkarw (#2892)
 - Microcart offline prices now forced down to original prices - @pkarw (#3012)
@@ -84,8 +84,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed placeholders in gallery in offline mode - @przspa (#2863)
 - Incorrect `user_id` set on the order object - @pkarw (#2966)
 - Problem with SSR render on product page with logged in user - @patzick (#2888)
+- NaN displayed as shipping method - button disabled - @aniamusial (#2881)
+- Logo on the Error page has been fixed - @przspa (#3077)
+- No placeholders / no photos for Get Inspire section in offline - @przspa (#3072)
+- Back icon on product page causing inconsistent behavior - @patzick (#3056)
 
 ### Changed / Improved
+- The `cart/sync`, `cart/addItems`, `cart/removeItem` and `cart/updateQuantity` now returns the `diffLog` object with all the notifications, server statuses and items changed during the shopping cart sync
+- The `cart/addItem` is no longer displaying the error messages - please use the `diffLog.clientNorifications` to update the UI instead (take a look at the `AddToCart.ts` for a reference)
 - The action `cart/userAfterLoggedin` got renamed to `cart/authorize` - @pkarw (#2522)
 - The action `cart/refreshTotals` got renamed to `cart/syncTotals` - @pkarw (#2522)
 - The action `cart/serverPull` got renamed to `cart/sync` - @pkarw - (#2522)
@@ -109,6 +115,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed static file handler to immediately return 404 status for missing files - @grimason (#2685)
 - Fixed maxAge Response Header for static files and Content-Type for Service Worker - @grimason (#2686)
 - Default log verbosity is changed to show only errors - @lromanowicz (#2717)
+- Remembering last search query - @webdiver, @patzick (#2787)
+- Extracted ProductImage component to support faster images loading - @przemyslawspaczek (#2925)
+- Improve performace with preventing render 404 page on the server side if some of static content is missed, simple 404 response uses instead - [PHOENIX MEDIA](https://www.phoenix-media.eu/) - Yuri Boyko @yuriboyko, Anton Lobodenko @sniffy1988 (#3002)
 - Logger refactor + now it takes `showErrorOnProduction` into account - @lromanowicz - (#2717)
 - Jest updated from 24.1 to 24.7 along with typings - @lromanowicz - (#2717)
 - Jest globals added to .eslint - @lromanowicz (#2717)
@@ -137,6 +146,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Category load depending on zoom level - @przspa (#2704)
 - Add yarn.lock to dockerfile build - @Flyingmana (#3006)
 - Inconsistent behaviour of picture slider on PDP - @przspa (#2757)
+- Remove static definition of `cashondelivery` in payment module - @danielmaier42 (#2983)
 
 ## [1.9.1] - 2019.05.27
 
