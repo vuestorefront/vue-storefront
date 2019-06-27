@@ -183,6 +183,7 @@
     "src/themes/*",
     "docs",
     "core/modules/*",
-    "test/unit"
+    "test/unit",
+    "packages/*"
   ]
 }
