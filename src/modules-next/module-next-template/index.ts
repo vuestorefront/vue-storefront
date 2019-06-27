@@ -1,7 +1,7 @@
 import { StorefrontModule } from '@vue-storefront/module';
 import { onAppInit } from '@vue-storefront/module/hooks'
 import { extendStore } from '@vue-storefront/module/helpers'
-import { ExampleStore } from "./store"
+import { ExampleStore } from './store'
 
 export const ExampleModule: StorefrontModule = function (app, store, router, config, appConfig) {
   // You can access config passed to registerModule via config variable

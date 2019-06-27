@@ -9,7 +9,7 @@ export const ExtendCart = {
     state: {
       newprop: null
     },
-    list() {
+    list () {
       console.log('Hello from extended action')
     }
   }
