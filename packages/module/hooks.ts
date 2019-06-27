@@ -11,8 +11,8 @@ function createListenerHook () {
     functionsToRun.push(fn)
   }
 
-  function executor () {
-    functionsToRun.forEach(fn => fn())
+  function executor (args?) {
+    functionsToRun.forEach(fn => fn(args))
   }
 
   return {

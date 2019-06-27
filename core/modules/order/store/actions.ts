@@ -11,7 +11,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { sha3_224 } from 'js-sha3'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
-import { beforePlaceOrderExecutor } from "@vue-storefront/module/hooks"
+import { beforePlaceOrderExecutor } from '@vue-storefront/module/hooks'
 const actions: ActionTree<OrderState, RootState> = {
   /**
    * Place order - send it to service worker queue
