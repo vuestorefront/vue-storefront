@@ -1,5 +1,1 @@
-import { refs } from "./"
-
-export function extendStore(name, module) {
-
-}
+export function extendStore(moduleName, module) {}
