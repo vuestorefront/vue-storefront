@@ -34,6 +34,7 @@ const actions: ActionTree<OrderState, RootState> = {
     order = beforePlaceOrderExecutor(order)
     if (!config.orders.directBackendSync || !isOnline()) {
       commit(types.ORDER_PLACE_ORDER, order)
+      // @depreciate to be depreciated in 2.0
       Vue.prototype.$bus.$emit('order-after-placed', { order: order })
       afterPlaceOrderExecutor({ order, task: { resultCode: 200 } })
       return {
@@ -56,6 +57,7 @@ const actions: ActionTree<OrderState, RootState> = {
           order.transmited = true
           commit(types.ORDER_PLACE_ORDER, order) // archive this order but not trasmit it second time
           commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order: order, confirmation: task.result })
+          // @depreciate to be depreciated in 2.0
           Vue.prototype.$bus.$emit('order-after-placed', { order: order, confirmation: task.result })
           afterPlaceOrderExecutor({ order, task })
           return task
