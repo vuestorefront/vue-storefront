@@ -49,3 +49,4 @@ function createMutatorHook () {
 
 export const { hook: afterAppInitHook, executor: afterAppInitExecutor } = createListenerHook()
 export const { hook: beforePlaceOrderHook, executor: beforePlaceOrderExecutor } = createMutatorHook()
+export const { hook: afterPlaceOrderHook, executor: afterPlaceOrderExecutor } = createListenerHook()
