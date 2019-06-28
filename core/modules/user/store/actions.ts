@@ -98,7 +98,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Login user and return user profile and current token
    */
-  async register (context, { email, firstname, lastname, password }) {
+  async register (context, { email, firstname, lastname, password, addresses }) {
     let url = config.users.create_endpoint
     if (config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)
@@ -109,7 +109,7 @@ const actions: ActionTree<UserState, RootState> = {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ customer: { email: email, firstname: firstname, lastname: lastname }, password: password })
+      body: JSON.stringify({ customer: { email, firstname, lastname, addresses }, password })
     }).then(resp => { return resp.json() })
   },
 
