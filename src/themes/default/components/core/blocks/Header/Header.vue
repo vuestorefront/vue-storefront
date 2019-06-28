@@ -8,12 +8,7 @@
         <div class="row between-xs middle-xs" v-if="!isCheckoutPage || isThankYouPage">
           <div class="col-md-4 col-xs-2 middle-xs">
             <div>
-              <template v-if="!canGoBack">
-                <hamburger-icon class="p15 icon bg-cl-secondary pointer" v-if="!canGoBack" />
-              </template>
-              <template v-else>
-                <return-icon class="p15 icon bg-cl-secondary pointer" v-if="canGoBack" />
-              </template>
+              <hamburger-icon class="p15 icon bg-cl-secondary pointer" />
             </div>
           </div>
           <div class="col-xs-2 visible-xs">
@@ -73,7 +68,6 @@ import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
 import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
 import Logo from 'theme/components/core/Logo'
 import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon'
-import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
 import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
 import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
 
@@ -85,7 +79,6 @@ export default {
     HamburgerIcon,
     Logo,
     MicrocartIcon,
-    ReturnIcon,
     SearchIcon,
     WishlistIcon
   },
