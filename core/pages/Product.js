@@ -241,7 +241,7 @@ export default {
         }
       ],
       title: htmlDecode(this.product.meta_title || this.productName),
-      meta: this.product.meta_description ? [{ vmid: 'description', description: htmlDecode(this.product.meta_description) }] : []
+      meta: this.product.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.product.meta_description) }] : []
     }
   }
 }
