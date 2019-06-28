@@ -1,9 +1,9 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
-import { Compare as CompareModule } from '../'
+import { Compare as CompareModule } from '..'
 import compareMountedMixin from '@vue-storefront/core/modules/compare/mixins/compareMountedMixin'
 
-export const AddToCompare = {
-  name: 'AddToCompare',
+export const RemoveFromCompare = {
+  name: 'RemoveFromCompare',
   mixins: [compareMountedMixin],
   props: {
     product: {
@@ -11,14 +11,10 @@ export const AddToCompare = {
       type: Object
     }
   },
-  created () {
-    CompareModule.register()
-  },
   methods: {
-    addToCompare (product: Product) {
-      return this.$store.state['compare']
-        ? this.$store.dispatch('compare/addItem', product)
-        : false
+    removeFromCompare (product: Product) {
+      CompareModule.register()
+      this.$store.dispatch('compare/removeItem', product)
     }
   }
 }
