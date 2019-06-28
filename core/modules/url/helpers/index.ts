@@ -1,5 +1,5 @@
 import { router } from '@vue-storefront/core/app'
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 import { localizedDispatcherRoute, localizedRoute, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
 import { RouteConfig } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
@@ -13,10 +13,9 @@ export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: s
   return parametrizedRoute
 }
 
-export function processDynamicRoute(routeData: LocalizedRoute, fullPath: string, addToRoutes: boolean = true): LocalizedRoute[] {
+export function processDynamicRoute (routeData: LocalizedRoute, fullPath: string, addToRoutes: boolean = true): LocalizedRoute[] {
   const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
-    const config = rootStore.state.config
     if (addToRoutes) {
       const routes = []
       const rootDynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + fullPath, name: `urldispatcher-${fullPath}` })
@@ -24,7 +23,7 @@ export function processDynamicRoute(routeData: LocalizedRoute, fullPath: string,
       if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
         for (let storeCode of config.storeViews.mapStoreUrlsFor) {
           if (storeCode) {
-            const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((rootStore.state.config.defaultStoreCode !== storeCode) ? (storeCode + '/') : '') + fullPath, name: `urldispatcher-${fullPath}-${storeCode}` })
+            const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((config.defaultStoreCode !== storeCode) ? (storeCode + '/') : '') + fullPath, name: `urldispatcher-${fullPath}-${storeCode}` })
             routes.push(dynamicRoute)
           }
         }
@@ -40,11 +39,11 @@ export function processDynamicRoute(routeData: LocalizedRoute, fullPath: string,
   }
 }
 
-export function findRouteByPath(fullPath: string): RouteConfig {
+export function findRouteByPath (fullPath: string): RouteConfig {
   return RouterManager.findByPath(fullPath)
 }
 
-export function normalizeUrlPath(url: string): string {
+export function normalizeUrlPath (url: string): string {
   if (url && url.length > 0) {
     if (url[0] === '/') url = url.slice(1)
     const queryPos = url.indexOf('?')
@@ -53,11 +52,11 @@ export function normalizeUrlPath(url: string): string {
   return url
 }
 
-export function formatCategoryLink(category: { url_path: string, slug: string }): string {
-  return rootStore.state.config.seo.useUrlDispatcher ? ('/' + category.url_path) : ((rootStore.state.config.products.useShortCatalogUrls ? '/' : '/c/') + category.slug)
+export function formatCategoryLink (category: { url_path: string, slug: string }): string {
+  return config.seo.useUrlDispatcher ? ('/' + category.url_path) : ('/c/' + category.slug)
 }
 
-export function formatProductLink(
+export function formatProductLink (
   product: {
     parentSku?: string,
     sku: string,
@@ -68,7 +67,7 @@ export function formatProductLink(
   },
   storeCode
 ): string | LocalizedRoute {
-  if (rootStore.state.config.seo.useUrlDispatcher && product.url_path) {
+  if (config.seo.useUrlDispatcher && product.url_path) {
     let routeData: LocalizedRoute;
     if (product.configurable_children && product.configurable_children.length > 0) {
       routeData = {

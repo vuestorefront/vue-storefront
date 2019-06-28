@@ -5,7 +5,9 @@
       <img src="/assets/logo.svg" alt="Vuestore" class="logo">
 
       <div class="copy align-center cl-secondary">
-        <p class="h1">Welcome to Vue Storefront!</p>
+        <p class="h1">
+          Welcome to Vue Storefront!
+        </p>
         <div class="h4">
           <p>
             Vue Storefront is a PWA storefront for eCommerce.

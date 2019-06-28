@@ -20,10 +20,12 @@
       </div>
     </div>
     <div class="row pl20 pr20" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div id="checkout-order-review-additional-container">
-          <div id="checkout-order-review-additional">&nbsp;</div>
+          <div id="checkout-order-review-additional">
+&nbsp;
+          </div>
         </div>
         <div class="row mb15 mt20">
           <div class="col-xs-12">
@@ -37,7 +39,6 @@
               <base-checkbox
                 class="col-xs-11 col-sm-12 col-md-8 bg-cl-secondary p15 mb35 ml10"
                 id="acceptTermsCheckbox"
-                @click="orderReview.terms = !orderReview.terms"
                 @blur="$v.orderReview.terms.$touch()"
                 v-model="orderReview.terms"
                 :validations="[{
@@ -59,7 +60,7 @@
       </div>
     </div>
     <div class="row" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 col-md-8 px20">
@@ -78,7 +79,7 @@
       </div>
     </div>
 
-    <modal name="modal-terms" >
+    <modal name="modal-terms">
       <p slot="header">
         {{ $t('Terms and conditions') }}
       </p>
@@ -115,15 +116,13 @@ import ButtonFull from 'theme/components/theme/ButtonFull'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import Modal from 'theme/components/core/Modal'
 import { OrderReview } from '@vue-storefront/core/modules/checkout/components/OrderReview'
-import ValidationError from 'theme/components/core/ValidationError'
 
 export default {
   components: {
     BaseCheckbox,
     ButtonFull,
     CartSummary,
-    Modal,
-    ValidationError
+    Modal
   },
   mixins: [OrderReview, Composite],
   validations: {
@@ -135,11 +134,6 @@ export default {
   },
   methods: {
     onSuccess () {
-      this.$store.dispatch('notification/spawnNotification', {
-        type: 'success',
-        message: this.$t('You are logged in!'),
-        action1: { label: this.$t('OK') }
-      })
     },
     onFailure (result) {
       this.$store.dispatch('notification/spawnNotification', {

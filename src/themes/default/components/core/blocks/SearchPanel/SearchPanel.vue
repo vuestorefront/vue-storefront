@@ -28,14 +28,14 @@
               @blur="$v.search.$touch()"
               class="search-panel-input"
               :placeholder="$t('Type what you are looking for...')"
-              type="text"
+              type="search"
               autofocus="true"
             >
           </div>
         </div>
       </div>
       <div v-if="visibleProducts.length && categories.length > 1" class="categories">
-        <category-panel :categories="categories" v-model="selectedCategoryIds"/>
+        <category-panel :categories="categories" v-model="selectedCategoryIds" />
       </div>
       <div class="product-listing row">
         <product-tile
@@ -134,6 +134,10 @@ export default {
     categories () {
       this.selectedCategoryIds = []
     }
+  },
+  mounted () {
+    // add autofocus to search input field
+    this.$refs.search.focus()
   }
 }
 </script>

@@ -1,7 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
-const Countries = require('@vue-storefront/i18n/resource/countries.json')
 import toString from 'lodash-es/toString'
+const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Payment = {
   name: 'Payment',
@@ -24,7 +24,7 @@ export const Payment = {
   computed: {
     ...mapState({
       currentUser: (state: RootState) => state.user.current,
-      shippingDetails: (state:RootState) => state.checkout.shippingDetails
+      shippingDetails: (state: RootState) => state.checkout.shippingDetails
     }),
     ...mapGetters({
       paymentMethods: 'payment/paymentMethods',
@@ -37,7 +37,7 @@ export const Payment = {
     }
   },
   mounted () {
-    if (!!this.payment.firstName) {
+    if (this.payment.firstName) {
       this.initializeBillingAddress()
     } else {
       if (this.payment.company) {
@@ -46,14 +46,29 @@ export const Payment = {
     }
     this.changePaymentMethod()
   },
-  watch:{
-    shippingDetails:{
+  watch: {
+    shippingDetails: {
       handler () {
         if (this.sendToShippingAddress) {
-          this.copyShippingToBillingAddress();
+          this.copyShippingToBillingAddress()
         }
       },
       deep: true
+    },
+    sendToShippingAddress: {
+      handler () {
+        this.useShippingAddress()
+      }
+    },
+    sendToBillingAddress: {
+      handler () {
+        this.useBillingAddress()
+      }
+    },
+    generateInvoice: {
+      handler () {
+        this.useGenerateInvoice()
+      }
     }
   },
   methods: {
@@ -122,17 +137,16 @@ export const Payment = {
       }
     },
     useShippingAddress () {
-      this.sendToShippingAddress = !this.sendToShippingAddress
       if (this.sendToShippingAddress) {
-        this.copyShippingToBillingAddress();
+        this.copyShippingToBillingAddress()
         this.sendToBillingAddress = false
-        this.generateInvoice = false
-      } else {
+      }
+
+      if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
         this.payment = this.$store.state.checkout.paymentDetails
-        this.generateInvoice = false
       }
     },
-    copyShippingToBillingAddress(){
+    copyShippingToBillingAddress () {
       this.payment = {
         firstName: this.shippingDetails.firstName,
         lastName: this.shippingDetails.lastName,
@@ -147,7 +161,6 @@ export const Payment = {
       }
     },
     useBillingAddress () {
-      this.sendToBillingAddress = !this.sendToBillingAddress
       if (this.sendToBillingAddress) {
         let id = this.currentUser.default_billing
         let addresses = this.currentUser.addresses
@@ -171,13 +184,14 @@ export const Payment = {
           }
         }
         this.sendToShippingAddress = false
-      } else {
+      }
+
+      if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
         this.payment = this.$store.state.checkout.paymentDetails
         this.generateInvoice = false
       }
     },
     useGenerateInvoice () {
-      this.generateInvoice = !this.generateInvoice
       if (!this.generateInvoice) {
         this.payment.company = ''
         this.payment.taxId = ''

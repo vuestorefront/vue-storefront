@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/core/store'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
@@ -48,7 +49,10 @@ export default {
       this.$store.state.cart.cartItems.forEach(product => {
         bucket.push({
           label: product.name,
-          amount: { currency: storeView.i18n.currencyCode, value: product.priceInclTax }
+          amount: {
+            currency: storeView.i18n.currencyCode,
+            value: this.getProductPrice(product)
+          }
         })
       })
 
@@ -72,16 +76,6 @@ export default {
         bucket.push({
           label: shipping[0].title,
           amount: { currency: storeView.i18n.currencyCode, value: shipping[0].value }
-        })
-      }
-
-      const discount = this.platformTotal.filter(segment => {
-        return segment.code === 'discount'
-      })
-      if (discount.length > 0) {
-        bucket.push({
-          label: discount[0].title,
-          amount: { currency: storeView.i18n.currencyCode, value: discount[0].value }
         })
       }
 
@@ -149,7 +143,7 @@ export default {
               this.$store.dispatch('checkout/setThankYouPage', true)
               this.$store.commit('ui/setMicrocart', false)
               this.$router.push(this.localizedRoute('/checkout'))
-              this.$store.dispatch('cart/clear', {}, {root: true})
+              this.$store.dispatch('cart/clear', { recreateAndSyncCart: true }, {root: true})
             }
           })
         })
@@ -165,11 +159,14 @@ export default {
       })
 
       const dataToUpdate = new Promise((resolve, reject) => {
-        this.$store.dispatch('cart/refreshTotals', {
-          country: this.country,
-          method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
-          carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
-          payment_method: null
+        this.$store.dispatch('cart/syncTotals', {
+          methodsData: {
+            country: this.country,
+            method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
+            carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
+            payment_method: null
+          },
+          forceServerSync: true
         }).then(() => {
           resolve({
             displayItems: this.bucket,
@@ -191,11 +188,14 @@ export default {
       const dataToUpdate = new Promise((resolve, reject) => {
         this.updateShippingOptions(true)
           .then(() => {
-            return this.$store.dispatch('cart/refreshTotals', {
-              country: this.country,
-              method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
-              carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
-              payment_method: null
+            return this.$store.dispatch('cart/syncTotals', {
+              methodsData: {
+                country: this.country,
+                method_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].id : null,
+                carrier_code: this.selectedShippingOption.length > 0 ? this.selectedShippingOption[0].carrier_code : null,
+                payment_method: null
+              },
+              forceServerSync: true
             })
           }).then(() => {
             resolve({
@@ -213,9 +213,9 @@ export default {
     },
     updateShippingOptions (setDefault = false) {
       return new Promise((resolve, reject) => {
-        rootStore.dispatch('cart/getShippingMethods', {
+        rootStore.dispatch('cart/syncShippingMethods', {
           country_id: this.country
-        }).then(() => {
+        }, { forceServerSync: true }).then(() => {
           this.shippingOptions = []
           this.$store.state.shipping.methods.forEach(method => {
             this.shippingOptions.push({
@@ -289,6 +289,21 @@ export default {
           payment_method_additional: {}
         }
       }
+    },
+    getProductPrice (product) {
+      if (!config.cart.displayItemDiscounts) {
+        return product.qty * product.priceInclTax
+      }
+
+      if (product.totals) {
+        if (product.totals.discount_amount) {
+          return product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount
+        } else {
+          return product.totals.row_total_incl_tax
+        }
+      }
+
+      return product.regular_price * product.qty
     }
   },
   mounted () {

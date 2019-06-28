@@ -15,35 +15,39 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 pl20 pr20">
-            <h3 v-if="OnlineOnly" >
+            <h3 v-if="OnlineOnly">
               {{ $t('Your purchase') }}
             </h3>
             <p v-if="OnlineOnly" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
-            <p v-if="OnlineOnly && lastOrderConfirmation" v-html="this.$t('The server order id has been set to ') + lastOrderConfirmation.backendOrderId"/>
-            <p v-if="OnlineOnly" v-html="this.$t('E-mail us at <b>demo@vuestorefront.io</b> with any questions, suggestions how we could improve products or shopping experience')"/>
+            <p v-if="OnlineOnly && lastOrderConfirmation" v-html="this.$t('The server order id has been set to ') + lastOrderConfirmation.backendOrderId" />
+            <p v-if="OnlineOnly && lastOrderConfirmation.orderNumber" v-html="this.$t('The OrderNumber is ') + lastOrderConfirmation.orderNumber" />
 
             <h4 v-if="OfflineOnly">
               {{ $t('You are offline') }}
             </h4>
-            <p v-if="OfflineOnly && !isNotificationSupported" >
+            <p v-if="OfflineOnly && !isNotificationSupported">
               {{ $t('To finish the order just come back to our store while online. Your order will be sent to the server as soon as you come back here while online and then confirmed regarding the stock quantities of selected items') }}
             </p>
-            <p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted" >
+            <p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted">
               {{ $t("You can allow us to remind you about the order via push notification after coming back online. You'll only need to click on it to confirm.") }}
             </p>
-            <p v-if="OfflineOnly && isNotificationSupported && isPermissionGranted" >
+            <p v-if="OfflineOnly && isNotificationSupported && isPermissionGranted">
               <strong>{{ $t('You will receive Push notification after coming back online. You can confirm the order by clicking on it') }}</strong>
             </p>
             <p v-if="!isPermissionGranted && isNotificationSupported">
-              <button-outline color="dark" @click.native="requestNotificationPermission()" >
+              <button-outline color="dark" @click.native="requestNotificationPermission()">
                 {{ $t('Allow notification about the order') }}
               </button-outline>
             </p>
-            <div id="thank-you-extensions"/>
-            <h4>
-              {{ $t('Your Account') }}
-            </h4>
-            <p v-html="this.$t('You can log to your account using e-mail and password defined earlier. On your account you can <b>edit your profile data,</b> check <b>history of transactions,</b> edit <b>subscription to newsletter.</b>')"/>
+            <p>
+              <button-outline
+                color="dark"
+                @click.native="$router.push('/')"
+              >
+                {{ $t('Return to shopping') }}
+              </button-outline>
+            </p>
+            <div id="thank-you-extensions" />
           </div>
           <div class="col-md-6 bg-cl-secondary thank-you-improvment">
             <h3>
@@ -80,6 +84,7 @@ import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
 import { isServer } from '@vue-storefront/core/helpers'
+import config from 'config'
 
 export default {
   name: 'ThankYouPage',
@@ -105,7 +110,7 @@ export default {
       return this.$store.state.checkout.personalDetails.emailAddress
     },
     mailerElements () {
-      return this.$store.state.config.mailer.contactAddress
+      return config.mailer.contactAddress
     }
   },
   methods: {
