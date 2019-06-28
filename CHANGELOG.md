@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Resolve problem with getting CMS block from cache - @qiqqq (#2499)
 
 ### Changed / Improved
--
+- Can set transition style for Modal content - @grimasod (#3146)
 
 ## [1.10.0-rc.1] - 2019.06.19
 
@@ -112,8 +112,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Product video - retrieve video id from 'video_id' field (if set) instead of 'id' - @afirlejczyk
 - Webpack config improvement - @yogeshsuhagiya (#2689)
 - BaseSelect input event - @ResuBaka (#2683)
-- Fixed static file handler to immediately return 404 status for missing files - @grimason (#2685)
-- Fixed maxAge Response Header for static files and Content-Type for Service Worker - @grimason (#2686)
+- Fixed static file handler to immediately return 404 status for missing files - @grimasod (#2685)
+- Fixed maxAge Response Header for static files and Content-Type for Service Worker - @grimasod (#2686)
 - Default log verbosity is changed to show only errors - @lromanowicz (#2717)
 - Remembering last search query - @webdiver, @patzick (#2787)
 - Extracted ProductImage component to support faster images loading - @przemyslawspaczek (#2925)
