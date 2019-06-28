@@ -261,7 +261,7 @@ export default {
     prepareOrder () {
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
-        cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
+        cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {
           billingAddress: {
