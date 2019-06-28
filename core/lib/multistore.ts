@@ -143,6 +143,7 @@ export function adjustMultistoreApiUrl (url: string): string {
 
 export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): LocalizedRoute | string {
   const appendStoreCodePrefix = config.storeViews[storeCode] ? config.storeViews[storeCode].appendStoreCode : false
+
   if (typeof routeObj === 'string') {
     return appendStoreCodePrefix ? '/' + storeCode + routeObj : routeObj
   }
