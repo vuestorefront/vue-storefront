@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.0-rc.2] - UNRELEASED
+
+### Fixed
+- Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
+
 ## [1.10.0-rc.1] - 2019.06.19
 
 ### Added
@@ -74,7 +79,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Logo on the Error page has been fixed - @przspa (#3077)
 - No placeholders / no photos for Get Inspire section in offline - @przspa (#3072)
 - Back icon on product page causing inconsistent behavior - @patzick (#3056)
-- Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
 
 ### Changed / Improved
 - The `cart/sync`, `cart/addItems`, `cart/removeItem` and `cart/updateQuantity` now returns the `diffLog` object with all the notifications, server statuses and items changed during the shopping cart sync
