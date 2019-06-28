@@ -4,6 +4,7 @@
 "Out of stock!","Out of stock!"
 " is out of the stock!"," is out of the stock!"
 "Some of the ordered products are not available!","Some of the ordered products are not available!"
+"Please wait ...","Please wait ..."
 "Stock check in progress, please wait while available stock quantities are checked","Stock check in progress, please wait while available stock quantities are checked"
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not avaiable because we cannot check it right now."
 "No such configuration for the product. Please do choose another combination of attributes.","No such configuration for the product. Please do choose another combination of attributes."
@@ -73,3 +74,4 @@
 "Quantity must be above 0","Quantity must be above 0"
 "Error: Error while adding products","Error: Error while adding products"
 "Unexpected authorization error. Check your Network conection.","Unexpected authorization error. Check your Network conection."
+"You are going to pay for this order upon delivery.","You are going to pay for this order upon delivery."

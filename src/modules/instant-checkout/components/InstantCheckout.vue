@@ -297,7 +297,7 @@ export default {
 
       if (product.totals) {
         if (product.totals.discount_amount) {
-          return product.totals.row_total_incl_tax - product.totals.discount_amount
+          return product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount
         } else {
           return product.totals.row_total_incl_tax
         }
