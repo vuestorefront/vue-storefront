@@ -3,12 +3,14 @@ import App from './App.vue'
 import routes from './router'
 import Vue from 'vue'
 import VueProgressBar from 'vue-progressbar'
+import VueScrollTo from 'vue-scrollto'
 import '@vue-storefront/core/lib/passive-listeners'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { once } from '@vue-storefront/core/helpers'
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(VueProgressBar)
+  Vue.use(VueScrollTo, { offset: -55 })
 })
 
 const themeEntry = App

@@ -1,12 +1,18 @@
 # `icmaa-cms` module
 
-## Function
-
 Load CMS blocks from API and insert them into state or as component.
 
 ## Configs
 
-No configs necessary.
+* Run `yarn` to install modules dependencies: `axios`.  
+  They are defined in templates `package.json`.
+
+* Add the following API endpoint to `config/local.json`:
+  ```
+  "icmaa_cms": {
+    "endpoint": "/api/ext/icmaa-cms/by-uid"
+  }
+  ```
 
 ## Todo
 

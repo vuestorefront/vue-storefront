@@ -14,6 +14,9 @@ const Static = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/St
 const CustomCmsPage = () => import(/* webpackChunkName: "vsf-custom-cms" */ 'theme/pages/CustomCmsPage.vue')
 const CmsData = () => import(/* webpackChunkName: "vsf-data" */ 'src/modules/magento-2-cms/components/CmsData')
 
+/** ICMAA / Custom pages */
+const IcmaaCategoryList = () => import(/* webpackChunkName: "vsf-category-list" */ 'src/modules/icmaa-category/pages/List.vue')
+
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
   { name: 'checkout', path: '/checkout', component: Checkout },
@@ -42,7 +45,9 @@ let routes = [
   { name: 'error', path: '/error', component: ErrorPage, meta: { layout: 'minimal' } },
   { name: 'custom-cms-page', path: '/custom-cms-page', component: CustomCmsPage },
   { name: 'cms-block-demo-page-ssr', path: '/cms-block-demo-page-ssr', component: CmsBlockDemoPageSsr },
-  { name: 'cms-page-sync', path: '/cms-page-sync', component: CmsData, props: {identifier: 'about-us', type: 'Page', sync: true} }
+  { name: 'cms-page-sync', path: '/cms-page-sync', component: CmsData, props: {identifier: 'about-us', type: 'Page', sync: true} },
+  /** ICMAA / Custom pages */
+  { name: 'icmaa-category-list', path: '/icmaa-category-list/:parentCategoryId/:depth?', component: IcmaaCategoryList }
 ]
 if (!config.products.useShortCatalogUrls) {
   routes = routes.concat([

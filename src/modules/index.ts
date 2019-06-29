@@ -25,7 +25,9 @@ import { RawOutputExample } from './raw-output-example'
 import { InstantCheckout } from './instant-checkout'
 import { OrderHistory } from './order-history'
 // ICMAA modules
+import './icmaa-url'
 import { IcmaaCms } from './icmaa-cms'
+import { IcmaaCategory } from './icmaa-category'
 
 // import { Example } from './module-template'
 
@@ -79,6 +81,8 @@ export const registerModules: VueStorefrontModule[] = [
   InstantCheckout,
   Url,
   OrderHistory,
-  IcmaaCms
   // Example
+  // ICMAA Modules:
+  IcmaaCms,
+  IcmaaCategory
 ]

@@ -1,0 +1,39 @@
+# `icmaa-url` module
+
+Set mappings for specific routes to enable custom routes and urls
+
+## Configs
+
+You can add your mappings to the `config/local.json`:
+
+```
+  …
+  "icmaa_url": [
+    {
+      "request_path": "new",
+      "name": "category",
+      "params": {
+        "slug": "new"
+      }
+    },
+    {
+      "request_path": "streetwear",
+      "name": "icmaa-category-list",
+      "params": {
+        "parentCategoryId": 14
+      }
+    },
+    {
+      "request_path": "merchandise",
+      "name": "icmaa-category-list",
+      "params": {
+        "parentCategoryId": 16,
+        "depth": 2
+      }
+    }
+  ],
+```
+
+## Todo
+
+[ ] Make config via `icmaa-cms` available
