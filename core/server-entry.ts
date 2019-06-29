@@ -58,6 +58,10 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
   })
 }
 
+function getHostFromHeader (headers: string[]): string {
+  return headers['x-forwarded-host'] !== undefined ? headers['x-forwarded-host'] : headers['host']
+}
+
 export default async context => {
   const { app, router, store } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
   return new Promise((resolve, reject) => {
@@ -69,7 +73,8 @@ export default async context => {
       if (config.storeViews.multistore === true) {
         let storeCode = context.vs.storeCode // this is from http header or env variable
         if (storeCode === undefined && router.currentRoute) { // this is from url
-          const currentRoute = Object.assign({}, router.currentRoute, {host: context.server.request.headers.host})
+          const host = getHostFromHeader(context.server.request.headers)
+          const currentRoute = Object.assign({}, router.currentRoute, { host })
           storeCode = storeCodeFromRoute(currentRoute)
         }
         if (storeCode !== '' && storeCode !== null) {
