@@ -16,9 +16,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)
 - Resolve problem with getting CMS block from cache - @qiqqq (#2499)
+- Make image proxy url work with relative base url - @cewald (#3158)
 
 ### Changed / Improved
+- Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
 - Can set transition style for Modal content - @grimasod (#3146)
+
+## [1.10.0-rc.2] - UNRELEASED
+
+### Fixed
+- Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
 
 ## [1.10.0-rc.1] - 2019.06.19
 
