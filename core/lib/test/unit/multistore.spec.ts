@@ -7,7 +7,7 @@ jest.mock('query-string', () => jest.fn())
 jest.mock('@vue-storefront/core/lib/router-manager', () => ({
   RouterManager: {}
 }))
-jest.mock('@vue-storefront/core/lib/logger', ()=>({
+jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {}
 }))
 jest.mock('config', () => ({}))
