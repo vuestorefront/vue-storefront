@@ -1,5 +1,5 @@
 <template>
-  <div :class="['cms-content']" v-if="block" v-html="block.content" />
+  <div :class="['cms-content']" v-if="loaded" v-html="block.content" />
 </template>
 
 <script>

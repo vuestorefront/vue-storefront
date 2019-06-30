@@ -11,14 +11,15 @@ export default {
     }
   },
   async created () {
-    if (!this.block) {
-      await this.$store.dispatch('icmaaCmsBlock/single', { value: this.identifier })
-    }
+    await this.$store.dispatch('icmaaCmsBlock/single', { value: this.identifier })
   },
   computed: {
     ...mapGetters({
       blockByIdentifier: 'icmaaCmsBlock/blockByIdentifier'
     }),
+    loaded (): boolean {
+      return (this.block && this.block.hasOwnProperty('content'))
+    },
     block (): BlockStateItem {
       return this.blockByIdentifier(this.identifier)
     }
