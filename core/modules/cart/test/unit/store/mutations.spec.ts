@@ -6,15 +6,11 @@ jest.mock('@vue-storefront/core/helpers', () => ({
   once: (str) => jest.fn()
 }))
 
+jest.mock('config', () => ({}))
+
 Vue.prototype.$bus = {
   $emit: jest.fn()
 }
-
-jest.mock('@vue-storefront/core/store', () => ({
-  state: {
-    config: {}
-  }
-}))
 
 describe('Cart mutations', () => {
   beforeEach(() => {
