@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 
 import * as types from '../../../store/mutation-types'
 
-import { cartCacheHandlerFactory } from '../../../helpers/cartCacheHandler';
 const StorageManager = {
   cartsCollection: {
     setItem: jest.fn()
@@ -13,6 +12,7 @@ const StorageManager = {
   }
 };
 jest.mock('@vue-storefront/core/store/lib/storage-manager', () => ({StorageManager}))
+import { cartCacheHandlerFactory } from '../../../helpers/cartCacheHandler';
 jest.mock('@vue-storefront/core/helpers', () => ({
   isServer: () => false
 }));
