@@ -49,8 +49,11 @@ export function findConfigurableChildAsync ({ product, configuration = null, sel
       return configurableChild.sku === configuration.sku // by sku or first one
     } else {
       return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
-        if (!configuration[configProperty] || typeof configuration[configProperty].id === 'undefined') return true // skip empty
-        return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
+        let configurationPropertyFilters = configuration[configProperty] || []
+        if (!Array.isArray(configurationPropertyFilters)) configurationPropertyFilters = [configurationPropertyFilters]
+        const configurationIds = configurationPropertyFilters.map(filter => toString(filter.id)).filter(filterId => !!filterId)
+        if (!configurationIds.length) return true // skip empty
+        return configurationIds.includes(toString(configurableChild[configProperty]))
       })
     }
   })
@@ -443,10 +446,12 @@ export function populateProductConfigurationAsync (context, { product, selectedV
           value: selectedVariant[attribute_code]
         }
       }
-      const selectedOptionMeta = option.values.find(ov => { return ov.value_index === selectedOption.value })
-      if (selectedOptionMeta) {
-        selectedOption.label = selectedOptionMeta.label ? selectedOptionMeta.label : selectedOptionMeta.default_label
-        selectedOption.value_data = selectedOptionMeta.value_data
+      if (option.values && option.values.length) {
+        const selectedOptionMeta = option.values.find(ov => { return ov.value_index === selectedOption.value })
+        if (selectedOptionMeta) {
+          selectedOption.label = selectedOptionMeta.label ? selectedOptionMeta.label : selectedOptionMeta.default_label
+          selectedOption.value_data = selectedOptionMeta.value_data
+        }
       }
 
       const confVal = {
