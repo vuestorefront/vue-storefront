@@ -151,8 +151,10 @@
               <base-input-number
                 :name="$t(`Quantity (${quantity} available)`)"
                 v-model="product.qty"
-                :min="1"
-                :max="quantity ? quantity : 1"
+                :min="quantity ? 1 : 0"
+                :max="quantity"
+                :disabled="quantity ? false : true"
+                :value="quantity ? 1 : 0"
                 @blur="$v.$touch()"
                 :validations="[
                   {

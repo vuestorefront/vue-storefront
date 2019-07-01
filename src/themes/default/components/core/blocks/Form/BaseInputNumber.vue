@@ -6,6 +6,7 @@
       type="number"
       :min="min"
       :max="max"
+      :disabled="disabled"
       class="m0 no-outline base-input-number__input brdr-cl-primary bg-cl-transparent h4"
       :focus="autofocus"
       :value="value"
@@ -43,6 +44,10 @@ export default {
     max: {
       type: Number,
       default: 0
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     autofocus: {
       type: Boolean,
