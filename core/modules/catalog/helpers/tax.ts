@@ -77,7 +77,6 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
       product.price_tax = product.special_price_tax
 
       /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
-      product.price = special_price_excl_tax
       product.priceInclTax = product.price_incl_tax
       product.priceTax = product.price_tax
       product.originalPrice = product.original_price

@@ -26,9 +26,9 @@
 
       <span
         class="price-original mr5 lh30 cl-secondary"
-        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0 && !onlyImage"
+        v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0 && !onlyImage"
       >
-        {{ product.originalPriceInclTax | price }}
+        {{ product.original_price_incl_tax | price }}
       </span>
 
       <span

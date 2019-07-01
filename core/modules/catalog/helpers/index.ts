@@ -169,21 +169,31 @@ export function filterOutUnavailableVariants (context, product) {
 export function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well
   product.sgn = backProduct.sgn // copy the signature for the modified price
   product.price_incl_tax = backProduct.price_info.final_price
-  product.originalPriceInclTax = backProduct.price_info.regular_price
+  product.original_price_incl_tax = backProduct.price_info.regular_price
   product.special_price_incl_tax = backProduct.price_info.special_price
 
   product.special_price = backProduct.price_info.extension_attributes.tax_adjustments.special_price
   product.price = backProduct.price_info.extension_attributes.tax_adjustments.final_price
-  product.originalPrice = backProduct.price_info.extension_attributes.tax_adjustments.regular_price
+  product.original_price = backProduct.price_info.extension_attributes.tax_adjustments.regular_price
 
   product.price_tax = product.price_incl_tax - product.price
   product.special_price_tax = product.special_price_incl_tax - product.special_price
-  product.originalPriceTax = product.originalPriceInclTax - product.originalPrice
+  product.original_price_tax = product.original_price_incl_tax - product.original_trice
 
-  if (product.price_incl_tax >= product.originalPriceInclTax) {
+  if (product.price_incl_tax >= product.original_price_incl_tax) {
     product.special_price_incl_tax = 0
     product.special_price = 0
   }
+
+  /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+  product.priceInclTax = product.price_incl_tax
+  product.priceTax = product.price_tax
+  product.originalPrice = product.original_price
+  product.originalPriceInclTax = product.original_price_incl_tax
+  product.originalPriceTax = product.original_price_tax
+  product.specialPriceInclTax = product.special_price_incl_tax
+  product.specialPriceTax = product.special_price_tax
+  /** END */      
   EventBus.$emit('product-after-priceupdate', product)
   // Logger.log(product.sku, product, backProduct)()
   return product
@@ -198,30 +208,50 @@ export function doPlatformPricesSync (products) {
       if (config.products.clearPricesBeforePlatformSync) {
         for (let product of products) { // clear out the prices as we need to sync them with Magento
           product.price_incl_tax = null
-          product.originalPriceInclTax = null
+          product.original_price_incl_tax = null
           product.special_price_incl_tax = null
 
           product.special_price = null
           product.price = null
-          product.originalPrice = null
+          product.original_price = null
 
           product.price_tax = null
           product.special_price_tax = null
-          product.originalPriceTax = null
+          product.original_price_tax = null
+
+          /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+          product.priceInclTax = product.price_incl_tax
+          product.priceTax = product.price_tax
+          product.originalPrice = product.original_price
+          product.originalPriceInclTax = product.original_price_incl_tax
+          product.originalPriceTax = product.original_price_tax
+          product.specialPriceInclTax = product.special_price_incl_tax
+          product.specialPriceTax = product.special_price_tax
+          /** END */          
 
           if (product.configurable_children) {
             for (let sc of product.configurable_children) {
               sc.price_incl_tax = null
-              sc.originalPriceInclTax = null
+              sc.original_price_incl_tax = null
               sc.special_price_incl_tax = null
 
               sc.special_price = null
               sc.price = null
-              sc.originalPrice = null
+              sc.original_price = null
 
               sc.price_tax = null
               sc.special_price_tax = null
-              sc.originalPriceTax = null
+              sc.original_price_tax = null
+
+              /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+              sc.priceInclTax = sc.price_incl_tax
+              sc.priceTax = sc.price_tax
+              sc.originalPrice = sc.original_price
+              sc.originalPriceInclTax = sc.original_price_incl_tax
+              sc.originalPriceTax = sc.original_price_tax
+              sc.specialPriceInclTax = sc.special_price_incl_tax
+              sc.specialPriceTax = sc.special_price_tax
+              /** END */                  
             }
           }
         }

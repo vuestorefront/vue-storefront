@@ -232,11 +232,11 @@ Please take a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-
   },
   "productList": {
     "sort": "",
-    "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_key", "status" ],
+    "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "specialPriceInclTax", "id", "image", "sale", "new", "url_key", "status" ],
     "excludeFields": [ "configurable_children", "description", "configurable_options", "sgn" ]
   },
   "productListWithChildren": {
-    "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "product_links", "url_key", "status"],
+    "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "original_price_incl_tax", "original_price", "specialPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "product_links", "url_key", "status"],
     "excludeFields": [ "description", "sgn"]
   },
   "product": {

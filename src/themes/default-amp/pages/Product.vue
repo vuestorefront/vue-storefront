@@ -43,13 +43,13 @@
               >
                 <div
                   class="h3 cl-secondary"
-                  v-if="product.special_price && product.price_incl_tax && product.originalPriceInclTax"
+                  v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax"
                 >
                   <span class="h2 cl-mine-shaft weight-700">
                     {{ product.price_incl_tax * product.qty | price }}
                   </span>&nbsp;
                   <span class="price-original h3">
-                    {{ product.originalPriceInclTax * product.qty | price }}
+                    {{ product.original_price_incl_tax * product.qty | price }}
                   </span>
                 </div>
                 <div
