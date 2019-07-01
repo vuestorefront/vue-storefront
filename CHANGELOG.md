@@ -8,12 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.0-rc.1] - UNRELEASED
 
 ### Added
+- Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057)
+- Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
 
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)
 - Resolve problem with getting CMS block from cache - @qiqqq (#2499)
+- Make image proxy url work with relative base url - @cewald (#3158)
 
 ### Changed / Improved
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
