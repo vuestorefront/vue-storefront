@@ -33,7 +33,9 @@
               class="mb20 uppercase cl-secondary"
               itemprop="sku"
               :content="product.sku"
-            >{{ $t('SKU') }}: {{ product.sku }}</div>
+            >
+              {{ $t('SKU') }}: {{ product.sku }}
+            </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
               <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
@@ -54,13 +56,17 @@
                 <div
                   class="h2 cl-mine-shaft weight-700"
                   v-if="!product.special_price && product.priceInclTax"
-                >{{ product.qty > 0 ? product.priceInclTax * product.qty : product.priceInclTax | price }}</div>
+                >
+                  {{ product.qty > 0 ? product.priceInclTax * product.qty : product.priceInclTax | price }}
+                </div>
               </div>
               <div class="cl-primary variants" v-if="product.type_id =='configurable' && !loading">
                 <div
                   class="error"
                   v-if="product.errors && Object.keys(product.errors).length > 0"
-                >{{ product.errors | formatProductMessages }}</div>
+                >
+                  {{ product.errors | formatProductMessages }}
+                </div>
                 <div
                   class="h5"
                   v-for="(option, index) in product.configurable_options"
@@ -146,6 +152,7 @@
                 :name="$t(`Quantity (${quantity} available)`)"
                 v-model="product.qty"
                 :min="1"
+                :max="quantity ? quantity : 1"
                 @blur="$v.$touch()"
                 :validations="[
                   {
@@ -164,10 +171,10 @@
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <AddToWishlist :product="product"/>
+                <AddToWishlist :product="product" />
               </div>
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <AddToCompare :product="product"/>
+                <AddToCompare :product="product" />
               </div>
             </div>
           </div>
@@ -175,11 +182,13 @@
       </div>
     </section>
     <section class="container px15 pt50 pb35 cl-accent details">
-      <h2 class="h3 m0 mb10 serif lh20 details-title">{{ $t('Product details') }}</h2>
+      <h2 class="h3 m0 mb10 serif lh20 details-title">
+        {{ $t('Product details') }}
+      </h2>
       <div class="h4 details-wrapper" :class="{'details-wrapper--open': detailsOpen}">
         <div class="row between-md m0">
           <div class="col-xs-12 col-sm-6">
-            <div class="lh30 h5" itemprop="description" v-html="product.description"/>
+            <div class="lh30 h5" itemprop="description" v-html="product.description" />
           </div>
           <div class="col-xs-12 col-sm-5">
             <ul class="attributes p0 pt5 m0">
@@ -192,15 +201,15 @@
               />
             </ul>
           </div>
-          <div class="details-overlay" @click="showDetails"/>
+          <div class="details-overlay" @click="showDetails" />
         </div>
       </div>
     </section>
-    <reviews :product-id="originalProduct.id" v-show="OnlineOnly"/>
-    <related-products type="upsell" :heading="$t('We found other products you might like')"/>
-    <promoted-offers single-banner/>
-    <related-products type="related"/>
-    <SizeGuide/>
+    <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
+    <related-products type="upsell" :heading="$t('We found other products you might like')" />
+    <promoted-offers single-banner />
+    <related-products type="related" />
+    <SizeGuide />
   </div>
 </template>
 
@@ -250,7 +259,7 @@ export default {
     SizeGuide
   },
   mixins: [Product, VueOfflineMixin],
-  data() {
+  data () {
     return {
       detailsOpen: false,
       quantity: 0
@@ -258,24 +267,24 @@ export default {
   },
   directives: { focusClean },
   computed: {
-    structuredData() {
+    structuredData () {
       return {
         availability: this.product.stock.is_in_stock ? 'InStock' : 'OutOfStock'
       }
     }
   },
-  created() {
+  created () {
     this.getQuantity()
   },
-  updated() {
+  updated () {
     this.getQuantity()
   },
   methods: {
-    showDetails(event) {
+    showDetails (event) {
       this.detailsOpen = true
       event.target.classList.add('hidden')
     },
-    notifyOutStock() {
+    notifyOutStock () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: this.$t(
@@ -284,7 +293,7 @@ export default {
         action1: { label: this.$t('OK') }
       })
     },
-    notifyWrongAttributes() {
+    notifyWrongAttributes () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
         message: this.$t(
@@ -293,10 +302,10 @@ export default {
         action1: { label: this.$t('OK') }
       })
     },
-    openSizeGuide() {
+    openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
     },
-    getQuantity() {
+    getQuantity () {
       this.$store
         .dispatch('stock/check', {
           product: this.product,

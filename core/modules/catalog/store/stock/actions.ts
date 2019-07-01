@@ -14,7 +14,7 @@ const actions: ActionTree<StockState, RootState> = {
   /**
    * Reset current configuration and selected variatnts
    */
-  async check(context, { product, qty = 1 }) {
+  async check (context, { product, qty = 1 }) {
     if (rootStore.state.config.stock.synchronize) {
       const task: any = await TaskQueue.execute({
         url:
@@ -56,7 +56,7 @@ const actions: ActionTree<StockState, RootState> = {
   /**
    * Reset current configuration and selected variatnts
    */
-  list(context, { skus }) {
+  list (context, { skus }) {
     return new Promise((resolve, reject) => {
       if (config.stock.synchronize) {
         TaskQueue.execute({
@@ -92,10 +92,10 @@ const actions: ActionTree<StockState, RootState> = {
       }
     });
   },
-  clearCache(context) {
+  clearCache (context) {
     context.state.cache = {};
   },
-  stockAfterCheck(context, event) {
+  stockAfterCheck (context, event) {
     setTimeout(() => {
       // TODO: Move to cart module
       rootStore.dispatch('cart/getItem', event.product_sku).then(cartItem => {
