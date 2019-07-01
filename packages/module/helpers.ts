@@ -1,1 +1,1 @@
-export function extendStore(moduleName, module) {}
+export function extendStore (moduleName, module) {}

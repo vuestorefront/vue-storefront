@@ -7,7 +7,8 @@ import '@vue-storefront/core/lib/passive-listeners'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { once } from '@vue-storefront/core/helpers'
 import { registerModule } from '@vue-storefront/module'
-import { ExampleModule } from 'src/modules-next/module-next-template'
+// temp
+import { ExampleModule } from 'packages/cli/boilerplates/module'
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(VueProgressBar)
 })

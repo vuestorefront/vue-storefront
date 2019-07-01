@@ -1,12 +1,21 @@
 {
   "name": "@vue-storefront/module",
+  "sideEffects": "false",
   "version": "0.0.1",
   "description": "Vue Storefront modules implementation",
-  "main": "index.ts",
+  "main": "index.js",
   "typings": "index.d.ts",
+  
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "clean": "rm -- *.js && rm -- *.d.ts",
+    "version": "npm run build",
+    "postpublish": "npm run clean"
   },
+  "files" : [
+    "*.js",
+    "*.d.ts"
+  ],
   "author": "Filip Rakowski (@filrak)",
   "license": "MIT"
 }

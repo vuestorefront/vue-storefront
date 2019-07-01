@@ -1,16 +1,23 @@
-import { StorefrontModule } from './index.d'
+
+export interface StorefrontModule { (
+  app: any,
+  store: any,
+  router: any,
+  config: any,
+  appConfig: any ) : void
+}
 
 let refs = { app: null, store: null, router: null, config: null }
 
-function injectReferences (app, store, router, config) {
+function injectReferences (app: any, store: any, router: any, config: any): any {
   refs.app = app
   refs.store = store
   refs.router = router
   refs.config = config
 }
 
-function registerModule (module: StorefrontModule, config: Object) {
+function registerModule (module: StorefrontModule, config) {
   module(refs.app, refs.store, refs.router, config, refs.config)
 }
 
-export { StorefrontModule, refs, injectReferences, registerModule }
+export { refs, injectReferences, registerModule }
