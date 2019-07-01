@@ -164,7 +164,7 @@ Calls the `vue-storefront-api` endpoint to send the password reset link to speci
 
 Called to login the user and receive the current token that can be used to authorize subsequent API calls. After user is successfully authorized the `user/me` action is dispatched to load the user profile data.
 
-#### `register (context, { email, firstname, lastname, password })`
+#### `register (context, { email, firstname, lastname, password, addresses })`
 
 Registers the user account in the eCommerce platform / Magento.
 
