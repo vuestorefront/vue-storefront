@@ -416,10 +416,12 @@ export function populateProductConfigurationAsync (context, { product, selectedV
           value: selectedVariant[attribute_code]
         }
       }
-      const selectedOptionMeta = option.values.find(ov => { return ov.value_index === selectedOption.value })
-      if (selectedOptionMeta) {
-        selectedOption.label = selectedOptionMeta.label ? selectedOptionMeta.label : selectedOptionMeta.default_label
-        selectedOption.value_data = selectedOptionMeta.value_data
+      if (option.values && option.values.length) {
+        const selectedOptionMeta = option.values.find(ov => { return ov.value_index === selectedOption.value })
+        if (selectedOptionMeta) {
+          selectedOption.label = selectedOptionMeta.label ? selectedOptionMeta.label : selectedOptionMeta.default_label
+          selectedOption.value_data = selectedOptionMeta.value_data
+        }
       }
 
       const confVal = {
