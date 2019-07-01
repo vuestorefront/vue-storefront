@@ -6,7 +6,7 @@ import config from 'config'
 
 function _prepareCachestorage (key, localised = true) {
   const storeView = currentStoreView()
-  const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
+  const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
   const cacheDriver = config.localForage && config.localForage.defaultDrivers[key]
     ? config.localForage.defaultDrivers[key]
     : 'LOCALSTORAGE'

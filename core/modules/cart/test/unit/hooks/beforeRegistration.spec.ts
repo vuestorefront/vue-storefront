@@ -31,7 +31,7 @@ describe('Cart beforeRegistration', () => {
     };
     const storageMock = {foo: 'bar'};
 
-    (currentStoreView as Mock).mockReturnValueOnce({});
+    (currentStoreView as Mock).mockReturnValue({});
     (UniversalStorage as unknown as Mock).mockImplementationOnce(() => storageMock);
 
     beforeRegistration({ Vue, config, store: undefined, isServer: undefined });

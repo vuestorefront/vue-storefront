@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 import * as types from '../../../store/mutation-types'
 import { cartCacheHandlerFactory } from '../../../helpers/cartCacheHandler';
-
-Vue.use(Vuex);
-
 const StorageManager = {
   cartsCollection: {
     setItem: jest.fn()
@@ -13,6 +11,14 @@ const StorageManager = {
     return this[key]
   }
 };
+jest.mock('@vue-storefront/core/store/lib/storage-manager', () => ({StorageManager}))
+jest.mock('@vue-storefront/core/helpers', () => ({
+  isServer: () => false
+}));
+jest.mock('@vue-storefront/core/app', () => ({ createApp: jest.fn() }))
+jest.mock('@vue-storefront/i18n', () => ({loadLanguageAsync: jest.fn()}))
+
+Vue.use(Vuex);
 
 describe('Cart afterRegistration', () => {
   beforeEach(() => {

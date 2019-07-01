@@ -1,7 +1,6 @@
 import rootStore from '../store'
 import { loadLanguageAsync } from '@vue-storefront/i18n'
 import { initializeSyncTaskStorage } from './sync/task'
-import Vue from 'vue'
 import queryString from 'query-string'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import VueRouter, { RouteConfig, RawLocation } from 'vue-router'

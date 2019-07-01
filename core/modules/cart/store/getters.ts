@@ -62,7 +62,7 @@ const getters: GetterTree<CartState, RootState> = {
       let payment = state.payment instanceof Array ? state.payment[0] : state.payment
       const totalsArray = [
         {
-          code: 'subtotalInclTax',
+          code: 'subtotal_incl_tax',
           title: i18n.t('Subtotal incl. tax'),
           value: sumBy(state.cartItems, (p) => {
             return p.qty * p.price_incl_tax
