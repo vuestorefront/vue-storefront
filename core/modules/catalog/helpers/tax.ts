@@ -22,7 +22,8 @@ function isSpecialPriceActive (fromDate, toDate) {
 
 export function updateProductPrices (product, rate, sourcePriceInclTax = false) {
   const rate_factor = parseFloat(rate.rate) / 100
-  product.final_price = parseFloat(product.final_price)
+  product.final_price_incl_tax = parseFloat(product.final_price) // final price does include tax
+  product.final_price = product.final_price_incl_tax / (1 + rate_factor)
   product.price = parseFloat(product.price)
   product.special_price = parseFloat(product.special_price)
 
@@ -97,7 +98,8 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
       }
       configurableChild.price = parseFloat(configurableChild.price)
       configurableChild.special_price = parseFloat(configurableChild.special_price)
-      configurableChild.final_price = parseFloat(configurableChild.final_price)
+      configurableChild.final_price_incl_tax = parseFloat(configurableChild.final_price) // final price does include tax
+      configurableChild.final_price = configurableChild.final_price_incl_tax / (1 + rate_factor)      
 
       if (configurableChild.final_price) {
         if (configurableChild.final_price < configurableChild.price) { // compare the prices with the product final price if provided; final prices is used in case of active catalog promo rules for example
