@@ -193,7 +193,7 @@ export function syncProductPrice (product, backProduct) { // TODO: we probably n
   product.originalPriceTax = product.original_price_tax
   product.specialPriceInclTax = product.special_price_incl_tax
   product.specialPriceTax = product.special_price_tax
-  /** END */      
+  /** END */
   EventBus.$emit('product-after-priceupdate', product)
   // Logger.log(product.sku, product, backProduct)()
   return product
@@ -227,7 +227,7 @@ export function doPlatformPricesSync (products) {
           product.originalPriceTax = product.original_price_tax
           product.specialPriceInclTax = product.special_price_incl_tax
           product.specialPriceTax = product.special_price_tax
-          /** END */          
+          /** END */
 
           if (product.configurable_children) {
             for (let sc of product.configurable_children) {
@@ -251,7 +251,7 @@ export function doPlatformPricesSync (products) {
               sc.originalPriceTax = sc.original_price_tax
               sc.specialPriceInclTax = sc.special_price_incl_tax
               sc.specialPriceTax = sc.special_price_tax
-              /** END */                  
+              /** END */
             }
           }
         }
