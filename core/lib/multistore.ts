@@ -150,10 +150,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
 
   if (routeObj && routeObj.fullPath) { // case of using dispatcher
     const routeCodePrefix = config.defaultStoreCode !== storeCode && appendStoreCodePrefix ? `/${storeCode}` : ''
-    let qrStr = queryString.stringify(routeObj.params);
-    if (routeObj.name && routeObj.name === 'category') {
-      qrStr = '';
-    }
+    const qrStr = queryString.stringify(routeObj.params);
 
     return `${routeCodePrefix}/${routeObj.fullPath}${qrStr ? `?${qrStr}` : ''}`
   }
