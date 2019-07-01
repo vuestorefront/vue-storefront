@@ -14,6 +14,7 @@ import { configureProductAsync } from '@vue-storefront/core/modules/catalog/help
 import { DataResolver } from 'core/data-resolver/types/DataResolver';
 import { Category } from '../../types/Category';
 import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
+import chunk from 'lodash-es/chunk'
 
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category } = {}) {
@@ -52,16 +53,38 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     return searchResult.items
   },
-  async cacheProducts ({ commit, getters, dispatch }, { route } = {}) {
+  async cacheProducts ({ commit, getters, dispatch, rootState }, { route } = {}) {
     const searchCategory = getters.getCategoryFrom(route.path)
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
 
-    await dispatch('product/list', {
+    const cachedProductsResponse = await dispatch('product/list', {
       query: filterQr,
       sort: searchQuery.sort,
       updateState: false // not update the product listing - this request is only for caching
     }, { root: true })
+    if (products.filterUnavailableVariants && products.configurableChildrenStockPrefetchStatic) { // prefetch the stock items
+      const skus = []
+      let prefetchIndex = 0
+      cachedProductsResponse.items.map(i => {
+        if (products.configurableChildrenStockPrefetchStaticPrefetchCount > 0) {
+          if (prefetchIndex > products.configurableChildrenStockPrefetchStaticPrefetchCount) return
+        }
+        skus.push(i.sku) // main product sku to be checked anyway
+        if (i.type_id === 'configurable' && i.configurable_children && i.configurable_children.length > 0) {
+          for (const confChild of i.configurable_children) {
+            const cachedItem = rootState.stock.cache[confChild.id]
+            if (typeof cachedItem === 'undefined' || cachedItem === null) {
+              skus.push(confChild.sku)
+            }
+          }
+          prefetchIndex++
+        }
+      })
+      for (const chunkItem of chunk(skus, 15)) {
+        dispatch('stock/list', { skus: chunkItem }, { root: true }) // store it in the cache
+      }
+    }
   },
   async findCategories (context, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
     return CategoryService.getCategories(categorySearchOptions)
