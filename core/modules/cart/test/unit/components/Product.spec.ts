@@ -9,6 +9,7 @@ import Mock = jest.Mock;
 jest.mock('@vue-storefront/core/helpers', () => ({
   productThumbnailPath: jest.fn()
 }));
+jest.mock('config', () => ({}))
 
 describe('MicrocartProduct', () => {
   beforeEach(() => {
