@@ -167,7 +167,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="product"
-                :disabled="$v.product.qty.$error && !$v.product.qty.minValue"
+                :disabled="($v.product.qty.$error && !$v.product.qty.minValue) || !quantity"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -261,13 +261,13 @@ export default {
     SizeGuide
   },
   mixins: [Product, VueOfflineMixin],
+  directives: { focusClean },
   data () {
     return {
       detailsOpen: false,
       quantity: 0
     }
   },
-  directives: { focusClean },
   computed: {
     structuredData () {
       return {
