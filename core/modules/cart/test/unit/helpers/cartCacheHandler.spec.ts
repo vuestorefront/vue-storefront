@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import * as types from '../../../store/mutation-types'
-import { cartCacheHandlerFactory } from '../../../helpers/cartCacheHandler';
 
 const StorageManager = {
   cartsCollection: {
@@ -12,6 +11,8 @@ const StorageManager = {
     return this[key]
   }
 };
+const cartCacheHandlerFactory = require('../../../helpers/cartCacheHandler').cartCacheHandlerFactory
+
 jest.mock('@vue-storefront/core/store/lib/storage-manager', () => ({StorageManager}))
 jest.mock('@vue-storefront/core/helpers', () => ({
   isServer: () => false
