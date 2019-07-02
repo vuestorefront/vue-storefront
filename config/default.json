@@ -180,6 +180,8 @@
           "size_options",
           "regular_price",
           "final_price",
+          "final_price_incl_tax",
+          "final_price_tax",
           "price",
           "color_options",
           "id",
