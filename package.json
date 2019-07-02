@@ -184,7 +184,6 @@
     "docs",
     "core/modules/*",
     "test/unit",
-    "packages/*",
-    "packages/cli/boilerplates"
+    "packages/*"
   ]
 }
