@@ -2,10 +2,12 @@
 
 const command = process.argv[2]
 
-
 switch (command) {
   case 'init':
     require('../scripts/install.js')(process.argv[3])
+    break;
+  case 'init-module':
+    console.log('Soon to be commited :)')
     break;
   case '--help':
     require('../scripts/manual.js')()
