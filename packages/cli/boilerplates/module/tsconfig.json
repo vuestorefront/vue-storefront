@@ -4,7 +4,8 @@
     "module": "commonjs",
     "declaration": true,
     "outDir": "./",
-    "strict": true
+    "strict": true,
+    "moduleResolution": "node"
   },
   "include": [
     "*.ts"

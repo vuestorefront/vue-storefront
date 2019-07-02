@@ -7,6 +7,7 @@ export interface StorefrontModule { (
   appConfig: any ) : void
 }
 
+// because config can't be shared as peer dependency
 let refs = { app: null, store: null, router: null, config: null }
 
 function injectReferences (app: any, store: any, router: any, config: any): any {
@@ -16,7 +17,7 @@ function injectReferences (app: any, store: any, router: any, config: any): any 
   refs.config = config
 }
 
-function registerModule (module: StorefrontModule, config) {
+function registerModule (module: StorefrontModule, config: Object) {
   module(refs.app, refs.store, refs.router, config, refs.config)
 }
 
