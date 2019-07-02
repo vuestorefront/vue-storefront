@@ -49,7 +49,7 @@ export function findConfigurableChildAsync ({ product, configuration = null, sel
     if (configuration.sku) {
       return configurableChild.sku === configuration.sku // by sku or first one
     } else {
-      if (!configuration || Object.keys(configuration).length === 0) { // no configuration - return the first child cheaper than the original price - if found
+      if (!configuration || (configuration && Object.keys(configuration).length === 0)) { // no configuration - return the first child cheaper than the original price - if found
         if (configurableChild.price_incl_tax <= regularProductPrice) {
           return true
         }
