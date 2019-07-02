@@ -20,10 +20,17 @@ function isSpecialPriceActive (fromDate, toDate) {
   }
 }
 
-export function updateProductPrices (product, rate, sourcePriceInclTax = false) {
+export function updateProductPrices (product, rate, sourcePriceInclTax = false, deprecatedPriceFieldsSupport = false, finalPriceInclTax = true) {
   const rate_factor = parseFloat(rate.rate) / 100
-  product.final_price_incl_tax = parseFloat(product.final_price) // final price does include tax
-  product.final_price = product.final_price_incl_tax / (1 + rate_factor)
+  if (finalPriceInclTax) {
+    product.final_price_incl_tax = parseFloat(product.final_price) // final price does include tax
+    product.final_price = product.final_price_incl_tax / (1 + rate_factor)
+    product.final_price_tax = product.final_price_incl_tax - product.final_price
+  } else {
+    product.final_price = parseFloat(product.final_price) // final price does include tax
+    product.final_price_tax = product.final_price * rate_factor
+    product.final_price_incl_tax = product.final_price + product.final_price_tax
+  }
   product.price = parseFloat(product.price)
   product.special_price = parseFloat(product.special_price)
 
@@ -58,12 +65,14 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
   product.special_price_tax = special_price_excl_tax * rate_factor
   product.special_price_incl_tax = special_price_excl_tax + product.special_price_tax
 
-  /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
-  product.priceTax = product.price_tax
-  product.priceInclTax = product.price_incl_tax
-  product.specialPriceTax = product.special_price_tax
-  product.specialPriceInclTax = product.special_price_incl_tax
-  /** END */
+  if (deprecatedPriceFieldsSupport) {
+    /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+    product.priceTax = product.price_tax
+    product.priceInclTax = product.price_incl_tax
+    product.specialPriceTax = product.special_price_tax
+    product.specialPriceInclTax = product.special_price_incl_tax
+    /** END */
+  }
 
   if (product.special_price && (product.special_price < product.price)) {
     if (!isSpecialPriceActive(product.special_from_date, product.special_to_date)) {
@@ -77,13 +86,15 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
       product.price_incl_tax = product.special_price_incl_tax
       product.price_tax = product.special_price_tax
 
-      /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
-      product.priceInclTax = product.price_incl_tax
-      product.priceTax = product.price_tax
-      product.originalPrice = product.original_price
-      product.originalPriceInclTax = product.original_price_incl_tax
-      product.originalPriceTax = product.original_price_tax
-      /** END */
+      if (deprecatedPriceFieldsSupport) {
+        /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+        product.priceInclTax = product.price_incl_tax
+        product.priceTax = product.price_tax
+        product.originalPrice = product.original_price
+        product.originalPriceInclTax = product.original_price_incl_tax
+        product.originalPriceTax = product.original_price_tax
+        /** END */
+      }
     }
   } else {
     product.special_price = 0 // the same price as original; it's not a promotion
@@ -133,12 +144,14 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
       configurableChild.special_price_tax = special_price_excl_tax * rate_factor
       configurableChild.special_price_incl_tax = special_price_excl_tax + configurableChild.special_price_tax
 
-      /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
-      configurableChild.priceTax = configurableChild.price_tax
-      configurableChild.priceInclTax = configurableChild.price_incl_tax
-      configurableChild.specialPriceTax = configurableChild.special_price_tax
-      configurableChild.specialPriceInclTax = configurableChild.special_price_incl_tax
-      /** END */
+      if (deprecatedPriceFieldsSupport) {
+        /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+        configurableChild.priceTax = configurableChild.price_tax
+        configurableChild.priceInclTax = configurableChild.price_incl_tax
+        configurableChild.specialPriceTax = configurableChild.special_price_tax
+        configurableChild.specialPriceInclTax = configurableChild.special_price_incl_tax
+        /** END */
+      }
 
       if (configurableChild.special_price && (configurableChild.special_price < configurableChild.price)) {
         if (!isSpecialPriceActive(configurableChild.special_from_date, configurableChild.special_to_date)) {
@@ -152,19 +165,21 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
           configurableChild.price_incl_tax = configurableChild.special_price_incl_tax
           configurableChild.price_tax = configurableChild.special_price_tax
 
-          /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
-          configurableChild.originalPrice = configurableChild.original_price
-          configurableChild.originalPriceInclTax = configurableChild.original_price_incl_tax
-          configurableChild.originalPriceTax = configurableChild.original_price_tax
-          configurableChild.priceInclTax = configurableChild.price_incl_tax
-          configurableChild.priceTax = configurableChild.price_tax
-          /** END */
+          if (deprecatedPriceFieldsSupport) {
+            /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+            configurableChild.originalPrice = configurableChild.original_price
+            configurableChild.originalPriceInclTax = configurableChild.original_price_incl_tax
+            configurableChild.originalPriceTax = configurableChild.original_price_tax
+            configurableChild.priceInclTax = configurableChild.price_incl_tax
+            configurableChild.priceTax = configurableChild.price_tax
+            /** END */
+          }
         }
       } else {
         configurableChild.special_price = 0
       }
 
-      if (configurableChild.price_incl_tax < product.price_incl_tax || product.price === 0) { // always show the lowest price
+      if ((configurableChild.price_incl_tax <= product.price_incl_tax) || product.price === 0) { // always show the lowest price
         product.price_incl_tax = configurableChild.price_incl_tax
         product.price_tax = configurableChild.price_tax
         product.price = configurableChild.price
@@ -175,28 +190,30 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
         product.original_price_incl_tax = configurableChild.original_price_incl_tax
         product.original_price_tax = configurableChild.original_price_tax
 
-        /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
-        product.priceInclTax = product.price_incl_tax
-        product.priceTax = product.price_tax
-        product.specialPriceInclTax = product.special_price_incl_tax
-        product.specialPriceTax = product.special_price_tax
-        product.originalPrice = product.original_price
-        product.originalPriceInclTax = product.original_price_incl_tax
-        product.originalPriceTax = product.original_price_tax
-        /** END */
+        if (deprecatedPriceFieldsSupport) {
+          /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+          product.priceInclTax = product.price_incl_tax
+          product.priceTax = product.price_tax
+          product.specialPriceInclTax = product.special_price_incl_tax
+          product.specialPriceTax = product.special_price_tax
+          product.originalPrice = product.original_price
+          product.originalPriceInclTax = product.original_price_incl_tax
+          product.originalPriceTax = product.original_price_tax
+          /** END */
+        }
       }
     }
   }
 }
 
-export function calculateProductTax (product, taxClasses, taxCountry = 'PL', taxRegion = '', sourcePriceInclTax = false) {
+export function calculateProductTax (product, taxClasses, taxCountry = 'PL', taxRegion = '', sourcePriceInclTax = false, deprecatedPriceFieldsSupport = false, finalPriceInclTax = true) {
   let rateFound = false
   if (product.tax_class_id > 0) {
     let taxClass = taxClasses.find((el) => el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id) >= 0))
     if (taxClass) {
       for (let rate of taxClass.rates) { // TODO: add check for zip code ranges (!)
         if (rate.tax_country_id === taxCountry && (rate.region_name === taxRegion || rate.tax_region_id === 0 || !rate.region_name)) {
-          updateProductPrices(product, rate, sourcePriceInclTax)
+          updateProductPrices(product, rate, sourcePriceInclTax, deprecatedPriceFieldsSupport)
           rateFound = true
           break
         }
@@ -211,12 +228,14 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
     product.special_price_incl_tax = 0
     product.special_price_tax = 0
 
-    /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
-    product.priceInclTax = product.price
-    product.priceTax = 0
-    product.specialPriceInclTax = 0
-    product.specialPriceTax = 0
-    /** END */
+    if (deprecatedPriceFieldsSupport) {
+      /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+      product.priceInclTax = product.price
+      product.priceTax = 0
+      product.specialPriceInclTax = 0
+      product.specialPriceTax = 0
+      /** END */
+    }
 
     if (product.configurable_children) {
       for (let configurableChildren of product.configurable_children) {
@@ -225,12 +244,14 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
         configurableChildren.special_price_incl_tax = 0
         configurableChildren.special_price_tax = 0
 
-        /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
-        configurableChildren.priceInclTax = configurableChildren.price
-        configurableChildren.priceTax = 0
-        configurableChildren.specialPriceInclTax = 0
-        configurableChildren.specialPriceTax = 0
-        /** END */
+        if (deprecatedPriceFieldsSupport) {
+          /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+          configurableChildren.priceInclTax = configurableChildren.price
+          configurableChildren.priceTax = 0
+          configurableChildren.specialPriceInclTax = 0
+          configurableChildren.specialPriceTax = 0
+          /** END */
+        }
       }
     }
   }
