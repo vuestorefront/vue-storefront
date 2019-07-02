@@ -31,6 +31,7 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
 }
 
 export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
+  let regularProductPrice = product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax
   let selectedVariant = product.configurable_children.find((configurableChild) => {
     if (availabilityCheck) {
       if (configurableChild.stock && !config.products.listOutOfStockProducts) {
@@ -48,13 +49,19 @@ export function findConfigurableChildAsync ({ product, configuration = null, sel
     if (configuration.sku) {
       return configurableChild.sku === configuration.sku // by sku or first one
     } else {
-      return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
-        let configurationPropertyFilters = configuration[configProperty] || []
-        if (!Array.isArray(configurationPropertyFilters)) configurationPropertyFilters = [configurationPropertyFilters]
-        const configurationIds = configurationPropertyFilters.map(filter => toString(filter.id)).filter(filterId => !!filterId)
-        if (!configurationIds.length) return true // skip empty
-        return configurationIds.includes(toString(configurableChild[configProperty]))
-      })
+      if (!configuration || Object.keys(configuration).length === 0) { // no configuration - return the first child cheaper than the original price - if found
+        if (configurableChild.price_incl_tax <= regularProductPrice) {
+          return true
+        }
+      } else {
+        return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
+          let configurationPropertyFilters = configuration[configProperty] || []
+          if (!Array.isArray(configurationPropertyFilters)) configurationPropertyFilters = [configurationPropertyFilters]
+          const configurationIds = configurationPropertyFilters.map(filter => toString(filter.id)).filter(filterId => !!filterId)
+          if (!configurationIds.length) return true // skip empty
+          return configurationIds.includes(toString(configurableChild[configProperty]))
+        })
+      }
     }
   })
   return selectedVariant
@@ -504,7 +511,7 @@ export function configureProductAsync (context, { product, configuration, select
     }
 
     if (selectedVariant) {
-      if (!desiredProductFound) { // update the configuration
+      if (!desiredProductFound && selectDefaultVariant /** don't change the state when no selectDefaultVariant is set */) { // update the configuration
         populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
         configuration = context.state.current_configuration
       }
@@ -526,7 +533,7 @@ export function configureProductAsync (context, { product, configuration, select
       const fieldsToOmit = ['name']
       if (selectedVariant.image === '') fieldsToOmit.push('image')
       selectedVariant = omit(selectedVariant, fieldsToOmit) // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
-      // use chosen variant
+      // use chosen variant for the current product
       if (selectDefaultVariant) {
         context.dispatch('setCurrent', selectedVariant)
       }
