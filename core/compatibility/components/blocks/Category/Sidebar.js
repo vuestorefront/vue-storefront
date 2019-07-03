@@ -19,7 +19,7 @@ export default {
       return this.getActiveCategoryFilters
     },
     availableFilters () {
-      return pickBy(this.filters, (filter) => { return (filter.length) })
+      return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType)) })
     },
     hasActiveFilters () {
       return Object.keys(this.activeFilters).length !== 0
