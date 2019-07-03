@@ -51,14 +51,14 @@ function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
     const originalParent = storeView.extend
 
-    if (!config.storeViews[storeView.storeCode]) {
+    if (!config.storeViews[originalParent]) {
       Logger.error(`Storeview "${storeView.extend}" doesn't exist!`)()
     } else {
       delete storeView.extend
 
       storeView = merge(
         {},
-        getExtendedStoreviewConfig(config.storeViews[storeView.storeCode]),
+        getExtendedStoreviewConfig(config.storeViews[originalParent]),
         storeView
       )
       storeView.extend = originalParent
@@ -85,9 +85,8 @@ export function prepareStoreView (storeCode: string): StoreView {
 
   if (storeCode) { // current store code
     if ((config.storeViews[storeCode])) {
-      storeView = merge(storeView, config.storeViews[storeCode])
       rootStore.state.user.current_storecode = storeCode
-      storeView = getExtendedStoreviewConfig(storeView)
+      storeView = merge(storeView, getExtendedStoreviewConfig(config.storeViews[storeCode]))
     }
   } else {
     storeView.storeCode = config.defaultStoreCode || ''
