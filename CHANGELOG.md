@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed product link in wishlist and microcart - @michasik (#2987)
 - Resolve problem with getting CMS block from cache - @qiqqq (#2499)
 - Make image proxy url work with relative base url - @cewald (#3158)
+- Fixed memory leak with enabled dynamicConfigReload - @dimasch (#3075)
 
 ### Changed / Improved
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
