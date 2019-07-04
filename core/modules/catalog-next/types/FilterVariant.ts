@@ -3,5 +3,6 @@ export default interface FilterVariant {
   label: string,
   type: string,
   from?: string,
-  to?: string
+  to?: string,
+  single?: boolean
 }
