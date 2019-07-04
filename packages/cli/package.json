@@ -1,13 +1,10 @@
 {
   "name": "@vue-storefront/cli",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "init": "./index.js"
-  },
   "bin": {
-    "vsf": "./bin/vsf.js"
+    "vsf": "./index.js"
   },
   "publishConfig": {
     "access": "public"
