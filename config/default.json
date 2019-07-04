@@ -20,7 +20,8 @@
       }
     },
     "seo": {
-      "useUrlDispatcher": true
+      "useUrlDispatcher": true,
+      "disableUrlRoutesLocalStorageCache": true
     },
     "console": {
       "showErrorOnProduction" : false,
@@ -256,6 +257,7 @@
       "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
     },
     "products": {
+      "disableLocalStorageProductsCache": true,
       "useMagentoUrlKeys": true,
       "setFirstVarianAsDefaultInURL": false,
       "configurableChildrenStockPrefetchStatic": false,
@@ -335,7 +337,6 @@
         "wishlist": "LOCALSTORAGE",
         "categories": "LOCALSTORAGE",
         "attributes": "LOCALSTORAGE",
-        "products": "INDEXEDDB",
         "elasticCache": "LOCALSTORAGE",
         "claims": "LOCALSTORAGE",
         "syncTasks": "LOCALSTORAGE",
@@ -390,6 +391,9 @@
           "offline": true
         }
       ]
+    },
+    "syncTasks": {
+      "disableLocalStorageTaskQueue": true
     },
     "i18n": {
       "defaultCountry": "US",
