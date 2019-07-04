@@ -37,7 +37,9 @@
         />
       </div>
 
-      <p class="mb0 cl-accent mt10" v-if="!onlyImage">{{ product.name | htmlDecode }}</p>
+      <p class="mb0 cl-accent mt10" v-if="!onlyImage">
+        {{ product.name | htmlDecode }}
+      </p>
 
       <span
         class="price-original mr5 lh30 cl-secondary"
@@ -85,23 +87,23 @@ export default {
     }
   },
   computed: {
-    thumbnailObj() {
+    thumbnailObj () {
       return {
         src: this.thumbnail,
         loading: this.thumbnail
       }
     },
-    favoriteIcon() {
+    favoriteIcon () {
       return this.isOnWishlist ? 'favorite' : 'favorite_border'
     }
   },
   methods: {
-    onProductPriceUpdate(product) {
+    onProductPriceUpdate (product) {
       if (product.sku === this.product.sku) {
         Object.assign(this.product, product)
       }
     },
-    visibilityChanged(isVisible, entry) {
+    visibilityChanged (isVisible, entry) {
       if (isVisible) {
         if (
           config.products.configurableChildrenStockPrefetchDynamic &&
@@ -127,10 +129,10 @@ export default {
       }
     }
   },
-  beforeMount() {
+  beforeMount () {
     this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate)
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate)
   }
 }
