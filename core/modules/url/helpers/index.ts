@@ -3,6 +3,8 @@ import config from 'config'
 import { localizedDispatcherRoute, localizedRoute, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
 import { RouteConfig } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { Category } from 'core/modules/catalog-next/types/Category';
 
 export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: string]: any } | string, storeCodeInPath: string): LocalizedRoute {
   const parametrizedRoute = Object.assign({}, routeData)
@@ -52,8 +54,9 @@ export function normalizeUrlPath (url: string): string {
   return url
 }
 
-export function formatCategoryLink (category: { url_path: string, slug: string }): string {
-  return config.seo.useUrlDispatcher ? ('/' + category.url_path) : ('/c/' + category.slug)
+export function formatCategoryLink ({ url_path, slug }: Category, storeCode: string = currentStoreView().storeCode): string {
+  storeCode ? storeCode += '/' : storeCode = '';
+  return config.seo.useUrlDispatcher ? ('/' + storeCode + url_path) : ('/' + storeCode + 'c/' + slug)
 }
 
 export function formatProductLink (
