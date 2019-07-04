@@ -6,6 +6,8 @@ import { ExampleStore } from './store'
 export const ExampleModule: StorefrontModule = function (app, store, router, config, appConfig) {
   // You can access config passed to registerModule via config variable
   console.info('From module config: ', config.message)
+  // This is how you register new Vuex modules
   store.registerModule('example', ExampleStore)
+  // This is how you can hook into various palces of the application
   afterAppInitHook(() => console.log('Do something when application is initialized!'))
 }

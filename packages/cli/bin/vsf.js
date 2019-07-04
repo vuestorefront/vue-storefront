@@ -6,8 +6,8 @@ switch (command) {
   case 'init':
     require('../scripts/install.js')(process.argv[3])
     break;
-  case 'init-module':
-    console.log('Soon to be commited :)')
+  case 'generate-module':
+    require('../scripts/generateModule.js')(process.argv[3])
     break;
   case '--help':
     require('../scripts/manual.js')()

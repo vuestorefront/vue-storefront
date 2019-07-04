@@ -2,16 +2,14 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "declaration": true,
-    "outDir": "./",
-    "strict": true,
+    "outDir": "./dist",
+    "strict": false,
     "moduleResolution": "node"
   },
   "include": [
-    "*.ts"
+    "**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
+    "node_modules"
   ]
 }

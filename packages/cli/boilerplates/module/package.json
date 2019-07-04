@@ -2,15 +2,22 @@
   "name": "vsf-package",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/main.js",
   "scripts": {
-    "build": "tsc"
+    "build": "webpack",
+    "prePublishOnly": "yarn build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vue-storefront/module": "^0.0.1"
+    "@vue-storefront/module": "^0.0.3",
+    "vuex": "^3.1.1"
+  },
+  "devDependencies": {
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.2",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5"
   }
 }
