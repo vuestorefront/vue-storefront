@@ -348,7 +348,7 @@ const actions: ActionTree<ProductState, RootState> = {
                   err.name === 'NS_ERROR_DOM_QUOTA_REACHED'
                 ) { // quota exceeded error
                   cache.clear() // clear products cache if quota exceeded
-                }                
+                }
               })
           }
           if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !isServer) {

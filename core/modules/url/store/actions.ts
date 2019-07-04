@@ -22,7 +22,7 @@ export const actions: ActionTree<UrlState, any> = {
         err.name === 'NS_ERROR_DOM_QUOTA_REACHED'
       ) { // quota exceeded error
         cacheStorage.clear() // clear the url cache if quota has been exceeded
-      }      
+      }
     }
     return routeData
   },
