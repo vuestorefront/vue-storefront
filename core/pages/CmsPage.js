@@ -39,7 +39,7 @@ export default {
   metaInfo () {
     return {
       title: htmlDecode(this.pageTitle || this.$route.meta.title),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: htmlDecode(this.$route.meta.description) }] : []
+      meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.$route.meta.description) }] : []
     }
   }
 }
