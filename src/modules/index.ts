@@ -77,7 +77,7 @@ export const registerModules: VueStorefrontModule[] = [
   AmpRenderer,
   InstantCheckout,
   Url,
-  CatalogNext,
+  CatalogNext
   // OrderHistory
   // Example
 ]
