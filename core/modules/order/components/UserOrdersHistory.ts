@@ -1,9 +1,8 @@
 import MyOrders from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrders'
-import { mapGetters } from 'vuex';
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 
 export default {
-  name: 'UserOrders',
+  name: 'UserOrdersHistory',
   mixins: [MyOrders, onBottomScroll],
   data () {
     return {
@@ -17,6 +16,7 @@ export default {
   },
   computed: {
     ordersHistory () {
+
       let items = this.getOrdersHistory
       if (this.lazyLoadOrdersOnScroll) {
         items = items.slice(0, (this.pagination.perPage + 1) * this.pagination.current)
