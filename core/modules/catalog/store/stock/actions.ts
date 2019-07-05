@@ -14,13 +14,12 @@ const actions: ActionTree<StockState, RootState> = {
   /**
    * Reset current configuration and selected variatnts
    */
-  async check (context, { product, qty = 1 }) {
-    if (rootStore.state.config.stock.synchronize) {
+  async check ({ dispatch }, { product, qty = 1 }) {
+    if (config.stock.synchronize) {
       const task: any = await TaskQueue.execute({
-        url:
-          rootStore.state.config.stock.endpoint +
-          '/check?sku=' +
-          encodeURIComponent(product.sku),
+        url: `${config.stock.endpoint}/check?sku=${encodeURIComponent(
+          product.sku
+        )}`,
         payload: {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
@@ -30,8 +29,10 @@ const actions: ActionTree<StockState, RootState> = {
         callback_event: 'store:stock/stockAfterCheck'
       });
       let result = task.result;
-      const cartProduct = await rootStore.dispatch('cart/getItem', product.sku);
-      let totalQty = cartProduct ? cartProduct.qty + product.qty : product.qty;
+      const cartProduct = await dispatch('cart/getItem', product.sku);
+      const totalQty = cartProduct
+        ? cartProduct.qty + product.qty
+        : product.qty;
       const status = result.is_in_stock
         ? totalQty > result.qty
           ? 'not_enough_stock'
@@ -43,13 +44,14 @@ const actions: ActionTree<StockState, RootState> = {
         onlineCheckTaskId: task.task_id
       });
     } else {
+      const status = product.stock
+        ? product.stock.is_in_stock
+          ? 'ok'
+          : 'out_of_stock'
+        : 'volatile';
       return {
         qty: product.stock ? product.stock.qty : 0,
-        status: product.stock
-          ? product.stock.is_in_stock
-            ? 'ok'
-            : 'out_of_stock'
-          : 'volatile'
+        status
       }; // if not online, cannot check the source of true here
     }
   },
@@ -60,10 +62,9 @@ const actions: ActionTree<StockState, RootState> = {
     return new Promise((resolve, reject) => {
       if (config.stock.synchronize) {
         TaskQueue.execute({
-          url:
-            config.stock.endpoint +
-            '/list?skus=' +
-            encodeURIComponent(skus.join(',')),
+          url: `${config.stock.endpoint}/list?skus=${encodeURIComponent(
+            skus.join(',')
+          )}`,
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
