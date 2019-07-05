@@ -340,7 +340,7 @@ const actions: ActionTree<ProductState, RootState> = {
           }
           const cacheKey = entityKeyName(cacheByKey, prod[(cacheByKey === 'sku' && prod['parentSku']) ? 'parentSku' : cacheByKey]) // to avoid caching products by configurable_children.sku
           if (isCacheable) { // store cache only for full loads
-            cache.setItem(cacheKey, prod, null, config.products.disableLocalStorageProductsCache)
+            cache.setItem(cacheKey, prod, null, config.products.disablePersistentProductsCache)
               .catch((err) => {
                 Logger.error('Cannot store cache for ' + cacheKey, err)()
                 if (

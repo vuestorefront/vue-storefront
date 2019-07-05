@@ -15,7 +15,7 @@ export const actions: ActionTree<UrlState, any> = {
   async registerMapping ({ commit }, { url, routeData }: { url: string, routeData: any}) {
     commit(types.REGISTER_MAPPING, { url, routeData })
     try {
-      await cacheStorage.setItem(url, routeData, null, config.seo.disableUrlRoutesLocalStorageCache)
+      await cacheStorage.setItem(url, routeData, null, config.seo.disableUrlRoutesPersistentCache)
     } catch (err) {
       if (
         err.name === 'QuotaExceededError' ||

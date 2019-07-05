@@ -21,7 +21,7 @@
     },
     "seo": {
       "useUrlDispatcher": true,
-      "disableUrlRoutesLocalStorageCache": true
+      "disableUrlRoutesPersistentCache": true
     },
     "console": {
       "showErrorOnProduction" : false,
@@ -47,7 +47,7 @@
       "csrTimeout": 5000,
       "ssrTimeout": 1000,
       "queryMethod": "GET",
-      "disableLocalStorageQueriesCache": true,
+      "disablePersistentQueriesCache": true,
       "searchScoring": {
         "attributes": {
           "attribute_code": {
@@ -257,7 +257,7 @@
       "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
     },
     "products": {
-      "disableLocalStorageProductsCache": true,
+      "disablePersistentProductsCache": true,
       "useMagentoUrlKeys": true,
       "setFirstVarianAsDefaultInURL": false,
       "configurableChildrenStockPrefetchStatic": false,
@@ -393,7 +393,7 @@
       ]
     },
     "syncTasks": {
-      "disableLocalStorageTaskQueue": true
+      "disablePersistentTaskQueue": true
     },
     "i18n": {
       "defaultCountry": "US",

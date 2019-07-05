@@ -6,9 +6,9 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 
 We've decreased the `localStorage` quota usage + error handling by introducing new config variables: 
 
-- `config.products.disableLocalStorageProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`); 
-- `config.seodisableUrlRoutesLocalStorageCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway); 
-- `config.syncTasks.disableLocalStorageTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW)
+- `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`); 
+- `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway); 
+- `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW)
 
 If by some reasons you wan't to have the `localStorage` back on for `Products by SKU`, `Url Routes` and `SyncTasks` - please juset set these variables back to `false` in your `config/local.json`.
 
@@ -64,14 +64,14 @@ Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/
 Starting from Vue Storefront 1.7, we changed the caching strategy and offline-ready features:
 - By default, the Elasticsearch Queries are executed using `GET` method and therefore are cached by Service Worker (`config.elasticsearch.queryMethod` — set it to POST for the previous behavior and if you're using graphql).
 - By default, products and queries cache is set in `LocalStorage` with a quota set to 4MB (`config.server.elasticCacheQuota`). If the storage quota is set, the cache purging is executed every 30 seconds using the LRU algorithm. Local Storage is limited to 5MB in most browsers.
-- We added `config.server. disableLocalStorageQueriesCache`, which is set to `true` by default. When this option is on, we're not storing the Elasticsearch results in the local cache because results are by default cached in the Service Worker cache anyway.
+- We added `config.server. disablePersistentQueriesCache`, which is set to `true` by default. When this option is on, we're not storing the Elasticsearch results in the local cache because results are by default cached in the Service Worker cache anyway.
 - `module.extend` has been changed to `extendModule`. You can find usage examples in `src/modules/index.ts`.
 - [routes](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422#diff-a334a7caeb7f61836f8c1178d92de3e0), [layouts](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422#diff-48863b9fe31d7713222ec5709ef5a4fa), and component, which are not visible at page rendering are now loaded when they are needed.
 - Every store manipulation should be done by dispatching actions. Invoke store dispatch on `category/mergeSearchOptions` when manipulating `store.state.category.current_product_query` somewhere.
 - [here](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422) are all changes in default themes
 
 Backward compatibility: To reverse to the 1.0–1.6 behavior:
-- Set `config.server.disableLocalStorageQueriesCache` = `false`,
+- Set `config.server.disablePersistentQueriesCache` = `false`,
 - Set `config.elasticsearch.queryMethod` = `POST`
 - Set `config.localForage.defaultDrivers.elasticCache` = `INDEXEDDB`
 
