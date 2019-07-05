@@ -13,7 +13,7 @@ import { Notification } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
 import { Url } from '@vue-storefront/core/modules/url'
 // import { Homepage } from '../themes/default/store/homepage'
-import { Claims } from './claims'
+// import { Claims } from '../themes/default/modules/claims'
 // import { PromotedOffers } from './promoted-offers'
 // import { Ui } from '../themes/default/store/ui-store'
 // import { GoogleAnalytics } from './google-analytics';
@@ -66,7 +66,7 @@ export const registerModules: VueStorefrontModule[] = [
   // Ui,
   RecentlyViewed,
   // Homepage,
-  Claims,
+  // Claims,
   // PromotedOffers,
   googleTagManager,
   // GoogleAnalytics,
