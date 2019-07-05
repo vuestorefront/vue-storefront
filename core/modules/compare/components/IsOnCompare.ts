@@ -1,8 +1,8 @@
 import { Compare as CompareModule } from '..';
 import compareMountedMixin from '@vue-storefront/core/modules/compare/mixins/compareMountedMixin';
 
-export const IsToCompare = {
-  name: 'isToCompare',
+export const IsOnCompare = {
+  name: 'IsOnCompare',
   mixins: [compareMountedMixin],
   props: {
     product: {
@@ -10,11 +10,11 @@ export const IsToCompare = {
       type: Object
     }
   },
-  created () {
+  created() {
     CompareModule.register();
   },
   computed: {
-    isToCompare (): boolean {
+    isOnCompare(): boolean {
       return (
         !!this.$store.state.compare.items.find(
           p => p.sku === this.product.sku

@@ -20,7 +20,7 @@ No props
 - `category` - A computed property representing a category object of the current product. Gets its value from `category/getCurrentCategory` Vuex store getter.
 - `productName` - A computed property that represents a product name. Gets its value from `category/getCurrentCategory` Vuex store getter.
 - `productId` - A computed property representing a product ID. Gets its value from `category/getCurrentCategory` Vuex store getter.
-- `isToCompare` - A computed property that checks if a given product is in compare list.
+- `isOnCompare` - A computed property that checks if a given product is in compare list.
 - `image` - A computed property that defines an image (thumbnail) that will be shown on the page and its size.
 - `customAttributes` - this is a subset of `attributesByCode` list of attributes that the current product has.
 
