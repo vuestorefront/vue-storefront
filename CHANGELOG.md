@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
+- Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
+- Lack of possibility to mock src modules and  theme components - @lukeromanowicz (#3185)
 
 ## [1.10.0-rc.1] - 2019.06.19
 
