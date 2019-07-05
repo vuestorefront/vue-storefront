@@ -2,7 +2,7 @@ import {mountMixin, mountMixinWithStore} from '@vue-storefront/unit-tests/utils'
 
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { productThumbnailPath } from '@vue-storefront/core/helpers';
-
+import config from 'config'
 import { MicrocartProduct } from '../../../components/Product';
 import Mock = jest.Mock;
 
@@ -14,9 +14,23 @@ jest.mock('config', () => ({}))
 describe('MicrocartProduct', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    Object.keys(config).forEach((key) => { delete config[key]; });
   });
 
   it('thumbnail in online mode returns thumbnail in lower size', () => {
+    config.products = {
+      thumbnails: {
+        width: 300,
+        height: 300
+      }
+    };
+    config.cart = {
+      thumbnails: {
+        width: 150,
+        height: 150
+      }
+    };
+
     (productThumbnailPath as Mock).mockReturnValueOnce('thumbnail-path');
 
     Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
@@ -32,6 +46,19 @@ describe('MicrocartProduct', () => {
   });
 
   it('thumbnail in offline mode returns thumbnail in greater size', () => {
+    config.products = {
+      thumbnails: {
+        width: 300,
+        height: 300
+      }
+    };
+    config.cart = {
+      thumbnails: {
+        width: 150,
+        height: 150
+      }
+    };
+
     (productThumbnailPath as Mock).mockReturnValueOnce('thumbnail-path');
 
     Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
@@ -43,7 +70,7 @@ describe('MicrocartProduct', () => {
     wrapper.setMethods({ getThumbnail });
 
     expect((wrapper.vm as any).thumbnail).toEqual('resized-thumbnail-path');
-    expect(getThumbnail).toBeCalledWith('thumbnail-path', 310, 300);
+    expect(getThumbnail).toBeCalledWith('thumbnail-path', 300, 300);
   });
 
   it('removeFromCart dispatches removeItem to remove product from cart', () => {

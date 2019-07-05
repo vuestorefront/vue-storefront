@@ -1,5 +1,6 @@
 import cartGetters from '../../../store/getters';
 import { onlineHelper } from '@vue-storefront/core/helpers'
+import config from 'config'
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/helpers', () => ({
@@ -19,6 +20,7 @@ describe('Cart getters', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    Object.keys(config).forEach((key) => { delete config[key]; });
   });
 
   it('totals returns platform total segments if they has been saved in store and client is online', () => {
@@ -147,6 +149,9 @@ describe('Cart getters', () => {
   });
 
   it('totalQuantity returns total quantity of all products in cart if minicart configuration is set to quantities', () => {
+    config.cart = {
+      minicartCountType: 'quantities'
+    }
     const stateMock = {
       cartItems: [
         {qty: 1},
@@ -154,20 +159,16 @@ describe('Cart getters', () => {
       ]
     };
 
-    const rootStoreMock = {
-      config: {
-        cart: {
-          minicartCountType: 'quantities'
-        }
-      }
-    };
-
-    const wrapper = (getters: any) => getters.getItemsTotalQuantity(stateMock, {}, rootStoreMock);
+    const wrapper = (getters: any) => getters.getItemsTotalQuantity(stateMock, {});
 
     expect(wrapper(cartGetters)).toBe(3);
   });
 
   it('totalQuantity returns number of different products instead of their sum if minicart configuration is set to items', () => {
+    config.cart = {
+      minicartCountType: 'items'
+    }
+
     const stateMock = {
       cartItems: [
         {qty: 1},
@@ -175,17 +176,9 @@ describe('Cart getters', () => {
       ]
     };
 
-    const rootStoreMock = {
-      config: {
-        cart: {
-          minicartCountType: 'items'
-        }
-      }
-    };
+    const wrapper = (getters: any) => getters.getItemsTotalQuantity(stateMock, {});
 
-    const wrapper = (getters: any) => getters.getItemsTotalQuantity(stateMock, {}, rootStoreMock);
-
-    expect(wrapper(cartGetters)).toBe(3);
+    expect(wrapper(cartGetters)).toBe(2);
   });
 
   it('coupon returns coupon information when coupon has been applied to the cart', () => {
