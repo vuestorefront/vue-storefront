@@ -13,8 +13,3 @@ Load CMS blocks from API and insert them into state or as component.
     "endpoint": "/api/ext/icmaa-cms/by-uid"
   }
   ```
-
-## Todo
-
-[ ] Add caching  
-[ ] Prevent multiple requests to API when item is already loading

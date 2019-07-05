@@ -50,26 +50,14 @@ export default {
       return groups
     }
   },
-  methods: {
-    fetchCategories (): Promise<any> {
-      if (this.rootCategoryId) {
-        return this.$store.dispatch('icmaaCategory/list', { parentId: this.rootCategoryId, crawlDepth: this.depth })
-      }
-    }
-  },
   async asyncData ({ store, route, context }) {
-    if (!isServer) {
-      await store.dispatch(
-        'icmaaCategory/list',
-        {
-          parentId: route.params.parentCategoryId,
-          crawlDepth: route.params.depth || route.query.depth
-        }
-      )
-    }
-  },
-  serverPrefetch (): Promise<any> {
-    return this.fetchCategories()
+    await store.dispatch(
+      'icmaaCategory/list',
+      {
+        parentId: route.params.parentCategoryId,
+        crawlDepth: route.params.depth || route.query.depth
+      }
+    )
   },
   metaInfo () {
     return !this.notEmpty || {

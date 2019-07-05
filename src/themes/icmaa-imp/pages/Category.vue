@@ -71,6 +71,7 @@ import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { Logger } from '@vue-storefront/core/lib/logger'
 // import builder from 'bodybuilder'
 
 export default {
@@ -86,10 +87,9 @@ export default {
       mobileFilters: false
     }
   },
-  async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
-    await store.dispatch('category/mergeSearchOptions', { // this is just an example how can you modify the search criteria in child components
+  async asyncData ({ store, route }) {
+    await store.dispatch('category/mergeSearchOptions', {
       sort: store.state.config.products.defaultSortBy.attribute + (store.state.config.products.defaultSortBy.order ? ':' + store.state.config.products.defaultSortBy.order : '')
-      // searchProductQuery: builder().query('range', 'price', { 'gt': 0 }).andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }) // this is an example on how to modify the ES query, please take a look at the @vue-storefront/core/helpers for refernce on how to build valid query
     })
   },
   methods: {

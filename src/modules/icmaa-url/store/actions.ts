@@ -54,7 +54,6 @@ const forCategory = async ({ dispatch }, { url, params }) => {
 const forCustomUrls = async ({ dispatch }, { url, params }) => {
   url = removeStoreCodeFromRoute(url) as string
   url = removeHashFromRoute(url) as string
-  Logger.error('URL:', 'DEBUG', url)()
   if (config.hasOwnProperty('icmaa_url')) {
     const urlFromConfig = config.icmaa_url.find((item) => item.request_path === url);
     if (urlFromConfig) {
