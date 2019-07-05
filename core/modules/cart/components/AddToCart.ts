@@ -35,7 +35,7 @@ export const AddToCart = {
             message: i18n.t('Product has been added to the cart!'),
             action1: { label: i18n.t('OK') },
             action2: null
-          })             
+          })
         }
         this.isAddingToCart = false
       } catch (err) {
@@ -44,7 +44,7 @@ export const AddToCart = {
           type: 'error',
           message: err,
           action1: { label: i18n.t('OK') }
-        })        
+        })
       }
     }
   }
