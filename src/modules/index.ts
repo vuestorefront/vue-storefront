@@ -15,7 +15,7 @@ import { Url } from '@vue-storefront/core/modules/url'
 // import { Homepage } from '../themes/default/store/homepage'
 import { Claims } from './claims'
 // import { PromotedOffers } from './promoted-offers'
-import { Ui } from './ui-store'
+// import { Ui } from '../themes/default/store/ui-store'
 // import { GoogleAnalytics } from './google-analytics';
 // import { Hotjar } from './hotjar';
 import { googleTagManager } from './google-tag-manager';
@@ -63,7 +63,7 @@ export const registerModules: VueStorefrontModule[] = [
   Wishlist,
   Newsletter,
   Notification,
-  Ui,
+  // Ui,
   RecentlyViewed,
   // Homepage,
   Claims,
