@@ -6,6 +6,8 @@ import VueProgressBar from 'vue-progressbar'
 import '@vue-storefront/core/lib/passive-listeners'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { once } from '@vue-storefront/core/helpers'
+import { registerModules } from '@vue-storefront/core/lib/module'
+import { registerModules as modules } from './store/index'
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(VueProgressBar)
@@ -20,6 +22,8 @@ function initTheme (app, router, store, config, ssrContext) {
   setupMultistoreRoutes(config, router, routes)
   RouterManager.addRoutes(routes, router)
 }
+
+registerModules(modules, App)
 
 export {
   themeEntry,
