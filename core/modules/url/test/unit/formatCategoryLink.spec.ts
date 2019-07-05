@@ -41,8 +41,39 @@ describe('formatCategoryLink method', () => {
 
     it('should return formatted category url_path', () => {
       const result = formatCategoryLink(category);
-      expect(result).toEqual('/all-2/women/women-202');
+      expect(result).toEqual('/all-2/women/women-20');
     });
+
+    it('should return formatted category url_path when storeCode passed as null', () => {
+      const result = formatCategoryLink(category, null);
+      expect(result).toEqual('/all-2/women/women-20');
+    });
+
+    it('should return formatted category url_path when storeCode passed as \'de\'', () => {
+      const result = formatCategoryLink(category, 'de');
+      expect(result).toEqual('/de/all-2/women/women-20');
+    });
+
+    it('should return formatted category url_path when storeCode passed as \'\'', () => {
+      const result = formatCategoryLink(category, '');
+      expect(result).toEqual('/all-2/women/women-20');
+    });
+
+    xit('should throw error when category passed as \'null\'', () => {
+      formatCategoryLink(null);
+      expect(formatCategoryLink).toThrowError();
+    });
+
+    // TODO
+    xdescribe('with default storeCode set to \'de\'', () => {
+      beforeEach(() => {
+      });
+
+      xit('should return formatted category url_path statring with \'de\'', () => {
+        const result = formatCategoryLink(category);
+        expect(result).toEqual('/de/all-2/women/women-20');
+      });
+    })
   });
 
   describe('without urlDispatcher', () => {
@@ -54,6 +85,21 @@ describe('formatCategoryLink method', () => {
 
     it('should return old path with c and category slug', () => {
       const result = formatCategoryLink(category);
+      expect(result).toEqual('/c/all-2');
+    });
+
+    it('should return old path with c and category slug when storeCode passed as null', () => {
+      const result = formatCategoryLink(category, null);
+      expect(result).toEqual('/c/all-2');
+    });
+
+    it('should return old path with c and category slug when storeCode passed as \'de\'', () => {
+      const result = formatCategoryLink(category, 'de');
+      expect(result).toEqual('/de/c/all-2');
+    });
+
+    it('should return old path with c and category slug when storeCode passed as \'\'', () => {
+      const result = formatCategoryLink(category, '');
       expect(result).toEqual('/c/all-2');
     });
   });
