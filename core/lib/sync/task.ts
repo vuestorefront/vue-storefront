@@ -65,7 +65,12 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     if (jsonResponse) {
       if (parseInt(jsonResponse.code) !== 200) {
         let resultString = jsonResponse.result ? toString(jsonResponse.result) : null
-        if (resultString && (resultString.indexOf(i18n.t('not authorized')) >= 0 || resultString.indexOf('not authorized')) >= 0 && currentToken !== null) { // the token is no longer valid, try to invalidate it
+        if (resultString && currentToken !== null && (
+          resultString.indexOf(i18n.t('not authorized')) >= 0 ||
+          resultString.indexOf('not authorized') >= 0 ||
+          resultString.indexOf(i18n.t('isn\'t authorized')) >= 0 ||
+          resultString.indexOf('isn\'t authorized') >= 0)) {
+          // the token is no longer valid, try to invalidate it
           Logger.error('Invalid token - need to be revalidated' + currentToken + task.url + rootStore.state.userTokenInvalidateLock, 'sync')()
           if (isNaN(rootStore.state.userTokenInvalidateAttemptsCount) || isUndefined(rootStore.state.userTokenInvalidateAttemptsCount)) rootStore.state.userTokenInvalidateAttemptsCount = 0
           if (isNaN(rootStore.state.userTokenInvalidateLock) || isUndefined(rootStore.state.userTokenInvalidateLock)) rootStore.state.userTokenInvalidateLock = 0
