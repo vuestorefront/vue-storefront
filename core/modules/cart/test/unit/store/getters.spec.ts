@@ -10,10 +10,6 @@ jest.mock('@vue-storefront/core/helpers', () => ({
     }
   }
 }));
-jest.mock('config', () => ({}))
-jest.mock('@vue-storefront/core/lib/logger', () => ({
-  Logger: {}
-}));
 
 describe('Cart getters', () => {
   const isOnlineSpy = jest.spyOn(onlineHelper, 'isOnline', 'get');
