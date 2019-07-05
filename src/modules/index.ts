@@ -14,7 +14,7 @@ import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
 import { Url } from '@vue-storefront/core/modules/url'
 // import { Homepage } from '../themes/default/store/homepage'
 import { Claims } from './claims'
-import { PromotedOffers } from './promoted-offers'
+// import { PromotedOffers } from './promoted-offers'
 import { Ui } from './ui-store'
 // import { GoogleAnalytics } from './google-analytics';
 // import { Hotjar } from './hotjar';
@@ -67,7 +67,7 @@ export const registerModules: VueStorefrontModule[] = [
   RecentlyViewed,
   // Homepage,
   Claims,
-  PromotedOffers,
+  // PromotedOffers,
   googleTagManager,
   // GoogleAnalytics,
   // Hotjar,
