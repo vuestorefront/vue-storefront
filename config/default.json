@@ -407,7 +407,7 @@
       "dateFormat": "HH:mm D/M/YYYY",
       "fullCountryName": "United States",
       "fullLanguageName": "English",
-      "bundleAllStoreviewLanguages": false
+      "bundleAllStoreviewLanguages": true
     },
     "newsletter": {
       "endpoint": "/api/ext/mailchimp-subscribe/subscribe"
