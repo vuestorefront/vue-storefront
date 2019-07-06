@@ -4,7 +4,6 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import { removeHashFromRoute } from '../helpers'
 import config from 'config'
-import { Logger } from '@vue-storefront/core/lib/logger';
 
 /**
  * This is copy of the product mapping part from @vue-storefront/core/modules/url/store/actions.ts
@@ -67,6 +66,29 @@ const forCustomUrls = async ({ dispatch }, { url, params }) => {
   return undefined
 }
 
+/**
+ * This is our cms page url fallback mapper
+ */
+const forCmsPageUrls = async ({ dispatch }, { url, params }) => {
+  url = removeStoreCodeFromRoute(url) as string
+  url = removeHashFromRoute(url) as string
+
+  return dispatch('icmaaCmsPage/single', { value: url }, { root: true })
+    .then(page => {
+      if (page !== null) {
+        return {
+          name: 'icmaa-cms-page',
+          params: {
+            identifier: page.identifier
+          }
+        }
+      }
+
+      return undefined
+    })
+    .catch(() => undefined)
+}
+
 export const actions: ActionTree<UrlState, any> = {
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
     const product = await forProduct({ dispatch }, { url, params })
@@ -82,6 +104,11 @@ export const actions: ActionTree<UrlState, any> = {
     const customUrl = await forCustomUrls({ dispatch }, { url, params })
     if (customUrl) {
       return customUrl
+    }
+
+    const cmsPageUrl = await forCmsPageUrls({ dispatch }, { url, params })
+    if (cmsPageUrl) {
+      return cmsPageUrl
     }
 
     throw new Error('No route found for:' + url)

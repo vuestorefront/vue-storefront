@@ -1,7 +1,6 @@
 import { mapGetters } from 'vuex'
 import { CategoryStateCategory } from '../types/CategoryState'
 import { extractPrefix } from '../helpers/fetchCategories'
-import { isServer } from '@vue-storefront/core/helpers'
 import { htmlDecode } from '@vue-storefront/core/store/lib/filters';
 
 interface Letter {
@@ -20,19 +19,19 @@ export default {
     depth (): number {
       return Number(this.$route.params.depth || this.$route.query.depth) || undefined
     },
-    list: function (): CategoryStateCategory[] {
+    list (): CategoryStateCategory[] {
       return this.sortedListByParentId(this.rootCategoryId)
     },
-    parent: function (): CategoryStateCategory {
+    parent (): CategoryStateCategory {
       return this.list.parent
     },
-    notEmpty: function (): boolean {
+    notEmpty (): boolean {
       return (this.list !== false)
     },
-    categories: function (): CategoryStateCategory[] {
+    categories (): CategoryStateCategory[] {
       return this.list.list.filter(category => category.is_active === true)
     },
-    categoriesGroupedByFirstLetter: function (): Letter[] {
+    categoriesGroupedByFirstLetter (): Letter[] {
       let groups: Letter[] = []
 
       this.categories.forEach(category => {

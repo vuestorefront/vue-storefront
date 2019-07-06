@@ -16,6 +16,7 @@ const CmsData = () => import(/* webpackChunkName: "vsf-data" */ 'src/modules/mag
 
 /** ICMAA / Custom pages */
 const IcmaaCategoryList = () => import(/* webpackChunkName: "vsf-category-list" */ 'src/modules/icmaa-category/pages/List.vue')
+const IcmaaCmsPage = () => import(/* webpackChunkName: "vsf-cms-page" */ 'src/modules/icmaa-cms/pages/Page.vue')
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
@@ -47,7 +48,8 @@ let routes = [
   { name: 'cms-block-demo-page-ssr', path: '/cms-block-demo-page-ssr', component: CmsBlockDemoPageSsr },
   { name: 'cms-page-sync', path: '/cms-page-sync', component: CmsData, props: {identifier: 'about-us', type: 'Page', sync: true} },
   /** ICMAA / Custom pages */
-  { name: 'icmaa-category-list', path: '/icmaa-category-list/:parentCategoryId/:depth?', component: IcmaaCategoryList }
+  { name: 'icmaa-category-list', path: '/icmaa-category-list/:parentCategoryId/:depth?', component: IcmaaCategoryList },
+  { name: 'icmaa-cms-page', path: '/icmaa-cms-page/:identifier', component: IcmaaCmsPage }
 ]
 if (!config.products.useShortCatalogUrls) {
   routes = routes.concat([

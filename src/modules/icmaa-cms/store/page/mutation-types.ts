@@ -1,0 +1,3 @@
+export const ICMAA_CMS_PAGE_ADD = 'ADD_CMS_PAGE'
+export const ICMAA_CMS_PAGE_UPD = 'UPDATE_CMS_PAGE'
+export const ICMAA_CMS_PAGE_RMV = 'REMOVE_CMS_PAGE'
