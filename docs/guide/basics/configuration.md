@@ -66,7 +66,7 @@ This is an optional GraphQL endpoint. We're now supporting graphQL for the [cata
 },
 ```
 
-Vue Storefront uses the Elasticsearch Query Language to query for data. However, here you're putting the Vue Storefront API `/api/catalog`  endpoint, which is a kind of Elasticsearch Proxy (dealing with the taxes, security itd.).
+Vue Storefront uses the Elasticsearch Query Language to query for data. However, here you're putting the Vue Storefront API `/api/catalog`  endpoint, which is a kind of Elasticsearch Proxy (dealing with the taxes, security etc.).
 
 If your `vue-storefront-api` instance is running on the `localhost`, port `8080` then the correct elasticsearch endpoint is as presented here.
 
