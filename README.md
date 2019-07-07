@@ -20,7 +20,6 @@ If you're new and need some guidance feel free to visit out [forum](https://foru
 - `@Filip Rakowski` (frontend, architecture and best practices related stuff)
 - `@pkarw` (integrations and backend related stuff)
 - `@ptomczyk` (frontend related stuff)
-- `@Bartek Igielski`(frontend and magento-specific related stuff)
 
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
@@ -261,15 +260,6 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/about us/LOGO.png"
             alt="Divante"
-            width="150"
-          >
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://snow.dog">
-          <img
-            src="docs/.vuepress/public/partners/snowdog.png"
-            alt="Snow.dog"
             width="150"
           >
         </a>
