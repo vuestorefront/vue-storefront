@@ -1,6 +1,6 @@
 # Configuration file explained
 
-VThe Vue Storefront application uses the [node-config](https://github.com/lorenwest/node-config) npm module to manage configuration files. Configuration is stored in the `/config` directory within two JSON files:
+The Vue Storefront application uses the [node-config](https://github.com/lorenwest/node-config) npm module to manage configuration files. Configuration is stored in the `/config` directory within two JSON files:
 
 - `default.json` is a configuration file provided along with the core Vue Storefront code and updated with any new release of Vue Storefront. It contains the default values only and therefore it shouldn't be modified within your specific Vue Storefront instance.
 
