@@ -1,3 +1,3 @@
-# Chapter 2. Elastic Search 
+# Chapter 2. Elasticsearch 
 
 ## Coming soon!

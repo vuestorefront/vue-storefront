@@ -17,8 +17,8 @@ Although all these data stores are basically schema-free, some mappings and meta
 Vue Storefront uses a data-migration mechanism based on [node-migrate](https://github.com/tj/node-migrate). 
 
 ### 1. Preparation
-You need a [Vue Storefront API](https://github.com/DivanteLtd/vue-storefront-api) instance [installed](setup.html) on your machine to run the migration. <br />
-You need an Elasticsearch instance  [running](setup.html) into which the data will be migrated.
+- You need a [Vue Storefront API](https://github.com/DivanteLtd/vue-storefront-api) instance [installed](setup.html#_1-install-with-docker) on your machine to run the migration. <br />
+- You need an Elasticsearch instance  [running](setup.html#_1-install-with-docker) into which the data will be migrated.
 
 ### 2. Recipe
 1. Run a node script from **Vue Storefront API root path** which is configured out of the box.
@@ -460,13 +460,13 @@ By using Elasticsearch as a data store in the architecture, we could make the pl
 In this recipe we will walk you with **Magento 2** example. 
 
 ### 1. Preparation
-You need a [Vue Storefront API]() instance [installed]() for backend.
+- You need a [Vue Storefront API](https://github.com/DivanteLtd/vue-storefront-api) instance [installed](setup.html#_1-install-with-docker) for backend.
 <br />
-You need an Elasticsearch instance [running](/guide/cookbook/setup.html#coming-soon) with mapping is done as in [*Recipe 1 Data Mapping Migration for Elasticsearch*](#_1-data-mapping-migration-for-elasticsearch)
+- You need an Elasticsearch instance [running](setup.html#_1-install-with-docker) with mapping is done as in [*Recipe 1 Data Mapping Migration for Elasticsearch*](#_1-data-mapping-migration-for-elasticsearch)
 <br />
-You need [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) downloaded for data bridge. This instance is backend-dependant (in this case, Magento 2), you may replace it with other data bridges such as [coreshop-vsbridge](https://github.com/DivanteLtd/coreshop-vsbridge), [shopware2vuestorefront](https://github.com/DivanteLtd/shopware2vuestorefront) to your advantage. 
+- You need [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) downloaded for data bridge. This instance is backend-dependant (in this case, Magento 2), you may replace it with other data bridges such as [coreshop-vsbridge](https://github.com/DivanteLtd/coreshop-vsbridge), [shopware2vuestorefront](https://github.com/DivanteLtd/shopware2vuestorefront) to your advantage. 
 <br />
-Finally, you need a Magento 2 instance as a data source to pump your data from. (For [Recipe B](#_2-2-recipe-b-using-on-premise) only)
+- Finally, you need a Magento 2 instance as a data source to pump your data from. (For [Recipe B](#_2-2-recipe-b-using-on-premise) only)
 
 We are going to import entities as follows : 
 - Products
