@@ -23,7 +23,7 @@ The output cache is set by the following `config/local.json` variables:
 
 ## Dynamic tags
 
-The dynamic tags config option: `useOutputCacheTaging` - if set to `true`, Vue Storefront is generating the special HTTP Header `X-VS-Cache-Tags`
+The dynamic tags config option: `useOutputCacheTagging` - if set to `true`, Vue Storefront is generating the special HTTP Header `X-VS-Cache-Tags`
 
 ```js
 res.setHeader('X-VS-Cache-Tags', cacheTags);
