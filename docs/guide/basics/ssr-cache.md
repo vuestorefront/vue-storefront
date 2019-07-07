@@ -53,7 +53,7 @@ An example call to clear all product, category, and homepages:
 curl http://localhost:3000/invalidate?tag=product,category,home
 ```
 
-:::danger Warning
+:::warning Caution !
 We strongly recommend you DO NOT USE output cache in development mode. By using it, you won't be able to refresh the UI changes after modifying the Vue components, etc.
 :::
 
