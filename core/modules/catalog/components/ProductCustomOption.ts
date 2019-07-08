@@ -4,7 +4,7 @@ export const ProductCustomOption = {
     label: {
       type: String,
       required: false,
-      default: () => false
+      default: ''
     },
     id: {
       type: null,

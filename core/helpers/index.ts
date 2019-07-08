@@ -125,24 +125,27 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
   return searchProductQuery
 }
 
-export function buildFilterProductsQuery (currentCategory, chosenFilters, defaultFilters = null) {
+export function buildFilterProductsQuery (currentCategory, chosenFilters = {}, defaultFilters = null) {
   let filterQr = baseFilterProductsQuery(currentCategory, defaultFilters == null ? config.products.defaultFilters : defaultFilters)
 
   // add choosedn filters
   for (let code of Object.keys(chosenFilters)) {
     const filter = chosenFilters[code]
+    const attributeCode = Array.isArray(filter) ? filter[0].attribute_code : filter.attribute_code
 
-    if (filter.attribute_code !== 'price') {
-      filterQr = filterQr.applyFilter({key: filter.attribute_code, value: {'eq': filter.id}, scope: 'catalog'})
+    if (Array.isArray(filter) && attributeCode !== 'price') {
+      const values = filter.map(filter => filter.id)
+      filterQr = filterQr.applyFilter({key: attributeCode, value: {'in': values}, scope: 'catalog'})
+    } else if (attributeCode !== 'price') {
+      filterQr = filterQr.applyFilter({key: attributeCode, value: {'eq': filter.id}, scope: 'catalog'})
     } else { // multi should be possible filter here?
       const rangeqr = {}
-      if (filter.from) {
-        rangeqr['gte'] = filter.from
-      }
-      if (filter.to) {
-        rangeqr['lte'] = filter.to
-      }
-      filterQr = filterQr.applyFilter({key: filter.attribute_code, value: rangeqr, scope: 'catalog'})
+      const filterValues = Array.isArray(filter) ? filter : [filter]
+      filterValues.forEach(singleFilter => {
+        if (singleFilter.from) rangeqr['gte'] = singleFilter.from
+        if (singleFilter.to) rangeqr['lte'] = singleFilter.to
+      })
+      filterQr = filterQr.applyFilter({key: attributeCode, value: rangeqr, scope: 'catalog'})
     }
   }
 
