@@ -1,7 +1,4 @@
-import { createModule } from '@vue-storefront/core/lib/module'
-
-const KEY = 'ui'
-const store = {
+export const store = {
   namespaced: true,
   state: {
     sidebar: false,
@@ -68,8 +65,3 @@ const store = {
     }
   }
 }
-
-export const Ui = createModule({
-  key: KEY,
-  store: { modules: [{ key: KEY, module: store }] }
-})

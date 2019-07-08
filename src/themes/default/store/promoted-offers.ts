@@ -1,10 +1,15 @@
-import { Module } from 'vuex'
-import { createModule } from '@vue-storefront/core/lib/module'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import RootState from '@vue-storefront/core/types/RootState'
-import PromotedOffersState from './types/PromotedOffersState'
 
-const module: Module<PromotedOffersState, RootState> = {
+export default interface PromotedOffersState {
+  banners: {
+    mainBanners: any[],
+    smallBanners: any[],
+    productBanners: any[]
+  },
+  headImage: Record<string, any>
+}
+
+export const store = {
   namespaced: true,
   state: {
     banners: {
@@ -49,9 +54,3 @@ const module: Module<PromotedOffersState, RootState> = {
     }
   }
 }
-
-const KEY = 'promoted'
-export const PromotedOffers = createModule({
-  key: KEY,
-  store: { modules: [{ key: KEY, module }] }
-})

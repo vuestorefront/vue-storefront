@@ -6,8 +6,12 @@ import VueProgressBar from 'vue-progressbar'
 import '@vue-storefront/core/lib/passive-listeners'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { once } from '@vue-storefront/core/helpers'
-import { registerModules } from '@vue-storefront/core/lib/module'
-import { registerModules as modules } from './store/index'
+
+import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
+import { store as claimsStore } from './store/claims'
+import { store as homeStore } from './store/homepage'
+import { store as uiStore } from './store/ui'
+import { store as promotedStore } from './store/promoted-offers'
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(VueProgressBar)
@@ -21,9 +25,13 @@ function initTheme (app, router, store, config, ssrContext) {
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   setupMultistoreRoutes(config, router, routes)
   RouterManager.addRoutes(routes, router)
-}
 
-registerModules(modules, App)
+  Vue.prototype.$db.claimsCollection = initCacheStorage('claims');
+  store.registerModule('claims', claimsStore);
+  store.registerModule('homepage', homeStore);
+  store.registerModule('ui', uiStore);
+  store.registerModule('promoted', promotedStore);
+}
 
 export {
   themeEntry,
