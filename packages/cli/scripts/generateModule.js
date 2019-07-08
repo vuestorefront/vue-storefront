@@ -2,7 +2,7 @@ const fse = require('fs-extra')
 const path = require('path')
 const replace = require('replace-in-file')
 const cwd = process.cwd()
-const bilerplatePath = path.resolve(__dirname, '../boilerplates/module')
+const boilerplatePath = path.resolve(__dirname, '../boilerplates/module')
 
 module.exports = function (moduleName) {
   const modulePath = cwd + '/vsf-' + moduleName
@@ -12,7 +12,7 @@ module.exports = function (moduleName) {
     to: 'vsf-' + moduleName
   }
 
-  fse.copy(bilerplatePath, modulePath, (err) => {
+  fse.copy(boilerplatePath, modulePath, (err) => {
     if (err) {
       console.error(err)
     } else {
