@@ -1,4 +1,3 @@
-import { afterAppInitHook } from '@vue-storefront/module/hooks'
 import { StorefrontModule } from '@vue-storefront/module'
 import { checkoutModule } from './store/checkout'
 import { paymentModule } from './store/payment'
@@ -14,7 +13,6 @@ export const CheckoutModule: StorefrontModule = function (app, store, router, mo
   store.registerModule('payment', paymentModule)
   store.registerModule('checkout', checkoutModule)
 
-  afterAppInitHook(() => {
     store.subscribe((mutation, state) => {
       const type = mutation.type
 
@@ -42,5 +40,4 @@ export const CheckoutModule: StorefrontModule = function (app, store, router, mo
         }) // populate cache
       }
     })
-  })
 }
