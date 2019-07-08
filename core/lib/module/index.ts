@@ -77,6 +77,7 @@ class VueStorefrontModule {
 
   public register (): VueStorefrontModuleConfig | void {
     if (!this._isRegistered) {
+      Logger.warn('The module you are registering is using outdated API that will soon be depreciated. Please check https://docs.vuestorefront.io to learn more.', 'module', this._c.key)()
       let areStoresUnique = true
       const VSF: VSF = {
         Vue,
