@@ -4,7 +4,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 
 /** Inits cache storage for given module. By default via local storage */
-export function initCacheStorage (key, localised = true) {
+export function initCacheStorage (key: string, localised = true) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
   const cacheDriver = config.localForage && config.localForage.defaultDrivers[key]
