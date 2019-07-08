@@ -30,6 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
 - The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
 
+### Changed / Improved
+- Added some phrase to translation file - @vishal-7037 (#3198)
+
 ## [1.10.0-rc.1] - 2019.06.19
 
 ### Added
