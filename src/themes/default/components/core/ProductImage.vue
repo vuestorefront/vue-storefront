@@ -93,16 +93,12 @@ export default {
     overflow: hidden;
     mix-blend-mode: multiply;
     &__thumb{
-      max-width: 100%;
-      height: 100%;
+      height: auto;
       position: absolute;
       top: 50%;
       left: 50%;
-      width: auto;
+      width: 100%;
       transform: translate3d(-50%, -50%, 0);
-      &:last-child {
-        height: auto;
-      }
       &--placeholder{
         width: auto;
         height: auto;
