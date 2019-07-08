@@ -1,6 +1,9 @@
 # Upgrade notes
 
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
+## 1.10 -> 1.11
+- `UserOrder` component has been renamed to `UserOrderHistory` and moved from `src/modules/order-history/components/UserOrders` to `@vue-storefront/core/modules/order/components/UserOrdersHistory`
+- `claims`, `promoted-offers`, `homepage` and `ui` modules have been moved from `@vue-storefront/core/modules/` to `theme/store/` and reduced to store only
 
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
@@ -10,7 +13,7 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 - The `cart/addItem` is no longer displaying the error messages - please use the `diffLog.clientNorifications` to update the UI instead (take a look at the `AddToCart.ts` for a reference)
 
 ## 1.8 -> 1.9
-- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields 
+- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields
 - `cart.multisiteCommonCart` config property changed to `storeViews.commonCache`
 - Way of creating VS Modules was changed to use factory method instead of explict object creation. Even though the feature is backward compatible we highly encourage all developers to refactor their modules to use new syntax.
 
@@ -18,8 +21,8 @@ The process of creating a new module with the factory method looks like the foll
 ````js
 import { createModule } from '@vue-storefront/core/lib/module'
 
-const moduleConfig: VueStorefrontModuleConfig = { 
-  // VS module config 
+const moduleConfig: VueStorefrontModuleConfig = {
+  // VS module config
 }
 
 const module = createModule(moduleConfig)
@@ -31,7 +34,7 @@ const module = createModule(moduleConfig)
 - Added validation for UTF8 alpha and alphanumeric characters in most checkout fields
 - Update your local.json config and set default `api.url` path, without it you may have problems with elasticsearch queries.
 
-### Troubleshooting 
+### Troubleshooting
 - In case of CORS problem after upgrade check your elasticsearch url in config file. Best practice for that change can be found [here](https://github.com/DivanteLtd/vue-storefront/commit/77fc9c2765068303879c75ef9ed4a4b98f6763b6)
 
 - In case of app crashing, especially when opening `vue devtools` in browser, try setting `storeViews.commonCache` to `false`.
@@ -250,7 +253,7 @@ We added Reviews support, however, Magento 2 is still lacking Reviews support in
    - **removeCoupon** -> **clearCoupon** - removing coupon by dispatch removeCoupon API method and toggle coupon form
    - **applyCoupon** -> **setCoupon** - submit coupon form by dispatch applyCoupon API method
    - **enterCoupon** - was removed, because @keyup="enterCoupon" we changed to @keyup.enter="setCoupon"
-   
+
 3. We moved $emit with notification about appliedCoupon and removedCoupon from Vuex store to the default theme. Now applyCoupon and removeCoupon returns promise, which you can handle by yourself.
 
 4. We moved VueOfflineMixin and onEscapePress mixins to the theme component. The core component is clean from UI stuff now.
@@ -370,7 +373,7 @@ export default {
 </script>
 ```
 
-4. We've added Multistore support. It shouldn't imply any breaking changes to the existing themes / extensions (by default it's just disabled). 
+4. We've added Multistore support. It shouldn't imply any breaking changes to the existing themes / extensions (by default it's just disabled).
 
 ## 1.0RC-2 -> 1.0RC-3 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0-rc.3))
 
