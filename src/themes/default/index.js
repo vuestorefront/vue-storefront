@@ -17,7 +17,6 @@ function initTheme (app, router, store, config, ssrContext) {
   // You can do it on your own and then be able to customize the components used for example for German storeView checkout
   // To do so please execlude the desired storeView from the config.storeViews.mapStoreUrlsFor and map the urls by Your own like:
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
-  store.registerModule('dupa', {state: { hello: 'world' }})
   setupMultistoreRoutes(config, router, routes)
   RouterManager.addRoutes(routes, router)
 }
