@@ -1,4 +1,4 @@
-//@depreciated in 2.0 
+// @depreciated in 2.0
 import { Module } from 'vuex'
 import { RouteConfig, NavigationGuard } from 'vue-router'
 import Vue from 'vue'
