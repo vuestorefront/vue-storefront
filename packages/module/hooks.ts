@@ -9,7 +9,7 @@
 function createListenerHook () {
   const functionsToRun: Array<(arg: any) => void> = []
 
-  function hook (fn: () => void) {
+  function hook (fn: (arg?: any) => void) {
     functionsToRun.push(fn)
   }
 
@@ -33,7 +33,7 @@ function createListenerHook () {
 function createMutatorHook () {
   const mutators: Array<(arg: any) => void>  = []
 
-  function hook (mutator: (arg: any) => void) {
+  function hook (mutator: (arg: any) => any) {
     mutators.push(mutator)
   }
 
@@ -51,6 +51,28 @@ function createMutatorHook () {
   }
 }
 
-export const { hook: afterAppInitHook, executor: afterAppInitExecutor } = createListenerHook()
-export const { hook: beforePlaceOrderHook, executor: beforePlaceOrderExecutor } = createMutatorHook()
-export const { hook: afterPlaceOrderHook, executor: afterPlaceOrderExecutor } = createListenerHook()
+const afterAppInitGen = createListenerHook()
+const beforePlaceOrderGen = createMutatorHook()
+const afterPlaceOrderGen = createListenerHook()
+const beforeStoreViewChangeGen = createMutatorHook()
+const afterStoreViewChangeGen = createListenerHook()
+
+/** Hook is fired right after whole application is initialized. Modules are registered and theme setted up */
+export const afterAppInit = afterAppInitGen.hook
+export const afterAppInitExecutor = afterAppInitGen.executor
+
+/** Hook is fired directly before sending order to the server, after all client-side validations 
+ * @param orderMutator Inside this function you have access to order object that you can access and modify. It should return order object.
+*/
+export const beforePlaceOrder: (orderMutator: (order: {}) => {}) => void = beforePlaceOrderGen.hook
+export const beforePlaceOrderExecutor = beforePlaceOrderGen.executor
+ 
+/** Hook is fired right after order has been sent to server  */
+export const afterPlaceOrder: (orderListener: ({ order: {}, task: {} }) => void) => void = afterPlaceOrderGen.hook
+export const afterPlaceOrderExecutor = afterPlaceOrderGen.executor
+
+export const beforeStoreViewChange:  (storeViewMutator: (storeView: {}) => {}) => void = beforeStoreViewChangeGen.hook
+export const beforeStoreViewChangeExecutor = beforeStoreViewChangeGen.executor
+
+export const afterStoreViewChange: (storeViewListener: (storeView: {}) => {}) => void = afterStoreViewChangeGen.hook
+export const afterStoreViewChangeExecutor = afterStoreViewChangeGen.executor

@@ -6,7 +6,7 @@ import queryString from 'query-string'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
 import config from 'config'
-
+import { beforeStoreViewChangeExecutor, afterStoreViewChangeExecutor } from '@vue-storefront/module/hooks'
 export interface LocalizedRoute {
   path?: string,
   name?: string,
@@ -69,6 +69,7 @@ export function prepareStoreView (storeCode: string): StoreView {
   }
   loadLanguageAsync(storeView.i18n.defaultLocale)
   if (storeViewHasChanged) {
+    storeView = beforeStoreViewChangeExecutor(storeView)
     rootStore.state.storeView = storeView
   }
   if (storeViewHasChanged || Vue.prototype.$db.currentStoreCode !== storeCode) {
@@ -78,7 +79,7 @@ export function prepareStoreView (storeCode: string): StoreView {
     initializeSyncTaskStorage()
     Vue.prototype.$db.currentStoreCode = storeView.storeCode
   }
-
+  afterStoreViewChangeExecutor(storeView)
   return storeView
 }
 
