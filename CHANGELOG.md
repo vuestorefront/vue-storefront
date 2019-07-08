@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.0-rc.1] - UNRELEASED
 
 ### Added
+- Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057)
+- Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
 
@@ -15,15 +17,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed product link in wishlist and microcart - @michasik (#2987)
 - Resolve problem with getting CMS block from cache - @qiqqq (#2499)
 - Make image proxy url work with relative base url - @cewald (#3158)
+- Fixed memory leak with enabled dynamicConfigReload - @dimasch (#3075)
 
 ### Changed / Improved
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
 - Can set transition style for Modal content - @grimasod (#3146)
+- Added stock to cart items - @cheeerd (#3166)
 
 ## [1.10.0-rc.2] - UNRELEASED
 
 ### Fixed
 - Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
+- The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
 
 ## [1.10.0-rc.1] - 2019.06.19
 

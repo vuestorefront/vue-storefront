@@ -75,10 +75,10 @@ const actions: ActionTree<StockState, RootState> = {
               Logger.log('Removing product from cart' + event.product_sku, 'stock')()
               rootStore.commit('cart/' + types.CART_DEL_ITEM, { product: { sku: event.product_sku } }, {root: true})
             } else {
-              rootStore.dispatch('cart/updateItem', { product: { errors: { stock: i18n.t('Out of the stock!') }, sku: event.product_sku, is_in_stock: false } })
+              rootStore.dispatch('cart/updateItem', { product: { errors: { stock: i18n.t('Out of the stock!') }, sku: event.product_sku, is_in_stock: false, stock: event.result } })
             }
           } else {
-            rootStore.dispatch('cart/updateItem', { product: { info: { stock: i18n.t('In stock!') }, sku: event.product_sku, is_in_stock: true } })
+            rootStore.dispatch('cart/updateItem', { product: { info: { stock: i18n.t('In stock!') }, sku: event.product_sku, is_in_stock: true, stock: event.result } })
           }
           Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: cartItem })
         }
