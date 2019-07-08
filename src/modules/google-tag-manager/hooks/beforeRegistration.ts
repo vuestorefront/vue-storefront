@@ -1,7 +1,7 @@
 import VueGtm from 'vue-gtm';
 import { router } from '@vue-storefront/core/app'
 import { Logger } from '@vue-storefront/core/lib/logger'
-export function beforeRegistration (Vue, config, store, isServer) {
+export function beforeRegistration ({ Vue, config, store, isServer }) {
   if (config.googleTagManager.id && !isServer) {
     Vue.use(VueGtm, {
       id: config.googleTagManager.id,
