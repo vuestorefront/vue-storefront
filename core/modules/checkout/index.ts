@@ -8,7 +8,6 @@ import * as types from './store/checkout/mutation-types'
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
 
 export const CheckoutModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
-
   Vue.prototype.$db.checkoutFieldsCollection = initCacheStorage('checkoutFieldValues')
 
   store.registerModule('shipping', shippingModule)
@@ -18,7 +17,7 @@ export const CheckoutModule: StorefrontModule = function (app, store, router, mo
   afterAppInitHook(() => {
     store.subscribe((mutation, state) => {
       const type = mutation.type
-  
+
       if (
         type.endsWith(types.CHECKOUT_SAVE_PERSONAL_DETAILS)
       ) {
@@ -26,7 +25,7 @@ export const CheckoutModule: StorefrontModule = function (app, store, router, mo
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
-  
+
       if (
         type.endsWith(types.CHECKOUT_SAVE_SHIPPING_DETAILS)
       ) {
@@ -34,7 +33,7 @@ export const CheckoutModule: StorefrontModule = function (app, store, router, mo
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }
-  
+
       if (
         type.endsWith(types.CHECKOUT_SAVE_PAYMENT_DETAILS)
       ) {

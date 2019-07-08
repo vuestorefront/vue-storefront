@@ -1,6 +1,6 @@
 // import { extendModule } from '@vue-storefront/core/lib/module'
 import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
-import { Catalog } from '@vue-storefront/core/modules/catalog'
+import { CatalogModule } from '@vue-storefront/core/modules/catalog'
 import { CartModule } from '@vue-storefront/core/modules/cart'
 import { CheckoutModule } from '@vue-storefront/core/modules/checkout'
 import { Compare } from '@vue-storefront/core/modules/compare'
@@ -54,12 +54,12 @@ import { registerModule } from '@vue-storefront/module'
 
 // TODO:distributed across proper pages BEFORE 1.11
 export function registerNewModules () {
+  registerModule(CatalogModule)
   registerModule(CheckoutModule)
   registerModule(CartModule)
 }
 
 export const registerModules: VueStorefrontModule[] = [
-  Catalog,
   Compare,
   Review,
   Mailer,

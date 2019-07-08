@@ -1,38 +1,4 @@
-import { createModule } from '@vue-storefront/core/lib/module'
-import { beforeRegistration } from './hooks/beforeRegistration'
-
-export const KEY = 'catalog'
-export const Catalog = createModule({
-  key: KEY,
-  store: { modules: [
-    { key: 'product', module: productModule },
-    { key: 'attribute', module: attributeModule },
-    { key: 'stock', module: stockModule },
-    { key: 'tax', module: taxModule },
-    { key: 'category', module: categoryModule }
-  ] },
-  beforeRegistration
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import { StorefrontModule } from "@vue-storefront/module"
+import { StorefrontModule } from '@vue-storefront/module'
 import { productModule } from './store/product'
 import { attributeModule } from './store/attribute'
 import { stockModule } from './store/stock'
@@ -45,7 +11,6 @@ import Vue from 'vue'
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
 
 export const CatalogModule: StorefrontModule = function (app, store, router, config, appConfig) {
-
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
