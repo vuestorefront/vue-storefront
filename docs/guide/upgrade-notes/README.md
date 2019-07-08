@@ -4,6 +4,7 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 ## 1.10 -> 1.11
 - `UserOrder` component has been renamed to `UserOrderHistory` and moved from `src/modules/order-history/components/UserOrders` to `@vue-storefront/core/modules/order/components/UserOrdersHistory`
 - `claims`, `promoted-offers`, `homepage` and `ui` modules have been moved from `@vue-storefront/core/modules/` to `theme/store/` and reduced to store only
+- `WebShare` moved from `@vue-storefront/core/modules/social-share/components/WebShare.vue` to `@vue-storefront\src\themes\default\components\theme\WebShare.vue`
 
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
