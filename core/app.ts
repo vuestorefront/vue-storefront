@@ -114,7 +114,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     isServer,
     ssrContext
   }
-  
+
   injectReferences(app, store, router, globalConfig)
   registerNewModules()
   registerModules(enabledModules, appContext)

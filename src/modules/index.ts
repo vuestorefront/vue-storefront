@@ -2,7 +2,7 @@
 import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
 import { Catalog } from '@vue-storefront/core/modules/catalog'
 import { CartModule } from '@vue-storefront/core/modules/cart'
-import { Checkout } from '@vue-storefront/core/modules/checkout'
+import { CheckoutModule } from '@vue-storefront/core/modules/checkout'
 import { Compare } from '@vue-storefront/core/modules/compare'
 import { Review } from '@vue-storefront/core/modules/review'
 import { Mailer } from '@vue-storefront/core/modules/mailer'
@@ -52,13 +52,13 @@ import { registerModule } from '@vue-storefront/module'
  * - Wishlist
  */
 
- // temp for testing, to be distributed across proper pages
- export function registerNewModules () {
+// TODO:distributed across proper pages BEFORE 1.11
+export function registerNewModules () {
+  registerModule(CheckoutModule)
   registerModule(CartModule)
- }
+}
 
 export const registerModules: VueStorefrontModule[] = [
-  Checkout,
   Catalog,
   Compare,
   Review,
