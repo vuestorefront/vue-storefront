@@ -11,8 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vue-storefront/module": "^0.0.3",
-    "vuex": "^3.1.1"
+    "@vue-storefront/module": "^0.0.3"
   },
   "devDependencies": {
     "ts-loader": "^6.0.4",

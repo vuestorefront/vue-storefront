@@ -46,7 +46,7 @@ export default {
   },
   beforeMount () {
     this.$store.dispatch('checkout/setModifiedAt', Date.now())
-    // TO-DO: Use one event with name as apram
+    // TODO: Use one event with name as apram
     this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
     this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)

@@ -3,14 +3,14 @@ import { Store } from "vuex"
 
 export interface StorefrontModule { (
   app: any,
-  store: Store<any>,
-  router: VueRouter,
-  config: any,
+  store: any,
+  router: any,
+  moduleConfig: any,
   appConfig: any ) : void
 }
 
 // because config can't be shared as peer dependency
-let refs: { app: any, store: Store<any>, router: VueRouter, config: Object }
+let refs: any = {}
 
 function injectReferences (app: any, store: Store<any>, router: VueRouter, config: any): void {
   refs.app = app
@@ -19,7 +19,7 @@ function injectReferences (app: any, store: Store<any>, router: VueRouter, confi
   refs.config = config
 }
 
-function registerModule (module: StorefrontModule, config: any) {
+function registerModule (module: StorefrontModule, config?: any) {
   module(refs.app, refs.store, refs.router, config, refs.config)
 }
 

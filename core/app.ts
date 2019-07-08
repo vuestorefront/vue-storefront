@@ -37,6 +37,7 @@ import globalConfig from 'config'
 
 import { injectReferences } from '@vue-storefront/module'
 import { afterAppInitExecutor } from '@vue-storefront/module/hooks'
+import { registerNewModules } from 'src/modules';
 
 function createRouter (): VueRouter {
   return new VueRouter({
@@ -113,8 +114,9 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     isServer,
     ssrContext
   }
-
-  injectReferences(app, store, router, config)
+  
+  injectReferences(app, store, router, globalConfig)
+  registerNewModules()
   registerModules(enabledModules, appContext)
   registerExtensions(extensions, app, router, store, config, ssrContext)
   registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)

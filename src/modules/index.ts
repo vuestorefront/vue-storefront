@@ -1,7 +1,7 @@
 // import { extendModule } from '@vue-storefront/core/lib/module'
 import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
 import { Catalog } from '@vue-storefront/core/modules/catalog'
-import { Cart } from '@vue-storefront/core/modules/cart'
+import { CartModule } from '@vue-storefront/core/modules/cart'
 import { Checkout } from '@vue-storefront/core/modules/checkout'
 import { Compare } from '@vue-storefront/core/modules/compare'
 import { Review } from '@vue-storefront/core/modules/review'
@@ -24,9 +24,8 @@ import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
 import { InstantCheckout } from './instant-checkout'
 import { OrderHistory } from './order-history'
-
 // import { Example } from './module-template'
-
+import { registerModule } from '@vue-storefront/module'
 // This is how you can extend any of VS modues
 // const extendCartVuex = {
 //   actions: {
@@ -52,10 +51,15 @@ import { OrderHistory } from './order-history'
  * In VS 1.8 this modules will be seamlessly lazyLoaded after proper action dispatch
  * - Wishlist
  */
+
+ // temp for testing, to be distributed across proper pages
+ export function registerNewModules () {
+  registerModule(CartModule)
+ }
+
 export const registerModules: VueStorefrontModule[] = [
   Checkout,
   Catalog,
-  Cart,
   Compare,
   Review,
   Mailer,
