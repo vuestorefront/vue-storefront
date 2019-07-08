@@ -15,7 +15,6 @@ jobs:
       stage: Build
       script:
         - yarn lint
-        - yarn pkg:vue:build
         - yarn build
       node_js: "10"
 
