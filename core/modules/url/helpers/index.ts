@@ -54,9 +54,13 @@ export function normalizeUrlPath (url: string): string {
   return url
 }
 
-export function formatCategoryLink ({ url_path, slug }: Category, storeCode: string = currentStoreView().storeCode): string {
+export function formatCategoryLink (category: Category, storeCode: string = currentStoreView().storeCode): string {
   storeCode ? storeCode += '/' : storeCode = '';
-  return config.seo.useUrlDispatcher ? ('/' + storeCode + url_path) : ('/' + storeCode + 'c/' + slug)
+
+  if (category) {
+    return config.seo.useUrlDispatcher ? ('/' + storeCode + category.url_path) : ('/' + storeCode + 'c/' + category.slug)
+  }
+  return '/' + storeCode;
 }
 
 export function formatProductLink (
