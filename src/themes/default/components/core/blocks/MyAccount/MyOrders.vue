@@ -80,10 +80,10 @@
 </template>
 
 <script>
-import UserOrderHistory from '@vue-storefront/core/modules/order/components/UserOrdersHistory'
+import UserOrder from '@vue-storefront/core/modules/order/components/UserOrdersHistory'
 
 export default {
-  mixins: [UserOrderHistory]
+  mixins: [UserOrder]
 }
 </script>
 

@@ -2,7 +2,7 @@
 
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 ## 1.10 -> 1.11
-- `UserOrder` component has been renamed to `UserOrderHistory` and moved from `src/modules/order-history/components/UserOrders` to `@vue-storefront/core/modules/order/components/UserOrdersHistory`. This component was used in `MyOrders` component found here: `src/themes/default/components/core/blocks/MyAccount/MyOrders.vue`. In this file the `import` has to be updated as well as `mixin name`.
+- `UserOrder` component has been renamed to `UserOrderHistory` and moved from `src/modules/order-history/components/UserOrders` to `@vue-storefront/core/modules/order/components/UserOrdersHistory`. This component was used in `MyOrders` component found here: `src/themes/default/components/core/blocks/MyAccount/MyOrders.vue`. In this file the `import` path has to be updated.
 - `claims`, `promoted-offers`, `homepage` adn `ui` modules have been moved from `@vue-storefront/src/modules` to `src/themes/default/store/` and reduced to stores only.<br>
 Delete those folders:<br>
   -- `src/modules/claims`<br>
