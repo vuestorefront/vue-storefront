@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Can set transition style for Modal content - @grimasod (#3146)
 - Added stock to cart items - @cheeerd (#3166)
 - Moves theme specific stores and components into themes - @michasik (#3139)
+- Translation file improvements - @vishal-7037 (#3198)
 
 ## [1.10.0-rc.2] - UNRELEASED
 
