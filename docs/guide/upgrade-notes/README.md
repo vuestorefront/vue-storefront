@@ -2,9 +2,31 @@
 
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 ## 1.10 -> 1.11
-- `UserOrder` component has been renamed to `UserOrderHistory` and moved from `src/modules/order-history/components/UserOrders` to `@vue-storefront/core/modules/order/components/UserOrdersHistory`
-- `claims`, `promoted-offers`, `homepage` and `ui` modules have been moved from `@vue-storefront/core/modules/` to `theme/store/` and reduced to store only
-- `WebShare` moved from `@vue-storefront/core/modules/social-share/components/WebShare.vue` to `@vue-storefront\src\themes\default\components\theme\WebShare.vue`
+- `UserOrder` component has been renamed to `UserOrderHistory` and moved from `src/modules/order-history/components/UserOrders` to `@vue-storefront/core/modules/order/components/UserOrdersHistory`. This component was used in `MyOrders` component found here: `src/themes/default/components/core/blocks/MyAccount/MyOrders.vue`. In this file the `import` has to be updated as well as `mixin name`.
+- `claims`, `promoted-offers`, `homepage` adn `ui` modules have been moved from `@vue-storefront/src/modules` to `src/themes/default/store/` and reduced to stores only.<br>
+Delete those folders:<br>
+  -- `src/modules/claims`<br>
+  -- `src/modules/promoted-offers`<br>
+  -- `src/modules/homepage`<br>
+  -- `src/modules/ui-store`<br>
+Copy folder `theme/store/` from `theme default`.<br>
+Register the stores copied in previous step in `src/themes/default/index.js`. To do that, import them along with `initCacheStorage` method, used to replace `claims beforeRegistration hook`.
+```js
+import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
+import { store as claimsStore } from 'theme/store/claims'
+import { store as homeStore } from 'theme/store/homepage'
+import { store as uiStore } from 'theme/store/ui'
+import { store as promotedStore } from 'theme/store/promoted-offers'
+```
+Next, inside `initTheme` method use `store.registerModule` method to register the stores.
+```js
+Vue.prototype.$db.claimsCollection = initCacheStorage('claims');
+store.registerModule('claims', claimsStore);
+store.registerModule('homepage', homeStore);
+store.registerModule('ui', uiStore);
+store.registerModule('promoted', promotedStore);
+```
+- `WebShare` moved from `@vue-storefront/core/modules/social-share/components/WebShare.vue` to `@vue-storefront/src/themes/default/components/theme/WebShare.vue`. This component was used in `Product` component found here: `src/themes/default/pages/Product.vue`. In this file the `import` path has to be updated.
 
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
