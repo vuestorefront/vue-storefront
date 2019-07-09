@@ -1,5 +1,9 @@
 # Integration with Magento 2
+## Using native Magento 2 module 
+There is a native Magento 2 [module](https://github.com/DivanteLtd/magento2-vsbridge-indexer) that synchronizes Magento 2 source data and **Vue Storefront** data store; *Elasticsearch*.   
+[Magento 2 VSBridge Indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) has a few advantages. More than anything, it's faster and reliable.
 
+## Using Magento 2 API via OAuth authorization
 The tool is using Magento 2 API via OAuth authorization, so you need to prepare Magento Integration access at first. Go to your Magento 2 admin panel and click: System → Integrations.
 
 ![Magento Admin Panel](../images/magento_1.png)

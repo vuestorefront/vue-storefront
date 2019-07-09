@@ -36,7 +36,7 @@ Vue Storefront is a platform-agnostic headless frontend for eCommerce. Here, we 
 - SSR (server-side rendering)
 - Light footprint design for fast load time and search-engine optimization
 - Search-engine friendly URLs, including URL rewrite controls
-- META information management at product and category ;evels
+- META information management at product and category levels
 - Available via customization: auto-generated popular search terms page
 
 ### Analytics and Reporting
@@ -52,7 +52,7 @@ Vue Storefront is a platform-agnostic headless frontend for eCommerce. Here, we 
 - On-site search terms report
 - Product reviews report with RSS support
 - Tags report with RSS support
- - Coupon usage report
+- Coupon usage report
 
 ### Marketing Promotions and Tools
 
@@ -119,7 +119,7 @@ Standard Magento 2 features are all supported:
 
 - Multiple images per product
 - Product image zoom-in capability
-- Related rroducts
+- Related products
 - Stock availability
 - Product option selection
 - Grouped products view
