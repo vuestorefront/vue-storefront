@@ -44,7 +44,9 @@
     "lint": "eslint --ext .js,.vue,.ts core src --fix",
     "lerna": "lerna"
   },
-  "pre-commit": [ "lint" ],
+  "pre-commit": [
+    "lint"
+  ],
   "dependencies": {
     "@types/webpack": "^4.4.23",
     "@types/webpack-dev-server": "^3.1.1",
@@ -83,7 +85,8 @@
     "vue-server-renderer": "^2.6.6",
     "vuelidate": "^0.6.2",
     "vuex": "^3.0.1",
-    "vuex-router-sync": "^5.0.0"
+    "vuex-router-sync": "^5.0.0",
+    "yaml": "^1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",

@@ -1,8 +1,9 @@
 import { ActionTree } from 'vuex';
 import { UrlState } from '@vue-storefront/core/modules/url/types/UrlState'
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { PageStateItem } from 'src/modules/icmaa-cms/types/PageState'
 import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import { removeHashFromRoute } from '../helpers'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import config from 'config'
 
 /**
@@ -74,10 +75,10 @@ const forCmsPageUrls = async ({ dispatch }, { url, params }) => {
   url = removeHashFromRoute(url) as string
 
   return dispatch('icmaaCmsPage/single', { value: url }, { root: true })
-    .then(page => {
+    .then((page: PageStateItem) => {
       if (page !== null) {
         return {
-          name: 'icmaa-cms-page',
+          name: page.routeName || 'icmaa-cms-page',
           params: {
             identifier: page.identifier
           }

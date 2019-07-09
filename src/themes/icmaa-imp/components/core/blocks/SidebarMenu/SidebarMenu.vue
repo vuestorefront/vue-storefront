@@ -38,10 +38,10 @@
           >
             <router-link
               class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
-              :to="localizedRoute('/magazine')"
+              :to="localizedRoute('/service')"
               exact
             >
-              {{ $t('Magazine') }}
+              {{ $t('Service') }}
             </router-link>
           </li>
           <li

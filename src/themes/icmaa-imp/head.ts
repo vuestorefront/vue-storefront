@@ -1,13 +1,19 @@
+import config from 'config'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+
+const storeCode: string = currentStoreView().storeCode || config.i18n.defaultLanguage.toLowerCase()
+const storeLang: string = currentStoreView().i18n.defaultLocale || config.i18n.defaultLocale
+
 export default {
-  title: 'Default Theme',
-  titleTemplate: '%s - Vue Storefront',
+  title: 'Dein offizieller Merchandise, Streetwear und Fanartikel Shop',
+  titleTemplate: `%s - Impericon.com ${storeCode.toUpperCase()}`,
   htmlAttrs: {
-    lang: 'en'
+    lang: storeLang
   },
   meta: [
     { charset: 'utf-8' },
-    { vmid: 'description', name: 'description', content: 'Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, Prestashop or Shopware) through the API.' },
-    { name: 'viewport', content: 'width=device-width, initial-scale=1, minimal-ui' },
+    { vmid: 'description', name: 'description', content: 'Vue Dein offizieller Merchandise, Streetwear und Fanartikel Shop  - Impericon.com DE - Offizielles Merchandise, Streetwear, Fanartikel, Tickets und Schuhe im Impericon Shop - Innerhalb von 24 Stunden versandfertig - 30 Tage Rückgaberecht' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' },
     { name: 'robots', content: 'index, follow' },
     { name: 'mobile-web-app-capable', content: 'yes' },
     { name: 'theme-color', content: '#ffffff' },

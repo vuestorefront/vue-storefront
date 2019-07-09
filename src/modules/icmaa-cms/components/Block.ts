@@ -1,5 +1,6 @@
 import { mapGetters } from 'vuex'
 import BlockStateItem from '../types/BlockState'
+import { stringToComponent } from '../helpers'
 
 export default {
   name: 'IcmaaCmsBlock',
@@ -22,6 +23,9 @@ export default {
     },
     block (): BlockStateItem {
       return this.blockByIdentifier(this.identifier)
+    },
+    content (): object {
+      return stringToComponent(this.page.content)
     }
   }
 }
