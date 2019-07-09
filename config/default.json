@@ -147,7 +147,7 @@
       "twoStageCaching": true,
       "optimizeShoppingCart": true,
       "category": {
-        "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "url_path", "product_count", "path"],
+        "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "*sku", "name", "is_active", "parent_id", "level", "url_key", "url_path", "product_count", "path", "*image","*small_image", "configurable_children.sku", "configurable_children.price", "configurable_children.color", "configurable_children.size", "configurable_children.id"],
         "excludeFields": [ "sgn" ],
         "categoriesRootCategorylId": 2,
         "categoriesDynamicPrefetchLevel": 2,
