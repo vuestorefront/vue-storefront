@@ -39,7 +39,7 @@ const actions: ActionTree<StockState, RootState> = {
   check (context, { product, qty = 1 }) {
     return new Promise((resolve, reject) => {
       if (config.stock.synchronize) {
-        TaskQueue.execute({ url: config.stock.endpoint + '/check?sku=' + encodeURIComponent(product.sku),
+        TaskQueue.execute({ url: processURLAddress(`${config.stock.endpoint}/check?sku=${encodeURIComponent(product.sku)}),
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
