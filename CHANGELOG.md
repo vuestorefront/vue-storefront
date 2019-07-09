@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Resolve problem with getting CMS block from cache - @qiqqq (#2499)
 - Make image proxy url work with relative base url - @cewald (#3158)
 - Fixed memory leak with enabled dynamicConfigReload - @dimasch (#3075)
+- Fixed error for the orderhistory null for google-tag-manager extension - @cnviradiya (#3195)
 
 ### Changed / Improved
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
@@ -31,7 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
 - Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
 - Lack of possibility to mock src modules and  theme components - @lukeromanowicz (#3185)
-- Fixed error for the orderhistory null for google-tag-manager extension - @cnviradiya (#3195)
 
 ## [1.10.0-rc.1] - 2019.06.19
 
