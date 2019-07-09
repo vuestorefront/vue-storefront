@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade-in-down">
+  <transition :name="transitionName">
     <div
       class="modal"
       v-if="isVisible"
@@ -93,6 +93,10 @@ export default {
     width: {
       type: Number,
       default: 0
+    },
+    transitionName: {
+      type: String,
+      default: 'fade-in-down'
     }
   },
   computed: {
@@ -103,7 +107,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
 $z-index-modal: map-get($z-index, modal);
 

@@ -51,7 +51,7 @@
     </ul>
     <ul
       v-if="myAccountLinks && !path.length"
-      class="sidebar-submenu fixed w-100 p0 bg-cl-primary"
+      class="sidebar-submenu absolute w-100 p0 bg-cl-primary"
       :style="styles"
     >
       <li

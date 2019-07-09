@@ -1,6 +1,7 @@
 // import { extendModule } from '@vue-storefront/core/lib/module'
 import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
 import { CatalogModule } from '@vue-storefront/core/modules/catalog'
+import CatalogNext from '@vue-storefront/core/modules/catalog-next'
 import { CartModule } from '@vue-storefront/core/modules/cart'
 import { CheckoutModule } from '@vue-storefront/core/modules/checkout'
 import { Compare } from '@vue-storefront/core/modules/compare'
@@ -26,31 +27,6 @@ import { InstantCheckout } from './instant-checkout'
 import { OrderHistory } from './order-history'
 // import { Example } from './module-template'
 import { registerModule } from '@vue-storefront/module'
-// This is how you can extend any of VS modues
-// const extendCartVuex = {
-//   actions: {
-//     load () {
-//       Logger.info('New load function')()
-//     }
-//   }
-//  }
-
-//  const cartExtend = {
-//   key: 'cart',
-//   afterRegistration: function(isServer, config) {
-//     Logger.info('New afterRegistration hook')()
-//   },
-//   store: { modules: [{ key: 'cart', module: extendCartVuex }] },
-//  }
-
-//  extendModule(cartExtend)
-
-/**
- * Some of the modules are registered lazily only when components from the module are appearing on current page.
- * If you want to use this module in pages without its components you need to remember about registering module first
- * In VS 1.8 this modules will be seamlessly lazyLoaded after proper action dispatch
- * - Wishlist
- */
 
 // TODO:distributed across proper pages BEFORE 1.11
 export function registerNewModules () {
@@ -59,6 +35,7 @@ export function registerNewModules () {
   registerModule(CartModule)
 }
 
+// Deprecated API, will be removed in 2.0
 export const registerModules: VueStorefrontModule[] = [
   Compare,
   Review,
@@ -80,6 +57,7 @@ export const registerModules: VueStorefrontModule[] = [
   AmpRenderer,
   InstantCheckout,
   Url,
+  CatalogNext,
   OrderHistory
   // Example
 ]

@@ -8,14 +8,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.0-rc.1] - UNRELEASED
 
 ### Added
+- Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057)
+- Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
+- Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
 
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)
 - Resolve problem with getting CMS block from cache - @qiqqq (#2499)
+- Make image proxy url work with relative base url - @cewald (#3158)
 
 ### Changed / Improved
--
+- Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
+- Can set transition style for Modal content - @grimasod (#3146)
+
+## [1.10.0-rc.2] - UNRELEASED
+
+### Fixed
+- Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
 
 ## [1.10.0-rc.1] - 2019.06.19
 
@@ -112,8 +122,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Product video - retrieve video id from 'video_id' field (if set) instead of 'id' - @afirlejczyk
 - Webpack config improvement - @yogeshsuhagiya (#2689)
 - BaseSelect input event - @ResuBaka (#2683)
-- Fixed static file handler to immediately return 404 status for missing files - @grimason (#2685)
-- Fixed maxAge Response Header for static files and Content-Type for Service Worker - @grimason (#2686)
+- Fixed static file handler to immediately return 404 status for missing files - @grimasod (#2685)
+- Fixed maxAge Response Header for static files and Content-Type for Service Worker - @grimasod (#2686)
 - Default log verbosity is changed to show only errors - @lromanowicz (#2717)
 - Remembering last search query - @webdiver, @patzick (#2787)
 - Extracted ProductImage component to support faster images loading - @przemyslawspaczek (#2925)
