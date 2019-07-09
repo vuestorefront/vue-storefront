@@ -19,10 +19,14 @@ export const changeFilterQuery = ({currentQuery = {}, filterVariant}: {currentQu
     if (!Array.isArray(queryFilter)) queryFilter = [queryFilter]
     if (queryFilter.includes(filterVariant.id)) {
       queryFilter = queryFilter.filter(value => value !== filterVariant.id)
+    } else if (filterVariant.single) {
+      queryFilter = [filterVariant.id]
     } else {
       queryFilter.push(filterVariant.id)
     }
-    newQuery[filterVariant.type] = queryFilter
+    // delete or add filter variant to query
+    if (!queryFilter.length) delete newQuery[filterVariant.type]
+    else newQuery[filterVariant.type] = queryFilter
   }
   return newQuery
 }
