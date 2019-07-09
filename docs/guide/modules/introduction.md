@@ -31,9 +31,9 @@ Let's say we have a box with 90 lego bricks that we can use to build some fancy 
 
 Cool, but there is one problem - since we have all our bricks in one box they look more or less as follows :
 
-![lego](http://www.robomiku.ee/wp-content/uploads/2016/10/9027.png)
+![lego](../images/pile_of_legos.png)
 
-When we want to replace the green bricks with, let's say, the black ones we need to look for each green brick separately among all the others which can take a lot of time... and there is still a chance that we will miss some of them! Not to mention that finding the particular green brick that we need to finish the palm tree we are building (<img alt="this one!" src="https://www.thedailybrick.co.uk/media/catalog/product/cache/1/image/700x700/9df78eab33525d08d6e5fb8d27136e95/l/e/lego_small_palm_leaf_8_x_3__6148__lego-green-small-palm-leaf-8-x-3-6148-30-257873-61.jpg" style="width: 150px; height:120px;vertical-align: middle">) will require looking for it among all the other bricks which can make this task extremely difficult and time-consuming.
+When we want to replace the green bricks with, let's say, the black ones we need to look for each green brick separately among all the others which can take a lot of time... and there is still a chance that we will miss some of them! Not to mention that finding the particular green brick that we need to finish the palm tree we are building (<img alt="this one!" src="../images/lego_palm.jpeg" style="width: 150px; height:120px;vertical-align: middle">) will require looking for it among all the other bricks which can make this task extremely difficult and time-consuming.
 
 This is obviously not a situation that we want to end up in with our small lego empire. Neither we want it with Vue Storefront since it's meant to be easily extendable so you can replace your green bricks (or current user cart feature/cms provider/cms content provider) with the black ones (different cart feature with multiple carts, WordPress instead of Prismic for content etc) without hustles and bustles looking for each of them among all the bricks and without worries that you will miss some of them or EU will confiscate all the bricks that you have! We also want to make it easier to find the correct brick that we want right now to finish this damn palm tree!
 
@@ -41,7 +41,7 @@ So how do we make this horrible situation better?
 
 Introducing... (drums build up in the background) **_bricks grouped by colors_**! (wows in the background)
 
-![lego2](https://sh-s7-live-s.legocdn.com/is/image/LEGO/6177?$PDPDefault$)
+![lego2](../images/organized_lego_bricks.jpeg)
 
 When we have our bricks grouped by their colors (and in separate boxes - modules) it's much easier to find this green brick that we needed for a palm tree since we only need to search in a small subset of all bricks. Moreover when we want to replace green bricks with the black ones, then instead of looking for all the green representatives one by one we are just replacing their box with the one containing black bricks. We also don't need to worry if something was left behind since we know that all the green bricks were in the box.
 
