@@ -8,10 +8,10 @@ import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { once } from '@vue-storefront/core/helpers'
 
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
-import { store as claimsStore } from 'theme/store/claims'
-import { store as homeStore } from 'theme/store/homepage'
-import { store as uiStore } from 'theme/store/ui'
-import { store as promotedStore } from 'theme/store/promoted-offers'
+import { claimsStore } from 'theme/store/claims'
+import { homepageStore } from 'theme/store/homepage'
+import { uiStore } from 'theme/store/ui'
+import { promotedStore } from 'theme/store/promoted-offers'
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(VueProgressBar)
@@ -28,7 +28,7 @@ function initTheme (app, router, store, config, ssrContext) {
 
   Vue.prototype.$db.claimsCollection = initCacheStorage('claims');
   store.registerModule('claims', claimsStore);
-  store.registerModule('homepage', homeStore);
+  store.registerModule('homepage', homepageStore);
   store.registerModule('ui', uiStore);
   store.registerModule('promoted', promotedStore);
 }

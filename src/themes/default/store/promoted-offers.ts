@@ -9,7 +9,7 @@ export default interface PromotedOffersState {
   headImage: Record<string, any>
 }
 
-export const store = {
+export const promotedStore = {
   namespaced: true,
   state: {
     banners: {

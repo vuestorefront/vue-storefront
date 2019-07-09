@@ -1,4 +1,4 @@
-export const store = {
+export const uiStore = {
   namespaced: true,
   state: {
     sidebar: false,

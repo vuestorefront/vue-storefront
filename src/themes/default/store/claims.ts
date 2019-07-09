@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-export const store = {
+export const claimsStore = {
   namespaced: true,
   actions: {
     set (context, { claimCode, value, description }) {
