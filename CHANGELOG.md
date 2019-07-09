@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
 - Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
 - Lack of possibility to mock src modules and  theme components - @lukeromanowicz (#3185)
+- Fixed aspect ratio issue of product in detail page - @cnviradiya (#3196)
 
 ## [1.10.0-rc.1] - 2019.06.19
 
