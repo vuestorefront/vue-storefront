@@ -8,7 +8,7 @@ import merge from 'lodash-es/merge'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
 import config from 'config'
-import { beforeStoreViewChangeExecutor, afterStoreViewChangeExecutor } from '@vue-storefront/module/hooks'
+import { afterStoreViewChangeExecutor } from '@vue-storefront/module/hooks'
 export interface LocalizedRoute {
   path?: string,
   name?: string,
@@ -97,7 +97,7 @@ export function prepareStoreView (storeCode: string): StoreView {
   loadLanguageAsync(storeView.i18n.defaultLocale)
 
   if (storeViewHasChanged) {
-    storeView = beforeStoreViewChangeExecutor(storeView)
+    // storeView = beforeStoreViewChangeExecutor(storeView)
     rootStore.state.storeView = storeView
   }
 

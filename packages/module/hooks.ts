@@ -76,3 +76,5 @@ export const beforeStoreViewChangeExecutor = beforeStoreViewChangeGen.executor
 
 export const afterStoreViewChange: (storeViewListener: (storeView: {}) => {}) => void = afterStoreViewChangeGen.hook
 export const afterStoreViewChangeExecutor = afterStoreViewChangeGen.executor
+
+// Client entry, replaceState, shopping cart loaded, user logged
