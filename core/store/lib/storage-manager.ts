@@ -7,7 +7,7 @@ const StorageManager = {
    * @param collectionName string name of the cache collection to register
    * @param collectionInstance UniversalStorage driver
    */
-  register: function (collectionName, collectionInstance: UniversalStorage): UniversalStorage {
+  set: function (collectionName, collectionInstance: UniversalStorage): UniversalStorage {
     this[collectionName] = collectionInstance
     return collectionInstance
   },
@@ -24,7 +24,7 @@ const StorageManager = {
    */
   get: function (collectionName): UniversalStorage {
     if (!this.exists(collectionName)) {
-      return this.register(collectionName, initCacheStorage(collectionName, true, false))
+      return this.set(collectionName, initCacheStorage(collectionName, true, false))
     } else {
       return this[collectionName]
     }

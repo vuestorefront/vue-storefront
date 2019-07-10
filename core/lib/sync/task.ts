@@ -182,7 +182,7 @@ export function initializeSyncTaskStorage () {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
-  StorageManager.register('syncTaskCollection', new UniversalStorage(localForage.createInstance({
+  StorageManager.set('syncTaskCollection', new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'syncTasks',
     driver: localForage[config.localForage.defaultDrivers['syncTasks']]

@@ -9,7 +9,7 @@ import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
 
 export function beforeRegistration ({ Vue, config, store, isServer }) {
-  StorageManager.register('ordersCollection', new UniversalStorage(localForage.createInstance({
+  StorageManager.set('ordersCollection', new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'orders',
     driver: localForage[config.localForage.defaultDrivers['orders']]

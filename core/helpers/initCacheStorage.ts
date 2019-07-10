@@ -22,7 +22,7 @@ function _prepareCachestorage (key, localised = true) {
 export function initCacheStorage (key, localised = true, registerStorgeManager = true) {
   if (registerStorgeManager) {
     if (!StorageManager.exists(key)) {
-      return StorageManager.register(key, _prepareCachestorage(key, localised))
+      return StorageManager.set(key, _prepareCachestorage(key, localised))
     } else {
       return StorageManager.get(key)
     }

@@ -7,13 +7,13 @@ export function beforeRegistration ({ Vue, config, store, isServer }) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
-  StorageManager.register('usersCollection', new UniversalStorage(localForage.createInstance({
+  StorageManager.set('usersCollection', new UniversalStorage(localForage.createInstance({
     name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
     storeName: 'user',
     driver: localForage[config.localForage.defaultDrivers['user']]
   })))
 
-  StorageManager.register('ordersHistoryCollection', new UniversalStorage(localForage.createInstance({
+  StorageManager.set('ordersHistoryCollection', new UniversalStorage(localForage.createInstance({
     name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
     storeName: 'ordersHistory',
     driver: localForage[config.localForage.defaultDrivers['ordersHistory']]

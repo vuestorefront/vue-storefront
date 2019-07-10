@@ -7,7 +7,7 @@ export function beforeRegistration ({ Vue, config, store, isServer }) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
-  StorageManager.register('compareCollection', new UniversalStorage(localForage.createInstance({
+  StorageManager.set('compareCollection', new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'compare',
     driver: localForage[config.localForage.defaultDrivers['compare']]

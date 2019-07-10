@@ -7,7 +7,7 @@ export function beforeRegistration ({ Vue, config, store, isServer }) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
-  StorageManager.register('claimsCollection', new UniversalStorage(localForage.createInstance({
+  StorageManager.set('claimsCollection', new UniversalStorage(localForage.createInstance({
     name: (config.storeViews.commonCache ? '' : dbNamePrefix) + 'shop',
     storeName: 'claims',
     driver: localForage[config.localForage.defaultDrivers['claims']]

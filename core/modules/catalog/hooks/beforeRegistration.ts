@@ -7,25 +7,25 @@ export function beforeRegistration ({ Vue, config, store, isServer }) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
-  StorageManager.register('categoriesCollection', new UniversalStorage(localForage.createInstance({
+  StorageManager.set('categoriesCollection', new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'categories',
     driver: localForage[config.localForage.defaultDrivers['categories']]
   })))
 
-  StorageManager.register('attributesCollection', new UniversalStorage(localForage.createInstance({
+  StorageManager.set('attributesCollection', new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'attributes',
     driver: localForage[config.localForage.defaultDrivers['attributes']]
   })))
 
-  StorageManager.register('elasticCacheCollection', new UniversalStorage(localForage.createInstance({
+  StorageManager.set('elasticCacheCollection', new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'elasticCache',
     driver: localForage[config.localForage.defaultDrivers['elasticCache']]
   }), true, config.server.elasticCacheQuota))
 
-  StorageManager.register('productsCollection', new UniversalStorage(localForage.createInstance({
+  StorageManager.set('productsCollection', new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'products',
     driver: localForage[config.localForage.defaultDrivers['products']]
