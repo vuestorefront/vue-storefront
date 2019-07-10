@@ -9,20 +9,21 @@ import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import Vue from 'vue'
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 export const CatalogModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
-  Vue.prototype.$db.categoriesCollection = initCacheStorage('categories')
-  Vue.prototype.$db.attributesCollection = initCacheStorage('attributes')
-  Vue.prototype.$db.productsCollection = initCacheStorage('products')
+  initCacheStorage('categories')
+  initCacheStorage('attributes')
+  initCacheStorage('products')
 
-  Vue.prototype.$db.elasticCacheCollection = new UniversalStorage(localForage.createInstance({
+  StorageManager.set('elasticCacheCollection', new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'elasticCache',
     driver: localForage[appConfig.localForage.defaultDrivers['elasticCache']]
-  }), true, appConfig.server.elasticCacheQuota)
+  }), true, appConfig.server.elasticCacheQuota))
 
   store.registerModule('product', productModule)
   store.registerModule('attribute', attributeModule)

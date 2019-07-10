@@ -6,7 +6,7 @@ import Vue from 'vue'
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
 
 export const CartModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
-  Vue.prototype.$db.cartsCollection = initCacheStorage('carts')
+  initCacheStorage('carts')
 
   store.registerModule('cart', cartStore)
 
