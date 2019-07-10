@@ -17,7 +17,7 @@ async function queue (task) {
       if (err) Logger.error(err, 'sync')()
       Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
       resolve(task)
-    }).catch((reason) => {
+    }, config.syncTasks.disablePersistentTaskQueue).catch((reason) => {
       Logger.error(reason, 'sync')() // it doesn't work on SSR
       reject(reason)
     })

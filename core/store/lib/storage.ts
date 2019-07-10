@@ -42,7 +42,6 @@ class LocalForageCacheDriver {
   private _persistenceErrorNotified: boolean;
   private _useLocalCacheByDefault: boolean;
   private cacheErrorsCount: any;
-  private localCache: any;
   private _storageQuota: number;
 
   public constructor (collection, useLocalCacheByDefault = true, storageQuota = 0) {
@@ -126,6 +125,14 @@ class LocalForageCacheDriver {
         Logger.log('DB recreated with', existingConfig, destVersionNumber)()
       }
     }
+  }
+
+  public getLastError () {
+    return this._lastError
+  }
+
+  public getDbName () {
+    return this._dbName
   }
 
   // Retrieve an item from the store. Unlike the original async_storage
@@ -313,6 +320,7 @@ class LocalForageCacheDriver {
         }).catch(err => {
           isResolved = true
           this._lastError = err
+          throw err
         }))
         setTimeout(() => {
           if (!isResolved) { // this is cache time out check
