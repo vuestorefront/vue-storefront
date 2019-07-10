@@ -27,7 +27,6 @@ import { InstantCheckout } from './instant-checkout'
 import { OrderHistory } from './order-history'
 // import { Example } from './module-template'
 import { registerModule } from '@vue-storefront/module'
-
 // TODO:distributed across proper pages BEFORE 1.11
 export function registerNewModules () {
   registerModule(CatalogModule)

@@ -1,5 +1,10 @@
 module.exports = {
+  mode: 'production',
   entry: './src/index.ts',
+  output: {
+    libraryTarget: 'umd',
+    globalObject: 'typeof self !== \'undefined\' ? self : this'
+  },
   resolve: {
     extensions: ['.ts', '.js', '.json']
   },
@@ -7,5 +12,6 @@ module.exports = {
     rules: [
       { test: /\.ts$/, use: ['ts-loader'], exclude: /node_modules/ }
     ]
-  }
+  },
+  externals: ['@vue-storefront/module', '@vue-storefront/core']
 }

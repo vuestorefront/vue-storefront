@@ -11,7 +11,7 @@ export interface StorefrontModule { (
 
 // because config can't be shared as peer dependency
 let refs: any = {}
-let registeredModules: StorefrontModule[] = []
+let registeredModules: any = []
 
 function injectReferences (app: any, store: Store<any>, router: VueRouter, config: any): void {
   refs.app = app

@@ -4,7 +4,7 @@ export const ExampleStore = {
   }
 }
 
-export const ExtendCart = {
+export const ExtendProductStore = {
   actions: {
     state: {
       newprop: null
