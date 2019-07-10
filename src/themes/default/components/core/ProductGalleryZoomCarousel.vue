@@ -4,7 +4,6 @@
       <ul class="media-zoom-carousel__thumbs m0 p0">
         <li class="media-zoom-carousel__thumb bg-cl-secondary" v-for="(images, index) in gallery" :key="images.src">
           <product-image
-            :class="{'thumb-video': images.video}"
             @click="navigate(index)"
             :image="images"
             :alt="productName | htmlDecode"
