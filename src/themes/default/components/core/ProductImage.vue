@@ -1,13 +1,15 @@
 <template>
-  <div class="image" v-on="$listeners">
+  <div
+    class="pi"
+    :class="{'pi--height': basic, 'pi--width': !basic}"
+    :style="{paddingBottom: imageRatio}"
+    v-on="$listeners"
+  >
     <img
       v-show="showPlaceholder"
       src="/assets/placeholder.svg"
       :alt="alt"
-      key="placeholder"
-      ref="images"
-      itemprop="image"
-      class="image__thumb image__thumb--placeholder"
+      class="pi__placeholder"
     >
     <img
       v-if="!lowerQualityImageError || isOnline"
@@ -16,10 +18,8 @@
       :alt="alt"
       @load="imageLoaded('lower', true)"
       @error="imageLoaded('lower', false)"
-      key="lowerQualityImage"
-      ref="images"
-      itemprop="image"
-      class="image__thumb"
+      ref="lQ"
+      class="pi__thumb"
     >
     <img
       v-if="!highQualityImageError || isOnline"
@@ -28,10 +28,7 @@
       :alt="alt"
       @load="imageLoaded('high', true)"
       @error="imageLoaded('high', false)"
-      key="highQualityImage"
-      ref="images"
-      itemprop="image"
-      class="image__thumb"
+      class="pi__thumb"
     >
   </div>
 </template>
@@ -58,7 +55,15 @@ export default {
       lowerQualityImage: false,
       lowerQualityImageError: false,
       highQualityImage: false,
-      highQualityImageError: false
+      highQualityImageError: false,
+      basic: true
+    }
+  },
+  watch: {
+    lowerQualityImage (state) {
+      if (state) {
+        this.basic = this.$refs.lQ.naturalWidth < this.$refs.lQ.naturalHeight;
+      }
     }
   },
   computed: {
@@ -70,6 +75,10 @@ export default {
     },
     showHighQuality () {
       return this.highQualityImage
+    },
+    imageRatio () {
+      const {width, height} = this.$store.state.config.products.gallery
+      return `${height / (width / 100)}%`
     },
     isOnline (value) {
       return onlineHelper.isOnline
@@ -85,25 +94,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .image{
+  .pi{
     position: relative;
     width: 100%;
+    max-width: 100%;
     height: 0;
-    padding-bottom: calc(740% / (600 / 100));
-    overflow: hidden;
     mix-blend-mode: multiply;
-    &__thumb{
-      max-width: 100%;
-      height: auto;
+    &__placeholder,
+    &__thumb {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: auto;
-      height: 100%;
-      transform: translate3d(-50%, -50%, 0);
-      &--placeholder{
-        width: auto;
-        height: auto;
+      transform: translate(-50%, -50%);
+    }
+    &__placeholder {
+      max-width: 50%;
+    }
+    &--height {
+      .pi__thumb {
+        height: 100%;
+      }
+    }
+    &--width {
+      .pi__thumb {
+        width: 100%;
       }
     }
   }
