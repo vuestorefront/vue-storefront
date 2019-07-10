@@ -48,7 +48,6 @@ export const AddToCart = {
       } finally {
         this.isAddingToCart = false
       }
-
     }
   }
 }

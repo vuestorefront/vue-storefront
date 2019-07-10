@@ -15,7 +15,7 @@ const actions: ActionTree<StockState, RootState> = {
    */
   async queueCheck (context, { product, qty = 1 }) {
     if (config.stock.synchronize) {
-      const task:any = await TaskQueue.queue({ url: config.stock.endpoint + '/check?sku=' + encodeURIComponent(product.sku),
+      const task: any = await TaskQueue.queue({ url: config.stock.endpoint + '/check?sku=' + encodeURIComponent(product.sku),
         payload: {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
@@ -35,7 +35,7 @@ const actions: ActionTree<StockState, RootState> = {
    */
   async check (context, { product, qty = 1 }) {
     if (config.stock.synchronize) {
-      const task:any = TaskQueue.execute({ url: config.stock.endpoint + '/check?sku=' + encodeURIComponent(product.sku),
+      const task: any = TaskQueue.execute({ url: config.stock.endpoint + '/check?sku=' + encodeURIComponent(product.sku),
         payload: {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
@@ -54,7 +54,7 @@ const actions: ActionTree<StockState, RootState> = {
   list (context, { skus }) {
     if (config.stock.synchronize) {
       try {
-        const task:any = TaskQueue.execute({ url: config.stock.endpoint + '/list?skus=' + encodeURIComponent(skus.join(',')),
+        const task: any = TaskQueue.execute({ url: config.stock.endpoint + '/list?skus=' + encodeURIComponent(skus.join(',')),
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -68,7 +68,7 @@ const actions: ActionTree<StockState, RootState> = {
           }
         }
         return task // if online we can return ok because it will be verified anyway
-      } catch(err) {
+      } catch (err) {
         Logger.error(err, 'stock')()
         return null
       }
@@ -82,7 +82,7 @@ const actions: ActionTree<StockState, RootState> = {
   async stockAfterCheck (context, event) {
     setTimeout(async () => {
       // TODO: Move to cart module
-      const cartItem:any = await context.dispatch('cart/getItem', event.product_sku, { root: true })
+      const cartItem: any = await context.dispatch('cart/getItem', event.product_sku, { root: true })
       if (cartItem && event.result.code !== 'ENOTFOUND') {
         if (!event.result.is_in_stock) {
           if (!config.stock.allowOutOfStockInCart && !config.cart.synchronize) { // if config.cart.synchronize is true then - the items are being removed by the result of cart/update action executed from cart/sync
