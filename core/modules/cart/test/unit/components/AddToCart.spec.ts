@@ -20,7 +20,7 @@ describe('AddToCart', () => {
       modules: {
         cart: {
           actions: {
-            addItem: jest.fn()
+            addItem: jest.fn(() => [])
           },
           namespaced: true
         }
