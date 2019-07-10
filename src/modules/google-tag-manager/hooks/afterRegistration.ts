@@ -6,7 +6,7 @@ export function afterRegistration (Vue, config, store, isServer) {
     const currencyCode = storeView.i18n.currencyCode
 
     const getProduct = (item) => {
-      const { name, id, sku, priceInclTax: price, category, qty: quantity } = item
+      const { name, id, sku, price_incl_tax: price, category, qty: quantity } = item
       let product = {
         name,
         id,

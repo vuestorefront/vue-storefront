@@ -7,16 +7,17 @@ import fetch from 'isomorphic-fetch'
 import * as localForage from 'localforage'
 import rootStore from '@vue-storefront/core/store'
 import { adjustMultistoreApiUrl, currentStoreView } from '@vue-storefront/core/lib/multistore'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import * as entities from '@vue-storefront/core/store/lib/entities'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 import { processURLAddress } from '@vue-storefront/core/helpers'
 import { serial } from '@vue-storefront/core/helpers'
 import config from 'config'
 import { onlineHelper } from '@vue-storefront/core/helpers'
-
 
 export function _prepareTask (task) {
   const taskId = entities.uniqueEntityId(task) // timestamp as a order id is not the best we can do but it's enough
@@ -88,7 +89,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
                 rootStore.state.userTokenInvalidateLock = -1
                 rootStore.dispatch('user/logout', { silent: true })
                 TaskQueue.clearNotTransmited()
-                Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
+                EventBus.$emit('modal-show', 'modal-signup')
                 rootStore.dispatch('notification/spawnNotification', {
                   type: 'error',
                   message: i18n.t('Internal Application error while refreshing the tokens. Please clear the storage and refresh page.'),
@@ -106,14 +107,14 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
                   } else {
                     rootStore.state.userTokenInvalidateLock = -1
                     rootStore.dispatch('user/logout', { silent: true })
-                    Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
+                    EventBus.$emit('modal-show', 'modal-signup')
                     TaskQueue.clearNotTransmited()
                     Logger.error('Error refreshing user token' + resp.result, 'sync')()
                   }
                 }).catch((excp) => {
                   rootStore.state.userTokenInvalidateLock = -1
                   rootStore.dispatch('user/logout', { silent: true })
-                  Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
+                  EventBus.$emit('modal-show', 'modal-signup')
                   TaskQueue.clearNotTransmited()
                   Logger.error('Error refreshing user token' + excp, 'sync')()
                 })
@@ -123,7 +124,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           } else {
             Logger.info('Invalidation process is disabled (autoRefreshTokens is set to false)', 'sync')()
             rootStore.dispatch('user/logout', { silent: true })
-            Vue.prototype.$bus.$emit('modal-show', 'modal-signup')
+            EventBus.$emit('modal-show', 'modal-signup')
           }
         }
 
@@ -150,7 +151,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
         if (task.callback_event.startsWith('store:')) {
           rootStore.dispatch(task.callback_event.split(':')[1], task)
         } else {
-          Vue.prototype.$bus.$emit(task.callback_event, task)
+          EventBus.$emit(task.callback_event, task)
         }
       }
       if (!rootStore.state.userTokenInvalidateLock) { // in case we're revalidaing the token - user must wait for it
@@ -179,19 +180,19 @@ export function initializeSyncTaskStorage () {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
-  Vue.prototype.$db.syncTaskCollection = new UniversalStorage(localForage.createInstance({
+  StorageManager.set('syncTaskCollection', new UniversalStorage(localForage.createInstance({
     name: dbNamePrefix + 'shop',
     storeName: 'syncTasks',
     driver: localForage[config.localForage.defaultDrivers['syncTasks']]
-  }))
+  })))
 }
 
 export function registerSyncTaskProcessor () {
   const mutex = {}
-  Vue.prototype.$bus.$on('sync/PROCESS_QUEUE', async data => {
+  EventBus.$on('sync/PROCESS_QUEUE', async data => {
     if (onlineHelper.isOnline) {
       // event.data.config - configuration, endpoints etc
-      const syncTaskCollection = Vue.prototype.$db.syncTaskCollection
+      const syncTaskCollection = StorageManager.get('syncTaskCollection')
       const currentUserToken = rootStore.getters['user/getUserToken']
       const currentCartToken = rootStore.getters['cart/getCartToken']
 

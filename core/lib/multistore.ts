@@ -8,6 +8,7 @@ import merge from 'lodash-es/merge'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
 import config from 'config'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 export interface LocalizedRoute {
   path?: string,
@@ -98,13 +99,9 @@ export function prepareStoreView (storeCode: string): StoreView {
   if (storeViewHasChanged) {
     rootStore.state.storeView = storeView
   }
-
-  if (storeViewHasChanged || Vue.prototype.$db.currentStoreCode !== storeCode) {
-    if (typeof Vue.prototype.$db === 'undefined') {
-      Vue.prototype.$db = {}
-    }
+  if (storeViewHasChanged || StorageManager.currentStoreCode !== storeCode) {
     initializeSyncTaskStorage()
-    Vue.prototype.$db.currentStoreCode = storeView.storeCode
+    StorageManager.currentStoreCode = storeView.storeCode
   }
 
   return storeView

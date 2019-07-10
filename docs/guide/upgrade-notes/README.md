@@ -29,6 +29,7 @@ store.registerModule('promoted', promotedStore);
 - `WebShare` moved from `@vue-storefront/core/modules/social-share/components/WebShare.vue` to `@vue-storefront/src/themes/default/components/theme/WebShare.vue`. This component was used in `Product` component found here: `src/themes/default/pages/Product.vue`. In this file the `import` path has to be updated.
 
 ## 1.10 -> 1.11
+We've fixed the naming strategy for product prices; The following fields were renamed: `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; The names have been kept and marked as @deprecated. These fields will be **removed with Vue Storefront 2.0rc-1**.
 
 We've decreased the `localStorage` quota usage + error handling by introducing new config variables: 
 
@@ -39,7 +40,7 @@ We've decreased the `localStorage` quota usage + error handling by introducing n
 If by some reasons you wan't to have the `localStorage` back on for `Products by SKU`, `Url Routes` and `SyncTasks` - please juset set these variables back to `false` in your `config/local.json`.
 
 ## 1.9 -> 1.10
-- Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
+- Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`EventBus.$on()`) now
 - The lowest supported node version  is currently 8.10.0,
 - Module Mailchimp is removed in favor of Newsletter. `local.json` configuration under key `mailchimp` moved to key `newsletter`.
 - In multistore mode now there is a possibility to skip appending storecode to url with `appendStoreCode` config option. To keep the original behavior, it should be set to true. - @lukeromanowicz (#3048).
@@ -135,7 +136,7 @@ this.$store.dispatch('notification/spawnNotification',
 ````
 Change every store:
 ````js
-Vue.prototype.$bus.$emit('notification',
+EventBus.$emit('notification',
 ````
 to:
 ````js
@@ -446,11 +447,11 @@ The endpoints are also set by the `yarn installer` so You can try to reinstall V
         "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable" ]
       },
       "productList": {
-        "includeFields": [ "type_id", "sku", "name", "price", "priceInclTax", "originalPriceInclTax", "id", "image", "sale", "new" ],
+        "includeFields": [ "type_id", "sku", "name", "price", "priceInclTax", "original_price_incl_tax", "id", "image", "sale", "new" ],
         "excludeFields": [ "configurable_children", "description", "configurable_options", "sgn", "tax_class_id" ]
       },
       "productListWithChildren": {
-        "includeFields": [ "type_id", "sku", "name", "price", "priceInclTax", "originalPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size" ],
+        "includeFields": [ "type_id", "sku", "name", "price", "priceInclTax", "original_price_incl_tax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "configurable_children.color", "configurable_children.size" ],
         "excludeFields": [ "description", "sgn", "tax_class_id" ]
       },
       "product": {

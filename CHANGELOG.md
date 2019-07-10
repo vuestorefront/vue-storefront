@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)
+- Fixed naming strategy for product prices - `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; old names have been kept as @deprecated - @pkarw (#2918)
+- The `final_price` field is now being used for setting the `special_price` or `price` of the product (depending on the 
+value); `final_price` might been used along with `special_price` with Magento for the products with activated catalog pricing rules - @pkarw (#3099)
 - Resolve problem with getting CMS block from cache - @qiqqq (#2499)
 - Make image proxy url work with relative base url - @cewald (#3158)
 - Fixed memory leak with enabled dynamicConfigReload - @dimasch (#3075)

@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 // requires cart module
@@ -9,6 +8,7 @@ import rootStore from '@vue-storefront/core/store'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const actions: ActionTree<StockState, RootState> = {
   /**
@@ -80,7 +80,7 @@ const actions: ActionTree<StockState, RootState> = {
           } else {
             rootStore.dispatch('cart/updateItem', { product: { info: { stock: i18n.t('In stock!') }, sku: event.product_sku, is_in_stock: true, stock: event.result } })
           }
-          Vue.prototype.$bus.$emit('cart-after-itemchanged', { item: cartItem })
+          EventBus.$emit('cart-after-itemchanged', { item: cartItem })
         }
       })
       Logger.debug('Stock quantity checked for ' + event.result.product_id + ', response time: ' + (event.transmited_at - event.created_at) + ' ms', 'stock')()
