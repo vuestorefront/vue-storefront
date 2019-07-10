@@ -1,7 +1,7 @@
 <template>
   <div
-    class="pi"
-    :class="{'pi--height': basic, 'pi--width': !basic}"
+    class="product-image"
+    :class="{'product-image--height': basic, 'product-image--width': !basic}"
     :style="{paddingBottom: imageRatio}"
     v-on="$listeners"
   >
@@ -9,7 +9,7 @@
       v-show="showPlaceholder"
       src="/assets/placeholder.svg"
       :alt="alt"
-      class="pi__placeholder"
+      class="product-image__placeholder"
     >
     <img
       v-if="!lowerQualityImageError || isOnline"
@@ -19,7 +19,7 @@
       @load="imageLoaded('lower', true)"
       @error="imageLoaded('lower', false)"
       ref="lQ"
-      class="pi__thumb"
+      class="product-image__thumb"
     >
     <img
       v-if="!highQualityImageError || isOnline"
@@ -28,7 +28,7 @@
       :alt="alt"
       @load="imageLoaded('high', true)"
       @error="imageLoaded('high', false)"
-      class="pi__thumb"
+      class="product-image__thumb"
     >
   </div>
 </template>
@@ -94,7 +94,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .pi{
+  .product-image{
     position: relative;
     width: 100%;
     max-width: 100%;
@@ -111,12 +111,12 @@ export default {
       max-width: 50%;
     }
     &--height {
-      .pi__thumb {
+      .product-image__thumb {
         height: 100%;
       }
     }
     &--width {
-      .pi__thumb {
+      .product-image__thumb {
         width: 100%;
       }
     }
