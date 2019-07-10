@@ -23,26 +23,34 @@ export function slugify (text) {
 }
 
 /**
- * @param relativeUrl
- * @param width
- * @param height
+ * @param {string} relativeUrl
+ * @param {number} width
+ * @param {number} height
+ * @param {string} pathType
  * @returns {*}
  */
-export function getThumbnailPath (relativeUrl, width, height) {
+export function getThumbnailPath (relativeUrl: string, width: number = 0, height: number = 0, pathType: string = 'product'): string {
   if (config.images.useExactUrlsNoProxy) {
     return relativeUrl // this is exact url mode
   } else {
+    if (config.images.hasOwnProperty('useSpecificImagePaths') && config.images.useSpecificImagePaths) {
+      if (!Object.keys(config.images.paths).includes(pathType)) {
+        pathType = 'product'
+      }
+      relativeUrl = config.images.paths[pathType] + relativeUrl
+    }
+
     let resultUrl
     if (relativeUrl && (relativeUrl.indexOf('://') > 0 || relativeUrl.indexOf('?') > 0 || relativeUrl.indexOf('&') > 0)) relativeUrl = encodeURIComponent(relativeUrl)
     // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy opertions
     let baseUrl = processURLAddress(config.images.proxyUrl ? config.images.proxyUrl : config.images.baseUrl)
     if (baseUrl.indexOf('{{') >= 0) {
       baseUrl = baseUrl.replace('{{url}}', relativeUrl)
-      baseUrl = baseUrl.replace('{{width}}', width)
-      baseUrl = baseUrl.replace('{{height}}', height)
+      baseUrl = baseUrl.replace('{{width}}', width.toString())
+      baseUrl = baseUrl.replace('{{height}}', height.toString())
       resultUrl = baseUrl
     } else {
-      resultUrl = `${baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}`
+      resultUrl = `${baseUrl}${width.toString()}/${height.toString()}/resize${relativeUrl}`
     }
     return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? resultUrl : config.images.productPlaceholder || ''
   }
