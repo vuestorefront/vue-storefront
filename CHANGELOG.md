@@ -37,8 +37,14 @@ value); `final_price` might been used along with `special_price` with Magento fo
 ### Fixed
 - Wrong meta description attribute by page overwrite - @przspa (#3091)
 - The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
+- Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
+
+### Changed
+- Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
 - Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
 - Lack of possibility to mock src modules and  theme components - @lukeromanowicz (#3185)
+- Outdated signature of Registration hooks for google-tag-manager - @vishal-7037 (#3208)
+- Added serveral missing german translations and fixed german language file structure - @unherz (#3202)
 
 ## [1.10.0-rc.1] - 2019.06.19
 
@@ -111,6 +117,7 @@ value); `final_price` might been used along with `special_price` with Magento fo
 - Logo on the Error page has been fixed - @przspa (#3077)
 - No placeholders / no photos for Get Inspire section in offline - @przspa (#3072)
 - Back icon on product page causing inconsistent behavior - @patzick (#3056)
+- Remove static definition of `cashondelivery` in payment module - @danielmaier42 (#2983)
 
 ### Changed / Improved
 - The `cart/sync`, `cart/addItems`, `cart/removeItem` and `cart/updateQuantity` now returns the `diffLog` object with all the notifications, server statuses and items changed during the shopping cart sync
@@ -169,7 +176,6 @@ value); `final_price` might been used along with `special_price` with Magento fo
 - Category load depending on zoom level - @przspa (#2704)
 - Add yarn.lock to dockerfile build - @Flyingmana (#3006)
 - Inconsistent behaviour of picture slider on PDP - @przspa (#2757)
-- Remove static definition of `cashondelivery` in payment module - @danielmaier42 (#2983)
 
 ## [1.9.1] - 2019.05.27
 

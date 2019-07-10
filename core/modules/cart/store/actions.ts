@@ -189,7 +189,7 @@ const actions: ActionTree<CartState, RootState> = {
   /** Sync the shopping cart with server along with totals (when needed) and shipping / payment methods */
   async sync ({ getters, rootGetters, commit, dispatch }, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
     const isUserInCheckout = rootGetters['checkout/isUserInCheckout']
-    let diffLog = null
+    let diffLog = _getDifflogPrototype()
     if (isUserInCheckout) forceClientState = true // never surprise the user in checkout - #
     if (getters.isCartSyncEnabled && getters.isCartConnected) {
       if (getters.isSyncRequired) { // cart hash empty or not changed
@@ -217,10 +217,10 @@ const actions: ActionTree<CartState, RootState> = {
         })
         return diffLog
       } else {
-        return null
+        return diffLog
       }
     } else {
-      return null
+      return diffLog
     }
   },
   /** @deprecated backward compatibility only */
@@ -314,7 +314,7 @@ const actions: ActionTree<CartState, RootState> = {
         }
       }
       const record = getters.getCartItems.find(p => p.sku === product.sku)
-      const result = await dispatch('stock/check', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true})
+      const result = await dispatch('stock/queueCheck', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true}) // queueCheck returns control immediately and checks in the background; returning just the cached stock data; we're using it because cart/sync checks the stock anyway; but if cart.synchronize is disabeld or offline mode is enabled then this queued check could be usefull there is also `stock/check` actions that returns the exact values
       product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result
       if (result.status === 'volatile') {
         diffLog.clientNotifications.push({

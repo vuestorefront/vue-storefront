@@ -1,4 +1,5 @@
 import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+
 export function afterRegistration ({ Vue, config, store, isServer }) {
   store.subscribe((mutation, state) => {
     const type = mutation.type
