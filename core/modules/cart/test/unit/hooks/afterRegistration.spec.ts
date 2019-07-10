@@ -1,4 +1,3 @@
-// TODO: Update test
 // import Vue from 'vue'
 // import Vuex from 'vuex'
 
@@ -10,9 +9,12 @@
 
 // jest.mock('../../../helpers/cartCacheHandler', () => ({ cartCacheHandlerFactory: jest.fn() }));
 
-// Vue.prototype.$db = {
+// const StorageManager = {
 //   cartsCollection: {
 //     setItem: jest.fn()
+//   },
+//   get: (key) => {
+//     return this[key]
 //   }
 // };
 

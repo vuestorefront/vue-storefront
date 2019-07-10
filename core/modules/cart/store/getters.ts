@@ -62,17 +62,17 @@ const getters: GetterTree<CartState, RootState> = {
       let payment = state.payment instanceof Array ? state.payment[0] : state.payment
       const totalsArray = [
         {
-          code: 'subtotalInclTax',
+          code: 'subtotal_incl_tax',
           title: i18n.t('Subtotal incl. tax'),
           value: sumBy(state.cartItems, (p) => {
-            return p.qty * p.priceInclTax
+            return p.qty * p.price_incl_tax
           })
         },
         {
           code: 'grand_total',
           title: i18n.t('Grand total'),
           value: sumBy(state.cartItems, (p) => {
-            return p.qty * p.priceInclTax + (shipping ? shipping.price_incl_tax : 0)
+            return p.qty * p.price_incl_tax + (shipping ? shipping.price_incl_tax : 0)
           })
         }
       ]
@@ -80,7 +80,7 @@ const getters: GetterTree<CartState, RootState> = {
         totalsArray.push({
           code: 'payment',
           title: i18n.t(payment.title),
-          value: payment.costInclTax
+          value: payment.cost_incl_tax
         })
       }
       if (shipping) {

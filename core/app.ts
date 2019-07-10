@@ -4,6 +4,7 @@ import Vue from 'vue'
 import { isServer } from '@vue-storefront/core/helpers'
 
 // Plugins
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import i18n from '@vue-storefront/i18n'
 import VueRouter from 'vue-router'
 import VueLazyload from 'vue-lazyload'
@@ -123,7 +124,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
 
   afterAppInitExecutor()
   // @depreciate will be depreciated in 2,0
-  Vue.prototype.$bus.$emit('application-after-init', app)
+  EventBus.$emit('application-after-init', app)
 
   return { app, router, store }
 }

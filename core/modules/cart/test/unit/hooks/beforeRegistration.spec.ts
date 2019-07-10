@@ -2,6 +2,7 @@
 // import Vue from 'vue'
 
 // import UniversalStorage from '@vue-storefront/core/store/lib/storage';
+// import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager';
 // import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 // import { beforeRegistration } from '../../../hooks/beforeRegistration';
 // import * as localForage from 'localforage';
@@ -11,7 +12,7 @@
 // jest.mock('@vue-storefront/core/store/lib/storage', () => jest.fn());
 // jest.mock('@vue-storefront/core/lib/multistore', () => ({ currentStoreView: jest.fn() }));
 
-// Vue.prototype.$db = {};
+// StorageManager.get('cartsCollection').setItem = jest.fn()
 
 // describe('Cart beforeRegistration', () => {
 //   beforeEach(() => {
@@ -31,12 +32,12 @@
 //     };
 //     const storageMock = {foo: 'bar'};
 
-//     (currentStoreView as Mock).mockReturnValueOnce({});
+//     (currentStoreView as Mock).mockReturnValue({});
 //     (UniversalStorage as unknown as Mock).mockImplementationOnce(() => storageMock);
 
 //     beforeRegistration({ Vue, config, store: undefined, isServer: undefined });
 
-//     expect(Vue.prototype.$db.cartsCollection).toEqual(storageMock);
+//     expect(StorageManager.get('cartsCollection')).toEqual(storageMock);
 //   });
 
 //   it('hook initializes cart cache with storeCode sufix in name', () => {
@@ -62,6 +63,6 @@
 //       storeName: 'carts',
 //       driver: {}
 //     });
-//     expect(Vue.prototype.$db.cartsCollection).toEqual(storageMock);
+//     expect(StorageManager.get('cartsCollection')).toEqual(storageMock);
 //   });
 // });

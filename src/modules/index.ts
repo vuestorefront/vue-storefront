@@ -12,10 +12,6 @@ import { Newsletter } from '@vue-storefront/core/modules/newsletter'
 import { Notification } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
 import { Url } from '@vue-storefront/core/modules/url'
-import { Homepage } from './homepage'
-import { Claims } from './claims'
-import { PromotedOffers } from './promoted-offers'
-import { Ui } from './ui-store'
 // import { GoogleAnalytics } from './google-analytics';
 // import { Hotjar } from './hotjar';
 import { googleTagManager } from './google-tag-manager';
@@ -24,7 +20,7 @@ import { PaymentBackendMethods } from './payment-backend-methods';
 import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
 import { InstantCheckout } from './instant-checkout'
-import { OrderHistory } from './order-history'
+
 // import { Example } from './module-template'
 import { registerModule } from '@vue-storefront/module'
 // TODO:distributed across proper pages BEFORE 1.11
@@ -42,11 +38,7 @@ export const registerModules: VueStorefrontModule[] = [
   Wishlist,
   Newsletter,
   Notification,
-  Ui,
   RecentlyViewed,
-  Homepage,
-  Claims,
-  PromotedOffers,
   googleTagManager,
   // GoogleAnalytics,
   // Hotjar,
@@ -56,7 +48,6 @@ export const registerModules: VueStorefrontModule[] = [
   AmpRenderer,
   InstantCheckout,
   Url,
-  CatalogNext,
-  OrderHistory
+  CatalogNext
   // Example
 ]
