@@ -81,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Logo on the Error page has been fixed - @przspa (#3077)
 - No placeholders / no photos for Get Inspire section in offline - @przspa (#3072)
 - Back icon on product page causing inconsistent behavior - @patzick (#3056)
+- Remove static definition of `cashondelivery` in payment module - @danielmaier42 (#2983)
 
 ### Changed / Improved
 - The `cart/sync`, `cart/addItems`, `cart/removeItem` and `cart/updateQuantity` now returns the `diffLog` object with all the notifications, server statuses and items changed during the shopping cart sync
@@ -139,7 +140,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Category load depending on zoom level - @przspa (#2704)
 - Add yarn.lock to dockerfile build - @Flyingmana (#3006)
 - Inconsistent behaviour of picture slider on PDP - @przspa (#2757)
-- Remove static definition of `cashondelivery` in payment module - @danielmaier42 (#2983)
 
 ## [1.9.1] - 2019.05.27
 
