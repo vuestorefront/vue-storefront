@@ -9,11 +9,11 @@
       data-testid="productLink"
     >
       <div
-        class="bg-cl-secondary"
+        class="product-cover bg-cl-secondary"
         :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
       >
         <product-image
-          class="product-image__content"
+          class="product-cover__thumb"
           :image="thumbnailObj"
           :alt="product.name | htmlDecode"
           data-testid="productImage"
@@ -145,14 +145,15 @@ $color-white: color(white);
   font-size: 12px;
 }
 
-.product-image{
-  /*overflow: hidden;
-  width:100%;
-  height: 100%;
-  max-height: 300px;
-
+.product-cover{
+  overflow: hidden;
+  &__thumb{
+    opacity: .8;
+    will-change: opacity, transform;
+    transition: .3s opacity $motion-main, .3s transform $motion-main;
+  }
   &:hover{
-    .product-image__content{
+    .product-cover__thumb{
       opacity: 1;
       transform: scale(1.1);
     }
@@ -161,22 +162,6 @@ $color-white: color(white);
       opacity: .8;
     }
   }
-  &__content{
-
-    padding-bottom: calc(300% / (257 / 100));
-    mix-blend-mode: darken;
-    opacity: .8;
-    transform: scale(1);
-    will-change: transform;
-    transition: .3s opacity $motion-main, .3s transform $motion-main;
-    @media (min-width: 768px) {
-      padding-bottom: calc(208% / (168 / 100));
-    }
-    @media (min-width: 1200px) {
-      padding-bottom: calc(300% / (276 / 100));
-    }
-  }*/
-
   &.sale{
     &::after {
       @extend %label;
