@@ -30,7 +30,7 @@ const coreHooks = {
   */
   beforeStoreViewChange: beforeStoreViewChangeHook,
   /** Hook is fired right after storeView (multistore) is changed
-   * @param storeView current storeVire
+   * @param storeView current storeView
   */
   afterStoreViewChange: afterStoreViewChangeHook
 }
