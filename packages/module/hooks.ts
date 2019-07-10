@@ -64,11 +64,11 @@ export const afterAppInitExecutor = afterAppInitGen.executor
 /** Hook is fired directly before sending order to the server, after all client-side validations 
  * @param orderMutator Inside this function you have access to order object that you can access and modify. It should return order object.
 */
-export const beforePlaceOrder: (orderMutator: (order: {}) => {}) => void = beforePlaceOrderGen.hook
+export const beforePlaceOrder: (orderMutator: (order: any) => any) => void = beforePlaceOrderGen.hook
 export const beforePlaceOrderExecutor = beforePlaceOrderGen.executor
  
 /** Hook is fired right after order has been sent to server  */
-export const afterPlaceOrder: (orderListener: ({ order: {}, task: {} }) => void) => void = afterPlaceOrderGen.hook
+export const afterPlaceOrder: (orderListener: (order: any) => void) => void = afterPlaceOrderGen.hook
 export const afterPlaceOrderExecutor = afterPlaceOrderGen.executor
 
 export const beforeStoreViewChange:  (storeViewMutator: (storeView: {}) => {}) => void = beforeStoreViewChangeGen.hook
