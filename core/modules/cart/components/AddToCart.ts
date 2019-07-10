@@ -26,26 +26,29 @@ export const AddToCart = {
         if (diffLog) {
           if (diffLog.clientNotifications && diffLog.clientNotifications.length > 0) {
             diffLog.clientNotifications.forEach(notificationData => {
-              this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
+              this.notifyUser(notificationData)
             })
           }
         } else {
-          this.$store.dispatch('notification/spawnNotification', {
+          this.notifyUser({
             type: 'success',
             message: i18n.t('Product has been added to the cart!'),
             action1: { label: i18n.t('OK') },
             action2: null
           })
         }
-        this.isAddingToCart = false
+        return diffLog
       } catch (err) {
-        this.isAddingToCart = false
-        this.$store.dispatch('notification/spawnNotification', {
+        this.notifyUser({
           type: 'error',
           message: err,
           action1: { label: i18n.t('OK') }
         })
+        return null
+      } finally {
+        this.isAddingToCart = false
       }
+
     }
   }
 }
