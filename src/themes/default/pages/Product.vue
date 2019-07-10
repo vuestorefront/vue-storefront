@@ -293,6 +293,7 @@ export default {
         this.product.configurable_options.forEach(configurableOption => {
           const type = configurableOption.attribute_code
           const filterVariants = configurableOption.values.map(({value_index, label}) => {
+            label = label ? label : this.options[type].find(config => config.id === value_index).label
             return {id: value_index, label, type}
           })
           filtersMap[type] = filterVariants
