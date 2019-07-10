@@ -174,7 +174,7 @@ export default {
       margin-bottom: 0;
     }
 
-    & > .image{
+    /*& > .image{
       mix-blend-mode: multiply;
       opacity: 0.9;
       will-change: transform;
@@ -183,7 +183,7 @@ export default {
       &:hover{
         opacity: 1;
       }
-    }
+    }*/
   }
 
   &__gallery{
@@ -202,13 +202,13 @@ export default {
   &__slide{
     height: 100%;
     max-height: 100%;
-    & > .image {
+    /*& > .image {
       mix-blend-mode: multiply;
     padding-bottom: calc(710% / (600 / 100));
     }
     .image--video{
       padding-bottom: calc(319% / (568 / 100));
-    }
+    }*/
   }
 }
 .thumb-video{
