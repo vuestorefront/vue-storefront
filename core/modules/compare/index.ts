@@ -1,15 +1,14 @@
-import { module } from './store'
-import { createModule } from '@vue-storefront/core/lib/module'
-import { beforeRegistration } from './hooks/beforeRegistration'
-import { afterRegistration } from './hooks/afterRegistration'
+import { compareStore } from './store'
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
 import { plugin } from './store/plugin'
+import { StorefrontModule } from '@vue-storefront/module';
+import Vue from 'vue';
 
-export const KEY = 'compare'
+const KEY = 'compare'
 export const cacheStorage = initCacheStorage(KEY)
-export const Compare = createModule({
-  key: KEY,
-  store: { modules: [{ key: KEY, module }], plugin },
-  beforeRegistration,
-  afterRegistration
-})
+export const CompareModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  Vue.prototype.$db.cartsCollection = initCacheStorage('compare')
+
+  store.registerModule(KEY, compareStore)
+  store.subscribe(plugin)
+}

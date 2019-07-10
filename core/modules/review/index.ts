@@ -1,8 +1,7 @@
-import { module } from './store'
-import { createModule } from '@vue-storefront/core/lib/module'
+import { StorefrontModule } from '@vue-storefront/module'
+import { reviewStore } from './store'
 
-export const KEY = 'review'
-export const Review = createModule({
-  key: KEY,
-  store: { modules: [{ key: KEY, module }] }
-})
+const KEY = 'review'
+export const ReviewModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  store.registerModule(KEY, reviewStore)
+}

@@ -1,13 +1,14 @@
-import { module } from './store'
+import { recentlyViewedStore } from './store'
 import { plugin } from './store/plugin'
-import { createModule } from '@vue-storefront/core/lib/module'
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
-import { afterRegistration } from './hooks/afterRegistration'
+import { StorefrontModule } from '@vue-storefront/module';
+import { isServer } from '@vue-storefront/core/helpers'
 
-export const KEY = 'recently-viewed'
+const KEY = 'recently-viewed'
 export const cacheStorage = initCacheStorage(KEY)
-export const RecentlyViewed = createModule({
-  key: KEY,
-  store: { modules: [{ key: KEY, module }], plugin },
-  afterRegistration
-})
+export const RecentlyViewedModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  store.registerModule(KEY, recentlyViewedStore)
+  store.subscribe(plugin)
+
+  if (!isServer) store.dispatch('recently-viewed/load')
+}

@@ -1,12 +1,11 @@
-import { module } from './store'
+import { StorefrontModule } from '@vue-storefront/module'
+import { wishlistStore } from './store'
 import { plugin } from './store/plugin'
-import { createModule } from '@vue-storefront/core/lib/module'
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
 
-export const KEY = 'wishlist'
+const KEY = 'wishlist'
 export const cacheStorage = initCacheStorage(KEY)
-export const Wishlist = createModule({
-  key: KEY,
-  store: { modules: [{ key: KEY, module }], plugin }
+export const WishlistModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  store.registerModule(KEY, wishlistStore)
+  store.subscribe(plugin)
 }
-)

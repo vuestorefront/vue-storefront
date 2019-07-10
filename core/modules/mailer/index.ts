@@ -1,8 +1,7 @@
-import { module } from './store'
-import { createModule } from '@vue-storefront/core/lib/module'
+import { StorefrontModule } from '@vue-storefront/module'
+import { mailerStore } from './store'
 
-export const KEY = 'mailer'
-export const Mailer = createModule({
-  key: KEY,
-  store: { modules: [{ key: KEY, module }] }
-})
+const KEY = 'mailer'
+export const MailerModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  store.registerModule(KEY, mailerStore)
+}
