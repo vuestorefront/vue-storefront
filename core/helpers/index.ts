@@ -10,7 +10,6 @@ export const processURLAddress = (url: string = '') => {
   return url
 }
 
-
 /**
  * Create slugify -> "create-slugify" permalink  of text
  * @param {String} text
