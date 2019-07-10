@@ -24,7 +24,6 @@
             v-show="hideImageAtIndex !== index"
             @dblclick="openOverlay"
             class="pointer"
-            :class="{'product-image--video': images.video}"
             :image="images"
             :alt="productName | htmlDecode"
           />
@@ -159,16 +158,12 @@ export default {
   right: 0;
 }
 .product-image{
-  /*mix-blend-mode: multiply;
   opacity: 1;
-  will-change: transform;
+  will-change: opacity;
   transition: .3s opacity $motion-main;
   &:hover{
     opacity: .9;
   }
-  &--video{
-    padding-bottom: calc(319% / (568 / 100));
-  }*/
 }
 .video-container {
   align-items: center;
