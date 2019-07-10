@@ -54,6 +54,11 @@ describe('Cart actions', () => {
     jest.clearAllMocks();
     (rootStore as any).state = {};
     Object.keys(config).forEach((key) => { delete config[key]; });
+
+    config.queues = {
+      maxNetworkTaskAttempts: 1,
+      maxCartBypassAttempts: 1
+    }
   });
 
   it('disconnect clears cart token', () => {
