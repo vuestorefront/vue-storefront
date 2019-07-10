@@ -9,7 +9,7 @@
       data-testid="productLink"
     >
       <div
-        class="product-image relative bg-cl-secondary"
+        class="bg-cl-secondary"
         :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
       >
         <product-image
@@ -146,7 +146,7 @@ $color-white: color(white);
 }
 
 .product-image{
-  overflow: hidden;
+  /*overflow: hidden;
   width:100%;
   height: 100%;
   max-height: 300px;
@@ -175,7 +175,7 @@ $color-white: color(white);
     @media (min-width: 1200px) {
       padding-bottom: calc(300% / (276 / 100));
     }
-  }
+  }*/
 
   &.sale{
     &::after {
