@@ -17,7 +17,6 @@ import Task from '@vue-storefront/core/lib/sync/types/Task'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
-const MAX_BYPASS_COUNT = 10
 let _connectBypassCount = 0
 
 function _getDifflogPrototype () {
@@ -208,7 +207,7 @@ const actions: ActionTree<CartState, RootState> = {
             diffLog = await dispatch('merge', { serverItems: task.result, clientItems: getters.getCartItems, dryRun: dryRun, forceClientState: forceClientState })
           } else {
             Logger.error(task.result, 'cart') // override with guest cart()
-            if (_connectBypassCount < MAX_BYPASS_COUNT) {
+            if (_connectBypassCount < config.queues.maxCartBypassAttempts) {
               Logger.log('Bypassing with guest cart' + _connectBypassCount, 'cart')()
               _connectBypassCount = _connectBypassCount + 1
               await dispatch('connect', { guestCart: true })
@@ -525,7 +524,7 @@ const actions: ActionTree<CartState, RootState> = {
         } else {
           let resultString = task.result ? toString(task.result) : null
           if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
-            if (_connectBypassCount < MAX_BYPASS_COUNT) {
+            if (_connectBypassCount < config.queues.maxCartBypassAttempts) {
               Logger.log('Bypassing with guest cart' + _connectBypassCount, 'cart')()
               _connectBypassCount = _connectBypassCount + 1
               Logger.error(task.result, 'cart')()
