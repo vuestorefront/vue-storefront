@@ -1,8 +1,4 @@
-import { createModule } from '@vue-storefront/core/lib/module'
-// TODO: Move the logic to appropriate modules and deprecate this one
-
-const KEY = 'ui'
-const store = {
+export const uiStore = {
   namespaced: true,
   state: {
     sidebar: false,
@@ -69,8 +65,3 @@ const store = {
     }
   }
 }
-
-export const Ui = createModule({
-  key: KEY,
-  store: { modules: [{ key: KEY, module: store }] }
-})

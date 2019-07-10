@@ -23,10 +23,4 @@ export function beforeRegistration ({ Vue, config, store, isServer }) {
     storeName: 'elasticCache',
     driver: localForage[config.localForage.defaultDrivers['elasticCache']]
   }), true, config.server.elasticCacheQuota)
-
-  Vue.prototype.$db.productsCollection = new UniversalStorage(localForage.createInstance({
-    name: dbNamePrefix + 'shop',
-    storeName: 'products',
-    driver: localForage[config.localForage.defaultDrivers['products']]
-  }))
 }
