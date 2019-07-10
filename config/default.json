@@ -87,6 +87,10 @@
       "initialStateFilter": ["__DEMO_MODE__", "version", "storeView"],
       "useInitialStateFilter": true
     },
+    "queues": {
+      "maxNetworkTaskAttempts": 1,
+      "maxCartBypassAttempts": 1
+    },
     "defaultStoreCode": "",
     "storeViews": {
       "multistore": false,
