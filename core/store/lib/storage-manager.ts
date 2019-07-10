@@ -2,13 +2,14 @@ import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
 const StorageManager = {
   currentStoreCode: '',
+  storageMap: {},
   /**
    * Register the cache storage - this is required prior to accessing the collection
    * @param collectionName string name of the cache collection to register
    * @param collectionInstance UniversalStorage driver
    */
   set: function (collectionName, collectionInstance: UniversalStorage): UniversalStorage {
-    this[collectionName] = collectionInstance
+    this.storageMap[collectionName] = collectionInstance
     return collectionInstance
   },
   /**
@@ -16,7 +17,7 @@ const StorageManager = {
    * @param collectionName string collection name to check
    */
   exists (collectionName): boolean {
-    return !!this[collectionName]
+    return !!this.storageMap[collectionName]
   },
   /**
    * Returns the UniversalStorage driver for specific key
@@ -26,7 +27,7 @@ const StorageManager = {
     if (!this.exists(collectionName)) {
       return this.set(collectionName, initCacheStorage(collectionName, true, false))
     } else {
-      return this[collectionName]
+      return this.storageMap[collectionName]
     }
   }
 }
