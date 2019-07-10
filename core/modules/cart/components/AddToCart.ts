@@ -20,13 +20,33 @@ export const AddToCart = {
   methods: {
     async addToCart (product: Product) {
       this.isAddingToCart = true
-      const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
-      if (diffLog.clientNotifications && diffLog.clientNotifications.length > 0) {
-        diffLog.clientNotifications.forEach(notificationData => {
-          this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
+      try {
+        const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
+        if (diffLog) {
+          if (diffLog.clientNotifications && diffLog.clientNotifications.length > 0) {
+            diffLog.clientNotifications.forEach(notificationData => {
+              this.notifyUser(notificationData)
+            })
+          }
+        } else {
+          this.notifyUser({
+            type: 'success',
+            message: this.$t('Product has been added to the cart!'),
+            action1: { label: this.$t('OK') },
+            action2: null
+          })
+        }
+        return diffLog
+      } catch (err) {
+        this.notifyUser({
+          type: 'error',
+          message: err,
+          action1: { label: this.$t('OK') }
         })
+        return null
+      } finally {
+        this.isAddingToCart = false
       }
-      this.isAddingToCart = false
     }
   }
 }

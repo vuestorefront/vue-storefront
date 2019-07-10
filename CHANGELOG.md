@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.10.0-rc.2] - UNRELEASED
 
 ### Fixed
-- Wrong meta description attribute by page overwrite - @przspa (#3091) 
+- Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
+- Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
+
+### Changed
+- Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
 - Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
 - Lack of possibility to mock src modules and  theme components - @lukeromanowicz (#3185)
 - Added serveral missing german translations and fixed german language file structure - @unherz
