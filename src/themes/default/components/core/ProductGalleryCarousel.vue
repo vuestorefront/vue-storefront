@@ -91,7 +91,7 @@ export default {
   mounted () {
     this.selectVariant()
 
-    if (this.configuration.hasOwnProperty('color')) {
+    if (this.configuration.color) {
       const {color} = this.configuration
       this.currentColor = color.id
     }
