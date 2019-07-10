@@ -8,6 +8,7 @@ import StockState from '../../types/StockState'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
+import { processURLAddress } from '@vue-storefront/core/helpers'
 
 const actions: ActionTree<StockState, RootState> = {
   /**
@@ -15,7 +16,7 @@ const actions: ActionTree<StockState, RootState> = {
    */
   async queueCheck (context, { product, qty = 1 }) {
     if (config.stock.synchronize) {
-      const task: any = await TaskQueue.queue({ url: config.stock.endpoint + '/check?sku=' + encodeURIComponent(product.sku),
+      const task: any = await TaskQueue.queue({ url: processURLAddress(`${config.stock.endpoint}/check?sku=${encodeURIComponent(product.sku)}`),
         payload: {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
@@ -35,7 +36,7 @@ const actions: ActionTree<StockState, RootState> = {
    */
   async check (context, { product, qty = 1 }) {
     if (config.stock.synchronize) {
-      const task: any = TaskQueue.execute({ url: config.stock.endpoint + '/check?sku=' + encodeURIComponent(product.sku),
+      const task: any = TaskQueue.execute({ url: processURLAddress(`${config.stock.endpoint}/check?sku=${encodeURIComponent(product.sku)}`),
         payload: {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
@@ -54,7 +55,7 @@ const actions: ActionTree<StockState, RootState> = {
   list (context, { skus }) {
     if (config.stock.synchronize) {
       try {
-        const task: any = TaskQueue.execute({ url: config.stock.endpoint + '/list?skus=' + encodeURIComponent(skus.join(',')),
+        const task: any = TaskQueue.execute({ url: processURLAddress(`${config.stock.endpoint}/list?skus=${encodeURIComponent(skus.join(','))}`),
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
