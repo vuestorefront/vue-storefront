@@ -1,5 +1,4 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
-import i18n from '@vue-storefront/i18n'
 
 export const AddToCart = {
   name: 'AddToCart',
@@ -32,8 +31,8 @@ export const AddToCart = {
         } else {
           this.notifyUser({
             type: 'success',
-            message: i18n.t('Product has been added to the cart!'),
-            action1: { label: i18n.t('OK') },
+            message: this.$t('Product has been added to the cart!'),
+            action1: { label: this.$t('OK') },
             action2: null
           })
         }
@@ -42,7 +41,7 @@ export const AddToCart = {
         this.notifyUser({
           type: 'error',
           message: err,
-          action1: { label: i18n.t('OK') }
+          action1: { label: this.$t('OK') }
         })
         return null
       } finally {
