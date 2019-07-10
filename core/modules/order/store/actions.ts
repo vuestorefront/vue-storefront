@@ -11,7 +11,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { sha3_224 } from 'js-sha3'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
-import { beforePlaceOrderExecutor, afterPlaceOrderExecutor } from '@vue-storefront/module/hooks'
+import { orderHooksExecutors } from '../hooks'
 const actions: ActionTree<OrderState, RootState> = {
   /**
    * Place order - send it to service worker queue
@@ -31,11 +31,11 @@ const actions: ActionTree<OrderState, RootState> = {
     }
 
     EventBus.$emit('order-before-placed', { order: order })
-    order = beforePlaceOrderExecutor(order)
+    order = orderHooksExecutors.beforePlaceOrder(order)
     if (!config.orders.directBackendSync || !isOnline()) {
       commit(types.ORDER_PLACE_ORDER, order)
       EventBus.$emit('order-after-placed', { order: order })
-      afterPlaceOrderExecutor({ order, task: { resultCode: 200 } })
+      orderHooksExecutors.beforePlaceOrder({ order, task: { resultCode: 200 } })
       return {
         resultCode: 200
       }
@@ -56,7 +56,7 @@ const actions: ActionTree<OrderState, RootState> = {
           order.transmited = true
           commit(types.ORDER_PLACE_ORDER, order) // archive this order but not trasmit it second time
           commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order: order, confirmation: task.result })
-          afterPlaceOrderExecutor({ order, task })
+          orderHooksExecutors.afterPlaceOrder({ order, task })
           EventBus.$emit('order-after-placed', { order: order, confirmation: task.result })
 
           return task

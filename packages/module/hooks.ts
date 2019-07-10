@@ -38,11 +38,15 @@ function createMutatorHook () {
   }
 
   function executor (rawOutput: any) {
-    let modifiedOutput = null
-    mutators.forEach(fn => {
-      modifiedOutput = fn(rawOutput)
-    })
-    return modifiedOutput
+    if (mutators.length > 0) {
+      let modifiedOutput = null
+      mutators.forEach(fn => {
+        modifiedOutput = fn(rawOutput)
+      })
+      return modifiedOutput
+    } else {
+      return rawOutput
+    }
   }
 
   return {
@@ -51,30 +55,9 @@ function createMutatorHook () {
   }
 }
 
-const afterAppInitGen = createListenerHook()
-const beforePlaceOrderGen = createMutatorHook()
-const afterPlaceOrderGen = createListenerHook()
-const beforeStoreViewChangeGen = createMutatorHook()
-const afterStoreViewChangeGen = createListenerHook()
+export {
+  createListenerHook,
+  createMutatorHook
+}
 
-/** Hook is fired right after whole application is initialized. Modules are registered and theme setted up */
-export const afterAppInit = afterAppInitGen.hook
-export const afterAppInitExecutor = afterAppInitGen.executor
-
-/** Hook is fired directly before sending order to the server, after all client-side validations 
- * @param orderMutator Inside this function you have access to order object that you can access and modify. It should return order object.
-*/
-export const beforePlaceOrder: (orderMutator: (order: any) => any) => void = beforePlaceOrderGen.hook
-export const beforePlaceOrderExecutor = beforePlaceOrderGen.executor
- 
-/** Hook is fired right after order has been sent to server  */
-export const afterPlaceOrder: (orderListener: (order: any) => void) => void = afterPlaceOrderGen.hook
-export const afterPlaceOrderExecutor = afterPlaceOrderGen.executor
-
-export const beforeStoreViewChange:  (storeViewMutator: (storeView: {}) => {}) => void = beforeStoreViewChangeGen.hook
-export const beforeStoreViewChangeExecutor = beforeStoreViewChangeGen.executor
-
-export const afterStoreViewChange: (storeViewListener: (storeView: {}) => {}) => void = afterStoreViewChangeGen.hook
-export const afterStoreViewChangeExecutor = afterStoreViewChangeGen.executor
-
-// Client entry, replaceState, shopping cart loaded, user logged
+// TODO: Hooks for Client entry, replaceState (can be part of client entry), shopping cart loaded, user logged
