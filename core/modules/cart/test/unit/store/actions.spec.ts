@@ -205,8 +205,7 @@ describe('Cart actions', () => {
           cartconnectdAt: 1000000000
         },
         commit: jest.fn(),
-        dispatch: jest.fn(),
-        getters: { isCartSyncEnabled: true, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true }
+        dispatch: jest.fn()
       };
 
       config.cart = { synchronize: true };

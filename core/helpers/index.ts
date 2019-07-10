@@ -5,6 +5,12 @@ import Vue from 'vue'
 import config from 'config'
 import { sha3_224 } from 'js-sha3'
 
+export const processURLAddress = (url: string = '') => {
+  if (url.startsWith('/')) return `${config.api.url}${url}`
+  return url
+}
+
+
 /**
  * Create slugify -> "create-slugify" permalink  of text
  * @param {String} text
@@ -171,11 +177,6 @@ export const onlineHelper = Vue.observable({
 
 !isServer && window.addEventListener('online', () => { onlineHelper.isOnline = true })
 !isServer && window.addEventListener('offline', () => { onlineHelper.isOnline = false })
-
-export const processURLAddress = (url: string = '') => {
-  if (url.startsWith('/')) return `${config.api.url}${url}`
-  return url
-}
 
 /*
   * serial executes Promises sequentially.

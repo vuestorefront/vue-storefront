@@ -23,5 +23,5 @@ export function beforeRegistration ({ Vue, config, store, isServer }) {
     name: dbNamePrefix + 'shop',
     storeName: 'elasticCache',
     driver: localForage[config.localForage.defaultDrivers['elasticCache']]
-  }), true, config.server.elasticCacheQuota)
+  }), true, config.server.elasticCacheQuota))
 }
