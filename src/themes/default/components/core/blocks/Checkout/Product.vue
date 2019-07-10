@@ -1,6 +1,8 @@
 <template>
   <div class="row p25 between-xs">
-    <product-image :image="image" class="blend" />
+    <div  class="blend" >
+      <product-image :image="image"/>
+    </div>
     <div class="col-xs">
       <div class="row">
         <div class="col-xs-12 col-md-9 pb15">
@@ -84,9 +86,6 @@ export default {
   text-decoration: line-through;
 }
 .blend {
-  mix-blend-mode: multiply;
-  align-self: center;
   flex: 0 0 121px;
-  padding-bottom: 32.68%;
 }
 </style>

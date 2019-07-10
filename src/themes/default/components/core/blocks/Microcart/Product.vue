@@ -1,9 +1,7 @@
 <template>
   <li class="row flex-nowrap py10">
-    <div>
-      <div class="ml10 bg-cl-secondary">
-        <product-image :image="image" />
-      </div>
+    <div class="blend bg-cl-secondary">
+      <product-image :image="image" />
     </div>
     <div class="col-xs flex pl35 py15 start-xs between-sm details">
       <div>
@@ -124,13 +122,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .image {
-    mix-blend-mode: multiply;
-    vertical-align: top;
-    width: 150px;
-    @media (max-width: 767px) {
-      width: 100px;
-    }
+  .blend {
+    flex: 0 0 150px;
+    /*@media (max-width: 767px) {*/
+    /*  width: 100px;*/
+    /*}*/
   }
 
   .details {
