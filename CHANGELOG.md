@@ -20,15 +20,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 value); `final_price` might been used along with `special_price` with Magento for the products with activated catalog pricing rules - @pkarw (#3099)
 - Resolve problem with getting CMS block from cache - @qiqqq (#2499)
 - Make image proxy url work with relative base url - @cewald (#3158)
+- Fixed memory leak with enabled dynamicConfigReload - @dimasch (#3075)
 
 ### Changed / Improved
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
 - Can set transition style for Modal content - @grimasod (#3146)
+- Added stock to cart items - @cheeerd (#3166)
 
 ## [1.10.0-rc.2] - UNRELEASED
 
 ### Fixed
 - Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
+- The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
 
 ## [1.10.0-rc.1] - 2019.06.19
 

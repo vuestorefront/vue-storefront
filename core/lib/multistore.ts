@@ -52,14 +52,14 @@ function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
     const originalParent = storeView.extend
 
-    if (!config.storeViews[storeView.storeCode]) {
+    if (!config.storeViews[originalParent]) {
       Logger.error(`Storeview "${storeView.extend}" doesn't exist!`)()
     } else {
       delete storeView.extend
 
       storeView = merge(
         {},
-        getExtendedStoreviewConfig(config.storeViews[storeView.storeCode]),
+        getExtendedStoreviewConfig(config.storeViews[originalParent]),
         storeView
       )
       storeView.extend = originalParent
@@ -86,9 +86,8 @@ export function prepareStoreView (storeCode: string): StoreView {
 
   if (storeCode) { // current store code
     if ((config.storeViews[storeCode])) {
-      storeView = merge(storeView, config.storeViews[storeCode])
       rootStore.state.user.current_storecode = storeCode
-      storeView = getExtendedStoreviewConfig(storeView)
+      storeView = merge(storeView, getExtendedStoreviewConfig(config.storeViews[storeCode]))
     }
   } else {
     storeView.storeCode = config.defaultStoreCode || ''
@@ -176,7 +175,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
 
   if (routeObj && routeObj.fullPath) { // case of using dispatcher
     const routeCodePrefix = config.defaultStoreCode !== storeCode && appendStoreCodePrefix ? `/${storeCode}` : ''
-    const qrStr = queryString.stringify(routeObj.params)
+    const qrStr = queryString.stringify(routeObj.params);
 
     return `${routeCodePrefix}/${routeObj.fullPath}${qrStr ? `?${qrStr}` : ''}`
   }
