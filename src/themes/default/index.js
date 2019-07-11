@@ -26,7 +26,7 @@ function initTheme (app, router, store, config, ssrContext) {
   setupMultistoreRoutes(config, router, routes)
   RouterManager.addRoutes(routes, router)
 
-  Vue.prototype.$db.claimsCollection = initCacheStorage('claims');
+  initCacheStorage('claimCollection');
   store.registerModule('claims', claimsStore);
   store.registerModule('homepage', homepageStore);
   store.registerModule('ui', uiStore);
