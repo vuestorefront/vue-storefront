@@ -1,5 +1,6 @@
 import { storeCodeFromRoute } from '../../multistore'
 import config from 'config'
+jest.mock('@vue-storefront/core/app', () => ({ createApp: jest.fn() }))
 jest.mock('../../../store', () => ({}))
 jest.mock('@vue-storefront/i18n', () => ({loadLanguageAsync: jest.fn()}))
 jest.mock('../../sync/task', () => ({initializeSyncTaskStorage: jest.fn()}))
