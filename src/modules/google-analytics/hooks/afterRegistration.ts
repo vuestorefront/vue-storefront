@@ -1,6 +1,7 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 export function afterRegistration ({ Vue, config, store, isServer }) {
   if (config.analytics.id && !isServer) {
-    Vue.prototype.$bus.$on('order-after-placed', event => {
+    EventBus.$on('order-after-placed', event => {
       const order = event.order
       const ecommerce = (Vue as any).$ga.ecommerce
 

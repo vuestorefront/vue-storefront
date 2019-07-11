@@ -26,7 +26,7 @@
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
+              <meta itemprop="price" :content="parseFloat(product.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="product.url_path">
               <div
@@ -35,20 +35,20 @@
               >
                 <div
                   class="h3 cl-secondary"
-                  v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
+                  v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax"
                 >
                   <span class="h2 cl-mine-shaft weight-700">
-                    {{ product.priceInclTax * product.qty | price }}
+                    {{ product.price_incl_tax * product.qty | price }}
                   </span>&nbsp;
                   <span class="price-original h3">
-                    {{ product.originalPriceInclTax * product.qty | price }}
+                    {{ product.original_price_incl_tax * product.qty | price }}
                   </span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
-                  v-if="!product.special_price && product.priceInclTax"
+                  v-if="!product.special_price && product.price_incl_tax"
                 >
-                  {{ product.qty > 0 ? product.priceInclTax * product.qty : product.priceInclTax | price }}
+                  {{ product.qty > 0 ? product.price_incl_tax * product.qty : product.price_incl_tax | price }}
                 </div>
               </div>
               <div
@@ -243,7 +243,7 @@ import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue
 import ProductGallery from 'theme/components/core/ProductGallery'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
-import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
+import WebShare from 'theme/components/theme/WebShare'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
 
