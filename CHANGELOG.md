@@ -22,6 +22,7 @@ value); `final_price` might been used along with `special_price` with Magento fo
 - Make image proxy url work with relative base url - @cewald (#3158)
 - Fixed memory leak with enabled dynamicConfigReload - @dimasch (#3075)
 - Fixed error for the orderhistory null for google-tag-manager extension - @cnviradiya (#3195)
+- Fixed label of configurable options in cart after product just added - @cheeerd (#3164)
 
 ### Changed / Improved
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
