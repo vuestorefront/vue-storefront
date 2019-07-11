@@ -33,7 +33,6 @@
             >
               <product-image
                 v-show="hideImageAtIndex !== index"
-                :class="{'image--video': images.video}"
                 :image="images"
                 :alt="productName | htmlDecode"
               />
@@ -173,16 +172,15 @@ export default {
       margin-bottom: 0;
     }
 
-    /*& > .image{
-      mix-blend-mode: multiply;
-      opacity: 0.9;
-      will-change: transform;
+    & > *{
+      opacity: .9;
+      will-change: opacity;
       transition: .3s opacity $motion-main;
 
       &:hover{
         opacity: 1;
       }
-    }*/
+    }
   }
 
   &__gallery{
@@ -201,13 +199,6 @@ export default {
   &__slide{
     height: 100%;
     max-height: 100%;
-    /*& > .image {
-      mix-blend-mode: multiply;
-    padding-bottom: calc(710% / (600 / 100));
-    }
-    .image--video{
-      padding-bottom: calc(319% / (568 / 100));
-    }*/
   }
 }
 .thumb-video{

@@ -16,6 +16,7 @@
           class="product-cover__thumb"
           :image="thumbnailObj"
           :alt="product.name | htmlDecode"
+          :calc-ratio="false"
           data-testid="productImage"
         />
       </div>
@@ -147,7 +148,9 @@ $color-white: color(white);
 
 .product-cover{
   overflow: hidden;
+  max-height: 300px;
   &__thumb{
+    padding-bottom: calc(300% / (276.5 / 100));
     opacity: .8;
     will-change: opacity, transform;
     transition: .3s opacity $motion-main, .3s transform $motion-main;

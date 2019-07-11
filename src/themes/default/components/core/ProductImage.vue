@@ -2,7 +2,7 @@
   <div
     class="product-image"
     :class="{'product-image--height': basic, 'product-image--width': !basic}"
-    :style="{paddingBottom: imageRatio}"
+    :style="style"
     v-on="$listeners"
   >
     <img
@@ -38,6 +38,10 @@ import { onlineHelper } from '@vue-storefront/core/helpers'
 
 export default {
   props: {
+    calcRatio: {
+      type: Boolean,
+      default: true
+    },
     image: {
       type: Object,
       default: () => ({
@@ -79,6 +83,9 @@ export default {
     imageRatio () {
       const {width, height} = this.$store.state.config.products.gallery
       return `${height / (width / 100)}%`
+    },
+    style () {
+      return this.calcRatio ? {paddingBottom: this.imageRatio} : {}
     },
     isOnline (value) {
       return onlineHelper.isOnline

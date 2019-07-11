@@ -1,8 +1,8 @@
 <template>
   <li class="row pr55 py20">
-    <div class="image" @click="closeWishlist">
+    <div class="blend bg-cl-secondary" @click="closeWishlist">
       <router-link :to="productLink">
-        <img v-lazy="thumbnail">
+          <product-image :image="image" />
       </router-link>
     </div>
     <div class="col-xs between-xs flex pl40 py15">
@@ -37,12 +37,13 @@
 import Product from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Product'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
-
+import ProductImage from 'theme/components/core/ProductImage'
 import RemoveButton from './RemoveButton'
 
 export default {
   components: {
-    RemoveButton
+    RemoveButton,
+    ProductImage
   },
   mixins: [Product],
   computed: {
@@ -59,14 +60,21 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '~theme/css/animations/transitions';
+.blend {
+  flex: 0 0 121px;
+  opacity: .8;
+  will-change: opacity;
+  transition: .3s opacity $motion-main;
+  &:hover{
+     opacity: 1;
+   }
+}
 .col-xs {
   flex-direction: column;
 }
 input {
   width: 30px;
-}
-.image{
-  flex: 0 0 121px;
 }
 </style>

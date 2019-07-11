@@ -124,9 +124,6 @@ export default {
 <style lang="scss" scoped>
   .blend {
     flex: 0 0 150px;
-    /*@media (max-width: 767px) {*/
-    /*  width: 100px;*/
-    /*}*/
   }
 
   .details {
