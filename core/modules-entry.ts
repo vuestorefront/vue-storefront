@@ -6,7 +6,7 @@ import { User } from './modules/user'
 import { registerModules } from 'src/modules'
 import { Breadcrumbs } from './modules/breadcrumbs'
 
-// @depreciated, to be removed in 2.0  use registerModule instead
+// @deprecated from 2.0,  use registerModule instead
 export const enabledModules: VueStorefrontModule[] = [
   Breadcrumbs,
   Cms,
