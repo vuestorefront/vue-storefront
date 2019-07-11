@@ -79,7 +79,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   store.state.storeView = storeView
   // store.state.shipping.methods = shippingMethods
 
-  // @depreciate to depreciate in near future
+  // @deprecated from 2.0
   once('__VUE_EXTEND__', () => {
     Vue.use(Vuelidate)
     Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
