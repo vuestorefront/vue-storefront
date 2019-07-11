@@ -38,6 +38,7 @@ value); `final_price` might been used along with `special_price` with Magento fo
 - Wrong meta description attribute by page overwrite - @przspa (#3091)
 - The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
 - Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
+- Fixed aspect ratio in ProductImage component - @przspa (#3187)
 
 ### Changed
 - Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
