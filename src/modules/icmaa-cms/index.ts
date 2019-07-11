@@ -1,10 +1,11 @@
 import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
+import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
 import { blockModule, cmsBlockStateKey } from './store/block'
 import { pageModule, cmsPageStateKey } from './store/page'
 import { categoryExtrasModule, cmsCategoryExtrasStateKey } from './store/category-extras'
-import { beforeRegistration } from './hooks/beforeRegistration'
 
 export const KEY = 'icmaa-cms'
+export const cacheStorage = initCacheStorage(KEY)
 
 const moduleConfig: VueStorefrontModuleConfig = {
   key: KEY,
@@ -14,8 +15,7 @@ const moduleConfig: VueStorefrontModuleConfig = {
       { key: cmsPageStateKey, module: pageModule },
       { key: cmsCategoryExtrasStateKey, module: categoryExtrasModule }
     ]
-  },
-  beforeRegistration
+  }
 }
 
 export const IcmaaCms = new VueStorefrontModule(moduleConfig)

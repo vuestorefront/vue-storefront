@@ -1,0 +1,8 @@
+{
+  "name": "icmaa-url",
+  "version": "1.0.0",
+  "author": "cewald <c.ewald@impericon.com> and contributors",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true
+}
