@@ -3,6 +3,7 @@
     <img
       :width="width"
       :height="height"
+      :style="{ 'max-height': height }"
       src="/assets/logo.svg"
       alt="Vuestore logo"
     >

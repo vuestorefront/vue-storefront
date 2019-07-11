@@ -1,4 +1,7 @@
-@import 'base/fonts';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import 'vendor/flexboxgrid2';
 
 @import 'variables/variables';

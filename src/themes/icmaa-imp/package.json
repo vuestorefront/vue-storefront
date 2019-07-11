@@ -19,5 +19,8 @@
     "vue-scrollto": "^2.15.0",
     "vuelidate": "^0.6.2",
     "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^0.7.3"
   }
 }

@@ -11,30 +11,30 @@
   padding-left: 16px;
 }
 
-@media only screen and (min-width: 576px) {
+@media only screen and (min-width: 640px) {
   .container {
-    width: 560px;
+    width: 640px;
     max-width: 100%;
   }
 }
 
 @media only screen and (min-width: 768px) {
   .container {
-    width: 752px;
+    width: 768px;
     max-width: 100%;
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1024px) {
   .container {
-    width: 976px;
+    width: 1024px;
     max-width: 100%;
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1280px) {
   .container {
-    width: 1184px;
+    width: 1280px;
     max-width: 100%;
   }
 }

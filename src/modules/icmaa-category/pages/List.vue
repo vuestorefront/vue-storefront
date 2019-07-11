@@ -1,5 +1,5 @@
 <template>
-  <div id="category-list" class="px25" v-if="notEmpty">
+  <div id="category-list" class="t-container t-p-4" v-if="notEmpty">
     <h1>{{ parent.name }}</h1>
     <ul class="slingrope">
       <li :key="letter.letter" v-for="letter in categoriesGroupedByFirstLetter">
@@ -87,9 +87,9 @@ $bg-secondary: color(secondary, $colors-background);
     flex-wrap: nowrap;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
-    width: calc(100% + 50px);
+    width: calc(100% + 32px);
     padding: 0;
-    margin: 0 -25px;
+    margin: 0 -16px 2em;
     list-style: none;
 
     &::-webkit-scrollbar {
