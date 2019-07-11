@@ -8,6 +8,7 @@ import ProductState from '../../types/ProductState'
 export const productModule: Module<ProductState, RootState> = {
   namespaced: true,
   state: {
+    // TODO use breadcrumbs from category-next, leave here for backward compatibility
     breadcrumbs: {
       routes: [],
       name: ''

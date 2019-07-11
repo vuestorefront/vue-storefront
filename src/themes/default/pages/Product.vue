@@ -267,6 +267,7 @@ export default {
     BaseInputNumber,
     SizeGuide
   },
+  // Remove product.js dependency and use onlineHelper
   mixins: [Product, VueOfflineMixin],
   data () {
     return {
@@ -288,7 +289,7 @@ export default {
     },
     getAvailableFilters () {
       let filtersMap = {}
-      // TODO move to helper
+      // TODO move to helper !
       if (this.product && this.product.configurable_options) {
         this.product.configurable_options.forEach(configurableOption => {
           const type = configurableOption.attribute_code
@@ -301,7 +302,7 @@ export default {
       return filtersMap
     },
     getSelectedFilters () {
-      // TODO move to helper when refactoring product page
+      // TODO move to helper !
       let selectedFilters = {}
       if (this.configuration && this.product) {
         Object.keys(this.configuration).map(filterType => {

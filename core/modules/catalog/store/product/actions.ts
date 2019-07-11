@@ -686,6 +686,7 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Load the product data - async version for asyncData()
    */
+  // TODO refactor method like this to async/await for better readability
   fetchAsync (context, { parentSku, childSku = null, route = null }) {
     if (context.state.productLoadStart && (Date.now() - context.state.productLoadStart) < PRODUCT_REENTER_TIMEOUT) {
       Logger.log('Product is being fetched ...', 'product')()

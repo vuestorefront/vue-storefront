@@ -1,3 +1,4 @@
+// TODO refactor to proper mutation names
 export const SN_PRODUCT = 'product'
 export const CATALOG_UPD_PRODUCTS = SN_PRODUCT + '/UPD_PRODUCTS'
 export const CATALOG_UPD_RELATED = SN_PRODUCT + '/UPD_RELATED'

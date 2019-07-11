@@ -21,6 +21,7 @@ export default {
     }
   },
   computed: {
+    // TODO rename product getters and use proper names here
     ...mapGetters({
       product: 'product/productCurrent',
       originalProduct: 'product/productOriginal',
@@ -58,6 +59,7 @@ export default {
       return currentStoreView()
     }
   },
+  // TODO simplify invoking asyncData with beforeRouteUpdate
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     EventBus.$emit('product-before-load', { store: store, route: route })
     if (context) context.output.cacheTags.add(`product`)
@@ -67,6 +69,7 @@ export default {
     this.validateRoute(to) // TODO: remove because client-entry.ts is executing `asyncData` anyway
     next()
   },
+  // Move busses to mixin which is directly imported in Project.vue
   beforeDestroy () {
     this.$bus.$off('product-after-removevariant')
     this.$bus.$off('filter-changed-product')
@@ -129,6 +132,7 @@ export default {
       currentConfig[option.type] = option
       return isOptionAvailableAsync(this.$store, { product: this.product, configuration: currentConfig })
     },
+    // TODO move this logic to helper
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0
       let priceDeltaInclTax = 0
@@ -147,6 +151,7 @@ export default {
       this.product.price = this.originalProduct.price + priceDelta
       this.product.price_incl_tax = this.originalProduct.price_incl_tax + priceDeltaInclTax
     },
+    // TODO move this logic to helper
     onAfterBundleOptionsChanged (payload) {
       let priceDelta = 0
       let priceDeltaInclTax = 0
@@ -225,6 +230,7 @@ export default {
       }
     }
   },
+  // TODO move to Product.vue
   metaInfo () {
     const storeView = currentStoreView()
     return {

@@ -3,6 +3,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
 
 const getters: GetterTree<ProductState, RootState> = {
+  // TODO proper getter names and create new ones
   productParent: (state) => state.parent,
   productCurrent: (state) => state.current,
   currentConfiguration: (state) => state.current_configuration,
