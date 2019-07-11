@@ -10,7 +10,7 @@ module.exports = function (config, { isClient, isDev }) {
    * @see https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only
    */
   if (isClient) {
-    Object.assign(config.default.resolve.alias, {
+    Object.assign(isDev ? config.default.resolve.alias : config.resolve.alias, {
       'vue$': 'vue/dist/vue.esm.js'
     })
   }
@@ -35,7 +35,7 @@ module.exports = function (config, { isClient, isDev }) {
    *   }
    * };
    */
-  config.default.module.rules = config.default.module.rules.map(rule => {
+  const rewriteMapping = rule => {
     if (rule.hasOwnProperty('use')) {
       rule.use = rule.use.map(item => {
         if (typeof item === 'object' &&
@@ -58,7 +58,13 @@ module.exports = function (config, { isClient, isDev }) {
     }
 
     return rule
-  })
+  }
+
+  if (isDev) {
+    config.default.module.rules = config.default.module.rules.map(rewriteMapping)
+  } else {
+    config.module.rules = config.module.rules.map(rewriteMapping)
+  }
 
   return config
 }
