@@ -2,7 +2,7 @@
   <li class="row pr55 py20">
     <div class="blend bg-cl-secondary" @click="closeWishlist">
       <router-link :to="productLink">
-          <product-image :image="image" />
+        <product-image :image="image" />
       </router-link>
     </div>
     <div class="col-xs between-xs flex pl40 py15">
