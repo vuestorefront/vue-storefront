@@ -123,7 +123,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
 
   coreHooksExecutors.afterAppInit()
-  // @depreciate will be depreciated in 2,0
+  // @deprecated from 2.0
   EventBus.$emit('application-after-init', app)
 
   return { app, router, store }
