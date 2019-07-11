@@ -32,3 +32,5 @@ core/resource/i18n/ru-RU.json
 
 #unit testing
 /test/unit/coverage
+
+src/themes/jimmylion-theme/
