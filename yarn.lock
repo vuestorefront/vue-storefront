@@ -12959,11 +12959,6 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vsf-g@../vsf-g:
-  version "1.0.10"
-  dependencies:
-    vuex "^3.1.1"
-
 vue-analytics@^5.16.1:
   version "5.16.4"
   resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.16.4.tgz#7f9e197cbc64afac96884a05214b17efaf8e9d09"
