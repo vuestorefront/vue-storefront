@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { processURLAddress } from '@vue-storefront/core/helpers'
 
 const state = {
   cmsPages: [],
@@ -24,7 +25,7 @@ const getters = {
 // actions
 const actions = {
   loadCms (context, {url, type}) {
-    fetch(url, {
+    fetch(processURLAddress(url), {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors'

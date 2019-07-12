@@ -2,19 +2,7 @@
 
 In Vue Storefront, we can use CMS Static Blocks and CMS Static Pages from Magento 2.
 
-## Old solution
-
-Until version 1.6, the `magento2-cms-extention` (we can find it in: `src/modules/magento-2-cms/`). It's deprecated.
-
-### How it works?
-
-To display CMS data, we need a `SnowdogApps/magento2-cms-api` module installed in the Magento 2 instance. The extension fetches data using the API and displays compiled content on the storefront. You can display blocks and pages by ID or identifiers—it supports different store IDs in a multi-languages store. Find more details [here](https://github.com/DivanteLtd/vue-storefront/tree/master/src/modules/magento-2-cms)
-
-This solution will be deprecated soon.
-
-## New solution
-
-From version 1.6, thanks to @yuriboyko,we have a better solution for static data—it's added to the Elasticsearch database and is using qraphQL query, displayed on the storefront.
+From version 1.6, thanks to @yuriboyko  we have a better solution for static data—it's added to the Elasticsearch database and is using qraphQL query, displayed on the storefront.
 
 ### How it works?
 

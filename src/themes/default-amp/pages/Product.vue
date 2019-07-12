@@ -36,27 +36,27 @@
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
+              <meta itemprop="price" :content="parseFloat(product.price_incl_tax).toFixed(2)">
               <div
                 class="mb40 price serif"
                 v-if="product.type_id !== 'grouped'"
               >
                 <div
                   class="h3 cl-secondary"
-                  v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
+                  v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax"
                 >
                   <span class="h2 cl-mine-shaft weight-700">
-                    {{ product.priceInclTax * product.qty | price }}
+                    {{ product.price_incl_tax * product.qty | price }}
                   </span>&nbsp;
                   <span class="price-original h3">
-                    {{ product.originalPriceInclTax * product.qty | price }}
+                    {{ product.original_price_incl_tax * product.qty | price }}
                   </span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
-                  v-if="!product.special_price && product.priceInclTax"
+                  v-if="!product.special_price && product.price_incl_tax"
                 >
-                  {{ product.priceInclTax * product.qty | price }}
+                  {{ product.price_incl_tax * product.qty | price }}
                 </div>
               </div>
               <div

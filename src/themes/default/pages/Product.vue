@@ -5,6 +5,7 @@
         <section class="row m0 between-xs">
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
+              :offline="image"
               :gallery="gallery"
               :configuration="configuration"
               :product="product"
@@ -25,7 +26,7 @@
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
+              <meta itemprop="price" :content="parseFloat(product.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="product.url_path">
               <div
@@ -34,20 +35,20 @@
               >
                 <div
                   class="h3 cl-secondary"
-                  v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
+                  v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax"
                 >
                   <span class="h2 cl-mine-shaft weight-700">
-                    {{ product.priceInclTax * product.qty | price }}
+                    {{ product.price_incl_tax * product.qty | price }}
                   </span>&nbsp;
                   <span class="price-original h3">
-                    {{ product.originalPriceInclTax * product.qty | price }}
+                    {{ product.original_price_incl_tax * product.qty | price }}
                   </span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
-                  v-if="!product.special_price && product.priceInclTax"
+                  v-if="!product.special_price && product.price_incl_tax"
                 >
-                  {{ product.qty > 0 ? product.priceInclTax * product.qty : product.priceInclTax | price }}
+                  {{ product.qty > 0 ? product.price_incl_tax * product.qty : product.price_incl_tax | price }}
                 </div>
               </div>
               <div
@@ -59,9 +60,8 @@
                 </div>
                 <div
                   class="h5"
-                  v-for="(option, index) in product.configurable_options"
-                  v-if="(!product.errors || Object.keys(product.errors).length === 0) && Object.keys(configuration).length > 0"
-                  :key="index"
+                  v-for="option in getProductOptions"
+                  :key="option.id"
                 >
                   <div class="variants-label" data-testid="variantsLabel">
                     {{ option.label }}
@@ -72,42 +72,34 @@
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                     <div v-if="option.label == 'Color'">
                       <color-selector
-                        v-for="(c, i) in options[option.attribute_code]"
-                        v-if="isOptionAvailable(c)"
-                        :key="i"
-                        :id="c.id"
-                        :label="c.label"
-                        context="product"
-                        :code="option.attribute_code"
-                        :class="{ active: c.id == configuration[option.attribute_code].id }"
+                        v-for="filter in getAvailableFilters[option.attribute_code]"
+                        v-if="isOptionAvailable(filter)"
+                        :key="filter.id"
+                        :variant="filter"
+                        :selected-filters="getSelectedFilters"
+                        @change="changeFilter"
                       />
                     </div>
                     <div class="sizes" v-else-if="option.label == 'Size'">
                       <size-selector
-                        v-for="(s, i) in options[option.attribute_code]"
-                        v-if="isOptionAvailable(s)"
-                        :key="i"
-                        :id="s.id"
-                        :label="s.label"
-                        context="product"
-                        :code="option.attribute_code"
                         class="mr10 mb10"
-                        :class="{ active: s.id == configuration[option.attribute_code].id }"
-                        v-focus-clean
+                        v-for="filter in getAvailableFilters[option.attribute_code]"
+                        v-if="isOptionAvailable(filter)"
+                        :key="filter.id"
+                        :variant="filter"
+                        :selected-filters="getSelectedFilters"
+                        @change="changeFilter"
                       />
                     </div>
                     <div :class="option.attribute_code" v-else>
                       <generic-selector
-                        v-for="(s, i) in options[option.attribute_code]"
-                        v-if="isOptionAvailable(s)"
-                        :key="i"
-                        :id="s.id"
-                        :label="s.label"
-                        context="product"
-                        :code="option.attribute_code"
                         class="mr10 mb10"
-                        :class="{ active: s.id == configuration[option.attribute_code].id }"
-                        v-focus-clean
+                        v-for="filter in getAvailableFilters[option.attribute_code]"
+                        v-if="isOptionAvailable(filter)"
+                        :key="filter.id"
+                        :variant="filter"
+                        :selected-filters="getSelectedFilters"
+                        @change="changeFilter"
                       />
                     </div>
                     <span
@@ -251,7 +243,7 @@ import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue
 import ProductGallery from 'theme/components/core/ProductGallery'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
-import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
+import WebShare from 'theme/components/theme/WebShare'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
 
@@ -287,6 +279,41 @@ export default {
       return {
         availability: (this.product.stock.is_in_stock) ? 'InStock' : 'OutOfStock'
       }
+    },
+    getProductOptions () {
+      if (this.product.errors && Object.keys(this.product.errors).length && Object.keys(this.configuration).length) {
+        return []
+      }
+      return this.product.configurable_options
+    },
+    getAvailableFilters () {
+      let filtersMap = {}
+      // TODO move to helper
+      if (this.product && this.product.configurable_options) {
+        this.product.configurable_options.forEach(configurableOption => {
+          const type = configurableOption.attribute_code
+          const filterVariants = configurableOption.values.map(({value_index, label}) => {
+            return {id: value_index, label, type}
+          })
+          filtersMap[type] = filterVariants
+        })
+      }
+      return filtersMap
+    },
+    getSelectedFilters () {
+      // TODO move to helper when refactoring product page
+      let selectedFilters = {}
+      if (this.configuration && this.product) {
+        Object.keys(this.configuration).map(filterType => {
+          const filter = this.configuration[filterType]
+          selectedFilters[filterType] = {
+            id: filter.id,
+            label: filter.label,
+            type: filterType
+          }
+        })
+      }
+      return selectedFilters
     }
   },
   methods: {
@@ -307,6 +334,9 @@ export default {
         message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
         action1: { label: this.$t('OK') }
       })
+    },
+    changeFilter (variant) {
+      this.$bus.$emit('filter-changed-product', Object.assign({attribute_code: variant.type}, variant))
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')

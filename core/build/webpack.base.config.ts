@@ -117,7 +117,9 @@ export default {
       'theme/resource': themeResources,
 
       // Backward compatible
-      '@vue-storefront/core/store/lib/multistore': path.resolve(__dirname, '../lib/multistore.ts')
+      '@vue-storefront/core/store/lib/multistore': path.resolve(__dirname, '../lib/multistore.ts'),
+      'src/modules/order-history/components/UserOrders': path.resolve(__dirname, '../../core/modules/order/components/UserOrdersHistory'),
+      '@vue-storefront/core/modules/social-share/components/WebShare': path.resolve(__dirname, '../../src/themes/default/components/theme/WebShare.vue')
     }
   },
   module: {

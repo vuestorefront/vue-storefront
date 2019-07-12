@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import rootStore from '@vue-storefront/core/store'
@@ -9,9 +8,10 @@ import UserState from '../types/UserState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { UserProfile } from '../types/UserProfile'
-import { isServer } from '@vue-storefront/core/helpers'
+import { isServer, processURLAddress } from '@vue-storefront/core/helpers'
 import config from 'config'
-// import router from '@vue-storefront/core/router'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession (context) {
@@ -24,7 +24,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
 
     context.commit(types.USER_START_SESSION)
-    const cache = Vue.prototype.$db.usersCollection
+    const cache = StorageManager.get('usersCollection')
     cache.getItem('current-token', (err, res) => {
       if (err) {
         Logger.error(err, 'user')()
@@ -48,9 +48,9 @@ const actions: ActionTree<UserState, RootState> = {
           })
         }
       } else {
-        Vue.prototype.$bus.$emit('session-after-nonauthorized')
+        EventBus.$emit('session-after-nonauthorized')
       }
-      Vue.prototype.$bus.$emit('session-after-started')
+      EventBus.$emit('session-after-started')
     })
   },
   /**
@@ -77,7 +77,7 @@ const actions: ActionTree<UserState, RootState> = {
     if (config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)
     }
-    return fetch(url, { method: 'POST',
+    return fetch(processURLAddress(url), { method: 'POST',
       mode: 'cors',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -98,26 +98,19 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Login user and return user profile and current token
    */
-  register (context, { email, firstname, lastname, password }) {
+  async register (context, { email, firstname, lastname, password, addresses }) {
     let url = config.users.create_endpoint
     if (config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)
     }
-    return fetch(url, { method: 'POST',
+    return fetch(processURLAddress(url), { method: 'POST',
       mode: 'cors',
       headers: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ customer: { email: email, firstname: firstname, lastname: lastname }, password: password })
+      body: JSON.stringify({ customer: { email, firstname, lastname, addresses }, password })
     }).then(resp => { return resp.json() })
-      .then((resp) => {
-        if (resp.code === 200) {
-          context.dispatch('login', { username: email, password: password }).then(result => { // login user
-          })
-        }
-        return resp
-      })
   },
 
   /**
@@ -125,7 +118,7 @@ const actions: ActionTree<UserState, RootState> = {
   */
   refresh (context) {
     return new Promise((resolve, reject) => {
-      const usersCollection = Vue.prototype.$db.usersCollection
+      const usersCollection = StorageManager.get('usersCollection')
       usersCollection.getItem('current-refresh-token', (err, refreshToken) => {
         if (err) {
           Logger.error(err, 'user')()
@@ -134,7 +127,7 @@ const actions: ActionTree<UserState, RootState> = {
         if (config.storeViews.multistore) {
           url = adjustMultistoreApiUrl(url)
         }
-        return fetch(url, { method: 'POST',
+        return fetch(processURLAddress(url), { method: 'POST',
           mode: 'cors',
           headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -179,7 +172,7 @@ const actions: ActionTree<UserState, RootState> = {
         Logger.warn('No User token, user unauthorized', 'user')()
         return resolve(null)
       }
-      const cache = Vue.prototype.$db.usersCollection
+      const cache = StorageManager.get('usersCollection')
       let resolvedFromCache = false
 
       if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
@@ -192,7 +185,7 @@ const actions: ActionTree<UserState, RootState> = {
           if (res) {
             context.commit(types.USER_INFO_LOADED, res)
             context.dispatch('setUserGroup', res)
-            Vue.prototype.$bus.$emit('user-after-loggedin', res)
+            EventBus.$emit('user-after-loggedin', res)
             rootStore.dispatch('cart/authorize')
 
             resolve(res)
@@ -218,7 +211,7 @@ const actions: ActionTree<UserState, RootState> = {
               context.dispatch('setUserGroup', resp.result)
             }
             if (!resolvedFromCache && resp.resultCode === 200) {
-              Vue.prototype.$bus.$emit('user-after-loggedin', resp.result)
+              EventBus.$emit('user-after-loggedin', resp.result)
               rootStore.dispatch('cart/authorize')
               resolve(resp)
             } else {
@@ -248,7 +241,7 @@ const actions: ActionTree<UserState, RootState> = {
       callback_event: 'store:user/userAfterUpdate'
     })
   },
-  refreshCurrentUser (context, userData) {
+  setCurrentUser (context, userData) {
     context.commit(types.USER_INFO_LOADED, userData)
   },
   /**
@@ -300,7 +293,7 @@ const actions: ActionTree<UserState, RootState> = {
     context.commit(types.USER_END_SESSION)
     context.dispatch('cart/disconnect', {}, { root: true })
       .then(() => { context.dispatch('clearCurrentUser') })
-      .then(() => { Vue.prototype.$bus.$emit('user-after-logout') })
+      .then(() => { EventBus.$emit('user-after-logout') })
       .then(() => { context.dispatch('cart/clear', { recreateAndSyncCart: true }, { root: true }) })
     if (!silent) {
       rootStore.dispatch('notification/spawnNotification', {
@@ -320,7 +313,7 @@ const actions: ActionTree<UserState, RootState> = {
         Logger.debug('No User token, user unathorized', 'user')()
         return resolve(null)
       }
-      const cache = Vue.prototype.$db.ordersHistoryCollection
+      const cache = StorageManager.get('ordersHistoryCollection')
       let resolvedFromCache = false
 
       if (useCache === true) { // after login for example we shouldn't use cache to be sure we're loading currently logged in user
@@ -332,7 +325,7 @@ const actions: ActionTree<UserState, RootState> = {
 
           if (res) {
             context.commit(types.USER_ORDERS_HISTORY_LOADED, res)
-            Vue.prototype.$bus.$emit('user-after-loaded-orders', res)
+            EventBus.$emit('user-after-loaded-orders', res)
 
             resolve(res)
             resolvedFromCache = true
@@ -353,7 +346,7 @@ const actions: ActionTree<UserState, RootState> = {
         }).then((resp: any) => {
           if (resp.code === 200) {
             context.commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
-            Vue.prototype.$bus.$emit('user-after-loaded-orders', resp.result)
+            EventBus.$emit('user-after-loaded-orders', resp.result)
           }
           if (!resolvedFromCache) {
             resolve(resp.code === 200 ? resp : null)
@@ -374,7 +367,7 @@ const actions: ActionTree<UserState, RootState> = {
         message: i18n.t('Account data has successfully been updated'),
         action1: { label: i18n.t('OK') }
       })
-      rootStore.dispatch('user/refreshCurrentUser', event.result)
+      rootStore.dispatch('user/setCurrentUser', event.result)
     }
   },
   sessionAfterAuthorized (context, event) {

@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/core/store'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
@@ -48,7 +49,10 @@ export default {
       this.$store.state.cart.cartItems.forEach(product => {
         bucket.push({
           label: product.name,
-          amount: { currency: storeView.i18n.currencyCode, value: (product.qty * product.priceInclTax) }
+          amount: {
+            currency: storeView.i18n.currencyCode,
+            value: this.getProductPrice(product)
+          }
         })
       })
 
@@ -75,16 +79,6 @@ export default {
         })
       }
 
-      const discount = this.platformTotal.filter(segment => {
-        return segment.code === 'discount'
-      })
-      if (discount.length > 0) {
-        bucket.push({
-          label: discount[0].title,
-          amount: { currency: storeView.i18n.currencyCode, value: discount[0].value }
-        })
-      }
-
       return bucket
     },
     selectedShippingOption () {
@@ -98,7 +92,7 @@ export default {
         let subtotal = 0
 
         this.$store.state.cart.cartItems.forEach(product => {
-          subtotal += parseFloat(product.priceInclTax)
+          subtotal += parseFloat(product.price_incl_tax)
         })
 
         if (this.selectedShippingOption.length > 0) {
@@ -295,6 +289,21 @@ export default {
           payment_method_additional: {}
         }
       }
+    },
+    getProductPrice (product) {
+      if (!config.cart.displayItemDiscounts) {
+        return product.qty * product.price_incl_tax
+      }
+
+      if (product.totals) {
+        if (product.totals.discount_amount) {
+          return product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount
+        } else {
+          return product.totals.row_total_incl_tax
+        }
+      }
+
+      return product.regular_price * product.qty
     }
   },
   mounted () {
