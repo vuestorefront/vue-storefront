@@ -57,9 +57,12 @@ export class SearchAdapter {
       },
       body: gqlQueryBody
     })
-      .then(resp => {
-        return resp.json()
-      })
+    .then(resp => {
+      return resp.json()
+    })
+    .catch(function(error) {
+      throw new Error('FetchError in request to ES: ' + JSON.stringify(error))
+    })
   }
 
   /**
