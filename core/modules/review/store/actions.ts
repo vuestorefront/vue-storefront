@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { ActionTree } from 'vuex'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
@@ -12,6 +12,7 @@ import Review from '@vue-storefront/core/modules/review/types/Review'
 import { ReviewRequest } from '@vue-storefront/core/modules/review/types/ReviewRequest'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
+import { processURLAddress } from '@vue-storefront/core/helpers'
 
 const actions: ActionTree<ReviewState, RootState> = {
   /**
@@ -55,7 +56,7 @@ const actions: ActionTree<ReviewState, RootState> = {
   async add (context, reviewData: Review) {
     const review: ReviewRequest = {review: reviewData}
 
-    Vue.prototype.$bus.$emit('notification-progress-start', i18n.t('Adding a review ...'))
+    EventBus.$emit('notification-progress-start', i18n.t('Adding a review ...'))
 
     let url = config.reviews.create_endpoint
 
@@ -64,7 +65,7 @@ const actions: ActionTree<ReviewState, RootState> = {
     }
 
     try {
-      await fetch(url, {
+      await fetch(processURLAddress(url), {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain, */*',
@@ -72,15 +73,15 @@ const actions: ActionTree<ReviewState, RootState> = {
         },
         body: JSON.stringify(review)
       })
-      Vue.prototype.$bus.$emit('notification-progress-stop')
+      EventBus.$emit('notification-progress-stop')
       rootStore.dispatch('notification/spawnNotification', {
         type: 'success',
         message: i18n.t('You submitted your review for moderation.'),
         action1: { label: i18n.t('OK') }
       })
-      Vue.prototype.$bus.$emit('clear-add-review-form')
+      EventBus.$emit('clear-add-review-form')
     } catch (e) {
-      Vue.prototype.$bus.$emit('notification-progress-stop')
+      EventBus.$emit('notification-progress-stop')
       rootStore.dispatch('notification/spawnNotification', {
         type: 'error',
         message: i18n.t('Something went wrong. Try again in a few seconds.'),

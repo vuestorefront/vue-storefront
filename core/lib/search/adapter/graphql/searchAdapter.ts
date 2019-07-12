@@ -61,7 +61,7 @@ export class SearchAdapter {
       return resp.json()
     })
     .catch(error => {
-      throw new Error('FetchError in request to ES: ' + JSON.stringify(error))
+      throw new Error('FetchError in request to ES: ' + error.toString())
     })
   }
 

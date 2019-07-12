@@ -1,6 +1,8 @@
 <template>
   <div class="row p25 between-xs">
-    <img class="blend" v-lazy="thumbnail">
+    <div class="blend">
+      <product-image :image="image" />
+    </div>
     <div class="col-xs">
       <div class="row">
         <div class="col-xs-12 col-md-9 pb15">
@@ -45,9 +47,9 @@
             <span v-if="!product.totals.discount_amount" class="h4">{{ product.totals.row_total_incl_tax | price }}</span>
           </div>
           <div v-else>
-            <span class="h4 cl-error" v-if="product.special_price">{{ product.priceInclTax * product.qty | price }} </span>
-            <span class="price-original h5" v-if="product.special_price">{{ product.originalPriceInclTax * product.qty | price }}</span>
-            <span v-if="!product.special_price" class="h4">{{ product.priceInclTax * product.qty | price }}</span>
+            <span class="h4 cl-error" v-if="product.special_price">{{ product.price_incl_tax * product.qty | price }} </span>
+            <span class="price-original h5" v-if="product.special_price">{{ product.original_price_incl_tax * product.qty | price }}</span>
+            <span v-if="!product.special_price" class="h4">{{ product.price_incl_tax * product.qty | price }}</span>
           </div>
         </div>
       </div>
@@ -58,14 +60,24 @@
 <script>
 import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
 import { onlineHelper } from '@vue-storefront/core/helpers'
+import ProductImage from 'theme/components/core/ProductImage'
 
 export default {
   computed: {
     isOnline () {
       return onlineHelper.isOnline
+    },
+    image () {
+      return {
+        loading: this.thumbnail,
+        src: this.thumbnail
+      }
     }
   },
-  mixins: [Product]
+  mixins: [Product],
+  components: {
+    ProductImage
+  }
 }
 </script>
 
@@ -74,6 +86,6 @@ export default {
   text-decoration: line-through;
 }
 .blend {
-  mix-blend-mode: multiply;
+  flex: 0 0 121px;
 }
 </style>
