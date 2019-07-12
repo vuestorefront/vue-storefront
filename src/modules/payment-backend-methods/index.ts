@@ -15,9 +15,8 @@ const PaymentBackendMethodsStore = {
   }
 }
 
-const KEY = 'payment-backend-methods'
 export const PaymentBackendMethodsModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
-  store.registerModule(KEY, PaymentBackendMethodsStore)
+  store.registerModule('payment-backend-methods', PaymentBackendMethodsStore)
 
   let correctPaymentMethod = false
 

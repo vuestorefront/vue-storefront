@@ -8,8 +8,7 @@ const ampRendererStore = {
   }
 }
 
-const KEY = 'amp-renderer'
 export const AmpRendererModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
-  store.registerModule(KEY, ampRendererStore)
+  store.registerModule('amp-renderer', ampRendererStore)
   router.addRoutes(moduleRoutes)
 }

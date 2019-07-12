@@ -13,7 +13,6 @@ const googleTagManagerStore = {
   }
 }
 
-const KEY = 'google-tag-manager'
 export const GoogleTagManagerModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
   if (appConfig.googleTagManager.id && !isServer) {
     Vue.use(VueGtm, {
@@ -26,7 +25,7 @@ export const GoogleTagManagerModule: StorefrontModule = function (app, store, ro
     Logger.warn('Google Tag Manager extensions is not working. Ensure Google Tag Manager container ID is defined in config', 'GTM')()
   }
 
-  store.registerModule(KEY, googleTagManagerStore)
+  store.registerModule('google-tag-manager', googleTagManagerStore)
 
   // TODO: needs refactoring, property 'gtm' does not exist on type VueConstructor<Vue>
   // if (appConfig.googleTagManager.id && !isServer) {

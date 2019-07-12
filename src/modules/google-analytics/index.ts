@@ -11,7 +11,6 @@ const googleAnalyticsStore = {
   }
 }
 
-const KEY = 'google-analytics'
 export const GoogleAnalyticsModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
   if (appConfig.analytics.id && !isServer) {
     once('__VUE_EXTEND_ANALYTICS__', () => {
@@ -30,7 +29,7 @@ export const GoogleAnalyticsModule: StorefrontModule = function (app, store, rou
     )()
   }
 
-  store.registerModule(KEY, googleAnalyticsStore)
+  store.registerModule('google-analytics', googleAnalyticsStore)
 
   if (appConfig.analytics.id && !isServer) {
     Vue.prototype.$bus.$on('order-after-placed', event => {
