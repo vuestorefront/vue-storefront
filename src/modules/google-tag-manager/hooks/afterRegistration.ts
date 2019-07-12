@@ -1,12 +1,12 @@
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
-export function afterRegistration (Vue, config, store, isServer) {
+export function afterRegistration ({ Vue, config, store, isServer }) {
   if (config.googleTagManager.id && !isServer) {
     const storeView = currentStoreView()
     const currencyCode = storeView.i18n.currencyCode
 
     const getProduct = (item) => {
-      const { name, id, sku, priceInclTax: price, category, qty: quantity } = item
+      const { name, id, sku, price_incl_tax: price, category, qty: quantity } = item
       let product = {
         name,
         id,
@@ -70,23 +70,25 @@ export function afterRegistration (Vue, config, store, isServer) {
           { refresh: true, useCache: false }
         ).then(() => {
           const orderHistory = state.user.orders_history
-          const order = orderHistory.items.find((order) => order['entity_id'].toString() === orderId)
-          if (order) {
-            Vue.gtm.trackEvent({
-              'ecommerce': {
-                'purchase': {
-                  'actionField': {
-                    'id': orderId,
-                    'affiliation': order.store_name,
-                    'revenue': order.total_due,
-                    'tax': order.tax_amount,
-                    'shipping': order.shipping_amount,
-                    'coupon': ''
-                  },
-                  'products': products
+          if (orderHistory) {
+            const order = orderHistory.items.find((order) => order['entity_id'].toString() === orderId)
+            if (order) {
+              Vue.gtm.trackEvent({
+                'ecommerce': {
+                  'purchase': {
+                    'actionField': {
+                      'id': orderId,
+                      'affiliation': order.store_name,
+                      'revenue': order.total_due,
+                      'tax': order.tax_amount,
+                      'shipping': order.shipping_amount,
+                      'coupon': ''
+                    },
+                    'products': products
+                  }
                 }
-              }
-            })
+              })
+            }
           }
         })
       }

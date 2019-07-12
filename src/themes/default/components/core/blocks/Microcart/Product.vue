@@ -1,9 +1,7 @@
 <template>
   <li class="row flex-nowrap py10">
-    <div>
-      <div class="ml10 bg-cl-secondary">
-        <product-image :image="image" />
-      </div>
+    <div class="blend bg-cl-secondary">
+      <product-image :image="image" />
     </div>
     <div class="col-xs flex pl35 py15 start-xs between-sm details">
       <div>
@@ -49,13 +47,13 @@
     <div class="flex py15 mr10 align-right start-xs between-sm actions">
       <div class="prices" v-if="!displayItemDiscounts || !isOnline">
         <span class="h4 serif cl-error price-special" v-if="product.special_price">
-          {{ product.priceInclTax * product.qty | price }}&nbsp;
+          {{ product.price_incl_tax * product.qty | price }}&nbsp;
         </span>
         <span class="h6 serif price-original" v-if="product.special_price">
-          {{ product.originalPriceInclTax * product.qty | price }}
+          {{ product.original_price_incl_tax * product.qty | price }}
         </span>
         <span class="h4 serif price-regular" v-else data-testid="productPrice">
-          {{ (product.originalPriceInclTax ? product.originalPriceInclTax : product.priceInclTax) * product.qty | price }}
+          {{ (product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax) * product.qty | price }}
         </span>
       </div>
       <div class="prices" v-else-if="isOnline && product.totals">
@@ -124,13 +122,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .image {
-    mix-blend-mode: multiply;
-    vertical-align: top;
-    width: 150px;
-    @media (max-width: 767px) {
-      width: 100px;
-    }
+  .blend {
+    flex: 0 0 150px;
   }
 
   .details {

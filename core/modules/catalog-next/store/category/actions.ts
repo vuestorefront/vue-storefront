@@ -25,7 +25,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     const {items, perPage, start, total} = await quickSearchByQuery({ query: filterQr, sort: searchQuery.sort })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
     let configuredProducts = items.map(product => {
-      const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: searchQuery.filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
+      const configuredProductVariant = configureProductAsync({rootState}, {product, configuration: searchQuery.filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
       return Object.assign(product, configuredProductVariant)
     })
     commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
