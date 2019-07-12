@@ -81,7 +81,7 @@ export class SearchAdapter {
       body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
     })
     .then(resp => { return resp.json() })
-    .catch(function(error) {
+    .catch(error => {
       throw new Error('FetchError in request to ES: ' + JSON.stringify(error))
     })
   }
