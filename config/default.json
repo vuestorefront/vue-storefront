@@ -367,7 +367,6 @@
       "baseUrl": "https://demo.vuestorefront.io/img/",
       "useSpecificImagePaths": true,
       "paths": {
-        "media": "",
         "product": "/catalog/product"
       },
       "productPlaceholder": "/assets/placeholder.jpg"

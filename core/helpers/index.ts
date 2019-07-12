@@ -33,11 +33,9 @@ export function getThumbnailPath (relativeUrl: string, width: number = 0, height
   if (config.images.useExactUrlsNoProxy) {
     return relativeUrl // this is exact url mode
   } else {
-    if (config.images.hasOwnProperty('useSpecificImagePaths') && config.images.useSpecificImagePaths) {
-      if (!Object.keys(config.images.paths).includes(pathType)) {
-        pathType = 'product'
-      }
-      relativeUrl = config.images.paths[pathType] + relativeUrl
+    if (config.images.useSpecificImagePaths) {
+      const path =  (!Object.keys(config.images.paths).includes(pathType)) ? '' : config.images.paths[pathType]
+      relativeUrl = path + relativeUrl
     }
 
     let resultUrl

@@ -1,4 +1,4 @@
-import { getThumbnailPath as _thumbnailHelper } from '@vue-storefront/core/helpers'
+import { getThumbnailPath } from '@vue-storefront/core/helpers'
 
 export const thumbnail = {
   methods: {
@@ -9,7 +9,7 @@ export const thumbnail = {
      * @param {number} height
      * @param {string} pathType
      */
-    getThumbnail: (relativeUrl, width, height, pathType) => _thumbnailHelper(relativeUrl, width, height, pathType),
+    getThumbnail: (relativeUrl, width, height, pathType) => getThumbnailPath(relativeUrl, width, height, pathType),
 
     /**
      * Return thumbnail URL for specific base url using media path
@@ -17,6 +17,6 @@ export const thumbnail = {
      * @param {number} width
      * @param {number} height
      */
-    getMediaThumbnail: (relativeUrl, width, height) => _thumbnailHelper(relativeUrl, width, height, 'media')
+    getMediaThumbnail: (relativeUrl, width, height) => getThumbnailPath(relativeUrl, width, height, 'media')
   }
 }

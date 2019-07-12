@@ -551,7 +551,6 @@ The `stock` section configures how the Vue Storefront behaves when the product i
   "useExactUrlsNoProxy": false,
   "useSpecificImagePaths": false,
   "paths": {
-    "media": "",
     "product": "/catalog/product"
   }
 },
