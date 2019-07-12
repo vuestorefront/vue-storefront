@@ -16,8 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)
 - Fixed naming strategy for product prices - `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; old names have been kept as @deprecated - @pkarw (#2918)
-- The `final_price` field is now being used for setting the `special_price` or `price` of the product (depending on the 
-value); `final_price` might been used along with `special_price` with Magento for the products with activated catalog pricing rules - @pkarw (#3099)
+- The `final_price` field is now being used for setting the `special_price` or `price` of the product (depending on the value); `final_price` might been used along with `special_price` with Magento for the products with activated catalog pricing rules - @pkarw (#3099)
 - Resolve problem with getting CMS block from cache - @qiqqq (#2499)
 - Make image proxy url work with relative base url - @cewald (#3158)
 - Fixed memory leak with enabled dynamicConfigReload - @dimasch (#3075)
@@ -32,6 +31,7 @@ value); `final_price` might been used along with `special_price` with Magento fo
 - Decreased the `localStorage` quota usage + error handling by introducing new config variables: `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`); `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway); `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW) - @pkarw (#3180)
 - Translation file improvements - @vishal-7037 (#3198)
 - Added configuration for max attempt task & cart by pass - @cnviradiya (#3193)
+- Added catching of errors when ES is down - @qiqqq
 
 ## [1.10.0-rc.2] - UNRELEASED
 
