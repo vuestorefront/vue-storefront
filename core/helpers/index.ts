@@ -31,9 +31,10 @@ export function slugify (text) {
  * @param relativeUrl
  * @param width
  * @param height
+ * @param type
  * @returns {*}
  */
-export function getThumbnailPath (relativeUrl, width, height) {
+export function getThumbnailPath (relativeUrl, width, height, type = 'product') {
   if (config.images.useExactUrlsNoProxy) {
     return relativeUrl // this is exact url mode
   } else {
@@ -43,11 +44,12 @@ export function getThumbnailPath (relativeUrl, width, height) {
     let baseUrl = processURLAddress(config.images.proxyUrl ? config.images.proxyUrl : config.images.baseUrl)
     if (baseUrl.indexOf('{{') >= 0) {
       baseUrl = baseUrl.replace('{{url}}', relativeUrl)
+      baseUrl = baseUrl.replace('{{type}}', type)
       baseUrl = baseUrl.replace('{{width}}', width)
       baseUrl = baseUrl.replace('{{height}}', height)
       resultUrl = baseUrl
     } else {
-      resultUrl = `${baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}`
+      resultUrl = `${baseUrl}${type}/${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}`
     }
     return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? resultUrl : config.images.productPlaceholder || ''
   }

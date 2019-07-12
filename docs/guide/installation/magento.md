@@ -116,7 +116,7 @@ As you should have the products and categories already synchronized, you may wan
 ```json
 "magento2": {
     "url": "http://your-magento-url.com",
-    "imgUrl": "http://your-magento-url.com/media/catalog/product",
+    "imgUrl": "http://your-magento-url.com/media/catalog",
     "assetPath": "/../var/magento2-sample-data/pub/media",
     "api": {
       "url": "http://your-magento-url.com/rest/",
