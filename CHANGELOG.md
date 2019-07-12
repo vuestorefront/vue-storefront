@@ -64,6 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multiple instances for searchAdapter invocations - @bratok (#2960)
 - Fixed issue with login popup state not resetting on mobile devices - @aniamusial (#2699)
 - Fix sortBy for the category page - @Jensderond (#2868)
+- Fix catching errors when ES is down - @qiqqq
 
 ### Changed / Improved
 - The action `cart/userAfterLoggedin` got renamed to `cart/authorize` - @pkarw (#2522)
