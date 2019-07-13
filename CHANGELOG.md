@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Make image proxy url work with relative base url - @cewald (#3158)
 - Fixed memory leak with enabled dynamicConfigReload - @dimasch (#3075)
 - Fixed error for the orderhistory null for google-tag-manager extension - @cnviradiya (#3195)
+- Fixed swatches not rendering properly at product detail page issue - @vishal-7037 (#3206)
 - Fixed label of configurable options in cart after product just added - @cheeerd (#3164)
 
 ### Changed / Improved
