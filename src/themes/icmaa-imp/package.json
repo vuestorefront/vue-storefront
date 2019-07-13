@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "bodybuilder": "2.2.13",
+    "tailwindcss": "^1.0.5",
     "vue": "^2.6.6",
     "vue-carousel": "^0.6.9",
     "vue-no-ssr": "^0.2.2",
@@ -19,8 +20,5 @@
     "vue-scrollto": "^2.15.0",
     "vuelidate": "^0.6.2",
     "vuex": "^3.0.1"
-  },
-  "devDependencies": {
-    "tailwindcss": "^0.7.3"
   }
 }

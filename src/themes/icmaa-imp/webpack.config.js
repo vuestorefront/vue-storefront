@@ -1,8 +1,8 @@
-const path = require('path');
+const path = require('path')
 
 /**
  * You can extend default webpack build here.
- * @see https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20webpack.md
+ * @see https://docs.vuestorefront.io/guide/core-themes/webpack.html
 */
 module.exports = function (config, { isClient, isDev }) {
   /**
@@ -17,54 +17,37 @@ module.exports = function (config, { isClient, isDev }) {
 
   /**
    * Inject postcss plugin for Tailwind.css to original webpack config.
+   * Change the postcssConfig of the postcss-loader and add our loader plugin.
    *
    * You could also just change the following constant
-   * of the original file "core/build/webpack.base.config.ts" like:
-   *
-   * const postcssConfig = {
-   *   loader: 'postcss-loader',
-   *   options: {
-   *     ident: 'postcss',
-   *     plugins: (loader) => [
-   *       require('postcss-flexbugs-fixes'),
-   *       require('tailwindcss')(path.join(themeRoot, 'tailwind.js')),
-   *       require('autoprefixer')({
-   *         flexbox: 'no-2009'
-   *       })
-   *     ]
-   *   }
-   * };
+   * of the original file "core/build/webpack.base.config.ts"
    */
-  const rewriteMapping = rule => {
-    if (rule.hasOwnProperty('use')) {
-      rule.use = rule.use.map(item => {
-        if (typeof item === 'object' &&
-          item.hasOwnProperty('loader') &&
-          item.loader === 'postcss-loader' &&
-          item.hasOwnProperty('options')
-        ) {
-          const plugins = (typeof item.options.plugins === 'function') ? item.options.plugins() : item.options.plugins
-          if (typeof plugins === 'object') {
-            plugins.unshift(
-              require('tailwindcss')(path.join(__dirname, 'tailwind.js'))
-            )
+  const postcssConfig = {
+    loader: 'postcss-loader',
+    options: {
+      ident: 'postcss',
+      plugins: (loader) => [
+        require('tailwindcss')(path.join(__dirname, 'tailwind.js')),
+        require('postcss-flexbugs-fixes'),
+        require('autoprefixer')({
+          flexbox: 'no-2009'
+        })
+      ]
+    }
+  };
 
-            item.options.plugins = plugins
-          }
-        }
-
-        return item
-      })
+  const rewriteMapping = (rule) => {
+    if (/(css|scss|sass)/.exec(rule.test)) {
+      rule.use = rule.use.map(
+        plugin => (plugin.loader && plugin.loader === 'postcss-loader') ? postcssConfig : plugin
+      )
     }
 
     return rule
   }
 
-  if (isDev) {
-    config.default.module.rules = config.default.module.rules.map(rewriteMapping)
-  } else {
-    config.module.rules = config.module.rules.map(rewriteMapping)
-  }
+  let rules = (isDev) ? config.default.module.rules : config.module.rules
+  rules.map(rewriteMapping)
 
   return config
 }
