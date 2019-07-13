@@ -39,7 +39,7 @@ export function getThumbnailPath (relativeUrl: string, width: number = 0, height
     return relativeUrl // this is exact url mode
   } else {
     if (config.images.useSpecificImagePaths) {
-      const path =  (!Object.keys(config.images.paths).includes(pathType)) ? '' : config.images.paths[pathType]
+      const path = config.images.paths[pathType] !== undefined ? config.images.paths[pathType] : ''
       relativeUrl = path + relativeUrl
     }
 
