@@ -5,5 +5,5 @@ module.exports = function () {
   console.log(' --version               CLI version\n')
   console.log('Commands:')
   console.log(' init [dir]              setup new VS project')
-  console.log(' generate-module [name]  generate vs module boilerplate')
+  console.log(' init-module [name]      generate vs module boilerplate')
 }

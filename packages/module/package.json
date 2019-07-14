@@ -1,7 +1,7 @@
 {
   "name": "@vue-storefront/module",
   "sideEffects": "false",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "Vue Storefront modules source",
   "main": "index.js",
   "typings": "index.d.ts",
@@ -13,7 +13,8 @@
   },
   "files": [
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "tools"
   ],
   "author": "Filip Rakowski (@filrak)",
   "license": "MIT",

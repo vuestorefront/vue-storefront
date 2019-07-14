@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/main.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --config node_modules/@vue-storefront/module/tools/module-build.config.js",
     "prePublishOnly": "yarn build"
   },
   "keywords": ["vue-storefront"],
@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "@vue-storefront/module": "^0.0.6",
+    "@vue-storefront/module": "^0.0.8",
     "@vue-storefront/core": "^1.11.0-rc.1",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.2",
@@ -21,6 +21,6 @@
   },
   "peerDependencies": {
     "@vue-storefront/core": "^1.11.0-rc.1",
-    "@vue-storefront/module": "^0.0.6"
+    "@vue-storefront/module": "^0.0.8"
   }
 }
