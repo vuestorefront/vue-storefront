@@ -6,7 +6,7 @@ switch (command) {
   case 'init':
     require('./scripts/install.js')(process.argv[3])
     break;
-  case 'init-module':
+  case 'init:module':
     require('./scripts/generateModule.js')(process.argv[3])
     break;
   case '--help':

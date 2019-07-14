@@ -1,7 +1,7 @@
 {
   "name": "@vue-storefront/module",
   "sideEffects": "false",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Vue Storefront modules source",
   "main": "index.js",
   "typings": "index.d.ts",
