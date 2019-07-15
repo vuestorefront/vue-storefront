@@ -180,11 +180,7 @@ export function initializeSyncTaskStorage () {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
 
-  StorageManager.set('syncTaskCollection', new UniversalStorage(localForage.createInstance({
-    name: dbNamePrefix + 'shop',
-    storeName: 'syncTasks',
-    driver: localForage[config.localForage.defaultDrivers['syncTasks']]
-  })))
+  StorageManager.init('syncTasks')
 }
 
 export function registerSyncTaskProcessor () {
@@ -192,7 +188,7 @@ export function registerSyncTaskProcessor () {
   EventBus.$on('sync/PROCESS_QUEUE', async data => {
     if (onlineHelper.isOnline) {
       // event.data.config - configuration, endpoints etc
-      const syncTaskCollection = StorageManager.get('syncTaskCollection')
+      const syncTaskCollection = StorageManager.get('syncTasks')
       const currentUserToken = rootStore.getters['user/getUserToken']
       const currentCartToken = rootStore.getters['cart/getCartToken']
 

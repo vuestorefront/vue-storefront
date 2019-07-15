@@ -41,19 +41,19 @@ const actions: ActionTree<CheckoutState, RootState> = {
     commit(types.CHECKOUT_SAVE_PAYMENT_DETAILS, paymentDetails)
   },
   load ({ commit }) {
-    StorageManager.get('checkoutFieldsCollection').getItem('personal-details', (err, details) => {
+    StorageManager.get('checkout').getItem('personal-details', (err, details) => {
       if (err) throw new Error(err)
       if (details) {
         commit(types.CHECKOUT_LOAD_PERSONAL_DETAILS, details)
       }
     })
-    StorageManager.get('checkoutFieldsCollection').getItem('shipping-details', (err, details) => {
+    StorageManager.get('checkout').getItem('shipping-details', (err, details) => {
       if (err) throw new Error(err)
       if (details) {
         commit(types.CHECKOUT_LOAD_SHIPPING_DETAILS, details)
       }
     })
-    StorageManager.get('checkoutFieldsCollection').getItem('payment-details', (err, details) => {
+    StorageManager.get('checkout').getItem('payment-details', (err, details) => {
       if (err) throw new Error(err)
       if (details) {
         commit(types.CHECKOUT_LOAD_PAYMENT_DETAILS, details)

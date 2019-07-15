@@ -241,11 +241,11 @@ const actions: ActionTree<CartState, RootState> = {
       let paymentMethod = rootGetters['payment/paymentMethods'].find(item => item.default)
       commit(types.CART_UPD_PAYMENT, paymentMethod)
     }
-    const storedItems = await StorageManager.get('cartsCollection').getItem('current-cart')
+    const storedItems = await StorageManager.get('cart').getItem('current-cart')
     commit(types.CART_LOAD_CART, storedItems)
     if (config.cart.synchronize) {
-      const token = await StorageManager.get('cartsCollection').getItem('current-cart-token')
-      const hash = await StorageManager.get('cartsCollection').getItem('current-cart-hash')
+      const token = await StorageManager.get('cart').getItem('current-cart-token')
+      const hash = await StorageManager.get('cart').getItem('current-cart-hash')
       if (hash) {
         commit(types.CART_SET_ITEMS_HASH, hash)
         Logger.info('Cart hash received from cache.', 'cache', hash)()

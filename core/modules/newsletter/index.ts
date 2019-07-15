@@ -1,8 +1,9 @@
 import { newsletterStore } from './store'
 import { StorefrontModule } from '@vue-storefront/module';
-import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
-export const cacheStorage = initCacheStorage('newsletter')
+export const cacheStorage = StorageManager.init('newsletter')
+
 export const NewsletterModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
   store.registerModule('newsletter', newsletterStore)
 }

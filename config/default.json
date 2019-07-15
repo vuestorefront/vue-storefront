@@ -347,7 +347,7 @@
         "claims": "LOCALSTORAGE",
         "syncTasks": "LOCALSTORAGE",
         "ordersHistory": "LOCALSTORAGE",
-        "checkoutFieldValues": "LOCALSTORAGE"
+        "checkout": "LOCALSTORAGE"
       }
     },
     "reviews": {

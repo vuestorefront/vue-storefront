@@ -518,7 +518,7 @@ Starting with Vue Storefront v1.6, we changed the default order-placing behavior
     "syncTasks": "INDEXEDDB",
     "newsletterPreferences": "INDEXEDDB",
     "ordersHistory": "INDEXEDDB",
-    "checkoutFieldValues": "LOCALSTORAGE"
+    "checkout": "LOCALSTORAGE"
   }
 },
 ```

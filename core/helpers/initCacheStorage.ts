@@ -4,7 +4,8 @@ import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 
-function _prepareCachestorage (key, localised = true) {
+/** create Universal Storage instance  */
+export function prepareCacheStorage (key, localised = true, storageQuota = 0) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
   const cacheDriver = config.localForage && config.localForage.defaultDrivers[key]
@@ -15,18 +16,20 @@ function _prepareCachestorage (key, localised = true) {
     name: localised ? `${dbNamePrefix}shop` : 'shop',
     storeName: key,
     driver: localForage[cacheDriver]
-  }))
+  }), true, storageQuota)
 }
 
-/** Inits cache storage for given module. By default via local storage */
+/** @deprecated, to be removed in 2.0 in favor to `StorageManager`
+ * Inits cache storage for given module. By default via local storage 
+ * */
 export function initCacheStorage (key, localised = true, registerStorgeManager = true) {
   if (registerStorgeManager) {
     if (!StorageManager.exists(key)) {
-      return StorageManager.set(key, _prepareCachestorage(key, localised))
+      return StorageManager.set(key, prepareCacheStorage(key, localised))
     } else {
       return StorageManager.get(key)
     }
   } else {
-    return _prepareCachestorage(key, localised)
+    return prepareCacheStorage(key, localised)
   }
 }
