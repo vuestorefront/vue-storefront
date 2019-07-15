@@ -25,7 +25,7 @@
             class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary"
           >
             <router-link
-              class="block px25 py20 cl-accent no-underline"
+              class="t-block t-px-8 t-py-4 t-test-lg cl-accent no-underline"
               :to="localizedRoute(link.route)"
             >
               {{ link.name }}
@@ -37,7 +37,7 @@
             class="bg-cl-secondary"
           >
             <router-link
-              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
+              class="brdr-bottom-1 brdr-cl-secondary t-block t-px-8 t-py-4 t-no-underline t-text-base"
               :to="localizedRoute('/service')"
               exact
             >
@@ -50,7 +50,7 @@
             class="bg-cl-secondary"
           >
             <router-link
-              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
+              class="brdr-bottom-1 brdr-cl-secondary t-block t-px-8 t-py-4 t-no-underline t-text-base"
               :to="localizedRoute('/compare')"
               exact
             >
@@ -64,7 +64,7 @@
             <sub-btn
               v-if="currentUser"
               :name="$t('My account')"
-              class="bg-cl-transparent brdr-none fs-medium-small"
+              class="bg-cl-transparent brdr-none"
             />
             <sub-category
               v-if="currentUser"
@@ -76,7 +76,7 @@
               v-if="!currentUser && isCurrentMenuShowed"
               href="#"
               @click.prevent="closeMenu"
-              class="block w-100 px25 py20 cl-accent no-underline fs-medium-small"
+              class="t-block t-px-8 t-py-4 t-no-underline t-text-base"
             >
               {{ $t('My account') }}
             </a>
