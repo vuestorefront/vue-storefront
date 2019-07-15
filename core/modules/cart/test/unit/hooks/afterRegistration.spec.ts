@@ -9,9 +9,12 @@ Vue.use(Vuex);
 
 jest.mock('../../../helpers/cartCacheHandler', () => ({ cartCacheHandlerFactory: jest.fn() }));
 
-Vue.prototype.$db = {
+const StorageManager = {
   cartsCollection: {
     setItem: jest.fn()
+  },
+  get: (key) => {
+    return this[key]
   }
 };
 

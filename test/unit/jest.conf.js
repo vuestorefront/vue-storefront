@@ -1,3 +1,5 @@
+const config = require('config')
+
 module.exports = {
   rootDir: '../../',
   moduleFileExtensions: [
@@ -7,8 +9,9 @@ module.exports = {
     'vue'
   ],
   testMatch: [
-    '<rootDir>/src/**/test/unit/**/*.spec.(js|ts)',
-    '<rootDir>/core/**/test/unit/**/*.spec.(js|ts)',
+    '<rootDir>/src/modules/**/test/unit/**/*.spec.(js|ts)',
+    `<rootDir>/node_modules/${config.theme}/**/*.spec.(js|ts)`,
+    '<rootDir>/core/**/test/unit/**/*.spec.(js|ts)'
   ],
   transform: {
     '^.+\\.js$': '<rootDir>/node_modules/babel-jest',
@@ -23,6 +26,11 @@ module.exports = {
     '!src/**/types/*.{js,ts}',
     '!core/**/types/*.{js,ts}'
   ],
+  moduleNameMapper: {
+    '^src(.*)$': '<rootDir>/src$1',
+    '^theme(.*)$': `<rootDir>/node_modules/${config.theme}$1`,
+    '^.+\\.(css|less)$': '<rootDir>/test/unit/cssStub.js'
+  },
   transformIgnorePatterns: [
     '<rootDir>/node_modules/(?!lodash)'
   ],

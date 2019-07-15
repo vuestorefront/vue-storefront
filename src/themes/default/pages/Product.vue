@@ -38,26 +38,26 @@
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
+              <meta itemprop="price" :content="parseFloat(product.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="product.url_path">
               <div class="mb40 price serif" v-if="product.type_id !== 'grouped'">
                 <div
                   class="h3 cl-secondary"
-                  v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
+                  v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax"
                 >
                   <span
                     class="h2 cl-mine-shaft weight-700"
-                  >{{ product.priceInclTax * product.qty | price }}</span>&nbsp;
+                  >{{ product.price_incl_tax * product.qty | price }}</span>&nbsp;
                   <span
                     class="price-original h3"
-                  >{{ product.originalPriceInclTax * product.qty | price }}</span>
+                  >{{ product.original_price_incl_tax * product.qty | price }}</span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
-                  v-if="!product.special_price && product.priceInclTax"
+                  v-if="!product.special_price && product.price_incl_tax"
                 >
-                  {{ product.qty > 0 ? product.priceInclTax * product.qty : product.priceInclTax | price }}
+                  {{ product.qty > 0 ? product.price_incl_tax * product.qty : product.price_incl_tax | price }}
                 </div>
               </div>
               <div class="cl-primary variants" v-if="product.type_id =='configurable' && !loading">
@@ -67,11 +67,7 @@
                 >
                   {{ product.errors | formatProductMessages }}
                 </div>
-                <div
-                  class="h5"
-                  v-for="option in getProductOptions"
-                  :key="option.id"
-                >
+                <div class="h5" v-for="option in getProductOptions" :key="option.id">
                   <div class="variants-label" data-testid="variantsLabel">
                     {{ option.label }}
                     <span
@@ -221,7 +217,7 @@ import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue
 import ProductGallery from 'theme/components/core/ProductGallery'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
-import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
+import WebShare from 'theme/components/theme/WebShare'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
@@ -262,7 +258,11 @@ export default {
       }
     },
     getProductOptions () {
-      if (this.product.errors && Object.keys(this.product.errors).length && Object.keys(this.configuration).length) {
+      if (
+        this.product.errors &&
+        Object.keys(this.product.errors).length &&
+        Object.keys(this.configuration).length
+      ) {
         return []
       }
       return this.product.configurable_options
@@ -273,9 +273,16 @@ export default {
       if (this.product && this.product.configurable_options) {
         this.product.configurable_options.forEach(configurableOption => {
           const type = configurableOption.attribute_code
-          const filterVariants = configurableOption.values.map(({value_index, label}) => {
-            return {id: value_index, label, type}
-          })
+          const filterVariants = configurableOption.values.map(
+            ({ value_index, label }) => {
+              let currentVariant = this.options[type].find(
+                config => config.id === value_index
+              )
+              label =
+                label || (currentVariant ? currentVariant.label : value_index)
+              return { id: value_index, label, type }
+            }
+          )
           filtersMap[type] = filterVariants
         })
       }
@@ -321,7 +328,10 @@ export default {
       })
     },
     changeFilter (variant) {
-      this.$bus.$emit('filter-changed-product', Object.assign({attribute_code: variant.type}, variant))
+      this.$bus.$emit(
+        'filter-changed-product',
+        Object.assign({ attribute_code: variant.type }, variant)
+      )
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')

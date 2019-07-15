@@ -45,7 +45,7 @@ Here's an example of `en-US.csv` for `en-US` locale:
 "Vue Storefront Logo", "Vue Storefront Logo"
 ```
 
-when you create the `en-US.csv` file within your `src/themes/{themename}/resource/i18n/` folder and override some messages like:
+When you create the `en-US.csv` file within your `src/themes/{themename}/resource/i18n/` folder and override some messages like:
 
 ```csv
 "customMessage","You can define or override translation messages here."
