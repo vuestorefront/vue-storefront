@@ -743,10 +743,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     <td align="center" valign="middle"> 
-<a href="">
+<a href="https://www.ambientia.ee/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/Ambientia%20logo%20RED%20RGB.png"
+            alt="Ambientia"
             height="40"
           >
         </a>
