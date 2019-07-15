@@ -2,6 +2,8 @@ import { mapGetters } from 'vuex'
 import BlockStateItem from '../types/BlockState'
 import { stringToComponent } from '../helpers'
 
+import { isServer } from '@vue-storefront/core/helpers';
+
 export default {
   name: 'IcmaaCmsBlock',
   props: {
@@ -11,8 +13,15 @@ export default {
       required: true
     }
   },
+  async serverPrefetch () {
+    await this.fetchContent()
+  },
   async created () {
-    await this.$store.dispatch('icmaaCmsBlock/single', { value: this.identifier })
+    if (isServer) {
+      return
+    }
+
+    await this.fetchContent()
   },
   computed: {
     ...mapGetters({
@@ -25,7 +34,12 @@ export default {
       return this.blockByIdentifier(this.identifier)
     },
     content (): object {
-      return stringToComponent(this.page.content)
+      return stringToComponent(this.block.content)
+    }
+  },
+  methods: {
+    async fetchContent () {
+      await this.$store.dispatch('icmaaCmsBlock/single', { value: this.identifier })
     }
   }
 }

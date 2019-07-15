@@ -80,18 +80,14 @@ export const single = async <T>(options: OptionsInterface): Promise<T> => {
     })
   } else {
     return new Promise((resolve, reject) => {
-      if (state.items.length > 0) {
-        let result = state.items.find(itm => itm[key] === value)
-        if (result) {
-          cache.setItem(cacheKey, result)
-            .catch(error => Logger.error(error, 'icmaa-cms'))
+      let result = state.items.find(itm => itm[key] === value)
+      if (result) {
+        cache.setItem(cacheKey, result)
+          .catch(error => Logger.error(error, 'icmaa-cms'))
 
-          resolve(result)
-        } else {
-          reject(new Error('Error while fetching state for ' + key + ' = ' + value))
-        }
+        resolve(result)
       } else {
-        resolve()
+        reject(new Error('Error while fetching state for ' + key + ' = ' + value))
       }
     })
   }
