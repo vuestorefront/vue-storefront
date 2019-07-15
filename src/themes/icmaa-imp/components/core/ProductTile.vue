@@ -9,13 +9,14 @@
       data-testid="productLink"
     >
       <div
-        class="product-image relative"
+        class="product-cover bg-cl-secondary"
         :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
       >
         <product-image
-          class="product-image__content"
+          class="product-cover__thumb"
           :image="thumbnailObj"
           :alt="product.name | htmlDecode"
+          :calc-ratio="false"
           data-testid="productImage"
         />
       </div>
@@ -26,23 +27,23 @@
 
       <span
         class="price-original mr5 lh30 cl-secondary"
-        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0 && !onlyImage"
+        v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0 && !onlyImage"
       >
-        {{ product.originalPriceInclTax | price }}
+        {{ product.original_price_incl_tax | price }}
       </span>
 
       <span
         class="price-special lh30 cl-accent weight-700"
         v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
       >
-        {{ product.priceInclTax | price }}
+        {{ product.price_incl_tax | price }}
       </span>
 
       <span
         class="lh30 cl-secondary"
-        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0 && !onlyImage"
+        v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
       >
-        {{ product.priceInclTax | price }}
+        {{ product.price_incl_tax | price }}
       </span>
     </router-link>
   </div>
@@ -116,6 +117,7 @@ export default {
 @import '~theme/css/variables/colors';
 @import '~theme/css/helpers/functions/color';
 
+$bg-secondary: color(secondary, $colors-background);
 $border-secondary: color(secondary, $colors-border);
 $color-white: color(white);
 
@@ -144,22 +146,22 @@ $color-white: color(white);
   font-size: 12px;
 }
 
-.product-image{
+.product-cover{
   overflow: hidden;
-  width:100%;
-  height: 100%;
   max-height: 300px;
-
-  &__content{
-    padding-bottom: calc(300% / (257 / 100));
-    @media (min-width: 768px) {
-      padding-bottom: calc(208% / (168 / 100));
+  &__thumb{
+    padding-bottom: calc(143.88% / (164.5 / 100));
+    @media screen and (min-width: 768px){
+      padding-bottom: calc(300% / (276.5 / 100));
     }
-    @media (min-width: 1200px) {
-      padding-bottom: calc(300% / (276 / 100));
+    will-change: transform;
+    transition: .3s transform $motion-main;
+  }
+  &:hover{
+    .product-cover__thumb{
+      transform: scale(1.1);
     }
   }
-
   &.sale{
     &::after {
       @extend %label;

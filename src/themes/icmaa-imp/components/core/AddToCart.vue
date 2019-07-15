@@ -17,11 +17,14 @@ export default {
   methods: {
     onAfterRemovedVariant () {
       this.$forceUpdate()
+    },
+    notifyUser (notificationData) {
+      this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
     }
   },
   computed: {
     isProductDisabled () {
-      return this.disabled || formatProductMessages(this.product.errors) !== ''
+      return this.disabled || formatProductMessages(this.product.errors) !== '' || this.isAddingToCart
     }
   },
   beforeMount () {

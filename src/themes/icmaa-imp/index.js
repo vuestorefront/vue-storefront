@@ -8,6 +8,12 @@ import '@vue-storefront/core/lib/passive-listeners'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { once } from '@vue-storefront/core/helpers'
 
+import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
+import { claimsStore } from 'theme/store/claims'
+import { homepageStore } from 'theme/store/homepage'
+import { uiStore } from 'theme/store/ui'
+import { promotedStore } from 'theme/store/promoted-offers'
+
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(VueProgressBar)
   Vue.use(VueScrollTo, { offset: -55 })
@@ -21,6 +27,12 @@ function initTheme (app, router, store, config, ssrContext) {
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   setupMultistoreRoutes(config, router, routes)
   RouterManager.addRoutes(routes, router)
+
+  initCacheStorage('claimCollection');
+  store.registerModule('claims', claimsStore);
+  store.registerModule('homepage', homepageStore);
+  store.registerModule('ui', uiStore);
+  store.registerModule('promoted', promotedStore);
 }
 
 export {

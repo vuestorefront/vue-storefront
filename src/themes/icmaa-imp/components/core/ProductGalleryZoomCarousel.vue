@@ -2,9 +2,8 @@
   <div class="media-zoom-carousel">
     <div class="media-zoom-carousel__container row flex">
       <ul class="media-zoom-carousel__thumbs m0 p0">
-        <li class="media-zoom-carousel__thumb" v-for="(images, index) in gallery" :key="images.src">
+        <li class="media-zoom-carousel__thumb bg-cl-secondary" v-for="(images, index) in gallery" :key="images.src">
           <product-image
-            :class="{'thumb-video': images.video}"
             @click="navigate(index)"
             :image="images"
             :alt="productName | htmlDecode"
@@ -29,12 +28,11 @@
             v-for="(images, index) in gallery"
             :key="images.src"
           >
-            <div class="media-zoom-carousel__slide"
+            <div class="media-zoom-carousel__slide bg-cl-secondary"
                  :class="{'video-container h-100 flex relative': images.video}"
             >
               <product-image
                 v-show="hideImageAtIndex !== index"
-                :class="{'image--video': images.video}"
                 :image="images"
                 :alt="productName | htmlDecode"
               />
@@ -191,12 +189,6 @@ export default {
   &__slide{
     height: 100%;
     max-height: 100%;
-    & > .image {
-      padding-bottom: calc(710% / (600 / 100));
-    }
-    .image--video{
-      padding-bottom: calc(319% / (568 / 100));
-    }
   }
 }
 .thumb-video{
