@@ -927,7 +927,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   }
 },
 ```
-hmm
+`elasticsearch` ...
 
 ```json
 "ssr": {
