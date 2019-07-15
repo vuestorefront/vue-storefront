@@ -63,7 +63,7 @@
 "Reviews","Reviews"
 "Review","Review"
 "Add review","Add review"
-"Summary","Summary",
+"Summary","Summary"
 "login","login"
 "to account","to account"
 "Are you sure you would like to remove this item from the shopping cart?","Are you sure you would like to remove this item from the shopping cart?"
@@ -74,3 +74,5 @@
 "Quantity must be above 0","Quantity must be above 0"
 "Error: Error while adding products","Error: Error while adding products"
 "Unexpected authorization error. Check your Network conection.","Unexpected authorization error. Check your Network conection."
+"Columns","Columns"
+"You are going to pay for this order upon delivery.","You are going to pay for this order upon delivery."

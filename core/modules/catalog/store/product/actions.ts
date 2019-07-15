@@ -27,6 +27,8 @@ import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import toString from 'lodash-es/toString'
 import config from 'config'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -123,7 +125,7 @@ const actions: ActionTree<ProductState, RootState> = {
     let subloaders = []
     if (product.type_id === 'grouped') {
       product.price = 0
-      product.priceInclTax = 0
+      product.price_incl_tax = 0
       Logger.debug(product.name + ' SETUP ASSOCIATED', product.type_id)()
       if (product.product_links && product.product_links.length > 0) {
         for (let pl of product.product_links) {
@@ -139,7 +141,7 @@ const actions: ActionTree<ProductState, RootState> = {
                 pl.product = asocProd
                 pl.product.qty = 1
                 product.price += pl.product.price
-                product.priceInclTax += pl.product.priceInclTax
+                product.price_incl_tax += pl.product.price_incl_tax
                 product.tax += pl.product.tax
               } else {
                 Logger.error('Product link not found', pl.linked_product_sku)()
@@ -153,7 +155,7 @@ const actions: ActionTree<ProductState, RootState> = {
     }
     if (product.type_id === 'bundle') {
       product.price = 0
-      product.priceInclTax = 0
+      product.price_incl_tax = 0
       Logger.debug(product.name + ' SETUP ASSOCIATED', product.type_id)()
       if (product.bundle_options && product.bundle_options.length > 0) {
         for (let bo of product.bundle_options) {
@@ -173,7 +175,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
                 if (pl.id === defaultOption.id) {
                   product.price += pl.product.price * pl.product.qty
-                  product.priceInclTax += pl.product.priceInclTax * pl.product.qty
+                  product.price_incl_tax += pl.product.price_incl_tax * pl.product.qty
                   product.tax += pl.product.tax * pl.product.qty
                 }
               } else {
@@ -324,7 +326,7 @@ const actions: ActionTree<ProductState, RootState> = {
       }
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
-        const cache = Vue.prototype.$db.elasticCacheCollection
+        const cache = StorageManager.get('elasticCacheCollection')
         for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
           if (prod.configurable_children) {
             for (let configurableChild of prod.configurable_children) {
@@ -340,9 +342,15 @@ const actions: ActionTree<ProductState, RootState> = {
           }
           const cacheKey = entityKeyName(cacheByKey, prod[(cacheByKey === 'sku' && prod['parentSku']) ? 'parentSku' : cacheByKey]) // to avoid caching products by configurable_children.sku
           if (isCacheable) { // store cache only for full loads
-            cache.setItem(cacheKey, prod)
+            cache.setItem(cacheKey, prod, null, config.products.disablePersistentProductsCache)
               .catch((err) => {
                 Logger.error('Cannot store cache for ' + cacheKey, err)()
+                if (
+                  err.name === 'QuotaExceededError' ||
+                  err.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+                ) { // quota exceeded error
+                  cache.clear() // clear products cache if quota exceeded
+                }
               })
           }
           if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !isServer) {
@@ -353,7 +361,7 @@ const actions: ActionTree<ProductState, RootState> = {
         if (updateState) {
           context.commit(types.CATALOG_UPD_PRODUCTS, { products: resp, append: append })
         }
-        Vue.prototype.$bus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
+        EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
         return resp
       })
     })
@@ -371,7 +379,7 @@ const actions: ActionTree<ProductState, RootState> = {
         skipCache: true
       })
       .then(() => { context.dispatch('setCurrent', product) })
-      .then(() => { Vue.prototype.$bus.$emit('product-after-setup-associated') })
+      .then(() => { EventBus.$emit('product-after-setup-associated') })
   },
 
   /**
@@ -400,7 +408,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
-      const cache = Vue.prototype.$db.elasticCacheCollection
+      const cache = StorageManager.get('elasticCacheCollection')
 
       const setupProduct = (prod) => {
         // set product quantity to 1
@@ -444,7 +452,7 @@ const actions: ActionTree<ProductState, RootState> = {
           if (res && res.items && res.items.length) {
             let prd = res.items[0]
             const _returnProductNoCacheHelper = (subresults) => {
-              Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
+              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
               resolve(setupProduct(prd))
             }
             if (setCurrentProduct || selectDefaultVariant) {
@@ -480,15 +488,15 @@ const actions: ActionTree<ProductState, RootState> = {
               const cachedProduct = setupProduct(res)
               if (config.products.alwaysSyncPlatformPricesOver) {
                 doPlatformPricesSync([cachedProduct]).then((products) => {
-                  Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
+                  EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
                   resolve(products[0])
                 })
                 if (!config.products.waitForPlatformSync) {
-                  Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+                  EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
                   resolve(cachedProduct)
                 }
               } else {
-                Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+                EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
                 resolve(cachedProduct)
               }
             }
@@ -685,11 +693,11 @@ const actions: ActionTree<ProductState, RootState> = {
       context.state.productLoadPromise = new Promise((resolve, reject) => {
         context.state.productLoadStart = Date.now()
         Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
-        Vue.prototype.$bus.$emit('product-before-load', { store: rootStore, route: route })
+        EventBus.$emit('product-before-load', { store: rootStore, route: route })
         context.dispatch('reset').then(() => {
           context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
             Promise.all(subpromises).then(subresults => {
-              Vue.prototype.$bus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
+              EventBus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
                 context.state.productLoadStart = null
                 return resolve()
               }).catch((err) => {

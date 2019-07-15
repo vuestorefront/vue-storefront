@@ -1,6 +1,6 @@
 # Configuration file explained
 
-VThe Vue Storefront application uses the [node-config](https://github.com/lorenwest/node-config) npm module to manage configuration files. Configuration is stored in the `/config` directory within two JSON files:
+The Vue Storefront application uses the [node-config](https://github.com/lorenwest/node-config) npm module to manage configuration files. Configuration is stored in the `/config` directory within two JSON files:
 
 - `default.json` is a configuration file provided along with the core Vue Storefront code and updated with any new release of Vue Storefront. It contains the default values only and therefore it shouldn't be modified within your specific Vue Storefront instance.
 
@@ -66,11 +66,11 @@ This is an optional GraphQL endpoint. We're now supporting graphQL for the [cata
 },
 ```
 
-Vue Storefront uses the Elasticsearch Query Language to query for data. However, here you're putting the Vue Storefront API `/api/catalog`  endpoint, which is a kind of Elasticsearch Proxy (dealing with the taxes, security itd.).
+Vue Storefront uses the Elasticsearch Query Language to query for data. However, here you're putting the Vue Storefront API `/api/catalog`  endpoint, which is a kind of Elasticsearch Proxy (dealing with the taxes, security etc.).
 
 If your `vue-storefront-api` instance is running on the `localhost`, port `8080` then the correct elasticsearch endpoint is as presented here.
 
-Starting from Vue Storefront v1.6, user may set the: `config.elasticsearch.queryMethod` o either "POST" (default) / "GET". When "GET" is set, the Elasticsearch Query object is passed to vue-storefront-api as a request parameter named "request". By doing so, Service Worker will now be able to cache the results from Elasticsearch. Service Workers cannot cache any POST requests currently.
+Starting from Vue Storefront v1.6, user may set `config.elasticsearch.queryMethod` either "POST" (default) or "GET". When "GET" is set, the Elasticsearch Query object is passed to vue-storefront-api as a request parameter named "request". By doing so, Service Worker will now be able to cache the results from Elasticsearch. Service Workers cannot cache any POST requests currently.
 
 :::tip Notice
 Service Worker is not caching the /api requests on development envs. (localhost) as the vue-storefront-api by default runs on a different port (8080).
@@ -93,6 +93,21 @@ The SSR data is being completed in the `asyncData` static method. If this config
 
 If it's set to `false`, then **just the** `src/themes/default/pages/Product.vue` -> `asyncData` will be executed.
 This option is referenced in the [core/client-entry.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) line: 85.
+
+## Max attempt of tasks
+
+```json
+"queues": {
+  "maxNetworkTaskAttempts": 1,
+  "maxCartBypassAttempts": 1
+},
+```
+
+This both option is used when you don't want re-attempting task of just X number time attempt task.
+
+`maxNetworkTaskAttempts` config variable is referenced in the [core/lib/sync/task.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/sync/task.ts) and It's reattempt if user token is invalid.
+
+`maxCartBypassAttempts`  config variable is referenced in the [core/modules/cart/store/actions.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/cart/store/actions.ts)
 
 ## Default store code
 
@@ -194,6 +209,13 @@ The `defaultCountry` and the `defaultRegion` settings are being used for finding
 
 The internationalization settings are used by the translation engine (`defautlLocale`) and the [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) (`fullCountryName`, `fullLanguageName`). `currencyCode` is used for some of the API calls (rendering prices, mostly) and `currencySign` is being used for displaying the prices in the frontend.
 
+
+```json
+   "extend": "de"
+```
+
+You can inherit settings from other storeview of your choice. Result config will be deep merged with chosen storeview by storecode set in `extend` property prioritizing current storeview values.
+
 ## Entities
 
 ```json
@@ -232,11 +254,11 @@ Please take a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-
   },
   "productList": {
     "sort": "",
-    "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_key", "status" ],
+    "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "url_key", "status" ],
     "excludeFields": [ "configurable_children", "description", "configurable_options", "sgn" ]
   },
   "productListWithChildren": {
-    "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "product_links", "url_key", "status"],
+    "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "original_price_incl_tax", "original_price", "special_price_incl_t_ax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "product_links", "url_key", "status"],
     "excludeFields": [ "description", "sgn"]
   },
   "product": {

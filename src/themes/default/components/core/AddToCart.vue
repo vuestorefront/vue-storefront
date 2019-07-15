@@ -17,6 +17,9 @@ export default {
   methods: {
     onAfterRemovedVariant () {
       this.$forceUpdate()
+    },
+    notifyUser (notificationData) {
+      this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
     }
   },
   computed: {

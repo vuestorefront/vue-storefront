@@ -46,7 +46,7 @@ export default {
   },
   beforeMount () {
     this.$store.dispatch('checkout/setModifiedAt', Date.now())
-    // TO-DO: Use one event with name as apram
+    // TO-DO: Use one event with name as param
     this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
     this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
@@ -71,7 +71,7 @@ export default {
           for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
             if (product.onlineStockCheckid) {
               checkPromises.push(new Promise((resolve, reject) => {
-                Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
+                StorageManager.get('syncTaskCollection').getItem(product.onlineStockCheckid, (err, item) => {
                   if (err || !item) {
                     if (err) Logger.error(err)()
                     resolve(null)
@@ -261,7 +261,7 @@ export default {
     prepareOrder () {
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
-        cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
+        cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {
           billingAddress: {
@@ -337,7 +337,7 @@ export default {
   metaInfo () {
     return {
       title: this.$route.meta.title || i18n.t('Checkout'),
-      meta: this.$route.meta.description ? [{ vmid: 'description', description: this.$route.meta.description }] : []
+      meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }] : []
     }
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data

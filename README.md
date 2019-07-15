@@ -20,7 +20,6 @@ If you're new and need some guidance feel free to visit out [forum](https://foru
 - `@Filip Rakowski` (frontend, architecture and best practices related stuff)
 - `@pkarw` (integrations and backend related stuff)
 - `@ptomczyk` (frontend related stuff)
-- `@Bartek Igielski`(frontend and magento-specific related stuff)
 
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
@@ -264,15 +263,6 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/about us/LOGO.png"
             alt="Divante"
-            width="150"
-          >
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://snow.dog">
-          <img
-            src="docs/.vuepress/public/partners/snowdog.png"
-            alt="Snow.dog"
             width="150"
           >
         </a>
@@ -704,6 +694,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/zero-1_logo.png"
             alt="Zero1"
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="https://www.novusweb.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/blue_novusweb.png"
+            alt="Novusweb"
+            height="30"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="www.trellis.co">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/trellis.png"
+            alt="Trellis"
+            height="30"
+          >
+        </a>
+</td>
+    </tr>
+      <tr>
+      <td align="center" valign="middle"> 
+<a href="https://ittweb.net/it?utm_source=referral&utm_medium=vsf&utm_campaign=partners">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/ITTweb.png"
+            alt="ITT Web"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="https://www.yireo.com/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/yireo-logo-trans-520x520.png"
+            alt="Yireo"
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle"> 
+<a href="https://www.tam-tam.co.jp">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/tam%20logo.png"
+            alt="TAM"
             height="40"
           >
         </a>

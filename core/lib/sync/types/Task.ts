@@ -9,5 +9,6 @@ export default interface Task {
   task_id: number,
   transmited: boolean,
   transmited_at: Date,
-  url: string
+  url: string,
+  is_result_cacheable?: boolean
 }
