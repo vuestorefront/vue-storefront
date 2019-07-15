@@ -1,12 +1,10 @@
-import { Cart } from '../../index'
+import { CartModule } from '../../index'
 
 jest.mock('../../store', () => ({}));
-jest.mock('@vue-storefront/core/lib/module', () => ({ createModule: jest.fn(() => ({ module: 'cart' })) }));
-jest.mock('../../hooks/beforeRegistration', () => jest.fn());
-jest.mock('../../hooks/afterRegistration', () => jest.fn());
+jest.mock('@vue-storefront/module', () => ({ createModule: jest.fn(() => ({ module: 'cart' })) }));
 
 describe('Cart Module', () => {
   it('can be initialized', () => {
-    expect(Cart).toBeTruthy()
+    expect(CartModule).toBeTruthy()
   })
 });
