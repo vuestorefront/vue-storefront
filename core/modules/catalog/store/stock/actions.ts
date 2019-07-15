@@ -56,7 +56,7 @@ const actions: ActionTree<StockState, RootState> = {
    */
   async check (context, { product, qty = 1 }) {
     if (config.stock.synchronize) {
-      const task: any = TaskQueue.execute({
+      const task: any = await TaskQueue.execute({
         url: processURLAddress(
           `${config.stock.endpoint}/check?sku=${encodeURIComponent(
             product.sku

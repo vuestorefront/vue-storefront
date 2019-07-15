@@ -351,7 +351,6 @@ export default {
         .dispatch('stock/check', {
           product: this.product,
           qty: this.product.qte
-          // qty: record ? record.qty + 1 : product.qty ? product.qty : 1
         })
         .then(res => (this.quantity = res.qty))
     }
