@@ -25,7 +25,7 @@ Luckily, we already have been through all this for you, got our hands dirty. All
 
 - You need [`git`](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-18-04) installed.
 
-:::tip Note
+:::tip NOTE
 We will walk you with docker on *Linux*. (Specifically *Ubuntu 18.04* if needed)
 
 There is only one bias for Docker before using it; *Run it on Linux*. Docker is native Linux, was created using a Linux technology, LXC (linux container) in the first place. Even though there were many attempts made to make it available to other platforms as it does on Linux, and it has definitely been on a progress, however, using Docker on Linux is the solidest way to deal with the technology. 
@@ -46,7 +46,7 @@ cp config/default.json config/local.json
 ```
 Then edit `local.json` to your need. 
 We will look into this in greater detail at [Chef's secret](#_4-chef-s-secret-protip)
-:::tip Tip
+:::tip TIP
 This step can be skipped if you are OK with values of `default.json` since it follows the [files load order](https://github.com/lorenwest/node-config/wiki/Configuration-Files#file-load-order) of [node-config](https://github.com/lorenwest/node-config)
 
 :::
@@ -100,7 +100,7 @@ warning eslint > file-entry-cache > flat-cache > circular-json@0.3.3: CircularJS
 ```
 :vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/7XT5CWP4ynrPItattiP3on6wS)
 
-:::tip Tip
+:::tip TIP
 `-f` flag allows you to use the following docker-compose file. Without this flag, it will use the default file that is `docker-compose.yml`
 
 `-d` flag allows you to run the command in `detach mode` which means *running background*.
@@ -247,7 +247,7 @@ services:
 volumes:
   esdat1:
 ```
-:::tip Note 
+:::tip NOTE 
 Once a term explained, it will be ignored thereafter for consecutive occurrence.
 :::
 `version` denotes which version of `docker-compose` this file uses.  
@@ -265,6 +265,7 @@ Once a term explained, it will be ignored thereafter for consecutive occurrence.
 - `volumes` mean volumes shared, `:ro` creates the volume in `read-only` mode for the container. 
 
 `redis` contains information of *Redis* cache application container. 
+
 - `image` node contains the name of image this container is based on. 
 
 `volumes` in top level can be used as a reference to be used across multiple services(containers). 
@@ -352,12 +353,12 @@ If you take a closer look inside `Dockerfile`s, you will notice they install all
 Next, you might want to import your goods data. Please jump to [Data imports](./data-import.md) if you don't want to stop. 
 
 ### 4. Chef's secret (protip)
-#### Secret 1. Study in `local.json`
+#### Secret 1. Study in `local.json` for *Vue Storefront API*
 Starting point of customization is `default.json` or its copy `local.json` where the platform seeks configuration values. 
-:::tip Note
+:::tip NOTE
 If you want to modify `default.json`, don't edit it directly but copy the whole file into `local.json` and start editing it in that file. Why it should be done that way is explained later at [Secret 3. Why use node-config?](#secret-3-why-use-node-config)
 :::
-We have 2 `local.json` files, one of which is for backend, the other for frontend. 
+We have 2 `local.json` files, one of which is for backend here, and we will look at [Secret 2](#secret-2-study-in-local-json-for-vue-storefront), the other for frontend . 
 
 At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-storefront-api/blob/master/config/default.json) for **backend** : 
 ```json
@@ -412,11 +413,11 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
   - `host`, `port`, `protocol` defines `elasticsearch` connect information. 
 - `user`, `password` is default credentials of `elasticsearch`. If you changed the credentials of `elasticsearch`, please change this accordingly. [more info](https://www.elastic.co/guide/en/x-pack/current/security-getting-started.html)
   - `min_score` sets a `min_score` when building a query for `elasticsearch`. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/graphql/elasticsearch/queryBuilder.js#L172)
-    :::tip Tip
+    :::tip TIP
     `min_score` helps you exclude documents with `_score` less than `min_score` value. 
     :::
   - `indices` may contain one or multiple indexes. Each index acts as a data store for a storefront. You may add entries to the array with arbitrary names or remove entries from it. 
-    :::warning Caution !
+    :::warning CAUTION !
      However, the index name should match the one you will use for [data pump](data-import.md#_2-2-recipe-b-using-on-premise). 
      :::
   The default values for `indices` assume you have 2 additional stores(`de`, `it`) plus the default store.  
@@ -560,7 +561,7 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
 - `tax`
   - `alwaysSyncPlatformPricesOver`  [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/order.js#L49)
   - `usePlatformTotals` 
-  (~~These two options are used to determine whether to fetch prices from data source on the fly or not.~~ **need confirm**)
+  These two options are used to determine whether to fetch prices from data source on the fly or not. If you set `alwaysSyncPlatformPricesOver` true, then it skips checking the checksum for cart items based on price.  
   
 ```json
   "bodyLimit": "100kb",
@@ -656,19 +657,19 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
   
   - `imgUrl` is base image url. [jump to code](https://github.com/kkdg/vue-storefront-api/blob/master/src/api/img.js#L38)
     
-  - `assetPath` is used for the `media` path [jump to code](https://github.com/kkdg/vue-storefront-api/blob/master/src/index.js#L22)
+  - `assetPath` is used for the `media` path. [jump to code](https://github.com/kkdg/vue-storefront-api/blob/master/src/index.js#L22)
   
   - `api` contains API credentials for integration.
   
     - `url` is base url for Magento 2 instance.
-    - `consumerKey` See **Tip**
+    - `consumerKey` See **TIP**
     - `consumerSecret`
     - `accessToken`
     - `accessTokenSecret`
   
     
   
-    :::tip Tip
+    :::tip TIP
   
     These 4 nodes above is the required credentials for integration with Magento 2. [how to get them](data-import.html#_2-2-recipe-b-using-on-premise)
   
@@ -711,13 +712,13 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
     
     - `allowedHosts` contains the array of white-list
     
-    :::warning Don't forget
+    :::warning DON'T FORGET
     
     You should include your source domain in `allowedHosts` or your request for product images will fail. [more info](data-import.html#secret-1-product-image-is-not-synced)
     
     :::
     
-    :::tip Note
+    :::tip NOTE
     
     From `cache` to `simd` they are used to configure [Sharp](https://github.com/lovell/sharp) library. *Sharp* is a popular library for image processing in *Node.js*. [jump to option docs](https://sharp.dimens.io/en/stable/api-utility/#cache) 
     
@@ -793,6 +794,8 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
 <br />
 <br />
 
+#### Secret 2. Study in `local.json` for *Vue Storefront*
+
 At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-storefront/blob/master/config/default.json) for **frontend** : 
 
 ```json
@@ -814,6 +817,47 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "elasticCacheQuota": 4096
 },
 ```
+
+- `server` contains information of various features related to *frontend* server.
+  
+  - `host` is the host address in which your *Vue Storefront* instance starts at. 
+  
+  - `port`  is the port number in which your *Vue Storefront* instance listens to.  
+  
+  - `protocol`  is used for *GraphQL* integration. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/search/adapter/graphql/searchAdapter.ts#L48)
+  
+  - `api`  determines API mode between  `api`  and `graphql`. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/resolvers/resolveGraphQL.js#L7)
+  
+    :::tip TIP
+  
+    You may take a look at [*GraphQL Action Plan*](/guide/basics/graphql.html) guide to help yourself make a decision which mode you should take. 
+    :::
+  
+  - `devServiceWorker` enables *service worker* in `develop` mode. The *service worker* is normally enabled by default for `production` mode, but not for `develop` mode. Setting this flag *true* forces to use *service worker* in `develop` mode too. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/service-worker/registration.js#L5)
+    :::tip TIP
+  
+    You may take a look at [Working with Service Workers](/guide/core-themes/service-workers.html) for better understanding. 
+    ::: 
+  
+  - `useOutputCacheTagging` determines to allow *Output Cache Tags*. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L168)
+  
+  - `useOutputCache` determines to allow *Output Cache*. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L64)
+  
+  - `outputCacheDefaultTtl`  defines the default timeout for *Redis Tag Cache*. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/utils/cache-instance.js#L16)
+  
+  - `availableCacheTags`  contains a list of available cache tags. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/cache.js#L7)
+  
+  - `invalidateCacheKey`  is the key used for checking validity of invalidation. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L66)
+    :::tip TIP
+  
+    You may take a look at [SSR Cache](/guide/basics/ssr-cache.html) in order to grab the idea of *Output Cache* in *Vue Storefront*
+    :::
+  
+  - `dynamicConfigReload` enables to reload `config.json` on the fly with each server request.  [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L232)
+  - `dynamicConfigContinueOnError` allows to skip errors during configuration merge on the fly. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L240)
+  - `dynamicConfigExclude` 
+  - `dynamicConfigInclude`
+  - `elasticCacheQuota`
 
 
 ```json
@@ -837,6 +881,12 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "url": "http://localhost:8080"
 },
 ```
+
+- `seo`
+- `console`
+- `redis`
+- `graphql`
+- `api`
 
 ```json
 "elasticsearch": {
@@ -876,6 +926,10 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
     }
   }
 },
+```
+hmm
+
+```json
 "ssr": {
   "templates": {
     "default": "dist/index.html",
@@ -887,6 +941,10 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "initialStateFilter": ["__DEMO_MODE__", "version", "storeView"],
   "useInitialStateFilter": true
 },
+```
+- `ssr`
+
+```json
 "defaultStoreCode": "",
 "storeViews": {
   "multistore": false,
@@ -947,6 +1005,10 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
     }
   }
 },
+```
+- `defaultStoreCode`
+
+```json
 "entities": {
   "optimize": true,
   "twoStageCaching": true,
@@ -1257,10 +1319,10 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
 
 ```
 
-#### Secret 2. How to launch multiple instances
-#### Secret 3. Why use `node-config`?
-#### Secret 4. Using Docker on Mac
-#### Secret 5. Using Docker on Windows
+#### Secret 3. How to launch multiple instances
+#### Secret 4. Why use `node-config`?
+#### Secret 5. Using Docker on Mac
+#### Secret 6. Using Docker on Windows
 
 <br />
 <br />
