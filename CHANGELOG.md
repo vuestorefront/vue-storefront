@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
 - Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
 - Fixed aspect ratio in ProductImage component - @przspa (#3187)
-
+- Fixed eslint warning in Product Page, removed v-if from v-for node - @przspa (#3181)
 ### Changed
 - Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
 - Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
