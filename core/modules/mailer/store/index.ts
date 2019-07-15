@@ -3,7 +3,7 @@ import { Module } from 'vuex'
 import config from 'config'
 import { processURLAddress } from '@vue-storefront/core/helpers'
 
-export const module: Module<any, any> = {
+export const mailerStore: Module<any, any> = {
   namespaced: true,
   actions: {
     sendEmail (context, letter: MailItem) {
