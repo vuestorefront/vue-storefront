@@ -942,7 +942,9 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "useInitialStateFilter": true
 },
 ```
-- `ssr`
+- `ssr` 
+  - `templates`
+    - `default`
 
 ```json
 "defaultStoreCode": "",
