@@ -5,7 +5,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 const StorageManager = {
   currentStoreCode: '',
   storageMap: {},
-    /**
+  /**
    * Register the cache storage index that can be later accessed and modified - this is required prior to accessing the collection
    * @param collectionName name of the cache collection to create
    * @param isLocalized if set to `false` data will be shared between storeViews (default `true`)

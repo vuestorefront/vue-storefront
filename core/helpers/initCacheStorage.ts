@@ -20,7 +20,7 @@ export function prepareCacheStorage (key, localised = true, storageQuota = 0) {
 }
 
 /** @deprecated, to be removed in 2.0 in favor to `StorageManager`
- * Inits cache storage for given module. By default via local storage 
+ * Inits cache storage for given module. By default via local storage
  * */
 export function initCacheStorage (key, localised = true, registerStorgeManager = true) {
   if (registerStorgeManager) {
