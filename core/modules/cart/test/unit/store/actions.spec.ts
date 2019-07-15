@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 import * as types from '../../../store/mutation-types';
 import cartActions from '../../../store/actions';
 import config from 'config';
@@ -7,7 +5,6 @@ import rootStore from '@vue-storefront/core/store';
 import { sha3_224 } from 'js-sha3';
 import { TaskQueue } from '../../../../../lib/sync';
 import * as coreHelper from '@vue-storefront/core/helpers';
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { onlineHelper } from '@vue-storefront/core/helpers';
 
 jest.mock('@vue-storefront/core/store', () => ({
@@ -45,7 +42,7 @@ jest.mock('@vue-storefront/core/helpers', () => ({
   }
 }));
 
-Vue.prototype.$bus = {
+const EventBus = {
   $emit: jest.fn()
 };
 
@@ -57,6 +54,11 @@ describe('Cart actions', () => {
     jest.clearAllMocks();
     (rootStore as any).state = {};
     Object.keys(config).forEach((key) => { delete config[key]; });
+
+    config.queues = {
+      maxNetworkTaskAttempts: 1,
+      maxCartBypassAttempts: 1
+    }
   });
 
   it('disconnect clears cart token', () => {
@@ -70,15 +72,16 @@ describe('Cart actions', () => {
     expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART_SERVER_TOKEN, null);
   });
 
-  it('clear deletes all cart products and token', () => {
+  it('clear deletes all cart products and token', async () => {
     const contextMock = {
-      commit: jest.fn()
+      commit: jest.fn(),
+      getters: { isCartSyncEnabled: false }
     };
     const wrapper = (actions: any) => actions.clear(contextMock);
 
     config.cart = { synchronize: false };
 
-    wrapper(cartActions);
+    await wrapper(cartActions);
 
     expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART, []);
   });
@@ -87,7 +90,7 @@ describe('Cart actions', () => {
     const contextMock = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: { isCartSyncEnabled: () => true, isTotalsSyncRequired: () => true, isSyncRequired: () => true, isCartConnected: () => true }
+      getters: { isCartSyncEnabled: true, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true }
     };
 
     config.cart = { synchronize: true };
@@ -104,7 +107,7 @@ describe('Cart actions', () => {
     const contextMock = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: { isCartSyncEnabled: () => true, isTotalsSyncRequired: () => true, isSyncRequired: () => true, isCartConnected: () => true }
+      getters: { isCartSyncEnabled: true, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true }
     };
 
     config.cart = { synchronize: true };
@@ -121,8 +124,9 @@ describe('Cart actions', () => {
     it('doesn\'t update shipping methods if cart is empty', async () => {
       const contextMock = {
         rootGetters: { checkout: { isUserInCheckout: () => false } },
-        getters: { isCartSyncEnabled: () => true, isTotalsSyncRequired: () => true, isSyncRequired: () => true, isCartConnected: () => true },
+        getters: { isCartSyncEnabled: true, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true },
         dispatch: jest.fn(),
+        commit: jest.fn(),
         state: {
           cartItems: [],
           cartServerToken: 'some-token',
@@ -141,16 +145,14 @@ describe('Cart actions', () => {
 
       const expectedState = {
         cartItems: [],
-        cartItemsHash: 'new-hash',
-        cartServerPullAt: 1000003000
+        cartItemsHash: 'new-hash'
       };
 
       isServerSpy.mockReturnValueOnce(false);
-      Date.now = jest.fn(() => expectedState.cartServerPullAt);
       (sha3_224 as any).mockReturnValueOnce(expectedState.cartItemsHash);
       (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
-      const wrapper = (actions: any) => actions.serverPull(contextMock, {});
+      const wrapper = (actions: any) => actions.sync(contextMock, {});
 
       await wrapper(cartActions);
 
@@ -159,45 +161,14 @@ describe('Cart actions', () => {
         { country_id: 'us' }
       );
     });
-
-    it('does not do anything if synchronization is off', () => {
-      const contextMock = {
-        rootGetters: { checkout: { isUserInCheckout: () => false } },
-        getters: { isCartSyncEnabled: () => true, isTotalsSyncRequired: () => true, isSyncRequired: () => true, isCartConnected: () => true },
-        dispatch: jest.fn()
-      };
-
-      config.cart = { synchronize: false };
-
-      const wrapper = (actions: any) => actions.serverPull(contextMock, {});
-
-      wrapper(cartActions);
-
-      expect(TaskQueue.execute).not.toBeCalled();
-    });
-
-    it('does not do anything in SSR environment', () => {
-      const contextMock = {
-        rootGetters: { checkout: { isUserInCheckout: () => false } },
-        getters: { isCartSyncEnabled: () => true, isTotalsSyncRequired: () => true, isSyncRequired: () => true, isCartConnected: () => true },
-        dispatch: jest.fn()
-      };
-
-      config.cart = { synchronize: true };
-
-      const wrapper = (actions: any) => actions.serverPull(contextMock, {});
-
-      wrapper(cartActions);
-
-      expect(TaskQueue.execute).not.toBeCalled();
-    });
   });
 
   describe('syncTotals', () => {
     it('does not do anything if totals synchronization is off', () => {
       const contextMock = {
         rootGetters: { checkout: { isUserInCheckout: () => false } },
-        getters: { isCartSyncEnabled: () => false, isTotalsSyncEnabled: () => false, isTotalsSyncRequired: () => true, isSyncRequired: () => true, isCartConnected: () => true },
+        dispatch: jest.fn(),
+        getters: { isCartSyncEnabled: false, isTotalsSyncEnabled: false, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true },
         state: {
           cartServerToken: 'some-token'
         }
@@ -213,7 +184,13 @@ describe('Cart actions', () => {
     });
 
     it('does not do anything in SSR environment', () => {
-      const contextMock = {};
+      const contextMock = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: {
+          isTotalsSyncRequired: false
+        }
+      };
 
       config.cart = { synchronize_totals: true };
 
@@ -228,10 +205,12 @@ describe('Cart actions', () => {
   describe('connect', () => {
     it('requests to backend for creation of a new cart', async () => {
       const contextMock = {
+        getters: { isCartSyncEnabled: true, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true },
         state: {
           cartconnectdAt: 1000000000
         },
-        getters: { isCartSyncEnabled: () => true, isTotalsSyncRequired: () => true, isSyncRequired: () => true, isCartConnected: () => true }
+        commit: jest.fn(),
+        dispatch: jest.fn()
       };
 
       config.cart = { synchronize: true };
@@ -250,7 +229,7 @@ describe('Cart actions', () => {
     it('requests to backend for creation of guest cart', async () => {
       const contextMock = {
         rootGetters: { checkout: { isUserInCheckout: () => false } },
-        getters: { isCartSyncEnabled: () => true, isTotalsSyncRequired: () => true, isSyncRequired: () => true, isCartConnected: () => true },
+        getters: { isCartSyncEnabled: true, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true },
         state: {
           cartconnectdAt: 1000000000
         }
@@ -271,41 +250,12 @@ describe('Cart actions', () => {
       expect(TaskQueue.execute).toBeCalledWith(expect.objectContaining({ url: 'http://example.url/guest-cart/' }))
     });
 
-    it('does not do anything if last totals sync was done recently', () => {
+    it('does not do anything if totals synchronization is off', () => {
       const contextMock = {
-        state: {
-          cartconnectdAt: 1000000000
-        }
+        getters: { isCartSyncEnabled: false }
       };
 
-      config.cart = { synchronize: true };
-
-      isServerSpy.mockReturnValueOnce(false);
-      Date.now = jest.fn(() => 1000000050);
-
-      const wrapper = (actions: any) => actions.connect(contextMock, {});
-
-      wrapper(cartActions);
-
-      expect(TaskQueue.execute).not.toBeCalled();
-    });
-
-    it('does not do anything if totals synchronization is off', () => {
-      const contextMock = {};
-
       config.cart = { synchronize: false };
-
-      const wrapper = (actions: any) => actions.connect(contextMock, {});
-
-      wrapper(cartActions);
-
-      expect(TaskQueue.execute).not.toBeCalled();
-    });
-
-    it('does not do anything in SSR environment', () => {
-      const contextMock = {};
-
-      config.cart = { synchronize: true };
 
       const wrapper = (actions: any) => actions.connect(contextMock, {});
 

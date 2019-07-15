@@ -1,9 +1,9 @@
 // import { extendModule } from '@vue-storefront/core/lib/module'
 import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
-import { Catalog } from '@vue-storefront/core/modules/catalog'
+import { CatalogModule } from '@vue-storefront/core/modules/catalog'
 import CatalogNext from '@vue-storefront/core/modules/catalog-next'
-import { Cart } from '@vue-storefront/core/modules/cart'
-import { Checkout } from '@vue-storefront/core/modules/checkout'
+import { CartModule } from '@vue-storefront/core/modules/cart'
+import { CheckoutModule } from '@vue-storefront/core/modules/checkout'
 import { Compare } from '@vue-storefront/core/modules/compare'
 import { Review } from '@vue-storefront/core/modules/review'
 import { Mailer } from '@vue-storefront/core/modules/mailer'
@@ -12,10 +12,6 @@ import { Newsletter } from '@vue-storefront/core/modules/newsletter'
 import { Notification } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewed } from '@vue-storefront/core/modules/recently-viewed'
 import { Url } from '@vue-storefront/core/modules/url'
-import { Homepage } from './homepage'
-import { Claims } from './claims'
-import { PromotedOffers } from './promoted-offers'
-import { Ui } from './ui-store'
 // import { GoogleAnalytics } from './google-analytics';
 // import { Hotjar } from './hotjar';
 import { googleTagManager } from './google-tag-manager';
@@ -24,54 +20,29 @@ import { PaymentBackendMethods } from './payment-backend-methods';
 import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
 import { InstantCheckout } from './instant-checkout'
-import { OrderHistory } from './order-history'
 // ICMAA modules
 import './icmaa-url'
 import { IcmaaCms } from './icmaa-cms'
 import { IcmaaCategory } from './icmaa-category'
 
 // import { Example } from './module-template'
+import { registerModule } from '@vue-storefront/module'
+// TODO:distributed across proper pages BEFORE 1.11
+export function registerNewModules () {
+  registerModule(CatalogModule)
+  registerModule(CheckoutModule)
+  registerModule(CartModule)
+}
 
-// This is how you can extend any of VS modues
-// const extendCartVuex = {
-//   actions: {
-//     load () {
-//       Logger.info('New load function')()
-//     }
-//   }
-//  }
-
-//  const cartExtend = {
-//   key: 'cart',
-//   afterRegistration: function(isServer, config) {
-//     Logger.info('New afterRegistration hook')()
-//   },
-//   store: { modules: [{ key: 'cart', module: extendCartVuex }] },
-//  }
-
-//  extendModule(cartExtend)
-
-/**
- * Some of the modules are registered lazily only when components from the module are appearing on current page.
- * If you want to use this module in pages without its components you need to remember about registering module first
- * In VS 1.8 this modules will be seamlessly lazyLoaded after proper action dispatch
- * - Wishlist
- */
+// Deprecated API, will be removed in 2.0
 export const registerModules: VueStorefrontModule[] = [
-  Checkout,
-  Catalog,
-  Cart,
   Compare,
   Review,
   Mailer,
   Wishlist,
   Newsletter,
   Notification,
-  Ui,
   RecentlyViewed,
-  Homepage,
-  Claims,
-  PromotedOffers,
   googleTagManager,
   // GoogleAnalytics,
   // Hotjar,
@@ -82,8 +53,6 @@ export const registerModules: VueStorefrontModule[] = [
   InstantCheckout,
   Url,
   CatalogNext,
-  OrderHistory,
-  // Example
   // ICMAA Modules:
   IcmaaCms,
   IcmaaCategory

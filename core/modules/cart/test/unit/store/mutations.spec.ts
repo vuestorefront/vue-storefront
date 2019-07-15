@@ -1,14 +1,11 @@
-import Vue from 'vue'
 import * as types from '../../../store/mutation-types'
 import cartMutations from '../../../store/mutations'
-
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: (str) => jest.fn()
 }))
 
-Vue.prototype.$bus = {
-  $emit: jest.fn()
-}
+EventBus.$emit = jest.fn()
 
 jest.mock('@vue-storefront/core/store', () => ({
   state: {
@@ -42,7 +39,7 @@ describe('Cart mutations', () => {
 
       wrapper(cartMutations)
 
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-before-add', { product })
+      expect(EventBus.$emit).toBeCalledWith('cart-before-add', { product })
       expect(stateMock).toEqual(expectedState)
     })
 
@@ -65,7 +62,7 @@ describe('Cart mutations', () => {
 
       wrapper(cartMutations)
 
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-before-add', { product: { ...product, qty: 1 } })
+      expect(EventBus.$emit).toBeCalledWith('cart-before-add', { product: { ...product, qty: 1 } })
       expect(stateMock).toEqual(expectedState)
     })
 
@@ -148,13 +145,13 @@ describe('Cart mutations', () => {
 
       wrapper(cartMutations)
 
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-before-delete', {
+      expect(EventBus.$emit).toBeCalledWith('cart-before-delete', {
         items: [{
           qty: 10,
           sku: 'foo'
         }]
       })
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-delete', {items: expectedState.cartItems})
+      expect(EventBus.$emit).toBeCalledWith('cart-after-delete', {items: expectedState.cartItems})
       expect(stateMock).toEqual(expectedState)
     })
 
@@ -179,13 +176,13 @@ describe('Cart mutations', () => {
 
       wrapper(cartMutations)
 
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-before-delete', {
+      expect(EventBus.$emit).toBeCalledWith('cart-before-delete', {
         items: [{
           qty: 10,
           sku: 'foo'
         }]
       })
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-delete', {items: expectedState.cartItems})
+      expect(EventBus.$emit).toBeCalledWith('cart-after-delete', {items: expectedState.cartItems})
       expect(stateMock).toEqual(expectedState)
     })
   })
@@ -211,13 +208,13 @@ describe('Cart mutations', () => {
       )
       wrapper(cartMutations)
 
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-before-delete', {
+      expect(EventBus.$emit).toBeCalledWith('cart-before-delete', {
         items: [{
           qty: 10,
           sku: 'foo'
         }]
       })
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-delete', {items: expectedState.cartItems})
+      expect(EventBus.$emit).toBeCalledWith('cart-after-delete', {items: expectedState.cartItems})
       expect(stateMock).toEqual(expectedState)
     })
 
@@ -242,13 +239,13 @@ describe('Cart mutations', () => {
 
       wrapper(cartMutations)
 
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-before-delete', {
+      expect(EventBus.$emit).toBeCalledWith('cart-before-delete', {
         items: [{
           qty: 10,
           sku: 'foo'
         }]
       })
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-delete', {items: expectedState.cartItems})
+      expect(EventBus.$emit).toBeCalledWith('cart-after-delete', {items: expectedState.cartItems})
       expect(stateMock).toEqual(expectedState)
     })
 
@@ -281,8 +278,8 @@ describe('Cart mutations', () => {
 
       wrapper(cartMutations)
 
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-before-delete', {items: stateMock.cartItems})
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-delete', {items: expectedState.cartItems})
+      expect(EventBus.$emit).toBeCalledWith('cart-before-delete', {items: stateMock.cartItems})
+      expect(EventBus.$emit).toBeCalledWith('cart-after-delete', {items: expectedState.cartItems})
       expect(stateMock).toEqual(expectedState)
     })
   })
@@ -316,8 +313,8 @@ describe('Cart mutations', () => {
 
       // unfortunately before and after events return a reference to the same object, therefore
       // after performing this mutation after event return same object with same, updated value as before event
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-before-update', { product: expectedState.cartItems[0] })
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-update', { product: expectedState.cartItems[0] })
+      expect(EventBus.$emit).toBeCalledWith('cart-before-update', { product: expectedState.cartItems[0] })
+      expect(EventBus.$emit).toBeCalledWith('cart-after-update', { product: expectedState.cartItems[0] })
       expect(stateMock).toEqual(expectedState)
     })
 
@@ -341,7 +338,7 @@ describe('Cart mutations', () => {
 
       wrapper(cartMutations)
 
-      expect(Vue.prototype.$bus.$emit).not.toBeCalled()
+      expect(EventBus.$emit).not.toBeCalled()
       expect(stateMock).toEqual(expectedState)
     })
   })
@@ -374,14 +371,14 @@ describe('Cart mutations', () => {
       )
       let firstEmitCall = []
 
-      Vue.prototype.$bus.$emit.mockImplementationOnce((eventName, args) => {
+      EventBus.$emit.mockImplementationOnce((eventName, args) => {
         firstEmitCall.push(eventName)
         firstEmitCall.push(args)
       })
       wrapper(cartMutations)
 
       expect(firstEmitCall).toEqual(['cart-before-itemchanged', { item: expectedState.cartItems[0] }])
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-itemchanged', { item: expectedState.cartItems[0] })
+      expect(EventBus.$emit).toBeCalledWith('cart-after-itemchanged', { item: expectedState.cartItems[0] })
       expect(stateMock).toEqual(expectedState)
     })
 
@@ -414,14 +411,14 @@ describe('Cart mutations', () => {
       )
       let firstEmitCall = []
 
-      Vue.prototype.$bus.$emit.mockImplementationOnce((eventName, args) => {
+      EventBus.$emit.mockImplementationOnce((eventName, args) => {
         firstEmitCall.push(eventName)
         firstEmitCall.push(args)
       })
       wrapper(cartMutations)
 
       expect(firstEmitCall).toEqual(['cart-before-itemchanged', { item: expectedState.cartItems[0] }])
-      expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-itemchanged', { item: expectedState.cartItems[0] })
+      expect(EventBus.$emit).toBeCalledWith('cart-after-itemchanged', { item: expectedState.cartItems[0] })
       expect(stateMock).toEqual(expectedState)
     })
 
@@ -445,7 +442,7 @@ describe('Cart mutations', () => {
 
       wrapper(cartMutations)
 
-      expect(Vue.prototype.$bus.$emit).not.toBeCalled()
+      expect(EventBus.$emit).not.toBeCalled()
       expect(stateMock).toEqual(expectedState)
     })
   })
@@ -484,9 +481,9 @@ describe('Cart mutations', () => {
     )
     wrapper(cartMutations)
 
-    expect(Vue.prototype.$bus.$emit).toBeCalledWith('sync/PROCESS_QUEUE', expect.anything())
-    expect(Vue.prototype.$bus.$emit).toBeCalledWith('application-after-loaded')
-    expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-loaded')
+    expect(EventBus.$emit).toBeCalledWith('sync/PROCESS_QUEUE', expect.anything())
+    expect(EventBus.$emit).toBeCalledWith('application-after-loaded')
+    expect(EventBus.$emit).toBeCalledWith('cart-after-loaded')
     expect(stateMock).toEqual(expectedState)
   })
 
@@ -502,9 +499,9 @@ describe('Cart mutations', () => {
 
     wrapper(cartMutations)
 
-    expect(Vue.prototype.$bus.$emit).toBeCalledWith('sync/PROCESS_QUEUE', expect.anything())
-    expect(Vue.prototype.$bus.$emit).toBeCalledWith('application-after-loaded')
-    expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-loaded')
+    expect(EventBus.$emit).toBeCalledWith('sync/PROCESS_QUEUE', expect.anything())
+    expect(EventBus.$emit).toBeCalledWith('application-after-loaded')
+    expect(EventBus.$emit).toBeCalledWith('cart-after-loaded')
     expect(stateMock).toEqual(expectedState)
   })
 
@@ -546,7 +543,7 @@ describe('Cart mutations', () => {
 
     wrapper(cartMutations)
 
-    expect(Vue.prototype.$bus.$emit).toBeCalledWith('cart-after-updatetotals', {
+    expect(EventBus.$emit).toBeCalledWith('cart-after-updatetotals', {
       platformTotals: expectedState.platformTotals,
       platformTotalSegments: expectedState.platformTotalSegments
     })

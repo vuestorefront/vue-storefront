@@ -4,6 +4,8 @@ import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
 import * as types from './mutation-types'
 import AttributeState from '../../types/AttributeState'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 const mutations: MutationTree<AttributeState> = {
   /**
@@ -20,7 +22,7 @@ const mutations: MutationTree<AttributeState> = {
       attrHashByCode[attr.attribute_code] = attr
       attrHashById[attr.attribute_id] = attr
 
-      const attrCollection = Vue.prototype.$db.attributesCollection
+      const attrCollection = StorageManager.get('attributesCollection')
       try {
         attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr).catch((reason) => {
           Logger.error(reason, 'mutations') // it doesn't work on SSR
@@ -34,7 +36,7 @@ const mutations: MutationTree<AttributeState> = {
     }
     Vue.set(state, 'list_by_code', attrHashByCode)
     Vue.set(state, 'list_by_id', attrHashById)
-    Vue.prototype.$bus.$emit('product-after-attributes-loaded')
+    EventBus.$emit('product-after-attributes-loaded')
   }
 }
 

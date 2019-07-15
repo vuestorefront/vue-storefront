@@ -4,7 +4,7 @@ import getters from './getters'
 import mutations from './mutations'
 import CartState from '../types/CartState'
 
-export const module: Module<CartState, any> = {
+export const cartStore: Module<CartState, any> = {
   namespaced: true,
   state: {
     isMicrocartOpen: false,
