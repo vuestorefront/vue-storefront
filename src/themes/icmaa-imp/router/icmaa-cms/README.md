@@ -8,15 +8,9 @@ This means that there must be a rendered component registered to specific route 
 
 ### 01. Add a new single-file-component
 
-At first we need to add our new single-file-component on top of the file like:
+Add a new single-file-component with a decent name in `theme/components/core/blocks/ICMAA/Cms/Pages/`.
 
-```javascript
-const ServiceComponent = () => import(/* webpackChunkName: "vsf-icmaa-cms-page-custom-service" */ 'src/modules/icmaa-cms/pages/Page.vue')
-```
-
-It's important to have a custom `webpackChunkName`, thats why we use a prefix like `vsf-icmaa-cms-page-custom-` for each new component.
-
-It's recommended to implement the default `page` mixins to your new component to have default methods and meta-data already applied. A sample components could look like:
+It's recommended to implement the default `page` mixins to your new component to have default methods and default meta-data already applied. A sample components could look like:
 ```html
 <template>
   <div id="cms-page" v-if="page">
@@ -53,17 +47,25 @@ body {
 </style>
 ```
 
+Now we need to add our new single-file-component on top of `theme/router/icmaa-cms/router.ts` like:
+
+```javascript
+const ServiceComponent = () => import(/* webpackChunkName: "vsf-icmaa-cms-page-custom-service" */ 'theme/components/core/blocks/ICMAA/Cms/Pages/Service.vue')
+```
+
+It's important to have a custom `webpackChunkName`, thats why we use a prefix like `vsf-icmaa-cms-page-custom-` for each new component.
+
 ### 02. Add a new route
 
-To add a new route which is using our custom single-file-component, we need to specify all neccessary data to the `routes` array in `theme/router/icmaa-cms/index.ts` like:
+To add a new route which is using our custom single-file-component, we need to specify all neccessary data to the `routes` array in `theme/router/icmaa-cms/router.ts` like:
 
-```json
+```
 { name: 'service', path: '/:identifier', component: ServiceComponent }
 ```
 
-A script on the bottom of this class will transform this route a bit to give it some unique prefixes to prevent duplicated routes and a consistent name structure. Finally the route will be registered like:
+A script in the parent class will transform this route a bit to give it some unique prefixes to prevent duplicated routes and a consistent name structure. Finally the route will be registered like:
 
-```json
+```
 { name: 'icmaa-cms-custom-service', path: '/icmaa-cms-custom/service/:identifier', component: ServiceComponent }
 ```
 

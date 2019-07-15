@@ -1,18 +1,15 @@
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { routes } from './router'
 
 const NAME_PREFIX = 'icmaa-cms-custom'
 
 // Route components
 const DefaultComponent = () => import(/* webpackChunkName: "vsf-icmaa-cms-page" */ 'src/modules/icmaa-cms/pages/Page.vue')
-const ServiceComponent = () => import(/* webpackChunkName: "vsf-icmaa-cms-page-custom-service" */ 'theme/components/core/blocks/ICMAA/Cms/Pages/Service.vue')
 
-// Routes
-const routes = [
-  // Default/fallback route
-  { name: 'icmaa-cms-page', path: '/icmaa-cms-page/:identifier', component: DefaultComponent },
-  // Custom cms routes, like /service or /festivals
-  { name: 'service', path: '/:identifier', component: ServiceComponent }
-]
+// Default/fallback route
+routes.unshift({
+  name: 'icmaa-cms-page', path: '/icmaa-cms-page/:identifier', component: DefaultComponent
+})
 
 export const prefixedName = (name: string): string => NAME_PREFIX + '-' + name
 
