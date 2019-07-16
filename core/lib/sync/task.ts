@@ -203,7 +203,11 @@ export function registerSyncTaskProcessor () {
         if (task && !task.transmited && !mutex[id]) { // not sent to the server yet
           mutex[id] = true // mark this task as being processed
           fetchQueue.push(execute(task, currentUserToken, currentCartToken).then(executedTask => {
-            if (!executedTask.is_result_cacheable) syncTaskCollection.removeItem(id) // remove successfully executed task from the queue
+            if (!executedTask.is_result_cacheable) {
+              syncTaskCollection.removeItem(id) // remove successfully executed task from the queue
+            } else {
+              syncTaskCollection.setItem(id, executedTask) // update the 'transmitted' field
+            }
             mutex[id] = false
           }).catch(err => {
             mutex[id] = false
