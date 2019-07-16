@@ -1,4 +1,3 @@
-// import { extendModule } from '@vue-storefront/core/lib/module'
 import { VueStorefrontModule } from '@vue-storefront/core/lib/module'
 import { CatalogModule } from '@vue-storefront/core/modules/catalog'
 import { CatalogNextModule } from '@vue-storefront/core/modules/catalog-next'
@@ -12,6 +11,7 @@ import { NewsletterModule } from '@vue-storefront/core/modules/newsletter'
 import { NotificationModule } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
 import { UrlModule } from '@vue-storefront/core/modules/url'
+import { BreadcrumbsModule } from '@vue-storefront/core/modules/breadcrumbs'
 // import { GoogleAnalyticsModule } from './google-analytics';
 // import { HotjarModule } from './hotjar';
 import { GoogleTagManagerModule } from './google-tag-manager';
@@ -20,8 +20,8 @@ import { PaymentBackendMethodsModule } from './payment-backend-methods';
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery';
 import { RawOutputExampleModule } from './raw-output-example'
 import { InstantCheckoutModule } from './instant-checkout'
-// import { Example } from './module-template'
 import { registerModule } from '@vue-storefront/module'
+
 // TODO:distributed across proper pages BEFORE 1.11
 export function registerNewModules () {
   registerModule(CatalogModule)
@@ -44,6 +44,7 @@ export function registerNewModules () {
   registerModule(UrlModule)
   registerModule(CatalogNextModule)
   registerModule(CompareModule)
+  registerModule(BreadcrumbsModule)
 }
 
 // Deprecated API, will be removed in 2.0
