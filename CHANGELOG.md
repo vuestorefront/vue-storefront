@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
+- Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
 
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)
