@@ -32,7 +32,7 @@ export function slugify (text) {
  * @param {number} width
  * @param {number} height
  * @param {string} pathType
- * @returns {*}
+ * @returns {string}
  */
 export function getThumbnailPath (relativeUrl: string, width: number = 0, height: number = 0, pathType: string = 'product'): string {
   if (config.images.useExactUrlsNoProxy) {
