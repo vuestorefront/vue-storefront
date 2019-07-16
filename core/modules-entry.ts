@@ -5,6 +5,8 @@ import { Order } from './modules/order'
 import { User } from './modules/user'
 import { registerModules } from 'src/modules'
 import { Breadcrumbs } from './modules/breadcrumbs'
+
+// @deprecated from 2.0,  use registerModule instead
 export const enabledModules: VueStorefrontModule[] = [
   Breadcrumbs,
   Cms,

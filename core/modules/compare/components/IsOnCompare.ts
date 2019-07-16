@@ -10,11 +10,11 @@ export const IsOnCompare = {
       type: Object
     }
   },
-  created() {
+  created () {
     CompareModule.register()
   },
   computed: {
-    isOnCompare(): boolean {
+    isOnCompare (): boolean {
       return (
         !!this.$store.state.compare.items.find(
           p => p.sku === this.product.sku
