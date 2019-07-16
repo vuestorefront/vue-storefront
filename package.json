@@ -42,7 +42,8 @@
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
     "lint": "eslint --ext .js,.vue,.ts core src --fix",
-    "lerna": "lerna"
+    "lerna": "lerna",
+    "pkg:module:build": "cd ./packages/module && yarn build"
   },
   "pre-commit": [ "lint" ],
   "dependencies": {
@@ -183,7 +184,7 @@
     "src/themes/*",
     "docs",
     "core/modules/*",
-    "packages/*",
-    "test/unit"
+    "test/unit",
+    "packages/*"
   ]
 }
