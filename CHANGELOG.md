@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
 - Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
+- User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
 
 ### Changed
 - Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
