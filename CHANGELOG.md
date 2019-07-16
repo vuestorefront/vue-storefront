@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
 - Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
 - Fixed aspect ratio in ProductImage component - @przspa (#3187)
+- Fixed AMP Product page - @przspa (#3227)
 
 ### Changed
 
