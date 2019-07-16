@@ -1,14 +1,14 @@
-import { ActionTree } from 'vuex';
-import i18n from '@vue-storefront/i18n';
+import { ActionTree } from 'vuex'
+import i18n from '@vue-storefront/i18n'
 // requires cart module
-import * as types from '@vue-storefront/core/modules/cart/store/mutation-types';
-import RootState from '@vue-storefront/core/types/RootState';
-import StockState from '../../types/StockState';
-import { TaskQueue } from '@vue-storefront/core/lib/sync';
-import { Logger } from '@vue-storefront/core/lib/logger';
-import config from 'config';
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus';
-import { processURLAddress } from '@vue-storefront/core/helpers';
+import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
+import RootState from '@vue-storefront/core/types/RootState'
+import StockState from '../../types/StockState'
+import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import { Logger } from '@vue-storefront/core/lib/logger'
+import config from 'config'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { processURLAddress } from '@vue-storefront/core/helpers'
 
 const actions: ActionTree<StockState, RootState> = {
   /**
@@ -30,7 +30,7 @@ const actions: ActionTree<StockState, RootState> = {
         is_result_cacheable: true, // store result for the Checkout.js double check
         product_sku: product.sku,
         callback_event: 'store:stock/stockAfterCheck'
-      });
+      })
       return {
         qty: product.stock ? product.stock.qty : 0,
         status: product.stock
@@ -39,7 +39,7 @@ const actions: ActionTree<StockState, RootState> = {
             : 'out_of_stock'
           : 'ok',
         onlineCheckTaskId: task.task_id
-      }; // if online we can return ok because it will be verified anyway
+      } // if online we can return ok because it will be verified anyway
     } else {
       return {
         qty: product.stock ? product.stock.qty : 0,
@@ -48,7 +48,7 @@ const actions: ActionTree<StockState, RootState> = {
             ? 'ok'
             : 'out_of_stock'
           : 'volatile'
-      }; // if not online, cannot check the source of true here
+      } // if not online, cannot check the source of true here
     }
   },
   /**
@@ -68,7 +68,7 @@ const actions: ActionTree<StockState, RootState> = {
           mode: 'cors'
         },
         product_sku: product.sku
-      });
+      })
       return {
         qty: task.result ? task.result.qty : 0,
         status: task.result
@@ -77,7 +77,7 @@ const actions: ActionTree<StockState, RootState> = {
             : 'out_of_stock'
           : 'ok',
         onlineCheckTaskId: task.task_id
-      }; // if online we can return ok because it will be verified anyway
+      } // if online we can return ok because it will be verified anyway
     } else {
       return {
         qty: product.stock ? product.stock.qty : 0,
@@ -86,13 +86,13 @@ const actions: ActionTree<StockState, RootState> = {
             ? 'ok'
             : 'out_of_stock'
           : 'volatile'
-      }; // if not online, cannot check the source of true here
+      } // if not online, cannot check the source of true here
     }
   },
   /**
    * Reset current configuration and selected variatnts
    */
-  list (context, { skus }) {
+  list ({ state }, { skus }) {
     if (config.stock.synchronize) {
       try {
         const task: any = TaskQueue.execute({
@@ -107,36 +107,34 @@ const actions: ActionTree<StockState, RootState> = {
             mode: 'cors'
           },
           skus: skus
-        });
+        })
         if (task.resultCode === 200) {
           for (const si of task.result) {
-            context.state.cache[si.product_id] = {
+            state.cache[si.product_id] = {
               is_in_stock: si.is_in_stock,
               qty: si.qty,
               product_id: si.product_id
-            }; // TODO: should be moved to mutation
+            } // TODO: should be moved to mutation
           }
         }
-        return task; // if online we can return ok because it will be verified anyway
+        return task // if online we can return ok because it will be verified anyway
       } catch (err) {
-        Logger.error(err, 'stock')();
-        return null;
+        Logger.error(err, 'stock')()
+        return null
       }
     } else {
-      return null; // if not online, cannot check the source of true here
+      return null // if not online, cannot check the source of true here
     }
   },
-  clearCache (context) {
-    context.state.cache = {};
+  clearCache ({ state }) {
+    state.cache = {}
   },
-  async stockAfterCheck (context, event) {
+  async stockAfterCheck ({ dispatch, commit }, event) {
     setTimeout(async () => {
       // TODO: Move to cart module
-      const cartItem: any = await context.dispatch(
-        'cart/getItem',
-        event.product_sku,
-        { root: true }
-      );
+      const cartItem: any = await dispatch('cart/getItem', event.product_sku, {
+        root: true
+      })
       if (cartItem && event.result.code !== 'ENOTFOUND') {
         if (!event.result.is_in_stock) {
           if (!config.stock.allowOutOfStockInCart && !config.cart.synchronize) {
@@ -144,14 +142,14 @@ const actions: ActionTree<StockState, RootState> = {
             Logger.log(
               'Removing product from cart' + event.product_sku,
               'stock'
-            )();
-            context.commit(
+            )()
+            commit(
               'cart/' + types.CART_DEL_ITEM,
               { product: { sku: event.product_sku } },
               { root: true }
-            );
+            )
           } else {
-            context.dispatch(
+            dispatch(
               'cart/updateItem',
               {
                 product: {
@@ -161,10 +159,10 @@ const actions: ActionTree<StockState, RootState> = {
                 }
               },
               { root: true }
-            );
+            )
           }
         } else {
-          context.dispatch(
+          dispatch(
             'cart/updateItem',
             {
               product: {
@@ -174,9 +172,9 @@ const actions: ActionTree<StockState, RootState> = {
               }
             },
             { root: true }
-          );
+          )
         }
-        EventBus.$emit('cart-after-itemchanged', { item: cartItem });
+        EventBus.$emit('cart-after-itemchanged', { item: cartItem })
       }
       Logger.debug(
         'Stock quantity checked for ' +
@@ -185,10 +183,10 @@ const actions: ActionTree<StockState, RootState> = {
           (event.transmited_at - event.created_at) +
           ' ms',
         'stock'
-      )();
-      Logger.debug(event, 'stock')();
-    }, 500);
+      )()
+      Logger.debug(event, 'stock')()
+    }, 500)
   }
-};
+}
 
-export default actions;
+export default actions

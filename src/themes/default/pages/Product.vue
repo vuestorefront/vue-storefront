@@ -136,7 +136,7 @@
               v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
             >
               <base-input-number
-                :name="$t(`Quantity (${quantity} available)`)"
+                :name="$t(`${!isProductLoading ? `Quantity (${quantity} available)` : 'Getting information about quantity...'}`)"
                 v-model="product.qty"
                 :min="quantity ? 1 : 0"
                 :max="quantity"
@@ -154,7 +154,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="product"
-                :disabled="($v.product.qty.$error && !$v.product.qty.minValue) || !quantity"
+                :disabled="($v.product.qty.$error && !$v.product.qty.minValue) || !quantity || isProductLoading"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -252,7 +252,8 @@ export default {
   data () {
     return {
       detailsOpen: false,
-      quantity: 0
+      quantity: 0,
+      isProductLoading: true
     }
   },
   computed: {
@@ -311,9 +312,6 @@ export default {
   created () {
     this.getQuantity()
   },
-  updated () {
-    this.getQuantity()
-  },
   methods: {
     showDetails (event) {
       this.detailsOpen = true
@@ -342,17 +340,22 @@ export default {
         'filter-changed-product',
         Object.assign({ attribute_code: variant.type }, variant)
       )
+      this.getQuantity()
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
     },
     getQuantity () {
+      this.isProductLoading = true
       this.$store
         .dispatch('stock/check', {
           product: this.product,
           qty: this.product.qte
         })
-        .then(res => (this.quantity = res.qty))
+        .then(res => {
+          this.isProductLoading = false
+          this.quantity = res.qty
+        })
     }
   },
   validations: {
