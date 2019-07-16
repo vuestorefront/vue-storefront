@@ -19,7 +19,7 @@
           <div v-for="member in content.serviceTeam.team" :key="member.name" class="t-w-full sm:t-w-1/2 md:t-w-1/3 xl:t-w-1/4 t-px-2 t-pb-4">
             <div class="t-relative">
               <div v-html="member.name" class="t-absolute t-top-0 t-left-0 t-p-3 sm:t-p-4 t-font-serif t-text-gray-800 t-text-2xl md:t-text-xl" />
-              <img :src="getThumbnail(member.img, 0, 0, 'cms')" :alt="member.name" class="t-border-gray-200 t-border-4">
+              <img :src="getMediaThumbnail(member.img, 0, 0)" :alt="member.name" class="t-border-gray-200 t-border-4">
             </div>
           </div>
         </div>
