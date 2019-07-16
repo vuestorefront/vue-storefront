@@ -568,11 +568,18 @@ The `stock` section configures how the Vue Storefront behaves when the product i
 ```json
 "images": {
   "baseUrl": "https://demo.vuestorefront.io/img/",
-  "productPlaceholder": "/assets/placeholder.jpg"
+  "productPlaceholder": "/assets/placeholder.jpg",
+  "useExactUrlsNoProxy": false,
+  "useSpecificImagePaths": false,
+  "paths": {
+    "product": "/catalog/product"
+  }
 },
 ```
 
-This section is to set the default base URL of product images. This should be a `vue-storefront-api` URL, pointing to its `/api/img` handler. The Vue Storefront API is in charge of downloading the local image cache from the Magento/Pimcore backend and does the resize/crop/scale operations to optimize the images for mobile devices and the UI.
+This section is to set the default base URL of images. This should be a `vue-storefront-api` URL, pointing to its `/api/img` handler. The Vue Storefront API is in charge of downloading the local image cache from the Magento/Pimcore backend and does the resize/crop/scale operations to optimize the images for mobile devices and the UI.
+
+If you wan't to also show non-product image thumbnails you must set `useSpecificImagePaths` to `true` and remove `/catalog/product` from the end of your API `magento1.imgUrl` or `magento2.imgUrl` setting in your API's config file – e.g.: `http://magento-demo.local/media`. After that you can use the `pathType` parameter of the `getThumbnail()` mixin method to traverse other images than product ones.
 
 ## Install
 
