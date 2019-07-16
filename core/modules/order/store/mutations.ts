@@ -13,7 +13,7 @@ const mutations: MutationTree<OrderState> = {
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
    */
   [types.ORDER_PLACE_ORDER] (state, order) {
-    const ordersCollection = StorageManager.get('ordersCollection')
+    const ordersCollection = StorageManager.get('order')
     const orderId = entities.uniqueEntityId(order) // timestamp as a order id is not the best we can do but it's enough
     order.order_id = orderId.toString()
     order.created_at = new Date()

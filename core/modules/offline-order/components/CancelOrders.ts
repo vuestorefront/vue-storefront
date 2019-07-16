@@ -9,7 +9,7 @@ import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
 export const CancelOrders = {
   methods: {
     cancelOrders () {
-      const ordersCollection = initCacheStorage('orders', false, true)
+      const ordersCollection = initCacheStorage('order', false, true)
       ordersCollection.iterate((order, id, iterationNumber) => {
         if (!order.transmited) {
           ordersCollection.removeItem(id)

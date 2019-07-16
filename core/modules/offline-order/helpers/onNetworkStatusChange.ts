@@ -13,7 +13,7 @@ export function onNetworkStatusChange (store) {
       EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
     } else {
       const ordersToConfirm = []
-      const ordersCollection = initCacheStorage('orders', false, true)
+      const ordersCollection = initCacheStorage('order', false, true)
 
       ordersCollection.iterate((order, id, iterationNumber) => {
         if (!order.transmited) {

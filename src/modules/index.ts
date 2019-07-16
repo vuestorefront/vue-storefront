@@ -12,6 +12,8 @@ import { NotificationModule } from '@vue-storefront/core/modules/notification'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
 import { UrlModule } from '@vue-storefront/core/modules/url'
 import { BreadcrumbsModule } from '@vue-storefront/core/modules/breadcrumbs'
+import { OrderModule } from '@vue-storefront/core/modules/order'
+
 // import { GoogleAnalyticsModule } from './google-analytics';
 // import { HotjarModule } from './hotjar';
 import { GoogleTagManagerModule } from './google-tag-manager';
@@ -20,6 +22,7 @@ import { PaymentBackendMethodsModule } from './payment-backend-methods';
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery';
 import { RawOutputExampleModule } from './raw-output-example'
 import { InstantCheckoutModule } from './instant-checkout'
+
 import { registerModule } from '@vue-storefront/module'
 
 // TODO:distributed across proper pages BEFORE 1.11
@@ -45,6 +48,7 @@ export function registerNewModules () {
   registerModule(CatalogNextModule)
   registerModule(CompareModule)
   registerModule(BreadcrumbsModule)
+  registerModule(OrderModule)
 }
 
 // Deprecated API, will be removed in 2.0
