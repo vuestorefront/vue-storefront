@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed error for the orderhistory null for google-tag-manager extension - @cnviradiya (#3195)
 - Fixed swatches not rendering properly at product detail page issue - @vishal-7037 (#3206)
 - Fixed label of configurable options in cart after product just added - @cheeerd (#3164)
+- Fixed eslint warning in Product Page, removed v-if from v-for node - @przspa (#3181)
 
 ### Changed / Improved
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
