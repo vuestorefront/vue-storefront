@@ -5,7 +5,8 @@ dist/
 npm-debug.log
 .vscode/
 .idea/
-config/local.json
+config/local*.json
+config/custom-environment-variables.json
 var
 build/config.json
 core/build/config.json
