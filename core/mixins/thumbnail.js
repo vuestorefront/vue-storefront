@@ -8,6 +8,7 @@ export const thumbnail = {
      * @param {number} width
      * @param {number} height
      * @param {string} pathType
+     * @returns {string}
      */
     getThumbnail: (relativeUrl, width, height, pathType) => getThumbnailPath(relativeUrl, width, height, pathType),
 
@@ -16,6 +17,7 @@ export const thumbnail = {
      * @param {string} relativeUrl
      * @param {number} width
      * @param {number} height
+     * @returns {string}
      */
     getMediaThumbnail: (relativeUrl, width, height) => getThumbnailPath(relativeUrl, width, height, 'media')
   }
