@@ -26,7 +26,7 @@
             <breadcrumbs
               class="pt40 pb20 hidden-xs"
               :routes="breadcrumbs.routes"
-              :active-route="breadcrumbs"
+              :active-route="breadcrumbs.name"
             />
             <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
