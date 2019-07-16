@@ -79,7 +79,6 @@
         class="col-xs-12 mb15"
         id="changePassword"
         v-model="changePassword"
-        @click="changePassword = !changePassword"
       >
         {{ $t('Change my password') }}
       </base-checkbox>
@@ -99,7 +98,7 @@
           }]"
         />
 
-        <div class="hidden-xs hidden-sm col-md-6 mb15 mt10"/>
+        <div class="hidden-xs hidden-sm col-md-6 mb15 mt10" />
 
         <base-input
           class="col-xs-12 col-md-6 mb15 mt10"
@@ -141,7 +140,6 @@
         class="col-xs-12 mb15 mt10"
         id="addCompany"
         v-model="addCompany"
-        @click="addCompany = !addCompany"
       >
         {{ $t('I have a company and want to receive an invoice for every order') }}
       </base-checkbox>
@@ -278,7 +276,6 @@
           :placeholder="$t('Phone Number')"
           v-model.trim="userCompany.phone"
         />
-
       </template>
 
       <div class="col-xs-12 col-sm-6">

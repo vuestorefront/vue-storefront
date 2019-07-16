@@ -9,17 +9,16 @@
       data-testid="productLink"
     >
       <div
-        class="product-image relative bg-cl-secondary"
-        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }, {'product-image--loaded': imageLoaded}]">
-        <img
-          class="product-image__content"
-          :alt="product.name"
-          :src="thumbnailObj.src"
-          height="300"
-          width="310"
+        class="product-cover bg-cl-secondary"
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
+      >
+        <product-image
+          class="product-cover__thumb"
+          :image="thumbnailObj"
+          :alt="product.name | htmlDecode"
+          :calc-ratio="false"
           data-testid="productImage"
-          @load="imageLoaded = true"
-        >
+        />
       </div>
 
       <p class="mb0 cl-accent mt10" v-if="!onlyImage">
@@ -28,23 +27,23 @@
 
       <span
         class="price-original mr5 lh30 cl-secondary"
-        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0 && !onlyImage"
+        v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0 && !onlyImage"
       >
-        {{ product.originalPriceInclTax | price }}
+        {{ product.original_price_incl_tax | price }}
       </span>
 
       <span
         class="price-special lh30 cl-accent weight-700"
         v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
       >
-        {{ product.priceInclTax | price }}
+        {{ product.price_incl_tax | price }}
       </span>
 
       <span
         class="lh30 cl-secondary"
-        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0 && !onlyImage"
+        v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
       >
-        {{ product.priceInclTax | price }}
+        {{ product.price_incl_tax | price }}
       </span>
     </router-link>
   </div>
@@ -53,13 +52,13 @@
 <script>
 import rootStore from '@vue-storefront/core/store'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
+import config from 'config'
+import ProductImage from './ProductImage'
 
 export default {
   mixins: [ProductTile],
-  data () {
-    return {
-      imageLoaded: false
-    }
+  components: {
+    ProductImage
   },
   props: {
     labelsActive: {
@@ -71,6 +70,14 @@ export default {
       default: false
     }
   },
+  computed: {
+    thumbnailObj () {
+      return {
+        src: this.thumbnail,
+        loading: this.thumbnail
+      }
+    }
+  },
   methods: {
     onProductPriceUpdate (product) {
       if (product.sku === this.product.sku) {
@@ -79,7 +86,7 @@ export default {
     },
     visibilityChanged (isVisible, entry) {
       if (isVisible) {
-        if (rootStore.state.config.products.configurableChildrenStockPrefetchDynamic && rootStore.products.filterUnavailableVariants) {
+        if (config.products.configurableChildrenStockPrefetchDynamic && rootStore.products.filterUnavailableVariants) {
           const skus = [this.product.sku]
           if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
             for (const confChild of this.product.configurable_children) {
@@ -139,84 +146,35 @@ $color-white: color(white);
   font-size: 12px;
 }
 
-.product-image {
-  width: 100%;
+.product-cover{
   overflow: hidden;
   max-height: 300px;
-  height: 100%;
-  min-height: 155px;
-  display: flex;
-  align-items: flex-end;
-  background-image: url('/assets/placeholder.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 60% auto;
-
-  @media (min-width: 768px) {
-    min-height: 190px;
-  }
-  @media (min-width: 1200px) {
-    min-height: 300px;
-  }
-
-  &__content {
-    display: none;
-  }
-
-  &--loaded {
-    background-image: none;
-
-    .product-image__content {
-      display: block;
+  &__thumb{
+    padding-bottom: calc(143.88% / (164.5 / 100));
+    @media screen and (min-width: 768px){
+      padding-bottom: calc(300% / (276.5 / 100));
     }
+    opacity: .8;
+    will-change: opacity, transform;
+    transition: .3s opacity $motion-main, .3s transform $motion-main;
   }
-
-  &:hover {
-    img {
+  &:hover{
+    .product-cover__thumb{
       opacity: 1;
       transform: scale(1.1);
     }
-
     &.sale::after,
-    &.new::after {
-      opacity: 0.8;
+    &.new::after{
+      opacity: .8;
     }
   }
-
-  img {
-    max-height: 100%;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    margin: auto;
-    mix-blend-mode: darken;
-    opacity: 0.8;
-    transform: scale(1);
-    transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
-
-    &[lazy="loaded"] {
-      animation: products-loaded;
-      animation-duration: 0.3s;
-    }
-
-    @keyframes products-loaded {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 0.8;
-      }
-    }
-  }
-
-  &.sale {
+  &.sale{
     &::after {
       @extend %label;
       content: 'Sale';
     }
   }
-
-  &.new {
+  &.new{
     &::after {
       @extend %label;
       content: 'New';

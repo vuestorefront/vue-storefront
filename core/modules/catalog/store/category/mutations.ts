@@ -4,13 +4,15 @@ import * as types from './mutation-types'
 import { slugify, formatBreadCrumbRoutes } from '@vue-storefront/core/helpers'
 import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
 import CategoryState from '../../types/CategoryState'
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {
     state.current = category
-    Vue.prototype.$bus.$emit('category-after-current', { category: category })
+    EventBus.$emit('category-after-current', { category: category })
   },
   [types.CATEGORY_UPD_CURRENT_CATEGORY_PATH] (state, path) {
     state.current_path = path // TODO: store to cache
@@ -22,7 +24,7 @@ const mutations: MutationTree<CategoryState> = {
         if (category.children_data) {
           for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
             if (subcat.name) {
-              subcat = Object.assign(subcat, { slug: subcat.slug ? subcat.slug : ((subcat.hasOwnProperty('url_key') && rootStore.state.config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '')) })
+              subcat = Object.assign(subcat, { slug: subcat.slug ? subcat.slug : ((subcat.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '')) })
               catSlugSetter(subcat)
             }
           }
@@ -30,7 +32,7 @@ const mutations: MutationTree<CategoryState> = {
       }
       catSlugSetter(category)
       if (categories.includeFields == null) {
-        const catCollection = Vue.prototype.$db.categoriesCollection
+        const catCollection = StorageManager.get('categoriesCollection')
         try {
           catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
             Logger.error(reason, 'category') // it doesn't work on SSR
@@ -45,7 +47,7 @@ const mutations: MutationTree<CategoryState> = {
     }
     if (state.list) {
       categories.items.map(newCat => {
-        if (!state.list.find(existingCat => existingCat.id == newCat.id)) {
+        if (!state.list.find(existingCat => existingCat.id === newCat.id)) {
           state.list.push(newCat)
         }
       })

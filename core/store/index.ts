@@ -19,6 +19,7 @@ const state = {
   shipping: {},
   user: {},
   ui: {},
+  newsletter: {},
   wishlist: {},
   attribute: '',
   category: {
@@ -44,7 +45,12 @@ const state = {
 
 let rootStore = new Vuex.Store<RootState>({
   // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenanigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
-  state
+  state,
+  getters: {
+    getCurrentStoreView: state => {
+      return state.storeView
+    }
+  }
 })
 
 export default rootStore

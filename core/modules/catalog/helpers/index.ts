@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import rootStore from '@vue-storefront/core/store'
 import { calculateProductTax } from '../helpers/tax'
 import flattenDeep from 'lodash-es/flattenDeep'
@@ -14,6 +14,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
+import config from 'config';
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -21,12 +22,49 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
     if (stockItem.is_in_stock === false) {
       product.errors.variants = i18n.t('No available product variants')
       context.state.current.errors = product.errors
-      Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
-      if (rootStore.state.config.products.listOutOfStockProducts === false) {
+      EventBus.$emit('product-after-removevariant', { product: product })
+      if (config.products.listOutOfStockProducts === false) {
         errorCallback(new Error('Product query returned an empty result'))
       }
     }
   }
+}
+
+export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
+  let regularProductPrice = product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax
+  let selectedVariant = product.configurable_children.find((configurableChild) => {
+    if (availabilityCheck) {
+      if (configurableChild.stock && !config.products.listOutOfStockProducts) {
+        if (!configurableChild.stock.is_in_stock) {
+          return false
+        }
+      }
+    }
+    if (configurableChild.status >= 2/** disabled product */) {
+      return false
+    }
+    if (selectDefaultChildren) {
+      return true // return first
+    }
+    if (configuration.sku) {
+      return configurableChild.sku === configuration.sku // by sku or first one
+    } else {
+      if (!configuration || (configuration && Object.keys(configuration).length === 0)) { // no configuration - return the first child cheaper than the original price - if found
+        if (configurableChild.price_incl_tax <= regularProductPrice) {
+          return true
+        }
+      } else {
+        return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
+          let configurationPropertyFilters = configuration[configProperty] || []
+          if (!Array.isArray(configurationPropertyFilters)) configurationPropertyFilters = [configurationPropertyFilters]
+          const configurationIds = configurationPropertyFilters.map(filter => toString(filter.id)).filter(filterId => !!filterId)
+          if (!configurationIds.length) return true // skip empty
+          return configurationIds.includes(toString(configurableChild[configProperty]))
+        })
+      }
+    }
+  })
+  return selectedVariant
 }
 
 export function isOptionAvailableAsync (context, { product, configuration }) {
@@ -35,7 +73,7 @@ export function isOptionAvailableAsync (context, { product, configuration }) {
 }
 
 function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
-  if (rootStore.state.config.products.filterUnavailableVariants) {
+  if (config.products.filterUnavailableVariants) {
     if (product.type_id === 'configurable' && product.configurable_children) {
       for (const stockItem of stockItems) {
         const confChild = product.configurable_children.find(p => { return p.id === stockItem.product_id })
@@ -59,7 +97,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
             const variant = isOptionAvailableAsync(context, { product: product, configuration: config })
             if (!variant) {
               Logger.log('No variant for' + opt, 'helper')()
-              Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
+              EventBus.$emit('product-after-removevariant', { product: product })
               removedOptions++
               return false
             } else {
@@ -71,11 +109,12 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
           context.state.current_options[optionKey] = optionsAvailable
         }
       }
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
       if (totalOptions === 0) {
         product.errors.variants = i18n.t('No available product variants')
         context.state.current.errors = product.errors
-        Vue.prototype.$bus.$emit('product-after-removevariant', { product: product })
+        EventBus.$emit('product-after-removevariant', { product: product })
       }
     }
   }
@@ -83,7 +122,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
 
 export function filterOutUnavailableVariants (context, product) {
   return new Promise((resolve, reject) => {
-    if (rootStore.state.config.products.filterUnavailableVariants) {
+    if (config.products.filterUnavailableVariants) {
       const _filterConfigurableHelper = () => {
         if (product.type_id === 'configurable' && product.configurable_children) {
           const stockItems = []
@@ -139,25 +178,33 @@ export function filterOutUnavailableVariants (context, product) {
 
 export function syncProductPrice (product, backProduct) { // TODO: we probably need to update the Net prices here as well
   product.sgn = backProduct.sgn // copy the signature for the modified price
-  product.priceInclTax = backProduct.price_info.final_price
-  product.originalPriceInclTax = backProduct.price_info.regular_price
-  product.specialPriceInclTax = backProduct.price_info.special_price
+  product.price_incl_tax = backProduct.price_info.final_price
+  product.original_price_incl_tax = backProduct.price_info.regular_price
+  product.special_price_incl_tax = backProduct.price_info.special_price
 
   product.special_price = backProduct.price_info.extension_attributes.tax_adjustments.special_price
   product.price = backProduct.price_info.extension_attributes.tax_adjustments.final_price
-  product.originalPrice = backProduct.price_info.extension_attributes.tax_adjustments.regular_price
+  product.original_price = backProduct.price_info.extension_attributes.tax_adjustments.regular_price
 
-  product.priceTax = product.priceInclTax - product.price
-  product.specialPriceTax = product.specialPriceInclTax - product.special_price
-  product.originalPriceTax = product.originalPriceInclTax - product.originalPrice
+  product.price_tax = product.price_incl_tax - product.price
+  product.special_price_tax = product.special_price_incl_tax - product.special_price
+  product.original_price_tax = product.original_price_incl_tax - product.original_trice
 
-  if (product.priceInclTax >= product.originalPriceInclTax) {
-    product.specialPriceInclTax = 0
+  if (product.price_incl_tax >= product.original_price_incl_tax) {
+    product.special_price_incl_tax = 0
     product.special_price = 0
-  } else {
-    product.special_price = 0 // the same price as original; it's not a promotion
   }
-  Vue.prototype.$bus.$emit('product-after-priceupdate', product)
+
+  /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+  product.priceInclTax = product.price_incl_tax
+  product.priceTax = product.price_tax
+  product.originalPrice = product.original_price
+  product.originalPriceInclTax = product.original_price_incl_tax
+  product.originalPriceTax = product.original_price_tax
+  product.specialPriceInclTax = product.special_price_incl_tax
+  product.specialPriceTax = product.special_price_tax
+  /** END */
+  EventBus.$emit('product-after-priceupdate', product)
   // Logger.log(product.sku, product, backProduct)()
   return product
 }
@@ -167,34 +214,54 @@ export function syncProductPrice (product, backProduct) { // TODO: we probably n
  */
 export function doPlatformPricesSync (products) {
   return new Promise((resolve, reject) => {
-    if (rootStore.state.config.products.alwaysSyncPlatformPricesOver) {
-      if (rootStore.state.config.products.clearPricesBeforePlatformSync) {
+    if (config.products.alwaysSyncPlatformPricesOver) {
+      if (config.products.clearPricesBeforePlatformSync) {
         for (let product of products) { // clear out the prices as we need to sync them with Magento
-          product.priceInclTax = null
-          product.originalPriceInclTax = null
-          product.specialPriceInclTax = null
+          product.price_incl_tax = null
+          product.original_price_incl_tax = null
+          product.special_price_incl_tax = null
 
           product.special_price = null
           product.price = null
-          product.originalPrice = null
+          product.original_price = null
 
-          product.priceTax = null
-          product.specialPriceTax = null
-          product.originalPriceTax = null
+          product.price_tax = null
+          product.special_price_tax = null
+          product.original_price_tax = null
+
+          /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+          product.priceInclTax = product.price_incl_tax
+          product.priceTax = product.price_tax
+          product.originalPrice = product.original_price
+          product.originalPriceInclTax = product.original_price_incl_tax
+          product.originalPriceTax = product.original_price_tax
+          product.specialPriceInclTax = product.special_price_incl_tax
+          product.specialPriceTax = product.special_price_tax
+          /** END */
 
           if (product.configurable_children) {
             for (let sc of product.configurable_children) {
-              sc.priceInclTax = null
-              sc.originalPriceInclTax = null
-              sc.specialPriceInclTax = null
+              sc.price_incl_tax = null
+              sc.original_price_incl_tax = null
+              sc.special_price_incl_tax = null
 
               sc.special_price = null
               sc.price = null
-              sc.originalPrice = null
+              sc.original_price = null
 
-              sc.priceTax = null
-              sc.specialPriceTax = null
-              sc.originalPriceTax = null
+              sc.price_tax = null
+              sc.special_price_tax = null
+              sc.original_price_tax = null
+
+              /** BEGIN @deprecated - inconsitent naming kept just for the backward compatibility */
+              sc.priceInclTax = sc.price_incl_tax
+              sc.priceTax = sc.price_tax
+              sc.originalPrice = sc.original_price
+              sc.originalPriceInclTax = sc.original_price_incl_tax
+              sc.originalPriceTax = sc.original_price_tax
+              sc.specialPriceInclTax = sc.special_price_incl_tax
+              sc.specialPriceTax = sc.special_price_tax
+              /** END */
             }
           }
         }
@@ -236,7 +303,7 @@ export function doPlatformPricesSync (products) {
       } else { // empty list of products
         resolve(products)
       }
-      if (!rootStore.state.config.products.waitForPlatformSync && !isServer) {
+      if (!config.products.waitForPlatformSync && !isServer) {
         Logger.log('Returning products, the prices yet to come from backend!')()
         for (let product of products) {
           product.price_is_current = false // in case we're syncing up the prices we should mark if we do have current or not
@@ -255,7 +322,7 @@ export function doPlatformPricesSync (products) {
  */
 export function calculateTaxes (products, store) {
   return new Promise((resolve, reject) => {
-    if (rootStore.state.config.tax.calculateServerSide) {
+    if (config.tax.calculateServerSide) {
       Logger.debug('Taxes calculated server side, skipping')()
       doPlatformPricesSync(products).then((products) => {
         resolve(products)
@@ -310,13 +377,13 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
           existingOption = {
             option_id: option.attribute_id,
             option_value: configOption.id,
-            label: i18n.t(configOption.attribute_code),
+            label: option.label || i18n.t(configOption.attribute_code),
             value: configOption.label
           }
           configurable_item_options.push(existingOption)
         }
         existingOption.option_value = configOption.id
-        existingOption.label = i18n.t(configOption.attribute_code)
+        existingOption.label = option.label || i18n.t(configOption.attribute_code)
         existingOption.value = configOption.label
       }
     }
@@ -386,25 +453,22 @@ export function populateProductConfigurationAsync (context, { product, selectedV
           value: selectedVariant[attribute_code]
         }
       }
-      const selectedOptionMeta = option.values.find(ov => { return ov.value_index === selectedOption.value })
-      if (selectedOptionMeta) {
-        selectedOption.label = selectedOptionMeta.label ? selectedOptionMeta.label : selectedOptionMeta.default_label
-        selectedOption.value_data = selectedOptionMeta.value_data
+      if (option.values && option.values.length) {
+        const selectedOptionMeta = option.values.find(ov => { return ov.value_index === selectedOption.value })
+        if (selectedOptionMeta) {
+          selectedOption.label = selectedOptionMeta.label ? selectedOptionMeta.label : selectedOptionMeta.default_label
+          selectedOption.value_data = selectedOptionMeta.value_data
+        }
       }
 
       const confVal = {
         attribute_code: attribute_code,
         id: selectedOption.value,
-        label: selectedOption.label ? selectedOption.label : /*if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
+        label: selectedOption.label ? selectedOption.label : /* if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
       }
       context.state.current_configuration[attribute_code] = confVal
-      // @deprecated fallback for VS <= 1.0RC
-      if (!('setupVariantByAttributeCode' in rootStore.state.config.products) || rootStore.state.config.products.setupVariantByAttributeCode === false) {
-        const fallbackKey = attribute_label
-        context.state.current_configuration[fallbackKey.toLowerCase()] = confVal // @deprecated fallback for VS <= 1.0RC
-      }
     }
-    if (rootStore.state.config.cart.setConfigurableProductOptions) {
+    if (config.cart.setConfigurableProductOptions) {
       const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: context.state.current_configuration }) // set the custom options
       if (productOption) {
         product.options = _internalMapOptions(productOption)
@@ -412,34 +476,6 @@ export function populateProductConfigurationAsync (context, { product, selectedV
       }
     }
   }
-  return selectedVariant
-}
-
-export function findConfigurableChildAsync({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
-  let selectedVariant = product.configurable_children.find((configurableChild) => {
-
-    if (availabilityCheck) {
-      if (configurableChild.stock && !rootStore.state.config.products.listOutOfStockProducts) {
-        if (!configurableChild.stock.is_in_stock) {
-          return false
-        }
-      }
-    }
-    if (configurableChild.status >= 2/**disabled product*/) {
-      return false
-    }
-    if (selectDefaultChildren) {
-      return true // return first
-    }
-    if (configuration.sku) {
-      return configurableChild.sku === configuration.sku // by sku or first one
-    } else {
-      return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
-        if (!configuration[configProperty] || typeof configuration[configProperty].id === 'undefined') return true // skip empty
-        return toString(configurableChild[configProperty]) === toString(configuration[configProperty].id)
-      })
-    }
-  })
   return selectedVariant
 }
 
@@ -475,7 +511,7 @@ export function configureProductAsync (context, { product, configuration, select
     }
 
     if (selectedVariant) {
-      if (!desiredProductFound) { // update the configuration
+      if (!desiredProductFound && selectDefaultVariant /** don't change the state when no selectDefaultVariant is set */) { // update the configuration
         populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
         configuration = context.state.current_configuration
       }
@@ -484,7 +520,7 @@ export function configureProductAsync (context, { product, configuration, select
       }
       product.is_configured = true
 
-      if (rootStore.state.config.cart.setConfigurableProductOptions && !selectDefaultVariant && !(Object.keys(configuration).length === 1 && configuration.sku)) {
+      if (config.cart.setConfigurableProductOptions && !selectDefaultVariant && !(Object.keys(configuration).length === 1 && configuration.sku)) {
         // the condition above: if selectDefaultVariant - then "setCurrent" is seeting the configurable options; if configuration = { sku: '' } -> this is a special case when not configuring the product but just searching by sku
         const productOption = setConfigurableProductOptionsAsync(context, { product: product, configuration: configuration }) // set the custom options
         if (productOption) {
@@ -495,13 +531,13 @@ export function configureProductAsync (context, { product, configuration, select
         Logger.debug('Skipping configurable options setup', configuration)()
       } */
       const fieldsToOmit = ['name']
-      if (selectedVariant.image === "") fieldsToOmit.push('image')
+      if (selectedVariant.image === '') fieldsToOmit.push('image')
       selectedVariant = omit(selectedVariant, fieldsToOmit) // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
-      // use chosen variant
+      // use chosen variant for the current product
       if (selectDefaultVariant) {
         context.dispatch('setCurrent', selectedVariant)
       }
-      Vue.prototype.$bus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
+      EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
     }
     if (!selectedVariant && setProductErorrs) { // can not find variant anyway, even the default one
       product.errors.variants = i18n.t('No available product variants')
@@ -526,18 +562,44 @@ export function configureProductAsync (context, { product, configuration, select
 export function getMediaGallery (product) {
   let mediaGallery = []
   if (product.media_gallery) {
-      for (let mediaItem of product.media_gallery) {
-          if (mediaItem.image) {
-              mediaGallery.push({
-                'src': getThumbnailPath(mediaItem.image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                'loading': getThumbnailPath(mediaItem.image, 310, 300),
-                'error': getThumbnailPath(mediaItem.image, 310, 300),
-                'video': mediaItem.vid
-              })
-          }
+    for (let mediaItem of product.media_gallery) {
+      if (mediaItem.image) {
+        let video = mediaItem.vid
+
+        if (video && video.video_id) {
+          video.id = video.video_id
+          delete video.video_id
+        }
+
+        mediaGallery.push({
+          'src': getThumbnailPath(mediaItem.image, config.products.gallery.width, config.products.gallery.height),
+          'loading': getThumbnailPath(mediaItem.image, config.products.thumbnails.width, config.products.thumbnails.height),
+          'error': getThumbnailPath(mediaItem.image, config.products.thumbnails.width, config.products.thumbnails.height),
+          'video': video
+        })
       }
+    }
   }
   return mediaGallery
+}
+
+/**
+ * Get images from configured attribute images
+ */
+export function attributeImages (product) {
+  let attributeImages = []
+  if (config.products.gallery.imageAttributes) {
+    for (let attribute of config.products.gallery.imageAttributes) {
+      if (product[attribute]) {
+        attributeImages.push({
+          'src': getThumbnailPath(product[attribute], config.products.gallery.width, config.products.gallery.height),
+          'loading': getThumbnailPath(product[attribute], 310, 300),
+          'error': getThumbnailPath(product[attribute], 310, 300)
+        })
+      }
+    }
+  }
+  return attributeImages
 }
 
 /**
@@ -545,46 +607,22 @@ export function getMediaGallery (product) {
  * otherwise get attribute images
  */
 
-export function configurableChildrenImages(product) {
+export function configurableChildrenImages (product) {
   let configurableChildrenImages = []
-    let variantsGroupBy = rootStore.state.config.products.gallery.variantsGroupAttribute
-    if (product.configurable_children && product.configurable_children.length > 0 && product.configurable_children[0][variantsGroupBy]) {
-        let groupedByAttribute = groupBy(product.configurable_children, child => {
-            return child[variantsGroupBy]
-        })
-        Object.keys(groupedByAttribute).forEach(confChild => {
-            if (groupedByAttribute[confChild][0].image) {
-                configurableChildrenImages.push({
-                    'src': getThumbnailPath(groupedByAttribute[confChild][0].image, rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                    'loading': getThumbnailPath(groupedByAttribute[confChild][0].image, 310, 300),
-                    'error': getThumbnailPath(groupedByAttribute[confChild][0].image, 310, 300),
-                    'id': confChild
-                })
-            }
-        })
-    } else {
-        configurableChildrenImages = attributeImages(product)
-    }
-    return configurableChildrenImages
+  if (product.configurable_children && product.configurable_children.length > 0) {
+    let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
+    configurableChildrenImages = product.configurable_children.map(child =>
+      ({
+        'src': getThumbnailPath(child.image, config.products.gallery.width, config.products.gallery.height),
+        'loading': getThumbnailPath(product.image, config.products.thumbnails.width, config.products.thumbnails.height),
+        'id': configurableAttributes.reduce((result, attribute) => {
+          result[attribute] = child[attribute]
+          return result
+        }, {})
+      })
+    )
+  } else {
+    configurableChildrenImages = attributeImages(product)
+  }
+  return configurableChildrenImages
 }
-
-/**
- * Get images from configured attribute images
- */
-
-export function attributeImages(product) {
-    let attributeImages = []
-    if (rootStore.state.config.products.gallery.imageAttributes) {
-        for (let attribute of rootStore.state.config.products.gallery.imageAttributes) {
-            if(product[attribute]) {
-                attributeImages.push({
-                    'src': getThumbnailPath(product[attribute], rootStore.state.config.products.gallery.width, rootStore.state.config.products.gallery.height),
-                    'loading': getThumbnailPath(product[attribute], 310, 300),
-                    'error': getThumbnailPath(product[attribute], 310, 300)
-                })
-            }
-        }
-    }
-    return attributeImages
-}
-

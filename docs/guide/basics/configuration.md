@@ -94,6 +94,21 @@ The SSR data is being completed in the `asyncData` static method. If this config
 If it's set to `false`, then **just the** `src/themes/default/pages/Product.vue` -> `asyncData` will be executed.
 This option is referenced in the [core/client-entry.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) line: 85.
 
+## Max attempt of tasks
+
+```json
+"queues": {
+  "maxNetworkTaskAttempts": 1,
+  "maxCartBypassAttempts": 1
+},
+```
+
+This both option is used when you don't want re-attempting task of just X number time attempt task.
+
+`maxNetworkTaskAttempts` config variable is referenced in the [core/lib/sync/task.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/sync/task.ts) and It's reattempt if user token is invalid.
+
+`maxCartBypassAttempts`  config variable is referenced in the [core/modules/cart/store/actions.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/cart/store/actions.ts)
+
 ## Default store code
 
 ```json
@@ -147,6 +162,13 @@ This is the store name as displayed in the `Language/Switcher.vue`.
 ```
 
 This URL is used only in the `Switcher` component. Typically it equals just to `/<store_code>`. Sometimes you may like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. Just take a look at how [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) generates the list of the stores.
+It accepts not only path, but also domains as well.
+
+```json
+    "appendStoreCode": true,
+```
+
+By default store codes are appended at the end of every url. If you want to use domain only as store url, you can set it to `false`.
 
 ```json
     "elasticsearch": {
@@ -186,6 +208,13 @@ The `defaultCountry` and the `defaultRegion` settings are being used for finding
 ```
 
 The internationalization settings are used by the translation engine (`defautlLocale`) and the [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) (`fullCountryName`, `fullLanguageName`). `currencyCode` is used for some of the API calls (rendering prices, mostly) and `currencySign` is being used for displaying the prices in the frontend.
+
+
+```json
+   "extend": "de"
+```
+
+You can inherit settings from other storeview of your choice. Result config will be deep merged with chosen storeview by storecode set in `extend` property prioritizing current storeview values.
 
 ## Entities
 
@@ -231,11 +260,11 @@ You can specify which fields get stripped out of the Cart object, by changing th
   },
   "productList": {
     "sort": "",
-    "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_key", "status" ],
+    "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "url_key", "status" ],
     "excludeFields": [ "configurable_children", "description", "configurable_options", "sgn" ]
   },
   "productListWithChildren": {
-    "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "product_links", "url_key", "status"],
+    "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "original_price_incl_tax", "original_price", "special_price_incl_t_ax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "product_links", "url_key", "status"],
     "excludeFields": [ "description", "sgn"]
   },
   "product": {
@@ -337,13 +366,6 @@ These endpoints should point to the `vue-storefront-api` instance and typically,
 ## Products
 
 ```json
-"products": {
-  "useShortCatalogUrls": false,
-```
-
-When this option is set to `true`, Vue Storefront will use the alternative routing for products and categories without the `/p/` and `/c/` prefixes.  It may be useful for search-engine optimization purposes.
-
-```json
   "useMagentoUrlKeys": false,
 ```
 
@@ -400,11 +422,6 @@ This is related to `alwaysSyncPlatformPricesOver` and when it's set to true, the
 
 This is related to `alwaysSyncPlatformPricesOver`. When true, Vue Storefront will wait for dynamic prices before rendering the page. Otherwise, the product and category pages will be rendered using the default (Elasticsearch-based) prices and then asynchronously override them with current ones.
 
-```json
-  "setupVariantByAttributeCode": true,
-```
-
-This is a deprecated value. When set to false, Vue Storefront will use `slugify(attribute.name)` instead of `attribute.attribute_code` to construct filter and product configurators. It was provided to maintain the backward compatibility with some platforms that didn't provide the attribute_code property. Currently not used.
 
 ```json
   "endpoint": "http://localhost:8080/api/product",

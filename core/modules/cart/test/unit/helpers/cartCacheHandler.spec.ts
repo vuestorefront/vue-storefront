@@ -1,19 +1,28 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 import * as types from '../../../store/mutation-types'
 
-import { cartCacheHandlerFactory } from "../../../helpers/cartCacheHandler";
+const StorageManager = {
+  cartsCollection: {
+    setItem: jest.fn()
+  },
+  get (key) {
+    return this[key]
+  }
+};
+const cartCacheHandlerFactory = require('../../../helpers/cartCacheHandler').cartCacheHandlerFactory
+
+jest.mock('@vue-storefront/core/store/lib/storage-manager', () => ({StorageManager}))
+jest.mock('@vue-storefront/core/helpers', () => ({
+  isServer: () => false
+}));
+jest.mock('@vue-storefront/core/app', () => ({ createApp: jest.fn() }))
+jest.mock('@vue-storefront/i18n', () => ({loadLanguageAsync: jest.fn()}))
 
 Vue.use(Vuex);
 
-Vue.prototype.$db = {
-  cartsCollection: {
-    setItem: jest.fn()
-  }
-};
-
 describe('Cart afterRegistration', () => {
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -27,28 +36,28 @@ describe('Cart afterRegistration', () => {
   ])('handler populates cart cache on mutation %s that modifies cart items', async (mutationType) => {
     const stateMock = {
       cart: {
-        cartItems : [{}]
+        cartItems: [{}]
       }
     };
 
-    Vue.prototype.$db.cartsCollection.setItem.mockImplementationOnce(() => Promise.resolve('foo'));
+    StorageManager.get('cartsCollection').setItem.mockImplementationOnce(() => Promise.resolve('foo'));
 
     await cartCacheHandlerFactory(Vue)({ type: mutationType }, stateMock);
 
-    expect(Vue.prototype.$db.cartsCollection.setItem)
+    expect(StorageManager.get('cartsCollection').setItem)
       .toBeCalledWith('current-cart', stateMock.cart.cartItems);
   });
 
   it('handler logs error when populating cart cache with items fails', async () => {
     const stateMock = {
       cart: {
-        cartItems : [{}]
+        cartItems: [{}]
       }
     };
 
-    const consoleErrorSpy = jest.spyOn(console, "error").mockImplementationOnce(() => {});
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementationOnce(() => {});
 
-    Vue.prototype.$db.cartsCollection.setItem.mockImplementationOnce(() => Promise.reject('foo'));
+    StorageManager.get('cartsCollection').setItem.mockImplementationOnce(() => Promise.reject('foo'));
 
     await cartCacheHandlerFactory(Vue)({ type: types.CART_LOAD_CART }, stateMock);
 
@@ -58,28 +67,28 @@ describe('Cart afterRegistration', () => {
   it('hook updates cart token in cache on mutation changing cart token', async () => {
     const stateMock = {
       cart: {
-        cartServerToken : 'token'
+        cartServerToken: 'token'
       }
     };
 
-    Vue.prototype.$db.cartsCollection.setItem.mockImplementationOnce(() => Promise.resolve('foo'));
+    StorageManager.get('cartsCollection').setItem.mockImplementationOnce(() => Promise.resolve('foo'));
 
     await cartCacheHandlerFactory(Vue)({ type: types.CART_LOAD_CART_SERVER_TOKEN }, stateMock);
 
-    expect(Vue.prototype.$db.cartsCollection.setItem)
+    expect(StorageManager.get('cartsCollection').setItem)
       .toBeCalledWith('current-cart-token', stateMock.cart.cartServerToken);
   });
 
   it('handler logs error when changing cached token fails', async () => {
     const stateMock = {
       cart: {
-        cartServerToken : 'token'
+        cartServerToken: 'token'
       }
     };
 
-    const consoleErrorSpy = jest.spyOn(console, "error").mockImplementationOnce(() => {});
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementationOnce(() => {});
 
-    Vue.prototype.$db.cartsCollection.setItem.mockImplementationOnce(() => Promise.reject('foo'));
+    StorageManager.get('cartsCollection').setItem.mockImplementationOnce(() => Promise.reject('foo'));
 
     await cartCacheHandlerFactory(Vue)({ type: types.CART_LOAD_CART_SERVER_TOKEN }, stateMock);
 
@@ -89,13 +98,13 @@ describe('Cart afterRegistration', () => {
   it('handler ignores mutation not related to cart cache', async () => {
     const stateMock = {
       cart: {
-        cartServerToken : 'token'
+        cartServerToken: 'token'
       }
     };
 
-    const consoleErrorSpy = jest.spyOn(console, "error").mockImplementationOnce(() => {});
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementationOnce(() => {});
 
-    Vue.prototype.$db.cartsCollection.setItem.mockImplementationOnce(() => Promise.reject('foo'));
+    StorageManager.get('cartsCollection').setItem.mockImplementationOnce(() => Promise.reject('foo'));
 
     await cartCacheHandlerFactory(Vue)({ type: 'bar' }, stateMock);
 

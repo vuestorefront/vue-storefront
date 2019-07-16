@@ -1,0 +1,27 @@
+{
+  "name": "@vue-storefront/module",
+  "sideEffects": "false",
+  "version": "0.0.9",
+  "description": "Vue Storefront modules source",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -- *.js && rm -- *.d.ts",
+    "prepublishOnly": "npm run build",
+    "postpublish": "npm run clean"
+  },
+  "files": [
+    "*.js",
+    "*.d.ts",
+    "tools"
+  ],
+  "author": "Filip Rakowski (@filrak)",
+  "license": "MIT",
+  "dependencies": {
+    "lodash-es": "^4.17.11",
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.6",
+    "vuex": "^3.1.1"
+  }
+}

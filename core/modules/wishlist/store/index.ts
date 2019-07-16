@@ -4,7 +4,7 @@ import mutations from './mutations'
 import RootState from '@vue-storefront/core/types/RootState'
 import WishlistState from '../types/WishlistState'
 
-export const module:Module<WishlistState, RootState> = {
+export const module: Module<WishlistState, RootState> = {
   namespaced: true,
   state: {
     loaded: false,
@@ -13,7 +13,7 @@ export const module:Module<WishlistState, RootState> = {
   actions,
   mutations,
   getters: {
-    isWishlistLoaded: state => state.loaded
+    isWishlistLoaded: state => state.loaded,
+    getWishlistItemsCount: (state) => state.items.length
   }
 }
-

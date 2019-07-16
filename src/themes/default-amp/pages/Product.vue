@@ -9,7 +9,8 @@
               width="450"
               height="500"
               layout="responsive"
-              type="slides">
+              type="slides"
+            >
               <amp-img
                 class="product-image"
                 layout="responsive"
@@ -17,14 +18,15 @@
                 :key="image.src"
                 :src="image.src"
                 :width="450"
-                :height="500"/>
+                :height="500"
+              />
             </amp-carousel>
           </div>
           <div class="col-xs-12 col-md-5 data">
             <breadcrumbs
               class="pt40 pb20 hidden-xs"
               :routes="breadcrumbs.routes"
-              :active-route="breadcrumbs"
+              :active-route="breadcrumbs.name"
             />
             <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
@@ -34,27 +36,27 @@
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
+              <meta itemprop="price" :content="parseFloat(product.price_incl_tax).toFixed(2)">
               <div
                 class="mb40 price serif"
                 v-if="product.type_id !== 'grouped'"
               >
                 <div
                   class="h3 cl-secondary"
-                  v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
+                  v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax"
                 >
                   <span class="h2 cl-mine-shaft weight-700">
-                    {{ product.priceInclTax * product.qty | price }}
+                    {{ product.price_incl_tax * product.qty | price }}
                   </span>&nbsp;
                   <span class="price-original h3">
-                    {{ product.originalPriceInclTax * product.qty | price }}
+                    {{ product.original_price_incl_tax * product.qty | price }}
                   </span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
-                  v-if="!product.special_price && product.priceInclTax"
+                  v-if="!product.special_price && product.price_incl_tax"
                 >
-                  {{ product.priceInclTax * product.qty | price }}
+                  {{ product.price_incl_tax * product.qty | price }}
                 </div>
               </div>
               <div
@@ -86,7 +88,10 @@
                   slug: product.slug,
                   childSku: product.sku
                 }
-              })">Check available sizes</router-link>
+              })"
+              >
+                Check available sizes
+              </router-link>
             </div>
           </div>
         </section>
@@ -127,34 +132,20 @@
 
 <script>
 import Product from '@vue-storefront/core/pages/Product'
-import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
-import GenericSelector from 'theme/components/core/GenericSelector'
-import ColorSelector from 'theme/components/core/ColorSelector.vue'
-import SizeSelector from 'theme/components/core/SizeSelector.vue'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
-import ProductTile from 'theme/components/core/ProductTile.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
-import ProductGallery from 'theme/components/core/ProductGallery'
-import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 
 export default {
   components: {
     Breadcrumbs,
-    ColorSelector,
-    GenericSelector,
     ProductAttribute,
     ProductBundleOptions,
     ProductCustomOptions,
-    ProductGallery,
-    ProductLinks,
-    ProductTile,
-    PromotedOffers,
-    RelatedProducts,
-    SizeSelector
+    ProductLinks
   },
   mixins: [Product],
   data () {

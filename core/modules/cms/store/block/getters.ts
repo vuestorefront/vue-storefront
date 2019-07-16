@@ -9,7 +9,7 @@ const getters: GetterTree<CmsBlockState, RootState> = {
   },
   cmsBlockId: (state) => (id) => {
     return state.items.find(item => item.id === id)
-  },
+  }
 }
 
 export default getters

@@ -11,26 +11,35 @@ install:
 
 jobs:
   include:
-    - stage: Build
+    - &build
+      stage: Build
       script:
-        - yarn lint
-        - yarn build
-      node_js: "8"
-    - script:
         - yarn lint
         - yarn build
       node_js: "10"
 
-    - stage: Tests
+    - <<: *build
+      node_js: '8'
+
+    - &unit
+      stage: Test
       script: yarn test:unit
-      name: "Unit Tests NodeJS 8"
-      node_js: "8"
-    - script: yarn test:unit
-      name: "Unit Tests NodeJS 10"
+      name: "NodeJS 10 unit tests"
       node_js: "10"
-    - script: yarn installer:ci
-      name: "E2E Tests"
-      if: branch IN (master, develop)
+
+    - <<: *unit
+      name: "NodeJS 8 unit tests"
       node_js: "8"
+
+    - &installer
+      script: yarn installer:ci
+      name: "NodeJS 10 installer test"
+      if: branch IN (master, develop)
+      node_js: "10"
       addons:
         chrome: stable
+
+    - <<: *installer
+      name: "NodeJS 8 installer test"
+      node_js: "8"
+

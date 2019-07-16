@@ -6,12 +6,12 @@
       :style="styles"
     >
       <li
-        class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
         v-if="parentSlug"
+        class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex"
       >
         <router-link
           class="px25 py20 cl-accent no-underline col-xs"
-          :to="localizedRoute({ name: 'category', fullPath: parentPath, params: { id: id, slug: parentSlug }})"
+          :to="categoryLink({ url_path: parentPath, slug: parentSlug })"
           data-testid="categoryLink"
         >
           {{ $t('View all') }}
@@ -22,33 +22,36 @@
         :key="link.slug"
         v-for="link in children"
       >
-        <div v-if="isCurrentMenuShowed" class="subcategory-item">
+        <div
+          v-if="isCurrentMenuShowed"
+          class="subcategory-item"
+        >
           <sub-btn
+            v-if="link.children_count > 0"
             class="bg-cl-transparent brdr-none fs-medium"
             :id="link.id"
             :name="link.name"
-            v-if="link.children_count > 0"
           />
           <router-link
             v-else
             class="px25 py20 cl-accent no-underline col-xs"
-            :to="localizedRoute({ name: 'category', fullPath: link.url_path, params: { id: link.id, slug: link.slug }})"
+            :to="categoryLink(link)"
           >
             {{ link.name }}
           </router-link>
         </div>
         <sub-category
+          v-if="link.children_count > 0"
           :category-links="link.children_data"
           :id="link.id"
-          v-if="link.children_count > 0"
           :parent-slug="link.slug"
           :parent-path="link.url_path"
         />
       </li>
     </ul>
     <ul
-      v-if="myAccountLinks"
-      class="sidebar-submenu fixed w-100 p0 bg-cl-primary"
+      v-if="myAccountLinks && !path.length"
+      class="sidebar-submenu absolute w-100 p0 bg-cl-primary"
       :style="styles"
     >
       <li
@@ -65,7 +68,11 @@
         </router-link>
       </li>
       <li class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary flex">
-        <a href="#" class="px25 py20 cl-accent no-underline col-xs" @click.prevent="logout">
+        <a
+          href="#"
+          class="px25 py20 cl-accent no-underline col-xs"
+          @click.prevent="logout"
+        >
           {{ $t('Logout') }}
         </a>
       </li>
@@ -76,6 +83,8 @@
 import { mapState } from 'vuex'
 import SubBtn from './SubBtn.vue'
 import i18n from '@vue-storefront/i18n'
+import config from 'config'
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
 export default {
   name: 'SubCategory',
@@ -110,14 +119,15 @@ export default {
   },
   computed: {
     children () {
-      if (!this.$store.state.config.entities.category.categoriesDynamicPrefetch && (this.categoryLinks && this.categoryLinks.length > 0 && this.categoryLinks[0].name)) { // we're using dynamic prefetching and getting just category.children_data.id from 1.7
+      if (!config.entities.category.categoriesDynamicPrefetch && (this.categoryLinks && this.categoryLinks.length > 0 && this.categoryLinks[0].name)) { // we're using dynamic prefetching and getting just category.children_data.id from 1.7
         return this.categoryLinks
       } else {
         return this.$store.state.category.list.filter(c => { return c.parent_id === this.id }) // return my child categories
       }
     },
     ...mapState({
-      submenu: state => state.ui.submenu
+      submenu: state => state.ui.submenu,
+      path: state => state.ui.submenu.path
     }),
     getSubmenu () {
       return this.submenu
@@ -145,10 +155,14 @@ export default {
           action1: { label: i18n.t('OK') }
         })
       }
+    },
+    categoryLink (category) {
+      return formatCategoryLink(category)
     }
   }
 }
 </script>
+
 <style scoped>
   .sidebar-submenu {
     left: 0;

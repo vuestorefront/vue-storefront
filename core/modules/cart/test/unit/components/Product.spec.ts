@@ -1,8 +1,8 @@
-import {mountMixin, mountMixinWithStore} from "@vue-storefront/unit-tests/utils";
+import {mountMixin, mountMixinWithStore} from '@vue-storefront/unit-tests/utils';
 
-import Product from "@vue-storefront/core/modules/catalog/types/Product";
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { productThumbnailPath } from '@vue-storefront/core/helpers';
-
+import config from 'config'
 import { MicrocartProduct } from '../../../components/Product';
 import Mock = jest.Mock;
 
@@ -11,43 +11,69 @@ jest.mock('@vue-storefront/core/helpers', () => ({
 }));
 
 describe('MicrocartProduct', () => {
-
   beforeEach(() => {
     jest.clearAllMocks();
+    Object.keys(config).forEach((key) => { delete config[key]; });
   });
 
   it('thumbnail in online mode returns thumbnail in lower size', () => {
-    (<Mock> productThumbnailPath).mockReturnValueOnce('thumbnail-path');
+    config.products = {
+      thumbnails: {
+        width: 300,
+        height: 300
+      }
+    };
+    config.cart = {
+      thumbnails: {
+        width: 150,
+        height: 150
+      }
+    };
 
-    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true});
+    (productThumbnailPath as Mock).mockReturnValueOnce('thumbnail-path');
 
-    const product = {} as Product;
+    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
+
+    const product = {} as any as Product;
     const wrapper = mountMixin(MicrocartProduct, { propsData: { product } });
     const getThumbnail = jest.fn(() => 'resized-thumbnail-path');
 
     wrapper.setMethods({ getThumbnail });
 
-    expect((<any> wrapper.vm).thumbnail).toEqual('resized-thumbnail-path');
+    expect((wrapper.vm as any).thumbnail).toEqual('resized-thumbnail-path');
     expect(getThumbnail).toBeCalledWith('thumbnail-path', 150, 150);
   });
 
   it('thumbnail in offline mode returns thumbnail in greater size', () => {
-    (<Mock> productThumbnailPath).mockReturnValueOnce('thumbnail-path');
+    config.products = {
+      thumbnails: {
+        width: 300,
+        height: 300
+      }
+    };
+    config.cart = {
+      thumbnails: {
+        width: 150,
+        height: 150
+      }
+    };
 
-    Object.defineProperty(navigator, 'onLine', { value: false, configurable: true});
+    (productThumbnailPath as Mock).mockReturnValueOnce('thumbnail-path');
 
-    const product = {} as Product;
+    Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
+
+    const product = {} as any as Product;
     const wrapper = mountMixin(MicrocartProduct, { propsData: { product } });
     const getThumbnail = jest.fn(() => 'resized-thumbnail-path');
 
     wrapper.setMethods({ getThumbnail });
 
-    expect((<any> wrapper.vm).thumbnail).toEqual('resized-thumbnail-path');
-    expect(getThumbnail).toBeCalledWith('thumbnail-path', 310, 300);
+    expect((wrapper.vm as any).thumbnail).toEqual('resized-thumbnail-path');
+    expect(getThumbnail).toBeCalledWith('thumbnail-path', 300, 300);
   });
 
   it('removeFromCart dispatches removeItem to remove product from cart', () => {
-    const product = {} as Product;
+    const product = {} as any as Product;
     const storeMock = {
       modules: {
         cart: {
@@ -61,13 +87,13 @@ describe('MicrocartProduct', () => {
 
     const wrapper = mountMixinWithStore(MicrocartProduct, storeMock, { propsData: { product } });
 
-    (<any> wrapper.vm).removeFromCart();
+    (wrapper.vm as any).removeFromCart();
 
-    expect(storeMock.modules.cart.actions.removeItem).toBeCalledWith(expect.anything(), { product } , undefined);
+    expect(storeMock.modules.cart.actions.removeItem).toBeCalledWith(expect.anything(), { product }, undefined);
   });
 
   it('updateQuantity dispatches updateQuantity update product quantity in cart', () => {
-    const product = {} as Product;
+    const product = {} as any as Product;
     const qty = 123;
     const storeMock = {
       modules: {
@@ -82,11 +108,11 @@ describe('MicrocartProduct', () => {
 
     const wrapper = mountMixinWithStore(MicrocartProduct, storeMock, { propsData: { product } });
 
-    (<any> wrapper.vm).updateQuantity(qty);
+    (wrapper.vm as any).updateQuantity(qty);
 
     expect(storeMock.modules.cart.actions.updateQuantity).toBeCalledWith(
       expect.anything(),
-      { product, qty},
+      { product, qty },
       undefined
     );
   });

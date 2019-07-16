@@ -3,16 +3,13 @@ import store from '@vue-storefront/core/store'
 
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import config from 'config'
+import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
 
 export const CancelOrders = {
   methods: {
     cancelOrders () {
-      const ordersCollection = new UniversalStorage(localForage.createInstance({
-        name: 'shop',
-        storeName: 'orders',
-        driver: localForage[store.state.config.localForage.defaultDrivers['orders']]
-      }))
-
+      const ordersCollection = initCacheStorage('orders', false, true)
       ordersCollection.iterate((order, id, iterationNumber) => {
         if (!order.transmited) {
           ordersCollection.removeItem(id)

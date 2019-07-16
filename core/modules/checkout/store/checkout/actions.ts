@@ -1,9 +1,9 @@
-import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
 import CheckoutState from '../../types/CheckoutState'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 const actions: ActionTree<CheckoutState, RootState> = {
   /**
@@ -15,8 +15,8 @@ const actions: ActionTree<CheckoutState, RootState> = {
     try {
       const result = await dispatch('order/placeOrder', order, {root: true})
       if (!result.resultCode || result.resultCode === 200) {
-        Vue.prototype.$db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
-        dispatch('cart/clear', {}, {root: true})
+        StorageManager.get('usersCollection').setItem('last-cart-bypass-ts', new Date().getTime())
+        await dispatch('cart/clear', { recreateAndSyncCart: true }, {root: true})
         if (state.personalDetails.createAccount) {
           commit(types.CHECKOUT_DROP_PASSWORD)
         }
@@ -24,6 +24,9 @@ const actions: ActionTree<CheckoutState, RootState> = {
     } catch (e) {
       Logger.error(e, 'checkout')()
     }
+  },
+  setModifiedAt ({ commit }, timestamp) {
+    commit(types.CHECKOUT_SET_MODIFIED_AT, timestamp)
   },
   savePersonalDetails ({ commit }, personalDetails) {
     // todo: create and move perdonal details vuex
@@ -38,19 +41,19 @@ const actions: ActionTree<CheckoutState, RootState> = {
     commit(types.CHECKOUT_SAVE_PAYMENT_DETAILS, paymentDetails)
   },
   load ({ commit }) {
-    Vue.prototype.$db.checkoutFieldsCollection.getItem('personal-details', (err, details) => {
+    StorageManager.get('checkoutFieldsCollection').getItem('personal-details', (err, details) => {
       if (err) throw new Error(err)
       if (details) {
         commit(types.CHECKOUT_LOAD_PERSONAL_DETAILS, details)
       }
     })
-    Vue.prototype.$db.checkoutFieldsCollection.getItem('shipping-details', (err, details) => {
+    StorageManager.get('checkoutFieldsCollection').getItem('shipping-details', (err, details) => {
       if (err) throw new Error(err)
       if (details) {
         commit(types.CHECKOUT_LOAD_SHIPPING_DETAILS, details)
       }
     })
-    Vue.prototype.$db.checkoutFieldsCollection.getItem('payment-details', (err, details) => {
+    StorageManager.get('checkoutFieldsCollection').getItem('payment-details', (err, details) => {
       if (err) throw new Error(err)
       if (details) {
         commit(types.CHECKOUT_LOAD_PAYMENT_DETAILS, details)

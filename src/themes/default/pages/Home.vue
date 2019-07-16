@@ -2,12 +2,14 @@
   <div id="home">
     <head-image />
 
-    <promoted-offers/>
+    <promoted-offers />
 
-    <section class="new-collection container px15">
+    <section class="new-collection container px15" v-if="everythingNewCollection && everythingNewCollection.length">
       <div>
         <header class="col-md-12">
-          <h2 class="align-center cl-accent">{{ $t('Everything new') }}</h2>
+          <h2 class="align-center cl-accent">
+            {{ $t('Everything new') }}
+          </h2>
         </header>
       </div>
       <div class="row center-xs">
@@ -15,22 +17,24 @@
       </div>
     </section>
 
-    <section class="container pb60 px15">
+    <section v-if="isOnline" class="container pb60 px15">
       <div class="row center-xs">
-        <header class="col-md-12 pt40">
-          <h2 class="align-center cl-accent">{{ $t('Get inspired') }}</h2>
+        <header class="col-md-12" :class="{ pt40: everythingNewCollection && everythingNewCollection.length }">
+          <h2 class="align-center cl-accent">
+            {{ $t('Get inspired') }}
+          </h2>
         </header>
       </div>
       <tile-links />
     </section>
-    <Onboard/>
+    <Onboard />
   </div>
 </template>
 
 <script>
 // query constructor
 import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
-import { isServer } from '@vue-storefront/core/helpers'
+import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
 
 // Core pages
 import Home from '@vue-storefront/core/pages/Home'
@@ -44,6 +48,9 @@ import Onboard from 'theme/components/theme/blocks/Home/Onboard'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { mapGetters } from 'vuex'
+import config from 'config'
+
 export default {
   mixins: [Home],
   components: {
@@ -54,6 +61,7 @@ export default {
     TileLinks
   },
   computed: {
+    ...mapGetters('user', ['isLoggedIn']),
     categories () {
       return this.getCategories
     },
@@ -62,6 +70,9 @@ export default {
     },
     coolBagsCollection () {
       return this.$store.state.homepage.coolbags_collection
+    },
+    isOnline () {
+      return onlineHelper.isOnline
     }
   },
   created () {
@@ -77,9 +88,17 @@ export default {
       }
     }
   },
+  mounted () {
+    if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup')
+  },
+  watch: {
+    isLoggedIn () {
+      const redirectObj = localStorage.getItem('redirect')
+      if (redirectObj) this.$router.push(redirectObj)
+      localStorage.removeItem('redirect')
+    }
+  },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    const config = store.state.config
-
     Logger.info('Calling asyncData in Home (theme)')()
 
     let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })

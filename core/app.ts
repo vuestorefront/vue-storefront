@@ -1,11 +1,10 @@
 import { Store } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import Vue from 'vue'
-import buildTimeConfig from 'config'
 import { isServer } from '@vue-storefront/core/helpers'
-import { Logger } from '@vue-storefront/core/lib/logger'
 
 // Plugins
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import i18n from '@vue-storefront/i18n'
 import VueRouter from 'vue-router'
 import VueLazyload from 'vue-lazyload'
@@ -32,9 +31,14 @@ import store from '@vue-storefront/core/store'
 
 import { enabledModules } from './modules-entry'
 
-// Will be deprecated in 1.8
+// Will be deprecated in 2.0
 import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
 import { registerExtensions as extensions } from 'src/extensions'
+import globalConfig from 'config'
+
+import { injectReferences } from '@vue-storefront/module'
+import { coreHooksExecutors } from '@vue-storefront/core/hooks'
+import { registerNewModules } from 'src/modules';
 
 function createRouter (): VueRouter {
   return new VueRouter({
@@ -61,22 +65,21 @@ once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
 })
 
-const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
+const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
   router = createRouter()
   // sync router with vuex 'router' store
   sync(store, router)
   // TODO: Don't mutate the state directly, use mutation instead
   store.state.version = process.env.APPVERSION
-  store.state.config = config
-  store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
-  if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
-  if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
+  store.state.config = config // @deprecated
+  store.state.__DEMO_MODE__ = (config.demomode === true)
+  if (ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
+  if (!store.state.config) store.state.config = globalConfig //  @deprecated - we should avoid the `config`
   const storeView = prepareStoreView(storeCode) // prepare the default storeView
   store.state.storeView = storeView
   // store.state.shipping.methods = shippingMethods
 
-  
-  // to depreciate in near future
+  // @deprecated from 2.0
   once('__VUE_EXTEND__', () => {
     Vue.use(Vuelidate)
     Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
@@ -113,11 +116,15 @@ const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: V
     ssrContext
   }
 
+  injectReferences(app, store, router, globalConfig)
+  registerNewModules()
   registerModules(enabledModules, appContext)
   registerExtensions(extensions, app, router, store, config, ssrContext)
-  registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
+  registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
 
-  app.$emit('application-after-init', app)
+  coreHooksExecutors.afterAppInit()
+  // @deprecated from 2.0
+  EventBus.$emit('application-after-init', app)
 
   return { app, router, store }
 }
