@@ -9,20 +9,18 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
       Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
     }
   }
-
+  // Update the methods
+  let paymentMethodConfig = {
+    'title': 'Cash on delivery',
+    'code': 'cashondelivery',
+    'cost': 0,
+    'costInclTax': 0,
+    'default': true,
+    'offline': true,
+    'is_server_method': false
+  }
+  rootStore.dispatch('payment/addMethod', paymentMethodConfig)
   if (!isServer) {
-    // Update the methods
-    let paymentMethodConfig = {
-      'title': 'Cash on delivery',
-      'code': 'cashondelivery',
-      'cost': 0,
-      'costInclTax': 0,
-      'default': true,
-      'offline': true,
-      'is_server_method': false
-    }
-    rootStore.dispatch('payment/addMethod', paymentMethodConfig)
-
     Vue.prototype.$bus.$on('checkout-before-placeOrder', placeOrder)
 
     // Mount the info component when required.
