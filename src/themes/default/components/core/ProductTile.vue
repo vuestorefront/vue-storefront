@@ -45,23 +45,17 @@
       <span
         class="price-original mr5 lh30 cl-secondary"
         v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0 && !onlyImage"
-      >
-        {{ product.original_price_incl_tax | price }}
-      </span>
+      >{{ product.original_price_incl_tax | price }}</span>
 
       <span
         class="price-special lh30 cl-accent weight-700"
         v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
-      >
-        {{ product.price_incl_tax | price }}
-      </span>
+      >{{ product.price_incl_tax | price }}</span>
 
       <span
         class="lh30 cl-secondary"
         v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
-      >
-        {{ product.price_incl_tax | price }}
-      </span>
+      >{{ product.price_incl_tax | price }}</span>
     </router-link>
   </div>
 </template>
@@ -202,20 +196,20 @@ $color-white: color(white);
   font-size: 12px;
 }
 
-.product-cover{
+.product-cover {
   overflow: hidden;
   max-height: 300px;
-  &__thumb{
+  &__thumb {
     padding-bottom: calc(143.88% / (164.5 / 100));
-    @media screen and (min-width: 768px){
+    @media screen and (min-width: 768px) {
       padding-bottom: calc(300% / (276.5 / 100));
     }
-    opacity: .8;
+    opacity: 0.8;
     will-change: opacity, transform;
-    transition: .3s opacity $motion-main, .3s transform $motion-main;
+    transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
   }
-  &:hover{
-    .product-cover__thumb{
+  &:hover {
+    .product-cover__thumb {
       opacity: 1;
       transform: scale(1.1);
     }
@@ -224,7 +218,7 @@ $color-white: color(white);
       opacity: 0.8;
     }
   }
-  &.sale{
+  &.sale {
     &::after {
       @extend %label;
       content: 'Sale';

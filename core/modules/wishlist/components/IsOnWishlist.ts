@@ -14,8 +14,8 @@ export const IsOnWishlist = {
     WishlistModule.register()
   },
   computed: {
-    isOnWishlist (): boolean {
-      return !!this.$store.state.wishlist.items.find(p => p.sku === this.product.sku) || false
+    isOnWishlist () {
+      return this.$store.getters['wishlist/isOnWishlist'](this.product)
     }
   }
 }

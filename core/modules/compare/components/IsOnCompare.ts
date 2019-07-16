@@ -1,3 +1,5 @@
+// import { IsOnCompare } from './IsOnCompare';
+// import { mapGetters } from 'vuex'
 import { Compare as CompareModule } from '..'
 import compareMountedMixin from '@vue-storefront/core/modules/compare/mixins/compareMountedMixin'
 
@@ -14,12 +16,8 @@ export const IsOnCompare = {
     CompareModule.register()
   },
   computed: {
-    isOnCompare (): boolean {
-      return (
-        !!this.$store.state.compare.items.find(
-          p => p.sku === this.product.sku
-        ) || false
-      )
+    isOnCompare () {
+      return this.$store.getters['compare/isOnCompare'](this.product)
     }
   }
 }
