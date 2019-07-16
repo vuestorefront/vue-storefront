@@ -246,6 +246,12 @@ Vue Storefront product objects can be quite large. They consist of `configurable
 Please take a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/cart).
 
 ```json
+    "optimizeShoppingCartOmitFields": ["configurable_children", "configurable_options", "media_gallery", "description", "category", "category_ids", "product_links", "stock", "description"],
+```
+
+You can specify which fields get stripped out of the Cart object, by changing the `optimizeShoppingCartOmitFields` array.
+
+```json
   "category": {
     "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count" ]
   },
