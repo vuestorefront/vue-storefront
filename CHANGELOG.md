@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
+- Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
 
 ### Fixed
 
@@ -36,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Translation file improvements - @vishal-7037 (#3198)
 - Added configuration for max attempt task & cart by pass - @cnviradiya (#3193)
 - Added catching of errors when ES is down - @qiqqq
+- Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
 
 ## [1.10.0-rc.2] - UNRELEASED
 
