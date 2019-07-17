@@ -405,9 +405,6 @@
   "hotjar": {
     "id": false
   },
-  "facebookPixel": {
-    "id": "2396882913914745"
-  },
   "cms": {
     "endpoint": "https://api.dev.jimmylion.com/api/ext/cms-data/cms{{type}}/{{cmsId}}",
     "endpointIdentifier": "https://api.dev.jimmylion.com/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
