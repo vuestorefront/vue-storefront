@@ -139,6 +139,10 @@ describe('Multistore', () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
+      config.storeViews = {
+        multistore: false
+      }
+
       config.tax = {
         defaultCountry: 'US'
       }
@@ -171,11 +175,55 @@ describe('Multistore', () => {
       })
     })
 
-    it('return default storeView with Store Code de', () => {
+    it('return default storeView with defaultStoreCode set to  de and multistore set to false', () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
       config.storeViews = {
+        multistore: false,
+        de: {
+          storeId: 4
+        }
+      }
+
+      config.tax = {
+        defaultCountry: 'US'
+      }
+
+      config.i18n = {
+        defaultLocale: 'en-US',
+        fullCountryName: 'United States',
+        fullLanguageName: 'English'
+      }
+
+      config.elasticsearch = {
+        index: 'vue_storefront_catalog'
+      }
+      config.defaultStoreCode = 'de'
+
+      expect(prepareStoreView(null)).toStrictEqual({
+        tax: {
+          defaultCountry: 'US'
+        },
+        i18n: {
+          defaultLocale: 'en-US',
+          fullCountryName: 'United States',
+          fullLanguageName: 'English'
+        },
+        elasticsearch: {
+          index: 'vue_storefront_catalog'
+        },
+        storeId: 4,
+        storeCode: ''
+      })
+    })
+
+    it('return default storeView with defaultStoreCode set to  de', () => {
+      rootStore.state.storeView = {}
+      rootStore.state.user = {}
+
+      config.storeViews = {
+        multistore: true,
         de: {
           storeId: 4
         }
@@ -213,11 +261,13 @@ describe('Multistore', () => {
       })
     })
 
-    it('return default storeView with Store Code de with merged values from store de', () => {
+
+    it('return de storeView with merged store config values', () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
       config.storeViews = {
+        multistore: true,
         de: {
           storeCode: 'de',
           storeId: 3,
@@ -269,11 +319,12 @@ describe('Multistore', () => {
       })
     })
 
-    it('return default storeView with Store Code it with merged values from store it', () => {
+    it('return it storeView with merged store config values', () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
       config.storeViews = {
+        multistore: true,
         de: {
           storeCode: 'de',
           storeId: 3,

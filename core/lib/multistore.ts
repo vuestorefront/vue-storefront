@@ -80,9 +80,16 @@ export function prepareStoreView (storeCode: string): StoreView {
     tax: config.tax,
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
-    storeCode: storeCode || config.defaultStoreCode || '',
+    storeCode: null,
     storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1
   }
+
+  if (config.storeViews.multistore) {
+    storeView.storeCode = storeCode || config.defaultStoreCode || ''
+  } else {
+    storeView.storeCode = storeCode || ''
+  }
+
   const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
 
   if (storeView.storeCode && config.storeViews[storeView.storeCode]) {
