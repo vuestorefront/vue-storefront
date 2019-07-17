@@ -4,7 +4,7 @@ import WishlistState from '../types/WishlistState'
 
 const getters: GetterTree<WishlistState, RootState> = {
   isOnWishlist: state => product =>
-    state.items.find(p => p.sku === product.sku),
+    state.items.some(p => p.sku === product.sku),
   isWishlistLoaded: state => state.loaded,
   getWishlistItemsCount: state => state.items.length
 }

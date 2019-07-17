@@ -1,5 +1,3 @@
-// import { IsOnCompare } from './IsOnCompare';
-// import { mapGetters } from 'vuex'
 import { Compare as CompareModule } from '..'
 import compareMountedMixin from '@vue-storefront/core/modules/compare/mixins/compareMountedMixin'
 
