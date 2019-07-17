@@ -607,11 +607,18 @@ When `demomode` is set to `true`, Vue Storefront will display the "Welcome to Vu
   "sourcePriceIncludesTax": false,
   "defaultCountry": "DE",
   "defaultRegion": "",
-  "calculateServerSide": true
+  "calculateServerSide": true,
+  "userGroupId": null
 },
 ```
 
-The taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/helpers/tax.ts). When `sourcePricesIncludesTax` is set to `true`  it means that the prices indexed in the Elasticsearch already consist of the taxes. If it's set to `false` the taxes will be calculated runtime.
+The taxes section is used by the
+[core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/helpers/tax.ts).
+When `sourcePricesIncludesTax` is set to `true` it means that the prices
+indexed in the Elasticsearch already consist of the taxes. If it's set
+to `false` the taxes will be calculated runtime. The `userGroupId`
+config does only work when you have set `sourcePriceIncludesTax` set to
+`false` and `calculateServerSide` is set to `false`.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous, unidentified user (which country is not yet set).
 
