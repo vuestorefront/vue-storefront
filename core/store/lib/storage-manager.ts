@@ -48,7 +48,7 @@ const StorageManager = {
   }
 }
 
-function _prepareCacheStorage (key, localised = true, storageQuota = 0) {
+function _prepareCacheStorage (key, localized = true, storageQuota = 0) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
   const cacheDriver = config.localForage && config.localForage.defaultDrivers[key]
