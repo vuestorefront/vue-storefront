@@ -78,7 +78,6 @@
                     <div v-if="option.label == 'Color'">
                       <color-selector
                         v-for="filter in getAvailableFilters[option.attribute_code]"
-                        v-if="isOptionAvailable(filter)"
                         :key="filter.id"
                         :variant="filter"
                         :selected-filters="getSelectedFilters"
@@ -89,7 +88,6 @@
                       <size-selector
                         class="mr10 mb10"
                         v-for="filter in getAvailableFilters[option.attribute_code]"
-                        v-if="isOptionAvailable(filter)"
                         :key="filter.id"
                         :variant="filter"
                         :selected-filters="getSelectedFilters"
@@ -100,7 +98,6 @@
                       <generic-selector
                         class="mr10 mb10"
                         v-for="filter in getAvailableFilters[option.attribute_code]"
-                        v-if="isOptionAvailable(filter)"
                         :key="filter.id"
                         :variant="filter"
                         :selected-filters="getSelectedFilters"
@@ -273,17 +270,13 @@ export default {
       if (this.product && this.product.configurable_options) {
         this.product.configurable_options.forEach(configurableOption => {
           const type = configurableOption.attribute_code
-          const filterVariants = configurableOption.values.map(
-            ({ value_index, label }) => {
-              let currentVariant = this.options[type].find(
-                config => config.id === value_index
-              )
-              label =
-                label || (currentVariant ? currentVariant.label : value_index)
-              return { id: value_index, label, type }
-            }
-          )
-          filtersMap[type] = filterVariants
+          const filterVariants = configurableOption.values.map(({value_index, label}) => {
+            let currentVariant = this.options[type].find(config => config.id === value_index)
+            label = label || (currentVariant ? currentVariant.label : value_index)
+            return {id: value_index, label, type}
+          })
+          const availableOptions = filterVariants.filter(option => this.isOptionAvailable(option))
+          filtersMap[type] = availableOptions
         })
       }
       return filtersMap

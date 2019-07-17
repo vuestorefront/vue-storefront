@@ -373,6 +373,10 @@
     "images": {
       "useExactUrlsNoProxy": false,
       "baseUrl": "https://demo.vuestorefront.io/img/",
+      "useSpecificImagePaths": false,
+      "paths": {
+        "product": "/catalog/product"
+      },
       "productPlaceholder": "/assets/placeholder.jpg"
     },
     "install": {

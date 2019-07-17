@@ -55,7 +55,7 @@ class VueStorefrontModule {
   }
 
   private _extendModule (extendedConfig: VueStorefrontModuleConfig): void {
-    const mergedStore = { modules: [] };
+    const mergedStore = { modules: [], plugin: null }
     const key = this._c.key
     const originalStore = this._c.store
     const extendedStore = extendedConfig.store
@@ -63,6 +63,7 @@ class VueStorefrontModule {
     delete extendedConfig.store
     this._c = merge(this._c, extendedConfig)
     mergedStore.modules = mergeStores(originalStore, extendedStore)
+    mergedStore.plugin = extendedStore.plugin || originalStore.plugin || null
     this._c.store = mergedStore
     Logger.info('Module "' + key + '" has been succesfully extended.', 'module')()
   }

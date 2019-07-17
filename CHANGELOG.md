@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
 - Add icons on the product tiles that allow to add to the wish list and to the list to compare products from the list of products - @Michal-Dziedzinski (#2773)
+- Get also none product image thumbnails via API - @cewald, @resubaka (#3207)
 - Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
 
 ### Fixed
@@ -27,6 +28,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed error for the orderhistory null for google-tag-manager extension - @cnviradiya (#3195)
 - Fixed swatches not rendering properly at product detail page issue - @vishal-7037 (#3206)
 - Fixed label of configurable options in cart after product just added - @cheeerd (#3164)
+- Fixed eslint warning in Product Page, removed v-if from v-for node - @przspa (#3181)
+- Fixed aspect ratio in ProductImage component - @przspa (#3187)
+- Fixed AMP Product page - @przspa (#3227)
+- Fixed when store has updated, but plugin didn't called - @serzilo (#3238)
 
 ### Changed / Improved
 
@@ -47,8 +52,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Wrong meta description attribute by page overwrite - @przspa (#3091)
 - The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
 - Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
-- Fixed aspect ratio in ProductImage component - @przspa (#3187)
-- Fixed AMP Product page - @przspa (#3227)
+- User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
+- Fixed undefined id of color swatches issue for simple product - @vishal-7037 (#3239)
 
 ### Changed
 
