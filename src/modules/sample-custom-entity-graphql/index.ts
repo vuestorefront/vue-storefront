@@ -20,7 +20,7 @@ export const CustomEntityGqlModule: StorefrontModule = function (app, store, rou
     // resolver for testentity should be implemented on the GraphQL server provided
     searchAdapter.registerEntityTypeByQuery(TEST_ENTITY_TYPE, {
       url: 'http://localhost:8080/graphql/',
-      query: require('../queries/testentity.gql'),
+      query: require('./testentity.gql'),
       queryProcessor: (query) => {
         // function that can modify the query each time before it's being executed
         return query
