@@ -84,7 +84,7 @@ export function prepareStoreView (storeCode: string): StoreView {
     storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1
   }
 
-  if (config.storeViews.multistore) {
+  if (config.storeViews.multistore === true) {
     storeView.storeCode = storeCode || config.defaultStoreCode || ''
   } else {
     storeView.storeCode = storeCode || ''
@@ -92,7 +92,7 @@ export function prepareStoreView (storeCode: string): StoreView {
 
   const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
 
-  if (storeView.storeCode && config.storeViews[storeView.storeCode]) {
+  if (storeView.storeCode && config.storeViews.multistore === true && config.storeViews[storeView.storeCode]) {
     storeView = merge(storeView, getExtendedStoreviewConfig(config.storeViews[storeView.storeCode]))
   }
   rootStore.state.user.current_storecode = storeView.storeCode

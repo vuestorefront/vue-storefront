@@ -261,7 +261,6 @@ describe('Multistore', () => {
       })
     })
 
-
     it('return de storeView with merged store config values', () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
