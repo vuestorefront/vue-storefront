@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
 - Get also none product image thumbnails via API - @cewald, @resubaka (#3207)
 - Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
+- Added support for tax calculation where the values from customer_tax_class_ids is used - @resubaka (#3245)
 
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)
