@@ -106,50 +106,50 @@
     "initialStateFilter": ["__DEMO_MODE__", "version", "storeView"],
     "useInitialStateFilter": true
   },
-  "defaultStoreCode": "",
+  "defaultStoreCode": "es",
   "storeViews": {
-    "multistore": false,
+    "multistore": true,
     "commonCache": true,
-    "mapStoreUrlsFor": ["de", "it"],
-    "de": {
-      "storeCode": "de",
-      "disabled": true,
-      "storeId": 3,
-      "name": "German Store",
-      "url": "/de",
+    "mapStoreUrlsFor": ["es", "it", "fr", "de", "eu", "gb", "mx", "us"],
+    "es": {
+      "storeCode": "es",
+      "disabled": false,
+      "storeId": 1,
+      "name": "Spanish Store",
+      "url": "/es",
       "elasticsearch": {
-        "host": "/api/catalog",
-        "index": "vue_storefront_catalog_de"
+        "host": "https://api.jl.es.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_es"
       },
       "tax": {
-        "sourcePriceIncludesTax": false,
-        "defaultCountry": "DE",
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "ES",
         "defaultRegion": "",
         "calculateServerSide": true
       },
       "i18n": {
-        "fullCountryName": "Germany",
-        "fullLanguageName": "German",
-        "defaultLanguage": "DE",
-        "defaultCountry": "DE",
-        "defaultLocale": "de-DE",
+        "fullCountryName": "Español",
+        "fullLanguageName": "Spanish",
+        "defaultLanguage": "ES",
+        "defaultCountry": "ES",
+        "defaultLocale": "es-ES",
         "currencyCode": "EUR",
-        "currencySign": "EUR",
+        "currencySign": "€ ",
         "dateFormat": "HH:mm D-M-YYYY"
       }
     },
     "it": {
       "storeCode": "it",
-      "disabled": true,
-      "storeId": 4,
+      "disabled": false,
+      "storeId": 2,
       "name": "Italian Store",
       "url": "/it",
       "elasticsearch": {
-        "host": "/api/catalog",
-        "index": "vue_storefront_catalog_it"
+        "host": "https://api.jl.it-fr.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_es"
       },
       "tax": {
-        "sourcePriceIncludesTax": false,
+        "sourcePriceIncludesTax": true,
         "defaultCountry": "IT",
         "defaultRegion": "",
         "calculateServerSide": true
@@ -157,11 +157,173 @@
       "i18n": {
         "fullCountryName": "Italy",
         "fullLanguageName": "Italian",
-        "defaultCountry": "IT",
         "defaultLanguage": "IT",
+        "defaultCountry": "IT",
         "defaultLocale": "it-IT",
         "currencyCode": "EUR",
-        "currencySign": "EUR",
+        "currencySign": "€ ",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "fr": {
+      "storeCode": "fr",
+      "disabled": false,
+      "storeId": 3,
+      "name": "French Store",
+      "url": "/fr",
+      "elasticsearch": {
+        "host": "https://api.jl.it-fr.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_es"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "FR",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "France",
+        "fullLanguageName": "French",
+        "defaultLanguage": "FR",
+        "defaultCountry": "FR",
+        "defaultLocale": "fr-FR",
+        "currencyCode": "EUR",
+        "currencySign": "€ ",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "de": {
+      "storeCode": "de",
+      "disabled": false,
+      "storeId": 4,
+      "name": "German Store",
+      "url": "/de",
+      "elasticsearch": {
+        "host": "https://api.jl.uk-eur.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_es"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "DE",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Deutsh",
+        "fullLanguageName": "German",
+        "defaultLanguage": "DE",
+        "defaultCountry": "DE",
+        "defaultLocale": "de-DE",
+        "currencyCode": "EUR",
+        "currencySign": "€ ",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "eu": {
+      "storeCode": "eu",
+      "disabled": false,
+      "storeId": 5,
+      "name": "Europe Store",
+      "url": "/eu",
+      "elasticsearch": {
+        "host": "https://api.jl.uk-eur.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_es"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "EU",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Europe",
+        "fullLanguageName": "English",
+        "defaultLanguage": "EN",
+        "defaultCountry": "EU",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€ ",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "gb": {
+      "storeCode": "gb",
+      "disabled": false,
+      "storeId": 6,
+      "name": "Great Britain Store",
+      "url": "/gb",
+      "elasticsearch": {
+        "host": "https://api.jl.uk-eur.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_es"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "GB",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Great Britain",
+        "fullLanguageName": "English",
+        "defaultLanguage": "EN",
+        "defaultCountry": "GB",
+        "defaultLocale": "en-US",
+        "currencyCode": "GBP",
+        "currencySign": "£ ",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "us": {
+      "storeCode": "us",
+      "disabled": false,
+      "storeId": 7,
+      "name": "United States Store",
+      "url": "/us",
+      "elasticsearch": {
+        "host": "https://api.jl.usa.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_us"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "USA",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "United States of America",
+        "fullLanguageName": "English",
+        "defaultLanguage": "EN",
+        "defaultCountry": "USA",
+        "defaultLocale": "en-US",
+        "currencyCode": "USD",
+        "currencySign": "$ ",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "mx": {
+      "storeCode": "mx",
+      "disabled": false,
+      "storeId": 8,
+      "name": "Mexican Store",
+      "url": "/mx",
+      "elasticsearch": {
+        "host": "https://api.jl.mx.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_mx"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "MX",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Mexico",
+        "fullLanguageName": "Español",
+        "defaultLanguage": "ES",
+        "defaultCountry": "MX",
+        "defaultLocale": "es-ES",
+        "currencyCode": "MXN",
+        "currencySign": "$ ",
         "dateFormat": "HH:mm D-M-YYYY"
       }
     }
@@ -500,7 +662,7 @@
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "https://demo.vuestorefront.io/img/",
+    "baseUrl": "https://api.dev.jimmylion.com/img/",
     "productPlaceholder": "/assets/placeholder.jpg"
   },
   "install": {
@@ -515,15 +677,17 @@
     "calculateServerSide": true
   },
   "shipping": {
-    "methods": [{
-      "method_title": "DPD Courier",
-      "method_code": "flatrate",
-      "carrier_code": "flatrate",
-      "amount": 4,
-      "price_incl_tax": 5,
-      "default": true,
-      "offline": true
-    }]
+    "methods": [
+      {
+        "method_title": "DPD Courier",
+        "method_code": "flatrate",
+        "carrier_code": "flatrate",
+        "amount": 4,
+        "price_incl_tax": 5,
+        "default": true,
+        "offline": true
+      }
+    ]
   },
   "i18n": {
     "defaultCountry": "US",
@@ -568,9 +732,6 @@
   "hotjar": {
     "id": false
   },
-  "facebookPixel": {
-    "id": "2396882913914745"
-  },
   "cms": {
     "endpoint": "https://api.dev.jimmylion.com/api/ext/cms-data/cms{{type}}/{{cmsId}}",
     "endpointIdentifier": "https://api.dev.jimmylion.com/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
@@ -585,36 +746,44 @@
   "useZeroPriceProduct": true,
   "query": {
     "inspirations": {
-      "filter": [{
-        "key": "category.name",
-        "value": {
-          "eq": "Performance Fabrics"
+      "filter": [
+        {
+          "key": "category.name",
+          "value": {
+            "eq": "Performance Fabrics"
+          }
         }
-      }]
+      ]
     },
     "newProducts": {
-      "filter": [{
-        "key": "category.name",
-        "value": {
-          "eq": "Tees"
+      "filter": [
+        {
+          "key": "category.name",
+          "value": {
+            "eq": "Tees"
+          }
         }
-      }]
+      ]
     },
     "coolBags": {
-      "filter": [{
-        "key": "category.name",
-        "value": {
-          "eq": "Women"
+      "filter": [
+        {
+          "key": "category.name",
+          "value": {
+            "eq": "Women"
+          }
         }
-      }]
+      ]
     },
     "bestSellers": {
-      "filter": [{
-        "key": "category.name",
-        "value": {
-          "eq": "Tees"
+      "filter": [
+        {
+          "key": "category.name",
+          "value": {
+            "eq": "Tees"
+          }
         }
-      }]
+      ]
     }
   }
 }
