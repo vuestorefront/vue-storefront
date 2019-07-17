@@ -58,8 +58,8 @@ export interface Config {
   query: Query
 }
 
-type Protocol = 'http' | 'https';
-type Storage = 'LOCALSTORAGE' | 'INDEXEDDB';
+type Protocol = 'http' | 'https'
+type Storage = 'LOCALSTORAGE' | 'INDEXEDDB'
 
 interface Server {
   /** Default value: "localhost" */
@@ -97,6 +97,7 @@ interface Server {
 }
 
 interface SsrDisabledFor {
+  /** Default value: [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"] */
   extensions: string[]
 }
 
@@ -172,37 +173,60 @@ interface Elasticsearch {
 }
 
 interface SearchScoring {
+  /** Default value:  {
+          "attribute_code": {
+            "scoreValues": { "attribute_value": { "weight": 1 } }
+          }
+        } */
   attributes: Attributes,
+  /** Default value: 2 */
   fuzziness: number,
+  /** Default value: 0.01 */
   cutoff_frequency: number,
+  /** Default value: 3 */
   max_expansions: number,
+  /** Default value: "75%" */
   minimum_should_match: string,
+  /** Default value: 2 */
   prefix_length: number,
+  /** Default value: "multiply" */
   boost_mode: string,
+  /** Default value: "multiply" */
   score_mode: string,
+  /** Default value: 100 */
   max_boost: number,
+  /** Default value: 1 */
   function_min_score: number
 }
 
 interface Attributes {
+  /** Default value:  {
+            "scoreValues": { "attribute_value": { "weight": 1 } }
+          } */
   attribute_code: AttributeCode
 }
 
 interface AttributeCode {
+  /** Default value: { "attribute_value": { "weight": 1 } } */
   scoreValues: ScoreValues
 }
 
 interface ScoreValues {
+  /** Default value:  { "weight": 1 } */
   attribute_value: AttributeValue
 }
 
 interface AttributeValue {
+  /** Default value: 1 */
   weight: number
 }
 
 interface SearchableAttributes {
+  /** Default value: 4 */
   name: Boost,
+  /** Default value: 2 */
   sku: Boost,
+  /** Default value: 1 */
   [category: string]: Boost // FIXME: is it correct?
 }
 
@@ -308,38 +332,23 @@ interface Country {
 }
 
 interface Tax {
-  /** Default value: api */
   sourcePriceIncludesTax?: boolean,
-  /** Default value: api */
   defaultCountry: string,
-  /** Default value: api */
   defaultRegion?: string,
-  /** Default value: api */
   calculateServerSide?: boolean
 }
 
 interface I18n {
-  /** Default value: api */
   fullCountryName: string,
-  /** Default value: api */
   fullLanguageName: string,
-  /** Default value: api */
   defaultLanguage?: string,
-  /** Default value: api */
   defaultCountry: string,
-  /** Default value: api */
   defaultLocale: string,
-  /** Default value: api */
   currencyCode?: string,
-  /** Default value: api */
   currencySign?: string,
-  /** Default value: api */
   dateFormat?: string,
-  /** Default value: api */
   availableLocale?: string[],
-  /** Default value: api */
   currencySignPlacement?: string,
-  /** Default value: api */
   bundleAllStoreviewLanguages: boolean
 }
 
@@ -457,9 +466,13 @@ interface ProductList {
 }
 
 interface Product {
+  /** Default value:  */
   includeFields?: string[],
+  /** Default value:  */
   excludeFields?: string[],
+  /** Default value:  */
   useDynamicAttributeLoader: boolean,
+  /** Default value:  */
   standardSystemFields: string[]
 }
 
@@ -516,7 +529,9 @@ interface Cart {
 }
 
 interface Dimensions {
+  /** Default value:  */
   height: number,
+  /** Default value:  */
   width: number
 }
 
@@ -600,270 +615,342 @@ interface Products {
 }
 
 interface FilterFieldMapping {
+  /** Default value:  {
+        "category.name": "category.name.keyword"
+      }, */
   [category: string]: string
 } // FIXME: is it correct?
 
 interface ColorMappings {
+  /** Default value:  {
+        "Melange graphite": "#eeeeee"
+      }, */
   [melagne: string]: string
 } // FIXME:
 
 interface DefaultSortBy {
+  /** Default value: "updated_at" */
   attribute: string,
+  /** Default value: "desc" */
   order: string
 }
 
 interface SortByAttributes {
+  /** Default value: "updated_at" */
   Latest: string,
   [price: string]: string
 } // FIXME:
 
 interface Gallery {
+  /** Default value: true */
   height: number,
+  /** Default value: ["image","thumbnail","small_image"] */
   width: number,
+  /** Default value: 600 */
   mergeConfigurableChildren: boolean,
+  /** Default value: 744 */
   imageAttributes: string[]
 }
 
 interface FilterAggregationSize {
-  /** Default value: api */
+  /** Default value: 10 */
   default: number,
-  /** Default value: api */
+  /** Default value: 10 */
   size: number,
-  /** Default value: api */
+  /** Default value: 10 */
   color: number
 }
 
 interface PriceFilters {
-  /** Default value: api */
+  /** Default value: [
+          { "from": 0, "to": 50 },
+          { "from": 50, "to": 100 },
+          { "from": 100, "to": 150 },
+          { "from": 150 }
+        ] */
   ranges: Range[]
 }
 
 interface Range {
-  /** Default value: api */
   from?: number,
-  /** Default value: api */
   to?: number
 }
 
 interface Orders {
-  /** Default value: api */
+  /** Default value: true */
   directBackendSync: boolean,
-  /** Default value: api */
+  /** Default value: "/api/order" */
   endpoint: string,
-  /** Default value: api */
+  /** Default value: {} */
   payment_methods_mapping: PaymentMethodsMapping,
-  /** Default value: api */
+  /** Default value: {
+        "automatic_transmission_enabled": false,
+        "notification" : {
+          "enabled": true,
+          "title" : "Order waiting!",
+          "message": "Click here to confirm the order that you made offline.",
+          "icon": "/assets/logo.png"
+        }
+      } */
   offline_orders: OfflineOrders
 }
 
 interface PaymentMethodsMapping {} // FIXME: empty object
 
 interface OfflineOrders {
-  /** Default value: api */
+  /** Default value: false */
   automatic_transmission_enabled: boolean,
-  /** Default value: api */
+  /** Default value: {
+          "enabled": true,
+          "title" : "Order waiting!",
+          "message": "Click here to confirm the order that you made offline.",
+          "icon": "/assets/logo.png"
+        } */
   notification: Notification
 }
 
 interface Notification {
-  /** Default value: api */
+  /** Default value: true */
   enabled: boolean,
-  /** Default value: api */
+  /** Default value: "Order waiting!" */
   title: string,
-  /** Default value: api */
+  /** Default value: "Click here to confirm the order that you made offline." */
   message: string,
-  /** Default value: api */
+  /** Default value: "/assets/logo.png" */
   icon: string
 }
 
 interface LocalForage {
-  /** Default value: api */
+  /** Default value: {
+        "user": "LOCALSTORAGE",
+        "cmspage": "LOCALSTORAGE",
+        "cmsblock": "LOCALSTORAGE",
+        "carts": "LOCALSTORAGE",
+        "orders": "LOCALSTORAGE",
+        "wishlist": "LOCALSTORAGE",
+        "categories": "LOCALSTORAGE",
+        "attributes": "LOCALSTORAGE",
+        "products": "INDEXEDDB",
+        "elasticCache": "LOCALSTORAGE",
+        "claims": "LOCALSTORAGE",
+        "syncTasks": "LOCALSTORAGE",
+        "ordersHistory": "LOCALSTORAGE",
+        "checkoutFieldValues": "LOCALSTORAGE"
+      } */
   defaultDrivers: DefaultDrivers
 }
 
 interface DefaultDrivers {
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   user: Storage,
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   cmspage: Storage,
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   cmsblock: Storage,
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   carts: Storage,
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   orders: Storage,
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   wishlist: Storage,
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   categories: Storage,
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   attributes: Storage,
-  /** Default value: api */
+  /** Default value: INDEXEDDB */
   products: Storage,
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   elasticCache: Storage,
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   claims: Storage,
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   syncTasks: Storage,
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   ordersHistory: Storage,
-  /** Default value: api */
+  /** Default value: LOCALSTORAGE */
   checkoutFieldValues: Storage
 }
 
 interface Reviews {
-  /** Default value: api */
+  /** Default value: "/api/review/create" */
   create_endpoint: string
 }
 
 interface Users {
-  /** Default value: api */
+  /** Default value: true */
   autoRefreshTokens: boolean,
-  /** Default value: api */
+  /** Default value: "/api/user" */
   endpoint: string,
-  /** Default value: api */
+  /** Default value: "/api/user/order-history?token={{token}}" */
   history_endpoint: string,
-  /** Default value: api */
+  /** Default value: "/api/user/reset-password" */
   resetPassword_endpoint: string,
-  /** Default value: api */
+  /** Default value: "/api/user/change-password?token={{token}}" */
   changePassword_endpoint: string,
-  /** Default value: api */
+  /** Default value: "/api/user/login" */
   login_endpoint: string,
-  /** Default value: api */
+  /** Default value: "/api/user/create" */
   create_endpoint: string,
-  /** Default value: api */
+  /** Default value: "/api/user/me?token={{token}}" */
   me_endpoint: string,
-  /** Default value: api */
+  /** Default value: "/api/user/refresh" */
   refresh_endpoint: string
 }
 
 interface Stock {
-  /** Default value: api */
+  /** Default value: true */
   synchronize: boolean,
-  /** Default value: api */
+  /** Default value: true */
   allowOutOfStockInCart: boolean,
-  /** Default value: api */
+  /** Default value: "/api/stock" */
   endpoint: string
 }
 
 interface Images {
-  /** Default value: api */
+  /** Default value: false */
   useExactUrlsNoProxy: boolean,
-  /** Default value: api */
+  /** Default value: "https://demo.vuestorefront.io/img/" */
   baseUrl: string,
-  /** Default value: api */
+  /** Default value: "/assets/placeholder.jpg" */
   productPlaceholder: string
 }
 
 interface Install {
-  /** Default value: api */
+  /** Default value: true */
   is_local_backend: boolean,
-  /** Default value: api */
+  /** Default value: "../vue-storefront-api" */
   backend_dir: string
 }
 
 interface Shipping {
-  /** Default value: api */
+  /** Default value: [
+        {
+          "method_title": "DPD Courier",
+          "method_code": "flatrate",
+          "carrier_code": "flatrate",
+          "amount": 4,
+          "price_incl_tax": 5,
+          "default": true,
+          "offline": true
+        }
+      ] */
   methods: ShippingMethods[]
 }
 
 interface ShippingMethods {
-  /** Default value: api */
+  /** Default value: "DPD Courier" */
   method_title: string,
-  /** Default value: api */
+  /** Default value: "flatrate" */
   method_code: string,
-  /** Default value: api */
+  /** Default value: "flatrate" */
   carrier_code: string,
-  /** Default value: api */
+  /** Default value: 4 */
   amount: number,
-  /** Default value: api */
+  /** Default value: 5 */
   price_incl_tax: number,
-  /** Default value: api */
+  /** Default value: true */
   default: boolean,
-  /** Default value: api */
+  /** Default value: true */
   offline: boolean
 }
 
 interface Newsletter {
-  /** Default value: api */
+  /** Default value: "/api/ext/mailchimp-subscribe/subscribe" */
   endpoint: string
 }
 
 interface Mailer {
-  /** Default value: api */
-  endpoint: Endpoint
-}
-
-interface Endpoint {
-  /** Default value: api */
-  send: string,
-  /** Default value: api */
-  token: string,
-  /** Default value: api */
+  /** Default value: {
+        "send": "/api/ext/mail-service/send-email",
+        "token": "/api/ext/mail-service/get-token"
+      } */
+  endpoint: Endpoint,
+  /** Default value: "contributors@vuestorefront.io" */
   contactAddress: string,
-  /** Default value: api */
+  /** Default value: true */
   sendConfirmation: boolean
 }
 
+interface Endpoint {
+  /** Default value: "/api/ext/mail-service/send-email" */
+  send: string,
+  /** Default value: "/api/ext/mail-service/get-token" */
+  token: string
+}
+
 interface Analytics {
-  /** Default value: api */
+  /** Default value: false */
   id: boolean
 }
 
 interface GoogleTagManager {
-  /** Default value: api */
+  /** Default value: false */
   id: boolean,
-  /** Default value: api */
+  /** Default value: true */
   debug: boolean
 }
 
 interface Hotjar {
-  /** Default value: api */
+  /** Default value: false */
   id: boolean
 }
 
 interface Cms {
-  /** Default value: api */
+  /** Default value: "/api/ext/cms-data/cms{{type}}/{{cmsId}}" */
   endpoint: string,
-  /** Default value: api */
+  /** Default value: "/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}" */
   endpointIdentifier: string
 }
 
 interface CmsBlock {
-  /** Default value: api */
+  /** Default value: 500 */
   max_count: number
 }
 interface CmsPage {
-  /** Default value: api */
+  /** Default value: 500 */
   max_count: number
 }
 
 interface Query {
-  /** Default value: api */
+  /** Default value: [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Performance Fabrics" }
+          }
+        ] */
   inspirations: FilterArray,
-  /** Default value: api */
+  /** Default value: [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Tees" }
+          }
+        ] */
   newProducts: FilterArray,
-  /** Default value: api */
+  /** Default value: [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Women" }
+          }
+        ] */
   coolBags: FilterArray,
-  /** Default value: api */
+  /** Default value: [
+          {
+            "key": "category.name",
+            "value" : { "eq": "Tees" }
+          }
+        ] */
   bestSellers: FilterArray
 }
 
 interface FilterArray {
-  /** Default value: api */
-
   filter: Filter[]
 }
 
 interface Filter {
-  /** Default value: api */
   key: string,
-  /** Default value: api */
   value: FilterValue
 }
 
 interface FilterValue {
-  /** Default value: api */
   eq: string
 }
