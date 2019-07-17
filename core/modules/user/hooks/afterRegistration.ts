@@ -30,7 +30,7 @@ export async function afterRegistration ({ Vue, config, store, isServer }) {
     if (
       type.endsWith(types.USER_INFO_LOADED)
     ) {
-      StorageManager.get('usersCollection').setItem('current-user', state.user.current).catch((reason) => {
+      StorageManager.get('user').setItem('current-user', state.user.current).catch((reason) => {
         console.error(reason) // it doesn't work on SSR
       }) // populate cache
     }
@@ -38,7 +38,7 @@ export async function afterRegistration ({ Vue, config, store, isServer }) {
     if (
       type.endsWith(types.USER_ORDERS_HISTORY_LOADED)
     ) {
-      StorageManager.get('ordersHistoryCollection').setItem('orders-history', state.user.orders_history).catch((reason) => {
+      StorageManager.get('user').setItem('orders-history', state.user.orders_history).catch((reason) => {
         console.error(reason) // it doesn't work on SSR
       }) // populate cache
     }
@@ -46,11 +46,11 @@ export async function afterRegistration ({ Vue, config, store, isServer }) {
     if (
       type.endsWith(types.USER_TOKEN_CHANGED)
     ) {
-      StorageManager.get('usersCollection').setItem('current-token', state.user.token).catch((reason) => {
+      StorageManager.get('user').setItem('current-token', state.user.token).catch((reason) => {
         console.error(reason) // it doesn't work on SSR
       }) // populate cache
       if (state.user.refreshToken) {
-        StorageManager.get('usersCollection').setItem('current-refresh-token', state.user.refreshToken).catch((reason) => {
+        StorageManager.get('user').setItem('current-refresh-token', state.user.refreshToken).catch((reason) => {
           console.error(reason) // it doesn't work on SSR
         }) // populate cache
       }

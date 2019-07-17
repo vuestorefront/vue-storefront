@@ -503,7 +503,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   /** authorize the cart after user got logged in using the current cart token */
   authorize ({ dispatch }) {
-    StorageManager.get('usersCollection').getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
+    StorageManager.get('user').getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
       if (err) {
         Logger.error(err, 'cart')()
       }

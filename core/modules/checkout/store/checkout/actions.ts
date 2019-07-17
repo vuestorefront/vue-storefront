@@ -15,7 +15,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
     try {
       const result = await dispatch('order/placeOrder', order, {root: true})
       if (!result.resultCode || result.resultCode === 200) {
-        StorageManager.get('usersCollection').setItem('last-cart-bypass-ts', new Date().getTime())
+        StorageManager.get('user').setItem('last-cart-bypass-ts', new Date().getTime())
         await dispatch('cart/clear', { recreateAndSyncCart: true }, {root: true})
         if (state.personalDetails.createAccount) {
           commit(types.CHECKOUT_DROP_PASSWORD)

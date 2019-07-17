@@ -10,7 +10,7 @@ export const CatalogModule: StorefrontModule = function (app, store, router, mod
   StorageManager.init('categories')
   StorageManager.init('attributes')
   StorageManager.init('products')
-  StorageManager.init('elasticCacheCollection', true, appConfig.server.elasticCacheQuota)
+  StorageManager.init('elasticCache', true, appConfig.server.elasticCacheQuota)
 
   store.registerModule('product', productModule)
   store.registerModule('attribute', attributeModule)
