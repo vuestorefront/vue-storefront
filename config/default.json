@@ -151,6 +151,7 @@
       "optimize": true,
       "twoStageCaching": true,
       "optimizeShoppingCart": true,
+      "optimizeShoppingCartOmitFields": ["configurable_children", "configurable_options", "media_gallery", "description", "category", "category_ids", "product_links", "stock", "description"],
       "category": {
         "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "url_path", "product_count", "path"],
         "excludeFields": [ "sgn" ],
@@ -372,6 +373,10 @@
     "images": {
       "useExactUrlsNoProxy": false,
       "baseUrl": "https://demo.vuestorefront.io/img/",
+      "useSpecificImagePaths": false,
+      "paths": {
+        "product": "/catalog/product"
+      },
       "productPlaceholder": "/assets/placeholder.jpg"
     },
     "install": {
