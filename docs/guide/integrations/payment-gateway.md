@@ -38,7 +38,7 @@ import config from 'config'
 export function afterRegistration({ Vue, config, store, isServer }) {
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
   const placeOrder = function () {
-    Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
+    EventBus.$emit('checkout-do-placeOrder', {})
   }
 
   if (!isServer) {
@@ -47,17 +47,17 @@ export function afterRegistration({ Vue, config, store, isServer }) {
       'title': 'Cash on delivery',
       'code': 'cashondelivery',
       'cost': 0,
-      'costInclTax': 0,
+      'cost_incl_tax': 0,
       'default': true,
       'offline': true
     }
     rootStore.dispatch('payment/addMethod', paymentMethodConfig)
 
     // Mount the info component when required.
-    Vue.prototype.$bus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
+    EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
       if (paymentMethodCode === 'cashondelivery') {
         // Register the handler for what happens when they click the place order button.
-        Vue.prototype.$bus.$on('checkout-before-placeOrder', placeOrder)
+        EventBus.$on('checkout-before-placeOrder', placeOrder)
 
         // Dynamically inject a component into the order review section (optional)
         const Component = Vue.extend(InfoComponent)
@@ -65,7 +65,7 @@ export function afterRegistration({ Vue, config, store, isServer }) {
         componentInstance.$mount('#checkout-order-review-additional')
       } else {
         // unregister the extensions placeorder handler
-        Vue.prototype.$bus.$off('checkout-before-placeOrder', placeOrder)
+        EventBus.$off('checkout-before-placeOrder', placeOrder)
       }
     })
   }

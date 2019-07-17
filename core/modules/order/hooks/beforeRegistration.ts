@@ -2,32 +2,25 @@ import * as localForage from 'localforage'
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import { serial, onlineHelper, processURLAddress } from '@vue-storefront/core/helpers'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
 
 export function beforeRegistration ({ Vue, config, store, isServer }) {
-  Vue.prototype.$db.ordersCollection = new UniversalStorage(localForage.createInstance({
+  StorageManager.set('ordersCollection', new UniversalStorage(localForage.createInstance({
     name: 'shop',
     storeName: 'orders',
     driver: localForage[config.localForage.defaultDrivers['orders']]
-  }))
+  })))
   if (!isServer) {
     const orderMutex = {}
     // TODO: move to external file
     EventBus.$on('order/PROCESS_QUEUE', async event => {
       if (onlineHelper.isOnline) {
         Logger.log('Sending out orders queue to server ...')()
-
-        const storeView = currentStoreView()
-        const dbNamePrefix = storeView.storeCode ? storeView.storeCode + '-' : ''
-
-        const ordersCollection = new UniversalStorage(localForage.createInstance({
-          name: dbNamePrefix + 'shop',
-          storeName: 'orders',
-          driver: localForage[config.localForage.defaultDrivers['orders']]
-        }))
+        const ordersCollection = initCacheStorage('orders', false, true)
 
         const fetchQueue = []
         ordersCollection.iterate((order, id) => {
