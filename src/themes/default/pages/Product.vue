@@ -73,7 +73,6 @@
                     <div v-if="option.label == 'Color'">
                       <color-selector
                         v-for="filter in getAvailableFilters[option.attribute_code]"
-                        v-if="isOptionAvailable(filter)"
                         :key="filter.id"
                         :variant="filter"
                         :selected-filters="getSelectedFilters"
@@ -84,7 +83,6 @@
                       <size-selector
                         class="mr10 mb10"
                         v-for="filter in getAvailableFilters[option.attribute_code]"
-                        v-if="isOptionAvailable(filter)"
                         :key="filter.id"
                         :variant="filter"
                         :selected-filters="getSelectedFilters"
@@ -95,7 +93,6 @@
                       <generic-selector
                         class="mr10 mb10"
                         v-for="filter in getAvailableFilters[option.attribute_code]"
-                        v-if="isOptionAvailable(filter)"
                         :key="filter.id"
                         :variant="filter"
                         :selected-filters="getSelectedFilters"
@@ -297,7 +294,8 @@ export default {
             label = label || (currentVariant ? currentVariant.label : value_index)
             return {id: value_index, label, type}
           })
-          filtersMap[type] = filterVariants
+          const availableOptions = filterVariants.filter(option => this.isOptionAvailable(option))
+          filtersMap[type] = availableOptions
         })
       }
       return filtersMap

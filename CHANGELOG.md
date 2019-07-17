@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
+- Get also none product image thumbnails via API - @cewald, @resubaka (#3207)
+- Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
 
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)
@@ -23,6 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed error for the orderhistory null for google-tag-manager extension - @cnviradiya (#3195)
 - Fixed swatches not rendering properly at product detail page issue - @vishal-7037 (#3206)
 - Fixed label of configurable options in cart after product just added - @cheeerd (#3164)
+- Fixed eslint warning in Product Page, removed v-if from v-for node - @przspa (#3181)
+- Fixed aspect ratio in ProductImage component - @przspa (#3187)
+- Fixed AMP Product page - @przspa (#3227)
+- Fixed when store has updated, but plugin didn't called - @serzilo (#3238)
 
 ### Changed / Improved
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
@@ -33,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Translation file improvements - @vishal-7037 (#3198)
 - Added configuration for max attempt task & cart by pass - @cnviradiya (#3193)
 - Added catching of errors when ES is down - @qiqqq
+- Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
 
 ## [1.10.0-rc.2] - UNRELEASED
 
@@ -40,7 +47,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Wrong meta description attribute by page overwrite - @przspa (#3091)
 - The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
 - Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
-- Fixed aspect ratio in ProductImage component - @przspa (#3187)
+- User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
+- Fixed undefined id of color swatches issue for simple product - @vishal-7037 (#3239)
 
 ### Changed
 - Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
