@@ -56,7 +56,7 @@ function _prepareCacheStorage (key, localised = true, storageQuota = 0) {
     : 'LOCALSTORAGE'
 
   return new UniversalStorage(localForage.createInstance({
-    name: localised ? `${dbNamePrefix}shop` : 'shop',
+    name: localized ? `${dbNamePrefix}shop` : 'shop',
     storeName: key,
     driver: localForage[cacheDriver]
   }), true, storageQuota)
