@@ -14,7 +14,7 @@ const StorageManager = {
    * @param storageQuota max size of storage, 0 if unlimited (default `0`)
    */
   init: function (collectionName: string, isLocalised = true, storageQuota = 0) {
-    this.storageMap[collectionName] = _prepareCacheStorage(collectionName, isLocalised, storageQuota)
+    this.storageMap[collectionName] = _prepareCacheStorage(collectionName, isLocalized, storageQuota)
     return this.storageMap[collectionName]
   },
   /**
