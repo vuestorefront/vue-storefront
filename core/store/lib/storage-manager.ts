@@ -62,7 +62,7 @@ function _prepareCacheStorage (key, localised = true, storageQuota = 0) {
   }), true, storageQuota)
 }
 
-/** 
+/**
  * @deprecated to be removed in 2.0 in favor to `StorageManager`
  * */
 function initCacheStorage (key, localised = true, registerStorgeManager = true) {
