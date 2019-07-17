@@ -111,172 +111,10 @@
     "multistore": true,
     "commonCache": true,
     "mapStoreUrlsFor": ["es", "it", "fr", "de", "eu", "gb", "mx", "us"],
-    "es": {
-      "storeCode": "es",
-      "disabled": false,
-      "storeId": 1,
-      "name": "Spanish Store",
-      "url": "/es",
-      "elasticsearch": {
-        "host": "https://api.jl.es.newfantastic.com/api/catalog",
-        "index": "vue_storefront_catalog_es"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": true,
-        "defaultCountry": "ES",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "Español",
-        "fullLanguageName": "Spanish",
-        "defaultLanguage": "ES",
-        "defaultCountry": "ES",
-        "defaultLocale": "es-ES",
-        "currencyCode": "EUR",
-        "currencySign": "€ ",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "it": {
-      "storeCode": "it",
-      "disabled": false,
-      "storeId": 2,
-      "name": "Italian Store",
-      "url": "/it",
-      "elasticsearch": {
-        "host": "https://api.jl.it-fr.newfantastic.com/api/catalog",
-        "index": "vue_storefront_catalog_es"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": true,
-        "defaultCountry": "IT",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "Italy",
-        "fullLanguageName": "Italian",
-        "defaultLanguage": "IT",
-        "defaultCountry": "IT",
-        "defaultLocale": "it-IT",
-        "currencyCode": "EUR",
-        "currencySign": "€ ",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "fr": {
-      "storeCode": "fr",
-      "disabled": false,
-      "storeId": 3,
-      "name": "French Store",
-      "url": "/fr",
-      "elasticsearch": {
-        "host": "https://api.jl.it-fr.newfantastic.com/api/catalog",
-        "index": "vue_storefront_catalog_es"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": true,
-        "defaultCountry": "FR",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "France",
-        "fullLanguageName": "French",
-        "defaultLanguage": "FR",
-        "defaultCountry": "FR",
-        "defaultLocale": "fr-FR",
-        "currencyCode": "EUR",
-        "currencySign": "€ ",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "de": {
-      "storeCode": "de",
-      "disabled": false,
-      "storeId": 4,
-      "name": "German Store",
-      "url": "/de",
-      "elasticsearch": {
-        "host": "https://api.jl.uk-eur.newfantastic.com/api/catalog",
-        "index": "vue_storefront_catalog_es"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": true,
-        "defaultCountry": "DE",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "Deutsh",
-        "fullLanguageName": "German",
-        "defaultLanguage": "DE",
-        "defaultCountry": "DE",
-        "defaultLocale": "de-DE",
-        "currencyCode": "EUR",
-        "currencySign": "€ ",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "eu": {
-      "storeCode": "eu",
-      "disabled": false,
-      "storeId": 5,
-      "name": "Europe Store",
-      "url": "/eu",
-      "elasticsearch": {
-        "host": "https://api.jl.uk-eur.newfantastic.com/api/catalog",
-        "index": "vue_storefront_catalog_es"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": true,
-        "defaultCountry": "EU",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "Europe",
-        "fullLanguageName": "English",
-        "defaultLanguage": "EN",
-        "defaultCountry": "EU",
-        "defaultLocale": "en-US",
-        "currencyCode": "EUR",
-        "currencySign": "€ ",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "gb": {
-      "storeCode": "gb",
-      "disabled": false,
-      "storeId": 6,
-      "name": "Great Britain Store",
-      "url": "/gb",
-      "elasticsearch": {
-        "host": "https://api.jl.uk-eur.newfantastic.com/api/catalog",
-        "index": "vue_storefront_catalog_es"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": true,
-        "defaultCountry": "GB",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "Great Britain",
-        "fullLanguageName": "English",
-        "defaultLanguage": "EN",
-        "defaultCountry": "GB",
-        "defaultLocale": "en-US",
-        "currencyCode": "GBP",
-        "currencySign": "£ ",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
     "us": {
       "storeCode": "us",
       "disabled": false,
-      "storeId": 7,
+      "storeId": 1,
       "name": "United States Store",
       "url": "/us",
       "elasticsearch": {
@@ -303,7 +141,7 @@
     "mx": {
       "storeCode": "mx",
       "disabled": false,
-      "storeId": 8,
+      "storeId": 2,
       "name": "Mexican Store",
       "url": "/mx",
       "elasticsearch": {
@@ -324,6 +162,168 @@
         "defaultLocale": "es-ES",
         "currencyCode": "MXN",
         "currencySign": "$ ",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "es": {
+      "storeCode": "es",
+      "disabled": false,
+      "storeId": 3,
+      "name": "Spanish Store",
+      "url": "/es",
+      "elasticsearch": {
+        "host": "https://api.jl.es.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_es"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "ES",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Español",
+        "fullLanguageName": "Spanish",
+        "defaultLanguage": "ES",
+        "defaultCountry": "ES",
+        "defaultLocale": "es-ES",
+        "currencyCode": "EUR",
+        "currencySign": "€ ",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "eu": {
+      "storeCode": "eu",
+      "disabled": false,
+      "storeId": 4,
+      "name": "Europe Store",
+      "url": "/eu",
+      "elasticsearch": {
+        "host": "https://api.jl.uk-eur.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_es"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "EU",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Europe",
+        "fullLanguageName": "English",
+        "defaultLanguage": "EN",
+        "defaultCountry": "EU",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€ ",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "uk": {
+      "storeCode": "uk",
+      "disabled": false,
+      "storeId": 5,
+      "name": "Great Britain Store",
+      "url": "/uk",
+      "elasticsearch": {
+        "host": "https://api.jl.uk-eur.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_es"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "GB",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Great Britain",
+        "fullLanguageName": "English",
+        "defaultLanguage": "EN",
+        "defaultCountry": "GB",
+        "defaultLocale": "en-US",
+        "currencyCode": "GBP",
+        "currencySign": "£ ",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "it": {
+      "storeCode": "it",
+      "disabled": false,
+      "storeId": 6,
+      "name": "Italian Store",
+      "url": "/it",
+      "elasticsearch": {
+        "host": "https://api.jl.it-fr.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_es"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "IT",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Italy",
+        "fullLanguageName": "Italian",
+        "defaultLanguage": "IT",
+        "defaultCountry": "IT",
+        "defaultLocale": "it-IT",
+        "currencyCode": "EUR",
+        "currencySign": "€ ",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "de": {
+      "storeCode": "de",
+      "disabled": false,
+      "storeId": 7,
+      "name": "German Store",
+      "url": "/de",
+      "elasticsearch": {
+        "host": "https://api.jl.uk-eur.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_es"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "DE",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Deutsh",
+        "fullLanguageName": "German",
+        "defaultLanguage": "DE",
+        "defaultCountry": "DE",
+        "defaultLocale": "de-DE",
+        "currencyCode": "EUR",
+        "currencySign": "€ ",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "fr": {
+      "storeCode": "fr",
+      "disabled": false,
+      "storeId": 8,
+      "name": "French Store",
+      "url": "/fr",
+      "elasticsearch": {
+        "host": "https://api.jl.it-fr.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_es"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": true,
+        "defaultCountry": "FR",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "France",
+        "fullLanguageName": "French",
+        "defaultLanguage": "FR",
+        "defaultCountry": "FR",
+        "defaultLocale": "fr-FR",
+        "currencyCode": "EUR",
+        "currencySign": "€ ",
         "dateFormat": "HH:mm D-M-YYYY"
       }
     }
