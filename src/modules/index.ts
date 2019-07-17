@@ -13,7 +13,7 @@ import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-view
 import { UrlModule } from '@vue-storefront/core/modules/url'
 import { BreadcrumbsModule } from '@vue-storefront/core/modules/breadcrumbs'
 import { OrderModule } from '@vue-storefront/core/modules/order'
-
+import { CmsModule } from '@vue-storefront/core/modules/cms'
 // import { GoogleAnalyticsModule } from './google-analytics';
 // import { HotjarModule } from './hotjar';
 import { GoogleTagManagerModule } from './google-tag-manager';
@@ -27,6 +27,7 @@ import { registerModule } from '@vue-storefront/module'
 
 // TODO:distributed across proper pages BEFORE 1.11
 export function registerNewModules () {
+  registerModule(UrlModule)
   registerModule(CatalogModule)
   registerModule(CheckoutModule)
   registerModule(CartModule)
@@ -44,11 +45,11 @@ export function registerNewModules () {
   registerModule(RawOutputExampleModule)
   registerModule(AmpRendererModule)
   registerModule(InstantCheckoutModule)
-  registerModule(UrlModule)
   registerModule(CatalogNextModule)
   registerModule(CompareModule)
   registerModule(BreadcrumbsModule)
   registerModule(OrderModule)
+  registerModule(CmsModule)
 }
 
 // Deprecated API, will be removed in 2.0
