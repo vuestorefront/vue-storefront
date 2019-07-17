@@ -20,7 +20,8 @@ export interface Config {
 
   If it's set to false, then just the src/themes/default/pages/Product.vue -> asyncData will be executed. This option is referenced in the core/client-entry.ts line: 85 */
   ssr: Ssr,
-  /** This option is used only in the Multistore setup. By default it's '' but if you're running, for example, a multi-instance Vue Storefront setup and the current instance shall be connected to the en store on the backend, please just set it so. This config variable is referenced in the core/lib/multistore.ts */
+  /** Default value: ""
+   * This option is used only in the Multistore setup. By default it's '' but if you're running, for example, a multi-instance Vue Storefront setup and the current instance shall be connected to the en store on the backend, please just set it so. This config variable is referenced in the core/lib/multistore.ts */
   defaultStoreCode: string,
   /** If the storeViews.multistore is set to true you'll see the LanguageSwitcher.vue included in the footer and all the multistore operations will be included in the request flow.
 
@@ -34,18 +35,43 @@ export interface Config {
   cart: Cart,
   products: Products,
   orders: Orders,
+  /** We're using localForage library to providing the persistence layer to Vue Storefront. localForage provides the compatibility fallbacks for the users not equipped with some specific storage methods (for example indexedDb). However, we may want to enforce some specific storage methods in the config. This is the place to set it up. */
   localForage: LocalForage,
   reviews: Reviews,
+  /** In the users section, we can set the API endpoints for specific use-related operations. Most of the time, you only need to change the basic URL.
+   * When the autoRefreshTokens property is set to true (default) Vue Storefront will try to refresh the user tokens automatically when the session ends. Please take a look at the core/lib/sync/task.ts for reference. */
   users: Users,
+  /**
+   * The stock section configures how the Vue Storefront behaves when the product is being added to the cart. By default, the request to stock.endpoint is being made asynchronously to the add to cart operation. When the allowOutOfStockInCart is set to true, and the product is no longer available, it will be removed from the cart (with a proper UI notification) shortly after the information becomes available to the Vue Storefront.
+   */
   stock: Stock,
+  /** This section is to set the default base URL of product images. This should be a vue-storefront-api URL, pointing to its /api/img handler. The Vue Storefront API is in charge of downloading the local image cache from the Magento/Pimcore backend and does the resize/crop/scale operations to optimize the images for mobile devices and the UI.
+   */
   images: Images,
+  /**
+   * This is just to be used in the core/scripts/installer.js
+   */
   install: Install,
+  /** Default value: false
+   * When demomode is set to true, Vue Storefront will display the "Welcome to Vue Storefront demo" popup.
+   */
   demomode: boolean,
+  /**
+   * The taxes section is used by the core/modules/catalog/helpers/tax. When sourcePricesIncludesTax is set to true it means that the prices indexed in the Elasticsearch already consist of the taxes. If it's set to false the taxes will be calculated runtime.
+   * The defaultCountry and the defaultRegion settings are being used for finding the proper tax rate for the anonymous, unidentified user (which country is not yet set).
+   */
   tax: Tax,
   shipping: Shipping,
+  /**
+   * Available shipping methods when the backend platform is not providing the dynamic list / or for offline scenarios.
+   */
   i18n: I18n,
+  /**
+   * Internationalization settings are used by the translation engine (defautlLocale) and the Language/Switcher.vue (fullCountryName, fullLanguageName). currencyCode is used for some of the API calls (rendering prices, mostly) and currencySign is being used for displaying the prices in the frontend.
+   */
   newsletter: Newsletter,
   mailer: Mailer,
+  /** Default value: "@vue-storefront/theme-default", */
   theme: string,
   analytics: Analytics,
   googleTagManager: GoogleTagManager,
@@ -53,7 +79,9 @@ export interface Config {
   cms: Cms,
   cms_block: CmsBlock,
   cms_page: CmsPage,
+  /** Default value: false */
   usePriceTiers: boolean,
+  /** Default value: true */
   useZeroPriceProduct: boolean,
   query: Query
 }
@@ -321,13 +349,22 @@ interface StoreViews {
 interface Country {
   extend?: string,
   storeCode: string,
+  /** If the specific store is disabled, it won't be used to populate the routing table and won't be displayed in the Language/Switcher.vue. */
   disabled: boolean,
+  /** This is the storeId as set in the backend panel. This parameter is being used by some API calls to get the specific store currency and/or tax settings. */
   storeId: number,
+  /** This is the store name as displayed in the Language/Switcher.vue. */
   name: string,
+  /** This URL is used only in the Switcher component. Typically it equals just to /<store_code>. Sometimes you may like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. Just take a look at how Language/Switcher.vue generates the list of the stores. */
   url: string,
   appendStoreCode: boolean,
+  /** ElasticSearch settings can be overridden in the specific storeView config. You can use different ElasticSearch instance powering specific storeView. */
   elasticsearch: Elasticsearch,
+  /** Taxes section is used by the core/modules/catalog/helpers/tax. When sourcePricesIncludesTax is set to true it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to false the taxes will be calculated runtime.
+   * The defaultCountry and the defaultRegion settings are being used for finding the proper tax rate for the anonymous, unidentified user (which country is not yet set).
+   */
   tax: Tax,
+  /** The internationalization settings are used by the translation engine (defautlLocale) and the Language/Switcher.vue (fullCountryName, fullLanguageName). currencyCode is used for some of the API calls (rendering prices, mostly) and currencySign is being used for displaying the prices in the frontend. */
   i18n: I18n
 }
 
@@ -353,11 +390,20 @@ interface I18n {
 }
 
 interface Entities {
-  /** Default value: true */
+  /** Default value: true
+   * If this option is set to true, Vue Storefront will be limiting the data retrieved from the API endpoints to the includeFields and remove all the excludeFields as set for all the specific entities below. This option is set to true by default, as the JSON objects could be of significant size!
+
+  * This option property is referenced in the core/modules/catalog/store/product, core/modules/catalog/store/category, core/modules/catalog/store/attribute
+   */
   optimize: boolean,
   /** Default value: true */
   twoStageCaching: boolean,
-  /** Default value: true */
+  /** Default value: true
+   * Vue Storefront caches all the data entities retrieved from vue-storefront-api into indexedDB local cache. This is a key feature for providing users with offline mode. Unfortunately, when the entities.optimize option is set to true, we cannot cache the optimized entities, as they don't contain all the required information.
+   * which works like it executes two parallel server requests at once to get the required product, category, or attribute feeds. The first request is with the limited fields and the second is for full records. Only the second request is cached but** the first (which typically ends up faster) is used for displaying the Category or Product page.
+
+  * Please take a look at the core/modules/catalog/store/category for the reference.
+  */
   optimizeShoppingCart: boolean,
   /** Default value: {
         "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "url_path", "product_count", "path"],
@@ -365,7 +411,9 @@ interface Entities {
         "categoriesRootCategorylId": 2,
         "categoriesDynamicPrefetchLevel": 2,
         "categoriesDynamicPrefetch": true
-      } */
+      }
+      Vue Storefront product objects can be quite large. They consist of configurable_children, media_gallery and other information. Quite significant for rendering the Product and Category pages, but not so useful in the Shopping Cart. To limit the cart size (as it's transferred to the server while making an order), this option is being used.
+      */
   category: Category,
   /** Default value: {
         "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices", "frontend_input" ]
@@ -482,29 +530,46 @@ interface Cart {
         "height": 150
       }, */
   thumbnails: Dimensions,
-  /** Default value: true */
+  /** Default value: true
+   * The cart-loader bypass feature is there because we're posting orders to Magento asynchronously. It may happen that directly after placing an order, the Magento’s user still has the same quote ID, and after browsing through the VS store, old items will be restored to the shopping cart. Now you can disable this behavior by setting bypassCartLoaderForAuthorizedUsers option to false
+   */
   bypassCartLoaderForAuthorizedUsers: boolean,
   /** Default value: true */
   serverMergeByDefault: boolean,
-  /** Default value: false */
+  /** Default value: false
+   * Server cart is being synchronized with the client's cart in the Vue Storefront by default.
+   */
   serverSyncCanRemoveLocalItems: boolean,
   /** Default value: false */
   serverSyncCanModifyLocalItems: boolean,
-  /** Default value: true */
+  /** Default value: true
+   * If it's set to true the serverPull Vuex method will be executed whenever the user adds, removes or edits any product in the shopping cart. This method syncs the client-side shopping cart with the server-side one.
+   * Please take a look at the core/modules/cart for a reference.
+   */
   synchronize: boolean,
-  /** Default value: true */
+  /** Default value: true
+   * Similarly to the synchronize option, you may want to disable or enable (the default behavior) the shopping-cart totals sync with the backend platform. If it's set to true, the shopping cart totals will be overridden by the Magento (or Pimcore, or any other platform you're using) totals whenever the user will add, remove, or change any item in the shopping cart.
+   */
   synchronize_totals: boolean,
   /** Default value: true */
   setCustomProductOptions: boolean,
-  /** Default value: true */
+  /** Default value: true
+   * If this option is set to true, in case of custom-options supporting products, Vue Storefront will add the main SKU to the shopping cart and set the product_optionsub-object of the shopping-cart item to the currently configured set of custom options (for example, selected dates, checkboxes, captions, or other values).
+   */
   setConfigurableProductOptions: boolean,
-  /** Default value: true */
+  /** Default value: true
+   * If this option is set to true, in case of configurable products, Vue Storefront will add the main SKU to the shopping cart and set the product_option sub-object of the shopping-cart item to the currently configured set of configurable options (for example, color and size). Otherwise, the simple product (according to the selected configurable_options) will be added to the shopping cart instead.
+   */
   askBeforeRemoveProduct: boolean,
   /** Default value: true */
   displayItemDiscounts: boolean,
-  /** Default value: "quantities" */
+  /** Default value: "quantities"
+   * f this option is set to true, Vue Storefront will add price item with a discount to the shopping cart. Otherwise, the product price and special will be added to the shopping cart instead.
+   */
   minicartCountType: string,
-  /** Default value: "/api/cart/create?token={{token}}" */
+  /** Default value: "/api/cart/create?token={{token}}"
+   * If this option is set to items, Vue Storefront will calculate the cart count based on items instead of item quantities.
+   */
   create_endpoint: string,
   /** Default value: "/api/cart/update?token={{token}}&cartId={{cartId}}" */
   updateitem_endpoint: string,
@@ -536,35 +601,62 @@ interface Dimensions {
 }
 
 interface Products {
-  /** Default value: true */
+  /** Default value: true
+   * When useMagentoUrlKeys is set to true the product.url_key value will be used for product and category slugs used in the URL building process. Otherwise, the slug will be generated based on the product or category name. Please take a look at the core/lib/search.ts and core/modules/catalog/store/category/mutations.ts for reference.
+   * Please note: The url_key field must be unique across the categories collection. Therefore, we're by default generating its value based on name and category ID. Please switch this option off if you'd like to keep the url_key as they come from Magento2.
+   */
   useMagentoUrlKeys: boolean,
   /** Default value: false */
   setFirstVarianAsDefaultInURL: boolean,
-  /** Default value: false */
+  /** Default value: false
+   * When useMagentoUrlKeys is set to true the product.url_key value will be used for product and category slugs used in the URL building process. Otherwise, the slug will be generated based on the product or category name. Please take a look at the core/lib/search.ts and core/modules/catalog/store/category/mutations.ts for reference.
+   * Please note: The url_key field must be unique across the categories collection. Therefore, we're by default generating its value based on name and category ID. Please switch this option off if you'd like to keep the url_key as they come from Magento2.
+   */
   configurableChildrenStockPrefetchStatic: boolean,
-  /** Default value: false */
+  /** Default value: false
+   * Opposite to the static prefetching, Vue Storefront could also prefetch the configurable_children stock items just for the products that are visible on the Category page. This option is used from the theme level—for example, src/themes/default/pages/Category.vue
+   */
   configurableChildrenStockPrefetchDynamic: boolean,
-  /** Default value: false */
+  /** Default value: false
+   * Sets how many products in the category should be prefetched using this mechanism.
+   */
   configurableChildrenStockPrefetchStaticPrefetchCount: number,
-  /** Default value: false */
+  /** Default value: false
+   * By default, Vue Storefront displays all the variants assigned with the configurable product, no matter if they are visible or not. Then, by adding a specific variant to the shopping cart, the availability is checked. You can switch this setting to true to prefetch the variants availability (see the options described above) and hide unavailable options.
+   */
   filterUnavailableVariants: boolean,
-  /** Default value: true */
+  /** Default value: true
+   * By default, Vue Storefront is not displaying products with the stock availability = “Out of stock”. However, it can be changed using this variable. Vue Storefront uses the product.stock object to access the product-information availability. Please note that this information is updated just when the mage2vuestorefront updates the ElasticSearch index.
+   */
   listOutOfStockProducts: boolean,
-  /** Default value: true */
+  /** Default value: true
+   * If this option is set to true (default), Vue Storefront will prevent accessing the simple products assigned with the configurable one. A user will be redirected to the main configurable product in such a case.
+   */
   preventConfigurableChildrenDirectAccess: boolean,
-  /** Default value: false */
+  /** Default value: false
+   * This property is used in the core/store/modules/product/actions.ts; if it's set to true Vue Storefront will query the vue-storefront-api endpoint (/api/products/render-list) to render the product prices for currently displayed product(s) every time the user is about to display the product or category page.
+   */
   alwaysSyncPlatformPricesOver: boolean,
-  /** Default value: false */
+  /** Default value: false
+   * This is related to alwaysSyncPlatformPricesOver and when it's set to true, the prices provided from the Elasticsearch will be always overridden to zero before rendering the dynamic prices.
+   */
   clearPricesBeforePlatformSync: boolean,
   /** Default value: false */
   waitForPlatformSync: boolean,
-  /** Default value: true */
+  /** Default value: true
+   * This is a deprecated value. When set to false, Vue Storefront will use slugify(attribute.name) instead of attribute.attribute_code to construct filter and product configurators. It was provided to maintain the backward compatibility with some platforms that didn't provide the attribute_code property. Currently not used.
+   */
   setupVariantByAttributeCode: boolean,
-  /** Default value: "/api/product" */
+  /** Default value: "/api/product"
+   * This is the vue-storefront-api endpoint for rendering product lists.
+   */
   endpoint: string,
-  /** Default value: ["color", "size", "price", "erin_recommends"] */
+  /** Default value: ["color", "size", "price", "erin_recommends"]
+   * defaultFilters array should contain all the filters that could be used in the Sidebar menu filters.
+   */
   defaultFilters: string[],
-  /** Default value: "query" */
+  /** Default value: "query"
+   */
   routerFiltersSource: string,
   /** Default value: {
         "category.name": "category.name.keyword"
@@ -583,7 +675,9 @@ interface Products {
         "Latest": "updated_at",
         "Price: Low to high":"final_price",
         "Price: High to low":"final_price:desc"
-      } */
+      }
+      * Here, we have the sort field settings as they're displayed on the Category page.
+      */
   sortByAttributes: SortByAttributes,
   /** Default value: {
         "mergeConfigurableChildren": true,
@@ -648,7 +742,9 @@ interface Gallery {
   width: number,
   /** Default value: 600 */
   mergeConfigurableChildren: boolean,
-  /** Default value: 744 */
+  /** Default value: 744
+   * Product attributes representing the images. We'll see it in the Product page gallery if mergeConfigurableChildren is set to false and the product is configured
+   */
   imageAttributes: string[]
 }
 
@@ -677,11 +773,15 @@ interface Range {
 }
 
 interface Orders {
-  /** Default value: true */
+  /** Default value: true
+   * This property sets the URL of the order endpoint. Orders will be placed to this specific URL as soon as the internet connection is available.
+   */
   directBackendSync: boolean,
   /** Default value: "/api/order" */
   endpoint: string,
-  /** Default value: {} */
+  /** Default value: {}
+   * This is a simple map used in the core/pages/Checkout.js to map the payment methods provided by the backend service with the ones available to Vue Storefront. Each payment method is a separate Vue Storefront extension and not all methods provided by the backend should necessarily be supported by the frontend.
+   */
   payment_methods_mapping: PaymentMethodsMapping,
   /** Default value: {
         "automatic_transmission_enabled": false,
@@ -691,7 +791,9 @@ interface Orders {
           "message": "Click here to confirm the order that you made offline.",
           "icon": "/assets/logo.png"
         }
-      } */
+      }
+      * When a user places the order in offline mode and agrees to receive push notifications, these variables are used to determine the look and feel of the notification.
+      */
   offline_orders: OfflineOrders
 }
 
