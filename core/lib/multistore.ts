@@ -35,7 +35,8 @@ export interface StoreView {
     sourcePriceIncludesTax: boolean,
     defaultCountry: string,
     defaultRegion: null | string,
-    calculateServerSide: boolean
+    calculateServerSide: boolean,
+    userGroupId?: number
   },
   i18n: {
     fullCountryName: string,

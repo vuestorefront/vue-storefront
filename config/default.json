@@ -388,7 +388,8 @@
       "defaultCountry": "US",
       "defaultRegion": "",
       "sourcePriceIncludesTax": false,
-      "calculateServerSide": true
+      "calculateServerSide": true,
+      "userGroupId": null
     },
     "shipping": {
       "methods": [

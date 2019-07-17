@@ -1,3 +1,7 @@
+import rootStore from '@vue-storefront/core/store'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import config from 'config'
+
 function isSpecialPriceActive (fromDate, toDate) {
   const now = new Date()
   fromDate = fromDate ? new Date(fromDate) : false
@@ -209,7 +213,18 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false, 
 export function calculateProductTax (product, taxClasses, taxCountry = 'PL', taxRegion = '', sourcePriceInclTax = false, deprecatedPriceFieldsSupport = false, finalPriceInclTax = true) {
   let rateFound = false
   if (product.tax_class_id > 0) {
-    let taxClass = taxClasses.find((el) => el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id) >= 0))
+    let taxClass
+    if (typeof currentStoreView().tax.userGroupId === 'number') {
+      const userGroupId = rootStore.getters['user/isLoggedIn'] === true ? rootStore.state.user.current.group_id : currentStoreView().tax.userGroupId
+
+      taxClass = taxClasses.find((el) => {
+        return el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id)) >= 0 &&
+          el.customer_tax_class_ids.indexOf(parseInt(userGroupId)) >= 0
+      })
+    } else {
+      taxClass = taxClasses.find((el) => el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id) >= 0))
+    }
+
     if (taxClass) {
       for (let rate of taxClass.rates) { // TODO: add check for zip code ranges (!)
         if (rate.tax_country_id === taxCountry && (rate.region_name === taxRegion || rate.tax_region_id === 0 || !rate.region_name)) {
