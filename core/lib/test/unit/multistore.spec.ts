@@ -7,8 +7,8 @@ jest.mock('../../../store', () => ({}))
 jest.mock('@vue-storefront/i18n', () => ({loadLanguageAsync: jest.fn()}))
 jest.mock('../../sync/task', () => ({initializeSyncTaskStorage: jest.fn()}))
 jest.mock('@vue-storefront/core/hooks', () => ({ coreHooksExecutors: {
-  beforeStoreViewChange: jest.fn(),
-  afterStoreViewChange: jest.fn()
+  beforeStoreViewChange: jest.fn(args => args),
+  afterStoreViewChange: jest.fn(args => args)
 }}))
 jest.mock('query-string', () => jest.fn())
 jest.mock('@vue-storefront/core/lib/router-manager', () => ({
@@ -140,121 +140,31 @@ describe('Multistore', () => {
       rootStore.state.user = {}
 
       config.tax = {
-        defaultCountry: 'US',
-        defaultRegion: '',
-        sourcePriceIncludesTax: false,
-        calculateServerSide: true
+        defaultCountry: 'US'
       }
 
       config.i18n = {
-        defaultCountry: 'US',
-        defaultLanguage: 'EN',
-        availableLocale: ['en-US', 'de-DE', 'fr-FR', 'es-ES', 'nl-NL', 'jp-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ'],
         defaultLocale: 'en-US',
-        currencyCode: 'USD',
-        currencySign: '$',
-        currencySignPlacement: 'preppend',
-        dateFormat: 'HH:mm D/M/YYYY',
         fullCountryName: 'United States',
-        fullLanguageName: 'English',
-        bundleAllStoreviewLanguages: true
+        fullLanguageName: 'English'
       }
 
       config.elasticsearch = {
-        httpAuth: '',
-        host: '/api/catalog',
-        index: 'vue_storefront_catalog',
-        min_score: 0.02,
-        csrTimeout: 5000,
-        ssrTimeout: 1000,
-        queryMethod: 'GET',
-        disablePersistentQueriesCache: true,
-        searchScoring: {
-          attributes: {
-            attribute_code: {
-              scoreValues: { attribute_value: { weight: 1 } }
-            }
-          },
-          fuzziness: 2,
-          cutoff_frequency: 0.01,
-          max_expansions: 3,
-          minimum_should_match: '75%',
-          prefix_length: 2,
-          boost_mode: 'multiply',
-          score_mode: 'multiply',
-          max_boost: 100,
-          function_min_score: 1
-        },
-        searchableAttributes: {
-          name: {
-            boost: 4
-          },
-          sku: {
-            boost: 2
-          },
-          'category.name': {
-            boost: 1
-          }
-        }
+        index: 'vue_storefront_catalog'
       }
       config.defaultStoreCode = ''
 
       expect(prepareStoreView(null)).toStrictEqual({
         tax: {
-          defaultCountry: 'US',
-          defaultRegion: '',
-          sourcePriceIncludesTax: false,
-          calculateServerSide: true
+          defaultCountry: 'US'
         },
         i18n: {
-          defaultCountry: 'US',
-          defaultLanguage: 'EN',
-          availableLocale: ['en-US', 'de-DE', 'fr-FR', 'es-ES', 'nl-NL', 'jp-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ'],
           defaultLocale: 'en-US',
-          currencyCode: 'USD',
-          currencySign: '$',
-          currencySignPlacement: 'preppend',
-          dateFormat: 'HH:mm D/M/YYYY',
           fullCountryName: 'United States',
-          fullLanguageName: 'English',
-          bundleAllStoreviewLanguages: true
+          fullLanguageName: 'English'
         },
         elasticsearch: {
-          httpAuth: '',
-          host: '/api/catalog',
-          index: 'vue_storefront_catalog',
-          min_score: 0.02,
-          csrTimeout: 5000,
-          ssrTimeout: 1000,
-          queryMethod: 'GET',
-          disablePersistentQueriesCache: true,
-          searchScoring: {
-            attributes: {
-              attribute_code: {
-                scoreValues: { attribute_value: { weight: 1 } }
-              }
-            },
-            fuzziness: 2,
-            cutoff_frequency: 0.01,
-            max_expansions: 3,
-            minimum_should_match: '75%',
-            prefix_length: 2,
-            boost_mode: 'multiply',
-            score_mode: 'multiply',
-            max_boost: 100,
-            function_min_score: 1
-          },
-          searchableAttributes: {
-            name: {
-              boost: 4
-            },
-            sku: {
-              boost: 2
-            },
-            'category.name': {
-              boost: 1
-            }
-          }
+          index: 'vue_storefront_catalog'
         },
         storeId: 1,
         storeCode: ''
@@ -267,128 +177,38 @@ describe('Multistore', () => {
 
       config.storeViews = {
         de: {
-          storeId: 1
+          storeId: 4
         }
       }
 
       config.tax = {
-        defaultCountry: 'US',
-        defaultRegion: '',
-        sourcePriceIncludesTax: false,
-        calculateServerSide: true
+        defaultCountry: 'US'
       }
 
       config.i18n = {
-        defaultCountry: 'US',
-        defaultLanguage: 'EN',
-        availableLocale: ['en-US', 'de-DE', 'fr-FR', 'es-ES', 'nl-NL', 'jp-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ'],
         defaultLocale: 'en-US',
-        currencyCode: 'USD',
-        currencySign: '$',
-        currencySignPlacement: 'preppend',
-        dateFormat: 'HH:mm D/M/YYYY',
         fullCountryName: 'United States',
-        fullLanguageName: 'English',
-        bundleAllStoreviewLanguages: true
+        fullLanguageName: 'English'
       }
 
       config.elasticsearch = {
-        httpAuth: '',
-        host: '/api/catalog',
-        index: 'vue_storefront_catalog',
-        min_score: 0.02,
-        csrTimeout: 5000,
-        ssrTimeout: 1000,
-        queryMethod: 'GET',
-        disablePersistentQueriesCache: true,
-        searchScoring: {
-          attributes: {
-            attribute_code: {
-              scoreValues: { attribute_value: { weight: 1 } }
-            }
-          },
-          fuzziness: 2,
-          cutoff_frequency: 0.01,
-          max_expansions: 3,
-          minimum_should_match: '75%',
-          prefix_length: 2,
-          boost_mode: 'multiply',
-          score_mode: 'multiply',
-          max_boost: 100,
-          function_min_score: 1
-        },
-        searchableAttributes: {
-          name: {
-            boost: 4
-          },
-          sku: {
-            boost: 2
-          },
-          'category.name': {
-            boost: 1
-          }
-        }
+        index: 'vue_storefront_catalog'
       }
       config.defaultStoreCode = 'de'
 
       expect(prepareStoreView(null)).toStrictEqual({
         tax: {
-          defaultCountry: 'US',
-          defaultRegion: '',
-          sourcePriceIncludesTax: false,
-          calculateServerSide: true
+          defaultCountry: 'US'
         },
         i18n: {
-          defaultCountry: 'US',
-          defaultLanguage: 'EN',
-          availableLocale: ['en-US', 'de-DE', 'fr-FR', 'es-ES', 'nl-NL', 'jp-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ'],
           defaultLocale: 'en-US',
-          currencyCode: 'USD',
-          currencySign: '$',
-          currencySignPlacement: 'preppend',
-          dateFormat: 'HH:mm D/M/YYYY',
           fullCountryName: 'United States',
-          fullLanguageName: 'English',
-          bundleAllStoreviewLanguages: true
+          fullLanguageName: 'English'
         },
         elasticsearch: {
-          httpAuth: '',
-          host: '/api/catalog',
-          index: 'vue_storefront_catalog',
-          min_score: 0.02,
-          csrTimeout: 5000,
-          ssrTimeout: 1000,
-          queryMethod: 'GET',
-          disablePersistentQueriesCache: true,
-          searchScoring: {
-            attributes: {
-              attribute_code: {
-                scoreValues: { attribute_value: { weight: 1 } }
-              }
-            },
-            fuzziness: 2,
-            cutoff_frequency: 0.01,
-            max_expansions: 3,
-            minimum_should_match: '75%',
-            prefix_length: 2,
-            boost_mode: 'multiply',
-            score_mode: 'multiply',
-            max_boost: 100,
-            function_min_score: 1
-          },
-          searchableAttributes: {
-            name: {
-              boost: 4
-            },
-            sku: {
-              boost: 2
-            },
-            'category.name': {
-              boost: 1
-            }
-          }
+          index: 'vue_storefront_catalog'
         },
-        storeId: 1,
+        storeId: 4,
         storeCode: 'de'
       })
     })
@@ -400,156 +220,51 @@ describe('Multistore', () => {
       config.storeViews = {
         de: {
           storeCode: 'de',
-          disabled: true,
           storeId: 3,
           name: 'German Store',
-          url: '/de',
-          appendStoreCode: true,
           elasticsearch: {
-            host: '/api/catalog',
             index: 'vue_storefront_catalog_de'
           },
           tax: {
-            sourcePriceIncludesTax: false,
-            defaultCountry: 'DE',
-            defaultRegion: '',
-            calculateServerSide: true
+            defaultCountry: 'DE'
           },
           i18n: {
             fullCountryName: 'Germany',
             fullLanguageName: 'German',
-            defaultLanguage: 'DE',
-            defaultCountry: 'DE',
-            defaultLocale: 'de-DE',
-            currencyCode: 'EUR',
-            currencySign: 'EUR',
-            dateFormat: 'HH:mm D-M-YYYY'
+            defaultLocale: 'de-DE'
           }
         }
       }
 
       config.tax = {
-        defaultCountry: 'US',
-        defaultRegion: '',
-        sourcePriceIncludesTax: false,
-        calculateServerSide: true
+        defaultCountry: 'US'
       }
 
       config.i18n = {
-        defaultCountry: 'US',
-        defaultLanguage: 'EN',
-        availableLocale: ['en-US', 'de-DE', 'fr-FR', 'es-ES', 'nl-NL', 'jp-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ'],
         defaultLocale: 'en-US',
-        currencyCode: 'USD',
-        currencySign: '$',
-        currencySignPlacement: 'preppend',
-        dateFormat: 'HH:mm D/M/YYYY',
         fullCountryName: 'United States',
-        fullLanguageName: 'English',
-        bundleAllStoreviewLanguages: true
+        fullLanguageName: 'English'
       }
 
       config.elasticsearch = {
-        httpAuth: '',
-        host: '/api/catalog',
-        index: 'vue_storefront_catalog',
-        min_score: 0.02,
-        csrTimeout: 5000,
-        ssrTimeout: 1000,
-        queryMethod: 'GET',
-        disablePersistentQueriesCache: true,
-        searchScoring: {
-          attributes: {
-            attribute_code: {
-              scoreValues: { attribute_value: { weight: 1 } }
-            }
-          },
-          fuzziness: 2,
-          cutoff_frequency: 0.01,
-          max_expansions: 3,
-          minimum_should_match: '75%',
-          prefix_length: 2,
-          boost_mode: 'multiply',
-          score_mode: 'multiply',
-          max_boost: 100,
-          function_min_score: 1
-        },
-        searchableAttributes: {
-          name: {
-            boost: 4
-          },
-          sku: {
-            boost: 2
-          },
-          'category.name': {
-            boost: 1
-          }
-        }
+        index: 'vue_storefront_catalog'
       }
       config.defaultStoreCode = 'de'
 
       expect(prepareStoreView(null)).toStrictEqual({
         tax: {
-          sourcePriceIncludesTax: false,
-          defaultCountry: 'DE',
-          defaultRegion: '',
-          calculateServerSide: true
+          defaultCountry: 'DE'
         },
         i18n: {
           fullCountryName: 'Germany',
           fullLanguageName: 'German',
-          defaultLanguage: 'DE',
-          defaultCountry: 'DE',
-          defaultLocale: 'de-DE',
-          currencyCode: 'EUR',
-          currencySign: 'EUR',
-          dateFormat: 'HH:mm D-M-YYYY',
-          availableLocale: ['en-US', 'de-DE', 'fr-FR', 'es-ES', 'nl-NL', 'jp-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ'],
-          currencySignPlacement: 'preppend',
-          bundleAllStoreviewLanguages: true
+          defaultLocale: 'de-DE'
         },
         elasticsearch: {
-          httpAuth: '',
-          host: '/api/catalog',
-          index: 'vue_storefront_catalog_de',
-          min_score: 0.02,
-          csrTimeout: 5000,
-          ssrTimeout: 1000,
-          queryMethod: 'GET',
-          disablePersistentQueriesCache: true,
-          searchScoring: {
-            attributes: {
-              attribute_code: {
-                scoreValues: { attribute_value: { weight: 1 } }
-              }
-            },
-            fuzziness: 2,
-            cutoff_frequency: 0.01,
-            max_expansions: 3,
-            minimum_should_match: '75%',
-            prefix_length: 2,
-            boost_mode: 'multiply',
-            score_mode: 'multiply',
-            max_boost: 100,
-            function_min_score: 1
-          },
-          searchableAttributes: {
-            name: {
-              boost: 4
-            },
-            sku: {
-              boost: 2
-            },
-            'category.name': {
-              boost: 1
-            }
-          }
+          index: 'vue_storefront_catalog_de'
         },
         storeId: 3,
         name: 'German Store',
-        appendStoreCode: true,
-        disabled: true,
-        url: '/de',
         storeCode: 'de'
       })
     })
@@ -561,41 +276,26 @@ describe('Multistore', () => {
       config.storeViews = {
         de: {
           storeCode: 'de',
-          disabled: true,
           storeId: 3,
           name: 'German Store',
-          url: '/de',
-          appendStoreCode: true,
           elasticsearch: {
-            host: '/api/catalog',
             index: 'vue_storefront_catalog_de'
           },
           tax: {
-            sourcePriceIncludesTax: false,
-            defaultCountry: 'DE',
-            defaultRegion: '',
-            calculateServerSide: true
+            defaultCountry: 'DE'
           },
           i18n: {
             fullCountryName: 'Germany',
             fullLanguageName: 'German',
-            defaultLanguage: 'DE',
-            defaultCountry: 'DE',
-            defaultLocale: 'de-DE',
-            currencyCode: 'EUR',
-            currencySign: 'EUR',
-            dateFormat: 'HH:mm D-M-YYYY'
+            defaultLocale: 'de-DE'
           }
         },
         it: {
           extend: 'de',
           storeCode: 'it',
-          disabled: true,
           storeId: 4,
           name: 'Italian Store',
-          url: '/it',
           elasticsearch: {
-            host: '/api/catalog',
             index: 'vue_storefront_catalog_it'
           },
           tax: {
@@ -604,136 +304,41 @@ describe('Multistore', () => {
           i18n: {
             fullCountryName: 'Italy',
             fullLanguageName: 'Italian',
-            defaultCountry: 'IT',
-            defaultLanguage: 'IT',
             defaultLocale: 'it-IT'
           }
         }
       }
 
       config.tax = {
-        defaultCountry: 'US',
-        defaultRegion: '',
-        sourcePriceIncludesTax: false,
-        calculateServerSide: true
+        defaultCountry: 'US'
       }
 
       config.i18n = {
-        defaultCountry: 'US',
-        defaultLanguage: 'EN',
-        availableLocale: ['en-US', 'de-DE', 'fr-FR', 'es-ES', 'nl-NL', 'jp-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ'],
         defaultLocale: 'en-US',
-        currencyCode: 'USD',
-        currencySign: '$',
-        currencySignPlacement: 'preppend',
-        dateFormat: 'HH:mm D/M/YYYY',
         fullCountryName: 'United States',
-        fullLanguageName: 'English',
-        bundleAllStoreviewLanguages: true
+        fullLanguageName: 'English'
       }
 
       config.elasticsearch = {
-        httpAuth: '',
-        host: '/api/catalog',
-        index: 'vue_storefront_catalog',
-        min_score: 0.02,
-        csrTimeout: 5000,
-        ssrTimeout: 1000,
-        queryMethod: 'GET',
-        disablePersistentQueriesCache: true,
-        searchScoring: {
-          attributes: {
-            attribute_code: {
-              scoreValues: { attribute_value: { weight: 1 } }
-            }
-          },
-          fuzziness: 2,
-          cutoff_frequency: 0.01,
-          max_expansions: 3,
-          minimum_should_match: '75%',
-          prefix_length: 2,
-          boost_mode: 'multiply',
-          score_mode: 'multiply',
-          max_boost: 100,
-          function_min_score: 1
-        },
-        searchableAttributes: {
-          name: {
-            boost: 4
-          },
-          sku: {
-            boost: 2
-          },
-          'category.name': {
-            boost: 1
-          }
-        }
+        index: 'vue_storefront_catalog'
       }
       config.defaultStoreCode = 'it'
 
       expect(prepareStoreView(null)).toStrictEqual({
         tax: {
-          sourcePriceIncludesTax: false,
-          defaultCountry: 'IT',
-          defaultRegion: '',
-          calculateServerSide: true
+          defaultCountry: 'IT'
         },
         i18n: {
           fullCountryName: 'Italy',
           fullLanguageName: 'Italian',
-          defaultCountry: 'IT',
-          defaultLanguage: 'IT',
-          defaultLocale: 'it-IT',
-          currencyCode: 'EUR',
-          currencySign: 'EUR',
-          dateFormat: 'HH:mm D-M-YYYY',
-          availableLocale: ['en-US', 'de-DE', 'fr-FR', 'es-ES', 'nl-NL', 'jp-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ'],
-          currencySignPlacement: 'preppend',
-          bundleAllStoreviewLanguages: true
+          defaultLocale: 'it-IT'
         },
         elasticsearch: {
-          httpAuth: '',
-          host: '/api/catalog',
-          index: 'vue_storefront_catalog_it',
-          min_score: 0.02,
-          csrTimeout: 5000,
-          ssrTimeout: 1000,
-          queryMethod: 'GET',
-          disablePersistentQueriesCache: true,
-          searchScoring: {
-            attributes: {
-              attribute_code: {
-                scoreValues: { attribute_value: { weight: 1 } }
-              }
-            },
-            fuzziness: 2,
-            cutoff_frequency: 0.01,
-            max_expansions: 3,
-            minimum_should_match: '75%',
-            prefix_length: 2,
-            boost_mode: 'multiply',
-            score_mode: 'multiply',
-            max_boost: 100,
-            function_min_score: 1
-          },
-          searchableAttributes: {
-            name: {
-              boost: 4
-            },
-            sku: {
-              boost: 2
-            },
-            'category.name': {
-              boost: 1
-            }
-          }
+          index: 'vue_storefront_catalog_it'
         },
         storeId: 4,
         extend: 'de',
         name: 'Italian Store',
-        appendStoreCode: true,
-        disabled: true,
-        url: '/it',
         storeCode: 'it'
       })
     })
