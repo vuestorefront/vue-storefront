@@ -1,0 +1,26 @@
+{
+  "name": "vsf-facebook-pixel",
+  "version": "1.0.2",
+  "description": "Facebook Pixel module for Vue Storefront",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/new-fantastic/facebook-pixel.git"
+  },
+  "keywords": [
+    "facebook-pixel",
+    "Vue",
+    "Storefront",
+    "Facebook",
+    "Pixel"
+  ],
+  "author": "fifciu <filip@newfantastic.com>, allozaur <alek@newfantastic.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/new-fantastic/facebook-pixel/issues"
+  },
+  "homepage": "https://github.com/new-fantastic/facebook-pixel#readme"
+}
