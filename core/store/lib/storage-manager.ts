@@ -1,5 +1,5 @@
 import UniversalStorage from '@vue-storefront/core/store/lib/storage'
-import { initCacheStorage, prepareCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
+import { initCacheStorage, prepareCacheStorage } from '@vue-storefront/core/helpers/cache';
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const StorageManager = {
@@ -32,7 +32,8 @@ const StorageManager = {
     return !!this.storageMap[collectionName]
   },
   /**
-   * Returns the UniversalStorage driver for specific key
+   * Returns the UniversalStorage driver for specific key. 
+   * If it doesnt exist it creates it with defaults for `init`
    * @returns UniversalStorage
    */
   get: function (collectionName): UniversalStorage {

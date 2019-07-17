@@ -7,7 +7,6 @@ import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import { serial, onlineHelper, processURLAddress } from '@vue-storefront/core/helpers'
 import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
-import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
 import { isServer } from '@vue-storefront/core/helpers'
 import { StorefrontModule } from '@vue-storefront/module';
 
@@ -20,7 +19,7 @@ export const OrderModule: StorefrontModule = function (app, store, router, modul
     EventBus.$on('order/PROCESS_QUEUE', async event => {
       if (onlineHelper.isOnline) {
         Logger.log('Sending out orders queue to server ...')()
-        const ordersCollection = initCacheStorage('orders', false, true)
+        const ordersCollection = StorageManager.get('orders')
 
         const fetchQueue = []
         ordersCollection.iterate((order, id) => {
