@@ -73,9 +73,9 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     }
   }).then((jsonResponse) => {
     if (jsonResponse) {
-      if (parseInt(jsonResponse.code) !== 200) {
-        let resultString = jsonResponse.result ? toString(jsonResponse.result) : null
-        if (resultString && (resultString.indexOf(i18n.t('not authorized')) >= 0 || resultString.indexOf('not authorized')) >= 0 && currentToken !== null) { // the token is no longer valid, try to invalidate it
+      const responseCode = parseInt(jsonResponse.code)
+      if (responseCode !== 200) {
+        if (responseCode === 401 /** unauthorized */ && currentToken !== null) { // the token is no longer valid, try to invalidate it
           Logger.error('Invalid token - need to be revalidated' + currentToken + task.url + rootStore.state.userTokenInvalidateLock, 'sync')()
           if (isNaN(rootStore.state.userTokenInvalidateAttemptsCount) || isUndefined(rootStore.state.userTokenInvalidateAttemptsCount)) rootStore.state.userTokenInvalidateAttemptsCount = 0
           if (isNaN(rootStore.state.userTokenInvalidateLock) || isUndefined(rootStore.state.userTokenInvalidateLock)) rootStore.state.userTokenInvalidateLock = 0
@@ -203,7 +203,11 @@ export function registerSyncTaskProcessor () {
         if (task && !task.transmited && !mutex[id]) { // not sent to the server yet
           mutex[id] = true // mark this task as being processed
           fetchQueue.push(execute(task, currentUserToken, currentCartToken).then(executedTask => {
-            if (!executedTask.is_result_cacheable) syncTaskCollection.removeItem(id) // remove successfully executed task from the queue
+            if (!executedTask.is_result_cacheable) {
+              syncTaskCollection.removeItem(id) // remove successfully executed task from the queue
+            } else {
+              syncTaskCollection.setItem(id, executedTask) // update the 'transmitted' field
+            }
             mutex[id] = false
           }).catch(err => {
             mutex[id] = false
