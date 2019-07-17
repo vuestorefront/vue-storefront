@@ -146,6 +146,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       task.resultCode = jsonResponse.code
       task.code = jsonResponse.code // backward compatibility to fetch()
       task.acknowledged = false
+      task.meta = jsonResponse.meta
 
       if (task.callback_event) {
         if (task.callback_event.startsWith('store:')) {

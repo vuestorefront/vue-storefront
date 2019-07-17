@@ -51,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added catching of errors when ES is down - @qiqqq
 - Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
 - New modules API and rewrite - @filrak, @JCown (#3144)
+- Refactored the vuex user module - @andrzejewsky (#3095)
 
 ## [1.10.0-rc.2] - UNRELEASED
 
