@@ -80,20 +80,15 @@ export function prepareStoreView (storeCode: string): StoreView {
     tax: config.tax,
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
-    storeCode: '',
+    storeCode: storeCode || config.defaultStoreCode || '',
     storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1
   }
   const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
 
-  if (storeCode) { // current store code
-    if ((config.storeViews[storeCode])) {
-      rootStore.state.user.current_storecode = storeCode
-      storeView = merge(storeView, getExtendedStoreviewConfig(config.storeViews[storeCode]))
-    }
-  } else {
-    storeView.storeCode = config.defaultStoreCode || ''
-    rootStore.state.user.current_storecode = config.defaultStoreCode || ''
+  if (storeView.storeCode && config.storeViews[storeView.storeCode]) {
+    storeView = merge(storeView, getExtendedStoreviewConfig(config.storeViews[storeView.storeCode]))
   }
+  rootStore.state.user.current_storecode = storeView.storeCode
 
   loadLanguageAsync(storeView.i18n.defaultLocale)
 
