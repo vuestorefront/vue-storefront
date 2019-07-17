@@ -21,7 +21,6 @@ import { GoogleTagManagerModule } from './google-tag-manager';
 import { AmpRendererModule } from './amp-renderer';
 import { PaymentBackendMethodsModule } from './payment-backend-methods';
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery';
-import { RawOutputExampleModule } from './raw-output-example'
 import { InstantCheckoutModule } from './instant-checkout'
 
 import { registerModule } from '@vue-storefront/module'
@@ -49,7 +48,6 @@ export function registerNewModules () {
   // registerModule(HotjarModule)
   registerModule(PaymentBackendMethodsModule)
   registerModule(PaymentCashOnDeliveryModule)
-  registerModule(RawOutputExampleModule)
   registerModule(AmpRendererModule)
   registerModule(InstantCheckoutModule)
 }

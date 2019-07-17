@@ -1,6 +1,8 @@
-import UniversalStorage from '@vue-storefront/core/store/lib/storage'
-import { initCacheStorage, prepareCacheStorage } from '@vue-storefront/core/helpers/cache';
 import { Logger } from '@vue-storefront/core/lib/logger'
+import * as localForage from 'localforage'
+import UniversalStorage from '@vue-storefront/core/store/lib/storage'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import config from 'config'
 
 const StorageManager = {
   currentStoreCode: '',
@@ -12,7 +14,7 @@ const StorageManager = {
    * @param storageQuota max size of storage, 0 if unlimited (default `0`)
    */
   init: function (collectionName: string, isLocalised = true, storageQuota = 0) {
-    this.storageMap[collectionName] = prepareCacheStorage(collectionName, isLocalised, storageQuota)
+    this.storageMap[collectionName] = _prepareCacheStorage(collectionName, isLocalised, storageQuota)
     return this.storageMap[collectionName]
   },
   /**
@@ -32,7 +34,7 @@ const StorageManager = {
     return !!this.storageMap[collectionName]
   },
   /**
-   * Returns the UniversalStorage driver for specific key. 
+   * Returns the UniversalStorage driver for specific key.
    * If it doesnt exist it creates it with defaults for `init`
    * @returns UniversalStorage
    */
@@ -46,4 +48,33 @@ const StorageManager = {
   }
 }
 
-export { StorageManager }
+function _prepareCacheStorage (key, localised = true, storageQuota = 0) {
+  const storeView = currentStoreView()
+  const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
+  const cacheDriver = config.localForage && config.localForage.defaultDrivers[key]
+    ? config.localForage.defaultDrivers[key]
+    : 'LOCALSTORAGE'
+
+  return new UniversalStorage(localForage.createInstance({
+    name: localised ? `${dbNamePrefix}shop` : 'shop',
+    storeName: key,
+    driver: localForage[cacheDriver]
+  }), true, storageQuota)
+}
+
+/** 
+ * @deprecated to be removed in 2.0 in favor to `StorageManager`
+ * */
+function initCacheStorage (key, localised = true, registerStorgeManager = true) {
+  if (registerStorgeManager) {
+    if (!StorageManager.exists(key)) {
+      return StorageManager.set(key, _prepareCacheStorage(key, localised))
+    } else {
+      return StorageManager.get(key)
+    }
+  } else {
+    return _prepareCacheStorage(key, localised)
+  }
+}
+
+export { StorageManager, initCacheStorage }
