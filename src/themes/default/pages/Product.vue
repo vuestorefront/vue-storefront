@@ -136,7 +136,7 @@
               v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
             >
               <base-input-number
-                :name="$t(`${!isProductLoading ? `Quantity (${quantity} available)` : 'Getting information about quantity...'}`)"
+                :name="$t(`${!isSimpleOrConfigurable ? `Quantity` : !isProductLoading ? `Quantity (${quantity} available)` : 'Getting information about quantity...'}`)"
                 v-model="product.qty"
                 :min="quantity ? 1 : 0"
                 :max="quantity"
@@ -154,7 +154,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="product"
-                :disabled="($v.product.qty.$error && !$v.product.qty.minValue) || !quantity || isProductLoading"
+                :disabled="($v.product.qty.$error && !$v.product.qty.minValue) || !quantity && isSimpleOrConfigurable && !isProductLoading"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -307,10 +307,19 @@ export default {
         })
       }
       return selectedFilters
+    },
+    isSimpleOrConfigurable () {
+      if (
+        this.product.type_id === 'simple' ||
+        this.product.type_id === 'configurable'
+      ) { return true }
+
+      return false
     }
   },
   created () {
     this.getQuantity()
+    console.log(this.product.type_id)
   },
   methods: {
     showDetails (event) {
