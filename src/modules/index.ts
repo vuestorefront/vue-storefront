@@ -14,7 +14,7 @@ import { UrlModule } from '@vue-storefront/core/modules/url'
 import { BreadcrumbsModule } from '@vue-storefront/core/modules/breadcrumbs'
 import { OrderModule } from '@vue-storefront/core/modules/order'
 import { CmsModule } from '@vue-storefront/core/modules/cms'
-import { UserModule }from '@vue-storefront/core/modules/user'
+import { UserModule } from '@vue-storefront/core/modules/user'
 // import { GoogleAnalyticsModule } from './google-analytics';
 // import { HotjarModule } from './hotjar';
 import { GoogleTagManagerModule } from './google-tag-manager';
@@ -52,7 +52,6 @@ export function registerNewModules () {
   registerModule(RawOutputExampleModule)
   registerModule(AmpRendererModule)
   registerModule(InstantCheckoutModule)
-
 }
 
 // Deprecated API, will be removed in 2.0
