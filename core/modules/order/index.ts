@@ -12,7 +12,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import { StorefrontModule } from '@vue-storefront/module';
 
 export const OrderModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
-  StorageManager.init('order')
+  StorageManager.init('orders')
 
   if (!isServer) {
     const orderMutex = {}
@@ -20,7 +20,7 @@ export const OrderModule: StorefrontModule = function (app, store, router, modul
     EventBus.$on('order/PROCESS_QUEUE', async event => {
       if (onlineHelper.isOnline) {
         Logger.log('Sending out orders queue to server ...')()
-        const ordersCollection = initCacheStorage('order', false, true)
+        const ordersCollection = initCacheStorage('orders', false, true)
 
         const fetchQueue = []
         ordersCollection.iterate((order, id) => {
@@ -112,5 +112,5 @@ export const OrderModule: StorefrontModule = function (app, store, router, modul
       }
     })
   }
-  store.registerModule('order', orderStore)
+  store.registerModule('orders', orderStore)
 }
