@@ -8,12 +8,12 @@ export class HttpError {
   private code: string | number
   private name: string
 
-  constructor (message, code) {
+  public constructor (message, code) {
     this.message = message
     this.code = code
     this.name = 'ValidationError'
   }
-  toString () {
+  public toString () {
     return 'HttpError' + this.code + ': ' + this.message
   }
 }
