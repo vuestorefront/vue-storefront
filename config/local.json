@@ -408,6 +408,9 @@
   "facebookPixel": {
     "id": "2396882913914745"
   },
+  "zendChat": {
+    "id": "e6e4724a-324b-4839-a578-6c5d07bf3ba5"
+  },
   "cms": {
     "endpoint": "https://api.dev.jimmylion.com/api/ext/cms-data/cms{{type}}/{{cmsId}}",
     "endpointIdentifier": "https://api.dev.jimmylion.com/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
