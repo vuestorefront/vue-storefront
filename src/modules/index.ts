@@ -23,9 +23,9 @@ import { PaymentBackendMethodsModule } from './payment-backend-methods';
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery';
 import { InstantCheckoutModule } from './instant-checkout'
 // ICMAA Modules
-import './icmaa-url'
-import { IcmaaCms } from './icmaa-cms'
-import { IcmaaCategory } from './icmaa-category'
+import { IcmaaExtendedUrlModule } from './icmaa-url'
+import { IcmaaCategoryModule } from './icmaa-category'
+import { IcmaaCmsModule } from './icmaa-cms'
 
 import { registerModule } from '@vue-storefront/module'
 
@@ -54,12 +54,12 @@ export function registerNewModules () {
   registerModule(PaymentCashOnDeliveryModule) // To checkout
   registerModule(AmpRendererModule)
   registerModule(InstantCheckoutModule) // Load lazily from Microcart
+  // ICMAA Modules
+  registerModule(IcmaaExtendedUrlModule)
+  registerModule(IcmaaCmsModule)
+  registerModule(IcmaaCategoryModule)
 }
 
 // Deprecated API, will be removed in 2.0
 export const registerModules: VueStorefrontModule[] = [
-  // ICMAA Modules
-  // !!! Deprecated – @todo See how to do in 2.0
-  IcmaaCms,
-  IcmaaCategory
 ]

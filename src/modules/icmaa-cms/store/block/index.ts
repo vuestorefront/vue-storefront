@@ -8,7 +8,7 @@ import BlockState from '../../types/BlockState'
 export const cmsBlockStateKey = 'icmaaCmsBlock'
 export const cmsBlockStorageKey = 'blocks'
 
-export const blockModule: Module<BlockState, RootState> = {
+export const BlockStore: Module<BlockState, RootState> = {
   namespaced: true,
   state: {
     items: []

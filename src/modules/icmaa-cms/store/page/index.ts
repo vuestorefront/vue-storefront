@@ -8,7 +8,7 @@ import PageState from '../../types/PageState'
 export const cmsPageStateKey = 'icmaaCmsPage'
 export const cmsPageStorageKey = 'pages'
 
-export const pageModule: Module<PageState, RootState> = {
+export const PageStore: Module<PageState, RootState> = {
   namespaced: true,
   state: {
     items: []
