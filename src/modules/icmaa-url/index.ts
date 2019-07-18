@@ -1,12 +1,8 @@
-import { VueStorefrontModule, extendModule } from '@vue-storefront/core/lib/module';
-import { Url } from '@vue-storefront/core/modules/url'
-import { module } from './store'
+import { StorefrontModule } from '@vue-storefront/module'
+import { extendStore } from '@vue-storefront/module/helpers'
 
-const extendUrl = {
-  key: 'url',
-  store: { modules: [{ key: 'url', module: module }] }
+import { ExtendedUrlStore } from './store'
+
+export const IcmaaExtendedUrlModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  extendStore('url', ExtendedUrlStore)
 }
-
-extendModule(extendUrl)
-
-export const registerModules: VueStorefrontModule[] = [ Url ]

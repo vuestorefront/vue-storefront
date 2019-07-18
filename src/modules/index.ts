@@ -23,7 +23,7 @@ import { PaymentBackendMethodsModule } from './payment-backend-methods';
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery';
 import { InstantCheckoutModule } from './instant-checkout'
 // ICMAA Modules
-import './icmaa-url'
+import { IcmaaExtendedUrlModule } from './icmaa-url'
 import { IcmaaCms } from './icmaa-cms'
 import { IcmaaCategory } from './icmaa-category'
 
@@ -54,6 +54,8 @@ export function registerNewModules () {
   registerModule(PaymentCashOnDeliveryModule) // To checkout
   registerModule(AmpRendererModule)
   registerModule(InstantCheckoutModule) // Load lazily from Microcart
+  // ICMAA Modules
+  registerModule(IcmaaExtendedUrlModule)
 }
 
 // Deprecated API, will be removed in 2.0
