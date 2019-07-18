@@ -1,6 +1,7 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
-import { Compare as CompareModule } from '../'
+import { CompareModule } from '../'
 import compareMountedMixin from '@vue-storefront/core/modules/compare/mixins/compareMountedMixin'
+import { registerModule } from '@vue-storefront/module';
 
 export const AddToCompare = {
   name: 'AddToCompare',
@@ -12,7 +13,7 @@ export const AddToCompare = {
     }
   },
   created () {
-    CompareModule.register()
+    registerModule(CompareModule)
   },
   methods: {
     addToCompare (product: Product) {
