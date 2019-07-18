@@ -3,11 +3,13 @@ import StockState from '../../types/StockState'
 import * as types from './mutation-types'
 
 const mutations: MutationTree<StockState> = {
-  [types.SET_CACHE] (state, payload) {
-    state.cache = payload
+  [types.SET_STOCK_CACHE] (state, cache) {
+    state.cache = cache
   },
-  [types.SET_CACHE_PRODUCT] (state, { productId, productInfo }) {
-    state.cache[productId] = productInfo
+  [types.SET_STOCK_CACHE_PRODUCT] (state, { productId, productInfo }) {
+    state.cache[productId] = Object.assign({}, state.cache, {
+      productId: productInfo
+    })
   }
 }
 

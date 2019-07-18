@@ -2,7 +2,7 @@ import { ActionTree } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 // requires cart module
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
-import * as mutationTypes from '@vue-storefront/core/modules/catalog/store/stock/mutation-types'
+import * as stockMutationTypes from '@vue-storefront/core/modules/catalog/store/stock/mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
 import StockState from '../../types/StockState'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
@@ -116,7 +116,7 @@ const actions: ActionTree<StockState, RootState> = {
               qty: si.qty,
               product_id: si.product_id
             }
-            commit(mutationTypes.SET_CACHE_PRODUCT, {
+            commit(stockMutationTypes.SET_STOCK_CACHE_PRODUCT, {
               productId: si.product_id,
               productInfo
             })
@@ -132,7 +132,7 @@ const actions: ActionTree<StockState, RootState> = {
     }
   },
   clearCache ({ commit }) {
-    commit(mutationTypes.SET_CACHE, {})
+    commit(stockMutationTypes.SET_STOCK_CACHE, {})
   },
   async stockAfterCheck ({ dispatch, commit }, event) {
     setTimeout(async () => {
