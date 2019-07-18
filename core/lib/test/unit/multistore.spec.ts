@@ -135,7 +135,7 @@ describe('Multistore', () => {
   })
 
   describe('prepareStoreView', () => {
-    it('return default storeView', () => {
+    it('returns default storeView given no storecode', () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
@@ -175,7 +175,7 @@ describe('Multistore', () => {
       })
     })
 
-    it('return default storeView with defaultStoreCode set to  de and multistore set to false', () => {
+    it('returns default storeView without setting defaultStoreCode when multistore mode is disabled', () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
@@ -218,7 +218,7 @@ describe('Multistore', () => {
       })
     })
 
-    it('return default storeView with defaultStoreCode set to  de', () => {
+    it('returns default storeView with defaultStoreCode set when multistore mode is enabled', () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
@@ -261,7 +261,7 @@ describe('Multistore', () => {
       })
     })
 
-    it('return de storeView with merged store config values', () => {
+    it('returns storeView overwritting default store config values when multistore mode is enabled', () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
@@ -318,7 +318,7 @@ describe('Multistore', () => {
       })
     })
 
-    it('return it storeView with merged store config values', () => {
+    it('returns storeView extending other storeView in multistore mode', () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
