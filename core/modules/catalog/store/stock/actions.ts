@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 // requires cart module
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
+import * as mutationTypes from '@vue-storefront/core/modules/catalog/store/stock/mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
 import StockState from '../../types/StockState'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
@@ -92,7 +93,7 @@ const actions: ActionTree<StockState, RootState> = {
   /**
    * Reset current configuration and selected variatnts
    */
-  list ({ state }, { skus }) {
+  list ({ commit }, { skus }) {
     if (config.stock.synchronize) {
       try {
         const task: any = TaskQueue.execute({
@@ -110,11 +111,15 @@ const actions: ActionTree<StockState, RootState> = {
         })
         if (task.resultCode === 200) {
           for (const si of task.result) {
-            state.cache[si.product_id] = {
+            const productInfo = {
               is_in_stock: si.is_in_stock,
               qty: si.qty,
               product_id: si.product_id
-            } // TODO: should be moved to mutation
+            }
+            commit(mutationTypes.SET_CACHE_PRODUCT, {
+              productId: si.product_id,
+              productInfo
+            })
           }
         }
         return task // if online we can return ok because it will be verified anyway
@@ -126,8 +131,8 @@ const actions: ActionTree<StockState, RootState> = {
       return null // if not online, cannot check the source of true here
     }
   },
-  clearCache ({ state }) {
-    state.cache = {}
+  clearCache ({ commit }) {
+    commit(mutationTypes.SET_CACHE, {})
   },
   async stockAfterCheck ({ dispatch, commit }, event) {
     setTimeout(async () => {
