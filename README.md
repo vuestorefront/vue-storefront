@@ -210,6 +210,13 @@ Here you can read more about the process of [designing PWA for eCommerce](https:
 
 The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
 
+## Concerns when hosting
+When hosting NodeJS applications there are some differences compared to, for example, hosting PHP or Java applications.
+Server Side Rendering via NodeJS can have memory leaks because of suboptimal code. Although core code is optimized, project specific features or misaligned hosting configuration can introduce this. More on how to avoid these for VueJS can be ready in [this article](https://vuejs.org/v2/cookbook/avoiding-memory-leaks.html). We also recommend reading about [VueJS best practices](https://blog.usejournal.com/vue-js-best-practices-c5da8d7af48d).
+
+ On the server we advice to run [PM2](http://pm2.keymetrics.io/) which offers features to keep your NodeJS application stable. When hosting on Kubernetes the checks and memory limits can be leveraged to kill unhealthy containers.
+More on hosting can be found in [the documentation](https://docs.vuestorefront.io/guide/installation/production-setup.html#production-setup-bare-vps).
+
 ## Other platforms
 Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/coreshop-vsbridge) to give you an idea of how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
 
