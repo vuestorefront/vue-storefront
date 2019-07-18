@@ -751,10 +751,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
    <td align="center" valign="middle"> 
-<a href="">
+<a href="https://performance-academy.pl/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/Perfomance_Academy_logo_large.png"
+            alt="Performance Academy"
             height="40"
           >
         </a>
