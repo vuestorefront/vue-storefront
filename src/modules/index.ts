@@ -29,27 +29,27 @@ import { registerModule } from '@vue-storefront/module'
 export function registerNewModules () {
   registerModule(UrlModule)
   registerModule(CatalogModule)
-  registerModule(CheckoutModule)
+  registerModule(CheckoutModule) // To Checkout
   registerModule(CartModule)
-  registerModule(ReviewModule)
-  registerModule(MailerModule)
-  registerModule(WishlistModule)
-  registerModule(NewsletterModule)
+  registerModule(ReviewModule) // To Product
+  registerModule(MailerModule) // load lazily
+  registerModule(WishlistModule) // Trigger on wishlist icon click
+  registerModule(NewsletterModule) // Load lazily
   registerModule(NotificationModule)
-  registerModule(UserModule)
+  registerModule(UserModule) // Trigger on user icon click
   registerModule(CatalogNextModule)
   registerModule(CompareModule)
   registerModule(BreadcrumbsModule)
   registerModule(OrderModule)
   registerModule(CmsModule)
-  registerModule(RecentlyViewedModule)
+  registerModule(RecentlyViewedModule) // To HomePage
   registerModule(GoogleTagManagerModule)
   // registerModule(GoogleAnalyticsModule)
   // registerModule(HotjarModule)
   registerModule(PaymentBackendMethodsModule)
-  registerModule(PaymentCashOnDeliveryModule)
+  registerModule(PaymentCashOnDeliveryModule) // To checkout
   registerModule(AmpRendererModule)
-  registerModule(InstantCheckoutModule)
+  registerModule(InstantCheckoutModule) // Load lazily from Microcart
 }
 
 // Deprecated API, will be removed in 2.0
