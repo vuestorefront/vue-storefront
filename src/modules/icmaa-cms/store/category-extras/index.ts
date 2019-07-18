@@ -8,7 +8,7 @@ import CategoryExtrasState from '../../types/CategoryExtrasState'
 export const cmsCategoryExtrasStateKey = 'icmaaCmsCategoryExtras'
 export const cmsCategoryExtrasStorageKey = 'category-extras'
 
-export const categoryExtrasModule: Module<CategoryExtrasState, RootState> = {
+export const CategoryExtrasStore: Module<CategoryExtrasState, RootState> = {
   namespaced: true,
   state: {
     items: []
