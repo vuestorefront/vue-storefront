@@ -3,7 +3,7 @@ import i18n from '@vue-storefront/i18n'
 import config from 'config'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { mapGetters } from 'vuex'
-
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { isServer } from '@vue-storefront/core/helpers'
@@ -71,7 +71,7 @@ export default {
           for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
             if (product.onlineStockCheckid) {
               checkPromises.push(new Promise((resolve, reject) => {
-                StorageManager.get('syncTaskCollection').getItem(product.onlineStockCheckid, (err, item) => {
+                StorageManager.get('syncTasks').getItem(product.onlineStockCheckid, (err, item) => {
                   if (err || !item) {
                     if (err) Logger.error(err)()
                     resolve(null)

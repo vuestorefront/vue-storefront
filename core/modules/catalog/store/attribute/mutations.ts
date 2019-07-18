@@ -22,7 +22,7 @@ const mutations: MutationTree<AttributeState> = {
       attrHashByCode[attr.attribute_code] = attr
       attrHashById[attr.attribute_id] = attr
 
-      const attrCollection = StorageManager.get('attributesCollection')
+      const attrCollection = StorageManager.get('attributes')
       try {
         attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr).catch((reason) => {
           Logger.error(reason, 'mutations') // it doesn't work on SSR

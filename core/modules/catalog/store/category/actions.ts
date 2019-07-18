@@ -194,7 +194,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         if (skipCache || isServer) {
           fetchCat({ key, value })
         } else {
-          const catCollection = StorageManager.get('categoriesCollection')
+          const catCollection = StorageManager.get('categories')
           // Check if category does not exist in the store AND we haven't recursively reached Default category (id=1)
           catCollection.getItem(entityKeyName(key, value), setcat)
         }
