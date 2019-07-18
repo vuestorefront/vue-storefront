@@ -42,6 +42,7 @@
                 @click.prevent="gotoAccount"
                 class="cl-tertiary links"
               >{{ $t('Login to your account') }}</a>
+
               <span v-else>{{ $t('You are logged in as') }} {{ currentUser.firstname }}</span>
             </div>
           </div>

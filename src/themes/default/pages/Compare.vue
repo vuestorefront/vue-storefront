@@ -38,9 +38,6 @@
                   <div class="compare__top-info">
                     <div class="check" />
                     <product-tile class="col-md-12 collection-product" :product="product" />
-                    <!-- <span class="compare__remove" @click="removeFromCompare(product)">
-                      <remove-button />
-                    </span>-->
                   </div>
                   <ul class="compare__features-list">
                     <li class="compare__features-item">
