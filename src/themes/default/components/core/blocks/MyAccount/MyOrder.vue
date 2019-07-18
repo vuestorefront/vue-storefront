@@ -17,7 +17,7 @@
     <!-- My order body -->
     <div class="row fs16 mb20">
       <div class="col-xs-12 h4">
-        <p>{{ order.created_at | date('MMMM D, YYYY') }}</p>
+        <p>{{ orderDateFormatted }}</p>
         <p class="mt35">
           <a href="#" class="underline" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a>
         </p>
@@ -139,13 +139,18 @@
 <script>
 import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
 import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
+import { formatDate } from '@vue-storefront/core/helpers/formatters'
 
 export default {
   mixins: [MyOrder],
   components: {
     ReturnIcon
+  },
+  computed: {
+    orderDateFormatted () {
+      return formatDate(this.order.created_at, 'LLL')
+    }
   }
-
 }
 </script>
 
