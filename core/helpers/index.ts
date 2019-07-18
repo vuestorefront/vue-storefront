@@ -5,6 +5,11 @@ import Vue from 'vue'
 import config from 'config'
 import { sha3_224 } from 'js-sha3'
 
+export const processURLAddress = (url: string = '') => {
+  if (url.startsWith('/')) return `${config.api.url}${url}`
+  return url
+}
+
 /**
  * Create slugify -> "create-slugify" permalink  of text
  * @param {String} text
@@ -23,26 +28,32 @@ export function slugify (text) {
 }
 
 /**
- * @param relativeUrl
- * @param width
- * @param height
- * @returns {*}
+ * @param {string} relativeUrl
+ * @param {number} width
+ * @param {number} height
+ * @param {string} pathType
+ * @returns {string}
  */
-export function getThumbnailPath (relativeUrl, width, height) {
+export function getThumbnailPath (relativeUrl: string, width: number = 0, height: number = 0, pathType: string = 'product'): string {
   if (config.images.useExactUrlsNoProxy) {
     return relativeUrl // this is exact url mode
   } else {
+    if (config.images.useSpecificImagePaths) {
+      const path = config.images.paths[pathType] !== undefined ? config.images.paths[pathType] : ''
+      relativeUrl = path + relativeUrl
+    }
+
     let resultUrl
     if (relativeUrl && (relativeUrl.indexOf('://') > 0 || relativeUrl.indexOf('?') > 0 || relativeUrl.indexOf('&') > 0)) relativeUrl = encodeURIComponent(relativeUrl)
     // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy opertions
     let baseUrl = processURLAddress(config.images.proxyUrl ? config.images.proxyUrl : config.images.baseUrl)
     if (baseUrl.indexOf('{{') >= 0) {
       baseUrl = baseUrl.replace('{{url}}', relativeUrl)
-      baseUrl = baseUrl.replace('{{width}}', width)
-      baseUrl = baseUrl.replace('{{height}}', height)
+      baseUrl = baseUrl.replace('{{width}}', width.toString())
+      baseUrl = baseUrl.replace('{{height}}', height.toString())
       resultUrl = baseUrl
     } else {
-      resultUrl = `${baseUrl}${parseInt(width)}/${parseInt(height)}/resize${relativeUrl}`
+      resultUrl = `${baseUrl}${width.toString()}/${height.toString()}/resize${relativeUrl}`
     }
     return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? resultUrl : config.images.productPlaceholder || ''
   }
@@ -171,11 +182,6 @@ export const onlineHelper = Vue.observable({
 
 !isServer && window.addEventListener('online', () => { onlineHelper.isOnline = true })
 !isServer && window.addEventListener('offline', () => { onlineHelper.isOnline = false })
-
-export const processURLAddress = (url: string = '') => {
-  if (url.startsWith('/')) return `${config.api.url}${url}`
-  return url
-}
 
 /*
   * serial executes Promises sequentially.

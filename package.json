@@ -42,7 +42,8 @@
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
     "lint": "eslint --ext .js,.vue,.ts core src --fix",
-    "lerna": "lerna"
+    "lerna": "lerna",
+    "pkg:module:build": "cd ./packages/module && yarn build"
   },
   "pre-commit": [ "lint" ],
   "dependencies": {
@@ -54,6 +55,7 @@
     "apollo-link-http": "^1.5.4",
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
+    "cross-env": "^3.1.4",
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
     "graphql": "^0.13.2",
@@ -105,7 +107,6 @@
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "command-exists": "^1.2.2",
     "commander": "^2.18.0",
-    "cross-env": "^3.1.4",
     "css-loader": "^1.0.0",
     "cypress": "^3.1.5",
     "d3-dsv": "^1.0.8",
@@ -183,7 +184,7 @@
     "src/themes/*",
     "docs",
     "core/modules/*",
-    "packages/*",
-    "test/unit"
+    "test/unit",
+    "packages/*"
   ]
 }

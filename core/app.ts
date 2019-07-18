@@ -4,6 +4,7 @@ import Vue from 'vue'
 import { isServer } from '@vue-storefront/core/helpers'
 
 // Plugins
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import i18n from '@vue-storefront/i18n'
 import VueRouter from 'vue-router'
 import VueLazyload from 'vue-lazyload'
@@ -30,10 +31,11 @@ import store from '@vue-storefront/core/store'
 
 import { enabledModules } from './modules-entry'
 
-// Will be deprecated in 1.8
-import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
-import { registerExtensions as extensions } from 'src/extensions'
 import globalConfig from 'config'
+
+import { injectReferences } from '@vue-storefront/module'
+import { coreHooksExecutors } from '@vue-storefront/core/hooks'
+import { registerNewModules } from 'src/modules';
 
 function createRouter (): VueRouter {
   return new VueRouter({
@@ -74,7 +76,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   store.state.storeView = storeView
   // store.state.shipping.methods = shippingMethods
 
-  // to depreciate in near future
+  // @deprecated from 2.0
   once('__VUE_EXTEND__', () => {
     Vue.use(Vuelidate)
     Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
@@ -111,11 +113,14 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     ssrContext
   }
 
+  injectReferences(app, store, router, globalConfig)
+  registerNewModules()
   registerModules(enabledModules, appContext)
-  registerExtensions(extensions, app, router, store, config, ssrContext)
   registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
 
-  Vue.prototype.$bus.$emit('application-after-init', app)
+  coreHooksExecutors.afterAppInit()
+  // @deprecated from 2.0
+  EventBus.$emit('application-after-init', app)
 
   return { app, router, store }
 }

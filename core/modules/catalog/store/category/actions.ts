@@ -16,6 +16,8 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -26,7 +28,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, [])
     context.commit(types.CATEGORY_UPD_CURRENT_CATEGORY, {})
     rootStore.dispatch('stock/clearCache')
-    Vue.prototype.$bus.$emit('category-after-reset', { })
+    EventBus.$emit('category-after-reset', { })
   },
   /**
    * Load categories within specified parent
@@ -82,7 +84,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         }
         if (updateState) {
           commit(types.CATEGORY_UPD_CATEGORIES, Object.assign(resp, { includeFields, excludeFields }))
-          Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
+          EventBus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         }
         return resp
       })
@@ -90,7 +92,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       return new Promise((resolve, reject) => {
         let resp = { items: context.state.list, total: context.state.list.length }
         if (updateState) {
-          Vue.prototype.$bus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
+          EventBus.$emit('category-after-list', { query: searchQuery, sort: sort, size: size, start: start, list: resp })
         }
         resolve(resp)
       })
@@ -150,7 +152,7 @@ const actions: ActionTree<CategoryState, RootState> = {
               dispatch('single', { key: 'id', value: category.parent_id, setCurrentCategory: false, setCurrentCategoryPath: false }).then((sc) => { // TODO: move it to the server side for one requests OR cache in indexedDb
                 if (!sc) {
                   commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
-                  Vue.prototype.$bus.$emit('category-after-single', { category: mainCategory })
+                  EventBus.$emit('category-after-single', { category: mainCategory })
                   return resolve(mainCategory)
                 }
                 currentPath.unshift(sc)
@@ -164,7 +166,7 @@ const actions: ActionTree<CategoryState, RootState> = {
               })
             } else {
               commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
-              Vue.prototype.$bus.$emit('category-after-single', { category: mainCategory })
+              EventBus.$emit('category-after-single', { category: mainCategory })
               resolve(mainCategory)
             }
           }
@@ -174,7 +176,7 @@ const actions: ActionTree<CategoryState, RootState> = {
             reject(new Error('Category query returned empty result ' + key + ' = ' + value))
           }
         } else {
-          Vue.prototype.$bus.$emit('category-after-single', { category: mainCategory })
+          EventBus.$emit('category-after-single', { category: mainCategory })
           resolve(mainCategory)
         }
       }
@@ -192,7 +194,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         if (skipCache || isServer) {
           fetchCat({ key, value })
         } else {
-          const catCollection = Vue.prototype.$db.categoriesCollection
+          const catCollection = StorageManager.get('categories')
           // Check if category does not exist in the store AND we haven't recursively reached Default category (id=1)
           catCollection.getItem(entityKeyName(key, value), setcat)
         }

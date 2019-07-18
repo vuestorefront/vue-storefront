@@ -70,7 +70,7 @@ Vue Storefront uses the Elasticsearch Query Language to query for data. However,
 
 If your `vue-storefront-api` instance is running on the `localhost`, port `8080` then the correct elasticsearch endpoint is as presented here.
 
-Starting from Vue Storefront v1.6, user may set `config.elasticsearch.queryMethod` either "POST" (default) or "GET". When "GET" is set, the Elasticsearch Query object is passed to vue-storefront-api as a request parameter named "request". By doing so, Service Worker will now be able to cache the results from Elasticsearch. Service Workers cannot cache any POST requests currently.
+Starting from Vue Storefront v1.6, user may set `config.elasticsearch.queryMethod` either *POST* (default) or *GET*. When *GET* is set, the Elasticsearch Query object is passed to vue-storefront-api as a request parameter named *request*. By doing so, Service Worker will now be able to cache the results from Elasticsearch. Service Workers cannot cache any POST requests currently.
 
 :::tip Notice
 Service Worker is not caching the /api requests on development envs. (localhost) as the vue-storefront-api by default runs on a different port (8080).
@@ -93,6 +93,21 @@ The SSR data is being completed in the `asyncData` static method. If this config
 
 If it's set to `false`, then **just the** `src/themes/default/pages/Product.vue` -> `asyncData` will be executed.
 This option is referenced in the [core/client-entry.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) line: 85.
+
+## Max attempt of tasks
+
+```json
+"queues": {
+  "maxNetworkTaskAttempts": 1,
+  "maxCartBypassAttempts": 1
+},
+```
+
+This both option is used when you don't want re-attempting task of just X number time attempt task.
+
+`maxNetworkTaskAttempts` config variable is referenced in the [core/lib/sync/task.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/sync/task.ts) and It's reattempt if user token is invalid.
+
+`maxCartBypassAttempts`  config variable is referenced in the [core/modules/cart/store/actions.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/cart/store/actions.ts)
 
 ## Default store code
 
@@ -231,6 +246,12 @@ Vue Storefront product objects can be quite large. They consist of `configurable
 Please take a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/cart).
 
 ```json
+    "optimizeShoppingCartOmitFields": ["configurable_children", "configurable_options", "media_gallery", "description", "category", "category_ids", "product_links", "stock", "description"],
+```
+
+You can specify which fields get stripped out of the Cart object, by changing the `optimizeShoppingCartOmitFields` array.
+
+```json
   "category": {
     "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count" ]
   },
@@ -239,11 +260,11 @@ Please take a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-
   },
   "productList": {
     "sort": "",
-    "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_key", "status" ],
+    "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "url_key", "status" ],
     "excludeFields": [ "configurable_children", "description", "configurable_options", "sgn" ]
   },
   "productListWithChildren": {
-    "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "product_links", "url_key", "status"],
+    "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "original_price_incl_tax", "original_price", "special_price_incl_t_ax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "product_links", "url_key", "status"],
     "excludeFields": [ "description", "sgn"]
   },
   "product": {
@@ -341,6 +362,12 @@ If this option is set to `items`, Vue Storefront will calculate the cart count b
 ```
 
 These endpoints should point to the `vue-storefront-api` instance and typically, you're changing just the domain-name/base-url without touching the specific endpoint URLs, as it's related to the `vue-storefront-api` specifics.
+
+```json
+  "productsAreReconfigurable": true
+```
+
+If this option is set to `true`, you can edit current options such as color or size in the cart view. Works only for configurable products.
 
 ## Products
 
@@ -503,7 +530,7 @@ Starting with Vue Storefront v1.6, we changed the default order-placing behavior
     "syncTasks": "INDEXEDDB",
     "newsletterPreferences": "INDEXEDDB",
     "ordersHistory": "INDEXEDDB",
-    "checkoutFieldValues": "LOCALSTORAGE"
+    "checkout": "LOCALSTORAGE"
   }
 },
 ```
@@ -547,11 +574,18 @@ The `stock` section configures how the Vue Storefront behaves when the product i
 ```json
 "images": {
   "baseUrl": "https://demo.vuestorefront.io/img/",
-  "productPlaceholder": "/assets/placeholder.jpg"
+  "productPlaceholder": "/assets/placeholder.jpg",
+  "useExactUrlsNoProxy": false,
+  "useSpecificImagePaths": false,
+  "paths": {
+    "product": "/catalog/product"
+  }
 },
 ```
 
-This section is to set the default base URL of product images. This should be a `vue-storefront-api` URL, pointing to its `/api/img` handler. The Vue Storefront API is in charge of downloading the local image cache from the Magento/Pimcore backend and does the resize/crop/scale operations to optimize the images for mobile devices and the UI.
+This section is to set the default base URL of images. This should be a `vue-storefront-api` URL, pointing to its `/api/img` handler. The Vue Storefront API is in charge of downloading the local image cache from the Magento/Pimcore backend and does the resize/crop/scale operations to optimize the images for mobile devices and the UI.
+
+If you wan't to also show non-product image thumbnails you must set `useSpecificImagePaths` to `true` and remove `/catalog/product` from the end of your API `magento1.imgUrl` or `magento2.imgUrl` setting in your API's config file – e.g.: `http://magento-demo.local/media`. After that you can use the `pathType` parameter of the `getThumbnail()` mixin method to traverse other images than product ones.
 
 ## Install
 

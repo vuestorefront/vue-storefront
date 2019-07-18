@@ -7,14 +7,14 @@ import { htmlDecode } from '@vue-storefront/core/filters'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
-import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
 import omit from 'lodash-es/omit'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'Product',
-  mixins: [Composite, AddToCompare, CompareProduct],
+  mixins: [Composite, AddToCompare, CompareProduct, ProductOption],
   data () {
     return {
       loading: false
@@ -124,11 +124,6 @@ export default {
       // Method renamed to 'removeFromCompare(product)', product is an Object
       CompareProduct.methods.removeFromCompare.call(this, this.product)
     },
-    isOptionAvailable (option) { // check if the option is available
-      let currentConfig = Object.assign({}, this.configuration)
-      currentConfig[option.type] = option
-      return isOptionAvailableAsync(this.$store, { product: this.product, configuration: currentConfig })
-    },
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0
       let priceDeltaInclTax = 0
@@ -140,12 +135,12 @@ export default {
           }
           if (optionValue.price_type === 'percent' && optionValue.price !== 0) {
             priceDelta += ((optionValue.price / 100) * this.originalProduct.price)
-            priceDeltaInclTax += ((optionValue.price / 100) * this.originalProduct.priceInclTax)
+            priceDeltaInclTax += ((optionValue.price / 100) * this.originalProduct.price_incl_tax)
           }
         }
       }
       this.product.price = this.originalProduct.price + priceDelta
-      this.product.priceInclTax = this.originalProduct.priceInclTax + priceDeltaInclTax
+      this.product.price_incl_tax = this.originalProduct.price_incl_tax + priceDeltaInclTax
     },
     onAfterBundleOptionsChanged (payload) {
       let priceDelta = 0
@@ -153,12 +148,12 @@ export default {
       for (const optionValue of Object.values(payload.optionValues)) {
         if (typeof optionValue.value.product !== 'undefined' && parseInt(optionValue.qty) >= 0) {
           priceDelta += optionValue.value.product.price * parseInt(optionValue.qty)
-          priceDeltaInclTax += optionValue.value.product.priceInclTax * parseInt(optionValue.qty)
+          priceDeltaInclTax += optionValue.value.product.price_incl_tax * parseInt(optionValue.qty)
         }
       }
       if (priceDelta > 0) {
         this.product.price = priceDelta
-        this.product.priceInclTax = priceDeltaInclTax
+        this.product.price_incl_tax = priceDeltaInclTax
       }
     },
     onStateCheck () {

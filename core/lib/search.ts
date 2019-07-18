@@ -9,6 +9,7 @@ import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
 import { isServer } from '@vue-storefront/core/helpers'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 // TODO - use one from helpers instead
 export function isOnline (): boolean {
@@ -52,7 +53,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
       Request.groupId = rootStore.state.user.groupId
     }
 
-    const cache = Vue.prototype.$db.elasticCacheCollection // switch to appcache?
+    const cache = StorageManager.get('elasticCache') // switch to appcache?
     let servedFromCache = false
     const cacheKey = sha3_224(JSON.stringify(Request))
     const benchmarkTime = new Date()
@@ -89,7 +90,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
       const res = searchAdapter.entities[Request.type].resultPorcessor(resp, start, size)
 
       if (res) { // otherwise it can be just a offline mode
-        cache.setItem(cacheKey, res, null, config.elasticsearch.disableLocalStorageQueriesCache).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+        cache.setItem(cacheKey, res, null, config.elasticsearch.disablePersistentQueriesCache).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
         if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
           Logger.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
           res.cache = false

@@ -1,3 +1,4 @@
+// @deprecated from 2.0
 import { Module } from 'vuex'
 import { RouteConfig, NavigationGuard } from 'vue-router'
 import Vue from 'vue'
@@ -54,7 +55,7 @@ class VueStorefrontModule {
   }
 
   private _extendModule (extendedConfig: VueStorefrontModuleConfig): void {
-    const mergedStore = { modules: [] };
+    const mergedStore = { modules: [], plugin: null }
     const key = this._c.key
     const originalStore = this._c.store
     const extendedStore = extendedConfig.store
@@ -62,6 +63,7 @@ class VueStorefrontModule {
     delete extendedConfig.store
     this._c = merge(this._c, extendedConfig)
     mergedStore.modules = mergeStores(originalStore, extendedStore)
+    mergedStore.plugin = extendedStore.plugin || originalStore.plugin || null
     this._c.store = mergedStore
     Logger.info('Module "' + key + '" has been succesfully extended.', 'module')()
   }
@@ -77,6 +79,7 @@ class VueStorefrontModule {
 
   public register (): VueStorefrontModuleConfig | void {
     if (!this._isRegistered) {
+      Logger.warn('The module you are registering is using outdated API that will soon be depreciated. Please check https://docs.vuestorefront.io to learn more.', 'module', this._c.key)()
       let areStoresUnique = true
       const VSF: VSF = {
         Vue,
