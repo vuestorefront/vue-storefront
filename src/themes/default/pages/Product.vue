@@ -17,11 +17,23 @@
               :routes="breadcrumbs.routes"
               :active-route="breadcrumbs.name"
             />
-            <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
+            <h1
+              class="mb20 mt0 cl-mine-shaft product-name"
+              data-testid="productName"
+              itemprop="name"
+            >
               {{ product.name | htmlDecode }}
-              <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share" />
+              <web-share
+                :title="product.name | htmlDecode"
+                text="Check this product!"
+                class="web-share"
+              />
             </h1>
-            <div class="mb20 uppercase cl-secondary" itemprop="sku" :content="product.sku">
+            <div
+              class="mb20 uppercase cl-secondary"
+              itemprop="sku"
+              :content="product.sku"
+            >
               {{ $t('SKU') }}: {{ product.sku }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
@@ -29,20 +41,17 @@
               <meta itemprop="price" :content="parseFloat(product.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="product.url_path">
-              <div
-                class="mb40 price serif"
-                v-if="product.type_id !== 'grouped'"
-              >
+              <div class="mb40 price serif" v-if="product.type_id !== 'grouped'">
                 <div
                   class="h3 cl-secondary"
                   v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax"
                 >
-                  <span class="h2 cl-mine-shaft weight-700">
-                    {{ product.price_incl_tax * product.qty | price }}
-                  </span>&nbsp;
-                  <span class="price-original h3">
-                    {{ product.original_price_incl_tax * product.qty | price }}
-                  </span>
+                  <span
+                    class="h2 cl-mine-shaft weight-700"
+                  >{{ product.price_incl_tax * product.qty | price }}</span>&nbsp;
+                  <span
+                    class="price-original h3"
+                  >{{ product.original_price_incl_tax * product.qty | price }}</span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
@@ -51,23 +60,19 @@
                   {{ product.qty > 0 ? product.price_incl_tax * product.qty : product.price_incl_tax | price }}
                 </div>
               </div>
-              <div
-                class="cl-primary variants"
-                v-if="product.type_id =='configurable' && !loading"
-              >
-                <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
+              <div class="cl-primary variants" v-if="product.type_id =='configurable' && !loading">
+                <div
+                  class="error"
+                  v-if="product.errors && Object.keys(product.errors).length > 0"
+                >
                   {{ product.errors | formatProductMessages }}
                 </div>
-                <div
-                  class="h5"
-                  v-for="option in getProductOptions"
-                  :key="option.id"
-                >
+                <div class="h5" v-for="option in getProductOptions" :key="option.id">
                   <div class="variants-label" data-testid="variantsLabel">
                     {{ option.label }}
-                    <span class="weight-700">
-                      {{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}
-                    </span>
+                    <span
+                      class="weight-700"
+                    >{{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}</span>
                   </div>
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                     <div v-if="option.label == 'Color'">
@@ -102,15 +107,10 @@
                     <span
                       v-if="option.label == 'Size'"
                       @click="openSizeGuide"
-                      class="
-                        p0 ml30 inline-flex middle-xs no-underline h5
-                        action size-guide pointer cl-secondary
-                      "
+                      class="p0 ml30 inline-flex middle-xs no-underline h5 action size-guide pointer cl-secondary"
                     >
                       <i class="pr5 material-icons">accessibility</i>
-                      <span>
-                        {{ $t('Size guide') }}
-                      </span>
+                      <span>{{ $t('Size guide') }}</span>
                     </span>
                   </div>
                 </div>
@@ -128,7 +128,10 @@
               v-else-if="product.custom_options && product.custom_options.length > 0 && !loading"
               :product="product"
             />
-            <div class="row m0 mb35" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
+            <div
+              class="row m0 mb35"
+              v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
+            >
               <base-input-number
                 :name="$t('Quantity')"
                 v-model="product.qty"
@@ -151,26 +154,10 @@
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <wishlist-button :product="product" />
+                <AddToWishlist :product="product" />
               </div>
-              <div class="col-xs-6 col-sm-3 col-md-6 product__add-to-compare">
-                <button
-                  @click="isOnCompare ? removeFromList('compare') : addToList('compare')"
-                  class="
-                    p0 inline-flex middle-xs bg-cl-transparent brdr-none
-                    action h5 pointer cl-secondary
-                  "
-                  type="button"
-                  data-testid="addToCompare"
-                >
-                  <i class="pr5 material-icons">compare</i>
-                  <template v-if="!isOnCompare">
-                    {{ $t('Add to compare') }}
-                  </template>
-                  <template v-else>
-                    {{ $t('Remove from compare') }}
-                  </template>
-                </button>
+              <div class="col-xs-6 col-sm-3 col-md-6">
+                <AddToCompare :product="product" />
               </div>
             </div>
           </div>
@@ -181,17 +168,10 @@
       <h2 class="h3 m0 mb10 serif lh20 details-title">
         {{ $t('Product details') }}
       </h2>
-      <div
-        class="h4 details-wrapper"
-        :class="{'details-wrapper--open': detailsOpen}"
-      >
+      <div class="h4 details-wrapper" :class="{'details-wrapper--open': detailsOpen}">
         <div class="row between-md m0">
           <div class="col-xs-12 col-sm-6">
-            <div
-              class="lh30 h5"
-              itemprop="description"
-              v-html="product.description"
-            />
+            <div class="lh30 h5" itemprop="description" v-html="product.description" />
           </div>
           <div class="col-xs-12 col-sm-5">
             <ul class="attributes p0 pt5 m0">
@@ -204,18 +184,12 @@
               />
             </ul>
           </div>
-          <div
-            class="details-overlay"
-            @click="showDetails"
-          />
+          <div class="details-overlay" @click="showDetails" />
         </div>
       </div>
     </section>
     <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
-    <related-products
-      type="upsell"
-      :heading="$t('We found other products you might like')"
-    />
+    <related-products type="upsell" :heading="$t('We found other products you might like')" />
     <promoted-offers single-banner />
     <related-products type="related" />
     <SizeGuide />
@@ -243,11 +217,14 @@ import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from 'theme/components/theme/WebShare'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
+import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
+import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
 
 export default {
   components: {
-    'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
     AddToCart,
+    AddToCompare,
+    AddToWishlist,
     Breadcrumbs,
     ColorSelector,
     GenericSelector,
@@ -274,11 +251,15 @@ export default {
   computed: {
     structuredData () {
       return {
-        availability: (this.product.stock.is_in_stock) ? 'InStock' : 'OutOfStock'
+        availability: this.product.stock.is_in_stock ? 'InStock' : 'OutOfStock'
       }
     },
     getProductOptions () {
-      if (this.product.errors && Object.keys(this.product.errors).length && Object.keys(this.configuration).length) {
+      if (
+        this.product.errors &&
+        Object.keys(this.product.errors).length &&
+        Object.keys(this.configuration).length
+      ) {
         return []
       }
       return this.product.configurable_options
@@ -292,19 +273,26 @@ export default {
     notifyOutStock () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
-        message: this.$t('The product is out of stock and cannot be added to the cart!'),
+        message: this.$t(
+          'The product is out of stock and cannot be added to the cart!'
+        ),
         action1: { label: this.$t('OK') }
       })
     },
     notifyWrongAttributes () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
-        message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
+        message: this.$t(
+          'No such configuration for the product. Please do choose another combination of attributes.'
+        ),
         action1: { label: this.$t('OK') }
       })
     },
     changeFilter (variant) {
-      this.$bus.$emit('filter-changed-product', Object.assign({attribute_code: variant.type}, variant))
+      this.$bus.$emit(
+        'filter-changed-product',
+        Object.assign({ attribute_code: variant.type }, variant)
+      )
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
@@ -385,7 +373,7 @@ $bg-secondary: color(secondary, $colors-background);
     padding-bottom: 30px;
   }
 
- .sizes {
+  .sizes {
     @media (max-width: 767px) {
       width: 100%;
     }
