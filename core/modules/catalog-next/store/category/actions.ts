@@ -45,7 +45,8 @@ const actions: ActionTree<CategoryState, RootState> = {
     const searchQuery = getters.getCurrentSearchQuery
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
     const searchResult = await quickSearchByQuery({
-      query: filterQr, sort: searchQuery.sort,
+      query: filterQr,
+      sort: searchQuery.sort,
       start: start + perPage,
       size: perPage,
       includeFields: entities.productListWithChildren.includeFields,
