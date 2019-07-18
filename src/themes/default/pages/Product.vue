@@ -321,7 +321,6 @@ export default {
   },
   created () {
     this.getQuantity()
-    console.log(this.product.type_id)
   },
   methods: {
     showDetails (event) {
