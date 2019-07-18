@@ -326,7 +326,7 @@ const actions: ActionTree<ProductState, RootState> = {
       }
       return calculateTaxes(resp.items, context).then((updatedProducts) => {
         // handle cache
-        const cache = StorageManager.get('elasticCacheCollection')
+        const cache = StorageManager.get('elasticCache')
         for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
           if (prod.configurable_children) {
             for (let configurableChild of prod.configurable_children) {
@@ -408,7 +408,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
-      const cache = StorageManager.get('elasticCacheCollection')
+      const cache = StorageManager.get('elasticCache')
 
       const setupProduct = (prod) => {
         // set product quantity to 1
