@@ -1,6 +1,6 @@
-import { StorefrontModule } from '@vue-storefront/module'
+import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { coreHooks } from '@vue-storefront/core/hooks'
-import { extendStore } from '@vue-storefront/module/helpers'
+import { extendStore } from '@vue-storefront/core/helpers'
 import { ExampleStore, ExtendProductStore } from './store'
 
 export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {

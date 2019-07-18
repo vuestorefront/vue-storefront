@@ -1,6 +1,24 @@
 import { isServer } from '@vue-storefront/core/helpers'
 
 /**
+  * ValidationError to be used with multiple validation errors return from Ajv or other validators
+*/
+export class HttpError {
+  private message: string
+  private code: string | number
+  private name: string
+
+  constructor (message, code) {
+    this.message = message
+    this.code = code
+    this.name = 'ValidationError'
+  }
+  toString () {
+    return 'HttpError' + this.code + ': ' + this.message
+  }
+}
+
+/**
  * @param {string} level available options: 'no-console', 'only-errors', 'all'
  */
 export function takeOverConsole (level = 'no-console') {

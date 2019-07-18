@@ -1,7 +1,7 @@
 import union from 'lodash-es/union'
 
 import { createApp } from '@vue-storefront/core/app'
-import { HttpError } from '@vue-storefront/core/helpers/exceptions'
+import { HttpError } from '@vue-storefront/core/helpers/_internal'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import omit from 'lodash-es/omit'
 import pick from 'lodash-es/pick'

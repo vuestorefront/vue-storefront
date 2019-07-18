@@ -1,7 +1,7 @@
 import { CartModule } from '../../index'
 
 jest.mock('../../store', () => ({}));
-jest.mock('@vue-storefront/module', () => ({ createModule: jest.fn(() => ({ module: 'cart' })) }));
+jest.mock('@vue-storefront/core/lib/modules', () => ({ createModule: jest.fn(() => ({ module: 'cart' })) }));
 jest.mock('../../helpers/cartCacheHandler', () => ({ cartCacheHandlerFactory: jest.fn() }))
 jest.mock('@vue-storefront/core/helpers', () => ({ isServer: false }))
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({ initCacheStorage: jest.fn() }));

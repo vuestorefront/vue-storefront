@@ -1,6 +1,6 @@
 import { userStore } from './store'
 import { beforeEach } from './router/beforeEach'
-import { StorefrontModule } from '@vue-storefront/module'
+import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { isServer } from '@vue-storefront/core/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'

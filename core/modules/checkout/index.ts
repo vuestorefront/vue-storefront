@@ -1,4 +1,4 @@
-import { StorefrontModule } from '@vue-storefront/module'
+import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { checkoutModule } from './store/checkout'
 import { paymentModule } from './store/payment'
 import { shippingModule } from './store/shipping'

@@ -8,7 +8,7 @@ import i18n from '@vue-storefront/i18n'
 import { serial, onlineHelper, processURLAddress } from '@vue-storefront/core/helpers'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { isServer } from '@vue-storefront/core/helpers'
-import { StorefrontModule } from '@vue-storefront/module';
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
 export const OrderModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
   StorageManager.init('orders')
