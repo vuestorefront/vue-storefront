@@ -1,7 +1,7 @@
 import { userStore } from './store'
 import { beforeEach } from './router/beforeEach'
 import { StorefrontModule } from '@vue-storefront/module'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { isServer } from '@vue-storefront/core/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import * as types from './store/mutation-types'

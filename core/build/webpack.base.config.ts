@@ -120,7 +120,7 @@ export default {
       '@vue-storefront/core/store/lib/multistore': path.resolve(__dirname, '../lib/multistore.ts'),
       'src/modules/order-history/components/UserOrders': path.resolve(__dirname, '../../core/modules/order/components/UserOrdersHistory'),
       '@vue-storefront/core/modules/social-share/components/WebShare': path.resolve(__dirname, '../../src/themes/default/components/theme/WebShare.vue'),
-      '@vue-storefront/core/helpers/initCacheStorage': path.resolve(__dirname, '../store/lib/storage-manager.ts')
+      '@vue-storefront/core/helpers/initCacheStorage': path.resolve(__dirname, '../lib/storage-manager.ts')
     }
   },
   module: {

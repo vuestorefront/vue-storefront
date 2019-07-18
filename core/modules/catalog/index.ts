@@ -4,7 +4,7 @@ import { attributeModule } from './store/attribute'
 import { stockModule } from './store/stock'
 import { taxModule } from './store/tax'
 import { categoryModule } from './store/category'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 export const CatalogModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
   StorageManager.init('categories')

@@ -3,7 +3,7 @@ import { cmsBlockModule } from './store/block'
 import { cmsHierarchyModule } from './store/hierarchy'
 import { plugin } from './store/plugin'
 import { StorefrontModule } from '@vue-storefront/module';
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 export const cacheStorage = StorageManager.init('cms')
 

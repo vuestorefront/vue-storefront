@@ -1,6 +1,6 @@
 import { recentlyViewedStore } from './store'
 import { plugin } from './store/plugin'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { StorefrontModule } from '@vue-storefront/module';
 import { isServer } from '@vue-storefront/core/helpers'
 

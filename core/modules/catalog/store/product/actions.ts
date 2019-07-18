@@ -28,7 +28,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import toString from 'lodash-es/toString'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 

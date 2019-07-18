@@ -17,7 +17,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
