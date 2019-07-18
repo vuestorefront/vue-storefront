@@ -13,8 +13,8 @@ const StorageManager = {
    * @param isLocalized if set to `false` data will be shared between storeViews (default `true`)
    * @param storageQuota max size of storage, 0 if unlimited (default `0`)
    */
-  init: function (collectionName: string, isLocalised = true, storageQuota = 0) {
-    this.storageMap[collectionName] = _prepareCacheStorage(collectionName, isLocalised, storageQuota)
+  init: function (collectionName: string, isLocalized = true, storageQuota = 0) {
+    this.storageMap[collectionName] = _prepareCacheStorage(collectionName, isLocalized, storageQuota)
     return this.storageMap[collectionName]
   },
   /**
@@ -48,7 +48,7 @@ const StorageManager = {
   }
 }
 
-function _prepareCacheStorage (key, localised = true, storageQuota = 0) {
+function _prepareCacheStorage (key, localized = true, storageQuota = 0) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
   const cacheDriver = config.localForage && config.localForage.defaultDrivers[key]
@@ -56,7 +56,7 @@ function _prepareCacheStorage (key, localised = true, storageQuota = 0) {
     : 'LOCALSTORAGE'
 
   return new UniversalStorage(localForage.createInstance({
-    name: localised ? `${dbNamePrefix}shop` : 'shop',
+    name: localized ? `${dbNamePrefix}shop` : 'shop',
     storeName: key,
     driver: localForage[cacheDriver]
   }), true, storageQuota)
