@@ -53,7 +53,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
       Request.groupId = rootStore.state.user.groupId
     }
 
-    const cache = StorageManager.get('elasticCacheCollection') // switch to appcache?
+    const cache = StorageManager.get('elasticCache') // switch to appcache?
     let servedFromCache = false
     const cacheKey = sha3_224(JSON.stringify(Request))
     const benchmarkTime = new Date()

@@ -63,7 +63,7 @@ const actions: ActionTree<OrderState, RootState> = {
         } else if (task.resultCode === 400) {
           commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
 
-          Logger.error('Internal validation error; Order entity is not compliant with the schema: ' + JSON.stringify(task.result), 'order')()
+          Logger.error('Internal validation error; Order entity is not compliant with the schema: ' + JSON.stringify(task.result), 'orders')()
           dispatch('notification/spawnNotification', {
             type: 'error',
             message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on {email}', { email: config.mailer.contactAddress }),

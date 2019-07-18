@@ -3,10 +3,10 @@ import { cartStore } from './store'
 import { cartCacheHandlerFactory } from './helpers/cartCacheHandler';
 import { isServer } from '@vue-storefront/core/helpers'
 import Vue from 'vue'
-import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 export const CartModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
-  initCacheStorage('carts')
+  StorageManager.init('cart')
 
   store.registerModule('cart', cartStore)
 
