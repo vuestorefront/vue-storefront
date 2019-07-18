@@ -1,5 +1,6 @@
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import * as types from './mutation-types'
+import omit from 'lodash-es/omit'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { ActionTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
@@ -19,6 +20,9 @@ const actions: ActionTree<OrderState, RootState> = {
    * @param {Order} order order data to be send
    */
   async placeOrder ({ commit, getters, dispatch }, order: Order) {
+    if (config.entities.optimize && config.entities.optimizeShoppingCart) {
+      order.products = order.products.map(product => omit(product, ['configurable_options', 'configurable_children'])) as Order['products']
+    }
     // Check if order is already processed/processing
     const currentOrderHash = sha3_224(JSON.stringify(order))
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
@@ -63,7 +67,7 @@ const actions: ActionTree<OrderState, RootState> = {
         } else if (task.resultCode === 400) {
           commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
 
-          Logger.error('Internal validation error; Order entity is not compliant with the schema: ' + JSON.stringify(task.result), 'order')()
+          Logger.error('Internal validation error; Order entity is not compliant with the schema: ' + JSON.stringify(task.result), 'orders')()
           dispatch('notification/spawnNotification', {
             type: 'error',
             message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on {email}', { email: config.mailer.contactAddress }),

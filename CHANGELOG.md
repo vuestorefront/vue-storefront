@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Get also none product image thumbnails via API - @cewald, @resubaka (#3207)
 - Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
 - Added information on the number of available products - @Michal-Dziedzinski (#2733)
+- Added possibility to change color or size of the product that is already in the cart - @andrzejewsky (#2346)
 
 ### Fixed
 
@@ -33,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed aspect ratio in ProductImage component - @przspa (#3187)
 - Fixed AMP Product page - @przspa (#3227)
 - Fixed when store has updated, but plugin didn't called - @serzilo (#3238)
+- Add ./packages as volume to docker-compose.yml - @cewald (#3251)
 
 ### Changed / Improved
 
@@ -45,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added configuration for max attempt task & cart by pass - @cnviradiya (#3193)
 - Added catching of errors when ES is down - @qiqqq
 - Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
+- New modules API and rewrite - @filrak, @JCown (#3144)
 
 ## [1.10.0-rc.2] - UNRELEASED
 
