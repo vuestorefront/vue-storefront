@@ -1,6 +1,7 @@
 import { Module } from 'vuex'
 import actions from './actions'
 import mutations from './mutations'
+import getters from './getters'
 import RootState from '@vue-storefront/core/types/RootState'
 import WishlistState from '../types/WishlistState'
 
@@ -12,8 +13,5 @@ export const wishlistStore: Module<WishlistState, RootState> = {
   },
   actions,
   mutations,
-  getters: {
-    isWishlistLoaded: state => state.loaded,
-    getWishlistItemsCount: (state) => state.items.length
-  }
+  getters
 }
