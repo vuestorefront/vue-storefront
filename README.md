@@ -13,8 +13,7 @@ Vue Storefront is a standalone PWA storefront for your eCommerce, possible to co
 Vue Storefront is and always will be in the open source. Anyone can use and support the project, we want it to be a tool for the improvement of the shopping experience.
 The project is in the **production ready** phase.
 
-**Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-
-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
+**Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
 If you're new and need some guidance feel free to visit out [forum](https://forum.vuestorefront.io/) or reach anyone from the core team on our slack:
 - `@Filip Rakowski` (frontend, architecture and best practices related stuff)
@@ -210,6 +209,13 @@ In the project we used [Material Icons](https://github.com/google/material-desig
 Here you can read more about the process of [designing PWA for eCommerce](https://www.linkedin.com/pulse/designing-pwa-ecommerce-karl-bzik/).
 
 The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
+
+## Concerns when hosting
+When hosting NodeJS applications there are some differences compared to, for example, hosting PHP or Java applications.
+Server Side Rendering via NodeJS can have memory leaks because of suboptimal code. Although core code is optimized, project specific features or misaligned hosting configuration can introduce this. More on how to avoid these for VueJS can be ready in [this article](https://vuejs.org/v2/cookbook/avoiding-memory-leaks.html). We also recommend reading about [VueJS best practices](https://blog.usejournal.com/vue-js-best-practices-c5da8d7af48d).
+
+ On the server we advice to run [PM2](http://pm2.keymetrics.io/) which offers features to keep your NodeJS application stable. When hosting on Kubernetes the checks and memory limits can be leveraged to kill unhealthy containers.
+More on hosting can be found in [the documentation](https://docs.vuestorefront.io/guide/installation/production-setup.html#production-setup-bare-vps).
 
 ## Other platforms
 Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/coreshop-vsbridge) to give you an idea of how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
@@ -752,10 +758,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
    <td align="center" valign="middle"> 
-<a href="">
+<a href="https://performance-academy.pl/">
           <img
-            src=""
-            alt=""
+            src="https://divante.co/partners/Vue-Storefront/Perfomance_Academy_logo_large.png"
+            alt="Performance Academy"
             height="40"
           >
         </a>
