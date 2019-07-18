@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/DivanteLtd/vue-storefront/README.md",
   "scripts": {
+    "static-server": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/static-server.ts",
     "generate": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/generate.ts",
     "start": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" pm2 start ecosystem.json $PM2_ARGS",
     "installer": "node ./core/scripts/installer",
@@ -46,7 +47,9 @@
     "lerna": "lerna",
     "pkg:module:build": "cd ./packages/module && yarn build"
   },
-  "pre-commit": [ "lint" ],
+  "pre-commit": [
+    "lint"
+  ],
   "dependencies": {
     "@types/webpack": "^4.4.23",
     "@types/webpack-dev-server": "^3.1.1",
@@ -59,6 +62,7 @@
     "cross-env": "^3.1.4",
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
+    "fs-extra": "^8.1.0",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "isomorphic-fetch": "^2.2.1",

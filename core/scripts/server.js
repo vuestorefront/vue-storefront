@@ -92,7 +92,6 @@ const serve = (path, cache, options) => express.static(resolve(path), Object.ass
 const themeRoot = require('../build/theme-path')
 
 app.use('/dist', serve('dist', true))
-app.use('/', serve('dist/output', true))
 app.use('/assets', serve(themeRoot + '/assets', true))
 app.use('/service-worker.js', serve('dist/service-worker.js', false, {
   setHeaders: function (res, path, stat) {

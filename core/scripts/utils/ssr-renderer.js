@@ -1,8 +1,8 @@
 const fs = require('fs')
-const rootPath = require('app-root-path').path
-const resolve = file => path.resolve(rootPath, file)
 const path = require('path')
 const compile = require('lodash.template')
+const rootPath = require('app-root-path').path
+const resolve = file => path.resolve(rootPath, file)
 
 function createRenderer (bundle, clientManifest, template) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
@@ -61,7 +61,7 @@ function initSSRRequestContext (app, req, res, config) {
     meta: null,
     vs: {
       config: config,
-      storeCode: req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE
+      storeCode: typeof req.header === 'function' ? (req.header('x-vs-store-code') ? req.header('x-vs-store-code') : process.env.STORE_CODE) : process.env.STORE_CODE
     }
   };
 }

@@ -59,7 +59,7 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
 }
 
 function getHostFromHeader (headers: string[]): string {
-  return headers['x-forwarded-host'] !== undefined ? headers['x-forwarded-host'] : headers['host']
+  return headers ? (headers['x-forwarded-host'] !== undefined ? headers['x-forwarded-host'] : headers['host']) : null
 }
 
 export default async context => {

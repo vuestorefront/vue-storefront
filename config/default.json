@@ -19,6 +19,10 @@
       "extensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
     }
   },
+  "staticPages": {
+    "updateOnRequest": true,
+    "destPath": "static"
+  },
   "seo": {
     "useUrlDispatcher": true,
     "disableUrlRoutesPersistentCache": true
