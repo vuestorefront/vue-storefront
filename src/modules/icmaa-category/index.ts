@@ -1,15 +1,8 @@
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
-import { CategoryModule } from './store'
+import { StorefrontModule } from '@vue-storefront/module'
+import { CategoryStore } from './store'
 
 const KEY = 'icmaa-category'
 
-const moduleConfig: VueStorefrontModuleConfig = {
-  key: KEY,
-  store: {
-    modules: [
-      { key: 'icmaaCategory', module: CategoryModule }
-    ]
-  }
+export const IcmaaCategoryModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  store.registerModule('icmaaCategory', CategoryStore)
 }
-
-export const IcmaaCategory = new VueStorefrontModule(moduleConfig)
