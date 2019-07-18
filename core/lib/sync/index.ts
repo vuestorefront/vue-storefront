@@ -11,7 +11,7 @@ import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 /** Syncs given task. If user is offline requiest will be sent to the server after restored connection */
 async function queue (task) {
-  const tasksCollection = StorageManager.get('syncTaskCollection')
+  const tasksCollection = StorageManager.get('syncTasks')
   task = _prepareTask(task)
   Logger.info('Sync task queued ' + task.url, 'sync', { task })()
   return new Promise((resolve, reject) => {
@@ -50,7 +50,7 @@ async function execute (task): Promise<Task> { // not offline task
 
 /** Clear sync tasks that were not transmitted yet */
 function clearNotTransmited () {
-  const syncTaskCollection = StorageManager.get('syncTaskCollection')
+  const syncTaskCollection = StorageManager.get('syncTasks')
   syncTaskCollection.iterate((task, id, iterationNumber) => {
     if (!task.transmited) {
       syncTaskCollection.removeItem(id)

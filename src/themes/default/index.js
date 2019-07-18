@@ -7,11 +7,11 @@ import '@vue-storefront/core/lib/passive-listeners'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { once } from '@vue-storefront/core/helpers'
 
-import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
 import { claimsStore } from 'theme/store/claims'
 import { homepageStore } from 'theme/store/homepage'
 import { uiStore } from 'theme/store/ui'
 import { promotedStore } from 'theme/store/promoted-offers'
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(VueProgressBar)
@@ -26,7 +26,7 @@ function initTheme (app, router, store, config, ssrContext) {
   setupMultistoreRoutes(config, router, routes)
   RouterManager.addRoutes(routes, router)
 
-  initCacheStorage('claimCollection');
+  StorageManager.init('claimCollection');
   store.registerModule('claims', claimsStore);
   store.registerModule('homepage', homepageStore);
   store.registerModule('ui', uiStore);
