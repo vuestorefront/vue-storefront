@@ -32,7 +32,7 @@ const mutations: MutationTree<CategoryState> = {
       }
       catSlugSetter(category)
       if (categories.includeFields == null) {
-        const catCollection = StorageManager.get('categoriesCollection')
+        const catCollection = StorageManager.get('categories')
         try {
           catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
             Logger.error(reason, 'category') // it doesn't work on SSR

@@ -5,7 +5,7 @@ import getters from './getters'
 import RootState from '@vue-storefront/core/types/RootState'
 import WishlistState from '../types/WishlistState'
 
-export const module: Module<WishlistState, RootState> = {
+export const wishlistStore: Module<WishlistState, RootState> = {
   namespaced: true,
   state: {
     loaded: false,
