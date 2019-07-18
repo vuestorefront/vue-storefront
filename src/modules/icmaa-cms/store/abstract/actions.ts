@@ -63,7 +63,7 @@ export const single = async <T>(options: OptionsInterface): Promise<T> => {
       { responseType: 'json', params }
     ).then(resp => {
       let result = resp.data.result;
-      if (Object.keys(result).length === 0) {
+      if (Object.keys(result).length === 0 || result.status === 400) {
         throw new Error('No results found')
       }
 

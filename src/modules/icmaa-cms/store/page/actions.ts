@@ -4,9 +4,9 @@ import { single as singleAbstract, MutationTypesInterface, SingleOptionsInterfac
 import { cmsPageStorageKey as storageKey } from './'
 import * as types from './mutation-types'
 import PageState, { PageStateItem } from '../../types/PageState'
-import RootState from '@vue-storefront/core/types/RootState';
+import RootState from '@vue-storefront/core/types/RootState'
 
-const documentType = 'page';
+const documentType = 'page'
 const mutationTypes: MutationTypesInterface = {
   add: types.ICMAA_CMS_PAGE_ADD,
   upd: types.ICMAA_CMS_PAGE_UPD,

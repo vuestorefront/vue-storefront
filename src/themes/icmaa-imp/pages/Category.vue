@@ -72,6 +72,7 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import CategoryExtras from 'src/modules/icmaa-cms/mixins/categoryExtras'
 // import builder from 'bodybuilder'
 
 export default {
@@ -107,7 +108,7 @@ export default {
       })
     }
   },
-  mixins: [Category]
+  mixins: [Category, CategoryExtras]
 }
 </script>
 

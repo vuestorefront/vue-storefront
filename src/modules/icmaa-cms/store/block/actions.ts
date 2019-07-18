@@ -4,9 +4,9 @@ import { single as singleAbstract, MutationTypesInterface, SingleOptionsInterfac
 import { cmsBlockStorageKey as storageKey } from './'
 import * as types from './mutation-types'
 import BlockState, { BlockStateItem } from '../../types/BlockState'
-import RootState from '@vue-storefront/core/types/RootState';
+import RootState from '@vue-storefront/core/types/RootState'
 
-const documentType = 'block';
+const documentType = 'block'
 const mutationTypes: MutationTypesInterface = {
   add: types.ICMAA_CMS_BLOCK_ADD,
   upd: types.ICMAA_CMS_BLOCK_UPD,

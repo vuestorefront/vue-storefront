@@ -4,9 +4,9 @@ import { single as singleAbstract, MutationTypesInterface, SingleOptionsInterfac
 import { cmsCategoryExtrasStorageKey as storageKey } from './'
 import * as types from './mutation-types'
 import CategoryExtrasState, { CategoryExtrasStateItem } from '../../types/CategoryExtrasState'
-import RootState from '@vue-storefront/core/types/RootState';
+import RootState from '@vue-storefront/core/types/RootState'
 
-const documentType = 'category-extra';
+const documentType = 'category-extras'
 const mutationTypes: MutationTypesInterface = {
   add: types.ICMAA_CMS_CATEGORY_EXRTAS_ADD,
   upd: types.ICMAA_CMS_CATEGORY_EXRTAS_UPD,
