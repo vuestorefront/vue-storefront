@@ -25,8 +25,8 @@ const actions: ActionTree<CategoryState, RootState> = {
     const {items, perPage, start, total} = await quickSearchByQuery({
       query: filterQr,
       sort: searchQuery.sort,
-      includeFields: entities.productListWithChildren.includeFields,
-      excludeFields: entities.productListWithChildren.excludeFields
+      includeFields: entities.productList.includeFields,
+      excludeFields: entities.productList.excludeFields
     })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
     let configuredProducts = items.map(product => {
@@ -49,8 +49,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       sort: searchQuery.sort,
       start: start + perPage,
       size: perPage,
-      includeFields: entities.productListWithChildren.includeFields,
-      excludeFields: entities.productListWithChildren.excludeFields
+      includeFields: entities.productList.includeFields,
+      excludeFields: entities.productList.excludeFields
     })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, {
       perPage: searchResult.perPage,
