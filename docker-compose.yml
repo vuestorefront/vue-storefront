@@ -23,6 +23,7 @@ services:
       - './package.json:/var/www/package.json'
       - './src:/var/www/src'
       - './var:/var/www/var'
+      - './packages:/var/www/packages'
     tmpfs:
       - /var/www/dist
     ports:

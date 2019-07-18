@@ -1,7 +1,29 @@
 # Upgrade notes
 
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
+
 ## 1.10 -> 1.11
+
+This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible. 
+
+- All modules were refactored to new API. You can still register modules in previous format until 2.0
+- `DroppointShipping` and `magento-2-cms `modules were deleted 
+- example modules moved to https://github.com/DivanteLtd/vsf-samples
+- `core/helpers/initCacheStorage.ts` merged with `StorageManager.ts` (import path alias for backward compatibility added)
+- Old extensions mechanism (before VS 1.4) was finally removed after being deprecated for almost a year (`src/extensions` removal)
+- Cache collections were reorganized. In most cases Local Storage keys remained untouched, only collection keys were unified. also they're used only in the core. Posting changes in case someone is using those collections in their modules;
+  - `syncTaskCollection` renamed to `syncTasks`
+  - `compareCollection` renamed to `compare`
+  - `cmsData` renamed to `cms`
+  - `cartsCollection` renamed to `carts`
+  - `checkoutFieldValues`, `checkoutFieldsCollection` renamed to `checkout` (`checkoutFieldsCollection` wasn’t used)
+  - `ordersCollection` and `orders` renamed to just `orders` (`ordersCollection` wasn’t used)
+  - `elasticCacheCollection` renamed to `elasticCache`
+  - `usersCollection` `usersData` merged and renamed to `user` 
+  - `attributesCollection`, `attributes` renamed to just `attributes`
+  - `ordersHistoryCollection` merged to `user` cache where it belongs
+  - `categoriesCollection` renamed to categories
+  - Collections in theme like `claimsCollection` (claims modules) remained untouched
 - `UserOrder` component has been renamed to `UserOrderHistory` and moved from `src/modules/order-history/components/UserOrders` to `@vue-storefront/core/modules/order/components/UserOrdersHistory`. This component was used in `MyOrders` component found here: `src/themes/default/components/core/blocks/MyAccount/MyOrders.vue`. In this file the `import` path has to be updated.
 - `claims`, `promoted-offers`, `homepage` adn `ui` modules have been moved from `@vue-storefront/src/modules` to `src/themes/default/store/` and reduced to stores only.<br>
 Delete those folders:<br>
@@ -10,9 +32,9 @@ Delete those folders:<br>
   -- `src/modules/homepage`<br>
   -- `src/modules/ui-store`<br>
 Copy folder `theme/store/` from `theme default`.<br>
-Register the stores copied in previous step in `src/themes/default/index.js`. To do that, import them along with `initCacheStorage` method, used to replace `claims beforeRegistration hook`.
+Register the stores copied in previous step in `src/themes/default/index.js`. To do that, import them along with `StorageManager` method, used to replace `claims beforeRegistration hook`.
 ```js
-import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager';
 import { store as claimsStore } from 'theme/store/claims'
 import { store as homeStore } from 'theme/store/homepage'
 import { store as uiStore } from 'theme/store/ui'
@@ -20,7 +42,7 @@ import { store as promotedStore } from 'theme/store/promoted-offers'
 ```
 Next, inside `initTheme` method use `store.registerModule` method to register the stores.
 ```js
-Vue.prototype.$db.claimsCollection = initCacheStorage('claims');
+StorageManager.init('claims');
 store.registerModule('claims', claimsStore);
 store.registerModule('homepage', homeStore);
 store.registerModule('ui', uiStore);
@@ -28,11 +50,8 @@ store.registerModule('promoted', promotedStore);
 ```
 - `WebShare` moved from `@vue-storefront/core/modules/social-share/components/WebShare.vue` to `@vue-storefront/src/themes/default/components/theme/WebShare.vue`. This component was used in `Product` component found here: `src/themes/default/pages/Product.vue`. In this file the `import` path has to be updated.
 
-## 1.10 -> 1.11
-We've fixed the naming strategy for product prices; The following fields were renamed: `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; The names have been kept and marked as @deprecated. These fields will be **removed with Vue Storefront 2.0rc-1**.
-
-We've decreased the `localStorage` quota usage + error handling by introducing new config variables: 
-
+- We've fixed the naming strategy for product prices; The following fields were renamed: `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; The names have been kept and marked as @deprecated. These fields will be **removed with Vue Storefront 2.0rc-1**.
+- We've decreased the `localStorage` quota usage + error handling by introducing new config variables: 
 - `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`); 
 - `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway); 
 - `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW)

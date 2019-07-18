@@ -1,7 +1,7 @@
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
-import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
+import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
 
 export function onNetworkStatusChange (store) {
   Logger.log('Are we online: ' + navigator.onLine, 'offline-order')()
@@ -13,7 +13,7 @@ export function onNetworkStatusChange (store) {
       EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
     } else {
       const ordersToConfirm = []
-      const ordersCollection = initCacheStorage('orders', false, true)
+      const ordersCollection = StorageManager.get('orders')
 
       ordersCollection.iterate((order, id, iterationNumber) => {
         if (!order.transmited) {
