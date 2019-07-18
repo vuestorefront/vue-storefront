@@ -435,7 +435,6 @@ const actions: ActionTree<ProductState, RootState> = {
           prefetchGroupProducts: false,
           updateState: false
         }).then((res) => {
-          console.log(res)
           if (res && res.items && res.items.length) {
             let prd = res.items[0]
             const _returnProductNoCacheHelper = (subresults) => {
