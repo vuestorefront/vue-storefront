@@ -16,9 +16,10 @@ The project is in the **production ready** phase.
 **Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
 If you're new and need some guidance feel free to visit out [forum](https://forum.vuestorefront.io/) or reach anyone from the core team on our slack:
-- `@Filip Rakowski` (frontend, architecture and best practices related stuff)
-- `@pkarw` (integrations and backend related stuff)
-- `@ptomczyk` (frontend related stuff)
+- `@Filip Rakowski` (frontend and best practices)
+- `@pkarw` (integrations and backend)
+- `@ptomczyk` (frontend and best practices)
+- `@lromanowicz` (testing, magento, backend)
 
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
