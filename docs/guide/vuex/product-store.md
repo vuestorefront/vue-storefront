@@ -111,7 +111,7 @@ This method subsequently dispatches the `product/list` action to get the product
 
 ### `configure (context, { product = null, configuration, selectDefaultVariant = true })`
 
-This action is used to configure the `configurable` product with specified attributes. It gets the `configuration` object, which should have the following format: `{ attribute_code: attribute_value_id }` and finds the `product.configurable_children` item which complies to this configuration. Then, it merges this specific `configurable_child` with the product itself - for example, setting the product.price to the configurable price, color, size etc. This method is used on: `Product.vue` page for allowing user to select color, size etc. The second usage for it is on `Category.vue` page after user selects some filters - the resulting products are configured to display the proper images (related to selected color and size) and prices.
+This action is used to configure the `configurable` product with specified attributes. It gets the `configuration` object, which should have the following format: `{ attribute_code: attribute_value_id }` and finds the `product.configurable_children` item which complies with this configuration. Then, it merges this specific `configurable_child` with the product itself - for example, setting the product.price to the configurable price, color, size etc. This method is used on: `Product.vue` page for allowing user to select color, size etc. The second usage for it is on `Category.vue` page after user selects some filters - the resulting products are configured to display the proper images (related to selected color and size) and prices.
 
 If `selectDefaultVariant` is set to true (default), the `state.current` will be altered with configured product.
 
