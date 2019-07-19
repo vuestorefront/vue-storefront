@@ -14,5 +14,5 @@ module.exports = {
       { test: /\.ts$/, use: ['ts-loader'], exclude: /node_modules/ }
     ]
   },
-  externals: ['@vue-storefront/module', '@vue-storefront/core']
+  externals: ['@vue-storefront/core']
 }

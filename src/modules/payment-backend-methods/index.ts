@@ -1,5 +1,5 @@
 import * as types from './store/mutation-types'
-import { StorefrontModule } from '@vue-storefront/module';
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { isServer } from '@vue-storefront/core/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 

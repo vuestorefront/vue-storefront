@@ -1,7 +1,7 @@
 import VueAnalytics from 'vue-analytics'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { once, isServer } from '@vue-storefront/core/helpers'
-import { StorefrontModule } from '@vue-storefront/module';
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import Vue from 'vue';
 
 const googleAnalyticsStore = {

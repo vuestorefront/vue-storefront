@@ -1,7 +1,7 @@
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 export function onNetworkStatusChange (store) {
   Logger.log('Are we online: ' + navigator.onLine, 'offline-order')()

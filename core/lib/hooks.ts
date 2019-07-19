@@ -7,7 +7,7 @@
   @return executor: a function that will run all the collected hooks
  */
 function createListenerHook () {
-  const functionsToRun: Array<(arg: any) => void> = []
+  const functionsToRun: ((arg: any) => void)[] = []
 
   function hook (fn: (arg?: any) => void) {
     functionsToRun.push(fn)
@@ -31,7 +31,7 @@ function createListenerHook () {
   @return executor: a function that will apply all hooks on a given value
  */
 function createMutatorHook () {
-  const mutators: Array<(arg: any) => void>  = []
+  const mutators: ((arg: any) => void)[] = []
 
   function hook (mutator: (arg: any) => any) {
     mutators.push(mutator)

@@ -1,6 +1,6 @@
 import { WishlistModule } from '../'
 import wishlistMountedMixin from '@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin'
-import { registerModule } from '@vue-storefront/module';
+import { registerModule } from '@vue-storefront/core/lib/modules';
 
 export const Wishlist = {
   name: 'Wishlist',
