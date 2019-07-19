@@ -7,6 +7,7 @@ jest.mock('config', () => ({
     'defaultFilters': ['color', 'size', 'price', 'erin_recommends']
   }
 }));
+jest.mock('@vue-storefront/core/store', () => ({}));
 
 describe('buildFilterProductsQuery method', () => {
   let currentCategory
