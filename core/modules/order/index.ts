@@ -111,5 +111,5 @@ export const OrderModule: StorefrontModule = function (app, store, router, modul
       }
     })
   }
-  store.registerModule('orders', orderStore)
+  store.registerModule('order', orderStore)
 }
