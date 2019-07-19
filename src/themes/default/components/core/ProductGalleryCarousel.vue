@@ -90,8 +90,10 @@ export default {
   mounted () {
     this.selectVariant()
 
-    const {color} = this.configuration
-    this.currentColor = color.id
+    if (this.configuration.color) {
+      const {color} = this.configuration
+      this.currentColor = color.id
+    }
 
     this.$emit('loaded')
   },

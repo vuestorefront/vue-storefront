@@ -16,6 +16,8 @@ import config from 'config'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
+import optimizeProduct from './../helpers/optimizeProduct'
 
 let _connectBypassCount = 0
 
@@ -241,11 +243,11 @@ const actions: ActionTree<CartState, RootState> = {
       let paymentMethod = rootGetters['payment/paymentMethods'].find(item => item.default)
       commit(types.CART_UPD_PAYMENT, paymentMethod)
     }
-    const storedItems = await StorageManager.get('cartsCollection').getItem('current-cart')
+    const storedItems = await StorageManager.get('cart').getItem('current-cart')
     commit(types.CART_LOAD_CART, storedItems)
     if (config.cart.synchronize) {
-      const token = await StorageManager.get('cartsCollection').getItem('current-cart-token')
-      const hash = await StorageManager.get('cartsCollection').getItem('current-cart-hash')
+      const token = await StorageManager.get('cart').getItem('current-cart-token')
+      const hash = await StorageManager.get('cart').getItem('current-cart-hash')
       if (hash) {
         commit(types.CART_SET_ITEMS_HASH, hash)
         Logger.info('Cart hash received from cache.', 'cache', hash)()
@@ -295,7 +297,7 @@ const actions: ActionTree<CartState, RootState> = {
         continue
       }
       if (config.entities.optimize && config.entities.optimizeShoppingCart) {
-        product = omit(product, ['configurable_children', 'configurable_options', 'media_gallery', 'description', 'category', 'category_ids', 'product_links', 'stock', 'description'])
+        product = optimizeProduct(product)
       }
       if (product.errors !== null && typeof product.errors !== 'undefined') {
         let productCanBeAdded = true
@@ -385,6 +387,27 @@ const actions: ActionTree<CartState, RootState> = {
       const diffLog = _getDifflogPrototype()
       diffLog.items.push({ 'party': 'client', 'status': 'wrong-qty', 'sku': product.sku, 'client-qty': qty })
       return diffLog
+    }
+  },
+  configureItem (context, { product, configuration }) {
+    const { commit, dispatch, getters } = context
+    const variant = configureProductAsync(context, {
+      product,
+      configuration,
+      selectDefaultVariant: false
+    })
+    const itemWithSameSku = getters.getCartItems.find(item => item.sku === variant.sku)
+
+    if (itemWithSameSku && product.sku !== variant.sku) {
+      Logger.debug('Item with the same sku detected', 'cart', { sku: itemWithSameSku.sku })()
+      commit(types.CART_DEL_ITEM, { product: itemWithSameSku })
+      product.qty = parseInt(product.qty) + parseInt(itemWithSameSku.qty)
+    }
+
+    commit(types.CART_UPD_ITEM_PROPS, { product: { ...product, ...variant } })
+
+    if (getters.isCartSyncEnabled && product.server_item_id) {
+      dispatch('sync', { forceClientState: true })
     }
   },
   /** this action merges in new product properties into existing cart item (by sku) @description this method is part of "public" cart API */
@@ -503,7 +526,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   /** authorize the cart after user got logged in using the current cart token */
   authorize ({ dispatch }) {
-    StorageManager.get('usersCollection').getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
+    StorageManager.get('user').getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
       if (err) {
         Logger.error(err, 'cart')()
       }
@@ -572,12 +595,14 @@ const actions: ActionTree<CartState, RootState> = {
     }
 
     /** helper - sub method to react for the server response after the sync */
-    const _afterServerItemUpdated = async function ({ dispatch, commit }, event, clientItem = null) {
+    const _afterServerItemUpdated = async function ({ dispatch, commit }, event, clientItem = null, serverItem = null) {
       Logger.debug('Cart item server sync' + event, 'cart')()
       diffLog.serverResponses.push({ 'status': event.resultCode, 'sku': clientItem.sku, 'result': event })
       if (event.resultCode !== 200) {
         // TODO: add the strategy to configure behaviour if the product is (confirmed) out of the stock
-        if (clientItem.server_item_id) {
+        if (!serverItem) {
+          commit(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
+        } else if (clientItem.item_id) {
           dispatch('getItem', clientItem.sku).then((cartItem) => {
             if (cartItem) {
               Logger.log('Restoring qty after error' + clientItem.sku + cartItem.prev_qty, 'cart')()
@@ -640,7 +665,7 @@ const actions: ActionTree<CartState, RootState> = {
                 product_option: clientItem.product_option
               }
             })
-            _afterServerItemUpdated({ dispatch, commit }, event, clientItem)
+            _afterServerItemUpdated({ dispatch, commit }, event, clientItem, serverItem)
             serverCartUpdateRequired = true
             totalsShouldBeRefreshed = true
           } else {
@@ -664,7 +689,7 @@ const actions: ActionTree<CartState, RootState> = {
                 product_option: clientItem.product_option
               }
             })
-            _afterServerItemUpdated({ dispatch, commit }, event, clientItem)
+            _afterServerItemUpdated({ dispatch, commit }, event, clientItem, serverItem)
             totalsShouldBeRefreshed = true
             serverCartUpdateRequired = true
           } else {
