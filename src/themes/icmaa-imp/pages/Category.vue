@@ -4,14 +4,13 @@
       <div class="container">
         <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
         <div class="row middle-sm">
-          <h1 class="col-sm-9 category-title mb10">
-            {{ category.name }}
-          </h1>
+          <h1 class="col-sm-9 category-title mb10" v-html="title" />
           <div class="sorting col-sm-3 align-right">
             <label>{{ $t('Sort by') }}:</label>
             <sort-by :has-label="true" />
           </div>
         </div>
+        <category-extras-header />
       </div>
       <div class="container">
         <div class="row m0">
@@ -72,8 +71,10 @@ import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import CategoryExtras from 'src/modules/icmaa-cms/mixins/categoryExtras'
 // import builder from 'bodybuilder'
+
+import CategoryExtrasHeader from 'theme/components/core/blocks/ICMAA/CategoryExtras/Header.vue'
+import CategoryExtrasMixin from 'src/modules/icmaa-cms/mixins/categoryExtras'
 
 export default {
   components: {
@@ -81,7 +82,8 @@ export default {
     ProductListing,
     Breadcrumbs,
     Sidebar,
-    SortBy
+    SortBy,
+    CategoryExtrasHeader
   },
   data () {
     return {
@@ -108,7 +110,7 @@ export default {
       })
     }
   },
-  mixins: [Category, CategoryExtras]
+  mixins: [Category, CategoryExtrasMixin]
 }
 </script>
 

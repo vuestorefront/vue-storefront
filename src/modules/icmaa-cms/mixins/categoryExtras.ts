@@ -1,4 +1,5 @@
 import { mapGetters } from 'vuex'
+import { CategoryExtrasStateItem } from '../types/CategoryExtrasState'
 
 export default {
   async asyncData ({ store, route }) {
@@ -6,9 +7,13 @@ export default {
     await store.dispatch('icmaaCmsCategoryExtras/single', { value: category.url_key })
   },
   computed: {
-    ...mapGetters('icmaaCmsCategoryExtras', ['categoryExtrasByIdentifier']),
-    categoryExtras () {
-      return this.categoryExtrasByIdentifier(this.category.url_key)
+    ...mapGetters('category', ['getCurrentCategory']),
+    ...mapGetters('icmaaCmsCategoryExtras', ['categoryExtrasByCurrentCategory']),
+    categoryExtras (): CategoryExtrasStateItem|boolean {
+      return this.categoryExtrasByCurrentCategory()
+    },
+    title (): string {
+      return this.categoryExtras ? this.categoryExtras.title : this.getCurrentCategory.name
     }
   }
 }
