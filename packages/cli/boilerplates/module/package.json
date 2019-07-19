@@ -19,6 +19,6 @@
     "webpack-cli": "^3.3.5"
   },
   "peerDependencies": {
-    "@vue-storefront/core": "^1.11.0-rc.1",
+    "@vue-storefront/core": "^1.11.0-rc.1"
   }
 }
