@@ -53,7 +53,7 @@ The following events are published from `product` store:
 - `EventBus.$emit('product-after-related', { key: key, items: items })` - Invoked whenever the related products block is set for the current product; the key is the name of the related block and items are related products.
 - `EventBus.$emit('product-after-original', { original: product })` - Invoked by `product/single` whenever product has been loaded.
 - `EventBus.$emit('product-after-parent', { parent: product })` - Invoked externally by `product/checkConfigurableParent` provides the current single product configurable parent.
-- `EventBus.$emit('product-after-reset', { })` - After product has been reseted (for example in the process of moving from one product page to another).
+- `EventBus.$emit('product-after-reset', { })` - After product has been reset (for example in the process of moving from one product page to another).
 
 ## Actions
 
