@@ -43,7 +43,7 @@
                 #{{ order.increment_id }}
               </td>
               <td class="fs-medium lh25 hide-on-xs">
-                {{ orderDate(order.created_at) }}
+                {{ order.created_at | date }}
               </td>
               <td class="fs-medium lh25 hide-on-xs">
                 {{ order.customer_firstname }} {{ order.customer_lastname }}
@@ -81,15 +81,9 @@
 
 <script>
 import UserOrder from 'src/modules/order-history/components/UserOrders'
-import { formatDate } from '@vue-storefront/core/helpers/formatters'
 
 export default {
-  mixins: [UserOrder],
-  methods: {
-    orderDate (date) {
-      return formatDate(date)
-    }
-  }
+  mixins: [UserOrder]
 }
 </script>
 
