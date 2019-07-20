@@ -51,13 +51,10 @@
     "host": "localhost",
     "port": 8080
   },
-  "api": {
-    "url": "https://api.dev.jimmylion.com"
-  },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "/api/catalog",
-    "index": "vue_storefront_catalog",
+    "host": "https://api.jl.es.newfantastic.com/api/catalog",
+    "index": "vue_storefront_catalog_es",
     "min_score": 0.02,
     "csrTimeout": 5000,
     "ssrTimeout": 1000,
@@ -106,11 +103,11 @@
     "initialStateFilter": ["__DEMO_MODE__", "version", "storeView"],
     "useInitialStateFilter": true
   },
-  "defaultStoreCode": "es",
+  "defaultStoreCode": "",
   "storeViews": {
     "multistore": true,
     "commonCache": true,
-    "mapStoreUrlsFor": ["es", "it", "fr", "de", "eu", "gb", "mx", "us"],
+    "mapStoreUrlsFor": ["us", "mx", "es", "eu", "uk", "it", "de", "fr"],
     "us": {
       "storeCode": "us",
       "disabled": false,
@@ -118,7 +115,7 @@
       "name": "United States Store",
       "url": "/us",
       "elasticsearch": {
-        "host": "https://api.jl.usa.newfantastic.com/api/catalog",
+        "host": "https://api.jl.us.newfantastic.com/api/catalog",
         "index": "vue_storefront_catalog_us"
       },
       "tax": {
@@ -199,8 +196,8 @@
       "name": "Europe Store",
       "url": "/eu",
       "elasticsearch": {
-        "host": "https://api.jl.uk-eur.newfantastic.com/api/catalog",
-        "index": "vue_storefront_catalog_es"
+        "host": "https://api.jl.eu.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_eu"
       },
       "tax": {
         "sourcePriceIncludesTax": true,
@@ -226,8 +223,8 @@
       "name": "Great Britain Store",
       "url": "/uk",
       "elasticsearch": {
-        "host": "https://api.jl.uk-eur.newfantastic.com/api/catalog",
-        "index": "vue_storefront_catalog_es"
+        "host": "https://api.jl.uk.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_uk"
       },
       "tax": {
         "sourcePriceIncludesTax": true,
@@ -254,7 +251,7 @@
       "url": "/it",
       "elasticsearch": {
         "host": "https://api.jl.it-fr.newfantastic.com/api/catalog",
-        "index": "vue_storefront_catalog_es"
+        "index": "vue_storefront_catalog_it"
       },
       "tax": {
         "sourcePriceIncludesTax": true,
@@ -280,8 +277,8 @@
       "name": "German Store",
       "url": "/de",
       "elasticsearch": {
-        "host": "https://api.jl.uk-eur.newfantastic.com/api/catalog",
-        "index": "vue_storefront_catalog_es"
+        "host": "https://api.jl.eu.newfantastic.com/api/catalog",
+        "index": "vue_storefront_catalog_de"
       },
       "tax": {
         "sourcePriceIncludesTax": true,
@@ -308,7 +305,7 @@
       "url": "/fr",
       "elasticsearch": {
         "host": "https://api.jl.it-fr.newfantastic.com/api/catalog",
-        "index": "vue_storefront_catalog_es"
+        "index": "vue_storefront_catalog_fr"
       },
       "tax": {
         "sourcePriceIncludesTax": true,
@@ -557,17 +554,17 @@
     "askBeforeRemoveProduct": true,
     "displayItemDiscounts": true,
     "minicartCountType": "quantities",
-    "create_endpoint": "https://api.dev.jimmylion.com/api/cart/create?token={{token}}",
-    "updateitem_endpoint": "https://api.dev.jimmylion.com/api/cart/update?token={{token}}&cartId={{cartId}}",
-    "deleteitem_endpoint": "https://api.dev.jimmylion.com/api/cart/delete?token={{token}}&cartId={{cartId}}",
-    "pull_endpoint": "https://api.dev.jimmylion.com/api/cart/pull?token={{token}}&cartId={{cartId}}",
-    "totals_endpoint": "https://api.dev.jimmylion.com/api/cart/totals?token={{token}}&cartId={{cartId}}",
-    "paymentmethods_endpoint": "https://api.dev.jimmylion.com/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-    "shippingmethods_endpoint": "https://api.dev.jimmylion.com/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-    "shippinginfo_endpoint": "https://api.dev.jimmylion.com/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-    "collecttotals_endpoint": "https://api.dev.jimmylion.com/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-    "deletecoupon_endpoint": "https://api.dev.jimmylion.com/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-    "applycoupon_endpoint": "https://api.dev.jimmylion.com/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+    "create_endpoint": "https://api.jl.es.newfantastic.com/api/cart/create?token={{token}}",
+    "updateitem_endpoint": "https://api.jl.es.newfantastic.com/api/cart/update?token={{token}}&cartId={{cartId}}",
+    "deleteitem_endpoint": "https://api.jl.es.newfantastic.com/api/cart/delete?token={{token}}&cartId={{cartId}}",
+    "pull_endpoint": "https://api.jl.es.newfantastic.com/api/cart/pull?token={{token}}&cartId={{cartId}}",
+    "totals_endpoint": "https://api.jl.es.newfantastic.com/api/cart/totals?token={{token}}&cartId={{cartId}}",
+    "paymentmethods_endpoint": "https://api.jl.es.newfantastic.com/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+    "shippingmethods_endpoint": "https://api.jl.es.newfantastic.com/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+    "shippinginfo_endpoint": "https://api.jl.es.newfantastic.com/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+    "collecttotals_endpoint": "https://api.jl.es.newfantastic.com/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+    "deletecoupon_endpoint": "https://api.jl.es.newfantastic.com/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+    "applycoupon_endpoint": "https://api.jl.es.newfantastic.com/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
   "products": {
     "useShortCatalogUrls": false,
@@ -583,7 +580,7 @@
     "clearPricesBeforePlatformSync": false,
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
-    "endpoint": "https://api.dev.jimmylion.com/api/product",
+    "endpoint": "https://api.jl.es.newfantastic.com/api/product",
     "defaultFilters": ["color", "size", "price", "erin_recommends"],
     "filterFieldMapping": {
       "category.name": "category.name.keyword"
@@ -611,7 +608,7 @@
   },
   "orders": {
     "directBackendSync": true,
-    "endpoint": "https://api.dev.jimmylion.com/api/order",
+    "endpoint": "https://api.jl.es.newfantastic.com/api/order",
     "payment_methods_mapping": {},
     "offline_orders": {
       "automatic_transmission_enabled": false,
@@ -642,27 +639,27 @@
     }
   },
   "reviews": {
-    "create_endpoint": "https://api.dev.jimmylion.com/api/review/create"
+    "create_endpoint": "https://api.jl.es.newfantastic.com/api/review/create"
   },
   "users": {
     "autoRefreshTokens": true,
-    "endpoint": "https://api.dev.jimmylion.com/api/user",
-    "history_endpoint": "https://api.dev.jimmylion.com/api/user/order-history?token={{token}}",
-    "resetPassword_endpoint": "https://api.dev.jimmylion.com/api/user/reset-password",
-    "changePassword_endpoint": "https://api.dev.jimmylion.com/api/user/change-password?token={{token}}",
-    "login_endpoint": "https://api.dev.jimmylion.com/api/user/login",
-    "create_endpoint": "https://api.dev.jimmylion.com/api/user/create",
-    "me_endpoint": "https://api.dev.jimmylion.com/api/user/me?token={{token}}",
-    "refresh_endpoint": "https://api.dev.jimmylion.com/api/user/refresh"
+    "endpoint": "https://api.jl.es.newfantastic.com/api/user",
+    "history_endpoint": "https://api.jl.es.newfantastic.com/api/user/order-history?token={{token}}",
+    "resetPassword_endpoint": "https://api.jl.es.newfantastic.com/api/user/reset-password",
+    "changePassword_endpoint": "https://api.jl.es.newfantastic.com/api/user/change-password?token={{token}}",
+    "login_endpoint": "https://api.jl.es.newfantastic.com/api/user/login",
+    "create_endpoint": "https://api.jl.es.newfantastic.com/api/user/create",
+    "me_endpoint": "https://api.jl.es.newfantastic.com/api/user/me?token={{token}}",
+    "refresh_endpoint": "https://api.jl.es.newfantastic.com/api/user/refresh"
   },
   "stock": {
     "synchronize": true,
     "allowOutOfStockInCart": true,
-    "endpoint": "https://api.dev.jimmylion.com/api/stock"
+    "endpoint": "https://api.jl.es.newfantastic.com/api/stock"
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "https://api.dev.jimmylion.com/img/",
+    "baseUrl": "https://api.jl.es.newfantastic.com/img/",
     "productPlaceholder": "/assets/placeholder.jpg"
   },
   "install": {
@@ -715,12 +712,12 @@
     "bundleAllStoreviewLanguages": true
   },
   "mailchimp": {
-    "endpoint": "https://api.dev.jimmylion.com/api/ext/mailchimp-subscribe/subscribe"
+    "endpoint": "https://api.jl.es.newfantastic.com/api/ext/mailchimp-subscribe/subscribe"
   },
   "mailer": {
     "endpoint": {
-      "send": "https://api.dev.jimmylion.com/api/ext/mail-service/send-email",
-      "token": "https://api.dev.jimmylion.com/api/ext/mail-service/get-token"
+      "send": "https://api.jl.es.newfantastic.com/api/ext/mail-service/send-email",
+      "token": "https://api.jl.es.newfantastic.com/api/ext/mail-service/get-token"
     },
     "contactAddress": "contributors@vuestorefront.io",
     "sendConfirmation": true
@@ -733,8 +730,8 @@
     "id": false
   },
   "cms": {
-    "endpoint": "https://api.dev.jimmylion.com/api/ext/cms-data/cms{{type}}/{{cmsId}}",
-    "endpointIdentifier": "https://api.dev.jimmylion.com/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
+    "endpoint": "https://api.jl.es.newfantastic.com/api/ext/cms-data/cms{{type}}/{{cmsId}}",
+    "endpointIdentifier": "https://api.jl.es.newfantastic.com/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
   },
   "cms_block": {
     "max_count": 500
