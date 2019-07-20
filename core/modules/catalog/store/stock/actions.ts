@@ -83,7 +83,7 @@ const actions: ActionTree<StockState, RootState> = {
   async stockAfterCheck (context, event) {
     setTimeout(async () => {
       // TODO: Move to cart module
-      const cartItem: any = await context.dispatch('cart/getItem', event.product_sku, { root: true })
+      const cartItem: any = await context.dispatch('cart/getItem', { product: { sku: event.product_sku } }, { root: true })
       if (cartItem && event.result.code !== 'ENOTFOUND') {
         if (!event.result.is_in_stock) {
           if (!config.stock.allowOutOfStockInCart && !config.cart.synchronize) { // if config.cart.synchronize is true then - the items are being removed by the result of cart/update action executed from cart/sync
