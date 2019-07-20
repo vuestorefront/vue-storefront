@@ -153,7 +153,7 @@
       },
       "i18n": {
         "fullCountryName": "Mexico",
-        "fullLanguageName": "Español",
+        "fullLanguageName": "Spanish",
         "defaultLanguage": "ES",
         "defaultCountry": "MX",
         "defaultLocale": "es-ES",
@@ -179,7 +179,7 @@
         "calculateServerSide": true
       },
       "i18n": {
-        "fullCountryName": "Español",
+        "fullCountryName": "Spain",
         "fullLanguageName": "Spanish",
         "defaultLanguage": "ES",
         "defaultCountry": "ES",
@@ -233,7 +233,7 @@
         "calculateServerSide": true
       },
       "i18n": {
-        "fullCountryName": "Great Britain",
+        "fullCountryName": "United Kingdomn",
         "fullLanguageName": "English",
         "defaultLanguage": "EN",
         "defaultCountry": "GB",
@@ -287,7 +287,7 @@
         "calculateServerSide": true
       },
       "i18n": {
-        "fullCountryName": "Deutsh",
+        "fullCountryName": "Germany",
         "fullLanguageName": "German",
         "defaultLanguage": "DE",
         "defaultCountry": "DE",
