@@ -5,7 +5,7 @@ import evAddToWishlist from "../events/AddToWishlist";
 
 declare const fbq;
 
-const facebookPixelSnippet = function(f, b, e, v) {
+const facebookPixelSnippet = function(f, b, e, v, callback) {
   let n, t, s;
   if (f.fbq) return;
   n = f.fbq = function() {
@@ -21,6 +21,7 @@ const facebookPixelSnippet = function(f, b, e, v) {
   t.src = v;
   s = b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t, s);
+  t.onload = callback;
 };
 
 export function afterRegistration({ Vue, config, store, isServer }) {
@@ -29,15 +30,17 @@ export function afterRegistration({ Vue, config, store, isServer }) {
       window,
       document,
       "script",
-      "https://connect.facebook.net/en_US/fbevents.js"
+      "https://connect.facebook.net/en_US/fbevents.js",
+      () => {
+        fbq("init", config.facebookPixel.id);
+        fbq("track", "PageView");
+
+        const currency = rootStore.state.storeView.i18n.currencyCode;
+
+        evPurchase(fbq, currency);
+        evSearch(fbq);
+        evAddToWishlist(fbq, currency);
+      }
     );
-    fbq("init", config.facebookPixel.id);
-    fbq("track", "PageView");
-
-    const currency = rootStore.state.storeView.i18n.currencyCode;
-
-    evPurchase(fbq, currency);
-    evSearch(fbq);
-    evAddToWishlist(fbq, currency);
   }
 }
