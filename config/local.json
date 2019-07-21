@@ -326,7 +326,7 @@
     }
   },
   "entities": {
-    "optimize": true,
+    "optimize": false,
     "twoStageCaching": true,
     "optimizeShoppingCart": true,
     "category": {
@@ -487,8 +487,8 @@
         "sgn",
         "*.sgn"
       ],
-      "includeFields": null,
       "useDynamicAttributeLoader": true,
+      "includeFields": ["hreflang"],
       "standardSystemFields": [
         "description",
         "configurable_options",
@@ -576,9 +576,9 @@
     "configurableChildrenStockPrefetchDynamic": false,
     "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
     "filterUnavailableVariants": false,
-    "listOutOfStockProducts": true,
+    "listOutOfStockProducts": false,
     "preventConfigurableChildrenDirectAccess": true,
-    "alwaysSyncPlatformPricesOver": false,
+    "alwaysSyncPlatformPricesOver": true,
     "clearPricesBeforePlatformSync": false,
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
