@@ -398,7 +398,8 @@
         "configurable_children.priceInclTax",
         "configurable_children.specialPriceInclTax",
         "configurable_children.originalPrice",
-        "configurable_children.originalPriceInclTax"
+        "configurable_children.originalPriceInclTax",
+        "hreflang"
       ],
       "excludeFields": [
         "description",
@@ -444,7 +445,8 @@
         "url_path",
         "url_key",
         "status",
-        "tier_prices"
+        "tier_prices",
+        "hreflang"
       ],
       "excludeFields": [
         "description",
@@ -782,5 +784,8 @@
         }
       ]
     }
+  },
+  "facebookPixel": {
+    "id": "2396882913914745"
   }
 }
