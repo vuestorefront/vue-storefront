@@ -29,6 +29,7 @@
         <table class="brdr-1 brdr-cl-bg-secondary">
           <thead>
             <tr>
+              <th class="serif lh20"></th>
               <th class="serif lh20">
                 {{ $t('Product Name') }}
               </th>
@@ -48,6 +49,7 @@
           </thead>
           <tbody>
             <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="item in skipGrouped(order.items)" :key="item.item_id">
+              <td class="fs-medium lh25"><img :src="getProductThumbnail(item.sku)" ></td>
               <td class="fs-medium lh25" :data-th="$t('Product Name')">
                 {{ item.name }}
               </td>
@@ -67,31 +69,31 @@
           </tbody>
           <tfoot>
             <tr class="brdr-top-1 brdr-cl-bg-secondary">
-              <td colspan="4" class="align-right">
+              <td colspan="5" class="align-right">
                 {{ $t('Subtotal') }}
               </td>
               <td>{{ order.subtotal | price }}</td>
             </tr>
             <tr>
-              <td colspan="4" class="align-right">
+              <td colspan="5" class="align-right">
                 {{ $t('Shipping') }}
               </td>
               <td>{{ order.shipping_amount | price }}</td>
             </tr>
             <tr>
-              <td colspan="4" class="align-right">
+              <td colspan="5" class="align-right">
                 {{ $t('Tax') }}
               </td>
               <td>{{ order.tax_amount + order.discount_tax_compensation_amount | price }}</td>
             </tr>
             <tr v-if="order.discount_amount">
-              <td colspan="4" class="align-right">
+              <td colspan="5" class="align-right">
                 {{ $t('Discount') }}
               </td>
               <td>{{ order.discount_amount | price }}</td>
             </tr>
             <tr>
-              <td colspan="4" class="align-right">
+              <td colspan="5" class="align-right">
                 {{ $t('Grand total') }}
               </td>
               <td>{{ order.grand_total | price }}</td>
@@ -139,13 +141,28 @@
 <script>
 import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
 import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
+import { getThumbnailPath } from '@vue-storefront/core/helpers'
 
 export default {
   mixins: [MyOrder],
   components: {
     ReturnIcon
+  },
+  data () {
+    return {
+      itemThumbnail: []
+    }
+  },
+  methods: {
+    getProductThumbnail (productSku) {
+      if (this.itemThumbnail[productSku] === undefined || this.itemThumbnail[productSku] === null) {
+        this.$store.dispatch('product/single', { options: { sku: productSku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false, skipCache: true }).then((product) => {
+          this.itemThumbnail[productSku] = getThumbnailPath(product.image, 80, 80)
+        })
+      }
+      return this.itemThumbnail[productSku]
+    }
   }
-
 }
 </script>
 
