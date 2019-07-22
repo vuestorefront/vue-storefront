@@ -298,6 +298,15 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           >
         </a>
       </td>
+      <td align="center" valign="middle">
+       <a href="https://www.sotechnology.co.uk/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/SOtech-logo%20(1).png"
+            alt="SOtechnology"
+            width="150"
+          >
+        </a>
+      </td>
     </tr>
     <tr>
       <td align="center" valign="middle">
