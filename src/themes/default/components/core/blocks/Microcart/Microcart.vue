@@ -1,9 +1,12 @@
 <template>
   <div
-    class="microcart cl-accent"
+    class="microcart cl-accent relative"
     :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary']"
     data-testid="microcart"
   >
+    <transition name="fade">
+      <div v-if="isEditMode" class="overlay" />
+    </transition>
     <div class="row bg-cl-primary px40 actions">
       <div class="col-xs end-xs">
         <button
@@ -134,6 +137,7 @@ import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartBut
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import Product from 'theme/components/core/blocks/Microcart/Product'
+import EditMode from './EditMode'
 
 export default {
   components: {
@@ -147,6 +151,7 @@ export default {
   mixins: [
     Microcart,
     VueOfflineMixin,
+    EditMode,
     onEscapePress
   ],
   data () {
@@ -307,5 +312,23 @@ export default {
       margin-right: 20px;
       width: 100%;
     }
+  }
+
+  .overlay {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    z-index: 0;
+    height: 100%;
+    background:rgba(0, 0, 0, 0.4);
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .4s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
   }
 </style>

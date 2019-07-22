@@ -1,22 +1,23 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { formatBreadCrumbRoutes, productThumbnailPath, isServer } from '@vue-storefront/core/helpers'
+import { formatBreadCrumbRoutes, isServer } from '@vue-storefront/core/helpers'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { configureProductAsync,
   doPlatformPricesSync,
   filterOutUnavailableVariants,
-  calculateTaxes,
   populateProductConfigurationAsync,
   setCustomProductOptionsAsync,
   setBundleProductOptionsAsync,
   getMediaGallery,
   configurableChildrenImages,
+  calculateTaxes,
   attributeImages } from '../../helpers'
+import { preConfigureProduct, getOptimizedFields, configureChildren, storeProductToCache, canCache, isGroupedOrBundle } from '@vue-storefront/core/modules/catalog/helpers/search'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
 import { optionLabel } from '../../helpers/optionLabel'
-import { quickSearchByQuery, isOnline } from '@vue-storefront/core/lib/search'
+import { isOnline } from '@vue-storefront/core/lib/search'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
 import uniqBy from 'lodash-es/uniqBy'
@@ -28,7 +29,8 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import toString from 'lodash-es/toString'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -276,97 +278,81 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
-    let isCacheable = (includeFields === null && excludeFields === null)
-    if (isCacheable) {
-      Logger.debug('Entity cache is enabled for productList')()
-    } else {
-      Logger.debug('Entity cache is disabled for productList')()
+  async list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
+    const products = await context.dispatch('findProducts', { query, start, size, entityType, sort, cacheByKey, excludeFields, includeFields, configuration, populateRequestCacheTags })
+
+    await context.dispatch('preConfigureAssociated', { products, prefetchGroupProducts })
+
+    if (updateState) {
+      context.commit(types.CATALOG_UPD_PRODUCTS, { products, append: append })
     }
 
-    if (config.entities.optimize) {
-      if (excludeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
-        excludeFields = config.entities.product.excludeFields
-      }
-      if (includeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
-        includeFields = config.entities.product.includeFields
-      }
-    }
-    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
-      if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
-        for (let product of resp.items) {
-          if (populateRequestCacheTags && Vue.prototype.$ssrRequestContext) {
-            Vue.prototype.$ssrRequestContext.output.cacheTags.add(`P${product.id}`)
-          }
-          product.errors = {} // this is an object to store validation result for custom options and others
-          product.info = {}
-          if (!product.parentSku) {
-            product.parentSku = product.sku
-          }
-          if (config.products.setFirstVarianAsDefaultInURL && product.hasOwnProperty('configurable_children') && product.configurable_children.length > 0) {
-            product.sku = product.configurable_children[0].sku
-          }
-          if (configuration) {
-            let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
-            Object.assign(product, omit(selectedVariant, ['visibility']))
-          }
-          if (product.url_path) {
-            rootStore.dispatch('url/registerMapping', {
-              url: product.url_path,
-              routeData: {
-                params: {
-                  'parentSku': product.parentSku,
-                  'slug': product.slug
-                },
-                'name': product.type_id + '-product'
-              }
-            }, { root: true })
-          }
-        }
-      }
-      return calculateTaxes(resp.items, context).then((updatedProducts) => {
-        // handle cache
-        const cache = StorageManager.get('elasticCacheCollection')
-        for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
-          if (prod.configurable_children) {
-            for (let configurableChild of prod.configurable_children) {
-              if (configurableChild.custom_attributes) {
-                for (let opt of configurableChild.custom_attributes) {
-                  configurableChild[opt.attribute_code] = opt.value
-                }
-              }
-            }
-          }
-          if (!prod[cacheByKey]) {
-            cacheByKey = 'id'
-          }
-          const cacheKey = entityKeyName(cacheByKey, prod[(cacheByKey === 'sku' && prod['parentSku']) ? 'parentSku' : cacheByKey]) // to avoid caching products by configurable_children.sku
-          if (isCacheable) { // store cache only for full loads
-            cache.setItem(cacheKey, prod, null, config.products.disablePersistentProductsCache)
-              .catch((err) => {
-                Logger.error('Cannot store cache for ' + cacheKey, err)()
-                if (
-                  err.name === 'QuotaExceededError' ||
-                  err.name === 'NS_ERROR_DOM_QUOTA_REACHED'
-                ) { // quota exceeded error
-                  cache.clear() // clear products cache if quota exceeded
-                }
-              })
-          }
-          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !isServer) {
-            context.dispatch('setupAssociated', { product: prod })
-          }
-        }
-        // commit update products list mutation
-        if (updateState) {
-          context.commit(types.CATALOG_UPD_PRODUCTS, { products: resp, append: append })
-        }
-        EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
-        return resp
-      })
-    })
+    EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: products })
+
+    return products
   },
+  preConfigureAssociated (context, { products, prefetchGroupProducts }) {
+    for (let product of products.items) {
+      if (product.url_path) {
+        const { parentSku, slug } = product
 
+        context.dispatch('url/registerMapping', {
+          url: product.url_path,
+          routeData: {
+            params: { parentSku, slug },
+            'name': product.type_id + '-product'
+          }
+        }, { root: true })
+      }
+
+      if (isGroupedOrBundle(product) && prefetchGroupProducts && !isServer) {
+        context.dispatch('setupAssociated', { product })
+      }
+    }
+  },
+  preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
+    let prod = preConfigureProduct({ product, populateRequestCacheTags })
+
+    if (configuration) {
+      const selectedVariant = configureProductAsync(context, { product: prod, selectDefaultVariant: false, configuration })
+      Object.assign(prod, omit(selectedVariant, ['visibility']))
+    }
+
+    return prod
+  },
+  async configureLoadedProducts (context, { products, isCacheable, cacheByKey, populateRequestCacheTags, configuration }) {
+    if (products.items && products.items.length) { // preconfigure products; eg: after filters
+      for (let product of products.items) {
+        product = await context.dispatch('preConfigureProduct', { product, populateRequestCacheTags, configuration }) // preConfigure(product)
+      }
+    }
+
+    await calculateTaxes(products, context)
+
+    for (let prod of products.items) { // we store each product separately in cache to have offline access to products/single method
+      prod = configureChildren(prod)
+
+      if (isCacheable) { // store cache only for full loads
+        storeProductToCache(prod, cacheByKey)
+      }
+    }
+
+    return products
+  },
+  async findProducts (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', excludeFields = null, includeFields = null, configuration = null, populateRequestCacheTags = true }) {
+    const isCacheable = canCache({ includeFields, excludeFields })
+    const { excluded, included } = getOptimizedFields({ excludeFields, includeFields })
+    const resp = await quickSearchByQuery({ query, start, size, entityType, sort, excludeFields: excluded, includeFields: included })
+    const products = await context.dispatch('configureLoadedProducts', { products: resp, isCacheable, cacheByKey, populateRequestCacheTags, configuration })
+
+    return products
+  },
+  async findConfigurableParent (context, { product, configuration }) {
+    const searchQuery = new SearchQuery()
+    const query = searchQuery.applyFilter({key: 'configurable_children.sku', value: { 'eq': product.sku }})
+    const products = await context.dispatch('findProducts', { query, configuration })
+    return products.items && products.items.length > 0 ? products.items[0] : null
+  },
   /**
    * Update associated products for bundle product
    * @param context
@@ -408,7 +394,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
-      const cache = StorageManager.get('elasticCacheCollection')
+      const cache = StorageManager.get('elasticCache')
 
       const setupProduct = (prod) => {
         // set product quantity to 1

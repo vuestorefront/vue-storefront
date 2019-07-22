@@ -377,13 +377,13 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
           existingOption = {
             option_id: option.attribute_id,
             option_value: configOption.id,
-            label: i18n.t(configOption.attribute_code),
+            label: option.label || i18n.t(configOption.attribute_code),
             value: configOption.label
           }
           configurable_item_options.push(existingOption)
         }
         existingOption.option_value = configOption.id
-        existingOption.label = i18n.t(configOption.attribute_code)
+        existingOption.label = option.label || i18n.t(configOption.attribute_code)
         existingOption.value = configOption.label
       }
     }
