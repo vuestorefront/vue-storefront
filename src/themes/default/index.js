@@ -19,6 +19,7 @@ once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
 })
 
 const themeEntry = App
+
 function initTheme (app, router, store, config, ssrContext) {
   // if youre' runing multistore setup this is copying the routed above adding the 'storeCode' prefix to the urls and the names of the routes
   // You can do it on your own and then be able to customize the components used for example for German storeView checkout
@@ -35,7 +36,14 @@ function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('promoted', promotedStore);
 }
 
+// const themeDirs = {
+//   translations: './resource/i18n',
+//   serviceWorker: './service-worker',
+//   webpackConfig: './webpack.config.js'
+// }
+
 export {
+  // themeDirs,
   themeEntry,
   initTheme
 }

@@ -43,12 +43,12 @@ export function registerNewModules () {
   registerModule(OrderModule)
   registerModule(CmsModule)
   registerModule(RecentlyViewedModule) // To HomePage
-  registerModule(GoogleTagManagerModule)
+  // registerModule(GoogleTagManagerModule)
   // registerModule(GoogleAnalyticsModule)
   // registerModule(HotjarModule)
   registerModule(PaymentBackendMethodsModule)
   registerModule(PaymentCashOnDeliveryModule) // To checkout
-  registerModule(AmpRendererModule)
+  // registerModule(AmpRendererModule)
   registerModule(InstantCheckoutModule) // Load lazily from Microcart
 }
 

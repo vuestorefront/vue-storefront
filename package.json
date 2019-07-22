@@ -177,10 +177,9 @@
   },
   "workspaces": [
     "core",
-    "core/i18n",
-    "src/extensions/*",
-    "src/modules/*",
+    "src",
     "src/themes/*",
+    "core/i18n",
     "docs",
     "core/modules/*",
     "test/unit",

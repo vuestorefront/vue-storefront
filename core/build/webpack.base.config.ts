@@ -17,7 +17,10 @@ fs.writeFileSync(
 // eslint-disable-next-line import/first
 import themeRoot from './theme-path';
 
-const themesRoot = '../../src/themes'
+// TODO: make it customizable via node env or something else that will be suitable once we have core separation
+const projectRoot = '../../src'
+const themesRoot = projectRoot + '/themes'
+
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
@@ -25,6 +28,7 @@ const themedIndex = path.join(themeRoot, '/templates/index.template.html')
 const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.template.html')
 const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
 const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
+
 
 const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
 translationPreprocessor([
