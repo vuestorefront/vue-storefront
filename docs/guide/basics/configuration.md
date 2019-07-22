@@ -363,6 +363,12 @@ If this option is set to `items`, Vue Storefront will calculate the cart count b
 
 These endpoints should point to the `vue-storefront-api` instance and typically, you're changing just the domain-name/base-url without touching the specific endpoint URLs, as it's related to the `vue-storefront-api` specifics.
 
+```json
+  "productsAreReconfigurable": true
+```
+
+If this option is set to `true`, you can edit current options such as color or size in the cart view. Works only for configurable products.
+
 ## Products
 
 ```json
@@ -524,7 +530,7 @@ Starting with Vue Storefront v1.6, we changed the default order-placing behavior
     "syncTasks": "INDEXEDDB",
     "newsletterPreferences": "INDEXEDDB",
     "ordersHistory": "INDEXEDDB",
-    "checkoutFieldValues": "LOCALSTORAGE"
+    "checkout": "LOCALSTORAGE"
   }
 },
 ```

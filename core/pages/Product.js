@@ -7,7 +7,7 @@ import { htmlDecode } from '@vue-storefront/core/filters'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
-import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
 import omit from 'lodash-es/omit'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
@@ -15,7 +15,7 @@ import { isUserGroupedTaxActive } from '@vue-storefront/core/modules/catalog/hel
 
 export default {
   name: 'Product',
-  mixins: [Composite, AddToCompare, CompareProduct],
+  mixins: [Composite, AddToCompare, CompareProduct, ProductOption],
   data () {
     return {
       loading: false
@@ -124,11 +124,6 @@ export default {
     removeFromList (list) {
       // Method renamed to 'removeFromCompare(product)', product is an Object
       CompareProduct.methods.removeFromCompare.call(this, this.product)
-    },
-    isOptionAvailable (option) { // check if the option is available
-      let currentConfig = Object.assign({}, this.configuration)
-      currentConfig[option.type] = option
-      return isOptionAvailableAsync(this.$store, { product: this.product, configuration: currentConfig })
     },
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0

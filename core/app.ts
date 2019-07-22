@@ -31,12 +31,9 @@ import store from '@vue-storefront/core/store'
 
 import { enabledModules } from './modules-entry'
 
-// Will be deprecated in 2.0
-import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
-import { registerExtensions as extensions } from 'src/extensions'
 import globalConfig from 'config'
 
-import { injectReferences } from '@vue-storefront/module'
+import { injectReferences } from '@vue-storefront/core/lib/modules'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { registerNewModules } from 'src/modules';
 
@@ -119,7 +116,6 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   injectReferences(app, store, router, globalConfig)
   registerNewModules()
   registerModules(enabledModules, appContext)
-  registerExtensions(extensions, app, router, store, config, ssrContext)
   registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
 
   coreHooksExecutors.afterAppInit()

@@ -7,7 +7,7 @@ import autoprefixer from 'autoprefixer';
 import HTMLPlugin from 'html-webpack-plugin';
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 import webpack from 'webpack';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
@@ -81,7 +81,7 @@ export default {
     }),
     new webpack.DefinePlugin({
       'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
-      'process.env.__BUILDTIME__': JSON.stringify(moment().format('YYYY-MM-DD HH:mm:ss'))
+      'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
     })
   ],
   devtool: 'source-map',
@@ -119,7 +119,8 @@ export default {
       // Backward compatible
       '@vue-storefront/core/store/lib/multistore': path.resolve(__dirname, '../lib/multistore.ts'),
       'src/modules/order-history/components/UserOrders': path.resolve(__dirname, '../../core/modules/order/components/UserOrdersHistory'),
-      '@vue-storefront/core/modules/social-share/components/WebShare': path.resolve(__dirname, '../../src/themes/default/components/theme/WebShare.vue')
+      '@vue-storefront/core/modules/social-share/components/WebShare': path.resolve(__dirname, '../../src/themes/default/components/theme/WebShare.vue'),
+      '@vue-storefront/core/helpers/initCacheStorage': path.resolve(__dirname, '../lib/storage-manager.ts')
     }
   },
   module: {
