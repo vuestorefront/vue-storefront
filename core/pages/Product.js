@@ -11,7 +11,7 @@ import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/hel
 import omit from 'lodash-es/omit'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { isUserGroupedTaxActive } from "@vue-storefront/core/modules/catalog/helpers/tax";
+import { isUserGroupedTaxActive } from '@vue-storefront/core/modules/catalog/helpers/tax';
 
 export default {
   name: 'Product',

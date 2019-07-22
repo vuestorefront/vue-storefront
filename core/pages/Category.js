@@ -12,7 +12,7 @@ import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters, mapActions } from 'vuex'
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
-import { isUserGroupedTaxActive } from "@vue-storefront/core/modules/catalog/helpers/tax";
+import { isUserGroupedTaxActive } from '@vue-storefront/core/modules/catalog/helpers/tax';
 
 export default {
   name: 'Category',
