@@ -34,7 +34,7 @@ Delete those folders:<br>
 Copy folder `theme/store/` from `theme default`.<br>
 Register the stores copied in previous step in `src/themes/default/index.js`. To do that, import them along with `StorageManager` method, used to replace `claims beforeRegistration hook`.
 ```js
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager';
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 import { store as claimsStore } from 'theme/store/claims'
 import { store as homeStore } from 'theme/store/homepage'
 import { store as uiStore } from 'theme/store/ui'

@@ -33,7 +33,7 @@ import { enabledModules } from './modules-entry'
 
 import globalConfig from 'config'
 
-import { injectReferences } from '@vue-storefront/module'
+import { injectReferences } from '@vue-storefront/core/lib/modules'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { registerNewModules } from 'src/modules';
 

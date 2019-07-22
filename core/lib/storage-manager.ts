@@ -4,6 +4,20 @@ import UniversalStorage from '@vue-storefront/core/store/lib/storage'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 
+function _prepareCacheStorage (key, localized = true, storageQuota = 0) {
+  const storeView = currentStoreView()
+  const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
+  const cacheDriver = config.localForage && config.localForage.defaultDrivers[key]
+    ? config.localForage.defaultDrivers[key]
+    : 'LOCALSTORAGE'
+
+  return new UniversalStorage(localForage.createInstance({
+    name: localized ? `${dbNamePrefix}shop` : 'shop',
+    storeName: key,
+    driver: localForage[cacheDriver]
+  }), true, storageQuota)
+}
+
 const StorageManager = {
   currentStoreCode: '',
   storageMap: {},
@@ -46,20 +60,6 @@ const StorageManager = {
       return this.storageMap[collectionName]
     }
   }
-}
-
-function _prepareCacheStorage (key, localized = true, storageQuota = 0) {
-  const storeView = currentStoreView()
-  const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
-  const cacheDriver = config.localForage && config.localForage.defaultDrivers[key]
-    ? config.localForage.defaultDrivers[key]
-    : 'LOCALSTORAGE'
-
-  return new UniversalStorage(localForage.createInstance({
-    name: localized ? `${dbNamePrefix}shop` : 'shop',
-    storeName: key,
-    driver: localForage[cacheDriver]
-  }), true, storageQuota)
 }
 
 /**

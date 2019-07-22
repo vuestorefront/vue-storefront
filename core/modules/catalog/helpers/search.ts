@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import config from 'config';
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager';
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
 import { entityKeyName } from '@vue-storefront/core/store/lib/entities';
 
 export const canCache = ({ includeFields, excludeFields }) => {
