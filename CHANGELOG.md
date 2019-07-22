@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
 - Fixed undefined id of color swatches issue for simple product - @vishal-7037 (#3239)
 - Problem with placing an order if shipping method is different than default one - @patzick (#3203)
+- Fixed product video embed on PDP - @juho-jaakkola (#3263)
 
 ### Changed
 - Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
