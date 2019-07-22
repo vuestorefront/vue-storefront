@@ -26,6 +26,7 @@ import { InstantCheckoutModule } from './instant-checkout'
 import { IcmaaExtendedUrlModule } from './icmaa-url'
 import { IcmaaCategoryModule } from './icmaa-category'
 import { IcmaaCmsModule } from './icmaa-cms'
+import { IcmaaMetaModule } from './icmaa-meta'
 
 import { registerModule } from '@vue-storefront/module'
 
@@ -58,6 +59,7 @@ export function registerNewModules () {
   registerModule(IcmaaExtendedUrlModule)
   registerModule(IcmaaCmsModule)
   registerModule(IcmaaCategoryModule)
+  registerModule(IcmaaMetaModule)
 }
 
 // Deprecated API, will be removed in 2.0

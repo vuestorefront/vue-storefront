@@ -9,11 +9,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import MinimalHeader from 'theme/components/core/blocks/Header/MinimalHeader.vue'
 import MinimalFooter from 'theme/components/core/blocks/Footer/MinimalFooter.vue'
-
-import Head from 'theme/head'
 
 export default {
   data () {
@@ -27,12 +25,21 @@ export default {
     })
   },
   methods: {
+    ...mapGetters({ getMetaData: 'icmaaMeta/getData' }),
+    fetchMetaData () {
+      return this.$store.dispatch('icmaaMeta/load')
+    }
+  },
+  serverPrefetch () {
+    return this.fetchMetaData()
   },
   beforeMount () {
   },
   beforeDestroy () {
   },
-  metaInfo: Head,
+  metaInfo () {
+    return this.getMetaData()
+  },
   components: {
     MinimalHeader,
     MinimalFooter

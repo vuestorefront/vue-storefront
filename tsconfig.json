@@ -20,7 +20,7 @@
     ],
     "paths": {
       "core/*": ["core/*"],
-      "theme/*": ["src/themes/default/*"], //needs testing with non-default theme!
+      "theme/*": ["src/themes/icmaa-imp/*", "src/themes/default/*"], //needs testing with non-default theme!
       "core/modules/*": ["./core/modules/*"],
       "@vue-storefront/*": ["./"]
     },

@@ -22,9 +22,7 @@
           <div class="col-xs-2 visible-xs" />
           <div class="col-sm-4 col-xs-4 center-xs">
             <div>
-              <a class="no-underline inline-flex" href="/" data-testid="logo">
-                <img width="auto" height="41px" src="/assets/logo.svg" alt="Vuestore logo">
-              </a>
+              <logo width="auto" height="41px" />
             </div>
           </div>
           <div class="col-xs-2 visible-xs" />
@@ -40,9 +38,13 @@
 
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
+import Logo from 'theme/components/core/Logo'
 
 export default {
-  mixins: [CurrentPage]
+  mixins: [CurrentPage],
+  components: {
+    Logo
+  }
 }
 </script>
 

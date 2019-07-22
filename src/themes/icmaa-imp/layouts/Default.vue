@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue'
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
@@ -49,7 +49,6 @@ import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
 import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import { isServer } from '@vue-storefront/core/helpers'
-import Head from 'theme/head'
 
 const SidebarMenu = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
 const Microcart = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue')
@@ -78,17 +77,24 @@ export default {
     })
   },
   methods: {
+    ...mapGetters({ getMetaData: 'icmaaMeta/getData' }),
     onOrderConfirmation (payload) {
       this.loadOrderConfirmation = true
       this.ordersData = payload
       this.$bus.$emit('modal-show', 'modal-order-confirmation')
+    },
+    fetchMetaData () {
+      return this.$store.dispatch('icmaaMeta/load')
     },
     fetchMenuData () {
       return this.$store.dispatch('icmaaCmsBlock/single', { value: 'navigation-main' })
     }
   },
   serverPrefetch () {
-    return this.fetchMenuData()
+    return Promise.all([
+      this.fetchMetaData(),
+      this.fetchMenuData()
+    ])
   },
   beforeMount () {
     // Progress bar on top of the page
@@ -105,7 +111,9 @@ export default {
   beforeDestroy () {
     this.$bus.$off('offline-order-confirmation', this.onOrderConfirmation)
   },
-  metaInfo: Head,
+  metaInfo () {
+    return this.getMetaData()
+  },
   components: {
     MainHeader,
     MainFooter,
