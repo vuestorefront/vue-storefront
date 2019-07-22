@@ -40,7 +40,7 @@ module.exports = {
             'cookbook/elastic',
             'cookbook/setup',
             'cookbook/integration',
-            'cookbook/extend-module',
+            'cookbook/module',
             'cookbook/theme',
             'cookbook/common-pitfall',
             'cookbook/devops',
