@@ -59,6 +59,12 @@ const actions: ActionTree<CategoryState, RootState> = {
       customizedQuery = true
     }
 
+    if ('filterFields' in rootStore.state.config.entities.category) {
+      for (const field of rootStore.state.config.entities.category.filterFields) {
+        searchQuery = searchQuery.applyFilter({key: field.key, value: field.value})
+      }
+    }
+
     if (onlyActive === true) {
       searchQuery = searchQuery.applyFilter({key: 'is_active', value: {'eq': true}})
     }
