@@ -210,16 +210,31 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false, 
   }
 }
 
+export function isUserGroupedTaxActive (): boolean {
+  if (typeof currentStoreView().tax.userGroupId === 'number') {
+    return true
+  }
+  return true
+}
+
+export function getUserTaxGroupId (): number|void {
+  if (!isUserGroupedTaxActive()) return
+
+  if (currentStoreView().tax.useOnlyDefaultUserGroupId) return currentStoreView().tax.userGroupId
+
+  return rootStore.getters['user/isLoggedIn'] === true ? rootStore.state.user.current.group_id : currentStoreView().tax.userGroupId
+}
+
 export function calculateProductTax (product, taxClasses, taxCountry = 'PL', taxRegion = '', sourcePriceInclTax = false, deprecatedPriceFieldsSupport = false, finalPriceInclTax = true) {
   let rateFound = false
   if (product.tax_class_id > 0) {
     let taxClass
     if (typeof currentStoreView().tax.userGroupId === 'number') {
-      const userGroupId = rootStore.getters['user/isLoggedIn'] === true ? rootStore.state.user.current.group_id : currentStoreView().tax.userGroupId
+      const userGroupId = getUserTaxGroupId()
 
       taxClass = taxClasses.find((el) => {
         return el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id)) >= 0 &&
-          el.customer_tax_class_ids.indexOf(parseInt(userGroupId)) >= 0
+          el.customer_tax_class_ids.indexOf(userGroupId) >= 0
       })
     } else {
       taxClass = taxClasses.find((el) => el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id) >= 0))

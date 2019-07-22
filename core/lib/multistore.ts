@@ -36,7 +36,8 @@ export interface StoreView {
     defaultCountry: string,
     defaultRegion: null | string,
     calculateServerSide: boolean,
-    userGroupId?: number
+    userGroupId?: number,
+    useOnlyDefaultUserGroupId: boolean
   },
   i18n: {
     fullCountryName: string,
