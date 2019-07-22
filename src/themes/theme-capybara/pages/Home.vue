@@ -6,13 +6,13 @@
         :key="i"
         :title="hero.title"
         :subtitle="hero.subtitle"
-        :buttonText="hero.buttonText"
+        :button-text="hero.buttonText"
         :background="hero.background"
         :image="hero.image"
         :class="hero.className"
-      ></SfHeroItem>
+      />
     </SfHero>
-    <SfBannerGrid :bannerGrid="1" class="banners">
+    <SfBannerGrid :banner-grid="1" class="banners">
       <template #bannerA>
         <SfBanner
           subtitle="Dresses"
@@ -83,26 +83,26 @@
       <div class="grid grid-images">
         <div class="grid__row">
           <div class="grid__col">
-            <SfImage src="/assets/homepage/imageA.png"
-              >katherina_trn</SfImage
-            >
+            <SfImage src="/assets/homepage/imageA.png">
+              katherina_trn
+            </SfImage>
           </div>
           <div class="grid__col">
-            <SfImage src="/assets/homepage/imageB.png"
-              >katherina_trn</SfImage
-            >
+            <SfImage src="/assets/homepage/imageB.png">
+              katherina_trn
+            </SfImage>
           </div>
         </div>
         <div class="grid__row">
           <div class="grid__col">
-            <SfImage src="/assets/homepage/imageC.png"
-              >katherina_trn</SfImage
-            >
+            <SfImage src="/assets/homepage/imageC.png">
+              katherina_trn
+            </SfImage>
           </div>
           <div class="grid__col">
-            <SfImage src="/assets/homepage/imageD.png"
-              >katherina_trn</SfImage
-            >
+            <SfImage src="/assets/homepage/imageD.png">
+              katherina_trn
+            </SfImage>
           </div>
         </div>
       </div>
@@ -124,12 +124,12 @@
             class="banner-application__download"
             src="/assets/homepage/google.png"
             alt=""
-          />
+          >
           <img
             class="banner-application__download"
             src="/assets/homepage/apple.png"
             alt=""
-          />
+          >
         </div>
       </template>
     </SfBanner>
@@ -145,84 +145,84 @@ import {
   SfProductCard,
   SfImage,
   SfBannerGrid
-} from "@storefrontui/vue";
+} from '@storefrontui/vue';
 
 export default {
-  name: "Home",
-  data() {
+  name: 'Home',
+  data () {
     return {
       heroes: [
         {
-          title: "Colorful summer dresses are already in store",
-          subtitle: "SUMMER COLLECTION 2019",
-          buttonText: "Learn more",
-          background: "#eceff1",
-          image: "/assets/homepage/bannerH.png"
+          title: 'Colorful summer dresses are already in store',
+          subtitle: 'SUMMER COLLECTION 2019',
+          buttonText: 'Learn more',
+          background: '#eceff1',
+          image: '/assets/homepage/bannerH.png'
         },
         {
-          title: "Colorful summer dresses are already in store",
-          subtitle: "SUMMER COLLECTION 2019",
-          buttonText: "Learn more",
-          background: "#efebe9",
-          image: "/assets/homepage/bannerA.png",
+          title: 'Colorful summer dresses are already in store',
+          subtitle: 'SUMMER COLLECTION 2019',
+          buttonText: 'Learn more',
+          background: '#efebe9',
+          image: '/assets/homepage/bannerA.png',
           className:
-            "sf-hero-item--position-bg-top-left sf-hero-item--align-right"
+            'sf-hero-item--position-bg-top-left sf-hero-item--align-right'
         },
         {
-          title: "Colorful summer dresses are already in store",
-          subtitle: "SUMMER COLLECTION 2019",
-          buttonText: "Learn more",
-          background: "#fce4ec",
-          image: "/assets/homepage/bannerB.png"
+          title: 'Colorful summer dresses are already in store',
+          subtitle: 'SUMMER COLLECTION 2019',
+          buttonText: 'Learn more',
+          background: '#fce4ec',
+          image: '/assets/homepage/bannerB.png'
         }
       ],
       products: [
         {
-          title: "Cream Beach Bag",
-          image: "/assets/homepage/productA.png",
-          price: { regularPrice: "50.00 $" },
+          title: 'Cream Beach Bag',
+          image: '/assets/homepage/productA.png',
+          price: { regularPrice: '50.00 $' },
           rating: { max: 5, score: 4 }
         },
         {
-          title: "Cream Beach Bag",
-          image: "/assets/homepage/productB.png",
-          price: { regularPrice: "50.00 $" },
+          title: 'Cream Beach Bag',
+          image: '/assets/homepage/productB.png',
+          price: { regularPrice: '50.00 $' },
           rating: { max: 5, score: 4 }
         },
         {
-          title: "Cream Beach Bag",
-          image: "/assets/homepage/productC.png",
-          price: { regularPrice: "50.00 $" },
+          title: 'Cream Beach Bag',
+          image: '/assets/homepage/productC.png',
+          price: { regularPrice: '50.00 $' },
           rating: { max: 5, score: 4 }
         },
         {
-          title: "Cream Beach Bag",
-          image: "/assets/homepage/productA.png",
-          price: { regularPrice: "50.00 $" },
+          title: 'Cream Beach Bag',
+          image: '/assets/homepage/productA.png',
+          price: { regularPrice: '50.00 $' },
           rating: { max: 5, score: 4 }
         },
         {
-          title: "Cream Beach Bag",
-          image: "/assets/homepage/productB.png",
-          price: { regularPrice: "50.00 $" },
+          title: 'Cream Beach Bag',
+          image: '/assets/homepage/productB.png',
+          price: { regularPrice: '50.00 $' },
           rating: { max: 5, score: 4 }
         },
         {
-          title: "Cream Beach Bag",
-          image: "/assets/homepage/productC.png",
-          price: { regularPrice: "50.00 $" },
+          title: 'Cream Beach Bag',
+          image: '/assets/homepage/productC.png',
+          price: { regularPrice: '50.00 $' },
           rating: { max: 5, score: 4 }
         },
         {
-          title: "Cream Beach Bag",
-          image: "/assets/homepage/productA.png",
-          price: { regularPrice: "50.00 $" },
+          title: 'Cream Beach Bag',
+          image: '/assets/homepage/productA.png',
+          price: { regularPrice: '50.00 $' },
           rating: { max: 5, score: 4 }
         },
         {
-          title: "Cream Beach Bag",
-          image: "/assets/homepage/productB.png",
-          price: { regularPrice: "50.00 $" },
+          title: 'Cream Beach Bag',
+          image: '/assets/homepage/productB.png',
+          price: { regularPrice: '50.00 $' },
           rating: { max: 5, score: 4 }
         }
       ]

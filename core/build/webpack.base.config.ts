@@ -29,7 +29,6 @@ const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.templa
 const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
 const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
 
-
 const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
 translationPreprocessor([
   path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/'),
