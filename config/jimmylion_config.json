@@ -343,7 +343,9 @@
         "url_key",
         "url_path",
         "product_count",
-        "path"
+        "path",
+        "hreflang",
+        "meta_robots"
       ],
       "excludeFields": ["sgn"],
       "categoriesRootCategorylId": 2,
@@ -399,7 +401,8 @@
         "configurable_children.specialPriceInclTax",
         "configurable_children.originalPrice",
         "configurable_children.originalPriceInclTax",
-        "hreflang"
+        "hreflang",
+        "meta_robots"
       ],
       "excludeFields": [
         "description",
@@ -446,7 +449,8 @@
         "url_key",
         "status",
         "tier_prices",
-        "hreflang"
+        "hreflang",
+        "meta_robots"
       ],
       "excludeFields": [
         "description",
@@ -488,7 +492,7 @@
         "*.sgn"
       ],
       "useDynamicAttributeLoader": true,
-      "includeFields": ["hreflang"],
+      "includeFields": ["hreflang", "meta_robots"],
       "standardSystemFields": [
         "description",
         "configurable_options",
@@ -676,15 +680,17 @@
     "calculateServerSide": true
   },
   "shipping": {
-    "methods": [{
-      "method_title": "DPD Courier",
-      "method_code": "flatrate",
-      "carrier_code": "flatrate",
-      "amount": 4,
-      "price_incl_tax": 5,
-      "default": true,
-      "offline": true
-    }]
+    "methods": [
+      {
+        "method_title": "DPD Courier",
+        "method_code": "flatrate",
+        "carrier_code": "flatrate",
+        "amount": 4,
+        "price_incl_tax": 5,
+        "default": true,
+        "offline": true
+      }
+    ]
   },
   "i18n": {
     "defaultCountry": "US",
@@ -729,12 +735,6 @@
   "hotjar": {
     "id": false
   },
-  "facebookPixel": {
-    "id": "2396882913914745"
-  },
-  "zendChat": {
-    "id": "e6e4724a-324b-4839-a578-6c5d07bf3ba5"
-  },
   "cms": {
     "endpoint": "https://api.jl.es.newfantastic.com/api/ext/cms-data/cms{{type}}/{{cmsId}}",
     "endpointIdentifier": "https://api.jl.es.newfantastic.com/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
@@ -749,39 +749,50 @@
   "useZeroPriceProduct": true,
   "query": {
     "inspirations": {
-      "filter": [{
-        "key": "category.name",
-        "value": {
-          "eq": "Performance Fabrics"
+      "filter": [
+        {
+          "key": "category.name",
+          "value": {
+            "eq": "Performance Fabrics"
+          }
         }
-      }]
+      ]
     },
     "newProducts": {
-      "filter": [{
-        "key": "category.name",
-        "value": {
-          "eq": "Tees"
+      "filter": [
+        {
+          "key": "category.name",
+          "value": {
+            "eq": "Tees"
+          }
         }
-      }]
+      ]
     },
     "coolBags": {
-      "filter": [{
-        "key": "category.name",
-        "value": {
-          "eq": "Women"
+      "filter": [
+        {
+          "key": "category.name",
+          "value": {
+            "eq": "Women"
+          }
         }
-      }]
+      ]
     },
     "bestSellers": {
-      "filter": [{
-        "key": "category.name",
-        "value": {
-          "eq": "Tees"
+      "filter": [
+        {
+          "key": "category.name",
+          "value": {
+            "eq": "Tees"
+          }
         }
-      }]
+      ]
     }
   },
   "facebookPixel": {
     "id": "2396882913914745"
+  },
+  "zendChat": {
+    "id": "e6e4724a-324b-4839-a578-6c5d07bf3ba5"
   }
 }

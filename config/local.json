@@ -343,7 +343,9 @@
         "url_key",
         "url_path",
         "product_count",
-        "path"
+        "path",
+        "hreflang",
+        "meta_robots"
       ],
       "excludeFields": ["sgn"],
       "categoriesRootCategorylId": 2,
@@ -399,7 +401,8 @@
         "configurable_children.specialPriceInclTax",
         "configurable_children.originalPrice",
         "configurable_children.originalPriceInclTax",
-        "hreflang"
+        "hreflang",
+        "meta_robots"
       ],
       "excludeFields": [
         "description",
@@ -446,7 +449,8 @@
         "url_key",
         "status",
         "tier_prices",
-        "hreflang"
+        "hreflang",
+        "meta_robots"
       ],
       "excludeFields": [
         "description",
@@ -488,7 +492,7 @@
         "*.sgn"
       ],
       "useDynamicAttributeLoader": true,
-      "includeFields": ["hreflang"],
+      "includeFields": ["hreflang", "meta_robots"],
       "standardSystemFields": [
         "description",
         "configurable_options",
