@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed AMP Product page - @przspa (#3227)
 - Fixed when store has updated, but plugin didn't called - @serzilo (#3238)
 - Add ./packages as volume to docker-compose.yml - @cewald (#3251)
+- Fixed mail sending and add error logger - @Michal-Dziedzinski
 
 ### Changed / Improved
 
@@ -47,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added catching of errors when ES is down - @qiqqq
 - Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
 - New modules API and rewrite - @filrak, @JCown (#3144)
+
 ## [1.10.0-rc.2] - UNRELEASED
 
 ### Fixed

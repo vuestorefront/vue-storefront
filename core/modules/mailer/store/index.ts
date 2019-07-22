@@ -1,3 +1,4 @@
+import { Logger } from '@vue-storefront/core/lib/logger'
 import MailItem from '../types/MailItem'
 import { Module } from 'vuex'
 import config from 'config'
@@ -12,11 +13,11 @@ export const mailerStore: Module<any, any> = {
           .then(res => res.json())
           .then(res => {
             if (res.code === 200) {
-              fetch(processURLAddress(config.mailer.endpoint.send()), {
+              fetch(processURLAddress(config.mailer.endpoint.send), {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
-                  'Accept': 'application/json',
+                  Accept: 'application/json',
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -25,12 +26,18 @@ export const mailerStore: Module<any, any> = {
                 })
               })
                 .then(res => resolve(res))
-                .catch(() => reject())
+                .catch(e => {
+                  Logger.error(e, 'mailer')()
+                  return reject()
+                })
             } else {
               reject()
             }
           })
-          .catch(() => reject())
+          .catch(e => {
+            Logger.error(e, 'mailer')()
+            return reject()
+          })
       })
     }
   }
