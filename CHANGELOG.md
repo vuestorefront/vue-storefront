@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
 - Added possibility to change color or size of the product that is already in the cart - @andrzejewsky (#2346)
 - Added price formatting based on locales in multistore - @andrzejewsky (#3060)
+- Added support for tax calculation where the values from customer_tax_class_ids is used - @resubaka (#3245)
 
 ### Fixed
 
@@ -36,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed when store has updated, but plugin didn't called - @serzilo (#3238)
 - Fixed first call of prepareStoreView when SSR - @resubaka (#3244)
 - Add ./packages as volume to docker-compose.yml - @cewald (#3251)
+- Fixed mail sending and add error logger - @Michal-Dziedzinski (#3265)
 
 ### Changed / Improved
 

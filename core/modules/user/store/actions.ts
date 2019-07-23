@@ -35,18 +35,16 @@ const actions: ActionTree<UserState, RootState> = {
         context.commit(types.USER_TOKEN_CHANGED, { newToken: res })
         context.dispatch('sessionAfterAuthorized')
 
-        if (config.usePriceTiers) {
-          cache.getItem('current-user', (err, userData) => {
-            if (err) {
-              Logger.error(err, 'user')()
-              return
-            }
+        cache.getItem('current-user', (err, userData) => {
+          if (err) {
+            Logger.error(err, 'user')()
+            return
+          }
 
-            if (userData) {
-              context.dispatch('setUserGroup', userData)
-            }
-          })
-        }
+          if (userData) {
+            context.dispatch('setUserGroup', userData)
+          }
+        })
       } else {
         EventBus.$emit('session-after-nonauthorized')
       }
@@ -150,17 +148,12 @@ const actions: ActionTree<UserState, RootState> = {
    * @param userData
    */
   setUserGroup (context, userData) {
-    if (config.usePriceTiers) {
-      if (userData.groupToken) {
-        context.commit(types.USER_GROUP_TOKEN_CHANGED, userData.groupToken)
-      }
+    if (userData.groupToken) {
+      context.commit(types.USER_GROUP_TOKEN_CHANGED, userData.groupToken)
+    }
 
-      if (userData.group_id) {
-        context.commit(types.USER_GROUP_CHANGED, userData.group_id)
-      }
-    } else {
-      context.commit(types.USER_GROUP_TOKEN_CHANGED, '')
-      context.commit(types.USER_GROUP_CHANGED, null)
+    if (userData.group_id) {
+      context.commit(types.USER_GROUP_CHANGED, userData.group_id)
     }
   },
   /**
