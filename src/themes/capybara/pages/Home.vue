@@ -157,7 +157,7 @@ export default {
   },
   computed: {
     newProducts () {
-      return this.$store.state.homepage.newProducts
+      return this.$store.getters['homepage/getNewProducts']
     }
   },
   async asyncData ({ store, route }) {
