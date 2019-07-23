@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed when store has updated, but plugin didn't called - @serzilo (#3238)
 - Fixed first call of prepareStoreView when SSR - @resubaka (#3244)
 - Add ./packages as volume to docker-compose.yml - @cewald (#3251)
+- Fixed mail sending and add error logger - @Michal-Dziedzinski (#3265)
 
 ### Changed / Improved
 
