@@ -8,7 +8,7 @@ const mutations: MutationTree<StockState> = {
   },
   [types.SET_STOCK_CACHE_PRODUCT] (state, { productId, productInfo }) {
     state.cache = Object.assign({}, state.cache, {
-      productId: productInfo
+      [productId]: productInfo
     })
   }
 }
