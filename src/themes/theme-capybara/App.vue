@@ -6,8 +6,10 @@
 
 <script>
 import Vue from 'vue'
+import Head from './head'
 
 export default {
+  metaInfo: Head
 }
 </script>
 
