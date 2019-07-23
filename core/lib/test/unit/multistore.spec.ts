@@ -1,12 +1,14 @@
-import { storeCodeFromRoute } from '../../multistore'
+import { storeCodeFromRoute, prepareStoreView } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
+import rootStore from '@vue-storefront/core/store';
+
 jest.mock('@vue-storefront/core/app', () => ({ createApp: jest.fn() }))
 jest.mock('../../../store', () => ({}))
 jest.mock('@vue-storefront/i18n', () => ({loadLanguageAsync: jest.fn()}))
 jest.mock('../../sync/task', () => ({initializeSyncTaskStorage: jest.fn()}))
 jest.mock('@vue-storefront/core/hooks', () => ({ coreHooksExecutors: {
-  beforeStoreViewChange: jest.fn(),
-  afterStoreViewChange: jest.fn()
+  beforeStoreViewChange: jest.fn(args => args),
+  afterStoreViewChange: jest.fn(args => args)
 }}))
 jest.mock('query-string', () => jest.fn())
 jest.mock('@vue-storefront/core/lib/router-manager', () => ({
@@ -19,7 +21,8 @@ jest.mock('config', () => ({}))
 
 describe('Multistore', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.clearAllMocks();
+    (rootStore as any).state = {};
     Object.keys(config).forEach((key) => { delete config[key]; });
   })
 
@@ -128,6 +131,266 @@ describe('Multistore', () => {
 
     it('returns empty string if route is not given', () => {
       expect(storeCodeFromRoute('')).toBe('')
+    })
+  })
+
+  describe('prepareStoreView', () => {
+    it('returns default storeView given no storecode', () => {
+      rootStore.state.storeView = {}
+      rootStore.state.user = {}
+
+      config.storeViews = {
+        multistore: false
+      }
+
+      config.tax = {
+        defaultCountry: 'US'
+      }
+
+      config.i18n = {
+        defaultLocale: 'en-US',
+        fullCountryName: 'United States',
+        fullLanguageName: 'English'
+      }
+
+      config.elasticsearch = {
+        index: 'vue_storefront_catalog'
+      }
+      config.defaultStoreCode = ''
+
+      expect(prepareStoreView(null)).toStrictEqual({
+        tax: {
+          defaultCountry: 'US'
+        },
+        i18n: {
+          defaultLocale: 'en-US',
+          fullCountryName: 'United States',
+          fullLanguageName: 'English'
+        },
+        elasticsearch: {
+          index: 'vue_storefront_catalog'
+        },
+        storeId: 1,
+        storeCode: ''
+      })
+    })
+
+    it('returns default storeView without setting defaultStoreCode when multistore mode is disabled', () => {
+      rootStore.state.storeView = {}
+      rootStore.state.user = {}
+
+      config.storeViews = {
+        multistore: false,
+        de: {
+          storeId: 4
+        }
+      }
+
+      config.tax = {
+        defaultCountry: 'US'
+      }
+
+      config.i18n = {
+        defaultLocale: 'en-US',
+        fullCountryName: 'United States',
+        fullLanguageName: 'English'
+      }
+
+      config.elasticsearch = {
+        index: 'vue_storefront_catalog'
+      }
+      config.defaultStoreCode = 'de'
+
+      expect(prepareStoreView(null)).toStrictEqual({
+        tax: {
+          defaultCountry: 'US'
+        },
+        i18n: {
+          defaultLocale: 'en-US',
+          fullCountryName: 'United States',
+          fullLanguageName: 'English'
+        },
+        elasticsearch: {
+          index: 'vue_storefront_catalog'
+        },
+        storeId: 4,
+        storeCode: ''
+      })
+    })
+
+    it('returns default storeView with defaultStoreCode set when multistore mode is enabled', () => {
+      rootStore.state.storeView = {}
+      rootStore.state.user = {}
+
+      config.storeViews = {
+        multistore: true,
+        de: {
+          storeId: 4
+        }
+      }
+
+      config.tax = {
+        defaultCountry: 'US'
+      }
+
+      config.i18n = {
+        defaultLocale: 'en-US',
+        fullCountryName: 'United States',
+        fullLanguageName: 'English'
+      }
+
+      config.elasticsearch = {
+        index: 'vue_storefront_catalog'
+      }
+      config.defaultStoreCode = 'de'
+
+      expect(prepareStoreView(null)).toStrictEqual({
+        tax: {
+          defaultCountry: 'US'
+        },
+        i18n: {
+          defaultLocale: 'en-US',
+          fullCountryName: 'United States',
+          fullLanguageName: 'English'
+        },
+        elasticsearch: {
+          index: 'vue_storefront_catalog'
+        },
+        storeId: 4,
+        storeCode: 'de'
+      })
+    })
+
+    it('returns storeView overwritting default store config values when multistore mode is enabled', () => {
+      rootStore.state.storeView = {}
+      rootStore.state.user = {}
+
+      config.storeViews = {
+        multistore: true,
+        de: {
+          storeCode: 'de',
+          storeId: 3,
+          name: 'German Store',
+          elasticsearch: {
+            index: 'vue_storefront_catalog_de'
+          },
+          tax: {
+            defaultCountry: 'DE'
+          },
+          i18n: {
+            fullCountryName: 'Germany',
+            fullLanguageName: 'German',
+            defaultLocale: 'de-DE'
+          }
+        }
+      }
+
+      config.tax = {
+        defaultCountry: 'US'
+      }
+
+      config.i18n = {
+        defaultLocale: 'en-US',
+        fullCountryName: 'United States',
+        fullLanguageName: 'English'
+      }
+
+      config.elasticsearch = {
+        index: 'vue_storefront_catalog'
+      }
+      config.defaultStoreCode = 'de'
+
+      expect(prepareStoreView(null)).toStrictEqual({
+        tax: {
+          defaultCountry: 'DE'
+        },
+        i18n: {
+          fullCountryName: 'Germany',
+          fullLanguageName: 'German',
+          defaultLocale: 'de-DE'
+        },
+        elasticsearch: {
+          index: 'vue_storefront_catalog_de'
+        },
+        storeId: 3,
+        name: 'German Store',
+        storeCode: 'de'
+      })
+    })
+
+    it('returns storeView extending other storeView in multistore mode', () => {
+      rootStore.state.storeView = {}
+      rootStore.state.user = {}
+
+      config.storeViews = {
+        multistore: true,
+        de: {
+          storeCode: 'de',
+          storeId: 3,
+          name: 'German Store',
+          elasticsearch: {
+            index: 'vue_storefront_catalog_de'
+          },
+          tax: {
+            defaultCountry: 'DE'
+          },
+          i18n: {
+            fullCountryName: 'Germany',
+            fullLanguageName: 'German',
+            defaultLocale: 'de-DE'
+          }
+        },
+        it: {
+          extend: 'de',
+          storeCode: 'it',
+          storeId: 4,
+          name: 'Italian Store',
+          elasticsearch: {
+            index: 'vue_storefront_catalog_it'
+          },
+          tax: {
+            defaultCountry: 'IT'
+          },
+          i18n: {
+            fullCountryName: 'Italy',
+            fullLanguageName: 'Italian',
+            defaultLocale: 'it-IT'
+          }
+        }
+      }
+
+      config.tax = {
+        defaultCountry: 'US'
+      }
+
+      config.i18n = {
+        defaultLocale: 'en-US',
+        fullCountryName: 'United States',
+        fullLanguageName: 'English'
+      }
+
+      config.elasticsearch = {
+        index: 'vue_storefront_catalog'
+      }
+      config.defaultStoreCode = 'it'
+
+      expect(prepareStoreView(null)).toStrictEqual({
+        tax: {
+          defaultCountry: 'IT'
+        },
+        i18n: {
+          fullCountryName: 'Italy',
+          fullLanguageName: 'Italian',
+          defaultLocale: 'it-IT'
+        },
+        elasticsearch: {
+          index: 'vue_storefront_catalog_it'
+        },
+        storeId: 4,
+        extend: 'de',
+        name: 'Italian Store',
+        storeCode: 'it'
+      })
     })
   })
 })
