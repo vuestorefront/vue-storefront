@@ -1,15 +1,14 @@
 import VueRouter from 'vue-router'
-import { Store } from "vuex"
+import { Store } from 'vuex'
 
 export interface StorefrontModule { (
   app: any,
   store: Store<any>,
   router: VueRouter,
   moduleConfig: any,
-  appConfig: any ) : void
+  appConfig: any): void
 }
 
-// because config can't be shared as peer dependency
 let refs: any = {}
 let registeredModules: any = []
 

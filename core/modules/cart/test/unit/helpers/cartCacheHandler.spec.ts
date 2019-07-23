@@ -13,7 +13,7 @@ const StorageManager = {
 };
 const cartCacheHandlerFactory = require('../../../helpers/cartCacheHandler').cartCacheHandlerFactory
 
-jest.mock('@vue-storefront/core/store/lib/storage-manager', () => ({StorageManager}))
+jest.mock('@vue-storefront/core/lib/storage-manager', () => ({StorageManager}))
 jest.mock('@vue-storefront/core/helpers', () => ({
   isServer: () => false
 }));

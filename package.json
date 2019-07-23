@@ -42,10 +42,11 @@
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
     "lint": "eslint --ext .js,.vue,.ts core src --fix",
-    "lerna": "lerna",
-    "pkg:module:build": "cd ./packages/module && yarn build"
+    "lerna": "lerna"
   },
-  "pre-commit": [ "lint" ],
+  "pre-commit": [
+    "lint"
+  ],
   "dependencies": {
     "@types/webpack": "^4.4.23",
     "@types/webpack-dev-server": "^3.1.1",
@@ -56,6 +57,7 @@
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
     "cross-env": "^3.1.4",
+    "dayjs": "^1.8.15",
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
     "graphql": "^0.13.2",
@@ -64,7 +66,6 @@
     "js-sha3": "^0.8.0",
     "localforage": "^1.7.2",
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
-    "moment": "^2.24.0",
     "pm2": "^2.10.4",
     "redis-tag-cache": "^1.2.1",
     "reflect-metadata": "^0.1.12",

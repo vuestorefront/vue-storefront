@@ -23,7 +23,7 @@ import { PaymentBackendMethodsModule } from './payment-backend-methods';
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery';
 import { InstantCheckoutModule } from './instant-checkout'
 
-import { registerModule } from '@vue-storefront/module'
+import { registerModule } from '@vue-storefront/core/lib/modules'
 
 // TODO:distributed across proper pages BEFORE 1.11
 export function registerNewModules () {

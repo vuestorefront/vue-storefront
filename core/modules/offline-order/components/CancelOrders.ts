@@ -1,5 +1,5 @@
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 export const CancelOrders = {
   methods: {
