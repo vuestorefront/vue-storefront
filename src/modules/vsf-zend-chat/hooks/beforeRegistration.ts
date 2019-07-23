@@ -65,10 +65,7 @@ export function beforeRegistration({ Vue, config, store, isServer }) {
 
       EventBus.$on("user-after-logout", () => {
         zE(() => {
-          zE.identify({
-            name: " ",
-            email: "example@example.com"
-          });
+          zE("webWidget", "logout");
         });
       });
     };
