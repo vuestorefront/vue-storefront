@@ -145,47 +145,28 @@ import {
 } from '@storefrontui/vue';
 
 import { SfBanner } from 'src/themes/capybara/components/ui'
-import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 import { isServer } from '@vue-storefront/core/helpers'
-import { Logger } from '@vue-storefront/core/lib/logger'
-
-import bannersData from 'src/themes/capybara/assets/homepage/banners.json'
-import config from 'config'
+import heroData from 'src/themes/capybara/assets/homepage/hero.json'
 
 export default {
   name: 'HomePage',
   data () {
     return {
-      heroes: bannersData
+      heroes: heroData
     };
   },
   computed: {
     newProducts () {
-      return this.$store.state.homepage.new_products
-    },
-  },
-  async asyncData ({ store, route }) { 
-    let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
-
-    const newProductsResult = await store.dispatch('product/list', {
-      query: newProductsQuery,
-      size: 8,
-      sort: 'created_at:desc'
-    })
-    
-    if (newProductsResult) {
-      store.state.homepage.new_products = newProductsResult.items
+      return this.$store.state.homepage.newProducts
     }
+  },
+  async asyncData ({ store, route }) {
+    await store.dispatch('homepage/fetchNewProducts')
   },
   beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading products to cache on SSR render
       next(vm => {
-        let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
-        vm.$store.dispatch('product/list', {
-          query: newProductsQuery,
-          size: 8,
-          sort: 'created_at:desc'
-        })
+        vm.$store.dispatch('homepage/fetchNewProducts')
       })
     } else {
       next()
