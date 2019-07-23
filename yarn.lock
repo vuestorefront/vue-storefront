@@ -3150,10 +3150,8 @@
   resolved "https://registry.yarnpkg.com/@storefrontui/shared/-/shared-0.0.3-alpha.6.tgz#6e42a8692dfc3d9fb81a7823db12305acdffab64"
   integrity sha512-rb4bqTB8WuKFJtgLvkO4yw4rdxxY68wZpmMl8dhwk06GAZDP/RWurBAVAyWIFhr3bwxDy07y1sExK1k92wiQlQ==
 
-"@storefrontui/vue@^0.0.4-aplha.8":
-  version "0.0.4-aplha.8"
-  resolved "https://registry.yarnpkg.com/@storefrontui/vue/-/vue-0.0.4-aplha.8.tgz#23cfdf5d3dff5f6f75d152448c52948cecb836ef"
-  integrity sha512-/zKOrgZhreqgbbuBpELisFV1ZqMcTVbloflpE6qu4YwIYPuwQqc7abVU3kw7XtsCBoJB/jfVpq6qOgycwXNFIA==
+"@storefrontui/vue@file:../storefront-ui/packages/vue":
+  version "0.0.4-aplha.9"
   dependencies:
     "@glidejs/glide" "^3.3.0"
     "@storefrontui/shared" "^0.0.3-alpha.6"
@@ -3423,9 +3421,9 @@
     babel-plugin-transform-vue-jsx "^4.0.1"
 
 "@vue/babel-preset-app@^4.0.0-alpha.1":
-  version "4.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@vue/babel-preset-app/-/babel-preset-app-4.0.0-alpha.5.tgz#9213c84aa396f9938bca66dfa7dba2edaf4fb9cc"
-  integrity sha512-bV0ZFDxdbjVlMV8CevLRd9qFPRhMXRRzkpYeIOmjdnrWFzJg1mmKVuPbHJfjvtw75bV5mjqJ8AHKMuE/N+cgMA==
+  version "4.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@vue/babel-preset-app/-/babel-preset-app-4.0.0-beta.0.tgz#e07e15b87ca7ef238b3a3e84f263a310c7d59e10"
+  integrity sha512-6PnK8Wn+pGCCt/LrWai5RNyTaMZCNaQugFoqdCjS2cHh+oESC5ExZoSoMLq5ekmEySu9HP6016C92iFff9dfuA==
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
     "@babel/plugin-proposal-class-properties" "^7.4.4"

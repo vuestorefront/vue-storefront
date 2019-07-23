@@ -1,4 +1,4 @@
-import SfBanner from './_Banner'
+import SfBanner from './_Banner.vue'
 // import BannerGrid from './BannerGrid'
 // import CallToAction from './CallToAction'
 // import Carousel from './Carousel'

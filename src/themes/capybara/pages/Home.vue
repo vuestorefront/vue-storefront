@@ -63,12 +63,10 @@
       }"
     >
       <SfCarousel :settings="{ gap: 0 }" class="product-carousel">
-        <SfCarouselItem v-for="(product, i) in products" :key="i">
+        <SfCarouselItem v-for="(product, i) in newProducts" :key="i">
           <SfProductCard
-            :title="product.title"
-            :image="product.image"
-            :price="product.price"
-            :rating="product.rating"
+            :title="product.name"
+            :regular-price="product.priceInclTax | price"
             class="product-card"
           />
         </SfCarouselItem>
@@ -145,88 +143,53 @@ import {
   SfImage,
   SfBannerGrid
 } from '@storefrontui/vue';
-import { SfBanner } from 'theme/components/ui'
+
+import { SfBanner } from 'src/themes/capybara/components/ui'
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
+import { isServer } from '@vue-storefront/core/helpers'
+import { Logger } from '@vue-storefront/core/lib/logger'
+
+import bannersData from 'src/themes/capybara/assets/homepage/banners.json'
+import config from 'config'
 
 export default {
-  name: 'Home',
+  name: 'HomePage',
   data () {
     return {
-      heroes: [
-        {
-          title: 'Colorful summer dresses are already in store',
-          subtitle: 'SUMMER COLLECTION 2019',
-          buttonText: 'Learn more',
-          background: '#eceff1',
-          image: '/assets/homepage/bannerH.png'
-        },
-        {
-          title: 'Colorful summer dresses are already in store',
-          subtitle: 'SUMMER COLLECTION 2019',
-          buttonText: 'Learn more',
-          background: '#efebe9',
-          image: '/assets/homepage/bannerA.png',
-          className:
-            'sf-hero-item--position-bg-top-left sf-hero-item--align-right'
-        },
-        {
-          title: 'Colorful summer dresses are already in store',
-          subtitle: 'SUMMER COLLECTION 2019',
-          buttonText: 'Learn more',
-          background: '#fce4ec',
-          image: '/assets/homepage/bannerB.png'
-        }
-      ],
-      products: [
-        {
-          title: 'Cream Beach Bag',
-          image: '/assets/homepage/productA.png',
-          price: { regularPrice: '50.00 $' },
-          rating: { max: 5, score: 4 }
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/assets/homepage/productB.png',
-          price: { regularPrice: '50.00 $' },
-          rating: { max: 5, score: 4 }
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/assets/homepage/productC.png',
-          price: { regularPrice: '50.00 $' },
-          rating: { max: 5, score: 4 }
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/assets/homepage/productA.png',
-          price: { regularPrice: '50.00 $' },
-          rating: { max: 5, score: 4 }
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/assets/homepage/productB.png',
-          price: { regularPrice: '50.00 $' },
-          rating: { max: 5, score: 4 }
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/assets/homepage/productC.png',
-          price: { regularPrice: '50.00 $' },
-          rating: { max: 5, score: 4 }
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/assets/homepage/productA.png',
-          price: { regularPrice: '50.00 $' },
-          rating: { max: 5, score: 4 }
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/assets/homepage/productB.png',
-          price: { regularPrice: '50.00 $' },
-          rating: { max: 5, score: 4 }
-        }
-      ]
+      heroes: bannersData
     };
+  },
+  computed: {
+    newProducts () {
+      return this.$store.state.homepage.new_products
+    },
+  },
+  async asyncData ({ store, route }) { 
+    let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
+
+    const newProductsResult = await store.dispatch('product/list', {
+      query: newProductsQuery,
+      size: 8,
+      sort: 'created_at:desc'
+    })
+    
+    if (newProductsResult) {
+      store.state.homepage.new_products = newProductsResult.items
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    if (!isServer && !from.name) { // Loading products to cache on SSR render
+      next(vm => {
+        let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
+        vm.$store.dispatch('product/list', {
+          query: newProductsQuery,
+          size: 8,
+          sort: 'created_at:desc'
+        })
+      })
+    } else {
+      next()
+    }
   },
   components: {
     SfHero,

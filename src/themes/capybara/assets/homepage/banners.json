@@ -1,0 +1,20 @@
+[{
+  "title": "Colorful summer dresses are already in store",
+  "subtitle": "SUMMER COLLECTION 2019",
+  "buttonText": "Learn more",
+  "background": "#eceff1",
+  "image": "/assets/homepage/bannerH.png"
+}, {
+  "title": "Colorful summer dresses are already in store",
+  "subtitle": "SUMMER COLLECTION 2019",
+  "buttonText": "Learn more",
+  "background": "#efebe9",
+  "image": "/assets/homepage/bannerA.png",
+  "className": "sf-hero-item--position-bg-top-left sf-hero-item--align-right"
+}, {
+  "title": "Colorful summer dresses are already in store",
+  "subtitle": "SUMMER COLLECTION 2019",
+  "buttonText": "Learn more",
+  "background": "#fce4ec",
+  "image": "/assets/homepage/bannerB.png"
+}]
