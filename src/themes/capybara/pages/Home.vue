@@ -138,7 +138,6 @@
 <script>
 import {
   SfHero,
-  SfBanner,
   SfCallToAction,
   SfSection,
   SfCarousel,
@@ -146,6 +145,7 @@ import {
   SfImage,
   SfBannerGrid
 } from '@storefrontui/vue';
+import { SfBanner } from 'theme/components/ui'
 
 export default {
   name: 'Home',

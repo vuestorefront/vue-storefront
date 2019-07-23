@@ -1,5 +1,6 @@
 {
   "name": "@vue-storefront/theme-capybara",
+  "SideEffects" : ["./components/ui/*"],
   "version": "0.0.1",
   "description": "New default theme for Vue Storefront",
   "main": "index.js",

@@ -1,16 +1,16 @@
-// const ThemeDefault = () => import('./themes/default')
-// const ThemeDupa = () => import('./themes/default')
+const ThemeDefault = () => import('./themes/default')
+const ThemeDupa = () => import('./themes/default')
 
-// let theme = null;
-// let storeCode = null // skads przychodzi, nikt nie wie skad
+let theme = null;
+let storeCode = null // skads przychodzi, nikt nie wie skad
 
-// if (storeCode = 'dupa') {
-//   theme = ThemeDefault
-// } else {
-//   theme = ThemeDupa
-// }
+if (storeCode = 'dupa') {
+  theme = ThemeDefault
+} else {
+  theme = ThemeDupa
+}
 
-// export const VueStorefrontApp = {
-//   // theme: theme
-//   theme: { base: ThemeDefault, extends: themeDupa }
-// }
+export const VueStorefrontApp = {
+  // theme: theme
+  theme: ThemeDefault
+}
