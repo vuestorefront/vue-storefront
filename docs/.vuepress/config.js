@@ -44,6 +44,7 @@ module.exports = {
             'cookbook/theme',
             'cookbook/common-pitfall',
             'cookbook/devops',
+            'cookbook/tdd'
           ],
         },
         {
