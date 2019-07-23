@@ -7,13 +7,15 @@ import { processURLAddress } from '@vue-storefront/core/helpers'
 export const mailerStore: Module<any, any> = {
   namespaced: true,
   actions: {
-    sendEmail (context, letter: MailItem) {
-      return new Promise((resolve, reject) => {
-        fetch(processURLAddress(config.mailer.endpoint.token))
-          .then(res => res.json())
-          .then(res => {
-            if (res.code === 200) {
-              fetch(processURLAddress(config.mailer.endpoint.send), {
+    async sendEmail (context, letter: MailItem) {
+      try {
+        const res = await fetch(processURLAddress(config.mailer.endpoint.token))
+        const resData = await res.json()
+        if (resData.code === 200) {
+          try {
+            const res = await fetch(
+              processURLAddress(config.mailer.endpoint.send),
+              {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -22,23 +24,22 @@ export const mailerStore: Module<any, any> = {
                 },
                 body: JSON.stringify({
                   ...letter,
-                  token: res.result
+                  token: resData.result
                 })
-              })
-                .then(res => resolve(res))
-                .catch(e => {
-                  Logger.error(e, 'mailer')()
-                  return reject()
-                })
-            } else {
-              reject()
-            }
-          })
-          .catch(e => {
+              }
+            )
+            return res
+          } catch (e) {
             Logger.error(e, 'mailer')()
-            return reject()
-          })
-      })
+            throw new Error(e)
+          }
+        } else {
+          throw new Error(resData.code)
+        }
+      } catch (e) {
+        Logger.error(e, 'mailer')()
+        throw new Error(e)
+      }
     }
   }
 }
