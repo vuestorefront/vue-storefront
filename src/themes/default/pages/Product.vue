@@ -133,7 +133,7 @@
               v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
             >
               <base-input-number
-                :name="$t(`${!isSimpleOrConfigurable ? `Quantity` : !isProductLoading ? `Quantity (${quantity} available)` : 'Getting information about quantity...'}`)"
+                :name="$t(getInputName)"
                 v-model="product.qty"
                 :min="quantity ? 1 : 0"
                 :max="quantity"
@@ -147,6 +147,7 @@
                   }
                 ]"
               />
+              <Spinner v-if="isProductLoading" />
             </div>
             <div class="row m0">
               <add-to-cart
@@ -215,6 +216,7 @@ import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
 import ProductGallery from 'theme/components/core/ProductGallery'
+import Spinner from 'theme/components/core/Spinner'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from 'theme/components/theme/WebShare'
@@ -242,7 +244,8 @@ export default {
     SizeSelector,
     WebShare,
     BaseInputNumber,
-    SizeGuide
+    SizeGuide,
+    Spinner
   },
   mixins: [Product, VueOfflineMixin],
   directives: { focusClean },
@@ -312,11 +315,12 @@ export default {
       if (
         this.product.type_id === 'simple' ||
         this.product.type_id === 'configurable'
-      ) {
-        return true
-      }
-
+      ) { return true }
       return false
+    },
+    getInputName () {
+      if (this.isSimpleOrConfigurable) { return `Quantity (${this.quantity} available)` }
+      return `Quantity`
     }
   },
   created () {

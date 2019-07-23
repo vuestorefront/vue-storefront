@@ -72,8 +72,6 @@ export default {
 @import '~theme/css/helpers/functions/color';
 
 .base-input-number {
-  width: 100%;
-
   &__input {
     border-style: solid;
     border-width: 0 0 1px 0;
