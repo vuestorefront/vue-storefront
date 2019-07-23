@@ -29,7 +29,6 @@
         <table class="brdr-1 brdr-cl-bg-secondary">
           <thead>
             <tr>
-              <th class="serif lh20"></th>
               <th class="serif lh20">
                 {{ $t('Product Name') }}
               </th>
@@ -45,11 +44,13 @@
               <th class="serif lh20">
                 {{ $t('Subtotal') }}
               </th>
+              <th class="serif lh20">
+                {{ $t('Thumbnail') }}
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="item in skipGrouped(order.items)" :key="item.item_id">
-              <td class="fs-medium lh25"><img :src="getProductThumbnail(item.sku)" ></td>
               <td class="fs-medium lh25" :data-th="$t('Product Name')">
                 {{ item.name }}
               </td>
@@ -64,6 +65,9 @@
               </td>
               <td class="fs-medium lh25" :data-th="$t('Subtotal')">
                 {{ item.row_total_incl_tax | price }}
+              </td>
+              <td class="fs-medium lh25">
+                <img :src="getProductThumbnail(item.sku)">
               </td>
             </tr>
           </tbody>
@@ -142,6 +146,7 @@
 import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
 import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
+import { mapActions } from 'vuex'
 
 export default {
   mixins: [MyOrder],
@@ -154,11 +159,15 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      getProduct: 'product/single'
+    }),
     getProductThumbnail (productSku) {
       if (this.itemThumbnail[productSku] === undefined || this.itemThumbnail[productSku] === null) {
-        this.$store.dispatch('product/single', { options: { sku: productSku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false, skipCache: true }).then((product) => {
-          this.itemThumbnail[productSku] = getThumbnailPath(product.image, 80, 80)
-        })
+        this.getProduct({ options: { sku: productSku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false, skipCache: true })
+          .then(product => {
+            this.itemThumbnail[productSku] = getThumbnailPath(product.image, 80, 80)
+          })
       }
       return this.itemThumbnail[productSku]
     }

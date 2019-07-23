@@ -36,6 +36,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.10.0-rc.2] - UNRELEASED
 
+### Added
+- Added product image in order summary - @obsceniczny (#2544)
+
 ### Fixed
 - Wrong meta description attribute by page overwrite - @przspa (#3091)
 - The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
