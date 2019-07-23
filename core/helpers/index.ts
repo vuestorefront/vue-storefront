@@ -6,10 +6,19 @@ import config from 'config'
 import { sha3_224 } from 'js-sha3'
 import { unicodeAlpha, unicodeAlphaNum } from './validators'
 import store from '@vue-storefront/core/store'
+import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 
 export const processURLAddress = (url: string = '') => {
   if (url.startsWith('/')) return `${config.api.url}${url}`
   return url
+}
+
+export const processLocalizedURLAddress = (url: string = '') => {
+  if (config.storeViews.multistore) {
+    return processURLAddress(adjustMultistoreApiUrl(url))
+  }
+
+  return processURLAddress(url)
 }
 
 /**
