@@ -39,6 +39,14 @@ const actions: ActionTree<CategoryState, RootState> = {
     const commit = context.commit
     let customizedQuery = false // that means the parameteres are != defaults; with defaults parameter the data could be get from window.__INITIAL_STATE__ - this is optimisation trick
     let searchQuery = new SearchQuery()
+
+    if ('filterFields' in rootStore.state.config.entities.category) {
+      for (const field of rootStore.state.config.entities.category.filterFields) {
+        searchQuery = searchQuery.applyFilter({key: field.key, value: field.value})
+      }
+      customizedQuery = true
+    }
+
     if (parent && typeof parent !== 'undefined') {
       searchQuery = searchQuery.applyFilter({key: 'parent_id', value: { 'eq': typeof parent === 'object' ? parent.id : parent }})
       customizedQuery = true
@@ -57,12 +65,6 @@ const actions: ActionTree<CategoryState, RootState> = {
         searchQuery = searchQuery.applyFilter({key: key, value: {'eq': value}})
       }
       customizedQuery = true
-    }
-
-    if ('filterFields' in rootStore.state.config.entities.category) {
-      for (const field of rootStore.state.config.entities.category.filterFields) {
-        searchQuery = searchQuery.applyFilter({key: field.key, value: field.value})
-      }
     }
 
     if (onlyActive === true) {
