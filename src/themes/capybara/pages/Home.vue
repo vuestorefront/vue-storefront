@@ -66,7 +66,9 @@
         <SfCarouselItem v-for="(product, i) in newProducts" :key="i">
           <SfProductCard
             :title="product.name"
+            :image="product.image | imagePath"
             :regular-price="product.priceInclTax | price"
+            :special-price="product.specialPriceInclTax"
             class="product-card"
           />
         </SfCarouselItem>
