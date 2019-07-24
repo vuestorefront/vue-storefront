@@ -24,7 +24,7 @@ export default {
     ...mapGetters({
       product: 'product/productCurrent',
       originalProduct: 'product/productOriginal',
-      parentProduct: 'product/productParent',
+      parentProduct: 'product/getParentProduct',
       attributesByCode: 'attribute/attributeListByCode',
       attributesById: 'attribute/attributeListById',
       breadcrumbs: 'product/breadcrumbs',

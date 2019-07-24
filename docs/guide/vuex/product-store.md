@@ -133,7 +133,7 @@ All state members should have been accessed only by getters. Please take a look 
 
 ```js
 const getters = {
-  productParent: state => state.parent,
+  getParentProduct: state => state.parent,
   productCurrent: state => state.current,
   currentConfiguration: state => state.current_configuration,
   productOriginal: state => state.original,
