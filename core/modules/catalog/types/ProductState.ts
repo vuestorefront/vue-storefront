@@ -1,6 +1,7 @@
 export interface PagedProductList {
   start: number,
   perPage: number,
+  total: number,
   items: any[]
 }
 
@@ -13,7 +14,7 @@ export default interface ProductState {
   current_options: any,
   current_configuration: any,
   parent: any,
-  list: any[] | PagedProductList,
+  list: PagedProductList,
   original: any,
   related: any,
   offlineImage: any,

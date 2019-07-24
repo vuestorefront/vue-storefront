@@ -8,7 +8,8 @@ const getters: GetterTree<ProductState, RootState> = {
   getCurrentProductOptions: state => state.current_options,
   getOriginalProduct: state => state.current,
   getParentProduct: state => state.parent,
-  getProducts: state => state.list,
+  getProductsSearchResult: state => state.list,
+  getProducts: (state, getters) => getters.getProductsSearchResult.items,
   getProductGallery: state => state.productGallery,
   // TODO remove getters below
   productParent: (state) => state.parent,

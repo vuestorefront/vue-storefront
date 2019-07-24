@@ -1,5 +1,8 @@
 // TODO refactor to proper mutation names
 export const SN_PRODUCT = 'product'
+export const PRODUCT_SET_PAGED_PRODUCTS = SN_PRODUCT + '/SET_PRODUCTS'
+export const PRODUCT_ADD_PAGED_PRODUCTS = SN_PRODUCT + '/ADD_PRODUCTS'
+// remove later
 export const CATALOG_UPD_PRODUCTS = SN_PRODUCT + '/UPD_PRODUCTS'
 export const CATALOG_UPD_RELATED = SN_PRODUCT + '/UPD_RELATED'
 export const CATALOG_UPD_SEARCH_QUERY = SN_PRODUCT + '/UPD_SEARCH_QUERY'

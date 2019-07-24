@@ -278,21 +278,21 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  async list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
-    const products = await context.dispatch('findProducts', { query, start, size, entityType, sort, cacheByKey, excludeFields, includeFields, configuration, populateRequestCacheTags })
-
-    await context.dispatch('preConfigureAssociated', { products, prefetchGroupProducts })
+  async list ({ dispatch, commit }, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
+    const searchResult = await dispatch('findProducts', { query, start, size, entityType, sort, cacheByKey, excludeFields, includeFields, configuration, populateRequestCacheTags })
+    await dispatch('preConfigureAssociated', { searchResult, prefetchGroupProducts })
 
     if (updateState) {
-      context.commit(types.CATALOG_UPD_PRODUCTS, { products, append: append })
+      if (append) commit(types.PRODUCT_ADD_PAGED_PRODUCTS, searchResult)
+      else commit(types.PRODUCT_SET_PAGED_PRODUCTS, searchResult)
     }
 
-    EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: products })
+    EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: searchResult })
 
-    return products
+    return searchResult
   },
-  preConfigureAssociated (context, { products, prefetchGroupProducts }) {
-    for (let product of products.items) {
+  preConfigureAssociated (context, { searchResult, prefetchGroupProducts }) {
+    for (let product of searchResult.items) {
       if (product.url_path) {
         const { parentSku, slug } = product
 

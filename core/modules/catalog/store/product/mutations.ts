@@ -27,14 +27,29 @@ const mutations: MutationTree<ProductState> = {
       option_selections: optionSelections
     }
   },
-  [types.CATALOG_UPD_PRODUCTS] (state, { products, append }) {
-    if (append === false) {
-      state.list = products
-    } else {
-      (state.list as PagedProductList).start = products.start as number
-      (state.list as PagedProductList).perPage = products.perPage as number
-      (state.list as PagedProductList).items = (state.list as PagedProductList).items.concat(products.items)
+  [types.PRODUCT_SET_PAGED_PRODUCTS] (state, searchResult) {
+    const { start, perPage, total, items } = searchResult
+    state.list = {
+      start,
+      perPage,
+      total,
+      items
     }
+  },
+  [types.PRODUCT_ADD_PAGED_PRODUCTS] (state, searchResult) {
+    const { start, perPage, items } = searchResult
+    state.list = Object.assign(
+      {},
+      state.list,
+      {
+        start,
+        perPage,
+        items: [...(state.list as PagedProductList).items, ...items]
+      }
+    )
+  },
+  [types.CATALOG_UPD_PRODUCTS] (state, { products, append }) {
+    console.error('DEPRECATED MUTATION CATALOG_UPD_PRODUCTS')
   },
   [types.CATALOG_SET_PRODUCT_CURRENT] (state, product) {
     state.current = product
