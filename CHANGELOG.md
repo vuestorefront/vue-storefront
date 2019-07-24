@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added possibility to change color or size of the product that is already in the cart - @andrzejewsky (#2346)
 - Added price formatting based on locales in multistore - @andrzejewsky (#3060)
 - Added support for tax calculation where the values from customer_tax_class_ids is used - @resubaka (#3245)
+- Added loading product attributes (`entities.productListWithChildren.includeFields`) on category page - @andrzejewsky (#3220)
 
 ### Fixed
 
