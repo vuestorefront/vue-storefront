@@ -78,7 +78,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
       delete Request.groupId
     }
 
-    if (config.usePriceTiers && rootStore.state.user.groupToken) {
+    if (rootStore.state.user.groupToken) {
       Request.groupToken = rootStore.state.user.groupToken
     }
 

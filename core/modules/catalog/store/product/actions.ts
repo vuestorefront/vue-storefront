@@ -31,6 +31,7 @@ import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
+import { isUserGroupedTaxActive, getUserTaxGroupId } from '@vue-storefront/core/modules/catalog/helpers/tax';
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -109,7 +110,12 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   syncPlatformPricesOver (context, { skus }) {
     const storeView = currentStoreView()
-    return TaskQueue.execute({ url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
+    let url = `${config.products.endpoint}/render-list?skus=${encodeURIComponent(skus.join(','))}&currencyCode=${encodeURIComponent(storeView.i18n.currencyCode)}&storeId=${encodeURIComponent(storeView.storeId)}`
+    if (isUserGroupedTaxActive()) {
+      url = `${url}&userGroupId=${getUserTaxGroupId()}`
+    }
+
+    return TaskQueue.execute({ url, // sync the cart
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
