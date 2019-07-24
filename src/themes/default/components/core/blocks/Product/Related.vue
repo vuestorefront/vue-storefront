@@ -1,7 +1,7 @@
 <template>
   <section
     class="py20 new-collection container px15"
-    v-if="product.related[type] && product.related[type].length > 0"
+    v-if="getCurrentRelatedProducts.length"
   >
     <div>
       <header class="col-md-12">
@@ -11,14 +11,14 @@
       </header>
     </div>
     <div class="row center-xs">
-      <product-listing columns="4" :products="product.related[type]" />
+      <product-listing columns="4" :products="getCurrentRelatedProducts" />
     </div>
   </section>
 </template>
 
 <script>
 import ProductListing from 'theme/components/core/ProductListing'
-
+import { mapGetters } from 'vuex'
 import { prepareRelatedQuery } from '@vue-storefront/core/modules/catalog/queries/related'
 import i18n from '@vue-storefront/i18n'
 import config from 'config'
@@ -59,40 +59,44 @@ export default {
     this.$bus.$off('product-after-load', this.refreshList)
   },
   methods: {
-    refreshList () {
+    // TODO move this to vuex action
+    async refreshList () {
       let sku = this.productLinks ? this.productLinks
         .filter(pl => pl.link_type === this.type)
         .map(pl => pl.linked_product_sku) : null
 
       let key = 'sku'
       if (sku === null || (sku.length === 0)) {
-        sku = this.product.current.category.map(cat => cat.category_id)
+        sku = this.getCurrentProduct.category.map(cat => cat.category_id)
         key = 'category_ids'
       }
       let relatedProductsQuery = prepareRelatedQuery(key, sku)
 
-      this.$store.dispatch('product/list', {
+      const response = await this.$store.dispatch('product/list', {
         query: relatedProductsQuery,
         size: 8,
         prefetchGroupProducts: false,
         updateState: false
-      }).then((response) => {
-        if (response) {
-          this.$store.dispatch('product/related', {
-            key: this.type,
-            items: response.items
-          })
-          this.$forceUpdate()
-        }
       })
+      if (response) {
+        this.$store.dispatch('product/related', {
+          key: this.type,
+          items: response.items
+        })
+        this.$forceUpdate()
+      }
     }
   },
   computed: {
-    product () {
-      return this.$store.state.product
+    ...mapGetters({
+      getProductRelated: 'product/getProductRelated',
+      getCurrentProduct: 'product/getCurrentProduct'
+    }),
+    getCurrentRelatedProducts () {
+      return this.getProductRelated[this.type] || []
     },
     productLinks () {
-      return this.product.current.product_links
+      return this.getCurrentProduct.product_links
     }
   }
 }

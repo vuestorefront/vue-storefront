@@ -5,7 +5,7 @@
         <section class="row m0 between-xs">
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
-              :offline="image"
+              :offline="offlineImage"
               :gallery="gallery"
               :configuration="configuration"
               :product="product"
@@ -219,6 +219,7 @@ import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -250,6 +251,12 @@ export default {
   },
   directives: { focusClean },
   computed: {
+    ...mapGetters({
+      getCurrentCategory: 'category-next/getCurrentCategory'
+    }),
+    getBreadcrumbs () {
+      return this.$store.getters['category-next/getBreadcrumbs'].filter(breadcrumb => breadcrumb.name !== this.getCurrentCategory.name)
+    },
     structuredData () {
       return {
         availability: this.product.stock.is_in_stock ? 'InStock' : 'OutOfStock'

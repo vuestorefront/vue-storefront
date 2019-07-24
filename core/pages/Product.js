@@ -1,7 +1,6 @@
 import { mapGetters } from 'vuex'
 import config from 'config'
 
-import store from '@vue-storefront/core/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { htmlDecode } from '@vue-storefront/core/filters'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
@@ -26,7 +25,7 @@ export default {
     ...mapGetters({
       product: 'product/productCurrent',
       originalProduct: 'product/productOriginal',
-      parentProduct: 'product/productParent',
+      parentProduct: 'product/getParentProduct',
       attributesByCode: 'attribute/attributeListByCode',
       attributesById: 'attribute/attributeListById',
       breadcrumbs: 'product/breadcrumbs',

@@ -20,7 +20,12 @@ export const productModule: Module<ProductState, RootState> = {
     },
     current_configuration: {},
     parent: null,
-    list: [],
+    list: {
+      start: 0,
+      perPage: 50,
+      total: 0,
+      items: []
+    },
     original: null, // default, not configured product
     related: {},
     offlineImage: null,
