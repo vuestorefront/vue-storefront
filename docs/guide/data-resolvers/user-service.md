@@ -30,6 +30,6 @@ It fetches order history by current logged user.
 
 It changes the password for current logged user.
 
-#### `invalidateToken: (refreshToken: string) => Promise<Task>`
+#### `refreshToken: (refreshToken: string) => Promise<string>`
 
 It refreshes the token for current user session by given `refreshToken`.
