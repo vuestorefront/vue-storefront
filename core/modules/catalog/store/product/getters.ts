@@ -11,6 +11,7 @@ const getters: GetterTree<ProductState, RootState> = {
   getProductsSearchResult: state => state.list,
   getProducts: (state, getters) => getters.getProductsSearchResult.items,
   getProductGallery: state => state.productGallery,
+  getProductRelated: state => state.related,
   // TODO remove getters below
   productParent: (state) => state.parent,
   productCurrent: (state) => state.current,

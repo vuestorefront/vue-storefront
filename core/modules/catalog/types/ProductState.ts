@@ -1,8 +1,10 @@
+import Product from './Product';
+
 export interface PagedProductList {
   start: number,
   perPage: number,
   total: number,
-  items: any[]
+  items: Product[]
 }
 
 export default interface ProductState {
@@ -16,7 +18,7 @@ export default interface ProductState {
   parent: any,
   list: PagedProductList,
   original: any,
-  related: any,
+  related: { [key: string]: Product[] },
   offlineImage: any,
   current_custom_options: any,
   current_bundle_options: any,

@@ -40,7 +40,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   reset (context) {
     const productOriginal = context.getters.productOriginal
-    context.commit(types.CATALOG_RESET_PRODUCT, productOriginal)
+    context.commit(types.PRODUCT_RESET_CURRENT, productOriginal)
   },
   /**
    * Setup product breadcrumbs path
@@ -204,7 +204,7 @@ const actions: ActionTree<ProductState, RootState> = {
       return context.dispatch('list', {query: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
         if (resp.items.length >= 1) {
           const parentProduct = resp.items[0]
-          context.commit(types.CATALOG_SET_PRODUCT_PARENT, parentProduct)
+          context.commit(types.PRODUCT_SET_PARENT, parentProduct)
         }
       }).catch((err) => {
         Logger.error(err)()
@@ -528,13 +528,13 @@ const actions: ActionTree<ProductState, RootState> = {
 
   setCurrentOption (context, productOption) {
     if (productOption && typeof productOption === 'object') { // TODO: this causes some kind of recurrency error
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, context.state.current, { product_option: productOption }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.state.current, { product_option: productOption }))
     }
   },
 
   setCurrentErrors (context, errors) {
     if (errors && typeof errors === 'object') {
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, context.state.current, { errors: errors }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.state.current, { errors: errors }))
     }
   },
   /**
@@ -542,7 +542,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   setCustomOptions (context, { customOptions, product }) {
     if (customOptions) { // TODO: this causes some kind of recurrency error
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.state.current, customOptions: customOptions }) }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.state.current, customOptions: customOptions }) }))
     }
   },
   /**
@@ -550,7 +550,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   setBundleOptions (context, { bundleOptions, product }) {
     if (bundleOptions) { // TODO: this causes some kind of recurrency error
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.state.current, bundleOptions: bundleOptions }) }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.state.current, bundleOptions: bundleOptions }) }))
     }
   },
   /**
@@ -567,9 +567,9 @@ const actions: ActionTree<ProductState, RootState> = {
       const productUpdated = Object.assign({}, productOriginal, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
       if (!config.products.gallery.mergeConfigurableChildren) {
-        context.commit(types.CATALOG_UPD_GALLERY, attributeImages(productVariant))
+        context.commit(types.PRODUCT_SET_GALLERY, attributeImages(productVariant))
       }
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
+      context.commit(types.PRODUCT_SET_CURRENT, productUpdated)
       return productUpdated
     } else Logger.debug('Unable to update current product.', 'product')()
   },
@@ -579,7 +579,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Object} originalProduct
    */
   setOriginal (context, originalProduct) {
-    if (originalProduct && typeof originalProduct === 'object') context.commit(types.CATALOG_SET_PRODUCT_ORIGINAL, originalProduct)
+    if (originalProduct && typeof originalProduct === 'object') context.commit(types.PRODUCT_SET_ORIGINAL, originalProduct)
     else Logger.debug('Unable to setup original product.', 'product')()
   },
   /**
@@ -648,7 +648,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Add custom option validator for product custom options
    */
   addCustomOptionValidator (context, { validationRule, validatorFunction }) {
-    context.commit(types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
+    context.commit(types.PRODUCT_SET_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
   },
 
   /**
@@ -658,14 +658,14 @@ const actions: ActionTree<ProductState, RootState> = {
   setProductGallery (context, { product }) {
     if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_children')) {
       if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
-        context.commit(types.CATALOG_UPD_GALLERY, attributeImages(context.state.current))
+        context.commit(types.PRODUCT_SET_GALLERY, attributeImages(context.state.current))
       } else {
         let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
-        context.commit(types.CATALOG_UPD_GALLERY, productGallery)
+        context.commit(types.PRODUCT_SET_GALLERY, productGallery)
       }
     } else {
       let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
-      context.commit(types.CATALOG_UPD_GALLERY, productGallery)
+      context.commit(types.PRODUCT_SET_GALLERY, productGallery)
     }
   },
 

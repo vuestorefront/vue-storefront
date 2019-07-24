@@ -47,7 +47,7 @@ export const ProductCustomOptions = {
   },
   methods: {
     ...mapMutations('product', {
-      setCustomOptionValue: types.CATALOG_UPD_CUSTOM_OPTION // map `this.add()` to `this.$store.commit('increment')`
+      setCustomOptionValue: types.PRODUCT_SET_CUSTOM_OPTION // map `this.add()` to `this.$store.commit('increment')`
     }),
     setupInputFields () {
       for (let co of this.product.custom_options) {
