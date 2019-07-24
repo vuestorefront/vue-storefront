@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   prefix: 't-',
   theme: {
@@ -5,6 +7,9 @@ module.exports = {
       center: true
     },
     extend: {
+      fontFamily: {
+        sans: [ 'Roboto', ...defaultTheme.fontFamily.sans ]
+      },
       colors: {
         'primary': '#611122',
         'sale': '#006ea1'

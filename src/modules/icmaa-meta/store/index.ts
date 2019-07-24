@@ -27,7 +27,7 @@ export const IcmaaMetaStore: Module<IcmaaMetaStoreState, any> = {
       } catch (err) {
         try {
           Logger.debug(`Unable to load meta infos for "${storeCode()}" so the default will be loaded.`, `icmaa-meta`, err)()
-          metaData = await import(/* webpackChunkName: "vsf-meta-default-[request]" */ `theme/resource/meta/head`)
+          metaData = await import(/* webpackChunkName: "vsf-meta-default" */ `theme/resource/meta/head`)
         } catch (err) {
           Logger.error(`Unable to load meta infos:`, `icmaa-meta`, err)()
           throw new Error('Unable to load meta infos')

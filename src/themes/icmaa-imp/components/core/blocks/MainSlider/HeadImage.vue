@@ -37,6 +37,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~theme/css/variables/typography";
+
 .head-image {
   display: none;
   @media (min-width: 767px) {
@@ -57,7 +59,7 @@ export default {
     .subtitle {
       font-size: 0.8rem;
       max-width: 340px;
-      font-family: 'Roboto', sans-serif;
+      font-family: map-get($font-families, default);
       line-height: 1.2rem;
     }
   }

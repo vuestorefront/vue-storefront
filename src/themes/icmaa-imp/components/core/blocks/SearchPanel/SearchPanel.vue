@@ -233,7 +233,7 @@ export default {
     border: none;
     outline: 0;
     font-size: 18px;
-    font-family: map-get($font-families, secondary);
+    font-family: map-get($font-families, default);
 
     @media #{$media-xs} {
       font-size: 16px;

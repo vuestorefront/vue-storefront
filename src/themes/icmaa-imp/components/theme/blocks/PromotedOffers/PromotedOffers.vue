@@ -98,6 +98,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import "~theme/css/variables/typography";
+
   .offer-container {
     &:last-child {
       padding-bottom: 0;
@@ -133,7 +135,7 @@ export default {
     }
 
     .subtitle {
-      font-family: 'Roboto', sans-serif;
+      font-family: map-get($font-families, default);
       @media (max-width: 767px) {
         background-color: rgba(255,255,255,0.4);
         padding: 0.5rem;

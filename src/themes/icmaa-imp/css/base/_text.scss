@@ -9,7 +9,6 @@ h2, .h2,
 h3, .h3,
 h4, .h4,
 h5, .h5 {
-  font-family: 'Playfair Display', serif;
   line-height: 1.125em;
 
   &:not(:last-child) {
@@ -54,15 +53,15 @@ h6, .h6 { font-size: 1em; font-weight: bold; }
 // DEPRECATED STYLES
 // Atomic styles for text
 
-.serif { font-family: 'Playfair Display', serif; }
-.sans-serif { font-family: 'Roboto', sans-serif; }
+.serif { @apply t-font-serif; }
+.sans-serif { @apply t-font-sans; }
 
-.uppercase { text-transform: uppercase; }
+.uppercase { @apply t-uppercase; }
 
-.align-center { text-align: center; }
-.align-right { text-align: right; }
-.align-left { text-align: left; }
-.align-justify { text-align: justify; }
+.align-center { @apply t-text-center; }
+.align-left { @apply t-text-left; }
+.align-right { @apply t-text-right; }
+.align-justify { @apply t-text-justify; }
 
 .weight-400 { font-weight: 400; }
 .weight-700 { font-weight: 700; }

@@ -1,3 +1,4 @@
+const merge = require('webpack-merge')
 const path = require('path')
 
 /**
@@ -10,8 +11,12 @@ module.exports = function (config, { isClient, isDev }) {
    * @see https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only
    */
   if (isClient) {
-    Object.assign(isDev ? config.default.resolve.alias : config.resolve.alias, {
-      'vue$': 'vue/dist/vue.esm.js'
+    config = merge(config, {
+      resolve: {
+        alias: {
+          'vue$': 'vue/dist/vue.esm.js'
+        }
+      }
     })
   }
 
