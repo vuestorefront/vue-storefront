@@ -11,6 +11,8 @@ const resolve = file => path.resolve(rootPath, file)
 
 const { renderer, templatesCache, destPath } = _prepareRenderer();
 
+// TODO: all, prepare, clear commands + relative paths as an option
+
 program
   .command('products')
   .option('-f|--from <from>', 'from - starting record', 0)
