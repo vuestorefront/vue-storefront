@@ -1,6 +1,11 @@
 module.exports = {
   base: '/',
   port: 8081,
+  markdown: {
+    toc: {
+      includeLevel: [2]
+    }
+  },
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
   themeConfig: {
     repo: 'DivanteLtd/vue-storefront',
@@ -158,6 +163,15 @@ module.exports = {
             'integrations/multistore',
           ],
         },
+        {
+          title: 'Data Resolvers',
+          collapsable: false,
+          children: [
+            'data-resolvers/introduction',
+            'data-resolvers/category-service',
+            'data-resolvers/user-service',
+          ]
+        }
       ],
     },
   },

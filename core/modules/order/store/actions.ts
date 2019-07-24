@@ -1,5 +1,6 @@
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import * as types from './mutation-types'
+import omit from 'lodash-es/omit'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { ActionTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
@@ -11,7 +12,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { sha3_224 } from 'js-sha3'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
-
+import { orderHooksExecutors } from '../hooks'
 const actions: ActionTree<OrderState, RootState> = {
   /**
    * Place order - send it to service worker queue
@@ -19,6 +20,9 @@ const actions: ActionTree<OrderState, RootState> = {
    * @param {Order} order order data to be send
    */
   async placeOrder ({ commit, getters, dispatch }, order: Order) {
+    if (config.entities.optimize && config.entities.optimizeShoppingCart) {
+      order.products = order.products.map(product => omit(product, ['configurable_options', 'configurable_children'])) as Order['products']
+    }
     // Check if order is already processed/processing
     const currentOrderHash = sha3_224(JSON.stringify(order))
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
@@ -31,9 +35,11 @@ const actions: ActionTree<OrderState, RootState> = {
     }
 
     EventBus.$emit('order-before-placed', { order: order })
+    order = orderHooksExecutors.beforePlaceOrder(order)
     if (!config.orders.directBackendSync || !isOnline()) {
       commit(types.ORDER_PLACE_ORDER, order)
       EventBus.$emit('order-after-placed', { order: order })
+      orderHooksExecutors.beforePlaceOrder({ order, task: { resultCode: 200 } })
       return {
         resultCode: 200
       }
@@ -54,13 +60,14 @@ const actions: ActionTree<OrderState, RootState> = {
           order.transmited = true
           commit(types.ORDER_PLACE_ORDER, order) // archive this order but not trasmit it second time
           commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order: order, confirmation: task.result })
+          orderHooksExecutors.afterPlaceOrder({ order, task })
           EventBus.$emit('order-after-placed', { order: order, confirmation: task.result })
 
           return task
         } else if (task.resultCode === 400) {
           commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
 
-          Logger.error('Internal validation error; Order entity is not compliant with the schema: ' + JSON.stringify(task.result), 'order')()
+          Logger.error('Internal validation error; Order entity is not compliant with the schema: ' + JSON.stringify(task.result), 'orders')()
           dispatch('notification/spawnNotification', {
             type: 'error',
             message: i18n.t('Internal validation error. Please check if all required fields are filled in. Please contact us on {email}', { email: config.mailer.contactAddress }),

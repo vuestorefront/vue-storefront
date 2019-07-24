@@ -8,7 +8,8 @@ import merge from 'lodash-es/merge'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
 import config from 'config'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { coreHooksExecutors } from '@vue-storefront/core/hooks'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 export interface LocalizedRoute {
   path?: string,
@@ -34,7 +35,9 @@ export interface StoreView {
     sourcePriceIncludesTax: boolean,
     defaultCountry: string,
     defaultRegion: null | string,
-    calculateServerSide: boolean
+    calculateServerSide: boolean,
+    userGroupId?: number,
+    useOnlyDefaultUserGroupId: boolean
   },
   i18n: {
     fullCountryName: string,
@@ -79,31 +82,34 @@ export function prepareStoreView (storeCode: string): StoreView {
     tax: config.tax,
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
-    storeCode: '',
+    storeCode: null,
     storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1
   }
+
+  if (config.storeViews.multistore === true) {
+    storeView.storeCode = storeCode || config.defaultStoreCode || ''
+  } else {
+    storeView.storeCode = storeCode || ''
+  }
+
   const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
 
-  if (storeCode) { // current store code
-    if ((config.storeViews[storeCode])) {
-      rootStore.state.user.current_storecode = storeCode
-      storeView = merge(storeView, getExtendedStoreviewConfig(config.storeViews[storeCode]))
-    }
-  } else {
-    storeView.storeCode = config.defaultStoreCode || ''
-    rootStore.state.user.current_storecode = config.defaultStoreCode || ''
+  if (storeView.storeCode && config.storeViews.multistore === true && config.storeViews[storeView.storeCode]) {
+    storeView = merge(storeView, getExtendedStoreviewConfig(config.storeViews[storeView.storeCode]))
   }
+  rootStore.state.user.current_storecode = storeView.storeCode
 
   loadLanguageAsync(storeView.i18n.defaultLocale)
 
   if (storeViewHasChanged) {
+    storeView = coreHooksExecutors.beforeStoreViewChange(storeView)
     rootStore.state.storeView = storeView
   }
   if (storeViewHasChanged || StorageManager.currentStoreCode !== storeCode) {
     initializeSyncTaskStorage()
     StorageManager.currentStoreCode = storeView.storeCode
   }
-
+  coreHooksExecutors.afterStoreViewChange(storeView)
   return storeView
 }
 

@@ -70,7 +70,7 @@ Vue Storefront uses the Elasticsearch Query Language to query for data. However,
 
 If your `vue-storefront-api` instance is running on the `localhost`, port `8080` then the correct elasticsearch endpoint is as presented here.
 
-Starting from Vue Storefront v1.6, user may set `config.elasticsearch.queryMethod` either "POST" (default) or "GET". When "GET" is set, the Elasticsearch Query object is passed to vue-storefront-api as a request parameter named "request". By doing so, Service Worker will now be able to cache the results from Elasticsearch. Service Workers cannot cache any POST requests currently.
+Starting from Vue Storefront v1.6, user may set `config.elasticsearch.queryMethod` either *POST* (default) or *GET*. When *GET* is set, the Elasticsearch Query object is passed to vue-storefront-api as a request parameter named *request*. By doing so, Service Worker will now be able to cache the results from Elasticsearch. Service Workers cannot cache any POST requests currently.
 
 :::tip Notice
 Service Worker is not caching the /api requests on development envs. (localhost) as the vue-storefront-api by default runs on a different port (8080).
@@ -246,6 +246,12 @@ Vue Storefront product objects can be quite large. They consist of `configurable
 Please take a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/cart).
 
 ```json
+    "optimizeShoppingCartOmitFields": ["configurable_children", "configurable_options", "media_gallery", "description", "category", "category_ids", "product_links", "stock", "description"],
+```
+
+You can specify which fields get stripped out of the Cart object, by changing the `optimizeShoppingCartOmitFields` array.
+
+```json
   "category": {
     "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count" ]
   },
@@ -356,6 +362,12 @@ If this option is set to `items`, Vue Storefront will calculate the cart count b
 ```
 
 These endpoints should point to the `vue-storefront-api` instance and typically, you're changing just the domain-name/base-url without touching the specific endpoint URLs, as it's related to the `vue-storefront-api` specifics.
+
+```json
+  "productsAreReconfigurable": true
+```
+
+If this option is set to `true`, you can edit current options such as color or size in the cart view. Works only for configurable products.
 
 ## Products
 
@@ -518,7 +530,7 @@ Starting with Vue Storefront v1.6, we changed the default order-placing behavior
     "syncTasks": "INDEXEDDB",
     "newsletterPreferences": "INDEXEDDB",
     "ordersHistory": "INDEXEDDB",
-    "checkoutFieldValues": "LOCALSTORAGE"
+    "checkout": "LOCALSTORAGE"
   }
 },
 ```
@@ -562,11 +574,18 @@ The `stock` section configures how the Vue Storefront behaves when the product i
 ```json
 "images": {
   "baseUrl": "https://demo.vuestorefront.io/img/",
-  "productPlaceholder": "/assets/placeholder.jpg"
+  "productPlaceholder": "/assets/placeholder.jpg",
+  "useExactUrlsNoProxy": false,
+  "useSpecificImagePaths": false,
+  "paths": {
+    "product": "/catalog/product"
+  }
 },
 ```
 
-This section is to set the default base URL of product images. This should be a `vue-storefront-api` URL, pointing to its `/api/img` handler. The Vue Storefront API is in charge of downloading the local image cache from the Magento/Pimcore backend and does the resize/crop/scale operations to optimize the images for mobile devices and the UI.
+This section is to set the default base URL of images. This should be a `vue-storefront-api` URL, pointing to its `/api/img` handler. The Vue Storefront API is in charge of downloading the local image cache from the Magento/Pimcore backend and does the resize/crop/scale operations to optimize the images for mobile devices and the UI.
+
+If you wan't to also show non-product image thumbnails you must set `useSpecificImagePaths` to `true` and remove `/catalog/product` from the end of your API `magento1.imgUrl` or `magento2.imgUrl` setting in your API's config file – e.g.: `http://magento-demo.local/media`. After that you can use the `pathType` parameter of the `getThumbnail()` mixin method to traverse other images than product ones.
 
 ## Install
 
@@ -594,11 +613,18 @@ When `demomode` is set to `true`, Vue Storefront will display the "Welcome to Vu
   "sourcePriceIncludesTax": false,
   "defaultCountry": "DE",
   "defaultRegion": "",
-  "calculateServerSide": true
+  "calculateServerSide": true,
+  "userGroupId": null
 },
 ```
 
-The taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/helpers/tax.ts). When `sourcePricesIncludesTax` is set to `true`  it means that the prices indexed in the Elasticsearch already consist of the taxes. If it's set to `false` the taxes will be calculated runtime.
+The taxes section is used by the
+[core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/helpers/tax.ts).
+When `sourcePricesIncludesTax` is set to `true` it means that the prices
+indexed in the Elasticsearch already consist of the taxes. If it's set
+to `false` the taxes will be calculated runtime. The `userGroupId`
+config does only work when you have set `sourcePriceIncludesTax` set to
+`false` and `calculateServerSide` is set to `false`.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous, unidentified user (which country is not yet set).
 

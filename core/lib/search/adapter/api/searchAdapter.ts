@@ -79,7 +79,11 @@ export class SearchAdapter {
         'Content-Type': 'application/json'
       },
       body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
-    }).then(resp => { return resp.json() })
+    })
+      .then(resp => { return resp.json() })
+      .catch(error => {
+        throw new Error('FetchError in request to ES: ' + error.toString())
+      })
   }
 
   public handleResult (resp, type, start = 0, size = 50): SearchResponse {

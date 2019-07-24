@@ -7,14 +7,15 @@ import { htmlDecode } from '@vue-storefront/core/filters'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
-import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
 import omit from 'lodash-es/omit'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { isUserGroupedTaxActive } from '@vue-storefront/core/modules/catalog/helpers/tax';
 
 export default {
   name: 'Product',
-  mixins: [Composite, AddToCompare, CompareProduct],
+  mixins: [Composite, AddToCompare, CompareProduct, ProductOption],
   data () {
     return {
       loading: false
@@ -76,7 +77,7 @@ export default {
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
     this.$bus.$off('product-after-bundleoptions')
-    if (config.usePriceTiers) {
+    if (config.usePriceTiers || isUserGroupedTaxActive()) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -87,7 +88,7 @@ export default {
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
     this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
-    if (config.usePriceTiers) {
+    if (config.usePriceTiers || isUserGroupedTaxActive()) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -127,12 +128,6 @@ export default {
       // Method renamed to 'removeFromCompare(product)', product is an Object
       CompareProduct.methods.removeFromCompare.call(this, this.product)
     },
-    isOptionAvailable (option) { // check if the option is available
-      let currentConfig = Object.assign({}, this.configuration)
-      currentConfig[option.type] = option
-      return isOptionAvailableAsync(this.$store, { product: this.product, configuration: currentConfig })
-    },
-    // TODO move this logic to helper
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0
       let priceDeltaInclTax = 0
