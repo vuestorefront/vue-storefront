@@ -53,8 +53,8 @@
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "https://api.jl.es.newfantastic.com/api/catalog",
-    "index": "vue_storefront_catalog_es",
+    "host": "https://api.jl.eu.newfantastic.com/api/catalog",
+    "index": "vue_storefront_catalog_eu",
     "min_score": 0.02,
     "csrTimeout": 5000,
     "ssrTimeout": 1000,
@@ -114,6 +114,7 @@
       "storeId": 1,
       "name": "United States Store",
       "url": "/us",
+      "productsPrefix": "socks-collection",
       "elasticsearch": {
         "host": "https://api.jl.us.newfantastic.com/api/catalog",
         "index": "vue_storefront_catalog_us"
@@ -141,6 +142,7 @@
       "storeId": 2,
       "name": "Mexican Store",
       "url": "/mx",
+      "productsPrefix": "coleccion-calcetines",
       "elasticsearch": {
         "host": "https://api.jl.mx.newfantastic.com/api/catalog",
         "index": "vue_storefront_catalog_mx"
@@ -168,6 +170,7 @@
       "storeId": 3,
       "name": "Spanish Store",
       "url": "/es",
+      "productsPrefix": "coleccion-calcetines",
       "elasticsearch": {
         "host": "https://api.jl.es.newfantastic.com/api/catalog",
         "index": "vue_storefront_catalog_es"
@@ -195,6 +198,7 @@
       "storeId": 4,
       "name": "Europe Store",
       "url": "/eu",
+      "productsPrefix": "socks-collection",
       "elasticsearch": {
         "host": "https://api.jl.eu.newfantastic.com/api/catalog",
         "index": "vue_storefront_catalog_eu"
@@ -222,6 +226,7 @@
       "storeId": 5,
       "name": "Great Britain Store",
       "url": "/uk",
+      "productsPrefix": "socks-collection",
       "elasticsearch": {
         "host": "https://api.jl.uk.newfantastic.com/api/catalog",
         "index": "vue_storefront_catalog_uk"
@@ -249,6 +254,7 @@
       "storeId": 6,
       "name": "Italian Store",
       "url": "/it",
+      "productsPrefix": "collezione-di-calzini",
       "elasticsearch": {
         "host": "https://api.jl.it-fr.newfantastic.com/api/catalog",
         "index": "vue_storefront_catalog_it"
@@ -276,6 +282,7 @@
       "storeId": 7,
       "name": "German Store",
       "url": "/de",
+      "productsPrefix": "socken-sammlung",
       "elasticsearch": {
         "host": "https://api.jl.eu.newfantastic.com/api/catalog",
         "index": "vue_storefront_catalog_de"
@@ -303,6 +310,7 @@
       "storeId": 8,
       "name": "French Store",
       "url": "/fr",
+      "productsPrefix": "collection-de-chaussettes",
       "elasticsearch": {
         "host": "https://api.jl.it-fr.newfantastic.com/api/catalog",
         "index": "vue_storefront_catalog_fr"
