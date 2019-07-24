@@ -4,16 +4,16 @@ import SfBanner from './_Banner.vue'
 // import Carousel from './Carousel'
 // import Hero from './Hero'
 // import Image from './Image'
-// import ProductCard from './ProductCard'
+import SfProductCard from './_ProductCard.vue'
 // import Section from './Section'
 
 export {
-  SfBanner
+  SfBanner,
   // BannerGrid,
   // CallToAction,
   // Carousel,
   // Hero,
   // Image,
-  // ProductCard,
+  SfProductCard
   // Section
 }

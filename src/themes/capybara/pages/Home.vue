@@ -65,10 +65,7 @@
       <SfCarousel :settings="{ gap: 0 }" class="product-carousel">
         <SfCarouselItem v-for="(product, i) in newProducts" :key="i">
           <SfProductCard
-            :title="product.name"
-            :image="product.image | imagePath"
-            :regular-price="product.priceInclTax | price"
-            :special-price="product.specialPriceInclTax"
+            :product="product"
             class="product-card"
           />
         </SfCarouselItem>
@@ -141,12 +138,11 @@ import {
   SfCallToAction,
   SfSection,
   SfCarousel,
-  SfProductCard,
   SfImage,
   SfBannerGrid
 } from '@storefrontui/vue';
 
-import { SfBanner } from 'src/themes/capybara/components/ui'
+import { SfBanner, SfProductCard } from 'src/themes/capybara/components'
 import { isServer } from '@vue-storefront/core/helpers'
 import heroData from 'src/themes/capybara/assets/homepage/hero.json'
 
