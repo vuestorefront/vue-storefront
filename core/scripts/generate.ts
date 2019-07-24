@@ -6,8 +6,8 @@ import config from 'config'
 import themeRoot from '../build/theme-path'
 import { search } from './utils/catalog-client'
 import bodybuilder from 'bodybuilder'
-const resolve = file => path.resolve(rootPath, file)
 import program from 'commander'
+const resolve = file => path.resolve(rootPath, file)
 
 const { renderer, templatesCache, destPath } = _prepareRenderer();
 
@@ -16,8 +16,7 @@ program
   .option('-f|--from <from>', 'from - starting record', 0)
   .option('-s|--size <size>', 'size - batch size', 4)
   .action(async (cmd) => {
-
-    const getProductsPage =  (from, size) => search({
+    const getProductsPage = (from, size) => search({
       size: size,
       from: from,
       sort: 'id:desc',
@@ -28,8 +27,7 @@ program
     let pageSize = parseInt(cmd.size)
 
     _renderItems(getProductsPage, pageFrom, pageSize)
-    
-})
+  })
 
 program
   .command('categories')
@@ -37,8 +35,7 @@ program
   .option('-s|--size <size>', 'size - batch size', 4)
   .option('-t|--tag <tag>', 'tag name, available tags: ' + config.server.availableCacheTags.join(', '), '*')
   .action(async (cmd) => {
-
-    const getCategoriesPage =  (from, size) => search({
+    const getCategoriesPage = (from, size) => search({
       size: size,
       from: from,
       sort: 'id:desc',
@@ -49,9 +46,7 @@ program
     let pageSize = parseInt(cmd.size)
 
     _renderItems(getCategoriesPage, pageFrom, pageSize)
-    
-})
-
+  })
 
 program
   .command('cms')
@@ -59,75 +54,73 @@ program
   .option('-s|--size <size>', 'size - batch size', 4)
   .option('-t|--tag <tag>', 'tag name, available tags: ' + config.server.availableCacheTags.join(', '), '*')
   .action(async (cmd) => {
-
-    const getCmsPage =  (from, size) => search({
+    const getCmsPage = (from, size) => search({
       size: size,
       from: from,
       sort: 'id:desc',
       type: 'cms_page',
       searchQuery: bodybuilder().build()
     }, config, config /* TODO: add support for different storeviews */).then(results => {
-        if (results.hits && results.hits.hits.length > 0) {
-            results.hits.hits.map(page => { page._source.url_path = `/i/${page._source.identifier}` })
-        }
-        return results
+      if (results.hits && results.hits.hits.length > 0) {
+        results.hits.hits.map(page => { page._source.url_path = `/i/${page._source.identifier}` })
+      }
+      return results
     })
     let pageFrom = parseInt(cmd.from)
     let pageSize = parseInt(cmd.size)
 
     _renderItems(getCmsPage, pageFrom, pageSize)
-    
-})
+  })
 
-async function _renderItems(itemsSource, pageFrom, pageSize) {
-    let recordsProcessed = 0
-    let results = null
-    do {
-        results = await itemsSource(pageFrom, pageSize)
-        console.log(`Processing records - pageSize: ${pageSize} from: ${pageFrom}`)
-        if (results.hits && results.hits.hits.length > 0) {
-            results.hits.hits.forEach(product => {
-            console.log(`Generating static page for ${product._source.url_path}`)
-            const urlToRender = product._source.url_path
-            const res = { redirect: (url) => {} }
-            const req = { url: urlToRender }
-            const context = ssr.initSSRRequestContext(null, req, res, config)
-            renderer.renderToString(context).then(output => {
-                output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, true);
-                generator.saveRenderedPage(path.join(destPath, urlToRender), output)
-            }).catch(err => {
-                console.error(`Error rendering product: ${product._source.name} - ${product._source.sku}: ${err}`)
-            })
-        });
-        recordsProcessed += results.hits.hits.length
-        } else {
-            console.log(`Done! Total number of items processed: ${recordsProcessed}`)
-        }
-        pageFrom = pageFrom + pageSize
-    } while (results.hits && results.hits.hits.length > 0)    
+async function _renderItems (itemsSource, pageFrom, pageSize) {
+  let recordsProcessed = 0
+  let results = null
+  do {
+    results = await itemsSource(pageFrom, pageSize)
+    console.log(`Processing records - pageSize: ${pageSize} from: ${pageFrom}`)
+    if (results.hits && results.hits.hits.length > 0) {
+      results.hits.hits.forEach(product => {
+        console.log(`Generating static page for ${product._source.url_path}`)
+        const urlToRender = product._source.url_path
+        const res = { redirect: (url) => {} }
+        const req = { url: urlToRender }
+        const context = ssr.initSSRRequestContext(null, req, res, config)
+        renderer.renderToString(context).then(output => {
+          output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, true);
+          generator.saveRenderedPage(path.join(destPath, urlToRender), output)
+        }).catch(err => {
+          console.error(`Error rendering product: ${product._source.name} - ${product._source.sku}: ${err}`)
+        })
+      });
+      recordsProcessed += results.hits.hits.length
+    } else {
+      console.log(`Done! Total number of items processed: ${recordsProcessed}`)
+    }
+    pageFrom = pageFrom + pageSize
+  } while (results.hits && results.hits.hits.length > 0)
 }
 
-function _prepareRenderer() {
-    const compileOptions = {
-        escape: /{{([^{][\s\S]+?[^}])}}/g,
-        interpolate: /{{{([\s\S]+?)}}}/g
-    };
-    const templatesCache = ssr.initTemplatesCache(config, compileOptions);
-    // In production: create server renderer using server bundle and index HTML
-    // template from real fs.
-    // The server bundle is generated by vue-ssr-webpack-plugin.
-    const clientManifest = require(resolve('dist/vue-ssr-client-manifest.json'));
-    const bundle = require(resolve('dist/vue-ssr-bundle.json'));
-    // src/index.template.html is processed by html-webpack-plugin to inject
-    // build assets and output as dist/index.html.
-    // TODO: Add dynamic templates loading from (config based?) list
-    const renderer = ssr.createRenderer(bundle, clientManifest);
-    const destPath = resolve(config.staticPages.destPath);
-    generator.clearAll(destPath);
-    generator.saveScripts(resolve(''), destPath);
-    generator.saveSW(resolve(''), destPath);
-    generator.saveAssets(themeRoot, destPath);
-    return { renderer, templatesCache, destPath };
+function _prepareRenderer () {
+  const compileOptions = {
+    escape: /{{([^{][\s\S]+?[^}])}}/g,
+    interpolate: /{{{([\s\S]+?)}}}/g
+  };
+  const templatesCache = ssr.initTemplatesCache(config, compileOptions);
+  // In production: create server renderer using server bundle and index HTML
+  // template from real fs.
+  // The server bundle is generated by vue-ssr-webpack-plugin.
+  const clientManifest = require(resolve('dist/vue-ssr-client-manifest.json'));
+  const bundle = require(resolve('dist/vue-ssr-bundle.json'));
+  // src/index.template.html is processed by html-webpack-plugin to inject
+  // build assets and output as dist/index.html.
+  // TODO: Add dynamic templates loading from (config based?) list
+  const renderer = ssr.createRenderer(bundle, clientManifest);
+  const destPath = resolve(config.staticPages.destPath);
+  generator.clearAll(destPath);
+  generator.saveScripts(resolve(''), destPath);
+  generator.saveSW(resolve(''), destPath);
+  generator.saveAssets(themeRoot, destPath);
+  return { renderer, templatesCache, destPath };
 }
 
 program.parse(process.argv)
