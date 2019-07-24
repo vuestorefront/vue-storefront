@@ -586,7 +586,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Set related products
    */
   related (context, { key = 'related-products', items }) {
-    context.commit(types.CATALOG_UPD_RELATED, { key, items })
+    context.commit(types.PRODUCT_SET_RELATED, { key, items })
   },
 
   /**

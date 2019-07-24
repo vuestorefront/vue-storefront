@@ -88,13 +88,13 @@ const mutations: MutationTree<ProductState> = {
     console.error('Deprecated mutation CATALOG_UPD_CUSTOM_OPTION - use PRODUCT_SET_CUSTOM_OPTION instead')
   },
   [types.CATALOG_UPD_RELATED] (state, { key, items }) {
-    console.error('Deprecated mutation CATALOG_UPD_RELATED - use PRODUCT_SET_PAGED_PRODUCTS or PRODUCT_ADD_PAGED_PRODUCTS instead')
+    console.error('Deprecated mutation CATALOG_UPD_RELATED - use PRODUCT_SET_RELATED instead')
   },
   [types.CATALOG_UPD_BUNDLE_OPTION] (state, { optionId, optionQty, optionSelections }) {
     console.error('Deprecated mutation CATALOG_UPD_BUNDLE_OPTION - use PRODUCT_SET_BUNDLE_OPTION instead')
   },
   [types.CATALOG_UPD_PRODUCTS] (state, { products, append }) {
-    console.error('Deprecated mutation CATALOG_UPD_PRODUCTS - use PRODUCT_SET_RELATED instead')
+    console.error('Deprecated mutation CATALOG_UPD_PRODUCTS - use PRODUCT_SET_PAGED_PRODUCTS or PRODUCT_ADD_PAGED_PRODUCTS instead')
   },
   [types.CATALOG_SET_PRODUCT_CURRENT] (state, product) {
     console.error('Deprecated mutation CATALOG_SET_PRODUCT_CURRENT - use PRODUCT_SET_CURRENT instead')
