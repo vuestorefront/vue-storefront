@@ -389,7 +389,9 @@
     "defaultCountry": "US",
     "defaultRegion": "",
     "sourcePriceIncludesTax": false,
-    "calculateServerSide": true
+    "calculateServerSide": true,
+    "userGroupId": null,
+    "useOnlyDefaultUserGroupId": false
   },
   "shipping": {
     "methods": [
