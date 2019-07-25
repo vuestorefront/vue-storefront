@@ -67,7 +67,7 @@
                 {{ item.row_total_incl_tax | price }}
               </td>
               <td class="fs-medium lh25">
-                <img :src="getProductThumbnail(item.sku)">
+                <product-image :image="{src: itemThumbnail[item.sku]}"/>
               </td>
             </tr>
           </tbody>
@@ -143,15 +143,18 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
 import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
+import ProductImage from 'theme/components/core/ProductImage'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { mapActions } from 'vuex'
 
 export default {
   mixins: [MyOrder],
   components: {
-    ReturnIcon
+    ReturnIcon,
+    ProductImage
   },
   data () {
     return {
@@ -162,16 +165,17 @@ export default {
     ...mapActions({
       getProduct: 'product/single'
     }),
-    getProductThumbnail (productSku) {
-      if (this.itemThumbnail[productSku] === undefined || this.itemThumbnail[productSku] === null) {
-        this.getProduct({ options: { sku: productSku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false, skipCache: true })
-          .then(product => {
-            this.itemThumbnail[productSku] = getThumbnailPath(product.image, 80, 80)
-          })
+  },
+  beforeMount () {
+    const vm = this
+    this.skipGrouped(this.order.items).forEach(async item => {
+      if (this.itemThumbnail[item.sku] === undefined || this.itemThumbnail[item.sku] === null) {
+        const product = await this.getProduct({ options: { sku: item.sku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false})
+        Vue.set(this.itemThumbnail, item.sku, getThumbnailPath(product.image, 80, 80))
       }
-      return this.itemThumbnail[productSku]
+    })
+
     }
-  }
 }
 </script>
 
