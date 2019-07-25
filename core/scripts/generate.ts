@@ -93,7 +93,7 @@ const _cmdAll = async (cmd) => {
   await _cmdPrepare(cmd)
   // render home page
   await _renderItems(async (from, to) => {
-      if (from === 0) {
+    if (from === 0) {
       return {
         hits: {
           hits: [
@@ -110,7 +110,7 @@ const _cmdAll = async (cmd) => {
                 output_file_name: 'page-not-found',
                 url_path: '/page-not-found' // to render home page
               }
-            }            
+            }
           ]
         }
       }
@@ -122,7 +122,7 @@ const _cmdAll = async (cmd) => {
   })
   await _cmdGenerateCategories(cmd)
   await _cmdGenerateProducts(cmd)
-  await _cmdGenerateCms(cmd)  
+  await _cmdGenerateCms(cmd)
 }
 program
   .command('all')

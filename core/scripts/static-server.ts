@@ -19,7 +19,7 @@ app.use('/', serve(resolve(config.staticPages.destPath), true, {
     } else {
       if (!path.endsWith('.js')) {
         res.set('Content-Type', 'text/html; charset=UTF-8')
-      }  
+      }
     }// TODO: add better mime type guessing
   }
 }))

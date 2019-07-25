@@ -29,7 +29,7 @@ function applyAdvancedOutputProcessing (context, output, templatesCache, isProd 
     }
   }
   if (relatvePaths) {
-    const relativePath = path.relative(outputFilename, destDir).replace('../','')
+    const relativePath = path.relative(outputFilename, destDir).replace('../', '')
     output = output.replace(new RegExp('/dist', 'g'), `${relativePath}/dist`)
     output = output.replace(new RegExp('/assets', 'g'), `${relativePath}/dist`)
     output = output.replace(new RegExp('href="/', 'g'), `href="${relativePath}/`)
