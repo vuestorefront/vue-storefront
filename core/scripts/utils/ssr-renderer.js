@@ -16,7 +16,7 @@ function createRenderer (bundle, clientManifest, template) {
   })
 }
 
-function applyAdvancedOutputProcessing (context, output, templatesCache, isProd = true) {
+function applyAdvancedOutputProcessing (context, output, templatesCache, isProd = true, relatvePaths = true, destDir = '', outputFilename = '') {
   const contentPrepend = (typeof context.output.prepend === 'function') ? context.output.prepend(context) : '';
   const contentAppend = (typeof context.output.append === 'function') ? context.output.append(context) : '';
   output = contentPrepend + output + contentAppend;
@@ -27,6 +27,12 @@ function applyAdvancedOutputProcessing (context, output, templatesCache, isProd 
     } else {
       throw new Error(`The given template name ${context.output.template} does not exist`);
     }
+  }
+  if (relatvePaths) {
+    const relativePath = path.relative(outputFilename, destDir).replace('../','')
+    output = output.replace(new RegExp('/dist', 'g'), `${relativePath}/dist`)
+    output = output.replace(new RegExp('/assets', 'g'), `${relativePath}/dist`)
+    output = output.replace(new RegExp('href="/', 'g'), `href="${relativePath}/`)
   }
   return output;
 }

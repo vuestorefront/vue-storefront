@@ -23,10 +23,11 @@ const _cmdGenerateProducts = async (cmd) => {
   let pageFrom = parseInt(cmd.from)
   let pageSize = parseInt(cmd.size)
 
-  await _renderItems(getProductsPage, pageFrom, pageSize)
+  await _renderItems(getProductsPage, pageFrom, pageSize, cmd.relative)
 }
 program
   .command('products')
+  .option('-r|--relative <relative>', 'use relative paths', false)
   .option('-f|--from <from>', 'from - starting record', 0)
   .option('-s|--size <size>', 'size - batch size', 20)
   .action(_cmdGenerateProducts)
@@ -42,12 +43,13 @@ const _cmdGenerateCategories = async (cmd) => {
   let pageFrom = parseInt(cmd.from)
   let pageSize = parseInt(cmd.size)
 
-  await _renderItems(getCategoriesPage, pageFrom, pageSize, (destPath, item) => {
+  await _renderItems(getCategoriesPage, pageFrom, pageSize, cmd.relative, (destPath, item) => {
     return (path.join(destPath, `${item._source.url_path}/index.html`))
   })
 }
 program
   .command('categories')
+  .option('-r|--relative <relative>', 'use relative paths', false)
   .option('-f|--from <from>', 'from - starting record', 0)
   .option('-s|--size <size>', 'size - batch size', 20)
   .action(_cmdGenerateCategories)
@@ -68,10 +70,11 @@ const _cmdGenerateCms = async (cmd) => {
   let pageFrom = parseInt(cmd.from)
   let pageSize = parseInt(cmd.size)
 
-  await _renderItems(getCmsPage, pageFrom, pageSize)
+  await _renderItems(getCmsPage, pageFrom, pageSize, cmd.relative)
 }
 program
   .command('cms')
+  .option('-r|--relative <relative>', 'use relative paths', false)
   .option('-f|--from <from>', 'from - starting record', 0)
   .option('-s|--size <size>', 'size - batch size', 20)
   .action(_cmdGenerateCms)
@@ -84,21 +87,51 @@ const _cmdPrepare = async (cmd) => {
 }
 program
   .command('prepare')
-  .action(_cmdPrepare)  
+  .action(_cmdPrepare)
 
 const _cmdAll = async (cmd) => {
   await _cmdPrepare(cmd)
+  // render home page
+  await _renderItems(async (from, to) => {
+      if (from === 0) {
+      return {
+        hits: {
+          hits: [
+            {
+              _source: {
+                name: 'Home page',
+                output_file_name: 'index.html',
+                url_path: '/' // to render home page
+              }
+            },
+            {
+              _source: {
+                name: 'Page not found',
+                output_file_name: 'page-not-found',
+                url_path: '/page-not-found' // to render home page
+              }
+            }            
+          ]
+        }
+      }
+    } else {
+      return { hits: null }
+    }
+  }, 0, 50, cmd.relative, (destPath, item) => {
+    return path.join(destPath, item._source.output_file_name)
+  })
   await _cmdGenerateCategories(cmd)
   await _cmdGenerateProducts(cmd)
   await _cmdGenerateCms(cmd)  
 }
 program
   .command('all')
+  .option('-r|--relative <relative>', 'use relative paths', false)
   .option('-f|--from <from>', 'from - starting record', 0)
-  .option('-s|--size <size>', 'size - batch size', 20)    
-  .action(_cmdAll)  
+  .option('-s|--size <size>', 'size - batch size', 20)
+  .action(_cmdAll)
 
-async function _renderItems (itemsSource, pageFrom, pageSize, urlToFileNameMapper = (destPath, item) => {
+async function _renderItems (itemsSource, pageFrom, pageSize, useRelativePaths = false, urlToFileNameMapper = (destPath, item) => {
   return (path.join(destPath, item._source.url_path))
 }) {
   let recordsProcessed = 0
@@ -108,17 +141,18 @@ async function _renderItems (itemsSource, pageFrom, pageSize, urlToFileNameMappe
     console.log(`Processing records - pageSize: ${pageSize} from: ${pageFrom}`)
     if (results.hits && results.hits.hits.length > 0) {
       results.hits.hits.forEach(async item => {
-        console.log(`Generating static page for ${item._source.url_path}`)
+        console.log(`Generating static page for ${item._source.url_path} - ${item._source.name}`)
         const urlToRender = item._source.url_path
         const res = { redirect: (url) => {} }
         const req = { url: urlToRender }
         const context = ssr.initSSRRequestContext(null, req, res, config)
         try {
           let output = await renderer.renderToString(context)
-          output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, true);
-          generator.saveRenderedPage(urlToFileNameMapper(destPath, item), output)
+          const outputFilename = urlToFileNameMapper(destPath, item)
+          output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, true, useRelativePaths, destPath, outputFilename);
+          generator.saveRenderedPage(outputFilename, output)
         } catch (err) {
-          console.error(`Error rendering product: ${item._source.name} - ${item._source.sku}: ${err}`)
+          console.error(`Error rendering item: ${item._source.name}: ${err}`)
         }
       });
       recordsProcessed += results.hits.hits.length

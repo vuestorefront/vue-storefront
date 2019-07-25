@@ -70,6 +70,7 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
+            'basics/static-generator',
             'basics/e2e',
             'basics/url'
           ],

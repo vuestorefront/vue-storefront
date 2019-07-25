@@ -14,9 +14,13 @@ const serve = (path, cache, options) => express.static(resolve(path), Object.ass
 
 app.use('/', serve(resolve(config.staticPages.destPath), true, {
   setHeaders: function (res, path, stat) {
-    if (path.indexOf('.js') < 0) {
-      res.set('Content-Type', 'text/html; charset=UTF-8')
-    }
+    if (path.endsWith('.svg')) {
+      res.set('Content-Type', 'image/svg+xml; charset=UTF-8')
+    } else {
+      if (!path.endsWith('.js')) {
+        res.set('Content-Type', 'text/html; charset=UTF-8')
+      }  
+    }// TODO: add better mime type guessing
   }
 }))
 
