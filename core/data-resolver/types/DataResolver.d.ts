@@ -41,6 +41,6 @@ declare namespace DataResolver {
     getProfile: () => Promise<Task>,
     getOrdersHistory: () => Promise<Task>,
     changePassword: (passwordData: PasswordData) => Promise<Task>,
-    invalidateToken: (refreshToken: string) => Promise<Task>
+    refreshToken: (refreshToken: string) => Promise<string>
   }
 }
