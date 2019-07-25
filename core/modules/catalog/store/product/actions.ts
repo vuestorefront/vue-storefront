@@ -598,57 +598,39 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Load the product data
    */
-  fetch (context, { parentSku, childSku = null }) {
+  async fetch ({ dispatch }, { parentSku, childSku = null }) {
     // pass both id and sku to render a product
     const productSingleOptions = {
       sku: parentSku,
       childSku: childSku
     }
-    return context.dispatch('single', { options: productSingleOptions }).then((product) => {
-      if (product.status >= 2) {
-        throw new Error(`Product query returned empty result product status = ${product.status}`)
-      }
-      if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
-        throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
-      }
+    const product = await dispatch('single', { options: productSingleOptions })
+    if (product.status >= 2) {
+      throw new Error(`Product query returned empty result product status = ${product.status}`)
+    }
+    if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
+      throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
+    }
 
-      let subloaders = []
-      if (product) {
-        const productFields = Object.keys(product).filter(fieldName => {
-          return config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
-        })
-        const attributesPromise = context.dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
+    const productFields = Object.keys(product).filter(fieldName => {
+      return config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
+    })
+    await dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
           filterValues: config.entities.product.useDynamicAttributeLoader ? productFields : null,
           only_visible: config.entities.product.useDynamicAttributeLoader === true,
           only_user_defined: true,
           includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
-        }, { root: true }) // TODO: it might be refactored to kind of: `await context.dispatch('attributes/list) - or using new Promise() .. to wait for attributes to be loaded before executing the next action. However it may decrease the performance - so for now we're just waiting with the breadcrumbs
-        if (isServer) {
-          subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
-          subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
-        } else {
-          attributesPromise.then(() => context.dispatch('setupBreadcrumbs', { product: product })) // if this is client's side request postpone breadcrumbs setup till attributes are loaded to avoid too-early breadcrumb switch #2469
-          context.dispatch('filterUnavailableVariants', { product: product }) // exec async
-        }
-        subloaders.push(attributesPromise)
+        }, { root: true })
+    await Promise.all([
+      dispatch('setupBreadcrumbs', { product: product }),
+      dispatch('filterUnavailableVariants', { product: product }),
+      dispatch('setProductGallery', { product: product })
+    ])
 
-        // subloaders.push(context.dispatch('setupVariants', { product: product })) -- moved to "product/single"
-        /* if (product.type_id === 'grouped' || product.type_id === 'bundle') { -- moved to "product/single"
-          subloaders.push(context.dispatch('setupAssociated', { product: product }).then((subloaderresults) => {
-            context.dispatch('setCurrent', product) // because setup Associated can modify the product price we need to update the current product
-          }))
-        } */
-
-        context.dispatch('setProductGallery', { product: product })
-
-        if (config.products.preventConfigurableChildrenDirectAccess) {
-          subloaders.push(context.dispatch('checkConfigurableParent', { product: product }))
-        }
-      } else { // error or redirect
-
-      }
-      return subloaders
-    })
+    if (config.products.preventConfigurableChildrenDirectAccess) {
+      await dispatch('checkConfigurableParent', { product: product })
+    }
+    return product
   },
   /**
    * Add custom option validator for product custom options
@@ -678,41 +660,13 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Load the product data - async version for asyncData()
    */
-  // TODO refactor method like this to async/await for better readability
-  fetchAsync (context, { parentSku, childSku = null, route = null }) {
-    if (context.state.productLoadStart && (Date.now() - context.state.productLoadStart) < PRODUCT_REENTER_TIMEOUT) {
-      Logger.log('Product is being fetched ...', 'product')()
-    } else {
-      context.state.productLoadPromise = new Promise((resolve, reject) => {
-        context.state.productLoadStart = Date.now()
-        Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
-        EventBus.$emit('product-before-load', { store: rootStore, route: route })
-        context.dispatch('reset').then(() => {
-          context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
-            Promise.all(subpromises).then(subresults => {
-              EventBus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
-                context.state.productLoadStart = null
-                return resolve()
-              }).catch((err) => {
-                context.state.productLoadStart = null
-                Logger.error(err, 'product')()
-                return resolve()
-              })
-            }).catch(errs => {
-              context.state.productLoadStart = null
-              reject(errs)
-            })
-          }).catch(err => {
-            context.state.productLoadStart = null
-            reject(err)
-          }).catch(err => {
-            context.state.productLoadStart = null
-            reject(err)
-          })
-        })
-      })
-    }
-    return context.state.productLoadPromise
+  async fetchAsync (context, { parentSku, childSku = null, route = null }) {
+    Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
+    EventBus.$emit('product-before-load', { store: rootStore, route: route })
+    await context.dispatch('reset')
+    const product = await context.dispatch('fetch', { parentSku: parentSku, childSku: childSku })
+    await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
+    return product
   }
 }
 
