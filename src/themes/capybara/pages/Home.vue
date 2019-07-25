@@ -132,6 +132,7 @@
     </SfBanner>
   </div>
 </template>
+
 <script>
 import {
   SfHero,
@@ -139,10 +140,11 @@ import {
   SfSection,
   SfCarousel,
   SfImage,
-  SfBannerGrid
+  SfBannerGrid,
+  SfProductCard,
+  SfBanner
 } from '@storefrontui/vue';
 
-import { SfBanner, SfProductCard } from 'src/themes/capybara/components'
 import { isServer } from '@vue-storefront/core/helpers'
 import heroData from 'src/themes/capybara/assets/homepage/hero.json'
 
