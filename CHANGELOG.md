@@ -9,16 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057)
+- Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057, #3270)
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
 - Add icons on the product tiles that allow to add to the wish list and to the list to compare products from the list of products - @Michal-Dziedzinski (#2773)
 - Get also none product image thumbnails via API - @cewald, @resubaka (#3207)
 - Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
+- Added information on the number of available products - @Michal-Dziedzinski (#2733)
 - Added possibility to change color or size of the product that is already in the cart - @andrzejewsky (#2346)
 - Added price formatting based on locales in multistore - @andrzejewsky (#3060)
 - Added support for tax calculation where the values from customer_tax_class_ids is used - @resubaka (#3245)
+- Added loading product attributes (`entities.productListWithChildren.includeFields`) on category page - @andrzejewsky (#3220)
 
 ### Fixed
 
