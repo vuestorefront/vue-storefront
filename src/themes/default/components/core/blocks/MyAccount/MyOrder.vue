@@ -67,7 +67,7 @@
                 {{ item.row_total_incl_tax | price }}
               </td>
               <td class="fs-medium lh25">
-                <product-image :image="{src: itemThumbnail[item.sku]}"/>
+                <product-image :image="{src: itemThumbnail[item.sku]}" />
               </td>
             </tr>
           </tbody>
@@ -164,7 +164,7 @@ export default {
   methods: {
     ...mapActions({
       getProduct: 'product/single'
-    }),
+    })
   },
   beforeMount () {
     const vm = this
@@ -174,8 +174,7 @@ export default {
         Vue.set(this.itemThumbnail, item.sku, getThumbnailPath(product.image, 80, 80))
       }
     })
-
-    }
+  }
 }
 </script>
 
