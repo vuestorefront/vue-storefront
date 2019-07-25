@@ -616,11 +616,11 @@ const actions: ActionTree<ProductState, RootState> = {
       return config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
     })
     await dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
-          filterValues: config.entities.product.useDynamicAttributeLoader ? productFields : null,
-          only_visible: config.entities.product.useDynamicAttributeLoader === true,
-          only_user_defined: true,
-          includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
-        }, { root: true })
+      filterValues: config.entities.product.useDynamicAttributeLoader ? productFields : null,
+      only_visible: config.entities.product.useDynamicAttributeLoader === true,
+      only_user_defined: true,
+      includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
+    }, { root: true })
     await Promise.all([
       dispatch('setupBreadcrumbs', { product: product }),
       dispatch('filterUnavailableVariants', { product: product }),

@@ -14,8 +14,8 @@
           <div class="col-xs-12 col-md-5 data">
             <breadcrumbs
               class="pt40 pb20 hidden-xs"
-              :routes="breadcrumbs.routes"
-              :active-route="breadcrumbs.name"
+              :routes="getBreadcrumbs"
+              :active-route="product.name"
             />
             <h1
               class="mb20 mt0 cl-mine-shaft product-name"
@@ -252,11 +252,9 @@ export default {
   directives: { focusClean },
   computed: {
     ...mapGetters({
-      getCurrentCategory: 'category-next/getCurrentCategory'
+      getCurrentCategory: 'category-next/getCurrentCategory',
+      getBreadcrumbs: 'category-next/getBreadcrumbs'
     }),
-    getBreadcrumbs () {
-      return this.$store.getters['category-next/getBreadcrumbs'].filter(breadcrumb => breadcrumb.name !== this.getCurrentCategory.name)
-    },
     structuredData () {
       return {
         availability: this.product.stock.is_in_stock ? 'InStock' : 'OutOfStock'
@@ -272,6 +270,13 @@ export default {
       }
       return this.product.configurable_options
     }
+  },
+  async asyncData ({ store, route }) {
+    const product = await store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
+    // setup breadcrumbs
+    const productCategories = await store.dispatch('category-next/loadProductCategories', product)
+    const category = store.getters['category-next/getCategoryFrom'](route.path)
+    await store.dispatch('category-next/loadCategoryBreadcrumbs', category)
   },
   methods: {
     showDetails (event) {

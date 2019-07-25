@@ -15,6 +15,7 @@ import { DataResolver } from 'core/data-resolver/types/DataResolver';
 import { Category } from '../../types/Category';
 import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
 import chunk from 'lodash-es/chunk'
+import Product from 'core/modules/catalog/types/Product';
 
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category } = {}) {
@@ -140,6 +141,13 @@ const actions: ActionTree<CategoryState, RootState> = {
     const categoryHierarchyIds = _prepareCategoryPathIds(category) // getters.getCategoriesHierarchyMap.find(categoryMapping => categoryMapping.includes(category.id))
     const categoryFilters = { 'id': categoryHierarchyIds }
     await dispatch('loadCategories', {filters: categoryFilters})
+  },
+  async loadProductCategories ({ dispatch }, product: Product) {
+    let categoryIds = []
+    if (!product) return categoryIds
+    if (product && product.category_ids) categoryIds = product.category_ids
+    const categoryFilters = { 'id': categoryIds }
+    return dispatch('loadCategories', {filters: categoryFilters})
   }
 }
 
