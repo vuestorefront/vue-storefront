@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
+- Added product image in order summary - @obsceniczny (#2544)
 
 ### Fixed
 - Fixed product link in wishlist and microcart - @michasik (#2987)
@@ -35,9 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added catching of errors when ES is down - @qiqqq
 
 ## [1.10.0-rc.2] - UNRELEASED
-
-### Added
-- Added product image in order summary - @obsceniczny (#2544)
 
 ### Fixed
 - Wrong meta description attribute by page overwrite - @przspa (#3091)

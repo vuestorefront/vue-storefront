@@ -401,7 +401,6 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Object} options
    */
   async single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, assignDefaultVariant = false, key = 'sku', skipCache = false }) {
-    debugger
     if (!options[key]) {
       throw Error('Please provide the search key ' + key + ' for product/single action!')
     }
