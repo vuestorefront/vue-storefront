@@ -19,8 +19,8 @@ const SfProductCardExtended = merge(SfProductCard, {
     }
   },
   mounted () {
-    this.$on('click:wishlist', function () { 
-      if(this.onWishlist) {
+    this.$on('click:wishlist', function () {
+      if (this.onWishlist) {
         this.$store.dispatch('wishlist/removeItem', this.product).then(() => {
           this.onWishlist = false
         })
