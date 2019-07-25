@@ -133,9 +133,12 @@
               v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
             >
               <base-input-number
-                :name="$t('Quantity')"
+                :name="$t(getInputName)"
                 v-model="product.qty"
-                :min="1"
+                :min="quantity ? 1 : 0"
+                :max="quantity"
+                :disabled="quantity ? false : true"
+                :value="quantity ? 1 : 0"
                 @blur="$v.$touch()"
                 :validations="[
                   {
@@ -144,11 +147,12 @@
                   }
                 ]"
               />
+              <Spinner v-if="isProductLoading" />
             </div>
             <div class="row m0">
               <add-to-cart
                 :product="product"
-                :disabled="$v.product.qty.$error && !$v.product.qty.minValue"
+                :disabled="($v.product.qty.$error && !$v.product.qty.minValue) || !quantity && isSimpleOrConfigurable && !isProductLoading"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -212,6 +216,7 @@ import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
 import ProductGallery from 'theme/components/core/ProductGallery'
+import Spinner from 'theme/components/core/Spinner'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from 'theme/components/theme/WebShare'
@@ -239,15 +244,18 @@ export default {
     SizeSelector,
     WebShare,
     BaseInputNumber,
-    SizeGuide
+    SizeGuide,
+    Spinner
   },
   mixins: [Product, VueOfflineMixin],
+  directives: { focusClean },
   data () {
     return {
-      detailsOpen: false
+      detailsOpen: false,
+      quantity: 0,
+      isProductLoading: true
     }
   },
-  directives: { focusClean },
   computed: {
     structuredData () {
       return {
@@ -263,7 +271,60 @@ export default {
         return []
       }
       return this.product.configurable_options
+    },
+    getAvailableFilters () {
+      let filtersMap = {}
+      // TODO move to helper
+      if (this.product && this.product.configurable_options) {
+        this.product.configurable_options.forEach(configurableOption => {
+          const type = configurableOption.attribute_code
+          const filterVariants = configurableOption.values.map(
+            ({ value_index, label }) => {
+              let currentVariant = this.options[type].find(
+                config => config.id === value_index
+              )
+              label =
+                label || (currentVariant ? currentVariant.label : value_index)
+              return { id: value_index, label, type }
+            }
+          )
+          const availableOptions = filterVariants.filter(option =>
+            this.isOptionAvailable(option)
+          )
+          filtersMap[type] = availableOptions
+        })
+      }
+      return filtersMap
+    },
+    getSelectedFilters () {
+      // TODO move to helper when refactoring product page
+      let selectedFilters = {}
+      if (this.configuration && this.product) {
+        Object.keys(this.configuration).map(filterType => {
+          const filter = this.configuration[filterType]
+          selectedFilters[filterType] = {
+            id: filter.id,
+            label: filter.label,
+            type: filterType
+          }
+        })
+      }
+      return selectedFilters
+    },
+    isSimpleOrConfigurable () {
+      if (
+        this.product.type_id === 'simple' ||
+        this.product.type_id === 'configurable'
+      ) { return true }
+      return false
+    },
+    getInputName () {
+      if (this.isSimpleOrConfigurable) { return `Quantity (${this.quantity} available)` }
+      return `Quantity`
     }
+  },
+  created () {
+    this.getQuantity()
   },
   methods: {
     showDetails (event) {
@@ -293,9 +354,22 @@ export default {
         'filter-changed-product',
         Object.assign({ attribute_code: variant.type }, variant)
       )
+      this.getQuantity()
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
+    },
+    getQuantity () {
+      this.isProductLoading = true
+      this.$store
+        .dispatch('stock/check', {
+          product: this.product,
+          qty: this.product.qte
+        })
+        .then(res => {
+          this.isProductLoading = false
+          this.quantity = res.qty
+        })
     }
   },
   validations: {
