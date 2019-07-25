@@ -169,7 +169,7 @@ export default {
   beforeMount () {
     this.skipGrouped(this.order.items).forEach(async item => {
       if (this.itemThumbnail[item.sku] === undefined || this.itemThumbnail[item.sku] === null) {
-        const product = await this.getProduct({ options: { sku: item.sku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false})
+        const product = await this.getProduct({ options: { sku: item.sku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false })
         Vue.set(this.itemThumbnail, item.sku, getThumbnailPath(product.image, 80, 80))
       }
     })
