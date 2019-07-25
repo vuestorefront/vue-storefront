@@ -167,7 +167,6 @@ export default {
     })
   },
   beforeMount () {
-    const vm = this
     this.skipGrouped(this.order.items).forEach(async item => {
       if (this.itemThumbnail[item.sku] === undefined || this.itemThumbnail[item.sku] === null) {
         const product = await this.getProduct({ options: { sku: item.sku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false})
