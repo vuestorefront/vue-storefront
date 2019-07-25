@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added price formatting based on locales in multistore - @andrzejewsky (#3060)
 - Added support for tax calculation where the values from customer_tax_class_ids is used - @resubaka (#3245)
 - Added loading product attributes (`entities.productListWithChildren.includeFields`) on category page - @andrzejewsky (#3220)
+- Added config for the appName - @cnviradiya
 
 ### Fixed
 
@@ -54,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
 - New modules API and rewrite - @filrak, @JCown (#3144)
 - Refactored the vuex user module - @andrzejewsky (#3095)
+- Add translation for the appName - @cnviradiya
 
 ## [1.10.0-rc.2] - UNRELEASED
 

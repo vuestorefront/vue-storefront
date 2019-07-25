@@ -43,7 +43,7 @@ import config from 'config'
 export default {
   data () {
     return {
-      appName: config.appName
+      appName: config.appName ? config.appName : 'Vuestore'
     }
   },
   components: {
