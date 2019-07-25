@@ -1,5 +1,5 @@
 import moduleRoutes from './router'
-import { StorefrontModule } from '@vue-storefront/module';
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
 const ampRendererStore = {
   namespaced: true,

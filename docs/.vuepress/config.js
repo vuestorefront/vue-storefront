@@ -164,6 +164,15 @@ module.exports = {
             'integrations/multistore',
           ],
         },
+        {
+          title: 'Data Resolvers',
+          collapsable: false,
+          children: [
+            'data-resolvers/introduction',
+            'data-resolvers/category-service',
+            'data-resolvers/user-service',
+          ]
+        }
       ],
     },
   },

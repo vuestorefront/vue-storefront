@@ -138,6 +138,7 @@ You should add all the multistore codes to the `mapStoreUrlsFor` as this propert
   "de": {
     "storeCode": "de",
 ```
+This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "disabled": true,
@@ -163,12 +164,14 @@ This is the store name as displayed in the `Language/Switcher.vue`.
 
 This URL is used only in the `Switcher` component. Typically it equals just to `/<store_code>`. Sometimes you may like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. Just take a look at how [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) generates the list of the stores.
 It accepts not only path, but also domains as well.
+This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "appendStoreCode": true,
 ```
 
-By default store codes are appended at the end of every url. If you want to use domain only as store url, you can set it to `false`.
+In default configuration store codes are appended at the end of every url. If you want to use domain only as store url, you can set it to `false`.
+This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "elasticsearch": {
@@ -215,6 +218,7 @@ The internationalization settings are used by the translation engine (`defautlLo
 ```
 
 You can inherit settings from other storeview of your choice. Result config will be deep merged with chosen storeview by storecode set in `extend` property prioritizing current storeview values.
+Keep in mind that `url`, `storeCode` and `appendStoreCode` attributes cannot be inherited from oter storeviews.
 
 ## Entities
 
@@ -613,11 +617,18 @@ When `demomode` is set to `true`, Vue Storefront will display the "Welcome to Vu
   "sourcePriceIncludesTax": false,
   "defaultCountry": "DE",
   "defaultRegion": "",
-  "calculateServerSide": true
+  "calculateServerSide": true,
+  "userGroupId": null
 },
 ```
 
-The taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/helpers/tax.ts). When `sourcePricesIncludesTax` is set to `true`  it means that the prices indexed in the Elasticsearch already consist of the taxes. If it's set to `false` the taxes will be calculated runtime.
+The taxes section is used by the
+[core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/helpers/tax.ts).
+When `sourcePricesIncludesTax` is set to `true` it means that the prices
+indexed in the Elasticsearch already consist of the taxes. If it's set
+to `false` the taxes will be calculated runtime. The `userGroupId`
+config does only work when you have set `sourcePriceIncludesTax` set to
+`false` and `calculateServerSide` is set to `false`.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous, unidentified user (which country is not yet set).
 

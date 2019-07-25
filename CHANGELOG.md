@@ -9,15 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057)
+- Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057, #3270)
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
 - Add icons on the product tiles that allow to add to the wish list and to the list to compare products from the list of products - @Michal-Dziedzinski (#2773)
 - Get also none product image thumbnails via API - @cewald, @resubaka (#3207)
 - Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
+- Added information on the number of available products - @Michal-Dziedzinski (#2733)
 - Added possibility to change color or size of the product that is already in the cart - @andrzejewsky (#2346)
 - Experimental static files generator - @pkarw (#3246)
+- Added price formatting based on locales in multistore - @andrzejewsky (#3060)
+- Added support for tax calculation where the values from customer_tax_class_ids is used - @resubaka (#3245)
+- Added loading product attributes (`entities.productListWithChildren.includeFields`) on category page - @andrzejewsky (#3220)
 
 ### Fixed
 
@@ -34,7 +38,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed aspect ratio in ProductImage component - @przspa (#3187)
 - Fixed AMP Product page - @przspa (#3227)
 - Fixed when store has updated, but plugin didn't called - @serzilo (#3238)
+- Fixed first call of prepareStoreView when SSR - @resubaka (#3244)
 - Add ./packages as volume to docker-compose.yml - @cewald (#3251)
+- Fixed mail sending and add error logger - @Michal-Dziedzinski (#3265)
 
 ### Changed / Improved
 
@@ -48,6 +54,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added catching of errors when ES is down - @qiqqq
 - Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
 - New modules API and rewrite - @filrak, @JCown (#3144)
+- Refactored the vuex user module - @andrzejewsky (#3095)
+
 ## [1.10.0-rc.2] - UNRELEASED
 
 ### Fixed
@@ -57,6 +65,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
 - User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
 - Fixed undefined id of color swatches issue for simple product - @vishal-7037 (#3239)
+- Date filter ignoring format param and locales - @grimasod, @patzick (#3102)
+- Problem with placing an order if shipping method is different than default one - @patzick (#3203)
+- Fixed product video embed on PDP - @juho-jaakkola (#3263)
 
 ### Changed
 
@@ -65,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lack of possibility to mock src modules and theme components - @lukeromanowicz (#3185)
 - Outdated signature of Registration hooks for google-tag-manager - @vishal-7037 (#3208)
 - Added serveral missing german translations and fixed german language file structure - @unherz (#3202)
+- Refactored the informal way of adressing to formal in german translation files - @unherz (#3213)
 
 ## [1.10.0-rc.1] - 2019.06.19
 

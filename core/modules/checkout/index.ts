@@ -1,9 +1,9 @@
-import { StorefrontModule } from '@vue-storefront/module'
+import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { checkoutModule } from './store/checkout'
 import { paymentModule } from './store/payment'
 import { shippingModule } from './store/shipping'
 import * as types from './store/checkout/mutation-types'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 export const CheckoutModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
   StorageManager.init('checkout')

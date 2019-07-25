@@ -32,7 +32,8 @@ module.exports = {
     '^.+\\.(css|less)$': '<rootDir>/test/unit/cssStub.js'
   },
   transformIgnorePatterns: [
-    '<rootDir>/node_modules/(?!lodash)'
+    '<rootDir>/node_modules/(?!lodash)',
+    '<rootDir>/node_modules/(?!lodash-es/.*)'
   ],
   setupFiles: [
     '<rootDir>/test/unit/setupTestEnvironment.js'
