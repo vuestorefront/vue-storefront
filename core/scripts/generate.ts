@@ -12,87 +12,114 @@ const resolve = file => path.resolve(rootPath, file)
 const { renderer, templatesCache, destPath } = _prepareRenderer();
 
 // TODO: all, prepare, clear commands + relative paths as an option
+const _cmdGenerateProducts = async (cmd) => {
+  const getProductsPage = (from, size) => search({
+    size: size,
+    from: from,
+    sort: 'id:desc',
+    type: 'product',
+    searchQuery: bodybuilder().filter('terms', 'visibility', [2, 3, 4]).andFilter('term', 'status', 1).build()
+  }, config, config /* TODO: add support for different storeviews */)
+  let pageFrom = parseInt(cmd.from)
+  let pageSize = parseInt(cmd.size)
 
+  await _renderItems(getProductsPage, pageFrom, pageSize)
+}
 program
   .command('products')
   .option('-f|--from <from>', 'from - starting record', 0)
-  .option('-s|--size <size>', 'size - batch size', 4)
-  .action(async (cmd) => {
-    const getProductsPage = (from, size) => search({
-      size: size,
-      from: from,
-      sort: 'id:desc',
-      type: 'product',
-      searchQuery: bodybuilder().filter('terms', 'visibility', [2, 3, 4]).andFilter('term', 'status', 1).build()
-    }, config, config /* TODO: add support for different storeviews */)
-    let pageFrom = parseInt(cmd.from)
-    let pageSize = parseInt(cmd.size)
+  .option('-s|--size <size>', 'size - batch size', 20)
+  .action(_cmdGenerateProducts)
 
-    _renderItems(getProductsPage, pageFrom, pageSize)
+const _cmdGenerateCategories = async (cmd) => {
+  const getCategoriesPage = (from, size) => search({
+    size: size,
+    from: from,
+    sort: 'id:desc',
+    type: 'category',
+    searchQuery: bodybuilder().filter('term', 'is_active', true).build()
+  }, config, config /* TODO: add support for different storeviews */)
+  let pageFrom = parseInt(cmd.from)
+  let pageSize = parseInt(cmd.size)
+
+  await _renderItems(getCategoriesPage, pageFrom, pageSize, (destPath, item) => {
+    return (path.join(destPath, `${item._source.url_path}/index.html`))
   })
-
+}
 program
   .command('categories')
   .option('-f|--from <from>', 'from - starting record', 0)
-  .option('-s|--size <size>', 'size - batch size', 4)
-  .option('-t|--tag <tag>', 'tag name, available tags: ' + config.server.availableCacheTags.join(', '), '*')
-  .action(async (cmd) => {
-    const getCategoriesPage = (from, size) => search({
-      size: size,
-      from: from,
-      sort: 'id:desc',
-      type: 'category',
-      searchQuery: bodybuilder().filter('term', 'is_active', true).build()
-    }, config, config /* TODO: add support for different storeviews */)
-    let pageFrom = parseInt(cmd.from)
-    let pageSize = parseInt(cmd.size)
+  .option('-s|--size <size>', 'size - batch size', 20)
+  .action(_cmdGenerateCategories)
 
-    _renderItems(getCategoriesPage, pageFrom, pageSize)
+const _cmdGenerateCms = async (cmd) => {
+  const getCmsPage = (from, size) => search({
+    size: size,
+    from: from,
+    sort: 'id:desc',
+    type: 'cms_page',
+    searchQuery: bodybuilder().build()
+  }, config, config /* TODO: add support for different storeviews */).then(results => {
+    if (results.hits && results.hits.hits.length > 0) {
+      results.hits.hits.map(page => { page._source.url_path = `/i/${page._source.identifier}` })
+    }
+    return results
   })
+  let pageFrom = parseInt(cmd.from)
+  let pageSize = parseInt(cmd.size)
 
+  await _renderItems(getCmsPage, pageFrom, pageSize)
+}
 program
   .command('cms')
   .option('-f|--from <from>', 'from - starting record', 0)
-  .option('-s|--size <size>', 'size - batch size', 4)
-  .option('-t|--tag <tag>', 'tag name, available tags: ' + config.server.availableCacheTags.join(', '), '*')
-  .action(async (cmd) => {
-    const getCmsPage = (from, size) => search({
-      size: size,
-      from: from,
-      sort: 'id:desc',
-      type: 'cms_page',
-      searchQuery: bodybuilder().build()
-    }, config, config /* TODO: add support for different storeviews */).then(results => {
-      if (results.hits && results.hits.hits.length > 0) {
-        results.hits.hits.map(page => { page._source.url_path = `/i/${page._source.identifier}` })
-      }
-      return results
-    })
-    let pageFrom = parseInt(cmd.from)
-    let pageSize = parseInt(cmd.size)
+  .option('-s|--size <size>', 'size - batch size', 20)
+  .action(_cmdGenerateCms)
 
-    _renderItems(getCmsPage, pageFrom, pageSize)
-  })
+const _cmdPrepare = async (cmd) => {
+  await generator.clearAll(destPath);
+  await generator.saveScripts(resolve(''), destPath);
+  await generator.saveSW(resolve(''), destPath);
+  await generator.saveAssets(themeRoot, destPath);
+}
+program
+  .command('prepare')
+  .action(_cmdPrepare)  
 
-async function _renderItems (itemsSource, pageFrom, pageSize) {
+const _cmdAll = async (cmd) => {
+  await _cmdPrepare(cmd)
+  await _cmdGenerateCategories(cmd)
+  await _cmdGenerateProducts(cmd)
+  await _cmdGenerateCms(cmd)  
+}
+program
+  .command('all')
+  .option('-f|--from <from>', 'from - starting record', 0)
+  .option('-s|--size <size>', 'size - batch size', 20)    
+  .action(_cmdAll)  
+
+async function _renderItems (itemsSource, pageFrom, pageSize, urlToFileNameMapper = (destPath, item) => {
+  return (path.join(destPath, item._source.url_path))
+}) {
   let recordsProcessed = 0
   let results = null
   do {
     results = await itemsSource(pageFrom, pageSize)
     console.log(`Processing records - pageSize: ${pageSize} from: ${pageFrom}`)
     if (results.hits && results.hits.hits.length > 0) {
-      results.hits.hits.forEach(product => {
-        console.log(`Generating static page for ${product._source.url_path}`)
-        const urlToRender = product._source.url_path
+      results.hits.hits.forEach(async item => {
+        console.log(`Generating static page for ${item._source.url_path}`)
+        const urlToRender = item._source.url_path
         const res = { redirect: (url) => {} }
         const req = { url: urlToRender }
         const context = ssr.initSSRRequestContext(null, req, res, config)
-        renderer.renderToString(context).then(output => {
+        try {
+          let output = await renderer.renderToString(context)
           output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, true);
-          generator.saveRenderedPage(path.join(destPath, urlToRender), output)
-        }).catch(err => {
-          console.error(`Error rendering product: ${product._source.name} - ${product._source.sku}: ${err}`)
-        })
+          generator.saveRenderedPage(urlToFileNameMapper(destPath, item), output)
+        } catch (err) {
+          console.error(`Error rendering product: ${item._source.name} - ${item._source.sku}: ${err}`)
+        }
       });
       recordsProcessed += results.hits.hits.length
     } else {
@@ -118,10 +145,6 @@ function _prepareRenderer () {
   // TODO: Add dynamic templates loading from (config based?) list
   const renderer = ssr.createRenderer(bundle, clientManifest);
   const destPath = resolve(config.staticPages.destPath);
-  generator.clearAll(destPath);
-  generator.saveScripts(resolve(''), destPath);
-  generator.saveSW(resolve(''), destPath);
-  generator.saveAssets(themeRoot, destPath);
   return { renderer, templatesCache, destPath };
 }
 
