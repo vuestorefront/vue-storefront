@@ -2,7 +2,7 @@
   <modal name="modal-onboard" class="modal-onboard">
     <div class="content relative flex middle-xs">
       <i slot="close" class="modal-close material-icons p15 cl-bg-tertiary" @click="close">close</i>
-      <img src="/assets/logo.svg" alt="Vuestore" class="logo">
+      <img src="/assets/logo.svg" :alt="$t(appName)" class="logo">
 
       <div class="copy align-center cl-secondary">
         <p class="h1">
@@ -38,13 +38,23 @@
 </template>
 <script>
 import Modal from 'theme/components/core/Modal.vue'
+import config from 'config'
+
 export default {
+  data () {
+    return {
+      appName: config.appName
+    }
+  },
   components: {
     Modal
   },
   methods: {
     close () {
       this.$bus.$emit('modal-hide', 'modal-onboard')
+    },
+    appName () {
+      return this.$store.state.config.appName
     }
   }
 }

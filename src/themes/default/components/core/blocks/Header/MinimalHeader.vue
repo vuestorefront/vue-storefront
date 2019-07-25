@@ -23,7 +23,7 @@
           <div class="col-sm-4 col-xs-4 center-xs">
             <div>
               <a class="no-underline inline-flex" href="/" data-testid="logo">
-                <img width="auto" height="41px" src="/assets/logo.svg" alt="Vuestore logo">
+                <img width="auto" height="41px" src="/assets/logo.svg" :alt="$t(appName)">
               </a>
             </div>
           </div>
@@ -40,8 +40,14 @@
 
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
+import config from 'config'
 
 export default {
+  data () {
+    return {
+      appName: config.appName
+    }
+  },
   mixins: [CurrentPage]
 }
 </script>

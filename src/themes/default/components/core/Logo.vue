@@ -4,13 +4,20 @@
       :width="width"
       :height="height"
       src="/assets/logo.svg"
-      alt="Vuestore logo"
+      :alt="$t(appName)"
     >
   </router-link>
 </template>
 
 <script>
+import config from 'config'
+
 export default {
+  data () {
+    return {
+      appName: config.appName
+    }
+  },
   props: {
     width: {
       type: [String, Number],

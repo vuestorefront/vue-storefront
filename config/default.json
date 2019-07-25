@@ -91,6 +91,7 @@
     "maxNetworkTaskAttempts": 1,
     "maxCartBypassAttempts": 1
   },
+  "appName": "Vuestore",
   "defaultStoreCode": "",
   "storeViews": {
     "multistore": false,
