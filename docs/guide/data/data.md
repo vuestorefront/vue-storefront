@@ -7,7 +7,7 @@ Vue storefront uses two primary data sources:
 
 ## Local data store
 
-You can access localForage repositories through the `StorageManager` (`@vue-storefront/core/store/lib/storage-manager`) object anywhere in the code, BUT all data-related operations SHOULD be placed in Vuex stores.
+You can access localForage repositories through the `StorageManager` (`@vue-storefront/core/lib/storage-manager`) object anywhere in the code, BUT all data-related operations SHOULD be placed in Vuex stores.
 
 Details on localForage API can be found [here](http://localforage.github.io/localForage/)
 

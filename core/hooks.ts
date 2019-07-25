@@ -1,4 +1,4 @@
-import { createListenerHook, createMutatorHook } from '@vue-storefront/module/hooks'
+import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
 
 const { hook: beforeStoreViewChangeHook, executor: beforeStoreViewChangeExecutor }: {
   hook: (storeViewMutator: (storeView: any) => any) => void,
