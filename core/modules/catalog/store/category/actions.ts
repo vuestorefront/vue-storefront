@@ -17,7 +17,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -194,7 +194,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         if (skipCache || isServer) {
           fetchCat({ key, value })
         } else {
-          const catCollection = StorageManager.get('categoriesCollection')
+          const catCollection = StorageManager.get('categories')
           // Check if category does not exist in the store AND we haven't recursively reached Default category (id=1)
           catCollection.getItem(entityKeyName(key, value), setcat)
         }
