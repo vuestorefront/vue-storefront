@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057)
+- Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057, #3270)
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)

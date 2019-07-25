@@ -74,16 +74,13 @@ const actions: ActionTree<UserState, RootState> = {
   async refresh ({ commit }) {
     const usersCollection = StorageManager.get('user')
     const refreshToken = await usersCollection.getItem('current-refresh-token')
-    const resp = await UserService.invalidateToken(refreshToken)
+    const newToken = await UserService.refreshToken(refreshToken)
 
-    if (resp.code === 200) {
-      commit(types.USER_TOKEN_CHANGED, {
-        newToken: resp.result,
-        meta: resp.meta ? resp.meta : null
-      }) // TODO: handle the "Refresh-token" header
+    if (newToken) {
+      commit(types.USER_TOKEN_CHANGED, { newToken })
     }
 
-    return resp
+    return newToken
   },
   /**
    * Update user groupToken and groupId in state
