@@ -2,12 +2,19 @@
   <div id="category">
     <header class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
+        <breadcrumbs :routes="getBreadcrumbs" :active-route="getCurrentCategory.name" />
         <div class="row middle-sm">
-          <h1 class="col-sm-9 category-title mb10" v-html="title" />
-          <div class="sorting col-sm-3 align-right">
-            <label>{{ $t('Sort by') }}:</label>
-            <sort-by :has-label="true" />
+          <h1 class="col-sm-8 category-title mb10" v-html="title" />
+           <div class="sorting col-sm-2 align-right mt50">
+            <label class="mr10">{{ $t('Columns') }}:</label>
+            <columns @change-column="columnChange" />
+          </div>
+          <div class="sorting col-sm-2 align-right mt50">
+            <sort-by
+              :has-label="true"
+              @change="changeFilter"
+              :value="getCurrentSearchQuery.sort"
+            />
           </div>
         </div>
         <category-extras-header />
@@ -21,7 +28,10 @@
             {{ $t('Filters') }}
           </button>
           <div class="mobile-sorting col-xs-6 mt25">
-            <sort-by />
+            <sort-by
+              @change="changeFilter"
+              :value="getCurrentSearchQuery.sort"
+            />
           </div>
         </div>
       </div>
@@ -29,13 +39,13 @@
     <div class="container pb60">
       <div class="row m0 pt15">
         <div class="col-md-3 start-xs category-filters">
-          <sidebar :filters="filters.available" />
+          <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
         </div>
         <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
           <div class="close-container absolute w-100">
             <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
           </div>
-          <sidebar class="mobile-filters-body" :filters="filters.available" />
+          <sidebar class="mobile-filters-body" :filters="getAvailableFilters" @changeFilter="changeFilter" />
           <div class="relative pb20 pt15">
             <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
           </div>
@@ -48,7 +58,7 @@
         </div>
         <div class="col-md-9 px10 border-box products-list">
           <p class="col-xs-12 end-md m0 pb20 cl-secondary">
-            {{ productsTotal }} {{ $t('items') }}
+            {{ getCategoryProductsTotal }} {{ $t('items') }}
           </p>
           <div v-if="isCategoryEmpty" class="hidden-xs">
             <h4 data-testid="noProductsInfo">
@@ -56,7 +66,7 @@
             </h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
-          <product-listing columns="3" :products="products" />
+          <product-listing :columns="defaultColumn" :products="getCategoryProducts" />
         </div>
       </div>
     </div>
@@ -69,12 +79,33 @@ import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
+import { isServer } from '@vue-storefront/core/helpers'
+import config from 'config'
+import Columns from '../components/core/Columns.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { Logger } from '@vue-storefront/core/lib/logger'
-// import builder from 'bodybuilder'
+import { mapGetters } from 'vuex'
+import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 
 import CategoryExtrasHeader from 'theme/components/core/blocks/ICMAA/CategoryExtras/Header.vue'
 import CategoryExtrasMixin from 'src/modules/icmaa-cms/mixins/categoryExtras'
+
+const composeInitialPageState = async (store, route) => {
+  try {
+    await store.dispatch('attribute/list', { // load filter attributes for this specific category
+      filterValues: config.products.defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
+      includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
+    })
+    const searchPath = route.path.substring(1) // TODO change in mage2vuestorefront to url_paths starts with / sign
+    const categoryFilters = { 'url_path': searchPath }
+    // const categoryFilters = { 'slug': route.params.slug } // If you have disabled config.products.useMagentoUrlKeys in your project then use this way
+    const currentCategory = await store.dispatch('category-next/loadCategory', {filters: categoryFilters})
+    await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
+    await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
+  } catch (e) {
+    console.error('Problem with setting Category initial data!', e)
+  }
+}
 
 export default {
   components: {
@@ -83,24 +114,75 @@ export default {
     Breadcrumbs,
     Sidebar,
     SortBy,
-    CategoryExtrasHeader
+    CategoryExtrasHeader,
+    Columns
   },
+  mixins: [onBottomScroll, Category, CategoryExtrasMixin],
   data () {
     return {
-      mobileFilters: false
+      mobileFilters: false,
+      defaultColumn: 3,
+      loadingProducts: false
     }
   },
-  async asyncData ({ store, route }) {
+  computed: {
+    ...mapGetters({
+      getCurrentSearchQuery: 'category-next/getCurrentSearchQuery',
+      getCategoryProducts: 'category-next/getCategoryProducts',
+      getCurrentCategory: 'category-next/getCurrentCategory',
+      getCategoryProductsTotal: 'category-next/getCategoryProductsTotal',
+      getAvailableFilters: 'category-next/getAvailableFilters'
+    }),
+    isCategoryEmpty () {
+      return this.getCategoryProductsTotal === 0
+    },
+    getBreadcrumbs () {
+      return this.$store.getters['category-next/getBreadcrumbs'].filter(breadcrumb => breadcrumb.name !== this.getCurrentCategory.name)
+    }
+  },
+  async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
+    await composeInitialPageState(store, route)
     await store.dispatch('category/mergeSearchOptions', {
       sort: store.state.config.products.defaultSortBy.attribute + (store.state.config.products.defaultSortBy.order ? ':' + store.state.config.products.defaultSortBy.order : '')
     })
   },
+  async beforeRouteEnter (to, from, next) {
+    if (isServer) next() // SSR no need to invoke SW caching here
+    else if (from.name) { // SSR but client side invocation, we need to cache products
+      next(async vm => {
+        await vm.$store.dispatch('category-next/cacheProducts', { route: to })
+      })
+    } else { // Pure CSR, with no initial category state
+      next(async vm => {
+        await composeInitialPageState(vm.$store, to)
+        await vm.$store.dispatch('category-next/cacheProducts', { route: to })
+      })
+    }
+  },
+
   methods: {
     openFilters () {
       this.mobileFilters = true
     },
     closeFilters () {
       this.mobileFilters = false
+    },
+    async changeFilter (filterVariant) {
+      this.$store.dispatch('category-next/switchSearchFilter', filterVariant)
+    },
+    columnChange (column) {
+      this.defaultColumn = column
+    },
+    async onBottomScroll () {
+      if (this.loadingProducts) return
+      this.loadingProducts = true
+      try {
+        await this.$store.dispatch('category-next/loadMoreCategoryProducts')
+      } catch (e) {
+        console.error('Problem with fetching more products', e)
+      } finally {
+        this.loadingProducts = false
+      }
     },
     notify () {
       this.$store.dispatch('notification/spawnNotification', {
@@ -109,8 +191,7 @@ export default {
         action1: { label: this.$t('OK') }
       })
     }
-  },
-  mixins: [Category, CategoryExtrasMixin]
+  }
 }
 </script>
 
@@ -219,4 +300,9 @@ export default {
   .close {
     margin-left: auto;
   }
+</style>
+<style lang="scss">
+.product-image {
+  max-height: unset !important;
+}
 </style>

@@ -171,6 +171,16 @@ export default {
     &:last-of-type {
       margin-bottom: 0;
     }
+
+    & > *{
+      opacity: .9;
+      will-change: opacity;
+      transition: .3s opacity $motion-main;
+
+      &:hover{
+        opacity: 1;
+      }
+    }
   }
 
   &__gallery{

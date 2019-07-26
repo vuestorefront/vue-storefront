@@ -11,6 +11,11 @@
         >
           {{ currentImage.subtitle }}
         </p>
+        <!-- <div class="align-center inline-flex">
+          <button-outline :link="currentImage.link" color="light">
+            {{ currentImage.button_text }}
+          </button-outline>
+        </div> -->
       </div>
     </div>
   </section>

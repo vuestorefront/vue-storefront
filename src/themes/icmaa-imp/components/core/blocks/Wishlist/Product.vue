@@ -64,6 +64,12 @@ export default {
 @import '~theme/css/animations/transitions';
 .blend {
   flex: 0 0 121px;
+  opacity: .8;
+  will-change: opacity;
+  transition: .3s opacity $motion-main;
+  &:hover{
+     opacity: 1;
+   }
 }
 .col-xs {
   flex-direction: column;

@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     setCurrentPage () {
-      this.isProductPage = this.productPageRoutes.includes(this.$route.name)
+      this.isProductPage = !!this.$route.params.parentSku
       this.isCheckoutPage = this.$route.name === 'checkout'
     },
     // Check if history is empty

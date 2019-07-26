@@ -184,7 +184,7 @@
                 :value="method.method_code"
                 name="shipping-method"
                 v-model="shipping.shippingMethod"
-                @change="$v.shipping.shippingMethod.$touch(); changeShippingMethod();"
+                @change.native="$v.shipping.shippingMethod.$touch(); changeShippingMethod();"
               >
               <span class="checkmark" />
             </label>
@@ -203,7 +203,7 @@
             <button-full
               data-testid="shippingSubmit"
               @click.native="sendDataToCheckout"
-              :disabled="$v.shipping.$invalid"
+              :disabled="$v.shipping.$invalid || shippingMethods.length <= 0"
             >
               {{ $t('Continue to payment') }}
             </button-full>
