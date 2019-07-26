@@ -106,7 +106,7 @@ function invalidateCache (req, res) {
 
 const serve = (path, cache, options) => express.static(resolve(path), Object.assign({
   fallthrough: false,
-  setHeaders: cache ? function (res, path) {
+  setHeaders: cache && isProd ? function (res, path) {
     let mimeType = express.static.mime.lookup(path);
     let maxAge = config.expireHeaders.default;
     if (config.expireHeaders.hasOwnProperty(mimeType)) {
