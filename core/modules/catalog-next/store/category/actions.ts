@@ -76,7 +76,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       sort: searchQuery.sort,
       updateState: false // not update the product listing - this request is only for caching
     }, { root: true })
-    if (products.filterUnavailableVariants && products.configurableChildrenStockPrefetchStatic) { // prefetch the stock items
+    if (products.filterUnavailableVariants) { // prefetch the stock items
       const skus = prefetchStockItems(cachedProductsResponse, rootState.stock.cache)
 
       for (const chunkItem of chunk(skus, 15)) {

@@ -4,7 +4,8 @@ export const prefetchStockItems = (cachedProductsResponse, cache = {}) => {
   const skus = []
   let prefetchIndex = 0
   cachedProductsResponse.items.map(i => {
-    if (products.configurableChildrenStockPrefetchStaticPrefetchCount > 0) {
+    if (products.configurableChildrenStockPrefetchStatic &&
+        products.configurableChildrenStockPrefetchStaticPrefetchCount > 0) {
       if (prefetchIndex > products.configurableChildrenStockPrefetchStaticPrefetchCount) return
     }
     skus.push(i.sku) // main product sku to be checked anyway
