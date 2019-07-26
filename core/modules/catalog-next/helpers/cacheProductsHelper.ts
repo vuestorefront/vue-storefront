@@ -1,6 +1,6 @@
 import { products } from 'config'
 
-export const prefetchStockItems = (cachedProductsResponse, cache = []) => {
+export const prefetchStockItems = (cachedProductsResponse, cache = {}) => {
   const skus = []
   let prefetchIndex = 0
   cachedProductsResponse.items.map(i => {
