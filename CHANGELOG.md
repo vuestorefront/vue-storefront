@@ -40,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed first call of prepareStoreView when SSR - @resubaka (#3244)
 - Add ./packages as volume to docker-compose.yml - @cewald (#3251)
 - Fixed mail sending and add error logger - @Michal-Dziedzinski (#3265)
-- Fixed static category links in cms contents on homepage and MinimalFooter (#3292)
+- Fixed static category links in cms contents on homepage and MinimalFooter @MariaKern (#3292)
 
 ### Changed / Improved
 
