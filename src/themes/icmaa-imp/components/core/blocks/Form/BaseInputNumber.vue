@@ -5,6 +5,8 @@
       :id="getInputId"
       type="number"
       :min="min"
+      :max="max"
+      :disabled="disabled"
       class="m0 no-outline base-input-number__input brdr-cl-primary bg-cl-transparent h4"
       :focus="autofocus"
       :value="value"
@@ -23,8 +25,7 @@ export default {
     ValidationMessages
   },
   data () {
-    return {
-    }
+    return {}
   },
   props: {
     value: {
@@ -39,6 +40,14 @@ export default {
     min: {
       type: Number,
       default: 0
+    },
+    max: {
+      type: Number,
+      default: 0
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     autofocus: {
       type: Boolean,
@@ -59,32 +68,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
 
-  .base-input-number {
-    width: 100%;
-
-    &__input {
-      border-style: solid;
-      border-width: 0 0 1px 0;
-      width: 50px;
-      height: 1.4rem;
-      line-height: 1.7rem;
-      @media (min-width: 768px) {
-        height: 1.7rem;
-      }
-    }
-
-    &__label {
-      font-size: 0.8rem;
-      line-height: 1.2rem;
-      max-width: 100px;
-      @media (min-width: 768px) {
-        font-size: 1rem;
-        line-height: 1.4rem;
-      }
+.base-input-number {
+  &__input {
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    width: 50px;
+    height: 1.4rem;
+    line-height: 1.7rem;
+    @media (min-width: 768px) {
+      height: 1.7rem;
     }
   }
 
+  &__label {
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    @media (min-width: 768px) {
+      font-size: 1rem;
+      line-height: 1.4rem;
+    }
+  }
+}
 </style>

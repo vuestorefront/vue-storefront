@@ -85,7 +85,7 @@
           </div>
           <div class="prices" v-else>
             <span class="h4 serif price-regular">
-              {{ product.regular_price * product.qty | price }}
+              {{ (product.regular_price || product.price_incl_tax) * product.qty | price }}
             </span>
           </div>
         </div>
