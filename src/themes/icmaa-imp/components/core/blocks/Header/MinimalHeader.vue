@@ -38,7 +38,7 @@
 
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
-import Logo from 'theme/components/core/Logo'
+import Logo from 'theme/components/core/blocks/Header/Logo'
 
 export default {
   mixins: [CurrentPage],

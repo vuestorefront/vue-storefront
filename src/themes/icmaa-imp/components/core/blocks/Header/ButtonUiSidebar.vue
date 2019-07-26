@@ -1,0 +1,54 @@
+<template>
+  <button-icon :icon="icon" :title="title" :quantity="quantity" @click="openSidebarMenu" />
+</template>
+
+<script>
+import { mapState } from 'vuex'
+import ButtonIcon from 'theme/components/core/blocks/Header/ButtonIcon'
+
+export default {
+  components: {
+    ButtonIcon
+  },
+  props: {
+    icon: {
+      type: String,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    uiState: {
+      type: String,
+      required: true
+    },
+    uiMutation: {
+      type: String,
+      required: true
+    },
+    qtyGetter: {
+      type: [String, Boolean],
+      default: false
+    },
+    last: Boolean
+  },
+  computed: {
+    ...mapState({
+      isOpen: function (state) {
+        return state.ui[this.uiState]
+      }
+    }),
+    quantity () {
+      return this.qtyGetter
+        ? Number(this.$store.getters[this.qtyGetter])
+        : 0
+    }
+  },
+  methods: {
+    openSidebarMenu () {
+      this.$store.commit('ui/' + this.uiMutation, !this.isOpen)
+    }
+  }
+}
+</script>

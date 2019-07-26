@@ -23,3 +23,9 @@ a {
 .no-scroll {
   overflow: hidden;
 }
+
+// Special Normalize
+
+:focus {
+  outline: none !important;
+}

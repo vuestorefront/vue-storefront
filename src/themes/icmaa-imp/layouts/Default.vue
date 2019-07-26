@@ -87,7 +87,10 @@ export default {
       return this.$store.dispatch('icmaaMeta/load')
     },
     fetchMenuData () {
-      return this.$store.dispatch('icmaaCmsBlock/single', { value: 'navigation-main' })
+      return Promise.all([
+        this.$store.dispatch('icmaaCmsBlock/single', { value: 'navigation-main' }),
+        this.$store.dispatch('icmaaCmsBlock/single', { value: 'navigation-meta' })
+      ])
     }
   },
   serverPrefetch () {

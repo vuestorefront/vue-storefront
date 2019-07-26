@@ -12,12 +12,38 @@ module.exports = {
       },
       colors: {
         'primary': '#611122',
-        'sale': '#006ea1'
+        'sale': '#006EA1',
+        'alt-1': '#3D9FA5',
+        'alt-2': '#CE8F4B',
+        'base-darkest': '#000000',
+        'base-dark': '#1E1E1E',
+        'base': '#3E3E3E',
+        'base-light': '#999999',
+        'base-lighter': '#C7C7C7',
+        'base-lightest': '#EDEDED'
+      },
+      flex: {
+        'fix': '0 0 auto',
+        'expand': '1 0 auto'
       }
     }
   },
   variants: {
     backgroundColor: ['group-hover', 'responsive', 'hover', 'focus'],
-    textColor: ['group-hover', 'responsive', 'hover', 'focus']
-  }
+    textColor: ['group-hover', 'responsive', 'hover', 'focus', 'placeholder'],
+    opacity: ['placeholder']
+  },
+  plugins: [
+    /**
+     * Add placeholder variant
+     * @see https://tailwindcss.com/docs/pseudo-class-variants/#creating-custom-variants
+    */
+    function ({ addVariant, e }) {
+      addVariant('placeholder', ({ modifySelectors, separator }) => {
+        modifySelectors(({ className }) => {
+          return `.${e(`placeholder${separator}${className}`)}::placeholder`
+        })
+      })
+    }
+  ]
 }
