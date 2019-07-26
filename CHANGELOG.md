@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added price formatting based on locales in multistore - @andrzejewsky (#3060)
 - Added support for tax calculation where the values from customer_tax_class_ids is used - @resubaka (#3245)
 - Added loading product attributes (`entities.productListWithChildren.includeFields`) on category page - @andrzejewsky (#3220)
+- Added config to set Cache-Control header for static assets based on mime type - @phoenix-bjoern (#3268)
 
 ### Fixed
 
