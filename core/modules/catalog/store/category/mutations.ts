@@ -2,12 +2,12 @@ import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import { slugify, formatBreadCrumbRoutes } from '@vue-storefront/core/helpers'
-import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
+import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import CategoryState from '../../types/CategoryState'
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {

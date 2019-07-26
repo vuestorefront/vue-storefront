@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
-import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
+import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import rootStore from '@vue-storefront/core/store'
 import i18n from '@vue-storefront/i18n'
 import chunk from 'lodash-es/chunk'
@@ -17,7 +17,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**

@@ -3,7 +3,7 @@ import * as types from './mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
 import CheckoutState from '../../types/CheckoutState'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const actions: ActionTree<CheckoutState, RootState> = {
   /**

@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
-import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
+import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import * as types from './mutation-types'
 import AttributeState from '../../types/AttributeState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const mutations: MutationTree<AttributeState> = {
   /**

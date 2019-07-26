@@ -1,6 +1,6 @@
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import * as types from './../store/mutation-types'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 export async function afterRegistration ({ Vue, config, store, isServer }) {
   if (!isServer) {

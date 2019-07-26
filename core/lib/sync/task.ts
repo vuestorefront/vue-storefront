@@ -11,9 +11,9 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
-import * as entities from '@vue-storefront/core/store/lib/entities'
-import UniversalStorage from '@vue-storefront/core/store/lib/storage'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import * as entities from '@vue-storefront/core/lib/store/entities'
+import UniversalStorage from '@vue-storefront/core/lib/store/storage'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { processURLAddress } from '@vue-storefront/core/helpers'
 import { serial } from '@vue-storefront/core/helpers'
 import config from 'config'
@@ -99,17 +99,17 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
               } else {
                 Logger.info('Invalidation process in progress (autoRefreshTokens is set to true)' + rootStore.state.userTokenInvalidateAttemptsCount + rootStore.state.userTokenInvalidateLock, 'sync')()
                 rootStore.state.userTokenInvalidateAttemptsCount++
-                rootStore.dispatch('user/refresh').then((resp) => {
-                  if (resp.code === 200) {
+                rootStore.dispatch('user/refresh').then((token) => {
+                  if (token) {
                     rootStore.state.userTokenInvalidateLock = 0
-                    rootStore.state.userTokenInvalidated = resp.result
-                    Logger.info('User token refreshed successfully' + resp.result, 'sync')()
+                    rootStore.state.userTokenInvalidated = token
+                    Logger.info('User token refreshed successfully' + token, 'sync')()
                   } else {
                     rootStore.state.userTokenInvalidateLock = -1
                     rootStore.dispatch('user/logout', { silent: true })
                     EventBus.$emit('modal-show', 'modal-signup')
                     TaskQueue.clearNotTransmited()
-                    Logger.error('Error refreshing user token' + resp.result, 'sync')()
+                    Logger.error('Error refreshing user token' + token, 'sync')()
                   }
                 }).catch((excp) => {
                   rootStore.state.userTokenInvalidateLock = -1
@@ -146,6 +146,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
       task.resultCode = jsonResponse.code
       task.code = jsonResponse.code // backward compatibility to fetch()
       task.acknowledged = false
+      task.meta = jsonResponse.meta
 
       if (task.callback_event) {
         if (task.callback_event.startsWith('store:')) {

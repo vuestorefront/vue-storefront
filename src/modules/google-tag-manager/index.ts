@@ -1,5 +1,5 @@
 
-import { StorefrontModule } from '@vue-storefront/module';
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { isServer } from '@vue-storefront/core/helpers';
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import VueGtm from 'vue-gtm';

@@ -9,7 +9,7 @@ import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
 import { isServer } from '@vue-storefront/core/helpers'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 // TODO - use one from helpers instead
 export function isOnline (): boolean {
@@ -78,7 +78,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
       delete Request.groupId
     }
 
-    if (config.usePriceTiers && rootStore.state.user.groupToken) {
+    if (rootStore.state.user.groupToken) {
       Request.groupToken = rootStore.state.user.groupToken
     }
 
