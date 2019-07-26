@@ -17,9 +17,15 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCategoriesMap: (state): { [id: string]: Category} => state.categoriesMap,
   getCategoryProducts: (state) => state.products,
   getCategoryFrom: (state, getters) => (path: string = '') => {
-    return getters.getCategories.find(category => path.includes(category.url_path)) || {}
+    return getters.getCategories.find(category => path.replace(/^(\/)/gm, '') === category.url_path) || {}
   },
-  getCurrentCategory: (state, getters, rootState) => getters.getCategoryFrom(rootState.route.path),
+  getCurrentCategory: (state, getters, rootState) => {
+    if (state.currentId) {
+      return getters.getCategories.find(category => category.id === state.currentId) || {}
+    }
+
+    return getters.getCategoryFrom(rootState.route.path)
+  },
   getAvailableFiltersFrom: (state, getters, rootState) => (aggregations) => {
     const filters = {}
     if (aggregations) { // populate filter aggregates

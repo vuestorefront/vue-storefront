@@ -93,10 +93,8 @@ const composeInitialPageState = async (store, route) => {
       filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields]), // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
       includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
     })
-    const searchPath = route.path.substring(1) // TODO change in mage2vuestorefront to url_paths starts with / sign
-    const categoryFilters = { 'url_path': searchPath }
-    // const categoryFilters = { 'slug': route.params.slug } // If you have disabled config.products.useMagentoUrlKeys in your project then use this way
-    const currentCategory = await store.dispatch('category-next/loadCategory', {filters: categoryFilters})
+    const searchOptions = { filters: route.params }
+    const currentCategory = await store.dispatch('category-next/loadCategory', { searchOptions, setToCurrent: true })
     await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
     await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
   } catch (e) {

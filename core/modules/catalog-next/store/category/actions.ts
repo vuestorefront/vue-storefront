@@ -106,10 +106,13 @@ const actions: ActionTree<CategoryState, RootState> = {
     commit(types.CATEGORY_ADD_CATEGORIES, categories)
     return categories
   },
-  async loadCategory ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category> {
-    const categories: Category[] = await CategoryService.getCategories(categorySearchOptions)
+  async loadCategory ({ commit }, options: { searchOptions: DataResolver.CategorySearchOptions, setToCurrent?: Boolean }): Promise<Category> {
+    const categories: Category[] = await CategoryService.getCategories(options.searchOptions)
     const category: Category = categories && categories.length ? categories[0] : null
     commit(types.CATEGORY_ADD_CATEGORY, category)
+    if (category && options.setToCurrent === true) {
+      commit(types.CATEGORY_SET_CURRENT_CATEGORY_ID, category)
+    }
     return category
   },
   /**

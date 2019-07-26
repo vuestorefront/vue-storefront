@@ -31,6 +31,9 @@ const mutations: MutationTree<CategoryState> = {
   },
   [types.CATEGORY_SET_SEARCH_PRODUCTS_STATS] (state, stats = {}) {
     state.searchProductsStats = stats
+  },
+  [types.CATEGORY_SET_CURRENT_CATEGORY_ID] (state, category: Category) {
+    state.currentId = category.id
   }
 }
 
