@@ -2,11 +2,10 @@ import { mapGetters } from 'vuex'
 import { CategoryExtrasStateItem } from '../types/CategoryExtrasState'
 
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
-import { Logger } from '@vue-storefront/core/lib/logger';
 
 export default {
   async asyncData ({ store, route }) {
-    const category = store.getters['category/getCurrentCategory']
+    const category = store.getters['category-next/getCurrentCategory']
     await store.dispatch('icmaaCmsCategoryExtras/single', { value: category.url_key })
   },
   methods: {
@@ -16,7 +15,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('category', ['getCurrentCategory']),
+    ...mapGetters('category-next', ['getCurrentCategory']),
     ...mapGetters('icmaaCmsCategoryExtras', ['categoryExtrasByCurrentCategory']),
     categoryExtras (): CategoryExtrasStateItem|boolean {
       return this.categoryExtrasByCurrentCategory()

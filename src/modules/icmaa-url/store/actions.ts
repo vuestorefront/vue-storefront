@@ -34,7 +34,8 @@ const forProduct = async ({ dispatch }, { url, params }) => {
 const forCategory = async ({ dispatch }, { url, params }) => {
   url = removeStoreCodeFromRoute(url) as string
   try {
-    const category = await dispatch('category/single', { key: 'url_path', value: url }, { root: true })
+    const searchOptions = { filters: { 'url_path': url } }
+    const category = await dispatch('category-next/loadCategory', { searchOptions }, { root: true })
     if (category !== null) {
       return {
         name: 'category',
