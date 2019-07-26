@@ -1,6 +1,9 @@
 export interface ChildrenData {
   id: number,
-  children_data?: ChildrenData[]
+  children_data?: ChildrenData[],
+  name?: string,
+  slug?: string,
+  url_key?: string
 }
 
 export interface Category {
