@@ -118,7 +118,6 @@ export default {
       'theme/app': themeApp,
       'theme/css': themeCSS,
       'theme/resource': themeResources,
-
       // Backward compatible
       '@vue-storefront/core/store/lib/multistore': path.resolve(__dirname, '../lib/multistore.ts'),
       'src/modules/order-history/components/UserOrders': path.resolve(__dirname, '../../core/modules/order/components/UserOrdersHistory'),

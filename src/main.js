@@ -11,6 +11,5 @@
 // }
 
 // export const VueStorefrontApp = {
-//   // theme: theme
 //   theme: ThemeDefault
 // }

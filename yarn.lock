@@ -3796,6 +3796,11 @@ algoliasearch@^3.24.5:
     semver "^5.1.0"
     tunnel-agent "^0.6.0"
 
+alias-regex-webpack-plugin@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/alias-regex-webpack-plugin/-/alias-regex-webpack-plugin-0.1.2.tgz#2c95d89af13783c47c391972bbf9f5ddd214b59b"
+  integrity sha1-LJXYmvE3g8R8ORlyu/n13dIUtZs=
+
 alphanum-sort@^1.0.1, alphanum-sort@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"

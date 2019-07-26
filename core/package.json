@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.19",
+    "alias-regex-webpack-plugin": "^0.1.2",
     "app-root-path": "^2.0.1",
     "autoprefixer": "^8.6.2",
     "babel-core": "^6.26.0",
