@@ -1,6 +1,6 @@
 <template>
-  <button class="brdr-none bg-cl-transparent">
-    {{ $t('Remove') }}
-    <i class="material-icons h6">remove_shopping_cart</i>
+  <button class="t-text-small">
+    <i class="t-text-sm material-icons">remove_shopping_cart</i>
+    <span class="t-hidden">{{ $t('Remove') }}</span>
   </button>
 </template>

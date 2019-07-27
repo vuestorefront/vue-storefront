@@ -1,34 +1,22 @@
 <template>
-  <li class="row pr55 py20">
-    <div class="blend bg-cl-secondary" @click="closeWishlist">
+  <li class="t-w-1/2 md:t-w-1/4 t-px-4 t-b-4">
+    <div class="t-mb-4" @click="closeWishlist">
       <router-link :to="productLink">
         <product-image :image="image" />
       </router-link>
     </div>
-    <div class="col-xs between-xs flex pl40 py15">
-      <div @click="closeWishlist">
-        <router-link :to="productLink">
-          {{ product.name | htmlDecode }}
-        </router-link>
-        <div class="h6 cl-bg-tertiary pt5 sku">
-          {{ product.sku }}
-        </div>
-      </div>
+    <h3 class="t-text-base t-text-sm t-leading-none" @click="closeWishlist">
+      <router-link :to="productLink">
+        {{ product.name | htmlDecode }}
+      </router-link>
+    </h3>
+    <div class="t-mt-2 t-mb-4 t-text-sm t-text-base-light">
+      <span class="price-original t-line-through t-mr-2" v-if="product.special_price">{{ product.original_price_incl_tax | price }}</span>
+      <span class="price-special" v-if="product.special_price">{{ product.price_incl_tax | price }}</span>
+      <span v-if="!product.special_price">{{ product.price_incl_tax | price }}</span>
     </div>
-    <div class="col-xs flex py15 align-right">
-      <div>
-        <span class="price-special" v-if="product.special_price">{{ product.price_incl_tax | price }}</span>&nbsp;
-        <span class="price-original" v-if="product.special_price">{{ product.original_price_incl_tax | price }}</span>
-
-        <span v-if="!product.special_price">
-          {{ product.price_incl_tax | price }}
-        </span>
-      </div>
-      <div>
-        <div class="mt5">
-          <span @click="removeFromWishlist(product)"><remove-button class="cl-accent" /></span>
-        </div>
-      </div>
+    <div>
+      <remove-button @click="removeFromWishlist(product)" />
     </div>
   </li>
 </template>
@@ -59,22 +47,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '~theme/css/animations/transitions';
-.blend {
-  flex: 0 0 121px;
-  opacity: .8;
-  will-change: opacity;
-  transition: .3s opacity $motion-main;
-  &:hover{
-     opacity: 1;
-   }
-}
-.col-xs {
-  flex-direction: column;
-}
-input {
-  width: 30px;
-}
-</style>

@@ -133,6 +133,12 @@ export default {
   watch: {
     categories () {
       this.selectedCategoryIds = []
+    },
+    search (val, org) {
+      if (val === null) {
+        return
+      }
+      this.$bus.$emit('search-input-change', { search: val })
     }
   },
   mounted () {

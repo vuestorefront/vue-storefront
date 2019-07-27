@@ -1,7 +1,7 @@
 import { mapGetters } from 'vuex'
 import { CategoryStateCategory } from '../types/CategoryState'
 import { extractPrefix } from '../helpers/fetchCategories'
-import { htmlDecode } from '@vue-storefront/core/store/lib/filters';
+import { htmlDecode } from '@vue-storefront/core/lib/store/filters';
 
 interface Letter {
   letter: string,

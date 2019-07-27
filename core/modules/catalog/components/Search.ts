@@ -28,11 +28,6 @@ export const Search = {
   beforeDestroy () {
     localStorage.setItem(`shop/user/searchQuery`, this.search);
   },
-  watch: {
-    search (val, org) {
-      this.$bus.$emit('search-input-change', { search: val })
-    }
-  },
   methods: {
     onEscapePress () {
       this.closeSearchpanel()

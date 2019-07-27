@@ -1,5 +1,5 @@
 import { StorefrontModule } from '@vue-storefront/module'
-import { StorageManager } from '@vue-storefront/core/store/lib/storage-manager'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 import { BlockStore, cmsBlockStateKey } from './store/block'
 import { PageStore, cmsPageStateKey } from './store/page'

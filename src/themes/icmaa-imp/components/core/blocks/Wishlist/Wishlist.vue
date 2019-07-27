@@ -9,7 +9,7 @@
       <h2 v-if="productsInWishlist.length" class="col-xs-12 col-sm cl-accent">
         {{ $t('Wishlist') }}
       </h2>
-      <clear-wishlist-button v-if="productsInWishlist.length" @click="clearWishlist" class="col-xs-12 col-sm mt35 mb35 end-sm" />
+      <clear-wishlist-button v-if="productsInWishlist.length" @click="clearWishlist" class="col-xs-12 col-sm mb35 end-sm" />
     </div>
     <h4 v-if="!productsInWishlist.length" class="cl-accent ml30">
       {{ $t('Your wishlist is empty.') }}
@@ -21,9 +21,11 @@
       </router-link>
       {{ $t('to find something beautiful for You!') }}
     </div>
-    <ul class="products">
-      <product v-for="wishlistProduct in productsInWishlist" :key="wishlistProduct.id" :product="wishlistProduct" />
-    </ul>
+    <div class="t-container t-p-4">
+      <ul class="t-flex t-flex-wrap t--p-4">
+        <product v-for="wishlistProduct in productsInWishlist" :key="wishlistProduct.id" :product="wishlistProduct" />
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -62,13 +64,3 @@ export default {
   mixins: [Wishlist]
 }
 </script>
-
-<style lang="scss" scoped>
-@import "~theme/css/animations/transitions";
-  i {
-    opacity: 0.6;
-    &:hover {
-      opacity: 1;
-    }
-  }
-</style>

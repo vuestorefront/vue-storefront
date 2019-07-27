@@ -1,5 +1,5 @@
 import { StorefrontModule } from '@vue-storefront/module'
-import { extendStore } from '@vue-storefront/module/helpers'
+import { extendStore } from '@vue-storefront/core/helpers'
 import { CategoryStore } from './store'
 import { ExtendedCategoryStore } from './store/category'
 
