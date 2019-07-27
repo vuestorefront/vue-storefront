@@ -16,9 +16,10 @@ The project is in the **production ready** phase.
 **Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
 If you're new and need some guidance feel free to visit out [forum](https://forum.vuestorefront.io/) or reach anyone from the core team on our slack:
-- `@Filip Rakowski` (frontend, architecture and best practices related stuff)
-- `@pkarw` (integrations and backend related stuff)
-- `@ptomczyk` (frontend related stuff)
+- `@Filip Rakowski` (frontend and best practices)
+- `@pkarw` (integrations and backend)
+- `@ptomczyk` (frontend and best practices)
+- `@lromanowicz` (testing, magento, backend)
 
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
@@ -293,6 +294,15 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/38270766-b0bc4fc0-3784-11e8-9463-99d88950ca9a.png"
             alt="Bitbull"
+            width="150"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+       <a href="https://www.sotechnology.co.uk/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/SOtech-logo%20(1).png"
+            alt="SOtechnology"
             width="150"
           >
         </a>
@@ -762,6 +772,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/Perfomance_Academy_logo_large.png"
             alt="Performance Academy"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+     <tr>
+      <td align="center" valign="middle"> 
+<a href="https://sparksolutions.co/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/logo%20spark%20kolor.png"
+            alt="Spark Solutions"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
             height="40"
           >
         </a>
