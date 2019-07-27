@@ -79,7 +79,7 @@ In this recipe, we are going to cover how we bootstrap a module in order to inje
 <br />
 
 ## 8. Deprecated legacy of Modules
-In this recipe, we are take a review of how to deal with modules in an old fashioned way just in case you really need it. 
+In this recipe, we will take a review of how to deal with modules in an old fashioned way just in case you really need it. 
 
 ### 1. Preparation
 ### 2. Recipe

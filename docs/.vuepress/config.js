@@ -45,7 +45,8 @@ module.exports = {
             'cookbook/common-pitfall',
             'cookbook/devops',
             'cookbook/tdd',
-            'cookbook/internals'
+            'cookbook/internals',
+            'cookbook/vue'
           ],
         },
         {
