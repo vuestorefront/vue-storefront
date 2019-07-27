@@ -5,11 +5,11 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "@vue-storefront/module": "^0.0.9",
+    "@vue-storefront/module": "^0.0.8",
     "@vue-storefront/core": "^1.11.0-rc.1"
   },
   "peerDependencies": {
     "@vue-storefront/core": "^1.11.0-rc.1",
-    "@vue-storefront/module": "^0.0.9"
+    "@vue-storefront/module": "^0.0.8"
   }
 }
