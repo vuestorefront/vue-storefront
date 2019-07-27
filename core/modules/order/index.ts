@@ -1,6 +1,6 @@
 import { orderStore } from './store'
 import * as localForage from 'localforage'
-import UniversalStorage from '@vue-storefront/core/store/lib/storage'
+import UniversalStorage from '@vue-storefront/core/lib/store/storage'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import rootStore from '@vue-storefront/core/store'
