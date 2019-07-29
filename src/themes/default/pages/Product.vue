@@ -60,7 +60,7 @@
                   {{ getCurrentProduct.qty > 0 ? getCurrentProduct.price_incl_tax * getCurrentProduct.qty : getCurrentProduct.price_incl_tax | price }}
                 </div>
               </div>
-              <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable' && !loading">
+              <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable' && !isProductLoading">
                 <div
                   class="error"
                   v-if="getCurrentProduct.errors && Object.keys(getCurrentProduct.errors).length > 0"
@@ -117,15 +117,15 @@
               </div>
             </div>
             <product-links
-              v-if="getCurrentProduct.type_id =='grouped' && !loading"
+              v-if="getCurrentProduct.type_id =='grouped' && !isProductLoading"
               :products="getCurrentProduct.product_links"
             />
             <product-bundle-options
-              v-if="getCurrentProduct.bundle_options && getCurrentProduct.bundle_options.length > 0 && !loading"
+              v-if="getCurrentProduct.bundle_options && getCurrentProduct.bundle_options.length > 0 && !isProductLoading"
               :product="getCurrentProduct"
             />
             <product-custom-options
-              v-else-if="getCurrentProduct.custom_options && getCurrentProduct.custom_options.length > 0 && !loading"
+              v-else-if="getCurrentProduct.custom_options && getCurrentProduct.custom_options.length > 0 && !isProductLoading"
               :product="getCurrentProduct"
             />
             <div
@@ -133,9 +133,12 @@
               v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
             >
               <base-input-number
-                :name="$t('Quantity')"
+                :name="$t(getInputName)"
                 v-model="getCurrentProduct.qty"
-                :min="1"
+                :min="quantity ? 1 : 0"
+                :max="quantity"
+                :disabled="quantity ? false : true"
+                :value="quantity ? 1 : 0"
                 @blur="$v.$touch()"
                 :validations="[
                   {
@@ -144,11 +147,12 @@
                   }
                 ]"
               />
+              <Spinner v-if="isProductLoading" />
             </div>
             <div class="row m0">
               <add-to-cart
                 :product="getCurrentProduct"
-                :disabled="$v.getCurrentProduct.qty.$error && !$v.getCurrentProduct.qty.minValue"
+                :disabled="($v.getCurrentProduct.qty.$error && !$v.getCurrentProduct.qty.minValue) || !quantity && isSimpleOrConfigurable && !isProductLoading"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -213,6 +217,7 @@ import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
 import ProductGallery from 'theme/components/core/ProductGallery'
+import Spinner from 'theme/components/core/Spinner'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from 'theme/components/theme/WebShare'
@@ -246,17 +251,19 @@ export default {
     SizeSelector,
     WebShare,
     BaseInputNumber,
-    SizeGuide
+    SizeGuide,
+    Spinner
   },
   // Remove product.js dependency and use onlineHelper
   mixins: [VueOfflineMixin, ProductOption],
+  directives: { focusClean },
   data () {
     return {
       detailsOpen: false,
-      loading: false
+      quantity: 0,
+      isProductLoading: false
     }
   },
-  directives: { focusClean },
   computed: {
     ...mapGetters({
       getCurrentCategory: 'category-next/getCurrentCategory',
@@ -299,7 +306,21 @@ export default {
     },
     getSelectedFilters () {
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
+    },
+    isSimpleOrConfigurable () {
+      if (
+        this.getCurrentProduct.type_id === 'simple' ||
+        this.getCurrentProduct.type_id === 'configurable'
+      ) { return true }
+      return false
+    },
+    getInputName () {
+      if (this.isSimpleOrConfigurable) { return `Quantity (${this.quantity} available)` }
+      return `Quantity`
     }
+  },
+  created () {
+    this.getQuantity()
   },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
@@ -336,6 +357,7 @@ export default {
         'filter-changed-product',
         Object.assign({ attribute_code: variant.type }, variant)
       )
+      this.getQuantity()
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
@@ -344,6 +366,15 @@ export default {
       let currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
       currentConfig[option.type] = option
       return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
+    },
+    async getQuantity () {
+      this.isProductLoading = true
+      const res = await this.$store.dispatch('stock/check', {
+        product: this.getCurrentProduct,
+        qty: this.getCurrentProduct.qte
+      })
+      this.isProductLoading = false
+      this.quantity = res.qty
     }
   },
   validations: {
