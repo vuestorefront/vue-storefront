@@ -1,9 +1,7 @@
 const fs = require('fs');
 const dir = 'core/build/tmp';
-const overridingFilePath = 'core/build/tmp/sfui-override.js';
-const overridingComponentsDir = 'src/themes/capybara/components/_overrides'
 
-function build () {
+function build (overridingComponentsDir, overridingFilePath) {
   if (fs.existsSync('node_modules/@storefrontui/vue/index.js')) {
     fs.readFile('node_modules/@storefrontui/vue/index.js', 'utf8', (err, data) => {
       if (err) {
@@ -35,21 +33,20 @@ function build () {
   }
 }
 
-function override () {
-  build()
-  fs.watch(overridingComponentsDir, (eventName, fileName) => {
+function override (overridingComponentsDir, overridingFilePath) {
+  const componentsDir = overridingComponentsDir || 'src/themes/capybara/components/_overrides'
+  const fileDir = overridingFilePath || 'core/build/tmp/sfui-override.js'
+
+  build(componentsDir, fileDir)
+
+  fs.watch(componentsDir, (eventName, fileName) => {
     if (eventName === 'rename') {
       console.log('Overriding Storefront UI component:', fileName)
-      build()
+      build(componentsDir, fileDir)
     }
   })
 }
 
-function clear () {
-  console.log('removing Storefront UI override')
-}
-
 module.exports = {
-  override,
-  clear
+  override
 }
