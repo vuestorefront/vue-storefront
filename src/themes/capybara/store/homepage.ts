@@ -16,7 +16,7 @@ export const homepageStore = {
     }
   },
   actions: {
-    async getNewProducts ({ dispatch, commit }) {
+    async loadNewProducts ({ dispatch, commit }) {
       const result = await dispatch('product/list', {
         query: prepareQuery({ queryConfig: 'newProducts' }),
         size: 8,
@@ -25,7 +25,7 @@ export const homepageStore = {
       commit('setNewProducts', result.items)
       return result.items
     },
-    async getSlides ({ commit }) {
+    async loadSlides ({ commit }) {
       commit('setSlides', heroData)
       return heroData
     }

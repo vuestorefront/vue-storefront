@@ -157,13 +157,13 @@ export default {
     }
   },
   async asyncData ({ store, route }) {
-    await store.dispatch('homepage/getNewProducts')
-    await store.dispatch('homepage/getSlides')
+    await store.dispatch('homepage/loadNewProducts')
+    await store.dispatch('homepage/loadSlides')
   },
   beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading products to cache on SSR render
       next(vm => {
-        vm.$store.dispatch('homepage/getNewProducts')
+        vm.$store.dispatch('homepage/loadNewProducts')
       })
     } else {
       next()
