@@ -46,7 +46,12 @@ export function beforeEachGuard (to: Route, from: Route, next) {
       if (!isServer) {
         next('/page-not-found')
       } else {
-        const storeCode = currentStoreView().storeCode
+        let { storeCode, appendStoreCode } = currentStoreView()
+
+        if (appendStoreCode === false) {
+          storeCode = ''
+        }
+
         Vue.prototype.$ssrRequestContext.server.response.redirect((storeCode !== '' ? ('/' + storeCode) : '') + '/page-not-found') // TODO: Refactor this one after @filrak will give us a way to access ServerContext from Modules directly :-)
         // ps. we can't use the next() call here as it's not doing the real redirect in SSR mode (just processing different component without changing the URL and that causes the CSR / SSR DOM mismatch while hydrating)
       }
