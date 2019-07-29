@@ -2,14 +2,14 @@
   <div id="home">
     <SfHero>
       <SfHeroItem
-        v-for="(hero, i) in heroes"
+        v-for="(slide, i) in slides"
         :key="i"
-        :title="hero.title"
-        :subtitle="hero.subtitle"
-        :button-text="hero.buttonText"
-        :background="hero.background"
-        :image="hero.image"
-        :class="hero.className"
+        :title="slide.title"
+        :subtitle="slide.subtitle"
+        :button-text="slide.buttonText"
+        :background="slide.background"
+        :image="slide.image"
+        :class="slide.className"
       />
     </SfHero>
     <SfBannerGrid :banner-grid="1" class="banners">
@@ -144,29 +144,26 @@ import {
   SfProductCard,
   SfBanner
 } from '@storefrontui/vue';
-
 import { isServer } from '@vue-storefront/core/helpers'
-import heroData from 'src/themes/capybara/assets/homepage/hero.json'
 
 export default {
   name: 'HomePage',
-  data () {
-    return {
-      heroes: heroData
-    };
-  },
   computed: {
     newProducts () {
       return this.$store.getters['homepage/getNewProducts']
+    },
+    slides () {
+      return this.$store.getters['homepage/getSlides']
     }
   },
   async asyncData ({ store, route }) {
-    await store.dispatch('homepage/fetchNewProducts')
+    await store.dispatch('homepage/getNewProducts')
+    await store.dispatch('homepage/getSlides')
   },
   beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading products to cache on SSR render
       next(vm => {
-        vm.$store.dispatch('homepage/fetchNewProducts')
+        vm.$store.dispatch('homepage/getNewProducts')
       })
     } else {
       next()
@@ -184,6 +181,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 @import "~@storefrontui/vue/src/css/variables";
 @import "~@storefrontui/shared/styles/helpers/visibility";
