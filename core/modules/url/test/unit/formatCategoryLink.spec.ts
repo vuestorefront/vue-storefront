@@ -126,7 +126,6 @@ describe('formatCategoryLink method', () => {
       });
     })
 
-
     describe('with default storeCode set to \'de\' and appendStoreCode is false', () => {
       beforeEach(() => {
         (currentStoreView as jest.Mock).mockImplementation(() => ({storeCode: 'de', appendStoreCode: false}));
