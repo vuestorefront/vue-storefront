@@ -68,7 +68,7 @@ describe('formatCategoryLink method', () => {
 
     describe('with default storeCode set to \'de\'', () => {
       beforeEach(() => {
-        (currentStoreView as jest.Mock).mockImplementationOnce(() => ({storeCode: 'de'}));
+        (currentStoreView as jest.Mock).mockImplementation(() => ({storeCode: 'de'}));
       });
 
       it('should return formatted category url_path', () => {
@@ -112,7 +112,7 @@ describe('formatCategoryLink method', () => {
 
     describe('with default storeCode set to \'de\'', () => {
       beforeEach(() => {
-        (currentStoreView as jest.Mock).mockImplementationOnce(() => ({storeCode: 'de'}));
+        (currentStoreView as jest.Mock).mockImplementation(() => ({storeCode: 'de'}));
       });
 
       it('should return formatted category url_path', () => {
@@ -123,6 +123,23 @@ describe('formatCategoryLink method', () => {
       it('should return homepage path when category passed as \'null\'', () => {
         const result = formatCategoryLink(null);
         expect(result).toEqual('/de/');
+      });
+    })
+
+
+    describe('with default storeCode set to \'de\' and appendStoreCode is false', () => {
+      beforeEach(() => {
+        (currentStoreView as jest.Mock).mockImplementation(() => ({storeCode: 'de', appendStoreCode: false}));
+      });
+
+      it('should return formatted category url_path', () => {
+        const result = formatCategoryLink(category);
+        expect(result).toEqual('/c/all-2');
+      });
+
+      it('should return homepage path when category passed as \'null\'', () => {
+        const result = formatCategoryLink(null);
+        expect(result).toEqual('/');
       });
     })
   });
