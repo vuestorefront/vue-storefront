@@ -27,6 +27,7 @@ export interface StoreView {
   storeId: any,
   name?: string,
   url?: string,
+  appendStoreCode?: boolean,
   elasticsearch: {
     host: string,
     index: string
