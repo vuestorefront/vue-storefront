@@ -55,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
 - New modules API and rewrite - @filrak, @JCown (#3144)
 - Refactored the vuex user module - @andrzejewsky (#3095)
+- Brazilian Portuguese (pt_BR) translation improved - @pxfm (#3288)
 - Moved store/lib to /lib - @pxfm (#3253)
 
 ## [1.10.0-rc.2] - UNRELEASED
