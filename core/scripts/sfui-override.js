@@ -5,15 +5,14 @@ const overridingComponentsDir = 'src/themes/capybara/components/_overrides'
 
 function build () {
   if (fs.existsSync('node_modules/@storefrontui/vue/index.js')) {
-
-    fs.readFile('node_modules/@storefrontui/vue/index.js', 'utf8', (err,data) => {
+    fs.readFile('node_modules/@storefrontui/vue/index.js', 'utf8', (err, data) => {
       if (err) {
         return console.log(err);
       }
 
       // Replace relative links with absolute
       data = data.replace(new RegExp('./src', 'g'), '@storefrontui/vue/src').replace(new RegExp('"', 'g'), "'")
-      
+
       // Override components
       const folders = ['atoms', 'molecules', 'organisms']
       const files = fs.readdirSync(overridingComponentsDir)
@@ -25,12 +24,12 @@ function build () {
         })
       })
 
-      if (!fs.existsSync(dir)){
+      if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
       }
-      
-      fs.writeFile(overridingFilePath, data, 'utf8', function (err) {
-          if (err) return console.log(err);
+
+      fs.writeFile(overridingFilePath, data, 'utf8', (err) => {
+        if (err) return console.log(err);
       });
     });
   }
