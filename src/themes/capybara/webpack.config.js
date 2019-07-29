@@ -5,6 +5,8 @@ const sfuiOverride = require('../../../core/scripts/sfui-override')
 sfuiOverride.override()
 
 module.exports = function (config, { isClient, isDev }) {
-  config.default.resolve.alias['@storefrontui/vue$'] = path.join(__dirname, '../../../core/build/tmp/sfui-override.js')
+  // TODO in next iteration, fix this issue
+  const wpConfig = isDev ? config.default : config
+  wpConfig.resolve.alias['@storefrontui/vue$'] = path.join(__dirname, '../../../core/build/tmp/sfui-override.js')
   return config
 }
