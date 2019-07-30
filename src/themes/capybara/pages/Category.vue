@@ -12,6 +12,7 @@
           @click="isFilterSidebarOpen = true"
         >
           <SfIcon size="15px" style="margin-right: 10px;">
+            <!-- todo: add to icons -->
             <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0)">
                 <path
@@ -42,8 +43,8 @@
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">Sort by:</span>
-          <SfSelect class="sort-by" 
-            v-model="sortBy"
+          <SfSelect class="sort-by"
+                    v-model="sortBy"
           >
             <SfSelectOption
               v-for="option in availableFilters.sort"
@@ -62,6 +63,7 @@
         <div class="navbar__view desktop-only">
           <span>View </span>
           <SfIcon class="navbar__view-icon" size="10px">
+            <!-- todo: add to icons -->
             <svg viewBox="0 0 10 10">
               <rect width="2" height="2" fill="#1D1F22" />
               <rect y="4" width="2" height="2" fill="#1D1F22" />
@@ -88,6 +90,7 @@
         >
           Sort by
           <SfIcon size="15px" style="margin-left: 10px;">
+            <!-- todo: add to icons -->
             <svg viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M8.32809 15.2897L12 11.7644V12.2892L8.13547 16L4.27094 12.2892V11.7644L7.94285 15.2897V6.83165H8.32809L8.32809 15.2897ZM3.67191 0.710288L0 4.23556V3.71082L3.86453 0L7.72906 3.71082V4.23556L4.05715 0.710288V9.16835H3.67191L3.67191 0.710288Z"
@@ -99,9 +102,9 @@
     </div>
     <div class="main">
       <div class="sidebar desktop-only">
-        <SubCategoriesSidebar 
-        :categories="categories" 
-        :current-category="currentCategory"
+        <SubCategoriesSidebar
+          :categories="categories"
+          :current-category="currentCategory"
         />
       </div>
       <div class="products" style="">
@@ -115,11 +118,11 @@
         </div>
       </div>
     </div>
-    <FiltersSidebar 
+    <FiltersSidebar
       :filters="availableFilters"
       :visible="isFilterSidebarOpen"
       @close="isFilterSidebarOpen = false"
-     />
+    />
   </div>
 </template>
 

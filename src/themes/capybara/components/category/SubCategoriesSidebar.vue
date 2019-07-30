@@ -9,10 +9,10 @@
         <template #content>
           <SfList>
             <SfListItem v-for="(category, j) in filterCategoryChildren(parentCategory.id)" :key="j">
-                <SfMenuItem
-                  class="menu-item"
-                  :label="category.name"
-                />
+              <SfMenuItem
+                class="menu-item"
+                :label="category.name"
+              />
             </SfListItem>
           </SfList>
         </template>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { SfAccordion, SfList, SfMenuItem } from "@storefrontui/vue";
+import { SfAccordion, SfList, SfMenuItem } from '@storefrontui/vue';
 
 export default {
   props: {
