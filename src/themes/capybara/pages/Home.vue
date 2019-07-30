@@ -48,7 +48,7 @@
         </router-link>
       </template>
       <template #bannerD>
-        <router-link>
+        <router-link to="#">
           <SfBanner
             subtitle="Summer shoes"
             title="ECO SANDALS"

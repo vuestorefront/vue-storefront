@@ -1,8 +1,9 @@
-import Home from './pages/Home.vue'
-// import config from 'config'
+const Home = () => import('src/themes/capybara/pages/Home.vue')
+const Category = () => import('src/themes/capybara/pages/Category.vue')
 
 let routes = [
-  { component: Home, path: '/' }
+  { name: 'home', path: '/', component: Home },
+  { name: 'category', path: '/c/:slug', component: Category }
 ]
 
 export default routes

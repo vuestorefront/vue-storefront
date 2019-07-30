@@ -18,7 +18,7 @@ import { UserModule } from '@vue-storefront/core/modules/user'
 // import { GoogleAnalyticsModule } from './google-analytics';
 // import { HotjarModule } from './hotjar';
 import { GoogleTagManagerModule } from './google-tag-manager';
-import { AmpRendererModule } from './amp-renderer';
+// import { AmpRendererModule } from './amp-renderer';
 import { PaymentBackendMethodsModule } from './payment-backend-methods';
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery';
 import { InstantCheckoutModule } from './instant-checkout'
@@ -43,7 +43,7 @@ export function registerNewModules () {
   registerModule(OrderModule)
   registerModule(CmsModule)
   registerModule(RecentlyViewedModule) // To HomePage
-  // registerModule(GoogleTagManagerModule)
+  registerModule(GoogleTagManagerModule)
   // registerModule(GoogleAnalyticsModule)
   // registerModule(HotjarModule)
   registerModule(PaymentBackendMethodsModule)

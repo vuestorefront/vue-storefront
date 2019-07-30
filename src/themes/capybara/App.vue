@@ -6,7 +6,7 @@
 
 <script>
 import Vue from 'vue'
-import Head from './head'
+import Head from 'src/themes/capybara/head'
 
 export default {
   metaInfo: Head
