@@ -333,7 +333,7 @@ const actions: ActionTree<ProductState, RootState> = {
       }
     }
 
-    await calculateTaxes(products, context)
+    await calculateTaxes(products.items, context)
 
     for (let prod of products.items) { // we store each product separately in cache to have offline access to products/single method
       prod = configureChildren(prod)
