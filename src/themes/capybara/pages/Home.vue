@@ -1,53 +1,61 @@
 <template>
   <div id="home">
     <SfHero>
-      <SfHeroItem
-        v-for="(slide, i) in slides"
-        :key="i"
-        :title="slide.title"
-        :subtitle="slide.subtitle"
-        :button-text="slide.buttonText"
-        :background="slide.background"
-        :image="slide.image"
-        :class="slide.className"
-      />
+      <router-link to="#" v-for="(slide, i) in slides" :key="i">
+        <SfHeroItem
+          :title="slide.title"
+          :subtitle="slide.subtitle"
+          :button-text="slide.buttonText"
+          :background="slide.background"
+          :image="slide.image"
+          :class="slide.className"
+        />
+      </router-link>
     </SfHero>
     <SfBannerGrid :banner-grid="1" class="banners">
       <template #bannerA>
-        <SfBanner
-          subtitle="Dresses"
-          title="COCKTAIL PARTY"
-          description="Find stunning women's cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands."
-          button-text="SHOP NOW"
-          image="/assets/homepage/bannerF.png"
-          class="sf-banner--left sf-banner--container-full"
-        />
+        <router-link to="#">
+          <SfBanner
+            subtitle="Dresses"
+            title="COCKTAIL PARTY"
+            description="Find stunning women's cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands."
+            button-text="SHOP NOW"
+            image="/assets/homepage/bannerF.png"
+            class="sf-banner--left sf-banner--container-full"
+          />
+        </router-link>
       </template>
       <template #bannerB>
-        <SfBanner
-          subtitle="Dresses"
-          title="LINEN DRESSES"
-          description="Find stunning women's cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands."
-          button-text="SHOP NOW"
-          image="/assets/homepage/bannerE.png"
-          class="sf-banner--left"
-        />
+        <router-link to="#">
+          <SfBanner
+            subtitle="Dresses"
+            title="LINEN DRESSES"
+            description="Find stunning women's cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands."
+            button-text="SHOP NOW"
+            image="/assets/homepage/bannerE.png"
+            class="sf-banner--left"
+          />
+        </router-link>
       </template>
       <template #bannerC>
-        <SfBanner
-          subtitle="T-Shirts"
-          title="THE OFFICE LIFE"
-          image="/assets/homepage/bannerC.png"
-          class="sf-banner--left sf-banner--container-full"
-        />
+        <router-link to="#">
+          <SfBanner
+            subtitle="T-Shirts"
+            title="THE OFFICE LIFE"
+            image="/assets/homepage/bannerC.png"
+            class="sf-banner--left sf-banner--container-full"
+          />
+        </router-link>
       </template>
       <template #bannerD>
-        <SfBanner
-          subtitle="Summer shoes"
-          title="ECO SANDALS"
-          image="/assets/homepage/bannerG.png"
-          class="sf-banner--left sf-banner--container-full"
-        />
+        <router-link>
+          <SfBanner
+            subtitle="Summer shoes"
+            title="ECO SANDALS"
+            image="/assets/homepage/bannerG.png"
+            class="sf-banner--left sf-banner--container-full"
+          />
+        </router-link>
       </template>
     </SfBannerGrid>
     <SfCallToAction
