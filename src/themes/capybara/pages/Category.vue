@@ -3,7 +3,7 @@
     <div class="navbar">
       <div class="navbar__aside desktop-only">
         <h1 class="navbar__title">
-          Categories
+          {{ currentCategory.name }}
         </h1>
       </div>
       <div class="navbar__main">
@@ -57,8 +57,8 @@
         </div>
         <div class="navbar__counter">
           <span class="navbar__label desktop-only">Products found: </span>
-          <strong class="desktop-only">280</strong>
-          <span class="navbar__label mobile-only">280 Items</span>
+          <strong class="desktop-only">{{ categoryProductsTotal }}</strong>
+          <span class="navbar__label mobile-only">{{ categoryProductsTotal }} Items</span>
         </div>
         <div class="navbar__view desktop-only">
           <span>View </span>
