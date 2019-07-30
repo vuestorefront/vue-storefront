@@ -90,7 +90,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     return CategoryService.getCategories(categorySearchOptions)
   },
   async loadCategories ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
-    const categories = await CategoryService.getCategories(categorySearchOptions)
+    const categories = categorySearchOptions ? await CategoryService.getCategories(categorySearchOptions) : await CategoryService.getCategories()
     commit(types.CATEGORY_ADD_CATEGORIES, categories)
     return categories
   },

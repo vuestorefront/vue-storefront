@@ -2,7 +2,9 @@
   <div id="category">
     <div class="navbar">
       <div class="navbar__aside desktop-only">
-        <h1 class="navbar__title">Categories</h1>
+        <h1 class="navbar__title">
+          Categories
+        </h1>
       </div>
       <div class="navbar__main">
         <SfButton
@@ -40,13 +42,16 @@
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">Sort by:</span>
-          <SfSelect class="sort-by" v-model="sortBy">
+          <SfSelect class="sort-by" 
+            v-model="sortBy"
+          >
             <SfSelectOption
-              v-for="option in sortByOptions"
-              :key="option.value"
-              :value="option.value"
-              >{{ option.label }}</SfSelectOption
+              v-for="option in availableFilters.sort"
+              :key="option.label"
+              :value="option.id"
             >
+              {{ option.label }}
+            </SfSelectOption>
           </SfSelect>
         </div>
         <div class="navbar__counter">
@@ -94,38 +99,10 @@
     </div>
     <div class="main">
       <div class="sidebar desktop-only">
-        <SfAccordion :firstOpen="true">
-          <template v-slot:items="{ selected }">
-            <SfAccordionItem
-              v-for="(accordion, i) in sidebarAccordion"
-              :key="i"
-              :header="accordion.header"
-            >
-              <template v-slot:content="{ handler }">
-                <SfList>
-                  <SfListItem v-for="(item, j) in accordion.items" :key="j">
-                    <div
-                      @click="
-                        () => {
-                          handler(item.label);
-                        }
-                      "
-                    >
-                      <SfMenuItem
-                        class="menu-item"
-                        :class="{
-                          'menu-item--active': selected === item.label
-                        }"
-                        :label="item.label"
-                        :count="item.count"
-                      />
-                    </div>
-                  </SfListItem>
-                </SfList>
-              </template>
-            </SfAccordionItem>
-          </template>
-        </SfAccordion>
+        <SubCategoriesSidebar 
+        :categories="categories" 
+        :current-category="currentCategory"
+        />
       </div>
       <div class="products" style="">
         <div class="products__list">
@@ -138,87 +115,26 @@
         </div>
       </div>
     </div>
-    <SfSidebar
+    <FiltersSidebar 
+      :filters="availableFilters"
       :visible="isFilterSidebarOpen"
       @close="isFilterSidebarOpen = false"
-      class="filters"
-    >
-      <h3 class="filters__title">Collection</h3>
-      <SfFilter v-model="filters.collection">
-        <SfFilterItem
-          v-for="(filter, i) in filtersOptions.collection"
-          :key="i"
-          :value="filter.value"
-          :label="filter.label"
-          :count="filter.count"
-        />
-      </SfFilter>
-      <h3 class="filters__title">Color</h3>
-      <SfFilter v-model="filters.color">
-        <SfFilterItem
-          v-for="(filter, i) in filtersOptions.color"
-          :key="i"
-          :value="filter.value"
-          :label="filter.label"
-          :color="filter.color"
-        />
-      </SfFilter>
-      <h3 class="filters__title">Size</h3>
-      <SfFilter v-model="filters.size">
-        <SfFilterItem
-          v-for="(filter, i) in filtersOptions.size"
-          :key="i"
-          :value="filter.value"
-          :label="filter.label"
-          :count="filter.count"
-        />
-      </SfFilter>
-      <h3 class="filters__title">Price</h3>
-      <SfFilter v-model="filters.price">
-        <SfFilterItem
-          v-for="(filter, i) in filtersOptions.price"
-          :key="i"
-          :value="filter.value"
-          :label="filter.label"
-          :count="filter.count"
-        />
-      </SfFilter>
-      <h3 class="filters__title">Material</h3>
-      <SfFilter v-model="filters.material">
-        <SfFilterItem
-          v-for="(filter, i) in filtersOptions.material"
-          :key="i"
-          :value="filter.value"
-          :label="filter.label"
-          :count="filter.count"
-        />
-      </SfFilter>
-      <div class="filters__buttons">
-        <SfButton
-          @click="isFilterSidebarOpen = false"
-          class="sf-button--full-width"
-          >Done</SfButton
-        >
-        <SfButton
-          class="sf-button--full-width filters__button-clear"
-          >Clear all</SfButton
-        >
-      </div>
-    </SfSidebar>
+     />
   </div>
 </template>
+
 <script>
 import {
-  SfSidebar,
   SfButton,
   SfList,
   SfIcon,
   SfMenuItem,
-  SfFilter,
   SfProductCard,
   SfAccordion,
   SfSelect
-} from "@storefrontui/vue";
+} from '@storefrontui/vue';
+import FiltersSidebar from 'src/themes/capybara/components/category/FiltersSidebar'
+import SubCategoriesSidebar from 'src/themes/capybara/components/category/SubCategoriesSidebar'
 
 import { mapGetters } from 'vuex'
 import { isServer } from '@vue-storefront/core/helpers'
@@ -237,111 +153,21 @@ const composeInitialPageState = async (store, route) => {
     const currentCategory = await store.dispatch('category-next/loadCategory', {filters: categoryFilters})
     await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
     await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
+    await store.dispatch('category-next/loadCategories')
   } catch (e) {
     console.error('Problem with setting Category initial data!', e)
   }
 }
 
 export default {
+  name: 'CategoryPage',
   mixins: [onBottomScroll],
-  data() {
+  data () {
     return {
-      defaultColumn: 3,
       loadingProducts: false,
       currentPage: 1,
-      sortBy: "price-up",
-      isFilterSidebarOpen: false,
-      filters: {
-        color: [],
-        collection: [],
-        size: [],
-        price: [],
-        material: []
-      },
-      sortByOptions: [
-        {
-          value: "latest",
-          label: "Latest"
-        },
-        {
-          value: "price-up",
-          label: "Price from low to high"
-        },
-        {
-          value: "price-down",
-          label: "Price from high to low"
-        }
-      ],
-      sidebarAccordion: [
-        {
-          header: "Clothing",
-          items: [
-            { label: "All", count: "280" },
-            { label: "Skirts", count: "23" },
-            { label: "Sweaters", count: "54" },
-            { label: "Dresses", count: "34" },
-            { label: "T-shirts", count: "56" },
-            { label: "Pants", count: "7" },
-            { label: "Underwear", count: "12" }
-          ]
-        },
-        {
-          header: "Accesorries",
-          items: [
-            { label: "All", count: "280" },
-            { label: "Skirts", count: "23" },
-            { label: "Sweaters", count: "54" },
-            { label: "Dresses", count: "34" },
-            { label: "T-shirts", count: "56" },
-            { label: "Pants", count: "7" },
-            { label: "Underwear", count: "12" }
-          ]
-        },
-        {
-          header: "Shoes",
-          items: [
-            { label: "All", count: "280" },
-            { label: "Skirts", count: "23" },
-            { label: "Sweaters", count: "54" },
-            { label: "Dresses", count: "34" },
-            { label: "T-shirts", count: "56" },
-            { label: "Pants", count: "7" },
-            { label: "Underwear", count: "12" }
-          ]
-        }
-      ],
-      filtersOptions: {
-        collection: [
-          { label: "Summer fly", value: "summer-fly", count: "10" },
-          { label: "Best 2018", value: "best-2018", count: "23" },
-          { label: "Your choice", value: "your-choice", count: "54" }
-        ],
-        color: [
-          { label: "Red", value: "red", color: "#990611" },
-          { label: "Black", value: "black", color: "#000000" },
-          { label: "Yellow", value: "yellow", color: "#DCA742" },
-          { label: "Blue", value: "blue", color: "#004F97" },
-          { label: "Navy", value: "navy", color: "#656466" },
-          { label: "White", value: "white", color: "#FFFFFF" }
-        ],
-        size: [
-          { label: "Size 2 (XXS)", value: "xxs", count: "10" },
-          { label: "Size 4-6 (XS)", value: "xs", count: "23" },
-          { label: "Size 8-10 (S)", value: "s", count: "54" },
-          { label: "Size 12-14 (M)", value: "m", count: "109" },
-          { label: "Size 16-18 (L)", value: "l", count: "23" },
-          { label: "Size 20-22(XL)", value: "xl", count: "12" },
-          { label: "Size 24-26 (XXL)", value: "xxl", count: "2" }
-        ],
-        price: [
-          { label: "Under $200", value: "under-200", count: "23" },
-          { label: "Under $300", value: "under-300", count: "54" }
-        ],
-        material: [
-          { label: "Cotton", value: "coton", count: "33" },
-          { label: "Silk", value: "silk", count: "73" }
-        ]
-      }
+      sortBy: 'updated_at',
+      isFilterSidebarOpen: false
     };
   },
   computed: {
@@ -350,7 +176,8 @@ export default {
       categoryProducts: 'category-next/getCategoryProducts',
       currentCategory: 'category-next/getCurrentCategory',
       categoryProductsTotal: 'category-next/getCategoryProductsTotal',
-      availableFilters: 'category-next/getAvailableFilters'
+      availableFilters: 'category-next/getAvailableFilters',
+      categories: 'category-next/getCategories'
     }),
     isCategoryEmpty () {
       return this.categoryProductsTotal === 0
@@ -396,14 +223,14 @@ export default {
   },
   components: {
     SfButton,
-    SfSidebar,
     SfIcon,
     SfList,
-    SfFilter,
     SfProductCard,
     SfMenuItem,
     SfAccordion,
-    SfSelect
+    SfSelect,
+    FiltersSidebar,
+    SubCategoriesSidebar
   }
 };
 </script>
@@ -522,27 +349,8 @@ export default {
       padding: $spacer-big;
     }
   }
-  &__pagination {
-    @media (min-width: $desktop-min) {
-      margin-top: $spacer-extra-big;
-    }
-  }
 }
-.filters {
-  &__title:not(:first-child),
-  &__buttons {
-    margin-top: $spacer-big * 3;
-  }
-  &__title {
-    font-size: $font-size-big-desktop;
-    line-height: 2.23;
-  }
-  &__button-clear {
-    margin-top: 10px;
-    background: $c-light-primary;
-    color: #a3a5ad;
-  }
-}
+
 .sort-by {
   flex: unset;
   width: 175px;
@@ -551,14 +359,6 @@ export default {
   }
   /deep/ .sf-select-option {
     padding: 10px;
-  }
-}
-.menu-item {
-  &--active,
-  &:hover {
-    font-weight: 500;
-    text-decoration: underline;
-    cursor: pointer;
   }
 }
 </style>

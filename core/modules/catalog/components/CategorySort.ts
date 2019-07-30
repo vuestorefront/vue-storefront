@@ -1,5 +1,6 @@
 import config from 'config'
 import { mapGetters } from 'vuex'
+/** @deprecated remove in 2.0m only used in old theme  */
 export const CategorySort = {
   name: 'SortBy',
   data () {
@@ -28,17 +29,6 @@ export const CategorySort = {
     ...mapGetters('category', ['getCurrentCategoryProductQuery']),
     sortingOptions () {
       return config.products.sortByAttributes
-    },
-    sortingVariants () {
-      let variants = []
-      Object.keys(this.sortingOptions).map(label => {
-        variants.push({
-          label: label,
-          id: this.sortingOptions[label],
-          type: 'sort'
-        })
-      })
-      return variants
     }
   }
 }
