@@ -13,7 +13,6 @@
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;
@@ -21,6 +20,46 @@
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;
-  -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
+  -webkit-font-feature-settings: 'liga';
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'liga';
+
+  /** These are the recommended sizes */
+  &.mi-sm { font-size: 1.125rem; } /** 18px - .t-text-lg */
+  &.mi-md { font-size: 1.5rem; } /** 24px - .t-text-2xl */
+  &.mi-lg { font-size: 2.25rem; } /** 36px - .t-text-4xl */
+  &.mi-xl { font-size: 3rem; } /** 48px - .t-text-5xl	 */
+}
+
+@font-face {
+  font-family: 'ICMAA Icons';
+  font-style: normal;
+  font-weight: normal;
+  src:  url('../assets/fonts/icmaa-icomoon/ICMAA-Icons.eot?f5stzw');
+  src:  url('../assets/fonts/icmaa-icomoon/ICMAA-Icons.eot?f5stzw#iefix') format('embedded-opentype'),
+    url('../assets/fonts/icmaa-icomoon/ICMAA-Icons.ttf?f5stzw') format('truetype'),
+    url('../assets/fonts/icmaa-icomoon/ICMAA-Icons.woff?f5stzw') format('woff'),
+    url('../assets/fonts/icmaa-icomoon/ICMAA-Icons.svg?f5stzw#ICMAA-Icons') format('svg');
+}
+
+.icmaa-icons {
+  font-family: 'ICMAA Icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  letter-spacing: 0;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga=1";
+  -moz-font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  font-feature-settings: "liga";
+  -webkit-font-variant-ligatures: discretionary-ligatures;
+  font-variant-ligatures: discretionary-ligatures;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

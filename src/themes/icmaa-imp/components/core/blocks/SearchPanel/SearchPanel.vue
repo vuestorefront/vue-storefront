@@ -135,9 +135,12 @@ export default {
       this.selectedCategoryIds = []
     },
     search (val, org) {
-      if (val === null) {
+      // Prevent value from being string 'null'
+      if (val === null || val === 'null' || val === undefined) {
+        this.search = ''
         return
       }
+
       this.$bus.$emit('search-input-change', { search: val })
     }
   },

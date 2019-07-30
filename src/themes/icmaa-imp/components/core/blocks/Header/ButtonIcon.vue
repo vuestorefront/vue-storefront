@@ -1,7 +1,7 @@
 <template>
   <button class="t-flex t-items-center t-cursor-pointer t-text-white t-relative" :aria-label="$t(title)" @click="$emit('click')">
     <material-icon :icon="icon" class="t-flex t-flex-fix" />
-    <span class="qty t-flex t-justify-center t-items-center t-absolute t-bg-alt-1 t-border-2 t-border-base-darkest t-h-4 t-w-4 t-rounded-full t-font-mono" v-if="quantity > 0" v-text="qtyAsString" />
+    <span class="qty t-flex t-justify-center t-items-center t-absolute t-bg-alt-3 t-border-2 t-border-base-darkest t-h-3-1/2 t-w-3-1/2 t-rounded-full t-font-mono" v-if="quantity > 0" v-text="qtyAsString" />
     <span v-html="$t(title)" class="t-hidden lg:t-flex-auto lg:t-flex t--ml-1 t-text-white t-text-sm" :class="{ 't-mr-2': !last }" />
   </button>
 </template>
@@ -27,11 +27,15 @@ export default {
       type: Number,
       default: 0
     },
+    showAmount: {
+      type: Boolean,
+      default: false
+    },
     last: Boolean
   },
   computed: {
     qtyAsString () {
-      return inRange(this.quantity, 1, 9) ? this.quantity.toString() : ''
+      return this.showAmount && inRange(this.quantity, 1, 9) ? this.quantity.toString() : ''
     }
   }
 }
@@ -49,7 +53,7 @@ button {
   .qty {
     font-size: 0.563rem;
     top: 8px;
-    left: 26px;
+    left: 27px;
   }
 }
 

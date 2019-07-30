@@ -117,9 +117,7 @@
     </div>
     <div class="container">
       <div class="row middle-xs px15 bottom-links">
-        <div class="col-xs-5 col-sm-3 cl-tertiary">
-          <language-switcher v-if="multistoreEnabled" />
-        </div>
+        <div class="col-xs-5 col-sm-3 cl-tertiary"/>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links" data-testid="bottomLinks">
             <li class="footer__version-info">
@@ -154,6 +152,7 @@
         </svg>
       </button>
     </back-to-top>
+    <language-switcher v-if="multistoreEnabled" />
   </footer>
 </template>
 

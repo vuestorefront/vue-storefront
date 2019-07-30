@@ -13,6 +13,7 @@
   "dependencies": {
     "bodybuilder": "2.2.13",
     "tailwindcss": "^1.0.5",
+    "tailwindcss-accessibility": "^1.0.0",
     "vue": "^2.6.6",
     "vue-carousel": "^0.6.9",
     "vue-no-ssr": "^0.2.2",
