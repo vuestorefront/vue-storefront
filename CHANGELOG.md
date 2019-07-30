@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Problem with placing an order if shipping method is different than default one - @patzick (#3203)
 - Fixed product video embed on PDP - @juho-jaakkola (#3263)
 - Fixed memory leak with loading DayJS in SSR - @lukeromanowicz (#3310) 
+- Fixed invalid localized routes in SSR content of multistore configuration - @lukeromanowicz (#3262)
 
 ### Changed
 - Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)

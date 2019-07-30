@@ -1,5 +1,3 @@
-import { localizedRoute as localizedRouteHelper, localizedDispatcherRoute as localizedDispatcherRouteHelper, currentStoreView } from '@vue-storefront/core/lib/multistore'
-
 export const multistore = {
   methods: {
     /**
@@ -8,9 +6,11 @@ export const multistore = {
      * @param {Int} width
      * @param {Int} height
      */
-    localizedRoute (routeObj) {
+    async localizedRoute (routeObj) {
+      // importing this way is crucial to always have a fresh multistore instance reference to store in SSR
+      const {localizedRoute, currentStoreView} = await import('@vue-storefront/core/lib/multistore')
       const storeView = currentStoreView()
-      return localizedRouteHelper(routeObj, storeView.storeCode)
+      return localizedRoute(routeObj, storeView.storeCode)
     },
     /**
      * Return localized route params for URL Dispatcher
@@ -18,9 +18,10 @@ export const multistore = {
      * @param {Int} width
      * @param {Int} height
      */
-    localizedDispatcherRoute (routeObj) {
+    async localizedDispatcherRoute (routeObj) {
+      const {localizedDispatcherRoute, currentStoreView} = await import('@vue-storefront/core/lib/multistore')
       const storeView = currentStoreView()
-      return localizedDispatcherRouteHelper(routeObj, storeView.storeCode)
+      return localizedDispatcherRoute(routeObj, storeView.storeCode)
     }
   }
 }
