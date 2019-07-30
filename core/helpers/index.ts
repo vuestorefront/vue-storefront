@@ -219,8 +219,10 @@ export const calcItemsHmac = (items, token) => {
 export function extendStore (moduleName: string | string[], module: any) {
   const merge = function (object: any = {}, source: any) {
     for (let key in source) {
-      if (typeof source[key] === 'object') {
+      if (typeof source[key] === 'object' && !Array.isArray(source[key])) {
         object[key] = merge(object[key], source[key])
+      } else if (Array.isArray(source[key])) {
+        object[key] = merge([], source[key])
       } else {
         object[key] = source[key]
       }
