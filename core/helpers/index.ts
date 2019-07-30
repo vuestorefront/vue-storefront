@@ -45,7 +45,7 @@ export function slugify (text) {
  * @param {string} pathType
  * @returns {string}
  */
-export function getThumbnailPath (relativeUrl: string, width: number = 0, height: number = 0, pathType: string = 'product'): string {
+export function getThumbnailPath (relativeUrl: string, width: number = config.products.thumbnails.width, height: number = config.products.thumbnails.height, pathType: string = 'product'): string {
   if (config.images.useExactUrlsNoProxy) {
     return relativeUrl // this is exact url mode
   } else {

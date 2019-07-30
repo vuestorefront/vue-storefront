@@ -39,4 +39,5 @@ export const CheckoutModule: StorefrontModule = function (app, store, router, mo
       }) // populate cache
     }
   })
+  store.dispatch('checkout/load')
 }

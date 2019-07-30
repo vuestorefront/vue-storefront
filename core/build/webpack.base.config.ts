@@ -17,7 +17,10 @@ fs.writeFileSync(
 // eslint-disable-next-line import/first
 import themeRoot from './theme-path';
 
-const themesRoot = '../../src/themes'
+// TODO: make it customizable via node env or something else that will be suitable once we have core separation
+const projectRoot = '../../src'
+const themesRoot = projectRoot + '/themes'
+
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
@@ -115,7 +118,6 @@ export default {
       'theme/app': themeApp,
       'theme/css': themeCSS,
       'theme/resource': themeResources,
-
       // Backward compatible
       '@vue-storefront/core/store/lib/multistore': path.resolve(__dirname, '../lib/multistore.ts'),
       'src/modules/order-history/components/UserOrders': path.resolve(__dirname, '../../core/modules/order/components/UserOrdersHistory'),

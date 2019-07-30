@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
-    "resolveJsonModule": false,
+    "resolveJsonModule": true,
     "sourceMap": true,
     "downlevelIteration": true,
     "baseUrl": ".",
