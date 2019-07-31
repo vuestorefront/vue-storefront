@@ -42,8 +42,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed first call of prepareStoreView when SSR - @resubaka (#3244)
 - Add ./packages as volume to docker-compose.yml - @cewald (#3251)
 - Fixed mail sending and add error logger - @Michal-Dziedzinski (#3265)
+- Fixed bug around appendStoreCode in formatCategoryLink. - @resubaka (#3306)
 - Fixed static category links in cms contents on homepage and MinimalFooter - @MariaKern (#3292)
 - Fixed tax calulaction where products was send as parameter but products.items where the right paramater - @resubaka (#3308)
+- Fixed module extendStore for array property inside store - @przspa (#3311)
 
 ### Changed / Improved
 
