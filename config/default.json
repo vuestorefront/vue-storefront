@@ -427,6 +427,11 @@
     "fullLanguageName": "English",
     "bundleAllStoreviewLanguages": true
   },
+  "expireHeaders": {
+    "default": "30d",
+    "application/json": "24h",
+    "image/png": "7d"
+  },
   "newsletter": {
     "endpoint": "/api/ext/mailchimp-subscribe/subscribe"
   },
