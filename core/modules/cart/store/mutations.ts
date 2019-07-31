@@ -86,6 +86,12 @@ const mutations: MutationTree<CartState> = {
   },
   [types.CART_TOGGLE_MICROCART] (state) {
     state.isMicrocartOpen = !state.isMicrocartOpen
+  },
+  [types.CART_SET_TOTALS_SYNC_REQUIRED] (state, { isRequired }) {
+    state.totalSyncRequired = isRequired
+  },
+  [types.CART_UPDATE_BYPASS_COUNTER] (state, { counter }) {
+    state.connectBypassCount = state.connectBypassCount + counter
   }
 }
 

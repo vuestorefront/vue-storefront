@@ -11,5 +11,6 @@ export default interface CartItem extends Product {
   server_cart_id: any,
   product_type?: string,
   item_id?: number,
-  checksum?: string
+  checksum?: string,
+  quoteId?: string
 }

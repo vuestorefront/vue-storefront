@@ -3,11 +3,25 @@ import optimizeProduct from './optimizeProduct'
 import prepareProductsToAdd from './prepareProductsToAdd'
 import productChecksum from './productChecksum'
 import productsEquals from './productsEquals'
+import calculateTotals from './calculateTotals'
+import preparePaymentMethodsToSync from './preparePaymentMethodsToSync'
+import validateProduct from './validateProduct'
+import validateQueueCheck from './validateQueueCheck'
+import createDiffLog from './createDiffLog'
+import isCartTokenAuthorized from './isCartTokenAuthorized'
+import * as notifications from './notifications'
 
 export {
   cartCacheHandlerFactory,
   optimizeProduct,
   prepareProductsToAdd,
   productChecksum,
-  productsEquals
+  productsEquals,
+  calculateTotals,
+  preparePaymentMethodsToSync,
+  validateProduct,
+  validateQueueCheck,
+  notifications,
+  createDiffLog,
+  isCartTokenAuthorized
 }
