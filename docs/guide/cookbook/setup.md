@@ -28,7 +28,7 @@ Luckily, we already have been through all this for you, got our hands dirty. All
 :::tip NOTE
 We will walk you with docker on *Linux*. (Specifically *Ubuntu 18.04* if needed)
 
-There is only one bias for Docker before using it; *Run it on Linux*. Docker is native Linux, was created using a Linux technology, LXC (linux container) in the first place. Even though there were many attempts made to make it available to other platforms as it does on Linux, and it has definitely been on a progress, however, using Docker on Linux is the solidest way to deal with the technology. 
+There is only one bias for Docker before using it; *Run it on Linux*. Docker is native Linux, was created using a Linux technology; LXC (linux container) in the first place. Even though there were many attempts made to make it available to other platforms as it does on Linux, and it has definitely been on a progress, however, using Docker on Linux is the solidest way to deal with the technology. 
 
 That being sad, there are tips for using other platforms for docker at [Chef's Secrets](#_4-chef-s-secret-protip) as well. 
 :::
