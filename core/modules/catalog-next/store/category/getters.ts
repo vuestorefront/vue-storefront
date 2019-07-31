@@ -7,6 +7,7 @@ import FilterVariant from '../../types/FilterVariant'
 import { optionLabel } from '../../helpers/optionLabel'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
+import forEach from 'lodash-es/forEach'
 import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
@@ -19,12 +20,15 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCategoryFrom: (state, getters) => (path: string = '') => {
     return getters.getCategories.find(category => path.replace(/^(\/)/gm, '') === category.url_path) || {}
   },
+  getCategoryByRouteParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
+    return getters.getCategories.find(category => {
+      let valueCheck = []
+      forEach(params, (value, key) => valueCheck.push(category[key] === value))
+      return valueCheck.filter(check => check === true).length === Object.keys(params).length
+    }) || {}
+  },
   getCurrentCategory: (state, getters, rootState) => {
-    if (state.currentId) {
-      return getters.getCategories.find(category => category.id === state.currentId) || {}
-    }
-
-    return getters.getCategoryFrom(rootState.route.path)
+    return getters.getCategoryByRouteParams(rootState.route.params)
   },
   getAvailableFiltersFrom: (state, getters, rootState) => (aggregations) => {
     const filters = {}

@@ -94,7 +94,7 @@ const composeInitialPageState = async (store, route) => {
       includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
     })
     const searchOptions = { filters: route.params }
-    const currentCategory = await store.dispatch('category-next/loadCategory', { searchOptions, setToCurrent: true })
+    const currentCategory = await store.dispatch('category-next/loadCategory', searchOptions)
     await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
     await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
   } catch (e) {

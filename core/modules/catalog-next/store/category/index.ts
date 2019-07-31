@@ -8,7 +8,6 @@ import CategoryState from './CategoryState'
 export const categoryModule: Module<CategoryState, RootState> = {
   namespaced: true,
   state: {
-    currentId: null,
     categoriesMap: {},
     availableFilters: {},
     products: [],
