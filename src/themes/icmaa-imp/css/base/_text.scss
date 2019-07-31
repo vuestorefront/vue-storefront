@@ -4,11 +4,11 @@ body {
   font-weight: 400;
 }
 
-h1, .h1,
-h2, .h2,
-h3, .h3,
-h4, .h4,
-h5, .h5 {
+main h1, .h1,
+main h2, .h2,
+main h3, .h3,
+main h4, .h4,
+main h5, .h5 {
   line-height: 1.125em;
 
   &:not(:last-child) {
@@ -20,33 +20,19 @@ h5, .h5 {
   }
 }
 
-h1, .h1 { font-size: 2.5em; font-weight: bold; }
-h2, .h2 { font-size: 1.75em; font-weight: bold; }
-h3, .h3 { font-size: 1.625em; }
-h4, .h4 { font-size: 1.25em; }
-h5, .h5 { font-size: 1.125em; }
-h6, .h6 { font-size: 1em; font-weight: bold; }
+main h1, .h1 { font-size: 2.5em; font-weight: bold; }
+main h2, .h2 { font-size: 1.75em; font-weight: bold; }
+main h3, .h3 { font-size: 1.625em; }
+main h4, .h4 { font-size: 1.25em; }
+main h5, .h5 { font-size: 1.125em; }
+main h6, .h6 { font-size: 1em; font-weight: bold; }
 
 .rem {
-  h1, .h1,
-  h2, .h2,
-  h3, .h3,
-  h4, .h4,
-  h5, .h5 {
-    &:not(:last-child) {
-      margin-bottom: .75rem;
-    }
-
-    &:not(:first-child) {
-      margin-top: 1.25rem;
-    }
-  }
-
   h1, .h1 { font-size: 2.5rem; font-weight: bold; }
   h2, .h2 { font-size: 1.75rem; font-weight: bold; }
   h3, .h3 { font-size: 1.625rem; }
-  h4, .h4 { font-size: 1.25em; }
-  h5, .h5 { font-size: 1.125em; }
+  h4, .h4 { font-size: 1.25rem; }
+  h5, .h5 { font-size: 1.125rem; }
   h6, .h6 { font-size: 1rem; font-weight: bold; }
 }
 

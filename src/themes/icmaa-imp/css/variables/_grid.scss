@@ -12,11 +12,11 @@
 // adapting to different screen sizes, for use in media queries.
 
 $breakpoints: (
-        xs: 1px,
-        xsm: 640px,
-        sm: 768px,
-        md: 1024px,
-        lg: 1280px
+  xs: 1px,
+  xsm: 640px,
+  sm: 768px,
+  md: 1024px,
+  lg: 1280px
 );
 
 // Grid columns
@@ -24,10 +24,10 @@ $breakpoints: (
 // Set the width of the gutters.
 
 $grid-gutter-widths: (
-        xs: 10px,
-        sm: 30px,
-        md: 30px,
-        lg: 30px
+  xs: 10px,
+  sm: 30px,
+  md: 30px,
+  lg: 30px
 ) !default;
 $test: 2;
 $screen: "only screen";

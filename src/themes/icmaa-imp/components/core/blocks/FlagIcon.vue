@@ -24,7 +24,7 @@ export default {
       return this.$attrs
     },
     image () {
-      return `assets/flags/${this.format}/${this.iso.toLowerCase()}.svg`
+      return `/assets/flags/${this.format}/${this.iso.toLowerCase()}.svg`
     }
   }
 }

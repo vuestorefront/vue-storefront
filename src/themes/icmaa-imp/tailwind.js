@@ -29,6 +29,10 @@ module.exports = {
       fontSize: {
         'xxs': '0.625rem'
       },
+      lineHeight: {
+        'looser': '3',
+        'super-loose': '4'
+      },
       flex: {
         'fix': '0 0 auto',
         'expand': '1 0 auto'

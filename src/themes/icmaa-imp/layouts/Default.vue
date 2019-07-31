@@ -25,7 +25,9 @@
         :is-open="isWishlistOpen"
         @close="$store.commit('ui/setWishlist')"
       />
-      <slot />
+      <main class="t-bg-base-lightest">
+        <slot />
+      </main>
       <main-footer />
       <notification />
       <sign-up />
@@ -86,17 +88,18 @@ export default {
     fetchMetaData () {
       return this.$store.dispatch('icmaaMeta/load')
     },
-    fetchMenuData () {
+    fetchCmsData () {
       return Promise.all([
         this.$store.dispatch('icmaaCmsBlock/single', { value: 'navigation-main' }),
-        this.$store.dispatch('icmaaCmsBlock/single', { value: 'navigation-meta' })
+        this.$store.dispatch('icmaaCmsBlock/single', { value: 'navigation-meta' }),
+        this.$store.dispatch('icmaaCmsBlock/single', { value: 'footer' })
       ])
     }
   },
   serverPrefetch () {
     return Promise.all([
       this.fetchMetaData(),
-      this.fetchMenuData()
+      this.fetchCmsData()
     ])
   },
   beforeMount () {
