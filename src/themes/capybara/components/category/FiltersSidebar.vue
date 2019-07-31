@@ -4,49 +4,25 @@
     @close="onClose"
     class="filters"
   >
-    <h3 class="filters__title">
-      Color
-    </h3>
-    <SfFilter
-      v-model="choosenFilters.color"
-      @change="onFilterChange"
-    >
-      <SfFilterItem
-        v-for="(filter, i) in filters.color"
-        :key="i"
-        :value="filter.id"
-        :label="filter.label"
-        :color="filter.label"
-      />
-    </SfFilter>
-    <h3 class="filters__title">
-      Size
-    </h3>
-    <SfFilter
-      v-model="choosenFilters.size"
-      @change="onFilterChange"
-    >
-      <SfFilterItem
-        v-for="(filter, i) in filters.size"
-        :key="i"
-        :value="filter.id"
-        :label="filter.label"
-      />
-    </SfFilter>
-    <h3 class="filters__title">
-      Price
-    </h3>
-    <SfFilter
-      v-model="choosenFilters.price"
-      @change="onFilterChange"
-    >
-      <SfFilterItem
-        v-for="(filter, i) in filters.price"
-        :key="i"
-        :value="filter.id"
-        :label="filter.label"
-      />
-    </SfFilter>
+    <template v-for="(filter, filterName) in filters">
+      <h3 class="filters__title" :key="filterName">
+        {{ filterName }}
+      </h3>
+      <SfFilter
+        v-model="choosenFilters[filterName]"
+        @change="onFilterChange"
+        :key="filterName"
+      >
+        <SfFilterItem
+          v-for="(filterOption, i) in filter"
+          :key="i"
+          :value="filterOption.id"
+          :label="filterOption.label"
+          :color="filterOption.type == 'color' ? filterOption.label : null "
+        />
+      </SfFilter>
+    </template>
+    
     <div class="filters__buttons">
       <SfButton
         @click="onClose"
@@ -82,7 +58,9 @@ export default {
       choosenFilters: {
         color: [],
         size: [],
-        price: []
+        price: [],
+        erin_recommends: [],
+        sort: []
       }
     }
   },

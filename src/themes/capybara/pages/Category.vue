@@ -60,30 +60,6 @@
           <strong class="desktop-only">{{ categoryProductsTotal }}</strong>
           <span class="navbar__label mobile-only">{{ categoryProductsTotal }} Items</span>
         </div>
-        <div class="navbar__view desktop-only">
-          <span>View </span>
-          <SfIcon class="navbar__view-icon" size="10px">
-            <!-- todo: add to icons -->
-            <svg viewBox="0 0 10 10">
-              <rect width="2" height="2" fill="#1D1F22" />
-              <rect y="4" width="2" height="2" fill="#1D1F22" />
-              <rect y="8" width="2" height="2" fill="#1D1F22" />
-              <rect x="4" width="2" height="2" fill="#1D1F22" />
-              <rect x="4" y="4" width="2" height="2" fill="#1D1F22" />
-              <rect x="4" y="8" width="2" height="2" fill="#1D1F22" />
-              <rect x="8" width="2" height="2" fill="#1D1F22" />
-              <rect x="8" y="4" width="2" height="2" fill="#1D1F22" />
-              <rect x="8" y="8" width="2" height="2" fill="#1D1F22" />
-            </svg>
-          </SfIcon>
-          <SfIcon class="navbar__view-icon" size="11px">
-            <svg viewBox="0 0 11 10" fill="none">
-              <rect width="11" height="2" fill="#BEBFC4" />
-              <rect y="8" width="11" height="2" fill="#BEBFC4" />
-              <rect y="4" width="7" height="2" fill="#BEBFC4" />
-            </svg>
-          </SfIcon>
-        </div>
         <SfButton
           class="navbar__filters-button mobile-only"
           @click="isFilterSidebarOpen = true"
@@ -156,7 +132,6 @@ const composeInitialPageState = async (store, route) => {
     const currentCategory = await store.dispatch('category-next/loadCategory', {filters: categoryFilters})
     await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
     await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
-    await store.dispatch('category-next/loadCategories')
   } catch (e) {
     console.error('Problem with setting Category initial data!', e)
   }
@@ -197,11 +172,16 @@ export default {
     else if (from.name) { // SSR but client side invocation, we need to cache products
       next(async vm => {
         await vm.$store.dispatch('category-next/cacheProducts', { route: to })
+        // Fetch only on CSR
+        await vm.$store.dispatch('category-next/loadCategories')
+
       })
     } else { // Pure CSR, with no initial category state
       next(async vm => {
         await composeInitialPageState(vm.$store, to)
         await vm.$store.dispatch('category-next/cacheProducts', { route: to })
+        // Fetch only on CSR
+        await vm.$store.dispatch('category-next/loadCategories')
       })
     }
   },
@@ -316,14 +296,6 @@ export default {
     margin: auto;
     @media (min-width: $desktop-min) {
       margin-right: 0;
-    }
-  }
-  &__view {
-    display: flex;
-    align-items: center;
-    margin: 0 $spacer-extra-big;
-    &-icon {
-      margin-left: 10px;
     }
   }
 }
