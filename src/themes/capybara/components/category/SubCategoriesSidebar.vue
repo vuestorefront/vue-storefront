@@ -12,7 +12,7 @@
               class="menu-item"
               :label="category.name"
             />
-            </SfListItem>
+          </SfListItem>
         </SfList>
       </SfAccordionItem>
     </template>

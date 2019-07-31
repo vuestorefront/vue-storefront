@@ -174,7 +174,6 @@ export default {
         await vm.$store.dispatch('category-next/cacheProducts', { route: to })
         // Fetch only on CSR
         await vm.$store.dispatch('category-next/loadCategories')
-
       })
     } else { // Pure CSR, with no initial category state
       next(async vm => {

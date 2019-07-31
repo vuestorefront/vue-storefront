@@ -22,7 +22,7 @@
         />
       </SfFilter>
     </template>
-    
+
     <div class="filters__buttons">
       <SfButton
         @click="onClose"
