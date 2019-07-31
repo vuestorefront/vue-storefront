@@ -247,7 +247,7 @@ cd /home/www/vuestorefront/vue-storefront
 yarn install
 ```
 
-It may take a few minutes. Once the modules are installed, we can set configuration files for both services.
+It may take a few minutes. The phantomjs dependency requires bzip2 to be installed. Once the modules are installed, we can set configuration files for both services.
 
 #### Vue Storefront configuration
 
