@@ -1,11 +1,7 @@
 import { Module } from 'vuex'
-import actions from './actions'
 import getters from './getters'
-import mutations from './mutations'
-import CategoryState from './CategoryState'
+import CategoryState from '@vue-storefront/core/modules/catalog-next/store/category/CategoryState'
 
 export const ExtendedCategoryStore: Module<CategoryState, any> = {
-  getters,
-  actions,
-  mutations
+  getters
 }
