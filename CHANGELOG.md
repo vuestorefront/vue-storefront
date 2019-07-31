@@ -41,6 +41,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed first call of prepareStoreView when SSR - @resubaka (#3244)
 - Add ./packages as volume to docker-compose.yml - @cewald (#3251)
 - Fixed mail sending and add error logger - @Michal-Dziedzinski (#3265)
+- Fixed static category links in cms contents on homepage and MinimalFooter - @MariaKern (#3292)
+- Fixed tax calulaction where products was send as parameter but products.items where the right paramater - @resubaka (#3308)
+- Fixed module extendStore for array property inside store - @przspa (#3311)
 
 ### Changed / Improved
 
@@ -55,7 +58,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
 - New modules API and rewrite - @filrak, @JCown (#3144)
 - Refactored the vuex user module - @andrzejewsky (#3095)
+- Brazilian Portuguese (pt_BR) translation improved - @pxfm (#3288)
 - Moved store/lib to /lib - @pxfm (#3253)
+- Improved some of the german translations in spelling and wording - @MariaKern (#3297) 
 
 ## [1.10.0-rc.2] - UNRELEASED
 
