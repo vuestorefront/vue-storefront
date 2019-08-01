@@ -16,6 +16,7 @@ const getCategories = async ({
   includeFields = config.entities.optimize ? config.entities.category.includeFields : null,
   excludeFields = config.entities.optimize ? config.entities.category.excludeFields : null
 }: DataResolver.CategorySearchOptions = {}): Promise<Category[]> => {
+  const allFilters = 'filterFields' in config.entities.category ? Object.assign(config.entities.category.filterFields, filters) : filters
   let searchQuery = new SearchQuery()
   if (parentId) {
     searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': parentId}})
@@ -24,11 +25,15 @@ const getCategories = async ({
     searchQuery = searchQuery.applyFilter({key: 'level', value: {'eq': level}})
   }
 
-  for (var [key, value] of Object.entries(filters)) {
-    if (Array.isArray(value)) {
-      searchQuery = searchQuery.applyFilter({key: key, value: {'in': value}})
-    } else {
-      searchQuery = searchQuery.applyFilter({key: key, value: {'eq': value}})
+  for (var [key, value] of Object.entries(allFilters)) {
+    if (value !== null) {
+      if (Array.isArray(value)) {
+        searchQuery = searchQuery.applyFilter({key: key, value: {'in': value}})
+      } else if (typeof value === 'object') {
+        searchQuery = searchQuery.applyFilter({key: key, value: value})
+      } else {
+        searchQuery = searchQuery.applyFilter({key: key, value: {'eq': value}})
+      }
     }
   }
 
