@@ -9,7 +9,7 @@ import { router } from '@vue-storefront/core/app'
 import FilterVariant from '../../types/FilterVariant'
 import { CategoryService } from '@vue-storefront/core/data-resolver'
 import { changeFilterQuery } from '../../helpers/filterHelpers'
-import { products } from 'config'
+import { products, entities } from 'config'
 import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 import { DataResolver } from 'core/data-resolver/types/DataResolver';
 import { Category } from '../../types/Category';
@@ -22,7 +22,12 @@ const actions: ActionTree<CategoryState, RootState> = {
     await dispatch('loadCategoryFilters', searchCategory)
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
-    const {items, perPage, start, total} = await quickSearchByQuery({ query: filterQr, sort: searchQuery.sort })
+    const {items, perPage, start, total} = await quickSearchByQuery({
+      query: filterQr,
+      sort: searchQuery.sort,
+      includeFields: entities.productList.includeFields,
+      excludeFields: entities.productList.excludeFields
+    })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
     let configuredProducts = items.map(product => {
       const configuredProductVariant = configureProductAsync({rootState}, {product, configuration: searchQuery.filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
@@ -39,7 +44,14 @@ const actions: ActionTree<CategoryState, RootState> = {
 
     const searchQuery = getters.getCurrentSearchQuery
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
-    const searchResult = await quickSearchByQuery({ query: filterQr, sort: searchQuery.sort, start: start + perPage, size: perPage })
+    const searchResult = await quickSearchByQuery({
+      query: filterQr,
+      sort: searchQuery.sort,
+      start: start + perPage,
+      size: perPage,
+      includeFields: entities.productList.includeFields,
+      excludeFields: entities.productList.excludeFields
+    })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, {
       perPage: searchResult.perPage,
       start: searchResult.start,

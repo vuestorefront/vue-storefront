@@ -9,14 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057)
+- Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057, #3270)
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
 - Add icons on the product tiles that allow to add to the wish list and to the list to compare products from the list of products - @Michal-Dziedzinski (#2773)
 - Get also none product image thumbnails via API - @cewald, @resubaka (#3207)
 - Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
+- Added information on the number of available products - @Michal-Dziedzinski (#2733)
 - Added possibility to change color or size of the product that is already in the cart - @andrzejewsky (#2346)
+- Added price formatting based on locales in multistore - @andrzejewsky (#3060)
+- Added support for tax calculation where the values from customer_tax_class_ids is used - @resubaka (#3245)
+- Added loading product attributes (`entities.productListWithChildren.includeFields`) on category page - @andrzejewsky (#3220)
+- Added config to set Cache-Control header for static assets based on mime type - @phoenix-bjoern (#3268)
 
 ### Fixed
 
@@ -33,7 +38,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed aspect ratio in ProductImage component - @przspa (#3187)
 - Fixed AMP Product page - @przspa (#3227)
 - Fixed when store has updated, but plugin didn't called - @serzilo (#3238)
+- Fixed first call of prepareStoreView when SSR - @resubaka (#3244)
 - Add ./packages as volume to docker-compose.yml - @cewald (#3251)
+- Fixed mail sending and add error logger - @Michal-Dziedzinski (#3265)
+- Fixed bug around appendStoreCode in formatCategoryLink. - @resubaka (#3306)
+- Fixed static category links in cms contents on homepage and MinimalFooter - @MariaKern (#3292)
+- Fixed tax calulaction where products was send as parameter but products.items where the right paramater - @resubaka (#3308)
+- Fixed module extendStore for array property inside store - @przspa (#3311)
 
 ### Changed / Improved
 
@@ -47,6 +58,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added catching of errors when ES is down - @qiqqq
 - Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
 - New modules API and rewrite - @filrak, @JCown (#3144)
+- Refactored the vuex user module - @andrzejewsky (#3095)
+- Brazilian Portuguese (pt_BR) translation improved - @pxfm (#3288)
+- Moved store/lib to /lib - @pxfm (#3253)
+- Improved some of the german translations in spelling and wording - @MariaKern (#3297) 
+
 ## [1.10.0-rc.2] - UNRELEASED
 
 ### Fixed

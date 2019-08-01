@@ -131,6 +131,7 @@
       "storeId": 4,
       "name": "Italian Store",
       "url": "/it",
+      "appendStoreCode": true,
       "elasticsearch": {
         "host": "/api/catalog",
         "index": "vue_storefront_catalog_it"
@@ -164,7 +165,7 @@
     },
     "productList": {
       "sort": "updated_at:desc",
-      "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "url_path", "url_key", "status", "tier_prices", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax" ],
+      "includeFields": [ "type_id", "*sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "url_path", "url_key", "status", "tier_prices", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "*image","*small_image", "configurable_children.color", "configurable_children.size", "configurable_children.tier_prices"],
       "excludeFields": [ "description", "configurable_options", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options" ]
     },
     "productListWithChildren": {
@@ -389,7 +390,9 @@
     "defaultCountry": "US",
     "defaultRegion": "",
     "sourcePriceIncludesTax": false,
-    "calculateServerSide": true
+    "calculateServerSide": true,
+    "userGroupId": null,
+    "useOnlyDefaultUserGroupId": false
   },
   "shipping": {
     "methods": [
@@ -419,6 +422,11 @@
     "fullCountryName": "United States",
     "fullLanguageName": "English",
     "bundleAllStoreviewLanguages": true
+  },
+  "expireHeaders": {
+    "default": "30d",
+    "application/json": "24h",
+    "image/png": "7d"
   },
   "newsletter": {
     "endpoint": "/api/ext/mailchimp-subscribe/subscribe"
