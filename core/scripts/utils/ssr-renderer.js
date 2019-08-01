@@ -16,7 +16,7 @@ function createRenderer (bundle, clientManifest, template) {
   })
 }
 
-function applyAdvancedOutputProcessing (context, output, templatesCache, isProd = true, relatvePaths = true, destDir = '', outputFilename = '') {
+function applyAdvancedOutputProcessing (context, output, templatesCache, isProd = true, relatvePaths = false, destDir = '', outputFilename = '') {
   const contentPrepend = (typeof context.output.prepend === 'function') ? context.output.prepend(context) : '';
   const contentAppend = (typeof context.output.append === 'function') ? context.output.append(context) : '';
   output = contentPrepend + output + contentAppend;
