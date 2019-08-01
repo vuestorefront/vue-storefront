@@ -26,6 +26,7 @@ import {
   isCartTokenAuthorized,
   notifications
 } from './../helpers'
+import CartItem from '../types/CartItem';
 
 function _getDifflogPrototype () {
   return { items: [], serverResponses: [], clientNotifications: [] }
@@ -62,24 +63,6 @@ async function _serverTotals (): Promise<Task> {
       mode: 'cors'
     },
     silent: true
-  })
-}
-
-/** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
-function _serverUpdateItem ({ cartServerToken, cartItem }): Promise<Task> {
-  if (!cartItem.quoteId) {
-    cartItem = Object.assign(cartItem, { quoteId: cartServerToken })
-  }
-
-  return TaskQueue.execute({ url: config.cart.updateitem_endpoint, // sync the cart
-    payload: {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
-      body: JSON.stringify({
-        cartItem: cartItem
-      })
-    }
   })
 }
 
@@ -435,9 +418,71 @@ const actions: ActionTree<CartState, RootState> = {
     Logger.warn('Cart sync is disabled by the config', 'cart')()
     return createDiffLog()
   },
-  /**  merge shopping cart with the server results; if dryRun = true only the diff phase is being executed */
-  async merge ({ getters, dispatch, commit, rootGetters }, { serverItems, clientItems, dryRun = false, forceClientState = false }) {
-    const diffLog = _getDifflogPrototype()
+  async restoreQuantity ({ dispatch }, { cartItem, clientItem }) {
+    const currentCartItem = await dispatch('getItem', clientItem)
+    if (currentCartItem) {
+      Logger.log('Restoring qty after error' + clientItem.sku + currentCartItem.prev_qty, 'cart')()
+      if (cartItem.prev_qty > 0) {
+        dispatch('updateItem', { product: { qty: currentCartItem.prev_qty } })
+        EventBus.$emit('cart-after-itemchanged', { item: currentCartItem })
+      } else {
+        dispatch('removeItem', { product: currentCartItem, removeByParentSku: false })
+      }
+    }
+  },
+  async updateClientItem ({ dispatch }, { clientItem, serverItem }) {
+    const cartItem = clientItem === null ? await dispatch('getItem', serverItem) : clientItem
+
+    if (!cartItem || typeof serverItem.item_id === 'undefined') return
+
+    const product = {
+      server_item_id: serverItem.item_id,
+      sku: cartItem.sku,
+      server_cart_id: serverItem.quote_id,
+      prev_qty: cartItem.qty,
+      product_option: serverItem.product_option,
+      type_id: serverItem.product_type
+    }
+
+    await dispatch('updateItem', { product })
+    EventBus.$emit('cart-after-itemchanged', { item: cartItem })
+  },
+  async updateServerItem ({ getters, rootGetters, commit, dispatch }, { cartItem, clientItem, serverItem }) {
+    const diffLog = createDiffLog()
+    const event = await CartService.updateCartItem(getters.getCartToken, cartItem)
+    const isUpdateSuccess = event.resultCode === 200
+    Logger.debug('Cart item server sync' + event, 'cart')()
+    diffLog.pushServerResponse({ 'status': event.resultCode, 'sku': clientItem.sku, 'result': event })
+
+    if (!isUpdateSuccess && !serverItem) {
+      commit(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
+      return diffLog
+    }
+
+    if (!isUpdateSuccess && clientItem.item_id) {
+      await dispatch('restoreQuantity', { cartItem, clientItem })
+      return diffLog
+    }
+
+    if (!isUpdateSuccess) {
+      Logger.warn('Removing product from cart', 'cart', clientItem)()
+      commit(types.CART_DEL_NON_CONFIRMED_ITEM, { product: clientItem })
+      return diffLog
+    }
+
+    if (!rootGetters['checkout/isUserInCheckout']) {
+      const isThisNewItemAddedToTheCart = (!clientItem || !clientItem.server_item_id)
+      diffLog.pushNotification(
+        isThisNewItemAddedToTheCart ? notifications.productAddedToCart : notifications.productQuantityUpdated
+      )
+    }
+
+    await dispatch('updateClientItem', { clientItem, serverItem: event.result })
+
+    return diffLog
+  },
+  async merge ({ getters, dispatch, commit }, { serverItems, clientItems, dryRun = false, forceClientState = false }) {
+    const diffLog = createDiffLog()
     let totalsShouldBeRefreshed = getters.isTotalsSyncRequired // when empty it means no sync has yet been executed
     let serverCartUpdateRequired = false
     let clientCartUpdateRequired = false
@@ -460,75 +505,7 @@ const actions: ActionTree<CartState, RootState> = {
         }
       })
     }
-    /** helper - sub method to update the item in the cart */
-    const _updateClientItem = async function ({ dispatch }, event, clientItem) {
-      if (typeof event.result.item_id !== 'undefined') {
-        const product = {
-          server_item_id: event.result.item_id,
-          sku: clientItem.sku,
-          server_cart_id: event.result.quote_id,
-          prev_qty: clientItem.qty,
-          product_option: event.result.product_option,
-          type_id: event.result.product_type
-        }
 
-        await dispatch('updateItem', { product }) // update the server_id reference
-        EventBus.$emit('cart-after-itemchanged', { item: clientItem })
-      }
-    }
-
-    /** helper - sub method to react for the server response after the sync */
-    const _afterServerItemUpdated = async function ({ dispatch, commit }, event, clientItem = null, serverItem = null) {
-      Logger.debug('Cart item server sync' + event, 'cart')()
-      diffLog.serverResponses.push({ 'status': event.resultCode, 'sku': clientItem.sku, 'result': event })
-      if (event.resultCode !== 200) {
-        // TODO: add the strategy to configure behaviour if the product is (confirmed) out of the stock
-        if (!serverItem) {
-          commit(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
-        } else if (clientItem.item_id) {
-          dispatch('getItem', clientItem).then((cartItem) => {
-            if (cartItem) {
-              Logger.log('Restoring qty after error' + clientItem.sku + cartItem.prev_qty, 'cart')()
-              if (cartItem.prev_qty > 0) {
-                dispatch('updateItem', { product: { qty: cartItem.prev_qty } }) // update the server_id reference
-                EventBus.$emit('cart-after-itemchanged', { item: cartItem })
-              } else {
-                dispatch('removeItem', { product: cartItem, removeByParentSku: false }) // update the server_id reference
-              }
-            }
-          })
-        } else {
-          Logger.warn('Removing product from cart', 'cart', clientItem)()
-          commit(types.CART_DEL_NON_CONFIRMED_ITEM, { product: clientItem })
-        }
-      } else {
-        const isUserInCheckout = rootGetters['checkout/isUserInCheckout']
-        if (!isUserInCheckout) { // if user is in the checkout - this callback is just a result of server sync
-          const isThisNewItemAddedToTheCart = (!clientItem || !clientItem.server_item_id)
-          const notificationData = {
-            type: 'success',
-            message: isThisNewItemAddedToTheCart ? i18n.t('Product has been added to the cart!') : i18n.t('Product quantity has been updated!'),
-            action1: { label: i18n.t('OK') },
-            action2: null
-          }
-          if (!config.externalCheckout) { // if there is externalCheckout enabled we don't offer action to go to checkout as it can generate cart desync
-            notificationData.action2 = { label: i18n.t('Proceed to checkout'),
-              action: () => {
-                dispatch('goToCheckout')
-              }}
-          }
-          diffLog.clientNotifications.push(notificationData) // display the notification only for newly added products
-        }
-      }
-      if (clientItem === null) {
-        const cartItem = await dispatch('getItem', event.result)
-        if (cartItem) {
-          await _updateClientItem({ dispatch }, event, cartItem)
-        }
-      } else {
-        await _updateClientItem({ dispatch }, event, clientItem)
-      }
-    }
     for (const clientItem of clientItems) {
       cartHasItems = true
 
@@ -536,18 +513,22 @@ const actions: ActionTree<CartState, RootState> = {
 
       if (!serverItem) {
         Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')()
-        diffLog.items.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'no-item' })
+        diffLog.pushServerParty({ sku: clientItem.sku, status: 'no-item' })
         if (!dryRun) {
           if (forceClientState || !config.cart.serverSyncCanRemoveLocalItems) {
-            const event = await _serverUpdateItem({
-              cartServerToken: getters.getCartToken,
-              cartItem: {
-                sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
-                qty: clientItem.qty,
-                product_option: clientItem.product_option
+            const updateServerItemDiffLog = await dispatch(
+              'updateServerItem',
+              {
+                clientItem,
+                serverItem,
+                cartItem: {
+                  sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
+                  qty: clientItem.qty,
+                  product_option: clientItem.product_option
+                }
               }
-            })
-            _afterServerItemUpdated({ dispatch, commit }, event, clientItem, serverItem)
+            )
+            diffLog.merge(updateServerItemDiffLog)
             serverCartUpdateRequired = true
             totalsShouldBeRefreshed = true
           } else {
@@ -558,20 +539,25 @@ const actions: ActionTree<CartState, RootState> = {
         }
       } else if (serverItem.qty !== clientItem.qty) {
         Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
-        diffLog.items.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
+        diffLog.pushServerParty({ sku: clientItem.sku, status: 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
         if (!dryRun) {
           if (forceClientState || !config.cart.serverSyncCanModifyLocalItems) {
-            const event = await _serverUpdateItem({
-              cartServerToken: getters.getCartToken,
-              cartItem: {
-                sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
-                qty: clientItem.qty,
-                item_id: serverItem.item_id,
-                quoteId: serverItem.quote_id,
-                product_option: clientItem.product_option
+            const updateServerItemDiffLog = await dispatch(
+              'updateServerItem',
+              {
+                clientItem,
+                serverItem,
+                cartItem: {
+                  sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
+                  qty: clientItem.qty,
+                  item_id: serverItem.item_id,
+                  quoteId: serverItem.quote_id,
+                  product_option: clientItem.product_option
+                }
               }
-            })
-            _afterServerItemUpdated({ dispatch, commit }, event, clientItem, serverItem)
+            )
+            diffLog.merge(updateServerItemDiffLog)
+
             totalsShouldBeRefreshed = true
             serverCartUpdateRequired = true
           } else {
@@ -601,7 +587,7 @@ const actions: ActionTree<CartState, RootState> = {
         const clientItem = clientItems.find(itm => productsEquals(itm, serverItem))
         if (!clientItem) {
           Logger.info('No client item for' + serverItem.sku, 'cart')()
-          diffLog.items.push({ 'party': 'client', 'sku': serverItem.sku, 'status': 'no-item' })
+          diffLog.pushClientParty({ sku: serverItem.sku, status: 'no-item' })
 
           if (!dryRun) {
             if (forceClientState) {
@@ -617,7 +603,7 @@ const actions: ActionTree<CartState, RootState> = {
                   quoteId: serverItem.quote_id
                 }
               })
-              diffLog.serverResponses.push({ 'status': res.resultCode, 'sku': serverItem.sku, 'result': res })
+              diffLog.pushServerResponse({ status: res.resultCode, sku: serverItem.sku, result: res })
             } else {
               clientCartAddItems.push(
                 new Promise(resolve => {
@@ -638,8 +624,8 @@ const actions: ActionTree<CartState, RootState> = {
       clientCartUpdateRequired = true
       cartHasItems = true
     }
-    diffLog.items.push({ 'party': 'client', 'status': clientCartUpdateRequired ? 'update-required' : 'no-changes' })
-    diffLog.items.push({ 'party': 'server', 'status': serverCartUpdateRequired ? 'update-required' : 'no-changes' })
+    diffLog.pushClientParty({ status: clientCartUpdateRequired ? 'update-required' : 'no-changes' })
+    diffLog.pushServerParty({ status: serverCartUpdateRequired ? 'update-required' : 'no-changes' })
     Promise.all(clientCartAddItems).then((items) => {
       items.map(({ product, serverItem }) => {
         product.server_item_id = serverItem.item_id

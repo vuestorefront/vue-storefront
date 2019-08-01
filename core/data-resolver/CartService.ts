@@ -5,7 +5,6 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
 import config from 'config';
 
-// methodsData: ShippingMethodsData
 const setServerShippingInfo = async (methodsData: any): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(config.cart.shippinginfo_endpoint),

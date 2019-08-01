@@ -23,10 +23,13 @@ function DiffLog () {
     return this
   }
   this.pushNotifications = notifications => {
-    for (const notification of notifications) {
-      this.clientNotifications.push(notification)
-    }
-
+    this.clientNotifications = this.clientNotifications.concat(notifications)
+    return this
+  }
+  this.merge = diffLog => {
+    this.items = this.items.concat(diffLog.items)
+    this.serverResponses = this.serverResponses.concat(diffLog.serverResponses)
+    this.clientNotifications = this.clientNotifications.concat(diffLog.clientNotifications)
     return this
   }
 }
