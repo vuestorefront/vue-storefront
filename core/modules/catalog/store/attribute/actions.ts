@@ -17,7 +17,7 @@ const actions: ActionTree<AttributeState, RootState> = {
    */
   async list (context, { filterValues = null, filterField = 'attribute_code', only_user_defined = false, only_visible = false, size = 150, start = 0, includeFields = config.entities.optimize ? config.entities.attribute.includeFields : null }) {
     const commit = context.commit
-    const loadPersistentAttributeCache = async (context, filterField, filterValues) =>{
+    const loadPersistentAttributeCache = async (context, filterField, filterValues) => {
       if (!config.attributes.disablePersistentAttributesCache) {
         const attrCollection = StorageManager.get('attributes')
         const cachedAttributes = []
@@ -28,7 +28,7 @@ const actions: ActionTree<AttributeState, RootState> = {
           }
         }
         context.commit(types.ATTRIBUTE_UPD_ATTRIBUTES, { items: cachedAttributes })
-      }  
+      }
     }
     let searchQuery = new SearchQuery()
     const orgFilterValues = filterValues ? [...filterValues] : []
