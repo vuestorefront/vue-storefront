@@ -1,16 +1,16 @@
 import config from 'config'
-import { EVENTS } from './../constants'
+import i18n from '@vue-storefront/i18n'
 
 const validateProduct = product => {
   const errors = []
 
   if (config.useZeroPriceProduct ? product.price_incl_tax < 0 : product.price_incl_tax <= 0) {
-    errors.push({ type: 'error', event: EVENTS.UNKNOWN_PRICE })
+    errors.push(i18n.t('Product price is unknown, product cannot be added to the cart!'))
   }
 
   if (product.errors !== null && typeof product.errors !== 'undefined') {
     for (const errKey in product.errors) {
-      errors.push({ type: 'error', event: product.errors[errKey] })
+      errors.push(product.errors[errKey])
     }
   }
 

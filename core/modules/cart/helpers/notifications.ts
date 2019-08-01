@@ -1,13 +1,13 @@
-import { router } from '@vue-storefront/core/app'
-import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
-import i18n from '@vue-storefront/i18n'
-import config from 'config'
+import { router } from '@vue-storefront/core/app';
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore';
+import i18n from '@vue-storefront/i18n';
+import config from 'config';
 
 const proceedToCheckoutAction = {
   label: i18n.t('Proceed to checkout'),
   action: () => router.push(localizedRoute('/checkout', currentStoreView().storeCode))
-}
-const checkoutAction = !config.externalCheckout ? proceedToCheckoutAction : null
+};
+const checkoutAction = !config.externalCheckout ? proceedToCheckoutAction : null;
 
 const productAddedToCart = {
   type: 'success',
@@ -31,7 +31,9 @@ const productUnknownPrice = {
 
 const unsafeQuantity = {
   type: 'warning',
-  message: i18n.t('The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.'),
+  message: i18n.t(
+    'The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.'
+  ),
   action1: { label: i18n.t('OK') }
 }
 
@@ -41,10 +43,14 @@ const outOfStock = {
   action1: { label: i18n.t('OK') }
 }
 
+const createNotifications = ({ type, messages }) =>
+  messages.map(message => ({ type, message, action1: { label: i18n.t('OK') } }));
+
 export {
+  createNotifications,
   productAddedToCart,
   productQuantityUpdated,
   productUnknownPrice,
   unsafeQuantity,
   outOfStock
-}
+};

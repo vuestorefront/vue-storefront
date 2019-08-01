@@ -17,14 +17,14 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 import { CartService } from '@vue-storefront/core/data-resolver'
-import { EVENTS } from './../constants'
 import {
   prepareProductsToAdd,
   productsEquals,
   preparePaymentMethodsToSync,
   validateProduct,
   createDiffLog,
-  isCartTokenAuthorized
+  isCartTokenAuthorized,
+  notifications
 } from './../helpers'
 
 function _getDifflogPrototype () {
@@ -169,6 +169,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
 
     Logger.error(result, 'cart')
+    return createDiffLog()
   },
   /** @deprecated backward compatibility only */
   async serverPull ({ dispatch }, { forceClientState = false, dryRun = false }) {
@@ -223,41 +224,35 @@ const actions: ActionTree<CartState, RootState> = {
     return dispatch('addItems', { productsToAdd: prepareProductsToAdd(productToAdd), forceServerSilence })
   },
   async checkProductStatus ({ dispatch, getters }, { product }) {
-    const diffLog = createDiffLog()
     const record = getters.getCartItems.find(p => productsEquals(p, product))
     const qty = record ? record.qty + 1 : (product.qty ? product.qty : 1)
-    const { status, onlineCheckTaskId } = await dispatch('stock/queueCheck', { product, qty }, {root: true})
 
-    if (status === 'volatile') {
-      diffLog.pushWaringEvent(EVENTS.UNSAFE_QUANTITY)
-    }
-    if (status === 'out_of_stock') {
-      diffLog.pushErrorEvent(EVENTS.OUT_OF_STOCK)
-    }
-
-    return {
-      diffLog,
-      checkTaskId: status === 'ok' || status === 'volatile' ? onlineCheckTaskId : null
-    }
+    return dispatch('stock/queueCheck', { product, qty }, {root: true})
   },
   async addItems ({ commit, dispatch, getters }, { productsToAdd, forceServerSilence = false }) {
     let productIndex = 0
     const diffLog = createDiffLog()
     for (let product of productsToAdd) {
       const errors = validateProduct(product)
-      diffLog.pushEvents(errors)
+      diffLog.pushNotifications(notifications.createNotifications({ type: 'error', messages: errors }))
 
       if (errors.length === 0) {
-        const productStatus = await dispatch('checkProductStatus', { product })
-        diffLog.merge(productStatus.diffLog)
+        const { status, onlineCheckTaskId } = await dispatch('checkProductStatus', { product })
 
-        if (productStatus.checkTaskId) {
+        if (status === 'volatile') {
+          diffLog.pushNotification(notifications.unsafeQuantity)
+        }
+        if (status === 'out_of_stock') {
+          diffLog.pushNotification(notifications.outOfStock)
+        }
+
+        if (status === 'ok' || status === 'volatile') {
           commit(types.CART_ADD_ITEM, {
-            product: { ...product, onlineStockCheckid: productStatus.checkTaskId }
+            product: { ...product, onlineStockCheckid: onlineCheckTaskId }
           })
         }
         if (productIndex === (productsToAdd.length - 1) && (!getters.isCartSyncEnabled || forceServerSilence)) {
-          diffLog.pushSuccessEvent(EVENTS.PRODUCT_ADDED)
+          diffLog.pushNotification(notifications.productAddedToCart)
         }
         productIndex++
       }
@@ -276,12 +271,18 @@ const actions: ActionTree<CartState, RootState> = {
     if (getters.isCartSyncEnabled && product.server_item_id) {
       return dispatch('sync', { forceClientState: true })
     }
+
+    return createDiffLog()
+      .pushClientParty({ status: 'no-item', sku: product.sku })
   },
   async updateQuantity ({ commit, dispatch, getters }, { product, qty, forceServerSilence = false }) {
     commit(types.CART_UPD_ITEM, { product, qty })
     if (getters.isCartSyncEnabled && product.server_item_id && !forceServerSilence) {
       return dispatch('sync', { forceClientState: true })
     }
+
+    return createDiffLog()
+      .pushClientParty({ status: 'wrong-qty', sku: product.sku, 'client-qty': qty })
   },
   configureItem (context, { product, configuration }) {
     const { commit, dispatch, getters } = context
@@ -405,7 +406,7 @@ const actions: ActionTree<CartState, RootState> = {
     const lastCartBypassTs = await StorageManager.get('user').getItem('last-cart-bypass-ts')
     const timeBypassCart = config.orders.directBackendSync || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)
 
-    if (!config.cart.bypassCartLoaderForAuthorizedUsers || timeBypassCart) { // don't refresh the shopping cart id up to 24h after last order
+    if (!config.cart.bypassCartLoaderForAuthorizedUsers || timeBypassCart) {
       await dispatch('connect', { guestCart: false })
 
       if (!getters.getCoupon) {
@@ -432,7 +433,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
 
     Logger.warn('Cart sync is disabled by the config', 'cart')()
-    // return _getDifflogPrototype()
+    return createDiffLog()
   },
   /**  merge shopping cart with the server results; if dryRun = true only the diff phase is being executed */
   async merge ({ getters, dispatch, commit, rootGetters }, { serverItems, clientItems, dryRun = false, forceClientState = false }) {
