@@ -236,7 +236,12 @@
         "options",
         "product_option",
         "qty",
-        "is_configured"
+        "is_configured",
+        "priceInclTax",
+        "specialPriceInclTax",
+        "specialPriceTax",
+        "priceTax",
+        "priceInclTax"
       ]
     }
   },
@@ -268,6 +273,9 @@
     "collecttotals_endpoint": "/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
     "deletecoupon_endpoint": "/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
     "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+  },
+  "attributes": {
+    "disablePersistentAttributesCache": false
   },
   "products": {
     "disablePersistentProductsCache": true,
