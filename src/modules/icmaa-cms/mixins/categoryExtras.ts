@@ -5,7 +5,10 @@ import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 
 export default {
   async asyncData ({ store, route }) {
-    const category = store.getters['category-next/getCurrentCategory']
+    // On client-side site requests (via navigation) the state.route of the getCurrentCategory() getter isn't already
+    // the current route and so can't get the correct current category, therefor we use our getCategoryByParams() getter
+    // and traverse it via the route variable of the asyncData() method which seems to be correct.
+    const category = store.getters['category-next/getCategoryByParams'](route.params)
     await store.dispatch('icmaaCmsCategoryExtras/single', { value: category.url_key })
   },
   methods: {
