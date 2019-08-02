@@ -404,7 +404,7 @@
       "currencyCode": "USD",
       "currencySign": "$",
       "currencySignPlacement": "preppend",
-      "dateFormat": "HH:mm D/M/YYYY",
+      "dateFormat": "l LT",
       "fullCountryName": "United States",
       "fullLanguageName": "English",
       "bundleAllStoreviewLanguages": true

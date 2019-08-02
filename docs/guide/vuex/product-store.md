@@ -25,8 +25,8 @@ The product state data:
 
 - `breadcrumbs` - This is the list of routes used by the [Breadcrumbs component](https://github.com/DivanteLtd/vue-storefront/blob/master/core/components/Breadcrumbs.js)
 - `current` - This is the product object with selected `configurable_children` variant, so it's the base product with attributes overridden by the values from selected `configurable_children` variant; it's used on [Product.vue page](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/pages/Product.vue#L203). This is the product which is added to the cart after "Add to cart"
-- `current_options` - A list used to populate the variant selector on the [Product.vue page](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/themes/default/pages/Product.vue#L56). It contains dictionary of attributes and possible attribute values and labels, and it's populated by [setupVariants](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L344) based on the `configurable_children` property.
-- `current_configuration` A a current product configuration. A dictionary of selected variant attributes; for example, it contains a  dictionary of selected product attributes:
+- `current_options` - The list used to populate the variant selector on the [Product.vue page](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/themes/default/pages/Product.vue#L56). It contains dictionary of attributes and possible attribute values and labels, and it's populated by [setupVariants](https://github.com/DivanteLtd/vue-storefront/blob/bd559f1baad7cd392bc5bae7b935a60484e2e6e5/src/store/modules/product.js#L344) based on the `configurable_children` property.
+- `current_configuration` The current product configuration. A dictionary of selected variant attributes; for example, it contains a dictionary of selected product attributes:
 
 ```json
 {
@@ -53,7 +53,7 @@ The following events are published from `product` store:
 - `EventBus.$emit('product-after-related', { key: key, items: items })` - Invoked whenever the related products block is set for the current product; the key is the name of the related block and items are related products.
 - `EventBus.$emit('product-after-original', { original: product })` - Invoked by `product/single` whenever product has been loaded.
 - `EventBus.$emit('product-after-parent', { parent: product })` - Invoked externally by `product/checkConfigurableParent` provides the current single product configurable parent.
-- `EventBus.$emit('product-after-reset', { })` - After product has been reseted (for example in the process of moving from one product page to another).
+- `EventBus.$emit('product-after-reset', { })` - After product has been reset (for example in the process of moving from one product page to another).
 
 ## Actions
 
@@ -111,7 +111,7 @@ This method subsequently dispatches the `product/list` action to get the product
 
 ### `configure (context, { product = null, configuration, selectDefaultVariant = true })`
 
-This action is used to configure the `configurable` product with specified attributes. It gets the `configuration` object, which should have the following format: `{ attribute_code: attribute_value_id }` and finds the `product.configurable_children` item which complies to this configuration. Then, it merges this specific `configurable_child` with the product itself - for example, setting the product.price to the configurable price, color, size etc. This method is used on: `Product.vue` page for allowing user to select color, size etc. The second usage for it is on `Category.vue` page after user selects some filters - the resulting products are configured to display the proper images (related to selected color and size) and prices.
+This action is used to configure the `configurable` product with specified attributes. It gets the `configuration` object, which should have the following format: `{ attribute_code: attribute_value_id }` and finds the `product.configurable_children` item which complies with this configuration. Then, it merges this specific `configurable_child` with the product itself - for example, setting the product.price to the configurable price, color, size etc. This method is used on: `Product.vue` page for allowing user to select color, size etc. The second usage for it is on `Category.vue` page after user selects some filters - the resulting products are configured to display the proper images (related to selected color and size) and prices.
 
 If `selectDefaultVariant` is set to true (default), the `state.current` will be altered with configured product.
 
