@@ -1,11 +1,9 @@
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import i18n from '@vue-storefront/i18n'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import RootState from '@vue-storefront/core/types/RootState'
 import CartState from '../types/CartState'
 import isString from 'lodash-es/isString'
-import toString from 'lodash-es/toString'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { router } from '@vue-storefront/core/app'
@@ -24,13 +22,10 @@ import {
   validateProduct,
   createDiffLog,
   isCartTokenAuthorized,
-  notifications
+  notifications,
+  createCartItemForUpdate
 } from './../helpers'
 import CartItem from '../types/CartItem';
-
-function _getDifflogPrototype () {
-  return { items: [], serverResponses: [], clientNotifications: [] }
-}
 
 /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
 async function _serverShippingInfo ({ methodsData }) {
@@ -61,25 +56,6 @@ async function _serverTotals (): Promise<Task> {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
-    },
-    silent: true
-  })
-}
-
-/** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
-function _serverDeleteItem ({ cartServerToken, cartItem }): Promise<Task> {
-  if (!cartItem.quoteId) {
-    cartItem = Object.assign(cartItem, { quoteId: cartServerToken })
-  }
-  cartItem = Object.assign(cartItem, { quoteId: cartServerToken })
-  return TaskQueue.execute({ url: config.cart.deleteitem_endpoint, // sync the cart
-    payload: {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
-      body: JSON.stringify({
-        cartItem: cartItem
-      })
     },
     silent: true
   })
@@ -447,8 +423,9 @@ const actions: ActionTree<CartState, RootState> = {
     await dispatch('updateItem', { product })
     EventBus.$emit('cart-after-itemchanged', { item: cartItem })
   },
-  async updateServerItem ({ getters, rootGetters, commit, dispatch }, { cartItem, clientItem, serverItem }) {
+  async updateServerItem ({ getters, rootGetters, commit, dispatch }, { clientItem, serverItem, updateIds }) {
     const diffLog = createDiffLog()
+    const cartItem = createCartItemForUpdate(clientItem, serverItem, updateIds) as CartItem
     const event = await CartService.updateCartItem(getters.getCartToken, cartItem)
     const isUpdateSuccess = event.resultCode === 200
     Logger.debug('Cart item server sync' + event, 'cart')()
@@ -481,171 +458,152 @@ const actions: ActionTree<CartState, RootState> = {
 
     return diffLog
   },
-  async merge ({ getters, dispatch, commit }, { serverItems, clientItems, dryRun = false, forceClientState = false }) {
+  async synchronizeServerItem ({ dispatch }, { serverItem, clientItem, dryRun, forceClientState }) {
     const diffLog = createDiffLog()
-    let totalsShouldBeRefreshed = getters.isTotalsSyncRequired // when empty it means no sync has yet been executed
-    let serverCartUpdateRequired = false
-    let clientCartUpdateRequired = false
-    let cartHasItems = false
-    const clientCartAddItems = []
+    if (!serverItem) {
+      Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')()
+      diffLog.pushServerParty({ sku: clientItem.sku, status: 'no-item' })
 
-    /** helper to find the item to be added to the cart by sku */
-    let productActionOptions = (serverItem) => {
-      return new Promise(resolve => {
-        if (serverItem.product_type === 'configurable') {
-          let searchQuery = new SearchQuery()
-          searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': serverItem.sku}})
-          dispatch('product/list', {query: searchQuery, start: 0, size: 1, updateState: false}, { root: true }).then((resp) => {
-            if (resp.items.length >= 1) {
-              resolve({ sku: resp.items[0].sku, childSku: serverItem.sku })
-            }
-          })
-        } else {
-          resolve({ sku: serverItem.sku })
-        }
-      })
+      if (dryRun) return diffLog
+      if (forceClientState || !config.cart.serverSyncCanRemoveLocalItems) {
+        const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: false })
+
+        return diffLog.merge(updateServerItemDiffLog)
+      }
+
+      await dispatch('removeItem', { product: clientItem })
     }
+
+    if (serverItem.qty !== clientItem.qty) {
+      Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
+      diffLog.pushServerParty({ sku: clientItem.sku, status: 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
+      if (dryRun) return diffLog
+      if (forceClientState || !config.cart.serverSyncCanModifyLocalItems) {
+        const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: true })
+
+        return diffLog.merge(updateServerItemDiffLog)
+      }
+
+      await dispatch('updateItem', { product: serverItem })
+    }
+
+    return diffLog
+  },
+  async mergeClientItem ({ dispatch }, { clientItem, serverItems, forceClientState, dryRun }) {
+    const serverItem = serverItems.find(itm => productsEquals(itm, clientItem))
+    const diffLog = await dispatch('synchronizeServerItem', { serverItem, clientItem, dryRun, forceClientState })
+
+    Logger.info('Server and client item with SKU ' + clientItem.sku + ' synced. Updating cart.', 'cart', 'cart')()
+    if (!dryRun) {
+      const product = {
+        sku: clientItem.sku,
+        server_cart_id: serverItem.quote_id,
+        server_item_id: serverItem.item_id,
+        product_option: serverItem.product_option,
+        type_id: serverItem.product_type
+      }
+
+      await dispatch('updateItem', { product })
+    }
+
+    return diffLog
+  },
+  async mergeClientItems ({ dispatch }, { clientItems, serverItems, forceClientState, dryRun }) {
+    const diffLog = createDiffLog()
 
     for (const clientItem of clientItems) {
-      cartHasItems = true
-
-      const serverItem = serverItems.find(itm => productsEquals(itm, clientItem))
-
-      if (!serverItem) {
-        Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')()
-        diffLog.pushServerParty({ sku: clientItem.sku, status: 'no-item' })
-        if (!dryRun) {
-          if (forceClientState || !config.cart.serverSyncCanRemoveLocalItems) {
-            const updateServerItemDiffLog = await dispatch(
-              'updateServerItem',
-              {
-                clientItem,
-                serverItem,
-                cartItem: {
-                  sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
-                  qty: clientItem.qty,
-                  product_option: clientItem.product_option
-                }
-              }
-            )
-            diffLog.merge(updateServerItemDiffLog)
-            serverCartUpdateRequired = true
-            totalsShouldBeRefreshed = true
-          } else {
-            dispatch('removeItem', {
-              product: clientItem
-            })
-          }
-        }
-      } else if (serverItem.qty !== clientItem.qty) {
-        Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
-        diffLog.pushServerParty({ sku: clientItem.sku, status: 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
-        if (!dryRun) {
-          if (forceClientState || !config.cart.serverSyncCanModifyLocalItems) {
-            const updateServerItemDiffLog = await dispatch(
-              'updateServerItem',
-              {
-                clientItem,
-                serverItem,
-                cartItem: {
-                  sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
-                  qty: clientItem.qty,
-                  item_id: serverItem.item_id,
-                  quoteId: serverItem.quote_id,
-                  product_option: clientItem.product_option
-                }
-              }
-            )
-            diffLog.merge(updateServerItemDiffLog)
-
-            totalsShouldBeRefreshed = true
-            serverCartUpdateRequired = true
-          } else {
-            await dispatch('updateItem', {
-              product: serverItem
-            })
-          }
-        }
-      } else {
-        Logger.info('Server and client item with SKU ' + clientItem.sku + ' synced. Updating cart.', 'cart', 'cart')()
-        if (!dryRun) {
-          await dispatch('updateItem', {
-            product: {
-              sku: clientItem.sku,
-              server_cart_id: serverItem.quote_id,
-              server_item_id: serverItem.item_id,
-              product_option: serverItem.product_option,
-              type_id: serverItem.product_type
-            }
-          })
-        }
-      }
+      const mergeClientItemDiffLog = await dispatch('mergeClientItem', { clientItem, serverItems, forceClientState, dryRun })
+      diffLog.merge(mergeClientItemDiffLog)
     }
 
-    for (const serverItem of serverItems) {
-      if (serverItem) {
-        const clientItem = clientItems.find(itm => productsEquals(itm, serverItem))
-        if (!clientItem) {
-          Logger.info('No client item for' + serverItem.sku, 'cart')()
-          diffLog.pushClientParty({ sku: serverItem.sku, status: 'no-item' })
+    return diffLog
+  },
+  async findProductOption ({ dispatch }, { serverItem }) {
+    if (serverItem.product_type === 'configurable') {
+      let query = new SearchQuery()
+      query = query.applyFilter({key: 'configurable_children.sku', value: {'eq': serverItem.sku}})
 
-          if (!dryRun) {
-            if (forceClientState) {
-              Logger.info('Removing product from cart', 'cart', serverItem)()
-              Logger.log('Removing item' + serverItem.sku + serverItem.item_id, 'cart')()
-              serverCartUpdateRequired = true
-              totalsShouldBeRefreshed = true
-              const res = await _serverDeleteItem({
-                cartServerToken: getters.getCartToken,
-                cartItem: {
-                  sku: serverItem.sku,
-                  item_id: serverItem.item_id,
-                  quoteId: serverItem.quote_id
-                }
-              })
-              diffLog.pushServerResponse({ status: res.resultCode, sku: serverItem.sku, result: res })
-            } else {
-              clientCartAddItems.push(
-                new Promise(resolve => {
-                  productActionOptions(serverItem).then((actionOtions) => {
-                    dispatch('product/single', { options: actionOtions, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }, { root: true }).then((product) => {
-                      resolve({ product: product, serverItem: serverItem })
-                    })
-                  })
-                })
-              )
-            }
-          }
-        }
-      }
-    }
-    if (clientCartAddItems.length) {
-      totalsShouldBeRefreshed = true
-      clientCartUpdateRequired = true
-      cartHasItems = true
-    }
-    diffLog.pushClientParty({ status: clientCartUpdateRequired ? 'update-required' : 'no-changes' })
-    diffLog.pushServerParty({ status: serverCartUpdateRequired ? 'update-required' : 'no-changes' })
-    Promise.all(clientCartAddItems).then((items) => {
-      items.map(({ product, serverItem }) => {
-        product.server_item_id = serverItem.item_id
-        product.qty = serverItem.qty
-        product.server_cart_id = serverItem.quote_id
-        if (serverItem.product_option) {
-          product.product_option = serverItem.product_option
-        }
-        dispatch('addItem', { productToAdd: product, forceServerSilence: true })
-      })
-    })
+      const { items } = await dispatch('product/list', { query, start: 0, size: 1, updateState: false }, { root: true })
 
-    if (!dryRun) {
-      if (totalsShouldBeRefreshed && cartHasItems) {
-        await dispatch('syncTotals')
-      }
-      commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash) // update the cart hash
+      return items.length >= 1 ? { sku: items[0].sku, childSku: serverItem.sku } : null
     }
-    EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: dryRun, event: event }) // send the difflog
+
+    return { sku: serverItem.sku }
+  },
+  async getProductVariant ({ dispatch }, { serverItem }) {
+    const options = await dispatch('findProductOption', { serverItem })
+    const singleProduct = await dispatch('product/single', { options, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }, { root: true })
+
+    return {
+      ...singleProduct,
+      server_item_id: serverItem.item_id,
+      qty: serverItem.qty,
+      server_cart_id: serverItem.quote_id,
+      product_option: serverItem.product_option || singleProduct.product_option
+    }
+  },
+  async mergeServerItem ({ dispatch, getters }, { clientItems, serverItem, forceClientState, dryRun }) {
+    const diffLog = createDiffLog()
+    const clientItem = clientItems.find(itm => productsEquals(itm, serverItem))
+    if (clientItem) return diffLog
+    Logger.info('No client item for' + serverItem.sku, 'cart')()
+    diffLog.pushClientParty({ sku: serverItem.sku, status: 'no-item' })
+    if (dryRun) return diffLog
+
+    if (forceClientState) {
+      Logger.info('Removing product from cart', 'cart', serverItem)()
+      Logger.log('Removing item' + serverItem.sku + serverItem.item_id, 'cart')()
+      const cartItem = {
+        sku: serverItem.sku,
+        item_id: serverItem.item_id,
+        quoteId: serverItem.quote_id
+      } as any as CartItem
+
+      const resp = await CartService.deleteItem(getters.getCartToken, cartItem)
+      return diffLog.pushServerResponse({ status: resp.resultCode, sku: serverItem.sku, result: resp })
+    }
+
+    const productToAdd = await dispatch('getProductVariant', { serverItem })
+    dispatch('addItem', { productToAdd, forceServerSilence: true })
+
+    return diffLog
+  },
+  async mergeServerItems ({ dispatch }, { serverItems, clientItems, forceClientState, dryRun }) {
+    const diffLog = createDiffLog()
+    const definedServerItems = serverItems.filter(serverItem => serverItem)
+
+    for (const serverItem of definedServerItems) {
+      const mergeServerItemDiffLog = await dispatch('mergeServerItem', { clientItems, serverItem, forceClientState, dryRun })
+      diffLog.merge(mergeServerItemDiffLog)
+    }
+
+    return diffLog
+  },
+  async updateTotalsAfterMerge ({ dispatch, getters, commit }, { clientItems, dryRun }) {
+    if (dryRun) return
+
+    if (getters.isTotalsSyncRequired && clientItems.length > 0) {
+      await dispatch('syncTotals')
+    }
+
+    commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
+  },
+  async merge ({ getters, dispatch }, { serverItems, clientItems, dryRun = false, forceClientState = false }) {
+    const diffLog = createDiffLog()
+    const mergeParameters = { clientItems, serverItems, forceClientState, dryRun }
+    const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
+    const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
+    dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
+
+    diffLog
+      .merge(mergeClientItemsDiffLog)
+      .merge(mergeServerItemsDiffLog)
+      .pushClientParty({ status: getters.isCartHashChanged ? 'update-required' : 'no-changes' })
+      .pushServerParty({ status: getters.isTotalsSyncRequired ? 'update-required' : 'no-changes' })
+
+    EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: dryRun, event: event })
     Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
+
     return diffLog
   },
   toggleMicrocart ({ commit }) {

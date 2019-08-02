@@ -10,6 +10,7 @@ import validateQueueCheck from './validateQueueCheck'
 import createDiffLog from './createDiffLog'
 import isCartTokenAuthorized from './isCartTokenAuthorized'
 import * as notifications from './notifications'
+import createCartItemForUpdate from './createCartItemForUpdate'
 
 export {
   cartCacheHandlerFactory,
@@ -23,5 +24,6 @@ export {
   validateQueueCheck,
   notifications,
   createDiffLog,
-  isCartTokenAuthorized
+  isCartTokenAuthorized,
+  createCartItemForUpdate
 }

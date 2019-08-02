@@ -19,7 +19,6 @@ export const cartStore: Module<CartState, any> = {
     cartServerLastSyncDate: 0,
     cartServerLastTotalsSyncDate: 0,
     cartItems: [], // TODO: check if it's properly namespaced
-    totalSyncRequired: false,
     connectBypassCount: 0
   },
   getters,

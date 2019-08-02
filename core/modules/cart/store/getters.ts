@@ -17,7 +17,7 @@ const getters: GetterTree<CartState, RootState> = {
   getCurrentCartHash: state => calcItemsHmac(state.cartItems, state.cartServerToken),
   isCartHashChanged: (state, getters) => getters.getCurrentCartHash !== state.cartItemsHash,
   isSyncRequired: (state, getters) => getters.isCartHashEmptyOrChanged || !state.cartServerLastSyncDate,
-  isTotalsSyncRequired: (state, getters) => state.totalSyncRequired || getters.isCartHashEmptyOrChanged || !state.cartServerLastTotalsSyncDate,
+  isTotalsSyncRequired: (state, getters) => getters.isCartHashEmptyOrChanged || !state.cartServerLastTotalsSyncDate,
   isCartHashEmptyOrChanged: (state, getters) => !state.cartItemsHash || getters.isCartHashChanged,
   getCartItems: state => state.cartItems,
   isTotalsSyncEnabled: () => config.cart.synchronize_totals && onlineHelper.isOnline && !isServer,
