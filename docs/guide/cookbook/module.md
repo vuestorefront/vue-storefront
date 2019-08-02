@@ -17,6 +17,8 @@ If the open source authors are serious about their offspring, one must admit it'
 In this recipe, we are going to cover how we bootstrap a module in order to inject our logic into the machine. *Tarzans, follow!*
 
 ### 1. Preparation
+- You need [**Vue Storefront**](https://github.com/DivanteLtd/vue-storefront) instance [installed along with other infrastructure ](setup.html#_1-install-with-docker) on your machine to build a new module and test it working. 
+- You need a development editor of your choice for your own convenience.
 
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
@@ -70,6 +72,8 @@ In this recipe, we are going to cover how we bootstrap a module in order to inje
 <br />
 
 ## 7. Building a module from A to Z in an iteration
+When you have an idea to build a great module, it means you have a brilliant idea in the first place to start with. How does it come anyway? Is it a spontaneous process or can we work elaborately on it to train ideation from its conception to delivery? I want to say _Yes_ to both, please follow me to see what I have to offer in this recipe. 
+
 
 ### 1. Preparation
 ### 2. Recipe
