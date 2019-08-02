@@ -425,11 +425,11 @@ const actions: ActionTree<CartState, RootState> = {
   },
   async updateServerItem ({ getters, rootGetters, commit, dispatch }, { clientItem, serverItem, updateIds }) {
     const diffLog = createDiffLog()
-    const cartItem = createCartItemForUpdate(clientItem, serverItem, updateIds) as CartItem
+    const cartItem = createCartItemForUpdate(clientItem, serverItem, updateIds)
     const event = await CartService.updateCartItem(getters.getCartToken, cartItem)
     const isUpdateSuccess = event.resultCode === 200
     Logger.debug('Cart item server sync' + event, 'cart')()
-    diffLog.pushServerResponse({ 'status': event.resultCode, 'sku': clientItem.sku, 'result': event })
+    diffLog.pushServerResponse({ status: event.resultCode, sku: clientItem.sku, result: event })
 
     if (!isUpdateSuccess && !serverItem) {
       commit(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
