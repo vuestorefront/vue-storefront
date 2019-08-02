@@ -194,16 +194,16 @@
         </div>
       </div>
     </section>
-    <lazy-hydrate when-idle>      
+    <lazy-hydrate when-idle>
       <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
     </lazy-hydrate>
-    <lazy-hydrate when-idle>      
+    <lazy-hydrate when-idle>
       <related-products type="upsell" :heading="$t('We found other products you might like')" />
     </lazy-hydrate>
-    <lazy-hydrate when-idle>      
+    <lazy-hydrate when-idle>
       <promoted-offers single-banner />
     </lazy-hydrate>
-    <lazy-hydrate when-idle>      
+    <lazy-hydrate when-idle>
       <related-products type="related" />
     </lazy-hydrate>
     <SizeGuide />
