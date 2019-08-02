@@ -1,5 +1,6 @@
 import { mapGetters } from 'vuex'
 import { CategoryExtrasStateItem } from '../types/CategoryExtrasState'
+import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category'
 
 import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 
@@ -8,6 +9,7 @@ export default {
     // On client-side site requests (via navigation) the state.route of the getCurrentCategory() getter isn't already
     // the current route and so can't get the correct current category, therefor we use our getCategoryByParams() getter
     // and traverse it via the route variable of the asyncData() method which seems to be correct.
+    /** @todo Find out why the state.route randomly isn't ready when getter is called */
     const category = store.getters['category-next/getCategoryByParams'](route.params)
     await store.dispatch('icmaaCmsCategoryExtras/single', { value: category.url_key })
   },
