@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed static category links in cms contents on homepage and MinimalFooter - @MariaKern (#3292)
 - Fixed tax calulaction where products was send as parameter but products.items where the right paramater - @resubaka (#3308)
 - Fixed module extendStore for array property inside store - @przspa (#3311)
+- Some SSR problems with urlDispatcher during multireloading page - @patzick (#3323)
 
 ### Changed / Improved
 
