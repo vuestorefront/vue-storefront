@@ -6,8 +6,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import { ActionTree } from 'vuex'
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
+import { prefetchCachedAttributes } from '../../helpers/prefetchCachedAttributes'
 
 const actions: ActionTree<AttributeState, RootState> = {
   /**
@@ -17,23 +16,11 @@ const actions: ActionTree<AttributeState, RootState> = {
    */
   async list (context, { filterValues = null, filterField = 'attribute_code', only_user_defined = false, only_visible = false, size = 150, start = 0, includeFields = config.entities.optimize ? config.entities.attribute.includeFields : null }) {
     const commit = context.commit
-    const loadPersistentAttributeCache = async (context, filterField, filterValues) => {
-      if (!config.attributes.disablePersistentAttributesCache) {
-        const attrCollection = StorageManager.get('attributes')
-        const cachedAttributes = []
-        for (const fv of filterValues) {
-          const storedItem = await attrCollection.getItem(entityKeyName(filterField, fv.toLowerCase()))
-          if (storedItem) {
-            cachedAttributes.push(storedItem)
-          }
-        }
-        context.commit(types.ATTRIBUTE_UPD_ATTRIBUTES, { items: cachedAttributes })
-      }
-    }
     let searchQuery = new SearchQuery()
     const orgFilterValues = filterValues ? [...filterValues] : []
     if (filterValues) {
-      await loadPersistentAttributeCache(context, filterField, filterValues)
+      const cachedAttributes = await prefetchCachedAttributes(config, filterField, filterValues)
+      if (cachedAttributes) context.commit(types.ATTRIBUTE_UPD_ATTRIBUTES, { items: cachedAttributes })
       filterValues = filterValues.filter(fv => { // check the already loaded
         if (config.entities.product.standardSystemFields.indexOf(fv) >= 0) return false // skip standard system fields
         if (fv.indexOf('.') >= 0) return false // skip multipart field names
