@@ -43,7 +43,7 @@ export const configureChildren = product => {
 
 export const storeProductToCache = (product, cacheByKey) => {
   const cacheKey = getCacheKey(product, cacheByKey);
-  const cache = StorageManager.get('elasticCacheCollection');
+  const cache = StorageManager.get('elasticCache');
 
   cache
     .setItem(cacheKey, product, null, config.products.disablePersistentProductsCache)
