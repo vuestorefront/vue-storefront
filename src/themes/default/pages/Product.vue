@@ -60,7 +60,7 @@
                   {{ getCurrentProduct.qty > 0 ? getCurrentProduct.price_incl_tax * getCurrentProduct.qty : getCurrentProduct.price_incl_tax | price }}
                 </div>
               </div>
-              <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable' && !isProductLoading">
+              <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
                 <div
                   class="error"
                   v-if="getCurrentProduct.errors && Object.keys(getCurrentProduct.errors).length > 0"
@@ -117,15 +117,15 @@
               </div>
             </div>
             <product-links
-              v-if="getCurrentProduct.type_id =='grouped' && !isProductLoading"
+              v-if="getCurrentProduct.type_id =='grouped'"
               :products="getCurrentProduct.product_links"
             />
             <product-bundle-options
-              v-if="getCurrentProduct.bundle_options && getCurrentProduct.bundle_options.length > 0 && !isProductLoading"
+              v-if="getCurrentProduct.bundle_options && getCurrentProduct.bundle_options.length > 0"
               :product="getCurrentProduct"
             />
             <product-custom-options
-              v-else-if="getCurrentProduct.custom_options && getCurrentProduct.custom_options.length > 0 && !isProductLoading"
+              v-else-if="getCurrentProduct.custom_options && getCurrentProduct.custom_options.length > 0"
               :product="getCurrentProduct"
             />
             <div
@@ -152,7 +152,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="getCurrentProduct"
-                :disabled="($v.getCurrentProduct.qty.$error && !$v.getCurrentProduct.qty.minValue) || !quantity && isSimpleOrConfigurable && !isProductLoading"
+                :disabled="($v.getCurrentProduct.qty.$error && !$v.getCurrentProduct.qty.minValue) || !quantity && isSimpleOrConfigurable"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -315,7 +315,7 @@ export default {
       return false
     },
     getInputName () {
-      if (this.isSimpleOrConfigurable) { return `Quantity (${this.quantity} available)` }
+      if (this.isSimpleOrConfigurable && !this.isProductLoading) { return `Quantity (${this.quantity} available)` }
       return `Quantity`
     }
   },
