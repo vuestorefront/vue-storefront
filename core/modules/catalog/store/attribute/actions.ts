@@ -19,7 +19,7 @@ const actions: ActionTree<AttributeState, RootState> = {
     let searchQuery = new SearchQuery()
     const orgFilterValues = filterValues ? [...filterValues] : []
     if (filterValues) {
-      const cachedAttributes = await prefetchCachedAttributes(config, filterField, filterValues)
+      const cachedAttributes = await prefetchCachedAttributes(filterField, filterValues)
       if (cachedAttributes) context.commit(types.ATTRIBUTE_UPD_ATTRIBUTES, { items: cachedAttributes })
       filterValues = filterValues.filter(fv => { // check the already loaded
         if (config.entities.product.standardSystemFields.indexOf(fv) >= 0) return false // skip standard system fields
