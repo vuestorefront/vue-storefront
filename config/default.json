@@ -88,7 +88,7 @@
       "amp": "dist/index.amp.html"
     },
     "executeMixedinAsyncData": true,
-    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView"],
+    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute", "checkout"],
     "useInitialStateFilter": true
   },
   "queues": {
@@ -180,7 +180,7 @@
       "excludeFields": ["review_entity", "review_status"]
     },
     "product": {
-      "excludeFields": [ "*.msrp_display_actual_price_type", "required_options", "updated_at", "created_at", "attribute_set_id", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "small_image", "sgn", "*.sgn"],
+      "excludeFields": [ "*.msrp_display_actual_price_type", "required_options", "updated_at", "created_at", "attribute_set_id", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "stock.stock_status_changed_auto", "stock.show_default_notification_message", "stock.use_config_qty_increments", "stock.is_decimal_divided", "small_image", "sgn", "*.sgn"],
       "includeFields": null,
       "useDynamicAttributeLoader": true,
       "standardSystemFields": [
@@ -236,7 +236,12 @@
         "options",
         "product_option",
         "qty",
-        "is_configured"
+        "is_configured",
+        "priceInclTax",
+        "specialPriceInclTax",
+        "specialPriceTax",
+        "priceTax",
+        "priceInclTax"
       ]
     }
   },
@@ -268,6 +273,9 @@
     "collecttotals_endpoint": "/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
     "deletecoupon_endpoint": "/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
     "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+  },
+  "attributes": {
+    "disablePersistentAttributesCache": false
   },
   "products": {
     "disablePersistentProductsCache": true,
