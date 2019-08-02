@@ -20,7 +20,7 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCategoryFrom: (state, getters) => (path: string = '') => {
     return getters.getCategories.find(category => path.replace(/^(\/)/gm, '') === category.url_path) || {}
   },
-  getCategoryByRouteParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
+  getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
     return getters.getCategories.find(category => {
       let valueCheck = []
       forEach(params, (value, key) => valueCheck.push(category[key] === value))
@@ -28,7 +28,7 @@ const getters: GetterTree<CategoryState, RootState> = {
     }) || {}
   },
   getCurrentCategory: (state, getters, rootState) => {
-    return getters.getCategoryByRouteParams(rootState.route.params)
+    return getters.getCategoryByParams(rootState.route.params)
   },
   getAvailableFiltersFrom: (state, getters, rootState) => (aggregations) => {
     const filters = {}
