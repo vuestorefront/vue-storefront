@@ -71,8 +71,15 @@ In this recipe, we are going to cover how we bootstrap a module in order to inje
 <br />
 <br />
 
+
+## Sidedish - Ideation
+
+When you have an idea to build a great module, it means you have a brilliant idea in the first place to start with. How does it come anyway? Is it a spontaneous process or can we work elaborately on it to train ideation from its conception to delivery? I want to say _Yes_ to both, please follow me to see what I have to offer in this _sidedish_ talk session. 
+
+<br />
+<br />
+
 ## 7. Building a module from A to Z in an iteration
-When you have an idea to build a great module, it means you have a brilliant idea in the first place to start with. How does it come anyway? Is it a spontaneous process or can we work elaborately on it to train ideation from its conception to delivery? I want to say _Yes_ to both, please follow me to see what I have to offer in this recipe. 
 
 
 ### 1. Preparation
