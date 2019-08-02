@@ -502,7 +502,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   /** add discount code to the cart + refresh totals @description this method is part of "public" cart API */
   async applyCoupon ({ getters, dispatch }, couponCode) {
-    if (getters.isTotalsSyncEnabled && getters.isCartConnected) {
+    if (couponCode && getters.isTotalsSyncEnabled && getters.isCartConnected) {
       const task = await TaskQueue.execute({ url: config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
         payload: {
           method: 'POST',
@@ -512,22 +512,25 @@ const actions: ActionTree<CartState, RootState> = {
         silent: false
       })
       if (task.result === true) {
-        dispatch('syncTotals', { forceServerSync: true })
+        await dispatch('syncTotals', { forceServerSync: true })
       }
       return task.result
     }
     return null
   },
   /** authorize the cart after user got logged in using the current cart token */
-  authorize ({ dispatch }) {
-    StorageManager.get('user').getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
-      if (err) {
-        Logger.error(err, 'cart')()
+  async authorize ({ dispatch, getters }) {
+    const coupon = getters.getCoupon.code
+    const lastCartBypassTs = await StorageManager.get('user').getItem('last-cart-bypass-ts')
+    const timeBypassCart = config.orders.directBackendSync || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)
+
+    if (!config.cart.bypassCartLoaderForAuthorizedUsers || timeBypassCart) { // don't refresh the shopping cart id up to 24h after last order
+      await dispatch('connect', { guestCart: false })
+
+      if (!getters.getCoupon) {
+        await dispatch('applyCoupon', coupon)
       }
-      if (!config.cart.bypassCartLoaderForAuthorizedUsers || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
-        dispatch('connect', { guestCart: false })
-      }
-    })
+    }
   },
   /** connect cart to the server and set the cart token */
   async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false }) {
