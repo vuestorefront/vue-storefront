@@ -13,24 +13,22 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
-    const user = localStorage.getItem(`shop/user/current-user`);
     const usersCollection = StorageManager.get('user')
+    const userData = await usersCollection.getItem('current-user')
 
     if (isServer || getters.isLocalDataLoaded) return
     commit(types.USER_LOCAL_DATA_LOADED, true)
 
-    if (user) {
-      commit(types.USER_INFO_LOADED, JSON.parse(user))
+    if (userData) {
+      commit(types.USER_INFO_LOADED, userData)
     }
 
     commit(types.USER_START_SESSION)
-    const newToken = await usersCollection.getItem('current-token')
+    const lastUserToken = await usersCollection.getItem('current-token')
 
-    if (newToken) {
-      commit(types.USER_TOKEN_CHANGED, { newToken })
+    if (lastUserToken) {
+      commit(types.USER_TOKEN_CHANGED, { newToken: lastUserToken })
       await dispatch('sessionAfterAuthorized', {})
-
-      const userData = await usersCollection.getItem('current-user')
 
       if (userData) {
         dispatch('setUserGroup', userData)
