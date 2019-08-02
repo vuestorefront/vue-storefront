@@ -5,7 +5,7 @@
         <breadcrumbs :routes="getBreadcrumbs" :active-route="getCurrentCategory.name" />
         <div class="row middle-sm">
           <h1 class="col-sm-8 category-title mb10">
-            {{ getCurrentCategory.name }}
+            {{ title }}
           </h1>
           <div class="sorting col-sm-2 align-right mt50">
             <label class="mr10">{{ $t('Columns') }}:</label>
