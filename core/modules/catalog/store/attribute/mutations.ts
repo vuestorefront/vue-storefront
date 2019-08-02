@@ -20,16 +20,18 @@ const mutations: MutationTree<AttributeState> = {
     let attrHashById = state.list_by_id
 
     for (let attr of attrList) {
-      attrHashByCode[attr.attribute_code] = attr
-      attrHashById[attr.attribute_id] = attr
+      if (attr) {
+        attrHashByCode[attr.attribute_code] = attr
+        attrHashById[attr.attribute_id] = attr
 
-      if (!config.attributes.disablePersistentAttributesCache) {
-        const attrCollection = StorageManager.get('attributes')
-        try {
-          await attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr)
-          await attrCollection.setItem(entityKeyName('attribute_id', attr.attribute_id.toString()), attr)
-        } catch (e) {
-          Logger.error(e, 'mutations')()
+        if (!config.attributes.disablePersistentAttributesCache) {
+          const attrCollection = StorageManager.get('attributes')
+          try {
+            await attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr)
+            await attrCollection.setItem(entityKeyName('attribute_id', attr.attribute_id.toString()), attr)
+          } catch (e) {
+            Logger.error(e, 'mutations')()
+          }
         }
       }
     }
