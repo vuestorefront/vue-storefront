@@ -1,4 +1,4 @@
-# Chapter 11. Vue Basics by example of VS 
+# Chapter 11. Vue Basics by VSF examples
 
 
 In this chapter, we are going to cover : 
