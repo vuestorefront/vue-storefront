@@ -6,14 +6,39 @@ import { htmlDecode } from '@vue-storefront/core/filters/html-decode'
 
 export default {
   async asyncData ({ store, route }) {
-    // On client-side site requests (via navigation) the state.route of the getCurrentCategory() getter isn't already
-    // the current route and so can't get the correct current category, therefor we use our getCategoryByParams() getter
-    // and traverse it via the route variable of the asyncData() method which seems to be correct.
-    /** @todo Find out why the state.route randomly isn't ready when getter is called */
-    const category = store.getters['category-next/getCategoryByParams'](route.params)
-    await store.dispatch('icmaaCmsCategoryExtras/single', { value: category.url_key })
+    /**
+     * @todo Find out why the state.route isn't ready when getter is called
+     * @see https://github.com/DivanteLtd/vue-storefront/issues/3328
+     *
+     * On client-side site requests (via navigation) the state.route of the getCurrentCategory() getter isn't already
+     * the current route and so can't get the correct current category. The vuex-router-sync module which
+     * syncs the current router to store seems sometimes be still the last one when get called in getter.
+     *   route.params -> is correct
+     *   rootState.route.params (in getter) -> not
+     *
+     * The current solution is to fetch the data in the traditional VueJs way using mounted() and serverPrefetch().
+     * */
+    // const category = store.getters['category-next/getCurrentCategory']
+    // return store.dispatch('icmaaCmsCategoryExtras/single', { value: category.url_key })
+  },
+  async serverPrefetch () {
+    return this.fetchAsyncData()
+  },
+  mounted () {
+    this.fetchAsyncData()
+  },
+  watch: {
+    getCurrentCategory: function (oldCat: Category, newCat: Category) {
+      this.fetchAsyncData()
+    }
   },
   methods: {
+    async fetchAsyncData () {
+      const category = this.$store.getters['category-next/getCurrentCategory']
+      if (!this.categoryExtrasByIdentifier(category.url_key)) {
+        await this.$store.dispatch('icmaaCmsCategoryExtras/single', { value: category.url_key })
+      }
+    },
     getCategoryExtrasValueOrCategoryValue (key: string, catKey: string = 'name'): any {
       return this.categoryExtras && this.categoryExtras[key]
         ? this.categoryExtras[key] : this.getCurrentCategory[catKey]
@@ -22,8 +47,9 @@ export default {
   computed: {
     ...mapGetters('category-next', ['getCurrentCategory']),
     ...mapGetters('icmaaCmsCategoryExtras', ['categoryExtrasByCurrentCategory']),
+    ...mapGetters('icmaaCmsCategoryExtras', ['categoryExtrasByIdentifier']),
     categoryExtras (): CategoryExtrasStateItem|boolean {
-      return this.categoryExtrasByCurrentCategory()
+      return this.categoryExtrasByCurrentCategory
     },
     title (): string {
       return this.getCategoryExtrasValueOrCategoryValue('title')

@@ -7,7 +7,7 @@ const getters: GetterTree<CategoryExtrasState, RootState> = {
   categoryExtrasByIdentifier: (state) => (identifier): CategoryExtrasStateItem => {
     return state.items.find(item => item.identifier === identifier)
   },
-  categoryExtrasByCurrentCategory: (state, getters, rootState, rootGetters) => (): CategoryExtrasStateItem|boolean => {
+  categoryExtrasByCurrentCategory: (state, getters, rootState, rootGetters): CategoryExtrasStateItem|boolean => {
     const category = rootGetters['category-next/getCurrentCategory']
     if (category) {
       return getters.categoryExtrasByIdentifier(category.url_key)

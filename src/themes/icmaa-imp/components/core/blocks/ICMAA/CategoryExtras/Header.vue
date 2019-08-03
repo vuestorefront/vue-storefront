@@ -11,7 +11,7 @@ export default {
   computed: {
     ...mapGetters('icmaaCmsCategoryExtras', ['categoryExtrasByCurrentCategory']),
     categoryExtras () {
-      return this.categoryExtrasByCurrentCategory()
+      return this.categoryExtrasByCurrentCategory
     }
   }
 }
