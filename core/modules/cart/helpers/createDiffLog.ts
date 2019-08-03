@@ -1,34 +1,47 @@
-import { DiffLog as DiffLogInterface, Notification, ServerResponse, Party } from '@vue-storefront/core/modules/cart/types/DiffLog'
+import { Notification, ServerResponse, Party } from '@vue-storefront/core/modules/cart/types/DiffLog'
 
-function DiffLog () {
-  this.items = []
-  this.serverResponses = []
-  this.clientNotifications = []
-  this.pushParty = (party: Party): DiffLogInterface => {
+class DiffLog {
+  public items: Party[]
+  public serverResponses: ServerResponse[]
+  public clientNotifications: Notification[]
+
+  public constructor () {
+    this.items = []
+    this.serverResponses = []
+    this.clientNotifications = []
+  }
+
+  public pushParty (party: Party): DiffLog {
     this.items.push(party)
     return this
   }
-  this.pushClientParty = (party: any): DiffLogInterface => {
+
+  public pushClientParty (party: any): DiffLog {
     this.pushParty({ party: 'client', ...party })
     return this
   }
-  this.pushServerParty = (party: any): DiffLogInterface => {
+
+  public pushServerParty (party: any): DiffLog {
     this.pushParty({ party: 'server', ...party })
     return this
   }
-  this.pushServerResponse = (response: ServerResponse): DiffLogInterface => {
+
+  public pushServerResponse (response: ServerResponse): DiffLog {
     this.serverResponses.push(response)
     return this
   }
-  this.pushNotification = (notification: Notification): DiffLogInterface => {
+
+  public pushNotification (notification: Notification): DiffLog {
     this.clientNotifications.push(notification)
     return this
   }
-  this.pushNotifications = (notifications: Notification[]): DiffLogInterface => {
+
+  public pushNotifications (notifications: Notification[]): DiffLog {
     this.clientNotifications = this.clientNotifications.concat(notifications)
     return this
   }
-  this.merge = (diffLog: DiffLogInterface): DiffLogInterface => {
+
+  public merge (diffLog: DiffLog): DiffLog {
     this.items = this.items.concat(diffLog.items)
     this.serverResponses = this.serverResponses.concat(diffLog.serverResponses)
     this.clientNotifications = this.clientNotifications.concat(diffLog.clientNotifications)
@@ -36,6 +49,6 @@ function DiffLog () {
   }
 }
 
-const createDiffLog = (): DiffLogInterface => new DiffLog()
+const createDiffLog = (): DiffLog => new DiffLog()
 
 export default createDiffLog

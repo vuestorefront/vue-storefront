@@ -16,16 +16,3 @@ export interface Party {
   status: string,
   sku: string
 }
-
-export interface DiffLog {
-  items: Party[],
-  serverResponses: ServerResponse[],
-  clientNotifications: Notification[],
-  pushParty: (party: Party) => DiffLog,
-  pushClientParty: (party: any) => DiffLog,
-  pushServerParty: (party: any) => DiffLog,
-  pushServerResponse: (party: ServerResponse) => DiffLog,
-  pushNotification: (party: Notification) => DiffLog,
-  pushNotifications: (party: Notification[]) => DiffLog,
-  merge: (diffLog: DiffLog) => DiffLog
-}
