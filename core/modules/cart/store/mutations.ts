@@ -89,6 +89,9 @@ const mutations: MutationTree<CartState> = {
   },
   [types.CART_UPDATE_BYPASS_COUNTER] (state, { counter }) {
     state.connectBypassCount = state.connectBypassCount + counter
+  },
+  [types.CART_ADDING_ITEM] (state, { isAdding }) {
+    state.isAddingToCart = isAdding
   }
 }
 

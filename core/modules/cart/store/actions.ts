@@ -146,8 +146,11 @@ const actions: ActionTree<CartState, RootState> = {
   goToCheckout () {
     router.push(localizedRoute('/checkout', currentStoreView().storeCode))
   },
-  async addItem ({ dispatch }, { productToAdd, forceServerSilence = false }) {
-    return dispatch('addItems', { productsToAdd: prepareProductsToAdd(productToAdd), forceServerSilence })
+  async addItem ({ dispatch, commit }, { productToAdd, forceServerSilence = false }) {
+    commit(types.CART_ADDING_ITEM, { isAdding: true })
+    const result = await dispatch('addItems', { productsToAdd: prepareProductsToAdd(productToAdd), forceServerSilence })
+    commit(types.CART_ADDING_ITEM, { isAdding: false })
+    return result
   },
   async checkProductStatus ({ dispatch, getters }, { product }) {
     const record = getters.getCartItems.find(p => productsEquals(p, product))

@@ -43,10 +43,12 @@ const outOfStock = {
   action1: { label: i18n.t('OK') }
 }
 
+const createNotification = ({ type, message }) => ({ type, message, action1: { label: i18n.t('OK') } })
 const createNotifications = ({ type, messages }) =>
-  messages.map(message => ({ type, message, action1: { label: i18n.t('OK') } }));
+  messages.map(message => createNotification({ type, message }));
 
 export {
+  createNotification,
   createNotifications,
   productAddedToCart,
   productQuantityUpdated,

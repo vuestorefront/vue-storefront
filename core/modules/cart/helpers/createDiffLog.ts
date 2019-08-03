@@ -48,10 +48,22 @@ class DiffLog {
     return this
   }
 
+  public hasClientNotifications () {
+    return this.clientNotifications.length > 0
+  }
+
+  public hasServerResponses () {
+    return this.serverResponses.length > 0
+  }
+
+  public hasParties () {
+    return this.items.length > 0
+  }
+
   public isEmpty (): boolean {
-    return this.items.length === 0 &&
-      this.clientNotifications.length === 0 &&
-      this.serverResponses.length === 0
+    return !this.hasParties &&
+      !this.hasClientNotifications() &&
+      !this.hasServerResponses()
   }
 }
 
