@@ -11,6 +11,7 @@ import createDiffLog from './createDiffLog'
 import isCartTokenAuthorized from './isCartTokenAuthorized'
 import * as notifications from './notifications'
 import createCartItemForUpdate from './createCartItemForUpdate'
+import prepareShippingInfoForUpdateTotals from './prepareShippingInfoForUpdateTotals'
 
 export {
   cartCacheHandlerFactory,
@@ -25,5 +26,6 @@ export {
   notifications,
   createDiffLog,
   isCartTokenAuthorized,
-  createCartItemForUpdate
+  createCartItemForUpdate,
+  prepareShippingInfoForUpdateTotals
 }

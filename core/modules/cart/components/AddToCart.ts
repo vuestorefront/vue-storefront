@@ -40,6 +40,7 @@ export const AddToCart = {
         }
         return diffLog
       } catch (err) {
+        console.log(err)
         this.notifyUser({
           type: 'error',
           message: err,

@@ -23,43 +23,10 @@ import {
   createDiffLog,
   isCartTokenAuthorized,
   notifications,
-  createCartItemForUpdate
+  createCartItemForUpdate,
+  prepareShippingInfoForUpdateTotals
 } from './../helpers'
 import CartItem from '../types/CartItem';
-
-/** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
-async function _serverShippingInfo ({ methodsData }) {
-  const task = await TaskQueue.execute({ url: config.cart.shippinginfo_endpoint,
-    payload: {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
-      body: JSON.stringify({
-        addressInformation: {
-          shippingAddress: {
-            countryId: methodsData.country
-          },
-          shippingCarrierCode: methodsData.carrier_code,
-          shippingMethodCode: methodsData.method_code
-        }
-      })
-    },
-    silent: true
-  })
-  return task
-}
-
-/** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
-async function _serverTotals (): Promise<Task> {
-  return TaskQueue.execute({ url: config.cart.totals_endpoint, // sync the cart
-    payload: {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
-    },
-    silent: true
-  })
-}
 
 const actions: ActionTree<CartState, RootState> = {
   async disconnect ({ commit }) {
@@ -267,34 +234,47 @@ const actions: ActionTree<CartState, RootState> = {
   updateItem ({ commit }, { product }) {
     commit(types.CART_UPD_ITEM_PROPS, { product })
   },
-  async syncTotals ({ dispatch, commit, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
-    let methodsData = payload ? payload.methodsData : null
-    /** helper method to update the UI */
-    const _afterTotals = async (task) => {
-      if (task.resultCode === 200) {
-        const totalsObj = task.result.totals ? task.result.totals : task.result
-        Logger.info('Overriding server totals. ', 'cart', totalsObj)()
-        const itemsAfterTotal = {}
-        const platformTotalSegments = totalsObj.total_segments
-        for (let item of totalsObj.items) {
-          if (item.options && isString(item.options)) item.options = JSON.parse(item.options)
-          itemsAfterTotal[item.item_id] = item
-          await dispatch('updateItem', { product: { server_item_id: item.item_id, totals: item, qty: item.qty } }) // update the server_id reference
-        }
-        commit(types.CART_UPD_TOTALS, { itemsAfterTotal: itemsAfterTotal, totals: totalsObj, platformTotalSegments: platformTotalSegments })
-        commit(types.CART_SET_TOTALS_SYNC)
-      } else {
-        Logger.error(task.result, 'cart')()
-      }
+  async getTotals (context, { methodsData, hasShippingInformation }) {
+    if (hasShippingInformation) {
+      return CartService.setServerShippingInfo(methodsData)
     }
-    if (getters.isTotalsSyncRequired || payload.forceServerSync) {
-      await Promise.all([
-        dispatch('syncShippingMethods', { forceServerSync: !!payload.forceServerSync }), // pull the shipping and payment methods available for the current cart content
-        dispatch('syncPaymentMethods', { forceServerSync: !!payload.forceServerSync }) // pull the shipping and payment methods available for the current cart content
-      ])
+
+    return CartService.getTotals()
+  },
+  async overrideServerTotals ({ commit, dispatch }, { methodsData, hasShippingInformation }) {
+    const { resultCode, result } = await dispatch('getTotals', { methodsData, hasShippingInformation })
+
+    if (resultCode === 200) {
+      const totals = result.totals || result
+      Logger.info('Overriding server totals. ', 'cart', totals)()
+      const itemsAfterTotal = prepareShippingInfoForUpdateTotals(totals.items)
+
+      for (let key of Object.keys(itemsAfterTotal)) {
+        const item = itemsAfterTotal[key]
+        const product = { server_item_id: item.item_id, totals: item, qty: item.qty }
+        await dispatch('updateItem', { product })
+      }
+
+      commit(types.CART_UPD_TOTALS, { itemsAfterTotal, totals, platformTotalSegments: totals.total_segments })
+      commit(types.CART_SET_TOTALS_SYNC)
+
+      return
+    }
+
+    Logger.error(result, 'cart')()
+  },
+  async pullMethods ({ getters, dispatch }, { forceServerSync }) {
+    if (getters.isTotalsSyncRequired || forceServerSync) {
+      await dispatch('syncShippingMethods', { forceServerSync })
+      await dispatch('syncPaymentMethods', { forceServerSync })
     } else {
       Logger.debug('Skipping payment & shipping methods update as cart has not been changed', 'cart')()
     }
+  },
+  async syncTotals ({ dispatch, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
+    let methodsData = payload ? payload.methodsData : null
+    await dispatch('pullMethods', { forceServerSync: payload.forceServerSync })
+
     const storeView = currentStoreView()
     let hasShippingInformation = false
     if (getters.isTotalsSyncEnabled && getters.isCartConnected && (getters.isTotalsSyncRequired || payload.forceServerSync)) {
@@ -326,14 +306,10 @@ const actions: ActionTree<CartState, RootState> = {
         if (payment && payment.code) methodsData['payment_method'] = payment.code
       }
       if (methodsData.country && getters.isCartConnected) {
-        if (hasShippingInformation) {
-          return _serverShippingInfo({ methodsData }).then(_afterTotals)
-        } else {
-          return _serverTotals().then(_afterTotals)
-        }
-      } else {
-        Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
+        return dispatch('overrideServerTotals', { methodsData, hasShippingInformation })
       }
+
+      Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
     }
   },
   async refreshTotals ({ dispatch }, payload) {
@@ -458,8 +434,9 @@ const actions: ActionTree<CartState, RootState> = {
 
     return diffLog
   },
-  async synchronizeServerItem ({ dispatch }, { serverItem, clientItem, dryRun, forceClientState }) {
+  async synchronizeServerItem ({ dispatch }, { serverItem, clientItem, forceClientState, dryRun }) {
     const diffLog = createDiffLog()
+
     if (!serverItem) {
       Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')()
       diffLog.pushServerParty({ sku: clientItem.sku, status: 'no-item' })
@@ -467,11 +444,11 @@ const actions: ActionTree<CartState, RootState> = {
       if (dryRun) return diffLog
       if (forceClientState || !config.cart.serverSyncCanRemoveLocalItems) {
         const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: false })
-
         return diffLog.merge(updateServerItemDiffLog)
       }
 
       await dispatch('removeItem', { product: clientItem })
+      return diffLog
     }
 
     if (serverItem.qty !== clientItem.qty) {
@@ -491,7 +468,9 @@ const actions: ActionTree<CartState, RootState> = {
   },
   async mergeClientItem ({ dispatch }, { clientItem, serverItems, forceClientState, dryRun }) {
     const serverItem = serverItems.find(itm => productsEquals(itm, clientItem))
-    const diffLog = await dispatch('synchronizeServerItem', { serverItem, clientItem, dryRun, forceClientState })
+    const diffLog = await dispatch('synchronizeServerItem', { serverItem, clientItem, forceClientState, dryRun })
+
+    if (!diffLog.isEmpty()) return diffLog
 
     Logger.info('Server and client item with SKU ' + clientItem.sku + ' synced. Updating cart.', 'cart', 'cart')()
     if (!dryRun) {

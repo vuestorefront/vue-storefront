@@ -47,6 +47,12 @@ class DiffLog {
     this.clientNotifications = this.clientNotifications.concat(diffLog.clientNotifications)
     return this
   }
+
+  public isEmpty (): boolean {
+    return this.items.length === 0 &&
+      this.clientNotifications.length === 0 &&
+      this.serverResponses.length === 0
+  }
 }
 
 const createDiffLog = (): DiffLog => new DiffLog()
