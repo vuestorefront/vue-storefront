@@ -1,7 +1,8 @@
 import config from 'config'
 import i18n from '@vue-storefront/i18n'
+import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 
-const validateProduct = product => {
+const validateProduct = (product: CartItem): string[] => {
   const errors = []
 
   if (config.useZeroPriceProduct ? product.price_incl_tax < 0 : product.price_incl_tax <= 0) {

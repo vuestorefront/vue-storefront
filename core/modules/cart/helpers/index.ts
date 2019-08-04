@@ -6,7 +6,6 @@ import productsEquals from './productsEquals'
 import calculateTotals from './calculateTotals'
 import preparePaymentMethodsToSync from './preparePaymentMethodsToSync'
 import validateProduct from './validateProduct'
-import validateQueueCheck from './validateQueueCheck'
 import createDiffLog from './createDiffLog'
 import isCartTokenAuthorized from './isCartTokenAuthorized'
 import * as notifications from './notifications'
@@ -25,7 +24,6 @@ export {
   calculateTotals,
   preparePaymentMethodsToSync,
   validateProduct,
-  validateQueueCheck,
   notifications,
   createDiffLog,
   isCartTokenAuthorized,
