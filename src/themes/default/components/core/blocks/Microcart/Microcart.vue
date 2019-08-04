@@ -124,6 +124,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import { isModuleRegistered } from '@vue-storefront/core/lib/module'
 
@@ -149,7 +150,7 @@ export default {
     InstantCheckout
   },
   mixins: [
-    Microcart,
+    // Microcart,
     VueOfflineMixin,
     EditMode,
     onEscapePress
@@ -174,16 +175,27 @@ export default {
       this.componentLoaded = true
     })
   },
+  computed: {
+    ...mapGetters({
+      productsInCart: 'cart/getCartItems',
+      appliedCoupon: 'cart/getCoupon',
+      totals: 'cart/getTotals',
+      isOpen: 'cart/getIsMicroCartOpen'
+    })
+  },
   methods: {
     addDiscountCoupon () {
       this.addCouponPressed = true
     },
     clearCoupon () {
-      this.removeCoupon()
+      this.$store.dispatch('cart/removeCoupon')
       this.addCouponPressed = false
     },
+    toggleMicrocart () {
+      this.$store.dispatch('ui/toggleMicrocart')
+    },
     setCoupon () {
-      this.applyCoupon(this.couponCode).then(() => {
+      this.$store.dispatch('cart/applyCoupon', this.couponCode).then(() => {
         this.addCouponPressed = false
         this.couponCode = ''
       }).catch(() => {
