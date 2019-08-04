@@ -152,7 +152,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="getCurrentProduct"
-                :disabled="($v.getCurrentProduct.qty.$error && !$v.getCurrentProduct.qty.minValue) || !quantity && isSimpleOrConfigurable && !isProductLoading"
+                :disabled="($v.getCurrentProduct.qty.$error && !$v.getCurrentProduct.qty.minValue) || (!quantity && isSimpleOrConfigurable) || isProductLoading"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -381,6 +381,7 @@ export default {
     },
     async getQuantity () {
       this.isProductLoading = true
+      this.quantity = null
       const res = await this.$store.dispatch('stock/check', {
         product: this.getCurrentProduct,
         qty: this.getCurrentProduct.qte
