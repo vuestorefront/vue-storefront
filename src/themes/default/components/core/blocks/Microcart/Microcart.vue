@@ -205,12 +205,12 @@ export default {
       })
     },
     closeMicrocartExtend () {
-      this.closeMicrocart()
+      this.toggleMicrocart()
       this.$store.commit('ui/setSidebar', false)
       this.addCouponPressed = false
     },
     onEscapePress () {
-      this.closeMicrocart()
+      this.toggleMicrocart()
     },
     clearCart () {
       this.$store.dispatch('notification/spawnNotification', {

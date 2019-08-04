@@ -52,8 +52,5 @@ export default {
         this.removeFromCart(event.item)
       }
     }
-  },
-  mixins: [
-    MicrocartProduct
-  ]
+  }
 }
