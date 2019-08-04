@@ -133,9 +133,12 @@
               v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
             >
               <base-input-number
-                :name="$t('Quantity')"
+                :name="getInputName"
                 v-model="product.qty"
-                :min="1"
+                :min="quantity ? 1 : 0"
+                :max="quantity"
+                :disabled="quantity ? false : true"
+                :value="quantity ? 1 : 0"
                 @blur="$v.$touch()"
                 :validations="[
                   {
@@ -144,11 +147,12 @@
                   }
                 ]"
               />
+              <Spinner v-if="isProductLoading" />
             </div>
             <div class="row m0">
               <add-to-cart
                 :product="product"
-                :disabled="$v.product.qty.$error && !$v.product.qty.minValue"
+                :disabled="($v.product.qty.$error && !$v.product.qty.minValue) || !quantity && isSimpleOrConfigurable && !isProductLoading"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -174,30 +178,41 @@
             <div class="lh30 h5" itemprop="description" v-html="product.description" />
           </div>
           <div class="col-xs-12 col-sm-5">
-            <ul class="attributes p0 pt5 m0">
-              <product-attribute
-                :key="attr.attribute_code"
-                v-for="attr in customAttributes"
-                :product="product"
-                :attribute="attr"
-                empty-placeholder="N/A"
-              />
-            </ul>
+            <lazy-hydrate on-interaction>
+              <ul class="attributes p0 pt5 m0">
+                <product-attribute
+                  :key="attr.attribute_code"
+                  v-for="attr in customAttributes"
+                  :product="product"
+                  :attribute="attr"
+                  empty-placeholder="N/A"
+                />
+              </ul>
+            </lazy-hydrate>
           </div>
           <div class="details-overlay" @click="showDetails" />
         </div>
       </div>
     </section>
-    <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
-    <related-products type="upsell" :heading="$t('We found other products you might like')" />
-    <promoted-offers single-banner />
-    <related-products type="related" />
+    <lazy-hydrate when-idle>
+      <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
+    </lazy-hydrate>
+    <lazy-hydrate when-idle>
+      <related-products type="upsell" :heading="$t('We found other products you might like')" />
+    </lazy-hydrate>
+    <lazy-hydrate when-idle>
+      <promoted-offers single-banner />
+    </lazy-hydrate>
+    <lazy-hydrate when-idle>
+      <related-products type="related" />
+    </lazy-hydrate>
     <SizeGuide />
   </div>
 </template>
 
 <script>
 import { minValue } from 'vuelidate/lib/validators'
+import i18n from '@vue-storefront/i18n'
 import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
@@ -212,6 +227,7 @@ import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
 import ProductGallery from 'theme/components/core/ProductGallery'
+import Spinner from 'theme/components/core/Spinner'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from 'theme/components/theme/WebShare'
@@ -220,6 +236,7 @@ import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
 import { mapGetters } from 'vuex'
+import LazyHydrate from 'vue-lazy-hydration'
 
 export default {
   components: {
@@ -240,16 +257,20 @@ export default {
     SizeSelector,
     WebShare,
     BaseInputNumber,
-    SizeGuide
+    SizeGuide,
+    Spinner,
+    LazyHydrate
   },
   // Remove product.js dependency and use onlineHelper
   mixins: [Product, VueOfflineMixin],
+  directives: { focusClean },
   data () {
     return {
-      detailsOpen: false
+      detailsOpen: false,
+      quantity: 0,
+      isProductLoading: true
     }
   },
-  directives: { focusClean },
   computed: {
     ...mapGetters({
       getCurrentCategory: 'category-next/getCurrentCategory',
@@ -269,6 +290,56 @@ export default {
         return []
       }
       return this.product.configurable_options
+    },
+    getAvailableFilters () {
+      let filtersMap = {}
+      // TODO move to helper
+      if (this.product && this.product.configurable_options) {
+        this.product.configurable_options.forEach(configurableOption => {
+          const type = configurableOption.attribute_code
+          const filterVariants = configurableOption.values.map(
+            ({ value_index, label }) => {
+              let currentVariant = this.options[type].find(
+                config => config.id === value_index
+              )
+              label =
+                label || (currentVariant ? currentVariant.label : value_index)
+              return { id: value_index, label, type }
+            }
+          )
+          const availableOptions = filterVariants.filter(option =>
+            this.isOptionAvailable(option)
+          )
+          filtersMap[type] = availableOptions
+        })
+      }
+      return filtersMap
+    },
+    getSelectedFilters () {
+      // TODO move to helper when refactoring product page
+      let selectedFilters = {}
+      if (this.configuration && this.product) {
+        Object.keys(this.configuration).map(filterType => {
+          const filter = this.configuration[filterType]
+          selectedFilters[filterType] = {
+            id: filter.id,
+            label: filter.label,
+            type: filterType
+          }
+        })
+      }
+      return selectedFilters
+    },
+    isSimpleOrConfigurable () {
+      if (
+        this.product.type_id === 'simple' ||
+        this.product.type_id === 'configurable'
+      ) { return true }
+      return false
+    },
+    getInputName () {
+      if (this.isSimpleOrConfigurable) { return i18n.t('Quantity available', { qty: this.quantity }) }
+      return i18n.t('Quantity')
     }
   },
   async asyncData ({ store, route }) {
@@ -277,6 +348,9 @@ export default {
     const productCategories = await store.dispatch('category-next/loadProductCategories', product)
     const category = store.getters['category-next/getCategoryFrom'](route.path)
     await store.dispatch('category-next/loadCategoryBreadcrumbs', category)
+  },
+  created () {
+    this.getQuantity()
   },
   methods: {
     showDetails (event) {
@@ -306,9 +380,22 @@ export default {
         'filter-changed-product',
         Object.assign({ attribute_code: variant.type }, variant)
       )
+      this.getQuantity()
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
+    },
+    getQuantity () {
+      this.isProductLoading = true
+      this.$store
+        .dispatch('stock/check', {
+          product: this.product,
+          qty: this.product.qte
+        })
+        .then(res => {
+          this.isProductLoading = false
+          this.quantity = res.qty
+        })
     }
   },
   validations: {
