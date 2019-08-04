@@ -6,25 +6,25 @@
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
               :offline="offlineImage"
-              :gallery="gallery"
-              :configuration="configuration"
-              :product="product"
+              :gallery="getProductGallery"
+              :configuration="getCurrentProductConfiguration"
+              :product="getCurrentProduct"
             />
           </div>
           <div class="col-xs-12 col-md-5 data">
             <breadcrumbs
               class="pt40 pb20 hidden-xs"
               :routes="getBreadcrumbs"
-              :active-route="product.name"
+              :active-route="getCurrentProduct.name"
             />
             <h1
               class="mb20 mt0 cl-mine-shaft product-name"
               data-testid="productName"
               itemprop="name"
             >
-              {{ product.name | htmlDecode }}
+              {{ getCurrentProduct.name | htmlDecode }}
               <web-share
-                :title="product.name | htmlDecode"
+                :title="getCurrentProduct.name | htmlDecode"
                 text="Check this product!"
                 class="web-share"
               />
@@ -32,47 +32,47 @@
             <div
               class="mb20 uppercase cl-secondary"
               itemprop="sku"
-              :content="product.sku"
+              :content="getCurrentProduct.sku"
             >
-              {{ $t('SKU') }}: {{ product.sku }}
+              {{ $t('SKU') }}: {{ getCurrentProduct.sku }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-              <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(product.price_incl_tax).toFixed(2)">
+              <meta itemprop="priceCurrency" :content="$store.state.storeView.i18n.currencyCode">
+              <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
-              <meta itemprop="url" :content="product.url_path">
-              <div class="mb40 price serif" v-if="product.type_id !== 'grouped'">
+              <meta itemprop="url" :content="getCurrentProduct.url_path">
+              <div class="mb40 price serif" v-if="getCurrentProduct.type_id !== 'grouped'">
                 <div
                   class="h3 cl-secondary"
-                  v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax"
+                  v-if="getCurrentProduct.special_price && getCurrentProduct.price_incl_tax && getCurrentProduct.original_price_incl_tax"
                 >
                   <span
                     class="h2 cl-mine-shaft weight-700"
-                  >{{ product.price_incl_tax * product.qty | price }}</span>&nbsp;
+                  >{{ getCurrentProduct.price_incl_tax * getCurrentProduct.qty | price }}</span>&nbsp;
                   <span
                     class="price-original h3"
-                  >{{ product.original_price_incl_tax * product.qty | price }}</span>
+                  >{{ getCurrentProduct.original_price_incl_tax * getCurrentProduct.qty | price }}</span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
-                  v-if="!product.special_price && product.price_incl_tax"
+                  v-if="!getCurrentProduct.special_price && getCurrentProduct.price_incl_tax"
                 >
-                  {{ product.qty > 0 ? product.price_incl_tax * product.qty : product.price_incl_tax | price }}
+                  {{ getCurrentProduct.qty > 0 ? getCurrentProduct.price_incl_tax * getCurrentProduct.qty : getCurrentProduct.price_incl_tax | price }}
                 </div>
               </div>
-              <div class="cl-primary variants" v-if="product.type_id =='configurable' && !loading">
+              <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable' && !isProductLoading">
                 <div
                   class="error"
-                  v-if="product.errors && Object.keys(product.errors).length > 0"
+                  v-if="getCurrentProduct.errors && Object.keys(getCurrentProduct.errors).length > 0"
                 >
-                  {{ product.errors | formatProductMessages }}
+                  {{ getCurrentProduct.errors | formatProductMessages }}
                 </div>
                 <div class="h5" v-for="option in getProductOptions" :key="option.id">
                   <div class="variants-label" data-testid="variantsLabel">
                     {{ option.label }}
                     <span
                       class="weight-700"
-                    >{{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}</span>
+                    >{{ getCurrentProductConfiguration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}</span>
                   </div>
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                     <div v-if="option.label == 'Color'">
@@ -117,24 +117,24 @@
               </div>
             </div>
             <product-links
-              v-if="product.type_id =='grouped' && !loading"
-              :products="product.product_links"
+              v-if="getCurrentProduct.type_id =='grouped' && !isProductLoading"
+              :products="getCurrentProduct.product_links"
             />
             <product-bundle-options
-              v-if="product.bundle_options && product.bundle_options.length > 0 && !loading"
-              :product="product"
+              v-if="getCurrentProduct.bundle_options && getCurrentProduct.bundle_options.length > 0 && !isProductLoading"
+              :product="getCurrentProduct"
             />
             <product-custom-options
-              v-else-if="product.custom_options && product.custom_options.length > 0 && !loading"
-              :product="product"
+              v-else-if="getCurrentProduct.custom_options && getCurrentProduct.custom_options.length > 0 && !isProductLoading"
+              :product="getCurrentProduct"
             />
             <div
               class="row m0 mb35"
-              v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
+              v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
             >
               <base-input-number
-                :name="getInputName"
-                v-model="product.qty"
+                :name="$t(getInputName)"
+                v-model="getCurrentProduct.qty"
                 :min="quantity ? 1 : 0"
                 :max="quantity"
                 :disabled="quantity ? false : true"
@@ -142,7 +142,7 @@
                 @blur="$v.$touch()"
                 :validations="[
                   {
-                    condition: $v.product.qty.$error && !$v.product.qty.minValue,
+                    condition: $v.getCurrentProduct.qty.$error && !$v.getCurrentProduct.qty.minValue,
                     text: $t('Quantity must be above 0')
                   }
                 ]"
@@ -151,17 +151,17 @@
             </div>
             <div class="row m0">
               <add-to-cart
-                :product="product"
-                :disabled="($v.product.qty.$error && !$v.product.qty.minValue) || !quantity && isSimpleOrConfigurable && !isProductLoading"
+                :product="getCurrentProduct"
+                :disabled="($v.getCurrentProduct.qty.$error && !$v.getCurrentProduct.qty.minValue) || !quantity && isSimpleOrConfigurable && !isProductLoading"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <AddToWishlist :product="product" />
+                <AddToWishlist :product="getCurrentProduct" />
               </div>
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <AddToCompare :product="product" />
+                <AddToCompare :product="getCurrentProduct" />
               </div>
             </div>
           </div>
@@ -175,7 +175,7 @@
       <div class="h4 details-wrapper" :class="{'details-wrapper--open': detailsOpen}">
         <div class="row between-md m0">
           <div class="col-xs-12 col-sm-6">
-            <div class="lh30 h5" itemprop="description" v-html="product.description" />
+            <div class="lh30 h5" itemprop="description" v-html="getCurrentProduct.description" />
           </div>
           <div class="col-xs-12 col-sm-5">
             <lazy-hydrate on-interaction>
@@ -183,7 +183,7 @@
                 <product-attribute
                   :key="attr.attribute_code"
                   v-for="attr in customAttributes"
-                  :product="product"
+                  :product="getCurrentProduct"
                   :attribute="attr"
                   empty-placeholder="N/A"
                 />
@@ -195,7 +195,7 @@
       </div>
     </section>
     <lazy-hydrate when-idle>
-      <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
+      <reviews :product-id="getOriginalProduct.id" v-show="OnlineOnly" />
     </lazy-hydrate>
     <lazy-hydrate when-idle>
       <related-products type="upsell" :heading="$t('We found other products you might like')" />
@@ -212,8 +212,8 @@
 
 <script>
 import { minValue } from 'vuelidate/lib/validators'
-import i18n from '@vue-storefront/i18n'
-import Product from '@vue-storefront/core/pages/Product'
+import config from 'config'
+// import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
@@ -237,6 +237,11 @@ import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
 import { mapGetters } from 'vuex'
 import LazyHydrate from 'vue-lazy-hydration'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
+import { getAvailableFiltersByProduct, getSelectedFiltersByProduct } from '@vue-storefront/core/modules/catalog/helpers/filters'
+import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
+import { localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { htmlDecode } from '@vue-storefront/core/filters'
 
 export default {
   components: {
@@ -262,85 +267,72 @@ export default {
     LazyHydrate
   },
   // Remove product.js dependency and use onlineHelper
-  mixins: [Product, VueOfflineMixin],
+  mixins: [VueOfflineMixin, ProductOption],
   directives: { focusClean },
   data () {
     return {
       detailsOpen: false,
       quantity: 0,
-      isProductLoading: true
+      isProductLoading: false
     }
   },
   computed: {
     ...mapGetters({
       getCurrentCategory: 'category-next/getCurrentCategory',
-      getBreadcrumbs: 'category-next/getBreadcrumbs'
+      getBreadcrumbs: 'category-next/getBreadcrumbs',
+      getCurrentProduct: 'product/getCurrentProduct',
+      getProductGallery: 'product/getProductGallery',
+      getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
+      getOriginalProduct: 'product/getOriginalProduct',
+      attributesByCode: 'attribute/attributeListByCode'
     }),
     structuredData () {
       return {
-        availability: this.product.stock.is_in_stock ? 'InStock' : 'OutOfStock'
+        availability: this.getCurrentProduct.stock.is_in_stock ? 'InStock' : 'OutOfStock'
       }
     },
     getProductOptions () {
       if (
-        this.product.errors &&
-        Object.keys(this.product.errors).length &&
-        Object.keys(this.configuration).length
+        this.getCurrentProduct.errors &&
+        Object.keys(this.getCurrentProduct.errors).length &&
+        Object.keys(this.getCurrentProductConfiguration).length
       ) {
         return []
       }
-      return this.product.configurable_options
+      return this.getCurrentProduct.configurable_options
+    },
+    offlineImage () {
+      return {
+        src: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height),
+        error: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height),
+        loading: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height)
+      }
+    },
+    customAttributes () {
+      return Object.values(this.attributesByCode).filter(a => {
+        return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
+      })
     },
     getAvailableFilters () {
-      let filtersMap = {}
-      // TODO move to helper
-      if (this.product && this.product.configurable_options) {
-        this.product.configurable_options.forEach(configurableOption => {
-          const type = configurableOption.attribute_code
-          const filterVariants = configurableOption.values.map(
-            ({ value_index, label }) => {
-              let currentVariant = this.options[type].find(
-                config => config.id === value_index
-              )
-              label =
-                label || (currentVariant ? currentVariant.label : value_index)
-              return { id: value_index, label, type }
-            }
-          )
-          const availableOptions = filterVariants.filter(option =>
-            this.isOptionAvailable(option)
-          )
-          filtersMap[type] = availableOptions
-        })
-      }
-      return filtersMap
+      return getAvailableFiltersByProduct(this.getCurrentProduct)
     },
     getSelectedFilters () {
-      // TODO move to helper when refactoring product page
-      let selectedFilters = {}
-      if (this.configuration && this.product) {
-        Object.keys(this.configuration).map(filterType => {
-          const filter = this.configuration[filterType]
-          selectedFilters[filterType] = {
-            id: filter.id,
-            label: filter.label,
-            type: filterType
-          }
-        })
-      }
-      return selectedFilters
+      return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
     isSimpleOrConfigurable () {
       if (
-        this.product.type_id === 'simple' ||
-        this.product.type_id === 'configurable'
+        this.getCurrentProduct.type_id === 'simple' ||
+        this.getCurrentProduct.type_id === 'configurable'
       ) { return true }
       return false
     },
     getInputName () {
-      if (this.isSimpleOrConfigurable) { return i18n.t('Quantity available', { qty: this.quantity }) }
-      return i18n.t('Quantity')
+      if (this.isSimpleOrConfigurable) { return this.$i18n.t('Quantity available', { qty: this.quantity }) }
+      return this.$i18n.t('Quantity')
     }
+  },
+  created () {
+    this.getQuantity()
   },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
@@ -348,9 +340,6 @@ export default {
     const productCategories = await store.dispatch('category-next/loadProductCategories', product)
     const category = store.getters['category-next/getCategoryFrom'](route.path)
     await store.dispatch('category-next/loadCategoryBreadcrumbs', category)
-  },
-  created () {
-    this.getQuantity()
   },
   methods: {
     showDetails (event) {
@@ -385,24 +374,44 @@ export default {
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
     },
-    getQuantity () {
+    isOptionAvailable (option) { // check if the option is available
+      let currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
+      currentConfig[option.type] = option
+      return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
+    },
+    async getQuantity () {
       this.isProductLoading = true
-      this.$store
-        .dispatch('stock/check', {
-          product: this.product,
-          qty: this.product.qte
-        })
-        .then(res => {
-          this.isProductLoading = false
-          this.quantity = res.qty
-        })
+      const res = await this.$store.dispatch('stock/check', {
+        product: this.getCurrentProduct,
+        qty: this.getCurrentProduct.qte
+      })
+      this.isProductLoading = false
+      this.quantity = res.qty
     }
   },
   validations: {
-    product: {
+    getCurrentProduct: {
       qty: {
         minValue: minValue(1)
       }
+    }
+  },
+  metaInfo () {
+    return {
+      link: [
+        { rel: 'amphtml',
+          href: this.$router.resolve(localizedRoute({
+            name: this.getCurrentProduct.type_id + '-product-amp',
+            params: {
+              parentSku: this.getCurrentProduct.parentSku ? this.getCurrentProduct.parentSku : this.getCurrentProduct.sku,
+              slug: this.getCurrentProduct.slug,
+              childSku: this.getCurrentProduct.sku
+            }
+          }, this.$store.state.storeView.storeCode)).href
+        }
+      ],
+      title: htmlDecode(this.getCurrentProduct.meta_title || this.getCurrentProduct.name),
+      meta: this.getCurrentProduct.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.getCurrentProduct.meta_description) }] : []
     }
   }
 }
