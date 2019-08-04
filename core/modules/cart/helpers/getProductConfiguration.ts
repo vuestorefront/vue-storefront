@@ -1,8 +1,10 @@
+import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
+import { ProductConfiguration } from '@vue-storefront/core/modules/catalog/types/ProductConfiguration'
 import getProductOptions from './getProductOptions'
 
 const ATTRIBUTES = ['color', 'size']
 
-const getProductConfiguration = (product) => {
+const getProductConfiguration = (product: CartItem): ProductConfiguration => {
   const options = getProductOptions(product)
   const getAttributesFields = (attributeCode) =>
     options[attributeCode].find(c => c.id === parseInt(product[attributeCode]))
@@ -17,7 +19,7 @@ const getProductConfiguration = (product) => {
       attribute_code: curr,
       ...getAttributesFields(curr)
     }
-  }), {})
+  }), {}) as any as ProductConfiguration
 }
 
 export default getProductConfiguration

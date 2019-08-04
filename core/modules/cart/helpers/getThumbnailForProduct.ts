@@ -1,8 +1,9 @@
+import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 import config from 'config'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { productThumbnailPath } from '@vue-storefront/core/helpers'
 
-const getThumbnailForProduct = (product) => {
+const getThumbnailForProduct = (product: CartItem): string => {
   const thumbnail = productThumbnailPath(product)
 
   if (typeof navigator !== 'undefined' && !navigator.onLine) {

@@ -1,3 +1,5 @@
+import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/types/ProductConfiguration'
 
 const mapValues = (current) => (val) => ({
   id: val.value_index,
@@ -11,7 +13,7 @@ const reduceOptions = (prev, curr) => ({
   [curr.attribute_code]: curr.values.map(mapValues(curr))
 })
 
-const getProductOptions = (product) => {
+const getProductOptions = (product: CartItem): ProductOption => {
   if (!product.configurable_options) {
     return null
   }
