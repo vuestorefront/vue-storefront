@@ -39,7 +39,8 @@ jest.mock('@vue-storefront/core/helpers', () => ({
     get isOnline () {
       return true
     }
-  }
+  },
+  processLocalizedURLAddress: (url) => url
 }));
 
 const EventBus = {
