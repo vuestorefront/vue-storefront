@@ -35,7 +35,7 @@ export default {
           this.notifyUser(notificationData)
         })
       } catch (message) {
-        this.notifyUser(notifications({ type: 'error', message }))
+        this.notifyUser(notifications.createNotification({ type: 'error', message }))
       }
     },
     notifyUser (notificationData) {
