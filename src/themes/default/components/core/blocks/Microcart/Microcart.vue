@@ -128,7 +128,6 @@ import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import { isModuleRegistered } from '@vue-storefront/core/lib/module'
 
-import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart'
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'
@@ -150,7 +149,6 @@ export default {
     InstantCheckout
   },
   mixins: [
-    // Microcart,
     VueOfflineMixin,
     EditMode,
     onEscapePress
