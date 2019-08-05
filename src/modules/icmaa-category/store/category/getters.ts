@@ -10,12 +10,12 @@ const getters: GetterTree<CategoryState, RootState> = {
    * getter.getCategories you won't get a correct value when the category route changes to a new category.
    * The solution is to force the getter not be cached by returning a method.
    */
-  getCategoriesUncached: (state) => (): Category[] => Object.values(state.categoriesMap),
+  getCategories: (state) => (): Category[] => Object.values(state.categoriesMap),
   getCategoryFrom: (state, getters) => (path: string = '') => {
-    return getters.getCategories.find(category => path.replace(/^(\/)/gm, '') === category.url_path) || {}
+    return getters.getCategories().find(category => path.replace(/^(\/)/gm, '') === category.url_path) || {}
   },
   getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
-    return getters.getCategoriesUncached().find(category => {
+    return getters.getCategories().find(category => {
       let valueCheck = []
       forEach(params, (value, key) => valueCheck.push(category[key] === value))
       return valueCheck.filter(check => check === true).length === Object.keys(params).length

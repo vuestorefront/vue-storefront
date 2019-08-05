@@ -1,7 +1,9 @@
 <template>
   <div id="home" class="t-container t-p-4">
-    <div class="t-min-h-screen">
-      <h1>Homepage</h1>
+    <div class="t-min-h-screen t-content-center t-flex t-flex-wrap t-justify-center">
+      <h1 class="t-flex-grow t-text-center t-w-full">
+        Homepage
+      </h1>
       <p>Work in progress …</p>
     </div>
   </div>
