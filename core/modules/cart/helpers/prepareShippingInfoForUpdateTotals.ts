@@ -1,6 +1,7 @@
 import isString from 'lodash-es/isString'
+import Totals from '@vue-storefront/core/modules/cart/types/Totals'
 
-const applyOptions = (item) => {
+const applyOptions = (item: Totals) => {
   if (item.options && isString(item.options)) {
     return { ...item, options: JSON.parse(item.options) }
   }
@@ -8,13 +9,13 @@ const applyOptions = (item) => {
   return item
 }
 
-const reduceToObject = (previousValue, currentValue) => ({
+const reduceToObject = (previousValue: any, currentValue: Totals) => ({
   ...previousValue,
   [currentValue.item_id]: currentValue
 })
 
-const prepareShippingInfoForUpdateTotals = (shippingInfoItems) =>
-  shippingInfoItems
+const prepareShippingInfoForUpdateTotals = (totals: Totals[]) =>
+  totals
     .map(applyOptions)
     .reduce(reduceToObject, {})
 

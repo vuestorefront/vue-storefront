@@ -1,7 +1,10 @@
 import i18n from '@vue-storefront/i18n'
 import sumBy from 'lodash-es/sumBy'
+import ShippingMethod from '@vue-storefront/core/modules/cart/types/ShippingMethod'
+import PaymentMethod from '@vue-storefront/core/modules/cart/types/PaymentMethod'
+import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 
-const calculateTotals = (shippingMethod, paymentMethod, cartItems) => {
+const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentMethod, cartItems: CartItem[]) => {
   const shippingTax = shippingMethod ? shippingMethod.price_incl_tax : 0
 
   const totalsArray = [

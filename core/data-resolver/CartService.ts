@@ -5,22 +5,14 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
 import config from 'config';
 
-const setServerShippingInfo = async (methodsData: any): Promise<Task> =>
+const setServerShippingInfo = async (addressInformation: any): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(config.cart.shippinginfo_endpoint),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
-      body: JSON.stringify({
-        addressInformation: {
-          shippingAddress: {
-            countryId: methodsData.country
-          },
-          shippingCarrierCode: methodsData.carrier_code,
-          shippingMethodCode: methodsData.method_code
-        }
-      })
+      body: JSON.stringify({ addressInformation })
     },
     silent: true
   });

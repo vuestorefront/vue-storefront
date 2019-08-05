@@ -1,19 +1,22 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { CartService } from '@vue-storefront/core/data-resolver'
-import { prepareShippingInfoForUpdateTotals, createOrderData } from '@vue-storefront/core/modules/cart/helpers'
+import {
+  prepareShippingInfoForUpdateTotals,
+  createOrderData,
+  createShippingInfoData
+} from '@vue-storefront/core/modules/cart/helpers'
 
 const totalsActions = {
-  async getTotals (context, { methodsData, hasShippingInformation }) {
+  async getTotals (context, { addressInformation, hasShippingInformation }) {
     if (hasShippingInformation) {
-      return CartService.setServerShippingInfo(methodsData)
+      return CartService.setServerShippingInfo(addressInformation)
     }
 
     return CartService.getTotals()
   },
-  async overrideServerTotals ({ commit, dispatch }, { methodsData, hasShippingInformation }) {
-    const { resultCode, result } = await dispatch('getTotals', { methodsData, hasShippingInformation })
+  async overrideServerTotals ({ commit, dispatch }, { addressInformation, hasShippingInformation }) {
+    const { resultCode, result } = await dispatch('getTotals', { addressInformation, hasShippingInformation })
 
     if (resultCode === 200) {
       const totals = result.totals || result
@@ -34,26 +37,25 @@ const totalsActions = {
 
     Logger.error(result, 'cart')()
   },
-  async syncTotals ({ dispatch, commit, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
-    let methodsData = payload ? payload.methodsData : null
+  async syncTotals ({ dispatch, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
+    const methodsData = payload ? payload.methodsData : null
     await dispatch('pullMethods', { forceServerSync: payload.forceServerSync })
 
-    if (getters.isTotalsSyncEnabled && getters.isCartConnected && (getters.isTotalsSyncRequired || payload.forceServerSync)) {
-      const shippingMethods = rootGetters['shipping/shippingMethods']
-      const paymentMethods = rootGetters['payment/paymentMethods']
-      const shippingDetails = rootGetters['checkout/getShippingDetails']
+    if (getters.canSyncTotals && (getters.isTotalsSyncRequired || payload.forceServerSync)) {
       const shippingMethodsData = methodsData || createOrderData({
-        shippingDetails,
-        shippingMethods,
-        paymentMethods
+        shippingDetails: rootGetters['checkout/getShippingDetails'],
+        shippingMethods: rootGetters['shipping/shippingMethods'],
+        paymentMethods: rootGetters['payment/paymentMethods']
       })
-      const hasShippingInformation = shippingMethodsData.method_code || shippingMethodsData.carrier_code
 
-      if (shippingMethodsData.country && getters.isCartConnected) {
-        return dispatch('overrideServerTotals', { methodsData, hasShippingInformation })
-      } else {
-        Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
+      if (shippingMethodsData.country) {
+        return dispatch('overrideServerTotals', {
+          hasShippingInformation: shippingMethodsData.method_code || shippingMethodsData.carrier_code,
+          addressInformation: createShippingInfoData(shippingMethodsData)
+        })
       }
+
+      Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
     }
   },
   async refreshTotals ({ dispatch }, payload) {
