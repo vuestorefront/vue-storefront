@@ -36,7 +36,7 @@ export const CatalogModule: StorefrontModule = function (app, store, router, mod
     const prevOption = store.getters['product/getCurrentProductConfiguration'][filterOption.attribute_code]
     let changedConfig = Object.assign({}, store.getters['product/getCurrentProductConfiguration'], {[filterOption.attribute_code]: filterOption})
     const selectedVariant = await store.dispatch('product/configure', {
-      product:  store.getters['product/getCurrentProduct'],
+      product: store.getters['product/getCurrentProduct'],
       configuration: changedConfig,
       selectDefaultVariant: true,
       fallbackToDefaultWhenNoAvailable: false,
