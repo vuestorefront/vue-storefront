@@ -9,7 +9,6 @@ const CmsPage = () => import(/* webpackChunkName: "vsf-cms" */ 'theme/pages/CmsP
 const Checkout = () => import(/* webpackChunkName: "vsf-checkout" */ 'theme/pages/Checkout.vue')
 const Compare = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/Compare.vue')
 const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue')
-const Static = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/Static.vue')
 
 /** ICMAA / Custom module pages */
 const IcmaaCategoryList = () => import(/* webpackChunkName: "vsf-icmaa-category-list" */ 'src/modules/icmaa-category/pages/List.vue')
