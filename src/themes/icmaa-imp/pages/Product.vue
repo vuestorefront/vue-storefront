@@ -194,7 +194,6 @@
     </section>
     <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
     <related-products type="upsell" :heading="$t('We found other products you might like')" />
-    <promoted-offers single-banner />
     <related-products type="related" />
     <SizeGuide />
   </div>
@@ -217,7 +216,6 @@ import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
 import ProductGallery from 'theme/components/core/ProductGallery'
 import Spinner from 'theme/components/core/Spinner'
-import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from 'theme/components/theme/WebShare'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
@@ -238,7 +236,6 @@ export default {
     ProductCustomOptions,
     ProductGallery,
     ProductLinks,
-    PromotedOffers,
     RelatedProducts,
     Reviews,
     SizeSelector,
