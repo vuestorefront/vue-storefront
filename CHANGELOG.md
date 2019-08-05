@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for tax calculation where the values from customer_tax_class_ids is used - @resubaka (#3245)
 - Added loading product attributes (`entities.productListWithChildren.includeFields`) on category page - @andrzejewsky (#3220)
 - Added config to set Cache-Control header for static assets based on mime type - @phoenix-bjoern (#3268)
-- Improve `category-next/getCategoryFrom` and `category-next/getCurrentCategory` to be more flexible - @cewald (#3286)
+- Improve `category-next/getCategoryFrom` and `category-next/getCurrentCategory` to be more flexible - @cewald (#3295)
 
 ### Fixed
 
@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed tax calulaction where products was send as parameter but products.items where the right paramater - @resubaka (#3308)
 - Fixed module extendStore for array property inside store - @przspa (#3311)
 - Some SSR problems with urlDispatcher during multireloading page - @patzick (#3323)
+- Fixed two bugs in `category-next/getCategoryFrom` (#3286) and `category-next/getCurrentCategory` (#3332) - @cewald (#3295)
 
 ### Changed / Improved
 
