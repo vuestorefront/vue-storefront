@@ -22,20 +22,20 @@ export default {
     // return store.dispatch('icmaaCmsCategoryExtras/single', { value: category.url_key })
   },
   async serverPrefetch () {
-    return this.fetchAsyncData()
+    await this.fetchAsyncData()
   },
   mounted () {
     this.fetchAsyncData()
   },
   watch: {
-    getCurrentCategory: function (oldCat: Category, newCat: Category) {
+    getCurrentCategory: function (newCat: Category, oldCat: Category) {
       this.fetchAsyncData()
     }
   },
   methods: {
     async fetchAsyncData () {
       const category = this.$store.getters['category-next/getCurrentCategory']
-      if (!this.categoryExtrasByIdentifier(category.url_key)) {
+      if (category && !this.categoryExtrasByIdentifier(category.url_key)) {
         await this.$store.dispatch('icmaaCmsCategoryExtras/single', { value: category.url_key })
       }
     },
