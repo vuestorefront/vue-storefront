@@ -43,6 +43,9 @@ const mutations: MutationTree<ProductState> = {
     state.current_bundle_options = {}
     state.current_custom_options = {}
   },
+  [types.PRODUCT_SET_CURRENT_CONFIGURATION] (state, configuration = {}) {
+    state.current_configuration = configuration
+  },
   [types.PRODUCT_SET_ORIGINAL] (state, product) {
     state.original = product
   },

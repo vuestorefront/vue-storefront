@@ -334,6 +334,9 @@ export default {
   created () {
     this.getQuantity()
   },
+  mounted () {
+    this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
+  },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
     // setup breadcrumbs

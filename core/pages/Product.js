@@ -83,11 +83,11 @@ export default {
   },
   beforeMount () {
     this.$bus.$on('product-after-removevariant', this.onAfterVariantChanged)
-    this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate)
-    this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
-    this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
-    this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
-    if (config.usePriceTiers || isUserGroupedTaxActive()) {
+    this.$bus.$on('product-after-priceupdate', this.onAfterPriceUpdate) // moved to catalog module
+    this.$bus.$on('filter-changed-product', this.onAfterFilterChanged) // moved to catalog module
+    this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged) // moved to catalog module
+    this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged) // moved to catalog module
+    if (config.usePriceTiers || isUserGroupedTaxActive()) { // moved to catalog module
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
