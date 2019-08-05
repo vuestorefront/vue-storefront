@@ -14,6 +14,8 @@ import prepareShippingInfoForUpdateTotals from './prepareShippingInfoForUpdateTo
 import getThumbnailForProduct from './getThumbnailForProduct'
 import getProductOptions from './getProductOptions'
 import getProductConfiguration from './getProductConfiguration'
+import createOrderData from './createOrderData'
+import createShippingInfoData from './createShippingInfoData'
 
 export {
   cartCacheHandlerFactory,
@@ -31,5 +33,7 @@ export {
   prepareShippingInfoForUpdateTotals,
   getThumbnailForProduct,
   getProductOptions,
-  getProductConfiguration
+  getProductConfiguration,
+  createOrderData,
+  createShippingInfoData
 }

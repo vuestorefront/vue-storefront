@@ -2,7 +2,7 @@ import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { CartService } from '@vue-storefront/core/data-resolver'
-import { prepareShippingInfoForUpdateTotals } from '@vue-storefront/core/modules/cart/helpers'
+import { prepareShippingInfoForUpdateTotals, createOrderData } from '@vue-storefront/core/modules/cart/helpers'
 
 const totalsActions = {
   async getTotals (context, { methodsData, hasShippingInformation }) {
@@ -34,46 +34,26 @@ const totalsActions = {
 
     Logger.error(result, 'cart')()
   },
-  // will be refactored soon, waits for #3284
-  async syncTotals ({ dispatch, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
+  async syncTotals ({ dispatch, commit, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
     let methodsData = payload ? payload.methodsData : null
     await dispatch('pullMethods', { forceServerSync: payload.forceServerSync })
 
-    const storeView = currentStoreView()
-    let hasShippingInformation = false
     if (getters.isTotalsSyncEnabled && getters.isCartConnected && (getters.isTotalsSyncRequired || payload.forceServerSync)) {
-      if (!methodsData) {
-        const country = rootGetters['checkout/getShippingDetails'].country ? rootGetters['checkout/getShippingDetails'].country : storeView.tax.defaultCountry
-        const shippingMethods = rootGetters['shipping/shippingMethods']
-        const paymentMethods = rootGetters['payment/paymentMethods']
-        let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default && !item.offline /* don't sync offline only shipping methods with the serrver */) : null
-        let payment = paymentMethods && Array.isArray(paymentMethods) ? paymentMethods.find(item => item.default) : null
-        if (!shipping && shippingMethods && shippingMethods.length > 0) {
-          shipping = shippingMethods.find(item => !item.offline)
-        }
-        if (!payment && paymentMethods && paymentMethods.length > 0) {
-          payment = paymentMethods[0]
-        }
-        methodsData = {
-          country: country
-        }
-        if (shipping) {
-          if (shipping.method_code) {
-            hasShippingInformation = true // there are some edge cases when the backend returns no shipping info
-            methodsData['method_code'] = shipping.method_code
-          }
-          if (shipping.carrier_code) {
-            hasShippingInformation = true
-            methodsData['carrier_code'] = shipping.carrier_code
-          }
-        }
-        if (payment && payment.code) methodsData['payment_method'] = payment.code
-      }
-      if (methodsData.country && getters.isCartConnected) {
-        return dispatch('overrideServerTotals', { methodsData, hasShippingInformation })
-      }
+      const shippingMethods = rootGetters['shipping/shippingMethods']
+      const paymentMethods = rootGetters['payment/paymentMethods']
+      const shippingDetails = rootGetters['checkout/getShippingDetails']
+      const shippingMethodsData = methodsData || createOrderData({
+        shippingDetails,
+        shippingMethods,
+        paymentMethods
+      })
+      const hasShippingInformation = shippingMethodsData.method_code || shippingMethodsData.carrier_code
 
-      Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
+      if (shippingMethodsData.country && getters.isCartConnected) {
+        return dispatch('overrideServerTotals', { methodsData, hasShippingInformation })
+      } else {
+        Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
+      }
     }
   },
   async refreshTotals ({ dispatch }, payload) {
