@@ -49,7 +49,7 @@ declare namespace DataResolver {
     setServerShippingInfo: (methodsData: any /*: ShippingMethodsData */) => Promise<Task>,
     getTotals: () => Promise<Task>,
     connectCart: (guestCart: boolean, forceClientState: boolean) => Promise<Task>,
-    updateCartItem: (cartServerToken: string, cartItem: CartItem) => Promise<Task>,
+    updateItem: (cartServerToken: string, cartItem: CartItem) => Promise<Task>,
     deleteItem: (cartServerToken: string, cartItem: CartItem) => Promise<Task>,
     getPaymentMethods: () => Promise<Task>,
     getShippingMethods: (address: any /*: ShippingMethodsData */) => Promise<Task>,

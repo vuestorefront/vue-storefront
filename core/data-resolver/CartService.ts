@@ -45,7 +45,7 @@ const connectCart = async (guestCart: boolean = false, forceClientState: boolean
   });
 }
 
-const updateCartItem = async (cartServerToken: string, cartItem: CartItem): Promise<Task> =>
+const updateItem = async (cartServerToken: string, cartItem: CartItem): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(config.cart.updateitem_endpoint),
     payload: {
@@ -143,7 +143,7 @@ export const CartService: DataResolver.CartService = {
   setServerShippingInfo,
   getTotals,
   connectCart,
-  updateCartItem,
+  updateItem,
   deleteItem,
   getPaymentMethods,
   getShippingMethods,

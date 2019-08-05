@@ -23,12 +23,6 @@ const productQuantityUpdated = {
   action2: checkoutAction
 }
 
-const productUnknownPrice = {
-  type: 'error',
-  message: i18n.t('Product price is unknown, product cannot be added to the cart!'),
-  action1: { label: i18n.t('OK') }
-}
-
 const unsafeQuantity = {
   type: 'warning',
   message: i18n.t(
@@ -52,7 +46,6 @@ export {
   createNotifications,
   productAddedToCart,
   productQuantityUpdated,
-  productUnknownPrice,
   unsafeQuantity,
   outOfStock
 };

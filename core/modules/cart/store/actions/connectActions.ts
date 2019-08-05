@@ -3,7 +3,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { CartService } from '@vue-storefront/core/data-resolver'
-import { createDiffLog, isCartTokenAuthorized } from '@vue-storefront/core/modules/cart/helpers'
+import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
 
 const connectActions = {
   toggleMicrocart ({ commit }) {
@@ -44,7 +44,7 @@ const connectActions = {
       return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
     }
 
-    if (isCartTokenAuthorized(result) && getters.bypassCounter < config.queues.maxCartBypassAttempts) {
+    if (resultCode === 401 && getters.bypassCounter < config.queues.maxCartBypassAttempts) {
       Logger.log('Bypassing with guest cart' + getters.bypassCounter, 'cart')()
       commit(types.CART_UPDATE_BYPASS_COUNTER, { counter: 1 })
       Logger.error(result, 'cart')()

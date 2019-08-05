@@ -32,7 +32,7 @@ const mergeActions = {
   async updateServerItem ({ getters, rootGetters, commit, dispatch }, { clientItem, serverItem, updateIds }) {
     const diffLog = createDiffLog()
     const cartItem = createCartItemForUpdate(clientItem, serverItem, updateIds)
-    const event = await CartService.updateCartItem(getters.getCartToken, cartItem)
+    const event = await CartService.updateItem(getters.getCartToken, cartItem)
     const isUpdateSuccess = event.resultCode === 200
     Logger.debug('Cart item server sync' + event, 'cart')()
     diffLog.pushServerResponse({ status: event.resultCode, sku: clientItem.sku, result: event })

@@ -7,7 +7,6 @@ import calculateTotals from './calculateTotals'
 import preparePaymentMethodsToSync from './preparePaymentMethodsToSync'
 import validateProduct from './validateProduct'
 import createDiffLog from './createDiffLog'
-import isCartTokenAuthorized from './isCartTokenAuthorized'
 import * as notifications from './notifications'
 import createCartItemForUpdate from './createCartItemForUpdate'
 import prepareShippingInfoForUpdateTotals from './prepareShippingInfoForUpdateTotals'
@@ -28,7 +27,6 @@ export {
   validateProduct,
   notifications,
   createDiffLog,
-  isCartTokenAuthorized,
   createCartItemForUpdate,
   prepareShippingInfoForUpdateTotals,
   getThumbnailForProduct,

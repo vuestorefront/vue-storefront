@@ -44,7 +44,7 @@ const totalsActions = {
     if (getters.canSyncTotals && (getters.isTotalsSyncRequired || payload.forceServerSync)) {
       const shippingMethodsData = methodsData || createOrderData({
         shippingDetails: rootGetters['checkout/getShippingDetails'],
-        shippingMethods: rootGetters['shipping/shippingMethods'],
+        shippingMethods: rootGetters['shipping/getShippingMethods'],
         paymentMethods: rootGetters['payment/paymentMethods']
       })
 
