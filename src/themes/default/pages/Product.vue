@@ -5,7 +5,7 @@
         <section class="row m0 between-xs">
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
-              :offline="offlineImage"
+              :offline="getOfflineImage"
               :gallery="getProductGallery"
               :configuration="getCurrentProductConfiguration"
               :product="getCurrentProduct"
@@ -182,7 +182,7 @@
               <ul class="attributes p0 pt5 m0">
                 <product-attribute
                   :key="attr.attribute_code"
-                  v-for="attr in customAttributes"
+                  v-for="attr in getCustomAttributes"
                   :product="getCurrentProduct"
                   :attribute="attr"
                   empty-placeholder="N/A"
@@ -301,14 +301,14 @@ export default {
       }
       return this.getCurrentProduct.configurable_options
     },
-    offlineImage () {
+    getOfflineImage () {
       return {
         src: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height),
         error: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height),
         loading: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height)
       }
     },
-    customAttributes () {
+    getCustomAttributes () {
       return Object.values(this.attributesByCode).filter(a => {
         return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
       })

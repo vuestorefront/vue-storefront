@@ -11,15 +11,7 @@ const getters: GetterTree<ProductState, RootState> = {
   getProductsSearchResult: state => state.list,
   getProducts: (state, getters) => getters.getProductsSearchResult.items,
   getProductGallery: state => state.productGallery,
-  getProductRelated: state => state.related,
-  // TODO remove getters below
-  productParent: (state) => state.parent,
-  productCurrent: (state) => state.current,
-  currentConfiguration: (state) => state.current_configuration,
-  productOriginal: (state) => state.original,
-  currentOptions: (state) => state.current_options,
-  breadcrumbs: (state) => state.breadcrumbs,
-  productGallery: (state) => state.productGallery
+  getProductRelated: state => state.related
 }
 
 export default getters
