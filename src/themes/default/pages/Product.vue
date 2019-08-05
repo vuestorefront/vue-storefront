@@ -152,7 +152,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="getCurrentProduct"
-                :disabled="($v.getCurrentProduct.qty.$error && !$v.getCurrentProduct.qty.minValue) || !quantity && isSimpleOrConfigurable"
+                :disabled="($v.getCurrentProduct.qty.$error && !$v.getCurrentProduct.qty.minValue) || (!quantity && isSimpleOrConfigurable) || isProductLoading"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -178,24 +178,34 @@
             <div class="lh30 h5" itemprop="description" v-html="getCurrentProduct.description" />
           </div>
           <div class="col-xs-12 col-sm-5">
-            <ul class="attributes p0 pt5 m0">
-              <product-attribute
-                :key="attr.attribute_code"
-                v-for="attr in customAttributes"
-                :product="getCurrentProduct"
-                :attribute="attr"
-                empty-placeholder="N/A"
-              />
-            </ul>
+            <lazy-hydrate on-interaction>
+              <ul class="attributes p0 pt5 m0">
+                <product-attribute
+                  :key="attr.attribute_code"
+                  v-for="attr in customAttributes"
+                  :product="getCurrentProduct"
+                  :attribute="attr"
+                  empty-placeholder="N/A"
+                />
+              </ul>
+            </lazy-hydrate>
           </div>
           <div class="details-overlay" @click="showDetails" />
         </div>
       </div>
     </section>
-    <reviews :product-id="getOriginalProduct.id" v-show="OnlineOnly" />
-    <related-products type="upsell" :heading="$t('We found other products you might like')" />
-    <promoted-offers single-banner />
-    <related-products type="related" />
+    <lazy-hydrate when-idle>
+      <reviews :product-id="getOriginalProduct.id" v-show="OnlineOnly" />
+    </lazy-hydrate>
+    <lazy-hydrate when-idle>
+      <related-products type="upsell" :heading="$t('We found other products you might like')" />
+    </lazy-hydrate>
+    <lazy-hydrate when-idle>
+      <promoted-offers single-banner />
+    </lazy-hydrate>
+    <lazy-hydrate when-idle>
+      <related-products type="related" />
+    </lazy-hydrate>
     <SizeGuide />
   </div>
 </template>
@@ -226,6 +236,7 @@ import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
 import { mapGetters } from 'vuex'
+import LazyHydrate from 'vue-lazy-hydration'
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
 import { getAvailableFiltersByProduct, getSelectedFiltersByProduct } from '@vue-storefront/core/modules/catalog/helpers/filters'
 import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
@@ -252,7 +263,8 @@ export default {
     WebShare,
     BaseInputNumber,
     SizeGuide,
-    Spinner
+    Spinner,
+    LazyHydrate
   },
   // Remove product.js dependency and use onlineHelper
   mixins: [VueOfflineMixin, ProductOption],
@@ -315,8 +327,8 @@ export default {
       return false
     },
     getInputName () {
-      if (this.isSimpleOrConfigurable && !this.isProductLoading) { return `Quantity (${this.quantity} available)` }
-      return `Quantity`
+      if (this.isSimpleOrConfigurable && !this.isProductLoading) { return this.$i18n.t('Quantity available', { qty: this.quantity }) }
+      return this.$i18n.t('Quantity')
     }
   },
   created () {
@@ -369,6 +381,7 @@ export default {
     },
     async getQuantity () {
       this.isProductLoading = true
+      this.quantity = null
       const res = await this.$store.dispatch('stock/check', {
         product: this.getCurrentProduct,
         qty: this.getCurrentProduct.qte

@@ -47,10 +47,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed static category links in cms contents on homepage and MinimalFooter - @MariaKern (#3292)
 - Fixed tax calulaction where products was send as parameter but products.items where the right paramater - @resubaka (#3308)
 - Fixed module extendStore for array property inside store - @przspa (#3311)
+- Some SSR problems with urlDispatcher during multireloading page - @patzick (#3323)
 
 ### Changed / Improved
 
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
+- The `attribute.list_by_id` and `attribute.list_by_code` from the `window.__INITIAL_STATE__` which could be even up to 50% of the product page size. - @pkarw (#3281)
 - Can set transition style for Modal content - @grimasod (#3146)
 - Added stock to cart items - @cheeerd (#3166)
 - Moves theme specific stores and components into themes - @michasik (#3139)
