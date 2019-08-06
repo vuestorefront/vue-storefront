@@ -80,6 +80,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Date filter ignoring format param and locales - @grimasod, @patzick (#3102)
 - Problem with placing an order if shipping method is different than default one - @patzick (#3203)
 - Fixed product video embed on PDP - @juho-jaakkola (#3263)
+- Fixed memory leak with loading DayJS in SSR - @lukeromanowicz (#3310) 
+- Fixed invalid localized routes in SSR content of multistore configuration - @lukeromanowicz (#3262)
+- Fixed startSession which loaded from the wrong place the user when multistore was active - @resubaka (#3322)
 
 ### Changed
 
