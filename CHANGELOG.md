@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- corrected usage of "configurableChildrenStockPrefetchStatic" setting
-- catalog/category/actions::cacheProducts now uses a (testable) helper class "cacheProductsHelper"
 - Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057, #3270)
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
@@ -67,6 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored the vuex user module - @andrzejewsky (#3095)
 - Brazilian Portuguese (pt_BR) translation improved - @pxfm (#3288)
 - Moved store/lib to /lib - @pxfm (#3253)
+- Corrected usage of "configurableChildrenStockPrefetchStatic" setting, refactored logic to tested helper - @philippsander (#859)
 - Improved some of the german translations in spelling and wording - @MariaKern (#3297) 
 
 ## [1.10.0-rc.2] - UNRELEASED
