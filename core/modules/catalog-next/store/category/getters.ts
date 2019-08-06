@@ -23,7 +23,7 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
     return getters.getCategories().find(category => {
       let valueCheck = []
-      forEach(params, (value, key) => valueCheck.push(category[key] === value))
+      forEach(params, (value, key) => valueCheck.push(category[key] && category[key] === (category[key].constructor)(value)))
       return valueCheck.filter(check => check === true).length === Object.keys(params).length
     }) || {}
   },
