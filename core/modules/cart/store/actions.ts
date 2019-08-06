@@ -421,7 +421,7 @@ const actions: ActionTree<CartState, RootState> = {
       Logger.debug('Skipping payment & shipping methods update as cart has not been changed', 'cart')()
     }
     const storeView = currentStoreView()
-    let hasShippingInformation = false
+    let hasShippingInformation = !!(methodsData && methodsData.method_code)
     if (getters.isTotalsSyncEnabled && getters.isCartConnected && (getters.isTotalsSyncRequired || payload.forceServerSync)) {
       if (!methodsData) {
         const country = rootGetters['checkout/getShippingDetails'].country ? rootGetters['checkout/getShippingDetails'].country : storeView.tax.defaultCountry
