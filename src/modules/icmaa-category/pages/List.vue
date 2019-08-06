@@ -113,7 +113,7 @@ $bg-secondary: color(secondary, $colors-background);
         align-items: center;
         justify-content: center;
         height: 40px;
-        background: $bg-secondary;
+        background: #ffffff;
         border: 1px solid $bg-secondary;
         text-decoration: none;
 
