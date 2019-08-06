@@ -14,3 +14,14 @@ export const _prepareCategoryPathIds = (category: Category): string[] => {
   if (!category || !category.path) return []
   return category.path.split('/')
 }
+
+export const getSearchOptionsFromRouteParams = (params: { [key: string]: string } = {}): Object => {
+  const filterableKeys = ['url-key', 'slug', 'id']
+  let filters: { [key: string]: string } = {}
+
+  Object.keys(params)
+    .filter(key => filterableKeys.includes(key))
+    .forEach(key => filters[key] = params[key])
+  
+  return filters
+}

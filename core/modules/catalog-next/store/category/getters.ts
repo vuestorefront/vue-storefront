@@ -11,7 +11,7 @@ import forEach from 'lodash-es/forEach'
 import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
-import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
+import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state) => (): Category[] => Object.values(state.categoriesMap),
@@ -23,8 +23,9 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
     return getters.getCategories().find(category => {
       let valueCheck = []
-      forEach(params, (value, key) => valueCheck.push(category[key] && category[key] === (category[key].constructor)(value)))
-      return valueCheck.filter(check => check === true).length === Object.keys(params).length
+      const searchOptions = getSearchOptionsFromRouteParams(params)
+      forEach(searchOptions, (value, key) => valueCheck.push(category[key] && category[key] === (category[key].constructor)(value)))
+      return valueCheck.filter(check => check === true).length === Object.keys(searchOptions).length
     }) || {}
   },
   getCurrentCategory: (state, getters, rootState) => {
