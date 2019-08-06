@@ -780,6 +780,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     </tr>
+     <tr>
+      <td align="center" valign="middle"> 
+<a href="https://sparksolutions.co/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/logo%20spark%20kolor.png"
+            alt="Spark Solutions"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
   </tbody>
 </table> 
 
