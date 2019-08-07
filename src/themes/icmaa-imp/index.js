@@ -28,7 +28,7 @@ function initTheme (app, router, store, config, ssrContext) {
   setupMultistoreRoutes(config, router, routes)
   RouterManager.addRoutes(routes, router)
 
-  StorageManager.init('claimCollection');
+  StorageManager.init('claims');
   store.registerModule('claims', claimsStore);
   store.registerModule('ui', uiStore);
 }
