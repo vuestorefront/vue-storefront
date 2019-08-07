@@ -5,6 +5,10 @@ jest.mock('@vue-storefront/core/lib/modules', () => ({ createModule: jest.fn(() 
 jest.mock('../../helpers/cartCacheHandler', () => ({ cartCacheHandlerFactory: jest.fn() }))
 jest.mock('@vue-storefront/core/helpers', () => ({ isServer: false }))
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({ initCacheStorage: jest.fn() }));
+jest.mock('@vue-storefront/core/lib/multistore', () => ({
+  currentStoreView: jest.fn(),
+  localizedRoute: jest.fn()
+}));
 
 describe('Cart Module', () => {
   it('can be initialized', () => {

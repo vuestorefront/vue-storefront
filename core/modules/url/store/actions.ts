@@ -30,12 +30,14 @@ export const actions: ActionTree<UrlState, any> = {
    * Register dynamic vue-router routes
    */
   async registerDynamicRoutes ({ state, dispatch }) {
-    if (state.dispatcherMap) {
-      for (const [url, routeData] of Object.entries(state.dispatcherMap)) {
-        processDynamicRoute(routeData, url)
-        dispatch('registerMapping', { url, routeData })
-      }
-    }
+    if (!state.dispatcherMap) return
+
+    const registrationRoutePromises = Object.keys(state.dispatcherMap).map(url => {
+      const routeData = state.dispatcherMap[url]
+      processDynamicRoute(routeData, url)
+      return dispatch('registerMapping', { url, routeData })
+    })
+    await Promise.all(registrationRoutePromises)
   },
   mapUrl ({ state, dispatch }, { url, query }: { url: string, query: string}) {
     const parsedQuery = typeof query === 'string' ? queryString.parse(query) : query
