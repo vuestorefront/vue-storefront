@@ -10,6 +10,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { userHooksExecutors, userHooks } from '../hooks'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
@@ -49,7 +50,9 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   async login ({ commit, dispatch }, { username, password }) {
-    const resp = await UserService.login(username, password)
+    const userAfterHook = userHooksExecutors.beforeUserAuthorize({ username, password })
+    const resp = await UserService.login(userAfterHook.username, userAfterHook.password)
+    userHooksExecutors.afterUserAuthorize(resp)
 
     if (resp.code === 200) {
       await dispatch('resetUserInvalidateLock', {}, { root: true })
