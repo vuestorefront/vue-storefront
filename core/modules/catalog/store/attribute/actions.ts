@@ -6,6 +6,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import { ActionTree } from 'vuex'
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { prefetchCachedAttributes } from '../../helpers/prefetchCachedAttributes'
 
 const actions: ActionTree<AttributeState, RootState> = {
   /**
@@ -13,13 +14,16 @@ const actions: ActionTree<AttributeState, RootState> = {
    * @param {Object} context
    * @param {Array} attrCodes attribute codes to load
    */
-  list (context, { filterValues = null, filterField = 'attribute_code', only_user_defined = false, only_visible = false, size = 150, start = 0, includeFields = config.entities.optimize ? config.entities.attribute.includeFields : null }) {
+  async list (context, { filterValues = null, filterField = 'attribute_code', only_user_defined = false, only_visible = false, size = 150, start = 0, includeFields = config.entities.optimize ? config.entities.attribute.includeFields : null }) {
     const commit = context.commit
-
     let searchQuery = new SearchQuery()
     const orgFilterValues = filterValues ? [...filterValues] : []
     if (filterValues) {
+      const cachedAttributes = await prefetchCachedAttributes(filterField, filterValues)
+      if (cachedAttributes) context.commit(types.ATTRIBUTE_UPD_ATTRIBUTES, { items: cachedAttributes })
       filterValues = filterValues.filter(fv => { // check the already loaded
+        if (config.entities.product.standardSystemFields.indexOf(fv) >= 0) return false // skip standard system fields
+        if (fv.indexOf('.') >= 0) return false // skip multipart field names
         if (context.state.blacklist !== null && context.state.blacklist.includes(fv)) return false // return that this attribute is not on our blacklist
         if (filterField === 'attribute_id') return (typeof context.state.list_by_id[fv] === 'undefined' || context.state.list_by_id[fv] === null)
         if (filterField === 'attribute_code') return (typeof context.state.list_by_code[fv] === 'undefined' || context.state.list_by_code[fv] === null)

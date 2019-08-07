@@ -20,7 +20,7 @@ import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 import { registerTheme } from '@vue-storefront/core/lib/themes'
 import { themeEntry } from 'theme/index'
 import { registerModules } from '@vue-storefront/core/lib/module'
-import { prepareStoreView } from '@vue-storefront/core/lib/multistore'
+import { prepareStoreView, currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 import * as coreMixins from '@vue-storefront/core/mixins'
 import * as coreFilters from '@vue-storefront/core/filters'
@@ -91,6 +91,16 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
       Vue.mixin(coreMixins[key])
     })
   })
+
+  // @todo remove this part when we'll get rid of global multistore mixin
+  if (isServer) {
+    Object.defineProperty(ssrContext, 'helpers', {
+      value: {
+        currentStoreView
+      },
+      writable: true
+    })
+  }
 
   Object.keys(coreFilters).forEach(key => {
     Vue.filter(key, coreFilters[key])

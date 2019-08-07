@@ -4,7 +4,6 @@ import { calculateProductTax } from '../helpers/tax'
 import flattenDeep from 'lodash-es/flattenDeep'
 import omit from 'lodash-es/omit'
 import remove from 'lodash-es/remove'
-import groupBy from 'lodash-es/groupBy'
 import toString from 'lodash-es/toString'
 import union from 'lodash-es/union'
 // TODO: Remove this dependency
@@ -14,7 +13,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
-import config from 'config';
+import config from 'config'
 
 function _filterRootProductByStockitem (context, stockItem, product, errorCallback) {
   if (stockItem) {
@@ -601,7 +600,6 @@ export function attributeImages (product) {
   }
   return attributeImages
 }
-
 /**
  * Get configurable_children images from product if any
  * otherwise get attribute images

@@ -26,7 +26,10 @@
   },
   "homepage": "https://github.com/DivanteLtd/vue-storefront/README.md",
   "scripts": {
+    "static-server": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/static-server.ts",
+    "generate": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/generate.ts",
     "start": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" pm2 start ecosystem.json $PM2_ARGS",
+    "start:inspect": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" node --inspect ./core/scripts/server.js",
     "installer": "node ./core/scripts/installer",
     "installer:ci": "yarn installer --default-config",
     "all": "cross-env NODE_ENV=development node ./core/scripts/all",
@@ -44,7 +47,9 @@
     "lint": "eslint --ext .js,.vue,.ts core src --fix",
     "lerna": "lerna"
   },
-  "pre-commit": [ "lint" ],
+  "pre-commit": [
+    "lint"
+  ],
   "dependencies": {
     "@types/webpack": "^4.4.23",
     "@types/webpack-dev-server": "^3.1.1",
@@ -55,15 +60,17 @@
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
     "cross-env": "^3.1.4",
+    "dayjs": "^1.8.15",
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
+    "fs-extra": "^8.1.0",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "isomorphic-fetch": "^2.2.1",
     "js-sha3": "^0.8.0",
     "localforage": "^1.7.2",
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
-    "moment": "^2.24.0",
+    "ms": "^2.1.2",
     "pm2": "^2.10.4",
     "redis-tag-cache": "^1.2.1",
     "reflect-metadata": "^0.1.12",
@@ -75,6 +82,7 @@
     "vue-carousel": "^0.6.9",
     "vue-gtm": "^2.0.0",
     "vue-i18n": "^8.0.0",
+    "vue-lazy-hydration": "^1.0.0-beta.9",
     "vue-lazyload": "^1.2.6",
     "vue-meta": "^1.5.3",
     "vue-no-ssr": "^0.2.2",

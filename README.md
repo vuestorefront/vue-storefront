@@ -16,9 +16,10 @@ The project is in the **production ready** phase.
 **Important note to developers:** From 1.0RC we started using [develop](https://github.com/DivanteLtd/vue-storefront/tree/develop) branch for nightly builds (contains all new features) and [master](https://github.com/DivanteLtd/vue-storefront/tree/master) branch for stable. Please make sure you're working on right branch. Please take a look at [Contributing guidelines](https://github.com/DivanteLtd/vue-storefront/blob/master/CONTRIBUTING.md).
 
 If you're new and need some guidance feel free to visit out [forum](https://forum.vuestorefront.io/) or reach anyone from the core team on our slack:
-- `@Filip Rakowski` (frontend, architecture and best practices related stuff)
-- `@pkarw` (integrations and backend related stuff)
-- `@ptomczyk` (frontend related stuff)
+- `@Filip Rakowski` (frontend and best practices)
+- `@pkarw` (integrations and backend)
+- `@ptomczyk` (frontend and best practices)
+- `@lromanowicz` (testing, magento, backend)
 
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
@@ -217,6 +218,13 @@ Here you can read more about the process of [designing PWA for eCommerce](https:
 
 The design is available in open source in the Figma file format under the URL https://www.figma.com/file/VKyqbHFI55TKIKcQlFLiVpVF/Vue-Storefront-Open-Source.
 
+## Concerns when hosting
+When hosting NodeJS applications there are some differences compared to, for example, hosting PHP or Java applications.
+Server Side Rendering via NodeJS can have memory leaks because of suboptimal code. Although core code is optimized, project specific features or misaligned hosting configuration can introduce this. More on how to avoid these for VueJS can be ready in [this article](https://vuejs.org/v2/cookbook/avoiding-memory-leaks.html). We also recommend reading about [VueJS best practices](https://blog.usejournal.com/vue-js-best-practices-c5da8d7af48d).
+
+ On the server we advice to run [PM2](http://pm2.keymetrics.io/) which offers features to keep your NodeJS application stable. When hosting on Kubernetes the checks and memory limits can be leveraged to kill unhealthy containers.
+More on hosting can be found in [the documentation](https://docs.vuestorefront.io/guide/installation/production-setup.html#production-setup-bare-vps).
+
 ## Other platforms
 Vue Storefront is platform agnostic which means it can be connected to virtually any CMS. Please take a look at [Pimcore bridge](https://github.com/DivanteLtd/coreshop-vsbridge) to give you an idea of how other platforms can be connected. Any support for integrating Prestashop, Shopify ... - much appreciated.
 
@@ -289,6 +297,15 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://user-images.githubusercontent.com/18116406/38270766-b0bc4fc0-3784-11e8-9463-99d88950ca9a.png"
             alt="Bitbull"
+            width="150"
+          >
+        </a>
+      </td>
+      <td align="center" valign="middle">
+       <a href="https://www.sotechnology.co.uk/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/SOtech-logo%20(1).png"
+            alt="SOtechnology"
             width="150"
           >
         </a>
@@ -749,6 +766,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/Ambientia%20logo%20RED%20RGB.png"
             alt="Ambientia"
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="https://performance-academy.pl/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/Perfomance_Academy_logo_large.png"
+            alt="Performance Academy"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+     <tr>
+      <td align="center" valign="middle"> 
+<a href="https://sparksolutions.co/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/logo%20spark%20kolor.png"
+            alt="Spark Solutions"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
             height="40"
           >
         </a>

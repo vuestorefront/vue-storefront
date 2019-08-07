@@ -16,8 +16,13 @@ import Task from '@vue-storefront/core/lib/sync/types/Task'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
-import optimizeProduct from './../helpers/optimizeProduct'
-
+import {
+  optimizeProduct,
+  prepareProductsToAdd,
+  productsEquals,
+  createOrderData,
+  createShippingInfoData
+} from './../helpers'
 let _connectBypassCount = 0
 
 function _getDifflogPrototype () {
@@ -25,21 +30,13 @@ function _getDifflogPrototype () {
 }
 
 /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
-async function _serverShippingInfo ({ methodsData }) {
+async function _serverShippingInfo (addressInformation) {
   const task = await TaskQueue.execute({ url: config.cart.shippinginfo_endpoint,
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
-      body: JSON.stringify({
-        addressInformation: {
-          shippingAddress: {
-            countryId: methodsData.country
-          },
-          shippingCarrierCode: methodsData.carrier_code,
-          shippingMethodCode: methodsData.method_code
-        }
-      })
+      body: JSON.stringify({ addressInformation })
     },
     silent: true
   })
@@ -263,21 +260,15 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   /** Get one single item from the client's cart */
-  getItem ({ getters }, sku) {
-    return getters.getCartItems.find(p => p.sku === sku)
+  getItem ({ getters }, { product }) {
+    return getters.getCartItems.find(p => productsEquals(p, product))
   },
   goToCheckout () {
     router.push(localizedRoute('/checkout', currentStoreView().storeCode))
   },
   /** add item to the client's cart + sync with server if enabled @description this method is part of "public" cart API */
   async addItem ({ dispatch }, { productToAdd, forceServerSilence = false }) {
-    let productsToAdd = []
-    if (productToAdd.type_id === 'grouped') { // TODO: add bundle support
-      productsToAdd = productToAdd.product_links.filter((pl) => { return pl.link_type === 'associated' }).map((pl) => { return pl.product })
-    } else {
-      productsToAdd.push(productToAdd)
-    }
-    return dispatch('addItems', { productsToAdd: productsToAdd, forceServerSilence })
+    return dispatch('addItems', { productsToAdd: prepareProductsToAdd(productToAdd), forceServerSilence })
   },
   /** add multiple items to the client's cart and execute single sync with the server when needed  @description this method is part of "public" cart API */
   async addItems ({ commit, dispatch, getters }, { productsToAdd, forceServerSilence = false }) {
@@ -314,7 +305,7 @@ const actions: ActionTree<CartState, RootState> = {
           continue
         }
       }
-      const record = getters.getCartItems.find(p => p.sku === product.sku)
+      const record = getters.getCartItems.find(p => productsEquals(p, product))
       const result = await dispatch('stock/queueCheck', { product: product, qty: record ? record.qty + 1 : (product.qty ? product.qty : 1) }, {root: true}) // queueCheck returns control immediately and checks in the background; returning just the cached stock data; we're using it because cart/sync checks the stock anyway; but if cart.synchronize is disabeld or offline mode is enabled then this queued check could be usefull there is also `stock/check` actions that returns the exact values
       product.onlineStockCheckid = result.onlineCheckTaskId // used to get the online check result
       if (result.status === 'volatile') {
@@ -366,8 +357,9 @@ const actions: ActionTree<CartState, RootState> = {
     let product = payload
     if (payload.product) { // new call format since 1.4
       product = payload.product
-      removeByParentSku = payload.removeByParentSku
+      removeByParentSku = !!payload.removeByParentSku && payload.product.type_id !== 'bundle'
     }
+
     commit(types.CART_DEL_ITEM, { product, removeByParentSku })
     if (getters.isCartSyncEnabled && product.server_item_id) {
       return dispatch('sync', { forceClientState: true })
@@ -442,39 +434,20 @@ const actions: ActionTree<CartState, RootState> = {
     } else {
       Logger.debug('Skipping payment & shipping methods update as cart has not been changed', 'cart')()
     }
-    const storeView = currentStoreView()
-    let hasShippingInformation = false
     if (getters.isTotalsSyncEnabled && getters.isCartConnected && (getters.isTotalsSyncRequired || payload.forceServerSync)) {
-      if (!methodsData) {
-        const country = rootGetters['checkout/getShippingDetails'].country ? rootGetters['checkout/getShippingDetails'].country : storeView.tax.defaultCountry
-        const shippingMethods = rootGetters['shipping/shippingMethods']
-        const paymentMethods = rootGetters['payment/paymentMethods']
-        let shipping = shippingMethods && Array.isArray(shippingMethods) ? shippingMethods.find(item => item.default && !item.offline /* don't sync offline only shipping methods with the serrver */) : null
-        let payment = paymentMethods && Array.isArray(paymentMethods) ? paymentMethods.find(item => item.default) : null
-        if (!shipping && shippingMethods && shippingMethods.length > 0) {
-          shipping = shippingMethods.find(item => !item.offline)
-        }
-        if (!payment && paymentMethods && paymentMethods.length > 0) {
-          payment = paymentMethods[0]
-        }
-        methodsData = {
-          country: country
-        }
-        if (shipping) {
-          if (shipping.method_code) {
-            hasShippingInformation = true // there are some edge cases when the backend returns no shipping info
-            methodsData['method_code'] = shipping.method_code
-          }
-          if (shipping.carrier_code) {
-            hasShippingInformation = true
-            methodsData['carrier_code'] = shipping.carrier_code
-          }
-        }
-        if (payment && payment.code) methodsData['payment_method'] = payment.code
-      }
-      if (methodsData.country && getters.isCartConnected) {
+      const shippingMethods = rootGetters['shipping/shippingMethods']
+      const paymentMethods = rootGetters['payment/paymentMethods']
+      const shippingDetails = rootGetters['checkout/getShippingDetails']
+      const shippingMethodsData = methodsData || createOrderData({
+        shippingDetails,
+        shippingMethods,
+        paymentMethods
+      })
+      const hasShippingInformation = shippingMethodsData.method_code || shippingMethodsData.carrier_code
+
+      if (shippingMethodsData.country && getters.isCartConnected) {
         if (hasShippingInformation) {
-          return _serverShippingInfo({ methodsData }).then(_afterTotals)
+          return _serverShippingInfo(createShippingInfoData(shippingMethodsData)).then(_afterTotals)
         } else {
           return _serverTotals().then(_afterTotals)
         }
@@ -507,7 +480,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   /** add discount code to the cart + refresh totals @description this method is part of "public" cart API */
   async applyCoupon ({ getters, dispatch }, couponCode) {
-    if (getters.isTotalsSyncEnabled && getters.isCartConnected) {
+    if (couponCode && getters.isTotalsSyncEnabled && getters.isCartConnected) {
       const task = await TaskQueue.execute({ url: config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
         payload: {
           method: 'POST',
@@ -517,22 +490,25 @@ const actions: ActionTree<CartState, RootState> = {
         silent: false
       })
       if (task.result === true) {
-        dispatch('syncTotals', { forceServerSync: true })
+        await dispatch('syncTotals', { forceServerSync: true })
       }
       return task.result
     }
     return null
   },
   /** authorize the cart after user got logged in using the current cart token */
-  authorize ({ dispatch }) {
-    StorageManager.get('user').getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
-      if (err) {
-        Logger.error(err, 'cart')()
+  async authorize ({ dispatch, getters }) {
+    const coupon = getters.getCoupon.code
+    const lastCartBypassTs = await StorageManager.get('user').getItem('last-cart-bypass-ts')
+    const timeBypassCart = config.orders.directBackendSync || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)
+
+    if (!config.cart.bypassCartLoaderForAuthorizedUsers || timeBypassCart) { // don't refresh the shopping cart id up to 24h after last order
+      await dispatch('connect', { guestCart: false })
+
+      if (!getters.getCoupon) {
+        await dispatch('applyCoupon', coupon)
       }
-      if (!config.cart.bypassCartLoaderForAuthorizedUsers || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
-        dispatch('connect', { guestCart: false })
-      }
-    })
+    }
   },
   /** connect cart to the server and set the cart token */
   async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false }) {
@@ -588,7 +564,16 @@ const actions: ActionTree<CartState, RootState> = {
     /** helper - sub method to update the item in the cart */
     const _updateClientItem = async function ({ dispatch }, event, clientItem) {
       if (typeof event.result.item_id !== 'undefined') {
-        await dispatch('updateItem', { product: { server_item_id: event.result.item_id, sku: clientItem.sku, server_cart_id: event.result.quote_id, prev_qty: clientItem.qty } }) // update the server_id reference
+        const product = {
+          server_item_id: event.result.item_id,
+          sku: clientItem.sku,
+          server_cart_id: event.result.quote_id,
+          prev_qty: clientItem.qty,
+          product_option: event.result.product_option,
+          type_id: event.result.product_type
+        }
+
+        await dispatch('updateItem', { product }) // update the server_id reference
         EventBus.$emit('cart-after-itemchanged', { item: clientItem })
       }
     }
@@ -602,7 +587,7 @@ const actions: ActionTree<CartState, RootState> = {
         if (!serverItem) {
           commit(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
         } else if (clientItem.item_id) {
-          dispatch('getItem', clientItem.sku).then((cartItem) => {
+          dispatch('getItem', clientItem).then((cartItem) => {
             if (cartItem) {
               Logger.log('Restoring qty after error' + clientItem.sku + cartItem.prev_qty, 'cart')()
               if (cartItem.prev_qty > 0) {
@@ -637,7 +622,7 @@ const actions: ActionTree<CartState, RootState> = {
         }
       }
       if (clientItem === null) {
-        const cartItem = await dispatch('getItem', event.result.sku)
+        const cartItem = await dispatch('getItem', event.result)
         if (cartItem) {
           await _updateClientItem({ dispatch }, event, cartItem)
         }
@@ -647,9 +632,8 @@ const actions: ActionTree<CartState, RootState> = {
     }
     for (const clientItem of clientItems) {
       cartHasItems = true
-      const serverItem = serverItems.find((itm) => {
-        return itm.sku === clientItem.sku || itm.sku.indexOf(clientItem.sku + '-') === 0 /* bundle products */
-      })
+
+      const serverItem = serverItems.find(itm => productsEquals(itm, clientItem))
 
       if (!serverItem) {
         Logger.warn('No server item with sku ' + clientItem.sku + ' on stock.', 'cart')()
@@ -700,16 +684,22 @@ const actions: ActionTree<CartState, RootState> = {
       } else {
         Logger.info('Server and client item with SKU ' + clientItem.sku + ' synced. Updating cart.', 'cart', 'cart')()
         if (!dryRun) {
-          await dispatch('updateItem', { product: { sku: clientItem.sku, server_cart_id: serverItem.quote_id, server_item_id: serverItem.item_id, product_option: serverItem.product_option } })
+          await dispatch('updateItem', {
+            product: {
+              sku: clientItem.sku,
+              server_cart_id: serverItem.quote_id,
+              server_item_id: serverItem.item_id,
+              product_option: serverItem.product_option,
+              type_id: serverItem.product_type
+            }
+          })
         }
       }
     }
 
     for (const serverItem of serverItems) {
       if (serverItem) {
-        const clientItem = clientItems.find((itm) => {
-          return itm.sku === serverItem.sku || serverItem.sku.indexOf(itm.sku + '-') === 0 /* bundle products */
-        })
+        const clientItem = clientItems.find(itm => productsEquals(itm, serverItem))
         if (!clientItem) {
           Logger.info('No client item for' + serverItem.sku, 'cart')()
           diffLog.items.push({ 'party': 'client', 'sku': serverItem.sku, 'status': 'no-item' })

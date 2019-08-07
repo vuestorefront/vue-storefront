@@ -1,6 +1,6 @@
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { cartStore } from './store'
-import { cartCacheHandlerFactory } from './helpers/cartCacheHandler';
+import { cartCacheHandlerFactory } from './helpers';
 import { isServer } from '@vue-storefront/core/helpers'
 import Vue from 'vue'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'

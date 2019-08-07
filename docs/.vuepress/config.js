@@ -40,10 +40,13 @@ module.exports = {
             'cookbook/elastic',
             'cookbook/setup',
             'cookbook/integration',
-            'cookbook/extend-module',
+            'cookbook/module',
             'cookbook/theme',
             'cookbook/common-pitfall',
             'cookbook/devops',
+            'cookbook/tdd',
+            'cookbook/internals',
+            'cookbook/vue'
           ],
         },
         {
@@ -70,6 +73,7 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
+            'basics/static-generator',
             'basics/e2e',
             'basics/url'
           ],
@@ -163,6 +167,15 @@ module.exports = {
             'integrations/multistore',
           ],
         },
+        {
+          title: 'Data Resolvers',
+          collapsable: false,
+          children: [
+            'data-resolvers/introduction',
+            'data-resolvers/category-service',
+            'data-resolvers/user-service',
+          ]
+        }
       ],
     },
   },
