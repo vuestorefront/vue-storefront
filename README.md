@@ -19,7 +19,7 @@ If you're new and need some guidance feel free to visit out [forum](https://foru
 - `@Filip Rakowski` (frontend and best practices)
 - `@pkarw` (integrations and backend)
 - `@ptomczyk` (frontend and best practices)
-- `@lromanowicz` (testing, magento, backend)
+- `@lukeromanowicz` (testing, magento, backend)
 
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
