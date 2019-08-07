@@ -1,19 +1,30 @@
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
 
+// Authorize
+
 const { hook: beforeUserAuthorizeHook, executor: beforePUserAuthorizeExecutor }: {
   hook: (userDataMutator: (user: { username: string, password: string }) => any) => void,
   executor: any
 } = createMutatorHook()
 
-const { hook: afterPUserAuthorizeHook, executor: afterPUserAuthorizeExecutor }: {
-  hook: (userDataListener: (response: any) => any) => void,
+const { hook: afterUserAuthorizeHook, executor: afterUserAuthorizeExecutor }: {
+  hook: (afterAuthorizeListener: (response: any) => any) => void,
   executor: any
 } = createListenerHook()
+
+// Unauthorize
+
+const { hook: afterUserUnauthorizeHook, executor: afterUserUnauthorizeExecutor }: {
+  hook: (afterUnathorizeListener: () => void) => void,
+  executor: any
+} = createListenerHook()
+
 
 /** Only for internal usage in this module */
 const userHooksExecutors = {
   beforeUserAuthorize: beforePUserAuthorizeExecutor,
-  afterUserAuthorize: afterPUserAuthorizeExecutor
+  afterUserAuthorize: afterUserAuthorizeExecutor,
+  afterUserUnauthorize: afterUserUnauthorizeExecutor
 }
 
 const userHooks = {
@@ -22,9 +33,12 @@ const userHooks = {
   */
   beforeUserAuthorize: beforeUserAuthorizeHook,
   /** Hook is fired right after user is authenticated or auth fails.
-   * @param response result of user authentication
+   * @param response result of user authentication containing status codes and user data
   */
-  afterUserAuthorize: afterPUserAuthorizeHook
+  afterUserAuthorize: afterUserAuthorizeHook,
+    /** Hook is fired right after user is logged out.
+  */
+  afterUserUnauthorize: afterUserUnauthorizeHook
 }
 
 export {

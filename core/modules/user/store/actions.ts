@@ -219,6 +219,7 @@ const actions: ActionTree<UserState, RootState> = {
         action1: { label: i18n.t('OK') }
       }, { root: true })
     }
+    userHooksExecutors.afterUserUnauthorize()
   },
   async loadOrdersFromCache ({ commit }) {
     const ordersHistoryCollection = StorageManager.get('user')
