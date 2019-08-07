@@ -1,7 +1,7 @@
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
 
 const { hook: beforeUserAuthorizeHook, executor: beforePUserAuthorizeExecutor }: {
-  hook: (userDataMutator: (user: { username: String, password: String }) => any) => void,
+  hook: (userDataMutator: (user: { username: string, password: string }) => any) => void,
   executor: any
 } = createMutatorHook()
 
