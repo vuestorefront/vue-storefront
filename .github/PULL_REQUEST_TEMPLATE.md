@@ -21,7 +21,7 @@ Check your case. In case of any doubts please read about [Release Cycle](https:/
 ### Upgrade Notes and Changelog
 
 - [x] No upgrade steps required (100% backward compatibility and no breaking changes)
-- [ ] I've updated the [Upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/Upgrade%20notes.md) and [Changelog](https://github.com/DivanteLtd/vue-storefront/blob/develop/CHANGELOG.md) on how to port existing VS sites with this new feature
+- [ ] I've updated the [Upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/upgrade-notes/README.md) and [Changelog](https://github.com/DivanteLtd/vue-storefront/blob/develop/CHANGELOG.md) on how to port existing VS sites with this new feature
 
 **IMPORTANT NOTICE** - Remember to update `CHANGELOG.md` with description of your change
 

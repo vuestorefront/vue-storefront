@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
-import { slugify, formatBreadCrumbRoutes } from '@vue-storefront/core/helpers'
+import { formatBreadCrumbRoutes } from '@vue-storefront/core/helpers'
 import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import CategoryState from '../../types/CategoryState'
-import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import slugifyCategories from '@vue-storefront/core/modules/catalog/helpers/slugifyCategories'
 
 const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_UPD_CURRENT_CATEGORY] (state, category) {
@@ -19,43 +19,40 @@ const mutations: MutationTree<CategoryState> = {
     state.breadcrumbs.routes = formatBreadCrumbRoutes(state.current_path)
   },
   [types.CATEGORY_UPD_CATEGORIES] (state, categories) {
+    const catCollection = StorageManager.get('categories')
+
     for (let category of categories.items) {
-      let catSlugSetter = (category) => {
-        if (category.children_data) {
-          for (let subcat of category.children_data) { // TODO: fixme and move slug setting to vue-storefront-api
-            if (subcat.name) {
-              subcat = Object.assign(subcat, { slug: subcat.slug ? subcat.slug : ((subcat.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? subcat.url_key : (subcat.hasOwnProperty('name') ? slugify(subcat.name) + '-' + subcat.id : '')) })
-              catSlugSetter(subcat)
-            }
-          }
-        }
+      category = slugifyCategories(category)
+      const catExist = state.list.find(existingCat => existingCat.id === category.id)
+
+      if (!catExist) {
+        state.list.push(category)
       }
-      catSlugSetter(category)
-      if (categories.includeFields == null) {
-        const catCollection = StorageManager.get('categories')
+
+      if (!categories.includeFields) {
         try {
-          catCollection.setItem(entityKeyName('slug', category.slug.toLowerCase()), category).catch((reason) => {
-            Logger.error(reason, 'category') // it doesn't work on SSR
-          }) // populate cache by slug
-          catCollection.setItem(entityKeyName('id', category.id), category).catch((reason) => {
-            Logger.error(reason, 'category') // it doesn't work on SSR
-          }) // populate cache by id
+          catCollection
+            .setItem(entityKeyName('slug', category.slug.toLowerCase()), category)
+            .catch(reason => Logger.error(reason, 'category'))
+
+          catCollection
+            .setItem(entityKeyName('id', category.id), category)
+            .catch(reason => Logger.error(reason, 'category'))
         } catch (e) {
           Logger.error(e, 'category')()
         }
       }
     }
-    if (state.list) {
-      categories.items.map(newCat => {
-        if (!state.list.find(existingCat => existingCat.id === newCat.id)) {
-          state.list.push(newCat)
-        }
-      })
-    } else {
-      state.list = categories.items
-    }
+
+    state.list.sort((catA, catB) => {
+      if (catA.position && catB.position) {
+        if (catA.position < catB.position) return -1
+        if (catA.position > catB.position) return 1
+      }
+      return 0
+    })
   },
-  [types.CATEGORY_ADD_AVAILABLE_FILTER] (state, {key, options = []}) {
+  [types.CATEGORY_ADD_AVAILABLE_FILTER] (state, { key, options = [] }) {
     Vue.set(state.filters.available, key, options)
   },
   [types.CATEGORY_REMOVE_FILTERS] (state) {
