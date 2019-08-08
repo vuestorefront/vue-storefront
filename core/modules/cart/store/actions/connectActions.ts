@@ -35,7 +35,7 @@ const connectActions = {
   },
   async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false }) {
     if (!getters.isCartSyncEnabled) return
-    const { result, resultCode } = await CartService.connectCart(guestCart, forceClientState)
+    const { result, resultCode } = await CartService.getCartToken(guestCart, forceClientState)
 
     if (resultCode === 200) {
       Logger.info('Server cart token created.', 'cart', result)()

@@ -5,7 +5,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
 import config from 'config';
 
-const setServerShippingInfo = async (addressInformation: any): Promise<Task> =>
+const setShippingInfo = async (addressInformation: any): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(config.cart.shippinginfo_endpoint),
     payload: {
@@ -28,7 +28,7 @@ const getTotals = async (): Promise<Task> =>
     silent: true
   });
 
-const connectCart = async (guestCart: boolean = false, forceClientState: boolean = false): Promise<Task> => {
+const getCartToken = async (guestCart: boolean = false, forceClientState: boolean = false): Promise<Task> => {
   const url = processLocalizedURLAddress(guestCart
     ? config.cart.create_endpoint.replace('{{token}}', '')
     : config.cart.create_endpoint)
@@ -103,7 +103,7 @@ const getShippingMethods = async (address: any): Promise<Task> =>
     silent: true
   });
 
-const pullCart = async (): Promise<Task> =>
+const getItems = async (): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(config.cart.pull_endpoint),
     payload: {
@@ -140,14 +140,14 @@ const removeCoupon = async (): Promise<Task> =>
   });
 
 export const CartService: DataResolver.CartService = {
-  setServerShippingInfo,
+  setShippingInfo,
   getTotals,
-  connectCart,
+  getCartToken,
   updateItem,
   deleteItem,
   getPaymentMethods,
   getShippingMethods,
-  pullCart,
+  getItems,
   applyCoupon,
   removeCoupon
 }

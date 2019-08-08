@@ -5,6 +5,7 @@ import config from 'config'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
+import { cartHooksExecutors } from './../../hooks'
 
 const synchronizeActions = {
   async load ({ commit, dispatch }, { forceClientState = false }: {forceClientState?: boolean} = {}) {
@@ -45,16 +46,19 @@ const synchronizeActions = {
     const shouldUpdateClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
     if (!canUpdateMethods || !isSyncRequired) return
-
     commit(types.CART_SET_SYNC)
-    const { result, resultCode } = await CartService.pullCart()
+    const { result, resultCode } = await CartService.getItems()
+    const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
+
     if (resultCode === 200) {
-      return dispatch('merge', {
+      const diffLog = await dispatch('merge', {
         dryRun,
-        serverItems: result,
-        clientItems: getCartItems,
+        serverItems,
+        clientItems,
         forceClientState: shouldUpdateClientState
       })
+      cartHooksExecutors.afterSync(diffLog)
+      return diffLog
     }
 
     if (bypassCounter < config.queues.maxCartBypassAttempts) {
@@ -64,6 +68,7 @@ const synchronizeActions = {
     }
 
     Logger.error(result, 'cart')
+    cartHooksExecutors.afterSync(result)
     return createDiffLog()
   }
 }

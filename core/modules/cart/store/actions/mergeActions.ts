@@ -33,21 +33,21 @@ const mergeActions = {
     const diffLog = createDiffLog()
     const cartItem = createCartItemForUpdate(clientItem, serverItem, updateIds)
     const event = await CartService.updateItem(getters.getCartToken, cartItem)
-    const isUpdateSuccess = event.resultCode === 200
+    const wasUpdatedSuccessfully = event.resultCode === 200
     Logger.debug('Cart item server sync' + event, 'cart')()
     diffLog.pushServerResponse({ status: event.resultCode, sku: clientItem.sku, result: event })
 
-    if (!isUpdateSuccess && !serverItem) {
+    if (!wasUpdatedSuccessfully && !serverItem) {
       commit(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
       return diffLog
     }
 
-    if (!isUpdateSuccess && clientItem.item_id) {
+    if (!wasUpdatedSuccessfully && clientItem.item_id) {
       await dispatch('restoreQuantity', { cartItem, clientItem })
       return diffLog
     }
 
-    if (!isUpdateSuccess) {
+    if (!wasUpdatedSuccessfully) {
       Logger.warn('Removing product from cart', 'cart', clientItem)()
       commit(types.CART_DEL_NON_CONFIRMED_ITEM, { product: clientItem })
       return diffLog

@@ -46,14 +46,14 @@ declare namespace DataResolver {
   }
 
   interface CartService {
-    setServerShippingInfo: (methodsData: any /*: ShippingMethodsData */) => Promise<Task>,
+    setShippingInfo: (methodsData: any /*: ShippingMethodsData */) => Promise<Task>,
     getTotals: () => Promise<Task>,
-    connectCart: (guestCart: boolean, forceClientState: boolean) => Promise<Task>,
+    getCartToken: (guestCart: boolean, forceClientState: boolean) => Promise<Task>,
     updateItem: (cartServerToken: string, cartItem: CartItem) => Promise<Task>,
     deleteItem: (cartServerToken: string, cartItem: CartItem) => Promise<Task>,
     getPaymentMethods: () => Promise<Task>,
     getShippingMethods: (address: any /*: ShippingMethodsData */) => Promise<Task>,
-    pullCart: () => Promise<Task>,
+    getItems: () => Promise<Task>,
     applyCoupon: (couponCode: string) => Promise<Task>,
     removeCoupon: () => Promise<Task>
   }

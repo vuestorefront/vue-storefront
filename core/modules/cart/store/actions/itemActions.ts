@@ -8,6 +8,7 @@ import {
   createDiffLog,
   notifications
 } from '@vue-storefront/core/modules/cart/helpers'
+import { cartHooksExecutors } from './../../hooks'
 
 const itemActions = {
   configureItem (context, { product, configuration }) {
@@ -38,9 +39,11 @@ const itemActions = {
     return getters.getCartItems.find(p => productsEquals(p, product))
   },
   async addItem ({ dispatch, commit }, { productToAdd, forceServerSilence = false }) {
+    const { cartItem } = cartHooksExecutors.beforeAddToCart({ cartItem: productToAdd })
     commit(types.CART_ADDING_ITEM, { isAdding: true })
-    const result = await dispatch('addItems', { productsToAdd: prepareProductsToAdd(productToAdd), forceServerSilence })
+    const result = await dispatch('addItems', { productsToAdd: prepareProductsToAdd(cartItem), forceServerSilence })
     commit(types.CART_ADDING_ITEM, { isAdding: false })
+    cartHooksExecutors.afterAddToCart(result)
     return result
   },
   async checkProductStatus ({ dispatch, getters }, { product }) {
@@ -86,14 +89,20 @@ const itemActions = {
   async removeItem ({ commit, dispatch, getters }, payload) {
     const removeByParentSku = payload.product ? !!payload.removeByParentSku && payload.product.type_id !== 'bundle' : true
     const product = payload.product || payload
+    const { cartItem } = cartHooksExecutors.beforeRemoveFromCart({ cartItem: product })
 
-    commit(types.CART_DEL_ITEM, { product, removeByParentSku })
-    if (getters.isCartSyncEnabled && product.server_item_id) {
-      return dispatch('sync', { forceClientState: true })
+    commit(types.CART_DEL_ITEM, { product: cartItem, removeByParentSku })
+
+    if (getters.isCartSyncEnabled && cartItem.server_item_id) {
+      const diffLog = await dispatch('sync', { forceClientState: true })
+      cartHooksExecutors.afterRemoveFromCart(diffLog)
+      return diffLog
     }
 
-    return createDiffLog()
+    const diffLog = createDiffLog()
       .pushClientParty({ status: 'no-item', sku: product.sku })
+    cartHooksExecutors.afterRemoveFromCart(diffLog)
+    return diffLog
   }
 }
 

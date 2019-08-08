@@ -10,7 +10,7 @@ import {
 const totalsActions = {
   async getTotals (context, { addressInformation, hasShippingInformation }) {
     if (hasShippingInformation) {
-      return CartService.setServerShippingInfo(addressInformation)
+      return CartService.setShippingInfo(addressInformation)
     }
 
     return CartService.getTotals()
