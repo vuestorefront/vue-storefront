@@ -12,7 +12,8 @@ import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 import { sync } from 'vuex-router-sync'
 import VueObserveVisibility from 'vue-observe-visibility'
-
+import cloneDeep from 'lodash-es/cloneDeep'
+import omit from 'lodash-es/omit'
 // Apollo GraphQL client
 import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 
@@ -62,7 +63,9 @@ once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
 })
 
-const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
+const initialState = cloneDeep(store.state)
+
+const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
   router = createRouter()
   // sync router with vuex 'router' store
   sync(store, router)
@@ -132,7 +135,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   // @deprecated from 2.0
   EventBus.$emit('application-after-init', app)
 
-  return { app, router, store }
+  return { app, router, store, initialState }
 }
 
 export { router, createApp }
