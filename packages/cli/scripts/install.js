@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const inquirer = require('inquirer')
-const Listr = require('Listr')
+const Listr = require('listr')
 const execa = require('execa')
 const spawn = require('child_process')
 const fs = require('fs')
