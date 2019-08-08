@@ -16,16 +16,16 @@ import config from 'config'
 const actions: ActionTree<UserState, RootState> = {
   async startSession (context) {
     if (isServer || context.getters.isLocalDataLoaded) return
-    context.commit(types.USER_LOCAL_DATA_LOADED, true)
     const cache = Vue.prototype.$db.usersCollection
 
     const user = await cache.getItem(`current-user`)
 
     if (user) {
-      context.commit(types.USER_INFO_LOADED, JSON.parse(user))
+      context.commit(types.USER_INFO_LOADED, user)
     }
 
     context.commit(types.USER_START_SESSION)
+    context.commit(types.USER_LOCAL_DATA_LOADED, true)
 
     cache.getItem('current-token', (err, res) => {
       if (err) {
