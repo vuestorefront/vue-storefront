@@ -22,7 +22,7 @@ const { hook: afterAddToCartHook, executor: afterAddToCartExecutor }: {
 } = createListenerHook()
 
 const { hook: beforeRemoveFromCartHook, executor: beforeRemoveFromCartExecutor }: {
-  hook: (removeFromCartMutator: (cart: { cartItem: CartItem[] }) => any) => void,
+  hook: (removeFromCartMutator: (cart: { cartItem: CartItem }) => any) => void,
   executor: any
 } = createMutatorHook()
 
