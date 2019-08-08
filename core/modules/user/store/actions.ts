@@ -22,7 +22,7 @@ const actions: ActionTree<UserState, RootState> = {
     const user = await cache.getItem(`current-user`)
 
     if (user) {
-      context.commit(types.USER_INFO_LOADED, JSON.parse(user))
+      context.commit(types.USER_INFO_LOADED, user)
     }
 
     context.commit(types.USER_START_SESSION)
