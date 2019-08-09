@@ -284,6 +284,7 @@ const actions: ActionTree<UserState, RootState> = {
     context.commit(types.USER_GROUP_CHANGED, null)
     context.commit(types.USER_INFO_LOADED, null)
     context.dispatch('wishlist/clear', null, {root: true})
+    context.dispatch('compare/clear', null, {root: true})
     context.dispatch('checkout/savePersonalDetails', {}, {root: true})
     context.dispatch('checkout/saveShippingDetails', {}, {root: true})
     context.dispatch('checkout/savePaymentDetails', {}, {root: true})
