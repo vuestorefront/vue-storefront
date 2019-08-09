@@ -12,7 +12,7 @@ Modular approach to a system is often considered an implementation of the tradit
 ## 1. How to bootstrap a module
 When you want to tweak any open source for whatever reason needed to make it more fantastic, first thing you need to look for is *modules* within the code base. You may name *API*, *hooks* or *observers* for the same matter, but *module* basically represents all of them in one place in design.  
 
-If the open source authors are serious about their offspring, one must admit it's impossible to take care of all the details to all the use cases out in the wild. So the creator should expose joint point of core parts so that 3rd party developers may inject their wild logics into the working machine. Now, jungles conquered. 
+If the open source authors are serious about their offspring, one must admit it's impossible to take care of all the details to all the use cases out in the wild. So the creator should expose joint point of core parts so that 3rd party developers may inject their wild logics into the working machine when they need it. Now, lo and behold, jungles conquered. 
 
 In this recipe, we are going to cover how we bootstrap a module in order to inject our logic into the machine. *Tarzans, follow!*
 
@@ -21,8 +21,31 @@ In this recipe, we are going to cover how we bootstrap a module in order to inje
 - You need a development editor of your choice for your own convenience.
 
 ### 2. Recipe
+1. Create a folder under `./src/modules/example-module` from your **Vue Storefront** root path. 
+```bash
+cd src/modules
+mkdir example-module && cd example-module
+```
+
+2. Create `index.ts` file in the directory 
+```bash
+touch index.ts
+```
+
+3. Open that file and write down the minimum signature of a module 
+```bash
+import { StorefrontModule } from '@vue-storefront/module';
+
+export const RawOutputExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+
+}
+```
+
+
+
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
+#### Secret 1. 
 <br />
 <br />
 
