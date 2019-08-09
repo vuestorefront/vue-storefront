@@ -1,19 +1,19 @@
 <template>
   <SfAccordion :first-open="true">
-      <SfAccordionItem
-        v-for="(parentCategory, i) in filterCategories(currentCategory.level+1, currentCategory.id)"
-        :key="i"
-        :header="parentCategory.name"
-      >
-        <SfList>
-          <SfListItem v-for="(category, j) in filterCategoryChildren(parentCategory.id)" :key="j">
-            <SfMenuItem
-              class="menu-item"
-              :label="category.name"
-            />
-          </SfListItem>
-        </SfList>
-      </SfAccordionItem>
+    <SfAccordionItem
+      v-for="(parentCategory, i) in filterCategories(currentCategory.level+1, currentCategory.id)"
+      :key="i"
+      :header="parentCategory.name"
+    >
+      <SfList>
+        <SfListItem v-for="(category, j) in filterCategoryChildren(parentCategory.id)" :key="j">
+          <SfMenuItem
+            class="menu-item"
+            :label="category.name"
+          />
+        </SfListItem>
+      </SfList>
+    </SfAccordionItem>
   </SfAccordion>
 </template>
 

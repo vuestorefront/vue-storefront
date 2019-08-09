@@ -1,6 +1,5 @@
 <template>
   <div id="category">
-
     <div class="navbar">
       <div class="navbar__aside desktop-only">
         <h1 class="navbar__title">
@@ -43,8 +42,8 @@
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">Sort by:</span>
-          <SfSelect 
-            class="sort-by" 
+          <SfSelect
+            class="sort-by"
             v-model="sortBy"
           >
             <SfSelectOption
@@ -104,7 +103,6 @@
       @close="isFilterSidebarOpen = false"
       @filter-changed="changeFilter"
     />
-
   </div>
 </template>
 
@@ -195,9 +193,9 @@ export default {
     }
   },
   created () {
-      this.$store.dispatch('category-next/loadCategories').then(() => {
-        this.loading.categories = false
-      })
+    this.$store.dispatch('category-next/loadCategories').then(() => {
+      this.loading.categories = false
+    })
   },
   methods: {
     async changeFilter (filterVariant) {
@@ -262,7 +260,7 @@ export default {
     font-size: $font-size-small-desktop;
     @media screen and (min-width: $desktop-min) {
       margin: 0 $spacer-extra-big;
-    }  
+    }
   }
   &__title {
     padding: 0;
