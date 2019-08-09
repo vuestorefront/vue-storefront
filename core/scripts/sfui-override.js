@@ -32,8 +32,12 @@ function build (overridingComponentsDir, overridingFilePath) {
     });
   }
 }
-
-function override (overridingComponentsDir, overridingFilePath) {
+/**
+ * Gnerates new root file for storefrontui in overridingFilePath.
+ * @param {String} overridingComponentsDir 
+ * @param {String} overridingFilePath 
+ */
+function generateNewRoot (overridingComponentsDir, overridingFilePath) {
   const componentsDir = overridingComponentsDir || 'src/themes/capybara/components/_overrides'
   const fileDir = overridingFilePath || 'core/build/tmp/sfui-override.js'
 
@@ -48,5 +52,5 @@ function override (overridingComponentsDir, overridingFilePath) {
 }
 
 module.exports = {
-  override
+  generateNewRoot
 }

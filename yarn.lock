@@ -3145,16 +3145,16 @@
     "@shellscape/koa-send" "^4.1.0"
     debug "^2.6.8"
 
-"@storefrontui/shared@^0.0.3-alpha.7":
-  version "0.0.3-alpha.7"
-  resolved "https://registry.yarnpkg.com/@storefrontui/shared/-/shared-0.0.3-alpha.7.tgz#992f4b9b6ac662e238681b76e896664a8c417917"
-  integrity sha512-7HOJd5llKuWRp39HUF64w4cLNfLqfRrQxigsYxXgdkkroy3aPtltUyZ2d2ygdrOOiC7jf4myJuXErwx6sR9/rQ==
+"@storefrontui/shared@^0.0.3-alpha.8":
+  version "0.0.3-alpha.8"
+  resolved "https://registry.yarnpkg.com/@storefrontui/shared/-/shared-0.0.3-alpha.8.tgz#6fda1e5280460e6d7e73af05154fdbc6220d238b"
+  integrity sha512-UVuhv4uhx5FbbYv58FKu4LDPJFEXVsxjNcv/W494hIxZhvxt4JzmYhwNg1uc1cRU8hic5c7iaZoFdyhidV9WbA==
 
 "@storefrontui/vue@file:../storefront-ui/packages/vue":
-  version "0.0.4-aplha.10"
+  version "0.0.4-aplha.11"
   dependencies:
     "@glidejs/glide" "^3.3.0"
-    "@storefrontui/shared" "^0.0.3-alpha.7"
+    "@storefrontui/shared" "^0.0.3-alpha.8"
     "@vue/babel-preset-app" "^4.0.0-alpha.1"
     core-js "^3.1.3"
     lerna "^3.0.0-rc.0"

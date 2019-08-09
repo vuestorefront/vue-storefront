@@ -4,32 +4,20 @@
     @close="onClose"
     class="filters"
   >
-    <template v-for="(filter, filterName) in filters">
-      <h3 class="filters__title" :key="filterName">
-        {{ filterName }}
+    <template v-for="(filter, filterName) in availableFilters">
+      <h3 class="filters__title" :key="filter.id">
+        {{ filterName.replace('_',' ') }}
       </h3>
       <SfFilter
-        v-model="choosenFilters[filterName]"
-        @change="onFilterChange"
-        :key="filterName"
-      >
-        <SfFilterItem
-          v-for="(filterOption, i) in filter"
-          :key="i"
-          :value="filterOption.id"
-          :label="filterOption.label"
-          :color="filterOption.type == 'color' ? filterOption.label : null "
-        />
-      </SfFilter>
+        v-for="filterOption in filter"
+        :key="filterOption.id"
+        :label="filterOption.label"
+        :color="filterOption.type == 'color' ? filterOption.label : null"
+        @click.native="applyFilter(filterOption)"
+        :selected="isActiveFilter(filterOption)"
+      />
     </template>
-
     <div class="filters__buttons">
-      <SfButton
-        @click="onClose"
-        class="sf-button--full-width"
-      >
-        Done
-      </SfButton>
       <SfButton
         class="sf-button--full-width filters__button-clear"
       >
@@ -41,32 +29,35 @@
 
 <script>
 import { SfSidebar, SfButton, SfFilter } from '@storefrontui/vue'
+import omit from 'lodash-es/omit'
 
 export default {
   props: {
-    filters: {
+    availableFilters: {
       type: Object,
       default: () => {}
     },
     visible: {
       type: Boolean,
       default: false
-    }
-  },
-  data () {
-    return {
-      choosenFilters: {
-        color: [],
-        size: [],
-        price: [],
-        erin_recommends: [],
-        sort: []
-      }
+    },
+    activeFilters: {
+      type: Object,
+      default: () => {}
     }
   },
   methods: {
-    onFilterChange (filters = this.choosenFilters) {
-      this.$emit('filters-changed', filters)
+    isActiveFilter (filter) {
+      let isActive = false
+      Object.entries(this.activeFilters).forEach(activeFilterTuple => {
+        if (activeFilterTuple[1].find(singleFilter => singleFilter.id === filter.id)) {
+          isActive = true
+        }
+      })
+      return isActive
+    },
+    applyFilter (filter) {
+      this.$emit('filter-changed', filter)
     },
     onClose () {
       this.$emit('close')
@@ -91,6 +82,9 @@ export default {
   &__title {
     font-size: $font-size-big-desktop;
     line-height: 2.23;
+    &::first-letter {
+      text-transform: uppercase;
+    }
   }
   &__button-clear {
     margin-top: 10px;

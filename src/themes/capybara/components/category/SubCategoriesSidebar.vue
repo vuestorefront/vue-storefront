@@ -1,6 +1,5 @@
 <template>
   <SfAccordion :first-open="true">
-    <template v-slot="{ selected }">
       <SfAccordionItem
         v-for="(parentCategory, i) in filterCategories(currentCategory.level+1, currentCategory.id)"
         :key="i"
@@ -15,7 +14,6 @@
           </SfListItem>
         </SfList>
       </SfAccordionItem>
-    </template>
   </SfAccordion>
 </template>
 

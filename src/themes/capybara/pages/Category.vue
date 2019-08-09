@@ -1,5 +1,6 @@
 <template>
   <div id="category">
+
     <div class="navbar">
       <div class="navbar__aside desktop-only">
         <h1 class="navbar__title">
@@ -12,7 +13,6 @@
           @click="isFilterSidebarOpen = true"
         >
           <SfIcon size="15px" style="margin-right: 10px;">
-            <!-- todo: add to icons -->
             <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0)">
                 <path
@@ -43,8 +43,9 @@
         </SfButton>
         <div class="navbar__sort desktop-only">
           <span class="navbar__label">Sort by:</span>
-          <SfSelect class="sort-by"
-                    v-model="sortBy"
+          <SfSelect 
+            class="sort-by" 
+            v-model="sortBy"
           >
             <SfSelectOption
               v-for="option in availableFilters.sort"
@@ -62,11 +63,9 @@
         </div>
         <SfButton
           class="navbar__filters-button mobile-only"
-          @click="isFilterSidebarOpen = true"
         >
           Sort by
           <SfIcon size="15px" style="margin-left: 10px;">
-            <!-- todo: add to icons -->
             <svg viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M8.32809 15.2897L12 11.7644V12.2892L8.13547 16L4.27094 12.2892V11.7644L7.94285 15.2897V6.83165H8.32809L8.32809 15.2897ZM3.67191 0.710288L0 4.23556V3.71082L3.86453 0L7.72906 3.71082V4.23556L4.05715 0.710288V9.16835H3.67191L3.67191 0.710288Z"
@@ -76,12 +75,15 @@
         </SfButton>
       </div>
     </div>
+
     <div class="main">
       <div class="sidebar desktop-only">
-        <SubCategoriesSidebar
-          :categories="categories"
-          :current-category="currentCategory"
-        />
+        <SfLoader :loading="loading.categories" class="sf-loader--top">
+          <SubCategoriesSidebar
+            :categories="categories"
+            :current-category="currentCategory"
+          />
+        </SfLoader>
       </div>
       <div class="products" style="">
         <div class="products__list">
@@ -94,11 +96,15 @@
         </div>
       </div>
     </div>
+
     <FiltersSidebar
-      :filters="availableFilters"
+      :available-filters="availableFilters"
+      :active-filters="currentFilters"
       :visible="isFilterSidebarOpen"
       @close="isFilterSidebarOpen = false"
+      @filter-changed="changeFilter"
     />
+
   </div>
 </template>
 
@@ -110,7 +116,8 @@ import {
   SfMenuItem,
   SfProductCard,
   SfAccordion,
-  SfSelect
+  SfSelect,
+  SfLoader
 } from '@storefrontui/vue';
 import FiltersSidebar from 'src/themes/capybara/components/category/FiltersSidebar'
 import SubCategoriesSidebar from 'src/themes/capybara/components/category/SubCategoriesSidebar'
@@ -145,7 +152,10 @@ export default {
       loadingProducts: false,
       currentPage: 1,
       sortBy: 'updated_at',
-      isFilterSidebarOpen: false
+      isFilterSidebarOpen: false,
+      loading: {
+        categories: true
+      }
     };
   },
   computed: {
@@ -154,6 +164,7 @@ export default {
       categoryProducts: 'category-next/getCategoryProducts',
       currentCategory: 'category-next/getCurrentCategory',
       categoryProductsTotal: 'category-next/getCategoryProductsTotal',
+      currentFilters: 'category-next/getCurrentFilters',
       availableFilters: 'category-next/getAvailableFilters',
       categories: 'category-next/getCategories'
     }),
@@ -180,16 +191,19 @@ export default {
         await composeInitialPageState(vm.$store, to)
         await vm.$store.dispatch('category-next/cacheProducts', { route: to })
         // Fetch only on CSR
-        await vm.$store.dispatch('category-next/loadCategories')
       })
     }
   },
+  created () {
+      this.$store.dispatch('category-next/loadCategories').then(() => {
+        this.loading.categories = false
+      })
+  },
   methods: {
     async changeFilter (filterVariant) {
-      this.$store.dispatch('category-next/switchSearchFilter', filterVariant)
-    },
-    columnChange (column) {
-      this.defaultColumn = column
+      this.$store.dispatch('category-next/switchSearchFilter', filterVariant).then(() => {
+        console.info('changed')
+      })
     },
     async onBottomScroll () {
       if (this.loadingProducts) return
@@ -212,7 +226,8 @@ export default {
     SfAccordion,
     SfSelect,
     FiltersSidebar,
-    SubCategoriesSidebar
+    SubCategoriesSidebar,
+    SfLoader
   }
 };
 </script>
@@ -224,10 +239,6 @@ export default {
   box-sizing: border-box;
   max-width: 1240px;
   margin: auto;
-  /*padding: 0 $spacer-big;
-  @media screen and (min-width: $desktop-min) {
-    padding: 0;
-  }*/
 }
 .navbar {
   display: flex;
@@ -249,6 +260,9 @@ export default {
     display: flex;
     align-items: center;
     font-size: $font-size-small-desktop;
+    @media screen and (min-width: $desktop-min) {
+      margin: 0 $spacer-extra-big;
+    }  
   }
   &__title {
     padding: 0;
@@ -262,12 +276,11 @@ export default {
     padding: 0;
     background: transparent;
     color: inherit;
-    font-size: inherit;
     font-weight: 500;
     @media (min-width: $desktop-min) {
-      margin: 0 0 0 $spacer-extra-big;
       font-weight: 400;
       text-transform: none;
+      font-size: inherit;
     }
     svg {
       fill: $c-dark-primary;
