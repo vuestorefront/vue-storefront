@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed invalid localized routes in SSR content of multistore configuration - @lukeromanowicz (#3262)
 - Fixed startSession which loaded from the wrong place the user when multistore was active - @resubaka (#3322)
 - Login after registration - @patzick (#3343)
+- Clear compare list after logout - @patzick (#3348)
 
 ### Changed
 - Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
