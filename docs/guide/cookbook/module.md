@@ -122,15 +122,22 @@ app_1  | Entity cache is enabled for productList null
 ### 3. Peep into the kitchen (what happens internally)
 We have created a module with only a few simple steps and registered it  successfully. Even though it's doing nothing practically, it was enough to grab the concept in design, and helped you transform into a module developer which is great. 
 
-We built our `module` house in the territory of `./src/modules`. We created the door named `index.ts` where all the module parts are assembled and exported, although we skipped building modules parts for the sake of brevity, which we will look inside more in detail later. Instead what we created in `index.ts` was bare minimum skeleton required to build a module and declare it's a module. 
+We built our `module` house in the territory of `./src/modules`. We created the door named `index.ts` where all the module parts are assembled and exported, although we skipped building module parts for the sake of brevity, which we will look inside more in detail later. Instead what we created in `index.ts` was bare minimum skeleton required to build a module and declare it's a module. 
 
 
 If you take a look a little deeper, you will arrive at `./core/lib/modules.ts` where module signature and `registerModule` function along with `injectReferences` function take up seats. `registerModule` is the hard worker who works in `src/modules/index.ts` to register modules pushing individuals into `registeredModules`. (Beware the small difference in those names as in `registerModule`, `registeredModules`, `registerModules` and so on, might be confusing if you skim it, but they are correct and appropriate in its own role with matching names) 
 
 Take one step further to `./core/app.ts`, you will also notice `injectReferences` helping your module directly work with `store`, `router` and `config` of **VueStorefront** app instance. With this approach our module development experience is much straight-forward and *Vue native API* friendly so that code becomes simpler, cleaner and maintainable. 
 
+Now you are officially a **Vue Storefront module developer**. Congratulation!
+
 ### 4. Chef's secret (protip)
-#### Secret 1. 
+#### Secret 1. Lazy loading your module where you want it
+
+#### Secret 2. 
+
+#### Secret 3. 
+
 <br />
 <br />
 
