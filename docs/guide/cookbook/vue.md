@@ -5,11 +5,11 @@ In this chapter, we are going to cover :
 [[toc]]
 
 ## 0. Introduction
-_**Vue.js**_ has been hotter than sun and sleeker than other competitors among frontend developers for many reasons in recent years.  
+_**Vue.js**_ has been hotter than sun and sleeker than other competitors among frontend developers for many reasons in recent years. 
 <br />
 <br />
 
-## 1. 
+## 1. Debugging
 
 
 ### 1. Preparation
@@ -21,7 +21,7 @@ _**Vue.js**_ has been hotter than sun and sleeker than other competitors among f
 <br />
 <br />
 
-## 2.
+## 2. SSR
 
 ### 1. Preparation
 ### 2. Recipe
@@ -30,7 +30,7 @@ _**Vue.js**_ has been hotter than sun and sleeker than other competitors among f
 <br />
 <br />
 
-## 3. 
+## 3. Event Bus
 
 ### 1. Preparation
 ### 2. Recipe
@@ -39,7 +39,7 @@ _**Vue.js**_ has been hotter than sun and sleeker than other competitors among f
 <br />
 <br />
 
-## 4. 
+## 4. Mixins
 
 ### 1. Preparation
 ### 2. Recipe
@@ -48,7 +48,7 @@ _**Vue.js**_ has been hotter than sun and sleeker than other competitors among f
 <br />
 <br />
 
-## 5. 
+## 5. Vuex
 
 ### 1. Preparation
 ### 2. Recipe
