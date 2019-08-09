@@ -33,6 +33,9 @@ const actions: ActionTree<CompareState, RootState> = {
       message: i18n.t('Product {productName} has been removed from compare!', { productName: htmlDecode(product.name) }),
       action1: { label: i18n.t('OK') }
     })
+  },
+  clear ({commit}) {
+    commit(types.COMPARE_LOAD_COMPARE, [])
   }
 }
 
