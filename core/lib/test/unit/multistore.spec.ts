@@ -437,12 +437,21 @@ describe('Multistore', () => {
 
       expect(adjustMultistoreApiUrl('/test?a=b&storeCode=de')).toStrictEqual('/test?a=b&storeCode=at')
     })
+
     it('returns URL /test?storeCode=de with changed storeCode at as parameter', () => {
       rootStore.state.storeView = {
         storeCode: 'at'
       }
 
       expect(adjustMultistoreApiUrl('/test?storeCode=de')).toStrictEqual('/test?storeCode=at')
+    })
+
+    it('returns URL /test?storeCode=de with changed storeCode at as parameter', () => {
+      rootStore.state.storeView = {
+        storeCode: 'at'
+      }
+
+      expect(adjustMultistoreApiUrl('/test?storeCode=de&storeCode=de')).toStrictEqual('/test?storeCode=at')
     })
   })
 
