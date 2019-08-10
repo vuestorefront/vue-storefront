@@ -4,31 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.10.0] - 2019.08.08
-
-### Fixed
-- Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
-- Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
-- User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
-- Fixed undefined id of color swatches issue for simple product - @vishal-7037 (#3239)
-- Date filter ignoring format param and locales - @grimasod, @patzick (#3102)
-- Problem with placing an order if shipping method is different than default one - @patzick (#3203)
-- Fixed product video embed on PDP - @juho-jaakkola (#3263)
-- Fixed memory leak with loading DayJS in SSR - @lukeromanowicz (#3310) 
-- Fixed invalid localized routes in SSR content of multistore configuration - @lukeromanowicz (#3262)
-- Fixed startSession which loaded from the wrong place the user when multistore was active - @resubaka (#3322)
-- Login after registration - @patzick (#3343)
-- Clear compare list after logout - @patzick (#3348)
-
-### Changed
-- Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
-- Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
-- Lack of possibility to mock src modules and  theme components - @lukeromanowicz (#3185)
-- Outdated signature of Registration hooks for google-tag-manager - @vishal-7037 (#3208)
-- Added serveral missing german translations and fixed german language file structure - @unherz (#3202)
-- Refactored the informal way of adressing to formal in german translation files - @unherz (#3213)
-
-## [1.10.0-rc.1] - 2019.06.19
+## [1.10.0] - 2019.08.10
 
 ### Added
 - Make installer work for windows - @Flyingmana (#2616)
@@ -99,6 +75,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - No placeholders / no photos for Get Inspire section in offline - @przspa (#3072)
 - Back icon on product page causing inconsistent behavior - @patzick (#3056)
 - Remove static definition of `cashondelivery` in payment module - @danielmaier42 (#2983)
+- Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
+- Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
+- User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
+- Fixed undefined id of color swatches issue for simple product - @vishal-7037 (#3239)
+- Date filter ignoring format param and locales - @grimasod, @patzick (#3102)
+- Problem with placing an order if shipping method is different than default one - @patzick (#3203)
+- Fixed product video embed on PDP - @juho-jaakkola (#3263)
+- Fixed memory leak with loading DayJS in SSR - @lukeromanowicz (#3310) 
+- Fixed invalid localized routes in SSR content of multistore configuration - @lukeromanowicz (#3262)
+- Fixed startSession which loaded from the wrong place the user when multistore was active - @resubaka (#3322)
+- Login after registration - @patzick (#3343)
+- Clear compare list after logout - @patzick (#3348)
 
 ### Changed / Improved
 - The `cart/sync`, `cart/addItems`, `cart/removeItem` and `cart/updateQuantity` now returns the `diffLog` object with all the notifications, server statuses and items changed during the shopping cart sync
@@ -145,7 +133,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Load custom fonts without webfont.js - @jahvi (#2944)
 - Added some structured data to product page - @cewald (#2910)
 - Improved the Size Guide feature so it opens in a modal popup instead of a new page - @RGijsberts - (#2913)
-- Refactored Travis config @Tjitse-E (#3035)
+- Refactored Travis config - @Tjitse-E (#3035)
+- Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
+- Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
+- Lack of possibility to mock src modules and  theme components - @lukeromanowicz (#3185)
+- Outdated signature of Registration hooks for google-tag-manager - @vishal-7037 (#3208)
+- Added serveral missing german translations and fixed german language file structure - @unherz (#3202)
+- Refactored the informal way of adressing to formal in german translation files - @unherz (#3213)
 
 ## [1.9.2] - 2019.06.10
 
