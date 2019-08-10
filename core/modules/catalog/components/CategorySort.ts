@@ -1,8 +1,20 @@
+import config from 'config'
+import { mapGetters } from 'vuex'
 export const CategorySort = {
   name: 'SortBy',
   data () {
     return {
       sortby: ''
+    }
+  },
+  mounted () {
+    const sort = this.getCurrentCategoryProductQuery && this.getCurrentCategoryProductQuery.sort ? this.getCurrentCategoryProductQuery.sort : null
+    if (sort) {
+      const sortingOptionValues = Object.values(this.sortingOptions)
+      const sortOptionExist = sortingOptionValues.includes(sort)
+      if (sortOptionExist) {
+        this.sortby = sort
+      }
     }
   },
   methods: {
@@ -12,8 +24,9 @@ export const CategorySort = {
     }
   },
   computed: {
+    ...mapGetters('category', ['getCurrentCategoryProductQuery']),
     sortingOptions () {
-      return this.$store.state.config.products.sortByAttributes
+      return config.products.sortByAttributes
     }
   }
 }

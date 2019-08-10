@@ -16,7 +16,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
       const result = await dispatch('order/placeOrder', order, {root: true})
       if (!result.resultCode || result.resultCode === 200) {
         Vue.prototype.$db.usersCollection.setItem('last-cart-bypass-ts', new Date().getTime())
-        dispatch('cart/clear', {}, {root: true})
+        await dispatch('cart/clear', { recreateAndSyncCart: true }, {root: true})
         if (state.personalDetails.createAccount) {
           commit(types.CHECKOUT_DROP_PASSWORD)
         }
@@ -24,6 +24,9 @@ const actions: ActionTree<CheckoutState, RootState> = {
     } catch (e) {
       Logger.error(e, 'checkout')()
     }
+  },
+  setModifiedAt ({ commit }, timestamp) {
+    commit(types.CHECKOUT_SET_MODIFIED_AT, timestamp)
   },
   savePersonalDetails ({ commit }, personalDetails) {
     // todo: create and move perdonal details vuex

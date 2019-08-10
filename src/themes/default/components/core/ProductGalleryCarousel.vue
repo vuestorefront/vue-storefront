@@ -14,48 +14,26 @@
     >
       <slide
         v-for="(images, index) in gallery"
-        :key="images.src">
-        <div class="product-image-container bg-cl-secondary" :class="{'video-container w-100 h-100 flex relative': images.video}">
-          <img
-            v-show="placeholderImagesMap[index]"
-            key="placeholderImage"
-            class="inline-flex mw-100"
-            src="/assets/placeholder.svg"
-            ref="images"
-            :alt="productName | htmlDecode"
-          >
-          <img
-            v-if="!lowerQualityImagesErrorsMap[index] || isOnline"
-            v-show="lowerQualityImagesMap[index]"
-            key="lowQualityImage"
-            class="product-image inline-flex mw-100"
-            :src="images.loading"
-            @load="lowerQualityImageLoaded(index, true)"
-            @error="lowerQualityImageLoaded(index, false)"
-            ref="images"
-            :alt="productName | htmlDecode"
-            data-testid="productGalleryImage"
-            itemprop="image"
-          >
-          <img
-            v-if="!highQualityImagesErrorsMap[index] || isOnline"
-            v-show="highQualityImagesLoadedMap[index]"
-            key="highQualityImage"
-            :src="images.src"
-            @load="highQualityImageLoaded(index, true)"
-            @error="highQualityImageLoaded(index, false)"
-            class="product-image inline-flex pointer mw-100"
-            ref="images"
+        :key="images.src"
+      >
+        <div
+          class="product-image-container bg-cl-secondary"
+          :class="{'video-container w-100 h-100 flex relative': images.video}"
+        >
+          <product-image
+            v-show="hideImageAtIndex !== index"
             @dblclick="openOverlay"
+            class="product-image pointer"
+            :class="{'product-image--video': images.video}"
+            :image="images"
             :alt="productName | htmlDecode"
-            data-testid="productGalleryImage"
-            itemprop="image"
-          >
+          />
           <product-video
             v-if="images.video && (index === currentPage)"
             v-bind="images.video"
             :index="index"
-            @video-started="onVideoStarted"/>
+            @video-started="onVideoStarted"
+          />
         </div>
       </slide>
     </carousel>
@@ -67,16 +45,19 @@
 </template>
 
 <script>
-import store from '@vue-storefront/core/store'
+import config from 'config'
 import { Carousel, Slide } from 'vue-carousel'
+import ProductImage from './ProductImage'
 import ProductVideo from './ProductVideo'
-import { onlineHelper } from '@vue-storefront/core/helpers'
+import reduce from 'lodash-es/reduce'
+import map from 'lodash-es/map'
 
 export default {
   name: 'ProductGalleryCarousel',
   components: {
     Carousel,
     Slide,
+    ProductImage,
     ProductVideo
   },
   props: {
@@ -99,47 +80,10 @@ export default {
       carouselTransitionSpeed: 0,
       currentColor: 0,
       currentPage: 0,
-      hideImageAtIndex: null,
-      lowerQualityImagesLoadedMap: {},
-      highQualityImagesLoadedMap: {},
-      lowerQualityImagesErrorsMap: {},
-      highQualityImagesErrorsMap: {}
+      hideImageAtIndex: null
     }
   },
-  watch: {
-    configuration: {
-      handler (value) {
-        this.carouselTransition = false
-      },
-      deep: true
-    }
-  },
-  computed: {
-    placeholderImagesMap () {
-      let visibilityMap = {}
-      this.gallery.forEach((image, index) => {
-        visibilityMap[index] = !this.lowerQualityImagesLoadedMap[index] && !this.highQualityImagesLoadedMap[index]
-      })
-      return visibilityMap
-    },
-    lowerQualityImagesMap () {
-      let visibilityMap = {}
-      this.gallery.forEach((image, index) => {
-        visibilityMap[index] = !!this.lowerQualityImagesLoadedMap[index] && !this.highQualityImagesLoadedMap[index] && this.hideImageAtIndex !== index
-      })
-      return visibilityMap
-    },
-    highQualityImagesMap () {
-      let visibilityMap = {}
-      this.gallery.forEach((image, index) => {
-        visibilityMap[index] = !!this.highQualityImagesLoadedMap[index] && this.hideImageAtIndex !== index
-      })
-      return visibilityMap
-    },
-    isOnline () {
-      return onlineHelper.isOnline
-    }
-  },
+  computed: {},
   beforeMount () {
     this.$bus.$on('filter-changed-product', this.selectVariant)
     this.$bus.$on('product-after-load', this.selectVariant)
@@ -147,8 +91,10 @@ export default {
   mounted () {
     this.selectVariant()
 
-    const {color} = this.configuration
-    this.currentColor = color.id
+    if (this.configuration.color) {
+      const {color} = this.configuration
+      this.currentColor = color.id
+    }
 
     this.$emit('loaded')
   },
@@ -163,10 +109,15 @@ export default {
       }
     },
     selectVariant () {
-      if (store.state.config.products.gallery.mergeConfigurableChildren) {
-        let option = this.configuration[store.state.config.products.gallery.variantsGroupAttribute]
-        if (typeof option !== 'undefined' && option !== null) {
-          let index = this.gallery.findIndex(obj => obj.id && Number(obj.id) === Number(option.id))
+      if (config.products.gallery.mergeConfigurableChildren) {
+        const option = reduce(map(this.configuration, 'attribute_code'), (result, attribute) => {
+          result[attribute] = this.configuration[attribute].id
+          return result
+        }, {})
+        if (option) {
+          let index = this.gallery.findIndex(
+            obj => obj.id && Object.entries(obj.id).toString() === Object.entries(option).toString(), option)
+          if (index < 0) index = this.gallery.findIndex(obj => obj.id && obj.id.color === option.color)
           this.navigate(index)
         }
       }
@@ -192,20 +143,13 @@ export default {
     },
     onVideoStarted (index) {
       this.hideImageAtIndex = index
-    },
-    lowerQualityImageLoaded (index, success = true) {
-      this.$set(this.lowerQualityImagesLoadedMap, index, success)
-      this.$set(this.lowerQualityImagesErrorsMap, index, !success)
-    },
-    highQualityImageLoaded (index, success = true) {
-      this.$set(this.highQualityImagesLoadedMap, index, success)
-      this.$set(this.highQualityImagesErrorsMap, index, !success)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '~theme/css/animations/transitions';
 .media-gallery-carousel {
   position: relative;
   text-align: center;
@@ -216,38 +160,18 @@ export default {
   bottom: 0;
   right: 0;
 }
-.product-image-container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-.product-image {
-  width: 100%;
-  height: auto;
-}
-img {
-  opacity: 1;
+.product-image{
   mix-blend-mode: multiply;
-  vertical-align: top;
-  &:hover {
-    opacity: 0.9;
+  opacity: 1;
+  will-change: transform;
+  transition: .3s opacity $motion-main;
+  &:hover{
+    opacity: .9;
+  }
+  &--video{
+    padding-bottom: calc(319% / (568 / 100));
   }
 }
-img[lazy=error] {
-  width: 100%;
-}
-img[lazy=loading] {
-  width: 100%;
-}
-img[lazy=loaded] {
-  -webkit-animation: none;
-  animation: none;
-}
-
 .video-container {
   align-items: center;
   justify-content: center;
@@ -274,7 +198,7 @@ img[lazy=loaded] {
   .VueCarousel-navigation {
     opacity: 0;
     &--disabled {
-      opacity: 0.3;
+      display: none;
     }
   }
   .VueCarousel-dot {

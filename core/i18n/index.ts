@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { once } from '@vue-storefront/core/helpers'
+import config from 'config'
 
 once('__VUE_EXTEND_I18N__', () => {
   Vue.use(VueI18n)
@@ -22,26 +22,44 @@ function setI18nLanguage (lang: string): string {
   return lang
 }
 
-export function loadLanguageAsync (lang: string): Promise<string> {
+/**
+ * Lazy load date locales file for current switched language.
+ */
+const loadDateLocales = async (lang: string = 'en'): Promise<void> => {
+  let localeCode = lang.toLocaleLowerCase()
+  try { // try to load full locale name
+    await import(/* webpackChunkName: "dayjs-locales" */ `dayjs/locale/${localeCode}`)
+  } catch (e) { // load simplified locale name, example: de-DE -> de
+    const separatorIndex = localeCode.indexOf('-')
+    if (separatorIndex) {
+      localeCode = separatorIndex ? localeCode.substr(0, separatorIndex) : localeCode
+      await import(/* webpackChunkName: "dayjs-locales" */ `dayjs/locale/${localeCode}`)
+    }
+  }
+}
+
+export async function loadLanguageAsync (lang: string): Promise<string> {
+  await loadDateLocales(lang)
   if (!config.i18n.bundleAllStoreviewLanguages) {
     if (i18n.locale !== lang) {
       if (!loadedLanguages.includes(lang)) {
-        return import(/* webpackChunkName: "lang-[request]" */ `./resource/i18n/${lang}.json`).then(msgs => {
+        try {
+          const msgs = await import(/* webpackChunkName: "lang-[request]" */ `./resource/i18n/${lang}.json`)
           i18n.setLocaleMessage(lang, msgs.default)
           loadedLanguages.push(lang)
           return setI18nLanguage(lang)
-        }).catch(err => {
+        } catch (e) { // eslint-disable-line handle-callback-err
           Logger.debug('Unable to load translation')()
           return ''
-        })
+        }
       }
-      return Promise.resolve(setI18nLanguage(lang))
+      return setI18nLanguage(lang)
     }
   } else {
     loadedLanguages.push(lang)
-    return Promise.resolve(setI18nLanguage(lang))
+    return setI18nLanguage(lang)
   }
-  return Promise.resolve(lang)
+  return lang
 }
 
 loadLanguageAsync(config.i18n.defaultLocale)

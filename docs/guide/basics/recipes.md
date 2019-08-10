@@ -52,7 +52,7 @@ In a case of
 ```
 
 See the discussion in [#137](https://github.com/DivanteLtd/vue-storefront/issues/137).
-Please also check the [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Database%20tool.md)
+Please also check the [Database tool](https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/data/database-tool.md)
 
 ## HTTP 400 / CORS errors when trying to retrieve detailed product information from API
 
@@ -242,8 +242,6 @@ There is an SEO redirects generator for NGINX -> `https://serverfault.com/a/4415
 ```bash
 npm run seo redirects — —oldFormat=true | false
 ```
-
-- `oldFormat` - Should be set accordingly to the `vue-storefront/config/local.json` setting of `products.useShortCatalogUrls` (`oldFormat` = `!useShortCatalogUrls`)
 
 Please make sure that `vue-storefront/config/local.json` setting of `useMagentoUrlKeys` is set to `true` and you have ElasticSearch synchronized with the Magento2 instance using the current version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront).
 

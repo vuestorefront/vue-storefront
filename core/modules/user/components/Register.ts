@@ -38,11 +38,13 @@ export const Register = {
             this.rPassword = ''
           }
         } else {
+          this.$store.dispatch('user/login', { username: this.email, password: this.password })
           this.onSuccess()
           this.close()
         }
       }).catch(err => {
         // TODO Move to theme
+        this.onFailure({ result: 'Unexpected authorization error. Check your Network conection.' })
         this.$bus.$emit('notification-progress-stop')
         Logger.error(err, 'user')()
       })

@@ -8,27 +8,25 @@ const CACHE_TIMEOUT_ITERATE = 2000
 const DISABLE_PERSISTANCE_AFTER = 1
 const DISABLE_PERSISTANCE_AFTER_SAVE = 30
 
-function roughSizeOfObject( object ) {
+function roughSizeOfObject (object) {
   const objectList = []
   const stack = [ object ]
   let bytes = 0
-  while ( stack.length ) {
+  while (stack.length) {
     const value = stack.pop()
-    if ( typeof value === 'boolean' ) {
+    if (typeof value === 'boolean') {
       bytes += 4
-    }
-    else if ( typeof value === 'string' ) {
+    } else if (typeof value === 'string') {
       bytes += value.length * 2
-    }
-    else if ( typeof value === 'number' ) {
+    } else if (typeof value === 'number') {
       bytes += 8
     } else if (
-      typeof value === 'object'
-      && objectList.indexOf( value ) === -1
+      typeof value === 'object' &&
+      objectList.indexOf(value) === -1
     ) {
-      objectList.push( value )
-      for( var i in value ) {
-        stack.push( value[ i ] )
+      objectList.push(value)
+      for (var i in value) {
+        stack.push(value[ i ])
       }
     }
   }
@@ -47,7 +45,7 @@ class LocalForageCacheDriver {
   private localCache: any;
   private _storageQuota: number;
 
-  constructor (collection, useLocalCacheByDefault = true, storageQuota = 0) {
+  public constructor (collection, useLocalCacheByDefault = true, storageQuota = 0) {
     const collectionName = collection._config.storeName
     const dbName = collection._config.name
     this._storageQuota = storageQuota
@@ -60,7 +58,7 @@ class LocalForageCacheDriver {
         let storageSize = 0
         this.iterate((item, id, number) => {
           storageSize += roughSizeOfObject(item)
-        }, (err, result) => {
+        }, (err, result) => { // eslint-disable-line handle-callback-err
           if ((storageSize / 1024) > storageQuota) {
             Logger.info('Clearing out the storage ', 'cache', { storageSizeKB: Math.round(storageSize / 1024), storageQuotaKB: storageQuota })()
             const howManyItemsToRemove = 100
@@ -70,7 +68,7 @@ class LocalForageCacheDriver {
                 removeItemFnc(id)
                 keysPurged.push(id)
               }
-            }, (err, result) => {
+            }, (err, result) => { // eslint-disable-line handle-callback-err
               Logger.info('Cache purged', 'cache', { keysPurged })()
             })
           } else {
@@ -109,12 +107,12 @@ class LocalForageCacheDriver {
 
   // Remove all keys from the datastore, effectively destroying all data in
   // the app's key/value store!
-  clear (callback?) {
+  public clear (callback?) {
     return this._localForageCollection.clear(callback)
   }
 
   // Increment the database version number and recreate the context
-  recreateDb () {
+  public recreateDb () {
     if (this._localForageCollection._config) {
       const existingConfig = Object.assign({}, this._localForageCollection._config)
       if (existingConfig.storeName) {
@@ -133,7 +131,7 @@ class LocalForageCacheDriver {
   // Retrieve an item from the store. Unlike the original async_storage
   // library in Gaia, we don't modify return values at all. If a key's value
   // is `undefined`, we pass that value to the callback function.
-  getItem (key, callback?) {
+  public getItem (key, callback?) {
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     let isResolved = false
     if (this._useLocalCacheByDefault && this._localCache[key]) {
@@ -207,7 +205,7 @@ class LocalForageCacheDriver {
   }
 
   // Iterate over all items in the store.
-  iterate (iterator, callback?) {
+  public iterate (iterator, callback?) {
     const isIteratorCallable = (typeof iterator !== 'undefined' && iterator)
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     let globalIterationNumber = 1
@@ -261,21 +259,21 @@ class LocalForageCacheDriver {
   }
 
   // Same as localStorage's key() method, except takes a callback.
-  key (n, callback?) {
+  public key (n, callback?) {
     return this._localForageCollection.key(n, callback)
   }
 
-  keys (callback?) {
+  public keys (callback?) {
     return this._localForageCollection.keys(callback)
   }
 
   // Supply the number of keys in the datastore to the callback function.
-  length (callback?) {
+  public length (callback?) {
     return this._localForageCollection.length(callback)
   }
 
   // Remove an item from the store, nice and simple.
-  removeItem (key, callback?) {
+  public removeItem (key, callback?) {
     if (typeof this._localCache[key] !== 'undefined') {
       delete this._localCache[key]
     }
@@ -286,7 +284,7 @@ class LocalForageCacheDriver {
   // Unlike Gaia's implementation, the callback function is passed the value,
   // in case you want to operate on that value only after you're sure it
   // saved, or something like that.
-  setItem (key, value, callback?, memoryOnly = false) {
+  public setItem (key, value, callback?, memoryOnly = false) {
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
     this._localCache[key] = value
     if (memoryOnly) {

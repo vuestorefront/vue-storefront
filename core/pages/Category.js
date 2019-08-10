@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import toString from 'lodash-es/toString'
+import config from 'config'
 
 import i18n from '@vue-storefront/i18n'
 import store from '@vue-storefront/core/store'
@@ -10,10 +11,11 @@ import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multi
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters, mapActions } from 'vuex'
+import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 
 export default {
   name: 'Category',
-  mixins: [Composite],
+  mixins: [Composite, onBottomScroll],
   data () {
     return {
       pagination: {
@@ -21,7 +23,6 @@ export default {
         current: 0,
         enabled: false
       },
-      bottom: false,
       lazyLoadProductsOnscroll: true
     }
   },
@@ -58,25 +59,20 @@ export default {
       return this.getCategoryBreadcrumbs
     }
   },
-  watch: {
-    bottom (bottom) {
-      if (bottom) {
-        this.pullMoreProducts()
-      }
-    }
-  },
   preAsyncData ({ store, route }) {
     Logger.log('preAsyncData query setup')()
+    const currentProductQuery = store.getters['category/getCurrentCategoryProductQuery']
+    const sort = currentProductQuery && currentProductQuery.sort ? currentProductQuery.sort : config.entities.productList.sort
     store.dispatch('category/setSearchOptions', {
       populateAggregations: true,
       store: store,
       route: route,
       current: 0,
       perPage: 50,
-      sort: store.state.config.entities.productList.sort,
-      filters: store.state.config.products.defaultFilters,
-      includeFields: store.state.config.entities.optimize && isServer ? store.state.config.entities.productList.includeFields : null,
-      excludeFields: store.state.config.entities.optimize && isServer ? store.state.config.entities.productList.excludeFields : null,
+      sort,
+      filters: config.products.defaultFilters,
+      includeFields: config.entities.optimize && isServer ? config.entities.productList.includeFields : null,
+      excludeFields: config.entities.optimize && isServer ? config.entities.productList.excludeFields : null,
       append: false
     })
   },
@@ -84,14 +80,14 @@ export default {
     Logger.info('Entering asyncData in Category Page (core)')()
     try {
       if (context) context.output.cacheTags.add(`category`)
-      const defaultFilters = store.state.config.products.defaultFilters
+      const defaultFilters = config.products.defaultFilters
       store.dispatch('category/resetFilters')
       EventBus.$emit('filter-reset')
       await store.dispatch('attribute/list', { // load filter attributes for this specific category
         filterValues: defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-        includeFields: store.state.config.entities.optimize && isServer ? store.state.config.entities.attribute.includeFields : null
+        includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
       })
-      const parentCategory = await store.dispatch('category/single', { key: store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
+      const parentCategory = await store.dispatch('category/single', { key: config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug })
       let query = store.getters['category/getCurrentCategoryProductQuery']
       if (!query.searchProductQuery) {
         store.dispatch('category/mergeSearchOptions', {
@@ -113,7 +109,7 @@ export default {
   async beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading category products to cache on SSR render
       next(vm => {
-        const defaultFilters = store.state.config.products.defaultFilters
+        const defaultFilters = config.products.defaultFilters
         let parentCategory = store.getters['category/getCurrentCategory']
         let query = store.getters['category/getCurrentCategoryProductQuery']
         if (!query.searchProductQuery) {
@@ -131,20 +127,15 @@ export default {
   beforeMount () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
     this.$bus.$on('list-change-sort', this.onSortOrderChanged)
-    if (store.state.config.usePriceTiers) {
+    if (config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
-    }
-    if (!isServer && this.lazyLoadProductsOnscroll) {
-      window.addEventListener('scroll', () => {
-        this.bottom = this.bottomVisible()
-      }, {passive: true})
     }
   },
   beforeDestroy () {
     this.$bus.$off('list-change-sort', this.onSortOrderChanged)
     this.$bus.$off('filter-changed-category', this.onFilterChanged)
-    if (store.state.config.usePriceTiers) {
+    if (config.usePriceTiers) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -155,6 +146,9 @@ export default {
   },
   methods: {
     ...mapActions('category', ['mergeSearchOptions']),
+    onBottomScroll () {
+      this.pullMoreProducts()
+    },
     bottomVisible () {
       const scrollY = Math.ceil(window.scrollY)
       const visible = window.innerHeight
@@ -229,12 +223,12 @@ export default {
       this.$store.dispatch('category/resetFilters')
       this.$bus.$emit('filter-reset')
 
-      this.$store.dispatch('category/single', { key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then(category => {
+      this.$store.dispatch('category/single', { key: config.products.useMagentoUrlKeys ? 'url_key' : 'slug', value: route.params.slug }).then(category => {
         if (!category) {
           this.$router.push(this.localizedRoute('/'))
         } else {
           this.pagination.current = 0
-          let searchProductQuery = baseFilterProductsQuery(this.getCurrentCategory, store.state.config.products.defaultFilters)
+          let searchProductQuery = baseFilterProductsQuery(this.getCurrentCategory, config.products.defaultFilters)
           this.$bus.$emit('current-category-changed', this.getCurrentCategoryPath)
           this.mergeSearchOptions({ // base prototype from the asyncData is being used here
             current: this.pagination.current,
@@ -250,7 +244,7 @@ export default {
             })
           }
           this.$store.dispatch('category/products', this.getCurrentCategoryProductQuery)
-          EventBus.$emitFilter('category-after-load', { store: this.$store, route: route })
+          this.$bus.$emitFilter('category-after-load', { store: this.$store, route: route })
         }
       }).catch(err => {
         if (err.message.indexOf('query returned empty result') > 0) {
@@ -264,9 +258,9 @@ export default {
       })
     },
     onUserPricesRefreshed () {
-      const defaultFilters = store.state.config.products.defaultFilters
+      const defaultFilters = config.products.defaultFilters
       this.$store.dispatch('category/single', {
-        key: this.$store.state.config.products.useMagentoUrlKeys ? 'url_key' : 'slug',
+        key: config.products.useMagentoUrlKeys ? 'url_key' : 'slug',
         value: this.$route.params.slug
       }).then((parentCategory) => {
         if (!this.getCurrentCategoryProductQuery.searchProductQuery) {
@@ -293,7 +287,7 @@ export default {
         }
       ],
       title: htmlDecode(this.category.meta_title || this.categoryName),
-      meta: this.category.meta_description ? [{ vmid: 'description', description: htmlDecode(this.category.meta_description) }] : []
+      meta: this.category.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.category.meta_description) }] : []
     }
   }
 }

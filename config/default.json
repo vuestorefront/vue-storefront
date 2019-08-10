@@ -14,13 +14,16 @@
       "dynamicConfigContinueOnError": false,
       "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
       "dynamicConfigInclude": [],
-      "elasticCacheQuota": 4096
+      "elasticCacheQuota": 4096,
+      "ssrDisabledFor": {
+        "extensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
+      }
     },
     "seo": {
       "useUrlDispatcher": true
-    },    
+    },
     "console": {
-      "showErrorOnProduction" : true,
+      "showErrorOnProduction" : false,
       "verbosityLevel": "display-everything"
     },
     "redis": {
@@ -54,9 +57,9 @@
         "cutoff_frequency":  0.01,
         "max_expansions": 3,
         "minimum_should_match": "75%",
-        "prefix_length": 2, 
+        "prefix_length": 2,
         "boost_mode": "multiply",
-        "score_mode": "multiply", 
+        "score_mode": "multiply",
         "max_boost": 100,
         "function_min_score": 1
       },
@@ -94,6 +97,7 @@
         "storeId": 3,
         "name": "German Store",
         "url": "/de",
+        "appendStoreCode": true,
         "elasticsearch": {
           "host": "/api/catalog",
           "index": "vue_storefront_catalog_de"
@@ -121,6 +125,7 @@
         "storeId": 4,
         "name": "Italian Store",
         "url": "/it",
+        "appendStoreCode": true,
         "elasticsearch": {
           "host": "/api/catalog",
           "index": "vue_storefront_catalog_it"
@@ -158,7 +163,7 @@
         "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices", "frontend_input" ]
       },
       "productList": {
-        "sort": "",
+        "sort": "updated_at:desc",
         "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_path", "url_key", "status", "tier_prices", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax" ],
         "excludeFields": [ "description", "configurable_options", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options" ]
       },
@@ -229,6 +234,10 @@
       }
     },
     "cart": {
+      "thumbnails": {
+        "width": 150,
+        "height": 150
+      },
       "bypassCartLoaderForAuthorizedUsers": true,
       "serverMergeByDefault": true,
       "serverSyncCanRemoveLocalItems": false,
@@ -240,20 +249,19 @@
       "askBeforeRemoveProduct": true,
       "displayItemDiscounts": true,
       "minicartCountType": "quantities",
-      "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
-      "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
-      "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
-      "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
-      "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}",
-      "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-      "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-      "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-      "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-      "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-      "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+      "create_endpoint": "/api/cart/create?token={{token}}",
+      "updateitem_endpoint": "/api/cart/update?token={{token}}&cartId={{cartId}}",
+      "deleteitem_endpoint": "/api/cart/delete?token={{token}}&cartId={{cartId}}",
+      "pull_endpoint": "/api/cart/pull?token={{token}}&cartId={{cartId}}",
+      "totals_endpoint": "/api/cart/totals?token={{token}}&cartId={{cartId}}",
+      "paymentmethods_endpoint": "/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+      "shippingmethods_endpoint": "/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+      "shippinginfo_endpoint": "/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+      "collecttotals_endpoint": "/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+      "deletecoupon_endpoint": "/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+      "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
     },
     "products": {
-      "useShortCatalogUrls": false,
       "useMagentoUrlKeys": true,
       "setFirstVarianAsDefaultInURL": false,
       "configurableChildrenStockPrefetchStatic": false,
@@ -266,7 +274,7 @@
       "clearPricesBeforePlatformSync": false,
       "waitForPlatformSync": false,
       "setupVariantByAttributeCode": true,
-      "endpoint": "http://localhost:8080/api/product",
+      "endpoint": "/api/product",
       "defaultFilters": ["color", "size", "price", "erin_recommends"],
       "filterFieldMapping": {
         "category.name": "category.name.keyword"
@@ -274,27 +282,42 @@
       "colorMappings": {
         "Melange graphite": "#eeeeee"
       },
+      "defaultSortBy": {
+        "attribute": "updated_at",
+        "order": "desc"
+      },
       "sortByAttributes": {
         "Latest": "updated_at",
         "Price: Low to high":"final_price",
         "Price: High to low":"final_price:desc"
       },
       "gallery": {
-        "variantsGroupAttribute": "color",
         "mergeConfigurableChildren": true,
         "imageAttributes": ["image","thumbnail","small_image"],
         "width": 600,
         "height": 744
       },
+      "thumbnails": {
+        "width": 310,
+        "height": 300
+      },
       "filterAggregationSize": {
         "default": 10,
         "size": 10,
         "color": 10
+      },
+      "priceFilters": {
+        "ranges": [
+          { "from": 0, "to": 50 },
+          { "from": 50, "to": 100 },
+          { "from": 100, "to": 150 },
+          { "from": 150 }
+        ]
       }
     },
     "orders": {
       "directBackendSync": true,
-      "endpoint": "http://localhost:8080/api/order",
+      "endpoint": "/api/order",
       "payment_methods_mapping": {
       },
       "offline_orders": {
@@ -326,23 +349,23 @@
       }
     },
     "reviews": {
-      "create_endpoint": "http://localhost:8080/api/review/create"
+      "create_endpoint": "/api/review/create"
     },
     "users": {
       "autoRefreshTokens": true,
-      "endpoint": "http://localhost:8080/api/user",
-      "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",
-      "resetPassword_endpoint": "http://localhost:8080/api/user/reset-password",
-      "changePassword_endpoint": "http://localhost:8080/api/user/change-password?token={{token}}",
-      "login_endpoint": "http://localhost:8080/api/user/login",
-      "create_endpoint": "http://localhost:8080/api/user/create",
-      "me_endpoint": "http://localhost:8080/api/user/me?token={{token}}",
-      "refresh_endpoint": "http://localhost:8080/api/user/refresh"
+      "endpoint": "/api/user",
+      "history_endpoint": "/api/user/order-history?token={{token}}",
+      "resetPassword_endpoint": "/api/user/reset-password",
+      "changePassword_endpoint": "/api/user/change-password?token={{token}}",
+      "login_endpoint": "/api/user/login",
+      "create_endpoint": "/api/user/create",
+      "me_endpoint": "/api/user/me?token={{token}}",
+      "refresh_endpoint": "/api/user/refresh"
     },
     "stock": {
       "synchronize": true,
       "allowOutOfStockInCart": true,
-      "endpoint": "http://localhost:8080/api/stock"
+      "endpoint": "/api/stock"
     },
     "images": {
       "useExactUrlsNoProxy": false,
@@ -381,18 +404,18 @@
       "currencyCode": "USD",
       "currencySign": "$",
       "currencySignPlacement": "preppend",
-      "dateFormat": "HH:mm D/M/YYYY",
+      "dateFormat": "l LT",
       "fullCountryName": "United States",
       "fullLanguageName": "English",
       "bundleAllStoreviewLanguages": true
     },
-    "mailchimp": {
-      "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
+    "newsletter": {
+      "endpoint": "/api/ext/mailchimp-subscribe/subscribe"
     },
     "mailer": {
       "endpoint": {
-        "send": "http://localhost:8080/api/ext/mail-service/send-email",
-        "token": "http://localhost:8080/api/ext/mail-service/get-token"
+        "send": "/api/ext/mail-service/send-email",
+        "token": "/api/ext/mail-service/get-token"
       },
       "contactAddress": "contributors@vuestorefront.io",
       "sendConfirmation": true
@@ -401,12 +424,16 @@
     "analytics": {
       "id": false
     },
+    "googleTagManager": {
+      "id": false,
+      "debug": true
+    },
     "hotjar": {
       "id": false
     },
     "cms": {
-      "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",
-      "endpointIdentifier": "http://localhost:8080/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
+      "endpoint": "/api/ext/cms-data/cms{{type}}/{{cmsId}}",
+      "endpointIdentifier": "/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
     },
     "cms_block": {
       "max_count": 500
@@ -450,6 +477,5 @@
         ]
       }
     }
-
 }
 

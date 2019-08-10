@@ -124,6 +124,7 @@ module.exports = {
             'extensions/introduction',
             'extensions/extending-api',
             'extensions/extending-server-side-routes',
+            'extensions/extensions-to-modify-results'
           ],
         },
         {
