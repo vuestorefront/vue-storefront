@@ -12,7 +12,7 @@ Modular approach to a system is often considered an implementation of the tradit
 ## 1. How to bootstrap a module
 When you want to tweak any open source for whatever reason needed to make it more fantastic, first thing you need to look for is *modules* within the code base. You may name *API*, *hooks* or *observers* for the same matter, but *module* basically represents all of them in one place in design.  
 
-If the open source authors are serious about their offspring, one must admit it's impossible to take care of all the details to all the use cases out in the wild. So the creator should expose joint point of core parts so that 3rd party developers may inject their wild logics into the working machine when they need it. Now, lo and behold, jungles conquered. 
+If the open source authors are serious about their offspring, one must admit it's impossible to take care of all the details to all the use cases out in the wild. So the creator should expose joint point of core parts so that 3rd party developers may inject their wild logics into the working machine when they need it. Now lo and behold, jungles conquered. 
 
 In this recipe, we are going to cover how we bootstrap a module in its bare minimum in order to inject our logic into the machine. *Tarzans, follow!*
 
@@ -53,6 +53,7 @@ export interface StorefrontModule { (
   appConfig: any): void # VSF config
 }
 ```
+Judging by this signature, you can access `store`, `router`, `config`s from your module. 
 :::
 
 4. _(Optional)_ Add a comment in order to figure out when it's registered later :
@@ -95,7 +96,7 @@ export function registerNewModules () {
 ```
 
 :::tip NOTE 
-You are free to choose to register your module here as other modules do, or register anywhere anytime else you want it, which is called _lazy loading_. In that case, however, you may not be able to access some hooks such as `onAppInit` because they are not lazy. (meaning only fired during app initialization)
+You are free to choose to register your module here as other modules do, or register anywhere anytime else you want it, which is possible due to _lazy loading_ or aka dynamic loading. With _lazy loading_, however, you may not be able to access some hooks such as `onAppInit` because they are not lazy. (meaning only fired during app initialization)
 :::
 
 6. Run the command at **Vue Storefront** root path to bootstrap **Vue Storefront** app
@@ -124,6 +125,7 @@ We have created a module with only a few simple steps and registered it  success
 
 We built our `module` house in the territory of `./src/modules`. We created the door named `index.ts` where all the module parts are assembled and exported, although we skipped building module parts for the sake of brevity, which we will look inside more in detail later. Instead what we created in `index.ts` was bare minimum skeleton required to build a module and declare it's a module. 
 
+Here `index.ts` uncovers a module is basically a function with access to certain parts of Vue app instance and allows to interact with it. Additionally achieved is a better versatility thanks to `helpers` and `hooks` along with it. 
 
 If you take a look a little deeper, you will arrive at `./core/lib/modules.ts` where module signature and `registerModule` function along with `injectReferences` function take up seats. `registerModule` is the hard worker who works in `src/modules/index.ts` to register modules pushing individuals into `registeredModules`. (Beware the small difference in those names as in `registerModule`, `registeredModules`, `registerModules` and so on, might be confusing if you skim it, but they are correct and appropriate in its own role with matching names) 
 
