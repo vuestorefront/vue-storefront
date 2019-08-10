@@ -1,6 +1,15 @@
-import { storeCodeFromRoute, prepareStoreView } from '@vue-storefront/core/lib/multistore'
+import {
+  storeCodeFromRoute,
+  prepareStoreView,
+  adjustMultistoreApiUrl,
+  localizedDispatcherRoute,
+  LocalizedRoute,
+  setupMultistoreRoutes
+} from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 import rootStore from '@vue-storefront/core/store';
+import VueRouter, { RouteConfig } from 'vue-router'
+import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
 jest.mock('@vue-storefront/core/app', () => ({ createApp: jest.fn() }))
 jest.mock('../../../store', () => ({}))
@@ -10,9 +19,10 @@ jest.mock('@vue-storefront/core/hooks', () => ({ coreHooksExecutors: {
   beforeStoreViewChange: jest.fn(args => args),
   afterStoreViewChange: jest.fn(args => args)
 }}))
-jest.mock('query-string', () => jest.fn())
 jest.mock('@vue-storefront/core/lib/router-manager', () => ({
-  RouterManager: {}
+  RouterManager: {
+    addRoutes: jest.fn()
+  }
 }))
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {}
@@ -20,6 +30,7 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
 jest.mock('config', () => ({}))
 
 describe('Multistore', () => {
+  let router
   beforeEach(() => {
     jest.clearAllMocks();
     (rootStore as any).state = {};
@@ -391,6 +402,189 @@ describe('Multistore', () => {
         name: 'Italian Store',
         storeCode: 'it'
       })
+    })
+  })
+
+  describe('adjustMultistoreApiUrl', () => {
+    it('returns URL /test without storeCode as parameter', () => {
+      rootStore.state.storeView = {
+        storeCode: null
+      }
+
+      expect(adjustMultistoreApiUrl('/test')).toStrictEqual('/test')
+    })
+
+    it('returns URL /test with storeCode de as parameter', () => {
+      rootStore.state.storeView = {
+        storeCode: 'de'
+      }
+
+      expect(adjustMultistoreApiUrl('/test')).toStrictEqual('/test?storeCode=de')
+    })
+
+    it('returns URL /test?a=b with storeCode de as parameter and current parameters from the URL', () => {
+      rootStore.state.storeView = {
+        storeCode: 'de'
+      }
+
+      expect(adjustMultistoreApiUrl('/test?a=b')).toStrictEqual('/test?a=b&storeCode=de')
+    })
+
+    it('returns URL /test?a=b&storeCode=de with added storeCode at as parameter and removes previous storeCode parameter', () => {
+      rootStore.state.storeView = {
+        storeCode: 'at'
+      }
+
+      expect(adjustMultistoreApiUrl('/test?a=b&storeCode=de')).toStrictEqual('/test?a=b&storeCode=at')
+    })
+    it('returns URL /test?storeCode=de with changed storeCode at as parameter', () => {
+      rootStore.state.storeView = {
+        storeCode: 'at'
+      }
+
+      expect(adjustMultistoreApiUrl('/test?storeCode=de')).toStrictEqual('/test?storeCode=at')
+    })
+  })
+
+  describe('localizedDispatcherRoute', () => {
+    it('URL /test stays the same', () => {
+      config.storeViews = {}
+
+      expect(localizedDispatcherRoute('/test', 'de')).toStrictEqual('/test')
+    })
+
+    it('URL /test starts with /de', () => {
+      config.storeViews = {
+        de: {
+          appendStoreCode: true
+        }
+      }
+
+      expect(localizedDispatcherRoute('/test', 'de')).toStrictEqual('/de/test')
+    })
+
+    it('URL /test?a=b&b=a stays the same', () => {
+      config.storeViews = {}
+
+      expect(localizedDispatcherRoute('/test?a=b&b=a', 'de')).toStrictEqual('/test?a=b&b=a')
+    })
+
+    it('URL /test?a=b&b=a starts with /de', () => {
+      config.storeViews = {
+        de: {
+          appendStoreCode: true
+        }
+      }
+
+      expect(localizedDispatcherRoute('/test?a=b&b=a', 'de')).toStrictEqual('/de/test?a=b&b=a')
+    })
+
+    it('URL with  LocalizedRoute object with fullPath test gets prefixed with /de', () => {
+      config.storeViews = {}
+
+      const LocalizedRoute: LocalizedRoute = {
+        fullPath: 'test'
+      }
+
+      expect(localizedDispatcherRoute(LocalizedRoute, 'de')).toStrictEqual('/test')
+    })
+
+    it('URL with LocalizedRoute object with fullPath and parameter test stays the same', () => {
+      config.storeViews = {}
+
+      const LocalizedRoute: LocalizedRoute = {
+        fullPath: 'test',
+        params: {
+          a: 'b',
+          b: 'a'
+        }
+      }
+
+      expect(localizedDispatcherRoute(LocalizedRoute, 'de')).toStrictEqual('/test?a=b&b=a')
+    })
+
+    it('URL with LocalizedRoute object with fullPath test gets prefixed with /de', () => {
+      config.storeViews = {
+        de: {
+          appendStoreCode: true
+        }
+      }
+
+      const LocalizedRoute: LocalizedRoute = {
+        fullPath: 'test'
+      }
+
+      expect(localizedDispatcherRoute(LocalizedRoute, 'de')).toStrictEqual('/de/test')
+    })
+
+    it('URL with LocalizedRoute object with fullPath test and params gets prefixed with /de', () => {
+      config.storeViews = {
+        de: {
+          appendStoreCode: true
+        }
+      }
+
+      const LocalizedRoute: LocalizedRoute = {
+        fullPath: 'test',
+        params: {
+          a: 'b',
+          b: 'a'
+        }
+      }
+
+      expect(localizedDispatcherRoute(LocalizedRoute, 'de')).toStrictEqual('/de/test?a=b&b=a')
+    })
+  })
+
+  describe('setupMultistoreRoutes', () => {
+    it('Add new routes for each store in mapStoreUrlsFor', () => {
+      config.storeViews = {
+        'de': {
+          appendStoreCode: true
+        },
+        mapStoreUrlsFor: [
+          'de'
+        ],
+        multistore: true
+      }
+
+      const routeConfig: RouteConfig[] = [
+        {
+          path: 'test'
+        },
+        {
+          path: 'test2'
+        }
+      ]
+
+      const vueRouter = {}
+
+      setupMultistoreRoutes(config, (vueRouter as VueRouter), routeConfig)
+
+      expect(RouterManager.addRoutes).toBeCalledTimes(1)
+    })
+
+    it('Do nothing as mapStoreUrlsFor is empty', () => {
+      config.storeViews = {
+        'de': {
+        },
+        mapStoreUrlsFor: []
+      }
+
+      const routeConfig: RouteConfig[] = [
+        {
+          path: 'test'
+        },
+        {
+          path: 'test2'
+        }
+      ]
+
+      const vueRouter = {}
+
+      setupMultistoreRoutes(config, (vueRouter as VueRouter), routeConfig)
+
+      expect(RouterManager.addRoutes).toBeCalledTimes(0)
     })
   })
 })
