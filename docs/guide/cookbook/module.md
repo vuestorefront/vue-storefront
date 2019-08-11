@@ -136,14 +136,121 @@ Now you are officially a **Vue Storefront module developer**. Congratulation!
 ### 4. Chef's secret (protip)
 #### Secret 1. Lazy loading your module where you want it
 
-#### Secret 2. 
+#### Secret 2. How a module can be leveraged to build extensions or integrations with. 
 
-#### Secret 3. 
+#### Secret 3. On the border of modularity
 
 <br />
 <br />
 
 ## 2. Best practices for tweaking a module
+Once you got the hang of building a skeleton for modules, now it's time for working a real deal with modules. There are tons of opportunities here with freedom of building new modules powered by variety of methods available being mainly in a sense with working, extending, hooking to Vue's main parts. 
+
+In this recipe, we walk through steps to building a simple module for _Like button in product page_. This recipe browses a brief concept of each topic for the demonstration purpose. The full details for building the module continues at [Recipe 7. Building a module from A to Z](#_7-building-a-module-from-a-to-z-in-an-iteration)
+### 1. Preparation
+- You need a new module to play with. You would already have had one if you finished [_Recipe 1. How to bootstrap a module_](#_1-how-to-bootstrap-a-module)
+
+### 2-1. Recipe A (Extend Vuex store from inside a module)
+
+1. Open the `index.ts` file of `example-module` at `./src/modules/example-module`
+```bash
+cd src/modules/example-module
+vi index.ts # of course you can open it with other editors!
+```
+
+2. Prepare a store for the module as follows : 
+```ts{3-8}
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+
+const exampleModuleStore = {
+  namespaced: true,
+  state: {
+    key: null
+  }
+}
+
+export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+// abridged ...
+```
+`namespaced` with `true` value means this `store` is encapsulated inside a module and not registered to global store.
+
+`state` contains data object you want to track. 
+
+3. Register this `store` to app's `store` with `registerModule` :
+```ts{11}
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+
+const exampleModuleStore = {
+  namespaced: true,
+  state: {
+    key: null
+  }
+}
+
+export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  store.registerModule('example-module', exampleModuleStore);
+}
+
+```
+`registerModule` method is a Vue native API to dynamically register a store for each module. _Vue Storefront Module_ uses this method for data store so that module data is encapsulated from global scope. [more info](https://vuex.vuejs.org/guide/modules.html#dynamic-module-registration)
+
+Consider the `store` as a _Model_ in plain MVC model.
+
+4. You can add Vuex `plugins` to your store. 
+```ts{3-9,17}
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+
+const examplePlugin = store => {
+  store.subscribe((mutation, state) => {
+    if (mutation.type === 'PRESSED_LIKE') {
+      console.log('Customer pressed LIKE button on the product');
+    }
+  })
+}
+
+const exampleModuleStore = {
+  namespaced: true,
+  state: {
+    key: null
+  },
+
+  plugins: ['examplePlugin']
+}
+
+export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  store.registerModule('example-module', exampleModuleStore);
+}
+```
+`plugins` are handy when you want to _plug in_ an event to `mutation` of `state`. 
+
+`mutation` is an object that contains `type` and `payload`. By checking `mutation` type, you can listen to the certain type of state changes. [more info](https://vuex.vuejs.org/guide/plugins.html)
+
+You can also listen not only to `mutations` but also to `actions` as follows : 
+```js
+store.subscribeAction((action, state) => {
+  console.log(action.type)
+  console.log(action.payload)
+})
+```
+It also provides `before` and `after` decorator to when the `plugin` should be fired of the event. [more info](https://vuex.vuejs.org/api/#subscribeaction)
+
+
+### 2-2. Recipe B (Override Vuex store with `extendStore`)
+
+### 2-3. Recipe C (Extend router instance)
+
+### 2-4. Recipe D (Use hooks)
+
+### 2-5. Recipe E (Manage module-level `config`)
+
+### 2-6. Recipe F (Manage app-level `config`)
+
+### 3. Peep into the kitchen (what happens internally)
+### 4. Chef's secret (protip)
+<br />
+<br />
+
+## 3. Hooking into hooks
 
 ### 1. Preparation
 ### 2. Recipe
@@ -152,7 +259,7 @@ Now you are officially a **Vue Storefront module developer**. Congratulation!
 <br />
 <br />
 
-## 3. On configuration
+## 4. On configuration
 
 ### 1. Preparation
 ### 2. Recipe
@@ -161,14 +268,6 @@ Now you are officially a **Vue Storefront module developer**. Congratulation!
 <br />
 <br />
 
-## 4. Hooking into hooks
-
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
-<br />
-<br />
 
 ## 5. Packaging a module
 
@@ -198,7 +297,6 @@ _[INSERT VIDEO HERE]_
 <br />
 
 ## 7. Building a module from A to Z in an iteration
-
 
 ### 1. Preparation
 ### 2. Recipe
