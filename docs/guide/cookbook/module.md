@@ -297,6 +297,75 @@ Install [Firefox Vuejs extension](https://addons.mozilla.org/en-US/firefox/addon
 
 
 ### 2-3. Recipe C (Extend router instance)
+You can also dynamically add routes for your module using Vue native API. 
+
+1. Create a dummy Vue component `Liked.vue` just to test `route` at `components` directory from `./src/modules/example-module` directory.
+```bash
+cd src/modules/example-module
+mkdir components && cd components && vi Liked.vue
+```
+
+2. Fill the file with dummy template code as follows : 
+```vue
+<template>
+  <p>{{ greeting }} World and you {{liked}}! </p>
+</template>
+
+<script>
+module.exports = {
+  data: function () {
+    return {
+      greeting: 'Hello',
+      liked: 'Liked it'
+    }
+  }
+}
+</script>
+
+<style scoped>
+p {
+  font-size: 2em;
+  text-align: center;
+}
+</style>
+```
+
+3. Go back to parent directory, open `index.ts` file and work on the module router as follows : 
+```ts{3,14,21-22}
+import { extendStore, isServer } from '@vue-storefront/core/helpers';
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+import Liked from './components/Liked.vue'; // Import the component
+
+const examplePlugin = store => {
+
+// abridged ...
+
+  state: {
+    liked: false
+  }
+}
+
+const exampleRoutes = [{ name: 'liked', path: '/liked', component: Liked, alias: '/liked.html' }]; // compose the router we will use
+
+export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  store.registerModule('example-module', exampleModuleStore);
+
+  extendStore('product', newProductModule);
+
+  router.addRoutes(exampleRoutes) // adding routes here
+  router.beforeEach((to, from, next) => { next() }) // navigation guards here
+}
+
+```
+Routes to be added must be _Array_ type even if it only has one element as you can see it with `exampleRoutes` above. Each route object has `name`, `path`, `component` and `alias` property and it's pretty straightforward about what they are.
+
+`addRoutes` is Vue native API to add routes dynamically to the router. 
+
+`beforeEach` is the navigation guard Vue API provides. [more info](https://router.vuejs.org/guide/advanced/navigation-guards.html)
+
+4. Open your browser and visit the route `/liked` we just created then you will see a screen like this :
+
+![route_liked_borderline](../images/route_liked.png)
 
 ### 2-4. Recipe D (Use hooks)
 
