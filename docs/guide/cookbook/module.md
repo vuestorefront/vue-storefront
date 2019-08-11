@@ -368,6 +368,61 @@ Routes to be added must be _Array_ type even if it only has one element as you c
 ![route_liked_borderline](../images/route_liked.png)
 
 ### 2-4. Recipe D (Use hooks)
+One of the most intuitive way to build a module is using hooks. Open source creators more than often intentionally leave hooks as many as possible to everywhere they think extendable for 3rd party developers to inject logic into the flow of program. Here we will look into how _Vue Storefront_ did it its way. 
+
+1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
+```bash
+cd src/modules/example-module
+vi index.ts # of course you can open it with other editors!
+```
+
+2. Import `coreHooks` from `core` :
+```ts{4}
+import { extendStore, isServer } from '@vue-storefront/core/helpers';
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+import Liked from './components/Liked.vue';
+import { coreHooks  } from '@vue-storefront/core/hooks'; // Import hooks from core
+
+const examplePlugin = store => {
+// abridged ...
+```
+
+3. Call any hook you want to use as follows : 
+```ts{11-13}
+// ...abridged
+
+export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  store.registerModule('example-module', exampleModuleStore);
+
+  extendStore('product', newProductModule);
+
+  router.addRoutes(exampleRoutes)
+  router.beforeEach((to, from, next) => { next() })
+
+  coreHooks.afterAppInit(() => { // 
+    console.log('App has just been initialized')
+  })
+}
+
+```
+
+4. Confirm it's hooked, run the command at **Vue Storefront** root path to bootstrap **Vue Storefront** app
+```bash 
+docker-compose up 
+```
+or without `docker`
+```bash 
+yarn dev
+```
+
+Once again the app is up and running, it will spit out tons of logs indicating the jobs done including  : 
+```bash
+app_1  | [module] VS Modules registration finished. { succesfulyRegistered: '0 / 0', registrationOrder: [] }
+app_1  | App has just been initialized # Successfully Hooked !
+app_1  | Result from ES for 3e9eb2ab7b4d96276c016ae9d5aa18116483667603e7e84ad2346627 (category),  ms=613 null
+app_1  | whole request [/liked]: 1323ms
+```
+
 
 ### 2-5. Recipe E (Manage module-level `config`)
 
