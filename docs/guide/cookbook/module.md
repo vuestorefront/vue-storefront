@@ -14,9 +14,9 @@ Modular approach to a system is often considered an implementation of the tradit
 <br />
 
 ## 1. How to bootstrap a module
-When you want to tweak any open source for whatever reason needed to make it more fantastic, first thing you need to look for is *modules* within the code base. You may name *API*, *hooks* or *observers* for the same matter, but *module* basically represents all of them in one place in design.  
-
 If the open source authors are serious about their offspring, one must admit it's impossible to take care of all the details to all the use cases out in the wild. So the creator should expose joint point of core parts so that 3rd party developers may inject their wild logics into the working machine when they need it. Now lo and behold, jungles conquered. 
+
+When you want to tweak any open source for whatever reason needed to make it more fantastic, first thing you need to look for is *modules* within the code base. You may name *API*, *hooks* or *observers* for the same matter, but *module* basically represents all of them in one place in design.  
 
 In this recipe, we are going to cover how we bootstrap a module in its bare minimum in order to inject our logic into the machine. *Tarzans, follow!*
 
@@ -365,7 +365,18 @@ _[INSERT VIDEO HERE]_
 <br />
 
 ## 8. Deprecated legacy of Modules
-In this recipe, we will take a review of how to deal with modules in an old fashioned way and convert them into new modules in the new way, just in case you really need it. 
+In this recipe, we will take a review of how to deal with modules in an old fashioned way , just in case you really need it. 
+
+### 1. Preparation
+### 2. Recipe
+### 3. Peep into the kitchen (what happens internally)
+### 4. Chef's secret (protip)
+<br />
+<br />
+
+
+## 9. Converting old modules to new modules 
+There are useful modules out there already developed in the old way.
 
 ### 1. Preparation
 ### 2. Recipe
