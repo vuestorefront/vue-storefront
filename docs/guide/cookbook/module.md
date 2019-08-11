@@ -1,5 +1,9 @@
 # Chapter 5. Building a Module from scratch 
-
+<style>
+    img[alt*="borderline"] {
+        border: 1px #000 solid;
+    }
+</style>
 
 In this chapter, we are going to cover : 
 [[toc]]
@@ -144,15 +148,17 @@ Now you are officially a **Vue Storefront module developer**. Congratulation!
 <br />
 
 ## 2. Best practices for tweaking a module
-Once you got the hang of building a skeleton for modules, now it's time for working a real deal with modules. There are tons of opportunities here with freedom of building new modules powered by variety of methods available being mainly in a sense with working, extending, hooking to Vue's main parts. 
+Once you got the hang of building a skeleton for modules, now it's time for working a real deal with modules. There are tons of opportunities here with freedom of building new modules powered by variety of methods available being mainly in a sense with working, extending and hooking to Vue's main parts. 
 
 In this recipe, we walk through steps to building a simple module for _Like button in product page_. This recipe browses a brief concept of each topic for the demonstration purpose. The full details for building the module continues at [Recipe 7. Building a module from A to Z](#_7-building-a-module-from-a-to-z-in-an-iteration)
 ### 1. Preparation
 - You need a new module to play with. You would already have had one if you finished [_Recipe 1. How to bootstrap a module_](#_1-how-to-bootstrap-a-module)
 
 ### 2-1. Recipe A (Extend Vuex store from inside a module)
+_Vue Storefront_ takes advantage of _Vuex_'s `module` feature. You can encapsulate your module's data from global scope so that control over your data is secured easily within your grasp. 
 
 1. Open the `index.ts` file of `example-module` at `./src/modules/example-module`
+
 ```bash
 cd src/modules/example-module
 vi index.ts # of course you can open it with other editors!
@@ -197,7 +203,7 @@ export const ExampleModule: StorefrontModule = function (app, store, router, mod
 Consider the `store` as a _Model_ in plain MVC model.
 
 4. You can add Vuex `plugins` to your store. 
-```ts{3-9,17}
+```ts{3-9,16}
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
 const examplePlugin = store => {
@@ -213,7 +219,6 @@ const exampleModuleStore = {
   state: {
     key: null
   },
-
   plugins: ['examplePlugin']
 }
 
@@ -232,10 +237,64 @@ store.subscribeAction((action, state) => {
   console.log(action.payload)
 })
 ```
-It also provides `before` and `after` decorator to when the `plugin` should be fired of the event. [more info](https://vuex.vuejs.org/api/#subscribeaction)
+It also provides `before` and `after` decorator to when the `plugin` should be fired of the event. (available since `3.1.0`) [more info](https://vuex.vuejs.org/api/#subscribeaction)
 
 
 ### 2-2. Recipe B (Override Vuex store with `extendStore`)
+_Vue Storefront_ people came up with the idea to ___help___ module developers easily extend the module already registered with the same name. 
+
+1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
+```bash
+cd src/modules/example-module
+vi index.ts # of course you can open it with other editors!
+```
+
+2. Import `helpers` of core as follows : 
+```ts{1}
+import { extendStore, isServer } from '@vue-storefront/core/helpers';
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+
+const examplePlugin = store => {
+// abridged ...
+```
+
+3. Add an additional `product` store 
+```ts{5-9}
+// ... abridged
+  plugins: ['examplePlugin']
+}
+
+const newProductModule = {
+  state: {
+    liked: false
+  }
+}
+
+export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+// abridged ...
+```
+
+4. Run `extendStore` helper method to override or add to existing store `product` as follows : 
+```ts{4}
+export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  store.registerModule('example-module', exampleModuleStore);
+
+  extendStore('product', newProductModule);
+}
+```
+
+5. In order to confirm it's successfully extended, we use [Vue.js Chrome extension](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en) which really comes in handy when you develop _Vue.js_ application. 
+
+Open _Chrome DevTools_ and go to _Vue_ tab, and click _Vuex_ tab or click `ctrl` + `2`. Finally click _Register module : product_, then you will see a screen like as follows confirming `product` store has been extended successfully : 
+
+![product_liked_borderline](../images/product_like_state.png)
+
+:::tip TIP
+You may use _Firefox Vuejs extension_ if you like it. 
+Install [Firefox Vuejs extension](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
+
+:::
+
 
 ### 2-3. Recipe C (Extend router instance)
 
