@@ -1,6 +1,6 @@
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-function isSpecialPriceActive(fromDate, toDate) {
+function isSpecialPriceActive (fromDate, toDate) {
   const now = new Date()
   fromDate = fromDate ? new Date(fromDate) : false
   toDate = toDate ? new Date(toDate) : false
@@ -133,7 +133,7 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
     } else {
       Logger.debug('No such tax class id: ' + product.tax_class_id, 'helper-tax')()
     }
-  } else  {
+  } else {
     Logger.debug('No  tax class set for: ' + product.sku, 'helper-tax')()
   }
   if (!rateFound) {

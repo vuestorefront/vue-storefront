@@ -14,11 +14,24 @@ const compileOptions = {
   escape: /{{([^{][\s\S]+?[^}])}}/g,
   interpolate: /{{{([\s\S]+?)}}}/g
 }
+const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.ssrDisabledFor.extensions.join('|')})$`)
 
 const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true
 
 const app = express()
+
+function createRenderer (bundle, clientManifest, template) {
+  // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
+  return require('vue-server-renderer').createBundleRenderer(bundle, {
+    clientManifest,
+    // runInNewContext: false,
+    cache: require('lru-cache')({
+      max: 1000,
+      maxAge: 1000 * 60 * 15
+    })
+  })
+}
 
 const templatesCache = {}
 let renderer
@@ -45,18 +58,6 @@ if (isProd) {
   require(resolve('core/build/dev-server'))(app, (bundle, template) => {
     templatesCache['default'] = compile(template, compileOptions) // Important Notice: template switching doesn't work with dev server because of the HMR
     renderer = createRenderer(bundle)
-  })
-}
-
-function createRenderer (bundle, clientManifest, template) {
-  // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
-  return require('vue-server-renderer').createBundleRenderer(bundle, {
-    clientManifest,
-    // runInNewContext: false,
-    cache: require('lru-cache')({
-      max: 1000,
-      maxAge: 1000 * 60 * 15
-    })
   })
 }
 
@@ -103,15 +104,18 @@ function invalidateCache (req, res) {
 }
 
 const serve = (path, cache, options) => express.static(resolve(path), Object.assign({
-  maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
+  maxAge: cache && isProd ? 2592000000 : 0, // 1 month in milliseconds = 1000 * 60 * 60 * 24 * 30 = 2592000000
+  fallthrough: false
 }, options))
 
 const themeRoot = require('../build/theme-path')
 
 app.use('/dist', serve('dist', true))
 app.use('/assets', serve(themeRoot + '/assets', true))
-app.use('/service-worker.js', serve('dist/service-worker.js', {
-  setHeaders: {'Content-Type': 'text/javascript; charset=UTF-8'}
+app.use('/service-worker.js', serve('dist/service-worker.js', false, {
+  setHeaders: function (res, path, stat) {
+    res.set('Content-Type', 'text/javascript; charset=UTF-8')
+  }
 }))
 
 const serverExtensions = require(resolve('src/server'))
@@ -122,10 +126,22 @@ app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
 
 app.get('*', (req, res, next) => {
+  if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
+    apiStatus(res, 'Vue Storefront: Resource is not found', 404)
+    return
+  }
+
   const s = Date.now()
   const errorHandler = err => {
     if (err && err.code === 404) {
-      res.redirect('/page-not-found')
+      if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
+        apiStatus(res, 'Vue Storefront: Resource is not found', 404)
+        console.error(`Resource is not found : ${req.url}`)
+        next()
+      } else {
+        res.redirect('/page-not-found')
+        console.error(`Redirect for resource not found : ${req.url}`)
+      }
     } else {
       res.redirect('/error')
       console.error(`Error during render : ${req.url}`)

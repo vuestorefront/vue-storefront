@@ -7,16 +7,17 @@ import autoprefixer from 'autoprefixer';
 import HTMLPlugin from 'html-webpack-plugin';
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 import webpack from 'webpack';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
   JSON.stringify(config)
 )
 
-const themesRoot = '../../src/themes'
-
+// eslint-disable-next-line import/first
 import themeRoot from './theme-path';
+
+const themesRoot = '../../src/themes'
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
@@ -31,15 +32,15 @@ translationPreprocessor([
   path.resolve(__dirname, themeResources + '/i18n/')
 ], config)
 
-const postcssConfig =  {
+const postcssConfig = {
   loader: 'postcss-loader',
   options: {
     ident: 'postcss',
     plugins: (loader) => [
       require('postcss-flexbugs-fixes'),
       require('autoprefixer')({
-        flexbox: 'no-2009',
-      }),
+        flexbox: 'no-2009'
+      })
     ]
   }
 };
@@ -58,29 +59,29 @@ export default {
       template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
       filename: 'index.html',
       chunksSortMode: 'none',
-      inject: isProd == false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
+      inject: isProd === false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
     }),
     new HTMLPlugin({
       template: fs.existsSync(themedIndexMinimal) ? themedIndexMinimal : 'src/index.minimal.template.html',
       filename: 'index.minimal.html',
       chunksSortMode: 'none',
-      inject: isProd == false
+      inject: isProd === false
     }),
     new HTMLPlugin({
-      template: fs.existsSync(themedIndexBasic) ? themedIndexBasic: 'src/index.basic.template.html',
+      template: fs.existsSync(themedIndexBasic) ? themedIndexBasic : 'src/index.basic.template.html',
       filename: 'index.basic.html',
       chunksSortMode: 'none',
-      inject: isProd == false
+      inject: isProd === false
     }),
     new HTMLPlugin({
-      template: fs.existsSync(themedIndexAmp) ? themedIndexAmp: 'src/index.amp.template.html',
+      template: fs.existsSync(themedIndexAmp) ? themedIndexAmp : 'src/index.amp.template.html',
       filename: 'index.amp.html',
       chunksSortMode: 'none',
-      inject: isProd == false
+      inject: isProd === false
     }),
     new webpack.DefinePlugin({
       'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
-      'process.env.__BUILDTIME__': JSON.stringify(moment().format('YYYY-MM-DD HH:mm:ss'))
+      'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
     })
   ],
   devtool: 'source-map',
@@ -96,7 +97,7 @@ export default {
     modules: [
       'node_modules',
       path.resolve(__dirname, themesRoot)
-    ],
+    ]
   },
   resolve: {
     modules: [
@@ -116,14 +117,14 @@ export default {
       'theme/resource': themeResources,
 
       // Backward compatible
-      '@vue-storefront/core/store/lib/multistore' : path.resolve(__dirname, '../lib/multistore.ts'),
+      '@vue-storefront/core/store/lib/multistore': path.resolve(__dirname, '../lib/multistore.ts')
     }
   },
   module: {
     rules: [
       {
         enforce: 'pre',
-        test: /\.(js|vue)$/,
+        test: /\.(js|vue,ts)$/,
         loader: 'eslint-loader',
         exclude: [/node_modules/, /test/]
       },
@@ -132,7 +133,7 @@ export default {
         loader: 'vue-loader',
         options: {
           preserveWhitespace: false,
-          postcss: [autoprefixer()],
+          postcss: [autoprefixer()]
         }
       },
       {

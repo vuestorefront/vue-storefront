@@ -3,7 +3,7 @@
     <a href="#" class="store-locale" @click.prevent="showLanguagesModal">
       {{ country }} / {{ lang }} / {{ currency }}
     </a>
-    <modal-switcher v-if="loadLanguagesModal"/>
+    <modal-switcher v-if="loadLanguagesModal" />
   </div>
 </template>
 

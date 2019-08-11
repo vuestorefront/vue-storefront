@@ -10,7 +10,7 @@ For example, when the `category.url_path` is set to `women/frauen-20` the produc
 `http://localhost:3000/de/women/frauen-20`
 ...
 
-**Please note:** The `config.products.useShortCatalogUrls` should be set to `false` in order to have `urlDispatcher` working properly. It may interfere with the Url Dispatcher mechanism.
+**Please note:** The `config.products.useShortCatalogUrls` should be set to `false` in order to have `urlDispatcher` working properly. It may interfere with the Url Dispatcher mechanism. From VS 1.10.rc1 the `useShortCatalogUrls` option has been removed.
 
 ## How to customize the mapping mechanism
 

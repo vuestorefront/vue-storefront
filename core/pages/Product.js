@@ -1,4 +1,5 @@
 import { mapGetters } from 'vuex'
+import config from 'config'
 
 import store from '@vue-storefront/core/store'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
@@ -40,9 +41,9 @@ export default {
     },
     offlineImage () {
       return {
-        src: this.getThumbnail(this.product.image, 310, 300),
-        error: this.getThumbnail(this.product.image, 310, 300),
-        loading: this.getThumbnail(this.product.image, 310, 300)
+        src: this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height),
+        error: this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height),
+        loading: this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height)
       }
     },
     image () {
@@ -72,7 +73,7 @@ export default {
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
     this.$bus.$off('product-after-bundleoptions')
-    if (store.state.usePriceTiers) {
+    if (config.usePriceTiers) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -83,7 +84,7 @@ export default {
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
     this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
-    if (store.state.config.usePriceTiers) {
+    if (config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -180,7 +181,7 @@ export default {
       this.$forceUpdate()
     },
     onAfterFilterChanged (filterOption) {
-      EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
+      this.$bus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
       const prevOption = this.configuration[filterOption.attribute_code]
       this.configuration[filterOption.attribute_code] = filterOption
       this.$forceUpdate() // this is to update the available options regarding current selection
@@ -191,7 +192,7 @@ export default {
         fallbackToDefaultWhenNoAvailable: false,
         setProductErorrs: true
       }).then((selectedVariant) => {
-        if (store.state.config.products.setFirstVarianAsDefaultInURL) {
+        if (config.products.setFirstVarianAsDefaultInURL) {
           this.$router.push({params: { childSku: selectedVariant.sku }})
         }
         if (!selectedVariant) {
@@ -213,7 +214,7 @@ export default {
     onUserPricesRefreshed () {
       if (this.$route.params.parentSku) {
         this.$store.dispatch('product/reset')
-        EventBus.$emit('product-before-load', { store: this.$store, route: this.$route })
+        this.$bus.$emit('product-before-load', { store: this.$store, route: this.$route })
         this.$store.dispatch('product/single', {
           options: {
             sku: this.$route.params.parentSku,
@@ -240,7 +241,7 @@ export default {
         }
       ],
       title: htmlDecode(this.product.meta_title || this.productName),
-      meta: this.product.meta_description ? [{ vmid: 'description', description: htmlDecode(this.product.meta_description) }] : []
+      meta: this.product.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.product.meta_description) }] : []
     }
   }
 }

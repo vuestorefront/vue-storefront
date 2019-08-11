@@ -1,9 +1,7 @@
 import { Store } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import Vue from 'vue'
-import buildTimeConfig from 'config'
 import { isServer } from '@vue-storefront/core/helpers'
-import { Logger } from '@vue-storefront/core/lib/logger'
 
 // Plugins
 import i18n from '@vue-storefront/i18n'
@@ -21,7 +19,7 @@ import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 import { registerTheme } from '@vue-storefront/core/lib/themes'
 import { themeEntry } from 'theme/index.js'
 import { registerModules } from '@vue-storefront/core/lib/module'
-import { prepareStoreView } from '@vue-storefront/core/lib/multistore'
+import { prepareStoreView, currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 import * as coreMixins from '@vue-storefront/core/mixins'
 import * as coreFilters from '@vue-storefront/core/filters'
@@ -35,6 +33,7 @@ import { enabledModules } from './modules-entry'
 // Will be deprecated in 1.8
 import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
 import { registerExtensions as extensions } from 'src/extensions'
+import globalConfig from 'config'
 
 function createRouter (): VueRouter {
   return new VueRouter({
@@ -61,21 +60,20 @@ once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
 })
 
-const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
+const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
   router = createRouter()
   // sync router with vuex 'router' store
   sync(store, router)
   // TODO: Don't mutate the state directly, use mutation instead
   store.state.version = process.env.APPVERSION
-  store.state.config = config
-  store.state.__DEMO_MODE__ = (config.demomode === true) ? true : false
-  if(ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
-  if (!store.state.config) store.state.config = buildTimeConfig // if provided from SSR, don't replace it
+  store.state.config = config // @deprecated
+  store.state.__DEMO_MODE__ = (config.demomode === true)
+  if (ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
+  if (!store.state.config) store.state.config = globalConfig //  @deprecated - we should avoid the `config`
   const storeView = prepareStoreView(storeCode) // prepare the default storeView
   store.state.storeView = storeView
   // store.state.shipping.methods = shippingMethods
 
-  
   // to depreciate in near future
   once('__VUE_EXTEND__', () => {
     Vue.use(Vuelidate)
@@ -91,6 +89,16 @@ const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: V
       Vue.mixin(coreMixins[key])
     })
   })
+
+  // @todo remove this part when we'll get rid of global multistore mixin
+  if (isServer) {
+    Object.defineProperty(ssrContext, 'helpers', {
+      value: {
+        currentStoreView
+      },
+      writable: true
+    })
+  }
 
   Object.keys(coreFilters).forEach(key => {
     Vue.filter(key, coreFilters[key])
@@ -115,9 +123,9 @@ const createApp  = async (ssrContext, config, storeCode = null): Promise<{app: V
 
   registerModules(enabledModules, appContext)
   registerExtensions(extensions, app, router, store, config, ssrContext)
-  registerTheme(buildTimeConfig.theme, app, router, store, store.state.config, ssrContext)
+  registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
 
-  app.$emit('application-after-init', app)
+  Vue.prototype.$bus.$emit('application-after-init', app)
 
   return { app, router, store }
 }

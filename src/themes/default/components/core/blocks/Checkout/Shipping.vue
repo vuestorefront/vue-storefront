@@ -30,14 +30,13 @@
       </div>
     </div>
     <div class="row pl20" v-if="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-11 col-sm-9 col-md-10">
         <div class="row">
           <base-checkbox
             v-if="currentUser && hasShippingDetails()"
             class="col-xs-12 mb10"
             id="shipToMyAddressCheckbox"
-            @click="useMyAddress"
             v-model="shipToMyAddress"
           >
             {{ $t('Ship to my default address') }}
@@ -187,7 +186,7 @@
                 v-model="shipping.shippingMethod"
                 @change="$v.shipping.shippingMethod.$touch(); changeShippingMethod();"
               >
-              <span class="checkmark"/>
+              <span class="checkmark" />
             </label>
           </div>
           <span class="validation-error" v-if="$v.shipping.shippingMethod.$error && !$v.shipping.shippingMethod.required">
@@ -197,14 +196,14 @@
       </div>
     </div>
     <div class="row" v-if="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 col-md-8 my30 px20">
             <button-full
               data-testid="shippingSubmit"
               @click.native="sendDataToCheckout"
-              :disabled="$v.shipping.$invalid"
+              :disabled="$v.shipping.$invalid || shippingMethods.length <= 0"
             >
               {{ $t('Continue to payment') }}
             </button-full>
@@ -213,7 +212,7 @@
       </div>
     </div>
     <div class="row pl20" v-if="!isActive && isFilled">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
           <div class="col-xs-12 h4" data-testid="shippingAddressSummary">
@@ -242,7 +241,7 @@
             <div class="col-md-6 mb15">
               <label class="radioStyled"> {{ getShippingMethod().method_title }} | {{ getShippingMethod().amount | price }}
                 <input type="radio" value="" checked disabled name="chosen-shipping-method">
-                <span class="checkmark"/>
+                <span class="checkmark" />
               </label>
             </div>
           </div>

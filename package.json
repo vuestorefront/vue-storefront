@@ -1,10 +1,10 @@
 {
   "name": "vue-storefront",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
-    "node": ">=8.x <11.x"
+    "node": ">=8.x"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
   "homepage": "https://github.com/DivanteLtd/vue-storefront/README.md",
   "scripts": {
     "start": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" pm2 start ecosystem.json $PM2_ARGS",
+    "start:inspect": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" node --inspect ./core/scripts/server.js",
     "installer": "node ./core/scripts/installer",
     "installer:ci": "yarn installer --default-config",
     "all": "cross-env NODE_ENV=development node ./core/scripts/all",
@@ -41,9 +42,12 @@
     "test:unit": "jest -c test/unit/jest.conf.js",
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
-    "lint": "eslint --ext .js,.vue core src",
+    "lint": "eslint --ext .js,.vue,.ts core src --fix",
     "lerna": "lerna"
   },
+  "pre-commit": [
+    "lint"
+  ],
   "dependencies": {
     "@types/webpack": "^4.4.23",
     "@types/webpack-dev-server": "^3.1.1",
@@ -53,6 +57,8 @@
     "apollo-link-http": "^1.5.4",
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
+    "cross-env": "^3.1.4",
+    "dayjs": "^1.8.15",
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
     "graphql": "^0.13.2",
@@ -61,7 +67,6 @@
     "js-sha3": "^0.8.0",
     "localforage": "^1.7.2",
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
-    "moment": "^2.24.0",
     "pm2": "^2.10.4",
     "redis-tag-cache": "^1.2.1",
     "reflect-metadata": "^0.1.12",
@@ -71,6 +76,7 @@
     "vue-analytics": "^5.16.1",
     "vue-apollo": "^3.0.0-beta.19",
     "vue-carousel": "^0.6.9",
+    "vue-gtm": "^2.0.0",
     "vue-i18n": "^8.0.0",
     "vue-lazyload": "^1.2.6",
     "vue-meta": "^1.5.3",
@@ -88,8 +94,10 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.3.4",
-    "@types/jest": "^23.3.13",
+    "@types/jest": "^24.0.11",
     "@types/node": "^10.12.18",
+    "@typescript-eslint/eslint-plugin": "^1.7.1-alpha.17",
+    "@typescript-eslint/parser": "^1.7.1-alpha.17",
     "@vue/test-utils": "^1.0.0-beta.29",
     "app-root-path": "^2.0.1",
     "autoprefixer": "^8.6.2",
@@ -101,13 +109,12 @@
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "command-exists": "^1.2.2",
     "commander": "^2.18.0",
-    "cross-env": "^3.1.4",
     "css-loader": "^1.0.0",
     "cypress": "^3.1.5",
     "d3-dsv": "^1.0.8",
     "detect-installed": "^2.0.4",
     "empty-dir": "^1.0.0",
-    "eslint": "^4.16.0",
+    "eslint": "^5.0.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^2.0.0",
@@ -115,7 +122,7 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.1.0",
-    "eslint-plugin-vue": "^4.5.0",
+    "eslint-plugin-vue": "^5.2.2",
     "eslint-plugin-vue-storefront": "^0.0.1",
     "file-loader": "^1.1.11",
     "fs-exists-sync": "^0.1.0",
@@ -131,6 +138,7 @@
     "phantomjs-prebuilt": "^2.1.10",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "^3.0.0",
+    "pre-commit": "^1.2.2",
     "print-message": "^2.1.0",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.1.0",
@@ -178,6 +186,7 @@
     "src/themes/*",
     "docs",
     "core/modules/*",
+    "packages/*",
     "test/unit"
   ]
 }

@@ -12,7 +12,7 @@ const hotjarSnippet = (hjid) => (function (h, o, t, j, a, r) {
   a.appendChild(r);
 })(window as any, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
 
-export function afterRegistration({ Vue, config, store, isServer }) {
+export function afterRegistration ({ Vue, config, store, isServer }) {
   if (!isServer && config.hotjar && config.hotjar.id) {
     hotjarSnippet(config.hotjar.id);
   }
