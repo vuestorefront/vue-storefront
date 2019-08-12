@@ -524,11 +524,18 @@ app_1  | This is one way to use moduleConfig
 <br />
 
 ## 3. Hooking into hooks
+Hooks are common development method written by core developers to allow 3rd party developers or module developers to inject their own logic at predefined spots of the program. With this approach, the software can be flexible in design, so that it helps handle issues which were unknown at the time it was designed initially. 
+
+Core developers usually strive to optimize where to put hooks. In _Vue Storefront_, hooks generally fall under either of two groups. One of each is `listner`; it allows us to do something at certain moment of application lifecycle. The other of each is `mutator`; it allows us to modify internal objects before app performs some actions.
+
+In this recipe, we look into where they are and how this can be applied to your _module_ development.
 
 ### 1. Preparation
+
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
+#### Secret 1. The list of hooks 
 <br />
 <br />
 
