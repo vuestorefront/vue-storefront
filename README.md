@@ -21,6 +21,8 @@ If you're new and need some guidance feel free to visit out [forum](https://foru
 - `@ptomczyk` (frontend and best practices)
 - `@lukeromanowicz` (testing, magento, backend)
 -  Degi Kwag (docs)
+
+
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
 **We are looking for Contributors and Designer willing to help us in the solution development.**
