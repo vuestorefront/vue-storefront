@@ -126,7 +126,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
-import { isModuleRegistered } from '@vue-storefront/core/lib/module'
+import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
 
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
@@ -158,7 +158,7 @@ export default {
       addCouponPressed: false,
       couponCode: '',
       componentLoaded: false,
-      isInstantCheckoutRegistered: isModuleRegistered('instant-checkout')
+      isInstantCheckoutRegistered: isModuleRegistered('InstantCheckoutModule')
     }
   },
   props: {
