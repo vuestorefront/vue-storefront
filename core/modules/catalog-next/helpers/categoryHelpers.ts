@@ -1,4 +1,5 @@
-import { Category, ChildrenData } from '../types/Category';
+import { entities } from 'config'
+import { Category, ChildrenData } from '../types/Category'
 
 export const compareByLabel = (a, b) => {
   if (a.label < b.label) {
@@ -16,7 +17,7 @@ export const _prepareCategoryPathIds = (category: Category): string[] => {
 }
 
 export const getSearchOptionsFromRouteParams = (params: { [key: string]: string } = {}): Object => {
-  const filterableKeys = ['url-key', 'slug', 'id']
+  const filterableKeys = entities.category.validSearchOptionsFromRouteParams
   let filters: { [key: string]: string } = {}
 
   Object.keys(params)
