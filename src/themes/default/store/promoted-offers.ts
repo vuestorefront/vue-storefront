@@ -29,9 +29,8 @@ export const promotedStore = {
     async updatePromotedOffers ({commit, rootState}, data) {
       let promotedBannersResource = rootState.storeView && rootState.storeView.storeCode ? `banners/${rootState.storeView.storeCode}_promoted_offers` : `promoted_offers`
       try {
-        // Workaround to get jest --watch to work
-        const promotedBannersResourceImport = `theme/resource/${promotedBannersResource}.json`
-        const promotedOffersModule = await import(/* webpackChunkName: "vsf-promoted-offers-[request]" */ promotedBannersResourceImport)
+        // Workaround to get jest --watch to work so don't change the import sting to a template string
+        const promotedOffersModule = await import(/* webpackChunkName: "vsf-promoted-offers-[request]" */ 'theme/resource/' + promotedBannersResource + '.json')
         commit('updatePromotedOffers', promotedOffersModule)
       } catch (err) {
         Logger.debug('Unable to load promotedOffers' + err)()
@@ -40,9 +39,8 @@ export const promotedStore = {
     async updateHeadImage ({commit, rootState}, data) {
       let mainImageResource = rootState.storeView && rootState.storeView.storeCode ? `banners/${rootState.storeView.storeCode}_main-image` : `main-image`
       try {
-        // Workaround to get jest --watch to work
-        const mainImageResourceImport = `theme/resource/${mainImageResource}.json`
-        const imageModule = await import(/* webpackChunkName: "vsf-head-img-[request]" */ mainImageResourceImport)
+        // Workaround to get jest --watch to work so don't change the import sting to a template string
+        const imageModule = await import(/* webpackChunkName: "vsf-head-img-[request]" */ 'theme/resource/' + mainImageResource + '.json')
         commit('SET_HEAD_IMAGE', imageModule.image)
       } catch (err) {
         Logger.debug('Unable to load headImage' + err)()
