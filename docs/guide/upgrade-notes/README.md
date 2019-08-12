@@ -73,6 +73,8 @@ core/modules/wishlist/store/actions.ts
 ```
 If by some reasons you wan't to have the `localStorage` back on for `Products by SKU`, `Url Routes` and `SyncTasks` - please juset set these variables back to `false` in your `config/local.json`.
 
+- New page-not-found handling requires to update router/index.js in the theme.
+
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`EventBus.$on()`) now
 - The lowest supported node version  is currently 8.10.0,
