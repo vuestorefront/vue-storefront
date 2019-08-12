@@ -14,14 +14,14 @@ import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/help
 import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
 
 const getters: GetterTree<CategoryState, RootState> = {
-  getCategories: (state) => (): Category[] => Object.values(state.categoriesMap),
+  getCategories: (state): Category[] => Object.values(state.categoriesMap),
   getCategoriesMap: (state): { [id: string]: Category} => state.categoriesMap,
   getCategoryProducts: (state) => state.products,
   getCategoryFrom: (state, getters) => (path: string = '') => {
-    return getters.getCategories().find(category => path.replace(/^(\/)/gm, '') === category.url_path) || {}
+    return getters.getCategories.find(category => path.replace(/^(\/)/gm, '') === category.url_path) || {}
   },
   getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
-    return getters.getCategories().find(category => {
+    return getters.getCategories.find(category => {
       let valueCheck = []
       const searchOptions = getSearchOptionsFromRouteParams(params)
       forEach(searchOptions, (value, key) => valueCheck.push(category[key] && category[key] === (category[key].constructor)(value)))
