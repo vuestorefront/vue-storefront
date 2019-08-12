@@ -65,8 +65,10 @@ const actions: ActionTree<CmsBlockState, RootState> = {
       }
       return quickSearchByQuery({ query, entityType: 'cms_block', excludeFields, includeFields })
         .then((resp) => {
-          context.commit(types.CMS_BLOCK_ADD_CMS_BLOCK, resp.items[0])
-          return resp.items[0]
+          if (resp.items.length > 0) {
+            context.commit(types.CMS_BLOCK_ADD_CMS_BLOCK, resp.items[0])
+            return resp.items[0]
+          }
         })
         .catch(err => {
           Logger.error(err, 'cms')()
