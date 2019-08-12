@@ -9,7 +9,10 @@ export default {
   mixins: [Composite],
   async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     Logger.log('Entering asyncData for PageNotFound ' + new Date())()
-    if (context) context.output.cacheTags.add(`page-not-found`)
+    if (context) {
+      context.output.cacheTags.add(`page-not-found`)
+      context.server.response.statusCode = 404
+    }
     let ourBestsellersQuery = prepareQuery({ queryConfig: 'bestSellers' })
     const response = await store.dispatch('product/list', {
       query: ourBestsellersQuery,
