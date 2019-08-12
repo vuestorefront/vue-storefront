@@ -539,7 +539,12 @@ In this recipe, we look into where they are and how this can be applied to your 
 <br />
 <br />
 
-## 4. On configuration
+## 4. On Module configuration
+_Configuration_ is a basic template for options designed by developers that users may change to their own liking. Those changes made and saved will change the course of software during its lifecycle based on values of configuration.  
+
+_Configuration_ tends to have default values which entails default behaviors of the program so that users don't have to bother if they are OK with default behaviors. Best user experience with flexibility can be achieved with carefully designed _configuration_ with default values. 
+
+
 
 ### 1. Preparation
 ### 2. Recipe
@@ -547,7 +552,6 @@ In this recipe, we look into where they are and how this can be applied to your 
 ### 4. Chef's secret (protip)
 <br />
 <br />
-
 
 ## 5. Packaging a module
 
