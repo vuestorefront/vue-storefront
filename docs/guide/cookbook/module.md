@@ -433,9 +433,92 @@ cd src/modules/example-module
 vi index.ts # of course you can open it with other editors!
 ```
 
-### 2-6. Recipe F (Manage app-level `config`)
+2. Fix the hook part as follows : 
+```ts{11-17}
+// ...abridged
+
+export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  store.registerModule('example-module', exampleModuleStore);
+
+  extendStore('product', newProductModule);
+
+  router.addRoutes(exampleRoutes)
+  router.beforeEach((to, from, next) => { next() })
+
+  coreHooks.afterAppInit(() => {
+    if (moduleConfig.afterAppInit) {
+      moduleConfig.afterAppInit();
+    } else {
+      console.log('App has just been initialized');
+    }
+  });
+}
+```
+This change indicates `moduleConfig` object has `afterAppInit` option for providing a choice for `module` user when registering it. 
+
+3. Go to parent directory, open `index.ts` which is `./src/modules/index.ts` and fix the code as follows :  
+```ts{6-10}
+// ... abridged 
+
+  registerModule(AmpRendererModule)
+  registerModule(InstantCheckoutModule) 
+  
+  registerModule(ExampleModule, {
+    afterAppInit: () => {
+      console.log('This is one way to use moduleConfig');
+    }
+  }) // Here you pass config object as you want it
+}
+
+// abridged ...
+```
+
+4. In order to confirm `moduleConfig` option passed as planned, run the command at **Vue Storefront** root path to bootstrap **Vue Storefront** app
+```bash 
+docker-compose up 
+```
+or without `docker`
+```bash 
+yarn dev
+```
+
+Once again the app is up and running, now look for the part we injected : 
+```bash{2}
+app_1  | [module] VS Modules registration finished. { succesfulyRegistered: '0 / 0', registrationOrder: [] }
+app_1  | This is one way to use moduleConfig # moduleConfig injected successfully !
+app_1  | Calling asyncData in Home (theme) null
+```
+You can read [more in depth](#_4-on-configuration)
+
+### 2-6. Recipe F (Access app-level `config`)
+When you work on building a _module_ in _Vue Storefront_, you can also access app's `config`. `config` is compiled version of `./config` folder which is normally a copy of `local.json`. When you need to access `config`, you can do it inside a `module`.
+
+1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
+```bash
+cd src/modules/example-module
+vi index.ts # of course you can open it with other editors!
+```
+
+2. Call a node of `config` inside a `module` as follows :
+```ts{4}
+// ... abridged 
+
+export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  console.log(appConfig.products.defaultFilters); //  "products": {"defaultFilters": ["color", "size", "price", "erin_recommends"]}
+
+// abridged ...
+```
+
+3. You can see the log as follows if you bootstrap your _Vue Storefront_ app : 
+```bash{2}
+app_1  | [GTM] Google Tag Manager extensions is not working. Ensure Google Tag Manager container ID is defined in config null
+app_1  | [ 'color', 'size', 'price', 'erin_recommends' ] # here we go! successfully fetched global app config
+app_1  | [module] VS Modules registration finished. { succesfulyRegistered: '0 / 0', registrationOrder: [] }
+app_1  | This is one way to use moduleConfig
+```
 
 ### 3. Peep into the kitchen (what happens internally)
+
 ### 4. Chef's secret (protip)
 <br />
 <br />
