@@ -8,12 +8,12 @@ import camelCase from 'lodash-es/camelCase'
 export default {
   name: 'IcmaaCmsPage',
   computed: {
-    ...mapGetters({ pageByIdentifier: 'icmaaCmsPage/pageByIdentifier' }),
+    ...mapGetters('icmaaCmsPage', ['getPageByIdentifier']),
     identifier (): string {
       return this.$route.params.identifier
     },
     page (): PageStateItem {
-      return this.pageByIdentifier(this.identifier)
+      return this.getPageByIdentifier(this.identifier)
     },
     pageData (): string {
       return this.page.content

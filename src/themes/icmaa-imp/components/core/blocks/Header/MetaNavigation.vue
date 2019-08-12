@@ -14,11 +14,9 @@ import { mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(
-      { jsonBlockByIdentifier: 'icmaaCmsBlock/jsonBlockByIdentifier' }
-    ),
+    ...mapGetters('icmaaCmsBlock', ['getJsonBlockByIdentifier']),
     navigation () {
-      return this.jsonBlockByIdentifier('navigation-meta')
+      return this.getJsonBlockByIdentifier('navigation-meta')
     }
   }
 }

@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 import { UrlState } from '@vue-storefront/core/modules/url/types/UrlState'
-import { PageStateItem } from 'src/modules/icmaa-cms/types/PageState'
+import { PageStateItem } from 'icmaa-cms/types/PageState'
 import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import { removeHashFromRoute } from '../helpers'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'

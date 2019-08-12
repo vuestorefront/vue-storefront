@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex'
 import CategoryState, { CategoryStateListItem } from '../types/CategoryState'
 import RootState from '@vue-storefront/core/types/RootState'
-import { sortByLetter } from '../helpers/fetchCategories'
+import { sortByLetter } from '../helpers'
 
 const getters: GetterTree<CategoryState, RootState> = {
   lists: (state) => state.lists,

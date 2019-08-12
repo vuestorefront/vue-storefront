@@ -81,7 +81,7 @@ import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
 import { isServer } from '@vue-storefront/core/helpers'
-import { getSearchOptionsFromRouteParams } from 'src/modules/icmaa-category/helpers/categoryHelpers'
+import { getSearchOptionsFromRouteParams } from 'icmaa-category/helpers/categoryHelpers'
 import config from 'config'
 import Columns from '../components/core/Columns.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
@@ -90,7 +90,7 @@ import uniq from 'lodash-es/uniq'
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 
 import CategoryExtrasHeader from 'theme/components/core/blocks/ICMAA/CategoryExtras/Header.vue'
-import CategoryExtrasMixin from 'src/modules/icmaa-cms/mixins/categoryExtras'
+import CategoryExtrasMixin from 'icmaa-cms/mixins/categoryExtras'
 
 const composeInitialPageState = async (store, route) => {
   try {

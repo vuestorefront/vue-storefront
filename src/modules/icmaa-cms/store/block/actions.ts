@@ -1,5 +1,5 @@
 import { ActionTree } from 'vuex'
-import { single as singleAbstract, MutationTypesInterface, SingleOptionsInterface, OptionsInterface } from '../abstract/actions'
+import { single as singleAbstract, list as listAbstract, MutationTypesInterface, SingleOptionsInterface, ListOptionsInterface } from '../abstract/actions'
 
 import { cmsBlockStorageKey as storageKey } from './'
 import * as types from './mutation-types'
@@ -15,7 +15,9 @@ const mutationTypes: MutationTypesInterface = {
 
 const actions: ActionTree<BlockState, RootState> = {
   single: async (context, options: SingleOptionsInterface): Promise<BlockStateItem> =>
-    singleAbstract<BlockStateItem>({ documentType, mutationTypes, storageKey, context, options })
+    singleAbstract<BlockStateItem>({ documentType, mutationTypes, storageKey, context, options }),
+  list: async (context, options: ListOptionsInterface): Promise<BlockStateItem> =>
+    listAbstract<BlockStateItem>({ documentType, mutationTypes, storageKey, context, options })
 }
 
 export default actions

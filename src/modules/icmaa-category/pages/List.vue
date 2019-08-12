@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import List from 'src/modules/icmaa-category/components/List'
+import List from 'icmaa-category/components/List'
 
 export default {
   mixins: [ List ],

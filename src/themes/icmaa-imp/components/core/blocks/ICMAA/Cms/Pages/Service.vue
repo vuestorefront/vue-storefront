@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import Page from 'src/modules/icmaa-cms/components/Page'
+import Page from 'icmaa-cms/components/Page'
 
 export default {
   mixins: [ Page ],

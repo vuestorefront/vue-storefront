@@ -6,17 +6,11 @@ import { getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers'
 import forEach from 'lodash-es/forEach'
 
 const getters: GetterTree<CategoryState, RootState> = {
-  /**
-   * Getters are cached by default. This leads to the problem that if you fetch categories using
-   * getter.getCategories you won't get a correct value when the category route changes to a new category.
-   * The solution is to force the getter not be cached by returning a method.
-   */
-  getCategories: (state) => (): Category[] => Object.values(state.categoriesMap),
   getCategoryFrom: (state, getters) => (path: string = '') => {
-    return getters.getCategories().find(category => path.replace(/^(\/)/gm, '') === category.url_path) || {}
+    return getters.getCategories.find(category => path.replace(/^(\/)/gm, '') === category.url_path) || {}
   },
   getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
-    return getters.getCategories().find(category => {
+    return getters.getCategories.find(category => {
       let valueCheck = []
       const searchOptions = getSearchOptionsFromRouteParams(params)
       forEach(searchOptions, (value, key) => valueCheck.push(category[key] && category[key] === (category[key].constructor)(value)))

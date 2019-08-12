@@ -11,7 +11,7 @@ const Compare = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/
 const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue')
 
 /** ICMAA / Custom module pages */
-const IcmaaCategoryList = () => import(/* webpackChunkName: "vsf-icmaa-category-list" */ 'src/modules/icmaa-category/pages/List.vue')
+const IcmaaCategoryList = () => import(/* webpackChunkName: "vsf-icmaa-category-list" */ 'icmaa-category/pages/List.vue')
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },

@@ -1,5 +1,5 @@
 import { ActionTree } from 'vuex'
-import { single as singleAbstract, MutationTypesInterface, SingleOptionsInterface } from '../abstract/actions'
+import { single as singleAbstract, list as listAbstract, MutationTypesInterface, SingleOptionsInterface, ListOptionsInterface } from '../abstract/actions'
 
 import { cmsCategoryExtrasStorageKey as storageKey } from './'
 import * as types from './mutation-types'
@@ -15,7 +15,9 @@ const mutationTypes: MutationTypesInterface = {
 
 const actions: ActionTree<CategoryExtrasState, RootState> = {
   single: async (context, options: SingleOptionsInterface): Promise<CategoryExtrasStateItem> =>
-    singleAbstract<CategoryExtrasStateItem>({ documentType, mutationTypes, storageKey, context, options })
+    singleAbstract<CategoryExtrasStateItem>({ documentType, mutationTypes, storageKey, context, options }),
+  list: async (context, options: ListOptionsInterface): Promise<CategoryExtrasStateItem> =>
+    listAbstract<CategoryExtrasStateItem>({ documentType, mutationTypes, storageKey, context, options })
 }
 
 export default actions

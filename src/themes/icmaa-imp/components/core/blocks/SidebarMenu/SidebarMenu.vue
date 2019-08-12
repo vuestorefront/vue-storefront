@@ -48,14 +48,12 @@ export default {
       submenu: state => state.ui.submenu,
       currentUser: state => state.user.current
     }),
-    ...mapGetters(
-      { jsonBlockByIdentifier: 'icmaaCmsBlock/jsonBlockByIdentifier' }
-    ),
+    ...mapGetters('icmaaCmsBlock', ['getJsonBlockByIdentifier']),
     getMainNavigation () {
-      return this.jsonBlockByIdentifier('navigation-main')
+      return this.getJsonBlockByIdentifier('navigation-main')
     },
     metaNavigation () {
-      return this.jsonBlockByIdentifier('navigation-meta')
+      return this.getJsonBlockByIdentifier('navigation-meta')
     },
     country: () => currentStoreView().i18n.defaultCountry
   },

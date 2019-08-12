@@ -7,7 +7,7 @@ Create category list landing pages.
 Add the following line to your themes `router/index.js`:
 
 ```
-const IcmaaCategoryList = () => import(/* webpackChunkName: "vsf-category-list" */ 'src/modules/icmaa-category/pages/List.vue')
+const IcmaaCategoryList = () => import(/* webpackChunkName: "vsf-category-list" */ 'icmaa-category/pages/List.vue')
 
 let routes = [
   …

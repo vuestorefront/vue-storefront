@@ -1,4 +1,4 @@
-import { storeCode, storeLang } from 'src/modules/icmaa-meta/helper'
+import { storeCode, storeLang } from 'icmaa-meta/helper'
 
 const defaults: any = {
   title: 'Dein offizieller Merchandise, Streetwear und Fanartikel Shop',

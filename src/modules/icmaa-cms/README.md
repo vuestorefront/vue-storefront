@@ -4,12 +4,15 @@ Load CMS blocks from API and insert them into state or as component.
 
 ## Configs
 
-* Run `yarn` to install modules dependencies: `axios`.  
+* Run `yarn` to install modules dependencies: `axios`, `yaml`.  
   They are defined in templates `package.json`.
 
 * Add the following API endpoint to `config/local.json`:
   ```
   "icmaa_cms": {
-    "endpoint": "/api/ext/icmaa-cms/by-uid"
+    "endpoint": "/api/ext/icmaa-cms",
+    "categoryExtras": {
+      "logoFilePath": "impericon/department-logos"
+    }
   }
   ```

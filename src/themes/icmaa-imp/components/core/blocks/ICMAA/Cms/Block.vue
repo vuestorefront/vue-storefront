@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Block from 'src/modules/icmaa-cms/components/Block'
+import Block from 'icmaa-cms/components/Block'
 
 export default {
   mixins: [ Block ]

@@ -96,11 +96,9 @@ export default {
   },
   mixins: [ CurrentPage ],
   computed: {
-    ...mapGetters(
-      { jsonBlockByIdentifier: 'icmaaCmsBlock/jsonBlockByIdentifier' }
-    ),
+    ...mapGetters('icmaaCmsBlock', ['getJsonBlockByIdentifier']),
     footer () {
-      return this.jsonBlockByIdentifier('footer')
+      return this.getJsonBlockByIdentifier('footer')
     },
     languages () {
       return this.footer.languages

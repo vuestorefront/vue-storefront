@@ -27,6 +27,7 @@ import { IcmaaExtendedUrlModule } from './icmaa-url'
 import { IcmaaCategoryModule } from './icmaa-category'
 import { IcmaaCmsModule } from './icmaa-cms'
 import { IcmaaMetaModule } from './icmaa-meta'
+import { IcmaSpotifyModule } from './icmaa-spotify'
 
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
@@ -60,6 +61,7 @@ export function registerNewModules () {
   registerModule(IcmaaCmsModule)
   registerModule(IcmaaCategoryModule)
   registerModule(IcmaaMetaModule)
+  registerModule(IcmaSpotifyModule)
 }
 
 // Deprecated API, will be removed in 2.0

@@ -4,7 +4,7 @@ import { routes } from './router'
 const NAME_PREFIX = 'icmaa-cms-custom'
 
 // Route components
-const DefaultComponent = () => import(/* webpackChunkName: "vsf-icmaa-cms-page" */ 'src/modules/icmaa-cms/pages/Page.vue')
+const DefaultComponent = () => import(/* webpackChunkName: "vsf-icmaa-cms-page" */ 'icmaa-cms/pages/Page.vue')
 
 // Default/fallback route
 routes.unshift({

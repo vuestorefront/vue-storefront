@@ -3,7 +3,7 @@ import RootState from '@vue-storefront/core/types/RootState';
 import CategoryState, { CategoryStateListItem, CategoryStateCategory } from '../types/CategoryState'
 import * as types from './mutation-types'
 import rootStore from '@vue-storefront/core/store'
-import { fetchCategoryById, fetchChildCategories } from '../helpers/fetchCategories'
+import { fetchCategoryById, fetchChildCategories } from '../helpers'
 
 import { Logger } from '@vue-storefront/core/lib/logger'
 
