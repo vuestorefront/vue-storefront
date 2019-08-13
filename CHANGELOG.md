@@ -70,7 +70,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored the vuex user module - @andrzejewsky (#3095)
 - Brazilian Portuguese (pt_BR) translation improved - @pxfm (#3288)
 - Moved store/lib to /lib - @pxfm (#3253)
-- Improved some of the german translations in spelling and wording - @MariaKern (#3297)
+- Corrected usage of "configurableChildrenStockPrefetchStatic" setting, refactored logic to tested helper - @philippsander (#859)
+- Improved some of the german translations in spelling and wording - @MariaKern (#3297) 
 
 ## [1.10.0] - 2019.08.10
 
