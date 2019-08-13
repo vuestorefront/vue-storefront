@@ -2,20 +2,25 @@ import { CategoryStateCategory } from '../types/CategoryState'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse';
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
-import config from 'config'
+import { entities } from 'config'
 
 export const fetchCategoryById = ({ parentId }): Promise<SearchResponse> => {
   let searchQuery = new SearchQuery()
   searchQuery.applyFilter({ key: 'id', value: { 'eq': parentId } })
 
-  return quickSearchByQuery({ entityType: 'category', query: searchQuery, size: 1 })
+  return quickSearchByQuery({ entityType: 'category', query: searchQuery, size: 1, includeFields: entities.category.includeFields })
 }
 
-export const fetchChildCategories = async ({ parentId, sort = 'position:asc', level = 1, onlyShowTargetLevelItems = true, collectedCategories = [] }): Promise<CategoryStateCategory[]> => {
+export const fetchChildCategories = async ({ parentId, sort = 'position:asc', level = 1, onlyShowTargetLevelItems = true, onlyActive = false, collectedCategories = [] }): Promise<CategoryStateCategory[]> => {
   let searchQuery = new SearchQuery()
   searchQuery.applyFilter({ key: 'parent_id', value: { 'eq': parentId } })
 
-  return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, includeFields: config.entities.category.includeFields, size: 1000 })
+  if (onlyActive) {
+    searchQuery.applyFilter({ key: 'is_active', value: { 'eq': true } })
+    searchQuery.applyFilter({ key: 'product_count', value: {'gt': 0} })
+  }
+
+  return quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, includeFields: entities.category.includeFields, size: 2500 })
     .then(resp => {
       if (resp.items.length > 0 && resp.items[0].level <= level) {
         let childIds = []
@@ -26,11 +31,12 @@ export const fetchChildCategories = async ({ parentId, sort = 'position:asc', le
 
           if (!onlyShowTargetLevelItems || (onlyShowTargetLevelItems && resp.items[0].level === level)) {
             collectedCategories.push(item)
+            onlyActive = true
           }
         })
 
         if (childIds.length > 0) {
-          return fetchChildCategories({ parentId: childIds, level, collectedCategories })
+          return fetchChildCategories({ parentId: childIds, level, onlyActive, collectedCategories })
         }
       }
 
