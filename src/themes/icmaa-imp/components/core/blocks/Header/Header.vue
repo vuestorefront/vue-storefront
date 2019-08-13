@@ -104,7 +104,7 @@ header, .header-placeholder {
 
 header {
   top: -110px;
-  z-index: 3;
+  z-index: 2;
   transition: top 0.2s ease-in-out;
   &.is-visible {
     top: 0;
