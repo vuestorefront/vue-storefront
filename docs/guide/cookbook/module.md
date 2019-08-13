@@ -18,13 +18,15 @@ If the open source authors are serious about their offspring, one must admit it'
 
 When you want to tweak any open source for whatever reason needed to make it more fantastic, first thing you need to look for is *modules* within the code base. You may name *API*, *hooks* or *observers* for the same matter, but *module* basically represents all of them in one place in design.  
 
-In this recipe, we are going to cover how we bootstrap a module in its bare minimum in order to inject our logic into the machine. *Tarzans, follow!*
+In this recipe, we are going to cover how we bootstrap a module in its bare minimum in order to inject our logic into the machine. We will explore two different methods, one for manual install, the other for [`CLI`](setup.html#_4-storefront-cli-at-your-service) module generation with the boilerplate. *Tarzans, follow!*
 
 ### 1. Preparation
 - You need [**Vue Storefront**](https://github.com/DivanteLtd/vue-storefront) instance [installed along with other infrastructure ](setup.html#_1-install-with-docker) on your machine to build a new module and test it working. 
 - You need a development editor of your choice for your own convenience.
+- You need _Vue Storefront_ [`CLI`](https://www.npmjs.com/package/@vue-storefront/cli) [installed](setup.html#_4-storefront-cli-at-your-service) on your machine for [Recipe B](#_2-2-recipe-b-cli-bootstrapping) installing with `CLI`. 
 
-### 2. Recipe
+### 2-1. Recipe A (Manual bootstrapping)
+
 1. Create a folder under `./src/modules/example-module` from your **Vue Storefront** root path. 
 ```bash
 cd src/modules
@@ -123,6 +125,10 @@ app_1  | Entity cache is enabled for productList null
 
 # abridged ...
 ```
+
+### 2-2. Recipe B (CLI bootstrapping)
+
+1.  
 
 ### 3. Peep into the kitchen (what happens internally)
 We have created a module with only a few simple steps and registered it  successfully. Even though it's doing nothing practically, it was enough to grab the concept in design, and helped you transform into a module developer which is great. 
