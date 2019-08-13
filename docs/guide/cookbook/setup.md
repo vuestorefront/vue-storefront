@@ -1355,12 +1355,12 @@ Sometimes we need to know the inside of the perfect machine so that we can prepa
 <br />
 
 ## 4. Storefront CLI at your service 
-Upon the release of 1.10, we also present a new way of setup and all its sorts from `CLI` which is the all time most favorite tool of developers worldwide if I must say. There are lots of benefits when `CLI` methods are available such as automation in scripts in cooperation with other automation tools out there. 
+Upon the release of 1.10, we also present a new way of setup and all its sorts from `CLI` which is the all-time most favorite tool of developers worldwide if I must say. There are lots of benefits when `CLI` methods are available such as automation in scripts in cooperation with other automation tools out there. 
 
-We will continuously add new features to `CLI` as the version goes up. 
+We will continuously add new features to [`CLI`](https://www.npmjs.com/package/@vue-storefront/cli) as the version goes up. 
 
 ### 1. Preparation
-- You need to have installed `npm` on your machine. (or `yarn` if you chose it)
+- You need to have installed [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) on your machine. (or [`yarn`](https://yarnpkg.com/lang/en/docs/install/#debian-stable) if you chose it)
 
 ### 2. Recipe
 1. Install _Vue Storefront CLI_ package on your machine with `-g` flag as follows : 
@@ -1457,19 +1457,21 @@ You can follow it further at [Install using installer](#_2-using-installer)
   ✔ Running installer
 ```
 
-8. Now visit the address on your browser as printed in the screen , then Voila! :
+8. Now visit the address on your browser as printed in the screen, then Voila! :
 
 ![home_borderline](../images/home-vuestorefront.png)
 
 Congratulation! 
 
 ### 3. Peep into the kitchen (what happens internally)
-We prepared the `CLI` way of installing the whole infrastructure for your _Vue Storefront_ app provided as an `npm` package. It's now as easy as to install an `npm` package on any machine. Installed then run a command with a few options would be more than enough for the app to be up and running. Believe me your next _Vue Storefront_ app will be with you instantly with a breeze as long as `CLI` is accessible. 
+_Vue Storefront_ people prepared the `CLI` way of installing the whole infrastructure for your _Vue Storefront_ app provided as an `npm` package. It's now as easy as to install an `npm` package on any machine. Installed then run a command with a few options would be more than enough for the app to be up and running. Believe me your next _Vue Storefront_ app will be with you instantly with a breeze as long as `CLI` is accessible. 
 
 ### 4. Chef's secret (protip)
-#### Secret 1. Install manually
+#### Secret 1. Install with _manual_ path
 
 #### Secret 2. Install a module skeleton
+
+#### Secret 3. Build your own command for `vsf-cli`
 
 <br />
 <br />
