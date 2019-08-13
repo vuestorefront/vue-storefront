@@ -239,7 +239,11 @@ const host = process.env.HOST || config.server.host
 const start = () => {
   app.listen(port, host)
     .on('listening', () => {
-      console.log(`Vue Storefront Server started at http://${host}:${port}`)
+      console.log(`\n\n----------------------------------------------------------`)
+      console.log('|                                                        |')
+      console.log(`| Vue Storefront Server started at http://${host}:${port} |`)
+      console.log('|                                                        |')
+      console.log(`----------------------------------------------------------\n\n`)
     })
     .on('error', (e) => {
       if (e.code === 'EADDRINUSE') {
