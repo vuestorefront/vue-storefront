@@ -63,7 +63,7 @@
         <div class="flex mr10 align-right start-xs between-sm prices">
           <div class="prices" v-if="!displayItemDiscounts || !isOnline">
             <span class="h4 serif cl-error price-special" v-if="product.special_price">
-              {{ product.priceInclTax * product.qty | price }}&nbsp;
+              {{ product.priceInclTax * product.qty | price }}
             </span>
             <span class="h6 serif price-original" v-if="product.special_price">
               {{ product.originalPriceInclTax * product.qty | price }}
@@ -74,7 +74,7 @@
           </div>
           <div class="prices" v-else-if="isOnline && product.totals">
             <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
-              {{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }}&nbsp;
+              {{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }}
             </span>
             <span class="h6 serif price-original" v-if="product.totals.discount_amount">
               {{ product.totals.row_total_incl_tax | price }}
