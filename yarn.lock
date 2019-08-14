@@ -3801,6 +3801,11 @@ body-parser@1.18.3:
     raw-body "2.3.3"
     type-is "~1.6.16"
 
+body-scroll-lock@^2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/body-scroll-lock/-/body-scroll-lock-2.6.4.tgz#567abc60ef4d656a79156781771398ef40462e94"
+  integrity sha512-NP08WsovlmxEoZP9pdlqrE+AhNaivlTrz9a0FF37BQsnOrpN48eNqivKkE7SYpM9N+YIPjsdVzfLAUQDBm6OQw==
+
 bodybuilder@2.2.13:
   version "2.2.13"
   resolved "https://registry.yarnpkg.com/bodybuilder/-/bodybuilder-2.2.13.tgz#82ced1c2144bd9ddce97c5d89fa13f7e24c40f8e"
