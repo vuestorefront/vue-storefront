@@ -65,6 +65,7 @@ export const Shipping = {
   },
   mounted () {
     this.checkDefaultShippingMethod()
+    this.changeShippingMethod()
   },
   methods: {
     checkDefaultShippingMethod () {

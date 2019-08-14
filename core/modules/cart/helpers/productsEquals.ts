@@ -22,6 +22,10 @@ const isChecksumEquals = (product1: CartItem, product2: CartItem): boolean =>
   getChecksum(product1) === getChecksum(product2)
 
 const productsEquals = (product1: CartItem, product2: CartItem): boolean => {
+  if (!product1 || !product2) {
+    return false
+  }
+
   const typeProduct1 = getProductType(product1)
   const typeProduct2 = getProductType(product2)
 

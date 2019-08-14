@@ -5,7 +5,7 @@ export const claimsStore = {
   namespaced: true,
   actions: {
     set (context, { claimCode, value, description }) {
-      const claimCollection = StorageManager.get('claimCollection')
+      const claimCollection = StorageManager.get('claims')
       claimCollection.setItem(claimCode, {
         code: claimCode,
         created_at: new Date(),
@@ -17,14 +17,14 @@ export const claimsStore = {
     },
 
     unset (context, { claimCode }) {
-      const claimCollection = StorageManager.get('claimCollection')
+      const claimCollection = StorageManager.get('claims')
       claimCollection.removeItem(claimCode).catch((reason) => {
         Logger.error(reason) // it doesn't work on SSR
       })
     },
 
     check (context, { claimCode }) {
-      const claimCollection = StorageManager.get('claimCollection')
+      const claimCollection = StorageManager.get('claims')
       return claimCollection.getItem(claimCode).catch((reason) => {
         Logger.error(reason) // it doesn't work on SSR
       })
