@@ -54,9 +54,6 @@ export default {
   methods: {
     close () {
       this.$bus.$emit('modal-hide', 'modal-onboard')
-    },
-    appName () {
-      return this.$store.state.config.appName
     }
   }
 }

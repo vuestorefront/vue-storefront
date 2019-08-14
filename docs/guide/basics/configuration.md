@@ -40,7 +40,16 @@ Vue Storefront starts an HTTP server to deliver the SSR (server-side rendered) p
 },
 ```
 
-This configuration is for the seo purpose amount If I said about the `defaultTitle` is used stand for the default title of your store.
+When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest [`mage2vuestorefront`] snapshot and reimport Your products to properly set `url_path` fields.
+
+For example, when the `category.url_path` is set to `women/frauen-20` the product will be available under the following URL addresses:
+
+`http://localhost:3000/women/frauen-20`
+`http://localhost:3000/de/women/frauen-20`
+
+For, `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway)
+
+For, `config.seo.defaultTitle` is as name suggest it's default title for the store.
 
 ## Redis
 
