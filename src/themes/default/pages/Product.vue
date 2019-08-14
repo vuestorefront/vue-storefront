@@ -133,7 +133,7 @@
               v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
             >
               <base-input-number
-                :name="$t(getInputName)"
+                :name="getInputName"
                 v-model="product.qty"
                 :min="quantity ? 1 : 0"
                 :max="quantity"
@@ -178,30 +178,41 @@
             <div class="lh30 h5" itemprop="description" v-html="product.description" />
           </div>
           <div class="col-xs-12 col-sm-5">
-            <ul class="attributes p0 pt5 m0">
-              <product-attribute
-                :key="attr.attribute_code"
-                v-for="attr in customAttributes"
-                :product="product"
-                :attribute="attr"
-                empty-placeholder="N/A"
-              />
-            </ul>
+            <lazy-hydrate on-interaction>
+              <ul class="attributes p0 pt5 m0">
+                <product-attribute
+                  :key="attr.attribute_code"
+                  v-for="attr in customAttributes"
+                  :product="product"
+                  :attribute="attr"
+                  empty-placeholder="N/A"
+                />
+              </ul>
+            </lazy-hydrate>
           </div>
           <div class="details-overlay" @click="showDetails" />
         </div>
       </div>
     </section>
-    <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
-    <related-products type="upsell" :heading="$t('We found other products you might like')" />
-    <promoted-offers single-banner />
-    <related-products type="related" />
+    <lazy-hydrate when-idle>
+      <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
+    </lazy-hydrate>
+    <lazy-hydrate when-idle>
+      <related-products type="upsell" :heading="$t('We found other products you might like')" />
+    </lazy-hydrate>
+    <lazy-hydrate when-idle>
+      <promoted-offers single-banner />
+    </lazy-hydrate>
+    <lazy-hydrate when-idle>
+      <related-products type="related" />
+    </lazy-hydrate>
     <SizeGuide />
   </div>
 </template>
 
 <script>
 import { minValue } from 'vuelidate/lib/validators'
+import i18n from '@vue-storefront/i18n'
 import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
@@ -224,6 +235,7 @@ import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
+import LazyHydrate from 'vue-lazy-hydration'
 
 export default {
   components: {
@@ -245,7 +257,8 @@ export default {
     WebShare,
     BaseInputNumber,
     SizeGuide,
-    Spinner
+    Spinner,
+    LazyHydrate
   },
   mixins: [Product, VueOfflineMixin],
   directives: { focusClean },
@@ -319,8 +332,8 @@ export default {
       return false
     },
     getInputName () {
-      if (this.isSimpleOrConfigurable) { return `Quantity (${this.quantity} available)` }
-      return `Quantity`
+      if (this.isSimpleOrConfigurable) { return i18n.t('Quantity available', { qty: this.quantity }) }
+      return i18n.t('Quantity')
     }
   },
   created () {

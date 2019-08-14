@@ -27,7 +27,7 @@ export function beforeEachGuard (to: Route, from: Route, next) {
   const fullPath = normalizeUrlPath(to.fullPath)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
   const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name && to.name.startsWith('urldispatcher')
-  if (!to.matched.length || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
+  if (!to.matched.length || to.matched[0].name === 'page-not-found' || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
     UrlDispatchMapper(to).then((routeData) => {
       if (routeData) {
         let dynamicRoutes: LocalizedRoute[] = processDynamicRoute(routeData, fullPath, !isPreviouslyDispatchedDynamicRoute)
@@ -35,21 +35,15 @@ export function beforeEachGuard (to: Route, from: Route, next) {
           next(dynamicRoutes[0])
         } else {
           Logger.error('Route not found ' + routeData['name'], 'dispatcher')()
-          next('/page-not-found')
+          next()
         }
       } else {
         Logger.error('No mapping found for ' + fullPath, 'dispatcher')()
-        next('/page-not-found')
+        next()
       }
     }).catch(e => {
       Logger.error(e, 'dispatcher')()
-      if (!isServer) {
-        next('/page-not-found')
-      } else {
-        const storeCode = currentStoreView().storeCode
-        Vue.prototype.$ssrRequestContext.server.response.redirect((storeCode !== '' ? ('/' + storeCode) : '') + '/page-not-found') // TODO: Refactor this one after @filrak will give us a way to access ServerContext from Modules directly :-)
-        // ps. we can't use the next() call here as it's not doing the real redirect in SSR mode (just processing different component without changing the URL and that causes the CSR / SSR DOM mismatch while hydrating)
-      }
+      next()
     })
   } else {
     next()

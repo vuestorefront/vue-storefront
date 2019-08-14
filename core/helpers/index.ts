@@ -4,7 +4,6 @@ import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
 import config from 'config'
 import { sha3_224 } from 'js-sha3'
-import { unicodeAlpha, unicodeAlphaNum } from './validators'
 import store from '@vue-storefront/core/store'
 import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 
@@ -219,7 +218,9 @@ export const calcItemsHmac = (items, token) => {
 export function extendStore (moduleName: string | string[], module: any) {
   const merge = function (object: any = {}, source: any) {
     for (let key in source) {
-      if (typeof source[key] === 'object') {
+      if (Array.isArray(source[key])) {
+        object[key] = merge([], source[key])
+      } else if (typeof source[key] === 'object') {
         object[key] = merge(object[key], source[key])
       } else {
         object[key] = source[key]
@@ -237,9 +238,4 @@ export function extendStore (moduleName: string | string[], module: any) {
 
   store.unregisterModule(moduleName)
   store.registerModule(moduleName, extendedModule)
-}
-
-export {
-  unicodeAlpha,
-  unicodeAlphaNum
 }

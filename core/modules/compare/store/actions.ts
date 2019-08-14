@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { htmlDecode } from '@vue-storefront/core/store/lib/filters'
+import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
 import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/core/store'
 import RootState from '@vue-storefront/core/types/RootState'
@@ -33,6 +33,9 @@ const actions: ActionTree<CompareState, RootState> = {
       message: i18n.t('Product {productName} has been removed from compare!', { productName: htmlDecode(product.name) }),
       action1: { label: i18n.t('OK') }
     })
+  },
+  clear ({commit}) {
+    commit(types.COMPARE_LOAD_COMPARE, [])
   }
 }
 

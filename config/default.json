@@ -19,9 +19,14 @@
       "extensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
     }
   },
+  "staticPages": {
+    "updateOnRequest": true,
+    "destPath": "static"
+  },
   "seo": {
     "useUrlDispatcher": true,
-    "disableUrlRoutesPersistentCache": true
+    "disableUrlRoutesPersistentCache": true,
+    "defaultTitle": "Vuestore"
   },
   "console": {
     "showErrorOnProduction" : false,
@@ -84,14 +89,13 @@
       "amp": "dist/index.amp.html"
     },
     "executeMixedinAsyncData": true,
-    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView"],
+    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute", "checkout"],
     "useInitialStateFilter": true
   },
   "queues": {
     "maxNetworkTaskAttempts": 1,
     "maxCartBypassAttempts": 1
   },
-  "appName": "Vuestore",
   "defaultStoreCode": "",
   "storeViews": {
     "multistore": false,
@@ -123,6 +127,9 @@
         "currencyCode": "EUR",
         "currencySign": "EUR",
         "dateFormat": "HH:mm D-M-YYYY"
+      },
+      "seo": {
+        "defaultTitle": "Vuestore"
       }
     },
     "it": {
@@ -146,6 +153,9 @@
         "defaultCountry": "IT",
         "defaultLanguage": "IT",
         "defaultLocale": "it-IT"
+      },
+      "seo": {
+        "defaultTitle": "Vuestore"
       }
     }
   },
@@ -155,7 +165,7 @@
     "optimizeShoppingCart": true,
     "optimizeShoppingCartOmitFields": ["configurable_children", "configurable_options", "media_gallery", "description", "category", "category_ids", "product_links", "stock", "description"],
     "category": {
-      "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "url_path", "product_count", "path"],
+      "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "url_path", "product_count", "path", "position"],
       "excludeFields": [ "sgn" ],
       "categoriesRootCategorylId": 2,
       "categoriesDynamicPrefetchLevel": 2,
@@ -177,7 +187,7 @@
       "excludeFields": ["review_entity", "review_status"]
     },
     "product": {
-      "excludeFields": [ "*.msrp_display_actual_price_type", "required_options", "updated_at", "created_at", "attribute_set_id", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "small_image", "sgn", "*.sgn"],
+      "excludeFields": [ "*.msrp_display_actual_price_type", "required_options", "updated_at", "created_at", "attribute_set_id", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "stock.stock_status_changed_auto", "stock.show_default_notification_message", "stock.use_config_qty_increments", "stock.is_decimal_divided", "small_image", "sgn", "*.sgn"],
       "includeFields": null,
       "useDynamicAttributeLoader": true,
       "standardSystemFields": [
@@ -233,7 +243,12 @@
         "options",
         "product_option",
         "qty",
-        "is_configured"
+        "is_configured",
+        "priceInclTax",
+        "specialPriceInclTax",
+        "specialPriceTax",
+        "priceTax",
+        "priceInclTax"
       ]
     }
   },
@@ -265,6 +280,9 @@
     "collecttotals_endpoint": "/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
     "deletecoupon_endpoint": "/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
     "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+  },
+  "attributes": {
+    "disablePersistentAttributesCache": false
   },
   "products": {
     "disablePersistentProductsCache": true,
@@ -423,6 +441,11 @@
     "fullCountryName": "United States",
     "fullLanguageName": "English",
     "bundleAllStoreviewLanguages": true
+  },
+  "expireHeaders": {
+    "default": "30d",
+    "application/json": "24h",
+    "image/png": "7d"
   },
   "newsletter": {
     "endpoint": "/api/ext/mailchimp-subscribe/subscribe"

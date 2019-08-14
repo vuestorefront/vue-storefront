@@ -29,6 +29,19 @@ Please find the configuration properties reference below.
 
 Vue Storefront starts an HTTP server to deliver the SSR (server-side rendered) pages and static assets. Its node.js server is located in the `core/scripts/server.js`. This is the hostname and TCP port which Vue Storefront is binding.
 
+
+## Seo
+
+```json
+"seo": {
+  "useUrlDispatcher": true,
+  "disableUrlRoutesPersistentCache": true,
+  "defaultTitle": "Vuestore"
+},
+```
+
+This configuration is for the seo purpose amount If I said about the `defaultTitle` is used stand for the default title of your store.
+
 ## Redis
 
 ```json
@@ -192,6 +205,14 @@ ElasticSearch settings can be overridden in the specific `storeView` config. You
 ```
 
 Taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/catalog/helpers/tax). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
+
+```json
+    "seo": {
+      "defaultTitle": 'Vuestore'
+    },
+```
+
+SEO section's `defaultTitle` is used at the set title for the specific store.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous, unidentified user (which country is not yet set).
 

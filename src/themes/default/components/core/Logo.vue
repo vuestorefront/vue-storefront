@@ -4,18 +4,20 @@
       :width="width"
       :height="height"
       src="/assets/logo.svg"
-      :alt="$t(appName)"
+      :alt="$t(defaultTitle)"
     >
   </router-link>
 </template>
 
 <script>
 import config from 'config'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   data () {
+    const storeView = currentStoreView()
     return {
-      appName: config.appName ? config.appName : 'Vuestore'
+      defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : 'Vuestore'
     }
   },
   props: {
