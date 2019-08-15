@@ -56,7 +56,6 @@ import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import ProductImage from './ProductImage'
 import ProductVideo from './ProductVideo'
 
-
 export default {
   name: 'ProductGalleryZoomCarousel',
   props: {
