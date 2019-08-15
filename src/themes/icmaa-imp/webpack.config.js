@@ -1,6 +1,8 @@
 const merge = require('webpack-merge')
 const path = require('path')
 
+const SpritesmithPlugin = require('webpack-spritesmith')
+
 /**
  * You can extend default webpack build here.
  * @see https://docs.vuestorefront.io/guide/core-themes/webpack.html
@@ -53,6 +55,39 @@ module.exports = function (config, { isClient, isDev }) {
 
   let rules = (isDev) ? config.default.module.rules : config.module.rules
   rules.map(rewriteMapping)
+
+  /**
+   * Add css sprites for service logos
+   */
+
+  const sprites = {
+    plugins: [
+      new SpritesmithPlugin({
+        src: {
+          cwd: path.resolve(__dirname, 'assets/logos'),
+          glob: '{shipping,payment}/*.png'
+        },
+        target: {
+          image: path.resolve(__dirname, '../../../dist/logos/sprite-footer-logos.[hash].png'),
+          css: path.resolve(__dirname, 'css/base/_sprite-footer-logos.scss')
+        },
+        retina: '@2x',
+        apiOptions: {
+          cssImageRef: '/dist/logos/sprite-footer-logos.[hash].png'
+        },
+        spritesmithOptions: {
+          padding: 0,
+          algorithm: 'top-down'
+        }
+      })
+    ]
+  }
+
+  if (isDev) {
+    config.default = merge(config.default, sprites)
+  } else {
+    config = merge(config, sprites)
+  }
 
   return config
 }

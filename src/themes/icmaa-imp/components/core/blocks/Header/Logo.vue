@@ -3,7 +3,7 @@
     <img
       :width="width"
       :height="height"
-      src="/assets/logo.svg"
+      src="~/theme/assets/logo.svg"
       alt="Logo"
     >
   </router-link>

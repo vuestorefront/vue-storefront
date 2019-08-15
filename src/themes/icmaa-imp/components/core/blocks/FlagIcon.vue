@@ -1,9 +1,12 @@
 <template>
-  <img :src="image" :alt="iso">
+  <svg v-if="useSprite">
+    <use :xlink:href="`${sprite}#${isoFileCode}`" />
+  </svg>
+  <img :src="image" :alt="iso" v-else>
 </template>
 
 <script>
-import { Logger } from '@vue-storefront/core/lib/logger';
+import config from 'config'
 
 export default {
   props: {
@@ -20,11 +23,20 @@ export default {
     }
   },
   computed: {
+    useSprite () {
+      return config.useCountryFlagSprites || false
+    },
     attributes () {
       return this.$attrs
     },
+    sprite () {
+      return require(`theme/assets/flags/${this.format}.svg`)
+    },
+    isoFileCode () {
+      return this.iso.toLowerCase()
+    },
     image () {
-      return `/assets/flags/${this.format}/${this.iso.toLowerCase()}.svg`
+      return require(`theme/assets/flags/${this.format}/${this.isoFileCode}.svg`)
     }
   }
 }

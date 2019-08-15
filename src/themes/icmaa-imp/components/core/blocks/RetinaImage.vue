@@ -19,7 +19,7 @@ export default {
       return `${this.image} 1x, ${this.retinaImage} 2x`
     },
     retinaImage () {
-      return this.image.replace(/(\.\w{3,4})$/gm, '@2x$1')
+      return this.image.replace(/(\.\w{3,4})(\?\w*)?$/gm, '@2x$1$2')
     }
   }
 }

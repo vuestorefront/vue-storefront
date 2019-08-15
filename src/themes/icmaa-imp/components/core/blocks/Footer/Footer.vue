@@ -37,7 +37,7 @@
               <template v-for="(name, path) in carrierLogos">
                 <div :key="path" class="t-flex t-flex-initial t-w-1/3 t-justify-center t-px-2 t-pb-4">
                   <div class="t-flex t-flex-initial t-h-12 t-w-full t-py-2 t-px-1 t-items-center t-justify-center t-border t-border-base-lighter t-rounded-sm">
-                    <retina-image :image="`/assets/logos/${path}.png`" :alt="name" class="t-flex t-max-w-full" />
+                    <div :class="path" class="t-flex t-max-w-full" />
                   </div>
                 </div>
               </template>
@@ -89,7 +89,6 @@ export default {
   components: {
     MaterialIcon,
     FlagIcon,
-    RetinaImage,
     Newsletter,
     LanguageSwitcher,
     BackToTop
@@ -121,3 +120,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+
+@import "theme/css/base/_sprite-footer-logos.scss";
+
+.service-carrier .logos {
+  @include retina-sprites($retina-groups)
+}
+
+</style>
