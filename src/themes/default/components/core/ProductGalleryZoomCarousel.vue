@@ -52,8 +52,10 @@
 
 <script>
 import { Carousel, Slide } from 'vue-carousel'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import ProductImage from './ProductImage'
 import ProductVideo from './ProductVideo'
+
 
 export default {
   name: 'ProductGalleryZoomCarousel',
@@ -86,6 +88,7 @@ export default {
     ProductVideo
   },
   mounted () {
+    disableBodyScroll(this.$el)
     this.navigate(this.currentSlide)
     if (this.$refs.zoomCarousel) {
       let navigation = this.$refs.zoomCarousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')
@@ -97,6 +100,9 @@ export default {
         pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed)
       }
     }
+  },
+  destroyed () {
+    clearAllBodyScrollLocks()
   },
   methods: {
     navigate (key) {

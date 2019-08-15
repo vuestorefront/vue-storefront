@@ -138,6 +138,7 @@ import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import Product from 'theme/components/core/blocks/Microcart/Product'
 import EditMode from './EditMode'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {
   components: {
@@ -170,9 +171,13 @@ export default {
     }
   },
   mounted () {
+    disableBodyScroll(this.$el)
     this.$nextTick(() => {
       this.componentLoaded = true
     })
+  },
+  destroyed () {
+    clearAllBodyScrollLocks()
   },
   methods: {
     addDiscountCoupon () {

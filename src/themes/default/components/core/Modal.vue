@@ -34,12 +34,22 @@
 <script>
 import { mapMutations } from 'vuex'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {
   name: 'Modal',
   data () {
     return {
       isVisible: false
+    }
+  },
+  watch: {
+    isVisible (state) {
+      if (state) {
+        disableBodyScroll(this.$el);
+      } else {
+        clearAllBodyScrollLocks();
+      }
     }
   },
   methods: {
@@ -73,6 +83,9 @@ export default {
     this.$bus.$on('modal-toggle', this.onToggle)
     this.$bus.$on('modal-show', this.onShow)
     this.$bus.$on('modal-hide', this.onHide)
+  },
+  mounted () {
+
   },
   beforeDestroy () {
     this.$bus.$off('modal-toggle', this.onToggle)
