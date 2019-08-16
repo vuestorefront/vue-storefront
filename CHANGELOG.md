@@ -72,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved store/lib to /lib - @pxfm (#3253)
 - Corrected usage of "configurableChildrenStockPrefetchStatic" setting, refactored logic to tested helper - @philippsander (#859)
 - Improved some of the german translations in spelling and wording - @MariaKern (#3297) 
+- `config.dynamicConfigReload` option should use deep copy for `Object.assign()` - @cewald (#3372)
 
 ## [1.10.0] - 2019.08.10
 
