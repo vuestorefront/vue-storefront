@@ -38,12 +38,7 @@ export const ProductCustomOption = {
   methods: {
     filterChanged (filterOption) {
       if (filterOption.attribute_code === this.code) {
-        if (filterOption.id === this.id) {
-          this.active = !this.active
-        } else {
-          this.active = false
-        }
-        // filterOption.id === this.id ? this.active = true : this.active = false
+        filterOption.id === this.id ? this.active = !this.active : this.active = false
       }
     },
     filterReset (filterOption) {
