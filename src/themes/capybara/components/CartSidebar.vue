@@ -3,7 +3,7 @@
     :visible="isOpen"
     @close="onClose"
     class="sf-sidebar--right"
-    >
+  >
     Cart:
     {{ productsInCart }}
     {{ totals }}
@@ -16,16 +16,16 @@ import { SfSidebar } from '@storefrontui/vue'
 export default {
   name: 'CartSidebar',
   computed: {
-    productsInCart (){
+    productsInCart () {
       return this.$store.state.cart.cartItems
     },
-    appliedCoupon (){
+    appliedCoupon () {
       return this.$store.getters['cart/getCoupon']
     },
     totals () {
       return this.$store.getters['cart/getTotals']
     },
-    isOpen (){
+    isOpen () {
       return this.$store.getters['ui/isCartSidebarOpen']
     }
   },

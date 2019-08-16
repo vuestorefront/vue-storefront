@@ -226,8 +226,6 @@ export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteC
   }
 }
 
-
-
 export const VsfLink = {
   template: '<b></b>'
 }

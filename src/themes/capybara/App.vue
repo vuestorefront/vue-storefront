@@ -15,7 +15,7 @@ const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ 
 export default {
   metaInfo: Head,
   computed: {
-   layout () {
+    layout () {
       return `${(this.$route.meta.layout || 'default')}-layout`
     }
   },
@@ -24,4 +24,3 @@ export default {
   }
 }
 </script>
-

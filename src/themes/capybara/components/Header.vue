@@ -1,6 +1,8 @@
 <template>
   <ul>
-    <li @click="openMicrocart">Open CartSidebar</li>
+    <li @click="openMicrocart">
+      Open CartSidebar
+    </li>
   </ul>
 </template>
 

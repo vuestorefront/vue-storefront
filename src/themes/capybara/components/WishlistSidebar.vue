@@ -3,7 +3,7 @@
     :visible="isOpen"
     @close="onClose"
     class="sf-sidebar--right"
-    >
+  >
     Wishlist:
     {{ productsInWishlist }}
   </SfSidebar>

@@ -1,7 +1,7 @@
 export const uiStore = {
   namespaced: true,
   state: {
-    isCartSidebarOpen: false,
+    isCartSidebarOpen: false
   },
   mutations: {
     toggleCartSidebar (state, action) {
