@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view />
+    <component :is="layout">
+      <router-view />
+    </component>
   </div>
 </template>
 
@@ -8,12 +10,18 @@
 import Vue from 'vue'
 import Head from 'src/themes/capybara/head'
 
+const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ './layouts/Default')
+
 export default {
-  metaInfo: Head
+  metaInfo: Head,
+  computed: {
+   layout () {
+      return `${(this.$route.meta.layout || 'default')}-layout`
+    }
+  },
+  components: {
+    DefaultLayout
+  }
 }
 </script>
 
-<style lang="scss">
-@import "~@storefrontui/vue/src/css/all";
-
-</style>

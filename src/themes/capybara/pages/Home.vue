@@ -66,9 +66,7 @@
       image="/assets/homepage/newsletter.png"
     />
     <SfSection
-      :heading="{
-        title: 'Best Sellers'
-      }"
+      title="Best Sellers"
     >
       <SfCarousel :settings="{ gap: 0 }" class="product-carousel">
         <SfCarouselItem v-for="(product, i) in newProducts" :key="i">
@@ -80,10 +78,8 @@
       </SfCarousel>
     </SfSection>
     <SfSection
-      :heading="{
-        title: 'Share Your Look',
-        subtitle: '#YOURLOOK'
-      }"
+      title="Share Your Look"
+      subtitle="#YOURLOOK"
     >
       <div class="grid grid-images">
         <div class="grid__row">
@@ -198,7 +194,7 @@ export default {
 #home {
   max-width: 1240px;
   margin: auto;
-  padding: 0 $spacer-big;
+  padding: 0 $spacer;
   box-sizing: border-box;
   @media screen and (min-width: $desktop-min) {
     padding: 0;

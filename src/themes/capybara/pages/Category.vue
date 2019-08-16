@@ -27,7 +27,7 @@
             @click="isFilterSidebarOpen = true"
           >
             <SfIcon size="15px" style="margin-right: 10px;">
-              <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0)">
                   <path
                     d="m2.461 6.9416e-6h-0.1786c-1.113 0.0021094-2.0151 0.90421-2.0173 2.018v0.17859c-0.001406 0.53649 0.21024 1.0512 0.58851 1.4316 0.37829 0.38039 0.89226 0.59414 1.4287 0.59555h0.1786c0.53859 0.0014 1.0547-0.21165 1.4358-0.59204 0.38039-0.38039 0.59344-0.89719 0.59203-1.4351v-0.17859c-0.0014-0.53649-0.21585-1.0505-0.59554-1.4295-0.3804-0.37829-0.89581-0.58991-1.4323-0.58851zm1.452 2.1965c0.00141 0.38531-0.15047 0.75585-0.42329 1.028-0.27281 0.27281-0.64265 0.42539-1.0287 0.42329h-0.1786c-0.3839-7.1e-4 -0.75164-0.15399-1.0223-0.4261-0.27-0.27281-0.42117-0.64125-0.41906-1.0252v-0.1786c7.03e-4 -0.79594 0.64616-1.4407 1.4414-1.4421h0.1786c0.3839-0.00211 0.75305 0.14906 1.0252 0.41976 0.27281 0.27 0.4261 0.63844 0.4268 1.0223v0.1786z"
@@ -55,38 +55,10 @@
             </SfIcon>
             Filters
           </SfButton>
-          <div class="navbar__sort desktop-only">
-            <span class="navbar__label">Sort by:</span>
-            <SfSelect
-              class="sort-by"
-              v-model="sortBy"
-            >
-              <SfSelectOption
-                v-for="option in availableFilters.sort"
-                :key="option.label"
-                :value="option.id"
-              >
-                {{ option.label }}
-              </SfSelectOption>
-            </SfSelect>
-          </div>
           <div class="navbar__counter">
-            <span class="navbar__label desktop-only">Products found: </span>
-            <strong class="desktop-only">{{ categoryProductsTotal }}</strong>
-            <span class="navbar__label mobile-only">{{ categoryProductsTotal }} Items</span>
+            <span class="navbar__label">Products found: </span>
+            <strong>{{ categoryProductsTotal }}</strong>
           </div>
-          <SfButton
-            class="navbar__filters-button mobile-only"
-          >
-            Sort by
-            <SfIcon size="15px" style="margin-left: 10px;">
-              <svg viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M8.32809 15.2897L12 11.7644V12.2892L8.13547 16L4.27094 12.2892V11.7644L7.94285 15.2897V6.83165H8.32809L8.32809 15.2897ZM3.67191 0.710288L0 4.23556V3.71082L3.86453 0L7.72906 3.71082V4.23556L4.05715 0.710288V9.16835H3.67191L3.67191 0.710288Z"
-                />
-              </svg>
-            </SfIcon>
-          </SfButton>
         </div>
       </div>
 
@@ -175,7 +147,7 @@ export default {
 }
 .navbar {
   display: flex;
-  padding: $spacer;
+  padding: calc(#{$spacer}*1.25) $spacer;
   border-top: 1px solid $c-border;
   border-bottom: 1px solid $c-border;
   @media screen and (min-width: $desktop-min) {
@@ -231,19 +203,12 @@ export default {
   &__label {
     color: $c-gray-secondary;
   }
-  &__sort {
-    display: flex;
-    align-items: center;
-    margin-left: $spacer-extra-big;
-    margin-right: auto;
-  }
   &__counter {
-    margin: auto;
-    @media (min-width: $desktop-min) {
-      margin-right: 0;
-    }
+    margin-left: auto;
+    margin-right: 0;
   }
 }
+
 .main {
   display: flex;
 }
