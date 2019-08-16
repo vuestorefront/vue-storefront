@@ -4,7 +4,7 @@
 import { SfProductCard } from '@storefrontui/vue/js'
 import merge from 'lodash-es/merge'
 
-/** Maps default `regularPrice`, `specialPrice`, `image`, `title` properties to just a single `product` prop */
+/** Map default `regularPrice`, `specialPrice`, `image`, `title` properties to just a single `product` prop */
 /** Remove Wishlist handlers and do everything internally */
 const SfProductCardExtended = merge(SfProductCard, {
   props: {

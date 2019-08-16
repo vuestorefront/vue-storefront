@@ -1,5 +1,19 @@
 <template>
   <div id="category">
+    <Category v-slot="{ 
+      currentSearchQuery, 
+      categoryProducts, 
+      currentCategory, 
+      categoryProductsTotal, 
+      currentFilters,
+      availableFilters,
+      categories,
+      isCategoryEmpty,
+      breadcrumbs,
+      changeFilter,
+      sortBy,
+      loading
+    }">
     <div class="navbar">
       <div class="navbar__aside desktop-only">
         <h1 class="navbar__title">
@@ -103,10 +117,16 @@
       @close="isFilterSidebarOpen = false"
       @filter-changed="changeFilter"
     />
+      dupa
+    </Category>
   </div>
 </template>
 
 <script>
+import Category, { composeInitialPageState } from '@vue-storefront/core/modules/catalog-next/pages/Category'
+import FiltersSidebar from 'src/themes/capybara/components/category/FiltersSidebar'
+import SubCategoriesSidebar from 'src/themes/capybara/components/category/SubCategoriesSidebar'
+
 import {
   SfButton,
   SfList,
@@ -117,103 +137,16 @@ import {
   SfSelect,
   SfLoader
 } from '@storefrontui/vue';
-import FiltersSidebar from 'src/themes/capybara/components/category/FiltersSidebar'
-import SubCategoriesSidebar from 'src/themes/capybara/components/category/SubCategoriesSidebar'
-
-import { mapGetters } from 'vuex'
-import { isServer } from '@vue-storefront/core/helpers'
-import config from 'config'
-import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
-
-const composeInitialPageState = async (store, route) => {
-  try {
-    await store.dispatch('attribute/list', { // load filter attributes for this specific category
-      filterValues: config.products.defaultFilters, // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-      includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
-    })
-    const searchPath = route.path.substring(1) // TODO change in mage2vuestorefront to url_paths starts with / sign
-    const categoryFilters = { 'url_path': searchPath }
-    // const categoryFilters = { 'slug': route.params.slug } // If you have disabled config.products.useMagentoUrlKeys in your project then use this way
-    const currentCategory = await store.dispatch('category-next/loadCategory', {filters: categoryFilters})
-    await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
-    await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
-  } catch (e) {
-    console.error('Problem with setting Category initial data!', e)
-  }
-}
 
 export default {
   name: 'CategoryPage',
-  mixins: [onBottomScroll],
   data () {
     return {
-      loadingProducts: false,
-      currentPage: 1,
-      sortBy: 'updated_at',
       isFilterSidebarOpen: false,
-      loading: {
-        categories: true
-      }
     };
   },
-  computed: {
-    ...mapGetters({
-      currentSearchQuery: 'category-next/getCurrentSearchQuery',
-      categoryProducts: 'category-next/getCategoryProducts',
-      currentCategory: 'category-next/getCurrentCategory',
-      categoryProductsTotal: 'category-next/getCategoryProductsTotal',
-      currentFilters: 'category-next/getCurrentFilters',
-      availableFilters: 'category-next/getAvailableFilters',
-      categories: 'category-next/getCategories'
-    }),
-    isCategoryEmpty () {
-      return this.categoryProductsTotal === 0
-    },
-    breadcrumbs () {
-      return this.$store.getters['category-next/getBreadcrumbs'].filter(breadcrumb => breadcrumb.name !== this.currentCategory.name)
-    }
-  },
-  async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
+  async asyncData ({ store, route }) {
     await composeInitialPageState(store, route)
-  },
-  async beforeRouteEnter (to, from, next) {
-    if (isServer) next() // SSR no need to invoke SW caching here
-    else if (from.name) { // SSR but client side invocation, we need to cache products
-      next(async vm => {
-        await vm.$store.dispatch('category-next/cacheProducts', { route: to })
-        // Fetch only on CSR
-        await vm.$store.dispatch('category-next/loadCategories')
-      })
-    } else { // Pure CSR, with no initial category state
-      next(async vm => {
-        await composeInitialPageState(vm.$store, to)
-        await vm.$store.dispatch('category-next/cacheProducts', { route: to })
-        // Fetch only on CSR
-      })
-    }
-  },
-  created () {
-    this.$store.dispatch('category-next/loadCategories').then(() => {
-      this.loading.categories = false
-    })
-  },
-  methods: {
-    async changeFilter (filterVariant) {
-      this.$store.dispatch('category-next/switchSearchFilter', filterVariant).then(() => {
-        console.info('changed')
-      })
-    },
-    async onBottomScroll () {
-      if (this.loadingProducts) return
-      this.loadingProducts = true
-      try {
-        await this.$store.dispatch('category-next/loadMoreCategoryProducts')
-      } catch (e) {
-        console.error('Problem with fetching more products', e)
-      } finally {
-        this.loadingProducts = false
-      }
-    }
   },
   components: {
     SfButton,
@@ -225,10 +158,12 @@ export default {
     SfSelect,
     FiltersSidebar,
     SubCategoriesSidebar,
-    SfLoader
+    SfLoader,
+    Category
   }
 };
 </script>
+
 <style lang="scss" scoped>
 @import "~@storefrontui/vue/src/css/variables";
 @import "~@storefrontui/shared/styles/helpers/visibility";

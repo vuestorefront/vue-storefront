@@ -152,6 +152,7 @@ import {
   SfProductCard,
   SfBanner
 } from '@storefrontui/vue';
+
 import { isServer } from '@vue-storefront/core/helpers'
 
 export default {
