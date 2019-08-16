@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for tax calculation where the values from customer_tax_class_ids is used - @resubaka (#3245)
 - Added loading product attributes (`entities.productListWithChildren.includeFields`) on category page - @andrzejewsky (#3220)
 - Added config to set Cache-Control header for static assets based on mime type - @phoenix-bjoern (#3268)
+- Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351)
+- Added test to multistore.ts so it is nearly fully unit tested - @resubaka (#3352)
+- Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351, #3354)
 
 ### Fixed
 
@@ -42,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed first call of prepareStoreView when SSR - @resubaka (#3244)
 - Add ./packages as volume to docker-compose.yml - @cewald (#3251)
 - Fixed mail sending and add error logger - @Michal-Dziedzinski (#3265)
+- Fixed page not found http status code - @phoenix-bjoern (#3243)
 - Fixed missing coupon code after user logged in - @andrzejewsky (#3153)
 - Fixed bug around appendStoreCode in formatCategoryLink. - @resubaka (#3306)
 - Fixed static category links in cms contents on homepage and MinimalFooter - @MariaKern (#3292)
@@ -66,34 +70,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored the vuex user module - @andrzejewsky (#3095)
 - Brazilian Portuguese (pt_BR) translation improved - @pxfm (#3288)
 - Moved store/lib to /lib - @pxfm (#3253)
-- Improved some of the german translations in spelling and wording - @MariaKern (#3297)
+- Corrected usage of "configurableChildrenStockPrefetchStatic" setting, refactored logic to tested helper - @philippsander (#859)
+- Improved some of the german translations in spelling and wording - @MariaKern (#3297) 
 
-## [1.10.0-rc.2] - UNRELEASED
-
-### Fixed
-
-- Wrong meta description attribute by page overwrite - @przspa (#3091)
-- The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
-- Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
-- User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
-- Fixed undefined id of color swatches issue for simple product - @vishal-7037 (#3239)
-- Date filter ignoring format param and locales - @grimasod, @patzick (#3102)
-- Problem with placing an order if shipping method is different than default one - @patzick (#3203)
-- Fixed product video embed on PDP - @juho-jaakkola (#3263)
-- Fixed memory leak with loading DayJS in SSR - @lukeromanowicz (#3310) 
-- Fixed invalid localized routes in SSR content of multistore configuration - @lukeromanowicz (#3262)
-- Fixed startSession which loaded from the wrong place the user when multistore was active - @resubaka (#3322)
-
-### Changed
-
-- Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
-- Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
-- Lack of possibility to mock src modules and theme components - @lukeromanowicz (#3185)
-- Outdated signature of Registration hooks for google-tag-manager - @vishal-7037 (#3208)
-- Added serveral missing german translations and fixed german language file structure - @unherz (#3202)
-- Refactored the informal way of adressing to formal in german translation files - @unherz (#3213)
-
-## [1.10.0-rc.1] - 2019.06.19
+## [1.10.0] - 2019.08.10
 
 ### Added
 
@@ -168,6 +148,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - No placeholders / no photos for Get Inspire section in offline - @przspa (#3072)
 - Back icon on product page causing inconsistent behavior - @patzick (#3056)
 - Remove static definition of `cashondelivery` in payment module - @danielmaier42 (#2983)
+- Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
+- Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
+- User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
+- Fixed undefined id of color swatches issue for simple product - @vishal-7037 (#3239)
+- Date filter ignoring format param and locales - @grimasod, @patzick (#3102)
+- Problem with placing an order if shipping method is different than default one - @patzick (#3203)
+- Fixed product video embed on PDP - @juho-jaakkola (#3263)
+- Fixed memory leak with loading DayJS in SSR - @lukeromanowicz (#3310) 
+- Fixed invalid localized routes in SSR content of multistore configuration - @lukeromanowicz (#3262)
+- Fixed startSession which loaded from the wrong place the user when multistore was active - @resubaka (#3322)
+- Login after registration - @patzick (#3343)
+- Clear compare list after logout - @patzick (#3348)
 
 ### Changed / Improved
 
@@ -215,7 +207,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Load custom fonts without webfont.js - @jahvi (#2944)
 - Added some structured data to product page - @cewald (#2910)
 - Improved the Size Guide feature so it opens in a modal popup instead of a new page - @RGijsberts - (#2913)
-- Refactored Travis config @Tjitse-E (#3035)
+- Refactored Travis config - @Tjitse-E (#3035)
+- Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
+- Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
+- Lack of possibility to mock src modules and  theme components - @lukeromanowicz (#3185)
+- Outdated signature of Registration hooks for google-tag-manager - @vishal-7037 (#3208)
+- Added serveral missing german translations and fixed german language file structure - @unherz (#3202)
+- Refactored the informal way of adressing to formal in german translation files - @unherz (#3213)
 
 ## [1.9.2] - 2019.06.10
 
