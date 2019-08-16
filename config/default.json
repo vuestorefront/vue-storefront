@@ -280,6 +280,7 @@
   "products": {
     "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
+    "lazyLoadingCategoryProducts": true,
     "setFirstVarianAsDefaultInURL": false,
     "configurableChildrenStockPrefetchStatic": false,
     "configurableChildrenStockPrefetchDynamic": false,
