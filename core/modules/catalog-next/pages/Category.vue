@@ -1,10 +1,10 @@
 <template>
   <div id="category-page">
-    <slot v-bind="{ 
-      currentSearchQuery, 
-      categoryProducts, 
-      currentCategory, 
-      categoryProductsTotal, 
+    <slot v-bind="{
+      currentSearchQuery,
+      categoryProducts,
+      currentCategory,
+      categoryProductsTotal,
       currentFilters,
       availableFilters,
       categories,
@@ -13,7 +13,8 @@
       changeFilter,
       loading,
       sortBy
-    }"/>
+    }"
+    />
   </div>
 </template>
 
