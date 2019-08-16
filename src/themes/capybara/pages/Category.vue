@@ -118,7 +118,6 @@
         @close="isFilterSidebarOpen = false"
         @filter-changed="changeFilter"
       />
-      dupa
     </Category>
   </div>
 </template>
