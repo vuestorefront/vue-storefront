@@ -19,7 +19,6 @@ import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 // TODO simplify by removing global mixins, plugins and filters - it can be done in normal 'vue' way
 import { registerTheme } from '@vue-storefront/core/lib/themes'
 import { themeEntry } from 'theme/index'
-import { registerModules } from '@vue-storefront/core/lib/module'
 import { prepareStoreView, currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 import * as coreMixins from '@vue-storefront/core/mixins'
@@ -29,7 +28,9 @@ import * as corePlugins from '@vue-storefront/core/compatibility/plugins'
 import { once } from '@vue-storefront/core/helpers'
 import store from '@vue-storefront/core/store'
 
-import { enabledModules } from './modules-entry'
+// Legacy
+import { registerModules as enabledModules } from 'src/modules'
+import { registerModules } from '@vue-storefront/core/lib/module'
 
 import globalConfig from 'config'
 

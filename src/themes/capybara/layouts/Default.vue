@@ -24,6 +24,7 @@
       </SfBottomNavigationItem>
     </SfBottomNavigation>
     <CartSidebar />
+    <WishlistSidebar />
   </div>
 </template>
 
@@ -31,11 +32,13 @@
 import { SfBottomNavigation, SfIcon, SfCircleIcon } from '@storefrontui/vue'
 import AppHeader from 'src/themes/capybara/components/Header'
 import CartSidebar from 'src/themes/capybara/components/CartSidebar'
+import WishlistSidebar from 'src/themes/capybara/components/WishlistSidebar'
 
 export default {
   components: {
     AppHeader,
     CartSidebar,
+    WishlistSidebar,
     SfBottomNavigation,
     SfIcon,
     SfCircleIcon

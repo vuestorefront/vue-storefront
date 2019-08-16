@@ -1,16 +1,22 @@
 <template>
-  <ul>
-    <li @click="openMicrocart">
+  <div>
+    <button @click="openCartSidebar">
       Open CartSidebar
-    </li>
-  </ul>
+    </button>
+    <button @click="openWishlistSidebar">
+      Open WishlistSidebar
+    </button>
+  </div>
 </template>
 
 <script>
 export default {
   methods: {
-    openMicrocart () {
+    openCartSidebar () {
       this.$store.dispatch('ui/toggleCartSidebar')
+    },
+    openWishlistSidebar () {
+      this.$store.dispatch('ui/toggleWishlistSidebar')
     }
   }
 }

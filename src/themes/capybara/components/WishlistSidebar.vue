@@ -16,7 +16,7 @@ export default {
   name: 'WishlistSidebar',
   computed: {
     isOpen () {
-      return this.$store.state.ui.wishlist
+      return this.$store.state.ui.isWishlistSidebarOpen
     },
     productsInWishlist () {
       return this.$store.state.wishlist.items
@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     onClose () {
-      this.$store.dispatch('ui/toggleWishlist')
+      this.$store.dispatch('ui/toggleWishlistSidebar')
     }
   },
   components: {
