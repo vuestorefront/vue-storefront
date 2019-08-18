@@ -189,7 +189,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@storefrontui/vue/src/css/variables";
-@import "~@storefrontui/shared/styles/helpers/visibility";
 
 #home {
   max-width: 1240px;

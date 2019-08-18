@@ -53,10 +53,10 @@
                 </g>
               </svg>
             </SfIcon>
-            Filters
+            {{ $t('Filters') }}
           </SfButton>
           <div class="navbar__counter">
-            <span class="navbar__label">Products found: </span>
+            <span class="navbar__label">{{ $t('Products') }}: </span>
             <strong>{{ categoryProductsTotal }}</strong>
           </div>
         </div>
@@ -138,7 +138,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@storefrontui/vue/src/css/variables";
-@import "~@storefrontui/shared/styles/helpers/visibility";
 
 #category {
   box-sizing: border-box;

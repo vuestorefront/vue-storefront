@@ -48,5 +48,5 @@ export default {
 
 <style lang="scss">
 @import "~@storefrontui/vue/src/css/all";
-@import "~@storefrontui/shared/styles/helpers/visibility";
+@import "~@storefrontui/vue/src/css/helpers";
 </style>
