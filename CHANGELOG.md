@@ -26,7 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351)
 - Added test to multistore.ts so it is nearly fully unit tested - @resubaka (#3352)
 - Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351, #3354)
-- Added test to helpers/index.ts so it is partly tested - @resubaka (#3352)
+- Added test to helpers/index.ts so it is partly tested - @resubaka (#3376)
 
 ### Fixed
 
