@@ -18,7 +18,7 @@
       <div class="navbar">
         <div class="navbar__aside desktop-only">
           <h1 class="navbar__title">
-            {{ currentCategory.name }}
+            {{ currentCategory.name.length > 15 ? currentCategory.name.substr(0, 15) + '...' : currentCategory.name }}
           </h1>
         </div>
         <div class="navbar__main">

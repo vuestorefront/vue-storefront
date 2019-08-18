@@ -29,7 +29,7 @@
       </div>
     </template>
     <div class="cart-sidebar__empty" v-else>
-      <img src="/assets/sad-bag.svg" alt="empty cart"/>
+      <img src="/assets/sad-bag.svg" alt="empty cart">
       <span class="empty-cart-heading">Your cart is empty</span>
       <p>Looks like you haven’t added any items to the bag yet. Start shopping to fill it in.</p>
     </div>

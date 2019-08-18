@@ -31,17 +31,15 @@
 <script>
 import { SfBottomNavigation, SfIcon, SfCircleIcon } from '@storefrontui/vue'
 import AppHeader from 'src/themes/capybara/components/Header'
-import CartSidebar from 'src/themes/capybara/components/CartSidebar'
-import WishlistSidebar from 'src/themes/capybara/components/WishlistSidebar'
 
 export default {
   components: {
+    CartSidebar: () => import('src/themes/capybara/components/CartSidebar.vue'),
+    WishlistSidebar: () => import('src/themes/capybara/components/WishlistSidebar.vue'),
     AppHeader,
-    CartSidebar,
-    WishlistSidebar,
     SfBottomNavigation,
     SfIcon,
-    SfCircleIcon
+    SfCircleIcon,
   }
 }
 </script>

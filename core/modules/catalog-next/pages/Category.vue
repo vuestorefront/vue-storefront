@@ -88,6 +88,14 @@ export default {
       }
     }
   },
+  watch: {
+    '$route' (to, from) {
+      this.loading.categories = true
+    },
+    'currentCategory' (to, from) {
+      this.loading.categories = false
+    }
+  },
   async beforeRouteEnter (to, from, next) {
     if (isServer) next() // SSR no need to invoke SW caching here
     else if (from.name) { // SSR but client side invocation, we need to cache products
