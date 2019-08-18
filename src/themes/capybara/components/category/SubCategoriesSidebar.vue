@@ -2,7 +2,7 @@
   <SfAccordion :first-open="true">
     <!-- If there are no children show sibilings -->
     <SfAccordionItem
-      v-for="(cat, i) in (hasChildren ? 
+      v-for="(cat, i) in (hasChildren ?
         filterCategories(currentCategory.level+1, currentCategory.id) : filterCategories(currentCategory.level, currentCategory.parent_id))"
       :key="i"
       :header="cat.name"
@@ -44,13 +44,13 @@ export default {
       default: () => {}
     }
   },
-  computed : {
+  computed: {
     hasChildren () {
-      return this.categories.filter(category => this.currentCategory.level+1 === category.level && category.parent_id === this.currentCategory.id).length !== 0
+      return this.categories.filter(category => this.currentCategory.level + 1 === category.level && category.parent_id === this.currentCategory.id).length !== 0
     },
     parentCategory () {
       return this.categories.filter(category => category.id === this.currentCategory.parent_id)[0]
-    },
+    }
   },
   methods: {
     formatCategoryLink (category) {
@@ -61,7 +61,7 @@ export default {
     },
     filterCategoryChildren (parentId) {
       return this.categories.filter(category => category.parent_id === parentId)
-    },
+    }
   },
   components: {
     SfAccordion,

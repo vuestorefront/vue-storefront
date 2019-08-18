@@ -39,7 +39,7 @@ export default {
     AppHeader,
     SfBottomNavigation,
     SfIcon,
-    SfCircleIcon,
+    SfCircleIcon
   }
 }
 </script>
