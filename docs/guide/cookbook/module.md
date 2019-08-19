@@ -342,8 +342,8 @@ Open _Chrome DevTools_ and go to _Vue_ tab, and click _Vuex_ tab or click `ctrl`
 ![product_liked_borderline](../images/product_like_state.png)
 
 :::tip TIP
-You may use _Firefox Vuejs extension_ if you use _Firefox_. 
-Install [Firefox Vuejs extension](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
+You may use _vue-devtools_ for _Firefox_ if you use _Firefox_. 
+Install [Firefox vue-devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
 
 :::
 
@@ -477,7 +477,7 @@ app_1  | whole request [/liked]: 1323ms
 You can read [more in depth](#_3-hooking-into-hooks)
 
 ### 2-5. Recipe E (Manage module-level `config`)
-Sometimes you may want to give a change to your module, not a change of structure but a small change of configuration. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`. 
+Sometimes you may need to pass values to populate fields in your module configuration dynamically. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`. 
 
 1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
 ```bash
@@ -606,6 +606,7 @@ _Configuration_ tends to have default values which entails default behaviors of 
 <br />
 
 ## 5. Packaging a module
+It's hands down no-brainer to bootstrap a module _manually_ because the skeleton required for minimum signature is dead simple and straightforward. Compared to the _`CLI`_ method, however, the _manual_ method is usually prefered for _local_ development, in other words, a project-specific module is structured with [the manual method](#_2-1-recipe-a-manual-bootstrapping) for better legibility. In contrast, _`CLI`_ method can help you build your module easily as a `npm` package  by providing you with the boilerplate. 
 
 ### 1. Preparation
 ### 2. Recipe
