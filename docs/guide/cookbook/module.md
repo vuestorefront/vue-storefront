@@ -479,34 +479,39 @@ You can read [more in depth](#_3-hooking-into-hooks)
 ### 2-5. Recipe E (Manage module-level `config`)
 Sometimes you may need to pass values to populate fields in your module configuration dynamically. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`. 
 
+Basically you would have saved your module _configuration_ inside `local.json`, however, you might want to override some of it while registering a module. 
+
+Suppose you need to use a 3rd party service integrated to your storefront. Most of the time you need to provide an API credentials encapsulated in a request to the 3rd party so that they will know _you are you_ and process a service and return a result that belongs to you. This recipe tells you how to do it with overriding 3rd party account during module registration. 
+
+
 1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
 ```bash
 cd src/modules/example-module
 vi index.ts # of course you can open it with other editors!
 ```
 
-2. Fix the hook part as follows : 
-```ts{11-17}
+2. Prepare the module to accept dynamic `moduleConfig` option where you want to allow to override values as follows : 
+```ts{8-12,17}
 // ...abridged
 
 export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
   store.registerModule('example-module', exampleModuleStore);
+  // ... abridged ...
 
-  extendStore('product', newProductModule);
+  // Prepare apiKey for a request to a 3rd party to integrate with it, example as follows : 
+  if (moduleConfig.apiKey) {
+    const apiKey = moduleConfig.apiKey
+  } else {
+    const apiKey = appConfig.degiService.apiKey // This means you have the apiKey value for degiService in your local.json
+  }
 
-  router.addRoutes(exampleRoutes)
-  router.beforeEach((to, from, next) => { next() })
+  // Continue to send a request to the 3rd party as the context demands 
+  // ... abridged for the sake of brevity ...
 
-  coreHooks.afterAppInit(() => {
-    if (moduleConfig.afterAppInit) {
-      moduleConfig.afterAppInit();
-    } else {
-      console.log('App has just been initialized');
-    }
-  });
+  console.log(apiKey); // This line helps you confirm apiKey value is overridden as intended
 }
 ```
-This change indicates `moduleConfig` object has `afterAppInit` option for providing a choice for `module` user when registering it. 
+This indicates `moduleConfig` object has `apiKey` option for providing a choice for `module` user when registering it. 
 
 3. Go to parent directory, open `index.ts` which is `./src/modules/index.ts` and fix the code as follows :  
 ```ts{6-10}
@@ -516,9 +521,7 @@ This change indicates `moduleConfig` object has `afterAppInit` option for provid
   registerModule(InstantCheckoutModule) 
   
   registerModule(ExampleModule, {
-    afterAppInit: () => {
-      console.log('This is one way to use moduleConfig');
-    }
+    apiKey: "YOUR_VALUABLE_API_KEY_ON_THE_FLY"
   }) // Here you pass config object as you want it
 }
 
@@ -537,7 +540,7 @@ yarn dev
 Once again the app is up and running, now look for the part we injected : 
 ```bash{2}
 app_1  | [module] VS Modules registration finished. { succesfulyRegistered: '0 / 0', registrationOrder: [] }
-app_1  | This is one way to use moduleConfig # moduleConfig injected successfully !
+app_1  | YOUR_VALUABLE_API_KEY_ON_THE_FLY # moduleConfig injected successfully !
 app_1  | Calling asyncData in Home (theme) null
 ```
 You can read [more in depth](#_4-on-configuration)
