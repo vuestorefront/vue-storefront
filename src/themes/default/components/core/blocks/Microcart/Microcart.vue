@@ -127,6 +127,7 @@
 import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
@@ -174,9 +175,13 @@ export default {
     registerModule(InstantCheckoutModule)
   },
   mounted () {
+    disableBodyScroll(this.$el)
     this.$nextTick(() => {
       this.componentLoaded = true
     })
+  },
+  destroyed () {
+    clearAllBodyScrollLocks()
   },
   computed: {
     ...mapGetters({
