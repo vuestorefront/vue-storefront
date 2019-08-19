@@ -2,7 +2,7 @@
 
 Set custom store and logic for meta- and seo information.
 
-In `theme/resource/meta/` you need to add files like `head-uk.ts` to add a store-view specific meta file where you can extend the default meta infos of `theme/resource/meta/head.ts`. This data will be loaded on serverPrefetch into the root state and loaded in your layout.
+In `theme/resource/meta/head.ts` you need to add the data that you wan't to be visible in html meta-tags. This data will be loaded on serverPrefetch into the root state and loaded in your layout.
 
 VSF uses `vue-meta` as meta-tag handler, [read the docs](https://vue-meta.nuxtjs.org/) to learn more about it.
 
@@ -26,6 +26,10 @@ VSF uses `vue-meta` as meta-tag handler, [read the docs](https://vue-meta.nuxtjs
    ```
 
 ## `head-*.ts` files
+
+** THIS FEATURE IS NOT READY AND NEEDED YET ** – due to the support of multi-language meta-tag configs using the default config object. We are now able to split up the store-view configs by file, so it is simply possible to add this informations there instead of using a complex dynamic `import()` routine.
+
+In `theme/resource/meta/` you need to add files like `head-uk.ts` to add a store-view specific meta file where you can extend the default meta infos of `theme/resource/meta/head.ts`. This data will be loaded on serverPrefetch into the root state and loaded in your layout.
 
 Each file in `theme/resource/meta/` should return a JSON object following the `MetaInfo` interface of `vue-meta`.
 To extend a parent or default value you just need to overwrite it by it's key.

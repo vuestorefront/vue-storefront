@@ -1,21 +1,27 @@
-import { storeCode, storeLang } from 'icmaa-meta/helper'
+import { storeCode, storeLang, store } from 'icmaa-meta/helper'
+import hreflang from 'icmaa-meta/helper/head/hreflang'
+
+const { meta, facebook } = store()
 
 const defaults: any = {
-  title: 'Dein offizieller Merchandise, Streetwear und Fanartikel Shop',
-  titleTemplate: `%s - Impericon.com ${storeCode().toUpperCase()}`,
+  title: meta.title,
+  titleTemplate: meta.titleTemplate.replace('{storeCode}', storeCode() !== 'default' ? storeCode().toUpperCase() : ''),
   htmlAttrs: {
-    lang: storeLang
+    lang: storeLang()
   },
   meta: [
     { charset: 'utf-8' },
-    { vmid: 'description', name: 'description', content: 'Dein offizieller Merchandise, Streetwear und Fanartikel Shop  - Impericon.com DE - Offizielles Merchandise, Streetwear, Fanartikel, Tickets und Schuhe im Impericon Shop - Innerhalb von 24 Stunden versandfertig - 30 Tage Rückgaberecht' },
+    { vmid: 'description', name: 'description', content: meta.description.default },
     { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' },
     { name: 'robots', content: 'index, follow' },
     { name: 'mobile-web-app-capable', content: 'yes' },
     { name: 'theme-color', content: '#ffffff' },
-    { name: 'apple-mobile-web-app-status-bar-style', content: '#ffffff' }
+    { name: 'apple-mobile-web-app-status-bar-style', content: '#ffffff' },
+    { property: 'fb:page_id', content: facebook.appId },
+    { property: 'fb:app_id', content: facebook.pageId }
   ],
   link: [
+    ...hreflang.getItems(),
     { rel: 'icon', type: 'image/png', href: '/assets/favicon-32x32.png', sizes: '32x32' },
     { rel: 'icon', type: 'image/png', href: '/assets/favicon-16x16.png', sizes: '16x16' },
     { rel: 'apple-touch-icon', href: '/assets/apple-touch-icon.png' },

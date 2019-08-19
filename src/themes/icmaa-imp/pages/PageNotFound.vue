@@ -31,18 +31,6 @@
             {{ $t('to find product you were looking for.') }}
           </p>
         </div>
-        <section class="container">
-          <header class="col-md-12 pt40">
-            <h3 class="align-center">
-              {{ $t('See our bestsellers') }}
-            </h3>
-          </header>
-          <div class="row center-xs">
-            <div v-for="product in ourBestsellersCollection" :key="product.id" class="col-md-3">
-              <product-tile :product="product" />
-            </div>
-          </div>
-        </section>
       </div>
     </section>
   </div>
@@ -50,29 +38,22 @@
 
 <script>
 import PageNotFound from '@vue-storefront/core/pages/PageNotFound'
-import ProductTile from '../components/core/ProductTile.vue'
+import i18n from '@vue-storefront/i18n'
+import Composite from '@vue-storefront/core/mixins/composite'
 
 export default {
   name: 'PageNotFound',
-  computed: {
-    ourBestsellersCollection () {
-      return this.$store.state.homepage.bestsellers
-    }
-  },
-  components: {
-    ProductTile
-  },
+  mixins: [Composite],
   methods: {
     toggleSearchpanel () {
       this.$store.commit('ui/setSearchpanel', true)
     }
   },
-  mixins: [PageNotFound]
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || i18n.t('404 Page Not Found'),
+      meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }] : []
+    }
+  }
 }
 </script>
-
-<style scoped>
-  a {
-    text-decoration: underline;
-  }
-</style>

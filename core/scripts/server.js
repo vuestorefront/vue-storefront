@@ -212,7 +212,7 @@ app.get('*', (req, res, next) => {
     config = require('config') // reload config
     if (typeof serverExtensions.configProvider === 'function') {
       serverExtensions.configProvider(req).then(loadedConfig => {
-        config = Object.assign(config, loadedConfig) // merge loaded conf with build time conf
+        config = config.util.extendDeep(config, loadedConfig)
         dynamicCacheHandler()
       }).catch(error => {
         if (config.server.dynamicConfigContinueOnError) {

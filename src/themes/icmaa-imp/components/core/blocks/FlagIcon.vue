@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     useSprite () {
-      return config.useCountryFlagSprites || false
+      return config.icmaa.useCountryFlagSprites || false
     },
     attributes () {
       return this.$attrs

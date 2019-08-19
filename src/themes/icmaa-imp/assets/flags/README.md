@@ -17,7 +17,7 @@ It's possible to use a SVG sprite map to save some requests on page load.
 
 Because it seemed pretty complicated to implement [`svg-sprite-loader`](https://github.com/kisenka/svg-sprite-loader) into our webpack config, I decided to just use [`svg-sprite`](https://github.com/jkphl/svg-sprite) with a custom script to generate our language sprites.
 
-To enable sprites you need to set the `config.useCountryFlagSprites` value in your configs to `true`. By default it is using the single file SVG language icons.
+To enable sprites you need to set the `config.icmaa.useCountryFlagSprites` value in your configs to `true`. By default it is using the single file SVG language icons.
 
 ### Build sprites
 
