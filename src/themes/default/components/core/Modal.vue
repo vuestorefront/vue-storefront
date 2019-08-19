@@ -84,9 +84,6 @@ export default {
     this.$bus.$on('modal-show', this.onShow)
     this.$bus.$on('modal-hide', this.onHide)
   },
-  mounted () {
-
-  },
   beforeDestroy () {
     this.$bus.$off('modal-toggle', this.onToggle)
     this.$bus.$off('modal-show', this.onShow)
