@@ -513,6 +513,12 @@ Product attributes representing the images. We'll see it in the Product page gal
 
 The dimensions of the images in the gallery.
 
+```json
+  "lazyLoadingCategoryProducts": true
+```
+It this option is enabled, the category products will not be applied in the `window.__INITIAL_STATE__`.
+The client side will be responsible for loading them and store in vuex state.
+
 ## Orders
 
 ```json

@@ -147,7 +147,7 @@ export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocat
         return storeCode
       }
     }
-  } 
+  }
   return ''
 }
 
