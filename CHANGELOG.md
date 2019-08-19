@@ -74,6 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Corrected usage of "configurableChildrenStockPrefetchStatic" setting, refactored logic to tested helper - @philippsander (#859)
 - Improved some of the german translations in spelling and wording - @MariaKern (#3297)
 - Added lazy-hydrate for category products - @andrzejewsky (#3327)
+- Refactored vuex order module - @andrzejewsky (#3337)
 
 ## [1.10.0] - 2019.08.10
 
