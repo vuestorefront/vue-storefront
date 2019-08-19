@@ -5,15 +5,8 @@
     @close="onClose"
     class="cart-sidebar sf-sidebar--right"
   >
-    <template v-if="!productsInCart.length">
-      <div class="cart-sidebar__header">
-        <SfHeading title="My Cart" class="sf-heading--left sf-heading--no-underline" />
-        <div class="cart-sidebar__labeled-item">
-          <span>Products in cart</span>
-          <span>{{ productsInCart.length }}</span>
-        </div>
-      </div>
-
+    <template v-if="productsInCart.length">
+      <SfHeading title="My Cart" class="sf-heading--left sf-heading--no-underline" />
       <div class="cart-sidebar__content">
         {{ productsInCart }}
       </div>
@@ -40,7 +33,7 @@
 </template>
 
 <script>
-import { SfSidebar, SfButton, SfHeading, SfProperty } from '@storefrontui/vue'
+import { SfSidebar, SfButton, SfHeading } from '@storefrontui/vue'
 
 export default {
   name: 'CartSidebar',
@@ -75,8 +68,7 @@ export default {
   components: {
     SfSidebar,
     SfButton,
-    SfHeading,
-    SfProperty
+    SfHeading
   }
 }
 </script>
@@ -92,7 +84,6 @@ export default {
       width: 100%;
     }
   }
-
   &__content {
     flex-grow: 1;
     padding: $spacer-big 0;
@@ -127,10 +118,6 @@ export default {
     display: flex;
     justify-content: space-between;
     margin: $spacer 0;
-    font-size: $font-size-big-mobile;
-    @media (min-width: $desktop-min) {
-      font-size: $font-size-big-desktop;
-    }
     span:nth-child(1) {
       color: $c-gray-primary;
     }
