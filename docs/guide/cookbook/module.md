@@ -105,10 +105,10 @@ export function registerNewModules () {
 }
 ```
 
-:::tip NOTE 
-Modules can be _loaded lazily_ naturally. The _lazy loading_ generally has a few advantages such as performance, code separation in more structured way and so on. 
- _Lazy loading_, however, also has a downside that you may not be able to access some hooks such as `onAppInit` because they are not lazy. (meaning only fired during app initialization)
-}
+:::tip TIP 
+Modules can be _lazy-loaded_ naturally. The _lazy loading_ generally has a few advantages such as performance, low overhead during initialization and may allow code separation in more structured way. One advice is, if your module is required across the entire app, it's better to stay with the regular place that is `./src/modules/index.ts` as demonstrated above. On the contrary, if your module is confined and bound to a certain route or bundle, then it might be wiser to register it inside them and load the bundle lazily. 
+
+ _Lazy loading_, however, also has a downside that you may not be able to access some hooks such as `afterAppInit` because they are not lazy. (meaning only fired during app initialization)
 :::
 
 6. Run the command at **Vue Storefront** root path to bootstrap **Vue Storefront** app
