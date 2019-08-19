@@ -20,6 +20,10 @@ When you want to tweak any open source for whatever reason needed to make it mor
 
 In this recipe, we are going to cover how we bootstrap a module in its bare minimum in order to inject our logic into the machine. We will explore two different methods, one for manual install, the other for [`CLI`](setup.html#_4-storefront-cli-at-your-service) module generation with the boilerplate. *Tarzans, follow!*
 
+:::tip TIP
+If you want to know the detailed difference of _Manual_ method and _CLI_ method, please go to [Recipe 5. Packaging a module](#_5-packaging-a-module)
+:::
+
 ### 1. Preparation
 - You need [**Vue Storefront**](https://github.com/DivanteLtd/vue-storefront) instance [installed along with other infrastructure ](setup.html#_1-install-with-docker) on your machine to build a new module and test it working. 
 - You need a development editor of your choice for your own convenience.
@@ -102,7 +106,9 @@ export function registerNewModules () {
 ```
 
 :::tip NOTE 
-You are free to choose to register your module here as other modules do, or register anywhere anytime else you want it, which is possible due to _lazy loading_ or aka dynamic loading. With _lazy loading_, however, you may not be able to access some hooks such as `onAppInit` because they are not lazy. (meaning only fired during app initialization)
+Modules can be _loaded lazily_ naturally. The _lazy loading_ generally has a few advantages such as performance, code separation in more structured way and so on. 
+ _Lazy loading_, however, also has a downside that you may not be able to access some hooks such as `onAppInit` because they are not lazy. (meaning only fired during app initialization)
+}
 :::
 
 6. Run the command at **Vue Storefront** root path to bootstrap **Vue Storefront** app
