@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 import * as types from '../../../store/mutation-types';
 import cartActions from '../../../store/actions';
 import config from 'config';
@@ -7,7 +5,6 @@ import rootStore from '@vue-storefront/core/store';
 import { sha3_224 } from 'js-sha3';
 import { TaskQueue } from '../../../../../lib/sync';
 import * as coreHelper from '@vue-storefront/core/helpers';
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { onlineHelper } from '@vue-storefront/core/helpers';
 
 jest.mock('@vue-storefront/core/store', () => ({
@@ -42,10 +39,11 @@ jest.mock('@vue-storefront/core/helpers', () => ({
     get isOnline () {
       return true
     }
-  }
+  },
+  processLocalizedURLAddress: (url) => url
 }));
 
-Vue.prototype.$bus = {
+const EventBus = {
   $emit: jest.fn()
 };
 
@@ -57,6 +55,11 @@ describe('Cart actions', () => {
     jest.clearAllMocks();
     (rootStore as any).state = {};
     Object.keys(config).forEach((key) => { delete config[key]; });
+
+    config.queues = {
+      maxNetworkTaskAttempts: 1,
+      maxCartBypassAttempts: 1
+    }
   });
 
   it('disconnect clears cart token', () => {
@@ -124,6 +127,7 @@ describe('Cart actions', () => {
         rootGetters: { checkout: { isUserInCheckout: () => false } },
         getters: { isCartSyncEnabled: true, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true },
         dispatch: jest.fn(),
+        commit: jest.fn(),
         state: {
           cartItems: [],
           cartServerToken: 'some-token',
@@ -142,16 +146,14 @@ describe('Cart actions', () => {
 
       const expectedState = {
         cartItems: [],
-        cartItemsHash: 'new-hash',
-        cartServerPullAt: 1000003000
+        cartItemsHash: 'new-hash'
       };
 
       isServerSpy.mockReturnValueOnce(false);
-      Date.now = jest.fn(() => expectedState.cartServerPullAt);
       (sha3_224 as any).mockReturnValueOnce(expectedState.cartItemsHash);
       (TaskQueue.execute as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
 
-      const wrapper = (actions: any) => actions.serverPull(contextMock, {});
+      const wrapper = (actions: any) => actions.sync(contextMock, {});
 
       await wrapper(cartActions);
 
@@ -159,38 +161,6 @@ describe('Cart actions', () => {
         'cart/syncShippingMethods',
         { country_id: 'us' }
       );
-    });
-
-    it('does not do anything if synchronization is off', async () => {
-      const contextMock = {
-        rootGetters: { checkout: { isUserInCheckout: () => false } },
-        getters: { isCartSyncEnabled: true, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true },
-        dispatch: jest.fn()
-      };
-
-      config.cart = { synchronize: false };
-
-      const wrapper = (actions: any) => actions.serverPull(contextMock, {});
-
-      await wrapper(cartActions);
-
-      expect(TaskQueue.execute).not.toBeCalled();
-    });
-
-    it('does not do anything in SSR environment', async () => {
-      const contextMock = {
-        rootGetters: { checkout: { isUserInCheckout: () => false } },
-        getters: { isCartSyncEnabled: true, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true },
-        dispatch: jest.fn()
-      };
-
-      config.cart = { synchronize: true };
-
-      const wrapper = (actions: any) => actions.serverPull(contextMock, {});
-
-      await wrapper(cartActions);
-
-      expect(TaskQueue.execute).not.toBeCalled();
     });
   });
 
@@ -216,6 +186,8 @@ describe('Cart actions', () => {
 
     it('does not do anything in SSR environment', () => {
       const contextMock = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
         getters: {
           isTotalsSyncRequired: false
         }
@@ -237,7 +209,9 @@ describe('Cart actions', () => {
         getters: { isCartSyncEnabled: true, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true },
         state: {
           cartconnectdAt: 1000000000
-        }
+        },
+        commit: jest.fn(),
+        dispatch: jest.fn()
       };
 
       config.cart = { synchronize: true };

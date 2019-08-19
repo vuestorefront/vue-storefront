@@ -1,4 +1,4 @@
-import { module } from '../../../store'
+import { cartStore } from '../../../store'
 
 jest.mock('../../../store/actions', () => ({}));
 jest.mock('../../../store/getters', () => ({}));

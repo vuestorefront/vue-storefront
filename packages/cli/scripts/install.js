@@ -26,11 +26,11 @@ module.exports = function (installationDir) {
       manual: 'Manual installation'
     }
   }
-  
+
   const tasks = {
     installDeps: {
       title: 'Installing dependencies',
-      task: () => execa.shell('cd '+ installationDir + ' && yarn')
+      task: () => execa.shell('cd ' + installationDir + ' && yarn')
     },
     cloneVersion: {
       title: 'Copying Vue Storefront files',
@@ -56,7 +56,7 @@ module.exports = function (installationDir) {
       })
     },
   }
-  
+
   if (fs.existsSync(installationDir)) {
     console.error('Vue Storefront is already installed in directory ./' + installationDir + '. Aborting.')
   } else {

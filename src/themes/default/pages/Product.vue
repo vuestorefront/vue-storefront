@@ -17,112 +17,100 @@
               :routes="breadcrumbs.routes"
               :active-route="breadcrumbs.name"
             />
-            <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
+            <h1
+              class="mb20 mt0 cl-mine-shaft product-name"
+              data-testid="productName"
+              itemprop="name"
+            >
               {{ product.name | htmlDecode }}
-              <web-share :title="product.name | htmlDecode" text="Check this product!" class="web-share" />
+              <web-share
+                :title="product.name | htmlDecode"
+                text="Check this product!"
+                class="web-share"
+              />
             </h1>
-            <div class="mb20 uppercase cl-secondary" itemprop="sku" :content="product.sku">
+            <div
+              class="mb20 uppercase cl-secondary"
+              itemprop="sku"
+              :content="product.sku"
+            >
               {{ $t('SKU') }}: {{ product.sku }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
+              <meta itemprop="price" :content="parseFloat(product.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="product.url_path">
-              <div
-                class="mb40 price serif"
-                v-if="product.type_id !== 'grouped'"
-              >
+              <div class="mb40 price serif" v-if="product.type_id !== 'grouped'">
                 <div
                   class="h3 cl-secondary"
-                  v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
+                  v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax"
                 >
-                  <span class="h2 cl-mine-shaft weight-700">
-                    {{ product.priceInclTax * product.qty | price }}
-                  </span>&nbsp;
-                  <span class="price-original h3">
-                    {{ product.originalPriceInclTax * product.qty | price }}
-                  </span>
+                  <span
+                    class="h2 cl-mine-shaft weight-700"
+                  >{{ product.price_incl_tax * product.qty | price }}</span>&nbsp;
+                  <span
+                    class="price-original h3"
+                  >{{ product.original_price_incl_tax * product.qty | price }}</span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
-                  v-if="!product.special_price && product.priceInclTax"
+                  v-if="!product.special_price && product.price_incl_tax"
                 >
-                  {{ product.qty > 0 ? product.priceInclTax * product.qty : product.priceInclTax | price }}
+                  {{ product.qty > 0 ? product.price_incl_tax * product.qty : product.price_incl_tax | price }}
                 </div>
               </div>
-              <div
-                class="cl-primary variants"
-                v-if="product.type_id =='configurable' && !loading"
-              >
-                <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
+              <div class="cl-primary variants" v-if="product.type_id =='configurable' && !loading">
+                <div
+                  class="error"
+                  v-if="product.errors && Object.keys(product.errors).length > 0"
+                >
                   {{ product.errors | formatProductMessages }}
                 </div>
-                <div
-                  class="h5"
-                  v-for="(option, index) in product.configurable_options"
-                  v-if="(!product.errors || Object.keys(product.errors).length === 0) && Object.keys(configuration).length > 0"
-                  :key="index"
-                >
+                <div class="h5" v-for="option in getProductOptions" :key="option.id">
                   <div class="variants-label" data-testid="variantsLabel">
                     {{ option.label }}
-                    <span class="weight-700">
-                      {{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}
-                    </span>
+                    <span
+                      class="weight-700"
+                    >{{ configuration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}</span>
                   </div>
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                     <div v-if="option.label == 'Color'">
                       <color-selector
-                        v-for="(c, i) in options[option.attribute_code]"
-                        v-if="isOptionAvailable(c)"
-                        :key="i"
-                        :id="c.id"
-                        :label="c.label"
-                        context="product"
-                        :code="option.attribute_code"
-                        :class="{ active: c.id == configuration[option.attribute_code].id }"
+                        v-for="filter in getAvailableFilters[option.attribute_code]"
+                        :key="filter.id"
+                        :variant="filter"
+                        :selected-filters="getSelectedFilters"
+                        @change="changeFilter"
                       />
                     </div>
                     <div class="sizes" v-else-if="option.label == 'Size'">
                       <size-selector
-                        v-for="(s, i) in options[option.attribute_code]"
-                        v-if="isOptionAvailable(s)"
-                        :key="i"
-                        :id="s.id"
-                        :label="s.label"
-                        context="product"
-                        :code="option.attribute_code"
                         class="mr10 mb10"
-                        :class="{ active: s.id == configuration[option.attribute_code].id }"
-                        v-focus-clean
+                        v-for="filter in getAvailableFilters[option.attribute_code]"
+                        :key="filter.id"
+                        :variant="filter"
+                        :selected-filters="getSelectedFilters"
+                        @change="changeFilter"
                       />
                     </div>
                     <div :class="option.attribute_code" v-else>
                       <generic-selector
-                        v-for="(s, i) in options[option.attribute_code]"
-                        v-if="isOptionAvailable(s)"
-                        :key="i"
-                        :id="s.id"
-                        :label="s.label"
-                        context="product"
-                        :code="option.attribute_code"
                         class="mr10 mb10"
-                        :class="{ active: s.id == configuration[option.attribute_code].id }"
-                        v-focus-clean
+                        v-for="filter in getAvailableFilters[option.attribute_code]"
+                        :key="filter.id"
+                        :variant="filter"
+                        :selected-filters="getSelectedFilters"
+                        @change="changeFilter"
                       />
                     </div>
                     <span
                       v-if="option.label == 'Size'"
                       @click="openSizeGuide"
-                      class="
-                        p0 ml30 inline-flex middle-xs no-underline h5
-                        action size-guide pointer cl-secondary
-                      "
+                      class="p0 ml30 inline-flex middle-xs no-underline h5 action size-guide pointer cl-secondary"
                     >
                       <i class="pr5 material-icons">accessibility</i>
-                      <span>
-                        {{ $t('Size guide') }}
-                      </span>
+                      <span>{{ $t('Size guide') }}</span>
                     </span>
                   </div>
                 </div>
@@ -140,11 +128,17 @@
               v-else-if="product.custom_options && product.custom_options.length > 0 && !loading"
               :product="product"
             />
-            <div class="row m0 mb35" v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'">
+            <div
+              class="row m0 mb35"
+              v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
+            >
               <base-input-number
-                :name="$t('Quantity')"
+                :name="getInputName"
                 v-model="product.qty"
-                :min="1"
+                :min="quantity ? 1 : 0"
+                :max="quantity"
+                :disabled="quantity ? false : true"
+                :value="quantity ? 1 : 0"
                 @blur="$v.$touch()"
                 :validations="[
                   {
@@ -153,36 +147,21 @@
                   }
                 ]"
               />
+              <Spinner v-if="isProductLoading" />
             </div>
             <div class="row m0">
               <add-to-cart
                 :product="product"
-                :disabled="$v.product.qty.$error && !$v.product.qty.minValue"
+                :disabled="($v.product.qty.$error && !$v.product.qty.minValue) || !quantity && isSimpleOrConfigurable && !isProductLoading"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <wishlist-button :product="product" />
+                <AddToWishlist :product="product" />
               </div>
-              <div class="col-xs-6 col-sm-3 col-md-6 product__add-to-compare">
-                <button
-                  @click="isOnCompare ? removeFromList('compare') : addToList('compare')"
-                  class="
-                    p0 inline-flex middle-xs bg-cl-transparent brdr-none
-                    action h5 pointer cl-secondary
-                  "
-                  type="button"
-                  data-testid="addToCompare"
-                >
-                  <i class="pr5 material-icons">compare</i>
-                  <template v-if="!isOnCompare">
-                    {{ $t('Add to compare') }}
-                  </template>
-                  <template v-else>
-                    {{ $t('Remove from compare') }}
-                  </template>
-                </button>
+              <div class="col-xs-6 col-sm-3 col-md-6">
+                <AddToCompare :product="product" />
               </div>
             </div>
           </div>
@@ -193,49 +172,47 @@
       <h2 class="h3 m0 mb10 serif lh20 details-title">
         {{ $t('Product details') }}
       </h2>
-      <div
-        class="h4 details-wrapper"
-        :class="{'details-wrapper--open': detailsOpen}"
-      >
+      <div class="h4 details-wrapper" :class="{'details-wrapper--open': detailsOpen}">
         <div class="row between-md m0">
           <div class="col-xs-12 col-sm-6">
-            <div
-              class="lh30 h5"
-              itemprop="description"
-              v-html="product.description"
-            />
+            <div class="lh30 h5" itemprop="description" v-html="product.description" />
           </div>
           <div class="col-xs-12 col-sm-5">
-            <ul class="attributes p0 pt5 m0">
-              <product-attribute
-                :key="attr.attribute_code"
-                v-for="attr in customAttributes"
-                :product="product"
-                :attribute="attr"
-                empty-placeholder="N/A"
-              />
-            </ul>
+            <lazy-hydrate on-interaction>
+              <ul class="attributes p0 pt5 m0">
+                <product-attribute
+                  :key="attr.attribute_code"
+                  v-for="attr in customAttributes"
+                  :product="product"
+                  :attribute="attr"
+                  empty-placeholder="N/A"
+                />
+              </ul>
+            </lazy-hydrate>
           </div>
-          <div
-            class="details-overlay"
-            @click="showDetails"
-          />
+          <div class="details-overlay" @click="showDetails" />
         </div>
       </div>
     </section>
-    <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
-    <related-products
-      type="upsell"
-      :heading="$t('We found other products you might like')"
-    />
-    <promoted-offers single-banner />
-    <related-products type="related" />
+    <lazy-hydrate when-idle>
+      <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
+    </lazy-hydrate>
+    <lazy-hydrate when-idle>
+      <related-products type="upsell" :heading="$t('We found other products you might like')" />
+    </lazy-hydrate>
+    <lazy-hydrate when-idle>
+      <promoted-offers single-banner />
+    </lazy-hydrate>
+    <lazy-hydrate when-idle>
+      <related-products type="related" />
+    </lazy-hydrate>
     <SizeGuide />
   </div>
 </template>
 
 <script>
 import { minValue } from 'vuelidate/lib/validators'
+import i18n from '@vue-storefront/i18n'
 import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
@@ -250,16 +227,24 @@ import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
 import ProductGallery from 'theme/components/core/ProductGallery'
+import Spinner from 'theme/components/core/Spinner'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
-import WebShare from '@vue-storefront/core/modules/social-share/components/WebShare'
+import WebShare from 'theme/components/theme/WebShare'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
+import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
+import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
+import LazyHydrate from 'vue-lazy-hydration'
+import { ReviewModule } from '@vue-storefront/core/modules/review'
+import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
+import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
 
 export default {
   components: {
-    'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
     AddToCart,
+    AddToCompare,
+    AddToWishlist,
     Breadcrumbs,
     ColorSelector,
     GenericSelector,
@@ -274,21 +259,92 @@ export default {
     SizeSelector,
     WebShare,
     BaseInputNumber,
-    SizeGuide
+    SizeGuide,
+    Spinner,
+    LazyHydrate
   },
   mixins: [Product, VueOfflineMixin],
+  directives: { focusClean },
+  beforeCreate () {
+    registerModule(ReviewModule)
+    registerModule(RecentlyViewedModule)
+  },
   data () {
     return {
-      detailsOpen: false
+      detailsOpen: false,
+      quantity: 0,
+      isProductLoading: true
     }
   },
-  directives: { focusClean },
   computed: {
     structuredData () {
       return {
-        availability: (this.product.stock.is_in_stock) ? 'InStock' : 'OutOfStock'
+        availability: this.product.stock.is_in_stock ? 'InStock' : 'OutOfStock'
       }
+    },
+    getProductOptions () {
+      if (
+        this.product.errors &&
+        Object.keys(this.product.errors).length &&
+        Object.keys(this.configuration).length
+      ) {
+        return []
+      }
+      return this.product.configurable_options
+    },
+    getAvailableFilters () {
+      let filtersMap = {}
+      // TODO move to helper
+      if (this.product && this.product.configurable_options) {
+        this.product.configurable_options.forEach(configurableOption => {
+          const type = configurableOption.attribute_code
+          const filterVariants = configurableOption.values.map(
+            ({ value_index, label }) => {
+              let currentVariant = this.options[type].find(
+                config => config.id === value_index
+              )
+              label =
+                label || (currentVariant ? currentVariant.label : value_index)
+              return { id: value_index, label, type }
+            }
+          )
+          const availableOptions = filterVariants.filter(option =>
+            this.isOptionAvailable(option)
+          )
+          filtersMap[type] = availableOptions
+        })
+      }
+      return filtersMap
+    },
+    getSelectedFilters () {
+      // TODO move to helper when refactoring product page
+      let selectedFilters = {}
+      if (this.configuration && this.product) {
+        Object.keys(this.configuration).map(filterType => {
+          const filter = this.configuration[filterType]
+          selectedFilters[filterType] = {
+            id: filter.id,
+            label: filter.label,
+            type: filterType
+          }
+        })
+      }
+      return selectedFilters
+    },
+    isSimpleOrConfigurable () {
+      if (
+        this.product.type_id === 'simple' ||
+        this.product.type_id === 'configurable'
+      ) { return true }
+      return false
+    },
+    getInputName () {
+      if (this.isSimpleOrConfigurable) { return i18n.t('Quantity available', { qty: this.quantity }) }
+      return i18n.t('Quantity')
     }
+  },
+  created () {
+    this.getQuantity()
   },
   methods: {
     showDetails (event) {
@@ -298,19 +354,42 @@ export default {
     notifyOutStock () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
-        message: this.$t('The product is out of stock and cannot be added to the cart!'),
+        message: this.$t(
+          'The product is out of stock and cannot be added to the cart!'
+        ),
         action1: { label: this.$t('OK') }
       })
     },
     notifyWrongAttributes () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
-        message: this.$t('No such configuration for the product. Please do choose another combination of attributes.'),
+        message: this.$t(
+          'No such configuration for the product. Please do choose another combination of attributes.'
+        ),
         action1: { label: this.$t('OK') }
       })
     },
+    changeFilter (variant) {
+      this.$bus.$emit(
+        'filter-changed-product',
+        Object.assign({ attribute_code: variant.type }, variant)
+      )
+      this.getQuantity()
+    },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
+    },
+    getQuantity () {
+      this.isProductLoading = true
+      this.$store
+        .dispatch('stock/check', {
+          product: this.product,
+          qty: this.product.qte
+        })
+        .then(res => {
+          this.isProductLoading = false
+          this.quantity = res.qty
+        })
     }
   },
   validations: {
@@ -388,7 +467,7 @@ $bg-secondary: color(secondary, $colors-background);
     padding-bottom: 30px;
   }
 
- .sizes {
+  .sizes {
     @media (max-width: 767px) {
       width: 100%;
     }

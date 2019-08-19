@@ -11,6 +11,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": false,
     "sourceMap": true,
+    "downlevelIteration": true,
     "baseUrl": ".",
     "types": [
       "reflect-metadata",
@@ -33,6 +34,7 @@
     "core/**/*.vue",
     "test/**/*.ts",
     "module/**/*.ts",
+    "packages/**/*.ts"
   ],
   "exclude": [
     "node_modules",

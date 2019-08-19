@@ -1,6 +1,7 @@
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
-import { Wishlist as WishlistModule } from '../'
+import { WishlistModule } from '../'
 import wishlistMountedMixin from '@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin'
+import { registerModule } from '@vue-storefront/core/lib/modules';
 
 export const AddToWishlist = {
   name: 'AddToWishlist',
@@ -12,7 +13,7 @@ export const AddToWishlist = {
     }
   },
   created () {
-    WishlistModule.register()
+    registerModule(WishlistModule)
   },
   methods: {
     addToWishlist (product: Product) {

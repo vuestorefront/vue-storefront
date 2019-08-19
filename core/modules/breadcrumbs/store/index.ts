@@ -1,5 +1,5 @@
 
-export const module = {
+export const breadcrumbsStore = {
   namespaced: true,
   state: {
     routes: [],
