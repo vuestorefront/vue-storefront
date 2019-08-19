@@ -44,7 +44,6 @@ export default {
 }
 </script>
 
-
 <style lang="scss">
 @import "~@storefrontui/vue/src/css/variables";
 
