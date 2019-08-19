@@ -72,9 +72,7 @@ export default {
   },
   methods: {
     async changeFilter (filterVariant) {
-      this.$store.dispatch('category-next/switchSearchFilter', filterVariant).then(() => {
-        console.info('changed')
-      })
+      this.$store.dispatch('category-next/switchSearchFilter', filterVariant)
     },
     async onBottomScroll () {
       if (this.loading.products) return
@@ -86,14 +84,6 @@ export default {
       } finally {
         this.loading.products = false
       }
-    }
-  },
-  watch: {
-    '$route' (to, from) {
-      this.loading.categories = true
-    },
-    'currentCategory' (to, from) {
-      this.loading.categories = false
     }
   },
   async beforeRouteEnter (to, from, next) {

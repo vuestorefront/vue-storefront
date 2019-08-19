@@ -1,10 +1,11 @@
 <template>
+  <!-- TODO Move to sfui once there is component for Collectedproduct -->
   <SfSidebar
     :visible="isOpen"
     @close="onClose"
     class="cart-sidebar sf-sidebar--right"
   >
-    <template v-if="productsInCart.length">
+    <template v-if="!productsInCart.length">
       <div class="cart-sidebar__header">
         <SfHeading title="My Cart" class="sf-heading--left sf-heading--no-underline" />
         <div class="cart-sidebar__labeled-item">
@@ -12,10 +13,11 @@
           <span>{{ productsInCart.length }}</span>
         </div>
       </div>
+
       <div class="cart-sidebar__content">
         {{ productsInCart }}
       </div>
-      <!-- todo change to sfproperty -->
+
       <div class="cart-sidebar__footer">
         <div class="cart-sidebar__totals">
           <div class="cart-sidebar__labeled-item" v-for="total in totals" :key="total.title">
@@ -28,7 +30,8 @@
         </SfButton>
       </div>
     </template>
-    <div class="cart-sidebar__empty" v-else>
+
+    <div class="cart-sidebar__empty-message" v-else>
       <img src="/assets/sad-bag.svg" alt="empty cart">
       <span class="empty-cart-heading">Your cart is empty</span>
       <p>Looks like you haven’t added any items to the bag yet. Start shopping to fill it in.</p>
@@ -89,16 +92,10 @@ export default {
       width: 100%;
     }
   }
+
   &__content {
     flex-grow: 1;
     padding: $spacer-big 0;
-    &--empty {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      text-align: center;
-    }
   }
   &__totals {
     background-color: $c-light-primary;
@@ -108,7 +105,7 @@ export default {
   &__footer {
     align-self: flex-end;
   }
-  &__empty {
+  &__empty-message {
     flex-grow: 1;
     display: flex;
     justify-content: center;
@@ -124,6 +121,7 @@ export default {
       }
     }
   }
+
   &__labeled-item {
     width: 100%;
     display: flex;
