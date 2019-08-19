@@ -1,7 +1,11 @@
-import { CategoryService } from './CategoryService';
-import { UserService } from './UserService';
+import { CategoryService } from './CategoryService'
+import { UserService } from './UserService'
+import { CartService } from './CartService'
+import { OrderService } from './OrderService'
 
 export {
   CategoryService,
-  UserService
+  UserService,
+  CartService,
+  OrderService
 }

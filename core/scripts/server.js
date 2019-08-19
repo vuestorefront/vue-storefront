@@ -212,7 +212,7 @@ app.get('*', (req, res, next) => {
     config = require('config') // reload config
     if (typeof serverExtensions.configProvider === 'function') {
       serverExtensions.configProvider(req).then(loadedConfig => {
-        config = Object.assign(config, loadedConfig) // merge loaded conf with build time conf
+        config = config.util.extendDeep(config, loadedConfig)
         dynamicCacheHandler()
       }).catch(error => {
         if (config.server.dynamicConfigContinueOnError) {
@@ -239,7 +239,11 @@ const host = process.env.HOST || config.server.host
 const start = () => {
   app.listen(port, host)
     .on('listening', () => {
-      console.log(`Vue Storefront Server started at http://${host}:${port}`)
+      console.log(`\n\n----------------------------------------------------------`)
+      console.log('|                                                        |')
+      console.log(`| Vue Storefront Server started at http://${host}:${port} |`)
+      console.log('|                                                        |')
+      console.log(`----------------------------------------------------------\n\n`)
     })
     .on('error', (e) => {
       if (e.code === 'EADDRINUSE') {
