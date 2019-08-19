@@ -2,9 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import { once } from '@vue-storefront/core/helpers'
-import actions from './actions'
-import getters from './getters'
-import mutations from './mutations'
 
 once('__VUE_EXTEND_VUEX__', () => {
   Vue.use(Vuex)
@@ -24,12 +21,7 @@ const state = {
   ui: {},
   newsletter: {},
   wishlist: {},
-  attribute: {
-    list_by_code: {},
-    list_by_id: {},
-    blacklist: [],
-    labels: {}
-  },
+  attribute: '',
   category: {
     current_path: '',
     current_product_query: {},
@@ -53,10 +45,7 @@ const state = {
 
 let rootStore = new Vuex.Store<RootState>({
   // TODO: refactor it to return just the constructor to avoid event-bus and i18n shenanigans; challenge: the singleton management OR add i18n and eventBus here to rootStore instance?  modules: {
-  state,
-  actions,
-  getters,
-  mutations
+  state
 })
 
 export default rootStore

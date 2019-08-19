@@ -4,6 +4,7 @@
       <ul class="media-zoom-carousel__thumbs m0 p0">
         <li class="media-zoom-carousel__thumb bg-cl-secondary" v-for="(images, index) in gallery" :key="images.src">
           <product-image
+            :class="{'thumb-video': images.video}"
             @click="navigate(index)"
             :image="images"
             :alt="productName | htmlDecode"
@@ -33,6 +34,7 @@
             >
               <product-image
                 v-show="hideImageAtIndex !== index"
+                :class="{'image--video': images.video}"
                 :image="images"
                 :alt="productName | htmlDecode"
               />
@@ -52,7 +54,6 @@
 
 <script>
 import { Carousel, Slide } from 'vue-carousel'
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import ProductImage from './ProductImage'
 import ProductVideo from './ProductVideo'
 
@@ -87,7 +88,6 @@ export default {
     ProductVideo
   },
   mounted () {
-    disableBodyScroll(this.$el)
     this.navigate(this.currentSlide)
     if (this.$refs.zoomCarousel) {
       let navigation = this.$refs.zoomCarousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')
@@ -99,9 +99,6 @@ export default {
         pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed)
       }
     }
-  },
-  destroyed () {
-    clearAllBodyScrollLocks()
   },
   methods: {
     navigate (key) {
@@ -177,9 +174,10 @@ export default {
       margin-bottom: 0;
     }
 
-    & > *{
-      opacity: .9;
-      will-change: opacity;
+    & > .image{
+      mix-blend-mode: multiply;
+      opacity: 0.9;
+      will-change: transform;
       transition: .3s opacity $motion-main;
 
       &:hover{
@@ -204,6 +202,13 @@ export default {
   &__slide{
     height: 100%;
     max-height: 100%;
+    & > .image {
+      mix-blend-mode: multiply;
+    padding-bottom: calc(710% / (600 / 100));
+    }
+    .image--video{
+      padding-bottom: calc(319% / (568 / 100));
+    }
   }
 }
 .thumb-video{

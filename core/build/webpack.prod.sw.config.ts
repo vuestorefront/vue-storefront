@@ -60,12 +60,10 @@ module.exports = merge(base, {
         {
           urlPattern: '/img/(.*)',
           handler: 'fastest'
-        },
-        {
-          urlPattern: /(http[s]?:\/\/)?(\/)?([^\/\s]+\/)?(api\/catalog\/)(.*)/g, // eslint-disable-line no-useless-escape
+        }, {
+          urlPattern: '/api/catalog/*',
           handler: 'networkFirst'
-        },
-        {
+        }, {
           urlPattern: '/api/*',
           handler: 'networkFirst'
         }, {

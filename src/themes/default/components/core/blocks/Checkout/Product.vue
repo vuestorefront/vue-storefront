@@ -1,8 +1,6 @@
 <template>
   <div class="row p25 between-xs">
-    <div class="blend">
-      <product-image :image="image" />
-    </div>
+    <product-image :image="image" class="blend" />
     <div class="col-xs">
       <div class="row">
         <div class="col-xs-12 col-md-9 pb15">
@@ -47,9 +45,9 @@
             <span v-if="!product.totals.discount_amount" class="h4">{{ product.totals.row_total_incl_tax | price }}</span>
           </div>
           <div v-else>
-            <span class="h4 cl-error" v-if="product.special_price">{{ product.price_incl_tax * product.qty | price }} </span>
-            <span class="price-original h5" v-if="product.special_price">{{ product.original_price_incl_tax * product.qty | price }}</span>
-            <span v-if="!product.special_price" class="h4">{{ product.price_incl_tax * product.qty | price }}</span>
+            <span class="h4 cl-error" v-if="product.special_price">{{ product.priceInclTax * product.qty | price }} </span>
+            <span class="price-original h5" v-if="product.special_price">{{ product.originalPriceInclTax * product.qty | price }}</span>
+            <span v-if="!product.special_price" class="h4">{{ product.priceInclTax * product.qty | price }}</span>
           </div>
         </div>
       </div>
@@ -86,6 +84,9 @@ export default {
   text-decoration: line-through;
 }
 .blend {
+  mix-blend-mode: multiply;
+  align-self: center;
   flex: 0 0 121px;
+  padding-bottom: 32.68%;
 }
 </style>

@@ -1,18 +1,14 @@
 import {mountMixin, mountMixinWithStore} from '@vue-storefront/unit-tests/utils';
+
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
-import { productThumbnailPath, getThumbnailPath } from '@vue-storefront/core/helpers';
+import { productThumbnailPath } from '@vue-storefront/core/helpers';
 import config from 'config'
 import { MicrocartProduct } from '../../../components/Product';
 import Mock = jest.Mock;
 
 jest.mock('@vue-storefront/core/helpers', () => ({
-  productThumbnailPath: jest.fn(),
-  getThumbnailPath: jest.fn()
+  productThumbnailPath: jest.fn()
 }));
-jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
-jest.mock('@vue-storefront/core/app', () => jest.fn())
-jest.mock('@vue-storefront/core/lib/multistore', () => jest.fn())
-jest.mock('@vue-storefront/core/lib/storage-manager', () => jest.fn())
 
 describe('MicrocartProduct', () => {
   beforeEach(() => {
@@ -35,15 +31,17 @@ describe('MicrocartProduct', () => {
     };
 
     (productThumbnailPath as Mock).mockReturnValueOnce('thumbnail-path');
-    (getThumbnailPath as Mock).mockReturnValueOnce('resized-thumbnail-path');
 
     Object.defineProperty(navigator, 'onLine', { value: true, configurable: true });
 
     const product = {} as any as Product;
     const wrapper = mountMixin(MicrocartProduct, { propsData: { product } });
+    const getThumbnail = jest.fn(() => 'resized-thumbnail-path');
+
+    wrapper.setMethods({ getThumbnail });
 
     expect((wrapper.vm as any).thumbnail).toEqual('resized-thumbnail-path');
-    expect(getThumbnailPath).toBeCalledWith('thumbnail-path', 150, 150);
+    expect(getThumbnail).toBeCalledWith('thumbnail-path', 150, 150);
   });
 
   it('thumbnail in offline mode returns thumbnail in greater size', () => {
@@ -61,15 +59,17 @@ describe('MicrocartProduct', () => {
     };
 
     (productThumbnailPath as Mock).mockReturnValueOnce('thumbnail-path');
-    (getThumbnailPath as Mock).mockReturnValueOnce('resized-thumbnail-path');
 
     Object.defineProperty(navigator, 'onLine', { value: false, configurable: true });
 
     const product = {} as any as Product;
     const wrapper = mountMixin(MicrocartProduct, { propsData: { product } });
+    const getThumbnail = jest.fn(() => 'resized-thumbnail-path');
+
+    wrapper.setMethods({ getThumbnail });
 
     expect((wrapper.vm as any).thumbnail).toEqual('resized-thumbnail-path');
-    expect(getThumbnailPath).toBeCalledWith('thumbnail-path', 300, 300);
+    expect(getThumbnail).toBeCalledWith('thumbnail-path', 300, 300);
   });
 
   it('removeFromCart dispatches removeItem to remove product from cart', () => {

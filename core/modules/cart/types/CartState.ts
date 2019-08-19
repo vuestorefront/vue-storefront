@@ -10,7 +10,5 @@ export default interface CartState {
   cartItemsHash: string,
   cartServerLastSyncDate: number,
   cartServerLastTotalsSyncDate: number,
-  cartItems: any[],
-  connectBypassCount: number,
-  isAddingToCart: boolean
+  cartItems: any[]
 }

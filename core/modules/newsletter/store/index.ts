@@ -5,7 +5,7 @@ import { cacheStorage } from '../'
 import config from 'config'
 import { processURLAddress } from '@vue-storefront/core/helpers'
 
-export const newsletterStore: Module<NewsletterState, any> = {
+export const module: Module<NewsletterState, any> = {
   namespaced: true,
   state: {
     isSubscribed: null,

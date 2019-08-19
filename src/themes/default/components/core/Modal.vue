@@ -1,5 +1,5 @@
 <template>
-  <transition :name="transitionName">
+  <transition name="fade-in-down">
     <div
       class="modal"
       v-if="isVisible"
@@ -34,22 +34,12 @@
 <script>
 import { mapMutations } from 'vuex'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {
   name: 'Modal',
   data () {
     return {
       isVisible: false
-    }
-  },
-  watch: {
-    isVisible (state) {
-      if (state) {
-        disableBodyScroll(this.$el);
-      } else {
-        clearAllBodyScrollLocks();
-      }
     }
   },
   methods: {
@@ -103,10 +93,6 @@ export default {
     width: {
       type: Number,
       default: 0
-    },
-    transitionName: {
-      type: String,
-      default: 'fade-in-down'
     }
   },
   computed: {
@@ -117,7 +103,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '~theme/css/base/global_vars';
 $z-index-modal: map-get($z-index, modal);
 

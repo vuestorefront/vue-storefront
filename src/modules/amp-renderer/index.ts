@@ -1,14 +1,15 @@
+import { createModule } from '@vue-storefront/core/lib/module'
 import moduleRoutes from './router'
-import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
-const ampRendererStore = {
+const store = {
   namespaced: true,
   state: {
     key: null
   }
 }
-
-export const AmpRendererModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
-  store.registerModule('amp-renderer', ampRendererStore)
-  router.addRoutes(moduleRoutes)
-}
+const KEY = 'amp-renderer'
+export const AmpRenderer = createModule({
+  key: KEY,
+  router: { routes: moduleRoutes },
+  store: { modules: [{ key: KEY, module: store }] }
+})

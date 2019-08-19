@@ -2,7 +2,6 @@ import AppliedCoupon from '../types/AppliedCoupon'
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
 import CartTotalSegments from '../types/CartTotalSegments'
 
-// @deprecated moved to store
 export const Microcart = {
   name: 'Microcart',
   computed: {

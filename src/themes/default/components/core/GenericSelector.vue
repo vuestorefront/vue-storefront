@@ -1,19 +1,18 @@
 <template>
   <button
-    :class="{'active': isActive}"
+    :class="{'active': active}"
     class="bg-cl-primary brdr-1 brdr-cl-primary brdr-square h5 cl-tertiary generic-selector"
-    @click="$emit('change', variant)"
-    :aria-label="$t('Select ' + variant.label)"
+    @click="switchFilter(id, label)"
+    :aria-label="$t('Select ' + label)"
   >
-    {{ variant.label }}
+    {{ label }}
   </button>
 </template>
 
 <script>
-import filterMixin from 'theme/mixins/filterMixin.ts'
-
+import GenericSelector from '@vue-storefront/core/compatibility/components/GenericSelector'
 export default {
-  mixins: [filterMixin]
+  mixins: [GenericSelector]
 }
 </script>
 

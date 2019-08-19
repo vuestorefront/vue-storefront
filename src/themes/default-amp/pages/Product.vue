@@ -26,7 +26,7 @@
             <breadcrumbs
               class="pt40 pb20 hidden-xs"
               :routes="breadcrumbs.routes"
-              :active-route="breadcrumbs.name"
+              :active-route="breadcrumbs"
             />
             <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
@@ -36,27 +36,27 @@
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(product.price_incl_tax).toFixed(2)">
+              <meta itemprop="price" :content="parseFloat(product.priceInclTax).toFixed(2)">
               <div
                 class="mb40 price serif"
                 v-if="product.type_id !== 'grouped'"
               >
                 <div
                   class="h3 cl-secondary"
-                  v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax"
+                  v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
                 >
                   <span class="h2 cl-mine-shaft weight-700">
-                    {{ product.price_incl_tax * product.qty | price }}
+                    {{ product.priceInclTax * product.qty | price }}
                   </span>&nbsp;
                   <span class="price-original h3">
-                    {{ product.original_price_incl_tax * product.qty | price }}
+                    {{ product.originalPriceInclTax * product.qty | price }}
                   </span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
-                  v-if="!product.special_price && product.price_incl_tax"
+                  v-if="!product.special_price && product.priceInclTax"
                 >
-                  {{ product.price_incl_tax * product.qty | price }}
+                  {{ product.priceInclTax * product.qty | price }}
                 </div>
               </div>
               <div

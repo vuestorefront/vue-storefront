@@ -94,21 +94,6 @@ The SSR data is being completed in the `asyncData` static method. If this config
 If it's set to `false`, then **just the** `src/themes/default/pages/Product.vue` -> `asyncData` will be executed.
 This option is referenced in the [core/client-entry.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) line: 85.
 
-## Max attempt of tasks
-
-```json
-"queues": {
-  "maxNetworkTaskAttempts": 1,
-  "maxCartBypassAttempts": 1
-},
-```
-
-This both option is used when you don't want re-attempting task of just X number time attempt task.
-
-`maxNetworkTaskAttempts` config variable is referenced in the [core/lib/sync/task.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/sync/task.ts) and It's reattempt if user token is invalid.
-
-`maxCartBypassAttempts`  config variable is referenced in the [core/modules/cart/store/actions.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/cart/store/actions.ts)
-
 ## Default store code
 
 ```json
@@ -138,7 +123,6 @@ You should add all the multistore codes to the `mapStoreUrlsFor` as this propert
   "de": {
     "storeCode": "de",
 ```
-This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "disabled": true,
@@ -164,14 +148,12 @@ This is the store name as displayed in the `Language/Switcher.vue`.
 
 This URL is used only in the `Switcher` component. Typically it equals just to `/<store_code>`. Sometimes you may like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. Just take a look at how [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) generates the list of the stores.
 It accepts not only path, but also domains as well.
-This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "appendStoreCode": true,
 ```
 
-In default configuration store codes are appended at the end of every url. If you want to use domain only as store url, you can set it to `false`.
-This attribute is not inherited through the "extend" mechanism.
+By default store codes are appended at the end of every url. If you want to use domain only as store url, you can set it to `false`.
 
 ```json
     "elasticsearch": {
@@ -212,14 +194,6 @@ The `defaultCountry` and the `defaultRegion` settings are being used for finding
 
 The internationalization settings are used by the translation engine (`defautlLocale`) and the [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) (`fullCountryName`, `fullLanguageName`). `currencyCode` is used for some of the API calls (rendering prices, mostly) and `currencySign` is being used for displaying the prices in the frontend.
 
-
-```json
-   "extend": "de"
-```
-
-You can inherit settings from other storeview of your choice. Result config will be deep merged with chosen storeview by storecode set in `extend` property prioritizing current storeview values.
-Keep in mind that `url`, `storeCode` and `appendStoreCode` attributes cannot be inherited from oter storeviews.
-
 ## Entities
 
 ```json
@@ -250,12 +224,6 @@ Vue Storefront product objects can be quite large. They consist of `configurable
 Please take a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/cart).
 
 ```json
-    "optimizeShoppingCartOmitFields": ["configurable_children", "configurable_options", "media_gallery", "description", "category", "category_ids", "product_links", "stock", "description"],
-```
-
-You can specify which fields get stripped out of the Cart object, by changing the `optimizeShoppingCartOmitFields` array.
-
-```json
   "category": {
     "includeFields": [ "children_data", "id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "product_count" ]
   },
@@ -264,11 +232,11 @@ You can specify which fields get stripped out of the Cart object, by changing th
   },
   "productList": {
     "sort": "",
-    "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "url_key", "status" ],
+    "includeFields": [ "type_id", "sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "url_key", "status" ],
     "excludeFields": [ "configurable_children", "description", "configurable_options", "sgn" ]
   },
   "productListWithChildren": {
-    "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "original_price_incl_tax", "original_price", "special_price_incl_t_ax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "product_links", "url_key", "status"],
+    "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "priceInclTax", "originalPriceInclTax", "originalPrice", "specialPriceInclTax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.priceInclTax", "configurable_children.specialPriceInclTax", "configurable_children.originalPrice", "configurable_children.originalPriceInclTax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "product_links", "url_key", "status"],
     "excludeFields": [ "description", "sgn"]
   },
   "product": {
@@ -366,12 +334,6 @@ If this option is set to `items`, Vue Storefront will calculate the cart count b
 ```
 
 These endpoints should point to the `vue-storefront-api` instance and typically, you're changing just the domain-name/base-url without touching the specific endpoint URLs, as it's related to the `vue-storefront-api` specifics.
-
-```json
-  "productsAreReconfigurable": true
-```
-
-If this option is set to `true`, you can edit current options such as color or size in the cart view. Works only for configurable products.
 
 ## Products
 
@@ -483,12 +445,6 @@ Product attributes representing the images. We'll see it in the Product page gal
 
 The dimensions of the images in the gallery.
 
-```json
-  "lazyLoadingCategoryProducts": true
-```
-It this option is enabled, the category products will not be applied in the `window.__INITIAL_STATE__`.
-The client side will be responsible for loading them and store in vuex state.
-
 ## Orders
 
 ```json
@@ -540,7 +496,7 @@ Starting with Vue Storefront v1.6, we changed the default order-placing behavior
     "syncTasks": "INDEXEDDB",
     "newsletterPreferences": "INDEXEDDB",
     "ordersHistory": "INDEXEDDB",
-    "checkout": "LOCALSTORAGE"
+    "checkoutFieldValues": "LOCALSTORAGE"
   }
 },
 ```
@@ -584,18 +540,11 @@ The `stock` section configures how the Vue Storefront behaves when the product i
 ```json
 "images": {
   "baseUrl": "https://demo.vuestorefront.io/img/",
-  "productPlaceholder": "/assets/placeholder.jpg",
-  "useExactUrlsNoProxy": false,
-  "useSpecificImagePaths": false,
-  "paths": {
-    "product": "/catalog/product"
-  }
+  "productPlaceholder": "/assets/placeholder.jpg"
 },
 ```
 
-This section is to set the default base URL of images. This should be a `vue-storefront-api` URL, pointing to its `/api/img` handler. The Vue Storefront API is in charge of downloading the local image cache from the Magento/Pimcore backend and does the resize/crop/scale operations to optimize the images for mobile devices and the UI.
-
-If you wan't to also show non-product image thumbnails you must set `useSpecificImagePaths` to `true` and remove `/catalog/product` from the end of your API `magento1.imgUrl` or `magento2.imgUrl` setting in your API's config file – e.g.: `http://magento-demo.local/media`. After that you can use the `pathType` parameter of the `getThumbnail()` mixin method to traverse other images than product ones.
+This section is to set the default base URL of product images. This should be a `vue-storefront-api` URL, pointing to its `/api/img` handler. The Vue Storefront API is in charge of downloading the local image cache from the Magento/Pimcore backend and does the resize/crop/scale operations to optimize the images for mobile devices and the UI.
 
 ## Install
 
@@ -623,18 +572,11 @@ When `demomode` is set to `true`, Vue Storefront will display the "Welcome to Vu
   "sourcePriceIncludesTax": false,
   "defaultCountry": "DE",
   "defaultRegion": "",
-  "calculateServerSide": true,
-  "userGroupId": null
+  "calculateServerSide": true
 },
 ```
 
-The taxes section is used by the
-[core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/helpers/tax.ts).
-When `sourcePricesIncludesTax` is set to `true` it means that the prices
-indexed in the Elasticsearch already consist of the taxes. If it's set
-to `false` the taxes will be calculated runtime. The `userGroupId`
-config does only work when you have set `sourcePriceIncludesTax` set to
-`false` and `calculateServerSide` is set to `false`.
+The taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/helpers/tax.ts). When `sourcePricesIncludesTax` is set to `true`  it means that the prices indexed in the Elasticsearch already consist of the taxes. If it's set to `false` the taxes will be calculated runtime.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous, unidentified user (which country is not yet set).
 

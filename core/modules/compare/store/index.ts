@@ -5,7 +5,7 @@ import mutations from './mutations'
 import RootState from '@vue-storefront/core/types/RootState'
 import CompareState from '../types/CompareState'
 
-export const compareStore: Module<CompareState, RootState> = {
+export const module: Module<CompareState, RootState> = {
   namespaced: true,
   state: {
     loaded: false,

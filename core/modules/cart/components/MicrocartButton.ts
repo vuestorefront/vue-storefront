@@ -1,5 +1,4 @@
 
-// @deprecated moved to theme
 export const MicrocartButton = {
   name: 'MicrocartButton',
   mounted () {

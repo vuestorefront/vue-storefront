@@ -1,31 +1,15 @@
-import { StorefrontModule } from '@vue-storefront/core/lib/modules';
-import { isServer } from '@vue-storefront/core/helpers'
+import { createModule } from '@vue-storefront/core/lib/module'
+import { afterRegistration } from './hooks/afterRegistration'
 
-const hotjarStore = {
+const store = {
   namespaced: true,
   state: {
     key: null
   }
 };
-
-const hotjarSnippet = (hjid) => (function (h, o, t, j, a, r) {
-  h.hj =
-    h.hj ||
-    function () {
-      (h.hj.q = h.hj.q || []).push(arguments);
-    };
-  h._hjSettings = {hjid, hjsv: 6};
-  a = o.getElementsByTagName('head')[0];
-  r = o.createElement('script');
-  r.async = 1;
-  r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-  a.appendChild(r);
-})(window as any, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
-
-export const HotjarModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
-  store.registerModule('hotjar', hotjarStore)
-
-  if (!isServer && appConfig.hotjar && appConfig.hotjar.id) {
-    hotjarSnippet(appConfig.hotjar.id);
-  }
-}
+const KEY = 'hotjar';
+export const Hotjar = createModule({
+  key: KEY,
+  store: { modules: [{ key: KEY, module: store }] },
+  afterRegistration
+});

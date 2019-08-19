@@ -4,7 +4,7 @@ export const ProductCustomOption = {
     label: {
       type: String,
       required: false,
-      default: ''
+      default: () => false
     },
     id: {
       type: null,
@@ -38,7 +38,12 @@ export const ProductCustomOption = {
   methods: {
     filterChanged (filterOption) {
       if (filterOption.attribute_code === this.code) {
-        this.active = filterOption.id === this.id ? !this.active : false
+        if (filterOption.id === this.id) {
+          this.active = !this.active
+        } else {
+          this.active = false
+        }
+        // filterOption.id === this.id ? this.active = true : this.active = false
       }
     },
     filterReset (filterOption) {

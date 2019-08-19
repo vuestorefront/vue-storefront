@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
+import { htmlDecode } from '@vue-storefront/core/store/lib/filters'
 import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/core/store'
 import RootState from '@vue-storefront/core/types/RootState'

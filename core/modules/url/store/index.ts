@@ -4,7 +4,7 @@ import { mutations } from './mutations'
 import { actions } from './actions'
 import { state } from './state'
 
-export const urlStore: Module<UrlState, any> = {
+export const module: Module<UrlState, any> = {
   namespaced: true,
   mutations,
   actions,

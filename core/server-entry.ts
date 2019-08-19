@@ -1,6 +1,7 @@
 import union from 'lodash-es/union'
+
 import { createApp } from '@vue-storefront/core/app'
-import { HttpError } from '@vue-storefront/core/helpers/internal'
+import { HttpError } from '@vue-storefront/core/helpers/exceptions'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import omit from 'lodash-es/omit'
 import pick from 'lodash-es/pick'
@@ -30,8 +31,14 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
     }
   })).then(() => {
     AsyncDataLoader.flush({ store, route: router.currentRoute, context: null } /* AsyncDataLoaderActionContext */).then((r) => {
-      context.state = store.state
-      if (buildTimeConfig.server.dynamicConfigReload) {
+      if (buildTimeConfig.ssr.useInitialStateFilter) {
+        context.state = omit(store.state, config.ssr.initialStateFilter)
+      } else {
+        context.state = store.state
+      }
+      if (!buildTimeConfig.server.dynamicConfigReload) { // if dynamic config reload then we're sending config along with the request
+        context.state = omit(store.state, buildTimeConfig.ssr.useInitialStateFilter ? [...config.ssr.initialStateFilter, 'config'] : ['config'])
+      } else {
         const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
         const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
         console.log(excludeFromConfig, includeFromConfig)
@@ -51,13 +58,8 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
   })
 }
 
-function getHostFromHeader (headers: string[]): string {
-  return headers ? (headers['x-forwarded-host'] !== undefined ? headers['x-forwarded-host'] : headers['host']) : null
-}
-
 export default async context => {
-  const { app, router, store, initialState } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
-  context.initialState = initialState
+  const { app, router, store } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
   return new Promise((resolve, reject) => {
     context.output.cacheTags = new Set<string>()
     const meta = (app as any).$meta()
@@ -67,8 +69,7 @@ export default async context => {
       if (config.storeViews.multistore === true) {
         let storeCode = context.vs.storeCode // this is from http header or env variable
         if (storeCode === undefined && router.currentRoute) { // this is from url
-          const host = getHostFromHeader(context.server.request.headers)
-          const currentRoute = Object.assign({}, router.currentRoute, { host })
+          const currentRoute = Object.assign({}, router.currentRoute, {host: context.server.request.headers.host})
           storeCode = storeCodeFromRoute(currentRoute)
         }
         if (storeCode !== '' && storeCode !== null) {

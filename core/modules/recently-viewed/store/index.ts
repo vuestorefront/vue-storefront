@@ -4,7 +4,7 @@ import mutations from './mutations'
 import RootState from '@vue-storefront/core/types/RootState'
 import RecentlyViewedState from '../types/RecentlyViewedState'
 
-export const recentlyViewedStore: Module<RecentlyViewedState, RootState> = {
+export const module: Module<RecentlyViewedState, RootState> = {
   namespaced: true,
   state: {
     items: []

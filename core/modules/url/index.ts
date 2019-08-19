@@ -1,11 +1,15 @@
-import { urlStore } from './store'
-import { StorefrontModule } from '@vue-storefront/core/lib/modules'
-import { beforeEachGuard } from './router/beforeEach'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { module } from './store'
+import { createModule } from '@vue-storefront/core/lib/module'
 
-export const cacheStorage = StorageManager.init('url')
+import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
+import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
+import { beforeEach } from './router/beforeEach'
 
-export const UrlModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
-  store.registerModule('url', urlStore)
-  router.beforeEach(beforeEachGuard)
-}
+export const KEY = 'url'
+export const cacheStorage = initCacheStorage(KEY)
+
+export const Url = createModule({
+  key: KEY,
+  store: { modules: [{ key: KEY, module }] },
+  router: { beforeEach }
+})

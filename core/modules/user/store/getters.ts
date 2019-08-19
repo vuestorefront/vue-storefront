@@ -12,12 +12,6 @@ const getters: GetterTree<UserState, RootState> = {
   },
   getOrdersHistory (state) {
     return state.orders_history ? state.orders_history.items : []
-  },
-  getToken (state) {
-    return state.token
-  },
-  getUserEmail (state, getters) {
-    return getters.isLoggedIn ? state.current.email : null
   }
 }
 

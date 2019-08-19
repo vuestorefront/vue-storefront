@@ -2,7 +2,7 @@ import { Module } from 'vuex'
 import NotificationItem from '../types/NotificationItem'
 import NotificationState from '../types/NotificationState'
 
-export const notificationStore: Module<NotificationState, any> = {
+export const module: Module<NotificationState, any> = {
   namespaced: true,
   state: {
     notifications: []

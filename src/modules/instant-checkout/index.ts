@@ -1,4 +1,9 @@
-import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
 
-export const InstantCheckoutModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+const KEY = 'instant-checkout'
+
+const moduleConfig: VueStorefrontModuleConfig = {
+  key: KEY
 }
+
+export const InstantCheckout = new VueStorefrontModule(moduleConfig)

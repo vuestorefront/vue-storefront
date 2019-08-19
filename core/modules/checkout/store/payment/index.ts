@@ -25,17 +25,11 @@ export const paymentModule: Module<PaymentState, RootState> = {
     }
   },
   getters: {
-    paymentMethods: (state) => {
+    paymentMethods (state) {
       const isVirtualCart = rootStore.getters['cart/isVirtualCart']
       return state.methods.filter(method => {
         return (!isVirtualCart || method.code !== 'cashondelivery')
       })
-    },
-    getDefaultPaymentMethod: (state, getters) => getters.paymentMethods.find(item => item.default),
-    getNotServerPaymentMethods: (state, getters) =>
-      getters.paymentMethods.filter((itm) =>
-        (typeof itm !== 'object' || !itm.is_server_method)
-      )
-
+    }
   }
 }

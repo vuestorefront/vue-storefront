@@ -25,9 +25,8 @@ export const shippingModule: Module<ShippingState, RootState> = {
     }
   },
   getters: {
-    // @deprecated use getShippingMethods instead
-    shippingMethods: state => state.methods,
-    getShippingMethods: state => state.methods,
-    getDefaultShippingMethod: state => state.methods.find(item => item.default)
+    shippingMethods (state) {
+      return state.methods
+    }
   }
 }

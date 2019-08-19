@@ -1,3 +1,0 @@
-export const SN_CATALOG = 'catalog'
-export const SET_STOCK_CACHE = `${SN_CATALOG}/SET_STOCK_CACHE`
-export const SET_STOCK_CACHE_PRODUCT = `${SN_CATALOG}/SET_STOCK_CACHE_PRODUCT`

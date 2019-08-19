@@ -1,18 +1,4 @@
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
-
-const formatValue = (value, locale) => {
-  const price = Math.abs(parseFloat(value));
-
-  return price.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-};
-
-const applyCurrencySign = (formattedPrice, { currencySign, currencySignPlacement }) => {
-  if (currencySignPlacement === 'append') {
-    return `${formattedPrice}${currencySign}`
-  }
-
-  return `${currencySign}${formattedPrice}`
-}
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 /**
  * Converts number to price string
@@ -20,17 +6,28 @@ const applyCurrencySign = (formattedPrice, { currencySign, currencySignPlacement
  */
 export function price (value) {
   if (isNaN(value)) {
-    return value;
+    return value
   }
-  const storeView = currentStoreView();
-  const { defaultLocale, currencySign, currencySignPlacement } = storeView.i18n
+  let formattedVal = Math.abs(parseFloat(value)).toFixed(2)
+  const storeView = currentStoreView()
 
-  const formattedValue = formatValue(value, defaultLocale);
-  const valueWithSign = applyCurrencySign(formattedValue, { currencySign, currencySignPlacement })
+  const prependCurrency = (price) => {
+    return storeView.i18n.currencySign + price
+  }
+
+  const appendCurrency = (price) => {
+    return price + storeView.i18n.currencySign
+  }
+
+  if (storeView.i18n.currencySignPlacement === 'append') {
+    formattedVal = appendCurrency(formattedVal)
+  } else {
+    formattedVal = prependCurrency(formattedVal)
+  }
 
   if (value >= 0) {
-    return valueWithSign;
+    return formattedVal
   } else {
-    return '-' + valueWithSign;
+    return '-' + formattedVal
   }
 }

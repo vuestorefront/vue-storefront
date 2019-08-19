@@ -1,6 +1,3 @@
-import ShippingDetails from './ShippingDetails'
-import PaymentDetails from './PaymentDetails'
-
 export default interface CheckoutState {
   order: any,
   personalDetails: {
@@ -10,8 +7,35 @@ export default interface CheckoutState {
     password: string,
     createAccount: boolean
   },
-  shippingDetails: ShippingDetails,
-  paymentDetails: PaymentDetails,
+  shippingDetails: {
+    firstName: string,
+    lastName: string,
+    country: string,
+    streetAddress: string,
+    apartmentNumber: string,
+    city: string,
+    state: string,
+    region_id: number,
+    zipCode: string,
+    phoneNumber: string,
+    shippingMethod: string
+  },
+  paymentDetails: {
+    firstName: string,
+    lastName: string,
+    company: string,
+    country: string,
+    streetAddress: string,
+    apartmentNumber: string,
+    city: string,
+    region_id: number,
+    state: string,
+    zipCode: string,
+    phoneNumber: string,
+    taxId: string,
+    paymentMethod: string,
+    paymentMethodAdditional: any
+  },
   isThankYouPage: boolean,
   modifiedAt: number
 }

@@ -1,9 +1,11 @@
-import { newsletterStore } from './store'
-import { StorefrontModule } from '@vue-storefront/core/lib/modules';
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { module } from './store'
+import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
+import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage'
 
-export const cacheStorage = StorageManager.init('newsletter')
-
-export const NewsletterModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
-  store.registerModule('newsletter', newsletterStore)
+export const KEY = 'newsletter'
+export const cacheStorage = initCacheStorage(KEY)
+const moduleConfig: VueStorefrontModuleConfig = {
+  key: KEY,
+  store: { modules: [{ key: KEY, module }] }
 }
+export const Newsletter = new VueStorefrontModule(moduleConfig)

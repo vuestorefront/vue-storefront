@@ -34,13 +34,13 @@
                 </span>
               </td>
               <td class="fs-medium lh25" :data-th="$t('Price')">
-                {{ product.price_incl_tax | price }}
+                {{ product.priceInclTax | price }}
               </td>
               <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">
                 {{ product.qty }}
               </td>
               <td class="fs-medium lh25" :data-th="$t('Subtotal')">
-                {{ product.price_incl_tax * product.qty | price }}
+                {{ product.priceInclTax * product.qty | price }}
               </td>
             </tr>
           </tbody>

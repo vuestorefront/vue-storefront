@@ -7,15 +7,14 @@ import { htmlDecode } from '@vue-storefront/core/filters'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { CompareProduct } from '@vue-storefront/core/modules/compare/components/Product.ts'
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare.ts'
-import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
+import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
 import omit from 'lodash-es/omit'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { isUserGroupedTaxActive } from '@vue-storefront/core/modules/catalog/helpers/tax';
 
 export default {
   name: 'Product',
-  mixins: [Composite, AddToCompare, CompareProduct, ProductOption],
+  mixins: [Composite, AddToCompare, CompareProduct],
   data () {
     return {
       loading: false
@@ -74,7 +73,7 @@ export default {
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
     this.$bus.$off('product-after-bundleoptions')
-    if (config.usePriceTiers || isUserGroupedTaxActive()) {
+    if (config.usePriceTiers) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -85,7 +84,7 @@ export default {
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
     this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
-    if (config.usePriceTiers || isUserGroupedTaxActive()) {
+    if (config.usePriceTiers) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -125,6 +124,11 @@ export default {
       // Method renamed to 'removeFromCompare(product)', product is an Object
       CompareProduct.methods.removeFromCompare.call(this, this.product)
     },
+    isOptionAvailable (option) { // check if the option is available
+      let currentConfig = Object.assign({}, this.configuration)
+      currentConfig[option.attribute_code] = option
+      return isOptionAvailableAsync(this.$store, { product: this.product, configuration: currentConfig })
+    },
     onAfterCustomOptionsChanged (payload) {
       let priceDelta = 0
       let priceDeltaInclTax = 0
@@ -136,12 +140,12 @@ export default {
           }
           if (optionValue.price_type === 'percent' && optionValue.price !== 0) {
             priceDelta += ((optionValue.price / 100) * this.originalProduct.price)
-            priceDeltaInclTax += ((optionValue.price / 100) * this.originalProduct.price_incl_tax)
+            priceDeltaInclTax += ((optionValue.price / 100) * this.originalProduct.priceInclTax)
           }
         }
       }
       this.product.price = this.originalProduct.price + priceDelta
-      this.product.price_incl_tax = this.originalProduct.price_incl_tax + priceDeltaInclTax
+      this.product.priceInclTax = this.originalProduct.priceInclTax + priceDeltaInclTax
     },
     onAfterBundleOptionsChanged (payload) {
       let priceDelta = 0
@@ -149,12 +153,12 @@ export default {
       for (const optionValue of Object.values(payload.optionValues)) {
         if (typeof optionValue.value.product !== 'undefined' && parseInt(optionValue.qty) >= 0) {
           priceDelta += optionValue.value.product.price * parseInt(optionValue.qty)
-          priceDeltaInclTax += optionValue.value.product.price_incl_tax * parseInt(optionValue.qty)
+          priceDeltaInclTax += optionValue.value.product.priceInclTax * parseInt(optionValue.qty)
         }
       }
       if (priceDelta > 0) {
         this.product.price = priceDelta
-        this.product.price_incl_tax = priceDeltaInclTax
+        this.product.priceInclTax = priceDeltaInclTax
       }
     },
     onStateCheck () {
@@ -179,11 +183,11 @@ export default {
     onAfterFilterChanged (filterOption) {
       this.$bus.$emit('product-before-configure', { filterOption: filterOption, configuration: this.configuration })
       const prevOption = this.configuration[filterOption.attribute_code]
-      let changedConfig = Object.assign({}, this.configuration, {[filterOption.attribute_code]: filterOption})
+      this.configuration[filterOption.attribute_code] = filterOption
       this.$forceUpdate() // this is to update the available options regarding current selection
       this.$store.dispatch('product/configure', {
         product: this.product,
-        configuration: changedConfig,
+        configuration: this.configuration,
         selectDefaultVariant: true,
         fallbackToDefaultWhenNoAvailable: false,
         setProductErorrs: true

@@ -23,10 +23,7 @@
         <div class="row between-xs middle-xs px15 py5" v-if="isCheckoutPage">
           <div class="col-xs-5 col-md-3 middle-xs">
             <div>
-              <router-link
-                :to="localizedRoute('/')"
-                class="cl-tertiary links"
-              >
+              <router-link :to="localizedRoute('/')" class="cl-tertiary links">
                 {{ $t('Return to shopping') }}
               </router-link>
             </div>
@@ -36,14 +33,12 @@
           </div>
           <div class="col-xs-5 col-md-3 end-xs">
             <div>
-              <a
-                v-if="!currentUser"
-                href="#"
-                @click.prevent="gotoAccount"
-                class="cl-tertiary links"
-              >{{ $t('Login to your account') }}</a>
-
-              <span v-else>{{ $t('You are logged in as') }} {{ currentUser.firstname }}</span>
+              <a v-if="!currentUser" href="#" @click.prevent="gotoAccount" class="cl-tertiary links">
+                {{ $t('Login to your account') }}
+              </a>
+              <span v-else>
+                {{ $t('You are logged in as') }} {{ currentUser.firstname }}
+              </span>
             </div>
           </div>
         </div>
@@ -84,13 +79,9 @@ export default {
     })
   },
   beforeMount () {
-    window.addEventListener(
-      'scroll',
-      () => {
-        this.isScrolling = true
-      },
-      { passive: true }
-    )
+    window.addEventListener('scroll', () => {
+      this.isScrolling = true
+    }, {passive: true})
 
     setInterval(() => {
       if (this.isScrolling) {
@@ -105,10 +96,7 @@ export default {
     },
     hasScrolled () {
       this.scrollTop = window.scrollY
-      if (
-        this.scrollTop > this.lastScrollTop &&
-        this.scrollTop > this.navbarHeight
-      ) {
+      if (this.scrollTop > this.lastScrollTop && this.scrollTop > this.navbarHeight) {
         this.navVisible = false
       } else {
         this.navVisible = true
@@ -127,7 +115,7 @@ $color-icon-hover: color(secondary, $colors-background);
 header {
   height: 54px;
   top: -55px;
-  z-index: 3;
+  z-index: 2;
   transition: top 0.2s ease-in-out;
   &.is-visible {
     top: 0;
@@ -160,13 +148,12 @@ header {
     }
   }
   .col-xs-2:first-of-type {
-    padding-left: 0;
+      padding-left: 0;
   }
   .col-xs-2:last-of-type {
-    padding-right: 0;
+      padding-right: 0;
   }
-  a,
-  span {
+  a, span {
     font-size: 12px;
   }
 }

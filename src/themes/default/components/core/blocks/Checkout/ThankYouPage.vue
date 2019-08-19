@@ -85,15 +85,10 @@ import VueOfflineMixin from 'vue-offline/mixin'
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
-import { registerModule } from '@vue-storefront/core/lib/modules'
-import { MailerModule } from '@vue-storefront/core/modules/mailer'
 
 export default {
   name: 'ThankYouPage',
   mixins: [Composite, VueOfflineMixin, EmailForm],
-  beforeCreate () {
-    registerModule(MailerModule)
-  },
   data () {
     return {
       feedback: ''

@@ -9,8 +9,8 @@
       <option selected="selected" disabled value="" v-if="!hasLabel">
         {{ $t('Sort By') }}
       </option>
-      <option v-for="variant in sortingVariants" :value="variant" :key="variant.id">
-        {{ $t(variant.label) }}
+      <option v-for="(option, label) in sortByAttribute" :disabled="sortby === option" :value="option" :key="option">
+        {{ $t(label) }}
       </option>
     </select>
   </div>
@@ -18,7 +18,6 @@
 
 <script>
 import SortBy from '@vue-storefront/core/compatibility/components/SortBy'
-import { products } from 'config'
 export default {
   mixins: [SortBy],
   props: {
@@ -26,24 +25,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    },
-    value: {
-      type: String,
-      default: ''
     }
   },
   data () {
     return {
-      sortby: null
-    }
-  },
-  watch: {
-    value: {
-      handler () {
-        const defaultVariant = this.value && this.value.length ? this.value : products.defaultSortBy.attribute
-        this.sortby = this.sortingVariants.find(variant => variant.id === defaultVariant)
-      },
-      immediate: true
+      sortby: this.$store.state.config.products.defaultSortBy.attribute
     }
   }
 }

@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import union from 'lodash-es/union'
+
 import { createApp } from '@vue-storefront/core/app'
 import rootStore from '@vue-storefront/core/store'
 import { registerSyncTaskProcessor } from '@vue-storefront/core/lib/sync/task'
 import i18n from '@vue-storefront/i18n'
-import omit from 'lodash-es/omit'
 import { prepareStoreView, storeCodeFromRoute, currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
 import '@vue-storefront/core/service-worker/registration' // register the service worker
@@ -20,12 +20,10 @@ const invokeClientEntry = async () => {
   const { app, router, store } = await createApp(null, dynamicRuntimeConfig, storeCode)
 
   if (window.__INITIAL_STATE__) {
-    // skip fields that were set by createApp
-    const initialState = omit(window.__INITIAL_STATE__, ['storeView', 'config', 'version'])
-    store.replaceState(Object.assign({}, store.state, initialState, { config: globalConfig }))
+    store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: globalConfig }))
   }
 
-  await store.dispatch('url/registerDynamicRoutes')
+  store.dispatch('url/registerDynamicRoutes')
   function _commonErrorHandler (err, reject) {
     if (err.message.indexOf('query returned empty result') > 0) {
       rootStore.dispatch('notification/spawnNotification', {

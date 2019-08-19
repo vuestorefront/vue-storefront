@@ -1,7 +1,9 @@
+import * as localForage from 'localforage'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus/index'
+import UniversalStorage from '@vue-storefront/core/store/lib/storage'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 export function onNetworkStatusChange (store) {
   Logger.log('Are we online: ' + navigator.onLine, 'offline-order')()
@@ -13,7 +15,12 @@ export function onNetworkStatusChange (store) {
       EventBus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
     } else {
       const ordersToConfirm = []
-      const ordersCollection = StorageManager.get('orders')
+      const storeView = currentStoreView()
+      const ordersCollection = new UniversalStorage(localForage.createInstance({
+        name: 'shop',
+        storeName: 'orders',
+        driver: localForage[config.localForage.defaultDrivers['orders']]
+      }))
 
       ordersCollection.iterate((order, id, iterationNumber) => {
         if (!order.transmited) {

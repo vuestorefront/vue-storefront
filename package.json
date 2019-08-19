@@ -1,6 +1,6 @@
 {
   "name": "vue-storefront",
-  "version": "1.11.0-rc.1",
+  "version": "1.10.0",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
@@ -26,8 +26,6 @@
   },
   "homepage": "https://github.com/DivanteLtd/vue-storefront/README.md",
   "scripts": {
-    "static-server": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/static-server.ts",
-    "generate": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/generate.ts",
     "start": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" pm2 start ecosystem.json $PM2_ARGS",
     "start:inspect": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" node --inspect ./core/scripts/server.js",
     "installer": "node ./core/scripts/installer",
@@ -42,7 +40,6 @@
     "build:server": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" webpack --config ./core/build/webpack.prod.server.config.ts --mode production --progress --hide-modules",
     "build": "rimraf dist && yarn build:client && yarn build:server && yarn build:sw",
     "test:unit": "jest -c test/unit/jest.conf.js",
-    "test:unit:watch": "jest -c test/unit/jest.conf.js --watch",
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
     "lint": "eslint --ext .js,.vue,.ts core src --fix",
@@ -58,21 +55,18 @@
     "apollo-client": "^2.3.5",
     "apollo-link": "^1.2.2",
     "apollo-link-http": "^1.5.4",
-    "body-scroll-lock": "^2.6.4",
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
     "cross-env": "^3.1.4",
     "dayjs": "^1.8.15",
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
-    "fs-extra": "^8.1.0",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "isomorphic-fetch": "^2.2.1",
     "js-sha3": "^0.8.0",
     "localforage": "^1.7.2",
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
-    "ms": "^2.1.2",
     "pm2": "^2.10.4",
     "redis-tag-cache": "^1.2.1",
     "reflect-metadata": "^0.1.12",
@@ -84,7 +78,6 @@
     "vue-carousel": "^0.6.9",
     "vue-gtm": "^2.0.0",
     "vue-i18n": "^8.0.0",
-    "vue-lazy-hydration": "^1.0.0-beta.9",
     "vue-lazyload": "^1.2.6",
     "vue-meta": "^1.5.3",
     "vue-no-ssr": "^0.2.2",
@@ -193,7 +186,7 @@
     "src/themes/*",
     "docs",
     "core/modules/*",
-    "test/unit",
-    "packages/*"
+    "packages/*",
+    "test/unit"
   ]
 }

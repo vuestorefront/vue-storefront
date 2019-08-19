@@ -92,7 +92,7 @@ export default {
         let subtotal = 0
 
         this.$store.state.cart.cartItems.forEach(product => {
-          subtotal += parseFloat(product.price_incl_tax)
+          subtotal += parseFloat(product.priceInclTax)
         })
 
         if (this.selectedShippingOption.length > 0) {
@@ -292,7 +292,7 @@ export default {
     },
     getProductPrice (product) {
       if (!config.cart.displayItemDiscounts) {
-        return product.qty * product.price_incl_tax
+        return product.qty * product.priceInclTax
       }
 
       if (product.totals) {

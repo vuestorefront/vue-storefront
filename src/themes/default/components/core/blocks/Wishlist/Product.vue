@@ -1,13 +1,23 @@
 <template>
   <li class="row pr55 py20">
-    <div class="blend bg-cl-secondary" @click="closeWishlist">
-      <router-link :to="productLink">
+    <div class="image" @click="closeWishlist">
+      <router-link :to="localizedRoute({
+        name: product.type_id + '-product',
+        fullPath: product.url_path,
+        params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
+      })"
+      >
         <product-image :image="image" />
       </router-link>
     </div>
     <div class="col-xs between-xs flex pl40 py15">
       <div @click="closeWishlist">
-        <router-link :to="productLink">
+        <router-link :to="localizedRoute({
+          name: product.type_id + '-product',
+          fullPath: product.url_path,
+          params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }
+        })"
+        >
           {{ product.name | htmlDecode }}
         </router-link>
         <div class="h6 cl-bg-tertiary pt5 sku">
@@ -17,11 +27,11 @@
     </div>
     <div class="col-xs flex py15 align-right">
       <div>
-        <span class="price-special" v-if="product.special_price">{{ product.price_incl_tax | price }}</span>&nbsp;
-        <span class="price-original" v-if="product.special_price">{{ product.original_price_incl_tax | price }}</span>
+        <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
+        <span class="price-original" v-if="product.special_price">{{ product.originalPriceInclTax | price }}</span>
 
         <span v-if="!product.special_price">
-          {{ product.price_incl_tax | price }}
+          {{ product.priceInclTax | price }}
         </span>
       </div>
       <div>
@@ -35,10 +45,8 @@
 
 <script>
 import Product from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Product'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
-import ProductImage from 'theme/components/core/ProductImage'
 import RemoveButton from './RemoveButton'
+import ProductImage from 'theme/components/core/ProductImage'
 
 export default {
   components: {
@@ -47,9 +55,6 @@ export default {
   },
   mixins: [Product],
   computed: {
-    productLink () {
-      return formatProductLink(this.product, currentStoreView().storeCode)
-    },
     image () {
       return {
         loading: this.thumbnail,
@@ -60,21 +65,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '~theme/css/animations/transitions';
-.blend {
-  flex: 0 0 121px;
-  opacity: .8;
-  will-change: opacity;
-  transition: .3s opacity $motion-main;
-  &:hover{
-     opacity: 1;
-   }
-}
+<style scoped>
 .col-xs {
   flex-direction: column;
 }
 input {
   width: 30px;
+}
+.image{
+  flex: 0 0 121px;
 }
 </style>
