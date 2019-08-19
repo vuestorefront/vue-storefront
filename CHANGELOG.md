@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351)
 - Added test to multistore.ts so it is nearly fully unit tested - @resubaka (#3352)
 - Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351, #3354)
+- Added test to helpers/index.ts so it is partly tested - @resubaka (#3376, 3377)
 
 ### Fixed
 
@@ -71,7 +72,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Brazilian Portuguese (pt_BR) translation improved - @pxfm (#3288)
 - Moved store/lib to /lib - @pxfm (#3253)
 - Corrected usage of "configurableChildrenStockPrefetchStatic" setting, refactored logic to tested helper - @philippsander (#859)
-- Improved some of the german translations in spelling and wording - @MariaKern (#3297) 
+- Improved some of the german translations in spelling and wording - @MariaKern (#3297)
+- Added lazy-hydrate for category products - @andrzejewsky (#3327)
+- Refactored vuex order module - @andrzejewsky (#3337)
+- Changed body no-scroll behavior for overlapped element - @przspa (#3363)
 - `config.dynamicConfigReload` option should use deep copy for `Object.assign()` - @cewald (#3372)
 
 ## [1.10.0] - 2019.08.10
@@ -149,14 +153,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - No placeholders / no photos for Get Inspire section in offline - @przspa (#3072)
 - Back icon on product page causing inconsistent behavior - @patzick (#3056)
 - Remove static definition of `cashondelivery` in payment module - @danielmaier42 (#2983)
-- Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
+- Fixed wrong meta description attribute by page overwrite - @przspa (#3091)
 - Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
 - User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
 - Fixed undefined id of color swatches issue for simple product - @vishal-7037 (#3239)
 - Date filter ignoring format param and locales - @grimasod, @patzick (#3102)
 - Problem with placing an order if shipping method is different than default one - @patzick (#3203)
 - Fixed product video embed on PDP - @juho-jaakkola (#3263)
-- Fixed memory leak with loading DayJS in SSR - @lukeromanowicz (#3310) 
+- Fixed memory leak with loading DayJS in SSR - @lukeromanowicz (#3310)
 - Fixed invalid localized routes in SSR content of multistore configuration - @lukeromanowicz (#3262)
 - Fixed startSession which loaded from the wrong place the user when multistore was active - @resubaka (#3322)
 - Login after registration - @patzick (#3343)
