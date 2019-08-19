@@ -134,7 +134,47 @@ app_1  | Entity cache is enabled for productList null
 
 ### 2-2. Recipe B (CLI bootstrapping)
 
-1.  
+1. Go to your project folder _or_ any prestine folder for your new `module` development. 
+```bash
+mkdir example-folder
+cd example-folder
+```
+
+2. Run the `vsf` CLI command as follows : 
+```bash
+vsf init:module example-folder
+```
+The command required for module initialization here is `vsf init:module` and your new module name is `example-folder` in this case. 
+
+You will see the following result : 
+```bash
+Module vsf-example-folder has been succesfully created!
+ cd vsf-example-folder
+```
+
+:::tip NOTE
+You might have noticed `vsf` put a prefix _`vsf`_ by default to your newly created module name. This helps your module get compiled automatically during _[INSERT UPDATE REQUIRED]_
+:::
+
+3. As the result dictates, change your directory to :
+```bash
+cd vsf-example-folder
+```
+
+4. List the files inside as follows :
+```bash
+ls *
+```
+You will see the following structure :
+```bash
+package.json  README.md  tsconfig.json
+
+src:
+index.ts  store.ts
+```
+Congratulation, you are good to go now. 
+
+Further scenarios of this can be found at [Recipe 5. Packaging a module](#_5-packaging-a-module)
 
 ### 3. Peep into the kitchen (what happens internally)
 We have created a module with only a few simple steps and registered it  successfully. Even though it's doing nothing practically, it was enough to grab the concept in design, and helped you transform into a module developer which is great. 
@@ -150,7 +190,7 @@ Take one step further to `./core/app.ts`, you will also notice `injectReferences
 Now you are officially a **Vue Storefront module developer**. Congratulation!
 
 ### 4. Chef's secret (protip)
-#### Secret 1. Lazy loading your module where you want it
+#### Secret 1. Lazy loading in practical examples
 
 #### Secret 2. How a module can be leveraged to build extensions or integrations with. 
 
