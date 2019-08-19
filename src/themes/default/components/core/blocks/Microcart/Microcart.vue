@@ -132,6 +132,7 @@ import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'
+import { registerModule } from '@vue-storefront/core/lib/modules'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartButton'
@@ -139,6 +140,7 @@ import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import Product from 'theme/components/core/blocks/Microcart/Product'
 import EditMode from './EditMode'
+import { InstantCheckoutModule } from 'src/modules/instant-checkout'
 
 export default {
   components: {
@@ -168,6 +170,9 @@ export default {
       required: false,
       default: () => false
     }
+  },
+  beforeCreate () {
+    registerModule(InstantCheckoutModule)
   },
   mounted () {
     disableBodyScroll(this.$el)
