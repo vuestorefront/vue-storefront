@@ -111,9 +111,12 @@ const actions: ActionTree<CategoryState, RootState> = {
     const filters = getters.getAvailableFiltersFrom(aggregations)
     commit(types.CATEGORY_SET_AVAILABLE_FILTERS, filters)
   },
-  async switchSearchFilter ({ dispatch }, filterVariant: FilterVariant) {
-    const newQuery = changeFilterQuery({currentQuery: router.currentRoute[products.routerFiltersSource], filterVariant})
-    await dispatch('changeRouterFilterParameters', newQuery)
+  async switchSearchFilters ({ dispatch }, filterVariants: FilterVariant[] = []) {
+    let currentQuery = router.currentRoute[products.routerFiltersSource]
+    filterVariants.forEach(filterVariant => {
+      currentQuery = changeFilterQuery({currentQuery, filterVariant})
+    })
+    await dispatch('changeRouterFilterParameters', currentQuery)
   },
   async resetSearchFilters ({dispatch}) {
     await dispatch('changeRouterFilterParameters', {})
