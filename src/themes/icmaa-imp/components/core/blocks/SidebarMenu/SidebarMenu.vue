@@ -25,6 +25,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import Top from 'theme/components/theme/blocks/AsyncSidebar/Top'
 import TopButton from 'theme/components/theme/blocks/AsyncSidebar/TopButton'
 import NavigationItem from 'theme/components/core/blocks/SidebarMenu/NavigationItem'
@@ -70,6 +71,12 @@ export default {
       this.closeMenu()
       this.$bus.$emit('modal-toggle-switcher')
     }
+  },
+  mounted () {
+    disableBodyScroll(this.$el)
+  },
+  destroyed () {
+    clearAllBodyScrollLocks()
   }
 }
 </script>

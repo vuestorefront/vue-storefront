@@ -3,6 +3,10 @@ const path = require('path')
 const compile = require('lodash.template')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
+const omit = require('lodash/omit')
+const set = require('lodash/set')
+const get = require('lodash/get')
+const config = require('config')
 
 function createRenderer (bundle, clientManifest, template) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
@@ -16,7 +20,35 @@ function createRenderer (bundle, clientManifest, template) {
   })
 }
 
+function getFieldsToFilter () {
+  const fields = config.ssr.initialStateFilter
+
+  if (config.products.lazyLoadingCategoryProducts) {
+    fields.push('category-next.products')
+  }
+
+  return fields
+}
+
+function filterState (context) {
+  if (!config.ssr.useInitialStateFilter) {
+    return context
+  }
+
+  for (const field of getFieldsToFilter()) {
+    const newValue = get(context.initialState, field, null)
+    set(context.state, field, newValue)
+  }
+
+  if (!config.server.dynamicConfigReload) {
+    context.state = omit(context.state, ['config'])
+  }
+
+  return omit(context, ['initialState'])
+}
+
 function applyAdvancedOutputProcessing (context, output, templatesCache, isProd = true, relatvePaths = false, destDir = '', outputFilename = '') {
+  context = filterState(context)
   const contentPrepend = (typeof context.output.prepend === 'function') ? context.output.prepend(context) : '';
   const contentAppend = (typeof context.output.append === 'function') ? context.output.append(context) : '';
   output = contentPrepend + output + contentAppend;
@@ -34,6 +66,7 @@ function applyAdvancedOutputProcessing (context, output, templatesCache, isProd 
     output = output.replace(new RegExp('/assets', 'g'), `${relativePath}/dist`)
     output = output.replace(new RegExp('href="/', 'g'), `href="${relativePath}/`)
   }
+
   return output;
 }
 
