@@ -33,6 +33,7 @@
 import Wishlist from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Wishlist'
 import Product from 'theme/components/core/blocks/Wishlist/Product'
 import ClearWishlistButton from 'theme/components/core/blocks/Wishlist/ClearWishlistButton'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {
   props: {
@@ -60,6 +61,12 @@ export default {
         hasNoTimeout: true
       })
     }
+  },
+  mounted () {
+    disableBodyScroll(this.$el)
+  },
+  destroyed () {
+    clearAllBodyScrollLocks()
   },
   mixins: [Wishlist]
 }

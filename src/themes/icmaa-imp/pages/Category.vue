@@ -68,7 +68,10 @@
             </h4>
             <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
           </div>
-          <product-listing :columns="defaultColumn" :products="getCategoryProducts" />
+          <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+            <product-listing :columns="defaultColumn" :products="getCategoryProducts" />
+          </lazy-hydrate>
+          <product-listing v-else :columns="defaultColumn" :products="getCategoryProducts" />
         </div>
       </div>
     </div>
@@ -76,21 +79,19 @@
 </template>
 
 <script>
+import LazyHydrate from 'vue-lazy-hydration'
 import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
 import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
 import { isServer } from '@vue-storefront/core/helpers'
-import { getSearchOptionsFromRouteParams } from 'icmaa-category/helpers/categoryHelpers'
 import config from 'config'
 import Columns from '../components/core/Columns.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { mapGetters } from 'vuex'
 import uniq from 'lodash-es/uniq'
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
-
-import CategoryExtrasHeader from 'theme/components/core/blocks/ICMAA/CategoryExtras/Header.vue'
-import CategoryExtrasMixin from 'icmaa-cms/mixins/categoryExtras'
+import rootStore from '@vue-storefront/core/store';
 
 const composeInitialPageState = async (store, route) => {
   try {
@@ -109,6 +110,7 @@ const composeInitialPageState = async (store, route) => {
 
 export default {
   components: {
+    LazyHydrate,
     ButtonFull,
     ProductListing,
     Breadcrumbs,
@@ -122,7 +124,8 @@ export default {
     return {
       mobileFilters: false,
       defaultColumn: 3,
-      loadingProducts: false
+      loadingProducts: false,
+      loading: true
     }
   },
   computed: {
@@ -133,6 +136,9 @@ export default {
       getCategoryProductsTotal: 'category-next/getCategoryProductsTotal',
       getAvailableFilters: 'category-next/getAvailableFilters'
     }),
+    isLazyHydrateEnabled () {
+      return config.products.lazyLoadingCategoryProducts
+    },
     isCategoryEmpty () {
       return this.getCategoryProductsTotal === 0
     },
@@ -147,12 +153,16 @@ export default {
     if (isServer) next() // SSR no need to invoke SW caching here
     else if (from.name) { // SSR but client side invocation, we need to cache products
       next(async vm => {
+        vm.loading = true
         await vm.$store.dispatch('category-next/cacheProducts', { route: to })
+        vm.loading = false
       })
     } else { // Pure CSR, with no initial category state
       next(async vm => {
+        vm.loading = true
         await composeInitialPageState(vm.$store, to)
         await vm.$store.dispatch('category-next/cacheProducts', { route: to })
+        vm.loading = false
       })
     }
   },

@@ -63,7 +63,7 @@
         <div class="flex mr10 align-right start-xs between-sm prices">
           <div class="prices" v-if="!displayItemDiscounts || !isOnline">
             <span class="h4 serif cl-error price-special" v-if="product.special_price">
-              {{ product.priceInclTax * product.qty | price }}&nbsp;
+              {{ product.priceInclTax * product.qty | price }}
             </span>
             <span class="h6 serif price-original" v-if="product.special_price">
               {{ product.originalPriceInclTax * product.qty | price }}
@@ -74,7 +74,7 @@
           </div>
           <div class="prices" v-else-if="isOnline && product.totals">
             <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
-              {{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }}&nbsp;
+              {{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }}
             </span>
             <span class="h6 serif price-original" v-if="product.totals.discount_amount">
               {{ product.totals.row_total_incl_tax | price }}
@@ -132,10 +132,11 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import config from 'config'
-import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
+import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
 import ProductImage from 'theme/components/core/ProductImage'
 import ColorSelector from 'theme/components/core/ColorSelector.vue'
@@ -145,10 +146,17 @@ import EditButton from './EditButton'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption'
+import { getThumbnailForProduct, getProductConfiguration } from '@vue-storefront/core/modules/cart/helpers'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import EditMode from './EditMode'
 
 export default {
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
   components: {
     RemoveButton,
     BaseInputNumber,
@@ -175,6 +183,12 @@ export default {
         src: this.thumbnail
       }
     },
+    thumbnail () {
+      return getThumbnailForProduct(this.product)
+    },
+    configuration () {
+      return getProductConfiguration(this.product)
+    },
     productLink () {
       return formatProductLink(this.product, currentStoreView().storeCode)
     },
@@ -197,6 +211,12 @@ export default {
       }
 
       this.updateQuantity(qty)
+    },
+    removeFromCart () {
+      this.$store.dispatch('cart/removeItem', { product: this.product })
+    },
+    updateQuantity (quantity) {
+      this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: quantity })
     }
   }
 }
