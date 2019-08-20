@@ -91,7 +91,11 @@ import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { mapGetters } from 'vuex'
 import uniq from 'lodash-es/uniq'
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
-import rootStore from '@vue-storefront/core/store';
+import rootStore from '@vue-storefront/core/store'
+
+import { getSearchOptionsFromRouteParams } from 'icmaa-category/helpers/categoryHelpers'
+import CategoryExtrasHeader from 'theme/components/core/blocks/ICMAA/CategoryExtras/Header.vue'
+import CategoryExtrasMixin from 'icmaa-cms/mixins/categoryExtras'
 
 const composeInitialPageState = async (store, route) => {
   try {
