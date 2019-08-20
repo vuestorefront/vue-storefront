@@ -496,10 +496,10 @@ const actions: ActionTree<CartState, RootState> = {
       })
       if (task.result === true) {
         dispatch('syncTotals', { forceServerSync: true })
+        return true
       }
-      return task
     }
-    return null
+    return false
   },
   /** authorize the cart after user got logged in using the current cart token */
   authorize ({ dispatch }) {
