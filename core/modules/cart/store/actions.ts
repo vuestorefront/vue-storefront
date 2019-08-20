@@ -492,12 +492,12 @@ const actions: ActionTree<CartState, RootState> = {
           headers: { 'Content-Type': 'application/json' },
           mode: 'cors'
         },
-        silent: false
+        silent: true
       })
       if (task.result === true) {
         dispatch('syncTotals', { forceServerSync: true })
       }
-      return task.result
+      return task
     }
     return null
   },

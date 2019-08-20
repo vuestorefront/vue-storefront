@@ -178,9 +178,16 @@ export default {
       this.addCouponPressed = false
     },
     setCoupon () {
-      this.applyCoupon(this.couponCode).then(() => {
+      this.applyCoupon(this.couponCode).then((response) => {
         this.addCouponPressed = false
         this.couponCode = ''
+        if (response.result !== true) {
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'warning',
+            message: i18n.t("You've entered an incorrect coupon code. Please try again."),
+            action1: { label: i18n.t('OK') }
+          })
+        }
       }).catch(() => {
         this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
