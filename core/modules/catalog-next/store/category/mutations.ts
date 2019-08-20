@@ -18,9 +18,11 @@ const mutations: MutationTree<CategoryState> = {
   },
   [types.CATEGORY_ADD_CATEGORIES] (state, categories: Category[] = []) {
     if (categories.length) {
+      let newCategoriesEntry = {}
       categories.forEach(category => {
-        Vue.set(state.categoriesMap, category.id, category)
+        newCategoriesEntry[category.id] = category
       })
+      state.categoriesMap = Object.assign({}, state.categoriesMap, newCategoriesEntry)
     }
   },
   [types.CATEGORY_SET_AVAILABLE_FILTERS] (state, availableFilters = {}) {
