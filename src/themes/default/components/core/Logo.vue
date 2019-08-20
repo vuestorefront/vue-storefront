@@ -17,7 +17,7 @@ export default {
   data () {
     const storeView = currentStoreView()
     return {
-      defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : 'Vuestore'
+      defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle
     }
   },
   props: {

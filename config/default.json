@@ -26,7 +26,7 @@
   "seo": {
     "useUrlDispatcher": true,
     "disableUrlRoutesPersistentCache": true,
-    "defaultTitle": "Vuestore"
+    "defaultTitle": "Vue Storefront"
   },
   "console": {
     "showErrorOnProduction" : false,
@@ -89,7 +89,7 @@
       "amp": "dist/index.amp.html"
     },
     "executeMixedinAsyncData": true,
-    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute", "checkout"],
+    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute"],
     "useInitialStateFilter": true
   },
   "queues": {
@@ -129,7 +129,7 @@
         "dateFormat": "HH:mm D-M-YYYY"
       },
       "seo": {
-        "defaultTitle": "Vuestore"
+        "defaultTitle": "Vue Storefront"
       }
     },
     "it": {
@@ -155,7 +155,7 @@
         "defaultLocale": "it-IT"
       },
       "seo": {
-        "defaultTitle": "Vuestore"
+        "defaultTitle": "Vue Storefront"
       }
     }
   },
@@ -287,6 +287,7 @@
   "products": {
     "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
+    "lazyLoadingCategoryProducts": true,
     "setFirstVarianAsDefaultInURL": false,
     "configurableChildrenStockPrefetchStatic": false,
     "configurableChildrenStockPrefetchDynamic": false,

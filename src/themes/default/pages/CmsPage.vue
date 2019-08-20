@@ -15,6 +15,7 @@
 
 <script>
 import CmsPage from '@vue-storefront/core/pages/CmsPage'
+
 export default {
   computed: {
     cmsPageContent () {
