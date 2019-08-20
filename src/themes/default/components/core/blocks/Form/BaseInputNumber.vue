@@ -43,7 +43,7 @@ export default {
     },
     max: {
       type: Number,
-      default: 0
+      default: undefined
     },
     disabled: {
       type: Boolean,

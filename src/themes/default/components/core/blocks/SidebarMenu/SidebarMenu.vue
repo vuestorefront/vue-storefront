@@ -141,6 +141,7 @@ import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/Si
 import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
 import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {
   components: {
@@ -206,9 +207,13 @@ export default {
     }
   },
   mounted () {
+    disableBodyScroll(this.$el)
     this.$nextTick(() => {
       this.componentLoaded = true
     })
+  },
+  destroyed () {
+    clearAllBodyScrollLocks()
   },
   methods: {
     login () {

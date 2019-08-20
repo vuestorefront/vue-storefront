@@ -1,14 +1,13 @@
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import CheckoutState from '../../types/CheckoutState'
-import { ORDER_PLACE_ORDER } from '@vue-storefront/core/modules/order/store/mutation-types'
 
 const mutations: MutationTree<CheckoutState> = {
   /**
    * Setup current order object
    * @param {Object} order Object
    */
-  [ORDER_PLACE_ORDER] (state, order) {
+  [types.CHECKOUT_PLACE_ORDER] (state, order) {
     state.order = order
   },
   [types.CHECKOUT_SET_MODIFIED_AT] (state, timestamp) {

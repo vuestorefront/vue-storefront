@@ -147,11 +147,8 @@ export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocat
         return storeCode
       }
     }
-
-    return ''
-  } else {
-    return ''
   }
+  return ''
 }
 
 export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | string): LocalizedRoute | string {

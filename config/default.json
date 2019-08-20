@@ -88,7 +88,7 @@
       "amp": "dist/index.amp.html"
     },
     "executeMixedinAsyncData": true,
-    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute", "checkout"],
+    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute"],
     "useInitialStateFilter": true
   },
   "queues": {
@@ -281,6 +281,7 @@
   "products": {
     "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
+    "lazyLoadingCategoryProducts": true,
     "setFirstVarianAsDefaultInURL": false,
     "configurableChildrenStockPrefetchStatic": false,
     "configurableChildrenStockPrefetchDynamic": false,
