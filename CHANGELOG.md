@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for tax calculation where the values from customer_tax_class_ids is used - @resubaka (#3245)
 - Added loading product attributes (`entities.productListWithChildren.includeFields`) on category page - @andrzejewsky (#3220)
 - Added config to set Cache-Control header for static assets based on mime type - @phoenix-bjoern (#3268)
+- Improve `category-next/getCategoryFrom` and `category-next/getCurrentCategory` to be more flexible - @cewald (#3295)
 - Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351)
 - Added test to multistore.ts so it is nearly fully unit tested - @resubaka (#3352)
 - Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351, #3354)
@@ -54,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed module extendStore for array property inside store - @przspa (#3311)
 - Fixed ordering of the categories and subcategories in sidebar - @andrzejewsky (#2665)
 - Some SSR problems with urlDispatcher during multireloading page - @patzick (#3323)
+- Fixed two bugs in `category-next/getCategoryFrom` (#3286) and `category-next/getCurrentCategory` (#3332) - @cewald (#3295)
 
 ### Changed / Improved
 
