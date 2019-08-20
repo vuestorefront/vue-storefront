@@ -5,6 +5,7 @@ jest.mock('@vue-storefront/core/modules/cart/helpers/productChecksum', () => () 
 
 const createProduct = ({ type_id }): CartItem => ({
   type_id,
+  qty: 1,
   product_links: [
     {
       link_type: 'associated',
@@ -23,6 +24,6 @@ describe('Cart prepareProductsToAdd', () => {
 
   it('returns products with checksum applied', async () => {
     const product = createProduct({ type_id: 'bundle' })
-    expect(prepareProductsToAdd(product)).toEqual([{ ...product, checksum: 'some checksum' }])
+    expect(prepareProductsToAdd(product)).toEqual([{ qty: 1, type_id: 'bundle', checksum: 'some checksum' }])
   });
 });

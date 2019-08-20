@@ -3,7 +3,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 const formatValue = (value, locale) => {
   const price = Math.abs(parseFloat(value));
 
-  return price.toLocaleString(locale, { maximumFractionDigits: 2 });
+  return price.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 };
 
 const applyCurrencySign = (formattedPrice, { currencySign, currencySignPlacement }) => {

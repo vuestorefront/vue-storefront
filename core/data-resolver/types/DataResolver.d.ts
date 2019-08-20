@@ -1,5 +1,7 @@
 import { Category } from 'core/modules/catalog-next/types/Category';
 import { UserProfile } from 'core/modules/user/types/UserProfile'
+import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
+import { Order } from '@vue-storefront/core/modules/order/types/Order'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 
 declare namespace DataResolver {
@@ -42,5 +44,22 @@ declare namespace DataResolver {
     getOrdersHistory: () => Promise<Task>,
     changePassword: (passwordData: PasswordData) => Promise<Task>,
     refreshToken: (refreshToken: string) => Promise<string>
+  }
+
+  interface CartService {
+    setShippingInfo: (methodsData: any /*: ShippingMethodsData */) => Promise<Task>,
+    getTotals: () => Promise<Task>,
+    getCartToken: (guestCart: boolean, forceClientState: boolean) => Promise<Task>,
+    updateItem: (cartServerToken: string, cartItem: CartItem) => Promise<Task>,
+    deleteItem: (cartServerToken: string, cartItem: CartItem) => Promise<Task>,
+    getPaymentMethods: () => Promise<Task>,
+    getShippingMethods: (address: any /*: ShippingMethodsData */) => Promise<Task>,
+    getItems: () => Promise<Task>,
+    applyCoupon: (couponCode: string) => Promise<Task>,
+    removeCoupon: () => Promise<Task>
+  }
+
+  interface OrderService {
+    placeOrder: (order: Order) => Promise<Task>
   }
 }
