@@ -489,7 +489,7 @@ export function configureProductAsync (context, { product, configuration, select
         Logger.debug('Skipping configurable options setup', configuration)()
       } */
       const fieldsToOmit = ['name']
-      if (selectedVariant.image === '') fieldsToOmit.push('image')
+      if (selectedVariant.image === '' || selectedVariant.image === 'no_selection') fieldsToOmit.push('image')
       selectedVariant = omit(selectedVariant, fieldsToOmit) // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
       // use chosen variant
       if (selectDefaultVariant) {
