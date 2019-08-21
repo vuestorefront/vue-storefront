@@ -183,9 +183,9 @@ We built our `module` house in the territory of `./src/modules`. We created the 
 
 Here `index.ts` uncovers a module is basically a function with access to certain parts of Vue app instance and allows to interact with it. Additionally achieved is a better versatility thanks to `helpers` and `hooks` along with it. 
 
-If you take a look a little deeper, you will arrive at `./core/lib/modules.ts` where module signature and `registerModule` function along with `injectReferences` function take up seats. `registerModule` is the hard worker who works in `src/modules/index.ts` to register modules pushing individuals into `registeredModules`. (Beware the small difference in those names as in `registerModule`, `registeredModules`, `registerModules` and so on, might be confusing if you skim it, but they are correct and appropriate in its own role with matching names) 
+If you take a look a little deeper, you will arrive at `./core/lib/modules.ts` where module signature and `registerModule` function take up seats. `registerModule` is the hard worker who works in `src/modules/index.ts` to register modules pushing individuals into `registeredModules`. (Beware the small difference in those names as in `registerModule`, `registeredModules`, `registerModules` and so on, might be confusing if you skim it, but they are correct and appropriate in its own role with matching names) 
 
-Take one step further to `./core/app.ts`, you will also notice `injectReferences` helping your module directly work with `store`, `router` and `config` of **VueStorefront** app instance. With this approach our module development experience is much straight-forward and *Vue native API* friendly so that code becomes simpler, cleaner and maintainable. 
+With this approach our module development experience is much straight-forward and *Vue native API* friendly so that code becomes simpler, cleaner and maintainable. 
 
 Now you are officially a **Vue Storefront module developer**. Congratulation!
 
