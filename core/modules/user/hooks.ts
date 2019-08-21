@@ -3,9 +3,9 @@ import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/
 // Authorize
 
 const { hook: beforeUserAuthorizeHook, executor: beforePUserAuthorizeExecutor }: {
-  hook: (userDataMutator: (user: { username: string, password: string }) => any) => void,
+  hook: (beforeAuthorizeListener: (user: { username: string, password: string }) => any) => void,
   executor: any
-} = createMutatorHook()
+} = createListenerHook()
 
 const { hook: afterUserAuthorizeHook, executor: afterUserAuthorizeExecutor }: {
   hook: (afterAuthorizeListener: (response: any) => any) => void,
@@ -29,7 +29,7 @@ const userHooksExecutors = {
 
 const userHooks = {
   /** Hook is fired directly before sending user credentials to the server, before all validations.
-   * @param user `{ username, password }` Inside this function you have access to user.name, and user.password that you can modify or just return unchanged.
+   * @param user `{ username, password }` Inside this function you have access to user.name, and user.password.
   */
   beforeUserAuthorize: beforeUserAuthorizeHook,
   /** Hook is fired right after user is authenticated or auth fails.
