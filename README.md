@@ -20,6 +20,8 @@ If you're new and need some guidance feel free to visit out [forum](https://foru
 - `@pkarw` (integrations and backend)
 - `@ptomczyk` (frontend and best practices)
 - `@lukeromanowicz` (testing, magento, backend)
+-  Degi Kwag (docs)
+
 
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
@@ -65,7 +67,7 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
 
 ## Is it production ready?
 
-Yes! There are more than 10 implementations happening right now and many live shops (check [awesome Vue Storefront list](https://github.com/frqnck/awesome-vue-storefront)).
+Yes! There are more than 20 implementations happening right now and many live shops (check [awesome live projects on Vue Storefront](https://www.vuestorefront.io/live-projects/)).
 
 ## Browser Compatibility
 
