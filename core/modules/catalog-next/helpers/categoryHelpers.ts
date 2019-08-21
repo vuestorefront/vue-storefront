@@ -16,7 +16,7 @@ export const _prepareCategoryPathIds = (category: Category): string[] => {
   return category.path.split('/')
 }
 
-export const getSearchOptionsFromRouteParams = (params: { [key: string]: string } = {}): Object => {
+export const getSearchOptionsFromRouteParams = (params: { [key: string]: string } = {}): Record<string, string> => {
   const filterableKeys = entities.category.validSearchOptionsFromRouteParams
   let filters: { [key: string]: string } = {}
 
