@@ -15,6 +15,9 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
       this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
     }
 ```
+- The getter `cart/totals` has been replaced with `cart/getTotals` - @pkarw (#2522)
+- The getter `cart/coupon` has been replaced with `cart/getCoupon` - @pkarw (#2522)
+- The getter `cart/totalQuantity` has been replaced with `cart/getItemsTotalQuantity` - @pkarw (#2522)
 
 ## 1.8 -> 1.9
 - The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields 
