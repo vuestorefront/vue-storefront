@@ -25,10 +25,6 @@ function registerModules (modules: VueStorefrontModule[], context): void {
   )()
 }
 
-function isModuleRegistered (key: string): boolean {
-  return registeredModules.some(m => m.key === key)
-}
-
 function extendModule (moduleConfig: VueStorefrontModuleConfig) {
   moduleExtendings.push(moduleConfig)
 }
@@ -138,6 +134,5 @@ export {
   extendModule,
   VueStorefrontModule,
   registerModules,
-  isModuleRegistered,
   createModule
 }
