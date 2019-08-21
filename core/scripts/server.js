@@ -79,8 +79,7 @@ function invalidateCache (req, res) {
       })
 
       if (config.server.invalidateCacheForwarding) { // forward invalidate request to the next server in the chain
-        if (!req.query.forwardedFrom && config.server.invalidateCacheForwardUrl) { // don't forward forwarded requests 
-          
+        if (!req.query.forwardedFrom && config.server.invalidateCacheForwardUrl) { // don't forward forwarded requests
           request(config.server.invalidateCacheForwardUrl + req.query.tag + '&forwardedFrom=vs', {}, (err, res, body) => {
             if (err) { console.error(err); }
             try {
@@ -88,9 +87,9 @@ function invalidateCache (req, res) {
             } catch (e) {
               console.error('Invalid Cache Invalidation response format', e)
             }
-          });        
+          });
         }
-      }      
+      }
     } else {
       apiStatus(res, 'Invalid parameters for Clear cache request', 500)
       console.error('Invalid parameters for Clear cache request')
