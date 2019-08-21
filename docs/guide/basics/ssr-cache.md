@@ -1,6 +1,10 @@
 # SSR Cache
 
-Vue Storefront generates the server-side rendered pages to improve SEO results. In the latest version of Vue Storefront, we added the output cache option (disabled by default) to improve performance.
+Vue Storefront generates the server-side rendered pages and from version to improve SEO results. In the latest version of Vue Storefront, we added the output cache option (disabled by default) to improve performance - for both Vue Storefront and Vue Storefront API.
+
+:::warning Caution !
+Vue Storefront API uses exactly the same output cache mechanisms like Vue Storefront with the same configuration and CLI interface.
+:::
 
 The output cache is set by the following `config/local.json` variables:
 
@@ -12,7 +16,10 @@ The output cache is set by the following `config/local.json` variables:
       "api": "api",
       "useOutputCacheTagging": true,
       "useOutputCache": true,
-      "outputCacheDefaultTtl": 86400
+      "outputCacheDefaultTtl": 86400,
+      "invalidateCacheKey": "aeSu7aip",
+      "invalidateCacheForwarding": false,
+      "invalidateCacheForwardUrl": "http://localhost:8080/invalidate?key=aeSu7aip&tag=",      
     },
     "redis": {
       "host": "localhost",
@@ -68,7 +75,10 @@ npm run cache clear -- --tag=P198
 npm run cache clear -- --tag=*
 ```
 
+**Note:** The commands presented above works exactly the same way in the `vue-storefront-api`.
+
 Available tag keys are set in the `config.server.availableCacheTags` (by default: `"product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C"`)
+
 
 **Dynamic cache invalidation:** Recent version of [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) supports output cache invalidation. Output cache is tagged with the product and categories ID (products and categories used on a specific page). Mage2vuestorefront can invalidate the cache of a product and category pages if you set the following ENV variables:
 
@@ -76,6 +86,12 @@ Available tag keys are set in the `config.server.availableCacheTags` (by default
 export VS_INVALIDATE_CACHE_URL=http://localhost:3000/invalidate?key=SECRETKEY&tag=
 export VS_INVALIDATE_CACHE=1
 ```
+
+:::warning Caution !
+All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/DivanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (frontend or backend) and it should be forwarded. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
+:::
+
+For `magento1-vsbridge-indexer` and `magento2-vsbridge-indexer` please do use the proper settings in the Magento admin panel.
 
 :::warning Security note
 Please note that `key=SECRETKEY` should be equal to `vue-storefront/config/local.json` value of `server.invalidateCacheKey`
