@@ -19,7 +19,6 @@ const { hook: afterUserUnauthorizeHook, executor: afterUserUnauthorizeExecutor }
   executor: any
 } = createListenerHook()
 
-
 /** Only for internal usage in this module */
 const userHooksExecutors = {
   beforeUserAuthorize: beforePUserAuthorizeExecutor,
@@ -36,7 +35,7 @@ const userHooks = {
    * @param response result of user authentication containing status codes and user data
   */
   afterUserAuthorize: afterUserAuthorizeHook,
-    /** Hook is fired right after user is logged out.
+  /** Hook is fired right after user is logged out.
   */
   afterUserUnauthorize: afterUserUnauthorizeHook
 }
