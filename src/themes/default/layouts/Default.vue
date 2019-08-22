@@ -25,7 +25,11 @@
         :is-open="isWishlistOpen"
         @close="$store.commit('ui/setWishlist')"
       />
-      <slot />
+      <lazy-hydrate when-idle :trigger-hydration="!isRouteComponentLazyHydrated">
+        <div>
+          <slot />
+        </div>
+      </lazy-hydrate>
       <main-footer />
       <notification />
       <sign-up />
@@ -51,6 +55,7 @@ import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import { isServer } from '@vue-storefront/core/helpers'
 import Head from 'theme/head'
 import config from 'config'
+import LazyHydrate from 'vue-lazy-hydration'
 
 const SidebarMenu = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
 const Microcart = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue')
@@ -76,7 +81,10 @@ export default {
       isSidebarOpen: state => state.ui.sidebar,
       isMicrocartOpen: state => state.ui.microcart,
       isWishlistOpen: state => state.ui.wishlist
-    })
+    }),
+    isRouteComponentLazyHydrated () {
+      return config.themeConfig.lazyRouteComponentHydration
+    }
   },
   methods: {
     onOrderConfirmation (payload) {
@@ -118,7 +126,8 @@ export default {
     CookieNotification,
     OfflineBadge,
     OrderConfirmation,
-    AsyncSidebar
+    AsyncSidebar,
+    LazyHydrate
   }
 }
 </script>

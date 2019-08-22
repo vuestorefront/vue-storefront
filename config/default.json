@@ -421,6 +421,9 @@
       "sendConfirmation": true
     },
     "theme": "@vue-storefront/theme-default",
+    "themeConfig": {
+      "lazyRouteComponentHydration": true
+    },
     "analytics": {
       "id": false
     },
