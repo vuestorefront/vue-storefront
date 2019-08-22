@@ -80,6 +80,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex order module - @andrzejewsky (#3337)
 - Changed body no-scroll behavior for overlapped element - @przspa (#3363)
 - `config.dynamicConfigReload` option should use deep copy for `Object.assign()` - @cewald (#3372)
+- Refactored vuex tax module - @andrzejewsky (#3337)
 - Refactored vuex stock module - @andrzejewsky (#3337)
 
 ## [1.10.0] - 2019.08.10

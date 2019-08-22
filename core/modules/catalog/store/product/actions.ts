@@ -11,7 +11,6 @@ import { configureProductAsync,
   setBundleProductOptionsAsync,
   getMediaGallery,
   configurableChildrenImages,
-  calculateTaxes,
   attributeImages } from '../../helpers'
 import { preConfigureProduct, getOptimizedFields, configureChildren, storeProductToCache, canCache, isGroupedOrBundle } from '@vue-storefront/core/modules/catalog/helpers/search'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
@@ -31,7 +30,6 @@ import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
-import { isUserGroupedTaxActive, getUserTaxGroupId } from '@vue-storefront/core/modules/catalog/helpers/tax';
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -108,11 +106,11 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Download Magento2 / other platform prices to put them over ElasticSearch prices
    */
-  syncPlatformPricesOver (context, { skus }) {
+  syncPlatformPricesOver ({ rootGetters }, { skus }) {
     const storeView = currentStoreView()
     let url = `${config.products.endpoint}/render-list?skus=${encodeURIComponent(skus.join(','))}&currencyCode=${encodeURIComponent(storeView.i18n.currencyCode)}&storeId=${encodeURIComponent(storeView.storeId)}`
-    if (isUserGroupedTaxActive()) {
-      url = `${url}&userGroupId=${getUserTaxGroupId()}`
+    if (rootGetters['tax/getIsUserGroupedTaxActive']) {
+      url = `${url}&userGroupId=${rootGetters['tax/getUserTaxGroupId']}`
     }
 
     return TaskQueue.execute({ url, // sync the cart
@@ -333,7 +331,7 @@ const actions: ActionTree<ProductState, RootState> = {
       }
     }
 
-    await calculateTaxes(products.items, context)
+    await context.dispatch('tax/calculateTaxes', { products: products.items }, { root: true })
 
     for (let prod of products.items) { // we store each product separately in cache to have offline access to products/single method
       prod = configureChildren(prod)
