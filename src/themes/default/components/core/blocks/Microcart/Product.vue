@@ -167,15 +167,15 @@ export default {
     ButtonFull
   },
   mixins: [Product, ProductOption, EditMode],
-  data () {
-    return {
-      displayItemDiscounts: config.cart.displayItemDiscounts,
-      productsAreReconfigurable: config.cart.productsAreReconfigurable && ['simple', 'configurable'].includes(this.product.type_id)
-    }
-  },
   computed: {
     isOnline () {
       return onlineHelper.isOnline
+    },
+    productsAreReconfigurable () {
+      return config.cart.productsAreReconfigurable && this.product.type_id === 'configurable' && this.isOnline
+    },
+    displayItemDiscounts () {
+      return config.cart.displayItemDiscounts
     },
     image () {
       return {
