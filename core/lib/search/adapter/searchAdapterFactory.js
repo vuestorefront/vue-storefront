@@ -7,7 +7,24 @@ const isImplementingSearchAdapterInterface = (obj) => {
 }
 
 export const getSearchAdapter = async (adapterName = server.api) => {
-  const SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `./${adapterName}/searchAdapter`)
+  let SearchAdapterModule
+
+  try {
+    SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `./${adapterName}/searchAdapter`)
+  } catch (e) {}
+
+  if (!SearchAdapterModule) {
+    try {
+      SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `src/search/adapter/${adapterName}/searchAdapter`)
+    } catch (e) {}
+  }
+
+  if (!SearchAdapterModule) {
+    try {
+      SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `${adapterName}`)
+    } catch (e) {}
+  }
+
   const SearchAdapter = SearchAdapterModule.SearchAdapter
 
   if (!SearchAdapter) {
