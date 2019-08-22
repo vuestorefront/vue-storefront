@@ -8,7 +8,6 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import config from 'config'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { calculateProductTax } from '@vue-storefront/core/modules/catalog/helpers/taxCalc'
 import { doPlatformPricesSync } from '@vue-storefront/core/modules/catalog/helpers'
 
