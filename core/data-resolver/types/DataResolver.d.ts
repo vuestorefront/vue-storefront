@@ -62,4 +62,10 @@ declare namespace DataResolver {
   interface OrderService {
     placeOrder: (order: Order) => Promise<Task>
   }
+
+  interface StockService {
+    check: (sku: string) => Promise<Task>,
+    queueCheck: (sku: string, actionName: string) => Promise<any>,
+    list: (skuList: string[]) => Promise<Task>
+  }
 }
