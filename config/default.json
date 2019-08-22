@@ -408,7 +408,9 @@
     "sourcePriceIncludesTax": false,
     "calculateServerSide": true,
     "userGroupId": null,
-    "useOnlyDefaultUserGroupId": false
+    "useOnlyDefaultUserGroupId": false,
+    "deprecatedPriceFieldsSupport": true,
+    "finalPriceIncludesTax": false
   },
   "shipping": {
     "methods": [
