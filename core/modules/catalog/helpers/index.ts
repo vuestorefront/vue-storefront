@@ -567,11 +567,11 @@ export function attributeImages (product) {
 
 export function configurableChildrenImages (product) {
   let configurableChildrenImages = []
-  if (product.configurable_children && product.configurable_children.length > 0) {
+  if (product.configurable_children && product.configurable_children.length > 0 && this.childHasImage(product.configurable_children)) {
     let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
     configurableChildrenImages = product.configurable_children.map(child =>
       ({
-        'src': getThumbnailPath(child.image, config.products.gallery.width, config.products.gallery.height),
+        'src': getThumbnailPath(((child.image === '' || child.image === 'no_selection') ? product.image : child.image), config.products.gallery.width, config.products.gallery.height),
         'loading': getThumbnailPath(product.image, config.products.thumbnails.width, config.products.thumbnails.height),
         'id': configurableAttributes.reduce((result, attribute) => {
           result[attribute] = child[attribute]
@@ -583,4 +583,16 @@ export function configurableChildrenImages (product) {
     configurableChildrenImages = attributeImages(product)
   }
   return configurableChildrenImages
+}
+
+/**
+ * check if one of the configuableChildren has an image
+ */
+
+export function childHasImage (children) {
+  let hasImage = false;
+  children.forEach((child) => {
+    if (child.image.length == 0 || child.image === 'no_selection') hasImage = true
+  })
+  return hasImage
 }
