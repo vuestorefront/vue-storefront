@@ -4,7 +4,8 @@ import { localizedDispatcherRoute, localizedRoute, LocalizedRoute } from '@vue-s
 import { RouteConfig } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { Category } from 'core/modules/catalog-next/types/Category';
+import { Category } from 'core/modules/catalog-next/types/Category'
+import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 
 export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: string]: any } | string, storeCodeInPath: string): LocalizedRoute {
   const parametrizedRoute = Object.assign({}, routeData)
@@ -16,6 +17,7 @@ export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: s
 }
 
 export function processDynamicRoute (routeData: LocalizedRoute, fullPath: string, addToRoutes: boolean = true): LocalizedRoute[] {
+  fullPath = removeStoreCodeFromRoute(fullPath) as string
   const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
     if (addToRoutes) {
