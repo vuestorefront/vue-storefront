@@ -1,5 +1,5 @@
 import { server } from 'config'
-
+import { Logger } from '@vue-storefront/core/lib/logger'
 let instances = {}
 
 const isImplementingSearchAdapterInterface = (obj) => {
@@ -11,18 +11,24 @@ export const getSearchAdapter = async (adapterName = server.api) => {
 
   try {
     SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `${adapterName}`)
-  } catch (e) {}
+  } catch (e) {
+    Logger.debug(`Search adapter ${adapterName} was not found in global node_modules`)
+  }
 
   if (!SearchAdapterModule) {
     try {
       SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `src/search/adapter/${adapterName}/searchAdapter`)
-    } catch (e) {}
+    } catch (e) {
+      Logger.debug(`Search adapter was not found in src/search/adapter/${adapterName}/searchAdapter`)
+    }
   }
 
   if (!SearchAdapterModule) {
     try {
       SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `./${adapterName}/searchAdapter`)
-    } catch (e) {}
+    } catch (e) {
+      Logger.debug(`Search adapter ${adapterName} was not found in in the core`)
+    }
   }
 
   const SearchAdapter = SearchAdapterModule.SearchAdapter
