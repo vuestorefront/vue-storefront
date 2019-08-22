@@ -1,4 +1,9 @@
+import { defaultStoreCode } from 'config'
 import { localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore';
+
+export const getCurrentStoreCode = (): string => {
+  return !currentStoreView() || currentStoreView().storeCode === defaultStoreCode ? null : currentStoreView().storeCode
+}
 
 export const localizeRouterLink = (text: string): string => {
   const regex = /(<router-link\sto=")(.*)(">.*<\/router-link>)/gm;

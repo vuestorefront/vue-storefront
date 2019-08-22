@@ -3,8 +3,8 @@ import { MutationTypesInterface } from '../abstract/mutation-types'
 
 import Axios from 'axios'
 import config from 'config'
+import { getCurrentStoreCode } from '../../helpers'
 
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { processURLAddress } from '@vue-storefront/core/helpers'
 import { isServer } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
@@ -33,11 +33,10 @@ export const list = async <T>(options: OptionsInterface): Promise<T> => {
   let { context, documentType, mutationTypes, storageKey } = options
   const { state } = context
 
-  const storeView = currentStoreView()
   let params = {
     'type': documentType,
     'q': values,
-    'lang': storeView ? storeView.i18n.defaultLocale.toLowerCase() : null
+    'lang': getCurrentStoreCode()
   }
 
   if (typeof values === 'string') {
@@ -106,7 +105,6 @@ export const single = async <T>(options: OptionsInterface): Promise<T> => {
   const cacheKey = storageKey + '/' + value
 
   const state = context.state
-  const storeView = currentStoreView()
 
   if (!state.items || state.items.length === 0 || !state.items.find(itm => itm[key] === value)) {
     if (await cache.getItem(cacheKey).then(item => item !== null)) {
@@ -123,7 +121,7 @@ export const single = async <T>(options: OptionsInterface): Promise<T> => {
     let params = {
       'type': documentType,
       'uid': value,
-      'lang': storeView ? storeView.i18n.defaultLocale.toLowerCase() : null
+      'lang': getCurrentStoreCode()
     }
 
     return Axios.get(
