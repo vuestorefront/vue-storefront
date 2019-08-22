@@ -1,13 +1,16 @@
 <template>
   <div id="app">
-    <component :is="layout">
-      <router-view />
-    </component>
+    <lazy-hydrate when-idle>
+      <component :is="layout">
+        <router-view />
+      </component>
+    </lazy-hydrate>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import LazyHydrate from 'vue-lazy-hydration'
 const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ './layouts/Default')
 const EmptyLayout = () => import(/* webpackChunkName: "vsf-layout-empty" */ './layouts/Empty')
 const MinimalLayout = () => import(/* webpackChunkName: "vsf-layout-minimal" */ './layouts/Minimal')
@@ -29,7 +32,8 @@ export default {
   components: {
     DefaultLayout,
     EmptyLayout,
-    MinimalLayout
+    MinimalLayout,
+    LazyHydrate
   }
 }
 </script>
