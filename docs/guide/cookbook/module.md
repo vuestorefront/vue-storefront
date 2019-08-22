@@ -18,13 +18,19 @@ If the open source authors are serious about their offspring, one must admit it'
 
 When you want to tweak any open source for whatever reason needed to make it more fantastic, first thing you need to look for is *modules* within the code base. You may name *API*, *hooks* or *observers* for the same matter, but *module* basically represents all of them in one place in design.  
 
-In this recipe, we are going to cover how we bootstrap a module in its bare minimum in order to inject our logic into the machine. *Tarzans, follow!*
+In this recipe, we are going to cover how we bootstrap a module in its bare minimum in order to inject our logic into the machine. We will explore two different methods, one for manual install, the other for [`CLI`](setup.html#_4-storefront-cli-at-your-service) module generation with the boilerplate. *Tarzans, follow!*
+
+:::tip TIP
+If you want to know the detailed difference of _Manual_ method and _CLI_ method, please go to [Recipe 5. Packaging a module](#_5-packaging-a-module)
+:::
 
 ### 1. Preparation
 - You need [**Vue Storefront**](https://github.com/DivanteLtd/vue-storefront) instance [installed along with other infrastructure ](setup.html#_1-install-with-docker) on your machine to build a new module and test it working. 
 - You need a development editor of your choice for your own convenience.
+- You need _Vue Storefront_ [`CLI`](https://www.npmjs.com/package/@vue-storefront/cli) [installed](setup.html#_4-storefront-cli-at-your-service) on your machine for [Recipe B](#_2-2-recipe-b-cli-bootstrapping) installing with `CLI`. 
 
-### 2. Recipe
+### 2-1. Recipe A (Manual bootstrapping)
+
 1. Create a folder under `./src/modules/example-module` from your **Vue Storefront** root path. 
 ```bash
 cd src/modules
@@ -99,8 +105,10 @@ export function registerNewModules () {
 }
 ```
 
-:::tip NOTE 
-You are free to choose to register your module here as other modules do, or register anywhere anytime else you want it, which is possible due to _lazy loading_ or aka dynamic loading. With _lazy loading_, however, you may not be able to access some hooks such as `onAppInit` because they are not lazy. (meaning only fired during app initialization)
+:::tip TIP 
+Modules can be _lazy-loaded_ naturally. The _lazy loading_ generally has a few advantages such as performance, low overhead during initialization and may allow code separation in more structured way. One advice is, if your module is required across the entire app, it's better to stay with the regular place that is `./src/modules/index.ts` as demonstrated above. On the contrary, if your module is confined and bound to a certain route or bundle, then it might be wiser to register it inside them and load the bundle lazily. 
+
+ _Lazy loading_, however, also has a downside that you may not be able to access some hooks such as `afterAppInit` because they are not lazy. (meaning only fired during app initialization)
 :::
 
 6. Run the command at **Vue Storefront** root path to bootstrap **Vue Storefront** app
@@ -124,6 +132,50 @@ app_1  | Entity cache is enabled for productList null
 # abridged ...
 ```
 
+### 2-2. Recipe B (CLI bootstrapping)
+
+1. Go to your project folder _or_ any prestine folder for your new `module` development. 
+```bash
+mkdir example-folder
+cd example-folder
+```
+
+2. Run the `vsf` CLI command as follows : 
+```bash
+vsf init:module example-folder
+```
+The command required for module initialization here is `vsf init:module` and your new module name is `example-folder` in this case. 
+
+You will see the following result : 
+```bash
+Module vsf-example-folder has been succesfully created!
+ cd vsf-example-folder
+```
+
+:::tip NOTE
+You might have noticed `vsf` put a prefix _`vsf`_ by default to your newly created module name. This helps your module get compiled automatically during _[INSERT UPDATE REQUIRED]_
+:::
+
+3. As the result dictates, change your directory to :
+```bash
+cd vsf-example-folder
+```
+
+4. List the files inside as follows :
+```bash
+ls *
+```
+You will see the following structure :
+```bash
+package.json  README.md  tsconfig.json
+
+src:
+index.ts  store.ts
+```
+Congratulation, you are good to go now. 
+
+Further scenarios of this can be found at [Recipe 5. Packaging a module](#_5-packaging-a-module)
+
 ### 3. Peep into the kitchen (what happens internally)
 We have created a module with only a few simple steps and registered it  successfully. Even though it's doing nothing practically, it was enough to grab the concept in design, and helped you transform into a module developer which is great. 
 
@@ -138,7 +190,7 @@ Take one step further to `./core/app.ts`, you will also notice `injectReferences
 Now you are officially a **Vue Storefront module developer**. Congratulation!
 
 ### 4. Chef's secret (protip)
-#### Secret 1. Lazy loading your module where you want it
+#### Secret 1. Lazy loading in practical examples
 
 #### Secret 2. How a module can be leveraged to build extensions or integrations with. 
 
@@ -290,8 +342,8 @@ Open _Chrome DevTools_ and go to _Vue_ tab, and click _Vuex_ tab or click `ctrl`
 ![product_liked_borderline](../images/product_like_state.png)
 
 :::tip TIP
-You may use _Firefox Vuejs extension_ if you use _Firefox_. 
-Install [Firefox Vuejs extension](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
+You may use _vue-devtools_ for _Firefox_ if you use _Firefox_. 
+Install [Firefox vue-devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
 
 :::
 
@@ -425,7 +477,12 @@ app_1  | whole request [/liked]: 1323ms
 You can read [more in depth](#_3-hooking-into-hooks)
 
 ### 2-5. Recipe E (Manage module-level `config`)
-Sometimes you may want to give a change to your module, not a change of structure but a small change of configuration. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`. 
+Sometimes you may need to pass values to populate fields in your module configuration dynamically. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`. 
+
+Basically you would have saved your module _configuration_ inside `local.json`, however, you might want to override some of it while registering a module. 
+
+Suppose you need to use a 3rd party service integrated to your storefront. Most of the time you need to provide an API credentials encapsulated in a request to the 3rd party so that they will know _you are you_ and process a service and return a result that belongs to you. This recipe tells you how to do it with overriding 3rd party account during module registration. 
+
 
 1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
 ```bash
@@ -433,28 +490,28 @@ cd src/modules/example-module
 vi index.ts # of course you can open it with other editors!
 ```
 
-2. Fix the hook part as follows : 
-```ts{11-17}
+2. Prepare the module to accept dynamic `moduleConfig` option where you want to allow to override values as follows : 
+```ts{8-12,17}
 // ...abridged
 
 export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
   store.registerModule('example-module', exampleModuleStore);
+  // ... abridged ...
 
-  extendStore('product', newProductModule);
+  // Prepare apiKey for a request to a 3rd party to integrate with it, example as follows : 
+  if (moduleConfig.apiKey) {
+    const apiKey = moduleConfig.apiKey
+  } else {
+    const apiKey = appConfig.degiService.apiKey // This means you have the apiKey value for degiService in your local.json
+  }
 
-  router.addRoutes(exampleRoutes)
-  router.beforeEach((to, from, next) => { next() })
+  // Continue to send a request to the 3rd party as the context demands 
+  // ... abridged for the sake of brevity ...
 
-  coreHooks.afterAppInit(() => {
-    if (moduleConfig.afterAppInit) {
-      moduleConfig.afterAppInit();
-    } else {
-      console.log('App has just been initialized');
-    }
-  });
+  console.log(apiKey); // This line helps you confirm apiKey value is overridden as intended
 }
 ```
-This change indicates `moduleConfig` object has `afterAppInit` option for providing a choice for `module` user when registering it. 
+This indicates `moduleConfig` object has `apiKey` option for providing a choice for `module` user when registering it. 
 
 3. Go to parent directory, open `index.ts` which is `./src/modules/index.ts` and fix the code as follows :  
 ```ts{6-10}
@@ -464,9 +521,7 @@ This change indicates `moduleConfig` object has `afterAppInit` option for provid
   registerModule(InstantCheckoutModule) 
   
   registerModule(ExampleModule, {
-    afterAppInit: () => {
-      console.log('This is one way to use moduleConfig');
-    }
+    apiKey: "YOUR_VALUABLE_API_KEY_ON_THE_FLY"
   }) // Here you pass config object as you want it
 }
 
@@ -485,7 +540,7 @@ yarn dev
 Once again the app is up and running, now look for the part we injected : 
 ```bash{2}
 app_1  | [module] VS Modules registration finished. { succesfulyRegistered: '0 / 0', registrationOrder: [] }
-app_1  | This is one way to use moduleConfig # moduleConfig injected successfully !
+app_1  | YOUR_VALUABLE_API_KEY_ON_THE_FLY # moduleConfig injected successfully !
 app_1  | Calling asyncData in Home (theme) null
 ```
 You can read [more in depth](#_4-on-configuration)
@@ -554,6 +609,7 @@ _Configuration_ tends to have default values which entails default behaviors of 
 <br />
 
 ## 5. Packaging a module
+It's hands down no-brainer to bootstrap a module _manually_ because the skeleton required for minimum signature is dead simple and straightforward. Compared to the _`CLI`_ method, however, the _manual_ method is usually prefered for _local_ development, in other words, a project-specific module is structured with [the manual method](#_2-1-recipe-a-manual-bootstrapping) for better legibility. In contrast, _`CLI`_ method can help you build your module easily as a `npm` package  by providing you with the boilerplate. 
 
 ### 1. Preparation
 ### 2. Recipe
