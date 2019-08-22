@@ -65,7 +65,7 @@ declare namespace DataResolver {
 
   interface StockService {
     check: (sku: string) => Promise<Task>,
-    queueCheck: (sku: string) => Promise<any>,
+    queueCheck: (sku: string, actionName: string) => Promise<any>,
     list: (skuList: string[]) => Promise<Task>
   }
 }

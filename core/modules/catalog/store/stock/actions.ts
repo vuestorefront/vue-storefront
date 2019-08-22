@@ -15,9 +15,7 @@ const actions: ActionTree<StockState, RootState> = {
     }
 
     if (config.stock.synchronize) {
-      const task = await StockService.queueCheck(product.sku)
-
-      dispatch('cart/stockSync', task, { root: true })
+      const task = await StockService.queueCheck(product.sku, 'cart/stockSync')
 
       // @ts-ignore
       Logger.debug(`Stock quantity checked for ${task.product_sku}, response time: ${task.transmited_at - task.created_at} ms`, 'stock')()

@@ -4,7 +4,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync';
 import Task from '@vue-storefront/core/lib/sync/types/Task';
 import { processURLAddress } from '@vue-storefront/core/helpers';
 
-const queueCheck = (sku: string): Promise<any> =>
+const queueCheck = (sku: string, actionName: string): Promise<any> =>
   TaskQueue.queue({
     url: processURLAddress(`${config.stock.endpoint}/check?sku=${encodeURIComponent(sku)}`),
     payload: {
@@ -13,7 +13,8 @@ const queueCheck = (sku: string): Promise<any> =>
       mode: 'cors'
     },
     is_result_cacheable: true,
-    product_sku: sku
+    product_sku: sku,
+    callback_event: `store:${actionName}`
   })
 
 const check = (sku: string): Promise<Task> =>

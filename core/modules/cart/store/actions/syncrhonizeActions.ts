@@ -75,8 +75,9 @@ const synchronizeActions = {
     cartHooksExecutors.afterSync(result)
     return createDiffLog()
   },
-  stockSync: debounce(async ({ dispatch, commit }, stockTask) => {
+  async stockSync ({ dispatch, commit }, stockTask) {
     const product = { sku: stockTask.product_sku }
+
     const cartItem = await dispatch('getItem', { product })
 
     if (!cartItem || stockTask.result.code === 'ENOTFOUND') return
@@ -99,7 +100,7 @@ const synchronizeActions = {
       product: { info: { stock: i18n.t('In stock!') }, sku: stockTask.product_sku, is_in_stock: true }
     })
     EventBus.$emit('cart-after-itemchanged', { item: cartItem })
-  }, 1000)
+  }
 }
 
 export default synchronizeActions
