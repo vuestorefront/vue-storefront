@@ -4,7 +4,7 @@
       {{ $t('Log in') }}
       <i
         slot="close"
-        class="modal-close material-icons p15 cl-bg-tertiary"
+        class="modal-close material-icons cl-bg-tertiary"
         @click="close"
       >
         close
