@@ -57,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed ordering of the categories and subcategories in sidebar - @andrzejewsky (#2665)
 - Some SSR problems with urlDispatcher during multireloading page - @patzick (#3323)
 - Fixed two bugs in `category-next/getCategoryFrom` (#3286) and `category-next/getCurrentCategory` (#3332) - @cewald (#3295)
+- Fixed login popup close icon position - @przspa (#3393)
 
 ### Changed / Improved
 
