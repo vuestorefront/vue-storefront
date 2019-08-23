@@ -84,6 +84,7 @@ import ProductListing from '../components/core/ProductListing.vue'
 import Breadcrumbs from '../components/core/Breadcrumbs.vue'
 import SortBy from '../components/core/SortBy.vue'
 import { isServer } from '@vue-storefront/core/helpers'
+import { getSearchOptionsFromRouteParams } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
 import config from 'config'
 import Columns from '../components/core/Columns.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
@@ -98,10 +99,8 @@ const composeInitialPageState = async (store, route) => {
       filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields]), // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
       includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
     })
-    const searchPath = route.path.substring(1) // TODO change in mage2vuestorefront to url_paths starts with / sign
-    const categoryFilters = { 'url_path': searchPath }
-    // const categoryFilters = { 'slug': route.params.slug } // If you have disabled config.products.useMagentoUrlKeys in your project then use this way
-    const currentCategory = await store.dispatch('category-next/loadCategory', {filters: categoryFilters})
+    const filters = getSearchOptionsFromRouteParams(route.params)
+    const currentCategory = await store.dispatch('category-next/loadCategory', { filters })
     await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
     await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
   } catch (e) {
@@ -174,7 +173,7 @@ export default {
       this.mobileFilters = false
     },
     async changeFilter (filterVariant) {
-      this.$store.dispatch('category-next/switchSearchFilter', filterVariant)
+      this.$store.dispatch('category-next/switchSearchFilters', [filterVariant])
     },
     columnChange (column) {
       this.defaultColumn = column

@@ -55,7 +55,7 @@ const StorageManager = {
   get: function (collectionName): UniversalStorage {
     if (!this.exists(collectionName)) {
       Logger.warn('Called cache collection ' + collectionName + ' does not exist. Initializing.', 'cache')
-      return this.set(collectionName, initCacheStorage(collectionName, true))
+      return this.set(collectionName, initCacheStorage(collectionName, true)) // eslint-disable-line @typescript-eslint/no-use-before-define
     } else {
       return this.storageMap[collectionName]
     }

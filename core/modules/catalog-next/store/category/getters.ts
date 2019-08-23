@@ -7,19 +7,30 @@ import FilterVariant from '../../types/FilterVariant'
 import { optionLabel } from '../../helpers/optionLabel'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
+import forEach from 'lodash-es/forEach'
 import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
-import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
+import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state): Category[] => Object.values(state.categoriesMap),
   getCategoriesMap: (state): { [id: string]: Category} => state.categoriesMap,
   getCategoryProducts: (state) => state.products,
   getCategoryFrom: (state, getters) => (path: string = '') => {
-    return getters.getCategories.find(category => path.includes(category.url_path)) || {}
+    return getters.getCategories.find(category => path.replace(/^(\/)/gm, '') === category.url_path) || {}
   },
-  getCurrentCategory: (state, getters, rootState) => getters.getCategoryFrom(rootState.route.path),
+  getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
+    return getters.getCategories.find(category => {
+      let valueCheck = []
+      const searchOptions = getSearchOptionsFromRouteParams(params)
+      forEach(searchOptions, (value, key) => valueCheck.push(category[key] && category[key] === (category[key].constructor)(value)))
+      return valueCheck.filter(check => check === true).length === Object.keys(searchOptions).length
+    }) || {}
+  },
+  getCurrentCategory: (state, getters, rootState) => {
+    return getters.getCategoryByParams(rootState.route.params)
+  },
   getAvailableFiltersFrom: (state, getters, rootState) => (aggregations) => {
     const filters = {}
     if (aggregations) { // populate filter aggregates

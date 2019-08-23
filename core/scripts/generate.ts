@@ -9,7 +9,40 @@ import bodybuilder from 'bodybuilder'
 import program from 'commander'
 const resolve = file => path.resolve(rootPath, file)
 
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
 const { renderer, templatesCache, destPath } = _prepareRenderer();
+
+async function _renderItems (itemsSource, pageFrom, pageSize, useRelativePaths = false, urlToFileNameMapper = (destPath, item) => {
+  return (path.join(destPath, item._source.url_path))
+}) {
+  let recordsProcessed = 0
+  let results = null
+  do {
+    results = await itemsSource(pageFrom, pageSize)
+    console.log(`Processing records - pageSize: ${pageSize} from: ${pageFrom}`)
+    if (results.hits && results.hits.hits.length > 0) {
+      results.hits.hits.forEach(async item => {
+        console.log(`Generating static page for ${item._source.url_path} - ${item._source.name}`)
+        const urlToRender = item._source.url_path
+        const res = { redirect: (url) => {} }
+        const req = { url: urlToRender }
+        const context = ssr.initSSRRequestContext(null, req, res, config)
+        try {
+          let output = await renderer.renderToString(context)
+          const outputFilename = urlToFileNameMapper(destPath, item)
+          output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, true, useRelativePaths, destPath, outputFilename);
+          generator.saveRenderedPage(outputFilename, output)
+        } catch (err) {
+          console.error(`Error rendering item: ${item._source.name}: ${err}`)
+        }
+      });
+      recordsProcessed += results.hits.hits.length
+    } else {
+      console.log(`Done! Total number of items processed: ${recordsProcessed}`)
+    }
+    pageFrom = pageFrom + pageSize
+  } while (results.hits && results.hits.hits.length > 0)
+}
 
 // TODO: all, prepare, clear commands + relative paths as an option
 const _cmdGenerateProducts = async (cmd) => {
@@ -130,38 +163,6 @@ program
   .option('-f|--from <from>', 'from - starting record', 0)
   .option('-s|--size <size>', 'size - batch size', 20)
   .action(_cmdAll)
-
-async function _renderItems (itemsSource, pageFrom, pageSize, useRelativePaths = false, urlToFileNameMapper = (destPath, item) => {
-  return (path.join(destPath, item._source.url_path))
-}) {
-  let recordsProcessed = 0
-  let results = null
-  do {
-    results = await itemsSource(pageFrom, pageSize)
-    console.log(`Processing records - pageSize: ${pageSize} from: ${pageFrom}`)
-    if (results.hits && results.hits.hits.length > 0) {
-      results.hits.hits.forEach(async item => {
-        console.log(`Generating static page for ${item._source.url_path} - ${item._source.name}`)
-        const urlToRender = item._source.url_path
-        const res = { redirect: (url) => {} }
-        const req = { url: urlToRender }
-        const context = ssr.initSSRRequestContext(null, req, res, config)
-        try {
-          let output = await renderer.renderToString(context)
-          const outputFilename = urlToFileNameMapper(destPath, item)
-          output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, true, useRelativePaths, destPath, outputFilename);
-          generator.saveRenderedPage(outputFilename, output)
-        } catch (err) {
-          console.error(`Error rendering item: ${item._source.name}: ${err}`)
-        }
-      });
-      recordsProcessed += results.hits.hits.length
-    } else {
-      console.log(`Done! Total number of items processed: ${recordsProcessed}`)
-    }
-    pageFrom = pageFrom + pageSize
-  } while (results.hits && results.hits.hits.length > 0)
-}
 
 function _prepareRenderer () {
   const compileOptions = {

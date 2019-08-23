@@ -75,7 +75,7 @@ export default {
   .right-sidebar {
     top: 0;
     right: 0;
-    z-index: 3;
+    z-index: 4;
     height: 100%;
     width: 800px;
     min-width: 320px;
@@ -90,7 +90,7 @@ export default {
     left: 0;
     overflow: hidden;
     overflow-y: auto;
-    z-index: 3;
+    z-index: 4;
 
     @media (max-width: 767px) {
       width: 100vh;
