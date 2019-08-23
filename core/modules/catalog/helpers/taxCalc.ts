@@ -1,11 +1,10 @@
-import rootStore from '@vue-storefront/core/store'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import config from 'config'
+// this is the mirror copy of taxcalc.js from VSF API
 
 function isSpecialPriceActive (fromDate, toDate) {
   if (!fromDate && !toDate) {
     return true
   }
+
   const now = new Date()
   fromDate = fromDate ? new Date(fromDate) : false
   toDate = toDate ? new Date(toDate) : false
@@ -23,7 +22,7 @@ function isSpecialPriceActive (fromDate, toDate) {
   }
 }
 
-export function updateProductPrices (product, rate, sourcePriceInclTax = false, deprecatedPriceFieldsSupport = false, finalPriceInclTax = true) {
+export function updateProductPrices ({ product, rate, sourcePriceInclTax = false, deprecatedPriceFieldsSupport = false, finalPriceInclTax = true }) {
   const rate_factor = parseFloat(rate.rate) / 100
   if (finalPriceInclTax) {
     product.final_price_incl_tax = parseFloat(product.final_price) // final price does include tax
@@ -209,32 +208,15 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false, 
   }
 }
 
-export function isUserGroupedTaxActive (): boolean {
-  if (typeof currentStoreView().tax.userGroupId === 'number') {
-    return true
-  }
-  return true
-}
-
-export function getUserTaxGroupId (): number|void {
-  if (!isUserGroupedTaxActive()) return
-
-  if (currentStoreView().tax.useOnlyDefaultUserGroupId) return currentStoreView().tax.userGroupId
-
-  return rootStore.getters['user/isLoggedIn'] === true ? rootStore.state.user.current.group_id : currentStoreView().tax.userGroupId
-}
-
-export function calculateProductTax (product, taxClasses, taxCountry = 'PL', taxRegion = '', sourcePriceInclTax = false, deprecatedPriceFieldsSupport = false, finalPriceInclTax = true) {
+export function calculateProductTax ({ product, taxClasses, taxCountry = 'PL', taxRegion = '', sourcePriceInclTax = false, deprecatedPriceFieldsSupport = false, finalPriceInclTax = true, userGroupId = null, isTaxWithUserGroupIsActive }) {
   let rateFound = false
   if (product.tax_class_id > 0) {
     let taxClass
-    if (typeof currentStoreView().tax.userGroupId === 'number') {
-      const userGroupId = getUserTaxGroupId()
-
-      taxClass = taxClasses.find((el) => {
-        return el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id)) >= 0 &&
+    if (isTaxWithUserGroupIsActive) {
+      taxClass = taxClasses.find((el) =>
+        el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id)) >= 0 &&
           el.customer_tax_class_ids.indexOf(userGroupId) >= 0
-      })
+      )
     } else {
       taxClass = taxClasses.find((el) => el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id) >= 0))
     }
@@ -242,7 +224,7 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
     if (taxClass) {
       for (let rate of taxClass.rates) { // TODO: add check for zip code ranges (!)
         if (rate.tax_country_id === taxCountry && (rate.region_name === taxRegion || rate.tax_region_id === 0 || !rate.region_name)) {
-          updateProductPrices(product, rate, sourcePriceInclTax, deprecatedPriceFieldsSupport)
+          updateProductPrices({ product, rate, sourcePriceInclTax, deprecatedPriceFieldsSupport, finalPriceInclTax })
           rateFound = true
           break
         }
@@ -250,7 +232,7 @@ export function calculateProductTax (product, taxClasses, taxCountry = 'PL', tax
     }
   }
   if (!rateFound) {
-    updateProductPrices(product, {rate: 0})
+    updateProductPrices({ product, rate: { rate: 0 }, sourcePriceInclTax, deprecatedPriceFieldsSupport, finalPriceInclTax })
 
     product.price_incl_tax = product.price
     product.price_tax = 0

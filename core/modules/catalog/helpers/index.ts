@@ -1,6 +1,5 @@
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import rootStore from '@vue-storefront/core/store'
-import { calculateProductTax } from '../helpers/tax'
 import flattenDeep from 'lodash-es/flattenDeep'
 import omit from 'lodash-es/omit'
 import remove from 'lodash-es/remove'
@@ -9,7 +8,6 @@ import union from 'lodash-es/union'
 // TODO: Remove this dependency
 import { optionLabel } from './optionLabel'
 import i18n from '@vue-storefront/i18n'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
@@ -312,30 +310,6 @@ export function doPlatformPricesSync (products) {
       }
     } else {
       resolve(products)
-    }
-  })
-}
-// TODO: should be moved to tax
-/**
- * Calculate taxes for specific product collection
- */
-export function calculateTaxes (products, store) {
-  return new Promise((resolve, reject) => {
-    if (config.tax.calculateServerSide) {
-      Logger.debug('Taxes calculated server side, skipping')()
-      doPlatformPricesSync(products).then((products) => {
-        resolve(products)
-      })
-    } else {
-      const storeView = currentStoreView()
-      store.dispatch('tax/list', { query: '' }, { root: true }).then((tcs) => { // TODO: move it to the server side for one requests OR cache in indexedDb
-        for (let product of products) {
-          product = calculateProductTax(product, tcs.items, storeView.tax.defaultCountry, storeView.tax.defaultRegion, storeView.tax.sourcePriceIncludesTax)
-        }
-        doPlatformPricesSync(products).then((products) => {
-          resolve(products)
-        })
-      }) // TODO: run Magento2 prices request here if configured so in the config
     }
   })
 }
