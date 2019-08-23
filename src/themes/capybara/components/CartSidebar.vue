@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { SfSidebar, SfButton, SfHeading } from '@storefrontui/vue'
+import { SfSidebar, SfButton, SfHeading } from '@storefront-ui/vue'
 
 export default {
   name: 'CartSidebar',
@@ -74,7 +74,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@storefrontui/vue/src/css/variables";
+@import "~@storefront-ui/vue/src/css/variables";
 
 .cart-sidebar {
   .sf-sidebar__content {

@@ -7,7 +7,7 @@
   "author": "filrak <frakowski@divante.pl> and contributors",
   "license": "MIT",
   "dependencies": {
-    "@storefrontui/vue": "file:../../../../storefront-ui/packages/vue"
+    "@storefront-ui/vue": "file:../../../../storefront-ui/packages/vue"
   },
   "publishConfig": {
     "access": "public"

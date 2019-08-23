@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { SfAccordion, SfList, SfMenuItem } from '@storefrontui/vue';
+import { SfAccordion, SfList, SfMenuItem } from '@storefront-ui/vue';
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
 export default {

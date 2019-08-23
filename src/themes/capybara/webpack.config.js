@@ -8,6 +8,6 @@ sfuiOverride.generateNewRoot()
 module.exports = function (config, { isClient, isDev }) {
   // TODO in next iteration, fix this issue
   const wpConfig = isDev ? config.default : config
-  wpConfig.resolve.alias['@storefrontui/vue$'] = path.join(__dirname, '../../../core/build/tmp/sfui-override.js')
+  wpConfig.resolve.alias['@storefront-ui/vue$'] = path.join(__dirname, '../../../core/build/tmp/sfui-override.js')
   return config
 }

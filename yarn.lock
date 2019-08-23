@@ -3145,23 +3145,26 @@
     "@shellscape/koa-send" "^4.1.0"
     debug "^2.6.8"
 
-"@storefrontui/shared@^0.0.3-alpha.11":
-  version "0.0.3-alpha.11"
-  resolved "https://registry.yarnpkg.com/@storefrontui/shared/-/shared-0.0.3-alpha.11.tgz#cdfd684cb8f599fd656bb682c56ff88213c925a7"
-  integrity sha512-SCXXgVRb07v+Zi2GDPqu1DpSiYOQP1VQfiRHXFxdd0z6f5dz8zw8gVUAejyM41tFfIpA5YEiAxKHnFU6OXvtgw==
+"@storefront-ui/shared@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.1.0.tgz#58c61948c8ef0e451d3434ed1a3e2926fff967fd"
+  integrity sha512-aV8WQW3HSyAmC8v+a2vUlw+V1xg7BH5Z4nRecxY3KaJiBR7iXfd7KJqf8V8LGEc7ennF18yhbRgASM/kU09mdA==
 
-"@storefrontui/vue@file:../storefront-ui/packages/vue":
-  version "0.0.4-aplha.14"
+"@storefront-ui/vue@file:../storefront-ui/packages/vue":
+  version "0.1.1"
   dependencies:
     "@glidejs/glide" "^3.3.0"
-    "@storefrontui/shared" "^0.0.3-alpha.11"
+    "@storefront-ui/shared" "^0.1.0"
     "@vue/babel-preset-app" "^4.0.0-alpha.1"
     core-js "^3.1.3"
+    leaflet "^1.5.1"
     lerna "^3.0.0-rc.0"
     lozad "^1.9.0"
     node-sass "^4.12.0"
     sass-loader "^7.1.0"
+    vue-drag-drop "^1.1.4"
     vue-fragment "^1.5.1"
+    vue2-leaflet "^2.1.1"
     webpack-dev-middleware "3.6.0"
 
 "@types/anymatch@*":
@@ -9913,6 +9916,11 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
+leaflet@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.5.1.tgz#9afb9d963d66c870066b1342e7a06f92840f46bf"
+  integrity sha512-ekM9KAeG99tYisNBg0IzEywAlp0hYI5XRipsqRXyRTeuU8jcuntilpp+eFf5gaE0xubc9RuSNIVtByEKwqFV0w==
+
 lean-he@^2.0.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/lean-he/-/lean-he-2.1.2.tgz#50c2422f0ca42f6737c9c1988b555cf00ebc712f"
@@ -13272,6 +13280,11 @@ semver@5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
 
+semver@^5.7.0:
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
+  integrity sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==
+
 semver@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.0.0.tgz#05e359ee571e5ad7ed641a6eec1e547ba52dea65"
@@ -14655,6 +14668,13 @@ vue-carousel@^0.6.9:
   version "0.6.15"
   resolved "https://registry.yarnpkg.com/vue-carousel/-/vue-carousel-0.6.15.tgz#7446e3cb2762d58175d52c83c4052a1aeeae91ea"
 
+vue-drag-drop@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/vue-drag-drop/-/vue-drag-drop-1.1.4.tgz#6e94aeb10304b91d651614b7307d0b90f0227e89"
+  integrity sha512-zrpvKcD5LPVbht7cJ7ZBY0poS8GDLibRck18Zx0polkoSSpTPNMAv/m/b98xtZ3I1jdWGyiPybfPgKFFkygjhQ==
+  dependencies:
+    core-js "^2.5.3"
+
 vue-eslint-parser@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-2.0.3.tgz#c268c96c6d94cfe3d938a5f7593959b0ca3360d1"
@@ -14794,6 +14814,11 @@ vue-template-compiler@^2.5.16, vue-template-compiler@^2.6.6:
 vue-template-es2015-compiler@^1.6.0, vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
+
+vue2-leaflet@^2.1.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/vue2-leaflet/-/vue2-leaflet-2.2.1.tgz#cd67274951751a33df147481fce2b956ba174c7e"
+  integrity sha512-yBB3Ilv9LTszNn/uxUATq8+Ahw/1FqIasdQehb9m1tJ5T9qeEk8Fr9a6uLzvR+zuz88rnEQVo7/iGUd96E7iLg==
 
 vue@^2.5.16, vue@^2.6.6:
   version "2.6.10"

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { SfSidebar, SfHeading } from '@storefrontui/vue'
+import { SfSidebar, SfHeading } from '@storefront-ui/vue'
 
 export default {
   name: 'WishlistSidebar',
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@storefrontui/vue/src/css/variables";
+@import "~@storefront-ui/vue/src/css/variables";
 
 .wishlist-sidebar {
   .sf-sidebar__content {

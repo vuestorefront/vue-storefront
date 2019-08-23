@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { SfBottomNavigation, SfIcon, SfCircleIcon } from '@storefrontui/vue'
+import { SfBottomNavigation, SfIcon, SfCircleIcon } from '@storefront-ui/vue'
 import AppHeader from 'src/themes/capybara/components/Header'
 
 export default {
@@ -45,6 +45,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@storefrontui/vue/src/css/all";
-@import "~@storefrontui/vue/src/css/helpers";
+@import "~@storefront-ui/vue/src/css/all";
+@import "~@storefront-ui/vue/src/css/helpers";
 </style>

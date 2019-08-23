@@ -108,7 +108,7 @@ import {
   SfAccordion,
   SfSelect,
   SfLoader
-} from '@storefrontui/vue';
+} from '@storefront-ui/vue';
 
 export default {
   name: 'CategoryPage',
@@ -137,7 +137,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefrontui/vue/src/css/variables";
+@import "~@storefront-ui/vue/src/css/variables";
 
 #category {
   box-sizing: border-box;

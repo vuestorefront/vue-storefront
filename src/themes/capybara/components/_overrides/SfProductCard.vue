@@ -1,7 +1,7 @@
-<template src="@storefrontui/vue/src/components/molecules/SfProductCard/SfProductCard.html" />
+<template src="@storefront-ui/vue/src/components/molecules/SfProductCard/SfProductCard.html" />
 
 <script>
-import { SfProductCard } from '@storefrontui/vue/js'
+import { SfProductCard } from '@storefront-ui/vue/js'
 import merge from 'lodash-es/merge'
 
 /** Map default `regularPrice`, `specialPrice`, `image`, `title` properties to just a single `product` prop */
@@ -57,5 +57,5 @@ export default SfProductCardExtended
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefrontui/shared/styles/components/SfProductCard.scss";
+@import "~@storefront-ui/shared/styles/components/SfProductCard.scss";
 </style>

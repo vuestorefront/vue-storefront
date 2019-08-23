@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { SfSidebar, SfButton, SfFilter } from '@storefrontui/vue'
+import { SfSidebar, SfButton, SfFilter } from '@storefront-ui/vue'
 import omit from 'lodash-es/omit'
 
 export default {
@@ -72,7 +72,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefrontui/vue/src/css/variables";
+@import "~@storefront-ui/vue/src/css/variables";
 
 .filters {
   &__title:not(:first-child),

@@ -147,7 +147,7 @@ import {
   SfBannerGrid,
   SfProductCard,
   SfBanner
-} from '@storefrontui/vue';
+} from '@storefront-ui/vue';
 
 import { isServer } from '@vue-storefront/core/helpers'
 
@@ -188,7 +188,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefrontui/vue/src/css/variables";
+@import "~@storefront-ui/vue/src/css/variables";
 
 #home {
   max-width: 1240px;
