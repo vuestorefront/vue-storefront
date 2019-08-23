@@ -67,6 +67,7 @@ const invokeClientEntry = async () => {
   }
   router.onReady(() => {
     router.beforeResolve((to, from, next) => {
+      app.$mount('#app')
       if (!from.name) return next() // do not resolve asyncData on server render - already been done
       if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
       const matched = router.getMatchedComponents(to)
@@ -104,7 +105,6 @@ const invokeClientEntry = async () => {
         }
       }))
     })
-    app.$mount('#app')
   })
   /*
   * serial executes Promises sequentially.
