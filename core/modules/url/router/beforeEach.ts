@@ -27,7 +27,11 @@ export function beforeEachGuard (to: Route, from: Route, next) {
   const fullPath = normalizeUrlPath(to.fullPath)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
   const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name && to.name.startsWith('urldispatcher')
-  if (!to.matched.length || to.matched[0].name.endsWith('page-not-found') || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
+
+  const lastRoute = store.getters['url/getLastMatchedRoute']
+  store.dispatch('url/registerLastMatchedRoute', to.name)
+
+  if (!to.matched.length || (!lastRoute.endsWith('page-not-found') && to.matched[0].name.endsWith('page-not-found')) || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
     UrlDispatchMapper(to).then((routeData) => {
       if (routeData) {
         let dynamicRoutes: LocalizedRoute[] = processDynamicRoute(routeData, fullPath, !isPreviouslyDispatchedDynamicRoute)
