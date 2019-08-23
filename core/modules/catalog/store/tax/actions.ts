@@ -49,7 +49,9 @@ const actions: ActionTree<TaxState, RootState> = {
     const {
       defaultCountry,
       defaultRegion,
-      sourcePriceIncludesTax
+      sourcePriceIncludesTax,
+      finalPriceIncludesTax,
+      deprecatedPriceFieldsSupport
     } = rootState.storeView.tax
 
     const recalculatedProducts = products.map(product =>
@@ -58,8 +60,10 @@ const actions: ActionTree<TaxState, RootState> = {
         taxClasses: tcs.items,
         taxCountry: defaultCountry,
         taxRegion: defaultRegion,
+        finalPriceInclTax: finalPriceIncludesTax,
         sourcePriceInclTax: sourcePriceIncludesTax,
         userGroupId: getters.getUserTaxGroupId,
+        deprecatedPriceFieldsSupport: deprecatedPriceFieldsSupport,
         isTaxWithUserGroupIsActive: getters.getIsUserGroupedTaxActive
       })
     )
