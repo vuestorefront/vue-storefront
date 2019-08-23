@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Invalid Discount code error handled by theme - @grimasod (#3385)
+- `order.order_id` was not assigned in the `orders.directBackendSync` mode - @pkarw (#3398)
 - Hydration problems with UrlDispatcher :rocket: - @patzick (#3412)
 
 ## [1.10.0] - 2019.08.10
