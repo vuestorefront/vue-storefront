@@ -1,41 +1,38 @@
 import { Module } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import PaymentState from '../../types/PaymentState'
-import rootStore from '@vue-storefront/core/store'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
+// @deprecated
 export const paymentModule: Module<PaymentState, RootState> = {
   namespaced: true,
-  state: {
-    methods: []
-  },
-  mutations: {
-    addMethod (state, paymentMethod) {
-      state.methods.push(paymentMethod)
-    },
-    replaceMethods (state, paymentMethods) {
-      state.methods = paymentMethods
-    }
-  },
   actions: {
-    addMethod ({commit}, paymentMethod) {
-      commit('addMethod', paymentMethod)
+    addMethod ({ dispatch }, paymentMethod) {
+      Logger.error('The action payment/addMethod has been deprecated please change to checkout/addPaymentMethod')()
+
+      dispatch('checkout/addPaymentMethod', paymentMethod, { root: true })
     },
-    replaceMethods ({commit}, paymentMethods) {
-      commit('replaceMethods', paymentMethods)
+    replaceMethods ({ dispatch }, paymentMethods) {
+      Logger.error('The action payment/replaceMethods has been deprecated please change to checkout/replacePaymentMethods')()
+
+      dispatch('checkout/replacePaymentMethods', paymentMethods, { root: true })
     }
   },
   getters: {
-    paymentMethods: (state) => {
-      const isVirtualCart = rootStore.getters['cart/isVirtualCart']
-      return state.methods.filter(method => {
-        return (!isVirtualCart || method.code !== 'cashondelivery')
-      })
-    },
-    getDefaultPaymentMethod: (state, getters) => getters.paymentMethods.find(item => item.default),
-    getNotServerPaymentMethods: (state, getters) =>
-      getters.paymentMethods.filter((itm) =>
-        (typeof itm !== 'object' || !itm.is_server_method)
-      )
+    paymentMethods: (state, getters, rootState, rootGetters) => {
+      Logger.error('The getter payment/paymentMethods has been deprecated please change to checkout/getPaymentMethods')()
 
+      return rootGetters['checkout/getPaymentMethods']
+    },
+    getDefaultPaymentMethod: (state, getters, rootState, rootGetters) => {
+      Logger.error('The getter payment/getDefaultPaymentMethod has been deprecated please change to checkout/getDefaultPaymentMethod')()
+
+      return rootGetters['checkout/getDefaultPaymentMethod']
+    },
+    getNotServerPaymentMethods: (state, getters, rootState, rootGetters) => {
+      Logger.error('The getter payment/getNotServerPaymentMethods has been deprecated please change to checkout/getNotServerPaymentMethods')()
+
+      return rootGetters['checkout/getNotServerPaymentMethods']
+    }
   }
 }

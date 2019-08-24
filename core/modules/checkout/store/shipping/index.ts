@@ -1,33 +1,36 @@
 import { Module } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import ShippingState from '../../types/ShippingState'
-import config from 'config'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
+// @deprecated
 export const shippingModule: Module<ShippingState, RootState> = {
   namespaced: true,
-  state: {
-    methods: config.shipping.methods
-  },
-  mutations: {
-    addMethod (state, shippingMethods) {
-      state.methods.push(shippingMethods)
-    },
-    replaceMethods (state, shippingMethods) {
-      state.methods = shippingMethods
-    }
-  },
   actions: {
-    addMethod ({commit}, shippingMethod) {
-      commit('addMethod', shippingMethod)
+    addMethod ({ dispatch }, shippingMethod) {
+      Logger.error('The action shipping/addMethod has been deprecated please change to checkout/addShippingMethod')()
+      dispatch('checkout/addShippingMethod', shippingMethod, { root: true })
     },
-    replaceMethods ({commit}, shippingMethods) {
-      commit('replaceMethods', shippingMethods)
+    replaceMethods ({ dispatch }, shippingMethods) {
+      Logger.error('The action shipping/replaceMethods has been deprecated please change to checkout/replaceShippingMethods')()
+      dispatch('checkout/replaceShippingMethods', shippingMethods, { root: true })
     }
   },
   getters: {
-    // @deprecated use getShippingMethods instead
-    shippingMethods: state => state.methods,
-    getShippingMethods: state => state.methods,
-    getDefaultShippingMethod: state => state.methods.find(item => item.default)
+    shippingMethods: (state, getters, rootState, rootGetters) => {
+      Logger.error('The getter shipping/shippingMethods has been deprecated please change to checkout/getShippingMethods')()
+
+      return rootGetters['checkout/getShippingMethods']
+    },
+    getShippingMethods: (state, getters, rootState, rootGetters) => {
+      Logger.error('The getter shipping/getShippingMethods has been deprecated please change to checkout/getShippingMethods')()
+
+      return rootGetters['checkout/getShippingMethods']
+    },
+    getDefaultShippingMethod: (state, getters, rootState, rootGetters) => {
+      Logger.error('The getter shipping/getDefaultShippingMethod has been deprecated please change to checkout/getDefaultShippingMethod')()
+
+      return rootGetters['checkout/getDefaultShippingMethod']
+    }
   }
 }
