@@ -1,38 +1,33 @@
-import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
-import i18n from '@vue-storefront/i18n'
-import rootStore from '@vue-storefront/core/store'
 import RootState from '@vue-storefront/core/types/RootState'
 import CompareState from '../types/CompareState'
-import { cacheStorage } from '../'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { notifications } from '@vue-storefront/core/modules/compare/helpers'
+
 const actions: ActionTree<CompareState, RootState> = {
-  load ({ commit, getters }, force: boolean = false) {
+  async load ({ commit, getters, dispatch }, force: boolean = false) {
     if (!force && getters.isCompareLoaded) return
     commit(types.SET_COMPARE_LOADED)
-    cacheStorage.getItem('current-compare', (err, storedItems) => {
-      if (err) throw new Error(err)
+    const storedItems = await dispatch('getCurrentCompare')
+    console.log('loadddd', storedItems)
+    if (storedItems) {
       commit(types.COMPARE_LOAD_COMPARE, storedItems)
       Logger.info('Compare state loaded from browser cache: ', 'cache', storedItems)()
-    })
+    }
   },
-  addItem ({commit}, product) {
-    commit(types.COMPARE_ADD_ITEM, {product})
-    rootStore.dispatch('notification/spawnNotification', {
-      type: 'success',
-      message: i18n.t('Product {productName} has been added to the compare!', { productName: htmlDecode(product.name) }),
-      action1: { label: i18n.t('OK') }
-    })
+  async getCurrentCompare () {
+    const cacheStorage = StorageManager.get('compare')
+    return cacheStorage.getItem('current-compare')
   },
-  removeItem ({commit}, product) {
-    commit(types.COMPARE_DEL_ITEM, {product})
-    rootStore.dispatch('notification/spawnNotification', {
-      type: 'success',
-      message: i18n.t('Product {productName} has been removed from compare!', { productName: htmlDecode(product.name) }),
-      action1: { label: i18n.t('OK') }
-    })
+  addItem ({ commit, dispatch }, product) {
+    commit(types.COMPARE_ADD_ITEM, { product })
+    dispatch('notification/spawnNotification', notifications.productAddedToCompare(product.name), { root: true })
+  },
+  removeItem ({ commit, dispatch }, product) {
+    commit(types.COMPARE_DEL_ITEM, { product })
+    dispatch('notification/spawnNotification', notifications.productRemovedFromCompare(product.name), { root: true })
   },
   clear ({commit}) {
     commit(types.COMPARE_LOAD_COMPARE, [])
