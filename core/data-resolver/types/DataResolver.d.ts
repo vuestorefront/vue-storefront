@@ -68,4 +68,10 @@ declare namespace DataResolver {
     queueCheck: (sku: string, actionName: string) => Promise<any>,
     list: (skuList: string[]) => Promise<Task>
   }
+
+  interface NewsletterService {
+    status: (email: string) => Promise<any>,
+    subscribe: (email: string) => Promise<any>,
+    unsubscribe: (email: string) => Promise<any>
+  }
 }
