@@ -89,9 +89,6 @@ function _serverUpdateItem ({ cartServerToken, cartItem }): Promise<Task> {
 
 /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
 function _serverDeleteItem ({ cartServerToken, cartItem }): Promise<Task> {
-  if (!cartItem.quoteId) {
-    cartItem = Object.assign(cartItem, { quoteId: cartServerToken })
-  }
   cartItem = Object.assign(cartItem, { quoteId: cartServerToken })
   return TaskQueue.execute({ url: config.cart.deleteitem_endpoint, // sync the cart
     payload: {
