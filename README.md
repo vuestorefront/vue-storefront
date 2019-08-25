@@ -268,7 +268,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://divante.co/">
+        <a href="https://divante.com/">
           <img
             src="https://divante.co/about us/LOGO.png"
             alt="Divante"
@@ -512,10 +512,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
          <td align="center" valign="middle">
-        <a href="https://www.badger.blue/">
+        <a href="https://www.codilar.com/">
           <img
-            src="https://divante.co/partners/Vue-Storefront/BlueBadger-Logo.png"
-            alt="Badger Blue"
+            src="https://divante.co/partners/Vue-Storefront/codilar_logo.png"
+            alt="Codilar"
             height="50"
           >
         </a>
