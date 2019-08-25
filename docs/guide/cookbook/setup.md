@@ -1226,8 +1226,23 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "defaultCountry": "US",
   "defaultRegion": "",
   "sourcePriceIncludesTax": false,
-  "calculateServerSide": true
+  "calculateServerSide": true,
+  "userGroupId": null,
+  "useOnlyDefaultUserGroupId": false,
+  "deprecatedPriceFieldsSupport": true,
+  "finalPriceIncludesTax": false
 },
+```
+  - `tax`: ...
+    - `defaultCountry` is the code name of the country on which tax is calculated for the store. 
+    - `defaultRegion` is default region.
+    - `sourcePriceIncludesTax` determines whether price is stored with tax applied (`true`) or tax calculated on runtime (`false`).  [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/platform/magento2/tax.js#L12)
+    - `calculateServerSide` determines if price is fetched with(`true`)/without(`false`) tax calculated. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/product.js#L48)
+    - `userGroupId`: null,
+    - `useOnlyDefaultUserGroupId`: false,
+    - `deprecatedPriceFieldsSupport`: true,
+    - `finalPriceIncludesTax`: false
+```json
 "shipping": {
   "methods": [
     {
