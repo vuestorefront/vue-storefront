@@ -705,3 +705,7 @@ Please keep an eye on the **[UPGRADE NOTES](https://github.com/DivanteLtd/vue-st
 ## [0.2.0-alpha.0] - 2017-11-15
 ### Fixed
 - Lazy loaded blocks size fixed
+
+## [1.10.0] - 2019-08-24
+### Removed
+- if condition from the _serverDeleteItem method on core/modules/cart/store/action.ts
