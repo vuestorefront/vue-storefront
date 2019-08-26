@@ -60,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed two bugs in `category-next/getCategoryFrom` (#3286) and `category-next/getCurrentCategory` (#3332) - @cewald (#3295)
 - Fixed login popup close icon position - @przspa (#3393)
 - Fixed styles for original price on Wishlist sidebar - @przspa (#3392)
+- Redirect loop on dispatching dynamic routes in CSR running multistore mode - @cewald, @lukeromanowicz, @resubaka (#3396)
 
 ### Changed / Improved
 

@@ -91,8 +91,5 @@ export const actions: ActionTree<UrlState, any> = {
         }
       }
     }
-  },
-  async registerLastMatchedRoute ({ commit }, routeName) {
-    commit(types.ADD_LAST_MATCHED_ROUTE, routeName)
   }
 }
