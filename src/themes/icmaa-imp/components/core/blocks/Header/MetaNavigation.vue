@@ -4,7 +4,7 @@
       <router-link :to="localizedRoute(link.route)" class="t-flex t-text-sm t-text-base-dark" :key="index">
         {{ link.name }}
       </router-link>
-      <span class="t-flex t-px-3 t-text-sm t-text-base-lighter" v-if="index !== navigation.length - 1" :key="index">&bull;</span>
+      <span class="t-flex t-px-3 t-text-sm t-text-base-lighter" v-if="index !== navigation.length - 1" :key="'bullet-' + index">&bull;</span>
     </template>
   </nav>
 </template>

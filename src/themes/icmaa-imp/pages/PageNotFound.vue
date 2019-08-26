@@ -37,13 +37,20 @@
 </template>
 
 <script>
-import PageNotFound from '@vue-storefront/core/pages/PageNotFound'
 import i18n from '@vue-storefront/i18n'
 import Composite from '@vue-storefront/core/mixins/composite'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'PageNotFound',
   mixins: [Composite],
+  async asyncData ({ store, route, context }) {
+    Logger.log('Entering asyncData for PageNotFound ' + new Date())()
+    if (context) {
+      context.output.cacheTags.add(`page-not-found`)
+      context.server.response.statusCode = 404
+    }
+  },
   methods: {
     toggleSearchpanel () {
       this.$store.commit('ui/setSearchpanel', true)
