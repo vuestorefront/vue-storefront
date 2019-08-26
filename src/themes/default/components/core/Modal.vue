@@ -4,30 +4,30 @@
       class="modal"
       v-if="isVisible"
       ref="modal"
-      @click="close"
     >
-      <div class="modal-wrapper">
-        <div class="modal-center">
-          <div class="modal-container bg-cl-primary" ref="modal-content" :style="style">
-            <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary" v-if="$slots.header">
-              <slot name="header" />
-              <i
-                slot="close"
-                class="modal-close material-icons cl-bg-tertiary"
-                @click="close"
-                data-testid="closeModalButton"
-              >
-                close
-              </i>
-            </header>
-            <div class="modal-content pt30 pb60 px65" v-if="$slots.content">
-              <slot name="content" />
-            </div>
-            <slot />
-          </div>
+      <!--      <div class="modal-wrapper">-->
+      <!--        <div class="modal-center">-->
+      <div class="modal-backdrop" @click="close" />
+      <div class="modal-container bg-cl-primary" ref="modal-content" :style="style">
+        <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary" v-if="$slots.header">
+          <slot name="header" />
+          <i
+            slot="close"
+            class="modal-close material-icons cl-bg-tertiary"
+            @click="close"
+            data-testid="closeModalButton"
+          >
+            close
+          </i>
+        </header>
+        <div class="modal-content bg-cl-primary pt30 pb60 px65" v-if="$slots.content">
+          <slot name="content" />
         </div>
+        <slot />
       </div>
     </div>
+    <!--      </div>-->
+    <!--    </div>-->
   </transition>
 </template>
 
@@ -77,8 +77,7 @@ export default {
       this.isVisible = state
       state ? this.setOverlay(state) : setTimeout(() => this.setOverlay(state), this.delay)
     },
-    close (event) {
-      if (event && !event.target.classList.contains('modal-center')) return
+    close () {
       this.toggle(false)
     }
   },
@@ -132,21 +131,12 @@ $z-index-modal: map-get($z-index, modal);
   left: 0;
   overflow: auto;
   z-index: $z-index-modal;
-  text-align: inherit;
-
-  .modal-wrapper {
-    display: table;
-    height: 100%;
-    width: 100%;
-    table-layout: fixed;
-  }
-
-  .modal-center {
-    display: table-cell;
-    vertical-align: middle;
-  }
 
   .modal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 945px;
     margin: 0 auto;
     max-width: 100%;
@@ -185,6 +175,13 @@ $z-index-modal: map-get($z-index, modal);
   }
   .modal-close{
     cursor: pointer;
+  }
+  .modal-backdrop{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
   }
 }
 </style>
