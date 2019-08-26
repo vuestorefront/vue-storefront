@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added test to multistore.ts so it is nearly fully unit tested - @resubaka (#3352)
 - Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351, #3354)
 - Added test to helpers/index.ts so it is partly tested - @resubaka (#3376, 3377)
+- Added config for the defaultTitle compitable with multistore - @cnviradiya (#3282)
 
 ### Fixed
 
@@ -83,6 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex order module - @andrzejewsky (#3337)
 - Changed body no-scroll behavior for overlapped element - @przspa (#3363)
 - `config.dynamicConfigReload` option should use deep copy for `Object.assign()` - @cewald (#3372)
+- Add translation for the defaultTitle - @cnviradiya (#3282)
 - Refactored vuex tax module - @andrzejewsky (#3337)
 - Refactored vuex stock module - @andrzejewsky (#3337)
 - Removed extra unnecessary code from BaseInputNumber - @cnviradiya (#3410)
