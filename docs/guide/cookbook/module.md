@@ -1,4 +1,4 @@
-# Ch 5. Building a Module from scratch 
+# Ch 5. Building a _Module_ from scratch 
 <style>
     img[alt*="borderline"] {
         border: 1px #000 solid;
