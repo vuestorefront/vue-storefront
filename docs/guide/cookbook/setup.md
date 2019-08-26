@@ -1443,7 +1443,7 @@ $ node ./core/scripts/installer
 From this on, the questions would be the same as installation through `installer`. 
 You can follow it further at [Install using installer](#_2-using-installer)
 
-7. Once the questions has been answered then the remaining process is taken to action. You will see a screen as follows when they finished :
+7. Once the questions have been answered then the remaining process is taken to action. You will see a screen as follows when they finished :
 ```bash
 ? Please provide path for images endpoint https://demo.vuestorefront.io/img/
 
