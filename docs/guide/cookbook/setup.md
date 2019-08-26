@@ -1,4 +1,4 @@
-# Chapter 3. Starter pack for new comers (Install)
+# Ch 3. Starter pack for new comers (Install)
 <style>
     img[alt*="borderline"] {
         border: 1px #000 solid;
