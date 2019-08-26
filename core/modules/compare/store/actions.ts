@@ -11,7 +11,7 @@ const actions: ActionTree<CompareState, RootState> = {
     if (!force && getters.isCompareLoaded) return
     commit(types.SET_COMPARE_LOADED)
     const storedItems = await dispatch('getCurrentCompare')
-    console.log('loadddd', storedItems)
+
     if (storedItems) {
       commit(types.COMPARE_LOAD_COMPARE, storedItems)
       Logger.info('Compare state loaded from browser cache: ', 'cache', storedItems)()
