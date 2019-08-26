@@ -27,9 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OrderNumber on ThankYouPage - @Flyingmana (#2743)
 
 ### Removed
-- The getter `cart/totals` has ben replaced with `cart/getTotals` - @pkarw (#2522)
-- The getter `cart/coupon` has ben replaced with `cart/getCoupon` - @pkarw (#2522)
-- The getter `cart/totalQuantity` has ben replaced with `cart/getItemsTotalQuantity` - @pkarw (#2522)
+- The getter `cart/totals` has been replaced with `cart/getTotals` - @pkarw (#2522)
+- The getter `cart/coupon` has been replaced with `cart/getCoupon` - @pkarw (#2522)
+- The getter `cart/totalQuantity` has been replaced with `cart/getItemsTotalQuantity` - @pkarw (#2522)
 - The event `cart-before-save` has been removed - @pkarw (#2522)
 - The action `cart/save` has been removed - @pkarw - (#2522)
 - Some deprecated config options: `useShortCatalogUrls` and `setupVariantByAttributeCode` have been removed - @pkarw (#2915)
