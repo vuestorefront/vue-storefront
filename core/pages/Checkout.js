@@ -131,8 +131,8 @@ export default {
         this.$router.push(this.localizedRoute('/'))
       }
     },
-    onAfterShippingMethodChanged (payload) {
-      this.$store.dispatch('cart/syncTotals', { forceServerSync: true, methodsData: payload })
+    async onAfterShippingMethodChanged (payload) {
+      await this.$store.dispatch('cart/syncTotals', { forceServerSync: true, methodsData: payload })
       this.shippingMethod = payload
     },
     onBeforeShippingMethods (country) {

@@ -8,8 +8,10 @@
     "useOutputCacheTagging": false,
     "useOutputCache": false,
     "outputCacheDefaultTtl": 86400,
-    "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C", "error"],
+    "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C", "error", "attribute", "taxrule"],
     "invalidateCacheKey": "aeSu7aip",
+    "invalidateCacheForwarding": false,
+    "invalidateCacheForwardUrl": "http://localhost:8080/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": false,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
@@ -18,6 +20,10 @@
     "ssrDisabledFor": {
       "extensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
     }
+  },
+  "staticPages": {
+    "updateOnRequest": true,
+    "destPath": "static"
   },
   "seo": {
     "useUrlDispatcher": true,
@@ -84,7 +90,7 @@
       "amp": "dist/index.amp.html"
     },
     "executeMixedinAsyncData": true,
-    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView"],
+    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute"],
     "useInitialStateFilter": true
   },
   "queues": {
@@ -154,11 +160,12 @@
     "optimizeShoppingCart": true,
     "optimizeShoppingCartOmitFields": ["configurable_children", "configurable_options", "media_gallery", "description", "category", "category_ids", "product_links", "stock", "description"],
     "category": {
-      "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "url_path", "product_count", "path"],
+      "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "url_path", "product_count", "path", "position"],
       "excludeFields": [ "sgn" ],
       "categoriesRootCategorylId": 2,
       "categoriesDynamicPrefetchLevel": 2,
-      "categoriesDynamicPrefetch": true
+      "categoriesDynamicPrefetch": true,
+      "validSearchOptionsFromRouteParams": ["url-key", "slug", "id"]
     },
     "attribute": {
       "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices", "frontend_input" ]
@@ -176,7 +183,7 @@
       "excludeFields": ["review_entity", "review_status"]
     },
     "product": {
-      "excludeFields": [ "*.msrp_display_actual_price_type", "required_options", "updated_at", "created_at", "attribute_set_id", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "small_image", "sgn", "*.sgn"],
+      "excludeFields": [ "*.msrp_display_actual_price_type", "required_options", "updated_at", "created_at", "attribute_set_id", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "stock.stock_status_changed_auto", "stock.show_default_notification_message", "stock.use_config_qty_increments", "stock.is_decimal_divided", "small_image", "sgn", "*.sgn"],
       "includeFields": null,
       "useDynamicAttributeLoader": true,
       "standardSystemFields": [
@@ -232,7 +239,12 @@
         "options",
         "product_option",
         "qty",
-        "is_configured"
+        "is_configured",
+        "priceInclTax",
+        "specialPriceInclTax",
+        "specialPriceTax",
+        "priceTax",
+        "priceInclTax"
       ]
     }
   },
@@ -265,9 +277,13 @@
     "deletecoupon_endpoint": "/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
     "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
+  "attributes": {
+    "disablePersistentAttributesCache": false
+  },
   "products": {
     "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
+    "lazyLoadingCategoryProducts": true,
     "setFirstVarianAsDefaultInURL": false,
     "configurableChildrenStockPrefetchStatic": false,
     "configurableChildrenStockPrefetchDynamic": false,
@@ -392,7 +408,9 @@
     "sourcePriceIncludesTax": false,
     "calculateServerSide": true,
     "userGroupId": null,
-    "useOnlyDefaultUserGroupId": false
+    "useOnlyDefaultUserGroupId": false,
+    "deprecatedPriceFieldsSupport": true,
+    "finalPriceIncludesTax": false
   },
   "shipping": {
     "methods": [
