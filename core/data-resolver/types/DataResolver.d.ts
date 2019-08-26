@@ -70,8 +70,8 @@ declare namespace DataResolver {
   }
 
   interface NewsletterService {
-    status: (email: string) => Promise<any>,
-    subscribe: (email: string) => Promise<any>,
-    unsubscribe: (email: string) => Promise<any>
+    status: (email: string) => Promise<Task>,
+    subscribe: (email: string) => Promise<Task>,
+    unsubscribe: (email: string) => Promise<Task>
   }
 }

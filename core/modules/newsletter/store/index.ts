@@ -3,6 +3,7 @@ import { Module } from 'vuex'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { NewsletterState } from '../types/NewsletterState'
 import { NewsletterService } from '@vue-storefront/core/data-resolver'
+import Task from 'core/lib/sync/types/Task';
 
 export const newsletterStore: Module<NewsletterState, any> = {
   namespaced: true,
@@ -26,7 +27,7 @@ export const newsletterStore: Module<NewsletterState, any> = {
     }
   },
   actions: {
-    async status ({ commit }, email): Promise<Response> {
+    async status ({ commit }, email): Promise<Task> {
       const statusResponse = await NewsletterService.status(email)
 
       if (statusResponse.result === 'subscribed') {
@@ -38,7 +39,7 @@ export const newsletterStore: Module<NewsletterState, any> = {
 
       return statusResponse
     },
-    async subscribe ({ commit, getters, dispatch }, email): Promise<Response> {
+    async subscribe ({ commit, getters, dispatch }, email): Promise<Task> {
       if (getters.isSubscribed) return
 
       const subscribeResponse = await NewsletterService.subscribe(email)
@@ -49,7 +50,7 @@ export const newsletterStore: Module<NewsletterState, any> = {
 
       return subscribeResponse
     },
-    async unsubscribe ({ commit, getters }, email): Promise<Response> {
+    async unsubscribe ({ commit, getters }, email): Promise<Task> {
       if (!getters.isSubscribed) return
 
       const unsubscribeResponse = await NewsletterService.unsubscribe(email)
