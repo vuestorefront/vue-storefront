@@ -23,6 +23,12 @@ import { AddToCompare } from '@vue-storefront/core/modules/compare/components/Ad
 import { RemoveFromCompare } from '@vue-storefront/core/modules/compare/components/RemoveFromCompare'
 
 export default {
-  mixins: [IsOnCompare, AddToCompare, RemoveFromCompare]
+  mixins: [IsOnCompare, AddToCompare, RemoveFromCompare],
+  props: {
+    product: {
+      required: true,
+      type: Object
+    }
+  }
 }
 </script>
