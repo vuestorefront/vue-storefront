@@ -46,7 +46,9 @@ export default {
   watch: {
     isVisible (state) {
       if (state) {
-        disableBodyScroll(this.$el);
+        this.$nextTick(() => {
+          disableBodyScroll(this.$refs['modal']);
+        })
       } else {
         clearAllBodyScrollLocks();
       }
@@ -150,7 +152,6 @@ $z-index-modal: map-get($z-index, modal);
     max-width: 100%;
     max-height: 100%;
     z-index: $z-index-modal+1;
-    pointer-events: auto;
 
     @media (max-width: 600px) {
       min-height: 100%;
