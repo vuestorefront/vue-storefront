@@ -54,5 +54,5 @@ Here’s how to submit a pull request. <b>Pull request that don't meet these req
 
 Your pull request will be merged after meeting following criteria:
 - Everything from "Pull Request Checklist"
-- PR is proposed to appropiate branch 
+- PR is proposed to appropriate branch 
 - There are at least two approvals from core team members
