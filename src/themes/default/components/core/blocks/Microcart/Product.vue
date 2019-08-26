@@ -63,13 +63,13 @@
         <div class="flex mr10 align-right start-xs between-sm prices">
           <div class="prices" v-if="!displayItemDiscounts || !isOnline">
             <span class="h4 serif cl-error price-special" v-if="product.special_price">
-              {{ product.priceInclTax * product.qty | price }}
+              {{ product.price_incl_tax * product.qty | price }}
             </span>
             <span class="h6 serif price-original" v-if="product.special_price">
-              {{ product.originalPriceInclTax * product.qty | price }}
+              {{ product.original_price_incl_tax * product.qty | price }}
             </span>
             <span class="h4 serif price-regular" v-else data-testid="productPrice">
-              {{ (product.originalPriceInclTax ? product.originalPriceInclTax : product.priceInclTax) * product.qty | price }}
+              {{ (product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax) * product.qty | price }}
             </span>
           </div>
           <div class="prices" v-else-if="isOnline && product.totals">
@@ -167,15 +167,15 @@ export default {
     ButtonFull
   },
   mixins: [Product, ProductOption, EditMode],
-  data () {
-    return {
-      displayItemDiscounts: config.cart.displayItemDiscounts,
-      productsAreReconfigurable: config.cart.productsAreReconfigurable && ['simple', 'configurable'].includes(this.product.type_id)
-    }
-  },
   computed: {
     isOnline () {
       return onlineHelper.isOnline
+    },
+    productsAreReconfigurable () {
+      return config.cart.productsAreReconfigurable && this.product.type_id === 'configurable' && this.isOnline
+    },
+    displayItemDiscounts () {
+      return config.cart.displayItemDiscounts
     },
     image () {
       return {
