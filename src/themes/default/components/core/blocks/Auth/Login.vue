@@ -1,6 +1,7 @@
 <template>
   <div>
     <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
+      {{ $t('Log in') }}
       <i
         slot="close"
         class="modal-close material-icons p15 cl-bg-tertiary"
@@ -8,7 +9,6 @@
       >
         close
       </i>
-      {{ $t('Log in') }}
     </header>
     <div v-if="hasRedirect" class="pt10 pb10 px65 redirect-error">
       <p class="h5 mb0 mt0">
@@ -156,7 +156,14 @@ export default {
 @import '~theme/css/helpers/functions/color';
 $color-error: color(error);
 $white: color(white);
-
+  .modal-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-close{
+    cursor: pointer;
+  }
   .modal-content {
     @media (max-width: 400px) {
       padding-left: 20px;

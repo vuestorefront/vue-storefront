@@ -4,10 +4,10 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 
 ## 1.10 -> 1.11
 
-This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible. 
+This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible.
 
 - All modules were refactored to new API. You can still register modules in previous format until 2.0
-- `DroppointShipping` and `magento-2-cms `modules were deleted 
+- `DroppointShipping` and `magento-2-cms `modules were deleted
 - example modules moved to https://github.com/DivanteLtd/vsf-samples
 - `core/helpers/initCacheStorage.ts` merged with `StorageManager.ts` (import path alias for backward compatibility added)
 - Old extensions mechanism (before VS 1.4) was finally removed after being deprecated for almost a year (`src/extensions` removal)
@@ -19,7 +19,7 @@ This is the last major release of Vue Storefront 1.x before 2.0 therefore more m
   - `checkoutFieldValues`, `checkoutFieldsCollection` renamed to `checkout` (`checkoutFieldsCollection` wasn’t used)
   - `ordersCollection` and `orders` renamed to just `orders` (`ordersCollection` wasn’t used)
   - `elasticCacheCollection` renamed to `elasticCache`
-  - `usersCollection` `usersData` merged and renamed to `user` 
+  - `usersCollection` `usersData` merged and renamed to `user`
   - `attributesCollection`, `attributes` renamed to just `attributes`
   - `ordersHistoryCollection` merged to `user` cache where it belongs
   - `categoriesCollection` renamed to categories
@@ -51,9 +51,9 @@ store.registerModule('promoted', promotedStore);
 - `WebShare` moved from `@vue-storefront/core/modules/social-share/components/WebShare.vue` to `@vue-storefront/src/themes/default/components/theme/WebShare.vue`. This component was used in `Product` component found here: `src/themes/default/pages/Product.vue`. In this file the `import` path has to be updated.
 
 - We've fixed the naming strategy for product prices; The following fields were renamed: `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; The names have been kept and marked as @deprecated. These fields will be **removed with Vue Storefront 2.0rc-1**.
-- We've decreased the `localStorage` quota usage + error handling by introducing new config variables: 
-- `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`); 
-- `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway); 
+- We've decreased the `localStorage` quota usage + error handling by introducing new config variables:
+- `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`);
+- `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway);
 - `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW)
 - We've moved files from /store/lib to /lib. Basically to use it from the new directory you have to import now from `@vue-storefront/core/lib/store/` instead of `@vue-storefront/core/store/lib/`. These core files got changed:
 ```js
@@ -74,6 +74,8 @@ core/modules/wishlist/store/actions.ts
 If by some reasons you wan't to have the `localStorage` back on for `Products by SKU`, `Url Routes` and `SyncTasks` - please juset set these variables back to `false` in your `config/local.json`.
 
 - New page-not-found handling requires to update router/index.js in the theme.
+- The option `config.products.lazyLoadingCategoryProducts` was introduced which is responsible for hydrating products list and loading them only on client side. It means there is no category products in the `__INITIAL__STATE__`. It's enabled by default.
+- The modules: `Review`, `Mailer`, `Order`, `RecentlyViewed`, `InstantCheckout` are no longer loaded by default in the main bundle as they are loading on-demand on the related pages.
 
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`EventBus.$on()`) now
