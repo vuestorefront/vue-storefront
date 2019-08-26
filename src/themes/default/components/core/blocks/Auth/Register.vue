@@ -1,14 +1,14 @@
 <template>
   <div>
     <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
+      {{ $t('Register') }}
       <i
         slot="close"
-        class="modal-close material-icons p15 cl-bg-tertiary"
+        class="modal-close material-icons cl-bg-tertiary"
         @click="close"
       >
         close
       </i>
-      {{ $t('Register') }}
     </header>
 
     <div class="modal-content pt30 pb60 px65 cl-secondary">
@@ -204,6 +204,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .modal-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-close{
+    cursor: pointer;
+  }
   .modal-content {
     @media (max-width: 400px) {
       padding-left: 20px;

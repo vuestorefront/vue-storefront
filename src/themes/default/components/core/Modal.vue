@@ -6,19 +6,19 @@
       ref="modal"
       @click="close"
     >
-      <div class="modal-wrapper" >
+      <div class="modal-wrapper">
         <div class="modal-center">
           <div class="modal-container bg-cl-primary" ref="modal-content" :style="style">
             <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary" v-if="$slots.header">
+              <slot name="header" />
               <i
                 slot="close"
-                class="modal-close material-icons p15 cl-bg-tertiary"
+                class="modal-close material-icons cl-bg-tertiary"
                 @click="close"
                 data-testid="closeModalButton"
               >
                 close
               </i>
-              <slot name="header" />
             </header>
             <div class="modal-content pt30 pb60 px65" v-if="$slots.content">
               <slot name="content" />
@@ -178,11 +178,13 @@ $z-index-modal: map-get($z-index, modal);
     }
   }
 
-  .modal-close {
-    position: absolute;
+  .modal-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-close{
     cursor: pointer;
-    right: 0;
-    top: 0;
   }
 }
 </style>
