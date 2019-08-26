@@ -708,4 +708,4 @@ Please keep an eye on the **[UPGRADE NOTES](https://github.com/DivanteLtd/vue-st
 
 ## [1.10.0] - 2019-08-24
 ### Removed
-- if condition from the _serverDeleteItem method on core/modules/cart/store/action.ts
+- if condition of quoteId from the _serverDeleteItem method on core/modules/cart/store/action.ts
