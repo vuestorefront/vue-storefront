@@ -15,7 +15,7 @@
         {{ $t('You need to be logged in to see this page') }}
       </p>
     </div>
-    <div class="modal-content pt30 pb60 px65 cl-secondary">
+    <div class="modal-content bg-cl-primary pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="login" novalidate>
         <base-input
           class="mb10"

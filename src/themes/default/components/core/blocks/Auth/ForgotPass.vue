@@ -11,7 +11,7 @@
       </i>
     </header>
 
-    <div class="modal-content pt30 pb60 px65 cl-secondary">
+    <div class="modal-content bg-cl-primary pt30 pb60 px65 cl-secondary">
       <template v-if="!passwordSent">
         <form @submit.prevent="sendEmail" novalidate>
           <div class="mb20">
