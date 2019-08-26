@@ -4,9 +4,9 @@
       class="modal"
       v-if="isVisible"
       ref="modal"
-      @click.self="close"
+      @click="close"
     >
-      <div class="modal-wrapper">
+      <div class="modal-wrapper" >
         <div class="modal-center">
           <div class="modal-container bg-cl-primary" ref="modal-content" :style="style">
             <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary" v-if="$slots.header">
@@ -77,7 +77,8 @@ export default {
       this.isVisible = state
       state ? this.setOverlay(state) : setTimeout(() => this.setOverlay(state), this.delay)
     },
-    close () {
+    close (event) {
+      if (event && !event.target.classList.contains('modal-center')) return
       this.toggle(false)
     }
   },
@@ -138,7 +139,6 @@ $z-index-modal: map-get($z-index, modal);
     height: 100%;
     width: 100%;
     table-layout: fixed;
-    pointer-events: none;
   }
 
   .modal-center {
