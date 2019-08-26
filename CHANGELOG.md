@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
+- Added product image in order summary - @obsceniczny (#2544)
 - Add icons on the product tiles that allow to add to the wish list and to the list to compare products from the list of products - @Michal-Dziedzinski (#2773)
 - Get also none product image thumbnails via API - @cewald, @resubaka (#3207)
 - Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
