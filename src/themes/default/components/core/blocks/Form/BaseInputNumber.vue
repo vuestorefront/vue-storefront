@@ -24,9 +24,6 @@ export default {
   components: {
     ValidationMessages
   },
-  data () {
-    return {}
-  },
   props: {
     value: {
       type: [String, Number],

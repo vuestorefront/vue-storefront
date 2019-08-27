@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
+- Added product image in order summary - @obsceniczny (#2544)
 - Add icons on the product tiles that allow to add to the wish list and to the list to compare products from the list of products - @Michal-Dziedzinski (#2773)
 - Get also none product image thumbnails via API - @cewald, @resubaka (#3207)
 - Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
@@ -29,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added test to multistore.ts so it is nearly fully unit tested - @resubaka (#3352)
 - Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351, #3354)
 - Added test to helpers/index.ts so it is partly tested - @resubaka (#3376, 3377)
+- Added config for the defaultTitle compitable with multistore - @cnviradiya (#3282)
 
 ### Fixed
 
@@ -57,6 +59,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed ordering of the categories and subcategories in sidebar - @andrzejewsky (#2665)
 - Some SSR problems with urlDispatcher during multireloading page - @patzick (#3323)
 - Fixed two bugs in `category-next/getCategoryFrom` (#3286) and `category-next/getCurrentCategory` (#3332) - @cewald (#3295)
+- Fixed login popup close icon position - @przspa (#3393)
+- Fixed styles for original price on Wishlist sidebar - @przspa (#3392)
 
 ### Changed / Improved
 
@@ -80,8 +84,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex order module - @andrzejewsky (#3337)
 - Changed body no-scroll behavior for overlapped element - @przspa (#3363)
 - `config.dynamicConfigReload` option should use deep copy for `Object.assign()` - @cewald (#3372)
+- Add translation for the defaultTitle - @cnviradiya (#3282)
 - Refactored vuex tax module - @andrzejewsky (#3337)
 - Refactored vuex stock module - @andrzejewsky (#3337)
+- Removed extra unnecessary code from BaseInputNumber - @cnviradiya (#3410)
+
+## [1.10.1] - UNRELEASED
+
+### Fixed
+- Invalid Discount code error handled by theme - @grimasod (#3385)
+- `order.order_id` was not assigned in the `orders.directBackendSync` mode - @pkarw (#3398)
+- Hydration problems with UrlDispatcher :rocket: - @patzick (#3412)
 
 ## [1.10.0] - 2019.08.10
 
