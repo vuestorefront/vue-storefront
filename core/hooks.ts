@@ -15,11 +15,23 @@ const { hook: afterAppInitHook, executor: afterAppInitExecutor }: {
   executor: any
 } = createListenerHook()
 
+const { hook: beforeHydratedHook, executor: beforeHydratedExecutor }: {
+  hook: (hydratedMutator: (initialState: any) => any) => void,
+  executor: any
+} = createMutatorHook()
+
+const { hook: afterProductThumbnailPathGeneratedHook, executor: afterProductThumbnailPathGeneratedExecutor }: {
+  hook: (productThumbnailPathGenerateMutator: (result: { path: string, sizeX: number, sizeY: number }) => { path: string }) => void,
+  executor: any
+} = createMutatorHook()
+
 /** Only for internal usage in core */
 const coreHooksExecutors = {
   afterAppInit: afterAppInitExecutor,
   beforeStoreViewChange: beforeStoreViewChangeExecutor,
-  afterStoreViewChange: afterStoreViewChangeExecutor
+  afterStoreViewChange: afterStoreViewChangeExecutor,
+  beforeHydrated: beforeHydratedExecutor,
+  afterProductThumbnailPathGenerate: afterProductThumbnailPathGeneratedExecutor
 }
 
 const coreHooks = {
@@ -32,7 +44,9 @@ const coreHooks = {
   /** Hook is fired right after storeView (multistore) is changed
    * @param storeView current storeView
   */
-  afterStoreViewChange: afterStoreViewChangeHook
+  afterStoreViewChange: afterStoreViewChangeHook,
+  beforeHydrated: beforeHydratedHook,
+  afterProductThumbnailPathGenerate: afterProductThumbnailPathGeneratedHook
 }
 
 export {

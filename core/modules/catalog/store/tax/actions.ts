@@ -10,6 +10,7 @@ import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import config from 'config'
 import { calculateProductTax } from '@vue-storefront/core/modules/catalog/helpers/taxCalc'
 import { doPlatformPricesSync } from '@vue-storefront/core/modules/catalog/helpers'
+import { catalogHooksExecutors } from './../../hooks'
 
 const actions: ActionTree<TaxState, RootState> = {
   async list ({ state, commit, dispatch }, { entityType = 'taxrule' }) {
@@ -40,9 +41,11 @@ const actions: ActionTree<TaxState, RootState> = {
     )
   },
   async calculateTaxes ({ dispatch, getters, rootState }, { products }) {
+    const mutatedProducts = catalogHooksExecutors.beforeTaxesCalculated(products)
+
     if (config.tax.calculateServerSide) {
       Logger.debug('Taxes calculated server side, skipping')()
-      return doPlatformPricesSync(products)
+      return doPlatformPricesSync(mutatedProducts)
     }
 
     const tcs = await dispatch('list', {})
@@ -54,7 +57,7 @@ const actions: ActionTree<TaxState, RootState> = {
       deprecatedPriceFieldsSupport
     } = rootState.storeView.tax
 
-    const recalculatedProducts = products.map(product =>
+    const recalculatedProducts = mutatedProducts.map(product =>
       calculateProductTax({
         product,
         taxClasses: tcs.items,
