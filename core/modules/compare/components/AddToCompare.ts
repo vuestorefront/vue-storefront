@@ -6,12 +6,6 @@ import { registerModule } from '@vue-storefront/core/lib/modules';
 export const AddToCompare = {
   name: 'AddToCompare',
   mixins: [compareMountedMixin],
-  props: {
-    product: {
-      type: Object,
-      default: () => ({})
-    }
-  },
   created () {
     registerModule(CompareModule)
   },
