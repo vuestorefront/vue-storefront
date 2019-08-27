@@ -8,8 +8,8 @@ export const AddToCompare = {
   mixins: [compareMountedMixin],
   props: {
     product: {
-      required: true,
-      type: Object
+      type: Object,
+      default: () => ({})
     }
   },
   created () {
