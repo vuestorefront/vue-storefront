@@ -182,7 +182,7 @@ All state members should have been accessed only by getters. Please take a look 
 - `isCartHashChanged` - comparing the `getLastCartHash` with the `getCurrentCartHash` in order to verify if we need a server sync or not,
 - `isSyncRequired` - checking if the `isCartHashChanged` is true OR if this is the first sync attempt (after the SSR),
 - `isTotalsSyncRequired` - same as `isSyncRequired` but for the totals (not the cart items),
-- `isCartHashEmtpyOrChanged` - checks if `isCartHashChanged` or empty,
+- `isCartHashEmptyOrChanged` - checks if `isCartHashChanged` or empty,
 - `getCartItems` - array of products in the shopping cart,
 - `isTotalsSyncEnabled` - check if the `config.cart.synchronize` is true + if we're online + if this is CSR request,
 - `isCartConnected` - check if the `getCartToken` is not empty - which means the `cart/connect` action has been called and we're OK to sync with the server,

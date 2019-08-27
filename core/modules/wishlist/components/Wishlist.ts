@@ -1,11 +1,12 @@
-import { Wishlist as WishlistModule } from '../'
+import { WishlistModule } from '../'
 import wishlistMountedMixin from '@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin'
+import { registerModule } from '@vue-storefront/core/lib/modules';
 
 export const Wishlist = {
   name: 'Wishlist',
   mixins: [wishlistMountedMixin],
   created () {
-    WishlistModule.register()
+    registerModule(WishlistModule)
   },
   computed: {
     isWishlistOpen () {

@@ -5,7 +5,7 @@ import mutations from './mutations'
 import RootState from '@vue-storefront/core/types/RootState'
 import UserState from '../types/UserState'
 
-export const module: Module<UserState, RootState> = {
+export const userStore: Module<UserState, RootState> = {
   namespaced: true,
   state: {
     token: '',

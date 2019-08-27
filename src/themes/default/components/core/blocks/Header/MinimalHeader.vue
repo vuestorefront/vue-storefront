@@ -9,7 +9,11 @@
           <div class="col-sm-4 col-xs-2 middle-xs">
             <div>
               <template>
-                <a class="inline-flex brdr-none p15 icon bg-cl-secondary pointer" href="/" data-testid="returnButton">
+                <a
+                  class="inline-flex brdr-none p15 icon bg-cl-secondary pointer"
+                  href="/"
+                  data-testid="returnButton"
+                >
                   <i class="material-icons">keyboard_backspace</i>
                 </a>
               </template>
@@ -19,12 +23,7 @@
           <div class="col-sm-4 col-xs-4 center-xs">
             <div>
               <a class="no-underline inline-flex" href="/" data-testid="logo">
-                <img
-                  width="auto"
-                  height="41px"
-                  src="/assets/logo.svg"
-                  alt="Vuestore logo"
-                >
+                <img width="auto" height="41px" src="/assets/logo.svg" :alt="$t(defaultTitle)">
               </a>
             </div>
           </div>
@@ -41,8 +40,16 @@
 
 <script>
 import CurrentPage from 'theme/mixins/currentPage'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import config from 'config'
 
 export default {
+  data () {
+    const storeView = currentStoreView()
+    return {
+      defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle
+    }
+  },
   mixins: [CurrentPage]
 }
 </script>
@@ -55,7 +62,7 @@ $color-icon-hover: color(secondary, $colors-background);
 header {
   height: 54px;
   top: -55px;
-  z-index: 2;
+  z-index: 3;
   transition: top 0.2s ease-in-out;
   &.is-visible {
     top: 0;
@@ -88,12 +95,13 @@ header {
     }
   }
   .col-xs-2:first-of-type {
-      padding-left: 0;
+    padding-left: 0;
   }
   .col-xs-2:last-of-type {
-      padding-right: 0;
+    padding-right: 0;
   }
-  a, span {
+  a,
+  span {
     font-size: 12px;
   }
 }
