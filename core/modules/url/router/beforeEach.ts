@@ -8,13 +8,14 @@ import { processDynamicRoute, normalizeUrlPath } from '../helpers'
 import { isServer } from '@vue-storefront/core/helpers'
 import { storeCodeFromRoute, prepareStoreView, currentStoreView, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
+import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
 export const UrlDispatchMapper = async (to) => {
   const routeData = await store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query })
   return Object.assign({}, to, routeData)
 }
 
-export function beforeEachGuard (to: Route, from: Route, next) {
+export async function beforeEachGuard (to: Route, from: Route, next) {
   if (isServer) {
     if (config.storeViews.multistore) { // this is called before server-entry.ts router.onReady - so we have to make sure we're in the right store context
       const storeCode = storeCodeFromRoute(to)
@@ -23,6 +24,14 @@ export function beforeEachGuard (to: Route, from: Route, next) {
       }
     }
   }
+
+  const routeLock = RouterManager.getRouteLock(to)
+  if (routeLock) {
+    await routeLock
+    next()
+    return
+  }
+  RouterManager.lockRoute(to)
 
   const fullPath = normalizeUrlPath(to.fullPath)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
@@ -53,8 +62,11 @@ export function beforeEachGuard (to: Route, from: Route, next) {
     }).catch(e => {
       Logger.error(e, 'dispatcher')()
       next()
+    }).finally(() => {
+      RouterManager.unlockRoute(to)
     })
   } else {
     next()
+    RouterManager.unlockRoute(to)
   }
 }
