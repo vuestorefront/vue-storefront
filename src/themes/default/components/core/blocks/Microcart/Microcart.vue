@@ -197,17 +197,17 @@ export default {
     toggleMicrocart () {
       this.$store.dispatch('ui/toggleMicrocart')
     },
-    setCoupon () {
-      this.$store.dispatch('cart/applyCoupon', this.couponCode).then(() => {
-        this.addCouponPressed = false
-        this.couponCode = ''
-      }).catch(() => {
+    async setCoupon () {
+      const couponApplied = await this.applyCoupon(this.couponCode)
+      this.addCouponPressed = false
+      this.couponCode = ''
+      if (!couponApplied) {
         this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
           message: i18n.t("You've entered an incorrect coupon code. Please try again."),
           action1: { label: i18n.t('OK') }
         })
-      })
+      }
     },
     closeMicrocartExtend () {
       this.toggleMicrocart()

@@ -22,12 +22,14 @@ const actions: ActionTree<OrderState, RootState> = {
    * @param {Order} order order data to be send
    */
   async placeOrder ({ commit, getters, dispatch }, newOrder: Order) {
+    // Check if order is already processed/processing
     const optimizedOrder = optimizeOrder(newOrder)
-    const preparedOrder = prepareOrder(optimizedOrder)
     const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
-    if (getters.getSessionOrderHashes.includes(currentOrderHash)) return
-
+    const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
+    if (isAlreadyProcessed) return
+    commit(types.ORDER_ADD_SESSION_STAMPS, newOrder)
     commit(types.ORDER_ADD_SESSION_ORDER_HASH, currentOrderHash)
+    const preparedOrder = prepareOrder(optimizedOrder)
 
     EventBus.$emit('order-before-placed', { order: preparedOrder })
     const order = orderHooksExecutors.beforePlaceOrder(preparedOrder)
