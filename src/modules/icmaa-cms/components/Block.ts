@@ -2,7 +2,7 @@ import { mapGetters } from 'vuex'
 import BlockStateItem from '../types/BlockState'
 import { stringToComponent } from '../helpers'
 
-import { isServer } from '@vue-storefront/core/helpers';
+import { isServer } from '@vue-storefront/core/helpers'
 
 export default {
   name: 'IcmaaCmsBlock',

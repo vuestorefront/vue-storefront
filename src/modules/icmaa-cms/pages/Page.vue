@@ -1,6 +1,6 @@
 <template>
   <div id="cms-page" v-if="page">
-    <component :is="stringToComponent(content)" />
+    <component :is="content" />
   </div>
 </template>
 
