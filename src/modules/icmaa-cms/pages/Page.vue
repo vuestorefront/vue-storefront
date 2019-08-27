@@ -1,6 +1,6 @@
 <template>
   <div id="cms-page" v-if="page">
-    <component :is="content" />
+    <component :is="content" v-if="isComponent" />
   </div>
 </template>
 
@@ -12,6 +12,11 @@ export default {
   data () {
     return {
       dataType: 'html'
+    }
+  },
+  computed: {
+    isComponent () {
+      return this.content.hasOwnProperty('template')
     }
   }
 }
