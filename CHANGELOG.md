@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.1] - UNRELEASED
+
+### Fixed
+- Invalid Discount code error handled by theme - @grimasod (#3385)
+- `order.order_id` was not assigned in the `orders.directBackendSync` mode - @pkarw (#3398)
+- Hydration problems with UrlDispatcher :rocket: - @patzick (#3412)
+
 ## [1.10.0] - 2019.08.10
 
 ### Added
@@ -75,14 +82,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - No placeholders / no photos for Get Inspire section in offline - @przspa (#3072)
 - Back icon on product page causing inconsistent behavior - @patzick (#3056)
 - Remove static definition of `cashondelivery` in payment module - @danielmaier42 (#2983)
-- Fixed wrong meta description attribute by page overwrite - @przspa (#3091) 
+- Fixed wrong meta description attribute by page overwrite - @przspa (#3091)
 - Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
 - User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
 - Fixed undefined id of color swatches issue for simple product - @vishal-7037 (#3239)
 - Date filter ignoring format param and locales - @grimasod, @patzick (#3102)
 - Problem with placing an order if shipping method is different than default one - @patzick (#3203)
 - Fixed product video embed on PDP - @juho-jaakkola (#3263)
-- Fixed memory leak with loading DayJS in SSR - @lukeromanowicz (#3310) 
+- Fixed memory leak with loading DayJS in SSR - @lukeromanowicz (#3310)
 - Fixed invalid localized routes in SSR content of multistore configuration - @lukeromanowicz (#3262)
 - Fixed startSession which loaded from the wrong place the user when multistore was active - @resubaka (#3322)
 - Login after registration - @patzick (#3343)

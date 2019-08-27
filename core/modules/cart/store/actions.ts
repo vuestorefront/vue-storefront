@@ -489,14 +489,14 @@ const actions: ActionTree<CartState, RootState> = {
           headers: { 'Content-Type': 'application/json' },
           mode: 'cors'
         },
-        silent: false
+        silent: true
       })
       if (task.result === true) {
         dispatch('syncTotals', { forceServerSync: true })
+        return true
       }
-      return task.result
     }
-    return null
+    return false
   },
   /** authorize the cart after user got logged in using the current cart token */
   authorize ({ dispatch }) {
