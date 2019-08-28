@@ -586,11 +586,56 @@ Core developers usually strive to optimize where to put hooks. In _Vue Storefron
 In this recipe, we look into where they are and how this can be applied to your _module_ development.
 
 ### 1. Preparation
+ - You need a new module to play with. You would already have had one if you finished [_Recipe 1. How to bootstrap a module_](#_1-how-to-bootstrap-a-module)
+:::warning NOTICE
+ This recipe deals with hooks as of [_1.10_](/guide/upgrade-notes/#_1-9-1-10). If you work with other versions of _Vue Storefront_, please bear in mind they might be different in detail. 
+:::
 
 ### 2. Recipe
+:::tip OBJECTIVE
+We build a module that applies a discount to certain `storeviews` only.
+:::
+
+1. Make up a list of requirements for the module as follows : 
+ - Need _configurations_ as to which `storeviews` may apply to the discount and how much it should be. 
+ - Need to apply discount to the price of products in `category`, `product` pages. 
+ - Need a list of points where the discount should be verified.
+
+2. Now start with the first item, create a _configuration_ for the module to consume. 
+`
+
 ### 3. Peep into the kitchen (what happens internally)
+
 ### 4. Chef's secret (protip)
+
+
 #### Secret 1. The list of hooks 
+
+1. `cart` 
+  - `beforeSync` : 
+  - `afterSync` :
+  - `beforeAddToCart` :
+  - `afterAddToCart` : 
+  - `beforeRemoveFromCart` : 
+  - `afterRemoveFromCart` : 
+
+2. `order`
+  - `beforePlaceOrder` : 
+  - `afterPlaceOrder` :
+
+3. `user` 
+  - `afterUserAuthorize` :
+  - `afterUserUnauthorize` :
+
+4. `app` 
+  - `beforeStoreViewChange` :
+  - `afterStoreViewChange` :
+  - `afterAppInit` :
+
+:::warning NOTICE
+The list is of course subject to change, it grows for each core module to handle all use cases. 
+:::
+#### Secret 2. The core hooks design 
 <br />
 <br />
 
@@ -637,6 +682,7 @@ _[INSERT VIDEO HERE]_
 <br />
 
 ## 7. Building a module from A to Z in an iteration
+
 
 ### 1. Preparation
 ### 2. Recipe
