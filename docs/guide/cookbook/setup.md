@@ -1484,7 +1484,7 @@ _Vue Storefront_ people prepared the `CLI` way of installing the whole infrastru
 ### 4. Chef's secret (protip)
 #### Secret 1. Install with _manual_ path
 
-#### Secret 2. Install a module skeleton
+#### Secret 2. Install a _module_ skeleton
 
 #### Secret 3. Build your own command for `vsf-cli`
 
