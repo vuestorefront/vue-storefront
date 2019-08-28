@@ -7,7 +7,7 @@ export const Compare = {
   mixins: [compareMountedMixin],
   computed: {
     ...mapGetters({
-      items: 'compare/getItems',
+      items: 'compare/getCompareItems',
       allComparableAttributes: 'attribute/getAllComparableAttributes'
     })
   },
