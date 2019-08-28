@@ -32,8 +32,8 @@ export default {
   methods: {
     onLoggedIn () {
       this.email = this.$store.state.user.current.email
-      this.checkStatus(response => {
-        this.user.isSubscribed = response.result === 'subscribed'
+      this.checkStatus(isSubscribed => {
+        this.user.isSubscribed = isSubscribed
       })
     },
     checkStatus (success?: Function, failure?: Function) {
