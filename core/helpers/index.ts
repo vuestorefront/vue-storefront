@@ -47,7 +47,7 @@ export function slugify (text) {
  */
 export function getThumbnailPath (relativeUrl: string, width: number = 0, height: number = 0, pathType: string = 'product'): string {
   if (config.images.useExactUrlsNoProxy) {
-    return coreHooksExecutors.afterProductThumbnailPathGenerate({ path: relativeUrl, sizeX: width, sizeY: height }) // this is exact url mode
+    return coreHooksExecutors.afterProductThumbnailPathGenerate({ path: relativeUrl, sizeX: width, sizeY: height }).path // this is exact url mode
   } else {
     if (config.images.useSpecificImagePaths) {
       const path = config.images.paths[pathType] !== undefined ? config.images.paths[pathType] : ''
