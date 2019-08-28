@@ -10,18 +10,18 @@ const getters: GetterTree<CmsBlockState, RootState> = {
     return getters.getCmsBlocks
   },
   cmsBlockIdentifier: (state, getters) => (identifier) => {
-    Logger.error('The getter cmsBlock/cmsBlockIdentifier has been deprecated please change to cmsBlock/getCmsBlockIdentifier')()
+    Logger.error('The getter cmsBlock/cmsBlockIdentifier has been deprecated please change to cmsBlock/getCmsBlockByIdentifier')()
 
     return getters.cmsBlockIdentifier(identifier)
   },
   cmsBlockId: (state, getters) => (id) => {
-    Logger.error('The getter cmsBlock/cmsBlockId has been deprecated please change to cmsBlock/getCmsBlockId')()
+    Logger.error('The getter cmsBlock/cmsBlockId has been deprecated please change to cmsBlock/getCmsBlockById')()
 
-    return getters.getCmsBlockId(id)
+    return getters.getCmsBlockById(id)
   },
-  getCmsBlockIdentifier: (state) => (identifier) =>
+  getCmsBlockByIdentifier: (state) => (identifier) =>
     state.items.find(item => typeof item === 'object' && item.identifier === identifier),
-  getCmsBlockId: (state) => (id) => state.items.find(item => item.id === id),
+  getCmsBlockById: (state) => (id) => state.items.find(item => item.id === id),
   getCmsBlocks: (state) => state.items,
   hasItems: (state) => state.items && state.items.length > 0,
   findCmsBlocks: (state, getters) => ({ key, value }) => {
