@@ -17,20 +17,11 @@ export const shippingModule: Module<ShippingState, RootState> = {
     }
   },
   getters: {
-    shippingMethods: (state, getters, rootState, rootGetters) => {
-      Logger.error('The getter shipping/shippingMethods has been deprecated please change to checkout/getShippingMethods')()
-
-      return rootGetters['checkout/getShippingMethods']
-    },
-    getShippingMethods: (state, getters, rootState, rootGetters) => {
-      Logger.error('The getter shipping/getShippingMethods has been deprecated please change to checkout/getShippingMethods')()
-
-      return rootGetters['checkout/getShippingMethods']
-    },
-    getDefaultShippingMethod: (state, getters, rootState, rootGetters) => {
-      Logger.error('The getter shipping/getDefaultShippingMethod has been deprecated please change to checkout/getDefaultShippingMethod')()
-
-      return rootGetters['checkout/getDefaultShippingMethod']
-    }
+    // @deprecated
+    shippingMethods: (state, getters, rootState, rootGetters) => rootGetters['checkout/getShippingMethods'],
+    // @deprecated
+    getShippingMethods: (state, getters, rootState, rootGetters) => rootGetters['checkout/getShippingMethods'],
+    // @deprecated
+    getDefaultShippingMethod: (state, getters, rootState, rootGetters) => rootGetters['checkout/getDefaultShippingMethod']
   }
 }

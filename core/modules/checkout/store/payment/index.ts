@@ -19,20 +19,11 @@ export const paymentModule: Module<PaymentState, RootState> = {
     }
   },
   getters: {
-    paymentMethods: (state, getters, rootState, rootGetters) => {
-      Logger.error('The getter payment/paymentMethods has been deprecated please change to checkout/getPaymentMethods')()
-
-      return rootGetters['checkout/getPaymentMethods']
-    },
-    getDefaultPaymentMethod: (state, getters, rootState, rootGetters) => {
-      Logger.error('The getter payment/getDefaultPaymentMethod has been deprecated please change to checkout/getDefaultPaymentMethod')()
-
-      return rootGetters['checkout/getDefaultPaymentMethod']
-    },
-    getNotServerPaymentMethods: (state, getters, rootState, rootGetters) => {
-      Logger.error('The getter payment/getNotServerPaymentMethods has been deprecated please change to checkout/getNotServerPaymentMethods')()
-
-      return rootGetters['checkout/getNotServerPaymentMethods']
-    }
+    // @deprecated
+    paymentMethods: (state, getters, rootState, rootGetters) => rootGetters['checkout/getPaymentMethods'],
+    // @deprecated
+    getDefaultPaymentMethod: (state, getters, rootState, rootGetters) => rootGetters['checkout/getDefaultPaymentMethod'],
+    // @deprecated
+    getNotServerPaymentMethods: (state, getters, rootState, rootGetters) => rootGetters['checkout/getNotServerPaymentMethods']
   }
 }

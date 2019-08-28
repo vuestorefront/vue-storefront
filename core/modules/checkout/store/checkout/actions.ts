@@ -12,7 +12,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
       if (!result.resultCode || result.resultCode === 200) {
         await dispatch('saveBypassTs')
         await dispatch('cart/clear', { recreateAndSyncCart: true }, { root: true })
-        dispatch('dropPassword')
+        await dispatch('dropPassword')
       }
     } catch (e) {
       Logger.error(e, 'checkout')()
@@ -22,21 +22,21 @@ const actions: ActionTree<CheckoutState, RootState> = {
     const userStorage = StorageManager.get('user')
     await userStorage.setItem('last-cart-bypass-ts', new Date().getTime())
   },
-  dropPassword ({ commit, state }) {
+  async dropPassword ({ commit, state }) {
     if (state.personalDetails.createAccount) {
       commit(types.CHECKOUT_DROP_PASSWORD)
     }
   },
-  setModifiedAt ({ commit }, timestamp) {
+  async setModifiedAt ({ commit }, timestamp) {
     commit(types.CHECKOUT_SET_MODIFIED_AT, timestamp)
   },
-  savePersonalDetails ({ commit }, personalDetails) {
+  async savePersonalDetails ({ commit }, personalDetails) {
     commit(types.CHECKOUT_SAVE_PERSONAL_DETAILS, personalDetails)
   },
-  saveShippingDetails ({ commit }, shippingDetails) {
+  async saveShippingDetails ({ commit }, shippingDetails) {
     commit(types.CHECKOUT_SAVE_SHIPPING_DETAILS, shippingDetails)
   },
-  savePaymentDetails ({ commit }, paymentDetails) {
+  async savePaymentDetails ({ commit }, paymentDetails) {
     commit(types.CHECKOUT_SAVE_PAYMENT_DETAILS, paymentDetails)
   },
   async load ({ commit }) {
@@ -57,23 +57,23 @@ const actions: ActionTree<CheckoutState, RootState> = {
       commit(types.CHECKOUT_LOAD_PAYMENT_DETAILS, paymentDetails)
     }
   },
-  updatePropValue ({ commit }, payload) {
+  async updatePropValue ({ commit }, payload) {
     commit(types.CHECKOUT_UPDATE_PROP_VALUE, payload)
   },
-  setThankYouPage ({ commit }, payload) {
+  async setThankYouPage ({ commit }, payload) {
     commit(types.CHECKOUT_SET_THANKYOU, payload)
   },
-  addPaymentMethod ({ commit }, paymentMethod) {
+  async addPaymentMethod ({ commit }, paymentMethod) {
     commit(types.CHECKOUT_ADD_PAYMENT_METHOD, paymentMethod)
   },
-  replacePaymentMethods ({ commit }, paymentMethods) {
-    commit(types.CHECKOUT_REPLACE_PAYMENT_METHODS, paymentMethods)
+  async replacePaymentMethods ({ commit }, paymentMethods) {
+    commit(types.CHECKOUT_SET_PAYMENT_METHODS, paymentMethods)
   },
-  addShippingMethod ({ commit }, shippingMethod) {
+  async addShippingMethod ({ commit }, shippingMethod) {
     commit(types.CHECKOUT_ADD_SHIPPING_METHOD, shippingMethod)
   },
-  replaceShippingMethods ({ commit }, shippingMethods) {
-    commit(types.CHECKOUT_REPLACE_SHIPPING_METHODS, shippingMethods)
+  async replaceShippingMethods ({ commit }, shippingMethods) {
+    commit(types.CHECKOUT_SET_SHIPPING_METHODS, shippingMethods)
   }
 }
 
