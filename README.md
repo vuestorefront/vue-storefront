@@ -19,7 +19,9 @@ If you're new and need some guidance feel free to visit out [forum](https://foru
 - `@Filip Rakowski` (frontend and best practices)
 - `@pkarw` (integrations and backend)
 - `@ptomczyk` (frontend and best practices)
-- `@lromanowicz` (testing, magento, backend)
+- `@lukeromanowicz` (testing, magento, backend)
+-  Degi Kwag (docs)
+
 
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
@@ -65,7 +67,7 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
 
 ## Is it production ready?
 
-Yes! There are more than 10 implementations happening right now and many live shops (check [awesome Vue Storefront list](https://github.com/frqnck/awesome-vue-storefront)).
+Yes! There are more than 20 implementations happening right now and many live shops (check [awesome live projects on Vue Storefront](https://www.vuestorefront.io/live-projects/)).
 
 ## Browser Compatibility
 
@@ -266,7 +268,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://divante.co/">
+        <a href="https://divante.com/">
           <img
             src="https://divante.co/about us/LOGO.png"
             alt="Divante"
@@ -510,10 +512,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
          <td align="center" valign="middle">
-        <a href="https://www.badger.blue/">
+        <a href="https://www.codilar.com/">
           <img
-            src="https://divante.co/partners/Vue-Storefront/BlueBadger-Logo.png"
-            alt="Badger Blue"
+            src="https://divante.co/partners/Vue-Storefront/codilar_logo.png"
+            alt="Codilar"
             height="50"
           >
         </a>
@@ -775,6 +777,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.co/partners/Vue-Storefront/Perfomance_Academy_logo_large.png"
             alt="Performance Academy"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+     <tr>
+      <td align="center" valign="middle"> 
+<a href="https://sparksolutions.co/">
+          <img
+            src="https://divante.co/partners/Vue-Storefront/logo%20spark%20kolor.png"
+            alt="Spark Solutions"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
             height="40"
           >
         </a>

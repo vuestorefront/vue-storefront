@@ -242,6 +242,9 @@ import { getAvailableFiltersByProduct, getSelectedFiltersByProduct } from '@vue-
 import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
 import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { htmlDecode } from '@vue-storefront/core/filters'
+import { ReviewModule } from '@vue-storefront/core/modules/review'
+import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
+import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
 
 export default {
   components: {
@@ -269,6 +272,10 @@ export default {
   // Remove product.js dependency and use onlineHelper
   mixins: [VueOfflineMixin, ProductOption],
   directives: { focusClean },
+  beforeCreate () {
+    registerModule(ReviewModule)
+    registerModule(RecentlyViewedModule)
+  },
   data () {
     return {
       detailsOpen: false,

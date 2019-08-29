@@ -28,7 +28,7 @@ Luckily, we already have been through all this for you, got our hands dirty. All
 :::tip NOTE
 We will walk you with docker on *Linux*. (Specifically *Ubuntu 18.04* if needed)
 
-There is only one bias for Docker before using it; *Run it on Linux*. Docker is native Linux, was created using a Linux technology, LXC (linux container) in the first place. Even though there were many attempts made to make it available to other platforms as it does on Linux, and it has definitely been on a progress, however, using Docker on Linux is the solidest way to deal with the technology. 
+There is only one bias for Docker before using it; *Run it on Linux*. Docker is native Linux, was created using a Linux technology; LXC (linux container) in the first place. Even though there were many attempts made to make it available to other platforms as it does on Linux, and it has definitely been on a progress, however, using Docker on Linux is the solidest way to deal with the technology. 
 
 That being sad, there are tips for using other platforms for docker at [Chef's Secrets](#_4-chef-s-secret-protip) as well. 
 :::
@@ -927,7 +927,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   }
 },
 ```
-hmm
+`elasticsearch` ...
 
 ```json
 "ssr": {
@@ -942,7 +942,9 @@ hmm
   "useInitialStateFilter": true
 },
 ```
-- `ssr`
+- `ssr` 
+  - `templates`
+    - `default`
 
 ```json
 "defaultStoreCode": "",
@@ -1353,11 +1355,123 @@ Sometimes we need to know the inside of the perfect machine so that we can prepa
 <br />
 
 ## 4. Storefront CLI at your service 
-On the release of ... we will also present a new way of setup and all its sorts from CLI which is the all time favorite tool of developers worldwide if I must say. 
+Upon the release of 1.10, we also present a new way of setup and all its sorts from `CLI` which is the all-time most favorite tool of developers worldwide if I must say. There are lots of benefits when `CLI` methods are available such as automation in scripts in cooperation with other automation tools out there. 
+
+We will continuously add new features to [`CLI`](https://www.npmjs.com/package/@vue-storefront/cli) as the version goes up. 
+
 ### 1. Preparation
+- You need to have installed [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) on your machine. (or [`yarn`](https://yarnpkg.com/lang/en/docs/install/#debian-stable) if you chose it)
+
 ### 2. Recipe
+1. Install _Vue Storefront CLI_ package on your machine with `-g` flag as follows : 
+```bash
+npm install -g  @vue-storefront/cli@0.0.15
+```
+:vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/ZK0BVF7cQ8OaHHRcsaZgcOCfN)
+
+2. Now go to any random folder you want to install a _Vue Storefront_ app under, and run the following : 
+```bash
+vsf init
+```
+
+3. You will encounter a series of questions to install the app, first of which is as follows : 
+```bash
+  ✔ Check avalilable versions
+? Which version of Vue Storefront you'd like to install? 
+❯ Stable versions (recommended for production) 
+  Release Candidates 
+  In development branches (could be unstable!)
+```
+Select an option based on which you are to install.
+
+4. Next question is about specific version to be installed as follows : 
+```bash
+? Select specific version 
+  v1.8.0 
+❯ v1.10.0 
+  v1.9.2 
+  v1.9.1 
+  v1.9.0 
+  v1.8.5 
+  v1.8.4 
+```
+Choose a version of your target.
+
+5. Next question is about how you install it between `installer`/`manual` like below : 
+```bash
+? Would you like to use friendly installer or install Vue Storefront manually? 
+❯ Installer (MacOS/Linux only) 
+  Manual installation
+```
+Let's pick the `Installer` option for now. 
+
+Then you will see the machine start working on installation : 
+```bash
+? Would you like to use friendly installer or install Vue Storefront manually? Installer (MacOS/Linux only)
+  ✔ Copying Vue Storefront files
+  ⠸ Installing dependencies
+    Running installer
+```
+
+6. Once the preparation is finished then another series of questions pops up as `installer` is associated with as follows : 
+```bash
+yarn run v1.17.3
+$ node ./core/scripts/installer
+┌─────────────────────────────────────────────────┐
+│ Hi, welcome to the vue-storefront installation. │
+│ Let's configure it together :)                  │
+└─────────────────────────────────────────────────┘
+
+? Would you like to use https://demo.vuestorefront.io as the backend? (Y/n)
+```
+
+From this on, the questions would be the same as installation through `installer`. 
+You can follow it further at [Install using installer](#_2-using-installer)
+
+7. Once the questions has been answered then the remaining process is taken to action. You will see a screen as follows when they finished :
+```bash
+? Please provide path for images endpoint https://demo.vuestorefront.io/img/
+
+ Trying to create log files... 
+
+ Creating storefront config 'config/local.json'... 
+
+ Build storefront npm... 
+
+ Starting storefront server... 
+
+┌────────────────────────────────────────────────────┐
+│ Congratulations!                                   │
+│                                                    │
+│ You've just successfully installed vue-storefront. │
+│ All required servers are running in background     │
+│                                                    │
+│ Storefront: http://localhost:3000                  │
+│ Backend: https://demo.vuestorefront.io             │
+│                                                    │
+│ Logs: /home/dex/code/cli/vue-storefront/var/log/   │
+│                                                    │
+│ Good Luck!                                         │
+  ✔ Copying Vue Storefront files
+  ✔ Installing dependencies
+  ✔ Running installer
+```
+
+8. Now visit the address on your browser as printed in the screen, then Voila! :
+
+![home_borderline](../images/home-vuestorefront.png)
+
+Congratulation! 
+
 ### 3. Peep into the kitchen (what happens internally)
+_Vue Storefront_ people prepared the `CLI` way of installing the whole infrastructure for your _Vue Storefront_ app provided as an `npm` package. It's now as easy as to install an `npm` package on any machine. Installed then run a command with a few options would be more than enough for the app to be up and running. Believe me your next _Vue Storefront_ app will be with you instantly with a breeze as long as `CLI` is accessible. 
+
 ### 4. Chef's secret (protip)
+#### Secret 1. Install with _manual_ path
+
+#### Secret 2. Install a module skeleton
+
+#### Secret 3. Build your own command for `vsf-cli`
 
 <br />
 <br />

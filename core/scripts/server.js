@@ -3,6 +3,7 @@ const express = require('express')
 const ms = require('ms')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
+const request = require('request');
 
 const cache = require('./utils/cache-instance')
 const apiStatus = require('./utils/api-status')
@@ -76,6 +77,19 @@ function invalidateCache (req, res) {
         apiStatus(res, error, 500)
         console.error(error)
       })
+
+      if (config.server.invalidateCacheForwarding) { // forward invalidate request to the next server in the chain
+        if (!req.query.forwardedFrom && config.server.invalidateCacheForwardUrl) { // don't forward forwarded requests
+          request(config.server.invalidateCacheForwardUrl + req.query.tag + '&forwardedFrom=vs', {}, (err, res, body) => {
+            if (err) { console.error(err); }
+            try {
+              if (body && JSON.parse(body).code !== 200) console.log(body);
+            } catch (e) {
+              console.error('Invalid Cache Invalidation response format', e)
+            }
+          });
+        }
+      }
     } else {
       apiStatus(res, 'Invalid parameters for Clear cache request', 500)
       console.error('Invalid parameters for Clear cache request')
@@ -186,13 +200,11 @@ app.get('*', (req, res, next) => {
             res.end(output.body)
           } else {
             res.setHeader('Content-Type', 'text/html')
-            res.end(output.body)
+            res.end(output)
           }
-          res.end(output)
           console.log(`cache hit [${req.url}], cached request: ${Date.now() - s}ms`)
           next()
         } else {
-          res.setHeader('Content-Type', 'text/html')
           res.setHeader('X-VS-Cache', 'Miss')
           console.log(`cache miss [${req.url}], request: ${Date.now() - s}ms`)
           dynamicRequestHandler(renderer) // render response
@@ -212,7 +224,7 @@ app.get('*', (req, res, next) => {
     config = require('config') // reload config
     if (typeof serverExtensions.configProvider === 'function') {
       serverExtensions.configProvider(req).then(loadedConfig => {
-        config = Object.assign(config, loadedConfig) // merge loaded conf with build time conf
+        config = config.util.extendDeep(config, loadedConfig)
         dynamicCacheHandler()
       }).catch(error => {
         if (config.server.dynamicConfigContinueOnError) {
@@ -239,7 +251,11 @@ const host = process.env.HOST || config.server.host
 const start = () => {
   app.listen(port, host)
     .on('listening', () => {
-      console.log(`Vue Storefront Server started at http://${host}:${port}`)
+      console.log(`\n\n----------------------------------------------------------`)
+      console.log('|                                                        |')
+      console.log(`| Vue Storefront Server started at http://${host}:${port} |`)
+      console.log('|                                                        |')
+      console.log(`----------------------------------------------------------\n\n`)
     })
     .on('error', (e) => {
       if (e.code === 'EADDRINUSE') {

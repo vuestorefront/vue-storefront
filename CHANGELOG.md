@@ -9,10 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Cache invalidate requests forwarding support - @pkarw (#3367)
 - Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057, #3270)
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
 - Apache2 proxy header support for store based on host - @resubaka (#3143)
 - Items count badges for Compare products and wishlist icons at header - @vishal-7037 (#3047)
+- Added product image in order summary - @obsceniczny (#2544)
 - Add icons on the product tiles that allow to add to the wish list and to the list to compare products from the list of products - @Michal-Dziedzinski (#2773)
 - Get also none product image thumbnails via API - @cewald, @resubaka (#3207)
 - Added a config option `optimizeShoppingCartOmitFields` - @EmilsM (#3222)
@@ -23,6 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for tax calculation where the values from customer_tax_class_ids is used - @resubaka (#3245)
 - Added loading product attributes (`entities.productListWithChildren.includeFields`) on category page - @andrzejewsky (#3220)
 - Added config to set Cache-Control header for static assets based on mime type - @phoenix-bjoern (#3268)
+- Improve `category-next/getCategoryFrom` and `category-next/getCurrentCategory` to be more flexible - @cewald (#3295)
+- Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351)
+- Added test to multistore.ts so it is nearly fully unit tested - @resubaka (#3352)
+- Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351, #3354)
+- Added test to helpers/index.ts so it is partly tested - @resubaka (#3376, 3377)
+- Added config for the defaultTitle compitable with multistore - @cnviradiya (#3282)
 
 ### Fixed
 
@@ -42,12 +50,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed first call of prepareStoreView when SSR - @resubaka (#3244)
 - Add ./packages as volume to docker-compose.yml - @cewald (#3251)
 - Fixed mail sending and add error logger - @Michal-Dziedzinski (#3265)
+- Fixed page not found http status code - @phoenix-bjoern (#3243)
 - Fixed missing coupon code after user logged in - @andrzejewsky (#3153)
 - Fixed bug around appendStoreCode in formatCategoryLink. - @resubaka (#3306)
 - Fixed static category links in cms contents on homepage and MinimalFooter - @MariaKern (#3292)
 - Fixed tax calulaction where products was send as parameter but products.items where the right paramater - @resubaka (#3308)
 - Fixed module extendStore for array property inside store - @przspa (#3311)
+- Fixed ordering of the categories and subcategories in sidebar - @andrzejewsky (#2665)
 - Some SSR problems with urlDispatcher during multireloading page - @patzick (#3323)
+- Fixed two bugs in `category-next/getCategoryFrom` (#3286) and `category-next/getCurrentCategory` (#3332) - @cewald (#3295)
+- Fixed login popup close icon position - @przspa (#3393)
+- Fixed styles for original price on Wishlist sidebar - @przspa (#3392)
+- Adjusted ProductVideo props to right names - @przspa (#3263)
 
 ### Changed / Improved
 
@@ -65,31 +79,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored the vuex user module - @andrzejewsky (#3095)
 - Brazilian Portuguese (pt_BR) translation improved - @pxfm (#3288)
 - Moved store/lib to /lib - @pxfm (#3253)
-- Improved some of the german translations in spelling and wording - @MariaKern (#3297) 
+- Corrected usage of "configurableChildrenStockPrefetchStatic" setting, refactored logic to tested helper - @philippsander (#859)
+- Improved some of the german translations in spelling and wording - @MariaKern (#3297)
+- Added lazy-hydrate for category products - @andrzejewsky (#3327)
+- Refactored vuex order module - @andrzejewsky (#3337)
+- Changed body no-scroll behavior for overlapped element - @przspa (#3363)
+- `config.dynamicConfigReload` option should use deep copy for `Object.assign()` - @cewald (#3372)
+- Add translation for the defaultTitle - @cnviradiya (#3282)
+- Refactored vuex tax module - @andrzejewsky (#3337)
+- Refactored vuex stock module - @andrzejewsky (#3337)
+- Removed extra unnecessary code from BaseInputNumber - @cnviradiya (#3410)
 
-## [1.10.0-rc.2] - UNRELEASED
+## [1.10.1] - UNRELEASED
 
 ### Fixed
+- Invalid Discount code error handled by theme - @grimasod (#3385)
+- `order.order_id` was not assigned in the `orders.directBackendSync` mode - @pkarw (#3398)
+- Hydration problems with UrlDispatcher :rocket: - @patzick (#3412)
 
-- Wrong meta description attribute by page overwrite - @przspa (#3091)
-- The SSR Cms console errors fixed + `magento-2-cms` module removed - @pkarw (#3155)
-- Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
-- User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
-- Fixed undefined id of color swatches issue for simple product - @vishal-7037 (#3239)
-- Date filter ignoring format param and locales - @grimasod, @patzick (#3102)
-- Problem with placing an order if shipping method is different than default one - @patzick (#3203)
-- Fixed product video embed on PDP - @juho-jaakkola (#3263)
-
-### Changed
-
-- Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
-- Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
-- Lack of possibility to mock src modules and theme components - @lukeromanowicz (#3185)
-- Outdated signature of Registration hooks for google-tag-manager - @vishal-7037 (#3208)
-- Added serveral missing german translations and fixed german language file structure - @unherz (#3202)
-- Refactored the informal way of adressing to formal in german translation files - @unherz (#3213)
-
-## [1.10.0-rc.1] - 2019.06.19
+## [1.10.0] - 2019.08.10
 
 ### Added
 
@@ -164,6 +172,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - No placeholders / no photos for Get Inspire section in offline - @przspa (#3072)
 - Back icon on product page causing inconsistent behavior - @patzick (#3056)
 - Remove static definition of `cashondelivery` in payment module - @danielmaier42 (#2983)
+- Fixed wrong meta description attribute by page overwrite - @przspa (#3091)
+- Fixed the `AddToCart` button behavior in case of synchronization errors - @pkarw (#3150)
+- User token re-validation fixed to use proper HTTP codes - @pkarw (#3151, #3178)
+- Fixed undefined id of color swatches issue for simple product - @vishal-7037 (#3239)
+- Date filter ignoring format param and locales - @grimasod, @patzick (#3102)
+- Problem with placing an order if shipping method is different than default one - @patzick (#3203)
+- Fixed product video embed on PDP - @juho-jaakkola (#3263)
+- Fixed memory leak with loading DayJS in SSR - @lukeromanowicz (#3310)
+- Fixed invalid localized routes in SSR content of multistore configuration - @lukeromanowicz (#3262)
+- Fixed startSession which loaded from the wrong place the user when multistore was active - @resubaka (#3322)
+- Login after registration - @patzick (#3343)
+- Clear compare list after logout - @patzick (#3348)
 
 ### Changed / Improved
 
@@ -211,7 +231,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Load custom fonts without webfont.js - @jahvi (#2944)
 - Added some structured data to product page - @cewald (#2910)
 - Improved the Size Guide feature so it opens in a modal popup instead of a new page - @RGijsberts - (#2913)
-- Refactored Travis config @Tjitse-E (#3035)
+- Refactored Travis config - @Tjitse-E (#3035)
+- Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
+- Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
+- Lack of possibility to mock src modules and  theme components - @lukeromanowicz (#3185)
+- Outdated signature of Registration hooks for google-tag-manager - @vishal-7037 (#3208)
+- Added serveral missing german translations and fixed german language file structure - @unherz (#3202)
+- Refactored the informal way of adressing to formal in german translation files - @unherz (#3213)
 
 ## [1.9.2] - 2019.06.10
 

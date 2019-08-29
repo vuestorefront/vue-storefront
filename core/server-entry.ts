@@ -1,5 +1,4 @@
 import union from 'lodash-es/union'
-
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/helpers/internal'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/core/lib/multistore'
@@ -31,14 +30,8 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
     }
   })).then(() => {
     AsyncDataLoader.flush({ store, route: router.currentRoute, context: null } /* AsyncDataLoaderActionContext */).then((r) => {
-      if (buildTimeConfig.ssr.useInitialStateFilter) {
-        context.state = omit(store.state, config.ssr.initialStateFilter)
-      } else {
-        context.state = store.state
-      }
-      if (!buildTimeConfig.server.dynamicConfigReload) { // if dynamic config reload then we're sending config along with the request
-        context.state = omit(store.state, buildTimeConfig.ssr.useInitialStateFilter ? [...config.ssr.initialStateFilter, 'config'] : ['config'])
-      } else {
+      context.state = store.state
+      if (buildTimeConfig.server.dynamicConfigReload) {
         const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
         const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
         console.log(excludeFromConfig, includeFromConfig)
@@ -63,7 +56,8 @@ function getHostFromHeader (headers: string[]): string {
 }
 
 export default async context => {
-  const { app, router, store } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
+  const { app, router, store, initialState } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
+  context.initialState = initialState
   return new Promise((resolve, reject) => {
     context.output.cacheTags = new Set<string>()
     const meta = (app as any).$meta()
