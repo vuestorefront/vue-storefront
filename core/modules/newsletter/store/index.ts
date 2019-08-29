@@ -3,7 +3,6 @@ import { Module } from 'vuex'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { NewsletterState } from '../types/NewsletterState'
 import { NewsletterService } from '@vue-storefront/core/data-resolver'
-import Task from 'core/lib/sync/types/Task';
 
 export const newsletterStore: Module<NewsletterState, any> = {
   namespaced: true,
