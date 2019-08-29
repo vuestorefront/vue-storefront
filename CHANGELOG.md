@@ -62,6 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed login popup close icon position - @przspa (#3393)
 - Fixed styles for original price on Wishlist sidebar - @przspa (#3392)
 - Redirect loop on dispatching dynamic routes in CSR running multistore mode - @cewald, @lukeromanowicz, @resubaka (#3396)
+- Adjusted ProductVideo props to right names - @przspa (#3263)
 
 ### Changed / Improved
 
