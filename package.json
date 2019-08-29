@@ -48,9 +48,14 @@
     "lint": "eslint --ext .js,.vue,.ts core src --fix",
     "lerna": "lerna"
   },
-  "pre-commit": [
-    "lint"
-  ],
+  "lint-staged": {
+    "*.{js,vue,ts}": "eslint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "dependencies": {
     "@types/webpack": "^4.4.23",
     "@types/webpack-dev-server": "^3.1.1",
@@ -145,7 +150,8 @@
     "phantomjs-prebuilt": "^2.1.10",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "^3.0.0",
-    "pre-commit": "^1.2.2",
+    "husky": "^2.6.0",
+    "lint-staged": "^8.2.1",
     "print-message": "^2.1.0",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.1.0",
