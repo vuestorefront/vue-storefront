@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351, #3354)
 - Added test to helpers/index.ts so it is partly tested - @resubaka (#3376, 3377)
 - Added config for the defaultTitle compitable with multistore - @cnviradiya (#3282)
+- Added husky package to manage lint check only for staged files in git
 
 ### Fixed
 
