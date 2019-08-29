@@ -18,7 +18,7 @@
         </button>
       </div>
     </div>
-    <div class="sidebar-menu__container row">
+    <div class="sidebar-menu__container row" ref="container">
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
           <li
@@ -207,9 +207,9 @@ export default {
     }
   },
   mounted () {
-    disableBodyScroll(this.$el)
     this.$nextTick(() => {
-      this.componentLoaded = true
+      this.componentLoaded = true;
+      disableBodyScroll(this.$refs.container)
     })
   },
   destroyed () {

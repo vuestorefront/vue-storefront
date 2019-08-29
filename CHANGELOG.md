@@ -61,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed two bugs in `category-next/getCategoryFrom` (#3286) and `category-next/getCurrentCategory` (#3332) - @cewald (#3295)
 - Fixed login popup close icon position - @przspa (#3393)
 - Fixed styles for original price on Wishlist sidebar - @przspa (#3392)
+- Adjusted ProductVideo props to right names - @przspa (#3263)
 
 ### Changed / Improved
 
@@ -89,6 +90,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex stock module - @andrzejewsky (#3337)
 - Removed extra unnecessary code from BaseInputNumber - @cnviradiya (#3410)
 - Moved my-account authentication guard to MyAccount core page - @przspa (#3325)
+
+## [1.10.1] - UNRELEASED
+
+### Fixed
+- Invalid Discount code error handled by theme - @grimasod (#3385)
+- `order.order_id` was not assigned in the `orders.directBackendSync` mode - @pkarw (#3398)
+- Hydration problems with UrlDispatcher :rocket: - @patzick (#3412)
 
 ## [1.10.0] - 2019.08.10
 
