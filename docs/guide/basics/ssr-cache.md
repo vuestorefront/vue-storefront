@@ -109,3 +109,8 @@ if (context) context.output.cacheTags.add(`home`);
 ```
 
 is in charge of assigning the specific tag with current HTTP request output.
+
+
+## Caching strategies on production
+
+When it comes to caching on production, we made a set of caches at each layer of _Vue Storefront_ infrastructure. There is a section about [_Production setup_](/guide/installation/production-setup.html) in our guide. Additionally read [this article](https://medium.com/the-vue-storefront-journal/caching-on-production-10b00a5614f8) for more details. 

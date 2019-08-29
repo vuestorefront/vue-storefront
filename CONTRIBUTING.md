@@ -5,7 +5,7 @@ We've marked some issues as "Easy first pick" to make it easier for newcomers to
 
 Thank you for your interest in, and engagement!
 
-Before you type an issue please read about out [release lifecycle](https://docs.vuestorefront.io/guide/basics/project-structure.html)
+Before you type an issue please read about out [release lifecycle](https://docs.vuestorefront.io/guide/basics/release-cycle.html)
 
 # Branches
 

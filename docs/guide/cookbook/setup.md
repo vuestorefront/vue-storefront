@@ -1,4 +1,4 @@
-# Chapter 3. Starter pack for new comers (Install)
+# Ch 3. Starter pack for new comers (Install)
 <style>
     img[alt*="borderline"] {
         border: 1px #000 solid;
@@ -1443,7 +1443,7 @@ $ node ./core/scripts/installer
 From this on, the questions would be the same as installation through `installer`. 
 You can follow it further at [Install using installer](#_2-using-installer)
 
-7. Once the questions has been answered then the remaining process is taken to action. You will see a screen as follows when they finished :
+7. Once the questions have been answered then the remaining process is taken to action. You will see a screen as follows when they finished :
 ```bash
 ? Please provide path for images endpoint https://demo.vuestorefront.io/img/
 
@@ -1484,7 +1484,7 @@ _Vue Storefront_ people prepared the `CLI` way of installing the whole infrastru
 ### 4. Chef's secret (protip)
 #### Secret 1. Install with _manual_ path
 
-#### Secret 2. Install a module skeleton
+#### Secret 2. Install a _module_ skeleton
 
 #### Secret 3. Build your own command for `vsf-cli`
 
