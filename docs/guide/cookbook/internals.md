@@ -1,4 +1,4 @@
-# Chapter 10. Internals internally
+# Ch 10. Internals internally
 
 
 In this chapter, we are going to cover : 
