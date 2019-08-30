@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added hooks in cart module - @andrzejewsky (#3388)
 - Added config for the defaultTitle compitable with multistore - @cnviradiya (#3282)
 - Change text from "is out of the stock" to "is out of stock" - @indiebytes (#3452)
+- Added general purpose hooks - @andrzejewsky (#3389)
 
 ### Fixed
 
@@ -92,8 +93,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex tax module - @andrzejewsky (#3337)
 - Refactored vuex stock module - @andrzejewsky (#3337)
 - Removed extra unnecessary code from BaseInputNumber - @cnviradiya (#3410)
+- Refactored vuex checkout module - @andrzejewsky (#3337)
 - Moved my-account authentication guard to MyAccount core page - @przspa (#3325)
 - Refactored vuex compare module - @andrzejewsky (#3337)
+- Refactored vuex whishlist module - @andrzejewsky (#3337)
+- Refactored vuex cms module - @andrzejewsky (#3337)
+- Refactored vuex review module - @andrzejewsky (#3337)
+- Refactored vuex newsletter module - @andrzejewsky (#3337)
 
 ## [1.10.1] - UNRELEASED
 

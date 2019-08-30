@@ -3,12 +3,30 @@ import CheckoutState from '../../types/CheckoutState'
 import RootState from '@vue-storefront/core/types/RootState'
 
 const getters: GetterTree<CheckoutState, RootState> = {
-  getShippingDetails: state => state.shippingDetails,
+  getShippingDetails: (state, getters, rootState) => {
+    if (!state.shippingDetails.country) {
+      return { ...state.shippingDetails, country: rootState.storeView.tax.defaultCountry }
+    }
+
+    return state.shippingDetails
+  },
   getPersonalDetails: state => state.personalDetails,
   getPaymentDetails: state => state.paymentDetails,
   isThankYouPage: state => state.isThankYouPage,
   getModifiedAt: state => state.modifiedAt,
-  isUserInCheckout: state => ((Date.now() - state.modifiedAt) <= (60 * 30 * 1000)) // TODO: maybe refactor because it's timestamped for now; if user is in the checkout longer than 30min and will log in then the cart will be synced anyway
+  isUserInCheckout: state => ((Date.now() - state.modifiedAt) <= (60 * 30 * 1000)),
+  getPaymentMethods: (state, getters, rootState, rootGetters) => {
+    const isVirtualCart = rootGetters['cart/isVirtualCart']
+
+    return state.paymentMethods.filter(method => !isVirtualCart || method.code !== 'cashondelivery')
+  },
+  getDefaultPaymentMethod: (state, getters) => getters.getPaymentMethods.find(item => item.default),
+  getNotServerPaymentMethods: (state, getters) =>
+    getters.getPaymentMethods.filter((itm) =>
+      (typeof itm !== 'object' || !itm.is_server_method)
+    ),
+  getShippingMethods: state => state.shippingMethods,
+  getDefaultShippingMethod: state => state.shippingMethods.find(item => item.default)
 }
 
 export default getters
