@@ -71,6 +71,6 @@ declare namespace DataResolver {
   }
 
   interface ReviewsService {
-    createReview: (review: Review) => Promise<Task>
+    createReview: (review: Review) => Promise<boolean>
   }
 }

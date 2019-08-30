@@ -1,6 +1,6 @@
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 
-const createQueryLoadingQuery = ({ productId, approved }) => {
+const createLoadReviewsQuery = ({ productId, approved }) => {
   let query = new SearchQuery()
 
   if (productId) {
@@ -13,4 +13,4 @@ const createQueryLoadingQuery = ({ productId, approved }) => {
 
   return query
 }
-export default createQueryLoadingQuery
+export default createLoadReviewsQuery

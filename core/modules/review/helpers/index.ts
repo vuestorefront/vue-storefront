@@ -1,4 +1,3 @@
-import createQueryLoadingQuery from './createQueryLoadingQuery'
-import notifications from './notifications'
+import createLoadReviewsQuery from './createLoadReviewsQuery'
 
-export { createQueryLoadingQuery, notifications }
+export { createLoadReviewsQuery }
