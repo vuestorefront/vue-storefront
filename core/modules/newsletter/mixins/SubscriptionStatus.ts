@@ -33,7 +33,7 @@ export default {
     async onLoggedIn () {
       this.email = this.$store.state.user.current.email
       this.user.isSubscribed = await this.$store.dispatch('newsletter/status', this.email)
-    },
+    }
   },
   beforeMount () {
     // the user might already be logged in, so check the subscription status
