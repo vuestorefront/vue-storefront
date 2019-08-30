@@ -97,6 +97,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex compare module - @andrzejewsky (#3337)
 - Refactored vuex whishlist module - @andrzejewsky (#3337)
 - Refactored vuex cms module - @andrzejewsky (#3337)
+- Refactored vuex review module - @andrzejewsky (#3337)
 - Refactored vuex newsletter module - @andrzejewsky (#3337)
 
 ## [1.10.1] - UNRELEASED
