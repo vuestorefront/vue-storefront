@@ -54,26 +54,26 @@ export default {
     edit () {
       this.isEdited = true
     },
-    updateNewsletter () {
+    async updateNewsletter () {
       if (this.user.isSubscribed) {
-        this.subscribe((subscribed) => {
-          if (subscribed) {
-            this.$store.dispatch('notification/spawnNotification', {
-              type: 'success',
-              message: i18n.t('You have been successfully subscribed to our newsletter!'),
-              action1: { label: i18n.t('OK') }
-            })
-          }
-        })
-      } else {
-        this.unsubscribe((unsubscribed) => {
-          if (unsubscribed) {
-            this.$store.dispatch('notification/spawnNotification', {
-              type: 'success',
-              message: i18n.t('You have been successfully unsubscribed from our newsletter!'),
-              action1: { label: i18n.t('OK') }
-            })
-          }
+        const isSubscribed = await this.$store.dispatch('newsletter/subscribe', this.email)
+
+        if (isSubscribed) {
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'success',
+            message: i18n.t('You have been successfully subscribed to our newsletter!'),
+            action1: { label: i18n.t('OK') }
+          })
+        }
+        return
+      }
+
+      const isUnsubscribed = await this.$store.dispatch('newsletter/unsubscribe', this.email)
+      if (isUnsubscribed) {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'success',
+          message: i18n.t('You have been successfully unsubscribed from our newsletter!'),
+          action1: { label: i18n.t('OK') }
         })
       }
     }

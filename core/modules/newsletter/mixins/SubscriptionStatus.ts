@@ -30,23 +30,10 @@ export default {
     }
   },
   methods: {
-    onLoggedIn () {
+    async onLoggedIn () {
       this.email = this.$store.state.user.current.email
-      this.checkStatus(isSubscribed => {
-        this.user.isSubscribed = isSubscribed
-      })
+      this.user.isSubscribed = await this.$store.dispatch('newsletter/status', this.email)
     },
-    checkStatus (success?: Function, failure?: Function) {
-      // argument omitted for validation purposes
-      if (!this.$v.$invalid) {
-        return this.$store.dispatch('newsletter/status', this.email).then(res => {
-          if (success) success(res)
-        }).catch(err => {
-          if (failure) failure(err)
-        }
-        )
-      }
-    }
   },
   beforeMount () {
     // the user might already be logged in, so check the subscription status
