@@ -91,6 +91,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex tax module - @andrzejewsky (#3337)
 - Refactored vuex stock module - @andrzejewsky (#3337)
 - Removed extra unnecessary code from BaseInputNumber - @cnviradiya (#3410)
+- Refactored vuex checkout module - @andrzejewsky (#3337)
 - Moved my-account authentication guard to MyAccount core page - @przspa (#3325)
 - Refactored vuex compare module - @andrzejewsky (#3337)
 - Refactored vuex whishlist module - @andrzejewsky (#3337)
