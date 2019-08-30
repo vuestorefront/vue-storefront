@@ -169,13 +169,12 @@
       "last 2 chrome versions",
       "last 2 firefox versions",
       "last 2 edge versions",
-      "modern browsers"
+      "> 5%"
     ],
     "production": [
-      ">0.5%",
+      ">5%",
       "last 4 versions",
-      "Firefox ESR",
-      "modern browsers"
+      "Firefox ESR"
     ]
   },
   "workspaces": [
