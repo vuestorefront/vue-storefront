@@ -8,7 +8,6 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import omit from 'lodash-es/omit'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import config from 'config'
-import { isUserGroupedTaxActive } from '@vue-storefront/core/modules/catalog/helpers/tax';
 import { PRODUCT_SET_CURRENT_CONFIGURATION, PRODUCT_SET_CURRENT } from './store/product/mutation-types';
 
 export const CatalogModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
@@ -127,7 +126,7 @@ export const CatalogModule: StorefrontModule = function (app, store, router, mod
     }
   }
 
-  if (config.usePriceTiers || isUserGroupedTaxActive()) {
+  if (config.usePriceTiers || store.getters['tax/getIsUserGroupedTaxActive']) {
     EventBus.$on('user-after-loggedin', onUserPricesRefreshed)
     EventBus.$on('user-after-logout', onUserPricesRefreshed)
   }
