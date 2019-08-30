@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added test to helpers/index.ts so it is partly tested - @resubaka (#3376, 3377)
 - Added hooks in cart module - @andrzejewsky (#3388)
 - Added config for the defaultTitle compitable with multistore - @cnviradiya (#3282)
+- Change text from "is out of the stock" to "is out of stock" - @indiebytes (#3452)
 
 ### Fixed
 
