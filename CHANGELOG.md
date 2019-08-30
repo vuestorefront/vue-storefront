@@ -64,7 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed styles for original price on Wishlist sidebar - @przspa (#3392)
 - Redirect loop on dispatching dynamic routes in CSR running multistore mode - @cewald, @lukeromanowicz, @resubaka (#3396)
 - Adjusted ProductVideo props to right names - @przspa (#3263)
-
+- Fixed Doubled SKU row in compare tab - @manvendra-singh1506 (#3447)
 ### Changed / Improved
 
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
