@@ -74,7 +74,7 @@ Yes! There are more than 20 implementations happening right now and many live sh
 * last 2 Chrome versions
 * last 2 Firefox versions
 * last 2 Edge versions
-* Internet Explorer 10
+* modern browsers
 
 ## Join the community on Slack
 
@@ -793,10 +793,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle"> 
-<a href="">
+<a href="https://www.caupo.se/">
           <img
-            src=""
-            alt=""
+            src="https://divante.com/partners/Vue-Storefront/Caupo_logo_2019.svg"
+            alt="Caupo"
             height="40"
           >
         </a>
