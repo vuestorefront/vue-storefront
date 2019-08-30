@@ -76,7 +76,9 @@ If by some reasons you wan't to have the `localStorage` back on for `Products by
 - New page-not-found handling requires to update router/index.js in the theme.
 - The option `config.products.lazyLoadingCategoryProducts` was introduced which is responsible for hydrating products list and loading them only on client side. It means there is no category products in the `__INITIAL__STATE__`. It's enabled by default.
 - The modules: `Review`, `Mailer`, `Order`, `RecentlyViewed`, `InstantCheckout` are no longer loaded by default in the main bundle as they are loading on-demand on the related pages.
-- Authentication guard was moved from user module router to `MyAccount` pages mixin. 
+- Authentication guard was moved from user module router to `MyAccount` pages mixin.
+- The getters `cmsBlocks`, `cmsBlockIdentifier`, `cmsBlockId` are deprecated. Please use `getCmsBlocks`, `getCmsBlockIdentifier`, `getCmsBlockId` instead.
+
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`EventBus.$on()`) now
 - The lowest supported node version  is currently 8.10.0,
