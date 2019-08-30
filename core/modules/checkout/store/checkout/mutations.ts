@@ -44,13 +44,13 @@ const mutations: MutationTree<CheckoutState> = {
   [types.CHECKOUT_ADD_PAYMENT_METHOD] (state, paymentMethod) {
     state.paymentMethods.push(paymentMethod)
   },
-  [types.CHECKOUT_SET_PAYMENT_METHODS] (state, paymentMethods) {
+  [types.CHECKOUT_SET_PAYMENT_METHODS] (state, paymentMethods = []) {
     state.paymentMethods = paymentMethods
   },
   [types.CHECKOUT_ADD_SHIPPING_METHOD] (state, shippingMethods) {
     state.shippingMethods.push(shippingMethods)
   },
-  [types.CHECKOUT_SET_SHIPPING_METHODS] (state, shippingMethods) {
+  [types.CHECKOUT_SET_SHIPPING_METHODS] (state, shippingMethods = []) {
     state.shippingMethods = shippingMethods
   }
 }
