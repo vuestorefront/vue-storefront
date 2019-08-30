@@ -73,4 +73,10 @@ declare namespace DataResolver {
   interface ReviewsService {
     createReview: (review: Review) => Promise<boolean>
   }
+
+  interface NewsletterService {
+    isSubscribed: (email: string) => Promise<boolean>,
+    subscribe: (email: string) => Promise<boolean>,
+    unsubscribe: (email: string) => Promise<boolean>
+  }
 }

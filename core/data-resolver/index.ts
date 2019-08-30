@@ -4,6 +4,7 @@ import { CartService } from './CartService'
 import { OrderService } from './OrderService'
 import { StockService } from './StockService'
 import { ReviewsService } from './ReviewsService'
+import { NewsletterService } from './NewsletterService'
 
 export {
   CategoryService,
@@ -11,5 +12,6 @@ export {
   CartService,
   OrderService,
   StockService,
-  ReviewsService
+  ReviewsService,
+  NewsletterService
 }
