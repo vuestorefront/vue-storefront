@@ -3,7 +3,6 @@ import * as types from './mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
 import WishlistState from '../types/WishlistState'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { notifications } from '@vue-storefront/core/modules/wishlist/helpers'
 
 const actions: ActionTree<WishlistState, RootState> = {
   clear (context) {
@@ -19,13 +18,11 @@ const actions: ActionTree<WishlistState, RootState> = {
     const wishlistStorage = StorageManager.get('wishlist')
     return wishlistStorage.getItem('current-wishlist')
   },
-  addItem ({ commit, dispatch }, product) {
+  addItem ({ commit }, product) {
     commit(types.WISH_ADD_ITEM, { product })
-    dispatch('notification/spawnNotification', notifications.productAddedToWhishList(product.name), { root: true })
   },
-  removeItem ({ commit, dispatch }, product) {
+  removeItem ({ commit }, product) {
     commit(types.WISH_DEL_ITEM, { product })
-    dispatch('notification/spawnNotification', notifications.productRemovedFromWhishList(product.name), { root: true })
   }
 }
 
