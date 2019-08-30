@@ -76,6 +76,8 @@ Yes! There are more than 20 implementations happening right now and many live sh
 * last 2 Edge versions
 * modern browsers
 
+For an up-to-date list of supported browsers please see "browserslist" in package.json
+
 ## Join the community on Slack
 
 If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg)
