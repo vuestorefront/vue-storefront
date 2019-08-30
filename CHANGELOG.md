@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.10.1] - UNRELEASED
 
+### Added
+- Backport of jest watch from develop - @resubaka (#3450, #3351)
+
 ### Fixed
 - Invalid Discount code error handled by theme - @grimasod (#3385)
 - `order.order_id` was not assigned in the `orders.directBackendSync` mode - @pkarw (#3398)
