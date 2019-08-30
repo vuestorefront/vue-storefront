@@ -604,7 +604,26 @@ We build a module that applies a discount to certain `storeviews` only.
  - Need a list of points where the discount should be verified.
 
 2. Now start with the first item, create a _configuration_ for the module to consume. 
-`
+```json
+/** 
+... abridged 
+**/
+  ,
+  "discountStore": {
+      "enableDiscountPerStoreViews": true,
+      "storeViewsToApplyTo": ["de"],
+      "globalDiscountInPercentage": 25,
+      "allowLocalOverride": true
+  }
+}
+```
+ - `discountStore` contains nodes of configuration for our module.
+   - `enableDiscountPerStoreViews` : This value determines whether to set this module enabled or not. 
+   - `storeViewsToApplyTo` : This array contains the `storeviews` code.
+   - `globalDiscountInPercentage` : This value is how much discount should be applied to target `storeviews`.
+   - `allowLocalOverride` : This value allows to override discount dynamically.
+
+3. 
 
 ### 3. Peep into the kitchen (what happens internally)
 
@@ -629,7 +648,7 @@ We build a module that applies a discount to certain `storeviews` only.
   - `afterUserAuthorize` :
   - `afterUserUnauthorize` :
 
-4. `app` 
+4. `app` _global level_
   - `beforeStoreViewChange` :
   - `afterStoreViewChange` :
   - `afterAppInit` :
@@ -638,6 +657,9 @@ We build a module that applies a discount to certain `storeviews` only.
 The list is of course subject to change, it grows for each core module to handle all use cases. 
 :::
 #### Secret 2. The core hooks design 
+
+#### Secret 3. Rewriting the module again without the hooks
+
 <br />
 <br />
 
