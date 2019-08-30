@@ -4,7 +4,7 @@
       {{ $t('Log in') }}
       <i
         slot="close"
-        class="modal-close material-icons p15 cl-bg-tertiary"
+        class="modal-close material-icons cl-bg-tertiary"
         @click="close"
       >
         close
@@ -15,7 +15,7 @@
         {{ $t('You need to be logged in to see this page') }}
       </p>
     </div>
-    <div class="modal-content pt30 pb60 px65 cl-secondary">
+    <div class="modal-content bg-cl-primary pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="login" novalidate>
         <base-input
           class="mb10"

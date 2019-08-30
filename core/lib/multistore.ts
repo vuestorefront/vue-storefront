@@ -49,6 +49,9 @@ export interface StoreView {
     currencyCode: string,
     currencySign: string,
     dateFormat: string
+  },
+  seo: {
+    defaultTitle: string
   }
 }
 
@@ -84,7 +87,8 @@ export function prepareStoreView (storeCode: string): StoreView {
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
     storeCode: null,
-    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1
+    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
+    seo: config.seo || {}
   }
 
   if (config.storeViews.multistore === true) {

@@ -33,12 +33,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       excludeFields: entities.productList.excludeFields
     })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
-    await dispatch('tax/calculateTaxes', { products: items }, { root: true }) // TODO: The `url/registerMapping` for each individual product loaded is called only in the second request - I mean in the: `cacheProducts` -> `product/list`; without  mapping registered from the ategory  level when user clicks the product link VS will fetch with additional request the url mapping; not sure if this is  a risky situation as we have lazy-hydrate on; waiting for this second request anyway; @patzik let's diiscuss this tomorrow
-    let configuredProducts = items.map(product => {
-      product = Object.assign({}, preConfigureProduct({ product, populateRequestCacheTags: config.server.useOutputCacheTagging })) // this is setting the output cache tags and setting parentSku which is crucial for product sync
-      const configuredProductVariant = configureProductAsync({rootState}, {product, configuration: searchQuery.filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
-      return Object.assign(product, omit(configuredProductVariant, ['visibility']))
-    })
+    const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
     commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
     // await dispatch('loadAvailableFiltersFrom', searchResult)
 
@@ -63,12 +58,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       start: searchResult.start,
       total: searchResult.total
     })
-    await dispatch('tax/calculateTaxes', { products: searchResult.items }, { root: true })
-    let configuredProducts = searchResult.items.map(product => { // TODO: we've got a code duplication here with the `loadCategoryProducts` above - we probably need to extract this logic to some kind of helper (?)
-      product = Object.assign({}, preConfigureProduct({ product, populateRequestCacheTags: config.server.useOutputCacheTagging }))
-      const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: searchQuery.filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
-      return Object.assign(product, omit(configuredProductVariant, ['visibility']))
-    })
+    const configuredProducts = await dispatch('processCategoryProducts', { products: searchResult.items, filters: searchQuery.filters })
     commit(types.CATEGORY_ADD_PRODUCTS, configuredProducts)
 
     return searchResult.items
@@ -90,6 +80,33 @@ const actions: ActionTree<CategoryState, RootState> = {
         dispatch('stock/list', { skus: chunkItem }, { root: true }) // store it in the cache
       }
     }
+  },
+  /**
+   * Calculates products taxes
+   * Registers URLs
+   * Configures products
+   */
+  async processCategoryProducts ({ dispatch, rootState }, { products = [], filters = {} } = {}) {
+    await dispatch('tax/calculateTaxes', { products: products }, { root: true })
+    dispatch('registerCategoryProductsMapping', products) // we don't need to wait for this
+    const configuredProducts = products.map(product => {
+      product = Object.assign({}, preConfigureProduct({ product, populateRequestCacheTags: config.server.useOutputCacheTagging }))
+      const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
+      return Object.assign(product, omit(configuredProductVariant, ['visibility']))
+    })
+    return configuredProducts
+  },
+  async registerCategoryProductsMapping ({ dispatch }, products = []) {
+    await Promise.all(products.map(product => {
+      const { url_path, parentSku, slug, type_id } = product
+      return dispatch('url/registerMapping', {
+        url: url_path,
+        routeData: {
+          params: { parentSku, slug },
+          'name': type_id + '-product'
+        }
+      }, { root: true })
+    }))
   },
   async findCategories (context, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
     return CategoryService.getCategories(categorySearchOptions)
