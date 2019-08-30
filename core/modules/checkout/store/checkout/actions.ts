@@ -10,7 +10,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
     try {
       const result = await dispatch('order/placeOrder', order, { root: true })
       if (!result.resultCode || result.resultCode === 200) {
-        await dispatch('saveBypassTs')
+        await dispatch('updateOrderTimestamp')
         await dispatch('cart/clear', { recreateAndSyncCart: true }, { root: true })
         await dispatch('dropPassword')
       }
@@ -18,7 +18,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
       Logger.error(e, 'checkout')()
     }
   },
-  async saveBypassTs () {
+  async updateOrderTimestamp () {
     const userStorage = StorageManager.get('user')
     await userStorage.setItem('last-cart-bypass-ts', new Date().getTime())
   },
