@@ -3,6 +3,7 @@
 "Error while sending reset password e-mail","Error while sending reset password e-mail"
 "Authorization in progress ...","Authorization in progress ..."
 "You have been successfully subscribed to our newsletter!","You have been successfully subscribed to our newsletter!"
+"You have been successfully unsubscribed from our newsletter!","You have been successfully unsubscribed from our newsletter!"
 "Everything new","Everything new"
 "Get inspired","Get inspired"
 "Columns","Columns"
@@ -283,3 +284,4 @@
 "Are you sure you would like to remove all the items from the shopping cart?","Are you sure you would like to remove all the items from the shopping cart?"
 "Products","Products"
 "Filter by categories","Filter by categories"
+"Vuestore","Vuestore"

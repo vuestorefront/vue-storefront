@@ -1,5 +1,4 @@
 import { userStore } from './store'
-import { beforeEach } from './router/beforeEach'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { isServer } from '@vue-storefront/core/helpers'
@@ -9,7 +8,6 @@ import * as types from './store/mutation-types'
 export const UserModule: StorefrontModule = async function (app, store, router, moduleConfig, appConfig) {
   StorageManager.init('user')
   store.registerModule('user', userStore)
-  router.beforeEach(beforeEach)
   if (!isServer) {
     await store.dispatch('user/startSession')
 
