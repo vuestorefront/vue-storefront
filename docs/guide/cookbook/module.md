@@ -587,7 +587,7 @@ In this recipe, we look into where they are and how this can be applied to your 
 
 ### 1. Preparation
  - You need a new module to play with. You would already have had one if you finished [_Recipe 1. How to bootstrap a module_](#_1-how-to-bootstrap-a-module)
- - You need [multistores set up](/guide/cookbook/multistores)
+ - You need [multistores set up](/guide/cookbook/multistores) (We assume you have set another store up whose `storeCode` is `de`)
 
 :::warning NOTICE
  This recipe deals with hooks as of [_1.10_](/guide/upgrade-notes/#_1-9-1-10). If you work with other versions of _Vue Storefront_, please bear in mind they might be different in detail. 
