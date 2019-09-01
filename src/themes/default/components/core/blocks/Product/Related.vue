@@ -67,7 +67,7 @@ export default {
 
       let key = 'sku'
       if (sku === null || (sku.length === 0)) {
-        sku = this.getCurrentProduct.category.map(cat => cat.category_id)
+        sku = this.getCurrentProduct.category_ids
         key = 'category_ids'
       }
       let relatedProductsQuery = prepareRelatedQuery(key, sku)

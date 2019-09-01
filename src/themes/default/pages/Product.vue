@@ -195,7 +195,7 @@
       </div>
     </section>
     <lazy-hydrate when-idle>
-      <reviews :product-id="getOriginalProduct.id" v-show="OnlineOnly" />
+      <reviews :product-id="getOriginalProduct.id" v-show="isOnline" />
     </lazy-hydrate>
     <lazy-hydrate when-idle>
       <related-products type="upsell" :heading="$t('We found other products you might like')" />
@@ -213,8 +213,6 @@
 <script>
 import { minValue } from 'vuelidate/lib/validators'
 import config from 'config'
-// import Product from '@vue-storefront/core/pages/Product'
-import VueOfflineMixin from 'vue-offline/mixin'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
 import AddToCart from 'theme/components/core/AddToCart.vue'
@@ -245,6 +243,7 @@ import { htmlDecode } from '@vue-storefront/core/filters'
 import { ReviewModule } from '@vue-storefront/core/modules/review'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
 import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
+import { onlineHelper } from '@vue-storefront/core/helpers'
 
 export default {
   components: {
@@ -269,8 +268,7 @@ export default {
     Spinner,
     LazyHydrate
   },
-  // Remove product.js dependency and use onlineHelper
-  mixins: [VueOfflineMixin, ProductOption],
+  mixins: [ProductOption],
   directives: { focusClean },
   beforeCreate () {
     registerModule(ReviewModule)
@@ -293,9 +291,12 @@ export default {
       getOriginalProduct: 'product/getOriginalProduct',
       attributesByCode: 'attribute/attributeListByCode'
     }),
+    isOnline (value) {
+      return onlineHelper.isOnline
+    },
     structuredData () {
       return {
-        availability: this.getCurrentProduct.stock.is_in_stock ? 'InStock' : 'OutOfStock'
+        availability: this.getCurrentProduct.stock && this.getCurrentProduct.stock.is_in_stock ? 'InStock' : 'OutOfStock'
       }
     },
     getProductOptions () {
