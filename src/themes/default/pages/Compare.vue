@@ -37,7 +37,7 @@
                     <product-tile class="col-md-12 collection-product" :product="product" />
                   </div>
                   <ul class="compare__features-list">
-                   <li
+                    <li
                       v-for="(attr, attIndex) in all_comparable_attributes"
                       :key="attIndex"
                       class="compare__features-item"
