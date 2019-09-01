@@ -23,10 +23,10 @@ export default {
     // TODO rename product getters and use proper names here
     ...mapGetters({
       product: 'product/productCurrent',
-      originalProduct: 'product/productOriginal',
+      originalProduct: 'product/getParentProduct',
       parentProduct: 'product/getParentProduct',
-      attributesByCode: 'attribute/attributeListByCode',
-      attributesById: 'attribute/attributeListById',
+      attributesByCode: 'attribute/getAttributeListByCode',
+      attributesById: 'attribute/getAttributeListById',
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
       options: 'product/currentOptions',

@@ -107,14 +107,14 @@ export function prepareStoreView (storeCode: string): StoreView {
   loadLanguageAsync(storeView.i18n.defaultLocale)
 
   if (storeViewHasChanged) {
-    storeView = coreHooksExecutors.beforeStoreViewChange(storeView)
+    storeView = coreHooksExecutors.beforeStoreViewChanged(storeView)
     rootStore.state.storeView = storeView
   }
   if (storeViewHasChanged || StorageManager.currentStoreCode !== storeCode) {
     initializeSyncTaskStorage()
     StorageManager.currentStoreCode = storeView.storeCode
   }
-  coreHooksExecutors.afterStoreViewChange(storeView)
+  coreHooksExecutors.afterStoreViewChanged(storeView)
   return storeView
 }
 

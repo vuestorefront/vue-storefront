@@ -1,5 +1,5 @@
 <template>
-  <div class="newsletter py25 px15 bg-cl-secondary" v-if="!isSubscribed">
+  <div class="newsletter py25 px15 bg-cl-secondary" v-show="!isSubscribed">
     <div class="container">
       <div class="newsletter-content m0 row middle-sm start-md">
         <div class="col-md-8 col-xs-12">

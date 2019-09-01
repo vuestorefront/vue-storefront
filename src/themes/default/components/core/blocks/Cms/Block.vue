@@ -59,9 +59,9 @@ export default {
   computed: {
     getCmsData () {
       if (this.id) {
-        return this.$store.getters[`cmsBlock/cmsBlockId`](this.id)
+        return this.$store.getters[`cmsBlock/getCmsBlockById`](this.id)
       } else if (this.identifier) {
-        return this.$store.getters[`cmsBlock/cmsBlockIdentifier`](this.identifier)
+        return this.$store.getters[`cmsBlock/getCmsBlockByIdentifier`](this.identifier)
       }
       return null
     }
