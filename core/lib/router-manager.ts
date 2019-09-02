@@ -10,8 +10,10 @@ const RouterManager = {
         (registeredRoute) => registeredRoute.name === route.name && registeredRoute.path === route.path
       ) === -1
     )
-    this._registeredRoutes.push(...uniqueRoutes)
-    router.addRoutes(uniqueRoutes)
+    if (uniqueRoutes.length > 0) {
+      this._registeredRoutes.push(...uniqueRoutes)
+      router.addRoutes(uniqueRoutes)
+    }
   },
   findByName: function (name: string): RouteConfig {
     return this._registeredRoutes.find(r => r.name === name)

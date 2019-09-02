@@ -30,7 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added test to multistore.ts so it is nearly fully unit tested - @resubaka (#3352)
 - Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351, #3354)
 - Added test to helpers/index.ts so it is partly tested - @resubaka (#3376, 3377)
+- Added hooks in cart module - @andrzejewsky (#3388)
 - Added config for the defaultTitle compitable with multistore - @cnviradiya (#3282)
+- Change text from "is out of the stock" to "is out of stock" - @indiebytes (#3452)
+- Added general purpose hooks - @andrzejewsky (#3389)
 
 ### Fixed
 
@@ -61,6 +64,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed two bugs in `category-next/getCategoryFrom` (#3286) and `category-next/getCurrentCategory` (#3332) - @cewald (#3295)
 - Fixed login popup close icon position - @przspa (#3393)
 - Fixed styles for original price on Wishlist sidebar - @przspa (#3392)
+- Redirect loop on dispatching dynamic routes in CSR running multistore mode - @cewald, @lukeromanowicz, @resubaka (#3396)
+- Adjusted ProductVideo props to right names - @przspa (#3263)
+- Fixed Doubled SKU row in compare tab - @manvendra-singh1506 (#3447)
+- Fixed warning in product details because of duplicate `product` property in `AddToCompare` mixin - @cewald (#3428)
 
 ### Changed / Improved
 
@@ -88,6 +95,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex tax module - @andrzejewsky (#3337)
 - Refactored vuex stock module - @andrzejewsky (#3337)
 - Removed extra unnecessary code from BaseInputNumber - @cnviradiya (#3410)
+- Refactored vuex checkout module - @andrzejewsky (#3337)
+- Moved my-account authentication guard to MyAccount core page - @przspa (#3325)
+- Refactored vuex compare module - @andrzejewsky (#3337)
+- Refactored vuex whishlist module - @andrzejewsky (#3337)
+- Refactored vuex cms module - @andrzejewsky (#3337)
+- Refactored vuex review module - @andrzejewsky (#3337)
+- Refactored vuex newsletter module - @andrzejewsky (#3337)
 
 ## [1.10.1] - UNRELEASED
 
