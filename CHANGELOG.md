@@ -8,10 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Invalid Discount code error handled by theme - @grimasod (#3385)
+- Fallback for empty value or no_selection child image - @ngongoll (#3397)
 - `order.order_id` was not assigned in the `orders.directBackendSync` mode - @pkarw (#3398)
 - Hydration problems with UrlDispatcher :rocket: - @patzick (#3412)
 - if condition of quoteId from the `_serverDeleteItem` method on core/modules/cart/store/action.ts - @AshishSuhane (#3415)
 - Router beforeEach hooks running many times - @grimasod (#3443)
+- test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3450, #3351)
 
 ## [1.10.0] - 2019.08.10
 
