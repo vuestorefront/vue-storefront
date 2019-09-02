@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-menu t-scrolling-touch t-w-full t-min-h-screen t-flex t-flex-col">
+  <div class="sidebar-menu t-scrolling-touch t-w-full t-min-h-screen t-flex t-flex-col" ref="container">
     <top>
       <top-button icon="person" text="Account" tabindex="2" class="t-text-base-light" @click.native="login" />
     </top>
@@ -73,7 +73,7 @@ export default {
     }
   },
   mounted () {
-    disableBodyScroll(this.$el)
+    disableBodyScroll(this.$refs.container)
   },
   destroyed () {
     clearAllBodyScrollLocks()

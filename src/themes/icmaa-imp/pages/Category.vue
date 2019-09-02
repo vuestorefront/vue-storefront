@@ -93,6 +93,7 @@ import { mapGetters } from 'vuex'
 import uniq from 'lodash-es/uniq'
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 import rootStore from '@vue-storefront/core/store'
+import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
 import CategoryExtrasHeader from 'theme/components/core/blocks/ICMAA/CategoryExtras/Header.vue'
 import CategoryExtrasMixin from 'icmaa-cms/mixins/categoryExtras'
@@ -103,10 +104,14 @@ const composeInitialPageState = async (store, route) => {
       filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields]), // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
       includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
     })
+
     const filters = getSearchOptionsFromRouteParams(route.params)
     const currentCategory = await store.dispatch('category-next/loadCategory', { filters })
-    await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
+
+    await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory })
     await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
+
+    catalogHooksExecutors.categoryPageVisited(currentCategory)
   } catch (e) {
     console.error('Problem with setting Category initial data!', e)
   }

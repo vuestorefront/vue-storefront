@@ -4,6 +4,7 @@
       class="mw-100 fixed cl-accent bg-cl-primary"
       :class="direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null "
       data-testid="sidebar"
+      ref="sidebar"
       v-if="isOpen"
     >
       <component :is="component" @close="$emit('close')" @reload="getComponent" />
@@ -14,6 +15,7 @@
 <script>
 import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
 import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {
   props: {
@@ -29,6 +31,17 @@ export default {
     direction: {
       type: String,
       default: 'right'
+    }
+  },
+  watch: {
+    isOpen (state) {
+      if (state) {
+        this.$nextTick(() => {
+          disableBodyScroll(this.$refs.sidebar)
+        })
+      } else {
+        clearAllBodyScrollLocks()
+      }
     }
   },
   data () {

@@ -21,8 +21,34 @@
 import { IsOnCompare } from '@vue-storefront/core/modules/compare/components/IsOnCompare'
 import { AddToCompare } from '@vue-storefront/core/modules/compare/components/AddToCompare'
 import { RemoveFromCompare } from '@vue-storefront/core/modules/compare/components/RemoveFromCompare'
+import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
+import i18n from '@vue-storefront/i18n'
 
 export default {
-  mixins: [IsOnCompare, AddToCompare, RemoveFromCompare]
+  mixins: [IsOnCompare, AddToCompare, RemoveFromCompare],
+  props: {
+    product: {
+      required: true,
+      type: Object
+    }
+  },
+  methods: {
+    addProduct (product) {
+      this.addToCompare(product)
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: i18n.t('Product {productName} has been added to the compare!', { productName: htmlDecode(product.name) }),
+        action1: { label: i18n.t('OK') }
+      }, { root: true })
+    },
+    removeProsuct (product) {
+      this.removeFromCompare(product)
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: i18n.t('Product {productName} has been removed from compare!', { productName: htmlDecode(product.name) }),
+        action1: { label: i18n.t('OK') }
+      }, { root: true })
+    }
+  }
 }
 </script>
