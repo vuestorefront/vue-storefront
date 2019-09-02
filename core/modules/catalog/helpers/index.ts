@@ -489,7 +489,7 @@ export function configureProductAsync (context, { product, configuration, select
         Logger.debug('Skipping configurable options setup', configuration)()
       } */
       const fieldsToOmit = ['name']
-      if (selectedVariant.image === '' || selectedVariant.image === 'no_selection') fieldsToOmit.push('image')
+      if (!hasImage(selectedVariant)) fieldsToOmit.push('image')
       selectedVariant = omit(selectedVariant, fieldsToOmit) // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
       // use chosen variant
       if (selectDefaultVariant) {
@@ -567,11 +567,11 @@ export function attributeImages (product) {
 
 export function configurableChildrenImages (product) {
   let configurableChildrenImages = []
-  if (product.configurable_children && product.configurable_children.length > 0 && this.childHasImage(product.configurable_children)) {
+  if (this.childHasImage(product.configurable_children)) {
     let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
     configurableChildrenImages = product.configurable_children.map(child =>
       ({
-        'src': getThumbnailPath(((child.image === '' || child.image === 'no_selection') ? product.image : child.image), config.products.gallery.width, config.products.gallery.height),
+        'src': getThumbnailPath((!hasImage(child) ? product.image : child.image), config.products.gallery.width, config.products.gallery.height),
         'loading': getThumbnailPath(product.image, config.products.thumbnails.width, config.products.thumbnails.height),
         'id': configurableAttributes.reduce((result, attribute) => {
           result[attribute] = child[attribute]
@@ -588,11 +588,8 @@ export function configurableChildrenImages (product) {
 /**
  * check if one of the configuableChildren has an image
  */
-
-export function childHasImage (children) {
-  let hasImage = false;
-  children.forEach((child) => {
-    if (child.image.length == 0 || child.image === 'no_selection') hasImage = true
-  })
-  return hasImage
-}
+export const childHasImage = (children = []) => children.some(hasImage)
+/**
+ * check if object have an image
+ */
+export const hasImage = (product) => product && product.image && product.image !== 'no_selection'
