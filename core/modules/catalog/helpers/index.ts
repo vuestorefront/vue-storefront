@@ -30,6 +30,15 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
   }
 }
 
+/**
+ * check if object have an image
+ */
+export const hasImage = (product) => product && product.image && product.image !== 'no_selection'
+/**
+ * check if one of the configuableChildren has an image
+ */
+export const childHasImage = (children = []) => children.some(hasImage)
+
 export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
   let selectedVariant = product.configurable_children.find((configurableChild) => {
     if (availabilityCheck) {
@@ -584,12 +593,3 @@ export function configurableChildrenImages (product) {
   }
   return configurableChildrenImages
 }
-
-/**
- * check if one of the configuableChildren has an image
- */
-export const childHasImage = (children = []) => children.some(hasImage)
-/**
- * check if object have an image
- */
-export const hasImage = (product) => product && product.image && product.image !== 'no_selection'
