@@ -1,6 +1,6 @@
 {
   "name": "vue-storefront",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
@@ -40,6 +40,7 @@
     "build:server": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" webpack --config ./core/build/webpack.prod.server.config.ts --mode production --progress --hide-modules",
     "build": "rimraf dist && yarn build:client && yarn build:server && yarn build:sw",
     "test:unit": "jest -c test/unit/jest.conf.js",
+    "test:unit:watch": "jest -c test/unit/jest.conf.js --watch",
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
     "lint": "eslint --ext .js,.vue,.ts core src --fix",
