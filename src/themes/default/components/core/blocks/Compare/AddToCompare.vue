@@ -26,6 +26,12 @@ import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
 
 export default {
   mixins: [IsOnCompare, AddToCompare, RemoveFromCompare],
+  props: {
+    product: {
+      required: true,
+      type: Object
+    }
+  },
   methods: {
     addProduct (product) {
       this.addToCompare(product)
