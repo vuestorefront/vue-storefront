@@ -1,9 +1,8 @@
 <template>
   <div id="category">
     <Category v-slot="{
-      currentSearchQuery,
-      categoryProducts,
       currentCategory,
+      categoryProducts,
       categoryProductsTotal,
       currentFilters,
       availableFilters,
@@ -98,6 +97,9 @@
 import Category, { composeInitialPageState } from '@vue-storefront/core/modules/catalog-next/pages/Category'
 import FiltersSidebar from 'src/themes/capybara/components/category/FiltersSidebar'
 import SubCategoriesSidebar from 'src/themes/capybara/components/category/SubCategoriesSidebar'
+
+// you can always extend category object by using 
+// const newCategory = Category.extend({ newOptions })
 
 import {
   SfButton,

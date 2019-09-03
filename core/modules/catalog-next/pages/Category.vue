@@ -1,7 +1,6 @@
 <template>
   <div id="category-page">
     <slot v-bind="{
-      currentSearchQuery,
       categoryProducts,
       currentCategory,
       categoryProductsTotal,
@@ -44,6 +43,11 @@ export const composeInitialPageState = async (store, route) => {
 export default {
   name: 'CategoryPage',
   mixins: [onBottomScroll],
+  props: {
+    currentSearchQuery: {
+      default: () => {}
+    }
+  },
   data () {
     return {
       sortBy: 'updated_at',
@@ -72,7 +76,7 @@ export default {
   },
   methods: {
     async changeFilter (filterVariant) {
-      this.$store.dispatch('category-next/switchSearchFilter', filterVariant)
+      this.$store.dispatch('category-next/switchSearchFilters', filterVariant)
     },
     async onBottomScroll () {
       if (this.loading.products) return
