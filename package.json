@@ -4,7 +4,7 @@
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
-    "node": ">=8.x <11.x"
+    "node": ">=8.x"
   },
   "repository": {
     "type": "git",
