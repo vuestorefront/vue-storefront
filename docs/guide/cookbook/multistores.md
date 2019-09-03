@@ -13,9 +13,12 @@ Other than going global, _Multistores_ also give you various options when you wa
 In this chpater, we are going to discuss the all aspects you need to consider before expanding your stores. 
 
 ## 1. _Multistores_ up and running
+Many e-commerce open sources provide with _multistores_ features out of the box. One notable example is _Magento 2_ without a doubt. In this recipe, we will examine setting up _multistores_ on _Vue Storefront_ connected to _Magento 2_ as the backend.
 
 ## 2. i18n in _Multistores_
 
 ## 3. Tax in _Multistores_
 
 ## 4. Price and currency
+
+## 5. 
