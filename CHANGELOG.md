@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `order.order_id` was not assigned in the `orders.directBackendSync` mode - @pkarw (#3398)
 - Hydration problems with UrlDispatcher :rocket: - @patzick (#3412)
 - if condition of quoteId from the `_serverDeleteItem` method on core/modules/cart/store/action.ts - @AshishSuhane (#3415)
+- changed the theme test path so test in theme are going to work - @resubaka (#3455)
 
 ## [1.10.0] - 2019.08.10
 
