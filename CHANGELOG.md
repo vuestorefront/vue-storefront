@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - if condition of quoteId from the `_serverDeleteItem` method on core/modules/cart/store/action.ts - @AshishSuhane (#3415)
 - Router beforeEach hooks running many times - @grimasod (#3443)
 - test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3450, #3351)
+- changed the theme test path so test in theme are going to work - @resubaka (#3455)
 
 ## [1.10.0] - 2019.08.10
 
