@@ -23,6 +23,7 @@ const actions: ActionTree<OrderState, RootState> = {
     const currentOrderHash = sha3_224(JSON.stringify(order))
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
     if (isAlreadyProcessed) return
+    commit(types.ORDER_ADD_SESSION_STAMPS, order)
     commit(types.ORDER_ADD_SESSION_ORDER_HASH, currentOrderHash)
 
     const storeView = currentStoreView()
