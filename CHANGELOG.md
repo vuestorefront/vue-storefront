@@ -38,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fix for wrong breadcrumb urls in the multistore mode - @pkarw (#3359)
+- Fix for displaying gallery images for unavaialble product variants - @pkarw (#3436)
 - Fix for `null` in search query input - @pkarw (#3474)
 - Unable to place order has been fixed; the `entities` module was wrongly imported - @pkarw (#3453)
 - Fixed product link in wishlist and microcart - @michasik (#2987)
