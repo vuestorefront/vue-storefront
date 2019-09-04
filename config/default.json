@@ -293,7 +293,7 @@
     "lazyLoadingCategoryProducts": true,
     "setFirstVarianAsDefaultInURL": false,
     "configurableChildrenStockPrefetchStatic": false,
-    "configurableChildrenStockPrefetchDynamic": false,
+    "configurableChildrenStockPrefetchDynamic": true,
     "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
     "filterUnavailableVariants": false,
     "listOutOfStockProducts": true,
