@@ -17,7 +17,7 @@
       <div class="navbar">
         <div class="navbar__aside desktop-only">
           <h1 class="navbar__title">
-            {{ currentCategory.name.length > 15 ? currentCategory.name.substr(0, 15) + '...' : currentCategory.name }}
+            {{ formatCategoryName(currentCategory.name) }}
           </h1>
         </div>
         <div class="navbar__main">
@@ -98,7 +98,7 @@ import Category, { composeInitialPageState } from '@vue-storefront/core/modules/
 import FiltersSidebar from 'src/themes/capybara/components/category/FiltersSidebar'
 import SubCategoriesSidebar from 'src/themes/capybara/components/category/SubCategoriesSidebar'
 
-// you can always extend category object by using 
+// you can always extend category object by using
 // const newCategory = Category.extend({ newOptions })
 
 import {
@@ -121,6 +121,11 @@ export default {
   },
   async asyncData ({ store, route }) {
     await composeInitialPageState(store, route)
+  },
+  methods: {
+    formatCategoryName(categoryName) {
+      return categoryName.name.length > 15 ? categoryName.name.substr(0, 15) + '...' : categoryName.name
+    }
   },
   components: {
     SfButton,
