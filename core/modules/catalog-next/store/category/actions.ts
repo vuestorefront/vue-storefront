@@ -98,11 +98,11 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async registerCategoryProductsMapping ({ dispatch }, products = []) {
     await Promise.all(products.map(product => {
-      const { url_path, parentSku, slug, type_id } = product
+      const { url_path, sku, slug, type_id } = product
       return dispatch('url/registerMapping', {
         url: url_path,
         routeData: {
-          params: { parentSku, slug },
+          params: { parentSku: product.sku, slug },
           'name': type_id + '-product'
         }
       }, { root: true })
