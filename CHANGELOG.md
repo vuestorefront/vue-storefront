@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fix for `null` in search query input - @pkarw (#3474)
 - Unable to place order has been fixed; the `entities` module was wrongly imported - @pkarw (#3453)
 - Fixed product link in wishlist and microcart - @michasik (#2987)
 - Fixed naming strategy for product prices - `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; old names have been kept as @deprecated - @pkarw (#2918)
