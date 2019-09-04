@@ -144,7 +144,7 @@ This option is used only in the [Multistore setup](../integrations/multistore.md
 ```json
 "storeViews": {
   "multistore": false,
-  "commonCache": true,
+  "commonCache": false,
   "mapStoreUrlsFor": ["de", "it"],
 ```
 
