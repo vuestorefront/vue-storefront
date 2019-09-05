@@ -101,7 +101,7 @@
   "defaultStoreCode": "",
   "storeViews": {
     "multistore": false,
-    "commonCache": true,
+    "commonCache": false,
     "mapStoreUrlsFor": ["de", "it"],
     "de": {
       "storeCode": "de",
@@ -293,7 +293,7 @@
     "lazyLoadingCategoryProducts": true,
     "setFirstVarianAsDefaultInURL": false,
     "configurableChildrenStockPrefetchStatic": false,
-    "configurableChildrenStockPrefetchDynamic": false,
+    "configurableChildrenStockPrefetchDynamic": true,
     "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
     "filterUnavailableVariants": false,
     "listOutOfStockProducts": true,
