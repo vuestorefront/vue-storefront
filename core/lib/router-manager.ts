@@ -3,7 +3,7 @@ import VueRouter, { RouteConfig, Route } from 'vue-router'
 
 const RouterManager = {
   _registeredRoutes: new Array<RouteConfig>(),
-  _lockedRoutes: new Map(),
+  _routeLock: null,
   addRoutes: function (routes: RouteConfig[], routerInstance: VueRouter = router): void {
     const uniqueRoutes = routes.filter(
       (route) => this._registeredRoutes.findIndex(
@@ -19,21 +19,20 @@ const RouterManager = {
   findByPath: function (fullPath: string): RouteConfig {
     return this._registeredRoutes.find(r => r.fullPath === fullPath)
   },
-  lockRoute: function (route: Route) {
+  lockRoute: function () {
     let resolver
-    this._lockedRoutes.set(route.path, {
+    this._routeLock = {
       lockPromise: new Promise(resolve => { resolver = resolve }),
       resolver
-    })
+    }
   },
-  getRouteLock: function (route: Route) {
-    return this._lockedRoutes.get(route.path) && this._lockedRoutes.get(route.path).lockPromise
+  getRouteLock: function () {
+    return this._routeLock && this._routeLock.lockPromise
   },
-  unlockRoute: function (route: Route) {
-    const locker = this._lockedRoutes.get(route.path)
-    if (locker) {
-      locker.resolver()
-      this._lockedRoutes.delete(route.path)
+  unlockRoute: function () {
+    if (this._routeLock) {
+      this._routeLock.resolver()
+      this._routeLock = null
     }
   }
 }
