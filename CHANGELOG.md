@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.10.2] - Unreleased
 
 ### Fixed
+- Product image is missing on PDP - @przspa, @NavaneethVijay (#3483)
 - Fixed `categoriesDynamicPrefetchLevel` that now can be equal to 0 - @pkarw (#3495)
 
 ## [1.10.1] - 2019.09.03
