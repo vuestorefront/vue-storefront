@@ -477,11 +477,9 @@ app_1  | whole request [/liked]: 1323ms
 You can read [more in depth](#_3-hooking-into-hooks)
 
 ### 2-5. Recipe E (Manage module-level `config`)
-Sometimes you may need to pass values to populate fields in your module configuration dynamically. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`. 
+Sometimes you may need to pass values to populate fields in your module configuration. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`. 
 
-Basically you would have saved your module _configuration_ inside `local.json`, however, you might want to override some of it while registering a module. 
-
-Suppose you need to use a 3rd party service integrated to your storefront. Most of the time you need to provide an API credentials encapsulated in a request to the 3rd party so that they will know _you are you_ and process a service and return a result that belongs to you. This recipe tells you how to do it with overriding 3rd party account during module registration. 
+Suppose you need to use a 3rd party service integrated to your storefront. Most of the time you need to provide an API credentials encapsulated in a request to the 3rd party so that they will know _you are you_ and process a service and return a result that belongs to you. This recipe tells you how to do it with using 3rd party account during module registration. 
 
 
 1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
@@ -628,7 +626,6 @@ We build a module that applies a discount to certain `storeviews` only.
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
-
 
 #### Secret 1. The list of hooks 
 
