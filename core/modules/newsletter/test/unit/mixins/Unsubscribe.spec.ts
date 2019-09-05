@@ -1,11 +1,13 @@
-import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
+import path from 'path';
+import Unsubscribe from '../../../mixins/Unsubscribe';
 
-import Unsubscribe from '../../../mixins/Unsubscribe'
+const utils = require( path.resolve(process.cwd() + '/test/unit/utils' ));
+const mountMixinWithStore = utils.mountMixinWithStore;
 
 jest.mock('vuelidate/lib/validators', () => ({
   email: {},
   required: {}
-}))
+}));
 
 describe('Unsubscribe', () => {
   beforeEach(() => {
@@ -51,7 +53,7 @@ describe('Unsubscribe', () => {
         }
       }
     };
-    const emit = jest.fn()
+    const emit = jest.fn();
 
     const wrapper = mountMixinWithStore(Unsubscribe, storeMock, {
       mocks: {

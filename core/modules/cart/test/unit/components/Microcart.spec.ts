@@ -1,10 +1,12 @@
-import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
-
-import AppliedCoupon from '../../../types/AppliedCoupon'
-import CartTotalSegments from '../../../types/CartTotalSegments'
+import path from 'path';
+import AppliedCoupon from '../../../types/AppliedCoupon';
+import CartTotalSegments from '../../../types/CartTotalSegments';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 
 import { Microcart } from '../../../components/Microcart'
+
+const utils = require( path.resolve(process.cwd() + '/test/unit/utils' ));
+const mountMixinWithStore = utils.mountMixinWithStore;
 
 describe('Microcart', () => {
   beforeEach(() => {

@@ -1,6 +1,8 @@
-import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
+import path from 'path';
+import { MicrocartButton } from '../../../components/MicrocartButton';
 
-import { MicrocartButton } from '../../../components/MicrocartButton'
+const utils = require( path.resolve(process.cwd() + '/test/unit/utils' ));
+const mountMixinWithStore = utils.mountMixinWithStore;
 
 describe('MicrocartButton', () => {
   beforeEach(() => {

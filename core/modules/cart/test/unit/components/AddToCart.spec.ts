@@ -1,6 +1,11 @@
-import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
-import { AddToCart } from '../../../components/AddToCart'
+import path from 'path';
+
+import { AddToCart } from '../../../components/AddToCart';
+
+const utils = require( path.resolve(process.cwd() + '/test/unit/utils' ));
+const mountMixinWithStore = utils.mountMixinWithStore;
+
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {
     log: jest.fn(() => () => {}),

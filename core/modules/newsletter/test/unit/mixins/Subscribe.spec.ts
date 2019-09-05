@@ -1,11 +1,13 @@
-import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
-
+import path from 'path';
 import Subscribe from '../../../mixins/Subscribe'
+
+const utils = require( path.resolve(process.cwd() + '/test/unit/utils' ));
+const mountMixinWithStore = utils.mountMixinWithStore;
 
 jest.mock('vuelidate/lib/validators', () => ({
   email: {},
   required: {}
-}))
+}));
 
 describe('Subscribe', () => {
   beforeEach(() => {

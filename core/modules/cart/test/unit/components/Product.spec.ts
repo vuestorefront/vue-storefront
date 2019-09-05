@@ -1,9 +1,13 @@
-import {mountMixin, mountMixinWithStore} from '@vue-storefront/unit-tests/utils';
 import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import { productThumbnailPath, getThumbnailPath } from '@vue-storefront/core/helpers';
-import config from 'config'
+import config from 'config';
+import path from 'path';
 import { MicrocartProduct } from '../../../components/Product';
 import Mock = jest.Mock;
+
+const utils = require( path.resolve(process.cwd() + '/test/unit/utils' ));
+const mountMixinWithStore = utils.mountMixinWithStore;
+const mountMixin = utils.mountMixin;
 
 jest.mock('@vue-storefront/core/helpers', () => ({
   productThumbnailPath: jest.fn(),
