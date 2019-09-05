@@ -576,7 +576,7 @@ export function attributeImages (product) {
 
 export function configurableChildrenImages (product) {
   let configurableChildrenImages = []
-  if (this.childHasImage(product.configurable_children)) {
+  if (childHasImage(product.configurable_children)) {
     let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
     configurableChildrenImages = product.configurable_children.map(child =>
       ({
