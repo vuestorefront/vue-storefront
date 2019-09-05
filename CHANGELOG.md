@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Sort CSV i18n files alphabetically in pre-commit Git hook
 - Cache invalidate requests forwarding support - @pkarw (#3367)
 - Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057, #3270)
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
