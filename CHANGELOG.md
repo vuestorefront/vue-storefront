@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Product image is missing on PDP - @przspa, @NavaneethVijay (#3483)
+- Mounting app when routes are resolved, should completly remove recent SSR errors - patzick (#3499)
 
 ## [1.10.1] - 2019.09.03
 
