@@ -4,6 +4,8 @@ import VueRouter, { RouteConfig, Route } from 'vue-router'
 const RouterManager = {
   _registeredRoutes: new Array<RouteConfig>(),
   _routeLock: null,
+  _routeDispatched: false,
+  _callbacks: [],
   addRoutes: function (routes: RouteConfig[], routerInstance: VueRouter = router): void {
     const uniqueRoutes = routes.filter(
       (route) => this._registeredRoutes.findIndex(
@@ -12,6 +14,9 @@ const RouterManager = {
     )
     this._registeredRoutes.push(...uniqueRoutes)
     router.addRoutes(uniqueRoutes)
+  },
+  addDispatchCallback: function (callback: Function) {
+    this._callbacks.push(callback)
   },
   findByName: function (name: string): RouteConfig {
     return this._registeredRoutes.find(r => r.name === name)
@@ -26,14 +31,25 @@ const RouterManager = {
       resolver
     }
   },
-  getRouteLock: function () {
-    return this._routeLock && this._routeLock.lockPromise
+  isRouteProcessing: function () {
+    return !!this._routeLock
+  },
+  isRouteDispatched: function () {
+    return !!this._routeDispatched
+  },
+  getRouteLockPromise: function () {
+    if (this._routeLock) return this._routeLock.lockPromise
+    return Promise.resolve()
   },
   unlockRoute: function () {
     if (this._routeLock) {
       this._routeLock.resolver()
       this._routeLock = null
     }
+    this._routeDispatched = true
+    this._callbacks.forEach(callback => {
+      callback()
+    });
   }
 }
 

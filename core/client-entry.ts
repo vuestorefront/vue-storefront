@@ -101,10 +101,13 @@ const invokeClientEntry = async () => {
       }))
     })
     // Mounting app
-    if (RouterManager.getRouteLock()) {
-      await RouterManager.getRouteLock()
+    if (!RouterManager.isRouteDispatched()) {
+      RouterManager.addDispatchCallback(() => {
+        app.$mount('#app')
+      })
+    } else {
+      app.$mount('#app')
     }
-    app.$mount('#app')
   })
   registerSyncTaskProcessor()
   window.addEventListener('online', () => { onNetworkStatusChange(store) })

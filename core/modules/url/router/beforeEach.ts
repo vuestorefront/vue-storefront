@@ -26,8 +26,8 @@ export async function beforeEach (to: Route, from: Route, next) {
     }
   }
 
-  if (RouterManager.getRouteLock()) {
-    await RouterManager.getRouteLock()
+  if (RouterManager.isRouteProcessing()) {
+    await RouterManager.getRouteLockPromise()
     next()
     return
   }
