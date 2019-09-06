@@ -27,7 +27,6 @@ Some of the topics here were found as a [frequently asked questions from our For
  - New Relic
  - PM2
  - Output logs explained
- - 
 12. Unexpected features (explained by config file properties):
  - `dynamicConfigReload` - for easier deployments
  - `useExactUrlsNoProxy` - for not using our default image resizer
