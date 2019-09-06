@@ -16,8 +16,8 @@ jest.mock('../../../store', () => ({}))
 jest.mock('@vue-storefront/i18n', () => ({loadLanguageAsync: jest.fn()}))
 jest.mock('../../sync/task', () => ({initializeSyncTaskStorage: jest.fn()}))
 jest.mock('@vue-storefront/core/hooks', () => ({ coreHooksExecutors: {
-  beforeStoreViewChange: jest.fn(args => args),
-  afterStoreViewChange: jest.fn(args => args)
+  beforeStoreViewChanged: jest.fn(args => args),
+  afterStoreViewChanged: jest.fn(args => args)
 }}))
 jest.mock('@vue-storefront/core/lib/router-manager', () => ({
   RouterManager: {
@@ -169,6 +169,10 @@ describe('Multistore', () => {
       }
       config.defaultStoreCode = ''
 
+      config.seo = {
+        defaultTitle: 'Vue Storefront'
+      }
+
       expect(prepareStoreView(null)).toStrictEqual({
         tax: {
           defaultCountry: 'US'
@@ -177,6 +181,9 @@ describe('Multistore', () => {
           defaultLocale: 'en-US',
           fullCountryName: 'United States',
           fullLanguageName: 'English'
+        },
+        seo: {
+          defaultTitle: 'Vue Storefront'
         },
         elasticsearch: {
           index: 'vue_storefront_catalog'
@@ -212,6 +219,10 @@ describe('Multistore', () => {
       }
       config.defaultStoreCode = 'de'
 
+      config.seo = {
+        defaultTitle: 'Vue Storefront'
+      }
+
       expect(prepareStoreView(null)).toStrictEqual({
         tax: {
           defaultCountry: 'US'
@@ -220,6 +231,9 @@ describe('Multistore', () => {
           defaultLocale: 'en-US',
           fullCountryName: 'United States',
           fullLanguageName: 'English'
+        },
+        seo: {
+          defaultTitle: 'Vue Storefront'
         },
         elasticsearch: {
           index: 'vue_storefront_catalog'
@@ -250,6 +264,10 @@ describe('Multistore', () => {
         fullLanguageName: 'English'
       }
 
+      config.seo = {
+        defaultTitle: 'Vue Storefront'
+      }
+
       config.elasticsearch = {
         index: 'vue_storefront_catalog'
       }
@@ -263,6 +281,9 @@ describe('Multistore', () => {
           defaultLocale: 'en-US',
           fullCountryName: 'United States',
           fullLanguageName: 'English'
+        },
+        seo: {
+          defaultTitle: 'Vue Storefront'
         },
         elasticsearch: {
           index: 'vue_storefront_catalog'
@@ -292,6 +313,9 @@ describe('Multistore', () => {
             fullCountryName: 'Germany',
             fullLanguageName: 'German',
             defaultLocale: 'de-DE'
+          },
+          seo: {
+            defaultTitle: 'Vue Storefront'
           }
         }
       }
@@ -304,6 +328,10 @@ describe('Multistore', () => {
         defaultLocale: 'en-US',
         fullCountryName: 'United States',
         fullLanguageName: 'English'
+      }
+
+      config.seo = {
+        defaultTitle: 'Vue Storefront'
       }
 
       config.elasticsearch = {
@@ -319,6 +347,9 @@ describe('Multistore', () => {
           fullCountryName: 'Germany',
           fullLanguageName: 'German',
           defaultLocale: 'de-DE'
+        },
+        seo: {
+          defaultTitle: 'Vue Storefront'
         },
         elasticsearch: {
           index: 'vue_storefront_catalog_de'
@@ -349,6 +380,9 @@ describe('Multistore', () => {
             fullCountryName: 'Germany',
             fullLanguageName: 'German',
             defaultLocale: 'de-DE'
+          },
+          seo: {
+            defaultTitle: 'Vue Storefront'
           }
         },
         it: {
@@ -366,6 +400,9 @@ describe('Multistore', () => {
             fullCountryName: 'Italy',
             fullLanguageName: 'Italian',
             defaultLocale: 'it-IT'
+          },
+          seo: {
+            defaultTitle: 'Vue Storefront'
           }
         }
       }
@@ -378,6 +415,10 @@ describe('Multistore', () => {
         defaultLocale: 'en-US',
         fullCountryName: 'United States',
         fullLanguageName: 'English'
+      }
+
+      config.seo = {
+        defaultTitle: 'Vue Storefront'
       }
 
       config.elasticsearch = {
@@ -393,6 +434,9 @@ describe('Multistore', () => {
           fullCountryName: 'Italy',
           fullLanguageName: 'Italian',
           defaultLocale: 'it-IT'
+        },
+        seo: {
+          defaultTitle: 'Vue Storefront'
         },
         elasticsearch: {
           index: 'vue_storefront_catalog_it'

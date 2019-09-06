@@ -5,7 +5,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import { preparePaymentMethodsToSync } from '@vue-storefront/core/modules/cart/helpers'
 
-const shippingActions = {
+const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
     if (getters.isTotalsSyncRequired || forceServerSync) {
       await dispatch('syncShippingMethods', { forceServerSync })
@@ -16,11 +16,11 @@ const shippingActions = {
   },
   async setDefaultCheckoutMethods ({ getters, rootGetters, commit }) {
     if (!getters.getShippingMethodCode) {
-      commit(types.CART_UPD_SHIPPING, rootGetters['shipping/getDefaultShippingMethod'])
+      commit(types.CART_UPD_SHIPPING, rootGetters['checkout/getDefaultShippingMethod'])
     }
 
     if (!getters.getPaymentMethodCode) {
-      commit(types.CART_UPD_PAYMENT, rootGetters['payment/getDefaultPaymentMethod'])
+      commit(types.CART_UPD_PAYMENT, rootGetters['checkout/getDefaultPaymentMethod'])
     }
   },
   async syncPaymentMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
@@ -29,9 +29,9 @@ const shippingActions = {
       const { result } = await CartService.getPaymentMethods()
       const { uniqueBackendMethods, paymentMethods } = preparePaymentMethodsToSync(
         result,
-        rootGetters['payment/getNotServerPaymentMethods']
+        rootGetters['checkout/getNotServerPaymentMethods']
       )
-      await dispatch('payment/replaceMethods', paymentMethods, { root: true })
+      await dispatch('checkout/replacePaymentMethods', paymentMethods, { root: true })
       EventBus.$emit('set-unique-payment-methods', uniqueBackendMethods)
     } else {
       Logger.debug('Payment methods does not need to be updated', 'cart')()
@@ -40,7 +40,7 @@ const shippingActions = {
   async updateShippingMethods ({ dispatch }, { shippingMethods }) {
     if (shippingMethods.length > 0) {
       const newShippingMethods = shippingMethods.map(method => ({ ...method, is_server_method: true }))
-      await dispatch('shipping/replaceMethods', newShippingMethods, { root: true })
+      await dispatch('checkout/replaceShippingMethods', newShippingMethods, { root: true })
     }
   },
   async syncShippingMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
@@ -57,4 +57,4 @@ const shippingActions = {
   }
 }
 
-export default shippingActions
+export default methodsActions

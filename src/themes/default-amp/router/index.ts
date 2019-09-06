@@ -3,7 +3,6 @@
 import Category from '../pages/Category.vue'
 import Product from '../pages/Product.vue'
 import { RouteConfig } from 'vue-router'
-import config from 'config'
 let routes: RouteConfig[] = [
 ]
 routes = routes.concat([{ name: 'virtual-product-amp', path: '/amp/p/:parentSku/:slug', component: Product, meta: { layout: 'minimal' } }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site

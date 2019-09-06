@@ -11,7 +11,9 @@ const validateProduct = (product: CartItem): string[] => {
 
   if (product.errors !== null && typeof product.errors !== 'undefined') {
     for (const errKey in product.errors) {
-      errors.push(product.errors[errKey])
+      if (product.errors[errKey]) {
+        errors.push(product.errors[errKey])
+      }
     }
   }
 

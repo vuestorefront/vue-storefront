@@ -2,7 +2,7 @@
 "No products synchronized for this category. Please come back while online!","Nessun prodotto in questa categoria. Verifica la connessione di rete e riprova!"
 "Shopping cart is empty. Please add some products before entering Checkout","Il tuo carrello è vuoto. Aggiungi almeno un prodotto prima di procedere alla cassa"
 "Out of stock!","Non disponibile"
-" is out of the stock!"," non è disponibile!"
+" is out of stock!"," non è disponibile!"
 "Some of the ordered products are not available!","Alcuni dei prodotti ordinati non sono disponibili!"
 "Stock check in progress, please wait while available stock quantities are checked","Verifica disponibilità in corso, attendere la verifica della quantità dei prodotti"
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","Non sei connesso ad internet ma puoi ugualmente procedere con l'ordine. Non è possibile verificare adesso la disponibilità dei prodotti, se qualcuno dei prodotti ordinati non sarà più disponibile te lo faremo sapere."
@@ -50,3 +50,4 @@
 "password","password"
 "Are you sure you would like to remove this item from the shopping cart?","Sei sicuro di voler rimuovere questo articolo dal carrello?"
 "You need to be logged in to see this page","Devi essere loggato per vedere questa pagina"
+"Thumbnail","Thumbnail"

@@ -2,7 +2,7 @@
 "No products synchronized for this category. Please come back while online!","V této kategorii nemáte žádné synchronizované produkty. Zkuste prosím znovu až budete online!"
 "Shopping cart is empty. Please add some products before entering Checkout","Nákupní košík je prázdný. Prosím přidejte nějaké produkty než přistoupíte k nákupu"
 "Out of stock!","Vyprodáno!"
-" is out of the stock!"," není na skladě!"
+" is out of stock!"," není na skladě!"
 "Some of the ordered products are not available!","Některé z objednaných produktů nejsou k dispozici!"
 "Stock check in progress, please wait while available stock quantities are checked","Kontrola skladových zásob probíhá, prosím, počkejte, až se zkontroluje množství dostupných zásob"
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","Připojení k internetu není k dispozici. Stále si však můžete zboží objednat. Budeme vás informovat v případě, že některý z objednaných produktů není k dispozici, protože to v současnosti nelze zkontrolovat."
@@ -65,3 +65,4 @@
 "to account","na účet"
 "Are you sure you would like to remove this item from the shopping cart?","Opravdu chcete tuto položku odebrat z nákupního košíku?"
 "You need to be logged in to see this page","Pro zobrazení této stránky musíte být přihlášeni"
+"Thumbnail","Thumbnail"

@@ -4,7 +4,7 @@ import * as types from './mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
-import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
+import { buildFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
 import { router } from '@vue-storefront/core/app'
 import FilterVariant from '../../types/FilterVariant'
 import { CategoryService } from '@vue-storefront/core/data-resolver'
@@ -15,7 +15,10 @@ import { DataResolver } from 'core/data-resolver/types/DataResolver';
 import { Category } from '../../types/Category';
 import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
 import { prefetchStockItems } from '../../helpers/cacheProductsHelper';
+import { preConfigureProduct } from '@vue-storefront/core/modules/catalog/helpers/search'
 import chunk from 'lodash-es/chunk'
+import omit from 'lodash-es/omit'
+import config from 'config'
 
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category } = {}) {
@@ -30,16 +33,13 @@ const actions: ActionTree<CategoryState, RootState> = {
       excludeFields: entities.productList.excludeFields
     })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
-    let configuredProducts = items.map(product => {
-      const configuredProductVariant = configureProductAsync({rootState}, {product, configuration: searchQuery.filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
-      return Object.assign(product, configuredProductVariant)
-    })
+    const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
     commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
     // await dispatch('loadAvailableFiltersFrom', searchResult)
 
     return items
   },
-  async loadMoreCategoryProducts ({ commit, getters, rootState }) {
+  async loadMoreCategoryProducts ({ commit, getters, rootState, dispatch }) {
     const { perPage, start, total } = getters.getCategorySearchProductsStats
     if (start >= total || total < perPage) return
 
@@ -58,10 +58,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       start: searchResult.start,
       total: searchResult.total
     })
-    let configuredProducts = searchResult.items.map(product => {
-      const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: searchQuery.filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
-      return Object.assign(product, configuredProductVariant)
-    })
+    const configuredProducts = await dispatch('processCategoryProducts', { products: searchResult.items, filters: searchQuery.filters })
     commit(types.CATEGORY_ADD_PRODUCTS, configuredProducts)
 
     return searchResult.items
@@ -71,7 +68,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
 
-    const cachedProductsResponse = await dispatch('product/list', {
+    const cachedProductsResponse = await dispatch('product/list', { // configure and calculateTaxes is being executed in the product/list - we don't need another call in here
       query: filterQr,
       sort: searchQuery.sort,
       updateState: false // not update the product listing - this request is only for caching
@@ -83,6 +80,33 @@ const actions: ActionTree<CategoryState, RootState> = {
         dispatch('stock/list', { skus: chunkItem }, { root: true }) // store it in the cache
       }
     }
+  },
+  /**
+   * Calculates products taxes
+   * Registers URLs
+   * Configures products
+   */
+  async processCategoryProducts ({ dispatch, rootState }, { products = [], filters = {} } = {}) {
+    await dispatch('tax/calculateTaxes', { products: products }, { root: true })
+    dispatch('registerCategoryProductsMapping', products) // we don't need to wait for this
+    const configuredProducts = products.map(product => {
+      product = Object.assign({}, preConfigureProduct({ product, populateRequestCacheTags: config.server.useOutputCacheTagging }))
+      const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
+      return Object.assign(product, omit(configuredProductVariant, ['visibility']))
+    })
+    return configuredProducts
+  },
+  async registerCategoryProductsMapping ({ dispatch }, products = []) {
+    await Promise.all(products.map(product => {
+      const { url_path, sku, slug, type_id } = product
+      return dispatch('url/registerMapping', {
+        url: url_path,
+        routeData: {
+          params: { parentSku: product.sku, slug },
+          'name': type_id + '-product'
+        }
+      }, { root: true })
+    }))
   },
   async findCategories (context, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
     return CategoryService.getCategories(categorySearchOptions)
