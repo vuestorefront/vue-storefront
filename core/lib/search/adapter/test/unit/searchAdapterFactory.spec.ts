@@ -21,6 +21,10 @@ describe('Search adapter factory tests', () => {
       return mockSearchAdapterModule;
     })
 
+    jest.mock('src/search/adapter/api/searchAdapter', () => {
+      return mockSearchAdapterModule;
+    })
+
     const apiSearchAdapter1 = await getSearchAdapter()
     const apiSearchAdapter2 = await getSearchAdapter('api')
     expect(mockSearchAdapterModule.SearchAdapter).toHaveBeenCalledTimes(1)
