@@ -95,8 +95,8 @@ This section runs the standard http://prod.vuestorefront.io and creates a wildca
 After you're done with the installation, open the file at `/etc/nginx/sites-enabled/prod.vuestorefront.io-ssl` and add `http2` after the `server_name` value (but before the semicolon!). It should look like this: 
 ```
 server {
-	listen 443 ssl;
-	server_name prod.vuestorefront.io http2;
+    listen 443 ssl http2;
+    server_name prod.vuestorefront.io;
 
 	ssl on;
 	(...the rest of the config...)

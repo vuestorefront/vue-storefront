@@ -24,7 +24,7 @@ Before you start working with Vuex, it's recommended to get familiar with our [v
 
 ## Override existing core modules
 
-Existing core modules can be overridden in the themes store. Just import any core store modules and override them using the `extendStore()` utility method like the example given below in `themes/default/store/ui-store.js`.
+Existing core modules can be overridden in the themes store. Just import any core store modules and override them using the `extendStore()` utility method like the example given below in `src/modules/ui-store/index.ts`.
 
 ```
 import coreStore from '@vue-storefront/core/store/modules/ui-store'
@@ -49,7 +49,7 @@ export default extendStore(coreStore, {
 })
 ```
 
-And then import it in `themes/default/store/index.js`
+And then import it in `src/modules/index.ts`
 
 ```
 import ui from './ui-store'
