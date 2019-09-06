@@ -648,6 +648,20 @@ This is the currently applied theme path. After changing it, Vue Storefront need
 
 You can put your Google Analytics ID in here as to be used by the analytics extension.
 
+## Google-Tag-Manager
+
+```json
+"googleTagManager": {
+  "id": false,
+  "debug": true,
+  "product_attributes": [
+    "name", "id", "sku", { "priceInclTax": "price" }, { "qty": "quantity" }
+  ]
+}
+```
+
+You can put your GTM container id here to add GTM data-layer code. If `id` is false, it's not visible. In `product_attributes` you can define the attributes you wan't to be visible on products detail page and list view.
+
 ## Hotjar
 
 ```json
