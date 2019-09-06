@@ -11,7 +11,7 @@ export default interface Product {
   final_price: number,
   gift_message_available: string,
   has_options?: string,
-  id?: number,
+  id?: any,
   image: string,
   info?: Record<string, any>,
   is_configured?: true,
