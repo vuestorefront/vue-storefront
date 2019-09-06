@@ -10,17 +10,9 @@ export const getSearchAdapter = async (adapterName = server.api) => {
   let SearchAdapterModule
 
   try {
-    SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `${adapterName}`)
+    SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `src/search/adapter/${adapterName}/searchAdapter`)
   } catch (e) {
-    Logger.debug(`Search adapter ${adapterName} was not found in global node_modules`)
-  }
-
-  if (!SearchAdapterModule) {
-    try {
-      SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `src/search/adapter/${adapterName}/searchAdapter`)
-    } catch (e) {
-      Logger.debug(`Search adapter was not found in src/search/adapter/${adapterName}/searchAdapter`)
-    }
+    Logger.debug(`Search adapter was not found in src/search/adapter/${adapterName}/searchAdapter`)
   }
 
   if (!SearchAdapterModule) {
