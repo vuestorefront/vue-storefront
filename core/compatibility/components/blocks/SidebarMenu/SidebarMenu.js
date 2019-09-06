@@ -11,7 +11,7 @@ export default {
     ...mapGetters('category', ['getCategories']),
     categories () {
       return this.getCategories.filter((op) => {
-        return op.level === (config.entities.category.categoriesDynamicPrefetchLevel ? config.entities.category.categoriesDynamicPrefetchLevel : 2) // display only the root level (level =1 => Default Category), categoriesDynamicPrefetchLevel = 2 by default
+        return op.level === (config.entities.category.categoriesDynamicPrefetchLevel >= 0 ? config.entities.category.categoriesDynamicPrefetchLevel : 2) // display only the root level (level =1 => Default Category), categoriesDynamicPrefetchLevel = 2 by default
       })
     },
     ...mapState({

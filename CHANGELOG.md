@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.2] - 2019.09.06
+
+### Fixed
+- Product image is missing on PDP - @przspa, @NavaneethVijay (#3483)
+- Mounting app when routes are resolved, should completly remove recent SSR errors - patzick (#3499)
+- Fixed `categoriesDynamicPrefetchLevel` that now can be equal to 0 - @pkarw (#3495)
+
 ## [1.10.1] - 2019.09.03
 
 ### Fixed

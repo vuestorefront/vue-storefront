@@ -3,7 +3,9 @@ import VueRouter, { RouteConfig, Route } from 'vue-router'
 
 const RouterManager = {
   _registeredRoutes: new Array<RouteConfig>(),
-  _lockedRoutes: new Map(),
+  _routeLock: null,
+  _routeDispatched: false,
+  _callbacks: [],
   addRoutes: function (routes: RouteConfig[], routerInstance: VueRouter = router): void {
     const uniqueRoutes = routes.filter(
       (route) => this._registeredRoutes.findIndex(
@@ -13,28 +15,41 @@ const RouterManager = {
     this._registeredRoutes.push(...uniqueRoutes)
     router.addRoutes(uniqueRoutes)
   },
+  addDispatchCallback: function (callback: Function) {
+    this._callbacks.push(callback)
+  },
   findByName: function (name: string): RouteConfig {
     return this._registeredRoutes.find(r => r.name === name)
   },
   findByPath: function (fullPath: string): RouteConfig {
     return this._registeredRoutes.find(r => r.fullPath === fullPath)
   },
-  lockRoute: function (route: Route) {
+  lockRoute: function () {
     let resolver
-    this._lockedRoutes.set(route.path, {
+    this._routeLock = {
       lockPromise: new Promise(resolve => { resolver = resolve }),
       resolver
-    })
-  },
-  getRouteLock: function (route: Route) {
-    return this._lockedRoutes.get(route.path) && this._lockedRoutes.get(route.path).lockPromise
-  },
-  unlockRoute: function (route: Route) {
-    const locker = this._lockedRoutes.get(route.path)
-    if (locker) {
-      locker.resolver()
-      this._lockedRoutes.delete(route.path)
     }
+  },
+  isRouteProcessing: function () {
+    return !!this._routeLock
+  },
+  isRouteDispatched: function () {
+    return !!this._routeDispatched
+  },
+  getRouteLockPromise: function () {
+    if (this._routeLock) return this._routeLock.lockPromise
+    return Promise.resolve()
+  },
+  unlockRoute: function () {
+    if (this._routeLock) {
+      this._routeLock.resolver()
+      this._routeLock = null
+    }
+    this._routeDispatched = true
+    this._callbacks.forEach(callback => {
+      callback()
+    });
   }
 }
 
