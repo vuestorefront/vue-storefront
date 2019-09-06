@@ -25,13 +25,12 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
     }
   }
 
-  const routeLock = RouterManager.getRouteLock(to)
-  if (routeLock) {
-    await routeLock
+  if (RouterManager.getRouteLock()) {
+    await RouterManager.getRouteLock()
     next()
     return
   }
-  RouterManager.lockRoute(to)
+  RouterManager.lockRoute()
 
   const fullPath = normalizeUrlPath(to.fullPath)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
@@ -63,10 +62,10 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
       Logger.error(e, 'dispatcher')()
       next()
     }).finally(() => {
-      RouterManager.unlockRoute(to)
+      RouterManager.unlockRoute()
     })
   } else {
     next()
-    RouterManager.unlockRoute(to)
+    RouterManager.unlockRoute()
   }
 }
