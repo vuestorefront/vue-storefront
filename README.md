@@ -152,7 +152,7 @@ Tutorial series on creating themes for Vue Storefront:
 
 - [Working with data](https://divanteltd.github.io/vue-storefront/guide/data/data.html#local-data-store)
 - [Working with Vuex](https://divanteltd.github.io/vue-storefront/guide/vuex/introduction.html)
-- [ElasticSearch data formats](https://divanteltd.github.io/vue-storefront/guide/data/elasticsearch.html)
+- [ElasticSearch data formats](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate/tree/tutorial)
 - [Data Migrations for ElasticSearch](https://divanteltd.github.io/vue-storefront/guide/data/data-migrations.html)
 - [ElasticSearch Queries](https://divanteltd.github.io/vue-storefront/guide/data/elastic-queries.html)
 - [Database tool](https://divanteltd.github.io/vue-storefront/guide/data/database-tool.html)
