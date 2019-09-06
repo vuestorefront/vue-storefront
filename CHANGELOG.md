@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fix for comparison list being not preserved between page reloads - @vue-kacper (#3508)
 - Fix 'fist' typos - @jakubmakielkowski (#3491)
 - Fix for wrong breadcrumb urls in the multistore mode - @pkarw (#3359)
 - Fix for displaying gallery images for unavaialble product variants - @pkarw (#3436)
