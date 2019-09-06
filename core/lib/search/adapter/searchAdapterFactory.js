@@ -12,14 +12,14 @@ export const getSearchAdapter = async (adapterName = server.api) => {
   try {
     SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `src/search/adapter/${adapterName}/searchAdapter`)
   } catch (e) {
-    Logger.debug(`Search adapter was not found in src/search/adapter/${adapterName}/searchAdapter`)
+    Logger.debug(`Search adapter was not found in src/search/adapter/${adapterName}/searchAdapter`)()
   }
 
   if (!SearchAdapterModule) {
     try {
       SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `./${adapterName}/searchAdapter`)
     } catch (e) {
-      Logger.debug(`Search adapter ${adapterName} was not found in in the core`)
+      Logger.debug(`Search adapter ${adapterName} was not found in in the core`)()
     }
   }
 

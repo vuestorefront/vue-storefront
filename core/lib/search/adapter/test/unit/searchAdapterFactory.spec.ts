@@ -3,6 +3,14 @@ import {getSearchAdapter} from '@vue-storefront/core/lib/search/adapter/searchAd
 jest.mock('config', () => {
   return {server: {api: 'api'}};
 });
+jest.mock('@vue-storefront/core/lib/logger', () => ({
+  Logger: {
+    log: jest.fn(() => () => {}),
+    debug: jest.fn(() => () => {}),
+    warn: jest.fn(() => () => {}),
+    error: jest.fn(() => () => {})
+  }
+}));
 
 const mockSearchAdapterModule = {
   SearchAdapter: jest.fn().mockImplementation(() => {
@@ -18,10 +26,6 @@ const mockSearchAdapterModule = {
 describe('Search adapter factory tests', () => {
   it('Search adapter constructor called always only once', async () => {
     jest.mock('../../api/searchAdapter', () => {
-      return mockSearchAdapterModule;
-    })
-
-    jest.mock('src/search/adapter/api/searchAdapter', () => {
       return mockSearchAdapterModule;
     })
 
