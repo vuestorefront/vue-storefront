@@ -6,16 +6,23 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
     const currencyCode = storeView.i18n.currencyCode
 
     const getProduct = (item) => {
-      const { name, id, sku, priceInclTax: price, category, qty: quantity } = item
-      let product = {
-        name,
-        id,
-        sku,
-        price
-      }
-      if (quantity) {
-        product['quantity'] = quantity
-      }
+      let product = {}
+
+      const attributeMap: string[]|Record<string, any>[] = config.googleTagManager.product_attributes
+      attributeMap.forEach(attribute => {
+        const isObject = typeof attribute === 'object'
+        let attributeField = isObject ? Object.keys(attribute)[0] : attribute
+        let attributeName = isObject ? Object.values(attribute)[0] : attribute
+
+        if (item.hasOwnProperty(attributeField) || product.hasOwnProperty(attributeName)) {
+          const value = item[attributeField] || product[attributeName]
+          if (value) {
+            product[attributeName] = value
+          }
+        }
+      })
+
+      const { category } = item
       if (category && category.length > 0) {
         product['category'] = category.slice(-1)[0].name
       }

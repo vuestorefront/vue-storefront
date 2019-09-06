@@ -426,7 +426,10 @@
     },
     "googleTagManager": {
       "id": false,
-      "debug": true
+      "debug": true,
+      "product_attributes": [
+        "name", "id", "sku", { "priceInclTax": "price" }, { "qty": "quantity" }
+      ]
     },
     "hotjar": {
       "id": false
