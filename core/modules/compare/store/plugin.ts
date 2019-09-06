@@ -6,8 +6,7 @@ const watchedMutations = [types.COMPARE_ADD_ITEM, types.COMPARE_DEL_ITEM, types.
 const cacheStorage = StorageManager.get('compare')
 
 const cachePersistPlugin = (mutation, state) => {
-  const mutations = watchedMutations
-  if (mutations.includes(mutation.type)) {
+  if (watchedMutations.includes(mutation.type)) {
     cacheStorage.setItem('current-compare', state.compare.items).catch((reason) => {
       Logger.error(reason, 'compare')
     })
