@@ -175,7 +175,7 @@ Tutorial series on creating themes for Vue Storefront:
 - [Direct prices sync with Magento](https://divanteltd.github.io/vue-storefront/guide/integrations/direct-prices-sync.html)
 - [Tier prices sync with Magento](https://divanteltd.github.io/vue-storefront/guide/integrations/tier-prices-sync.html)
 - [Shopping carts, totals and orders sync](https://divanteltd.github.io/vue-storefront/guide/integrations/totals-sync.html)
-- [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate) - this is the API You should implement to integrate 3rd party platform
+- [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate/tree/tutorial) - this is the API You should implement to integrate 3rd party platform
 - [Magento2 MultiStore support](https://divanteltd.github.io/vue-storefront/guide/integrations/multistore.html)
 
 ### 'Default theme' contribution rules
