@@ -504,14 +504,6 @@
         }
       ]
     },
-    "coolBags": {
-      "filter": [
-        {
-          "key": "category.name",
-          "value" : { "eq": "Women" }
-        }
-      ]
-    },
     "bestSellers": {
       "filter": [
         {

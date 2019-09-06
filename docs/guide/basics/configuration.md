@@ -808,14 +808,6 @@ This is a list of priorities for search features (higher boost = more important 
         }
       ]
     },
-    "coolBags": {
-      "filter": [
-        {
-          "key": "category.name",
-          "value" : { "eq": "Women" }
-        }
-      ]
-    },
     "bestSellers": {
       "filter": [
         {
