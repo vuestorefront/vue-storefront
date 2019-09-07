@@ -150,9 +150,10 @@ Tutorial series on creating themes for Vue Storefront:
 
 ### Data in Vue Storefront
 
+
 - [Working with data](https://docs.vuestorefront.io/guide/data/data.html#local-data-store)
 - [Working with Vuex](https://docs.vuestorefront.io/guide/vuex/introduction.html)
-- [ElasticSearch data formats](https://docs.vuestorefront.io/guide/data/elasticsearch.html)
+- [ElasticSearch data formats](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate/tree/tutorial)
 - [Data Migrations for ElasticSearch](https://docs.vuestorefront.io/guide/data/data-migrations.html)
 - [ElasticSearch Queries](https://docs.vuestorefront.io/guide/data/elastic-queries.html)
 - [Database tool](https://docs.vuestorefront.io/guide/data/database-tool.html)
@@ -175,8 +176,9 @@ Tutorial series on creating themes for Vue Storefront:
 - [Direct prices sync with Magento](https://docs.vuestorefront.io/guide/integrations/direct-prices-sync.html)
 - [Tier prices sync with Magento](https://docs.vuestorefront.io/guide/integrations/tier-prices-sync.html)
 - [Shopping carts, totals and orders sync](https://docs.vuestorefront.io/guide/integrations/totals-sync.html)
-- [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate) - this is the API You should implement to integrate 3rd party platform
+- [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate/tree/tutorial) - this is the API You should implement to integrate 3rd party platform
 - [Magento2 MultiStore support](https://docs.vuestorefront.io/guide/integrations/multistore.html)
+
 
 ### 'Default theme' contribution rules
 
