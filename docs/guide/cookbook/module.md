@@ -500,7 +500,7 @@ export const ExampleModule: StorefrontModule = function (app, store, router, mod
   if (moduleConfig.apiKey) {
     const apiKey = moduleConfig.apiKey
   } else {
-    const apiKey = appConfig.degiService.apiKey // This means you have the apiKey value for degiService in your local.json
+    // raise an error related to failure for sign-in to 3rd party service due to lack of apiKey
   }
 
   // Continue to send a request to the 3rd party as the context demands 
