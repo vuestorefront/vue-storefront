@@ -603,17 +603,12 @@ We build a module that applies a discount to certain `storeviews` only.
 
 2. Now start with the first item, create a _configuration_ for the module to consume. 
 ```json
-/** 
-... abridged 
-**/
-  ,
-  "discountStore": {
+  discountStore: {
       "enableDiscountPerStoreViews": true,
       "storeViewsToApplyTo": ["de"],
       "globalDiscountInPercentage": 25,
       "allowLocalOverride": true
   }
-}
 ```
  - `discountStore` contains nodes of configuration for our module.
    - `enableDiscountPerStoreViews` : This value determines whether to set this module enabled or not. 
@@ -621,7 +616,7 @@ We build a module that applies a discount to certain `storeviews` only.
    - `globalDiscountInPercentage` : This value is how much discount should be applied to target `storeviews`.
    - `allowLocalOverride` : This value allows to override discount dynamically.
 
-3. 
+3. Create a module whose name is _hookExample_ (change to your liking)
 
 ### 3. Peep into the kitchen (what happens internally)
 
