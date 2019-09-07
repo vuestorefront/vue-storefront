@@ -101,7 +101,7 @@ Please note that bugfixes are treated separately and in most cases added to the 
 
 
 
-[Check the feature list of 1.0](https://divanteltd.github.io/vue-storefront/guide/basics/feature-list.html).
+[Check the feature list of 1.0](https://docs.vuestorefront.io/guide/basics/feature-list.html).
 
 If youd like to take part in roadmap planning feel free to join #roadmap-planning channel on our slack
 
@@ -109,40 +109,40 @@ If youd like to take part in roadmap planning feel free to join #roadmap-plannin
 
 The documentation is always THE HARDEST PART of each open source project! But we're trying hard.
 
-**Please find out what we've already managed to prepare:** [available on Github Pages](https://divanteltd.github.io/vue-storefront/). Please note that new docs are still Work In Progress and will be successfully updated. You can find them also under the `docs` folder.
+**Please find out what we've already managed to prepare:** [available on Github Pages](https://docs.vuestorefront.io/). Please note that new docs are still Work In Progress and will be successfully updated. You can find them also under the `docs` folder.
 
 You can find some tutorials and explanations on our [YouTube channel](https://www.youtube.com/channel/UCkm1F3Cglty3CE1QwKQUhhg)
 
 ### Installation
 
-- [Installing on Linux/MacOS](https://divanteltd.github.io/vue-storefront/guide/installation/linux-mac.html)
-- [Installing on Windows](https://divanteltd.github.io/vue-storefront/guide/installation/windows.html)
-- [How to install and integrate with Magento2](https://divanteltd.github.io/vue-storefront/guide/installation/magento.html)
-- [Production setup](https://divanteltd.github.io/vue-storefront/guide/installation/production-setup.html)
+- [Installing on Linux/MacOS](https://docs.vuestorefront.io/guide/installation/linux-mac.html)
+- [Installing on Windows](https://docs.vuestorefront.io/guide/installation/windows.html)
+- [How to install and integrate with Magento2](https://docs.vuestorefront.io/guide/installation/magento.html)
+- [Production setup](https://docs.vuestorefront.io/guide/installation/production-setup.html)
 
 ### Basics
 
-- [Project structure](https://divanteltd.github.io/vue-storefront/guide/basics/project-structure.html) - good for introduction (outdated, we are working on interactive explorer :) )
-- [Configuration file explained](https://divanteltd.github.io/vue-storefront/guide/basics/configuration.html)
-- [Vue Storefront Modules](https://divanteltd.github.io/vue-storefront/guide/modules/introduction.html)
-- [Contribution and issue reporting guideness](https://divanteltd.github.io/vue-storefront/guide/basics/contributing.html)
-- [FAQ / Receipes](https://divanteltd.github.io/vue-storefront/guide/basics/recipes.html#problem-starting-docker-while-installing-the-vue-storefront)
-- [Feature list](https://divanteltd.github.io/vue-storefront/guide/basics/feature-list.html)
-- [TypeScript Action Plan](https://divanteltd.github.io/vue-storefront/guide/basics/typescript.html)
-- [GraphQL Action Plan](https://divanteltd.github.io/vue-storefront/guide/basics/graphql.html)
-- [SSR Cache](https://divanteltd.github.io/vue-storefront/guide/basics/ssr-cache.html)
-- [Google Accelerated Mobile Pages](https://divanteltd.github.io/vue-storefront/guide/basics/amp.html)
+- [Project structure](https://docs.vuestorefront.io/guide/basics/project-structure.html) - good for introduction (outdated, we are working on interactive explorer :) )
+- [Configuration file explained](https://docs.vuestorefront.io/guide/basics/configuration.html)
+- [Vue Storefront Modules](https://docs.vuestorefront.io/guide/modules/introduction.html)
+- [Contribution and issue reporting guideness](https://docs.vuestorefront.io/guide/basics/contributing.html)
+- [FAQ / Receipes](https://docs.vuestorefront.io/guide/basics/recipes.html#problem-starting-docker-while-installing-the-vue-storefront)
+- [Feature list](https://docs.vuestorefront.io/guide/basics/feature-list.html)
+- [TypeScript Action Plan](https://docs.vuestorefront.io/guide/basics/typescript.html)
+- [GraphQL Action Plan](https://docs.vuestorefront.io/guide/basics/graphql.html)
+- [SSR Cache](https://docs.vuestorefront.io/guide/basics/ssr-cache.html)
+- [Google Accelerated Mobile Pages](https://docs.vuestorefront.io/guide/basics/amp.html)
 
 ### Vue Storefront core and themes
 
-- [Working with themes](https://divanteltd.github.io/vue-storefront/guide/core-themes/themes.html)
-- [Layouts and advanced output operations](https://divanteltd.github.io/vue-storefront/guide/core-themes/layouts.html)
-- [Working with Vue Storefront core components](https://divanteltd.github.io/vue-storefront/guide/core-themes/core-components.html)
-- [Working with UI Store (interface state)](https://divanteltd.github.io/vue-storefront/guide/core-themes/ui-store.html)
-- [Working with translations](https://divanteltd.github.io/vue-storefront/guide/core-themes/translations.html)
-- [Working with Service Workers](https://divanteltd.github.io/vue-storefront/guide/core-themes/service-workers.html)
-- [Working with Webpack](https://divanteltd.github.io/vue-storefront/guide/core-themes/webpack.html)
-- [Working with plugins](https://divanteltd.github.io/vue-storefront/guide/core-themes/plugins.html)
+- [Working with themes](https://docs.vuestorefront.io/guide/core-themes/themes.html)
+- [Layouts and advanced output operations](https://docs.vuestorefront.io/guide/core-themes/layouts.html)
+- [Working with Vue Storefront core components](https://docs.vuestorefront.io/guide/core-themes/core-components.html)
+- [Working with UI Store (interface state)](https://docs.vuestorefront.io/guide/core-themes/ui-store.html)
+- [Working with translations](https://docs.vuestorefront.io/guide/core-themes/translations.html)
+- [Working with Service Workers](https://docs.vuestorefront.io/guide/core-themes/service-workers.html)
+- [Working with Webpack](https://docs.vuestorefront.io/guide/core-themes/webpack.html)
+- [Working with plugins](https://docs.vuestorefront.io/guide/core-themes/plugins.html)
 
 Tutorial series on creating themes for Vue Storefront:
 
@@ -150,13 +150,13 @@ Tutorial series on creating themes for Vue Storefront:
 
 ### Data in Vue Storefront
 
-- [Working with data](https://divanteltd.github.io/vue-storefront/guide/data/data.html#local-data-store)
-- [Working with Vuex](https://divanteltd.github.io/vue-storefront/guide/vuex/introduction.html)
-- [ElasticSearch data formats](https://divanteltd.github.io/vue-storefront/guide/data/elasticsearch.html)
-- [Data Migrations for ElasticSearch](https://divanteltd.github.io/vue-storefront/guide/data/data-migrations.html)
-- [ElasticSearch Queries](https://divanteltd.github.io/vue-storefront/guide/data/elastic-queries.html)
-- [Database tool](https://divanteltd.github.io/vue-storefront/guide/data/database-tool.html)
-- [Adding Custom Entity Types](https://divanteltd.github.io/vue-storefront/guide/data/entity-types.html)
+- [Working with data](https://docs.vuestorefront.io/guide/data/data.html#local-data-store)
+- [Working with Vuex](https://docs.vuestorefront.io/guide/vuex/introduction.html)
+- [ElasticSearch data formats](https://docs.vuestorefront.io/guide/data/elasticsearch.html)
+- [Data Migrations for ElasticSearch](https://docs.vuestorefront.io/guide/data/data-migrations.html)
+- [ElasticSearch Queries](https://docs.vuestorefront.io/guide/data/elastic-queries.html)
+- [Database tool](https://docs.vuestorefront.io/guide/data/database-tool.html)
+- [Adding Custom Entity Types](https://docs.vuestorefront.io/guide/data/entity-types.html)
 
 ### Integrations
 
@@ -170,17 +170,17 @@ Tutorial series on creating themes for Vue Storefront:
 - [Vue Storefront + Odoo ERP](https://github.com/cristian-g/vsf-odoo)
 - [PoC: Vue Storefront + BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront)
 - [PoC: Vue Storefront + WooCommerce](https://github.com/DivanteLtd/woocommerce2vuestorefront)
-- [Magento2 Product Reviews](https://divanteltd.github.io/vue-storefront/guide/integrations/reviews.html)
-- [PayPal Payments integration](https://divanteltd.github.io/vue-storefront/guide/integrations/paypal-payments.html)
-- [Direct prices sync with Magento](https://divanteltd.github.io/vue-storefront/guide/integrations/direct-prices-sync.html)
-- [Tier prices sync with Magento](https://divanteltd.github.io/vue-storefront/guide/integrations/tier-prices-sync.html)
-- [Shopping carts, totals and orders sync](https://divanteltd.github.io/vue-storefront/guide/integrations/totals-sync.html)
+- [Magento2 Product Reviews](https://docs.vuestorefront.io/guide/integrations/reviews.html)
+- [PayPal Payments integration](https://docs.vuestorefront.io/guide/integrations/paypal-payments.html)
+- [Direct prices sync with Magento](https://docs.vuestorefront.io/guide/integrations/direct-prices-sync.html)
+- [Tier prices sync with Magento](https://docs.vuestorefront.io/guide/integrations/tier-prices-sync.html)
+- [Shopping carts, totals and orders sync](https://docs.vuestorefront.io/guide/integrations/totals-sync.html)
 - [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate) - this is the API You should implement to integrate 3rd party platform
-- [Magento2 MultiStore support](https://divanteltd.github.io/vue-storefront/guide/integrations/multistore.html)
+- [Magento2 MultiStore support](https://docs.vuestorefront.io/guide/integrations/multistore.html)
 
 ### 'Default theme' contribution rules
 
-- [Working with stylesheets (CSS)](https://divanteltd.github.io/vue-storefront/guide/core-themes/stylesheets.html)
+- [Working with stylesheets (CSS)](https://docs.vuestorefront.io/guide/core-themes/stylesheets.html)
 
 ## Awesome projects related to Vue Storefront
 
