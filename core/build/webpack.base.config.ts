@@ -9,9 +9,12 @@ import HTMLPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
 import dayjs from 'dayjs';
 
+const clientConfig = Object.assign({}, config);
+delete clientConfig.serverSideModules
+
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
-  JSON.stringify(config)
+  JSON.stringify(clientConfig)
 )
 
 // eslint-disable-next-line import/first
