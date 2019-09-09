@@ -23,6 +23,7 @@ process.noDeprecation = true
 const app = express()
 
 const templatesCache = ssr.initTemplatesCache(config, compileOptions)
+
 let renderer
 
 if (isProd) {
@@ -120,9 +121,13 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
     res.set('Content-Type', 'text/javascript; charset=UTF-8')
   }
 }))
-
+/** @deprecated IN 2.0 */
 const serverExtensions = require(resolve('src/server'))
 serverExtensions.registerUserServerRoutes(app)
+
+config.serverSideModules.forEach(path => {
+  require(resolve(path + '/server.js'))(app)
+})
 
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)

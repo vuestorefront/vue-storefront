@@ -465,6 +465,7 @@
     "sendConfirmation": true
   },
   "theme": "@vue-storefront/theme-default",
+  "serverSideModules": [],
   "analytics": {
     "id": false
   },
