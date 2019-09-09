@@ -993,5 +993,16 @@ cli.js pages \
   --adapter=magento \
   --removeNonExistent=false
 ```
+<br />
+<br />
+<br />
+
+## 3. Native Indexer in case of Magento 2
 
 
+### 1. Preparation
+### 2. Recipe
+### 3. Peep into the kitchen (what happens internally)
+### 4. Chef's secret (protip)
+<br />
+<br />

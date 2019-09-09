@@ -234,7 +234,7 @@ We fixed SSR memory leaks with #1882. It should not affect your custom code, but
 
 #### GraphQL
 
-We added GraphQL support. Please read more on the [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md). Starting from this release, the **bodybuilder** package is **deprecated**. You should use the **SearchQuery** internal class that can be used against API and GraphQL endpoints. Read more on [how to query data](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md).
+We added GraphQL support. Please read more on the [GraphQL Action Plan](/guide/basics/graphql.html). Starting from this release, the **bodybuilder** package is **deprecated**. You should use the **SearchQuery** internal class that can be used against API and GraphQL endpoints. Read more on [how to query data](/guide/data/elastic-queries.html).
 
 #### SSR: Advanced output and cache
 
