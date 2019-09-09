@@ -16,7 +16,7 @@ const getCategories = async ({
   includeFields = config.entities.optimize ? config.entities.category.includeFields : null,
   excludeFields = config.entities.optimize ? config.entities.category.excludeFields : null
 }: DataResolver.CategorySearchOptions = {}): Promise<Category[]> => {
-  const allFilters = 'filterFields' in config.entities.category ? Object.assign(config.entities.category.filterFields, filters) : filters
+  const allFilters = config.entities.category.filterFields ? Object.assign({}, config.entities.category.filterFields, filters) : filters
   let searchQuery = new SearchQuery()
   if (parentId) {
     searchQuery = searchQuery.applyFilter({key: 'parent_id', value: {'eq': parentId}})
