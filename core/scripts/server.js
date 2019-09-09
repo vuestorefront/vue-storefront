@@ -125,8 +125,12 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
 const serverExtensions = require(resolve('src/server'))
 serverExtensions.registerUserServerRoutes(app)
 
-config.serverSideModules.forEach(path => {
-  require(resolve(path + '/server.js'))(app)
+config.serverSideModules.forEach(serverModule => {
+  if (Array.isArray(serverModule)) {
+    require(resolve(serverModule[0] + '/server.js'))(app, serverModule[1])
+  } else {
+    require(resolve(serverModule + '/server.js'))(app)
+  }
 })
 
 app.post('/invalidate', invalidateCache)
