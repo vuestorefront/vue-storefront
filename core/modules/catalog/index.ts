@@ -1,4 +1,4 @@
-import { StorefrontModule } from '@vue-storefront/core/lib/modules'
+import { StorefrontModule, registerModule } from '@vue-storefront/core/lib/modules'
 import { productModule } from './store/product'
 import { attributeModule } from './store/attribute'
 import { stockModule } from './store/stock'
@@ -11,7 +11,6 @@ export const CatalogModule: StorefrontModule = function (app, store, router, mod
   StorageManager.init('attributes')
   StorageManager.init('products')
   StorageManager.init('elasticCache', true, appConfig.server.elasticCacheQuota)
-
   store.registerModule('product', productModule)
   store.registerModule('attribute', attributeModule)
   store.registerModule('stock', stockModule)

@@ -26,7 +26,6 @@ const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 const themedIndex = path.join(themeRoot, '/index.html')
 
-
 const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
 translationPreprocessor([
   path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/'),

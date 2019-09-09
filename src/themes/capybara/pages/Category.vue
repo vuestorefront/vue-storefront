@@ -123,7 +123,7 @@ export default {
     await composeInitialPageState(store, route)
   },
   methods: {
-    formatCategoryName(categoryName) {
+    formatCategoryName (categoryName) {
       return categoryName.name.length > 15 ? categoryName.name.substr(0, 15) + '...' : categoryName.name
     }
   },
