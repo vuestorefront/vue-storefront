@@ -1,7 +1,8 @@
-# Chapter 1. Data Imports 
+# Ch 1. Data Imports 
 
 In this chapter, we will cover : 
 [[toc]]
+
 ## 0. Introduction
 When you decide to migrate your web store to Vue Storefront, the first thing you need to do is filling the store (Elasticsearch) with data. This chapter deals with all the hassles related to data migration for Vue Storefront. 
 <br />
