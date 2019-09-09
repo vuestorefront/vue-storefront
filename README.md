@@ -806,10 +806,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
      <td align="center" valign="middle"> 
-<a href="">
+<a href="https://netformic.de/">
           <img
-            src=""
-            alt=""
+            src="https://divante.com/partners/Vue-Storefront/NF_Logo_2019_RGB@4x.png"
+            alt="Netformic"
             height="40"
           >
         </a>
