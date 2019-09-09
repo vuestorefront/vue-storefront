@@ -127,7 +127,6 @@
 import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
@@ -175,13 +174,9 @@ export default {
     registerModule(InstantCheckoutModule)
   },
   mounted () {
-    disableBodyScroll(this.$el)
     this.$nextTick(() => {
       this.componentLoaded = true
     })
-  },
-  destroyed () {
-    clearAllBodyScrollLocks()
   },
   computed: {
     ...mapGetters({
@@ -202,17 +197,17 @@ export default {
     toggleMicrocart () {
       this.$store.dispatch('ui/toggleMicrocart')
     },
-    setCoupon () {
-      this.$store.dispatch('cart/applyCoupon', this.couponCode).then(() => {
-        this.addCouponPressed = false
-        this.couponCode = ''
-      }).catch(() => {
+    async setCoupon () {
+      const couponApplied = await this.applyCoupon(this.couponCode)
+      this.addCouponPressed = false
+      this.couponCode = ''
+      if (!couponApplied) {
         this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
           message: i18n.t("You've entered an incorrect coupon code. Please try again."),
           action1: { label: i18n.t('OK') }
         })
-      })
+      }
     },
     closeMicrocartExtend () {
       this.toggleMicrocart()

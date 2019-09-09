@@ -3,6 +3,7 @@ import { UserProfile } from 'core/modules/user/types/UserProfile'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 import { Order } from '@vue-storefront/core/modules/order/types/Order'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
+import Review from 'core/modules/review/types/Review';
 
 declare namespace DataResolver {
 
@@ -67,5 +68,15 @@ declare namespace DataResolver {
     check: (sku: string) => Promise<Task>,
     queueCheck: (sku: string, actionName: string) => Promise<any>,
     list: (skuList: string[]) => Promise<Task>
+  }
+
+  interface ReviewsService {
+    createReview: (review: Review) => Promise<boolean>
+  }
+
+  interface NewsletterService {
+    isSubscribed: (email: string) => Promise<boolean>,
+    subscribe: (email: string) => Promise<boolean>,
+    unsubscribe: (email: string) => Promise<boolean>
   }
 }

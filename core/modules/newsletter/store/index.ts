@@ -1,9 +1,8 @@
 import * as types from './mutation-types'
 import { Module } from 'vuex'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { NewsletterState } from '../types/NewsletterState'
-import { cacheStorage } from '../'
-import config from 'config'
-import { processURLAddress } from '@vue-storefront/core/helpers'
+import { NewsletterService } from '@vue-storefront/core/data-resolver'
 
 export const newsletterStore: Module<NewsletterState, any> = {
   namespaced: true,
@@ -27,61 +26,40 @@ export const newsletterStore: Module<NewsletterState, any> = {
     }
   },
   actions: {
-    status ({ commit, state }, email): Promise<Response> {
-      return new Promise((resolve, reject) => {
-        fetch(processURLAddress(config.newsletter.endpoint) + '?email=' + encodeURIComponent(email), {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-          mode: 'cors'
-        }).then(res => res.json())
-          .then(res => {
-            if (res.result === 'subscribed') {
-              commit(types.SET_EMAIL, email)
-              commit(types.NEWSLETTER_SUBSCRIBE)
-            } else {
-              commit(types.NEWSLETTER_UNSUBSCRIBE)
-            }
-            resolve(res)
-          }).catch(err => {
-            reject(err)
-          })
-      })
-    },
-    subscribe ({ commit, state }, email): Promise<Response> {
-      if (!state.isSubscribed) {
-        return new Promise((resolve, reject) => {
-          fetch(processURLAddress(config.newsletter.endpoint), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors',
-            body: JSON.stringify({ email })
-          }).then(res => {
-            commit(types.NEWSLETTER_SUBSCRIBE)
-            commit(types.SET_EMAIL, email)
-            cacheStorage.setItem('email', email)
-            resolve(res)
-          }).catch(err => {
-            reject(err)
-          })
-        })
+    async status ({ commit }, email): Promise<boolean> {
+      const isSubscribed = await NewsletterService.isSubscribed(email)
+
+      if (isSubscribed) {
+        commit(types.SET_EMAIL, email)
+        commit(types.NEWSLETTER_SUBSCRIBE)
+      } else {
+        commit(types.NEWSLETTER_UNSUBSCRIBE)
       }
+
+      return isSubscribed
     },
-    unsubscribe ({ commit, state }, email): Promise<Response> {
-      if (state.isSubscribed) {
-        return new Promise((resolve, reject) => {
-          fetch(processURLAddress(config.newsletter.endpoint), {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            mode: 'cors',
-            body: JSON.stringify({ email })
-          }).then(res => {
-            commit(types.NEWSLETTER_UNSUBSCRIBE)
-            resolve(res)
-          }).catch(err => {
-            reject(err)
-          })
-        })
-      }
+    async subscribe ({ commit, getters, dispatch }, email): Promise<boolean> {
+      if (getters.isSubscribed) return
+
+      const subscribeResponse = await NewsletterService.subscribe(email)
+
+      commit(types.NEWSLETTER_SUBSCRIBE)
+      commit(types.SET_EMAIL, email)
+      await dispatch('storeToCache', { email })
+
+      return subscribeResponse
+    },
+    async unsubscribe ({ commit, getters }, email): Promise<boolean> {
+      if (!getters.isSubscribed) return
+
+      const unsubscribeResponse = await NewsletterService.unsubscribe(email)
+      commit(types.NEWSLETTER_UNSUBSCRIBE)
+
+      return unsubscribeResponse
+    },
+    async storeToCache (context, { email }) {
+      const newsletterStorage = StorageManager.get('newsletter')
+      await newsletterStorage.setItem('email', email)
     }
   }
 }

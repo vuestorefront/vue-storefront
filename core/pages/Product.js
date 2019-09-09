@@ -25,8 +25,8 @@ export default {
       product: 'product/productCurrent',
       originalProduct: 'product/productOriginal',
       parentProduct: 'product/productParent',
-      attributesByCode: 'attribute/attributeListByCode',
-      attributesById: 'attribute/attributeListById',
+      attributesByCode: 'attribute/getAttributeListByCode',
+      attributesById: 'attribute/getAttributeListById',
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
       options: 'product/currentOptions',
@@ -174,6 +174,7 @@ export default {
       }
     },
     onAfterVariantChanged (payload) {
+      this.$store.dispatch('product/setProductGallery', { product: this.product })
       this.$forceUpdate()
     },
     onAfterFilterChanged (filterOption) {

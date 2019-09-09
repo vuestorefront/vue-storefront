@@ -2,7 +2,7 @@
   <modal name="modal-onboard" class="modal-onboard">
     <div class="content relative flex middle-xs">
       <i slot="close" class="modal-close material-icons p15 cl-bg-tertiary" @click="close">close</i>
-      <img src="/assets/logo.svg" alt="Vuestore" class="logo">
+      <img src="/assets/logo.svg" :alt="$t(defaultTitle)" class="logo">
 
       <div class="copy align-center cl-secondary">
         <p class="h1">
@@ -38,7 +38,16 @@
 </template>
 <script>
 import Modal from 'theme/components/core/Modal.vue'
+import config from 'config'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+
 export default {
+  data () {
+    const storeView = currentStoreView()
+    return {
+      defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle
+    }
+  },
   components: {
     Modal
   },

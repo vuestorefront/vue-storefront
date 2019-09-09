@@ -63,7 +63,7 @@ export default {
     notifyOutStock (chp) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
-        message: chp.name + this.$t(' is out of the stock!'),
+        message: chp.name + this.$t(' is out of stock!'),
         action1: { label: this.$t('OK') }
       })
     },

@@ -1,4 +1,4 @@
-# Chapter 3. Starter pack for new comers (Install)
+# Ch 3. Starter pack for new comers (Install)
 <style>
     img[alt*="borderline"] {
         border: 1px #000 solid;
@@ -950,7 +950,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
 "defaultStoreCode": "",
 "storeViews": {
   "multistore": false,
-  "commonCache": true,
+  "commonCache": false,
   "mapStoreUrlsFor": ["de", "it"],
   "de": {
     "storeCode": "de",
@@ -1226,8 +1226,23 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "defaultCountry": "US",
   "defaultRegion": "",
   "sourcePriceIncludesTax": false,
-  "calculateServerSide": true
+  "calculateServerSide": true,
+  "userGroupId": null,
+  "useOnlyDefaultUserGroupId": false,
+  "deprecatedPriceFieldsSupport": true,
+  "finalPriceIncludesTax": false
 },
+```
+  - `tax`: ...
+    - `defaultCountry` is the code name of the country on which tax is calculated for the store. 
+    - `defaultRegion` is default region.
+    - `sourcePriceIncludesTax` determines whether price is stored with tax applied (`true`) or tax calculated on runtime (`false`).  [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/platform/magento2/tax.js#L12)
+    - `calculateServerSide` determines if price is fetched with(`true`)/without(`false`) tax calculated. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/product.js#L48)
+    - `userGroupId`: null,
+    - `useOnlyDefaultUserGroupId`: false,
+    - `deprecatedPriceFieldsSupport`: true,
+    - `finalPriceIncludesTax`: false
+```json
 "shipping": {
   "methods": [
     {
@@ -1355,11 +1370,123 @@ Sometimes we need to know the inside of the perfect machine so that we can prepa
 <br />
 
 ## 4. Storefront CLI at your service 
-On the release of ... we will also present a new way of setup and all its sorts from CLI which is the all time favorite tool of developers worldwide if I must say. 
+Upon the release of 1.10, we also present a new way of setup and all its sorts from `CLI` which is the all-time most favorite tool of developers worldwide if I must say. There are lots of benefits when `CLI` methods are available such as automation in scripts in cooperation with other automation tools out there. 
+
+We will continuously add new features to [`CLI`](https://www.npmjs.com/package/@vue-storefront/cli) as the version goes up. 
+
 ### 1. Preparation
+- You need to have installed [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) on your machine. (or [`yarn`](https://yarnpkg.com/lang/en/docs/install/#debian-stable) if you chose it)
+
 ### 2. Recipe
+1. Install _Vue Storefront CLI_ package on your machine with `-g` flag as follows : 
+```bash
+npm install -g  @vue-storefront/cli@0.0.15
+```
+:vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/ZK0BVF7cQ8OaHHRcsaZgcOCfN)
+
+2. Now go to any random folder you want to install a _Vue Storefront_ app under, and run the following : 
+```bash
+vsf init
+```
+
+3. You will encounter a series of questions to install the app, first of which is as follows : 
+```bash
+  ✔ Check avalilable versions
+? Which version of Vue Storefront you'd like to install? 
+❯ Stable versions (recommended for production) 
+  Release Candidates 
+  In development branches (could be unstable!)
+```
+Select an option based on which you are to install.
+
+4. Next question is about specific version to be installed as follows : 
+```bash
+? Select specific version 
+  v1.8.0 
+❯ v1.10.0 
+  v1.9.2 
+  v1.9.1 
+  v1.9.0 
+  v1.8.5 
+  v1.8.4 
+```
+Choose a version of your target.
+
+5. Next question is about how you install it between `installer`/`manual` like below : 
+```bash
+? Would you like to use friendly installer or install Vue Storefront manually? 
+❯ Installer (MacOS/Linux only) 
+  Manual installation
+```
+Let's pick the `Installer` option for now. 
+
+Then you will see the machine start working on installation : 
+```bash
+? Would you like to use friendly installer or install Vue Storefront manually? Installer (MacOS/Linux only)
+  ✔ Copying Vue Storefront files
+  ⠸ Installing dependencies
+    Running installer
+```
+
+6. Once the preparation is finished then another series of questions pops up as `installer` is associated with as follows : 
+```bash
+yarn run v1.17.3
+$ node ./core/scripts/installer
+┌─────────────────────────────────────────────────┐
+│ Hi, welcome to the vue-storefront installation. │
+│ Let's configure it together :)                  │
+└─────────────────────────────────────────────────┘
+
+? Would you like to use https://demo.vuestorefront.io as the backend? (Y/n)
+```
+
+From this on, the questions would be the same as installation through `installer`. 
+You can follow it further at [Install using installer](#_2-using-installer)
+
+7. Once the questions have been answered then the remaining process is taken to action. You will see a screen as follows when they finished :
+```bash
+? Please provide path for images endpoint https://demo.vuestorefront.io/img/
+
+ Trying to create log files... 
+
+ Creating storefront config 'config/local.json'... 
+
+ Build storefront npm... 
+
+ Starting storefront server... 
+
+┌────────────────────────────────────────────────────┐
+│ Congratulations!                                   │
+│                                                    │
+│ You've just successfully installed vue-storefront. │
+│ All required servers are running in background     │
+│                                                    │
+│ Storefront: http://localhost:3000                  │
+│ Backend: https://demo.vuestorefront.io             │
+│                                                    │
+│ Logs: /home/dex/code/cli/vue-storefront/var/log/   │
+│                                                    │
+│ Good Luck!                                         │
+  ✔ Copying Vue Storefront files
+  ✔ Installing dependencies
+  ✔ Running installer
+```
+
+8. Now visit the address on your browser as printed in the screen, then Voila! :
+
+![home_borderline](../images/home-vuestorefront.png)
+
+Congratulation! 
+
 ### 3. Peep into the kitchen (what happens internally)
+_Vue Storefront_ people prepared the `CLI` way of installing the whole infrastructure for your _Vue Storefront_ app provided as an `npm` package. It's now as easy as to install an `npm` package on any machine. Installed then run a command with a few options would be more than enough for the app to be up and running. Believe me your next _Vue Storefront_ app will be with you instantly with a breeze as long as `CLI` is accessible. 
+
 ### 4. Chef's secret (protip)
+#### Secret 1. Install with _manual_ path
+
+#### Secret 2. Install a _module_ skeleton
+
+#### Secret 3. Build your own command for `vsf-cli`
 
 <br />
 <br />
