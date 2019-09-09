@@ -2,7 +2,7 @@
 "No products synchronized for this category. Please come back while online!","По данной категории товары не синхронизированы. Пожалуйста вернитесь когда будете онлайн!"
 "Shopping cart is empty. Please add some products before entering Checkout","Корзина пустая. Пожалуйста добавьте товары перед оформлением заказа"
 "Out of stock!","Нет в наличии!"
-" is out of the stock!"," нет в наличии!"
+" is out of stock!"," нет в наличии!"
 "Some of the ordered products are not available!","Некоторые из заказанных товаров не доступны!"
 "Stock check in progress, please wait while available stock quantities are checked","Производится проверка товаров на наличие, пожалуйста дождитесь завершения процесса проверки доступного количества"
 "There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.","Отсутствует соединение к интернету. Однако вы можете оформить заказ. Мы уведомим Вас об отсутствии какого-либо из заказанных товаров позднее, так как не можем проверить это в данный момент."
@@ -37,3 +37,4 @@
 "Unhandled error, wrong response format!","Необработанная ошибка, неверный формат ответа!"
 "Are you sure you would like to remove this item from the shopping cart?","Вы уверены, что хотите удалить этот товар из корзины?"
 "You need to be logged in to see this page","Вы должны войти в систему, чтобы увидеть эту страницу"
+"Thumbnail","Thumbnail"

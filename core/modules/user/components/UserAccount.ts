@@ -170,7 +170,7 @@ export const UserAccount = {
     },
     getUserCompany () {
       let user = this.$store.state.user.current
-      if (user.hasOwnProperty('default_billing')) {
+      if (user && user.hasOwnProperty('default_billing')) {
         let index
         for (let i = 0; i < this.currentUser.addresses.length; i++) {
           if (toString(user.addresses[i].id) === toString(user.default_billing)) {

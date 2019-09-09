@@ -26,7 +26,7 @@
       </div>
       <div>
         <div class="mt5">
-          <span @click="removeFromWishlist(product)"><remove-button class="cl-accent" /></span>
+          <span @click="removeProductFromWhishList(product)"><remove-button class="cl-accent" /></span>
         </div>
       </div>
     </div>
@@ -39,6 +39,8 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import ProductImage from 'theme/components/core/ProductImage'
 import RemoveButton from './RemoveButton'
+import i18n from '@vue-storefront/i18n'
+import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
 
 export default {
   components: {
@@ -55,6 +57,16 @@ export default {
         loading: this.thumbnail,
         src: this.thumbnail
       }
+    }
+  },
+  methods: {
+    removeProductFromWhishList (product) {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: i18n.t('Product {productName} has been removed from wishlit!', { productName: htmlDecode(product.name) }),
+        action1: { label: i18n.t('OK') }
+      }, { root: true })
+      this.removeFromWishlist(product)
     }
   }
 }
@@ -76,5 +88,10 @@ export default {
 }
 input {
   width: 30px;
+}
+.price-original {
+  text-decoration: line-through;
+  color: #828282;
+  font-size: .95rem;
 }
 </style>

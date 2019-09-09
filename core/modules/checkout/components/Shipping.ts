@@ -42,13 +42,13 @@ export const Shipping = {
       currentUser: (state: RootState) => state.user.current
     }),
     ...mapGetters({
-      shippingMethods: 'shipping/shippingMethods'
+      shippingMethods: 'checkout/getShippingMethods'
     }),
     checkoutShippingDetails () {
       return this.$store.state.checkout.shippingDetails
     },
     paymentMethod () {
-      return this.$store.state.payment.methods
+      return this.$store.getters['checkout/getPaymentMethods']
     }
   },
   watch: {
@@ -65,6 +65,7 @@ export const Shipping = {
   },
   mounted () {
     this.checkDefaultShippingMethod()
+    this.changeShippingMethod()
   },
   methods: {
     checkDefaultShippingMethod () {

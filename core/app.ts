@@ -12,7 +12,8 @@ import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 import { sync } from 'vuex-router-sync'
 import VueObserveVisibility from 'vue-observe-visibility'
-
+import cloneDeep from 'lodash-es/cloneDeep'
+import omit from 'lodash-es/omit'
 // Apollo GraphQL client
 import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 
@@ -20,7 +21,7 @@ import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 import { registerTheme } from '@vue-storefront/core/lib/themes'
 import { themeEntry } from 'theme/index.js'
 import { registerModules } from '@vue-storefront/core/lib/module'
-import { prepareStoreView } from '@vue-storefront/core/lib/multistore'
+import { prepareStoreView, currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 import * as coreMixins from '@vue-storefront/core/mixins'
 import * as coreFilters from '@vue-storefront/core/filters'
@@ -62,7 +63,9 @@ once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
 })
 
-const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
+const initialState = cloneDeep(store.state)
+
+const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
   router = createRouter()
   // sync router with vuex 'router' store
   sync(store, router)
@@ -91,6 +94,16 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
       Vue.mixin(coreMixins[key])
     })
   })
+
+  // @todo remove this part when we'll get rid of global multistore mixin
+  if (isServer) {
+    Object.defineProperty(ssrContext, 'helpers', {
+      value: {
+        currentStoreView
+      },
+      writable: true
+    })
+  }
 
   Object.keys(coreFilters).forEach(key => {
     Vue.filter(key, coreFilters[key])
@@ -122,7 +135,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   // @deprecated from 2.0
   EventBus.$emit('application-after-init', app)
 
-  return { app, router, store }
+  return { app, router, store, initialState }
 }
 
 export { router, createApp }

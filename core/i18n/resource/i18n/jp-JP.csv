@@ -56,7 +56,7 @@
 "I accept terms and conditions","以下の利用規約に同意します"
 "I agree to","以下に合意します"
 "Internal Server Error 500","500サーバーエラー"
-" is out of the stock!"," は在庫がありません！"
+" is out of stock!"," は在庫がありません！"
 "I want to create an account","アカウント作成したい"
 "I want to generate an invoice for the company","この会社への請求書を作りたい"
 "I want to receive a newsletter, and agree to its terms","利用規約に合意してニュースレーターを受け取ります"
@@ -168,3 +168,4 @@
 "You will receive Push notification after coming back online. You can confirm the order by clicking on it","オンラインになるとプッシュ通知が送られ、そこから注文の確認ができます。"
 "Zipcode","郵便番号"
 "Zip-code","郵便番号"
+"Thumbnail","Thumbnail"

@@ -1,5 +1,10 @@
+import ShippingDetails from './ShippingDetails'
+import PaymentDetails from './PaymentDetails'
+
 export default interface CheckoutState {
   order: any,
+  paymentMethods: any[],
+  shippingMethods: any[],
   personalDetails: {
     firstName: string,
     lastName: string,
@@ -7,35 +12,8 @@ export default interface CheckoutState {
     password: string,
     createAccount: boolean
   },
-  shippingDetails: {
-    firstName: string,
-    lastName: string,
-    country: string,
-    streetAddress: string,
-    apartmentNumber: string,
-    city: string,
-    state: string,
-    region_id: number,
-    zipCode: string,
-    phoneNumber: string,
-    shippingMethod: string
-  },
-  paymentDetails: {
-    firstName: string,
-    lastName: string,
-    company: string,
-    country: string,
-    streetAddress: string,
-    apartmentNumber: string,
-    city: string,
-    region_id: number,
-    state: string,
-    zipCode: string,
-    phoneNumber: string,
-    taxId: string,
-    paymentMethod: string,
-    paymentMethodAdditional: any
-  },
+  shippingDetails: ShippingDetails,
+  paymentDetails: PaymentDetails,
   isThankYouPage: boolean,
   modifiedAt: number
 }

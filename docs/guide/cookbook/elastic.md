@@ -1,3 +1,3 @@
-# Chapter 2. Elasticsearch 
+# Chapter 2. Elasticsearch in the VSF context
 
 ## Coming soon!

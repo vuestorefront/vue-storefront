@@ -4,7 +4,7 @@ import UniversalStorage from '@vue-storefront/core/lib/store/storage'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 
-function _prepareCacheStorage (key, localized = true, storageQuota = 0) {
+function _prepareCacheStorage (key, localized = !config.storeViews.commonCache, storageQuota = 0) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
   const cacheDriver = config.localForage && config.localForage.defaultDrivers[key]
@@ -55,7 +55,7 @@ const StorageManager = {
   get: function (collectionName): UniversalStorage {
     if (!this.exists(collectionName)) {
       Logger.warn('Called cache collection ' + collectionName + ' does not exist. Initializing.', 'cache')
-      return this.set(collectionName, initCacheStorage(collectionName, true))
+      return this.set(collectionName, initCacheStorage(collectionName, true)) // eslint-disable-line @typescript-eslint/no-use-before-define
     } else {
       return this.storageMap[collectionName]
     }

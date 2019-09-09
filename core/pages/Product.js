@@ -11,7 +11,6 @@ import { ProductOption } from '@vue-storefront/core/modules/catalog/components/P
 import omit from 'lodash-es/omit'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { isUserGroupedTaxActive } from '@vue-storefront/core/modules/catalog/helpers/tax';
 
 export default {
   name: 'Product',
@@ -26,13 +25,14 @@ export default {
       product: 'product/productCurrent',
       originalProduct: 'product/productOriginal',
       parentProduct: 'product/productParent',
-      attributesByCode: 'attribute/attributeListByCode',
-      attributesById: 'attribute/attributeListById',
+      attributesByCode: 'attribute/getAttributeListByCode',
+      attributesById: 'attribute/getAttributeListById',
       breadcrumbs: 'product/breadcrumbs',
       configuration: 'product/currentConfiguration',
       options: 'product/currentOptions',
       category: 'category/getCurrentCategory',
-      gallery: 'product/productGallery'
+      gallery: 'product/productGallery',
+      isUserGroupedTaxActive: 'tax/getIsUserGroupedTaxActive'
     }),
     productName () {
       return this.product ? this.product.name : ''
@@ -74,7 +74,7 @@ export default {
     this.$bus.$off('product-after-priceupdate', this.onAfterPriceUpdate)
     this.$bus.$off('product-after-customoptions')
     this.$bus.$off('product-after-bundleoptions')
-    if (config.usePriceTiers || isUserGroupedTaxActive()) {
+    if (config.usePriceTiers || this.isUserGroupedTaxActive) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -85,7 +85,7 @@ export default {
     this.$bus.$on('filter-changed-product', this.onAfterFilterChanged)
     this.$bus.$on('product-after-customoptions', this.onAfterCustomOptionsChanged)
     this.$bus.$on('product-after-bundleoptions', this.onAfterBundleOptionsChanged)
-    if (config.usePriceTiers || isUserGroupedTaxActive()) {
+    if (config.usePriceTiers || this.isUserGroupedTaxActive) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -174,6 +174,7 @@ export default {
       }
     },
     onAfterVariantChanged (payload) {
+      this.$store.dispatch('product/setProductGallery', { product: this.product })
       this.$forceUpdate()
     },
     onAfterFilterChanged (filterOption) {

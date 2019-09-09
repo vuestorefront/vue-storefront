@@ -1,32 +1,27 @@
 import { Module } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import ShippingState from '../../types/ShippingState'
-import config from 'config'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
+// @deprecated
 export const shippingModule: Module<ShippingState, RootState> = {
   namespaced: true,
-  state: {
-    methods: config.shipping.methods
-  },
-  mutations: {
-    addMethod (state, shippingMethods) {
-      state.methods.push(shippingMethods)
-    },
-    replaceMethods (state, shippingMethods) {
-      state.methods = shippingMethods
-    }
-  },
   actions: {
-    addMethod ({commit}, shippingMethod) {
-      commit('addMethod', shippingMethod)
+    addMethod ({ dispatch }, shippingMethod) {
+      Logger.error('The action shipping/addMethod has been deprecated please change to checkout/addShippingMethod')()
+      dispatch('checkout/addShippingMethod', shippingMethod, { root: true })
     },
-    replaceMethods ({commit}, shippingMethods) {
-      commit('replaceMethods', shippingMethods)
+    replaceMethods ({ dispatch }, shippingMethods) {
+      Logger.error('The action shipping/replaceMethods has been deprecated please change to checkout/replaceShippingMethods')()
+      dispatch('checkout/replaceShippingMethods', shippingMethods, { root: true })
     }
   },
   getters: {
-    shippingMethods (state) {
-      return state.methods
-    }
+    // @deprecated
+    shippingMethods: (state, getters, rootState, rootGetters) => rootGetters['checkout/getShippingMethods'],
+    // @deprecated
+    getShippingMethods: (state, getters, rootState, rootGetters) => rootGetters['checkout/getShippingMethods'],
+    // @deprecated
+    getDefaultShippingMethod: (state, getters, rootState, rootGetters) => rootGetters['checkout/getDefaultShippingMethod']
   }
 }

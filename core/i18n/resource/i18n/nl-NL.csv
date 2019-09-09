@@ -2,7 +2,7 @@ Registering the account ...,Account registreren ...
 No products synchronized for this category. Please come back while online!,Er zijn geen producten gesynchroniseerd in deze categorie. Kom alstublieft terug terwijl u online bent.
 "Shopping cart is empty. Please add some products before entering Checkout",Uw winkelwagen is leeg. Voeg producten toe voordat u gaat afrekenen
 Out of stock!,Niet in voorraad!
- is out of the stock!, is niet in voorraad!
+ is out of stock!, is niet in voorraad!
 Some of the ordered products are not available!,Niet alle bestelde producten zijn beschikbaar!
 "Stock check in progress, please wait while available stock quantities are checked","Voorraadcontrole bezig. Een moment gedult alstublieft, we checken op dit moment de voorraden"
 There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.,"U heeft geen internetverbinding. U kunt nog steeds een bestelling plaatsen. We laten het weten als de door u bestelde producten niet op voorraad zijn, dit kunnen we momenteel niet controleren."
@@ -37,3 +37,4 @@ Error with response - bad content-type!,Error with response - bad content-type!
 "Unhandled error, wrong response format!","Unhandled error, wrong response format!"
 "Are you sure you would like to remove this item from the shopping cart?","Weet u zeker dat u dit artikel uit uw mandje wilt verwijderen?"
 "You need to be logged in to see this page","U moet ingelogd zijn om deze pagina te bekijken"
+"Thumbnail","Thumbnail"
