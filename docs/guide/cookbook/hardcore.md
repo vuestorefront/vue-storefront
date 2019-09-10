@@ -12,11 +12,11 @@ Some of the topics here were found as a [frequently asked questions from our For
 
 1. Tip 1: Memory leaks
 2. Tip 2: SSR Cache
-3. Tip 3: Limiting SSR HTML size (a.k.a INITIAL_STATE optimization)
-4. Tip 4: Multistore configuration explained
-5. Tip 5: Url Dispatcher explained + troubledshooting
-6. Tip 6: Avoiding prices desynchronization (`alwaysSyncPlatformPricesOver`)
-7. Tip 7: Avoiding stock desynchronization (`filterOutUnavailableVariants`)
+3. Tip 6: Avoiding prices desynchronization (`alwaysSyncPlatformPricesOver`)
+4. Tip 7: Avoiding stock desynchronization (`filterOutUnavailableVariants`)
+5. Tip 3: Limiting SSR HTML size (a.k.a INITIAL_STATE optimization)
+6. Tip 4: Multistore configuration explained
+7. Tip 5: Url Dispatcher explained + troubledshooting
 8. Tip 8: HTML minimization, compression, headers
 9. Tip 9: Production catalog indexing + cache invalidation
 10. Tip 10: ElasticSearch production setup
@@ -67,3 +67,40 @@ Another thing is to properly handle the events. Each `EventBus.$on` must have it
 ### Tracing memory leaks
 
 There are many ways to trace the memory leaks, however we're using the browser tools (Memory profile) most of the times. [Here you have it explained in details](https://marmelab.com/blog/2018/04/03/how-to-track-and-fix-memory-leak-with-nodejs.html). Another usefull tools are [New Relic APM](http://newrelic.com) and [Google Trace](https://cloud.google.com/trace/docs/setup/nodejs)
+
+## Tip2: SSR Output cache
+
+Vue Storefront supports [Server Side Rendering](https://vuejs.org/v2/guide/ssr.html). In this mode the same code which is being executed be the browser in browser (CSR; Client Side Rendering) runs on the srver in order to generate the HTML markup. The markup is being transfered to the browser, rendered (extremly fast as the browsers were all optimized to ... render html text by the last 20+ years) and [hydrated](https://ssr.vuejs.org/guide/hydration.html) from the [initial state](https://ssr.vuejs.org/guide/data.html#final-state-injection). By this whole procedure the client side / browser scripts can use exactly the same code base (Universal). Another cool feature is that static HTML markup is well indexed by Search Engine crawlers which is extremly important for SEO.
+
+Usually, Vue Storefront works pretty fast and all SSR requests are being finished in between 100-300ms; however, if your database is huuuge or your server resources are low, or probably the traffic is extremly high you might want to enable the output cache. The other reason is that you might want to use SSR cache to prevent memory leaks - well, rather hide them :-)
+
+The SSR cache is [pretty well documented in our docs](https://docs.vuestorefront.io/guide/basics/ssr-cache.html). What's important it works for both: `vue-storefront` and `vue-storefront-api`.
+[Read on all the caching mechanisms](https://medium.com/the-vue-storefront-journal/caching-on-production-10b00a5614f8) that Vue Storefront is using.
+
+In the SSR Output cache mode enabled, the [`core/server.js`](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/scripts/server.js#L187) stores the rendered output pages along with http headers into Redis cache. If the page exists in Redis - is being served without even starting the Vue SSR Renderer.
+
+We're using Redis in order to use the [`redis-tagging`](https://www.npmjs.com/package/redis-tagging) library. Naming and caching are two most ddifficult areas of software development. Cache tagging helps us to deal with cache invalidation.
+
+We're tagging the output pages with [product](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/modules/catalog/helpers/search.ts#L69) and [category](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/modules/catalog/store/category/actions.ts#L121) tags. Then all the indexers including: `magento1-vsbridge-indexer`, `mage2vuestorefront`, `magento2-vsbridge-indexer` will invalidate the cache, by specific product or category ID. It means, the [`invalidate`](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/scripts/server.js#L156) method will clear out the cache pages tagged with this specific product id. Note: this URL requires you to pass the invalidation token set in the [config](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/config/default.json#L12).
+
+You can add any number of the specific cache tags - by just extending the [`availableCacheTags`](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/config/default.json#L11) and [pushing the tags to `ssrContext`](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/pages/Home.js#L19) so they can be used by `core/scripts/server`.
+
+This `context` argument passed to `asyncData()` is actually the same context object used by [`core/scripts/server.js`](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/scripts/server.js#L168), so we're using it as transfer object for passing the tags back and forth between server and Vue.js application.
+
+**Note:** If you have the SSR cache enabled (in the `vue-storefront-api` or `vue-storefront` app) please make sure, you're not using the cache on different layer (for example Varnish or nginx). Otherwise the cache invalidation mechanism won't work. 
+
+The dynamic tags config option: `useOutputCacheTagging` - if set to `true`, Vue Storefront is generating the special HTTP Header `X-VS-Cache-Tags`
+
+```js
+res.setHeader('X-VS-Cache-Tags', cacheTags);
+```
+
+Cache tags are assigned regarding the products and categories that are used on the specific page. A typical `X-VS-Cache-Tags` tag looks like this:
+
+```
+X-VS-Cache-Tags: P1852 P198 C20
+```
+
+The tags can be used to invalidate the Varnish cache, if you're using it. [Read more on that](https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish).
+
+**Note:**  All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/DivanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (frontend or backend) and it **should be forwarded**. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
