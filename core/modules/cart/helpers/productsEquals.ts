@@ -12,7 +12,7 @@ const getChecksum = (product: CartItem) => {
 const getProductType = (product: CartItem): string =>
   product.type_id || product.product_type
 
-const getServerItemId = (product: CartItem): number =>
+const getServerItemId = (product: CartItem): string | number =>
   product.server_item_id || product.item_id
 
 const isServerIdsEquals = (product1: CartItem, product2: CartItem): boolean =>
