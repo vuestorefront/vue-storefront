@@ -4,7 +4,7 @@ Vue Storefront uses Elasticsearch as a primary data store. We're using Redis as 
 
 Although all of these data stores are basically schema-free, some mappings and meta data should be used for setting ES indices and so forth.
 
-VVue Storefront uses a data-migration mechanism based on [node-migrate](https://github.com/tj/node-migrate).
+Vue Storefront uses a data-migration mechanism based on [node-migrate](https://github.com/tj/node-migrate).
 
 ## Migration tool
 
