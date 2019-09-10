@@ -10,11 +10,11 @@ Some of the topics here were found as a [frequently asked questions from our For
 
 ### Table of content
 
-1. Tip 1: Memory leaks
-2. Tip 2: SSR Cache
-3. Tip 3: Avoiding prices desynchronization (`alwaysSyncPlatformPricesOver`)
-4. Tip 4: Avoiding stock desynchronization (`filterOutUnavailableVariants`)
-5. Tip 5: How Vue Storefront calculates prices and taxes
+1. <a href="#tip1">Tip 1: Memory leaks</a>
+2. <a href="#tip2">Tip 2: SSR Cache</a>
+3. <a href="#tip3">Tip 3: Avoiding prices desynchronization (`alwaysSyncPlatformPricesOver`)</a>
+4. <a href="#tip4">Tip 4: Avoiding stock desynchronization (`filterOutUnavailableVariants`)</a>
+5. <a href="#tip5">Tip 5: How Vue Storefront calculates prices and taxes</a>
 6. Tip 6: Limiting SSR HTML size (a.k.a INITIAL_STATE optimization)
 7. Tip 7: Multistore configuration explained
 8. Tip 8: Url Dispatcher explained + troubledshooting
@@ -34,7 +34,7 @@ Some of the topics here were found as a [frequently asked questions from our For
  - `sourcePriceIncludesTax` vs `finalPriceIncludesTax` - and how the prices work.
 
 
-## Tip 1: Memory leaks
+## <a id="tip1">Tip 1: Memory leaks</a>
 Vue Storefront consist of two NodeJS applications:
 - `vue-storefront` - which is the frontend app, with the entry point of [`core/scripts/server.js`](https://github.com/DivanteLtd/vue-storefront/blob/4ed26d7f1978a9e798edcddf1cf2f970c3e64e4f/core/scripts/server.js#L269)
 - `vue-storefornt-api` - which is backend/api app.
@@ -69,7 +69,7 @@ Another thing is to properly handle the events. Each `EventBus.$on` must have it
 
 There are many ways to trace the memory leaks, however we're using the browser tools (Memory profile) most of the times. [Here you have it explained in details](https://marmelab.com/blog/2018/04/03/how-to-track-and-fix-memory-leak-with-nodejs.html). Another usefull tools are [New Relic APM](http://newrelic.com) and [Google Trace](https://cloud.google.com/trace/docs/setup/nodejs)
 
-## Tip2: SSR Output cache
+## <a id="tip2">Tip2: SSR Output cache</a>
 
 Vue Storefront supports [Server Side Rendering](https://vuejs.org/v2/guide/ssr.html). In this mode the same code which is being executed be the browser in browser (CSR; Client Side Rendering) runs on the srver in order to generate the HTML markup. The markup is being transfered to the browser, rendered (extremly fast as the browsers were all optimized to ... render html text by the last 20+ years) and [hydrated](https://ssr.vuejs.org/guide/hydration.html) from the [initial state](https://ssr.vuejs.org/guide/data.html#final-state-injection). By this whole procedure the client side / browser scripts can use exactly the same code base (Universal). Another cool feature is that static HTML markup is well indexed by Search Engine crawlers which is extremly important for SEO.
 
@@ -107,7 +107,7 @@ The tags can be used to invalidate the Varnish cache, if you're using it. [Read 
 **Note:**  All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/DivanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (frontend or backend) and it **should be forwarded**. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
 
 
-## Tip 3: Avoiding prices desynchronization (`alwaysSyncPlatformPricesOver`)
+## <a id="tip3">Tip 3: Avoiding prices desynchronization (`alwaysSyncPlatformPricesOver`)</a>
 
 Vue Storefront indexers (`magento2-vsbridge-indexer`, `magento1-vsbridge-indexer`, `mage2vuestorefront`) all stores the product prices (before/after catalog rules applied) into the ElasticSearch. Butt ElasticSearch can be easily de-synced or the synchronization can be lagged. To avoid the risk of displaying non current prices to the customers Vue Storefront has at least 3 mechanisms - with the `alwaysSyncPlatformPricesOver` on the top.
 
@@ -132,7 +132,7 @@ The `alwaysSyncPlatformPricesOver` mode has two additional options:
 
 More than that - Vue Storefront always get's the **platform totals** (the final prices visible in the shopping cart and the order summary) from Magento/any other backend. There is then no risk we'll see the product at the wrongly set price.
 
-## Tip 4: Avoiding stock desynchronization (`filterOutUnavailableVariants`)
+## <a id="tip4">Tip 4: Avoiding stock desynchronization (`filterOutUnavailableVariants`)</a>
 
 Pretty much the same case like with the Prices (Tip 3) can occur with the product stocks. By default, all the indexers are setting the [stock information right into the product object](https://github.com/DivanteLtd/vue-storefront-integration-sdk/blob/tutorial/Format-product.md):
 
@@ -186,3 +186,49 @@ to:
 ```
 
 Just in order to make sure that attribute filtering always takes place before rendering the PDP.
+
+## <a id="tip5">Tip 5: How Vue Storefront calculates prices and taxes</a>
+
+Vue Storefront has two modes of calculating the product prices:
+- Client side (when `config.tax.calculateServerSide` is set to `false`) - that can be usefull in case the tax should be recalculated based on the address change,
+- Server side (when `config.tax.calculateServerSide` is set to `true`) - which is our default mode.
+
+Depending on the mode, taxes are calulated by [`taxCalc.ts` client side](https://github.com/DivanteLtd/vue-storefront/blob/5f2b5cd6a8496a60884c091e8509d3b58b7a0358/core/modules/catalog/helpers/taxCalc.ts#L74) or [`taxcalc.js` server side](https://github.com/DivanteLtd/vue-storefront-api/blob/d3d0e7892cd063bbd69e545f3f2b6fdd9843d524/src/lib/taxcalc.js#L251-L253). 
+
+You may see that both these files are applying **exactly** the same logic.
+
+In order to calculate the prices and taxes we need first toget the proper tax rate. It's based on [`taxrate`](https://github.com/DivanteLtd/vue-storefront-integration-sdk#taxrate-entity) entity, stored in the Elastic. Each product can have the property [`product.tax_class_id`](https://github.com/DivanteLtd/vue-storefront/blob/5f2b5cd6a8496a60884c091e8509d3b58b7a0358/core/modules/catalog/helpers/taxCalc.ts#L213) set. Depending on it's value Vue Storefront is applying the `taxrate`, it's also applying the [country and region to the filter](https://github.com/DivanteLtd/vue-storefront/blob/5f2b5cd6a8496a60884c091e8509d3b58b7a0358/core/modules/catalog/helpers/taxCalc.ts#L226). 
+
+**Note:** We're currently not supporting searching the tax rules by `customer_tax_class_id` neither by the `tax_postcode` fields of `taxrate` entity. Pull requests more than welcome ;)
+
+After getting the right tax rate we can calculate the prices.
+
+We've got the following price fields priority in the VS:
+- `final_price` - if set, depending on the `config.tax.finalPriceIncludesTax` - it's taken as final price or Net final price,
+- `special_price` - if it's set and it's lower than `price` it will replace the `price` and the `price` value will be set into `original_price` property,
+- `price` - if set, dedending on the `config.tax.sourcePriceIncludesTax` - it's taken as final price or Net final price.
+
+Depending on the `config.tax.finalPriceIncludesTax` and `config.tax.sourcePriceIncludesTax` settings Vue Storefront calculates the prices and stores them into following fields.
+
+Product Special price:
+- `special_price` - optional, if set - it's always Net price,
+- `special_price_incl_tax` - optional, if set - it's always price after taxes,
+- `special_price_tax` - optional, if set it's the tax amount.
+
+Product Regular price:
+- `price` - required, if set - it's always Net price,
+- `price_incl_tax` - required, if set - it's always price after taxes,
+- `price_tax` - required, if set it's the tax amount,
+
+Product Final price:
+- `final_price` - optional, if set - it's always Net price,
+- `final_price_incl_tax` - optional, if set - it's always price after taxes,
+- `final_price_tax` - optional, if set it's the tax amount,
+
+Product Original price (set only if `final_price` or `special_price` are lower than `price`):
+- `original_price` - optional, if set - it's always Net price,
+- `original_price_incl_tax` - optional, if set - it's always price after taxes,
+- `original_price_tax` - optional, if set it's the tax amount.
+
+**Note:** The prices are being set for all `configurable_children` with the exact same format
+**Note:** If any of the `configurable_children` has the price lower than the main product, the main product price will be updated accordingly.
