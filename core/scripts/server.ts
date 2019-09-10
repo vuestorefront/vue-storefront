@@ -9,6 +9,7 @@ const cache = require('./utils/cache-instance')
 const apiStatus = require('./utils/api-status')
 const HTMLContent = require('../pages/Compilation')
 const ssr = require('./utils/ssr-renderer')
+const serverSideModules = require(resolve('src/modules/server')).serverModules
 let config = require('config')
 
 const compileOptions = {
@@ -18,9 +19,17 @@ const compileOptions = {
 const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.ssrDisabledFor.extensions.join('|')})$`)
 
 const isProd = process.env.NODE_ENV === 'production'
-process.noDeprecation = true
+process['noDeprecation'] = true
 
 const app = express()
+
+serverSideModules.forEach(serverModule => {
+  if (Array.isArray(serverModule)) {
+    require(resolve(serverModule[0] + '/server.js'))(app, serverModule[1])
+  } else {
+    require(resolve(serverModule + '/server.js'))(app)
+  }
+})
 
 const templatesCache = ssr.initTemplatesCache(config, compileOptions)
 
@@ -100,7 +109,7 @@ function invalidateCache (req, res) {
   }
 }
 
-const serve = (path, cache, options) => express.static(resolve(path), Object.assign({
+const serve = (path, cache, options?) => express.static(resolve(path), Object.assign({
   fallthrough: false,
   setHeaders: cache && isProd ? function (res, path) {
     const mimeType = express.static.mime.lookup(path);
@@ -121,17 +130,6 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
     res.set('Content-Type', 'text/javascript; charset=UTF-8')
   }
 }))
-/** @deprecated in 2.0  in favour of module-based mechanism */
-const serverExtensions = require(resolve('src/server'))
-serverExtensions.registerUserServerRoutes(app)
-
-config.serverSideModules.forEach(serverModule => {
-  if (Array.isArray(serverModule)) {
-    require(resolve(serverModule[0] + '/server.js'))(app, serverModule[1])
-  } else {
-    require(resolve(serverModule + '/server.js'))(app)
-  }
-})
 
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
@@ -231,25 +229,7 @@ app.get('*', (req, res, next) => {
       delete require.cache[require.resolve('config')]
     }
     config = require('config') // reload config
-    if (typeof serverExtensions.configProvider === 'function') {
-      serverExtensions.configProvider(req).then(loadedConfig => {
-        config = config.util.extendDeep(config, loadedConfig)
-        dynamicCacheHandler()
-      }).catch(error => {
-        if (config.server.dynamicConfigContinueOnError) {
-          dynamicCacheHandler()
-        } else {
-          console.log('config provider error:', error)
-          if (req.url !== '/error') {
-            res.redirect('/error')
-          }
-          dynamicCacheHandler()
-        }
-      })
-    } else {
-      config = require('config') // reload config
-      dynamicCacheHandler()
-    }
+    dynamicCacheHandler()
   } else {
     dynamicCacheHandler()
   }

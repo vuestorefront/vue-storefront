@@ -811,7 +811,6 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C", "error"],
   "invalidateCacheKey": "aeSu7aip",
   "dynamicConfigReload": false,
-  "dynamicConfigContinueOnError": false,
   "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
   "dynamicConfigInclude": [],
   "elasticCacheQuota": 4096
@@ -854,7 +853,6 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
     :::
   
   - `dynamicConfigReload` enables to reload `config.json` on the fly with each server request.  [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L232)
-  - `dynamicConfigContinueOnError` allows to skip errors during configuration merge on the fly. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/server.js#L240)
   - `dynamicConfigExclude` 
   - `dynamicConfigInclude`
   - `elasticCacheQuota`
