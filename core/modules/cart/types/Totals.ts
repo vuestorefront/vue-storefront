@@ -1,5 +1,5 @@
 export default interface Totals {
-  item_id?: any,
+  item_id?: number | string,
   options?: string,
   name: string,
   qty: number,

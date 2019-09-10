@@ -1,6 +1,6 @@
 export interface ProductOption {
   attribute_code?: string,
-  id: any,
+  id: number | string,
   label: string
 }
 

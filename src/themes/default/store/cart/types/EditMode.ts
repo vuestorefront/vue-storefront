@@ -1,6 +1,6 @@
 
 export default interface EditMode {
-  productId: any,
+  productId: number | string,
   selectedOptions: Record<string, any>,
   qty: number
 }

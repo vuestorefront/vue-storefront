@@ -7,7 +7,7 @@ import Task from '@vue-storefront/core/lib/sync/types/Task'
 declare namespace DataResolver {
 
   interface CategorySearchOptions {
-    parentId?: any,
+    parentId?: number | string,
     filters?: { [key: string]: string[] | string },
     level?: number,
     onlyActive?: boolean,
