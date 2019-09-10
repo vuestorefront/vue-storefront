@@ -13,6 +13,7 @@
     "invalidateCacheForwarding": false,
     "invalidateCacheForwardUrl": "http://localhost:8080/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": false,
+    "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
     "dynamicConfigInclude": [],
     "elasticCacheQuota": 4096,

@@ -9,7 +9,7 @@ const cache = require('./utils/cache-instance')
 const apiStatus = require('./utils/api-status')
 const HTMLContent = require('../pages/Compilation')
 const ssr = require('./utils/ssr-renderer')
-const serverSideModules = require(resolve('src/modules/server')).serverModules
+const serverExtensions = require(resolve('src/modules/server'))
 let config = require('config')
 
 const compileOptions = {
@@ -23,7 +23,7 @@ process['noDeprecation'] = true
 
 const app = express()
 
-serverSideModules.forEach(serverModule => {
+serverExtensions.serverModules.forEach(serverModule => {
   if (Array.isArray(serverModule)) {
     require(resolve(serverModule[0] + '/server.js'))(app, serverModule[1])
   } else {
@@ -229,7 +229,25 @@ app.get('*', (req, res, next) => {
       delete require.cache[require.resolve('config')]
     }
     config = require('config') // reload config
-    dynamicCacheHandler()
+    if (typeof serverExtensions.configProvider === 'function') {
+      serverExtensions.configProvider(req).then(loadedConfig => {
+        config = config.util.extendDeep(config, loadedConfig)
+        dynamicCacheHandler()
+      }).catch(error => {
+        if (config.server.dynamicConfigContinueOnError) {
+          dynamicCacheHandler()
+        } else {
+          console.log('config provider error:', error)
+          if (req.url !== '/error') {
+            res.redirect('/error')
+          }
+          dynamicCacheHandler()
+        }
+      })
+    } else {
+      config = require('config') // reload config
+      dynamicCacheHandler()
+    }
   } else {
     dynamicCacheHandler()
   }
