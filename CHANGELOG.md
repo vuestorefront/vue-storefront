@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Sort CSV i18n files alphabetically in pre-commit Git hook - @defudef(#2657)
 - Cache invalidate requests forwarding support - @pkarw (#3367)
 - Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057, #3270)
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
@@ -35,11 +36,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added husky package to manage lint check only for staged files in git @lorenaramonda (#3444)
 - Change text from "is out of the stock" to "is out of stock" - @indiebytes (#3452)
 - Added general purpose hooks - @andrzejewsky (#3389)
-- Add new Google-Tag-Manager module using new module registration - @cewald (#3509)
-- Exclude GTM product attributes setup into config json - @dlandmann, @cewald (#3509)
+- Added i18n support for modules - @dz3n (#3369)
+- Add new Google-Tag-Manager module using new module registration - @cewald (#3524, #3509)
+- Exclude GTM product attributes setup into config json - @dlandmann, @cewald (#3509, #3524)
 
 ### Fixed
 
+- Fix for comparison list being not preserved between page reloads - @vue-kacper (#3508)
 - Fix 'fist' typos - @jakubmakielkowski (#3491)
 - Fix for wrong breadcrumb urls in the multistore mode - @pkarw (#3359)
 - Fix for displaying gallery images for unavaialble product variants - @pkarw (#3436)
