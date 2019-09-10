@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fix 'fist' typos - @jakubmakielkowski (#3491)
 - Fix for wrong breadcrumb urls in the multistore mode - @pkarw (#3359)
 - Fix for displaying gallery images for unavaialble product variants - @pkarw (#3436)
 - Fix for `null` in search query input - @pkarw (#3474)
@@ -109,12 +110,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex review module - @andrzejewsky (#3337)
 - Refactored vuex newsletter module - @andrzejewsky (#3337)
 
-## [1.10.1] - UNRELEASED
+## [1.10.2] - 2019.09.06
+
+### Fixed
+- Product image is missing on PDP - @przspa, @NavaneethVijay (#3483)
+- Mounting app when routes are resolved, should completly remove recent SSR errors - patzick (#3499)
+- Fixed `categoriesDynamicPrefetchLevel` that now can be equal to 0 - @pkarw (#3495)
+
+## [1.10.1] - 2019.09.03
 
 ### Fixed
 - Invalid Discount code error handled by theme - @grimasod (#3385)
+- Fallback for empty value or no_selection child image - @ngongoll (#3397)
 - `order.order_id` was not assigned in the `orders.directBackendSync` mode - @pkarw (#3398)
 - Hydration problems with UrlDispatcher :rocket: - @patzick (#3412)
+- if condition of quoteId from the `_serverDeleteItem` method on core/modules/cart/store/action.ts - @AshishSuhane (#3415)
+- Router beforeEach hooks running many times - @grimasod (#3443)
+- test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3450, #3351)
+- changed the theme test path so test in theme are going to work - @resubaka (#3455)
 
 ## [1.10.0] - 2019.08.10
 

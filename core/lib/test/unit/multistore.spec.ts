@@ -637,7 +637,7 @@ describe('Multistore', () => {
 
       setupMultistoreRoutes(config, (vueRouter as VueRouter), routeConfig)
 
-      expect(RouterManager.addRoutes).toBeCalledTimes(0)
+      expect(RouterManager.addRoutes).toBeCalledTimes(1)
     })
   })
 })

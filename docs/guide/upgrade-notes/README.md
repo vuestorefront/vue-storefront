@@ -93,6 +93,9 @@ If by some reasons you wan't to have the `localStorage` back on for `Products by
       this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
     }
 ```
+- The getter `cart/totals` has been replaced with `cart/getTotals` - @pkarw (#2522)
+- The getter `cart/coupon` has been replaced with `cart/getCoupon` - @pkarw (#2522)
+- The getter `cart/totalQuantity` has been replaced with `cart/getItemsTotalQuantity` - @pkarw (#2522)
 
 ## 1.8 -> 1.9
 - The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields
@@ -309,7 +312,7 @@ We fixed SSR memory leaks with #1882. It should not affect your custom code, but
 
 #### GraphQL
 
-We added GraphQL support. Please read more on the [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md). Starting from this release, the **bodybuilder** package is **deprecated**. You should use the **SearchQuery** internal class that can be used against API and GraphQL endpoints. Read more on [how to query data](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md).
+We added GraphQL support. Please read more on the [GraphQL Action Plan](/guide/basics/graphql.html). Starting from this release, the **bodybuilder** package is **deprecated**. You should use the **SearchQuery** internal class that can be used against API and GraphQL endpoints. Read more on [how to query data](/guide/data/elastic-queries.html).
 
 #### SSR: Advanced output and cache
 
