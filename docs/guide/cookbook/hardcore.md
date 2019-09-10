@@ -12,22 +12,23 @@ Some of the topics here were found as a [frequently asked questions from our For
 
 1. Tip 1: Memory leaks
 2. Tip 2: SSR Cache
-3. Tip 6: Avoiding prices desynchronization (`alwaysSyncPlatformPricesOver`)
-4. Tip 7: Avoiding stock desynchronization (`filterOutUnavailableVariants`)
-5. Tip 3: Limiting SSR HTML size (a.k.a INITIAL_STATE optimization)
-6. Tip 4: Multistore configuration explained
-7. Tip 5: Url Dispatcher explained + troubledshooting
-8. Tip 8: HTML minimization, compression, headers
-9. Tip 9: Production catalog indexing + cache invalidation
-10. Tip 10: ElasticSearch production setup
-11. Tip 11: .htaccess, server side redirects, HTTP codes and headers, middlewares
-12. Tip 12: Which fields of product, category and attribute are really being used by VSF
-13. Tip 13: Tracing, monitoring, logging the application and Troubleshooting
+3. Tip 3: Avoiding prices desynchronization (`alwaysSyncPlatformPricesOver`)
+4. Tip 4: Avoiding stock desynchronization (`filterOutUnavailableVariants`)
+5. Tip 5: How Vue Storefront calculates prices and taxes
+6. Tip 6: Limiting SSR HTML size (a.k.a INITIAL_STATE optimization)
+7. Tip 7: Multistore configuration explained
+8. Tip 8: Url Dispatcher explained + troubledshooting
+9. Tip 9: HTML minimization, compression, headers
+10. Tip 10: Production catalog indexing + cache invalidation
+11. Tip 11: ElasticSearch production setup
+12. Tip 12: .htaccess, server side redirects, HTTP codes and headers, middlewares
+13. Tip 13: Which fields of product, category and attribute are really being used by VSF
+14. Tip 14: Tracing, monitoring, logging the application and Troubleshooting
  - Cloud trace
  - New Relic
  - PM2
  - Output logs explained
-12. Unexpected features (explained by config file properties):
+15. Unexpected features (explained by config file properties):
  - `dynamicConfigReload` - for easier deployments
  - `useExactUrlsNoProxy` - for not using our default image resizer
  - `sourcePriceIncludesTax` vs `finalPriceIncludesTax` - and how the prices work.
@@ -104,3 +105,84 @@ X-VS-Cache-Tags: P1852 P198 C20
 The tags can be used to invalidate the Varnish cache, if you're using it. [Read more on that](https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish).
 
 **Note:**  All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/DivanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (frontend or backend) and it **should be forwarded**. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
+
+
+## Tip 3: Avoiding prices desynchronization (`alwaysSyncPlatformPricesOver`)
+
+Vue Storefront indexers (`magento2-vsbridge-indexer`, `magento1-vsbridge-indexer`, `mage2vuestorefront`) all stores the product prices (before/after catalog rules applied) into the ElasticSearch. Butt ElasticSearch can be easily de-synced or the synchronization can be lagged. To avoid the risk of displaying non current prices to the customers Vue Storefront has at least 3 mechanisms - with the `alwaysSyncPlatformPricesOver` on the top.
+
+**Note:** If you're using the `mage2vuestorefront` for syncing the products please make sure you're syncing the prices **after catalog rules** applied. For this purpose we've a special flags to be set on:
+
+```bash
+export PRODUCTS_SPECIAL_PRICES=true
+export PRODUCTS_RENDER_PRICES=true
+node --harmony cli.js products --removeNonExistent=true --partitions=1
+```
+
+When the `config.products.alwaysSyncPlatformPricesOver` option is on, Vue Storefront will update the prices visible on all the listings and product detail pages **directly from Magento**. The code in charge for this operation is located in the [`doPlatformPricesSync`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L212) helper which is being called from the [`tax/calculateTaxes`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/store/tax/actions.ts#L74) action.
+
+**Note:** This mode works whenever the prices are caluclated server either client's side (`config.tax.calculateServerSide` option).
+
+Check if the [way Vue Storefront syncs the prices](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L216) is exactly what you need, and if not [override this action](https://docs.vuestorefront.io/guide/cookbook/module.html#_2-2-recipe-b-override-vuex-store-with-extendstore).
+
+The `alwaysSyncPlatformPricesOver` mode has two additional options:
+
+1. Clear the prices before sync: `config.products.clearPricesBeforePlatformSync` - when `true`, user won't see the prices cached in Elastic before getting the new prices from Magento
+2. Synchronous mode - `config.products.waitForPlatformSync` -  by default the price sync is running in parallel to disyplaing the product or category content. We can make it synchronous (waiting for this process to finish) in order we'd like to have just the current prices from Magento rendered in the HTML markup (SSR; otherwise the prices in SSR will be from Elastic).
+
+More than that - Vue Storefront always get's the **platform totals** (the final prices visible in the shopping cart and the order summary) from Magento/any other backend. There is then no risk we'll see the product at the wrongly set price.
+
+## Tip 4: Avoiding stock desynchronization (`filterOutUnavailableVariants`)
+
+Pretty much the same case like with the Prices (Tip 3) can occur with the product stocks. By default, all the indexers are setting the [stock information right into the product object](https://github.com/DivanteLtd/vue-storefront-integration-sdk/blob/tutorial/Format-product.md):
+
+ - it's in the main structure of `product.stock`
+ - it's set for the `configurable_children` into `product.configurable_children.stock`.
+
+ This information can be outdated.
+
+ Vue Storefront **by default** checks the current stock information when:
+ - [**user is adding product to the cart**](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/store/actions/itemActions.ts#L53) - this is an async sync (similar one is run when browsing the product variants - you can get info like `0 items available` when switching colors and sizes); `Checkout.js` is waiting for all the results from the [`stock/queueCheck`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/pages/Checkout.js#L69) calls,
+ - when the **cart is synced** with the server - eCommerce backend [checks the product availability once again](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/store/actions/mergeActions.ts#L45) and [notify user](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/components/AddToCart.ts#L31) if the product can't be added to the cart or restores previous quantity (if changed),
+ - when the `filterOutUnavailableVariants` mode is on and the user a) enters the product page, b) browses the category pages.
+
+ The `config.products.filterOutUnavailableVariants` mode is pretty interesting thing because only by having this mode switched on you can be sure we're **not displaying unavailable variants**. When it's true Vue Storefront is taking the Stock information out of Magento and updates the `product.stock` info for the whole product list + product page (current product). Then it removes all the `configurable_children` that are not avaialable. [See the detailed implementation](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L121).
+
+There are two additional settings for this mode on:
+ - `config.prodducts.configurableChildrenStockPrefetchStatic` - when this is true, Vue Storefront is prefetching the stock info for the statically set number of product, it can be configured by `config.products.configurableChildrenStockPrefetchStaticPrefetchCount`,
+ - `config.prodducts.configurableChildrenStockPrefetchDynamic` - when this is set to true, Vue Storefront is prefetching the stock info for any visible product; it's done in the [`ProductTile.vue](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/src/themes/default/components/core/ProductTile.vue#L108) - make sure your theme is supporting this.
+    
+We've got the limited support for Magento MSI in the default implementation. [Make sure you've got it enabled when on Magento 2.3.x](https://github.com/DivanteLtd/vue-storefront-api/pull/226).
+
+**Note:** This feature might then be used for the **Donut caching** strategies (related to Tip 2 - SSR cache).
+
+**Note:** If you need to avoid Magento stock calls there is a way by getting the data with the same format as `https://vue-storefront-api/api/stock/list` is returning but from Elastic. It should be a drop-in replacement - I [mean changing the `stock.endpoint`](https://github.com/DivanteLtd/vue-storefront/blob/bb9044d6aaa36d4881733876f4646fabe7b6e102/config/default.json#L368) to this new one. Et viola: you avoid asking Magento, still having this 'cache punch holing' with `config.products.filterOutUnavailableVariants` mode on
+
+There is a ready made endpoint for getting stock from Elastic (not from Magento) [is here #PR330](https://github.com/DivanteLtd/vue-storefront-api/pull/330).
+
+**Troubleshooting:** If the non-existing variants won't disappear that means some frontend work on your side needs to be done. I mean - with this `filterOutUnavailableVariants` setting, we're pulling the current stock info to `product.stock` and `product.configurable_children.stock` properties. By those properties updated we're then removing the out-of-stock `configurable_children`.
+If the variants arer still available then [take a look at this line](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/store/product/actions.ts#L629) and there should be a change made like:
+
+from:
+
+```js
+        if (isServer) {
+          subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
+          subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
+        } else {
+          attributesPromise.then(() => context.dispatch('setupBreadcrumbs', { product: product })) // if this is client's side request postpone breadcrumbs setup till attributes are loaded to avoid too-early breadcrumb switch #2469
+          context.dispatch('filterUnavailableVariants', { product: product }) // exec async
+        }
+```
+to:
+
+```js
+          subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
+        if (isServer) {
+          subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
+        } else {
+          attributesPromise.then(() => context.dispatch('setupBreadcrumbs', { product: product })) // if this is client's side request postpone breadcrumbs setup till attributes are loaded to avoid too-early breadcrumb switch #2469
+        }
+```
+
+Just in order to make sure that attribute filtering always takes place before rendering the PDP.
