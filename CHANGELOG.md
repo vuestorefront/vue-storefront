@@ -69,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adjusted ProductVideo props to right names - @przspa (#3263)
 - Fixed Doubled SKU row in compare tab - @manvendra-singh1506 (#3447)
 - Fixed warning in product details because of duplicate `product` property in `AddToCompare` mixin - @cewald (#3428)
+- Fixed "Clear Wishlist" Button - @dz3n (#3522)
 
 ### Changed / Improved
 
