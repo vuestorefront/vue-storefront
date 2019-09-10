@@ -477,11 +477,9 @@ app_1  | whole request [/liked]: 1323ms
 You can read [more in depth](#_3-hooking-into-hooks)
 
 ### 2-5. Recipe E (Manage module-level `config`)
-Sometimes you may need to pass values to populate fields in your module configuration dynamically. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`. 
+Sometimes you may need to pass values to populate fields in your module configuration. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`. 
 
-Basically you would have saved your module _configuration_ inside `local.json`, however, you might want to override some of it while registering a module. 
-
-Suppose you need to use a 3rd party service integrated to your storefront. Most of the time you need to provide an API credentials encapsulated in a request to the 3rd party so that they will know _you are you_ and process a service and return a result that belongs to you. This recipe tells you how to do it with overriding 3rd party account during module registration. 
+Suppose you need to use a 3rd party service integrated to your storefront. Most of the time you need to provide an API credentials encapsulated in a request to the 3rd party so that they will know _you are you_ and process a service and return a result that belongs to you. This recipe tells you how to do it with using 3rd party account during module registration. 
 
 
 1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
@@ -502,7 +500,7 @@ export const ExampleModule: StorefrontModule = function (app, store, router, mod
   if (moduleConfig.apiKey) {
     const apiKey = moduleConfig.apiKey
   } else {
-    const apiKey = appConfig.degiService.apiKey // This means you have the apiKey value for degiService in your local.json
+    // raise an error related to failure for sign-in to 3rd party service due to lack of apiKey
   }
 
   // Continue to send a request to the 3rd party as the context demands 
@@ -587,6 +585,8 @@ In this recipe, we look into where they are and how this can be applied to your 
 
 ### 1. Preparation
  - You need a new module to play with. You would already have had one if you finished [_Recipe 1. How to bootstrap a module_](#_1-how-to-bootstrap-a-module)
+ - You need [multistores set up](/guide/cookbook/multistores) (We assume you have set another store up whose `storeCode` is `de`)
+
 :::warning NOTICE
  This recipe deals with hooks as of [_1.10_](/guide/upgrade-notes/#_1-9-1-10). If you work with other versions of _Vue Storefront_, please bear in mind they might be different in detail. 
 :::
@@ -602,12 +602,25 @@ We build a module that applies a discount to certain `storeviews` only.
  - Need a list of points where the discount should be verified.
 
 2. Now start with the first item, create a _configuration_ for the module to consume. 
-`
+```json
+  discountStore: {
+      "enableDiscountPerStoreViews": true,
+      "storeViewsToApplyTo": ["de"],
+      "globalDiscountInPercentage": 25,
+      "allowLocalOverride": true
+  }
+```
+ - `discountStore` contains nodes of configuration for our module.
+   - `enableDiscountPerStoreViews` : This value determines whether to set this module enabled or not. 
+   - `storeViewsToApplyTo` : This array contains the `storeviews` code.
+   - `globalDiscountInPercentage` : This value is how much discount should be applied to target `storeviews`.
+   - `allowLocalOverride` : This value allows to override discount dynamically.
+
+3. Create a module whose name is _hookExample_ (change to your liking)
 
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
-
 
 #### Secret 1. The list of hooks 
 
@@ -627,7 +640,7 @@ We build a module that applies a discount to certain `storeviews` only.
   - `afterUserAuthorize` :
   - `afterUserUnauthorize` :
 
-4. `app` 
+4. `app` _global level_
   - `beforeStoreViewChange` :
   - `afterStoreViewChange` :
   - `afterAppInit` :
@@ -636,6 +649,9 @@ We build a module that applies a discount to certain `storeviews` only.
 The list is of course subject to change, it grows for each core module to handle all use cases. 
 :::
 #### Secret 2. The core hooks design 
+
+#### Secret 3. Rewriting the module again without the hooks
+
 <br />
 <br />
 
