@@ -6,6 +6,7 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 
 This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible.
 
+- The [`formatCategoryLink`](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/url/helpers/index.ts) now supports multistore - adding the `storeCode` when necessary; it could have caused double store prefixes like `/de/de` - but probably only in the Breadcrumbs (#3359)
 - All modules were refactored to new API. You can still register modules in previous format until 2.0
 - `DroppointShipping` and `magento-2-cms `modules were deleted
 - example modules moved to https://github.com/DivanteLtd/vsf-samples
@@ -76,6 +77,8 @@ If by some reasons you wan't to have the `localStorage` back on for `Products by
 - New page-not-found handling requires to update router/index.js in the theme.
 - The option `config.products.lazyLoadingCategoryProducts` was introduced which is responsible for hydrating products list and loading them only on client side. It means there is no category products in the `__INITIAL__STATE__`. It's enabled by default.
 - The modules: `Review`, `Mailer`, `Order`, `RecentlyViewed`, `InstantCheckout` are no longer loaded by default in the main bundle as they are loading on-demand on the related pages.
+- Authentication guard was moved from user module router to `MyAccount` pages mixin.
+- The getters `cmsBlocks`, `cmsBlockIdentifier`, `cmsBlockId` are deprecated. Please use `getCmsBlocks`, `getCmsBlockIdentifier`, `getCmsBlockId` instead.
 
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`EventBus.$on()`) now
@@ -90,6 +93,9 @@ If by some reasons you wan't to have the `localStorage` back on for `Products by
       this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
     }
 ```
+- The getter `cart/totals` has been replaced with `cart/getTotals` - @pkarw (#2522)
+- The getter `cart/coupon` has been replaced with `cart/getCoupon` - @pkarw (#2522)
+- The getter `cart/totalQuantity` has been replaced with `cart/getItemsTotalQuantity` - @pkarw (#2522)
 
 ## 1.8 -> 1.9
 - The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields

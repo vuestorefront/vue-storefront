@@ -29,6 +29,28 @@ Please find the configuration properties reference below.
 
 Vue Storefront starts an HTTP server to deliver the SSR (server-side rendered) pages and static assets. Its node.js server is located in the `core/scripts/server.js`. This is the hostname and TCP port which Vue Storefront is binding.
 
+
+## Seo
+
+```json
+"seo": {
+  "useUrlDispatcher": true,
+  "disableUrlRoutesPersistentCache": true,
+  "defaultTitle": "Vuestore"
+},
+```
+
+When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest [`mage2vuestorefront`] snapshot and reimport Your products to properly set `url_path` fields.
+
+For example, when the `category.url_path` is set to `women/frauen-20` the product will be available under the following URL addresses:
+
+`http://localhost:3000/women/frauen-20`
+`http://localhost:3000/de/women/frauen-20`
+
+For, `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway)
+
+For, `config.seo.defaultTitle` is as name suggest it's default title for the store.
+
 ## Redis
 
 ```json
@@ -122,7 +144,7 @@ This option is used only in the [Multistore setup](../integrations/multistore.md
 ```json
 "storeViews": {
   "multistore": false,
-  "commonCache": true,
+  "commonCache": false,
   "mapStoreUrlsFor": ["de", "it"],
 ```
 
@@ -192,6 +214,14 @@ ElasticSearch settings can be overridden in the specific `storeView` config. You
 ```
 
 Taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/catalog/helpers/tax). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
+
+```json
+    "seo": {
+      "defaultTitle": 'Vuestore'
+    },
+```
+
+SEO section's `defaultTitle` is used at the set title for the specific store.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous, unidentified user (which country is not yet set).
 

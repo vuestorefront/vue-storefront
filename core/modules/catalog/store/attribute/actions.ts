@@ -14,8 +14,8 @@ import reduceAttributesLists from './../../helpers/reduceAttributesLists'
 
 const actions: ActionTree<AttributeState, RootState> = {
   async updateAttributes ({ commit, getters }, { attributes }) {
-    const idsList = getters.attributeListById
-    const codesList = getters.attributeListByCode
+    const idsList = getters.getAttributeListById
+    const codesList = getters.getAttributeListByCode
 
     for (let attr of attributes) {
       if (attr && !config.attributes.disablePersistentAttributesCache) {
@@ -57,8 +57,8 @@ const actions: ActionTree<AttributeState, RootState> = {
    */
   async list ({ getters, dispatch }, { filterValues = null, filterField = 'attribute_code', only_user_defined = false, only_visible = false, size = 150, start = 0, includeFields = config.entities.optimize ? config.entities.attribute.includeFields : null }) {
     const blacklist = getters.getBlacklist
-    const idsList = getters.attributeListById
-    const codesList = getters.attributeListByCode
+    const idsList = getters.getAttributeListById
+    const codesList = getters.getAttributeListByCode
     const orgFilterValues = filterValues || []
 
     await dispatch('loadCachedAttributes', { filterField, filterValues })

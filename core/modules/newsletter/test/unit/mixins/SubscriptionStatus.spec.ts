@@ -205,7 +205,7 @@ describe('SubscriptionStatus', () => {
     expect(wrapper).toMatchInlineSnapshot('<p>should be displayed</p>')
   })
 
-  it('method checkStatus can be called without callbacks', () => {
+  it('method onLoggedIn can be called without callbacks', () => {
     const storeMock = {
       modules: {
         newsletter: {
@@ -218,7 +218,12 @@ describe('SubscriptionStatus', () => {
           namespaced: true
         },
         user: {
-          namespaced: true
+          namespaced: true,
+          state: {
+            current: {
+              email: 'john@doe.com'
+            }
+          }
         }
       }
     }
@@ -235,12 +240,12 @@ describe('SubscriptionStatus', () => {
       }
     });
 
-    (wrapper.vm as any).checkStatus()
+    (wrapper.vm as any).onLoggedIn()
 
     expect(storeMock.modules.newsletter.actions.status).toBeCalled()
   })
 
-  it('method checkStatus can be called without callbacks', () => {
+  it('method onLoggedIn can be called without callbacks', () => {
     const storeMock = {
       modules: {
         newsletter: {
@@ -253,7 +258,12 @@ describe('SubscriptionStatus', () => {
           namespaced: true
         },
         user: {
-          namespaced: true
+          namespaced: true,
+          state: {
+            current: {
+              email: 'john@doe.com'
+            }
+          }
         }
       }
     }
@@ -270,80 +280,8 @@ describe('SubscriptionStatus', () => {
       }
     });
 
-    (wrapper.vm as any).checkStatus()
+    (wrapper.vm as any).onLoggedIn()
 
     expect(storeMock.modules.newsletter.actions.status).toBeCalled()
-  })
-
-  it('method checkStatus handles dispatching fetching status data action that fails', async () => {
-    const storeMock = {
-      modules: {
-        newsletter: {
-          actions: {
-            status: jest.fn(() => Promise.reject('fetching failed'))
-          },
-          getters: {
-            isSubscribed: jest.fn(() => true)
-          },
-          namespaced: true
-        },
-        user: {
-          namespaced: true
-        }
-      }
-    }
-
-    const wrapper = mountMixinWithStore(SubscriptionStatus, storeMock, {
-      mocks: {
-        $emit: jest.fn(),
-        $v: {
-          $invalid: false
-        },
-        $bus: {
-          $on: jest.fn()
-        }
-      }
-    });
-
-    await (wrapper.vm as any).checkStatus()
-
-    expect(storeMock.modules.newsletter.actions.status).toBeCalled()
-  })
-
-  it('method checkStatus handles dispatching fetching status data action that fails with custom handler', async () => {
-    const storeMock = {
-      modules: {
-        newsletter: {
-          actions: {
-            status: jest.fn(() => Promise.reject('fetching failed'))
-          },
-          getters: {
-            isSubscribed: jest.fn(() => true)
-          },
-          namespaced: true
-        },
-        user: {
-          namespaced: true
-        }
-      }
-    }
-
-    const wrapper = mountMixinWithStore(SubscriptionStatus, storeMock, {
-      mocks: {
-        $emit: jest.fn(),
-        $v: {
-          $invalid: false
-        },
-        $bus: {
-          $on: jest.fn()
-        }
-      }
-    });
-
-    const errorHandler = jest.fn()
-
-    await (wrapper.vm as any).checkStatus(() => {}, errorHandler)
-
-    expect(errorHandler).toBeCalled()
   })
 })

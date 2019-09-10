@@ -1,7 +1,7 @@
 <template>
   <div class="media-zoom-carousel">
     <div class="media-zoom-carousel__container row flex">
-      <ul class="media-zoom-carousel__thumbs m0 p0">
+      <ul class="media-zoom-carousel__thumbs m0 p0" ref="thumbs">
         <li class="media-zoom-carousel__thumb bg-cl-secondary" v-for="(images, index) in gallery" :key="images.src">
           <product-image
             @click="navigate(index)"
@@ -87,7 +87,9 @@ export default {
     ProductVideo
   },
   mounted () {
-    disableBodyScroll(this.$el)
+    this.$nextTick(() => {
+      disableBodyScroll(this.$refs.thumbs)
+    })
     this.navigate(this.currentSlide)
     if (this.$refs.zoomCarousel) {
       let navigation = this.$refs.zoomCarousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')

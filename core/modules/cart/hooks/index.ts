@@ -31,13 +31,25 @@ const { hook: afterRemoveFromCartHook, executor: afterRemoveFromCartExecutor }: 
   executor: any
 } = createListenerHook()
 
+const { hook: beforeMergeHook, executor: beforeMergeExecutor }: {
+  hook: (syncMutator: (cart: { clientItems: CartItem[], serverItems: CartItem[] }) => any) => void,
+  executor: any
+} = createMutatorHook()
+
+const { hook: afterLoadHook, executor: afterLoadExecutor }: {
+  hook: (removeFromCartCartListener: (response: any) => any) => void,
+  executor: any
+} = createListenerHook()
+
 const cartHooksExecutors = {
   beforeSync: beforeSyncExecutor,
   afterSync: afterSyncExecutor,
   beforeAddToCart: beforeAddToCartExecutor,
   afterAddToCart: afterAddToCartExecutor,
   beforeRemoveFromCart: beforeRemoveFromCartExecutor,
-  afterRemoveFromCart: afterRemoveFromCartExecutor
+  afterRemoveFromCart: afterRemoveFromCartExecutor,
+  beforeMerge: beforeMergeExecutor,
+  afterLoad: afterLoadExecutor
 }
 
 const cartHooks = {
@@ -46,7 +58,9 @@ const cartHooks = {
   beforeAddToCart: beforeAddToCartHook,
   afterAddToCart: afterAddToCartHook,
   beforeRemoveFromCart: beforeRemoveFromCartHook,
-  afterRemoveFromCart: afterRemoveFromCartHook
+  afterRemoveFromCart: afterRemoveFromCartHook,
+  beforeMerge: beforeMergeHook,
+  afterLoad: afterLoadHook
 }
 
 export {

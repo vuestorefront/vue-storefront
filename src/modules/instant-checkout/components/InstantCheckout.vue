@@ -217,12 +217,12 @@ export default {
           country_id: this.country
         }, { forceServerSync: true }).then(() => {
           this.shippingOptions = []
-          this.$store.state.shipping.methods.forEach(method => {
+          this.$store.getters['checkout/getShippingMethods'].forEach(method => {
             this.shippingOptions.push({
               id: method.method_code,
               carrier_code: method.carrier_code,
               label: method.method_title,
-              selected: setDefault ? this.$store.state.shipping.methods[0].method_code === method.method_code : false,
+              selected: setDefault ? this.$store.getters['checkout/getShippingMethods'][0].method_code === method.method_code : false,
               amount: {
                 currency: storeView.i18n.currencyCode,
                 value: method.price_incl_tax

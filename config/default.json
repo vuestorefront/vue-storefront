@@ -27,7 +27,8 @@
   },
   "seo": {
     "useUrlDispatcher": true,
-    "disableUrlRoutesPersistentCache": true
+    "disableUrlRoutesPersistentCache": true,
+    "defaultTitle": "Vue Storefront"
   },
   "console": {
     "showErrorOnProduction" : false,
@@ -100,7 +101,7 @@
   "defaultStoreCode": "",
   "storeViews": {
     "multistore": false,
-    "commonCache": true,
+    "commonCache": false,
     "mapStoreUrlsFor": ["de", "it"],
     "de": {
       "storeCode": "de",
@@ -128,6 +129,9 @@
         "currencyCode": "EUR",
         "currencySign": "EUR",
         "dateFormat": "HH:mm D-M-YYYY"
+      },
+      "seo": {
+        "defaultTitle": "Vue Storefront"
       }
     },
     "it": {
@@ -151,6 +155,9 @@
         "defaultCountry": "IT",
         "defaultLanguage": "IT",
         "defaultLocale": "it-IT"
+      },
+      "seo": {
+        "defaultTitle": "Vue Storefront"
       }
     }
   },
@@ -286,7 +293,7 @@
     "lazyLoadingCategoryProducts": true,
     "setFirstVarianAsDefaultInURL": false,
     "configurableChildrenStockPrefetchStatic": false,
-    "configurableChildrenStockPrefetchDynamic": false,
+    "configurableChildrenStockPrefetchDynamic": true,
     "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
     "filterUnavailableVariants": false,
     "listOutOfStockProducts": true,

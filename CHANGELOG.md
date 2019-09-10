@@ -30,9 +30,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added test to multistore.ts so it is nearly fully unit tested - @resubaka (#3352)
 - Added test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3351, #3354)
 - Added test to helpers/index.ts so it is partly tested - @resubaka (#3376, 3377)
+- Added hooks in cart module - @andrzejewsky (#3388)
+- Added config for the defaultTitle compitable with multistore - @cnviradiya (#3282)
+- Added husky package to manage lint check only for staged files in git @lorenaramonda (#3444)
+- Change text from "is out of the stock" to "is out of stock" - @indiebytes (#3452)
+- Added general purpose hooks - @andrzejewsky (#3389)
 
 ### Fixed
 
+- Fix 'fist' typos - @jakubmakielkowski (#3491)
+- Fix for wrong breadcrumb urls in the multistore mode - @pkarw (#3359)
+- Fix for displaying gallery images for unavaialble product variants - @pkarw (#3436)
+- Fix for `null` in search query input - @pkarw (#3474)
+- Unable to place order has been fixed; the `entities` module was wrongly imported - @pkarw (#3453)
 - Fixed product link in wishlist and microcart - @michasik (#2987)
 - Fixed naming strategy for product prices - `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; old names have been kept as @deprecated - @pkarw (#2918)
 - The `final_price` field is now being used for setting the `special_price` or `price` of the product (depending on the value); `final_price` might been used along with `special_price` with Magento for the products with activated catalog pricing rules - @pkarw (#3099)
@@ -60,6 +70,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed two bugs in `category-next/getCategoryFrom` (#3286) and `category-next/getCurrentCategory` (#3332) - @cewald (#3295)
 - Fixed login popup close icon position - @przspa (#3393)
 - Fixed styles for original price on Wishlist sidebar - @przspa (#3392)
+- Redirect loop on dispatching dynamic routes in CSR running multistore mode - @cewald, @lukeromanowicz, @resubaka (#3396)
+- Adjusted ProductVideo props to right names - @przspa (#3263)
+- Fixed Doubled SKU row in compare tab - @manvendra-singh1506 (#3447)
+- Fixed warning in product details because of duplicate `product` property in `AddToCompare` mixin - @cewald (#3428)
 
 ### Changed / Improved
 
@@ -83,9 +97,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex order module - @andrzejewsky (#3337)
 - Changed body no-scroll behavior for overlapped element - @przspa (#3363)
 - `config.dynamicConfigReload` option should use deep copy for `Object.assign()` - @cewald (#3372)
+- Add translation for the defaultTitle - @cnviradiya (#3282)
 - Refactored vuex tax module - @andrzejewsky (#3337)
 - Refactored vuex stock module - @andrzejewsky (#3337)
 - Removed extra unnecessary code from BaseInputNumber - @cnviradiya (#3410)
+- Refactored vuex checkout module - @andrzejewsky (#3337)
+- Moved my-account authentication guard to MyAccount core page - @przspa (#3325)
+- Refactored vuex compare module - @andrzejewsky (#3337)
+- Refactored vuex whishlist module - @andrzejewsky (#3337)
+- Refactored vuex cms module - @andrzejewsky (#3337)
+- Refactored vuex review module - @andrzejewsky (#3337)
+- Refactored vuex newsletter module - @andrzejewsky (#3337)
+
+## [1.10.2] - 2019.09.06
+
+### Fixed
+- Product image is missing on PDP - @przspa, @NavaneethVijay (#3483)
+- Mounting app when routes are resolved, should completly remove recent SSR errors - patzick (#3499)
+- Fixed `categoriesDynamicPrefetchLevel` that now can be equal to 0 - @pkarw (#3495)
+
+## [1.10.1] - 2019.09.03
+
+### Fixed
+- Invalid Discount code error handled by theme - @grimasod (#3385)
+- Fallback for empty value or no_selection child image - @ngongoll (#3397)
+- `order.order_id` was not assigned in the `orders.directBackendSync` mode - @pkarw (#3398)
+- Hydration problems with UrlDispatcher :rocket: - @patzick (#3412)
+- if condition of quoteId from the `_serverDeleteItem` method on core/modules/cart/store/action.ts - @AshishSuhane (#3415)
+- Router beforeEach hooks running many times - @grimasod (#3443)
+- test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3450, #3351)
+- changed the theme test path so test in theme are going to work - @resubaka (#3455)
 
 ## [1.10.0] - 2019.08.10
 

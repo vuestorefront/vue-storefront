@@ -49,6 +49,9 @@ export interface StoreView {
     currencyCode: string,
     currencySign: string,
     dateFormat: string
+  },
+  seo: {
+    defaultTitle: string
   }
 }
 
@@ -84,7 +87,8 @@ export function prepareStoreView (storeCode: string): StoreView {
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
     storeCode: null,
-    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1
+    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
+    seo: config.seo || {}
   }
 
   if (config.storeViews.multistore === true) {
@@ -103,14 +107,14 @@ export function prepareStoreView (storeCode: string): StoreView {
   loadLanguageAsync(storeView.i18n.defaultLocale)
 
   if (storeViewHasChanged) {
-    storeView = coreHooksExecutors.beforeStoreViewChange(storeView)
+    storeView = coreHooksExecutors.beforeStoreViewChanged(storeView)
     rootStore.state.storeView = storeView
   }
   if (storeViewHasChanged || StorageManager.currentStoreCode !== storeCode) {
     initializeSyncTaskStorage()
     StorageManager.currentStoreCode = storeView.storeCode
   }
-  coreHooksExecutors.afterStoreViewChange(storeView)
+  coreHooksExecutors.afterStoreViewChanged(storeView)
   return storeView
 }
 
@@ -230,16 +234,16 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 }
 
 export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[]): void {
+  const allStoreRoutes = [...routes]
   if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
-    for (let storeCode of config.storeViews.mapStoreUrlsFor) {
+    for (const storeCode of config.storeViews.mapStoreUrlsFor) {
       if (storeCode && (config.defaultStoreCode !== storeCode)) {
-        let storeRoutes = []
-        for (let route of routes) {
+        for (const route of routes) {
           const localRoute = localizedRoute(Object.assign({}, route), storeCode)
-          storeRoutes.push(localRoute)
+          allStoreRoutes.push(localRoute)
         }
-        RouterManager.addRoutes(storeRoutes, router)
       }
     }
   }
+  RouterManager.addRoutes(allStoreRoutes, router)
 }

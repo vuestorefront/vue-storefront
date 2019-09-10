@@ -1,3 +1,3 @@
-# Chapter 6. Theming  
+# Ch 6. Theming in depth
 
 ## Coming soon!
