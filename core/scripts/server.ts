@@ -9,6 +9,7 @@ const cache = require('./utils/cache-instance')
 const apiStatus = require('./utils/api-status')
 const HTMLContent = require('../pages/Compilation')
 const ssr = require('./utils/ssr-renderer')
+const serverExtensions = require(resolve('src/modules/server'))
 let config = require('config')
 
 const compileOptions = {
@@ -18,11 +19,20 @@ const compileOptions = {
 const NOT_ALLOWED_SSR_EXTENSIONS_REGEX = new RegExp(`(.*)(${config.server.ssrDisabledFor.extensions.join('|')})$`)
 
 const isProd = process.env.NODE_ENV === 'production'
-process.noDeprecation = true
+process['noDeprecation'] = true
 
 const app = express()
 
+serverExtensions.serverModules.forEach(serverModule => {
+  if (Array.isArray(serverModule)) {
+    require(resolve(serverModule[0] + '/server.ts'))(app, serverModule[1])
+  } else {
+    require(resolve(serverModule + '/server.ts'))(app)
+  }
+})
+
 const templatesCache = ssr.initTemplatesCache(config, compileOptions)
+
 let renderer
 
 if (isProd) {
@@ -99,7 +109,7 @@ function invalidateCache (req, res) {
   }
 }
 
-const serve = (path, cache, options) => express.static(resolve(path), Object.assign({
+const serve = (path, cache, options?) => express.static(resolve(path), Object.assign({
   fallthrough: false,
   setHeaders: cache && isProd ? function (res, path) {
     const mimeType = express.static.mime.lookup(path);
@@ -120,9 +130,6 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
     res.set('Content-Type', 'text/javascript; charset=UTF-8')
   }
 }))
-
-const serverExtensions = require(resolve('src/server'))
-serverExtensions.registerUserServerRoutes(app)
 
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
