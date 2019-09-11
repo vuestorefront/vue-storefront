@@ -25,9 +25,9 @@ const app = express()
 
 serverExtensions.serverModules.forEach(serverModule => {
   if (Array.isArray(serverModule)) {
-    require(resolve(serverModule[0] + '/server.js'))(app, serverModule[1])
+    require(resolve(serverModule[0] + '/server.ts'))(app, serverModule[1])
   } else {
-    require(resolve(serverModule + '/server.js'))(app)
+    require(resolve(serverModule + '/server.ts'))(app)
   }
 })
 
