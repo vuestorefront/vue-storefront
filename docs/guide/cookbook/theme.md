@@ -34,3 +34,12 @@ Theme is what customers get first impression from your shop. You will be majorly
 <br />
 <br />
 <br />
+
+## 4. Execuse me, but can I use your theme if I may?
+### 1. Preparation
+### 2. Recipe
+### 3. Peep into the kitchen (what happens internally)
+### 4. Chef's secret (protip)
+<br />
+<br />
+<br />
