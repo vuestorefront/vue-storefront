@@ -7,6 +7,7 @@ const omit = require('lodash/omit')
 const set = require('lodash/set')
 const get = require('lodash/get')
 const config = require('config')
+const minify = require('html-minifier').minify
 
 function createRenderer (bundle, clientManifest, template) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
@@ -67,6 +68,15 @@ function applyAdvancedOutputProcessing (context, output, templatesCache, isProd 
     output = output.replace(new RegExp('href="/', 'g'), `href="${relativePath}/`)
   }
 
+  if (config.server.useHtmlMinifier) {
+    console.debug('HTML Minifier is enabled')
+    output = minify(output, config.server.htmlMinifierOptions)
+  }
+
+  if ((typeof context.output.filter === 'function')) {
+    output = context.output.filter(output, context)
+  }
+
   return output;
 }
 
@@ -88,6 +98,7 @@ function initSSRRequestContext (app, req, res, config) {
     output: {
       prepend: (context) => { return ''; },
       append: (context) => { return ''; },
+      filter: (output, context) => { return output },
       appendHead: (context) => { return ''; },
       template: 'default',
       cacheTags: null
