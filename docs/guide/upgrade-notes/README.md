@@ -5,7 +5,7 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 ## 1.10 -> 1.11
 
 This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible.
-
+- `src/modules/index.ts` was renamed to `client.ts`, exported property was renamed toi `registerClientModules`
 - The [`formatCategoryLink`](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/url/helpers/index.ts) now supports multistore - adding the `storeCode` when necessary; it could have caused double store prefixes like `/de/de` - but probably only in the Breadcrumbs (#3359)
 - All modules were refactored to new API. You can still register modules in previous format until 2.0
 - `DroppointShipping` and `magento-2-cms `modules were deleted
