@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - HTML Minifier has been added, to enable it please switch the `config.server.useHtmlMinifier` - @pkarw (#2182)
-- Output compression moddule has been added; it's enabled by default on produdction builds; to disable it please switch the `src/modules/serrver.ts` configuration - @pkarw (#2182)
+- Output compression module has been added; it's enabled by default on production builds; to disable it please switch the `src/modules/serrver.ts` configuration - @pkarw (#2182)
 - Sort CSV i18n files alphabetically in pre-commit Git hook - @defudef (#2657)
 - Cache invalidate requests forwarding support - @pkarw (#3367)
 - Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057, #3270)
