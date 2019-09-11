@@ -226,7 +226,7 @@ export default {
       }
     },
     categoryLink (category) {
-      return this.formatCategoryLink(category)
+      return formatCategoryLink(category)
     }
   }
 }

@@ -5,7 +5,7 @@ We've marked some issues as "Easy first pick" to make it easier for newcomers to
 
 Thank you for your interest in, and engagement!
 
-Before you type an issue please read about out [release lifecycle](https://docs.vuestorefront.io/guide/basics/project-structure.html)
+Before you type an issue please read about out [release lifecycle](https://docs.vuestorefront.io/guide/basics/release-cycle.html)
 
 # Branches
 
@@ -54,5 +54,5 @@ Here’s how to submit a pull request. <b>Pull request that don't meet these req
 
 Your pull request will be merged after meeting following criteria:
 - Everything from "Pull Request Checklist"
-- PR is proposed to appropiate branch 
+- PR is proposed to appropriate branch 
 - There are at least two approvals from core team members
