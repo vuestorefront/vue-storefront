@@ -126,7 +126,7 @@ export default {
   },
   props: {
     productId: {
-      type: null,
+      type: [String, Number],
       required: true
     }
   },
