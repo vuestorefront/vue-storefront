@@ -36,9 +36,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added husky package to manage lint check only for staged files in git @lorenaramonda (#3444)
 - Change text from "is out of the stock" to "is out of stock" - @indiebytes (#3452)
 - Added general purpose hooks - @andrzejewsky (#3389)
+- Added i18n support for modules - @dz3n (#3369)
 
 ### Fixed
 
+- Fix for comparison list being not preserved between page reloads - @vue-kacper (#3508)
 - Fix 'fist' typos - @jakubmakielkowski (#3491)
 - Fix for wrong breadcrumb urls in the multistore mode - @pkarw (#3359)
 - Fix for displaying gallery images for unavaialble product variants - @pkarw (#3436)
@@ -75,6 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adjusted ProductVideo props to right names - @przspa (#3263)
 - Fixed Doubled SKU row in compare tab - @manvendra-singh1506 (#3447)
 - Fixed warning in product details because of duplicate `product` property in `AddToCompare` mixin - @cewald (#3428)
+- Fixed "Clear Wishlist" Button - @dz3n (#3522)
 
 ### Changed / Improved
 
