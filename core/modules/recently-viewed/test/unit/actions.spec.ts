@@ -16,42 +16,46 @@ describe('RecentlyViewed actions', () => {
     product = {id: 'xyz'};
   });
 
-  it('addItem should add recently viewed item', () => {
-    const contextMock = {
-      commit: jest.fn()
-    };
-    const wrapper = (actions: any) => actions.addItem(contextMock, product);
+  describe('addItem', () => {
+    it('should add recently viewed item', () => {
+      const contextMock = {
+        commit: jest.fn()
+      };
+      const wrapper = (actions: any) => actions.addItem(contextMock, product);
 
-    wrapper(recentlyViewedActions);
+      wrapper(recentlyViewedActions);
 
-    expect(contextMock.commit).toBeCalledWith(types.RECENTLY_VIEWED_ADD_ITEM, { product });
+      expect(contextMock.commit).toBeCalledWith(types.RECENTLY_VIEWED_ADD_ITEM, { product });
+    });
   });
 
-  it('load should add storedItems from cache', () => {
-    const contextMock = {
-      commit: jest.fn()
-    };
-    const wrapper = (actions: any) => actions.load(contextMock);
+  describe('load', () => {
+    it('should add storedItems from cache', () => {
+      const contextMock = {
+        commit: jest.fn()
+      };
+      const wrapper = (actions: any) => actions.load(contextMock);
 
-    cacheStorage.getItem.mockImplementationOnce(
-      jest.fn((cacheType, callback) => callback(null, [product]))
-    )
+      cacheStorage.getItem.mockImplementationOnce(
+        jest.fn((cacheType, callback) => callback(null, [product]))
+      )
 
-    wrapper(recentlyViewedActions);
+      wrapper(recentlyViewedActions);
 
-    expect(contextMock.commit).toBeCalledWith(types.RECENTLY_VIEWED_LOAD, [product]);
-  });
+      expect(contextMock.commit).toBeCalledWith(types.RECENTLY_VIEWED_LOAD, [product]);
+    });
 
-  it('load should throw error if there is a problem while loading storedItems', () => {
-    const contextMock = {
-      commit: jest.fn()
-    };
-    const wrapper = (actions: any) => actions.load(contextMock);
+    it('should throw error if there is a problem while loading storedItems', () => {
+      const contextMock = {
+        commit: jest.fn()
+      };
+      const wrapper = (actions: any) => actions.load(contextMock);
 
-    cacheStorage.getItem.mockImplementationOnce(
-      jest.fn((cacheType, callback) => callback(new Error('test'), [product]))
-    );
+      cacheStorage.getItem.mockImplementationOnce(
+        jest.fn((cacheType, callback) => callback(new Error('test'), [product]))
+      );
 
-    expect(wrapper.bind(null, recentlyViewedActions)).toThrowError('test');
+      expect(wrapper.bind(null, recentlyViewedActions)).toThrowError('test');
+    });
   });
 })
