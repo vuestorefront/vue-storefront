@@ -254,6 +254,8 @@ The general rule of thumb is that **when you remove anything from the intial sta
 
 See how we did it for [`Category.vue`](https://github.com/DivanteLtd/vue-storefront/blob/ab27bfbd8abef5f1d37666a38fa0387f50ba6eca/src/themes/default/pages/Category.vue#L70) - where the hydration is being manually triggered by the [`loading`](https://github.com/DivanteLtd/vue-storefront/blob/ab27bfbd8abef5f1d37666a38fa0387f50ba6eca/src/themes/default/pages/Category.vue#L70) flag.
 
+**Note:** Please make sure if you're loading your category tree dynamically - as the category trees can be truly heavy with all these subcategories included. By default Vue Storefront offers this [dynamic category prefetching from v1.7](https://docs.vuestorefront.io/guide/basics/configuration.html#dynamic-categories-prefetching).
+
 You can save up to 30-40% of the page size which positively improve the Lighthouse/Pagespeed scores. However not always improves the User Experience - as the lazy hydration typically requires you to fetch the required data by another network call (which can be skipped by the initial state mechanism).
 
 Of course, in the end please make sure that you compress (gzip + minify) the SSR output - probably on [nginx level](https://www.digitalocean.com/community/tutorials/how-to-increase-pagespeed-score-by-changing-your-nginx-configuration-on-ubuntu-16-04) or using the [compression](https://www.npmjs.com/package/compression) and/or [minify](https://www.npmjs.com/package/express-minify) middleware added to the [`core/scripts/server.js`](https://github.com/DivanteLtd/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/core/scripts/server.js#L116)
