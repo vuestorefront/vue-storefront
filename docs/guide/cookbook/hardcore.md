@@ -15,7 +15,7 @@ Some of the topics here were found as a [frequently asked questions from our For
 3. <a href="#tip3">Tip 3: Avoiding prices desynchronization (`alwaysSyncPlatformPricesOver`)</a>
 4. <a href="#tip4">Tip 4: Avoiding stock desynchronization (`filterOutUnavailableVariants`)</a>
 5. <a href="#tip5">Tip 5: How Vue Storefront calculates prices and taxes</a>
-6. Tip 6: Limiting SSR HTML size (a.k.a INITIAL_STATE optimization)
+6. <a href="#tip6">Tip 6: Limiting SSR HTML size (a.k.a INITIAL_STATE optimization)</a>
 7. Tip 7: Multistore configuration explained
 8. Tip 8: Url Dispatcher explained + troubledshooting
 9. Tip 9: HTML minimization, compression, headers
@@ -232,3 +232,29 @@ Product Original price (set only if `final_price` or `special_price` are lower t
 
 **Note:** The prices are being set for all `configurable_children` with the exact same format
 **Note:** If any of the `configurable_children` has the price lower than the main product, the main product price will be updated accordingly.
+
+## <a id="tip6">Tip 6: Limiting SSR HTML size (a.k.a INITIAL_STATE optimization)</a>
+
+One of the key side-effects of the [Server Side Rendering](https://vuejs.org/v2/guide/ssr.html) is the need to provide the initial Vuex state right to the browser just before the page will be hydrated. 
+
+Hydration means - Vue.js is matching the statically generated HTML markup with virtually generated (CSR) Vue.js component tree. **Only after this process site becomes interactive**. Even slightly different markup might cause SSR hydration errors. Therefore, Vue.js is requiring us to [output the `window.__INITIAL_STATE__`](https://github.com/DivanteLtd/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/core/client-entry.ts#L29) which is then used to **replace** the Vuex initial state. Then, the [app is being hydrated](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/client-entry.ts#L111) by `app.mount()` call.
+
+The only problem is, that the `__INITIAL_STATE__` can be really huuuuuuuge. On category pages, including a lot of product listings it can be in megabytes!
+Vue Storefront provides you with few mechanisms to control the initial state.
+
+1. Vue Storefront provides you a mechanism to control the `__INITIAL_STATE__` [based on the `config.ssr.initialStateFilter`](https://github.com/DivanteLtd/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/core/scripts/utils/ssr-renderer.js#L40) fields list. So you can remove the fields from `__INITIAL_STATE__` - even using the `.` notation. So you can put `attribute` on the list to remove the whole state for `attribute` Vuex module OR you can specify `attribte.list_by_code` to remove just that. By using this mechanism, you can process much more data in the SSR than are send to the browser (see point no. 2 which is just about opposite approach to limit the set of processed information).
+
+2. You might also want to use the [`config.entities.*.includeFields`](https://github.com/DivanteLtd/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/config/default.json#L170) filter. These lists of fields are set to limit the number of fields [loaded from Elastic](https://github.com/DivanteLtd/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/core/lib/search.ts#L31). If you add any new field to your entity though, please make sure you also included it in the `includeFields` list.
+
+By using any of those mechanisms you must be fully aware of the **hydration damage** they might cause. In order to prevent any hydration issues, you might use [`lazy-hydrate`](https://github.com/maoberlehner/vue-lazy-hydration) that will let you control the hydration flow for specific parts (components) on the page. Especially the [manual hydration](https://github.com/maoberlehner/vue-lazy-hydration#manually-trigger-hydration) can be usefull.
+
+The general rule of thumb is that **when you remove anything from the intial state** then you shoud:
+- load this data ASAP in the client side (eg. in `beforeMount`),
+- hydrate the component **only after** the data was loaded.
+
+See how we did it for [`Category.vue`](https://github.com/DivanteLtd/vue-storefront/blob/ab27bfbd8abef5f1d37666a38fa0387f50ba6eca/src/themes/default/pages/Category.vue#L70) - where the hydration is being manually triggered by the [`loading`](https://github.com/DivanteLtd/vue-storefront/blob/ab27bfbd8abef5f1d37666a38fa0387f50ba6eca/src/themes/default/pages/Category.vue#L70) flag.
+
+You can save up to 30-40% of the page size which positively improve the Lighthouse/Pagespeed scores. However not always improves the User Experience - as the lazy hydration typically requires you to fetch the required data by another network call (which can be skipped by the initial state mechanism).
+
+Of course, in the end please make sure that you compress (gzip + minify) the SSR output - probably on [nginx level](https://www.digitalocean.com/community/tutorials/how-to-increase-pagespeed-score-by-changing-your-nginx-configuration-on-ubuntu-16-04) or using the [compression](https://www.npmjs.com/package/compression) and/or [minify](https://www.npmjs.com/package/express-minify) middleware added to the [`core/scripts/server.js`](https://github.com/DivanteLtd/vue-storefront/blob/8f3ce717a823ef3a5c7469082b8a8bcb36abb5c1/core/scripts/server.js#L116)
+
