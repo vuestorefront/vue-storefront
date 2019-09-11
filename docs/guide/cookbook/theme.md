@@ -1,3 +1,5 @@
 # Ch 6. Theming in depth
 
-## Coming soon!
+In this chapter, we are going to cover : 
+[[toc]]
+
