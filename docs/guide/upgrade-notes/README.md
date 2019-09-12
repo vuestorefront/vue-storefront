@@ -5,7 +5,7 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 ## 1.10 -> 1.11
 
 This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible.
-
+- `src/modules/index.ts` was renamed to `client.ts`, exported property was renamed toi `registerClientModules`
 - The [`formatCategoryLink`](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/url/helpers/index.ts) now supports multistore - adding the `storeCode` when necessary; it could have caused double store prefixes like `/de/de` - but probably only in the Breadcrumbs (#3359)
 - All modules were refactored to new API. You can still register modules in previous format until 2.0
 - `DroppointShipping` and `magento-2-cms `modules were deleted
@@ -312,7 +312,7 @@ We fixed SSR memory leaks with #1882. It should not affect your custom code, but
 
 #### GraphQL
 
-We added GraphQL support. Please read more on the [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md). Starting from this release, the **bodybuilder** package is **deprecated**. You should use the **SearchQuery** internal class that can be used against API and GraphQL endpoints. Read more on [how to query data](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md).
+We added GraphQL support. Please read more on the [GraphQL Action Plan](/guide/basics/graphql.html). Starting from this release, the **bodybuilder** package is **deprecated**. You should use the **SearchQuery** internal class that can be used against API and GraphQL endpoints. Read more on [how to query data](/guide/data/elastic-queries.html).
 
 #### SSR: Advanced output and cache
 
