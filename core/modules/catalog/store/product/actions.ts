@@ -203,7 +203,7 @@ const actions: ActionTree<ProductState, RootState> = {
       Logger.log('Checking configurable parent')()
 
       let searchQuery = new SearchQuery()
-      searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': context.state.current.sku}})
+      searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': context.getters.getCurrentProduct.sku}})
 
       return context.dispatch('list', {query: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
         if (resp.items.length >= 1) {
@@ -243,17 +243,16 @@ const actions: ActionTree<ProductState, RootState> = {
     let subloaders = []
     if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_options')) {
       subloaders.push(context.dispatch('product/loadConfigurableAttributes', { product }, { root: true }).then((attributes) => {
-        context.state.current_options = {
-        }
+        let productOptions = {}
         for (let option of product.configurable_options) {
           for (let ov of option.values) {
             let lb = ov.label ? ov.label : optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
             if (trim(lb) !== '') {
               let optionKey = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
-              if (!context.state.current_options[optionKey]) {
-                context.state.current_options[optionKey] = []
+              if (!productOptions[optionKey]) {
+                productOptions[optionKey] = []
               }
-              context.state.current_options[optionKey].push({
+              productOptions[optionKey].push({
                 label: lb,
                 id: ov.value_index,
                 attribute_code: option.attribute_code
@@ -261,8 +260,8 @@ const actions: ActionTree<ProductState, RootState> = {
             }
           }
         }
-        Vue.set(context.state, 'current_options', context.state.current_options)
-        let selectedVariant = context.state.current
+        context.commit(types.PRODUCT_SET_CURRENT_OPTIONS, productOptions)
+        let selectedVariant = context.getters.getCurrentProduct
         populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
       }).catch(err => {
         Logger.error(err)()
@@ -532,13 +531,13 @@ const actions: ActionTree<ProductState, RootState> = {
 
   setCurrentOption (context, productOption) {
     if (productOption && typeof productOption === 'object') { // TODO: this causes some kind of recurrency error
-      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.state.current, { product_option: productOption }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.getters.getCurrentProduct, { product_option: productOption }))
     }
   },
 
   setCurrentErrors (context, errors) {
     if (errors && typeof errors === 'object') {
-      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.state.current, { errors: errors }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.getters.getCurrentProduct, { errors: errors }))
     }
   },
   /**
@@ -546,7 +545,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   setCustomOptions (context, { customOptions, product }) {
     if (customOptions) { // TODO: this causes some kind of recurrency error
-      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.state.current, customOptions: customOptions }) }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.getters.getCurrentProduct, customOptions: customOptions }) }))
     }
   },
   /**
@@ -554,7 +553,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   setBundleOptions (context, { bundleOptions, product }) {
     if (bundleOptions) { // TODO: this causes some kind of recurrency error
-      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.state.current, bundleOptions: bundleOptions }) }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.getters.getCurrentProduct, bundleOptions: bundleOptions }) }))
     }
   },
   /**
@@ -648,7 +647,7 @@ const actions: ActionTree<ProductState, RootState> = {
   setProductGallery (context, { product }) {
     if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_children')) {
       if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
-        context.commit(types.PRODUCT_SET_GALLERY, attributeImages(context.state.current))
+        context.commit(types.PRODUCT_SET_GALLERY, attributeImages(context.getters.getCurrentProduct))
       } else {
         let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
         context.commit(types.PRODUCT_SET_GALLERY, productGallery)
