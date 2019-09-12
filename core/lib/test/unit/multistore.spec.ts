@@ -674,7 +674,21 @@ describe('Multistore', () => {
       expect(localizedRouteConfig(route, storeCode)).toEqual(expectedRoute)
     })
 
-    it('add storeCode only for children route name', () => {
+    it('change only route name for child route', () => {
+      const storeCode = 'de'
+      const childRoute = {
+        path: '/test2',
+        name: 'test2'
+      }
+      const expectedRoute = {
+        path: '/test2',
+        name: 'de-test2'
+      }
+
+      expect(localizedRouteConfig(childRoute, storeCode, true)).toEqual(expectedRoute)
+    })
+
+    it('add localization for nested routes', () => {
       const storeCode = 'de'
       const route = {
         path: '/test',
@@ -685,7 +699,7 @@ describe('Multistore', () => {
             name: 'test2',
             children: [
               {
-                path: 'test3',
+                path: '/test3',
                 name: 'test3'
               }
             ]
@@ -701,7 +715,7 @@ describe('Multistore', () => {
             name: 'de-test2',
             children: [
               {
-                path: 'test3',
+                path: '/test3',
                 name: 'de-test3'
               }
             ]
