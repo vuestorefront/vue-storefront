@@ -290,7 +290,7 @@ const actions: ActionTree<ProductState, RootState> = {
       else commit(types.PRODUCT_SET_PAGED_PRODUCTS, searchResult)
     }
 
-    EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: searchResult })
+    EventBus.$emit('product-after-list', { query, start, size, sort, entityType, meta, result: searchResult })
 
     return searchResult
   },
