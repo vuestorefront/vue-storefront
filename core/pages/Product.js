@@ -145,7 +145,6 @@ export default {
       this.product.price = this.originalProduct.price + priceDelta
       this.product.price_incl_tax = this.originalProduct.price_incl_tax + priceDeltaInclTax
     },
-    // TODO move this logic to helper
     onAfterBundleOptionsChanged (payload) {
       let priceDelta = 0
       let priceDeltaInclTax = 0
@@ -225,7 +224,6 @@ export default {
       }
     }
   },
-  // TODO move to Product.vue
   metaInfo () {
     const storeView = currentStoreView()
     return {

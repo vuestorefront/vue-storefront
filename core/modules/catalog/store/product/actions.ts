@@ -592,6 +592,13 @@ const actions: ActionTree<ProductState, RootState> = {
     context.commit(types.PRODUCT_SET_RELATED, { key, items })
   },
 
+  // Deprecated methods, remove in 2.0
+  async fetch () {
+    throw new Error('product/fetch has been moved into product/loadProduct')
+  },
+  async fetchAsync () {
+    throw new Error('product/fetchAsync has been moved into product/loadProduct')
+  },
   /**
    * Load the product data and sets current product
    */
