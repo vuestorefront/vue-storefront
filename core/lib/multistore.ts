@@ -253,7 +253,7 @@ export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteC
  * @param isChildRoute - determines if route config is for child route
  */
 export function localizedRouteConfig (route: RouteConfig, storeCode: string, isChildRoute: boolean = false): RouteConfig {
-  // create shallow copy to prevent modifications in provided route object
+  // note: we need shallow copy to prevent modifications in provided route object
   const _route = {...route}
 
   if (_route.name) {
