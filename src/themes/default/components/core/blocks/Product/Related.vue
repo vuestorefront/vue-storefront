@@ -59,7 +59,6 @@ export default {
     this.$bus.$off('product-after-load', this.refreshList)
   },
   methods: {
-    // TODO move this to vuex action
     async refreshList () {
       let sku = this.productLinks ? this.productLinks
         .filter(pl => pl.link_type === this.type)

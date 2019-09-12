@@ -20,7 +20,6 @@ export default {
     }
   },
   computed: {
-    // TODO rename product getters and use proper names here
     ...mapGetters({
       product: 'product/getCurrentProduct',
       originalProduct: 'product/getOriginalProduct',
@@ -59,7 +58,6 @@ export default {
       return currentStoreView()
     }
   },
-  // TODO simplify invoking asyncData with beforeRouteUpdate
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     EventBus.$emit('product-before-load', { store: store, route: route })
     if (context) context.output.cacheTags.add(`product`)
