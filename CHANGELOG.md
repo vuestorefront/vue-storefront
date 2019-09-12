@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fix for the product attribute labels displayedd on the PDP - @pkarw (#3530)
 - Fix for comparison list being not preserved between page reloads - @vue-kacper (#3508)
 - Fix 'fist' typos - @jakubmakielkowski (#3491)
 - Fix for wrong breadcrumb urls in the multistore mode - @pkarw (#3359)
