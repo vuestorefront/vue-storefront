@@ -13,7 +13,10 @@
         </header>
       </div>
       <div class="row center-xs">
-        <product-listing columns="4" :products="everythingNewCollection" />
+        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+          <product-listing columns="4" :products="everythingNewCollection" />
+        </lazy-hydrate>
+        <product-listing v-else columns="4" :products="everythingNewCollection" />
       </div>
     </section>
 
@@ -35,6 +38,7 @@
 // query constructor
 import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
+import LazyHydrate from 'vue-lazy-hydration'
 
 // Core pages
 import Home from '@vue-storefront/core/pages/Home'
@@ -54,13 +58,19 @@ import { registerModule } from '@vue-storefront/core/lib/modules'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
 
 export default {
+  data () {
+    return {
+      loading: true
+    }
+  },
   mixins: [Home],
   components: {
     HeadImage,
     Onboard,
     ProductListing,
     PromotedOffers,
-    TileLinks
+    TileLinks,
+    LazyHydrate
   },
   computed: {
     ...mapGetters('user', ['isLoggedIn']),
@@ -70,11 +80,11 @@ export default {
     everythingNewCollection () {
       return this.$store.state.homepage.new_collection
     },
-    coolBagsCollection () {
-      return this.$store.state.homepage.coolbags_collection
-    },
     isOnline () {
       return onlineHelper.isOnline
+    },
+    isLazyHydrateEnabled () {
+      return config.ssr.lazyHydrateFor.includes('homepage')
     }
   },
   beforeCreate () {
@@ -107,7 +117,6 @@ export default {
     Logger.info('Calling asyncData in Home (theme)')()
 
     let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
-    let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })
 
     const newProductsResult = await store.dispatch('product/list', {
       query: newProductsQuery,
@@ -116,16 +125,6 @@ export default {
     })
     if (newProductsResult) {
       store.state.homepage.new_collection = newProductsResult.items
-    }
-
-    const coolBagsResult = await store.dispatch('product/list', {
-      query: coolBagsQuery,
-      size: 4,
-      sort: 'created_at:desc',
-      includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
-    })
-    if (coolBagsResult) {
-      store.state.homepage.coolbags_collection = coolBagsResult.items
     }
 
     await store.dispatch('promoted/updateHeadImage')
@@ -139,6 +138,9 @@ export default {
           query: newProductsQuery,
           size: 8,
           sort: 'created_at:desc'
+        }).then(res => {
+          vm.$store.state.homepage.new_collection = res.items
+          vm.loading = false
         })
       })
     } else {
