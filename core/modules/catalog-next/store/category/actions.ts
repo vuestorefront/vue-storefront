@@ -156,11 +156,11 @@ const actions: ActionTree<CategoryState, RootState> = {
     await dispatch('loadCategories', {filters: categoryFilters})
   },
   async loadProductCategories ({ dispatch }, product: Product) {
-    let categoryIds = []
-    if (!product) return categoryIds
-    if (product && product.category_ids) categoryIds = product.category_ids
-    const categoryFilters = { 'id': categoryIds }
-    return dispatch('loadCategories', {filters: categoryFilters})
+    if (product && product.category_ids) {
+      const categoryFilters = { 'id': product.category_ids }
+      return dispatch('loadCategories', {filters: categoryFilters})
+    }
+    return []
   }
 }
 
