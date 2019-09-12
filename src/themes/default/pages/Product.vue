@@ -352,7 +352,7 @@ export default {
     this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
   },
   async asyncData ({ store, route }) {
-    const product = await store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
+    const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
     // setup breadcrumbs
     const productCategories = await store.dispatch('category-next/loadProductCategories', product)
     const category = store.getters['category-next/getCategoryFrom'](route.path)

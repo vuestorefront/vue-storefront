@@ -594,9 +594,12 @@ const actions: ActionTree<ProductState, RootState> = {
   },
 
   /**
-   * Load the product data
+   * Load the product data and sets current product
    */
-  async fetch ({ dispatch }, { parentSku, childSku = null }) {
+  async loadProduct ({ dispatch }, { parentSku, childSku = null, route = null }) {
+    Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
+    EventBus.$emit('product-before-load', { store: rootStore, route: route })
+    await dispatch('reset')
     // pass both id and sku to render a product
     const productSingleOptions = {
       sku: parentSku,
@@ -628,6 +631,7 @@ const actions: ActionTree<ProductState, RootState> = {
     if (config.products.preventConfigurableChildrenDirectAccess) {
       await dispatch('checkConfigurableParent', { product: product })
     }
+    await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
     return product
   },
   /**
@@ -653,18 +657,6 @@ const actions: ActionTree<ProductState, RootState> = {
       let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
       context.commit(types.PRODUCT_SET_GALLERY, productGallery)
     }
-  },
-
-  /**
-   * Load the product data - async version for asyncData()
-   */
-  async fetchAsync (context, { parentSku, childSku = null, route = null }) {
-    Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
-    EventBus.$emit('product-before-load', { store: rootStore, route: route })
-    await context.dispatch('reset')
-    const product = await context.dispatch('fetch', { parentSku: parentSku, childSku: childSku })
-    await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
-    return product
   }
 }
 

@@ -63,7 +63,7 @@ export default {
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
     EventBus.$emit('product-before-load', { store: store, route: route })
     if (context) context.output.cacheTags.add(`product`)
-    return store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
+    return store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
   beforeRouteUpdate (to, from, next) {
     this.validateRoute(to) // TODO: remove because client-entry.ts is executing `asyncData` anyway
@@ -98,7 +98,7 @@ export default {
     validateRoute (route = this.$route) {
       if (!this.loading) {
         this.loading = true
-        this.$store.dispatch('product/fetchAsync', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null }).then(res => {
+        this.$store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null }).then(res => {
           this.loading = false
           this.defaultOfflineImage = this.product.image
           this.onStateCheck()
