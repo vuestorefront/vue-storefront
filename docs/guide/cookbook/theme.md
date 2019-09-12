@@ -13,6 +13,9 @@ Theme is what customers get first impression from your shop. You will be majorly
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
+#### Secret 1. What is `amp` here and there?
+#### Secret 2. 
+
 <br />
 <br />
 <br />
