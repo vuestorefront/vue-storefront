@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added husky package to manage lint check only for staged files in git @lorenaramonda (#3444)
 - Change text from "is out of the stock" to "is out of stock" - @indiebytes (#3452)
 - Added general purpose hooks - @andrzejewsky (#3389)
-
+- Added lazy hydration for home page - @filrak (#3496)
 ### Fixed
 
 - Fix 'fist' typos - @jakubmakielkowski (#3491)
