@@ -72,7 +72,7 @@
                     {{ option.label }}
                     <span
                       class="weight-700"
-                    >{{ getCurrentProductConfiguration[option.attribute_code ? option.attribute_code : option.label.toLowerCase()].label }}</span>
+                    >{{ getOptionLabel(option) }}</span>
                   </div>
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                     <div v-if="option.label == 'Color'">
@@ -291,6 +291,12 @@ export default {
       getOriginalProduct: 'product/getOriginalProduct',
       attributesByCode: 'attribute/attributeListByCode'
     }),
+    getOptionLabel () {
+      return (option) => {
+        const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
+        return this.getCurrentProductConfiguration[configName] ? this.getCurrentProductConfiguration[configName].label : configName
+      }
+    },
     isOnline (value) {
       return onlineHelper.isOnline
     },
