@@ -34,8 +34,8 @@ const mutations: MutationTree<ProductState> = {
   [types.PRODUCT_SET_CURRENT] (state, product) {
     state.current = product
   },
-  [types.PRODUCT_RESET_CURRENT] (state, productOriginal) {
-    state.current = productOriginal || {}
+  [types.PRODUCT_RESET_CURRENT] (state, originalProduct) {
+    state.current = Object.assign({}, originalProduct)
     state.current_configuration = {}
     state.offlineImage = null
     state.parent = null

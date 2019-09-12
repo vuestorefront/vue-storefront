@@ -283,10 +283,10 @@ All state members should have been accessed only by getters. Please take a look 
 ```js
 const getters = {
   getParentProduct: state => state.parent,
-  productCurrent: state => state.current,
-  currentConfiguration: state => state.current_configuration,
-  productOriginal: state => state.original,
-  currentOptions: state => state.current_options,
+  getCurrentProduct: state => state.current,
+  getCurrentProductConfiguration: state => state.current_configuration,
+  getOriginalProduct: state => state.original,
+  getCurrentProductOptions: state => state.current_options,
   breadcrumbs: state => state.breadcrumbs,
 };
 ```

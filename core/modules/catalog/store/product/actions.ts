@@ -38,8 +38,8 @@ const actions: ActionTree<ProductState, RootState> = {
    * Reset current configuration and selected variatnts
    */
   reset (context) {
-    const productOriginal = context.getters.productOriginal
-    context.commit(types.PRODUCT_RESET_CURRENT, productOriginal)
+    const originalProduct = Object.assign({}, context.getters.getOriginalProduct)
+    context.commit(types.PRODUCT_RESET_CURRENT, originalProduct)
   },
   /**
    * Setup product breadcrumbs path
@@ -319,7 +319,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
     if (configuration) {
       const selectedVariant = configureProductAsync(context, { product: prod, selectDefaultVariant: false, configuration })
-      Object.assign(prod, omit(selectedVariant, ['visibility']))
+      prod = Object.assign({}, prod, omit(selectedVariant, ['visibility']))
     }
 
     return prod
@@ -421,7 +421,7 @@ const actions: ActionTree<ProductState, RootState> = {
           // todo: probably a good idea is to change this [0] to specific id
           const selectedVariant = configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
           if (selectedVariant && assignDefaultVariant) {
-            prod = Object.assign(prod, selectedVariant)
+            prod = Object.assign({}, prod, selectedVariant)
           }
         } else if (!skipCache || (prod.type_id === 'simple' || prod.type_id === 'downloadable')) {
           if (setCurrentProduct) context.dispatch('setCurrent', prod)
@@ -565,15 +565,15 @@ const actions: ActionTree<ProductState, RootState> = {
   setCurrent (context, productVariant) {
     if (productVariant && typeof productVariant === 'object') {
       // get original product
-      const productOriginal = context.getters.productOriginal
+      const originalProduct = context.getters.getOriginalProduct
 
       // check if passed variant is the same as original
-      const productUpdated = Object.assign({}, productOriginal, productVariant)
+      const productUpdated = Object.assign({}, originalProduct, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
       if (!config.products.gallery.mergeConfigurableChildren) {
         context.commit(types.PRODUCT_SET_GALLERY, attributeImages(productVariant))
       }
-      context.commit(types.PRODUCT_SET_CURRENT, productUpdated)
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, productUpdated))
       return productUpdated
     } else Logger.debug('Unable to update current product.', 'product')()
   },
@@ -583,7 +583,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Object} originalProduct
    */
   setOriginal (context, originalProduct) {
-    if (originalProduct && typeof originalProduct === 'object') context.commit(types.PRODUCT_SET_ORIGINAL, originalProduct)
+    if (originalProduct && typeof originalProduct === 'object') context.commit(types.PRODUCT_SET_ORIGINAL, Object.assign({}, originalProduct))
     else Logger.debug('Unable to setup original product.', 'product')()
   },
   /**

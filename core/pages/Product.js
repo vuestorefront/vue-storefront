@@ -22,16 +22,16 @@ export default {
   computed: {
     // TODO rename product getters and use proper names here
     ...mapGetters({
-      product: 'product/productCurrent',
-      originalProduct: 'product/getParentProduct',
+      product: 'product/getCurrentProduct',
+      originalProduct: 'product/getOriginalProduct',
       parentProduct: 'product/getParentProduct',
       attributesByCode: 'attribute/getAttributeListByCode',
       attributesById: 'attribute/getAttributeListById',
-      breadcrumbs: 'product/breadcrumbs',
-      configuration: 'product/currentConfiguration',
-      options: 'product/currentOptions',
+      breadcrumbs: 'category-next/getBreadcrumbs',
+      configuration: 'product/getCurrentProductConfiguration',
+      options: 'product/getCurrentProductOptions',
       category: 'category/getCurrentCategory',
-      gallery: 'product/productGallery',
+      gallery: 'product/getProductGallery',
       isUserGroupedTaxActive: 'tax/getIsUserGroupedTaxActive'
     }),
     productName () {
