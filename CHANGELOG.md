@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fix the mix of informal and polite personal pronouns for German translations - @nhp (#3533)
 - Fix for comparison list being not preserved between page reloads - @vue-kacper (#3508)
 - Fix 'fist' typos - @jakubmakielkowski (#3491)
 - Fix for wrong breadcrumb urls in the multistore mode - @pkarw (#3359)
