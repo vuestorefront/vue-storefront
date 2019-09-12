@@ -4,7 +4,7 @@
 
     <promoted-offers />
 
-    <section class="new-collection container px15" v-if="everythingNewCollection && everythingNewCollection.length">
+    <section class="new-collection container px15" v-if="getEverythingNewCollection && getEverythingNewCollection.length">
       <div>
         <header class="col-md-12">
           <h2 class="align-center cl-accent">
@@ -13,13 +13,13 @@
         </header>
       </div>
       <div class="row center-xs">
-        <product-listing columns="4" :products="everythingNewCollection" />
+        <product-listing columns="4" :products="getEverythingNewCollection" />
       </div>
     </section>
 
     <section v-if="isOnline" class="container pb60 px15">
       <div class="row center-xs">
-        <header class="col-md-12" :class="{ pt40: everythingNewCollection && everythingNewCollection.length }">
+        <header class="col-md-12" :class="{ pt40: getEverythingNewCollection && getEverythingNewCollection.length }">
           <h2 class="align-center cl-accent">
             {{ $t('Get inspired') }}
           </h2>
@@ -60,11 +60,9 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['isLoggedIn']),
+    ...mapGetters('homepage', ['getEverythingNewCollection']),
     categories () {
       return this.getCategories
-    },
-    everythingNewCollection () {
-      return this.$store.state.homepage.new_collection
     },
     isOnline () {
       return onlineHelper.isOnline

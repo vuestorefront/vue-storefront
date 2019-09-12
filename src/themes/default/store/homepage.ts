@@ -9,7 +9,7 @@ export const homepageStore = {
     fetchNewCollection ({ commit, dispatch }) {
       const newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
 
-      dispatch('product/list', {
+      return dispatch('product/list', {
         query: newProductsQuery,
         size: 8,
         sort: 'created_at:desc'
@@ -25,5 +25,10 @@ export const homepageStore = {
     SET_NEW_COLLECTION (state, products) {
       state.new_collection = products || []
     }
+  },
+  getters: {
+    getEverythingNewCollection (state) {
+      return state.new_collection
+    },
   }
 }
