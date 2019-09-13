@@ -42,10 +42,6 @@ const state = {
   stock: {
     cache: []
   },
-  homepage: {
-    new_collection: [],
-    coolbags_collection: []
-  },
   storeView: {},
   twoStageCachingDelta1: 0,
   twoStageCachingDelta2: 0,
