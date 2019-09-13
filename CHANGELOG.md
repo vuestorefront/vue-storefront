@@ -82,7 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed warning in product details because of duplicate `product` property in `AddToCompare` mixin - @cewald (#3428)
 - Fixed "Clear Wishlist" Button - @dz3n (#3522)
 - Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
-- Fix invalid routes in ButtonOutline - @lukeromanowicz  (#3541)
+- Fix invalid routes in ButtonOutline - @lukeromanowicz (#3541)
 
 ### Changed / Improved
 
