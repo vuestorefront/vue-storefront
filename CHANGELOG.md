@@ -123,6 +123,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex newsletter module - @andrzejewsky (#3337)
 - Optimized fetching product data on homepage - @lukeromanowicz (#3512)
 - `localizedRoute()` now supports path (and prefers over fullPath) in LocalizedRoute objects - @lukeromanowicz (#3515)
+- `localizedRoute()` doesn't return urlDispatcher routes anymore. Use localizedDispatcherRoute instead - @lukeromanowicz (#3548)
 
 ## [1.10.2] - 2019.09.06
 
