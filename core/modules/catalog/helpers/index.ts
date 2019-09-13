@@ -27,6 +27,15 @@ function _filterRootProductByStockitem (context, stockItem, product, errorCallba
   }
 }
 
+/**
+ * check if object have an image
+ */
+export const hasImage = (product) => product && product.image && product.image !== 'no_selection'
+/**
+ * check if one of the configuableChildren has an image
+ */
+export const childHasImage = (children = []) => children.some(hasImage)
+
 export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
   let regularProductPrice = product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax
   let selectedVariant = product.configurable_children.find((configurableChild) => {
@@ -504,7 +513,7 @@ export function configureProductAsync (context, { product, configuration, select
         Logger.debug('Skipping configurable options setup', configuration)()
       } */
       const fieldsToOmit = ['name']
-      if (selectedVariant.image === '') fieldsToOmit.push('image')
+      if (!hasImage(selectedVariant)) fieldsToOmit.push('image')
       selectedVariant = omit(selectedVariant, fieldsToOmit) // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
       // use chosen variant for the current product
       if (selectDefaultVariant) {
@@ -581,11 +590,11 @@ export function attributeImages (product) {
 
 export function configurableChildrenImages (product) {
   let configurableChildrenImages = []
-  if (product.configurable_children && product.configurable_children.length > 0) {
+  if (childHasImage(product.configurable_children)) {
     let configurableAttributes = product.configurable_options.map(option => option.attribute_code)
     configurableChildrenImages = product.configurable_children.map(child =>
       ({
-        'src': getThumbnailPath(child.image, config.products.gallery.width, config.products.gallery.height),
+        'src': getThumbnailPath((!hasImage(child) ? product.image : child.image), config.products.gallery.width, config.products.gallery.height),
         'loading': getThumbnailPath(product.image, config.products.thumbnails.width, config.products.thumbnails.height),
         'id': configurableAttributes.reduce((result, attribute) => {
           result[attribute] = child[attribute]
