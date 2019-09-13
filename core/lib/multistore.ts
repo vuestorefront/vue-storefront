@@ -202,19 +202,31 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
     return appendStoreCodePrefix ? `/${storeCode}${routeObj}` : routeObj
   }
 
-  if (routeObj && routeObj.fullPath) { // case of using dispatcher
-    const routeCodePrefix = config.defaultStoreCode !== storeCode && appendStoreCodePrefix ? `/${storeCode}` : ''
-    const qrStr = queryString.stringify(routeObj.params);
+  if (routeObj) {
+    if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
+      routeObj['path'] = (routeObj as LocalizedRoute).fullPath
+    }
 
-    return `${routeCodePrefix}/${routeObj.fullPath}${qrStr ? `?${qrStr}` : ''}`
+    if (routeObj.path) { // case of using dispatcher
+      const routeCodePrefix = config.defaultStoreCode !== storeCode && appendStoreCodePrefix ? `/${storeCode}` : ''
+      const qrStr = queryString.stringify(routeObj.params);
+
+      return `${routeCodePrefix}/${routeObj.path}${qrStr ? `?${qrStr}` : ''}`
+    }
   }
 
   return routeObj
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
-  if (routeObj && (routeObj as LocalizedRoute).fullPath && config.seo.useUrlDispatcher) {
-    return localizedDispatcherRoute(Object.assign({}, routeObj) as LocalizedRoute, storeCode)
+  if (typeof routeObj === 'object') {
+    if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
+      routeObj['path'] = (routeObj as LocalizedRoute).fullPath
+    }
+
+    if ((routeObj as LocalizedRoute).path && config.seo.useUrlDispatcher) {
+      return localizedDispatcherRoute(Object.assign({}, routeObj) as LocalizedRoute, storeCode)
+    }
   }
   if (storeCode && routeObj && config.defaultStoreCode !== storeCode && config.storeViews[storeCode].appendStoreCode) {
     if (typeof routeObj === 'object') {

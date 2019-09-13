@@ -39,10 +39,10 @@ const RouterManager = {
     if (route) return route
     return this._routeQueueFlushed ? null : this._routeQueue.find(queueItem => queueItem.route.name === name)
   },
-  findByPath: function (fullPath: string): RouteConfig {
-    const route = this._registeredRoutes.findIndex(r => r.fullPath === fullPath)
+  findByPath: function (path: string): RouteConfig {
+    const route = this._registeredRoutes.find(r => r.path === path)
     if (route) return route
-    return this._routeQueueFlushed ? null : this._routeQueue.find(queueItem => queueItem.route.fullPath === fullPath)
+    return this._routeQueueFlushed ? null : this._routeQueue.find(queueItem => queueItem.route.path === path)
   },
   lockRoute: function () {
     let resolver
