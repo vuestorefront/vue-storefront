@@ -219,7 +219,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
-  if (typeof routeObj === 'object') {
+  if ((typeof routeObj === 'object') && (routeObj as LocalizedRoute)) {
     if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
       routeObj['path'] = (routeObj as LocalizedRoute).fullPath
     }
