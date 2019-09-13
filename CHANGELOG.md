@@ -124,7 +124,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optimized fetching product data on homepage - @lukeromanowicz (#3512)
 - `localizedRoute()` now supports path (and prefers over fullPath) in LocalizedRoute objects - @lukeromanowicz (#3515)
 - `localizedRoute()` doesn't return urlDispatcher routes anymore. Use localizedDispatcherRoute instead - @lukeromanowicz (#3548)
-- Improved translations: Replaced concatenations with "named formatting" (see http://kazupon.github.io/vue-i18n/guide/formatting.html#named-formatting) - @phoenixdev-kl (#)
+- Improved translations: Replaced concatenations with "named formatting" (see http://kazupon.github.io/vue-i18n/guide/formatting.html#named-formatting) - @phoenixdev-kl (#3550)
 
 ## [1.10.2] - 2019.09.06
 
