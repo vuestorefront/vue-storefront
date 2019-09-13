@@ -1,14 +1,7 @@
 import createLoadReviewsQuery from '../../../helpers/createLoadReviewsQuery'
 
 const SearchQuery = {
-  _appliedFilters: [],
-  applyFilter: jest.fn(({key, value}) => ({
-    ...SearchQuery,
-    _appliedFilters: [{
-      attribute: key,
-      value: value
-    }]
-  }))
+  applyFilter: jest.fn(() => SearchQuery)
 }
 
 jest.mock('@vue-storefront/core/lib/search/searchQuery', () => () => SearchQuery)
@@ -18,17 +11,18 @@ describe('createLoadReviewsQuery', () => {
     jest.clearAllMocks();
   });
 
-  it('add filter for product_id attribute', () => {
-    const query = createLoadReviewsQuery({ productId: 1, approved: false })
+  it('add filter only for productId argument', () => {
+    createLoadReviewsQuery({ productId: 123, approved: false })
 
-    expect(query._appliedFilters[0].attribute).toBe('product_id');
-    expect(query._appliedFilters[0].value).toEqual({'eq': 1});
+    expect(SearchQuery.applyFilter).toBeCalledTimes(1)
+    expect(SearchQuery.applyFilter).toBeCalledWith({key: 'product_id', value: {'eq': 123}});
   });
 
-  it('add filter for review_status attribute', () => {
-    const query = createLoadReviewsQuery({ productId: 1, approved: true })
+  it('add filter for productId and approved arguments', () => {
+    createLoadReviewsQuery({ productId: 123, approved: true })
 
-    expect(query._appliedFilters[0].attribute).toBe('review_status');
-    expect(query._appliedFilters[0].value).toEqual({'eq': 1});
+    expect(SearchQuery.applyFilter).toBeCalledTimes(2)
+    expect(SearchQuery.applyFilter).toBeCalledWith({key: 'product_id', value: {'eq': 123}});
+    expect(SearchQuery.applyFilter).toBeCalledWith({key: 'review_status', value: {'eq': 1}});
   });
 })
