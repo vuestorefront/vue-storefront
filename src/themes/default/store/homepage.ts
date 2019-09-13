@@ -6,19 +6,19 @@ export const homepageStore = {
     new_collection: []
   },
   actions: {
-    fetchNewCollection ({ commit, dispatch }) {
+    async fetchNewCollection ({ commit, dispatch }) {
       const newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
 
-      return dispatch('product/list', {
+      const newProductsResult = await dispatch('product/list', {
         query: newProductsQuery,
         size: 8,
         sort: 'created_at:desc'
       }, { root: true })
-        .then(newProductsResult => newProductsResult && dispatch(
-          'category-next/configureProducts',
-          { products: newProductsResult.items },
-          { root: true })
-        ).then(configuredProducts => commit('SET_NEW_COLLECTION', configuredProducts))
+      const configuredProducts = await dispatch(
+        'category-next/configureProducts',
+        { products: newProductsResult.items 
+      }, { root: true })
+      commit('SET_NEW_COLLECTION', configuredProducts)
     }
   },
   mutations: {
