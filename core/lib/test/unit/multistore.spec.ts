@@ -660,6 +660,13 @@ describe('Multistore', () => {
 
       expect(localizedRoutePath(path, storeCode)).toBe('/de/test')
     })
+
+    it('add storeCode to route path with hash', () => {
+      const storeCode = 'de'
+      const path = '/test#test'
+
+      expect(localizedRoutePath(path, storeCode)).toBe('/de/test#test')
+    })
   })
 
   describe('localizedRouteConfig', () => {
