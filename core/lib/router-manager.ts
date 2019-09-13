@@ -12,38 +12,55 @@ const RouterManager = {
     if (useRouteQueue && !this._routeQueueFlushed) {
       this._routeQueue.push(...routes.map(route => { return { route: route, priority: priority } }))
     } else {
-      const uniqueRoutes = routes.filter((route) => !this.isRouteAdded(this._registeredRoutes, route)) // to do - priority
+      const uniqueRoutes = routes.filter((route) => !this.isRouteAdded(this._registeredRoutes, route))
       if (uniqueRoutes.length > 0) {
-        this._registeredRoutes.push(...uniqueRoutes)
+        this._registeredRoutes.push(...uniqueRoutes.map(route => { return { route: route, priority: priority } }))
         routerInstance.addRoutes(uniqueRoutes)
       }
     }
   },
   flushRouteQueue: function (routerInstance: VueRouter = router): void {
     if (!this._routeQueueFlushed) {
-      const readyQueue = this._routeQueue.map(queueItem => queueItem.route).filter(item => typeof item === 'object') // to do - priority, add once only
+      // const readyQueue = this._routeQueue.map(queueItem => queueItem.route) // .filter(item => typeof item === 'object') // to do - priority, add once only
       // console.log('readyQueue', readyQueue)
-      this._registeredRoutes.push(...readyQueue)
-      routerInstance.addRoutes(readyQueue)
+      // this._registeredRoutes.push(...readyQueue)
+      // routerInstance.addRoutes(readyQueue)
+      this.addRoutesByPriority(this._routeQueue, routerInstance)
       this._routeQueueFlushed = true
       this._routeQueue = []
     }
   },
-  isRouteAdded: function (addedRoutes: RouteConfig[], route: RouteConfig) {
-    return addedRoutes.findIndex((addedRoute) => addedRoute.name === route.name && addedRoute.path === route.path) >= 0
+  addRoutesByPriority: function (routesData, routerInstance: VueRouter) {
+    const routesToAdd = []
+    for (const routeData of routesData) {
+      let exisitingIndex = routesToAdd.findIndex(r => r.route.name === routeData.route.name && r.route.path === routeData.route.path)
+      if ((exisitingIndex >= 0) && (routesToAdd[exisitingIndex].priority < routeData.priority)) { // same priority doesn't override exisiting
+        routesToAdd.splice(exisitingIndex, 1)
+        console.log('exisiting', routeData.route.name)
+        exisitingIndex = -1
+      }
+      if (exisitingIndex < 0) {
+        routesToAdd.push(routeData)
+      }
+    }
+    this._registeredRoutes.push(...routesToAdd)
+    routerInstance.addRoutes(routesToAdd.map(r => r.route))
+  },
+  isRouteAdded: function (addedRoutes: any[], route: RouteConfig) {
+    return addedRoutes.findIndex((addedRoute) => addedRoute.route.name === route.name && addedRoute.route.path === route.path) >= 0
   },
   addDispatchCallback: function (callback: Function) {
     this._callbacks.push(callback)
   },
   findByName: function (name: string): RouteConfig {
-    const registeredRoute = this._registeredRoutes.findIndex(r => r.name === name)
+    const registeredRoute = this._registeredRoutes.find(r => r.route.name === name)
     if (registeredRoute) return registeredRoute
     if (this._routeQueueFlushed) return null
     const queuedRoute = this._routeQueue.find(queueItem => queueItem.route.name === name)
     return queuedRoute ? queuedRoute.route : null
   },
   findByPath: function (path: string): RouteConfig {
-    const registeredRoute = this._registeredRoutes.find(r => r.path === path)
+    const registeredRoute = this._registeredRoutes.find(r => r.route.path === path)
     if (registeredRoute) return registeredRoute
     if (this._routeQueueFlushed) return null
     const queuedRoute = this._routeQueue.find(queueItem => queueItem.route.path === path)
