@@ -34,7 +34,7 @@
               itemprop="sku"
               :content="product.sku"
             >
-              {{ $t('SKU') }}: {{ product.sku }}
+              {{ $t('SKU: {sku}', { sku: product.sku }) }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">

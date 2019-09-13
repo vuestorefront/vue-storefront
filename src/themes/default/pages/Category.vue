@@ -59,7 +59,7 @@
         </div>
         <div class="col-md-9 px10 border-box products-list">
           <p class="col-xs-12 end-md m0 pb20 cl-secondary">
-            {{ getCategoryProductsTotal }} {{ $t('items') }}
+            {{ $t('{count} items', { count: getCategoryProductsTotal }) }}
           </p>
           <div v-if="isCategoryEmpty" class="hidden-xs">
             <h4 data-testid="noProductsInfo">
