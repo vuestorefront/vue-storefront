@@ -142,8 +142,12 @@
                 @blur="$v.$touch()"
                 :validations="[
                   {
-                    condition: $v.product.qty.$error && !$v.product.qty.minValue,
-                    text: $t('Quantity must be above 0')
+                    condition: !$v.product.qty.numeric || !$v.product.qty.minValue,
+                    text: $t(`Quantity must be positive integer`)
+                  },
+                  {
+                    condition: quantity && product.qty && !$v.product.qty.maxValue,
+                    text: $t(`Quantity must be below ${quantity}`)
                   }
                 ]"
               />
@@ -152,7 +156,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="product"
-                :disabled="($v.product.qty.$error && !$v.product.qty.minValue) || !quantity && isSimpleOrConfigurable && !isProductLoading"
+                :disabled="(!$v.product.qty.minValue || !$v.product.qty.maxValue || !$v.product.qty.numeric) || (!quantity && isSimpleOrConfigurable && !isProductLoading)"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -211,7 +215,7 @@
 </template>
 
 <script>
-import { minValue } from 'vuelidate/lib/validators'
+import { minValue, maxValue, numeric } from 'vuelidate/lib/validators'
 import i18n from '@vue-storefront/i18n'
 import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
@@ -392,10 +396,14 @@ export default {
         })
     }
   },
-  validations: {
-    product: {
-      qty: {
-        minValue: minValue(1)
+  validations () {
+    return {
+      product: {
+        qty: {
+          minValue: minValue(1),
+          maxValue: maxValue(this.quantity),
+          numeric: numeric
+        }
       }
     }
   }
