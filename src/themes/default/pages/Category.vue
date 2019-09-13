@@ -138,7 +138,7 @@ export default {
       getAvailableFilters: 'category-next/getAvailableFilters'
     }),
     isLazyHydrateEnabled () {
-      return config.products.lazyLoadingCategoryProducts
+      return config.ssr.lazyHydrateFor.includes('category-next.products')
     },
     isCategoryEmpty () {
       return this.getCategoryProductsTotal === 0
