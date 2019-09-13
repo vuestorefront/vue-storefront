@@ -218,8 +218,8 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   return routeObj
 }
 
-export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
-  if ((typeof routeObj === 'object') && (routeObj as LocalizedRoute)) {
+export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string, doDispatcherCheck: boolean = true): any {
+  if (doDispatcherCheck && (typeof routeObj === 'object') && (routeObj as LocalizedRoute)) {
     if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
       routeObj['path'] = (routeObj as LocalizedRoute).fullPath
     }
@@ -251,7 +251,7 @@ export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteC
     for (const storeCode of config.storeViews.mapStoreUrlsFor) {
       if (storeCode && (config.defaultStoreCode !== storeCode)) {
         for (const route of routes) {
-          const localRoute = localizedRoute(Object.assign({}, route), storeCode)
+          const localRoute = localizedRoute(Object.assign({}, route), storeCode, false)
           allStoreRoutes.push(localRoute)
         }
       }
