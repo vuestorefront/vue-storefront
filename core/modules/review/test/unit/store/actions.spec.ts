@@ -4,9 +4,11 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { createLoadReviewsQuery } from '@vue-storefront/core/modules/review/helpers'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { ReviewsService } from '@vue-storefront/core/data-resolver'
 
 jest.mock('@vue-storefront/core/helpers', () => ({
-  once: (str) => jest.fn()
+  once: (str) => jest.fn(),
+  processLocalizedURLAddress: jest.fn()
 }))
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/store', () => ({
@@ -28,6 +30,16 @@ jest.mock('@vue-storefront/core/modules/review/helpers', () => ({
 jest.mock('@vue-storefront/core/lib/search/searchQuery', () => ({
   SearchQuery: jest.fn()
 }));
+jest.mock('@vue-storefront/core/lib/sync', () => ({
+  TaskQueue: {
+    execute: jest.fn(() => Promise.resolve({code: 200}))
+  }
+}))
+jest.mock('@vue-storefront/core/data-resolver', () => ({
+  ReviewsService: {
+    createReview: jest.fn(() => true)
+  }
+}))
 
 EventBus.$emit = jest.fn()
 
@@ -84,4 +96,57 @@ describe('Review actions', () => {
       expect(contextMock.commit).toBeCalledWith(types.REVIEW_UPD_REVIEWS, expect.anything());
     });
   });
+
+  describe('add', () => {
+    it('notify about starting process of adding a review', () => {
+      const contextMock = {
+        commit: jest.fn()
+      };
+      const payload = expect.anything()
+      const wrapper = (actions: any) => actions.add(contextMock, payload);
+
+      wrapper(reviewActions);
+
+      expect(EventBus.$emit).toBeCalledWith('notification-progress-start', expect.anything())
+    });
+
+    it('notify about finished process of adding a review', async () => {
+      const contextMock = {
+        commit: jest.fn()
+      };
+      const payload = expect.anything()
+      const wrapper = (actions: any) => actions.add(contextMock, payload);
+
+      await wrapper(reviewActions);
+
+      expect(EventBus.$emit).toBeCalledWith('notification-progress-stop')
+    });
+
+    it('send event to clear review form after success', async () => {
+      const contextMock = {
+        commit: jest.fn()
+      };
+      const payload = expect.anything()
+      const wrapper = (actions: any) => actions.add(contextMock, payload);
+
+      await wrapper(reviewActions);
+
+      expect(EventBus.$emit).toBeCalledTimes(3)
+      expect(EventBus.$emit).toBeCalledWith('clear-add-review-form')
+    });
+
+    it('don\'t send event to clear review form after fail', async () => {
+      const contextMock = {
+        commit: jest.fn()
+      };
+      const payload = expect.anything()
+      const wrapper = (actions: any) => actions.add(contextMock, payload);
+
+      (ReviewsService.createReview as jest.Mock).mockImplementationOnce(jest.fn(() => false))
+
+      await wrapper(reviewActions);
+
+      expect(EventBus.$emit).toBeCalledTimes(2)
+    });
+  })
 })
