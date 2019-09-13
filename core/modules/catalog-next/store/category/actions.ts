@@ -128,7 +128,11 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryFilters ({ dispatch, getters }, category) {
     const searchCategory = category || getters.getCurrentCategory
     let filterQr = buildFilterProductsQuery(searchCategory)
-    const searchResult = await quickSearchByQuery({ query: filterQr })
+    const searchResult = await quickSearchByQuery({
+      query: filterQr,
+      size: 999, // This is temporary, there should be a dedicated query for that
+      excludeFields: ['*']
+    })
     await dispatch('loadAvailableFiltersFrom', searchResult)
   },
   async loadAvailableFiltersFrom ({ commit, getters }, {aggregations}) {
