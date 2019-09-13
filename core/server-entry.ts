@@ -8,6 +8,7 @@ import buildTimeConfig from 'config'
 import { AsyncDataLoader } from '@vue-storefront/core/lib/async-data-loader'
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { RouterManager } from './lib/router-manager';
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
@@ -57,6 +58,7 @@ function getHostFromHeader (headers: string[]): string {
 
 export default async context => {
   const { app, router, store, initialState } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig)
+  RouterManager.flushRouteQueue(router)
   context.initialState = initialState
   return new Promise((resolve, reject) => {
     context.output.cacheTags = new Set<string>()

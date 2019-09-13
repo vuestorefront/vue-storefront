@@ -40,7 +40,7 @@ function prepareDynamicRoute (routeData: LocalizedRoute, fullPath: string, addTo
       return [dynamicRoute]
     }
   } else {
-    return null
+    return []
   }
 }
 
@@ -52,13 +52,13 @@ export function processDynamicRoute (routeData: LocalizedRoute, fullPath: string
   return preparedRoutes
 }
 
-export function processMultipleDynamicRoutes (dispatcherMap: {}, addToRoutes: boolean = true): LocalizedRoute[] {
+export function preProcessDynamicRoutes (dispatcherMap: {}, addToRoutes: boolean = true): LocalizedRoute[] {
   const preparedRoutes = []
   for (const [url, routeData] of Object.entries(dispatcherMap)) {
     preparedRoutes.push(...prepareDynamicRoute(routeData, url, addToRoutes))
   }
   if (addToRoutes) {
-    RouterManager.addRoutes(preparedRoutes, router)
+    RouterManager.addRoutes(preparedRoutes, router, true)
   }
   return preparedRoutes
 }

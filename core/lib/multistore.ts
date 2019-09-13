@@ -245,5 +245,5 @@ export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteC
       }
     }
   }
-  RouterManager.addRoutes(allStoreRoutes, router)
+  RouterManager.addRoutes(allStoreRoutes, router, true)
 }

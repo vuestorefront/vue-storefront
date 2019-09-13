@@ -6,7 +6,7 @@ import { cacheStorage } from '../'
 import queryString from 'query-string'
 import config from 'config'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { processMultipleDynamicRoutes, normalizeUrlPath, parametrizeRouteData } from '../helpers'
+import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData } from '../helpers'
 import { storeCodeFromRoute, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 
 // it's a good practice for all actions to return Promises with effect of their execution
@@ -32,7 +32,7 @@ export const actions: ActionTree<UrlState, any> = {
   async registerDynamicRoutes ({ state, dispatch }) {
     if (!state.dispatcherMap) return
 
-    processMultipleDynamicRoutes(state.dispatcherMap)
+    preProcessDynamicRoutes(state.dispatcherMap)
     const registrationRoutePromises = Object.keys(state.dispatcherMap).map(url => {
       const routeData = state.dispatcherMap[url]
       return dispatch('registerMapping', { url, routeData })

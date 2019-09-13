@@ -30,6 +30,9 @@ const invokeClientEntry = async () => {
   }
 
   await store.dispatch('url/registerDynamicRoutes')
+
+  RouterManager.flushRouteQueue(router)
+
   function _commonErrorHandler (err, reject) {
     if (err.message.indexOf('query returned empty result') > 0) {
       rootStore.dispatch('notification/spawnNotification', {
