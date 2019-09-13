@@ -233,17 +233,17 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
       return localizedDispatcherRoute(Object.assign({}, routeObj) as LocalizedRoute, storeCode)
     }
   }
-  if (storeCode && routeObj && config.defaultStoreCode !== storeCode && config.storeViews[storeCode].appendStoreCode) {
-    if (typeof routeObj === 'object') {
-      if (routeObj.name) {
-        routeObj.name = storeCode + '-' + routeObj.name
-      }
 
-      if (routeObj.path) {
-        routeObj.path = '/' + storeCode + '/' + (routeObj.path.startsWith('/') ? routeObj.path.slice(1) : routeObj.path)
-      }
-    } else {
+  if (storeCode && config.defaultStoreCode !== storeCode && config.storeViews[storeCode].appendStoreCode) {
+    if (typeof routeObj !== 'object') {
       return '/' + storeCode + routeObj
+    }
+    if (routeObj.name) {
+      routeObj.name = storeCode + '-' + routeObj.name
+    }
+
+    if (routeObj.path) {
+      routeObj.path = '/' + storeCode + '/' + (routeObj.path.startsWith('/') ? routeObj.path.slice(1) : routeObj.path)
     }
   }
 
