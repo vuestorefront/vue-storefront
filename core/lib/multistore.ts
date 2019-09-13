@@ -219,6 +219,11 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
+  if (!routeObj) {
+    Logger.error('Invalid route provided to localize.', null, routeObj)()
+    return routeObj
+  }
+
   if (typeof routeObj === 'object') {
     if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
       routeObj['path'] = (routeObj as LocalizedRoute).fullPath
@@ -228,12 +233,12 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
       return localizedDispatcherRoute(Object.assign({}, routeObj) as LocalizedRoute, storeCode)
     }
   }
-  if (storeCode && routeObj && config.defaultStoreCode !== storeCode && config.storeViews[storeCode].appendStoreCode) {
-    if (typeof routeObj === 'object') {
-      return localizedRouteConfig(routeObj as RouteConfig, storeCode)
-    } else {
+
+  if (storeCode && config.defaultStoreCode !== storeCode && config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode) {
+    if (typeof routeObj !== 'object') {
       return localizedRoutePath(routeObj, storeCode)
     }
+    return localizedRouteConfig(routeObj as RouteConfig, storeCode)
   }
 
   return routeObj
