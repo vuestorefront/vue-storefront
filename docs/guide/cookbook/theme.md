@@ -18,7 +18,10 @@ We already got our hands dirty to place all the core business logic in place and
 In this recipe, we will walk through how `default` theme works in cooperation with other core parts of the `app` such as `modules`, `filters`, `stores` and so on. 
 
 ### 1. Preparation
+- You need [Vue Storefront](https://github.com/DivanteLtd/vue-storefront) app [working](/guide/cookbook/setup.html). 
+
 ### 2. Recipe
+1. 
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 #### Secret 1. What is `amp` here and there?
