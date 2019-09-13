@@ -234,7 +234,7 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
     }
   }
 
-  if (storeCode && config.defaultStoreCode !== storeCode && config.storeViews[storeCode].appendStoreCode) {
+  if (storeCode && config.defaultStoreCode !== storeCode && config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode) {
     if (typeof routeObj !== 'object') {
       return '/' + storeCode + routeObj
     }
