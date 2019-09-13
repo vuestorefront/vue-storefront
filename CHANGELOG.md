@@ -81,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adjusted ProductVideo props to right names - @przspa (#3263)
 - Fixed Doubled SKU row in compare tab - @manvendra-singh1506 (#3447)
 - Fixed warning in product details because of duplicate `product` property in `AddToCompare` mixin - @cewald (#3428)
+- Fixed adding unconfigured product to cart from homepage - @lukeromanowicz (#3512) 
 - Fixed "Clear Wishlist" Button - @dz3n (#3522)
 - Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
 - Fix invalid routes in ButtonOutline and ButtonFull - @lukeromanowicz (#3541, #3545)
@@ -120,6 +121,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex cms module - @andrzejewsky (#3337)
 - Refactored vuex review module - @andrzejewsky (#3337)
 - Refactored vuex newsletter module - @andrzejewsky (#3337)
+- Optimized fetching product data on homepage - @lukeromanowicz (#3512)
 - `localizedRoute()` now supports path (and prefers over fullPath) in LocalizedRoute objects - @lukeromanowicz (#3515)
 
 ## [1.10.2] - 2019.09.06
