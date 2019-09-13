@@ -248,7 +248,7 @@ export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteC
   const allStoreRoutes = [...routes]
   const isMultistore = config.storeViews.multistore === true
   // returns only active storeCodes based on global config
-  const getActiveStoreCode = storeCode => config.storeViews[storeCode].appendStoreCode && (config.defaultStoreCode !== storeCode)
+  const getActiveStoreCode = storeCode => (config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode) && (config.defaultStoreCode !== storeCode)
   const mapStoreUrlsFor = config.storeViews.mapStoreUrlsFor.filter(getActiveStoreCode)
 
   if (isMultistore) {
