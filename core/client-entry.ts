@@ -12,7 +12,6 @@ import { AsyncDataLoader } from './lib/async-data-loader'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import globalConfig from 'config'
 import { coreHooksExecutors } from './hooks'
-import { RouterManager } from './lib/router-manager'
 
 declare var window: any
 
@@ -67,8 +66,9 @@ const invokeClientEntry = async () => {
       _commonErrorHandler(err, next)
     })
   }
-  router.onReady(async () => {
+  router.onReady(() => {
     router.beforeResolve((to, from, next) => {
+      app.$mount('#app')
       if (!from.name) return next() // do not resolve asyncData on server render - already been done
       if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
       const matched = router.getMatchedComponents(to)
@@ -106,13 +106,6 @@ const invokeClientEntry = async () => {
         }
       }))
     })
-    // Mounting app
-    if (RouterManager.getRouteLock()) {
-      await RouterManager.getRouteLock()
-      app.$mount('#app')
-    } else {
-      app.$mount('#app')
-    }
   })
   registerSyncTaskProcessor()
   window.addEventListener('online', () => { onNetworkStatusChange(store) })
