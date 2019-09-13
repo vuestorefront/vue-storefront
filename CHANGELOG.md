@@ -37,10 +37,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change text from "is out of the stock" to "is out of stock" - @indiebytes (#3452)
 - Added general purpose hooks - @andrzejewsky (#3389)
 - Added i18n support for modules - @dz3n (#3369)
+- Added tests for actions and mutations in 'core/modules/recently-viewed' - @gibkigonzo (#3467)
 
 ### Fixed
 
 - Fix for the product attribute labels displayedd on the PDP - @pkarw (#3530)
+- Fix the mix of informal and polite personal pronouns for German translations - @nhp (#3533)
 - Fix for comparison list being not preserved between page reloads - @vue-kacper (#3508)
 - Fix 'fist' typos - @jakubmakielkowski (#3491)
 - Fix for wrong breadcrumb urls in the multistore mode - @pkarw (#3359)
@@ -79,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed Doubled SKU row in compare tab - @manvendra-singh1506 (#3447)
 - Fixed warning in product details because of duplicate `product` property in `AddToCompare` mixin - @cewald (#3428)
 - Fixed "Clear Wishlist" Button - @dz3n (#3522)
+- Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
 
 ### Changed / Improved
 
@@ -115,6 +118,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex review module - @andrzejewsky (#3337)
 - Refactored vuex newsletter module - @andrzejewsky (#3337)
 - Changed type of Id fields related to product, category and attribute to support numeric as well as string - @adityasharma7 (#3456)
+- `localizedRoute()` now supports path (and prefers over fullPath) in LocalizedRoute objects - @lukeromanowicz (#3515)
 
 ## [1.10.2] - 2019.09.06
 
