@@ -36,7 +36,7 @@ import globalConfig from 'config'
 
 import { injectReferences } from '@vue-storefront/core/lib/modules'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
-import { registerNewModules } from 'src/modules';
+import { registerClientModules } from 'src/modules/client';
 
 function createRouter (): VueRouter {
   return new VueRouter({
@@ -125,7 +125,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   }
 
   injectReferences(app, store, router, globalConfig)
-  registerNewModules()
+  registerClientModules()
   registerModules(enabledModules, appContext)
   registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
 
