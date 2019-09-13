@@ -31,7 +31,7 @@
               {{ $t("You can allow us to remind you about the order via push notification after coming back online. You'll only need to click on it to confirm.") }}
             </p>
              <p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted">
-              {{ $t("Or if you will stay on \"Order confirmation\" page, the order will be placed automatically without confirmation, once the internet connection will be back.") }}
+              {{ $t(`Or if you will stay on "Order confirmation" page, the order will be placed automatically without confirmation, once the internet connection will be back.`) }}
             </p>
             <p v-if="OfflineOnly && isNotificationSupported && isPermissionGranted">
               <strong>{{ $t('You will receive Push notification after coming back online. You can confirm the order by clicking on it') }}</strong>
