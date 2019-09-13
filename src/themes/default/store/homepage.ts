@@ -29,6 +29,6 @@ export const homepageStore = {
   getters: {
     getEverythingNewCollection (state) {
       return state.new_collection
-    },
+    }
   }
 }
