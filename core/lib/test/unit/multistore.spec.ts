@@ -600,6 +600,9 @@ describe('Multistore', () => {
         ],
         multistore: true
       }
+      config.seo = {
+        useUrlDispatcher: true
+      }
 
       const routeConfig: RouteConfig[] = [
         {

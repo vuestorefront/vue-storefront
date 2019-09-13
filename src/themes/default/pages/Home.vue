@@ -13,7 +13,10 @@
         </header>
       </div>
       <div class="row center-xs">
-        <product-listing columns="4" :products="getEverythingNewCollection" />
+        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+          <product-listing columns="4" :products="getEverythingNewCollection" />
+        </lazy-hydrate>
+        <product-listing v-else columns="4" :products="getEverythingNewCollection" />
       </div>
     </section>
 
@@ -33,7 +36,9 @@
 
 <script>
 // query constructor
-import {isServer, onlineHelper} from '@vue-storefront/core/helpers'
+import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
+import LazyHydrate from 'vue-lazy-hydration'
+
 // Core pages
 import Home from '@vue-storefront/core/pages/Home'
 // Theme core components
@@ -50,13 +55,19 @@ import {registerModule} from '@vue-storefront/core/lib/modules'
 import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
 
 export default {
+  data () {
+    return {
+      loading: true
+    }
+  },
   mixins: [Home],
   components: {
     HeadImage,
     Onboard,
     ProductListing,
     PromotedOffers,
-    TileLinks
+    TileLinks,
+    LazyHydrate
   },
   computed: {
     ...mapGetters('user', ['isLoggedIn']),
@@ -66,6 +77,9 @@ export default {
     },
     isOnline () {
       return onlineHelper.isOnline
+    },
+    isLazyHydrateEnabled () {
+      return config.ssr.lazyHydrateFor.includes('homepage')
     }
   },
   beforeCreate () {
@@ -105,7 +119,11 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading products to cache on SSR render
-      next(vm => vm.$store.dispatch('homepage/fetchNewCollection'))
+      next(vm =>
+        vm.$store.dispatch('homepage/fetchNewCollection').then(res => {
+          vm.loading = false
+        })
+      )
     } else {
       next()
     }
