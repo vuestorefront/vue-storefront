@@ -32,10 +32,10 @@ export default {
     }
   },
   computed: {
-    compontentType() {
+    compontentType () {
       return this.link ? 'router-link' : 'button'
     },
-    redirectionLink() {
+    redirectionLink () {
       return this.link ? localizedRoute(this.link) : null
     }
   }
