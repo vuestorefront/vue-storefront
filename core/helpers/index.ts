@@ -8,35 +8,31 @@ import store from '@vue-storefront/core/store'
 import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks';
 
-export const processURLAddress = (url: string = '') => {
-  if (url.startsWith('/')) return `${config.api.url}${url}`
-  return url
+const chooseESUrl = (useReverseProxy: boolean): string => useReverseProxy ? config.api.ssr_url : config.api.url;
+
+export const isServer: boolean = typeof window === 'undefined';
+
+export const processURLAddress = (url: string = ''): string => {
+  const baseUrl = chooseESUrl(isServer && config.server.useReverseProxy);
+
+  return url.startsWith('/') ? `${baseUrl}${url}` : url;
 }
 
-export const processLocalizedURLAddress = (url: string = '') => {
-  if (config.storeViews.multistore) {
-    return processURLAddress(adjustMultistoreApiUrl(url))
-  }
-
-  return processURLAddress(url)
-}
+export const processLocalizedURLAddress = (url: string = ''): string => config.storeViews.multistore
+  ? processURLAddress(adjustMultistoreApiUrl(url))
+  : processURLAddress(url);
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
  * @param {String} text
  */
-export function slugify (text) {
-  // remove regional characters
-  text = removeAccents(text)
-
-  return text
-    .toString()
-    .toLowerCase()
-    .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/&/g, '-and-') // Replace & with 'and'
-    .replace(/[^\w-]+/g, '') // Remove all non-word chars
-    .replace(/--+/g, '-') // Replace multiple - with single -
-}
+export const slugify = (text: string): string => removeAccents(text)
+  .toString()
+  .toLowerCase()
+  .replace(/\s+/g, '-') // Replace spaces with -
+  .replace(/&/g, '-and-') // Replace & with 'and'
+  .replace(/[^\w-]+/g, '') // Remove all non-word chars
+  .replace(/--+/g, '-') // Replace multiple - with single -
 
 /**
  * @param {string} relativeUrl
@@ -54,18 +50,23 @@ export function getThumbnailPath (relativeUrl: string, width: number = 0, height
       relativeUrl = path + relativeUrl
     }
 
-    let resultUrl
-    if (relativeUrl && (relativeUrl.indexOf('://') > 0 || relativeUrl.indexOf('?') > 0 || relativeUrl.indexOf('&') > 0)) relativeUrl = encodeURIComponent(relativeUrl)
-    // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy opertions
-    let baseUrl = processURLAddress(config.images.proxyUrl ? config.images.proxyUrl : config.images.baseUrl)
-    if (baseUrl.indexOf('{{') >= 0) {
-      baseUrl = baseUrl.replace('{{url}}', relativeUrl)
-      baseUrl = baseUrl.replace('{{width}}', width.toString())
-      baseUrl = baseUrl.replace('{{height}}', height.toString())
-      resultUrl = baseUrl
-    } else {
-      resultUrl = `${baseUrl}${width.toString()}/${height.toString()}/resize${relativeUrl}`
+    if (relativeUrl && (relativeUrl.indexOf('://') > 0 || relativeUrl.indexOf('?') > 0 || relativeUrl.indexOf('&') > 0)) {
+      relativeUrl = encodeURIComponent(relativeUrl);
     }
+    // proxyUrl is not a url base path but contains {{url}} parameters and so on to use the relativeUrl as a template value and then do the image proxy opertions
+    const baseUrl: string = processURLAddress(config.images.proxyUrl ? config.images.proxyUrl : config.images.baseUrl);
+
+    let resultUrl;
+
+    if (baseUrl.indexOf('{{') >= 0) {
+      resultUrl = baseUrl
+        .replace('{{url}}', relativeUrl)
+        .replace('{{width}}', width.toString())
+        .replace('{{height}}', height.toString());
+    } else {
+      resultUrl = `${baseUrl}${width.toString()}/${height.toString()}/resize${relativeUrl}`;
+    }
+
     const path = relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? resultUrl : config.images.productPlaceholder || ''
 
     return coreHooksExecutors.afterProductThumbnailPathGenerate({ path, sizeX: width, sizeY: height }).path
@@ -128,11 +129,7 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
   let childCats = [parentCategory.id]
   if (parentCategory.children_data) {
     let recurCatFinderBuilder = (category) => {
-      if (!category) {
-        return
-      }
-
-      if (!category.children_data) {
+      if (!category || !category.children_data) {
         return
       }
 
@@ -186,7 +183,14 @@ export function once (key, fn) {
   }
 }
 
-export const isServer: boolean = typeof window === 'undefined'
+// Prepare token if basic auth
+export const authenticationToken: string = (({ api }) => {
+  if (!api.useBasicAuth) {
+    return undefined;
+  }
+
+  return api.token || Buffer.from(`${api.username}:${api.password}`).toString('base64');
+})(config);
 
 // Online/Offline helper
 export const onlineHelper = Vue.observable({
@@ -204,21 +208,21 @@ export const onlineHelper = Vue.observable({
   * serial(urls.map(url => () => $.ajax(url)))
   *     .then(Logger.log.bind(Logger))()
   */
-export const serial = async promises => {
-  const results = []
-  for (const item of promises) {
+export async function serial<T = any> (promises: any[]): Promise<T[]> {
+  const results = [];
+
+  for (let item of promises) {
     const result = await item;
-    results.push(result)
+
+    results.push(result);
   }
-  return results
+  return results;
 }
 
 // helper to calcuate the hash of the shopping cart
-export const calcItemsHmac = (items, token) => {
-  return sha3_224(JSON.stringify({ items, token: token }))
-}
+export const calcItemsHmac = (items, token) => sha3_224(JSON.stringify({ items, token: token }));
 
-export function extendStore (moduleName: string | string[], module: any) {
+export function extendStore (moduleName: string | string[], module: any): void {
   const merge = function (object: any = {}, source: any) {
     for (let key in source) {
       if (Array.isArray(source[key])) {

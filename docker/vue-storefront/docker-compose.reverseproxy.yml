@@ -8,7 +8,6 @@ services:
     env_file: docker/vue-storefront/default.env
     environment:
       VS_ENV: dev
-    # network_mode: host
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       - './config:/var/www/config'
@@ -28,3 +27,20 @@ services:
       - /var/www/dist
     ports:
       - '3000:3000'
+    networks:
+      - outside-net
+  nginx:
+    networks:
+      - outside-net
+    image: nginx:alpine
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./docker/vue-storefront/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/vue-storefront/nginx/.htpasswd:/etc/nginx/.htpasswd
+    depends_on:
+      - app
+networks: 
+  outside-net:
+    external:
+      name: proxynet

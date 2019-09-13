@@ -17,7 +17,7 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { processURLAddress } from '@vue-storefront/core/helpers'
 import { serial } from '@vue-storefront/core/helpers'
 import config from 'config'
-import { onlineHelper } from '@vue-storefront/core/helpers'
+import { onlineHelper, authenticationToken } from '@vue-storefront/core/helpers'
 
 export function _prepareTask (task) {
   const taskId = entities.uniqueEntityId(task) // timestamp as a order id is not the best we can do but it's enough
@@ -62,6 +62,11 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
   }
   let silentMode = false
   Logger.info('Executing sync task ' + url, 'sync', task)()
+
+  if (authenticationToken) {
+    task.payload.headers.Authorization = `Basic ${authenticationToken}`;
+  }
+
   return fetch(url, task.payload).then((response) => {
     const contentType = response.headers.get('content-type')
     if (contentType && contentType.includes('application/json')) {

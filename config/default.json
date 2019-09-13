@@ -5,6 +5,7 @@
     "protocol": "http",
     "api": "api",
     "devServiceWorker": false,
+    "useReverseProxy": true,
     "useOutputCacheTagging": false,
     "useOutputCache": false,
     "outputCacheDefaultTtl": 86400,
@@ -44,7 +45,12 @@
     "port": 8080
   },
   "api": {
-    "url": "http://localhost:8080"
+    "url": "http://localhost:8080",
+    "ssr_url": "http://vue-storefront-api_app_1:8080",
+    "useBasicAuth": false,
+    "username": "user",
+    "password": "pass",
+    "token": "dXNlcjpwYXNz"
   },
   "elasticsearch": {
     "httpAuth": "",

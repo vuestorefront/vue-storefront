@@ -7,6 +7,9 @@ npm-debug.log
 .idea/
 config/local.json
 var
+docker-compose.override.yml
+docker/vue-storefront/nginx/default.conf
+docker/vue-storefront/nginx/.htpasswd
 build/config.json
 core/build/config.json
 core/build/cache-version.json
