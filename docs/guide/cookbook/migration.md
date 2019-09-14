@@ -8,7 +8,7 @@ Ever wonder if _the great legendary software_ has been invented once and for all
 
 Handling migration or any sort of upgrade for a system takes developer's life. The more you had great times with previous version, the griever developer's concerns will likely be because complexity for upgrade will only gets worse due to the character of upgrades; _Removal of bad structure_. 
 
-Remember when _Angular.js_ upgrade to _Angular_ was announced? Not a small number of developers forever left _Angular_ community since the upgrade showed no mercy at all with barely no backward compatibility.
+Remember when _Angular.js_ upgrade to _Angular_ was announced? A great number of developers forever left _Angular_ community since the upgrade showed no mercy at all with barely no backward compatibility.
 
 One might ask why fear for upgrade when it's a click away. If you say so, I bet you are not a developer who does the actual job or precisely speaking, _magic_ if I may say. 
 
