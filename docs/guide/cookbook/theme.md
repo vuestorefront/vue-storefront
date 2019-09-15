@@ -16,12 +16,17 @@ Online stores should demand many features in common and they deal with similar t
 We already got our hands dirty to place all the core business logic in place and created the `default` theme as the best practice to show how they are intertwined behind the scene and make it work seamlessly out of the box. 
 
 In this recipe, we will walk through how `default` theme works in cooperation with other core parts of the `app` such as `modules`, `filters`, `stores` and so on. 
+<br />
+Among methodologies for this recipe, we will use the one inspired by [_Chaos Monkey_](https://en.wikipedia.org/wiki/Chaos_engineering); One that creates various errors on purpose, and ___see___ why it was needed to prevent such errors in the first place.
 
 ### 1. Preparation
 - You need [Vue Storefront](https://github.com/DivanteLtd/vue-storefront) app [working](/guide/cookbook/setup.html). 
 
 ### 2. Recipe
-1. 
+1. Open your editor and go to `./src/themes/default/index.js`
+ 
+
+
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 #### Secret 1. What is `amp` here and there?
