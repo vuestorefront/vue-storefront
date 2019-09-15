@@ -1316,14 +1316,6 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
       }
     ]
   },
-  "coolBags": {
-    "filter": [
-      {
-        "key": "category.name",
-        "value" : { "eq": "Women" }
-      }
-    ]
-  },
   "bestSellers": {
     "filter": [
       {

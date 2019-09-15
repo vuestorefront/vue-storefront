@@ -227,10 +227,6 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
     if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
       routeObj['path'] = (routeObj as LocalizedRoute).fullPath
     }
-
-    if ((routeObj as LocalizedRoute).path && config.seo.useUrlDispatcher) {
-      return localizedDispatcherRoute(Object.assign({}, routeObj) as LocalizedRoute, storeCode)
-    }
   }
 
   if (storeCode && config.defaultStoreCode !== storeCode && config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode) {
