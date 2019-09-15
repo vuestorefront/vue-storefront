@@ -2,7 +2,7 @@
   <no-ssr>
     <div
       v-show="OfflineOnly"
-      class="offline-badge fixed w-100 p10 bg-cl-th-error cl-white center-xs"
+      class="offline-badge fixed p10 bg-cl-th-error cl-white center-xs"
     >
       {{ $t('You are offline. Some features might not be available.') }}
     </div>
@@ -24,5 +24,6 @@ export default {
 .offline-badge {
   bottom: 0;
   left: 0;
+  right: 0;
 }
 </style>
