@@ -4,7 +4,7 @@
       v-show="OfflineOnly"
       class="offline-badge fixed w-100 p10 bg-cl-th-error cl-white center-xs"
     >
-      {{ $t('You are offline, some of the functionalities are limited') }}
+      {{ $t('You are offline. Some features might not be available.') }}
     </div>
   </no-ssr>
 </template>
