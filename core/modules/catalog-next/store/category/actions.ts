@@ -23,19 +23,23 @@ import config from 'config'
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category } = {}) {
     const searchCategory = category || getters.getCategoryFrom(route.path)
-    await dispatch('loadCategoryFilters', searchCategory)
+    const categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
+    const areFiltersInQuery = !!Object.keys(route[products.routerFiltersSource]).length
+    if (!categoryMappedFilters && areFiltersInQuery) { // loading all filters only when some filters are currently chosen and category has no available filters yet
+      await dispatch('loadCategoryFilters', searchCategory)
+    }
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
-    const {items, perPage, start, total} = await quickSearchByQuery({
+    const {items, perPage, start, total, aggregations} = await quickSearchByQuery({
       query: filterQr,
       sort: searchQuery.sort,
       includeFields: entities.productList.includeFields,
       excludeFields: entities.productList.excludeFields
     })
+    await dispatch('loadAvailableFiltersFrom', {aggregations, category: searchCategory, filters: searchQuery.filters})
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
     const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
     commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
-    // await dispatch('loadAvailableFiltersFrom', searchResult)
 
     return items
   },
@@ -128,16 +132,23 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryFilters ({ dispatch, getters }, category) {
     const searchCategory = category || getters.getCurrentCategory
     let filterQr = buildFilterProductsQuery(searchCategory)
-    const searchResult = await quickSearchByQuery({
+    const {aggregations} = await quickSearchByQuery({
       query: filterQr,
       size: 999, // This is temporary, there should be a dedicated query for that
       excludeFields: ['*']
     })
-    await dispatch('loadAvailableFiltersFrom', searchResult)
+    await dispatch('loadAvailableFiltersFrom', {aggregations, category})
   },
-  async loadAvailableFiltersFrom ({ commit, getters }, {aggregations}) {
-    const filters = getters.getAvailableFiltersFrom(aggregations)
-    commit(types.CATEGORY_SET_AVAILABLE_FILTERS, filters)
+  async loadAvailableFiltersFrom ({ commit, getters }, {aggregations, category, filters = {}}) {
+    const aggregationFilters = getters.getAvailableFiltersFrom(aggregations)
+    const currentCategory = category || getters.getCurrentCategory
+    const categoryMappedFilters = getters.getFiltersMap[currentCategory.id]
+    let resultFilters = aggregationFilters
+    const filtersKeys = Object.keys(filters)
+    if (categoryMappedFilters && filtersKeys.length) {
+      resultFilters = Object.assign({}, categoryMappedFilters, omit(aggregationFilters, filtersKeys))
+    }
+    commit(types.CATEGORY_SET_CATEGORY_FILTERS, {category, filters: resultFilters})
   },
   async switchSearchFilters ({ dispatch }, filterVariants: FilterVariant[] = []) {
     let currentQuery = router.currentRoute[products.routerFiltersSource]
