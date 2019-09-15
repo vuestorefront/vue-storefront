@@ -20,10 +20,14 @@ export default {
   mixins: [VueOfflineMixin]
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import '~theme/css/base/global_vars';
+$z-index: map-get($z-index, overlay) - 1;
+
 .offline-badge {
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: $z-index;
 }
 </style>
