@@ -89,12 +89,18 @@ const actions: ActionTree<CategoryState, RootState> = {
   async processCategoryProducts ({ dispatch, rootState }, { products = [], filters = {} } = {}) {
     await dispatch('tax/calculateTaxes', { products: products }, { root: true })
     dispatch('registerCategoryProductsMapping', products) // we don't need to wait for this
-    const configuredProducts = products.map(product => {
+    return dispatch('configureProducts', { products, filters })
+  },
+  /**
+   * Configure configurable products to have first available options selected
+   * so they can be added to cart/wishlist/compare without manual configuring
+   */
+  async configureProducts ({ rootState }, { products = [], filters = {} } = {}) {
+    return products.map(product => {
       product = Object.assign({}, preConfigureProduct({ product, populateRequestCacheTags: config.server.useOutputCacheTagging }))
       const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
       return Object.assign(product, omit(configuredProductVariant, ['visibility']))
     })
-    return configuredProducts
   },
   async registerCategoryProductsMapping ({ dispatch }, products = []) {
     await Promise.all(products.map(product => {
