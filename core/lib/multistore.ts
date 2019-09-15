@@ -220,7 +220,6 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
   if (!routeObj) {
-    Logger.error('Invalid route provided to localize.', null, routeObj)()
     return routeObj
   }
 
