@@ -219,26 +219,27 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
+  if (!routeObj) {
+    Logger.error('Invalid route provided to localize.', null, routeObj)()
+    return routeObj
+  }
+
   if (typeof routeObj === 'object') {
     if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
       routeObj['path'] = (routeObj as LocalizedRoute).fullPath
     }
-
-    if ((routeObj as LocalizedRoute).path && config.seo.useUrlDispatcher) {
-      return localizedDispatcherRoute(Object.assign({}, routeObj) as LocalizedRoute, storeCode)
-    }
   }
-  if (storeCode && routeObj && config.defaultStoreCode !== storeCode && config.storeViews[storeCode].appendStoreCode) {
-    if (typeof routeObj === 'object') {
-      if (routeObj.name) {
-        routeObj.name = storeCode + '-' + routeObj.name
-      }
 
-      if (routeObj.path) {
-        routeObj.path = '/' + storeCode + '/' + (routeObj.path.startsWith('/') ? routeObj.path.slice(1) : routeObj.path)
-      }
-    } else {
+  if (storeCode && config.defaultStoreCode !== storeCode && config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode) {
+    if (typeof routeObj !== 'object') {
       return '/' + storeCode + routeObj
+    }
+    if (routeObj.name) {
+      routeObj.name = storeCode + '-' + routeObj.name
+    }
+
+    if (routeObj.path) {
+      routeObj.path = '/' + storeCode + '/' + (routeObj.path.startsWith('/') ? routeObj.path.slice(1) : routeObj.path)
     }
   }
 
