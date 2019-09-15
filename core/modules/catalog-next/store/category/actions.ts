@@ -22,7 +22,7 @@ import config from 'config'
 
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category } = {}) {
-    const searchCategory = category || getters.getCategoryFrom(route.path)
+    const searchCategory = category || getters.getCategoryFrom(route.path) || {}
     const categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
     const areFiltersInQuery = !!Object.keys(route[products.routerFiltersSource]).length
     if (!categoryMappedFilters && areFiltersInQuery) { // loading all filters only when some filters are currently chosen and category has no available filters yet
@@ -68,7 +68,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     return searchResult.items
   },
   async cacheProducts ({ commit, getters, dispatch, rootState }, { route } = {}) {
-    const searchCategory = getters.getCategoryFrom(route.path)
+    const searchCategory = getters.getCategoryFrom(route.path) || {}
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
 
@@ -115,10 +115,21 @@ const actions: ActionTree<CategoryState, RootState> = {
   async findCategories (context, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
     return CategoryService.getCategories(categorySearchOptions)
   },
-  async loadCategories ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
-    const categories = await CategoryService.getCategories(categorySearchOptions)
-    commit(types.CATEGORY_ADD_CATEGORIES, categories)
-    return categories
+  async loadCategories ({ commit, getters }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
+    const searchingByIds = categorySearchOptions && categorySearchOptions.filters && categorySearchOptions.filters.id
+    const searchedIds: string[] = searchingByIds ? (categorySearchOptions.filters.id as string[]) : []
+    if (searchingByIds) { // removing from search query already loaded categories
+      categorySearchOptions.filters.id = searchedIds.filter(categoryId => !getters.getCategoriesMap[categoryId] && !getters.getNotFoundCategoryIds.includes(categoryId))
+    }
+    if (!searchingByIds || categorySearchOptions.filters.id.length) {
+      const categories = await CategoryService.getCategories(categorySearchOptions)
+      const notFoundCategories = searchedIds.filter(categoryId => !categories.some(cat => cat.id === parseInt(categoryId)))
+
+      commit(types.CATEGORY_ADD_CATEGORIES, categories)
+      commit(types.CATEGORY_ADD_NOT_FOUND_CATEGORY_IDS, notFoundCategories)
+      return categories
+    }
+    return []
   },
   async loadCategory ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category> {
     const categories: Category[] = await CategoryService.getCategories(categorySearchOptions)

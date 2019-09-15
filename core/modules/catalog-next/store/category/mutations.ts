@@ -25,6 +25,9 @@ const mutations: MutationTree<CategoryState> = {
       state.categoriesMap = Object.assign({}, state.categoriesMap, newCategoriesEntry)
     }
   },
+  [types.CATEGORY_ADD_NOT_FOUND_CATEGORY_IDS] (state, categoryIds: string[] = []) {
+    state.notFoundCategoryIds = [...state.notFoundCategoryIds, ...categoryIds]
+  },
   [types.CATEGORY_SET_CATEGORY_FILTERS] (state, {category, filters}) {
     state.filtersMap[category.id] = filters
   },
