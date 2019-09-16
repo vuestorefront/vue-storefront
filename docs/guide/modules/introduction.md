@@ -124,7 +124,7 @@ The `VSF` object is an instance of your Vue Storefront shop. It contains followi
 ## Module file structure
 
 Below you can see recommended file structure for VS module. All of the core ones are organised in this way.
-Try to have a similar file structure inside the ones that you create. If all the modules are implemented with a similar architecture, it'll be much easier to maintain and understand them. If there is no purpose in organising some of its parts differently, then try to avoid it.
+Try to have a similar file structure inside the ones that you create. If all the modules are implemented with a similar architecture, it'll be much easier to maintain and understand them. Please avoid unnecessary changes in design unless otherwise required so.
 
 Not all of this folders and files should exist in every module. The only mandatory file is `index.ts` which is the entry point. The rest depends on your needs and module functionality.
 

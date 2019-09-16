@@ -10,6 +10,7 @@ import {
   createCartItemForUpdate
 } from '@vue-storefront/core/modules/cart/helpers'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
+import { cartHooksExecutors } from './../../hooks'
 
 const mergeActions = {
   async updateClientItem ({ dispatch }, { clientItem, serverItem }) {
@@ -174,8 +175,15 @@ const mergeActions = {
     commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
   },
   async merge ({ getters, dispatch }, { serverItems, clientItems, dryRun = false, forceClientState = false }) {
+    const hookResult = cartHooksExecutors.beforeSync({ clientItems, serverItems })
+
     const diffLog = createDiffLog()
-    const mergeParameters = { clientItems, serverItems, forceClientState, dryRun }
+    const mergeParameters = {
+      clientItems: hookResult.clientItems,
+      serverItems: hookResult.serverItems,
+      forceClientState,
+      dryRun
+    }
     const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
     dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
@@ -186,7 +194,7 @@ const mergeActions = {
       .pushClientParty({ status: getters.isCartHashChanged ? 'update-required' : 'no-changes' })
       .pushServerParty({ status: getters.isTotalsSyncRequired ? 'update-required' : 'no-changes' })
 
-    EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: serverItems, clientItems: clientItems, dryRun: dryRun, event: event })
+    EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: hookResult.serverItem, clientItems: hookResult.clientItems, dryRun: dryRun, event: event })
     Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
 
     return diffLog

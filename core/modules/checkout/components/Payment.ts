@@ -27,7 +27,7 @@ export const Payment = {
       shippingDetails: (state: RootState) => state.checkout.shippingDetails
     }),
     ...mapGetters({
-      paymentMethods: 'payment/paymentMethods',
+      paymentMethods: 'checkout/getPaymentMethods',
       isVirtualCart: 'cart/isVirtualCart'
     })
   },

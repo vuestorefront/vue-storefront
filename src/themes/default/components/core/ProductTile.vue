@@ -108,7 +108,7 @@ export default {
       if (
         isVisible &&
         config.products.configurableChildrenStockPrefetchDynamic &&
-        rootStore.products.filterUnavailableVariants &&
+        config.products.filterUnavailableVariants &&
         this.product.type_id === 'configurable' &&
         this.product.configurable_children &&
         this.product.configurable_children.length > 0

@@ -92,6 +92,7 @@ import { mapGetters } from 'vuex'
 import uniq from 'lodash-es/uniq'
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 import rootStore from '@vue-storefront/core/store';
+import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
 const composeInitialPageState = async (store, route) => {
   try {
@@ -103,6 +104,7 @@ const composeInitialPageState = async (store, route) => {
     const currentCategory = await store.dispatch('category-next/loadCategory', { filters })
     await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
     await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
+    catalogHooksExecutors.categoryPageVisited(currentCategory)
   } catch (e) {
     console.error('Problem with setting Category initial data!', e)
   }

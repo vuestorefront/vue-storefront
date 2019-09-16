@@ -1,8 +1,6 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
-import debounce from 'lodash-es/debounce'
-import overArgs from 'lodash-es/overArgs'
 import config from 'config'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { CartService } from '@vue-storefront/core/data-resolver'
@@ -19,6 +17,8 @@ const synchronizeActions = {
     const storedItems = await StorageManager.get('cart').getItem('current-cart')
     commit(types.CART_LOAD_CART, storedItems)
     dispatch('synchronizeCart', { forceClientState })
+
+    cartHooksExecutors.afterLoad(storedItems)
   },
   async synchronizeCart ({ commit, dispatch }, { forceClientState }) {
     const { synchronize, serverMergeByDefault } = config.cart

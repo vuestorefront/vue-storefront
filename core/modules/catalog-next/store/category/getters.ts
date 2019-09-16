@@ -12,13 +12,14 @@ import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
 import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
+import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state): Category[] => Object.values(state.categoriesMap),
   getCategoriesMap: (state): { [id: string]: Category} => state.categoriesMap,
   getCategoryProducts: (state) => state.products,
   getCategoryFrom: (state, getters) => (path: string = '') => {
-    return getters.getCategories.find(category => path.replace(/^(\/)/gm, '') === category.url_path) || {}
+    return getters.getCategories.find(category => (removeStoreCodeFromRoute(path) as string).replace(/^(\/)/gm, '') === category.url_path) || {}
   },
   getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
     return getters.getCategories.find(category => {

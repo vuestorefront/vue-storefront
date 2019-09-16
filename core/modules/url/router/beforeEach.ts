@@ -7,14 +7,15 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
 import { isServer } from '@vue-storefront/core/helpers'
 import { storeCodeFromRoute, prepareStoreView, currentStoreView, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
-import Vue from 'vue'
 import config from 'config'
+import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
 export const UrlDispatchMapper = async (to) => {
   const routeData = await store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query })
   return Object.assign({}, to, routeData)
 }
-export function beforeEachGuard (to: Route, from: Route, next) {
+
+export async function beforeEachGuard (to: Route, from: Route, next) {
   if (isServer) {
     if (config.storeViews.multistore) { // this is called before server-entry.ts router.onReady - so we have to make sure we're in the right store context
       const storeCode = storeCodeFromRoute(to)
@@ -24,15 +25,31 @@ export function beforeEachGuard (to: Route, from: Route, next) {
     }
   }
 
+  if (RouterManager.isRouteProcessing()) {
+    await RouterManager.getRouteLockPromise()
+    next()
+    return
+  }
+  RouterManager.lockRoute()
+
   const fullPath = normalizeUrlPath(to.fullPath)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
   const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name && to.name.startsWith('urldispatcher')
-  if (!to.matched.length || to.matched[0].name === 'page-not-found' || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
+
+  if (!to.matched.length || to.matched[0].name.endsWith('page-not-found') || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
     UrlDispatchMapper(to).then((routeData) => {
       if (routeData) {
         let dynamicRoutes: LocalizedRoute[] = processDynamicRoute(routeData, fullPath, !isPreviouslyDispatchedDynamicRoute)
+
         if (dynamicRoutes && dynamicRoutes.length > 0) {
-          next(dynamicRoutes[0])
+          let dynamicRouteByStore: boolean|LocalizedRoute = false
+
+          if (config.storeViews.multistore) {
+            const storeCode = storeCodeFromRoute(routeData.fullPath)
+            dynamicRouteByStore = dynamicRoutes.find(route => route.name.endsWith(storeCode))
+          }
+
+          next(dynamicRouteByStore || dynamicRoutes[0])
         } else {
           Logger.error('Route not found ' + routeData['name'], 'dispatcher')()
           next()
@@ -44,8 +61,11 @@ export function beforeEachGuard (to: Route, from: Route, next) {
     }).catch(e => {
       Logger.error(e, 'dispatcher')()
       next()
+    }).finally(() => {
+      RouterManager.unlockRoute()
     })
   } else {
     next()
+    RouterManager.unlockRoute()
   }
 }

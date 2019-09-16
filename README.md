@@ -20,6 +20,8 @@ If you're new and need some guidance feel free to visit out [forum](https://foru
 - `@pkarw` (integrations and backend)
 - `@ptomczyk` (frontend and best practices)
 - `@lukeromanowicz` (testing, magento, backend)
+-  Degi Kwag (docs)
+
 
 Want to invest some time in building the future of eCommerce? we are looking for core team members willing to help us make VS even more awesome. Interested - contact `@Filip Rakowski` on slack
 
@@ -65,14 +67,16 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
 
 ## Is it production ready?
 
-Yes! There are more than 10 implementations happening right now and many live shops (check [awesome Vue Storefront list](https://github.com/frqnck/awesome-vue-storefront)).
+Yes! There are more than 20 implementations happening right now and many live shops (check [awesome live projects on Vue Storefront](https://www.vuestorefront.io/live-projects/)).
 
 ## Browser Compatibility
 
 * last 2 Chrome versions
 * last 2 Firefox versions
 * last 2 Edge versions
-* Internet Explorer 10
+* modern browsers
+
+For an up-to-date list of supported browsers please see "browserslist" in package.json
 
 ## Join the community on Slack
 
@@ -266,7 +270,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://divante.co/">
+        <a href="https://divante.com/">
           <img
             src="https://divante.co/about us/LOGO.png"
             alt="Divante"
@@ -510,10 +514,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
       </td>
          <td align="center" valign="middle">
-        <a href="https://www.badger.blue/">
+        <a href="https://www.codilar.com/">
           <img
-            src="https://divante.co/partners/Vue-Storefront/BlueBadger-Logo.png"
-            alt="Badger Blue"
+            src="https://divante.co/partners/Vue-Storefront/codilar_logo.png"
+            alt="Codilar"
             height="50"
           >
         </a>
@@ -791,10 +795,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle"> 
-<a href="">
+<a href="https://www.caupo.se/">
           <img
-            src=""
-            alt=""
+            src="https://divante.com/partners/Vue-Storefront/Caupo_logo_2019.svg"
+            alt="Caupo"
             height="40"
           >
         </a>

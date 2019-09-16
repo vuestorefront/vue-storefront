@@ -15,9 +15,6 @@
                 {{ $t('Products') }}
               </div>
               <ul class="compare__features-list">
-                <li class="compare__features-item">
-                  {{ $t('SKU') }}
-                </li>
                 <li
                   v-for="(attr, index) in all_comparable_attributes"
                   :key="index"
@@ -40,10 +37,7 @@
                     <product-tile class="col-md-12 collection-product" :product="product" />
                   </div>
                   <ul class="compare__features-list">
-                    <li class="compare__features-item">
-                      {{ product.sku }}
-                    </li>
-                    <li
+                   <li
                       v-for="(attr, attIndex) in all_comparable_attributes"
                       :key="attIndex"
                       class="compare__features-item"

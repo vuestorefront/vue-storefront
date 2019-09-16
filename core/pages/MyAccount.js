@@ -22,6 +22,13 @@ export default {
     this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
   },
+  async mounted () {
+    await this.$store.dispatch('user/startSession')
+    if (!this.$store.getters['user/isLoggedIn']) {
+      localStorage.setItem('redirect', this.$route.path)
+      this.$router.push('/')
+    }
+  },
   destroyed () {
     this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$off('myAccount-before-changePassword', this.onBeforeChangePassword)

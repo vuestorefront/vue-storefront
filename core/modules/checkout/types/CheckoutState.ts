@@ -3,6 +3,8 @@ import PaymentDetails from './PaymentDetails'
 
 export default interface CheckoutState {
   order: any,
+  paymentMethods: any[],
+  shippingMethods: any[],
   personalDetails: {
     firstName: string,
     lastName: string,
