@@ -29,7 +29,7 @@ const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html'
 
 const csvDirectories = [
   path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/')
-];
+]
 
 fs.readdirSync(moduleRoot).forEach(directory => {
   const dirName = moduleRoot + '/' + directory + '/resource/i18n'
