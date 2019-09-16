@@ -29,7 +29,7 @@ describe('Notification actions', () => {
       expect(contextMock.commit).toBeCalledWith('add', notification);
     });
 
-    it('should NOT add new notification with same message', async () => {
+    it('should NOT add new notification if last one has the same message', async () => {
       const notification: NotificationItem = {
         type: 'success',
         message: 'Success text.',
@@ -98,4 +98,39 @@ describe('Notification actions', () => {
       expect(contextMock.dispatch).not.toHaveBeenLastCalledWith('removeNotification');
     });
   });
+
+  describe('removeNotification', () => {
+    it('should call \'remove\' commit with specific index', async () => {
+      const contextMock = {
+        commit: jest.fn(),
+        state: {
+          notifications: []
+        }
+      };
+      const wrapper = (actions: any) => actions.removeNotification(contextMock, 1);
+
+      await wrapper(notificationStore.actions);
+
+      expect(contextMock.commit).toBeCalledWith('remove', 1);
+    });
+
+    it('if there is no index provided then should call \'remove\' commit with last index', async () => {
+      const notification: NotificationItem = {
+        type: 'success',
+        message: 'Success text.',
+        action1: { label: 'OK' }
+      }
+      const contextMock = {
+        commit: jest.fn(),
+        state: {
+          notifications: [notification, notification]
+        }
+      };
+      const wrapper = (actions: any) => actions.removeNotification(contextMock);
+
+      await wrapper(notificationStore.actions);
+
+      expect(contextMock.commit).toBeCalledWith('remove', 1);
+    });
+  })
 })
