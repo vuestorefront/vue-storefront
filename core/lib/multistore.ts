@@ -202,31 +202,44 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
     return appendStoreCodePrefix ? `/${storeCode}${routeObj}` : routeObj
   }
 
-  if (routeObj && routeObj.fullPath) { // case of using dispatcher
-    const routeCodePrefix = config.defaultStoreCode !== storeCode && appendStoreCodePrefix ? `/${storeCode}` : ''
-    const qrStr = queryString.stringify(routeObj.params);
+  if (routeObj) {
+    if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
+      routeObj['path'] = (routeObj as LocalizedRoute).fullPath
+    }
 
-    return `${routeCodePrefix}/${routeObj.fullPath}${qrStr ? `?${qrStr}` : ''}`
+    if (routeObj.path) { // case of using dispatcher
+      const routeCodePrefix = config.defaultStoreCode !== storeCode && appendStoreCodePrefix ? `/${storeCode}` : ''
+      const qrStr = queryString.stringify(routeObj.params);
+
+      return `${routeCodePrefix}/${routeObj.path}${qrStr ? `?${qrStr}` : ''}`
+    }
   }
 
   return routeObj
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
-  if (routeObj && (routeObj as LocalizedRoute).fullPath && config.seo.useUrlDispatcher) {
-    return localizedDispatcherRoute(Object.assign({}, routeObj) as LocalizedRoute, storeCode)
+  if (!routeObj) {
+    Logger.error('Invalid route provided to localize.', null, routeObj)()
+    return routeObj
   }
-  if (storeCode && routeObj && config.defaultStoreCode !== storeCode && config.storeViews[storeCode].appendStoreCode) {
-    if (typeof routeObj === 'object') {
-      if (routeObj.name) {
-        routeObj.name = storeCode + '-' + routeObj.name
-      }
 
-      if (routeObj.path) {
-        routeObj.path = '/' + storeCode + '/' + (routeObj.path.startsWith('/') ? routeObj.path.slice(1) : routeObj.path)
-      }
-    } else {
+  if (typeof routeObj === 'object') {
+    if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
+      routeObj['path'] = (routeObj as LocalizedRoute).fullPath
+    }
+  }
+
+  if (storeCode && config.defaultStoreCode !== storeCode && config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode) {
+    if (typeof routeObj !== 'object') {
       return '/' + storeCode + routeObj
+    }
+    if (routeObj.name) {
+      routeObj.name = storeCode + '-' + routeObj.name
+    }
+
+    if (routeObj.path) {
+      routeObj.path = '/' + storeCode + '/' + (routeObj.path.startsWith('/') ? routeObj.path.slice(1) : routeObj.path)
     }
   }
 
@@ -234,16 +247,16 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 }
 
 export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[]): void {
+  const allStoreRoutes = [...routes]
   if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
-    for (let storeCode of config.storeViews.mapStoreUrlsFor) {
+    for (const storeCode of config.storeViews.mapStoreUrlsFor) {
       if (storeCode && (config.defaultStoreCode !== storeCode)) {
-        let storeRoutes = []
-        for (let route of routes) {
+        for (const route of routes) {
           const localRoute = localizedRoute(Object.assign({}, route), storeCode)
-          storeRoutes.push(localRoute)
+          allStoreRoutes.push(localRoute)
         }
-        RouterManager.addRoutes(storeRoutes, router)
       }
     }
   }
+  RouterManager.addRoutes(allStoreRoutes, router)
 }

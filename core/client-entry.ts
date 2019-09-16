@@ -12,8 +12,7 @@ import { AsyncDataLoader } from './lib/async-data-loader'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import globalConfig from 'config'
 import { coreHooksExecutors } from './hooks'
-import { RouterManager } from './lib/router-manager'
-
+import { RouterManager } from './lib/router-manager';
 declare var window: any
 
 const invokeClientEntry = async () => {
@@ -107,9 +106,10 @@ const invokeClientEntry = async () => {
       }))
     })
     // Mounting app
-    if (RouterManager.getRouteLock()) {
-      await RouterManager.getRouteLock()
-      app.$mount('#app')
+    if (!RouterManager.isRouteDispatched()) {
+      RouterManager.addDispatchCallback(() => {
+        app.$mount('#app')
+      })
     } else {
       app.$mount('#app')
     }

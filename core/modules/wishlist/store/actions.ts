@@ -6,7 +6,7 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const actions: ActionTree<WishlistState, RootState> = {
   clear (context) {
-    context.commit(types.WISH_LOAD_WISH, [])
+    context.commit(types.WISH_DEL_ALL_ITEMS, [])
   },
   async load ({ commit, getters, dispatch }, force: boolean = false) {
     if (!force && getters.isWishlistLoaded) return

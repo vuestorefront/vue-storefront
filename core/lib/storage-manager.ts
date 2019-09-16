@@ -4,7 +4,7 @@ import UniversalStorage from '@vue-storefront/core/lib/store/storage'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 
-function _prepareCacheStorage (key, localized = true, storageQuota = 0) {
+function _prepareCacheStorage (key, localized = !config.storeViews.commonCache, storageQuota = 0) {
   const storeView = currentStoreView()
   const dbNamePrefix = storeView && storeView.storeCode ? storeView.storeCode + '-' : ''
   const cacheDriver = config.localForage && config.localForage.defaultDrivers[key]

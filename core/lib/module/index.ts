@@ -5,7 +5,7 @@ import Vue from 'vue'
 import merge from 'lodash-es/merge'
 import rootStore from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { setupMultistoreRoutes } from '..//multistore'
+import { setupMultistoreRoutes } from '../multistore'
 import { router } from '@vue-storefront/core/app'
 import { isServer } from '@vue-storefront/core/helpers'
 import { VSF, VueStorefrontModuleConfig } from './types'
@@ -44,7 +44,6 @@ class VueStorefrontModule {
   private static _extendRouter (routerInstance, routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
     if (routes) {
       setupMultistoreRoutes(config, routerInstance, routes)
-      RouterManager.addRoutes(routes, routerInstance)
     }
     if (beforeEach) routerInstance.beforeEach(beforeEach)
     if (afterEach) routerInstance.afterEach(afterEach)

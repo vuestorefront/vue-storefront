@@ -11,7 +11,7 @@ import config from 'config'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
 export const UrlDispatchMapper = async (to) => {
-  const routeData = await store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query })
+  const routeData = await store.dispatch('url/mapUrl', { url: to.path, query: to.query })
   return Object.assign({}, to, routeData)
 }
 
@@ -25,27 +25,26 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
     }
   }
 
-  if (RouterManager.getRouteLock()) {
-    await RouterManager.getRouteLock()
+  if (RouterManager.isRouteProcessing()) {
+    await RouterManager.getRouteLockPromise()
     next()
     return
   }
   RouterManager.lockRoute()
 
-  const fullPath = normalizeUrlPath(to.fullPath)
+  const path = normalizeUrlPath(to.path)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
   const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name && to.name.startsWith('urldispatcher')
 
   if (!to.matched.length || to.matched[0].name.endsWith('page-not-found') || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
     UrlDispatchMapper(to).then((routeData) => {
       if (routeData) {
-        let dynamicRoutes: LocalizedRoute[] = processDynamicRoute(routeData, fullPath, !isPreviouslyDispatchedDynamicRoute)
-
+        let dynamicRoutes: LocalizedRoute[] = processDynamicRoute(routeData, path, !isPreviouslyDispatchedDynamicRoute)
         if (dynamicRoutes && dynamicRoutes.length > 0) {
           let dynamicRouteByStore: boolean|LocalizedRoute = false
 
           if (config.storeViews.multistore) {
-            const storeCode = storeCodeFromRoute(routeData.fullPath)
+            const storeCode = storeCodeFromRoute(routeData.path)
             dynamicRouteByStore = dynamicRoutes.find(route => route.name.endsWith(storeCode))
           }
 
@@ -55,7 +54,7 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
           next()
         }
       } else {
-        Logger.error('No mapping found for ' + fullPath, 'dispatcher')()
+        Logger.error('No mapping found for ' + path, 'dispatcher')()
         next()
       }
     }).catch(e => {

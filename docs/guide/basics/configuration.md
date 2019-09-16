@@ -116,6 +116,12 @@ The SSR data is being completed in the `asyncData` static method. If this config
 If it's set to `false`, then **just the** `src/themes/default/pages/Product.vue` -> `asyncData` will be executed.
 This option is referenced in the [core/client-entry.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) line: 85.
 
+```json
+    "lazyHydrateFor": ["category-next.products", "homepage"],
+```
+
+Filters out given properties from `window.__INITIAL_STATE__` and enables [lazy hydration](https://github.com/maoberlehner/vue-lazy-hydration) on client side
+Available out of the box for `category-next.products` and `homepage`.
 ## Max attempt of tasks
 
 ```json
@@ -144,7 +150,7 @@ This option is used only in the [Multistore setup](../integrations/multistore.md
 ```json
 "storeViews": {
   "multistore": false,
-  "commonCache": true,
+  "commonCache": false,
   "mapStoreUrlsFor": ["de", "it"],
 ```
 
@@ -512,12 +518,6 @@ Product attributes representing the images. We'll see it in the Product page gal
 ```
 
 The dimensions of the images in the gallery.
-
-```json
-  "lazyLoadingCategoryProducts": true
-```
-It this option is enabled, the category products will not be applied in the `window.__INITIAL_STATE__`.
-The client side will be responsible for loading them and store in vuex state.
 
 ## Orders
 

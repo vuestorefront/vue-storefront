@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Sort CSV i18n files alphabetically in pre-commit Git hook - @defudef(#2657)
 - Cache invalidate requests forwarding support - @pkarw (#3367)
 - Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057, #3270)
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
@@ -32,11 +33,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added test to helpers/index.ts so it is partly tested - @resubaka (#3376, 3377)
 - Added hooks in cart module - @andrzejewsky (#3388)
 - Added config for the defaultTitle compitable with multistore - @cnviradiya (#3282)
+- Added husky package to manage lint check only for staged files in git @lorenaramonda (#3444)
 - Change text from "is out of the stock" to "is out of stock" - @indiebytes (#3452)
 - Added general purpose hooks - @andrzejewsky (#3389)
+- Added lazy hydration for home page - @filrak (#3496)
+- Added i18n support for modules - @dz3n (#3369)
+- Added tests for actions and mutations in 'core/modules/recently-viewed' - @gibkigonzo (#3467)
 
 ### Fixed
 
+- Fix for the product attribute labels displayedd on the PDP - @pkarw (#3530)
+- Fix the mix of informal and polite personal pronouns for German translations - @nhp (#3533)
+- Fix for comparison list being not preserved between page reloads - @vue-kacper (#3508)
+- Fix 'fist' typos - @jakubmakielkowski (#3491)
+- Fix for wrong breadcrumb urls in the multistore mode - @pkarw (#3359)
+- Fix for displaying gallery images for unavaialble product variants - @pkarw (#3436)
+- Fix for `null` in search query input - @pkarw (#3474)
+- Unable to place order has been fixed; the `entities` module was wrongly imported - @pkarw (#3453)
 - Fixed product link in wishlist and microcart - @michasik (#2987)
 - Fixed naming strategy for product prices - `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; old names have been kept as @deprecated - @pkarw (#2918)
 - The `final_price` field is now being used for setting the `special_price` or `price` of the product (depending on the value); `final_price` might been used along with `special_price` with Magento for the products with activated catalog pricing rules - @pkarw (#3099)
@@ -68,9 +81,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adjusted ProductVideo props to right names - @przspa (#3263)
 - Fixed Doubled SKU row in compare tab - @manvendra-singh1506 (#3447)
 - Fixed warning in product details because of duplicate `product` property in `AddToCompare` mixin - @cewald (#3428)
+- Fixed adding unconfigured product to cart from homepage - @lukeromanowicz (#3512) 
+- Fixed "Clear Wishlist" Button - @dz3n (#3522)
+- Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
+- Fix invalid routes in ButtonOutline and ButtonFull - @lukeromanowicz (#3541, #3545)
 
 ### Changed / Improved
 
+- Update confirmation page in offline mode - @jakubmakielkowski (#3100)
+- Removed server order id from ThankYouPage - @federivo (#3480)
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
 - The `attribute.list_by_id` and `attribute.list_by_code` from the `window.__INITIAL_STATE__` which could be even up to 50% of the product page size. - @pkarw (#3281)
 - Can set transition style for Modal content - @grimasod (#3146)
@@ -102,13 +121,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex cms module - @andrzejewsky (#3337)
 - Refactored vuex review module - @andrzejewsky (#3337)
 - Refactored vuex newsletter module - @andrzejewsky (#3337)
+- Optimized fetching product data on homepage - @lukeromanowicz (#3512)
+- `localizedRoute()` now supports path (and prefers over fullPath) in LocalizedRoute objects - @lukeromanowicz (#3515)
+- Move setting review_status from VSF to VSF-API - @afirlejczyk
+- `localizedRoute()` doesn't return urlDispatcher routes anymore. Use localizedDispatcherRoute instead - @lukeromanowicz (#3548)
 
-## [1.10.1] - UNRELEASED
+## [1.10.2] - 2019.09.06
+
+### Fixed
+- Product image is missing on PDP - @przspa, @NavaneethVijay (#3483)
+- Mounting app when routes are resolved, should completly remove recent SSR errors - patzick (#3499)
+- Fixed `categoriesDynamicPrefetchLevel` that now can be equal to 0 - @pkarw (#3495)
+
+## [1.10.1] - 2019.09.03
 
 ### Fixed
 - Invalid Discount code error handled by theme - @grimasod (#3385)
+- Fallback for empty value or no_selection child image - @ngongoll (#3397)
 - `order.order_id` was not assigned in the `orders.directBackendSync` mode - @pkarw (#3398)
 - Hydration problems with UrlDispatcher :rocket: - @patzick (#3412)
+- if condition of quoteId from the `_serverDeleteItem` method on core/modules/cart/store/action.ts - @AshishSuhane (#3415)
+- Router beforeEach hooks running many times - @grimasod (#3443)
+- test:unit:watch with a workaround of a jest problem with template strings - @resubaka (#3450, #3351)
+- changed the theme test path so test in theme are going to work - @resubaka (#3455)
 
 ## [1.10.0] - 2019.08.10
 

@@ -37,7 +37,7 @@
           <base-input
             class="col-xs-6"
             type="text"
-            name="fist-name"
+            name="first-name"
             autocomplete="given-name"
             v-model="firstName"
             @blur="$v.firstName.$touch()"

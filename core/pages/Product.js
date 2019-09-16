@@ -174,6 +174,7 @@ export default {
       }
     },
     onAfterVariantChanged (payload) {
+      this.$store.dispatch('product/setProductGallery', { product: this.product })
       this.$forceUpdate()
     },
     onAfterFilterChanged (filterOption) {
