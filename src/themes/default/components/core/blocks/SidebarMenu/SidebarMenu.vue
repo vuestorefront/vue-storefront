@@ -245,6 +245,7 @@ $color-mine-shaft: color(mine-shaft);
     overflow-y: auto;
     overflow-x: hidden;
     height: calc(100% - 55px);
+    -webkit-overflow-scrolling: touch;
   }
 
   &__list {
