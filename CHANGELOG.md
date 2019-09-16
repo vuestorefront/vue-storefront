@@ -125,6 +125,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `localizedRoute()` now supports path (and prefers over fullPath) in LocalizedRoute objects - @lukeromanowicz (#3515)
 - Move setting review_status from VSF to VSF-API - @afirlejczyk
 - `localizedRoute()` doesn't return urlDispatcher routes anymore. Use localizedDispatcherRoute instead - @lukeromanowicz (#3548)
+- Improved scrolling in Safari on iOS devices (sidebars) - @phoenixdev-kl (#3551)
 - Improved cookie and offline badges (z-index, overflow) - @phoenixdev-kl (#3552)
 
 ## [1.10.2] - 2019.09.06
