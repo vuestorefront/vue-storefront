@@ -50,7 +50,10 @@
   },
   "lint-staged": {
     "*.{js,vue,ts}": "eslint",
-    "**/i18n/*.csv": ["node ./core/scripts/utils/sort-translations.js", "git add"]
+    "**/i18n/*.csv": [
+      "node ./core/scripts/utils/sort-translations.js",
+      "git add"
+    ]
   },
   "husky": {
     "hooks": {
@@ -79,6 +82,8 @@
     "localforage": "^1.7.2",
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
     "ms": "^2.1.2",
+    "passport": "^0.4.0",
+    "passport-http": "^0.3.0",
     "pm2": "^2.10.4",
     "redis-tag-cache": "^1.2.1",
     "reflect-metadata": "^0.1.12",
@@ -109,6 +114,7 @@
     "@babel/preset-env": "^7.3.4",
     "@types/jest": "^24.0.11",
     "@types/node": "^10.12.18",
+    "@types/passport-http": "^0.3.8",
     "@typescript-eslint/eslint-plugin": "^1.7.1-alpha.17",
     "@typescript-eslint/parser": "^1.7.1-alpha.17",
     "@vue/test-utils": "^1.0.0-beta.29",
