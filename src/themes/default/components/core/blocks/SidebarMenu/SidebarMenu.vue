@@ -243,6 +243,7 @@ $color-mine-shaft: color(mine-shaft);
 
   &__container {
     overflow-y: auto;
+    overflow-x: hidden;
     height: calc(100% - 55px);
   }
 
