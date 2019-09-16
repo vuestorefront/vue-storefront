@@ -90,6 +90,7 @@
       "basic": "dist/index.basic.html",
       "amp": "dist/index.amp.html"
     },
+    "lazyHydrateFor": ["category-next.products", "homepage"],
     "executeMixedinAsyncData": true,
     "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute"],
     "useInitialStateFilter": true
@@ -290,7 +291,6 @@
   "products": {
     "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
-    "lazyLoadingCategoryProducts": true,
     "setFirstVarianAsDefaultInURL": false,
     "configurableChildrenStockPrefetchStatic": false,
     "configurableChildrenStockPrefetchDynamic": true,
@@ -504,14 +504,6 @@
         {
           "key": "category.name",
           "value" : { "eq": "Tees" }
-        }
-      ]
-    },
-    "coolBags": {
-      "filter": [
-        {
-          "key": "category.name",
-          "value" : { "eq": "Women" }
         }
       ]
     },

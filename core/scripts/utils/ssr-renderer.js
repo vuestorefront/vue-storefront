@@ -21,11 +21,7 @@ function createRenderer (bundle, clientManifest, template) {
 }
 
 function getFieldsToFilter () {
-  const fields = config.ssr.initialStateFilter
-
-  if (config.products.lazyLoadingCategoryProducts) {
-    fields.push('category-next.products')
-  }
+  const fields = [...config.ssr.initialStateFilter, ...config.ssr.lazyHydrateFor]
 
   return fields
 }
