@@ -6,6 +6,11 @@
     "api": "api",
     "devServiceWorker": false,
     "useReverseProxy": true,
+    "useHtmlMinifier": true,
+    "htmlMinifierOptions": {
+      "minifyJS": true,
+      "minifyCSS": true
+    },
     "useOutputCacheTagging": false,
     "useOutputCache": false,
     "outputCacheDefaultTtl": 86400,
@@ -20,6 +25,10 @@
     "elasticCacheQuota": 4096,
     "ssrDisabledFor": {
       "extensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
+    },
+    "trace": {
+      "enabled": false,
+      "config": {}
     }
   },
   "staticPages": {
@@ -96,6 +105,7 @@
       "basic": "dist/index.basic.html",
       "amp": "dist/index.amp.html"
     },
+    "lazyHydrateFor": ["category-next.products", "homepage"],
     "executeMixedinAsyncData": true,
     "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute"],
     "useInitialStateFilter": true
@@ -296,7 +306,6 @@
   "products": {
     "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
-    "lazyLoadingCategoryProducts": true,
     "setFirstVarianAsDefaultInURL": false,
     "configurableChildrenStockPrefetchStatic": false,
     "configurableChildrenStockPrefetchDynamic": true,
@@ -507,14 +516,6 @@
         {
           "key": "category.name",
           "value" : { "eq": "Tees" }
-        }
-      ]
-    },
-    "coolBags": {
-      "filter": [
-        {
-          "key": "category.name",
-          "value" : { "eq": "Women" }
         }
       ]
     },

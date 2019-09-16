@@ -3,7 +3,7 @@ export interface UserProfile {
     email: string,
     firstname: string,
     lastname: string,
-    website_id?: number,
+    website_id?: number | string,
     addresses?: {
       firstname: string,
       lastname: string,
