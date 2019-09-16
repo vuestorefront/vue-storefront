@@ -8,7 +8,7 @@ import Review from 'core/modules/review/types/Review';
 declare namespace DataResolver {
 
   interface CategorySearchOptions {
-    parentId?: number,
+    parentId?: number | string,
     filters?: { [key: string]: string[] | string },
     level?: number,
     onlyActive?: boolean,
