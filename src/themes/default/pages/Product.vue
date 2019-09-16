@@ -284,7 +284,7 @@ export default {
   computed: {
     ...mapGetters({
       getCurrentCategory: 'category-next/getCurrentCategory',
-      getBreadcrumbs: 'category-next/getBreadcrumbs',
+      getBreadcrumbs: 'product/getProductBreadcrumbs',
       getCurrentProduct: 'product/getCurrentProduct',
       getProductGallery: 'product/getProductGallery',
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
@@ -353,10 +353,7 @@ export default {
   },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
-    // setup breadcrumbs
-    const productCategories = await store.dispatch('category-next/loadProductCategories', product)
-    const category = store.getters['category-next/getCategoryFrom'](route.path)
-    await store.dispatch('category-next/loadCategoryBreadcrumbs', category)
+    await store.dispatch('product/loadProductBreadcrumbs', { product })
   },
   methods: {
     showDetails (event) {

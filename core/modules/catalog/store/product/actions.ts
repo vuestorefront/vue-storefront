@@ -663,6 +663,14 @@ const actions: ActionTree<ProductState, RootState> = {
       let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
       context.commit(types.PRODUCT_SET_GALLERY, productGallery)
     }
+  },
+  async loadProductBreadcrumbs ({ dispatch }, { product } = {}) {
+    if (product && product.category_ids) {
+      const categoryFilters = { 'id': product.category_ids }
+      const categories = await dispatch('category-next/loadCategories', {filters: categoryFilters}, { root: true })
+      const deepestCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
+      await dispatch('category-next/loadCategoryBreadcrumbs', deepestCategory, { root: true })
+    }
   }
 }
 

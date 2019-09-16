@@ -160,13 +160,6 @@ const actions: ActionTree<CategoryState, RootState> = {
     const categoryHierarchyIds = _prepareCategoryPathIds(category) // getters.getCategoriesHierarchyMap.find(categoryMapping => categoryMapping.includes(category.id))
     const categoryFilters = { 'id': categoryHierarchyIds }
     await dispatch('loadCategories', {filters: categoryFilters})
-  },
-  async loadProductCategories ({ dispatch }, product: Product) {
-    if (product && product.category_ids) {
-      const categoryFilters = { 'id': product.category_ids }
-      return dispatch('loadCategories', {filters: categoryFilters})
-    }
-    return []
   }
 }
 

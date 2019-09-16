@@ -105,9 +105,10 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCurrentFilters: (state, getters) => getters.getCurrentSearchQuery.filters,
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
   getSystemFilterNames: () => ['sort'],
-  getBreadcrumbs: (state, getters) => {
-    if (!getters.getCurrentCategory) return []
-    const categoryHierarchyIds = _prepareCategoryPathIds(getters.getCurrentCategory) // getters.getCategoriesHierarchyMap.find(categoryMapping => categoryMapping.includes(getters.getCurrentCategory.id)) || []
+  getBreadcrumbs: (state, getters) => getters.getBreadcrumbsFor(getters.getCurrentCategory),
+  getBreadcrumbsFor: (state, getters) => category => {
+    if (!category) return []
+    const categoryHierarchyIds = _prepareCategoryPathIds(category)
     let resultCategoryList = categoryHierarchyIds.map(categoryId => {
       return getters.getCategoriesMap[categoryId]
     }).filter(c => !!c)
