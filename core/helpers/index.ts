@@ -94,7 +94,7 @@ export function formatBreadCrumbRoutes (categoryPath) {
  */
 export function productThumbnailPath (product, ignoreConfig = false) {
   let thumbnail = product.image
-  if ((product.type_id && product.type_id === 'configurable') && product.hasOwnProperty('configurable_children') &&
+  if ((!thumbnail && product.type_id && product.type_id === 'configurable') && product.hasOwnProperty('configurable_children') &&
     product.configurable_children.length && (ignoreConfig || !product.is_configured) &&
     ('image' in product.configurable_children[0])
   ) {
