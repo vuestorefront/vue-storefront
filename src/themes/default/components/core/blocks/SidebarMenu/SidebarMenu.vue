@@ -252,6 +252,7 @@ $color-mine-shaft: color(mine-shaft);
 
   &__container {
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     height: calc(100% - 55px);
   }
 
