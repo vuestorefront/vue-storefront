@@ -16,7 +16,6 @@
 
 <script>
 import focusClean from 'theme/components/theme/directives/focusClean'
-import { localizedRoute } from '@vue-storefront/core/lib/multistore';
 
 export default {
   name: 'ButtonOutline',
