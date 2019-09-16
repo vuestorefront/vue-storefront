@@ -75,7 +75,7 @@ core/modules/wishlist/store/actions.ts
 If by some reasons you wan't to have the `localStorage` back on for `Products by SKU`, `Url Routes` and `SyncTasks` - please juset set these variables back to `false` in your `config/local.json`.
 
 - New page-not-found handling requires to update router/index.js in the theme.
-- The option `config.products.lazyLoadingCategoryProducts` was introduced which is responsible for hydrating products list and loading them only on client side. It means there is no category products in the `__INITIAL__STATE__`. It's enabled by default.
+- The option `config.ssr.lazyHydrateFor` with `category-next.products` value was introduced which is responsible for hydrating products list and loading them only on client side. It means there is no category products in the `__INITIAL__STATE__`. It's enabled by default.
 - The modules: `Review`, `Mailer`, `Order`, `RecentlyViewed`, `InstantCheckout` are no longer loaded by default in the main bundle as they are loading on-demand on the related pages.
 - Authentication guard was moved from user module router to `MyAccount` pages mixin.
 - The getters `cmsBlocks`, `cmsBlockIdentifier`, `cmsBlockId` are deprecated. Please use `getCmsBlocks`, `getCmsBlockIdentifier`, `getCmsBlockId` instead.

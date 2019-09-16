@@ -37,7 +37,7 @@ export default {
       return this.link ? 'router-link' : 'button'
     },
     redirectionLink () {
-      return this.link ? localizedRoute(this.link) : null
+      return this.link ? this.localizedRoute(this.link) : null
     }
   }
 }
