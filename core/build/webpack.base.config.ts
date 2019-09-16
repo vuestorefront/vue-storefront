@@ -27,15 +27,14 @@ const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.templa
 const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
 const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
 
-
 const csvDirectories = [
-  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/'),
-];
+  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/')
+]
 
 fs.readdirSync(moduleRoot).forEach(directory => {
-  const dirName = moduleRoot + '/' +  directory + '/resource/i18n'
+  const dirName = moduleRoot + '/' + directory + '/resource/i18n'
 
-  if(fs.existsSync(dirName)) {
+  if (fs.existsSync(dirName)) {
     csvDirectories.push(dirName);
   }
 });
