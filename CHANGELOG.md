@@ -123,6 +123,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex cms module - @andrzejewsky (#3337)
 - Refactored vuex review module - @andrzejewsky (#3337)
 - Refactored vuex newsletter module - @andrzejewsky (#3337)
+- Changed type of Id fields related to product, category and attribute to support numeric as well as string - @adityasharma7 (#3456)
 - Optimized fetching product data on homepage - @lukeromanowicz (#3512)
 - `localizedRoute()` now supports path (and prefers over fullPath) in LocalizedRoute objects - @lukeromanowicz (#3515)
 - Move setting review_status from VSF to VSF-API - @afirlejczyk
