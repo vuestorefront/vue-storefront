@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added lazy hydration for home page - @filrak (#3496)
 - Added i18n support for modules - @dz3n (#3369)
 - Added tests for actions and mutations in 'core/modules/recently-viewed' - @gibkigonzo (#3467)
+- Added tests for actions and mutations in 'core/modules/notification' - @gibkigonzo (#3465)
 
 ### Fixed
 
@@ -85,6 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed "Clear Wishlist" Button - @dz3n (#3522)
 - Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
 - Fix invalid routes in ButtonOutline and ButtonFull - @lukeromanowicz (#3541, #3545)
+- Fix adding notification with 'hasNoTimeout' after normal notification - @gibkigonzo (#3465)
 
 ### Changed / Improved
 
