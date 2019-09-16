@@ -24,9 +24,9 @@ describe('Notification actions', () => {
       }
       const wrapper = (actions: any) => actions.spawnNotification(contextMock, notification);
 
-      await wrapper(notificationStore.actions);
+      const newNotification = await wrapper(notificationStore.actions);
 
-      expect(contextMock.commit).toBeCalledWith('add', notification);
+      expect(contextMock.commit).toBeCalledWith('add', newNotification);
     });
 
     it('should NOT add new notification if last one has the same message', async () => {
@@ -65,13 +65,13 @@ describe('Notification actions', () => {
       }
       const wrapper = (actions: any) => actions.spawnNotification(contextMock, notification);
 
-      await wrapper(notificationStore.actions);
+      const newNotification = await wrapper(notificationStore.actions);
 
-      expect(contextMock.dispatch).not.toHaveBeenLastCalledWith('removeNotification');
+      expect(contextMock.dispatch).not.toHaveBeenLastCalledWith('removeNotificationById');
 
       jest.advanceTimersByTime(3000);
 
-      expect(contextMock.dispatch).toHaveBeenLastCalledWith('removeNotification');
+      expect(contextMock.dispatch).toHaveBeenLastCalledWith('removeNotificationById', newNotification.id);
     });
 
     it('should NOT remove new notification if hasNoTimeout is set on true', async () => {
@@ -95,7 +95,7 @@ describe('Notification actions', () => {
 
       jest.advanceTimersByTime(5000);
 
-      expect(contextMock.dispatch).not.toHaveBeenLastCalledWith('removeNotification');
+      expect(contextMock.dispatch).not.toHaveBeenLastCalledWith('removeNotificationById');
     });
   });
 
@@ -131,6 +131,50 @@ describe('Notification actions', () => {
       await wrapper(notificationStore.actions);
 
       expect(contextMock.commit).toBeCalledWith('remove', 1);
+    });
+  })
+
+  describe('removeNotificationById', () => {
+    it('should call \'remove\' commit if id is found', async () => {
+      const contextMock = {
+        commit: jest.fn(),
+        state: {
+          notifications: [
+            {
+              id: 1234,
+              type: 'success',
+              message: 'Success text.',
+              action1: { label: 'OK' }
+            }
+          ]
+        }
+      };
+      const wrapper = (actions: any) => actions.removeNotificationById(contextMock, 1234);
+
+      await wrapper(notificationStore.actions);
+
+      expect(contextMock.commit).toBeCalledWith('remove', 0);
+    });
+
+    it('should not call \'remove\' commit if id is not found', async () => {
+      const contextMock = {
+        commit: jest.fn(),
+        state: {
+          notifications: [
+            {
+              id: 1230,
+              type: 'success',
+              message: 'Success text.',
+              action1: { label: 'OK' }
+            }
+          ]
+        }
+      };
+      const wrapper = (actions: any) => actions.removeNotificationById(contextMock, 1234);
+
+      await wrapper(notificationStore.actions);
+
+      expect(contextMock.commit).not.toBeCalledWith('remove', 0);
     });
   })
 })
