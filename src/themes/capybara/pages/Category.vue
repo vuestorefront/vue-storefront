@@ -103,12 +103,8 @@ import SubCategoriesSidebar from 'src/themes/capybara/components/category/SubCat
 
 import {
   SfButton,
-  SfList,
   SfIcon,
-  SfMenuItem,
   SfProductCard,
-  SfAccordion,
-  SfSelect,
   SfLoader
 } from '@storefront-ui/vue';
 
@@ -130,11 +126,7 @@ export default {
   components: {
     SfButton,
     SfIcon,
-    SfList,
     SfProductCard,
-    SfMenuItem,
-    SfAccordion,
-    SfSelect,
     FiltersSidebar,
     SubCategoriesSidebar,
     SfLoader,

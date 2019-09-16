@@ -43,11 +43,6 @@ export const composeInitialPageState = async (store, route) => {
 export default {
   name: 'CategoryPage',
   mixins: [onBottomScroll],
-  props: {
-    currentSearchQuery: {
-      default: () => {}
-    }
-  },
   data () {
     return {
       sortBy: 'updated_at',
