@@ -392,7 +392,7 @@ export default {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
     },
     isOptionAvailable (option) { // check if the option is available
-      let currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
+      const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
       currentConfig[option.type] = option
       return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
     },
@@ -401,7 +401,7 @@ export default {
       this.quantity = null
       const res = await this.$store.dispatch('stock/check', {
         product: this.getCurrentProduct,
-        qty: this.getCurrentProduct.qte
+        qty: this.getCurrentProduct.qty
       })
       this.isProductLoading = false
       this.quantity = res.qty
