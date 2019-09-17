@@ -21,7 +21,7 @@ function prepareDynamicRoutes (routeData: LocalizedRoute, fullPath: string): Rou
     const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + fullPath, name: dynamicRouteName })
     return [dynamicRoute]
   } else {
-    return null
+    return []
   }
 }
 
