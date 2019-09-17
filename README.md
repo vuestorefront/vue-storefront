@@ -815,10 +815,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     <td align="center" valign="middle"> 
-<a href="">
+<a href="http://www.highdigital.de/">
           <img
-            src=""
-            alt=""
+            src="https://divante.com/partners/Vue-Storefront/highdigital.png"
+            alt="Highdigital"
             height="40"
           >
         </a>
