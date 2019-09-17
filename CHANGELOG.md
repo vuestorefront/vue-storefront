@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Sort CSV i18n files alphabetically in pre-commit Git hook - @defudef(#2657)
+- HTML Minifier has been added, to enable it please switch the `config.server.useHtmlMinifier` - @pkarw (#2182)
+- Output compression module has been added; it's enabled by default on production builds; to disable it please switch the `src/modules/serrver.ts` configuration - @pkarw (#2182)
+- Sort CSV i18n files alphabetically in pre-commit Git hook - @defudef (#2657)
 - Cache invalidate requests forwarding support - @pkarw (#3367)
 - Extend storeview config after another storeview in multistore mode - @lukeromanowicz (#3057, #3270)
 - Default storeview settings are now overridden by specific storeview settings - @lukeromanowicz (#3057)
@@ -36,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added husky package to manage lint check only for staged files in git @lorenaramonda (#3444)
 - Change text from "is out of the stock" to "is out of stock" - @indiebytes (#3452)
 - Added general purpose hooks - @andrzejewsky (#3389)
+- Added loading of your own searchAdaptor - @resubaka (#3405K)
 - Added lazy hydration for home page - @filrak (#3496)
 - Added i18n support for modules - @dz3n (#3369)
 - Added tests for actions and mutations in 'core/modules/recently-viewed' - @gibkigonzo (#3467)
@@ -85,6 +88,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed "Clear Wishlist" Button - @dz3n (#3522)
 - Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
 - Fix invalid routes in ButtonOutline and ButtonFull - @lukeromanowicz (#3541, #3545)
+- Fix for the "add to cart" test
 
 ### Changed / Improved
 
@@ -121,6 +125,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored vuex cms module - @andrzejewsky (#3337)
 - Refactored vuex review module - @andrzejewsky (#3337)
 - Refactored vuex newsletter module - @andrzejewsky (#3337)
+- Changed type of Id fields related to product, category and attribute to support numeric as well as string - @adityasharma7 (#3456)
 - Optimized fetching product data on homepage - @lukeromanowicz (#3512)
 - `localizedRoute()` now supports path (and prefers over fullPath) in LocalizedRoute objects - @lukeromanowicz (#3515)
 - Move setting review_status from VSF to VSF-API - @afirlejczyk
