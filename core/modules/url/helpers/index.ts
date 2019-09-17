@@ -19,7 +19,7 @@ function prepareDynamicRoutes (routeData: LocalizedRoute, fullPath: string): Rou
     const currentStoreCode = currentStoreView().storeCode
     const dynamicRouteName = (config.defaultStoreCode !== currentStoreCode) ? `urldispatcher-${fullPath}-${currentStoreView().storeCode}` : `urldispatcher-${fullPath}`
     const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((config.defaultStoreCode !== currentStoreCode) ? (currentStoreCode + '/') : '') + fullPath, name: dynamicRouteName })
-    return [dynamicRoute]    
+    return [dynamicRoute]
   } else {
     return null
   }
