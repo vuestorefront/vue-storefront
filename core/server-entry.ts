@@ -62,7 +62,7 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
 export default async context => {
   let storeCode = context.vs.storeCode
   if (config.storeViews.multistore === true) {
-    if (storeCode === undefined) { // this is from url
+    if (!storeCode) { // this is from url
       const currentRoute = Object.assign({ path: queryString.parseUrl(context.url).url/* this gets just the url path part */, host: context.server.request.headers.host })
       storeCode = storeCodeFromRoute(currentRoute)
       console.log(storeCode, currentRoute)

@@ -23,9 +23,11 @@ export const actions: ActionTree<UrlState, any> = {
   async registerDynamicRoutes ({ state, dispatch }) {
     if (state.dispatcherMap) {
       processMultipleDynamicRoutes(state.dispatcherMap) // check if we're to add routes to vue router
+      const registrationQueue = []
       for (const [url, routeData] of Object.entries(state.dispatcherMap)) {
-        await dispatch('registerMapping', { url, routeData })
+        registrationQueue.push(dispatch('registerMapping', { url, routeData }))
       }
+      Promise.all(registrationQueue)
     }
   },
   mapUrl ({ state, dispatch }, { url, query }: { url: string, query: string}) {
