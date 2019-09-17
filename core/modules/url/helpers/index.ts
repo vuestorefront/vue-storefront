@@ -17,8 +17,8 @@ function prepareDynamicRoutes (routeData: LocalizedRoute, fullPath: string): Rou
   const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
     const currentStoreCode = currentStoreView().storeCode
-    const dynamicRouteName = (config.defaultStoreCode !== currentStoreCode) ? `urldispatcher-${fullPath}-${currentStoreView().storeCode}` : `urldispatcher-${fullPath}`
-    const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((config.defaultStoreCode !== currentStoreCode) ? (currentStoreCode + '/') : '') + fullPath, name: dynamicRouteName })
+    const dynamicRouteName = (config.defaultStoreCode !== currentStoreCode) ? `urldispatcher-${fullPath}-${currentStoreCode}` : `urldispatcher-${fullPath}`
+    const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + fullPath, name: dynamicRouteName })
     return [dynamicRoute]
   } else {
     return null
@@ -40,7 +40,6 @@ export function processMultipleDynamicRoutes (dispatcherMap: {}, addToRoutes: bo
   }
   if (addToRoutes) {
     RouterManager.addRoutes(preparedRoutes, router)
-    console.log(preparedRoutes)
   }
   return preparedRoutes
 }

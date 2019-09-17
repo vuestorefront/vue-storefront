@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import { formatBreadCrumbRoutes, productThumbnailPath, isServer } from '@vue-storefront/core/helpers'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
 import { configureProductAsync,
   doPlatformPricesSync,
   filterOutUnavailableVariants,
@@ -27,6 +27,7 @@ import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import toString from 'lodash-es/toString'
 import config from 'config'
+import { formatProductLink } from 'core/modules/url/helpers'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -310,7 +311,7 @@ const actions: ActionTree<ProductState, RootState> = {
           }
           if (product.url_path) {
             rootStore.dispatch('url/registerMapping', {
-              url: product.url_path,
+              url: localizedDispatcherRoute('/' + product.url_path, currentStoreView().storeCode),
               routeData: {
                 params: {
                   'parentSku': product.parentSku,
