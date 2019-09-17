@@ -147,7 +147,7 @@
                   },
                   {
                     condition: quantity && product.qty && !$v.product.qty.maxValue,
-                    text: $t(`Quantity must be below ${quantity}`)
+                    text: `${$t(`Quantity must be below`)} ${quantity}`
                   }
                 ]"
               />
