@@ -88,7 +88,7 @@ const invokeClientEntry = async () => {
           }
         }
       }
-      if (!matched.length) {
+      if (!matched.length || !matched[0]) {
         return next()
       }
       Promise.all(matched.map((c: any) => { // TODO: update me for mixins support
