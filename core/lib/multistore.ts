@@ -10,6 +10,7 @@ import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
 import config from 'config'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { isServer } from '@vue-storefront/core/helpers'
 
 export interface LocalizedRoute {
   path?: string,
@@ -247,16 +248,30 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 }
 
 export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[]): void {
-  const allStoreRoutes = [...routes]
-  if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
-    for (const storeCode of config.storeViews.mapStoreUrlsFor) {
-      if (storeCode && (config.defaultStoreCode !== storeCode)) {
-        for (const route of routes) {
-          const localRoute = localizedRoute(Object.assign({}, route), storeCode)
-          allStoreRoutes.push(localRoute)
+  const allRoutes = []
+  const isMultistore = config.storeViews.multistore === true && config.storeViews.mapStoreUrlsFor.length
+  if (isServer) {
+    // server - don't know curren store code. Register default routes and localized routes for all stores (if any)
+    allRoutes.push(...routes)
+    if (isMultistore) {
+      for (const storeCode of config.storeViews.mapStoreUrlsFor) {
+        if (storeCode && (config.defaultStoreCode !== storeCode)) {
+          for (const route of routes) {
+            allRoutes.push(localizedRoute(Object.assign({}, route), storeCode))
+          }
         }
       }
     }
+  } else {
+    // client - register default routes for detault store (storeCode === '') OR register local routes for the current store only
+    const { storeCode } = currentStoreView()
+    if (isMultistore && storeCode) {
+      for (const route of routes) {
+        allRoutes.push(localizedRoute(Object.assign({}, route), storeCode))
+      }
+    } else {
+      allRoutes.push(...routes)
+    }
   }
-  RouterManager.addRoutes(allStoreRoutes, router, true)
+  RouterManager.addRoutes(allRoutes, router, true)
 }

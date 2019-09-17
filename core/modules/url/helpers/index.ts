@@ -6,6 +6,7 @@ import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { Category } from 'core/modules/catalog-next/types/Category'
 import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+import { isServer } from '@vue-storefront/core/helpers'
 
 export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: string]: any } | string, storeCodeInPath: string): LocalizedRoute {
   const parametrizedRoute = Object.assign({}, routeData)
@@ -19,19 +20,26 @@ export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: s
 function prepareDynamicRoute (routeData: LocalizedRoute, path: string, addToRoutes: boolean = true): RouteConfig[] {
   const rootPath = removeStoreCodeFromRoute(path) as string
   const userRoute = RouterManager.findByName(routeData.name)
-
   if (userRoute) {
     if (addToRoutes) {
       const routes = []
       const rootDynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + rootPath, name: `urldispatcher-${rootPath}` })
-      routes.push(rootDynamicRoute)
-      if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
-        for (let storeCode of config.storeViews.mapStoreUrlsFor) {
-          if (storeCode) {
-            const multistorePath = '/' + ((config.defaultStoreCode !== storeCode && config.storeViews[storeCode].appendStoreCode) ? (storeCode + '/') : '') + rootPath
-            const dynamicRoute = Object.assign({}, userRoute, routeData, { path: multistorePath, name: `urldispatcher-${rootPath}-${storeCode}` })
-            routes.push(dynamicRoute)
+      const isMultistore = config.storeViews.multistore === true && config.storeViews.mapStoreUrlsFor.length > 0
+      if (isServer) {
+        routes.push(rootDynamicRoute)
+        if (isMultistore) {
+          for (let storeCode of config.storeViews.mapStoreUrlsFor) {
+            if (storeCode) {
+              routes.push(localizedDynamicRoute(routeData, userRoute, rootPath, storeCode))
+            }
           }
+        }
+      } else {
+        const { storeCode } = currentStoreView()
+        if (isMultistore && storeCode) {
+          routes.push(localizedDynamicRoute(routeData, userRoute, rootPath, storeCode))
+        } else {
+          routes.push(rootDynamicRoute)
         }
       }
       return routes
@@ -42,6 +50,11 @@ function prepareDynamicRoute (routeData: LocalizedRoute, path: string, addToRout
   } else {
     return []
   }
+}
+
+function localizedDynamicRoute (routeData: LocalizedRoute, userRoute: RouteConfig, rootPath: string, storeCode: string) {
+  const multistorePath = '/' + ((config.defaultStoreCode !== storeCode && config.storeViews[storeCode].appendStoreCode) ? (storeCode + '/') : '') + rootPath
+  return Object.assign({}, userRoute, routeData, { path: multistorePath, name: `urldispatcher-${rootPath}-${storeCode}` })
 }
 
 export function processDynamicRoute (routeData: LocalizedRoute, path: string, addToRoutes: boolean = true): LocalizedRoute[] {

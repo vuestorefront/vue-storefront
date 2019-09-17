@@ -26,7 +26,7 @@ function initTheme (app, router, store, config, ssrContext) {
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   store.registerModule('themeCart', cartModule)
   setupMultistoreRoutes(config, router, routes)
-  RouterManager.addRoutes(routes, router, true)
+  // RouterManager.addRoutes(routes, router, true)
 
   StorageManager.init('claims');
   store.registerModule('claims', claimsStore);
