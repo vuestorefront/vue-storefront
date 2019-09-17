@@ -1,6 +1,6 @@
 import { router } from '@vue-storefront/core/app'
 import config from 'config'
-import { localizedDispatcherRoute, localizedRoute, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
+import { localizedDispatcherRoute, localizedRoute, LocalizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { RouteConfig } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
@@ -23,14 +23,15 @@ function prepareDynamicRoute (routeData: LocalizedRoute, fullPath: string, addTo
       if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
         for (let storeCode of config.storeViews.mapStoreUrlsFor) {
           if (storeCode) {
-            const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((config.defaultStoreCode !== storeCode) ? (storeCode + '/') : '') + fullPath, name: `urldispatcher-${fullPath}` })
+            const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((config.defaultStoreCode !== storeCode) ? (storeCode + '/') : '') + fullPath, name: `urldispatcher-${fullPath}-${storeCode}` })
             routes.push(dynamicRoute)
           }
         }
       }
       return routes
     } else {
-      const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + fullPath, name: `urldispatcher-${fullPath}` })
+      const dynamicRouteName = (config.defaultStoreCode !== currentStoreView().storeCode) ? `urldispatcher-${fullPath}-${currentStoreView().storeCode}` : `urldispatcher-${fullPath}` 
+      const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + fullPath, name: dynamicRouteName })
       return [dynamicRoute]
     }
   } else {
