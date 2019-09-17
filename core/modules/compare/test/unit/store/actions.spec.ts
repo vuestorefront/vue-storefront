@@ -93,4 +93,53 @@ describe('Compare actions', () => {
       expect(contextMock.commit).toBeCalledWith(types.COMPARE_LOAD_COMPARE, [product]);
     });
   });
+
+  describe('fetchCurrentCompare', () => {
+    it('should fetch items from cache', async () => {
+      const wrapper = (actions: any) => actions.fetchCurrentCompare();
+
+      await wrapper(compareActions);
+
+      expect(cacheStorage.getItem).toBeCalledWith('current-compare');
+    });
+  });
+
+  describe('addItem', () => {
+    it('should call add product commit', async () => {
+      const contextMock = {
+        commit: jest.fn()
+      };
+      const wrapper = (actions: any) => actions.addItem(contextMock, product);
+
+      await wrapper(compareActions);
+
+      expect(contextMock.commit).toBeCalledWith(types.COMPARE_ADD_ITEM, { product });
+    });
+  });
+
+  describe('removeItem', () => {
+    it('should call remove product commit', async () => {
+      const contextMock = {
+        commit: jest.fn()
+      };
+      const wrapper = (actions: any) => actions.removeItem(contextMock, product);
+
+      await wrapper(compareActions);
+
+      expect(contextMock.commit).toBeCalledWith(types.COMPARE_DEL_ITEM, { product });
+    });
+  });
+
+  describe('clear', () => {
+    it('should call clear state commit', async () => {
+      const contextMock = {
+        commit: jest.fn()
+      };
+      const wrapper = (actions: any) => actions.clear(contextMock);
+
+      await wrapper(compareActions);
+
+      expect(contextMock.commit).toBeCalledWith(types.COMPARE_LOAD_COMPARE, []);
+    });
+  });
 });
