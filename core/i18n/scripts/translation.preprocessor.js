@@ -28,11 +28,11 @@ module.exports = function (csvDirectories, config = null) {
         if (languages.indexOf(baseName) === -1) {
           languages.push(baseName)
         }
-        console.debug(`Processing translation file: ${fullFileName}`)
         messages[baseName] = Object.assign(messages[baseName] ? messages[baseName] : {}, convertToObject(dsv.parseRows(fileContent)))
       }
     })
   })
+  console.debug(`Processed translation files`)
 
   languages.forEach((language) => {
     if (!config || !config.i18n.bundleAllStoreviewLanguages || (config.i18n.bundleAllStoreviewLanguages && language === 'en-US')) {
