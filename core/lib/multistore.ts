@@ -224,7 +224,7 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
     return routeObj
   }
 
-  if (typeof routeObj === 'object') {
+  if ((typeof routeObj === 'object') && (routeObj as LocalizedRoute)) {
     if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
       routeObj['path'] = (routeObj as LocalizedRoute).fullPath
     }
@@ -258,5 +258,5 @@ export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteC
       }
     }
   }
-  RouterManager.addRoutes(allStoreRoutes, router)
+  RouterManager.addRoutes(allStoreRoutes, router, true)
 }

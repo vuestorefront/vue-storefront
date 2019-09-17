@@ -21,10 +21,6 @@ const RouterManager = {
   },
   flushRouteQueue: function (routerInstance: VueRouter = router): void {
     if (!this._routeQueueFlushed) {
-      // const readyQueue = this._routeQueue.map(queueItem => queueItem.route) // .filter(item => typeof item === 'object') // to do - priority, add once only
-      // console.log('readyQueue', readyQueue)
-      // this._registeredRoutes.push(...readyQueue)
-      // routerInstance.addRoutes(readyQueue)
       this.addRoutesByPriority(this._routeQueue, routerInstance)
       this._routeQueueFlushed = true
       this._routeQueue = []
@@ -36,7 +32,6 @@ const RouterManager = {
       let exisitingIndex = routesToAdd.findIndex(r => r.route.name === routeData.route.name && r.route.path === routeData.route.path)
       if ((exisitingIndex >= 0) && (routesToAdd[exisitingIndex].priority < routeData.priority)) { // same priority doesn't override exisiting
         routesToAdd.splice(exisitingIndex, 1)
-        console.log('exisiting', routeData.route.name)
         exisitingIndex = -1
       }
       if (exisitingIndex < 0) {
@@ -54,14 +49,14 @@ const RouterManager = {
   },
   findByName: function (name: string): RouteConfig {
     const registeredRoute = this._registeredRoutes.find(r => r.route.name === name)
-    if (registeredRoute) return registeredRoute
+    if (registeredRoute) return registeredRoute.route
     if (this._routeQueueFlushed) return null
     const queuedRoute = this._routeQueue.find(queueItem => queueItem.route.name === name)
     return queuedRoute ? queuedRoute.route : null
   },
   findByPath: function (path: string): RouteConfig {
     const registeredRoute = this._registeredRoutes.find(r => r.route.path === path)
-    if (registeredRoute) return registeredRoute
+    if (registeredRoute) return registeredRoute.route
     if (this._routeQueueFlushed) return null
     const queuedRoute = this._routeQueue.find(queueItem => queueItem.route.path === path)
     return queuedRoute ? queuedRoute.route : null

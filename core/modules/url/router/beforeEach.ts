@@ -35,9 +35,9 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
   const path = normalizeUrlPath(to.path)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
   const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name && to.name.startsWith('urldispatcher')
-
   if (!to.matched.length || to.matched[0].name.endsWith('page-not-found') || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
-    UrlDispatchMapper(to).then((routeData) => {
+    try {
+      const routeData = await UrlDispatchMapper(to)
       if (routeData) {
         let dynamicRoutes: LocalizedRoute[] = processDynamicRoute(routeData, path, !isPreviouslyDispatchedDynamicRoute)
         if (dynamicRoutes && dynamicRoutes.length > 0) {
@@ -57,12 +57,11 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
         Logger.error('No mapping found for ' + path, 'dispatcher')()
         next()
       }
-    }).catch(e => {
+    } catch (e) {
       Logger.error(e, 'dispatcher')()
-      next()
-    }).finally(() => {
+    } finally {
       RouterManager.unlockRoute()
-    })
+    }
   } else {
     next()
     RouterManager.unlockRoute()

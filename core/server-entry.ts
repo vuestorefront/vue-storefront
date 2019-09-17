@@ -35,7 +35,7 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
       if (buildTimeConfig.server.dynamicConfigReload) {
         const excludeFromConfig = buildTimeConfig.server.dynamicConfigExclude
         const includeFromConfig = buildTimeConfig.server.dynamicConfigInclude
-        console.log(excludeFromConfig, includeFromConfig)
+        // console.log(excludeFromConfig, includeFromConfig)
         if (includeFromConfig && includeFromConfig.length > 0) {
           context.state.config = pick(context.state.config, includeFromConfig)
         }
@@ -78,8 +78,8 @@ export default async context => {
         }
       }
       const matchedComponents = router.getMatchedComponents()
-      if (!matchedComponents.length) {
-        return reject(new HttpError('No components matched', 404))
+      if (!matchedComponents.length || !matchedComponents[0]) {
+        return reject(new HttpError('No components matched', 404)) // to do - don't redirect if already on page-not-found
       }
       Promise.all(matchedComponents.map((Component: any) => {
         const components = Component.mixins ? Array.from(Component.mixins) : []

@@ -47,7 +47,7 @@ function prepareDynamicRoute (routeData: LocalizedRoute, path: string, addToRout
 export function processDynamicRoute (routeData: LocalizedRoute, path: string, addToRoutes: boolean = true): LocalizedRoute[] {
   const preparedRoutes = prepareDynamicRoute(routeData, path, addToRoutes)
   if (addToRoutes && preparedRoutes) {
-    RouterManager.addRoutes(preparedRoutes, router)
+    RouterManager.addRoutes(preparedRoutes, router, true)
   }
   return preparedRoutes
 }
