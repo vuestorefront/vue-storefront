@@ -23,7 +23,7 @@ function prepareDynamicRoute (routeData: LocalizedRoute, fullPath: string, addTo
       if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
         for (let storeCode of config.storeViews.mapStoreUrlsFor) {
           if (storeCode) {
-            const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((config.defaultStoreCode !== storeCode) ? (storeCode + '/') : '') + fullPath, name: `urldispatcher-${fullPath}-${storeCode}` })
+            const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + ((config.defaultStoreCode !== storeCode) ? (storeCode + '/') : '') + fullPath, name: `urldispatcher-${fullPath}` })
             routes.push(dynamicRoute)
           }
         }
@@ -49,10 +49,11 @@ export function processDynamicRoute (routeData: LocalizedRoute, fullPath: string
 export function processMultipleDynamicRoutes (dispatcherMap: {}, addToRoutes: boolean = true): LocalizedRoute[] {
   const preparedRoutes = []
   for (const [url, routeData] of Object.entries(dispatcherMap)) {
-    preparedRoutes.push(...prepareDynamicRoute(routeData, url, addToRoutes))
+    preparedRoutes.push(...prepareDynamicRoute(routeData, url, true))
   }
   if (addToRoutes) {
     RouterManager.addRoutes(preparedRoutes, router)
+    console.log(preparedRoutes)
   }
   return preparedRoutes
 }

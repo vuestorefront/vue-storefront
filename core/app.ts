@@ -72,7 +72,6 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   if (!store.state.config) store.state.config = globalConfig //  @deprecated - we should avoid the `config`
   const storeView = prepareStoreView(storeCode) // prepare the default storeView
   store.state.storeView = storeView
-  // store.state.shipping.methods = shippingMethods
 
   // to depreciate in near future
   once('__VUE_EXTEND__', () => {

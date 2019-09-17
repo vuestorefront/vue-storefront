@@ -23,7 +23,7 @@ export const actions: ActionTree<UrlState, any> = {
     if (state.dispatcherMap) {
       processMultipleDynamicRoutes(state.dispatcherMap)
       for (const [url, routeData] of Object.entries(state.dispatcherMap)) {
-        dispatch('registerMapping', { url, routeData })
+        await dispatch('registerMapping', { url, routeData })
       }
     }
   },

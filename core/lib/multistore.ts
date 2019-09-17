@@ -67,9 +67,9 @@ export function prepareStoreView (storeCode: string): StoreView {
     storeView.storeCode = config.defaultStoreCode || ''
     rootStore.state.user.current_storecode = config.defaultStoreCode || ''
   }
-  loadLanguageAsync(storeView.i18n.defaultLocale)
   if (storeViewHasChanged) {
     rootStore.state.storeView = storeView
+    loadLanguageAsync(storeView.i18n.defaultLocale)
   }
   if (storeViewHasChanged || Vue.prototype.$db.currentStoreCode !== storeCode) {
     if (typeof Vue.prototype.$db === 'undefined') {
@@ -78,7 +78,6 @@ export function prepareStoreView (storeCode: string): StoreView {
     initializeSyncTaskStorage()
     Vue.prototype.$db.currentStoreCode = storeView.storeCode
   }
-
   return storeView
 }
 
