@@ -147,14 +147,16 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   const appendStoreCodePrefix = config.storeViews[storeCode] ? config.storeViews[storeCode].appendStoreCode : false
 
   if (typeof routeObj === 'string') {
-    return appendStoreCodePrefix ? '/' + storeCode + routeObj : routeObj
+    if (routeObj[0] !== '/') routeObj = `/${routeObj}`
+    return appendStoreCodePrefix ? `/${storeCode}${routeObj}` : routeObj
   }
 
   if (routeObj && routeObj.fullPath) { // case of using dispatcher
     const routeCodePrefix = config.defaultStoreCode !== storeCode && appendStoreCodePrefix ? `/${storeCode}` : ''
     const qrStr = queryString.stringify(routeObj.params)
 
-    return `${routeCodePrefix}/${routeObj.fullPath}${qrStr ? `?${qrStr}` : ''}`
+    const normalizedPath = routeObj.fullPath[0] !== '/' ? `/${routeObj.fullPath}` : routeObj.fullPath
+    return `${routeCodePrefix}${normalizedPath}${qrStr ? `?${qrStr}` : ''}`
   }
 
   return routeObj

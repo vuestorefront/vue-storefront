@@ -311,7 +311,7 @@ const actions: ActionTree<ProductState, RootState> = {
           }
           if (product.url_path) {
             rootStore.dispatch('url/registerMapping', {
-              url: localizedDispatcherRoute('/' + product.url_path, currentStoreView().storeCode),
+              url: localizedDispatcherRoute(product.url_path, currentStoreView().storeCode),
               routeData: {
                 params: {
                   'parentSku': product.parentSku,

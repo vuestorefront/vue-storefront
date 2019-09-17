@@ -71,7 +71,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         for (let category of resp.items) {
           if (category.url_path && updateState) {
             rootStore.dispatch('url/registerMapping', {
-              url: localizedDispatcherRoute('/' + category.url_path, currentStoreView().storeCode),
+              url: localizedDispatcherRoute(category.url_path, currentStoreView().storeCode),
               routeData: {
                 params: {
                   'slug': category.slug
