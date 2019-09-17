@@ -12,7 +12,9 @@ const RouterManager = {
     if (useRouteQueue && !this._routeQueueFlushed) {
       this._routeQueue.push(...routes.map(route => { return { route: route, priority: priority } }))
     } else {
-      const uniqueRoutes = routes.filter((route) => !this.isRouteAdded(this._registeredRoutes, route))
+      const uniqueRoutes = routes.filter((route) => {
+        return this._registeredRoutes.findIndex(registeredRoute => registeredRoute.route.name === route.name && registeredRoute.route.path === route.path) < 0
+      })
       if (uniqueRoutes.length > 0) {
         this._registeredRoutes.push(...uniqueRoutes.map(route => { return { route: route, priority: priority } }))
         routerInstance.addRoutes(uniqueRoutes)
@@ -48,17 +50,16 @@ const RouterManager = {
     this._callbacks.push(callback)
   },
   findByName: function (name: string): RouteConfig {
-    const registeredRoute = this._registeredRoutes.find(r => r.route.name === name)
-    if (registeredRoute) return registeredRoute.route
-    if (this._routeQueueFlushed) return null
-    const queuedRoute = this._routeQueue.find(queueItem => queueItem.route.name === name)
-    return queuedRoute ? queuedRoute.route : null
+    return this.findByProperty('name', name)
   },
   findByPath: function (path: string): RouteConfig {
-    const registeredRoute = this._registeredRoutes.find(r => r.route.path === path)
+    return this.findByProperty('path', path)
+  },
+  findByProperty: function (property: string, value: string): RouteConfig {
+    const registeredRoute = this._registeredRoutes.find(r => r.route[property] === value)
     if (registeredRoute) return registeredRoute.route
     if (this._routeQueueFlushed) return null
-    const queuedRoute = this._routeQueue.find(queueItem => queueItem.route.path === path)
+    const queuedRoute = this._routeQueue.find(queueItem => queueItem.route[property] === value)
     return queuedRoute ? queuedRoute.route : null
   },
   lockRoute: function () {
