@@ -89,6 +89,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
 - Fix invalid routes in ButtonOutline and ButtonFull - @lukeromanowicz (#3541, #3545)
 - Fix for the "add to cart" test
+- prevent caching storage instance in plugin module scope @gibkigonzo (#3571)
 
 ### Changed / Improved
 
