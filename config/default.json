@@ -138,7 +138,6 @@
         "defaultLocale": "de-DE",
         "currencyCode": "EUR",
         "currencySign": "EUR",
-        "currencySignSpacing": false,
         "dateFormat": "HH:mm D-M-YYYY"
       },
       "seo": {
