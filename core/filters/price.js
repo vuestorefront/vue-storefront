@@ -6,13 +6,8 @@ const formatValue = (value, locale) => {
   return price.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 };
 
-const applyCurrencySign = (formattedPrice, { currencySign, currencySignPlacement, currencySignSpacing }) => {
-  currencySignSpacing = currencySignSpacing ? ' ' : ''
-  if (currencySignPlacement === 'append') {
-    return `${formattedPrice}${currencySignSpacing}${currencySign}`
-  }
-
-  return `${currencySign}${currencySignSpacing}${formattedPrice}`
+const applyCurrencySign = (formattedPrice, { currencySign, priceFormat }) => {
+  return priceFormat.replace('{sign}', currencySign).replace('{amount}', formattedPrice)
 }
 
 /**
@@ -24,10 +19,10 @@ export function price (value) {
     return value;
   }
   const storeView = currentStoreView();
-  const { defaultLocale, currencySign, currencySignPlacement, currencySignSpacing } = storeView.i18n
+  const { defaultLocale, currencySign, priceFormat } = storeView.i18n
 
   const formattedValue = formatValue(value, defaultLocale);
-  const valueWithSign = applyCurrencySign(formattedValue, { currencySign, currencySignPlacement, currencySignSpacing })
+  const valueWithSign = applyCurrencySign(formattedValue, { currencySign, priceFormat })
 
   if (value >= 0) {
     return valueWithSign;
