@@ -26,7 +26,7 @@ import { InstantCheckoutModule } from './instant-checkout'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
 // TODO:distributed across proper pages BEFORE 1.11
-export function registerNewModules () {
+export function registerClientModules () {
   registerModule(UrlModule)
   registerModule(CatalogModule)
   registerModule(CheckoutModule) // To Checkout

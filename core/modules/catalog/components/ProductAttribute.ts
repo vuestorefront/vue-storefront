@@ -16,7 +16,7 @@ export const ProductAttribute = {
   },
   computed: {
     label () {
-      return (this.attribute && this.attribute.default_frontend_label) ? this.attribute.default_frontend_label : ''
+      return (this.attribute && this.attribute.frontend_label) ? this.attribute.frontend_label : ((this.attribute && this.attribute.default_frontend_label) ? this.attribute.default_frontend_label : '')
     },
     value () {
       let parsedValues = this.product[this.attribute.attribute_code]

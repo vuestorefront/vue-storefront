@@ -21,16 +21,28 @@ import themeRoot from './theme-path';
 const projectRoot = '../../src'
 const themesRoot = projectRoot + '/themes'
 
+const moduleRoot = path.resolve(__dirname, '../../src/modules')
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 const themedIndex = path.join(themeRoot, '/index.html')
 
+const csvDirectories = [
+  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/')
+]
+
+fs.readdirSync(moduleRoot).forEach(directory => {
+  const dirName = moduleRoot + '/' + directory + '/resource/i18n'
+
+  if (fs.existsSync(dirName)) {
+    csvDirectories.push(dirName);
+  }
+});
+
+csvDirectories.push(path.resolve(__dirname, themeResources + '/i18n/'));
+
 const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
-translationPreprocessor([
-  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/'),
-  path.resolve(__dirname, themeResources + '/i18n/')
-], config)
+translationPreprocessor(csvDirectories, config)
 
 const postcssConfig = {
   loader: 'postcss-loader',

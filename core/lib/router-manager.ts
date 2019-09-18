@@ -23,8 +23,8 @@ const RouterManager = {
   findByName: function (name: string): RouteConfig {
     return this._registeredRoutes.find(r => r.name === name)
   },
-  findByPath: function (fullPath: string): RouteConfig {
-    return this._registeredRoutes.find(r => r.fullPath === fullPath)
+  findByPath: function (path: string): RouteConfig {
+    return this._registeredRoutes.find(r => r.path === path)
   },
   lockRoute: function () {
     let resolver

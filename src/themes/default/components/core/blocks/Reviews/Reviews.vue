@@ -126,7 +126,7 @@ export default {
   },
   props: {
     productId: {
-      type: Number,
+      type: [String, Number],
       required: true
     }
   },
@@ -152,7 +152,6 @@ export default {
         'detail': this.formData.review,
         'nickname': this.formData.name,
         'review_entity': 'product',
-        'review_status': 2,
         'customer_id': this.currentUser ? this.currentUser.id : null
       })
 

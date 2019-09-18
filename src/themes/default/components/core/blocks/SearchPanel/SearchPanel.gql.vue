@@ -67,6 +67,7 @@ export default {
   transition: transform 300ms $motion-main;
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 
   &.active {
     transform: translateX(0);
