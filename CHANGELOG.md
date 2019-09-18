@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added lazy hydration for home page - @filrak (#3496, #3565)
 - Added i18n support for modules - @dz3n (#3369)
 - Added tests for actions and mutations in 'core/modules/recently-viewed' - @gibkigonzo (#3467)
+- Add configuration option to add spacing between currency sign and price - @cewald (#3574)
 
 ### Fixed
 
