@@ -6,7 +6,7 @@ import store from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
 import { isServer } from '@vue-storefront/core/helpers'
-import { storeCodeFromRoute, prepareStoreView, currentStoreView, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, LocalizedRoute, localizedRoute, storeCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
@@ -16,15 +16,6 @@ export const UrlDispatchMapper = async (to) => {
 }
 
 export async function beforeEachGuard (to: Route, from: Route, next) {
-  if (isServer) {
-    if (config.storeViews.multistore) { // this is called before server-entry.ts router.onReady - so we have to make sure we're in the right store context
-      const storeCode = storeCodeFromRoute(to)
-      if (storeCode) {
-        prepareStoreView(storeCode)
-      }
-    }
-  }
-
   if (RouterManager.isRouteProcessing()) {
     await RouterManager.getRouteLockPromise()
     next()
@@ -39,26 +30,21 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
     try {
       const routeData = await UrlDispatchMapper(to)
       if (routeData) {
-        let dynamicRoutes: LocalizedRoute[] = processDynamicRoute(routeData, path, !isPreviouslyDispatchedDynamicRoute)
-        if (dynamicRoutes && dynamicRoutes.length > 0) {
-          let dynamicRouteByStore: boolean|LocalizedRoute = false
-
-          if (config.storeViews.multistore) {
-            const storeCode = storeCodeFromRoute(routeData.path)
-            dynamicRouteByStore = dynamicRoutes.find(route => route.name.endsWith(storeCode))
-          }
-
-          next(dynamicRouteByStore || dynamicRoutes[0])
+        // TODO - need route name prefix? add here
+        let dynamicRoute: LocalizedRoute = processDynamicRoute(routeData, path, !isPreviouslyDispatchedDynamicRoute)
+        if (dynamicRoute) {
+          next(dynamicRoute)
         } else {
           Logger.error('Route not found ' + routeData['name'], 'dispatcher')()
-          next()
+          next(localizedRoute('/page-not-found', currentStoreView().storeCode))
         }
       } else {
         Logger.error('No mapping found for ' + path, 'dispatcher')()
-        next()
+        next(localizedRoute('/page-not-found', currentStoreView().storeCode))
       }
     } catch (e) {
       Logger.error(e, 'dispatcher')()
+      next(localizedRoute('/page-not-found', currentStoreView().storeCode))
     } finally {
       RouterManager.unlockRoute()
     }

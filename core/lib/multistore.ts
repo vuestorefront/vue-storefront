@@ -10,7 +10,6 @@ import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
 import config from 'config'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import { isServer } from '@vue-storefront/core/helpers'
 
 export interface LocalizedRoute {
   path?: string,
@@ -105,11 +104,10 @@ export function prepareStoreView (storeCode: string): StoreView {
   }
   rootStore.state.user.current_storecode = storeView.storeCode
 
-  loadLanguageAsync(storeView.i18n.defaultLocale)
-
   if (storeViewHasChanged) {
     storeView = coreHooksExecutors.beforeStoreViewChanged(storeView)
     rootStore.state.storeView = storeView
+    loadLanguageAsync(storeView.i18n.defaultLocale)
   }
   if (storeViewHasChanged || StorageManager.currentStoreCode !== storeCode) {
     initializeSyncTaskStorage()
@@ -197,9 +195,13 @@ export function adjustMultistoreApiUrl (url: string): string {
 }
 
 export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): LocalizedRoute | string {
+  if (!storeCode) {
+    storeCode = currentStoreView().storeCode
+  }
   const appendStoreCodePrefix = config.storeViews[storeCode] ? config.storeViews[storeCode].appendStoreCode : false
 
   if (typeof routeObj === 'string') {
+    if (routeObj[0] !== '/') routeObj = `/${routeObj}`
     return appendStoreCodePrefix ? `/${storeCode}${routeObj}` : routeObj
   }
 
@@ -212,7 +214,8 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
       const routeCodePrefix = config.defaultStoreCode !== storeCode && appendStoreCodePrefix ? `/${storeCode}` : ''
       const qrStr = queryString.stringify(routeObj.params);
 
-      return `${routeCodePrefix}/${routeObj.path}${qrStr ? `?${qrStr}` : ''}`
+      const normalizedPath = routeObj.path[0] !== '/' ? `/${routeObj.path}` : routeObj.path
+      return `${routeCodePrefix}${normalizedPath}${qrStr ? `?${qrStr}` : ''}`
     }
   }
 
@@ -220,6 +223,9 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
+  if (!storeCode) {
+    storeCode = currentStoreView().storeCode
+  }
   if (!routeObj) {
     Logger.error('Invalid route provided to localize.', null, routeObj)()
     return routeObj
@@ -235,9 +241,10 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
     if (typeof routeObj !== 'object') {
       return '/' + storeCode + routeObj
     }
-    if (routeObj.name) {
-      routeObj.name = storeCode + '-' + routeObj.name
-    }
+    // TODO - need route name prefix?
+    // if (routeObj.name) {
+    //   routeObj.name = storeCode + '-' + routeObj.name
+    // }
 
     if (routeObj.path) {
       routeObj.path = '/' + storeCode + '/' + (routeObj.path.startsWith('/') ? routeObj.path.slice(1) : routeObj.path)
@@ -249,29 +256,12 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 
 export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[]): void {
   const allRoutes = []
-  const isMultistore = config.storeViews.multistore === true && config.storeViews.mapStoreUrlsFor.length
-  if (isServer) {
-    // server - don't know curren store code. Register default routes and localized routes for all stores (if any)
-    allRoutes.push(...routes)
-    if (isMultistore) {
-      for (const storeCode of config.storeViews.mapStoreUrlsFor) {
-        if (storeCode && (config.defaultStoreCode !== storeCode)) {
-          for (const route of routes) {
-            allRoutes.push(localizedRoute(Object.assign({}, route), storeCode))
-          }
-        }
-      }
-    }
+  const isMultistore = config.storeViews.multistore === true && config.storeViews.mapStoreUrlsFor.length > 0
+  const { storeCode } = currentStoreView()
+  if (isMultistore && storeCode) {
+    allRoutes.push(...routes.map(route => localizedRoute(Object.assign({}, route), storeCode)))
   } else {
-    // client - register default routes for detault store (storeCode === '') OR register local routes for the current store only
-    const { storeCode } = currentStoreView()
-    if (isMultistore && storeCode) {
-      for (const route of routes) {
-        allRoutes.push(localizedRoute(Object.assign({}, route), storeCode))
-      }
-    } else {
-      allRoutes.push(...routes)
-    }
+    allRoutes.push(...routes)
   }
   RouterManager.addRoutes(allRoutes, router, true)
 }

@@ -82,8 +82,6 @@ const invokeClientEntry = async () => {
           if (storeCode !== '' && storeCode !== null) {
             if (storeCode !== currentStore.storeCode) {
               (document as any).location = to.path // full reload
-            } else {
-              prepareStoreView(storeCode)
             }
           }
         }

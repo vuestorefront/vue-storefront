@@ -15,7 +15,7 @@ export const actions: ActionTree<UrlState, any> = {
   async registerMapping ({ commit }, { url, routeData }: { url: string, routeData: any}) {
     commit(types.REGISTER_MAPPING, { url, routeData })
     try {
-      await cacheStorage.setItem(url, routeData, null, config.seo.disableUrlRoutesPersistentCache)
+      await cacheStorage.setItem(normalizeUrlPath(url), routeData, null, config.seo.disableUrlRoutesPersistentCache)
     } catch (err) {
       if (
         err.name === 'QuotaExceededError' ||
@@ -33,6 +33,7 @@ export const actions: ActionTree<UrlState, any> = {
     if (!state.dispatcherMap) return
 
     preProcessDynamicRoutes(state.dispatcherMap)
+    // to do - check efficient way
     const registrationRoutePromises = Object.keys(state.dispatcherMap).map(url => {
       const routeData = state.dispatcherMap[url]
       return dispatch('registerMapping', { url, routeData })
