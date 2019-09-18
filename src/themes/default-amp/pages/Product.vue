@@ -131,7 +131,6 @@
 </template>
 
 <script>
-import Product from '@vue-storefront/core/pages/Product'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
@@ -147,7 +146,6 @@ export default {
     ProductCustomOptions,
     ProductLinks
   },
-  mixins: [Product],
   data () {
     return {
       detailsOpen: false
