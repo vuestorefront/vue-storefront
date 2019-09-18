@@ -6,9 +6,8 @@ import store from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
 import { isServer } from '@vue-storefront/core/helpers'
-import { storeCodeFromRoute, prepareStoreView, currentStoreView, LocalizedRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, LocalizedRoute, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import Vue from 'vue'
-import config from 'config'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 
 export const UrlDispatchMapper = async (to) => {
@@ -17,15 +16,6 @@ export const UrlDispatchMapper = async (to) => {
 }
 
 export async function beforeEach (to: Route, from: Route, next) {
-  if (isServer) {
-    if (config.storeViews.multistore) { // this is called before server-entry.ts router.onReady - so we have to make sure we're in the right store context
-      const storeCode = storeCodeFromRoute(to)
-      if (storeCode) {
-        prepareStoreView(storeCode)
-      }
-    }
-  }
-
   if (RouterManager.isRouteProcessing()) {
     await RouterManager.getRouteLockPromise()
     next()
@@ -44,16 +34,16 @@ export async function beforeEach (to: Route, from: Route, next) {
           next(dynamicRoutes[0])
         } else {
           Logger.error('Route not found ' + routeData['name'], 'dispatcher')()
-          next('/page-not-found')
+          next(localizedRoute('/page-not-found', currentStoreView().storeCode))
         }
       } else {
         Logger.error('No mapping found for ' + fullPath, 'dispatcher')()
-        next('/page-not-found')
+        next(localizedRoute('/page-not-found', currentStoreView().storeCode))
       }
     }).catch(e => {
       Logger.error(e, 'dispatcher')()
       if (!isServer) {
-        next('/page-not-found')
+        next(localizedRoute('/page-not-found', currentStoreView().storeCode))
       } else {
         const storeCode = currentStoreView().storeCode
         Vue.prototype.$ssrRequestContext.server.response.redirect((storeCode !== '' ? ('/' + storeCode) : '') + '/page-not-found') // TODO: Refactor this one after @filrak will give us a way to access ServerContext from Modules directly :-)

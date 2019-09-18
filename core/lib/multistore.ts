@@ -67,9 +67,9 @@ export function prepareStoreView (storeCode: string): StoreView {
     storeView.storeCode = config.defaultStoreCode || ''
     rootStore.state.user.current_storecode = config.defaultStoreCode || ''
   }
-  loadLanguageAsync(storeView.i18n.defaultLocale)
   if (storeViewHasChanged) {
     rootStore.state.storeView = storeView
+    loadLanguageAsync(storeView.i18n.defaultLocale)
   }
   if (storeViewHasChanged || Vue.prototype.$db.currentStoreCode !== storeCode) {
     if (typeof Vue.prototype.$db === 'undefined') {
@@ -78,7 +78,6 @@ export function prepareStoreView (storeCode: string): StoreView {
     initializeSyncTaskStorage()
     Vue.prototype.$db.currentStoreCode = storeView.storeCode
   }
-
   return storeView
 }
 
@@ -142,23 +141,31 @@ export function adjustMultistoreApiUrl (url: string): string {
 }
 
 export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): LocalizedRoute | string {
+  if (!storeCode) {
+    storeCode = currentStoreView().storeCode
+  }
   const appendStoreCodePrefix = config.storeViews[storeCode] ? config.storeViews[storeCode].appendStoreCode : false
 
   if (typeof routeObj === 'string') {
-    return appendStoreCodePrefix ? '/' + storeCode + routeObj : routeObj
+    if (routeObj[0] !== '/') routeObj = `/${routeObj}`
+    return appendStoreCodePrefix ? `/${storeCode}${routeObj}` : routeObj
   }
 
   if (routeObj && routeObj.fullPath) { // case of using dispatcher
     const routeCodePrefix = config.defaultStoreCode !== storeCode && appendStoreCodePrefix ? `/${storeCode}` : ''
     const qrStr = queryString.stringify(routeObj.params)
 
-    return `${routeCodePrefix}/${routeObj.fullPath}${qrStr ? `?${qrStr}` : ''}`
+    const normalizedPath = routeObj.fullPath[0] !== '/' ? `/${routeObj.fullPath}` : routeObj.fullPath
+    return `${routeCodePrefix}${normalizedPath}${qrStr ? `?${qrStr}` : ''}`
   }
 
   return routeObj
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
+  if (!storeCode) {
+    storeCode = currentStoreView().storeCode
+  }
   if (routeObj && (routeObj as LocalizedRoute).fullPath && config.seo.useUrlDispatcher) {
     return localizedDispatcherRoute(Object.assign({}, routeObj, { params: null }) as LocalizedRoute, storeCode)
   }
