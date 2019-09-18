@@ -84,11 +84,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adjusted ProductVideo props to right names - @przspa (#3263)
 - Fixed Doubled SKU row in compare tab - @manvendra-singh1506 (#3447)
 - Fixed warning in product details because of duplicate `product` property in `AddToCompare` mixin - @cewald (#3428)
-- Fixed adding unconfigured product to cart from homepage - @lukeromanowicz (#3512) 
+- Fixed adding unconfigured product to cart from homepage - @lukeromanowicz (#3512)
 - Fixed "Clear Wishlist" Button - @dz3n (#3522)
 - Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
 - Fix invalid routes in ButtonOutline and ButtonFull - @lukeromanowicz (#3541, #3545)
 - Fix for the "add to cart" test
+- Fix applying coupon - @andrzejewsky (#3578)
 
 ### Changed / Improved
 
