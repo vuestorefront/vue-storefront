@@ -254,7 +254,7 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
   return routeObj
 }
 
-export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[]): void {
+export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[], priority: number = 0): void {
   const allRoutes = []
   const isMultistore = config.storeViews.multistore === true && config.storeViews.mapStoreUrlsFor.length > 0
   const { storeCode } = currentStoreView()
@@ -263,5 +263,5 @@ export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteC
   } else {
     allRoutes.push(...routes)
   }
-  RouterManager.addRoutes(allRoutes, router, true)
+  RouterManager.addRoutes(allRoutes, router, true, priority)
 }
