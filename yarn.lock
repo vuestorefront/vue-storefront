@@ -2456,16 +2456,16 @@
     "@shellscape/koa-send" "^4.1.0"
     debug "^2.6.8"
 
-"@storefront-ui/shared@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.1.0.tgz#58c61948c8ef0e451d3434ed1a3e2926fff967fd"
-  integrity sha512-aV8WQW3HSyAmC8v+a2vUlw+V1xg7BH5Z4nRecxY3KaJiBR7iXfd7KJqf8V8LGEc7ennF18yhbRgASM/kU09mdA==
+"@storefront-ui/shared@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.2.0.tgz#2f2182190ac9cedfd49e81a68407c3445b38a42b"
+  integrity sha512-d7y5Hi+bEIyHHOHCKq1hj0xNc6RTOi7zlFZsgg3wKxqMsjLqACQaBAMBJvaec8VXrLbGLpoWiXZhkOQsViIUww==
 
 "@storefront-ui/vue@file:../storefront-ui/packages/vue":
-  version "0.1.1"
+  version "0.2.0"
   dependencies:
     "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "^0.1.0"
+    "@storefront-ui/shared" "^0.2.0"
     "@vue/babel-preset-app" "^4.0.0-alpha.1"
     core-js "^3.1.3"
     leaflet "^1.5.1"

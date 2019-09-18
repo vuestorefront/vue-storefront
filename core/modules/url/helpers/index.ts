@@ -40,7 +40,7 @@ function prepareDynamicRoute (routeData: LocalizedRoute, fullPath: string, addTo
       return [dynamicRoute]
     }
   } else {
-    return null
+    return []
   }
 }
 

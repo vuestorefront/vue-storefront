@@ -1,4 +1,4 @@
-<template src="@storefront-ui/vue/src/components/molecules/SfProductCard/SfProductCard.html" />
+<template src="@storefront-ui/vue/src/components/organisms/SfProductCard/SfProductCard.html" />
 
 <script>
 import { SfProductCard } from '@storefront-ui/vue/js'
