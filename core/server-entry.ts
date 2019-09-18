@@ -14,7 +14,7 @@ function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
     reject(new HttpError(err.message, 404))
   } else {
-    reject(new Error(err.message))
+    reject(new Error(err.stack))
   }
 }
 
