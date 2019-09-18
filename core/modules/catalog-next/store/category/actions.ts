@@ -151,7 +151,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     let filterQr = buildFilterProductsQuery(searchCategory)
     const {aggregations} = await quickSearchByQuery({
       query: filterQr,
-      size: 999, // This is temporary, there should be a dedicated query for that
+      size: config.products.maxFiltersQuerySize,
       excludeFields: ['*']
     })
     await dispatch('loadAvailableFiltersFrom', {aggregations, category})
