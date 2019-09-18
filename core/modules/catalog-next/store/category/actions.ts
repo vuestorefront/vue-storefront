@@ -17,6 +17,7 @@ import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
 import { prefetchStockItems } from '../../helpers/cacheProductsHelper';
 import { preConfigureProduct } from '@vue-storefront/core/modules/catalog/helpers/search'
 import chunk from 'lodash-es/chunk'
+import Product from 'core/modules/catalog/types/Product';
 import omit from 'lodash-es/omit'
 import config from 'config'
 

@@ -5,6 +5,10 @@ import { stockModule } from './store/stock'
 import { taxModule } from './store/tax'
 import { categoryModule } from './store/category'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import config from 'config'
+import { filterChangedProduct, productAfterCustomoptions, productAfterBundleoptions, productAfterPriceupdate, onUserPricesRefreshed } from './events'
+import { isServer } from '@vue-storefront/core/helpers'
 
 export const CatalogModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
   StorageManager.init('categories')
@@ -17,4 +21,17 @@ export const CatalogModule: StorefrontModule = function (app, store, router, mod
   store.registerModule('stock', stockModule)
   store.registerModule('tax', taxModule)
   store.registerModule('category', categoryModule)
+
+  if (!isServer) {
+    // Things moved from Product.js
+    EventBus.$on('product-after-priceupdate', product => productAfterPriceupdate(product, store))
+    EventBus.$on('filter-changed-product', filterOptions => filterChangedProduct(filterOptions, store, router))
+    EventBus.$on('product-after-customoptions', payload => productAfterCustomoptions(payload, store))
+    EventBus.$on('product-after-bundleoptions', payload => productAfterBundleoptions(payload, store))
+
+    if (config.usePriceTiers || store.getters['tax/getIsUserGroupedTaxActive']) {
+      EventBus.$on('user-after-loggedin', onUserPricesRefreshed(store, router))
+      EventBus.$on('user-after-logout', onUserPricesRefreshed(store, router))
+    }
+  }
 }
