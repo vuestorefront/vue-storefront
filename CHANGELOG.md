@@ -52,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add configuration option to format currency sign placement and space in price - @cewald (#3574)
 - Added italian translations - @lorenaramonda (3076)
 - Route Manager Queue for adding routes efficiently and with an optional priority - @grimasod (#3540)
+- Added tests for cart module actions - @andrzejewsky (#3023)
 
 ### Fixed
 
