@@ -313,6 +313,7 @@
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
     "defaultFilters": ["color", "size", "price", "erin_recommends"],
+    "maxFiltersQuerySize": 999,
     "routerFiltersSource": "query",
     "filterFieldMapping": {
       "category.name": "category.name.keyword"
@@ -479,7 +480,10 @@
   },
   "googleTagManager": {
     "id": false,
-    "debug": true
+    "debug": true,
+    "product_attributes": [
+      "name", "id", "sku", { "priceInclTax": "price" }, { "qty": "quantity" }
+    ]
   },
   "hotjar": {
     "id": false
