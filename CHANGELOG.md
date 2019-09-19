@@ -94,6 +94,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix invalid routes in ButtonOutline and ButtonFull - @lukeromanowicz (#3541, #3545)
 - Fix for the "add to cart" test
 - prevent caching storage instance in plugin module scope @gibkigonzo (#3571)
+- Fixed error with dayjs when locale is 2-digit (without a '-') @rain2o (#3581)
 
 ### Changed / Improved
 
