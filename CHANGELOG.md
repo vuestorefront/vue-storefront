@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added i18n support for modules - @dz3n (#3369)
 - Added support for creating localized child routes - @gibkigonzo (#3489)
 - Added tests for actions and mutations in 'core/modules/recently-viewed' - @gibkigonzo (#3467)
+- Added support to load tracing libs at the start of the app - @resubaka (#3514, #3566)
 - Added tests for actions and mutations in 'core/modules/notification' - @gibkigonzo (#3465)
 - Added tests for actions, mutations and helpers in 'core/modules/review' - @gibkigonzo (#3468)
 - Add new Google-Tag-Manager module using new module registration - @cewald (#3524, #3509)
