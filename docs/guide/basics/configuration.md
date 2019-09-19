@@ -23,12 +23,22 @@ Please find the configuration properties reference below.
 ```json
 "server": {
   "host": "localhost",
-  "port": 3000
+  "port": 3000,
+  "useHtmlMinifier": false,
+  "htmlMinifierOptions": {
+    "minifyJS": true,
+    "minifyCSS": true
+  },
+  "useOutputCacheTagging": false,
+  "useOutputCache": false
 },
 ```
 
 Vue Storefront starts an HTTP server to deliver the SSR (server-side rendered) pages and static assets. Its node.js server is located in the `core/scripts/server.js`. This is the hostname and TCP port which Vue Storefront is binding.
 
+When the `useHtmlMinifier` is set to true the generated SSR HTML is being minified [using the `htmlMinifierOptions`](https://www.npmjs.com/package/html-minifier#options-quick-reference).
+
+When the `useOutputCacheTagging` and `useOutputCache` options are enabled, Vue Storefront is storing the rendered pages in the Redis-based output cache. Some additional config options are available for the output cache. [Check the details](ssr-cache.md)
 
 ## Seo
 

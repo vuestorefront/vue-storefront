@@ -38,8 +38,8 @@ const actions: ActionTree<ProductState, RootState> = {
    * Reset current configuration and selected variatnts
    */
   reset (context) {
-    const productOriginal = context.getters.productOriginal
-    context.commit(types.CATALOG_RESET_PRODUCT, productOriginal)
+    const originalProduct = Object.assign({}, context.getters.getOriginalProduct)
+    context.commit(types.PRODUCT_RESET_CURRENT, originalProduct)
   },
   /**
    * Setup product breadcrumbs path
@@ -203,12 +203,12 @@ const actions: ActionTree<ProductState, RootState> = {
       Logger.log('Checking configurable parent')()
 
       let searchQuery = new SearchQuery()
-      searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': context.state.current.sku}})
+      searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': context.getters.getCurrentProduct.sku}})
 
       return context.dispatch('list', {query: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
         if (resp.items.length >= 1) {
           const parentProduct = resp.items[0]
-          context.commit(types.CATALOG_SET_PRODUCT_PARENT, parentProduct)
+          context.commit(types.PRODUCT_SET_PARENT, parentProduct)
         }
       }).catch((err) => {
         Logger.error(err)()
@@ -243,17 +243,16 @@ const actions: ActionTree<ProductState, RootState> = {
     let subloaders = []
     if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_options')) {
       subloaders.push(context.dispatch('product/loadConfigurableAttributes', { product }, { root: true }).then((attributes) => {
-        context.state.current_options = {
-        }
+        let productOptions = {}
         for (let option of product.configurable_options) {
           for (let ov of option.values) {
             let lb = ov.label ? ov.label : optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
             if (trim(lb) !== '') {
               let optionKey = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
-              if (!context.state.current_options[optionKey]) {
-                context.state.current_options[optionKey] = []
+              if (!productOptions[optionKey]) {
+                productOptions[optionKey] = []
               }
-              context.state.current_options[optionKey].push({
+              productOptions[optionKey].push({
                 label: lb,
                 id: ov.value_index,
                 attribute_code: option.attribute_code
@@ -261,8 +260,8 @@ const actions: ActionTree<ProductState, RootState> = {
             }
           }
         }
-        Vue.set(context.state, 'current_options', context.state.current_options)
-        let selectedVariant = context.state.current
+        context.commit(types.PRODUCT_SET_CURRENT_OPTIONS, productOptions)
+        let selectedVariant = context.getters.getCurrentProduct
         populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
       }).catch(err => {
         Logger.error(err)()
@@ -282,21 +281,21 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  async list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
-    const products = await context.dispatch('findProducts', { query, start, size, entityType, sort, cacheByKey, excludeFields, includeFields, configuration, populateRequestCacheTags })
-
-    await context.dispatch('preConfigureAssociated', { products, prefetchGroupProducts })
+  async list ({ dispatch, commit }, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
+    const searchResult = await dispatch('findProducts', { query, start, size, entityType, sort, cacheByKey, excludeFields, includeFields, configuration, populateRequestCacheTags })
+    await dispatch('preConfigureAssociated', { searchResult, prefetchGroupProducts })
 
     if (updateState) {
-      context.commit(types.CATALOG_UPD_PRODUCTS, { products, append: append })
+      if (append) commit(types.PRODUCT_ADD_PAGED_PRODUCTS, searchResult)
+      else commit(types.PRODUCT_SET_PAGED_PRODUCTS, searchResult)
     }
 
-    EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: products })
+    EventBus.$emit('product-after-list', { query, start, size, sort, entityType, meta, result: searchResult })
 
-    return products
+    return searchResult
   },
-  preConfigureAssociated (context, { products, prefetchGroupProducts }) {
-    for (let product of products.items) {
+  preConfigureAssociated (context, { searchResult, prefetchGroupProducts }) {
+    for (let product of searchResult.items) {
       if (product.url_path) {
         const { parentSku, slug } = product
 
@@ -319,7 +318,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
     if (configuration) {
       const selectedVariant = configureProductAsync(context, { product: prod, selectDefaultVariant: false, configuration })
-      Object.assign(prod, omit(selectedVariant, ['visibility']))
+      prod = Object.assign({}, prod, omit(selectedVariant, ['visibility']))
     }
 
     return prod
@@ -421,7 +420,7 @@ const actions: ActionTree<ProductState, RootState> = {
           // todo: probably a good idea is to change this [0] to specific id
           const selectedVariant = configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
           if (selectedVariant && assignDefaultVariant) {
-            prod = Object.assign(prod, selectedVariant)
+            prod = Object.assign({}, prod, selectedVariant)
           }
         } else if (!skipCache || (prod.type_id === 'simple' || prod.type_id === 'downloadable')) {
           if (setCurrentProduct) context.dispatch('setCurrent', prod)
@@ -532,13 +531,13 @@ const actions: ActionTree<ProductState, RootState> = {
 
   setCurrentOption (context, productOption) {
     if (productOption && typeof productOption === 'object') { // TODO: this causes some kind of recurrency error
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, context.state.current, { product_option: productOption }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.getters.getCurrentProduct, { product_option: productOption }))
     }
   },
 
   setCurrentErrors (context, errors) {
     if (errors && typeof errors === 'object') {
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, context.state.current, { errors: errors }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.getters.getCurrentProduct, { errors: errors }))
     }
   },
   /**
@@ -546,7 +545,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   setCustomOptions (context, { customOptions, product }) {
     if (customOptions) { // TODO: this causes some kind of recurrency error
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.state.current, customOptions: customOptions }) }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.getters.getCurrentProduct, customOptions: customOptions }) }))
     }
   },
   /**
@@ -554,7 +553,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   setBundleOptions (context, { bundleOptions, product }) {
     if (bundleOptions) { // TODO: this causes some kind of recurrency error
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.state.current, bundleOptions: bundleOptions }) }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.getters.getCurrentProduct, bundleOptions: bundleOptions }) }))
     }
   },
   /**
@@ -565,15 +564,15 @@ const actions: ActionTree<ProductState, RootState> = {
   setCurrent (context, productVariant) {
     if (productVariant && typeof productVariant === 'object') {
       // get original product
-      const productOriginal = context.getters.productOriginal
+      const originalProduct = context.getters.getOriginalProduct
 
       // check if passed variant is the same as original
-      const productUpdated = Object.assign({}, productOriginal, productVariant)
+      const productUpdated = Object.assign({}, originalProduct, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
       if (!config.products.gallery.mergeConfigurableChildren) {
-        context.commit(types.CATALOG_UPD_GALLERY, attributeImages(productVariant))
+        context.commit(types.PRODUCT_SET_GALLERY, attributeImages(productVariant))
       }
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, productUpdated))
       return productUpdated
     } else Logger.debug('Unable to update current product.', 'product')()
   },
@@ -583,76 +582,69 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Object} originalProduct
    */
   setOriginal (context, originalProduct) {
-    if (originalProduct && typeof originalProduct === 'object') context.commit(types.CATALOG_SET_PRODUCT_ORIGINAL, originalProduct)
+    if (originalProduct && typeof originalProduct === 'object') context.commit(types.PRODUCT_SET_ORIGINAL, Object.assign({}, originalProduct))
     else Logger.debug('Unable to setup original product.', 'product')()
   },
   /**
    * Set related products
    */
   related (context, { key = 'related-products', items }) {
-    context.commit(types.CATALOG_UPD_RELATED, { key, items })
+    context.commit(types.PRODUCT_SET_RELATED, { key, items })
   },
 
+  // Deprecated methods, remove in 2.0
+  async fetch () {
+    throw new Error('product/fetch has been moved into product/loadProduct')
+  },
+  async fetchAsync () {
+    throw new Error('product/fetchAsync has been moved into product/loadProduct')
+  },
   /**
-   * Load the product data
+   * Load the product data and sets current product
    */
-  fetch (context, { parentSku, childSku = null }) {
+  async loadProduct ({ dispatch }, { parentSku, childSku = null, route = null }) {
+    Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
+    EventBus.$emit('product-before-load', { store: rootStore, route: route })
+    await dispatch('reset')
     // pass both id and sku to render a product
     const productSingleOptions = {
       sku: parentSku,
       childSku: childSku
     }
-    return context.dispatch('single', { options: productSingleOptions }).then((product) => {
-      if (product.status >= 2) {
-        throw new Error(`Product query returned empty result product status = ${product.status}`)
-      }
-      if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
-        throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
-      }
+    const product = await dispatch('single', { options: productSingleOptions })
+    if (product.status >= 2) {
+      throw new Error(`Product query returned empty result product status = ${product.status}`)
+    }
+    if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
+      throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
+    }
 
-      let subloaders = []
-      if (product) {
-        const productFields = Object.keys(product).filter(fieldName => {
-          return config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
-        })
-        const attributesPromise = context.dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
-          filterValues: config.entities.product.useDynamicAttributeLoader ? productFields : null,
-          only_visible: config.entities.product.useDynamicAttributeLoader === true,
-          only_user_defined: true,
-          includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
-        }, { root: true }) // TODO: it might be refactored to kind of: `await context.dispatch('attributes/list) - or using new Promise() .. to wait for attributes to be loaded before executing the next action. However it may decrease the performance - so for now we're just waiting with the breadcrumbs
-        if (isServer) {
-          subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
-          subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
-        } else {
-          attributesPromise.then(() => context.dispatch('setupBreadcrumbs', { product: product })) // if this is client's side request postpone breadcrumbs setup till attributes are loaded to avoid too-early breadcrumb switch #2469
-          context.dispatch('filterUnavailableVariants', { product: product }) // exec async
-        }
-        subloaders.push(attributesPromise)
-
-        // subloaders.push(context.dispatch('setupVariants', { product: product })) -- moved to "product/single"
-        /* if (product.type_id === 'grouped' || product.type_id === 'bundle') { -- moved to "product/single"
-          subloaders.push(context.dispatch('setupAssociated', { product: product }).then((subloaderresults) => {
-            context.dispatch('setCurrent', product) // because setup Associated can modify the product price we need to update the current product
-          }))
-        } */
-
-        context.dispatch('setProductGallery', { product: product })
-
-        if (config.products.preventConfigurableChildrenDirectAccess) {
-          subloaders.push(context.dispatch('checkConfigurableParent', { product: product }))
-        }
-      } else { // error or redirect
-
-      }
-      return subloaders
+    const productFields = Object.keys(product).filter(fieldName => {
+      return config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
     })
+    await dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
+      filterValues: config.entities.product.useDynamicAttributeLoader ? productFields : null,
+      only_visible: config.entities.product.useDynamicAttributeLoader === true,
+      only_user_defined: true,
+      includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
+    }, { root: true })
+    await Promise.all([
+      dispatch('setupBreadcrumbs', { product: product }),
+      dispatch('filterUnavailableVariants', { product: product }),
+      dispatch('setProductGallery', { product: product })
+    ])
+
+    if (config.products.preventConfigurableChildrenDirectAccess) {
+      await dispatch('checkConfigurableParent', { product: product })
+    }
+    await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
+    return product
   },
   /**
    * Add custom option validator for product custom options
    */
   addCustomOptionValidator (context, { validationRule, validatorFunction }) {
-    context.commit(types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
+    context.commit(types.PRODUCT_SET_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
   },
 
   /**
@@ -662,54 +654,23 @@ const actions: ActionTree<ProductState, RootState> = {
   setProductGallery (context, { product }) {
     if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_children')) {
       if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
-        context.commit(types.CATALOG_UPD_GALLERY, attributeImages(context.state.current))
+        context.commit(types.PRODUCT_SET_GALLERY, attributeImages(context.getters.getCurrentProduct))
       } else {
         let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
-        context.commit(types.CATALOG_UPD_GALLERY, productGallery)
+        context.commit(types.PRODUCT_SET_GALLERY, productGallery)
       }
     } else {
       let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
-      context.commit(types.CATALOG_UPD_GALLERY, productGallery)
+      context.commit(types.PRODUCT_SET_GALLERY, productGallery)
     }
   },
-
-  /**
-   * Load the product data - async version for asyncData()
-   */
-  fetchAsync (context, { parentSku, childSku = null, route = null }) {
-    if (context.state.productLoadStart && (Date.now() - context.state.productLoadStart) < PRODUCT_REENTER_TIMEOUT) {
-      Logger.log('Product is being fetched ...', 'product')()
-    } else {
-      context.state.productLoadPromise = new Promise((resolve, reject) => {
-        context.state.productLoadStart = Date.now()
-        Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
-        EventBus.$emit('product-before-load', { store: rootStore, route: route })
-        context.dispatch('reset').then(() => {
-          context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
-            Promise.all(subpromises).then(subresults => {
-              EventBus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
-                context.state.productLoadStart = null
-                return resolve()
-              }).catch((err) => {
-                context.state.productLoadStart = null
-                Logger.error(err, 'product')()
-                return resolve()
-              })
-            }).catch(errs => {
-              context.state.productLoadStart = null
-              reject(errs)
-            })
-          }).catch(err => {
-            context.state.productLoadStart = null
-            reject(err)
-          }).catch(err => {
-            context.state.productLoadStart = null
-            reject(err)
-          })
-        })
-      })
+  async loadProductBreadcrumbs ({ dispatch }, { product } = {}) {
+    if (product && product.category_ids) {
+      const categoryFilters = { 'id': product.category_ids }
+      const categories = await dispatch('category-next/loadCategories', {filters: categoryFilters}, { root: true })
+      const deepestCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
+      await dispatch('category-next/loadCategoryBreadcrumbs', deepestCategory, { root: true })
     }
-    return context.state.productLoadPromise
   }
 }
 

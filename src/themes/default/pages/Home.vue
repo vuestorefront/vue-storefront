@@ -4,7 +4,7 @@
 
     <promoted-offers />
 
-    <section class="new-collection container px15" v-if="getEverythingNewCollection && getEverythingNewCollection.length">
+    <section class="new-collection container px15">
       <div>
         <header class="col-md-12">
           <h2 class="align-center cl-accent">
@@ -111,7 +111,7 @@ export default {
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     Logger.info('Calling asyncData in Home (theme)')()
 
-    return Promise.all([
+    await Promise.all([
       store.dispatch('homepage/fetchNewCollection'),
       store.dispatch('promoted/updateHeadImage'),
       store.dispatch('promoted/updatePromotedOffers')
