@@ -98,6 +98,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed / Improved
 
+- Change Product quantity field validation - @jakubmakielkowski (#3560)
 - Update confirmation page in offline mode - @jakubmakielkowski (#3100)
 - Removed server order id from ThankYouPage - @federivo (#3480)
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
