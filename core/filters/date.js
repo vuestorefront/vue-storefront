@@ -16,7 +16,7 @@ export function date (date, format) {
   const displayFormat = format || currentStoreView().i18n.dateFormat
   let storeLocale = currentStoreView().i18n.defaultLocale.toLocaleLowerCase()
   const separatorIndex = storeLocale.indexOf('-')
-  const languageCode = separatorIndex ? storeLocale.substr(0, separatorIndex) : storeLocale
+  const languageCode = (separatorIndex > -1) ? storeLocale.substr(0, separatorIndex) : storeLocale
 
   const isStoreLocale = dayjs().locale(storeLocale).locale()
   const isLanguageLocale = dayjs().locale(languageCode).locale()
