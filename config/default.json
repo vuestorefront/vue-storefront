@@ -313,6 +313,7 @@
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
     "defaultFilters": ["color", "size", "price", "erin_recommends"],
+    "maxFiltersQuerySize": 999,
     "routerFiltersSource": "query",
     "filterFieldMapping": {
       "category.name": "category.name.keyword"
@@ -451,7 +452,7 @@
     "defaultLocale": "en-US",
     "currencyCode": "USD",
     "currencySign": "$",
-    "currencySignPlacement": "preppend",
+    "priceFormat": "{sign}{amount}",
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "United States",
     "fullLanguageName": "English",

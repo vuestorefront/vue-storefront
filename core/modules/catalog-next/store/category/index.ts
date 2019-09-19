@@ -9,7 +9,8 @@ export const categoryModule: Module<CategoryState, RootState> = {
   namespaced: true,
   state: {
     categoriesMap: {},
-    availableFilters: {},
+    notFoundCategoryIds: [],
+    filtersMap: {},
     products: [],
     searchProductsStats: {}
   },
