@@ -23,8 +23,9 @@ function prepareDynamicRoute (routeData: LocalizedRoute, path: string): RouteCon
     // TODO - need route name prefix?
     // const currentStoreCode = currentStoreView().storeCode
     // const dynamicRouteName = (config.defaultStoreCode !== currentStoreCode) ? `${currentStoreCode}-urldispatcher-${path}` : `urldispatcher-${path}`
-    // const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + path, name: dynamicRouteName }) // check starts with '/'
-    const dynamicRoute = Object.assign({}, userRoute, routeData, { path: `${path.startsWith('/') ? '' : '/'}${path}`, name: `urldispatcher-${path}` })
+    // const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + path, name: dynamicRouteName }) // check: name and path must start with single '/'
+    const normalizedPath = `${path.startsWith('/') ? '' : '/'}${path}`
+    const dynamicRoute = Object.assign({}, userRoute, routeData, { path: normalizedPath, name: `urldispatcher-${normalizedPath}` })
     return dynamicRoute
   } else {
     Logger.error('Route not found ' + routeData['name'], 'dispatcher')()
@@ -60,7 +61,7 @@ export function findRouteByPath (path: string): RouteConfig {
 
 export function normalizeUrlPath (url: string): string {
   if (url && url.length > 0) {
-    if (url[0] === '/') url = url.slice(1)
+    if (url.length > 0 && !url.startsWith('/')) url = `/${url}`
     if (url.endsWith('/')) url = url.slice(0, -1)
     const queryPos = url.indexOf('?')
     if (queryPos > 0) url = url.slice(0, queryPos)

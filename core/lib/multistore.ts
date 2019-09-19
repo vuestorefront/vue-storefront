@@ -195,10 +195,11 @@ export function adjustMultistoreApiUrl (url: string): string {
 }
 
 export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): LocalizedRoute | string {
+  const { storeCode: currentStoreCode, appendStoreCode } = currentStoreView()
   if (!storeCode) {
-    storeCode = currentStoreView().storeCode
+    storeCode = currentStoreCode
   }
-  const appendStoreCodePrefix = config.storeViews[storeCode] ? config.storeViews[storeCode].appendStoreCode : false
+  const appendStoreCodePrefix = storeCode && appendStoreCode
 
   if (typeof routeObj === 'string') {
     if (routeObj[0] !== '/') routeObj = `/${routeObj}`
@@ -211,7 +212,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
     }
 
     if (routeObj.path) { // case of using dispatcher
-      const routeCodePrefix = config.defaultStoreCode !== storeCode && appendStoreCodePrefix ? `/${storeCode}` : ''
+      const routeCodePrefix = appendStoreCodePrefix ? `/${storeCode}` : ''
       const qrStr = queryString.stringify(routeObj.params);
 
       const normalizedPath = routeObj.path[0] !== '/' ? `/${routeObj.path}` : routeObj.path
@@ -249,7 +250,7 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[], priority: number = 0): void {
   const allRoutes = []
   const { storeCode, appendStoreCode } = currentStoreView()
-  if (storeCode && (appendStoreCode !== false)) {
+  if (storeCode && appendStoreCode) {
     allRoutes.push(...routes.map(route => localizedRouteConfig(route, storeCode)))
   } else {
     allRoutes.push(...routes)

@@ -33,7 +33,6 @@ export const actions: ActionTree<UrlState, any> = {
     if (!state.dispatcherMap) return
 
     preProcessDynamicRoutes(state.dispatcherMap)
-    // to do - check efficient way
     const registrationRoutePromises = Object.keys(state.dispatcherMap).map(url => {
       const routeData = state.dispatcherMap[url]
       return dispatch('registerMapping', { url, routeData })
@@ -44,7 +43,6 @@ export const actions: ActionTree<UrlState, any> = {
     const parsedQuery = typeof query === 'string' ? queryString.parse(query) : query
     const storeCodeInPath = storeCodeFromRoute(url)
     url = normalizeUrlPath(url)
-
     return new Promise((resolve, reject) => {
       if (state.dispatcherMap[url]) {
         return resolve(parametrizeRouteData(state.dispatcherMap[url], query, storeCodeInPath))
@@ -68,7 +66,7 @@ export const actions: ActionTree<UrlState, any> = {
    */
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
     const productQuery = new SearchQuery()
-    url = (removeStoreCodeFromRoute(url) as string)
+    url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
     productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
     const products = await dispatch('product/list', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
