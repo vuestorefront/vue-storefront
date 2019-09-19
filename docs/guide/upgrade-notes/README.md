@@ -6,6 +6,7 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 
 This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible.
 - `src/modules/index.ts` was renamed to `client.ts`, exported property was renamed toi `registerClientModules`
+- Output compression moddule has been added; it's enabled by default on produdction builds; to disable it please switch the `src/modules/server.ts` configuration
 - The [`formatCategoryLink`](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/url/helpers/index.ts) now supports multistore - adding the `storeCode` when necessary; it could have caused double store prefixes like `/de/de` - but probably only in the Breadcrumbs (#3359)
 - All modules were refactored to new API. You can still register modules in previous format until 2.0
 - `DroppointShipping` and `magento-2-cms `modules were deleted
@@ -75,7 +76,7 @@ core/modules/wishlist/store/actions.ts
 If by some reasons you wan't to have the `localStorage` back on for `Products by SKU`, `Url Routes` and `SyncTasks` - please juset set these variables back to `false` in your `config/local.json`.
 
 - New page-not-found handling requires to update router/index.js in the theme.
-- The option `config.products.lazyLoadingCategoryProducts` was introduced which is responsible for hydrating products list and loading them only on client side. It means there is no category products in the `__INITIAL__STATE__`. It's enabled by default.
+- The option `config.ssr.lazyHydrateFor` with `category-next.products` value was introduced which is responsible for hydrating products list and loading them only on client side. It means there is no category products in the `__INITIAL__STATE__`. It's enabled by default.
 - The modules: `Review`, `Mailer`, `Order`, `RecentlyViewed`, `InstantCheckout` are no longer loaded by default in the main bundle as they are loading on-demand on the related pages.
 - Authentication guard was moved from user module router to `MyAccount` pages mixin.
 - The getters `cmsBlocks`, `cmsBlockIdentifier`, `cmsBlockId` are deprecated. Please use `getCmsBlocks`, `getCmsBlockIdentifier`, `getCmsBlockId` instead.

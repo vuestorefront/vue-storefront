@@ -1,3 +1,4 @@
+require('../../src/trace').default()
 const path = require('path')
 const express = require('express')
 const ms = require('ms')

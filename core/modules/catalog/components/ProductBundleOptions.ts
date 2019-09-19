@@ -43,7 +43,7 @@ export const ProductBundleOptions = {
   },
   methods: {
     ...mapMutations('product', {
-      setBundleOptionValue: types.CATALOG_UPD_BUNDLE_OPTION // map `this.add()` to `this.$store.commit('increment')`
+      setBundleOptionValue: types.PRODUCT_SET_BUNDLE_OPTION // map `this.add()` to `this.$store.commit('increment')`
     }),
     setupValidationRules () {
       rootStore.dispatch('product/addCustomOptionValidator', {
