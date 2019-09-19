@@ -155,7 +155,7 @@
             </div>
             <div class="row m0">
               <add-to-cart
-                :product="product"
+                :product="getCurrentProduct"
                 :disabled="(!$v.getCurrentProduct.qty.minValue || !$v.getCurrentProduct.qty.maxValue || !$v.getCurrentProduct.qty.numeric) || (!quantity && isSimpleOrConfigurable && !isProductLoading)"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
@@ -411,12 +411,14 @@ export default {
       this.quantity = res.qty
     }
   },
-  validations: {
-    getCurrentProduct: {
-      qty: {
-        minValue: minValue(1),
-        maxValue: maxValue(this.quantity),
-        numeric: numeric
+  validations () {
+    return {
+      getCurrentProduct: {
+        qty: {
+          minValue: minValue(1),
+          maxValue: maxValue(this.quantity),
+          numeric: numeric
+        }
       }
     }
   },
