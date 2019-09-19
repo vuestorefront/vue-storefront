@@ -232,8 +232,8 @@ const actions: ActionTree<UserState, RootState> = {
       return ordersHistory
     }
   },
-  async refreshOrdersHistory ({ commit }, { resolvedFromCache }) {
-    const resp = await UserService.getOrdersHistory()
+  async refreshOrdersHistory ({ commit }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
+    const resp = await UserService.getOrdersHistory(pageSize, currentPage)
 
     if (resp.code === 200) {
       commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
@@ -249,7 +249,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Load user's orders history
    */
-  async getOrdersHistory ({ dispatch, getters }, { refresh = true, useCache = true }) {
+  async getOrdersHistory ({ dispatch, getters }, { refresh = true, useCache = true, pageSize = 20, currentPage = 1 }) {
     if (!getters.getToken) {
       Logger.debug('No User token, user unathorized', 'user')()
       return Promise.resolve(null)
@@ -266,7 +266,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
 
     if (refresh) {
-      return dispatch('refreshOrdersHistory', { resolvedFromCache })
+      return dispatch('refreshOrdersHistory', { resolvedFromCache, pageSize, currentPage })
     } else {
       if (!resolvedFromCache) {
         Promise.resolve(null)
