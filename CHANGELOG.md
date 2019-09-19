@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added tests for actions, mutations and helpers in 'core/modules/review' - @gibkigonzo (#3468)
 - Add new Google-Tag-Manager module using new module registration - @cewald (#3524, #3509)
 - Exclude GTM product attributes setup into config json - @dlandmann, @cewald (#3509, #3524)
+- Add configuration option to format currency sign placement and space in price - @cewald (#3574)
 
 ### Fixed
 
