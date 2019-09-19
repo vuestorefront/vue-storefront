@@ -48,7 +48,7 @@
 "Product {productName} has been removed from wishlit!","Product {productName} has been removed from wishlist!"
 "Quantity available","Quantity ({qty} available)"
 "Quantity must be above 0","Quantity must be above 0"
-"Quantity must be below","Quantity must be below"
+"Quantity must be below {quantity}","Quantity must be below {quantity}"
 "Quantity must be positive integer","Quantity must be positive integer"
 "Registering the account ...","Registering the account ..."
 "Reset password feature does not work while offline!","Reset password feature does not work while offline!"
