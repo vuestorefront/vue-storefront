@@ -1,1 +1,6 @@
-module.exports.default = () => {}
+module.exports.default = () => {
+  /**
+   * example usage
+   * require('./googleCloud')
+   */
+}
