@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added i18n support for modules - @dz3n (#3369)
 - Added support for creating localized child routes - @gibkigonzo (#3489)
 - Added tests for actions and mutations in 'core/modules/recently-viewed' - @gibkigonzo (#3467)
+- Added tests for actions and mutations in 'core/modules/notification' - @gibkigonzo (#3465)
 - Added tests for actions, mutations and helpers in 'core/modules/review' - @gibkigonzo (#3468)
 - Add new Google-Tag-Manager module using new module registration - @cewald (#3524, #3509)
 - Exclude GTM product attributes setup into config json - @dlandmann, @cewald (#3509, #3524)
@@ -92,6 +93,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed "Clear Wishlist" Button - @dz3n (#3522)
 - Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
 - Fix invalid routes in ButtonOutline and ButtonFull - @lukeromanowicz (#3541, #3545)
+- Fix adding notification with 'hasNoTimeout' after normal notification - @gibkigonzo (#3465)
 - Logged-in user's shipping address on checkout page - @przspa (#2636)
 - Fix for the "add to cart" test
 - prevent caching storage instance in plugin module scope @gibkigonzo (#3571)
