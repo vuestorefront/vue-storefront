@@ -227,7 +227,6 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
     storeCode = currentStoreView().storeCode
   }
   if (!routeObj) {
-    Logger.error('Invalid route provided to localize.', null, routeObj)()
     return routeObj
   }
 
@@ -239,16 +238,9 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 
   if (storeCode && config.defaultStoreCode !== storeCode && config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode) {
     if (typeof routeObj !== 'object') {
-      return '/' + storeCode + routeObj
+      return localizedRoutePath(routeObj, storeCode)
     }
-    // TODO - need route name prefix?
-    // if (routeObj.name) {
-    //   routeObj.name = storeCode + '-' + routeObj.name
-    // }
-
-    if (routeObj.path) {
-      routeObj.path = '/' + storeCode + '/' + (routeObj.path.startsWith('/') ? routeObj.path.slice(1) : routeObj.path)
-    }
+    return localizedRouteConfig(routeObj as RouteConfig, storeCode)
   }
 
   return routeObj
@@ -256,12 +248,48 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 
 export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[], priority: number = 0): void {
   const allRoutes = []
-  const isMultistore = config.storeViews.multistore === true && config.storeViews.mapStoreUrlsFor.length > 0
-  const { storeCode } = currentStoreView()
-  if (isMultistore && storeCode) {
-    allRoutes.push(...routes.map(route => localizedRoute(Object.assign({}, route), storeCode)))
+  const { storeCode, appendStoreCode } = currentStoreView()
+  if (storeCode && (appendStoreCode !== false)) {
+    allRoutes.push(...routes.map(route => localizedRouteConfig(route, storeCode)))
   } else {
     allRoutes.push(...routes)
   }
   RouterManager.addRoutes(allRoutes, router, true, priority)
+}
+
+/**
+ * Returns transformed route config with language
+ * @param route - route config object
+ * @param storeCode - language prefix specified in global config
+ * @param isChildRoute - determines if route config is for child route
+ */
+export function localizedRouteConfig (route: RouteConfig, storeCode: string, isChildRoute: boolean = false): RouteConfig {
+  // note: we need shallow copy to prevent modifications in provided route object
+  const _route = {...route}
+
+  // TODO - need route name prefix?
+  // if (_route.name) {
+  //   _route.name = `${storeCode}-${_route.name}`
+  // }
+
+  if (_route.path && !isChildRoute) {
+    _route.path = localizedRoutePath(_route.path, storeCode)
+  }
+
+  if (_route.children) {
+    _route.children = _route.children.map(childRoute => localizedRouteConfig(childRoute, storeCode, true))
+  }
+
+  return _route
+}
+
+/**
+ * Returns route path with proper language prefix
+ * @param path - route path
+ * @param storeCode - language prefix specified in global config
+ */
+export function localizedRoutePath (path: string, storeCode: string): string {
+  const _path = path.startsWith('/') ? path.slice(1) : path
+
+  return `/${storeCode}/${_path}`
 }
