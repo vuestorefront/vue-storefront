@@ -5,6 +5,11 @@
     "protocol": "http",
     "api": "api",
     "devServiceWorker": false,
+    "useHtmlMinifier": true,
+    "htmlMinifierOptions": {
+      "minifyJS": true,
+      "minifyCSS": true
+    },
     "useOutputCacheTagging": false,
     "useOutputCache": false,
     "outputCacheDefaultTtl": 86400,
@@ -19,6 +24,10 @@
     "elasticCacheQuota": 4096,
     "ssrDisabledFor": {
       "extensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
+    },
+    "trace": {
+      "enabled": false,
+      "config": {}
     }
   },
   "staticPages": {
@@ -246,6 +255,7 @@
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
     "defaultFilters": ["color", "size", "price", "erin_recommends"],
+    "maxFiltersQuerySize": 999,
     "routerFiltersSource": "query",
     "filterFieldMapping": {
       "category.name": "category.name.keyword"
@@ -384,7 +394,7 @@
     "defaultLocale": "en-US",
     "currencyCode": "USD",
     "currencySign": "$",
-    "currencySignPlacement": "preppend",
+    "priceFormat": "{sign}{amount}",
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "United States",
     "fullLanguageName": "English",
@@ -412,7 +422,10 @@
   },
   "googleTagManager": {
     "id": false,
-    "debug": true
+    "debug": true,
+    "product_attributes": [
+      "name", "id", "sku", { "priceInclTax": "price" }, { "qty": "quantity" }
+    ]
   },
   "hotjar": {
     "id": false

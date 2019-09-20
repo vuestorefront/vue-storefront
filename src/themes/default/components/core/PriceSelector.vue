@@ -3,7 +3,7 @@
     <button
       class="relative brdr-cl-bg-tertiary brdr-1 bg-cl-transparent mr10 pointer price-selector"
       :class="{ active: isActive }"
-      :aria-label="$t('Price ') + variant.label"
+      :aria-label="$t('Price {variant}', { variant: variant.label })"
     >
       <span class="bg-cl-transparent absolute block square" />
     </button>

@@ -9,14 +9,14 @@ No props
 - `loading` - If `true` this indicates the product is currently being loaded from the backend.
 - `favorite` - An object that defines 1) if the current product is in the list of favorite products and 2) the name of an icon that will be shown to indicate its status in relation to being in the list of favorite products.
 - `compare` - Defines if the current product is in compare list.
-- `product` -A computed property that represents the current product that is shown on the page. Initially gets its value from `product/productCurrent` Vuex store getter. Includes all the options like size and color that the user sets on the page.
-- `originalProduct` - A computed property that represents the current product in its initial state. Gets its value from`product/productOriginal` Vuex store getter.
-- `parentProduct` - A computed property that represents the current product parent product, if any. Gets its value from `product/productParent` Vuex store getter.
+- `product` -A computed property that represents the current product that is shown on the page. Initially gets its value from `product/getCurrentProduct` Vuex store getter. Includes all the options like size and color that the user sets on the page.
+- `originalProduct` - A computed property that represents the current product in its initial state. Gets its value from`product/getOriginalProduct` Vuex store getter.
+- `parentProduct` - A computed property that represents the current product parent product, if any. Gets its value from `product/getParentProduct` Vuex store getter.
 - `attributesByCode` - A computed property that returns the list of all product attributes by their code. Gets its value from `attribute/attributeListByCode` Vuex store getter.
 - `attributesById` - A computed property that returns the list of all product attributes by their ID. Gets its value from `attribute/attributeListById` Vuex store getter. **This prop is not used anywhere**.
-- `breadcrumbs` - A computed property that represents breadcrumbs for the current product. Gets its value from `product/breadcrumbs` Vuex store getter.
-- `configuration` - A computed property that represents an object that shows which attributes (like size and color) are chosen on the product. Gets its value from `product/currentConfiguration` Vuex store getter.
-- `options` - A computed property that represents an object that shows what attributes (like size and color) with what values are available on the product. Gets its value from `product/currentOptions` Vuex store getter.
+- `breadcrumbs` - A computed property that represents breadcrumbs for the current product. Gets its value from `category-next/getBreadcrumbs` Vuex store getter.
+- `configuration` - A computed property that represents an object that shows which attributes (like size and color) are chosen on the product. Gets its value from `product/getCurrentProductConfiguration` Vuex store getter.
+- `options` - A computed property that represents an object that shows what attributes (like size and color) with what values are available on the product. Gets its value from `product/getCurrentProductOptions` Vuex store getter.
 - `category` - A computed property representing a category object of the current product. Gets its value from `category/getCurrentCategory` Vuex store getter.
 - `productName` - A computed property that represents a product name. Gets its value from `category/getCurrentCategory` Vuex store getter.
 - `productId` - A computed property representing a product ID. Gets its value from `category/getCurrentCategory` Vuex store getter.

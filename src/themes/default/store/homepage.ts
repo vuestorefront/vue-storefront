@@ -16,8 +16,8 @@ export const homepageStore = {
       }, { root: true })
       const configuredProducts = await dispatch(
         'category-next/configureProducts',
-        { products: newProductsResult.items 
-      }, { root: true })
+        { products: newProductsResult.items
+        }, { root: true })
       commit('SET_NEW_COLLECTION', configuredProducts)
     }
   },

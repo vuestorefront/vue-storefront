@@ -60,14 +60,19 @@ export const Shipping = {
     shipToMyAddress: {
       handler () {
         this.useMyAddress()
-      }
+      },
+      immediate: true
     }
   },
   mounted () {
+    this.checkDefaultShippingAddress()
     this.checkDefaultShippingMethod()
     this.changeShippingMethod()
   },
   methods: {
+    checkDefaultShippingAddress () {
+      this.shipToMyAddress = this.hasShippingDetails()
+    },
     checkDefaultShippingMethod () {
       if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
         let shipping = this.shippingMethods.find(item => item.default)

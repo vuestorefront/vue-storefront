@@ -17,9 +17,10 @@ import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state): Category[] => Object.values(state.categoriesMap),
   getCategoriesMap: (state): { [id: string]: Category} => state.categoriesMap,
+  getNotFoundCategoryIds: (state): string[] => state.notFoundCategoryIds,
   getCategoryProducts: (state) => state.products,
   getCategoryFrom: (state, getters) => (path: string = '') => {
-    return getters.getCategories.find(category => (removeStoreCodeFromRoute(path) as string).replace(/^(\/)/gm, '') === category.url_path) || {}
+    return getters.getCategories.find(category => (removeStoreCodeFromRoute(path) as string).replace(/^(\/)/gm, '') === category.url_path)
   },
   getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
     return getters.getCategories.find(category => {
@@ -96,7 +97,8 @@ const getters: GetterTree<CategoryState, RootState> = {
     }
     return filters
   },
-  getAvailableFilters: state => state.availableFilters,
+  getFiltersMap: state => state.filtersMap,
+  getAvailableFilters: (state, getters) => getters.getCurrentCategory ? state.filtersMap[getters.getCurrentCategory.id] : {},
   getCurrentFiltersFrom: (state, getters, rootState) => (filters) => {
     const currentQuery = filters || rootState.route[products.routerFiltersSource]
     return getFiltersFromQuery({availableFilters: getters.getAvailableFilters, filtersQuery: currentQuery})
@@ -105,9 +107,10 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCurrentFilters: (state, getters) => getters.getCurrentSearchQuery.filters,
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
   getSystemFilterNames: () => ['sort'],
-  getBreadcrumbs: (state, getters) => {
-    if (!getters.getCurrentCategory) return []
-    const categoryHierarchyIds = _prepareCategoryPathIds(getters.getCurrentCategory) // getters.getCategoriesHierarchyMap.find(categoryMapping => categoryMapping.includes(getters.getCurrentCategory.id)) || []
+  getBreadcrumbs: (state, getters) => getters.getBreadcrumbsFor(getters.getCurrentCategory),
+  getBreadcrumbsFor: (state, getters) => category => {
+    if (!category) return []
+    const categoryHierarchyIds = _prepareCategoryPathIds(category)
     let resultCategoryList = categoryHierarchyIds.map(categoryId => {
       return getters.getCategoriesMap[categoryId]
     }).filter(c => !!c)
