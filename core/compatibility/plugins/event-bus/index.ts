@@ -36,6 +36,10 @@ class EventService<T> {
     this._vue = new Vue()
   }
 
+  public $off<K extends keyof T> (eventType: K, listener: (payload?: T[K]) => any) {
+    this._vue.$off(eventType as string, listener)
+  }
+
   public $on<K extends keyof T> (eventType: K, listener: (payload?: T[K]) => any) {
     this._vue.$on(eventType as string, listener)
   }
