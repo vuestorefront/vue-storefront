@@ -36,7 +36,7 @@ class EventService<T> {
     this._vue = new Vue()
   }
 
-  public $on<K extends keyof T> (eventType: K, listener: (payload?: T[K]) => void) {
+  public $on<K extends keyof T> (eventType: K, listener: (payload?: T[K]) => any) {
     this._vue.$on(eventType as string, listener)
   }
 
@@ -54,7 +54,7 @@ class EventService<T> {
   }
 
   public get $emitFilter () {
-    return <K extends keyof T>(eventType: K, payload: T[K]): Promise<void[]> => {
+    return <K extends keyof T>(eventType: K, payload: T[K]): Promise<any[]> => {
       this.$emit(eventType, payload)
       const promises = []
       if (this.$dataFilters[eventType]) {
