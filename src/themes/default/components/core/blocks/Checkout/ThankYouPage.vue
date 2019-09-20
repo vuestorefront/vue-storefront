@@ -19,7 +19,7 @@
               {{ $t('Your purchase') }}
             </h3>
             <p v-if="OnlineOnly" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
-            <p v-if="OnlineOnly && lastOrderConfirmation.orderNumber" v-html="this.$t('The OrderNumber is ') + lastOrderConfirmation.orderNumber" />
+            <p v-if="OnlineOnly && lastOrderConfirmation.orderNumber" v-html="this.$t('The OrderNumber is {id}', { id: lastOrderConfirmation.orderNumber })" />
 
             <h4 v-if="OfflineOnly">
               {{ $t('You are offline') }}
@@ -30,7 +30,7 @@
             <p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted">
               {{ $t("You can allow us to remind you about the order via push notification after coming back online. You'll only need to click on it to confirm.") }}
             </p>
-             <p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted">
+            <p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted">
               {{ $t(`Or if you will stay on "Order confirmation" page, the order will be placed automatically without confirmation, once the internet connection will be back.`) }}
             </p>
             <p v-if="OfflineOnly && isNotificationSupported && isPermissionGranted">

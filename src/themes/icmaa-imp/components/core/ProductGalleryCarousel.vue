@@ -41,7 +41,7 @@ export default {
     },
     productName: {
       type: String,
-      required: true
+      default: ''
     },
     configuration: {
       type: Object,
