@@ -80,6 +80,8 @@ If by some reasons you wan't to have the `localStorage` back on for `Products by
 - The modules: `Review`, `Mailer`, `Order`, `RecentlyViewed`, `InstantCheckout` are no longer loaded by default in the main bundle as they are loading on-demand on the related pages.
 - Authentication guard was moved from user module router to `MyAccount` pages mixin.
 - The getters `cmsBlocks`, `cmsBlockIdentifier`, `cmsBlockId` are deprecated. Please use `getCmsBlocks`, `getCmsBlockIdentifier`, `getCmsBlockId` instead.
+- Translations for "Order #", "Price ", "Select size ", "You are logged in as" and "items" changed, they now include a placeholder for the value. Please refer to [this commit](https://github.com/DivanteLtd/vue-storefront/pull/3550/commits/366d31bf28a1e27a7f14b222369cba8fe0a6d3e0) in order to adjust them, otherwise they might get lost.
+- `i18n.currencySignPlacement` config value is replaced by `i18n.priceFormat` so price format becomes more flexible
 
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`EventBus.$on()`) now

@@ -34,7 +34,7 @@
               itemprop="sku"
               :content="getCurrentProduct.sku"
             >
-              {{ $t('SKU') }}: {{ getCurrentProduct.sku }}
+              {{ $t('SKU: {sku}', { sku: getCurrentProduct.sku }) }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="$store.state.storeView.i18n.currencyCode">
@@ -142,8 +142,12 @@
                 @blur="$v.$touch()"
                 :validations="[
                   {
-                    condition: $v.getCurrentProduct.qty.$error && !$v.getCurrentProduct.qty.minValue,
-                    text: $t('Quantity must be above 0')
+                    condition: !$v.getCurrentProduct.qty.numeric || !$v.getCurrentProduct.qty.minValue,
+                    text: $t(`Quantity must be positive integer`)
+                  },
+                  {
+                    condition: quantity && getCurrentProduct.qty && !$v.getCurrentProduct.qty.maxValue,
+                    text: $t('Quantity must be below {quantity}', { quantity: quantity })
                   }
                 ]"
               />
@@ -152,7 +156,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="getCurrentProduct"
-                :disabled="($v.getCurrentProduct.qty.$error && !$v.getCurrentProduct.qty.minValue) || (!quantity && isSimpleOrConfigurable) || isProductLoading"
+                :disabled="(!$v.getCurrentProduct.qty.minValue || !$v.getCurrentProduct.qty.maxValue || !$v.getCurrentProduct.qty.numeric) || (!quantity && isSimpleOrConfigurable && !isProductLoading)"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -211,7 +215,10 @@
 </template>
 
 <script>
-import { minValue } from 'vuelidate/lib/validators'
+import { minValue, maxValue, numeric } from 'vuelidate/lib/validators'
+import i18n from '@vue-storefront/i18n'
+import Product from '@vue-storefront/core/pages/Product'
+import VueOfflineMixin from 'vue-offline/mixin'
 import config from 'config'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
@@ -404,10 +411,14 @@ export default {
       this.quantity = res.qty
     }
   },
-  validations: {
-    getCurrentProduct: {
-      qty: {
-        minValue: minValue(1)
+  validations () {
+    return {
+      getCurrentProduct: {
+        qty: {
+          minValue: minValue(1),
+          maxValue: maxValue(this.quantity),
+          numeric: numeric
+        }
       }
     }
   },
