@@ -1,9 +1,9 @@
+import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
+import { LocalizedRoute } from '@vue-storefront/core/lib/types'
 import {
-  storeCodeFromRoute,
   prepareStoreView,
   adjustMultistoreApiUrl,
   localizedDispatcherRoute,
-  LocalizedRoute,
   setupMultistoreRoutes,
   localizedRoutePath,
   localizedRouteConfig
