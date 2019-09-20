@@ -223,6 +223,10 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   return routeObj
 }
 
+export function localizedDispatcherRouteName (routeName: string, storeCode: string): string {
+  return storeCode ? `${storeCode}-${routeName}` : routeName
+}
+
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
   if (!storeCode) {
     storeCode = currentStoreView().storeCode
@@ -268,10 +272,9 @@ export function localizedRouteConfig (route: RouteConfig, storeCode: string, isC
   // note: we need shallow copy to prevent modifications in provided route object
   const _route = {...route}
 
-  // TODO - need route name prefix?
-  // if (_route.name) {
-  //   _route.name = `${storeCode}-${_route.name}`
-  // }
+  if (_route.name && storeCode) {
+    _route.name = `${storeCode}-${_route.name}`
+  }
 
   if (_route.path && !isChildRoute) {
     _route.path = localizedRoutePath(_route.path, storeCode)

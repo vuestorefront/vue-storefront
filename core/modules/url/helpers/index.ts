@@ -10,21 +10,17 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: string]: any } | string, storeCodeInPath: string): LocalizedRoute {
   const parametrizedRoute = Object.assign({}, routeData)
   parametrizedRoute.params = Object.assign({}, parametrizedRoute.params || {}, query)
-  // TODO - need route name prefix? (if not storeCodeInPath not needed)
-  // if (storeCodeInPath && !parametrizedRoute.name.startsWith(storeCodeInPath + '-')) {
-  //   parametrizedRoute.name = storeCodeInPath + '-' + parametrizedRoute.name
-  // }
+  if (storeCodeInPath && !parametrizedRoute.name.startsWith(storeCodeInPath + '-')) {
+    parametrizedRoute.name = storeCodeInPath + '-' + parametrizedRoute.name
+  }
   return parametrizedRoute
 }
 
 function prepareDynamicRoute (routeData: LocalizedRoute, path: string): RouteConfig {
   const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
-    // TODO - need route name prefix?
-    // const currentStoreCode = currentStoreView().storeCode
-    // const dynamicRouteName = (config.defaultStoreCode !== currentStoreCode) ? `${currentStoreCode}-urldispatcher-${path}` : `urldispatcher-${path}`
-    // const dynamicRoute = Object.assign({}, userRoute, routeData, { path: '/' + path, name: dynamicRouteName }) // check: name and path must start with single '/'
     const normalizedPath = `${path.startsWith('/') ? '' : '/'}${path}`
+    const currentStoreCode = currentStoreView().storeCode
     const dynamicRoute = Object.assign({}, userRoute, routeData, { path: normalizedPath, name: `urldispatcher-${normalizedPath}` })
     return dynamicRoute
   } else {

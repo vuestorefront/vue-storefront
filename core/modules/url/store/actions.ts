@@ -7,7 +7,7 @@ import queryString from 'query-string'
 import config from 'config'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData } from '../helpers'
-import { storeCodeFromRoute, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+import { storeCodeFromRoute, removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
@@ -65,6 +65,7 @@ export const actions: ActionTree<UrlState, any> = {
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
+    const storeCode = currentStoreView().storeCode
     const productQuery = new SearchQuery()
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
     productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
@@ -72,7 +73,7 @@ export const actions: ActionTree<UrlState, any> = {
     if (products && products.items && products.items.length) {
       const product = products.items[0]
       return {
-        name: product.type_id + '-product',
+        name: localizedDispatcherRouteName(product.type_id + '-product', storeCode),
         params: {
           slug: product.slug,
           parentSku: product.sku,
@@ -83,7 +84,7 @@ export const actions: ActionTree<UrlState, any> = {
       const category = await dispatch('category/single', { key: 'url_path', value: url }, { root: true })
       if (category !== null) {
         return {
-          name: 'category',
+          name: localizedDispatcherRouteName('category', storeCode),
           params: {
             slug: category.slug
           }

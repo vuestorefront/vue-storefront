@@ -12,7 +12,7 @@ import { optionLabel } from '../../helpers/optionLabel'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from '../../types/CategoryState'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { currentStoreView, localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
@@ -64,21 +64,6 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async registerCategoryMapping ({ dispatch }, { categories }) {
     const storeCode = currentStoreView().storeCode
-    // TODO - need route name prefix?
-    // const namePrefix = storeCode ? `${storeCode}-` : ''
-    // for (let category of categories) {
-    //   if (category.url_path) {
-    //     await dispatch('url/registerMapping', {
-    //       url: localizedDispatcherRoute(category.url_path, storeCode),
-    //       routeData: {
-    //         params: {
-    //           'slug': category.slug
-    //         },
-    //         'name': `${namePrefix}category`
-    //       }
-    //     }, { root: true })
-    //   }
-    // }
     for (let category of categories) {
       if (category.url_path) {
         await dispatch('url/registerMapping', {
@@ -87,7 +72,7 @@ const actions: ActionTree<CategoryState, RootState> = {
             params: {
               'slug': category.slug
             },
-            'name': 'category'
+            'name': localizedDispatcherRouteName('category', storeCode)
           }
         }, { root: true })
       }

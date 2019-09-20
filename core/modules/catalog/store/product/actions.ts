@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import { formatBreadCrumbRoutes, isServer } from '@vue-storefront/core/helpers'
-import { currentStoreView, localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import { configureProductAsync,
   doPlatformPricesSync,
   filterOutUnavailableVariants,
@@ -297,33 +297,15 @@ const actions: ActionTree<ProductState, RootState> = {
   },
   preConfigureAssociated (context, { searchResult, prefetchGroupProducts }) {
     const storeCode = currentStoreView().storeCode
-    // TODO - need route name prefix?
-    // const namePrefix = storeCode ? `${storeCode}-` : ''
-    // for (let product of searchResult.items) {
-    //   if (product.url_path) {
-    //     const { parentSku, slug } = product
-    //
-    //     context.dispatch('url/registerMapping', {
-    //       url: localizedDispatcherRoute(product.url_path, storeCode),
-    //       routeData: {
-    //         params: { parentSku, slug },
-    //         'name': `${namePrefix}${product.type_id}-product`
-    //       }
-    //     }, { root: true })
-    //   }
-    //
-    //   if (isGroupedOrBundle(product) && prefetchGroupProducts && !isServer) {
-    //     context.dispatch('setupAssociated', { product })
-    //   }
-    // }
     for (let product of searchResult.items) {
       if (product.url_path) {
         const { parentSku, slug } = product
+
         context.dispatch('url/registerMapping', {
           url: localizedDispatcherRoute(product.url_path, storeCode),
           routeData: {
             params: { parentSku, slug },
-            'name': product.type_id + '-product'
+            'name': localizedDispatcherRouteName(product.type_id + '-product', storeCode)
           }
         }, { root: true })
       }
