@@ -1,26 +1,11 @@
 <template>
-  <div
-    class="microcart cl-accent relative"
-    :class="[productsInCart.length ? 'bg-cl-secondary' : 'bg-cl-primary']"
+  <sidebar
+    class="microcart t-relative"
     data-testid="microcart"
   >
     <transition name="fade">
       <div v-if="isEditMode" class="overlay" @click="closeEditMode" />
     </transition>
-    <div class="row bg-cl-primary px40 actions">
-      <div class="col-xs end-xs">
-        <button
-          type="button"
-          class="p0 brdr-none bg-cl-transparent close"
-          @click="closeMicrocartExtend"
-          data-testid="closeMicrocart"
-        >
-          <i class="material-icons py20 cl-accent">
-            close
-          </i>
-        </button>
-      </div>
-    </div>
     <div class="row middle-xs bg-cl-primary top-sm px40 actions">
       <div class="col-xs-12 col-sm">
         <h2
@@ -120,7 +105,7 @@
         <instant-checkout v-if="isInstantCheckoutRegistered" class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium mt20" />
       </div>
     </div>
-  </div>
+  </sidebar>
 </template>
 
 <script>
@@ -133,6 +118,7 @@ import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
+import Sidebar from 'theme/components/theme/blocks/AsyncSidebar/Sidebar'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartButton'
 import ButtonFull from 'theme/components/theme/ButtonFull'
@@ -143,6 +129,7 @@ import { InstantCheckoutModule } from 'src/modules/instant-checkout'
 
 export default {
   components: {
+    Sidebar,
     Product,
     ClearCartButton,
     ButtonFull,
@@ -194,9 +181,6 @@ export default {
       this.$store.dispatch('cart/removeCoupon')
       this.addCouponPressed = false
     },
-    toggleMicrocart () {
-      this.$store.dispatch('ui/toggleMicrocart')
-    },
     async setCoupon () {
       const couponApplied = await this.applyCoupon(this.couponCode)
       this.addCouponPressed = false
@@ -210,12 +194,11 @@ export default {
       }
     },
     closeMicrocartExtend () {
-      this.toggleMicrocart()
-      this.$store.commit('ui/setSidebar', false)
+      this.$store.dispatch('ui/closeAll')
       this.addCouponPressed = false
     },
     onEscapePress () {
-      this.toggleMicrocart()
+      this.closeMicrocartExtend()
     },
     clearCart () {
       this.$store.dispatch('notification/spawnNotification', {
@@ -237,18 +220,6 @@ export default {
 
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
-
-  .close {
-    i {
-      opacity: 0.6;
-    }
-    &:hover,
-    &:focus {
-      i {
-        opacity: 1;
-      }
-    }
-  }
 
   .mt0 {
     @media (max-width: 767px) {

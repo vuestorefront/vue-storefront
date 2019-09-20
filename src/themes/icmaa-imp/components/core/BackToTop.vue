@@ -86,7 +86,10 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
+  @import '~theme/css/base/global_vars';
+  $z-index-overlay: map-get($z-index, overlay);
+
   .back-to-top-fade-enter-active,
   .back-to-top-fade-leave-active {
     transition: opacity .7s;
@@ -100,7 +103,7 @@ export default {
   .vue-back-to-top {
     cursor:pointer;
     position: fixed;
-    z-index: 1000;
+    z-index: $z-index-overlay;
   }
 
   .vue-back-to-top .default {

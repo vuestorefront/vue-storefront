@@ -16,11 +16,12 @@ import { PaymentBackendMethodsModule } from './payment-backend-methods'
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery'
 import { NewsletterModule } from '@vue-storefront/core/modules/newsletter'
 // ICMAA Modules
-import { IcmaaExtendedUrlModule } from './icmaa-url'
-import { IcmaaCategoryModule } from './icmaa-category'
-import { IcmaaCmsModule } from './icmaa-cms'
-import { IcmaaMetaModule } from './icmaa-meta'
-import { IcmaSpotifyModule } from './icmaa-spotify'
+import { IcmaaExtendedUrlModule } from 'icmaa-url'
+import { IcmaaExtendedCatalogModule } from 'icmaa-catalog'
+import { IcmaaCategoryModule } from 'icmaa-category'
+import { IcmaaCmsModule } from 'icmaa-cms'
+import { IcmaaMetaModule } from 'icmaa-meta'
+import { IcmaSpotifyModule } from 'icmaa-spotify'
 
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
@@ -44,6 +45,7 @@ export function registerClientModules () {
   registerModule(NewsletterModule)
   // ICMAA Modules
   registerModule(IcmaaExtendedUrlModule)
+  registerModule(IcmaaExtendedCatalogModule)
   registerModule(IcmaaCmsModule)
   registerModule(IcmaaCategoryModule)
   registerModule(IcmaaMetaModule)

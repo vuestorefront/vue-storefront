@@ -1,7 +1,7 @@
 <template>
   <transition :name="direction === 'right' ? 'slide-left' : direction === 'left' ? 'slide-right' : null ">
     <div
-      class="mw-100 fixed cl-accent bg-cl-primary"
+      class="t-max-w-full t-fixed t-bg-white"
       :class="direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null "
       data-testid="sidebar"
       ref="sidebar"
@@ -67,6 +67,8 @@ export default {
 
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
+  @import '~theme/css/base/global_vars';
+  $z-index-modal: map-get($z-index, modal);
 
   .slide-left-enter-active,
   .slide-left-leave-active,
@@ -88,7 +90,7 @@ export default {
   .right-sidebar {
     top: 0;
     right: 0;
-    z-index: 3;
+    z-index: $z-index-modal;
     height: 100%;
     width: 800px;
     min-width: 320px;
@@ -103,22 +105,10 @@ export default {
     left: 0;
     overflow: hidden;
     overflow-y: auto;
-    z-index: 3;
+    z-index: $z-index-modal;
 
     @media (max-width: 767px) {
       width: 100vh;
-    }
-  }
-
-  .close {
-    i {
-      opacity: 0.6;
-    }
-    &:hover,
-    &:focus {
-      i {
-        opacity: 1;
-      }
     }
   }
 </style>

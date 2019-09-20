@@ -24,12 +24,15 @@ module.exports = {
         'base-lightest': '#EDEDED'
       },
       spacing: {
+        '1/8': '0.125rem',
         '3-1/2': '0.85rem'
       },
       fontSize: {
-        'xxs': '0.625rem'
+        'xxs': '0.625rem',
+        '1xl': '1.375rem'
       },
       lineHeight: {
+        '1-rem': '1rem',
         'looser': '3',
         'super-loose': '4'
       },
@@ -42,7 +45,7 @@ module.exports = {
   variants: {
     backgroundColor: ['group-hover', 'responsive', 'hover', 'focus'],
     textColor: ['group-hover', 'responsive', 'hover', 'focus', 'placeholder'],
-    opacity: ['placeholder']
+    opacity: ['placeholder', 'disabled']
   },
   plugins: [
     require('tailwindcss-accessibility'),

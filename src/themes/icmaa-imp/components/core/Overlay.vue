@@ -1,19 +1,19 @@
 <template>
-  <div class="overlay fixed w-100" @click="close" v-if="isVisible" />
+  <div class="overlay t-fixed t-w-full" @click="close" v-if="isVisible" />
 </template>
 
 <script>
 import Overlay from '@vue-storefront/core/compatibility/components/Overlay'
 
 export default {
-  mixins: [Overlay],
+  computed: {
+    isVisible () {
+      return this.$store.state.ui.overlay
+    }
+  },
   methods: {
     close () {
-      this.$store.commit('ui/setOverlay', false)
-      this.$store.commit('ui/setMicrocart', false)
-      this.$store.commit('ui/setWishlist', false)
-      this.$store.commit('ui/setSearchpanel', false)
-      this.$store.commit('ui/setSidebar', false)
+      this.$store.dispatch('ui/closeAll')
       this.$store.dispatch('themeCart/closeEditMode')
     }
   }

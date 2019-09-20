@@ -1,52 +1,51 @@
 <template>
-  <no-ssr>
-    <span v-if="isSupported" @click="share">
-      <slot>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none" /><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z" /></svg>
-      </slot>
-    </span>
-  </no-ssr>
+  <div>
+    <a v-for="(shareUrl, key) in shareUrls" :key="key" :href="shareUrl" target="_blank" class="t-text-base-light" :class="{ 't-mr-4': key !== lastKey }">
+      <material-icon icon-set="icmaa" :icon="key" size="xs" />
+    </a>
+  </div>
 </template>
 
 <script>
-import NoSSR from 'vue-no-ssr'
+import i18n from '@vue-storefront/i18n'
 import { isServer } from '@vue-storefront/core/helpers'
+import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 
 export default {
   name: 'WebShare',
-  components: {
-    'no-ssr': NoSSR
-  },
   props: {
-    title: {
+    webshareText: {
+      type: String,
+      required: true
+    },
+    webshareImage: {
       type: String,
       default: ''
-    },
-    text: {
-      type: String,
-      default: ''
-    },
-    url: {
-      type: String,
-      default () {
-        return typeof window !== 'undefined' ? window.location.href : ''
-      }
     }
+  },
+  components: {
+    MaterialIcon
   },
   computed: {
-    isSupported () {
-      return !isServer && navigator.share
-    }
-  },
-  methods: {
-    share () {
-      if (navigator.share) {
-        navigator.share({
-          title: this.title,
-          text: this.text,
-          url: this.url || window.location.href
-        })
+    url () {
+      return encodeURIComponent(isServer ? this.$route.query.page : window.location.href)
+    },
+    text () {
+      return encodeURIComponent(this.webshareText)
+    },
+    image () {
+      return encodeURIComponent(this.webshareImage)
+    },
+    shareUrls () {
+      return {
+        'facebook-square': `https://facebook.com/sharer/sharer.php?u=${this.url}`,
+        'twitter': `https://twitter.com/intent/tweet/?text=${this.text}&amp;url=${this.url}`,
+        'pinterest': `https://pinterest.com/pin/create/button/?url=${this.url}&amp;media=${this.image}&amp;description=${this.text}`,
+        'whatsapp': `whatsapp://send?text=${this.url}%20${this.text}`
       }
+    },
+    lastKey () {
+      return Object.keys(this.shareUrls)[Object.keys(this.shareUrls).length - 1]
     }
   }
 }

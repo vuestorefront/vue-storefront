@@ -102,65 +102,7 @@
   "defaultStoreCode": "",
   "storeViews": {
     "multistore": false,
-    "commonCache": false,
-    "mapStoreUrlsFor": ["de", "it"],
-    "de": {
-      "storeCode": "de",
-      "disabled": true,
-      "storeId": 3,
-      "name": "German Store",
-      "url": "/de",
-      "appendStoreCode": true,
-      "elasticsearch": {
-        "host": "/api/catalog",
-        "index": "vue_storefront_catalog_de"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": false,
-        "defaultCountry": "DE",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "Germany",
-        "fullLanguageName": "German",
-        "defaultLanguage": "DE",
-        "defaultCountry": "DE",
-        "defaultLocale": "de-DE",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      },
-      "seo": {
-        "defaultTitle": "Vue Storefront"
-      }
-    },
-    "it": {
-      "extend": "de",
-      "storeCode": "it",
-      "disabled": true,
-      "storeId": 4,
-      "name": "Italian Store",
-      "url": "/it",
-      "appendStoreCode": true,
-      "elasticsearch": {
-        "host": "/api/catalog",
-        "index": "vue_storefront_catalog_it"
-      },
-      "tax": {
-        "defaultCountry": "IT"
-      },
-      "i18n": {
-        "fullCountryName": "Italy",
-        "fullLanguageName": "Italian",
-        "defaultCountry": "IT",
-        "defaultLanguage": "IT",
-        "defaultLocale": "it-IT"
-      },
-      "seo": {
-        "defaultTitle": "Vue Storefront"
-      }
-    }
+    "commonCache": false
   },
   "entities": {
     "optimize": true,

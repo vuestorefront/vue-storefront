@@ -1,5 +1,5 @@
 import { GetterTree } from 'vuex'
-import CategoryExtrasState, { CategoryExtrasStateItem } from '../../types/CategoryExtrasState'
+import CategoryExtrasState, { CategoryExtrasStateItem, CategoryExtrasCategoryIdMapStateItem } from '../../types/CategoryExtrasState'
 import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category';
 import RootState from '@vue-storefront/core/types/RootState'
 import { Logo } from '../../helpers/categoryExtras/logo'
@@ -34,6 +34,25 @@ const getters: GetterTree<CategoryExtrasState, RootState> = {
     }
 
     return false
+  },
+  getDepartmentChildCategoryIdMap: (state): CategoryExtrasCategoryIdMapStateItem => {
+    return state.departmentChildCategoryIdMap
+  },
+  isDepartmentChildCategory: (state) => (categoryId: number): boolean => {
+    return Object.values(state.departmentChildCategoryIdMap)
+      .filter(categoryIds => categoryIds.filter(c => c === categoryId).length > 0)
+      .length > 0
+  },
+  getCurrentProductDepartmentCategoryId: (state, getters, rootState, rootGetters): number|false => {
+    const product = rootGetters['product/productCurrent']
+    if (product && product.category) {
+      return product.category.map(c => c.category_id).find(id => getters.isDepartmentChildCategory(id))
+    }
+
+    return false
+  },
+  getCurrentProductDepartmentCategory: (state, getters, rootState, rootGetters): Category => {
+    return getters.getCategoryBy('id', getters.getCurrentProductDepartmentCategoryId)
   }
 }
 

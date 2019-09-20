@@ -1,0 +1,109 @@
+<template>
+  <sidebar :close-on-click="false">
+    <template v-slot:top>
+      <h2 class="t-self-center t-pl-2 t-text-lg t-text-base-dark">
+        {{ productOptionsLabel }}
+      </h2>
+    </template>
+    <div class="t-p-1 t-w-full t-flex t-flex-wrap">
+      <template v-if="product.type_id =='configurable'">
+        <div class="error t-w-full " v-if="product.errors && Object.keys(product.errors).length > 0">
+          {{ product.errors | formatProductMessages }}
+        </div>
+        <div v-for="option in productOptions" :key="option.id" class="t-w-full t-flex t-flex-col">
+          <default-selector
+            v-for="(filter, key) in availableFilters[option.attribute_code]"
+            :key="key"
+            :variant="filter"
+            :selected-filters="selectedFilters"
+            @change="changeFilter"
+            :is-last="key === Object.keys(availableFilters[option.attribute_code]).length - 1"
+            :is-loading="isLoading"
+          />
+        </div>
+      </template>
+      <product-links
+        v-if="product.type_id =='grouped'"
+        :products="product.product_links"
+      />
+      <product-bundle-options
+        v-if="product.bundle_options && product.bundle_options.length > 0"
+        :product="product"
+      />
+      <product-custom-options
+        v-else-if="product.custom_options && product.custom_options.length > 0"
+        :product="product"
+      />
+      <model :product="product" class="t-w-full t-p-4 t-mt-6 t-mb-px t-bg-base-lightest t-text-sm t-text-base-tone" />
+      <router-link to="size-chart" class="t-w-full t-p-4 t-bg-base-lightest t-text-sm t-text-primary">
+        {{ $t('Which size fits me?') }}
+        <material-icon icon="call_made" size="md" class="t-float-right t-align-middle" />
+      </router-link>
+    </div>
+  </sidebar>
+</template>
+
+<script>
+import i18n from '@vue-storefront/i18n'
+import { mapGetters } from 'vuex'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption'
+import { notifications } from '@vue-storefront/core/modules/cart/helpers'
+import Composite from '@vue-storefront/core/mixins/composite'
+import ProductOptionsMixin from 'theme/mixins/product/optionsMixin'
+import ProductAddToCartMixin from 'theme/mixins/product/addtocartMixin'
+
+import Sidebar from 'theme/components/theme/blocks/AsyncSidebar/Sidebar'
+import DefaultSelector from 'theme/components/core/blocks/AddToCartSidebar/DefaultSelector'
+import ProductLinks from 'theme/components/core/ProductLinks.vue'
+import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
+import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
+import Model from 'theme/components/core/blocks/AddToCartSidebar/Model'
+import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
+
+export default {
+  name: 'AddToCartSidebar',
+  mixins: [ Composite, ProductOption, ProductOptionsMixin, ProductAddToCartMixin ],
+  components: {
+    Sidebar,
+    DefaultSelector,
+    ProductBundleOptions,
+    ProductCustomOptions,
+    ProductLinks,
+    Model,
+    MaterialIcon
+  },
+  data () {
+    return {
+      loading: false,
+      quantity: 0
+    }
+  },
+  computed: {
+    ...mapGetters({
+      product: 'product/productCurrent',
+      configuration: 'product/currentConfiguration',
+      options: 'product/currentOptions',
+      isAddingToCart: 'cart/getIsAdding'
+    }),
+    isLoading () {
+      return this.loading || this.isAddingToCart
+    }
+  },
+  methods: {
+    changeFilter (variant) {
+      if (variant.available) {
+        this.$bus.$emit(
+          'filter-changed-product',
+          Object.assign({ attribute_code: variant.type }, variant)
+        )
+        this.loading = true
+        this.getQuantity()
+          .then(() => this.addToCart(this.product))
+          .then(() => {
+            this.loading = false
+          })
+      }
+    }
+  }
+}
+</script>

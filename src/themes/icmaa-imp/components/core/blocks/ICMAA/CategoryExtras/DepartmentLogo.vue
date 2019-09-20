@@ -20,7 +20,7 @@ export default {
       required: true
     },
     link: {
-      type: String,
+      type: [String, Object],
       required: true
     }
   }

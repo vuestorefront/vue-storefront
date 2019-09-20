@@ -13,6 +13,7 @@ Load CMS blocks from API and insert them into state or as component.
     "endpoint": "/api/ext/icmaa-cms",
     "categoryExtras": {
       "logoFilePath": "impericon/department-logos"
+      "parentDepartmentCategoryIds": [ 14, 16 ]
     }
   }
   ```

@@ -1,20 +1,12 @@
 <template>
   <div class="media-gallery">
-    <div v-if="isOnline" class="relative w-100">
-      <product-gallery-overlay
-        v-if="isZoomOpen"
-        :current-slide="currentSlide"
-        :product-name="product.name"
-        :gallery="gallery"
-        @close="toggleZoom"
-      />
+    <div v-if="isOnline" class="t-relative t-w-full">
       <no-ssr>
         <product-gallery-carousel
           v-if="showProductGalleryCarousel"
           :gallery="gallery"
           :configuration="configuration"
           :product-name="product.name"
-          @toggle="openOverlay"
           @loaded="carouselLoaded = true"
         />
       </no-ssr>
@@ -24,10 +16,8 @@
 </template>
 
 <script>
-import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts'
-import ProductGalleryOverlay from './ProductGalleryOverlay'
-import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import NoSSR from 'vue-no-ssr'
+import { ProductGallery } from '@vue-storefront/core/modules/catalog/components/ProductGallery.ts'
 import ProductImage from './ProductImage'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 
@@ -35,21 +25,18 @@ const ProductGalleryCarousel = () => import(/* webpackChunkName: "vsf-product-ga
 
 export default {
   components: {
-    ProductGalleryCarousel,
     'no-ssr': NoSSR,
-    ProductGalleryOverlay,
+    ProductGalleryCarousel,
     ProductImage
   },
   mixins: [
-    ProductGallery,
-    onEscapePress
+    ProductGallery
   ],
   watch: {
     '$route': 'validateRoute'
   },
   data () {
     return {
-      isZoomOpen: false,
       showProductGalleryCarousel: false,
       currentSlide: 0,
       carouselLoaded: false
@@ -64,20 +51,8 @@ export default {
     }
   },
   methods: {
-    openOverlay (currentSlide) {
-      this.currentSlide = currentSlide
-      this.toggleZoom()
-    },
     validateRoute () {
       this.$forceUpdate()
-    },
-    toggleZoom () {
-      this.isZoomOpen = !this.isZoomOpen
-    },
-    onEscapePress () {
-      if (this.isZoomOpen) {
-        this.toggleZoom()
-      }
     }
   }
 }
@@ -86,7 +61,6 @@ export default {
 <style lang="scss" scoped>
 .media-gallery {
   text-align: center;
-  width: 100%;
   height: 100%;
   display: flex;
   align-items: center;

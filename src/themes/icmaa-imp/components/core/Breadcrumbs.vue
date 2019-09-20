@@ -1,19 +1,25 @@
 <template>
-  <div class="breadcrumbs h5 cl-gray">
-    <span v-for="link in routes" :key="link.route_link">
-      <router-link :to="link.route_link">
+  <div class="t-text-sm t-text-base-tone">
+    <template v-for="(link, index) in routes">
+      <router-link :to="link.route_link" :key="index">
         {{ link.name | htmlDecode }}
-      </router-link> /
-    </span>
-    <span class="cl-mine-shaft">
-      {{ activeRoute | htmlDecode }}
-    </span>
+      </router-link>
+      <span class="t-mx-2" :key="'bullet-' + index" v-text="spacerCharacter" />
+    </template>
+    <span v-text="activeRoute || htmlDecode" />
   </div>
 </template>
 
 <script>
 import Breadcrumbs from '@vue-storefront/core/compatibility/components/Breadcrumbs'
 export default {
-  mixins: [Breadcrumbs]
+  mixins: [Breadcrumbs],
+  props: {
+    spacerCharacter: {
+      type: String,
+      required: false,
+      default: '/'
+    }
+  }
 }
 </script>
