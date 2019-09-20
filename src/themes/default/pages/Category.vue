@@ -59,7 +59,7 @@
         </div>
         <div class="col-md-9 px10 border-box products-list">
           <p class="col-xs-12 end-md m0 pb20 cl-secondary">
-            {{ getCategoryProductsTotal }} {{ $t('items') }}
+            {{ $t('{count} items', { count: getCategoryProductsTotal }) }}
           </p>
           <div v-if="isCategoryEmpty" class="hidden-xs">
             <h4 data-testid="noProductsInfo">
@@ -94,14 +94,15 @@ import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 import rootStore from '@vue-storefront/core/store';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
-const composeInitialPageState = async (store, route) => {
+const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
     await store.dispatch('attribute/list', { // load filter attributes for this specific category
       filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields]), // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
       includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
     })
     const filters = getSearchOptionsFromRouteParams(route.params)
-    const currentCategory = await store.dispatch('category-next/loadCategory', { filters })
+    const cachedCategory = store.getters['category-next/getCategoryFrom'](route.path)
+    const currentCategory = cachedCategory && !forceLoad ? cachedCategory : await store.dispatch('category-next/loadCategory', { filters })
     await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
     await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
     catalogHooksExecutors.categoryPageVisited(currentCategory)
@@ -138,7 +139,7 @@ export default {
       getAvailableFilters: 'category-next/getAvailableFilters'
     }),
     isLazyHydrateEnabled () {
-      return config.products.lazyLoadingCategoryProducts
+      return config.ssr.lazyHydrateFor.includes('category-next.products')
     },
     isCategoryEmpty () {
       return this.getCategoryProductsTotal === 0
@@ -152,16 +153,16 @@ export default {
   },
   async beforeRouteEnter (to, from, next) {
     if (isServer) next() // SSR no need to invoke SW caching here
-    else if (from.name) { // SSR but client side invocation, we need to cache products
+    else if (!from.name) { // SSR but client side invocation, we need to cache products and invoke requests from asyncData for offline support
       next(async vm => {
         vm.loading = true
+        await composeInitialPageState(vm.$store, to, true)
         await vm.$store.dispatch('category-next/cacheProducts', { route: to })
         vm.loading = false
       })
     } else { // Pure CSR, with no initial category state
       next(async vm => {
         vm.loading = true
-        await composeInitialPageState(vm.$store, to)
         await vm.$store.dispatch('category-next/cacheProducts', { route: to })
         vm.loading = false
       })

@@ -4,10 +4,11 @@ const isBottomVisible = () => {
   if (isServer) {
     return false
   }
+  const SAFETY_MARGIN = 20
   const scrollY = window.scrollY
   const visible = window.innerHeight
   const pageHeight = document.documentElement.scrollHeight
-  const bottomOfPage = visible + scrollY >= pageHeight
+  const bottomOfPage = scrollY + SAFETY_MARGIN >= pageHeight - visible
 
   return bottomOfPage || pageHeight < visible
 }

@@ -36,7 +36,7 @@ import globalConfig from 'config'
 
 import { injectReferences } from '@vue-storefront/core/lib/modules'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
-import { registerNewModules } from 'src/modules';
+import { registerClientModules } from 'src/modules/client';
 
 function createRouter (): VueRouter {
   return new VueRouter({
@@ -62,8 +62,6 @@ let router: VueRouter = null
 once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
 })
-
-const initialState = cloneDeep(store.state)
 
 const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
   router = createRouter()
@@ -127,7 +125,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   }
 
   injectReferences(app, store, router, globalConfig)
-  registerNewModules()
+  registerClientModules()
   registerModules(enabledModules, appContext)
   registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
 
@@ -135,7 +133,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   // @deprecated from 2.0
   EventBus.$emit('application-after-init', app)
 
-  return { app, router, store, initialState }
+  return { app, router, store, initialState: cloneDeep(store.state) }
 }
 
 export { router, createApp }

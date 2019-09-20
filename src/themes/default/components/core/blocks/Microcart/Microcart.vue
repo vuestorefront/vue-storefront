@@ -124,7 +124,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
 
@@ -187,6 +187,9 @@ export default {
     })
   },
   methods: {
+    ...mapActions({
+      applyCoupon: 'cart/applyCoupon'
+    }),
     addDiscountCoupon () {
       this.addCouponPressed = true
     },

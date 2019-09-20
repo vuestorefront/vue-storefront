@@ -160,6 +160,7 @@ export default {
   z-index: 3;
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 
   .close-icon-row {
     display: flex;

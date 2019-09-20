@@ -43,7 +43,7 @@
                 class="cl-tertiary links"
               >{{ $t('Login to your account') }}</a>
 
-              <span v-else>{{ $t('You are logged in as') }} {{ currentUser.firstname }}</span>
+              <span v-else>{{ $t('You are logged in as {firstname}', currentUser) }}</span>
             </div>
           </div>
         </div>
