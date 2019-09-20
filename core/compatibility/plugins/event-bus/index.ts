@@ -22,24 +22,30 @@ import Vue from 'vue'
  * })
  */
 
-class EventService<T, K extends keyof T> {
+type EventCallback<T> = (payload: T) => Promise<void>
+
+type EventDataFilters<T> = {
+  [K in keyof T]: EventCallback<T[K]>[]
+}
+
+class EventService<T> {
   private _vue: Vue
-  public $dataFilters: T
+  private $dataFilters: EventDataFilters<T>
 
   public constructor () {
     this._vue = new Vue()
   }
 
-  public $on (eventType: K, listener: (...payload: T[K][]) => void) {
+  public $on<K extends keyof T> (eventType: K, listener: (payload?: T[K]) => void) {
     this._vue.$on(eventType as string, listener)
   }
 
-  public $emit (eventType: K, ...payload: T[K][]): any {
-    this._vue.$emit(eventType as string, ...payload)
+  public $emit<K extends keyof T> (eventType: K, payload?: T[K]): void {
+    this._vue.$emit(eventType as string, payload)
   }
 
   public get $filter () {
-    return (eventType: K, callback: (payload: T[K]) => void) => {
+    return <K extends keyof T>(eventType: K, callback: EventCallback<T[K]>) => {
       if (!this.$dataFilters[eventType]) {
         this.$dataFilters[eventType] = []
       }
@@ -47,13 +53,13 @@ class EventService<T, K extends keyof T> {
     }
   }
 
-  public get $emitFilter<K extends keyof T> () {
-    return (eventType: K, ...args: T[K][]) => {
-      this.$emit(eventType, ...args)
+  public get $emitFilter () {
+    return <K extends keyof T>(eventType: K, payload: T[K]): Promise<void[]> => {
+      this.$emit(eventType, payload)
       const promises = []
       if (this.$dataFilters[eventType]) {
         for (let cb of this.$dataFilters[eventType]) {
-          promises.push(cb(args))
+          promises.push(cb(payload))
         }
       }
       return Promise.all(promises)
@@ -61,43 +67,7 @@ class EventService<T, K extends keyof T> {
   }
 }
 
-const filterExt = {
-  $dataFilters: {
-    value: [],
-    writable: true
-  }, // data filters to be registered by extension developers
-  $filter: {
-    get: function () {
-      return (eventName, callback) => {
-        if (!this.$dataFilters[eventName]) {
-          this.$dataFilters[eventName] = []
-        }
-        this.$dataFilters[eventName].push(callback)
-      }
-    }
-  },
-  $emitFilter: {
-    get: function () {
-      return (eventName, ...args) => {
-        if (args.length === 1) {
-          args = args[0]
-        }
-        this.$emit(eventName, args)
-        let promises = []
-        if (this.$dataFilters[eventName]) {
-          for (let cb of this.$dataFilters[eventName]) {
-            promises.push(cb(args))
-          }
-        }
-        return Promise.all(promises)
-      }
-    }
-  }
-}
-const EventBus = new Vue()
-if (!EventBus.$dataFilters) {
-  Object.defineProperties(EventBus, filterExt)
-}
+const EventBus = new EventService<Events>()
 
 const EventBusPlugin = {
   install (Vue) {
@@ -112,4 +82,5 @@ const EventBusPlugin = {
     }
   }
 }
+
 export { EventBus as default, EventBusPlugin }
