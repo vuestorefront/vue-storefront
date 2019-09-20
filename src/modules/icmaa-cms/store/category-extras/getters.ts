@@ -44,7 +44,7 @@ const getters: GetterTree<CategoryExtrasState, RootState> = {
       .length > 0
   },
   getCurrentProductDepartmentCategoryId: (state, getters, rootState, rootGetters): number|false => {
-    const product = rootGetters['product/productCurrent']
+    const product = rootGetters['product/getCurrentProduct']
     if (product && product.category) {
       return product.category.map(c => c.category_id).find(id => getters.isDepartmentChildCategory(id))
     }

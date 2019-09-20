@@ -6,7 +6,7 @@
     "
     :class="{ active: isActive }"
     @click="$emit('change', variant)"
-    :aria-label="$t('Select size ') + variant.label"
+    :aria-label="$t('Select size {variant}', { variant: variant.label })"
   >
     {{ variant.label }}
   </button>

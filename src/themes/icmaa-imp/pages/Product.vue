@@ -2,10 +2,10 @@
   <div id="product" itemscope itemtype="http://schema.org/Product">
     <div class="t-container t-px-4">
       <div class="t--mx-4 lg:t-px-4 t-flex t-flex-wrap">
-        <breadcrumbs class="breadcrumbs t-w-full t-my-8 t-hidden lg:t-block" :routes="breadcrumbs.routes" :active-route="breadcrumbs.name" />
+        <breadcrumbs class="breadcrumbs t-w-full t-my-8 t-hidden lg:t-block" :routes="breadcrumbs" :active-route="product.name" />
         <product-gallery
           class="product-gallery t-w-full t-py-px lg:t-w-1/2 lg:t-py-0"
-          :offline="image"
+          :offline="offlineImage"
           :gallery="gallery"
           :configuration="configuration"
           :product="product"
@@ -26,7 +26,7 @@
             <web-share :webshare-text="webshareText" :webshare-image="image.src" class="t-flex-fix t-w-full t-mt-4 t-text-base-light lg:t-w-auto" />
 
             <div class="t-w-full" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-              <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
+              <meta itemprop="priceCurrency" :content="$store.state.storeView.i18n.currencyCode">
               <meta itemprop="price" :content="parseFloat(product.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="product.url_path">
@@ -90,7 +90,7 @@
       </div>
     </section>
     <lazy-hydrate when-idle>
-      <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
+      <reviews :product-id="originalProduct.id" v-show="isOnline" />
     </lazy-hydrate>
     <lazy-hydrate when-idle>
       <related-products type="upsell" :heading="$t('We found other products you might like')" />
@@ -107,10 +107,12 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 import { minValue } from 'vuelidate/lib/validators'
 import i18n from '@vue-storefront/i18n'
-import Product from '@vue-storefront/core/pages/Product'
+import config from 'config'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption'
+import { onlineHelper } from '@vue-storefront/core/helpers'
 import IcmaaProduct from 'icmaa-catalog/components/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
@@ -153,7 +155,7 @@ export default {
     WebShare,
     LazyHydrate
   },
-  mixins: [Product, IcmaaProduct, ProductOptionsMixin, ProductAddToCartMixin, VueOfflineMixin],
+  mixins: [ProductOption, IcmaaProduct, ProductOptionsMixin, ProductAddToCartMixin],
   directives: { focusClean },
   beforeCreate () {
     registerModule(ReviewModule)
@@ -163,14 +165,39 @@ export default {
   data () {
     return {
       AddToCartSidebar,
-      quantity: 0
+      quantity: 0,
+      loading: false
     }
   },
   created () {
     this.getQuantity()
   },
   computed: {
+    ...mapGetters({
+      category: 'category-next/getCurrentCategory',
+      breadcrumbs: 'product/getProductBreadcrumbs',
+      product: 'product/getCurrentProduct',
+      gallery: 'product/getProductGallery',
+      configuration: 'product/getCurrentProductConfiguration',
+      originalProduct: 'product/getOriginalProduct',
+      attributesByCode: 'attribute/attributeListByCode'
+    }),
     ...mapState({ isAddToCartSidebarOpen: state => state.ui.addtocart }),
+    image () {
+      return this.gallery.length ? this.gallery[0] : false
+    },
+    offlineImage () {
+      return {
+        src: this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height),
+        error: this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height),
+        loading: this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height)
+      }
+    },
+    customAttributes () {
+      return Object.values(this.attributesByCode).filter(a => {
+        return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.product[a.attribute_code]
+      })
+    },
     structuredData () {
       return {
         availability: this.product.stock.is_in_stock ? 'InStock' : 'OutOfStock'
@@ -186,6 +213,9 @@ export default {
       }
 
       return false
+    },
+    isOnline () {
+      return onlineHelper.isOnline
     },
     taxDisclaimer () {
       return i18n.t(
@@ -231,6 +261,10 @@ export default {
         action1: { label: this.$t('OK') }
       })
     }
+  },
+  async asyncData ({ store, route }) {
+    const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
+    await store.dispatch('product/loadProductBreadcrumbs', { product })
   }
 }
 </script>

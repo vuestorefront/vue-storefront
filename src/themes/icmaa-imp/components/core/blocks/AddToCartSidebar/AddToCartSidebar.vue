@@ -80,9 +80,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      product: 'product/productCurrent',
-      configuration: 'product/currentConfiguration',
-      options: 'product/currentOptions',
+      product: 'product/getCurrentProduct',
+      configuration: 'product/getCurrentProductConfiguration',
+      options: 'product/getCurrentProductOptions',
       isAddingToCart: 'cart/getIsAdding'
     }),
     isLoading () {
