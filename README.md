@@ -824,10 +824,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
    <td align="center" valign="middle"> 
-<a href="">
+<a href="https://kiwicommerce.co.uk/">
           <img
-            src=""
-            alt=""
+            src="https://divante.com/partners/Vue-Storefront/KiwiCommerce%20Logo.png"
+            alt="KiwiCommerce"
             height="40"
           >
         </a>
