@@ -50,7 +50,7 @@
                 </router-link>
               </div>
             </div>
-            <div class="start-md">
+            <div class="start-md" v-if="displayAboutSection">
               <h3 class="cl-accent weight-400">
                 {{ $t('About us') }}
               </h3>
@@ -158,6 +158,7 @@
 </template>
 
 <script>
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
@@ -168,6 +169,9 @@ export default {
   mixins: [CurrentPage],
   name: 'MainFooter',
   computed: {
+    displayAboutSection () {
+      return currentStoreView().storeCode === config.defaultStoreCode
+    },
     multistoreEnabled () {
       return config.storeViews.multistore
     },

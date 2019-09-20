@@ -117,6 +117,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove modifying config by reference in multistore - @gibkigonzo (#3617)
 - Add translation key for add review - @gibkigonzo (#3611)
 - Add product name prop to reviews component - @gibkigonzo (#3607)
+- Remove cms links when there is no translation loaded - @andrzejewsky (#3579)
 
 ### Changed / Improved
 
