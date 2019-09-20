@@ -107,6 +107,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Prevent caching storage instance in plugin module scope - @gibkigonzo (#3571)
 - Fixed incorrect image sizes in related section on product page - @andrzejewsky (#3590)
 - Fix typo on default language - @lorenaramonda (#3076)
+- Fixed resolving store code on SSR - @andrzejewsky (#3576)
 
 ### Changed / Improved
 
