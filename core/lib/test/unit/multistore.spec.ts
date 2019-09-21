@@ -37,6 +37,9 @@ describe('Multistore', () => {
     jest.clearAllMocks();
     (rootStore as any).state = {};
     Object.keys(config).forEach((key) => { delete config[key]; });
+    rootStore.state.storeView = {
+      appendStoreCode: true
+    }
   })
 
   describe('storeCodeFromRoute', () => {
