@@ -133,7 +133,7 @@
               v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
             >
               <base-input-number
-                :name="$t(getInputName)"
+                :name="getInputName"
                 v-model="getCurrentProduct.qty"
                 :min="quantity ? 1 : 0"
                 :max="quantity"
