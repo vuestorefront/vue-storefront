@@ -21,7 +21,7 @@
 "Product {productName} has been added to the compare!","Товар {productName} добавлен к странице сравнения!"
 "Product {productName} has been added to wishlist!","Товар {productName} добавлен к списку пожеланий!"
 "Product {productName} has been removed from compare!","Товар {productName} удален из страницы сравнения!"
-"Product {productName} has been removed from wishlit!","Товар {productName} удален из списка пожеланий!"
+"Product {productName} has been removed from wishlist!","Товар {productName} удален из списка пожеланий!"
 "Registering the account ...","Создается учетная запись ..."
 "Reset password feature does not work while offline!","Возможность переустановки пароля не работает при отсутствующем соединении к интернету!"
 "Shopping cart is empty. Please add some products before entering Checkout","Корзина пустая. Пожалуйста добавьте товары перед оформлением заказа"

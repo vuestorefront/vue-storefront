@@ -46,7 +46,7 @@
 "Product {productName} has been added to the compare!","Product {productName} has been added to the compare!"
 "Product {productName} has been added to wishlist!","Product {productName} has been added to wishlist!"
 "Product {productName} has been removed from compare!","Product {productName} has been removed from compare!"
-"Product {productName} has been removed from wishlit!","Product {productName} has been removed from wishlist!"
+"Product {productName} has been removed from wishlist!","Product {productName} has been removed from wishlist!"
 "Quantity available","Quantity ({qty} available)"
 "Quantity must be above 0","Quantity must be above 0"
 "Quantity must be below {quantity}","Quantity must be below {quantity}"
