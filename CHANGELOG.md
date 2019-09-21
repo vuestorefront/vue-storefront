@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add new Google-Tag-Manager module using new module registration - @cewald (#3524, #3509)
 - Exclude GTM product attributes setup into config json - @dlandmann, @cewald (#3509, #3524)
 - Add configuration option to format currency sign placement and space in price - @cewald (#3574)
+- Route Manager Queue for adding routes efficiently and with an optional priority - @grimasod (#3540)
 
 ### Fixed
 
@@ -147,6 +148,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved scrolling in Safari on iOS devices (sidebars) - @phoenixdev-kl (#3551)
 - Improved cookie and offline badges (z-index, overflow) - @phoenixdev-kl (#3552)
 - Improved translations: Replaced concatenations with "named formatting" (see http://kazupon.github.io/vue-i18n/guide/formatting.html#named-formatting) - @phoenixdev-kl (#3550)
+
+## [1.10.3] - 2019.09.18
+
+### Fixed
+- Broken sidebar menu in mobile view - @przspa (#3549)
+- UrlDispatcher issues with multistore routes - @pkarw (#3568)
 
 ## [1.10.2] - 2019.09.06
 

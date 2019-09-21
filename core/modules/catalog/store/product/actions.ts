@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import { formatBreadCrumbRoutes, isServer } from '@vue-storefront/core/helpers'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import { configureProductAsync,
   doPlatformPricesSync,
   filterOutUnavailableVariants,
@@ -30,6 +30,7 @@ import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
+import { formatProductLink } from 'core/modules/url/helpers'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -295,15 +296,16 @@ const actions: ActionTree<ProductState, RootState> = {
     return searchResult
   },
   preConfigureAssociated (context, { searchResult, prefetchGroupProducts }) {
+    const storeCode = currentStoreView().storeCode
     for (let product of searchResult.items) {
       if (product.url_path) {
         const { parentSku, slug } = product
 
         context.dispatch('url/registerMapping', {
-          url: product.url_path,
+          url: localizedDispatcherRoute(product.url_path, storeCode),
           routeData: {
             params: { parentSku, slug },
-            'name': product.type_id + '-product'
+            'name': localizedDispatcherRouteName(product.type_id + '-product', storeCode)
           }
         }, { root: true })
       }
