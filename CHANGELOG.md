@@ -104,6 +104,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed error with dayjs when locale is 2-digit (without a '-') @rain2o (#3581)
 - Fix applying coupon - @andrzejewsky (#3578)
 - Prevent caching storage instance in plugin module scope - @gibkigonzo (#3571)
+- Fix typo on default language - @lorenaramonda (#3076)
 
 ### Changed / Improved
 

@@ -42,7 +42,7 @@
 "Product {productName} has been added to the compare!","Das Produkt {productName} wurde zur Vergleichsliste hinzugefügt!"
 "Product {productName} has been added to wishlist!","Das Produkt {productName} wurde der Wunschliste hinzugefügt!"
 "Product {productName} has been removed from compare!","Das Produkt {productName} wurde von der Vergleichsliste entfernt!"
-"Product {productName} has been removed from wishlit!","Das Produkt {productName} wurde von der Wunschliste entfernt!"
+"Product {productName} has been removed from wishlist!","Das Produkt {productName} wurde von der Wunschliste entfernt!"
 "Quantity must be above 0","Die Menge muss größer als 0 sein"
 "Registering the account ...","Registrieren des Kontos ..."
 "Reset password feature does not work while offline!","Die Funktion zum Zurücksetzen des Passworts funktioniert nicht im Offline-Modus!"
