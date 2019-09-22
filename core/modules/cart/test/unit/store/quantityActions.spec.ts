@@ -1,11 +1,6 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types';
 import cartActions from '@vue-storefront/core/modules/cart/store/actions';
-
-const createContextMock = (props = {}) => ({
-  commit: jest.fn(),
-  dispatch: jest.fn(),
-  ...props
-})
+import { createContextMock } from '@vue-storefront/unit-tests/utils';
 
 jest.mock('@vue-storefront/core/store', () => ({
   dispatch: jest.fn(),

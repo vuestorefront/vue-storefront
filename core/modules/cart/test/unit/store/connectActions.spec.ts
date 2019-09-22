@@ -3,6 +3,7 @@ import config from 'config';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import cartActions from '@vue-storefront/core/modules/cart/store/actions';
+import { createContextMock } from '@vue-storefront/unit-tests/utils';
 
 jest.mock('@vue-storefront/core/store', () => ({
   dispatch: jest.fn(),
@@ -45,12 +46,6 @@ jest.mock('@vue-storefront/core/helpers', () => ({
   },
   processLocalizedURLAddress: (url) => url
 }));
-
-const createContextMock = (props = {}) => ({
-  commit: jest.fn(),
-  dispatch: jest.fn(),
-  ...props
-})
 
 describe('Cart connectActions', () => {
   it('clears cart token and server hash', async () => {
