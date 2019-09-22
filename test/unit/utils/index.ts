@@ -44,7 +44,10 @@ export const mountMixinWithStore = (
 };
 
 export const createContextMock = (props = {}) => ({
+  // @ts-ignore
   commit: jest.fn(),
+  // @ts-ignore
   dispatch: jest.fn(),
+  // @ts-ignore
   ...props
 })
