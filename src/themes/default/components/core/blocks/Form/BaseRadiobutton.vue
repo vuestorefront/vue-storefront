@@ -16,25 +16,40 @@
         class="pl35 lh30 h4 pointer"
         :for="id"
       >
-        <slot/>
+        <slot />
       </label>
     </div>
-    <template v-if="validation">
-      <span
-        class="block cl-error h6"
-        v-if="validation.condition"
-      >
-        {{ validation.text }}
-      </span>
-    </template>
+    <ValidationMessages v-if="validations" :validations="validations" />
   </div>
 </template>
 
 <script>
-import BaseRadiobutton from 'core/components/blocks/Form/BaseRadiobutton'
+import ValidationMessages from './ValidationMessages.vue'
 
 export default {
-  mixins: [BaseRadiobutton]
+  name: 'BaseRadiobutton',
+  components: {
+    ValidationMessages
+  },
+  props: {
+    id: {
+      type: String,
+      required: true
+    },
+    value: {
+      type: Boolean,
+      required: true
+    },
+    validations: {
+      type: Array,
+      default: () => []
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  }
 }
 </script>
 

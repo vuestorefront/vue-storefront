@@ -46,7 +46,7 @@ class Manager extends installer.Manager {
         'Congratulations!',
         '',
         'You\'ve just successfully started vue-storefront.',
-        'All required servers are running in background',
+        'All required servers are running in the background',
         '',
         'Storefront: http://localhost:3000',
         'Backend: ' + (Manager.isBackendInstalledLocally() ? 'http://localhost:8080' : installer.STOREFRONT_REMOTE_BACKEND_URL),

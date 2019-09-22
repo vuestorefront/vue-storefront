@@ -1,18 +1,18 @@
 <template>
-  <span @click="switchFilter(id, from, to)">
+  <div @click="switchFilter(id, from, to)">
     <button
       class="relative brdr-cl-bg-tertiary brdr-1 bg-cl-transparent mr10 pointer price-selector"
       :class="{ active: active }"
       :aria-label="$t('Price ') + content"
     >
-      <div class="bg-cl-transparent absolute block square"/>
+      <span class="bg-cl-transparent absolute block square" />
     </button>
     <span>{{ content }}</span>
-  </span>
+  </div>
 </template>
 
 <script>
-import PriceSelector from 'core/components/PriceSelector'
+import PriceSelector from '@vue-storefront/core/compatibility/components/PriceSelector'
 
 export default {
   mixins: [PriceSelector]
@@ -29,8 +29,7 @@ export default {
     width: 20px;
     height: 20px;
 
-    &:hover,
-    &:focus {
+    &:hover {
       .square {
         background-color: $color-event;
       }

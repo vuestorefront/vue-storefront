@@ -14,7 +14,7 @@
     <div class="modal-content pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="register" novalidate>
         <base-input
-          class="mb35"
+          class="mb10"
           type="email"
           name="email"
           autocomplete="email"
@@ -33,7 +33,7 @@
             }
           ]"
         />
-        <div class="row mb35">
+        <div class="row mb10">
           <base-input
             class="col-xs-6"
             type="text"
@@ -42,10 +42,16 @@
             v-model="firstName"
             @blur="$v.firstName.$touch()"
             :placeholder="$t('First name *')"
-            :validation="{
-              condition: !$v.firstName.required && $v.firstName.$error,
-              text: $t('Field is required.')
-            }"
+            :validations="[
+              {
+                condition: !$v.firstName.required && $v.firstName.$error,
+                text: $t('Field is required.')
+              },
+              {
+                condition: !$v.firstName.minLength,
+                text: $t('Name must have at least 2 letters.')
+              }
+            ]"
           />
           <base-input
             class="col-xs-6"
@@ -55,16 +61,17 @@
             v-model="lastName"
             @blur="$v.lastName.$touch()"
             :placeholder="$t('Last name *')"
-            :validation="{
+            :validations="[{
               condition: !$v.lastName.required && $v.lastName.$error,
               text: $t('Field is required.')
-            }"
+            }]"
           />
         </div>
         <base-input
-          class="mb35"
+          class="mb10"
           type="password"
           name="password"
+          ref="password"
           autocomplete="new-password"
           v-model="password"
           @blur="$v.password.$touch()"
@@ -81,7 +88,7 @@
           ]"
         />
         <base-input
-          class="mb35"
+          class="mb10"
           type="password"
           name="password-confirm"
           autocomplete="new-password"
@@ -100,16 +107,15 @@
           ]"
         />
         <base-checkbox
-          class="mb35"
+          class="mb10"
           id="terms"
           v-model="conditions"
-          @click="conditions = !conditions"
           @blur="$v.conditions.$reset()"
           @change="$v.conditions.$touch()"
-          :validation="{
+          :validations="[{
             condition: !$v.conditions.required && $v.conditions.$error,
             text: $t('You must accept the terms and conditions.')
-          }"
+          }]"
         >
           {{ $t('I accept terms and conditions') }} *
         </base-checkbox>
@@ -129,12 +135,11 @@
   </div>
 </template>
 <script>
-import Register from 'core/components/blocks/Auth/Register'
+import Register from '@vue-storefront/core/compatibility/components/blocks/Auth/Register'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import BaseCheckbox from '../Form/BaseCheckbox.vue'
-import BaseInput from '../Form/BaseInput.vue'
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
-import i18n from 'core/lib/i18n'
 
 export default {
   validations: {
@@ -143,6 +148,7 @@ export default {
       email
     },
     firstName: {
+      minLength: minLength(2),
       required
     },
     lastName: {
@@ -161,49 +167,47 @@ export default {
     }
   },
   mixins: [Register],
-  methods: {
-    close () {
-      this.$bus.$emit('modal-hide', 'modal-signup')
-    },
-    register () {
-      if (this.$v.$invalid) {
-        this.$v.$touch()
-        this.$bus.$emit('notification', {
-          type: 'error',
-          message: i18n.t('Please fix the validation errors'),
-          action1: { label: i18n.t('OK'), action: 'close' }
-        })
-        return
-      }
-
-      this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
-      this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName }).then((result) => {
-        console.log(result)
-        this.$bus.$emit('notification-progress-stop')
-        if (result.code !== 200) {
-          this.$bus.$emit('notification', {
-            type: 'error',
-            message: result.result,
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
-        } else {
-          this.$bus.$emit('notification', {
-            type: 'success',
-            message: i18n.t('You are logged in!'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
-          this.close()
-        }
-      }).catch(err => {
-        this.$bus.$emit('notification-progress-stop')
-        console.error(err)
-      })
-    }
-  },
   components: {
     ButtonFull,
     BaseCheckbox,
     BaseInput
+  },
+  methods: {
+    register () {
+      if (this.$v.$invalid) {
+        this.$v.$touch()
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Please fix the validation errors'),
+          action1: { label: this.$t('OK') }
+        })
+        return
+      }
+      this.callRegister()
+    },
+    onSuccess () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: this.$t('You are logged in!'),
+        action1: { label: this.$t('OK') }
+      })
+    },
+    onFailure (result) {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: this.$t(result.result),
+        action1: { label: this.$t('OK') }
+      })
+    }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .modal-content {
+    @media (max-width: 400px) {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+</style>

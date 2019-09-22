@@ -1,0 +1,38 @@
+$motion-main: cubic-bezier(0.54, 0.02, 0.35, 0.88);
+$duration-main: .3s;
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity $duration-main;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0
+}
+
+.fade-in {
+  &-down-enter-active,
+  &-down-leave-active,
+  &-up-enter-active,
+  &-up-leave-active {
+    transition: all $duration-main $motion-main;
+  }
+
+  &-down-enter,
+  &-down-leave-to,
+  &-up-enter,
+  &-up-leave-to {
+    opacity: 0;
+  }
+
+  &-down-enter,
+  &-down-leave-to {
+    transform: translateY(-100%);
+  }
+
+  &-up-enter,
+  &-up-leave-to {
+    transform: translateY(100%);
+  }
+}

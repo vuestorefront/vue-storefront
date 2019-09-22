@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vue-storefront
+spec:
+  selector:
+    matchLabels:
+      app: vue-storefront
+  template:
+    metadata:
+      labels:
+        app: vue-storefront
+    spec:
+      containers:
+      - name: vue-storefront
+        image: divante/vue-storefront:latest
+        envFrom:
+        - configMapRef:
+            name: vue-storefront-config
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - mountPath: /var/www/.babelrc
+          name: code
+          subPath: .babelrc
+          readOnly: true
+        - mountPath: /var/www/config
+          name: code
+          subPath: config
+          readOnly: true
+        - mountPath: /var/www/core
+          name: code
+          subPath: core
+        - mountPath: /var/www/ecosystem.json
+          name: code
+          subPath: ecosystem.json
+          readOnly: true
+        - mountPath: /var/www/.eslintignore
+          name: code
+          subPath: .eslintignore
+          readOnly: true
+        - mountPath: /var/www/.eslintrc.js
+          name: code
+          subPath: .eslintrc.js
+          readOnly: true
+        - mountPath: /var/www/lerna.json
+          name: code
+          subPath: lerna.json
+          readOnly: true
+        - mountPath: /var/www/package.json
+          name: code
+          subPath: package.json
+          readOnly: true
+        - mountPath: /var/www/src
+          name: code
+          subPath: src
+          readOnly: true
+        - mountPath: /var/www/var
+          name: code
+          subPath: var
+        - mountPath: /var/www/dist
+          name: dist
+      volumes:
+      - name: code
+        hostPath:
+          path: "/root/vue-storefront"
+      - name: dist
+        emptyDir:
+          medium: Memory

@@ -1,31 +1,31 @@
 {
   "mainBanners": [
 	  {
-	    "title": "Luma Performance",
+	    "title": "Office casual",
 	    "subtitle": "Collection",
-	    "image": "/assets/slide_02.jpg",
+	    "image": "/assets/ban1.jpg",
 	    "link": "/c/women-20"
 	  }
   ],
   "smallBanners": [
     {
-      "title": "Erin Renny",
-      "subtitle": "New",
-      "image": "/assets/ig/ig03.jpg",
+      "title": "Shine on",
+      "subtitle": "Accesories",
+      "image": "/assets/ban2.jpg",
       "link": "/c/men-11"
     },
     {
-      "title": "Eco-friendly",
-      "subtitle": "Sales",
-      "image": "/assets/ig/ig05.jpg",
+      "title": "Spring is coming",
+      "subtitle": "Hats",
+      "image": "/assets/ban3.jpg",
       "link": "/c/gear-3"
     }
   ],
   "productBanners": [
 	  {
-	    "title": "Eco-friendly",
-	    "subtitle": "Sales",
-	    "image": "/assets/ig/ig05.jpg",
+	    "title": "Spring is coming",
+	    "subtitle": "Hats",
+	    "image": "/assets/ban3.jpg",
 	    "link": "/c/gear-3"
 	  }
   ]

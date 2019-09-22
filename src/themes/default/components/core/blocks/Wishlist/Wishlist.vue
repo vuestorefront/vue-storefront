@@ -1,17 +1,20 @@
 <template>
-  <div class="wishlist fixed mw-100 bg-cl-primary cl-accent" :class="{ active: isOpen }">
+  <div class="wishlist cl-accent">
     <div class="row">
       <div class="col-md-12 end-xs">
         <i class="material-icons p15 pointer cl-accent" @click="closeWishlist">close</i>
       </div>
     </div>
-    <h2 v-if="items.length" class="cl-accent ml30">
-      {{ $t('Wishlist') }}
-    </h2>
-    <h4 v-if="!items.length" class="cl-accent ml30">
+    <div class="row middle-xs px40">
+      <h2 v-if="productsInWishlist.length" class="col-xs-12 col-sm cl-accent">
+        {{ $t('Wishlist') }}
+      </h2>
+      <clear-wishlist-button v-if="productsInWishlist.length" @click="clearWishlist" class="col-xs-12 col-sm mt35 mb35 end-sm" />
+    </div>
+    <h4 v-if="!productsInWishlist.length" class="cl-accent ml30">
       {{ $t('Your wishlist is empty.') }}
     </h4>
-    <div v-if="!items.length" class="ml30">
+    <div v-if="!productsInWishlist.length" class="ml30">
       {{ $t("Don't hesitate and") }}
       <router-link :to="localizedRoute('/')">
         {{ $t('browse our catalog') }}
@@ -19,18 +22,42 @@
       {{ $t('to find something beautiful for You!') }}
     </div>
     <ul class="products">
-      <product v-for="product in items" :key="product.id" :product="product" />
+      <product v-for="wishlistProduct in productsInWishlist" :key="wishlistProduct.id" :product="wishlistProduct" />
     </ul>
   </div>
 </template>
 
 <script>
-import Wishlist from 'core/components/blocks/Wishlist/Wishlist'
+import Wishlist from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Wishlist'
 import Product from 'theme/components/core/blocks/Wishlist/Product'
+import ClearWishlistButton from 'theme/components/core/blocks/Wishlist/ClearWishlistButton'
 
 export default {
+  props: {
+    product: {
+      type: Object,
+      required: false,
+      default: () => { }
+    }
+  },
   components: {
-    Product
+    Product,
+    ClearWishlistButton
+  },
+  methods: {
+    clearWishlist () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'warning',
+        message: this.$t('Are you sure you would like to remove all the items from the wishlist?'),
+        action1: { label: this.$t('OK'),
+          action: () => {
+            this.$store.dispatch('wishlist/clear')
+          }
+        },
+        action2: { label: this.$t('Cancel'), action: 'close' },
+        hasNoTimeout: true
+      })
+    }
   },
   mixins: [Wishlist]
 }
@@ -38,21 +65,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~theme/css/animations/transitions";
-  .wishlist {
-    height: 100vh;
-    width: 800px;
-    top: 0;
-    right: 0;
-    z-index: 3;
-    transform: translateX(100%);
-    transition: transform 300ms $motion-main;
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    &.active {
-      transform: translateX(0)
-    }
-  }
   i {
     opacity: 0.6;
     &:hover {

@@ -1,0 +1,13 @@
+query cmsBlocks ($filter: CmsInput) {
+  cmsBlocks(
+    filter: $filter
+  )
+  {
+    items {
+      title
+      identifier
+      content
+      creation_time
+    }
+  }
+}

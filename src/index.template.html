@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html data-vue-meta-server-rendered {{{ meta.inject().htmlAttrs.text() }}}>
-  <head>
+  <head><!-- index for default theme -->
   	{{{ meta.inject().title.text() }}}
-  	{{{ meta.inject().meta.text() }}}
+		{{{ meta.inject().meta.text() }}}
+		<meta name="generator" content="Vue Storefront">
 		{{{ meta.inject().link.text() }}}
-
-    <% for (var chunk of webpack.chunks) {
-        for (var file of chunk.files) {
-          if (file.match(/\.(js|css)$/)) { %>
-    <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
-  </head>
+		{{{ renderResourceHints() }}}
+		{{{ renderStyles() }}}
+		{{{ output.appendHead() }}}
+	</head>
   <body>
-    <!--vue-ssr-outlet-->
+		<!--vue-ssr-outlet-->
+    {{{ renderState() }}}
+    {{{ renderScripts() }}}
   </body>
 </html>

@@ -1,13 +1,15 @@
 <template>
   <div id="home">
-    <main-slider />
+    <head-image />
 
-    <promoted-offers/>
+    <promoted-offers />
 
-    <section class="new-collection container px15">
+    <section class="new-collection container px15" v-if="everythingNewCollection && everythingNewCollection.length">
       <div>
         <header class="col-md-12">
-          <h2 class="align-center cl-accent">{{ $t('Everything new') }}</h2>
+          <h2 class="align-center cl-accent">
+            {{ $t('Everything new') }}
+          </h2>
         </header>
       </div>
       <div class="row center-xs">
@@ -15,106 +17,128 @@
       </div>
     </section>
 
-    <collection :title="$t('New Luma Yoga Collection')" cover-image="/assets/collection.jpg" category="Women"/>
-
-    <section class="container pb60 px15">
+    <section v-if="isOnline" class="container pb60 px15">
       <div class="row center-xs">
-        <header class="col-md-12 pt40">
-          <h2 class="align-center cl-accent">{{ $t('Get inspired') }}</h2>
+        <header class="col-md-12" :class="{ pt40: everythingNewCollection && everythingNewCollection.length }">
+          <h2 class="align-center cl-accent">
+            {{ $t('Get inspired') }}
+          </h2>
         </header>
       </div>
       <tile-links />
     </section>
-    <Onboard/>
-
+    <Onboard />
   </div>
 </template>
 
 <script>
-// 3rd party dependecies
-import builder from 'bodybuilder'
-
-// Core dependecies
-import config from 'config'
+// query constructor
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
+import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
 
 // Core pages
-import Home from 'core/pages/Home'
+import Home from '@vue-storefront/core/pages/Home'
 
 // Theme core components
 import ProductListing from 'theme/components/core/ProductListing'
-import MainSlider from 'theme/components/core/blocks/MainSlider/MainSlider'
+import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
 
 // Theme local components
-import Collection from 'theme/components/theme/blocks/Collection/Collection'
 import Onboard from 'theme/components/theme/blocks/Home/Onboard'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
+import { Logger } from '@vue-storefront/core/lib/logger'
+import { mapGetters } from 'vuex'
+import config from 'config'
 
 export default {
   mixins: [Home],
   components: {
-    Collection,
-    MainSlider,
+    HeadImage,
     Onboard,
     ProductListing,
     PromotedOffers,
     TileLinks
   },
   computed: {
+    ...mapGetters('user', ['isLoggedIn']),
     categories () {
-      return this.$store.state.category.list
+      return this.getCategories
     },
     everythingNewCollection () {
       return this.$store.state.homepage.new_collection
     },
     coolBagsCollection () {
       return this.$store.state.homepage.coolbags_collection
+    },
+    isOnline () {
+      return onlineHelper.isOnline
     }
   },
   created () {
     // Load personal and shipping details for Checkout page from IndexedDB
     this.$store.dispatch('checkout/load')
   },
-  beforeMount () {
-    if (global.$VS.__DEMO_MODE__) {
-      this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' }).then((onboardingClaim) => {
-        if (!onboardingClaim) { // show onboarding info
-          this.$bus.$emit('modal-toggle', 'modal-onboard')
-          this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
-        }
-      })
+  async beforeMount () {
+    if (this.$store.state.__DEMO_MODE__) {
+      const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' })
+      if (!onboardingClaim) { // show onboarding info
+        this.$bus.$emit('modal-toggle', 'modal-onboard')
+        this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
+      }
     }
   },
-  asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    return new Promise((resolve, reject) => {
-      console.log('Entering asyncData for Home ' + new Date())
-      let newProductsQuery = builder().query('match', 'category.name', 'Tees').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
-      let coolBagsQuery = builder().query('match', 'category.name', 'Women').andFilter('range', 'visibility', { 'gte': 2, 'lte': 4 }/** Magento visibility in search & categories */).build()
-      store.dispatch('category/list', { includeFields: config.entities.optimize ? config.entities.category.includeFields : null }).then((categories) => {
-        store.dispatch('product/list', {
+  mounted () {
+    if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup')
+  },
+  watch: {
+    isLoggedIn () {
+      const redirectObj = localStorage.getItem('redirect')
+      if (redirectObj) this.$router.push(redirectObj)
+      localStorage.removeItem('redirect')
+    }
+  },
+  async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
+    Logger.info('Calling asyncData in Home (theme)')()
+
+    let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
+    let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })
+
+    const newProductsResult = await store.dispatch('product/list', {
+      query: newProductsQuery,
+      size: 8,
+      sort: 'created_at:desc'
+    })
+    if (newProductsResult) {
+      store.state.homepage.new_collection = newProductsResult.items
+    }
+
+    const coolBagsResult = await store.dispatch('product/list', {
+      query: coolBagsQuery,
+      size: 4,
+      sort: 'created_at:desc',
+      includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
+    })
+    if (coolBagsResult) {
+      store.state.homepage.coolbags_collection = coolBagsResult.items
+    }
+
+    await store.dispatch('promoted/updateHeadImage')
+    await store.dispatch('promoted/updatePromotedOffers')
+  },
+  beforeRouteEnter (to, from, next) {
+    if (!isServer && !from.name) { // Loading products to cache on SSR render
+      next(vm => {
+        let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
+        vm.$store.dispatch('product/list', {
           query: newProductsQuery,
           size: 8,
-          sort: 'created_at:desc',
-          includeFields: config.entities.optimize ? config.entities.productList.includeFields : []
-        }).then(function (res) {
-          if (res) {
-            store.state.homepage.new_collection = res.items
-          }
-
-          store.dispatch('product/list', {
-            query: coolBagsQuery,
-            size: 4,
-            sort: 'created_at:desc',
-            includeFields: config.entities.optimize ? config.entities.productList.includeFields : []
-          }).then(function (res) {
-            if (res) {
-              store.state.homepage.coolbags_collection = res.items
-            }
-            return resolve()
-          })
+          sort: 'created_at:desc'
         })
       })
-    })
+    } else {
+      next()
+    }
   }
 }
 </script>

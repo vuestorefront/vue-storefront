@@ -1,22 +1,37 @@
 <template>
   <div class="sort-by">
-    <i @click="changeDirection" v-if="direction === 'asc'" :class="{'disabled' : sortby === ''}" class="cl-secondary sort-by__icon material-icons">arrow_drop_down</i>
-    <i @click="changeDirection" v-else :class="{'disabled' : sortby === ''}" class="cl-secondary sort-by__icon material-icons">arrow_drop_up</i>
     <select
       name="sortby"
       class="cl-secondary"
       v-model="sortby"
-      @change="changeOrder">
-      <option selected="selected" disabled value="">{{ $t('Sort By') }}</option>
-      <option v-for="(option, label) in sortByAttribute" :disabled="sortby === option" :value="option" :key="option" >{{ $t(label) }}</option>
+      @change="changeOrder"
+    >
+      <option selected="selected" disabled value="" v-if="!hasLabel">
+        {{ $t('Sort By') }}
+      </option>
+      <option v-for="(option, label) in sortByAttribute" :disabled="sortby === option" :value="option" :key="option">
+        {{ $t(label) }}
+      </option>
     </select>
   </div>
 </template>
 
 <script>
-import SortBy from 'core/components/SortBy'
+import SortBy from '@vue-storefront/core/compatibility/components/SortBy'
 export default {
-  mixins: [SortBy]
+  mixins: [SortBy],
+  props: {
+    hasLabel: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+  data () {
+    return {
+      sortby: this.$store.state.config.products.defaultSortBy.attribute
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -28,15 +43,11 @@ export default {
         display: inline-flex;
         position: relative;
         border-bottom: 1px solid $color-tertiary;
-        padding-right: 30px;
         select {
             @extend .h4;
-            padding: 10px 0;
             font-size: 14px;
             border: none;
             width: 100%;
-            -moz-appearance: none;
-            -webkit-appearance: none;
             border-radius: 0;
             background-color: transparent;
             margin-right: 0;

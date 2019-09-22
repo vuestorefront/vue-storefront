@@ -30,11 +30,11 @@
       </div>
     </div>
     <div class="row pl20" v-if="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-11 col-sm-9 col-md-10">
         <div class="row">
           <base-input
-            class="col-xs-12 col-md-6 mb25"
+            class="col-xs-12 col-md-6 mb10"
             type="text"
             :autofocus="true"
             name="first-name"
@@ -49,27 +49,27 @@
               },
               {
                 condition: !$v.personalDetails.firstName.minLength,
-                text: $t('Name must have at least 3 letters.')
+                text: $t('Name must have at least 2 letters.')
               }
             ]"
           />
 
           <base-input
-            class="col-xs-12 col-md-6 mb25"
+            class="col-xs-12 col-md-6 mb10"
             type="text"
             name="last-name"
             :placeholder="$t('Last name *')"
             v-model.trim="personalDetails.lastName"
             @blur="$v.personalDetails.lastName.$touch()"
             autocomplete="family-name"
-            :validation="{
+            :validations="[{
               condition: $v.personalDetails.lastName.$error && !$v.personalDetails.lastName.required,
               text: $t('Field is required')
-            }"
+            }]"
           />
 
           <base-input
-            class="col-xs-12 mb25"
+            class="col-xs-12 mb10"
             type="email"
             name="email-address"
             :placeholder="$t('Email address *')"
@@ -93,7 +93,6 @@
             v-if="!currentUser"
             class="col-xs-12 mb15"
             id="createAccountCheckbox"
-            @click="createAccount = !createAccount"
             v-model="createAccount"
           >
             {{ $t('I want to create an account') }}
@@ -101,17 +100,18 @@
 
           <template v-if="createAccount && !currentUser">
             <base-input
-              class="col-xs-12 mb25 mt10"
+              class="col-xs-12 mb10 mt10"
               type="password"
               name="password"
+              ref="password"
               :placeholder="$t('Password *')"
               v-model="password"
               @blur="$v.password.$touch()"
               autocomplete="new-password"
-              :validation="{
+              :validations="[{
                 condition: $v.password.$error && !$v.password.required,
                 text: $t('Field is required.')
-              }"
+              }]"
             />
 
             <base-input
@@ -136,13 +136,12 @@
             <base-checkbox
               class="col-xs-12 mb15"
               id="acceptConditions"
-              @click="acceptConditions = !acceptConditions"
               @blur="$v.acceptConditions.$touch()"
               v-model="acceptConditions"
-              :validation="{
+              :validations="[{
                 condition: !$v.acceptConditions.required && $v.acceptConditions.$error,
                 text: $t('You must accept the terms and conditions.')
-              }"
+              }]"
             >
               {{ $t('I accept ') }}
               <span
@@ -157,16 +156,16 @@
       </div>
     </div>
     <div class="row" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-11 col-sm-9 col-md-10">
         <div class="row my30">
           <div class="col-xs-12 col-md-7 px20 button-container">
             <button-full
               data-testid="personalDetailsSubmit"
               @click.native="sendDataToCheckout"
-              :class="{ 'button-disabled' : (createAccount ? $v.$invalid : $v.personalDetails.$invalid) }"
+              :disabled="createAccount ? $v.$invalid : $v.personalDetails.$invalid"
             >
-              {{ $t('Continue to shipping') }}
+              {{ $t((isVirtualCart ? 'Continue to payment' : 'Continue to shipping')) }}
             </button-full>
           </div>
           <div
@@ -187,7 +186,7 @@
       </div>
     </div>
     <div class="row pl20" v-if="!isActive && isFilled">
-      <div class="hidden-xs col-sm-2 col-md-1"/>
+      <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
           <div class="col-xs-12 h4">
@@ -220,19 +219,17 @@
 
 <script>
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
-import PersonalDetails from 'core/components/blocks/Checkout/PersonalDetails'
+import { PersonalDetails } from '@vue-storefront/core/modules/checkout/components/PersonalDetails'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
-import Modal from 'theme/components/core/Modal'
 import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
   components: {
     ButtonFull,
     Tooltip,
-    Modal,
     BaseCheckbox,
     BaseInput
   },
@@ -241,7 +238,7 @@ export default {
     personalDetails: {
       firstName: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(2)
       },
       lastName: {
         required

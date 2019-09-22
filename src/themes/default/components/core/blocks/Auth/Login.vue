@@ -10,10 +10,15 @@
       </i>
       {{ $t('Log in') }}
     </header>
+    <div v-if="hasRedirect" class="pt10 pb10 px65 redirect-error">
+      <p class="h5 mb0 mt0">
+        {{ $t('You need to be logged in to see this page') }}
+      </p>
+    </div>
     <div class="modal-content pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="login" novalidate>
         <base-input
-          class="mb35"
+          class="mb10"
           type="email"
           name="email"
           focus
@@ -32,23 +37,22 @@
           ]"
         />
         <base-input
-          class="mb35"
+          class="mb10"
           type="password"
           name="password"
           v-model="password"
           @blur="$v.password.$touch()"
           :placeholder="$t('Password *')"
-          :validation="{
+          :validations="[{
             condition: !$v.password.required && $v.password.$error,
             text: $t('Field is required.')
-          }"
+          }]"
         />
         <div class="row">
           <base-checkbox
-            class="col-xs-7 col-sm-6 mb35"
+            class="col-xs-7 col-sm-6 mb20"
             id="remember"
             v-model="remember"
-            @click="remember = !remember"
           >
             {{ $t('Remember me') }}
           </base-checkbox>
@@ -58,12 +62,12 @@
             </a>
           </div>
         </div>
-        <button-full class="mb20" type="submit">
+        <button-full class="mb20" type="submit" data-testid="loginSubmit">
           {{ $t('Log in to your account') }}
         </button-full>
         <div class="center-xs">
           {{ $t('or') }}
-          <a href="#" @click.prevent="switchElem">
+          <a href="#" @click.prevent="switchElem" data-testid="registerLink">
             {{ $t('register an account') }}
           </a>
         </div>
@@ -73,13 +77,12 @@
 </template>
 
 <script>
-import Login from 'core/components/blocks/Auth/Login'
+import Login from '@vue-storefront/core/compatibility/components/blocks/Auth/Login'
 
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
 import BaseInput from '../Form/BaseInput.vue'
 import { required, email } from 'vuelidate/lib/validators'
-import i18n from 'core/lib/i18n'
 
 export default {
   mixins: [Login],
@@ -92,42 +95,51 @@ export default {
       required
     }
   },
+  data () {
+    return {
+      hasRedirect: !!localStorage.getItem('redirect')
+    }
+  },
   methods: {
-    close () {
+    close (e) {
+      if (e) localStorage.removeItem('redirect')
       this.$bus.$emit('modal-hide', 'modal-signup')
     },
     login () {
       if (this.$v.$invalid) {
         this.$v.$touch()
-        this.$bus.$emit('notification', {
+        this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
-          message: i18n.t('Please fix the validation errors'),
-          action1: { label: i18n.t('OK'), action: 'close' }
+          message: this.$t('Please fix the validation errors'),
+          action1: { label: this.$t('OK') }
         })
         return
       }
-
-      this.$bus.$emit('notification-progress-start', i18n.t('Authorization in progress ...'))
-      this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {
-        this.$bus.$emit('notification-progress-stop', {})
-
-        if (result.code !== 200) {
-          this.$bus.$emit('notification', {
-            type: 'error',
-            message: i18n.t(result.result),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
-        } else {
-          this.$bus.$emit('notification', {
-            type: 'success',
-            message: i18n.t('You are logged in!'),
-            action1: { label: i18n.t('OK'), action: 'close' }
-          })
-          this.close()
-        }
-      }).catch(err => {
-        console.error(err)
-        this.$bus.$emit('notification-progress-stop')
+      this.callLogin()
+    },
+    remindPassword () {
+      if (!(typeof navigator !== 'undefined' && navigator.onLine)) {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Reset password feature does not work while offline!'),
+          action1: { label: this.$t('OK') }
+        })
+      } else {
+        this.callForgotPassword()
+      }
+    },
+    onSuccess () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: this.$t('You are logged in!'),
+        action1: { label: this.$t('OK') }
+      })
+    },
+    onFailure (result) {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: this.$t(result.result),
+        action1: { label: this.$t('OK') }
       })
     }
   },
@@ -138,3 +150,21 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+$color-error: color(error);
+$white: color(white);
+
+  .modal-content {
+    @media (max-width: 400px) {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+  .redirect-error {
+    background-color: $color-error;
+    color: $white;
+  }
+</style>

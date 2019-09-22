@@ -6,20 +6,19 @@
       class="col-sm-6 flex"
       :class="['col-md-' + (12/columns)%10, wide(product.sale, product.new, key)]"
     >
-      <product-tile :product="product"/>
+      <product-tile :product="product" />
     </div>
   </div>
 </template>
 
 <script>
-import ProductListing from 'core/components/ProductListing'
 import ProductTile from 'theme/components/core/ProductTile'
 let lastHero = 0
 export default {
+  name: 'ProductListing',
   components: {
     ProductTile
   },
-  mixins: [ProductListing],
   props: {
     products: {
       type: null,

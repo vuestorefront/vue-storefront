@@ -1,5 +1,5 @@
-import { thumbnail } from './thumbnail'
-import { multistore } from './multistore'
+import { thumbnail } from './thumbnail.js'
+import { multistore } from './multistore.js'
 
 export {
   thumbnail,

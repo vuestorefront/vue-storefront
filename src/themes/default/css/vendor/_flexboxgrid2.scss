@@ -83,6 +83,16 @@
   max-width: 100%;
 }
 
+[class^="col-xs"],
+[class*=" col-xs"] {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
 .col-xs {
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;

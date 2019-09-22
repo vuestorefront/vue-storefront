@@ -1,28 +1,33 @@
 <template>
-  <button-full @click.native="addToCart(product)" :disabled="canBeAdded(product)" data-testid="addToCart">
+  <button-full @click.native="addToCart(product)" :disabled="isProductDisabled" data-testid="addToCart">
     {{ $t('Add to cart') }}
   </button-full>
 </template>
 
 <script>
+import { formatProductMessages } from '@vue-storefront/core/filters/product-messages'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import addToCart from 'core/components/AddToCart'
-import { formatProductMessages } from 'core/filters/product-messages'
+import { AddToCart } from '@vue-storefront/core/modules/cart/components/AddToCart'
 
 export default {
-  mixins: [addToCart],
+  mixins: [AddToCart],
   directives: { focusClean },
   components: { ButtonFull },
   methods: {
     onAfterRemovedVariant () {
       this.$forceUpdate()
     },
-    canBeAdded (product) {
-      return formatProductMessages(product.errors) !== ''
+    notifyUser (notificationData) {
+      this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
     }
   },
-  created () {
+  computed: {
+    isProductDisabled () {
+      return this.disabled || formatProductMessages(this.product.errors) !== '' || this.isAddingToCart
+    }
+  },
+  beforeMount () {
     this.$bus.$on('product-after-removevariant', this.onAfterRemovedVariant)
   },
   beforeDestroy () {

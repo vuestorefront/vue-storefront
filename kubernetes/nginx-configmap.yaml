@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  default.conf: |
+    server {
+        listen 80;
+
+        add_header X-Frame-Options DENY;
+        add_header X-Content-Type-Options nosniff;
+        add_header X-XSS-Protection "1; mode=block";
+        add_header X-Robots-Tag none;
+
+        gzip on;
+        gzip_proxied any;
+        gzip_types
+            text/css
+            text/javascript
+            text/xml
+            application/javascript
+            application/json
+            text/json
+            text/html;
+
+        location / {
+            proxy_pass http://vue-storefront:3000/;
+        }
+
+        location /assets/ {
+            proxy_pass http://vue-storefront:3000/assets/;
+        }
+
+        location /api/ {
+            proxy_pass http://vue-storefront-api:8080/api/;
+        }
+
+        location /img/ {
+            proxy_pass http://vue-storefront-api:8080/img/;
+        }
+    }

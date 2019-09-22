@@ -4,48 +4,43 @@
     v-observe-visibility="visibilityChanged"
   >
     <router-link
-      class="no-underline product-link"
-      :to="localizedRoute({
-        name: product.type_id + '-product',
-        params: {
-          parentSku: product.parentSku ? product.parentSku : product.sku,
-          slug: product.slug,
-          childSku: product.sku
-        }
-      })"
+      class="block no-underline product-link"
+      :to="productLink"
+      data-testid="productLink"
     >
       <div
         class="product-image relative bg-cl-secondary"
-        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]">
-        <img
-          :alt="product.name"
-          :src="thumbnailObj.loading"
-          v-lazy="thumbnailObj"
-          height="300"
-          width="310">
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
+      >
+        <product-image
+          class="product-image__content"
+          :image="thumbnailObj"
+          :alt="product.name | htmlDecode"
+          data-testid="productImage"
+        />
       </div>
 
-      <p class="mb0 cl-accent mt10">
+      <p class="mb0 cl-accent mt10" v-if="!onlyImage">
         {{ product.name | htmlDecode }}
       </p>
 
       <span
         class="price-original mr5 lh30 cl-secondary"
-        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0"
+        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0 && !onlyImage"
       >
         {{ product.originalPriceInclTax | price }}
       </span>
 
       <span
         class="price-special lh30 cl-accent weight-700"
-        v-if="product.special_price && parseFloat(product.special_price) > 0"
+        v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
       >
         {{ product.priceInclTax | price }}
       </span>
 
       <span
         class="lh30 cl-secondary"
-        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0"
+        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0 && !onlyImage"
       >
         {{ product.priceInclTax | price }}
       </span>
@@ -54,23 +49,43 @@
 </template>
 
 <script>
+import rootStore from '@vue-storefront/core/store'
+import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
 import config from 'config'
-import rootStore from '@vue-storefront/store'
-import ProductTile from 'core/components/ProductTile'
+import ProductImage from './ProductImage'
 
 export default {
   mixins: [ProductTile],
+  components: {
+    ProductImage
+  },
   props: {
     labelsActive: {
       type: Boolean,
-      requred: false,
       default: true
+    },
+    onlyImage: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    thumbnailObj () {
+      return {
+        src: this.thumbnail,
+        loading: this.thumbnail
+      }
     }
   },
   methods: {
+    onProductPriceUpdate (product) {
+      if (product.sku === this.product.sku) {
+        Object.assign(this.product, product)
+      }
+    },
     visibilityChanged (isVisible, entry) {
       if (isVisible) {
-        if (config.products.configurableChildrenStockPrefetchDynamic && config.products.filterUnavailableVariants) {
+        if (config.products.configurableChildrenStockPrefetchDynamic && rootStore.products.filterUnavailableVariants) {
           const skus = [this.product.sku]
           if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
             for (const confChild of this.product.configurable_children) {
@@ -87,12 +102,11 @@ export default {
       }
     }
   },
-  created () {
-    this.$bus.$on('product-after-priceupdate', (product) => {
-      if (product.sku === this.product.sku) {
-        Object.assign(this.product, product)
-      }
-    })
+  beforeMount () {
+    this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate)
+  },
+  beforeDestroy () {
+    this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate)
   }
 }
 </script>
@@ -131,57 +145,45 @@ $color-white: color(white);
   font-size: 12px;
 }
 
-.product-image {
-  width: 100%;
+.product-image{
   overflow: hidden;
+  width:100%;
+  height: 100%;
   max-height: 300px;
 
-  &:hover {
-    img {
+  &:hover{
+    .product-image__content{
       opacity: 1;
       transform: scale(1.1);
     }
-
     &.sale::after,
-    &.new::after {
-      opacity: 0.8;
+    &.new::after{
+      opacity: .8;
     }
   }
+  &__content{
 
-  img {
-    max-height: 100%;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    margin: auto;
+    padding-bottom: calc(300% / (257 / 100));
     mix-blend-mode: darken;
-    opacity: 0.8;
+    opacity: .8;
     transform: scale(1);
-    transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
-
-    &[lazy="loaded"] {
-      animation: products-loaded;
-      animation-duration: 0.3s;
+    will-change: transform;
+    transition: .3s opacity $motion-main, .3s transform $motion-main;
+    @media (min-width: 768px) {
+      padding-bottom: calc(208% / (168 / 100));
     }
-
-    @keyframes products-loaded {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 0.8;
-      }
+    @media (min-width: 1200px) {
+      padding-bottom: calc(300% / (276 / 100));
     }
   }
 
-  &.sale {
+  &.sale{
     &::after {
       @extend %label;
       content: 'Sale';
     }
   }
-
-  &.new {
+  &.new{
     &::after {
       @extend %label;
       content: 'New';

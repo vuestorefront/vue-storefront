@@ -39,7 +39,7 @@
           </header>
           <div class="row center-xs">
             <div v-for="product in ourBestsellersCollection" :key="product.id" class="col-md-3">
-              <product-tile :product="product"/>
+              <product-tile :product="product" />
             </div>
           </div>
         </section>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import PageNotFound from 'core/pages/PageNotFound'
+import PageNotFound from '@vue-storefront/core/pages/PageNotFound'
 import ProductTile from '../components/core/ProductTile.vue'
 
 export default {
@@ -64,7 +64,6 @@ export default {
   },
   methods: {
     toggleSearchpanel () {
-      this.$bus.$emit('focusSearchInput')
       this.$store.commit('ui/setSearchpanel', true)
     }
   },

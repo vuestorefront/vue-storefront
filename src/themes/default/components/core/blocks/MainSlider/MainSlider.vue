@@ -6,8 +6,15 @@
           <div class="container w-100" v-lazy:background-image="slide.image">
             <div class="row middle-xs center-xs">
               <div class="col-md-12 px10p">
-                <p class="subtitle mb0 serif uppercase h3 align-center">{{ slide.subtitle }}</p>
-                <h1 class="title mt0 mb30 align-center">{{ slide.title }}</h1>
+                <p
+                  class="subtitle mb0 serif uppercase h3 align-center"
+                  data-testid="mainSliderSubtitle"
+                >
+                  {{ slide.subtitle }}
+                </p>
+                <h1 class="title mt0 mb30 align-center" data-testid="mainSliderTitle">
+                  {{ slide.title }}
+                </h1>
                 <div class="align-center inline-flex">
                   <button-outline :link="slide.link" color="light">
                     {{ slide.button_text }}
@@ -24,20 +31,34 @@
 
 <script>
 import NoSSR from 'vue-no-ssr'
-import { Carousel, Slide } from 'vue-carousel'
 import sliderData from 'theme/resource/slider.json'
-
-import MainSlider from 'core/components/blocks/MainSlider/MainSlider'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 
 export default {
+  data () {
+    return {
+      currentSlide: 1,
+      slides: [],
+      totalSlides: 1
+    }
+  },
   components: {
     ButtonOutline,
-    Carousel,
-    Slide,
+    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
+    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide),
     'no-ssr': NoSSR
   },
-  mixins: [MainSlider],
+  methods: {
+    updateSliderData (data) {
+      this.slides = data.slides
+      this.totalSlides = data.total
+    }
+  },
+  mounted () {
+    setInterval(() => {
+      this.currentSlide = (this.currentSlide + 1) % (this.totalSlides)
+    }, 5000)
+  },
   created () {
     this.updateSliderData(sliderData)
   }

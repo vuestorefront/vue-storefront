@@ -30,7 +30,8 @@ export default {
   },
   data () {
     return {
-      minCountryPerColumn: 3
+      minCountryPerColumn: 3,
+      componentLoaded: false
     }
   },
   computed: {
@@ -41,12 +42,18 @@ export default {
       return config
     },
     enableColumns () {
-      var enableStoreViews = Object.keys(config.storeViews).filter(function (key) {
+      var enableStoreViews = Object.keys(config.storeViews).filter((key) => {
         var value = config.storeViews[key]
         return (typeof value === 'object' && value.disabled === false)
       })
       return enableStoreViews.length > this.minCountryPerColumn
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.componentLoaded = true
+      this.$bus.$emit('modal-show', 'modal-switcher')
+    })
   },
   methods: {
     close () {
