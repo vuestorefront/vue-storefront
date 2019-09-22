@@ -99,7 +99,7 @@
       "basic": "dist/index.basic.html",
       "amp": "dist/index.amp.html"
     },
-    "lazyHydrateFor": ["category-next.products", "homepage"],
+    "lazyHydrateFor": ["category-next.products", "homepage.new_collection"],
     "executeMixedinAsyncData": true,
     "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute"],
     "useInitialStateFilter": true
