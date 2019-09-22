@@ -156,7 +156,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="getCurrentProduct"
-                :disabled="(!$v.getCurrentProduct.qty.minValue || !$v.getCurrentProduct.qty.maxValue || !$v.getCurrentProduct.qty.numeric) || (!quantity && isSimpleOrConfigurable && !isProductLoading)"
+                :disabled="isAddToCartDisabled"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -350,6 +350,9 @@ export default {
     getInputName () {
       if (this.isSimpleOrConfigurable && !this.isProductLoading) { return this.$i18n.t('Quantity available', { qty: this.quantity }) }
       return this.$i18n.t('Quantity')
+    },
+    isAddToCartDisabled () {
+      return (!this.$v.getCurrentProduct.qty.minValue || !this.$v.getCurrentProduct.qty.maxValue || !this.$v.getCurrentProduct.qty.numeric) || (!this.quantity && this.isSimpleOrConfigurable && !this.isProductLoading)
     }
   },
   created () {
@@ -416,7 +419,7 @@ export default {
       getCurrentProduct: {
         qty: {
           minValue: minValue(1),
-          maxValue: maxValue(this.quantity),
+          maxValue: maxValue(this.quantity) && !this.isSimpleOrConfigurable,
           numeric: numeric
         }
       }
