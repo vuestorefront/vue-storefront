@@ -251,6 +251,7 @@ import { ReviewModule } from '@vue-storefront/core/modules/review'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
 import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
 import { onlineHelper } from '@vue-storefront/core/helpers'
+import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
 export default {
   components: {
@@ -364,6 +365,7 @@ export default {
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
     await store.dispatch('product/loadProductBreadcrumbs', { product })
+    catalogHooksExecutors.productPageVisited(product)
   },
   methods: {
     showDetails (event) {
