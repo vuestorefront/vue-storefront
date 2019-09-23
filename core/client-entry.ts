@@ -24,7 +24,7 @@ const invokeClientEntry = async () => {
     store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: globalConfig }))
   }
 
-  store.dispatch('url/registerDynamicRoutes')
+  await store.dispatch('url/registerDynamicRoutes')
   function _commonErrorHandler (err, reject) {
     if (err.message.indexOf('query returned empty result') > 0) {
       rootStore.dispatch('notification/spawnNotification', {
@@ -74,8 +74,6 @@ const invokeClientEntry = async () => {
           if (storeCode !== '' && storeCode !== null) {
             if (storeCode !== currentStore.storeCode) {
               (document as any).location = to.path // full reload
-            } else {
-              prepareStoreView(storeCode)
             }
           }
         }

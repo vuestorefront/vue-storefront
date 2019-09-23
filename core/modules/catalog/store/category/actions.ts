@@ -12,10 +12,11 @@ import { optionLabel } from '../../helpers/optionLabel'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from '../../types/CategoryState'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
+import { formatCategoryLink } from 'core/modules/url/helpers'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -70,7 +71,7 @@ const actions: ActionTree<CategoryState, RootState> = {
         for (let category of resp.items) {
           if (category.url_path && updateState) {
             rootStore.dispatch('url/registerMapping', {
-              url: category.url_path,
+              url: localizedDispatcherRoute(category.url_path, currentStoreView().storeCode),
               routeData: {
                 params: {
                   'slug': category.slug
