@@ -50,7 +50,7 @@ function createRouter (): VueRouter {
       }
       if (savedPosition) {
         return savedPosition
-      } else {
+      } else if (to.path !== from.path) { // do not change scroll position when navigating on the same page (ex. change filters)
         return {x: 0, y: 0}
       }
     }

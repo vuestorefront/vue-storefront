@@ -6,9 +6,15 @@ const { hook: categoryPageVisitedHook, executor: categoryPageVisitedExecutor }: 
   executor: any
 } = createListenerHook()
 
+const { hook: productPageVisitedHook, executor: productPageVisitedExecutor }: {
+  hook: (categoryPageVisitedListener: (category?: Category) => void) => void,
+  executor: any
+} = createListenerHook()
+
 /** Only for internal usage */
 const catalogHooksExecutors = {
-  categoryPageVisited: categoryPageVisitedExecutor
+  categoryPageVisited: categoryPageVisitedExecutor,
+  productPageVisited: productPageVisitedExecutor
 }
 
 const catalogHooks = {
@@ -16,7 +22,12 @@ const catalogHooks = {
    * Hook is fired right after category page is visited.
    * @param category visited category
    */
-  categoryPageVisited: categoryPageVisitedHook
+  categoryPageVisited: categoryPageVisitedHook,
+  /**
+   * Hook is fired right after product page is visited.
+   * @param product visited product
+   */
+  productPageVisited: productPageVisitedHook
 }
 
 export {
