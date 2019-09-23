@@ -1,3 +1,4 @@
+import { RouterManager } from '@vue-storefront/core/lib/router-manager';
 import { Store } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import Vue from 'vue'
@@ -6,7 +7,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 // Plugins
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import i18n from '@vue-storefront/i18n'
-import VueRouter from 'vue-router'
+import VueRouter, { RouteConfig } from 'vue-router'
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
@@ -57,7 +58,24 @@ function createRouter (): VueRouter {
   })
 }
 
+function createRouterProxy (router: VueRouter) {
+  return new Proxy(router, {
+    get (target, propKey) {
+      const origMethod = target[propKey];
+
+      if (propKey === 'addRoutes') {
+        return function (routes: RouteConfig[]): void {
+          return RouterManager.addRoutes(routes);
+        };
+      }
+
+      return origMethod;
+    }
+  })
+}
+
 let router: VueRouter = null
+let routerProxy = null
 
 once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
@@ -65,6 +83,7 @@ once('__VUE_EXTEND_RR__', () => {
 
 const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
   router = createRouter()
+  routerProxy = createRouterProxy(router)
   // sync router with vuex 'router' store
   sync(store, router)
   // TODO: Don't mutate the state directly, use mutation instead
@@ -135,4 +154,4 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   return { app, router, store, initialState: cloneDeep(store.state) }
 }
 
-export { router, createApp }
+export { routerProxy as router, createApp, router as baseRouter }

@@ -1,5 +1,5 @@
-import { router } from '@vue-storefront/core/app'
-import VueRouter, { RouteConfig, Route } from 'vue-router'
+import { baseRouter } from '@vue-storefront/core/app'
+import { RouteConfig } from 'vue-router'
 
 const RouterManager = {
   _registeredRoutes: new Array<RouteConfig>(),
@@ -8,7 +8,7 @@ const RouterManager = {
   _routeLock: null,
   _routeDispatched: false,
   _callbacks: [],
-  addRoutes: function (routes: RouteConfig[], routerInstance: VueRouter = router, useRouteQueue: boolean = false, priority: number = 0): void {
+  addRoutes: function (routes: RouteConfig[], useRouteQueue: boolean = false, priority: number = 0): void {
     if (useRouteQueue && !this._routeQueueFlushed) {
       this._routeQueue.push(...routes.map(route => { return { route: route, priority: priority } }))
     } else {
@@ -17,18 +17,18 @@ const RouterManager = {
       })
       if (uniqueRoutes.length > 0) {
         this._registeredRoutes.push(...uniqueRoutes.map(route => { return { route: route, priority: priority } }))
-        routerInstance.addRoutes(uniqueRoutes)
+        baseRouter.addRoutes(uniqueRoutes)
       }
     }
   },
-  flushRouteQueue: function (routerInstance: VueRouter = router): void {
+  flushRouteQueue: function (): void {
     if (!this._routeQueueFlushed) {
-      this.addRoutesByPriority(this._routeQueue, routerInstance)
+      this.addRoutesByPriority(this._routeQueue)
       this._routeQueueFlushed = true
       this._routeQueue = []
     }
   },
-  addRoutesByPriority: function (routesData, routerInstance: VueRouter) {
+  addRoutesByPriority: function (routesData) {
     const routesToAdd = []
     for (const routeData of routesData) {
       let exisitingIndex = routesToAdd.findIndex(r => r.route.name === routeData.route.name && r.route.path === routeData.route.path)
@@ -41,7 +41,7 @@ const RouterManager = {
       }
     }
     this._registeredRoutes.push(...routesToAdd)
-    routerInstance.addRoutes(routesToAdd.map(r => r.route))
+    baseRouter.addRoutes(routesToAdd.map(r => r.route))
   },
   isRouteAdded: function (addedRoutes: any[], route: RouteConfig) {
     return addedRoutes.findIndex((addedRoute) => addedRoute.route.name === route.name && addedRoute.route.path === route.path) >= 0
