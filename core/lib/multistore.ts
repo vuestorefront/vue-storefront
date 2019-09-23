@@ -84,7 +84,7 @@ export function currentStoreView (): StoreView {
 export function prepareStoreView (storeCode: string): StoreView {
   let storeView: StoreView = { // current, default store
     tax: config.tax,
-    i18n: config.i18n,
+    i18n: Object.assign({}, config.i18n),
     elasticsearch: config.elasticsearch,
     storeCode: null,
     storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
