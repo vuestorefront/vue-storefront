@@ -354,7 +354,7 @@ export default {
       return this.$i18n.t('Quantity')
     },
     isAddToCartDisabled () {
-      return (!this.$v.getCurrentProduct.qty.minValue || !this.$v.getCurrentProduct.qty.maxValue || !this.$v.getCurrentProduct.qty.numeric) || (!this.quantity && this.isSimpleOrConfigurable && !this.isProductLoading)
+      return this.$v.$invalid || this.isProductLoading || (!this.quantity && this.isSimpleOrConfigurable)
     }
   },
   created () {
