@@ -252,7 +252,6 @@ import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-view
 import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
 import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
-import uniq from 'lodash-es/uniq'
 
 export default {
   components: {
@@ -362,9 +361,6 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
-    await this.$store.dispatch('attribute/list', { // load filter attributes for this specific category
-      filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields])
-    })
   },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
