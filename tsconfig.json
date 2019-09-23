@@ -34,6 +34,7 @@
     "core/**/*.vue",
     "test/**/*.ts",
     "module/**/*.ts",
+    "packages/**/*.ts"
   ],
   "exclude": [
     "node_modules",

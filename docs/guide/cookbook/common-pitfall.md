@@ -1,3 +1,4 @@
-# Chapter 7. Common Pitfalls 
+# Ch 7. Anti-Patterns & Common Pitfalls 
 
 ## Coming soon!
+ 

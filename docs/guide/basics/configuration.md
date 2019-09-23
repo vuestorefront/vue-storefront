@@ -23,11 +23,43 @@ Please find the configuration properties reference below.
 ```json
 "server": {
   "host": "localhost",
-  "port": 3000
+  "port": 3000,
+  "useHtmlMinifier": false,
+  "htmlMinifierOptions": {
+    "minifyJS": true,
+    "minifyCSS": true
+  },
+  "useOutputCacheTagging": false,
+  "useOutputCache": false
 },
 ```
 
 Vue Storefront starts an HTTP server to deliver the SSR (server-side rendered) pages and static assets. Its node.js server is located in the `core/scripts/server.js`. This is the hostname and TCP port which Vue Storefront is binding.
+
+When the `useHtmlMinifier` is set to true the generated SSR HTML is being minified [using the `htmlMinifierOptions`](https://www.npmjs.com/package/html-minifier#options-quick-reference).
+
+When the `useOutputCacheTagging` and `useOutputCache` options are enabled, Vue Storefront is storing the rendered pages in the Redis-based output cache. Some additional config options are available for the output cache. [Check the details](ssr-cache.md)
+
+## Seo
+
+```json
+"seo": {
+  "useUrlDispatcher": true,
+  "disableUrlRoutesPersistentCache": true,
+  "defaultTitle": "Vuestore"
+},
+```
+
+When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest [`mage2vuestorefront`] snapshot and reimport Your products to properly set `url_path` fields.
+
+For example, when the `category.url_path` is set to `women/frauen-20` the product will be available under the following URL addresses:
+
+`http://localhost:3000/women/frauen-20`
+`http://localhost:3000/de/women/frauen-20`
+
+For, `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway)
+
+For, `config.seo.defaultTitle` is as name suggest it's default title for the store.
 
 ## Redis
 
@@ -70,7 +102,7 @@ Vue Storefront uses the Elasticsearch Query Language to query for data. However,
 
 If your `vue-storefront-api` instance is running on the `localhost`, port `8080` then the correct elasticsearch endpoint is as presented here.
 
-Starting from Vue Storefront v1.6, user may set `config.elasticsearch.queryMethod` either "POST" (default) or "GET". When "GET" is set, the Elasticsearch Query object is passed to vue-storefront-api as a request parameter named "request". By doing so, Service Worker will now be able to cache the results from Elasticsearch. Service Workers cannot cache any POST requests currently.
+Starting from Vue Storefront v1.6, user may set `config.elasticsearch.queryMethod` either *POST* (default) or *GET*. When *GET* is set, the Elasticsearch Query object is passed to vue-storefront-api as a request parameter named *request*. By doing so, Service Worker will now be able to cache the results from Elasticsearch. Service Workers cannot cache any POST requests currently.
 
 :::tip Notice
 Service Worker is not caching the /api requests on development envs. (localhost) as the vue-storefront-api by default runs on a different port (8080).
@@ -94,6 +126,12 @@ The SSR data is being completed in the `asyncData` static method. If this config
 If it's set to `false`, then **just the** `src/themes/default/pages/Product.vue` -> `asyncData` will be executed.
 This option is referenced in the [core/client-entry.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) line: 85.
 
+```json
+    "lazyHydrateFor": ["category-next.products", "homepage"],
+```
+
+Filters out given properties from `window.__INITIAL_STATE__` and enables [lazy hydration](https://github.com/maoberlehner/vue-lazy-hydration) on client side
+Available out of the box for `category-next.products` and `homepage`.
 ## Max attempt of tasks
 
 ```json
@@ -122,7 +160,7 @@ This option is used only in the [Multistore setup](../integrations/multistore.md
 ```json
 "storeViews": {
   "multistore": false,
-  "commonCache": true,
+  "commonCache": false,
   "mapStoreUrlsFor": ["de", "it"],
 ```
 
@@ -138,6 +176,7 @@ You should add all the multistore codes to the `mapStoreUrlsFor` as this propert
   "de": {
     "storeCode": "de",
 ```
+This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "disabled": true,
@@ -163,12 +202,14 @@ This is the store name as displayed in the `Language/Switcher.vue`.
 
 This URL is used only in the `Switcher` component. Typically it equals just to `/<store_code>`. Sometimes you may like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. Just take a look at how [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) generates the list of the stores.
 It accepts not only path, but also domains as well.
+This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "appendStoreCode": true,
 ```
 
-By default store codes are appended at the end of every url. If you want to use domain only as store url, you can set it to `false`.
+In default configuration store codes are appended at the end of every url. If you want to use domain only as store url, you can set it to `false`.
+This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "elasticsearch": {
@@ -189,6 +230,14 @@ ElasticSearch settings can be overridden in the specific `storeView` config. You
 ```
 
 Taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/catalog/helpers/tax). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
+
+```json
+    "seo": {
+      "defaultTitle": 'Vuestore'
+    },
+```
+
+SEO section's `defaultTitle` is used at the set title for the specific store.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous, unidentified user (which country is not yet set).
 
@@ -215,6 +264,7 @@ The internationalization settings are used by the translation engine (`defautlLo
 ```
 
 You can inherit settings from other storeview of your choice. Result config will be deep merged with chosen storeview by storecode set in `extend` property prioritizing current storeview values.
+Keep in mind that `url`, `storeCode` and `appendStoreCode` attributes cannot be inherited from oter storeviews.
 
 ## Entities
 
@@ -244,6 +294,12 @@ Please take a look at the [core/modules/catalog/store/category](https://github.c
 Vue Storefront product objects can be quite large. They consist of `configurable_children`, `media_gallery` and other information. Quite significant for rendering the Product and Category pages, but not so useful in the Shopping Cart. To limit the cart size (as it's transferred to the server while making an order), this option is being used.
 
 Please take a look at the [core/modules/cart](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/cart).
+
+```json
+    "optimizeShoppingCartOmitFields": ["configurable_children", "configurable_options", "media_gallery", "description", "category", "category_ids", "product_links", "stock", "description"],
+```
+
+You can specify which fields get stripped out of the Cart object, by changing the `optimizeShoppingCartOmitFields` array.
 
 ```json
   "category": {
@@ -356,6 +412,12 @@ If this option is set to `items`, Vue Storefront will calculate the cart count b
 ```
 
 These endpoints should point to the `vue-storefront-api` instance and typically, you're changing just the domain-name/base-url without touching the specific endpoint URLs, as it's related to the `vue-storefront-api` specifics.
+
+```json
+  "productsAreReconfigurable": true
+```
+
+If this option is set to `true`, you can edit current options such as color or size in the cart view. Works only for configurable products.
 
 ## Products
 
@@ -518,7 +580,7 @@ Starting with Vue Storefront v1.6, we changed the default order-placing behavior
     "syncTasks": "INDEXEDDB",
     "newsletterPreferences": "INDEXEDDB",
     "ordersHistory": "INDEXEDDB",
-    "checkoutFieldValues": "LOCALSTORAGE"
+    "checkout": "LOCALSTORAGE"
   }
 },
 ```
@@ -562,11 +624,18 @@ The `stock` section configures how the Vue Storefront behaves when the product i
 ```json
 "images": {
   "baseUrl": "https://demo.vuestorefront.io/img/",
-  "productPlaceholder": "/assets/placeholder.jpg"
+  "productPlaceholder": "/assets/placeholder.jpg",
+  "useExactUrlsNoProxy": false,
+  "useSpecificImagePaths": false,
+  "paths": {
+    "product": "/catalog/product"
+  }
 },
 ```
 
-This section is to set the default base URL of product images. This should be a `vue-storefront-api` URL, pointing to its `/api/img` handler. The Vue Storefront API is in charge of downloading the local image cache from the Magento/Pimcore backend and does the resize/crop/scale operations to optimize the images for mobile devices and the UI.
+This section is to set the default base URL of images. This should be a `vue-storefront-api` URL, pointing to its `/api/img` handler. The Vue Storefront API is in charge of downloading the local image cache from the Magento/Pimcore backend and does the resize/crop/scale operations to optimize the images for mobile devices and the UI.
+
+If you wan't to also show non-product image thumbnails you must set `useSpecificImagePaths` to `true` and remove `/catalog/product` from the end of your API `magento1.imgUrl` or `magento2.imgUrl` setting in your API's config file – e.g.: `http://magento-demo.local/media`. After that you can use the `pathType` parameter of the `getThumbnail()` mixin method to traverse other images than product ones.
 
 ## Install
 
@@ -594,11 +663,18 @@ When `demomode` is set to `true`, Vue Storefront will display the "Welcome to Vu
   "sourcePriceIncludesTax": false,
   "defaultCountry": "DE",
   "defaultRegion": "",
-  "calculateServerSide": true
+  "calculateServerSide": true,
+  "userGroupId": null
 },
 ```
 
-The taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/helpers/tax.ts). When `sourcePricesIncludesTax` is set to `true`  it means that the prices indexed in the Elasticsearch already consist of the taxes. If it's set to `false` the taxes will be calculated runtime.
+The taxes section is used by the
+[core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/tree/master/core/modules/catalog/helpers/tax.ts).
+When `sourcePricesIncludesTax` is set to `true` it means that the prices
+indexed in the Elasticsearch already consist of the taxes. If it's set
+to `false` the taxes will be calculated runtime. The `userGroupId`
+config does only work when you have set `sourcePriceIncludesTax` set to
+`false` and `calculateServerSide` is set to `false`.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous, unidentified user (which country is not yet set).
 

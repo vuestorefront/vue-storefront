@@ -12,7 +12,8 @@ import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
 import { sync } from 'vuex-router-sync'
 import VueObserveVisibility from 'vue-observe-visibility'
-
+import cloneDeep from 'lodash-es/cloneDeep'
+import omit from 'lodash-es/omit'
 // Apollo GraphQL client
 import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 
@@ -20,7 +21,7 @@ import { getApolloProvider } from './scripts/resolvers/resolveGraphQL'
 import { registerTheme } from '@vue-storefront/core/lib/themes'
 import { themeEntry } from 'theme/index.js'
 import { registerModules } from '@vue-storefront/core/lib/module'
-import { prepareStoreView } from '@vue-storefront/core/lib/multistore'
+import { prepareStoreView, currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 import * as coreMixins from '@vue-storefront/core/mixins'
 import * as coreFilters from '@vue-storefront/core/filters'
@@ -31,10 +32,11 @@ import store from '@vue-storefront/core/store'
 
 import { enabledModules } from './modules-entry'
 
-// Will be deprecated in 1.8
-import { registerExtensions } from '@vue-storefront/core/compatibility/lib/extensions'
-import { registerExtensions as extensions } from 'src/extensions'
 import globalConfig from 'config'
+
+import { injectReferences } from '@vue-storefront/core/lib/modules'
+import { coreHooksExecutors } from '@vue-storefront/core/hooks'
+import { registerClientModules } from 'src/modules/client';
 
 function createRouter (): VueRouter {
   return new VueRouter({
@@ -61,7 +63,7 @@ once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
 })
 
-const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>}> => {
+const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
   router = createRouter()
   // sync router with vuex 'router' store
   sync(store, router)
@@ -73,9 +75,8 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   if (!store.state.config) store.state.config = globalConfig //  @deprecated - we should avoid the `config`
   const storeView = prepareStoreView(storeCode) // prepare the default storeView
   store.state.storeView = storeView
-  // store.state.shipping.methods = shippingMethods
 
-  // to depreciate in near future
+  // @deprecated from 2.0
   once('__VUE_EXTEND__', () => {
     Vue.use(Vuelidate)
     Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
@@ -90,6 +91,16 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
       Vue.mixin(coreMixins[key])
     })
   })
+
+  // @todo remove this part when we'll get rid of global multistore mixin
+  if (isServer) {
+    Object.defineProperty(ssrContext, 'helpers', {
+      value: {
+        currentStoreView
+      },
+      writable: true
+    })
+  }
 
   Object.keys(coreFilters).forEach(key => {
     Vue.filter(key, coreFilters[key])
@@ -112,13 +123,16 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     ssrContext
   }
 
+  injectReferences(app, store, router, globalConfig)
+  registerClientModules()
   registerModules(enabledModules, appContext)
-  registerExtensions(extensions, app, router, store, config, ssrContext)
   registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
 
+  coreHooksExecutors.afterAppInit()
+  // @deprecated from 2.0
   EventBus.$emit('application-after-init', app)
 
-  return { app, router, store }
+  return { app, router, store, initialState: cloneDeep(store.state) }
 }
 
 export { router, createApp }

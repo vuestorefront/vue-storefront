@@ -2,11 +2,13 @@ import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 
 jest.mock('remove-accents', () => jest.fn());
 jest.mock('@vue-storefront/core/modules/url/helpers', () => jest.fn());
+jest.mock('@vue-storefront/core/lib/multistore', () => jest.fn());
 jest.mock('config', () => ({
   products: {
     'defaultFilters': ['color', 'size', 'price', 'erin_recommends']
   }
 }));
+jest.mock('@vue-storefront/core/store', () => ({}));
 
 describe('buildFilterProductsQuery method', () => {
   let currentCategory

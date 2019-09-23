@@ -1,10 +1,6 @@
 import { categoryModule } from './store/category'
-import { createModule } from '@vue-storefront/core/lib/module'
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
-export const KEY = 'catalog-next'
-export default createModule({
-  key: KEY,
-  store: { modules: [
-    { key: 'category-next', module: categoryModule }
-  ] }
-})
+export const CatalogNextModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+  store.registerModule('category-next', categoryModule)
+}

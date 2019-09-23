@@ -7,12 +7,6 @@ import Overlay from '@vue-storefront/core/compatibility/components/Overlay'
 
 export default {
   mixins: [Overlay],
-  beforeCreate () {
-    document.documentElement.classList.add('no-scroll')
-  },
-  destroyed () {
-    document.documentElement.classList.remove('no-scroll')
-  },
   methods: {
     close () {
       this.$store.commit('ui/setOverlay', false)
@@ -20,6 +14,7 @@ export default {
       this.$store.commit('ui/setWishlist', false)
       this.$store.commit('ui/setSearchpanel', false)
       this.$store.commit('ui/setSidebar', false)
+      this.$store.dispatch('themeCart/closeEditMode')
     }
   }
 }

@@ -26,7 +26,7 @@
             <breadcrumbs
               class="pt40 pb20 hidden-xs"
               :routes="breadcrumbs.routes"
-              :active-route="breadcrumbs"
+              :active-route="breadcrumbs.name"
             />
             <h1 class="mb20 mt0 cl-mine-shaft product-name" data-testid="productName" itemprop="name">
               {{ product.name | htmlDecode }}
@@ -131,7 +131,6 @@
 </template>
 
 <script>
-import Product from '@vue-storefront/core/pages/Product'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
@@ -147,7 +146,6 @@ export default {
     ProductCustomOptions,
     ProductLinks
   },
-  mixins: [Product],
   data () {
     return {
       detailsOpen: false
