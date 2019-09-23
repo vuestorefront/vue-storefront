@@ -68,7 +68,7 @@ export default {
       context.server.response.statusCode = 404
     }
 
-    await store.dispatch('homepage/fetchBestsellers')
+    await store.dispatch('homepage/loadBestsellers')
   },
   metaInfo () {
     return {

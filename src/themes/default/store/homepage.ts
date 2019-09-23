@@ -21,7 +21,7 @@ export const homepageStore = {
         }, { root: true })
       commit('SET_NEW_COLLECTION', configuredProducts)
     },
-    async fetchBestsellers ({ commit, dispatch }) {
+    async loadBestsellers ({ commit, dispatch }) {
       const response = await dispatch('product/list', {
         query: prepareQuery({ queryConfig: 'bestSellers' }),
         size: 8,
