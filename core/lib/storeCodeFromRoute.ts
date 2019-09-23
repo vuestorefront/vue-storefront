@@ -3,15 +3,15 @@ import config from 'config'
 import { LocalizedRoute } from './types'
 
 const getNormalizedPath = (matchedRouteOrUrl) => {
-  const matchingPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
+  const matchingPath = matchedRouteOrUrl && (matchedRouteOrUrl.path || matchedRouteOrUrl)
 
-  return matchingPath.length > 0 && matchingPath[0] !== '/' ? `/${matchingPath}` : matchingPath
+  return matchingPath && (matchingPath.length > 0 && matchingPath[0] !== '/') ? `/${matchingPath}` : matchingPath
 }
 
 const getUrl = (matchedRouteOrUrl) => {
   const normalizedPath = getNormalizedPath(matchedRouteOrUrl)
 
-  if (typeof matchedRouteOrUrl === 'object') {
+  if (matchedRouteOrUrl && typeof matchedRouteOrUrl === 'object') {
     if (matchedRouteOrUrl['host']) {
       return matchedRouteOrUrl['host'] + normalizedPath
     }
