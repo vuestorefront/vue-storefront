@@ -63,9 +63,11 @@ const getProfile = async () =>
     }
   })
 
-const getOrdersHistory = async (): Promise<Task> =>
+const getOrdersHistory = async (pageSize = 20, currentPage = 1): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.users.history_endpoint),
+    url: processLocalizedURLAddress(
+      config.users.history_endpoint.replace('{{pageSize}}', pageSize).replace('{{currentPage}}', currentPage)
+    ),
     payload: {
       method: 'GET',
       mode: 'cors',
