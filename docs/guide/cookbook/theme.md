@@ -22,13 +22,13 @@ Among methodologies for this recipe, we will use the one inspired by [_Chaos Mon
 #### Sidetalk (If you are busy dev, please skip this)
 Why we don't make a recipe for solution to a problem, but a recipe for a problem itself? Read this quote from _Aristotle_ and ask me again
 :::tip QUOTE
-___He who sees things grow from their beginning will have the best view of them___
+_He who sees things grow from their beginning will have the best view of them_
 
 ___- Aristotle___
 :::
 You are not the core developers who built the ___Vue Storefront___ from its beginning so you don't know the _why_ and _how_ and the history of what happened to each corner of the code base. (even if you are core developers, I bet you really don't know _every_ detail ;)) Yet, that's fine until you just take advantage of the platform and things work as `docs` dictates. It becomes, however, problems when things get in unexpected ways. 
 <br/>
-In attempts to reduce such frustration, one might need to simulate _How things grew from the beginning_. Creating problems on purpose and in an attempt to solve them may help you understand why things were there in the first place. Think of it as _Hadron Collider_ of ___Vue Storefront___. Now time's up, Let's turn on the _particle accelerator_. 
+In attempts to reduce such frustration, one might need to simulate _How things grew from the beginning_. Creating problems on purpose and an attempt to solve them may help you understand why things were there in the first place. Think of it as _Hadron Collider_ of ___Vue Storefront___. Now time's up, Let's turn on the _particle accelerator_. 
 
 ### 1. Preparation
 - You need [Vue Storefront](https://github.com/DivanteLtd/vue-storefront) app [working](/guide/cookbook/setup.html). 
