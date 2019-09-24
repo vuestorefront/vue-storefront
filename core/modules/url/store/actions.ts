@@ -7,7 +7,8 @@ import queryString from 'query-string'
 import config from 'config'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData } from '../helpers'
-import { storeCodeFromRoute, removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
+import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
+import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
