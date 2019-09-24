@@ -1,6 +1,6 @@
 {
   "name": "vsf-package",
-  "version": "1.0.11",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/main.js",
   "scripts": {

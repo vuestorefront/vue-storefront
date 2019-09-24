@@ -29,10 +29,6 @@ import * as corePlugins from '@vue-storefront/core/compatibility/plugins'
 import { once } from '@vue-storefront/core/helpers'
 import store from '@vue-storefront/core/store'
 
-// Legacy
-import { registerModules as enabledModules } from 'src/modules'
-import { registerModules } from '@vue-storefront/core/lib/module'
-
 import globalConfig from 'config'
 
 import { injectReferences } from '@vue-storefront/core/lib/modules'
@@ -127,7 +123,6 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
 
   injectReferences(app, store, router, globalConfig)
   registerClientModules()
-  registerModules(enabledModules, appContext)
   registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
 
   coreHooksExecutors.afterAppInit()
