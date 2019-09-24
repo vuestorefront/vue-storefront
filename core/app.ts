@@ -1,3 +1,4 @@
+import { VSFRouter } from '@vue-storefront/core/types/VSFRouter';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager';
 import { Store } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
@@ -58,7 +59,7 @@ function createRouter (): VueRouter {
   })
 }
 
-function createRouterProxy (router: VueRouter) {
+function createRouterProxy (router: VueRouter): VSFRouter {
   const ProxyConstructor = Proxy || require('proxy-polyfill/src/proxy')
 
   return new ProxyConstructor(router, {
@@ -66,8 +67,8 @@ function createRouterProxy (router: VueRouter) {
       const origMethod = target[propKey];
 
       if (propKey === 'addRoutes') {
-        return function (routes: RouteConfig[]): void {
-          return RouterManager.addRoutes(routes);
+        return function (routes: RouteConfig[], ...args): void {
+          return RouterManager.addRoutes(routes, ...args);
         };
       }
 
@@ -77,7 +78,7 @@ function createRouterProxy (router: VueRouter) {
 }
 
 let router: VueRouter = null
-let routerProxy = null
+let routerProxy: VSFRouter = null
 
 once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
@@ -87,7 +88,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   router = createRouter()
   routerProxy = createRouterProxy(router)
   // sync router with vuex 'router' store
-  sync(store, router)
+  sync(store, routerProxy)
   // TODO: Don't mutate the state directly, use mutation instead
   store.state.version = process.env.APPVERSION
   store.state.config = config // @deprecated
@@ -128,7 +129,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   })
 
   let vueOptions = {
-    router,
+    router: routerProxy,
     store,
     i18n,
     render: h => h(themeEntry)
@@ -144,16 +145,16 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     ssrContext
   }
 
-  injectReferences(app, store, router, globalConfig)
+  injectReferences(app, store, routerProxy, globalConfig)
   registerClientModules()
   registerModules(enabledModules, appContext)
-  registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
+  registerTheme(globalConfig.theme, app, routerProxy, store, globalConfig, ssrContext)
 
   coreHooksExecutors.afterAppInit()
   // @deprecated from 2.0
   EventBus.$emit('application-after-init', app)
 
-  return { app, router, store, initialState: cloneDeep(store.state) }
+  return { app, router: routerProxy, store, initialState: cloneDeep(store.state) }
 }
 
 export { routerProxy as router, createApp, router as baseRouter }

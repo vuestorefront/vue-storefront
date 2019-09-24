@@ -5,11 +5,11 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import Vue from 'vue'
 import queryString from 'query-string'
 import merge from 'lodash-es/merge'
-import { RouterManager } from '@vue-storefront/core/lib/router-manager'
-import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
+import { RouteConfig, RawLocation } from 'vue-router'
 import config from 'config'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { VSFRouter } from '@vue-storefront/core/types/VSFRouter'
 
 export interface LocalizedRoute {
   path?: string,
@@ -251,15 +251,15 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
   return routeObj
 }
 
-export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[], priority: number = 0): void {
-  const allRoutes = []
+export function setupMultistoreRoutes (config, router: VSFRouter, routes: RouteConfig[], priority: number = 0): void {
+  const allRoutes: RouteConfig[] = []
   const { storeCode, appendStoreCode } = currentStoreView()
   if (storeCode && appendStoreCode) {
     allRoutes.push(...routes.map(route => localizedRouteConfig(route, storeCode)))
   } else {
     allRoutes.push(...routes)
   }
-  RouterManager.addRoutes(allRoutes, true, priority)
+  router.addRoutes(allRoutes, true, priority)
 }
 
 /**

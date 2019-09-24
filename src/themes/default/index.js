@@ -4,7 +4,6 @@ import routes from './router'
 import Vue from 'vue'
 import VueProgressBar from 'vue-progressbar'
 import '@vue-storefront/core/lib/passive-listeners'
-import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { once } from '@vue-storefront/core/helpers'
 import { module as cartModule } from './store/cart'
 
