@@ -2,9 +2,9 @@ import Vuex from 'vuex'
 import {shallowMount, createLocalVue} from '@vue/test-utils'
 
 export const mountMixin = (
-  component : object,
-  mountOptions : object = {},
-  template : string = "<div />"
+  component: object,
+  mountOptions: object = {},
+  template: string = '<div />'
 ) => {
   const localVue = createLocalVue();
 
@@ -12,7 +12,7 @@ export const mountMixin = (
 
   return shallowMount({
     template,
-    mixins: [component],
+    mixins: [component]
   }, {
     localVue,
     ...mountOptions
@@ -20,11 +20,11 @@ export const mountMixin = (
 };
 
 export const mountMixinWithStore = (
-  component : object,
-  storeOptions : object = {},
-  mountOptions : object = {},
-  template : string = "<div />",
-  ) => {
+  component: object,
+  storeOptions: object = {},
+  mountOptions: object = {},
+  template: string = '<div />'
+) => {
   const localVue = createLocalVue();
 
   localVue.use(Vuex);
@@ -35,10 +35,19 @@ export const mountMixinWithStore = (
 
   return shallowMount({
     template,
-    mixins: [component],
+    mixins: [component]
   }, {
     store,
     localVue,
     ...mountOptions
   })
 };
+
+export const createContextMock = (props = {}) => ({
+  // @ts-ignore
+  commit: jest.fn(),
+  // @ts-ignore
+  dispatch: jest.fn(),
+  // @ts-ignore
+  ...props
+})

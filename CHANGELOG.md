@@ -51,6 +51,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Exclude GTM product attributes setup into config json - @dlandmann, @cewald (#3509, #3524)
 - Add configuration option to format currency sign placement and space in price - @cewald (#3574)
 - Add ability to pass `pageSize` and `currentPage` to order history API call for pagination - @rain2o
+- Added italian translations - @lorenaramonda (3076)
+- Route Manager Queue for adding routes efficiently and with an optional priority - @grimasod (#3540)
+- Added tests for cart module actions - @andrzejewsky (#3023)
 
 ### Fixed
 
@@ -103,6 +106,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed error with dayjs when locale is 2-digit (without a '-') @rain2o (#3581)
 - Fix applying coupon - @andrzejewsky (#3578)
 - Prevent caching storage instance in plugin module scope - @gibkigonzo (#3571)
+- Fixed incorrect image sizes in related section on product page - @andrzejewsky (#3590)
+- Fix typo on default language - @lorenaramonda (#3076)
+- clear user data if error occurs while login - @gibkigonzo (#3588)
+- Fix loading bestsellers on 404 error page - @andrzejewsky (#3540)
 
 ### Changed / Improved
 
@@ -148,6 +155,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved scrolling in Safari on iOS devices (sidebars) - @phoenixdev-kl (#3551)
 - Improved cookie and offline badges (z-index, overflow) - @phoenixdev-kl (#3552)
 - Improved translations: Replaced concatenations with "named formatting" (see http://kazupon.github.io/vue-i18n/guide/formatting.html#named-formatting) - @phoenixdev-kl (#3550)
+- Added `filterMinimumShouldMatch` to ES queries in order to support ES7 - @pkarw (#1692)
+
+## [1.10.3] - 2019.09.18
+
+### Fixed
+- Broken sidebar menu in mobile view - @przspa (#3549)
+- UrlDispatcher issues with multistore routes - @pkarw (#3568)
 
 ## [1.10.2] - 2019.09.06
 
