@@ -59,7 +59,9 @@ function createRouter (): VueRouter {
 }
 
 function createRouterProxy (router: VueRouter) {
-  return new Proxy(router, {
+  const ProxyConstructor = Proxy || require('proxy-polyfill/src/proxy')
+
+  return new ProxyConstructor(router, {
     get (target, propKey) {
       const origMethod = target[propKey];
 
