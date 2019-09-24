@@ -10,50 +10,8 @@ import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
 import config from 'config'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-
-export interface LocalizedRoute {
-  path?: string,
-  name?: string,
-  hash?: string,
-  params?: { [key: string]: unknown },
-  fullPath?: string,
-  host?: string
-}
-
-export interface StoreView {
-  storeCode: string,
-  extend?: string,
-  disabled?: boolean,
-  storeId: any,
-  name?: string,
-  url?: string,
-  appendStoreCode?: boolean,
-  elasticsearch: {
-    host: string,
-    index: string
-  },
-  tax: {
-    sourcePriceIncludesTax: boolean,
-    defaultCountry: string,
-    defaultRegion: null | string,
-    calculateServerSide: boolean,
-    userGroupId?: number,
-    useOnlyDefaultUserGroupId: boolean
-  },
-  i18n: {
-    fullCountryName: string,
-    fullLanguageName: string,
-    defaultLanguage: string,
-    defaultCountry: string,
-    defaultLocale: string,
-    currencyCode: string,
-    currencySign: string,
-    dateFormat: string
-  },
-  seo: {
-    defaultTitle: string
-  }
-}
+import { LocalizedRoute, StoreView } from './types'
+import storeCodeFromRoute from './storeCodeFromRoute'
 
 function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
@@ -84,7 +42,7 @@ export function currentStoreView (): StoreView {
 export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   let storeView: StoreView = { // current, default store
     tax: config.tax,
-    i18n: config.i18n,
+    i18n: Object.assign({}, config.i18n),
     elasticsearch: config.elasticsearch,
     storeCode: null,
     storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
@@ -115,43 +73,6 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   }
   coreHooksExecutors.afterStoreViewChanged(storeView)
   return storeView
-}
-
-export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocation | string): string {
-  if (matchedRouteOrUrl) {
-    for (let storeCode of config.storeViews.mapStoreUrlsFor) {
-      const store = config.storeViews[storeCode]
-
-      // handle resolving by path
-      const matchingPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
-      let normalizedPath = matchingPath // assume that matching string is a path
-      if (matchingPath.length > 0 && matchingPath[0] !== '/') {
-        normalizedPath = '/' + matchingPath
-      }
-
-      if (normalizedPath.startsWith(`${store.url}/`) || normalizedPath === store.url) {
-        return storeCode
-      }
-
-      // handle resolving by domain+path
-      let url = ''
-
-      if (typeof matchedRouteOrUrl === 'object') {
-        if (matchedRouteOrUrl['host']) {
-          url = matchedRouteOrUrl['host'] + normalizedPath
-        } else {
-          return '' // this route does not have url so there is nothing to do here
-        }
-      } else {
-        url = matchedRouteOrUrl as string
-      }
-
-      if (url.startsWith(`${store.url}/`) || url === store.url) {
-        return storeCode
-      }
-    }
-  }
-  return ''
 }
 
 export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | string): LocalizedRoute | string {

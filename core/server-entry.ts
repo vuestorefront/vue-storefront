@@ -1,7 +1,7 @@
 import union from 'lodash-es/union'
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/helpers/internal'
-import { storeCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 import omit from 'lodash-es/omit'
 import pick from 'lodash-es/pick'
 import buildTimeConfig from 'config'
@@ -51,10 +51,6 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
   }).catch(err => {
     _commonErrorHandler(err, reject)
   })
-}
-
-function getHostFromHeader (headers: string[]): string {
-  return headers ? (headers['x-forwarded-host'] !== undefined ? headers['x-forwarded-host'] : headers['host']) : null
 }
 
 export default async context => {

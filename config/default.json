@@ -392,7 +392,7 @@
   "users": {
     "autoRefreshTokens": true,
     "endpoint": "/api/user",
-    "history_endpoint": "/api/user/order-history?token={{token}}",
+    "history_endpoint": "/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}",
     "resetPassword_endpoint": "/api/user/reset-password",
     "changePassword_endpoint": "/api/user/change-password?token={{token}}",
     "login_endpoint": "/api/user/login",
