@@ -41,7 +41,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added loading of your own searchAdaptor - @resubaka (#3405K)
 - Added lazy hydration for home page - @filrak (#3496, #3565)
 - Added i18n support for modules - @dz3n (#3369)
+- Added support for creating localized child routes - @gibkigonzo (#3489)
 - Added tests for actions and mutations in 'core/modules/recently-viewed' - @gibkigonzo (#3467)
+- Added tests for actions, mutations and components in 'core/modules/compare' - @gibkigonzo (#3467)
+- Added support to load tracing libs at the start of the app - @resubaka (#3514, #3566)
+- Added tests for actions and mutations in 'core/modules/notification' - @gibkigonzo (#3465)
+- Added tests for actions, mutations and helpers in 'core/modules/review' - @gibkigonzo (#3468)
+- Add new Google-Tag-Manager module using new module registration - @cewald (#3524, #3509)
+- Exclude GTM product attributes setup into config json - @dlandmann, @cewald (#3509, #3524)
+- Add configuration option to format currency sign placement and space in price - @cewald (#3574)
+- Add ability to pass `pageSize` and `currentPage` to order history API call for pagination - @rain2o
+- Added italian translations - @lorenaramonda (3076)
+- Route Manager Queue for adding routes efficiently and with an optional priority - @grimasod (#3540)
+- Added tests for cart module actions - @andrzejewsky (#3023)
 
 ### Fixed
 
@@ -84,14 +96,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adjusted ProductVideo props to right names - @przspa (#3263)
 - Fixed Doubled SKU row in compare tab - @manvendra-singh1506 (#3447)
 - Fixed warning in product details because of duplicate `product` property in `AddToCompare` mixin - @cewald (#3428)
-- Fixed adding unconfigured product to cart from homepage - @lukeromanowicz (#3512) 
+- Fixed adding unconfigured product to cart from homepage - @lukeromanowicz (#3512)
 - Fixed "Clear Wishlist" Button - @dz3n (#3522)
 - Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
 - Fix invalid routes in ButtonOutline and ButtonFull - @lukeromanowicz (#3541, #3545)
+- Fix adding notification with 'hasNoTimeout' after normal notification - @gibkigonzo (#3465)
+- Logged-in user's shipping address on checkout page - @przspa (#2636)
 - Fix for the "add to cart" test
+- Fixed error with dayjs when locale is 2-digit (without a '-') @rain2o (#3581)
+- Fix applying coupon - @andrzejewsky (#3578)
+- Prevent caching storage instance in plugin module scope - @gibkigonzo (#3571)
+- Fixed incorrect image sizes in related section on product page - @andrzejewsky (#3590)
+- Fix typo on default language - @lorenaramonda (#3076)
+- Remove race condition while loading locale messages - @gibkigonzo (#3602)
+- Fix displaying same country twice in the in the country switcher - @andrzejewsky (#3587)
+- Fixed resolving store code on SSR - @andrzejewsky (#3576)
+- Clear user data if error occurs while login - @gibkigonzo (#3588)
+- Fix loading bestsellers on 404 error page - @andrzejewsky (#3540)
 
 ### Changed / Improved
 
+- Change Product quantity field validation - @jakubmakielkowski (#3560)
 - Update confirmation page in offline mode - @jakubmakielkowski (#3100)
 - Removed server order id from ThankYouPage - @federivo (#3480)
 - Shipping address is saved as default when not logged in user chooses to create account during checkout - @iwonapiotrowska (#2636)
@@ -132,6 +157,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `localizedRoute()` doesn't return urlDispatcher routes anymore. Use localizedDispatcherRoute instead - @lukeromanowicz (#3548)
 - Improved scrolling in Safari on iOS devices (sidebars) - @phoenixdev-kl (#3551)
 - Improved cookie and offline badges (z-index, overflow) - @phoenixdev-kl (#3552)
+- Improved translations: Replaced concatenations with "named formatting" (see http://kazupon.github.io/vue-i18n/guide/formatting.html#named-formatting) - @phoenixdev-kl (#3550)
+- Added `filterMinimumShouldMatch` to ES queries in order to support ES7 - @pkarw (#1692)
+
+## [1.10.3] - 2019.09.18
+
+### Fixed
+- Broken sidebar menu in mobile view - @przspa (#3549)
+- UrlDispatcher issues with multistore routes - @pkarw (#3568)
 
 ## [1.10.2] - 2019.09.06
 

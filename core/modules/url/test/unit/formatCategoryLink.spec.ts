@@ -10,6 +10,9 @@ jest.mock('@vue-storefront/core/lib/multistore', () => ({
   localizedDispatcherRoute: jest.fn(),
   localizedRoute: jest.fn()
 }));
+jest.mock('@vue-storefront/core/helpers', () => ({
+  once: (str) => jest.fn()
+}))
 
 describe('formatCategoryLink method', () => {
   let category: Category;
