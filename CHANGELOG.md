@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add new Google-Tag-Manager module using new module registration - @cewald (#3524, #3509)
 - Exclude GTM product attributes setup into config json - @dlandmann, @cewald (#3509, #3524)
 - Add configuration option to format currency sign placement and space in price - @cewald (#3574)
+- Add ability to pass `pageSize` and `currentPage` to order history API call for pagination - @rain2o
 - Added italian translations - @lorenaramonda (3076)
 - Route Manager Queue for adding routes efficiently and with an optional priority - @grimasod (#3540)
 - Added tests for cart module actions - @andrzejewsky (#3023)
@@ -107,6 +108,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Prevent caching storage instance in plugin module scope - @gibkigonzo (#3571)
 - Fixed incorrect image sizes in related section on product page - @andrzejewsky (#3590)
 - Fix typo on default language - @lorenaramonda (#3076)
+- Remove race condition while loading locale messages - @gibkigonzo (#3602)
+- Fix displaying same country twice in the in the country switcher - @andrzejewsky (#3587)
+- Fixed resolving store code on SSR - @andrzejewsky (#3576)
+- Clear user data if error occurs while login - @gibkigonzo (#3588)
+- Fix loading bestsellers on 404 error page - @andrzejewsky (#3540)
 
 ### Changed / Improved
 

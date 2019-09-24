@@ -42,7 +42,7 @@ declare namespace DataResolver {
     register: (customer: Customer, pssword: string) => Promise<Task>,
     updateProfile: (userProfile: UserProfile) => Promise<Task>,
     getProfile: () => Promise<Task>,
-    getOrdersHistory: () => Promise<Task>,
+    getOrdersHistory: (pageSize?: number, currentPage?: number) => Promise<Task>,
     changePassword: (passwordData: PasswordData) => Promise<Task>,
     refreshToken: (refreshToken: string) => Promise<string>
   }

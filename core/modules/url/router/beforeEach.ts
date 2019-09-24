@@ -5,11 +5,10 @@ import { Route } from 'vue-router'
 import store from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
-import { isServer } from '@vue-storefront/core/helpers'
-import { currentStoreView, LocalizedRoute, localizedRoute, storeCodeFromRoute } from '@vue-storefront/core/lib/multistore'
-import config from 'config'
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { LocalizedRoute } from '@vue-storefront/core/lib/types'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
-import { router } from '@vue-storefront/core/app'
+
 export const UrlDispatchMapper = async (to) => {
   const routeData = await store.dispatch('url/mapUrl', { url: to.path, query: to.query })
   return Object.assign({}, to, routeData)

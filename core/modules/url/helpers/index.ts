@@ -1,10 +1,10 @@
 import { router } from '@vue-storefront/core/app'
 import config from 'config'
-import { localizedDispatcherRoute, localizedRoute, LocalizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { LocalizedRoute } from '@vue-storefront/core/lib/types'
+import { localizedDispatcherRoute, localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { RouteConfig } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { Category } from 'core/modules/catalog-next/types/Category'
-import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: string]: any } | string, storeCodeInPath: string): LocalizedRoute {
@@ -20,7 +20,6 @@ function prepareDynamicRoute (routeData: LocalizedRoute, path: string): RouteCon
   const userRoute = RouterManager.findByName(routeData.name)
   if (userRoute) {
     const normalizedPath = `${path.startsWith('/') ? '' : '/'}${path}`
-    const currentStoreCode = currentStoreView().storeCode
     const dynamicRoute = Object.assign({}, userRoute, routeData, { path: normalizedPath, name: `urldispatcher-${normalizedPath}` })
     return dynamicRoute
   } else {
