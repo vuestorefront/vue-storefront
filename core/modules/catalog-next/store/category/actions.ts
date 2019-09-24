@@ -6,6 +6,7 @@ import CategoryState from './CategoryState'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { buildFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
 import { router } from '@vue-storefront/core/app'
+import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import FilterVariant from '../../types/FilterVariant'
 import { CategoryService } from '@vue-storefront/core/data-resolver'
 import { changeFilterQuery } from '../../helpers/filterHelpers'
@@ -108,13 +109,14 @@ const actions: ActionTree<CategoryState, RootState> = {
     })
   },
   async registerCategoryProductsMapping ({ dispatch }, products = []) {
+    const storeCode = currentStoreView().storeCode
     await Promise.all(products.map(product => {
       const { url_path, sku, slug, type_id } = product
       return dispatch('url/registerMapping', {
-        url: url_path,
+        url: localizedDispatcherRoute(url_path, storeCode),
         routeData: {
           params: { parentSku: product.sku, slug },
-          'name': type_id + '-product'
+          'name': localizedDispatcherRouteName(type_id + '-product', storeCode)
         }
       }, { root: true })
     }))

@@ -50,7 +50,7 @@ function createRouter (): VueRouter {
       }
       if (savedPosition) {
         return savedPosition
-      } else {
+      } else if (to.path !== from.path) { // do not change scroll position when navigating on the same page (ex. change filters)
         return {x: 0, y: 0}
       }
     }
@@ -75,7 +75,6 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   if (!store.state.config) store.state.config = globalConfig //  @deprecated - we should avoid the `config`
   const storeView = prepareStoreView(storeCode) // prepare the default storeView
   store.state.storeView = storeView
-  // store.state.shipping.methods = shippingMethods
 
   // @deprecated from 2.0
   once('__VUE_EXTEND__', () => {

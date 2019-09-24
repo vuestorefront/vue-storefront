@@ -29,7 +29,7 @@
 "Product {productName} has been added to the compare!","Le produit {productName} a été ajouté au comparateur !"
 "Product {productName} has been added to wishlist!","Le produit {productName} a été ajouté à la liste des souhaits !"
 "Product {productName} has been removed from compare!","Le produit {productName} a été supprimé du comparateur !"
-"Product {productName} has been removed from wishlit!","Le produit {productName} a été supprimé de la liste des souhaits !"
+"Product {productName} has been removed from wishlist!","Le produit {productName} a été supprimé de la liste des souhaits !"
 "Registering the account ...","Enregistrement du compte..."
 "Reset password feature does not work while offline!","La fonction de réinitialisation du mot de passe ne fonctionne pas en mode hors ligne !"
 "Shopping cart is empty. Please add some products before entering Checkout","Le panier d'achat est vide. Veuillez ajouter des produits avant de passer à la caisse"

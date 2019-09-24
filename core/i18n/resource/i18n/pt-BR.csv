@@ -24,7 +24,7 @@
 "Product {productName} has been added to the compare!","Produto {productName} foi adicionado para comparação!"
 "Product {productName} has been added to wishlist!","Produto {productName} foi adicionado à lista de desejos!"
 "Product {productName} has been removed from compare!","Produto {productName} foi removido da comparação!"
-"Product {productName} has been removed from wishlit!","Produto {productName} foi removido da lista de desejos!"
+"Product {productName} has been removed from wishlist!","Produto {productName} foi removido da lista de desejos!"
 "Registering the account ...","Salvando a conta ..."
 "Reset password feature does not work while offline!","Recuperação de Senha não funciona sem conexão de internet!"
 "Shopping cart is empty. Please add some products before entering Checkout","Carrinho está vazio. Por favor adicione produtos antes de Finalizar a Compra"

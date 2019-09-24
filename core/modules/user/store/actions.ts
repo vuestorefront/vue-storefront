@@ -54,9 +54,14 @@ const actions: ActionTree<UserState, RootState> = {
     userHooksExecutors.afterUserAuthorize(resp)
 
     if (resp.code === 200) {
-      await dispatch('resetUserInvalidateLock', {}, { root: true })
-      commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
-      await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+      try {
+        await dispatch('resetUserInvalidateLock', {}, { root: true })
+        commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
+        await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+      } catch (err) {
+        await dispatch('clearCurrentUser')
+        throw new Error(err)
+      }
     }
 
     return resp

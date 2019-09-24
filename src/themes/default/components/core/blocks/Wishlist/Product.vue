@@ -63,7 +63,7 @@ export default {
     removeProductFromWhishList (product) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
-        message: i18n.t('Product {productName} has been removed from wishlit!', { productName: htmlDecode(product.name) }),
+        message: i18n.t('Product {productName} has been removed from wishlist!', { productName: htmlDecode(product.name) }),
         action1: { label: i18n.t('OK') }
       }, { root: true })
       this.removeFromWishlist(product)

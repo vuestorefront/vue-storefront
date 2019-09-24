@@ -68,7 +68,7 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
     }
 
     if (hasCatalogFilters) {
-      query = query.orFilter('bool', (b) => attrFilterBuilder(b))
+      query = query.filterMinimumShouldMatch(1).orFilter('bool', attrFilterBuilder)
         .orFilter('bool', (b) => attrFilterBuilder(b, optionsPrefix).filter('match', 'type_id', 'configurable')) // the queries can vary based on the product type
     }
   }
@@ -113,7 +113,6 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
     }
   }
   const queryBody = query.build()
-
   if (searchQuery.suggest) {
     queryBody.suggest = searchQuery.suggest
   }

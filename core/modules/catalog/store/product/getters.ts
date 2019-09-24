@@ -5,7 +5,7 @@ import ProductState from '../../types/ProductState'
 const getters: GetterTree<ProductState, RootState> = {
   getCurrentProduct: state => state.current,
   getCurrentProductCategoryId: (state, getters, rootState, rootGetters) => {
-    if (getters.getCurrentProduct) {
+    if (getters.getCurrentProduct && getters.getCurrentProduct.category_ids) {
       return rootGetters['category-next/getCategoriesMap'][getters.getCurrentProduct.category_ids[0]]
     }
     return null
