@@ -81,7 +81,7 @@ export function currentStoreView (): StoreView {
   return rootStore.state.storeView
 }
 
-export function prepareStoreView (storeCode: string): StoreView {
+export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   let storeView: StoreView = { // current, default store
     tax: config.tax,
     i18n: config.i18n,
@@ -107,7 +107,7 @@ export function prepareStoreView (storeCode: string): StoreView {
   if (storeViewHasChanged) {
     storeView = coreHooksExecutors.beforeStoreViewChanged(storeView)
     rootStore.state.storeView = storeView
-    loadLanguageAsync(storeView.i18n.defaultLocale)
+    await loadLanguageAsync(storeView.i18n.defaultLocale)
   }
   if (storeViewHasChanged || StorageManager.currentStoreCode !== storeCode) {
     initializeSyncTaskStorage()
