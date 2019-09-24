@@ -36,7 +36,10 @@ export default {
     },
     sizeClass () {
       const map = {
-        'xs': 't-text-lg',
+        'icon': 't-text-icon',
+        'xxs': 't-text-xs',
+        'xs': 't-text-base',
+        'sm': 't-text-lg',
         'md': 't-text-2xl',
         'lg': 't-text-4xl',
         'xl': 't-text-5xl'

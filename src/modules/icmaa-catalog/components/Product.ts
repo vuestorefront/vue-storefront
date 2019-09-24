@@ -1,12 +1,16 @@
 import { mapGetters } from 'vuex'
+import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import { price } from '@vue-storefront/core/filters/price'
-import ProductNameHelper from '../helpers/productName'
 import { Logo } from 'icmaa-cms/helpers/categoryExtras/logo'
+import ProductNameHelper from '../helpers/productName'
 
 export default {
   async asyncData ({ store }) {
-    await store.dispatch('attribute/list', { filterValues: [ 'band', 'brand' ] })
+    const filterValues = Object.keys(store.getters['product/getCurrentProduct'])
+      .filter(fieldName => config.entities.product.standardSystemFields.includes(fieldName))
+    await store.dispatch('attribute/list', { filterValues })
+
     await store.dispatch('icmaaCmsCategoryExtras/loadDepartmentChildCategoryIdMap')
 
     const departmentCategoryId = store.getters['icmaaCmsCategoryExtras/getCurrentProductDepartmentCategoryId']

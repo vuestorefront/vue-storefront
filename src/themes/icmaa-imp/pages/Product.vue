@@ -64,34 +64,40 @@
       </div>
     </div>
 
-    <section class="container px15 pt50 pb35 cl-accent details">
-      <h2 class="h3 m0 mb10 serif lh20 details-title">
-        {{ $t('Product details') }}
-      </h2>
-      <div class="h4 details-wrapper">
-        <div class="row between-md m0">
-          <div class="col-xs-12 col-sm-6">
-            <div class="lh30 h5" itemprop="description" v-html="product.description" />
-          </div>
-          <div class="col-xs-12 col-sm-5">
-            <lazy-hydrate on-interaction>
-              <ul class="attributes p0 pt5 m0">
-                <product-attribute
-                  :key="attr.attribute_code"
-                  v-for="attr in customAttributes"
-                  :product="product"
-                  :attribute="attr"
-                  empty-placeholder="N/A"
-                />
-              </ul>
-            </lazy-hydrate>
-          </div>
+    <div class="t-container t-px-4 t-mt-8">
+      <div class="t--mx-4 lg:t-px-4 t-flex t-flex-wrap">
+        <div class="product-details t-w-full t-p-8 t-bg-white lg:t-w-1/2">
+          <lazy-hydrate on-interaction>
+            <details-tabs :tabs="detailsTabs">
+              <template #pill-details>
+                {{ $t('Product details') }}
+              </template>
+              <template #tab-details>
+                <product-details :product="product" />
+              </template>
+              <template #pill-features>
+                {{ $t('Features') }}
+              </template>
+              <template #tab-features>
+                <product-features :product="product" />
+              </template>
+              <template #pill-care-instructions>
+                {{ $t('Care instructions') }}
+              </template>
+              <template #tab-care-instructions>
+                <product-care-instructions :product="product" />
+              </template>
+            </details-tabs>
+          </lazy-hydrate>
+        </div>
+        <div class="reviews t-w-full t-p-8 t-bg-base-lighter lg:t-w-1/2">
+          <lazy-hydrate when-idle>
+            <reviews :product-id="originalProduct.id" v-show="isOnline" />
+          </lazy-hydrate>
         </div>
       </div>
-    </section>
-    <lazy-hydrate when-idle>
-      <reviews :product-id="originalProduct.id" v-show="isOnline" />
-    </lazy-hydrate>
+    </div>
+
     <lazy-hydrate when-idle>
       <related-products type="upsell" :heading="$t('We found other products you might like')" />
     </lazy-hydrate>
@@ -115,29 +121,33 @@ import { ProductOption } from '@vue-storefront/core/modules/catalog/components/P
 import { onlineHelper } from '@vue-storefront/core/helpers'
 import IcmaaProduct from 'icmaa-catalog/components/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
-import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
-import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
-import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
-import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
+import RelatedProducts from 'theme/components/core/blocks/Product/Related'
+import Reviews from 'theme/components/core/blocks/Reviews/Reviews'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import ProductGallery from 'theme/components/core/ProductGallery'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from 'theme/components/theme/WebShare'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import LazyHydrate from 'vue-lazy-hydration'
-import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue'
+import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar'
 import { ReviewModule } from '@vue-storefront/core/modules/review'
 import { IcmaaExtendedReviewModule } from 'icmaa-review'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
 import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
 import ProductOptionsMixin from 'theme/mixins/product/optionsMixin'
 import ProductAddToCartMixin from 'theme/mixins/product/addtocartMixin'
+import FeaturesMixin from 'theme/mixins/product/featuresMixin'
 
-import ButtonComponent from 'theme/components/core/blocks/Button.vue'
-import DepartmentLogo from 'theme/components/core/blocks/ICMAA/CategoryExtras/DepartmentLogo.vue'
+import ButtonComponent from 'theme/components/core/blocks/Button'
+import DepartmentLogo from 'theme/components/core/blocks/ICMAA/CategoryExtras/DepartmentLogo'
+import DetailsTabs from 'theme/components/core/blocks/Product/Tabs'
+import ProductDetails from 'theme/components/core/blocks/Product/ProductDetails'
+import ProductFeatures from 'theme/components/core/blocks/Product/ProductFeatures'
+import ProductCareInstructions from 'theme/components/core/blocks/Product/ProductCareInstructions'
 import ReviewsShort from 'theme/components/core/blocks/Reviews/ReviewsShort'
 import LoaderBackground from 'theme/components/core/LoaderBackground'
 
-const AddToCartSidebar = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-addtocart-sidebar" */ 'theme/components/core/blocks/AddToCartSidebar/AddToCartSidebar.vue')
+const AddToCartSidebar = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-addtocart-sidebar" */ 'theme/components/core/blocks/AddToCartSidebar/AddToCartSidebar')
 
 export default {
   components: {
@@ -147,15 +157,18 @@ export default {
     ButtonComponent,
     LoaderBackground,
     DepartmentLogo,
-    ProductAttribute,
     ProductGallery,
     RelatedProducts,
+    DetailsTabs,
+    ProductDetails,
+    ProductFeatures,
+    ProductCareInstructions,
     Reviews,
     ReviewsShort,
     WebShare,
     LazyHydrate
   },
-  mixins: [ProductOption, IcmaaProduct, ProductOptionsMixin, ProductAddToCartMixin],
+  mixins: [ProductOption, IcmaaProduct, ProductOptionsMixin, ProductAddToCartMixin, FeaturesMixin],
   directives: { focusClean },
   beforeCreate () {
     registerModule(ReviewModule)
@@ -179,8 +192,7 @@ export default {
       product: 'product/getCurrentProduct',
       gallery: 'product/getProductGallery',
       configuration: 'product/getCurrentProductConfiguration',
-      originalProduct: 'product/getOriginalProduct',
-      attributesByCode: 'attribute/attributeListByCode'
+      originalProduct: 'product/getOriginalProduct'
     }),
     ...mapState({ isAddToCartSidebarOpen: state => state.ui.addtocart }),
     image () {
@@ -192,11 +204,6 @@ export default {
         error: this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height),
         loading: this.getThumbnail(this.product.image, config.products.thumbnails.width, config.products.thumbnails.height)
       }
-    },
-    customAttributes () {
-      return Object.values(this.attributesByCode).filter(a => {
-        return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.product[a.attribute_code]
-      })
     },
     structuredData () {
       return {
@@ -213,6 +220,19 @@ export default {
       }
 
       return false
+    },
+    detailsTabs () {
+      let tabs = ['details']
+
+      if (this.hasFeatures) {
+        tabs.push('features')
+      }
+
+      if (this.product.features_care && this.product.features_care.join('') !== '') {
+        tabs.push('care-instructions')
+      }
+
+      return tabs
     },
     isOnline () {
       return onlineHelper.isOnline
