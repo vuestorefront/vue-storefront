@@ -1,29 +1,29 @@
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
 
-const { hook: beforeStoreViewChangedHook, executor: beforeStoreViewChangedExecutor }: {
-  hook: (storeViewMutator: (storeView: any) => any) => void,
-  executor: any
-} = createMutatorHook()
+const {
+  hook: beforeStoreViewChangedHook,
+  executor: beforeStoreViewChangedExecutor
+} = createMutatorHook<any, any>()
 
-const { hook: afterStoreViewChangedHook, executor: afterStoreViewChangedExecutor }: {
-  hook: (storeViewListener: (storeView?: any) => void) => void,
-  executor: any
-} = createListenerHook()
+const {
+  hook: afterStoreViewChangedHook,
+  executor: afterStoreViewChangedExecutor
+} = createListenerHook<any>()
 
-const { hook: afterAppInitHook, executor: afterAppInitExecutor }: {
-  hook: (appInitListener: () => void) => void,
-  executor: any
-} = createListenerHook()
+const {
+  hook: afterAppInitHook,
+  executor: afterAppInitExecutor
+} = createListenerHook<any>()
 
-const { hook: beforeHydratedHook, executor: beforeHydratedExecutor }: {
-  hook: (hydratedMutator: (initialState: any) => any) => void,
-  executor: any
-} = createMutatorHook()
+const {
+  hook: beforeHydratedHook,
+  executor: beforeHydratedExecutor
+} = createMutatorHook<any, any>()
 
-const { hook: afterProductThumbnailPathGeneratedHook, executor: afterProductThumbnailPathGeneratedExecutor }: {
-  hook: (productThumbnailPathGenerateMutator: (result: { path: string, sizeX: number, sizeY: number }) => { path: string }) => void,
-  executor: any
-} = createMutatorHook()
+const {
+  hook: afterProductThumbnailPathGeneratedHook,
+  executor: afterProductThumbnailPathGeneratedExecutor
+} = createMutatorHook<{ path: string, sizeX: number, sizeY: number }, { path: string }>()
 
 /** Only for internal usage in core */
 const coreHooksExecutors = {
