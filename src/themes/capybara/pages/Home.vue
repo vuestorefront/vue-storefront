@@ -12,7 +12,7 @@
         />
       </router-link>
     </SfHero>
-    <SfBannerGrid :banner-grid="1" class="banners">
+    <SfBannerGrid :banner-grid="1" class="banners section">
       <template #bannerA>
         <router-link to="#">
           <SfBanner
@@ -21,7 +21,7 @@
             description="Find stunning women's cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands."
             button-text="SHOP NOW"
             image="/assets/homepage/bannerF.png"
-            class="sf-banner--left sf-banner--container-full"
+            class="sf-banner--slim"
           />
         </router-link>
       </template>
@@ -33,7 +33,7 @@
             description="Find stunning women's cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands."
             button-text="SHOP NOW"
             image="/assets/homepage/bannerE.png"
-            class="sf-banner--left"
+            class="sf-banner--slim banner-central"
           />
         </router-link>
       </template>
@@ -43,7 +43,7 @@
             subtitle="T-Shirts"
             title="THE OFFICE LIFE"
             image="/assets/homepage/bannerC.png"
-            class="sf-banner--left sf-banner--container-full"
+            class="sf-banner--slim"
           />
         </router-link>
       </template>
@@ -53,7 +53,7 @@
             subtitle="Summer shoes"
             title="ECO SANDALS"
             image="/assets/homepage/bannerG.png"
-            class="sf-banner--left sf-banner--container-full"
+            class="sf-banner--slim"
           />
         </router-link>
       </template>
