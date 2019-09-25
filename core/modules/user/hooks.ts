@@ -2,16 +2,16 @@ import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/
 
 // Authorize
 
-const { hook: afterUserAuthorizeHook, executor: afterUserAuthorizeExecutor }: {
-  hook: (afterAuthorizeListener: (response: any) => any) => void,
-  executor: any
-} = createListenerHook()
+const {
+  hook: afterUserAuthorizeHook,
+  executor: afterUserAuthorizeExecutor
+} = createListenerHook<any>()
 
 // Unauthorize
 
-const { hook: afterUserUnauthorizeHook, executor: afterUserUnauthorizeExecutor }: {
-  hook: (afterUnathorizeListener: () => void) => void,
-  executor: any
+const {
+  hook: afterUserUnauthorizeHook,
+  executor: afterUserUnauthorizeExecutor
 } = createListenerHook()
 
 /** Only for internal usage in this module */

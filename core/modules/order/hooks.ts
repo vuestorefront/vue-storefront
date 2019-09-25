@@ -1,14 +1,14 @@
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
 
-const { hook: beforePlaceOrderHook, executor: beforePlaceOrderExecutor }: {
-  hook: (orderMutator: (order: any) => any) => void,
-  executor: any
-} = createMutatorHook()
+const {
+  hook: beforePlaceOrderHook,
+  executor: beforePlaceOrderExecutor
+} = createMutatorHook<any, any>()
 
-const { hook: afterPlaceOrderHook, executor: afterPlaceOrdeExecutor }: {
-  hook: (orderListener: (result: { order: any, task: any }) => void) => void,
-  executor: any
-} = createListenerHook()
+const {
+  hook: afterPlaceOrderHook,
+  executor: afterPlaceOrdeExecutor
+} = createListenerHook<{ order: any, task: any }>()
 
 /** Only for internal usage in this module */
 const orderHooksExecutors = {
