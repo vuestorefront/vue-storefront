@@ -72,8 +72,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// todo: move to sfui
 .menu-item {
+  padding: $spacer-small 0;
   &--active,
   &:hover {
     font-weight: 500;
