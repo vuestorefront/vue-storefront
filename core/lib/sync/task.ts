@@ -42,7 +42,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     return // return but not resolve
   } else if (rootStore.state.userTokenInvalidateLock < 0) {
     Logger.error('Aborting the network task' + task.url + rootStore.state.userTokenInvalidateLock, 'sync')()
-    resolve({ code: 401, message: i18n.t('Error refreshing user token. User is not authorized to access the resource') })()
+    resolve({ code: 401, result: i18n.t('Error refreshing user token. User is not authorized to access the resource') })()
     return
   } else {
     if (rootStore.state.userTokenInvalidated) {
