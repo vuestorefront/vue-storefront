@@ -113,6 +113,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed resolving store code on SSR - @andrzejewsky (#3576)
 - Clear user data if error occurs while login - @gibkigonzo (#3588)
 - Fix loading bestsellers on 404 error page - @andrzejewsky (#3540)
+- Remove modifing config by reference in multistore - @gibkigonzo
 
 ### Changed / Improved
 
