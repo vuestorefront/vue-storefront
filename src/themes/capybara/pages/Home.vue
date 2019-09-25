@@ -109,11 +109,12 @@
       </div>
     </SfSection>
     <SfBanner
-      title="Download our application to your mobile"
-      subtitle="Fashion to Take Away"
       image="/assets/homepage/bannerD.png"
-      class="banner-application sf-banner--left sf-banner--center desktop-only"
+      class="banner-application desktop-only"
     >
+      <template #subtitle>
+        <div class="banner-application__subtitle">Fashion to Take Away</div>
+      </template>
       <template #title>
         <h1 class="banner-application__title">
           Download our application to your&nbsp;mobile
