@@ -12,9 +12,8 @@
       changeFilter,
       sortBy,
       loading
-    }"
-    >
-      <div class="navbar">
+    }">
+      <div class="navbar section">
         <div class="navbar__aside desktop-only">
           <h1 class="navbar__title">
             {{ formatCategoryName(currentCategory.name) }}
@@ -61,7 +60,7 @@
         </div>
       </div>
 
-      <div class="main">
+      <div class="main section">
         <div class="sidebar desktop-only">
           <SfLoader :loading="loading.categories" class="sf-loader--top">
             <SubCategoriesSidebar
@@ -70,7 +69,7 @@
             />
           </SfLoader>
         </div>
-        <div class="products" style="">
+        <div class="products">
           <div class="products__list">
             <SfProductCard
               v-for="(product, i) in categoryProducts"
