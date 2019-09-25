@@ -46,7 +46,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
     elasticsearch: Object.assign({}, config.elasticsearch),
     storeCode: null,
     storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
-    seo: Object.assign({}, config.seo || {})
+    seo: Object.assign({}, config.seo)
   }
 
   if (config.storeViews.multistore === true) {
