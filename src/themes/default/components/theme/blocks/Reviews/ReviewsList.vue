@@ -45,7 +45,7 @@ export default {
     },
     items: {
       type: Array,
-      default: () => ([])
+      default: () => []
     },
     productName: {
       type: String,
