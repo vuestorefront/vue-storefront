@@ -68,7 +68,7 @@
     <SfSection
       title="Best Sellers"
     >
-      <SfCarousel :settings="{ gap: 0 }" class="product-carousel">
+      <SfCarousel class="product-carousel">
         <SfCarouselItem v-for="(product, i) in newProducts" :key="i">
           <SfProductCard
             :product="product"
@@ -80,6 +80,7 @@
     <SfSection
       title-heading="Share Your Look"
       subtitle-heading="#YOURLOOK"
+      class="section"
     >
       <div class="grid grid-images">
         <div class="grid__row">
