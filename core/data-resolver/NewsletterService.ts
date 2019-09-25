@@ -10,7 +10,8 @@ const isSubscribed = (email: string): Promise<boolean> =>
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors'
-    }
+    },
+    silent: true
   }).then(({ result }) => result === 'subscribed')
 
 const subscribe = (email: string): Promise<boolean> =>
