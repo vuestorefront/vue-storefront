@@ -153,6 +153,7 @@ const mergeActions = {
 
     if (productToAdd) {
       dispatch('addItem', { productToAdd, forceServerSilence: true })
+      Logger.debug('Product variant for given serverItem has not found', 'cart', serverItem)()
     }
 
     return diffLog
