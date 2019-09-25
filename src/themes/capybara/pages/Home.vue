@@ -78,8 +78,8 @@
       </SfCarousel>
     </SfSection>
     <SfSection
-      title="Share Your Look"
-      subtitle="#YOURLOOK"
+      title-heading="Share Your Look"
+      subtitle-heading="#YOURLOOK"
     >
       <div class="grid grid-images">
         <div class="grid__row">
