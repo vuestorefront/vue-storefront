@@ -120,6 +120,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show default cms pages when current store code is not equals to default  - @andrzejewsky (#3579)
 - Fix login errors with mailchimp - @gibkigonzo (#3612)
 - Hydration error on homepage - @patzick (#3609)
+- Fix adding products with custom options - @andrzejewsky (#3597)
 
 ### Changed / Improved
 

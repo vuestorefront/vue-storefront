@@ -79,7 +79,9 @@ export default {
       return onlineHelper.isOnline
     },
     isLazyHydrateEnabled () {
-      return config.ssr.lazyHydrateFor.includes('homepage.new_collection')
+      return config.ssr.lazyHydrateFor.some(
+        field => ['homepage', 'homepage.new_collection'].includes(field)
+      )
     }
   },
   beforeCreate () {

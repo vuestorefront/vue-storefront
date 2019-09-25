@@ -14,15 +14,19 @@ const productActions = {
     return { sku: serverItem.sku }
   },
   async getProductVariant ({ dispatch }, { serverItem }) {
-    const options = await dispatch('findProductOption', { serverItem })
-    const singleProduct = await dispatch('product/single', { options, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }, { root: true })
+    try {
+      const options = await dispatch('findProductOption', { serverItem })
+      const singleProduct = await dispatch('product/single', { options, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }, { root: true })
 
-    return {
-      ...singleProduct,
-      server_item_id: serverItem.item_id,
-      qty: serverItem.qty,
-      server_cart_id: serverItem.quote_id,
-      product_option: serverItem.product_option || singleProduct.product_option
+      return {
+        ...singleProduct,
+        server_item_id: serverItem.item_id,
+        qty: serverItem.qty,
+        server_cart_id: serverItem.quote_id,
+        product_option: serverItem.product_option || singleProduct.product_option
+      }
+    } catch (e) {
+      return null
     }
   }
 }

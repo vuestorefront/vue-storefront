@@ -5,6 +5,8 @@ import config from 'config'
 
 // Listeners moved from Product.js
 
+const prefixMutation = (mutationKey) => `product/${mutationKey}`
+
 export const productAfterPriceupdate = async (product, store) => {
   if (store.getters['product/getCurrentProduct'] && product.sku === store.getters['product/getCurrentProduct'].sku) {
     // join selected variant object to the store
@@ -22,27 +24,27 @@ export const filterChangedProduct = async (filterOption, store, router) => {
     selectDefaultVariant: true,
     fallbackToDefaultWhenNoAvailable: false,
     setProductErorrs: true
-  })
+  }, { root: true })
   if (config.products.setFirstVarianAsDefaultInURL) {
     router.push({params: { childSku: selectedVariant.sku }})
   }
   if (!selectedVariant) {
     if (prevOption) {
-      store.commit(PRODUCT_SET_CURRENT_CONFIGURATION, Object.assign(
+      store.commit(prefixMutation(PRODUCT_SET_CURRENT_CONFIGURATION), Object.assign(
         {},
         store.getters['product/getCurrentProductConfiguration'],
         {
           [filterOption.attribute_code]: prevOption
         }
-      ))
+      ), { root: true })
     } else {
-      store.commit(PRODUCT_SET_CURRENT_CONFIGURATION, Object.assign(
+      store.commit(prefixMutation(PRODUCT_SET_CURRENT_CONFIGURATION), Object.assign(
         {},
         store.getters['product/getCurrentProductConfiguration'],
         {
           [filterOption.attribute_code]: undefined
         }
-      ))
+      ), { root: true })
     }
   }
 }
@@ -63,14 +65,15 @@ export const productAfterCustomoptions = async (payload, store) => {
       }
     }
   })
-  store.commit(PRODUCT_SET_CURRENT, Object.assign(
+
+  store.commit(prefixMutation(PRODUCT_SET_CURRENT), Object.assign(
     {},
     store.getters['product/getCurrentProduct'],
     {
       price: store.getters['product/getOriginalProduct'].price + priceDelta,
       price_incl_tax: store.getters['product/getOriginalProduct'].price_incl_tax + priceDeltaInclTax
     }
-  ))
+  ), { root: true })
 }
 
 export const productAfterBundleoptions = async (payload, store) => {
@@ -84,26 +87,26 @@ export const productAfterBundleoptions = async (payload, store) => {
     }
   })
   if (priceDelta > 0) {
-    store.commit(PRODUCT_SET_CURRENT, Object.assign(
+    store.commit(prefixMutation(PRODUCT_SET_CURRENT), Object.assign(
       {},
       store.getters['product/getCurrentProduct'],
       {
         price: priceDelta,
         price_incl_tax: priceDeltaInclTax
       }
-    ))
+    ), { root: true })
   }
 }
 
 export const onUserPricesRefreshed = async (store, router) => {
   if (router.currentRoute.params.parentSku) {
-    await store.dispatch('product/reset')
+    await store.dispatch('product/reset', {}, { root: true })
     await store.dispatch('product/single', {
       options: {
         sku: router.currentRoute.params.parentSku,
         childSku: router && router.currentRoute.params && router.currentRoute.params.childSku ? router.currentRoute.params.childSku : null
       },
       skipCache: true
-    })
+    }, { root: true })
   }
 }
