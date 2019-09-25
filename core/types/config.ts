@@ -1,6 +1,7 @@
 export interface Config {
   /** Vue Storefront starts an HTTP server to deliver the SSR (server-side rendered) pages and static assets. Its node.js server is located in the core/scripts/server.js. This is the hostname and TCP port which Vue Storefront is binding */
   server: Server,
+  staticPages: StaticPages,
   seo: Seo,
   console: Console,
   /** This is the Redis configuration for the output cache. */
@@ -20,6 +21,7 @@ export interface Config {
 
   If it's set to false, then just the src/themes/default/pages/Product.vue -> asyncData will be executed. This option is referenced in the core/client-entry.ts line: 85 */
   ssr: Ssr,
+  queues: Queues,
   /** Default value: ""
    * This option is used only in the Multistore setup. By default it's '' but if you're running, for example, a multi-instance Vue Storefront setup and the current instance shall be connected to the en store on the backend, please just set it so. This config variable is referenced in the core/lib/multistore.ts */
   defaultStoreCode: string,
@@ -33,6 +35,7 @@ export interface Config {
   storeViews: StoreViews,
   entities: Entities,
   cart: Cart,
+  attributes: Attributes,
   products: Products,
   orders: Orders,
   /** We're using localForage library to providing the persistence layer to Vue Storefront. localForage provides the compatibility fallbacks for the users not equipped with some specific storage methods (for example indexedDb). However, we may want to enforce some specific storage methods in the config. This is the place to set it up. */
@@ -62,6 +65,7 @@ export interface Config {
    */
   tax: Tax,
   shipping: Shipping,
+  syncTasks: SyncTasks,
   /**
    * Available shipping methods when the backend platform is not providing the dynamic list / or for offline scenarios.
    */
@@ -69,6 +73,7 @@ export interface Config {
   /**
    * Internationalization settings are used by the translation engine (defautlLocale) and the Language/Switcher.vue (fullCountryName, fullLanguageName). currencyCode is used for some of the API calls (rendering prices, mostly) and currencySign is being used for displaying the prices in the frontend.
    */
+  expireHeaders: Record<string, any>,
   newsletter: Newsletter,
   mailer: Mailer,
   /** Default value: "@vue-storefront/theme-default", */
@@ -95,11 +100,18 @@ interface Server {
   /** Default value: 3000 */
   port: number,
   /** Default value: "http" */
-  protocol: Protocol, // FIXME:
+  protocol: Protocol,
   /** Default value: "api" */
   api: string,
   /** Default value: false */
   devServiceWorker: boolean,
+  /** Default value: true */
+  useHtmlMinifier: boolean,
+  /** Default value: {
+      "minifyJS": true,
+      "minifyCSS": true
+    } */
+  htmlMinifierOptions: HtmlMinifierOptions,
   /** Default value: false */
   useOutputCacheTagging: boolean,
   /** Default value: false */
@@ -111,6 +123,10 @@ interface Server {
   /** Default value: "aeSu7aip" */
   invalidateCacheKey: string,
   /** Default value: false */
+  invalidateCacheForwarding: boolean,
+  /** Default value: http://localhost:8080/invalidate?key=aeSu7aip&tag= */
+  invalidateCacheForwardUrl: string,
+  /** Default value: false */
   dynamicConfigReload: boolean,
   /** Default value: false */
   dynamicConfigContinueOnError: boolean,
@@ -121,17 +137,45 @@ interface Server {
   /** Default value: [] */
   elasticCacheQuota: number,
   /** Default value: extensions: [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"] */
-  ssrDisabledFor: SsrDisabledFor
+  ssrDisabledFor: SsrDisabledFor,
+  /** Default value: {
+      "enabled": false,
+      "config": {}
+    } */
+  trace: Trace
 }
 
+interface HtmlMinifierOptions {
+  /** Default value: true */
+  minifyJS: boolean,
+  /** Default value: true */
+  minifyCSS: boolean
+}
 interface SsrDisabledFor {
   /** Default value: [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"] */
   extensions: string[]
 }
+interface Trace {
+  /** Default value: false */
+  enabled: false,
+  /** Default value: {} */
+  config: {}
+}
+
+interface StaticPages {
+  /** Default value: false */
+  updateOnRequest: boolean,
+  /** Default value: "static" */
+  destPath: string
+}
 
 interface Seo {
   /** Default value: true */
-  useUrlDispatcher: boolean
+  useUrlDispatcher?: boolean,
+  /** Default value: true */
+  disableUrlRoutesPersistentCache?: boolean,
+  /** Default value: "Vue Storefront" */
+  defaultTitle: string
 }
 
 interface Console {
@@ -176,7 +220,7 @@ interface Elasticsearch {
   /** Default value: 1000 */
   ssrTimeout?: number,
   /** Default value: "GET" */
-  queryMethod?: string, // FIXME: Should it be more precise?
+  queryMethod?: string,
   /** Default value: true */
   disableLocalStorageQueriesCache?: boolean,
   /** Default value: {
@@ -228,24 +272,19 @@ interface SearchScoring {
 }
 
 interface Attributes {
-  /** Default value:  {
-            "scoreValues": { "attribute_value": { "weight": 1 } }
-          } */
-  attribute_code: AttributeCode
+  attribute_code?: AttributeCode,
+  disablePersistentAttributesCache?: boolean
 }
 
 interface AttributeCode {
-  /** Default value: { "attribute_value": { "weight": 1 } } */
   scoreValues: ScoreValues
 }
 
 interface ScoreValues {
-  /** Default value:  { "weight": 1 } */
   attribute_value: AttributeValue
 }
 
 interface AttributeValue {
-  /** Default value: 1 */
   weight: number
 }
 
@@ -255,7 +294,7 @@ interface SearchableAttributes {
   /** Default value: 2 */
   sku: Boost,
   /** Default value: 1 */
-  [category: string]: Boost // FIXME: is it correct?
+  [category: string]: Boost
 }
 
 interface Boost {
@@ -270,6 +309,8 @@ interface Ssr {
         "amp": "dist/index.amp.html"
       }, */
   templates: Templates,
+  /** Default value: ["category-next.products", "homepage"] */
+  lazyHydrateFor: string[],
   /** Default value: true */
   executeMixedinAsyncData: boolean,
   /** Default value: ["__DEMO_MODE__", "version", "storeView"] */
@@ -279,10 +320,19 @@ interface Ssr {
 }
 
 interface Templates {
+  /** Default value: "dist/index.html" */
   default: string,
+  /** Default value: "dist/index.minimal.html" */
   minimal: string,
+  /** Default value: "dist/index.basic.html" */
   basic: string,
+  /** Default value: "dist/index.amp.html" */
   amp: string
+}
+
+interface Queues {
+  maxNetworkTaskAttempts: number,
+  maxCartBypassAttempts: number
 }
 
 interface StoreViews {
@@ -365,14 +415,19 @@ interface Country {
    */
   tax: Tax,
   /** The internationalization settings are used by the translation engine (defautlLocale) and the Language/Switcher.vue (fullCountryName, fullLanguageName). currencyCode is used for some of the API calls (rendering prices, mostly) and currencySign is being used for displaying the prices in the frontend. */
-  i18n: I18n
+  i18n: I18n,
+  seo: Seo
 }
 
 interface Tax {
   sourcePriceIncludesTax?: boolean,
   defaultCountry: string,
   defaultRegion?: string,
-  calculateServerSide?: boolean
+  calculateServerSide?: boolean,
+  userGroupId?: string,
+  useOnlyDefaultUserGroupId?: boolean,
+  deprecatedPriceFieldsSupport?: boolean,
+  finalPriceIncludesTax?: boolean
 }
 
 interface I18n {
@@ -383,6 +438,7 @@ interface I18n {
   defaultLocale: string,
   currencyCode?: string,
   currencySign?: string,
+  priceFormat?: string,
   dateFormat?: string,
   availableLocale?: string[],
   currencySignPlacement?: string,
@@ -405,6 +461,8 @@ interface Entities {
   * Please take a look at the core/modules/catalog/store/category for the reference.
   */
   optimizeShoppingCart: boolean,
+  /** Default value: ["configurable_children", "configurable_options", "media_gallery", "description", "category", "category_ids", "product_links", "stock", "description"] */
+  optimizeShoppingCartOmitFields: string[],
   /** Default value: {
         "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "url_path", "product_count", "path"],
         "excludeFields": [ "sgn" ],
@@ -504,7 +562,8 @@ interface Category {
   excludeFields?: string[],
   categoriesRootCategorylId: number,
   categoriesDynamicPrefetchLevel: number,
-  categoriesDynamicPrefetch: boolean
+  categoriesDynamicPrefetch: boolean,
+  validSearchOptionsFromRouteParams: string[]
 }
 
 interface ProductList {
@@ -514,13 +573,72 @@ interface ProductList {
 }
 
 interface Product {
-  /** Default value:  */
+  /** Default value: null */
   includeFields?: string[],
-  /** Default value:  */
+  /** Default value: [ "*.msrp_display_actual_price_type", "required_options", "updated_at", "created_at", "attribute_set_id", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "stock.stock_status_changed_auto", "stock.show_default_notification_message", "stock.use_config_qty_increments", "stock.is_decimal_divided", "small_image", "sgn", "*.sgn"] */
   excludeFields?: string[],
-  /** Default value:  */
+  /** Default value: true */
   useDynamicAttributeLoader: boolean,
-  /** Default value:  */
+  /** Default value: [
+        "description",
+        "configurable_options",
+        "tsk",
+        "custom_attributes",
+        "size_options",
+        "regular_price",
+        "final_price",
+        "final_price_incl_tax",
+        "final_price_tax",
+        "price",
+        "color_options",
+        "id",
+        "links",
+        "gift_message_available",
+        "category_ids",
+        "sku",
+        "stock",
+        "image",
+        "thumbnail",
+        "visibility",
+        "type_id",
+        "tax_class_id",
+        "media_gallery",
+        "url_key",
+        "url_path",
+        "max_price",
+        "minimal_regular_price",
+        "special_price",
+        "minimal_price",
+        "name",
+        "configurable_children",
+        "max_regular_price",
+        "category",
+        "status",
+        "price_tax",
+        "price_incl_tax",
+        "special_price_tax",
+        "special_price_incl_tax",
+        "_score",
+        "slug",
+        "errors",
+        "info",
+        "erin_recommends",
+        "special_from_date",
+        "news_from_date",
+        "custom_design_from",
+        "original_price",
+        "original_price_incl_tax",
+        "parentSku",
+        "options",
+        "product_option",
+        "qty",
+        "is_configured",
+        "priceInclTax",
+        "specialPriceInclTax",
+        "specialPriceTax",
+        "priceTax",
+        "priceInclTax"
+      ] */
   standardSystemFields: string[]
 }
 
@@ -563,6 +681,8 @@ interface Cart {
   askBeforeRemoveProduct: boolean,
   /** Default value: true */
   displayItemDiscounts: boolean,
+  /** Default value: true */
+  productsAreReconfigurable: boolean,
   /** Default value: "quantities"
    * f this option is set to true, Vue Storefront will add price item with a discount to the shopping cart. Otherwise, the product price and special will be added to the shopping cart instead.
    */
@@ -601,6 +721,8 @@ interface Dimensions {
 }
 
 interface Products {
+  /** Default value: true */
+  disablePersistentProductsCache: boolean,
   /** Default value: true
    * When useMagentoUrlKeys is set to true the product.url_key value will be used for product and category slugs used in the URL building process. Otherwise, the slug will be generated based on the product or category name. Please take a look at the core/lib/search.ts and core/modules/catalog/store/category/mutations.ts for reference.
    * Please note: The url_key field must be unique across the categories collection. Therefore, we're by default generating its value based on name and category ID. Please switch this option off if you'd like to keep the url_key as they come from Magento2.
@@ -665,7 +787,7 @@ interface Products {
   /** Default value: {
         "Melange graphite": "#eeeeee"
       } */
-  colorMappings: ColorMappings,
+  colorMappings: any,
   /** Default value:  {
         "attribute": "updated_at",
         "order": "desc"
@@ -678,7 +800,7 @@ interface Products {
       }
       * Here, we have the sort field settings as they're displayed on the Category page.
       */
-  sortByAttributes: SortByAttributes,
+  sortByAttributes: any,
   /** Default value: {
         "mergeConfigurableChildren": true,
         "imageAttributes": ["image","thumbnail","small_image"],
@@ -713,14 +835,7 @@ interface FilterFieldMapping {
         "category.name": "category.name.keyword"
       }, */
   [category: string]: string
-} // FIXME: is it correct?
-
-interface ColorMappings {
-  /** Default value:  {
-        "Melange graphite": "#eeeeee"
-      }, */
-  [melagne: string]: string
-} // FIXME:
+}
 
 interface DefaultSortBy {
   /** Default value: "updated_at" */
@@ -728,12 +843,6 @@ interface DefaultSortBy {
   /** Default value: "desc" */
   order: string
 }
-
-interface SortByAttributes {
-  /** Default value: "updated_at" */
-  Latest: string,
-  [price: string]: string
-} // FIXME:
 
 interface Gallery {
   /** Default value: true */
@@ -782,7 +891,7 @@ interface Orders {
   /** Default value: {}
    * This is a simple map used in the core/pages/Checkout.js to map the payment methods provided by the backend service with the ones available to Vue Storefront. Each payment method is a separate Vue Storefront extension and not all methods provided by the backend should necessarily be supported by the frontend.
    */
-  payment_methods_mapping: PaymentMethodsMapping,
+  payment_methods_mapping: Record<string, any>,
   /** Default value: {
         "automatic_transmission_enabled": false,
         "notification" : {
@@ -796,8 +905,6 @@ interface Orders {
       */
   offline_orders: OfflineOrders
 }
-
-interface PaymentMethodsMapping {} // FIXME: empty object
 
 interface OfflineOrders {
   /** Default value: false */
@@ -913,8 +1020,19 @@ interface Images {
   useExactUrlsNoProxy: boolean,
   /** Default value: "https://demo.vuestorefront.io/img/" */
   baseUrl: string,
+  /** Default value: false */
+  useSpecificImagePaths: boolean,
+  /** Default value: {
+      "product": "/catalog/product"
+    } */
+  paths: Paths,
   /** Default value: "/assets/placeholder.jpg" */
   productPlaceholder: string
+}
+
+interface Paths {
+  /** Default value: "/catalog/product" */
+  product: string
 }
 
 interface Install {
@@ -956,6 +1074,11 @@ interface ShippingMethods {
   offline: boolean
 }
 
+interface SyncTasks {
+  /** Default value: true */
+  disablePersistentTaskQueue: boolean
+}
+
 interface Newsletter {
   /** Default value: "/api/ext/mailchimp-subscribe/subscribe" */
   endpoint: string
@@ -989,7 +1112,11 @@ interface GoogleTagManager {
   /** Default value: false */
   id: boolean,
   /** Default value: true */
-  debug: boolean
+  debug: boolean,
+  /** Default value: [
+      "name", "id", "sku", { "priceInclTax": "price" }, { "qty": "quantity" }
+    ] */
+  product_attributes: any[]
 }
 
 interface Hotjar {
@@ -1028,13 +1155,6 @@ interface Query {
           }
         ] */
   newProducts: FilterArray,
-  /** Default value: [
-          {
-            "key": "category.name",
-            "value" : { "eq": "Women" }
-          }
-        ] */
-  coolBags: FilterArray,
   /** Default value: [
           {
             "key": "category.name",
