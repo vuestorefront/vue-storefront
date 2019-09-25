@@ -82,14 +82,14 @@ export default {
   &__title {
     font-size: $font-size-big-desktop;
     line-height: 2.23;
-    &::first-letter {
-      text-transform: uppercase;
-    }
   }
   &__button-clear {
     margin-top: 10px;
     background: $c-light-primary;
     color: #a3a5ad;
+  }
+  &__item {
+    padding: $spacer-small 0;
   }
 }
 </style>
