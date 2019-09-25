@@ -189,49 +189,72 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/src/css/variables";
+@import "~@storefront-ui/shared/styles/helpers/visibility";
+
+@mixin for-desktop {
+  @media screen and (min-width: $desktop-min) {
+    @content;
+  }
+}
 
 #home {
-  max-width: 1240px;
-  margin: auto;
-  padding: 0 $spacer;
   box-sizing: border-box;
-  @media screen and (min-width: $desktop-min) {
-    padding: 0;
+  margin: 0 0 60px 0;
+  @include for-desktop {
+    max-width: 1240px;
+    margin: auto;
   }
 }
 .call-to-action-newsletter {
   margin: $spacer-big 0;
-  @media screen and (min-width: $desktop-min) {
+  box-sizing: border-box;
+  @include for-desktop {
     margin: $spacer-extra-big * 2 0;
   }
 }
 .product-card {
   max-width: unset;
   &:hover {
-    box-shadow: 0px 4px 20px rgba(168, 172, 176, 0.19);
+    @include for-desktop {
+      box-shadow: 0px 4px 20px rgba(168, 172, 176, 0.19);
+    }
   }
 }
 .product-carousel {
-  margin: -20px 0;
+  margin: -20px -#{$spacer-big} -20px 0;
+  @include for-desktop {
+    margin: -20px 0;
+  }
   /deep/ .sf-carousel__wrapper {
     padding: 20px 0;
-    @media screen and (min-width: $desktop-min) {
+    @include for-desktop {
       padding: 20px;
       max-width: calc(100% - 216px);
     }
+  }
+}
+.banner-central {
+  @include for-desktop {
+    padding-right: 30%;
   }
 }
 .banner-application {
   min-height: 420px;
   max-width: 1040px;
   margin: auto;
+  padding-right: calc(25% + 5rem);
+  padding-left: 2.5rem;
+  line-height: 1.6;
   &__title {
-    padding: 0;
-    margin: 0;
-    margin-top: $spacer-big;
-    font-size: 2.25rem;
-    font-weight: 400;
-    line-height: 1.388;
+    margin: $spacer-big 0 0 0;
+    font-size: $h1-font-size-desktop;
+    font-weight: $h1-font-weight-desktop;
+  }
+  &__subtitle {
+    color: #a3a5ad;
+    font-family: $body-font-family-primary;
+    font-size: $font-size-extra-big-desktop;
+    font-weight: $body-font-weight-primary;
   }
   &__download {
     max-height: 47px;
@@ -243,7 +266,7 @@ export default {
 }
 .banners {
   margin: $spacer-big 0;
-  @media screen and (min-width: $desktop-min) {
+  @include for-desktop {
     margin: $spacer-extra-big 0;
   }
 }
@@ -254,7 +277,7 @@ export default {
     display: flex;
     & + & {
       margin-top: $spacer-big / 2;
-      @media screen and (min-width: $desktop-min) {
+      @include for-desktop {
         margin-top: $spacer-big;
       }
     }
@@ -263,7 +286,7 @@ export default {
     margin: 0;
     & + & {
       margin-left: $spacer-big / 2;
-      @media screen and (min-width: $desktop-min) {
+      @include for-desktop {
         margin-left: $spacer-big;
       }
     }
@@ -271,5 +294,14 @@ export default {
 }
 .sf-banner {
   flex: 1;
+}
+.section {
+  @media (max-width: $desktop-min) {
+    padding-left: $spacer-big;
+    padding-right: $spacer-big;
+  }
+}
+.bottom-navigation-circle {
+  opacity: 1;
 }
 </style>
