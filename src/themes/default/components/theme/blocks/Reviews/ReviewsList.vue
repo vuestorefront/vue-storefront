@@ -46,6 +46,10 @@ export default {
     items: {
       type: Array,
       required: true
+    },
+    productName: {
+      type: String,
+      default: ''
     }
   },
   data () {
