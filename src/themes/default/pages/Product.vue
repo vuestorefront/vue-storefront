@@ -199,7 +199,11 @@
       </div>
     </section>
     <lazy-hydrate when-idle>
-      <reviews :product-id="getOriginalProduct.id" v-show="isOnline" />
+      <reviews
+        :product-name="getOriginalProduct.name"
+        :product-id="getOriginalProduct.id"
+        v-show="isOnline"
+      />
     </lazy-hydrate>
     <lazy-hydrate when-idle>
       <related-products type="upsell" :heading="$t('We found other products you might like')" />
