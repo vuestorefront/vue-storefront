@@ -38,7 +38,7 @@
 "Product {productName} has been added to the compare!","商品 {productName} 已经添加到比较列表中!"
 "Product {productName} has been added to wishlist!","商品 {productName} 已添加到心愿单!"
 "Product {productName} has been removed from compare!","商品 {productName} 已从比较列表中移除!"
-"Product {productName} has been removed from wishlit!","已从心愿单中移除了商品 {productName} !"
+"Product {productName} has been removed from wishlist!","已从心愿单中移除了商品 {productName} !"
 "Registering the account ...","注册帐户 ..."
 "Reset password feature does not work while offline!","离线状态时，不能重置密码!"
 "Review","评论"

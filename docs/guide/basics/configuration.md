@@ -23,12 +23,22 @@ Please find the configuration properties reference below.
 ```json
 "server": {
   "host": "localhost",
-  "port": 3000
+  "port": 3000,
+  "useHtmlMinifier": false,
+  "htmlMinifierOptions": {
+    "minifyJS": true,
+    "minifyCSS": true
+  },
+  "useOutputCacheTagging": false,
+  "useOutputCache": false
 },
 ```
 
 Vue Storefront starts an HTTP server to deliver the SSR (server-side rendered) pages and static assets. Its node.js server is located in the `core/scripts/server.js`. This is the hostname and TCP port which Vue Storefront is binding.
 
+When the `useHtmlMinifier` is set to true the generated SSR HTML is being minified [using the `htmlMinifierOptions`](https://www.npmjs.com/package/html-minifier#options-quick-reference).
+
+When the `useOutputCacheTagging` and `useOutputCache` options are enabled, Vue Storefront is storing the rendered pages in the Redis-based output cache. Some additional config options are available for the output cache. [Check the details](ssr-cache.md)
 
 ## Seo
 
@@ -116,6 +126,12 @@ The SSR data is being completed in the `asyncData` static method. If this config
 If it's set to `false`, then **just the** `src/themes/default/pages/Product.vue` -> `asyncData` will be executed.
 This option is referenced in the [core/client-entry.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) line: 85.
 
+```json
+    "lazyHydrateFor": ["category-next.products", "homepage"],
+```
+
+Filters out given properties from `window.__INITIAL_STATE__` and enables [lazy hydration](https://github.com/maoberlehner/vue-lazy-hydration) on client side
+Available out of the box for `category-next.products` and `homepage`.
 ## Max attempt of tasks
 
 ```json
@@ -512,12 +528,6 @@ Product attributes representing the images. We'll see it in the Product page gal
 ```
 
 The dimensions of the images in the gallery.
-
-```json
-  "lazyLoadingCategoryProducts": true
-```
-It this option is enabled, the category products will not be applied in the `window.__INITIAL_STATE__`.
-The client side will be responsible for loading them and store in vuex state.
 
 ## Orders
 

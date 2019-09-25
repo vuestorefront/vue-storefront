@@ -463,7 +463,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
 
 export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true, setProductErorrs = false }) {
   // use current product if product wasn't passed
-  if (product === null) product = context.getters.productCurrent
+  if (product === null) product = context.getters.getCurrentProduct
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
 
   if (hasConfigurableChildren) {

@@ -10,50 +10,8 @@ import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
 import config from 'config'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-
-export interface LocalizedRoute {
-  path?: string,
-  name?: string,
-  hash?: string,
-  params?: { [key: string]: unknown },
-  fullPath?: string,
-  host?: string
-}
-
-export interface StoreView {
-  storeCode: string,
-  extend?: string,
-  disabled?: boolean,
-  storeId: any,
-  name?: string,
-  url?: string,
-  appendStoreCode?: boolean,
-  elasticsearch: {
-    host: string,
-    index: string
-  },
-  tax: {
-    sourcePriceIncludesTax: boolean,
-    defaultCountry: string,
-    defaultRegion: null | string,
-    calculateServerSide: boolean,
-    userGroupId?: number,
-    useOnlyDefaultUserGroupId: boolean
-  },
-  i18n: {
-    fullCountryName: string,
-    fullLanguageName: string,
-    defaultLanguage: string,
-    defaultCountry: string,
-    defaultLocale: string,
-    currencyCode: string,
-    currencySign: string,
-    dateFormat: string
-  },
-  seo: {
-    defaultTitle: string
-  }
-}
+import { LocalizedRoute, StoreView } from './types'
+import storeCodeFromRoute from './storeCodeFromRoute'
 
 function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
@@ -81,10 +39,10 @@ export function currentStoreView (): StoreView {
   return rootStore.state.storeView
 }
 
-export function prepareStoreView (storeCode: string): StoreView {
+export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   let storeView: StoreView = { // current, default store
     tax: config.tax,
-    i18n: config.i18n,
+    i18n: Object.assign({}, config.i18n),
     elasticsearch: config.elasticsearch,
     storeCode: null,
     storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
@@ -104,11 +62,10 @@ export function prepareStoreView (storeCode: string): StoreView {
   }
   rootStore.state.user.current_storecode = storeView.storeCode
 
-  loadLanguageAsync(storeView.i18n.defaultLocale)
-
   if (storeViewHasChanged) {
     storeView = coreHooksExecutors.beforeStoreViewChanged(storeView)
     rootStore.state.storeView = storeView
+    await loadLanguageAsync(storeView.i18n.defaultLocale)
   }
   if (storeViewHasChanged || StorageManager.currentStoreCode !== storeCode) {
     initializeSyncTaskStorage()
@@ -116,43 +73,6 @@ export function prepareStoreView (storeCode: string): StoreView {
   }
   coreHooksExecutors.afterStoreViewChanged(storeView)
   return storeView
-}
-
-export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocation | string): string {
-  if (matchedRouteOrUrl) {
-    for (let storeCode of config.storeViews.mapStoreUrlsFor) {
-      const store = config.storeViews[storeCode]
-
-      // handle resolving by path
-      const matchingPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
-      let normalizedPath = matchingPath // assume that matching string is a path
-      if (matchingPath.length > 0 && matchingPath[0] !== '/') {
-        normalizedPath = '/' + matchingPath
-      }
-
-      if (normalizedPath.startsWith(`${store.url}/`) || normalizedPath === store.url) {
-        return storeCode
-      }
-
-      // handle resolving by domain+path
-      let url = ''
-
-      if (typeof matchedRouteOrUrl === 'object') {
-        if (matchedRouteOrUrl['host']) {
-          url = matchedRouteOrUrl['host'] + normalizedPath
-        } else {
-          return '' // this route does not have url so there is nothing to do here
-        }
-      } else {
-        url = matchedRouteOrUrl as string
-      }
-
-      if (url.startsWith(`${store.url}/`) || url === store.url) {
-        return storeCode
-      }
-    }
-  }
-  return ''
 }
 
 export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | string): LocalizedRoute | string {
@@ -196,54 +116,105 @@ export function adjustMultistoreApiUrl (url: string): string {
 }
 
 export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): LocalizedRoute | string {
-  const appendStoreCodePrefix = config.storeViews[storeCode] ? config.storeViews[storeCode].appendStoreCode : false
+  const { storeCode: currentStoreCode, appendStoreCode } = currentStoreView()
+  if (!storeCode || !config.storeViews[storeCode]) {
+    storeCode = currentStoreCode
+  }
+  const appendStoreCodePrefix = storeCode && appendStoreCode
 
   if (typeof routeObj === 'string') {
+    if (routeObj[0] !== '/') routeObj = `/${routeObj}`
     return appendStoreCodePrefix ? `/${storeCode}${routeObj}` : routeObj
   }
 
-  if (routeObj && routeObj.fullPath) { // case of using dispatcher
-    const routeCodePrefix = config.defaultStoreCode !== storeCode && appendStoreCodePrefix ? `/${storeCode}` : ''
-    const qrStr = queryString.stringify(routeObj.params);
+  if (routeObj) {
+    if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
+      routeObj['path'] = (routeObj as LocalizedRoute).fullPath
+    }
 
-    return `${routeCodePrefix}/${routeObj.fullPath}${qrStr ? `?${qrStr}` : ''}`
+    if (routeObj.path) { // case of using dispatcher
+      const routeCodePrefix = appendStoreCodePrefix ? `/${storeCode}` : ''
+      const qrStr = queryString.stringify(routeObj.params);
+
+      const normalizedPath = routeObj.path[0] !== '/' ? `/${routeObj.path}` : routeObj.path
+      return `${routeCodePrefix}${normalizedPath}${qrStr ? `?${qrStr}` : ''}`
+    }
   }
 
   return routeObj
+}
+
+export function localizedDispatcherRouteName (routeName: string, storeCode: string): string {
+  return storeCode ? `${storeCode}-${routeName}` : routeName
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
-  if (routeObj && (routeObj as LocalizedRoute).fullPath && config.seo.useUrlDispatcher) {
-    return localizedDispatcherRoute(Object.assign({}, routeObj) as LocalizedRoute, storeCode)
+  if (!storeCode) {
+    storeCode = currentStoreView().storeCode
   }
-  if (storeCode && routeObj && config.defaultStoreCode !== storeCode && config.storeViews[storeCode].appendStoreCode) {
-    if (typeof routeObj === 'object') {
-      if (routeObj.name) {
-        routeObj.name = storeCode + '-' + routeObj.name
-      }
+  if (!routeObj) {
+    return routeObj
+  }
 
-      if (routeObj.path) {
-        routeObj.path = '/' + storeCode + '/' + (routeObj.path.startsWith('/') ? routeObj.path.slice(1) : routeObj.path)
-      }
-    } else {
-      return '/' + storeCode + routeObj
+  if ((typeof routeObj === 'object') && (routeObj as LocalizedRoute)) {
+    if ((routeObj as LocalizedRoute).fullPath && !(routeObj as LocalizedRoute).path) { // support both path and fullPath
+      routeObj['path'] = (routeObj as LocalizedRoute).fullPath
     }
+  }
+
+  if (storeCode && config.defaultStoreCode !== storeCode && config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode) {
+    if (typeof routeObj !== 'object') {
+      return localizedRoutePath(routeObj, storeCode)
+    }
+    return localizedRouteConfig(routeObj as RouteConfig, storeCode)
   }
 
   return routeObj
 }
 
-export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[]): void {
-  const allStoreRoutes = [...routes]
-  if (config.storeViews.mapStoreUrlsFor.length > 0 && config.storeViews.multistore === true) {
-    for (const storeCode of config.storeViews.mapStoreUrlsFor) {
-      if (storeCode && (config.defaultStoreCode !== storeCode)) {
-        for (const route of routes) {
-          const localRoute = localizedRoute(Object.assign({}, route), storeCode)
-          allStoreRoutes.push(localRoute)
-        }
-      }
-    }
+export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[], priority: number = 0): void {
+  const allRoutes = []
+  const { storeCode, appendStoreCode } = currentStoreView()
+  if (storeCode && appendStoreCode) {
+    allRoutes.push(...routes.map(route => localizedRouteConfig(route, storeCode)))
+  } else {
+    allRoutes.push(...routes)
   }
-  RouterManager.addRoutes(allStoreRoutes, router)
+  RouterManager.addRoutes(allRoutes, router, true, priority)
+}
+
+/**
+ * Returns transformed route config with language
+ * @param route - route config object
+ * @param storeCode - language prefix specified in global config
+ * @param isChildRoute - determines if route config is for child route
+ */
+export function localizedRouteConfig (route: RouteConfig, storeCode: string, isChildRoute: boolean = false): RouteConfig {
+  // note: we need shallow copy to prevent modifications in provided route object
+  const _route = {...route}
+
+  if (_route.name && storeCode) {
+    _route.name = `${storeCode}-${_route.name}`
+  }
+
+  if (_route.path && !isChildRoute) {
+    _route.path = localizedRoutePath(_route.path, storeCode)
+  }
+
+  if (_route.children) {
+    _route.children = _route.children.map(childRoute => localizedRouteConfig(childRoute, storeCode, true))
+  }
+
+  return _route
+}
+
+/**
+ * Returns route path with proper language prefix
+ * @param path - route path
+ * @param storeCode - language prefix specified in global config
+ */
+export function localizedRoutePath (path: string, storeCode: string): string {
+  const _path = path.startsWith('/') ? path.slice(1) : path
+
+  return `/${storeCode}/${_path}`
 }

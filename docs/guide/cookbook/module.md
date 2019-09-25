@@ -618,6 +618,8 @@ We build a module that applies a discount to certain `storeviews` only.
 
 3. Create a module whose name is _hookExample_ (change to your liking)
 
+
+
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)

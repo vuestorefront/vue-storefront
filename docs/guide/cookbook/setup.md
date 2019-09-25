@@ -1263,7 +1263,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "defaultLocale": "en-US",
   "currencyCode": "USD",
   "currencySign": "$",
-  "currencySignPlacement": "preppend",
+  "priceFormat": "{sign}{amount}",
   "dateFormat": "HH:mm D/M/YYYY",
   "fullCountryName": "United States",
   "fullLanguageName": "English",
@@ -1313,14 +1313,6 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
       {
         "key": "category.name",
         "value" : { "eq": "Tees" }
-      }
-    ]
-  },
-  "coolBags": {
-    "filter": [
-      {
-        "key": "category.name",
-        "value" : { "eq": "Women" }
       }
     ]
   },
