@@ -41,12 +41,12 @@ export function currentStoreView (): StoreView {
 
 export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   let storeView: StoreView = { // current, default store
-    tax: config.tax,
+    tax: Object.assign({}, config.tax),
     i18n: Object.assign({}, config.i18n),
-    elasticsearch: config.elasticsearch,
+    elasticsearch: Object.assign({}, config.elasticsearch),
     storeCode: null,
     storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
-    seo: config.seo || {}
+    seo: Object.assign({}, config.seo || {})
   }
 
   if (config.storeViews.multistore === true) {
