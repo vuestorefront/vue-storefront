@@ -137,34 +137,56 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/src/css/variables";
+@import "~@storefront-ui/shared/styles/helpers/visibility";
+
+@mixin for-desktop {
+  @media screen and (min-width: $desktop-min) {
+    @content;
+  }
+}
 
 #category {
   box-sizing: border-box;
-  max-width: 1240px;
-  margin: auto;
+  margin: 0 0 60px 0;
+  @include for-desktop {
+    max-width: 1240px;
+    margin: auto;
+  }
 }
 .navbar {
+  position: relative;
   display: flex;
-  padding: calc(#{$spacer}*1.25) $spacer;
-  border-top: 1px solid $c-border;
-  border-bottom: 1px solid $c-border;
-  @media screen and (min-width: $desktop-min) {
-    padding: 0;
+  @include for-desktop {
+    border-top: 1px solid $c-border;
+    border-bottom: 1px solid $c-border;
+  }
+  &::after {
+    position: absolute;
+    bottom: 0;
+    left: $spacer-big;
+    width: calc(100% - (#{$spacer-big} * 2));
+    height: 1px;
+    background-color: $c-border;
+    content: "";
+    @include for-desktop {
+      content: none;
+    }
   }
   &__aside {
     display: flex;
     align-items: center;
     flex: 0 0 15%;
-    padding: 0 $spacer-extra-big;
+    padding: 1.85rem $spacer-extra-big;
     border-right: 1px solid $c-border;
   }
   &__main {
     flex: 1;
     display: flex;
     align-items: center;
+    padding: $spacer-medium 0;
     font-size: $font-size-small-desktop;
-    @media screen and (min-width: $desktop-min) {
-      margin: 0 $spacer-extra-big;
+    @include for-desktop {
+      padding: 1.85rem 0;
     }
   }
   &__title {
@@ -179,15 +201,16 @@ export default {
     padding: 0;
     background: transparent;
     color: inherit;
+    font-size: inherit;
     font-weight: 500;
-    @media (min-width: $desktop-min) {
+    @include for-desktop {
+      margin: 0 0 0 $spacer-extra-big;
       font-weight: 400;
       text-transform: none;
-      font-size: inherit;
     }
     svg {
       fill: $c-dark-primary;
-      @media (min-width: $desktop-min) {
+      @include for-desktop {
         fill: $c-gray-secondary;
       }
     }
@@ -202,11 +225,12 @@ export default {
     color: $c-gray-secondary;
   }
   &__counter {
-    margin-left: auto;
-    margin-right: 0;
+    margin: auto;
+    @include for-desktop {
+      margin-right: 0;
+    }
   }
 }
-
 .main {
   display: flex;
 }
@@ -216,32 +240,43 @@ export default {
   border-right: 1px solid $c-border;
 }
 .products {
+  box-sizing: border-box;
   flex: 1;
-  @media (min-width: $desktop-min) {
+  margin: 0 -#{$spacer};
+  @include for-desktop {
     margin: $spacer-big;
   }
   &__list {
     display: flex;
     flex-wrap: wrap;
+    margin-top: 1.875rem - 0.5rem;
   }
   &__product-card {
     flex: 0 0 50%;
     padding: $spacer;
-    @media (min-width: $desktop-min) {
+    @include for-desktop {
       flex: 0 0 25%;
       padding: $spacer-big;
     }
   }
 }
-
 .sort-by {
   flex: unset;
-  width: 175px;
-  /deep/ .sf-select__selected {
+  width: 190px;
+  padding: 0 10px;
+  font-size: inherit;
+  &__option {
     padding: 10px;
+    font-size: inherit;
   }
-  /deep/ .sf-select-option {
-    padding: 10px;
+}
+.bottom-navigation-circle {
+  opacity: 1;
+}
+.section {
+  @media (max-width: $desktop-min) {
+    padding-left: $spacer-big;
+    padding-right: $spacer-big;
   }
 }
 </style>
