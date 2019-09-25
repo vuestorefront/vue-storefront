@@ -50,22 +50,22 @@
                 </router-link>
               </div>
             </div>
-            <div class="start-md" v-if="displayAboutSection">
+            <div class="start-md">
               <h3 class="cl-accent weight-400">
                 {{ $t('About us') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/i/about-us')" exact>
+                <router-link class="cl-secondary" :to="getLinkFor('/about-us')" exact>
                   {{ $t('About us (Magento CMS)') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/i/customer-service')" exact>
+                <router-link class="cl-secondary" :to="getLinkFor('/customer-service')" exact>
                   {{ $t('Customer service (Magento CMS)') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>
+                <router-link class="cl-secondary" :to="getLinkFor('/store-locator')" exact>
                   {{ $t('Store locator') }}
                 </router-link>
               </div>
@@ -158,7 +158,7 @@
 </template>
 
 <script>
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
@@ -169,7 +169,7 @@ export default {
   mixins: [CurrentPage],
   name: 'MainFooter',
   computed: {
-    displayAboutSection () {
+    isStoreCodeEquals () {
       return currentStoreView().storeCode === config.defaultStoreCode
     },
     multistoreEnabled () {
@@ -177,6 +177,12 @@ export default {
     },
     getVersionInfo () {
       return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
+    }
+  },
+  methods: {
+    getLinkFor (path) {
+      const route = this.isStoreCodeEquals ? `/i${path}` : path
+      return localizedRoute(route)
     }
   },
   components: {
