@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     formatCategoryName (categoryName) {
-      return categoryName.name.length > 15 ? categoryName.name.substr(0, 15) + '...' : categoryName.name
+      return 1
     }
   },
   components: {
