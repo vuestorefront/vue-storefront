@@ -165,6 +165,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved cookie and offline badges (z-index, overflow) - @phoenixdev-kl (#3552)
 - Improved translations: Replaced concatenations with "named formatting" (see http://kazupon.github.io/vue-i18n/guide/formatting.html#named-formatting) - @phoenixdev-kl (#3550)
 - Added `filterMinimumShouldMatch` to ES queries in order to support ES7 - @pkarw (#1692)
+- Added generic types to hooks - @gibkigonzo
 
 ## [1.10.3] - 2019.09.18
 
