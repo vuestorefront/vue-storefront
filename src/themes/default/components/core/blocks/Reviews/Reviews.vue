@@ -6,7 +6,11 @@
           <h2 class="h3 m0 mb10 serif lh20 weight-700">
             {{ $t('Reviews') }}
           </h2>
-          <reviews-list :per-page="4" :items="reviews ? reviews : []" />
+          <reviews-list
+            :per-page="4"
+            :items="reviews"
+            :product-name="productName"
+          />
         </div>
         <div class="col-xs-12 col-md-5 pt50">
           <h2 class="h3 m0 mb10 serif lh20 weight-700">
@@ -128,6 +132,10 @@ export default {
     productId: {
       type: [String, Number],
       required: true
+    },
+    productName: {
+      type: String,
+      default: ''
     }
   },
   computed: {
