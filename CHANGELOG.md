@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added italian translations - @lorenaramonda (3076)
 - Route Manager Queue for adding routes efficiently and with an optional priority - @grimasod (#3540)
 - Added tests for cart module actions - @andrzejewsky (#3023)
+- Fixed a problem with type changes in the state when extending a store - @resubaka (#3618)
 
 ### Fixed
 
@@ -116,6 +117,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove modifying config by reference in multistore - @gibkigonzo (#3617)
 - Add translation key for add review - @gibkigonzo (#3611)
 - Add product name prop to reviews component - @gibkigonzo (#3607)
+- Show default cms pages when current store code is not equals to default  - @andrzejewsky (#3579)
 - Fix login errors with mailchimp - @gibkigonzo (#3612)
 
 ### Changed / Improved
