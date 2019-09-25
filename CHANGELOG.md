@@ -113,7 +113,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed resolving store code on SSR - @andrzejewsky (#3576)
 - Clear user data if error occurs while login - @gibkigonzo (#3588)
 - Fix loading bestsellers on 404 error page - @andrzejewsky (#3540)
-- add translation key for add review - @gibkigonzo (#3611)
+- Add translation key for add review - @gibkigonzo (#3611)
+- Add product name prop to reviews component - @gibkigonzo (#3607)
 
 ### Changed / Improved
 
