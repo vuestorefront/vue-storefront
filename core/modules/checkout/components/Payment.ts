@@ -119,7 +119,7 @@ export const Payment = {
         }
       }
       if (!initialized) {
-        this.payment = {
+        this.payment = this.$store.state.checkout.paymentDetails || {
           firstName: '',
           lastName: '',
           company: '',

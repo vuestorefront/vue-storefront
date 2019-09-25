@@ -85,10 +85,6 @@ export default {
   beforeCreate () {
     registerModule(RecentlyViewedModule)
   },
-  created () {
-    // Load personal and shipping details for Checkout page from IndexedDB
-    this.$store.dispatch('checkout/load')
-  },
   async beforeMount () {
     if (this.$store.state.__DEMO_MODE__) {
       const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' })
