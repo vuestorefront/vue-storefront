@@ -429,7 +429,7 @@ class Storefront extends Abstract {
         config.orders.endpoint = `${backendPath}/api/order`
         config.products.endpoint = `${backendPath}/api/product`
         config.users.endpoint = `${backendPath}/api/user`
-        config.users.history_endpoint = `${backendPath}/api/user/order-history?token={{token}}`
+        config.users.history_endpoint = `${backendPath}/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}`
         config.users.resetPassword_endpoint = `${backendPath}/api/user/reset-password`
         config.users.changePassword_endpoint = `${backendPath}/api/user/change-password?token={{token}}`
         config.users.login_endpoint = `${backendPath}/api/user/login`
