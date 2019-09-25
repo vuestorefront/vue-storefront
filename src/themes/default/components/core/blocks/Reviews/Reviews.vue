@@ -8,7 +8,7 @@
           </h2>
           <reviews-list
             :per-page="4"
-            :items="reviews ? reviews : []"
+            :items="reviews"
             :product-name="productName"
           />
         </div>
