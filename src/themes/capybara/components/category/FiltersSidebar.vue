@@ -15,6 +15,7 @@
         :color="filterOption.type == 'color' ? filterOption.label : null"
         @click.native="applyFilter(filterOption)"
         :selected="isActiveFilter(filterOption)"
+        class="filters__item"
       />
     </template>
     <div class="filters__buttons">
@@ -84,7 +85,6 @@ export default {
     line-height: 2.23;
   }
   &__button-clear {
-    margin-top: 10px;
     background: $c-light-primary;
     color: #a3a5ad;
   }
