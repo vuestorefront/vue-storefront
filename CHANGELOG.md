@@ -119,6 +119,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add product name prop to reviews component - @gibkigonzo (#3607)
 - Show default cms pages when current store code is not equals to default  - @andrzejewsky (#3579)
 - Fix login errors with mailchimp - @gibkigonzo (#3612)
+- Hydration error on homepage - @patzick (#3609)
 
 ### Changed / Improved
 
