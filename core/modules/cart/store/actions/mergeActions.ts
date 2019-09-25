@@ -150,7 +150,10 @@ const mergeActions = {
     }
 
     const productToAdd = await dispatch('getProductVariant', { serverItem })
-    dispatch('addItem', { productToAdd, forceServerSilence: true })
+
+    if (productToAdd) {
+      dispatch('addItem', { productToAdd, forceServerSilence: true })
+    }
 
     return diffLog
   },
