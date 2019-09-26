@@ -80,6 +80,7 @@
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
     "ms": "^2.1.2",
     "pm2": "^2.10.4",
+    "proxy-polyfill": "^0.3.0",
     "redis-tag-cache": "^1.2.1",
     "reflect-metadata": "^0.1.12",
     "register-service-worker": "^1.5.2",

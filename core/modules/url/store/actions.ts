@@ -6,8 +6,9 @@ import { cacheStorage } from '../'
 import queryString from 'query-string'
 import config from 'config'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { processMultipleDynamicRoutes, normalizeUrlPath, parametrizeRouteData } from '../helpers'
-import { storeCodeFromRoute, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData } from '../helpers'
+import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
+import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
@@ -15,7 +16,7 @@ export const actions: ActionTree<UrlState, any> = {
   async registerMapping ({ commit }, { url, routeData }: { url: string, routeData: any}) {
     commit(types.REGISTER_MAPPING, { url, routeData })
     try {
-      await cacheStorage.setItem(url, routeData, null, config.seo.disableUrlRoutesPersistentCache)
+      await cacheStorage.setItem(normalizeUrlPath(url), routeData, null, config.seo.disableUrlRoutesPersistentCache)
     } catch (err) {
       if (
         err.name === 'QuotaExceededError' ||
@@ -32,7 +33,7 @@ export const actions: ActionTree<UrlState, any> = {
   async registerDynamicRoutes ({ state, dispatch }) {
     if (!state.dispatcherMap) return
 
-    processMultipleDynamicRoutes(state.dispatcherMap)
+    preProcessDynamicRoutes(state.dispatcherMap)
     const registrationRoutePromises = Object.keys(state.dispatcherMap).map(url => {
       const routeData = state.dispatcherMap[url]
       return dispatch('registerMapping', { url, routeData })
@@ -43,7 +44,6 @@ export const actions: ActionTree<UrlState, any> = {
     const parsedQuery = typeof query === 'string' ? queryString.parse(query) : query
     const storeCodeInPath = storeCodeFromRoute(url)
     url = normalizeUrlPath(url)
-
     return new Promise((resolve, reject) => {
       if (state.dispatcherMap[url]) {
         return resolve(parametrizeRouteData(state.dispatcherMap[url], query, storeCodeInPath))
@@ -66,14 +66,15 @@ export const actions: ActionTree<UrlState, any> = {
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
+    const storeCode = currentStoreView().storeCode
     const productQuery = new SearchQuery()
-    url = (removeStoreCodeFromRoute(url) as string)
+    url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
     productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
     const products = await dispatch('product/list', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
       const product = products.items[0]
       return {
-        name: product.type_id + '-product',
+        name: localizedDispatcherRouteName(product.type_id + '-product', storeCode),
         params: {
           slug: product.slug,
           parentSku: product.sku,
@@ -84,7 +85,7 @@ export const actions: ActionTree<UrlState, any> = {
       const category = await dispatch('category/single', { key: 'url_path', value: url }, { root: true })
       if (category !== null) {
         return {
-          name: 'category',
+          name: localizedDispatcherRouteName('category', storeCode),
           params: {
             slug: category.slug
           }

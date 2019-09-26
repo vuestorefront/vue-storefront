@@ -150,7 +150,11 @@ const mergeActions = {
     }
 
     const productToAdd = await dispatch('getProductVariant', { serverItem })
-    dispatch('addItem', { productToAdd, forceServerSilence: true })
+
+    if (productToAdd) {
+      dispatch('addItem', { productToAdd, forceServerSilence: true })
+      Logger.debug('Product variant for given serverItem has not found', 'cart', serverItem)()
+    }
 
     return diffLog
   },
@@ -194,7 +198,7 @@ const mergeActions = {
       .pushClientParty({ status: getters.isCartHashChanged ? 'update-required' : 'no-changes' })
       .pushServerParty({ status: getters.isTotalsSyncRequired ? 'update-required' : 'no-changes' })
 
-    EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: hookResult.serverItem, clientItems: hookResult.clientItems, dryRun: dryRun, event: event })
+    EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: hookResult.serverItem, clientItems: hookResult.clientItems, dryRun: dryRun })
     Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
 
     return diffLog

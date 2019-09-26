@@ -10,9 +10,7 @@
         </h2>
       </header>
     </div>
-    <div class="row center-xs">
-      <product-listing columns="4" :products="getCurrentRelatedProducts" />
-    </div>
+    <product-listing columns="4" :products="getCurrentRelatedProducts" />
   </section>
 </template>
 

@@ -45,7 +45,11 @@ export default {
     },
     items: {
       type: Array,
-      required: true
+      default: () => []
+    },
+    productName: {
+      type: String,
+      default: ''
     }
   },
   data () {

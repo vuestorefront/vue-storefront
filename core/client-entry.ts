@@ -5,7 +5,8 @@ import rootStore from '@vue-storefront/core/store'
 import { registerSyncTaskProcessor } from '@vue-storefront/core/lib/sync/task'
 import i18n from '@vue-storefront/i18n'
 import omit from 'lodash-es/omit'
-import { prepareStoreView, storeCodeFromRoute, currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
+import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
+import { prepareStoreView, currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
 import '@vue-storefront/core/service-worker/registration' // register the service worker
 import { AsyncDataLoader } from './lib/async-data-loader'
@@ -30,6 +31,9 @@ const invokeClientEntry = async () => {
   }
 
   await store.dispatch('url/registerDynamicRoutes')
+
+  RouterManager.flushRouteQueue()
+
   function _commonErrorHandler (err, reject) {
     if (err.message.indexOf('query returned empty result') > 0) {
       rootStore.dispatch('notification/spawnNotification', {
@@ -79,13 +83,11 @@ const invokeClientEntry = async () => {
           if (storeCode !== '' && storeCode !== null) {
             if (storeCode !== currentStore.storeCode) {
               (document as any).location = to.path // full reload
-            } else {
-              prepareStoreView(storeCode)
             }
           }
         }
       }
-      if (!matched.length) {
+      if (!matched.length || !matched[0]) {
         return next()
       }
       Promise.all(matched.map((c: any) => { // TODO: update me for mixins support

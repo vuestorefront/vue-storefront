@@ -133,7 +133,7 @@
               v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
             >
               <base-input-number
-                :name="$t(getInputName)"
+                :name="getInputName"
                 v-model="getCurrentProduct.qty"
                 :min="quantity ? 1 : 0"
                 :max="quantity"
@@ -156,7 +156,7 @@
             <div class="row m0">
               <add-to-cart
                 :product="getCurrentProduct"
-                :disabled="(!$v.getCurrentProduct.qty.minValue || !$v.getCurrentProduct.qty.maxValue || !$v.getCurrentProduct.qty.numeric) || (!quantity && isSimpleOrConfigurable && !isProductLoading)"
+                :disabled="isAddToCartDisabled"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
@@ -199,7 +199,11 @@
       </div>
     </section>
     <lazy-hydrate when-idle>
-      <reviews :product-id="getOriginalProduct.id" v-show="isOnline" />
+      <reviews
+        :product-name="getOriginalProduct.name"
+        :product-id="getOriginalProduct.id"
+        v-show="isOnline"
+      />
     </lazy-hydrate>
     <lazy-hydrate when-idle>
       <related-products type="upsell" :heading="$t('We found other products you might like')" />
@@ -250,7 +254,8 @@ import { htmlDecode } from '@vue-storefront/core/filters'
 import { ReviewModule } from '@vue-storefront/core/modules/review'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
 import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
-import { onlineHelper } from '@vue-storefront/core/helpers'
+import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
+import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
 export default {
   components: {
@@ -350,17 +355,21 @@ export default {
     getInputName () {
       if (this.isSimpleOrConfigurable && !this.isProductLoading) { return this.$i18n.t('Quantity available', { qty: this.quantity }) }
       return this.$i18n.t('Quantity')
+    },
+    isAddToCartDisabled () {
+      return this.$v.$invalid || this.isProductLoading || (!this.quantity && this.isSimpleOrConfigurable)
     }
   },
   created () {
     this.getQuantity()
   },
-  mounted () {
-    this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
+  async mounted () {
+    await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
   },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
     await store.dispatch('product/loadProductBreadcrumbs', { product })
+    catalogHooksExecutors.productPageVisited(product)
   },
   methods: {
     showDetails (event) {
@@ -416,7 +425,7 @@ export default {
       getCurrentProduct: {
         qty: {
           minValue: minValue(1),
-          maxValue: maxValue(this.quantity),
+          maxValue: maxValue(this.quantity) && !this.isSimpleOrConfigurable,
           numeric: numeric
         }
       }

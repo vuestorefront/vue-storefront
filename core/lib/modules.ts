@@ -1,5 +1,5 @@
-import VueRouter from 'vue-router'
 import { Store } from 'vuex'
+import VueRouter from 'vue-router'
 
 export interface StorefrontModule { (
   app: any,

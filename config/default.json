@@ -99,7 +99,7 @@
       "basic": "dist/index.basic.html",
       "amp": "dist/index.amp.html"
     },
-    "lazyHydrateFor": ["category-next.products", "homepage"],
+    "lazyHydrateFor": ["category-next.products", "homepage.new_collection"],
     "executeMixedinAsyncData": true,
     "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute"],
     "useInitialStateFilter": true
@@ -334,7 +334,7 @@
   "users": {
     "autoRefreshTokens": true,
     "endpoint": "/api/user",
-    "history_endpoint": "/api/user/order-history?token={{token}}",
+    "history_endpoint": "/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}",
     "resetPassword_endpoint": "/api/user/reset-password",
     "changePassword_endpoint": "/api/user/change-password?token={{token}}",
     "login_endpoint": "/api/user/login",

@@ -1,19 +1,24 @@
+import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
+import { LocalizedRoute } from '@vue-storefront/core/lib/types'
 import {
-  storeCodeFromRoute,
   prepareStoreView,
   adjustMultistoreApiUrl,
   localizedDispatcherRoute,
-  LocalizedRoute,
   setupMultistoreRoutes,
   localizedRoutePath,
   localizedRouteConfig
 } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 import rootStore from '@vue-storefront/core/store';
-import VueRouter, { RouteConfig } from 'vue-router'
-import { RouterManager } from '@vue-storefront/core/lib/router-manager'
+import { router } from '@vue-storefront/core/app';
+import { RouteConfig } from 'vue-router'
 
-jest.mock('@vue-storefront/core/app', () => ({ createApp: jest.fn() }))
+jest.mock('@vue-storefront/core/app', () => ({
+  createApp: jest.fn(),
+  router: {
+    addRoutes: jest.fn()
+  }
+}))
 jest.mock('../../../store', () => ({}))
 jest.mock('@vue-storefront/i18n', () => ({loadLanguageAsync: jest.fn()}))
 jest.mock('../../sync/task', () => ({initializeSyncTaskStorage: jest.fn()}))
@@ -21,22 +26,19 @@ jest.mock('@vue-storefront/core/hooks', () => ({ coreHooksExecutors: {
   beforeStoreViewChanged: jest.fn(args => args),
   afterStoreViewChanged: jest.fn(args => args)
 }}))
-jest.mock('@vue-storefront/core/lib/router-manager', () => ({
-  RouterManager: {
-    addRoutes: jest.fn()
-  }
-}))
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {}
 }))
 jest.mock('config', () => ({}))
 
 describe('Multistore', () => {
-  let router
   beforeEach(() => {
     jest.clearAllMocks();
     (rootStore as any).state = {};
     Object.keys(config).forEach((key) => { delete config[key]; });
+    rootStore.state.storeView = {
+      appendStoreCode: true
+    }
   })
 
   describe('storeCodeFromRoute', () => {
@@ -148,7 +150,7 @@ describe('Multistore', () => {
   })
 
   describe('prepareStoreView', () => {
-    it('returns default storeView given no storecode', () => {
+    it('returns default storeView given no storecode', async () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
@@ -175,7 +177,7 @@ describe('Multistore', () => {
         defaultTitle: 'Vue Storefront'
       }
 
-      expect(prepareStoreView(null)).toStrictEqual({
+      expect(await prepareStoreView(null)).toStrictEqual({
         tax: {
           defaultCountry: 'US'
         },
@@ -195,7 +197,7 @@ describe('Multistore', () => {
       })
     })
 
-    it('returns default storeView without setting defaultStoreCode when multistore mode is disabled', () => {
+    it('returns default storeView without setting defaultStoreCode when multistore mode is disabled', async () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
@@ -225,7 +227,7 @@ describe('Multistore', () => {
         defaultTitle: 'Vue Storefront'
       }
 
-      expect(prepareStoreView(null)).toStrictEqual({
+      expect(await prepareStoreView(null)).toStrictEqual({
         tax: {
           defaultCountry: 'US'
         },
@@ -245,7 +247,7 @@ describe('Multistore', () => {
       })
     })
 
-    it('returns default storeView with defaultStoreCode set when multistore mode is enabled', () => {
+    it('returns default storeView with defaultStoreCode set when multistore mode is enabled', async () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
@@ -275,7 +277,7 @@ describe('Multistore', () => {
       }
       config.defaultStoreCode = 'de'
 
-      expect(prepareStoreView(null)).toStrictEqual({
+      expect(await prepareStoreView(null)).toStrictEqual({
         tax: {
           defaultCountry: 'US'
         },
@@ -295,7 +297,7 @@ describe('Multistore', () => {
       })
     })
 
-    it('returns storeView overwritting default store config values when multistore mode is enabled', () => {
+    it('returns storeView overwritting default store config values when multistore mode is enabled', async () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
@@ -341,7 +343,7 @@ describe('Multistore', () => {
       }
       config.defaultStoreCode = 'de'
 
-      expect(prepareStoreView(null)).toStrictEqual({
+      expect(await prepareStoreView(null)).toStrictEqual({
         tax: {
           defaultCountry: 'DE'
         },
@@ -362,7 +364,7 @@ describe('Multistore', () => {
       })
     })
 
-    it('returns storeView extending other storeView in multistore mode', () => {
+    it('returns storeView extending other storeView in multistore mode', async () => {
       rootStore.state.storeView = {}
       rootStore.state.user = {}
 
@@ -428,7 +430,7 @@ describe('Multistore', () => {
       }
       config.defaultStoreCode = 'it'
 
-      expect(prepareStoreView(null)).toStrictEqual({
+      expect(await prepareStoreView(null)).toStrictEqual({
         tax: {
           defaultCountry: 'IT'
         },
@@ -615,11 +617,9 @@ describe('Multistore', () => {
         }
       ]
 
-      const vueRouter = {}
+      setupMultistoreRoutes(config, router, routeConfig)
 
-      setupMultistoreRoutes(config, (vueRouter as VueRouter), routeConfig)
-
-      expect(RouterManager.addRoutes).toBeCalledTimes(1)
+      expect(router.addRoutes).toBeCalledTimes(1)
     })
 
     it('Do nothing as mapStoreUrlsFor is empty', () => {
@@ -638,11 +638,9 @@ describe('Multistore', () => {
         }
       ]
 
-      const vueRouter = {}
+      setupMultistoreRoutes(config, router, routeConfig)
 
-      setupMultistoreRoutes(config, (vueRouter as VueRouter), routeConfig)
-
-      expect(RouterManager.addRoutes).toBeCalledTimes(1)
+      expect(router.addRoutes).toBeCalledTimes(1)
     })
   })
 

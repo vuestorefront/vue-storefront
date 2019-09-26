@@ -9,8 +9,6 @@ export const UserModule: StorefrontModule = async function (app, store, router, 
   StorageManager.init('user')
   store.registerModule('user', userStore)
   if (!isServer) {
-    await store.dispatch('user/startSession')
-
     EventBus.$on('user-before-logout', () => {
       store.dispatch('user/logout', { silent: false })
       // TODO: Move it to theme
@@ -27,6 +25,8 @@ export const UserModule: StorefrontModule = async function (app, store, router, 
         emailAddress: receivedData.email
       })
     })
+
+    await store.dispatch('user/startSession')
   }
 
   store.subscribe((mutation, state) => {

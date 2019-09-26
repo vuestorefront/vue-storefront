@@ -1,45 +1,45 @@
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
 import CartItem from '../types/CartItem';
 
-const { hook: beforeSyncHook, executor: beforeSyncExecutor }: {
-  hook: (syncMutator: (cart: { clientItems: CartItem[], serverItems: CartItem[] }) => any) => void,
-  executor: any
-} = createMutatorHook()
+const {
+  hook: beforeSyncHook,
+  executor: beforeSyncExecutor
+} = createMutatorHook<{ clientItems: CartItem[], serverItems: CartItem[] }, any>()
 
-const { hook: afterSyncHook, executor: afterSyncExecutor }: {
-  hook: (syncListener: (response: any) => any) => void,
-  executor: any
-} = createListenerHook()
+const {
+  hook: afterSyncHook,
+  executor: afterSyncExecutor
+} = createListenerHook<any>()
 
-const { hook: beforeAddToCartHook, executor: beforeAddToCartExecutor }: {
-  hook: (addToCartMutator: (cart: { cartItem: CartItem }) => any) => void,
-  executor: any
-} = createMutatorHook()
+const {
+  hook: beforeAddToCartHook,
+  executor: beforeAddToCartExecutor
+} = createMutatorHook<{ cartItem: CartItem }, any>()
 
-const { hook: afterAddToCartHook, executor: afterAddToCartExecutor }: {
-  hook: (AddToCartListener: (response: any) => any) => void,
-  executor: any
-} = createListenerHook()
+const {
+  hook: afterAddToCartHook,
+  executor: afterAddToCartExecutor
+} = createListenerHook<any>()
 
-const { hook: beforeRemoveFromCartHook, executor: beforeRemoveFromCartExecutor }: {
-  hook: (removeFromCartMutator: (cart: { cartItem: CartItem }) => any) => void,
-  executor: any
-} = createMutatorHook()
+const {
+  hook: beforeRemoveFromCartHook,
+  executor: beforeRemoveFromCartExecutor
+} = createMutatorHook<{ cartItem: CartItem }, any>()
 
-const { hook: afterRemoveFromCartHook, executor: afterRemoveFromCartExecutor }: {
-  hook: (removeFromCartCartListener: (response: any) => any) => void,
-  executor: any
-} = createListenerHook()
+const {
+  hook: afterRemoveFromCartHook,
+  executor: afterRemoveFromCartExecutor
+} = createListenerHook<any>()
 
-const { hook: beforeMergeHook, executor: beforeMergeExecutor }: {
-  hook: (syncMutator: (cart: { clientItems: CartItem[], serverItems: CartItem[] }) => any) => void,
-  executor: any
-} = createMutatorHook()
+const {
+  hook: beforeMergeHook,
+  executor: beforeMergeExecutor
+} = createMutatorHook<{ clientItems: CartItem[], serverItems: CartItem[] }, any>()
 
-const { hook: afterLoadHook, executor: afterLoadExecutor }: {
-  hook: (removeFromCartCartListener: (response: any) => any) => void,
-  executor: any
-} = createListenerHook()
+const {
+  hook: afterLoadHook,
+  executor: afterLoadExecutor
+} = createListenerHook<any>()
 
 const cartHooksExecutors = {
   beforeSync: beforeSyncExecutor,
