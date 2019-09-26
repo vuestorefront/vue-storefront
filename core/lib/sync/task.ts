@@ -2,6 +2,7 @@ import Vue from 'vue'
 import i18n from '@vue-storefront/i18n'
 import isNaN from 'lodash-es/isNaN'
 import isUndefined from 'lodash-es/isUndefined'
+import isObject from 'lodash-es/isObject'
 import toString from 'lodash-es/toString'
 import fetch from 'isomorphic-fetch'
 import * as localForage from 'localforage'
@@ -128,12 +129,12 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
           }
         }
 
-        if (!task.silent && jsonResponse.result && (typeof jsonResponse.result === 'string' || (((jsonResponse.result.result || jsonResponse.result.message) && jsonResponse.result.code !== 'ENOTFOUND') && !silentMode))) {
-          const message = typeof jsonResponse.result === 'string' ? jsonResponse.result : typeof jsonResponse.result.result === 'string' ? jsonResponse.result.result : jsonResponse.result.message
-
+        const errorMessage = isObject(jsonResponse.result) ? (jsonResponse.result.result || jsonResponse.result.message) : jsonResponse.result
+        const errorCode = isObject(jsonResponse.result) ? jsonResponse.result.code : jsonResponse.code
+        if (!task.silent && !silentMode && errorMessage && errorCode !== 'ENOTFOUND') {
           rootStore.dispatch('notification/spawnNotification', {
             type: 'error',
-            message: i18n.t(message),
+            message: i18n.t(errorMessage),
             action1: { label: i18n.t('OK') }
           })
         }
