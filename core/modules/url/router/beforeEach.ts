@@ -35,15 +35,15 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
           next(dynamicRoute)
         } else {
           Logger.error('Route not found ' + routeData['name'], 'dispatcher')()
-          next(localizedRoute('/page-not-found', storeCode))
+          next()
         }
       } else {
         Logger.error('No mapping found for ' + path, 'dispatcher')()
-        next(localizedRoute('/page-not-found', storeCode))
+        next()
       }
     } catch (e) {
       Logger.error(e, 'dispatcher')()
-      next(localizedRoute('/page-not-found', storeCode))
+      next()
     } finally {
       RouterManager.unlockRoute()
     }

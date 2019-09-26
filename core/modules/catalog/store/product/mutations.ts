@@ -59,7 +59,10 @@ const mutations: MutationTree<ProductState> = {
     state.current_custom_options = Object.assign(
       {},
       state.current_custom_options,
-      {[optionId]: optionValue}
+      {[optionId]: {
+        option_id: optionId,
+        option_value: optionValue
+      }}
     )
   },
   [types.PRODUCT_SET_BUNDLE_OPTION] (state, { optionId, optionQty, optionSelections }) {
@@ -90,9 +93,6 @@ const mutations: MutationTree<ProductState> = {
   [types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR] (state, { validationRule, validatorFunction }) {
     console.error('Deprecated mutation CATALOG_ADD_CUSTOM_OPTION_VALIDATOR - use PRODUCT_SET_CUSTOM_OPTION_VALIDATOR instead')
   },
-  [types.CATALOG_UPD_CUSTOM_OPTION] (state, { optionId, optionValue }) {
-    console.error('Deprecated mutation CATALOG_UPD_CUSTOM_OPTION - use PRODUCT_SET_CUSTOM_OPTION instead')
-  },
   [types.CATALOG_UPD_RELATED] (state, { key, items }) {
     console.error('Deprecated mutation CATALOG_UPD_RELATED - use PRODUCT_SET_RELATED instead')
   },
@@ -107,9 +107,6 @@ const mutations: MutationTree<ProductState> = {
   },
   [types.CATALOG_SET_PRODUCT_ORIGINAL] (state, product) {
     console.error('Deprecated mutation CATALOG_SET_PRODUCT_ORIGINAL - use PRODUCT_SET_ORIGINAL instead')
-  },
-  [types.CATALOG_SET_PRODUCT_PARENT] (state, product) {
-    console.error('Deprecated mutation CATALOG_SET_PRODUCT_PARENT - use PRODUCT_SET_PARENT instead')
   },
   [types.CATALOG_RESET_PRODUCT] (state, productOriginal) {
     console.error('Deprecated mutation CATALOG_RESET_PRODUCT - use PRODUCT_RESET_CURRENT instead')

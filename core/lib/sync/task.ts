@@ -33,7 +33,7 @@ function _sleep (time) {
 }
 
 function _internalExecute (resolve, reject, task: Task, currentToken, currentCartId) {
-  if (currentToken !== null && rootStore.state.userTokenInvalidateLock > 0) { // invalidate lock set
+  if (currentToken && rootStore.state.userTokenInvalidateLock > 0) { // invalidate lock set
     Logger.log('Waiting for rootStore.state.userTokenInvalidateLock to release for ' + task.url, 'sync')()
     _sleep(1000).then(() => {
       Logger.log('Another try for rootStore.state.userTokenInvalidateLock for ' + task.url, 'sync')()
@@ -42,7 +42,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     return // return but not resolve
   } else if (rootStore.state.userTokenInvalidateLock < 0) {
     Logger.error('Aborting the network task' + task.url + rootStore.state.userTokenInvalidateLock, 'sync')()
-    resolve({ code: 401, message: i18n.t('Error refreshing user token. User is not authorized to access the resource') })()
+    resolve({ code: 401, result: i18n.t('Error refreshing user token. User is not authorized to access the resource') })()
     return
   } else {
     if (rootStore.state.userTokenInvalidated) {
@@ -75,7 +75,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     if (jsonResponse) {
       const responseCode = parseInt(jsonResponse.code)
       if (responseCode !== 200) {
-        if (responseCode === 401 /** unauthorized */ && currentToken !== null) { // the token is no longer valid, try to invalidate it
+        if (responseCode === 401 /** unauthorized */ && currentToken) { // the token is no longer valid, try to invalidate it
           Logger.error('Invalid token - need to be revalidated' + currentToken + task.url + rootStore.state.userTokenInvalidateLock, 'sync')()
           if (isNaN(rootStore.state.userTokenInvalidateAttemptsCount) || isUndefined(rootStore.state.userTokenInvalidateAttemptsCount)) rootStore.state.userTokenInvalidateAttemptsCount = 0
           if (isNaN(rootStore.state.userTokenInvalidateLock) || isUndefined(rootStore.state.userTokenInvalidateLock)) rootStore.state.userTokenInvalidateLock = 0
