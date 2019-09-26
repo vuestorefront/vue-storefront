@@ -1,10 +1,10 @@
-import { VSFRouter } from '@vue-storefront/core/types/VSFRouter';
 import { Store } from 'vuex'
+import VueRouter from 'vue-router'
 
 export interface StorefrontModule { (
   app: any,
   store: Store<any>,
-  router: VSFRouter,
+  router: VueRouter,
   moduleConfig: any,
   appConfig: any): void
 }
@@ -12,7 +12,7 @@ export interface StorefrontModule { (
 let refs: any = {}
 let registeredModules: any = []
 
-function injectReferences (app: any, store: Store<any>, router: VSFRouter, config: any): void {
+function injectReferences (app: any, store: Store<any>, router: VueRouter, config: any): void {
   refs.app = app
   refs.store = store
   refs.router = router

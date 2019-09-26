@@ -5,13 +5,12 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import Vue from 'vue'
 import queryString from 'query-string'
 import merge from 'lodash-es/merge'
-import { RouteConfig, RawLocation } from 'vue-router'
+import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
 import config from 'config'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { LocalizedRoute, StoreView } from './types'
 import storeCodeFromRoute from './storeCodeFromRoute'
-import { VSFRouter } from '@vue-storefront/core/types/VSFRouter'
 
 function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
@@ -172,7 +171,7 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
   return routeObj
 }
 
-export function setupMultistoreRoutes (config, router: VSFRouter, routes: RouteConfig[], priority: number = 0): void {
+export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[], priority: number = 0): void {
   const allRoutes: RouteConfig[] = []
   const { storeCode, appendStoreCode } = currentStoreView()
   if (storeCode && appendStoreCode) {

@@ -1,4 +1,3 @@
-import { VSFRouter } from '@vue-storefront/core/types/VSFRouter';
 import { Store } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import Vue from 'vue'
@@ -33,7 +32,7 @@ import { createRouter, createRouterProxy } from '@vue-storefront/core/helpers/ro
 const stateFactory = initialStateFactory(store.state)
 
 let router: VueRouter = null
-let routerProxy: VSFRouter = null
+let routerProxy: VueRouter = null
 
 once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)

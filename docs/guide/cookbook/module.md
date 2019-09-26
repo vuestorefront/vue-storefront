@@ -58,7 +58,7 @@ From `./core/lib/modules.ts`, you can check out _StorefrontModule_ signature as 
 export interface StorefrontModule { (
   app: any, # app instance (Vue instance)
   store: Store<any>, # Vuex store instance
-  router: VSFRouter, # router instance
+  router: VueRouter, # router instance
   moduleConfig: any, # module config during registration
   appConfig: any): void # VSF config
 }
