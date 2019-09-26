@@ -1,5 +1,6 @@
 import config from 'config'
-import { currentStoreView, StoreView } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { StoreView } from '@vue-storefront/core/lib/types'
 import defaultsDeep from 'lodash-es/defaultsDeep'
 
 import ConfigMutator, { ExtendedMetaInfo } from './ConfigMutator'

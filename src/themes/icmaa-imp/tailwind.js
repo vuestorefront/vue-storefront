@@ -72,7 +72,10 @@ module.exports = {
     // Add custom utilities (custom-classes)
     function ({ addUtilities }) {
       addUtilities(
-        { '.webkit-touch': { '-webkit-overflow-scrolling': 'touch' } },
+        {
+          '.webkit-touch': { '-webkit-overflow-scrolling': 'touch' },
+          '.webkit-tap-transparent': { '-webkit-tap-highlight-color': 'transparent' }
+        },
         ['responsive']
       )
     }

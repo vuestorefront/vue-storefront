@@ -48,11 +48,11 @@
                   <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
                     {{ product.errors | formatProductMessages }}
                   </div>
-                  <button-component type="select" icon="arrow_forward" class="t-w-full" :disabled="loading" @click.native="openAddtocart">
+                  <button-component type="select" icon="arrow_forward" class="t-w-full" :disabled="isAddToCartDisabled" @click.native="openAddtocart">
                     {{ productOptionsLabel }}
                   </button-component>
                 </div>
-                <button-component type="primary" class="t-flex-grow lg:t-w-2/6 disabled:t-opacity-75 t-relative" :disabled="loading" @click.native="addToCartButtonClick">
+                <button-component type="primary" class="t-flex-grow lg:t-w-2/6 disabled:t-opacity-75 t-relative" :disabled="isAddToCartDisabled" @click.native="addToCartButtonClick">
                   {{ $t('Add to cart') }}
                   <loader-background v-if="loading && isSingleOptionProduct" class="t-bottom-0" height="t-h-1" bar="t-bg-base-lightest t-opacity-25" />
                 </button-component>
@@ -124,6 +124,7 @@ import { minValue } from 'vuelidate/lib/validators'
 import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 import focusClean from 'theme/components/theme/directives/focusClean'
+import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
 import { ReviewModule } from '@vue-storefront/core/modules/review'
 import { IcmaaExtendedReviewModule } from 'icmaa-review'
@@ -218,6 +219,9 @@ export default {
         availability: this.product.stock.is_in_stock ? 'InStock' : 'OutOfStock'
       }
     },
+    isAddToCartDisabled () {
+      return this.$v.$invalid || this.loading || !this.quantity
+    },
     isSingleOptionProduct () {
       return this.product.type_id === 'simple' || this.isOnesizeProduct
     },
@@ -293,6 +297,7 @@ export default {
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
     await store.dispatch('product/loadProductBreadcrumbs', { product })
+    catalogHooksExecutors.productPageVisited(product)
   }
 }
 </script>
