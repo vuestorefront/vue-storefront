@@ -74,7 +74,7 @@ const actions: ActionTree<AttributeState, RootState> = {
       onlyDefinedByUser: only_user_defined,
       onlyVisible: only_visible
     })
-    const resp = await quickSearchByQuery({ entityType: 'attribute', query, includeFields })
+    const resp = await quickSearchByQuery({ entityType: 'attribute', query, includeFields, start, size })
     const attributes = resp && orgFilterValues.length > 0 ? resp.items : null
 
     dispatch('updateBlacklist', { filterValues, filterField, attributes })
