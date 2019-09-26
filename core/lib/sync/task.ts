@@ -14,7 +14,7 @@ import { processURLAddress } from '@vue-storefront/core/helpers'
 import { serial } from '@vue-storefront/core/helpers'
 import config from 'config'
 import { onlineHelper } from '@vue-storefront/core/helpers'
-import { hasResponseError, getResponseMessage } from '@vue-storefront/core/helpers/internal'
+import { hasResponseError, getResponseMessage } from '@vue-storefront/core/lib/sync/helpers'
 
 export function _prepareTask (task) {
   const taskId = entities.uniqueEntityId(task) // timestamp as a order id is not the best we can do but it's enough
