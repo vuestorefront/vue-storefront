@@ -223,8 +223,13 @@ export function extendStore (moduleName: string | string[], module: any) {
     for (let key in source) {
       if (Array.isArray(source[key])) {
         object[key] = merge([], source[key])
-      } else if (typeof source[key] === 'object') {
+      } else if (source[key] === null && !object[key]) {
+        object[key] = null
+      } else if (typeof source[key] === 'object' && Object.keys(source[key]).length > 0) {
         object[key] = merge(object[key], source[key])
+      } else if (typeof source[key] === 'object' && object === null) {
+        object = {}
+        object[key] = source[key]
       } else {
         object[key] = source[key]
       }

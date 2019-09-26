@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added italian translations - @lorenaramonda (3076)
 - Route Manager Queue for adding routes efficiently and with an optional priority - @grimasod (#3540)
 - Added tests for cart module actions - @andrzejewsky (#3023)
+- Fixed a problem with type changes in the state when extending a store - @resubaka (#3618)
 
 ### Fixed
 
@@ -113,6 +114,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed resolving store code on SSR - @andrzejewsky (#3576)
 - Clear user data if error occurs while login - @gibkigonzo (#3588)
 - Fix loading bestsellers on 404 error page - @andrzejewsky (#3540)
+- Remove modifying config by reference in multistore - @gibkigonzo (#3617)
+- Add translation key for add review - @gibkigonzo (#3611)
+- Add product name prop to reviews component - @gibkigonzo (#3607)
+- Show default cms pages when current store code is not equals to default  - @andrzejewsky (#3579)
+- Hydration error on homepage - @patzick (#3609)
 
 ### Changed / Improved
 
@@ -160,6 +166,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved translations: Replaced concatenations with "named formatting" (see http://kazupon.github.io/vue-i18n/guide/formatting.html#named-formatting) - @phoenixdev-kl (#3550)
 - Added `filterMinimumShouldMatch` to ES queries in order to support ES7 - @pkarw (#1692)
 - Pass `RouteManager` as proxy for router.addRoutes - @gibkigonzo (#3479)
+- Added generic types to hooks - @gibkigonzo
 
 ## [1.10.3] - 2019.09.18
 
