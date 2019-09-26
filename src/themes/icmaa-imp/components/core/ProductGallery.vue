@@ -1,17 +1,19 @@
 <template>
-  <div class="media-gallery">
-    <div v-if="isOnline" class="t-relative t-w-full">
-      <no-ssr>
-        <product-gallery-carousel
-          v-if="showProductGalleryCarousel"
-          :gallery="gallery"
-          :configuration="configuration"
-          :product-name="product.name"
-          @loaded="carouselLoaded = true"
-        />
-      </no-ssr>
+  <div>
+    <div class="media-gallery">
+      <div v-if="isOnline" class="t-relative t-w-full">
+        <no-ssr>
+          <product-gallery-carousel
+            v-if="showProductGalleryCarousel"
+            :gallery="gallery"
+            :configuration="configuration"
+            :product-name="product.name"
+            @loaded="carouselLoaded = true"
+          />
+        </no-ssr>
+      </div>
+      <product-image v-else :image="offline" />
     </div>
-    <product-image v-else :image="offline" />
   </div>
 </template>
 
