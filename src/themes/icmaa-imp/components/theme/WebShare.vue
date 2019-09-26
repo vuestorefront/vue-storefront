@@ -1,7 +1,7 @@
 <template>
   <div>
     <a v-for="(shareUrl, key) in shareUrls" :key="key" :href="shareUrl" target="_blank" class="t-text-base-light" :class="{ 't-mr-4': key !== lastKey }">
-      <material-icon icon-set="icmaa" :icon="key" size="xs" />
+      <material-icon icon-set="icmaa" :icon="key" size="sm" />
     </a>
   </div>
 </template>

@@ -21,14 +21,21 @@ module.exports = {
         'base-tone': '#3E3E3E',
         'base-light': '#999999',
         'base-lighter': '#C7C7C7',
-        'base-lightest': '#EDEDED'
+        'base-lightest': '#EDEDED',
+        'alert': '#CC2823'
       },
       spacing: {
         '1/8': '0.125rem',
         '3-1/2': '0.85rem',
         '2px': '2px'
       },
+      minHeight: {
+        'screen-25': '25vh',
+        'screen-50': '50vh',
+        'screen-75': '75vh'
+      },
       fontSize: {
+        'reset': '0',
         'icon': '0.875em',
         'xxs': '0.625rem',
         '1xl': '1.375rem'
@@ -61,6 +68,13 @@ module.exports = {
           return `.${e(`placeholder${separator}${className}`)}::placeholder`
         })
       })
+    },
+    // Add custom utilities (custom-classes)
+    function ({ addUtilities }) {
+      addUtilities(
+        { '.webkit-touch': { '-webkit-overflow-scrolling': 'touch' } },
+        ['responsive']
+      )
     }
   ]
 }

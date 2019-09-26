@@ -21,7 +21,7 @@ export default {
       type: String,
       default: 'md',
       validation: (value) => {
-        return ['xs', 'md', 'lg', 'xl'].indexOf(value) !== -1
+        return ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'icon'].indexOf(value) !== -1
       }
     }
   },

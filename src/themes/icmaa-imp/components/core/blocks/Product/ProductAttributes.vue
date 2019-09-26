@@ -1,7 +1,7 @@
 <template>
   <li class="t-flex" v-if="valuesRaw.length > 0">
-    <span class="t-w-2/6 t-font-bold">{{ label|htmlDecode }}</span>
-    <span class="t-w-4/6">
+    <span class="t-w-5/12 lg:t-w-2/6 t-font-bold t-overflow-auto t-webkit-touch">{{ label|htmlDecode }}</span>
+    <span class="t-w-7/12 lg:t-w-4/6 t-pl-2">
       <template v-for="(value, index) in values">
         <template v-if="value.optionLink">
           <router-link :to="value.optionLink" :title="label + ' - ' + value.optionLabel" class="t-text-base-dark" v-text="value.optionLabel" :key="'key-' + index" /><span v-if="valuesCount !== index" v-text="', '" :key="'spacer-' + index" />

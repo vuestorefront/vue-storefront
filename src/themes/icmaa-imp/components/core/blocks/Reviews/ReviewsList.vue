@@ -1,51 +1,42 @@
 <template>
-  <div>
-    <div class="mt50 h5" v-if="!itemsPerPage || itemsPerPage.length === 0">
+  <div class="reviews-list">
+    <div v-if="!itemsPerPage || itemsPerPage.length === 0" class="t-bg-white t-rounded-sm t-p-4 t-text-sm t-text-base-light">
       {{ $t('No reviews have been posted yet. Please don\'t hesitate to share Your opinion and write the first review!') }}
     </div>
-    <div class="mt50" v-for="(item, index) in itemsPerPage" :key="index" itemprop="review" itemscope itemtype="http://schema.org/Review">
+    <div v-for="(item, index) in itemsPerPage" :key="index" itemprop="review" itemscope itemtype="http://schema.org/Review" class="t-bg-white t-rounded-sm t-p-4" :class="{ 't-mb-4': (index + 1) < perPage && (index + 1) < items.length }">
+      <meta itemprop="reviewAspect" :content="item.title" v-html="item.title">
       <meta itemprop="itemReviewed" :content="productName | htmlDecode">
-      <h4 class="weight-400 m0" itemprop="reviewAspect" :content="item.title">
-        {{ item.title }}
-      </h4>
-      <p class="cl-tertiary mt10 mb20 fs-medium-small">
-        {{ item.nickname }}, {{ item.created_at | date }}
-      </p>
-      <p class="cl-gray lh25" itemprop="reviewBody" :content="item.detail">
-        {{ item.detail }}
-      </p>
+      <meta itemprop="reviewBody" :content="item.detail | htmlDecode">
+      <reviews-stars :rating="item.ratings_total" stars-size="sm" class="t-flex t-items-center t-text-md t-text-base-light t-mt-2" />
+      <p class="t-text-sm t-my-4" v-html="item.detail" />
+      <p class="t-text-sm t-text-base-light" v-text="item.nickname" />
     </div>
-    <div class="row middle-xs center-xs mt50" v-if="pageCount > 1">
-      <a href="#" class="mr10 no-underline" :class="{ inactive: currentPage === 1 }" @click.prevent="prevPage">
-        <i class="material-icons">chevron_left</i>
-      </a>
-      <span class="mx10 pagination-page" v-for="pageNumber in pageList" :key="pageNumber">
-        <span class="fs-medium block py15 px20 bg-cl-mine-shaft cl-white" v-if="pageNumber === currentPage">
-          {{ pageNumber }}
-        </span>
-        <a href="#" class="fs-medium block py15 px20 bg-cl-secondary pointer" v-else @click.prevent="changePage(pageNumber)">
-          {{ pageNumber }}
-        </a>
-      </span>
-      <a href="#" class="ml10 no-underline" :class="{ inactive: currentPage === pageCount }" @click.prevent="nextPage">
-        <i class="material-icons">chevron_right</i>
-      </a>
+    <div class="t-flex t-justify-center t-mt-8" v-if="pageCount > 1">
+      <button-component type="ghost" icon="chevron_left" :icon-only="true" size="sm" class="t-mx-2" :class="{ 't-opacity-25': currentPage === 1, 't-bg-white': currentPage !== 1 }" @click.native="prevPage" />
+      <button-component type="ghost" icon="chevron_right" :icon-only="true" size="sm" class="t-mx-2" :class="{ 't-opacity-25': currentPage === pageCount, 't-bg-white': currentPage !== pageCount }" @click.native="nextPage" />
     </div>
   </div>
 </template>
 
 <script>
-import Product from '@vue-storefront/core/pages/Product'
+import { mapGetters } from 'vuex'
+import ReviewsStars from 'theme/components/core/blocks/Reviews/ReviewsStars'
+import ButtonComponent from 'theme/components/core/blocks/Button'
 
 export default {
+  name: 'ReviewsList',
+  components: {
+    ReviewsStars,
+    ButtonComponent
+  },
   props: {
     perPage: {
       type: Number,
       required: false,
       default: 4
     },
-    items: {
-      type: Array,
+    productName: {
+      type: String,
       required: true
     }
   },
@@ -54,8 +45,19 @@ export default {
       currentPage: 1
     }
   },
-  mixins: [Product],
   computed: {
+    ...mapGetters({
+      reviews: 'review/getReviews',
+      reviewsCount: 'review/getReviewsCount',
+      reviewsTotalRating: 'review/getReviewsTotalRating',
+      reviewAvgRating: 'review/getReviewAvgRating'
+    }),
+    items () {
+      return this.reviews.map(rvw => {
+        rvw['ratings_total'] = this.reviewAvgRating(rvw)
+        return rvw
+      })
+    },
     itemsPerPage () {
       let start = ((this.currentPage - 1) * this.perPage)
       let end = start + this.perPage
@@ -63,23 +65,6 @@ export default {
     },
     pageCount () {
       return Math.floor(this.items.length / this.perPage) + Math.min(1, this.items.length % this.perPage)
-    },
-    pageList () {
-      if (this.pageCount <= 5 || this.currentPage === 1 || this.currentPage === 2) {
-        const pages = []
-        for (let i = 1; i <= Math.min(this.pageCount, 5); i += 1) {
-          pages.push(i)
-        }
-        return pages
-      } else if (this.currentPage === this.pageCount || this.currentPage === this.pageCount - 1) {
-        const pages = []
-        for (let i = this.pageCount; i >= 1 && i >= this.pageCount - 4; i -= 1) {
-          pages.unshift(i)
-        }
-        return pages
-      } else {
-        return [this.currentPage - 2, this.currentPage - 1, this.currentPage, this.currentPage + 1, this.currentPage + 2]
-      }
     }
   },
   methods: {
@@ -88,43 +73,7 @@ export default {
     },
     nextPage () {
       this.currentPage = Math.min(this.pageCount, this.currentPage + 1)
-    },
-    changePage (pageNumber) {
-      this.currentPage = Math.max(1, Math.min(this.pageCount, pageNumber))
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$mine-shaft: color(mine-shaft);
-$white: color(white);
-
-.inactive {
-  opacity: 0.5;
-  pointer-events: none;
-}
-.material-icons {
-  font-size: 30px;
-  line-height: 30px;
-}
-.pagination-page {
-  a {
-    &:hover {
-      background-color: $mine-shaft;
-      color: $white;
-    }
-  }
-  @media (max-width: 767px) {
-    margin: 0;
-  }
-  a, span {
-    @media (max-width: 767px) {
-      padding: 10px 12px;
-      font-size: 16px;
-    }
-  }
-}
-</style>

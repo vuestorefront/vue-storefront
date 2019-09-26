@@ -12,11 +12,14 @@ const arrayAvg = (arr): number => {
 
 const getters: GetterTree<ReviewState, RootState> = {
   getReviews: (state): Review[] => state.items.items || [],
+  getReviewAvgRating: (state) => (review: Review): number => {
+    return arrayAvg(review.ratings.map(r => r.percent))
+  },
   getReviewsCount: (state, getters): number => getters.getReviews.length || 0,
   getReviewsTotalRating: (state, getters): number => {
     return arrayAvg(
       getters.getReviews.map(
-        rvw => arrayAvg(rvw.ratings.map((r) => r.percent))
+        rvw => arrayAvg(rvw.ratings.map(r => r.percent))
       )
     )
   }

@@ -2,7 +2,7 @@ import i18n from '@vue-storefront/i18n'
 
 export default class ProductName {
   protected _name: string
-  protected _type: string|boolean
+  protected _type: string = ''
   protected _translatedType: string
 
   public constructor (name) {
@@ -39,12 +39,15 @@ export default class ProductName {
   }
 
   protected setType () {
-    const regex = /(?<=\s[-–]{1}\s)((?!(\s)+[-–]{1}(\s)+).)*(?!.+)/ui
-    this._type = !regex.test(this.name) || regex.exec(this.name)[0]
+    const regex = /(\s[-–]{1}\s)/ui
+    if (regex.test(this.name)) {
+      const splitString = regex.exec(this.name).shift()
+      this._type = this.name.split(splitString).pop()
+    }
   }
 
   protected setTranslatedType () {
-    if (this.typeString) {
+    if (this.typeString !== '') {
       this._translatedType = i18n.t('Product-Title: ' + this.typeString as string) as string
     }
   }

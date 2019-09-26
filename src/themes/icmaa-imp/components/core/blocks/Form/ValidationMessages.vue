@@ -1,22 +1,26 @@
 <template>
-  <div v-if="validations">
-    <span
-      v-for="(validation, index) in validations"
-      :key="index"
-      v-if="validation.condition"
-      class="block cl-error h6 mt8"
-      data-testid="errorMessage"
-    >
+  <div v-if="validations" class="validation-message t-w-full" :class="[ validationsAsTooltip ? 't-hidden t-absolute t-mt-10 t-p-2 t-top-0 t-z-10 t-bg-white' : 't-mt-2' ]">
+    <span v-for="(validation, index) in filteredValidations" :key="index" class="t-block t-text-sm t-italic t-text-alert" data-testid="errorMessage">
       {{ validation.text }}
     </span>
   </div>
 </template>
+
 <script>
 export default {
   props: {
     validations: {
       type: Array,
       default: () => []
+    },
+    validationsAsTooltip: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    filteredValidations () {
+      return this.validations.filter(v => v.condition)
     }
   }
 }

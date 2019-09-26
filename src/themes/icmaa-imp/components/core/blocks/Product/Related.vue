@@ -73,7 +73,7 @@ export default {
 
       const response = await this.$store.dispatch('product/list', {
         query: relatedProductsQuery,
-        size: 8,
+        size: 3,
         prefetchGroupProducts: false,
         updateState: false
       })

@@ -1,5 +1,5 @@
 <template>
-  <button-component type="ghost" :icon="favoriteIcon" :only-icon="true" @click.native="isOnWishlist ? removeProductFromWhishList(product) : addProductToWhishlist(product)" data-testid="addToWishlist">
+  <button-component type="ghost" :icon="favoriteIcon" :icon-only="true" @click.native="isOnWishlist ? removeProductFromWhishList(product) : addProductToWhishlist(product)" data-testid="addToWishlist">
     <slot>
       {{ !isOnWishlist ? $t('Add to favorite') : $t('Remove') }}
     </slot>

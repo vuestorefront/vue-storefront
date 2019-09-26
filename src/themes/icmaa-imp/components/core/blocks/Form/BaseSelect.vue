@@ -1,42 +1,50 @@
 <template>
-  <div class="select-wrapper relative">
-    <select
-      :name="name"
-      :class="{
-        'cl-tertiary' : options.length === 0,
-        'empty': !selected
-      }"
-      :autocomplete="autocomplete"
-      @focus="$emit('focus')"
-      @blur="$emit('blur')"
-      @change="$emit('change', $event.target.value)"
-      @input="$emit('input', $event.target.value)"
-    >
-      <option disabled selected value v-if="!selected" />
-      <option
-        v-for="(option, key) in options"
-        :key="key"
-        :value="option.value"
-        v-bind="{selected: option.value === selected}"
+  <div class="base-select">
+    <div class="t-relative">
+      <select
+        class="t-w-full t-h-10 t-pl-3 t-pr-12 t-border t-rounded-sm t-leading-tight t-bg-white t-appearance-none focus:outline-none focus:shadow-outline"
+        :class="[ invalid ? 't-border-alert' : 't-border-base-light', { 't-text-base-light': !value || value === selected } ]"
+        :name="name"
+        :id="id"
+        @focus="$emit('focus')"
+        @blur="$emit('blur')"
+        @change="$emit('change', $event.target.value)"
+        @input="$emit('input', $event.target.value)"
       >
-        {{ option.label }}
-      </option>
-    </select>
-    <label>{{ placeholder }}</label>
-
-    <ValidationMessages v-if="validations" :validations="validations" />
+        <option disabled :selected="!value" v-if="selected === ''" value="" v-html="initialOptionText" />
+        <option
+          v-for="(option, key) in options"
+          :key="key"
+          :value="option.value"
+          v-bind="{ selected: option.value === selected || option.value === value }"
+        >
+          {{ option.label }}
+        </option>
+      </select>
+      <div class="t-pointer-events-none t-absolute t-inset-y-0 t-right-0 t-flex t-items-center t-px-2">
+        <material-icon icon="keyboard_arrow_down" />
+      </div>
+    </div>
+    <ValidationMessages v-if="invalid" :validations="validations" />
   </div>
 </template>
 
 <script>
-import ValidationMessages from './ValidationMessages.vue'
+import i18n from '@vue-storefront/i18n'
+import ValidationMessages from './ValidationMessages'
+import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 
 export default {
   name: 'BaseSelect',
   components: {
+    MaterialIcon,
     ValidationMessages
   },
   props: {
+    value: {
+      type: [String, Number],
+      default: ''
+    },
     id: {
       type: String,
       required: false,
@@ -52,91 +60,29 @@ export default {
       required: true,
       default: () => []
     },
+    initialOptionText: {
+      type: String,
+      required: false,
+      default: i18n.t('Choose an option')
+    },
     selected: {
-      type: String,
-      required: false,
-      default: ''
-    },
-    placeholder: {
-      type: String,
-      required: false,
-      default: ''
-    },
-    autocomplete: {
-      type: String,
+      type: [String, Number],
       required: false,
       default: ''
     },
     validations: {
       type: Array,
       default: () => []
+    },
+    validationsAsTooltip: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    invalid () {
+      return this.validations.filter(v => v.condition).length > 0
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
-  @import '~theme/css/base/text';
-  $color-tertiary: color(tertiary);
-  $color-black: color(black);
-  $color-puerto-rico: color(puerto-rico);
-  $color-hover: color(tertiary, $colors-background);
-
-.select-wrapper {
-  &::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 1rem;
-    right: 10px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 8px 6px 0 6px;
-    border-color: $color-tertiary transparent transparent transparent;
-    pointer-events: none;
-  }
-
-  select {
-    @extend .h4;
-    border: none;
-    border-bottom: 1px solid $color-tertiary;
-    width: 100%;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    border-radius: 0;
-    background-color: transparent;
-
-    &:hover,
-    &:focus {
-      outline: none;
-      border-color: $color-puerto-rico;
-    }
-
-    &:disabled,
-    &:disabled + label {
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-  }
-  label {
-    color: #999;
-    position: absolute;
-    pointer-events: none;
-    user-select: none;
-    top: 10px;
-    left: 8px;
-    transition: 0.2s ease all;
-    -moz-transition: 0.2s ease all;
-    -webkit-transition: 0.2s ease all;
-  }
-  select:focus ~ label, select:not(.empty) ~ label {
-    top: -10px;
-    font-size: 14px;
-    color: $color-puerto-rico;
-  }
-}
-</style>

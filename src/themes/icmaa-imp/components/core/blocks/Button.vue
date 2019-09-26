@@ -1,6 +1,6 @@
 <template>
   <button type="button" class="t-px-4 t-text-xs t-rounded-sm t-cursor-pointer t-leading-1-rem" :class="[ { 't-uppercase': type !== 'select' }, sizeClass, colorClass ]">
-    <template v-if="onlyIcon">
+    <template v-if="iconOnly">
       <span class="t-sr-only">
         <slot />
       </span>
@@ -8,7 +8,7 @@
     <template v-else>
       <slot />
     </template>
-    <material-icon v-if="icon" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-ml-4': !onlyIcon }, { 't-float-right': type === 'select' }, iconClass ]" />
+    <material-icon v-if="icon" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-ml-4': !iconOnly }, { 't-float-right': type === 'select' }, iconClass ]" />
   </button>
 </template>
 
@@ -32,7 +32,7 @@ export default {
       type: String,
       default: 'second',
       validation: (value) => {
-        return ['primary', 'second', 'ghost', 'transparent'].indexOf(value) !== -1
+        return ['primary', 'second', 'ghost', 'transparent'].includes(value)
       }
     },
     icon: {
@@ -47,7 +47,7 @@ export default {
       type: [String, Boolean],
       default: false
     },
-    onlyIcon: {
+    iconOnly: {
       type: Boolean,
       default: false
     }
@@ -61,7 +61,10 @@ export default {
         'primary': 't-bg-primary t-text-white',
         'second': 't-bg-base-darkest t-text-white',
         'ghost': 't-border t-border-base-darkest t-bg-transparent t-text-base-darkest',
-        'transparent': 't-bg-transparent t-text-primary',
+        'ghost-white': 't-border t-border-white t-bg-transparent t-text-white',
+        'transparent': 't-bg-transparent',
+        'transparent-white': 't-bg-transparent t-text-white',
+        'transparent-primary': 't-bg-transparent t-text-base-darkest',
         'select': 't-border t-border-base-light t-bg-transparent t-text-base-tone t-text-left t-text-sm'
       }
 
