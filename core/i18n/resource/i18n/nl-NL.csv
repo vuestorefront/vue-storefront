@@ -1,4 +1,5 @@
  is out of stock!, is niet in voorraad!
+"Adding a review ...","Adding a review ..."
 "Are you sure you would like to remove this item from the shopping cart?","Weet u zeker dat u dit artikel uit uw mandje wilt verwijderen?"
 "Product price is unknown, product cannot be added to the cart!",Productprijs onbekend. Dit product kan niet worden toegevoegd aan de winkelwagen!
 "Shopping cart is empty. Please add some products before entering Checkout",Uw winkelwagen is leeg. Voeg producten toe voordat u gaat afrekenen
@@ -6,6 +7,7 @@
 "Thumbnail","Thumbnail"
 "Unhandled error, wrong response format!","Unhandled error, wrong response format!"
 "You need to be logged in to see this page","U moet ingelogd zijn om deze pagina te bekijken"
+"You submitted your review for moderation.","You submitted your review for moderation."
 404 Page Not Found,404 Pagina niet gevonden
 Account data has successfully been updated,Account gegevens succesvol geupdatet.
 Checkout,Afrekenen
@@ -26,7 +28,7 @@ Product has been added to the cart!,Product is toegevoegd aan de winkelwagen!
 Product {productName} has been added to the compare!,Product {productName} is toegevoegd aan de vergelijking!
 Product {productName} has been added to wishlist!,Product {productName} is toegevoegd aan de verlanglijst!
 Product {productName} has been removed from compare!,Product {productName} is verwijderd van de vergelijking!
-Product {productName} has been removed from wishlit!,Product {productName} is verwijderd van de verlanglijst
+Product {productName} has been removed from wishlist!,Product {productName} is verwijderd van de verlanglijst
 Registering the account ...,Account registreren ...
 Reset password feature does not work while offline!,De reset wachtwoordfunctie werkt niet terwijl u offline bent!
 Some of the ordered products are not available!,Niet alle bestelde producten zijn beschikbaar!

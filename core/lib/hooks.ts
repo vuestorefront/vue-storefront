@@ -6,14 +6,14 @@
   @return hook:  a hook function to use in modules
   @return executor: a function that will run all the collected hooks
  */
-function createListenerHook () {
-  const functionsToRun: ((arg: any) => void)[] = []
+function createListenerHook<T> () {
+  const functionsToRun: ((arg: T) => void)[] = []
 
-  function hook (fn: (arg?: any) => void) {
+  function hook (fn: (arg?: T) => void) {
     functionsToRun.push(fn)
   }
 
-  function executor (args: any = null) {
+  function executor (args: T = null): void {
     functionsToRun.forEach(fn => fn(args))
   }
 
@@ -30,16 +30,16 @@ function createListenerHook () {
   @return hook: a hook function to use in modules
   @return executor: a function that will apply all hooks on a given value
  */
-function createMutatorHook () {
-  const mutators: ((arg: any) => void)[] = []
+function createMutatorHook<T, R> () {
+  const mutators: ((arg: T) => R)[] = []
 
-  function hook (mutator: (arg: any) => any) {
+  function hook (mutator: (arg: T) => R) {
     mutators.push(mutator)
   }
 
-  function executor (rawOutput: any) {
+  function executor (rawOutput: T): T | R {
     if (mutators.length > 0) {
-      let modifiedOutput = null
+      let modifiedOutput: R = null
       mutators.forEach(fn => {
         modifiedOutput = fn(rawOutput)
       })

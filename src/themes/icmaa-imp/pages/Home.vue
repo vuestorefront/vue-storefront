@@ -19,9 +19,6 @@ export default {
   computed: {
     ...mapGetters('user', ['isLoggedIn'])
   },
-  created () {
-    this.$store.dispatch('checkout/load')
-  },
   mounted () {
     if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup')
   },

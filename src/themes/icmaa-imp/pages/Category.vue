@@ -90,7 +90,6 @@ import config from 'config'
 import Columns from '../components/core/Columns.vue'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import { mapGetters } from 'vuex'
-import uniq from 'lodash-es/uniq'
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 import rootStore from '@vue-storefront/core/store'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
@@ -100,11 +99,6 @@ import CategoryExtrasMixin from 'icmaa-cms/mixins/categoryExtras'
 
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
-    await store.dispatch('attribute/list', { // load filter attributes for this specific category
-      filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields]), // TODO: assign specific filters/ attribute codes dynamicaly to specific categories
-      includeFields: config.entities.optimize && isServer ? config.entities.attribute.includeFields : null
-    })
-
     const filters = getSearchOptionsFromRouteParams(route.params)
     const cachedCategory = store.getters['category-next/getCategoryFrom'](route.path)
     const currentCategory = cachedCategory && !forceLoad ? cachedCategory : await store.dispatch('category-next/loadCategory', { filters })

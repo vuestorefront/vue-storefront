@@ -54,9 +54,14 @@ const actions: ActionTree<UserState, RootState> = {
     userHooksExecutors.afterUserAuthorize(resp)
 
     if (resp.code === 200) {
-      await dispatch('resetUserInvalidateLock', {}, { root: true })
-      commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
-      await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+      try {
+        await dispatch('resetUserInvalidateLock', {}, { root: true })
+        commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
+        await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+      } catch (err) {
+        await dispatch('clearCurrentUser')
+        throw new Error(err)
+      }
     }
 
     return resp
@@ -104,7 +109,7 @@ const actions: ActionTree<UserState, RootState> = {
       commit(types.USER_INFO_LOADED, currentUser)
       await dispatch('setUserGroup', currentUser)
       EventBus.$emit('user-after-loggedin', currentUser)
-      await dispatch('cart/authorize', {}, { root: true })
+      dispatch('cart/authorize', {}, { root: true })
 
       return currentUser
     }
@@ -121,7 +126,7 @@ const actions: ActionTree<UserState, RootState> = {
 
     if (!resolvedFromCache && resp.resultCode === 200) {
       EventBus.$emit('user-after-loggedin', resp.result)
-      await dispatch('cart/authorize', {}, { root: true })
+      dispatch('cart/authorize', {}, { root: true })
       return resp
     }
   },
@@ -232,8 +237,8 @@ const actions: ActionTree<UserState, RootState> = {
       return ordersHistory
     }
   },
-  async refreshOrdersHistory ({ commit }, { resolvedFromCache }) {
-    const resp = await UserService.getOrdersHistory()
+  async refreshOrdersHistory ({ commit }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
+    const resp = await UserService.getOrdersHistory(pageSize, currentPage)
 
     if (resp.code === 200) {
       commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
@@ -249,7 +254,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Load user's orders history
    */
-  async getOrdersHistory ({ dispatch, getters }, { refresh = true, useCache = true }) {
+  async getOrdersHistory ({ dispatch, getters }, { refresh = true, useCache = true, pageSize = 20, currentPage = 1 }) {
     if (!getters.getToken) {
       Logger.debug('No User token, user unathorized', 'user')()
       return Promise.resolve(null)
@@ -266,7 +271,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
 
     if (refresh) {
-      return dispatch('refreshOrdersHistory', { resolvedFromCache })
+      return dispatch('refreshOrdersHistory', { resolvedFromCache, pageSize, currentPage })
     } else {
       if (!resolvedFromCache) {
         Promise.resolve(null)

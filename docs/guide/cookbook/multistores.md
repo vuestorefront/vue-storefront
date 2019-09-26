@@ -10,7 +10,7 @@ Each market more than often requires you to prepare your stores ready to serve d
 
 Other than going global, _Multistores_ also give you various options when you want to serve a variety of customer segmentation. The limit is your imagination. 
 
-In this chpater, we are going to discuss the all aspects you need to consider before expanding your stores. 
+In this chapter, we are going to discuss the all aspects you need to consider before expanding your stores. 
 
 ## 1. _Multistores_ up and running
 Many e-commerce open sources provide with _multistores_ features out of the box. One notable example is _Magento 2_ without a doubt. In this recipe, we will examine setting up _multistores_ on _Vue Storefront_ connected to _Magento 2_ as the backend.
