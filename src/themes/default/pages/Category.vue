@@ -99,7 +99,7 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     const cachedCategory = store.getters['category-next/getCategoryFrom'](route.path)
     const currentCategory = cachedCategory && !forceLoad ? cachedCategory : await store.dispatch('category-next/loadCategory', { filters })
     await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
-    await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
+    await store.dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: currentCategory.name, omitCurrent: true })
     catalogHooksExecutors.categoryPageVisited(currentCategory)
   } catch (e) {
     console.error('Problem with setting Category initial data!', e)

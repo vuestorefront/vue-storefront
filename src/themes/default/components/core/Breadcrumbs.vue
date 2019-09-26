@@ -6,13 +6,13 @@
       </router-link> /
     </span>
     <span class="cl-mine-shaft">
-      {{ activeRoute | htmlDecode }}
+      {{ current | htmlDecode }}
     </span>
   </div>
 </template>
 
 <script>
-import Breadcrumbs from '@vue-storefront/core/compatibility/components/Breadcrumbs'
+import { Breadcrumbs } from '@vue-storefront/core/modules/breadcrumbs/components/Breadcrumbs.ts'
 
 export default {
   mixins: [Breadcrumbs]

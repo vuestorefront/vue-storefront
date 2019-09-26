@@ -668,10 +668,11 @@ const actions: ActionTree<ProductState, RootState> = {
   },
   async loadProductBreadcrumbs ({ dispatch }, { product } = {}) {
     if (product && product.category_ids) {
-      const categoryFilters = { 'id': product.category_ids }
+      const categoryFilters = Object.assign({ 'id': product.category_ids }, config.entities.category.breadcrumbFilterFields ? config.entities.category.breadcrumbFilterFields : {})
       const categories = await dispatch('category-next/loadCategories', {filters: categoryFilters}, { root: true })
+      // TODO - check if product in current category and use that
       const deepestCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
-      await dispatch('category-next/loadCategoryBreadcrumbs', deepestCategory, { root: true })
+      await dispatch('category-next/loadCategoryBreadcrumbs', { category: deepestCategory, currentRouteName: product.name }, { root: true })
     }
   }
 }
