@@ -122,6 +122,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hydration error on homepage - @patzick (#3609)
 - Fix adding products with custom options - @andrzejewsky (#3597)
 - check silentMode in errors on the same level as task.silent - @gibkigonzo (#3621)
+- Add missing parameters (`size`,`start`) to `quickSearchByQuery()` in `attribute/list` action - @cewald (#3627)
 
 ### Changed / Improved
 
