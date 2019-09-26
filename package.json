@@ -62,6 +62,7 @@
     "dayjs": "^1.8.15",
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
+    "express-ws": "^4.0.0",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "isomorphic-fetch": "^2.2.1",

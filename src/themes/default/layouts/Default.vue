@@ -30,6 +30,7 @@
       <notification />
       <sign-up />
       <cookie-notification />
+      <cache-notification />
       <offline-badge />
       <order-confirmation :orders-data="ordersData" v-if="loadOrderConfirmation" />
     </div>
@@ -47,6 +48,7 @@ import Loader from 'theme/components/core/Loader.vue'
 import Notification from 'theme/components/core/Notification.vue'
 import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
 import CookieNotification from 'theme/components/core/CookieNotification.vue'
+import CacheNotification from 'src/modules/clear-cache/components/Notification'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import { isServer } from '@vue-storefront/core/helpers'
 import Head from 'theme/head'
@@ -116,6 +118,7 @@ export default {
     Notification,
     SignUp,
     CookieNotification,
+    CacheNotification,
     OfflineBadge,
     OrderConfirmation,
     AsyncSidebar
