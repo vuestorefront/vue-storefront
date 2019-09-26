@@ -17,7 +17,7 @@
         <ul class="categories">
           <li :key="category.id" v-for="category in letter.list" class="category">
             <router-link
-              :to="getLocalizedRoute(category)"
+              :to="getCategoryRoute(category)"
               data-testid="categoryLink"
               v-html="category.name"
             />
@@ -33,7 +33,7 @@
 
 <script>
 import List from 'icmaa-category/components/List'
-import { currentStoreView, localizedRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
 export default {
   mixins: [ List ],
@@ -60,12 +60,8 @@ export default {
     setInterval(this.hasScrolled, 50)
   },
   methods: {
-    getLocalizedRoute (category) {
-      return localizedRoute({
-        name: localizedDispatcherRouteName('category', currentStoreView().storeCode),
-        fullPath: category.url_path,
-        params: { id: category.id, slug: category.slug }
-      })
+    getCategoryRoute (category) {
+      return formatCategoryLink(category)
     },
     hasScrolled () {
       if (this.isScrolling) {

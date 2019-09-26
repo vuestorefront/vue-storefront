@@ -1,8 +1,7 @@
 import { icmaa_cms as config } from 'config'
 import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
-import { localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { LocalizedRoute } from '@vue-storefront/core/lib/types'
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
 export class Logo {
   protected _name: string
@@ -53,15 +52,12 @@ export class Logo {
     return getThumbnailPath(this.retinaPath, this.width * 2 || undefined, this.height * 2 || undefined, 'media')
   }
 
-  public get link (): string | LocalizedRoute {
+  public get link (): string {
     if (!this.category) {
       return ''
     }
 
-    return localizedRoute(
-      { name: 'category', fullPath: (this.category as Category).url_path },
-      currentStoreView().storeCode
-    )
+    return formatCategoryLink(this.category as Category)
   }
 
   protected getPath (isRetina: boolean = false): string {
