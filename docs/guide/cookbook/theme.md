@@ -57,7 +57,11 @@ In attempts to reduce such frustration, one might need to simulate _How things g
 <br />
 
 ## 3. How to upgrade theme one from another
+When you are already running your _Vue Storefront_ shop on production, chances are that you have made at least a few changes for your _theme_ even if you don't have developers resource. Hope you have made such changes to your child theme based on `default` theme so that normal upgrade won't make a huge impact in negative way for your shop. Sometimes, however, an upgrade so huge that you can't make a smooth conversion from one to another may take place. Helping you in such a case keep headaches at bay, we will show you the example where `1.10` to `1.11` upgrade affects how a theme works.
+
 ### 1. Preparation
+ - You have a [Vue Storefront App]() running
+ - You have a child theme [running]() on top of _Vue Storefront_ app. 
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
