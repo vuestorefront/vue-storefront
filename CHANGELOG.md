@@ -169,6 +169,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `filterMinimumShouldMatch` to ES queries in order to support ES7 - @pkarw (#1692)
 - Pass `RouteManager` as proxy for router.addRoutes - @gibkigonzo (#3479)
 - Added generic types to hooks - @gibkigonzo
+- Added mapping data as soon as it gets from api - @gibkigonzo (#3606)
 
 ## [1.10.3] - 2019.09.18
 
