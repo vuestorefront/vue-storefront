@@ -52,7 +52,8 @@ const synchronizeActions = {
     if (!canUpdateMethods || !isSyncRequired) return createDiffLog()
     commit(types.CART_SET_SYNC)
     const { result, resultCode } = await CartService.getItems()
-    const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
+    const mappedResult = result.map(r => ({...r, sku: String(r.sku)}))
+    const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: mappedResult })
 
     if (resultCode === 200) {
       const diffLog = await dispatch('merge', {
@@ -71,8 +72,8 @@ const synchronizeActions = {
       await dispatch('connect', { guestCart: true })
     }
 
-    Logger.error(result, 'cart')
-    cartHooksExecutors.afterSync(result)
+    Logger.error(mappedResult, 'cart')
+    cartHooksExecutors.afterSync(mappedResult)
     return createDiffLog()
   },
   async stockSync ({ dispatch, commit }, stockTask) {
