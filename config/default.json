@@ -157,7 +157,8 @@
         "excludeFields": [ "sgn" ],
         "categoriesRootCategorylId": 2,
         "categoriesDynamicPrefetchLevel": 2,
-        "categoriesDynamicPrefetch": true
+        "categoriesDynamicPrefetch": true,
+        "perPage": 30
       },
       "attribute": {
         "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices", "frontend_input" ]

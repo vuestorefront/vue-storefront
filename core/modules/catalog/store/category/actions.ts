@@ -203,7 +203,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Filter category products
    */
-  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false, cacheOnly = false }) {
+  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = config.entities.category.perPage, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false, cacheOnly = false }) {
     context.dispatch('setSearchOptions', {
       populateAggregations,
       filters,

@@ -19,7 +19,7 @@ export default {
   data () {
     return {
       pagination: {
-        perPage: 50,
+        perPage: config.entities.category.perPage,
         current: 0,
         enabled: false
       },
@@ -68,7 +68,7 @@ export default {
       store: store,
       route: route,
       current: 0,
-      perPage: 50,
+      perPage: config.entities.category.perPage,
       sort,
       filters: config.products.defaultFilters,
       includeFields: config.entities.optimize && isServer ? config.entities.productList.includeFields : null,
