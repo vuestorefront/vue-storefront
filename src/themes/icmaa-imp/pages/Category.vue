@@ -178,7 +178,7 @@ export default {
       this.mobileFilters = false
     },
     async changeFilter (filterVariant) {
-      this.$store.dispatch('category-next/switchSearchFilter', filterVariant)
+      this.$store.dispatch('category-next/switchSearchFilters', [filterVariant])
     },
     columnChange (column) {
       this.defaultColumn = column
