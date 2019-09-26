@@ -8,7 +8,7 @@ import ProductNameHelper from '../helpers/productName'
 export default {
   async asyncData ({ store }) {
     const filterValues = Object.keys(store.getters['product/getCurrentProduct'])
-      .filter(fieldName => config.entities.product.standardSystemFields.includes(fieldName))
+      .filter(fieldName => config.icmaa_catalog.entities.product.prefetchAttributes.includes(fieldName))
     await store.dispatch('attribute/list', { filterValues })
 
     await store.dispatch('icmaaCmsCategoryExtras/loadDepartmentChildCategoryIdMap')
