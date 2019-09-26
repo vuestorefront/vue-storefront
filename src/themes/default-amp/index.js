@@ -8,5 +8,4 @@ export default function (app, router, store) {
   // To do so please exclude the desired storeView from the config.storeViews.mapStoreUrlsFor and map the urls by your own like:
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   setupMultistoreRoutes(config, router, routes, 10)
-  // router.addRoutes(routes, router, true)
 }

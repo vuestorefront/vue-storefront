@@ -1,12 +1,11 @@
 import { VSFRouter } from '@vue-storefront/core/types/VSFRouter';
-import { RouterManager } from '@vue-storefront/core/lib/router-manager';
 import { Store } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import Vue from 'vue'
 import { isServer } from '@vue-storefront/core/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import i18n from '@vue-storefront/i18n'
-import VueRouter, { RouteConfig } from 'vue-router'
+import VueRouter from 'vue-router'
 import VueLazyload from 'vue-lazyload'
 import Vuelidate from 'vuelidate'
 import Meta from 'vue-meta'
@@ -29,45 +28,9 @@ import { injectReferences } from '@vue-storefront/core/lib/modules'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { registerClientModules } from 'src/modules/client';
 import initialStateFactory from './initialStateFactory'
+import { createRouter, createRouterProxy } from '@vue-storefront/core/helpers/router';
 
 const stateFactory = initialStateFactory(store.state)
-
-function createRouter (): VueRouter {
-  return new VueRouter({
-    mode: 'history',
-    base: __dirname,
-    scrollBehavior: (to, from, savedPosition) => {
-      if (to.hash) {
-        return {
-          selector: to.hash
-        }
-      }
-      if (savedPosition) {
-        return savedPosition
-      } else if (to.path !== from.path) { // do not change scroll position when navigating on the same page (ex. change filters)
-        return {x: 0, y: 0}
-      }
-    }
-  })
-}
-
-function createRouterProxy (router: VueRouter): VSFRouter {
-  const ProxyConstructor = Proxy || require('proxy-polyfill/src/proxy')
-
-  return new ProxyConstructor(router, {
-    get (target, propKey) {
-      const origMethod = target[propKey];
-
-      if (propKey === 'addRoutes') {
-        return function (routes: RouteConfig[], ...args): void {
-          return RouterManager.addRoutes(routes, ...args);
-        };
-      }
-
-      return origMethod;
-    }
-  })
-}
 
 let router: VueRouter = null
 let routerProxy: VSFRouter = null
