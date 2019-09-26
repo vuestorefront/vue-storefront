@@ -121,6 +121,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix login errors with mailchimp - @gibkigonzo (#3612)
 - Hydration error on homepage - @patzick (#3609)
 - Fix adding products with custom options - @andrzejewsky (#3597)
+- check silentMode in errors on the same level as task.silent - @gibkigonzo (#3621)
 
 ### Changed / Improved
 
