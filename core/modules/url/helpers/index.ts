@@ -31,7 +31,7 @@ function prepareDynamicRoute (routeData: LocalizedRoute, path: string): RouteCon
 export function processDynamicRoute (routeData: LocalizedRoute, path: string, addToRoutes: boolean = true): LocalizedRoute {
   const preparedRoute = prepareDynamicRoute(routeData, path)
   if (addToRoutes && preparedRoute) {
-    RouterManager.addRoutes([preparedRoute], router, true)
+    router.addRoutes([preparedRoute], true)
   }
   return preparedRoute
 }
@@ -45,7 +45,7 @@ export function preProcessDynamicRoutes (dispatcherMap: {}, addToRoutes: boolean
     }
   }
   if (addToRoutes) {
-    RouterManager.addRoutes(preparedRoutes, router, true)
+    router.addRoutes(preparedRoutes, true)
   }
   return preparedRoutes
 }

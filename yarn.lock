@@ -11252,6 +11252,11 @@ proxy-addr@~2.0.4:
     forwarded "~0.1.2"
     ipaddr.js "1.9.0"
 
+proxy-polyfill@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/proxy-polyfill/-/proxy-polyfill-0.3.0.tgz#385c13d1402d4ae1357b6e44652d9b8d6289b0ef"
+  integrity sha512-0HN+SoV3qKJ1EIIOsEybYgyTTnR26PJ0af/shBqaXLUMIg7/8PHEyQ28QfaDFwmvH77yRuLtclnERgrCq4v+xg==
+
 prr@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/prr/-/prr-1.0.1.tgz#d3fc114ba06995a45ec6893f484ceb1d78f5f476"
