@@ -39,6 +39,7 @@ class SearchQuery {
       scope: scope,
       options: options
     })
+
     return this
   }
 
