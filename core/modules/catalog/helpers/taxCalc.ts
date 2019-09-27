@@ -41,8 +41,6 @@ export function updateProductPrices ({ product, rate, sourcePriceInclTax = false
       if (product.final_price < product.special_price) { // for VS - special_price is any price lowered than regular price (`price`); in Magento there is a separate mechanism for setting the `special_prices`
         product.price = product.special_price // if the `final_price` is lower than the original `special_price` - it means some catalog rules were applied over it
       }
-      product.special_to_date = null
-      product.special_from_date = null
       product.special_price = product.final_price
     } else {
       product.price = product.final_price
@@ -57,6 +55,12 @@ export function updateProductPrices ({ product, rate, sourcePriceInclTax = false
 
   product.price_tax = price_excl_tax * rate_factor
   product.price_incl_tax = price_excl_tax + product.price_tax
+
+  if (!product.original_price) {
+    product.original_price = price_excl_tax
+    product.original_price_incl_tax = product.price_incl_tax
+    product.original_price_tax = product.price_tax
+  }
 
   let special_price_excl_tax = product.special_price
   if (sourcePriceInclTax) {
@@ -76,7 +80,7 @@ export function updateProductPrices ({ product, rate, sourcePriceInclTax = false
     /** END */
   }
 
-  if (product.special_price && (product.special_price < product.price)) {
+  if (product.special_price && (product.special_price < product.original_price)) {
     if (!isSpecialPriceActive(product.special_from_date, product.special_to_date)) {
       product.special_price = 0 // out of the dates period
     } else {

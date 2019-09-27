@@ -124,6 +124,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - check silentMode in errors on the same level as task.silent - @gibkigonzo (#3621)
 - Add missing parameters (`size`,`start`) to `quickSearchByQuery()` in `attribute/list` action - @cewald (#3627)
 - Fix breadcrumb homepage link in cms static pages - @andrzejewsky (#3631)
+- Fixed special price that can break when you change pages (browser navigation for/back) or just go from category to product page - @resubaka (#3638)
 
 ### Changed / Improved
 
@@ -173,6 +174,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pass `RouteManager` as proxy for router.addRoutes - @gibkigonzo (#3479)
 - Added generic types to hooks - @gibkigonzo
 - Change sku to string when checking products equality - @gibkigonzo (#3606)
+- Pass to `registerModule` all parameters as one object - @gibkigonzo (#3634)
 
 ## [1.10.3] - 2019.09.18
 
