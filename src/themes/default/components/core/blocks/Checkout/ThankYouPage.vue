@@ -2,10 +2,7 @@
   <div>
     <header class="thank-you-title bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs
-          :routes="[{name: 'Homepage', route_link: '/'}]"
-          :active-route="this.$t('Order confirmation')"
-        />
+        <breadcrumbs />
         <h2 class="category-title">
           {{ $t('Order confirmation') }}
         </h2>
@@ -89,6 +86,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { MailerModule } from '@vue-storefront/core/modules/mailer'
+import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 
 export default {
   name: 'ThankYouPage',
@@ -164,6 +162,9 @@ export default {
         action1: { label: this.$t('OK') }
       })
     }
+  },
+  created () {
+    this.$store.dispatch('breadcrumbs/set', { current: 'Order confirmation', routes: [{name: 'Homepage', route_link: localizedRoute('/')}] }, { root: true })
   },
   destroyed () {
     this.$store.dispatch('checkout/setThankYouPage', false)
