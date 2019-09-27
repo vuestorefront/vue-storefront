@@ -26,6 +26,7 @@ const themedIndex = path.join(themeRoot, '/templates/index.template.html')
 const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.template.html')
 const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
 const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const csvDirectories = [
   path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/')
@@ -94,7 +95,8 @@ export default {
     new webpack.DefinePlugin({
       'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
       'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
-    })
+    }),
+    new MiniCssExtractPlugin()
   ],
   devtool: 'source-map',
   entry: {
@@ -214,6 +216,19 @@ export default {
         test: /\.(graphqls|gql)$/,
         exclude: /node_modules/,
         loader: ['graphql-tag/loader']
+      },
+      {
+        test: /\.sass$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../',
+              hmr: process.env.NODE_ENV === 'development'
+            }
+          },
+          'sass-loader'
+        ]
       }
     ]
   }

@@ -50,7 +50,10 @@
   },
   "lint-staged": {
     "*.{js,vue,ts}": "eslint",
-    "**/i18n/*.csv": ["node ./core/scripts/utils/sort-translations.js", "git add"]
+    "**/i18n/*.csv": [
+      "node ./core/scripts/utils/sort-translations.js",
+      "git add"
+    ]
   },
   "husky": {
     "hooks": {
@@ -78,6 +81,7 @@
     "js-sha3": "^0.8.0",
     "localforage": "^1.7.2",
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
+    "mini-css-extract-plugin": "^0.8.0",
     "ms": "^2.1.2",
     "pm2": "^2.10.4",
     "proxy-polyfill": "^0.3.0",
