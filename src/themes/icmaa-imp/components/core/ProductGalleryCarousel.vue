@@ -85,8 +85,6 @@ export default {
       const {color} = this.configuration
       this.currentColor = color.id
     }
-
-    this.$emit('loaded')
   },
   beforeDestroy () {
     this.$bus.$off('filter-changed-product', this.selectVariant)
@@ -97,6 +95,8 @@ export default {
       if (loaded && !this.loadedImages.includes(image.src)) {
         this.loadedImages.push(image.src)
       }
+
+      return this.areAllImagesLoaded
     },
     navigate (index) {
       if (this.$refs.carousel) {
