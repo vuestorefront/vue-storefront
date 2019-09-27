@@ -8,8 +8,7 @@ import config from 'config'
 
 interface UrlMapperOptions {
   urlPath: string,
-  params: Record<string, any>,
-  storeCode: string
+  params: Record<string, any>
 }
 
 const getUrlPathFromUrl = (url): string => {
@@ -17,18 +16,23 @@ const getUrlPathFromUrl = (url): string => {
   return removeHashFromRoute(path) as string
 }
 
+const getLocalizedDispatcherRouteName = (name) => {
+  const { storeCode, appendStoreCode } = currentStoreView()
+  return appendStoreCode ? name : localizedDispatcherRouteName(name, storeCode)
+}
+
 /**
  * This is copy of the product mapping part from @vue-storefront/core/modules/url/store/actions.ts
  */
-const forProduct = async ({ dispatch }, { urlPath, params, storeCode }: UrlMapperOptions) => {
-  const productQuery = new SearchQuery()
+const forProduct = async ({ dispatch }, { urlPath, params }: UrlMapperOptions) => {
+  const query = new SearchQuery()
   const productSlug = urlPath.split('/').reverse()[0]
-  productQuery.applyFilter({key: 'url_path', value: {'eq': productSlug}})
-  const products = await dispatch('product/list', { query: productQuery }, { root: true })
+  query.applyFilter({key: 'url_path', value: {'eq': productSlug}})
+  const products = await dispatch('product/list', { query }, { root: true })
   if (products && products.items && products.items.length) {
     const product = products.items[0]
     return {
-      name: localizedDispatcherRouteName(product.type_id + '-product', storeCode),
+      name: getLocalizedDispatcherRouteName(product.type_id + '-product'),
       params: {
         slug: product.slug,
         parentSku: product.sku,
@@ -41,13 +45,13 @@ const forProduct = async ({ dispatch }, { urlPath, params, storeCode }: UrlMappe
 /**
  * This is copy of the category mapping part from @vue-storefront/core/modules/url/store/actions.ts
  */
-const forCategory = async ({ dispatch }, { urlPath, storeCode }: UrlMapperOptions) => {
+const forCategory = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
   try {
     const searchOptions = { filters: { 'url_path': urlPath } }
     const category = await dispatch('category-next/loadCategory', searchOptions, { root: true })
     if (category !== null) {
       return {
-        name: localizedDispatcherRouteName('category', storeCode),
+        name: getLocalizedDispatcherRouteName('category'),
         params: {
           slug: category.slug
         }
@@ -98,8 +102,7 @@ const forCmsPageUrls = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
 export const actions: ActionTree<UrlState, any> = {
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
     const urlPath = getUrlPathFromUrl(url)
-    const storeCode = currentStoreView().storeCode as string
-    const paramsObj = { urlPath, params, storeCode }
+    const paramsObj = { urlPath, params }
 
     const product = await forProduct({ dispatch }, paramsObj)
     if (product) {
