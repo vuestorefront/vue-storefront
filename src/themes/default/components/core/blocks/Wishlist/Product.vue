@@ -14,14 +14,14 @@
           {{ product.sku }}
         </div>
         <add-to-cart
-          v-if="product.product_option"
+          v-if="product.product_option || product.type_id === 'simple'"
           :product="product"
           class="wishlist-add-to-cart col-xs-12 col-sm-4 col-md-6"
         />
         <router-link
           v-else
           :to="productLink"
-          class="wishlist-add-to-cart no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium wishlist-add-to-cart col-xs-12 col-sm-4 col-md-6"
+          class="wishlist-add-to-cart no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium col-xs-12 col-sm-4 col-md-6"
         >
           {{ $t('Configure') }}
         </router-link>
