@@ -2,7 +2,7 @@
   <div>
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
+        <breadcrumbs />
         <h2 class="fs-big">
           {{ $props.title }}
         </h2>
@@ -35,6 +35,7 @@ import i18n from '@vue-storefront/i18n'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import StaticExample from 'theme/components/theme/blocks/Static/Example'
 import StaticShortExample from 'theme/components/theme/blocks/Static/Short'
+import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 
 export default {
   components: {
@@ -60,6 +61,11 @@ export default {
     activeComponent () {
       const matchedNav = this.navigation.find(nav => nav.link === this.$route.path)
       return matchedNav ? matchedNav.component : null
+    }
+  },
+  watch: {
+    title: function (newTitle, oldTitle) {
+      this.$store.dispatch('breadcrumbs/set', { current: newTitle, routes: [{name: 'Homepage', route_link: localizedRoute('/')}] }, { root: true })
     }
   },
   data () {

@@ -2,10 +2,7 @@
   <div id="my_account">
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs
-          :routes="[{name: 'Homepage', route_link: '/'}]"
-          active-route="My Account"
-        />
+        <breadcrumbs />
         <h1>
           {{ $t('My Account') }}
         </h1>
@@ -45,6 +42,7 @@ import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
 import MyRecentlyViewed from '../components/core/blocks/MyAccount/MyRecentlyViewed'
 import NoSSR from 'vue-no-ssr'
+import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 
 export default {
   data () {
@@ -71,6 +69,9 @@ export default {
     'no-ssr': NoSSR
   },
   mixins: [MyAccount],
+  created () {
+    this.$store.dispatch('breadcrumbs/set', { current: 'My Account', routes: [{name: 'Homepage', route_link: localizedRoute('/')}] }, { root: true })
+  },
   methods: {
     notify (title) {
       if (title === 'My loyalty card' || title === 'My product reviews') {

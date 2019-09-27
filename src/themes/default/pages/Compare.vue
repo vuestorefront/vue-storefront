@@ -2,7 +2,7 @@
   <div class="compare">
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" active-route="Compare" />
+        <breadcrumbs />
         <h2>{{ title }}</h2>
       </div>
     </div>
@@ -75,6 +75,7 @@ import Breadcrumbs from '../components/core/Breadcrumbs'
 import ProductTile from '../components/core/ProductTile'
 import ProductAttribute from '../components/core/blocks/Compare/ProductAttribute'
 import i18n from '@vue-storefront/i18n'
+import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 
 export default {
   components: {
@@ -88,6 +89,9 @@ export default {
       type: String,
       required: true
     }
+  },
+  created () {
+    this.$store.dispatch('breadcrumbs/set', { current: 'Compare', routes: [{name: 'Homepage', route_link: localizedRoute('/')}] }, { root: true })
   },
   metaInfo () {
     return {
