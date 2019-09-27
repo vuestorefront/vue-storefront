@@ -151,7 +151,7 @@
                   }
                 ]"
               />
-              <Spinner v-if="isProductLoading" />
+              <Spinner v-if="isStockInfoLoading" />
             </div>
             <div class="row m0">
               <add-to-cart
@@ -182,17 +182,15 @@
             <div class="lh30 h5" itemprop="description" v-html="getCurrentProduct.description" />
           </div>
           <div class="col-xs-12 col-sm-5">
-            <lazy-hydrate on-interaction>
-              <ul class="attributes p0 pt5 m0">
-                <product-attribute
-                  :key="attr.attribute_code"
-                  v-for="attr in getCustomAttributes"
-                  :product="getCurrentProduct"
-                  :attribute="attr"
-                  empty-placeholder="N/A"
-                />
-              </ul>
-            </lazy-hydrate>
+            <ul class="attributes p0 pt5 m0">
+              <product-attribute
+                :key="attr.attribute_code"
+                v-for="attr in getCustomAttributes.sort((a, b) => { return a.attribute_id > b.attribute_id })"
+                :product="getCurrentProduct"
+                :attribute="attr"
+                empty-placeholder="N/A"
+              />
+            </ul>
           </div>
           <div class="details-overlay" @click="showDetails" />
         </div>
@@ -290,7 +288,8 @@ export default {
     return {
       detailsOpen: false,
       quantity: 0,
-      isProductLoading: false
+      isStockInfoLoading: false,
+      hasAttributesLoaded: false
     }
   },
   computed: {
@@ -353,11 +352,11 @@ export default {
       return false
     },
     getInputName () {
-      if (this.isSimpleOrConfigurable && !this.isProductLoading) { return this.$i18n.t(this.isOnline ? 'Quantity available' : 'Quantity available offline', { qty: this.quantity }) }
+      if (this.isSimpleOrConfigurable && !this.isStockInfoLoading) { return this.$i18n.t(this.isOnline ? 'Quantity available' : 'Quantity available offline', { qty: this.quantity }) }
       return this.$i18n.t('Quantity')
     },
     isAddToCartDisabled () {
-      return this.$v.$invalid || this.isProductLoading || (this.isOnline && (!this.quantity && this.isSimpleOrConfigurable))
+      return this.$v.$invalid || this.isStockInfoLoading || (this.isOnline && (!this.quantity && this.isSimpleOrConfigurable))
     }
   },
   async mounted () {
@@ -410,7 +409,7 @@ export default {
       return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
     },
     async getQuantity () {
-      this.isProductLoading = true
+      this.isStockInfoLoading = true
       try {
         this.quantity = null
         const res = await this.$store.dispatch('stock/check', {
@@ -419,7 +418,7 @@ export default {
         })
         this.quantity = res.qty
       } finally {
-        this.isProductLoading = false
+        this.isStockInfoLoading = false
       }
     }
   },

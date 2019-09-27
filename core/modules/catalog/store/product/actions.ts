@@ -601,6 +601,22 @@ const actions: ActionTree<ProductState, RootState> = {
   async fetchAsync () {
     throw new Error('product/fetchAsync has been moved into product/loadProduct')
   },
+
+  /**
+   * Load product attributes
+   */
+  async loadProductAttributes ({ dispatch }, { product }) {
+    const productFields = Object.keys(product).filter(fieldName => {
+      return config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
+    })
+    return dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
+      filterValues: config.entities.product.useDynamicAttributeLoader ? productFields : null,
+      only_visible: config.entities.product.useDynamicAttributeLoader === true,
+      only_user_defined: true,
+      includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
+    }, { root: true })
+  },
+
   /**
    * Load the product data and sets current product
    */
@@ -621,24 +637,16 @@ const actions: ActionTree<ProductState, RootState> = {
       throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
     }
 
-    const productFields = Object.keys(product).filter(fieldName => {
-      return config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
-    })
-    await dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
-      filterValues: config.entities.product.useDynamicAttributeLoader ? productFields : null,
-      only_visible: config.entities.product.useDynamicAttributeLoader === true,
-      only_user_defined: true,
-      includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
-    }, { root: true })
+    await dispatch('loadProductAttributes', { product })
     const syncPromises = []
-    const variantsFilter = dispatch('filterUnavailableVariants', { product: product })
-    const gallerySetup = dispatch('setProductGallery', { product: product })
+    const variantsFilter = dispatch('filterUnavailableVariants', { product })
+    const gallerySetup = dispatch('setProductGallery', { product })
     if (isServer) {
       syncPromises.push(variantsFilter)
       syncPromises.push(gallerySetup)
     }
     if (config.products.preventConfigurableChildrenDirectAccess) {
-      const parentChecker = dispatch('checkConfigurableParent', { product: product })
+      const parentChecker = dispatch('checkConfigurableParent', { product })
       if (isServer) {
         syncPromises.push(parentChecker)
       }
