@@ -43,7 +43,7 @@ const actions: ActionTree<ProductState, RootState> = {
     context.commit(types.PRODUCT_RESET_CURRENT, originalProduct)
   },
   /**
-   * Setup product breadcrumbs path
+   * Setup product breadcrumbs path - deprecated. Leave for backward compatibility
    */
   async setupBreadcrumbs (context, { product }) {
     let breadcrumbsName = null
@@ -631,7 +631,7 @@ const actions: ActionTree<ProductState, RootState> = {
       includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
     }, { root: true })
     await Promise.all([
-      dispatch('setupBreadcrumbs', { product: product }),
+      dispatch('setupBreadcrumbs', { product: product }), // Deprecated. Leave for backward compatibility
       dispatch('filterUnavailableVariants', { product: product }),
       dispatch('setProductGallery', { product: product })
     ])

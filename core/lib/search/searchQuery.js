@@ -33,18 +33,12 @@ class SearchQuery {
     * @return {Object}
     */
   applyFilter ({key, value, scope = 'default', options = Object}) {
-    const newFilter = {
+    this._appliedFilters.push({
       attribute: key,
       value: value,
       scope: scope,
       options: options
-    }
-    const existingFilterIndex = this._appliedFilters.findIndex(filter => filter.attribute === key)
-    if (existingFilterIndex >= 0) {
-      this._appliedFilters.splice(existingFilterIndex, 1, newFilter)
-    } else {
-      this._appliedFilters.push(newFilter)
-    }
+    })
     return this
   }
 
