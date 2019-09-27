@@ -8,10 +8,10 @@ export default {
       return this.$store
         .dispatch('stock/check', {
           product: this.product,
-          qty: this.product.qte
+          qty: this.product.qty
         })
         .then(res => {
-          this.quantity = res.qty
+          this.quantity = res.qty || 0
         })
     },
     async addToCart (product) {

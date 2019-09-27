@@ -4,7 +4,7 @@
       <div class="t--mx-4 lg:t-px-4 t-flex t-flex-wrap">
         <breadcrumbs class="breadcrumbs t-w-full t-my-8 t-hidden lg:t-block" :routes="breadcrumbs" :active-route="product.name" />
         <product-gallery
-          class="product-gallery t-w-full t-border-base-lightest t-border-b t-bg-white t-min-h-screen lg:t-min-h-screen-75 lg:t-w-1/2 lg:t-border-b-0"
+          class="product-gallery t-w-full t-border-base-lightest t-border-b t-bg-white lg:t-w-1/2 lg:t-border-b-0"
           :offline="offlineImage"
           :gallery="gallery"
           :configuration="configuration"

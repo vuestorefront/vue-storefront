@@ -6,7 +6,7 @@
     v-on="$listeners"
   >
     <img
-      src="/assets/placeholder.svg"
+      src="/assets/product-placeholder.svg"
       :alt="alt"
       :class="{ 'placeholder': true, 't-h-full': basic, 't-w-full': !basic }"
       v-show="showPlaceholder"
@@ -68,6 +68,7 @@ export default {
     lowerQualityImage (state) {
       if (state) {
         this.basic = this.$refs.lQ.naturalWidth < this.$refs.lQ.naturalHeight;
+        this.$emit('load', this.image, state)
       }
     }
   },
@@ -90,6 +91,9 @@ export default {
     },
     isOnline (value) {
       return onlineHelper.isOnline
+    },
+    isImagesLoaded () {
+      return this.highQualityImage && this.lowerQualityImage
     },
     themeImageSizes () {
       /**
