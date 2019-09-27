@@ -13,6 +13,11 @@
         <div class="h6 cl-bg-tertiary pt5 sku">
           {{ product.sku }}
         </div>
+        <add-to-cart
+          v-if="product.parentSku"
+          :product="product"
+          class="wishlist-add-to-cart col-xs-12 col-sm-4 col-md-6"
+        />
       </div>
     </div>
     <div class="col-xs flex py15 align-right">
@@ -41,11 +46,13 @@ import ProductImage from 'theme/components/core/ProductImage'
 import RemoveButton from './RemoveButton'
 import i18n from '@vue-storefront/i18n'
 import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
+import AddToCart from 'theme/components/core/AddToCart'
 
 export default {
   components: {
     RemoveButton,
-    ProductImage
+    ProductImage,
+    AddToCart
   },
   mixins: [Product],
   computed: {
@@ -93,5 +100,11 @@ input {
   text-decoration: line-through;
   color: #828282;
   font-size: .95rem;
+}
+.wishlist-add-to-cart {
+  padding: 10px;
+  margin: 15px 0;
+  min-width: 100px;
+  font-size: 14px;
 }
 </style>
