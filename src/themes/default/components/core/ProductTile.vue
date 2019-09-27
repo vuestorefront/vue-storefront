@@ -57,18 +57,20 @@
         v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
       >{{ product.price_incl_tax | price }}</span>
     </router-link>
-    <add-to-cart
-      v-if="product.product_option || product.type_id === 'simple'"
-      :product="product"
-      class="listing-add-to-cart col-xs-12 col-sm-4 col-md-6"
-    />
-    <router-link
-      v-else
-      :to="productLink"
-      class="listing-add-to-cart no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium col-xs-12 col-sm-4 col-md-6"
-    >
-      {{ $t('Configure') }}
-    </router-link>
+    <div v-if="canAddToCart()">
+      <add-to-cart
+        v-if="product.product_option || product.type_id === 'simple'"
+        :product="product"
+        class="listing-add-to-cart col-xs-12 col-sm-4 col-md-6"
+      />
+      <router-link
+        v-else
+        :to="productLink"
+        class="listing-add-to-cart no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium col-xs-12 col-sm-4 col-md-6"
+      >
+        {{ $t('Configure') }}
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -138,6 +140,9 @@ export default {
           rootStore.dispatch('stock/list', { skus: skus }) // store it in the cache
         }
       }
+    },
+    canAddToCart () {
+      return config.products.addToCartFromListing
     }
   },
   beforeMount () {
