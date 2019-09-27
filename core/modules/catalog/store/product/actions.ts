@@ -624,7 +624,7 @@ const actions: ActionTree<ProductState, RootState> = {
     const productFields = Object.keys(product).filter(fieldName => {
       return config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
     })
-    dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
+    await dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
       filterValues: config.entities.product.useDynamicAttributeLoader ? productFields : null,
       only_visible: config.entities.product.useDynamicAttributeLoader === true,
       only_user_defined: true,
