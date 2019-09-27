@@ -50,10 +50,7 @@
   },
   "lint-staged": {
     "*.{js,vue,ts}": "eslint",
-    "**/i18n/*.csv": [
-      "node ./core/scripts/utils/sort-translations.js",
-      "git add"
-    ]
+    "**/i18n/*.csv": ["node ./core/scripts/utils/sort-translations.js", "git add"]
   },
   "husky": {
     "hooks": {
