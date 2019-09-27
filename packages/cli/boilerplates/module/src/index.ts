@@ -3,7 +3,7 @@ import { coreHooks } from '@vue-storefront/core/hooks'
 import { extendStore } from '@vue-storefront/core/helpers'
 import { ExampleStore, ExtendProductStore } from './store'
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({store}) {
   // You can access config passed to registerModule via moduleConfig variable
   // This is how you register new Vuex modules
   store.registerModule('example', ExampleStore)
