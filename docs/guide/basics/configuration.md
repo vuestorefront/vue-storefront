@@ -155,6 +155,13 @@ This both option is used when you don't want re-attempting task of just X number
 
 This option is used only in the [Multistore setup](../integrations/multistore.md). By default it's `''` but if you're running, for example, a multi-instance Vue Storefront setup and the current instance shall be connected to the `en` store on the backend, please just set it so. This config variable is referenced in the [core/lib/multistore.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts)
 
+## Default store view
+```json
+"defaultStoreViewRedirect": false,
+```
+This option is used only in the [Multistore setup](../integrations/multistore.md) and if `defaultStoreCode` is set and `appendStoreCode` is `true` for the store views. By default it's `false` but if you want your multistore to automatically redirect to the store view with the default store code provided above if the user does not specify a store, then set this to `true`. For example, if you have https://demo.vuestorefront.io/en, https://demo.vuestorefront.io/de and https://demo.vuestorefront.io/it, and you want users who go to https://demo.vuestorefront.io/ to automatically be redirected to https://demo.vuestorefront.io/en, you would set `defaultStoreCode` to `en` and `defaultStoreViewRedirect` to `true`.
+
+
 ## Store views
 
 ```json

@@ -55,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Route Manager Queue for adding routes efficiently and with an optional priority - @grimasod (#3540)
 - Added tests for cart module actions - @andrzejewsky (#3023)
 - Fixed a problem with type changes in the state when extending a store - @resubaka (#3618)
+- Added optional default store code redirect to always have a store code in url - @khako && @rain2o (#3399)
 
 ### Fixed
 
