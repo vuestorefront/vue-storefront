@@ -1,6 +1,7 @@
 require('../../src/trace').default()
 const path = require('path')
 const express = require('express')
+const responseTime = require('response-time')
 const ms = require('ms')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
@@ -23,6 +24,10 @@ const isProd = process.env.NODE_ENV === 'production'
 process['noDeprecation'] = true
 
 const app = express()
+
+app.use(responseTime( (req, res, time) => {
+  console.log(res.statusCode + ' - ' + req.url + ' (' + Math.round(time * 100) / 100 + 'ms)')
+}))
 
 serverExtensions.serverModules.forEach(serverModule => {
   if (Array.isArray(serverModule)) {

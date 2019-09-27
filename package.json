@@ -50,7 +50,10 @@
   },
   "lint-staged": {
     "*.{js,vue,ts}": "eslint",
-    "**/i18n/*.csv": ["node ./core/scripts/utils/sort-translations.js", "git add"]
+    "**/i18n/*.csv": [
+      "node ./core/scripts/utils/sort-translations.js",
+      "git add"
+    ]
   },
   "husky": {
     "hooks": {
@@ -84,6 +87,7 @@
     "redis-tag-cache": "^1.2.1",
     "reflect-metadata": "^0.1.12",
     "register-service-worker": "^1.5.2",
+    "response-time": "^2.3.2",
     "ts-node": "^7.0.1",
     "vue": "^2.6.6",
     "vue-analytics": "^5.16.1",

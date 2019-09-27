@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Integrate `response-times` to log all requests in console - @Dnd-Magnum
 - HTML Minifier has been added, to enable it please switch the `config.server.useHtmlMinifier` - @pkarw (#2182)
 - Output compression module has been added; it's enabled by default on production builds; to disable it please switch the `src/modules/serrver.ts` configuration - @pkarw (#2182)
 - Sort CSV i18n files alphabetically in pre-commit Git hook - @defudef (#2657)
