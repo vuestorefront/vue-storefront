@@ -21,7 +21,8 @@ import { IcmaaExtendedCatalogModule } from 'icmaa-catalog'
 import { IcmaaCategoryModule } from 'icmaa-category'
 import { IcmaaCmsModule } from 'icmaa-cms'
 import { IcmaaMetaModule } from 'icmaa-meta'
-import { IcmaSpotifyModule } from 'icmaa-spotify'
+import { IcmaaSpotifyModule } from 'icmaa-spotify'
+import { IcmaaExternalCheckout } from 'icmaa-external-checkout'
 
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
@@ -49,7 +50,8 @@ export function registerClientModules () {
   registerModule(IcmaaCmsModule)
   registerModule(IcmaaCategoryModule)
   registerModule(IcmaaMetaModule)
-  registerModule(IcmaSpotifyModule)
+  registerModule(IcmaaSpotifyModule)
+  registerModule(IcmaaExternalCheckout)
 }
 
 // Deprecated API, will be removed in 2.0

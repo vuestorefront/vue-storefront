@@ -1,0 +1,17 @@
+{
+  "name": "icmaa-external-checkout",
+  "version": "2.0.0",
+  "description": "External checkout module for Vue Storefront",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "contributors": [
+    "Filip Rakowski",
+    "Tjitse Efde",
+    "Christian Ewald <c.ewald@impericon.com>",
+    "Dierk Landmann <d.landmann@impericon.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Vendic/vsf-external-checkout#readme"
+}
