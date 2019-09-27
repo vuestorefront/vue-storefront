@@ -2,7 +2,7 @@
   <div class="compare">
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs />
+        <breadcrumbs :include-hompage="true" />
         <h2>{{ title }}</h2>
       </div>
     </div>
@@ -91,7 +91,7 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('breadcrumbs/set', { current: 'Compare', routes: [{name: 'Homepage', route_link: localizedRoute('/')}] }, { root: true })
+    this.$store.dispatch('breadcrumbs/set', { current: 'Compare', routes: [] }, { root: true })
   },
   metaInfo () {
     return {

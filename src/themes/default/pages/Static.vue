@@ -2,7 +2,7 @@
   <div>
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs />
+        <breadcrumbs :include-hompage="true" />
         <h2 class="fs-big">
           {{ $props.title }}
         </h2>
@@ -64,8 +64,16 @@ export default {
     }
   },
   watch: {
-    title: function (newTitle, oldTitle) {
-      this.$store.dispatch('breadcrumbs/set', { current: newTitle, routes: [{name: 'Homepage', route_link: localizedRoute('/')}] }, { root: true })
+    title: function () {
+      this.setBreadcrumbs()
+    }
+  },
+  created () {
+    this.setBreadcrumbs()
+  },
+  methods: {
+    setBreadcrumbs () {
+      this.$store.dispatch('breadcrumbs/set', { current: this.title, routes: [] }, { root: true })
     }
   },
   data () {

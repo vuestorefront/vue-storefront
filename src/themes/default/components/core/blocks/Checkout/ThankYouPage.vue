@@ -2,7 +2,7 @@
   <div>
     <header class="thank-you-title bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs />
+        <breadcrumbs :include-hompage="true" />
         <h2 class="category-title">
           {{ $t('Order confirmation') }}
         </h2>
@@ -164,7 +164,7 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('breadcrumbs/set', { current: 'Order confirmation', routes: [{name: 'Homepage', route_link: localizedRoute('/')}] }, { root: true })
+    this.$store.dispatch('breadcrumbs/set', { current: 'Order confirmation', routes: [] }, { root: true })
   },
   destroyed () {
     this.$store.dispatch('checkout/setThankYouPage', false)

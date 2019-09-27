@@ -2,7 +2,7 @@
   <div id="my_account">
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs />
+        <breadcrumbs :include-hompage="true" />
         <h1>
           {{ $t('My Account') }}
         </h1>
@@ -70,7 +70,7 @@ export default {
   },
   mixins: [MyAccount],
   created () {
-    this.$store.dispatch('breadcrumbs/set', { current: 'My Account', routes: [{name: 'Homepage', route_link: localizedRoute('/')}] }, { root: true })
+    this.$store.dispatch('breadcrumbs/set', { current: 'My Account', routes: [] }, { root: true })
   },
   methods: {
     notify (title) {
