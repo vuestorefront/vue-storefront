@@ -247,7 +247,7 @@ import LazyHydrate from 'vue-lazy-hydration'
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
 import { getAvailableFiltersByProduct, getSelectedFiltersByProduct } from '@vue-storefront/core/modules/catalog/helpers/filters'
 import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
-import { localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { htmlDecode } from '@vue-storefront/core/filters'
 import { ReviewModule } from '@vue-storefront/core/modules/review'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
@@ -434,6 +434,7 @@ export default {
     }
   },
   metaInfo () {
+    const storeView = currentStoreView()
     return {
       link: [
         { rel: 'amphtml',
@@ -444,7 +445,7 @@ export default {
               slug: this.getCurrentProduct.slug,
               childSku: this.getCurrentProduct.sku
             }
-          }, this.$store.state.storeView.storeCode)).href
+          }, storeView.storeCode)).href
         }
       ],
       title: htmlDecode(this.getCurrentProduct.meta_title || this.getCurrentProduct.name),
