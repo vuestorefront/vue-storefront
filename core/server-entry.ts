@@ -10,6 +10,7 @@ import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { RouterManager } from './lib/router-manager';
 import queryString from 'query-string'
+import { localizedRoute } from './lib/multistore'
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
@@ -61,6 +62,11 @@ export default async context => {
       storeCode = storeCodeFromRoute(currentRoute)
     }
   }
+
+  if (storeCode === '' && config.defaultStoreViewRedirect) {
+    context.server.response.redirect(localizedRoute(context.url, config.defaultStoreCode))
+  }
+
   const { app, router, store, initialState } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig, storeCode)
 
   RouterManager.flushRouteQueue()

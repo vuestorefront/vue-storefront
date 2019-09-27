@@ -147,6 +147,20 @@ export function localizedDispatcherRouteName (routeName: string, storeCode: stri
   return storeCode ? `${storeCode}-${routeName}` : routeName
 }
 
+/**
+ * Check if the given store is configured to have localized routes
+ * @param storeCode
+ */
+export function canLocalizeRoutePath (storeCode: string): boolean {
+  config.defaultStoreViewRedirect = true
+  // only use defaultStoreCode if defaultStoreViewRedirect is enabled
+  if (config.defaultStoreViewRedirect || config.defaultStoreCode !== storeCode) {
+    // make sure the store exists and has appendStoreCode enabled
+    return (config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode)
+  }
+  return false
+}
+
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
   if (!storeCode) {
     storeCode = currentStoreView().storeCode
@@ -161,7 +175,7 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
     }
   }
 
-  if (storeCode && config.defaultStoreCode !== storeCode && config.storeViews[storeCode] && config.storeViews[storeCode].appendStoreCode) {
+  if (storeCode && canLocalizeRoutePath(storeCode)) {
     if (typeof routeObj !== 'object') {
       return localizedRoutePath(routeObj, storeCode)
     }

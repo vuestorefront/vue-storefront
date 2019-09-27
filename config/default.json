@@ -109,6 +109,7 @@
     "maxCartBypassAttempts": 1
   },
   "defaultStoreCode": "",
+  "defaultStoreViewRedirect": false,
   "storeViews": {
     "multistore": false,
     "commonCache": false,
