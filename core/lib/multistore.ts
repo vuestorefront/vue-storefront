@@ -5,7 +5,6 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import Vue from 'vue'
 import queryString from 'query-string'
 import merge from 'lodash-es/merge'
-import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
 import config from 'config'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
@@ -41,12 +40,12 @@ export function currentStoreView (): StoreView {
 
 export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   let storeView: StoreView = { // current, default store
-    tax: config.tax,
+    tax: Object.assign({}, config.tax),
     i18n: Object.assign({}, config.i18n),
-    elasticsearch: config.elasticsearch,
+    elasticsearch: Object.assign({}, config.elasticsearch),
     storeCode: null,
     storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
-    seo: config.seo || {}
+    seo: Object.assign({}, config.seo)
   }
 
   if (config.storeViews.multistore === true) {
@@ -173,14 +172,14 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 }
 
 export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[], priority: number = 0): void {
-  const allRoutes = []
+  const allRoutes: RouteConfig[] = []
   const { storeCode, appendStoreCode } = currentStoreView()
   if (storeCode && appendStoreCode) {
     allRoutes.push(...routes.map(route => localizedRouteConfig(route, storeCode)))
   } else {
     allRoutes.push(...routes)
   }
-  RouterManager.addRoutes(allRoutes, router, true, priority)
+  router.addRoutes(allRoutes, true, priority)
 }
 
 /**

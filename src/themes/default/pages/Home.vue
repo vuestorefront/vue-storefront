@@ -79,15 +79,13 @@ export default {
       return onlineHelper.isOnline
     },
     isLazyHydrateEnabled () {
-      return config.ssr.lazyHydrateFor.includes('homepage')
+      return config.ssr.lazyHydrateFor.some(
+        field => ['homepage', 'homepage.new_collection'].includes(field)
+      )
     }
   },
   beforeCreate () {
     registerModule(RecentlyViewedModule)
-  },
-  created () {
-    // Load personal and shipping details for Checkout page from IndexedDB
-    this.$store.dispatch('checkout/load')
   },
   async beforeMount () {
     if (this.$store.state.__DEMO_MODE__) {

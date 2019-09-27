@@ -27,29 +27,12 @@ import { injectReferences } from '@vue-storefront/core/lib/modules'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { registerClientModules } from 'src/modules/client';
 import initialStateFactory from './initialStateFactory'
+import { createRouter, createRouterProxy } from '@vue-storefront/core/helpers/router';
 
 const stateFactory = initialStateFactory(store.state)
 
-function createRouter (): VueRouter {
-  return new VueRouter({
-    mode: 'history',
-    base: __dirname,
-    scrollBehavior: (to, from, savedPosition) => {
-      if (to.hash) {
-        return {
-          selector: to.hash
-        }
-      }
-      if (savedPosition) {
-        return savedPosition
-      } else if (to.path !== from.path) { // do not change scroll position when navigating on the same page (ex. change filters)
-        return {x: 0, y: 0}
-      }
-    }
-  })
-}
-
 let router: VueRouter = null
+let routerProxy: VueRouter = null
 
 once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
@@ -57,8 +40,9 @@ once('__VUE_EXTEND_RR__', () => {
 
 const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
   router = createRouter()
+  routerProxy = createRouterProxy(router)
   // sync router with vuex 'router' store
-  sync(store, router)
+  sync(store, routerProxy)
   // TODO: Don't mutate the state directly, use mutation instead
   store.state.version = process.env.APPVERSION
   store.state.config = config // @deprecated
@@ -99,7 +83,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   })
 
   let vueOptions = {
-    router,
+    router: routerProxy,
     store,
     i18n,
     render: h => h(themeEntry)
@@ -115,15 +99,16 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     ssrContext
   }
 
-  injectReferences(app, store, router, globalConfig)
+  injectReferences(app, store, routerProxy, globalConfig)
   registerClientModules()
   registerModules(enabledModules, appContext)
-  registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)
+  registerTheme(globalConfig.theme, app, routerProxy, store, globalConfig, ssrContext)
+
   coreHooksExecutors.afterAppInit()
   // @deprecated from 2.0
   EventBus.$emit('application-after-init', app)
 
-  return { app, router, store, initialState: stateFactory.createInitialState(store.state) }
+  return { app, router: routerProxy, store, initialState: stateFactory.createInitialState(store.state) }
 }
 
-export { router, createApp }
+export { routerProxy as router, createApp, router as baseRouter }

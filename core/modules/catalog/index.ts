@@ -35,8 +35,8 @@ export const CatalogModule: StorefrontModule = async function (app, store, route
     EventBus.$on('product-after-bundleoptions', payload => productAfterBundleoptions(payload, store))
 
     if (config.usePriceTiers || store.getters['tax/getIsUserGroupedTaxActive']) {
-      EventBus.$on('user-after-loggedin', onUserPricesRefreshed(store, router))
-      EventBus.$on('user-after-logout', onUserPricesRefreshed(store, router))
+      EventBus.$on('user-after-loggedin', onUserPricesRefreshed.bind(null, store, router))
+      EventBus.$on('user-after-logout', onUserPricesRefreshed.bind(null, store, router))
     }
   }
 }

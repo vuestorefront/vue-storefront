@@ -63,7 +63,7 @@ export default async context => {
   }
   const { app, router, store, initialState } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig, storeCode)
 
-  RouterManager.flushRouteQueue(router)
+  RouterManager.flushRouteQueue()
   context.initialState = initialState
   return new Promise((resolve, reject) => {
     context.output.cacheTags = new Set<string>()

@@ -1,15 +1,15 @@
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
 import { Category } from './types/Category';
 
-const { hook: categoryPageVisitedHook, executor: categoryPageVisitedExecutor }: {
-  hook: (categoryPageVisitedListener: (category?: Category) => void) => void,
-  executor: any
-} = createListenerHook()
+const {
+  hook: categoryPageVisitedHook,
+  executor: categoryPageVisitedExecutor
+} = createListenerHook<Category>()
 
-const { hook: productPageVisitedHook, executor: productPageVisitedExecutor }: {
-  hook: (categoryPageVisitedListener: (category?: Category) => void) => void,
-  executor: any
-} = createListenerHook()
+const {
+  hook: productPageVisitedHook,
+  executor: productPageVisitedExecutor
+} = createListenerHook<Category>()
 
 /** Only for internal usage */
 const catalogHooksExecutors = {
