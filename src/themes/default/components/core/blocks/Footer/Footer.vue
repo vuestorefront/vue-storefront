@@ -170,7 +170,7 @@ export default {
   name: 'MainFooter',
   computed: {
     isStoreCodeEquals () {
-      return currentStoreView().storeCode === config.defaultStoreCode
+      return (currentStoreView().storeCode === config.defaultStoreCode && !config.defaultStoreViewRedirect)
     },
     multistoreEnabled () {
       return config.storeViews.multistore
