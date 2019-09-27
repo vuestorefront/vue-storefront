@@ -624,21 +624,26 @@ const actions: ActionTree<ProductState, RootState> = {
     const productFields = Object.keys(product).filter(fieldName => {
       return config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
     })
-    await dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
+    dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
       filterValues: config.entities.product.useDynamicAttributeLoader ? productFields : null,
       only_visible: config.entities.product.useDynamicAttributeLoader === true,
       only_user_defined: true,
       includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
     }, { root: true })
-    await Promise.all([
-      dispatch('setupBreadcrumbs', { product: product }),
-      dispatch('filterUnavailableVariants', { product: product }),
-      dispatch('setProductGallery', { product: product })
-    ])
-
-    if (config.products.preventConfigurableChildrenDirectAccess) {
-      await dispatch('checkConfigurableParent', { product: product })
+    const syncPromises = []
+    const variantsFilter = dispatch('filterUnavailableVariants', { product: product })
+    const gallerySetup = dispatch('setProductGallery', { product: product })
+    if (isServer) {
+      syncPromises.push(variantsFilter)
+      syncPromises.push(gallerySetup)
     }
+    if (config.products.preventConfigurableChildrenDirectAccess) {
+      const parentChecker = dispatch('checkConfigurableParent', { product: product })
+      if (isServer) {
+        syncPromises.push(parentChecker)
+      }
+    }
+    await Promise.all(syncPromises)
     await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
     return product
   },

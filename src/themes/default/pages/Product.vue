@@ -353,20 +353,22 @@ export default {
       return false
     },
     getInputName () {
-      if (this.isSimpleOrConfigurable && !this.isProductLoading) { return this.$i18n.t('Quantity available', { qty: this.quantity }) }
+      if (this.isSimpleOrConfigurable && !this.isProductLoading) { return this.$i18n.t(this.isOnline ? 'Quantity available' : 'Quantity available offline', { qty: this.quantity }) }
       return this.$i18n.t('Quantity')
     },
     isAddToCartDisabled () {
-      return this.$v.$invalid || this.isProductLoading || (!this.quantity && this.isSimpleOrConfigurable)
+      return this.$v.$invalid || this.isProductLoading || (this.isOnline && (!this.quantity && this.isSimpleOrConfigurable))
     }
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
     this.getQuantity()
+    if (!isServer) window.addEventListener('online', this.getQuantity)
   },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
-    await store.dispatch('product/loadProductBreadcrumbs', { product })
+    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
+    if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
   },
   methods: {
@@ -409,13 +411,16 @@ export default {
     },
     async getQuantity () {
       this.isProductLoading = true
-      this.quantity = null
-      const res = await this.$store.dispatch('stock/check', {
-        product: this.getCurrentProduct,
-        qty: this.getCurrentProduct.qty
-      })
-      this.isProductLoading = false
-      this.quantity = res.qty
+      try {
+        this.quantity = null
+        const res = await this.$store.dispatch('stock/check', {
+          product: this.getCurrentProduct,
+          qty: this.getCurrentProduct.qty
+        })
+        this.quantity = res.qty
+      } finally {
+        this.isProductLoading = false
+      }
     }
   },
   validations () {
