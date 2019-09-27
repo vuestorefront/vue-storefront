@@ -28,7 +28,8 @@
     "trace": {
       "enabled": false,
       "config": {}
-    }
+    },
+    "useLogRequest" : true
   },
   "staticPages": {
     "updateOnRequest": true,

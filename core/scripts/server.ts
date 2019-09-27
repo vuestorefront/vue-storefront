@@ -26,7 +26,9 @@ process['noDeprecation'] = true
 const app = express()
 
 app.use(responseTime( (req, res, time) => {
-  console.log(res.statusCode + ' - ' + req.url + ' (' + Math.round(time * 100) / 100 + 'ms)')
+  if(config.server.useLogRequest){
+    console.log(res.statusCode + ' - ' + req.url + ' (' + Math.round(time * 100) / 100 + 'ms)')
+  }
 }))
 
 serverExtensions.serverModules.forEach(serverModule => {
