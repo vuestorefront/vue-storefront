@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Broken sidebar menu in mobile view - @przspa (#3549)
 - UrlDispatcher issues with multistore routes - @pkarw (#3568)
+- Added try/catch for fetching single product in cart synchronization - @gibkigonzo (#)
 
 ## [1.10.2] - 2019.09.06
 
