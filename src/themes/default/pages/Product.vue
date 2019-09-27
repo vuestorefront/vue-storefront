@@ -360,11 +360,9 @@ export default {
       return this.$v.$invalid || this.isProductLoading || (!this.quantity && this.isSimpleOrConfigurable)
     }
   },
-  created () {
-    this.getQuantity()
-  },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
+    this.getQuantity()
   },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
