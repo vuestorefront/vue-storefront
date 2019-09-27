@@ -86,6 +86,8 @@ If by some reasons you wan't to have the `localStorage` back on for `Products by
   - Delete the line `RouterManager.addRoutes(routes, router, true)`. This is now handled in `setupMultistoreRoutes`, including the default store.
   - Optionally give theme routes priority, to ensure they override module routes if there are any conflicts. For example `setupMultistoreRoutes(config, router, routes, 10)`.
   - See `/src/themes/default/index.js` for a complete example.
+- Categories can be filtered globally, to never be loaded, by setting `entities.category.filterFields` in local.json, e.g. `"filterFields": { "is_active": true }`.
+- Categories can be filtered in the Breadcrumbs, by setting `entities.category.breadcrumbFilterFields` in local.json, e.g. `"breadcrumbFilterFields": { "include_in_menu": true }`.
 
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`EventBus.$on()`) now
