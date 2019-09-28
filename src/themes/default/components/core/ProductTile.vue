@@ -54,8 +54,8 @@
 
       <span
         class="lh30 cl-secondary"
-        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0 && !onlyImage"
-      >{{ product.priceInclTax | price }}</span>
+        v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
+      >{{ product.price_incl_tax | price }}</span>
     </router-link>
   </div>
 </template>
