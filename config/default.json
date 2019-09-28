@@ -525,5 +525,31 @@
         }
       ]
     }
+  },
+  "clearCache": {
+    "enabled": true,
+    "websocket": {
+      "enabled": true,
+      "endpoint": "/clear-cache",
+      "key": "clear-cache",
+      "localStorage": {
+        "enabled": true,
+        "keysForClear": ["elasticCache", "url", "attributes"]
+      },
+      "indexedDB": {
+        "enabled": true,
+        "database": "shop",
+        "storagesForClear": ["attributes", "categories", "elasticCache"]
+      },
+      "serviceWorker": {
+        "enabled": true
+      }
+    },
+    "version": {
+      "enabled": true,
+      "key": "version",
+      "endpoint": "/vsf-version",
+      "envName": "VSF_VERSION"
+    }
   }
 }

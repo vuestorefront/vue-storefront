@@ -1,4 +1,5 @@
 "A customer with the same email already exists in an associated website.","A customer with the same email already exists in an associated website."
+"A new version of the site has appeared, for correct operation, please reload the page.","A new version of the site has appeared, for correct operation, please reload the page."
 "About us (Magento CMS)","About us (Magento CMS)"
 "About us","About us"
 "Add a discount code","Add a discount code"
@@ -170,6 +171,7 @@
 "Quantity","Quantity"
 "Register an account","Register an account"
 "Register","Register"
+"Reload.","Reload."
 "Remake order","Remake order"
 "Remember me","Remember me"
 "Remove from compare","Remove from compare"

@@ -15,6 +15,7 @@ import { AmpRendererModule } from './amp-renderer';
 import { PaymentBackendMethodsModule } from './payment-backend-methods'
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery'
 import { NewsletterModule } from '@vue-storefront/core/modules/newsletter'
+import { ClearCache } from './clear-cache'
 
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
@@ -36,6 +37,7 @@ export function registerClientModules () {
   registerModule(AmpRendererModule)
   registerModule(CmsModule)
   registerModule(NewsletterModule)
+  registerModule(ClearCache)
 }
 
 // Deprecated API, will be removed in 2.0
