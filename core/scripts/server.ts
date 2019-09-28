@@ -1,16 +1,17 @@
-require('../../src/trace').default()
+import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 const path = require('path')
-const express = require('express')
-const ms = require('ms')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
+const serverExtensions = require(resolve('src/modules/server'))
+serverHooksExecutors.onLoad()
+const express = require('express')
+const ms = require('ms')
 const request = require('request');
 
 const cache = require('./utils/cache-instance')
 const apiStatus = require('./utils/api-status')
 const HTMLContent = require('../pages/Compilation')
 const ssr = require('./utils/ssr-renderer')
-const serverExtensions = require(resolve('src/modules/server'))
 let config = require('config')
 
 const compileOptions = {
