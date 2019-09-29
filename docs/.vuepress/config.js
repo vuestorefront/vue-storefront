@@ -152,6 +152,7 @@ module.exports = {
             'modules/user',
             'modules/checkout',
             'modules/order',
+            'modules/clear-cache'
             //'modules/review'
           ],
         },

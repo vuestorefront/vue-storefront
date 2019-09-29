@@ -11,7 +11,7 @@ const connect = () => {
   }
 
   socket.onmessage = async (msg) => {
-    if (msg.data === config.clearCache.websocket.key) {
+    if (msg.data === config.clearCache.websocket.message) {
       clearCache()
       // show the user a message
       rootStore.dispatch('clear-cache/toggleOpen', true)

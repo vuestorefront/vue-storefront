@@ -1,6 +1,7 @@
 const isProd = process.env.NODE_ENV === 'production'
 
 export const serverModules = [
-  'src/modules/robots'
+  'src/modules/robots',
+  'src/modules/clear-cache'
   // ['src/modules/compress', { enabled: isProd }]
 ]

@@ -531,15 +531,15 @@
     "websocket": {
       "enabled": true,
       "endpoint": "/clear-cache",
-      "key": "clear-cache",
+      "message": "clear-cache",
       "localStorage": {
         "enabled": true,
-        "keysForClear": ["elasticCache", "url", "attributes"]
+        "keys": ["elasticCache", "url", "attributes"]
       },
       "indexedDB": {
         "enabled": true,
         "database": "shop",
-        "storagesForClear": ["attributes", "categories", "elasticCache"]
+        "keys": ["attributes", "categories", "elasticCache"]
       },
       "serviceWorker": {
         "enabled": true

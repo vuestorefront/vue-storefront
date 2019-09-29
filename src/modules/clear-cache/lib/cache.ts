@@ -5,7 +5,7 @@ const clearCache = async () => {
   // clear localStorage
   if (config.clearCache.websocket.localStorage.enabled) {
     const storageKeys = Object.keys(localStorage)
-    const keysForClear = config.clearCache.websocket.localStorage.keysForClear
+    const keysForClear = config.clearCache.websocket.localStorage.keys
 
     for (let storageKey of storageKeys) {
       for (let key of keysForClear) {
@@ -22,7 +22,7 @@ const clearCache = async () => {
     const isExistDb = await database.exist()
     if (isExistDb) {
       await database.open()
-      for (let storage of config.clearCache.websocket.indexedDB.storagesForClear) {
+      for (let storage of config.clearCache.websocket.indexedDB.keys) {
         database.clearStorage(storage)
       }
     }
