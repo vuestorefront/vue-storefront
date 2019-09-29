@@ -6,7 +6,7 @@ import { registerSyncTaskProcessor } from '@vue-storefront/core/lib/sync/task'
 import i18n from '@vue-storefront/i18n'
 import omit from 'lodash-es/omit'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
-import { prepareStoreView, currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
 import '@vue-storefront/core/service-worker/registration' // register the service worker
 import { AsyncDataLoader } from './lib/async-data-loader'
@@ -31,7 +31,6 @@ const invokeClientEntry = async () => {
   }
 
   await store.dispatch('url/registerDynamicRoutes')
-
   RouterManager.flushRouteQueue()
 
   function _commonErrorHandler (err, reject) {
