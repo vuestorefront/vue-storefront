@@ -699,22 +699,22 @@ const actions: ActionTree<CartState, RootState> = {
               })
               diffLog.serverResponses.push({ 'status': res.resultCode, 'sku': serverItem.sku, 'result': res })
             } else {
-              const getServerCartItem = new Promise(async resolve => {
+              const getServerCartItem = async () => {
                 try {
                   const actionOtions = await productActionOptions(serverItem)
 
                   if (!actionOtions) {
-                    resolve(null)
+                    return null
                   }
 
                   const product = await dispatch('product/single', { options: actionOtions, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }, { root: true })
 
-                  resolve({ product: product, serverItem: serverItem })
+                  return { product: product, serverItem: serverItem }
                 } catch (err) {
-                  resolve(null)
+                  return null
                 }
-              })
-              clientCartAddItems.push(getServerCartItem)
+              }
+              clientCartAddItems.push(getServerCartItem())
             }
           }
         }
