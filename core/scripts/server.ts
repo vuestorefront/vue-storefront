@@ -1,9 +1,16 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
+let config = require('config')
 const path = require('path')
+const glob = require('glob')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
-const serverExtensions = require(resolve('src/modules/server'))
-serverHooksExecutors.onLoad()
+const serverExtensions = glob.sync('src/modules/*/server.{ts,js}')
+
+serverExtensions.forEach(serverModule => {
+  require(resolve(serverModule))
+})
+
+serverHooksExecutors.tracing(config.server)
 const express = require('express')
 const ms = require('ms')
 const request = require('request');
@@ -12,7 +19,6 @@ const cache = require('./utils/cache-instance')
 const apiStatus = require('./utils/api-status')
 const HTMLContent = require('../pages/Compilation')
 const ssr = require('./utils/ssr-renderer')
-let config = require('config')
 
 const compileOptions = {
   escape: /{{([^{][\s\S]+?[^}])}}/g,
@@ -25,13 +31,7 @@ process['noDeprecation'] = true
 
 const app = express()
 
-serverExtensions.serverModules.forEach(serverModule => {
-  if (Array.isArray(serverModule)) {
-    require(resolve(serverModule[0] + '/server.ts'))(app, serverModule[1])
-  } else {
-    require(resolve(serverModule + '/server.ts'))(app)
-  }
-})
+serverHooksExecutors.extend({ app, config: config.server, isProd })
 
 const templatesCache = ssr.initTemplatesCache(config, compileOptions)
 
