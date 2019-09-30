@@ -1,7 +1,7 @@
 import { RawLocation } from 'vue-router'
 import config from 'config'
 import { LocalizedRoute } from './types'
-import storeCodeToBasePath from './storeCodeToBasePath'
+import storeCodeToStoreUrl from './storeCodeToStoreUrl'
 
 const getNormalizedPath = (matchedRouteOrUrl) => {
   const matchingPath = matchedRouteOrUrl && (matchedRouteOrUrl.path || matchedRouteOrUrl)
@@ -25,13 +25,13 @@ const getUrl = (matchedRouteOrUrl) => {
 
 const isMatchingByPath = (matchedRouteOrUrl, store) => {
   const normalizedPath = getNormalizedPath(matchedRouteOrUrl)
-  const storeUrl = storeCodeToBasePath(store.storeCode)
+  const storeUrl = storeCodeToStoreUrl(store.storeCode)
   return normalizedPath.startsWith(`${storeUrl}/`) || normalizedPath === storeUrl
 }
 
 const isMatchingByDomainAndPath = (matchedRouteOrUrl, store) => {
   const url = getUrl(matchedRouteOrUrl)
-  const storeUrl = storeCodeToBasePath(store.storeCode)
+  const storeUrl = storeCodeToStoreUrl(store.storeCode)
   return url.startsWith(`${storeUrl}/`) || url === storeUrl
 }
 

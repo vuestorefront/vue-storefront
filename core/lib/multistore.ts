@@ -11,7 +11,7 @@ import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { LocalizedRoute, StoreView } from './types'
 import storeCodeFromRoute from './storeCodeFromRoute'
-import storeCodeToBasePath from './storeCodeToBasePath'
+import storeCodeToStoreUrl from './storeCodeToStoreUrl'
 
 function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
@@ -124,7 +124,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
 
   if (typeof routeObj === 'string') {
     if (routeObj[0] !== '/') routeObj = `/${routeObj}`
-    return appendStoreCodePrefix ? `${storeCodeToBasePath(storeCode)}${routeObj}` : routeObj
+    return appendStoreCodePrefix ? `${storeCodeToStoreUrl(storeCode)}${routeObj}` : routeObj
   }
 
   if (routeObj) {
@@ -133,7 +133,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
     }
 
     if (routeObj.path) { // case of using dispatcher
-      const routeCodePrefix = appendStoreCodePrefix ? storeCodeToBasePath(storeCode) : ''
+      const routeCodePrefix = appendStoreCodePrefix ? storeCodeToStoreUrl(storeCode) : ''
       const qrStr = queryString.stringify(routeObj.params);
 
       const normalizedPath = routeObj.path[0] !== '/' ? `/${routeObj.path}` : routeObj.path
@@ -216,5 +216,5 @@ export function localizedRouteConfig (route: RouteConfig, storeCode: string, isC
 export function localizedRoutePath (path: string, storeCode: string): string {
   const _path = path.startsWith('/') ? path.slice(1) : path
 
-  return `${storeCodeToBasePath(storeCode)}/${_path}`
+  return `${storeCodeToStoreUrl(storeCode)}/${_path}`
 }

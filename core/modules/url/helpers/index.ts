@@ -6,7 +6,7 @@ import { RouteConfig } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { Category } from 'core/modules/catalog-next/types/Category'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import storeCodeToBasePath from '@vue-storefront/core/lib/storeCodeToBasePath';
+import storeCodeToStoreUrl from '@vue-storefront/core/lib/storeCodeToStoreUrl';
 
 export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: string]: any } | string, storeCodeInPath: string): LocalizedRoute {
   const parametrizedRoute = Object.assign({}, routeData)
@@ -66,7 +66,7 @@ export function normalizeUrlPath (url: string): string {
 }
 
 export function formatCategoryLink (category: Category, storeCode: string = currentStoreView().storeCode): string {
-  const storeUrl = storeCode ? storeCodeToBasePath(storeCode) + '/' : '/'
+  const storeUrl = storeCode ? storeCodeToStoreUrl(storeCode) + '/' : '/'
 
   if (currentStoreView().appendStoreCode === false) {
     storeCode = ''

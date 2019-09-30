@@ -1,5 +1,5 @@
 import { Logger } from '@vue-storefront/core/lib/logger'
-import storeCodeToBasePath from '@vue-storefront/core/lib/storeCodeToBasePath'
+import storeCodeToStoreUrl from '@vue-storefront/core/lib/storeCodeToStoreUrl'
 
 export default interface PromotedOffersState {
   banners: {
@@ -28,7 +28,7 @@ export const promotedStore = {
   },
   actions: {
     async updatePromotedOffers ({commit, rootState}, data) {
-      let promotedBannersResource = rootState.storeView && rootState.storeView.storeCode ? `banners${storeCodeToBasePath(rootState.storeView.storeCode)}_promoted_offers` : `promoted_offers`
+      let promotedBannersResource = rootState.storeView && rootState.storeView.storeCode ? `banners${storeCodeToStoreUrl(rootState.storeView.storeCode)}_promoted_offers` : `promoted_offers`
       try {
         // Workaround to get jest --watch to work so don't change the import sting to a template string
         const promotedOffersModule = await import(/* webpackChunkName: "vsf-promoted-offers-[request]" */ 'theme/resource/' + promotedBannersResource + '.json')
@@ -38,7 +38,7 @@ export const promotedStore = {
       }
     },
     async updateHeadImage ({commit, rootState}, data) {
-      let mainImageResource = rootState.storeView && rootState.storeView.storeCode ? `banners${storeCodeToBasePath(rootState.storeView.storeCode)}_main-image` : `main-image`
+      let mainImageResource = rootState.storeView && rootState.storeView.storeCode ? `banners${storeCodeToStoreUrl(rootState.storeView.storeCode)}_main-image` : `main-image`
       try {
         // Workaround to get jest --watch to work so don't change the import sting to a template string
         const imageModule = await import(/* webpackChunkName: "vsf-head-img-[request]" */ 'theme/resource/' + mainImageResource + '.json')

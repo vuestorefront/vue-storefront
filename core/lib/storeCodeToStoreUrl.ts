@@ -1,6 +1,6 @@
 import config from 'config'
 
-const storeCodeToBasePath = (storeCode: string): string => {
+const storeCodeToStoreUrl = (storeCode: string): string => {
   const store = config.storeViews[storeCode]
 
   if (!store) {
@@ -10,4 +10,4 @@ const storeCodeToBasePath = (storeCode: string): string => {
   return store.url || `/${storeCode}`
 }
 
-export default storeCodeToBasePath
+export default storeCodeToStoreUrl
