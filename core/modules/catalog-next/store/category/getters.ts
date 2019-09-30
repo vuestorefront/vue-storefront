@@ -13,6 +13,7 @@ import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
 import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
 import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+import rootStore from '@vue-storefront/core/store'
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state): Category[] => Object.values(state.categoriesMap),
@@ -98,7 +99,9 @@ const getters: GetterTree<CategoryState, RootState> = {
     return filters
   },
   getFiltersMap: state => state.filtersMap,
-  getAvailableFilters: (state, getters) => getters.getCurrentCategory ? state.filtersMap[getters.getCurrentCategory.id] : {},
+  getAvailableFilters: (state, getters) => {
+    return getters.getCurrentCategory && state.filtersMap[getters.getCurrentCategory.id] ? state.filtersMap[getters.getCurrentCategory.id] : state.filtersMap[rootStore.state.category.current.id]
+  },
   getCurrentFiltersFrom: (state, getters, rootState) => (filters) => {
     const currentQuery = filters || rootState.route[products.routerFiltersSource]
     return getFiltersFromQuery({availableFilters: getters.getAvailableFilters, filtersQuery: currentQuery})

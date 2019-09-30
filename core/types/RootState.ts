@@ -18,7 +18,8 @@ export default interface RootState {
     current_product_query: any,
     current: {
       slug: string,
-      name: string
+      name: string,
+      id: number
     },
     filters: any
   },

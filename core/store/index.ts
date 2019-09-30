@@ -35,7 +35,8 @@ const state = {
     current_product_query: {},
     current: {
       slug: '',
-      name: ''
+      name: '',
+      id: 0
     },
     filters: {}
   },
