@@ -185,7 +185,7 @@
             <ul class="attributes p0 pt5 m0">
               <product-attribute
                 :key="attr.attribute_code"
-                v-for="attr in getCustomAttributes.sort((a, b) => { return a.attribute_id > b.attribute_id })"
+                v-for="attr in getCustomAttributes"
                 :product="getCurrentProduct"
                 :attribute="attr"
                 empty-placeholder="N/A"
@@ -336,7 +336,7 @@ export default {
     getCustomAttributes () {
       return Object.values(this.attributesByCode).filter(a => {
         return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
-      })
+      }).sort((a, b) => { return a.attribute_id > b.attribute_id })
     },
     getAvailableFilters () {
       return getAvailableFiltersByProduct(this.getCurrentProduct)
