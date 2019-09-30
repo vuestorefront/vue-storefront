@@ -101,7 +101,7 @@
     },
     "lazyHydrateFor": ["category-next.products", "homepage.new_collection"],
     "executeMixedinAsyncData": true,
-    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute"],
+    "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute.list_by_id"],
     "useInitialStateFilter": true
   },
   "queues": {
