@@ -4,6 +4,7 @@ import fetch from 'isomorphic-fetch'
 import {processESResponseType, processProductsType, processCmsType} from './processor/processType'
 import SearchQuery from '../../searchQuery'
 import config from 'config'
+import storeCodeToBasePath from '@vue-storefront/core/lib/storeCodeToBasePath'
 
 export class SearchAdapter {
   public entities: any
@@ -45,8 +46,8 @@ export class SearchAdapter {
       urlGql = this.entities[Request.type].url
     } else {
       urlGql = config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
-      const urlStoreCode = (storeView.storeCode !== '') ? encodeURIComponent(storeView.storeCode) + '/' : ''
-      urlGql = urlGql + '/' + urlStoreCode
+      const urlStoreCode = (storeView.storeCode !== '') ? storeCodeToBasePath(encodeURIComponent(storeView.storeCode)) + '/' : '/'
+      urlGql = urlGql + urlStoreCode
     }
 
     return fetch(urlGql, {
