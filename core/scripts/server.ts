@@ -10,7 +10,7 @@ serverExtensions.forEach(serverModule => {
   require(resolve(serverModule))
 })
 
-serverHooksExecutors.tracing(config.server)
+serverHooksExecutors.afterProcessStarted(config.server)
 const express = require('express')
 const ms = require('ms')
 const request = require('request');
@@ -31,7 +31,7 @@ process['noDeprecation'] = true
 
 const app = express()
 
-serverHooksExecutors.extend({ app, config: config.server, isProd })
+serverHooksExecutors.afterApplicationInitialized({ app, config: config.server, isProd })
 
 const templatesCache = ssr.initTemplatesCache(config, compileOptions)
 
@@ -72,6 +72,9 @@ function invalidateCache (req, res) {
         tags = req.query.tag.split(',')
       }
       const subPromises = []
+
+      serverHooksExecutors.beforeCacheInvalidated()
+
       tags.forEach(tag => {
         if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find(t => {
           return tag.indexOf(t) === 0
@@ -83,6 +86,9 @@ function invalidateCache (req, res) {
           console.error(`Invalid tag name ${tag}`)
         }
       })
+
+      serverHooksExecutors.afterCacheInvalidated()
+
       Promise.all(subPromises).then(r => {
         apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
       }).catch(error => {
@@ -179,6 +185,15 @@ app.get('*', (req, res, next) => {
         res.setHeader('X-VS-Cache-Tags', cacheTags)
         console.log(`cache tags for the request: ${cacheTags}`)
       }
+
+      const hookResponse = serverHooksExecutors.beforeOutputRendered({
+        req,
+        res,
+        context,
+        output,
+        isProd
+      })
+
       output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd);
       if (config.server.useOutputCache && cache) {
         cache.set(
@@ -187,6 +202,15 @@ app.get('*', (req, res, next) => {
           tagsArray
         ).catch(errorHandler)
       }
+
+      const hookResponse2 = serverHooksExecutors.afterOutputRendered({
+        req,
+        res,
+        context,
+        output,
+        isProd
+      })
+
       res.end(output)
       console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
       next()

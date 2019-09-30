@@ -1,11 +1,21 @@
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
 import {Express} from 'express';
 
-// To add tracing without adding it directly to the core
+// To add like tracing which needs to be done as early as possible
 
 const {
-  hook: tracingHook,
-  executor: tracingExecutor
+  hook: afterProcessStartedHook,
+  executor: afterProcessStartedExecutor
+} = createListenerHook<any>()
+
+const {
+  hook: beforeCacheInvalidatedHook,
+  executor: beforeCacheInvalidatedExecutor
+} = createListenerHook<any>()
+
+const {
+  hook: afterCacheInvalidatedHook,
+  executor: afterCacheInvalidatedExecutor
 } = createListenerHook<any>()
 
 // beforeStartApp
@@ -15,25 +25,43 @@ interface Extend {
   isProd: boolean
 }
 const {
-  hook: extendHook,
-  executor: extendExecutor
+  hook: afterApplicationInitializedHook,
+  executor: afterApplicationInitializedExecutor
 } = createListenerHook<Extend>()
+
+const {
+  hook: beforeOutputRenderedHook,
+  executor: beforeOutputRenderedExecutor
+} = createMutatorHook<any, any>()
+
+const {
+  hook: afterOutputRenderedHook,
+  executor: afterOutputRenderedExecutor
+} = createMutatorHook<any, any>()
 
 /** Only for internal usage in this module */
 const serverHooksExecutors = {
-  tracing: tracingExecutor,
-  extend: extendExecutor
+  afterProcessStarted: afterProcessStartedExecutor,
+  afterApplicationInitialized: afterApplicationInitializedExecutor,
+  beforeOutputRendered: beforeOutputRenderedExecutor,
+  afterOutputRendered: afterOutputRenderedExecutor,
+  beforeCacheInvalidated: beforeCacheInvalidatedExecutor,
+  afterCacheInvalidated: afterCacheInvalidatedExecutor
 }
 
 const serverHooks = {
   /** Hook is fired right at the start of the app.
    * @param void
    */
-  tracing: tracingHook,
+  afterProcessStarted: afterProcessStartedHook,
   /**
    *
    */
-  extend: extendHook
+  afterApplicationInitialized: afterApplicationInitializedHook,
+  beforeOutputRendered: beforeOutputRenderedHook,
+  afterOutputRendered: afterOutputRenderedHook,
+  beforeCacheInvalidated: beforeCacheInvalidatedHook,
+  afterCacheInvalidated: afterCacheInvalidatedHook
 }
 
 export {
