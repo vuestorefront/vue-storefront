@@ -607,13 +607,14 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   async loadProductAttributes ({ dispatch }, { product }) {
     const productFields = Object.keys(product).filter(fieldName => {
-      return config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
+      return !config.entities.product.standardSystemFields.includes(fieldName) // don't load metadata info for standard fields
     })
+    const { product: { useDynamicAttributeLoader }, optimize, attribute } = config.entities
     return dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
-      filterValues: config.entities.product.useDynamicAttributeLoader ? productFields : null,
-      only_visible: config.entities.product.useDynamicAttributeLoader === true,
+      filterValues: useDynamicAttributeLoader ? productFields : null,
+      only_visible: !!useDynamicAttributeLoader,
       only_user_defined: true,
-      includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
+      includeFields: optimize ? attribute.includeFields : null
     }, { root: true })
   },
 
