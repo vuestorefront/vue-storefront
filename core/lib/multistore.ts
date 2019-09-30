@@ -11,7 +11,6 @@ import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { LocalizedRoute, StoreView } from './types'
 import storeCodeFromRoute from './storeCodeFromRoute'
-import storeCodeToStoreUrl from './storeCodeToStoreUrl'
 
 function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
@@ -217,4 +216,18 @@ export function localizedRoutePath (path: string, storeCode: string): string {
   const _path = path.startsWith('/') ? path.slice(1) : path
 
   return `${storeCodeToStoreUrl(storeCode)}/${_path}`
+}
+
+export function storeCodeToStoreUrl (storeCode: string): string {
+  const store = config.storeViews && config.storeViews[storeCode]
+
+  if (!store) {
+    return ''
+  }
+
+  if (store.url) {
+    return store.url
+  }
+
+  return store.appendStoreCode ? `/${storeCode}` : ''
 }

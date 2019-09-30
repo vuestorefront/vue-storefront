@@ -1,12 +1,11 @@
 import { router } from '@vue-storefront/core/app'
 import config from 'config'
 import { LocalizedRoute } from '@vue-storefront/core/lib/types'
-import { localizedDispatcherRoute, localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { localizedDispatcherRoute, localizedRoute, currentStoreView, storeCodeToStoreUrl } from '@vue-storefront/core/lib/multistore'
 import { RouteConfig } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { Category } from 'core/modules/catalog-next/types/Category'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import storeCodeToStoreUrl from '@vue-storefront/core/lib/storeCodeToStoreUrl';
 
 export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: string]: any } | string, storeCodeInPath: string): LocalizedRoute {
   const parametrizedRoute = Object.assign({}, routeData)

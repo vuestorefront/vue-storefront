@@ -1,5 +1,5 @@
 import { Logger } from '@vue-storefront/core/lib/logger'
-import storeCodeToStoreUrl from '@vue-storefront/core/lib/storeCodeToStoreUrl'
+import { storeCodeToStoreUrl } from '@vue-storefront/core/lib/multistore'
 
 export default interface PromotedOffersState {
   banners: {

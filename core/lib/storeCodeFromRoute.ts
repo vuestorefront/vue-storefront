@@ -1,7 +1,7 @@
 import { RawLocation } from 'vue-router'
 import config from 'config'
 import { LocalizedRoute } from './types'
-import storeCodeToStoreUrl from './storeCodeToStoreUrl'
+import { storeCodeToStoreUrl } from '@vue-storefront/core/lib/multistore'
 
 const getNormalizedPath = (matchedRouteOrUrl) => {
   const matchingPath = matchedRouteOrUrl && (matchedRouteOrUrl.path || matchedRouteOrUrl)
@@ -23,15 +23,15 @@ const getUrl = (matchedRouteOrUrl) => {
   return matchedRouteOrUrl
 }
 
-const isMatchingByPath = (matchedRouteOrUrl, store) => {
+const isMatchingByPath = (matchedRouteOrUrl, storeCode) => {
   const normalizedPath = getNormalizedPath(matchedRouteOrUrl)
-  const storeUrl = storeCodeToStoreUrl(store.storeCode)
+  const storeUrl = storeCodeToStoreUrl(storeCode)
   return normalizedPath.startsWith(`${storeUrl}/`) || normalizedPath === storeUrl
 }
 
-const isMatchingByDomainAndPath = (matchedRouteOrUrl, store) => {
+const isMatchingByDomainAndPath = (matchedRouteOrUrl, storeCode) => {
   const url = getUrl(matchedRouteOrUrl)
-  const storeUrl = storeCodeToStoreUrl(store.storeCode)
+  const storeUrl = storeCodeToStoreUrl(storeCode)
   return url.startsWith(`${storeUrl}/`) || url === storeUrl
 }
 
@@ -41,7 +41,7 @@ const storeCodeFromRoute = (matchedRouteOrUrl: LocalizedRoute | RawLocation | st
   for (let storeCode of config.storeViews.mapStoreUrlsFor) {
     const store = config.storeViews[storeCode]
 
-    if (isMatchingByPath(matchedRouteOrUrl, store) || isMatchingByDomainAndPath(matchedRouteOrUrl, store)) {
+    if (isMatchingByPath(matchedRouteOrUrl, storeCode) || isMatchingByDomainAndPath(matchedRouteOrUrl, storeCode)) {
       return storeCode
     }
   }

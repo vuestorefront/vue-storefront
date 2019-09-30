@@ -6,7 +6,8 @@ import {
   localizedDispatcherRoute,
   setupMultistoreRoutes,
   localizedRoutePath,
-  localizedRouteConfig
+  localizedRouteConfig,
+  storeCodeToStoreUrl
 } from '@vue-storefront/core/lib/multistore'
 import config from 'config'
 import rootStore from '@vue-storefront/core/store';
@@ -645,6 +646,14 @@ describe('Multistore', () => {
   })
 
   describe('localizedRoutePath', () => {
+    beforeEach(() => {
+      config.storeViews = {
+        'de': {
+          appendStoreCode: true
+        },
+        mapStoreUrlsFor: ['de']
+      }
+    })
     it('add storeCode to route path with slash', () => {
       const storeCode = 'de'
       const path = '/test'
@@ -668,6 +677,14 @@ describe('Multistore', () => {
   })
 
   describe('localizedRouteConfig', () => {
+    beforeEach(() => {
+      config.storeViews = {
+        'de': {
+          appendStoreCode: true
+        },
+        mapStoreUrlsFor: ['de']
+      }
+    })
     it('create new route object with storeCode', () => {
       const storeCode = 'de'
       const route = {
@@ -732,6 +749,46 @@ describe('Multistore', () => {
       }
 
       expect(localizedRouteConfig(route, storeCode)).toEqual(expectedRoute)
+    })
+  })
+
+  describe('storeCodeToStoreUrl', () => {
+    it('returns empty string if storeViews config is not defined', () => {
+      config.storeViews = {}
+
+      expect(storeCodeToStoreUrl('')).toBe('')
+      expect(storeCodeToStoreUrl('de')).toBe('')
+    })
+    it('returns url if is defined in storeView config', () => {
+      config.storeViews = {
+        de: {
+          storeCode: 'de',
+          appendStoreCode: true,
+          url: '/test'
+        }
+      }
+
+      expect(storeCodeToStoreUrl('de')).toBe('/test')
+    })
+    it('creates url based on storeCode if \'url\' is not defined in config', () => {
+      config.storeViews = {
+        de: {
+          storeCode: 'de',
+          appendStoreCode: true
+        }
+      };
+
+      expect(storeCodeToStoreUrl('de')).toBe('/de')
+    })
+    it('doesn\'t create url based on storeCode if \'appendStoreCode\' is set on false', () => {
+      config.storeViews = {
+        de: {
+          storeCode: 'de',
+          appendStoreCode: false
+        }
+      };
+
+      expect(storeCodeToStoreUrl('de')).toBe('')
     })
   })
 })
