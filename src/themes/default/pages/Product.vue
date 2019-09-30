@@ -361,14 +361,22 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
-    this.getQuantity()
-    if (!isServer) window.addEventListener('online', this.getQuantity)
   },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
     const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
     if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
+  },
+  watch: {
+    isOnline: {
+      handler (isOnline) {
+        if (isOnline) {
+          this.getQuantity()
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
     showDetails (event) {
@@ -409,6 +417,7 @@ export default {
       return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
     },
     async getQuantity () {
+      if (this.isStockInfoLoading) return // stock info is already loading
       this.isStockInfoLoading = true
       try {
         this.quantity = null
