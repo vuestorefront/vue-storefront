@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add unit testing to Husky on pre-push hook - @mattheo-geoffray (#3475)
+- Add unit testing on breadcrumbs feature - @mattheo-geoffray (#3457)
 - HTML Minifier has been added, to enable it please switch the `config.server.useHtmlMinifier` - @pkarw (#2182)
 - Output compression module has been added; it's enabled by default on production builds; to disable it please switch the `src/modules/serrver.ts` configuration - @pkarw (#2182)
 - Sort CSV i18n files alphabetically in pre-commit Git hook - @defudef (#2657)
@@ -59,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Attributes loader, breadcrumbs loader fixes - @pkarw (#3636)
 - Fix for the product attribute labels displayedd on the PDP - @pkarw (#3530)
 - Fix the mix of informal and polite personal pronouns for German translations - @nhp (#3533)
 - Fix for comparison list being not preserved between page reloads - @vue-kacper (#3508)
@@ -124,6 +126,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix adding products with custom options - @andrzejewsky (#3597)
 - check silentMode in errors on the same level as task.silent - @gibkigonzo (#3621)
 - Add missing parameters (`size`,`start`) to `quickSearchByQuery()` in `attribute/list` action - @cewald (#3627)
+- Fix breadcrumb homepage link in cms static pages - @andrzejewsky (#3631)
+- Fixed special price that can break when you change pages (browser navigation for/back) or just go from category to product page - @resubaka (#3638)
 
 ### Changed / Improved
 
@@ -173,6 +177,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pass `RouteManager` as proxy for router.addRoutes - @gibkigonzo (#3479)
 - Added generic types to hooks - @gibkigonzo
 - Change sku to string when checking products equality - @gibkigonzo (#3606)
+- Pass to `registerModule` all parameters as one object - @gibkigonzo (#3634)
 
 ## [1.10.3] - 2019.09.18
 
