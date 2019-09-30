@@ -13,7 +13,7 @@
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  line-height: 1rem;
+  line-height: 1em;
   letter-spacing: normal;
   text-transform: none;
   display: inline-block;
@@ -25,6 +25,10 @@
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   font-feature-settings: 'liga';
+
+  &.absolute {
+    line-height: 1rem;
+  }
 
   /** These are the recommended sizes */
   &.mi-sm { font-size: 1.125rem; } /** 18px - .t-text-lg */

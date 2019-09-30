@@ -85,6 +85,9 @@ export default {
       this.ordersData = payload
       this.$bus.$emit('modal-show', 'modal-order-confirmation')
     },
+    fetchConfig () {
+      return this.$store.dispatch('icmaaConfig/setMap')
+    },
     fetchMetaData () {
       return this.$store.dispatch('icmaaMeta/load')
     },
@@ -98,6 +101,7 @@ export default {
   },
   serverPrefetch () {
     return Promise.all([
+      this.fetchConfig(),
       this.fetchMetaData(),
       this.fetchCmsData()
     ])

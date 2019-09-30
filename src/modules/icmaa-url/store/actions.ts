@@ -18,7 +18,7 @@ const getUrlPathFromUrl = (url): string => {
 
 const getLocalizedDispatcherRouteName = (name) => {
   const { storeCode, appendStoreCode } = currentStoreView()
-  return appendStoreCode ? name : localizedDispatcherRouteName(name, storeCode)
+  return !appendStoreCode ? name : localizedDispatcherRouteName(name, storeCode)
 }
 
 /**

@@ -24,7 +24,6 @@ import { mapGetters } from 'vuex'
 
 import i18n from '@vue-storefront/i18n'
 import { price } from '@vue-storefront/core/filters/price'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 
 export default {
@@ -37,11 +36,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ reviewsCount: 'review/getReviewsCount' }),
+    ...mapGetters({
+      reviewsCount: 'review/getReviewsCount',
+      storeConfig: 'icmaaConfig/getCurrentStoreConfig'
+    }),
     voucher () {
-      const store = currentStoreView()
-      if (store.reviews && store.reviews.voucher_value) {
-        return store.reviews.voucher_value
+      const config = this.storeConfig
+      if (config.reviews && config.reviews.voucher_value) {
+        return config.reviews.voucher_value
       }
 
       return price(50)

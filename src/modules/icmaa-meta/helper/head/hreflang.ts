@@ -1,8 +1,7 @@
-import { store } from '../'
 import { storeViews, icmaa_meta } from 'config'
 
 import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
-import { StoreView } from '@vue-storefront/core/lib/types'
+import { StoreView } from 'icmaa-config/types/ConfigState'
 import { router } from '@vue-storefront/core/app'
 
 export interface HreflangInterface {
@@ -16,8 +15,8 @@ class Hreflang {
   protected _currentStore: StoreView
   protected _hreflang: HreflangInterface[]
 
-  public constructor () {
-    this._currentStore = store()
+  public constructor (store: StoreView) {
+    this._currentStore = store
   }
 
   public getCurrentStoreViewUrlPath (store: StoreView) {
@@ -57,7 +56,7 @@ class Hreflang {
       if (storeViews.multistore) {
         this._hreflang.push({
           rel: 'canonical',
-          href: this.getCurrentStoreViewUrlPath(store())
+          href: this.getCurrentStoreViewUrlPath(this._currentStore)
         })
 
         storeViews.mapStoreUrlsFor.forEach(c => {
@@ -84,4 +83,4 @@ class Hreflang {
   }
 }
 
-export default new Hreflang()
+export default Hreflang
