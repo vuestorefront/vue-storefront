@@ -72,7 +72,17 @@ const invokeClientEntry = async () => {
   }
   router.onReady(async () => {
     router.beforeResolve((to, from, next) => {
-      if (!from.name) return next() // do not resolve asyncData on server render - already been done
+      if (!from.name) {
+        // Mounting app
+        if (!RouterManager.isRouteDispatched()) {
+          RouterManager.addDispatchCallback(() => {
+            app.$mount('#app')
+          })
+        } else {
+          app.$mount('#app')
+        }
+        return next() // do not resolve asyncData on server render - already been done
+      }
       if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
       const matched = router.getMatchedComponents(to)
       if (to) { // this is from url
@@ -107,14 +117,6 @@ const invokeClientEntry = async () => {
         }
       }))
     })
-    // Mounting app
-    if (!RouterManager.isRouteDispatched()) {
-      RouterManager.addDispatchCallback(() => {
-        app.$mount('#app')
-      })
-    } else {
-      app.$mount('#app')
-    }
   })
   registerSyncTaskProcessor()
   window.addEventListener('online', () => { onNetworkStatusChange(store) })
