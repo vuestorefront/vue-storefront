@@ -26,7 +26,7 @@ import globalConfig from 'config'
 import { injectReferences } from '@vue-storefront/core/lib/modules'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { registerClientModules } from 'src/modules/client';
-import initialStateFactory from './initialStateFactory'
+import initialStateFactory from '@vue-storefront/core/helpers/initialStateFactory'
 import { createRouter, createRouterProxy } from '@vue-storefront/core/helpers/router';
 
 const stateFactory = initialStateFactory(store.state)

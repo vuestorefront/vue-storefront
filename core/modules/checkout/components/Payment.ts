@@ -15,7 +15,7 @@ export const Payment = {
     return {
       isFilled: false,
       countries: Countries,
-      payment: this.$store.state.checkout.paymentDetails,
+      payment: this.$store.getters['checkout/getPaymentDetails'],
       generateInvoice: false,
       sendToShippingAddress: false,
       sendToBillingAddress: false
@@ -28,6 +28,7 @@ export const Payment = {
     }),
     ...mapGetters({
       paymentMethods: 'checkout/getPaymentMethods',
+      paymentDetails: 'checkout/getPaymentDetails',
       isVirtualCart: 'cart/isVirtualCart'
     })
   },
@@ -119,7 +120,7 @@ export const Payment = {
         }
       }
       if (!initialized) {
-        this.payment = this.$store.state.checkout.paymentDetails || {
+        this.payment = this.paymentDetails || {
           firstName: '',
           lastName: '',
           company: '',
@@ -143,7 +144,7 @@ export const Payment = {
       }
 
       if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
-        this.payment = this.$store.state.checkout.paymentDetails
+        this.payment = this.paymentDetails
       }
     },
     copyShippingToBillingAddress () {
@@ -187,7 +188,7 @@ export const Payment = {
       }
 
       if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
-        this.payment = this.$store.state.checkout.paymentDetails
+        this.payment = this.paymentDetails
         this.generateInvoice = false
       }
     },

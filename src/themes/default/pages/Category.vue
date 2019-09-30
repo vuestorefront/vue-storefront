@@ -99,7 +99,8 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     const cachedCategory = store.getters['category-next/getCategoryFrom'](route.path)
     const currentCategory = cachedCategory && !forceLoad ? cachedCategory : await store.dispatch('category-next/loadCategory', { filters })
     await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
-    await store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
+    const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
+    if (isServer) await breadCrumbsLoader
     catalogHooksExecutors.categoryPageVisited(currentCategory)
   } catch (e) {
     console.error('Problem with setting Category initial data!', e)
@@ -152,13 +153,13 @@ export default {
       next(async vm => {
         vm.loading = true
         await composeInitialPageState(vm.$store, to, true)
-        await vm.$store.dispatch('category-next/cacheProducts', { route: to })
+        await vm.$store.dispatch('category-next/cacheProducts', { route: to }) // await here is because we must wait for the hydration
         vm.loading = false
       })
     } else { // Pure CSR, with no initial category state
       next(async vm => {
         vm.loading = true
-        await vm.$store.dispatch('category-next/cacheProducts', { route: to })
+        vm.$store.dispatch('category-next/cacheProducts', { route: to })
         vm.loading = false
       })
     }
