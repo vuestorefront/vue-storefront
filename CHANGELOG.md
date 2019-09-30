@@ -59,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Add Category filters on route change - @jakubmakielkowski (#3660)
 - Attributes loader, breadcrumbs loader fixes - @pkarw (#3636)
 - Fix for the product attribute labels displayedd on the PDP - @pkarw (#3530)
 - Fix the mix of informal and polite personal pronouns for German translations - @nhp (#3533)
