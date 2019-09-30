@@ -38,13 +38,6 @@ export const UserShippingDetails = {
   mounted () {
     this.shippingDetails = this.getShippingDetails()
   },
-  watch: {
-    useCompanyAddress: {
-      handler () {
-        this.fillCompanyAddress()
-      }
-    }
-  },
   methods: {
     onLoggedIn () {
       this.currentUser = Object.assign({}, this.$store.state.user.current)
@@ -132,13 +125,8 @@ export const UserShippingDetails = {
     fillCompanyAddress () {
       this.useCompanyAddress = !this.useCompanyAddress
       if (this.useCompanyAddress) {
-        let index
-        for (let i = 0; i < this.currentUser.addresses.length; i++) {
-          if (toString(this.currentUser.addresses[i].id) === toString(this.currentUser.default_billing)) {
-            index = i
-          }
-        }
-        if (index >= 0) {
+        const index = this.currentUser.addresses.findIndex((address) => toString(address.id) === toString(this.currentUser.default_billing))
+        if (index !== -1) {
           this.shippingDetails.firstName = this.currentUser.addresses[index].firstname
           this.shippingDetails.lastName = this.currentUser.addresses[index].lastname
           this.shippingDetails.street = this.currentUser.addresses[index].street[0]
