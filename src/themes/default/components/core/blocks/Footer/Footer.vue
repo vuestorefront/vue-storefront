@@ -158,7 +158,7 @@
 </template>
 
 <script>
-import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedRouteOnlyForDefault } from '@vue-storefront/core/lib/multistore'
 import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
@@ -169,9 +169,6 @@ export default {
   mixins: [CurrentPage],
   name: 'MainFooter',
   computed: {
-    isStoreCodeEquals () {
-      return currentStoreView().storeCode === config.defaultStoreCode
-    },
     multistoreEnabled () {
       return config.storeViews.multistore
     },
@@ -181,8 +178,7 @@ export default {
   },
   methods: {
     getLinkFor (path) {
-      const route = this.isStoreCodeEquals ? `/i${path}` : path
-      return localizedRoute(route)
+      return localizedRouteOnlyForDefault(path)
     }
   },
   components: {

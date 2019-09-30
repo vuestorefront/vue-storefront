@@ -217,3 +217,11 @@ export function localizedRoutePath (path: string, storeCode: string): string {
 
   return `/${storeCode}/${_path}`
 }
+
+export function localizedRouteOnlyForDefault (path: string) {
+  const { storeCode } = currentStoreView()
+  const isStoreCodeEquals = storeCode === config.defaultStoreCode
+  const route = isStoreCodeEquals ? `/i${path}` : path
+
+  return localizedRoute(route, storeCode)
+}
