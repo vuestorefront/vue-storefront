@@ -59,6 +59,7 @@ export default {
     this.$bus.$on('checkout-before-edit', this.onBeforeEdit)
     this.$bus.$on('order-after-placed', this.onAfterPlaceOrder)
     this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
+    this.$bus.$on('checkout-before-paymentMethods', this.onBeforePaymentMethods)
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$on('checkout-after-validationError', this.focusField)
     if (!this.isThankYouPage) {
@@ -118,6 +119,7 @@ export default {
     this.$bus.$off('checkout-before-edit', this.onBeforeEdit)
     this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)
     this.$bus.$off('checkout-before-shippingMethods', this.onBeforeShippingMethods)
+    this.$bus.$off('checkout-before-paymentMethods', this.onBeforePaymentMethods)
     this.$bus.$off('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$off('checkout-after-validationError', this.focusField)
   },
@@ -138,6 +140,10 @@ export default {
     },
     onBeforeShippingMethods (country) {
       this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
+      this.$forceUpdate()
+    },
+    onBeforePaymentMethods () {
+      this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
       this.$forceUpdate()
     },
     async onAfterPlaceOrder (payload) {
