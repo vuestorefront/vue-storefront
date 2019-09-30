@@ -709,6 +709,10 @@ const actions: ActionTree<CartState, RootState> = {
 
                   const product = await dispatch('product/single', { options: actionOtions, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }, { root: true })
 
+                  if (!product) {
+                    return null
+                  }
+
                   return { product: product, serverItem: serverItem }
                 } catch (err) {
                   return null
