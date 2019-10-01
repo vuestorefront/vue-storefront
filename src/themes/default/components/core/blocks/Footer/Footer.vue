@@ -158,11 +158,12 @@
 </template>
 
 <script>
-import { currentStoreView, localizedRouteOnlyForDefault } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 import BackToTop from 'theme/components/core/BackToTop'
+import { getPathForStaticPage } from 'theme/helpers'
 import config from 'config'
 
 export default {
@@ -178,7 +179,7 @@ export default {
   },
   methods: {
     getLinkFor (path) {
-      return localizedRouteOnlyForDefault(path)
+      return localizedRoute(getPathForStaticPage(path))
     }
   },
   components: {
