@@ -46,10 +46,8 @@ module.exports = function (csvDirectories, config = null) {
     bundledLanguages[config.i18n.defaultLocale] = messages[config.i18n.defaultLocale] // default locale
     Object.keys(config.storeViews).forEach((storeCode) => {
       const store = config.storeViews[storeCode]
-      if (store.hasOwnProperty('storeCode')) {
-        if (!store.disabled && store.i18n) {
-          bundledLanguages[store.i18n.defaultLocale] = messages[store.i18n.defaultLocale]
-        }
+      if (store && typeof store === 'object' && store.i18n) {
+        bundledLanguages[store.i18n.defaultLocale] = messages[store.i18n.defaultLocale]
       }
     })
     fs.writeFileSync(path.join(__dirname, '../resource/i18n', `multistoreLanguages.json`), JSON.stringify(bundledLanguages))
