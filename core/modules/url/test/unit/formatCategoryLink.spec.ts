@@ -1,6 +1,6 @@
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers';
 import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category';
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { currentStoreView, storeCodeToStoreUrl } from '@vue-storefront/core/lib/multistore';
 import config from 'config';
 
 jest.mock('@vue-storefront/core/app', () => jest.fn());
@@ -8,7 +8,8 @@ jest.mock('@vue-storefront/core/lib/router-manager', () => jest.fn());
 jest.mock('@vue-storefront/core/lib/multistore', () => ({
   currentStoreView: jest.fn(),
   localizedDispatcherRoute: jest.fn(),
-  localizedRoute: jest.fn()
+  localizedRoute: jest.fn(),
+  storeCodeToStoreUrl: jest.fn()
 }));
 jest.mock('@vue-storefront/core/helpers', () => ({
   once: (str) => jest.fn()
@@ -55,6 +56,7 @@ describe('formatCategoryLink method', () => {
     });
 
     it('should return formatted category url_path when storeCode passed as \'de\'', () => {
+      (storeCodeToStoreUrl as jest.Mock).mockImplementation(() => '/de');
       const result = formatCategoryLink(category, 'de');
       expect(result).toEqual('/de/all-2/women/women-20');
     });
@@ -132,6 +134,7 @@ describe('formatCategoryLink method', () => {
     describe('with default storeCode set to \'de\' and appendStoreCode is false', () => {
       beforeEach(() => {
         (currentStoreView as jest.Mock).mockImplementation(() => ({storeCode: 'de', appendStoreCode: false}));
+        (storeCodeToStoreUrl as jest.Mock).mockImplementation(() => '');
         config.storeViews = {
           de: {
             storeCode: 'de',
