@@ -60,8 +60,7 @@
           v-if="hasBillingAddress()"
           class="col-xs-12 mb10"
           id="addCompanyFilled"
-          :value="useCompanyAddress"
-          @change="fillCompanyAddress"
+          v-model="useCompanyAddress"
         >
           {{ $t("Use my company's address details") }}
         </base-checkbox>
@@ -192,8 +191,7 @@
           v-if="useCompanyAddress"
           class="col-xs-12 mb25"
           id="useCompanyAddressFilled"
-          :value="useCompanyAddress"
-          @change="fillCompanyAddress"
+          v-model="useCompanyAddress"
           disabled
         >
           {{ $t("Use my company's address details") }}
