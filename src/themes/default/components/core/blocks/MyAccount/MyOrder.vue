@@ -1,5 +1,5 @@
 <template>
-  <div class="mb35">
+  <div class="mb35" v-if="order">
     <!-- My order header -->
     <div class="row mb15">
       <div class="col-xs-12 col-md-2 col-lg-1">
