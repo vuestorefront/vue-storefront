@@ -56,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Route Manager Queue for adding routes efficiently and with an optional priority - @grimasod (#3540)
 - Added tests for cart module actions - @andrzejewsky (#3023)
 - Fixed a problem with type changes in the state when extending a store - @resubaka (#3618)
+- Fixed problem with bundle product where they have the same hash as other products - @resubaka (#3657)
 
 ### Fixed
 
@@ -128,6 +129,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix breadcrumb homepage link in cms static pages - @andrzejewsky (#3631)
 - Fixed special price that can break when you change pages (browser navigation for/back) or just go from category to product page - @resubaka (#3638)
 - Fixed problem with extending storeView configuration - @andrzejewsky (#3655)
+- Fixed displaying single order in the profile - @andrzejewsky (#3663)
 
 ### Changed / Improved
 
