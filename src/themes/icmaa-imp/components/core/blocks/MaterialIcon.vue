@@ -1,5 +1,5 @@
 <template>
-  <i :class="[ iconClass, sizeClass ]">{{ icon }}</i>
+  <i :class="[ iconClass, sizeClass, rootLineHeightClass ]">{{ icon }}</i>
 </template>
 
 <script>
@@ -21,8 +21,12 @@ export default {
       type: String,
       default: 'md',
       validation: (value) => {
-        return ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'icon'].indexOf(value) !== -1
+        return ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'icon'].includes(value)
       }
+    },
+    rootLineHeight: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -46,6 +50,9 @@ export default {
       }
 
       return map[this.size]
+    },
+    rootLineHeightClass () {
+      return { 't-leading-1-rem': this.rootLineHeight }
     }
   }
 }

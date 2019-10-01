@@ -8,7 +8,7 @@
     <template v-else>
       <slot />
     </template>
-    <material-icon v-if="icon" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-ml-4': !iconOnly }, { 't-float-right': type === 'select' }, iconClass ]" />
+    <material-icon v-if="icon" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-ml-4': !iconOnly }, { 't-float-right t-leading-1-rem': type === 'select' }, iconClass ]" />
   </button>
 </template>
 
