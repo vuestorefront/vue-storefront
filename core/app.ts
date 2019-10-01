@@ -1,7 +1,7 @@
 import { Store } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import Vue from 'vue'
-import { isServer } from '@vue-storefront/core/helpers'
+import { isServer, once } from '@vue-storefront/core/helpers'
 
 // Plugins
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
@@ -26,7 +26,6 @@ import * as coreMixins from '@vue-storefront/core/mixins'
 import * as coreFilters from '@vue-storefront/core/filters'
 import * as corePlugins from '@vue-storefront/core/compatibility/plugins'
 
-import { once } from '@vue-storefront/core/helpers'
 import store from '@vue-storefront/core/store'
 
 import { enabledModules } from './modules-entry'

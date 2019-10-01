@@ -21,6 +21,14 @@ import Vue from 'vue'
  *  // resultsFromEventHanlders = [ { sku: abc, name: 'ABC' }, { sku: abc, name: 'ABC' } ]
  * })
  */
+
+interface EventBus extends Vue {
+  $emitFilter: any,
+  $dataFilters: any,
+  $filter: any
+
+}
+
 const filterExt = {
   $dataFilters: {
     value: [],
@@ -54,12 +62,12 @@ const filterExt = {
     }
   }
 }
-const EventBus = new Vue()
+const EventBus: EventBus = new Vue()
 if (!EventBus.$dataFilters) {
   Object.defineProperties(EventBus, filterExt)
 }
 
-const EventBusPlugin = {
+export const EventBusPlugin = {
   install (Vue) {
     if (!Vue.prototype.$bus) { /** Vue.prototype.$bus is now @deprecated please do use `EventBus` instead */
       Object.defineProperties(Vue.prototype, {
@@ -72,4 +80,6 @@ const EventBusPlugin = {
     }
   }
 }
-export { EventBus as default, EventBusPlugin }
+
+export default EventBus;
+// export { EventBus as default, EventBusPlugin }

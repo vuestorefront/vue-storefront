@@ -11,7 +11,7 @@ import { CategoryService } from '@vue-storefront/core/data-resolver'
 import { changeFilterQuery } from '../../helpers/filterHelpers'
 import { products, entities } from 'config'
 import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
-import { DataResolver } from 'core/data-resolver/types/DataResolver';
+import { DataResolver } from '../../../../data-resolver/types/DataResolver';
 import { Category } from '../../types/Category';
 import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
 import chunk from 'lodash-es/chunk'

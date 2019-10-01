@@ -16,10 +16,11 @@ if (config.server.useOutputCache) {
   )
 }
 
+
 export default merge(base, {
   mode: 'development',
   target: 'node',
-  entry: ['@babel/polyfill', './core/server-entry.ts'],
+  entry: ['@babel/polyfill', '@vue-storefront/core/server-entry.ts'],
   output: {
     filename: 'server-bundle.js',
     libraryTarget: 'commonjs2'
@@ -29,7 +30,7 @@ export default merge(base, {
       'create-api': './create-api-server.js'
     }
   },
-  externals: Object.keys(require('../../package.json').dependencies),
+  externals: Object.keys(require(config.projectRoot + '/package.json').dependencies),
   plugins: [
     new webpack.DefinePlugin({
       'process.env.VUE_ENV': '"server"'

@@ -48,7 +48,7 @@ export function registerNewModules () {
   // registerModule(HotjarModule)
   registerModule(PaymentBackendMethodsModule)
   registerModule(PaymentCashOnDeliveryModule) // To checkout
-  // registerModule(AmpRendererModule)
+  registerModule(AmpRendererModule)
   registerModule(InstantCheckoutModule) // Load lazily from Microcart
 }
 

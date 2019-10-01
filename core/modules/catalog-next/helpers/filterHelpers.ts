@@ -1,4 +1,4 @@
-import FilterVariant from 'core/modules/catalog-next/types/FilterVariant';
+import FilterVariant from '@vue-storefront/core/modules/catalog-next/types/FilterVariant';
 
 export const getSystemFilterNames: string[] = ['sort']
 

@@ -28,10 +28,12 @@ import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import toString from 'lodash-es/toString'
 import config from 'config'
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import EventBus from '../../../../compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { isUserGroupedTaxActive, getUserTaxGroupId } from '@vue-storefront/core/modules/catalog/helpers/tax';
+
+console.debug(typeof EventBus.$emitFilter);
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 

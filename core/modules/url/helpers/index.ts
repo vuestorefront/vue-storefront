@@ -4,7 +4,8 @@ import { localizedDispatcherRoute, localizedRoute, LocalizedRoute } from '@vue-s
 import { RouteConfig } from 'vue-router/types/router';
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { Category } from 'core/modules/catalog-next/types/Category';
+// @ts-ignore
+import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category';
 
 export function parametrizeRouteData (routeData: LocalizedRoute, query: { [id: string]: any } | string, storeCodeInPath: string): LocalizedRoute {
   const parametrizedRoute = Object.assign({}, routeData)

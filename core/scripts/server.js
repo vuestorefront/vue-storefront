@@ -55,7 +55,7 @@ if (isProd) {
 } else {
   // In development: setup the dev server with watch and hot-reload,
   // and create a new renderer on bundle / index template update.
-  require(resolve('core/build/dev-server'))(app, (bundle, template) => {
+  require('@vue-storefront/core/build/dev-server')(app, (bundle, template) => {
     templatesCache['default'] = compile(template, compileOptions) // Important Notice: template switching doesn't work with dev server because of the HMR
     renderer = createRenderer(bundle)
   })
@@ -118,7 +118,7 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
   }
 }))
 
-const serverExtensions = require(resolve('src/server'))
+const serverExtensions = require(resolve(config.projectRoot + '/src/server'))
 serverExtensions.registerUserServerRoutes(app)
 
 app.post('/invalidate', invalidateCache)

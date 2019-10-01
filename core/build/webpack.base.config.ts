@@ -16,12 +16,17 @@ fs.writeFileSync(
 
 // eslint-disable-next-line import/first
 import themeRoot from './theme-path';
+config.themeRoot = themeRoot;
 
-// TODO: make it customizable via node env or something else that will be suitable once we have core separation
-const projectRoot = '../../src'
+// TODOed: make it customizable via node env or something else that will be suitable once we have core separation
+// const projectRoot = '../../src'
+const projectRoot = path.resolve(process.env.BASE_PATH || process.cwd());
+config.projectRoot = projectRoot;
+
 const themesRoot = projectRoot + '/themes'
 
 const themeResources = themeRoot + '/resource'
+console.log(themeResources)
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 const themedIndex = path.join(themeRoot, '/templates/index.template.html')
@@ -29,9 +34,9 @@ const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.templa
 const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
 const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
 
-const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
+const translationPreprocessor = require('../i18n/scripts/translation.preprocessor.js')
 translationPreprocessor([
-  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/'),
+  path.resolve(__dirname, '../i18n/resource/i18n/'),
   path.resolve(__dirname, themeResources + '/i18n/')
 ], config)
 
@@ -49,7 +54,11 @@ const postcssConfig = {
 };
 const isProd = process.env.NODE_ENV === 'production'
 // todo: usemultipage-webpack-plugin for multistore
+
 export default {
+  node: {
+    fs: 'empty'
+  },
   plugins: [
     new webpack.ProgressPlugin(),
     // new BundleAnalyzerPlugin({
@@ -83,13 +92,13 @@ export default {
       inject: isProd === false
     }),
     new webpack.DefinePlugin({
-      'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
+      'process.env.__APPVERSION__': JSON.stringify(require(config.projectRoot + '/package.json').version),
       'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
     })
   ],
   devtool: 'source-map',
   entry: {
-    app: ['@babel/polyfill', './core/client-entry.ts']
+    app: ['@babel/polyfill', '@vue-storefront/core/client-entry.ts']
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
@@ -111,9 +120,27 @@ export default {
     alias: {
       // Main aliases
       'config': path.resolve(__dirname, './config.json'),
-      'src': path.resolve(__dirname, '../../src'),
+      'src': path.resolve(__dirname, config.projectRoot + '/src'),
+      '@vue-storefront/core/helpers': path.resolve(__dirname, '../helpers'),
+      '@vue-storefront/core/modules': path.resolve(__dirname, '../modules'),
+      '@vue-storefront/core/lib': path.resolve(__dirname, '../lib'),
+      '@vue-storefront/core/lib/modules': path.resolve(__dirname, '../lib/modules.ts'),
+      '@vue-storefront/core/types': path.resolve(__dirname, '../types'),
+      '@vue-storefront/core/store': path.resolve(__dirname, '../store'),
+      '@vue-storefront/core/filters': path.resolve(__dirname, '../filters'),
+      '@vue-storefront/core/compatibility': path.resolve(__dirname, '../compatibility'),
+      '@vue-storefront/core/hooks': path.resolve(__dirname, '../hooks.ts'),
+      '@vue-storefront/core/data-resolver': path.resolve(__dirname, '../data-resolver'),
+      '@vue-storefront/core/data-resolver/types': path.resolve(__dirname, '../data-resolver/types'),
+      '@vue-storefront/core/mixins': path.resolve(__dirname, '../mixins'),
+      '@vue-storefront/core/app': path.resolve(__dirname, '../app.ts'),
+      '@vue-storefront/i18n': path.resolve(__dirname, '../i18n'),
+      '@vue-storefront/core/service-worker': path.resolve(__dirname, '../service-worker'),
+      '@vue-storefront/core/i18n': path.resolve(__dirname, '../i18n'),
+      '@vue-storefront/core/i18n/resource/countries.json': path.resolve(__dirname, '../i18n/resource/countries.json'),
 
       // Theme aliases
+      // 'theme/index.ts': themeRoot + '/index.ts',
       'theme': themeRoot,
       'theme/app': themeApp,
       'theme/css': themeCSS,

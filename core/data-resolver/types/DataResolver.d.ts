@@ -4,7 +4,7 @@ import Task from '@vue-storefront/core/lib/sync/types/Task'
 
 declare namespace DataResolver {
 
-  interface CategorySearchOptions {
+  export interface CategorySearchOptions {
     parentId?: number,
     filters?: { [key: string]: string[] | string },
     level?: number,
@@ -17,23 +17,23 @@ declare namespace DataResolver {
     excludeFields?: string[]
   }
 
-  interface Customer {
+  export interface Customer {
     email: string,
     firstname: string,
     lastname: string,
     addresses: string
   }
 
-  interface PasswordData {
+  export interface PasswordData {
     currentPassword: string,
     newPassword: string
   }
 
-  interface CategoryService {
+  export interface CategoryService {
     getCategories: (searchRequest?: CategorySearchOptions) => Promise<Category[]>
   }
 
-  interface UserService {
+  export interface UserService {
     resetPassword: (email: string) => Promise<Task>,
     login: (username: string, password: string) => Promise<Task>,
     register: (customer: Customer, pssword: string) => Promise<Task>,
