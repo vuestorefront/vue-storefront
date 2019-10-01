@@ -66,6 +66,16 @@ When you are already running your _Vue Storefront_ shop on production, chances a
 
 ### 2. Recipe
 
+1. Go to your _Vue Storefront_ app root directory and `git checkout` to following hash :
+```bash
+git fetch
+git checkout 79f0c30f
+```
+
+2. Resulting screen would somewhat look like this as sad as can be : 
+
+![error_1.11](../images/error_1.11.png)
+
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 <br />
