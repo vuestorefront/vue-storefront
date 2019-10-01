@@ -61,8 +61,10 @@ When you are already running your _Vue Storefront_ shop on production, chances a
 
 ### 1. Preparation
  - You have a [Vue Storefront App]() running
- - You have a child theme [running]() on top of _Vue Storefront_ app. 
+ - You have a child theme [running](/guide/cookbook/theme.html#_2-start-building-your-own-theme) on top of _Vue Storefront_ app. (In this recipe, we start with _degi_ child theme based on `1.10` version of `default` theme)
+
 ### 2. Recipe
+
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 <br />
