@@ -179,6 +179,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change sku to string when checking products equality - @gibkigonzo (#3606)
 - Pass to `registerModule` all parameters as one object - @gibkigonzo (#3634)
 - Include shipping address data in request for shipping methods for more accurate filtering - @rain2o (#2515)
+- remove 'disabled' flag in storeViews config - @gibkigonzo (#3659)
 
 ## [1.10.3] - 2019.09.18
 
