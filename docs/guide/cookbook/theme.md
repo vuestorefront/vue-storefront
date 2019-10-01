@@ -157,6 +157,64 @@ export default {
     registerModule(RecentlyViewedModule)
   },
 ```
+`loading` is required to determine if `lazy-hydrate` needs triggered
+
+From `1.11`, _collections_ comes from `vuex` `store` using `mapGetters` helper.
+
+```js{1-5}
+await Promise.all([
+  store.dispatch('homepage/fetchNewCollection'),
+  store.dispatch('promoted/updateHeadImage'),
+  store.dispatch('promoted/updatePromotedOffers')
+])
+/* #remove
+ let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })     
+    let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })       
+    const newProductsResult = await store.dispatch('product/list', {
+      query: newProductsQuery,      ])
+      size: 8,  
+      sort: 'created_at:desc' 
+    })  
+    if (newProductsResult) {  
+      store.state.homepage.new_collection = newProductsResult.items 
+    } 
+    const coolBagsResult = await store.dispatch('product/list', { 
+      query: coolBagsQuery, 
+      size: 4,  
+      sort: 'created_at:desc',  
+      includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : [] 
+    })  
+    if (coolBagsResult) { 
+      store.state.homepage.coolbags_collection = coolBagsResult.items 
+    } 
+    await store.dispatch('promoted/updateHeadImage')  
+    await store.dispatch('promoted/updatePromotedOffers')
+*/
+
+```
+Various `actions` in separate files under `./src/themes/degi/store` replaced in-page `actions`.
+
+We will add those files in the next step.
+
+```js{1-5}
+next(vm =>
+  vm.$store.dispatch('homepage/fetchNewCollection').then(res => {
+    vm.loading = false
+  })
+)
+/* #remove
+next(vm => { 
+  let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })  
+  vm.$store.dispatch('product/list', { 
+    query: newProductsQuery,  
+    size: 8,  
+    sort: 'created_at:desc' 
+  })  
+})  
+*/
+```
+Again, new `actions` are used here instead of the old way. 
+
 
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
