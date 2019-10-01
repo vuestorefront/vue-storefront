@@ -60,8 +60,9 @@ In attempts to reduce such frustration, one might need to simulate _How things g
 When you are already running your _Vue Storefront_ shop on production, chances are that you have made at least a few changes for your _theme_ even if you don't have developers resource. Hope you have made such changes to your child theme based on `default` theme so that normal upgrade won't make a huge impact in negative way for your shop. Sometimes, however, an upgrade so huge that you can't make a smooth conversion from one to another may take place. Helping you in such a case keep headaches at bay, we will show you the example where `1.10` to `1.11` upgrade affects how a theme works and fix broken pieces.
 
 ### 1. Preparation
- - You have a [Vue Storefront App]() running
- - You have a child theme [running](/guide/cookbook/theme.html#_2-start-building-your-own-theme) on top of _Vue Storefront_ app. (In this recipe, we start with _degi_ child theme based on `1.10` version (git hash : 1b53bd2a829f7cab571dbd3c2a4021ea46857da7) of `default` theme) 
+ - You have a [Vue Storefront App running](/guide/cookbook/setup.html#_0-introduction) by `docker` or `yarn dev`
+ - You have a child theme [running](/guide/cookbook/theme.html#_2-start-building-your-own-theme) on top of _Vue Storefront_ app. (In this recipe, we start with _degi_ child theme based on `1.10` version (git hash : _1b53bd2a_) of `default` theme) 
+ - In other words, suppose you have a _Vue Storefront_ shop running on a child theme `degi` that was branched off from _Vue Storefront_ `default` theme version `1.10` and want to upgrade to `1.11`. 
 
 ### 2. Recipe
 
