@@ -5,7 +5,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import * as types from './store/mutation-types'
 
-export const UserModule: StorefrontModule = async function (app, store, router, moduleConfig, appConfig) {
+export const UserModule: StorefrontModule = async function ({store}) {
   StorageManager.init('user')
   store.registerModule('user', userStore)
   if (!isServer) {

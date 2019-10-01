@@ -8,7 +8,7 @@ import { CategoryExtrasStore, cmsCategoryExtrasStateKey } from './store/category
 export const KEY = 'icmaa-cms'
 export const cacheStorage = StorageManager.init(KEY)
 
-export const IcmaaCmsModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const IcmaaCmsModule: StorefrontModule = function ({ store }) {
   store.registerModule(cmsBlockStateKey, BlockStore)
   store.registerModule(cmsPageStateKey, PageStore)
   store.registerModule(cmsCategoryExtrasStateKey, CategoryExtrasStore)

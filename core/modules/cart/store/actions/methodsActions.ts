@@ -47,9 +47,20 @@ const methodsActions = {
     if (getters.canUpdateMethods && (getters.isTotalsSyncRequired || forceServerSync)) {
       const storeView = currentStoreView()
       Logger.debug('Refreshing shipping methods', 'cart')()
-      const { result } = await CartService.getShippingMethods({
-        country_id: rootGetters['checkout/getShippingDetails'].country || storeView.tax.defaultCountry
-      })
+      const shippingDetails = rootGetters['checkout/getShippingDetails']
+
+      // build address data with what we have
+      const address = (shippingDetails) ? {
+        region: shippingDetails.state,
+        region_id: shippingDetails.region_id ? shippingDetails.region_id : 0,
+        country_id: shippingDetails.country,
+        street: [shippingDetails.streetAddress1, shippingDetails.streetAddress2],
+        postcode: shippingDetails.zipCode,
+        city: shippingDetails.city,
+        region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
+      } : {country_id: storeView.tax.defaultCountry}
+
+      const { result } = await CartService.getShippingMethods(address)
       await dispatch('updateShippingMethods', { shippingMethods: result })
     } else {
       Logger.debug('Shipping methods does not need to be updated', 'cart')()

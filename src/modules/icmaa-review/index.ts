@@ -3,6 +3,6 @@ import { extendStore } from '@vue-storefront/core/helpers'
 
 import { ExtendedReviewStore } from './store'
 
-export const IcmaaExtendedReviewModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const IcmaaExtendedReviewModule: StorefrontModule = function () {
   extendStore('review', ExtendedReviewStore)
 }

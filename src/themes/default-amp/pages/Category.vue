@@ -30,11 +30,9 @@
 </template>
 
 <script>
+
 import Category from '@vue-storefront/core/pages/Category' // theme = default/base theme
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
-// import builder from 'bodybuilder'
-
-// temporary(?) relative path
 import ProductListing from '../components/core/ProductListing.vue'
 
 export default {

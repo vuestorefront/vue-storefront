@@ -6,7 +6,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 
 export const cacheStorage = StorageManager.init('recently-viewed')
 
-export const RecentlyViewedModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const RecentlyViewedModule: StorefrontModule = function ({store}) {
   store.registerModule('recently-viewed', recentlyViewedStore)
   store.subscribe(plugin)
 

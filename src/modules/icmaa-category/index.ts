@@ -5,7 +5,7 @@ import moduleRoutes from './routes'
 
 const KEY = 'icmaa-category'
 
-export const IcmaaCategoryModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const IcmaaCategoryModule: StorefrontModule = function ({ store, router, appConfig }) {
   store.registerModule('icmaaCategory', CategoryStore)
   setupMultistoreRoutes(appConfig, router, moduleRoutes, 10)
 }
