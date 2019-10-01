@@ -10,6 +10,7 @@ once('__VUE_EXTEND_I18N__', () => {
 
 const loadedLanguages = ['en-US']
 const i18n = new VueI18n({
+  silentFallbackWarn: true,
   locale: config.i18n.bundleAllStoreviewLanguages ? config.i18n.defaultLocale : 'en-US', // set locale
   fallbackLocale: 'en-US',
   messages: config.i18n.bundleAllStoreviewLanguages ? require('./resource/i18n/multistoreLanguages.json') : {
