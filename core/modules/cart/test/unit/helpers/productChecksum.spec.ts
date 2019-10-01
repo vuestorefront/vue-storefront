@@ -53,6 +53,6 @@ describe('Cart productChecksum', () => {
   });
 
   it('returns checksum for configurable product', async () => {
-    expect(productChecksum(configurableProduct)).toBe('c0781e146b8b799836585d19ad3b7a6fb465dfdd2b7d9dcad0793b6bK');
+    expect(productChecksum(configurableProduct)).toBe('c0781e146b8b799836585d19ad3b7a6fb465dfdd2b7d9dcad0793b6b');
   });
 });
