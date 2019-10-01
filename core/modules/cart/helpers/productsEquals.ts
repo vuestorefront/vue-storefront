@@ -33,7 +33,7 @@ const productsEquals = (product1: CartItem, product2: CartItem): boolean => {
     return isServerIdsEquals(product1, product2) || isChecksumEquals(product1, product2)
   }
 
-  return product1.sku === product2.sku
+  return String(product1.sku) === String(product2.sku)
 }
 
 export default productsEquals
