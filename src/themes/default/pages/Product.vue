@@ -136,8 +136,8 @@
                 :name="getInputName"
                 v-model="getCurrentProduct.qty"
                 :min="quantity ? 1 : 0"
-                :max="quantity"
-                :disabled="quantity ? false : true"
+                :max="maxQuantity"
+                :disabled="quantityDisabled"
                 :value="quantity ? 1 : 0"
                 @blur="$v.$touch()"
                 :validations="[
@@ -357,6 +357,12 @@ export default {
     },
     isAddToCartDisabled () {
       return this.$v.$invalid || this.isStockInfoLoading || (this.isOnline && (!this.quantity && this.isSimpleOrConfigurable))
+    },
+    maxQuantity () {
+      return this.isOnline ? this.quantity : null
+    },
+    quantityDisabled () {
+      return this.isOnline ? !this.quantity : false
     }
   },
   async mounted () {

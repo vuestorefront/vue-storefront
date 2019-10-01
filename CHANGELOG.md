@@ -129,6 +129,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix breadcrumb homepage link in cms static pages - @andrzejewsky (#3631)
 - Fixed special price that can break when you change pages (browser navigation for/back) or just go from category to product page - @resubaka (#3638)
 - Fixed wrong links on the static pages - @andrzejewsky (#3659)
+- Fixed problem with changing quantity in offline mode on product page - @andrzejewsky (#3662)
 - Fixed problem with extending storeView configuration - @andrzejewsky (#3655)
 - Removed infinite loop when changing checkbox in shipping details - @gibkigonzo (#3656)
 - Fixed displaying single order in the profile - @andrzejewsky (#3663)
