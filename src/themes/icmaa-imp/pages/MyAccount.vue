@@ -3,7 +3,7 @@
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
         <breadcrumbs
-          :routes="[{name: 'Homepage', route_link: '/'}]"
+          :with-homepage="true"
           active-route="My Account"
         />
         <h1>

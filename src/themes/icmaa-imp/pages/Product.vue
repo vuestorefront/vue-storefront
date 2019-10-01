@@ -118,7 +118,7 @@ import config from 'config'
 
 import { minValue } from 'vuelidate/lib/validators'
 import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
-import { onlineHelper } from '@vue-storefront/core/helpers'
+import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import focusClean from 'theme/components/theme/directives/focusClean'
@@ -289,9 +289,22 @@ export default {
       })
     }
   },
+  watch: {
+    isOnline: {
+      handler (isOnline) {
+        if (isOnline) {
+          this.getQuantity()
+        }
+      },
+      immediate: true
+    }
+  },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
-    await store.dispatch('product/loadProductBreadcrumbs', { product })
+    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
+    if (isServer) {
+      await loadBreadcrumbsPromise
+    }
     catalogHooksExecutors.productPageVisited(product)
   }
 }
