@@ -46,7 +46,7 @@ git checkout 79f0c30f # origin/release/v1.11
 
  - First target is located at `./src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue` on line `83` unless you modified it. Fix it as follows :
 :::tip NOTE
-Line numbers might not match since it assumes no modification. Think of it as an approximation reference.
+Line numbers denote the number in the file and they might not match since it assumes no modification. Think of it as an approximation reference.
 :::
 
 ```js
@@ -102,7 +102,7 @@ Because we now use `lazy-hydrate` feature.
 import {registerModule} from '@vue-storefront/core/lib/modules'
 import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
 ``` 
-That is, `recently-viewed` module added to `Home.vue` template from version `1.11`.
+That is, `recently-viewed` module added to `Home.vue` template from `1.11`.
 
 Fix them at `55` below `export default` as follows :
 :::tip NOTE
