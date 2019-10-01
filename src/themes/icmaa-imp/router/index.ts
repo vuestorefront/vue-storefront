@@ -10,9 +10,6 @@ const Checkout = () => import(/* webpackChunkName: "vsf-checkout" */ 'theme/page
 const Compare = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/Compare.vue')
 const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue')
 
-/** ICMAA / Custom module pages */
-const IcmaaCategoryList = () => import(/* webpackChunkName: "vsf-icmaa-category-list" */ 'icmaa-category/pages/List.vue')
-
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
   { name: 'checkout', path: '/checkout', component: Checkout },
@@ -35,11 +32,6 @@ let routes = [
   { name: 'category', path: '/c/:slug', component: Category },
   { name: 'cms-page', path: '/i/:slug', component: CmsPage }
 ]
-
-/** ICMAA / Custom module routes */
-routes = routes.concat([
-  { name: 'icmaa-category-list', path: '/icmaa-category-list/:parentCategoryId/:depth?', component: IcmaaCategoryList }
-])
 
 /** ICMAA / Custom cms routes */
 routes = routes.concat(icmaaCmsRoutes)

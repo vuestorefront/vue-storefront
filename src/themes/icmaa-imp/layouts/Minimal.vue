@@ -26,16 +26,12 @@ export default {
   },
   methods: {
     ...mapGetters({ getMetaData: 'icmaaMeta/getData' }),
-    fetchConfig () {
-      return this.$store.dispatch('icmaaConfig/setMap')
-    },
     fetchMetaData () {
       return this.$store.dispatch('icmaaMeta/load')
     }
   },
   serverPrefetch () {
     return Promise.all([
-      this.fetchConfig(),
       this.fetchMetaData()
     ])
   },
