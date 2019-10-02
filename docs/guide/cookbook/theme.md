@@ -1,5 +1,9 @@
 # Ch 6. Theming in depth
-
+<style>
+    img[alt*="borderline"] {
+        border: 1px #000 solid;
+    }
+</style>
 In this chapter, we are going to cover : 
 [[toc]]
 
