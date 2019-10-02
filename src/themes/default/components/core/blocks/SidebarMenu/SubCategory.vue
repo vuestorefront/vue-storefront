@@ -144,7 +144,7 @@ export default {
   },
   methods: {
     logout () {
-      this.$bus.$emit('user-before-logout')
+      this.$store.dispatch('user/logout', {})
       this.$router.push(this.localizedRoute('/'))
     },
     notify (title) {
