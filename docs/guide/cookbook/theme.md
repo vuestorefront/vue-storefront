@@ -219,8 +219,610 @@ next(vm => {
 ```
 Again, new `actions` are used here instead of the old way. 
 
+4. Add new files introduced from `1.11` as following path from the `default` theme : 
+```bash
+# Assuming you are at the root directory
+cd src
+cp -r themes/default/store themes/degi/
+
+# Now replace index.js to import new features and abandon deprecated ones.
+cp themes/default/index.js themes/degi/index.js
+```
+
+5. Open your browser once again, then your errors now be gone as follows :
+
+![success_home_with_1.11_borderline](../images/success_1.11_home.png)
+
+6. Now you are OK with _Home_ page, but there are still subtle changes made to each corner of the app. Let's find them out. 
+Click the _Microcart_ icon then you will see the page like below : 
+
+![microcart_nan_borderline](../images/microcart_nan.png)
+
+Multiple spots need attention to be fixed. We upgraded _Microcart_ to enable _Edit Mode_ on the fly. Let's fix it. 
+
+7. Copy newly added files from the `default` theme to `degi` theme :
+```bash
+# you are at the root directory
+cd src
+cp themes/default/components/core/blocks/Microcart/EditButton.vue themes/degi/components/core/blocks/Microcart/
+cp themes/default/components/core/blocks/Microcart/EditMode.vue themes/degi/components/core/blocks/Microcart/
+```
+
+8. Then fix files that you might have modified before upgrade. 
+
+ - Go to `./src/themes/degi/components/core/blocks/Microcart/Microcart.vue` and fix it as follows at `3` : 
+
+```html
+<!-- from -->
+<!-- class="microcart cl-accent" -->
+<!-- to -->
+class="microcart cl-accent relative"
+```
+
+ - Add this at `7` : 
+```html
+<transition name="fade">
+  <div v-if="isEditMode" class="overlay" @click="closeEditMode" />
+</transition>
+```
+This transition allows _EditMode_ overlay and also works as a toggle button. 
+
+ - Replace `49` with below : 
+```html
+<!-- from -->
+<!--  <product v-for="product in productsInCart" :key="product.sku" :product="product" /> -->
+<!-- to -->
+<product v-for="product in productsInCart" :key="product.checksum || product.sku" :product="product" />
+``` 
+Now, `product.checksum` can be used as a key
+
+ - Fix it at `125` :
+```js
+// from
+// import { isModuleRegistered } from '@vue-storefront/core/lib/module'
+// import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart'
+// to
+import { mapGetters, mapActions } from 'vuex'
+import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
+import { registerModule } from '@vue-storefront/core/lib/modules'
+import EditMode from './EditMode'
+import { InstantCheckoutModule } from 'src/modules/instant-checkout'
+``` 
+Importing new features while removing deprecated ones.
+
+ - Change `mixins` at `147` : 
+```js{6,17}
+mixins: [
+  /* #remove
+  Microcart,
+  */  
+  VueOfflineMixin,    
+  EditMode,
+  onEscapePress    
+],   
+data () {  
+  return {      
+    addCouponPressed: false,   
+    couponCode: '',       
+    componentLoaded: false,  
+    /* #remove     
+    isInstantCheckoutRegistered: isModuleRegistered('instant-checkout')
+    */
+    isInstantCheckoutRegistered: isModuleRegistered('InstantCheckoutModule')
+  }  
+},
+```
+ - Add _functions_ and fix _methods_ at around `166` :
+```js{1-3,9-16,18-20,28,31-33,44,52}
+beforeCreate () {
+  registerModule(InstantCheckoutModule)
+},
+mounted () {
+  this.$nextTick(() => {
+    this.componentLoaded = true
+  })
+},
+computed: {
+  ...mapGetters({
+    productsInCart: 'cart/getCartItems',
+    appliedCoupon: 'cart/getCoupon',
+    totals: 'cart/getTotals',
+    isOpen: 'cart/getIsMicroCartOpen'
+  })
+},
+methods: {
+  ...mapActions({
+    applyCoupon: 'cart/applyCoupon'
+  }),
+  addDiscountCoupon () {
+    this.addCouponPressed = true
+  },
+  clearCoupon () {
+    /* #remove
+    this.removeCoupon()
+    */
+    this.$store.dispatch('cart/removeCoupon')
+    this.addCouponPressed = false
+  },
+  toggleMicrocart () {
+    this.$store.dispatch('ui/toggleMicrocart')
+  },
+  async setCoupon () {    
+    const couponApplied = await this.applyCoupon(this.couponCode)
+    this.addCouponPressed = false 
+    // ... abridged ... 
+    } 
+  }, 
+  closeMicrocartExtend () {
+    /* #remove
+    this.closeMicrocart()
+    */
+    this.toggleMicrocart()
+    this.$store.commit('ui/setSidebar', false)
+    this.addCouponPressed = false
+  },
+  onEscapePress () {
+    /* #remove
+    this.closeMicrocart()
+    */
+    this.toggleMicrocart()  
+  },
+```
+Here, you can see `InstantCheckoutModule` is registered at `beforeCreate`.
+
+`mapGetters` helper is used for getting `vuex` `actions`. [more info](https://stackoverflow.com/questions/49696542/differences-b-n-mapstate-mapgetters-mapactions-mapmutations-in-vuex) on `vuex` _helpers_
+
+ - Last but not least for the file, add some styles inside _\<style\>\</style\>_ tag at around `311` : 
+```css
+.overlay {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  z-index: 0;
+  height: 100%;
+  background:rgba(0, 0, 0, 0.4);
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .4s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+```
+
+ - Another big change has been made to `./src/themes/degi/components/core/blocks/Microcart/Product.vue`. 
+
+Start with replacing _template_ at `2` as follows :
+```html{4-15,45-79,88-94,103-130,175-201,203-209}
+<template>
+  <!-- #remove -->
+  <!-- <li class="row flex-nowrap py10"> -->
+  <li class="row py10 bg-cl-white" :class="{ 'relative': editMode }">
+    <div class="mx10 w-100 py10 mb15 edit-mode flex between-xs middle-xs" v-if="editMode">
+      Edit mode
+      <button class="brdr-none bg-cl-transparent" @click="closeEditMode">
+        <span class="cl-accent">
+          <i class="material-icons cl-accent mr5">
+            close
+          </i>
+        </span>
+      </button>
+    </div>
+    <div class="blend">
+      <div class="ml10 bg-cl-secondary">
+        <product-image :image="image" />
+      </div>
+    </div>
+    <!-- #remove -->
+    <!-- <div class="col-xs flex pl35 py15 start-xs between-sm details"> -->
+    <!--  <div> -->
+    <!--   <router-link -->
+    <!--      class="serif h4 name" -->
+    <!--      :to="localizedRoute({ -->
+    <!--        name: product.type_id + '-product', -->
+    <!--        params: { -->
+    <!--          parentSku: product.parentSku ? product.parentSku : product.sku,-->
+    <!--          slug: product.slug, -->
+    <!--          childSku: product.sku -->
+    <!--        } -->
+    <!--      })" -->
+    <!--      data-testid="productLink" -->
+    <!--      @click.native="$store.commit('ui/setMicrocart', false)" -->
+    <!--    > -->
+    <!--      {{ product.name | htmlDecode }} -->
+    <!--    </router-link> -->
+    <!--    <div class="h6 cl-bg-tertiary pt5 sku" data-testid="productSku"> -->
+    <!--      {{ product.sku }} -->
+    <!--    </div> -->
+    <!--    <div class="h6 cl-bg-tertiary pt5 options" v-if="isOnline && product.totals && product.totals.options"> -->
+    <!--      <div v-for="opt in product.totals.options" :key="opt.label"> -->
+    <!--        <span class="opn">{{ opt.label }}: </span> -->
+    <!--        <span class="opv" v-html="opt.value" /> -->
+        <div class="col-xs pt15 flex pl35 flex-wrap">
+           <div class="flex flex-nowrap details">
+             <div class="flex w-100 flex-wrap between-xs">
+              <div :class="{ 'w-100 pb10': !productsAreReconfigurable }">
+                <div>
+                  <router-link
+                    class="serif h4 name"
+                     :to="productLink"
+                    data-testid="productLink"
+                    @click.native="$store.commit('ui/setMicrocart', false)"
+                  >
+                    {{ product.name | htmlDecode }}
+                  </router-link>
+                  <div class="h6 cl-bg-tertiary pt5 sku" data-testid="productSku">
+                    {{ product.sku }}
+                  </div>
+                   <div class="h6 cl-bg-tertiary pt5 options" v-if="isOnline && !editMode && product.totals && product.totals.options">
+                     <div v-for="opt in product.totals.options" :key="opt.label">
+                      <span class="opn">{{ opt.label }}: </span>
+                       <span class="opv" v-html="opt.value" />
+                    </div>
+                   </div>
+                   <div class="h6 cl-bg-tertiary pt5 options" v-else-if="!editMode && product.options">
+                    <div v-for="opt in product.options" :key="opt.label">
+                  <span class="opn">{{ opt.label }}: </span>
+                  <span class="opv" v-html="opt.value" />
+                </div>
+              </div>
+              <div class="h6 pt5 cl-error" v-if="product.errors && Object.keys(product.errors).length > 0">
+                {{ product.errors | formatProductMessages }}
+              </div>
+              <div class="h6 pt5 cl-success" v-if="product.info && Object.keys(product.info).length > 0 && Object.keys(product.errors).length === 0">
+                {{ product.info | formatProductMessages }}
+              </div>
+            </div>
+          <!-- #remove -->  
+          <!-- </div> -->
+        <!-- </div> -->
+        <!-- <div class="h6 cl-bg-tertiary pt5 options" v-else-if="product.options"> -->
+        <!--  <div v-for="opt in product.options" :key="opt.label">  --> 
+        <!--    <span class="opn">{{ opt.label }}: </span>  -->
+        <!--    <span class="opv" v-html="opt.value" />  -->
+              </div>
+              <div class="h5 cl-accent lh25 qty">
+                <base-input-number
+                   :name="$t('Quantity')"
+                   :value="productQty"
+                   @input="updateProductQty"
+                   :min="1"
+              />
+          </div>        
+        </div>    
+        <!-- #remove -->
+        <!--  <div class="h6 pt5 cl-error" v-if="product.errors && Object.keys(product.errors).length > 0"> -->
+        <!--   {{ product.errors | formatProductMessages }} -->
+        <!-- </div> -->
+        <!-- <div class="h6 pt5 cl-success" v-if="product.info && Object.keys(product.info).length > 0 && Object.keys(product.errors).length === 0">
+        <!--   {{ product.info | formatProductMessages }} -->
+         <div class="flex mr10 align-right start-xs between-sm prices">
+          <div class="prices" v-if="!displayItemDiscounts || !isOnline">
+            <span class="h4 serif cl-error price-special" v-if="product.special_price">
+              {{ product.price_incl_tax * product.qty | price }}
+            </span>
+            <span class="h6 serif price-original" v-if="product.special_price">
+              {{ product.original_price_incl_tax * product.qty | price }}
+            </span>
+            <span class="h4 serif price-regular" v-else data-testid="productPrice">
+              {{ (product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax) * product.qty | price }}
+            </span>
+          </div>
+          <div class="prices" v-else-if="isOnline && product.totals">
+            <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
+              {{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }}
+            </span>
+            <span class="h6 serif price-original" v-if="product.totals.discount_amount">
+              {{ product.totals.row_total_incl_tax | price }}
+            </span>
+            <span class="h4 serif price-regular" v-if="!product.totals.discount_amount">
+              {{ product.totals.row_total_incl_tax | price }}
+            </span>
+          </div>
+          <div class="prices" v-else>
+            <span class="h4 serif price-regular">
+              {{ (product.regular_price || product.price_incl_tax) * product.qty | price }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- #remove -->
+      <!-- <div class="h5 pt5 cl-accent lh25 qty"> -->
+        <!-- <base-input-number -->
+          <!-- :name="$t('Quantity')" -->
+          <!-- :value="product.qty" -->
+          <!-- @input="updateQuantity" -->
+          <!-- :min="1" -->
+        <!-- /> -->
+      <!-- </div> -->
+    <!-- </div> -->
+    <!-- <div class="flex py15 mr10 align-right start-xs between-sm actions"> -->
+      <!-- <div class="prices" v-if="!displayItemDiscounts || !isOnline"> -->
+        <!-- <span class="h4 serif cl-error price-special" v-if="product.special_price"> -->
+        <!--   {{ product.priceInclTax * product.qty | price }}&nbsp; -->
+        <!-- </span> -->
+        <!-- <span class="h6 serif price-original" v-if="product.special_price"> -->
+        <!--   {{ product.originalPriceInclTax * product.qty | price }} -->
+        <!-- </span> -->
+        <!-- <span class="h4 serif price-regular" v-else data-testid="productPrice"> -->
+        <!--   {{ (product.originalPriceInclTax ? product.originalPriceInclTax : product.priceInclTax) * product.qty | price }} -->
+        <!-- </span> -->
+      <!-- </div> -->
+      <!-- <div class="prices" v-else-if="isOnline && product.totals"> -->
+        <!-- <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount"> -->
+        <!--   {{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }}&nbsp; -->
+        <!-- </span> --> 
+        <!-- <span class="h6 serif price-original" v-if="product.totals.discount_amount"> -->
+        <!--   {{ product.totals.row_total_incl_tax | price }} -->
+        <!-- </span> -->
+        <!-- <span class="h4 serif price-regular" v-if="!product.totals.discount_amount"> -->
+        <!--   {{ product.totals.row_total_incl_tax | price }} -->
+        <!-- </span> -->
+      <!-- </div> -->
+      <!-- <div class="prices" v-else> -->
+        <!-- <span class="h4 serif price-regular"> -->
+        <!--   {{ product.regular_price * product.qty | price }} -->
+        <!-- </span> -->
+      <!-- </div> -->
+      <!-- <div class="links"> -->
+        <!-- <div class="mt5" @click="removeItem"> -->
+          <!-- <remove-button /> -->
+      <div class="w-100 pb15 flex flex-wrap bottom-xs" v-if="editMode">
+        <div class="ml0 flex flex-wrap filters" v-if="productsAreReconfigurable">
+          <div class="h5 pt5 w-100" v-for="(option, index) in product.configurable_options" :key="index">
+            <div class="h6 cl-bg-tertiary mr10">
+              {{ option.label }}:
+            </div>
+            <div class="flex flex-wrap pt5" v-if="option.label == 'Color' && editMode">
+              <color-selector
+                v-for="filter in getAvailableFilters[option.attribute_code]"
+                v-if="isOptionAvailable(filter)"
+                :key="filter.id"
+                :variant="filter"
+                :selected-filters="getSelectedOptions"
+                @change="editModeSetFilters"
+              />
+            </div>
+            <div class="flex flex-wrap pt5" v-else-if="option.label == 'Size' && editMode">
+              <size-selector
+                class="mr10 mb10"
+                v-for="filter in getAvailableFilters[option.attribute_code]"
+                v-if="isOptionAvailable(filter)"
+                :key="filter.id"
+                :variant="filter"
+                :selected-filters="getSelectedOptions"
+                @change="editModeSetFilters"
+              />
+            </div>
+          </div>
+        </div>
+        <button-full class="update-button mb10 mr10" @click.native="updateProductVariant">
+          {{ $t('Update item') }}
+        </button-full>
+      </div>
+      <div class="w-100 flex middle-xs actions" :class="{ 'end-xs pb5': !productsAreReconfigurable }" v-if="!editMode">
+        <edit-button class="mx5" @click="openEditMode" v-if="productsAreReconfigurable && !editMode" />
+        <remove-button class="mx5" @click="removeItem" />
+      </div>
+    </div>
+  </li>
+</template>          
+```
+Here we replaced template.
+
+ - Now fix script as follows at `135` : 
+
+```js{2,4-5,8-9,11,14-17,19-24,29-32,34,39-44,50-64,72-88}
+<script>
+import { mapActions } from 'vuex'
+import config from 'config'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
+import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
+import ProductImage from 'theme/components/core/ProductImage'
+import ColorSelector from 'theme/components/core/ColorSelector.vue'
+import SizeSelector from 'theme/components/core/SizeSelector.vue'
+import RemoveButton from './RemoveButton'
+import EditButton from './EditButton'
+import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+import { onlineHelper } from '@vue-storefront/core/helpers'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption'
+import { getThumbnailForProduct, getProductConfiguration } from '@vue-storefront/core/modules/cart/helpers'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import EditMode from './EditMode'
+export default {
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
+  components: {
+    RemoveButton,
+    BaseInputNumber,
+    ProductImage,
+    ColorSelector,
+    SizeSelector,
+    EditButton,
+    ButtonFull
+  },
+  mixins: [Product, ProductOption, EditMode],
+  computed: {
+    isOnline () {
+      return onlineHelper.isOnline
+    },
+    productsAreReconfigurable () {
+      return config.cart.productsAreReconfigurable && this.product.type_id === 'configurable' && this.isOnline
+    },
+    displayItemDiscounts () {
+      return config.cart.displayItemDiscounts
+    },
+    image () {
+      return {
+        loading: this.thumbnail,
+        src: this.thumbnail
+      }
+    },
+    thumbnail () {
+      return getThumbnailForProduct(this.product)
+    },
+    configuration () {
+      return getProductConfiguration(this.product)
+    },
+    productLink () {
+      return formatProductLink(this.product, currentStoreView().storeCode)
+    },
+    editMode () {
+      return this.getEditingProductId === this.product.id
+    },
+    productQty () {
+      return this.editMode ? this.getEditingQty : this.product.qty
+    }
+  },
+  /* #remove
+  data () {
+    return {
+      displayItemDiscounts: config.cart.displayItemDiscounts
+  */
+  methods: {
+    updateProductVariant () {
+      this.updateVariant()
+      this.closeEditMode()
+    },
+    updateProductQty (qty) {
+      if (this.editMode) {
+        this.editModeSetQty(qty)
+        return
+      }
+      this.updateQuantity(qty)
+    },
+    removeFromCart () {
+      this.$store.dispatch('cart/removeItem', { product: this.product })
+    },
+    updateQuantity (quantity) {
+      this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: quantity })
+    }
+  }
+}
+</script>
+```
+As you can see here, we added `EditMode` in _Microcart_. Many things were considered in doing so, e.g. `color`, `size`, `option`, _multistores_ and so on. 
+
+
+ - Time to fix _styles_ : 
+```css{2-7,22-24,32,38-40,75-89}
+<style lang="scss" scoped>
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+  .blend {
+    flex: 0 0 150px;
+  }
+
+  .image {
+    mix-blend-mode: multiply;
+    vertical-align: top;
+
+/* ... abridged ... */
+
+  }
+  .details {
+    /* #remove
+    flex-direction: column;
+    @media (max-width: 767px) {
+      padding: 0 10px 0 20px;
+    }
+    */
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .name {
+
+/* ... abridged ... */
+
+  }
+  .qty {
+    padding-right: 30px;
+    @media (max-width: 767px) {
+      font-size: 12px;
+    }
+  }
+  .actions {
+    margin: 0 -5px;
+  }
+  .prices {
+    flex-direction: column;
+    @media (max-width: 767px) {
+      padding: 0;
+      font-size: 12px;
+    }
+    /* #remove
+    .links {
+      @media (max-width: 767px) {
+        margin-top: 20px;
+      }
+    }
+    */
+  }
+  .price-special {
+
+/* ... abridged ... */
+
+    text-decoration: line-through;
+  }
+
+  /* #remove
+  .price-regular {
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
+  }
+  */
+
+  input {
+    width: 30px;
+  }
+  .flex-nowrap {
+    flex-wrap: nowrap;
+  }
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
+  .edit-mode {
+    border-bottom: 1px solid color(white-smoke);
+  }
+  .filters {
+    flex: 1 1 200px;
+  }
+  .update-button {
+    font-size: 14px;
+    min-width: 150px;
+    width: 150px;
+    padding: 10px;
+  }
+</style>
+
+``` 
+
+ - Move on to next file `./src/themes/degi/components/core/blocks/Microcart/RemoveButton.vue` and fix it at `2` as follows : 
+```html
+<!-- from -->
+<!-- <button class="brdr-none bg-cl-transparent p0 middle-xs inline-flex cl-secondary"> -->
+<!-- to -->
+<button @click="$emit('click')" class="brdr-none bg-cl-transparent p0 middle-xs inline-flex cl-secondary">
+``` 
+Here we added _Vue_ click event.
+
+9. Let's confirm if we got it right so far on your browser. Open it then _Voila !_ : 
+
+![editmode_in_mc_borderline](../images/editmodeInMC.png)
+
+Now you can edit options for your products in _Microcart_.
 
 ### 3. Peep into the kitchen (what happens internally)
+
 ### 4. Chef's secret (protip)
 <br />
 <br />
