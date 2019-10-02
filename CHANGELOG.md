@@ -132,6 +132,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed problem with extending storeView configuration - @andrzejewsky (#3655)
 - Removed infinite loop when changing checkbox in shipping details - @gibkigonzo (#3656)
 - Fixed displaying single order in the profile - @andrzejewsky (#3663)
+- Fixed missing storeCode in metaInfo - @andrzejewsky (#3674)
 
 ### Changed / Improved
 
