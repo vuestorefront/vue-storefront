@@ -179,12 +179,6 @@ You should add all the multistore codes to the `mapStoreUrlsFor` as this propert
 This attribute is not inherited through the "extend" mechanism.
 
 ```json
-    "disabled": true,
-```
-
-If the specific store is disabled, it won't be used to populate the routing table and won't be displayed in the `Language/Switcher.vue`.
-
-```json
     "storeId": 3,
 ```
 
