@@ -237,7 +237,6 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
     ],
     "multistore": true,
     "de": {
-        "disabled": false,
         "elasticsearch": {
             "httpAuth": "",
             "host": "https://prod.vuestorefront.io/api/catalog",
@@ -245,7 +244,6 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
         }
     },
     "it": {
-        "disabled": false,
         "elasticsearch": {
             "httpAuth": "",
             "host": "https://prod.vuestorefront.io/api/catalog",
