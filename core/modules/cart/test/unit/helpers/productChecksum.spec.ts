@@ -49,10 +49,10 @@ const bundleProduct: CartItem = {
 
 describe('Cart productChecksum', () => {
   it('returns checksum for bundle product', async () => {
-    expect(productChecksum(bundleProduct)).toBe('3a3c1864b9ecd7cd66ab52d7ed2aab4fd2c8e232dffc2a59902d7b90');
+    expect(productChecksum(bundleProduct)).toBe('d8ba5d5baf59fe28647d6a08fdaeb683a7b39ccdebc77eecabc6457c');
   });
 
   it('returns checksum for configurable product', async () => {
-    expect(productChecksum(configurableProduct)).toBe('c0781e146b8b799836585d19ad3b7a6fb465dfdd2b7d9dcad0793b6b');
+    expect(productChecksum(configurableProduct)).toBe('0bbb27ec7a3cb5dfd1d3f6c4ee54c8b522c4063fe6ea0571794d446f');
   });
 });
