@@ -48,6 +48,10 @@ git checkout 79f0c30f # origin/release/v1.11
 
 3. Now we start hunting down the culprits one by one. 
 
+:::tip TIP
+By the way, you can also compare the changes made between `1.10` to `1.11` in [github link](https://github.com/DivanteLtd/vue-storefront/commit/a42d480aea56d90f7ab65c5caf6ce3f49b00dfec) with a glance too.
+:::
+
  - First target is located at `./src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue` on line `83` unless you modified it. Replace it as follows :
 :::warning NOTICE
 Line numbers denote the number in the file and they might not match since it assumes no modification. Think of it as an approximation reference.
