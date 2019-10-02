@@ -31,7 +31,7 @@ This recipe helps you resolve errors you encounter after the upgrade as short a 
 ### 1. Preparation
  - You have a [Vue Storefront App running](/guide/cookbook/setup.html#_0-introduction) by `docker` or `yarn dev` and watch it in your browser.
  - You have a child theme [running](/guide/cookbook/theme.html#_1-start-building-your-own-theme) on top of _Vue Storefront_ app. 
- - In this recipe, we start with _degi_ child theme based on `1.10` version (git hash : _1b53bd2a_) of `default` theme. This _degi_ theme is an example you might have created for your own. 
+ - In this recipe, we start with _degi_ child theme based on `1.10` version (git hash : ___1b53bd2a___) of `default` theme. This _degi_ theme is an example you might have created for your own. Which means, you can change it to whatever you like. 
  - In other words, suppose you have a _Vue Storefront_ shop running on a child theme `degi` that was branched off from _Vue Storefront_ `default` theme version `1.10` and want to upgrade to `1.11`. 
 
 ### 2. Recipe
