@@ -48,8 +48,8 @@ git checkout 79f0c30f # origin/release/v1.11
 
 3. Now we start hunting down the culprits one by one. 
 
- - First target is located at `./src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue` on line `83` unless you modified it. Fix it as follows :
-:::tip NOTE
+ - First target is located at `./src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue` on line `83` unless you modified it. Replace it as follows :
+:::warning NOTICE
 Line numbers denote the number in the file and they might not match since it assumes no modification. Think of it as an approximation reference.
 :::
 
@@ -109,8 +109,8 @@ import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed
 That is, `recently-viewed` module added to `Home.vue` template from `1.11`.
 
 Fix them at `55` below `export default` as follows :
-:::tip NOTE
-Lines with strong background means _addition_ while commented with flag `remove` means _elimination_
+:::tip IMPORTANT !
+Lines with strong background means _addition_ while commented with flag `#remove` means _elimination_
 :::
 ```js{2-6,14,18,33-37,45-47}
 export default { 
@@ -239,7 +239,7 @@ In this recipe, we will walk through how `default` theme works in cooperation wi
 Among methodologies for this recipe, we will use the one inspired by [_Chaos Monkey_](https://en.wikipedia.org/wiki/Chaos_engineering); One that creates various errors on purpose, and ___see___ why it was needed to prevent such errors in the first place.
 
 #### Sidetalk (If you are busy dev, please skip this)
-Why we don't make a recipe for solution to a problem, but a recipe for a problem itself? Read this quote from _Aristotle_ and ask me again
+Why we don't make a recipe for solution to a problem, but a recipe for a problem itself? Read this quote from _Aristotle_ and please ask me again
 :::tip QUOTE
 _He who sees things grow from their beginning will have the best view of them_
 
