@@ -30,7 +30,7 @@
             <div class="h6 cl-bg-tertiary pt5 sku" data-testid="productSku">
               {{ product.sku }}
             </div>
-            <div class="h6 cl-bg-tertiary pt5 options" v-if="isOnline && !editMode && product.totals && product.totals.options">
+            <div class="h6 cl-bg-tertiary pt5 options" v-if="isTotalsActive">
               <div v-for="opt in product.totals.options" :key="opt.label">
                 <span class="opn">{{ opt.label }}: </span>
                 <span class="opv" v-html="opt.value" />
@@ -42,10 +42,10 @@
                 <span class="opv" v-html="opt.value" />
               </div>
             </div>
-            <div class="h6 pt5 cl-error" v-if="product.errors && Object.keys(product.errors).length > 0">
+            <div class="h6 pt5 cl-error" v-if="hasProductErrors">
               {{ product.errors | formatProductMessages }}
             </div>
-            <div class="h6 pt5 cl-success" v-if="product.info && Object.keys(product.info).length > 0 && Object.keys(product.errors).length === 0">
+            <div class="h6 pt5 cl-success" v-if="hasProductInfo && !hasProductErrors">
               {{ product.info | formatProductMessages }}
             </div>
           </div>
@@ -166,6 +166,15 @@ export default {
   },
   mixins: [Product, ProductOption, EditMode],
   computed: {
+    hasProductInfo () {
+      return this.product.info && Object.keys(this.product.info).length > 0
+    },
+    hasProductErrors () {
+      return this.product.errors && Object.keys(this.product.errors).length > 0
+    },
+    isTotalsActive () {
+      return this.isOnline && !this.editMode && this.product.totals && this.product.totals.options
+    },
     isOnline () {
       return onlineHelper.isOnline
     },
