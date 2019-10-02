@@ -115,7 +115,6 @@
     "mapStoreUrlsFor": ["de", "it"],
     "de": {
       "storeCode": "de",
-      "disabled": true,
       "storeId": 3,
       "name": "German Store",
       "url": "/de",
@@ -147,7 +146,6 @@
     "it": {
       "extend": "de",
       "storeCode": "it",
-      "disabled": true,
       "storeId": 4,
       "name": "Italian Store",
       "url": "/it",
