@@ -1,5 +1,5 @@
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
-import {Express} from 'express';
+import { Express, Request } from 'express';
 
 // To add like tracing which needs to be done as early as possible
 
@@ -8,10 +8,15 @@ const {
   executor: afterProcessStartedExecutor
 } = createListenerHook<any>()
 
+interface beforeCacheInvalidatedParamter {
+  tags: string[],
+  req: Request
+}
+
 const {
   hook: beforeCacheInvalidatedHook,
   executor: beforeCacheInvalidatedExecutor
-} = createListenerHook<any>()
+} = createListenerHook<beforeCacheInvalidatedParamter>()
 
 const {
   hook: afterCacheInvalidatedHook,
@@ -30,21 +35,21 @@ const {
 } = createListenerHook<Extend>()
 
 const {
-  hook: beforeOutputRenderedHook,
-  executor: beforeOutputRenderedExecutor
+  hook: beforeOutputRenderedResponseHook,
+  executor: beforeOutputRenderedResponseExecutor
 } = createMutatorHook<any, any>()
 
 const {
-  hook: afterOutputRenderedHook,
-  executor: afterOutputRenderedExecutor
+  hook: afterOutputRenderedResponseHook,
+  executor: afterOutputRenderedResponseExecutor
 } = createMutatorHook<any, any>()
 
 /** Only for internal usage in this module */
 const serverHooksExecutors = {
   afterProcessStarted: afterProcessStartedExecutor,
   afterApplicationInitialized: afterApplicationInitializedExecutor,
-  beforeOutputRendered: beforeOutputRenderedExecutor,
-  afterOutputRendered: afterOutputRenderedExecutor,
+  beforeOutputRenderedResponse: beforeOutputRenderedResponseExecutor,
+  afterOutputRenderedResponse: afterOutputRenderedResponseExecutor,
   beforeCacheInvalidated: beforeCacheInvalidatedExecutor,
   afterCacheInvalidated: afterCacheInvalidatedExecutor
 }
@@ -58,8 +63,8 @@ const serverHooks = {
    *
    */
   afterApplicationInitialized: afterApplicationInitializedHook,
-  beforeOutputRendered: beforeOutputRenderedHook,
-  afterOutputRendered: afterOutputRenderedHook,
+  beforeOutputRenderedResponse: beforeOutputRenderedResponseHook,
+  afterOutputRenderedResponse: afterOutputRenderedResponseHook,
   beforeCacheInvalidated: beforeCacheInvalidatedHook,
   afterCacheInvalidated: afterCacheInvalidatedHook
 }

@@ -73,7 +73,7 @@ function invalidateCache (req, res) {
       }
       const subPromises = []
 
-      serverHooksExecutors.beforeCacheInvalidated()
+      serverHooksExecutors.beforeCacheInvalidated({ tags, req })
 
       tags.forEach(tag => {
         if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find(t => {
@@ -186,13 +186,19 @@ app.get('*', (req, res, next) => {
         console.log(`cache tags for the request: ${cacheTags}`)
       }
 
-      const hookResponse = serverHooksExecutors.beforeOutputRendered({
+      const beforeOutputRenderedResponse = serverHooksExecutors.beforeOutputRenderedResponse({
         req,
         res,
         context,
         output,
         isProd
       })
+
+      if (typeof beforeOutputRenderedResponse.output === 'string') {
+        output = beforeOutputRenderedResponse.output
+      } else if (typeof beforeOutputRenderedResponse === 'string') {
+        output = beforeOutputRenderedResponse
+      }
 
       output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd);
       if (config.server.useOutputCache && cache) {
@@ -203,7 +209,7 @@ app.get('*', (req, res, next) => {
         ).catch(errorHandler)
       }
 
-      const hookResponse2 = serverHooksExecutors.afterOutputRendered({
+      const afterOutputRenderedResponse = serverHooksExecutors.afterOutputRenderedResponse({
         req,
         res,
         context,
@@ -211,7 +217,14 @@ app.get('*', (req, res, next) => {
         isProd
       })
 
-      res.end(output)
+      if (typeof afterOutputRenderedResponse.output === 'string') {
+        res.end(afterOutputRenderedResponse.output)
+      } else if (typeof afterOutputRenderedResponse === 'string') {
+        res.end(afterOutputRenderedResponse)
+      } else {
+        res.end(output)
+      }
+
       console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
       next()
     }).catch(errorHandler)
