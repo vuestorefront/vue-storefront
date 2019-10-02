@@ -824,6 +824,9 @@ Now you can edit options for your products in _Microcart_.
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
+1. Debunk _github_ features to uncover the code changes
+
+2. 
 <br />
 <br />
 <br />
