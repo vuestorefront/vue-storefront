@@ -36,7 +36,7 @@ const methodsActions = {
           shippingDetails: rootGetters['checkout/getShippingDetails'],
           shippingMethods: rootGetters['checkout/getShippingMethods'],
           paymentMethods: rootGetters['checkout/getPaymentMethods'],
-          paymentDetails: rootGetters['checkout/getPaymentDetails']
+          paymentDetails: paymentDetails
         })
 
         if (shippingMethodsData.country) {
