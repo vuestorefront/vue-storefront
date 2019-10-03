@@ -6,13 +6,14 @@
     v-on="$listeners"
   >
     <img
+      v-if="withPlaceholder && !showLowerQuality"
       v-show="showPlaceholder"
       src="/assets/placeholder.svg"
       :alt="alt"
       class="product-image__placeholder"
     >
     <img
-      v-if="!lowerQualityImageError || isOnline"
+      v-if="(!lowerQualityImageError || isOnline) && showHighQuality"
       v-show="showLowerQuality"
       :src="image.loading"
       :alt="alt"
@@ -52,6 +53,10 @@ export default {
     alt: {
       type: String,
       default: ''
+    },
+    withPlaceholder: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

@@ -31,9 +31,10 @@
       >
         <product-image
           class="product-cover__thumb"
-          :image="thumbnailObj"
+          :image="imageObj"
           :alt="product.name | htmlDecode"
           :calc-ratio="false"
+          :with-placeholder="withPlaceholder"
           data-testid="productImage"
         />
       </div>
@@ -85,10 +86,14 @@ export default {
     onlyImage: {
       type: Boolean,
       default: false
+    },
+    withPlaceholder: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
-    thumbnailObj () {
+    imageObj () {
       return {
         src: this.thumbnail,
         loading: this.thumbnail

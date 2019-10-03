@@ -6,7 +6,7 @@
       class="col-sm-6 flex"
       :class="['col-md-' + (12/columns)%10, wide(product.sale, product.new, key)]"
     >
-      <product-tile :product="product" />
+      <product-tile :product="product" :with-placeholder="showPlaceholder(key)" />
     </div>
   </div>
 </template>
@@ -38,6 +38,10 @@ export default {
         lastHero = index
       }
       return isHero ? 'col-xs-12' : 'col-xs-6'
+    },
+    showPlaceholder (index) {
+      if (index > 5) return true;
+      return false;
     }
   }
 }
