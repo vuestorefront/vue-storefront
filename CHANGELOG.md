@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
+- Position addtocart button in product view fixed to bottom. change view on scrolldown - @ngongoll (#3272)
 
 ## [1.11.0-rc.1] - 2019.10.03
 
