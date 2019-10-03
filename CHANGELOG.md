@@ -56,7 +56,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Route Manager Queue for adding routes efficiently and with an optional priority - @grimasod (#3540)
 - Added tests for cart module actions - @andrzejewsky (#3023)
 - Fixed a problem with type changes in the state when extending a store - @resubaka (#3618)
-- Fixed problem with bundle product where they have the same hash as other products - @resubaka (#3657)
 
 ### Fixed
 
@@ -128,12 +127,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add missing parameters (`size`,`start`) to `quickSearchByQuery()` in `attribute/list` action - @cewald (#3627)
 - Fix breadcrumb homepage link in cms static pages - @andrzejewsky (#3631)
 - Fixed special price that can break when you change pages (browser navigation for/back) or just go from category to product page - @resubaka (#3638)
+- Fixed wrong links on the static pages - @andrzejewsky (#3659)
 - Fixed problem with changing quantity in offline mode on product page - @andrzejewsky (#3662)
 - Fixed problem with extending storeView configuration - @andrzejewsky (#3655)
 - Removed infinite loop when changing checkbox in shipping details - @gibkigonzo (#3656)
 - Fixed displaying single order in the profile - @andrzejewsky (#3663)
 - Make microcart ui consistent for all types of products - @gibkigonzo (#3673)
 - Fixed missing storeCode in metaInfo - @andrzejewsky (#3674)
+- Removed showing popup when you have just logged out - @andrzejewsky (#3680)
 
 ### Changed / Improved
 
