@@ -19,14 +19,11 @@ function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
     if (!config.storeViews[originalParent]) {
       Logger.error(`Storeview "${storeView.extend}" doesn't exist!`)()
     } else {
-      delete storeView.extend
-
       storeView = merge(
         {},
         getExtendedStoreviewConfig(config.storeViews[originalParent]),
         storeView
       )
-      storeView.extend = originalParent
     }
   }
 
@@ -71,6 +68,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
     StorageManager.currentStoreCode = storeView.storeCode
   }
   coreHooksExecutors.afterStoreViewChanged(storeView)
+
   return storeView
 }
 

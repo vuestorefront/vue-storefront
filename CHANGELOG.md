@@ -128,6 +128,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix breadcrumb homepage link in cms static pages - @andrzejewsky (#3631)
 - Fixed special price that can break when you change pages (browser navigation for/back) or just go from category to product page - @resubaka (#3638)
 - Fixed problem with losing browser history - @andrzejewsky (#3642)
+- Fixed wrong links on the static pages - @andrzejewsky (#3659)
+- Fixed problem with changing quantity in offline mode on product page - @andrzejewsky (#3662)
+- Fixed problem with extending storeView configuration - @andrzejewsky (#3655)
+- Removed infinite loop when changing checkbox in shipping details - @gibkigonzo (#3656)
+- Fixed displaying single order in the profile - @andrzejewsky (#3663)
+- Make microcart ui consistent for all types of products - @gibkigonzo (#3673)
+- Fixed missing storeCode in metaInfo - @andrzejewsky (#3674)
+- Removed showing popup when you have just logged out - @andrzejewsky (#3680)
 
 ### Changed / Improved
 
@@ -179,6 +187,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change sku to string when checking products equality - @gibkigonzo (#3606)
 - Pass to `registerModule` all parameters as one object - @gibkigonzo (#3634)
 - Include shipping address data in request for shipping methods for more accurate filtering - @rain2o (#2515)
+- remove 'disabled' flag in storeViews config - @gibkigonzo (#3659)
 
 ## [1.10.3] - 2019.09.18
 
