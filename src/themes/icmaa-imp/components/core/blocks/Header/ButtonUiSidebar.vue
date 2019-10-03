@@ -1,5 +1,5 @@
 <template>
-  <button-icon :icon="icon" :title="title" :quantity="quantity" @click="openSidebarMenu" />
+  <button-icon :icon="icon" :title="title" :qty="quantity" @click="openSidebarMenu" />
 </template>
 
 <script>
@@ -7,6 +7,7 @@ import { mapState } from 'vuex'
 import ButtonIcon from 'theme/components/core/blocks/Header/ButtonIcon'
 
 export default {
+  name: 'ButtonUiSidebar',
   components: {
     ButtonIcon
   },
@@ -30,8 +31,7 @@ export default {
     qtyGetter: {
       type: [String, Boolean],
       default: false
-    },
-    last: Boolean
+    }
   },
   computed: {
     ...mapState({
