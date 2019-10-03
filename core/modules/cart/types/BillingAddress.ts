@@ -1,4 +1,4 @@
-export default interface ShippingAddress {
+export default interface BillingAddress {
   firstname: string,
   lastname: string,
   city: string,
