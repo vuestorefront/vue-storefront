@@ -34,9 +34,7 @@ export default {
           const type = configurableOption.attribute_code
           const filterVariants = configurableOption.values.map(
             ({ value_index, label }) => {
-              let currentVariant = this.options[type].find(
-                config => config.id === value_index
-              )
+              let currentVariant = this.options[type] ? this.options[type].find(config => config.id === value_index) : false
               label = label || (currentVariant ? currentVariant.label : value_index)
               return { id: value_index, label, type }
             }

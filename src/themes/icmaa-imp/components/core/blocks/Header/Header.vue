@@ -1,16 +1,13 @@
 <template>
   <div class="header">
-    <header
-      class="t-fixed t-w-full t-bg-white"
-      :class="{ 'is-visible': navVisible }"
-    >
+    <header class="t-fixed t-w-full t-bg-white" :class="{ 'is-visible': navVisible }">
       <div class="row-01 t-flex t-bg-black">
         <div class="t-container t-px-2 t-flex-initial t-flex t-justify-between">
           <button-ui-sidebar icon="dehaze" title="Menu" ui-state="sidebar" ui-mutation="setSidebar" />
           <div class="t-flex-auto sm:t-border-r t-border-base-tone " />
           <button-account />
           <button-ui-sidebar icon="favorite_border" title="Wishlist" ui-state="wishlist" ui-mutation="setWishlist" qty-getter="wishlist/getWishlistItemsCount" />
-          <button-cart />
+          <button-cart :last="true" />
           <language-switcher />
         </div>
       </div>

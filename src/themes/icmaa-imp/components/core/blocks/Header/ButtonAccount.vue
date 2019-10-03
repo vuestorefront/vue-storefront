@@ -6,6 +6,7 @@
 import ButtonIcon from 'theme/components/core/blocks/Header/ButtonIcon'
 
 export default {
+  name: 'ButtonAccount',
   components: {
     ButtonIcon
   },
