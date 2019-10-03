@@ -34,7 +34,6 @@
           :image="imageObj"
           :alt="product.name | htmlDecode"
           :calc-ratio="false"
-          :with-placeholder="withPlaceholder"
           data-testid="productImage"
         />
       </div>
@@ -84,10 +83,6 @@ export default {
       default: true
     },
     onlyImage: {
-      type: Boolean,
-      default: false
-    },
-    withPlaceholder: {
       type: Boolean,
       default: false
     }

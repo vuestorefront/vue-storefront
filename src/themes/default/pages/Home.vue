@@ -107,10 +107,13 @@ export default {
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    Logger.info('Calling asyncData in Home (theme)')()
+    Logger.info('Calling asyncData in Home (theme)')();
 
+    // store.dispatch('homepage/fetchNewCollection', {start: 0, size: 6});
+    store.dispatch('homepage/fetchNewCollection')
     await Promise.all([
-      store.dispatch('homepage/fetchNewCollection'),
+      // store.dispatch('homepage/fetchNewCollection', lazyLoad),
+      // store.dispatch('homepage/fetchNewCollection'),
       store.dispatch('promoted/updateHeadImage'),
       store.dispatch('promoted/updatePromotedOffers')
     ])

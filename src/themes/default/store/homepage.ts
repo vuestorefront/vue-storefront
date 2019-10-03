@@ -7,12 +7,13 @@ export const homepageStore = {
     bestsellers: []
   },
   actions: {
-    async fetchNewCollection ({ commit, dispatch }) {
+    async fetchNewCollection ({ commit, dispatch }, payload) {
       const newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
 
       const newProductsResult = await dispatch('product/list', {
         query: newProductsQuery,
-        size: 8,
+        start: payload ? payload.start : 0,
+        size: payload ? payload.size : 8,
         sort: 'created_at:desc'
       }, { root: true })
       const configuredProducts = await dispatch(
