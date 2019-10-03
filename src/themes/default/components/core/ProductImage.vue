@@ -6,7 +6,7 @@
     v-on="$listeners"
   >
     <img
-      v-if="withPlaceholder && !showLowerQuality"
+      v-if="withPlaceholder && !showHighQuality"
       v-show="showPlaceholder"
       src="/assets/placeholder.svg"
       :alt="alt"
