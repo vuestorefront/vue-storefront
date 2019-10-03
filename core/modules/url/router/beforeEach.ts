@@ -5,9 +5,10 @@ import { Route } from 'vue-router'
 import store from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
-import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { LocalizedRoute } from '@vue-storefront/core/lib/types'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
+import { routerHelper } from '@vue-storefront/core/helpers'
 
 export const UrlDispatchMapper = async (to) => {
   const routeData = await store.dispatch('url/mapUrl', { url: to.path, query: to.query })
@@ -32,7 +33,10 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
       if (routeData) {
         let dynamicRoute: LocalizedRoute = processDynamicRoute(routeData, path, !isPreviouslyDispatchedDynamicRoute)
         if (dynamicRoute) {
-          next(dynamicRoute)
+          next({
+            ...dynamicRoute,
+            replace: routerHelper.popStateDetected || dynamicRoute.fullPath === from.fullPath
+          })
         } else {
           Logger.error('Route not found ' + routeData['name'], 'dispatcher')()
           next()
@@ -51,4 +55,6 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
     next()
     RouterManager.unlockRoute()
   }
+
+  routerHelper.popStateDetected = false
 }

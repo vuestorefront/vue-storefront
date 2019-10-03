@@ -18,37 +18,35 @@
     <div class="col-xs pt15 flex pl35 flex-wrap">
       <div class="flex flex-nowrap details">
         <div class="flex w-100 flex-wrap between-xs">
-          <div :class="{ 'w-100 pb10': !productsAreReconfigurable }">
-            <div>
-              <router-link
-                class="serif h4 name"
-                :to="productLink"
-                data-testid="productLink"
-                @click.native="$store.commit('ui/setMicrocart', false)"
-              >
-                {{ product.name | htmlDecode }}
-              </router-link>
-              <div class="h6 cl-bg-tertiary pt5 sku" data-testid="productSku">
-                {{ product.sku }}
+          <div>
+            <router-link
+              class="serif h4 name"
+              :to="productLink"
+              data-testid="productLink"
+              @click.native="$store.commit('ui/setMicrocart', false)"
+            >
+              {{ product.name | htmlDecode }}
+            </router-link>
+            <div class="h6 cl-bg-tertiary pt5 sku" data-testid="productSku">
+              {{ product.sku }}
+            </div>
+            <div class="h6 cl-bg-tertiary pt5 options" v-if="isTotalsActive">
+              <div v-for="opt in product.totals.options" :key="opt.label">
+                <span class="opn">{{ opt.label }}: </span>
+                <span class="opv" v-html="opt.value" />
               </div>
-              <div class="h6 cl-bg-tertiary pt5 options" v-if="isOnline && !editMode && product.totals && product.totals.options">
-                <div v-for="opt in product.totals.options" :key="opt.label">
-                  <span class="opn">{{ opt.label }}: </span>
-                  <span class="opv" v-html="opt.value" />
-                </div>
+            </div>
+            <div class="h6 cl-bg-tertiary pt5 options" v-else-if="!editMode && product.options">
+              <div v-for="opt in product.options" :key="opt.label">
+                <span class="opn">{{ opt.label }}: </span>
+                <span class="opv" v-html="opt.value" />
               </div>
-              <div class="h6 cl-bg-tertiary pt5 options" v-else-if="!editMode && product.options">
-                <div v-for="opt in product.options" :key="opt.label">
-                  <span class="opn">{{ opt.label }}: </span>
-                  <span class="opv" v-html="opt.value" />
-                </div>
-              </div>
-              <div class="h6 pt5 cl-error" v-if="product.errors && Object.keys(product.errors).length > 0">
-                {{ product.errors | formatProductMessages }}
-              </div>
-              <div class="h6 pt5 cl-success" v-if="product.info && Object.keys(product.info).length > 0 && Object.keys(product.errors).length === 0">
-                {{ product.info | formatProductMessages }}
-              </div>
+            </div>
+            <div class="h6 pt5 cl-error" v-if="hasProductErrors">
+              {{ product.errors | formatProductMessages }}
+            </div>
+            <div class="h6 pt5 cl-success" v-if="hasProductInfo && !hasProductErrors">
+              {{ product.info | formatProductMessages }}
             </div>
           </div>
           <div class="h5 cl-accent lh25 qty">
@@ -63,13 +61,13 @@
         <div class="flex mr10 align-right start-xs between-sm prices">
           <div class="prices" v-if="!displayItemDiscounts || !isOnline">
             <span class="h4 serif cl-error price-special" v-if="product.special_price">
-              {{ product.priceInclTax * product.qty | price }}
+              {{ product.price_incl_tax * product.qty | price }}
             </span>
             <span class="h6 serif price-original" v-if="product.special_price">
-              {{ product.originalPriceInclTax * product.qty | price }}
+              {{ product.original_price_incl_tax * product.qty | price }}
             </span>
             <span class="h4 serif price-regular" v-else data-testid="productPrice">
-              {{ (product.originalPriceInclTax ? product.originalPriceInclTax : product.priceInclTax) * product.qty | price }}
+              {{ (product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax) * product.qty | price }}
             </span>
           </div>
           <div class="prices" v-else-if="isOnline && product.totals">
@@ -123,7 +121,7 @@
           {{ $t('Update item') }}
         </button-full>
       </div>
-      <div class="w-100 flex middle-xs actions" :class="{ 'end-xs pb5': !productsAreReconfigurable }" v-if="!editMode">
+      <div class="w-100 flex middle-xs actions" v-if="!editMode">
         <edit-button class="mx5" @click="openEditMode" v-if="productsAreReconfigurable && !editMode" />
         <remove-button class="mx5" @click="removeItem" />
       </div>
@@ -167,15 +165,24 @@ export default {
     ButtonFull
   },
   mixins: [Product, ProductOption, EditMode],
-  data () {
-    return {
-      displayItemDiscounts: config.cart.displayItemDiscounts,
-      productsAreReconfigurable: config.cart.productsAreReconfigurable && ['simple', 'configurable'].includes(this.product.type_id)
-    }
-  },
   computed: {
+    hasProductInfo () {
+      return this.product.info && Object.keys(this.product.info).length > 0
+    },
+    hasProductErrors () {
+      return this.product.errors && Object.keys(this.product.errors).length > 0
+    },
+    isTotalsActive () {
+      return this.isOnline && !this.editMode && this.product.totals && this.product.totals.options
+    },
     isOnline () {
       return onlineHelper.isOnline
+    },
+    productsAreReconfigurable () {
+      return config.cart.productsAreReconfigurable && this.product.type_id === 'configurable' && this.isOnline
+    },
+    displayItemDiscounts () {
+      return config.cart.displayItemDiscounts
     },
     image () {
       return {

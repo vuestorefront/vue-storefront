@@ -193,8 +193,13 @@ export const onlineHelper = Vue.observable({
   isOnline: isServer || navigator.onLine
 })
 
+export const routerHelper = Vue.observable({
+  popStateDetected: false
+})
+
 !isServer && window.addEventListener('online', () => { onlineHelper.isOnline = true })
 !isServer && window.addEventListener('offline', () => { onlineHelper.isOnline = false })
+!isServer && window.addEventListener('popstate', () => { routerHelper.popStateDetected = true })
 
 /*
   * serial executes Promises sequentially.

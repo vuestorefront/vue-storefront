@@ -163,15 +163,13 @@ import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 import BackToTop from 'theme/components/core/BackToTop'
+import { getPathForStaticPage } from 'theme/helpers'
 import config from 'config'
 
 export default {
   mixins: [CurrentPage],
   name: 'MainFooter',
   computed: {
-    isStoreCodeEquals () {
-      return currentStoreView().storeCode === config.defaultStoreCode
-    },
     multistoreEnabled () {
       return config.storeViews.multistore
     },
@@ -181,8 +179,7 @@ export default {
   },
   methods: {
     getLinkFor (path) {
-      const route = this.isStoreCodeEquals ? `/i${path}` : path
-      return localizedRoute(route)
+      return localizedRoute(getPathForStaticPage(path))
     }
   },
   components: {
