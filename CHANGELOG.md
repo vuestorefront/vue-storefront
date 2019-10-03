@@ -57,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added tests for cart module actions - @andrzejewsky (#3023)
 - Fixed a problem with type changes in the state when extending a store - @resubaka (#3618)
 - Get payment methods with billing address data - @rain2o (#2878)
+- Fixed problem with bundle product where they have the same hash as other products - @resubaka (#3657)
 
 ### Fixed
 
@@ -128,6 +129,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add missing parameters (`size`,`start`) to `quickSearchByQuery()` in `attribute/list` action - @cewald (#3627)
 - Fix breadcrumb homepage link in cms static pages - @andrzejewsky (#3631)
 - Fixed special price that can break when you change pages (browser navigation for/back) or just go from category to product page - @resubaka (#3638)
+- Fixed problem with changing quantity in offline mode on product page - @andrzejewsky (#3662)
+- Fixed problem with extending storeView configuration - @andrzejewsky (#3655)
+- Removed infinite loop when changing checkbox in shipping details - @gibkigonzo (#3656)
+- Fixed displaying single order in the profile - @andrzejewsky (#3663)
+- Make microcart ui consistent for all types of products - @gibkigonzo (#3673)
 
 ### Changed / Improved
 
@@ -179,6 +185,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change sku to string when checking products equality - @gibkigonzo (#3606)
 - Pass to `registerModule` all parameters as one object - @gibkigonzo (#3634)
 - Include shipping address data in request for shipping methods for more accurate filtering - @rain2o (#2515)
+- remove 'disabled' flag in storeViews config - @gibkigonzo (#3659)
 
 ## [1.10.3] - 2019.09.18
 
