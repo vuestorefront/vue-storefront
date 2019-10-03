@@ -13,7 +13,7 @@
       class="product-image__placeholder"
     >
     <img
-      v-if="(!lowerQualityImageError || isOnline) && showHighQuality"
+      v-if="(!lowerQualityImageError || isOnline) && !showHighQuality"
       v-show="showLowerQuality"
       :src="image.loading"
       :alt="alt"
