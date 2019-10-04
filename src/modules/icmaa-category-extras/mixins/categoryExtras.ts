@@ -19,7 +19,7 @@ export default {
      * The current solution is to fetch the data in the traditional VueJs way using mounted() and serverPrefetch().
      * */
     // const category = store.getters['category-next/getCurrentCategory']
-    // return store.dispatch('icmaaCmsCategoryExtras/single', { value: category.url_key })
+    // return store.dispatch('icmaaCategoryExtras/single', { value: category.url_key })
   },
   async serverPrefetch () {
     await this.fetchAsyncData()
@@ -37,7 +37,7 @@ export default {
       const category = this.$store.getters['category-next/getCurrentCategory']
       if (category) {
         if (!this.categoryExtrasByUrlKey(category.url_key)) {
-          await this.$store.dispatch('icmaaCmsCategoryExtras/single', { value: category.url_key })
+          await this.$store.dispatch('icmaaCategoryExtras/single', { value: category.url_key })
         }
 
         await this.$store.dispatch('icmaaSpotify/fetchRelatedArtists', category)
@@ -50,8 +50,8 @@ export default {
   },
   computed: {
     ...mapGetters('category-next', ['getCurrentCategory']),
-    ...mapGetters({ categoryExtrasByUrlKey: 'icmaaCmsCategoryExtras/getCategoryExtrasByUrlKey' }),
-    ...mapGetters({ categoryExtrasByCurrentCategory: 'icmaaCmsCategoryExtras/getCategoryExtrasByCurrentCategory' }),
+    ...mapGetters({ categoryExtrasByUrlKey: 'icmaaCategoryExtras/getCategoryExtrasByUrlKey' }),
+    ...mapGetters({ categoryExtrasByCurrentCategory: 'icmaaCategoryExtras/getCategoryExtrasByCurrentCategory' }),
     categoryExtras (): CategoryExtrasStateItem|boolean {
       return this.categoryExtrasByCurrentCategory
     },

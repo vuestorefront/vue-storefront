@@ -17,8 +17,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      categoryExtras: 'icmaaCmsCategoryExtras/getCategoryExtrasByCurrentCategory',
-      spotifyLogoItems: 'icmaaCmsCategoryExtras/getSpotifyLogolineItemsByCurrentCategory'
+      categoryExtras: 'icmaaCategoryExtras/getCategoryExtrasByCurrentCategory',
+      spotifyLogoItems: 'icmaaCategoryExtras/getSpotifyLogolineItemsByCurrentCategory'
     })
   },
   methods: {

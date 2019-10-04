@@ -1,9 +1,9 @@
 import { ActionTree } from 'vuex'
-import { single as singleAbstract, list as listAbstract, MutationTypesInterface, SingleOptionsInterface, ListOptionsInterface } from '../abstract/actions'
+import { single as singleAbstract, list as listAbstract, MutationTypesInterface, SingleOptionsInterface, ListOptionsInterface } from 'icmaa-cms/store/abstract/actions'
 
-import { cmsCategoryExtrasStorageKey as storageKey } from './'
+import { categoryExtrasStorageKey as storageKey } from './'
 import * as types from './mutation-types'
-import CategoryExtrasState, { CategoryExtrasStateItem } from '../../types/CategoryExtrasState'
+import CategoryExtrasState, { CategoryExtrasStateItem } from '../types/CategoryExtrasState'
 import RootState from '@vue-storefront/core/types/RootState'
 
 import { CategoryStateCategory } from 'icmaa-category/types/CategoryState'
@@ -14,9 +14,9 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 
 const documentType = 'category-extras'
 const mutationTypes: MutationTypesInterface = {
-  add: types.ICMAA_CMS_CATEGORY_EXRTAS_ADD,
-  upd: types.ICMAA_CMS_CATEGORY_EXRTAS_UPD,
-  rmv: types.ICMAA_CMS_CATEGORY_EXRTAS_RMV
+  add: types.ICMAA_CATEGORY_EXRTAS_ADD,
+  upd: types.ICMAA_CATEGORY_EXRTAS_UPD,
+  rmv: types.ICMAA_CATEGORY_EXRTAS_RMV
 }
 
 const actions: ActionTree<CategoryExtrasState, RootState> = {
@@ -29,7 +29,7 @@ const actions: ActionTree<CategoryExtrasState, RootState> = {
     const childCategories: CategoryStateCategory[]|void = await fetchChildCategories({ parentId, level: 10, onlyShowTargetLevelItems: false })
       .then(resp => resp)
       .catch(error => {
-        Logger.error('Error while fetching children of category: ' + parentId, 'icmaaCmsCategoryExtras', error)()
+        Logger.error('Error while fetching children of category: ' + parentId, 'icmaaCategoryExtras', error)()
         return []
       })
 
@@ -45,7 +45,7 @@ const actions: ActionTree<CategoryExtrasState, RootState> = {
       }
     })
 
-    context.commit(types.ICMAA_CMS_CATEGORY_EXRTAS_DEPARTMENT_CHILDCATEGORIES_ADD, children)
+    context.commit(types.ICMAA_CATEGORY_EXRTAS_DEPARTMENT_CHILDCATEGORIES_ADD, children)
   }
 }
 
