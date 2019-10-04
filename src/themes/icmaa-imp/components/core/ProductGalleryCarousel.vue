@@ -1,13 +1,14 @@
 <template>
   <carousel
     class="t-relative t-text-center t-h-full t-bg-white"
-    :per-page="1"
     :speed="carouselTransitionSpeed"
     :mouse-drag="false"
     :navigation-enabled="true"
     :pagination-enabled="false"
     :navigation-click-target-size="0"
+    :per-page="1"
     :per-page-custom="[[1024, 1.5]]"
+    :scroll-per-page="false"
     navigation-next-label="<div class='t-flex t-w-12 t-h-12 t-bg-black t-text-white t-rounded-full t-border t-border-white t-cursor-pointer t-mr-4'><i class='material-icons t-flex-1 t-self-center t-text-2xl'>keyboard_arrow_right</i></div>"
     navigation-prev-label="<div class='t-flex t-w-12 t-h-12 t-bg-black t-text-white t-rounded-full t-border t-border-white t-cursor-pointer t-ml-4'><i class='material-icons t-flex-1 t-self-center t-text-2xl'>keyboard_arrow_left</i></div>"
     ref="carousel"
