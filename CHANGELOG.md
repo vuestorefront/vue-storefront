@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Added try/catch for fetching single product in cart synchronization - @gibkigonzo (#3632)
+- Removed infinite loop when changing checkbox in shipping details - @gibkigonzo (#3656)
+- Remove modifying config by reference in multistore - @gibkigonzo (#3617)
+- Fix displaying same country twice in the in the country switcher - @andrzejewsky (#3587)
+- Remove race condition while loading locale messages - @gibkigonzo (#3602)
 
 ## [1.10.3] - 2019.09.18
 

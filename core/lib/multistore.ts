@@ -49,11 +49,11 @@ export function currentStoreView (): StoreView {
   return rootStore.state.storeView
 }
 
-export function prepareStoreView (storeCode: string): StoreView {
+export async function prepareStoreView (storeCode: string): StoreView {
   let storeView = { // current, default store
-    tax: config.tax,
-    i18n: config.i18n,
-    elasticsearch: config.elasticsearch,
+    tax: Object.assign({}, config.tax),
+    i18n: Object.assign({}, config.i18n),
+    elasticsearch: Object.assign({}, config.elasticsearch),
     storeCode: '',
     storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1
   }
@@ -69,7 +69,7 @@ export function prepareStoreView (storeCode: string): StoreView {
   }
   if (storeViewHasChanged) {
     rootStore.state.storeView = storeView
-    loadLanguageAsync(storeView.i18n.defaultLocale)
+    await loadLanguageAsync(storeView.i18n.defaultLocale)
   }
   if (storeViewHasChanged || Vue.prototype.$db.currentStoreCode !== storeCode) {
     if (typeof Vue.prototype.$db === 'undefined') {

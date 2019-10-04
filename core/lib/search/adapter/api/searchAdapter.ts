@@ -38,7 +38,7 @@ export class SearchAdapter {
       ElasticsearchQueryBody['groupToken'] = Request.groupToken
     }
 
-    const storeView = (Request.store === null) ? currentStoreView() : prepareStoreView(Request.store)
+    const storeView = (Request.store === null) ? currentStoreView() : await prepareStoreView(Request.store)
 
     Request.index = storeView.elasticsearch.index
 
