@@ -24,3 +24,11 @@ For `v1.10.x`:
   ```javascript
   module.exports.registerUserServerRoutes = require('icmaa-config/    configProvider')
   ```
+
+## Configs
+
+...
+
+## Todo
+
+[ ] ...

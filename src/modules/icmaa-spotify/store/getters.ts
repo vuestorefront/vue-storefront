@@ -8,7 +8,7 @@ const getters: GetterTree<SpotifyState, RootState> = {
   getRelatedArtistsByCategoryId: (state) => (id: number): string[] => state.relatedArtists[id] || [],
   getRelatedArtistsCategoriesByCategoryId: (state, getters, rootState, rootGetters) => (id: number): Category[] => {
     return getters.getRelatedArtistsByCategoryId(id)
-      .map(name => rootGetters['icmaaCmsCategoryExtras/getCategoryBy']('name', name))
+      .map(name => rootGetters['icmaaCategoryExtras/getCategoryBy']('name', name))
       .filter(c => c && c.name)
   },
   getRelatedArtistsCategoriesByCurrentCategory: (state, getters, rootState, rootGetters): Category[] => {

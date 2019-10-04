@@ -10,10 +10,10 @@ Load CMS blocks from API and insert them into state or as component.
 * Add the following API endpoint to `config/local.json`:
   ```
   "icmaa_cms": {
-    "endpoint": "/api/ext/icmaa-cms",
-    "categoryExtras": {
-      "logoFilePath": "impericon/department-logos"
-      "parentDepartmentCategoryIds": [ 14, 16 ]
-    }
+    "endpoint": "/api/ext/icmaa-cms"
   }
   ```
+
+## Todo
+
+[ ] ...

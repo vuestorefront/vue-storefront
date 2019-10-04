@@ -3,10 +3,10 @@ import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
 import RootState from '@vue-storefront/core/types/RootState'
-import CategoryExtrasState from '../../types/CategoryExtrasState'
+import CategoryExtrasState from '../types/CategoryExtrasState'
 
-export const cmsCategoryExtrasStateKey = 'icmaaCmsCategoryExtras'
-export const cmsCategoryExtrasStorageKey = 'category-extras'
+export const categoryExtrasStateKey = 'icmaaCategoryExtras'
+export const categoryExtrasStorageKey = 'category-extras'
 
 export const CategoryExtrasStore: Module<CategoryExtrasState, RootState> = {
   namespaced: true,

@@ -2,7 +2,7 @@ import { mapGetters } from 'vuex'
 import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import { price } from '@vue-storefront/core/filters/price'
-import { Logo } from 'icmaa-cms/helpers/categoryExtras/logo'
+import { Logo } from 'icmaa-category-extras/helpers/categoryExtras/logo'
 import ProductNameHelper from '../helpers/productName'
 
 export default {
@@ -11,21 +11,21 @@ export default {
       .filter(fieldName => config.icmaa_catalog.entities.product.prefetchAttributes.includes(fieldName))
     await store.dispatch('attribute/list', { filterValues })
 
-    await store.dispatch('icmaaCmsCategoryExtras/loadDepartmentChildCategoryIdMap')
+    await store.dispatch('icmaaCategoryExtras/loadDepartmentChildCategoryIdMap')
 
-    const departmentCategoryId = store.getters['icmaaCmsCategoryExtras/getCurrentProductDepartmentCategoryId']
+    const departmentCategoryId = store.getters['icmaaCategoryExtras/getCurrentProductDepartmentCategoryId']
     if (departmentCategoryId) {
       await store.dispatch('category-next/loadCategory', { filters: { 'id': departmentCategoryId } })
 
-      const category = store.getters['icmaaCmsCategoryExtras/getCurrentProductDepartmentCategory']
+      const category = store.getters['icmaaCategoryExtras/getCurrentProductDepartmentCategory']
       if (category) {
-        await store.dispatch('icmaaCmsCategoryExtras/single', { value: category.url_key })
+        await store.dispatch('icmaaCategoryExtras/single', { value: category.url_key })
       }
     }
   },
   computed: {
     ...mapGetters('attribute', { getOptionLabel: 'getOptionLabel' }),
-    ...mapGetters('icmaaCmsCategoryExtras', ['getCurrentProductDepartmentCategory', 'getCategoryExtrasByUrlKey']),
+    ...mapGetters('icmaaCategoryExtras', ['getCurrentProductDepartmentCategory', 'getCategoryExtrasByUrlKey']),
     ...mapGetters({ reviews: 'review/getReviews', reviewsCount: 'review/getReviewsCount', reviewsTotalRating: 'review/getReviewsTotalRating' }),
     departmentCategory () {
       return this.getCurrentProductDepartmentCategory
