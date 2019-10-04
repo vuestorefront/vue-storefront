@@ -173,7 +173,6 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
 }
 
 export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteConfig[], priority: number = 0): void {
-  debugger
   const allRoutes: RouteConfig[] = []
   const { storeCode, appendStoreCode } = currentStoreView()
   if (storeCode && appendStoreCode) {
