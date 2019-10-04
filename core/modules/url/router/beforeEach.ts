@@ -6,7 +6,8 @@ import store from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
 import { isServer } from '@vue-storefront/core/helpers'
-import { currentStoreView, LocalizedRoute, localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { LocalizedRoute } from '@vue-storefront/core/lib/types'
 import Vue from 'vue'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { routerHelper } from '@vue-storefront/core/helpers'
@@ -54,12 +55,12 @@ export async function beforeEach (to: Route, from: Route, next) {
         // ps. we can't use the next() call here as it's not doing the real redirect in SSR mode (just processing different component without changing the URL and that causes the CSR / SSR DOM mismatch while hydrating)
       }
     }).finally(() => {
+      routerHelper.popStateDetected = false
       RouterManager.unlockRoute()
     })
   } else {
     next()
     RouterManager.unlockRoute()
+    routerHelper.popStateDetected = false
   }
-
-  routerHelper.popStateDetected = false
 }

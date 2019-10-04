@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed special price that can break when you change pages (browser navigation for/back) or just go from category to product page - @resubaka (#3638)
 - Change sku to string when checking products equality - @gibkigonzo (#3606)
 - Fixed problem with losing browser history - @andrzejewsky (#3642)
+- Fixed resolving store code on SSR - @andrzejewsky (#3576)
+- Fixed styles for original price on Wishlist sidebar - @przspa (#3392)
 
 ## [1.10.3] - 2019.09.18
 

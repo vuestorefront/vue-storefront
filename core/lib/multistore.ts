@@ -6,43 +6,8 @@ import queryString from 'query-string'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import VueRouter, { RouteConfig, RawLocation } from 'vue-router'
 import config from 'config'
-
-export interface LocalizedRoute {
-  path?: string,
-  name?: string,
-  hash?: string,
-  params?: object,
-  fullPath?: string,
-  host?: string
-}
-
-export interface StoreView {
-  storeCode: string,
-  disabled?: boolean,
-  storeId: any,
-  name?: string,
-  url?: string,
-  elasticsearch: {
-    host: string,
-    index: string
-  },
-  tax: {
-    sourcePriceIncludesTax: boolean,
-    defaultCountry: string,
-    defaultRegion: null | string,
-    calculateServerSide: boolean
-  },
-  i18n: {
-    fullCountryName: string,
-    fullLanguageName: string,
-    defaultLanguage: string,
-    defaultCountry: string,
-    defaultLocale: string,
-    currencyCode: string,
-    currencySign: string,
-    dateFormat: string
-  }
-}
+import { LocalizedRoute, StoreView } from './types'
+import storeCodeFromRoute from './storeCodeFromRoute'
 
 export function currentStoreView (): StoreView {
   // TODO: Change to getter all along our code
@@ -79,46 +44,6 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
     Vue.prototype.$db.currentStoreCode = storeView.storeCode
   }
   return storeView
-}
-
-export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocation | string): string {
-  if (matchedRouteOrUrl) {
-    for (let storeCode of config.storeViews.mapStoreUrlsFor) {
-      const store = config.storeViews[storeCode]
-
-      // handle resolving by path
-      const matchingPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl
-      let normalizedPath = matchingPath // assume that matching string is a path
-      if (matchingPath.length > 0 && matchingPath[0] !== '/') {
-        normalizedPath = '/' + matchingPath
-      }
-
-      if (normalizedPath.startsWith(`${store.url}/`) || normalizedPath === store.url) {
-        return storeCode
-      }
-
-      // handle resolving by domain+path
-      let url = ''
-
-      if (typeof matchedRouteOrUrl === 'object') {
-        if (matchedRouteOrUrl['host']) {
-          url = matchedRouteOrUrl['host'] + normalizedPath
-        } else {
-          return '' // this route does not have url so there is nothing to do here
-        }
-      } else {
-        url = matchedRouteOrUrl as string
-      }
-
-      if (url.startsWith(`${store.url}/`) || url === store.url) {
-        return storeCode
-      }
-    }
-
-    return ''
-  } else {
-    return ''
-  }
 }
 
 export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | string): LocalizedRoute | string {
