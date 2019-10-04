@@ -1,3 +1,12 @@
-# icmaa-teaser
+# `icmaa-teaser` module
 
-Show teaser from cms
+Load and show teaser from cms.  
+**WORK IN PROGRESS**
+
+## Configs
+
+...
+
+## Todo
+
+[ ] ...

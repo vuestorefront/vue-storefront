@@ -17,4 +17,4 @@ Get Spotify data via API for recommecndations
 
 ## Todo
 
-…
+[ ] ...

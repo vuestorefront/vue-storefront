@@ -6,6 +6,10 @@ Add our custom functionality for the original `review` module.
 
 * Add `getters` for the reviews
 
+## Configs
+
+...
+
 ## Todo
 
 [ ] ...

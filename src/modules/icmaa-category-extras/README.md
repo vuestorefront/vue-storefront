@@ -1,10 +1,10 @@
 # icmaa-category-extras
 
-Show category-extras from cms
+Load and show category-extras from cms
 
 ## Configs
 
-* Add the following API endpoint to `config/local.json`:
+* Add options to `config/local.json`:
   ```
   "icmaa_cms": {
     "categoryExtras": {
@@ -14,3 +14,6 @@ Show category-extras from cms
   }
   ```
   
+## Todo
+
+[ ] ...
