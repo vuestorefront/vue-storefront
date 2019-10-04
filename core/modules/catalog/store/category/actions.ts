@@ -63,7 +63,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     return list
   },
   async registerCategoryMapping ({ dispatch }, { categories }) {
-    const storeCode = currentStoreView().storeCode
+    const { storeCode, appendStoreCode } = currentStoreView()
     for (let category of categories) {
       if (category.url_path) {
         await dispatch('url/registerMapping', {
@@ -72,7 +72,7 @@ const actions: ActionTree<CategoryState, RootState> = {
             params: {
               'slug': category.slug
             },
-            'name': localizedDispatcherRouteName('category', storeCode)
+            'name': localizedDispatcherRouteName('category', storeCode, appendStoreCode)
           }
         }, { root: true })
       }
