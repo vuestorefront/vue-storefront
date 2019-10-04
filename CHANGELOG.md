@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.11.0-rc.2] - unreleased
 
-### Added
+### Changed / Improved
 
 -  Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
 
