@@ -34,6 +34,7 @@
           :image="imageObj"
           :alt="product.name | htmlDecode"
           :calc-ratio="false"
+          :eager-load="eagerLoadImage"
           data-testid="productImage"
         />
       </div>
@@ -83,6 +84,10 @@ export default {
       default: true
     },
     onlyImage: {
+      type: Boolean,
+      default: false
+    },
+    eagerLoadImage: {
       type: Boolean,
       default: false
     }

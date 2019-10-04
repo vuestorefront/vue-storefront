@@ -6,13 +6,14 @@
       class="col-sm-6 flex"
       :class="['col-md-' + (12/columns)%10, wide(product.sale, product.new, key)]"
     >
-      <product-tile :product="product" />
+      <product-tile :product="product" :eager-load-image="loadEager(key)" />
     </div>
   </div>
 </template>
 
 <script>
 import ProductTile from 'theme/components/core/ProductTile'
+import config from 'config'
 let lastHero = 0
 export default {
   name: 'ProductListing',
@@ -38,6 +39,10 @@ export default {
         lastHero = index
       }
       return isHero ? 'col-xs-12' : 'col-xs-6'
+    },
+    loadEager (index) {
+      if (index > config.ssr.eagerlyLoadedImagesProductListing) return false;
+      return true;
     }
   }
 }
