@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed problem with losing browser history - @andrzejewsky (#3642)
 - Fixed resolving store code on SSR - @andrzejewsky (#3576)
 - Fixed styles for original price on Wishlist sidebar - @przspa (#3392)
+- Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
 
 ## [1.10.3] - 2019.09.18
 
