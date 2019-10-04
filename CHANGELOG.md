@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove modifying config by reference in multistore - @gibkigonzo (#3617)
 - Fix displaying same country twice in the in the country switcher - @andrzejewsky (#3587)
 - Remove race condition while loading locale messages - @gibkigonzo (#3602)
+- Fixed special price that can break when you change pages (browser navigation for/back) or just go from category to product page - @resubaka (#3638)
+- Change sku to string when checking products equality - @gibkigonzo (#3606)
+- Fixed problem with losing browser history - @andrzejewsky (#3642)
 
 ## [1.10.3] - 2019.09.18
 
