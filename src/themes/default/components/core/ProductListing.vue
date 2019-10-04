@@ -41,7 +41,7 @@ export default {
       return isHero ? 'col-xs-12' : 'col-xs-6'
     },
     loadEager (index) {
-      if (index > config.ssr.eagerlyLoadedImagesProductListing) return false;
+      if (index > config.productList.eagerlyLoadedImagesProductListing) return false;
       return true;
     }
   }

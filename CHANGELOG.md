@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a config option which is used to directly load specific images for product listing instead of showing placeholder - @dz3n  (#3493)
 - Add unit testing on breadcrumbs feature - @mattheo-geoffray (#3457)
 - HTML Minifier has been added, to enable it please switch the `config.server.useHtmlMinifier` - @pkarw (#2182)
 - Output compression module has been added; it's enabled by default on production builds; to disable it please switch the `src/modules/serrver.ts` configuration - @pkarw (#2182)

@@ -134,7 +134,7 @@ Filters out given properties from `window.__INITIAL_STATE__` and enables [lazy h
 Available out of the box for `category-next.products` and `homepage`.
 
 ```json
-    "eagerlyLoadedImagesProductListing": 5,
+    "eagerlyLoadedImages": 5,
 ```
 
 It may be used to specify how many images should be eagerly loaded without placeholder
