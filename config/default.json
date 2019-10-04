@@ -100,7 +100,6 @@
       "amp": "dist/index.amp.html"
     },
     "lazyHydrateFor": ["category-next.products", "homepage.new_collection"],
-    "eagerlyLoadedImagesProductListing": 5,
     "executeMixedinAsyncData": true,
     "initialStateFilter": ["__DEMO_MODE__", "version", "storeView", "attribute.list_by_id"],
     "useInitialStateFilter": true
