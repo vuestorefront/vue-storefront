@@ -308,8 +308,3 @@ export default {
     margin-left: auto;
   }
 </style>
-<style lang="scss">
-.product-image {
-  max-height: unset !important;
-}
-</style>

@@ -1,43 +1,14 @@
 <template>
-  <div
-    class="product-image"
-    :class="{ 't-h-0': showPlaceholder }"
-    :style="placeholderStyle"
-    v-on="$listeners"
-  >
-    <img
-      src="/assets/product-placeholder.svg"
-      :alt="alt"
-      :class="{ 'placeholder': true, 't-h-full': basic, 't-w-full': !basic }"
-      v-show="showPlaceholder"
-    >
-    <img
-      v-if="!lowerQualityImageError || isOnline"
-      v-show="showLowerQuality"
-      :src="image.loading"
-      :alt="alt"
-      class="t-w-full t-w-auto"
-      @load="imageLoaded('lower', true)"
-      @error="imageLoaded('lower', false)"
-      ref="lQ"
-    >
-    <img
-      v-if="!highQualityImageError || isOnline"
-      v-show="showHighQuality"
-      :src="image.src"
-      :alt="alt"
-      class="t-w-full t-w-auto"
-      @load="imageLoaded('high', true)"
-      @error="imageLoaded('high', false)"
-    >
-  </div>
+  <img v-lazy="lazyObj" :data-srcset="`${sizes.src} 1x, ${sizes.srcAt2x} 2x`" v-on="$listeners" class="product-image t-w-full t-w-auto">
 </template>
 
 <script>
 import config from 'config'
+import pick from 'lodash-es/pick'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 
 export default {
+  name: 'ProductImage',
   props: {
     calcRatio: {
       type: Boolean,
@@ -53,91 +24,51 @@ export default {
     alt: {
       type: String,
       default: ''
+    },
+    type: {
+      type: String,
+      default: 'thumbnails',
+      validation: (value) => ['gallery', 'thumbnails'].includes(value)
     }
   },
   data () {
     return {
-      lowerQualityImage: false,
-      lowerQualityImageError: false,
-      highQualityImage: false,
-      highQualityImageError: false,
-      basic: true
-    }
-  },
-  watch: {
-    lowerQualityImage (state) {
-      if (state) {
-        this.basic = this.$refs.lQ.naturalWidth < this.$refs.lQ.naturalHeight;
-        this.$emit('load', this.image, state)
-      }
+      loading: true
     }
   },
   computed: {
-    showPlaceholder () {
-      return !this.showLowerQuality && !this.showHighQuality
-    },
-    showLowerQuality () {
-      return this.lowerQualityImage && !this.showHighQuality
-    },
-    showHighQuality () {
-      return this.highQualityImage
-    },
-    imageRatio () {
-      const {width, height} = this.$store.state.config.products.gallery
-      return `${height / (width / 100)}%`
-    },
-    placeholderStyle () {
-      return this.calcRatio && this.showPlaceholder ? { paddingBottom: this.imageRatio } : {}
-    },
     isOnline (value) {
       return onlineHelper.isOnline
     },
-    isImagesLoaded () {
-      return this.highQualityImage && this.lowerQualityImage
-    },
-    themeImageSizes () {
-      /**
-       * @todo: Preload product images instead of loading all on page load
-       */
-      return this.getImageSizes()
-    }
-  },
-  methods: {
-    imageLoaded (type, success = true) {
-      this[`${type}QualityImage`] = success
-      this[`${type}QualityImageError`] = !success
-    },
-    getImageSizes () {
-      const { width, height } = config.products.gallery
+    sizes () {
+      const { width, height } = config.products[this.type]
       return {
-        loading: this.getImageWithSize(width / 2, height / 2),
+        loading: require('theme/assets/product-placeholder-loading.svg'),
+        error: require(`theme/assets/product-placeholder-${!this.isOnline ? 'loading' : 'error'}.svg`),
         src: this.getImageWithSize(width, height),
         srcAt2x: this.getImageWithSize(width * 2, height * 2),
         original: this.getImageWithSize()
       }
     },
-    getImageWithSize (height = 0, width = 0) {
+    lazyObj () {
+      return pick(this.sizes, ['loading', 'error', 'src'])
+    }
+  },
+  methods: {
+    getImageWithSize (width = 0, height = 0) {
       const regex = /(\/img\/)(\d+\/\d+)(\/resize\/)/gm
       const src = this.image.src
       return src.replace(regex, `$1${width}/${height}$3`)
+    },
+    onLoaded ({ el, src }) {
+      if (this.loading === true) {
+        this.loading = !this.loading
+        this.$emit('load', this.image, !this.loading)
+      }
     }
+  },
+  mounted () {
+    this.$Lazyload.$once('loaded', this.onLoaded)
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  .product-image{
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-
-    .placeholder {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 50%;
-      height: auto;
-    }
-  }
-</style>

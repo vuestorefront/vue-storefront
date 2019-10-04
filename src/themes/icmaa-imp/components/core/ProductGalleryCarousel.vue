@@ -14,7 +14,7 @@
     @pageChange="pageChange"
   >
     <slide v-for="(images, index) in galleryFiltered" :key="index" ref="thumbs">
-      <product-image class="t-cursor-pointer" :image="images" :alt="productName | htmlDecode" @load="imageLoaded" />
+      <product-image class="t-cursor-pointer" :image="images" type="gallery" :alt="productName | htmlDecode" @load="imageLoaded" />
     </slide>
   </carousel>
 </template>
@@ -52,8 +52,7 @@ export default {
       carouselTransition: true,
       carouselTransitionSpeed: 0,
       currentColor: 0,
-      currentPage: 0,
-      loadedImages: []
+      currentPage: 0
     }
   },
   computed: {
@@ -63,15 +62,6 @@ export default {
         const regex = /(_sm)(_\w*)*(\.[a-zA-Z]{3,4})$/gm
         return regex.exec(image.src) === null
       })
-    },
-    areAllImagesLoaded () {
-      const gallery = this.galleryFiltered.map(g => g.src)
-      if (this.loadedImages.filter(i => gallery.includes(i)).length === gallery.length) {
-        this.$emit('loaded')
-        return true
-      }
-
-      return false
     }
   },
   beforeMount () {
@@ -92,11 +82,7 @@ export default {
   },
   methods: {
     imageLoaded (image, loaded) {
-      if (loaded && !this.loadedImages.includes(image.src)) {
-        this.loadedImages.push(image.src)
-      }
-
-      return this.areAllImagesLoaded
+      this.$emit('loaded', image, loaded)
     },
     navigate (index) {
       if (this.$refs.carousel) {

@@ -25,15 +25,10 @@
       :to="productLink"
       data-testid="productLink"
     >
-      <div
-        class="product-cover bg-cl-secondary"
-        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
-      >
+      <div class="product-cover t-bg-white">
         <product-image
-          class="product-cover__thumb"
           :image="thumbnailObj"
           :alt="product.name | htmlDecode"
-          :calc-ratio="false"
           data-testid="productImage"
         />
       </div>
@@ -163,17 +158,6 @@ $color-white: color(white);
     opacity: 0;
     z-index: 2;
     transition: 0.3s opacity $motion-main;
-    @media (max-width: 767px) {
-      opacity: 1;
-    }
-    &--active {
-      opacity: 1;
-    }
-  }
-  &:hover {
-    .product__icon {
-      opacity: 1;
-    }
   }
 }
 
@@ -196,39 +180,4 @@ $color-white: color(white);
   font-size: 12px;
 }
 
-.product-cover {
-  overflow: hidden;
-  max-height: 300px;
-  &__thumb {
-    padding-bottom: calc(143.88% / (164.5 / 100));
-    @media screen and (min-width: 768px) {
-      padding-bottom: calc(300% / (276.5 / 100));
-    }
-    opacity: 0.8;
-    will-change: opacity, transform;
-    transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
-  }
-  &:hover {
-    .product-cover__thumb {
-      opacity: 1;
-      transform: scale(1.1);
-    }
-    &.sale::after,
-    &.new::after {
-      opacity: 0.8;
-    }
-  }
-  &.sale {
-    &::after {
-      @extend %label;
-      content: 'Sale';
-    }
-  }
-  &.new {
-    &::after {
-      @extend %label;
-      content: 'New';
-    }
-  }
-}
 </style>
