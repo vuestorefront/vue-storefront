@@ -296,7 +296,7 @@ const actions: ActionTree<ProductState, RootState> = {
     return searchResult
   },
   preConfigureAssociated (context, { searchResult, prefetchGroupProducts }) {
-    const storeCode = currentStoreView().storeCode
+    const { storeCode, appendStoreCode } = currentStoreView()
     for (let product of searchResult.items) {
       if (product.url_path) {
         const { parentSku, slug } = product
@@ -305,7 +305,7 @@ const actions: ActionTree<ProductState, RootState> = {
           url: localizedDispatcherRoute(product.url_path, storeCode),
           routeData: {
             params: { parentSku, slug },
-            'name': localizedDispatcherRouteName(product.type_id + '-product', storeCode)
+            'name': localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode)
           }
         }, { root: true })
       }

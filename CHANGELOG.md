@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.11.0-rc.2] - unreleased
 
+### Fixed
+
+ - Fixed problem around dynamic urls when default storeView is set with appendStoreCode false and url set to / . @resubaka (#3685)
+
 ### Changed / Improved
 
 -  Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
