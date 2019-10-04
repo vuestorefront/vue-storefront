@@ -21,6 +21,7 @@ import { IcmaaExtendedUrlModule } from 'icmaa-url'
 import { IcmaaExtendedCatalogModule } from 'icmaa-catalog'
 import { IcmaaCategoryModule } from 'icmaa-category'
 import { IcmaaCmsModule } from 'icmaa-cms'
+import { IcmaaTeaserModule } from 'icmaa-teaser'
 import { IcmaaMetaModule } from 'icmaa-meta'
 import { IcmaaSpotifyModule } from 'icmaa-spotify'
 import { IcmaaExternalCheckout } from 'icmaa-external-checkout'
@@ -50,6 +51,7 @@ export function registerClientModules () {
   registerModule(IcmaaExtendedUrlModule)
   registerModule(IcmaaExtendedCatalogModule)
   registerModule(IcmaaCmsModule)
+  registerModule(IcmaaTeaserModule)
   registerModule(IcmaaCategoryModule)
   registerModule(IcmaaMetaModule)
   registerModule(IcmaaSpotifyModule)
