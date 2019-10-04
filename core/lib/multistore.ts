@@ -49,7 +49,7 @@ export function currentStoreView (): StoreView {
   return rootStore.state.storeView
 }
 
-export async function prepareStoreView (storeCode: string): StoreView {
+export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   let storeView = { // current, default store
     tax: Object.assign({}, config.tax),
     i18n: Object.assign({}, config.i18n),
