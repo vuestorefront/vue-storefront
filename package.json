@@ -49,7 +49,7 @@
     "lerna": "lerna"
   },
   "lint-staged": {
-    "*.{js,vue,ts}": "eslint",
+    "*.{js,vue,ts}": "cross-env NODE_ENV=production eslint",
     "**/i18n/*.csv": ["node ./core/scripts/utils/sort-translations.js", "git add"]
   },
   "husky": {
