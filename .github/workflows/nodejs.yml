@@ -21,6 +21,12 @@ jobs:
         run: |
           yarn
           yarn lint
+          yarn test:unit
+        env:
+          CI: true
+      - name: yarn build
+        run: |
           yarn build
         env:
           CI: true
+
