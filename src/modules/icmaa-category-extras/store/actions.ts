@@ -8,7 +8,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 
 import { CategoryStateCategory } from 'icmaa-category/types/CategoryState'
 import { fetchChildCategories } from 'icmaa-category/helpers'
-import { icmaa_cms } from 'config'
+import { icmaa_categoryextras } from 'config'
 
 import { Logger } from '@vue-storefront/core/lib/logger'
 
@@ -25,7 +25,7 @@ const actions: ActionTree<CategoryExtrasState, RootState> = {
   list: async (context, options: ListOptionsInterface): Promise<CategoryExtrasStateItem> =>
     listAbstract<CategoryExtrasStateItem>({ documentType, mutationTypes, storageKey, context, options }),
   loadDepartmentChildCategoryIdMap: async (context): Promise<void> => {
-    const parentId: number[] = icmaa_cms.categoryExtras.parentDepartmentCategoryIds || []
+    const parentId: number[] = icmaa_categoryextras.parentDepartmentCategoryIds || []
     const childCategories: CategoryStateCategory[]|void = await fetchChildCategories({ parentId, level: 10, onlyShowTargetLevelItems: false })
       .then(resp => resp)
       .catch(error => {
