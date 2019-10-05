@@ -147,6 +147,7 @@ import LazyHydrate from 'vue-lazy-hydration'
 
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption'
 import VueOfflineMixin from 'vue-offline/mixin'
+import ProductMetaMixin from 'icmaa-meta/mixins/productMeta'
 import ProductOptionsMixin from 'theme/mixins/product/optionsMixin'
 import ProductAddToCartMixin from 'theme/mixins/product/addtocartMixin'
 import FeaturesMixin from 'theme/mixins/product/featuresMixin'
@@ -172,7 +173,7 @@ export default {
     WebShare,
     LazyHydrate
   },
-  mixins: [ProductOption, IcmaaProduct, ProductOptionsMixin, ProductAddToCartMixin, FeaturesMixin],
+  mixins: [ProductOption, IcmaaProduct, ProductMetaMixin, ProductOptionsMixin, ProductAddToCartMixin, FeaturesMixin],
   directives: { focusClean },
   beforeCreate () {
     registerModule(ReviewModule)

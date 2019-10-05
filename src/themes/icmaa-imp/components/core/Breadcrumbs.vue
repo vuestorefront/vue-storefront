@@ -16,6 +16,10 @@ import i18n from '@vue-storefront/i18n'
 
 export default {
   props: {
+    spacerCharacter: {
+      type: String,
+      default: '/'
+    },
     routes: {
       type: Array,
       required: false,

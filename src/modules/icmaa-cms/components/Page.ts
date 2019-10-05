@@ -3,10 +3,12 @@ import { PageStateItem } from '../types/PageState'
 import { stringToComponent } from '../helpers'
 
 import YAML from 'yaml'
-import camelCase from 'lodash-es/camelCase'
+
+import CmsMetaMixin from 'icmaa-meta/mixins/cmsMeta';
 
 export default {
   name: 'IcmaaCmsPage',
+  mixins: [CmsMetaMixin],
   computed: {
     ...mapGetters('icmaaCmsPage', ['getPageByIdentifier']),
     identifier (): string {
@@ -36,29 +38,5 @@ export default {
     await store.dispatch(
       'icmaaCmsPage/single', { value: route.params.identifier }
     )
-  },
-  metaInfo () {
-    let meta: any = {}
-    const metaKeys = ['title', 'tags', 'description']
-
-    metaKeys.forEach((value) => {
-      const key = camelCase('meta-' + value)
-      if (this.page.hasOwnProperty(key) && this.page[key] !== null) {
-        if (value === 'title') {
-          meta[value] = this.page[key]
-        } else {
-          if (!meta.hasOwnProperty('meta')) {
-            meta['meta'] = []
-          }
-
-          meta.meta.push({
-            name: value,
-            content: this.page[key]
-          })
-        }
-      }
-    })
-
-    return meta
   }
 }

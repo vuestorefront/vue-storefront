@@ -96,6 +96,7 @@ import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next
 
 import CategoryExtrasHeader from 'theme/components/core/blocks/ICMAA/CategoryExtras/Header.vue'
 import CategoryExtrasMixin from 'icmaa-category-extras/mixins/categoryExtras'
+import CategoryMetaMixin from 'icmaa-meta/mixins/categoryMeta'
 
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
@@ -127,7 +128,7 @@ export default {
     Columns,
     CategoryExtrasHeader
   },
-  mixins: [ onBottomScroll, CategoryExtrasMixin ],
+  mixins: [ onBottomScroll, CategoryExtrasMixin, CategoryMetaMixin ],
   data () {
     return {
       mobileFilters: false,

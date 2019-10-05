@@ -15,12 +15,14 @@
 
 <script>
 import CmsPage from '@vue-storefront/core/pages/CmsPage'
+import CmsMetaMixin from 'icmaa-meta/mixins/cmsMeta'
+
 export default {
   computed: {
     cmsPageContent () {
       return this.$store.state.cmsPage.current
     }
   },
-  mixins: [CmsPage]
+  mixins: [CmsPage, CmsMetaMixin]
 }
 </script>

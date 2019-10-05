@@ -28,7 +28,6 @@ export const IcmaaMetaStore: Module<IcmaaMetaStoreState, any> = {
         })
         .catch(err => {
           Logger.error(`Unable to load meta infos:`, `icmaa-meta`, err)()
-          throw new Error('Unable to load meta infos')
         })
     }
   },
