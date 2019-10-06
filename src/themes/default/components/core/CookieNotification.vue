@@ -7,7 +7,7 @@
             <span class="pr5">
               {{ message }}
             </span>
-            <router-link :to="localizedRoute('detailsLink')" :title="detailsLinkText" class="cl-bg-tertiary">
+            <router-link :to="localizedRoute(detailsLink)" :title="detailsLinkText" class="cl-bg-tertiary">
               {{ detailsLinkText }}
             </router-link>
           </div>
