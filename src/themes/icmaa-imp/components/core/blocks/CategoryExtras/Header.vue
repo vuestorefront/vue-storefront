@@ -1,5 +1,5 @@
 <template>
-  <div v-if="categoryExtras">
+  <div v-if="categoryExtras && categoryExtras.active">
     <retina-image :image="banner" alt="" v-if="banner" />
     <p v-if="categoryExtras.description !== ''" v-html="categoryExtras.description" class="t-text-sm t-leading-tight t-text-gray-700" />
     <div class="t-mx-4 t-my-2 t-flex t-justify-between" v-if="spotifyLogoItems">
