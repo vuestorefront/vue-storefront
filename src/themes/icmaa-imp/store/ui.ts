@@ -1,7 +1,7 @@
 export const uiStore = {
   namespaced: true,
   state: {
-    viewport: 'sm',
+    viewport: false,
     sidebar: false,
     microcart: false,
     wishlist: false,

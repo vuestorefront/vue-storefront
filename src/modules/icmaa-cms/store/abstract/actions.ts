@@ -25,7 +25,7 @@ export interface SingleOptionsInterface {
 }
 
 export interface ListOptionsInterface {
-  [key: string]: string
+  [key: string]: any
 }
 
 export const list = async <T>(options: OptionsInterface): Promise<T[]> => {
