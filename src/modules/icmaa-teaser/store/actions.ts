@@ -14,9 +14,7 @@ const mutationTypes: MutationTypesInterface = {
 }
 
 const actions: ActionTree<TeaserState, RootState> = {
-  single: async (context, options: SingleOptionsInterface): Promise<TeaserStateItem> =>
-    singleAbstract<TeaserStateItem>({ documentType, mutationTypes, storageKey, context, options }),
-  list: async (context, options: ListOptionsInterface): Promise<TeaserStateItem> =>
+  list: async (context, options: ListOptionsInterface): Promise<TeaserStateItem[]> =>
     listAbstract<TeaserStateItem>({ documentType, mutationTypes, storageKey, context, options })
 }
 

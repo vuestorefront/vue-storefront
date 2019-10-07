@@ -22,7 +22,7 @@ const mutationTypes: MutationTypesInterface = {
 const actions: ActionTree<CategoryExtrasState, RootState> = {
   single: async (context, options: SingleOptionsInterface): Promise<CategoryExtrasStateItem> =>
     singleAbstract<CategoryExtrasStateItem>({ documentType, mutationTypes, storageKey, context, options }),
-  list: async (context, options: ListOptionsInterface): Promise<CategoryExtrasStateItem> =>
+  list: async (context, options: ListOptionsInterface): Promise<CategoryExtrasStateItem[]> =>
     listAbstract<CategoryExtrasStateItem>({ documentType, mutationTypes, storageKey, context, options }),
   loadDepartmentChildCategoryIdMap: async (context): Promise<void> => {
     const parentId: number[] = icmaa_categoryextras.parentDepartmentCategoryIds || []
