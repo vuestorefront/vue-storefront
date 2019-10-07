@@ -94,7 +94,7 @@ import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 import rootStore from '@vue-storefront/core/store'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
-import CategoryExtrasHeader from 'theme/components/core/blocks/ICMAA/CategoryExtras/Header.vue'
+import CategoryExtrasHeader from 'theme/components/core/blocks/CategoryExtras/Header.vue'
 import CategoryExtrasMixin from 'icmaa-category-extras/mixins/categoryExtras'
 import CategoryMetaMixin from 'icmaa-meta/mixins/categoryMeta'
 

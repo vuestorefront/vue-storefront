@@ -1,6 +1,7 @@
 export const uiStore = {
   namespaced: true,
   state: {
+    viewport: 'sm',
     sidebar: false,
     microcart: false,
     wishlist: false,
@@ -18,6 +19,9 @@ export const uiStore = {
     }
   },
   mutations: {
+    setViewport (state, viewport: string) {
+      state.viewport = viewport
+    },
     setCloseAll (state) {
       state.microcart = false
       state.sidebar = false
@@ -60,6 +64,18 @@ export const uiStore = {
     }
   },
   actions: {
+    setViewport ({ commit }, window) {
+      /**
+       * Breakpoints of TailwindCSS:
+       * @see https://tailwindcss.com/docs/breakpoints/#app
+       */
+      const viewports = [ ['sm', 640], ['md', 768], ['lg', 1024], ['xl', 1280] ]
+      const viewport = viewports.find(vp => window.innerWidth <= vp[1])
+
+      if (viewport) {
+        commit('setViewport', viewport[0])
+      }
+    },
     closeAll ({ commit }) {
       commit('setCloseAll')
     },
@@ -72,5 +88,8 @@ export const uiStore = {
     toggleAddtocart ({ commit, state }) {
       commit('setAddtocart', !state.addtocart)
     }
+  },
+  getters: {
+    getViewport: state => state.viewport
   }
 }

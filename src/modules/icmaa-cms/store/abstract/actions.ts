@@ -28,7 +28,7 @@ export interface ListOptionsInterface {
   [key: string]: string
 }
 
-export const list = async <T>(options: OptionsInterface): Promise<T> => {
+export const list = async <T>(options: OptionsInterface): Promise<T[]> => {
   let values = options.options as ListOptionsInterface | string
   let { context, documentType, mutationTypes, storageKey } = options
   const { state } = context

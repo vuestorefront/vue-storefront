@@ -3,6 +3,7 @@
     <div class="t-container t-px-4">
       <div class="t--mx-4 lg:t-px-4 t-flex t-flex-wrap">
         <breadcrumbs class="breadcrumbs t-w-full t-my-8 t-hidden lg:t-block" :routes="breadcrumbs" :active-route="product.name" />
+        <category-extras-header class="t-bg-white t-border-b t-border-base-lightest" v-if="viewport === 'sm'" />
         <product-gallery
           class="product-gallery t-w-full t-border-base-lightest t-border-b t-bg-white lg:t-w-1/2 lg:t-border-b-0"
           :offline="offlineImage"
@@ -11,6 +12,7 @@
           :product="product"
         />
         <div class="t-w-full t-p-8 t-bg-white lg:t-w-1/2">
+          <category-extras-header class="t--mx-8 t--mt-8 t-mb-8 lg:t-pl-px t-border-b t-border-base-lightest" v-if="viewport !== 'sm'" />
           <div class="t-flex t-flex-wrap">
             <h1 data-testid="productName" itemprop="name" class="t-flex-grow t-w-1/2 t-mb-0 t-leading-snug">
               <template v-if="typeof productName === 'object'">
@@ -135,7 +137,8 @@ import ProductGallery from 'theme/components/core/ProductGallery'
 import WebShare from 'theme/components/theme/WebShare'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
-import DepartmentLogo from 'theme/components/core/blocks/ICMAA/CategoryExtras/DepartmentLogo'
+import CategoryExtrasHeader from 'theme/components/core/blocks/CategoryExtras/Header'
+import DepartmentLogo from 'theme/components/core/blocks/CategoryExtras/DepartmentLogo'
 import DetailsTabs from 'theme/components/core/blocks/Product/Tabs'
 import ProductDetails from 'theme/components/core/blocks/Product/ProductDetails'
 import ProductFeatures from 'theme/components/core/blocks/Product/ProductFeatures'
@@ -159,9 +162,10 @@ export default {
     AsyncSidebar,
     AddToWishlist,
     Breadcrumbs,
+    DepartmentLogo,
+    CategoryExtrasHeader,
     ButtonComponent,
     LoaderBackground,
-    DepartmentLogo,
     ProductGallery,
     DetailsTabs,
     ProductDetails,
@@ -197,7 +201,8 @@ export default {
       product: 'product/getCurrentProduct',
       gallery: 'product/getProductGallery',
       configuration: 'product/getCurrentProductConfiguration',
-      originalProduct: 'product/getOriginalProduct'
+      originalProduct: 'product/getOriginalProduct',
+      viewport: 'ui/getViewport'
     }),
     ...mapState({ isAddToCartSidebarOpen: state => state.ui.addtocart }),
     image () {
