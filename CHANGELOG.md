@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.11.0-rc.2] - unreleased
 
+### Added
+
+ - Added global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
+
 ### Fixed
 
  - Fixed problem around dynamic urls when default storeView is set with appendStoreCode false and url set to / . @resubaka (#3685)
+ - Fixed Product page breadcrumbs problem when products are in multiple categories in different branches of the category tree - @grimasod (#3691)
 
 ## [1.11.0-rc.1] - 2019.10.03
 
