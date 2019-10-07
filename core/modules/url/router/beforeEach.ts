@@ -13,7 +13,7 @@ import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { routerHelper } from '@vue-storefront/core/helpers'
 
 export const UrlDispatchMapper = async (to) => {
-  const routeData = await store.dispatch('url/mapUrl', { url: to.fullPath, query: to.query })
+  const routeData = await store.dispatch('url/mapUrl', { url: to.path, query: to.query })
   return Object.assign({}, to, routeData)
 }
 
@@ -25,24 +25,24 @@ export async function beforeEach (to: Route, from: Route, next) {
   }
   RouterManager.lockRoute()
 
-  const fullPath = normalizeUrlPath(to.fullPath)
+  const path = normalizeUrlPath(to.path)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
   const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name && to.name.startsWith('urldispatcher')
   if (!to.matched.length || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
     UrlDispatchMapper(to).then((routeData) => {
       if (routeData) {
-        let dynamicRoutes: LocalizedRoute[] = processDynamicRoute(routeData, fullPath, !isPreviouslyDispatchedDynamicRoute)
+        let dynamicRoutes: LocalizedRoute[] = processDynamicRoute(routeData, path, !isPreviouslyDispatchedDynamicRoute)
         if (dynamicRoutes && dynamicRoutes.length > 0) {
           next({
             ...dynamicRoutes[0],
-            replace: routerHelper.popStateDetected || dynamicRoutes[0].fullPath === from.fullPath
+            replace: routerHelper.popStateDetected || dynamicRoutes[0].path === from.path
           })
         } else {
           Logger.error('Route not found ' + routeData['name'], 'dispatcher')()
           next(localizedRoute('/page-not-found', currentStoreView().storeCode))
         }
       } else {
-        Logger.error('No mapping found for ' + fullPath, 'dispatcher')()
+        Logger.error('No mapping found for ' + path, 'dispatcher')()
         next(localizedRoute('/page-not-found', currentStoreView().storeCode))
       }
     }).catch(e => {

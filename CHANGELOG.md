@@ -22,6 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved cookie and offline badges (z-index, overflow) - @phoenixdev-kl (#3552)
 - Added config to set Cache-Control header for static assets based on mime type - @phoenix-bjoern (#3268)
 - Added catching of errors when ES is down - @qiqqq
+- `localizedRoute()` doesn't return urlDispatcher routes anymore. Use localizedDispatcherRoute instead - @lukeromanowicz (#3548)
+- Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
+- `localizedRoute()` now supports path (and prefers over fullPath) in LocalizedRoute objects - @lukeromanowicz (#3515)
 
 ## [1.10.3] - 2019.09.18
 
