@@ -2,7 +2,7 @@
   <div v-if="categoryExtras">
     <retina-image :image="banner" alt="" v-if="banner" />
     <p v-if="categoryExtras.description !== ''" v-html="categoryExtras.description" class="t-text-sm t-leading-tight t-text-gray-700" />
-    <div class="t-ml-4 t-my-2 t-flex t-justify-between t-overflow-x-auto t-webkit-touch lg:t-mx-4" v-if="spotifyLogoItems">
+    <div class="t-mx-4 t-my-2 t-flex t-justify-between" v-if="spotifyLogoItems">
       <span class="t-flex-fix t-hidden lg:t-inline-block t-flex t-self-center t-text-base-light t-text-sm t-mr-8">{{ $t('Similar bands:') }}</span>
       <department-logo v-for="(logo, index) in spotifyLogoItems" :key="index" v-bind="logo.data()" class="t-flex-fix t-opacity-60 hover:t-opacity-100" :class="{ 't-mr-4': isLast(index, spotifyLogoItems)}" />
     </div>
@@ -26,7 +26,8 @@ export default {
   computed: {
     ...mapGetters({
       categoryExtras: 'icmaaCategoryExtras/getCategoryExtrasByCurrentCategory',
-      getSpotifyLogoItems: 'icmaaCategoryExtras/getSpotifyLogolineItemsByCurrentCategory'
+      getSpotifyLogoItems: 'icmaaCategoryExtras/getSpotifyLogolineItemsByCurrentCategory',
+      viewport: 'ui/getViewport'
     }),
     banner () {
       if (!this.categoryExtras.bannerImage) {
@@ -36,7 +37,10 @@ export default {
       return getThumbnailPath('/' + this.categoryExtras.bannerImage, 0, 0, 'media')
     },
     spotifyLogoItems () {
-      return sampleSize(this.getSpotifyLogoItems, 5)
+      return sampleSize(
+        this.getSpotifyLogoItems,
+        this.viewport === 'sm' ? 4 : 5
+      )
     }
   },
   methods: {

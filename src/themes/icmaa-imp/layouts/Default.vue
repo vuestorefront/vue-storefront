@@ -51,6 +51,7 @@ import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
 import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import { isServer } from '@vue-storefront/core/helpers'
+import viewportMixin from 'theme/mixins/viewportMixin.ts'
 
 const SidebarMenu = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
 const Microcart = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue')
@@ -69,6 +70,7 @@ export default {
       SidebarMenu
     }
   },
+  mixins: [viewportMixin],
   computed: {
     ...mapState({
       overlayActive: state => state.ui.overlay,
