@@ -4,6 +4,7 @@ import * as types from './mutation-types'
 // you can use this storage if you want to enable offline capabilities
 import { cacheStorage } from '../'
 import queryString from 'query-string'
+import config from 'config'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { processMultipleDynamicRoutes, normalizeUrlPath, parametrizeRouteData } from '../helpers'
 import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
@@ -14,7 +15,16 @@ export const actions: ActionTree<UrlState, any> = {
   // if you want to use cache in your module you can load cached data like this
   async registerMapping ({ commit }, { url, routeData }: { url: string, routeData: any}) {
     commit(types.REGISTER_MAPPING, { url, routeData })
-    await cacheStorage.setItem(normalizeUrlPath(url), routeData)
+    try {
+      await cacheStorage.setItem(normalizeUrlPath(url), routeData, null, config.seo.disableUrlRoutesPersistentCache)
+    } catch (err) {
+      if (
+        err.name === 'QuotaExceededError' ||
+        err.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+      ) { // quota exceeded error
+        cacheStorage.clear() // clear the url cache if quota has been exceeded
+      }
+    }
     return routeData
   },
   /**

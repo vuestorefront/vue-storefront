@@ -2,6 +2,17 @@
 
 We're trying to keep the upgrade process as easy as possible. Unfortunately, sometimes manual code changes are required. Before pulling out the latest version, please take a look at the upgrade notes below:
 
+## 1.10 -> 1.10.4
+
+We've decreased the `localStorage` quota usage + error handling by introducing new config variables:
+
+- `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`);
+- `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway);
+- `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW)
+
+If by some reasons you wan't to have the `localStorage` back on for `Products by SKU`, `Url Routes` and `SyncTasks` - please juset set these variables back to `false` in your `config/local.json`.
+
+
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`Vue.prototype.$bus.$on()`) now
 - The lowest supported node version  is currently 8.10.0,
@@ -20,7 +31,7 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 - The getter `cart/totalQuantity` has been replaced with `cart/getItemsTotalQuantity` - @pkarw (#2522)
 
 ## 1.8 -> 1.9
-- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields 
+- The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields
 - `cart.multisiteCommonCart` config property changed to `storeViews.commonCache`
 - Way of creating VS Modules was changed to use factory method instead of explict object creation. Even though the feature is backward compatible we highly encourage all developers to refactor their modules to use new syntax.
 
@@ -28,8 +39,8 @@ The process of creating a new module with the factory method looks like the foll
 ````js
 import { createModule } from '@vue-storefront/core/lib/module'
 
-const moduleConfig: VueStorefrontModuleConfig = { 
-  // VS module config 
+const moduleConfig: VueStorefrontModuleConfig = {
+  // VS module config
 }
 
 const module = createModule(moduleConfig)
@@ -41,7 +52,7 @@ const module = createModule(moduleConfig)
 - Added validation for UTF8 alpha and alphanumeric characters in most checkout fields
 - Update your local.json config and set default `api.url` path, without it you may have problems with elasticsearch queries.
 
-### Troubleshooting 
+### Troubleshooting
 - In case of CORS problem after upgrade check your elasticsearch url in config file. Best practice for that change can be found [here](https://github.com/DivanteLtd/vue-storefront/commit/77fc9c2765068303879c75ef9ed4a4b98f6763b6)
 
 - In case of app crashing, especially when opening `vue devtools` in browser, try setting `storeViews.commonCache` to `false`.
@@ -64,14 +75,14 @@ Full changelog is available [here](https://github.com/DivanteLtd/vue-storefront/
 Starting from Vue Storefront 1.7, we changed the caching strategy and offline-ready features:
 - By default, the Elasticsearch Queries are executed using `GET` method and therefore are cached by Service Worker (`config.elasticsearch.queryMethod` — set it to POST for the previous behavior and if you're using graphql).
 - By default, products and queries cache is set in `LocalStorage` with a quota set to 4MB (`config.server.elasticCacheQuota`). If the storage quota is set, the cache purging is executed every 30 seconds using the LRU algorithm. Local Storage is limited to 5MB in most browsers.
-- We added `config.server. disableLocalStorageQueriesCache`, which is set to `true` by default. When this option is on, we're not storing the Elasticsearch results in the local cache because results are by default cached in the Service Worker cache anyway.
+- We added `config.server. disablePersistentQueriesCache`, which is set to `true` by default. When this option is on, we're not storing the Elasticsearch results in the local cache because results are by default cached in the Service Worker cache anyway.
 - `module.extend` has been changed to `extendModule`. You can find usage examples in `src/modules/index.ts`.
 - [routes](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422#diff-a334a7caeb7f61836f8c1178d92de3e0), [layouts](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422#diff-48863b9fe31d7713222ec5709ef5a4fa), and component, which are not visible at page rendering are now loaded when they are needed.
 - Every store manipulation should be done by dispatching actions. Invoke store dispatch on `category/mergeSearchOptions` when manipulating `store.state.category.current_product_query` somewhere.
 - [here](https://github.com/patzick/vue-storefront/commit/a97eb11868de2915e86d57c4279caf944d4de422) are all changes in default themes
 
 Backward compatibility: To reverse to the 1.0–1.6 behavior:
-- Set `config.server.disableLocalStorageQueriesCache` = `false`,
+- Set `config.server.disablePersistentQueriesCache` = `false`,
 - Set `config.elasticsearch.queryMethod` = `POST`
 - Set `config.localForage.defaultDrivers.elasticCache` = `INDEXEDDB`
 
@@ -260,7 +271,7 @@ We added Reviews support, however, Magento 2 is still lacking Reviews support in
    - **removeCoupon** -> **clearCoupon** - removing coupon by dispatch removeCoupon API method and toggle coupon form
    - **applyCoupon** -> **setCoupon** - submit coupon form by dispatch applyCoupon API method
    - **enterCoupon** - was removed, because @keyup="enterCoupon" we changed to @keyup.enter="setCoupon"
-   
+
 3. We moved $emit with notification about appliedCoupon and removedCoupon from Vuex store to the default theme. Now applyCoupon and removeCoupon returns promise, which you can handle by yourself.
 
 4. We moved VueOfflineMixin and onEscapePress mixins to the theme component. The core component is clean from UI stuff now.
@@ -380,7 +391,7 @@ export default {
 </script>
 ```
 
-4. We've added Multistore support. It shouldn't imply any breaking changes to the existing themes / extensions (by default it's just disabled). 
+4. We've added Multistore support. It shouldn't imply any breaking changes to the existing themes / extensions (by default it's just disabled).
 
 ## 1.0RC-2 -> 1.0RC-3 ([release notes](https://github.com/DivanteLtd/vue-storefront/releases/tag/v1.0.0-rc.3))
 
