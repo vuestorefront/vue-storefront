@@ -11,6 +11,7 @@
           :product="product"
         />
         <div class="t-w-full t-p-8 t-bg-white lg:t-w-1/2">
+          <category-extras-header class="t--mx-8 t--mt-8 t-mb-8 lg:t-pl-px t-border-b t-border-base-lightest" />
           <div class="t-flex t-flex-wrap">
             <h1 data-testid="productName" itemprop="name" class="t-flex-grow t-w-1/2 t-mb-0 t-leading-snug">
               <template v-if="typeof productName === 'object'">
@@ -135,7 +136,8 @@ import ProductGallery from 'theme/components/core/ProductGallery'
 import WebShare from 'theme/components/theme/WebShare'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
-import DepartmentLogo from 'theme/components/core/blocks/ICMAA/CategoryExtras/DepartmentLogo'
+import CategoryExtrasHeader from 'theme/components/core/blocks/CategoryExtras/Header'
+import DepartmentLogo from 'theme/components/core/blocks/CategoryExtras/DepartmentLogo'
 import DetailsTabs from 'theme/components/core/blocks/Product/Tabs'
 import ProductDetails from 'theme/components/core/blocks/Product/ProductDetails'
 import ProductFeatures from 'theme/components/core/blocks/Product/ProductFeatures'
@@ -159,9 +161,10 @@ export default {
     AsyncSidebar,
     AddToWishlist,
     Breadcrumbs,
+    DepartmentLogo,
+    CategoryExtrasHeader,
     ButtonComponent,
     LoaderBackground,
-    DepartmentLogo,
     ProductGallery,
     DetailsTabs,
     ProductDetails,

@@ -3,6 +3,7 @@ import CategoryExtrasState, { CategoryExtrasStateItem, CategoryExtrasCategoryIdM
 import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category';
 import RootState from '@vue-storefront/core/types/RootState'
 import { Logo } from '../helpers/categoryExtras/logo'
+import isEmpty from 'lodash-es/isEmpty'
 
 const getters: GetterTree<CategoryExtrasState, RootState> = {
   getCategoryExtras: (state) => state.items,
@@ -10,8 +11,16 @@ const getters: GetterTree<CategoryExtrasState, RootState> = {
     return state.items.find(item => item.identifier === identifier)
   },
   getCategoryExtrasByCurrentCategory: (state, getters, rootState, rootGetters): CategoryExtrasStateItem|boolean => {
-    const category = rootGetters['category-next/getCurrentCategory']
+    const category = getters.getCurrentCategory
     return category ? getters.getCategoryExtrasByUrlKey(category.url_key) : false
+  },
+  getCurrentCategory: (state, getters, rootState, rootGetters): Category|boolean => {
+    let category = rootGetters['category-next/getCurrentCategory']
+    if (!category || isEmpty(category)) {
+      category = getters.getCurrentProductDepartmentCategory
+    }
+
+    return category
   },
   getCategoryBy: (state, getters, rootState, rootGetters) => (key: string, value: any): Category|boolean => {
     return rootGetters['category-next/getCategories'].find(c => c[key] === value)

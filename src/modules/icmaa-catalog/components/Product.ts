@@ -20,6 +20,7 @@ export default {
       const category = store.getters['icmaaCategoryExtras/getCurrentProductDepartmentCategory']
       if (category) {
         await store.dispatch('icmaaCategoryExtras/single', { value: category.url_key })
+        await store.dispatch('icmaaSpotify/fetchRelatedArtists', category)
       }
     }
   },

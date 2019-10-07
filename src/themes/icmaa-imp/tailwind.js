@@ -48,13 +48,16 @@ module.exports = {
       flex: {
         'fix': '0 0 auto',
         'expand': '1 0 auto'
+      },
+      opacity: {
+        '60': '.6'
       }
     }
   },
   variants: {
     backgroundColor: ['group-hover', 'responsive', 'hover', 'focus'],
     textColor: ['group-hover', 'responsive', 'hover', 'focus', 'placeholder'],
-    opacity: ['placeholder', 'disabled']
+    opacity: ['hover', 'placeholder', 'disabled']
   },
   plugins: [
     require('tailwindcss-accessibility'),
