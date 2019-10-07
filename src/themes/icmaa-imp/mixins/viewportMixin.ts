@@ -4,7 +4,7 @@ export default {
   created () {
     if (!isServer) {
       window.addEventListener('resize', this.handleResize)
-      this.handleResize();
+      this.$nextTick(this.handleResize)
     }
   },
   destroyed () {
