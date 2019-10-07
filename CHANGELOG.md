@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved scrolling in Safari on iOS devices (sidebars) - @phoenixdev-kl (#3551)
 - Improved cookie and offline badges (z-index, overflow) - @phoenixdev-kl (#3552)
 - Added config to set Cache-Control header for static assets based on mime type - @phoenix-bjoern (#3268)
+- Added catching of errors when ES is down - @qiqqq
 
 ## [1.10.3] - 2019.09.18
 
