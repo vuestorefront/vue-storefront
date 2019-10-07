@@ -35,7 +35,7 @@ export async function beforeEach (to: Route, from: Route, next) {
         if (dynamicRoutes && dynamicRoutes.length > 0) {
           next({
             ...dynamicRoutes[0],
-            replace: routerHelper.popStateDetected || dynamicRoutes[0].path === from.path
+            replace: routerHelper.popStateDetected || dynamicRoutes[0].fullPath === from.fullPath
           })
         } else {
           Logger.error('Route not found ' + routeData['name'], 'dispatcher')()
