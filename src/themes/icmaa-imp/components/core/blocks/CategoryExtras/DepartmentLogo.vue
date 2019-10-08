@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="link" :title="alt">
+  <router-link :to="link" :title="alt" @click.native="setCluster">
     <img :src="url" :srcset="`${url} 1x, ${retinaUrl} 2x`" :alt="alt">
   </router-link>
 </template>
@@ -22,6 +22,15 @@ export default {
     link: {
       type: [String, Object],
       required: true
+    },
+    cluster: {
+      type: [String, Boolean],
+      default: false
+    }
+  },
+  methods: {
+    setCluster () {
+      this.$store.dispatch('user/setCluster', this.cluster)
     }
   }
 }

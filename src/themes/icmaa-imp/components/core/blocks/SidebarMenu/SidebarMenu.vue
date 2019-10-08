@@ -1,7 +1,7 @@
 <template>
   <sidebar>
     <template v-slot:top>
-      <top-button icon="person" text="Account" tabindex="2" class="t-text-base-light" @click.native="login" />
+      <top-button icon="person" :text="loginButtonText" tabindex="2" class="t-text-base-light" @click.native="login" />
     </template>
     <template v-slot:default>
       <navigation-item v-for="link in getMainNavigation" v-bind="link" :key="link.id" />
@@ -52,13 +52,17 @@ export default {
       currentUser: state => state.user.current
     }),
     ...mapGetters('icmaaCmsBlock', ['getJsonBlockByIdentifier']),
+    ...mapGetters('user', ['isLoggedIn']),
     getMainNavigation () {
       return this.getJsonBlockByIdentifier('navigation-main')
     },
     metaNavigation () {
       return this.getJsonBlockByIdentifier('navigation-meta')
     },
-    country: () => currentStoreView().i18n.defaultCountry
+    country: () => currentStoreView().i18n.defaultCountry,
+    loginButtonText () {
+      return this.isLoggedIn ? 'My Account' : 'Login'
+    }
   },
   methods: {
     closeMenu () {
@@ -66,7 +70,11 @@ export default {
     },
     login () {
       this.closeMenu()
-      this.$bus.$emit('modal-toggle', 'modal-signup')
+      if (!this.isLoggedIn) {
+        this.$bus.$emit('modal-toggle', 'modal-signup')
+      } else {
+        this.$router.push(this.localizedRoute('/my-account'))
+      }
     },
     showLanguageSwitcher () {
       this.closeMenu()

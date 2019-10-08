@@ -1,8 +1,9 @@
 <template>
-  <button-icon icon="person" title="My Account" @click="toggleAccount" />
+  <button-icon icon="person" :title="title" @click="toggleAccount" />
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ButtonIcon from 'theme/components/core/blocks/Header/ButtonIcon'
 
 export default {
@@ -10,9 +11,19 @@ export default {
   components: {
     ButtonIcon
   },
+  computed: {
+    ...mapGetters('user', ['isLoggedIn']),
+    title () {
+      return this.isLoggedIn ? 'My Account' : 'Login'
+    }
+  },
   methods: {
     toggleAccount () {
-      this.$bus.$emit('modal-toggle', 'modal-signup')
+      if (!this.isLoggedIn) {
+        this.$bus.$emit('modal-toggle', 'modal-signup')
+      } else {
+        this.$router.push(this.localizedRoute('/my-account'))
+      }
     }
   }
 }

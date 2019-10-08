@@ -1,5 +1,5 @@
 <template>
-  <div v-if="categoryExtras && categoryExtras.active">
+  <div v-if="isVisible">
     <retina-image :image="banner" :alt="category.name" v-if="banner" />
     <div class="t-mx-4 t-my-2 t-flex t-justify-between" v-if="spotifyLogoItems">
       <span class="t-flex-fix t-hidden lg:t-inline-block t-flex t-self-center t-text-base-light t-text-sm t-mr-8">{{ $t('Similar bands:') }}</span>
@@ -29,6 +29,9 @@ export default {
       getSpotifyLogoItems: 'icmaaCategoryExtras/getSpotifyLogolineItemsByCurrentCategory',
       viewport: 'ui/getViewport'
     }),
+    isVisible () {
+      return this.categoryExtras && this.categoryExtras.active && (this.banner || this.spotifyLogoItems.length > 0)
+    },
     banner () {
       if (!this.categoryExtras.bannerImage) {
         return false

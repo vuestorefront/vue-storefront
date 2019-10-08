@@ -28,9 +28,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .modal {
-    font-size: 18px;
-  }
-</style>

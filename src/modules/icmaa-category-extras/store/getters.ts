@@ -30,7 +30,7 @@ const getters: GetterTree<CategoryExtrasState, RootState> = {
     categories.forEach(c => {
       const extras = getters.getCategoryExtrasByUrlKey(c.url_key)
       if (extras && extras.hasLogo && extras[type]) {
-        logos.push(new Logo(c))
+        logos.push(new Logo(c, extras.customerCluster))
       }
     })
 

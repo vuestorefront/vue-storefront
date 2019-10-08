@@ -19,6 +19,7 @@ import { NewsletterModule } from '@vue-storefront/core/modules/newsletter'
 import { IcmaaExtendedConfigModule } from 'icmaa-config'
 import { IcmaaExtendedUrlModule } from 'icmaa-url'
 import { IcmaaExtendedCatalogModule } from 'icmaa-catalog'
+import { IcmaaExtendedUserModule } from 'icmaa-user'
 import { IcmaaCategoryModule } from 'icmaa-category'
 import { IcmaaCategoryExtrasModule } from 'icmaa-category-extras'
 import { IcmaaCmsModule } from 'icmaa-cms'
@@ -51,6 +52,7 @@ export function registerClientModules () {
   registerModule(IcmaaExtendedConfigModule)
   registerModule(IcmaaExtendedUrlModule)
   registerModule(IcmaaExtendedCatalogModule)
+  registerModule(IcmaaExtendedUserModule)
   registerModule(IcmaaCmsModule)
   registerModule(IcmaaTeaserModule)
   registerModule(IcmaaCategoryModule)

@@ -77,5 +77,15 @@ export default {
         { name: this.translatedProductName, price: this.formattedProductPrice }
       )
     }
+  },
+  methods: {
+    setCluster () {
+      if (this.categoryExtras && this.categoryExtras.customerCluster) {
+        this.$store.dispatch('user/setCluster', this.categoryExtras.customerCluster)
+      }
+    }
+  },
+  mounted () {
+    this.setCluster()
   }
 }

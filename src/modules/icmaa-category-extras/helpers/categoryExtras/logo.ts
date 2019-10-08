@@ -9,14 +9,17 @@ export class Logo {
   protected _logoFileName: string
   protected _height: undefined | number
   protected _width: undefined | number
+  protected _cluster: undefined | string
 
-  public constructor (category: Category | string) {
+  public constructor (category: Category | string, cluster?: string) {
     if (typeof category === 'string') {
       this._name = category
     } else {
       this._category = category
       this._name = category.name
     }
+
+    this._cluster = cluster
   }
 
   public data () {
@@ -24,7 +27,8 @@ export class Logo {
       url: this.url,
       retinaUrl: this.retinaUrl,
       alt: this.name,
-      link: this.link
+      link: this.link,
+      cluster: this._cluster
     }
   }
 
@@ -99,5 +103,9 @@ export class Logo {
 
   public set height (v) {
     this._width = v
+  }
+
+  public get cluster (): string | boolean {
+    return this._cluster || false
   }
 }
