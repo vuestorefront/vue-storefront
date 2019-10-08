@@ -29,7 +29,10 @@ export const ProductBundleOption = {
       return `bundleOptionQty_${this.option.option_id}`
     },
     value () {
-      return this.option.product_links.find(product => product.id === this.productOptionId)
+      if (Array.isArray(this.option.product_links)) {
+        return this.option.product_links.find(product => product.id === this.productOptionId)
+      }
+      return this.option.product_links
     },
     errorMessage () {
       return this.errorMessages ? this.errorMessages[this.quantityName] : ''
@@ -57,7 +60,12 @@ export const ProductBundleOption = {
   methods: {
     setDefaultValues () {
       if (this.option.product_links) {
-        const defaultOption = this.option.product_links.find(pl => { return pl.is_default })
+        let defaultOption
+        if (Array.isArray(this.option.product_links)) {
+          defaultOption = this.option.product_links.find(pl => { return pl.is_default })
+        } else {
+          defaultOption = this.option.product_links
+        }
         this.productOptionId = defaultOption ? defaultOption.id : this.option.product_links[0].id
         this.quantity = defaultOption ? defaultOption.qty : 1
       }
