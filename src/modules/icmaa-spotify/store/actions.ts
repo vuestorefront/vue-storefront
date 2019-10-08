@@ -61,18 +61,25 @@ const actions: ActionTree<SpotifyState, RootState> = {
       })
     }
   },
-  async fetchRelatedArtists ({ commit, getters, dispatch, rootState }, category: Category) {
+  async fetchRelatedArtists ({ getters, dispatch, rootGetters }, category: Category) {
     await dispatch('fetchRelatedArtistsByCategory', category)
     const relatedArtists = getters.getRelatedArtistsByCategoryId(category.id)
+
+    /** Only load not already loaded categories (prevent invinite load of `category-next/loadCategories`) */
+    const categoriesNotInState = relatedArtists.filter(a => !rootGetters['category-next/getCategories'].map(c => c.name).includes(a))
 
     /**
      * To make full-text search possible in elasticsearch we must search the "name.keyword" field of our field.
      * Otherwise it wont find any content because the originial "name" field is type "text"
      * and can't be searched on using "terms".
      */
-    const categorySearchOptions: DataResolver.CategorySearchOptions = { filters: { 'name.keyword': relatedArtists } }
-    const categories = await dispatch('category-next/loadCategories', categorySearchOptions, { root: true })
-    return dispatch('icmaaCategoryExtras/list', categories.map(c => c.url_key).join(','), { root: true })
+    const categorySearchOptions: DataResolver.CategorySearchOptions = { filters: { 'name.keyword': categoriesNotInState } }
+    await dispatch('category-next/loadCategories', categorySearchOptions, { root: true })
+
+    const categories = rootGetters['category-next/getCategories']
+      .filter(c => relatedArtists.includes(c.name)).map(c => c.url_key)
+
+    return dispatch('icmaaCategoryExtras/list', categories.join(','), { root: true })
   }
 }
 
