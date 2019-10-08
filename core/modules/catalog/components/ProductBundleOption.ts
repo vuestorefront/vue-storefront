@@ -71,7 +71,7 @@ export const ProductBundleOption = {
       }
     },
     bundleOptionChanged () {
-      this.$emit('optionChanged', {
+      this.$emit('option-changed', {
         option: this.option,
         fieldName: this.productBundleOption,
         qty: this.quantity,
