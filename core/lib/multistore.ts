@@ -141,8 +141,11 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   return routeObj
 }
 
-export function localizedDispatcherRouteName (routeName: string, storeCode: string): string {
-  return storeCode ? `${storeCode}-${routeName}` : routeName
+export function localizedDispatcherRouteName (routeName: string, storeCode: string, appendStoreCode: boolean = false): string {
+  if (appendStoreCode) {
+    return `${storeCode}-${routeName}`
+  }
+  return routeName
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
