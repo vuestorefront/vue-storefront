@@ -15,8 +15,12 @@ const getProductType = (product: CartItem): string =>
 const getServerItemId = (product: CartItem): string | number =>
   product.server_item_id || product.item_id
 
-const isServerIdsEquals = (product1: CartItem, product2: CartItem): boolean =>
-  getServerItemId(product1) === getServerItemId(product2)
+const isServerIdsEquals = (product1: CartItem, product2: CartItem): boolean => {
+  if (getServerItemId(product1) === undefined || getServerItemId(product2) === undefined) {
+    return false
+  }
+  return getServerItemId(product1) === getServerItemId(product2)
+}
 
 const isChecksumEquals = (product1: CartItem, product2: CartItem): boolean =>
   getChecksum(product1) === getChecksum(product2)
