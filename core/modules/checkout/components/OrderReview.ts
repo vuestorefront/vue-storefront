@@ -68,7 +68,10 @@ export const OrderReview = {
           }
         } else {
           this.$bus.$emit('modal-hide', 'modal-signup')
-          await this.$store.dispatch('user/setCurrentUser', result.result) // set current user data to process it with the current order
+          await this.$store.dispatch('user/login', {
+            username: this.getPersonalDetails.emailAddress,
+            password: this.getPersonalDetails.password
+          })
           this.$bus.$emit('checkout-before-placeOrder', result.result.id)
           this.onSuccess()
         }

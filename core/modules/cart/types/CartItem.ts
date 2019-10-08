@@ -8,5 +8,9 @@ export default interface CartItem extends Product {
   options: CartItemOption[],
   totals: CartItemTotals,
   server_item_id: number,
-  server_cart_id: any
+  server_cart_id: any,
+  product_type?: string,
+  item_id?: number,
+  checksum?: string,
+  quoteId?: string
 }

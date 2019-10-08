@@ -20,6 +20,11 @@ export const UserSingleOrder = {
     },
     shippingAddress () {
       return this.order.extension_attributes.shipping_assignments[0].shipping.address
+    },
+    singleOrderItems () {
+      return this.order.items.filter((item) => {
+        return !item.parent_item_id
+      })
     }
   },
   methods: {

@@ -18,7 +18,7 @@ const orderHooksExecutors = {
 
 const orderHooks = {
   /** Hook is fired directly before sending order to the server, after all client-side validations
-   * @param orderMutator Inside this function you have access to order object that you can access and modify. It should return order object.
+   * @param order Inside this function you have access to order object that you can access and modify. It should return order object.
   */
   beforePlaceOrder: beforePlaceOrderHook,
   /** Hook is fired right after order has been sent to server

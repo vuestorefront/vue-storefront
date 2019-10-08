@@ -84,16 +84,14 @@ const changePassword = async (passwordData: DataResolver.PasswordData): Promise<
     }
   })
 
-const invalidateToken = async (refreshToken: string): Promise<Task> =>
-  TaskQueue.execute({
-    url: processLocalizedURLAddress(config.users.refresh_endpoint),
-    payload: {
-      method: 'POST',
-      mode: 'cors',
-      headers,
-      body: JSON.stringify({ refreshToken })
-    }
-  })
+const refreshToken = async (refreshToken: string): Promise<string> =>
+  fetch(processLocalizedURLAddress(config.users.refresh_endpoint), {
+    method: 'POST',
+    mode: 'cors',
+    headers,
+    body: JSON.stringify({ refreshToken })
+  }).then(resp => resp.json())
+    .then(resp => resp.result)
 
 export const UserService: DataResolver.UserService = {
   resetPassword,
@@ -103,5 +101,5 @@ export const UserService: DataResolver.UserService = {
   getProfile,
   getOrdersHistory,
   changePassword,
-  invalidateToken
+  refreshToken
 }

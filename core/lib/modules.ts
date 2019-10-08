@@ -26,4 +26,8 @@ function registerModule (module: StorefrontModule, config?: any) {
   }
 }
 
-export { refs, injectReferences, registerModule }
+function isModuleRegistered (name: string): boolean {
+  return registeredModules.some(m => m.name === name)
+}
+
+export { refs, injectReferences, registerModule, isModuleRegistered }

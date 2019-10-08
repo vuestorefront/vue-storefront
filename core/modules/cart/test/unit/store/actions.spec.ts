@@ -4,8 +4,7 @@ import config from 'config';
 import rootStore from '@vue-storefront/core/store';
 import { sha3_224 } from 'js-sha3';
 import { TaskQueue } from '../../../../../lib/sync';
-import * as coreHelper from '@vue-storefront/core/helpers';
-import { onlineHelper } from '@vue-storefront/core/helpers';
+import { onlineHelper, isServer } from '@vue-storefront/core/helpers';
 
 jest.mock('@vue-storefront/core/store', () => ({
   dispatch: jest.fn(),
@@ -39,7 +38,8 @@ jest.mock('@vue-storefront/core/helpers', () => ({
     get isOnline () {
       return true
     }
-  }
+  },
+  processLocalizedURLAddress: (url) => url
 }));
 
 const EventBus = {
@@ -47,7 +47,7 @@ const EventBus = {
 };
 
 describe('Cart actions', () => {
-  const isServerSpy = jest.spyOn((coreHelper as any).default, 'isServer', 'get');
+  const isServerSpy = jest.spyOn((isServer).default, 'isServer', 'get');
   const isOnlineSpy = jest.spyOn(onlineHelper, 'isOnline', 'get');
 
   beforeEach(() => {

@@ -1,12 +1,12 @@
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-const removeAccents = require('remove-accents')
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
 import config from 'config'
 import { sha3_224 } from 'js-sha3'
-import { unicodeAlpha, unicodeAlphaNum } from './validators'
 import store from '@vue-storefront/core/store'
 import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
+import { coreHooksExecutors } from '@vue-storefront/core/hooks';
+const removeAccents = require('remove-accents')
 
 export const processURLAddress = (url: string = '') => {
   if (url.startsWith('/')) return `${config.api.url}${url}`
@@ -47,7 +47,7 @@ export function slugify (text) {
  */
 export function getThumbnailPath (relativeUrl: string, width: number = config.products.thumbnails.width, height: number = config.products.thumbnails.height, pathType: string = 'product'): string {
   if (config.images.useExactUrlsNoProxy) {
-    return relativeUrl // this is exact url mode
+    return coreHooksExecutors.afterProductThumbnailPathGenerate({ path: relativeUrl, sizeX: width, sizeY: height }).path // this is exact url mode
   } else {
     if (config.images.useSpecificImagePaths) {
       const path = config.images.paths[pathType] !== undefined ? config.images.paths[pathType] : ''
@@ -66,7 +66,9 @@ export function getThumbnailPath (relativeUrl: string, width: number = config.pr
     } else {
       resultUrl = `${baseUrl}${width.toString()}/${height.toString()}/resize${relativeUrl}`
     }
-    return relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? resultUrl : config.images.productPlaceholder || ''
+    const path = relativeUrl && relativeUrl.indexOf('no_selection') < 0 ? resultUrl : config.images.productPlaceholder || ''
+
+    return coreHooksExecutors.afterProductThumbnailPathGenerate({ path, sizeX: width, sizeY: height }).path
   }
 }
 
@@ -219,7 +221,9 @@ export const calcItemsHmac = (items, token) => {
 export function extendStore (moduleName: string | string[], module: any) {
   const merge = function (object: any = {}, source: any) {
     for (let key in source) {
-      if (typeof source[key] === 'object') {
+      if (Array.isArray(source[key])) {
+        object[key] = merge([], source[key])
+      } else if (typeof source[key] === 'object') {
         object[key] = merge(object[key], source[key])
       } else {
         object[key] = source[key]
@@ -237,9 +241,4 @@ export function extendStore (moduleName: string | string[], module: any) {
 
   store.unregisterModule(moduleName)
   store.registerModule(moduleName, extendedModule)
-}
-
-export {
-  unicodeAlpha,
-  unicodeAlphaNum
 }

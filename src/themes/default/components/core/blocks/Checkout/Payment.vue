@@ -313,7 +313,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers'
+import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
 import { Payment } from '@vue-storefront/core/modules/checkout/components/Payment'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'

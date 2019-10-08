@@ -253,7 +253,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers'
+import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
 import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipping'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'

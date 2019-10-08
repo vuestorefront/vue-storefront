@@ -722,7 +722,7 @@ node --harmony cli.js blocks
 node --harmony cli.js pages
 ```
 
-7. Finally, reindex the Elasticsearch making sure up-to-date with data source. 
+7. Finally, reindex the Elasticsearch making sure up-to-date with data source in **Vue Storefront API** root path. 
 ```bash
 npm run db rebuild
 ```

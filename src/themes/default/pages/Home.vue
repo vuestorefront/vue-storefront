@@ -50,6 +50,8 @@ import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters } from 'vuex'
 import config from 'config'
+import { registerModule } from '@vue-storefront/core/lib/modules'
+import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
 
 export default {
   mixins: [Home],
@@ -74,6 +76,9 @@ export default {
     isOnline () {
       return onlineHelper.isOnline
     }
+  },
+  beforeCreate () {
+    registerModule(RecentlyViewedModule)
   },
   created () {
     // Load personal and shipping details for Checkout page from IndexedDB

@@ -21,15 +21,15 @@ once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
 const themeEntry = App
 
 function initTheme (app, router, store, config, ssrContext) {
-  // if youre' runing multistore setup this is copying the routed above adding the 'storeCode' prefix to the urls and the names of the routes
+  // If you're running multistore setup this is copying the routed above adding the 'storeCode' prefix to the urls and the names of the routes
   // You can do it on your own and then be able to customize the components used for example for German storeView checkout
-  // To do so please execlude the desired storeView from the config.storeViews.mapStoreUrlsFor and map the urls by Your own like:
+  // To do so please exclude the desired storeView from the config.storeViews.mapStoreUrlsFor and map the urls by your own like:
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   store.registerModule('themeCart', cartModule)
   setupMultistoreRoutes(config, router, routes)
   RouterManager.addRoutes(routes, router)
 
-  StorageManager.init('claimCollection');
+  StorageManager.init('claims');
   store.registerModule('claims', claimsStore);
   store.registerModule('homepage', homepageStore);
   store.registerModule('ui', uiStore);

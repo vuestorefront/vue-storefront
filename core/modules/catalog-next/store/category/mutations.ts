@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import CategoryState from './CategoryState'
@@ -12,9 +13,7 @@ const mutations: MutationTree<CategoryState> = {
   },
   [types.CATEGORY_ADD_CATEGORY] (state, category: Category) {
     if (category) {
-      let newCategoryEntry = {}
-      newCategoryEntry[category.id] = category
-      state.categoriesMap = Object.assign(state.categoriesMap, newCategoryEntry)
+      Vue.set(state.categoriesMap, category.id, category)
     }
   },
   [types.CATEGORY_ADD_CATEGORIES] (state, categories: Category[] = []) {
@@ -23,7 +22,7 @@ const mutations: MutationTree<CategoryState> = {
       categories.forEach(category => {
         newCategoriesEntry[category.id] = category
       })
-      state.categoriesMap = Object.assign(state.categoriesMap, newCategoriesEntry)
+      state.categoriesMap = Object.assign({}, state.categoriesMap, newCategoriesEntry)
     }
   },
   [types.CATEGORY_SET_AVAILABLE_FILTERS] (state, availableFilters = {}) {

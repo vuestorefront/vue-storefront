@@ -29,6 +29,28 @@ Please find the configuration properties reference below.
 
 Vue Storefront starts an HTTP server to deliver the SSR (server-side rendered) pages and static assets. Its node.js server is located in the `core/scripts/server.js`. This is the hostname and TCP port which Vue Storefront is binding.
 
+
+## Seo
+
+```json
+"seo": {
+  "useUrlDispatcher": true,
+  "disableUrlRoutesPersistentCache": true,
+  "defaultTitle": "Vuestore"
+},
+```
+
+When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest [`mage2vuestorefront`] snapshot and reimport Your products to properly set `url_path` fields.
+
+For example, when the `category.url_path` is set to `women/frauen-20` the product will be available under the following URL addresses:
+
+`http://localhost:3000/women/frauen-20`
+`http://localhost:3000/de/women/frauen-20`
+
+For, `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway)
+
+For, `config.seo.defaultTitle` is as name suggest it's default title for the store.
+
 ## Redis
 
 ```json
@@ -122,7 +144,7 @@ This option is used only in the [Multistore setup](../integrations/multistore.md
 ```json
 "storeViews": {
   "multistore": false,
-  "commonCache": true,
+  "commonCache": false,
   "mapStoreUrlsFor": ["de", "it"],
 ```
 
@@ -138,6 +160,7 @@ You should add all the multistore codes to the `mapStoreUrlsFor` as this propert
   "de": {
     "storeCode": "de",
 ```
+This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "disabled": true,
@@ -163,12 +186,14 @@ This is the store name as displayed in the `Language/Switcher.vue`.
 
 This URL is used only in the `Switcher` component. Typically it equals just to `/<store_code>`. Sometimes you may like to have different store views running as separate Vue Storefront instances, even under different URL addresses. This is the situation when this property comes into action. Just take a look at how [Language/Switcher.vue](https://github.com/DivanteLtd/vue-storefront/blob/master/src/themes/default/components/core/blocks/Switcher/Language.vue) generates the list of the stores.
 It accepts not only path, but also domains as well.
+This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "appendStoreCode": true,
 ```
 
-By default store codes are appended at the end of every url. If you want to use domain only as store url, you can set it to `false`.
+In default configuration store codes are appended at the end of every url. If you want to use domain only as store url, you can set it to `false`.
+This attribute is not inherited through the "extend" mechanism.
 
 ```json
     "elasticsearch": {
@@ -189,6 +214,14 @@ ElasticSearch settings can be overridden in the specific `storeView` config. You
 ```
 
 Taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/catalog/helpers/tax). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
+
+```json
+    "seo": {
+      "defaultTitle": 'Vuestore'
+    },
+```
+
+SEO section's `defaultTitle` is used at the set title for the specific store.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous, unidentified user (which country is not yet set).
 
@@ -215,6 +248,7 @@ The internationalization settings are used by the translation engine (`defautlLo
 ```
 
 You can inherit settings from other storeview of your choice. Result config will be deep merged with chosen storeview by storecode set in `extend` property prioritizing current storeview values.
+Keep in mind that `url`, `storeCode` and `appendStoreCode` attributes cannot be inherited from oter storeviews.
 
 ## Entities
 
@@ -478,6 +512,12 @@ Product attributes representing the images. We'll see it in the Product page gal
 ```
 
 The dimensions of the images in the gallery.
+
+```json
+  "lazyLoadingCategoryProducts": true
+```
+It this option is enabled, the category products will not be applied in the `window.__INITIAL_STATE__`.
+The client side will be responsible for loading them and store in vuex state.
 
 ## Orders
 

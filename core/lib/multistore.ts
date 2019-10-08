@@ -27,6 +27,7 @@ export interface StoreView {
   storeId: any,
   name?: string,
   url?: string,
+  appendStoreCode?: boolean,
   elasticsearch: {
     host: string,
     index: string
@@ -48,6 +49,9 @@ export interface StoreView {
     currencyCode: string,
     currencySign: string,
     dateFormat: string
+  },
+  seo: {
+    defaultTitle: string
   }
 }
 
@@ -83,7 +87,8 @@ export function prepareStoreView (storeCode: string): StoreView {
     i18n: config.i18n,
     elasticsearch: config.elasticsearch,
     storeCode: null,
-    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1
+    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
+    seo: config.seo || {}
   }
 
   if (config.storeViews.multistore === true) {
@@ -102,14 +107,14 @@ export function prepareStoreView (storeCode: string): StoreView {
   loadLanguageAsync(storeView.i18n.defaultLocale)
 
   if (storeViewHasChanged) {
-    storeView = coreHooksExecutors.beforeStoreViewChange(storeView)
+    storeView = coreHooksExecutors.beforeStoreViewChanged(storeView)
     rootStore.state.storeView = storeView
   }
   if (storeViewHasChanged || StorageManager.currentStoreCode !== storeCode) {
     initializeSyncTaskStorage()
     StorageManager.currentStoreCode = storeView.storeCode
   }
-  coreHooksExecutors.afterStoreViewChange(storeView)
+  coreHooksExecutors.afterStoreViewChanged(storeView)
   return storeView
 }
 
@@ -146,11 +151,8 @@ export function storeCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | RawLocat
         return storeCode
       }
     }
-
-    return ''
-  } else {
-    return ''
   }
+  return ''
 }
 
 export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | string): LocalizedRoute | string {
@@ -163,11 +165,32 @@ export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | st
   }
 }
 
+function removeURLQueryParameter (url, parameter) {
+  // prefer to use l.search if you have a location/link object
+  var urlparts = url.split('?');
+  if (urlparts.length >= 2) {
+    var prefix = encodeURIComponent(parameter) + '=';
+    var pars = urlparts[1].split(/[&;]/g);
+
+    // reverse iteration as may be destructive
+    for (var i = pars.length; i-- > 0;) {
+      // idiom for string.startsWith
+      if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+        pars.splice(i, 1);
+      }
+    }
+
+    return urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : '');
+  }
+  return url;
+}
+
 export function adjustMultistoreApiUrl (url: string): string {
-  const storeView = currentStoreView()
-  if (storeView.storeCode) {
+  const { storeCode } = currentStoreView()
+  if (storeCode) {
+    url = removeURLQueryParameter(url, 'storeCode')
     const urlSep = (url.indexOf('?') > 0) ? '&' : '?'
-    url += urlSep + 'storeCode=' + storeView.storeCode
+    url += `${urlSep}storeCode=${storeCode}`
   }
   return url
 }
@@ -176,7 +199,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   const appendStoreCodePrefix = config.storeViews[storeCode] ? config.storeViews[storeCode].appendStoreCode : false
 
   if (typeof routeObj === 'string') {
-    return appendStoreCodePrefix ? '/' + storeCode + routeObj : routeObj
+    return appendStoreCodePrefix ? `/${storeCode}${routeObj}` : routeObj
   }
 
   if (routeObj && routeObj.fullPath) { // case of using dispatcher

@@ -5,32 +5,31 @@ import RootState from '@vue-storefront/core/types/RootState'
 import UserState from '../types/UserState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { UserProfile } from '../types/UserProfile'
-import { onlineHelper } from '@vue-storefront/core/helpers'
-import { isServer } from '@vue-storefront/core/helpers'
+import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
+
 import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { userHooksExecutors, userHooks } from '../hooks'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
-    const user = localStorage.getItem(`shop/user/current-user`);
     const usersCollection = StorageManager.get('user')
+    const userData = await usersCollection.getItem('current-user')
 
     if (isServer || getters.isLocalDataLoaded) return
     commit(types.USER_LOCAL_DATA_LOADED, true)
 
-    if (user) {
-      commit(types.USER_INFO_LOADED, JSON.parse(user))
+    if (userData) {
+      commit(types.USER_INFO_LOADED, userData)
     }
 
     commit(types.USER_START_SESSION)
-    const newToken = await usersCollection.getItem('current-token')
+    const lastUserToken = await usersCollection.getItem('current-token')
 
-    if (newToken) {
-      commit(types.USER_TOKEN_CHANGED, { newToken })
-      dispatch('sessionAfterAuthorized', {})
-
-      const userData = await usersCollection.getItem('current-user')
+    if (lastUserToken) {
+      commit(types.USER_TOKEN_CHANGED, { newToken: lastUserToken })
+      await dispatch('sessionAfterAuthorized', {})
 
       if (userData) {
         dispatch('setUserGroup', userData)
@@ -52,11 +51,12 @@ const actions: ActionTree<UserState, RootState> = {
    */
   async login ({ commit, dispatch }, { username, password }) {
     const resp = await UserService.login(username, password)
+    userHooksExecutors.afterUserAuthorize(resp)
 
     if (resp.code === 200) {
-      dispatch('resetUserInvalidateLock', {}, { root: true })
+      await dispatch('resetUserInvalidateLock', {}, { root: true })
       commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
-      dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+      await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
     }
 
     return resp
@@ -74,16 +74,13 @@ const actions: ActionTree<UserState, RootState> = {
   async refresh ({ commit }) {
     const usersCollection = StorageManager.get('user')
     const refreshToken = await usersCollection.getItem('current-refresh-token')
-    const resp = await UserService.invalidateToken(refreshToken)
+    const newToken = await UserService.refreshToken(refreshToken)
 
-    if (resp.code === 200) {
-      commit(types.USER_TOKEN_CHANGED, {
-        newToken: resp.result,
-        meta: resp.meta ? resp.meta : null
-      }) // TODO: handle the "Refresh-token" header
+    if (newToken) {
+      commit(types.USER_TOKEN_CHANGED, { newToken })
     }
 
-    return resp
+    return newToken
   },
   /**
    * Update user groupToken and groupId in state
@@ -105,9 +102,9 @@ const actions: ActionTree<UserState, RootState> = {
 
     if (currentUser) {
       commit(types.USER_INFO_LOADED, currentUser)
-      dispatch('setUserGroup', currentUser)
+      await dispatch('setUserGroup', currentUser)
       EventBus.$emit('user-after-loggedin', currentUser)
-      dispatch('cart/authorize', {}, { root: true })
+      await dispatch('cart/authorize', {}, { root: true })
 
       return currentUser
     }
@@ -200,6 +197,7 @@ const actions: ActionTree<UserState, RootState> = {
     commit(types.USER_GROUP_CHANGED, null)
     commit(types.USER_INFO_LOADED, null)
     dispatch('wishlist/clear', null, { root: true })
+    dispatch('compare/clear', null, {root: true})
     dispatch('checkout/savePersonalDetails', {}, { root: true })
     dispatch('checkout/saveShippingDetails', {}, { root: true })
     dispatch('checkout/savePaymentDetails', {}, { root: true })
@@ -221,6 +219,7 @@ const actions: ActionTree<UserState, RootState> = {
         action1: { label: i18n.t('OK') }
       }, { root: true })
     }
+    userHooksExecutors.afterUserUnauthorize()
   },
   async loadOrdersFromCache ({ commit }) {
     const ordersHistoryCollection = StorageManager.get('user')
@@ -274,10 +273,10 @@ const actions: ActionTree<UserState, RootState> = {
       }
     }
   },
-  sessionAfterAuthorized ({ dispatch }, { refresh = onlineHelper.isOnline, useCache = true }) {
+  async sessionAfterAuthorized ({ dispatch }, { refresh = onlineHelper.isOnline, useCache = true }) {
     Logger.info('User session authorised ', 'user')()
-    dispatch('me', { refresh, useCache })
-    dispatch('getOrdersHistory', { refresh, useCache })
+    await dispatch('me', { refresh, useCache })
+    await dispatch('getOrdersHistory', { refresh, useCache })
   }
 }
 
