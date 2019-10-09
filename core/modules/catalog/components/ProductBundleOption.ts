@@ -29,10 +29,11 @@ export const ProductBundleOption = {
       return `bundleOptionQty_${this.option.option_id}`
     },
     value () {
-      if (Array.isArray(this.option.product_links)) {
-        return this.option.product_links.find(product => product.id === this.productOptionId)
+      const { product_links } = this.option
+      if (Array.isArray(product_links)) {
+        return product_links.find(product => product.id === this.productOptionId)
       }
-      return this.option.product_links
+      return product_links
     },
     errorMessage () {
       return this.errorMessages ? this.errorMessages[this.quantityName] : ''
@@ -59,14 +60,12 @@ export const ProductBundleOption = {
   },
   methods: {
     setDefaultValues () {
-      if (this.option.product_links) {
-        let defaultOption
-        if (Array.isArray(this.option.product_links)) {
-          defaultOption = this.option.product_links.find(pl => { return pl.is_default })
-        } else {
-          defaultOption = this.option.product_links
-        }
-        this.productOptionId = defaultOption ? defaultOption.id : this.option.product_links[0].id
+      const { product_links } = this.option
+
+      if (product_links) {
+        const defaultOption = Array.isArray(product_links) ? product_links.find(pl => { return pl.is_default }) : product_links
+
+        this.productOptionId = defaultOption ? defaultOption.id : product_links[0].id
         this.quantity = defaultOption ? defaultOption.qty : 1
       }
     },
