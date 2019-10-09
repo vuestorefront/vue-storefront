@@ -64,7 +64,7 @@ export const ProductBundleOption = {
 
       if (product_links) {
         const defaultOption = Array.isArray(product_links)
-          ? product_links.find(pl => { return pl.is_default })
+          ? product_links.find(pl => pl.is_default)
           : product_links
 
         this.productOptionId = defaultOption ? defaultOption.id : product_links[0].id
