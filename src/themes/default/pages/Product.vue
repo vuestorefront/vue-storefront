@@ -41,7 +41,7 @@
               <meta itemprop="price" :content="parseFloat(getCurrentProduct.priceInclTax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="getCurrentProduct.url_path">
-              <div class="mb40 price serif" v-if="getCurrentProduct.type_id !== 'grouped'">
+              <div class="mb40 price serif"   v-if="getCurrentProduct.type_id !== 'grouped'">
                 <div
                   class="h3 cl-secondary"
                   v-if="getCurrentProduct.special_price && getCurrentProduct.priceInclTax && getCurrentProduct.original_price_incl_tax"
@@ -157,7 +157,8 @@
               <add-to-cart
                 :product="getCurrentProduct"
                 :disabled="isAddToCartDisabled"
-                class="col-xs-12 col-sm-4 col-md-6"
+                class="addToCart col-xs-12 col-sm-4 col-md-6"
+                :class="{ 'scrolling': scrollingAddToCart }"
               />
             </div>
             <div class="row py40 add-to-buttons">
@@ -286,6 +287,10 @@ export default {
   },
   data () {
     return {
+      scrollingAddToCart: false,
+      isScrolling: true,
+      scrollCart: 0,
+      lastScrollCart: 0,
       detailsOpen: false,
       quantity: 0,
       isStockInfoLoading: false,
@@ -435,7 +440,28 @@ export default {
       } finally {
         this.isStockInfoLoading = false
       }
+    },
+    hasScrolled () {
+      this.scrollCart = window.scrollY
+      if (this.scrollCart > this.lastScrollCart) {
+        this.scrollingAddToCart = true
+      } else if (this.scrollCart === 0) {
+        this.scrollingAddToCart = false
+      }
+      this.lastScrollCart = this.scrollCart
     }
+  },
+  beforeMount () {
+    window.addEventListener('scroll', () => {
+      this.isScrolling = true
+    }, {passive: true})
+
+    setInterval(() => {
+      if (this.isScrolling) {
+        this.hasScrolled()
+        this.isScrolling = false
+      }
+    }, 250)
   },
   validations () {
     return {
@@ -640,5 +666,21 @@ $bg-secondary: color(secondary, $colors-background);
 
 .web-share {
   float: right;
+}
+
+.addToCart{
+  position: fixed;
+  bottom: 0px;
+  z-index: 1;
+  left: 0px;
+}
+.addToCart.scrolling{
+  position: fixed;
+  bottom: 20px;
+  z-index: 1;
+  width: 74%;
+  padding: 12px;
+  height: 46px;
+  left: 16px;
 }
 </style>
