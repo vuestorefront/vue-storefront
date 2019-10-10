@@ -1,8 +1,8 @@
-export interface PageStateItem {
-  identifier: string,
+import { AbstractStateItem } from './AbstractState'
+
+export interface PageStateItem extends AbstractStateItem {
   routeName: string,
   content: string,
-  language: string,
   metaTitle: string,
   metaDescription: string,
   metaTags: string

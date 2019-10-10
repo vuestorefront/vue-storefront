@@ -7,7 +7,7 @@ import isEmpty from 'lodash-es/isEmpty'
 
 const actions: ActionTree<UserState, RootState> = {
   setCluster ({ commit }, cluster) {
-    if (!isEmpty(cluster)) {
+    if (!isEmpty(cluster) || cluster === false) {
       commit(types.USER_ADD_SESSION_DATA, { key: 'cluster', value: cluster })
     }
   },

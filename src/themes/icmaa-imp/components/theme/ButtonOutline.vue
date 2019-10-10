@@ -2,20 +2,25 @@
   <component
     :is="compontentType"
     :to="redirectionLink"
-    class="button-outline no-outline py15 bg-cl-transparent h4 no-underline sans-serif fs-medium"
+    class="no-outline bg-cl-transparent no-underline t-text-xs t-px-5 t-p-3 t-rounded-sm t-border t-border-black"
     :class="{
-      light : color === 'light', 'brdr-white' : color === 'light', 'cl-white' : color === 'light',
-      dark : color === 'dark', 'brdr-darkgray' : color === 'dark', 'cl-secondary' : color === 'dark',
-      px0 : link ? true : false,
-      px40 : link ? false : true
+      light: color === 'light',
+      'brdr-white': color === 'light',
+      'cl-white': color === 'light',
+      dark: color === 'dark',
+      'brdr-darkgray': color === 'dark',
+      'cl-secondary': color === 'dark',
+      px0: link ? true : false,
+      px40: link ? false : true
     }"
+    :style="{ '--color': color, color: color }"
   >
     <slot>Button</slot>
   </component>
 </template>
 
 <script>
-import focusClean from 'theme/components/theme/directives/focusClean'
+import focusClean from 'theme/components/theme/directives/focusClean';
 
 export default {
   name: 'ButtonOutline',
@@ -39,7 +44,7 @@ export default {
       return this.link ? this.localizedRoute(this.link) : null
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -50,16 +55,9 @@ $white: color(white);
 $black: color(black);
 
 .button-outline {
-  border: 2px solid;
-  height: 62px;
+  border: 1px solid var(--color);
 }
 
-@media screen and (min-width: 900px) {
-  .button-outline {
-    border: 2px solid;
-    min-width: 220px;
-  }
-}
 .dark {
   border: 1px solid $dark-border;
   &:hover,

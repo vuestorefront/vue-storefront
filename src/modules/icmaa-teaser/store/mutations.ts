@@ -7,6 +7,6 @@ const mutations: MutationTree<TeaserState> = mutationsFactory({
   add: types.ICMAA_TEASER_ADD,
   upd: types.ICMAA_TEASER_UPD,
   rmv: types.ICMAA_TEASER_RMV
-})
+}, 'uuid')
 
 export default mutations

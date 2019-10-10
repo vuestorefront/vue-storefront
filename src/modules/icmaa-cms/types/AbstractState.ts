@@ -1,7 +1,5 @@
 export interface AbstractStateItem {
-  identifier: string,
-  content: string,
-  language: string
+  identifier: string
 }
 
 export default interface AbstractState {

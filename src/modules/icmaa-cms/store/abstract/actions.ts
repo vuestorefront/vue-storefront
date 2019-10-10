@@ -16,7 +16,8 @@ export interface OptionsInterface {
   options: string | ListOptionsInterface | SingleOptionsInterface,
   documentType: string,
   mutationTypes: MutationTypesInterface,
-  storageKey: string
+  storageKey: string,
+  identifier?: string
 }
 
 export interface SingleOptionsInterface {
@@ -33,6 +34,8 @@ export const list = async <T>(options: OptionsInterface): Promise<T[]> => {
   let { context, documentType, mutationTypes, storageKey } = options
   const { state } = context
 
+  const identifier = options.identifier || 'identifier'
+
   let params = {
     'type': documentType,
     'q': values,
@@ -40,22 +43,22 @@ export const list = async <T>(options: OptionsInterface): Promise<T[]> => {
   }
 
   if (typeof values === 'string') {
-    let identifiers = values.split(',')
-    const extistingIdentifiersInState = identifiers.filter(i => (state.items.find(s => s.identifier === i)))
+    let valuesArray = values.split(',')
+    const extistingItemsInState = valuesArray.filter(i => (state.items.find(s => s[identifier] === i)))
 
     if (state.items.length !== 0) {
-      const stateItems = state.items.filter(i => extistingIdentifiersInState.includes(i.identifier))
+      const stateItems = state.items.filter(i => extistingItemsInState.includes(i[identifier]))
       stateItems.forEach(i => {
-        cache.setItem(storageKey + '/' + i.identifier, i)
+        cache.setItem(storageKey + '/' + i[identifier], i)
           .catch(error => Logger.error(error, 'icmaa-cms'))
       })
 
-      if (identifiers.length === extistingIdentifiersInState.length) {
+      if (valuesArray.length === extistingItemsInState.length) {
         return stateItems
       }
     }
 
-    const searchForIdentifiersInCache = identifiers.filter(i => !extistingIdentifiersInState.includes(i))
+    const searchForIdentifiersInCache = valuesArray.filter(i => !extistingItemsInState.includes(i))
     values = searchForIdentifiersInCache.filter(async i => {
       await cache.getItem(storageKey + '/' + i)
         .then(result => {
@@ -85,7 +88,7 @@ export const list = async <T>(options: OptionsInterface): Promise<T[]> => {
     }
 
     results.forEach(result => {
-      const cacheKey = storageKey + '/' + result.identifier
+      const cacheKey = storageKey + '/' + result[identifier]
       context.commit(mutationTypes.add, result)
       cache.setItem(cacheKey, result)
         .catch(error => Logger.error(error, 'icmaa-cms'))

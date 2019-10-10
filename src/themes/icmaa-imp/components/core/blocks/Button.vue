@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="t-px-4 t-text-xs t-rounded-sm t-cursor-pointer t-leading-1-rem" :class="[ { 't-uppercase': type !== 'select' }, sizeClass, colorClass ]">
+  <button type="button" class="t-px-4 t-text-xs t-rounded-sm t-cursor-pointer t-leading-1-rem" :class="[ { 't-uppercase': type !== 'select' }, sizeClass, colorClass ]" :style="customColorStyle">
     <template v-if="iconOnly">
       <span class="t-sr-only">
         <slot />
@@ -32,8 +32,22 @@ export default {
       type: String,
       default: 'second',
       validation: (value) => {
-        return ['primary', 'second', 'ghost', 'transparent'].includes(value)
+        return [
+          'primary',
+          'second',
+          'ghost',
+          'ghost-white',
+          'ghost-custom',
+          'transparent',
+          'transparent-white',
+          'transparent-primary',
+          'select'
+        ].includes(value)
       }
+    },
+    customColor: {
+      type: [String, Boolean],
+      default: false
     },
     icon: {
       type: [String, Boolean],
@@ -62,6 +76,7 @@ export default {
         'second': 't-bg-base-darkest t-text-white',
         'ghost': 't-border t-border-base-darkest t-bg-transparent t-text-base-darkest',
         'ghost-white': 't-border t-border-white t-bg-transparent t-text-white',
+        'ghost-custom': 't-border t-bg-transparent',
         'transparent': 't-bg-transparent',
         'transparent-white': 't-bg-transparent t-text-white',
         'transparent-primary': 't-bg-transparent t-text-base-darkest',
@@ -69,6 +84,16 @@ export default {
       }
 
       return map[this.type]
+    },
+    customColorStyle () {
+      if (this.customColor && this.type === 'ghost-custom') {
+        return [
+          { color: this.customColor },
+          { borderColor: this.customColor }
+        ]
+      }
+
+      return ''
     }
   }
 }

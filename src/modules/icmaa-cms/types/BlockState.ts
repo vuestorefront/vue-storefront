@@ -1,7 +1,7 @@
-export interface BlockStateItem {
-  identifier: string,
-  content: string,
-  language: string
+import { AbstractStateItem } from './AbstractState'
+
+export interface BlockStateItem extends AbstractStateItem {
+  content: string
 }
 
 export default interface BlockState {

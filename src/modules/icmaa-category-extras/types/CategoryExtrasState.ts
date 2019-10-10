@@ -1,7 +1,6 @@
-export interface CategoryExtrasStateItem {
-  identifier: string,
-  content: string,
-  language: string,
+import { AbstractStateItem } from 'icmaa-cms/types/AbstractState'
+
+export interface CategoryExtrasStateItem extends AbstractStateItem {
   has_logo: boolean,
   crossreference_in_logoline: boolean,
   crossreference_in_product: boolean
