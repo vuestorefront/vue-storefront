@@ -1,7 +1,9 @@
-export const defaultCustomOptionValue = (co) => {
-  switch (co.type) {
+import { CustomOption, OptionValue, InputValue } from './../types/CustomOption';
+
+export const defaultCustomOptionValue = (customOption: CustomOption): InputValue => {
+  switch (customOption.type) {
     case 'radio': {
-      return co.values && co.values.length ? co.values[0].option_type_id : 0
+      return customOption.values && customOption.values.length ? customOption.values[0].option_type_id : 0
     }
     case 'checkbox': {
       return []
@@ -12,24 +14,26 @@ export const defaultCustomOptionValue = (co) => {
   }
 }
 
-export const customOptionFieldName = (co) => {
-  return 'customOption_' + co.option_id
+export const customOptionFieldName = (customOption: CustomOption): string => {
+  return 'customOption_' + customOption.option_id
 }
 
-export const selectedCustomOptionValue = (optionType, optionValues = [], inputValue) => {
+export const selectedCustomOptionValue = (optionType: string, optionValues: OptionValue[] = [], inputValue: InputValue): string => {
   switch (optionType) {
     case 'field': {
-      return inputValue
+      return inputValue as string
     }
     case 'radio':
     case 'select':
     case 'drop_down': {
-      const selectedValue = optionValues.find((value) => value.option_type_id === inputValue) || {}
+      const selectedValue = optionValues.find((value) => value.option_type_id === inputValue as number)
 
-      return selectedValue.option_type_id || ''
+      return String(selectedValue && selectedValue.option_type_id) || ''
     }
     case 'checkbox': {
-      return optionValues.filter((value) => (inputValue || []).includes(value.option_type_id))
+      const checkboxOptionValues = inputValue as number[] || []
+
+      return optionValues.filter((value) => checkboxOptionValues.includes(value.option_type_id))
         .map((value) => value.option_type_id)
         .join(',')
     }
