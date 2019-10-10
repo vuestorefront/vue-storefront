@@ -8,10 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.0-rc.2] - unreleased
 
 ### Fixed
-- Reset nested menu after logout - @gibkigonzo (#3680)
-- Fixed problem around dynamic urls when default storeView is set with appendStoreCode false and url set to / . @resubaka (#3685)
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
+- Fixed problem around dynamic urls when default storeView is set with appendStoreCode false and url set to / . @resubaka (#3685)
 - Fixed three problems you can run into when you have bundle products - @resubaka (#3692)
+- Reset nested menu after logout - @gibkigonzo (#3680)
+- Fixed handling checkbox custom option -  @gibkigonzo (#2781)
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
