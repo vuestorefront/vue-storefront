@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['isLoggedIn']),
-    ...mapGetters('homepage', ['getEverythingNewCollection', 'getEverythingNewCollectionLazy']),
+    ...mapGetters('homepage', ['getEverythingNewCollection']),
     categories () {
       return this.getCategories
     },
@@ -107,7 +107,7 @@ export default {
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    Logger.info('Calling asyncData in Home (theme)')();
+    Logger.info('Calling asyncData in Home (theme)')()
 
     await Promise.all([
       store.dispatch('homepage/fetchNewCollection'),
