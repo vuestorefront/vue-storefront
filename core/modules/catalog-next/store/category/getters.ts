@@ -118,7 +118,12 @@ const getters: GetterTree<CategoryState, RootState> = {
     return parseCategoryPath(resultCategoryList)
   },
   getCategorySearchProductsStats: state => state.searchProductsStats || {},
-  getCategoryProductsTotal: (state, getters) => getters.getCategorySearchProductsStats.total || 0
+  getCategoryProductsTotal: (state, getters) => {
+    const { total } = getters.getCategorySearchProductsStats
+    const totalValue = typeof total === 'object' ? total.value : total
+
+    return totalValue || 0
+  }
 }
 
 export default getters
