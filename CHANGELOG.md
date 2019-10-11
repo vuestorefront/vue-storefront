@@ -5,7 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.11.0-rc.1] - UNRELEASED
+## [1.11.0-rc.2] - unreleased
+
+### Fixed
+- Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
+- Fixed problem around dynamic urls when default storeView is set with appendStoreCode false and url set to / . @resubaka (#3685)
+- Fixed three problems you can run into when you have bundle products - @resubaka (#3692)
+- Reset nested menu after logout - @gibkigonzo (#3680)
+- Fixed handling checkbox custom option -  @gibkigonzo (#2781)
+- Get payment methods with billing address data - @rain2o (#2878)
+
+### Added
+- Added support for ES7 - @andrzejewsky (#3690)
+
+## [1.11.0-rc.1] - 2019.10.03
 
 ### Added
 
@@ -56,7 +69,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Route Manager Queue for adding routes efficiently and with an optional priority - @grimasod (#3540)
 - Added tests for cart module actions - @andrzejewsky (#3023)
 - Fixed a problem with type changes in the state when extending a store - @resubaka (#3618)
-- Get payment methods with billing address data - @rain2o (#2878)
 - Fixed problem with bundle product where they have the same hash as other products - @resubaka (#3657)
 
 ### Fixed
