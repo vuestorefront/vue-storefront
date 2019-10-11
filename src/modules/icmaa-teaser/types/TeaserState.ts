@@ -14,6 +14,7 @@ export interface TeaserStateItem extends AbstractStateItem {
   buttonText: string,
   link: string,
   imageUrl: string,
+  largeImageUrl: string,
   textColor: string,
   backgroundColor: string,
   [key: string]: any
