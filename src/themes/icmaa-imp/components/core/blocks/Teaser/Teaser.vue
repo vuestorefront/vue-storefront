@@ -55,7 +55,7 @@ export default {
     },
     teaserSmall () {
       const teaser = this.getSmallTeaser(this.tags)
-      return teaser.slice(0, this.TeaserSmallRow ? 4 : this.limit - 1)
+      return teaser.slice(0, this.TeaserSmallRow ? 4 : this.limit)
     }
   },
   mounted () {
