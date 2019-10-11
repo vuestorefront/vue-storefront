@@ -77,10 +77,10 @@ export default {
   },
   computed: {
     showPlaceholder () {
-      return !this.showLowerQuality && !this.showHighQuality && !this.eagerLoad
+      return !this.showLowerQuality && !this.showHighQuality
     },
     showLowerQuality () {
-      return this.lowerQualityImage && !this.showHighQuality && !this.eagerLoad
+      return this.lowerQualityImage && !this.showHighQuality
     },
     showHighQuality () {
       return this.highQualityImage
