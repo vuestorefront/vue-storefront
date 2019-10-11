@@ -1,16 +1,31 @@
 import { AbstractStateItem } from 'icmaa-cms/types/AbstractState'
 
 export interface CategoryExtrasStateItem extends AbstractStateItem {
-  has_logo: boolean,
-  crossreference_in_logoline: boolean,
-  crossreference_in_product: boolean
+  hasLogo: boolean,
+  crossreferenceInLogoline: boolean,
+  crossreferenceInProduct: boolean
+}
+
+export interface CategoryExtrasCategoryIdMapChildStateItem {
+  id: number,
+  url_key: string
 }
 
 export interface CategoryExtrasCategoryIdMapStateItem {
-  [parentId: string]: number[]
+  parentId: number,
+  children: CategoryExtrasCategoryIdMapChildStateItem[]
+}
+
+export interface CategoryExtrasDepartmentLogoStateItem {
+  identifier: string,
+  crossreferenceInLogoline: boolean,
+  crossreferenceInProduct: boolean,
+  customerCluster: string,
+  genre: any[]
 }
 
 export default interface CategoryExtrasState {
   items: CategoryExtrasStateItem[],
-  departmentChildCategoryIdMap: CategoryExtrasCategoryIdMapStateItem
+  childCategoryIdMap: CategoryExtrasCategoryIdMapStateItem[],
+  departmentLogos: CategoryExtrasDepartmentLogoStateItem[]
 }

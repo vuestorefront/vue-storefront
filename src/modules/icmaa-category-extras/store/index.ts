@@ -12,7 +12,8 @@ export const CategoryExtrasStore: Module<CategoryExtrasState, RootState> = {
   namespaced: true,
   state: {
     items: [],
-    departmentChildCategoryIdMap: {}
+    childCategoryIdMap: [],
+    departmentLogos: []
   },
   getters,
   actions,

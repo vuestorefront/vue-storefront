@@ -36,6 +36,7 @@ export default {
     async fetchAsyncData () {
       const category = this.$store.getters['category-next/getCurrentCategory']
       if (category) {
+        await this.$store.dispatch('icmaaCategoryExtras/loadDepartmentLogos')
         if (!this.categoryExtrasByUrlKey(category.url_key)) {
           await this.$store.dispatch('icmaaCategoryExtras/single', { value: category.url_key })
         }

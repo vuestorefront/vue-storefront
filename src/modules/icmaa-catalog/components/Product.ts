@@ -12,6 +12,7 @@ export default {
     await store.dispatch('attribute/list', { filterValues })
 
     await store.dispatch('icmaaCategoryExtras/loadDepartmentChildCategoryIdMap')
+    await store.dispatch('icmaaCategoryExtras/loadDepartmentLogos')
 
     const departmentCategoryId = store.getters['icmaaCategoryExtras/getCurrentProductDepartmentCategoryId']
     if (departmentCategoryId) {
