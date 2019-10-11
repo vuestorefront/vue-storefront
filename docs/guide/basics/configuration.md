@@ -133,13 +133,6 @@ This option is referenced in the [core/client-entry.ts](https://github.com/Divan
 Filters out given properties from `window.__INITIAL_STATE__` and enables [lazy hydration](https://github.com/maoberlehner/vue-lazy-hydration) on client side
 Available out of the box for `category-next.products` and `homepage`.
 
-```json
-    "eagerlyLoadedImages": 5,
-```
-
-It may be used to specify how many images should be eagerly loaded without placeholder
-
-
 ## Max attempt of tasks
 
 ```json

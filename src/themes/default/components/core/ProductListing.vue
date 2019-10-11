@@ -13,7 +13,6 @@
 
 <script>
 import ProductTile from 'theme/components/core/ProductTile'
-import config from 'config'
 let lastHero = 0
 export default {
   name: 'ProductListing',
@@ -30,6 +29,11 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      eagerlyLoadedImages: 5
+    }
+  },
   methods: {
     wide (isOnSale, isNew, index) {
       let deltaCondition = index > 0 && ((index - 1) - lastHero) % 2 === 0
@@ -41,8 +45,7 @@ export default {
       return isHero ? 'col-xs-12' : 'col-xs-6'
     },
     loadEager (index) {
-      if (index + 1 > config.entities.productList.eagerlyLoadedImages) return false;
-      return true;
+      return index + 1 <= this.eagerlyLoadedImages
     }
   }
 }

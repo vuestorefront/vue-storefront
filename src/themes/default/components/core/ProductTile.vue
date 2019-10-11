@@ -31,7 +31,7 @@
       >
         <product-image
           class="product-cover__thumb"
-          :image="imageObj"
+          :image="thumbnailObj"
           :alt="product.name | htmlDecode"
           :calc-ratio="false"
           :eager-load="eagerLoadImage"
@@ -93,7 +93,7 @@ export default {
     }
   },
   computed: {
-    imageObj () {
+    thumbnailObj () {
       return {
         src: this.thumbnail,
         loading: this.thumbnail
