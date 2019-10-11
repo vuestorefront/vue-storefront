@@ -30,7 +30,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     if (!categoryMappedFilters && areFiltersInQuery) { // loading all filters only when some filters are currently chosen and category has no available filters yet
       await dispatch('loadCategoryFilters', searchCategory)
     }
-    const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
+    const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
     const {items, perPage, start, total, aggregations} = await quickSearchByQuery({
       query: filterQr,
@@ -47,7 +47,8 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async loadMoreCategoryProducts ({ commit, getters, rootState, dispatch }) {
     const { perPage, start, total } = getters.getCategorySearchProductsStats
-    if (start >= total || total < perPage) return
+    const totalValue = typeof total === 'object' ? total.value : total
+    if (start >= totalValue || totalValue < perPage) return
 
     const searchQuery = getters.getCurrentSearchQuery
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
@@ -109,14 +110,14 @@ const actions: ActionTree<CategoryState, RootState> = {
     })
   },
   async registerCategoryProductsMapping ({ dispatch }, products = []) {
-    const storeCode = currentStoreView().storeCode
+    const { storeCode, appendStoreCode } = currentStoreView()
     await Promise.all(products.map(product => {
       const { url_path, sku, slug, type_id } = product
       return dispatch('url/registerMapping', {
         url: localizedDispatcherRoute(url_path, storeCode),
         routeData: {
           params: { parentSku: product.sku, slug },
-          'name': localizedDispatcherRouteName(type_id + '-product', storeCode)
+          'name': localizedDispatcherRouteName(type_id + '-product', storeCode, appendStoreCode)
         }
       }, { root: true })
     }))
