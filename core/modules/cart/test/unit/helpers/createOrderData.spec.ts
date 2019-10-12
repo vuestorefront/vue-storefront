@@ -19,6 +19,23 @@ const shippingDetails = {
   shippingMethod: 'method'
 };
 
+const paymentDetails = {
+  country: 'UK',
+  firstName: 'John',
+  lastName: 'Doe',
+  city: 'London',
+  zipCode: 'EC123',
+  streetAddress: 'JohnDoe street',
+  region_id: 1,
+  apartmentNumber: '12',
+  state: 'xxxx',
+  phoneNumber: '123123123',
+  company: '',
+  taxId: '',
+  paymentMethod: '',
+  paymentMethodAdditional: []
+};
+
 describe('Cart createOrderData', () => {
   it('returns data with default shipping and default payment', async () => {
     const shippingMethods = [
@@ -47,7 +64,7 @@ describe('Cart createOrderData', () => {
       }
     ];
 
-    const methodsData = createOrderData({ shippingDetails, shippingMethods, paymentMethods, taxCountry: 'DE' })
+    const methodsData = createOrderData({ shippingDetails, shippingMethods, paymentMethods, paymentDetails, taxCountry: 'DE' })
 
     expect(methodsData).toEqual({
       carrier_code: 'CODE4',
@@ -56,6 +73,14 @@ describe('Cart createOrderData', () => {
       payment_method: 'CODE4',
       shippingAddress: {
         city: 'London',
+        firstname: 'John',
+        lastname: 'Doe',
+        postcode: 'EC123',
+        street: ['JohnDoe street']
+      },
+      billingAddress: {
+        city: 'London',
+        countryId: 'UK',
         firstname: 'John',
         lastname: 'Doe',
         postcode: 'EC123',
@@ -91,7 +116,7 @@ describe('Cart createOrderData', () => {
       }
     ];
 
-    const methodsData = createOrderData({ shippingDetails, shippingMethods, paymentMethods, taxCountry: 'DE' })
+    const methodsData = createOrderData({ shippingDetails, shippingMethods, paymentMethods, paymentDetails, taxCountry: 'DE' })
 
     expect(methodsData).toEqual({
       carrier_code: 'CODE2-first',
@@ -104,6 +129,14 @@ describe('Cart createOrderData', () => {
         lastname: 'Doe',
         postcode: 'EC123',
         street: ['JohnDoe street']
+      },
+      billingAddress: {
+        city: 'London',
+        countryId: 'UK',
+        firstname: 'John',
+        lastname: 'Doe',
+        postcode: 'EC123',
+        street: ['JohnDoe street']
       }
     });
   });
@@ -111,7 +144,7 @@ describe('Cart createOrderData', () => {
   it('returns data without payment, carrier and method', async () => {
     const shippingMethods = [];
     const paymentMethods = [];
-    const methodsData = createOrderData({ shippingDetails, shippingMethods, paymentMethods, taxCountry: 'DE' });
+    const methodsData = createOrderData({ shippingDetails, shippingMethods, paymentMethods, paymentDetails, taxCountry: 'DE' });
 
     expect(methodsData).toEqual({
       carrier_code: null,
@@ -120,6 +153,14 @@ describe('Cart createOrderData', () => {
       payment_method: null,
       shippingAddress: {
         city: 'London',
+        firstname: 'John',
+        lastname: 'Doe',
+        postcode: 'EC123',
+        street: ['JohnDoe street']
+      },
+      billingAddress: {
+        city: 'London',
+        countryId: 'UK',
         firstname: 'John',
         lastname: 'Doe',
         postcode: 'EC123',
