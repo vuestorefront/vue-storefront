@@ -500,7 +500,7 @@ Here, we have the sort field settings as they're displayed on the Category page.
   "systemFilterNames": ["sort", "pagesize"],
 ```
 
-This is array of query-fields which won't be treated as filter fields when in URL.
+This is an array of query-fields which won't be treated as filter fields when in URL.
 
 ```json
   "gallery": {
