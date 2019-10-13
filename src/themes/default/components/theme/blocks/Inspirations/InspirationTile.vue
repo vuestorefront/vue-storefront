@@ -1,7 +1,7 @@
 <template>
   <div class="inspiration-tile w-100">
     <router-link
-      :to="localizedRoute({ name: product.type_id + '-product', fullPath: product.url_path, params: { parentSku: product.sku, slug: product.slug }})"
+      :to="localizedRoute({ name: product.type_id + '-product', path: product.url_path, params: { parentSku: product.sku, slug: product.slug }})"
     >
       <div class="product-image bg-cl-secondary">
         <img :src="thumbnail" class="product-thumbnail">

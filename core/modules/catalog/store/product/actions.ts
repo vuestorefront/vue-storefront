@@ -341,9 +341,15 @@ const actions: ActionTree<ProductState, RootState> = {
           }
           const cacheKey = entityKeyName(cacheByKey, prod[(cacheByKey === 'sku' && prod['parentSku']) ? 'parentSku' : cacheByKey]) // to avoid caching products by configurable_children.sku
           if (isCacheable) { // store cache only for full loads
-            cache.setItem(cacheKey, prod)
+            cache.setItem(cacheKey, prod, null, config.products.disablePersistentProductsCache)
               .catch((err) => {
                 Logger.error('Cannot store cache for ' + cacheKey, err)()
+                if (
+                  err.name === 'QuotaExceededError' ||
+                  err.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+                ) { // quota exceeded error
+                  cache.clear() // clear products cache if quota exceeded
+                }
               })
           }
           if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !isServer) {
