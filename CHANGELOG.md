@@ -70,6 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Route Manager Queue for adding routes efficiently and with an optional priority - @grimasod (#3540)
 - Added tests for cart module actions - @andrzejewsky (#3023)
 - Fixed a problem with type changes in the state when extending a store - @resubaka (#3618)
+- Added custom page-size parameter for `category-next/loadCategoryProducts` action - @cewald (#3713)
 
 ### Fixed
 
