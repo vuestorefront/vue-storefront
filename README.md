@@ -833,53 +833,6 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     </tr>
-    <tr>
-      <td align="center" valign="middle"> 
-<a href="https://www.helloevery1.com/">
-          <img
-            src="https://divante.com/partners/Vue-Storefront/every1-logo.png"
-            alt="every1"
-            height="40"
-          >
-        </a>
-</td>
-  <td align="center" valign="middle"> 
-<a href="">
-          <img
-            src=""
-            alt=""
-            height="40"
-          >
-        </a>
-</td>
-     <td align="center" valign="middle"> 
-<a href="">
-          <img
-            src=""
-            alt=""
-            height="40"
-          >
-        </a>
-</td>
-    <td align="center" valign="middle"> 
-<a href="">
-          <img
-            src=""
-            alt=""
-            height="40"
-          >
-        </a>
-</td>
-   <td align="center" valign="middle"> 
-<a href="">
-          <img
-            src=""
-            alt=""
-            height="40"
-          >
-        </a>
-</td>
-    </tr>
   </tbody>
 </table> 
 
