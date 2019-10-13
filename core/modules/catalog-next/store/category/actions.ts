@@ -23,7 +23,7 @@ import omit from 'lodash-es/omit'
 import config from 'config'
 
 const actions: ActionTree<CategoryState, RootState> = {
-  async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category } = {}) {
+  async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category, pageSize = 50 } = {}) {
     const searchCategory = category || getters.getCategoryFrom(route.path) || {}
     const categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
     const areFiltersInQuery = !!Object.keys(route[products.routerFiltersSource]).length
@@ -36,7 +36,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       query: filterQr,
       sort: searchQuery.sort,
       includeFields: entities.productList.includeFields,
-      excludeFields: entities.productList.excludeFields
+      excludeFields: entities.productList.excludeFields,
+      size: pageSize
     })
     await dispatch('loadAvailableFiltersFrom', {aggregations, category: searchCategory, filters: searchQuery.filters})
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
