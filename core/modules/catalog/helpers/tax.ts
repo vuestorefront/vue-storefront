@@ -32,6 +32,12 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
   product.priceTax = priceExclTax * rateFactor
   product.priceInclTax = priceExclTax + product.priceTax
 
+  if (!product.original_price) {
+    product.original_price = priceExclTax
+    product.original_price_incl_tax = product.price_incl_tax
+    product.original_price_tax = product.price_tax
+  }
+
   let specialPriceExclTax = product.special_price
   if (sourcePriceInclTax) {
     specialPriceExclTax = product.special_price / (1 + rateFactor)
@@ -41,7 +47,7 @@ export function updateProductPrices (product, rate, sourcePriceInclTax = false) 
   product.specialPriceTax = specialPriceExclTax * rateFactor
   product.specialPriceInclTax = specialPriceExclTax + product.specialPriceTax
 
-  if (product.special_price && (product.special_price < product.price)) {
+  if (product.special_price && (product.special_price < product.original_price)) {
     if (!isSpecialPriceActive(product.special_from_date, product.special_to_date)) {
       product.special_price = 0 // out of the dates period
     } else {

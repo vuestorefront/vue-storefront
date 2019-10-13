@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
+const ms = require('ms')
 const compile = require('lodash.template')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
@@ -104,8 +105,15 @@ function invalidateCache (req, res) {
 }
 
 const serve = (path, cache, options) => express.static(resolve(path), Object.assign({
-  maxAge: cache && isProd ? 2592000000 : 0, // 1 month in milliseconds = 1000 * 60 * 60 * 24 * 30 = 2592000000
-  fallthrough: false
+  fallthrough: false,
+  setHeaders: cache && isProd ? function (res, path) {
+    const mimeType = express.static.mime.lookup(path);
+    let maxAge = config.expireHeaders.default;
+    if (config.expireHeaders.hasOwnProperty(mimeType)) {
+      maxAge = config.expireHeaders.get(mimeType);
+    }
+    res.setHeader('Cache-Control', 'public, max-age=' + ms(maxAge));
+  } : null
 }, options))
 
 const themeRoot = require('../build/theme-path')

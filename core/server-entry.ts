@@ -2,7 +2,7 @@ import union from 'lodash-es/union'
 
 import { createApp } from '@vue-storefront/core/app'
 import { HttpError } from '@vue-storefront/core/helpers/exceptions'
-import { storeCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 import omit from 'lodash-es/omit'
 import pick from 'lodash-es/pick'
 import buildTimeConfig from 'config'

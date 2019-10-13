@@ -17,7 +17,7 @@ export class SearchAdapter {
    * @param {Request} Request request object
    * @return {Promise}
   */
-  public search (Request) {
+  public async search (Request) {
     if (!(Request.searchQuery instanceof SearchQuery)) {
       throw new Error('SearchQuery instance has wrong class required to process with graphQl request.')
     }
@@ -26,7 +26,7 @@ export class SearchAdapter {
       throw new Error('No entity type registered for ' + Request.type)
     }
 
-    const storeView = (Request.store === null) ? currentStoreView() : prepareStoreView(Request.store)
+    const storeView = (Request.store === null) ? currentStoreView() : await prepareStoreView(Request.store)
     if (storeView.storeCode === undefined || storeView.storeCode == null || !Request.type) {
       throw new Error('Store and SearchRequest.type are required arguments for executing Graphql query')
     }
@@ -59,6 +59,9 @@ export class SearchAdapter {
     })
       .then(resp => {
         return resp.json()
+      })
+      .catch(error => {
+        throw new Error('FetchError in request to ES: ' + error.toString())
       })
   }
 
