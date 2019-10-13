@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Added try/catch for fetching single product in cart synchronization - @gibkigonzo (#3632)
+- Fixed evaluate detailsLink in the cookie notification - @benjick (#3689)
 
 ## [1.10.3] - 2019.09.18
 
