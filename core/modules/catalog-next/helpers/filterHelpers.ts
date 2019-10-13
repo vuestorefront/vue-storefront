@@ -1,6 +1,7 @@
-import FilterVariant from 'core/modules/catalog-next/types/FilterVariant';
+import config from 'config'
+import FilterVariant from 'core/modules/catalog-next/types/FilterVariant'
 
-export const getSystemFilterNames: string[] = ['sort']
+export const getSystemFilterNames: string[] = config.products.systemFilterNames
 
 /**
  * Creates new filtersQuery (based on currentQuery) by modifying specific filter variant.
