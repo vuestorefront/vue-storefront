@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reset nested menu after logout - @gibkigonzo (#3680)
 - Fixed handling checkbox custom option -  @gibkigonzo (#2781)
 - Added unit tests for `core/modules/mailer` - @krskibin (#3710)
+- Get payment methods with billing address data - @rain2o (#2878)
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
