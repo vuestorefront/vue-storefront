@@ -171,7 +171,7 @@
             v-model="payment.country"
             autocomplete="country-name"
             @blur="$v.payment.country.$touch()"
-            @change="$v.payment.country.$touch()"
+            @change="$v.payment.country.$touch(); changeCountry();"
           />
 
           <base-input

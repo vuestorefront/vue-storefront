@@ -47,7 +47,8 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async loadMoreCategoryProducts ({ commit, getters, rootState, dispatch }) {
     const { perPage, start, total } = getters.getCategorySearchProductsStats
-    if (start >= total || total < perPage) return
+    const totalValue = typeof total === 'object' ? total.value : total
+    if (start >= totalValue || totalValue < perPage) return
 
     const searchQuery = getters.getCurrentSearchQuery
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
