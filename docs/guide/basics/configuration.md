@@ -497,7 +497,7 @@ This is the `vue-storefront-api` endpoint for rendering product lists.
 Here, we have the sort field settings as they're displayed on the Category page.
 
 ```json
-  "systemFilterNames": ["sort", "pagesize"],
+  "systemFilterNames": ["sort"],
 ```
 
 This is an array of query-fields which won't be treated as filter fields when in URL.
