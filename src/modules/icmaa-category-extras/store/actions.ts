@@ -66,7 +66,7 @@ const actions: ActionTree<CategoryExtrasState, RootState> = {
 
     context.commit(types.ICMAA_CATEGORY_EXTRAS_CHILDCATEGORIES_ADD, childrenArray)
   },
-  loadDepartmentLogos: async (context, parentId: number[]): Promise<void> => {
+  loadDepartmentLogos: async (context): Promise<void> => {
     const cacheKey = storageKey + '/department-logos'
 
     const cacheItem = await cache.getItem(cacheKey)
