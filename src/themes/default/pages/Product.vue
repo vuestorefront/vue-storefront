@@ -202,7 +202,6 @@
 </template>
 
 <script>
-import { minValue, maxValue, numeric } from 'vuelidate/lib/validators'
 import i18n from '@vue-storefront/i18n'
 import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
