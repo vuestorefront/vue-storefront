@@ -25,6 +25,7 @@
 "No products synchronized for this category. Please come back while online!","没有为此类别的商品。 请等商品上线后再来看看!"
 "No such configuration for the product. Please do choose another combination of attributes.","没有这样的商品配置。 请选择其他属性组合."
 "OK","确定"
+"Only","Only"
 "Out of stock!","缺库存!"
 "Payment Information","付款信息"
 "Please configure product bundle options and fix the validation errors","请配置商品属性选项并修复验证错误"
@@ -68,4 +69,5 @@
 "most you may purchase","你最多可以买"
 "not authorized","没有权限"
 "password","密码"
+"products of this type are available!","products of this type are available!"
 "to account","我的账户"

@@ -5,9 +5,7 @@ import get from 'lodash-es/get'
 export default {
   name: 'EditMode',
   computed: {
-    ...mapGetters('themeCart', ['isEditMode', 'getEditingProductId', 'getSelectedOptions', 'getEditingQty']),
-    editedProduct () {
-    }
+    ...mapGetters('themeCart', ['isEditMode', 'getEditingProductId', 'getSelectedOptions', 'getEditingQty'])
   },
   methods: {
     openEditMode () {

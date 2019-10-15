@@ -255,7 +255,7 @@ export default {
         const validProduct = product || this.product
         const res = await this.$store.dispatch('stock/check', {
           product: validProduct,
-          qty: validProduct.qty
+          qty: this.productQty
         })
         return res.qty
       } finally {
@@ -268,10 +268,7 @@ export default {
     async changeEditModeFilter (filter) {
       const editedProduct = this.getEditedProduct(filter)
       const maxQuantity = await this.getQuantity(editedProduct)
-      if (maxQuantity) {
-        this.maxQuantity = maxQuantity
-        this.editModeSetFilters(filter)
-      } else {
+      if (!maxQuantity) {
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: this.$t(
@@ -279,6 +276,15 @@ export default {
           ),
           action1: { label: this.$t('OK') }
         })
+      } else if (maxQuantity < this.productQty) {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Only') + ` ${maxQuantity} ` + this.$t('products of this type are available!'),
+          action1: { label: this.$t('OK') }
+        })
+      } else {
+        this.maxQuantity = maxQuantity
+        this.editModeSetFilters(filter)
       }
     }
   },

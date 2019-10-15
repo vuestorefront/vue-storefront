@@ -20,6 +20,7 @@
 "No products synchronized for this category. Please come back while online!","Aucun produit synchronisé dans cette catégorie. Merci de passer en ligne !"
 "No such configuration for the product. Please do choose another combination of attributes.","Aucune configuration de ce type pour le produit. Veuillez choisir une autre combinaison d'attributs."
 "OK","OK"
+"Only","Only"
 "Out of stock!","Rupture de stock !"
 "Out of the stock!","Épuisé !"
 "Please configure product custom options and fix the validation errors","Veuillez configurer les options du produit et corriger les erreurs de validation"
@@ -50,3 +51,4 @@
 "You submitted your review for moderation.","You submitted your review for moderation."
 "You're logged out","Vous êtes déconnecté"
 "not authorized","pas autorisé"
+"products of this type are available!","products of this type are available!"

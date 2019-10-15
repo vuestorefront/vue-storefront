@@ -26,6 +26,7 @@
 "No products synchronized for this category. Please come back while online!","V této kategorii nemáte žádné synchronizované produkty. Zkuste prosím znovu až budete online!"
 "No such configuration for the product. Please do choose another combination of attributes.","Neexistuje žádná taková konfigurace pro daný výrobek. Vyberte prosím jinou kombinaci vlastností."
 "OK","OK"
+"Only","Only"
 "Out of stock!","Vyprodáno!"
 "Out of the stock!","Není skladem!"
 "Payment Information","Informace o platbě"
@@ -67,4 +68,5 @@
 "most you may purchase","nejvíce co si můžete koupit"
 "not authorized","neautorizováno"
 "password","heslo"
+"products of this type are available!","products of this type are available!"
 "to account","na účet"
