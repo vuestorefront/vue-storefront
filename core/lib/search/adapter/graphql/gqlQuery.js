@@ -45,7 +45,11 @@ export function prepareQueryVars (Request) {
 
   if (Request.sort !== '') {
     const sortParse = Request.sort.split(':')
-    queryVariables.sort[sortParse[0]] = sortParse[1].toUpperCase()
+    if (sortParse[1] !== undefined) {
+      queryVariables.sort[sortParse[0]] = sortParse[1].toUpperCase()
+    } else {
+      queryVariables.sort[sortParse[0]] = 'ASC'
+    }
   }
 
   queryVariables.pageSize = Request.size
