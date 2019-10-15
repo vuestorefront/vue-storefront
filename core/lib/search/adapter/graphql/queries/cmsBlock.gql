@@ -5,6 +5,7 @@ query cmsBlocks ($filter: CmsInput) {
   {
     items {
       title
+      id
       identifier
       content
       creation_time
