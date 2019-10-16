@@ -48,7 +48,11 @@ export function prepareQueryVars (Request) {
     if (sortParse[1] !== undefined) {
       queryVariables.sort[sortParse[0]] = sortParse[1].toUpperCase()
     } else {
-      queryVariables.sort[sortParse[0]] = 'ASC'
+      if (sortParse[0] === '_score') {
+        queryVariables.sort[sortParse[0]] = 'DESC'
+      } else {
+        queryVariables.sort[sortParse[0]] = 'ASC'
+      }
     }
   }
 
