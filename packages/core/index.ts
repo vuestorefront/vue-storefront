@@ -1,11 +1,11 @@
 export interface UseProduct
 <
   PRODUCT, 
-  CONFIGURATION, 
+  CURRENT_CONFIGURATION, 
   CONFIGURE,
 > {
   product: PRODUCT;
-  configuration: CONFIGURATION;
+  currentConfiguration: CURRENT_CONFIGURATION;
   configure: CONFIGURE;
 }
 
