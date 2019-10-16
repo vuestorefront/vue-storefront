@@ -7,7 +7,7 @@ WORKDIR /var/www
 COPY package.json ./
 COPY yarn.lock ./
 
-RUN apk add --no-cache --virtual .build-deps ca-certificates wget git \
+RUN apk add --no-cache --virtual .build-deps ca-certificates wget git python make g++ \
   && yarn install --no-cache \
   && apk del .build-deps
 
