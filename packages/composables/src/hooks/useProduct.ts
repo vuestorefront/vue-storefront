@@ -1,7 +1,11 @@
-import { ref } from '@vue/composition-api'
+import { ref, Ref } from '@vue/composition-api'
 import { UseProduct } from '@vue-storefront/core'
 
-export function useProduct (): UseProduct<string, string, () => void> {
+type Product = Ref<string>
+type Configuration = Ref<string>
+type Configure = () => void
+
+export function useProduct (): UseProduct<Product, Configuration, Configure> {
   const product = ref('productFromHook')
   const configuration = ref('configurationFromHook')
 
