@@ -2,10 +2,13 @@
   "name": "@vue-storefront/composables",
   "version": "0.1.0",
   "private": true,
-  "main": "./dist/@vue-storefront/composables.common.js",
+  "main": "./dist/composables.common.js",
+  "typings": "src/main.d.ts",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --target lib src/main.ts",
+    "build": "vue-cli-service build --modern --target lib --name composables  src/main.ts ",
+    "build:analyze": "env BUNDLE_ANALYZER=true vue-cli-service build --target lib --name composables --modern src/main.ts",
+    "build:watch": "vue-cli-service build --target lib --name composables  --modern --watch src/main.ts",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },

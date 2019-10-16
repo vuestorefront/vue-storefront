@@ -12,7 +12,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "@vue-storefront/composables": "^0.1.0"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.27",

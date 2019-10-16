@@ -7,6 +7,8 @@
     "importHelpers": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "declaration": true,
+    "declarationDir": "./dist",
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
@@ -31,7 +33,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx", "raw.ts"
   ],
   "exclude": [
     "node_modules"

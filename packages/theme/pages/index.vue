@@ -30,6 +30,7 @@
 
 <script>
 import Logo from '~/components/Logo.vue'
+import { useProduct } from '@vue-storefront/composables'
 
 export default {
   components: {
