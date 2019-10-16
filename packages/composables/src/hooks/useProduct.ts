@@ -7,15 +7,15 @@ type Configure = () => void
 
 export function useProduct (): UseProduct<Product, Configuration, Configure> {
   const product = ref('productFromHook')
-  const configuration = ref('configurationFromHook')
+  const currentConfiguration = ref('configurationFromHook')
 
   const configure = () => { 
-    configuration.value = 'updatedConfigurationFromHook' 
+    currentConfiguration.value = 'updatedConfigurationFromHook' 
   }
 
   return {
     product,
-    configuration,
+    currentConfiguration,
     configure
   }
 }

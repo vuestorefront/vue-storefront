@@ -2,9 +2,10 @@
   "name": "@vue-storefront/composables",
   "version": "0.1.0",
   "private": true,
+  "main": "./dist/@vue-storefront/composables.common.js",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --target lib src/main.ts",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },

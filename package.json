@@ -7,6 +7,7 @@
     "build": "yarn build:core && yarn build:composables"
   },
   "devDependencies": {
-    "lerna": "^3.15.0"
+    "lerna": "^3.15.0",
+    "webpack-bundle-analyzer": "^3.5.2"
   }
 }
