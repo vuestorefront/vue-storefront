@@ -15,7 +15,7 @@ export default {
   loading: { color: '#fff' },
   css: [],
   plugins: [
-    '@vue/composition-api'
+    '~/plugins/composition-api.js'
   ],
   buildModules: [
     '@nuxt/typescript-build'

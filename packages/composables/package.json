@@ -13,7 +13,6 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@vue/composition-api": "^0.3.2",
     "core-js": "^2.6.5",
     "vue": "^2.6.10"
   },
@@ -38,6 +37,10 @@
     "typescript": "^3.4.3",
     "vue-template-compiler": "^2.6.10",
     "@vue-storefront/core": "2.0.0"
+  },
+  "peerDependencies": {
+    "@vue/composition-api": "^0.3.2",
+    "vue": "^2.6.10"
   },
   "browserslist": [
     "> 1%",
