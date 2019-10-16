@@ -29,24 +29,18 @@ export default {
   */
   plugins: [
   ],
-  /*
-  ** Nuxt.js dev-modules
-  */
   buildModules: [
+    '@nuxt/typescript-build'
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
   ],
-  /*
-  ** Build configuration
-  */
-  build: {
-    /*
-    ** You can extend webpack config here
-    */
-    extend (config, ctx) {
-    }
-  }
+ build: {
+  extend: function (config) {
+    config.resolve.alias['@vue-storefront/composables'] = '@vue-storefront/composables/raw.ts'
+  },
+  transpile: ['@vue-storefront/composables']
+}
 }
