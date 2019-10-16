@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    Hello
+    Product: {{ product }}<br />
+    Configuration: {{ configuration }}<br />
+    <button @click="configure()">Configure product</button>
   </div>
 </template>
 
@@ -8,13 +10,16 @@
 import Vue from 'vue';
 import { createComponent, ref } from '@vue/composition-api'
 import { useProduct } from './hooks/useProduct'
+
 export default createComponent({
   name: 'app',
   setup () {
     const { product, configuration, configure } = useProduct()
 
     return {
-      configuration
+      product,
+      configuration,
+      configure
     }
   }
 })
