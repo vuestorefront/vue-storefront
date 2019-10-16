@@ -1,0 +1,11 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "build:core": "cd packages/core && tsc",
+    "build": "yarn build:core"
+  },
+  "devDependencies": {
+    "lerna": "^3.15.0"
+  }
+}
