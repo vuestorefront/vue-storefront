@@ -1,5 +1,5 @@
-import store from '@vue-storefront/core/store'
-const config = store.state.config
+import config from 'config'
+
 // deprecated, use vuex store instead
 const ConfigPlugin = {
   install (Vue) {

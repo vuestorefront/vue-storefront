@@ -5,7 +5,7 @@ export const ProductVideo = {
       type: String,
       required: true
     },
-    id: {
+    video_id: {
       type: String,
       required: true
     },
@@ -37,12 +37,11 @@ export const ProductVideo = {
   computed: {
     embedUrl () {
       switch (this.type) {
-        case "youtube":
-          return `https://www.youtube.com/embed/${this.id}?autoplay=1`
-        case "vimeo":
-          return `https://player.vimeo.com/video/${this.id}?autoplay=1`
+        case 'youtube':
+          return `https://www.youtube.com/embed/${this.video_id}?autoplay=1`
+        case 'vimeo':
+          return `https://player.vimeo.com/video/${this.video_id}?autoplay=1`
         default:
-          return
       }
     }
   }

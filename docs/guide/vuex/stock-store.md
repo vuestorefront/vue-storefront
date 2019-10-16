@@ -1,16 +1,17 @@
 # Stock Vuex Store
 
-Stock Store is designed to handle stock quantity checks.
+Stock Store is designed to handle stock-quantity checks.
 
 ## Events
 
 The following events are published from `stock` store:
 
-- `stock-after-check` - emitted just after the stock item has been received from eCommerce backend / Magento
+- `stock-after-check` - Emitted just after the stock item has been received from eCommerce backend / Magento.
+
 
 ## Actions
 
-The cart store provides following public actions:
+The cart store provides the following public actions:
 
 ### `check (context, { product, qty = 1 })`
 

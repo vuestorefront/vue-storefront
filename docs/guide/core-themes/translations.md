@@ -6,7 +6,7 @@ Please be aware of i18n issues while writing your own themes/extensions and keep
 
 ## Using i18n in code
 
-When you're working with plain JS module you can simply use the translation helper:
+When you're working with a plain JS module, you can simply use the translation helper:
 
 ```js
 import i18n from '@vue-storefront/i18n';
@@ -25,11 +25,11 @@ If you're working with `.vue` components the matter is even simpler with Vue dir
     </span>
 ```
 
-For all helper methods and directives along with available parameters please do check the [vue-i18n documentation](http://kazupon.github.io/vue-i18n/introduction.html).
+For all helper methods and directives, along with available parameters, please do check the [vue-i18n documentation](http://kazupon.github.io/vue-i18n/introduction.html).
 
 ## Working with translations
 
-Translations are provided in `i18n/resource/i18n/en-US.csv` file and can be extended / overridden in `theme/resource/i18n/en-US.csv` accordingly.
+Translations are provided in `core/i18n/resource/i18n/en-US.csv` file and can be extended / overridden in `src/themes/{themename}/resource/i18n/en-US.csv` accordingly.
 
 Here's an example of `en-US.csv` for `en-US` locale:
 
@@ -45,7 +45,7 @@ Here's an example of `en-US.csv` for `en-US` locale:
 "Vue Storefront Logo", "Vue Storefront Logo"
 ```
 
-when you create the `en-US.csv` file within your `theme/resource/i18n/` folder and override some messages like:
+When you create the `en-US.csv` file within your `src/themes/{themename}/resource/i18n/` folder and override some messages like:
 
 ```csv
 "customMessage","You can define or override translation messages here."

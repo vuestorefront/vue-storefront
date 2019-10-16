@@ -50,4 +50,3 @@ const routes = [
 ```
 Complete examples of usage and implementation you can find in Default theme:
 1. `/cms-page-sync`, `src/themes/default/router/index.js`
-2. `/custom-cms-page`, `src/themes/default/router/index.js`, `src/themes/default/pages/CustomCmsPage.vue`

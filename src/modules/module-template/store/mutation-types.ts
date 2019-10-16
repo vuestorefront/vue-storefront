@@ -1,2 +1,2 @@
-export const SET_USERS = 'SET_USERS'
-export const ADD_USER = 'SET_USER'
+export const SET_USERS = 'TEMPLATE/SET_USERS'
+export const ADD_USER = 'TEMPLATE/SET_USER'

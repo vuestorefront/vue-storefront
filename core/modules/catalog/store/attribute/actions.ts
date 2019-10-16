@@ -4,7 +4,7 @@ import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import AttributeState from '../../types/AttributeState'
 import RootState from '@vue-storefront/core/types/RootState'
 import { ActionTree } from 'vuex'
-import rootStore from '@vue-storefront/core/store'
+import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<AttributeState, RootState> = {
@@ -13,7 +13,7 @@ const actions: ActionTree<AttributeState, RootState> = {
    * @param {Object} context
    * @param {Array} attrCodes attribute codes to load
    */
-  list (context, { filterValues = null, filterField = 'attribute_code', only_user_defined = false, only_visible = false, size = 150, start = 0, includeFields = rootStore.state.config.entities.optimize ? rootStore.state.config.entities.attribute.includeFields : null }) {
+  list (context, { filterValues = null, filterField = 'attribute_code', only_user_defined = false, only_visible = false, size = 150, start = 0, includeFields = config.entities.optimize ? config.entities.attribute.includeFields : null }) {
     const commit = context.commit
 
     let searchQuery = new SearchQuery()
@@ -25,7 +25,7 @@ const actions: ActionTree<AttributeState, RootState> = {
         if (filterField === 'attribute_code') return (typeof context.state.list_by_code[fv] === 'undefined' || context.state.list_by_code[fv] === null)
       })
       if (!filterValues || filterValues.length === 0) {
-        Logger.info('Skipping attribute load - attributes already loaded', 'attr', { orgFilterValues, filterField})()
+        Logger.info('Skipping attribute load - attributes already loaded', 'attr', { orgFilterValues, filterField })()
         return Promise.resolve({
           items: Object.values(context.state.list_by_code)
         })

@@ -1,13 +1,13 @@
 # GraphQL Action Plan
 
-Starting with Vue Storefront 1.4.0 (currently on develop branch) we're supporting two ways of getting data from the backend:
+Starting with Vue Storefront 1.4.0, we're supporting two ways of getting data from the backend:
 
-- existing `api` mode - which is using ElasticSearch DSL as a query language,
-- new `graphql` mode - which is using GraphQL queries.
+- existing `api` mode, which is using ElasticSearch DSL as a query language
+- new `graphql` mode, which is using GraphQL queries.
 
-You can set the desired API format in the `config/local.json` - and `vue-storefront-api` is supporting both of them, however [the default is still set to `api`](https://github.com/DivanteLtd/vue-storefront/blob/4cbf866ca93f917b04461d3ae139a2d26ddf552a/config/default.json#L6).
+You can set the desired API format in the `config/local.json` and `vue-storefront-api` is supporting both of them, however [the default is still set to `api`](https://github.com/DivanteLtd/vue-storefront/blob/4cbf866ca93f917b04461d3ae139a2d26ddf552a/config/default.json#L6).
 
-We've introduced an abstract [`SearchQuery`](https://github.com/DivanteLtd/vue-storefront/tree/develop/core/store/lib/search) interface with switchable Query Adapters to provide the abstraction layer. This is ultra cool feature especially when you're integrating Vue Storefront with custom backend application: you're able [to create your own adapter](https://github.com/DivanteLtd/vue-storefront/tree/develop/core/lib/search/adapter) to customize the way data is gathered from the backend.
+We've introduced an abstract [`SearchQuery`](https://github.com/DivanteLtd/vue-storefront/tree/develop/core/store/lib/search) interface with switchable Query Adapters to provide the abstraction layer. This is an ultra-cool feature, especially when you're integrating Vue Storefront with a custom backend application—you're able [to create your own adapter](https://github.com/DivanteLtd/vue-storefront/tree/develop/core/lib/search/adapter) to customize the way data is gathered from the backend.
 
 From now on the **bodybuilder** package is **deprecated** and you should start using the `SearchQuery` interface to build the search queries that will be translated to GraphQL / API queries.
 
@@ -58,7 +58,7 @@ this.$store
 
 [More information on how to query the data](https://github.com/DivanteLtd/vue-storefront/blob/develop/docs/guide/data/elastic-queries.md).
 
-**bodybuilder** queries are still supported by our backward-compatibility mode so if you've used bodybuilder in your theme, it's fine as long as you're using the `api` mode for the backend queries.
+**Bodybuilder**  queries are still supported by our backward-compatibility mode, so if you've used bodybuilder in your theme, it's fine as long as you're using the `api` mode for the backend queries.
 
 The **legacy queries** using bodybuilder will still work - and [here is an example](https://github.com/pkarw/vue-storefront/blob/28feb8e5dc30ec216353ef87a859212379901c57/src/extensions/template/index.js#L36).
 

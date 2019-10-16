@@ -53,6 +53,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~theme/css/variables/colors";
+$break-large: 1030px;
 
 .categories {
   &__heading {
@@ -72,7 +73,6 @@ export default {
     border: 2px solid #333;
     transition: all 0.2s ease;
 
-    &:hover,
     &--active {
       background: #333;
       color: #fff;
@@ -81,11 +81,18 @@ export default {
     &--active {
       text-decoration: underline;
     }
+    @media screen and (min-width: $break-large) {
+      &:hover{
+        background: #333;
+        color: #fff;
+      }
+    }
   }
 
   &__button-text {
     display: block;
     margin-right: 15px;
   }
+
 }
 </style>

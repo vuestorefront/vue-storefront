@@ -2,9 +2,12 @@
   <div class="mb35">
     <!-- My order header -->
     <div class="row mb15">
-      <div class="col-xs-12 col-sm-6">
-        <h3 class="m0 mb5">
-          {{ $t('Order #') }}{{ order.entity_id }}
+      <div class="col-xs-12 col-md-2 col-lg-1">
+        <return-icon class="p12 icon pointer" />
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <h3 class="m0 mb5 mt5">
+          {{ $t('Order #') }}{{ order.increment_id }}
           <span class="brdr-1 brdr-cl-bg-secondary py5 px10 ml20 sans-serif fs-medium-small weight-400 cl-secondary">
             {{ order.status | capitalize }}
           </span>
@@ -14,8 +17,10 @@
     <!-- My order body -->
     <div class="row fs16 mb20">
       <div class="col-xs-12 h4">
-        <p>{{ order.created_at | date('MMMM D, YYYY') }}</p>
-        <p class="mt35"><a href="#" class="underline" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a></p>
+        <p>{{ order.created_at | date('LLL') }}</p>
+        <p class="mt35">
+          <a href="#" class="underline" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a>
+        </p>
       </div>
     </div>
     <div class="row fs16 mb35">
@@ -24,41 +29,71 @@
         <table class="brdr-1 brdr-cl-bg-secondary">
           <thead>
             <tr>
-              <th class="serif lh20">{{ $t('Product Name') }}</th>
-              <th class="serif lh20">{{ $t('SKU') }}</th>
-              <th class="serif lh20">{{ $t('Price') }}</th>
-              <th class="serif lh20">{{ $t('Qty') }}</th>
-              <th class="serif lh20">{{ $t('Subtotal') }}</th>
+              <th class="serif lh20">
+                {{ $t('Product Name') }}
+              </th>
+              <th class="serif lh20">
+                {{ $t('SKU') }}
+              </th>
+              <th class="serif lh20">
+                {{ $t('Price') }}
+              </th>
+              <th class="serif lh20">
+                {{ $t('Qty') }}
+              </th>
+              <th class="serif lh20">
+                {{ $t('Subtotal') }}
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="item in skipGrouped(order.items)" :key="item.item_id">
-              <td class="fs-medium lh25" :data-th="$t('Product Name')">{{ item.name }}</td>
-              <td class="fs-medium lh25" :data-th="$t('SKU')">{{ item.sku }}</td>
-              <td class="fs-medium lh25" :data-th="$t('Price')">{{ item.price_incl_tax | price }}</td>
-              <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">{{ item.qty_ordered }}</td>
-              <td class="fs-medium lh25" :data-th="$t('Subtotal')">{{ item.row_total_incl_tax | price }}</td>
+              <td class="fs-medium lh25" :data-th="$t('Product Name')">
+                {{ item.name }}
+              </td>
+              <td class="fs-medium lh25" :data-th="$t('SKU')">
+                {{ item.sku }}
+              </td>
+              <td class="fs-medium lh25" :data-th="$t('Price')">
+                {{ item.price_incl_tax | price }}
+              </td>
+              <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">
+                {{ item.qty_ordered }}
+              </td>
+              <td class="fs-medium lh25" :data-th="$t('Subtotal')">
+                {{ item.row_total_incl_tax | price }}
+              </td>
             </tr>
           </tbody>
           <tfoot>
             <tr class="brdr-top-1 brdr-cl-bg-secondary">
-              <td colspan="4" class="align-right">{{ $t('Subtotal') }}</td>
+              <td colspan="4" class="align-right">
+                {{ $t('Subtotal') }}
+              </td>
               <td>{{ order.subtotal | price }}</td>
             </tr>
             <tr>
-              <td colspan="4" class="align-right">{{ $t('Shipping') }}</td>
+              <td colspan="4" class="align-right">
+                {{ $t('Shipping') }}
+              </td>
               <td>{{ order.shipping_amount | price }}</td>
             </tr>
             <tr>
-              <td colspan="4" class="align-right">{{ $t('Tax') }}</td>
+              <td colspan="4" class="align-right">
+                {{ $t('Tax') }}
+              </td>
               <td>{{ order.tax_amount + order.discount_tax_compensation_amount | price }}</td>
             </tr>
             <tr v-if="order.discount_amount">
-              <td colspan="4" class="align-right">{{ $t('Discount') }}</td>
+              <td colspan="4" class="align-right">
+                {{ $t('Discount') }}
+              </td>
               <td>{{ order.discount_amount | price }}</td>
             </tr>
             <tr>
-              <td colspan="4" class="align-right">{{ $t('Grand total') }}</td>
+              <td colspan="4" class="align-right">
+                {{ $t('Grand total') }}
+              </td>
               <td>{{ order.grand_total | price }}</td>
             </tr>
           </tfoot>
@@ -103,9 +138,13 @@
 
 <script>
 import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
+import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
 
 export default {
-  mixins: [MyOrder]
+  mixins: [MyOrder],
+  components: {
+    ReturnIcon
+  }
 }
 </script>
 

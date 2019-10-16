@@ -11,7 +11,7 @@ export const Checkout = createModule({
   store: { modules: [
     { key: 'shipping', module: shippingModule },
     { key: 'payment', module: paymentModule },
-    { key: 'checkout', module: checkoutModule },
+    { key: 'checkout', module: checkoutModule }
   ] },
   beforeRegistration,
   afterRegistration

@@ -1,12 +1,12 @@
 import { Module } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import ShippingState from '../../types/ShippingState'
-import buildTimeConfig from 'config'
+import config from 'config'
 
 export const shippingModule: Module<ShippingState, RootState> = {
   namespaced: true,
   state: {
-    methods: buildTimeConfig.shipping.methods
+    methods: config.shipping.methods
   },
   mutations: {
     addMethod (state, shippingMethods) {

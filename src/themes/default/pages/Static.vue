@@ -3,7 +3,9 @@
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
         <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
-        <h2 class="fs-big"> {{ $props.title }}</h2>
+        <h2 class="fs-big">
+          {{ $props.title }}
+        </h2>
       </div>
     </div>
 
@@ -12,8 +14,10 @@
         <div class="col-sm-3">
           <nav class="static-menu serif h4 mb35">
             <ul class="m0 p0">
-              <li class="mb10" v-for="page in navigation" :key="page.id">
-                <router-link :to="localizedRoute(page.link)" class="cl-accent relative">{{ page.title }}</router-link>
+              <li class="mb10" v-for="element in navigation" :key="element.id">
+                <router-link :to="localizedRoute(element.link)" class="cl-accent relative">
+                  {{ element.title }}
+                </router-link>
               </li>
             </ul>
           </nav>

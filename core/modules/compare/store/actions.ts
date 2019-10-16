@@ -15,7 +15,7 @@ const actions: ActionTree<CompareState, RootState> = {
     cacheStorage.getItem('current-compare', (err, storedItems) => {
       if (err) throw new Error(err)
       commit(types.COMPARE_LOAD_COMPARE, storedItems)
-      Logger.info('Compare state loaded from browser cache: ',  'cache', storedItems)()
+      Logger.info('Compare state loaded from browser cache: ', 'cache', storedItems)()
     })
   },
   addItem ({commit}, product) {
@@ -33,6 +33,9 @@ const actions: ActionTree<CompareState, RootState> = {
       message: i18n.t('Product {productName} has been removed from compare!', { productName: htmlDecode(product.name) }),
       action1: { label: i18n.t('OK') }
     })
+  },
+  clear ({commit}) {
+    commit(types.COMPARE_LOAD_COMPARE, [])
   }
 }
 

@@ -1,4 +1,5 @@
 import { setupMultistoreRoutes } from '@vue-storefront/core/lib/multistore'
+import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import config from 'config'
 import routes from './router'
 
@@ -8,5 +9,5 @@ export default function (app, router, store) {
   // To do so please execlude the desired storeView from the config.storeViews.mapStoreUrlsFor and map the urls by Your own like:
   // { name: 'de-checkout', path: '/checkout', component: CheckoutCustomized },
   setupMultistoreRoutes(config, router, routes)
-  router.addRoutes(routes)
+  RouterManager.addRoutes(routes, router)
 }

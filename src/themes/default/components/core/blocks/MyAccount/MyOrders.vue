@@ -14,23 +14,49 @@
         <table class="brdr-1 brdr-cl-bg-secondary">
           <thead>
             <tr>
-              <th class="p20 serif lh20">{{ $t('Order ID') }}</th>
-              <th class="p20 serif lh20 hide-on-xs">{{ $t('Date and time') }}</th>
-              <th class="p20 serif lh20 hide-on-xs">{{ $t('Author') }}</th>
-              <th class="p20 serif lh20 hide-on-xs">{{ $t('Value') }}</th>
-              <th class="p20 serif lh20 hide-on-xs">{{ $t('Type') }}</th>
-              <th class="p20 serif lh20 hide-on-xs">{{ $t('Status') }}</th>
-              <th class="p20 serif lh20">&nbsp;</th>
+              <th class="p20 serif lh20">
+                {{ $t('Order ID') }}
+              </th>
+              <th class="p20 serif lh20 hide-on-xs">
+                {{ $t('Date and time') }}
+              </th>
+              <th class="p20 serif lh20 hide-on-xs">
+                {{ $t('Author') }}
+              </th>
+              <th class="p20 serif lh20 hide-on-xs">
+                {{ $t('Value') }}
+              </th>
+              <th class="p20 serif lh20 hide-on-xs">
+                {{ $t('Type') }}
+              </th>
+              <th class="p20 serif lh20 hide-on-xs">
+                {{ $t('Status') }}
+              </th>
+              <th class="p20 serif lh20">
+&nbsp;
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="order in ordersHistory" :key="order.entity_id">
-              <td class="fs-medium lh25">{{ order.entity_id }}</td>
-              <td class="fs-medium lh25 hide-on-xs">{{ order.created_at | date }}</td>
-              <td class="fs-medium lh25 hide-on-xs">{{ order.customer_firstname }} {{ order.customer_lastname }}</td>
-              <td class="fs-medium lh25 hide-on-xs">{{ order.grand_total | price }}</td>
-              <td class="fs-medium lh25 hide-on-xs">{{ $t('Purchase') }}</td>
-              <td class="fs-medium lh25 hide-on-xs">{{ order.status | capitalize }}</td>
+              <td class="fs-medium lh25">
+                #{{ order.increment_id }}
+              </td>
+              <td class="fs-medium lh25 hide-on-xs">
+                {{ order.created_at | date }}
+              </td>
+              <td class="fs-medium lh25 hide-on-xs">
+                {{ order.customer_firstname }} {{ order.customer_lastname }}
+              </td>
+              <td class="fs-medium lh25 hide-on-xs">
+                {{ order.grand_total | price }}
+              </td>
+              <td class="fs-medium lh25 hide-on-xs">
+                {{ $t('Purchase') }}
+              </td>
+              <td class="fs-medium lh25 hide-on-xs">
+                {{ order.status | capitalize }}
+              </td>
               <td class="fs-medium lh25">
                 <span class="relative dropdown">
                   <i class="material-icons cl-secondary pointer">more_horiz</i>
@@ -50,15 +76,14 @@
         <p>{{ $t('No orders yet') }}</p>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import MyOrders from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrders'
+import UserOrder from 'src/modules/order-history/components/UserOrders'
 
 export default {
-  mixins: [MyOrders]
+  mixins: [UserOrder]
 }
 </script>
 

@@ -2,7 +2,7 @@ import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-export const OrderReview ={
+export const OrderReview = {
   name: 'OrderReview',
   props: {
     isActive: {
@@ -31,14 +31,14 @@ export const OrderReview ={
         this.$bus.$emit('checkout-before-placeOrder')
       }
     },
-    register () {
+    async register () {
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
       this.$store.dispatch('user/register', {
         email: this.$store.state.checkout.personalDetails.emailAddress,
         password: this.$store.state.checkout.personalDetails.password,
         firstname: this.$store.state.checkout.personalDetails.firstName,
         lastname: this.$store.state.checkout.personalDetails.lastName
-      }).then((result) => {
+      }).then(async (result) => {
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
           this.onFailure(result)
@@ -51,9 +51,10 @@ export const OrderReview ={
             this.$bus.$emit('checkout-after-validationError', 'email-address')
           }
         } else {
-          this.onSuccess()
           this.$bus.$emit('modal-hide', 'modal-signup')
+          await this.$store.dispatch('user/setCurrentUser', result.result) // set current user data to process it with the current order
           this.$bus.$emit('checkout-before-placeOrder', result.result.id)
+          this.onSuccess()
         }
       }).catch(err => {
         this.$bus.$emit('notification-progress-stop')

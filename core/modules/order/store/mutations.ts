@@ -3,7 +3,8 @@ import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import * as entities from '@vue-storefront/core/store/lib/entities'
 import OrderState from '../types/OrderState'
-import rootStore from '@vue-storefront/core/store'
+import { Order } from '../types/Order'
+import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const mutations: MutationTree<OrderState> = {
@@ -13,15 +14,11 @@ const mutations: MutationTree<OrderState> = {
    */
   [types.ORDER_PLACE_ORDER] (state, order) {
     const ordersCollection = Vue.prototype.$db.ordersCollection
-    const orderId = entities.uniqueEntityId(order) // timestamp as a order id is not the best we can do but it's enough
-    order.order_id = orderId.toString()
-    order.created_at = new Date()
-    order.updated_at = new Date()
-
-    ordersCollection.setItem(orderId.toString(), order, (err, resp) => {
+    const orderId = order.order_id ? order.order_id : entities.uniqueEntityId(order).toString()
+    ordersCollection.setItem(orderId, order, (err, resp) => {
       if (err) Logger.error(err, 'order')()
       if (!order.transmited) {
-        Vue.prototype.$bus.$emit('order/PROCESS_QUEUE', { config: rootStore.state.config }) // process checkout queue
+        Vue.prototype.$bus.$emit('order/PROCESS_QUEUE', { config: config }) // process checkout queue
       }
       Logger.info('Order placed, orderId = ' + orderId, 'order')()
     }).catch((reason) => {
@@ -30,6 +27,12 @@ const mutations: MutationTree<OrderState> = {
   },
   [types.ORDER_LAST_ORDER_WITH_CONFIRMATION] (state, payload) {
     state.last_order_confirmation = payload
+  },
+  [types.ORDER_ADD_SESSION_STAMPS] (state, order: Order) {
+    const orderId = entities.uniqueEntityId(order) // timestamp as a order id is not the best we can do but it's enough
+    order.order_id = orderId.toString()
+    order.created_at = new Date().toString()
+    order.updated_at = new Date().toString()
   },
   [types.ORDER_ADD_SESSION_ORDER_HASH] (state, hash: string) {
     state.session_order_hashes.push(hash)

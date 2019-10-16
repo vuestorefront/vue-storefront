@@ -5,7 +5,7 @@ export const CompareProduct = {
   name: 'CompareProduct',
   mixins: [compareMountedMixin],
   computed: {
-    isOnCompare () : boolean {
+    isOnCompare (): boolean {
       return this.$store.getters['compare/isOnCompare'](this.product)
     }
   },

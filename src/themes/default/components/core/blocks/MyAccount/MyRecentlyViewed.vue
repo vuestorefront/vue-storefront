@@ -9,7 +9,7 @@
     </div>
     <div class="row">
       <div class="col-xs-12" v-if="items && items.length > 0">
-        <product-listing columns="3" :products="items"/>
+        <product-listing columns="3" :products="items" />
       </div>
       <div class="col-xs-12 h4" v-else>
         <p>{{ $t('No products yet') }}</p>

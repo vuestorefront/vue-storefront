@@ -3,6 +3,6 @@
 import { Route } from 'vue-router'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-export function afterEach(to: Route, from: Route) {
+export function afterEach (to: Route, from: Route) {
   Logger.info(`We have just entered ${to.name} from ${from.name}.`)()
 }

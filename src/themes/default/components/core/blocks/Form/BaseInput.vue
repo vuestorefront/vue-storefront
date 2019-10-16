@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative base-input">
     <div class="relative">
       <input
         class="
@@ -33,7 +33,7 @@
     >
       {{ icon }}
     </button>
-    <ValidationMessages v-if="validations" :validations="validations"/>
+    <ValidationMessages v-if="validations" :validations="validations" />
   </div>
 </template>
 
@@ -49,7 +49,7 @@ export default {
     return {
       passType: 'password',
       iconActive: false,
-      icon: 'visibility'
+      icon: 'visibility_off'
     }
   },
   props: {
@@ -95,10 +95,10 @@ export default {
     togglePassType () {
       if (this.passType === 'password') {
         this.passType = 'text'
-        this.icon = 'visibility_off'
+        this.icon = 'visibility'
       } else {
         this.passType = 'password'
-        this.icon = 'visibility'
+        this.icon = 'visibility_off'
       }
     },
     // setFocus sets focus on a field which has a value of 'ref' tag equal to fieldName
@@ -128,6 +128,10 @@ export default {
   $color-black: color(black);
   $color-puerto-rico: color(puerto-rico);
   $color-hover: color(tertiary, $colors-background);
+
+  .base-input {
+    min-height: 4.5rem;
+  }
 
   input {
     background: inherit;

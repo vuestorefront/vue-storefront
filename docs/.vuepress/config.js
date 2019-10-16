@@ -1,5 +1,11 @@
 module.exports = {
   base: '/',
+  port: 8081,
+  markdown: {
+    toc: {
+      includeLevel: [2]
+    }
+  },
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
   themeConfig: {
     repo: 'DivanteLtd/vue-storefront',
@@ -18,8 +24,33 @@ module.exports = {
     ],
     sidebar: {
       '/guide/': [
-        '',
+      	{
+          title : 'General Information',
+          collapsable: false,
+          children: [
+            'general/introduction'
+          ]
+	      },
         'upgrade-notes/',
+        {
+          title: 'Cookbook',
+          collapsable: false,
+          children: [
+            'cookbook/data-import',
+            'cookbook/elastic',
+            'cookbook/setup',
+            'cookbook/integration',
+            'cookbook/module',
+            'cookbook/theme',
+            'cookbook/common-pitfall',
+            'cookbook/devops',
+            'cookbook/tdd',
+            'cookbook/internals',
+            'cookbook/vue',
+            'cookbook/multistores',
+            'cookbook/migration'
+          ],
+        },
         {
           title: 'Installation',
           collapsable: false,
@@ -44,7 +75,8 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
-            'basics/e2e'
+            'basics/e2e',
+            'basics/url'
           ],
         },
         {
@@ -94,6 +126,7 @@ module.exports = {
             'extensions/introduction',
             'extensions/extending-api',
             'extensions/extending-server-side-routes',
+            'extensions/extensions-to-modify-results'
           ],
         },
         {
@@ -118,6 +151,7 @@ module.exports = {
             'modules/user',
             'modules/checkout',
             'modules/order',
+            //'modules/review'
           ],
         },
         {
@@ -132,7 +166,6 @@ module.exports = {
             'integrations/tier-prices-sync',
             'integrations/totals-sync',
             'integrations/multistore',
-            'integrations/product-reviews',
           ],
         },
       ],

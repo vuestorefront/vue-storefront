@@ -1,10 +1,10 @@
-# Multistore Magento2 support
+# Multistore Magento 2 support
 
 Vue Storefront supports Magento Multistore installations
 
 ## Multiwebsite indexing
 
-Multiwebsite support starts with the ElasticSearch indexing. Basically - each store has it's own ElasticSearch index and should be populated separately using [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) tool.
+Multiwebsite support starts with the Elasticsearch indexing. Basically, each store has its own Elasticsearch index and should be populated separately using the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) tool.
 
 The simplest script to index multi site:
 
@@ -46,15 +46,15 @@ node --harmony cli.js taxrule --partitions=1 --removeNonExistient=true
 node --harmony cli.js products --partitions=1 --removeNonExistient=true
 ```
 
-As you may see it's just a **it** or **de** store code which is added to the base Magento2 REST API URLs that makes the difference and then the **INDEX_NAME** set to the dedicated index name.
+As you can see, it's just an **IT** or **DE** store code that is added to the base Magento 2 REST API URLs that makes the difference, and then the **INDEX_NAME** set to the dedicated index name.
 
-In the result You should get:
+In the result, you should get:
 
 - _vue_storefront_catalog_it_ - populated with the "it" store data
 - _vue_storefront_catalog_de_ - populated with the "it" store data
 - _vue_storefront_catalog_ - populated with the "default" store data
 
-Then, to use these indexes in the Vue Storefront You should index the database schema using the `vue-storefront-api` db tool:
+Then, to use these indexes in Vue Storefront, you should index the database schema using the `vue-storefront-api` db tool:
 
 ```bash
 npm run db rebuild -- --indexName=vue_storefront_catalog_it
@@ -62,9 +62,9 @@ npm run db rebuild -- --indexName=vue_storefront_catalog_de
 npm run db rebuild -- --indexName=vue_storefront_catalog
 ```
 
-## Vue Storefront and Vue Storefront Api configuration
+## Vue Storefront and Vue Storefront API configuration
 
-After this sequence of command You may add the available ES index to Your `vue-storefront-api/config/local.json`:
+After this sequence of command, you may add the available ES index to your `vue-storefront-api/config/local.json`:
 
 ```json
 {
@@ -84,7 +84,7 @@ After this sequence of command You may add the available ES index to Your `vue-s
 
 ```
 
-The last thing is to change the `vue-storefront/config/local.json` to configure the storeViews which are available.
+The last thing is to change the `vue-storefront/config/local.json` to configure the storeViews that are available.
 
 ```json
     "storeViews": {
@@ -145,9 +145,9 @@ The last thing is to change the `vue-storefront/config/local.json` to configure 
     },
 ```
 
-After these changes you'll have a `LanguageSwitcher` component visible in the bottom.
+After these changes, you'll have a `LanguageSwitcher` component visible on the bottom.
 
-By default the language / store is switched by the URL prefix:
+By default, the language / store is switched by the URL prefix:
 
 - `http://localhost:3000` is for the default store
 - `http://localhost:3000/it` will switch the store to the Italian one
@@ -156,15 +156,15 @@ By default the language / store is switched by the URL prefix:
 General URL format is:
 `http://localhost:3000/{storeCode}`
 
-The storeCode may be switched by ENV variable set before runing `npm run dev` / `npm start`:
+The storeCode may be switched by ENV variable set before running `npm run dev` / `npm start`:
 
 - `export STORE_CODE=de && npm run dev` will run the shop with the `de` shop loaded
 
-Another option - usefull when using multistore mode with the NGINX/varnish mode is to set the shop code by the `x-vs-store-code` http reqeuest header.
+Another option, useful when using multistore mode with the NGINX/varnish mode, is to set the shop code by the `x-vs-store-code` http reqeuest header.
 
 ## Changing the UI for specific store views
 
-If you would like to modify the routes or change some particular components regarding the current locale (for example different Checkout in the German store) please take a look at: `src/themes/default/index.js`:
+If you would like to modify the routes or change some particular components regarding the current locale (for example, a different checkout in the German store), please take a look at: `src/themes/default/index.js`:
 
 ```js
 export default function(app, router, store) {
@@ -178,11 +178,11 @@ export default function(app, router, store) {
 }
 ```
 
-Another option is to create a separate theme for specific storeview. Runtime theme changes are not possible as themes are compiled in the JS bundles by webpack during the page build process. In that case you should run separate instances of `vue-storefront` having the proper theme set in `config/local.json` file.
+Another option is to create a separate theme for a specific storeview. Runtime theme changes are not possible, as themes are compiled in the JS bundles by webpack during the page build process. In that case, you should run separate instances of `vue-storefront` having the proper theme set in the `config/local.json` file.
 
 ## Localized routes
 
-Route switching mechanism by default works on the URL level. Please use the `localizedRoute` mixin:
+The route switching mechanism by default works on the URL level. Please use the `localizedRoute` mixin:
 
 ```vue
 <router-link :to="localizedRoute(page.link)" class="cl-accent relative">{{

@@ -1,4 +1,5 @@
 import { productThumbnailPath } from '@vue-storefront/core/helpers'
+import config from 'config'
 
 export const MicrocartProduct = {
   name: 'MicrocartProduct',
@@ -12,8 +13,8 @@ export const MicrocartProduct = {
     thumbnail () {
       const thumbnail = productThumbnailPath(this.product)
       if (typeof navigator !== 'undefined' && !navigator.onLine) {
-        return this.getThumbnail(thumbnail, 310, 300) // for offline support we do need to have ProductTile version
-      } else return this.getThumbnail(thumbnail, 150, 150)
+        return this.getThumbnail(thumbnail, config.products.thumbnails.width, config.products.thumbnails.height) // for offline support we do need to have ProductTile version
+      } else return this.getThumbnail(thumbnail, config.cart.thumbnails.width, config.cart.thumbnails.height)
     }
   },
   methods: {

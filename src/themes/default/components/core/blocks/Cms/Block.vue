@@ -1,8 +1,8 @@
 <template>
   <div
     :class="['cms-content', { 'container': sync }]"
-    v-if="data"
-    v-html="data.content"
+    v-if="getCmsData"
+    v-html="getCmsData.content"
   />
 </template>
 
@@ -57,12 +57,13 @@ export default {
     }
   },
   computed: {
-    data () {
+    getCmsData () {
       if (this.id) {
         return this.$store.getters[`cmsBlock/cmsBlockId`](this.id)
       } else if (this.identifier) {
         return this.$store.getters[`cmsBlock/cmsBlockIdentifier`](this.identifier)
       }
+      return null
     }
   }
 }

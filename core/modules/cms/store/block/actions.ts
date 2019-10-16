@@ -1,9 +1,9 @@
-import { ActionTree } from "vuex"
+import { ActionTree } from 'vuex'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import * as types from './mutation-types'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import RootState from '@vue-storefront/core/types/RootState';
-import CmsBlockState from "../../types/CmsBlockState"
+import CmsBlockState from '../../types/CmsBlockState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<CmsBlockState, RootState> = {
@@ -27,13 +27,13 @@ const actions: ActionTree<CmsBlockState, RootState> = {
     }
     if (skipCache || (!context.state.items || context.state.items.length === 0)) {
       return quickSearchByQuery({ query, entityType: 'cms_block', excludeFields, includeFields })
-      .then((resp) => {
-        context.commit(types.CMS_BLOCK_UPDATE_CMS_BLOCKS, resp.items)
-        return resp.items
-      })
-      .catch(err => {
-        Logger.error(err, 'cms')()
-      })
+        .then((resp) => {
+          context.commit(types.CMS_BLOCK_UPDATE_CMS_BLOCKS, resp.items)
+          return resp.items
+        })
+        .catch(err => {
+          Logger.error(err, 'cms')()
+        })
     } else {
       return new Promise((resolve, reject) => {
         let resp = context.state.items
@@ -60,13 +60,13 @@ const actions: ActionTree<CmsBlockState, RootState> = {
         query = query.applyFilter({key: key, value: {'like': value}})
       }
       return quickSearchByQuery({ query, entityType: 'cms_block', excludeFields, includeFields })
-      .then((resp) => {
-        context.commit(types.CMS_BLOCK_ADD_CMS_BLOCK, resp.items[0])
-        return resp.items[0]
-      })
-      .catch(err => {
-        Logger.error(err, 'cms')()
-      })
+        .then((resp) => {
+          context.commit(types.CMS_BLOCK_ADD_CMS_BLOCK, resp.items[0])
+          return resp.items[0]
+        })
+        .catch(err => {
+          Logger.error(err, 'cms')()
+        })
     } else {
       return new Promise((resolve, reject) => {
         if (state.items.length > 0) {
@@ -84,7 +84,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
   },
 
   addItem ({ commit }, block) {
-    commit(types.CMS_BLOCK_ADD_CMS_BLOCK, block )
+    commit(types.CMS_BLOCK_ADD_CMS_BLOCK, block)
   }
 }
 

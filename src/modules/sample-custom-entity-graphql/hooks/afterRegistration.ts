@@ -9,7 +9,7 @@ const EXTENSION_KEY = 'sample-custom-entity-graphql-extension'
 const TEST_ENTITY_TYPE = 'testentity'
 
 export function afterRegistration ({ Vue, config, store, isServer }) {
-  Vue.$on('application-after-init', async () => {
+  Vue.prototype.$bus.$on('application-after-init', async () => {
     Logger.debug('Example of custom entity graphql extension')()
 
     // create GraphQL searchAdapter
@@ -27,7 +27,7 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
       },
       resultPorcessor: (resp, start, size) => {
         if (resp === null) {
-          throw new Error('Invalid GraphQL result - null not exepcted')
+          throw new Error('Invalid GraphQL result - null not expected')
         }
         if (resp.hasOwnProperty('data')) {
           return processESResponseType(resp.data.testentity, start, size)

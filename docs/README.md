@@ -2,5 +2,5 @@
 home: true
 heroImage: /logo.png
 actionText: Get Started →
-actionLink: /guide/
+actionLink: /guide/general/introduction.html
 ---

@@ -6,7 +6,7 @@ import rootStore from '@vue-storefront/core/store'
 export const paymentModule: Module<PaymentState, RootState> = {
   namespaced: true,
   state: {
-    methods: [{"code":"cashondelivery","title":"Cash On Delivery","is_server_method":false}]
+    methods: []
   },
   mutations: {
     addMethod (state, paymentMethod) {
@@ -27,9 +27,9 @@ export const paymentModule: Module<PaymentState, RootState> = {
   getters: {
     paymentMethods (state) {
       const isVirtualCart = rootStore.getters['cart/isVirtualCart']
-      return state.methods.filter(method => { 
+      return state.methods.filter(method => {
         return (!isVirtualCart || method.code !== 'cashondelivery')
-       })
+      })
     }
   }
 }

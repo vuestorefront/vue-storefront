@@ -1,6 +1,6 @@
 # Modal component
 
-Simple modal component. Visibility of modal container is based on internal state `isVisible`. We can set this state by `$emit` event on the global `$bus` event.
+Simple modal component. Visibility of modal container is based on internal state `isVisible`. We can set this state with the `$emit` event on the global `$bus` event.
 
 ## Basic usage
 

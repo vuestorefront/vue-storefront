@@ -16,10 +16,10 @@
         class="pl35 lh30 h4 pointer"
         :for="id"
       >
-        <slot/>
+        <slot />
       </label>
     </div>
-    <ValidationMessages v-if="validations" :validations="validations"/>
+    <ValidationMessages v-if="validations" :validations="validations" />
   </div>
 </template>
 

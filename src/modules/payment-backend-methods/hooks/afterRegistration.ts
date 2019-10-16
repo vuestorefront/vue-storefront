@@ -1,7 +1,6 @@
-import * as types from './../store/mutation-types'
+import * as types from './../store/mutation-types'
 
-export function afterRegistration({ Vue, config, store, isServer }) {
-
+export function afterRegistration ({ Vue, config, store, isServer }) {
   let correctPaymentMethod = false
 
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
@@ -11,7 +10,7 @@ export function afterRegistration({ Vue, config, store, isServer }) {
     }
   }
 
-  if (!Vue.prototype.$isServer) {
+  if (!isServer) {
     // Update the methods
     Vue.prototype.$bus.$on('set-unique-payment-methods', methods => {
       store.commit('payment-backend-methods/' + types.SET_BACKEND_PAYMENT_METHODS, methods)
@@ -30,6 +29,3 @@ export function afterRegistration({ Vue, config, store, isServer }) {
     })
   }
 }
-
-
-

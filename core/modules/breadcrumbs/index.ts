@@ -6,5 +6,5 @@ export const Breadcrumbs = createModule({
   key: KEY,
   store: { modules: [
     { key: KEY, module: module }
-  ] },
+  ] }
 })

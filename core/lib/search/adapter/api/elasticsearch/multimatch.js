@@ -1,9 +1,5 @@
 import config from 'config'
 
-export default function getMultiMatchConfig (queryText) {
-  return getConfig(queryText)
-}
-
 function getConfig (queryText) {
   let scoringConfig = config.elasticsearch.hasOwnProperty('searchScoring') ? config.elasticsearch.searchScoring : {}
   let minimumShouldMatch = ''
@@ -28,4 +24,8 @@ function getConfig (queryText) {
     multiMatchConfig['analyzer'] = scoringConfig.analyzer
   }
   return multiMatchConfig
+}
+
+export default function getMultiMatchConfig (queryText) {
+  return getConfig(queryText)
 }

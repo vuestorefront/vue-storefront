@@ -7,6 +7,6 @@ export const KEY = 'wishlist'
 export const cacheStorage = initCacheStorage(KEY)
 export const Wishlist = createModule({
   key: KEY,
-  store: { modules: [{ key: KEY, module }], plugin },
+  store: { modules: [{ key: KEY, module }], plugin }
 }
 )

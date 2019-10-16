@@ -1,7 +1,7 @@
 <template>
   <div id="checkout">
     <div class="container">
-      <div class="row" v-show="!orderPlaced">
+      <div class="row" v-show="!isThankYouPage">
         <div class="col-sm-7 col-xs-12 pb70">
           <div class="checkout-title py5 px20">
             <h1>
@@ -13,17 +13,17 @@
             :is-active="activeSection.personalDetails"
             :focused-field="focusedField"
           />
-          <shipping class="line relative" :is-active="activeSection.shipping" v-if="!isVirtualCart"/>
-          <payment class="line relative" :is-active="activeSection.payment"/>
-          <order-review class="line relative" :is-active="activeSection.orderReview"/>
-          <div id="custom-steps"/>
+          <shipping class="line relative" :is-active="activeSection.shipping" v-if="!isVirtualCart" />
+          <payment class="line relative" :is-active="activeSection.payment" />
+          <order-review class="line relative" :is-active="activeSection.orderReview" />
+          <div id="custom-steps" />
         </div>
         <div class="hidden-xs col-sm-5 bg-cl-secondary">
           <cart-summary />
         </div>
       </div>
     </div>
-    <thank-you-page v-show="orderPlaced" />
+    <thank-you-page v-show="isThankYouPage" />
   </div>
 </template>
 

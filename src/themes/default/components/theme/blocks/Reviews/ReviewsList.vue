@@ -3,24 +3,31 @@
     <div class="mt50 h5" v-if="!itemsPerPage || itemsPerPage.length === 0">
       {{ $t('No reviews have been posted yet. Please don\'t hesitate to share Your opinion and write the first review!') }}
     </div>
-    <div class="mt50" v-for="(item, index) in itemsPerPage" :key="index" v-if="item.review_status">
-      <h4 class="weight-400 m0">{{ item.title }}</h4>
-      <p class="cl-tertiary mt10 mb20 fs-medium-small">{{ item.nickname }}, {{ item.created_at | date }}</p>
-      <p class="cl-gray lh25">{{ item.detail }}</p>
+    <div class="mt50" v-for="(item, index) in itemsPerPage" :key="index" itemprop="review" itemscope itemtype="http://schema.org/Review">
+      <meta itemprop="itemReviewed" :content="productName | htmlDecode">
+      <h4 class="weight-400 m0" itemprop="reviewAspect" :content="item.title">
+        {{ item.title }}
+      </h4>
+      <p class="cl-tertiary mt10 mb20 fs-medium-small">
+        {{ item.nickname }}, {{ item.created_at | date }}
+      </p>
+      <p class="cl-gray lh25" itemprop="reviewBody" :content="item.detail">
+        {{ item.detail }}
+      </p>
     </div>
     <div class="row middle-xs center-xs mt50" v-if="pageCount > 1">
-      <a href="#" class="mr10 no-underline" :class="{ inactive: currentPage === 1 }" @click.prevent="prevPage" >
+      <a href="#" class="mr10 no-underline" :class="{ inactive: currentPage === 1 }" @click.prevent="prevPage">
         <i class="material-icons">chevron_left</i>
       </a>
       <span class="mx10 pagination-page" v-for="pageNumber in pageList" :key="pageNumber">
-        <span class="fs-medium block py15 px20 bg-cl-mine-shaft cl-white" v-if="pageNumber === currentPage" >
+        <span class="fs-medium block py15 px20 bg-cl-mine-shaft cl-white" v-if="pageNumber === currentPage">
           {{ pageNumber }}
         </span>
-        <a href="#" class="fs-medium block py15 px20 bg-cl-secondary pointer" v-else @click.prevent="changePage(pageNumber)" >
+        <a href="#" class="fs-medium block py15 px20 bg-cl-secondary pointer" v-else @click.prevent="changePage(pageNumber)">
           {{ pageNumber }}
         </a>
       </span>
-      <a href="#" class="ml10 no-underline" :class="{ inactive: currentPage === pageCount }" @click.prevent="nextPage" >
+      <a href="#" class="ml10 no-underline" :class="{ inactive: currentPage === pageCount }" @click.prevent="nextPage">
         <i class="material-icons">chevron_right</i>
       </a>
     </div>
@@ -28,6 +35,8 @@
 </template>
 
 <script>
+import Product from '@vue-storefront/core/pages/Product'
+
 export default {
   props: {
     perPage: {
@@ -45,11 +54,12 @@ export default {
       currentPage: 1
     }
   },
+  mixins: [Product],
   computed: {
     itemsPerPage () {
       let start = ((this.currentPage - 1) * this.perPage)
       let end = start + this.perPage
-      return this.items.slice(start, end)
+      return this.items.slice(start, end).filter(review => !!review.review_status)
     },
     pageCount () {
       return Math.floor(this.items.length / this.perPage) + Math.min(1, this.items.length % this.perPage)

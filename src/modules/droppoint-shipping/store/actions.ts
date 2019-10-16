@@ -10,5 +10,3 @@ export const actions: ActionTree<any, any> = {
     return taskExecute(request)
   }
 }
-
-

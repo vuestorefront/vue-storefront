@@ -18,12 +18,12 @@
               >
                 close
               </i>
-              <slot name="header"/>
+              <slot name="header" />
             </header>
             <div class="modal-content pt30 pb60 px65" v-if="$slots.content">
-              <slot name="content"/>
+              <slot name="content" />
             </div>
-            <slot/>
+            <slot />
           </div>
         </div>
       </div>

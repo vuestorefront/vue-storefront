@@ -14,8 +14,9 @@
           focus
           v-model="inputValues[('customOption_' + option.option_id)]"
           :placeholder="option.title"
-          @change="optionChanged(option)">
-        <div class="m5 relative" v-for="opval in option.values" :key="opval.option_type_id" v-if="option.type === 'radio' || option.type === 'select'">
+          @change="optionChanged(option)"
+        >
+        <div class="m5 relative" v-for="opval in option.values" :key="opval.option_type_id" v-if="option.type === 'radio' || option.type === 'select' || option.type === 'drop_down'">
           <input
             @change="optionChanged(option, opval)"
             type="radio"

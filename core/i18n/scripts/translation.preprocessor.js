@@ -53,5 +53,7 @@ module.exports = function (csvDirectories, config = null) {
       }
     })
     fs.writeFileSync(path.join(__dirname, '../resource/i18n', `multistoreLanguages.json`), JSON.stringify(bundledLanguages))
+  } else {
+    fs.writeFileSync(path.join(__dirname, '../resource/i18n', `multistoreLanguages.json`), JSON.stringify({})) // fix for webpack compilation error in case of `bundleAllStoreviewLanguages` = `false` (#3188)
   }
 }

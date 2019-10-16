@@ -6,8 +6,7 @@ import CmsHierarchyState from '../../types/CmsHierarchyState'
 export const cmsHierarchyModule: Module<CmsHierarchyState, RootState> = {
   namespaced: true,
   state: {
-    items: [],
+    items: []
   },
   actions
 }
-

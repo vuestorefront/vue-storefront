@@ -1,14 +1,14 @@
-# Data Migrations for ElacticSearch
+# Data Migrations for Elacticsearch
 
-Vue Storefront uses ElasticSearch as a primary data store. We're using Redis as cache layer and Kue for queue processing.
+Vue Storefront uses Elasticsearch as a primary data store. We're using Redis as a cache layer and Kue for queue processing.
 
 Although all of these data stores are basically schema-free, some mappings and meta data should be used for setting ES indices and so forth.
 
-Vue storefront uses data migration mechanism based on [node-migrate](https://github.com/tj/node-migrate).
+Vue Storefront uses a data-migration mechanism based on [node-migrate](https://github.com/tj/node-migrate).
 
 ## Migration tool
 
-We use node-migrate which is pre-configured with npm. So we're using the following alias:
+We use node-migrate, which is pre-configured with npm, so we're using the following alias:
 
 ```bash
 npm run migrate
@@ -18,17 +18,17 @@ which runs the migrations against `migrations` folder.
 
 ## How to add new migration?
 
-You can add a new migration by simply adding a file to `migrations` directory (not recommended) or using command line tool:
+You can add a new migration by simply adding a file to the `migrations` directory (not recommended) or using the command line tool:
 
 ```bash
 npm run migrate create name-of-my-migration
 ```
 
-The tool automatically generates the file under `migrations` folder.
+The tool automatically generates the file under the `migrations` folder.
 
 ## Examples
 
-The example migrations shows how to manipulate on products and mappings. Let's take a look at the mapping modification:
+The example migrations show how to manipulate products and mappings. Let's take a look at the mapping modification:
 
 ```js
 // Migration scripts use: https://github.com/tj/node-migrate

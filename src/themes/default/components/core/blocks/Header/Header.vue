@@ -5,15 +5,10 @@
       :class="{ 'is-visible': navVisible }"
     >
       <div class="container px15">
-        <div class="row between-xs middle-xs" v-if="!isCheckoutPage">
+        <div class="row between-xs middle-xs" v-if="!isCheckoutPage || isThankYouPage">
           <div class="col-md-4 col-xs-2 middle-xs">
             <div>
-              <template v-if="!canGoBack">
-                <hamburger-icon class="p15 icon bg-cl-secondary pointer" v-if="!canGoBack"/>
-              </template>
-              <template v-else>
-                <return-icon class="p15 icon bg-cl-secondary pointer" v-if="canGoBack"/>
-              </template>
+              <hamburger-icon class="p15 icon bg-cl-secondary pointer" />
             </div>
           </div>
           <div class="col-xs-2 visible-xs">
@@ -21,7 +16,7 @@
           </div>
           <div class="col-md-4 col-xs-4 center-xs pt5">
             <div>
-              <logo width="auto" height="41px"/>
+              <logo width="auto" height="41px" />
             </div>
           </div>
           <div class="col-xs-2 visible-xs">
@@ -37,7 +32,7 @@
             </div>
           </div>
         </div>
-        <div class="row between-xs middle-xs px15 py5" v-if="isCheckoutPage">
+        <div class="row between-xs middle-xs px15 py5" v-if="isCheckoutPage && !isThankYouPage">
           <div class="col-xs-5 col-md-3 middle-xs">
             <div>
               <router-link :to="localizedRoute('/')" class="cl-tertiary links">
@@ -46,7 +41,7 @@
             </div>
           </div>
           <div class="col-xs-2 col-md-6 center-xs">
-            <logo width="auto" height="41px"/>
+            <logo width="auto" height="41px" />
           </div>
           <div class="col-xs-5 col-md-3 end-xs">
             <div>
@@ -61,7 +56,7 @@
         </div>
       </div>
     </header>
-    <div class="header-placeholder"/>
+    <div class="header-placeholder" />
   </div>
 </template>
 
@@ -73,7 +68,6 @@ import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
 import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
 import Logo from 'theme/components/core/Logo'
 import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon'
-import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
 import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
 import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
 
@@ -85,7 +79,6 @@ export default {
     HamburgerIcon,
     Logo,
     MicrocartIcon,
-    ReturnIcon,
     SearchIcon,
     WishlistIcon
   },
@@ -103,7 +96,10 @@ export default {
     ...mapState({
       isOpenLogin: state => state.ui.signUp,
       currentUser: state => state.user.current
-    })
+    }),
+    isThankYouPage () {
+      return this.$store.state.checkout.isThankYouPage ? this.$store.state.checkout.isThankYouPage : false
+    }
   },
   beforeMount () {
     window.addEventListener('scroll', () => {

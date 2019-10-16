@@ -16,7 +16,7 @@ export const ProductGallery = {
     },
     offline: {
       type: Object,
-      required: true
+      required: false
     },
     product: {
       type: Object,

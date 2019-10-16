@@ -1,6 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import { CompareButton } from '@vue-storefront/core/modules/compare/components/CompareButton.ts'
+import config from 'config'
 
 // deprecated as theme-specific
 export default {
@@ -10,7 +11,7 @@ export default {
     ...mapGetters('category', ['getCategories']),
     categories () {
       return this.getCategories.filter((op) => {
-        return op.level === (this.$store.state.config.entities.category.categoriesDynamicPrefetchLevel ? this.$store.state.config.entities.category.categoriesDynamicPrefetchLevel : 2) // display only the root level (level =1 => Default Category), categoriesDynamicPrefetchLevel = 2 by default
+        return op.level === (config.entities.category.categoriesDynamicPrefetchLevel >= 0 ? config.entities.category.categoriesDynamicPrefetchLevel : 2) // display only the root level (level =1 => Default Category), categoriesDynamicPrefetchLevel = 2 by default
       })
     },
     ...mapState({

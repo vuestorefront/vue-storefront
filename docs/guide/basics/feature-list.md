@@ -1,133 +1,138 @@
 # Feature list
 
-Vue Storefront is Platform Agnostic Headless Frontend for eCommerce. Here we tried to put all the features available in 1.0 altogether:
+Vue Storefront is a platform-agnostic headless frontend for eCommerce. Here, we tried to put all the features available in 1.0 together:
 
 ## Vue Storefront unique features
 
-- 100% offline support - via in-browser IndexedDB database
+- 100% offline support via in-browser IndexedDB database
 - High speed with local caching (Service Workers + IndexedDB); avg. server response time < 0.3s; avg client-side rendering time < 2s
-- Platform Agnostic - Magento2, Magento1, Pimcore supported out-of-the-box
-- Offline Orders support (via in-browser queue)
-- Single Page App User Experience with Server Side Rendering support for SEO
-- Native app features - install on Home Screen (iOS, Android, Chrome), push notifications (via customization)
-- NoSQL/ElasticSearch database backend
-- Modern Vue.js based frontend - easy to design and customize, atomic-design, design-system backed
-- It's a Framework - customizable via Extensions, Themes, easy to update with separated Core
+- Platform-agnostic: Magento 2, Magento 1, Pimcore supported out-of-the-box
+- Offline orders support (via in-browser queue)
+- Single page app user experience with server-side rendering support for SEO
+- Native app features: install on home screen (iOS, Android, Chrome), push notifications (via customization)
+- NoSQL/Elasticsearch database backend
+- Modern Vue.js-based frontend: easy to design and customize, atomic-design, design-system backed
+- It's a framework, customizable via extensions and themes. Easy to update with separated core.
+
 
 ## Vue Storefront Magento2 support
 
 ### Checkout, Payment, & Shipping
 
-- One-Page Online Checkout
-- Integrated for Real-Time Shipping Rates
-- SSL Security Support for All Online Order and Sensitive Transactions
-- Online Tax and Shipping Calculation and Prior to Checkout Estimates
-- Option to Create Account as Part of Online Checkout Process
-- Configurable Saved Cart Expiration
-- Multiple Shipping Address Management
-- Destination Country Management
-- Per Order and Per Item Flat Rate Shipping Option
-- Free Shipping Functionality
-- Manage Shipping by Weight and Destination
+- One-page online checkout
+- Integrated for real-time shipping rates
+- SSL security support for all online orders and sensitive transactions
+- Online tax and shipping calculation and prior-to-checkout estimates
+- Option to create account as part of the online checkout process
+- Configurable saved-cart expiration
+- Multiple shipping address management
+- Destination-country management
+- Per-order and per-item flat-rate shipping option
+- Free-shipping functionality
+- Manage shipping by weight and destination
 
 ### Search Engine Optimization (SEO)
 
-- SSR (Server Site Rendering)
-- Light Footprint Design for Fast Load Time and Search Engine Optimization
-- Search Engine Friendly URLs Including URL ReWrite Controls
-- META Information Management at Product and Category Levels
-- Available via customization: Auto-Generated Popular Search Terms Page
+- SSR (server-side rendering)
+- Light footprint design for fast load time and search-engine optimization
+- Search-engine friendly URLs, including URL rewrite controls
+- META information management at product and category levels
+- Available via customization: auto-generated popular search terms page
 
 ### Analytics and Reporting
 
 - Integration with Google Analytics
-- Admin Report Dashboard with Business Overview
-- Sales Reports Including Total Sales and Returns
-- Tax Reports
-- Abandoned Shopping Cart Reports
-- Best Viewed Products Reports
-- Top Sold Products Report
-- Low Stock Item Report
-- Onsite Search Terms Report
-- Product Reviews Report with RSS Support
-- Tags Report with RSS Support
-- Coupon Usage Report
+- Admin report dashboard with business overview
+- Sales reports including total sales and returns
+- Tax reports
+- Abandoned shopping cart reports
+- Best viewed products reports
+- Top sold products report
+- Low stock item report
+- On-site search terms report
+- Product reviews report with RSS support
+- Tags report with RSS support
+- Coupon usage report
 
 ### Marketing Promotions and Tools
 
-- Newsletter Management
-- Catalog Promotional Pricing and Controls
-- Flexible Coupons Rule and Pricing Restrictions
-- Free Shipping Promotion Management
-- Bundled Products Options
-- Customer Group Pricing
-- New Items Promotional Tool
-- On Page Upsells and Cross-Sells
-- Wishlist Management
+- Newsletter management
+- Catalog promotional pricing and controls
+- Flexible coupons rule and pricing restrictions
+- Free-shipping promotion management
+- Bundled product options
+- Customer group pricing
+- New items promotional tool
+- On-page upsells and cross-sells
+- Wishlist management
 
 ### Order Management
 
-Standard Magento2 features - all supported:
+Standard Magento 2 features are all supported:
 
-- View, edit, create and fulfill orders from admin panel
-- Create one or multiple invoices, shipments and credit memos per order to allow for split fulfillment
-- Print invoices and packing slips
-- Call Center (phone) order creation - includes ability to create a new customer, or select existing customer and view - shopping cart, wishlist, last ordered items, and compared products list, as well as select addresses, give discounts and assign custom prices
-- Create re-orders for customers from the administration panel
-- Email Notifications of Orders
-- RSS feed of New Orders
+ - View, edit, create, and fulfill orders from the admin panel.
+- Create one or multiple invoices, shipments, and credit memos per order to allow for split fulfillment.
+- Print invoices and packing slips.
+- Call Center (phone) order creation—includes the ability to create a new customer, or select existing customer, and view shopping cart, wishlist, last ordered items, and compared products list, as well as select addresses, give discounts, and assign custom prices.
+- Create re-orders for customers from the administration panel.
+- Email notifications of orders.
+- RSS feed of new orders.
+
 
 ### Customer Service
 
 - Contact Us form
-- Feature-rich Customer Accounts
-- Order History with Status Updates
-- Password Reset email from front-end and admin panel
-- Order and Account Update Emails
-- Standard Magento2 feature: Customizable Order Emails
-- Standard Magento2 feature: Create and Edit Orders from the Admin Panel
+- Feature-rich customer accounts
+- Order history with status updates
+- Password-reset email from frontend and admin panel
+- Order and account update emails
+- Standard Magento 2 feature: Customizable order emails
+- Standard Magento 2 feature: Create and edit orders from the admin panel
+
 
 ### Customer Accounts
 
 - Order status and history
 - Re-orders from account
-- Address Book with unlimited addresses
-- Default Billing and Shipping addresses
+- Address book with unlimited addresses
+- Default billing and shipping addresses
 - Wishlist
-- Newsletter Subscription management
+- Newsletter-subscription management
+
 
 ### Catalog Management Support
 
-- Inventory Management with Backordered items, Minimum, and Maximum quantities
-- Simple, Configurable (e.g. size, color, etc.), Bundled and Grouped Products
-- Virtual Products
-- Downloadable/Digital Products
-- Available via customization: Customer Personalized Products – upload text for embroidery, monogramming, etc.
-- Tax Rates per location, customer group, and product type
-- Attribute Sets for quick product creation of different item types
-- Create Store-specific attributes on the fly
-- Media Manager with automatic image resizing and watermarking
-- Advanced Pricing Rules and support for Special Prices (see marketing tools)
-- Available via customization: Customer Personalized Products – Upload Image
-- Available via customization: Customer Personalized Products – Select Date/Time options for products
+- Inventory management with backordered items, minimum, and maximum quantities
+- Simple, configurable (e.g. size, color, etc.), bundled and grouped products
+- Virtual products
+- Downloadable/digital products
+- Available via customization: Customer personalized products—upload text for embroidery, monogramming, etc.
+- Tax rates per location, customer group, and product type
+- Attribute sets for quick product creation of different item types
+- Create store-specific attributes on the fly
+- Media manager with automatic image resizing and watermarking
+- Advanced pricing rules and support for special prices (see marketing tools)
+- Available via customization: Customer personalized products – upload image
+- Available via customization: Customer personalized products – select date/time options for products
 
 ### Product Browsing
 
-- Multiple Images Per Product
-- Product Image Zoom-in Capability
-- Related Products
-- Stock Availability
-- Product Option Selection
-- Grouped Products View
-- Add to Wishlist
+- Multiple images per product
+- Product image zoom-in capability
+- Related products
+- Stock availability
+- Product option selection
+- Grouped products view
+- Add to wishlist
 
 ### Catalog Browsing
 
-- Ultrafast ElasticSearch full catalog support with Service Workers caching
-- 100% Offline support
-- Layered / Faceted Navigation for filtering of products in categories
+- Ultrafast Elasticsearch full catalog support with Service Workers caching
+- 100% offline support
+- Layered / faceted navigation for filtering of products in categories
 - Recently viewed products
 - Product comparisons
-- Cross-sells, Up-sells and Related Items
+- Cross-sells, upsells, and related Items
 - Available via customization: Product listing in grid or list format
 - Breadcrumbs
+

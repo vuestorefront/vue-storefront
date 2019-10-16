@@ -8,14 +8,15 @@
       <i class="material-icons absolute">play_circle_outline</i>
     </div>
     <div v-if="videoStarted" class="iframe-wrapper absolute w-100">
-      <LoaderScoped v-if="!iframeLoaded"/>
+      <LoaderScoped v-if="!iframeLoaded" />
       <div class="iframe-container w-100">
         <iframe
           :src="embedUrl"
           class="absolute w-100 h-100"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           webkitallowfullscreen mozallowfullscreen allowfullscreen
-          @load="iframeIsLoaded()"/>
+          @load="iframeIsLoaded()"
+        />
       </div>
     </div>
   </div>

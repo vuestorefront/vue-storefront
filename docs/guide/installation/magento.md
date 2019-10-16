@@ -1,14 +1,17 @@
 # Integration with Magento 2
+## Using native Magento 2 module 
+There is a native Magento 2 [module](https://github.com/DivanteLtd/magento2-vsbridge-indexer) that synchronizes Magento 2 source data and **Vue Storefront** data store; *Elasticsearch*.   
+[Magento 2 VSBridge Indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) has a few advantages. More than anything, it's faster and reliable.
 
-The tool is using Magento2 API via OAuth authorization, so you need to prepare Magento Integration access at first. Go to your Magento2 admin panel and click: _System -> Integrations_
+## Using Magento 2 API via OAuth authorization
+The tool is using Magento 2 API via OAuth authorization, so you need to prepare Magento Integration access at first. Go to your Magento 2 admin panel and click: System → Integrations.
 
 ![Magento Admin Panel](../images/magento_1.png)
 
-Then click _Add new integration_ and just fill:
-
-- name (whatever)
-- your password to confirm the changes,
-- on API permissions tab check the following resources:
+Click _Add New Integration_ and fill in:
+- Name (whatever)
+- Your password to confirm the changes
+- On the API Permissions tab, check the following resources:
   - Catalog
   - Sales
   - My Account
@@ -16,21 +19,21 @@ Then click _Add new integration_ and just fill:
   - Stores > Settings > Configuration > Inventory Section
   - Stores > Taxes
   - Stores > Attributes > Product
-- save
+- Save
 
 ![Magento API](../images/magento_2.png)
 
-In the result you’ll click _Activate_ and get some OAuth access tokens:
+In the result, you’ll click _Activate_ and get some OAuth access tokens:
 
 ![Magento tokens](../images/magento_3.png)
 
-## Integrating Magento2 with your local instance
+## Integrating Magento 2 with your local instance
 
 ### Fast integration
 
-Magento2 data import is now integrated into `vue-storefront-api` for simplicity. It's still managed by the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) - added as a dependency to `vue-storefront-api`.
+The Magento2 data import is now integrated into `vue-storefront-api` for simplicity. It's still managed by the [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront), added as a dependency to `vue-storefront-api`.
 
-After setting the `config.magento2.api` section using yours Magento2 OAuth credentials:
+After setting the `config.magento2.api` section using yours Magento 2 OAuth credentials:
 
 ```json
  "magento2": {
@@ -51,13 +54,13 @@ After setting the `config.magento2.api` section using yours Magento2 OAuth crede
  },
 ```
 
-You can run the following command to execute the full import of all the Products, Categories and other important stuff to your Elastic Search instance:
+You can run the following command to execute the full import of all the products, categories, and other important stuff to your Elasticsearch instance:
 
 ```bash
 yarn mage2vs import
 ```
 
-... or in multistore setup you can run the same command with specified `store-code` parameter
+... or in multistore setup, you can run the same command with specified `store-code` parameter
 
 ```bash
  yarn mage2vs import --store-code=de
@@ -65,7 +68,7 @@ yarn mage2vs import
 
 ### Manual integration
 
-As a first step, you need to install [mage2vuestorefront ](https://github.com/DivanteLtd/mage2vuestorefront):
+First, you need to install [mage2vuestorefront ](https://github.com/DivanteLtd/mage2vuestorefront):
 
 ```bash
 git clone https://github.com/DivanteLtd/mage2vuestorefront.git mage2vs
@@ -73,7 +76,7 @@ cd mage2vs/src
 yarn install
 ```
 
-Now please edit the `src/config.js` file in your `mage2vuestorefront` directory to set the following section:
+Now edit the `src/config.js` file in your `mage2vuestorefront` directory to set the following section:
 
 ```js
 magento: {
@@ -87,9 +90,10 @@ magento: {
 
 As you can see, you can override the defaults by ENV variables as well.
 
-The rest of config.js entries points out to your `vue-storefront-api` based Docker and Redis instances which are required by `mage2nosql` to work.
 
-To make the full import, you should run the following commands (the sequence of commands is important  -  as for example `node cli.js categories` populates Redis cache for the further use of `node cli.js` products and so on)
+The rest of the config.js entries point out to your `vue-storefront-api` based Docker and Redis instances, which are required by `mage2nosql` to work.
+
+To make the full import, you should run the following commands (the sequence of commands is important ,  as, for example, `node cli.js categories` populates the Redis cache for further use of `node cli.js` products and so on).
 
 ```bash
 node cli.js taxrule
@@ -99,15 +103,15 @@ node cli.js productcategories
 node cli.js products
 ```
 
-It’s safe to run these commands over and over as they’re doing `upsert` operation  - so inserts or updates the existing records.
+It’s safe to run these commands over and over, as they’re doing `upsert` operation, so it inserts or updates the existing records.
 
-`cli.js` has a lot of other modes to be run in. Dynamic changes, queue support etc. You may experiment with them, but remember  -  the basic sequence for syncing the whole Magento2 database is like just shown.
+`cli.js` has a lot of other modes to be run in—dynamic changes, queue support, etc. You may experiment with them, but remember ,  the basic sequence for syncing the whole Magento 2 database is like just shown.
 
 ## Synchronizing orders and Magento images
 
-As you should have the products and categories already synchronized you may want to send some orders back to Magento or synchronize the shopping carts in the real time.
+As you should have the products and categories already synchronized, you may want to send some orders back to Magento or synchronize the shopping carts in real time.
 
-`vue-storefront-api` is responsible for this write access to Magento. You may want just edit your `conf/local.json` within `vue-storefront-api` directory to set the OAuth Magento API access (`magento2` section):
+`vue-storefront-api` is responsible for this write access to Magento. You may want to edit your `conf/local.json` within the `vue-storefront-api` directory to set the OAuth Magento API access (`magento2` section):
 
 ```json
 "magento2": {
@@ -124,7 +128,7 @@ As you should have the products and categories already synchronized you may want
 },
 ```
 
-To allow `vue-storefront-api` to resize your Magento’s images, please edit the `imgUrl` property under `magento2` section and add your Magento’s domain to `imageable` -> `whitelist`.
+To allow `vue-storefront-api` to resize your Magento images, please edit the `imgUrl` property under `magento2` section and add your Magento’s domain to `imageable` -> `whitelist`.
 
 ```json
 "imageable": {
@@ -156,23 +160,23 @@ To allow `vue-storefront-api` to resize your Magento’s images, please edit the
 After changing the config files you need to restart `yarn dev`
 :::
 
-After setting up the Magento access you just need to run the Order2Magento worker which works on Redis based queue to process all the orders made by users:
+After setting up Magento access, you just need to run the Order2Magento worker, which works on a Redis-based queue to process all the orders made by users.
 
 ```
 yarn o2m
 ```
 
-The code of this script is [located here](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/worker/order_to_magento2.js) -  so you can easily check how it’s working.
+The code of this script is [located here](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/worker/order_to_magento2.js) so you can easily check how it’s working.
 
-Starting from Vue Storefront v1.6 now we have a special switch in `vue-storefront-api`: `config.orders.useServerQueue` which is set to `false` by default. With this option disabled the `order_2_magento` process is no longer needed as the incoming orders are directly send to Magento2. If it's set to `true` then - the old behavior of server-based Redis queued used to stack the orders first is being used.
+Starting from Vue Storefront v1.6, now we have a special switch in `vue-storefront-api`: `config.orders.useServerQueue` which is set to `false` by default. With this option disabled, the `order_2_magento` process  is no longer needed, as the incoming orders are directly send to Magento 2. If it's set to `true`, the old behavior of the server-based Redis queues used to stack the orders first is being used.
 
 ## Synchronizing shopping carts
 
-By default shopping carts are not synchronized in the real-time  -  just after the order is placed, Magento2 cart is created etc.
+By default, shopping carts are not synchronized in real-time , only after the order is placed, Magento 2 cart is created, etc.
 
-This was limiting behavior because you need to keep the user cart most current all the time to get Magento2 shopping cart promotion rules into the action .
+This was limiting behavior because you need to keep the user cart current all the time to get Magento 2 shopping-cart promotion rules into action .
 
-We have option for that! If you have Magento2 API configured within the `vue-storefront-api` you just need to go to `vue-storefront/conf/local.json` and add
+We have an option for that! If you have the Magento 2 API configured within the `vue-storefront-api`, you just need to go to `vue-storefront/conf/local.json` and add
 
 ```js
 synchronize: true;

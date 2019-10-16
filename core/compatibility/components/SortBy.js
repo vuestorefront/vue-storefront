@@ -1,4 +1,5 @@
 import { CategorySort } from '@vue-storefront/core/modules/catalog/components/CategorySort'
+import config from 'config'
 
 export default {
   name: 'SortBy',
@@ -11,7 +12,7 @@ export default {
   computed: {
     sortByAttribute () {
       // renamed to sortingOptions
-      return this.$store.state.config.products.sortByAttributes
+      return config.products.sortByAttributes
     }
   },
   mixins: [CategorySort]

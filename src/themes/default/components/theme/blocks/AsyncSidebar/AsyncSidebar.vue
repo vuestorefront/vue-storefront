@@ -81,6 +81,7 @@ export default {
     min-width: 320px;
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
   .left-sidebar{
@@ -91,7 +92,7 @@ export default {
     overflow: hidden;
     overflow-y: auto;
     z-index: 3;
-
+    -webkit-overflow-scrolling: touch;
     @media (max-width: 767px) {
       width: 100vh;
     }

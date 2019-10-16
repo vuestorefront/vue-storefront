@@ -6,6 +6,6 @@ const KEY = 'claims'
 
 export const Claims = createModule({
   key: KEY,
-  store: { modules: [{ key: KEY, module }]},
+  store: { modules: [{ key: KEY, module }] },
   beforeRegistration
-}) 
+})
