@@ -12,8 +12,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "nuxt": "^2.0.0",
-    "@vue-storefront/composables": "0.1.0"
+    "@vue-storefront/composables": "0.1.0",
+    "@vue/composition-api": "^0.3.2",
+    "nuxt": "^2.0.0"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.3.1",
