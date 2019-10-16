@@ -6,10 +6,18 @@
 
 <script lang="ts">
 import Vue from 'vue';
-
-export default Vue.extend({
+import { createComponent, ref } from '@vue/composition-api'
+import { useProduct } from './hooks/useProduct'
+export default createComponent({
   name: 'app',
-});
+  setup () {
+    const { product, configuration, configure } = useProduct()
+
+    return {
+      configuration
+    }
+  }
+})
 </script>
 
 <style>
