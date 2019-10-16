@@ -39,8 +39,7 @@
     "@vue-storefront/core": "2.0.0"
   },
   "peerDependencies": {
-    "@vue/composition-api": "^0.3.2",
-    "vue": "^2.6.10"
+    "@vue/composition-api": "^0.3.2"
   },
   "browserslist": [
     "> 1%",

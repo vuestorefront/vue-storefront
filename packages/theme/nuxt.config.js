@@ -23,6 +23,7 @@ export default {
   modules: [
   ],
   build: {
+    // To have working tresshaking and avoid poly duplication
     extend: function (config) {
       config.resolve.alias['@vue-storefront/composables'] = '@vue-storefront/composables/raw.ts'
     },
