@@ -66,3 +66,28 @@ export interface UseCompare
   removeFromCompare: REMOVE_FROM_COMPARE;
   clearCompare: CLEAR_COMPARE;
 }
+
+export interface UseCheckout 
+<
+  PAYMENT_METHODS,
+  SHIPPING_METHODS,
+  PERSONAL_DETAILS,
+  SHIPPING_DETAILS,
+  CHOOSEN_PAYMENT_METHOD,
+  CHOOSEN_SHIPPING_METHOD,
+  SET_PERSONAL_DETAILS,
+  SET_PAYMENT_METHOD,
+  SET_SHIPPING_METHOD,
+  PLACE_ORDER,
+> {
+  paymentMethods: PAYMENT_METHODS
+  shippingMethods: SHIPPING_METHODS
+  personalDetails: PERSONAL_DETAILS
+  shippingDetails: SHIPPING_DETAILS
+  choosenPaymentMethod: CHOOSEN_PAYMENT_METHOD
+  choosenShippingMethod: CHOOSEN_SHIPPING_METHOD
+  setPersonalDetails: SET_PERSONAL_DETAILS
+  setPaymentMethod: SET_PAYMENT_METHOD
+  setShippingMethod: SET_SHIPPING_METHOD
+  placeOrder: PLACE_ORDER
+}
