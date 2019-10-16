@@ -2,8 +2,9 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "build:composables": "cd packages/composables && yarn build",
     "build:core": "cd packages/core && tsc",
-    "build": "yarn build:core"
+    "build": "yarn build:core && yarn build:composables"
   },
   "devDependencies": {
     "lerna": "^3.15.0"
