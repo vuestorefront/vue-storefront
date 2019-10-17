@@ -826,6 +826,9 @@ Here we added _Vue_ click event.
 Now you can edit options for your products in _Microcart_.
 
 ### 3. Peep into the kitchen (what happens internally)
+We have been through a thorough scrutiny on what's been changed to `1.11`.
+
+_modules_ and _core_ part of the upgrade can be dealt 
 
 ### 4. Chef's secret (protip)
 1. Debunk _github_ features to uncover the code changes
