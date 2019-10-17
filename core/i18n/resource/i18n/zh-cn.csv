@@ -36,6 +36,7 @@
 "Processing order...","订单处理中..."
 "Product has been added to the cart!","已成功将商品加入购物车!"
 "Product price is unknown, product cannot be added to the cart!","商品价格未确定，无法添加到购物车！"
+"Product quantity has been updated!","Product quantity has been updated!"
 "Product {productName} has been added to the compare!","商品 {productName} 已经添加到比较列表中!"
 "Product {productName} has been added to wishlist!","商品 {productName} 已添加到心愿单!"
 "Product {productName} has been removed from compare!","商品 {productName} 已从比较列表中移除!"
