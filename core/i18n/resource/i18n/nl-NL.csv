@@ -1,7 +1,7 @@
  is out of stock!, is niet in voorraad!
 "Adding a review ...","Adding a review ..."
 "Are you sure you would like to remove this item from the shopping cart?","Weet u zeker dat u dit artikel uit uw mandje wilt verwijderen?"
-"Only","Only"
+"Only {maxQuantity} products of this type are available!","Only {maxQuantity} products of this type are available!"
 "Product price is unknown, product cannot be added to the cart!",Productprijs onbekend. Dit product kan niet worden toegevoegd aan de winkelwagen!
 "Shopping cart is empty. Please add some products before entering Checkout",Uw winkelwagen is leeg. Voeg producten toe voordat u gaat afrekenen
 "Stock check in progress, please wait while available stock quantities are checked","Voorraadcontrole bezig. Een moment gedult alstublieft, we checken op dit moment de voorraden"
@@ -9,7 +9,6 @@
 "Unhandled error, wrong response format!","Unhandled error, wrong response format!"
 "You need to be logged in to see this page","U moet ingelogd zijn om deze pagina te bekijken"
 "You submitted your review for moderation.","You submitted your review for moderation."
-"products of this type are available!","products of this type are available!"
 404 Page Not Found,404 Pagina niet gevonden
 Account data has successfully been updated,Account gegevens succesvol geupdatet.
 Checkout,Afrekenen

@@ -136,7 +136,7 @@
               :loading="isStockInfoLoading"
               :is-simple-or-configurable="isSimpleOrConfigurable"
               show-quantity
-              @error="getQuantityError"
+              @error="handleQuantityError"
             />
             <div class="row m0">
               <add-to-cart
@@ -337,7 +337,9 @@ export default {
       return false
     },
     isAddToCartDisabled () {
-      return this.quantityError || this.isStockInfoLoading || (this.isOnline && (!this.maxQuantity && this.isSimpleOrConfigurable))
+      return this.quantityError ||
+        this.isStockInfoLoading ||
+        (this.isOnline && !this.maxQuantity && this.isSimpleOrConfigurable)
     }
   },
   async mounted () {
@@ -410,7 +412,7 @@ export default {
         this.isStockInfoLoading = false
       }
     },
-    getQuantityError (error) {
+    handleQuantityError (error) {
       this.quantityError = error
     }
   },

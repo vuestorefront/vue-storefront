@@ -15,7 +15,7 @@
 "Newsletter preferences have successfully been updated","Предпочтения по новостям успешно обновлены"
 "No products synchronized for this category. Please come back while online!","По данной категории товары не синхронизированы. Пожалуйста вернитесь когда будете онлайн!"
 "No such configuration for the product. Please do choose another combination of attributes.","У товара отсутствует данная конфигурация. Пожалуйста выберите другие значения атрибутов."
-"Only","Only"
+"Only {maxQuantity} products of this type are available!","Only {maxQuantity} products of this type are available!"
 "Out of stock!","Нет в наличии!"
 "Please fix the validation errors","Пожалуйста исправьте валидационные ошибки"
 "Product has been added to the cart!","Товар добавлен в корзину!"
@@ -41,4 +41,3 @@
 "You need to be logged in to see this page","Вы должны войти в систему, чтобы увидеть эту страницу"
 "You submitted your review for moderation.","You submitted your review for moderation."
 "You're logged out","Вы вышли из учетной записи"
-"products of this type are available!","products of this type are available!"

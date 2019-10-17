@@ -57,7 +57,7 @@
             :loading="isStockInfoLoading"
             :is-simple-or-configurable="isSimpleOrConfigurable"
             @input="updateProductQty"
-            @error="getQuantityError"
+            @error="handleQuantityError"
           />
         </div>
         <div class="flex mr10 align-right start-xs between-sm prices">
@@ -226,7 +226,9 @@ export default {
       return false
     },
     isUpdateCartDisabled () {
-      return this.quantityError || this.isStockInfoLoading || (this.isOnline && (!this.maxQuantity && this.isSimpleOrConfigurable))
+      return this.quantityError ||
+        this.isStockInfoLoading ||
+        (this.isOnline && !this.maxQuantity && this.isSimpleOrConfigurable)
     }
   },
   methods: {
@@ -262,7 +264,7 @@ export default {
         this.isStockInfoLoading = false
       }
     },
-    getQuantityError (error) {
+    handleQuantityError (error) {
       this.quantityError = error
     },
     async changeEditModeFilter (filter) {
@@ -279,7 +281,7 @@ export default {
       } else if (maxQuantity < this.productQty) {
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
-          message: this.$t('Only') + ` ${maxQuantity} ` + this.$t('products of this type are available!'),
+          message: this.$t('Only {maxQuantity} products of this type are available!', { maxQuantity }),
           action1: { label: this.$t('OK') }
         })
       } else {
