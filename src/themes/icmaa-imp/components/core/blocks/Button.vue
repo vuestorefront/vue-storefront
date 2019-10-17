@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="t-px-4 t-text-xs t-rounded-sm t-cursor-pointer t-leading-1-rem" :class="[ { 't-uppercase': type !== 'select' }, sizeClass, colorClass ]" :style="customColorStyle">
+  <button type="button" class="t-flex t-items-center t-px-4 t-text-xs t-rounded-sm t-cursor-pointer" :class="[ { 't-uppercase': !['select', 'tag', 'tag-active'].includes(type) }, sizeClass, colorClass, alignClass ]" :style="customColorStyle" @click="$emit('click')">
     <template v-if="iconOnly">
       <span class="t-sr-only">
         <slot />
@@ -8,7 +8,7 @@
     <template v-else>
       <slot />
     </template>
-    <material-icon v-if="icon" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-ml-4': !iconOnly }, { 't-float-right t-leading-1-rem': type === 'select' }, iconClass ]" />
+    <material-icon v-if="icon" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-ml-4': !iconOnly }, iconClass ]" />
   </button>
 </template>
 
@@ -35,6 +35,7 @@ export default {
         return [
           'primary',
           'second',
+          'tag',
           'ghost',
           'ghost-white',
           'ghost-custom',
@@ -44,6 +45,11 @@ export default {
           'select'
         ].includes(value)
       }
+    },
+    align: {
+      type: [String],
+      default: 'center',
+      validation: (v) => ['center', 'stretch'].includes(v)
     },
     customColor: {
       type: [String, Boolean],
@@ -74,16 +80,20 @@ export default {
       const map = {
         'primary': 't-bg-primary t-text-white',
         'second': 't-bg-base-darkest t-text-white',
+        'tag': 't-border t-border-base-light t-bg-white t-text-base-dark hover:t-border-base-dark',
+        'tag-active': 't-border t-border-base-dark  t-bg-base-dark t-text-white',
         'ghost': 't-border t-border-base-darkest t-bg-transparent t-text-base-darkest',
         'ghost-white': 't-border t-border-white t-bg-transparent t-text-white',
         'ghost-custom': 't-border t-bg-transparent',
         'transparent': 't-bg-transparent',
         'transparent-white': 't-bg-transparent t-text-white',
-        'transparent-primary': 't-bg-transparent t-text-base-darkest',
         'select': 't-border t-border-base-light t-bg-transparent t-text-base-tone t-text-left t-text-sm'
       }
 
       return map[this.type]
+    },
+    alignClass () {
+      return this.align === 'stretch' || this.type === 'select' ? 't-justify-between' : 't-justify-center'
     },
     customColorStyle () {
       if (this.customColor && this.type === 'ghost-custom') {

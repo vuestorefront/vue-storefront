@@ -5,11 +5,11 @@ body {
   color: #1E1E1E
 }
 
-main h1:not([class^="t-"]), .h1,
-main h2:not([class^="t-"]), .h2,
-main h3:not([class^="t-"]), .h3,
-main h4:not([class^="t-"]), .h4,
-main h5:not([class^="t-"]), .h5 {
+main h1:not([class*="t-"]), .h1,
+main h2:not([class*="t-"]), .h2,
+main h3:not([class*="t-"]), .h3,
+main h4:not([class*="t-"]), .h4,
+main h5:not([class*="t-"]), .h5 {
   line-height: 1.125em;
 
   &:not(:last-child) {
@@ -21,20 +21,20 @@ main h5:not([class^="t-"]), .h5 {
   }
 }
 
-main h1:not([class^="t-"]), .h1 { font-size: 2.5em; font-weight: bold; }
-main h2:not([class^="t-"]), .h2 { font-size: 1.75em; font-weight: bold; }
-main h3:not([class^="t-"]), .h3 { font-size: 1.625em; }
-main h4:not([class^="t-"]), .h4 { font-size: 1.25em; }
-main h5:not([class^="t-"]), .h5 { font-size: 1.125em; }
-main h6:not([class^="t-"]), .h6 { font-size: 1em; font-weight: bold; }
+main h1:not([class*="t-"]), .h1 { font-size: 2.5em; font-weight: bold; }
+main h2:not([class*="t-"]), .h2 { font-size: 1.75em; font-weight: bold; }
+main h3:not([class*="t-"]), .h3 { font-size: 1.625em; }
+main h4:not([class*="t-"]), .h4 { font-size: 1.25em; }
+main h5:not([class*="t-"]), .h5 { font-size: 1.125em; }
+main h6:not([class*="t-"]), .h6 { font-size: 1em; font-weight: bold; }
 
 .rem {
-  h1:not([class^="t-"]), .h1 { font-size: 2.5rem; font-weight: bold; }
-  h2:not([class^="t-"]), .h2 { font-size: 1.75rem; font-weight: bold; }
-  h3:not([class^="t-"]), .h3 { font-size: 1.625rem; }
-  h4:not([class^="t-"]), .h4 { font-size: 1.25rem; }
-  h5:not([class^="t-"]), .h5 { font-size: 1.125rem; }
-  h6:not([class^="t-"]), .h6 { font-size: 1rem; font-weight: bold; }
+  h1:not([class*="t-"]), .h1 { font-size: 2.5rem; font-weight: bold; }
+  h2:not([class*="t-"]), .h2 { font-size: 1.75rem; font-weight: bold; }
+  h3:not([class*="t-"]), .h3 { font-size: 1.625rem; }
+  h4:not([class*="t-"]), .h4 { font-size: 1.25rem; }
+  h5:not([class*="t-"]), .h5 { font-size: 1.125rem; }
+  h6:not([class*="t-"]), .h6 { font-size: 1rem; font-weight: bold; }
 }
 
 // DEPRECATED STYLES

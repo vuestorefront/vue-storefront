@@ -3,7 +3,7 @@
     <retina-image :image="imageUrl" class="t-w-full md:t-w-1/2" :alt="teaser.text1 | htmlDecode" v-if="showLeft" />
     <div class="t-w-full md:t-w-1/2 t-flex t-items-center">
       <div class="t-p-8">
-        <h1 class="t-w-full t-leading-tight t-font-bold t-text-2.5xl t-mb-5" :class="{ 't-text-base-darkest': !textColor }" :style="{ color: textColor }">
+        <h1 class="t-w-full t-leading-tight t-font-bold t-text-2-1/2xl t-mb-5" :class="{ 't-text-base-darkest': !textColor }" :style="{ color: textColor }">
           {{ teaser.text1 }}
         </h1>
         <div class="t-w-full t-text-sm t-mb-10" :class="{ 't-text-base-darkest': !textColor }" :style="{ color: textColor }">

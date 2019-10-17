@@ -1,22 +1,24 @@
+import Vue from 'vue'
+
 export const uiStore = {
   namespaced: true,
   state: {
     viewport: false,
-    sidebar: false,
-    microcart: false,
-    wishlist: false,
-    searchpanel: false,
-    addtocart: false,
-    newsletterPopup: false,
+    sidebarPath: [],
+    sidebarAnimation: false,
     overlay: false,
     loader: false,
     authElem: 'login',
     checkoutMode: false,
     openMyAccount: false,
-    submenu: {
-      depth: false,
-      path: []
-    }
+    /** Sidebar and popup type states: */
+    sidebar: false,
+    microcart: false,
+    wishlist: false,
+    searchpanel: false,
+    addtocart: false,
+    categoryfilter: false,
+    newsletterPopup: false
   },
   mutations: {
     setViewport (state, viewport: string) {
@@ -28,30 +30,27 @@ export const uiStore = {
       state.searchpanel = false
       state.wishlist = false
       state.addtocart = false
+      state.categoryfilter = false
       state.overlay = false
     },
     setCheckoutMode (state, action) {
       state.checkoutMode = action === true
     },
-    setMicrocart (state, action) {
-      state.microcart = action === true
-      state.overlay = action === true
+    toggleSidebar (state, property, action) {
+      const status = action || !state[property]
+      state.sidebarPath = []
+      state[property] = status
+      state.overlay = status
     },
-    setSidebar (state, action) {
-      state.sidebar = action === true
-      state.overlay = action === true
+    addSidebarPath (state, payload) {
+      state.sidebarPath.push(payload)
     },
-    setSearchpanel (state, action) {
-      state.searchpanel = action === true
-      state.overlay = action === true
-    },
-    setWishlist (state, action) {
-      state.wishlist = action === true
-      state.overlay = action === true
-    },
-    setAddtocart (state, action) {
-      state.addtocart = action === true
-      state.overlay = action === true
+    removeSidebarPath (state) {
+      state.sidebarAnimation = true
+      setTimeout(() => {
+        state.sidebarAnimation = false
+        Vue.delete(state.sidebarPath, state.sidebarPath.length - 1)
+      }, 500)
     },
     setOverlay (state, action) {
       state.overlay = action === true
@@ -79,17 +78,34 @@ export const uiStore = {
     closeAll ({ commit }) {
       commit('setCloseAll')
     },
-    toggleMicrocart ({ commit, state }) {
-      commit('setMicrocart', !state.microcart)
+    setSidebar ({ commit, state }, status) {
+      commit('toggleSidebar', 'sidebar', status)
     },
-    toggleWishlist ({ commit, state }) {
-      commit('setWishlist', !state.wishlist)
+    setSearchpanel ({ commit, state }, status) {
+      commit('toggleSidebar', 'searchpanel', status)
     },
-    toggleAddtocart ({ commit, state }) {
-      commit('setAddtocart', !state.addtocart)
+    setMicrocart ({ commit, state }, status) {
+      commit('toggleSidebar', 'microcart', status)
+    },
+    setWishlist ({ commit, state }, status) {
+      commit('toggleSidebar', 'wishlist', status)
+    },
+    setAddtocart ({ commit, state }, status) {
+      commit('toggleSidebar', 'addtocart', status)
+    },
+    setCategoryfilter ({ commit, state }, status) {
+      commit('toggleSidebar', 'categoryfilter', status)
+    },
+    addSidebarPath ({ commit }, pathItem) {
+      commit('addSidebarPath', pathItem)
+    },
+    removeLastSidebarPath ({ commit }) {
+      commit('removeSidebarPath')
     }
   },
   getters: {
-    getViewport: state => state.viewport
+    getViewport: state => state.viewport,
+    getSidebarPath: state => state.sidebarPath,
+    getSidebarAnimation: state => state.sidebarAnimation
   }
 }

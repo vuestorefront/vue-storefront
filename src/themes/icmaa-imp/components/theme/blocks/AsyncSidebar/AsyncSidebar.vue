@@ -1,23 +1,32 @@
 <template>
   <transition :name="direction === 'right' ? 'slide-left' : direction === 'left' ? 'slide-right' : null ">
     <div
-      class="t-max-w-full t-fixed t-bg-white"
+      class="sidebar t-max-w-full t-fixed t-bg-white"
       :class="direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null "
       data-testid="sidebar"
       ref="sidebar"
       v-if="isOpen"
     >
-      <component :is="component" @close="$emit('close')" @reload="getComponent" />
+      <div class="submenu-wrapper" :style="{ ...translateX }">
+        <component :is="component" @close="$emit('close')" @reload="getComponent" />
+        <submenu v-for="(item, i) in sidebarPath" :key="i" :index="i" :async-component="item.component" />
+      </div>
     </div>
   </transition>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
+import Submenu from 'theme/components/theme/blocks/AsyncSidebar/Submenu'
 import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
 import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {
+  components: {
+    Submenu
+  },
   props: {
     asyncComponent: {
       type: Function,
@@ -61,54 +70,75 @@ export default {
         timeout: 3000
       })
     }
+  },
+  computed: {
+    ...mapGetters({
+      sidebarPath: 'ui/getSidebarPath',
+      sidebarAnimation: 'ui/getSidebarAnimation'
+    }),
+    hasSubmenu () {
+      return this.sidebarPath.length > 0
+    },
+    sidebarLength () {
+      return this.sidebarAnimation ? this.sidebarPath.length - 1 : this.sidebarPath.length
+    },
+    translateX () {
+      const translateX = this.sidebarLength > 0 ? (this.sidebarLength) * -100 : 0
+      return this.hasSubmenu ? { transform: `translateX(${translateX}%)` } : {}
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import "~theme/css/animations/transitions";
-  @import '~theme/css/base/global_vars';
-  $z-index-modal: map-get($z-index, modal);
+@import "~theme/css/animations/transitions";
+@import '~theme/css/base/global_vars';
+$z-index-modal: map-get($z-index, modal);
 
-  .slide-left-enter-active,
-  .slide-left-leave-active,
-  .slide-right-enter-active,
-  .slide-right-leave-active {
-    transition: transform .25s;
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform .25s;
+}
+
+.slide-left-enter,
+.slide-left-leave-to {
+  transform: translateX(100%);
+}
+
+.slide-right-enter,
+.slide-right-leave-to {
+  transform: translateX(-100%);
+}
+
+.right-sidebar {
+  top: 0;
+  right: 0;
+  z-index: $z-index-modal;
+  height: 100%;
+  width: 800px;
+  min-width: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.left-sidebar{
+  height: 100vh;
+  width: 350px;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  overflow-y: auto;
+  z-index: $z-index-modal;
+
+  @media (max-width: 767px) {
+    width: 100vh;
   }
+}
 
-  .slide-left-enter,
-  .slide-left-leave-to {
-    transform: translateX(100%);
-  }
-
-  .slide-right-enter,
-  .slide-right-leave-to {
-    transform: translateX(-100%);
-  }
-
-  .right-sidebar {
-    top: 0;
-    right: 0;
-    z-index: $z-index-modal;
-    height: 100%;
-    width: 800px;
-    min-width: 320px;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  .left-sidebar{
-    height: 100vh;
-    width: 350px;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    overflow-y: auto;
-    z-index: $z-index-modal;
-
-    @media (max-width: 767px) {
-      width: 100vh;
-    }
-  }
+.sidebar .submenu-wrapper {
+  position: relative;
+  transition: transform .5s;
+}
 </style>

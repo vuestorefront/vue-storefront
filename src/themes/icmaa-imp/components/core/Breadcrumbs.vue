@@ -6,7 +6,7 @@
       </router-link>
       <span class="t-mx-2" :key="'bullet-' + index" v-text="spacerCharacter" />
     </template>
-    <span v-text="current || htmlDecode" />
+    <span class="t-text-base-darkest" v-text="current || htmlDecode" />
   </div>
 </template>
 

@@ -1,76 +1,44 @@
 <template>
-  <div class="product align-center w-100 pb20" v-observe-visibility="visibilityChanged">
-    <div class="product__icons">
-      <AddToWishlist :product="product">
-        <div
-          class="product__icon"
-          :class="{'product__icon--active': isOnWishlist }"
-          :title="isOnWishlist ? $t('Remove') : $t('Add to favorite') "
-        >
-          <i class="material-icons">{{ favoriteIcon }}</i>
-        </div>
-      </AddToWishlist>
-      <AddToCompare :product="product">
-        <div
-          class="product__icon"
-          :class="{'product__icon--active':isOnCompare } "
-          :title="isOnCompare ? $t('Remove from compare') : $t('Add to compare')"
-        >
-          <i class="material-icons">compare</i>
-        </div>
-      </AddToCompare>
+  <div class="product t-cursor-pointer" v-observe-visibility="visibilityChanged">
+    <div class="product-cover t-relative t-bg-white" :class="{ 't-mb-4': !onlyImage }">
+      <AddToWishlist class="t-absolute t-bottom-0 t-left-0 t-z-1" :class="{'': isOnWishlist }" :is-overlay="true" :product="product" />
+      <router-link :to="productLink" data-testid="productLink" class="product-link t-z-0">
+        <product-image :image="thumbnailObj" :alt="product.name | htmlDecode" data-testid="productImage" />
+      </router-link>
     </div>
-    <router-link
-      class="block no-underline product-link"
-      :to="productLink"
-      data-testid="productLink"
-    >
-      <div class="product-cover t-bg-white">
-        <product-image
-          :image="thumbnailObj"
-          :alt="product.name | htmlDecode"
-          data-testid="productImage"
-        />
-      </div>
-
-      <p class="mb0 cl-accent mt10" v-if="!onlyImage">
-        {{ product.name | htmlDecode }}
+    <router-link :to="productLink" tag="div" class="t-text-sm" v-if="!onlyImage">
+      <p class="t-mb-1 t-text-primary t-leading-tight">
+        {{ translatedProductName | htmlDecode }}
       </p>
-
-      <span
-        class="price-original mr5 lh30 cl-secondary"
-        v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0 && !onlyImage"
-      >{{ product.original_price_incl_tax | price }}</span>
-
-      <span
-        class="price-special lh30 cl-accent weight-700"
-        v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
-      >{{ product.price_incl_tax | price }}</span>
-
-      <span
-        class="lh30 cl-secondary"
-        v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
-      >{{ product.price_incl_tax | price }}</span>
+      <p>
+        <span class="price-original t-text-base-light t-line-through t-mr-2" v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0">
+          {{ product.original_price_incl_tax | price }}
+        </span>
+        <span class="price-special t-text-sale t-font-bold" v-if="product.special_price && parseFloat(product.special_price) > 0">
+          {{ product.price_incl_tax | price }}
+        </span>
+        <span class="price t-text-base-dark t-font-bold" v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0">
+          {{ product.price_incl_tax | price }}
+        </span>
+      </p>
     </router-link>
   </div>
 </template>
 
 <script>
-import rootStore from '@vue-storefront/core/store'
-import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
 import config from 'config'
-import ProductImage from './ProductImage'
+import rootStore from '@vue-storefront/core/store'
+import ProductImage from 'theme/components/core/ProductImage'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
-import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
+import ProductNameMixin from 'icmaa-catalog/mixins/ProductNameMixin'
+import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile'
 import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
-import { IsOnCompare } from '@vue-storefront/core/modules/compare/components/IsOnCompare'
 
 export default {
-  mixins: [ProductTile, IsOnWishlist, IsOnCompare],
+  mixins: [ProductTile, IsOnWishlist, ProductNameMixin],
   components: {
     ProductImage,
-    AddToWishlist,
-    AddToCompare
+    AddToWishlist
   },
   props: {
     labelsActive: {
@@ -129,55 +97,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '~theme/css/animations/transitions';
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-
-$bg-secondary: color(secondary, $colors-background);
-$border-secondary: color(secondary, $colors-border);
-$color-white: color(white);
-
-.product {
-  position: relative;
-  @media (max-width: 767px) {
-    padding-bottom: 10px;
-  }
-  &__icons {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    padding-right: 20px;
-    padding-top: 10px;
-  }
-  &__icon {
-    padding-top: 10px;
-    opacity: 0;
-    z-index: 2;
-    transition: 0.3s opacity $motion-main;
-  }
-}
-
-.price-original {
-  text-decoration: line-through;
-}
-
-%label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  background-color: $border-secondary;
-  text-transform: uppercase;
-  color: $color-white;
-  font-size: 12px;
-}
-
-</style>

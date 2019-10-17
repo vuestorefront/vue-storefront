@@ -1,110 +1,97 @@
 <template>
   <div id="category">
-    <header class="bg-cl-secondary py35 pl20">
-      <div class="container">
-        <breadcrumbs :routes="getBreadcrumbs" :active-route="getCurrentCategory.name" />
-        <div class="row middle-sm">
-          <h1 class="col-sm-8 category-title mb10">
-            {{ title }}
-          </h1>
-          <div class="sorting col-sm-2 align-right mt50">
-            <label class="mr10">{{ $t('Columns') }}:</label>
-            <columns @change-column="columnChange" />
-          </div>
-          <div class="sorting col-sm-2 align-right mt50">
-            <sort-by
-              :has-label="true"
-              @change="changeFilter"
-              :value="getCurrentSearchQuery.sort"
-            />
-          </div>
-          <category-extras-header />
-        </div>
-      </div>
-      <div class="container">
-        <div class="row m0">
-          <button
-            class="col-xs-5 mt25 mr15 p15 mobile-filters-button bg-cl-th-accent brdr-none cl-white h5 sans-serif fs-medium-small"
-            @click="openFilters"
-          >
-            {{ $t('Filters') }}
-          </button>
-          <div class="mobile-sorting col-xs-6 mt25">
-            <sort-by
-              @change="changeFilter"
-              :value="getCurrentSearchQuery.sort"
-            />
+    <header class="t-container">
+      <div class="t-flex t-flex-wrap t-px-4 t-mb-8">
+        <breadcrumbs :routes="getBreadcrumbs" :active-route="getCurrentCategory.name" class="t-w-full t-my-8" />
+        <category-extras-header />
+        <div class="t-w-full">
+          <div class="t-flex t-flex-wrap t-items-center t--mx-1 lg:t--mx-2">
+            <h1 class="category-title t-hidden lg:t-block t-w-3/4 t-px-1 lg:t-px-2 t-mb-4 t-font-light t-text-2xl t-text-base-dark" v-text="title" />
+            <div class="t-hidden lg:t-block t-w-1/4 t-px-1 lg:t-px-2 t-text-sm t-text-base-dark t-text-right">
+              <span class="t-font-bold">{{ getCategoryProductsTotal }}</span> {{ $t('items') }}
+              <span class="t-mx-2 t-text-base-lighter">|</span>
+              <dropdown @change="changePageSize" :options="pageSizeOptions" :current="parseInt(pageSize)" position="right" name="pagesize" class="t-inline-block" :dropdown-class="{ 't-w-32 t-mt-2': true }">
+                {{ pageSize }} {{ $t('items per page') }}
+                <material-icon icon="keyboard_arrow_down" size="xs" class="t-align-middle t-text-primary" />
+              </dropdown>
+            </div>
+            <div class="t-w-1/2 lg:t-w-3/4 t-px-1 lg:t-px-2 t-flex t-items-center">
+              <button-component style="second" align="stretch" icon="filter_list" @click.native="openFilters" class="t-w-full lg:t-w-auto">
+                {{ $t('Filters') }}
+              </button-component>
+              <presets @change="changeFilter" class="t-hidden lg:t-flex t-items-center t-ml-2" />
+            </div>
+            <div class="t-w-1/2 lg:t-w-1/4 t-px-1 lg:t-px-2">
+              <sort-by :has-label="true" @change="changeFilter" :value="getCurrentSearchQuery.sort" />
+            </div>
           </div>
         </div>
       </div>
     </header>
-    <div class="container pb60">
-      <div class="row m0 pt15">
-        <div class="col-md-3 start-xs category-filters">
-          <sidebar :filters="getAvailableFilters" @changeFilter="changeFilter" />
-        </div>
-        <div class="col-md-3 start-xs mobile-filters" v-show="mobileFilters">
-          <div class="close-container absolute w-100">
-            <i class="material-icons p15 close cl-accent" @click="closeFilters">close</i>
-          </div>
-          <sidebar class="mobile-filters-body" :filters="getAvailableFilters" @changeFilter="changeFilter" />
-          <div class="relative pb20 pt15">
-            <div class="brdr-top-1 brdr-cl-primary absolute divider w-100" />
-          </div>
-          <button-full
-            class="mb20 btn__filter"
-            @click.native="closeFilters"
-          >
-            {{ $t('Filter') }}
-          </button-full>
-        </div>
-        <div class="col-md-9 px10 border-box products-list">
-          <p class="col-xs-12 end-md m0 pb20 cl-secondary">
-            {{ $t('{count} items', { count: getCategoryProductsTotal }) }}
-          </p>
-          <div v-if="isCategoryEmpty" class="hidden-xs">
-            <h4 data-testid="noProductsInfo">
-              {{ $t('No products found!') }}
-            </h4>
-            <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
-          </div>
-          <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-            <product-listing :columns="defaultColumn" :products="getCategoryProducts" />
-          </lazy-hydrate>
-          <product-listing v-else :columns="defaultColumn" :products="getCategoryProducts" />
-        </div>
+
+    <div class="t-container t-pb-8">
+      <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+        <product-listing :products="getCategoryProducts" />
+      </lazy-hydrate>
+      <product-listing v-else :products="getCategoryProducts" />
+      <div class="t-flex t-items-center t-justify-center" v-if="moreProductsInSearchResults">
+        <button-component type="ghost" @click.native="loadMoreProducts" :disabled="loadingProducts">
+          {{ loadingProducts ? $t('Patience please ...') : $t('More products') }}
+        </button-component>
+      </div>
+      <div class="t-bg-white t-mx-4 t-p-4 t-py-10 t-text-center" v-if="isCategoryEmpty">
+        <h4 class="t-text-base t-bold" data-testid="noProductsInfo">
+          {{ $t('No products found!') }}
+        </h4>
+        <p class="t-text-sm t-text-base-light">
+          {{ $t('Please change Your search criteria and try again.') }}
+        </p>
       </div>
     </div>
+
+    <async-sidebar
+      :async-component="FilterSidebar"
+      :is-open="isSidebarOpen"
+      @close="$store.commit('ui/setCategoryfilter')"
+      direction="left"
+    />
   </div>
 </template>
 
 <script>
 import LazyHydrate from 'vue-lazy-hydration'
-import Sidebar from '../components/core/blocks/Category/Sidebar.vue'
-import ProductListing from '../components/core/ProductListing.vue'
-import Breadcrumbs from '../components/core/Breadcrumbs.vue'
-import SortBy from '../components/core/SortBy.vue'
-import { isServer } from '@vue-storefront/core/helpers'
-import { getSearchOptionsFromRouteParams } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
-import config from 'config'
-import Columns from '../components/core/Columns.vue'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import { mapGetters } from 'vuex'
-import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
-import rootStore from '@vue-storefront/core/store'
-import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
-import CategoryExtrasHeader from 'theme/components/core/blocks/CategoryExtras/Header.vue'
+import config from 'config'
+import rootStore from '@vue-storefront/core/store'
+import { mapGetters, mapState } from 'vuex'
+import { isServer } from '@vue-storefront/core/helpers'
+import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
+import { getSearchOptionsFromRouteParams } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
+
+import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue'
+import Sidebar from 'theme/components/core/blocks/Category/Sidebar'
+import SortBy from 'theme/components/core/blocks/Category/SortBy'
+import Presets from 'theme/components/core/blocks/Category/Presets'
+import ProductListing from 'theme/components/core/ProductListing'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs'
+import Dropdown from 'theme/components/core/blocks/Dropdown'
+import ButtonComponent from 'theme/components/core/blocks/Button'
+import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
+
+import CategoryMixin from 'icmaa-catalog/components/Category'
+import CategoryExtrasHeader from 'theme/components/core/blocks/CategoryExtras/Header'
 import CategoryExtrasMixin from 'icmaa-category-extras/mixins/categoryExtras'
 import CategoryMetaMixin from 'icmaa-meta/mixins/categoryMeta'
 
-const composeInitialPageState = async (store, route, forceLoad = false) => {
+const FilterSidebar = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-categoryfilter" */ 'theme/components/core/blocks/Category/Sidebar')
+
+const composeInitialPageState = async (store, route, forceLoad = false, pageSize) => {
   try {
     const filters = getSearchOptionsFromRouteParams(route.params)
     const cachedCategory = store.getters['category-next/getCategoryFrom'](route.path)
     const currentCategory = cachedCategory && !forceLoad ? cachedCategory : await store.dispatch('category-next/loadCategory', { filters })
 
-    await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory })
+    await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory, pageSize })
 
     const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
     if (isServer) {
@@ -119,31 +106,38 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
 
 export default {
   components: {
+    AsyncSidebar,
     LazyHydrate,
-    ButtonFull,
+    Dropdown,
+    ButtonComponent,
+    MaterialIcon,
+    Presets,
     ProductListing,
     Breadcrumbs,
-    Sidebar,
     SortBy,
-    Columns,
     CategoryExtrasHeader
   },
-  mixins: [ onBottomScroll, CategoryExtrasMixin, CategoryMetaMixin ],
+  mixins: [ CategoryMixin, CategoryExtrasMixin, CategoryMetaMixin ],
   data () {
     return {
+      pageSizes: [24, 48, 60, 100],
+      pageSize: this.$route && this.$route.query.pagesize ? this.$route.query.pagesize : 24,
       mobileFilters: false,
-      defaultColumn: 3,
       loadingProducts: false,
-      loading: true
+      loading: true,
+      FilterSidebar
     }
   },
   computed: {
+    ...mapState({
+      isSidebarOpen: state => state.ui.categoryfilter
+    }),
     ...mapGetters({
       getCurrentSearchQuery: 'category-next/getCurrentSearchQuery',
       getCategoryProducts: 'category-next/getCategoryProducts',
       getCurrentCategory: 'category-next/getCurrentCategory',
       getCategoryProductsTotal: 'category-next/getCategoryProductsTotal',
-      getAvailableFilters: 'category-next/getAvailableFilters'
+      getProductsStats: 'category-next/getCategorySearchProductsStats'
     }),
     isLazyHydrateEnabled () {
       return config.ssr.lazyHydrateFor.includes('category-next.products')
@@ -153,17 +147,25 @@ export default {
     },
     getBreadcrumbs () {
       return this.$store.getters['category-next/getBreadcrumbs'].filter(breadcrumb => breadcrumb.name !== this.getCurrentCategory.name)
+    },
+    pageSizeOptions () {
+      return this.pageSizes.map(s => { return { value: s, label: s } })
+    },
+    moreProductsInSearchResults () {
+      const { perPage, start, total } = this.getProductsStats
+      return (start + perPage < total)
     }
   },
-  async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
-    await composeInitialPageState(store, route)
+  async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
+    const { pageSize } = this.data()
+    await composeInitialPageState(store, route, false, route.params.pagesize || pageSize)
   },
   async beforeRouteEnter (to, from, next) {
     if (isServer) next() // SSR no need to invoke SW caching here
     else if (!from.name) { // SSR but client side invocation, we need to cache products and invoke requests from asyncData for offline support
       next(async vm => {
         vm.loading = true
-        await composeInitialPageState(vm.$store, to, true)
+        await composeInitialPageState(vm.$store, to, true, vm.pageSize)
         await vm.$store.dispatch('category-next/cacheProducts', { route: to }) // await here is because we must wait for the hydration
         vm.loading = false
       })
@@ -176,22 +178,27 @@ export default {
     }
   },
   methods: {
+    async changeFilter (filterVariants) {
+      if (!Array.isArray(filterVariants)) {
+        filterVariants = [filterVariants]
+      }
+
+      this.$store.dispatch('category-next/switchSearchFilters', filterVariants)
+    },
     openFilters () {
-      this.mobileFilters = true
+      this.$store.dispatch('ui/setCategoryfilter')
     },
-    closeFilters () {
-      this.mobileFilters = false
+    changePageSize (size) {
+      this.pageSize = size
+      this.$store.dispatch('category-next/switchSearchFilters', [ { type: 'pagesize', id: size } ])
     },
-    async changeFilter (filterVariant) {
-      this.$store.dispatch('category-next/switchSearchFilters', [filterVariant])
-    },
-    columnChange (column) {
-      this.defaultColumn = column
-    },
-    async onBottomScroll () {
-      if (this.loadingProducts) return
-      this.loadingProducts = true
+    async loadMoreProducts () {
+      if (this.loadingProducts) {
+        return
+      }
+
       try {
+        this.loadingProducts = true
         await this.$store.dispatch('category-next/loadMoreCategoryProducts')
       } catch (e) {
         console.error('Problem with fetching more products', e)
@@ -202,110 +209,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  .btn {
-    &__filter {
-      min-width: 100px;
-    }
-  }
-  .divider {
-    width: calc(100vw - 8px);
-    bottom: 20px;
-    left: -36px;
-  }
-  .category-filters {
-    width: 242px;
-  }
-
-  .mobile-filters {
-    display: none;
-    overflow: auto;
-  }
-
-  .mobile-filters-button {
-    display: none;
-  }
-
-  .mobile-sorting {
-    display: none;
-  }
-
-  .category-title {
-    line-height: 65px;
-  }
-
-  .sorting {
-    label {
-      margin-right: 10px;
-    }
-  }
-
-  @media (max-width: 64em) {
-    .products-list {
-      max-width: 530px;
-    }
-  }
-
-  @media (max-width: 770px) {
-    .category-title {
-      margin: 0;
-      font-size: 36px;
-      line-height: 40px;
-    }
-
-    .products-list {
-      width: 100%;
-      max-width: none;
-    }
-
-    .mobile-filters {
-      display: block;
-    }
-
-    .mobile-filters-button {
-      display: block;
-      height: 45px;
-    }
-
-    .sorting {
-      display: none;
-    }
-
-    .mobile-sorting {
-      display: block;
-    }
-
-    .category-filters {
-      display: none;
-    }
-
-    .product-listing {
-      justify-content: center;;
-    }
-
-    .mobile-filters {
-      position: fixed;
-      background-color: #F2F2F2;
-      z-index: 5;
-      padding: 0 40px;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      top: 0;
-      box-sizing: border-box;
-    }
-
-    .mobile-filters-body {
-      padding-top: 50px;
-    }
-  }
-
-  .close-container {
-    left: 0;
-  }
-
-  .close {
-    margin-left: auto;
-  }
-</style>

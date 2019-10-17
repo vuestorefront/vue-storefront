@@ -1,10 +1,12 @@
 <template>
   <sidebar>
     <template v-slot:top>
-      <top-button icon="person" :text="loginButtonText" tabindex="2" class="t-text-base-light" @click.native="login" />
+      <top-button icon="person" :text="loginButtonText" :tab-index="2" class="t-text-base-light" @click.native="login" />
     </template>
     <template v-slot:default>
-      <navigation-item v-for="link in getMainNavigation" v-bind="link" :key="link.id" />
+      <div class="t-flex t-flex-wrap t--mx-1">
+        <navigation-item v-for="link in getMainNavigation" v-bind="link" :key="link.id" />
+      </div>
     </template>
     <template v-slot:footer>
       <div class="t-flex-expand t-bg-base-lightest t-p-4">

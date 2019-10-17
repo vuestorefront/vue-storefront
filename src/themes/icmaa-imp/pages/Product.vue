@@ -108,7 +108,7 @@
     <async-sidebar
       :async-component="AddToCartSidebar"
       :is-open="isAddToCartSidebarOpen"
-      @close="$store.commit('ui/setAddtocart')"
+      @close="$store.dispatch('ui/setAddtocart')"
     />
   </div>
 </template>
@@ -259,7 +259,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      openAddtocart: 'ui/toggleAddtocart'
+      openAddtocart: 'ui/setAddtocart'
     }),
     addToCartButtonClick () {
       if (!this.loading) {

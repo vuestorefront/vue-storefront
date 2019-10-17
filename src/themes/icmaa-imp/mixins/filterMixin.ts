@@ -1,22 +1,25 @@
+import { mapGetters } from 'vuex'
 import toString from 'lodash-es/toString'
 
 export default {
   props: {
-    variant: {
-      type: Object,
-      default: () => ({})
-    },
-    selectedFilters: {
+    option: {
       type: Object,
       default: () => ({})
     }
   },
   computed: {
+    ...mapGetters({ selectedFilters: 'category-next/getCurrentFilters' }),
     isActive () {
-      const selectedVariantFilter = this.selectedFilters[this.variant.type]
+      return this.isActiveOption(this.option)
+    }
+  },
+  methods: {
+    isActiveOption (option) {
+      const selectedVariantFilter = this.selectedFilters[option.type]
       if (!selectedVariantFilter) return false
-      if (Array.isArray(selectedVariantFilter)) return !!selectedVariantFilter.find(variant => variant.id === this.variant.id)
-      return toString(selectedVariantFilter.id) === toString(this.variant.id)
+      if (Array.isArray(selectedVariantFilter)) return !!selectedVariantFilter.find(o => o.id === option.id)
+      return toString(selectedVariantFilter.id) === toString(option.id)
     }
   }
 }

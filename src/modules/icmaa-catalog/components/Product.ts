@@ -3,9 +3,10 @@ import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import { price } from '@vue-storefront/core/filters/price'
 import { Logo } from 'icmaa-category-extras/helpers/categoryExtras/logo'
-import ProductNameHelper from '../helpers/productName'
+import ProductNameMixin from 'icmaa-catalog/mixins/ProductNameMixin'
 
 export default {
+  mixins: [ProductNameMixin],
   async asyncData ({ store }) {
     const filterValues = Object.keys(store.getters['product/getCurrentProduct'])
       .filter(fieldName => config.icmaa_catalog.entities.product.prefetchAttributes.includes(fieldName))
@@ -54,9 +55,6 @@ export default {
       if (this.departmentCategory) {
         return this.getCategoryExtrasByUrlKey(this.departmentCategory.url_key)
       }
-    },
-    translatedProductName () {
-      return new ProductNameHelper(this.product.name).translatedName
     },
     productName () {
       let name = this.translatedProductName

@@ -1,11 +1,12 @@
 <template>
-  <div class="sidebar-menu t-scrolling-touch t-w-full t-min-h-screen t-flex t-flex-col" ref="container">
-    <div class="top t-px-2 t-bg-white t-border-b t-border-base-lighter t-flex">
+  <div class="sidebar-menu t-w-full t-min-h-screen t-max-h-screen t-overflow-y-auto t-scrolling-touch t-flex t-flex-col" ref="container">
+    <div class="top t-flex-fix t-px-2 t-bg-white t-border-b t-border-base-lighter t-flex">
       <slot name="top" />
+      <h2 class="t-self-center t-pl-2 t-text-lg t-text-base-dark" v-if="title" v-text="title" />
       <div class="t-flex-expand" />
-      <top-button icon="close" text="Close" tabindex="1" @click.native="closeMenu" class="t-text-base" />
+      <top-button icon="close" text="Close" :tab-index="1" @click.native="closeMenu" class="t-text-base" />
     </div>
-    <div @click="closeAfterClick" class="t-p-3 t-pt-4 t-flex t-flex-wrap">
+    <div @click="closeAfterClick" class="sidebar-content t-p-4">
       <slot />
     </div>
     <slot name="footer" />
@@ -23,6 +24,10 @@ import TopButton from 'theme/components/theme/blocks/AsyncSidebar/TopButton'
 export default {
   name: 'Sidebar',
   props: {
+    title: {
+      type: [Boolean, String],
+      default: false
+    },
     closeOnClick: {
       type: Boolean,
       default: true
@@ -42,7 +47,7 @@ export default {
       this.$store.dispatch('ui/closeAll')
     },
     onEscapePress () {
-      this.$store.dispatch('ui/closeAll')
+      this.closeMenu()
     }
   },
   mounted () {

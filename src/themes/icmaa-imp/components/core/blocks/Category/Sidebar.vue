@@ -1,154 +1,59 @@
 <template>
-  <div class="sidebar">
-    <h4 class="sidebar__header relative mt35 mb20 flex">
-      <span> {{ $t('Filter') }} </span>
-      <span
-        class="weight-400 sidebar__header__clear pointer sans-serif flex lh25"
-        @click="resetAllFilters"
-        v-show="hasActiveFilters"
-      >
-        <i class="material-icons cl-accent mr5">
-          cancel
-        </i>
-        {{ $t('Clear filters') }}
-      </span>
-    </h4>
-    <div
-      v-for="(filter, filterIndex) in availableFilters"
-      :key="filterIndex"
-    >
-      <h5>
-        {{ $t(filterIndex + '_filter') }}
-      </h5>
-
-      <div v-if="filterIndex==='color'">
-        <color-selector
-          context="category"
-          code="color"
-          v-for="(color, index) in filter"
-          :key="index"
-          :variant="color"
-          :selected-filters="getCurrentFilters"
-          @change="$emit('changeFilter', $event)"
-        />
-      </div>
-      <div v-else-if="filterIndex==='size'">
-        <size-selector
-          context="category"
-          code="size"
-          class="size-select mr10 mb10"
-          v-for="(size, index) in sortById(filter)"
-          :key="index"
-          :variant="size"
-          :selected-filters="getCurrentFilters"
-          @change="$emit('changeFilter', $event)"
-        />
-      </div>
-      <div v-else-if="filterIndex==='price'">
-        <price-selector
-          context="category"
-          class="price-select mb10 block"
-          code="price"
-          v-for="(price, index) in filter"
-          :key="index"
-          :id="price.id"
-          :from="price.from"
-          :to="price.to"
-          :content="price.label"
-          :variant="price"
-          :selected-filters="getCurrentFilters"
-          @change="$emit('changeFilter', $event)"
-        />
-      </div>
-      <div v-else class="sidebar__inline-selecors">
-        <generic-selector
-          context="category"
-          class="mr10 mb10 block"
-          :code="filterIndex"
-          v-for="(option, index) in filter"
-          :key="index"
-          :variant="option"
-          :selected-filters="getCurrentFilters"
-          @change="$emit('changeFilter', $event)"
-        />
-      </div>
+  <sidebar :title="$t('Filter')" :close-on-click="false">
+    <h4 @click="resetAllFilters" v-if="hasActiveFilters" v-text="$t('Clear filters')" />
+    <div v-for="filter in availableFilters" :key="filter.attributeKey" class="t-w-full">
+      <template v-if="filter.submenu">
+        <button-component icon="arrow_forward" type="select" class="t-w-full t-mb-6" @click="openSubmenuFilter(filter)">
+          {{ filter.label }}
+        </button-component>
+      </template>
+      <template v-else>
+        <h5 v-text="filter.label" class="t-text-xs t-text-base-tone t-mb-3" />
+        <filter-wrapper :attribute-key="filter.attributeKey" :attribute-label="filter.label" :options="filter.options" />
+      </template>
     </div>
-    <!-- add the custom controls to other available filters set in config.products.defaultFilters; must be numeric field in ES
-    <div v-if="filters.erin_recommends && filters.erin_recommends.length">
-      <h5>
-        {{ $t('Erin recommends') }}
-      </h5>
-      <div
-        class="size-select mr10 mb10"
-        v-for="(er, index) in filters.erin_recommends"
-        :key="index"
-        :id="er.id"
-        :label="er.label"
-      >{{ er.label }}</div>
-    </div>
-    -->
-  </div>
+  </sidebar>
 </template>
 
 <script>
-import ColorSelector from 'theme/components/core/ColorSelector'
-import SizeSelector from 'theme/components/core/SizeSelector'
-import PriceSelector from 'theme/components/core/PriceSelector'
-import GenericSelector from 'theme/components/core/GenericSelector'
+import { mapGetters } from 'vuex'
+import config from 'config'
+import Sidebar from 'theme/components/theme/blocks/AsyncSidebar/Sidebar'
+import FilterWrapper from 'theme/components/core/blocks/Category/Filter'
+import ButtonComponent from 'theme/components/core/blocks/Button'
 import pickBy from 'lodash-es/pickBy'
+
+const AsyncFilter = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-category-filter" */ 'theme/components/core/blocks/Category/Filter')
 
 export default {
   components: {
-    ColorSelector,
-    SizeSelector,
-    PriceSelector,
-    GenericSelector
-  },
-  props: {
-    filters: {
-      type: Object,
-      required: true
-    }
+    Sidebar,
+    FilterWrapper,
+    ButtonComponent
   },
   computed: {
-    hasActiveFilters () {
-      return this.$store.getters['category-next/hasActiveFilters']
-    },
-    getCurrentFilters () {
-      return this.$store.getters['category-next/getCurrentFilters']
-    },
+    ...mapGetters({
+      filters: 'category-next/getAvailableFilters',
+      hasActiveFilters: 'category-next/hasActiveFilters',
+      attributeLabel: 'attribute/getAttributeLabel'
+    }),
     availableFilters () {
-      return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType)) })
+      const submenuFilters = config.products.submenuFilters || []
+      let filters = Object.entries(this.filters).map(v => { return { attributeKey: v[0], options: v[1] } })
+      return filters
+        .filter(f => f.options.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(f.attributeKey))
+        .map(f => { return { ...f, submenu: submenuFilters.includes(f.attributeKey), label: this.attributeLabel({ attributeKey: f.attributeKey }) } })
     }
   },
   methods: {
     resetAllFilters () {
       this.$store.dispatch('category-next/resetSearchFilters')
     },
-    sortById (filters) {
-      return [...filters].sort((a, b) => { return a.id - b.id })
+    openSubmenuFilter (filter) {
+      if (filter.submenu) {
+        this.$store.dispatch('ui/addSidebarPath', { component: AsyncFilter, title: filter.label, props: filter })
+      }
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.sidebar {
-  &__header {
-    justify-content: space-between;
-    min-height: 47px;
-    flex-wrap: wrap;
-    &__clear {
-      font-size: .8em;
-      min-width: 102px;
-      @media only screen and (min-width: 768px) and (max-width: 770px) {
-        margin-top: 20px;
-      }
-    }
-  }
-
-  &__inline-selecors {
-    display: flex;
-  }
-}
-</style>

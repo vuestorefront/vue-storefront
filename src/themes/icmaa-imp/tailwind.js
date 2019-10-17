@@ -24,6 +24,10 @@ module.exports = {
         'base-lightest': '#EDEDED',
         'alert': '#CC2823'
       },
+      inset: {
+        '1/2': '50%',
+        'full': '100%'
+      },
       spacing: {
         '1/8': '0.125rem',
         '3-1/2': '0.85rem',
@@ -39,7 +43,7 @@ module.exports = {
         'icon': '0.875em',
         'xxs': '0.625rem',
         '1xl': '1.375rem',
-        '2.5xl': '1.625rem'
+        '2-1/2xl': '1.625rem'
       },
       lineHeight: {
         '1-rem': '1rem',
@@ -52,6 +56,9 @@ module.exports = {
       },
       opacity: {
         '60': '.6'
+      },
+      zIndex: {
+        '1': '1'
       }
     }
   },

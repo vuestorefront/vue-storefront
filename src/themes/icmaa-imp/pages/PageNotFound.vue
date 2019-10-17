@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     toggleSearchpanel () {
-      this.$store.commit('ui/setSearchpanel', true)
+      this.$store.dispatch('ui/setSearchpanel', true)
     }
   },
   metaInfo () {

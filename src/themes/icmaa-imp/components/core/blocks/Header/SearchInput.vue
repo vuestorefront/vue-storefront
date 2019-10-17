@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     toggleSearchpanel () {
-      this.$store.commit('ui/setSearchpanel', !this.isOpen)
+      this.$store.dispatch('ui/setSearchpanel', !this.isOpen)
     },
     updateSearch (payload) {
       this.search = payload.search

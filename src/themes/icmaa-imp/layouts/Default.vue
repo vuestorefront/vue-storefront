@@ -7,23 +7,23 @@
       <async-sidebar
         :async-component="SearchPanel"
         :is-open="isSearchPanelOpen"
-        @close="$store.commit('ui/setSearchpanel')"
+        @close="$store.dispatch('ui/setSearchpanel')"
       />
       <async-sidebar
         :async-component="Microcart"
         :is-open="isMicrocartOpen"
-        @close="$store.commit('ui/setMicrocart')"
+        @close="$store.dispatch('ui/setMicrocart')"
       />
       <async-sidebar
         :async-component="SidebarMenu"
         :is-open="isSidebarOpen"
-        @close="$store.commit('ui/setSidebar')"
+        @close="$store.dispatch('ui/setSidebar')"
         direction="left"
       />
       <async-sidebar
         :async-component="Wishlist"
         :is-open="isWishlistOpen"
-        @close="$store.commit('ui/setWishlist')"
+        @close="$store.dispatch('ui/setWishlist')"
       />
       <main class="t-bg-base-lightest">
         <slot />

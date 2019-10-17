@@ -2,9 +2,9 @@
   <div id="teaser-large" class="xs:t-mx-0 sm:t-mx-4 t-cursor-pointer t-webkit-tap-transparent" @click="redirect">
     <div class="t-relative">
       <retina-image :image="imageUrl" :alt="teaser.text1 | htmlDecode" class="t-w-full" />
-      <div class="t-flex t-justify-center t-absolute t-bottom-0 t-inset-x-0 t-mb-6 t-text-sm t-text-small t-uppercase" :class="{ 't-text-white': !textColor }" :style="{ color: textColor }">
+      <div class="t-flex t-justify-center t-items-center t-absolute t-bottom-0 t-inset-x-0 t-mb-6 t-text-sm t-text-small t-uppercase" :class="{ 't-text-white': !textColor }" :style="{ color: textColor }">
         {{ teaser.text1 }}
-        <material-icon icon="arrow_forward" class="t-ml-3" />
+        <material-icon icon="arrow_forward" size="sm" class="t-ml-2" />
       </div>
     </div>
   </div>

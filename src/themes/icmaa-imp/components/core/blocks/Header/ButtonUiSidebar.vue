@@ -24,7 +24,7 @@ export default {
       type: String,
       required: true
     },
-    uiMutation: {
+    uiAction: {
       type: String,
       required: true
     },
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     openSidebarMenu () {
-      this.$store.commit('ui/' + this.uiMutation, !this.isOpen)
+      this.$store.dispatch('ui/' + this.uiAction, !this.isOpen)
     }
   }
 }

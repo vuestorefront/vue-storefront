@@ -23,7 +23,7 @@
               class="serif h4 name"
               :to="productLink"
               data-testid="productLink"
-              @click.native="$store.commit('ui/setMicrocart', false)"
+              @click.native="$store.dispatch('ui/setMicrocart', false)"
             >
               {{ product.name | htmlDecode }}
             </router-link>
@@ -105,7 +105,7 @@
               />
             </div>
             <div class="flex flex-wrap pt5" v-else-if="option.label == 'Size' && editMode">
-              <size-selector
+              <generic-selector
                 class="mr10 mb10"
                 v-for="filter in getAvailableFilters[option.attribute_code]"
                 v-if="isOptionAvailable(filter)"
@@ -137,8 +137,8 @@ import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
 import ProductImage from 'theme/components/core/ProductImage'
-import ColorSelector from 'theme/components/core/ColorSelector.vue'
-import SizeSelector from 'theme/components/core/SizeSelector.vue'
+import ColorSelector from 'theme/components/core/blocks/Category/Filter/ColorSelector.vue'
+import GenericSelector from 'theme/components/core/blocks/Category/Filter/GenericSelector.vue'
 import RemoveButton from './RemoveButton'
 import EditButton from './EditButton'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
@@ -160,7 +160,7 @@ export default {
     BaseInputNumber,
     ProductImage,
     ColorSelector,
-    SizeSelector,
+    GenericSelector,
     EditButton,
     ButtonFull
   },

@@ -15,10 +15,17 @@
 
 <script>
 export default {
+  name: 'ColumnSelector',
   data () {
     return {
-      column: 3,
-      productsColumns: [2, 3, 4, 6]
+      column: this.defaultColumn,
+      productsColumns: [3, 4, 6]
+    }
+  },
+  props: {
+    defaultColumn: {
+      type: Number,
+      default: 4
     }
   },
   methods: {

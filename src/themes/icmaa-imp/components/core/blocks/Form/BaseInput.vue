@@ -1,18 +1,9 @@
 <template>
   <div class="base-input t-relative t-flex t-flex-wrap">
-    <button
-      v-if="iconActive"
-      type="button"
-      class="icon material-icons absolute brdr-none no-outline p0 bg-cl-transparent cl-brdr-secondary pointer"
-      @click="togglePassType()"
-      :aria-label="$t('Toggle password visibility')"
-      :title="$t('Toggle password visibility')"
-    >
-      {{ icon }}
-    </button>
+    <material-icon icon="visibility_off" v-if="passIconActive" @click="togglePassType()" class="t-absolute t-flex t-self-center t-p-2 t-cursor-pointer" :class="[`t-${iconPosition}-0`]" :aria-label="$t('Toggle password visibility')" :title="$t('Toggle password visibility')" />
     <input
       class="t-w-full t-h-10 t-px-3 t-border t-rounded-sm t-appearance-none t-leading-tight placeholder:t-text-base-light"
-      :class="[ invalid ? 't-border-alert' : 't-border-base-light', { 't-pr-8': type === 'password' } ]"
+      :class="[ invalid ? 't-border-alert' : 't-border-base-light', { 't-pr-10': type === 'password' || (icon && iconPosition === 'right'), 't-pl-10': icon && iconPosition === 'left' } ]"
       :placeholder="placeholder"
       :type="type === 'password' ? passType : type"
       :name="name"
@@ -26,23 +17,25 @@
       @keyup.enter="$emit('keyup.enter', $event.target.value)"
       @keyup="$emit('keyup', $event)"
     >
+    <material-icon :icon="icon" v-if="icon" class="t-absolute t-flex t-self-center t-p-2" :class="[`t-${iconPosition}-0`]" />
     <ValidationMessages v-if="invalid" :validations="validations" :validations-as-tooltip="validationsAsTooltip" />
   </div>
 </template>
 
 <script>
 import ValidationMessages from './ValidationMessages'
+import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 
 export default {
   name: 'BaseInput',
   components: {
+    MaterialIcon,
     ValidationMessages
   },
   data () {
     return {
       passType: 'password',
-      iconActive: false,
-      icon: 'visibility_off'
+      passIconActive: false
     }
   },
   props: {
@@ -91,6 +84,15 @@ export default {
     validationsAsTooltip: {
       type: Boolean,
       default: false
+    },
+    icon: {
+      type: [Boolean, String],
+      default: false
+    },
+    iconPosition: {
+      type: String,
+      default: 'right',
+      validations: (v) => ['left', 'right'].includes(v)
     }
   },
   computed: {
@@ -117,7 +119,7 @@ export default {
   },
   created () {
     if (this.type === 'password') {
-      this.iconActive = true
+      this.passIconActive = true
     }
   },
   mounted () {
