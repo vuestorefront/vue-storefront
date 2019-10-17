@@ -1131,6 +1131,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "setupVariantByAttributeCode": true,
   "endpoint": "http://localhost:8080/api/product",
   "defaultFilters": ["color", "size", "price", "erin_recommends"],
+  "systemFilterNames": ["sort"],
   "filterFieldMapping": {
     "category.name": "category.name.keyword"
   },
