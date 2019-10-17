@@ -35,10 +35,8 @@ Here are some thoughts on how to use TypeScript features in Vue Storefront: [Typ
 
 ## Pull Request Checklist
 
-Here's how to submit a pull request. **Pull request that don't meet these requirements will not be merged.**
-
-**ALWAYS** use the [Pull Request template](https://github.com/DivanteLtd/vue-storefront/blob/master/PULL_REQUEST_TEMPLATE.md) it's automatically added to each PR.
-1. Fork the repository and clone it locally fro the 'develop' branch. Make sure it's up to date with current `develop` branch
+**ALWAYS** use [Pull Request template](https://github.com/DivanteLtd/vue-storefront/blob/master/PULL_REQUEST_TEMPLATE.md) it's automatically added to each PR.
+1. Fork the repository and clone it locally from the 'develop' branch. Make sure it's up to date with current `develop` branch
 2. Create a branch for your edits. Use the following branch naming conventions:
  * bugfix/task-title
  * feature/task-name
@@ -46,7 +44,7 @@ Here's how to submit a pull request. **Pull request that don't meet these requir
 4. Reference any relevant issues or supporting documentation in your PR (ex. “Issue: 39. Issue title.”).
 5. If you are adding new feature provide documentation along with the PR. Also, add it to [upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)
 6. If you are removing/renaming something or changing its behavior also include it in [upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)
-7. Test your changes! Run your changes against any existing tests and create new ones when needed. Make sure your changes don’t break the existing project. Make sure that your branch is passing Travis CI build. 
+7. Test your changes! Run your changes against any existing tests and create new ones when needed. Make sure your changes don’t break the existing project. Make sure that your branch is passing Travis CI build.
 8. If you have found a potential security vulnerability, please DO NOT report it on the public issue tracker. Instead, send it to us at contributors@vuestorefront.io. We will work with you to verify and fix it as soon as possible.
 (https://github.com/DivanteLtd/vue-storefront/blob/master/README.md#documentation--table-of-contents))
 
@@ -54,5 +52,5 @@ Here's how to submit a pull request. **Pull request that don't meet these requir
 
 Your pull request will be merged after meeting following criteria:
 - Everything from "Pull Request Checklist"
-- Pull request is proposed to appropriate branch 
+- PR is proposed to appropriate branch
 - There are at least two approvals from core team members

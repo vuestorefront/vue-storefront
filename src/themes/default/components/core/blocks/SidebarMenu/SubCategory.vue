@@ -143,9 +143,10 @@ export default {
     }
   },
   methods: {
-    logout () {
-      this.$store.dispatch('user/logout', {})
+    async logout () {
+      await this.$store.dispatch('user/logout', {})
       this.$router.push(this.localizedRoute('/'))
+      this.$store.commit('ui/setSubmenu', { depth: false })
     },
     notify (title) {
       if (title === 'My loyalty card' || title === 'My product reviews') {
