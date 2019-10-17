@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for ES7 - @andrzejewsky (#3690)
 - Added unit tests for `core/modules/mailer` - @krskibin (#3710)
 - Get payment methods with billing address data - @rain2o (#2878)
+- Added custom page-size parameter for `category-next/loadCategoryProducts` action - @cewald (#3713, #3714)
 
 ## [1.11.0-rc.1] - 2019.10.03
 

@@ -107,7 +107,7 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCurrentSearchQuery: (state, getters, rootState) => getters.getCurrentFiltersFrom(rootState.route[products.routerFiltersSource]),
   getCurrentFilters: (state, getters) => getters.getCurrentSearchQuery.filters,
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
-  getSystemFilterNames: () => ['sort'],
+  getSystemFilterNames: () => products.systemFilterNames,
   getBreadcrumbs: (state, getters) => getters.getBreadcrumbsFor(getters.getCurrentCategory),
   getBreadcrumbsFor: (state, getters) => category => {
     if (!category) return []
