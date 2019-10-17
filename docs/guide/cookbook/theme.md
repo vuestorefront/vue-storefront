@@ -31,12 +31,12 @@ This recipe helps you resolve errors you encounter after the upgrade as short a 
 ### 1. Preparation
  - You have a [Vue Storefront App running](/guide/cookbook/setup.html#_0-introduction) by `docker` or `yarn dev` and watch it in your browser.
  - You have a child theme [running](/guide/cookbook/theme.html#_1-start-building-your-own-theme) on top of _Vue Storefront_ app. 
- - In this recipe, we start with _degi_ child theme based on `1.10` version (git hash : ___1b53bd2a___) of `default` theme. This _degi_ theme is an example you might have created for your own. Which means, you can change it to whatever you like. 
+ - In this recipe, we start with _degi_ child theme based on `1.10` version (git hash : [___1b53bd2a___](https://github.com/DivanteLtd/vue-storefront/commit/1b53bd2a829f7cab571dbd3c2a4021ea46857da7)) of `default` theme. This _degi_ theme is an example you might have created for your own. Which means, you can change it to whatever you like. 
  - In other words, suppose you have a _Vue Storefront_ shop running on a child theme `degi` that was branched off from _Vue Storefront_ `default` theme version `1.10` and want to upgrade to `1.11`. 
 
 ### 2. Recipe
 
-1. Go to your _Vue Storefront_ app root directory and `git checkout` to following hash :
+1. Go to your _Vue Storefront_ app root directory and `git checkout` to following hash [`79f0c30f`](https://github.com/DivanteLtd/vue-storefront/commit/79f0c30f1707ff913bde18c7e13654d5ca6bd867) :
 ```bash
 git fetch
 git checkout 79f0c30f # origin/release/v1.11
