@@ -21,6 +21,7 @@ export default {
     '@nuxt/typescript-build'
   ],
   modules: [
+    '@vue-storefront/nuxt'
   ],
   build: {
     // To have working tresshaking and avoid poly duplication
