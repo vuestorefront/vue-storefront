@@ -24,6 +24,7 @@ module.exports = {
         })
       );
     }
+    config.externals = ['@vue/composition-api', 'vue']
     config.module.rules.forEach(v => {
       if (v.use) {
         let idx = v.use.findIndex(w => w.loader === "thread-loader");

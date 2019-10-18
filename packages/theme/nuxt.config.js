@@ -24,9 +24,9 @@ export default {
   ],
   build: {
     // To have working tresshaking and avoid poly duplication
-    extend: function (config) {
-      config.resolve.alias['@vue-storefront/composables'] = '@vue-storefront/composables/raw.ts'
-    },
-    transpile: ['@vue-storefront/composables']
+    // extend: function (config) {
+    //   config.resolve.alias['@vue-storefront/composables'] = '@vue-storefront/composables/raw.ts'
+    // },
+    // transpile: ['@vue-storefront/composables']
   }
 }
