@@ -6,7 +6,7 @@
       class="col-sm-6 flex"
       :class="['col-md-' + (12/columns)%10, wide(product.sale, product.new, key)]"
     >
-      <product-tile :product="product" :eager-load-image="loadEager(key)" />
+      <product-tile :product="product" />
     </div>
   </div>
 </template>
@@ -29,11 +29,6 @@ export default {
       required: true
     }
   },
-  data () {
-    return {
-      eagerlyLoadedImages: 5
-    }
-  },
   methods: {
     wide (isOnSale, isNew, index) {
       let deltaCondition = index > 0 && ((index - 1) - lastHero) % 2 === 0
@@ -43,9 +38,6 @@ export default {
         lastHero = index
       }
       return isHero ? 'col-xs-12' : 'col-xs-6'
-    },
-    loadEager (index) {
-      return index + 1 <= this.eagerlyLoadedImages
     }
   }
 }

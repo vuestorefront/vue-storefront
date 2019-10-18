@@ -109,8 +109,9 @@ export default {
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     Logger.info('Calling asyncData in Home (theme)')()
 
+    await store.dispatch('homepage/fetchNewCollection')
+
     await Promise.all([
-      store.dispatch('homepage/fetchNewCollection'),
       store.dispatch('promoted/updateHeadImage'),
       store.dispatch('promoted/updatePromotedOffers')
     ])

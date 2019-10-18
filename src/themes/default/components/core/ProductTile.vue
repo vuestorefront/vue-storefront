@@ -26,16 +26,16 @@
       data-testid="productLink"
     >
       <div
-        class="product-cover bg-cl-secondary"
-        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
+        class="product-cover"
+        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }, {'bg-cl-secondary': showOriginalBackground}, {'product-cover--background-image': !showOriginalBackground}]"
       >
         <product-image
           class="product-cover__thumb"
           :image="thumbnailObj"
           :alt="product.name | htmlDecode"
           :calc-ratio="false"
-          :eager-load="eagerLoadImage"
           data-testid="productImage"
+          @imageLoaded="putOriginalBackground"
         />
       </div>
 
@@ -86,10 +86,11 @@ export default {
     onlyImage: {
       type: Boolean,
       default: false
-    },
-    eagerLoadImage: {
-      type: Boolean,
-      default: false
+    }
+  },
+  data () {
+    return {
+      showOriginalBackground: false
     }
   },
   computed: {
@@ -129,6 +130,9 @@ export default {
           rootStore.dispatch('stock/list', { skus: skus }) // store it in the cache
         }
       }
+    },
+    putOriginalBackground () {
+      this.showOriginalBackground = true;
     }
   },
   beforeMount () {
@@ -234,6 +238,12 @@ $color-white: color(white);
       @extend %label;
       content: 'New';
     }
+  }
+  &--background-image {
+    background-image: url("/assets/placeholder.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50% 50%;
   }
 }
 </style>

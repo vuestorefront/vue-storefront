@@ -6,14 +6,7 @@
     v-on="$listeners"
   >
     <img
-      v-if="!eagerLoad && !showHighQuality"
-      v-show="showPlaceholder"
-      src="/assets/placeholder.svg"
-      :alt="alt"
-      class="product-image__placeholder"
-    >
-    <img
-      v-if="(!lowerQualityImageError || isOnline) && !eagerLoad && !showHighQuality"
+      v-if="(!lowerQualityImageError || isOnline) && !showHighQuality"
       v-show="showLowerQuality"
       :src="image.loading"
       :alt="alt"
@@ -98,6 +91,9 @@ export default {
   },
   methods: {
     imageLoaded (type, success = true) {
+      if (type === 'lower') {
+        this.$emit('imageLoaded');
+      }
       this[`${type}QualityImage`] = success
       this[`${type}QualityImageError`] = !success
     }
