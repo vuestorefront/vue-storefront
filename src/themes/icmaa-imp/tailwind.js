@@ -50,6 +50,10 @@ module.exports = {
         'looser': '3',
         'super-loose': '4'
       },
+      height: {
+        '50px': '50px',
+        '60px': '60px'
+      },
       flex: {
         'fix': '0 0 auto',
         'expand': '1 0 auto'

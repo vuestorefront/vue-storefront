@@ -4,6 +4,7 @@
     <loader />
     <div id="viewport" class="w-100 relative">
       <main-header />
+      <advice tags="2" />
       <async-sidebar
         :async-component="SearchPanel"
         :is-open="isSearchPanelOpen"
@@ -43,6 +44,7 @@
 import { mapState, mapGetters } from 'vuex'
 import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue'
 import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
+import Advice from 'theme/components/core/blocks/Advice/Advice.vue'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
 import Overlay from 'theme/components/core/Overlay.vue'
 import Loader from 'theme/components/core/Loader.vue'
@@ -124,6 +126,7 @@ export default {
   },
   components: {
     MainHeader,
+    Advice,
     MainFooter,
     SidebarMenu, // eslint-disable-line vue/no-unused-components
     Overlay,

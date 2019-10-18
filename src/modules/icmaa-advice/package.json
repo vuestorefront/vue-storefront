@@ -1,0 +1,13 @@
+{
+  "name": "icmaa-advice",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@vue-storefront/core": "^1.11.0-rc.1"
+  },
+  "peerDependencies": {
+    "icmaa-cms": "^1.0.0",
+    "@vue-storefront/core": "^1.11.0-rc.1"
+  }
+}
