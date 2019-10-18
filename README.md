@@ -845,10 +845,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle"> 
-<a href="">
+<a href="https://www.lightcom.io/">
           <img
-            src=""
-            alt=""
+            src="https://divante.com/partners/Vue-Storefront/Logo%20PNG%20File.png"
+            alt="Lightcom"
             height="40"
           >
         </a>

@@ -20,7 +20,8 @@
       }
     },
     "seo": {
-      "useUrlDispatcher": true
+      "useUrlDispatcher": true,
+      "disableUrlRoutesPersistentCache": true
     },
     "console": {
       "showErrorOnProduction" : false,
@@ -46,7 +47,7 @@
       "csrTimeout": 5000,
       "ssrTimeout": 1000,
       "queryMethod": "GET",
-      "disableLocalStorageQueriesCache": true,
+      "disablePersistentQueriesCache": true,
       "searchScoring": {
         "attributes": {
           "attribute_code": {
@@ -262,6 +263,7 @@
       "applycoupon_endpoint": "/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
     },
     "products": {
+      "disablePersistentProductsCache": true,
       "useMagentoUrlKeys": true,
       "setFirstVarianAsDefaultInURL": false,
       "configurableChildrenStockPrefetchStatic": false,
@@ -340,7 +342,6 @@
         "wishlist": "LOCALSTORAGE",
         "categories": "LOCALSTORAGE",
         "attributes": "LOCALSTORAGE",
-        "products": "INDEXEDDB",
         "elasticCache": "LOCALSTORAGE",
         "claims": "LOCALSTORAGE",
         "syncTasks": "LOCALSTORAGE",
@@ -396,6 +397,9 @@
         }
       ]
     },
+    "syncTasks": {
+      "disablePersistentTaskQueue": true
+    },
     "i18n": {
       "defaultCountry": "US",
       "defaultLanguage": "EN",
@@ -408,6 +412,11 @@
       "fullCountryName": "United States",
       "fullLanguageName": "English",
       "bundleAllStoreviewLanguages": true
+    },
+    "expireHeaders": {
+      "default": "30d",
+      "application/json": "24h",
+      "image/png": "7d"
     },
     "newsletter": {
       "endpoint": "/api/ext/mailchimp-subscribe/subscribe"

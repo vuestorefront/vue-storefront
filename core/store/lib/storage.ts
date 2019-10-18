@@ -42,7 +42,6 @@ class LocalForageCacheDriver {
   private _persistenceErrorNotified: boolean;
   private _useLocalCacheByDefault: boolean;
   private cacheErrorsCount: any;
-  private localCache: any;
   private _storageQuota: number;
 
   public constructor (collection, useLocalCacheByDefault = true, storageQuota = 0) {
@@ -103,6 +102,14 @@ class LocalForageCacheDriver {
     this._localForageCollection = collection
     this._lastError = null
     this._persistenceErrorNotified = false
+  }
+
+  public getLastError () {
+    return this._lastError
+  }
+
+  public getDbName () {
+    return this._dbName
   }
 
   // Remove all keys from the datastore, effectively destroying all data in
@@ -313,6 +320,7 @@ class LocalForageCacheDriver {
         }).catch(err => {
           isResolved = true
           this._lastError = err
+          throw err
         }))
         setTimeout(() => {
           if (!isResolved) { // this is cache time out check

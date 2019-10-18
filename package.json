@@ -1,6 +1,6 @@
 {
   "name": "vue-storefront",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
@@ -68,6 +68,7 @@
     "js-sha3": "^0.8.0",
     "localforage": "^1.7.2",
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
+    "ms": "^2.1.2",
     "pm2": "^2.10.4",
     "redis-tag-cache": "^1.2.1",
     "reflect-metadata": "^0.1.12",

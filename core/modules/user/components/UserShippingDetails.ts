@@ -130,23 +130,17 @@ export const UserShippingDetails = {
       }
     },
     fillCompanyAddress () {
-      this.useCompanyAddress = !this.useCompanyAddress
       if (this.useCompanyAddress) {
-        let index
-        for (let i = 0; i < this.currentUser.addresses.length; i++) {
-          if (toString(this.currentUser.addresses[i].id) === toString(this.currentUser.default_billing)) {
-            index = i
-          }
-        }
-        if (index >= 0) {
-          this.shippingDetails.firstName = this.currentUser.addresses[index].firstname
-          this.shippingDetails.lastName = this.currentUser.addresses[index].lastname
-          this.shippingDetails.street = this.currentUser.addresses[index].street[0]
-          this.shippingDetails.house = this.currentUser.addresses[index].street[1]
-          this.shippingDetails.city = this.currentUser.addresses[index].city
-          this.shippingDetails.postcode = this.currentUser.addresses[index].postcode
-          this.shippingDetails.region = this.currentUser.addresses[index].region.region ? this.currentUser.addresses[index].region.region : ''
-          this.shippingDetails.country = this.currentUser.addresses[index].country_id
+        const companyAddress = this.currentUser.addresses.find((address) => toString(address.id) === toString(this.currentUser.default_billing))
+        if (companyAddress) {
+          this.shippingDetails.firstName = companyAddress.firstname
+          this.shippingDetails.lastName = companyAddress.lastname
+          this.shippingDetails.street = companyAddress.street[0]
+          this.shippingDetails.house = companyAddress.street[1]
+          this.shippingDetails.city = companyAddress.city
+          this.shippingDetails.postcode = companyAddress.postcode
+          this.shippingDetails.region = companyAddress.region.region ? companyAddress.region.region : ''
+          this.shippingDetails.country = companyAddress.country_id
         }
       } else {
         this.shippingDetails = this.getShippingDetails()
