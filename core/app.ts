@@ -70,7 +70,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   store.state.__DEMO_MODE__ = (config.demomode === true)
   if (ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
   if (!store.state.config) store.state.config = globalConfig //  @deprecated - we should avoid the `config`
-  const storeView = prepareStoreView(storeCode) // prepare the default storeView
+  const storeView = await prepareStoreView(storeCode) // prepare the default storeView
   store.state.storeView = storeView
 
   // to depreciate in near future

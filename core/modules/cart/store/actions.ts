@@ -545,20 +545,16 @@ const actions: ActionTree<CartState, RootState> = {
     const clientCartAddItems = []
 
     /** helper to find the item to be added to the cart by sku */
-    let productActionOptions = (serverItem) => {
-      return new Promise(resolve => {
-        if (serverItem.product_type === 'configurable') {
-          let searchQuery = new SearchQuery()
-          searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': serverItem.sku}})
-          dispatch('product/list', {query: searchQuery, start: 0, size: 1, updateState: false}, { root: true }).then((resp) => {
-            if (resp.items.length >= 1) {
-              resolve({ sku: resp.items[0].sku, childSku: serverItem.sku })
-            }
-          })
-        } else {
-          resolve({ sku: serverItem.sku })
-        }
-      })
+    const productActionOptions = async (serverItem) => {
+      if (serverItem.product_type === 'configurable') {
+        let query = new SearchQuery()
+        query = query.applyFilter({key: 'configurable_children.sku', value: {'eq': serverItem.sku}})
+
+        const { items } = await dispatch('product/list', { query, start: 0, size: 1, updateState: false }, { root: true })
+
+        return items.length >= 1 ? { sku: items[0].sku, childSku: serverItem.sku } : null
+      }
+      return { sku: serverItem.sku }
     }
     /** helper - sub method to update the item in the cart */
     const _updateClientItem = async function ({ dispatch }, event, clientItem) {
@@ -621,7 +617,7 @@ const actions: ActionTree<CartState, RootState> = {
     for (const clientItem of clientItems) {
       cartHasItems = true
       const serverItem = serverItems.find((itm) => {
-        return itm.sku === clientItem.sku || itm.sku.indexOf(clientItem.sku + '-') === 0 /* bundle products */
+        return String(itm.sku) === String(clientItem.sku) || itm.sku.indexOf(clientItem.sku + '-') === 0 /* bundle products */
       })
 
       if (!serverItem) {
@@ -703,38 +699,52 @@ const actions: ActionTree<CartState, RootState> = {
               })
               diffLog.serverResponses.push({ 'status': res.resultCode, 'sku': serverItem.sku, 'result': res })
             } else {
-              clientCartAddItems.push(
-                new Promise(resolve => {
-                  productActionOptions(serverItem).then((actionOtions) => {
-                    dispatch('product/single', { options: actionOtions, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }, { root: true }).then((product) => {
-                      resolve({ product: product, serverItem: serverItem })
-                    })
-                  })
-                })
-              )
+              const getServerCartItem = async () => {
+                try {
+                  const actionOtions = await productActionOptions(serverItem)
+
+                  if (!actionOtions) {
+                    return null
+                  }
+
+                  const product = await dispatch('product/single', { options: actionOtions, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }, { root: true })
+
+                  if (!product) {
+                    return null
+                  }
+
+                  return { product: product, serverItem: serverItem }
+                } catch (err) {
+                  return null
+                }
+              }
+              clientCartAddItems.push(getServerCartItem())
             }
           }
         }
       }
     }
-    if (clientCartAddItems.length) {
+
+    const resolvedCartItems = await Promise.all(clientCartAddItems)
+    const validCartItems = resolvedCartItems.filter(Boolean)
+
+    if (validCartItems.length) {
       totalsShouldBeRefreshed = true
       clientCartUpdateRequired = true
       cartHasItems = true
     }
     diffLog.items.push({ 'party': 'client', 'status': clientCartUpdateRequired ? 'update-required' : 'no-changes' })
     diffLog.items.push({ 'party': 'server', 'status': serverCartUpdateRequired ? 'update-required' : 'no-changes' })
-    Promise.all(clientCartAddItems).then((items) => {
-      items.map(({ product, serverItem }) => {
-        product.server_item_id = serverItem.item_id
-        product.qty = serverItem.qty
-        product.server_cart_id = serverItem.quote_id
-        if (serverItem.product_option) {
-          product.product_option = serverItem.product_option
-        }
-        dispatch('addItem', { productToAdd: product, forceServerSilence: true })
-      })
-    })
+
+    for (const { product, serverItem } of validCartItems) {
+      product.server_item_id = serverItem.item_id
+      product.qty = serverItem.qty
+      product.server_cart_id = serverItem.quote_id
+      if (serverItem.product_option) {
+        product.product_option = serverItem.product_option
+      }
+      dispatch('addItem', { productToAdd: product, forceServerSilence: true })
+    }
 
     if (!dryRun) {
       if (totalsShouldBeRefreshed && cartHasItems) {

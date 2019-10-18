@@ -1,4 +1,4 @@
-import { storeCodeFromRoute } from '../../multistore'
+import storeCodeFromRoute from '../../storeCodeFromRoute'
 import config from 'config'
 jest.mock('../../../store', () => ({}))
 jest.mock('@vue-storefront/i18n', () => ({loadLanguageAsync: jest.fn()}))
