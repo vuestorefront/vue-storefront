@@ -1,7 +1,8 @@
 # Secret project for unknown eCommerce company
 
 ## Installation
-(assuming you have lerna installed)
+Globally install `lerna` and `typescript`
+
 ```
 lerna bootstrap
 ```
