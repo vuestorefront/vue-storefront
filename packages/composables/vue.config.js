@@ -4,6 +4,7 @@ const WebpackBundleAnalyzer = require("webpack-bundle-analyzer")
 
 module.exports = {
   chainWebpack: config => {
+    // needs to be changed to output definition files
     config.module
       .rule("ts")
       .use("ts-loader")
@@ -24,7 +25,8 @@ module.exports = {
         })
       );
     }
-    config.externals = ['@vue/composition-api', 'vue']
+    config.externals = ["@vue/composition-api", "vue"];
+    // thread loader breaks output of definition files
     config.module.rules.forEach(v => {
       if (v.use) {
         let idx = v.use.findIndex(w => w.loader === "thread-loader");
