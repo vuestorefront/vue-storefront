@@ -14,20 +14,12 @@ export default {
   },
   loading: { color: '#fff' },
   css: [],
-  plugins: [
-    '~/plugins/composition-api.js'
-  ],
   buildModules: [
     '@nuxt/typescript-build'
   ],
   modules: [
-    '@vue-storefront/nuxt'
-  ],
-  build: {
-    // To have working tresshaking and avoid poly duplication
-    // extend: function (config) {
-    //   config.resolve.alias['@vue-storefront/composables'] = '@vue-storefront/composables/raw.ts'
-    // },
-    // transpile: ['@vue-storefront/composables']
-  }
+    ['@vue-storefront/nuxt', {
+      coreDevelopment: true
+    }]
+  ]
 }
