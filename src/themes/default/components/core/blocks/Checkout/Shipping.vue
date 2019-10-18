@@ -112,10 +112,16 @@
             v-model.trim="shipping.city"
             @blur="$v.shipping.city.$touch()"
             autocomplete="address-level2"
-            :validations="[{
+            :validations="[
+            {
               condition: $v.shipping.city.$error && !$v.shipping.city.required,
               text: $t('Field is required')
-            }]"
+            },
+            {
+              condition: $v.shipping.city.$error && $v.shipping.city.required,
+              text: $t('City must not include only digits')
+            }
+            ]"
           />
 
           <base-input
