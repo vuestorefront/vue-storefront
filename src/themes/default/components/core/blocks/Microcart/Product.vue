@@ -219,11 +219,7 @@ export default {
       return this.editMode ? this.getEditingQty : this.product.qty
     },
     isSimpleOrConfigurable () {
-      if (
-        this.product.type_id === 'simple' ||
-        this.product.type_id === 'configurable'
-      ) { return true }
-      return false
+      return ['simple', 'configurable'].includes(this.product.type_id)
     },
     isUpdateCartDisabled () {
       return this.quantityError ||

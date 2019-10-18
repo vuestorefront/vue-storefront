@@ -330,11 +330,7 @@ export default {
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
     isSimpleOrConfigurable () {
-      if (
-        this.getCurrentProduct.type_id === 'simple' ||
-        this.getCurrentProduct.type_id === 'configurable'
-      ) { return true }
-      return false
+      return ['simple', 'configurable'].includes(this.getCurrentProduct.type_id)
     },
     isAddToCartDisabled () {
       return this.quantityError ||
@@ -351,14 +347,22 @@ export default {
     if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
   },
+  beforeRouteEnter (to, from, next) {
+    if (isServer) {
+      next()
+    } else {
+      next((vm) => {
+        vm.getQuantity()
+      })
+    }
+  },
   watch: {
     isOnline: {
       handler (isOnline) {
         if (isOnline) {
           this.getQuantity()
         }
-      },
-      immediate: true
+      }
     }
   },
   methods: {
