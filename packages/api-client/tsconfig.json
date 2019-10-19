@@ -13,7 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "lib": ["es6", "es7"],
-    "strict": false,
+    "strict": false
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"]

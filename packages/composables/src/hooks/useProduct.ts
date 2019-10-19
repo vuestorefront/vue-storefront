@@ -20,9 +20,9 @@ export function useProduct (sku: string): UseProduct<Product, Configuration, Con
   onMounted(async () => {
     setup({
       baseURL: 'http://localhost:8080/apiv2/',
-    });
+    })
 
-    const response = await getProducts({ skus: [sku] });
+    const response = await getProducts({ skus: [sku] })
     product.value = response[0]
   })
 
