@@ -1,16 +1,12 @@
 <template>
   <transition name="fade">
-    <div id="advice" v-if="advice && isOpen" class="t-w-full t-h-50px t-bg-alt-1 t-cursor-pointer t-text-sm" @click="redirect">
-      <div class="t-container t-flex t-items-center t-h-full t-justify-end t-text-white">
-        <div class="t-flex t-flex-1 t-items-center t-justify-center">
-          <div class="md:t-mr-10">
-            {{ advice.text }}
-          </div>
-          <button-component class="t-text-xs t-uppercase t-text-white" :type="'ghost-custom'" :custom-color="'white'">
-            {{ advice.buttonText }}
-          </button-component>
-        </div>
-        <button-component class="t-justify-end" type="transparent-white" icon="close" :icon-only="true" @click.stop.native="close">
+    <div id="advice" v-if="advice && isOpen" class="t-w-full t-bg-alt-1 t-cursor-pointer t-text-sm t-text-white" @click="redirect">
+      <div class="t-container t-h-50px t-flex t-justify-center t-items-center t-pl-4 lg:t-px-4">
+        <div class="t-leading-tight" v-text="advice.text" />
+        <button-component class="t-hidden lg:t-flex t-flex-fix t-ml-4 t-t-text-xs t-uppercase t-text-white" type="ghost-custom" custom-color="white" size="sm">
+          {{ advice.buttonText }}
+        </button-component>
+        <button-component type="transparent-white" icon="close" :icon-only="true" @click.stop.native="close" class="t-flex-fix">
           {{ $t('Close') }}
         </button-component>
       </div>
@@ -22,7 +18,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
-import { onlineHelper } from '@vue-storefront/core/helpers'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 
 export default {
@@ -47,9 +42,7 @@ export default {
       this.isOpen = false
     },
     redirect () {
-      this.$store.dispatch('claims/set', { claimCode: 'adviceClaimAccepted', value: true })
       this.$router.push(this.localizedRoute(this.advice.link))
-      this.isOpen = false
     }
   },
   created () {
@@ -70,7 +63,7 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('icmaaAdvice/list')
+    this.$store.dispatch('icmaaAdvice/list', this.tags)
   }
 }
 </script>

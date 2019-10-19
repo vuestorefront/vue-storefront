@@ -1,5 +1,6 @@
 <template>
   <button type="button" class="t-flex t-items-center t-px-4 t-text-xs t-rounded-sm t-cursor-pointer" :class="[ { 't-uppercase': !['select', 'tag', 'tag-active'].includes(type) }, sizeClass, colorClass, alignClass ]" :style="customColorStyle" @click="$emit('click')">
+    <material-icon v-if="icon && iconPosition === 'left'" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-mr-4': !iconOnly }, iconClass ]" />
     <template v-if="iconOnly">
       <span class="t-sr-only">
         <slot />
@@ -8,7 +9,7 @@
     <template v-else>
       <slot />
     </template>
-    <material-icon v-if="icon" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-ml-4': !iconOnly }, iconClass ]" />
+    <material-icon v-if="icon && iconPosition === 'right'" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-ml-4': !iconOnly }, iconClass ]" />
   </button>
 </template>
 
@@ -35,9 +36,12 @@ export default {
         return [
           'primary',
           'second',
+          'sale',
           'tag',
+          'tag-active',
           'ghost',
           'ghost-white',
+          'ghost-sale',
           'ghost-custom',
           'transparent',
           'transparent-white',
@@ -70,6 +74,11 @@ export default {
     iconOnly: {
       type: Boolean,
       default: false
+    },
+    iconPosition: {
+      type: String,
+      default: 'right',
+      validation: (v) => ['left', 'right'].includes(v)
     }
   },
   computed: {
@@ -80,10 +89,12 @@ export default {
       const map = {
         'primary': 't-bg-primary t-text-white',
         'second': 't-bg-base-darkest t-text-white',
+        'sale': 't-bg-sale t-text-white',
         'tag': 't-border t-border-base-light t-bg-white t-text-base-dark hover:t-border-base-dark',
         'tag-active': 't-border t-border-base-dark  t-bg-base-dark t-text-white',
         'ghost': 't-border t-border-base-darkest t-bg-transparent t-text-base-darkest',
         'ghost-white': 't-border t-border-white t-bg-transparent t-text-white',
+        'ghost-sale': 't-border t-border-sale t-bg-transparent t-text-sale',
         'ghost-custom': 't-border t-bg-transparent',
         'transparent': 't-bg-transparent',
         'transparent-white': 't-bg-transparent t-text-white',

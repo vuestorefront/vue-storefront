@@ -2,7 +2,7 @@
   <div class="base-select">
     <div class="t-relative">
       <select
-        class="t-w-full t-h-10 t-pl-3 t-pr-12 t-border t-rounded-sm t-leading-tight t-bg-white t-appearance-none focus:outline-none focus:shadow-outline"
+        class="t-w-full t-h-10 t-pl-3 t-pr-12 t-border t-rounded-sm t-text-sm t-leading-tight t-bg-white t-appearance-none focus:outline-none focus:shadow-outline"
         :class="[ invalid ? 't-border-alert' : 't-border-base-light', { 't-text-base-light': !value || value === selected }, { [selectClass]: selectClass !== false } ]"
         :name="name"
         :id="id"

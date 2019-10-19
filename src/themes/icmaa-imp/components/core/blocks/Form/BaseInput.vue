@@ -2,7 +2,7 @@
   <div class="base-input t-relative t-flex t-flex-wrap">
     <material-icon icon="visibility_off" v-if="passIconActive" @click="togglePassType()" class="t-absolute t-flex t-self-center t-p-2 t-cursor-pointer" :class="[`t-${iconPosition}-0`]" :aria-label="$t('Toggle password visibility')" :title="$t('Toggle password visibility')" />
     <input
-      class="t-w-full t-h-10 t-px-3 t-border t-rounded-sm t-appearance-none t-leading-tight placeholder:t-text-base-light"
+      class="t-w-full t-h-10 t-px-3 t-border t-rounded-sm t-appearance-none t-text-sm t-leading-tight placeholder:t-text-base-light"
       :class="[ invalid ? 't-border-alert' : 't-border-base-light', { 't-pr-10': type === 'password' || (icon && iconPosition === 'right'), 't-pl-10': icon && iconPosition === 'left' } ]"
       :placeholder="placeholder"
       :type="type === 'password' ? passType : type"

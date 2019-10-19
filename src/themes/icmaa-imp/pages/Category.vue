@@ -35,8 +35,9 @@
       </lazy-hydrate>
       <product-listing v-else :products="getCategoryProducts" />
       <div class="t-flex t-items-center t-justify-center" v-if="moreProductsInSearchResults">
-        <button-component type="ghost" @click.native="loadMoreProducts" :disabled="loadingProducts">
-          {{ loadingProducts ? $t('Patience please ...') : $t('More products') }}
+        <button-component type="ghost" @click.native="loadMoreProducts" :disabled="loadingProducts" :class="{ 't-relative t-opacity-60': loadingProducts }">
+          {{ $t('Load more') }}
+          <loader-background v-if="loadingProducts" bar="t-bg-base-darkest" class="t-bottom-0" />
         </button-component>
       </div>
       <div class="t-bg-white t-mx-4 t-p-4 t-py-10 t-text-center" v-if="isCategoryEmpty">
@@ -77,6 +78,7 @@ import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import Dropdown from 'theme/components/core/blocks/Dropdown'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
+import LoaderBackground from 'theme/components/core/LoaderBackground'
 
 import CategoryMixin from 'icmaa-catalog/components/Category'
 import CategoryExtrasHeader from 'theme/components/core/blocks/CategoryExtras/Header'
@@ -111,6 +113,7 @@ export default {
     Dropdown,
     ButtonComponent,
     MaterialIcon,
+    LoaderBackground,
     Presets,
     ProductListing,
     Breadcrumbs,

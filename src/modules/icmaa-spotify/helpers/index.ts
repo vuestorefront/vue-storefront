@@ -3,5 +3,5 @@ import { Category } from '@vue-storefront/core/modules/catalog-next/types/Catego
 
 export const isCategoryInWhitelist = (category: Category) => {
   const { parentCategoryWhitelist } = config.icmaa_spotify
-  return parentCategoryWhitelist.filter(parentId => category.path.split('/').map(Number).includes(parentId)).length > 0
+  return category.path && parentCategoryWhitelist.filter(parentId => category.path.split('/').map(Number).includes(parentId)).length > 0
 }

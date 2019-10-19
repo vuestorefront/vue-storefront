@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'Spinner',
+  name: 'LoaderBackground',
   props: {
     background: {
       type: String,

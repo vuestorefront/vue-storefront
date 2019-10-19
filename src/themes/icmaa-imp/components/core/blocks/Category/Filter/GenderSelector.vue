@@ -1,5 +1,5 @@
 <template>
-  <div class="t-flex t-flex-grow t-px-1">
+  <div class="t-flex t-flex-grow t-w-1/3 t-max-w-1/2 t-px-1 t-mb-2">
     <generic-selector v-bind="$props" v-on="$listeners" class="t-w-full">
       {{ option.label }}
     </generic-selector>

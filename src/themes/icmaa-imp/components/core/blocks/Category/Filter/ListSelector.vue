@@ -1,7 +1,7 @@
 <template>
   <ul class="">
-    <li>
-      <base-input v-model="filterString" :placeholder="$t('Filter {name}', { name: ''})" icon="search" />
+    <li v-if="searchable">
+      <base-input v-model="filterString" :placeholder="$t('Filter {label}', { label: attributeLabel }) + ' ...'" icon="search" />
     </li>
     <li v-for="(option, index) in filteredOptions" :key="index" class="t-border-b t-border-base-lighter t-px-2 t-py-3">
       <button @click="$emit('change', option)" :aria-label="option.label" class="t-w-full t-text-sm t-flex t-items-center t-justify-between">
@@ -33,9 +33,17 @@ export default {
       type: Array,
       required: true
     },
+    attributeKey: {
+      type: String,
+      default: ''
+    },
     attributeLabel: {
       type: String,
       default: ''
+    },
+    searchable: {
+      type: Boolean,
+      default: false
     }
   },
   mixins: [ filterMixin ],

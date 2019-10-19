@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar-menu t-w-full t-min-h-screen t-max-h-screen t-overflow-y-auto t-scrolling-touch t-flex t-flex-col" ref="container">
-    <div class=""t-h-60px t-flex-fix t-px-2 t-bg-white t-border-b t-border-base-lighter t-flex">
+    <div class="t-h-60px t-flex-fix t-px-2 t-bg-white t-border-b t-border-base-lighter t-flex">
       <slot name="top" />
       <h2 class="t-self-center t-pl-2 t-text-lg t-text-base-dark" v-if="title" v-text="title" />
       <div class="t-flex-expand" />
