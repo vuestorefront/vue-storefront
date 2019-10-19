@@ -4,10 +4,12 @@
   "scripts": {
     "build:composables": "cd packages/composables && yarn build",
     "build:core": "cd packages/core && tsc",
-    "build:tools": "yarn build:core && yarn build:composables"
+    "build:api-client": "cd packages/api-client && tsc",
+    "build:tools": "yarn build:core && yarn build:api-client && yarn build:composables"
   },
   "devDependencies": {
     "lerna": "^3.15.0",
-    "webpack-bundle-analyzer": "^3.5.2"
+    "webpack-bundle-analyzer": "^3.5.2",
+    "tslib": "^1.10.0"
   }
 }

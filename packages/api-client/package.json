@@ -1,0 +1,19 @@
+{
+  "name": "@vue-storefront/api-client",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "js-sha3": "^0.8.0",
+    "lodash-es": "^4.17.15"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.12",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4"
+  },
+  "files": [
+    "lib/**/*"
+  ]
+}

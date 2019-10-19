@@ -19,6 +19,7 @@
   "devDependencies": {
     "@types/jest": "^23.1.4",
     "@vue-storefront/core": "2.0.0",
+    "@vue-storefront/api-client": "1.0.0",
     "@vue/cli-plugin-babel": "^3.12.0",
     "@vue/cli-plugin-eslint": "^3.12.0",
     "@vue/cli-plugin-typescript": "^3.12.0",
