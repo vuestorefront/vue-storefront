@@ -9,7 +9,6 @@
   },
   "devDependencies": {
     "lerna": "^3.15.0",
-    "webpack-bundle-analyzer": "^3.5.2",
-    "tslib": "^1.10.0"
+    "webpack-bundle-analyzer": "^3.5.2"
   }
 }
