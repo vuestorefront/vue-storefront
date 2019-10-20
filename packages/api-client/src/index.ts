@@ -2,7 +2,7 @@ import axios from 'axios'
 import createCart from './createCart'
 import addToCart from './addToCart'
 import getProducts from './getProducts'
-
+import getCategories from './getCategories'
 import { setConfiguration } from './configuration'
 
 export const setup = (axiosConfig): void => {
@@ -14,5 +14,6 @@ export const setup = (axiosConfig): void => {
 export {
   createCart,
   addToCart,
-  getProducts
+  getProducts,
+  getCategories
 }

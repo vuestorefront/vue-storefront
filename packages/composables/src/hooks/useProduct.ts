@@ -1,6 +1,6 @@
 import { ref, Ref, onMounted } from '@vue/composition-api'
 import { UseProduct } from '@vue-storefront/core'
-import { setup, getProducts } from '@vue-storefront/api-client'
+import { setup, getProducts, getCategories } from '@vue-storefront/api-client'
 
 type Product = Ref<string>
 type Configuration = Ref<string>
@@ -21,8 +21,10 @@ export function useProduct (sku: string): UseProduct<Product, Configuration, Con
     setup({
       baseURL: 'http://localhost:8080/apiv2/',
     })
-
+    const categories = await getCategories({ onlyActive: true })
+    console.log({ categories })
     const response = await getProducts({ skus: [sku] })
+    console.log({ response })
     product.value = response[0]
   })
 

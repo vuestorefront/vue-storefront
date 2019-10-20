@@ -1,8 +1,9 @@
 import { getOption } from './../configuration'
+import { CartProduct } from './../types/Cart'
 
 const applyQuoteId = (products, cartId) => products.map(product => ({ ...product, quoteId: cartId }))
 
-const addToCart = async (products: any[], cartId: string) => {
+const addToCart = async (products: CartProduct[], cartId: string) => {
   const connection = getOption('connection')
   const userToken = getOption('token')
 

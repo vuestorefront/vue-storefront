@@ -4,6 +4,7 @@ const WebpackBundleAnalyzer = require("webpack-bundle-analyzer")
 
 module.exports = {
   chainWebpack: config => {
+    config.resolve.symlinks(false);
     // needs to be changed to output definition files
     config.module
       .rule("ts")
