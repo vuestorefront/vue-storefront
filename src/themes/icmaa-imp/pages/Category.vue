@@ -19,7 +19,7 @@
               <button-component style="second" align="stretch" icon="filter_list" @click.native="openFilters" class="t-w-full lg:t-w-auto">
                 {{ $t('Filters') }}
               </button-component>
-              <presets @change="changeFilter" class="t-hidden lg:t-flex t-items-center t-ml-2" />
+              <presets class="t-hidden lg:t-flex t-items-center t-ml-2" />
             </div>
             <div class="t-w-1/2 lg:t-w-1/4 t-px-1 lg:t-px-2">
               <sort-by :has-label="true" @change="changeFilter" :value="getCurrentSearchQuery.sort" />

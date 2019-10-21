@@ -1,7 +1,7 @@
 <template>
   <transition :name="direction === 'right' ? 'slide-left' : direction === 'left' ? 'slide-right' : null ">
     <div
-      class="sidebar t-max-w-full t-fixed t-bg-white"
+      class="sidebar t-max-w-full t-fixed t-scrolling-touch t-bg-white"
       :class="direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null "
       data-testid="sidebar"
       ref="sidebar"
@@ -19,8 +19,8 @@
 import { mapGetters } from 'vuex'
 
 import Submenu from 'theme/components/theme/blocks/AsyncSidebar/Submenu'
-import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
-import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
+import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner'
+import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {
@@ -44,13 +44,13 @@ export default {
   },
   watch: {
     isOpen (state) {
-      if (state) {
-        this.$nextTick(() => {
+      this.$nextTick(() => {
+        if (state) {
           disableBodyScroll(this.$refs.sidebar)
-        })
-      } else {
-        clearAllBodyScrollLocks()
-      }
+        } else {
+          clearAllBodyScrollLocks()
+        }
+      })
     }
   },
   data () {
@@ -112,29 +112,26 @@ $z-index-modal: map-get($z-index, modal);
   transform: translateX(-100%);
 }
 
+.left-sidebar,
 .right-sidebar {
   top: 0;
-  right: 0;
   z-index: $z-index-modal;
-  height: 100%;
-  width: 800px;
-  min-width: 320px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.left-sidebar{
   height: 100vh;
-  width: 350px;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  overflow-y: auto;
-  z-index: $z-index-modal;
+  max-height: 100vh;
+  width: 460px;
+  overflow: auto;
 
   @media (max-width: 767px) {
     width: 100vh;
   }
+}
+
+.left-sidebar{
+  left: 0;
+}
+
+.right-sidebar{
+  right: 0;
 }
 
 .sidebar .submenu-wrapper {

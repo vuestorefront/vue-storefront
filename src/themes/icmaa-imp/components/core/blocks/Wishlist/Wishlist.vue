@@ -1,12 +1,7 @@
 <template>
-  <sidebar>
+  <sidebar :title="$t('Wishlist')">
     <div class="wishlist cl-accent">
-      <div class="row middle-xs px40">
-        <h2 v-if="productsInWishlist.length" class="col-xs-12 col-sm cl-accent">
-          {{ $t('Wishlist') }}
-        </h2>
-        <clear-wishlist-button v-if="productsInWishlist.length" @click="clearWishlist" class="col-xs-12 col-sm mb35 end-sm" />
-      </div>
+      <clear-wishlist-button v-if="productsInWishlist.length" @click="clearWishlist" class="col-xs-12 col-sm mb35 end-sm" />
       <h4 v-if="!productsInWishlist.length" class="cl-accent ml30">
         {{ $t('Your wishlist is empty.') }}
       </h4>

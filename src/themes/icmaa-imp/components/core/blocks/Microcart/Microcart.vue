@@ -1,20 +1,10 @@
 <template>
-  <sidebar
-    class="microcart t-relative"
-    data-testid="microcart"
-  >
+  <sidebar :title="$t('Shopping cart')" class="microcart t-relative" data-testid="microcart">
     <transition name="fade">
       <div v-if="isEditMode" class="overlay" @click="closeEditMode" />
     </transition>
+
     <div class="row middle-xs bg-cl-primary top-sm px40 actions">
-      <div class="col-xs-12 col-sm">
-        <h2
-          v-if="productsInCart.length"
-          class="cl-accent mt35 mb35"
-        >
-          {{ $t('Shopping cart') }}
-        </h2>
-      </div>
       <div class="col-xs-12 col-sm mt35 mb35 mt0 end-sm clearcart-col">
         <clear-cart-button
           v-if="productsInCart.length"

@@ -29,7 +29,6 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import Sidebar from 'theme/components/theme/blocks/AsyncSidebar/Sidebar'
 import TopButton from 'theme/components/theme/blocks/AsyncSidebar/TopButton'
 import NavigationItem from 'theme/components/core/blocks/SidebarMenu/NavigationItem'
