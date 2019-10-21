@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    {{ product }}
+    <img :src="'https://demo.storefrontcloud.io/img/310/300/resize/' + product.image" />
+    {{ product.name }}
+    {{ product.price }} $
   </div>
 </template>
 
@@ -9,7 +11,8 @@ import { useProduct } from '@vue-storefront/composables'
 
 export default {
   setup () {
-    const { product } = useProduct('A12')
+    const { product } = useProduct('MS09')
+    console.log(product.value)
     return {
       product
     }

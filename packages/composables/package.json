@@ -6,7 +6,7 @@
   "typings": "src/main.d.ts",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern --target lib --name composables  src/main.ts ",
+    "build": "vue-cli-service build --modern --target lib --name composables src/main.ts ",
     "build:analyze": "env BUNDLE_ANALYZER=true vue-cli-service build --target lib --name composables src/main.ts",
     "build:watch": "vue-cli-service build --target lib --name composables  --modern --watch src/main.ts",
     "lint": "vue-cli-service lint",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "@types/jest": "^23.1.4",
     "@vue-storefront/core": "2.0.0",
+    "@vue-storefront/api-client": "1.0.0",
     "@vue/cli-plugin-babel": "^3.12.0",
     "@vue/cli-plugin-eslint": "^3.12.0",
     "@vue/cli-plugin-typescript": "^3.12.0",

@@ -2,12 +2,17 @@
 const consola = require('consola')
 const path = require('path')
 
+const rawSourcePackages = {
+  '@vue-storefront/composables': '@vue-storefront/composables/raw.ts',
+  '@vue-storefront/api-client': '@vue-storefront/api-client/src/index.ts'
+}
+
 module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
   const defaultOptions = {
     coreDevelopment: false,
     useRawSource: true
   }
-  
+
   const options = { ...defaultOptions, ...moduleOptions }
 
   consola.info('`VSF:` Starting Vue Storefront Nuxt Module')
@@ -23,11 +28,13 @@ module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
   }
 
   if (options.useRawSource) {
-    consola.info('`VSF:` Using raw source for @vue-storefront/composables [useRawSource]')
-    this.extendBuild(config => {
-      config.resolve.alias['@vue-storefront/composables'] = '@vue-storefront/composables/raw.ts'
-    })
-    this.options.build.transpile.push('@vue-storefront/composables')
+    for (const package in rawSourcePackages) {
+      consola.info(`\`VSF:\` Using raw source for ${package} [useRawSource]`)
+      this.extendBuild(config => {
+        config.resolve.alias[package] = rawSourcePackages[package]
+      })
+      this.options.build.transpile.push(package)
+    }
   }
 }
 
