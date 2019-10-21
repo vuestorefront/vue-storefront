@@ -17,6 +17,10 @@ cd packages/theme && yarn dev
 
 ## Packages
 
+### `api-client`
+
+Tiny abstraction layer over VSF API.
+
 ### `core`
 
 Interfaces for Vue Storefront integrations
