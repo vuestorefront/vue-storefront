@@ -22,9 +22,8 @@ export function useProduct (sku: string): UseProduct<Product, Configuration, Con
       baseURL: 'http://localhost:8080/apiv2/',
     })
     const categories = await getCategories({ onlyActive: true })
-    console.log({ categories })
     const response = await getProducts({ skus: [sku] })
-    console.log({ response })
+    console.log(JSON.stringify(categories[0]))
     product.value = response[0]
   })
 

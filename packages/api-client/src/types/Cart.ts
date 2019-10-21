@@ -36,10 +36,16 @@ interface CartProduct extends BaseRequest {
   product_option?: ProductConfiguration
 }
 
+// TODO: Implement for DPR
+interface CartResponse {
+
+}
+
 export {
   CartProduct,
   ConfigurableItemOptions,
   BundleItemOptions,
   CustomItemOption,
-  ProductConfiguration
+  ProductConfiguration,
+  CartResponse
 }
