@@ -23,8 +23,7 @@ export function useProduct (sku: string): UseProduct<Product, Configuration, Con
     })
     const categories = await getCategories({ onlyActive: true })
     const response = await getProducts({ skus: [sku] })
-    console.log(JSON.stringify(categories[0]))
-    product.value = response[0]
+    product.value = response[0] as any
   })
 
   const configure = () => {

@@ -8,7 +8,7 @@ const getCategories = async ({
   value = [],
   onlyActive = false,
   onlyNotEmpty = false
-}: CategorySearchParams): Promise<CategoryResponse> => {
+}: CategorySearchParams): Promise<CategoryResponse[]> => {
   // TODO: use body instead of search params
   const queryParams = [
     `?parentId=${parentId || ''}`,

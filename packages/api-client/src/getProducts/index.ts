@@ -1,7 +1,7 @@
 import { apiClient } from './../index'
 import { ProductSearchParams, ProductResponse } from './../types/Product'
 
-const getProducts = async ({ skus = [], catId = null }: ProductSearchParams): Promise<ProductResponse> => {
+const getProducts = async ({ skus = [], catId = null }: ProductSearchParams): Promise<ProductResponse[]> => {
   try {
     const searchQuery = skus.join(',')
     const response = await apiClient.conn.get(
