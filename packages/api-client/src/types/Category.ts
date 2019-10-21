@@ -1,6 +1,5 @@
-import BaseRequest from './BaseRequest'
 
-interface CategorySearchParams extends BaseRequest {
+interface CategorySearchParams {
   parentId?: number,
   level?: number,
   key?:string,

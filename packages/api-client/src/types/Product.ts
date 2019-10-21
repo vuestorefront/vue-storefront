@@ -1,6 +1,5 @@
-import BaseRequest from './BaseRequest'
 
-interface ProductSearchParams extends BaseRequest {
+interface ProductSearchParams {
   skus?: string[],
   locale?: string,
   catId?: number
