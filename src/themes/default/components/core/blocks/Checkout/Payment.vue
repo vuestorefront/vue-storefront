@@ -121,10 +121,16 @@
             v-model.trim="payment.city"
             @blur="$v.payment.city.$touch()"
             autocomplete="address-level2"
-            :validations="[{
+            :validations="[
+            {
               condition: $v.payment.city.$error && !$v.payment.city.required,
               text: $t('Field is required')
-            }]"
+            },
+            {
+              condition: $v.payment.city.$error && $v.payment.city.required,
+              text: $t('Please provide valid city name')
+            }
+            ]"
           />
 
           <base-input
