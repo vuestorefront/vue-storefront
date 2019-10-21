@@ -9,7 +9,7 @@
           <default-selector
             v-for="(filter, key) in availableFilters[option.attribute_code]"
             :key="key"
-            :variant="filter"
+            :option="filter"
             :selected-filters="selectedFilters"
             @change="changeFilter"
             :is-last="key === Object.keys(availableFilters[option.attribute_code]).length - 1"
@@ -85,11 +85,11 @@ export default {
     }
   },
   methods: {
-    changeFilter (variant) {
-      if (variant.available) {
+    changeFilter (option) {
+      if (option.available) {
         this.$bus.$emit(
           'filter-changed-product',
-          Object.assign({ attribute_code: variant.type }, variant)
+          Object.assign({ attribute_code: option.type }, option)
         )
         this.loading = true
         this.getQuantity()

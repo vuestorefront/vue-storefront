@@ -1,19 +1,22 @@
 <template>
-  <vue-slider v-model="value" :data="values" :marks="true" :enable-cross="false" :fixed="true" :lazy="true" :silent="true" :drag-on-click="true" tooltip="none" dot-size="24" :dot-style="{ boxShadow: 'none', border: '1px solid #999' }" :process-style="{ background: '#999' }" :label-style="{ fontSize: '.75rem', color: '#999', marginTop: '1rem' }" :label-active-style="{ color: '#000' }" />
+  <no-ssr>
+    <vue-slider v-model="value" :data="values" :marks="true" :enable-cross="false" :fixed="true" :lazy="true" :silent="true" :drag-on-click="true" tooltip="none" dot-size="24" :dot-style="{ boxShadow: 'none', border: '1px solid #999' }" :process-style="{ background: '#999' }" :label-style="{ fontSize: '.75rem', color: '#999', marginTop: '1rem' }" :label-active-style="{ color: '#000' }" />
+  </no-ssr>
 </template>
 
 <script>
 import filterMixin from 'theme/mixins/filterMixin'
 
-import VueSlider from 'vue-slider-component/dist-css/vue-slider-component.umd.min.js'
-import 'vue-slider-component/dist-css/vue-slider-component.css'
+import NoSSR from 'vue-no-ssr'
 import 'vue-slider-component/theme/default.css'
+const VueSlider = () => import('vue-slider-component')
 
 export default {
   name: 'PriceSelector',
   mixins: [filterMixin],
   components: {
-    VueSlider
+    VueSlider,
+    'no-ssr': NoSSR
   },
   data () {
     return {

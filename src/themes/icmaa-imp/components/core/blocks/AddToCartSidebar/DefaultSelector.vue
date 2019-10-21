@@ -1,17 +1,17 @@
 <template>
   <div
     class="t-flex t-items-center t-h-12 t-px-4 t-text-base-tone t-text-sm t-border-base-lightest t-cursor-pointer t-webkit-tap-transparent"
-    :class="[ {'t-flex t-text-base-light': !variant.available}, {'t-bg-base-lightest t-text-black t-relative': isActive && isLoading}, {'t-text-base-light': !isActive && isLoading}, isLast ? 't-border-b-0' : ' t-border-b']"
+    :class="[ {'t-flex t-text-base-light': !option.available}, {'t-bg-base-lightest t-text-black t-relative': isActive && isLoading}, {'t-text-base-light': !isActive && isLoading}, isLast ? 't-border-b-0' : ' t-border-b']"
     @click="selectVariant"
-    :aria-label="$t('Select ' + variant.label)"
+    :aria-label="$t('Select ' + option.label)"
   >
-    <template v-if="variant.available">
-      {{ getOptionLabel({ attributeKey: variant.type, optionId: variant.id }) }}
-      <loader-background v-if="isLoading && isActive" class="t-bottom-0" />
+    <template v-if="option.available">
+      {{ getOptionLabel({ attributeKey: option.type, optionId: option.id }) }}
+      <loader-background v-if="isActive && isLoading" class="t-bottom-0" />
     </template>
     <template v-else>
       <span class="t-flex-auto">
-        {{ getOptionLabel({ attributeKey: variant.type, optionId: variant.id }) }}
+        {{ getOptionLabel({ attributeKey: option.type, optionId: option.id }) }}
       </span>
       <span class="t-flex-fix t-text-xs">
         {{ $t('Request size') }}
@@ -23,19 +23,26 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import filterMixin from 'theme/mixins/filterMixin.ts'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 import LoaderBackground from 'theme/components/core/LoaderBackground'
 
 export default {
-  mixins: [ filterMixin ],
+  name: 'DefaultSelector',
   directives: { focusClean },
   components: {
     MaterialIcon,
     LoaderBackground
   },
   props: {
+    option: {
+      type: Object,
+      default: () => ({})
+    },
+    selectedFilters: {
+      type: Object,
+      required: true
+    },
     isLoading: {
       type: Boolean,
       default: false
@@ -46,13 +53,28 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('attribute', { getOptionLabel: 'getOptionLabel' })
+    ...mapGetters('attribute', { getOptionLabel: 'getOptionLabel' }),
+    isActive () {
+      return this.isActiveOption(this.option)
+    }
   },
   methods: {
     selectVariant () {
       if (!this.isLoading) {
-        this.$emit('change', this.variant)
+        this.$emit('change', this.option)
       }
+    },
+    isActiveOption (option) {
+      const selectedVariantFilter = this.selectedFilters[option.type]
+      if (!selectedVariantFilter) {
+        return false
+      }
+
+      if (Array.isArray(selectedVariantFilter)) {
+        return !!selectedVariantFilter.find(o => o.id === option.id)
+      }
+
+      return selectedVariantFilter.id === option.id
     }
   }
 }
