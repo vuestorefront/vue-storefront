@@ -119,7 +119,7 @@
             },
             {
               condition: $v.shipping.city.$error && $v.shipping.city.required,
-              text: $t('City must not include only digits')
+              text: $t('Please provide valid city name')
             }
             ]"
           />
