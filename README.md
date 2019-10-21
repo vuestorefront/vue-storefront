@@ -862,10 +862,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     <td align="center" valign="middle"> 
-<a href="">
+<a href="https://appeal.digital/">
           <img
-            src=""
-            alt=""
+            src="https://divante.com/partners/Vue-Storefront/appeal-digital%20(1).png"
+            alt="Appeal Digital"
             height="40"
           >
         </a>
