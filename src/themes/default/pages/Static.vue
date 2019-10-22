@@ -2,7 +2,7 @@
   <div>
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
+        <breadcrumbs :with-homepage="true" :active-route="$props.title" />
         <h2 class="fs-big">
           {{ $props.title }}
         </h2>
@@ -35,6 +35,7 @@ import i18n from '@vue-storefront/i18n'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import StaticExample from 'theme/components/theme/blocks/Static/Example'
 import StaticShortExample from 'theme/components/theme/blocks/Static/Short'
+import { getPathForStaticPage } from 'theme/helpers'
 
 export default {
   components: {
@@ -65,9 +66,9 @@ export default {
   data () {
     return {
       navigation: [
-        { title: i18n.t('About us'), link: '/about-us', component: StaticExample },
-        { title: i18n.t('Customer service'), link: '/customer-service', component: StaticShortExample },
-        { title: i18n.t('Store locator'), link: '/store-locator', component: StaticExample },
+        { title: i18n.t('About us'), link: getPathForStaticPage('/about-us'), component: StaticExample },
+        { title: i18n.t('Customer service'), link: getPathForStaticPage('/customer-service'), component: StaticShortExample },
+        { title: i18n.t('Store locator'), link: getPathForStaticPage('/store-locator'), component: StaticExample },
         { title: i18n.t('Delivery'), link: '/delivery', component: StaticShortExample },
         { title: i18n.t('Return policy'), link: '/returns', component: StaticExample },
         { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticShortExample },

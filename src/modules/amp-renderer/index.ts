@@ -1,15 +1,16 @@
-import { createModule } from '@vue-storefront/core/lib/module'
 import moduleRoutes from './router'
+import { StorefrontModule } from '@vue-storefront/core/lib/modules'
+import { setupMultistoreRoutes } from '@vue-storefront/core/lib/multistore'
+import config from 'config'
 
-const store = {
+const ampRendererStore = {
   namespaced: true,
   state: {
     key: null
   }
 }
-const KEY = 'amp-renderer'
-export const AmpRenderer = createModule({
-  key: KEY,
-  router: { routes: moduleRoutes },
-  store: { modules: [{ key: KEY, module: store }] }
-})
+
+export const AmpRendererModule: StorefrontModule = function ({store, router}) {
+  store.registerModule('amp-renderer', ampRendererStore)
+  setupMultistoreRoutes(config, router, moduleRoutes, 10)
+}

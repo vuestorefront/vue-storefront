@@ -5,27 +5,73 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import RootState from '@vue-storefront/core/types/RootState'
 import TaxState from '../../types/TaxState'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
+import config from 'config'
+import { calculateProductTax } from '@vue-storefront/core/modules/catalog/helpers/taxCalc'
+import { doPlatformPricesSync } from '@vue-storefront/core/modules/catalog/helpers'
+import { catalogHooksExecutors } from './../../hooks'
 
 const actions: ActionTree<TaxState, RootState> = {
-  /**
-   * Load the tax rules
-   */
-  list (context, { entityType = 'taxrule' }) {
-    if (context.state.rules.length > 0) {
+  async list ({ state, commit, dispatch }, { entityType = 'taxrule' }) {
+    if (state.rules.length > 0) {
       Logger.info('Tax rules served from local memory', 'tax')()
-      return new Promise((resolve, reject) => {
-        resolve({ items: context.state.rules })
-      })
-    } else {
-      const searchQuery = new SearchQuery()
-      return quickSearchByQuery({ query: searchQuery, entityType }).then((resp) => {
-        context.commit(types.TAX_UPDATE_RULES, resp)
-        return resp
+      return { items: state.rules }
+    }
+
+    const resp = await quickSearchByQuery({ query: new SearchQuery(), entityType })
+    dispatch('storeToRulesCache', { items: resp.items })
+    commit(types.TAX_UPDATE_RULES, resp)
+
+    return resp
+  },
+  storeToRulesCache (context, { items }) {
+    const cache = StorageManager.get('elasticCache')
+
+    for (let tc of items) {
+      const cacheKey = entityKeyName('tc', tc.id)
+      cache.setItem(cacheKey, tc).catch((err) => {
+        Logger.error('Cannot store cache for ' + cacheKey + ', ' + err)()
       })
     }
   },
-  single (context, { productTaxClassId }) {
-    return context.state.rules.find((e) => { return e.product_tax_class_ids.indexOf(parseInt(productTaxClassId)) >= 0 })
+  single ({ getters }, { productTaxClassId }) {
+    return getters.getRules.find((e) =>
+      e.product_tax_class_ids.indexOf(parseInt(productTaxClassId)) >= 0
+    )
+  },
+  async calculateTaxes ({ dispatch, getters, rootState }, { products }) {
+    const mutatedProducts = catalogHooksExecutors.beforeTaxesCalculated(products)
+
+    if (config.tax.calculateServerSide) {
+      Logger.debug('Taxes calculated server side, skipping')()
+      return doPlatformPricesSync(mutatedProducts)
+    }
+
+    const tcs = await dispatch('list', {})
+    const {
+      defaultCountry,
+      defaultRegion,
+      sourcePriceIncludesTax,
+      finalPriceIncludesTax,
+      deprecatedPriceFieldsSupport
+    } = rootState.storeView.tax
+
+    const recalculatedProducts = mutatedProducts.map(product =>
+      calculateProductTax({
+        product,
+        taxClasses: tcs.items,
+        taxCountry: defaultCountry,
+        taxRegion: defaultRegion,
+        finalPriceInclTax: finalPriceIncludesTax,
+        sourcePriceInclTax: sourcePriceIncludesTax,
+        userGroupId: getters.getUserTaxGroupId,
+        deprecatedPriceFieldsSupport: deprecatedPriceFieldsSupport,
+        isTaxWithUserGroupIsActive: getters.getIsUserGroupedTaxActive
+      })
+    )
+
+    return doPlatformPricesSync(recalculatedProducts)
   }
 }
 

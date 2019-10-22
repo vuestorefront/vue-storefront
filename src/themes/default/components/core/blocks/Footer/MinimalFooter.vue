@@ -14,12 +14,12 @@
                 {{ $t('Departments') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/c/women-20')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/women/women-20')" exact>
                   {{ $t('Women fashion') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/c/men-11')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/men/men-11')" exact>
                   {{ $t("Men's fashion") }}
                 </router-link>
               </div>

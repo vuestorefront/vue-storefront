@@ -46,7 +46,7 @@ touch index.ts
 ```bash
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
 
 }
 ```
@@ -70,7 +70,7 @@ Judging by this signature, you can access `store`, `router`, `config`s from your
 ```bash
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
 	console.log('Hello World and VSF!'); # Any punch line allowed!
 }
 ```
@@ -227,7 +227,7 @@ const exampleModuleStore = {
   }
 }
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
 // abridged ...
 ```
 `namespaced` with `true` value means this `store` is encapsulated inside a module and not registered to global store.
@@ -245,7 +245,7 @@ const exampleModuleStore = {
   }
 }
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
 }
 
@@ -274,7 +274,7 @@ const exampleModuleStore = {
   plugins: ['examplePlugin']
 }
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
 }
 ```
@@ -322,13 +322,13 @@ const newProductModule = {
   }
 }
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
 // abridged ...
 ```
 
 4. Run `extendStore` helper method to override or add to existing store `product` as follows : 
 ```ts{4}
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
 
   extendStore('product', newProductModule);
@@ -399,7 +399,7 @@ const examplePlugin = store => {
 
 const exampleRoutes = [{ name: 'liked', path: '/liked', component: Liked, alias: '/liked.html' }]; // compose the router we will use
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
 
   extendStore('product', newProductModule);
@@ -443,7 +443,7 @@ const examplePlugin = store => {
 ```ts{11-13}
 // ...abridged
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
 
   extendStore('product', newProductModule);
@@ -492,7 +492,7 @@ vi index.ts # of course you can open it with other editors!
 ```ts{8-12,17}
 // ...abridged
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
   // ... abridged ...
 
@@ -556,7 +556,7 @@ vi index.ts # of course you can open it with other editors!
 ```ts{4}
 // ... abridged 
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   console.log(appConfig.products.defaultFilters); //  "products": {"defaultFilters": ["color", "size", "price", "erin_recommends"]}
 
 // abridged ...
