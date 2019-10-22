@@ -11,6 +11,7 @@ import { mapGetters } from 'vuex'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import mapValues from 'lodash-es/mapValues'
 import intersection from 'lodash-es/intersection'
+import sampleSize from 'lodash-es/sampleSize'
 
 export default {
   data () {
@@ -18,8 +19,15 @@ export default {
       presetsX: [
         { label: 'Jeans', filters: [ { type: 'type_pants', id: '731' } ] },
         { label: 'Sneaker', filters: [ { type: 'type_shoes', id: '993' } ] },
-        { label: 'T-Shirts', filters: [ { type: 'type_top', id: '99' } ] }
+        { label: 'T-Shirts', filters: [ { type: 'type_top', id: '99' } ] },
+        { label: 'Yellow T-Shirts', filters: [ { type: 'type_top', id: '99' }, { type: 'color', id: '173' } ] }
       ]
+    }
+  },
+  props: {
+    limit: {
+      type: Number,
+      default: 4
     }
   },
   components: {
@@ -36,32 +44,35 @@ export default {
     allAvailableFilterIds () {
       return [].concat(...Object.values(this.availableFilters))
     },
+    allSelectedFilterCodes () {
+      return Object.keys(this.selectedFilters)
+    },
+    allSelectedFilterIds () {
+      let filters = Object.values(this.selectedFilters).map(f => !Array.isArray(f) ? [f] : f)
+      return [].concat(...filters).map(f => f.id)
+    },
     presets () {
-      return this.presetsX
+      let presets = this.presetsX
         .filter(p => {
           const filterIds = [].concat(...p.filters.map(f => f.id))
           return intersection(filterIds, this.allAvailableFilterIds).length === filterIds.length
         })
-        .map(p => {
-          p.active = true
-          p.filters.forEach(f => {
-            let selectedFilters = this.selectedFilters[f.type]
-            if (selectedFilters && !Array.isArray(selectedFilters)) {
-              selectedFilters = [selectedFilters]
-            }
-            selectedFilters = selectedFilters ? selectedFilters.map(cf => cf.id) : false
+        .map(preset => {
+          preset.active = true
+          const presetFilterCodes = preset.filters.map(f => f.type)
+          const presetFilterIds = [].concat(...preset.filters.map(f => f.id))
 
-            if (!selectedFilters ||
-              !selectedFilters.includes(f.id) ||
-              selectedFilters.length !== p.filters.length ||
-              Object.keys(this.selectedFilters).length !== p.filters.length
-            ) {
-              p.active = false
-            }
-          })
+          if (intersection(this.allSelectedFilterCodes, presetFilterCodes).length !== presetFilterCodes.length ||
+            intersection(this.allSelectedFilterIds, presetFilterIds).length !== presetFilterIds.length ||
+            this.allSelectedFilterIds.length !== presetFilterIds.length
+          ) {
+            preset.active = false
+          }
 
-          return p
+          return preset
         })
+
+      return sampleSize(presets, this.limit)
     }
   },
   methods: {
