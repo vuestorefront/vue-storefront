@@ -9,6 +9,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import ButtonComponent from 'theme/components/core/blocks/Button'
+import mapValues from 'lodash-es/mapValues'
+import intersection from 'lodash-es/intersection'
 
 export default {
   data () {
@@ -24,28 +26,42 @@ export default {
     ButtonComponent
   },
   computed: {
-    ...mapGetters({ selectedFilters: 'category-next/getCurrentFilters' }),
+    ...mapGetters({
+      selectedFilters: 'category-next/getCurrentFilters',
+      getAvailableFilters: 'category-next/getAvailableFilters'
+    }),
+    availableFilters () {
+      return mapValues(this.getAvailableFilters, (v) => v.map(o => o.id))
+    },
+    allAvailableFilterIds () {
+      return [].concat(...Object.values(this.availableFilters))
+    },
     presets () {
-      return this.presetsX.map(p => {
-        p.active = true
-        p.filters.forEach(f => {
-          let selectedFilters = this.selectedFilters[f.type]
-          if (selectedFilters && !Array.isArray(selectedFilters)) {
-            selectedFilters = [selectedFilters]
-          }
-          selectedFilters = selectedFilters ? selectedFilters.map(cf => cf.id) : false
-
-          if (!selectedFilters ||
-            !selectedFilters.includes(f.id) ||
-            selectedFilters.length !== p.filters.length ||
-            Object.keys(this.selectedFilters).length !== p.filters.length
-          ) {
-            p.active = false
-          }
+      return this.presetsX
+        .filter(p => {
+          const filterIds = [].concat(...p.filters.map(f => f.id))
+          return intersection(filterIds, this.allAvailableFilterIds).length === filterIds.length
         })
+        .map(p => {
+          p.active = true
+          p.filters.forEach(f => {
+            let selectedFilters = this.selectedFilters[f.type]
+            if (selectedFilters && !Array.isArray(selectedFilters)) {
+              selectedFilters = [selectedFilters]
+            }
+            selectedFilters = selectedFilters ? selectedFilters.map(cf => cf.id) : false
 
-        return p
-      })
+            if (!selectedFilters ||
+              !selectedFilters.includes(f.id) ||
+              selectedFilters.length !== p.filters.length ||
+              Object.keys(this.selectedFilters).length !== p.filters.length
+            ) {
+              p.active = false
+            }
+          })
+
+          return p
+        })
     }
   },
   methods: {
