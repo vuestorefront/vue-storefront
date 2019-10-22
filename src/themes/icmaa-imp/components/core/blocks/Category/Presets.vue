@@ -17,7 +17,8 @@ export default {
   data () {
     return {
       presetsX: [
-        { label: 'Jeans', filters: [ { type: 'type_pants', id: '731' } ] },
+        { label: 'Jeans', filters: [ { type: 'type_pants', id: '731' }, { type: 'color', id: '173' } ] },
+        { label: 'Black Jeans', filters: [ { type: 'type_pants', id: '731' } ], clusters: ['5172', '4348'] },
         { label: 'Sneaker', filters: [ { type: 'type_shoes', id: '993' } ] },
         { label: 'T-Shirts', filters: [ { type: 'type_top', id: '99' } ] },
         { label: 'Yellow T-Shirts', filters: [ { type: 'type_top', id: '99' }, { type: 'color', id: '173' } ] }
@@ -36,7 +37,8 @@ export default {
   computed: {
     ...mapGetters({
       selectedFilters: 'category-next/getCurrentFilters',
-      getAvailableFilters: 'category-next/getAvailableFilters'
+      getAvailableFilters: 'category-next/getAvailableFilters',
+      cluster: 'user/getCluster'
     }),
     availableFilters () {
       return mapValues(this.getAvailableFilters, (v) => v.map(o => o.id))
@@ -52,11 +54,13 @@ export default {
       return [].concat(...filters).map(f => f.id)
     },
     presets () {
+      let cluster = this.cluster
       let presets = this.presetsX
         .filter(p => {
           const filterIds = [].concat(...p.filters.map(f => f.id))
           return intersection(filterIds, this.allAvailableFilterIds).length === filterIds.length
         })
+        .filter(p => (!p.clusters || p.clusters.length === 0 || (cluster && p.clusters.includes(cluster))))
         .map(preset => {
           preset.active = true
           const presetFilterCodes = preset.filters.map(f => f.type)
@@ -72,7 +76,15 @@ export default {
           return preset
         })
 
-      return sampleSize(presets, this.limit)
+      presets = sampleSize(presets, this.limit)
+
+      if (cluster) {
+        const presetsWithCluster = presets.filter(p => p.clusters)
+        const presetsWithoutCluster = presets.filter(p => !p.clusters)
+        presets = presetsWithCluster.concat(presetsWithoutCluster)
+      }
+
+      return presets
     }
   },
   methods: {
