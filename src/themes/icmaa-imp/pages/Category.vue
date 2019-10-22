@@ -2,7 +2,7 @@
   <div id="category">
     <header class="t-container">
       <div class="t-flex t-flex-wrap t-px-4 t-mb-8">
-        <breadcrumbs :routes="getBreadcrumbs" :active-route="getCurrentCategory.name" class="t-w-full t-my-8" />
+        <breadcrumbs :routes="breadcrumbs" :active-route="getCurrentCategory.name" class="t-w-full t-my-8" />
         <category-extras-header />
         <div class="t-w-full">
           <div class="t-flex t-flex-wrap t-items-center t--mx-1 lg:t--mx-2">
@@ -136,6 +136,7 @@ export default {
       isSidebarOpen: state => state.ui.categoryfilter
     }),
     ...mapGetters({
+      breadcrumbs: 'category-next/getBreadcrumbs',
       getCurrentSearchQuery: 'category-next/getCurrentSearchQuery',
       getCategoryProducts: 'category-next/getCategoryProducts',
       getCurrentCategory: 'category-next/getCurrentCategory',
@@ -147,9 +148,6 @@ export default {
     },
     isCategoryEmpty () {
       return this.getCategoryProductsTotal === 0
-    },
-    getBreadcrumbs () {
-      return this.$store.getters['category-next/getBreadcrumbs'].filter(breadcrumb => breadcrumb.name !== this.getCurrentCategory.name)
     },
     pageSizeOptions () {
       return this.pageSizes.map(s => { return { value: s, label: s } })
