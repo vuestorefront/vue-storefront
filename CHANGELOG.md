@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add defense for incomplete config in preferchCachedAttributes helper
 
+### Added
+- Add unit test for \`core/modules/cms\` - @krskibin (#3738)
+
 ### Fixed
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
 - Fixed problem around dynamic urls when default storeView is set with appendStoreCode false and url set to / . @resubaka (#3685)
