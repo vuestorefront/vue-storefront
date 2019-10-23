@@ -1,8 +1,8 @@
 <template>
   <div id="teaser-small" class="t-flex t-flex-col md:t-flex-row t-mx-4 t-cursor-pointer t-webkit-tap-transparent" :class="{ 't-bg-white': !backgroundColor }" :style="{ 'background-color': backgroundColor }" @click="redirect">
-    <retina-image :image="imageUrl" class="t-w-full md:t-w-1/2" :alt="teaser.text1 | htmlDecode" v-if="showLeft" />
+    <retina-image :image="imageUrl" class="t-w-full md:t-w-1/2" :placeholder="true" ratio="1:1" :alt="teaser.text1 | htmlDecode" v-if="showLeft" />
     <div class="t-w-full md:t-w-1/2 t-flex t-items-center">
-      <div class="t-p-8">
+      <div class="t-w-full t-p-8">
         <h1 class="t-w-full t-leading-tight t-font-bold t-text-2-1/2xl t-mb-5" :class="{ 't-text-base-darkest': !textColor }" :style="{ color: textColor }">
           {{ teaser.text1 }}
         </h1>

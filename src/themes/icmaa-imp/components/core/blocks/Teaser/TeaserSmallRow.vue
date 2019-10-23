@@ -3,7 +3,7 @@
     <div class="t-absolute t-top-0 t-right-0 t-text-sm t-py-2 t-px-3 t-mr-4" :class="{ 't-text-white': !textColor, 't-bg-base-primary': !backgroundColor }" :style="{ 'background-color': backgroundColor, 'color': textColor }" v-if="teaser.buttonText">
       {{ teaser.buttonText }}
     </div>
-    <retina-image :image="imageUrl" :alt="teaser.text1 | htmlDecode" class="t-flex-fix t-max-w-full" />
+    <retina-image :image="imageUrl" :alt="teaser.text1 | htmlDecode" :placeholder="true" ratio="1:1" class="t-flex-fix t-max-w-full" />
     <div class="t-flex-grow t-text-sm t-text-primary t-text-primary t-leading-tight t-pt-4" :class="{ 't-pb-8': !lastRow }">
       {{ teaser.text1 }}
     </div>

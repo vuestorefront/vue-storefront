@@ -4,7 +4,8 @@
       <AddToWishlist class="t-absolute t-bottom-0 t-left-0 t-z-1" :class="{'': isOnWishlist }" :is-overlay="true" :product="product" />
       <router-link :to="productLink" data-testid="productLink" class="product-link t-block t-z-0">
         <promo-banner :product="product" class="t-absolute t-top-0 t-right-0" />
-        <product-image :image="thumbnailObj" :alt="product.name | htmlDecode" data-testid="productImage" />
+        <placeholder ratio="161:233" v-if="imageLoading" />
+        <product-image :image="thumbnailObj" :alt="product.name | htmlDecode" data-testid="productImage" @load="imageLoading = false" />
       </router-link>
     </div>
     <router-link :to="productLink" tag="div" class="t-text-sm" v-if="!onlyImage">
@@ -29,6 +30,7 @@
 <script>
 import config from 'config'
 import rootStore from '@vue-storefront/core/store'
+import Placeholder from 'theme/components/core/blocks/Placeholder'
 import ProductImage from 'theme/components/core/ProductImage'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import PromoBanner from 'theme/components/core/blocks/Category/PromoBanner'
@@ -39,9 +41,15 @@ import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/I
 export default {
   mixins: [ProductTile, IsOnWishlist, ProductNameMixin],
   components: {
+    Placeholder,
     ProductImage,
     PromoBanner,
     AddToWishlist
+  },
+  data () {
+    return {
+      imageLoading: true
+    }
   },
   props: {
     labelsActive: {

@@ -1,5 +1,7 @@
 <template>
-  <div class="t-w-full" :class="{ 't-bg-white': !plain }" :style="{ paddingTop: `${height}%` }" />
+  <div class="t-relative t-w-full" :class="{ 't-bg-white': !plain }" :style="{ paddingTop: `${height}%` }">
+    <slot />
+  </div>
 </template>
 
 <script>
