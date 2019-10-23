@@ -5,6 +5,9 @@ const path = require('path')
 
 
 module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
+  // TODO: Use compiled source for project development and raw for project build - faster dev mode compilation with treeshaking in output bundle
+  // TODO: ALWAYS use raw source for core development
+ 
   const defaultOptions = {
     coreDevelopment: false,
     useRawSource: true
@@ -15,7 +18,7 @@ module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
   consola.info('`VSF:` Starting Vue Storefront Nuxt Module')
 
   this.addPlugin(path.resolve(__dirname, 'plugins/composition-api.js'))
-
+  
   // Using symlinks in lerna somehow breaks composition API behavior as a singleton
   if (options.coreDevelopment) {
     consola.info('`VSF:` Vue Storefront core development mode is on [coreDevelopment]')
@@ -30,7 +33,8 @@ module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
       '@vue-storefront/composables': '@vue-storefront/composables/raw.ts',
       '@vue-storefront/api-client': '@vue-storefront/api-client/src/index.ts',
       '@storefront-ui/vue': null,
-      '@storefront-ui/shared': null
+      '@storefront-ui/shared': null,
+      '@glidejs/glide': null
     }
     
     for (const package in rawSourcePackages) {
