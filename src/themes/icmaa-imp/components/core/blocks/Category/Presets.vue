@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="presets">
     <button-component v-for="(p, i) in presets" :key="'filter-' + i" size="sm" :icon="p.active ? 'clear' : false" @click.native="changeFilter(p)" class="t-ml-2 t-opacity-75 hover:t-opacity-100">
       {{ p.label }}
     </button-component>
@@ -8,22 +8,21 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import registerGenericCmsStateModule from 'icmaa-cms/helpers/genericStateModule'
 import ButtonComponent from 'theme/components/core/blocks/Button'
+
+import YAML from 'yaml'
 import mapValues from 'lodash-es/mapValues'
 import intersection from 'lodash-es/intersection'
+import pick from 'lodash-es/pick'
 import sampleSize from 'lodash-es/sampleSize'
 
 export default {
-  data () {
-    return {
-      presetsX: [
-        { label: 'Jeans', filters: [ { type: 'type_pants', id: '731' }, { type: 'color', id: '173' } ] },
-        { label: 'Black Jeans', filters: [ { type: 'type_pants', id: '731' } ], clusters: ['5172', '4348'] },
-        { label: 'Sneaker', filters: [ { type: 'type_shoes', id: '993' } ] },
-        { label: 'T-Shirts', filters: [ { type: 'type_top', id: '99' } ] },
-        { label: 'Yellow T-Shirts', filters: [ { type: 'type_top', id: '99' }, { type: 'color', id: '173' } ] }
-      ]
-    }
+  beforeCreate () {
+    registerGenericCmsStateModule('filter-presets', 'filter-preset')
+  },
+  created () {
+    this.$store.dispatch('icmaaCmsFilterPresets/list')
   },
   props: {
     limit: {
@@ -38,8 +37,16 @@ export default {
     ...mapGetters({
       selectedFilters: 'category-next/getCurrentFilters',
       getAvailableFilters: 'category-next/getAvailableFilters',
-      cluster: 'user/getCluster'
+      cluster: 'user/getCluster',
+      rawPresets: 'icmaaCmsFilterPresets/getAll'
     }),
+    formatedPresets () {
+      return this.rawPresets.map(p => {
+        let preset = pick(p, ['label', 'enabled', 'filters', 'clusters'])
+        preset.filters = YAML.parse(preset.filters)
+        return preset
+      }).filter(p => p.enabled)
+    },
     availableFilters () {
       return mapValues(this.getAvailableFilters, (v) => v.map(o => o.id))
     },
@@ -55,7 +62,7 @@ export default {
     },
     presets () {
       let cluster = this.cluster
-      let presets = this.presetsX
+      let presets = this.formatedPresets
         .filter(p => {
           const filterIds = [].concat(...p.filters.map(f => f.id))
           return intersection(filterIds, this.allAvailableFilterIds).length === filterIds.length

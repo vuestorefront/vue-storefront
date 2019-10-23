@@ -1,10 +1,10 @@
 <template>
-  <sidebar>
+  <sidebar class="t-min-h-screen">
     <template v-slot:top>
       <top-button icon="person" :text="loginButtonText" :tab-index="2" class="t-text-base-light" @click.native="login" />
     </template>
     <template v-slot:default>
-      <div class="t-flex t-flex-wrap t--mx-1">
+      <div class="t-flex t-flex-wrap t--mx-1 t--mb-2">
         <navigation-item v-for="link in getMainNavigation" v-bind="link" :key="link.id" />
       </div>
     </template>
