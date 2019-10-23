@@ -33,11 +33,19 @@ export default {
     buttonType: {
       type: String,
       default: 'ghost'
+    },
+    iconAdd: {
+      type: String,
+      default: 'favorite_border'
+    },
+    iconRemove: {
+      type: String,
+      default: 'favorite'
     }
   },
   computed: {
     favoriteIcon () {
-      return this.isOnWishlist ? 'favorite' : 'favorite_border'
+      return this.isOnWishlist ? this.iconRemove : this.iconAdd
     }
   },
   methods: {
@@ -46,18 +54,18 @@ export default {
     },
     addProductToWhishlist (product) {
       this.$store.dispatch('notification/spawnNotification', {
-        type: 'success',
-        message: i18n.t('Product {productName} has been added to wishlist!', { productName: htmlDecode(product.name) }),
-        action1: { label: i18n.t('OK') }
-      }, { root: true })
+          type: 'success',
+          message: i18n.t('Product {productName} has been added to wishlist!', { productName: htmlDecode(product.name) }),
+          action1: { label: i18n.t('OK') }
+        }, { root: true })
       this.addToWishlist(product)
     },
     removeProductFromWhishList (product) {
       this.$store.dispatch('notification/spawnNotification', {
-        type: 'success',
-        message: i18n.t('Product {productName} has been removed from wishlist!', { productName: htmlDecode(product.name) }),
-        action1: { label: i18n.t('OK') }
-      }, { root: true })
+          type: 'success',
+          message: i18n.t('Product {productName} has been removed from wishlist!', { productName: htmlDecode(product.name) }),
+          action1: { label: i18n.t('OK') }
+        }, { root: true })
       this.removeFromWishlist(product)
     }
   }

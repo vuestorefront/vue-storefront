@@ -1,20 +1,17 @@
 <template>
-  <sidebar :title="$t('Wishlist')">
-    <div class="wishlist cl-accent">
-      <clear-wishlist-button v-if="productsInWishlist.length" @click="clearWishlist" class="col-xs-12 col-sm mb35 end-sm" />
-      <h4 v-if="!productsInWishlist.length" class="cl-accent ml30">
+  <sidebar :title="$t('Wishlist')" :close-on-click="true">
+    <template v-slot:top-after-title>
+      <button-component v-if="productsInWishlist.length" type="transparent" size="sm" icon="delete" :icon-only="true" @click="clearWishlist">
+        {{ $t('Clear wishlist') }}
+      </button-component>
+    </template>
+    <div>
+      <h4 v-if="!productsInWishlist.length" class="t-text-sm">
         {{ $t('Your wishlist is empty.') }}
       </h4>
-      <div v-if="!productsInWishlist.length" class="ml30">
-        {{ $t("Don't hesitate and") }}
-        <router-link :to="localizedRoute('/')">
-          {{ $t('browse our catalog') }}
-        </router-link>
-        {{ $t('to find something beautiful for You!') }}
-      </div>
-      <div class="t-container t-p-4">
-        <ul class="t-flex t-flex-wrap t--p-4">
-          <product v-for="wishlistProduct in productsInWishlist" :key="wishlistProduct.id" :product="wishlistProduct" />
+      <div class="t-container">
+        <ul>
+          <product v-for="(wishlistProduct, i) in productsInWishlist" :key="wishlistProduct.id" :product="wishlistProduct" :class="{ 't-border-b': productsInWishlist.length !== (i + 1) }" />
         </ul>
       </div>
     </div>
@@ -25,19 +22,19 @@
 import Sidebar from 'theme/components/theme/blocks/AsyncSidebar/Sidebar'
 import Wishlist from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Wishlist'
 import Product from 'theme/components/core/blocks/Wishlist/Product'
-import ClearWishlistButton from 'theme/components/core/blocks/Wishlist/ClearWishlistButton'
+import ButtonComponent from 'theme/components/core/blocks/Button'
 
 export default {
   components: {
+    ButtonComponent,
     Sidebar,
-    Product,
-    ClearWishlistButton
+    Product
   },
   props: {
     product: {
       type: Object,
       required: false,
-      default: () => { }
+      default: () => {}
     }
   },
   methods: {
@@ -45,7 +42,8 @@ export default {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
         message: this.$t('Are you sure you would like to remove all the items from the wishlist?'),
-        action1: { label: this.$t('OK'),
+        action1: {
+          label: this.$t('OK'),
           action: () => {
             this.$store.dispatch('wishlist/clear')
           }
