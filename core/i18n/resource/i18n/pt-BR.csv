@@ -23,6 +23,7 @@
 "Proceed to checkout","Finalizar Compra"
 "Product has been added to the cart!","Produto foi adicionado ao carrinho!"
 "Product price is unknown, product cannot be added to the cart!","Preço do produto é desconhecido, produto não pode ser adicionado ao carrinho!"
+"Product quantity has been updated!","A quantidade do produto foi atualizada!"
 "Product {productName} has been added to the compare!","Produto {productName} foi adicionado para comparação!"
 "Product {productName} has been added to wishlist!","Produto {productName} foi adicionado à lista de desejos!"
 "Product {productName} has been removed from compare!","Produto {productName} foi removido da comparação!"

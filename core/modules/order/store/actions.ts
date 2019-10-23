@@ -69,7 +69,7 @@ const actions: ActionTree<OrderState, RootState> = {
       commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
 
       Logger.error('Internal validation error; Order entity is not compliant with the schema: ' + JSON.stringify(task.result), 'orders')()
-      dispatch('notification/spawnNotification', notifications.internalValidationError, { root: true })
+      dispatch('notification/spawnNotification', notifications.internalValidationError(), { root: true })
       dispatch('enqueueOrder', { newOrder: order })
 
       return task
@@ -80,7 +80,7 @@ const actions: ActionTree<OrderState, RootState> = {
   handlePlacingOrderFailed ({ commit, dispatch }, { newOrder, currentOrderHash }) {
     const order = { newOrder, transmited: false }
     commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
-    dispatch('notification/spawnNotification', notifications.orderCannotTransfered, { root: true })
+    dispatch('notification/spawnNotification', notifications.orderCannotTransfered(), { root: true })
     dispatch('enqueueOrder', { newOrder: order })
 
     EventBus.$emit('notification-progress-stop')
