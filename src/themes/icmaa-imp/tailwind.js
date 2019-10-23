@@ -53,6 +53,7 @@ module.exports = {
         '2-1/2xl': '1.625rem'
       },
       lineHeight: {
+        '1-em': '1em',
         '1-rem': '1rem',
         'looser': '3',
         'super-loose': '4'

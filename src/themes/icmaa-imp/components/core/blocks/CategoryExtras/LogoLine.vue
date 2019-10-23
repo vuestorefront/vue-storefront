@@ -75,6 +75,13 @@ export default {
     logoClassObj () {
       return typeof this.logoClass === 'string' ? [this.logoClass] : this.logoClass
     }
+  },
+  watch: {
+    logoLineItems (items) {
+      if (items.length > 0) {
+        this.$emit('loaded')
+      }
+    }
   }
 }
 </script>

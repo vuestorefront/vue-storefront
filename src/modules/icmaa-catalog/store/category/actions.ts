@@ -6,8 +6,6 @@ import { router } from '@vue-storefront/core/app'
 import { products } from 'config'
 import { changeFilterQuery } from '@vue-storefront/core/modules/catalog-next/helpers/filterHelpers'
 
-import { Logger } from '@vue-storefront/core/lib/logger'
-
 const actions: ActionTree<CategoryState, RootState> = {
   async unsetSearchFilterForAttribute ({ dispatch, getters }, attributeKey: string) {
     let currentQuery = router.currentRoute[products.routerFiltersSource]

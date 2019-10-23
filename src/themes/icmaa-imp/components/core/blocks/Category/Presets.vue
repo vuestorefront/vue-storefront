@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="presets">
     <button-component v-for="(p, i) in presets" :key="'filter-' + i" size="sm" :icon="p.active ? 'clear' : false" @click.native="changeFilter(p)" class="t-ml-2 t-opacity-75 hover:t-opacity-100">
       {{ p.label }}
     </button-component>
@@ -8,44 +8,91 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import registerGenericCmsStateModule from 'icmaa-cms/helpers/genericStateModule'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 
+import YAML from 'yaml'
+import mapValues from 'lodash-es/mapValues'
+import intersection from 'lodash-es/intersection'
+import pick from 'lodash-es/pick'
+import sampleSize from 'lodash-es/sampleSize'
+import orderBy from 'lodash-es/orderBy'
+
 export default {
-  data () {
-    return {
-      presetsX: [
-        { label: 'Jeans', filters: [ { type: 'type_pants', id: '731' } ] },
-        { label: 'Sneaker', filters: [ { type: 'type_shoes', id: '993' } ] },
-        { label: 'T-Shirts', filters: [ { type: 'type_top', id: '99' } ] }
-      ]
+  beforeCreate () {
+    registerGenericCmsStateModule('filter-presets', 'filter-preset')
+  },
+  created () {
+    this.$store.dispatch('icmaaCmsFilterPresets/list')
+  },
+  props: {
+    limit: {
+      type: Number,
+      default: 4
     }
   },
   components: {
     ButtonComponent
   },
   computed: {
-    ...mapGetters({ selectedFilters: 'category-next/getCurrentFilters' }),
+    ...mapGetters({
+      selectedFilters: 'category-next/getCurrentFilters',
+      getAvailableFilters: 'category-next/getAvailableFilters',
+      cluster: 'user/getCluster',
+      rawPresets: 'icmaaCmsFilterPresets/getAll'
+    }),
+    formatedPresets () {
+      return this.rawPresets.map(p => {
+        let preset = pick(p, ['label', 'enabled', 'filters', 'clusters'])
+        preset.filters = YAML.parse(preset.filters)
+        return preset
+      }).filter(p => p.enabled)
+    },
+    availableFilters () {
+      return mapValues(this.getAvailableFilters, (v) => v.map(o => o.id))
+    },
+    allAvailableFilterIds () {
+      return [].concat(...Object.values(this.availableFilters))
+    },
+    allSelectedFilterCodes () {
+      return Object.keys(this.selectedFilters)
+    },
+    allSelectedFilterIds () {
+      let filters = Object.values(this.selectedFilters).map(f => !Array.isArray(f) ? [f] : f)
+      return [].concat(...filters).map(f => f.id)
+    },
     presets () {
-      return this.presetsX.map(p => {
-        p.active = true
-        p.filters.forEach(f => {
-          let selectedFilters = this.selectedFilters[f.type]
-          if (selectedFilters && !Array.isArray(selectedFilters)) {
-            selectedFilters = [selectedFilters]
-          }
-          selectedFilters = selectedFilters ? selectedFilters.map(cf => cf.id) : false
+      let cluster = this.cluster
+      let presets = this.formatedPresets
+        .filter(p => {
+          const filterIds = [].concat(...p.filters.map(f => f.id))
+          return intersection(filterIds, this.allAvailableFilterIds).length === filterIds.length
+        })
+        .filter(p => (!p.clusters || p.clusters.length === 0 || (cluster && p.clusters.includes(cluster))))
+        .map(preset => {
+          preset.active = true
+          const presetFilterCodes = preset.filters.map(f => f.type)
+          const presetFilterIds = [].concat(...preset.filters.map(f => f.id))
 
-          if (!selectedFilters ||
-            !selectedFilters.includes(f.id) ||
-            selectedFilters.length !== p.filters.length ||
-            Object.keys(this.selectedFilters).length !== p.filters.length
+          if (intersection(this.allSelectedFilterCodes, presetFilterCodes).length !== presetFilterCodes.length ||
+            intersection(this.allSelectedFilterIds, presetFilterIds).length !== presetFilterIds.length ||
+            this.allSelectedFilterIds.length !== presetFilterIds.length
           ) {
-            p.active = false
+            preset.active = false
           }
+
+          return preset
         })
 
-        return p
-      })
+      presets = sampleSize(presets, this.limit)
+
+      if (cluster) {
+        presets = orderBy(presets, ['active', 'cluster'], ['desc', 'asc'])
+      } else {
+        presets = orderBy(presets, ['active'], ['desc'])
+      }
+
+      return presets
     }
   },
   methods: {
