@@ -26,6 +26,7 @@
 "No products synchronized for this category. Please come back while online!","V této kategorii nemáte žádné synchronizované produkty. Zkuste prosím znovu až budete online!"
 "No such configuration for the product. Please do choose another combination of attributes.","Neexistuje žádná taková konfigurace pro daný výrobek. Vyberte prosím jinou kombinaci vlastností."
 "OK","OK"
+"Only {maxQuantity} products of this type are available!","Only {maxQuantity} products of this type are available!"
 "Out of stock!","Vyprodáno!"
 "Out of the stock!","Není skladem!"
 "Payment Information","Informace o platbě"

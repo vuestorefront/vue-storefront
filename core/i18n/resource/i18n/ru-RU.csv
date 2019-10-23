@@ -15,6 +15,7 @@
 "Newsletter preferences have successfully been updated","Предпочтения по новостям успешно обновлены"
 "No products synchronized for this category. Please come back while online!","По данной категории товары не синхронизированы. Пожалуйста вернитесь когда будете онлайн!"
 "No such configuration for the product. Please do choose another combination of attributes.","У товара отсутствует данная конфигурация. Пожалуйста выберите другие значения атрибутов."
+"Only {maxQuantity} products of this type are available!","Only {maxQuantity} products of this type are available!"
 "Out of stock!","Нет в наличии!"
 "Please fix the validation errors","Пожалуйста исправьте валидационные ошибки"
 "Product has been added to the cart!","Товар добавлен в корзину!"
