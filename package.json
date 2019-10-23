@@ -5,7 +5,8 @@
     "build:composables": "cd packages/composables && yarn build",
     "build:core": "cd packages/core && tsc",
     "build:api-client": "cd packages/api-client && tsc",
-    "build:tools": "yarn build:core && yarn build:api-client && yarn build:composables"
+    "build:tools": "yarn build:core && yarn build:api-client && yarn build:composables",
+    "dev": "cd packages/theme && yarn dev"
   },
   "devDependencies": {
     "lerna": "^3.15.0",

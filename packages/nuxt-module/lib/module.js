@@ -2,10 +2,7 @@
 const consola = require('consola')
 const path = require('path')
 
-const rawSourcePackages = {
-  '@vue-storefront/composables': '@vue-storefront/composables/raw.ts',
-  '@vue-storefront/api-client': '@vue-storefront/api-client/src/index.ts'
-}
+
 
 module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
   const defaultOptions = {
@@ -28,6 +25,11 @@ module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
   }
 
   if (options.useRawSource) {
+    const rawSourcePackages = {
+      '@vue-storefront/composables': '@vue-storefront/composables/raw.ts',
+      '@vue-storefront/api-client': '@vue-storefront/api-client/src/index.ts'
+    }
+    
     for (const package in rawSourcePackages) {
       consola.info(`\`VSF:\` Using raw source for ${package} [useRawSource]`)
       this.extendBuild(config => {
