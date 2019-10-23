@@ -17,6 +17,7 @@
 "No products synchronized for this category. Please come back while online!","Nenhum produto sincronizado para esta categoria. Por favor volte qundo estiver online!"
 "No such configuration for the product. Please do choose another combination of attributes.","Esta configuração não é possível para este produto. Por favor selecione outra configuração de opções."
 "OK","OK"
+"Only {maxQuantity} products of this type are available!","Only {maxQuantity} products of this type are available!"
 "Out of stock!","Ruptura de stock!"
 "Please fix the validation errors","Por favor corrija os erros de validação"
 "Proceed to checkout","Ir para Finalizar Compra"

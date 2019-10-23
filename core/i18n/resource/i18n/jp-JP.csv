@@ -71,6 +71,7 @@
 "No products yet","商品はありません"
 "No reviews have been posted yet. Please don\","まだレビューは投稿されていません。"
 "No such configuration for the product. Please do choose another combination of attributes.","この商品へのこの構成はありません。別の組み合わせを試してみてください。"
+"Only {maxQuantity} products of this type are available!","Only {maxQuantity} products of this type are available!"
 "Open menu","メニューを開く"
 "Open microcart","マイクロカートを開く"
 "Open my account","アカウントを開く"

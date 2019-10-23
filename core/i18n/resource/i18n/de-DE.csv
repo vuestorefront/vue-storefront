@@ -28,6 +28,7 @@
 "No products synchronized for this category. Please come back while online!","Es sind keine Produkte für diese Kategorie synchronisiert. Bitte versuchen Sie es erneut, wenn Sie online sind!"
 "No such configuration for the product. Please do choose another combination of attributes.","Diese Konfiguration ist für dieses Produkt nicht möglich. Bitte wählen Sie eine andere Kombination von Eigenschaften."
 "OK","OK"
+"Only {maxQuantity} products of this type are available!","Only {maxQuantity} products of this type are available!"
 "Out of stock!","Nicht auf Lager!"
 "Out of the stock!","Nicht mehr auf Lager!"
 "Payment Information","Bezahlinformationen"
