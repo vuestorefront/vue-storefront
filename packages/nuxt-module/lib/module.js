@@ -18,8 +18,8 @@ module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
   consola.info('`VSF:` Starting Vue Storefront Nuxt Module')
 
   this.addPlugin(path.resolve(__dirname, 'plugins/composition-api.js'))
-  
-  // Using symlinks in lerna somehow breaks composition API behavior as a singleton
+
+  // Using symlinks in lerna somehow breaks composition API behavior as a singleton.
   if (options.coreDevelopment) {
     consola.info('`VSF:` Vue Storefront core development mode is on [coreDevelopment]')
     this.extendBuild(config => {
@@ -28,7 +28,7 @@ module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
   }
 
   if (options.useRawSource) {
-    // null for just transpilation
+    // Set value to 'null' for transpilation without aliasing.
     const rawSourcePackages = {
       '@vue-storefront/composables': '@vue-storefront/composables/raw.ts',
       '@vue-storefront/api-client': '@vue-storefront/api-client/src/index.ts',
