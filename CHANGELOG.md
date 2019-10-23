@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed VSF build fails for some people due to lack of dependencies in the container - @krskibin (#3699)
 - Fixed two graphql problems, one with cms_blocks and the other with default sort order - @resubaka (#3718)
 - Added validation message for city field on checkout page - @dz3n (#3723)
+- Improving is_comparable to work with booleans and digits - @dz3n (#3697)
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
