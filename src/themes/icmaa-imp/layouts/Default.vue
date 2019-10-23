@@ -4,7 +4,9 @@
     <loader />
     <div id="viewport" class="w-100 relative">
       <main-header />
-      <advice tags="2" />
+      <no-ssr>
+        <advice tags="2" />
+      </no-ssr>
       <async-sidebar
         :async-component="SearchPanel"
         :is-open="isSearchPanelOpen"
@@ -54,6 +56,7 @@ import CookieNotification from 'theme/components/core/CookieNotification.vue'
 import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
 import { isServer } from '@vue-storefront/core/helpers'
 import viewportMixin from 'theme/mixins/viewportMixin.ts'
+import NoSSR from 'vue-no-ssr'
 
 const SidebarMenu = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
 const Microcart = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue')
@@ -136,7 +139,8 @@ export default {
     CookieNotification,
     OfflineBadge,
     OrderConfirmation,
-    AsyncSidebar
+    AsyncSidebar,
+    'no-ssr': NoSSR
   }
 }
 </script>

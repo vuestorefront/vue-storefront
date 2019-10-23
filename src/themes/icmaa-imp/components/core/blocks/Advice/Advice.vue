@@ -45,25 +45,26 @@ export default {
       this.$router.push(this.localizedRoute(this.advice.link))
     }
   },
-  created () {
-    this.$store.dispatch('claims/check', { claimCode: 'adviceClaimAccepted' })
-      .then(claim => {
-        if (!claim) {
-          this.isOpen = true
-          this.$store.dispatch('claims/set', { claimCode: 'adviceClaimAccepted', value: false })
-        } else {
-          this.isOpen = !claim.value
-        }
-      })
-  },
   computed: {
     ...mapGetters('icmaaAdvice', ['getSingleAdvice']),
     advice () {
       return this.getSingleAdvice(this.tags)
     }
   },
-  mounted () {
-    this.$store.dispatch('icmaaAdvice/list', this.tags)
+  async mounted () {
+    await this.$store.dispatch('claims/check', { claimCode: 'adviceClaimAccepted' })
+      .then(async claim => {
+        if (!claim) {
+          this.isOpen = true
+          await this.$store.dispatch('claims/set', { claimCode: 'adviceClaimAccepted', value: false })
+        } else {
+          this.isOpen = !claim.value
+        }
+      })
+
+    if (this.isOpen) {
+      this.$store.dispatch('icmaaAdvice/list', this.tags)
+    }
   }
 }
 </script>
