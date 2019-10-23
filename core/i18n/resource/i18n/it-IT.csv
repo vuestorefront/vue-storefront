@@ -29,6 +29,7 @@
 "No products synchronized for this category. Please come back while online!","Nessun prodotto in questa categoria. Verifica la connessione di rete e riprova!"
 "No such configuration for the product. Please do choose another combination of attributes.","Configurazione del prodotto inesistente. Scegli un'altra combinazione di attributi"
 "OK","OK"
+"Only {maxQuantity} products of this type are available!","Only {maxQuantity} products of this type are available!"
 "Or if you will stay on "Order confirmation" page, the order will be placed automatically without confirmation, once the internet connection will be back.","Oppure se rimarrai nella pagina di "Conferma ordine", l'ordine verrà automaticamente evaso senza conferma, una volta che la connessione sarà ripristinata."
 "Out of stock!","Non disponibile"
 "Out of the stock!","Non disponibile"

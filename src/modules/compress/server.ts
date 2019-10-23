@@ -1,8 +1,9 @@
+import { serverHooks } from '@vue-storefront/core/server/hooks'
 
 const compression = require('compression')
-module.exports = (app, moduleConfig) => {
-  if (moduleConfig.enabled) {
+serverHooks.afterApplicationInitialized(({ app, isProd }) => {
+  if (isProd) {
     console.log('Output Compression is enabled')
-    app.use(compression(moduleConfig))
+    app.use(compression({ enabled: isProd }))
   }
-}
+})

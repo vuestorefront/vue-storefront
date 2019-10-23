@@ -29,6 +29,7 @@
 "No products synchronized for this category. Please come back while online!","No products synchronized for this category. Please come back while online!"
 "No such configuration for the product. Please do choose another combination of attributes.","No such configuration for the product. Please do choose another combination of attributes."
 "OK","OK"
+"Only {maxQuantity} products of this type are available!","Only {maxQuantity} products of this type are available!"
 "Or if you will stay on "Order confirmation" page, the order will be placed automatically without confirmation, once the internet connection will be back.","Or if you will stay on "Order confirmation" page, the order will be placed automatically without confirmation, once the internet connection will be back."
 "Out of stock!","Out of stock!"
 "Out of the stock!","Out of the stock!"

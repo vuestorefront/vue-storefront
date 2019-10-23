@@ -1,17 +1,24 @@
-require('../../src/trace').default()
+import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
+let config = require('config')
 const path = require('path')
-const express = require('express')
-const ms = require('ms')
+const glob = require('glob')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
+const serverExtensions = glob.sync('src/modules/*/server.{ts,js}')
+
+serverExtensions.forEach(serverModule => {
+  require(resolve(serverModule))
+})
+
+serverHooksExecutors.afterProcessStarted(config.server)
+const express = require('express')
+const ms = require('ms')
 const request = require('request');
 
 const cache = require('./utils/cache-instance')
 const apiStatus = require('./utils/api-status')
 const HTMLContent = require('../pages/Compilation')
 const ssr = require('./utils/ssr-renderer')
-const serverExtensions = require(resolve('src/modules/server'))
-let config = require('config')
 
 const compileOptions = {
   escape: /{{([^{][\s\S]+?[^}])}}/g,
@@ -24,13 +31,7 @@ process['noDeprecation'] = true
 
 const app = express()
 
-serverExtensions.serverModules.forEach(serverModule => {
-  if (Array.isArray(serverModule)) {
-    require(resolve(serverModule[0] + '/server.ts'))(app, serverModule[1])
-  } else {
-    require(resolve(serverModule + '/server.ts'))(app)
-  }
-})
+serverHooksExecutors.afterApplicationInitialized({ app, config: config.server, isProd })
 
 const templatesCache = ssr.initTemplatesCache(config, compileOptions)
 
@@ -71,6 +72,9 @@ function invalidateCache (req, res) {
         tags = req.query.tag.split(',')
       }
       const subPromises = []
+
+      serverHooksExecutors.beforeCacheInvalidated({ tags, req })
+
       tags.forEach(tag => {
         if (config.server.availableCacheTags.indexOf(tag) >= 0 || config.server.availableCacheTags.find(t => {
           return tag.indexOf(t) === 0
@@ -82,6 +86,9 @@ function invalidateCache (req, res) {
           console.error(`Invalid tag name ${tag}`)
         }
       })
+
+      serverHooksExecutors.afterCacheInvalidated()
+
       Promise.all(subPromises).then(r => {
         apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
       }).catch(error => {
@@ -178,6 +185,21 @@ app.get('*', (req, res, next) => {
         res.setHeader('X-VS-Cache-Tags', cacheTags)
         console.log(`cache tags for the request: ${cacheTags}`)
       }
+
+      const beforeOutputRenderedResponse = serverHooksExecutors.beforeOutputRenderedResponse({
+        req,
+        res,
+        context,
+        output,
+        isProd
+      })
+
+      if (typeof beforeOutputRenderedResponse.output === 'string') {
+        output = beforeOutputRenderedResponse.output
+      } else if (typeof beforeOutputRenderedResponse === 'string') {
+        output = beforeOutputRenderedResponse
+      }
+
       output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd);
       if (config.server.useOutputCache && cache) {
         cache.set(
@@ -186,7 +208,23 @@ app.get('*', (req, res, next) => {
           tagsArray
         ).catch(errorHandler)
       }
-      res.end(output)
+
+      const afterOutputRenderedResponse = serverHooksExecutors.afterOutputRenderedResponse({
+        req,
+        res,
+        context,
+        output,
+        isProd
+      })
+
+      if (typeof afterOutputRenderedResponse.output === 'string') {
+        res.end(afterOutputRenderedResponse.output)
+      } else if (typeof afterOutputRenderedResponse === 'string') {
+        res.end(afterOutputRenderedResponse)
+      } else {
+        res.end(output)
+      }
+
       console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
       next()
     }).catch(errorHandler)
