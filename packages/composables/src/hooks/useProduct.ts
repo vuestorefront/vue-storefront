@@ -1,8 +1,8 @@
-import { ref, Ref, onMounted } from '@vue/composition-api'
+import { ref, Ref } from '@vue/composition-api'
 import { UseProduct } from '@vue-storefront/core'
-import { setup, getProducts, getCategories } from '@vue-storefront/api-client'
+import { getProducts } from '@vue-storefront/api-client'
 
-type Product = Ref<string>
+type Product = Ref<any>
 type Configuration = Ref<string>
 type Configure = () => void
 
@@ -13,16 +13,12 @@ type Configure = () => void
  * @returns currentcConfiguration - currently selected configuration (via `configure`)
  * @returns configure - function that modfies `currentConfiguration` object with currently selected product configuration
  */
-export function useProduct (sku: string): UseProduct<Product, Configuration, Configure> {
-  const product = ref('productFromHook' + sku)
+
+const useProduct = (sku: string): UseProduct<Product, Configuration, Configure> => {
+  const product = ref(null)
   const currentConfiguration = ref('configurationFromHook' + sku)
 
-  onMounted(async () => {
-    setup({
-      baseURL: 'http://localhost:8080/apiv2/',
-    })
-    const categories = await getCategories({ onlyActive: true })
-    const response = await getProducts({ skus: [sku] })
+  getProducts({ skus: [sku] }).then(response => {
     product.value = response[0] as any
   })
 
@@ -33,6 +29,8 @@ export function useProduct (sku: string): UseProduct<Product, Configuration, Con
   return {
     product,
     currentConfiguration,
-    configure
+    configure,
   }
 }
+
+export { useProduct }

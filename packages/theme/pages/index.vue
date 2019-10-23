@@ -1,20 +1,33 @@
 <template>
   <div class="container">
+    <button @click="loadProduct">load</button>
+    <div v-if="product">
+
     <img :src="'https://demo.storefrontcloud.io/img/310/300/resize/' + product.image" />
     {{ product.name }}
     {{ product.price }} $
+        </div>
   </div>
 </template>
 
 <script>
+import { ref } from '@vue/composition-api'
+import { setup } from '@vue-storefront/api-client'
 import { useProduct } from '@vue-storefront/composables'
 
 export default {
   setup () {
+    setup({
+      baseURL: 'http://localhost:8080/apiv2/',
+    })
     const { product } = useProduct('MS09')
-    console.log(product.value)
-    return {
-      product
+    const loadProduct = () => {
+
+    }
+
+  return {
+      product,
+      loadProduct
     }
   }
 }

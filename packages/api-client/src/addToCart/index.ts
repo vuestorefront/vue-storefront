@@ -5,7 +5,7 @@ const applyQuoteId = (products, cartId) => products.map(product => ({ ...product
 
 const addToCart = async (products: CartProduct[], cartId: string): Promise<CartResponse> => {
   try {
-    const response = await apiClient.conn.post(
+    const response = await apiClient.post(
       `/cart/add?token=${apiClient.config.token}&cartId=${cartId}`,
       applyQuoteId(products, cartId)
     )

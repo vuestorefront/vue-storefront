@@ -21,7 +21,7 @@ const getCategories = async ({
   ].join('')
 
   try {
-    const response = await apiClient.conn.get(`/catalog/categories${queryParams}`)
+    const response = await apiClient.get(`/catalog/categories${queryParams}`)
     return response.data.result
   } catch (e) {
     console.log(e)
