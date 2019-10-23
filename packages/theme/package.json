@@ -12,6 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@storefront-ui/vue": "^0.3.1",
     "@vue-storefront/composables": "0.1.0",
     "@vue-storefront/nuxt": "^0.0.1",
     "@vue/composition-api": "^0.3.2",

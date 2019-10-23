@@ -25,16 +25,23 @@ module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
   }
 
   if (options.useRawSource) {
+    // null for just transpilation
     const rawSourcePackages = {
       '@vue-storefront/composables': '@vue-storefront/composables/raw.ts',
-      '@vue-storefront/api-client': '@vue-storefront/api-client/src/index.ts'
+      '@vue-storefront/api-client': '@vue-storefront/api-client/src/index.ts',
+      '@storefront-ui/vue': null,
+      '@storefront-ui/shared': null
     }
     
     for (const package in rawSourcePackages) {
       consola.info(`\`VSF:\` Using raw source for ${package} [useRawSource]`)
-      this.extendBuild(config => {
-        config.resolve.alias[package] = rawSourcePackages[package]
-      })
+
+      if (rawSourcePackages[package]) {
+        this.extendBuild(config => {
+          config.resolve.alias[package] = rawSourcePackages[package]
+        })
+      }
+
       this.options.build.transpile.push(package)
     }
   }
