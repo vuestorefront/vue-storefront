@@ -1,25 +1,33 @@
 export interface UseProduct
 <
   PRODUCT, 
+  SEARCH,
   CURRENT_CONFIGURATION, 
   CONFIGURE,
 > {
   product: PRODUCT;
+  search: SEARCH,
   currentConfiguration: CURRENT_CONFIGURATION;
   configure: CONFIGURE;
+  loading: boolean;
+  error: any;
 }
 
 export interface UseCategory
 <
   CATEGORY, 
+  SEARCH,
   APPLIED_FILTERS, 
   APPLY_FILTER,
   CLEAR_FILTERS,
 > {
   category: CATEGORY;
+  search: SEARCH;
   appliedFilters: APPLIED_FILTERS;
   applyFilter: APPLY_FILTER;
   clearFilters: CLEAR_FILTERS;
+  loading: boolean;
+  error: any;
 }
 
 export interface UseCart
@@ -39,6 +47,8 @@ export interface UseCart
   coupon: COUPON;
   applyCoupon: APPLY_COUPON;
   removeCoupon: REMOVE_COUPON;
+  loading: boolean;
+  error: any;
 }
 
 export interface UseWishlist
@@ -52,6 +62,8 @@ export interface UseWishlist
   addToWishlist: ADD_TO_WISHLIST;
   removeFromWishlist: REMOVE_FROM_WISHLIST;
   clearWishlist: CLEAR_WISHLIST;
+  loading: boolean;
+  error: any;
 }
 
 export interface UseCompare
@@ -65,6 +77,8 @@ export interface UseCompare
   addToCompare: ADD_TO_COMPARE;
   removeFromCompare: REMOVE_FROM_COMPARE;
   clearCompare: CLEAR_COMPARE;
+  loading: boolean;
+  error: any;
 }
 
 export interface UseCheckout 
@@ -90,4 +104,17 @@ export interface UseCheckout
   setPaymentMethod: SET_PAYMENT_METHOD
   setShippingMethod: SET_SHIPPING_METHOD
   placeOrder: PLACE_ORDER
+  loading: boolean
+  error: any;
+}
+
+interface UseContent
+<
+  CONTENT,
+  SEARCH
+> {
+  content: CONTENT,
+  search: SEARCH,
+  loading: boolean,
+  error: any
 }

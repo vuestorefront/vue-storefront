@@ -4,7 +4,7 @@
 Globally install `lerna` and `typescript`
 
 ```
-lerna bootstrap
+yarn
 ```
 
 ```
@@ -12,7 +12,7 @@ yarn build:tools
 ```
 
 ```
-cd packages/theme && yarn dev
+yarn dev
 ```
 
 ## Packages
