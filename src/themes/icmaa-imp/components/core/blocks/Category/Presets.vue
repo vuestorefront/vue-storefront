@@ -16,6 +16,7 @@ import mapValues from 'lodash-es/mapValues'
 import intersection from 'lodash-es/intersection'
 import pick from 'lodash-es/pick'
 import sampleSize from 'lodash-es/sampleSize'
+import orderBy from 'lodash-es/orderBy'
 
 export default {
   beforeCreate () {
@@ -86,9 +87,9 @@ export default {
       presets = sampleSize(presets, this.limit)
 
       if (cluster) {
-        const presetsWithCluster = presets.filter(p => p.clusters)
-        const presetsWithoutCluster = presets.filter(p => !p.clusters)
-        presets = presetsWithCluster.concat(presetsWithoutCluster)
+        presets = orderBy(presets, ['active', 'cluster'], ['desc', 'asc'])
+      } else {
+        presets = orderBy(presets, ['active'], ['desc'])
       }
 
       return presets
