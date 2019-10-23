@@ -1,7 +1,9 @@
  is out of stock!, is niet in voorraad!
 "Adding a review ...","Adding a review ..."
 "Are you sure you would like to remove this item from the shopping cart?","Weet u zeker dat u dit artikel uit uw mandje wilt verwijderen?"
+"Only {maxQuantity} products of this type are available!","Only {maxQuantity} products of this type are available!"
 "Product price is unknown, product cannot be added to the cart!",Productprijs onbekend. Dit product kan niet worden toegevoegd aan de winkelwagen!
+"Product quantity has been updated!","Produktmængde er blevet opdateret!"
 "Shopping cart is empty. Please add some products before entering Checkout",Uw winkelwagen is leeg. Voeg producten toe voordat u gaat afrekenen
 "Stock check in progress, please wait while available stock quantities are checked","Voorraadcontrole bezig. Een moment gedult alstublieft, we checken op dit moment de voorraden"
 "Thumbnail","Thumbnail"
