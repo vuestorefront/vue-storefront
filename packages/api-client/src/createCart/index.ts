@@ -1,10 +1,8 @@
-import { getOption } from './../configuration'
+import { apiClient } from './../index'
 
-const createCart = async (token: string = ''): Promise<string> => {
-  const connection = getOption('connection')
-
+const createCart = async (): Promise<string> => {
   try {
-    const response = await connection.post(`/cart/create?token=${token}`)
+    const response = await apiClient.post(`/cart/create?token=${apiClient.config.token}`)
     return response.data.result
   } catch (e) {
     console.log(e)
