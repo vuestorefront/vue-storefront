@@ -1,5 +1,5 @@
-export interface UseProduct<PRODUCT, SEARCH> {
-  products: [PRODUCT];
+export interface UseProduct<PRODUCTS, SEARCH> {
+  products: PRODUCTS;
   search: SEARCH,
   loading: boolean;
   error: any;
@@ -105,11 +105,4 @@ export interface UseContent<CONTENT, SEARCH> {
   search: SEARCH,
   loading: boolean,
   error: any
-}
-
-export interface Connector<SETUP> {
-  name: string,
-  setup: SETUP,
-  rawEntrys: Array<{ package: string, path: string }> | null,
-  platform: string
 }

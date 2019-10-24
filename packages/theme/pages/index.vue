@@ -7,13 +7,13 @@
 </template>
 
 <script>
-// import { useProduct } from '@vue-storefront/composables'
+import { useProduct } from '@vue-storefront/composables'
 
 export default {
   setup () {
-    // const { product } = useProduct('MS09')
+    const { products } = useProduct('MS09')
     return {
-      // product
+      products
     }
   }
 }

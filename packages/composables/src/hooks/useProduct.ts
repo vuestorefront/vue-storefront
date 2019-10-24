@@ -1,8 +1,9 @@
 import { ref, Ref } from '@vue/composition-api'
 import { UseProduct } from '@vue-storefront/core'
-import { getProducts } from '@vue-storefront/api-client'
+// import { getProducts } from '@vue-storefront/api-client'
+import { config } from '../main'
 
-type Product = Ref<any>
+type Product = any
 type Search = () => void
 
 
@@ -15,12 +16,12 @@ type Search = () => void
  */
 
 const useProduct = (sku: string): UseProduct<Product, Search> => {
-  const product = ref(null)
+  const products = ref(['product'])
   const currentConfiguration = ref('configurationFromHook' + sku)
 
-  getProducts({ skus: [sku] }).then(response => {
-    product.value = response[0] as any
-  })
+  // getProducts({ skus: [sku] }).then(response => {
+  //   products.value[0] = response[0] as any
+  // })
 
   const configure = () => {
     currentConfiguration.value = 'updatedConfigurationFromHook' + sku
@@ -29,11 +30,9 @@ const useProduct = (sku: string): UseProduct<Product, Search> => {
   const search = () => {
     currentConfiguration.value = 'updatedConfigurationFromHook' + sku
   }
-
+  console.log(config)
   return {
-    product,
-    currentConfiguration,
-    configure,
+    products,
     search,
     loading: true,
     error: null

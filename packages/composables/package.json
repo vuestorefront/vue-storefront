@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "./dist/composables.common.js",
-  "typings": "src/main.d.ts",
+  "typings": "./dist/src/main.d.ts",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern --target lib --name composables src/main.ts ",
