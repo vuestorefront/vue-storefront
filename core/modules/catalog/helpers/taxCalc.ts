@@ -1,3 +1,4 @@
+import cloneDeep from 'lodash-es/cloneDeep';
 // this is the mirror copy of taxcalc.js from VSF API
 
 function isSpecialPriceActive (fromDate, toDate) {
@@ -212,7 +213,8 @@ export function updateProductPrices ({ product, rate, sourcePriceInclTax = false
   }
 }
 
-export function calculateProductTax ({ product, taxClasses, taxCountry = 'PL', taxRegion = '', sourcePriceInclTax = false, deprecatedPriceFieldsSupport = false, finalPriceInclTax = true, userGroupId = null, isTaxWithUserGroupIsActive }) {
+export function calculateProductTax ({ product: productArg, taxClasses, taxCountry = 'PL', taxRegion = '', sourcePriceInclTax = false, deprecatedPriceFieldsSupport = false, finalPriceInclTax = true, userGroupId = null, isTaxWithUserGroupIsActive }) {
+  const product = cloneDeep(productArg)
   let rateFound = false
   if (product.tax_class_id > 0) {
     let taxClass
@@ -270,4 +272,5 @@ export function calculateProductTax ({ product, taxClasses, taxCountry = 'PL', t
       }
     }
   }
+  return product
 }
