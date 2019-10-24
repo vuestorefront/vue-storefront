@@ -1,17 +1,19 @@
-import axios from 'axios'
+import { AxiosRequestConfig } from 'axios'
+import { Config } from './types/Config'
 import createCart from './createCart'
 import addToCart from './addToCart'
 import getProducts from './getProducts'
 import getCategories from './getCategories'
-import { setConfiguration } from './configuration'
+import ApiClient from './ApiClient'
 
-export const setup = (axiosConfig): void => {
-  setConfiguration({
-    connection: axios.create(axiosConfig)
-  })
+let apiClient: ApiClient = null;
+
+export const setup = (axiosConfig: AxiosRequestConfig, config?: Config): void => {
+  apiClient = new ApiClient(axiosConfig, config)
 }
 
 export {
+  apiClient,
   createCart,
   addToCart,
   getProducts,

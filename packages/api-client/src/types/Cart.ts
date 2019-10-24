@@ -1,5 +1,3 @@
-import BaseRequest from './BaseRequest'
-
 interface ConfigurableItemOptions {
   option_id: string,
   option_value: string,
@@ -30,10 +28,15 @@ interface ProductConfiguration {
   }
 }
 
-interface CartProduct extends BaseRequest {
+interface CartProduct {
   sku: number,
   qty: number,
   product_option?: ProductConfiguration
+}
+
+// TODO: Implement for DPR
+interface CartResponse {
+
 }
 
 export {
@@ -41,5 +44,6 @@ export {
   ConfigurableItemOptions,
   BundleItemOptions,
   CustomItemOption,
-  ProductConfiguration
+  ProductConfiguration,
+  CartResponse
 }

@@ -1,15 +1,12 @@
-import { getOption } from './../configuration'
-import { CartProduct } from './../types/Cart'
+import { apiClient } from './../index'
+import { CartProduct, CartResponse } from './../types/Cart'
 
 const applyQuoteId = (products, cartId) => products.map(product => ({ ...product, quoteId: cartId }))
 
-const addToCart = async (products: CartProduct[], cartId: string) => {
-  const connection = getOption('connection')
-  const userToken = getOption('token')
-
+const addToCart = async (products: CartProduct[], cartId: string): Promise<CartResponse> => {
   try {
-    const response = await connection.post(
-      `/cart/add?token=${userToken}&cartId=${cartId}`,
+    const response = await apiClient.post(
+      `/cart/add?token=${apiClient.config.token}&cartId=${cartId}`,
       applyQuoteId(products, cartId)
     )
     return response.data.result
