@@ -70,7 +70,7 @@ const actions: ActionTree<TaxState, RootState> = {
         isTaxWithUserGroupIsActive: getters.getIsUserGroupedTaxActive
       })
     )
-
+    console.log(recalculatedProducts)
     return doPlatformPricesSync(recalculatedProducts)
   }
 }
