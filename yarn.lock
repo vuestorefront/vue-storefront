@@ -2148,18 +2148,18 @@
     error-stack-parser "^2.0.0"
     string-width "^2.0.0"
 
-"@storefront-ui/shared@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.3.1.tgz#0aa682bb8115792b4cf19d62654f1a74c78b5e54"
-  integrity sha512-IPEL/6rCbcH183xjU1Prn5kuIqZlXbs8j5MAcjWMso7PmEvv4JbOIpCaZgE0iXRk/zmmdheBmeHELUM9IJa1vw==
+"@storefront-ui/shared@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.3.2.tgz#5bc196bc9dba2b80eb57bb93e4fbeb7d42ab5587"
+  integrity sha512-6sQk1W8NjtBbywZPRb1kjHU20EQLLsEi5UhXhQqnRJ62i9P+vcYOXKiCErWo+m85dQ1MASa1aP+upooFno7gLA==
 
-"@storefront-ui/vue@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.3.1.tgz#ca5fc21adab7c96dc0f63fb8f0b5a0d596c2dc96"
-  integrity sha512-RKSLOj68fLJlREZ2B7QlWakxgWnJ4hUWUBrurgVQjQRrag7gkFmMHFnoKIZj4ZTAHss5S3mMxsP4qBC8Z1wIRw==
+"@storefront-ui/vue@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.3.2.tgz#f64a4d8702e6f04abb2bd61571a76f4722dbd259"
+  integrity sha512-GDoIBNuCIamdK81NpERjmPrwS+KaOl+zNy4qbrXcCIUruW0uO6dWCP3zsK4sb2AtL13Zgs7L+ZG7pmkSQGTBfA==
   dependencies:
     "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "^0.3.1"
+    "@storefront-ui/shared" "^0.3.2"
     "@vue/babel-preset-app" "^4.0.0-alpha.1"
     core-js "^3.1.3"
     hammerjs "^2.0.8"

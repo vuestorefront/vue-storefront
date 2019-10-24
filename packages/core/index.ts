@@ -1,14 +1,6 @@
-export interface UseProduct
-<
-  PRODUCT, 
-  SEARCH,
-  CURRENT_CONFIGURATION, 
-  CONFIGURE,
-> {
-  product: PRODUCT;
+export interface UseProduct<PRODUCT, SEARCH> {
+  products: [PRODUCT];
   search: SEARCH,
-  currentConfiguration: CURRENT_CONFIGURATION;
-  configure: CONFIGURE;
   loading: boolean;
   error: any;
 }
@@ -108,13 +100,16 @@ export interface UseCheckout
   error: any;
 }
 
-interface UseContent
-<
-  CONTENT,
-  SEARCH
-> {
+export interface UseContent<CONTENT, SEARCH> {
   content: CONTENT,
   search: SEARCH,
   loading: boolean,
   error: any
+}
+
+export interface Connector<SETUP> {
+  name: string,
+  setup: SETUP,
+  rawEntrys: Array<{ package: string, path: string }> | null,
+  platform: string
 }

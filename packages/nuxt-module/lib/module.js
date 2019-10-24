@@ -33,8 +33,7 @@ module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
       '@vue-storefront/composables': '@vue-storefront/composables/raw.ts',
       '@vue-storefront/api-client': '@vue-storefront/api-client/src/index.ts',
       '@storefront-ui/vue': null,
-      '@storefront-ui/shared': null,
-      '@glidejs/glide': null
+      '@storefront-ui/shared': null
     }
     
     for (const package in rawSourcePackages) {

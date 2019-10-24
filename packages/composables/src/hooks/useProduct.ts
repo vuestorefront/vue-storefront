@@ -3,8 +3,6 @@ import { UseProduct } from '@vue-storefront/core'
 import { getProducts } from '@vue-storefront/api-client'
 
 type Product = Ref<any>
-type Configuration = Ref<string>
-type Configure = () => void
 type Search = () => void
 
 
@@ -16,7 +14,7 @@ type Search = () => void
  * @returns configure - function that modfies `currentConfiguration` object with currently selected product configuration
  */
 
-const useProduct = (sku: string): UseProduct<Product, Search, Configuration, Configure> => {
+const useProduct = (sku: string): UseProduct<Product, Search> => {
   const product = ref(null)
   const currentConfiguration = ref('configurationFromHook' + sku)
 
