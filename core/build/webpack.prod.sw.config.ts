@@ -20,7 +20,9 @@ module.exports = merge(base, {
       filename: 'service-worker.js',
       staticFileGlobsIgnorePatterns: [/\.map$/],
       staticFileGlobs: [
-        'dist/**.*',
+        'dist/**.*.js',
+        'dist/**.*.json',
+        'dist/**.*.css',
         'assets/**.*',
         'assets/ig/**.*',
         'index.html',
