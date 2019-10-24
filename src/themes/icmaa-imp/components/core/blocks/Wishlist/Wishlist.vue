@@ -5,7 +5,7 @@
         {{ $t('Clear wishlist') }}
       </button-component>
     </template>
-    <div>
+    <div class="t-pb-20">
       <h4 v-if="!productsInWishlist.length" class="t-text-sm">
         {{ $t('Your wishlist is empty.') }}
       </h4>
