@@ -16,11 +16,10 @@
         <span class="price-special t-text-sale t-font-bold" v-if="product.special_price">{{ product.price_incl_tax | price }}</span>
         <span class="price t-text-base-dark t-font-bold" v-if="!product.special_price">{{ product.price_incl_tax | price }}</span>
       </div>
-      <div class="t-flex t-flex-wrap t-flex-grow t-items-end">
+      <div class="t-flex t-flex-grow t-items-end">
         <button-component type="primary" class="t-flex-grow" @click.native="redirect">
           {{ $t('Add to cart') }}
         </button-component>
-
         <add-to-wishlist :product="product" :icon-remove="'delete'" :button-type="'transparent'" class="t-flex-fix" @click.native.stop />
       </div>
     </div>
