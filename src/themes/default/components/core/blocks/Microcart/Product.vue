@@ -49,14 +49,16 @@
               {{ product.info | formatProductMessages }}
             </div>
           </div>
-          <div class="h5 cl-accent lh25 qty">
-            <base-input-number
-              :name="$t('Quantity')"
-              :value="productQty"
-              @input="updateProductQty"
-              :min="1"
-            />
-          </div>
+          <product-quantity
+            class="h5 cl-accent lh25 qty"
+            v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
+            :value="productQty"
+            :max-quantity="maxQuantity"
+            :loading="isStockInfoLoading"
+            :is-simple-or-configurable="isSimpleOrConfigurable"
+            @input="updateProductQty"
+            @error="handleQuantityError"
+          />
         </div>
         <div class="flex mr10 align-right start-xs between-sm prices">
           <div class="prices" v-if="!displayItemDiscounts || !isOnline">
@@ -101,7 +103,7 @@
                 :key="filter.id"
                 :variant="filter"
                 :selected-filters="getSelectedOptions"
-                @change="editModeSetFilters"
+                @change="changeEditModeFilter"
               />
             </div>
             <div class="flex flex-wrap pt5" v-else-if="option.label == 'Size' && editMode">
@@ -112,12 +114,16 @@
                 :key="filter.id"
                 :variant="filter"
                 :selected-filters="getSelectedOptions"
-                @change="editModeSetFilters"
+                @change="changeEditModeFilter"
               />
             </div>
           </div>
         </div>
-        <button-full class="update-button mb10 mr10" @click.native="updateProductVariant">
+        <button-full
+          class="update-button mb10 mr10"
+          @click.native="updateProductVariant"
+          :disabled="isUpdateCartDisabled"
+        >
           {{ $t('Update item') }}
         </button-full>
       </div>
@@ -136,12 +142,12 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
+import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
 import ProductImage from 'theme/components/core/ProductImage'
 import ColorSelector from 'theme/components/core/ColorSelector.vue'
 import SizeSelector from 'theme/components/core/SizeSelector.vue'
 import RemoveButton from './RemoveButton'
 import EditButton from './EditButton'
-import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption'
 import { getThumbnailForProduct, getProductConfiguration } from '@vue-storefront/core/modules/cart/helpers'
@@ -149,6 +155,13 @@ import ButtonFull from 'theme/components/theme/ButtonFull'
 import EditMode from './EditMode'
 
 export default {
+  data () {
+    return {
+      maxQuantity: 0,
+      quantityError: false,
+      isStockInfoLoading: false
+    }
+  },
   props: {
     product: {
       type: Object,
@@ -157,12 +170,12 @@ export default {
   },
   components: {
     RemoveButton,
-    BaseInputNumber,
     ProductImage,
     ColorSelector,
     SizeSelector,
     EditButton,
-    ButtonFull
+    ButtonFull,
+    ProductQuantity
   },
   mixins: [Product, ProductOption, EditMode],
   computed: {
@@ -204,6 +217,14 @@ export default {
     },
     productQty () {
       return this.editMode ? this.getEditingQty : this.product.qty
+    },
+    isSimpleOrConfigurable () {
+      return ['simple', 'configurable'].includes(this.product.type_id)
+    },
+    isUpdateCartDisabled () {
+      return this.quantityError ||
+        this.isStockInfoLoading ||
+        (this.isOnline && !this.maxQuantity && this.isSimpleOrConfigurable)
     }
   },
   methods: {
@@ -224,6 +245,56 @@ export default {
     },
     updateQuantity (quantity) {
       this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: quantity })
+    },
+    async getQuantity (product) {
+      if (this.isStockInfoLoading) return // stock info is already loading
+      this.isStockInfoLoading = true
+      try {
+        const validProduct = product || this.product
+        const res = await this.$store.dispatch('stock/check', {
+          product: validProduct,
+          qty: this.productQty
+        })
+        return res.qty
+      } finally {
+        this.isStockInfoLoading = false
+      }
+    },
+    handleQuantityError (error) {
+      this.quantityError = error
+    },
+    async changeEditModeFilter (filter) {
+      const editedProduct = this.getEditedProduct(filter)
+      const maxQuantity = await this.getQuantity(editedProduct)
+      if (!maxQuantity) {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t(
+            'The product is out of stock and cannot be added to the cart!'
+          ),
+          action1: { label: this.$t('OK') }
+        })
+      } else if (maxQuantity < this.productQty) {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Only {maxQuantity} products of this type are available!', { maxQuantity }),
+          action1: { label: this.$t('OK') }
+        })
+      } else {
+        this.maxQuantity = maxQuantity
+        this.editModeSetFilters(filter)
+      }
+    }
+  },
+  watch: {
+    isOnline: {
+      async handler (isOnline) {
+        if (isOnline) {
+          const maxQuantity = await this.getQuantity()
+          this.maxQuantity = maxQuantity
+        }
+      },
+      immediate: true
     }
   }
 }

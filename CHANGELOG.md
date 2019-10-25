@@ -18,12 +18,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed VSF build fails for some people due to lack of dependencies in the container - @krskibin (#3699)
 - Fixed two graphql problems, one with cms_blocks and the other with default sort order - @resubaka (#3718)
 - Allow falsy value for `parent_id` when searching category - @gibkigonzo (#3732)
+- Remove including .map files in service worker cache - @gibkigonzo (#3734)
+- Changed notification message object to factory fn - @gibkigozno (#3716)
+- Load recently viewed module in my account page - @gibkigonzo (#3722)
+- Added validation message for city field on checkout page - @dz3n (#3723)
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
 - Added unit tests for `core/modules/mailer` - @krskibin (#3710)
 - Get payment methods with billing address data - @rain2o (#2878)
 - Added custom page-size parameter for `category-next/loadCategoryProducts` action - @cewald (#3713, #3714)
+- check max quantity in microcart - @gibkigonzo (#3314)
 
 ## [1.11.0-rc.1] - 2019.10.03
 
