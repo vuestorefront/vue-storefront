@@ -18,9 +18,9 @@ const useProduct = (sku: string): UseProduct<Product, Search> => {
   const products = ref(['product'])
   const currentConfiguration = ref('configurationFromHook' + sku)
 
-  getProducts({ skus: [sku] }).then(response => {
-    products.value[0] = response[0] as any
-  })
+  // getProducts({ skus: [sku] }).then(response => {
+  //   products.value[0] = response[0] as any
+  // })
 
   const configure = () => {
     currentConfiguration.value = 'updatedConfigurationFromHook' + sku

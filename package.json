@@ -5,8 +5,9 @@
   "scripts": {
     "build:composables": "cd packages/composables && yarn build",
     "build:core": "cd packages/core && tsc",
-    "build:api-client": "cd packages/api-client && tsc",
+    "build:api-client": "cd packages/api-client && yarn build",
     "build:tools": "yarn build:core && yarn build:api-client && yarn build:composables",
+    "build": "cd packages/theme && yarn dev",
     "dev": "cd packages/theme && yarn dev"
   },
   "devDependencies": {
