@@ -1,4 +1,4 @@
-import * as coreHelper from '@vue-storefront/core/helpers'
+import {isServer} from '@vue-storefront/core/helpers'
 import config from 'config'
 
 jest.mock('config', () => ({}))

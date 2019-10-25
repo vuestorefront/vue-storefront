@@ -4,9 +4,10 @@ import { HttpError } from '@vue-storefront/core/helpers/internal'
 import { prepareStoreView, storeCodeFromRoute } from '@vue-storefront/core/lib/multistore'
 import omit from 'lodash-es/omit'
 import pick from 'lodash-es/pick'
-import {buildTimeConfig, config} from 'config'
+import buildTimeConfig from 'config'
 import { AsyncDataLoader } from '@vue-storefront/core/lib/async-data-loader'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import config from 'config'
 
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
