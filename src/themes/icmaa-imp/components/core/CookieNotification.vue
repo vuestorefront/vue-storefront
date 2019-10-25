@@ -1,28 +1,18 @@
 <template>
   <transition name="fade" appear>
-    <div class="cookie fixed w-100 bg-cl-th-accent cl-tertiary" v-if="isOpen">
-      <div class="container">
-        <div class="row between-xs middle-xs px15">
-          <div class="col-xs-10 start-xs">
-            <span class="pr5">
-              {{ message }}
-            </span>
-            <router-link :to="localizedRoute('detailsLink')" :title="detailsLinkText" class="cl-bg-tertiary">
-              {{ detailsLinkText }}
-            </router-link>
+    <div class="cookie t-fixed t-bottom-0 t-w-full t-bg-base-tone" v-if="isOpen">
+      <div class="t-container">
+        <div class="t-flex t-flex-wrap t-justify-start lg:t-justify-center t-items-center t-px-4 t-py-4 t-text-sm t-text-white">
+          <div class="t-w-full t-mb-2 lg:t-w-auto lg:t-mb-0 t-mr-4 t-leading-tight">
+            {{ message }}<br>
+            <span class="t-hidden lg:t-inline t-text-xs t-text-base-lighter t-font-thin">{{ messageSub }}</span>
           </div>
-          <div class="col-xs-2 end-xs">
-            <i
-              class="material-icons icon p15 pointer"
-              @click="accept"
-              @keyup.enter="accept"
-              data-testid="closeCookieButton"
-              tabindex="0"
-              role="button"
-            >
-              close
-            </i>
-          </div>
+          <button-component size="sm" type="ghost-white" icon="check" @click="accept">
+            {{ $t('Accept') }}
+          </button-component>
+          <button-component size="sm" type="transparent-white" icon="info" :icon-only="true" @click="$router.push(localizedRoute(detailsLink))">
+            {{ detailsLinkText }}
+          </button-component>
         </div>
       </div>
     </div>
@@ -31,7 +21,13 @@
 
 <script>
 import i18n from '@vue-storefront/i18n'
+import ButtonComponent from 'theme/components/core/blocks/Button'
+
 export default {
+  name: 'CookieNotification',
+  components: {
+    ButtonComponent
+  },
   props: {
     detailsLinkText: {
       type: String,
@@ -39,11 +35,15 @@ export default {
     },
     detailsLink: {
       type: String,
-      default: '/privacy'
+      default: '/service-imprint'
     },
     message: {
       type: String,
-      default: i18n.t('We use cookies to give you the best shopping experience.')
+      default: i18n.t('We are using cookies to give you the best experience on our site.')
+    },
+    messageSub: {
+      type: String,
+      default: i18n.t('By continuing to use our website without changing the settings, you are agreeing to our use of cookies.')
     }
   },
   data () {
@@ -72,22 +72,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '~theme/css/base/global_vars';
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$color-icon: color(black);
-$bg-icon: color(suva-gray);
-$z-index: map-get($z-index, overlay) - 1;
-
-.cookie {
-  z-index: $z-index;
-  bottom: 0;
-}
-
-.icon:hover {
-  color: $color-icon;
-  background-color: $bg-icon;
-}
-</style>
