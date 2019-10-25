@@ -9,6 +9,8 @@ The files are structured similar to the `npm-config` module, like:
 local-${mandant}-storeview-${store-code}.json
 ```
 
+This module also put the current `process.env.__BUILDTIME__` into local-storage and force a flush if it isn't sync anymore. This way we can force a new load of specific data into local-storage with each new build.
+
 ## Installation
 
 First enable `server.dynamicConfigReload` in your settings.
