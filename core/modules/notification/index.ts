@@ -1,8 +1,6 @@
-import { module } from './store'
-import { createModule } from '@vue-storefront/core/lib/module'
+import { notificationStore } from './store'
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
-export const KEY = 'notification'
-export const Notification = createModule({
-  key: KEY,
-  store: { modules: [{ key: KEY, module }] }
-})
+export const NotificationModule: StorefrontModule = function ({store}) {
+  store.registerModule('notification', notificationStore)
+}

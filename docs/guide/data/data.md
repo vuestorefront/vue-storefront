@@ -7,99 +7,9 @@ Vue storefront uses two primary data sources:
 
 ## Local data store
 
-You can access localForage repositories through the `Vue.prototype.$db` object anywhere in the code, BUT all data-related operations SHOULD be placed in Vuex stores.
+You can access localForage repositories through the `StorageManager` (`@vue-storefront/core/lib/storage-manager`) object anywhere in the code, BUT all data-related operations SHOULD be placed in Vuex stores.
 
 Details on localForage API can be found [here](http://localforage.github.io/localForage/)
-
-We basically have the following data stores accessible in the browser (`/core/store/index.ts`):
-
-```js
-Vue.prototype.$db = {
-  ordersCollection: new UniversalStorage(
-    localForage.createInstance({
-      name: 'shop',
-      storeName: 'orders',
-    }),
-  ),
-
-  categoriesCollection: new UniversalStorage(
-    localForage.createInstance({
-      name: 'shop',
-      storeName: 'categories',
-    }),
-  ),
-
-  attributesCollection: new UniversalStorage(
-    localForage.createInstance({
-      name: 'shop',
-      storeName: 'attributes',
-    }),
-  ),
-
-  cartsCollection: new UniversalStorage(
-    localForage.createInstance({
-      name: 'shop',
-      storeName: 'carts',
-    }),
-  ),
-
-  elasticCacheCollection: new UniversalStorage(
-    localForage.createInstance({
-      name: 'shop',
-      storeName: 'elasticCache',
-    }),
-  ),
-
-  productsCollection: new UniversalStorage(
-    localForage.createInstance({
-      name: 'shop',
-      storeName: 'products',
-    }),
-  ),
-
-  claimsCollection: new UniversalStorage(
-    localForage.createInstance({
-      name: 'shop',
-      storeName: 'claims',
-    }),
-  ),
-
-  wishlistCollection: new UniversalStorage(
-    localForage.createInstance({
-      name: 'shop',
-      storeName: 'wishlist',
-    }),
-  ),
-
-  compareCollection: new UniversalStorage(
-    localForage.createInstance({
-      name: 'shop',
-      storeName: 'compare',
-    }),
-  ),
-
-  usersCollection: new UniversalStorage(
-    localForage.createInstance({
-      name: 'shop',
-      storeName: 'user',
-    }),
-  ),
-
-  syncTaskCollection: new UniversalStorage(
-    localForage.createInstance({
-      name: 'shop',
-      storeName: 'syncTasks',
-    }),
-  ),
-
-  checkoutFieldsCollection: new UniversalStorage(
-    localForage.createInstance({
-      name: 'shop',
-      storeName: 'checkoutFieldValues',
-    }),
-  ),
-};
-```
 
 ## Example Vuex store
 
@@ -148,7 +58,7 @@ const mutations = {
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
    */
   [types.CHECKOUT_PLACE_ORDER](state, order) {
-    const ordersCollection = Vue.prototype.$db.ordersCollection;
+    const ordersCollection = StorageManager.ordersCollection;
     const orderId = entities.uniqueEntityId(order); // timestamp as a order id is not the best we can do but it's enough
     order.order_id = orderId.toString();
     order.transmited = false;

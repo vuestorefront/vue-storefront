@@ -2,6 +2,7 @@ import i18n from '@vue-storefront/i18n'
 
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 
 export default {
   name: 'MyAccount',
@@ -21,6 +22,13 @@ export default {
   beforeMount () {
     this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
     this.$bus.$on('myAccount-before-changePassword', this.onBeforeChangePassword)
+  },
+  async mounted () {
+    await this.$store.dispatch('user/startSession')
+    if (!this.$store.getters['user/isLoggedIn']) {
+      localStorage.setItem('redirect', this.$route.path)
+      this.$router.push(localizedRoute('/', currentStoreView().storeCode))
+    }
   },
   destroyed () {
     this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)

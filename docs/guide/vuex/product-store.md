@@ -50,10 +50,6 @@ The following events are published from `product` store:
 - `EventBus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })` from `configureProductAsync` (called by `product/configure` action after `product/single`). This event provides the information about selected product variant on the product page.
 - `EventBus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, result: resp })` - this event emits the current product list as it's returned by `product/list`providing the current filters, etc. You can mark the specific product list identifier by setting the `meta` property; it's important because on a single page, this event can be executed multiple time for each individual block of products.
 - `EventBus.$emit('product-after-single', { key: key, options: options, product: cachedProduct })` - After single product has been loaded (invoked by `product/single` action).
-- `EventBus.$emit('product-after-related', { key: key, items: items })` - Invoked whenever the related products block is set for the current product; the key is the name of the related block and items are related products.
-- `EventBus.$emit('product-after-original', { original: product })` - Invoked by `product/single` whenever product has been loaded.
-- `EventBus.$emit('product-after-parent', { parent: product })` - Invoked externally by `product/checkConfigurableParent` provides the current single product configurable parent.
-- `EventBus.$emit('product-after-reset', { })` - After product has been reset (for example in the process of moving from one product page to another).
 
 ## Actions
 
@@ -133,11 +129,11 @@ All state members should have been accessed only by getters. Please take a look 
 
 ```js
 const getters = {
-  productParent: state => state.parent,
-  productCurrent: state => state.current,
-  currentConfiguration: state => state.current_configuration,
-  productOriginal: state => state.original,
-  currentOptions: state => state.current_options,
+  getParentProduct: state => state.parent,
+  getCurrentProduct: state => state.current,
+  getCurrentProductConfiguration: state => state.current_configuration,
+  getOriginalProduct: state => state.original,
+  getCurrentProductOptions: state => state.current_options,
   breadcrumbs: state => state.breadcrumbs,
 };
 ```
