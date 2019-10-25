@@ -1,18 +1,25 @@
 {
   "name": "@vue-storefront/api-client",
   "version": "1.0.0",
-  "main": "lib/index.js",
+  "main": "lib/index.cjs.js",
+  "module":"lib/index.es.js",
   "types": "lib/index.d.ts",
+  "scripts": {
+    "build" : "rollup -c"
+  },
   "dependencies": {
     "axios": "^0.19.0",
     "js-sha3": "^0.8.0",
-    "lodash-es": "^4.17.15"
+    "lodash-es": "^4.17.15",
+    "rollup": "^1.25.2",
+    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-typescript2": "^0.24.3"
   },
   "devDependencies": {
     "@types/node": "^12.7.12",
     "ts-node": "^8.4.1",
-    "typescript": "^3.6.4",
-    "tslib": "^1.10.0"
+    "tslib": "^1.10.0",
+    "typescript": "^3.6.4"
   },
   "files": [
     "lib/**/*"
