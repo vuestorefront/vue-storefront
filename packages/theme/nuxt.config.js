@@ -13,7 +13,6 @@ export default {
     ]
   },
   loading: { color: '#fff' },
-  css: [],
   buildModules: [
     '@nuxt/typescript-build'
   ],

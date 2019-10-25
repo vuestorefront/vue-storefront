@@ -68,16 +68,17 @@
     <SfSection title-heading="Best Sellers" class="section">
       <SfCarousel class="product-carousel">
         <SfCarouselItem v-for="(product, i) in products" :key="i">
-          <SfProductCard
-            :title="product.title"
-            :image="product.image"
-            :regular-price="product.price.regular"
-            :max-rating="product.rating.max"
-            :score-rating="product.rating.score"
-            :is-on-wishlist="product.isOnWishlist"
-            @click:wishlist="toggleWishlist(i)"
-            class="product-card"
-          />
+          <nuxt-link to="/product">
+            <SfProductCard
+              :title="product.title"
+              :image="product.image"
+              :regular-price="product.price.regular"
+              :max-rating="product.rating.max"
+              :score-rating="product.rating.score"
+              :is-on-wishlist="product.isOnWishlist"
+              class="product-card"
+            />
+          </nuxt-link>
         </SfCarouselItem>
       </SfCarousel>
     </SfSection>
@@ -140,32 +141,7 @@
         </div>
       </template>
     </SfBanner>
-    <SfBottomNavigation class="mobile-only">
-      <SfBottomNavigationItem>
-        <SfIcon icon="home" size="20px" />
-      </SfBottomNavigationItem>
-      <SfBottomNavigationItem>
-        <SfIcon icon="menu" size="20px" style="width: 25px" />
-      </SfBottomNavigationItem>
-      <SfBottomNavigationItem>
-        <SfIcon icon="heart" size="20px" />
-      </SfBottomNavigationItem>
-      <SfBottomNavigationItem>
-        <SfIcon icon="profile" size="20px" />
-      </SfBottomNavigationItem>
-      <SfBottomNavigationItem class="bottom-navigation-circle">
-        <SfCircleIcon
-          class="sf-bottom-navigation__floating-icon sf-circle-icon--big"
-        >
-          <SfIcon
-            icon="add_to_cart"
-            size="20px"
-            color="white"
-            style="margin-right: 4px;"
-          />
-        </SfCircleIcon>
-      </SfBottomNavigationItem>
-    </SfBottomNavigation>
+
   </div>
 </template>
 <script>
@@ -177,14 +153,12 @@ import {
   SfCarousel,
   SfProductCard,
   SfImage,
-  SfBannerGrid,
-  SfBottomNavigation,
-  SfIcon,
-  SfCircleIcon
+  SfBannerGrid
 } from "@storefront-ui/vue";
 
 export default {
   name: "Home",
+  transition: 'fade',
   data() {
     return {
       heroes: [
@@ -280,21 +254,13 @@ export default {
     SfCarousel,
     SfProductCard,
     SfImage,
-    SfBannerGrid,
-    SfBottomNavigation,
-    SfIcon,
-    SfCircleIcon
-  },
-  methods: {
-    toggleWishlist(index) {
-      this.products[index].isOnWishlist = !this.products[index].isOnWishlist;
-    }
+    SfBannerGrid
   }
 };
 </script>
+
 <style lang="scss" scoped>
 @import "~@storefront-ui/shared/styles/variables";
-@import "~@storefront-ui/shared/styles/helpers/visibility";
 
 @mixin for-desktop {
   @media screen and (min-width: $desktop-min) {
@@ -304,7 +270,6 @@ export default {
 
 #home {
   box-sizing: border-box;
-  margin: 0 0 60px 0;
   @include for-desktop {
     max-width: 1240px;
     margin: auto;
