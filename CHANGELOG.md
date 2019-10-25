@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.11.0-rc.2] - UNRELEASED
 
+### Added
+
+- Add unit test for `core/modules/wishlist` - @psmyrek (#3471)
+
 ### Fixed
 
 
