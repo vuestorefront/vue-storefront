@@ -7,7 +7,8 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { isServer } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-export const cacheStorage = StorageManager.init('icmaa-config', false)
+export const cacheStorageKey = 'icmaa-config'
+export const cacheStorage = StorageManager.init(cacheStorageKey, false)
 
 export const IcmaaExtendedConfigModule: StorefrontModule = function ({ store }) {
   if (config.storeViews.multistore === true) {
@@ -18,7 +19,7 @@ export const IcmaaExtendedConfigModule: StorefrontModule = function ({ store }) 
 
     if (!isServer) {
       coreHooks.afterAppInit(async () => {
-        const configStorage = StorageManager.get('icmaa-config')
+        const configStorage = StorageManager.get(cacheStorageKey)
 
         const storageBuildtime = await configStorage.getItem('buildtime')
         const envBuildtime = process.env.__BUILDTIME__
@@ -26,12 +27,12 @@ export const IcmaaExtendedConfigModule: StorefrontModule = function ({ store }) 
         if (!storageBuildtime || storageBuildtime !== envBuildtime) {
           Object.keys(StorageManager.storageMap).forEach(async key => {
             if (key.startsWith('icmaa-')) {
-              Logger.error('Flush localforage:', 'icmaa-config', key)()
+              Logger.debug('Flush localforage:', 'icmaa-config', key)()
               await StorageManager.get(key).clear()
             }
           })
 
-          Logger.error('Set build time:', 'DEBUG', envBuildtime)()
+          Logger.debug('Set build time:', 'icmaa-config', envBuildtime)()
           await configStorage.setItem('buildtime', envBuildtime)
         }
       })

@@ -35,6 +35,7 @@ import LoaderBackground from 'theme/components/core/LoaderBackground'
 import VueOfflineMixin from 'vue-offline/mixin'
 
 import i18n from '@vue-storefront/i18n'
+import { mapGetters } from 'vuex'
 import { required, minLength } from 'vuelidate/lib/validators'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { prepareQuickSearchQuery } from '@vue-storefront/core/modules/catalog/queries/searchPanel'
@@ -71,6 +72,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({ alias: 'icmaaSearchAlias/getMap' }),
     items () {
       return this.$store.state.search
     },
@@ -109,16 +111,40 @@ export default {
   watch: {
     categories () {
       this.selectedCategoryIds = []
-    },
-    searchString (val, org) {
-      val = this.$v.searchString.$invalid ? '' : val
-      this.$bus.$emit('search-input-change', { search: val })
     }
   },
   methods: {
-    search () {
+    async getAlias (searchString) {
+      const wordsRegexp = /(\w+)/giu
+      let wordResult = ''
+      let replaces = []
+
+      const allWords = searchString.match(wordsRegexp)
+      await this.$store.dispatch('icmaaSearchAlias/list', allWords)
+
+      while ((wordResult = wordsRegexp.exec(searchString)) !== null) {
+        const word = wordResult[0]
+        const aliasKey = Object.keys(this.alias).find(k => RegExp(`^${word}$`, 'giu').test(k))
+        if (aliasKey) {
+          const replace = this.alias[aliasKey]
+          replaces.push({ word, replace })
+        }
+      }
+
+      replaces.forEach(r => {
+        searchString = searchString.replace(RegExp(r.word, 'i'), r.replace)
+      })
+
+      Logger.debug('Search for:', 'DEBUG', searchString)()
+
+      return searchString
+    },
+    async search () {
       if (!this.$v.searchString.$invalid) {
-        let query = prepareQuickSearchQuery(this.searchString)
+        let query = prepareQuickSearchQuery(
+          await this.getAlias(this.searchString)
+        )
+
         this.start = 0
         this.moreProducts = true
         this.loadingProducts = true
@@ -172,7 +198,10 @@ export default {
     }
   },
   beforeDestroy () {
-    localStorage.setItem(`shop/user/searchQuery`, this.searchString)
+    const search = this.$v.searchString.$invalid ? '' : this.searchString
+    this.$bus.$emit('search-input-change', { search })
+    localStorage.setItem(`shop/user/searchQuery`, search)
+
     clearAllBodyScrollLocks()
   }
 }
