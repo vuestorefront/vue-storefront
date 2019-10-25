@@ -75,6 +75,7 @@
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
     "fs-extra": "^8.1.0",
+    "glob": "^7.1.4",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "isomorphic-fetch": "^2.2.1",

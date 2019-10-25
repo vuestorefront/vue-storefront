@@ -62,6 +62,4 @@ export async function loadLanguageAsync (lang: string): Promise<string> {
   return lang
 }
 
-loadLanguageAsync(config.i18n.defaultLocale)
-
 export default i18n

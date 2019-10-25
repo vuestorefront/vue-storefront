@@ -57,7 +57,7 @@ const mergeActions = {
     if (!rootGetters['checkout/isUserInCheckout']) {
       const isThisNewItemAddedToTheCart = (!clientItem || !clientItem.server_item_id)
       diffLog.pushNotification(
-        isThisNewItemAddedToTheCart ? notifications.productAddedToCart : notifications.productQuantityUpdated
+        isThisNewItemAddedToTheCart ? notifications.productAddedToCart() : notifications.productQuantityUpdated()
       )
     }
 
