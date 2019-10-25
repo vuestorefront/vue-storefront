@@ -31,6 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove unused dayjs locales - @gibkigonzo (#3498)
 - check max quantity in microcart - @gibkigonzo (#3314)
 
+### Changed / Improved
+- Use `encodeURIComponent` to encode get parameters in `multimatch.js` - @adityasharma7 (#3736)
+
 ## [1.11.0-rc.1] - 2019.10.03
 
 ### Added
