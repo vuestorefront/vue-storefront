@@ -10,6 +10,7 @@
       <async-sidebar
         :async-component="SearchPanel"
         :is-open="isSearchPanelOpen"
+        :wide="true"
         @close="$store.dispatch('ui/setSearchpanel')"
       />
       <async-sidebar

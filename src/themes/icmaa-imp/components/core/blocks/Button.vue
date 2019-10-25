@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="t-flex t-items-center t-px-4 t-text-xs t-rounded-sm t-cursor-pointer" :class="[ { 't-uppercase': !['select', 'tag', 'tag-active'].includes(type) }, sizeClass, colorClass, alignClass ]" :style="customColorStyle" @click="$emit('click')">
+  <button type="button" class="t-flex t-items-center t-rounded-sm t-cursor-pointer" :class="[ { 't-uppercase': !['select', 'tag', 'tag-active'].includes(type) }, sizeClass, colorClass, alignClass ]" :style="customColorStyle" @click="$emit('click')">
     <material-icon v-if="icon && iconPosition === 'left'" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-mr-4': !iconOnly }, iconClass ]" />
     <template v-if="iconOnly">
       <span class="t-sr-only">
@@ -26,7 +26,7 @@ export default {
       type: String,
       default: 'md',
       validation: (value) => {
-        return ['md', 'sm'].indexOf(value) !== -1
+        return ['md', 'sm', 'xs'].indexOf(value) !== -1
       }
     },
     type: {
@@ -83,7 +83,16 @@ export default {
   },
   computed: {
     sizeClass () {
-      return this.size === 'md' ? 't-h-10' : 't-h-8'
+      let size = 't-h-10 t-px-4 t-text-xs'
+      switch (this.size) {
+        case 'xs':
+          size = 't-h-6 t-px-2 t-text-xxs'
+          break
+        case 'sm':
+          size = 't-h-8 t-px-4 t-text-xs'
+      }
+
+      return size
     },
     colorClass () {
       const map = {

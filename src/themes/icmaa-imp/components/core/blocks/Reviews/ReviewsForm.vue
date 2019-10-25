@@ -152,7 +152,7 @@ export default {
         values.push({ value, label: i18n.t(`Reviewrating: ${value}`) })
       }
 
-      return values
+      return values.reverse()
     },
     sampleName () {
       const names = ['Jose', 'Ulli', 'Manu', 'Maria', 'Micha', 'Sigi', 'Sascha']

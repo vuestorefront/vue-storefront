@@ -35,7 +35,7 @@
       </lazy-hydrate>
       <product-listing v-else :products="getCategoryProducts" />
       <div class="t-flex t-items-center t-justify-center" v-if="moreProductsInSearchResults">
-        <button-component type="ghost" @click.native="loadMoreProducts" :disabled="loadingProducts" :class="{ 't-relative t-opacity-60': loadingProducts }">
+        <button-component type="ghost" @click.native="loadMoreProducts" :disabled="loadingProducts" class="t-w-2/3 lg:t-w-1/4" :class="{ 't-relative t-opacity-60': loadingProducts }">
           {{ $t('Load more') }}
           <loader-background v-if="loadingProducts" bar="t-bg-base-darkest" class="t-bottom-0" />
         </button-component>

@@ -1,8 +1,8 @@
 <template>
-  <transition :name="direction === 'right' ? 'slide-left' : direction === 'left' ? 'slide-right' : null ">
+  <transition :name="direction === 'right' ? 'slide-left' : direction === 'left' ? 'slide-right' : null">
     <div
       class="sidebar t-max-w-full t-fixed t-scrolling-touch t-bg-white"
-      :class="direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null "
+      :class="[direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null, { 'wide': wide }]"
       data-testid="sidebar"
       ref="sidebar"
       v-if="isOpen"
@@ -40,6 +40,10 @@ export default {
     direction: {
       type: String,
       default: 'right'
+    },
+    wide: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
@@ -120,6 +124,10 @@ $z-index-modal: map-get($z-index, modal);
   max-height: 100vh;
   width: 460px;
   overflow: auto;
+
+  &.wide {
+    width: 800px;
+  }
 
   @media (max-width: 767px) {
     width: 100vh;
