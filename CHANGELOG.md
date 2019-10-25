@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed typos in docs - @afozbek (#3709)
 - Fixed VSF build fails for some people due to lack of dependencies in the container - @krskibin (#3699)
 - Fixed two graphql problems, one with cms_blocks and the other with default sort order - @resubaka (#3718)
+- Allow falsy value for `parent_id` when searching category - @gibkigonzo (#3732)
 - Remove including .map files in service worker cache - @gibkigonzo (#3734)
 - Changed notification message object to factory fn - @gibkigozno (#3716)
 - Load recently viewed module in my account page - @gibkigonzo (#3722)
