@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.11.0-rc.2] - unreleased
 
+### Added
+
+- Add unit tests for `core/modules/newsletter` - @psmyrek (#3464)
+
 ### Fixed
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
 - Fixed problem around dynamic urls when default storeView is set with appendStoreCode false and url set to / . @resubaka (#3685)
