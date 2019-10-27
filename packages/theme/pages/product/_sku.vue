@@ -58,34 +58,14 @@
           <div class="product-details__action">
             <button class="sf-action">Size guide</button>
           </div>
-          <div class="product-details__section">
-            <SfSelect
-              v-model="size"
-              label="Size"
-              class="sf-select--bordered product-details__attribute"
-            >
-              <SfSelectOption
-                v-for="size in sizes"
-                :key="size.value"
-                :value="size.value"
-              >
-                <SfProductOption :label="size.label" />
-              </SfSelectOption>
-            </SfSelect>
-            <SfSelect
-              v-model="color"
-              label="Color"
-              class="sf-select--bordered product-details__attribute"
-            >
-              <SfSelectOption
-                v-for="color in colors"
-                :key="color.value"
-                :value="color.value"
-              >
-                <SfProductOption :label="color.label" :color="color.color" />
-              </SfSelectOption>
-            </SfSelect>
-          </div>
+          <ProductDetails
+            v-if="productOptions.length > 0"
+            v-model="configuration"
+            @input="handleChange"
+            class="product-details__section"
+            :productOptions="productOptions"
+            :productType="productType"
+          />
           <div class="product-details__section">
             <SfAlert
               message="Low in stock"
@@ -97,6 +77,7 @@
               v-model="qty"
               :canAddToCart="stock > 0"
               class="product-details__add-to-cart"
+              @click="addToCart"
             />
             <div class="product-details__action">
               <button class="sf-action">Save for later</button>
@@ -280,33 +261,42 @@ import {
   SfSticky,
   SfReview
 } from "@storefront-ui/vue";
+import ProductDetails from './../../components/ProductDetails'
+import { computed, ref, reactive, watch } from '@vue/composition-api'
+import { setup as apiSetup } from '@vue-storefront/api-client'
+import { useProduct } from '@vue-storefront/composables'
 
 export default {
   name: "Product",
   transition: 'fade',
-  data() {
+  setup() {
+    apiSetup({
+      baseURL: 'http://localhost:8080/api'
+    })
+    const testSku = 'WS09' // '24-WG080' // WS09
+    const { products, getPossibleOptions, search, configure, lastConfiguration } = useProduct()
+    const productType = computed(() => products.value.length > 0 && products.value[0].type_id)
+    const productOptions = computed(() => getPossibleOptions(testSku))
+    const configuration = ref(null)
+
+    const handleChange = () => {
+      configure(testSku, configuration.value)
+    }
+
+    const addToCart = () => {
+      console.log('add to cart', configuration.value, lastConfiguration.value)
+    }
+
+    search([testSku])
+
     return {
       qty: "1",
       stock: 5,
-      size: "",
-      sizes: [
-        { label: "XXS", value: "xxs" },
-        { label: "XS", value: "xs" },
-        { label: "S", value: "s" },
-        { label: "M", value: "m" },
-        { label: "L", value: "l" },
-        { label: "XL", value: "xl" },
-        { label: "XXL", value: "xxl" }
-      ],
-      color: "",
-      colors: [
-        { label: "Red", value: "red", color: "#990611" },
-        { label: "Black", value: "black", color: "#000000" },
-        { label: "Yellow", value: "yellow", color: "#DCA742" },
-        { label: "Blue", value: "blue", color: "#004F97" },
-        { label: "Navy", value: "navy", color: "#656466" },
-        { label: "White", value: "white", color: "#FFFFFF" }
-      ],
+      productOptions,
+      productType,
+      configuration,
+      addToCart,
+      handleChange,
       properties: [
         {
           name: "Product Code",
@@ -400,7 +390,7 @@ export default {
         }
       ],
       detailsIsActive: false
-    };
+    }
   },
   components: {
     SfAlert,
@@ -420,7 +410,8 @@ export default {
     SfBanner,
     SfIcon,
     SfSticky,
-    SfReview
+    SfReview,
+    ProductDetails
   }
 };
 </script>

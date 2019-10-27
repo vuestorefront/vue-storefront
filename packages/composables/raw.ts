@@ -1,4 +1,4 @@
-import { useProduct } from './src/hooks/useProduct'
+import useProduct from './src/hooks/useProduct'
 
 export {
   useProduct,

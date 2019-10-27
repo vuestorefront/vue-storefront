@@ -75,7 +75,7 @@ interface ProductConfigurableOptionValue {
 }
 
 interface ProductConfigurableOptionItem {
-  attribute_id: string,
+  attribute_id: number,
   values: ProductConfigurableOptionValue[],
   product_id: number,
   id: number,
@@ -131,6 +131,7 @@ interface ProductResponse {
   media_gallery: ProductGalleryImage[],
   configurable_children?: ProductConfigurableChildrenItem[],
   configurable_options?: ProductConfigurableOptionItem[],
+  bundle_options?: any[], // TODO: reveal
   color_options: number[],
   size_options: number[],
   category: ProductCategory[],
@@ -139,4 +140,4 @@ interface ProductResponse {
 }
 
 
-export { ProductSearchParams, ProductResponse }
+export { ProductSearchParams, ProductResponse, ProductConfigurableChildrenItem }

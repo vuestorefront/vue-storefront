@@ -1,15 +1,16 @@
 export interface UseProduct<PRODUCTS, SEARCH> {
   products: PRODUCTS;
   search: SEARCH,
-  loading: boolean;
+  loading: any;
   error: any;
+  [x: string]: any;
 }
 
 export interface UseCategory
 <
-  CATEGORY, 
+  CATEGORY,
   SEARCH,
-  APPLIED_FILTERS, 
+  APPLIED_FILTERS,
   APPLY_FILTER,
   CLEAR_FILTERS,
 > {
@@ -73,7 +74,7 @@ export interface UseCompare
   error: any;
 }
 
-export interface UseCheckout 
+export interface UseCheckout
 <
   PAYMENT_METHODS,
   SHIPPING_METHODS,
