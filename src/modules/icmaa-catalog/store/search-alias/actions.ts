@@ -15,7 +15,7 @@ const mutationTypes: MutationTypesInterface = {
 
 const actions: ActionTree<SearchAliasState, RootState> = {
   list: async (context, words: string[]): Promise<SearchAliasStateItem[]> => {
-    const options = words.join(',')
+    const options = words.join(',').toLowerCase()
 
     return listAbstract<SearchAliasStateItem>({
       documentType,

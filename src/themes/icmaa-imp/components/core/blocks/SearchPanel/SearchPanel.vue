@@ -40,6 +40,7 @@ import { required, minLength } from 'vuelidate/lib/validators'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import { prepareQuickSearchQuery } from '@vue-storefront/core/modules/catalog/queries/searchPanel'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import debounce from 'lodash-es/debounce'
 
 export default {
   name: 'SearchPanel',
@@ -139,7 +140,7 @@ export default {
 
       return searchString
     },
-    async search () {
+    search: debounce(async function () {
       if (!this.$v.searchString.$invalid) {
         let query = prepareQuickSearchQuery(
           await this.getAlias(this.searchString)
@@ -160,7 +161,7 @@ export default {
         this.products = []
         this.emptyResults = true
       }
-    },
+    }, 350),
     loadMoreProducts () {
       if (this.searchString !== '' && this.searchString !== undefined) {
         let query = prepareQuickSearchQuery(this.searchString)
