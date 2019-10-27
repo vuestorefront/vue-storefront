@@ -3,8 +3,7 @@
     v-if="component"
     :is="component"
     :productOptions="productOptions"
-    v-model="currentOptions"
-    @input="$emit('input', currentOptions)"
+    @input="(currentOptions) => $emit('input', currentOptions)"
   />
 </template>
 
@@ -19,7 +18,6 @@ export default {
     productType: String,
   },
   setup({ productType }, { emit }) {
-    const currentOptions = ref(null)
     const component = computed(() => {
       if (productType === 'configurable') {
         return 'ConfigurableProductDetails'
@@ -33,8 +31,7 @@ export default {
     })
 
     return {
-      component,
-      currentOptions
+      component
     }
   },
   components: {

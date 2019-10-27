@@ -60,7 +60,6 @@
           </div>
           <ProductDetails
             v-if="productOptions.length > 0"
-            v-model="configuration"
             @input="handleChange"
             class="product-details__section"
             :productOptions="productOptions"
@@ -277,14 +276,13 @@ export default {
     const { products, getPossibleOptions, search, configure, lastConfiguration } = useProduct()
     const productType = computed(() => products.value.length > 0 && products.value[0].type_id)
     const productOptions = computed(() => getPossibleOptions(testSku))
-    const configuration = ref(null)
 
-    const handleChange = () => {
-      configure(testSku, configuration.value)
+    const handleChange = (configuration) => {
+      configure(testSku, configuration)
     }
 
     const addToCart = () => {
-      console.log('add to cart', configuration.value, lastConfiguration.value)
+      console.log('add to cart', lastConfiguration.value)
     }
 
     search([testSku])
@@ -294,7 +292,6 @@ export default {
       stock: 5,
       productOptions,
       productType,
-      configuration,
       addToCart,
       handleChange,
       properties: [
