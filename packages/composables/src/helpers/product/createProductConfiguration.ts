@@ -21,7 +21,7 @@ const createProductConfiguration = (product: ProductResponse, configuration: Pro
       const option = c[optionId].option
       const { product_links } = product.bundle_options.find(b => String(b.option_id) === optionId)
 
-      return product_links.find(p => p.id === option).product
+      return product_links.find((p: any) => p.id === option).product
     })
 
     return { product: linkedProducts, product_option: createBundleOptions(configuration) }
