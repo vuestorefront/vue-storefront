@@ -1,4 +1,5 @@
 import { isServer } from '@vue-storefront/core/helpers'
+import debounce from 'lodash-es/debounce'
 
 export default {
   created () {
@@ -13,8 +14,8 @@ export default {
     }
   },
   methods: {
-    handleResize () {
+    handleResize: debounce(function () {
       this.$store.dispatch('ui/setViewport', window)
-    }
+    }, 250)
   }
 }
