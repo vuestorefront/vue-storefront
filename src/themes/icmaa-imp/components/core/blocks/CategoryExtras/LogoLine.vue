@@ -1,8 +1,17 @@
 <template>
   <div class="t-flex t-flex-wrap">
-    <div v-for="(logo, index) in logoLineItems" :key="'logo-' + index" class="t-flex-fix t-px-2">
-      <department-logo v-bind="logo.data()" class="t-flex t-px-4 t-py-2" :class="[ ...logoClassObj, white ? 't-bg-white' : 't-border-base-lightest t-border-b' ]" />
+    <div v-for="(logo, index) in logoLineItems" :key="'logo-' + index" class="t-flex-fix t-px-2" :class="[...columnClassObj]">
+      <department-logo v-bind="logo.data()" class="t-flex t-justify-center t-px-4 t-py-2" :class="[ ...logoClassObj, white ? 't-bg-white' : 't-border-base-lightest t-border-b' ]" />
     </div>
+    <template v-if="placeholder">
+      <div v-for="i in placeholderCount" :key="`placeholder-${i}`" class="t-flex-fix t-px-2" :class="[...columnClassObj]">
+        <div class="t-flex t-justify-center t-px-4 t-py-2" :class="[ ...logoClassObj, white ? 't-bg-white' : 't-border-base-lightest t-border-b' ]">
+          <div class="t-w-full" :style="{ maxWidth: '74px' }">
+            <placeholder ratio="53:27" />
+          </div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -11,10 +20,12 @@ import { mapGetters } from 'vuex'
 import sampleSize from 'lodash-es/sampleSize'
 
 import DepartmentLogo from 'theme/components/core/blocks/CategoryExtras/DepartmentLogo'
+import Placeholder from 'theme/components/core/blocks/Placeholder'
 
 export default {
   components: {
-    DepartmentLogo
+    DepartmentLogo,
+    Placeholder
   },
   data: function () {
     return {
@@ -37,6 +48,14 @@ export default {
     logoClass: {
       type: [String, Array, Object],
       default: ''
+    },
+    columnClass: {
+      type: [String, Array, Object],
+      default: ''
+    },
+    placeholder: {
+      type: Boolean,
+      default: false
     }
   },
   async mounted () {
@@ -72,8 +91,14 @@ export default {
     logoLineItems () {
       return this.getLogolineItems(this.categories)
     },
+    placeholderCount () {
+      return this.limit > this.logoLineItems.length && this.placeholder ? this.limit - this.logoLineItems.length : 0
+    },
     logoClassObj () {
       return typeof this.logoClass === 'string' ? [this.logoClass] : this.logoClass
+    },
+    columnClassObj () {
+      return typeof this.columnClass === 'string' ? [this.columnClass] : this.columnClass
     }
   },
   watch: {
