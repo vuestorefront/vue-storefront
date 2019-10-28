@@ -3,11 +3,13 @@
     <div class="product">
       <div class="product__gallery">
         <SfImage
-          src="/productpage/productA.jpg"
+          v-if="currentProduct"
+          :src="'https://demo.storefrontcloud.io/img/600/744/resize' + currentProduct.image"
           class="desktop-only"
         />
         <SfImage
-          src="/productpage/productB.jpg"
+          v-if="currentProduct"
+          :src="'https://demo.storefrontcloud.io/img/600/744/resize' + currentProduct.image"
           class="desktop-only"
         />
         <SfGallery
@@ -58,13 +60,23 @@
           <div class="product-details__action">
             <button class="sf-action">Size guide</button>
           </div>
-          <ProductDetails
-            v-if="productOptions.length > 0"
-            @input="handleChange"
-            class="product-details__section"
-            :productOptions="productOptions"
-            :productType="productType"
-          />
+          <div class="product-details__section">
+            <SfSelect
+              v-for="option in possibleOptions"
+              v-model="selected[option.attributeName]"
+              :label="option.attributeName"
+              :key="option.id"
+              class="sf-select--bordered product-details__attribute"
+            >
+              <SfSelectOption
+                v-for="value in option.values"
+                :key="value.value"
+                :value="String(value.value)"
+              >
+                <SfProductOption :label="value.label" />
+              </SfSelectOption>
+            </SfSelect>
+          </div>
           <div class="product-details__section">
             <SfAlert
               message="Low in stock"
@@ -76,7 +88,6 @@
               v-model="qty"
               :canAddToCart="stock > 0"
               class="product-details__add-to-cart"
-              @click="addToCart"
             />
             <div class="product-details__action">
               <button class="sf-action">Save for later</button>
@@ -260,10 +271,9 @@ import {
   SfSticky,
   SfReview
 } from "@storefront-ui/vue";
-import ProductDetails from './../../components/ProductDetails'
-import { computed, ref, reactive, watch } from '@vue/composition-api'
+import { computed, watch, ref, reactive } from '@vue/composition-api'
 import { setup as apiSetup } from '@vue-storefront/api-client'
-import { useProduct } from '@vue-storefront/composables'
+import { useProduct, helpers } from '@vue-storefront/composables'
 
 export default {
   name: "Product",
@@ -272,28 +282,77 @@ export default {
     apiSetup({
       baseURL: 'http://localhost:8080/api'
     })
-    const testSku = 'WS09' // '24-WG080' // WS09
-    const { products, getPossibleOptions, search, configure, lastConfiguration } = useProduct()
-    const productType = computed(() => products.value.length > 0 && products.value[0].type_id)
-    const productOptions = computed(() => getPossibleOptions(testSku))
+    const {
+      products,
+      currentConfigurations,
+      configure,
+      search,
+      loading
+    } = useProduct()
+    const product = computed(() => products.value.length > 0 ? products.value[0] : null)
+    const currentConfiguration = computed(() => ({ ...helpers.getLastConfigured(currentConfigurations.value) }))
+    const currentProduct = computed(() => currentConfiguration.value ? currentConfiguration.value.product : null)
+    const possibleOptions = computed(() => helpers.getPossibleOptions(product.value))
+    const selected = reactive({
+      color: '',
+      size: ''
+    })
+    search(['WS12'])
+    // search(['24-WG080'])
 
-    const handleChange = (configuration) => {
-      configure(testSku, configuration)
-    }
+    watch(() => {
+      if (selected.size && selected.color) {
+        const configuration = [
+          { name: 'size', value: selected.size },
+          { name: 'color', value: selected.color }
+        ]
+        configure('WS12', configuration)
+      }
+      console.log(currentConfiguration.value)
 
-    const addToCart = () => {
-      console.log('add to cart', lastConfiguration.value)
-    }
+        // configurable product
+        // const configuration = [
+        //   { id: 93, name: 'size', value: 168 },
+        //   { id: 142, name: 'color', value: 56 }
+        // ]
+        // configure('WS12', configuration)
 
-    search([testSku])
-
+        // bundle product
+        // const configuration = [
+        //   { id: 1, value: { option: 2, qty: 1} },
+        //   { id: 2, value: { option: 4, qty: 1 } },
+        //   { id: 3, value: { option: 6, qty: 1 } },
+        //   { id: 4, value: { option: 8, qty: 1 } }
+        // ]
+        // configure('24-WG080', configuration)
+        // console.log(possibleOptions.value)
+        // console.log(currentConfigurations)
+        // console.log(currentProduct)
+    })
     return {
       qty: "1",
       stock: 5,
-      productOptions,
-      productType,
-      addToCart,
-      handleChange,
+      selected,
+      possibleOptions,
+      loading,
+      currentProduct,
+      // sizes: [
+      //   { label: "XXS", value: "xxs" },
+      //   { label: "XS", value: "xs" },
+      //   { label: "S", value: "s" },
+      //   { label: "M", value: "m" },
+      //   { label: "L", value: "l" },
+      //   { label: "XL", value: "xl" },
+      //   { label: "XXL", value: "xxl" }
+      // ],
+      // colors: [
+      //   { label: "Red", value: "red", color: "#990611" },
+      //   { label: "Black", value: "black", color: "#000000" },
+      //   { label: "Yellow", value: "yellow", color: "#DCA742" },
+      //   { label: "Blue", value: "blue", color: "#004F97" },
+      //   { label: "Navy", value: "navy", color: "#656466" },
+      //   { label: "White", value: "white", color: "#FFFFFF" }
+      // ],
       properties: [
         {
           name: "Product Code",
@@ -387,7 +446,7 @@ export default {
         }
       ],
       detailsIsActive: false
-    }
+    };
   },
   components: {
     SfAlert,
@@ -407,8 +466,7 @@ export default {
     SfBanner,
     SfIcon,
     SfSticky,
-    SfReview,
-    ProductDetails
+    SfReview
   }
 };
 </script>

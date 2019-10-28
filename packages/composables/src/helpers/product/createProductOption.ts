@@ -12,9 +12,7 @@ const createConfigurableItemOptions = (configuration: ProductConfiguration) => {
   const options = createOptions()
 
   options.extension_attributes.configurable_item_options = configuration.map((c) => {
-    const option_id = Object.keys(c)[0]
-
-    return { option_id, option_value: c[option_id] }
+    return { option_id: c.id, option_value: c.value }
   })
 
   return options
@@ -24,12 +22,10 @@ const createBundleOptions = (configuration: ProductConfiguration) => {
   const options = createOptions()
 
   options.extension_attributes.bundle_options = configuration.map(c => {
-    const option_id = Object.keys(c)[0]
-
     return {
-      option_id,
-      qty: c[option_id].qty,
-      option_selections: [c[option_id].option]
+      option_id: c.id,
+      qty: c.value.qty,
+      option_selections: [c.value.option]
     }
   })
 

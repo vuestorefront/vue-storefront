@@ -7,7 +7,7 @@ const readBundleOptions = (product: ProductResponse): ProductOption[] =>
       id: option_id,
       attributeName: title,
       // @ts-ignore
-      values: product_links.map(({ id, product: { name } }) => ({ id, name }))
+      values: product_links.map(({ id, product: { name } }) => ({ value: id, label: name }))
     })
   )
 
@@ -16,11 +16,11 @@ const readConfigurableOptions = (product: ProductResponse): ProductOption[] =>
    ({ attribute_code, attribute_id, values }) => ({
     id: attribute_id,
     attributeName: attribute_code,
-    values: values.map(({ value_index, label }) => ({ id: value_index, name: label  }))
+    values: values.map(({ value_index, label }) => ({ value: value_index, label  }))
    })
   )
 
-const readPossibleOptions = (product: ProductResponse): ProductOption[] => {
+const getPossibleOptions = (product: ProductResponse): ProductOption[] => {
   if (!product) {
     return []
   }
@@ -36,4 +36,4 @@ const readPossibleOptions = (product: ProductResponse): ProductOption[] => {
   return []
 }
 
-export default readPossibleOptions
+export default getPossibleOptions

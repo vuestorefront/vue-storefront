@@ -1,5 +1,11 @@
-import readPossibleOptions from './readPossibleOptions'
-import getAttributeNameById from './getAttributeNameById'
+import getPossibleOptions from './getPossibleOptions'
 import createProductConfiguration from './createProductConfiguration'
+import pickFirstConfiguration from './pickFirstConfiguration'
+import getLastConfigured from './getLastConfigured'
 
-export { readPossibleOptions, getAttributeNameById, createProductConfiguration }
+export {
+  getPossibleOptions,
+  createProductConfiguration,
+  pickFirstConfiguration,
+  getLastConfigured
+}
