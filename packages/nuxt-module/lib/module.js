@@ -5,19 +5,30 @@ const path = require('path')
 
 
 module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
-  // TODO: Use compiled source for project development and raw for project build - faster dev mode compilation with treeshaking in output bundle
-  // TODO: ALWAYS use raw source for core development
- 
+  // TODO make arrays available as functions to extend
+  const isProd = process.env.NODE_ENV === 'production'
   const defaultOptions = {
     coreDevelopment: false,
-    useRawSource: true
+    useRawSource: {
+      prod: [
+        '@vue-storefront/composables',
+        '@vue-storefront/api-client',
+        '@storefront-ui/vue',
+        '@storefront-ui/shared'
+      ],
+      dev: [
+        '@storefront-ui/vue',
+        '@storefront-ui/shared'
+      ]
+    }
   }
-
+  // TODO: Use lodash/merge
   const options = { ...defaultOptions, ...moduleOptions }
 
   consola.info('`VSF:` Starting Vue Storefront Nuxt Module')
-
   this.addPlugin(path.resolve(__dirname, 'plugins/composition-api.js'))
+
+  //------------------------------------
 
   // Using symlinks in lerna somehow breaks composition API behavior as a singleton.
   if (options.coreDevelopment) {
@@ -27,27 +38,25 @@ module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
     })
   }
 
-  if (options.useRawSource) {
-    // Set value to 'null' for transpilation without aliasing.
-    const rawSourcePackages = {
-      '@vue-storefront/composables': '@vue-storefront/composables/src/main.ts',
-      '@vue-storefront/api-client': '@vue-storefront/api-client/src/index.ts',
-      '@storefront-ui/vue': null,
-      '@storefront-ui/shared': null
-    }
-    
-    for (const package in rawSourcePackages) {
-      consola.info(`\`VSF:\` Using raw source for ${package} [useRawSource]`)
+  //------------------------------------
 
-      if (rawSourcePackages[package]) {
-        this.extendBuild(config => {
-          config.resolve.alias[package] = rawSourcePackages[package]
-        })
-      }
+  const useRawSource = (package) => {
+    const pkgPath = path.resolve('node_modules/'+ package)
+    const pkg = require(pkgPath + '/package.json')
 
-      this.options.build.transpile.push(package)
+    if (pkg.module) {
+      this.extendBuild(config => {
+        config.resolve.alias[pkg.name + '$'] = path.resolve(pkgPath, pkg.module)
+      })
     }
+    this.options.build.transpile.push(package)
+    consola.info(`\`VSF:\` Using raw source for ${pkg.name} [useRawSource]`)
   }
+
+  // always use raw source on core development mode
+  options.useRawSource[isProd || options.coreDevelopment ? 'prod' : 'dev'].map(package => {
+    useRawSource(package)
+  })
 }
 
 module.exports.meta = require('../package.json')
