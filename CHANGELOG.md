@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed notification message object to factory fn - @gibkigozno (#3716)
 - Load recently viewed module in my account page - @gibkigonzo (#3722)
 - Added validation message for city field on checkout page - @dz3n (#3723)
-- Add flag to product after first tax calculation - @gibkigonzo (#3740)
+- Make price calculation based on saved original prices - @gibkigonzo (#3740)
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
