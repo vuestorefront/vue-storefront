@@ -76,14 +76,18 @@ function assignPrice ({ product, target, price, tax = 0, deprecatedPriceFieldsSu
 
 export function updateProductPrices ({ product, rate, sourcePriceInclTax = false, deprecatedPriceFieldsSupport = false, finalPriceInclTax = true }) {
   const rate_factor = parseFloat(rate.rate) / 100
+  const hasOriginalPrices = (
+    product.hasOwnProperty('original_price') &&
+    product.hasOwnProperty('original_final_price') &&
+    product.hasOwnProperty('original_special_price')
+  )
   // build objects with original price and tax
   // for first calculation use `price`, for next one use `original_price`
-  const priceWithTax = createSinglePrice(parseFloat(product.original_price || product.price), rate_factor, sourcePriceInclTax)
-  const finalPriceWithTax = createSinglePrice(parseFloat(product.original_final_price || product.final_price), rate_factor, finalPriceInclTax)
-  const specialPriceWithTax = createSinglePrice(parseFloat(product.original_special_price || product.special_price), rate_factor, sourcePriceInclTax)
+  const priceWithTax = createSinglePrice(parseFloat(product.original_price || product.price), rate_factor, sourcePriceInclTax && !hasOriginalPrices)
+  const finalPriceWithTax = createSinglePrice(parseFloat(product.original_final_price || product.final_price), rate_factor, finalPriceInclTax && !hasOriginalPrices)
+  const specialPriceWithTax = createSinglePrice(parseFloat(product.original_special_price || product.special_price), rate_factor, sourcePriceInclTax && !hasOriginalPrices)
 
   // save original prices
-  const hasOriginalPrices = (product.original_price && product.original_final_price && product.original_special_price)
   if (!hasOriginalPrices) {
     assignPrice({product, target: 'original_price', ...priceWithTax, deprecatedPriceFieldsSupport})
 
