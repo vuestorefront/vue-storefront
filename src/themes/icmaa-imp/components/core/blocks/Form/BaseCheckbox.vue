@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="relative">
+    <label :for="id" class="t-flex t-items-center t-cursor-pointer">
       <input
-        class="m0 no-outline"
+        class="t-hidden"
         type="checkbox"
         :id="id"
         :checked="value"
@@ -12,23 +12,28 @@
         @change="$emit('change', $event.target.checked)"
         :disabled="disabled"
       >
-      <label
-        class="pl35 lh30 h4 pointer"
-        :for="id"
+      <div
+        class="t-flex t-flex-fix t-items-center t-justify-center t-h-6 t-w-6 t-my-2 t-mr-2 t-border t-rounded-sm t-appearance-none t-text-sm t-leading-tight"
+        :class="[ invalid ? 't-border-alert' : 't-border-base-light' ]"
       >
+        <material-icon icon="check" size="sm" v-if="value" />
+      </div>
+      <div class="t-text-sm t-leading-tight" :class="{ 't-text-alert': invalid }">
         <slot />
-      </label>
-    </div>
-    <ValidationMessages v-if="validations" :validations="validations" />
+      </div>
+    </label>
+    <ValidationMessages v-if="showValidationMessage" :validations="validations" />
   </div>
 </template>
 
 <script>
-import ValidationMessages from './ValidationMessages.vue'
+import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
+import ValidationMessages from 'theme/components/core/blocks/Form/ValidationMessages.vue'
 
 export default {
   name: 'BaseCheckbox',
   components: {
+    MaterialIcon,
     ValidationMessages
   },
   model: {
@@ -48,81 +53,23 @@ export default {
       type: Array,
       default: () => []
     },
+    showValidationMessage: {
+      type: Boolean,
+      default: false
+    },
     disabled: {
       type: Boolean,
       required: false,
       default: false
+    }
+  },
+  computed: {
+    invalid () {
+      return this.validations.filter(v => v.condition).length > 0
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
-  $color-silver: color(silver);
-  $color-active: color(secondary);
-  $color-white: color(white);
-
-  label {
-    user-select: none;
-    &:before {
-      content: '';
-      position: absolute;
-      top: 3px;
-      left: 0;
-      width: 22px;
-      height: 22px;
-      background-color: $color-white;
-      border: 1px solid $color-silver;
-      cursor: pointer;
-    }
-  }
-
-  input {
-    position: absolute;
-    top: 3px;
-    left: 0;
-    opacity: 0;
-    &:checked + label {
-      &:before {
-        background-color: $color-silver;
-        border-color: $color-silver;
-        cursor: pointer;
-      }
-      &:after {
-        content: '';
-        position: absolute;
-        top: 9px;
-        left: 5px;
-        width: 11px;
-        height: 5px;
-        border: 3px solid $color-white;
-        border-top: none;
-        border-right: none;
-        background-color: $color-silver;
-        transform: rotate(-45deg);
-      }
-    }
-    &:hover,
-    &:focus {
-      + label {
-        &:before {
-          border-color: $color-active;
-        }
-      }
-    }
-    &:disabled + label {
-      cursor: not-allowed;
-      opacity: 0.5;
-      pointer-events: none;
-      &:hover,
-      &:focus {
-        &:before {
-          border-color: $color-silver;
-          cursor: not-allowed;
-        }
-      }
-    }
-  }
 </style>

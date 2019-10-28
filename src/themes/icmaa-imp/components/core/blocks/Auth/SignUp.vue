@@ -1,5 +1,5 @@
 <template>
-  <modal name="modal-signup" :width="620">
+  <modal name="modal-signup" :title="$t(title)" :width="width" @close="onClose">
     <login v-if="activeElem === 'login'" />
     <register v-if="activeElem === 'register'" />
     <forgot-pass v-if="activeElem === 'forgot-pass'" />
@@ -18,13 +18,35 @@ export default {
   computed: {
     ...mapState({
       activeElem: state => state.ui.authElem
-    })
+    }),
+    title () {
+      if (this.activeElem === 'register') {
+        return 'Register'
+      } else if (this.activeElem === 'forgot-pass') {
+        return 'Reset password'
+      }
+
+      return 'Log in'
+    },
+    width () {
+      if (this.activeElem === 'register') {
+        return 600
+      }
+
+      return 400
+    }
   },
   components: {
     Modal,
     Login,
     Register,
     ForgotPass
+  },
+  methods: {
+    onClose () {
+      this.$store.commit('ui/setAuthElem', 'login')
+      localStorage.removeItem('redirect')
+    }
   }
 }
 </script>

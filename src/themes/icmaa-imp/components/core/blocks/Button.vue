@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="t-flex t-items-center t-rounded-sm t-cursor-pointer" :class="[ { 't-uppercase': !['select', 'tag', 'tag-active'].includes(type) }, sizeClass, colorClass, alignClass ]" :style="customColorStyle" @click="$emit('click')">
+  <button :type="submit ? 'submit' : 'button'" class="t-flex t-items-center t-rounded-sm t-cursor-pointer" :class="[ { 't-uppercase': !['select', 'tag', 'tag-active'].includes(type) }, sizeClass, colorClass, alignClass ]" :style="customColorStyle" @click="$emit('click')">
     <material-icon v-if="icon && iconPosition === 'left'" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-mr-4': !iconOnly }, iconClass ]" />
     <template v-if="iconOnly">
       <span class="t-sr-only">
@@ -37,6 +37,7 @@ export default {
           'primary',
           'second',
           'sale',
+          'facebook',
           'tag',
           'tag-active',
           'ghost',
@@ -79,6 +80,10 @@ export default {
       type: String,
       default: 'right',
       validation: (v) => ['left', 'right'].includes(v)
+    },
+    submit: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -99,6 +104,7 @@ export default {
         'primary': 't-bg-primary t-text-white',
         'second': 't-bg-base-darkest t-text-white',
         'sale': 't-bg-sale t-text-white',
+        'facebook': 't-bg-facebook t-text-white',
         'tag': 't-border t-border-base-light t-bg-white t-text-base-dark hover:t-border-base-dark',
         'tag-active': 't-border t-border-base-dark  t-bg-base-dark t-text-white',
         'ghost': 't-border t-border-base-darkest t-bg-transparent t-text-base-darkest',

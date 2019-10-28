@@ -1,91 +1,72 @@
 <template>
-  <div>
-    <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
-      {{ $t('Log in') }}
-      <i
-        slot="close"
-        class="modal-close material-icons cl-bg-tertiary"
-        @click="close"
-      >
-        close
-      </i>
-    </header>
-    <div v-if="hasRedirect" class="pt10 pb10 px65 redirect-error">
-      <p class="h5 mb0 mt0">
-        {{ $t('You need to be logged in to see this page') }}
-      </p>
+  <form class="" @submit.prevent="login" novalidate>
+    <div v-if="hasRedirect" class="t-mb-4 t-text-sm">
+      {{ $t('You need to be logged in to see this page') }}
     </div>
-    <div class="modal-content bg-cl-primary pt30 pb60 px65 cl-secondary">
-      <form @submit.prevent="login" novalidate>
-        <base-input
-          class="mb10"
-          type="email"
-          name="email"
-          focus
-          v-model="email"
-          @blur="$v.email.$touch()"
-          :placeholder="$t('E-mail address *')"
-          :validations="[
-            {
-              condition: !$v.email.required && $v.email.$error,
-              text: $t('Field is required.')
-            },
-            {
-              condition: !$v.email.email && $v.email.$error,
-              text: $t('Please provide valid e-mail address.')
-            }
-          ]"
-        />
-        <base-input
-          class="mb10"
-          type="password"
-          name="password"
-          v-model="password"
-          @blur="$v.password.$touch()"
-          :placeholder="$t('Password *')"
-          :validations="[{
-            condition: !$v.password.required && $v.password.$error,
-            text: $t('Field is required.')
-          }]"
-        />
-        <div class="row">
-          <base-checkbox
-            class="col-xs-7 col-sm-6 mb20"
-            id="remember"
-            v-model="remember"
-          >
-            {{ $t('Remember me') }}
-          </base-checkbox>
-          <div class="col-xs-5 col-sm-6 mb35 flex end-xs middle-xs">
-            <a href="#" @click.prevent="remindPassword">
-              {{ $t('Forgot the password?') }}
-            </a>
-          </div>
-        </div>
-        <button-full class="mb20" type="submit" data-testid="loginSubmit">
-          {{ $t('Log in to your account') }}
-        </button-full>
-        <div class="center-xs">
-          {{ $t('or') }}
-          <a href="#" @click.prevent="switchElem" data-testid="registerLink">
-            {{ $t('register an account') }}
-          </a>
-        </div>
-      </form>
+    <base-input
+      class="t-mb-4" type="email" name="email" id="email" v-model="email"
+      :placeholder="$t('E-mail address *')"
+      :validations="[
+        {
+          condition: !$v.email.required && $v.email.$error,
+          text: $t('Field is required.')
+        },
+        {
+          condition: !$v.email.email && $v.email.$error,
+          text: $t('Please provide valid e-mail address.')
+        }
+      ]"
+    />
+    <base-input
+      class="t-mb-4"
+      type="password"
+      name="password"
+      id="password"
+      v-model="password"
+      :placeholder="$t('Password *')"
+      :validations="[
+        {
+          condition: !$v.password.required && $v.password.$error,
+          text: $t('Field is required.')
+        }
+      ]"
+    />
+    <div class="t-flex t-items-center t-justify-between t-mb-4">
+      <base-checkbox class="t-mr-4" id="remember" v-model="remember">
+        {{ $t('Remember me') }}
+      </base-checkbox>
+      <div href="#" @click.prevent="remindPassword" class="t-text-sm t-cursor-pointer">
+        {{ $t('Forgot the password?') }}
+      </div>
     </div>
-  </div>
+    <button-component :submit="true" type="primary" class="t-w-full t-mb-2" data-testid="loginSubmit">
+      {{ $t('Log in to your account') }}
+    </button-component>
+    <button-component type="facebook" icon="facebook" icon-set="icmaa" icon-position="left" class="t-w-full t-mb-2">
+      {{ $t('Log in with facebook') }}
+    </button-component>
+    <button-component type="transparent" class="t-w-full t--mb-2" @click="switchElem" data-testid="registerLink">
+      {{ $t('Not yet an account?') }} <span class="t-ml-1">{{ $t('Register now') }}</span>
+    </button-component>
+  </form>
 </template>
 
 <script>
-import Login from '@vue-storefront/core/compatibility/components/blocks/Auth/Login'
 
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import BaseCheckbox from '../Form/BaseCheckbox.vue'
-import BaseInput from '../Form/BaseInput.vue'
 import { required, email } from 'vuelidate/lib/validators'
+import { Login } from '@vue-storefront/core/modules/user/components/Login'
+
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import ButtonComponent from 'theme/components/core/blocks/Button'
 
 export default {
-  mixins: [Login],
+  components: {
+    BaseCheckbox,
+    BaseInput,
+    ButtonComponent
+  },
+  mixins: [ Login ],
   validations: {
     email: {
       required,
@@ -101,10 +82,6 @@ export default {
     }
   },
   methods: {
-    close (e) {
-      if (e) localStorage.removeItem('redirect')
-      this.$bus.$emit('modal-hide', 'modal-signup')
-    },
     login () {
       if (this.$v.$invalid) {
         this.$v.$touch()
@@ -142,36 +119,6 @@ export default {
         action1: { label: this.$t('OK') }
       })
     }
-  },
-  components: {
-    ButtonFull,
-    BaseCheckbox,
-    BaseInput
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$color-error: color(error);
-$white: color(white);
-  .modal-header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .modal-close{
-    cursor: pointer;
-  }
-  .modal-content {
-    @media (max-width: 400px) {
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-  }
-  .redirect-error {
-    background-color: $color-error;
-    color: $white;
-  }
-</style>

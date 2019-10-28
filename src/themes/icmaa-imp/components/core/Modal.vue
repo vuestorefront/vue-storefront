@@ -1,33 +1,20 @@
 <template>
-  <transition :name="transitionName">
-    <div
-      class="modal"
-      v-if="isVisible"
-      ref="modal"
-    >
-      <!--      <div class="modal-wrapper">-->
-      <!--        <div class="modal-center">-->
+  <transition name="fade-in-down">
+    <div class="modal" v-if="isVisible" ref="modal">
       <div class="modal-backdrop" @click="close" />
-      <div class="modal-container bg-cl-primary" ref="modal-content" :style="style">
-        <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary" v-if="$slots.header">
+      <div class="modal-container t-bg-white" ref="modal-content" :style="style">
+        <div class="t-h-60px t-flex-fix t-px-4 t-bg-white t-border-b t-border-base-lighter t-flex t-items-center">
+          <slot name="header-before" />
+          <h2 class="t-text-lg t-text-base-dark" v-if="title" v-text="title" />
           <slot name="header" />
-          <i
-            slot="close"
-            class="modal-close material-icons cl-bg-tertiary"
-            @click="close"
-            data-testid="closeModalButton"
-          >
-            close
-          </i>
-        </header>
-        <div class="modal-content bg-cl-primary pt30 pb60 px65" v-if="$slots.content">
-          <slot name="content" />
+          <div class="t-flex-expand" />
+          <top-button icon="close" text="Close" :tab-index="1" @click.native="close" class="t--mr-2 t-text-base" />
         </div>
-        <slot />
+        <div class="modal-content" :class="[ padding ]">
+          <slot />
+        </div>
       </div>
     </div>
-    <!--      </div>-->
-    <!--    </div>-->
   </transition>
 </template>
 
@@ -36,8 +23,13 @@ import { mapMutations } from 'vuex'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
+import TopButton from 'theme/components/theme/blocks/AsyncSidebar/TopButton'
+
 export default {
   name: 'Modal',
+  components: {
+    TopButton
+  },
   data () {
     return {
       isVisible: false
@@ -56,10 +48,14 @@ export default {
   },
   methods: {
     onHide (name, state, params) {
-      return name === this.name ? this.toggle(false) : false
+      if (name === this.name) {
+        this.toggle(false)
+      }
     },
     onShow (name, state, params) {
-      return name === this.name ? this.toggle(true) : false
+      if (name === this.name) {
+        this.toggle(true)
+      }
     },
     onToggle (name, state, params) {
       if (name === this.name) {
@@ -76,6 +72,7 @@ export default {
     toggle (state) {
       this.isVisible = state
       state ? this.setOverlay(state) : setTimeout(() => this.setOverlay(state), this.delay)
+      this.$emit(state ? 'show' : 'close', this)
     },
     close () {
       this.toggle(false)
@@ -97,6 +94,10 @@ export default {
       required: true,
       type: String
     },
+    title: {
+      type: [Boolean, String],
+      default: false
+    },
     delay: {
       required: false,
       type: Number,
@@ -106,9 +107,9 @@ export default {
       type: Number,
       default: 0
     },
-    transitionName: {
+    padding: {
       type: String,
-      default: 'fade-in-down'
+      default: 't-p-4 lg:t-p-8'
     }
   },
   computed: {
@@ -140,8 +141,8 @@ $z-index-modal: map-get($z-index, modal);
     width: 945px;
     margin: 0 auto;
     max-width: 100%;
-    max-height: 100%;
-    z-index: $z-index-modal+1;
+    z-index: $z-index-modal + 1;
+    overflow: auto;
 
     @media (max-width: 600px) {
       min-height: 100%;
@@ -150,32 +151,6 @@ $z-index-modal: map-get($z-index, modal);
     }
   }
 
-  .modal-header {
-    position: relative;
-
-    > * {
-        margin: 0;
-    }
-
-    @media (max-width: 600px) {
-      padding: 25px 20px;
-    }
-  }
-
-  .modal-content {
-    @media (max-width: 600px) {
-      padding: 30px 20px;
-    }
-  }
-
-  .modal-header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .modal-close{
-    cursor: pointer;
-  }
   .modal-backdrop{
     position: absolute;
     top: 0;

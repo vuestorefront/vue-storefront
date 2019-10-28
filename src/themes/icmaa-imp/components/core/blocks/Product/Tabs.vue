@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="t-flex t-flex t-overflow-scroll t-webkit-touch">
+    <div class="t-flex t-flex t-overflow-scroll t-scrolling-touch t-hide-scrollbar">
       <span v-for="(tab, key) in tabs" :key="key" @click="setCurrent(tab)" class="t-flex-fix t-text-sm t-pb-3 t-px-4 t-border-b t-cursor-pointer t-select-none t-webkit-tap-transparent" :class="{ 't-text-primary t-border-primary': isActive(tab), 't-border-base-lightest': !isActive(tab), 't-pl-2': key === 0, 't-mr-2px': tab !== last }">
         <slot :name="'pill-' + tab" />
       </span>

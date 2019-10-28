@@ -14,7 +14,9 @@
       </button>
     </div>
     <i18n path="Data is not given to third parties and unsubscription is possible at any time. {policy}" tag="p" class="t-text-xs t-text-base-light t-leading-none t-mb-4">
-      <a place="policy" href="/policy">{{ $t('Privacy Policy') }}</a>
+      <router-link place="policy" :to="localizedRoute('/policy')">
+        {{ $t('Privacy Policy') }}
+      </router-link>
     </i18n>
     <newsletter-popup v-if="loadNewsletterPopup" />
   </div>

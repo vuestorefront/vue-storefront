@@ -22,7 +22,8 @@ module.exports = {
         'base-light': '#999999',
         'base-lighter': '#C7C7C7',
         'base-lightest': '#EDEDED',
-        'alert': '#CC2823'
+        'alert': '#CC2823',
+        'facebook': '#4267B2'
       },
       inset: {
         '1/2': '50%',
@@ -96,7 +97,7 @@ module.exports = {
     function ({ addUtilities }) {
       addUtilities(
         {
-          '.webkit-touch': { '-webkit-overflow-scrolling': 'touch' },
+          '.hide-scrollbar': { 'scrollbar-width': 'none', '-ms-overflow-style': 'none' },
           '.webkit-tap-transparent': { '-webkit-tap-highlight-color': 'transparent' },
           '.blend-hard-light': { 'mix-blend-mode': 'hard-light' }
         },

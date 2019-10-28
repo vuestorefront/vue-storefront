@@ -1,6 +1,6 @@
 <template>
   <li class="t-flex" v-if="valuesRaw.length > 0">
-    <span class="t-w-5/12 lg:t-w-2/6 t-font-bold t-overflow-auto t-webkit-touch">{{ label|htmlDecode }}</span>
+    <span class="t-w-5/12 lg:t-w-2/6 t-font-bold t-overflow-auto t-scrolling-touch">{{ label|htmlDecode }}</span>
     <span class="t-w-7/12 lg:t-w-4/6 t-pl-2">
       <template v-for="(value, index) in values">
         <template v-if="value.optionLink">
