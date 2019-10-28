@@ -290,7 +290,7 @@ export default {
       loading
     } = useProduct()
     const product = computed(() => products.value.length > 0 ? products.value[0] : null)
-    const currentConfiguration = computed(() => ({ ...helpers.getLastConfigured(currentConfigurations.value) }))
+    const currentConfiguration = computed(() => helpers.getLastConfigured(currentConfigurations.value))
     const currentProduct = computed(() => currentConfiguration.value ? currentConfiguration.value.product : null)
     const possibleOptions = computed(() => helpers.getPossibleOptions(product.value))
     const selected = reactive({
@@ -336,23 +336,6 @@ export default {
       possibleOptions,
       loading,
       currentProduct,
-      // sizes: [
-      //   { label: "XXS", value: "xxs" },
-      //   { label: "XS", value: "xs" },
-      //   { label: "S", value: "s" },
-      //   { label: "M", value: "m" },
-      //   { label: "L", value: "l" },
-      //   { label: "XL", value: "xl" },
-      //   { label: "XXL", value: "xxl" }
-      // ],
-      // colors: [
-      //   { label: "Red", value: "red", color: "#990611" },
-      //   { label: "Black", value: "black", color: "#000000" },
-      //   { label: "Yellow", value: "yellow", color: "#DCA742" },
-      //   { label: "Blue", value: "blue", color: "#004F97" },
-      //   { label: "Navy", value: "navy", color: "#656466" },
-      //   { label: "White", value: "white", color: "#FFFFFF" }
-      // ],
       properties: [
         {
           name: "Product Code",
