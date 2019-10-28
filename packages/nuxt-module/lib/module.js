@@ -30,7 +30,7 @@ module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
   if (options.useRawSource) {
     // Set value to 'null' for transpilation without aliasing.
     const rawSourcePackages = {
-      '@vue-storefront/composables': '@vue-storefront/composables/raw.ts',
+      '@vue-storefront/composables': '@vue-storefront/composables/src/main.ts',
       '@vue-storefront/api-client': '@vue-storefront/api-client/src/index.ts',
       '@storefront-ui/vue': null,
       '@storefront-ui/shared': null

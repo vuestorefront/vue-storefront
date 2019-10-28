@@ -8,6 +8,9 @@
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@vue/composition-api": "^0.3.2"
+  },
   "devDependencies": {
     "consola": "^2.10.1"
   }
