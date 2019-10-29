@@ -43,7 +43,7 @@
       {{ $t('Login to your account') }}
     </button-component>
     <button-component type="facebook" icon="facebook" icon-set="icmaa" icon-position="left" class="t-w-full t-mb-2">
-      {{ $t('Login with facebook') }}
+      {{ $t('Login with Facebook') }}
     </button-component>
     <button-component type="transparent" class="t-w-full t--mb-2" @click="switchElem" data-testid="registerLink">
       {{ $t('Not yet an account?') }} <span class="t-ml-1">{{ $t('Register now') }}</span>
