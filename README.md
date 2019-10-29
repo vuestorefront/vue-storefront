@@ -10,14 +10,12 @@ yarn
 ```
 yarn build:tools
 ```
-
-In one terminal window
-```
-yarn dev:api-client
-```
-In a second window
 ```
 yarn dev
+```
+(optional) if you want to watch changes in API client open another terminal window and run
+```
+yarn dev:api-client
 ```
 
 ## Packages
