@@ -67,6 +67,10 @@
             {
               condition: !$v.dob.required && $v.dob.$error,
               text: $t('Field is required.')
+            },
+            {
+              condition: !$v.dob.date && $v.dob.$error,
+              text: $t('Use a valid date.')
             }
           ]"
           class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
@@ -152,6 +156,12 @@ import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
+const date = value => {
+  const format = 'DD.MM.YYYY'
+  const djs = dayjs(value, format)
+  return djs.isValid() && djs.format(format) === value
+}
+
 export default {
   name: 'Register',
   components: {
@@ -190,7 +200,8 @@ export default {
       required
     },
     dob: {
-      required
+      required,
+      date
     },
     password: {
       minLength: minLength(8),
