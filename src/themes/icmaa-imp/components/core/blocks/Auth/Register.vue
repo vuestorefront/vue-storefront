@@ -156,10 +156,8 @@ import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-const date = value => {
-  const format = 'DD.MM.YYYY'
-  const djs = dayjs(value, format)
-  return djs.isValid() && djs.format(format) === value
+const date = (format = 'DD.MM.YYYY') => (value) => {
+  return dayjs(date, format).format(format) === date
 }
 
 export default {
