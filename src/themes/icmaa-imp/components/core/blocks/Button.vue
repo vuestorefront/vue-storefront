@@ -1,5 +1,5 @@
 <template>
-  <button :type="submit ? 'submit' : 'button'" class="t-flex t-items-center t-rounded-sm t-cursor-pointer" :class="[ { 't-uppercase': !['select', 'tag', 'tag-active'].includes(type) }, sizeClass, colorClass, alignClass ]" :style="customColorStyle" @click="$emit('click')">
+  <button :type="submit ? 'submit' : 'button'" class="t-flex t-items-center t-rounded-sm t-cursor-pointer t-webkit-tap-transparent" :class="[ { 't-uppercase': !['select', 'tag', 'tag-active'].includes(type) }, sizeClass, colorClass, alignClass ]" :style="customColorStyle" @click="$emit('click')">
     <material-icon v-if="icon && iconPosition === 'left'" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-mr-4': !iconOnly }, iconClass ]" />
     <template v-if="iconOnly">
       <span class="t-sr-only">

@@ -119,6 +119,9 @@
           <button-component :submit="true" type="primary" class="t-w-full t-mb-2">
             {{ $t('Register') }} *
           </button-component>
+          <button-component type="facebook" icon="facebook" icon-set="icmaa" icon-position="left" class="t-w-full t-mb-2">
+            {{ $t('Register with Facebook') }}
+          </button-component>
           <button-component type="transparent" @click="switchElem" class="t-w-full t-mb-4">
             {{ $t('Already have an account?') }} <span class="t-ml-1">– {{ $t('Login to your account') }}</span>
           </button-component>

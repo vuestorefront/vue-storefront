@@ -40,10 +40,10 @@
       </div>
     </div>
     <button-component :submit="true" type="primary" class="t-w-full t-mb-2" data-testid="loginSubmit">
-      {{ $t('Log in to your account') }}
+      {{ $t('Login to your account') }}
     </button-component>
     <button-component type="facebook" icon="facebook" icon-set="icmaa" icon-position="left" class="t-w-full t-mb-2">
-      {{ $t('Log in with facebook') }}
+      {{ $t('Login with facebook') }}
     </button-component>
     <button-component type="transparent" class="t-w-full t--mb-2" @click="switchElem" data-testid="registerLink">
       {{ $t('Not yet an account?') }} <span class="t-ml-1">{{ $t('Register now') }}</span>
