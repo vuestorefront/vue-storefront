@@ -59,7 +59,7 @@ export function normalizeUrlPath (url: string): string {
   return url
 }
 
-export function formatCategoryLink (category: Category, storeCode: string = currentStoreView().storeCode): string {
+export function formatCategoryLink (category: { url_path: string, slug: string }, storeCode: string = currentStoreView().storeCode): string {
   storeCode ? storeCode += '/' : storeCode = '';
 
   if (currentStoreView().appendStoreCode === false) {
