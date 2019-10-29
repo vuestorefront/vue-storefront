@@ -8,6 +8,7 @@
     "build:api-client": "cd packages/api-client && yarn build",
     "build:tools": "yarn build:core && yarn build:api-client && yarn build:composables",
     "build": "cd packages/theme && yarn dev",
+    "dev:api-client": "cd packages/api-client && yarn dev",
     "dev": "cd packages/theme && yarn dev"
   },
   "devDependencies": {

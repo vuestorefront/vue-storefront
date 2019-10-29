@@ -11,6 +11,11 @@ yarn
 yarn build:tools
 ```
 
+In one terminal window
+```
+yarn dev:api-client
+```
+In a second window
 ```
 yarn dev
 ```
