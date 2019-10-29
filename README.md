@@ -178,6 +178,7 @@ Tutorial series on creating themes for Vue Storefront:
 - [Shopping carts, totals and orders sync](https://docs.vuestorefront.io/guide/integrations/totals-sync.html)
 - [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate/tree/tutorial) - this is the API You should implement to integrate 3rd party platform
 - [Magento2 MultiStore support](https://docs.vuestorefront.io/guide/integrations/multistore.html)
+- [Vagrant development environment with magento 2](https://github.com/ProxiBlue/vagrant_m2_vuestorefront) - Consistent magento 2 + VSF development environment using vagrant and docker
 
 
 ### 'Default theme' contribution rules
