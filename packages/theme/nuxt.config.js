@@ -18,7 +18,13 @@ export default {
   ],
   modules: [
     ['@vue-storefront/nuxt', {
-      coreDevelopment: true
+      coreDevelopment: true,
+      useRawSource: {
+        prod: [        
+          '@vue-storefront/composables',
+          '@vue-storefront/api-client'
+        ]
+      }
     }]
   ]
 }

@@ -9,7 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vue/composition-api": "^0.3.2"
+    "@vue/composition-api": "^0.3.2",
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "consola": "^2.10.1"

@@ -1,18 +1,15 @@
 // TODO proper bundling, for now it;'s just to experiment with nuxt modules api
 const consola = require('consola')
 const path = require('path')
+const { mergeWith, isArray } = require('lodash')
 
-
-
-module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
+module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   // TODO make arrays available as functions to extend
   const isProd = process.env.NODE_ENV === 'production'
   const defaultOptions = {
     coreDevelopment: false,
     useRawSource: {
       prod: [
-        '@vue-storefront/composables',
-        '@vue-storefront/api-client',
         '@storefront-ui/vue',
         '@storefront-ui/shared'
       ],
@@ -22,8 +19,14 @@ module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
       ]
     }
   }
-  // TODO: Use lodash/merge
-  const options = { ...defaultOptions, ...moduleOptions }
+
+  function customizer(objValue, srcValue) {
+    if (isArray(objValue)) {
+      return objValue.concat(srcValue);
+    }
+  }
+
+  const options = mergeWith(defaultOptions, moduleOptions, customizer)
 
   consola.info('`VSF:` Starting Vue Storefront Nuxt Module')
   this.addPlugin(path.resolve(__dirname, 'plugins/composition-api.js'))
