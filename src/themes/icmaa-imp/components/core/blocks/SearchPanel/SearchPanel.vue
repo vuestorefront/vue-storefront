@@ -162,9 +162,9 @@ export default {
         this.emptyResults = true
       }
     }, 350),
-    loadMoreProducts () {
-      if (this.searchString !== '' && this.searchString !== undefined) {
-        let query = prepareQuickSearchQuery(this.searchString)
+    async loadMoreProducts () {
+      if (!this.$v.searchString.$invalid) {
+        let query = prepareQuickSearchQuery(await this.getAlias(this.searchString))
         this.loadingProducts = true
         this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then((resp) => {
           let page = Math.floor(resp.total / this.size)
