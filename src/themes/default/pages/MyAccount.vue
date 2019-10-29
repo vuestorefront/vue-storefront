@@ -45,6 +45,8 @@ import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
 import MyRecentlyViewed from '../components/core/blocks/MyAccount/MyRecentlyViewed'
 import NoSSR from 'vue-no-ssr'
+import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
+import {registerModule} from '@vue-storefront/core/lib/modules'
 
 export default {
   data () {
@@ -69,6 +71,9 @@ export default {
     MyOrder,
     MyRecentlyViewed,
     'no-ssr': NoSSR
+  },
+  beforeCreate () {
+    registerModule(RecentlyViewedModule)
   },
   mixins: [MyAccount],
   methods: {

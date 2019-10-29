@@ -233,6 +233,9 @@ export const Payment = {
 
       // Let anyone listening know that we've changed payment method, usually a payment extension.
       this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
+    },
+    changeCountry () {
+      this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
     }
   }
 }

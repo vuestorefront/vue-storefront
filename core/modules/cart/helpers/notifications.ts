@@ -3,39 +3,39 @@ import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multi
 import i18n from '@vue-storefront/i18n';
 import config from 'config';
 
-const proceedToCheckoutAction = {
+const proceedToCheckoutAction = () => ({
   label: i18n.t('Proceed to checkout'),
   action: () => router.push(localizedRoute('/checkout', currentStoreView().storeCode))
-};
-const checkoutAction = !config.externalCheckout ? proceedToCheckoutAction : null;
+});
+const checkoutAction = () => !config.externalCheckout ? proceedToCheckoutAction() : null;
 
-const productAddedToCart = {
+const productAddedToCart = () => ({
   type: 'success',
   message: i18n.t('Product has been added to the cart!'),
   action1: { label: i18n.t('OK') },
-  action2: checkoutAction
-}
+  action2: checkoutAction()
+})
 
-const productQuantityUpdated = {
+const productQuantityUpdated = () => ({
   type: 'success',
   message: i18n.t('Product quantity has been updated!'),
   action1: { label: i18n.t('OK') },
-  action2: checkoutAction
-}
+  action2: checkoutAction()
+})
 
-const unsafeQuantity = {
+const unsafeQuantity = () => ({
   type: 'warning',
   message: i18n.t(
     'The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.'
   ),
   action1: { label: i18n.t('OK') }
-}
+})
 
-const outOfStock = {
+const outOfStock = () => ({
   type: 'error',
   message: i18n.t('The product is out of stock and cannot be added to the cart!'),
   action1: { label: i18n.t('OK') }
-}
+})
 
 const createNotification = ({ type, message }) => ({ type, message, action1: { label: i18n.t('OK') } })
 const createNotifications = ({ type, messages }) =>
