@@ -141,6 +141,7 @@
 
 <script>
 import i18n from '@vue-storefront/i18n'
+import dayjs from 'dayjs'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
@@ -168,7 +169,8 @@ export default {
       newsletter: false,
       password: '',
       rPassword: '',
-      conditions: false
+      conditions: false,
+      attemps: 0
     }
   },
   validations: {
@@ -220,8 +222,9 @@ export default {
         password: this.password,
         firstname: this.firstName,
         lastname: this.lastName,
-        dob: this.dob,
-        gender: this.gender
+        dob: dayjs(this.dob).format('YYYY-MM-DD'),
+        gender: this.gender,
+        newsletter: this.newsletter
       }
 
       this.$store.dispatch('user/register', formData).then((result) => {
@@ -241,7 +244,13 @@ export default {
           this.close()
         }
       }).catch(err => {
-        this.onFailure({ result: 'Unexpected authorization error. Check your Network conection.' })
+        this.attemps++
+        let message = 'There was an unexpected error. Please check your entered data and try again.'
+        if (this.attemps >= 3) {
+          message = 'We are sorry you failed multiple times. You can contact our support for help.'
+        }
+
+        this.onFailure({ result: message })
         this.$bus.$emit('notification-progress-stop')
         Logger.error(err, 'user')()
       })
@@ -255,7 +264,7 @@ export default {
     onSuccess () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
-        message: this.$t('You are logged in!'),
+        message: this.$t('Awesome! You have been successfully registered and logged in now!'),
         action1: { label: this.$t('OK') }
       })
     },
