@@ -2,6 +2,7 @@
   <div>
     <div class="modal-content">
       <form @submit.prevent="register" novalidate class="t-flex t-flex-wrap t--mx-2">
+        <input type="hidden" name="cluster" :value="cluster">
         <base-input
           type="email"
           name="email"
@@ -140,6 +141,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import dayjs from 'dayjs'
 import ButtonComponent from 'theme/components/core/blocks/Button'
@@ -200,6 +202,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      cluster: 'user/getCluster'
+    }),
     genderOptions () {
       return [
         { label: i18n.t('Male'), value: 1129 },
@@ -224,6 +229,7 @@ export default {
         lastname: this.lastName,
         dob: dayjs(this.dob).format('YYYY-MM-DD'),
         gender: this.gender,
+        cluster: this.cluster || '',
         newsletter: this.newsletter
       }
 
