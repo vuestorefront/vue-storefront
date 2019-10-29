@@ -1,6 +1,6 @@
 <template>
   <button
-    @click="isOnCompare ? removeFromCompare(product) : addToCompare(product)"
+    @click="isOnCompare ? removeProsuct(product) : addProduct(product)"
     class="p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary"
     type="button"
     data-testid="addToCompare"
