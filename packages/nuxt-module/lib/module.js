@@ -20,13 +20,11 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
     }
   }
 
-  function customizer(objValue, srcValue) {
+  const options = mergeWith(defaultOptions, moduleOptions, (objValue, srcValue) => {
     if (isArray(objValue)) {
       return objValue.concat(srcValue);
     }
-  }
-
-  const options = mergeWith(defaultOptions, moduleOptions, customizer)
+  })
 
   consola.info('`VSF:` Starting Vue Storefront Nuxt Module')
   this.addPlugin(path.resolve(__dirname, 'plugins/composition-api.js'))
