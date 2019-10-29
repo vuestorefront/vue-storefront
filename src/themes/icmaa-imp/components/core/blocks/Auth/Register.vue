@@ -200,26 +200,32 @@ export default {
   computed: {
     genderOptions () {
       return [
-        { label: i18n.t('Male'), value: 'male' },
-        { label: i18n.t('Female'), value: 'female' }
+        { label: i18n.t('Male'), value: 1129 },
+        { label: i18n.t('Female'), value: 1130 }
       ]
     }
   },
   methods: {
     switchElem () {
-      // TODO Move to theme
       this.$store.commit('ui/setAuthElem', 'login')
     },
     close () {
-      // TODO Move to theme
       this.$bus.$emit('modal-hide', 'modal-signup')
     },
     callRegister () {
-      // TODO Move to theme
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
-      this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName }).then((result) => {
+
+      const formData = {
+        email: this.email,
+        password: this.password,
+        firstname: this.firstName,
+        lastname: this.lastName,
+        dob: this.dob,
+        gender: this.gender
+      }
+
+      this.$store.dispatch('user/register', formData).then((result) => {
         Logger.debug(result, 'user')()
-        // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
           this.onFailure(result)
@@ -235,7 +241,6 @@ export default {
           this.close()
         }
       }).catch(err => {
-        // TODO Move to theme
         this.onFailure({ result: 'Unexpected authorization error. Check your Network conection.' })
         this.$bus.$emit('notification-progress-stop')
         Logger.error(err, 'user')()
