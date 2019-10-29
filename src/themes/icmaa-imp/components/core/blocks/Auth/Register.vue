@@ -9,7 +9,7 @@
           autocomplete="email"
           v-model="email"
           focus
-          :placeholder="$t('E-mail address *')"
+          :placeholder="$t('E-mail address') + ' *'"
           :validations="[
             {
               condition: !$v.email.required && $v.email.$error,
@@ -26,36 +26,36 @@
           name="first-name"
           autocomplete="given-name"
           v-model="firstName"
-          :placeholder="$t('First name *')"
+          :placeholder="$t('First name') + ' *'"
           :validations="[
             {
               condition: !$v.firstName.required && $v.firstName.$error,
               text: $t('Field is required.')
             }
           ]"
-          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full sm:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-input
           name="last-name"
           autocomplete="family-name"
           v-model="lastName"
-          :placeholder="$t('Last name *')"
+          :placeholder="$t('Last name') + ' *'"
           :validations="[{
             condition: !$v.lastName.required && $v.lastName.$error,
             text: $t('Field is required.')
           }]"
-          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full sm:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-select
           name="gender"
           v-model="gender"
           :options="genderOptions"
-          :initial-option-text="$t('Gender *')"
+          :initial-option-text="$t('Gender') + ' *'"
           :validations="[{
             condition: !$v.gender.required && $v.gender.$error,
             text: $t('Field is required.')
           }]"
-          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full sm:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-input
           name="dob"
@@ -73,7 +73,7 @@
               text: $t('Use a valid date.')
             }
           ]"
-          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full sm:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-input
           type="password"
@@ -81,7 +81,7 @@
           ref="password"
           autocomplete="new-password"
           v-model="password"
-          :placeholder="$t('Password *')"
+          :placeholder="$t('Password') + ' *'"
           :validations="[
             {
               condition: !$v.password.required && $v.password.$error,
@@ -92,14 +92,14 @@
               text: $t('Password must have at least 8 letters.')
             }
           ]"
-          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full sm:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-input
           type="password"
           name="password-confirm"
           autocomplete="new-password"
           v-model="rPassword"
-          :placeholder="$t('Repeat password *')"
+          :placeholder="$t('Repeat password') + ' *'"
           :validations="[
             {
               condition: !$v.rPassword.required && $v.rPassword.$error,
@@ -110,7 +110,7 @@
               text: $t('Passwords must be identical.')
             }
           ]"
-          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full sm:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-checkbox
           name="newsletter"
@@ -147,18 +147,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
-import dayjs from 'dayjs'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
+import { date } from 'icmaa-config/helpers/validators'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 import { Logger } from '@vue-storefront/core/lib/logger'
-
-const date = (format = 'DD.MM.YYYY') => (value) => {
-  return dayjs(date, format).format(format) === date
-}
 
 export default {
   name: 'Register',
@@ -236,7 +232,7 @@ export default {
         password: this.password,
         firstname: this.firstName,
         lastname: this.lastName,
-        dob: dayjs(this.dob).format('YYYY-MM-DD'),
+        dob: this.dob,
         gender: this.gender,
         cluster: this.cluster || '',
         newsletter: this.newsletter

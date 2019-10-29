@@ -2,7 +2,7 @@
   <transition name="fade-in-down">
     <div class="modal" v-if="isVisible" ref="modal">
       <div class="modal-backdrop" @click="close" />
-      <div class="modal-container t-bg-white t-scrolling-touch" ref="modal-content" :style="style">
+      <div class="modal-container t-bg-white t-scrolling-touch t-pb-20 sm:t-pb-0" ref="modal-content" :style="style">
         <div class="t-h-60px t-flex-fix t-px-4 t-bg-white t-border-b t-border-base-lighter t-flex t-items-center">
           <slot name="header-before" />
           <h2 class="t-text-lg t-text-base-dark" v-if="title" v-text="title" />
