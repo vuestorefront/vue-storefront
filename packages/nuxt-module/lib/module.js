@@ -1,22 +1,24 @@
 // TODO proper bundling, for now it;'s just to experiment with nuxt modules api
 const consola = require('consola')
 const path = require('path')
+const fs = require("fs")
 const { mergeWith, isArray } = require('lodash')
 
 module.exports = function VueStorefrontNuxtModule (moduleOptions) {
-  // TODO make arrays available as functions to extend
+
   const isProd = process.env.NODE_ENV === 'production'
+  const isSfuiInstalled = fs.existsSync(path.resolve('node_modules'))
   const defaultOptions = {
     coreDevelopment: false,
     useRawSource: {
-      prod: [
+      prod: isSfuiInstalled ? [
         '@storefront-ui/vue',
         '@storefront-ui/shared'
-      ],
-      dev: [
+      ] : [],
+      dev: isSfuiInstalled ? [
         '@storefront-ui/vue',
         '@storefront-ui/shared'
-      ]
+      ] : []
     }
   }
 
