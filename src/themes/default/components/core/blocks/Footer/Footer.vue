@@ -65,7 +65,7 @@
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="getLinkFor('/store-locator')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>
                   {{ $t('Store locator') }}
                 </router-link>
               </div>
