@@ -32,7 +32,7 @@
               text: $t('Field is required.')
             }
           ]"
-          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-input
           name="last-name"
@@ -43,7 +43,7 @@
             condition: !$v.lastName.required && $v.lastName.$error,
             text: $t('Field is required.')
           }]"
-          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-select
           name="gender"
@@ -54,7 +54,7 @@
             condition: !$v.gender.required && $v.gender.$error,
             text: $t('Field is required.')
           }]"
-          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-input
           name="dob"
@@ -68,7 +68,7 @@
               text: $t('Field is required.')
             }
           ]"
-          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-input
           type="password"
@@ -87,7 +87,7 @@
               text: $t('Password must have at least 8 letters.')
             }
           ]"
-          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-input
           type="password"
@@ -105,7 +105,7 @@
               text: $t('Passwords must be identical.')
             }
           ]"
-          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-checkbox
           name="newsletter"
