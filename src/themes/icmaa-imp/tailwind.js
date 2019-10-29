@@ -7,6 +7,9 @@ module.exports = {
       center: true
     },
     extend: {
+      screens: {
+        'xs': '375px'
+      },
       fontFamily: {
         sans: [ 'Roboto', ...defaultTheme.fontFamily.sans ]
       },

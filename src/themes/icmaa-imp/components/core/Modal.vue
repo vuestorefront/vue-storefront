@@ -2,7 +2,7 @@
   <transition name="fade-in-down">
     <div class="modal" v-if="isVisible" ref="modal">
       <div class="modal-backdrop" @click="close" />
-      <div class="modal-container t-bg-white" ref="modal-content" :style="style">
+      <div class="modal-container t-bg-white t-scrolling-touch" ref="modal-content" :style="style">
         <div class="t-h-60px t-flex-fix t-px-4 t-bg-white t-border-b t-border-base-lighter t-flex t-items-center">
           <slot name="header-before" />
           <h2 class="t-text-lg t-text-base-dark" v-if="title" v-text="title" />
@@ -133,20 +133,24 @@ $z-index-modal: map-get($z-index, modal);
   overflow: auto;
   z-index: $z-index-modal;
 
+  /** Vertical-/Horizontal-Center */
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+
   .modal-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 945px;
     margin: 0 auto;
-    max-width: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
     z-index: $z-index-modal + 1;
     overflow: auto;
 
     @media (max-width: 600px) {
-      min-height: 100%;
-      min-width: 100%;
+      min-height: 100vh;
+      min-width: 100vw;
       margin: 0;
     }
   }

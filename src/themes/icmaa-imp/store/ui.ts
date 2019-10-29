@@ -68,7 +68,7 @@ export const uiStore = {
        * Breakpoints of TailwindCSS:
        * @see https://tailwindcss.com/docs/breakpoints/#app
        */
-      const viewports = [ ['sm', 640], ['md', 768], ['lg', 1024], ['xl', 1280] ]
+      const viewports = [ ['xs', 375], ['sm', 640], ['md', 768], ['lg', 1024], ['xl', 1280] ]
       const viewport = viewports.find(vp => window.innerWidth <= vp[1])
 
       if (viewport) {

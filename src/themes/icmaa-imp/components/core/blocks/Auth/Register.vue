@@ -2,6 +2,7 @@
   <div>
     <div class="modal-content">
       <form @submit.prevent="register" novalidate class="t-flex t-flex-wrap t--mx-2">
+        <input type="hidden" name="cluster" :value="cluster">
         <base-input
           type="email"
           name="email"
@@ -32,7 +33,7 @@
               text: $t('Field is required.')
             }
           ]"
-          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-input
           name="last-name"
@@ -43,7 +44,7 @@
             condition: !$v.lastName.required && $v.lastName.$error,
             text: $t('Field is required.')
           }]"
-          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-select
           name="gender"
@@ -54,7 +55,7 @@
             condition: !$v.gender.required && $v.gender.$error,
             text: $t('Field is required.')
           }]"
-          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-input
           name="dob"
@@ -66,9 +67,13 @@
             {
               condition: !$v.dob.required && $v.dob.$error,
               text: $t('Field is required.')
+            },
+            {
+              condition: !$v.dob.date && $v.dob.$error,
+              text: $t('Use a valid date.')
             }
           ]"
-          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-input
           type="password"
@@ -87,7 +92,7 @@
               text: $t('Password must have at least 8 letters.')
             }
           ]"
-          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-input
           type="password"
@@ -105,7 +110,7 @@
               text: $t('Passwords must be identical.')
             }
           ]"
-          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+          class="t-w-full xs:t-w-1/2 t-px-2 t-mb-4"
         />
         <base-checkbox
           name="newsletter"
@@ -118,6 +123,9 @@
         <div class="t-w-full t-px-2">
           <button-component :submit="true" type="primary" class="t-w-full t-mb-2">
             {{ $t('Register') }} *
+          </button-component>
+          <button-component type="facebook" icon="facebook" icon-set="icmaa" icon-position="left" class="t-w-full t-mb-2">
+            {{ $t('Register with Facebook') }}
           </button-component>
           <button-component type="transparent" @click="switchElem" class="t-w-full t-mb-4">
             {{ $t('Already have an account?') }} <span class="t-ml-1">– {{ $t('Login to your account') }}</span>
@@ -137,7 +145,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
+import dayjs from 'dayjs'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
@@ -145,6 +155,12 @@ import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 import { Logger } from '@vue-storefront/core/lib/logger'
+
+const date = value => {
+  const format = 'DD.MM.YYYY'
+  const djs = dayjs(value, format)
+  return djs.isValid() && djs.format(format) === value
+}
 
 export default {
   name: 'Register',
@@ -165,7 +181,8 @@ export default {
       newsletter: false,
       password: '',
       rPassword: '',
-      conditions: false
+      conditions: false,
+      attemps: 0
     }
   },
   validations: {
@@ -183,7 +200,8 @@ export default {
       required
     },
     dob: {
-      required
+      required,
+      date
     },
     password: {
       minLength: minLength(8),
@@ -195,28 +213,39 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      cluster: 'user/getCluster'
+    }),
     genderOptions () {
       return [
-        { label: i18n.t('Male'), value: 'male' },
-        { label: i18n.t('Female'), value: 'female' }
+        { label: i18n.t('Male'), value: 1129 },
+        { label: i18n.t('Female'), value: 1130 }
       ]
     }
   },
   methods: {
     switchElem () {
-      // TODO Move to theme
       this.$store.commit('ui/setAuthElem', 'login')
     },
     close () {
-      // TODO Move to theme
       this.$bus.$emit('modal-hide', 'modal-signup')
     },
     callRegister () {
-      // TODO Move to theme
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
-      this.$store.dispatch('user/register', { email: this.email, password: this.password, firstname: this.firstName, lastname: this.lastName }).then((result) => {
+
+      const formData = {
+        email: this.email,
+        password: this.password,
+        firstname: this.firstName,
+        lastname: this.lastName,
+        dob: dayjs(this.dob).format('YYYY-MM-DD'),
+        gender: this.gender,
+        cluster: this.cluster || '',
+        newsletter: this.newsletter
+      }
+
+      this.$store.dispatch('user/register', formData).then((result) => {
         Logger.debug(result, 'user')()
-        // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
         if (result.code !== 200) {
           this.onFailure(result)
@@ -232,8 +261,13 @@ export default {
           this.close()
         }
       }).catch(err => {
-        // TODO Move to theme
-        this.onFailure({ result: 'Unexpected authorization error. Check your Network conection.' })
+        this.attemps++
+        let message = 'There was an unexpected error. Please check your entered data and try again.'
+        if (this.attemps >= 3) {
+          message = 'We are sorry you failed multiple times. You can contact our support for help.'
+        }
+
+        this.onFailure({ result: message })
         this.$bus.$emit('notification-progress-stop')
         Logger.error(err, 'user')()
       })
@@ -247,7 +281,7 @@ export default {
     onSuccess () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
-        message: this.$t('You are logged in!'),
+        message: this.$t('Awesome! You have been successfully registered and logged in now!'),
         action1: { label: this.$t('OK') }
       })
     },
