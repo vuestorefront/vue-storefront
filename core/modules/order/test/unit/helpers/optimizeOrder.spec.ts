@@ -894,7 +894,7 @@ const order: Order = {
           ]
         }
       ]
-    },
+    }
   ],
   addressInformation: {
     shippingAddress: {
@@ -930,7 +930,7 @@ const order: Order = {
 };
 
 describe('optimizeOrder method', () => {
-  it('should return order without configurable options', () => {
+  it('should return order without configurable_options and configurable_children', () => {
     const expectedOrder: Order = {
       order_id: 'orderId',
       created_at: '10-29-2019',
@@ -953,7 +953,7 @@ describe('optimizeOrder method', () => {
           name: 'Product 1',
           price: 50,
           product_type: 'Product type 1'
-        },
+        }
       ],
       addressInformation: {
         shippingAddress: {
