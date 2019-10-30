@@ -1,5 +1,6 @@
 
 const coreDevelopment = true
+
 export default {
   mode: 'universal',
   head: {

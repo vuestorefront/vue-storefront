@@ -11,9 +11,8 @@
   "dependencies": {
     "@vue/composition-api": "^0.3.2",
     "chalk": "^2.4.2",
-    "lodash": "^4.17.15"
-  },
-  "devDependencies": {
+    "lodash": "^4.17.15",
+    "@nuxt/typescript-build": "^0.3.1",
     "consola": "^2.10.1"
   }
 }

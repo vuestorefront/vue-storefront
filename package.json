@@ -6,9 +6,10 @@
     "build:composables": "cd packages/composables && yarn build",
     "build:core": "cd packages/core && tsc",
     "build:api-client": "cd packages/api-client && yarn build",
+    "build:docs": "cd packages/docs && yarn build",
     "build:tools": "yarn build:core && yarn build:api-client && yarn build:composables",
-    "build": "cd packages/theme && yarn dev",
     "dev:api-client": "cd packages/api-client && yarn dev",
+    "build": "cd packages/theme && yarn build",
     "dev": "cd packages/theme && yarn dev"
   },
   "devDependencies": {
