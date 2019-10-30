@@ -4,7 +4,7 @@
       "title": "Office casual",
       "subtitle": "Collection",
       "image": "/assets/ban1.jpg",
-      "link": "/women"
+      "link": "/women/women-20"
     }
   ],
   "smallBanners": [
@@ -12,13 +12,13 @@
       "title": "Shine on",
       "subtitle": "Accessories",
       "image": "/assets/ban2.jpg",
-      "link": "/men"
+      "link": "/men/men-11"
     },
     {
       "title": "Spring is coming",
       "subtitle": "Hats",
       "image": "/assets/ban3.jpg",
-      "link": "/gear"
+      "link": "/gear/gear-3"
     }
   ],
   "productBanners": [
@@ -26,7 +26,7 @@
       "title": "Spring is coming",
       "subtitle": "Hats",
       "image": "/assets/ban3.jpg",
-      "link": "/gear"
+      "link": "/gear/gear-3"
     }
   ]
 }
