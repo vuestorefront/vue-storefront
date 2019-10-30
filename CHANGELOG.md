@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added validation message for city field on checkout page - @dz3n (#3723)
 - Improving is_comparable to work with booleans and digits - @dz3n (#3697)
 - Fixed broken link for store locator - @andrzejewsky (#3754)
+- Fixed links to the promoted banners - @andrzejewsky (#3753)
+- Fixed missing parameter in the compare list - @andrzejewsky (#3757)
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
