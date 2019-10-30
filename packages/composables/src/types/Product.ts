@@ -10,9 +10,10 @@ interface ProductOption {
 }
 
 interface ProductConfigurationItem {
-  name?: string,
-  id?: string | number,
-  value: any
+  name?: string, // delete name
+  id?: string | number, // color
+  value: any,
+  // qty: number <-- add this
 }
 
 type ProductConfiguration = ProductConfigurationItem[]

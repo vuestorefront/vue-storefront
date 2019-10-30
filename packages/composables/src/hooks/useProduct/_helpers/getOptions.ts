@@ -1,13 +1,14 @@
-import { ProductResponse } from '@vue-storefront/api-client/lib/types/Product'
-import { ProductOption } from './../../types/Product'
+import { ProductResponse, BundleOptionProductLink } from '@vue-storefront/api-client/lib/types/Product'
+import { ProductOption } from './../types'
 
 const readBundleOptions = (product: ProductResponse): ProductOption[] =>
   product.bundle_options.map(
     ({ option_id, title, product_links }) => ({
       id: option_id,
       attributeName: title,
-      // @ts-ignore
-      values: product_links.map(({ id, product: { name } }) => ({ value: id, label: name }))
+      values: product_links.map(
+        (pl: BundleOptionProductLink) => ({ value: pl.id, label: pl.product.name })
+      )
     })
   )
 
@@ -20,7 +21,7 @@ const readConfigurableOptions = (product: ProductResponse): ProductOption[] =>
    })
   )
 
-const getPossibleOptions = (product: ProductResponse): ProductOption[] => {
+const getOptions = (product: ProductResponse): ProductOption[] => {
   if (!product) {
     return []
   }
@@ -36,4 +37,4 @@ const getPossibleOptions = (product: ProductResponse): ProductOption[] => {
   return []
 }
 
-export default getPossibleOptions
+export default getOptions

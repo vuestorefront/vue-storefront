@@ -9,22 +9,23 @@ type Search = (skus: string[]) => void
 
 /**
  * Hook that returns specific product(s) data.
- * @param sku product sku
- * @returns product - whole product with all configurations
- * @returns currentcConfiguration - currently selected configuration (via `configure`)
- * @returns configure - function that modfies `currentConfiguration` object with currently selected product configuration
+ * @returns products - array that contains pure fetched products
+ * @returns variants - object of currently selected variants with metadata (via `configure`)
+ * @returns configure - function that modfies `variants` object, setting new variant by given configuration
+ * @returns search - function that fetches products by given criteria
+ * @returns loading - field that informs you whether `search` finishes loading the data
  */
 const useProduct = (): UseProduct<Product, Search> => {
   const { products, search, loading } = useSearch()
-  const { configure, currentConfigurations } = useConfiguration(products)
+  const { configure, variants } = useConfiguration(products)
 
   return {
     products,
-    currentConfigurations,
+    variants,
     configure,
     search,
     loading,
-    error: null
+    error: null,
   }
 }
 

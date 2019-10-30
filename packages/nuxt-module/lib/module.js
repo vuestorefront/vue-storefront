@@ -7,7 +7,7 @@ const path = require('path')
 module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
   // TODO: Use compiled source for project development and raw for project build - faster dev mode compilation with treeshaking in output bundle
   // TODO: ALWAYS use raw source for core development
- 
+
   const defaultOptions = {
     coreDevelopment: false,
     useRawSource: true
@@ -35,7 +35,7 @@ module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
       '@storefront-ui/vue': null,
       '@storefront-ui/shared': null
     }
-    
+
     for (const package in rawSourcePackages) {
       consola.info(`\`VSF:\` Using raw source for ${package} [useRawSource]`)
 

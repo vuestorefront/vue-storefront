@@ -1,8 +1,10 @@
+import { Ref } from '@vue/composition-api'
+
 export interface UseProduct<PRODUCTS, SEARCH> {
   products: PRODUCTS;
   search: SEARCH,
-  loading: any;
-  error: any;
+  loading: Ref<boolean>;
+  error: Ref<any>;
   [x: string]: any;
 }
 

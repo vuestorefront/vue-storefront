@@ -31,13 +31,15 @@
           <div class="product-details__mobile-top">
             <div>
               <SfHeading
-                title="Cashmere Sweater"
+                v-if="currentProduct"
+                :title="currentProduct.name"
                 :level="1"
                 class="sf-heading--no-underline sf-heading--left product-details__heading"
               />
               <div class="product-details__sub">
                 <SfPrice
-                  regular="$50.00"
+                  v-if="currentProduct"
+                  :regular="'$' + currentProduct.price"
                   class="sf-price--big product-details__sub-price"
                 />
                 <div class="product-details__sub-rating">
@@ -272,8 +274,8 @@ import {
   SfReview
 } from "@storefront-ui/vue";
 import { computed, watch, ref, reactive } from '@vue/composition-api'
-import { setup as apiSetup } from '@vue-storefront/api-client'
-import { useProduct, helpers } from '@vue-storefront/composables'
+import { setup as apiSetup, addToCart } from '@vue-storefront/api-client'
+import { useProduct, getOptions } from '@vue-storefront/composables'
 
 export default {
   name: "Product",
@@ -282,53 +284,45 @@ export default {
     apiSetup({
       baseURL: 'http://localhost:8080/api'
     })
+
     const {
       products,
-      currentConfigurations,
+      variants,
       configure,
       search,
-      loading
+      loading,
     } = useProduct()
-    const product = computed(() => products.value.length > 0 ? products.value[0] : null)
-    const currentConfiguration = computed(() => helpers.getLastConfigured(currentConfigurations.value))
+    const currentConfiguration = computed(() => variants.value['WS12'])
     const currentProduct = computed(() => currentConfiguration.value ? currentConfiguration.value.product : null)
-    const possibleOptions = computed(() => helpers.getPossibleOptions(product.value))
+    const possibleOptions = computed(() =>
+      products.value.length > 0 ? getOptions(products.value[0]) : null
+    )
     const selected = reactive({
       color: '',
       size: ''
     })
     search(['WS12'])
-    // search(['24-WG080'])
 
-    watch(() => {
+    watch(currentProduct, () => {
+      if (currentProduct.value) {
+        selected.color = currentProduct.value.color
+        selected.size = currentProduct.value.size
+      }
+    })
+
+    watch(() => [selected.size, selected.color], () => {
       if (selected.size && selected.color) {
-        const configuration = [
-          { name: 'size', value: selected.size },
-          { name: 'color', value: selected.color }
-        ]
+        const configuration = {
+          qty: 1,
+          items: [
+            { id: 'size', value: selected.size },
+            { id: 'color', value: selected.color }
+          ]
+        }
         configure('WS12', configuration)
       }
-      console.log(currentConfiguration.value)
-
-        // configurable product
-        // const configuration = [
-        //   { id: 93, name: 'size', value: 168 },
-        //   { id: 142, name: 'color', value: 56 }
-        // ]
-        // configure('WS12', configuration)
-
-        // bundle product
-        // const configuration = [
-        //   { id: 1, value: { option: 2, qty: 1} },
-        //   { id: 2, value: { option: 4, qty: 1 } },
-        //   { id: 3, value: { option: 6, qty: 1 } },
-        //   { id: 4, value: { option: 8, qty: 1 } }
-        // ]
-        // configure('24-WG080', configuration)
-        // console.log(possibleOptions.value)
-        // console.log(currentConfigurations)
-        // console.log(currentProduct)
     })
+
     return {
       qty: "1",
       stock: 5,

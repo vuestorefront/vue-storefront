@@ -1,7 +1,9 @@
 import useProduct from './src/hooks/useProduct'
-import helpers from './src/helpers'
+import { getOptions } from './src/hooks/useProduct/helpers'
 
 export {
-  helpers,
   useProduct,
+
+  // helpers
+  getOptions
 }

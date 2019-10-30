@@ -1,8 +1,15 @@
 import { ref, Ref, watch } from '@vue/composition-api'
 import { ProductResponse } from '@vue-storefront/api-client/lib/types/Product'
 import { getProducts } from '@vue-storefront/api-client'
+import { UseSearch } from './types'
 
-const useSearch = () => {
+/**
+ * Hook fetches products
+ * @returns products - array that contains pure fetched products
+ * @returns search - function that fetches products by given criteria
+ * @returns loading - field that informs you whether `search` finishes loading the data
+ */
+const useSearch = (): UseSearch => {
   const searchParams: Ref<{ skus: string[] }> = ref({ skus: [] })
   const loading: Ref<boolean> = ref(false)
   const products: Ref<ProductResponse[]> = ref([])
