@@ -1,8 +1,8 @@
 <template>
   <transition name="fade-in-down">
-    <div class="modal" v-if="isVisible" ref="modal">
+    <div class="modal" v-if="isVisible">
       <div class="modal-backdrop" @click="close" />
-      <div class="modal-container t-bg-white t-scrolling-touch t-pb-20 sm:t-pb-0" ref="modal-content" :style="style">
+      <div class="modal-container t-bg-white t-scrolling-touch t-pb-20 sm:t-pb-0" ref="modal-container" :style="style">
         <div class="t-h-60px t-flex-fix t-px-4 t-bg-white t-border-b t-border-base-lighter t-flex t-items-center">
           <slot name="header-before" />
           <h2 class="t-text-lg t-text-base-dark" v-if="title" v-text="title" />
@@ -39,7 +39,7 @@ export default {
     isVisible (state) {
       if (state) {
         this.$nextTick(() => {
-          disableBodyScroll(this.$refs['modal']);
+          disableBodyScroll(this.$refs['modal-container']);
         })
       } else {
         clearAllBodyScrollLocks();
@@ -149,7 +149,13 @@ $z-index-modal: map-get($z-index, modal);
     overflow: auto;
 
     @media (max-width: 600px) {
+      /**
+       * Fix viewport vh bug in mobile browsers
+       * @see https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+       */
       min-height: 100vh;
+      min-height: calc(var(--vh, 1vh) * 100);
+      max-height: calc(var(--vh, 1vh) * 100);
       min-width: 100vw;
       margin: 0;
     }
