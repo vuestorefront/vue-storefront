@@ -8,14 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.11.0-rc.2] - unreleased
 
-### Added
-
-- Add unit tests for `core/modules/newsletter` - @psmyrek (#3464)
-
-### Added
-
-- Add unit test for `core/modules/wishlist` - @psmyrek (#3471)
-
 ### Fixed
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
 - Fixed problem around dynamic urls when default storeView is set with appendStoreCode false and url set to / . @resubaka (#3685)
@@ -31,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Load recently viewed module in my account page - @gibkigonzo (#3722)
 - Added validation message for city field on checkout page - @dz3n (#3723)
 - Improving is_comparable to work with booleans and digits - @dz3n (#3697)
+- Fixed instant checkout functionality - @andrzejewsky
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
@@ -39,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added custom page-size parameter for `category-next/loadCategoryProducts` action - @cewald (#3713, #3714)
 - Remove unused dayjs locales - @gibkigonzo (#3498)
 - check max quantity in microcart - @gibkigonzo (#3314)
+- Add unit tests for `core/modules/newsletter` - @psmyrek (#3464)
+- Add unit test for `core/modules/wishlist` - @psmyrek (#3471)
 
 ### Changed / Improved
 - Use `encodeURIComponent` to encode get parameters in `multimatch.js` - @adityasharma7 (#3736)
