@@ -22,8 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed notification message object to factory fn - @gibkigozno (#3716)
 - Load recently viewed module in my account page - @gibkigonzo (#3722)
 - Added validation message for city field on checkout page - @dz3n (#3723)
+- Make price calculation based on saved original prices - @gibkigonzo (#3740)
 - Improving is_comparable to work with booleans and digits - @dz3n (#3697)
 - Fixed instant checkout functionality - @andrzejewsky (#3765)
+- Fixed links to the promoted banners - @andrzejewsky (#3753)
+- Fixed missing parameter in the compare list - @andrzejewsky (#3757)
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
