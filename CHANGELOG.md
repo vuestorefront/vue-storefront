@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added validation message for city field on checkout page - @dz3n (#3723)
 - Make price calculation based on saved original prices - @gibkigonzo (#3740)
 - Improving is_comparable to work with booleans and digits - @dz3n (#3697)
+- Fixed displaying categories on search menu - @andrzejewsky (#3758)
 - Fixed broken link for store locator - @andrzejewsky (#3754)
 - Fixed instant checkout functionality - @andrzejewsky (#3765)
 - Fixed links to the promoted banners - @andrzejewsky (#3753)
