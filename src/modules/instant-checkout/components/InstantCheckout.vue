@@ -12,10 +12,16 @@ import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/core/store'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { registerModule } from '@vue-storefront/core/lib/modules'
+import { OrderModule } from '@vue-storefront/core/modules/order'
+
 const storeView = currentStoreView()
 
 export default {
   name: 'InstantCheckoutButton',
+  beforeCreate () {
+    registerModule(OrderModule)
+  },
   data () {
     return {
       supported: false,
