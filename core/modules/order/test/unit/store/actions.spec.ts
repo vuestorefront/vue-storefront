@@ -966,19 +966,6 @@ describe('Order actions', () => {
 
             expect(contextMock.commit).not.toBeCalledWith(types.ORDER_ADD_SESSION_ORDER_HASH);
         })
-
-        it('should NOT get current order hash if it is alrady processed', () => {
-            const contextMock = {
-                commit: jest.fn(),
-                dispatch: jest.fn(),
-                getters: { getSessionOrderHashes: 'something' }
-                };
-            const wrapper = (actions: any) => actions.placeOrder(contextMock, order);
-
-            wrapper(orderActions);
-
-            expect(contextMock.commit).not.toBeCalledWith(types.ORDER_ADD_SESSION_ORDER_HASH);
-        })
       });
 
 });
