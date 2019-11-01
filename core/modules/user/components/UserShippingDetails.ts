@@ -164,7 +164,7 @@ export const UserShippingDetails = {
           for (let address of this.currentUser.addresses) {
             if (toString(address.id) === toString(this.currentUser.default_shipping)) {
               shippingDetails.firstName = address.firstname
-              shippingDetails.lastName = address.lastName
+              shippingDetails.lastName = address.lastname
               shippingDetails.street = address.street[0]
               shippingDetails.house = address.street[1]
               shippingDetails.city = address.city
