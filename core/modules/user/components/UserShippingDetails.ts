@@ -148,53 +148,40 @@ export const UserShippingDetails = {
     },
     getShippingDetails () {
       this.currentUser = Object.assign({}, this.$store.state.user.current)
+      let shippingDetails = {
+        firstName: '',
+        lastName: '',
+        street: '',
+        house: '',
+        city: '',
+        postcode: '',
+        region: '',
+        country: '',
+        phone: ''
+      }
       if (this.currentUser) {
         if (this.currentUser && this.currentUser.hasOwnProperty('default_shipping')) {
-          let index
-          for (let i = 0; i < this.currentUser.addresses.length; i++) {
-            if (toString(this.currentUser.addresses[i].id) === toString(this.currentUser.default_shipping)) {
-              index = i
-            }
-          }
-          if (index >= 0) {
-            return {
-              firstName: this.currentUser.addresses[index].firstname,
-              lastName: this.currentUser.addresses[index].lastname,
-              street: this.currentUser.addresses[index].street[0],
-              house: this.currentUser.addresses[index].street[1],
-              city: this.currentUser.addresses[index].city,
-              postcode: this.currentUser.addresses[index].postcode,
-              region: this.currentUser.addresses[index].region.region ? this.currentUser.addresses[index].region.region : '',
-              country: this.currentUser.addresses[index].country_id,
-              phone: this.currentUser.addresses[index].hasOwnProperty('telephone') ? this.currentUser.addresses[index].telephone : ''
+          for (let address of this.currentUser.addresses) {
+            if (toString(address.id) === toString(this.currentUser.default_shipping)) {
+              shippingDetails.firstName = address.firstname
+              shippingDetails.lastName = address.lastName
+              shippingDetails.street = address.street[0]
+              shippingDetails.house = address.street[1]
+              shippingDetails.city = address.city
+              shippingDetails.postcode = address.postcode
+              shippingDetails.region = address.region.region ? address.region.region : ''
+              shippingDetails.country = address.country_id
+              shippingDetails.phone = address.hasOwnProperty('telephone') ? address.telephone : ''
+              // Stop iteration as default_shipping address is found
+              break;
             }
           }
         } else {
-          return {
-            firstName: this.currentUser.firstname,
-            lastName: this.currentUser.lastname,
-            street: '',
-            house: '',
-            city: '',
-            postcode: '',
-            region: '',
-            country: '',
-            phone: ''
-          }
-        }
-      } else {
-        return {
-          firstName: '',
-          lastName: '',
-          street: '',
-          house: '',
-          city: '',
-          postcode: '',
-          region: '',
-          country: '',
-          phone: ''
+          shippingDetails.firstName = this.currentUser.firstname
+          shippingDetails.lastName = this.currentUser.lastname
         }
       }
+      return shippingDetails;
     },
     getCountryName () {
       for (let i = 0; i < this.countries.length; i++) {
