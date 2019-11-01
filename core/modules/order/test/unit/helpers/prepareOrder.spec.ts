@@ -1,4 +1,5 @@
 import prepareOrder from '@vue-storefront/core/modules/order/helpers/prepareOrder'
+// import prepareOrder from '../../../helpers/prepareOrder'
 import { Order } from '@vue-storefront/core/modules/order/types/Order'
 // import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
@@ -1863,9 +1864,9 @@ const order: Order = {
         }
     };
 
-    //  const result = prepareOrder(order);
-    //  expect(result).toEqual(expectedOrder);
-      expect(order).toEqual(expectedOrder);
+    const result = prepareOrder(order);
+    expect(result).toEqual(expectedOrder);
+   //   expect(order).toEqual(expectedOrder);
     })
 
   });
