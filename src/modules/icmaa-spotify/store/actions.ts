@@ -42,12 +42,10 @@ const actions: ActionTree<SpotifyState, RootState> = {
 
       const relatedArtists = await context.dispatch('fetchRelatedArtistsByName', name)
 
-      if (relatedArtists.length > 0) {
-        const result = { categoryId: id, relatedArtists }
-        context.commit(mutationTypes.ICMAA_SPOTIFY_RELATEDARTIST_ADD, result)
-        cache.setItem(cacheKey, result)
-          .catch(error => Logger.error(error, 'icmaa-spotify'))
-      }
+      const result = { categoryId: id, relatedArtists }
+      context.commit(mutationTypes.ICMAA_SPOTIFY_RELATEDARTIST_ADD, result)
+      return cache.setItem(cacheKey, result)
+        .catch(error => Logger.error(error, 'icmaa-spotify'))
     } else {
       return new Promise((resolve, reject) => {
         let result = state.relatedArtists[id]

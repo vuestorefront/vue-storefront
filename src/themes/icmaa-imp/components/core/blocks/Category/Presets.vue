@@ -11,7 +11,6 @@ import { mapGetters } from 'vuex'
 import registerGenericCmsStateModule from 'icmaa-cms/helpers/genericStateModule'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 
-import YAML from 'yaml'
 import mapValues from 'lodash-es/mapValues'
 import intersection from 'lodash-es/intersection'
 import pick from 'lodash-es/pick'
@@ -44,7 +43,7 @@ export default {
     formatedPresets () {
       return this.rawPresets.map(p => {
         let preset = pick(p, ['label', 'enabled', 'filters', 'clusters'])
-        preset.filters = YAML.parse(preset.filters)
+        preset.filters = preset.filters.map(f => { return { type: f['attribute'], id: f['value'] } })
         return preset
       }).filter(p => p.enabled)
     },

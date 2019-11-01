@@ -1,5 +1,5 @@
 import { isServer } from '@vue-storefront/core/helpers'
-import debounce from 'lodash-es/debounce'
+import throttle from 'lodash-es/throttle'
 
 export default {
   created () {
@@ -14,7 +14,7 @@ export default {
     }
   },
   methods: {
-    handleResize: debounce(function () {
+    handleResize: throttle(function () {
       this.$store.dispatch('ui/setViewport', window)
 
       /**
@@ -22,6 +22,6 @@ export default {
        * @see https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
        */
       document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`)
-    }, 250)
+    }, 100)
   }
 }

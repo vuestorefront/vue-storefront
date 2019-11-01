@@ -3,7 +3,7 @@ import TeaserState, { TeaserStateItem } from '../types/TeaserState'
 import RootState from '@vue-storefront/core/types/RootState'
 
 import config from 'config'
-import { isDatetimeInBetween } from '../helper/date'
+import { isDatetimeInBetween } from 'icmaa-config/helpers/datetime'
 
 import forEach from 'lodash-es/forEach'
 import isArray from 'lodash-es/isArray'

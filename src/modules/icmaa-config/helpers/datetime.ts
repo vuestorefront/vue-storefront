@@ -9,6 +9,17 @@ once('__VUE_EXTEND_DAYJS_CUSTOM_PARSE_FORMAT', () => {
 
 export const storeDateFormat = (): string => currentStoreView().i18n.dateFormat
 
+export const getCurrentStoreviewDatetime = (): string => {
+  let storeLocale = currentStoreView().i18n.defaultLocale.toLocaleLowerCase()
+  const separatorIndex = storeLocale.indexOf('-')
+  const languageCode = (separatorIndex > -1) ? storeLocale.substr(0, separatorIndex) : storeLocale
+  return dayjs(new Date()).locale(languageCode).format('YYYY-MM-DD HH:mm')
+}
+
+export const isDatetimeInBetween = (from: string, to: string, current = getCurrentStoreviewDatetime()): boolean => {
+  return (from === '' || dayjs(current).isAfter(from)) && (to === '' || dayjs(current).isBefore(to))
+}
+
 export const isValid = (date: string, format?: string): boolean => {
   format = format || storeDateFormat()
   const jsDate = dayjs(date, format)

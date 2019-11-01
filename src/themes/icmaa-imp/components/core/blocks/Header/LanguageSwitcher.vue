@@ -1,7 +1,7 @@
 <template>
   <div class="t-hidden sm:t-flex t-border-l t-border-base-tone t-items-stretch">
     <div class="t-flex t-items-center t-cursor-pointer  t-px-4" @click="showLanguagesModal">
-      <flag-icon :iso="country" width="20" height="20" class="t-flex t-w-5 t-h-5 t-rounded-full t-border t-border-base-tone" />
+      <flag-icon :iso="country" width="20" height="20" class="t-flex t-w-6 t-h-6 t-rounded-full t-border t-border-base-tone" />
     </div>
   </div>
 </template>

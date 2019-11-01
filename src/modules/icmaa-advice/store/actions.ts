@@ -6,7 +6,7 @@ import * as types from './mutation-types'
 import AdviceState, { AdviceStateItem } from '../types/AdviceState'
 import RootState from '@vue-storefront/core/types/RootState'
 
-import { getCurrentStoreviewDatetime } from 'icmaa-teaser/helper/date'
+import { getCurrentStoreviewDatetime } from 'icmaa-config/helpers/datetime'
 
 const documentType = 'advice'
 const mutationTypes: MutationTypesInterface = {

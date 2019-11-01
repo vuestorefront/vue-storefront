@@ -2,8 +2,17 @@
   <div id="category">
     <header class="t-container">
       <div class="t-flex t-flex-wrap t-px-4 t-mb-8">
+        <category-extras-header class="t-bg-white t--mx-4 md:t-mx-0 md:t-mt-4 lg:t-w-full">
+          <div class="t-hidden lg:t-flex" v-if="viewport !== 'sm'">
+            <button-component type="primary" icon="directions_bus" class="t-mr-2 t-font-bold" v-scroll-to="'#category-info-footer'">
+              {{ $t('ON TOUR') }}
+            </button-component>
+            <button-component v-scroll-to="'#category-info-footer'">
+              {{ $t('More info\'s') }}
+            </button-component>
+          </div>
+        </category-extras-header>
         <breadcrumbs :routes="breadcrumbs" :active-route="getCurrentCategory.name" class="t-w-full t-my-8" />
-        <category-extras-header />
         <div class="t-w-full">
           <div class="t-flex t-flex-wrap t-items-center t--mx-1 lg:t--mx-2">
             <h1 class="category-title t-hidden lg:t-block t-w-3/4 t-px-1 lg:t-px-2 t-mb-4 t-font-light t-text-2xl t-text-base-dark" v-text="title" />
@@ -29,12 +38,12 @@
       </div>
     </header>
 
-    <div class="t-container t-pb-8">
+    <div class="t-container">
       <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
         <product-listing :products="getCategoryProducts" />
       </lazy-hydrate>
       <product-listing v-else :products="getCategoryProducts" />
-      <div class="t-flex t-items-center t-justify-center" v-if="moreProductsInSearchResults">
+      <div class="t-flex t-items-center t-justify-center t-pb-8" v-if="moreProductsInSearchResults">
         <button-component type="ghost" @click.native="loadMoreProducts" :disabled="loadingProducts" class="t-w-2/3 lg:t-w-1/4" :class="{ 't-relative t-opacity-60': loadingProducts }">
           {{ $t('Load more') }}
           <loader-background v-if="loadingProducts" bar="t-bg-base-darkest" class="t-bottom-0" />
@@ -48,6 +57,9 @@
           {{ $t('Please change Your search criteria and try again.') }}
         </p>
       </div>
+      <lazy-hydrate when-visible>
+        <category-extras-footer id="category-info-footer" class="t-pb-8" />
+      </lazy-hydrate>
     </div>
 
     <async-sidebar
@@ -82,6 +94,7 @@ import LoaderBackground from 'theme/components/core/LoaderBackground'
 
 import CategoryMixin from 'icmaa-catalog/components/Category'
 import CategoryExtrasHeader from 'theme/components/core/blocks/CategoryExtras/Header'
+import CategoryExtrasFooter from 'theme/components/core/blocks/CategoryExtras/Footer'
 import CategoryExtrasMixin from 'icmaa-category-extras/mixins/categoryExtras'
 import CategoryMetaMixin from 'icmaa-meta/mixins/categoryMeta'
 
@@ -118,7 +131,8 @@ export default {
     ProductListing,
     Breadcrumbs,
     SortBy,
-    CategoryExtrasHeader
+    CategoryExtrasHeader,
+    CategoryExtrasFooter
   },
   mixins: [ CategoryMixin, CategoryExtrasMixin, CategoryMetaMixin ],
   data () {
@@ -210,3 +224,22 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+
+/** Only show cropped header on desktop */
+@media (min-width: 1024px) {
+  header .category-header {
+    padding-top: calc(4%*100/19);
+    overflow: hidden;
+
+    & > img {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+</style>

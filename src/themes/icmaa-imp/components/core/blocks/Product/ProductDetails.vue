@@ -1,6 +1,6 @@
 <template>
   <div class="t-text-sm">
-    <div class="description t-whitespace-pre-line" v-text="product.description.trim()" />
+    <div class="description t-whitespace-pre-line" v-text="stripHTML(product.description.trim())" />
     <ul class="attributes t-mt-6" v-if="attributes.length > 0">
       <product-attributes
         :key="attr.attribute_code"
@@ -22,6 +22,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { stripHTML } from '@vue-storefront/core/filters/strip-html'
 import ProductAttributes from 'theme/components/core/blocks/Product/ProductAttributes'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 
@@ -64,6 +65,9 @@ export default {
     departmentAdvice () {
       return this.product.department === 6
     }
+  },
+  methods: {
+    stripHTML
   }
 }
 </script>

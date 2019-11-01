@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" appear>
-    <div class="cookie t-fixed t-bottom-0 t-w-full t-bg-base-tone" v-if="isOpen">
+    <div class="cookie t-fixed t-bottom-0 t-z-1 t-w-full t-bg-base-tone" v-if="isOpen">
       <div class="t-container">
         <div class="t-flex t-flex-wrap t-justify-start lg:t-justify-center t-items-center t-px-4 t-py-4 t-text-sm t-text-white">
           <div class="t-w-full t-mb-2 lg:t-w-auto lg:t-mb-0 t-mr-4 t-leading-tight">

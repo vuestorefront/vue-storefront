@@ -212,8 +212,8 @@ export default {
     }),
     genderOptions () {
       return [
-        { label: i18n.t('Male'), value: 1129 },
-        { label: i18n.t('Female'), value: 1130 }
+        { label: i18n.t('Male'), value: 'male' },
+        { label: i18n.t('Female'), value: 'female' }
       ]
     }
   },

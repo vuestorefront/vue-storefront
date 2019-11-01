@@ -6,7 +6,7 @@ import * as types from './mutation-types'
 import TeaserState, { TeaserStateItem } from '../types/TeaserState'
 import RootState from '@vue-storefront/core/types/RootState'
 
-import { getCurrentStoreviewDatetime } from '../helper/date'
+import { getCurrentStoreviewDatetime } from 'icmaa-config/helpers/datetime'
 
 const documentType = 'teaser'
 const mutationTypes: MutationTypesInterface = {
