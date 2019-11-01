@@ -1,4 +1,4 @@
-import optimizeOrder from '@vue-storefront/core/modules/order/helpers/optimizeOrder';
+import optimizeOrder from '@vue-storefront/core/modules/order/helpers/optimizeOrder'
 import { Order } from '@vue-storefront/core/modules/order/types/Order'
 
 const order: Order = {
