@@ -276,7 +276,6 @@ import {
   SfReview
 } from "@storefront-ui/vue";
 import { computed, watch, ref, reactive } from '@vue/composition-api'
-import { setup as apiSetup, addToCart } from '@vue-storefront/api-client'
 import {
   useProduct,
   getAvailableOptions,
@@ -288,10 +287,6 @@ export default {
   name: "Product",
   transition: 'fade',
   setup() {
-    apiSetup({
-      baseURL: 'http://localhost:8080/api'
-    })
-
     const configuration = ref(null)
     const { products, search, loading } = useProduct()
     const targetProduct = computed(() => !loading.value && products.value[0])
