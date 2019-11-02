@@ -1,5 +1,7 @@
-import { getOptions } from './_helpers'
+import { getAvailableOptions, getConfiguredProduct, getDefaultConfiguration } from './_helpers'
 
 export {
-  getOptions,
+  getAvailableOptions,
+  getConfiguredProduct,
+  getDefaultConfiguration,
 }

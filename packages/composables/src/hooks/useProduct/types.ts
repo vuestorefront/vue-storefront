@@ -1,5 +1,4 @@
-import { Ref } from '@vue/composition-api'
-import { ProductResponse, ProductSelectedOptions } from '@vue-storefront/api-client/lib/types/Product'
+import { ProductConfigurableChildrenItem, ProductSelectedOptions, ProductResponse } from '@vue-storefront/api-client/lib/types/Product'
 
 export interface ProductOptionValue {
   value: number | string,
@@ -18,7 +17,7 @@ export interface ProductConfigurationItem {
 }
 
 export interface ProductConfiguration {
-  qty: number,
+  qty: string,
   items: ProductConfigurationItem[]
 }
 
@@ -26,20 +25,4 @@ export interface ProductMetadata {
   product_options: ProductSelectedOptions
 }
 
-export interface ProductVariant {
-  parentSku: string,
-  configuration: ProductConfiguration,
-  product: any,
-  meta: ProductMetadata,
-}
-
-export interface UseConfiguration {
-  configure: (sku: string, configuration: ProductConfiguration) => void,
-  variants: Ref<{ [sku: string]: ProductVariant }>
-}
-
-export interface UseSearch {
-  search: (skus: string[]) => void,
-  products: Ref<ProductResponse[]>,
-  loading: Ref<boolean>,
-}
+export type ProductVariant = ProductConfigurableChildrenItem | ProductResponse[]

@@ -21,7 +21,7 @@ const readConfigurableOptions = (product: ProductResponse): ProductOption[] =>
    })
   )
 
-const getOptions = (product: ProductResponse): ProductOption[] => {
+const getAvailableOptions = (product: ProductResponse): ProductOption[] => {
   if (!product) {
     return []
   }
@@ -37,4 +37,4 @@ const getOptions = (product: ProductResponse): ProductOption[] => {
   return []
 }
 
-export default getOptions
+export default getAvailableOptions

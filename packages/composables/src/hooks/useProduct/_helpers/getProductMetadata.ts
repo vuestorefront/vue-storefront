@@ -11,7 +11,7 @@ const createOptions = (): ProductSelectedOptions => ({
   }
 })
 
-const createConfigurableItemMetadata = (configuration: ProductConfiguration): ProductMetadata => {
+const getConfigurableItemMetadata = (configuration: ProductConfiguration): ProductMetadata => {
   const options = createOptions()
 
   options.product_options.extension_attributes.configurable_item_options = configuration.items.map((c) => {
@@ -22,7 +22,7 @@ const createConfigurableItemMetadata = (configuration: ProductConfiguration): Pr
   return { product_options: options }
 }
 
-const createBundleMetadata = (configuration: ProductConfiguration): ProductMetadata => {
+const getBundleMetadata = (configuration: ProductConfiguration): ProductMetadata => {
   const options = createOptions()
 
   options.product_options.extension_attributes.bundle_options = configuration.items.map(c => {
@@ -36,4 +36,4 @@ const createBundleMetadata = (configuration: ProductConfiguration): ProductMetad
   return { product_options: options }
 }
 
-export { createConfigurableItemMetadata, createBundleMetadata }
+export { getConfigurableItemMetadata, getBundleMetadata }

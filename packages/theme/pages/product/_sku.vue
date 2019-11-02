@@ -3,13 +3,13 @@
     <div class="product">
       <div class="product__gallery">
         <SfImage
-          v-if="currentProduct"
-          :src="'https://demo.storefrontcloud.io/img/600/744/resize' + currentProduct.image"
+          v-if="product"
+          :src="'https://demo.storefrontcloud.io/img/600/744/resize' + product.image"
           class="desktop-only"
         />
         <SfImage
-          v-if="currentProduct"
-          :src="'https://demo.storefrontcloud.io/img/600/744/resize' + currentProduct.image"
+          v-if="product"
+          :src="'https://demo.storefrontcloud.io/img/600/744/resize' + product.image"
           class="desktop-only"
         />
         <SfGallery
@@ -31,15 +31,15 @@
           <div class="product-details__mobile-top">
             <div>
               <SfHeading
-                v-if="currentProduct"
-                :title="currentProduct.name"
+                v-if="product"
+                :title="product.name"
                 :level="1"
                 class="sf-heading--no-underline sf-heading--left product-details__heading"
               />
               <div class="product-details__sub">
                 <SfPrice
-                  v-if="currentProduct"
-                  :regular="'$' + currentProduct.price"
+                  v-if="product"
+                  :regular="'$' + product.price"
                   class="sf-price--big product-details__sub-price"
                 />
                 <div class="product-details__sub-rating">
@@ -62,10 +62,10 @@
           <div class="product-details__action">
             <button class="sf-action">Size guide</button>
           </div>
-          <div class="product-details__section">
+          <div class="product-details__section" v-if="configuration">
             <SfSelect
-              v-for="option in possibleOptions"
-              v-model="selected[option.attributeName]"
+              v-for="(option, i) in availableOptions"
+              v-model="configuration.items[i].value"
               :label="option.attributeName"
               :key="option.id"
               class="sf-select--bordered product-details__attribute"
@@ -86,9 +86,11 @@
               class="product-details__alert mobile-only"
             />
             <SfAddToCart
+              v-if="configuration"
               :stock="stock"
-              v-model="qty"
+              v-model="configuration.qty"
               :canAddToCart="stock > 0"
+              @click="addToCart"
               class="product-details__add-to-cart"
             />
             <div class="product-details__action">
@@ -275,7 +277,12 @@ import {
 } from "@storefront-ui/vue";
 import { computed, watch, ref, reactive } from '@vue/composition-api'
 import { setup as apiSetup, addToCart } from '@vue-storefront/api-client'
-import { useProduct, getOptions } from '@vue-storefront/composables'
+import {
+  useProduct,
+  getAvailableOptions,
+  getConfiguredProduct,
+  getDefaultConfiguration
+} from '@vue-storefront/composables'
 
 export default {
   name: "Product",
@@ -285,51 +292,31 @@ export default {
       baseURL: 'http://localhost:8080/api'
     })
 
-    const {
-      products,
-      variants,
-      configure,
-      search,
-      loading,
-    } = useProduct()
-    const currentConfiguration = computed(() => variants.value['WS12'])
-    const currentProduct = computed(() => currentConfiguration.value ? currentConfiguration.value.product : null)
-    const possibleOptions = computed(() =>
-      products.value.length > 0 ? getOptions(products.value[0]) : null
-    )
-    const selected = reactive({
-      color: '',
-      size: ''
-    })
+    const configuration = ref(null)
+    const { products, search, loading } = useProduct()
+    const targetProduct = computed(() => !loading.value && products.value[0])
+    const availableOptions = computed(() => getAvailableOptions(targetProduct.value))
+    const product = computed(() => getConfiguredProduct(targetProduct.value, configuration.value))
+
     search(['WS12'])
 
-    watch(currentProduct, () => {
-      if (currentProduct.value) {
-        selected.color = currentProduct.value.color
-        selected.size = currentProduct.value.size
-      }
+    watch(targetProduct, () => {
+      configuration.value = getDefaultConfiguration(targetProduct.value)
     })
 
-    watch(() => [selected.size, selected.color], () => {
-      if (selected.size && selected.color) {
-        const configuration = {
-          qty: 1,
-          items: [
-            { id: 'size', value: selected.size },
-            { id: 'color', value: selected.color }
-          ]
-        }
-        configure('WS12', configuration)
-      }
-    })
+    const addToCart = () => {
+      console.log('---- add to cart ----')
+      console.log('product', product.value)
+      console.log('configuration', configuration.value)
+    }
 
     return {
-      qty: "1",
-      stock: 5,
-      selected,
-      possibleOptions,
+      configuration,
+      availableOptions,
       loading,
-      currentProduct,
+      product,
+      addToCart,
+      stock: 5,
       properties: [
         {
           name: "Product Code",

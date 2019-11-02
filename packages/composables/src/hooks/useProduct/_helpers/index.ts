@@ -1,9 +1,9 @@
-import getOptions from './getOptions'
-import createProductVariant from './createProductVariant'
-import getFirstConfiguration from './getFirstConfiguration'
+import getAvailableOptions from './getAvailableOptions'
+import getDefaultConfiguration from './getDefaultConfiguration'
+import getConfiguredProduct from './getConfiguredProduct'
 
 export {
-  getOptions,
-  createProductVariant,
-  getFirstConfiguration,
+  getAvailableOptions,
+  getConfiguredProduct,
+  getDefaultConfiguration,
 }

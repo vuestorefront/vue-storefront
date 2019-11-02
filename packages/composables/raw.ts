@@ -1,9 +1,11 @@
 import useProduct from './src/hooks/useProduct'
-import { getOptions } from './src/hooks/useProduct/helpers'
+import { getAvailableOptions, getConfiguredProduct, getDefaultConfiguration } from './src/hooks/useProduct/helpers'
 
 export {
   useProduct,
 
   // helpers
-  getOptions
+  getAvailableOptions,
+  getConfiguredProduct,
+  getDefaultConfiguration
 }
