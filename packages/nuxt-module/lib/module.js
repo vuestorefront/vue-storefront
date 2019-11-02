@@ -1,53 +1,74 @@
-// TODO proper bundling, for now it;'s just to experiment with nuxt modules api
-const consola = require('consola')
+// TODO proper bundling, for now it's just to experiment with nuxt modules api
 const path = require('path')
+const fs = require("fs")
+const consola = require('consola')
+const chalk = require('chalk');
+const { mergeWith, isArray } = require('lodash')
 
+const log = {
+  info: (message) => consola.info(chalk.bold('VSF'), message),
+  success: (message) => consola.success(chalk.bold('VSF'), message),
+  warning: (message) => consola.warning(chalk.bold('VSF'), message),
+  error: (message) => consola.error(chalk.bold('VSF'), message)
+}
 
+module.exports = function VueStorefrontNuxtModule (moduleOptions) {
 
-module.exports = async function VueStorefrontNuxtModule (moduleOptions) {
-  // TODO: Use compiled source for project development and raw for project build - faster dev mode compilation with treeshaking in output bundle
-  // TODO: ALWAYS use raw source for core development
-
+  const isProd = process.env.NODE_ENV === 'production'
+  const isSfuiInstalled = fs.existsSync(path.resolve('node_modules'))
   const defaultOptions = {
     coreDevelopment: false,
-    useRawSource: true
+    useRawSource: {
+      prod: isSfuiInstalled ? [
+        '@storefront-ui/vue',
+        '@storefront-ui/shared'
+      ] : [],
+      dev: isSfuiInstalled ? [
+        '@storefront-ui/vue',
+        '@storefront-ui/shared'
+      ] : []
+    }
   }
 
-  const options = { ...defaultOptions, ...moduleOptions }
+  const options = mergeWith(defaultOptions, moduleOptions, (objValue, srcValue) => {
+    if (isArray(objValue)) {
+      return objValue.concat(srcValue);
+    }
+  })
 
-  consola.info('`VSF:` Starting Vue Storefront Nuxt Module')
-
+  log.info(chalk.green('Starting Vue Storefront Nuxt Module'))
   this.addPlugin(path.resolve(__dirname, 'plugins/composition-api.js'))
+  log.success('Installed Composition API plugin for Vue 2')
+
+  //----------------------s--------------
 
   // Using symlinks in lerna somehow breaks composition API behavior as a singleton.
-  if (options.coreDevelopment) {
-    consola.info('`VSF:` Vue Storefront core development mode is on [coreDevelopment]')
+  if (options.coreDevelopment === true || options.coreDevelopment.enabled === true) {
+    log.info(`Vue Storefront core development mode is on. ${chalk.italic('[coreDevelopment]')}`)
     this.extendBuild(config => {
       config.resolve.alias['@vue/composition-api'] = path.resolve('node_modules/@vue/composition-api')
     })
   }
 
-  if (options.useRawSource) {
-    // Set value to 'null' for transpilation without aliasing.
-    const rawSourcePackages = {
-      '@vue-storefront/composables': '@vue-storefront/composables/raw.ts',
-      '@vue-storefront/api-client': '@vue-storefront/api-client/src/index.ts',
-      '@storefront-ui/vue': null,
-      '@storefront-ui/shared': null
+  //------------------------------------
+
+  const useRawSource = (package) => {
+    const pkgPath = path.resolve('node_modules/'+ package)
+    const pkg = require(pkgPath + '/package.json')
+
+    if (pkg.module) {
+      this.extendBuild(config => {
+        config.resolve.alias[pkg.name + '$'] = path.resolve(pkgPath, pkg.module)
+      })
     }
-
-    for (const package in rawSourcePackages) {
-      consola.info(`\`VSF:\` Using raw source for ${package} [useRawSource]`)
-
-      if (rawSourcePackages[package]) {
-        this.extendBuild(config => {
-          config.resolve.alias[package] = rawSourcePackages[package]
-        })
-      }
-
-      this.options.build.transpile.push(package)
-    }
+    this.options.build.transpile.push(package)
+    log.info(`Using raw source for ${chalk.bold(pkg.name)} ${chalk.italic('[useRawSource]')}`)
   }
+
+  // always use raw source on core development mode
+  options.useRawSource[isProd || options.coreDevelopment ? 'prod' : 'dev'].map(package => {
+    useRawSource(package)
+  })
 }
 
 module.exports.meta = require('../package.json')

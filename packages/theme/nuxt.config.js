@@ -1,4 +1,6 @@
 
+const coreDevelopment = true
+
 export default {
   mode: 'universal',
   head: {
@@ -18,7 +20,17 @@ export default {
   ],
   modules: [
     ['@vue-storefront/nuxt', {
-      coreDevelopment: true
+      coreDevelopment: coreDevelopment,
+      useRawSource: {
+        dev: coreDevelopment ? [
+          '@vue-storefront/composables',
+          '@vue-storefront/api-client'
+        ] : [],
+        prod: [        
+          '@vue-storefront/composables',
+          '@vue-storefront/api-client'
+        ]
+      }
     }]
   ]
 }
