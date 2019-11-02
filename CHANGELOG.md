@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.0-rc.2] - UNRELEASED
 
 ### Added
+- Merge attribute and attributes config keys
 - Add unit test for \`core/modules/cms\` - @krskibin (#3738)
 
 ### Fixed
