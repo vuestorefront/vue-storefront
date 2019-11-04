@@ -92,7 +92,6 @@ The last thing is to change the `vue-storefront/config/local.json` to configure 
       "mapStoreUrlsFor": ["de", "it"],
       "de": {
         "storeCode": "de",
-        "disabled": true,
         "storeId": 3,
         "name": "German Store",
         "url": "/de",
@@ -118,7 +117,6 @@ The last thing is to change the `vue-storefront/config/local.json` to configure 
       },
       "it": {
         "storeCode": "it",
-        "disabled": true,
         "storeId": 4,
         "name": "Italian Store",
         "url": "/it",

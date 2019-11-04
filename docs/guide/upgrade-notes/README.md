@@ -86,6 +86,7 @@ If by some reasons you wan't to have the `localStorage` back on for `Products by
   - Delete the line `RouterManager.addRoutes(routes, router, true)`. This is now handled in `setupMultistoreRoutes`, including the default store.
   - Optionally give theme routes priority, to ensure they override module routes if there are any conflicts. For example `setupMultistoreRoutes(config, router, routes, 10)`.
   - See `/src/themes/default/index.js` for a complete example.
+- In `storeView` config there is no more `disabled` flag for specific language config. Links for other languages will be displayed if specific `storeView` config exist.
 
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`EventBus.$on()`) now

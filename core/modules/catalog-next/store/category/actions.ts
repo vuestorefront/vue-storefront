@@ -23,20 +23,21 @@ import omit from 'lodash-es/omit'
 import config from 'config'
 
 const actions: ActionTree<CategoryState, RootState> = {
-  async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category } = {}) {
+  async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category, pageSize = 50 } = {}) {
     const searchCategory = category || getters.getCategoryFrom(route.path) || {}
     const categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
     const areFiltersInQuery = !!Object.keys(route[products.routerFiltersSource]).length
     if (!categoryMappedFilters && areFiltersInQuery) { // loading all filters only when some filters are currently chosen and category has no available filters yet
       await dispatch('loadCategoryFilters', searchCategory)
     }
-    const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
+    const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
     const {items, perPage, start, total, aggregations} = await quickSearchByQuery({
       query: filterQr,
       sort: searchQuery.sort,
       includeFields: entities.productList.includeFields,
-      excludeFields: entities.productList.excludeFields
+      excludeFields: entities.productList.excludeFields,
+      size: pageSize
     })
     await dispatch('loadAvailableFiltersFrom', {aggregations, category: searchCategory, filters: searchQuery.filters})
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
@@ -47,7 +48,8 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async loadMoreCategoryProducts ({ commit, getters, rootState, dispatch }) {
     const { perPage, start, total } = getters.getCategorySearchProductsStats
-    if (start >= total || total < perPage) return
+    const totalValue = typeof total === 'object' ? total.value : total
+    if (start >= totalValue || totalValue < perPage) return
 
     const searchQuery = getters.getCurrentSearchQuery
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
@@ -109,14 +111,14 @@ const actions: ActionTree<CategoryState, RootState> = {
     })
   },
   async registerCategoryProductsMapping ({ dispatch }, products = []) {
-    const storeCode = currentStoreView().storeCode
+    const { storeCode, appendStoreCode } = currentStoreView()
     await Promise.all(products.map(product => {
       const { url_path, sku, slug, type_id } = product
       return dispatch('url/registerMapping', {
         url: localizedDispatcherRoute(url_path, storeCode),
         routeData: {
           params: { parentSku: product.sku, slug },
-          'name': localizedDispatcherRouteName(type_id + '-product', storeCode)
+          'name': localizedDispatcherRouteName(type_id + '-product', storeCode, appendStoreCode)
         }
       }, { root: true })
     }))

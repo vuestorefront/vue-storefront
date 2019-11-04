@@ -128,31 +128,16 @@
               v-else-if="getCurrentProduct.custom_options && getCurrentProduct.custom_options.length > 0"
               :product="getCurrentProduct"
             />
-            <div
+            <product-quantity
               class="row m0 mb35"
               v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
-            >
-              <base-input-number
-                :name="getInputName"
-                v-model="getCurrentProduct.qty"
-                :min="quantity ? 1 : 0"
-                :max="quantity"
-                :disabled="quantity ? false : true"
-                :value="quantity ? 1 : 0"
-                @blur="$v.$touch()"
-                :validations="[
-                  {
-                    condition: !$v.getCurrentProduct.qty.numeric || !$v.getCurrentProduct.qty.minValue,
-                    text: $t(`Quantity must be positive integer`)
-                  },
-                  {
-                    condition: quantity && getCurrentProduct.qty && !$v.getCurrentProduct.qty.maxValue,
-                    text: $t('Quantity must be below {quantity}', { quantity: quantity })
-                  }
-                ]"
-              />
-              <Spinner v-if="isProductLoading" />
-            </div>
+              v-model="getCurrentProduct.qty"
+              :max-quantity="maxQuantity"
+              :loading="isStockInfoLoading"
+              :is-simple-or-configurable="isSimpleOrConfigurable"
+              show-quantity
+              @error="handleQuantityError"
+            />
             <div class="row m0">
               <add-to-cart
                 :product="getCurrentProduct"
@@ -182,17 +167,15 @@
             <div class="lh30 h5" itemprop="description" v-html="getCurrentProduct.description" />
           </div>
           <div class="col-xs-12 col-sm-5">
-            <lazy-hydrate on-interaction>
-              <ul class="attributes p0 pt5 m0">
-                <product-attribute
-                  :key="attr.attribute_code"
-                  v-for="attr in getCustomAttributes"
-                  :product="getCurrentProduct"
-                  :attribute="attr"
-                  empty-placeholder="N/A"
-                />
-              </ul>
-            </lazy-hydrate>
+            <ul class="attributes p0 pt5 m0">
+              <product-attribute
+                :key="attr.attribute_code"
+                v-for="attr in getCustomAttributes"
+                :product="getCurrentProduct"
+                :attribute="attr"
+                empty-placeholder="N/A"
+              />
+            </ul>
           </div>
           <div class="details-overlay" @click="showDetails" />
         </div>
@@ -219,7 +202,6 @@
 </template>
 
 <script>
-import { minValue, maxValue, numeric } from 'vuelidate/lib/validators'
 import i18n from '@vue-storefront/i18n'
 import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
@@ -232,6 +214,7 @@ import ColorSelector from 'theme/components/core/ColorSelector.vue'
 import SizeSelector from 'theme/components/core/SizeSelector.vue'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
+import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
@@ -249,7 +232,7 @@ import LazyHydrate from 'vue-lazy-hydration'
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
 import { getAvailableFiltersByProduct, getSelectedFiltersByProduct } from '@vue-storefront/core/modules/catalog/helpers/filters'
 import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
-import { localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { htmlDecode } from '@vue-storefront/core/filters'
 import { ReviewModule } from '@vue-storefront/core/modules/review'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
@@ -275,10 +258,9 @@ export default {
     Reviews,
     SizeSelector,
     WebShare,
-    BaseInputNumber,
     SizeGuide,
-    Spinner,
-    LazyHydrate
+    LazyHydrate,
+    ProductQuantity
   },
   mixins: [ProductOption],
   directives: { focusClean },
@@ -289,8 +271,10 @@ export default {
   data () {
     return {
       detailsOpen: false,
-      quantity: 0,
-      isProductLoading: false
+      maxQuantity: 0,
+      quantityError: false,
+      isStockInfoLoading: false,
+      hasAttributesLoaded: false
     }
   },
   computed: {
@@ -337,7 +321,7 @@ export default {
     getCustomAttributes () {
       return Object.values(this.attributesByCode).filter(a => {
         return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
-      })
+      }).sort((a, b) => { return a.attribute_id > b.attribute_id })
     },
     getAvailableFilters () {
       return getAvailableFiltersByProduct(this.getCurrentProduct)
@@ -346,30 +330,40 @@ export default {
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
     isSimpleOrConfigurable () {
-      if (
-        this.getCurrentProduct.type_id === 'simple' ||
-        this.getCurrentProduct.type_id === 'configurable'
-      ) { return true }
-      return false
-    },
-    getInputName () {
-      if (this.isSimpleOrConfigurable && !this.isProductLoading) { return this.$i18n.t('Quantity available', { qty: this.quantity }) }
-      return this.$i18n.t('Quantity')
+      return ['simple', 'configurable'].includes(this.getCurrentProduct.type_id)
     },
     isAddToCartDisabled () {
-      return this.$v.$invalid || this.isProductLoading || (!this.quantity && this.isSimpleOrConfigurable)
+      return this.quantityError ||
+        this.isStockInfoLoading ||
+        (this.isOnline && !this.maxQuantity && this.isSimpleOrConfigurable)
     }
-  },
-  created () {
-    this.getQuantity()
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
   },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
-    await store.dispatch('product/loadProductBreadcrumbs', { product })
+    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
+    if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
+  },
+  beforeRouteEnter (to, from, next) {
+    if (isServer) {
+      next()
+    } else {
+      next((vm) => {
+        vm.getQuantity()
+      })
+    }
+  },
+  watch: {
+    isOnline: {
+      handler (isOnline) {
+        if (isOnline) {
+          this.getQuantity()
+        }
+      }
+    }
   },
   methods: {
     showDetails (event) {
@@ -410,28 +404,24 @@ export default {
       return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
     },
     async getQuantity () {
-      this.isProductLoading = true
-      this.quantity = null
-      const res = await this.$store.dispatch('stock/check', {
-        product: this.getCurrentProduct,
-        qty: this.getCurrentProduct.qty
-      })
-      this.isProductLoading = false
-      this.quantity = res.qty
-    }
-  },
-  validations () {
-    return {
-      getCurrentProduct: {
-        qty: {
-          minValue: minValue(1),
-          maxValue: maxValue(this.quantity) && !this.isSimpleOrConfigurable,
-          numeric: numeric
-        }
+      if (this.isStockInfoLoading) return // stock info is already loading
+      this.isStockInfoLoading = true
+      try {
+        const res = await this.$store.dispatch('stock/check', {
+          product: this.getCurrentProduct,
+          qty: this.getCurrentProduct.qty
+        })
+        this.maxQuantity = res.qty
+      } finally {
+        this.isStockInfoLoading = false
       }
+    },
+    handleQuantityError (error) {
+      this.quantityError = error
     }
   },
   metaInfo () {
+    const storeView = currentStoreView()
     return {
       link: [
         { rel: 'amphtml',
@@ -442,7 +432,7 @@ export default {
               slug: this.getCurrentProduct.slug,
               childSku: this.getCurrentProduct.sku
             }
-          }, this.$store.state.storeView.storeCode)).href
+          }, storeView.storeCode)).href
         }
       ],
       title: htmlDecode(this.getCurrentProduct.meta_title || this.getCurrentProduct.name),

@@ -57,7 +57,7 @@ const mergeActions = {
     if (!rootGetters['checkout/isUserInCheckout']) {
       const isThisNewItemAddedToTheCart = (!clientItem || !clientItem.server_item_id)
       diffLog.pushNotification(
-        isThisNewItemAddedToTheCart ? notifications.productAddedToCart : notifications.productQuantityUpdated
+        isThisNewItemAddedToTheCart ? notifications.productAddedToCart() : notifications.productQuantityUpdated()
       )
     }
 
@@ -122,8 +122,12 @@ const mergeActions = {
     const diffLog = createDiffLog()
 
     for (const clientItem of clientItems) {
-      const mergeClientItemDiffLog = await dispatch('mergeClientItem', { clientItem, serverItems, forceClientState, dryRun })
-      diffLog.merge(mergeClientItemDiffLog)
+      try {
+        const mergeClientItemDiffLog = await dispatch('mergeClientItem', { clientItem, serverItems, forceClientState, dryRun })
+        diffLog.merge(mergeClientItemDiffLog)
+      } catch (e) {
+        Logger.debug('Problem syncing clientItem', 'cart', clientItem)()
+      }
     }
 
     return diffLog
@@ -163,8 +167,12 @@ const mergeActions = {
     const definedServerItems = serverItems.filter(serverItem => serverItem)
 
     for (const serverItem of definedServerItems) {
-      const mergeServerItemDiffLog = await dispatch('mergeServerItem', { clientItems, serverItem, forceClientState, dryRun })
-      diffLog.merge(mergeServerItemDiffLog)
+      try {
+        const mergeServerItemDiffLog = await dispatch('mergeServerItem', { clientItems, serverItem, forceClientState, dryRun })
+        diffLog.merge(mergeServerItemDiffLog)
+      } catch (e) {
+        Logger.debug('Problem syncing serverItem', 'cart', serverItem)()
+      }
     }
 
     return diffLog

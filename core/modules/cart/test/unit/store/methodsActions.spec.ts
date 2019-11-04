@@ -1,6 +1,6 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types';
 import { CartService } from '@vue-storefront/core/data-resolver';
-import { preparePaymentMethodsToSync } from '@vue-storefront/core/modules/cart/helpers';
+import { preparePaymentMethodsToSync, createOrderData } from '@vue-storefront/core/modules/cart/helpers';
 import cartActions from '@vue-storefront/core/modules/cart/store/actions';
 import { createContextMock } from '@vue-storefront/unit-tests/utils';
 
@@ -59,7 +59,8 @@ jest.mock('@vue-storefront/core/modules/cart/helpers', () => ({
     merge: jest.fn(),
     isEmpty: jest.fn()
   })),
-  preparePaymentMethodsToSync: jest.fn()
+  preparePaymentMethodsToSync: jest.fn(),
+  createOrderData: jest.fn()
 }));
 jest.mock('@vue-storefront/core/helpers', () => ({
   get isServer () {
@@ -119,7 +120,8 @@ describe('Cart methodsActions', () => {
   it('synchronizes payment methods', async () => {
     const contextMock = createContextMock({
       rootGetters: {
-        'checkout/getNotServerPaymentMethods': []
+        'checkout/getNotServerPaymentMethods': [],
+        'checkout/getPaymentDetails': { country: 'US' }
       },
       getters: {
         canUpdateMethods: true,
@@ -128,6 +130,7 @@ describe('Cart methodsActions', () => {
     });
 
     (CartService.getPaymentMethods as jest.Mock).mockImplementation(() => Promise.resolve({ result: {} }));
+    (createOrderData as jest.Mock).mockImplementation(() => ({ shippingMethodsData: {} }));
     (preparePaymentMethodsToSync as jest.Mock).mockImplementation(() => ({ uniqueBackendMethods: [], paymentMethods: [] }));
 
     await (cartActions as any).syncPaymentMethods(contextMock, {});
