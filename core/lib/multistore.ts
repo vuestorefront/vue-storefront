@@ -19,14 +19,11 @@ function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
     if (!config.storeViews[originalParent]) {
       Logger.error(`Storeview "${storeView.extend}" doesn't exist!`)()
     } else {
-      delete storeView.extend
-
       storeView = merge(
         {},
         getExtendedStoreviewConfig(config.storeViews[originalParent]),
         storeView
       )
-      storeView.extend = originalParent
     }
   }
 
@@ -71,6 +68,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
     StorageManager.currentStoreCode = storeView.storeCode
   }
   coreHooksExecutors.afterStoreViewChanged(storeView)
+
   return storeView
 }
 
@@ -143,8 +141,47 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   return routeObj
 }
 
-export function localizedDispatcherRouteName (routeName: string, storeCode: string): string {
-  return storeCode ? `${storeCode}-${routeName}` : routeName
+export function localizedDispatcherRouteName (routeName: string, storeCode: string, appendStoreCode: boolean = false): string {
+  if (appendStoreCode) {
+    return `${storeCode}-${routeName}`
+  }
+  return routeName
+}
+
+/**
+ * Returns route path with proper language prefix
+ * @param path - route path
+ * @param storeCode - language prefix specified in global config
+ */
+export function localizedRoutePath (path: string, storeCode: string): string {
+  const _path = path.startsWith('/') ? path.slice(1) : path
+
+  return `/${storeCode}/${_path}`
+}
+
+/**
+ * Returns transformed route config with language
+ * @param route - route config object
+ * @param storeCode - language prefix specified in global config
+ * @param isChildRoute - determines if route config is for child route
+ */
+export function localizedRouteConfig (route: RouteConfig, storeCode: string, isChildRoute: boolean = false): RouteConfig {
+  // note: we need shallow copy to prevent modifications in provided route object
+  const _route = {...route}
+
+  if (_route.name && storeCode) {
+    _route.name = `${storeCode}-${_route.name}`
+  }
+
+  if (_route.path && !isChildRoute) {
+    _route.path = localizedRoutePath(_route.path, storeCode)
+  }
+
+  if (_route.children) {
+    _route.children = _route.children.map(childRoute => localizedRouteConfig(childRoute, storeCode, true))
+  }
+
+  return _route
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
@@ -180,40 +217,4 @@ export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteC
     allRoutes.push(...routes)
   }
   router.addRoutes(allRoutes, true, priority)
-}
-
-/**
- * Returns transformed route config with language
- * @param route - route config object
- * @param storeCode - language prefix specified in global config
- * @param isChildRoute - determines if route config is for child route
- */
-export function localizedRouteConfig (route: RouteConfig, storeCode: string, isChildRoute: boolean = false): RouteConfig {
-  // note: we need shallow copy to prevent modifications in provided route object
-  const _route = {...route}
-
-  if (_route.name && storeCode) {
-    _route.name = `${storeCode}-${_route.name}`
-  }
-
-  if (_route.path && !isChildRoute) {
-    _route.path = localizedRoutePath(_route.path, storeCode)
-  }
-
-  if (_route.children) {
-    _route.children = _route.children.map(childRoute => localizedRouteConfig(childRoute, storeCode, true))
-  }
-
-  return _route
-}
-
-/**
- * Returns route path with proper language prefix
- * @param path - route path
- * @param storeCode - language prefix specified in global config
- */
-export function localizedRoutePath (path: string, storeCode: string): string {
-  const _path = path.startsWith('/') ? path.slice(1) : path
-
-  return `/${storeCode}/${_path}`
 }

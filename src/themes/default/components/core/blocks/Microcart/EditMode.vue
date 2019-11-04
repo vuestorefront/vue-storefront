@@ -1,5 +1,6 @@
 <script>
 import { mapGetters } from 'vuex'
+import get from 'lodash-es/get'
 
 export default {
   name: 'EditMode',
@@ -30,6 +31,17 @@ export default {
       }
       this.product.qty = this.getEditingQty
       this.$store.dispatch('cart/configureItem', { product: this.product, configuration })
+    },
+    getEditedProduct (filter = {}) {
+      const selectedFilters = {...this.getSelectedOptions, [filter.type]: filter}
+      const sizeId = get(selectedFilters, 'size.id', '')
+      const colorId = get(selectedFilters, 'color.id', '')
+      const children = this.product.configurable_children || []
+
+      return children.find((child) =>
+        Number(child.color) === Number(colorId) &&
+        Number(child.size) === Number(sizeId)
+      ) || this.product
     }
   }
 }

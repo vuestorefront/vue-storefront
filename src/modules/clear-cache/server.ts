@@ -1,4 +1,6 @@
-module.exports = (app) => {
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+serverHooks.afterApplicationInitialized(({ app }) => {
   const config = require('config')
   const apiStatus = require('@vue-storefront/core/scripts/utils/api-status')
 
@@ -6,7 +8,7 @@ module.exports = (app) => {
     const expressWs = require('express-ws')(app)
 
     if (config.clearCache.websocket.enabled) {
-      app.ws(config.clearCache.websocket.endpoint, (ws, req) => {
+      expressWs.app.ws(config.clearCache.websocket.endpoint, (ws, req) => {
         ws.on('message', msg => {
           msg = msg.trim()
           if (msg === config.clearCache.websocket.key) {
@@ -31,4 +33,4 @@ module.exports = (app) => {
       })
     }
   }
-}
+})

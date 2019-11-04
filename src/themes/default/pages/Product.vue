@@ -128,31 +128,16 @@
               v-else-if="getCurrentProduct.custom_options && getCurrentProduct.custom_options.length > 0"
               :product="getCurrentProduct"
             />
-            <div
+            <product-quantity
               class="row m0 mb35"
               v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
-            >
-              <base-input-number
-                :name="getInputName"
-                v-model="getCurrentProduct.qty"
-                :min="quantity ? 1 : 0"
-                :max="quantity"
-                :disabled="quantity ? false : true"
-                :value="quantity ? 1 : 0"
-                @blur="$v.$touch()"
-                :validations="[
-                  {
-                    condition: !$v.getCurrentProduct.qty.numeric || !$v.getCurrentProduct.qty.minValue,
-                    text: $t(`Quantity must be positive integer`)
-                  },
-                  {
-                    condition: quantity && getCurrentProduct.qty && !$v.getCurrentProduct.qty.maxValue,
-                    text: $t('Quantity must be below {quantity}', { quantity: quantity })
-                  }
-                ]"
-              />
-              <Spinner v-if="isStockInfoLoading" />
-            </div>
+              v-model="getCurrentProduct.qty"
+              :max-quantity="maxQuantity"
+              :loading="isStockInfoLoading"
+              :is-simple-or-configurable="isSimpleOrConfigurable"
+              show-quantity
+              @error="handleQuantityError"
+            />
             <div class="row m0">
               <add-to-cart
                 :product="getCurrentProduct"
@@ -217,7 +202,6 @@
 </template>
 
 <script>
-import { minValue, maxValue, numeric } from 'vuelidate/lib/validators'
 import i18n from '@vue-storefront/i18n'
 import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
@@ -230,6 +214,7 @@ import ColorSelector from 'theme/components/core/ColorSelector.vue'
 import SizeSelector from 'theme/components/core/SizeSelector.vue'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
+import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
@@ -273,10 +258,9 @@ export default {
     Reviews,
     SizeSelector,
     WebShare,
-    BaseInputNumber,
     SizeGuide,
-    Spinner,
-    LazyHydrate
+    LazyHydrate,
+    ProductQuantity
   },
   mixins: [ProductOption],
   directives: { focusClean },
@@ -287,7 +271,8 @@ export default {
   data () {
     return {
       detailsOpen: false,
-      quantity: 0,
+      maxQuantity: 0,
+      quantityError: false,
       isStockInfoLoading: false,
       hasAttributesLoaded: false
     }
@@ -345,18 +330,12 @@ export default {
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
     isSimpleOrConfigurable () {
-      if (
-        this.getCurrentProduct.type_id === 'simple' ||
-        this.getCurrentProduct.type_id === 'configurable'
-      ) { return true }
-      return false
-    },
-    getInputName () {
-      if (this.isSimpleOrConfigurable && !this.isStockInfoLoading) { return this.$i18n.t(this.isOnline ? 'Quantity available' : 'Quantity available offline', { qty: this.quantity }) }
-      return this.$i18n.t('Quantity')
+      return ['simple', 'configurable'].includes(this.getCurrentProduct.type_id)
     },
     isAddToCartDisabled () {
-      return this.$v.$invalid || this.isStockInfoLoading || (this.isOnline && (!this.quantity && this.isSimpleOrConfigurable))
+      return this.quantityError ||
+        this.isStockInfoLoading ||
+        (this.isOnline && !this.maxQuantity && this.isSimpleOrConfigurable)
     }
   },
   async mounted () {
@@ -368,14 +347,22 @@ export default {
     if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
   },
+  beforeRouteEnter (to, from, next) {
+    if (isServer) {
+      next()
+    } else {
+      next((vm) => {
+        vm.getQuantity()
+      })
+    }
+  },
   watch: {
     isOnline: {
       handler (isOnline) {
         if (isOnline) {
           this.getQuantity()
         }
-      },
-      immediate: true
+      }
     }
   },
   methods: {
@@ -420,26 +407,17 @@ export default {
       if (this.isStockInfoLoading) return // stock info is already loading
       this.isStockInfoLoading = true
       try {
-        this.quantity = null
         const res = await this.$store.dispatch('stock/check', {
           product: this.getCurrentProduct,
           qty: this.getCurrentProduct.qty
         })
-        this.quantity = res.qty
+        this.maxQuantity = res.qty
       } finally {
         this.isStockInfoLoading = false
       }
-    }
-  },
-  validations () {
-    return {
-      getCurrentProduct: {
-        qty: {
-          minValue: minValue(1),
-          maxValue: maxValue(this.quantity) && !this.isSimpleOrConfigurable,
-          numeric: numeric
-        }
-      }
+    },
+    handleQuantityError (error) {
+      this.quantityError = error
     }
   },
   metaInfo () {

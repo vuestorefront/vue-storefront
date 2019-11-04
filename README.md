@@ -80,7 +80,7 @@ For an up-to-date list of supported browsers please see "browserslist" in packag
 
 ## Join the community on Slack
 
-If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg)
+If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtNTAwODYzNzI3MjAzLWFkZjc0YjVjODA1Y2I2MTdlNmM0NThjY2M5MzgzN2U2NzE4YmE2YzA4YTM0MTY3OWQzZjBhMjBlZDhmYjAyNGI)
 
 ## Roadmap
 
@@ -126,7 +126,7 @@ You can find some tutorials and explanations on our [YouTube channel](https://ww
 - [Configuration file explained](https://docs.vuestorefront.io/guide/basics/configuration.html)
 - [Vue Storefront Modules](https://docs.vuestorefront.io/guide/modules/introduction.html)
 - [Contribution and issue reporting guideness](https://docs.vuestorefront.io/guide/basics/contributing.html)
-- [FAQ / Receipes](https://docs.vuestorefront.io/guide/basics/recipes.html#problem-starting-docker-while-installing-the-vue-storefront)
+- [FAQ / Recipes](https://docs.vuestorefront.io/guide/basics/recipes.html#problem-starting-docker-while-installing-the-vue-storefront)
 - [Feature list](https://docs.vuestorefront.io/guide/basics/feature-list.html)
 - [TypeScript Action Plan](https://docs.vuestorefront.io/guide/basics/typescript.html)
 - [GraphQL Action Plan](https://docs.vuestorefront.io/guide/basics/graphql.html)
@@ -819,6 +819,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://divante.com/partners/Vue-Storefront/highdigital.png"
             alt="Highdigital"
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="https://kiwicommerce.co.uk/">
+          <img
+            src="https://divante.com/partners/Vue-Storefront/KiwiCommerce%20Logo.png"
+            alt="KiwiCommerce"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle"> 
+<a href="https://www.helloevery1.com/">
+          <img
+            src="https://divante.com/partners/Vue-Storefront/every1-logo.png"
+            alt="every1"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
             height="40"
           >
         </a>
