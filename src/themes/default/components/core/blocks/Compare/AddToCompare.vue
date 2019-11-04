@@ -1,6 +1,6 @@
 <template>
   <button
-    @click="isOnCompare ? removeFromCompare(product) : addToCompare(product)"
+    @click="isOnCompare ? removeProduct(product) : addProduct(product)"
     class="p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 pointer cl-secondary"
     type="button"
     data-testid="addToCompare"
@@ -41,7 +41,7 @@ export default {
         action1: { label: i18n.t('OK') }
       }, { root: true })
     },
-    removeProsuct (product) {
+    removeProduct (product) {
       this.removeFromCompare(product)
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',

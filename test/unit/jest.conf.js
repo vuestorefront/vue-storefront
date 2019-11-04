@@ -36,6 +36,6 @@ module.exports = {
     '<rootDir>/node_modules/(?!lodash-es/.*)'
   ],
   setupFiles: [
-    '<rootDir>/test/unit/setupTestEnvironment.js'
+    '<rootDir>/test/unit/setupTestEnvironment.ts'
   ]
 }
