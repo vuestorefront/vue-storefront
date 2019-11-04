@@ -531,7 +531,7 @@
     "websocket": {
       "enabled": true,
       "endpoint": "/clear-cache",
-      "message": "clear-cache",
+      "key": "clear-cache",
       "localStorage": {
         "enabled": true,
         "keys": ["elasticCache", "url", "attributes"]

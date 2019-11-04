@@ -3,31 +3,23 @@ module.exports = (app) => {
   const apiStatus = require('@vue-storefront/core/scripts/utils/api-status')
 
   if (config.clearCache && config.clearCache.enabled) {
-    require('express-ws')(app)
-    let wsClients = []
+    const expressWs = require('express-ws')(app)
 
     if (config.clearCache.websocket.enabled) {
       app.ws(config.clearCache.websocket.endpoint, (ws, req) => {
-        const index = wsClients.push(ws) - 1
-
         ws.on('message', msg => {
-          if (msg === config.clearCache.websocket.message) {
-            for (let client of wsClients) {
-              client.send(msg)
-            }
+          msg = msg.trim()
+          if (msg === config.clearCache.websocket.key) {
+            expressWs.getWss().clients.forEach(client => {
+              if (client.readyState === 1) {
+                client.send(msg)
+              }
+            })
           }
-        })
-
-        ws.on('open', () => {
-          console.log('Webscoket - connection established')
         })
 
         ws.on('error', err => {
           console.error('Websocket error - ', err)
-        })
-
-        ws.on('close', () => {
-          wsClients.splice(index, 1)
         })
       })
     }

@@ -27,7 +27,7 @@ You can also control how to clear the user's cache through configs, as well as w
   "websocket": {
     "enabled": true, // enabled/disabled websocket way
     "endpoint": "/clear-cache", // endpoint for websocket
-    "message": "clear-cache", // message that you need send for init proccess clear cache
+    "key": "clear-cache", // message that you need send for init proccess clear cache
     "localStorage": {
       "enabled": true, // enabled/disabled clear localstorage
       "keys": ["elasticCache", "url", "attributes"] // keys that you want to clear
