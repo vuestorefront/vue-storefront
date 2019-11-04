@@ -2,6 +2,11 @@ import { orderStore } from '../../../store';
 import * as types from '../../../store/mutation-types';
 import { Order } from '../../../types/Order'
 
+jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
+jest.mock('@vue-storefront/core/app', () => jest.fn())
+jest.mock('@vue-storefront/core/lib/multistore', () => jest.fn())
+jest.mock('@vue-storefront/core/lib/storage-manager', () => jest.fn())
+
 describe('Order mutations', () => {
     beforeEach(() => {
       jest.clearAllMocks();
@@ -9,6 +14,13 @@ describe('Order mutations', () => {
 
     describe('ORDER_LAST_ORDER_WITH_CONFIRMATION', () => {
         it('Add last order with confirmation', () => {
+
+
+            const stateMock = {
+              last_order_confirmation: 1,
+              session_order_hashes: 2
+            }
+
             const order: Order = {
                 order_id: 'orderId',
                 created_at: '10-29-2019',
@@ -1864,7 +1876,7 @@ describe('Order mutations', () => {
                 }
               };
 
-            const wrapper = (mutations: any) => mutations[types.ORDER_LAST_ORDER_WITH_CONFIRMATION](order, { order })
+            const wrapper = (mutations: any) => mutations[types.ORDER_LAST_ORDER_WITH_CONFIRMATION](stateMock, order)
 
             wrapper(orderStore.mutations)
 

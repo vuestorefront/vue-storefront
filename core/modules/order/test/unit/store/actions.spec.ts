@@ -1,23 +1,10 @@
 import * as types from '../../../store/mutation-types';
 import orderActions from '../../../store/actions';
-import recentlyViewedActions from '../../../store/actions';
-import { cacheStorage } from '@vue-storefront/core/modules/recently-viewed/index'
 
-jest.mock('@vue-storefront/core/lib/logger', () => ({
-    Logger: {
-      info: jest.fn(() => jest.fn())
-    }
-  }))
-  jest.mock('@vue-storefront/core/modules/recently-viewed/index', () => ({
-    cacheStorage: {
-      getItem: jest.fn()
-    }
-  }));
-  jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
-    StorageManager: {
-      get: jest.fn(() => cacheStorage)
-    }
-  }))
+jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
+jest.mock('@vue-storefront/core/app', () => jest.fn())
+jest.mock('@vue-storefront/core/lib/multistore', () => jest.fn())
+jest.mock('@vue-storefront/core/lib/storage-manager', () => jest.fn())
 
 let order;
 

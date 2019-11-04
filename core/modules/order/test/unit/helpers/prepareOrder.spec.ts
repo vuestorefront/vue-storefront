@@ -1,10 +1,11 @@
 import prepareOrder from '@vue-storefront/core/modules/order/helpers/prepareOrder'
-// import prepareOrder from '../../../helpers/prepareOrder'
 import { Order } from '@vue-storefront/core/modules/order/types/Order'
-// import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
-// jest.mock('@vue-storefront/core/modules/order/helpers/prepareOrder', () => jest.fn());
-// jest.mock('@vue-storefront/core/lib/multistore', () => jest.fn());
+jest.mock('@vue-storefront/core/lib/multistore', () => ({
+  currentStoreView: jest.fn(() => ({
+    storeCode: '2'
+  }))
+}));
 
 const order: Order = {
     order_id: 'orderId',
@@ -1866,7 +1867,6 @@ const order: Order = {
 
     const result = prepareOrder(order);
     expect(result).toEqual(expectedOrder);
-   //   expect(order).toEqual(expectedOrder);
     })
 
   });
