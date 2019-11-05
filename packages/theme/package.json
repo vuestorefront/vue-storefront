@@ -14,6 +14,7 @@
   "dependencies": {
     "@storefront-ui/vue": "^0.3.3",
     "@vue-storefront/composables": "0.1.0",
+    "@vue-storefront/api-client": "1.0.0",
     "@vue-storefront/nuxt": "^0.0.1",
     "nuxt": "^2.0.0"
   },

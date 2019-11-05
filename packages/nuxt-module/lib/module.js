@@ -39,8 +39,6 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   log.info(chalk.green('Starting Vue Storefront Nuxt Module'))
   this.addPlugin(path.resolve(__dirname, 'plugins/composition-api.js'))
   log.success('Installed Composition API plugin for Vue 2')
-  this.addPlugin(path.resolve(__dirname, 'plugins/api-client.js'))
-  log.success('Configured api-client')
 
   //----------------------s--------------
 
