@@ -1,10 +1,16 @@
 import * as types from '../../../store/mutation-types';
 import orderActions from '../../../store/actions';
+import { createContextMock } from '@vue-storefront/unit-tests/utils';
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/app', () => jest.fn())
 jest.mock('@vue-storefront/core/lib/multistore', () => jest.fn())
 jest.mock('@vue-storefront/core/lib/storage-manager', () => jest.fn())
+jest.mock('@vue-storefront/core/lib/multistore', () => ({
+  currentStoreView: jest.fn(() => ({
+    storeCode: '2'
+  }))
+}));
 
 let order;
 
@@ -941,18 +947,29 @@ describe('Order actions', () => {
       });
 
       describe('placeOrder', () => {
-        it('should NOT get current order hash if it is alrady processed', () => {
+        it('should NOT add session stamps if it is alrady processed', () => {
             const contextMock = {
                 commit: jest.fn(),
                 dispatch: jest.fn(),
                 getters: { getSessionOrderHashes: 'something' }
                 };
-            const wrapper = (actions: any) => actions.placeOrder(contextMock, order);
+            const wrapper = (actions: any) => actions.placeOrder(contextMock);
 
             wrapper(orderActions);
 
-            expect(contextMock.commit).not.toBeCalledWith(types.ORDER_ADD_SESSION_ORDER_HASH);
+            expect(contextMock.commit).not.toBeCalledWith(types.ORDER_ADD_SESSION_STAMPS);
         })
+
+        it('should add session stamps ', async () => {
+          const contextMock = createContextMock({
+            getters: { getSessionOrderHashes: 'something' }
+          });
+
+          await (orderActions as any).placeOrder(contextMock, order)
+
+          expect(contextMock.commit).toBeCalledWith(types.ORDER_ADD_SESSION_STAMPS, order);
+        })
+
       });
 
 });
