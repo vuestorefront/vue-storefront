@@ -5,8 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
-## [1.11.0-rc.2] - unreleased
+## [1.11.0-rc.2] - 2019.10.31
 
 ### Fixed
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
@@ -30,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed links to the promoted banners - @andrzejewsky (#3753)
 - Fixed missing parameter in the compare list - @andrzejewsky (#3757)
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
+- Fixed product link on mobile - @andrzejewsky (#3772)
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
