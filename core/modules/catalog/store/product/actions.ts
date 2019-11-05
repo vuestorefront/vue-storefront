@@ -307,7 +307,7 @@ const actions: ActionTree<ProductState, RootState> = {
           }
           if (configuration) {
             let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
-            Object.assign(product, omit(selectedVariant, ['visibility']))
+            product = Object.assign({}, product, omit(selectedVariant, ['visibility']))
           }
           if (product.url_path) {
             rootStore.dispatch('url/registerMapping', {
@@ -430,7 +430,7 @@ const actions: ActionTree<ProductState, RootState> = {
           // todo: probably a good idea is to change this [0] to specific id
           const selectedVariant = configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
           if (selectedVariant && assignDefaultVariant) {
-            prod = Object.assign(prod, selectedVariant)
+            prod = Object.assign({}, prod, selectedVariant)
           }
         } else if (!skipCache || (prod.type_id === 'simple' || prod.type_id === 'downloadable')) {
           if (setCurrentProduct) context.dispatch('setCurrent', prod)
