@@ -1,11 +1,11 @@
 
-interface ProductSearchParams {
+export interface ProductSearchParams {
   skus?: string[],
   locale?: string,
   catId?: number
 }
 
-interface ProductStock {
+export interface ProductStock {
   item_id: number,
   product_id: number,
   stock_id: number,
@@ -34,7 +34,7 @@ interface ProductStock {
   stock_status_changed_auto: number
 }
 
-interface ProductGalleryImage {
+export interface ProductGalleryImage {
   vid: string,
   image: string,
   pos: number,
@@ -42,7 +42,7 @@ interface ProductGalleryImage {
   lab: string
 }
 
-interface ProductConfigurableChildrenItem {
+export interface ProductConfigurableChildrenItem {
   image: string,
   thumbnail: string,
   color: string,
@@ -69,13 +69,13 @@ interface ProductConfigurableChildrenItem {
   status: number
 }
 
-interface ProductConfigurableOptionValue {
+export interface ProductConfigurableOptionValue {
   value_index: number,
   label: string
 }
 
-interface ProductConfigurableOptionItem {
-  attribute_id: string,
+export interface ProductConfigurableOptionItem {
+  attribute_id: number,
   values: ProductConfigurableOptionValue[],
   product_id: number,
   id: number,
@@ -84,14 +84,63 @@ interface ProductConfigurableOptionItem {
   attribute_code: string
 }
 
-interface ProductCategory {
+export interface ProductCategory {
   path: string,
   category_id: number,
   name: string,
   slug: string
 }
 
-interface ProductResponse {
+export interface BundleOptionProductLink {
+  can_change_quantity: number,
+  id: string | number,
+  is_default: boolean,
+  option_id: number,
+  position: number,
+  price: number,
+  price_type: string,
+  product: ProductResponse,
+  qty: number,
+  sku: string,
+}
+
+export interface BundleOptionItem {
+  option_id: number,
+  position: number
+  product_links: BundleOptionProductLink[],
+  required: boolean,
+  sku: string,
+  title: string,
+  type: string,
+}
+
+export interface ConfigurableItemOptions {
+  option_id: number | string,
+  option_value: string,
+}
+
+export interface BundleItemOptions {
+  option_id: number | string,
+  option_qty: number,
+  option_selections: number[]
+}
+
+export interface CustomItemOption {
+  option_id: number | string,
+  option_value: number | string
+}
+
+export interface ProductSelectedOptions {
+  product_options: {
+    extension_attributes: {
+      custom_options?: CustomItemOption[],
+      configurable_item_options?: ConfigurableItemOptions[]
+      bundle_options?: BundleItemOptions[]
+    }
+  }
+}
+
+export interface ProductResponse {
   id: number,
   sku: string,
   name: string,
@@ -131,12 +180,10 @@ interface ProductResponse {
   media_gallery: ProductGalleryImage[],
   configurable_children?: ProductConfigurableChildrenItem[],
   configurable_options?: ProductConfigurableOptionItem[],
+  bundle_options?: BundleOptionItem[],
   color_options: number[],
   size_options: number[],
   category: ProductCategory[],
   url_path: string,
   tsk: number
 }
-
-
-export { ProductSearchParams, ProductResponse }

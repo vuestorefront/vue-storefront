@@ -11,6 +11,7 @@
     "declarationDir": "./dist",
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "strictNullChecks": false,
     "baseUrl": ".",
     "types": [
       "webpack-env",
@@ -33,7 +34,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx", "raw.ts"
+    "tests/**/*.tsx",
+    "raw.ts"
   ],
   "exclude": [
     "node_modules"
