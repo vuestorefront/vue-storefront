@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.10.5] - unreleased
 
 ### Fixed
-- disable product mutation when assigning product variant - @gibkigonzo (#3735)
-- fix issue with Cannot assign to read only property 'storeCode' - @yuriboyko (#3748)
+- Disable product mutation when assigning product variant - @gibkigonzo (#3735)
+- Fix issue with Cannot assign to read only property 'storeCode' - @yuriboyko (#3748)
+- Render correct category links when multistore is active - @gibkigonzo (#3753)
+- Disable product mutation when assigning product variant - @gibkigonzo (#3735)
 
 ## [1.10.4] - 18.10.2019
 
