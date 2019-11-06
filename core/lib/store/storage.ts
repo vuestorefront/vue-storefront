@@ -1,6 +1,7 @@
 import * as localForage from 'localforage'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
+import cloneDeep from 'lodash-es/cloneDeep'
 
 const CACHE_TIMEOUT = 800
 const CACHE_TIMEOUT_ITERATE = 2000
@@ -93,6 +94,7 @@ class LocalForageCacheDriver {
         _globalCache[dbName][collectionName] = {}
       }
       this._localCache = _globalCache[dbName][collectionName]
+      console.log(_globalCache)
     }
     this._collectionName = collectionName
     this._dbName = dbName
@@ -291,7 +293,8 @@ class LocalForageCacheDriver {
   // saved, or something like that.
   public setItem (key, value, callback?, memoryOnly = false) {
     const isCallbackCallable = (typeof callback !== 'undefined' && callback)
-    this._localCache[key] = value
+    const copiedValue = cloneDeep(value)
+    this._localCache[key] = copiedValue
     if (memoryOnly) {
       return new Promise((resolve, reject) => {
         if (isCallbackCallable) callback(null, null)
@@ -310,7 +313,7 @@ class LocalForageCacheDriver {
         })
       } else {
         let isResolved = false
-        const promise = this._localForageCollection.ready().then(() => this._localForageCollection.setItem(key, value).then(result => {
+        const promise = this._localForageCollection.ready().then(() => this._localForageCollection.setItem(key, copiedValue).then(result => {
           if (isCallbackCallable) {
             callback(null, result)
           }
