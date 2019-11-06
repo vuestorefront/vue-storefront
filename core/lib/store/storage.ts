@@ -35,6 +35,12 @@ function roughSizeOfObject (object) {
   return bytes
 }
 
+interface CacheTimeouts {
+  getItem: number,
+  iterate: number,
+  setItem: number
+}
+
 class LocalForageCacheDriver {
   private _collectionName: string;
   private _dbName: string;
@@ -45,6 +51,11 @@ class LocalForageCacheDriver {
   private _useLocalCacheByDefault: boolean;
   private cacheErrorsCount: any;
   private _storageQuota: number;
+  private _cacheTimeouts: CacheTimeouts = {
+    getItem: null,
+    iterate: null,
+    setItem: null
+  }
 
   public constructor (collection, useLocalCacheByDefault = true, storageQuota = 0) {
     const collectionName = collection._config.storeName
@@ -188,8 +199,8 @@ class LocalForageCacheDriver {
           Logger.error(err)()
           isResolved = true
         }))
-
-        setTimeout(() => {
+        clearTimeout(this._cacheTimeouts.getItem)
+        this._cacheTimeouts.getItem = setTimeout(() => {
           if (!isResolved) { // this is cache time out check
             if (!this._persistenceErrorNotified) {
               Logger.error('Cache not responding for ' + key + '.', 'cache', { timeout: CACHE_TIMEOUT, errorsCount: this.cacheErrorsCount[this._collectionName] })()
@@ -251,7 +262,8 @@ class LocalForageCacheDriver {
         if (isCallbackCallable) callback(err, null)
       }
     })
-    setTimeout(() => {
+    clearTimeout(this._cacheTimeouts.iterate)
+    this._cacheTimeouts.iterate = setTimeout(() => {
       if (!isResolved) { // this is cache time out check
         if (!this._persistenceErrorNotified) {
           Logger.error('Cache not responding. (iterate)', 'cache', { timeout: CACHE_TIMEOUT, errorsCount: this.cacheErrorsCount[this._collectionName] })()
@@ -323,7 +335,8 @@ class LocalForageCacheDriver {
           this._lastError = err
           throw err
         }))
-        setTimeout(() => {
+        clearTimeout(this._cacheTimeouts.iterate)
+        this._cacheTimeouts.setItem = setTimeout(() => {
           if (!isResolved) { // this is cache time out check
             if (!this._persistenceErrorNotified) {
               Logger.error('Cache not responding for ' + key + '.', 'cache', { timeout: CACHE_TIMEOUT, errorsCount: this.cacheErrorsCount[this._collectionName] })()
