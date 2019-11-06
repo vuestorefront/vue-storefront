@@ -1,18 +1,21 @@
 import * as types from '../../../store/mutation-types';
 import orderActions from '../../../store/actions';
 import { createContextMock } from '@vue-storefront/unit-tests/utils';
+import { optimizeOrder} from '../../../helpers';
+import { sha3_224 } from 'js-sha3'
+import { Order } from '../../../types/Order';
+import { isTerminating } from 'apollo-link/lib/linkUtils';
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/app', () => jest.fn())
-jest.mock('@vue-storefront/core/lib/multistore', () => jest.fn())
-jest.mock('@vue-storefront/core/lib/storage-manager', () => jest.fn())
 jest.mock('@vue-storefront/core/lib/multistore', () => ({
   currentStoreView: jest.fn(() => ({
-    storeCode: '2'
+    storeCode: '2',
+    localizedRoute: jest.fn()
   }))
 }));
 
-let order;
+let order : Order;
 
 describe('Order actions', () => {
     beforeEach(() => {
@@ -946,7 +949,7 @@ describe('Order actions', () => {
           };
       });
 
-      describe('placeOrder', () => {
+      describe('placeOrder action', () => {
         it('should NOT add session stamps if it is alrady processed', () => {
             const contextMock = {
                 commit: jest.fn(),
@@ -962,6 +965,8 @@ describe('Order actions', () => {
 
         it('should add session stamps ', async () => {
           const contextMock = createContextMock({
+            commit: jest.fn(),
+            dispatch: jest.fn(),
             getters: { getSessionOrderHashes: 'something' }
           });
 
@@ -970,6 +975,41 @@ describe('Order actions', () => {
           expect(contextMock.commit).toBeCalledWith(types.ORDER_ADD_SESSION_STAMPS, order);
         })
 
+        it('should dispatch processOrder', async () => {
+          const optimizedOrder = optimizeOrder(order)
+          const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
+
+          const contextMock = createContextMock({
+            commit: jest.fn(),
+            dispatch: jest.fn(),
+            getters: { getSessionOrderHashes: 'current-order-hash' }
+          });
+
+          await (orderActions as any).placeOrder(contextMock, order)
+
+          expect(contextMock.commit).toBeCalledWith(types.ORDER_ADD_SESSION_STAMPS, order);
+          expect(contextMock.dispatch).toBeCalledWith('processOrder', { newOrder: optimizedOrder, currentOrderHash })
+        })
+
       });
+
+      /*
+      describe('processOrder action', () => {
+        it('should add last order confirmation', async () => {
+          const optimizedOrder = optimizeOrder(order)
+          const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
+          const task =  { result: true }
+          const contextMock = createContextMock({
+            commit: jest.fn(),
+            dispatch: jest.fn(),
+            getters: { getSessionOrderHashes: 'current-order-hash' }
+          });
+
+          await (orderActions as any).processOrder(contextMock, { order, currentOrderHash })
+
+          expect(contextMock.commit).toBeCalledWith(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { newOrder: order, confirmation:task.result });
+        })
+      })
+      */
 
 });
