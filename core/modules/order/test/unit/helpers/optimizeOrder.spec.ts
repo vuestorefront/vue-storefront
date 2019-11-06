@@ -986,7 +986,7 @@ describe('optimizeOrder method', () => {
         payment_method_additional: 'four'
       }
     };
-    const result = optimizeOrder(order);
-    expect(result).toEqual(expectedOrder);
+    const result = optimizeOrder(order)
+    expect(result).toEqual(expectedOrder)
   })
 });
