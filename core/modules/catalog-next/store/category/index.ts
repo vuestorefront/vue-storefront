@@ -18,3 +18,7 @@ export const categoryModule: Module<CategoryState, RootState> = {
   actions,
   mutations
 }
+
+export const nonReactiveState = {
+  products: []
+}

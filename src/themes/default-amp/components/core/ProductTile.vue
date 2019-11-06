@@ -52,7 +52,6 @@
 import rootStore from '@vue-storefront/core/store'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
 import config from 'config'
-import cloneDeep from 'lodash-es/cloneDeep'
 
 export default {
   mixins: [ProductTile],
@@ -73,12 +72,11 @@ export default {
       }
     },
     visibilityChanged (isVisible, entry) {
-      const product = cloneDeep(this.product)
       if (isVisible) {
         if (config.products.configurableChildrenStockPrefetchDynamic && config.products.filterUnavailableVariants) {
-          const skus = [product.sku]
-          if (product.type_id === 'configurable' && product.configurable_children && product.configurable_children.length > 0) {
-            for (const confChild of product.configurable_children) {
+          const skus = [this.product.sku]
+          if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
+            for (const confChild of this.product.configurable_children) {
               const cachedItem = rootStore.state.stock.cache[confChild.id]
               if (typeof cachedItem === 'undefined' || cachedItem === null) {
                 skus.push(confChild.sku)

@@ -69,7 +69,6 @@ import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
 import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
 import { IsOnCompare } from '@vue-storefront/core/modules/compare/components/IsOnCompare'
-import cloneDeep from 'lodash-es/cloneDeep'
 
 export default {
   mixins: [ProductTile, IsOnWishlist, IsOnCompare],
@@ -106,17 +105,16 @@ export default {
       }
     },
     visibilityChanged (isVisible, entry) {
-      const product = cloneDeep(this.product)
       if (
         isVisible &&
         config.products.configurableChildrenStockPrefetchDynamic &&
         config.products.filterUnavailableVariants &&
-        product.type_id === 'configurable' &&
-        product.configurable_children &&
-        product.configurable_children.length > 0
+        this.product.type_id === 'configurable' &&
+        this.product.configurable_children &&
+        this.product.configurable_children.length > 0
       ) {
-        const skus = [product.sku]
-        for (const confChild of product.configurable_children) {
+        const skus = [this.product.sku]
+        for (const confChild of this.product.configurable_children) {
           const cachedItem = rootStore.state.stock.cache[confChild.id]
           if (typeof cachedItem === 'undefined' || cachedItem === null) {
             skus.push(confChild.sku)
