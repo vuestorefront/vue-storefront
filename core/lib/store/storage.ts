@@ -36,9 +36,10 @@ function roughSizeOfObject (object) {
 }
 
 interface CacheTimeouts {
-  getItem: number,
-  iterate: number,
-  setItem: number
+  getItem: any,
+  iterate: any,
+  setItem: any,
+  base: any
 }
 
 class LocalForageCacheDriver {
@@ -54,7 +55,8 @@ class LocalForageCacheDriver {
   private _cacheTimeouts: CacheTimeouts = {
     getItem: null,
     iterate: null,
-    setItem: null
+    setItem: null,
+    base: null
   }
 
   public constructor (collection, useLocalCacheByDefault = true, storageQuota = 0) {
@@ -66,7 +68,8 @@ class LocalForageCacheDriver {
       const storageQuota = this._storageQuota
       const iterateFnc = this.iterate.bind(this)
       const removeItemFnc = this.removeItem.bind(this)
-      setInterval(() => {
+      clearInterval(this._cacheTimeouts.base)
+      this._cacheTimeouts.base = setInterval(() => {
         let storageSize = 0
         this.iterate((item, id, number) => {
           storageSize += roughSizeOfObject(item)
@@ -105,7 +108,6 @@ class LocalForageCacheDriver {
         _globalCache[dbName][collectionName] = {}
       }
       this._localCache = _globalCache[dbName][collectionName]
-      console.log(_globalCache)
     }
     this._collectionName = collectionName
     this._dbName = dbName
@@ -146,6 +148,10 @@ class LocalForageCacheDriver {
     return this._dbName
   }
 
+  public getLocalCache (key) {
+    return typeof this._localCache[key] !== 'undefined' ? cloneDeep(this._localCache[key]) : null
+  }
+
   // Retrieve an item from the store. Unlike the original async_storage
   // library in Gaia, we don't modify return values at all. If a key's value
   // is `undefined`, we pass that value to the callback function.
@@ -155,7 +161,7 @@ class LocalForageCacheDriver {
     if (this._useLocalCacheByDefault && this._localCache[key]) {
       // Logger.debug('Local cache fallback for GET', key)()
       return new Promise((resolve, reject) => {
-        const value = typeof this._localCache[key] !== 'undefined' ? this._localCache[key] : null
+        const value = this.getLocalCache(key)
         if (isCallbackCallable) callback(null, value)
         resolve(value)
       })
@@ -176,25 +182,27 @@ class LocalForageCacheDriver {
         // Logger.debug('No local cache fallback for GET', key)()
         const promise = this._localForageCollection.ready().then(() => this._localForageCollection.getItem(key).then(result => {
           const endTime = new Date().getTime()
+          const clonedResult = cloneDeep(result)
           if ((endTime - startTime) >= CACHE_TIMEOUT) {
             Logger.error('Cache promise resolved after [ms]' + key + (endTime - startTime))()
           }
-          if (!this._localCache[key] && result) {
-            this._localCache[key] = result // populate the local cache for the next call
+          if (!this._localCache[key] && clonedResult) {
+            this._localCache[key] = clonedResult // populate the local cache for the next call
           }
           if (!isResolved) {
             if (isCallbackCallable) {
-              callback(null, result)
+              callback(null, clonedResult)
             }
             isResolved = true
           } else {
             Logger.debug('Skipping return value as it was previously resolved')()
           }
-          return result
+          return clonedResult
         }).catch(err => {
           this._lastError = err
           if (!isResolved) {
-            if (isCallbackCallable) callback(null, typeof this._localCache[key] !== 'undefined' ? this._localCache[key] : null)
+            const value = this.getLocalCache(key)
+            if (isCallbackCallable) callback(null, value)
           }
           Logger.error(err)()
           isResolved = true
@@ -208,14 +216,15 @@ class LocalForageCacheDriver {
               this.recreateDb()
             }
             this.cacheErrorsCount[this._collectionName] = this.cacheErrorsCount[this._collectionName] ? this.cacheErrorsCount[this._collectionName] + 1 : 1
-            if (isCallbackCallable) callback(null, typeof this._localCache[key] !== 'undefined' ? this._localCache[key] : null)
+            const value = this.getLocalCache(key)
+            if (isCallbackCallable) callback(null, value)
           }
         }, CACHE_TIMEOUT)
         return promise
       }
     } else {
       return new Promise((resolve, reject) => {
-        const value = typeof this._localCache[key] !== 'undefined' ? this._localCache[key] : null
+        const value = this.getLocalCache(key)
         if (isCallbackCallable) callback(null, value)
         resolve(value)
       })

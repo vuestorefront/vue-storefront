@@ -3,10 +3,13 @@ import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import CategoryState from './CategoryState'
 import { Category } from '../../types/Category'
+import { nonReactiveState } from './index'
+import cloneDeep from 'lodash-es/cloneDeep'
 
 const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_SET_PRODUCTS] (state, products = []) {
-    state.products = products
+    nonReactiveState.products = cloneDeep(products)
+    state.products = products.map((product) => ({ ...product, configurable_children: product.configurable_children.map(child => child.sku) }))
   },
   [types.CATEGORY_ADD_PRODUCTS] (state, products = []) {
     state.products.push(...products)
