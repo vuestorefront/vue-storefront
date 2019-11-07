@@ -1,10 +1,12 @@
 import * as types from '../../../store/mutation-types';
 import orderActions from '../../../store/actions';
 import { createContextMock } from '@vue-storefront/unit-tests/utils';
-import { optimizeOrder} from '../../../helpers';
+import { prepareOrder, optimizeOrder, notifications } from '../../../helpers';
 import { sha3_224 } from 'js-sha3'
 import { Order } from '../../../types/Order';
-import { isTerminating } from 'apollo-link/lib/linkUtils';
+import { orderHooksExecutors } from '../../../hooks'
+import config from 'config';
+import itemActions from '../../../../cart/store/actions/itemActions';
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/app', () => jest.fn())
@@ -975,41 +977,89 @@ describe('Order actions', () => {
           expect(contextMock.commit).toBeCalledWith(types.ORDER_ADD_SESSION_STAMPS, order);
         })
 
+        it('should dispatch enqueueOrder', async() => {
+          const contextMock = createContextMock({
+            commit: jest.fn(),
+            dispatch: jest.fn(),
+            getters: { getSessionOrderHashes: 'something' }
+          });
+          const optimizedOrder = optimizeOrder(order)
+          const preparedOrder = prepareOrder(optimizedOrder)
+          const newOrder = orderHooksExecutors.beforePlaceOrder(preparedOrder)
+
+          config.orders = {
+            directBackendSync: false
+          }
+
+          await (orderActions as any).placeOrder(contextMock, order)
+
+          expect(contextMock.dispatch).toBeCalledWith('enqueueOrder', {newOrder: newOrder})
+        })
+
         it('should dispatch processOrder', async () => {
           const optimizedOrder = optimizeOrder(order)
           const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
+          const preparedOrder = prepareOrder(optimizedOrder)
+          const newOrder = orderHooksExecutors.beforePlaceOrder(preparedOrder)
 
           const contextMock = createContextMock({
             commit: jest.fn(),
             dispatch: jest.fn(),
             getters: { getSessionOrderHashes: 'current-order-hash' }
           });
+          config.orders = {
+            directBackendSync: true
+          }
 
           await (orderActions as any).placeOrder(contextMock, order)
 
           expect(contextMock.commit).toBeCalledWith(types.ORDER_ADD_SESSION_STAMPS, order);
-          expect(contextMock.dispatch).toBeCalledWith('processOrder', { newOrder: optimizedOrder, currentOrderHash })
+          expect(contextMock.dispatch).toBeCalledWith('processOrder', { newOrder: newOrder, currentOrderHash })
         })
 
       });
 
       /*
-      describe('processOrder action', () => {
-        it('should add last order confirmation', async () => {
+       describe('processOrder action', () => {
+        it('should add last order confirmation', async  () => {
           const optimizedOrder = optimizeOrder(order)
           const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
-          const task =  { result: true }
           const contextMock = createContextMock({
             commit: jest.fn(),
             dispatch: jest.fn(),
             getters: { getSessionOrderHashes: 'current-order-hash' }
           });
 
-          await (orderActions as any).processOrder(contextMock, { order, currentOrderHash })
+         // try {
+            await (orderActions as any).processOrder(contextMock, { order, currentOrderHash })
+         // } catch (e) {
+         //   expect(e).toMatch('Error with response - bad content-type!');
+         //   expect(contextMock.commit).toBeCalledWith(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash);
+         // }
+          /*
+         const wrapper = (actions: any) => actions.processOrder(contextMock, { order, currentOrderHash });
 
-          expect(contextMock.commit).toBeCalledWith(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { newOrder: order, confirmation:task.result });
+          wrapper(orderActions);
+          */
+      /*
+          expect(contextMock.commit).toBeCalledWith(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: true });
+        })
+      });
+      */
+
+      describe('handlePlacingOrderFailed action', () => {
+        it('should dispatch notification/spawnNotification action', () => {
+          const contextMock = createContextMock();
+          const optimizedOrder = optimizeOrder(order)
+          const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
+          const preparedOrder = prepareOrder(optimizedOrder)
+          const newOrder = orderHooksExecutors.beforePlaceOrder(preparedOrder)
+          const wrapper = (orderActions: any) => orderActions.handlePlacingOrderFailed(contextMock, { newOrder, currentOrderHash });
+
+          wrapper(orderActions);
+
+          expect(contextMock.dispatch).toBeCalledWith('notification/spawnNotification', notifications.orderCannotTransfered, { root: true })
         })
       })
-      */
 
 });
