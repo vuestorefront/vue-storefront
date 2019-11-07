@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add unit test for `core/modules/checkout` - @psmyrek (#3460)
 
+### Fixed
+- Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
+- Fixed null value of search input - @AdKamil (#3778)
+
+
 ## [1.11.0-rc.2] - 2019.10.31
 
 ### Added
@@ -35,7 +40,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed instant checkout functionality - @andrzejewsky (#3765)
 - Fixed links to the promoted banners - @andrzejewsky (#3753)
 - Fixed missing parameter in the compare list - @andrzejewsky (#3757)
-- Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
 - Fixed product link on mobile - @andrzejewsky (#3772)
 
 ### Added
