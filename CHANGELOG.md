@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed instant checkout functionality - @andrzejewsky (#3765)
 - Fixed links to the promoted banners - @andrzejewsky (#3753)
 - Fixed missing parameter in the compare list - @andrzejewsky (#3757)
+- Fixed product sorting - @AdKamil (#3785)
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
