@@ -1,8 +1,6 @@
 import { orderStore } from '../../../store';
 import * as types from '../../../store/mutation-types';
 import { Order } from '../../../types/Order'
-import itemActions from '../../../../cart/store/actions/itemActions';
-import mutations from '../../../../../store/mutations';
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/app', () => jest.fn())

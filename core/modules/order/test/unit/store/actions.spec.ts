@@ -4,9 +4,9 @@ import { createContextMock } from '@vue-storefront/unit-tests/utils';
 import { prepareOrder, optimizeOrder, notifications } from '../../../helpers';
 import { sha3_224 } from 'js-sha3'
 import { Order } from '../../../types/Order';
+import { OrderService } from '@vue-storefront/core/data-resolver'
 import { orderHooksExecutors } from '../../../hooks'
 import config from 'config';
-import itemActions from '../../../../cart/store/actions/itemActions';
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
 jest.mock('@vue-storefront/core/app', () => jest.fn())
@@ -16,6 +16,9 @@ jest.mock('@vue-storefront/core/lib/multistore', () => ({
     localizedRoute: jest.fn()
   }))
 }));
+jest.mock('@vue-storefront/core/data-resolver', () => ({ OrderService: {
+  placeOrder: jest.fn()
+}}));
 
 let order : Order;
 
@@ -952,36 +955,29 @@ describe('Order actions', () => {
       });
 
       describe('placeOrder action', () => {
-        it('should NOT add session stamps if it is alrady processed', () => {
-            const contextMock = {
-                commit: jest.fn(),
-                dispatch: jest.fn(),
-                getters: { getSessionOrderHashes: 'something' }
-                };
-            const wrapper = (actions: any) => actions.placeOrder(contextMock);
-
-            wrapper(orderActions);
-
-            expect(contextMock.commit).not.toBeCalledWith(types.ORDER_ADD_SESSION_STAMPS);
-        })
-
-        it('should add session stamps ', async () => {
-          const contextMock = createContextMock({
+        it('should NOT add session stamps if it is alrady processed', async () => {
+          (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
+            ({ resultCode: 200, result: 'server-order-token' })
+          );
+          const contextMock = {
             commit: jest.fn(),
             dispatch: jest.fn(),
-            getters: { getSessionOrderHashes: 'something' }
-          });
+            getters: { getSessionOrderHashes: 'current-order-hash' }
+            };
 
-          await (orderActions as any).placeOrder(contextMock, order)
+          await (orderActions as any).placeOrder(contextMock, order);
 
-          expect(contextMock.commit).toBeCalledWith(types.ORDER_ADD_SESSION_STAMPS, order);
+          expect(contextMock.commit).not.toBeCalledWith(types.ORDER_ADD_SESSION_STAMPS);
         })
 
         it('should dispatch enqueueOrder', async() => {
+          (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
+            ({ resultCode: 200, result: 'server-order-token' })
+          );
           const contextMock = createContextMock({
             commit: jest.fn(),
             dispatch: jest.fn(),
-            getters: { getSessionOrderHashes: 'something' }
+            getters: { getSessionOrderHashes: 'current-order-hash' }
           });
           const optimizedOrder = optimizeOrder(order)
           const preparedOrder = prepareOrder(optimizedOrder)
@@ -997,6 +993,9 @@ describe('Order actions', () => {
         })
 
         it('should dispatch processOrder', async () => {
+          (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
+            ({ resultCode: 200, result: 'server-order-token' })
+          );
           const optimizedOrder = optimizeOrder(order)
           const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
           const preparedOrder = prepareOrder(optimizedOrder)
@@ -1019,9 +1018,12 @@ describe('Order actions', () => {
 
       });
 
-      /*
+/*
        describe('processOrder action', () => {
         it('should add last order confirmation', async  () => {
+          (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
+            ({ resultCode: 200, result: 'server-order-token' })
+          );
           const optimizedOrder = optimizeOrder(order)
           const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
           const contextMock = createContextMock({
@@ -1041,11 +1043,11 @@ describe('Order actions', () => {
 
           wrapper(orderActions);
           */
-      /*
-          expect(contextMock.commit).toBeCalledWith(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: true });
+/*
+          expect(contextMock.commit).toBeCalledWith(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: 'server-order-token' });
         })
       });
-      */
+ */
 
       describe('handlePlacingOrderFailed action', () => {
         it('should dispatch notification/spawnNotification action', () => {
