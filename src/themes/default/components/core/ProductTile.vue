@@ -202,22 +202,29 @@ $color-white: color(white);
   &__thumb {
     padding-bottom: calc(143.88% / (164.5 / 100));
     @media screen and (min-width: 768px) {
-      padding-bottom: calc(300% / (276.5 / 100));
+      padding-bottom: calc(250% / (276.5 / 100));
+    }
+    @media screen and (min-width: 1024px) {
+      padding-bottom: calc(200% / (276.5 / 100));
     }
     opacity: 0.8;
     will-change: opacity, transform;
     transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
   }
-  &:hover {
-    .product-cover__thumb {
-      opacity: 1;
-      transform: scale(1.1);
-    }
-    &.sale::after,
-    &.new::after {
-      opacity: 0.8;
+
+  @media screen and (min-width: 768px) {
+    &:hover {
+      .product-cover__thumb {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      &.sale::after,
+      &.new::after {
+        opacity: 0.8;
+      }
     }
   }
+
   &.sale {
     &::after {
       @extend %label;
