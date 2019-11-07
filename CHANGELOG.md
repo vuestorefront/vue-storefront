@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix issue with Cannot assign to read only property 'storeCode' - @yuriboyko (#3748)
 - Render correct category links when multistore is active - @gibkigonzo (#3753)
 - Disable product mutation when assigning product variant - @gibkigonzo (#3735)
+- Fixed null value of search input - @AdKamil (#3778)
+- Sorting fixed on category page - @AdKamil (#3785)
 
 ## [1.10.4] - 18.10.2019
 
@@ -35,7 +37,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `localizedRoute()` now supports path (and prefers over fullPath) in LocalizedRoute objects - @lukeromanowicz (#3515)
 - Decreased the `localStorage` quota usage + error handling by introducing new config variables: `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`); `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway); `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW) - @pkarw (#2985)
 - Fixed evaluate detailsLink in the cookie notification - @benjick (#3689)
-- Fixed null value of search input - @AdKamil (#3778)
 
 ## Added
 - Added german translations - @schwerdt-ke (3076)
