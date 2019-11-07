@@ -465,7 +465,7 @@ class Storefront extends Abstract {
             backendPath = STOREFRONT_REMOTE_BACKEND_URL
             graphQlHost = backendPath.replace('https://', '').replace('http://', '')
           }
-  
+
           config.api.url_ssr = backendPath
           config.graphql.host_ssr = graphQlHost
           config.graphql.port_ssr = graphQlPort
@@ -493,14 +493,14 @@ class Storefront extends Abstract {
           config.cart.deletecoupon_endpoint_ssr = `${backendPath}/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}`
           config.cart.applycoupon_endpoint_ssr = `${backendPath}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}`
           config.reviews.create_endpoint_ssr = `${backendPath}/api/review/create?token={{token}}`
-  
+
           // Probably pointless (only CS)
           // config.newsletter.endpoint_ssr = `${backendPath}/api/ext/mailchimp-subscribe/subscribe`
           config.mailer.endpoint.send_ssr = `${backendPath}/api/ext/mail-service/send-email`
           config.mailer.endpoint.token_ssr = `${backendPath}/api/ext/mail-service/get-token`
           // Probably pointless (only CS)
           // config.images.baseUrl_ssr = this.answers.images_endpoint
-          config.cms.endpoint_ssr= `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`
+          config.cms.endpoint_ssr = `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`
           config.cms.endpointIdentifier_ssr = `${backendPath}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}`
         }
 
