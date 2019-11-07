@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed product link on mobile - @andrzejewsky (#3772)
 
 ### Added
+- Added Estonian translations - @alphpkeemik
 - Added support for ES7 - @andrzejewsky (#3690)
 - Added unit tests for `core/modules/mailer` - @krskibin (#3710)
 - Get payment methods with billing address data - @rain2o (#2878)
