@@ -466,6 +466,8 @@ class Storefront extends Abstract {
             graphQlHost = backendPath.replace('https://', '').replace('http://', '')
           }
 
+          // Do we really need protocol_ssr in a different place than GraphQL?
+          config.server.protocol_ssr = 'http'
           config.api.url_ssr = backendPath
           config.graphql.host_ssr = graphQlHost
           config.graphql.port_ssr = graphQlPort

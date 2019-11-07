@@ -253,3 +253,5 @@ export function extendStore (moduleName: string | string[], module: any) {
   store.unregisterModule(moduleName)
   store.registerModule(moduleName, extendedModule)
 }
+
+export const SideRequest = localSideRequest

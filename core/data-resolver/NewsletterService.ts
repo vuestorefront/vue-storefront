@@ -2,10 +2,11 @@ import config from 'config';
 import { DataResolver } from './types/DataResolver';
 import { processURLAddress } from '@vue-storefront/core/helpers';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import { SideRequest } from '@vue-storefront/core/helpers/index';
 
 const isSubscribed = (email: string): Promise<boolean> =>
   TaskQueue.execute({
-    url: processURLAddress(config.newsletter.endpoint) + '?email=' + encodeURIComponent(email),
+    url: processURLAddress(SideRequest(config.newsletter, 'endpoint')) + '?email=' + encodeURIComponent(email),
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -16,7 +17,7 @@ const isSubscribed = (email: string): Promise<boolean> =>
 
 const subscribe = (email: string): Promise<boolean> =>
   TaskQueue.execute({
-    url: processURLAddress(config.newsletter.endpoint),
+    url: processURLAddress(SideRequest(config.newsletter, 'endpoint')),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -27,7 +28,7 @@ const subscribe = (email: string): Promise<boolean> =>
 
 const unsubscribe = (email: string): Promise<boolean> =>
   TaskQueue.execute({
-    url: processURLAddress(config.newsletter.endpoint),
+    url: processURLAddress(SideRequest(config.newsletter, 'endpoint')),
     payload: {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },

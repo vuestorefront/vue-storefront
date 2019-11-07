@@ -3,10 +3,11 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
 import config from 'config'
 import Review from 'core/modules/review/types/Review';
+import { SideRequest } from '@vue-storefront/core/helpers/index';
 
 const createReview = (review: Review): Promise<boolean> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.reviews.create_endpoint),
+    url: processLocalizedURLAddress(SideRequest(config.reviews, 'create_endpoint')),
     payload: {
       method: 'POST',
       mode: 'cors',

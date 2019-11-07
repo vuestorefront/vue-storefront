@@ -73,6 +73,7 @@ export class SearchAdapter {
     }
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + queryString.stringify(httpQuery)
+    
     return fetch(url, { method: config.elasticsearch.queryMethod,
       mode: 'cors',
       headers: {
@@ -111,13 +112,16 @@ export class SearchAdapter {
     }
   }
 
-  public registerEntityType (entityType, { url = '', queryProcessor, resultPorcessor }) {
+  public registerEntityType (entityType, { url = '', url_ssr = '', queryProcessor, resultPorcessor }) {
     this.entities[entityType] = {
       queryProcessor: queryProcessor,
       resultPorcessor: resultPorcessor
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
+    }
+    if (url_ssr !== '') {
+      this.entities[entityType]['url_ssr'] = url_ssr
     }
     return this
   }
