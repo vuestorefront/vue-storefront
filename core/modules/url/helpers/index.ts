@@ -59,8 +59,17 @@ export function normalizeUrlPath (url: string): string {
   return url
 }
 
-export function formatCategoryLink (category: { url_path: string, slug: string }): string {
-  return config.seo.useUrlDispatcher ? ('/' + category.url_path) : ('/c/' + category.slug)
+export function formatCategoryLink (category: { url_path: string, slug: string }, storeCode: string = currentStoreView().storeCode): string {
+  storeCode ? storeCode += '/' : storeCode = '';
+
+  if (currentStoreView().appendStoreCode === false) {
+    storeCode = ''
+  }
+
+  if (category) {
+    return config.seo.useUrlDispatcher ? ('/' + storeCode + category.url_path) : ('/' + storeCode + 'c/' + category.slug)
+  }
+  return '/' + storeCode;
 }
 
 export function formatProductLink (

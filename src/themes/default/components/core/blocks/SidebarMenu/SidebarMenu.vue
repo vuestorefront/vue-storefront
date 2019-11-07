@@ -52,7 +52,7 @@
               <router-link
                 v-else
                 class="px25 py20 cl-accent no-underline col-xs"
-                :to="localizedRoute({ name: 'category', fullPath: category.url_path, params: { id: category.id, slug: category.slug }})"
+                :to="categoryLink(category)"
               >
                 {{ category.name }}
               </router-link>
@@ -140,6 +140,7 @@ import i18n from '@vue-storefront/i18n'
 import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu'
 import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
 import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
 export default {
   components: {
@@ -218,6 +219,9 @@ export default {
           this.$router.push({ name: 'my-account' })
         })
       }
+    },
+    categoryLink (category) {
+      return formatCategoryLink(category)
     }
   }
 }
