@@ -102,6 +102,14 @@ class LocalForageCacheDriver {
     this._persistenceErrorNotified = false
   }
 
+  public getLastError () {
+    return this._lastError
+  }
+
+  public getDbName () {
+    return this._dbName
+  }
+
   // Remove all keys from the datastore, effectively destroying all data in
   // the app's key/value store!
   public clear (callback?) {

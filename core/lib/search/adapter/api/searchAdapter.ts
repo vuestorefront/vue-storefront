@@ -8,6 +8,7 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
+import { SideRequest } from '@vue-storefront/core/helpers'
 
 export class SearchAdapter {
   public entities: any
@@ -42,10 +43,10 @@ export class SearchAdapter {
 
     Request.index = storeView.elasticsearch.index
 
-    let url = processURLAddress(storeView.elasticsearch.host)
+    let url = processURLAddress(SideRequest(storeView.elasticsearch, 'host'))
 
     if (this.entities[Request.type].url) {
-      url = this.entities[Request.type].url
+      url = SideRequest(this.entities[Request.type], 'url')
     }
 
     const httpQuery: HttpQuery = {
@@ -80,10 +81,10 @@ export class SearchAdapter {
       },
       body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
     })
-      .then(resp => { return resp.json() })
-      .catch(error => {
-        throw new Error('FetchError in request to ES: ' + error.toString())
-      })
+    .then(resp => { return resp.json() })
+    .catch(error => {
+      throw new Error('FetchError in request to ES: ' + error.toString())
+    })
   }
 
   public handleResult (resp, type, start = 0, size = 50): SearchResponse {

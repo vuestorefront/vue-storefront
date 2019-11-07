@@ -94,4 +94,9 @@ input {
   color: #828282;
   font-size: .95rem;
 }
+.price-original {
+  text-decoration: line-through;
+  color: #828282;
+  font-size: .95rem;
+}
 </style>

@@ -7,11 +7,7 @@ import { sha3_224 } from 'js-sha3'
 import store from '@vue-storefront/core/store'
 import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks';
-
-export const processURLAddress = (url: string = '') => {
-  if (url.startsWith('/')) return `${config.api.url}${url}`
-  return url
-}
+import localSideRequest from '@vue-storefront/core/helpers/side-request'
 
 export const processLocalizedURLAddress = (url: string = '') => {
   if (config.storeViews.multistore) {
@@ -200,6 +196,11 @@ export const routerHelper = Vue.observable({
 !isServer && window.addEventListener('online', () => { onlineHelper.isOnline = true })
 !isServer && window.addEventListener('offline', () => { onlineHelper.isOnline = false })
 !isServer && window.addEventListener('popstate', () => { routerHelper.popStateDetected = true })
+
+export const processURLAddress = (url: string = '') => {
+  if (url.startsWith('/')) return `${localSideRequest(config.api, 'url')}${url}`
+  return url
+}
 
 /*
   * serial executes Promises sequentially.
