@@ -13,6 +13,7 @@ import { ReviewRequest } from '@vue-storefront/core/modules/review/types/ReviewR
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
 import { processURLAddress } from '@vue-storefront/core/helpers'
+import { SideRequest } from '@vue-storefront/core/helpers'
 
 const actions: ActionTree<ReviewState, RootState> = {
   /**
@@ -58,7 +59,7 @@ const actions: ActionTree<ReviewState, RootState> = {
 
     Vue.prototype.$bus.$emit('notification-progress-start', i18n.t('Adding a review ...'))
 
-    let url = config.reviews.create_endpoint
+    let url = SideRequest(config.reviews, 'create_endpoint')
 
     if (config.storeViews.multistore) {
       url = adjustMultistoreApiUrl(url)

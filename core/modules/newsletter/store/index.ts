@@ -4,6 +4,7 @@ import { NewsletterState } from '../types/NewsletterState'
 import { cacheStorage } from '../'
 import config from 'config'
 import { processURLAddress } from '@vue-storefront/core/helpers'
+import { SideRequest } from '@vue-storefront/core/helpers'
 
 export const module: Module<NewsletterState, any> = {
   namespaced: true,
@@ -29,7 +30,7 @@ export const module: Module<NewsletterState, any> = {
   actions: {
     status ({ commit, state }, email): Promise<Response> {
       return new Promise((resolve, reject) => {
-        fetch(processURLAddress(config.newsletter.endpoint) + '?email=' + encodeURIComponent(email), {
+        fetch(processURLAddress(SideRequest(config.newsletter, 'endpoint')) + '?email=' + encodeURIComponent(email), {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           mode: 'cors'
@@ -50,7 +51,7 @@ export const module: Module<NewsletterState, any> = {
     subscribe ({ commit, state }, email): Promise<Response> {
       if (!state.isSubscribed) {
         return new Promise((resolve, reject) => {
-          fetch(processURLAddress(config.newsletter.endpoint), {
+          fetch(processURLAddress(SideRequest(config.newsletter, 'endpoint')), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',
@@ -69,7 +70,7 @@ export const module: Module<NewsletterState, any> = {
     unsubscribe ({ commit, state }, email): Promise<Response> {
       if (state.isSubscribed) {
         return new Promise((resolve, reject) => {
-          fetch(processURLAddress(config.newsletter.endpoint), {
+          fetch(processURLAddress(SideRequest(config.newsletter, 'endpoint')), {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             mode: 'cors',

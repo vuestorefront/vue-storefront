@@ -4,6 +4,7 @@ import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'
 import config from 'config'
 import { sha3_224 } from 'js-sha3'
+import localSideRequest from '@vue-storefront/core/helpers/side-request'
 
 /**
  * Create slugify -> "create-slugify" permalink  of text
@@ -174,7 +175,7 @@ export const routerHelper = Vue.observable({
 !isServer && window.addEventListener('popstate', () => { routerHelper.popStateDetected = true })
 
 export const processURLAddress = (url: string = '') => {
-  if (url.startsWith('/')) return `${config.api.url}${url}`
+  if (url.startsWith('/')) return `${localSideRequest(config.api, 'url')}${url}`
   return url
 }
 
@@ -211,3 +212,5 @@ export const isBottomVisible = () => {
 export const calcItemsHmac = (items, token) => {
   return sha3_224(JSON.stringify({ items, token: token }))
 }
+
+export const SideRequest = localSideRequest

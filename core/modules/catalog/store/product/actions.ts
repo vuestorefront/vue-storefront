@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import { formatBreadCrumbRoutes, productThumbnailPath, isServer } from '@vue-storefront/core/helpers'
-import { currentStoreView, localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { configureProductAsync,
   doPlatformPricesSync,
   filterOutUnavailableVariants,
@@ -27,7 +27,7 @@ import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import toString from 'lodash-es/toString'
 import config from 'config'
-import { formatProductLink } from 'core/modules/url/helpers'
+import { SideRequest } from '@vue-storefront/core/helpers'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -106,7 +106,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   syncPlatformPricesOver (context, { skus }) {
     const storeView = currentStoreView()
-    return TaskQueue.execute({ url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
+    return TaskQueue.execute({ url: SideRequest(config.products, 'endpoint') + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -311,7 +311,7 @@ const actions: ActionTree<ProductState, RootState> = {
           }
           if (product.url_path) {
             rootStore.dispatch('url/registerMapping', {
-              url: localizedDispatcherRoute(product.url_path, currentStoreView().storeCode),
+              url: product.url_path,
               routeData: {
                 params: {
                   'parentSku': product.parentSku,
@@ -341,15 +341,9 @@ const actions: ActionTree<ProductState, RootState> = {
           }
           const cacheKey = entityKeyName(cacheByKey, prod[(cacheByKey === 'sku' && prod['parentSku']) ? 'parentSku' : cacheByKey]) // to avoid caching products by configurable_children.sku
           if (isCacheable) { // store cache only for full loads
-            cache.setItem(cacheKey, prod, null, config.products.disablePersistentProductsCache)
+            cache.setItem(cacheKey, prod)
               .catch((err) => {
                 Logger.error('Cannot store cache for ' + cacheKey, err)()
-                if (
-                  err.name === 'QuotaExceededError' ||
-                  err.name === 'NS_ERROR_DOM_QUOTA_REACHED'
-                ) { // quota exceeded error
-                  cache.clear() // clear products cache if quota exceeded
-                }
               })
           }
           if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !isServer) {

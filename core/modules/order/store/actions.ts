@@ -11,6 +11,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import { sha3_224 } from 'js-sha3'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
+import { SideRequest } from '@vue-storefront/core/helpers'
 
 const actions: ActionTree<OrderState, RootState> = {
   /**
@@ -23,7 +24,6 @@ const actions: ActionTree<OrderState, RootState> = {
     const currentOrderHash = sha3_224(JSON.stringify(order))
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
     if (isAlreadyProcessed) return
-    commit(types.ORDER_ADD_SESSION_STAMPS, order)
     commit(types.ORDER_ADD_SESSION_ORDER_HASH, currentOrderHash)
 
     const storeView = currentStoreView()
@@ -41,7 +41,7 @@ const actions: ActionTree<OrderState, RootState> = {
     } else {
       Vue.prototype.$bus.$emit('notification-progress-start', i18n.t('Processing order...'))
       try {
-        const task: any = await TaskQueue.execute({ url: config.orders.endpoint, // sync the order
+        const task: any = await TaskQueue.execute({ url: SideRequest(config.orders, 'endpoint'), // sync the order
           payload: {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

@@ -15,6 +15,7 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
+import { SideRequest } from '@vue-storefront/core/helpers'
 
 const MAX_BYPASS_COUNT = 10
 let _connectBypassCount = 0
@@ -25,7 +26,7 @@ function _getDifflogPrototype () {
 
 /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
 async function _serverShippingInfo ({ methodsData }) {
-  const task = await TaskQueue.execute({ url: config.cart.shippinginfo_endpoint,
+  const task = await TaskQueue.execute({ url: SideRequest(config.cart, 'shippinginfo_endpoint'),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -47,7 +48,7 @@ async function _serverShippingInfo ({ methodsData }) {
 
 /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
 async function _serverTotals (): Promise<Task> {
-  return TaskQueue.execute({ url: config.cart.totals_endpoint, // sync the cart
+  return TaskQueue.execute({ url: SideRequest(config.cart, 'totals_endpoint'), // sync the cart
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -58,7 +59,7 @@ async function _serverTotals (): Promise<Task> {
 }
 /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
 async function _connect ({ guestCart = false, forceClientState = false }): Promise<Task> {
-  const task = { url: guestCart ? config.cart.create_endpoint.replace('{{token}}', '') : config.cart.create_endpoint, // sync the cart
+  const task = { url: guestCart ? SideRequest(config.cart, 'create_endpoint').replace('{{token}}', '') : SideRequest(config.cart, 'create_endpoint'), // sync the cart
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -75,7 +76,7 @@ function _serverUpdateItem ({ cartServerToken, cartItem }): Promise<Task> {
     cartItem = Object.assign(cartItem, { quoteId: cartServerToken })
   }
 
-  return TaskQueue.execute({ url: config.cart.updateitem_endpoint, // sync the cart
+  return TaskQueue.execute({ url: SideRequest(config.cart, 'updateitem_endpoint'), // sync the cart
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -90,7 +91,7 @@ function _serverUpdateItem ({ cartServerToken, cartItem }): Promise<Task> {
 /** @todo: move this metod to data resolver; shouldn't be a part of public API no more */
 function _serverDeleteItem ({ cartServerToken, cartItem }): Promise<Task> {
   cartItem = Object.assign(cartItem, { quoteId: cartServerToken })
-  return TaskQueue.execute({ url: config.cart.deleteitem_endpoint, // sync the cart
+  return TaskQueue.execute({ url: SideRequest(config.cart, 'deleteitem_endpoint'), // sync the cart
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -104,7 +105,7 @@ function _serverDeleteItem ({ cartServerToken, cartItem }): Promise<Task> {
 }
 
 async function _serverGetPaymentMethods (): Promise <Task> {
-  const task = await TaskQueue.execute({ url: config.cart.paymentmethods_endpoint,
+  const task = await TaskQueue.execute({ url: SideRequest(config.cart, 'paymentmethods_endpoint'),
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -116,7 +117,7 @@ async function _serverGetPaymentMethods (): Promise <Task> {
 }
 
 async function _serverGetShippingMethods (address): Promise <Task> {
-  const task = await TaskQueue.execute({ url: config.cart.shippingmethods_endpoint,
+  const task = await TaskQueue.execute({ url: SideRequest(config.cart, 'shippingmethods_endpoint'),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -192,7 +193,7 @@ const actions: ActionTree<CartState, RootState> = {
       if (getters.isSyncRequired) { // cart hash empty or not changed
         /** @todo: move this call to data resolver; shouldn't be a part of public API no more */
         commit(types.CART_SET_SYNC)
-        const task = await TaskQueue.execute({ url: config.cart.pull_endpoint, // sync the cart
+        const task = await TaskQueue.execute({ url: SideRequest(config.cart, 'pull_endpoint'), // sync the cart
           payload: {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -465,7 +466,7 @@ const actions: ActionTree<CartState, RootState> = {
   /** remove discount code from the cart + sync totals @description this method is part of "public" cart API */
   async removeCoupon ({ getters, dispatch }) {
     if (getters.isTotalsSyncEnabled && getters.isCartConnected) {
-      const task = await TaskQueue.execute({ url: config.cart.deletecoupon_endpoint,
+      const task = await TaskQueue.execute({ url: SideRequest(config.cart, 'deletecoupon_endpoint'),
         payload: {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -483,7 +484,7 @@ const actions: ActionTree<CartState, RootState> = {
   /** add discount code to the cart + refresh totals @description this method is part of "public" cart API */
   async applyCoupon ({ getters, dispatch }, couponCode) {
     if (getters.isTotalsSyncEnabled && getters.isCartConnected) {
-      const task = await TaskQueue.execute({ url: config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode),
+      const task = await TaskQueue.execute({ url: SideRequest(config.cart, 'applycoupon_endpoint').replace('{{coupon}}', couponCode),
         payload: {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
