@@ -8,7 +8,8 @@ import CategoryState from '../types/CategoryState'
 export const CategoryStore: Module<CategoryState, RootState> = {
   namespaced: true,
   state: {
-    lists: []
+    lists: [],
+    productListingWidget: []
   },
   getters,
   actions,

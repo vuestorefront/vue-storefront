@@ -1,12 +1,12 @@
 import { mapGetters } from 'vuex'
-import { CategoryStateCategory } from '../types/CategoryState'
+import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category'
 import { extractPrefix } from '../helpers'
-import { htmlDecode } from '@vue-storefront/core/lib/store/filters';
+import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
 
 interface Letter {
   letter: string,
   anchor: string,
-  list: CategoryStateCategory[]
+  list: Category[]
 }
 
 export default {
@@ -22,16 +22,16 @@ export default {
     depth (): number {
       return Number(this.$route.params.depth || this.$route.query.depth) || undefined
     },
-    list (): CategoryStateCategory[] {
+    list (): Category[] {
       return this.sortedListByParentId(this.rootCategoryId)
     },
-    parent (): CategoryStateCategory {
+    parent (): Category {
       return this.list.parent
     },
     notEmpty (): boolean {
-      return (this.list !== false)
+      return (this.list && this.list.list)
     },
-    categories (): CategoryStateCategory[] {
+    categories (): Category[] {
       return this.list.list.filter(category => category.is_active === true)
     },
     categoriesGroupedByFirstLetter (): Letter[] {

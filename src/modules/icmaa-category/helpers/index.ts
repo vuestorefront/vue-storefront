@@ -1,6 +1,6 @@
-import { CategoryStateCategory } from '../types/CategoryState'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse';
+import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category'
+import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { entities } from 'config'
 
@@ -11,7 +11,7 @@ export const fetchCategoryById = ({ parentId }): Promise<SearchResponse> => {
   return quickSearchByQuery({ entityType: 'category', query: searchQuery, size: 1, includeFields: entities.category.includeFields })
 }
 
-export const fetchChildCategories = async ({ parentId, sort = 'position:asc', level = 1, onlyShowTargetLevelItems = true, onlyActive = false, includeFields = entities.category.includeFields, collectedCategories = [] }): Promise<CategoryStateCategory[]> => {
+export const fetchChildCategories = async ({ parentId, sort = 'position:asc', level = 1, onlyShowTargetLevelItems = true, onlyActive = false, includeFields = entities.category.includeFields, collectedCategories = [] }): Promise<Category[]> => {
   let searchQuery = new SearchQuery()
   searchQuery.applyFilter({ key: 'parent_id', value: { 'eq': parentId } })
 
@@ -50,7 +50,7 @@ export const fetchChildCategories = async ({ parentId, sort = 'position:asc', le
 const SORT_PREFIX_REGEXP = /^(the\s)/gmi
 export const extractPrefix = (name) => name.replace(SORT_PREFIX_REGEXP, '')
 
-export const sortByLetter = (a: CategoryStateCategory, b: CategoryStateCategory) => {
+export const sortByLetter = (a: Category, b: Category) => {
   const [aName, bName] = [extractPrefix(a.name), extractPrefix(b.name)]
   return aName === bName ? 0 : aName < bName ? -1 : 1
 }

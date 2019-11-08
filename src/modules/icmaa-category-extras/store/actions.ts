@@ -4,7 +4,6 @@ import { ActionTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryExtrasState from '../types/CategoryExtrasState'
 import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category'
-import { CategoryStateCategory } from 'icmaa-category/types/CategoryState'
 import * as types from './mutation-types'
 
 import { DataResolver } from '@vue-storefront/core/data-resolver/types/DataResolver'
@@ -23,7 +22,7 @@ const actions: ActionTree<CategoryExtrasState, RootState> = {
     return context.dispatch('loadChildCategoryIdMap', parentId)
   },
   loadChildCategoryIdMap: async (context, parentId: number[]): Promise<void> => {
-    const childCategories: CategoryStateCategory[]|void = await fetchChildCategories({ parentId, level: 10, onlyShowTargetLevelItems: false })
+    const childCategories: Category[]|void = await fetchChildCategories({ parentId, level: 10, onlyShowTargetLevelItems: false })
       .then(resp => resp)
       .catch(error => {
         Logger.error('Error while fetching children of category: ' + parentId, 'icmaaCategoryExtras', error)()
