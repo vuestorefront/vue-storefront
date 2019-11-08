@@ -31,7 +31,7 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
 
 let order: Order;
 let task: any;
-let currentOrderHash: String;
+let currentOrderHash: string;
 
 describe('Order actions', () => {
   beforeEach(() => {
@@ -982,8 +982,6 @@ describe('Order actions', () => {
 
     it('should dispatch enqueueOrder', async () => {
       const contextMock = createContextMock({
-        commit: jest.fn(),
-        dispatch: jest.fn(),
         getters: { getSessionOrderHashes: 'current-order-hash' }
       });
       const newOrder: Order = {
@@ -1091,8 +1089,6 @@ describe('Order actions', () => {
         }
       }
       const contextMock = createContextMock({
-        commit: jest.fn(),
-        dispatch: jest.fn(),
         getters: { getSessionOrderHashes: 'current-order-hash' }
       });
       config.orders = {
@@ -1104,20 +1100,14 @@ describe('Order actions', () => {
       expect(contextMock.commit).toBeCalledWith(types.ORDER_ADD_SESSION_STAMPS, order);
       expect(contextMock.dispatch).toBeCalledWith('processOrder', { newOrder: newOrder, currentOrderHash })
     })
-
   });
-
   describe('processOrder action', () => {
     it('should add last order with confirmation', async () => {
       (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
         (task)
       );
-      const contextMock = createContextMock({
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        getters: { getSessionOrderHashes: 'current-order-hash' }
-      });
-      const order = {"transmited": true}
+      const contextMock = createContextMock();
+      const order = {'transmited': true}
       const order1 = {
         order_id: 'orderId',
         created_at: '10-29-2019',
@@ -1163,10 +1153,11 @@ describe('Order actions', () => {
           payment_method_additional: 'four'
         }
       }
+      const wrapper = (actions: any) => actions.processOrder(contextMock, { order1, currentOrderHash })
+      const processOrderAction = await wrapper(orderActions);
 
-      await (orderActions as any).processOrder(contextMock, { order1, currentOrderHash })
-
-      expect(contextMock.commit).toBeCalledWith(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: task.result });
+      expect(contextMock.commit).toBeCalledWith(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: task.result })
+      expect(processOrderAction).toEqual(task)
     })
 
     it('should remove session order hash', async () => {
@@ -1175,10 +1166,11 @@ describe('Order actions', () => {
         (task)
       );
       const contextMock = createContextMock();
-
-      await (orderActions as any).processOrder(contextMock, { order, currentOrderHash })
+      const wrapper = (actions: any) => actions.processOrder(contextMock, { order, currentOrderHash })
+      const processOrderAction = await wrapper(orderActions);
 
       expect(contextMock.commit).toBeCalledWith(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash);
+      expect(processOrderAction).toEqual(task)
     })
   });
 
@@ -1237,5 +1229,4 @@ describe('Order actions', () => {
       expect(contextMock.dispatch).toBeCalledWith('notification/spawnNotification', notifications.orderCannotTransfered, { root: true })
     })
   })
-
 });
