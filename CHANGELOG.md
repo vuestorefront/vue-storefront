@@ -5,8 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.0] - UNRELEASED
+### Added
+- Add unit test for `core/modules/checkout` - @psmyrek (#3460)
 
-## [1.11.0-rc.2] - unreleased
+### Fixed
+- Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
+- Fixed null value of search input - @AdKamil (#3778)
+
+
+## [1.11.0-rc.2] - 2019.10.31
+
+### Added
+- Add defense for incomplete config in preferchCachedAttributes helper
 
 ### Fixed
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
@@ -17,16 +28,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed typos in docs - @afozbek (#3709)
 - Fixed VSF build fails for some people due to lack of dependencies in the container - @krskibin (#3699)
 - Fixed two graphql problems, one with cms_blocks and the other with default sort order - @resubaka (#3718)
+- Allow falsy value for `parent_id` when searching category - @gibkigonzo (#3732)
+- Remove including .map files in service worker cache - @gibkigonzo (#3734)
 - Changed notification message object to factory fn - @gibkigozno (#3716)
 - Load recently viewed module in my account page - @gibkigonzo (#3722)
 - Added validation message for city field on checkout page - @dz3n (#3723)
+- Make price calculation based on saved original prices - @gibkigonzo (#3740)
+- Improving is_comparable to work with booleans and digits - @dz3n (#3697)
+- Fixed displaying categories on search menu - @andrzejewsky (#3758)
+- Fixed broken link for store locator - @andrzejewsky (#3754)
+- Fixed instant checkout functionality - @andrzejewsky (#3765)
+- Fixed links to the promoted banners - @andrzejewsky (#3753)
+- Fixed missing parameter in the compare list - @andrzejewsky (#3757)
+- Fixed product link on mobile - @andrzejewsky (#3772)
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
 - Added unit tests for `core/modules/mailer` - @krskibin (#3710)
 - Get payment methods with billing address data - @rain2o (#2878)
 - Added custom page-size parameter for `category-next/loadCategoryProducts` action - @cewald (#3713, #3714)
+- Remove unused dayjs locales - @gibkigonzo (#3498)
 - check max quantity in microcart - @gibkigonzo (#3314)
+- Add unit tests for `core/modules/newsletter` - @psmyrek (#3464)
+- Add unit test for `core/modules/wishlist` - @psmyrek (#3471)
+
+### Changed / Improved
+- Use `encodeURIComponent` to encode get parameters in `multimatch.js` - @adityasharma7 (#3736)
 
 ## [1.11.0-rc.1] - 2019.10.03
 
