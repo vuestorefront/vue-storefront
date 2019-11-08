@@ -3,8 +3,13 @@ import { isServer } from '@vue-storefront/core/helpers'
 import Vue from 'vue';
 import InfoComponent from './components/Info.vue'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import config from 'config'
 
 export const PaymentCashOnDeliveryModule: StorefrontModule = function ({store}) {
+  // Do not initialize COD method if disabled in config
+  if (!config.orders.enable_cashondelivery_method) {
+    return
+  }
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
   let correctPaymentMethod = false
   const placeOrder = () => {

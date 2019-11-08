@@ -358,6 +358,7 @@
     "endpoint": "/api/order",
     "payment_methods_mapping": {
     },
+    "enable_cashondelivery_method": true,
     "offline_orders": {
       "automatic_transmission_enabled": false,
       "notification" : {
