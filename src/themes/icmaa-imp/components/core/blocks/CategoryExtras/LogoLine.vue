@@ -18,19 +18,16 @@
 <script>
 import { mapGetters } from 'vuex'
 import sampleSize from 'lodash-es/sampleSize'
+import { getCategoryExtrasKeyByAttribute } from 'icmaa-category-extras/helpers'
 
 import DepartmentLogo from 'theme/components/core/blocks/CategoryExtras/DepartmentLogo'
 import Placeholder from 'theme/components/core/blocks/Placeholder'
 
 export default {
+  name: 'LogoLine',
   components: {
     DepartmentLogo,
     Placeholder
-  },
-  data: function () {
-    return {
-      categories: []
-    }
   },
   props: {
     parentId: {
@@ -40,6 +37,11 @@ export default {
     limit: {
       type: Number,
       default: 5
+    },
+    type: {
+      type: String,
+      default: 'logoline',
+      validation: (v) => ['logoline', 'productLogoline'].includes(v)
     },
     white: {
       type: Boolean,
@@ -58,38 +60,29 @@ export default {
       default: false
     }
   },
-  async mounted () {
-    await this.$store.dispatch('icmaaCategoryExtras/loadDepartmentLogos')
-    await this.$store.dispatch('icmaaCategoryExtras/loadChildCategoryIdMap', [ this.parentId ])
-
-    const filters = { 'url_key': this.randomDepartmentLogoIdentifier }
-    this.categories = await this.$store.dispatch('category-next/loadCategories', { filters })
+  data () {
+    return {
+      categories: []
+    }
   },
   computed: {
-    ...mapGetters('icmaaCategoryExtras', [ 'getCategoryChildrenMap', 'getDepartmentLogos', 'getLogolineItems' ]),
-    ...mapGetters({ cluster: 'user/getCluster' }),
+    ...mapGetters('icmaaCategoryExtras', [ 'getCategoryChildrenMap', 'getLogolineItems' ]),
+    ...mapGetters({
+      allCategories: 'category-next/getCategories',
+      cluster: 'user/getCluster'
+    }),
     categoryChildrenMap () {
       return this.getCategoryChildrenMap(this.parentId)
     },
-    childrenIdentifier () {
-      if (this.categoryChildrenMap) {
-        return this.categoryChildrenMap.children.map(c => c.url_key)
+    childCategoryIds () {
+      if (!this.categoryChildrenMap) {
+        return []
       }
 
-      return []
-    },
-    randomDepartmentLogoIdentifier () {
-      const logos = this.getDepartmentLogos
-        .filter(logo => {
-          return (this.cluster ? (logo.customerCluster.includes(this.cluster) || logo.customerCluster.length === 0) : true) &&
-            this.childrenIdentifier.includes(logo.identifier)
-        })
-        .map(l => l.identifier)
-
-      return sampleSize(logos, this.limit)
+      return this.categoryChildrenMap.children.map(c => c.id)
     },
     logoLineItems () {
-      return this.getLogolineItems(this.categories)
+      return this.getLogolineItems(this.categories, this.type)
     },
     placeholderCount () {
       return this.limit > this.logoLineItems.length && this.placeholder ? this.limit - this.logoLineItems.length : 0
@@ -99,9 +92,53 @@ export default {
     },
     columnClassObj () {
       return typeof this.columnClass === 'string' ? [this.columnClass] : this.columnClass
+    },
+    catTypeKey () {
+      return getCategoryExtrasKeyByAttribute(this.type)
     }
   },
+  methods: {
+    async fetchData () {
+      await this.$store.dispatch('icmaaCategoryExtras/loadChildCategoryIdMap', [ this.parentId ])
+
+      const filters = {
+        'id': this.childCategoryIds,
+        'ceHasLogo': true,
+        [this.catTypeKey]: true
+      }
+
+      if (this.cluster) {
+        filters['ceCluster'] = [this.cluster, '']
+      }
+
+      await this.$store.dispatch(
+        'category-next/loadCategories',
+        { filters, size: this.limit, onlyActive: true }
+      )
+
+      // Prevent flickering logoline when clicked
+      // because of changing `categories` state property
+      this.setCategories()
+    },
+    setCategories () {
+      const cluster = this.cluster ? [this.cluster, ''] : false
+      const categories = this.allCategories.filter(c => {
+        return this.childCategoryIds.includes(c.id) &&
+          c.ceHasLogo === true &&
+          c[this.catTypeKey] === true &&
+          (!cluster || cluster.includes(c.ceCluster))
+      })
+
+      this.categories = sampleSize(categories, this.limit)
+    }
+  },
+  async mounted () {
+    await this.fetchData()
+  },
   watch: {
+    async parentId () {
+      await this.fetchData()
+    },
     logoLineItems (items) {
       if (items.length > 0) {
         this.$emit('loaded')

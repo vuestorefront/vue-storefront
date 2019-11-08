@@ -13,26 +13,26 @@ export default {
     await store.dispatch('attribute/list', { filterValues })
 
     await store.dispatch('icmaaCategoryExtras/loadDepartmentChildCategoryIdMap')
-    await store.dispatch('icmaaCategoryExtras/loadDepartmentLogos')
 
     const departmentCategoryId = store.getters['icmaaCategoryExtras/getCurrentProductDepartmentCategoryId']
     if (departmentCategoryId) {
-      await store.dispatch('category-next/loadCategory', { filters: { 'id': departmentCategoryId } })
+      await store.dispatch('category-next/loadCategoryWithExtras', { filters: { 'id': departmentCategoryId } })
 
       const category = store.getters['icmaaCategoryExtras/getCurrentProductDepartmentCategory']
       if (category) {
-        await store.dispatch('icmaaCategoryExtras/single', { value: category.url_key })
         await store.dispatch('icmaaSpotify/fetchRelatedArtists', category)
       }
     }
   },
   computed: {
-    ...mapGetters('attribute', { getOptionLabel: 'getOptionLabel' }),
-    ...mapGetters('icmaaCategoryExtras', ['getCurrentProductDepartmentCategory', 'getCategoryExtrasByUrlKey']),
-    ...mapGetters({ reviews: 'review/getReviews', reviewsCount: 'review/getReviewsCount', reviewsTotalRating: 'review/getReviewsTotalRating' }),
-    departmentCategory () {
-      return this.getCurrentProductDepartmentCategory
-    },
+    ...mapGetters({
+      getOptionLabel: 'attribute/getOptionLabel',
+      categoryExtras: 'icmaaCategoryExtras/getCategoryExtrasByCurrentCategory',
+      departmentCategory: 'icmaaCategoryExtras/getCurrentProductDepartmentCategory',
+      reviews: 'review/getReviews',
+      reviewsCount: 'review/getReviewsCount',
+      reviewsTotalRating: 'review/getReviewsTotalRating'
+    }),
     departmentBrandType () {
       return this.product.brand ? 'brand' : 'band'
     },
@@ -50,11 +50,6 @@ export default {
     },
     hasDepartmentBrandOptionLabel () {
       return this.departmentBrandOptionLabel !== this.departmentBrandValue
-    },
-    categoryExtras () {
-      if (this.departmentCategory) {
-        return this.getCategoryExtrasByUrlKey(this.departmentCategory.url_key)
-      }
     },
     productName () {
       let name = this.translatedProductName

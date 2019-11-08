@@ -71,13 +71,14 @@ const actions: ActionTree<SpotifyState, RootState> = {
      * Otherwise it wont find any content because the originial "name" field is type "text"
      * and can't be searched on using "terms".
      */
-    const categorySearchOptions: DataResolver.CategorySearchOptions = { filters: { 'name.keyword': categoriesNotInState } }
+    const categorySearchOptions: DataResolver.CategorySearchOptions = {
+      filters: {
+        'name.keyword': categoriesNotInState,
+        'ceHasLogo': 'true'
+      }
+    }
+
     await dispatch('category-next/loadCategories', categorySearchOptions, { root: true })
-
-    const categories = rootGetters['category-next/getCategories']
-      .filter(c => relatedArtists.includes(c.name)).map(c => c.url_key)
-
-    return dispatch('icmaaCategoryExtras/list', categories.join(','), { root: true })
   }
 }
 

@@ -6,7 +6,7 @@
         <slot />
       </div>
     </div>
-    <div class="t-px-4 t-py-2 t-flex t-justify-between" v-if="spotifyLogoItems">
+    <div class="t-px-4 t-py-2 t-flex t-justify-between" v-if="spotifyLogoItems && spotifyLogoItems.length > 0">
       <span class="t-flex-fix t-hidden lg:t-inline-block t-flex t-self-center t-text-base-light t-text-sm t-mr-8">{{ $t('Similar bands:') }}</span>
       <department-logo v-for="(logo, index) in spotifyLogoItems" :key="index" v-bind="logo.data()" class="t-flex-fix t-opacity-60 hover:t-opacity-100" :class="{ 't-mr-4': isLast(index, spotifyLogoItems)}" />
     </div>
@@ -42,9 +42,8 @@ export default {
       viewport: 'ui/getViewport'
     }),
     isVisible () {
-      const { bannerShowFrom, bannerShowTo } = this.categoryExtras
-      return this.categoryExtras &&
-        this.categoryExtras.active &&
+      const { bannerShowFrom, bannerShowTo, active } = this.categoryExtras
+      return this.categoryExtras && active &&
         (this.banner || this.spotifyLogoItems.length > 0) &&
         isDatetimeInBetween(bannerShowFrom, bannerShowTo)
     },
@@ -56,10 +55,7 @@ export default {
       return getThumbnailPath('/' + this.categoryExtras.bannerImage, 0, 0, 'media')
     },
     spotifyLogoItems () {
-      return sampleSize(
-        this.getSpotifyLogoItems,
-        this.spotifyLogoLimit || (this.viewport === 'sm' ? 4 : 10)
-      )
+      return Object.values(this.getSpotifyLogoItems).slice(0, this.spotifyLogoLimit || (this.viewport === 'sm' ? 4 : 10))
     }
   },
   methods: {

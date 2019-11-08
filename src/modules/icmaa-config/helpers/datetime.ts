@@ -17,7 +17,7 @@ export const getCurrentStoreviewDatetime = (): string => {
 }
 
 export const isDatetimeInBetween = (from: string, to: string, current = getCurrentStoreviewDatetime()): boolean => {
-  return (from === '' || dayjs(current).isAfter(from)) && (to === '' || dayjs(current).isBefore(to))
+  return (!from || from === '' || dayjs(current).isAfter(from)) && (!to || to === '' || dayjs(current).isBefore(to))
 }
 
 export const isValid = (date: string, format?: string): boolean => {

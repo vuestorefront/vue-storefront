@@ -1,19 +1,36 @@
 import config from 'config'
 import { GetterTree } from 'vuex'
-import CategoryExtrasState, { CategoryExtrasStateItem, CategoryExtrasCategoryIdMapStateItem, CategoryExtrasDepartmentLogoStateItem } from '../types/CategoryExtrasState'
+import CategoryExtrasState, { CategoryExtras, CategoryExtrasCategoryIdMapStateItem } from '../types/CategoryExtrasState'
 import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category';
 import RootState from '@vue-storefront/core/types/RootState'
 import { Logo } from '../helpers/categoryExtras/logo'
+import { getCategoryExtrasKeyByAttribute } from '../helpers/'
 import isEmpty from 'lodash-es/isEmpty'
+import mapKeys from 'lodash-es/mapKeys'
+import pick from 'lodash-es/pick'
+
+const mapCategoryExtrasAttributes = (category: Category) => {
+  const ceKeys = Object.keys(category).filter(k => /^ce[A-Z]/.test(k))
+  category = pick(category, ceKeys)
+  return mapKeys(category, (v, key) => key.charAt(2).toLowerCase() + key.slice(3))
+}
 
 const getters: GetterTree<CategoryExtrasState, RootState> = {
-  getCategoryExtras: (state) => state.items,
-  getCategoryExtrasByUrlKey: (state) => (identifier): CategoryExtrasStateItem => {
-    return state.items.find(item => item.identifier === identifier)
+  getCategoryExtrasByUrlKey: (state, getters, rootState, rootGetters) => (url_key: string): CategoryExtras => {
+    let category: Category = rootGetters['category-next/getCategories'].find(c => c.url_key === url_key)
+    if (category) {
+      return mapCategoryExtrasAttributes(category)
+    }
+
+    return null
   },
-  getCategoryExtrasByCurrentCategory: (state, getters, rootState, rootGetters): CategoryExtrasStateItem|boolean => {
-    const category = getters.getCurrentCategory
-    return category ? getters.getCategoryExtrasByUrlKey(category.url_key) : false
+  getCategoryExtrasByCurrentCategory: (state, getters, rootState, rootGetters): CategoryExtras|boolean => {
+    let category: Category = getters.getCurrentCategory
+    if (category) {
+      return mapCategoryExtrasAttributes(category)
+    }
+
+    return null
   },
   getCurrentCategory: (state, getters, rootState, rootGetters): Category|boolean => {
     let category = rootGetters['category-next/getCurrentCategory']
@@ -26,12 +43,13 @@ const getters: GetterTree<CategoryExtrasState, RootState> = {
   getCategoryBy: (state, getters, rootState, rootGetters) => (key: string, value: any): Category|boolean => {
     return rootGetters['category-next/getCategories'].find(c => c[key] === value)
   },
-  getLogolineItems: (state, getters, rootState, rootGetters) => (categories: Category[], type: string = 'crossreferenceInLogoline'): Logo[] => {
-    let logos = []
+  getLogolineItems: () => (categories: Category[], type: string|boolean = false): Logo[] => {
+    let logos: Logo[] = []
+    const typeKey: string = type ? getCategoryExtrasKeyByAttribute(type as string) : ''
+
     categories.forEach(c => {
-      const logo = getters.getDepartmentLogosByUrlKey(c.url_key)
-      if (logo && logo[type]) {
-        logos.push(new Logo(c, logo.customerCluster))
+      if (c['ceHasLogo'] === true && (!type || (c[typeKey] && c[typeKey] === true))) {
+        logos.push(new Logo(c, c['ceCluster']))
       }
     })
 
@@ -70,12 +88,6 @@ const getters: GetterTree<CategoryExtrasState, RootState> = {
   },
   getCurrentProductDepartmentCategory: (state, getters, rootState, rootGetters): Category => {
     return getters.getCategoryBy('id', getters.getCurrentProductDepartmentCategoryId)
-  },
-  getDepartmentLogos: (state): CategoryExtrasDepartmentLogoStateItem[] => {
-    return state.departmentLogos
-  },
-  getDepartmentLogosByUrlKey: (state) => (identifier): CategoryExtrasDepartmentLogoStateItem => {
-    return state.departmentLogos.find(item => item.identifier === identifier)
   }
 }
 

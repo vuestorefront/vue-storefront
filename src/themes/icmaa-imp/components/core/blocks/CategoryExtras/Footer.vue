@@ -84,17 +84,15 @@ export default {
       return (this.youtubeVideo || this.vimeoVideo)
     },
     youtubeVideo () {
-      if (this.categoryExtras.youtubeVideoUrl.length > 0) {
-        const regExp = /[/=?](\w+)$/i
-        const url = this.categoryExtras.youtubeVideoUrl.match(regExp)
-        return url ? `https://www.youtube.com/embed/${url[1]}` : this.categoryExtras.youtubeVideoUrl
+      if (this.categoryExtras.videoYoutube.length > 0) {
+        return `https://www.youtube.com/embed/${this.categoryExtras.videoYoutube}`
       }
 
       return false
     },
     vimeoVideo () {
-      if (this.categoryExtras.vimeoVideoId.length > 0) {
-        return `https://player.vimeo.com/video/${this.categoryExtras.vimeoVideoId}`
+      if (this.categoryExtras.videoVimeo.length > 0) {
+        return `https://player.vimeo.com/video/${this.categoryExtras.videoVimeo}`
       }
 
       return false

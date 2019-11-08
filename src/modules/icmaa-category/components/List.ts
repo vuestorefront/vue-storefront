@@ -12,7 +12,10 @@ interface Letter {
 export default {
   name: 'IcmaaCategoryList',
   computed: {
-    ...mapGetters({ sortedListByParentId: 'icmaaCategory/sortedListByParentId' }),
+    ...mapGetters({
+      sortedListByParentId: 'icmaaCategory/sortedListByParentId',
+      cluster: 'user/getCluster'
+    }),
     rootCategoryId (): number {
       return Number(this.$route.params.parentCategoryId)
     },

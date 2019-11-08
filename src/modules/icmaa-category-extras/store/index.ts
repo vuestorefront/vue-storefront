@@ -11,9 +11,7 @@ export const categoryExtrasStorageKey = 'category-extras'
 export const CategoryExtrasStore: Module<CategoryExtrasState, RootState> = {
   namespaced: true,
   state: {
-    items: [],
-    childCategoryIdMap: [],
-    departmentLogos: []
+    childCategoryIdMap: []
   },
   getters,
   actions,

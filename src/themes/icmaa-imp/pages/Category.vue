@@ -49,13 +49,15 @@
           <loader-background v-if="loadingProducts" bar="t-bg-base-darkest" class="t-bottom-0" />
         </button-component>
       </div>
-      <div class="t-bg-white t-mx-4 t-p-4 t-py-10 t-text-center" v-if="isCategoryEmpty">
-        <h4 class="t-text-base t-bold" data-testid="noProductsInfo">
-          {{ $t('No products found!') }}
-        </h4>
-        <p class="t-text-sm t-text-base-light">
-          {{ $t('Please change Your search criteria and try again.') }}
-        </p>
+      <div class="t-pb-8">
+        <div class="t-bg-white t-mx-4 t-p-4 t-py-10 t-text-center" v-if="isCategoryEmpty">
+          <h4 class="t-text-base t-bold" data-testid="noProductsInfo">
+            {{ $t('No products found!') }}
+          </h4>
+          <p class="t-text-sm t-text-base-light">
+            {{ $t('Please change Your search criteria and try again.') }}
+          </p>
+        </div>
       </div>
       <lazy-hydrate when-visible>
         <category-extras-footer id="category-info-footer" class="t-pb-8" />
@@ -104,8 +106,8 @@ const composeInitialPageState = async (store, route, forceLoad = false, pageSize
   try {
     const filters = getSearchOptionsFromRouteParams(route.params)
     const cachedCategory = store.getters['category-next/getCategoryFrom'](route.path)
-    const currentCategory = cachedCategory && !forceLoad ? cachedCategory : await store.dispatch('category-next/loadCategory', { filters })
-
+    const hasCategoryExtras = store.getters['icmaaCategoryExtras/getCategoryExtrasByUrlKey'](route.path)
+    const currentCategory = cachedCategory && !forceLoad && hasCategoryExtras ? cachedCategory : await store.dispatch('category-next/loadCategoryWithExtras', { filters })
     await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory, pageSize })
 
     const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
