@@ -5,8 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.0] - UNRELEASED
 
-## [1.11.0-rc.2] - unreleased
+### Added
+- Add unit test for `core/modules/checkout` - @psmyrek (#3460)
+
+### Fixed
+- Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
+- Fixed null value of search input - @AdKamil (#3778)
+- Fixed product sorting - @AdKamil (#3785)
+
+
+## [1.11.0-rc.2] - 2019.10.31
+
+### Added
+- Add defense for incomplete config in preferchCachedAttributes helper
 
 ### Fixed
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
@@ -29,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed instant checkout functionality - @andrzejewsky (#3765)
 - Fixed links to the promoted banners - @andrzejewsky (#3753)
 - Fixed missing parameter in the compare list - @andrzejewsky (#3757)
-- Fixed product sorting - @AdKamil (#3785)
+- Fixed product link on mobile - @andrzejewsky (#3772)
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
