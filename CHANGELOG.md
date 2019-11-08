@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.0] - UNRELEASED
 ### Added
 - Add unit test for `core/modules/checkout` - @psmyrek (#3460)
+- Add unit tests for `core/modules/order` - @dz3n (#3466)
 
 ### Fixed
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
@@ -20,7 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add defense for incomplete config in preferchCachedAttributes helper
 
 ### Added
-- Add unit tests for \`core/modules/order\` - @dz3n (#3466)
 - Add unit test for \`core/modules/cms\` - @krskibin (#3738)
 
 ### Fixed
