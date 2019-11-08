@@ -1108,7 +1108,6 @@ describe('Order actions', () => {
   });
 
   describe('processOrder action', () => {
-    /*
     it('should add last order with confirmation', async () => {
       (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
         (task)
@@ -1118,97 +1117,8 @@ describe('Order actions', () => {
         dispatch: jest.fn(),
         getters: { getSessionOrderHashes: 'current-order-hash' }
       });
-      const preparedOrderBefore = {
-        order_id: 'orderId',
-        created_at: '10-29-2019',
-        updated_at: '11-29-2019',
-        transmited: true,
-        transmited_at: '10-29-2019',
-        status: 'pending',
-        state: 'pending',
-        user_id: '15',
-        cart_id: '20',
-        store_code: '2',
-        store_id: 2,
-        products:
-          [{
-            sku: 'sku1',
-            qty: 5,
-            name: 'Product 1',
-            price: 50,
-            product_type: 'Product type 1'
-          }],
-        addressInformation:
-        {
-          shippingAddress:
-          {
-            region: 'Region here',
-            region_id: 4,
-            country_id: '15',
-            street: [],
-            company: 'Company here',
-            telephone: 'telephone',
-            postcode: 'postcode',
-            city: 'City name',
-            firstname: 'first name',
-            lastname: 'last name',
-            email: 'example@example.com',
-            region_code: '20',
-            sameAsBilling: 1
-          },
-          billingAddress: { properties: {} },
-          shipping_method_code: 'one',
-          shipping_carrier_code: 'two',
-          payment_method_code: 'three',
-          payment_method_additional: 'four'
-        }
-      }
+      const order = {"transmited": true}
       const order1 = {
-        order_id: 'orderId',
-        created_at: '10-29-2019',
-        updated_at: '11-29-2019',
-        transmited: true,
-        transmited_at: '10-29-2019',
-        status: 'pending',
-        state: 'pending',
-        user_id: '15',
-        cart_id: '20',
-        store_code: '2',
-        store_id: 2,
-        products:
-          [{
-            sku: 'sku1',
-            qty: 5,
-            name: 'Product 1',
-            price: 50,
-            product_type: 'Product type 1'
-          }],
-        addressInformation:
-        {
-          shippingAddress:
-          {
-            region: 'Region here',
-            region_id: 4,
-            country_id: '15',
-            street: [],
-            company: 'Company here',
-            telephone: 'telephone',
-            postcode: 'postcode',
-            city: 'City name',
-            firstname: 'first name',
-            lastname: 'last name',
-            email: 'example@example.com',
-            region_code: '20',
-            sameAsBilling: 1
-          },
-          billingAddress: { properties: {} },
-          shipping_method_code: 'one',
-          shipping_carrier_code: 'two',
-          payment_method_code: 'three',
-          payment_method_additional: 'four'
-        }
-      }
-      const order2 = {
         order_id: 'orderId',
         created_at: '10-29-2019',
         updated_at: '11-29-2019',
@@ -1256,9 +1166,8 @@ describe('Order actions', () => {
 
       await (orderActions as any).processOrder(contextMock, { order1, currentOrderHash })
 
-      expect(contextMock.commit).toBeCalledWith(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order2, confirmation: task.result });
+      expect(contextMock.commit).toBeCalledWith(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: task.result });
     })
-    */
 
     it('should remove session order hash', async () => {
       task = { resultCode: 400, result: 'server-order-token' };
