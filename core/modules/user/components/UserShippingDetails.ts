@@ -146,6 +146,24 @@ export const UserShippingDetails = {
         this.shippingDetails = this.getShippingDetails()
       }
     },
+    readShippingDetailsFromCurrentUser (shippingDetails) {
+      for (let address of this.currentUser.addresses) {
+        if (toString(address.id) === toString(this.currentUser.default_shipping)) {
+          return {
+            firstName: address.firstname,
+            lastName: address.lastname,
+            street: address.street[0],
+            house: address.street[1],
+            city: address.city,
+            postcode: address.postcode,
+            region: address.region.region ? address.region.region : '',
+            country: address.country_id,
+            phone: address.hasOwnProperty('telephone') ? address.telephone : ''
+          }
+        }
+      }
+      return shippingDetails
+    },
     getShippingDetails () {
       this.currentUser = Object.assign({}, this.$store.state.user.current)
       let shippingDetails = {
@@ -161,21 +179,7 @@ export const UserShippingDetails = {
       }
       if (this.currentUser) {
         if (this.currentUser && this.currentUser.hasOwnProperty('default_shipping')) {
-          for (let address of this.currentUser.addresses) {
-            if (toString(address.id) === toString(this.currentUser.default_shipping)) {
-              shippingDetails.firstName = address.firstname
-              shippingDetails.lastName = address.lastname
-              shippingDetails.street = address.street[0]
-              shippingDetails.house = address.street[1]
-              shippingDetails.city = address.city
-              shippingDetails.postcode = address.postcode
-              shippingDetails.region = address.region.region ? address.region.region : ''
-              shippingDetails.country = address.country_id
-              shippingDetails.phone = address.hasOwnProperty('telephone') ? address.telephone : ''
-              // Stop iteration as default_shipping address is found
-              break;
-            }
-          }
+          shippingDetails = this.readShippingDetailsFromCurrentUser(shippingDetails);
         } else {
           shippingDetails.firstName = this.currentUser.firstname
           shippingDetails.lastName = this.currentUser.lastname
