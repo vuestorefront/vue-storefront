@@ -1,11 +1,9 @@
 import * as types from '../../../store/mutation-types';
 import orderActions from '../../../store/actions';
 import { createContextMock } from '@vue-storefront/unit-tests/utils';
-import { prepareOrder, optimizeOrder, notifications } from '../../../helpers';
-import { sha3_224 } from 'js-sha3'
+import { notifications } from '../../../helpers';
 import { Order } from '../../../types/Order';
 import { OrderService } from '@vue-storefront/core/data-resolver'
-import { orderHooksExecutors } from '../../../hooks'
 import config from 'config';
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
@@ -23,16 +21,17 @@ jest.mock('@vue-storefront/core/data-resolver', () => ({
 }));
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {
-    log: jest.fn(() => () => {}),
-    debug: jest.fn(() => () => {}),
-    warn: jest.fn(() => () => {}),
-    error: jest.fn(() => () => {}),
-    info: jest.fn(() => () => {})
+    log: jest.fn(() => () => { }),
+    debug: jest.fn(() => () => { }),
+    warn: jest.fn(() => () => { }),
+    error: jest.fn(() => () => { }),
+    info: jest.fn(() => () => { })
   }
 }));
 
 let order: Order;
 let task: any;
+let currentOrderHash: String;
 
 describe('Order actions', () => {
   beforeEach(() => {
@@ -963,15 +962,13 @@ describe('Order actions', () => {
         payment_method_code: 'three',
         payment_method_additional: 'four'
       }
-    };
-    task = { resultCode: 200, result: 'server-order-token' };
+    }
+    task = { resultCode: 200, result: 'server-order-token' }
+    currentOrderHash = '4884598394f87665bceddb7585d5d7c5b08b6e0eb6a3ebaf6710fc48'
   });
 
   describe('placeOrder action', () => {
-    it('should NOT add session stamps if it is alrady processed', async () => {
-      (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
-        (task)
-      );
+    it('should not add session stamps if it is alrady processed', async () => {
       const contextMock = {
         commit: jest.fn(),
         dispatch: jest.fn(),
@@ -984,17 +981,56 @@ describe('Order actions', () => {
     })
 
     it('should dispatch enqueueOrder', async () => {
-      (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
-        (task)
-      );
       const contextMock = createContextMock({
         commit: jest.fn(),
         dispatch: jest.fn(),
         getters: { getSessionOrderHashes: 'current-order-hash' }
       });
-      const optimizedOrder = optimizeOrder(order)
-      const preparedOrder = prepareOrder(optimizedOrder)
-      const newOrder = orderHooksExecutors.beforePlaceOrder(preparedOrder)
+      const newOrder: Order = {
+        order_id: 'orderId',
+        created_at: '10-29-2019',
+        updated_at: '11-29-2019',
+        transmited: true,
+        transmited_at: '10-29-2019',
+        status: 'pending',
+        state: 'pending',
+        user_id: '15',
+        cart_id: '20',
+        store_code: '2',
+        store_id: 2,
+        products:
+          [{
+            sku: 'sku1',
+            qty: 5,
+            name: 'Product 1',
+            price: 50,
+            product_type: 'Product type 1'
+          }],
+        addressInformation:
+        {
+          shippingAddress:
+          {
+            region: 'Region here',
+            region_id: 4,
+            country_id: '15',
+            street: [],
+            company: 'Company here',
+            telephone: 'telephone',
+            postcode: 'postcode',
+            city: 'City name',
+            firstname: 'first name',
+            lastname: 'last name',
+            email: 'example@example.com',
+            region_code: '20',
+            sameAsBilling: 1
+          },
+          billingAddress: { properties: {} },
+          shipping_method_code: 'one',
+          shipping_carrier_code: 'two',
+          payment_method_code: 'three',
+          payment_method_additional: 'four'
+        }
+      }
 
       config.orders = {
         directBackendSync: false
@@ -1009,11 +1045,51 @@ describe('Order actions', () => {
       (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
         (task)
       );
-      const optimizedOrder = optimizeOrder(order)
-      const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
-      const preparedOrder = prepareOrder(optimizedOrder)
-      const newOrder = orderHooksExecutors.beforePlaceOrder(preparedOrder)
-
+      const newOrder: Order = {
+        order_id: 'orderId',
+        created_at: '10-29-2019',
+        updated_at: '11-29-2019',
+        transmited: true,
+        transmited_at: '10-29-2019',
+        status: 'pending',
+        state: 'pending',
+        user_id: '15',
+        cart_id: '20',
+        store_code: '2',
+        store_id: 2,
+        products:
+          [{
+            sku: 'sku1',
+            qty: 5,
+            name: 'Product 1',
+            price: 50,
+            product_type: 'Product type 1'
+          }],
+        addressInformation:
+        {
+          shippingAddress:
+          {
+            region: 'Region here',
+            region_id: 4,
+            country_id: '15',
+            street: [],
+            company: 'Company here',
+            telephone: 'telephone',
+            postcode: 'postcode',
+            city: 'City name',
+            firstname: 'first name',
+            lastname: 'last name',
+            email: 'example@example.com',
+            region_code: '20',
+            sameAsBilling: 1
+          },
+          billingAddress: { properties: {} },
+          shipping_method_code: 'one',
+          shipping_carrier_code: 'two',
+          payment_method_code: 'three',
+          payment_method_additional: 'four'
+        }
+      }
       const contextMock = createContextMock({
         commit: jest.fn(),
         dispatch: jest.fn(),
@@ -1031,25 +1107,156 @@ describe('Order actions', () => {
 
   });
 
-
   describe('processOrder action', () => {
     /*
-    it('should add last order confirmation', async () => {
+    it('should add last order with confirmation', async () => {
       (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
         (task)
       );
-      const optimizedOrder = optimizeOrder(order)
-      const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
       const contextMock = createContextMock({
         commit: jest.fn(),
         dispatch: jest.fn(),
         getters: { getSessionOrderHashes: 'current-order-hash' }
       });
-      const newOrder = {...order, transmited: true}
+      const preparedOrderBefore = {
+        order_id: 'orderId',
+        created_at: '10-29-2019',
+        updated_at: '11-29-2019',
+        transmited: true,
+        transmited_at: '10-29-2019',
+        status: 'pending',
+        state: 'pending',
+        user_id: '15',
+        cart_id: '20',
+        store_code: '2',
+        store_id: 2,
+        products:
+          [{
+            sku: 'sku1',
+            qty: 5,
+            name: 'Product 1',
+            price: 50,
+            product_type: 'Product type 1'
+          }],
+        addressInformation:
+        {
+          shippingAddress:
+          {
+            region: 'Region here',
+            region_id: 4,
+            country_id: '15',
+            street: [],
+            company: 'Company here',
+            telephone: 'telephone',
+            postcode: 'postcode',
+            city: 'City name',
+            firstname: 'first name',
+            lastname: 'last name',
+            email: 'example@example.com',
+            region_code: '20',
+            sameAsBilling: 1
+          },
+          billingAddress: { properties: {} },
+          shipping_method_code: 'one',
+          shipping_carrier_code: 'two',
+          payment_method_code: 'three',
+          payment_method_additional: 'four'
+        }
+      }
+      const order1 = {
+        order_id: 'orderId',
+        created_at: '10-29-2019',
+        updated_at: '11-29-2019',
+        transmited: true,
+        transmited_at: '10-29-2019',
+        status: 'pending',
+        state: 'pending',
+        user_id: '15',
+        cart_id: '20',
+        store_code: '2',
+        store_id: 2,
+        products:
+          [{
+            sku: 'sku1',
+            qty: 5,
+            name: 'Product 1',
+            price: 50,
+            product_type: 'Product type 1'
+          }],
+        addressInformation:
+        {
+          shippingAddress:
+          {
+            region: 'Region here',
+            region_id: 4,
+            country_id: '15',
+            street: [],
+            company: 'Company here',
+            telephone: 'telephone',
+            postcode: 'postcode',
+            city: 'City name',
+            firstname: 'first name',
+            lastname: 'last name',
+            email: 'example@example.com',
+            region_code: '20',
+            sameAsBilling: 1
+          },
+          billingAddress: { properties: {} },
+          shipping_method_code: 'one',
+          shipping_carrier_code: 'two',
+          payment_method_code: 'three',
+          payment_method_additional: 'four'
+        }
+      }
+      const order2 = {
+        order_id: 'orderId',
+        created_at: '10-29-2019',
+        updated_at: '11-29-2019',
+        transmited: true,
+        transmited_at: '10-29-2019',
+        status: 'pending',
+        state: 'pending',
+        user_id: '15',
+        cart_id: '20',
+        store_code: '2',
+        store_id: 2,
+        products:
+          [{
+            sku: 'sku1',
+            qty: 5,
+            name: 'Product 1',
+            price: 50,
+            product_type: 'Product type 1'
+          }],
+        addressInformation:
+        {
+          shippingAddress:
+          {
+            region: 'Region here',
+            region_id: 4,
+            country_id: '15',
+            street: [],
+            company: 'Company here',
+            telephone: 'telephone',
+            postcode: 'postcode',
+            city: 'City name',
+            firstname: 'first name',
+            lastname: 'last name',
+            email: 'example@example.com',
+            region_code: '20',
+            sameAsBilling: 1
+          },
+          billingAddress: { properties: {} },
+          shipping_method_code: 'one',
+          shipping_carrier_code: 'two',
+          payment_method_code: 'three',
+          payment_method_additional: 'four'
+        }
+      }
 
-      await (orderActions as any).processOrder(contextMock, { order, currentOrderHash })
+      await (orderActions as any).processOrder(contextMock, { order1, currentOrderHash })
 
-      expect(contextMock.commit).toBeCalledWith(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { newOrder, confirmation: 'server-order-token' });
+      expect(contextMock.commit).toBeCalledWith(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order2, confirmation: task.result });
     })
     */
 
@@ -1058,13 +1265,7 @@ describe('Order actions', () => {
       (OrderService.placeOrder as jest.Mock).mockImplementation(async () =>
         (task)
       );
-      const optimizedOrder = optimizeOrder(order)
-      const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
-      const contextMock = createContextMock({
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        getters: { getSessionOrderHashes: 'current-order-hash' }
-      });
+      const contextMock = createContextMock();
 
       await (orderActions as any).processOrder(contextMock, { order, currentOrderHash })
 
@@ -1075,10 +1276,51 @@ describe('Order actions', () => {
   describe('handlePlacingOrderFailed action', () => {
     it('should dispatch notification/spawnNotification action', () => {
       const contextMock = createContextMock();
-      const optimizedOrder = optimizeOrder(order)
-      const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
-      const preparedOrder = prepareOrder(optimizedOrder)
-      const newOrder = orderHooksExecutors.beforePlaceOrder(preparedOrder)
+      const newOrder: Order = {
+        order_id: 'orderId',
+        created_at: '10-29-2019',
+        updated_at: '11-29-2019',
+        transmited: true,
+        transmited_at: '10-29-2019',
+        status: 'pending',
+        state: 'pending',
+        user_id: '15',
+        cart_id: '20',
+        store_code: '2',
+        store_id: 2,
+        products:
+          [{
+            sku: 'sku1',
+            qty: 5,
+            name: 'Product 1',
+            price: 50,
+            product_type: 'Product type 1'
+          }],
+        addressInformation:
+        {
+          shippingAddress:
+          {
+            region: 'Region here',
+            region_id: 4,
+            country_id: '15',
+            street: [],
+            company: 'Company here',
+            telephone: 'telephone',
+            postcode: 'postcode',
+            city: 'City name',
+            firstname: 'first name',
+            lastname: 'last name',
+            email: 'example@example.com',
+            region_code: '20',
+            sameAsBilling: 1
+          },
+          billingAddress: { properties: {} },
+          shipping_method_code: 'one',
+          shipping_carrier_code: 'two',
+          payment_method_code: 'three',
+          payment_method_additional: 'four'
+        }
+      }
       const wrapper = (orderActions: any) => orderActions.handlePlacingOrderFailed(contextMock, { newOrder, currentOrderHash });
 
       wrapper(orderActions);
