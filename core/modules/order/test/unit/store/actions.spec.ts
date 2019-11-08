@@ -1175,7 +1175,7 @@ describe('Order actions', () => {
   });
 
   describe('handlePlacingOrderFailed action', () => {
-    it('should dispatch notification/spawnNotification action', () => {
+    it('should dispatch enqueue action', () => {
       const contextMock = createContextMock();
       const newOrder: Order = {
         order_id: 'orderId',
