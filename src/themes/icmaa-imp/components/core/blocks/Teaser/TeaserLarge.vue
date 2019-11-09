@@ -25,10 +25,10 @@ export default {
   },
   computed: {
     ratio () {
-      return this.viewport === 'sm' ? '133:78' : '12:7'
+      return ['xs', 'sm'].includes(this.viewport) ? '133:78' : '12:7'
     },
     imageUrl () {
-      const image = this.viewport !== 'sm' && this.teaser['largeImageUrl'] ? 'largeImageUrl' : 'imageUrl'
+      const image = !['xs', 'sm'].includes(this.viewport) && this.teaser['largeImageUrl'] ? 'largeImageUrl' : 'imageUrl'
       return getThumbnailPath('/' + this.teaser[image], 0, 0, 'media')
     }
   }

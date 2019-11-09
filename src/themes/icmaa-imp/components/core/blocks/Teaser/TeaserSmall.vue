@@ -40,7 +40,7 @@ export default {
       return this.index % 2 === 0
     },
     showLeft () {
-      return this.isUneven || !this.viewport || this.viewport === 'sm'
+      return this.isUneven || !this.viewport || ['xs', 'sm'].includes(this.viewport)
     }
   }
 }

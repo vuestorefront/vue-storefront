@@ -55,7 +55,7 @@ export default {
       return getThumbnailPath('/' + this.categoryExtras.bannerImage, 0, 0, 'media')
     },
     spotifyLogoItems () {
-      return Object.values(this.getSpotifyLogoItems).slice(0, this.spotifyLogoLimit || (this.viewport === 'sm' ? 4 : 10))
+      return Object.values(this.getSpotifyLogoItems).slice(0, this.spotifyLogoLimit || (['xs', 'sm'].includes(this.viewport) ? 4 : 10))
     }
   },
   methods: {

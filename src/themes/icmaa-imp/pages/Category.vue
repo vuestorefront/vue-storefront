@@ -3,7 +3,7 @@
     <header class="t-container">
       <div class="t-flex t-flex-wrap t-px-4 t-mb-8">
         <category-extras-header class="t-bg-white t--mx-4 md:t-mx-0 md:t-mt-4 lg:t-w-full">
-          <div class="t-hidden lg:t-flex" v-if="viewport !== 'sm'">
+          <div class="t-hidden lg:t-flex" v-if="['xs', 'sm'].includes(viewport)">
             <button-component type="primary" icon="directions_bus" class="t-mr-2 t-font-bold" v-scroll-to="'#category-info-footer'">
               {{ $t('ON TOUR') }}
             </button-component>
