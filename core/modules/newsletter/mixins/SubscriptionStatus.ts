@@ -38,6 +38,11 @@ export default {
   beforeMount () {
     // the user might already be logged in, so check the subscription status
     if (this.$store.state.user.current) this.onLoggedIn()
+
+    /**
+     * This line causes an exception login because mailchimp isn't connected
+     * @todo Fetch newsletter status correctly
+     */
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
   },
   beforeDestroy () {

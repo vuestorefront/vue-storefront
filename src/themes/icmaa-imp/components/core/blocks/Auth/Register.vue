@@ -124,9 +124,9 @@
           <button-component :submit="true" type="primary" class="t-w-full t-mb-2">
             {{ $t('Register') }} *
           </button-component>
-          <button-component type="facebook" icon="facebook" icon-set="icmaa" icon-position="left" class="t-w-full t-mb-2">
-            {{ $t('Register with Facebook') }}
-          </button-component>
+          <no-ssr>
+            <facebook-login-button initial-text="Register with Facebook" class="t-w-full t-mb-2" />
+          </no-ssr>
           <button-component type="transparent" @click="switchElem" class="t-w-full t-mb-4">
             {{ $t('Already have an account?') }} <span class="t-ml-1">– {{ $t('Login to your account') }}</span>
           </button-component>
@@ -152,6 +152,8 @@ import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
+import FacebookLoginButton from 'theme/components/core/blocks/Auth/FacebookLoginButton'
+import NoSSR from 'vue-no-ssr'
 import { date } from 'icmaa-config/helpers/validators'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 import { Logger } from '@vue-storefront/core/lib/logger'
@@ -163,7 +165,9 @@ export default {
     BaseSelect,
     BaseCheckbox,
     ButtonComponent,
-    MaterialIcon
+    MaterialIcon,
+    FacebookLoginButton,
+    'no-ssr': NoSSR
   },
   data () {
     return {

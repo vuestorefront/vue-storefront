@@ -5,7 +5,7 @@
     </div>
     <base-input
       class="t-mb-4" type="email" name="email" id="email" v-model="email"
-      :placeholder="$t('E-mail address *')"
+      :placeholder="$t('E-mail address') + ' *'"
       :validations="[
         {
           condition: !$v.email.required && $v.email.$error,
@@ -23,7 +23,7 @@
       name="password"
       id="password"
       v-model="password"
-      :placeholder="$t('Password *')"
+      :placeholder="$t('Password') + ' *'"
       :validations="[
         {
           condition: !$v.password.required && $v.password.$error,
@@ -42,9 +42,9 @@
     <button-component :submit="true" type="primary" class="t-w-full t-mb-2" data-testid="loginSubmit">
       {{ $t('Login to your account') }}
     </button-component>
-    <button-component type="facebook" icon="facebook" icon-set="icmaa" icon-position="left" class="t-w-full t-mb-2">
-      {{ $t('Login with Facebook') }}
-    </button-component>
+    <no-ssr>
+      <facebook-login-button class="t-w-full t-mb-2" />
+    </no-ssr>
     <button-component type="transparent" class="t-w-full t--mb-2" @click="switchElem" data-testid="registerLink">
       {{ $t('Not yet an account?') }} <span class="t-ml-1">{{ $t('Register now') }}</span>
     </button-component>
@@ -59,12 +59,16 @@ import { Login } from '@vue-storefront/core/modules/user/components/Login'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import ButtonComponent from 'theme/components/core/blocks/Button'
+import FacebookLoginButton from 'theme/components/core/blocks/Auth/FacebookLoginButton'
+import NoSSR from 'vue-no-ssr'
 
 export default {
   components: {
     BaseCheckbox,
     BaseInput,
-    ButtonComponent
+    ButtonComponent,
+    FacebookLoginButton,
+    'no-ssr': NoSSR
   },
   mixins: [ Login ],
   validations: {
