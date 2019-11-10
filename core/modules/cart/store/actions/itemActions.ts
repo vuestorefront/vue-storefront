@@ -63,10 +63,10 @@ const itemActions = {
         const { status, onlineCheckTaskId } = await dispatch('checkProductStatus', { product })
 
         if (status === 'volatile') {
-          diffLog.pushNotification(notifications.unsafeQuantity)
+          diffLog.pushNotification(notifications.unsafeQuantity())
         }
         if (status === 'out_of_stock') {
-          diffLog.pushNotification(notifications.outOfStock)
+          diffLog.pushNotification(notifications.outOfStock())
         }
 
         if (status === 'ok' || status === 'volatile') {
@@ -75,7 +75,7 @@ const itemActions = {
           })
         }
         if (productIndex === (productsToAdd.length - 1) && (!getters.isCartSyncEnabled || forceServerSilence)) {
-          diffLog.pushNotification(notifications.productAddedToCart)
+          diffLog.pushNotification(notifications.productAddedToCart())
         }
         productIndex++
       }
