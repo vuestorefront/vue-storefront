@@ -1,0 +1,34 @@
+# This is a sample build configuration for JavaScript.
+# Check our guides at https://cloud.google.com/cloud-build/docs/deploying-builds/deploy-cloud-run
+# Only use spaces to indent your .yaml configuration.
+# -----
+# You can specify a custom docker steps or other builder steps, look in docs
+steps:
+  # Pull Repo Code
+  - name: 'gcr.io/cloud-builders/git'
+    id: 'cloning-git-repo'
+    args: ['clone', 'https://github.com/Danail-Irinkov/vue-storefront']
+
+  # Build the vsf containers
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'docker-build-vsf-vue'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/vsf-app-vue', '-f', 'docker/vue-storefront/Dockerfile', '.']
+
+  # Push the vsf containers to gcr.io repo
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'docker-push-vsf-vue'
+    args: ['push', 'gcr.io/$PROJECT_ID/vsf-app-vue']
+
+  # Deploy to GKE
+  - name: 'gcr.io/cloud-builders/gke-deploy'
+    args:
+      - 'run'
+      - '-f'
+      - 'kube'
+      - '--location=europe-west3-c'
+      - '--cluster=procc-kub3'
+
+images: ['gcr.io/$PROJECT_ID/vsf-app-vue']
+
+options:
+  machineType: 'N1_HIGHCPU_8'
