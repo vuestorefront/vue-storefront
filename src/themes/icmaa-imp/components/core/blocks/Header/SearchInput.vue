@@ -28,16 +28,7 @@ export default {
   methods: {
     toggleSearchpanel () {
       this.$store.dispatch('ui/setSearchpanel', !this.isOpen)
-    },
-    updateSearch ({ search }) {
-      this.search = search
     }
-  },
-  beforeMount () {
-    this.$bus.$on('search-input-change', this.updateSearch)
-  },
-  mounted () {
-    this.search = localStorage.getItem(`shop/user/searchQuery`);
   }
 }
 </script>
