@@ -53,26 +53,26 @@
                 </router-link>
               </div>
             </div>
-<!--            <div class="start-md">-->
-<!--              <h3 class="cl-accent weight-400">-->
-<!--                {{ $t('About us') }}-->
-<!--              </h3>-->
-<!--              <div class="mt15">-->
-<!--                <router-link class="cl-secondary" :to="localizedRoute('/i/about-us')" exact>-->
-<!--                  {{ $t('About us (Magento CMS)') }}-->
-<!--                </router-link>-->
-<!--              </div>-->
-<!--              <div class="mt15">-->
-<!--                <router-link class="cl-secondary" :to="localizedRoute('/i/customer-service')" exact>-->
-<!--                  {{ $t('Customer service (Magento CMS)') }}-->
-<!--                </router-link>-->
-<!--              </div>-->
-<!--              <div class="mt15">-->
-<!--                <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>-->
-<!--                  {{ $t('Store locator') }}-->
-<!--                </router-link>-->
-<!--              </div>-->
-<!--            </div>-->
+            <!--            <div class="start-md">-->
+            <!--              <h3 class="cl-accent weight-400">-->
+            <!--                {{ $t('About us') }}-->
+            <!--              </h3>-->
+            <!--              <div class="mt15">-->
+            <!--                <router-link class="cl-secondary" :to="localizedRoute('/i/about-us')" exact>-->
+            <!--                  {{ $t('About us (Magento CMS)') }}-->
+            <!--                </router-link>-->
+            <!--              </div>-->
+            <!--              <div class="mt15">-->
+            <!--                <router-link class="cl-secondary" :to="localizedRoute('/i/customer-service')" exact>-->
+            <!--                  {{ $t('Customer service (Magento CMS)') }}-->
+            <!--                </router-link>-->
+            <!--              </div>-->
+            <!--              <div class="mt15">-->
+            <!--                <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>-->
+            <!--                  {{ $t('Store locator') }}-->
+            <!--                </router-link>-->
+            <!--              </div>-->
+            <!--            </div>-->
           </div>
           <div class="row social mt30">
             <a
