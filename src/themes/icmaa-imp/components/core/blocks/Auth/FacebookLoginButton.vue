@@ -194,6 +194,8 @@ export default {
       resolve()
     })
 
+    this.$bus.$on('user-after-logout', this.logout)
+
     this.process(created).then(() => {
       if (this.connected && !this.isLoggedIn) {
         this.logout()

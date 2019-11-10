@@ -27,6 +27,7 @@ import TopButton from 'theme/components/theme/blocks/AsyncSidebar/TopButton'
 
 export default {
   name: 'Modal',
+  mixins: [onEscapePress],
   components: {
     TopButton
   },
@@ -35,60 +36,6 @@ export default {
       isVisible: false
     }
   },
-  watch: {
-    isVisible (state) {
-      if (state) {
-        this.$nextTick(() => {
-          disableBodyScroll(this.$refs['modal-container']);
-        })
-      } else {
-        clearAllBodyScrollLocks();
-      }
-    }
-  },
-  methods: {
-    onHide (name, state, params) {
-      if (name === this.name) {
-        this.toggle(false)
-      }
-    },
-    onShow (name, state, params) {
-      if (name === this.name) {
-        this.toggle(true)
-      }
-    },
-    onToggle (name, state, params) {
-      if (name === this.name) {
-        state = typeof state === 'undefined' ? !this.isVisible : state
-        this.toggle(state)
-      }
-    },
-    onEscapePress () {
-      this.close()
-    },
-    ...mapMutations('ui', [
-      'setOverlay'
-    ]),
-    toggle (state) {
-      this.isVisible = state
-      state ? this.setOverlay(state) : setTimeout(() => this.setOverlay(state), this.delay)
-      this.$emit(state ? 'show' : 'close', this)
-    },
-    close () {
-      this.toggle(false)
-    }
-  },
-  beforeMount () {
-    this.$bus.$on('modal-toggle', this.onToggle)
-    this.$bus.$on('modal-show', this.onShow)
-    this.$bus.$on('modal-hide', this.onHide)
-  },
-  beforeDestroy () {
-    this.$bus.$off('modal-toggle', this.onToggle)
-    this.$bus.$off('modal-show', this.onShow)
-    this.$bus.$off('modal-hide', this.onHide)
-  },
-  mixins: [onEscapePress],
   props: {
     name: {
       required: true,
@@ -116,6 +63,57 @@ export default {
     style () {
       return this.width ? `width: ${this.width}px` : false
     }
+  },
+  watch: {
+    isVisible (state) {
+      if (state) {
+        this.$nextTick(() => {
+          disableBodyScroll(this.$refs['modal-container']);
+        })
+      } else {
+        clearAllBodyScrollLocks();
+      }
+    }
+  },
+  methods: {
+    ...mapMutations('ui', ['setOverlay']),
+    onHide (name, state, params) {
+      if (name === this.name) {
+        this.toggle(false)
+      }
+    },
+    onShow (name, state, params) {
+      if (name === this.name) {
+        this.toggle(true)
+      }
+    },
+    onToggle (name, state, params) {
+      if (name === this.name) {
+        state = typeof state === 'undefined' ? !this.isVisible : state
+        this.toggle(state)
+      }
+    },
+    onEscapePress () {
+      this.close()
+    },
+    toggle (state) {
+      this.isVisible = state
+      state ? this.setOverlay(state) : setTimeout(() => this.setOverlay(state), this.delay)
+      this.$emit(state ? 'show' : 'close', this)
+    },
+    close () {
+      this.toggle(false)
+    }
+  },
+  beforeMount () {
+    this.$bus.$on('modal-toggle', this.onToggle)
+    this.$bus.$on('modal-show', this.onShow)
+    this.$bus.$on('modal-hide', this.onHide)
+  },
+  beforeDestroy () {
+    this.$bus.$off('modal-toggle', this.onToggle)
+    this.$bus.$off('modal-show', this.onShow)
+    this.$bus.$off('modal-hide', this.onHide)
   }
 }
 </script>

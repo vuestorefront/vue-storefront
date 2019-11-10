@@ -35,7 +35,7 @@
       <base-checkbox class="t-mr-4" id="remember" v-model="remember">
         {{ $t('Remember me') }}
       </base-checkbox>
-      <div href="#" @click.prevent="remindPassword" class="t-text-sm t-cursor-pointer">
+      <div href="#" @click.prevent="callForgotPassword" class="t-text-sm t-cursor-pointer">
         {{ $t('Forgot the password?') }}
       </div>
     </div>
@@ -45,7 +45,7 @@
     <no-ssr>
       <facebook-login-button class="t-w-full t-mb-2" />
     </no-ssr>
-    <button-component type="transparent" class="t-w-full t--mb-2" @click="switchElem" data-testid="registerLink">
+    <button-component type="transparent" class="t-w-full t--mb-2" @click="callRegister" data-testid="registerLink">
       {{ $t('Not yet an account?') }} <span class="t-ml-1">{{ $t('Register now') }}</span>
     </button-component>
   </form>
@@ -53,8 +53,10 @@
 
 <script>
 
+import i18n from '@vue-storefront/i18n'
+import { Logger } from '@vue-storefront/core/lib/logger'
+
 import { required, email } from 'vuelidate/lib/validators'
-import { Login } from '@vue-storefront/core/modules/user/components/Login'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
@@ -63,6 +65,7 @@ import FacebookLoginButton from 'theme/components/core/blocks/Auth/FacebookLogin
 import NoSSR from 'vue-no-ssr'
 
 export default {
+  name: 'Login',
   components: {
     BaseCheckbox,
     BaseInput,
@@ -70,7 +73,14 @@ export default {
     FacebookLoginButton,
     'no-ssr': NoSSR
   },
-  mixins: [ Login ],
+  data () {
+    return {
+      remember: false,
+      email: '',
+      password: '',
+      hasRedirect: !!localStorage.getItem('redirect')
+    }
+  },
   validations: {
     email: {
       required,
@@ -78,11 +88,6 @@ export default {
     },
     password: {
       required
-    }
-  },
-  data () {
-    return {
-      hasRedirect: !!localStorage.getItem('redirect')
     }
   },
   methods: {
@@ -96,18 +101,31 @@ export default {
         })
         return
       }
+
       this.callLogin()
     },
-    remindPassword () {
-      if (!(typeof navigator !== 'undefined' && navigator.onLine)) {
-        this.$store.dispatch('notification/spawnNotification', {
-          type: 'error',
-          message: this.$t('Reset password feature does not work while offline!'),
-          action1: { label: this.$t('OK') }
-        })
-      } else {
-        this.callForgotPassword()
-      }
+    callLogin () {
+      this.$bus.$emit('notification-progress-start', i18n.t('Please wait'))
+      this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {
+        this.$bus.$emit('notification-progress-stop', {})
+
+        if (result.code !== 200) {
+          this.onFailure(result)
+        } else {
+          this.onSuccess()
+          this.close()
+        }
+      }).catch(err => {
+        Logger.error(err, 'user')()
+        this.onFailure({ result: 'Unexpected authorization error. Check your Network connection.' })
+        this.$bus.$emit('notification-progress-stop')
+      })
+    },
+    callRegister () {
+      this.$store.commit('ui/setAuthElem', 'register')
+    },
+    callForgotPassword () {
+      this.$store.commit('ui/setAuthElem', 'forgot-pass')
     },
     onSuccess () {
       this.$store.dispatch('notification/spawnNotification', {
@@ -122,6 +140,9 @@ export default {
         message: this.$t(result.result),
         action1: { label: this.$t('OK') }
       })
+    },
+    close () {
+      this.$bus.$emit('modal-hide', 'modal-signup')
     }
   }
 }

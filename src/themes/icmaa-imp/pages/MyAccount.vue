@@ -1,6 +1,6 @@
 <template>
   <div id="my_account">
-    <div class="bg-cl-secondary py35 pl20">
+    <div class="">
       <div class="container">
         <breadcrumbs
           :with-homepage="true"
@@ -12,20 +12,27 @@
       </div>
     </div>
 
-    <div class="container pt45 pb70">
-      <div class="row px20 pt0">
-        <div class="col-md-3 hidden-xs hidden-sm block">
-          <nav class="static-menu serif h4 mb35">
-            <ul class="m0 p0">
-              <li class="mb20" v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
-                <router-link :to="localizedRoute(page.link)" class="cl-accent">
-                  {{ page.title }}
-                </router-link>
+    <div class="">
+      <div class="">
+        <div class="">
+          <nav class="">
+            <ul class="">
+              <li class="" v-for="(page, index) in navigation" :key="index" @click="notify(page.title)">
+                <template v-if="page.action">
+                  <span @click="page.action">
+                    {{ page.title }}
+                  </span>
+                </template>
+                <template v-else>
+                  <router-link :to="localizedRoute(page.link)">
+                    {{ page.title }}
+                  </router-link>
+                </template>
               </li>
             </ul>
           </nav>
         </div>
-        <div class="col-md-9">
+        <div class="">
           <no-ssr>
             <component :is="this.$props.activeBlock" />
           </no-ssr>
@@ -47,16 +54,16 @@ import MyRecentlyViewed from '../components/core/blocks/MyAccount/MyRecentlyView
 import NoSSR from 'vue-no-ssr'
 
 export default {
+  mixins: [MyAccount],
   data () {
     return {
       navigation: [
         { title: this.$t('My profile'), link: '/my-account' },
+        { title: this.$t('My orders'), link: '/my-account/orders' },
         { title: this.$t('My shipping details'), link: '/my-account/shipping-details' },
         { title: this.$t('My newsletter'), link: '/my-account/newsletter' },
-        { title: this.$t('My orders'), link: '/my-account/orders' },
-        { title: this.$t('My loyalty card'), link: '#' },
         { title: this.$t('My product reviews'), link: '#' },
-        { title: this.$t('My Recently viewed products'), link: '/my-account/recently-viewed' }
+        { title: this.$t('Logout'), action: this.logout }
       ]
     }
   },
@@ -70,50 +77,13 @@ export default {
     MyRecentlyViewed,
     'no-ssr': NoSSR
   },
-  mixins: [MyAccount],
   methods: {
-    notify (title) {
-      if (title === 'My loyalty card' || title === 'My product reviews') {
-        this.$store.dispatch('notification/spawnNotification', {
-          type: 'warning',
-          message: this.$t('This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!'),
-          action1: { label: this.$t('OK') }
+    logout () {
+      this.$store.dispatch('user/logout', { silent: false })
+        .then(() => {
+          this.$router.push(this.localizedRoute('/'))
         })
-      }
     }
   }
 }
 </script>
-
-<style lang="scss">
-@import '~theme/css/base/text';
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-$color-tertiary: color(tertiary);
-
-.static-menu {
-  ul {
-    list-style: none;
-  }
-
-  a {
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background-color: $color-tertiary;
-    }
-
-    &:hover,
-    &.router-link-exact-active {
-      &:after {
-        opacity: 0;
-      }
-    }
-  }
-}
-</style>
