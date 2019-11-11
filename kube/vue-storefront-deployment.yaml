@@ -23,6 +23,11 @@ spec:
         volumeMounts:
           - mountPath: /var/www/dist
             name: build-cache
+        resources:
+          limits:
+            memory: 2048Mi
+          requests:
+            memory: 1024Mi
       volumes:
         - name: build-cache
           emptyDir:
