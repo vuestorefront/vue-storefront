@@ -4,6 +4,7 @@ import fetch from 'isomorphic-fetch'
 import {processESResponseType, processProductsType, processCmsType} from './processor/processType'
 import SearchQuery from '../../searchQuery'
 import config from 'config'
+import { getApiEndpointUrl, isServer } from '@vue-storefront/core/helpers'
 
 export class SearchAdapter {
   public entities: any
@@ -41,10 +42,14 @@ export class SearchAdapter {
 
     // define GraphQL url from searchAdapter entity or use default graphQl host with storeCode param
     let urlGql = ''
-    if (this.entities[Request.type].url) {
-      urlGql = this.entities[Request.type].url
+    if (getApiEndpointUrl(this.entities[Request.type], 'url')) {
+      urlGql = getApiEndpointUrl(this.entities[Request.type], 'url')
     } else {
-      urlGql = config.server.protocol + '://' + config.graphql.host + ':' + config.graphql.port + '/graphql'
+      
+      const serverProtocol = isServer ? getApiEndpointUrl(config.server, 'protocol') : config.server.protocol
+      const host = isServer ? getApiEndpointUrl(config.graphql, 'host') : config.graphql.host
+      const port = isServer ? getApiEndpointUrl(config.graphql, 'port') : config.graphql.port
+      urlGql = serverProtocol + '://' + host + ':' + port + '/graphql'
       const urlStoreCode = (storeView.storeCode !== '') ? encodeURIComponent(storeView.storeCode) + '/' : ''
       urlGql = urlGql + '/' + urlStoreCode
     }
@@ -73,7 +78,7 @@ export class SearchAdapter {
    * @param {function} resultPorcessor process results of response
    * @return {Object}
   */
-  public registerEntityType (entityType, { url = '', gql, queryProcessor, resultPorcessor }) {
+  public registerEntityType (entityType, { url = '', url_ssr = '', gql, queryProcessor, resultPorcessor }) {
     this.entities[entityType] = {
       query: require(`${gql}`),
       queryProcessor: queryProcessor,
@@ -81,6 +86,9 @@ export class SearchAdapter {
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
+    }
+    if (url_ssr !== '') {
+      this.entities[entityType]['url_ssr'] = url_ssr
     }
     return this
   }
@@ -93,7 +101,7 @@ export class SearchAdapter {
    * @param {function} resultPorcessor process results of response
    * @return {Object}
   */
-  public registerEntityTypeByQuery (entityType, { url = '', query, queryProcessor, resultPorcessor }) {
+  public registerEntityTypeByQuery (entityType, { url = '', url_ssr = '', query, queryProcessor, resultPorcessor }) {
     this.entities[entityType] = {
       query: query,
       queryProcessor: queryProcessor,
@@ -101,6 +109,9 @@ export class SearchAdapter {
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
+    }
+    if (url_ssr !== '') {
+      this.entities[entityType]['url_ssr'] = url_ssr
     }
     return this
   }

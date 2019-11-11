@@ -8,6 +8,7 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
+import { getApiEndpointUrl } from '@vue-storefront/core/helpers';
 
 export class SearchAdapter {
   public entities: any
@@ -42,10 +43,10 @@ export class SearchAdapter {
 
     Request.index = storeView.elasticsearch.index
 
-    let url = processURLAddress(storeView.elasticsearch.host)
+    let url = processURLAddress(getApiEndpointUrl(storeView.elasticsearch, 'host'))
 
     if (this.entities[Request.type].url) {
-      url = this.entities[Request.type].url
+      url = getApiEndpointUrl(this.entities[Request.type], 'url')
     }
 
     const httpQuery: HttpQuery = {
@@ -72,6 +73,7 @@ export class SearchAdapter {
     }
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + queryString.stringify(httpQuery)
+    
     return fetch(url, { method: config.elasticsearch.queryMethod,
       mode: 'cors',
       headers: {
@@ -80,10 +82,10 @@ export class SearchAdapter {
       },
       body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
     })
-      .then(resp => { return resp.json() })
-      .catch(error => {
-        throw new Error('FetchError in request to ES: ' + error.toString())
-      })
+    .then(resp => { return resp.json() })
+    .catch(error => {
+      throw new Error('FetchError in request to ES: ' + error.toString())
+    })
   }
 
   public handleResult (resp, type, start = 0, size = 50): SearchResponse {
@@ -110,13 +112,16 @@ export class SearchAdapter {
     }
   }
 
-  public registerEntityType (entityType, { url = '', queryProcessor, resultPorcessor }) {
+  public registerEntityType (entityType, { url = '', url_ssr = '', queryProcessor, resultPorcessor }) {
     this.entities[entityType] = {
       queryProcessor: queryProcessor,
       resultPorcessor: resultPorcessor
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
+    }
+    if (url_ssr !== '') {
+      this.entities[entityType]['url_ssr'] = url_ssr
     }
     return this
   }

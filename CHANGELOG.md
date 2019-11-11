@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add unit test for \`core/modules/cms\` - @krskibin (#3738)
+- Separating endpoints for CSR/SSR - @Fifciu (#2861)
 
 ### Fixed
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)

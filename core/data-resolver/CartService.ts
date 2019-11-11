@@ -1,3 +1,4 @@
+import { getApiEndpointUrl } from '@vue-storefront/core/helpers';
 import { DataResolver } from './types/DataResolver'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
@@ -7,7 +8,7 @@ import config from 'config';
 
 const setShippingInfo = async (addressInformation: any): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.cart.shippinginfo_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'shippinginfo_endpoint')),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -19,7 +20,7 @@ const setShippingInfo = async (addressInformation: any): Promise<Task> =>
 
 const getTotals = async (): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.cart.totals_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'totals_endpoint')),
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -30,8 +31,8 @@ const getTotals = async (): Promise<Task> =>
 
 const getCartToken = async (guestCart: boolean = false, forceClientState: boolean = false): Promise<Task> => {
   const url = processLocalizedURLAddress(guestCart
-    ? config.cart.create_endpoint.replace('{{token}}', '')
-    : config.cart.create_endpoint)
+    ? getApiEndpointUrl(config.cart, 'create_endpoint').replace('{{token}}', '')
+    : getApiEndpointUrl(config.cart, 'create_endpoint'))
 
   return TaskQueue.execute({
     url,
@@ -47,7 +48,7 @@ const getCartToken = async (guestCart: boolean = false, forceClientState: boolea
 
 const updateItem = async (cartServerToken: string, cartItem: CartItem): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.cart.updateitem_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'updateitem_endpoint')),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -63,7 +64,7 @@ const updateItem = async (cartServerToken: string, cartItem: CartItem): Promise<
 
 const deleteItem = async (cartServerToken: string, cartItem: CartItem): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.cart.deleteitem_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'deleteitem_endpoint')),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -80,7 +81,7 @@ const deleteItem = async (cartServerToken: string, cartItem: CartItem): Promise<
 
 const getPaymentMethods = async (): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.cart.paymentmethods_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'paymentmethods_endpoint')),
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -91,7 +92,7 @@ const getPaymentMethods = async (): Promise<Task> =>
 
 const getShippingMethods = async (address: any): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.cart.shippingmethods_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'shippingmethods_endpoint')),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -105,7 +106,7 @@ const getShippingMethods = async (address: any): Promise<Task> =>
 
 const getItems = async (): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.cart.pull_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'pull_endpoint')),
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -115,7 +116,7 @@ const getItems = async (): Promise<Task> =>
   });
 
 const applyCoupon = async (couponCode: string): Promise<Task> => {
-  const url = processLocalizedURLAddress(config.cart.applycoupon_endpoint.replace('{{coupon}}', couponCode))
+  const url = processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'applycoupon_endpoint').replace('{{coupon}}', couponCode))
 
   return TaskQueue.execute({
     url,
@@ -130,7 +131,7 @@ const applyCoupon = async (couponCode: string): Promise<Task> => {
 
 const removeCoupon = async (): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.cart.deletecoupon_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.cart, 'deletecoupon_endpoint')),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

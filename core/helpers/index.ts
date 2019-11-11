@@ -7,9 +7,10 @@ import { sha3_224 } from 'js-sha3'
 import store from '@vue-storefront/core/store'
 import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks';
+import localGetApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 export const processURLAddress = (url: string = '') => {
-  if (url.startsWith('/')) return `${config.api.url}${url}`
+  if (url.startsWith('/')) return `${localGetApiEndpointUrl(config.api, 'url')}${url}`
   return url
 }
 
@@ -252,3 +253,5 @@ export function extendStore (moduleName: string | string[], module: any) {
   store.unregisterModule(moduleName)
   store.registerModule(moduleName, extendedModule)
 }
+
+export const getApiEndpointUrl = localGetApiEndpointUrl

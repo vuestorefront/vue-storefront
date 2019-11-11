@@ -1,14 +1,15 @@
 import queryString from 'query-string'
 import fetch from 'isomorphic-fetch'
+import { getApiEndpointUrl } from '@vue-storefront/core/helpers'
 
 export const processURLAddress = (url: string = '', config: any) => {
-  if (url.startsWith('/')) return `${config.api.url}${url}`
+  if (url.startsWith('/')) return `${getApiEndpointUrl(config.api, 'url')}${url}`
   return url
 }
 export async function search (request, storeView, config) {
   const elasticsearchQueryBody = request.searchQuery
   if (!request.index) request.index = storeView.elasticsearch.index
-  let url = processURLAddress(storeView.elasticsearch.host, config)
+  let url = processURLAddress(getApiEndpointUrl(storeView.elasticsearch, 'host'), config)
 
   const httpQuery: {
     size: number,

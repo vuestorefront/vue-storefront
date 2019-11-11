@@ -2,14 +2,14 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import MailItem from '../types/MailItem'
 import { Module } from 'vuex'
 import config from 'config'
-import { processURLAddress } from '@vue-storefront/core/helpers'
+import { processURLAddress, getApiEndpointUrl } from '@vue-storefront/core/helpers'
 
 export const mailerStore: Module<any, any> = {
   namespaced: true,
   actions: {
     async sendEmail (context, letter: MailItem) {
       try {
-        const res = await fetch(processURLAddress(config.mailer.endpoint.token))
+        const res = await fetch(processURLAddress(getApiEndpointUrl(config.mailer.endpoint, 'token')))
         const resData = await res.json()
         if (resData.code === 200) {
           try {
