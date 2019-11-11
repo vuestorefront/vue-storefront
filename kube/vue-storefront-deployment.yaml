@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: vue-storefront
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: vue-storefront
@@ -23,37 +23,7 @@ spec:
         volumeMounts:
           - mountPath: /var/www/dist
             name: build-cache
-          - mountPath: /var/www/config
-            name: nfs-drive
-            subPath: vsf_config
-#          - mountPath: /var/www/nfs
-#            name: nfs-drive
-#        livenessProbe:
-#          httpGet:
-#            path: /health
-#            port: 3000
-#          initialDelaySeconds: 300
-#          periodSeconds: 15
-#          timeoutSeconds: 5
-#          failureThreshold: 10
-#        readinessProbe:
-#          httpGet:
-#            path: /health
-#            port: 3000
-#          initialDelaySeconds: 180
-#          periodSeconds: 30
-#          timeoutSeconds: 5
-#          successThreshold: 1
-#          failureThreshold: 5
-        resources:
-          limits:
-            memory: 2048Mi
-          requests:
-            memory: 1024Mi
       volumes:
         - name: build-cache
           emptyDir:
             medium: Memory
-        - name: nfs-drive
-          persistentVolumeClaim:
-            claimName: nfs-drive-pvc
