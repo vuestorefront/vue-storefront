@@ -36,5 +36,6 @@ COPY ./kubernetes ./kubernetes
 EXPOSE 3000
 
 COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
+RUN chmod 774 /usr/local/bin/vue-storefront.sh
 
 CMD ["vue-storefront.sh"]
