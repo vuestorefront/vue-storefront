@@ -3,12 +3,7 @@ kind: Deployment
 metadata:
   name: vue-storefront
 spec:
-  replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 0
-      maxSurge: 2
+  replicas: 2
   selector:
     matchLabels:
       app: vue-storefront
@@ -19,25 +14,7 @@ spec:
     spec:
       containers:
       - name: vue-storefront
-        image: gcr.io/advance-anvil-247513/vue-storefront
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 3000
-          initialDelaySeconds: 320
-          periodSeconds: 33
-          timeoutSeconds: 3
-          successThreshold: 2
-          failureThreshold: 5
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3000
-          initialDelaySeconds: 420
-          periodSeconds: 20
-          timeoutSeconds: 3
-          successThreshold: 1
-          failureThreshold: 6
+        image: gcr.io/advance-anvil-247513/vsf-app-vue
         envFrom:
         - configMapRef:
             name: vue-storefront-config
@@ -46,28 +23,7 @@ spec:
         volumeMounts:
           - mountPath: /var/www/dist
             name: build-cache
-          - mountPath: /var/www/config
-            name: nfs-drive
-            subPath: vsf_config
-          - mountPath: /var/www/src/themes/default-procc/resource/banners
-            name: nfs-drive
-            subPath: vsf_banners
-          - mountPath: /var/www/src/themes/default-procc/resource/policies
-            name: nfs-drive
-            subPath: vsf_policies
-#          - mountPath: /var/www/nfs
-#            name: nfs-drive
-        resources:
-          limits:
-            cpu: 1800m
-            memory: 4048Mi
-          requests:
-            cpu: 200m
-            memory: 1024Mi
       volumes:
         - name: build-cache
           emptyDir:
             medium: Memory
-        - name: nfs-drive
-          persistentVolumeClaim:
-            claimName: nfs-drive-pvc
