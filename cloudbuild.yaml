@@ -22,11 +22,11 @@ steps:
   # Deploy to GKE
   - name: 'gcr.io/cloud-builders/gke-deploy'
     args:
-      - 'run'
+      - 'apply'
       - '-f'
       - 'kube'
       - '--location=europe-west3-c'
-      - '--cluster=procc-kub3'
+      - '--cluster=procc-kub2'
 
 images: ['gcr.io/$PROJECT_ID/vsf-app-vue']
 

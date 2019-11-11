@@ -20,3 +20,10 @@ spec:
             name: vue-storefront-config
         ports:
         - containerPort: 3000
+        volumeMounts:
+          - mountPath: /var/www/dist
+            name: build-cache
+      volumes:
+        - name: build-cache
+          emptyDir:
+            medium: Memory
