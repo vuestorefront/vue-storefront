@@ -1,14 +1,13 @@
 FROM node:10-alpine
 
-ENV VS_ENV production
+ENV VS_ENV prod
 
 WORKDIR /var/www
 
 COPY package.json ./
 COPY yarn.lock ./
 
-RUN apk add --no-cache --virtual .build-deps ca-certificates wget python make g++ \
-  && apk add --no-cache git \
+RUN apk add --no-cache --virtual .build-deps ca-certificates wget git \
   && yarn install --no-cache \
   && apk del .build-deps
 
@@ -37,7 +36,5 @@ COPY ./kubernetes ./kubernetes
 EXPOSE 3000
 
 COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
-RUN chmod 774 /usr/local/bin/vue-storefront.sh
 
-ENV NODE_ENV production
 CMD ["vue-storefront.sh"]
