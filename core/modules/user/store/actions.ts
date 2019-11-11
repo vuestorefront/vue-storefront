@@ -16,7 +16,6 @@ const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
     const usersCollection = StorageManager.get('user')
     const userData = await usersCollection.getItem('current-user')
-
     if (isServer || getters.isLocalDataLoaded) return
     commit(types.USER_LOCAL_DATA_LOADED, true)
 
