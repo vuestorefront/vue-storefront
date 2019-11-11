@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed null value of search input - @AdKamil (#3778)
 
 ### Changed / Improved
-- Improve the readability of 'getShippingDetails()' and 'updateDetails' method of UserShippingDetails component - @adityasharma7 (#3770)
+- Improve the readability of 'getShippingDetails()' and 'updateDetails()g' method of UserShippingDetails component - @adityasharma7 (#3770)
 
 ## [1.11.0-rc.2] - 2019.10.31
 
