@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed links to the promoted banners - @andrzejewsky (#3753)
 - Fixed missing parameter in the compare list - @andrzejewsky (#3757)
 - Fixed product link on mobile - @andrzejewsky (#3772)
+- Custom module `ConfigProvider` aren't called anymore - @cewald (#3797)
 
 ### Added
 - Added support for ES7 - @andrzejewsky (#3690)
