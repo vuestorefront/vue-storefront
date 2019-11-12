@@ -1,8 +1,7 @@
 <template>
   <div class="pt-1 pb-1 w-100 h-100 justify-content-center" style="z-index: auto"
-       @click.stop.prevent=""
-  >
-    <div class="w-100 h-auto">
+       @click.stop.prevent="">
+    <div class="w-100 h-auto" >
       <div v-if="size_chart_loading" style="min-height: 10rem">
         <label class="margin-auto mt-4"
                style="padding-top: 15%!important;"
@@ -14,54 +13,27 @@
       </div>
       <div v-else>
         <table class="table grey-table table-striped text-align-center" v-if="size_chart_data && size_chart_data != null && size_chart_data != '' && size_chart_data.columns"
-               :class="{invisible: (!size_chart_data || size_chart_loading)}"
-        >
+               :class="{invisible: (!size_chart_data || size_chart_loading)}">
           <thead>
             <tr>
               <th v-if="product_data && product_data.available_quantity && Object.keys(product_data.available_quantity).length > 0"
-                  scope="col" class="text-align-center"
-              >
-                {{ $t("qty") }}
-              </th>
-              <th scope="col" class="text-align-center">
-                {{ $t("size") }}
-              </th>
-              <th scope="col" class="text-align-center">
-                {{ $t("bust") }}
-              </th>
-              <th scope="col" class="text-align-center">
-                {{ $t("waist") }}
-              </th>
-              <th scope="col" class="text-align-center">
-                {{ $t("hip") }}
-              </th>
-              <th scope="col" class="text-align-center">
-                {{ $t("length") }}
-              </th>
+                  scope="col" class="text-align-center">{{ $t("qty") }} </th>
+              <th scope="col" class="text-align-center">{{ $t("size") }}</th>
+              <th scope="col" class="text-align-center">{{ $t("bust") }} </th>
+              <th scope="col" class="text-align-center">{{ $t("waist") }} </th>
+              <th scope="col" class="text-align-center">{{ $t("hip") }} </th>
+              <th scope="col" class="text-align-center">{{ $t("length") }} </th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(size, index) in size_chart_data.columns" :key="index">
               <th v-if="product_data && product_data.available_quantity && Object.keys(product_data.available_quantity).length > 0"
-                  class="text-align-center" scope="row"
-              >
-                {{ getSizeQuantity(size.size_name) }}
-              </th>
-              <th class="text-align-center" scope="row">
-                {{ size.size_name }}
-              </th>
-              <td class="text-align-center">
-                {{ size.bust }} cm
-              </td>
-              <td class="text-align-center">
-                {{ size.waist }} cm
-              </td>
-              <td class="text-align-center">
-                {{ size.hip }} cm
-              </td>
-              <td class="text-align-center">
-                {{ size.length }} cm
-              </td>
+                  class="text-align-center" scope="row">{{ getSizeQuantity(size.size_name) }}</th>
+              <th class="text-align-center" scope="row">{{ size.size_name }}</th>
+              <td class="text-align-center">{{ size.bust }} cm</td>
+              <td class="text-align-center">{{ size.waist }} cm</td>
+              <td class="text-align-center">{{ size.hip }} cm</td>
+              <td class="text-align-center">{{ size.length }} cm</td>
             </tr>
           </tbody>
         </table>
