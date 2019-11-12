@@ -65,26 +65,26 @@
           {{ segment.value | price }}
         </div>
       </div>
-      <!--      <div class="row py20">-->
-      <!--        <div v-if="OnlineOnly && !addCouponPressed" class="col-xs-12">-->
-      <!--          <button-->
-      <!--            class="p0 brdr-none serif fs-medium-small cl-accent bg-cl-transparent"-->
-      <!--            type="button"-->
-      <!--            @click="addDiscountCoupon"-->
-      <!--          >-->
-      <!--            {{ $t('Add a discount code') }}-->
-      <!--          </button>-->
-      <!--        </div>-->
-      <!--        <div v-if="OnlineOnly && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">-->
-      <!--          <div class="coupon-input">-->
-      <!--            <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>-->
-      <!--            <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon" />-->
-      <!--          </div>-->
-      <!--          <button-outline color="dark" :disabled="!couponCode" @click.native="setCoupon">-->
-      <!--            {{ $t('Add discount code') }}-->
-      <!--          </button-outline>-->
-      <!--        </div>-->
-      <!--      </div>-->
+<!--      <div class="row py20">-->
+<!--        <div v-if="OnlineOnly && !addCouponPressed" class="col-xs-12">-->
+<!--          <button-->
+<!--            class="p0 brdr-none serif fs-medium-small cl-accent bg-cl-transparent"-->
+<!--            type="button"-->
+<!--            @click="addDiscountCoupon"-->
+<!--          >-->
+<!--            {{ $t('Add a discount code') }}-->
+<!--          </button>-->
+<!--        </div>-->
+<!--        <div v-if="OnlineOnly && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">-->
+<!--          <div class="coupon-input">-->
+<!--            <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>-->
+<!--            <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon" />-->
+<!--          </div>-->
+<!--          <button-outline color="dark" :disabled="!couponCode" @click.native="setCoupon">-->
+<!--            {{ $t('Add discount code') }}-->
+<!--          </button-outline>-->
+<!--        </div>-->
+<!--      </div>-->
 
       <div class="row pt30 pb20 weight-700 middle-xs" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
         <div class="col-xs h4 total-price-label">
