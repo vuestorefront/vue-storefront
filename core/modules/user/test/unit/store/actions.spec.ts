@@ -1,4 +1,5 @@
 import * as types from '../../../store/mutation-types'
+import * as data from './data'
 import userActions from '../../../store/actions'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { UserService } from '@vue-storefront/core/data-resolver'
@@ -38,99 +39,21 @@ jest.mock('@vue-storefront/core/data-resolver', () => ({
         resetPassword: jest.fn(),
         refreshToken: jest.fn(),
         updateProfile: jest.fn(),
-        changePassword: jest.fn()
+        changePassword: jest.fn(),
+        getOrdersHistory: jest.fn()
     }
 }));
 EventBus.$emit = jest.fn()
 
-let user;
-let lastUserToken;
-let responseOb;
-let email;
-let username;
-let password;
-let customer;
-
 describe('User actions', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        user = {
-            id: 58,
-            group_id: 1,
-            groupToken: 'group-three',
-            default_billing: '62',
-            default_shipping: '48',
-            created_at: '2018-01-23 15:30:00',
-            updated_at: '2018-03-04 06:39:28',
-            created_in: 'Default Store View',
-            email: 'examplename@example.com',
-            firstname: 'ExampleFirstName',
-            lastname: 'ExampleLastName',
-            store_id: 1,
-            website_id: 1,
-            addresses: [
-                {
-                    id: 48,
-                    customer_id: 58,
-                    region: {
-                        region_code: null,
-                        region: null,
-                        region_id: 0
-                    },
-                    region_id: 0,
-                    country_id: 'CountryId',
-                    street: ['Street', '12'],
-                    telephone: '',
-                    postcode: '51-169',
-                    city: 'City',
-                    firstname: 'ExampleFirstName',
-                    lastname: 'ExampleLastName',
-                    default_shipping: true
-                },
-                {
-                    id: 62,
-                    customer_id: 58,
-                    region: {
-                        region_code: null,
-                        region: null,
-                        region_id: 0
-                    },
-                    region_id: 0,
-                    country_id: 'CountryId',
-                    street: ['Street', '12'],
-                    company: 'example',
-                    telephone: '',
-                    postcode: '51-169',
-                    city: 'City',
-                    firstname: 'ExampleFirstName',
-                    lastname: 'ExampleLastName',
-                    vat_id: 'vatidhere42342',
-                    default_billing: true
-                }
-            ],
-            'disable_auto_group_change': 0
-        };
-        lastUserToken = 'current-refresh-token';
-        responseOb = {
-            code: 200,
-            result: lastUserToken,
-            meta: 'meta'
-        };
-        username = 'username';
-        password = 'Password456';
-        email = 'examplename@example.com';
-        customer = {
-            email: 'examplename@example.com',
-            firstname: 'ExampleFirstName',
-            lastname: 'ExampleLastName',
-            addresses: 'addr'
-        }
     });
 
     describe('startSession action', () => {
         it('should NOT set user info', async () => {
             (StorageManager.get as jest.Mock).mockImplementation(() => ({
-                getItem: async () => (user)
+                getItem: async () => (data.user)
             }));
 
             const contextMock = {
@@ -142,11 +65,11 @@ describe('User actions', () => {
 
             await wrapper(userActions);
 
-            expect(contextMock.commit).not.toBeCalledWith(types.USER_INFO_LOADED, user)
+            expect(contextMock.commit).not.toBeCalledWith(types.USER_INFO_LOADED, data.user)
         })
         it('should star user session', async () => {
             (StorageManager.get as jest.Mock).mockImplementation(() => ({
-                getItem: async () => (user)
+                getItem: async () => (data.user)
             }));
 
             const contextMock = {
@@ -159,12 +82,12 @@ describe('User actions', () => {
             await wrapper(userActions);
 
             expect(contextMock.commit).toBeCalledWith(types.USER_LOCAL_DATA_LOADED, true)
-            expect(contextMock.commit).toBeCalledWith(types.USER_INFO_LOADED, user)
+            expect(contextMock.commit).toBeCalledWith(types.USER_INFO_LOADED, data.user)
             expect(contextMock.commit).toBeCalledWith(types.USER_START_SESSION)
         })
         it('should set user token', async () => {
             (StorageManager.get as jest.Mock).mockImplementation(() => ({
-                getItem: async () => (lastUserToken)
+                getItem: async () => (data.lastUserToken)
             }));
 
             const contextMock = {
@@ -176,11 +99,11 @@ describe('User actions', () => {
 
             await wrapper(userActions);
 
-            expect(contextMock.commit).toBeCalledWith(types.USER_TOKEN_CHANGED, { newToken: lastUserToken })
+            expect(contextMock.commit).toBeCalledWith(types.USER_TOKEN_CHANGED, { newToken: data.lastUserToken })
         })
         it('should call setUserGroup action', async () => {
             (StorageManager.get as jest.Mock).mockImplementation(() => ({
-                getItem: async () => (user)
+                getItem: async () => (data.user)
             }));
 
             const contextMock = {
@@ -192,7 +115,7 @@ describe('User actions', () => {
 
             await wrapper(userActions);
 
-            expect(contextMock.dispatch).toBeCalledWith('setUserGroup', user)
+            expect(contextMock.dispatch).toBeCalledWith('setUserGroup', data.user)
         })
         it('should emit session-after-nonauthorized', async () => {
             (StorageManager.get as jest.Mock).mockImplementation(() => ({
@@ -215,7 +138,7 @@ describe('User actions', () => {
     describe('resetPassword action', () => {
         it('should return response from resetPassword', () => {
             (UserService.resetPassword as jest.Mock).mockImplementation(() =>
-                (responseOb)
+                (data.responseOb)
             );
 
             const contextMock = {
@@ -223,16 +146,17 @@ describe('User actions', () => {
                 dispatch: jest.fn(),
                 getters: { isLocalDataLoaded: false }
             };
+            const email = data.email;
             const result = (userActions as any).resetPassword(contextMock, { email });
 
-            expect(result).toEqual(responseOb)
+            expect(result).toEqual(data.responseOb)
         })
     });
 
     describe('login action', () => {
         it('should return login response', async () => {
             (UserService.login as jest.Mock).mockImplementation(async () =>
-                (responseOb)
+                (data.responseOb)
             );
 
             const contextMock = {
@@ -240,23 +164,25 @@ describe('User actions', () => {
                 dispatch: jest.fn(),
                 getters: { isLocalDataLoaded: false }
             };
-            const refreshValue = true;
-            const useCacheValue = false;
+            const refreshValue = data.refresh;
+            const useCacheValue = !data.useCache;
             const rootValue = true;
+            const username = data.username;
+            const password = data.password;
             const result = await (userActions as any).login(contextMock, { username, password });
 
             expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'resetUserInvalidateLock', {}, { root: rootValue })
-            expect(contextMock.commit).toHaveBeenCalledWith(types.USER_TOKEN_CHANGED, { newToken: responseOb.result, meta: responseOb.meta })
+            expect(contextMock.commit).toHaveBeenCalledWith(types.USER_TOKEN_CHANGED, { newToken: data.responseOb.result, meta: data.responseOb.meta })
             expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'sessionAfterAuthorized', { refresh: refreshValue, useCache: useCacheValue })
             expect(contextMock.dispatch).not.toBeCalledWith('clearCurrentUser');
-            expect(result).toEqual(responseOb)
+            expect(result).toEqual(data.responseOb)
         })
     });
 
     describe('register action', () => {
         it('should return response from register', async () => {
             (UserService.register as jest.Mock).mockImplementation(async () =>
-                (responseOb)
+                (data.responseOb)
             );
 
             const contextMock = {
@@ -264,28 +190,30 @@ describe('User actions', () => {
                 dispatch: jest.fn(),
                 getters: { isLocalDataLoaded: false }
             };
+            const password = data.password;
+            const customer = data.customer;
             const result = await (userActions as any).register(contextMock, { password, customer });
 
-            expect(result).toEqual(responseOb)
+            expect(result).toEqual(data.responseOb)
         })
     });
 
     describe('refresh action', () => {
         it('should update user token', async () => {
             (StorageManager.get as jest.Mock).mockImplementation(() => ({
-                getItem: async () => (lastUserToken)
+                getItem: async () => (data.lastUserToken)
             }));
             (UserService.refreshToken as jest.Mock).mockImplementation(async () =>
-                (lastUserToken)
+                (data.lastUserToken)
             )
 
             const contextMock = {
                 commit: jest.fn()
             }
-            const newToken = lastUserToken
+            const newToken = data.lastUserToken
             const result = await (userActions as any).refresh(contextMock)
 
-            expect(contextMock.commit).toHaveBeenCalledWith(types.USER_TOKEN_CHANGED, { newToken });
+            expect(contextMock.commit).toBeCalledWith(types.USER_TOKEN_CHANGED, { newToken });
             expect(result).toEqual(newToken)
         })
     });
@@ -295,19 +223,19 @@ describe('User actions', () => {
             const contextMock = {
                 commit: jest.fn()
             }
-            const wrapper = (actions: any) => actions.setUserGroup(contextMock, user);
+            const wrapper = (actions: any) => actions.setUserGroup(contextMock, data.user);
 
             wrapper(userActions);
 
-            expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.USER_GROUP_TOKEN_CHANGED, user.groupToken)
-            expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.USER_GROUP_CHANGED, user.group_id)
+            expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.USER_GROUP_TOKEN_CHANGED, data.user.groupToken)
+            expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.USER_GROUP_CHANGED, data.user.group_id)
         })
     });
 
     describe('restoreCurrentUserFromCache', () => {
         it('should restore current user from cache', async () => {
             (StorageManager.get as jest.Mock).mockImplementation(() => ({
-                getItem: async () => (user)
+                getItem: async () => (data.user)
             }));
 
             const contextMock = {
@@ -317,10 +245,10 @@ describe('User actions', () => {
             };
             const result = await (userActions as any).restoreCurrentUserFromCache(contextMock)
 
-            expect(contextMock.commit).toHaveBeenCalledWith(types.USER_INFO_LOADED, user)
-            expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'setUserGroup', user)
+            expect(contextMock.commit).toHaveBeenCalledWith(types.USER_INFO_LOADED, data.user)
+            expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'setUserGroup', data.user)
             expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'cart/authorize', {}, { root: true })
-            expect(result).toEqual(user)
+            expect(result).toEqual(data.user)
         })
         it('should return null if is not cached', async () => {
             const contextMock = {
@@ -330,7 +258,7 @@ describe('User actions', () => {
             };
             const result = await (userActions as any).restoreCurrentUserFromCache(contextMock)
 
-            expect(result).toEqual(user)
+            expect(result).toEqual(data.user)
         })
     });
 
@@ -348,9 +276,9 @@ describe('User actions', () => {
         it('should load current user profile if getToken is not empty', async () => {
             const contextMock = {
                 dispatch: jest.fn(),
-                getters: { getToken: lastUserToken }
+                getters: { getToken: data.lastUserToken }
             }
-            const resolvedFromCache = false
+            const resolvedFromCache = !data.resolvedFromCache
 
             await (userActions as any).me(contextMock)
 
@@ -361,7 +289,10 @@ describe('User actions', () => {
 
     describe('update action', () => {
         it('should set current result if resultCode from response is 200', async () => {
-            responseOb.resultCode = 200;
+            const responseOb = {
+                resultCode: 200,
+                result: 200
+            };
             (UserService.updateProfile as jest.Mock).mockImplementation(async () =>
                 (responseOb)
             );
@@ -369,7 +300,7 @@ describe('User actions', () => {
                 dispatch: jest.fn()
             }
 
-            await (userActions as any).update(contextMock, user)
+            await (userActions as any).update(contextMock, data.user)
 
             expect(contextMock.dispatch).toHaveBeenCalledWith('user/setCurrentUser', responseOb.result, { root: true })
         })
@@ -381,35 +312,37 @@ describe('User actions', () => {
                 commit: jest.fn()
             };
 
-            (userActions as any).setCurrentUser(contextMock, user)
+            (userActions as any).setCurrentUser(contextMock, data.user)
 
-            expect(contextMock.commit).toBeCalledWith(types.USER_INFO_LOADED, user)
+            expect(contextMock.commit).toBeCalledWith(types.USER_INFO_LOADED, data.user)
         })
     });
 
     describe('changePassword action', () => {
         it('should call login action if response code is 200', async () => {
             (UserService.changePassword as jest.Mock).mockImplementation(async () =>
-                (responseOb)
+                (data.responseOb)
             );
 
             const contextMock = {
                 dispatch: jest.fn(),
-                getters: { getUserEmail: email }
+                getters: { getUserEmail: data.email }
             }
             const passwordData = {
-                currentPassword: password,
+                currentPassword: data.password,
                 newPassword: 'newPassword1'
             }
 
             await (userActions as any).changePassword(contextMock, passwordData)
 
-            expect(contextMock.dispatch).toBeCalledWith('login', { username: user.email, password: passwordData.newPassword })
+            expect(contextMock.dispatch).toBeCalledWith('login', { username: data.user.email, password: passwordData.newPassword })
         })
         it('should call spawnNotification if response code is not 200', async () => {
-            responseOb.code = 400;
-            responseOb.result = {
-                errorMessage: 'Error'
+            const responseOb = {
+                code: 400,
+                result: {
+                    errorMessage: 'Error'
+                }
             };
             (UserService.changePassword as jest.Mock).mockImplementation(async () =>
                 (responseOb)
@@ -419,7 +352,7 @@ describe('User actions', () => {
                 dispatch: jest.fn()
             }
             const passwordData = {
-                currentPassword: password,
+                currentPassword: data.password,
                 newPassword: 'newPassword1'
             }
 
@@ -467,5 +400,99 @@ describe('User actions', () => {
             expect(contextMock.dispatch).toHaveBeenNthCalledWith(4, 'notification/spawnNotification', { type: 'success', message: "You're logged out", action1: { label: 'OK' } }, { root: true })
         })
     });
+
+    describe('loadOrdersFromCache action', () => {
+        it('should return ordersHistory', async () => {
+            (StorageManager.get as jest.Mock).mockImplementation(() => ({
+                getItem: async () => (data.ordersHistory)
+            }));
+
+            const contextMock = {
+                commit: jest.fn()
+            }
+
+            const result = await (userActions as any).loadOrdersFromCache(contextMock)
+
+            expect(contextMock.commit).toBeCalledWith(types.USER_ORDERS_HISTORY_LOADED, data.ordersHistory)
+            expect(result).toBe(data.ordersHistory)
+        })
+    });
+
+    describe('refreshOrderHistory action', () => {
+        it('should refresh orders history', async () => {
+            const responseOb = {
+                result: data.ordersHistory,
+                code: 200
+            };
+            (UserService.getOrdersHistory as jest.Mock).mockImplementation(async () =>
+                (responseOb)
+            );
+
+            const contextMock = {
+                commit: jest.fn()
+            }
+            const resolvedFromCache = data.resolvedFromCache;
+            const pageSize = data.pageSize;
+            const currentPage = data.currentPage;
+            const result = await (userActions as any).refreshOrdersHistory(contextMock, { resolvedFromCache, pageSize, currentPage })
+
+            expect(contextMock.commit).toBeCalledWith(types.USER_ORDERS_HISTORY_LOADED, responseOb.result)
+            expect(result).toBe(responseOb)
+        })
+    });
+
+    describe('getOrdersHistory action', () => {
+        it('should return null from the resolved promise if getToken is empty', async () => {
+            const contextMock = {
+                dispatch: jest.fn(),
+                getters: {
+                    getToken: null
+                }
+            }
+            const refresh = data.refresh;
+            const useCache = data.useCache;
+            const pageSize = data.pageSize;
+            const currentPage = data.currentPage;
+            const result = await (userActions as any).getOrdersHistory(contextMock, { refresh, useCache, pageSize, currentPage })
+
+            expect(result).toBe(null)
+        })
+        it('should dispatch loadOrdersFromCache if useCache is set to true and refreshOrdersHistory action if refresh is set to true', async () => {
+            const contextMock = {
+                dispatch: jest.fn(),
+                getters: {
+                    dispatch: jest.fn(),
+                    getToken: data.lastUserToken
+                }
+            }
+            const refresh = data.refresh;
+            const useCache = data.useCache;
+            const pageSize = data.pageSize;
+            const resolvedFromCache = data.resolvedFromCache;
+            const currentPage = data.currentPage;
+
+            contextMock.dispatch.mockImplementationOnce(() => Promise.resolve(data.ordersHistory))
+
+            await (userActions as any).getOrdersHistory(contextMock, { refresh, useCache, pageSize, currentPage })
+
+            expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'loadOrdersFromCache')
+            expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'refreshOrdersHistory', { resolvedFromCache, pageSize, currentPage })
+        })
+    });
+
+    describe('sessionAfterAuthorized action', () => {
+        it('should call me and getOrdersHistory after authorized', async () => {
+            const contextMock = {
+                dispatch: jest.fn()
+            }
+            const refresh = data.refresh;
+            const useCache = data.useCache;
+
+            await (userActions as any).sessionAfterAuthorized(contextMock, { refresh, useCache })
+
+            expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'me', { refresh, useCache })
+            expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'getOrdersHistory', { refresh, useCache })
+        })
+    })
 
 })
