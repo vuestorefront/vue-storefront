@@ -228,6 +228,9 @@ app.get('*', (req, res, next) => {
       console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
       next()
     }).catch(errorHandler)
+      .finally(() => {
+        ssr.clearContext(context)
+      })
   }
 
   const dynamicCacheHandler = () => {

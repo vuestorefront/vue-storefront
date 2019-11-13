@@ -97,7 +97,7 @@ function initSSRRequestContext (app, req, res, config) {
       filter: (output, context) => { return output },
       appendHead: (context) => { return ''; },
       template: 'default',
-      cacheTags: null
+      cacheTags: new Set()
     },
     server: {
       app: app,
@@ -112,10 +112,17 @@ function initSSRRequestContext (app, req, res, config) {
   };
 }
 
+function clearContext (context) {
+  Object.keys(context.server).forEach(key => delete context.server[key])
+  delete context.output['cacheTags']
+  delete context['meta']
+}
+
 module.exports = {
   createRenderer,
   initTemplatesCache,
   initSSRRequestContext,
   applyAdvancedOutputProcessing,
-  compileTemplate: compile
+  compileTemplate: compile,
+  clearContext
 }
