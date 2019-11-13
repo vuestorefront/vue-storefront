@@ -35,7 +35,7 @@ module.exports = function (installationDir) {
     cloneVersion: {
       title: 'Copying Vue Storefront files',
       task: answers => {
-        return execa.shell(`git clone --quiet --single-branch --branch ${answers.specificVersion} https://github.com/DivanteLtd/vue-storefront.git ${installationDir} && cd ${installationDir}/core/scripts && git remote rm origin && cd ${installationDir}/ && rm rf packages`)
+        return execa.shell(`git clone --quiet --single-branch --branch ${answers.specificVersion} https://github.com/DivanteLtd/vue-storefront.git ${installationDir} && cd ${installationDir}/core/scripts && git remote rm origin && cd ${installationDir}/ && rm rf packages`);
       }
     },
     runInstaller: {
