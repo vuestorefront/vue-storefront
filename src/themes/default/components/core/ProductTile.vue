@@ -59,7 +59,7 @@
     </router-link>
     <div v-if="canAddToCart">
       <add-to-cart
-        v-if="product.product_option || product.type_id === 'simple'"
+        v-if="product.type_id === 'simple'"
         :product="product"
         class="listing-add-to-cart col-xs-12 col-sm-4 col-md-6"
       />
