@@ -13,7 +13,7 @@
         <div class="h6 cl-bg-tertiary pt5 sku">
           {{ product.sku }}
         </div>
-        <div v-if="canAddToCart()">
+        <div v-if="canAddToCart">
           <add-to-cart
             v-if="product.product_option || product.type_id === 'simple'"
             :product="product"
@@ -65,6 +65,11 @@ export default {
     AddToCart
   },
   mixins: [Product],
+  data () {
+    return {
+      addToCartFromWishlist: true
+    }
+  },
   computed: {
     productLink () {
       return formatProductLink(this.product, currentStoreView().storeCode)
@@ -74,6 +79,9 @@ export default {
         loading: this.thumbnail,
         src: this.thumbnail
       }
+    },
+    canAddToCart () {
+      return this.addToCartFromWishlist
     }
   },
   methods: {
@@ -84,9 +92,6 @@ export default {
         action1: { label: i18n.t('OK') }
       }, { root: true })
       this.removeFromWishlist(product)
-    },
-    canAddToCart () {
-      return config.products.addToCartFromWishlist
     }
   }
 }

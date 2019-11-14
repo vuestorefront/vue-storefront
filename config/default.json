@@ -309,8 +309,6 @@
     "clearPricesBeforePlatformSync": false,
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
-    "addToCartFromWishlist": true,
-    "addToCartFromListing": true,
     "endpoint": "/api/product",
     "defaultFilters": ["color", "size", "price", "erin_recommends"],
     "systemFilterNames": ["sort"],

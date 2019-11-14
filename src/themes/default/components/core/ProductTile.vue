@@ -57,7 +57,7 @@
         v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
       >{{ product.price_incl_tax | price }}</span>
     </router-link>
-    <div v-if="canAddToCart()">
+    <div v-if="canAddToCart">
       <add-to-cart
         v-if="product.product_option || product.type_id === 'simple'"
         :product="product"
@@ -103,6 +103,11 @@ export default {
       default: false
     }
   },
+  data () {
+    return {
+      addToCartFromListing: true
+    }
+  },
   computed: {
     thumbnailObj () {
       return {
@@ -112,6 +117,9 @@ export default {
     },
     favoriteIcon () {
       return this.isOnWishlist ? 'favorite' : 'favorite_border'
+    },
+    canAddToCart () {
+      return this.addToCartFromListing
     }
   },
   methods: {
@@ -140,9 +148,6 @@ export default {
           rootStore.dispatch('stock/list', { skus: skus }) // store it in the cache
         }
       }
-    },
-    canAddToCart () {
-      return config.products.addToCartFromListing
     }
   },
   beforeMount () {
