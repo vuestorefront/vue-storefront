@@ -23,6 +23,8 @@ spec:
         volumeMounts:
           - mountPath: /var/www/dist
             name: build-cache
+          - mountPath: /var/www/config2
+            name: vsf-config-pvc
         resources:
           limits:
             memory: 2048Mi
@@ -32,3 +34,6 @@ spec:
         - name: build-cache
           emptyDir:
             medium: Memory
+        - name: vsf-config-pvc
+          persistentVolumeClaim:
+            claimName: vsf-config-pvc
