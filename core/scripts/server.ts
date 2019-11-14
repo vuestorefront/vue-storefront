@@ -16,6 +16,7 @@ serverExtensions.map(serverModule => {
 
 serverHooksExecutors.afterProcessStarted(config.server)
 const express = require('express')
+const bodyParser = require('body-parser');
 const ms = require('ms')
 const request = require('request');
 
@@ -34,6 +35,8 @@ const isProd = process.env.NODE_ENV === 'production'
 process['noDeprecation'] = true
 
 const app = express()
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 serverHooksExecutors.afterApplicationInitialized({ app, config: config.server, isProd })
 
