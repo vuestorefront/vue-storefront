@@ -7,6 +7,13 @@ const resolve = file => path.resolve(rootPath, file)
 const serverExtensions = glob.sync('src/modules/*/server.{ts,js}')
 const configProviders: Function[] = []
 
+// PROCC Imports
+const Store = require('data-store')
+const _ = require('lodash')
+const storefront = new Store({path: path.resolve('./config/local.json')});
+// const localConfig = new Store({path: path.resolve('./config/local.json')});
+
+
 serverExtensions.map(serverModule => {
   const module = require(resolve(serverModule))
   if (module.configProvider && typeof module.configProvider === 'function') {
