@@ -506,13 +506,13 @@ app.get('*', (req, res, next) => {
   }
 })
 
-async function healthCheck(req, res){
-    try{
-      return apiStatus(res, 'ProCC VSF Online', 200);
-    }catch (e) {
-      return apiStatus(res, e, 502);
-      // return apiStatus(res, 'ERROR ProCC VSF-API Not Connected', 502);
-    }
+async function healthCheck (req, res) {
+  try {
+    return apiStatus(res, 'ProCC VSF Online', 200);
+  } catch (e) {
+    return apiStatus(res, e, 502);
+    // return apiStatus(res, 'ERROR ProCC VSF-API Not Connected', 502);
+  }
 }
 
 let port = process.env.PORT || config.server.port
@@ -531,4 +531,3 @@ const start = () => {
     })
 }
 start()
-

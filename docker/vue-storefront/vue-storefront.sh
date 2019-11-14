@@ -2,7 +2,7 @@
 set -e
 
 #copy repo_configs to PersistentDisk
-cp -a /config/. /config2/
+cp -a config/. config2/
 
 yarn install || exit $?
 
