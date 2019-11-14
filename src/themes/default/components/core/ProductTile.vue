@@ -101,11 +101,10 @@ export default {
     onlyImage: {
       type: Boolean,
       default: false
-    }
-  },
-  data () {
-    return {
-      addToCartFromListing: true
+    },
+    addToCartFromListing: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
