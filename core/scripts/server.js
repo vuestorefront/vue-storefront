@@ -136,6 +136,7 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
 const serverExtensions = require(resolve('src/server'))
 serverExtensions.registerUserServerRoutes(app)
 
+app.get('/health', healthCheck)
 app.post('/invalidate', invalidateCache)
 app.post('/customCall', (req, res) => {
   let storeData = req.body;
@@ -505,6 +506,15 @@ app.get('*', (req, res, next) => {
   }
 })
 
+async function healthCheck(req, res){
+    try{
+      return apiStatus(res, 'ProCC VSF Online', 200);
+    }catch (e) {
+      return apiStatus(res, e, 502);
+      // return apiStatus(res, 'ERROR ProCC VSF-API Not Connected', 502);
+    }
+}
+
 let port = process.env.PORT || config.server.port
 const host = process.env.HOST || config.server.host
 const start = () => {
@@ -521,3 +531,4 @@ const start = () => {
     })
 }
 start()
+
