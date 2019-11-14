@@ -20,6 +20,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helpers/createCategoryListQuery'
 import { formatCategoryLink } from 'core/modules/url/helpers'
+import themeConfig from 'theme/theme.config'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -182,7 +183,8 @@ const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Filter category products
    */
-  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, perPage = 50, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false, cacheOnly = false }) {
+  products (context, { populateAggregations = false, filters = [], searchProductQuery, current = 0, sort = '', includeFields = null, excludeFields = null, configuration = null, append = false, skipCache = false, cacheOnly = false }) {
+    const perPage = themeConfig.entities.category.perPage ? themeConfig.entities.category.perPage : 50
     context.dispatch('setSearchOptions', {
       populateAggregations,
       filters,

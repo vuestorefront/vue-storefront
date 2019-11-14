@@ -12,6 +12,7 @@ import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { mapGetters, mapActions } from 'vuex'
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
+import themeConfig from 'theme/theme.config'
 
 export default {
   name: 'Category',
@@ -19,7 +20,7 @@ export default {
   data () {
     return {
       pagination: {
-        perPage: 50,
+        perPage: themeConfig.entities.category.perPage ? themeConfig.entities.category.perPage : 50,
         current: 0,
         enabled: false
       },
@@ -69,7 +70,7 @@ export default {
       store: store,
       route: route,
       current: 0,
-      perPage: 50,
+      perPage: this.$themeConfig,
       sort,
       filters: config.products.defaultFilters,
       includeFields: config.entities.optimize && isServer ? config.entities.productList.includeFields : null,

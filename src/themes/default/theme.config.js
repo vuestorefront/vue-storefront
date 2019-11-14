@@ -1,7 +1,7 @@
 export default {
   entities: {
     category: {
-      perPage: 50
+      perPage: 2
     }
   }
 }
