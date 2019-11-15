@@ -10,7 +10,7 @@ const configProviders: Function[] = []
 // PROCC Imports
 const Store = require('data-store')
 const _ = require('lodash')
-const storefront = new Store({path: path.resolve('./config/local.json')});
+const storefront = new Store({path: path.resolve('./config/production.json')});
 // const localConfig = new Store({path: path.resolve('./config/local.json')});
 
 
