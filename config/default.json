@@ -34,7 +34,10 @@
       "storeViews",
       "shipping"
     ],
-    "elasticCacheQuota": 4096
+    "elasticCacheQuota": 4096,
+    "ssrDisabledFor": {
+      "extensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
+    }
   },
   "seo": {
     "useUrlDispatcher": true
