@@ -25,7 +25,7 @@ COPY .eslintignore ./
 COPY ecosystem.json ./
 COPY babel.config.js ./
 
-COPY ./config ./config
+COPY ./config ./config_repo
 COPY ./core ./core
 COPY ./src ./src
 COPY ./test ./test
