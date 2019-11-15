@@ -13,7 +13,7 @@ const HTMLContent = require('../pages/Compilation')
 let config = require('config')
 const Store = require('data-store')
 const _ = require('lodash')
-const storefront = new Store({path: path.resolve('./config/local.json')});
+const storefront = new Store({path: path.resolve('./config/production.json')});
 // const localConfig = new Store({path: path.resolve('./config/local.json')});
 
 const compileOptions = {
