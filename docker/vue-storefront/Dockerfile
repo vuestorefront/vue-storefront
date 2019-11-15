@@ -26,6 +26,7 @@ COPY ecosystem.json ./
 COPY babel.config.js ./
 
 COPY ./config ./config_repo
+RUN chmod 774 ./config_repo/production.json
 COPY ./core ./core
 COPY ./src ./src
 COPY ./test ./test
