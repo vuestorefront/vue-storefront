@@ -74,7 +74,7 @@ export default {
       if (!this.isLoggedIn) {
         this.$bus.$emit('modal-toggle', 'modal-signup')
       } else {
-        this.$router.push(this.localizedRoute('/my-account'))
+        this.$store.dispatch('ui/setUserSidebar', true)
       }
     },
     showLanguageSwitcher () {

@@ -20,6 +20,7 @@ import { IcmaaExtendedConfigModule } from 'icmaa-config'
 import { IcmaaExtendedUrlModule } from 'icmaa-url'
 import { IcmaaExtendedCatalogModule } from 'icmaa-catalog'
 import { IcmaaExtendedUserModule } from 'icmaa-user'
+import { IcmaaExtendedNewsletterModule } from 'icmaa-newsletter'
 import { IcmaaCategoryModule } from 'icmaa-category'
 import { IcmaaCategoryExtrasModule } from 'icmaa-category-extras'
 import { IcmaaCmsModule } from 'icmaa-cms'
@@ -54,6 +55,7 @@ export function registerClientModules () {
   registerModule(IcmaaExtendedUrlModule)
   registerModule(IcmaaExtendedCatalogModule)
   registerModule(IcmaaExtendedUserModule)
+  registerModule(IcmaaExtendedNewsletterModule)
   registerModule(IcmaaCmsModule)
   registerModule(IcmaaTeaserModule)
   registerModule(IcmaaAdviceModule)

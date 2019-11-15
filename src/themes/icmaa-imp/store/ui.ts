@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import i18n from '@vue-storefront/i18n'
+
+const AsyncUserNavigation = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-user" */ '../components/core/blocks/MyAccount/NavigationSidebar.vue')
 
 export const uiStore = {
   namespaced: true,
@@ -78,22 +81,32 @@ export const uiStore = {
     closeAll ({ commit }) {
       commit('setCloseAll')
     },
-    setSidebar ({ commit, state }, status) {
+    setSidebar ({ commit }, status) {
       commit('toggleSidebar', 'sidebar', status)
     },
-    setSearchpanel ({ commit, state }, status) {
+    setUserSidebar ({ commit, dispatch, rootGetters }, status) {
+      if (!rootGetters['user/isLoggedIn']) {
+        return
+      }
+
+      commit('toggleSidebar', 'sidebar', status)
+      if (status === true) {
+        dispatch('addSidebarPath', { component: AsyncUserNavigation, title: i18n.t('My account') })
+      }
+    },
+    setSearchpanel ({ commit }, status) {
       commit('toggleSidebar', 'searchpanel', status)
     },
-    setMicrocart ({ commit, state }, status) {
+    setMicrocart ({ commit }, status) {
       commit('toggleSidebar', 'microcart', status)
     },
-    setWishlist ({ commit, state }, status) {
+    setWishlist ({ commit }, status) {
       commit('toggleSidebar', 'wishlist', status)
     },
-    setAddtocart ({ commit, state }, status) {
+    setAddtocart ({ commit }, status) {
       commit('toggleSidebar', 'addtocart', status)
     },
-    setCategoryfilter ({ commit, state }, status) {
+    setCategoryfilter ({ commit }, status) {
       commit('toggleSidebar', 'categoryfilter', status)
     },
     addSidebarPath ({ commit }, pathItem) {

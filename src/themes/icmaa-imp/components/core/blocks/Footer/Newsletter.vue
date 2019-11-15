@@ -1,5 +1,5 @@
 <template>
-  <div class="newsletter" v-if="!isSubscribed">
+  <div class="newsletter">
     <h4 class="t-text-primary t-text-lg t-font-bold t-mb-2">
       {{ $t("Get your 5€ Voucher") }}
     </h4>

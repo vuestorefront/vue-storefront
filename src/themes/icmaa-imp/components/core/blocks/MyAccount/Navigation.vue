@@ -7,14 +7,14 @@
           <div class="t-text-base t-font-bold">
             {{ welcome }}
           </div>
-          <router-link :to="localizedRoute('/my-account')" class="t-text-xs t-text-base-light">
+          <router-link :to="localizedRoute('/my-account')" @click.native="$emit('click')" class="t-text-xs t-text-base-light">
             {{ $t('Edit profile') }}
           </router-link>
         </div>
       </div>
-      <ul class="t-flex t-flex-wrap t-overflow-hidden" :class="[ visible ? 't-pt-3 t-max-h-screen-100 t-border-b t-border-base-lightest lg:t-border-none' : 't-max-h-0' ]" style="transition: all 1s">
+      <ul @click="$emit('click')" class="t-flex t-flex-wrap t-overflow-hidden" :class="[ visible ? 't-pt-3 t-max-h-screen-100 t-border-b t-border-base-lightest lg:t-border-none' : 't-max-h-0' ]" style="transition: all .5s">
         <li class="t-flex t-w-full" v-for="(page, index) in navigation" :key="index">
-          <router-link :to="localizedRoute(page.link)" class="t-flex t-flex-grow t-items-center t-px-6 t-py-3 t-text-sm">
+          <router-link @click.native="close" :to="localizedRoute(page.link)" class="t-flex t-flex-grow t-items-center t-px-6 t-py-3 t-text-sm">
             <material-icon v-if="page.icon" :icon="page.icon" size="sm" class="t-mr-4" :class="[ isActive(page.link) ? 't-text-base-darkest' : 't-text-base-light' ]" />
             {{ page.title }}
           </router-link>
@@ -26,7 +26,7 @@
           </router-link>
         </li>
       </ul>
-      <div class="t-flex lg:t-hidden t-w-full t-py-3 t-items-center t-justify-center t-text-sm t-text-base-light t-cursor-pointer" @click="visible = !visible">
+      <div v-if="accordion" class="t-flex lg:t-hidden t-w-full t-py-3 t-items-center t-justify-center t-text-sm t-text-base-light t-cursor-pointer" @click="visible = !visible">
         {{ $t('Swap navigation') }}
         <material-icon :icon="visible ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" size="sm" class="t-ml-4" />
       </div>
@@ -42,11 +42,11 @@ import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 export default {
   data () {
     return {
-      visible: true,
+      visible: !this.accordion,
       navigation: [
         { title: this.$t('My profile'), icon: 'account_circle', link: '/my-account' },
         { title: this.$t('My orders'), icon: 'local_mall', link: '/my-account/orders' },
-        { title: this.$t('My addresses'), icon: 'home', link: '/my-account/shipping-details' },
+        { title: this.$t('My addresses'), icon: 'home', link: '/my-account/addresses' },
         { title: this.$t('My newsletter'), icon: 'mail', link: '/my-account/newsletter' },
         { title: this.$t('My product reviews'), icon: 'subject', link: '/my-account/reviews' },
         { title: this.$t('My coupons'), icon: 'receipt', link: '/my-account/coupons' }
@@ -55,6 +55,12 @@ export default {
   },
   components: {
     MaterialIcon
+  },
+  props: {
+    accordion: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     ...mapGetters({
@@ -77,6 +83,11 @@ export default {
         .then(() => {
           this.$router.push(this.localizedRoute('/'))
         })
+    },
+    close () {
+      if (this.accordion && ['xs', 'sm'].includes(this.viewport)) {
+        this.visible = false
+      }
     }
   },
   watch: {

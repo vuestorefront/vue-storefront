@@ -13,8 +13,8 @@
         :disabled="disabled"
       >
       <div
-        class="t-flex t-flex-fix t-items-center t-justify-center t-h-6 t-w-6 t-my-2 t-mr-2 t-border t-rounded-sm t-appearance-none t-text-sm t-leading-tight"
-        :class="[ invalid ? 't-border-alert' : 't-border-base-light' ]"
+        class="t-flex t-flex-fix t-items-center t-justify-center t-h-6 t-w-6 t-my-2 t-mr-2 t-bg-white t-border t-rounded-sm t-appearance-none t-text-sm t-leading-tight"
+        :class="[ invalid ? 't-border-alert' : 't-border-base-light', { 't-opacity-75': disabled } ]"
       >
         <material-icon icon="check" size="sm" v-if="value" />
       </div>

@@ -37,6 +37,12 @@ export default {
     close () {
       this.$bus.$emit('modal-hide', 'modal-switcher')
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.componentLoaded = true
+      this.$bus.$emit('modal-show', 'modal-switcher')
+    })
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <button :type="submit ? 'submit' : 'button'" class="t-flex t-items-center t-rounded-sm t-cursor-pointer t-webkit-tap-transparent" :class="[ { 't-uppercase': !['select', 'tag', 'tag-active'].includes(type) }, sizeClass, colorClass, alignClass ]" :style="customColorStyle" @click="$emit('click')">
+  <button :type="submit ? 'submit' : 'button'" class="t-flex t-items-center t-rounded-sm t-cursor-pointer t-webkit-tap-transparent" :class="[ { 't-uppercase': !['select', 'tag', 'tag-active'].includes(type) }, sizeClass, colorClass, alignClass ]" :style="customColorStyle" @click="click">
     <material-icon v-if="icon && iconPosition === 'left'" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-mr-4': !iconOnly }, iconClass ]" />
     <template v-if="iconOnly">
       <span class="t-sr-only">
@@ -7,7 +7,12 @@
       </span>
     </template>
     <template v-else>
-      <slot />
+      <template v-if="confirm && confirmState === 'unconfirmed'">
+        {{ $t('Are you sure?') }}
+      </template>
+      <template v-else>
+        <slot />
+      </template>
     </template>
     <material-icon v-if="icon && iconPosition === 'right'" :icon="icon" :icon-set="iconSet" :size="size === 'md' ? size : 'xs'" class="t-align-middle" :class="[{ 't-ml-4': !iconOnly }, iconClass ]" />
   </button>
@@ -84,6 +89,15 @@ export default {
     submit: {
       type: Boolean,
       default: false
+    },
+    confirm: {
+      type: Boolean,
+      default: undefined
+    }
+  },
+  data () {
+    return {
+      confirmState: false
     }
   },
   computed: {
@@ -130,6 +144,20 @@ export default {
       }
 
       return ''
+    }
+  },
+  methods: {
+    click () {
+      if (this.confirm) {
+        if (!this.confirmState) {
+          this.confirmState = 'unconfirmed'
+          return
+        }
+
+        this.confirmState = false
+      }
+
+      this.$emit('click')
     }
   }
 }

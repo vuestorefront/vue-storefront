@@ -1,451 +1,315 @@
 <template>
-  <div class="mb35">
-    <!-- My profile header -->
-    <div class="row mb15">
-      <div class="col-xs-12 col-sm-6" :class="{ 'cl-accent' : !isEdited }">
-        <h3 class="m0 mb5">
-          {{ $t('My profile') }}
-        </h3>
-      </div>
-      <div class="col-xs-12 col-sm-6">
-        <div class="lh30 flex end-md" v-if="!isEdited">
-          <a href="#" class="cl-tertiary flex" @click.prevent="edit">
-            <span class="pr5">
-              {{ $t('Edit your profile') }}
-            </span>
-            <i class="material-icons cl-tertiary">edit</i>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- My profile body (edit mode) -->
-    <div class="row" v-if="isEdited">
+  <div class="t-p-4 t-bg-white">
+    <headline icon="account_circle">
+      {{ $t('My profile') }}
+    </headline>
+    <form @submit.prevent="submit" novalidate class="t-flex t-flex-wrap t--mx-2">
       <base-input
-        class="col-xs-12 col-md-6 mb10"
-        type="text"
-        name="first-name"
-        autocomplete="given-name"
-        :placeholder="$t('First name')"
-        v-model.trim="currentUser.firstname"
-        @input="$v.currentUser.firstname.$touch()"
-        :validations="[
-          {
-            condition: !$v.currentUser.firstname.required,
-            text: $t('Field is required')
-          },
-          {
-            condition: !$v.currentUser.firstname.minLength,
-            text: $t('Name must have at least 2 letters.')
-          }
-        ]"
-      />
-
-      <base-input
-        class="col-xs-12 col-md-6 mb10"
-        type="text"
-        name="last-name"
-        autocomplete="family-name"
-        :placeholder="$t('Last name')"
-        v-model.trim="currentUser.lastname"
-        @input="$v.currentUser.lastname.$touch()"
-        :validations="[{
-          condition: !$v.currentUser.lastname.required,
-          text: $t('Field is required')
-        }]"
-      />
-
-      <base-input
-        class="col-xs-12 col-md-6 mb10"
         type="email"
-        name="email-address"
+        name="email"
+        id="email"
         autocomplete="email"
-        :placeholder="$t('Email address')"
-        v-model="currentUser.email"
+        v-model="profile.email"
+        focus
+        :label="$t('E-mail address') + ' *'"
         :validations="[
           {
-            condition: !$v.currentUser.email.required,
-            text: $t('Field is required')
+            condition: !validation.email.required && validation.email.$error,
+            text: $t('Field is required.')
           },
           {
-            condition: !$v.currentUser.email.email,
+            condition: !validation.email.email && validation.email.$error,
             text: $t('Please provide valid e-mail address.')
           }
         ]"
+        class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
       />
-
-      <!-- Change password (edit mode) -->
+      <base-input
+        name="first-name"
+        id="first-name"
+        autocomplete="given-name"
+        v-model="profile.firstname"
+        :label="$t('First name') + ' *'"
+        :validations="[
+          {
+            condition: !validation.firstname.required && validation.firstname.$error,
+            text: $t('Field is required.')
+          }
+        ]"
+        class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+      />
+      <base-input
+        name="last-name"
+        id="last-name"
+        autocomplete="family-name"
+        v-model="profile.lastname"
+        :label="$t('Last name') + ' *'"
+        :validations="[{
+          condition: !validation.lastname.required && validation.lastname.$error,
+          text: $t('Field is required.')
+        }]"
+        class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+      />
+      <base-select
+        name="gender"
+        id="gender"
+        v-model="profile.gender"
+        :options="genderOptions"
+        :label="$t('Gender') + ' *'"
+        :initial-option-text="$t('Gender')"
+        :validations="[{
+          condition: !validation.gender.required && validation.gender.$error,
+          text: $t('Field is required.')
+        }]"
+        class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+      />
+      <base-input
+        name="dob"
+        id="dob"
+        autocomplete="bday"
+        mask="date"
+        v-model="profile.dob"
+        :label="$t('Date of birth') + ' *'"
+        :placeholder="'DD.MM.YYYY'"
+        :validations="[
+          {
+            condition: !validation.dob.required && validation.dob.$error,
+            text: $t('Field is required.')
+          },
+          {
+            condition: !validation.dob.date && validation.dob.$error,
+            text: $t('Use a valid date.')
+          }
+        ]"
+        class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+      />
       <base-checkbox
-        class="col-xs-12 mb15"
+        name="changePassword"
         id="changePassword"
-        v-model="changePassword"
+        v-model="profile.changePassword"
+        class="t-w-full t-px-2 t-mb-4"
       >
         {{ $t('Change my password') }}
       </base-checkbox>
-
-      <template v-if="changePassword">
+      <div v-if="profile.changePassword" class="t-flex t-flex-wrap t-flex-grow">
         <base-input
-          class="col-xs-12 col-md-6 mb15 mt10"
           type="password"
-          name="old-password"
-          autocomplete="current-password"
-          :placeholder="$t('Current password *')"
-          v-model="oldPassword"
-          @input="$v.oldPassword.$touch()"
-          :validations="[{
-            condition: !$v.oldPassword.required && $v.oldPassword.$error,
-            text: $t('Field is required')
-          }]"
-        />
-
-        <div class="hidden-xs hidden-sm col-md-6 mb15 mt10" />
-
-        <base-input
-          class="col-xs-12 col-md-6 mb15 mt10"
-          type="password"
-          name="password"
-          autocomplete="new-password"
-          :placeholder="$t('New password *')"
-          v-model="password"
-          @input="$v.password.$touch()"
-          :validations="[{
-            condition: !$v.password.required && $v.password.$error,
-            text: $t('Field is required')
-          }]"
-        />
-
-        <base-input
-          class="col-xs-12 col-md-6 mb15 mt10"
-          type="password"
-          name="password-confirm"
-          autocomplete="new-password"
-          :placeholder="$t('Repeat new password *')"
-          v-model="rPassword"
-          @input="$v.rPassword.$touch()"
+          name="oldPassword"
+          id="oldPassword"
+          ref="oldPassword"
+          autocomplete="old-password"
+          v-model="profile.oldPassword"
+          :label="$t('Current password') + ' *'"
           :validations="[
             {
-              condition: !$v.rPassword.required && $v.rPassword.$error,
-              text: $t('Field is required')
+              condition: !validation.oldPassword.required && validation.oldPassword.$error,
+              text: $t('Field is required.')
             },
             {
-              condition: !$v.rPassword.sameAsPassword,
+              condition: !validation.oldPassword.minLength && validation.oldPassword.$error,
+              text: $t('Password must have at least 8 letters.')
+            }
+          ]"
+          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+        />
+        <div class="t-w-full" />
+        <base-input
+          type="password"
+          name="password"
+          id="password"
+          ref="password"
+          autocomplete="new-password"
+          v-model="profile.password"
+          :label="$t('Password') + ' *'"
+          :validations="[
+            {
+              condition: !validation.password.required && validation.password.$error,
+              text: $t('Field is required.')
+            },
+            {
+              condition: !validation.password.minLength && validation.password.$error,
+              text: $t('Password must have at least 8 letters.')
+            }
+          ]"
+          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
+        />
+        <base-input
+          type="password"
+          name="rPassword"
+          id="rPassword"
+          autocomplete="new-password"
+          v-model="profile.rPassword"
+          :label="$t('Repeat password') + ' *'"
+          :validations="[
+            {
+              condition: !validation.rPassword.required && validation.rPassword.$error,
+              text: $t('Field is required.')
+            },
+            {
+              condition: !validation.rPassword.sameAsPassword && validation.rPassword.$error,
               text: $t('Passwords must be identical.')
             }
           ]"
+          class="t-w-full lg:t-w-1/2 t-px-2 t-mb-4"
         />
-      </template>
-
-      <!-- Company information (edit mode) -->
-      <base-checkbox
-        class="col-xs-12 mb15 mt10"
-        id="addCompany"
-        v-model="addCompany"
-      >
-        {{ $t('I have a company and want to receive an invoice for every order') }}
-      </base-checkbox>
-
-      <template v-if="addCompany">
-        <base-input
-          class="col-xs-12 mb10"
-          type="text"
-          name="company-name"
-          autocomplete="organization"
-          :placeholder="$t('Company name *')"
-          v-model.trim="userCompany.company"
-          @input="$v.userCompany.company.$touch()"
-          :validations="[{
-            condition: !$v.userCompany.company.required && $v.userCompany.company.$error,
-            text: $t('Field is required')
-          }]"
-        />
-
-        <base-input
-          class="col-xs-12 col-sm-6 mb10"
-          type="text"
-          name="street-address"
-          autocomplete="address-line1"
-          :placeholder="$t('Street name *')"
-          v-model.trim="userCompany.street"
-          @input="$v.userCompany.street.$touch()"
-          :validations="[{
-            condition: !$v.userCompany.street.required && $v.userCompany.street.$error,
-            text: $t('Field is required')
-          }]"
-        />
-
-        <base-input
-          class="col-xs-12 col-sm-6 mb10"
-          type="text"
-          name="apartment-number"
-          autocomplete="address-line2"
-          :placeholder="$t('House/Apartment number *')"
-          v-model.trim="userCompany.house"
-          @input="$v.userCompany.house.$touch()"
-          :validations="[{
-            condition: !$v.userCompany.house.required && $v.userCompany.house.$error,
-            text: $t('Field is required')
-          }]"
-        />
-
-        <base-input
-          class="col-xs-12 col-sm-6 mb10"
-          type="text"
-          name="city"
-          autocomplete="address-level2"
-          :placeholder="$t('City *')"
-          v-model.trim="userCompany.city"
-          @input="$v.userCompany.city.$touch()"
-          :validations="[
-            {
-              condition: !$v.userCompany.city.required && $v.userCompany.city.$error,
-              text: $t('Field is required')
-            },
-            {
-              condition: $v.userCompany.city.$error && $v.userCompany.city.required,
-              text: $t('Please provide valid city name')
-            }
-          ]"
-        />
-
-        <base-input
-          class="col-xs-12 col-sm-6 mb10"
-          type="text"
-          name="state"
-          autocomplete="address-level1"
-          :placeholder="$t('State / Province')"
-          v-model.trim="userCompany.region"
-        />
-
-        <base-input
-          class="col-xs-12 col-sm-6 mb10"
-          type="text"
-          name="zip-code"
-          autocomplete="postal-code"
-          :placeholder="$t('Zip-code *')"
-          v-model.trim="userCompany.postcode"
-          @input="$v.userCompany.postcode.$touch()"
-          :validations="[
-            {
-              condition: !$v.userCompany.postcode.required && $v.userCompany.postcode.$error,
-              text: $t('Field is required')
-            },
-            {
-              condition: !$v.userCompany.postcode.minLength,
-              text: $t('Zip-code must have at least 3 letters.')
-            }
-          ]"
-        />
-
-        <base-select
-          class="col-xs-12 col-md-6 mb10"
-          name="countries"
-          :options="countryOptions"
-          :selected="userCompany.country"
-          :placeholder="$t('Country *')"
-          :validations="[
-            {
-              condition: $v.userCompany.country.$error && !$v.userCompany.country.required,
-              text: $t('Field is required')
-            }
-          ]"
-          v-model="userCompany.country"
-          autocomplete="country-name"
-          @blur="$v.userCompany.country.$touch()"
-          @change="$v.userCompany.country.$touch()"
-        />
-
-        <base-input
-          class="col-xs-12 col-sm-6 mb10"
-          type="text"
-          name="taxId"
-          autocomplete="tax-id"
-          :placeholder="$t('Tax ID *')"
-          v-model.trim="userCompany.taxId"
-          @input="$v.userCompany.taxId.$touch()"
-          :validations="[
-            {
-              condition: !$v.userCompany.taxId.required && $v.userCompany.taxId.$error,
-              text: $t('Field is required')
-            },
-            {
-              condition: !$v.userCompany.taxId.minLength,
-              text: $t('Tax ID must have at least 3 letters.')
-            }
-          ]"
-        />
-
-        <base-input
-          class="col-xs-12 col-sm-6 mb10"
-          type="text"
-          name="phone-number"
-          autocomplete="tel"
-          :placeholder="$t('Phone Number')"
-          v-model.trim="userCompany.phone"
-        />
-      </template>
-
-      <div class="col-xs-12 col-sm-6">
-        <button-full
-          @click.native="updateProfile"
-          :disabled="checkValidation()"
-        >
+      </div>
+      <div class="t-px-2 t-w-full">
+        <button-component :submit="true" type="primary" class="t-w-full lg:t-w-auto">
           {{ $t('Update my profile') }}
-        </button-full>
+        </button-component>
       </div>
-      <div class="col-xs-12 col-sm-6 flex middle-xs py10">
-        <a href="#" @click="exitSection" class="h4 cl-accent">
-          {{ $t('Cancel') }}
-        </a>
-      </div>
-    </div>
-
-    <!-- My profile summary -->
-    <div class="row fs16 mb35" v-else>
-      <div class="col-xs-12 h4">
-        <p>
-          {{ currentUser.firstname }} {{ currentUser.lastname }}
-        </p>
-        <p>
-          {{ currentUser.email }}
-        </p>
-        <base-checkbox
-          v-if="addCompany"
-          class="mb25"
-          id="addCompanyFilled"
-          v-model="addCompany"
-          disabled
-        >
-          {{ $t('I have a company and want to receive an invoice for every order') }}
-        </base-checkbox>
-        <template v-if="addCompany">
-          <p class="mb25">
-            {{ userCompany.company }}
-          </p>
-          <p class="mb25">
-            {{ userCompany.street }}
-            <span v-if="userCompany.house">
-              {{ userCompany.house }}
-            </span>
-          </p>
-          <p class="mb25">
-            {{ userCompany.city }} {{ userCompany.postcode }}
-          </p>
-          <p class="mb25">
-            <span v-if="userCompany.region">{{ userCompany.region }}, </span>
-            <span>
-              {{ getCountryName() }}
-            </span>
-          </p>
-          <p class="mb25" v-if="userCompany.taxId">
-            {{ userCompany.taxId }}
-          </p>
-          <div class="mb25">
-            {{ userCompany.phone }}
-            <tooltip v-if="userCompany.phone">
-              {{ $t('Phone number may be needed by carrier') }}
-            </tooltip>
-          </div>
-        </template>
-      </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <script>
-import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
-import MyProfile from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyProfile'
-import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
+import { mapGetters } from 'vuex'
+import config from 'config'
+import i18n from '@vue-storefront/i18n'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
+import pick from 'lodash-es/pick'
+import invert from 'lodash-es/invert'
+
+import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
+import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
+import { date } from 'icmaa-config/helpers/validators'
+import { toDate } from 'icmaa-config/helpers/datetime'
+
+import Headline from 'theme/components/core/blocks/MyAccount/Headline'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
-import ButtonFull from 'theme/components/theme/ButtonFull'
-import Tooltip from 'theme/components/core/Tooltip'
+import ButtonComponent from 'theme/components/core/blocks/Button'
 
 export default {
+  name: 'MyProfile',
   components: {
+    Headline,
     BaseCheckbox,
     BaseSelect,
     BaseInput,
-    ButtonFull,
-    Tooltip
+    ButtonComponent
   },
-  mixins: [MyProfile],
+  data () {
+    return {
+      profile: {
+        email: '',
+        firstname: '',
+        lastname: '',
+        gender: '',
+        dob: '',
+        changePassword: false,
+        oldPassword: '',
+        password: '',
+        rPassword: ''
+      }
+    }
+  },
   computed: {
-    countryOptions () {
-      return this.countries.map((item) => {
-        return {
-          value: item.code,
-          label: item.name
-        }
-      })
+    ...mapGetters({
+      viewport: 'ui/getViewport',
+      customer: 'user/getCustomer'
+    }),
+    validation () {
+      return this.$v.profile
+    },
+    genderOptions () {
+      return [
+        { label: i18n.t('Male'), value: 'male' },
+        { label: i18n.t('Female'), value: 'female' }
+      ]
     }
   },
   methods: {
-    checkValidation () {
-      if (this.changePassword && this.addCompany) {
-        return this.$v.$invalid
-      } else if (this.changePassword && !this.addCompany) {
-        return this.$v.currentUser.$invalid || this.$v.password.$invalid || this.$v.rPassword.$invalid
-      } else if (!this.changePassword && this.addCompany) {
-        return this.$v.currentUser.$invalid || this.$v.userCompany.$invalid
-      } else {
-        return this.$v.currentUser.$invalid
+    submit () {
+      this.validation.$touch()
+      if (!this.validation.$invalid) {
+        let profile = this.profile
+        if (profile.gender) {
+          const gender = config.icmaa.user.gender_map[profile.gender]
+          profile = Object.assign({}, profile, { gender })
+        }
+        if (profile.dob) {
+          profile.dob = toDate(profile.dob, 'YYYY-MM-DD HH:mm:ss', currentStoreView().i18n.dateFormat)
+        }
+
+        let customer = Object.assign({}, this.customer, profile)
+
+        let newPassword = false
+        if (this.profile.changePassword) {
+          newPassword = {
+            currentPassword: this.profile.oldPassword,
+            newPassword: this.profile.password
+          }
+        }
+
+        this.$bus.$emit('myAccount-before-updateUser', customer, newPassword)
+      }
+
+      return false
+    },
+    initCustomer () {
+      if (this.customer) {
+        const keys = Object.keys(this.profile)
+        this.profile = Object.assign({}, this.profile, pick(this.customer, keys))
+
+        if (this.profile.dob) {
+          this.profile.dob = toDate(this.profile.dob, currentStoreView().i18n.dateFormat, 'YYYY-MM-DD HH:mm:ss')
+        }
+
+        if (this.profile.gender) {
+          this.profile.gender = invert(config.icmaa.user.gender_map)[this.profile.gender.toString()]
+        }
       }
     }
   },
-  validations: {
-    currentUser: {
-      firstname: {
-        required,
-        minLength: minLength(2),
-        unicodeAlpha
+  mounted () {
+    this.initCustomer()
+  },
+  beforeMount () {
+    this.$bus.$on('user-after-loggedin', this.initCustomer)
+  },
+  beforeDestroy () {
+    this.$bus.$off('user-after-loggedin', this.initCustomer)
+  },
+  validations () {
+    const password = this.profile.changePassword ? {
+      oldPassword: {
+        required
       },
-      lastname: {
-        required,
-        unicodeAlpha
+      password: {
+        required
       },
-      email: {
+      rPassword: {
         required,
-        email
+        sameAsPassword: sameAs('password')
       }
-    },
-    oldPassword: {
-      required
-    },
-    password: {
-      required
-    },
-    rPassword: {
-      required,
-      sameAsPassword: sameAs('password')
-    },
-    userCompany: {
-      company: {
-        required
-      },
-      country: {
-        required
-      },
-      street: {
-        required,
-        unicodeAlphaNum
-      },
-      house: {
-        required,
-        unicodeAlphaNum
-      },
-      postcode: {
-        required,
-        minLength: minLength(3)
-      },
-      city: {
-        required,
-        unicodeAlpha
-      },
-      taxId: {
-        required,
-        minLength: minLength(3)
+    } : {}
+
+    return {
+      profile: {
+        firstname: {
+          required,
+          minLength: minLength(2),
+          unicodeAlpha
+        },
+        lastname: {
+          required,
+          unicodeAlpha
+        },
+        email: {
+          required,
+          email
+        },
+        dob: {
+          required,
+          date
+        },
+        gender: {
+          required
+        },
+        ...password
       }
     }
   }

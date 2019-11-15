@@ -1,8 +1,7 @@
 {
-  "name": "icmaa-config",
+  "name": "icmaa-newsletter",
   "version": "1.0.0",
   "author": "cewald <c.ewald@impericon.com> and contributors",
-  "main": "index.js",
   "license": "MIT",
   "private": true,
   "devDependencies": {
@@ -10,8 +9,5 @@
   },
   "peerDependencies": {
     "@vue-storefront/core": "^1.11.0-rc.1"
-  },
-  "dependencies": {
-    "vuelidate": "^0.7.4"
   }
 }

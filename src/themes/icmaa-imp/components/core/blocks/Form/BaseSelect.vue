@@ -1,5 +1,10 @@
 <template>
   <div class="base-select">
+    <label v-if="hasLabel" :for="id" class="t-w-full t-flex t-self-center t-mb-1 t-px-1 t-text-base-tone t-text-sm">
+      <slot>
+        {{ label }}
+      </slot>
+    </label>
     <div class="t-relative">
       <select
         class="t-w-full t-h-10 t-pl-3 t-pr-12 t-border t-rounded-sm t-text-sm t-leading-tight t-bg-white t-appearance-none focus:outline-none focus:shadow-outline"
@@ -41,6 +46,10 @@ export default {
     ValidationMessages
   },
   props: {
+    label: {
+      type: [String, Boolean],
+      default: false
+    },
     value: {
       type: [String, Number],
       default: ''
@@ -86,6 +95,9 @@ export default {
   computed: {
     invalid () {
       return this.validations.filter(v => v.condition).length > 0
+    },
+    hasLabel () {
+      return this.$slots.default || this.label
     }
   }
 }

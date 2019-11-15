@@ -1,5 +1,10 @@
 <template>
   <div :class="{ 't-relative': validationsAsTooltip }">
+    <label v-if="hasLabel" :for="id" class="t-w-full t-flex t-self-center t-mb-1 t-px-1 t-text-base-tone t-text-sm">
+      <slot>
+        {{ label }}
+      </slot>
+    </label>
     <div class="base-input t-relative t-flex t-flex-wrap">
       <material-icon :icon="passTypeIcon" v-if="passIconActive" @click.native="togglePassType()" class="t-absolute t-flex t-self-center t-p-2 t-cursor-pointer t-text-base-lighter" :class="[`t-${iconPosition}-0`]" :aria-label="$t('Toggle password visibility')" :title="$t('Toggle password visibility')" />
       <input
@@ -19,7 +24,7 @@
         @keyup.enter="$emit('keyup.enter', $event.target.value)"
         @keyup="$emit('keyup', $event)"
       >
-      <material-icon :icon="icon" v-if="icon" class="t-absolute t-flex t-self-center t-p-2" :class="[`t-${iconPosition}-0`]" />
+      <material-icon v-if="icon" :icon="icon" class="t-absolute t-flex t-self-center t-p-2" :class="[`t-${iconPosition}-0`]" />
     </div>
     <ValidationMessages :validations="validations" :validations-as-tooltip="validationsAsTooltip" />
   </div>
@@ -56,6 +61,10 @@ export default {
     }
   },
   props: {
+    label: {
+      type: [String, Boolean],
+      default: false
+    },
     type: {
       type: String,
       default: 'text'
@@ -122,6 +131,9 @@ export default {
     },
     maskSettings () {
       return this.mask === 'date' ? '##.##.####' : this.mask
+    },
+    hasLabel () {
+      return this.$slots.default || this.label
     }
   },
   methods: {
