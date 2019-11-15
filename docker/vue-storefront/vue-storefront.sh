@@ -2,7 +2,7 @@
 set -e
 
 #copy repo_configs to PersistentDisk
-rm config_repo/production.js
+rm -f config_repo/production.js
 cp -a -r -f config_repo/. config
 
 yarn install || exit $?
