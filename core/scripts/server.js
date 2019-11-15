@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
-const bodyParser = require('body-parser');
 const ms = require('ms')
 const compile = require('lodash.template')
 const rootPath = require('app-root-path').path
@@ -11,10 +10,6 @@ const cache = require('./utils/cache-instance')
 const apiStatus = require('./utils/api-status')
 const HTMLContent = require('../pages/Compilation')
 let config = require('config')
-const Store = require('data-store')
-const _ = require('lodash')
-const storefront = new Store({path: path.resolve('./config/production.json')});
-// const localConfig = new Store({path: path.resolve('./config/local.json')});
 
 const compileOptions = {
   escape: /{{([^{][\s\S]+?[^}])}}/g,
@@ -26,8 +21,6 @@ const isProd = process.env.NODE_ENV === 'production'
 process.noDeprecation = true
 
 const app = express()
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 function createRenderer (bundle, clientManifest, template) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
