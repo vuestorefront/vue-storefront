@@ -6,6 +6,7 @@ rm -f ./config_repo/production.json
 cp -a -r -f config_repo/. config
 
 yarn install || exit $?
+npm install --save-dev cross-env@3.1.4
 
 yarn build:client && yarn build:server && yarn build:sw || exit $?
 
