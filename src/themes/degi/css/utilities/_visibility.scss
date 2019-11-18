@@ -1,0 +1,35 @@
+[v-cloak],
+.hidden {
+  display: none;
+}
+
+.hidden-xs {
+  display: none;
+
+  @media only screen and (min-width:48em) {
+    display: inherit
+  }
+}
+
+.hidden-md {
+  @media only screen and (min-width:48em) {
+    display: none;
+  }
+}
+
+@media only screen and (min-width:768px) {
+  .visible-xs {
+    display: none;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
