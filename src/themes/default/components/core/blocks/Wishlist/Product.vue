@@ -13,7 +13,7 @@
         <div class="h6 cl-bg-tertiary pt5 sku">
           {{ product.sku }}
         </div>
-        <div v-if="canAddToCart">
+        <div v-if="showAddToCart">
           <add-to-cart
             v-if="product.type_id === 'simple'"
             :product="product"
@@ -80,9 +80,6 @@ export default {
         loading: this.thumbnail,
         src: this.thumbnail
       }
-    },
-    canAddToCart () {
-      return this.showAddToCart && this.product.qty > 0
     }
   },
   methods: {
