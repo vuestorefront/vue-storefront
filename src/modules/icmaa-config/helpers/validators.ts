@@ -25,7 +25,7 @@ export const streetname = (v) => {
   return !helpers.req(v) || !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(v)
 }
 
-export const postcode = (code: string = 'XX') => (v) => {
+export const getPostcodeRegex = (code: string = 'XX') => {
   var regex = {
     'DE': [/(^\d{5}$)/, '12345'],
     'GB': [/(^[A-Za-z]{1,2}\d{1,2}[A-Za-z]? \d[A-Za-z]{2}$)/, 'AA12 1AA'],
@@ -90,5 +90,9 @@ export const postcode = (code: string = 'XX') => (v) => {
     code = 'XX'
   }
 
-  return !helpers.req(v) || regex[code][0].test(v)
+  return regex[code]
+}
+
+export const postcode = (code: string = 'XX') => (v) => {
+  return !helpers.req(v) || getPostcodeRegex(code)[0].test(v)
 }
