@@ -57,20 +57,6 @@
         v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
       >{{ product.price_incl_tax | price }}</span>
     </router-link>
-    <div v-if="showAddToCart">
-      <add-to-cart
-        v-if="product.type_id === 'simple'"
-        :product="product"
-        class="listing-add-to-cart col-xs-12 col-sm-4 col-md-6"
-      />
-      <router-link
-        v-else
-        :to="productLink"
-        class="listing-add-to-cart no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium col-xs-12 col-sm-4 col-md-6"
-      >
-        {{ $t('Configure') }}
-      </router-link>
-    </div>
   </div>
 </template>
 
@@ -83,15 +69,13 @@ import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
 import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
 import { IsOnCompare } from '@vue-storefront/core/modules/compare/components/IsOnCompare'
-import AddToCart from 'theme/components/core/AddToCart'
 
 export default {
   mixins: [ProductTile, IsOnWishlist, IsOnCompare],
   components: {
     ProductImage,
     AddToWishlist,
-    AddToCompare,
-    AddToCart
+    AddToCompare
   },
   props: {
     labelsActive: {
@@ -101,10 +85,6 @@ export default {
     onlyImage: {
       type: Boolean,
       default: false
-    },
-    showAddToCart: {
-      type: Boolean,
-      default: true
     }
   },
   computed: {
@@ -194,13 +174,6 @@ $color-white: color(white);
     .product__icon {
       opacity: 1;
     }
-  }
-  .listing-add-to-cart {
-    padding: 10px;
-    margin: 15px auto;
-    min-width: 100px;
-    font-size: 14px;
-    text-align: center;
   }
 }
 
