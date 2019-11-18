@@ -9,7 +9,7 @@ module.exports = (config, app) => {
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
 
-  app.get('/health', (req, res)=>{
+  app.get('/health', (req, res) => {
     try {
       return apiStatus(res, 'ProCC VSF Online', 200);
     } catch (e) {
