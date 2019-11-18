@@ -27,7 +27,7 @@ steps:
       - 'kube'
       - '--location=europe-west3-c'
       - '--cluster=procc-kub2'
-
+    timeout: '60s'
 images: ['gcr.io/$PROJECT_ID/vsf-app-vue']
 
 options:
