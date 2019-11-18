@@ -66,7 +66,7 @@ export default {
   },
   mixins: [Product],
   props: {
-    addToCartFromWishlist: {
+    showAddToCart: {
       type: Boolean,
       default: true
     }
@@ -82,7 +82,7 @@ export default {
       }
     },
     canAddToCart () {
-      return this.addToCartFromWishlist && this.product.qty > 0
+      return this.showAddToCart && this.product.qty > 0
     }
   },
   methods: {

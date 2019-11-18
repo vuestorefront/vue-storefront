@@ -57,7 +57,7 @@
         v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
       >{{ product.price_incl_tax | price }}</span>
     </router-link>
-    <div v-if="canAddToCart">
+    <div v-if="showAddToCart">
       <add-to-cart
         v-if="product.type_id === 'simple'"
         :product="product"
@@ -102,7 +102,7 @@ export default {
       type: Boolean,
       default: false
     },
-    addToCartFromListing: {
+    showAddToCart: {
       type: Boolean,
       default: true
     }
@@ -116,9 +116,6 @@ export default {
     },
     favoriteIcon () {
       return this.isOnWishlist ? 'favorite' : 'favorite_border'
-    },
-    canAddToCart () {
-      return this.addToCartFromListing
     }
   },
   methods: {
