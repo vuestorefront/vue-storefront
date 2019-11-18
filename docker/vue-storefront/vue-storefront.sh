@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+NODE_ENV production
+
 #copy repo_configs to PersistentDisk
 rm -f ./config_repo/production.json
 cp -a -r -f config_repo/. config
