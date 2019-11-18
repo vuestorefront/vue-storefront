@@ -9,7 +9,7 @@ module.exports = (config, app) => {
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
 
-  app.get('/health', (req, res)=>{
+  app.get('/health', (req, res) => {
     try {
       return apiStatus(res, 'ProCC VSF Online', 200);
     } catch (e) {
@@ -175,7 +175,7 @@ module.exports = (config, app) => {
     // end set to product banners
   })
   app.post('product-link', (req, res) => {
-// start set to product banners link in vue storefront
+    // start set to product banners link in vue storefront
     let products = req.body.products;
     let storeCode = req.body.storeCode
     const StoreCategories = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/banners/${storeCode}_store_categories.json`)});
