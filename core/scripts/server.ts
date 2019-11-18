@@ -146,7 +146,12 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
   }
 }))
 
+// Mount Procc APIs
+const procc = require('./ProCCapi.js')
+procc(config, app)
+
 app.post('/invalidate', invalidateCache)
+
 app.get('/invalidate', invalidateCache)
 
 app.get('*', (req, res, next) => {
