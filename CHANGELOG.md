@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add unit test for `core/modules/checkout` - @psmyrek (#3460)
 - Add unit tests for `core/modules/order` - @dz3n (#3466)
+- Theme constant which conditions the number of products loading per page - @AdKamil (#3630)
 
 ### Fixed
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
