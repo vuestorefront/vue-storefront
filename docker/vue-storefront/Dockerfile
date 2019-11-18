@@ -38,4 +38,5 @@ EXPOSE 3000
 COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
 RUN chmod 774 /usr/local/bin/vue-storefront.sh
 
+ENV NODE_ENV production
 CMD ["vue-storefront.sh"]
