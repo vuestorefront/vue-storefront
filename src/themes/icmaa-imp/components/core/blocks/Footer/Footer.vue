@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-    <div class="footer-navigation t-bg-black t-py-4">
+    <div class="footer-navigation t-bg-black t-py-4" ref="footerNavigation">
       <div class="t-container t-px-4">
         <div class="t--mx-4 lg:t-flex">
           <div class="t-flex t-w-full t-flex-wrap t-items-center t-justify-center t-leading-looser">
@@ -62,13 +62,7 @@
         </div>
       </div>
     </div>
-    <back-to-top bottom="20px" right="20px" visibleoffset="200">
-      <button type="button" class="btn-top button no-outline brdr-none cl-white bg-cl-mine-shaft :bg-cl-th-secondary py10 px10">
-        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
-          <path d="M23.245 20l-11.245-14.374-11.219 14.374-.781-.619 12-15.381 12 15.391-.755.609z" fill="white" />
-        </svg>
-      </button>
-    </back-to-top>
+    <back-to-top :visible-offset-bottom="footerNavigationOffset" />
     <language-switcher v-if="multistoreEnabled" />
   </footer>
 </template>
@@ -84,6 +78,8 @@ import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 import FlagIcon from 'theme/components/core/blocks/FlagIcon'
 import RetinaImage from 'theme/components/core/blocks/RetinaImage'
 
+import throttle from 'lodash-es/throttle'
+
 export default {
   name: 'MainFooter',
   components: {
@@ -94,6 +90,11 @@ export default {
     BackToTop
   },
   mixins: [ CurrentPage ],
+  data () {
+    return {
+      footerNavigationOffset: 0
+    }
+  },
   computed: {
     ...mapGetters('icmaaCmsBlock', ['getJsonBlockByIdentifier']),
     footer () {
@@ -117,6 +118,15 @@ export default {
     copyright () {
       return this.footer.copyright
     }
+  },
+  methods: {
+    setFooterNavigationOffset: throttle(function () {
+      this.footerNavigationOffset = this.$refs.footerNavigation.clientHeight
+    }, 500)
+  },
+  mounted () {
+    window.addEventListener('resize', this.setFooterNavigationOffset)
+    this.$nextTick(this.setFooterNavigationOffset)
   }
 }
 </script>
