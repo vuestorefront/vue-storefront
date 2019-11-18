@@ -8,8 +8,8 @@ COPY package.json ./
 COPY yarn.lock ./
 
 RUN apk update
-RUN apk add --no-cache --virtual .build-deps ca-certificates wget git \
-  && yarn install --no-cache \
+RUN apk add --virtual .build-deps ca-certificates wget git \
+  && yarn install \
   && apk del .build-deps
 
 COPY shims.d.ts ./
@@ -35,7 +35,7 @@ COPY ./docker ./docker
 COPY ./kubernetes ./kubernetes
 
 EXPOSE 3000
-
+ARG reset=1
 COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
 RUN chmod 774 /usr/local/bin/vue-storefront.sh
 
