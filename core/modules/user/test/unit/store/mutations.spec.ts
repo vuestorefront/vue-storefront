@@ -50,11 +50,13 @@ describe('User mutations', () => {
 
   describe('USER_START_SESSION', () => {
     it('should assign session_started', () => {
+      const sessionDate = new Date()
+
       const stateMock = {
-        session_started: new Date()
+        session_started: sessionDate
       }
       const expectedState = {
-        session_started: new Date()
+        session_started: sessionDate
       }
       const wrapper = (mutations: any) => mutations[types.USER_START_SESSION](stateMock)
 
@@ -163,5 +165,4 @@ describe('User mutations', () => {
       expect(stateMock).toEqual(expectedState)
     })
   })
-
 })
