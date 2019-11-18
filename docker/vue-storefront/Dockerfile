@@ -1,6 +1,7 @@
 FROM node:10-alpine
 
 ENV VS_ENV production
+ENV NODE_ENV production
 
 WORKDIR /var/www
 
