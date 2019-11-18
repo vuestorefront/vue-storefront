@@ -58,47 +58,7 @@
   "api": {
     "url": "https://store.procc.co"
   },
-  "elasticsearch": {
-    "httpAuth": "",
-    "host": "magento-pre-req-elasticsearch-coordinating-only:9200/api/catalog",
-    "index": "vue_storefront_catalog",
-    "min_score": 0.02,
-    "csrTimeout": 5000,
-    "ssrTimeout": 1000,
-    "queryMethod": "GET",
-    "disableLocalStorageQueriesCache": true,
-    "searchScoring": {
-      "attributes": {
-        "attribute_code": {
-          "scoreValues": {
-            "attribute_value": {
-              "weight": 1
-            }
-          }
-        }
-      },
-      "fuzziness": 2,
-      "cutoff_frequency": 0.01,
-      "max_expansions": 3,
-      "minimum_should_match": "75%",
-      "prefix_length": 2,
-      "boost_mode": "multiply",
-      "score_mode": "multiply",
-      "max_boost": 100,
-      "function_min_score": 1
-    },
-    "searchableAttributes": {
-      "name": {
-        "boost": 4
-      },
-      "sku": {
-        "boost": 2
-      },
-      "category.name": {
-        "boost": 1
-      }
-    }
-  },
+  "elasticsearch": {},
   "ssr": {
     "templates": {
       "default": "dist/index.html",
@@ -115,97 +75,7 @@
     "useInitialStateFilter": true
   },
   "defaultStoreCode": "",
-  "storeViews": {
-    "multistore": true,
-    "commonCache": false,
-    "mapStoreUrlsFor": [
-      "de",
-      "it",
-      "volkky"
-    ],
-    "de": {
-      "storeCode": "de",
-      "disabled": true,
-      "storeId": 3,
-      "name": "German Store",
-      "url": "/de",
-      "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_de"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": false,
-        "defaultCountry": "DE",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "Germany",
-        "fullLanguageName": "German",
-        "defaultLanguage": "DE",
-        "defaultCountry": "DE",
-        "defaultLocale": "de-DE",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "it": {
-      "storeCode": "it",
-      "disabled": true,
-      "storeId": 4,
-      "name": "Italian Store",
-      "url": "/it",
-      "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_it"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": false,
-        "defaultCountry": "IT",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "Italy",
-        "fullLanguageName": "Italian",
-        "defaultCountry": "IT",
-        "defaultLanguage": "IT",
-        "defaultLocale": "it-IT",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "volkky": {
-      "storeCode": "volkky",
-      "storeName": "Volkyyz Store",
-      "disabled": false,
-      "storeId": 23,
-      "name": "Volkyyz Store",
-      "url": "/volkky",
-      "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_volkky"
-      },
-      "tax": {
-        "defaultCountry": "BG",
-        "defaultRegion": "",
-        "calculateServerSide": true,
-        "sourcePriceIncludesTax": false
-      },
-      "i18n": {
-        "fullCountryName": "Bulgaria",
-        "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
-        "defaultLanguage": "EN",
-        "defaultLocale": "en-US",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    }
-  },
+  "storeViews": {},
   "entities": {
     "optimize": true,
     "twoStageCaching": true,
