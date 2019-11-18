@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
 - Fixed null value of search input - @AdKamil (#3778)
 - Fixed product sorting - @AdKamil (#3785)
-
+- Fixed sorting on category page and product tile sizing - @andrzejewsky (#3817)
 
 ## [1.11.0-rc.2] - 2019.10.31
 

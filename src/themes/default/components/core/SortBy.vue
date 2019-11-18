@@ -41,7 +41,6 @@ export default {
     value: {
       handler () {
         const defaultVariant = this.value && this.value.length ? this.value : products.defaultSortBy.attribute
-        console.log(this.sortingVariants, { defaultVariant })
         this.sortby = this.sortingVariants.find(variant => variant.id.includes(defaultVariant))
       },
       immediate: true
