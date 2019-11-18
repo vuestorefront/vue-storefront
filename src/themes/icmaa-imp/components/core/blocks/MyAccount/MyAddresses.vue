@@ -254,7 +254,7 @@ import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 
-const Countries = require('@vue-storefront/i18n/resource/countries.json')
+import { getTranslatedCountries } from 'icmaa-config/helpers/countries'
 
 export default {
   name: 'MyAdresses',
@@ -264,7 +264,7 @@ export default {
       isNewAddress: false,
       isDelete: false,
       address: {},
-      countries: Countries
+      countries: getTranslatedCountries()
     }
   },
   components: {
