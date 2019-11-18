@@ -93,12 +93,14 @@ import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 import rootStore from '@vue-storefront/core/store';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
+const THEME_PAGE_SIZE = 3
+
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
     const filters = getSearchOptionsFromRouteParams(route.params)
     const cachedCategory = store.getters['category-next/getCategoryFrom'](route.path)
     const currentCategory = cachedCategory && !forceLoad ? cachedCategory : await store.dispatch('category-next/loadCategory', { filters })
-    await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory})
+    await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory, pageSize: THEME_PAGE_SIZE})
     const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
     if (isServer) await breadCrumbsLoader
     catalogHooksExecutors.categoryPageVisited(currentCategory)
