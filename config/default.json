@@ -56,9 +56,45 @@
     "port": 8080
   },
   "api": {
-    "url": "https://store.procc.co"
+    "url": "https://store.procc.co/api"
   },
-  "elasticsearch": {},
+  "elasticsearch": {
+    "httpAuth": "",
+    "host": "/api/catalog",
+    "index": "vue_storefront_catalog",
+    "min_score": 0.02,
+    "csrTimeout": 5000,
+    "ssrTimeout": 1000,
+    "queryMethod": "GET",
+    "disablePersistentQueriesCache": true,
+    "searchScoring": {
+      "attributes": {
+        "attribute_code": {
+          "scoreValues": { "attribute_value": { "weight": 1 } }
+        }
+      },
+      "fuzziness": 2,
+      "cutoff_frequency":  0.01,
+      "max_expansions": 3,
+      "minimum_should_match": "75%",
+      "prefix_length": 2,
+      "boost_mode": "multiply",
+      "score_mode": "multiply",
+      "max_boost": 100,
+      "function_min_score": 1
+    },
+    "searchableAttributes": {
+      "name": {
+        "boost": 4
+      },
+      "sku": {
+        "boost": 2
+      },
+      "category.name": {
+        "boost": 1
+      }
+    }
+  },
   "ssr": {
     "templates": {
       "default": "dist/index.html",
@@ -75,7 +111,67 @@
     "useInitialStateFilter": true
   },
   "defaultStoreCode": "",
-  "storeViews": {},
+  "storeViews": {
+    "multistore": true,
+    "commonCache": true,
+    "mapStoreUrlsFor": ["de", "it"],
+    "de": {
+      "storeCode": "de",
+      "disabled": true,
+      "storeId": 3,
+      "name": "German Store",
+      "url": "/de",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "/api/catalog",
+        "index": "vue_storefront_catalog_de"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": false,
+        "defaultCountry": "DE",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Germany",
+        "fullLanguageName": "German",
+        "defaultLanguage": "DE",
+        "defaultCountry": "DE",
+        "defaultLocale": "de-DE",
+        "currencyCode": "EUR",
+        "currencySign": "EUR",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "it": {
+      "storeCode": "it",
+      "disabled": true,
+      "storeId": 4,
+      "name": "Italian Store",
+      "url": "/it",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "/api/catalog",
+        "index": "vue_storefront_catalog_it"
+      },
+      "tax": {
+        "sourcePriceIncludesTax": false,
+        "defaultCountry": "IT",
+        "defaultRegion": "",
+        "calculateServerSide": true
+      },
+      "i18n": {
+        "fullCountryName": "Italy",
+        "fullLanguageName": "Italian",
+        "defaultCountry": "IT",
+        "defaultLanguage": "IT",
+        "defaultLocale": "it-IT",
+        "currencyCode": "EUR",
+        "currencySign": "EUR",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    }
+  },
   "entities": {
     "optimize": true,
     "twoStageCaching": true,
@@ -304,6 +400,10 @@
     }
   },
   "cart": {
+    "thumbnails": {
+      "width": 150,
+      "height": 150
+    },
     "bypassCartLoaderForAuthorizedUsers": true,
     "serverMergeByDefault": true,
     "serverSyncCanRemoveLocalItems": false,
@@ -328,63 +428,70 @@
     "applycoupon_endpoint": "https://store.procc.co/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
   "products": {
-    "useShortCatalogUrls": false,
+    "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
     "setFirstVarianAsDefaultInURL": false,
     "configurableChildrenStockPrefetchStatic": false,
     "configurableChildrenStockPrefetchDynamic": false,
     "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
-    "filterUnavailableVariants": true,
+    "filterUnavailableVariants": false,
     "listOutOfStockProducts": true,
     "preventConfigurableChildrenDirectAccess": true,
     "alwaysSyncPlatformPricesOver": false,
     "clearPricesBeforePlatformSync": false,
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
-    "endpoint": "https://store.procc.co/api/product",
-    "defaultFilters": [
-      "color",
-      "size",
-      "price",
-      "erin_recommends"
-    ],
+    "endpoint": "/api/product",
+    "defaultFilters": ["color", "size", "price", "erin_recommends"],
     "filterFieldMapping": {
       "category.name": "category.name.keyword"
     },
     "colorMappings": {
       "Melange graphite": "#eeeeee"
     },
+    "defaultSortBy": {
+      "attribute": "updated_at",
+      "order": "desc"
+    },
     "sortByAttributes": {
       "Latest": "updated_at",
-      "Price: Low to high": "final_price",
-      "Price: High to low": "final_price:desc"
+      "Price: Low to high":"final_price",
+      "Price: High to low":"final_price:desc"
     },
     "gallery": {
-      "variantsGroupAttribute": "color",
       "mergeConfigurableChildren": true,
-      "imageAttributes": [
-        "image",
-        "thumbnail",
-        "small_image"
-      ],
+      "imageAttributes": ["image","thumbnail","small_image"],
       "width": 600,
       "height": 744
+    },
+    "thumbnails": {
+      "width": 310,
+      "height": 300
     },
     "filterAggregationSize": {
       "default": 10,
       "size": 10,
       "color": 10
+    },
+    "priceFilters": {
+      "ranges": [
+        { "from": 0, "to": 50 },
+        { "from": 50, "to": 100 },
+        { "from": 100, "to": 150 },
+        { "from": 150 }
+      ]
     }
   },
   "orders": {
     "directBackendSync": true,
     "endpoint": "https://store.procc.co/api/order",
-    "payment_methods_mapping": {},
+    "payment_methods_mapping": {
+    },
     "offline_orders": {
       "automatic_transmission_enabled": false,
-      "notification": {
+      "notification" : {
         "enabled": true,
-        "title": "Order waiting!",
+        "title" : "Order waiting!",
         "message": "Click here to confirm the order that you made offline.",
         "icon": "/assets/logo.png"
       }
@@ -400,7 +507,6 @@
       "wishlist": "LOCALSTORAGE",
       "categories": "LOCALSTORAGE",
       "attributes": "LOCALSTORAGE",
-      "products": "INDEXEDDB",
       "elasticCache": "LOCALSTORAGE",
       "claims": "LOCALSTORAGE",
       "syncTasks": "LOCALSTORAGE",
@@ -484,6 +590,14 @@
   "mailchimp": {
     "endpoint": "https://store.procc.co/api/ext/mailchimp-subscribe/subscribe"
   },
+  "expireHeaders": {
+    "default": "30d",
+    "application/json": "24h",
+    "image/png": "7d"
+  },
+  "newsletter": {
+    "endpoint": "/api/ext/mailchimp-subscribe/subscribe"
+  },
   "mailer": {
     "endpoint": {
       "send": "https://store.procc.co/api/ext/mail-service/send-email",
@@ -495,6 +609,10 @@
   "theme": "@vue-storefront/theme-default",
   "analytics": {
     "id": false
+  },
+  "googleTagManager": {
+    "id": false,
+    "debug": true
   },
   "hotjar": {
     "id": false
