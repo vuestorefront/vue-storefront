@@ -7,9 +7,8 @@ WORKDIR /var/www
 COPY package.json ./
 COPY yarn.lock ./
 
-RUN apk update
-RUN apk add --virtual .build-deps ca-certificates wget git \
-  && yarn install \
+RUN apk add --no-cache --virtual .build-deps ca-certificates wget git \
+  && yarn install --no-cache \
   && apk del .build-deps
 
 COPY shims.d.ts ./
@@ -25,8 +24,6 @@ COPY .eslintignore ./
 COPY ecosystem.json ./
 COPY babel.config.js ./
 
-ARG reset=4
-
 COPY ./config ./config_repo
 RUN chmod 774 ./config_repo/production.json
 COPY ./core ./core
@@ -36,7 +33,6 @@ COPY ./packages ./packages
 COPY ./docker ./docker
 COPY ./kubernetes ./kubernetes
 
-EXPOSE 3000
 COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
 RUN chmod 774 /usr/local/bin/vue-storefront.sh
 
