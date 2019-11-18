@@ -147,7 +147,7 @@
               text: $t('Field is required.')
             },{
               condition: !validation.postcode.postcode && validation.postcode.$error,
-              text: $t('This is not a valid postcode.')
+              text: $t('This is not a valid postcode. Format: {code}', { code: postCodeFormat})
             }
           ]"
           class="t-w-1/2 lg:t-w-1/4 t-px-2 t-mb-4"
@@ -243,7 +243,7 @@ import pick from 'lodash-es/pick'
 import invert from 'lodash-es/invert'
 
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
-import { latin, unicodeAlphaNum, streetname, postcode } from 'icmaa-config/helpers/validators'
+import { latin, unicodeAlphaNum, streetname, postcode, getPostcodeRegex } from 'icmaa-config/helpers/validators'
 import { date } from 'icmaa-config/helpers/validators'
 import { toDate } from 'icmaa-config/helpers/datetime'
 
@@ -254,7 +254,7 @@ import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 
-const Countries = require('@vue-storefront/i18n/resource/countries.json')
+import { getTranslatedCountries } from 'icmaa-config/helpers/countries'
 
 export default {
   name: 'MyAdresses',
@@ -264,7 +264,7 @@ export default {
       isNewAddress: false,
       isDelete: false,
       address: {},
-      countries: Countries
+      countries: getTranslatedCountries()
     }
   },
   components: {
@@ -302,6 +302,9 @@ export default {
     },
     countryId () {
       return this.address.country_id.length > 0 ? this.address.country_id : undefined
+    },
+    postCodeFormat () {
+      return getPostcodeRegex(this.address.country_id)[1]
     },
     houseNumberAdvice () {
       const street = this.address.street.join('')

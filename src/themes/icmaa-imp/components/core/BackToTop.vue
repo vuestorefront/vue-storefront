@@ -1,16 +1,17 @@
 <template>
   <transition name="back-to-top-fade">
     <div
-      class="vue-back-to-top"
-      :style="{bottom: bottom, right: right} "
       v-show="visible"
-      @click="backToTop"
+      v-scroll-to="{ el: '#app', onDone: backToTop }"
+      class="back-to-top t-z-10 t-fixed t-right-0 t-cursor-pointer t-pb-4 t-pr-4"
+      :style="{ bottom: `${bottom}px` }"
     >
       <slot>
-        <div class="default">
-          <span>
-            {{ text }}
-          </span>
+        <div class="t-h-12 t-w-12 t-flex t-items-center t-justify-center t-bg-base-dark">
+          <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+            <path d="M23.245 20l-11.245-14.374-11.219 14.374-.781-.619 12-15.381 12 15.391-.755.609z" fill="white" />
+          </svg>
+          <span class="t-sr-only" v-text="text" />
         </div>
       </slot>
     </div>
@@ -25,21 +26,13 @@ export default {
       type: String,
       default: 'Back to top'
     },
-    visibleoffset: {
-      type: [String, Number],
-      default: 600
+    visibleOffset: {
+      type: Number,
+      default: 100
     },
-    visibleoffsetbottom: {
-      type: [String, Number],
-      default: 0
-    },
-    right: {
-      type: String,
-      default: '30px'
-    },
-    bottom: {
-      type: String,
-      default: '40px'
+    visibleOffsetBottom: {
+      type: Number,
+      default: 64
     },
     scrollFn: {
       type: Function,
@@ -48,81 +41,42 @@ export default {
   },
   data () {
     return {
-      visible: false
+      visible: false,
+      bottom: 0,
+      pastTopOffset: false,
+      pastBottomOffset: false
     }
   },
   mounted () {
-    window.smoothscroll = () => {
-      let currentScroll = document.documentElement.scrollTop || document.body.scrollTop
-      if (currentScroll > 0) {
-        window.requestAnimationFrame(window.smoothscroll)
-        window.scrollTo(0, Math.floor(currentScroll - (currentScroll / 5)))
-      }
-    }
     window.addEventListener('scroll', this.catchScroll)
   },
   destroyed () {
     window.removeEventListener('scroll', this.catchScroll)
   },
   methods: {
-    /**
-      * Catch window scroll event
-      * @return {void}
-      */
     catchScroll () {
-      const pastTopOffset = window.pageYOffset > parseInt(this.visibleoffset)
-      const pastBottomOffset = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - parseInt(this.visibleoffsetbottom)
-      this.visible = parseInt(this.visibleoffsetbottom) > 0 ? pastTopOffset && !pastBottomOffset : pastTopOffset
+      const bottomOffset = (document.body.offsetHeight - (window.innerHeight + window.pageYOffset) - parseInt(this.visibleOffsetBottom)) * -1
+      this.bottom = bottomOffset > 0 ? bottomOffset : 0
+
+      this.pastTopOffset = window.pageYOffset > parseInt(this.visibleOffset)
+      this.pastBottomOffset = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - parseInt(this.visibleOffsetBottom)
+      this.visible = this.pastTopOffset
+
       this.scrollFn(this)
     },
-    /**
-      * The function who make the magics
-      * @return {void}
-      */
     backToTop () {
-      window.smoothscroll()
       this.$emit('scrolled')
     }
   }
 }
 </script>
 <style lang="scss">
-  @import '~theme/css/base/global_vars';
-  $z-index-overlay: map-get($z-index, overlay);
-
-  .back-to-top-fade-enter-active,
-  .back-to-top-fade-leave-active {
-    transition: opacity .7s;
-  }
-
   .back-to-top-fade-enter,
   .back-to-top-fade-leave-to {
     opacity: 0;
   }
 
-  .vue-back-to-top {
-    cursor:pointer;
-    position: fixed;
-    z-index: $z-index-overlay;
-  }
-
-  .vue-back-to-top .default {
-    background-color: #f5c85c;
-    border-radius: 3px;
-    color: #ffffff;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    width: 160px;
-  }
-
-  .vue-back-to-top .default span{
-    color:#ffffff;
-  }
-
-  .vue-back-to-top--is-footer {
-    bottom: 50% !important;
-    position: absolute;
-    transform: translateY(50%);
+  .back-to-top {
+    transition: 'opacity' .7s, 'bottom' .5s;
   }
 </style>
