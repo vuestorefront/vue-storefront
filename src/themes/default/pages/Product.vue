@@ -190,54 +190,54 @@
       </div>
     </section>
     <section class="container px15 pt50 pb35 cl-accent details">
-        <tabs :options="{ useUrlFragment: false }">
-            <tab name="Product Details">
-                {{ product.description }}
-            </tab>
-            <tab name="Sizing Guide">
-                <img
-                        :alt="product.name"
-                        src="/assets/size_chart.jpg"
-                        height="300"
-                        width="310"
-                >
-            </tab>
-            <tab name="Delivery">
-                Third tab content
-            </tab>
-        </tabs>
-<!--      <h2 class="h3 m0 mb10 serif lh20 details-title">-->
-<!--        {{ $t('Product details') }}-->
-<!--      </h2>-->
-<!--      <div-->
-<!--        class="h4 details-wrapper"-->
-<!--        :class="{'details-wrapper&#45;&#45;open': detailsOpen}"-->
-<!--      >-->
-<!--        <div class="row between-md m0">-->
-<!--          <div class="col-xs-12 col-sm-6">-->
-<!--            <div-->
-<!--              class="lh30 h5"-->
-<!--              itemprop="description"-->
-<!--              v-html="product.description"-->
-<!--            />-->
-<!--          </div>-->
-<!--          <div class="col-xs-12 col-sm-5">-->
-<!--            <ul class="attributes p0 pt5 m0">-->
-<!--              <product-attribute-->
-<!--                :key="attr.attribute_code"-->
-<!--                v-for="attr in customAttributes"-->
-<!--                :product="product"-->
-<!--                :attribute="attr"-->
-<!--                empty-placeholder="N/A"-->
-<!--              />-->
-<!--            </ul>-->
-<!--          </div>-->
-<!--          <div-->
-<!--            class="details-overlay"-->
-<!--            @click="showDetails"-->
-<!--          />-->
-<!--        </div>-->
-<!--      </div>-->
+      <tabs :options="{ useUrlFragment: false }">
+        <tab name="Product Details">
+          {{ product.description }}
+        </tab>
+        <tab name="Sizing Guide">
+          <img
+            :alt="product.name"
+            src="/assets/size_chart.jpg"
+            height="300"
+            width="310"
+          >
+        </tab>
+        <tab name="Delivery">
+          Third tab content
+        </tab>
+      </tabs>
+      <!--      <h2 class="h3 m0 mb10 serif lh20 details-title">-->
+      <!--        {{ $t('Product details') }}-->
+      <!--      </h2>-->
+      <!--      <div-->
+      <!--        class="h4 details-wrapper"-->
+      <!--        :class="{'details-wrapper&#45;&#45;open': detailsOpen}"-->
+      <!--      >-->
+      <!--        <div class="row between-md m0">-->
+      <!--          <div class="col-xs-12 col-sm-6">-->
+      <!--            <div-->
+      <!--              class="lh30 h5"-->
+      <!--              itemprop="description"-->
+      <!--              v-html="product.description"-->
+      <!--            />-->
+      <!--          </div>-->
+      <!--          <div class="col-xs-12 col-sm-5">-->
+      <!--            <ul class="attributes p0 pt5 m0">-->
+      <!--              <product-attribute-->
+      <!--                :key="attr.attribute_code"-->
+      <!--                v-for="attr in customAttributes"-->
+      <!--                :product="product"-->
+      <!--                :attribute="attr"-->
+      <!--                empty-placeholder="N/A"-->
+      <!--              />-->
+      <!--            </ul>-->
+      <!--          </div>-->
+      <!--          <div-->
+      <!--            class="details-overlay"-->
+      <!--            @click="showDetails"-->
+      <!--          />-->
+      <!--        </div>-->
+      <!--      </div>-->
     </section>
     <reviews :product-id="originalProduct.id" v-show="OnlineOnly" />
     <related-products

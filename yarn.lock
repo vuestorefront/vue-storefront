@@ -5110,6 +5110,14 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
+data-store@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/data-store/-/data-store-4.0.3.tgz#d055c55f3fa776daa3a5664cf715d3fe689c3afb"
+  integrity sha512-AhPSqGVCSrFgi1PtkOLxYRrVhzbsma/drtxNkwTrT2q+LpLTG3AhOW74O/IMRy1cWftBx93SuLLKF19YsKkUMg==
+  dependencies:
+    get-value "^3.0.1"
+    set-value "^3.0.1"
+
 data-urls@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/data-urls/-/data-urls-1.1.0.tgz#15ee0582baa5e22bb59c77140da8f9c76963bbfe"
@@ -6649,6 +6657,13 @@ get-stream@^4.0.0, get-stream@^4.1.0:
 get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
+
+get-value@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/get-value/-/get-value-3.0.1.tgz#5efd2a157f1d6a516d7524e124ac52d0a39ef5a8"
+  integrity sha512-mKZj9JLQrwMBtj5wxi6MH8Z5eSKaERpAwjg43dPtlGI1ZVEgH/qC7T8/6R2OBSUA+zzHBZgICsVJaEIV2tKTDA==
+  dependencies:
+    isobject "^3.0.1"
 
 getos@3.1.0:
   version "3.1.0"
@@ -11793,6 +11808,13 @@ set-value@^2.0.0:
     is-extendable "^0.1.1"
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
+
+set-value@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/set-value/-/set-value-3.0.1.tgz#52c82af7653ba69eb1db92e81f5cdb32739b9e95"
+  integrity sha512-w6n3GUPYAWQj4ZyHWzD7K2FnFXHx9OTwJYbWg+6nXjG8sCLfs9DGv+KlqglKIIJx+ks7MlFuwFW2RBPb+8V+xg==
+  dependencies:
+    is-plain-object "^2.0.4"
 
 setimmediate@^1.0.4:
   version "1.0.5"
