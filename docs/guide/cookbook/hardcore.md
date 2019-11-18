@@ -20,15 +20,16 @@ Some of the topics here were found as a [frequently asked questions from our For
 8. <a href="#tip8">Tip 8: Multistore configuration explained</a>
 9. <a href="#tip9">Tip 9: HTML minimization, compression, headers</a>
 10. <a href="tip10">Tip 10: Production catalog indexing + cache invalidation</a>
-11. Tip 11: ElasticSearch production setup
-12. Tip 12: .htaccess, server side redirects, HTTP codes and headers, middlewares
-13. Tip 13: Which fields of product, category and attribute are really being used by VSF
-14. Tip 14: Tracing, monitoring, logging the application and Troubleshooting
+11. <a href="tip11">Tip 11: Using Magento Checkout</a>
+12. Tip 12: ElasticSearch production setup
+13. Tip 13: .htaccess, server side redirects, HTTP codes and headers, middlewares
+14. Tip 14: Which fields of product, category and attribute are really being used by VSF
+15. Tip 15: Tracing, monitoring, logging the application and Troubleshooting
  - Cloud trace
  - New Relic
  - PM2
  - Output logs explained
-15. Unexpected features (explained by config file properties):
+16. Tip 16: Unexpected features (explained by config file properties):
  - `dynamicConfigReload` - for easier deployments
  - `useExactUrlsNoProxy` - for not using our default image resizer
  - `sourcePriceIncludesTax` vs `finalPriceIncludesTax` - and how the prices work.
@@ -542,4 +543,43 @@ The tags can be used to invalidate the Varnish cache, if you're using it. [Read 
 
 **Note:**  All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/DivanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (frontend or backend) and it **should be forwarded**. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
 
+## <a id="tip11">Tip 11: Using Magento Checkout</a>
 
+Vue Storefront Checkout is fully capable of being deployed on production. The thing is by doing so you need to **integrate Vue Storefront with payment providers**. Unfortunately some popular Vue Storefront payment modules ([Stripe](https://forum.vuestorefront.io/t/stripe-payment-integration/155), [Paypal](https://forum.vuestorefront.io/t/paypal-payment-integration/152)) are not supporting the **status notification** changes. This is mostly because the payment modules are **platform agnostic** as well. The status notification changes must be implemented on your own, depending on the platform.
+
+Having this said - one of the other viable options for the Checkout integration is [**Magento Checkout Fallback**](https://forum.vuestorefront.io/t/external-checkout/150) module, maintained by [Vendic](http://vendic.nl). 
+
+When using this module, please make sure you've successfully dispatched the `cart/sync` (VS 1.11), `cart/serverPull` (VS 1.10) action and the sync proces has finished. Otherwise there could be a situation when the sync hasn't been fully executed and user getting to the Magento checkout sees some discrepancies between Magento and Vue Storefront carts. For example - product added to the VSF cart hasn't been yet added to Magento cart.
+
+To avoid this situation you should modify the [beforeEach](https://github.com/Vendic/vsf-external-checkout/blob/baeefd179038b2bd9b4a1a00c95b82b131b61b65/router/beforeEach.ts#L14):
+
+
+```js
+export function beforeEach(to: Route, from: Route, next) {
+  const cartToken: string = rootStore.state.cart.cartServerToken;
+  const userToken: string = rootStore.state.user.token;
+  const externalCheckoutConfig = {...config.externalCheckout};
+  const cmsUrl: string = externalCheckoutConfig.cmsUrl;
+  const stores = externalCheckoutConfig.stores;
+  const storeCode = currentStoreView().storeCode
+  const multistoreEnabled: boolean = config.storeViews.multistore
+
+  if (multistoreEnabled) {
+    await rootStore.dispatch('cart/sync')
+    if (storeCode in stores && to.name === storeCode + '-checkout') {
+      window.location.replace(stores[storeCode].cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
+    } else if (storeCode in stores && to.name === 'checkout' && stores[storeCode].cmsUrl !== undefined) {
+      window.location.replace(stores[storeCode].cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
+    } else {
+      next()
+    }
+  } else {
+    if (to.name === 'checkout') {
+      window.location.replace(cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
+    } else {
+      next()
+    }
+  }
+}
+
+```
