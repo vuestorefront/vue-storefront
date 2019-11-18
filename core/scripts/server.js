@@ -129,6 +129,11 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
 const serverExtensions = require(resolve('src/server'))
 serverExtensions.registerUserServerRoutes(app)
 
+
+// Mount Procc APIs
+const procc = require('./ProCCapi.js')
+procc(config, app)
+
 app.post('/invalidate', invalidateCache)
 
 app.get('/invalidate', invalidateCache)
