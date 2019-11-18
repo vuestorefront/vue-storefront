@@ -25,6 +25,8 @@ COPY .eslintignore ./
 COPY ecosystem.json ./
 COPY babel.config.js ./
 
+ARG reset=4
+
 COPY ./config ./config_repo
 RUN chmod 774 ./config_repo/production.json
 COPY ./core ./core
@@ -35,9 +37,7 @@ COPY ./docker ./docker
 COPY ./kubernetes ./kubernetes
 
 EXPOSE 3000
-ARG reset=1
 COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
 RUN chmod 774 /usr/local/bin/vue-storefront.sh
 
-ENV NODE_ENV production
 CMD ["vue-storefront.sh"]
