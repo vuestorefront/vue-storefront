@@ -103,6 +103,10 @@ const invokeClientEntry = async () => {
         }
       }))
     })
+    // route is already resolved so 'beforeResolve' will not be triggered
+    if (RouterManager.isRouteDispatched()) {
+      app.$mount('#app')
+    }
   })
   registerSyncTaskProcessor()
   window.addEventListener('online', () => { onNetworkStatusChange(store) })
