@@ -64,6 +64,10 @@ const invokeClientEntry = async () => {
   }
   router.onReady(async () => {
     router.beforeResolve((to, from, next) => {
+      // Mounting app
+      if (!(app as any)._isMounted) {
+        app.$mount('#app')
+      }
       if (!from.name) return next() // do not resolve asyncData on server render - already been done
       if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
       const matched = router.getMatchedComponents(to)
@@ -99,14 +103,6 @@ const invokeClientEntry = async () => {
         }
       }))
     })
-    // Mounting app
-    if (!RouterManager.isRouteDispatched()) {
-      RouterManager.addDispatchCallback(() => {
-        app.$mount('#app')
-      })
-    } else {
-      app.$mount('#app')
-    }
   })
   registerSyncTaskProcessor()
   window.addEventListener('online', () => { onNetworkStatusChange(store) })
