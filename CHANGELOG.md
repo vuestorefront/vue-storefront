@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add unit test for `core/modules/checkout` - @psmyrek (#3460)
 - Add unit tests for `core/modules/order` - @dz3n (#3466)
 - Add unit tests for `core/modules/user` - @dz3n (#3470)
+- Add to cart from Wishlist and Product listing for simple products - @AdKamil (#2637)
 
 ### Fixed
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)

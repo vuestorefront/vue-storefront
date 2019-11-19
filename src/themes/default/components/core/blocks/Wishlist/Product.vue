@@ -13,6 +13,19 @@
         <div class="h6 cl-bg-tertiary pt5 sku">
           {{ product.sku }}
         </div>
+        <div v-if="canAddToCart">
+          <add-to-cart
+            v-if="product.product_option || product.type_id === 'simple'"
+            :product="product"
+          />
+          <router-link
+            v-else
+            :to="productLink"
+            class="my15 no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium no-underline pointer align-center border-box"
+          >
+            {{ $t('Configure') }}
+          </router-link>
+        </div>
       </div>
     </div>
     <div class="col-xs flex py15 align-right">
@@ -41,11 +54,15 @@ import ProductImage from 'theme/components/core/ProductImage'
 import RemoveButton from './RemoveButton'
 import i18n from '@vue-storefront/i18n'
 import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
+import AddToCart from 'theme/components/core/AddToCart'
+
+const THEME_ADD_TO_CART_FROM_WISHLIST = true
 
 export default {
   components: {
     RemoveButton,
-    ProductImage
+    ProductImage,
+    AddToCart
   },
   mixins: [Product],
   computed: {
@@ -57,6 +74,9 @@ export default {
         loading: this.thumbnail,
         src: this.thumbnail
       }
+    },
+    canAddToCart () {
+      return THEME_ADD_TO_CART_FROM_WISHLIST
     }
   },
   methods: {
