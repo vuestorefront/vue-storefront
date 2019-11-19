@@ -179,7 +179,7 @@ app.get('*', (req, res, next) => {
         res.setHeader('Content-Type', 'text/html')
       }
       let tagsArray = []
-      if (config.server.useOutputCacheTagging && context.output.cacheTags !== null) {
+      if (config.server.useOutputCacheTagging && context.output.cacheTags && context.output.cacheTags.size > 0) {
         tagsArray = Array.from(context.output.cacheTags)
         const cacheTags = tagsArray.join(' ')
         res.setHeader('X-VS-Cache-Tags', cacheTags)
@@ -228,6 +228,9 @@ app.get('*', (req, res, next) => {
       console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
       next()
     }).catch(errorHandler)
+      .finally(() => {
+        ssr.clearContext(context)
+      })
   }
 
   const dynamicCacheHandler = () => {
