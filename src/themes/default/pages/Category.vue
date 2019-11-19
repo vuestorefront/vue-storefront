@@ -93,7 +93,7 @@ import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 import rootStore from '@vue-storefront/core/store';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
-const THEME_PAGE_SIZE = 3
+const THEME_PAGE_SIZE = 50
 
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
