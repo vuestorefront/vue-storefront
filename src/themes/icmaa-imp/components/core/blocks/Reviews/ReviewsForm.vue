@@ -86,20 +86,28 @@
           ]"
         />
       </div>
-      <div class="">
-        <button-component @click.native="validate()" :class="{ 'w-auto': !currentUser }">
-          {{ $t('Add review') }}
-        </button-component>
+      <div>
+        <div class="t-mb-2 t-text-sm t-text-alert" v-if="this.$v.reviewForm.recaptcha.$error && !this.$v.reviewForm.recaptcha.required">
+          {{ $t('Your Google reCAPTCHA validation is invalid.') }}<br>
+          {{ $t('Please try again or contact our customer-support.') }}
+        </div>
+        <vue-recaptcha :sitekey="recaptchaWebsiteKey" :load-recaptcha-script="true" badge="inline" @verify="recaptchaVerify">
+          <button-component @click="validate()" class="t-mt-4" :class="{ 'w-auto': !currentUser }">
+            {{ $t('Add review') }}
+          </button-component>
+        </vue-recaptcha>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import { mapGetters } from 'vuex'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 
+import VueRecaptcha from 'vue-recaptcha'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import BaseLabel from 'theme/components/core/blocks/Form/BaseLabel'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
@@ -116,7 +124,8 @@ export default {
         email: '',
         rating: '',
         summary: '',
-        review: ''
+        review: '',
+        recaptcha: ''
       }
     }
   },
@@ -127,6 +136,7 @@ export default {
     }
   },
   components: {
+    VueRecaptcha,
     ButtonComponent,
     BaseLabel,
     BaseInput,
@@ -160,10 +170,25 @@ export default {
     },
     sampleEmail () {
       return this.sampleName.toLowerCase() + '@muster.de'
+    },
+    recaptchaWebsiteKey () {
+      return config.icmaa.googleRecaptcha.websiteKey || false
     }
   },
   methods: {
+    recaptchaVerify (token) {
+      this.reviewForm.recaptcha = token
+      this.validate()
+    },
+    recaptchaReset () {
+      this.reviewForm.recaptcha = ''
+      window.grecaptcha.reset()
+    },
     validate () {
+      if (!this.$v.reviewForm.recaptcha.$error && !this.$v.reviewForm.recaptcha.required) {
+        return
+      }
+
       this.$v.reviewForm.$touch()
       if (!this.$v.reviewForm.$invalid) {
         this.submit()
@@ -178,7 +203,8 @@ export default {
         'email': this.reviewForm.summary,
         'rating': this.reviewForm.rating,
         'title': this.reviewForm.summary,
-        'detail': this.reviewForm.review
+        'detail': this.reviewForm.review,
+        'recaptcha': this.reviewForm.recaptcha
       })
 
       if (isReviewCreated) {
@@ -198,9 +224,12 @@ export default {
     clearReviewForm () {
       this.reviewForm.name = ''
       this.reviewForm.email = ''
+      this.reviewForm.rating = ''
       this.reviewForm.summary = ''
       this.reviewForm.review = ''
       this.$v.$reset()
+
+      this.recaptchaReset()
     },
     fillInUserData () {
       if (this.currentUser) {
@@ -237,6 +266,9 @@ export default {
         required
       },
       review: {
+        required
+      },
+      recaptcha: {
         required
       }
     }
