@@ -24,9 +24,13 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   }
   const storeViewHasChanged = !rootStore.state.storeView || rootStore.state.storeView.storeCode !== storeCode
   if (storeCode) { // current store code
-    if ((storeView = config.storeViews[storeCode])) {
+    const currentStoreView = config.storeViews[storeCode]
+    if (currentStoreView) {
+      storeView = Object.assign({}, currentStoreView);
       storeView.storeCode = storeCode
       rootStore.state.user.current_storecode = storeCode
+    } else {
+      console.warn(`Not found 'storeView' matching the given 'storeCode': ${storeCode}`)
     }
   } else {
     storeView.storeCode = config.defaultStoreCode || ''
