@@ -70,12 +70,22 @@ const invokeClientEntry = async () => {
     })
   }
   router.onReady(async () => {
+    // check if app can be mounted
+    const canBeMounted = () => RouterManager.isRouteDispatched() && // route is dispatched
+      !(router as any).history.pending && // there is no pending in router history
+      !(app as any)._isMounted // it's not mounted before
+
+    if (canBeMounted()) {
+      app.$mount('#app')
+    }
     router.beforeResolve((to, from, next) => {
-      // Mounting app
-      if (!(app as any)._isMounted) {
-        app.$mount('#app')
+      if (!from.name) {
+        next()
+        if (canBeMounted()) {
+          app.$mount('#app')
+        }
+        return // do not resolve asyncData on server render - already been done
       }
-      if (!from.name) return next() // do not resolve asyncData on server render - already been done
       if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
       const matched = router.getMatchedComponents(to)
       if (to) { // this is from url
@@ -110,11 +120,6 @@ const invokeClientEntry = async () => {
         }
       }))
     })
-    // if route is dispatched and there is no pending in router history
-    // if there is stil pending then 'beforeResolve' will handle app mount, otherwise 'beforeResolve' will not trigger
-    if (RouterManager.isRouteDispatched() && !(router as any).history.pending) {
-      app.$mount('#app')
-    }
   })
   registerSyncTaskProcessor()
   window.addEventListener('online', () => { onNetworkStatusChange(store) })
