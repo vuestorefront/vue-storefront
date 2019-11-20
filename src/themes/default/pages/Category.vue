@@ -92,6 +92,8 @@ import { mapGetters } from 'vuex'
 import onBottomScroll from '@vue-storefront/core/mixins/onBottomScroll'
 import rootStore from '@vue-storefront/core/store';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
+import { localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { htmlDecode } from '@vue-storefront/core/filters'
 
 const composeInitialPageState = async (store, route, forceLoad = false) => {
   try {
@@ -187,6 +189,24 @@ export default {
       } finally {
         this.loadingProducts = false
       }
+    }
+  },
+  metaInfo () {
+    const storeView = currentStoreView()
+    const { meta_title, meta_description, name, slug } = this.getCurrentCategory
+    const meta = meta_description ? [
+      { vmid: 'description', name: 'description', content: htmlDecode(meta_description) }
+    ] : []
+    const categoryLocaliedLink = localizedRoute({
+      name: 'category-amp',
+      params: { slug }
+    }, storeView.storeCode)
+    const ampCategoryLink = this.$router.resolve(categoryLocaliedLink).href
+
+    return {
+      link: [ { rel: 'amphtml', href: ampCategoryLink } ],
+      title: htmlDecode(meta_title || name),
+      meta
     }
   }
 }
