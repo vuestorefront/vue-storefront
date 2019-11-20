@@ -177,6 +177,8 @@
     "category": {
       "includeFields": [ "id", "*.children_data.id", "*.id", "children_count", "sku", "name", "is_active", "parent_id", "level", "url_key", "url_path", "product_count", "path", "position"],
       "excludeFields": [ "sgn" ],
+      "filterFields": {},
+      "breadcrumbFilterFields": {},
       "categoriesRootCategorylId": 2,
       "categoriesDynamicPrefetchLevel": 2,
       "categoriesDynamicPrefetch": true,
