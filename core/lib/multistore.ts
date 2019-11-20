@@ -19,14 +19,11 @@ function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
     if (!config.storeViews[originalParent]) {
       Logger.error(`Storeview "${storeView.extend}" doesn't exist!`)()
     } else {
-      delete storeView.extend
-
       storeView = merge(
         {},
         getExtendedStoreviewConfig(config.storeViews[originalParent]),
         storeView
       )
-      storeView.extend = originalParent
     }
   }
 
@@ -71,6 +68,7 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
     StorageManager.currentStoreCode = storeView.storeCode
   }
   coreHooksExecutors.afterStoreViewChanged(storeView)
+
   return storeView
 }
 
@@ -143,8 +141,11 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
   return routeObj
 }
 
-export function localizedDispatcherRouteName (routeName: string, storeCode: string): string {
-  return storeCode ? `${storeCode}-${routeName}` : routeName
+export function localizedDispatcherRouteName (routeName: string, storeCode: string, appendStoreCode: boolean = false): string {
+  if (appendStoreCode) {
+    return `${storeCode}-${routeName}`
+  }
+  return routeName
 }
 
 export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {

@@ -5,7 +5,64 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.11.0-rc.1] - UNRELEASED
+## [1.11.0] - UNRELEASED
+
+### Added
+- Add unit test for `core/modules/checkout` - @psmyrek (#3460)
+- Add unit tests for `core/modules/order` - @dz3n (#3466)
+- Add unit tests for `core/modules/user` - @dz3n (#3470)
+
+### Fixed
+- Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
+- Fixed null value of search input - @AdKamil (#3778)
+- Fixed product sorting - @AdKamil (#3785)
+- Redirect from simple product using url_path - @benjick (#3804)
+
+
+## [1.11.0-rc.2] - 2019.10.31
+
+### Added
+- Add defense for incomplete config in preferchCachedAttributes helper
+
+### Fixed
+- Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
+- Fixed problem around dynamic urls when default storeView is set with appendStoreCode false and url set to / . @resubaka (#3685)
+- Fixed three problems you can run into when you have bundle products - @resubaka (#3692)
+- Reset nested menu after logout - @gibkigonzo (#3680)
+- Fixed handling checkbox custom option -  @gibkigonzo (#2781)
+- Fixed typos in docs - @afozbek (#3709)
+- Fixed VSF build fails for some people due to lack of dependencies in the container - @krskibin (#3699)
+- Fixed two graphql problems, one with cms_blocks and the other with default sort order - @resubaka (#3718)
+- Allow falsy value for `parent_id` when searching category - @gibkigonzo (#3732)
+- Remove including .map files in service worker cache - @gibkigonzo (#3734)
+- Changed notification message object to factory fn - @gibkigozno (#3716)
+- Load recently viewed module in my account page - @gibkigonzo (#3722)
+- Added validation message for city field on checkout page - @dz3n (#3723)
+- Make price calculation based on saved original prices - @gibkigonzo (#3740)
+- Improving is_comparable to work with booleans and digits - @dz3n (#3697)
+- Fixed displaying categories on search menu - @andrzejewsky (#3758)
+- Fixed broken link for store locator - @andrzejewsky (#3754)
+- Fixed instant checkout functionality - @andrzejewsky (#3765)
+- Fixed links to the promoted banners - @andrzejewsky (#3753)
+- Fixed missing parameter in the compare list - @andrzejewsky (#3757)
+- Fixed product link on mobile - @andrzejewsky (#3772)
+- Custom module `ConfigProvider` aren't called anymore - @cewald (#3797)
+
+### Added
+- Added Estonian translations - @alphpkeemik
+- Added support for ES7 - @andrzejewsky (#3690)
+- Added unit tests for `core/modules/mailer` - @krskibin (#3710)
+- Get payment methods with billing address data - @rain2o (#2878)
+- Added custom page-size parameter for `category-next/loadCategoryProducts` action - @cewald (#3713, #3714)
+- Remove unused dayjs locales - @gibkigonzo (#3498)
+- check max quantity in microcart - @gibkigonzo (#3314)
+- Add unit tests for `core/modules/newsletter` - @psmyrek (#3464)
+- Add unit test for `core/modules/wishlist` - @psmyrek (#3471)
+
+### Changed / Improved
+- Use `encodeURIComponent` to encode get parameters in `multimatch.js` - @adityasharma7 (#3736)
+
+## [1.11.0-rc.1] - 2019.10.03
 
 ### Added
 
@@ -128,6 +185,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add missing parameters (`size`,`start`) to `quickSearchByQuery()` in `attribute/list` action - @cewald (#3627)
 - Fix breadcrumb homepage link in cms static pages - @andrzejewsky (#3631)
 - Fixed special price that can break when you change pages (browser navigation for/back) or just go from category to product page - @resubaka (#3638)
+- Fixed problem with losing browser history - @andrzejewsky (#3642)
+- Fixed wrong links on the static pages - @andrzejewsky (#3659)
+- Fixed problem with changing quantity in offline mode on product page - @andrzejewsky (#3662)
+- Fixed problem with extending storeView configuration - @andrzejewsky (#3655)
+- Removed infinite loop when changing checkbox in shipping details - @gibkigonzo (#3656)
+- Fixed displaying single order in the profile - @andrzejewsky (#3663)
+- Make microcart ui consistent for all types of products - @gibkigonzo (#3673)
+- Fixed missing storeCode in metaInfo - @andrzejewsky (#3674)
+- Removed showing popup when you have just logged out - @andrzejewsky (#3680)
 
 ### Changed / Improved
 
@@ -178,6 +244,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added generic types to hooks - @gibkigonzo
 - Change sku to string when checking products equality - @gibkigonzo (#3606)
 - Pass to `registerModule` all parameters as one object - @gibkigonzo (#3634)
+- Include shipping address data in request for shipping methods for more accurate filtering - @rain2o (#2515)
+- remove 'disabled' flag in storeViews config - @gibkigonzo (#3659)
 
 ## [1.10.3] - 2019.09.18
 

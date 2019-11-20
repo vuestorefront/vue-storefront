@@ -115,7 +115,6 @@
     "mapStoreUrlsFor": ["de", "it"],
     "de": {
       "storeCode": "de",
-      "disabled": true,
       "storeId": 3,
       "name": "German Store",
       "url": "/de",
@@ -147,7 +146,6 @@
     "it": {
       "extend": "de",
       "storeCode": "it",
-      "disabled": true,
       "storeId": 4,
       "name": "Italian Store",
       "url": "/it",
@@ -185,15 +183,15 @@
       "validSearchOptionsFromRouteParams": ["url-key", "slug", "id"]
     },
     "attribute": {
-      "includeFields": [ "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices", "frontend_input" ]
+      "includeFields": [ "activity", "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices", "frontend_input" ]
     },
     "productList": {
       "sort": "updated_at:desc",
-      "includeFields": [ "type_id", "*sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "url_path", "url_key", "status", "tier_prices", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "*image","*small_image", "configurable_children.color", "configurable_children.size", "configurable_children.tier_prices"],
+      "includeFields": [ "activity", "type_id", "*sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "url_path", "url_key", "status", "tier_prices", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "*image","*small_image", "configurable_children.color", "configurable_children.size", "configurable_children.tier_prices", "final_price", "configurable_children.final_price"],
       "excludeFields": [ "description", "configurable_options", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options" ]
     },
     "productListWithChildren": {
-      "includeFields": [ "type_id", "sku", "name", "tax_class_id", "special_price", "special_to_date", "special_from_date", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "configurable_children.tier_prices", "product_links", "url_path", "url_key", "status", "tier_prices"],
+      "includeFields": [ "activity", "type_id", "sku", "name", "tax_class_id", "final_price", "special_price", "special_to_date", "special_from_date", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "configurable_children.tier_prices", "product_links", "url_path", "url_key", "status", "tier_prices", "configurable_children.special_to_date", "configurable_children.special_from_date", "configurable_children.regular_price", "configurable_children.final_price"],
       "excludeFields": [ "description", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options"]
     },
     "review": {
@@ -313,6 +311,7 @@
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
     "defaultFilters": ["color", "size", "price", "erin_recommends"],
+    "systemFilterNames": ["sort"],
     "maxFiltersQuerySize": 999,
     "routerFiltersSource": "query",
     "filterFieldMapping": {
@@ -326,7 +325,7 @@
       "order": "desc"
     },
     "sortByAttributes": {
-      "Latest": "updated_at",
+      "Latest": "updated_at:desc",
       "Price: Low to high":"final_price",
       "Price: High to low":"final_price:desc"
     },

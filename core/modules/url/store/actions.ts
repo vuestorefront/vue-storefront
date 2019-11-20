@@ -66,7 +66,7 @@ export const actions: ActionTree<UrlState, any> = {
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
-    const storeCode = currentStoreView().storeCode
+    const { storeCode, appendStoreCode } = currentStoreView()
     const productQuery = new SearchQuery()
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
     productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
@@ -74,7 +74,7 @@ export const actions: ActionTree<UrlState, any> = {
     if (products && products.items && products.items.length) {
       const product = products.items[0]
       return {
-        name: localizedDispatcherRouteName(product.type_id + '-product', storeCode),
+        name: localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode),
         params: {
           slug: product.slug,
           parentSku: product.sku,
@@ -85,7 +85,7 @@ export const actions: ActionTree<UrlState, any> = {
       const category = await dispatch('category/single', { key: 'url_path', value: url }, { root: true })
       if (category !== null) {
         return {
-          name: localizedDispatcherRouteName('category', storeCode),
+          name: localizedDispatcherRouteName('category', storeCode, appendStoreCode),
           params: {
             slug: category.slug
           }

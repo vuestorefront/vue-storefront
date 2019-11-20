@@ -1,6 +1,6 @@
 {
   "name": "vue-storefront",
-  "version": "1.11.0-rc.1",
+  "version": "1.11.0-rc.2",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
@@ -63,6 +63,7 @@
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
     "fs-extra": "^8.1.0",
+    "glob": "^7.1.4",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "isomorphic-fetch": "^2.2.1",
@@ -136,6 +137,7 @@
     "inquirer": "^3.3.0",
     "is-windows": "^1.0.1",
     "jest": "^24.8.0",
+    "jest-fetch-mock": "^2.1.2",
     "jest-serializer-vue": "^2.0.2",
     "jsonfile": "^4.0.0",
     "lerna": "^3.14.1",
