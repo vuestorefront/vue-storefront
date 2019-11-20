@@ -232,6 +232,7 @@ module.exports = (config, app) => {
     }
   })
   app.post('/backup-config', (req, res) => {
+    console.log('/backup-config', config)
     apiStatus(res, config, 200);
   })
 };
