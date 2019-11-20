@@ -110,8 +110,9 @@ const invokeClientEntry = async () => {
         }
       }))
     })
-    // route is already resolved so 'beforeResolve' will not be triggered
-    if (RouterManager.isRouteDispatched()) {
+    // if route is dispatched and there is no pending in router history
+    // if there is stil pending then 'beforeResolve' will handle app mount, otherwise 'beforeResolve' will not trigger
+    if (RouterManager.isRouteDispatched() && !(router as any).history.pending) {
       app.$mount('#app')
     }
   })
