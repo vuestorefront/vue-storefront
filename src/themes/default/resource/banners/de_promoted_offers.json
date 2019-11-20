@@ -1,11 +1,11 @@
 {
   "mainBanners": [
-	  {
-	    "title": "Lässige Büro",
-	    "subtitle": "Kollektion",
-	    "image": "/assets/ban1.jpg",
-	    "link": "/women/frauen-20"
-	  }
+    {
+      "title": "Lässige Büro",
+      "subtitle": "Kollektion",
+      "image": "/assets/ban1.jpg",
+      "link": "/women/frauen-20"
+    }
   ],
   "smallBanners": [
     {
@@ -18,15 +18,15 @@
       "title": "Der Frühling kommt",
       "subtitle": "Hüte",
       "image": "/assets/ban3.jpg",
-      "link": "/gear/gert-3"
+      "link": "/gear/gerat-3"
     }
   ],
   "productBanners": [
-	  {
-	    "title": "Der Frühling kommt",
-	    "subtitle": "Hüte",
-	    "image": "/assets/ban3.jpg",
-	    "link": "/gear/gert-3"
-	  }
+    {
+      "title": "Der Frühling kommt",
+      "subtitle": "Hüte",
+      "image": "/assets/ban3.jpg",
+      "link": "/gear/gerat-3"
+    }
   ]
 }

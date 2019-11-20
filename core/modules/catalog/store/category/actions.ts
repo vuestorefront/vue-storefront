@@ -12,13 +12,14 @@ import { optionLabel } from '../../helpers/optionLabel'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from '../../types/CategoryState'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helpers/createCategoryListQuery'
+// import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -62,15 +63,16 @@ const actions: ActionTree<CategoryState, RootState> = {
     return list
   },
   async registerCategoryMapping ({ dispatch }, { categories }) {
+    const { storeCode, appendStoreCode } = currentStoreView()
     for (let category of categories) {
       if (category.url_path) {
         await dispatch('url/registerMapping', {
-          url: category.url_path,
+          url: localizedDispatcherRoute(category.url_path, storeCode),
           routeData: {
             params: {
               'slug': category.slug
             },
-            'name': 'category'
+            'name': localizedDispatcherRouteName('category', storeCode, appendStoreCode)
           }
         }, { root: true })
       }
@@ -128,15 +130,13 @@ const actions: ActionTree<CategoryState, RootState> = {
             }
             if (category.parent_id >= config.entities.category.categoriesRootCategorylId) {
               dispatch('single', { key: 'id', value: category.parent_id, setCurrentCategory: false, setCurrentCategoryPath: false }).then((sc) => { // TODO: move it to the server side for one requests OR cache in indexedDb
-                if (!sc) {
+                if (!sc || sc.parent_id === sc.id) {
                   commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath)
                   EventBus.$emit('category-after-single', { category: mainCategory })
                   return resolve(mainCategory)
                 }
                 currentPath.unshift(sc)
-                if (sc.parent_id) {
-                  recurCatFinder(sc)
-                }
+                recurCatFinder(sc)
               }).catch(err => {
                 Logger.error(err)()
                 commit(types.CATEGORY_UPD_CURRENT_CATEGORY_PATH, currentPath) // this is the case when category is not binded to the root tree - for example 'Erin Recommends'

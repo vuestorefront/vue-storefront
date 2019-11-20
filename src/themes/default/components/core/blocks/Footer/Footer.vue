@@ -55,12 +55,12 @@
                 {{ $t('About us') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/i/about-us')" exact>
+                <router-link class="cl-secondary" :to="getLinkFor('/about-us')" exact>
                   {{ $t('About us (Magento CMS)') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/i/customer-service')" exact>
+                <router-link class="cl-secondary" :to="getLinkFor('/customer-service')" exact>
                   {{ $t('Customer service (Magento CMS)') }}
                 </router-link>
               </div>
@@ -158,10 +158,12 @@
 </template>
 
 <script>
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'
 import BackToTop from 'theme/components/core/BackToTop'
+import { getPathForStaticPage } from 'theme/helpers'
 import config from 'config'
 
 export default {
@@ -173,6 +175,11 @@ export default {
     },
     getVersionInfo () {
       return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
+    }
+  },
+  methods: {
+    getLinkFor (path) {
+      return localizedRoute(getPathForStaticPage(path))
     }
   },
   components: {

@@ -1,6 +1,7 @@
 module.exports = {
   root: true,
   env: { browser: true, jest: true },
+  globals: { fetchMock: true },
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',

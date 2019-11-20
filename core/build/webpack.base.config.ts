@@ -1,3 +1,4 @@
+import { buildLocaleIgnorePattern } from './../i18n/helpers';
 import path from 'path';
 import config from 'config';
 import fs from 'fs';
@@ -24,9 +25,9 @@ const projectRoot = path.resolve(process.env.BASE_PATH || process.cwd());
 config.projectRoot = projectRoot;
 
 const themesRoot = projectRoot + '/themes'
-
+const moduleRoot = path.resolve(__dirname, '../../src/modules')
+config.moduleRoot = moduleRoot;
 const themeResources = themeRoot + '/resource'
-console.log(themeResources)
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
 const themedIndex = path.join(themeRoot, '/templates/index.template.html')
@@ -34,11 +35,22 @@ const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.templa
 const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
 const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
 
-const translationPreprocessor = require('../i18n/scripts/translation.preprocessor.js')
-translationPreprocessor([
-  path.resolve(__dirname, '../i18n/resource/i18n/'),
-  path.resolve(__dirname, themeResources + '/i18n/')
-], config)
+const csvDirectories = [
+  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/')
+]
+
+fs.readdirSync(moduleRoot).forEach(directory => {
+  const dirName = moduleRoot + '/' + directory + '/resource/i18n'
+
+  if (fs.existsSync(dirName)) {
+    csvDirectories.push(dirName);
+  }
+});
+
+csvDirectories.push(path.resolve(__dirname, themeResources + '/i18n/'));
+
+const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
+translationPreprocessor(csvDirectories, config)
 
 const postcssConfig = {
   loader: 'postcss-loader',
@@ -60,6 +72,7 @@ export default {
     fs: 'empty'
   },
   plugins: [
+    new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
     new webpack.ProgressPlugin(),
     // new BundleAnalyzerPlugin({
     //   generateStatsFile: true
@@ -108,13 +121,15 @@ export default {
   resolveLoader: {
     modules: [
       'node_modules',
-      path.resolve(__dirname, themesRoot)
+      path.resolve(__dirname, themesRoot),
+      path.resolve(__dirname, moduleRoot)
     ]
   },
   resolve: {
     modules: [
       'node_modules',
-      path.resolve(__dirname, themesRoot)
+      path.resolve(__dirname, themesRoot),
+      path.resolve(__dirname, moduleRoot)
     ],
     extensions: ['.js', '.vue', '.gql', '.graphqls', '.ts'],
     alias: {

@@ -1,4 +1,8 @@
+// due to the nature of the code below, the rule here is inadequate.
+// eslint-disable-next-line import/no-duplicates
 import {isServer} from '@vue-storefront/core/helpers'
+// eslint-disable-next-line import/no-duplicates
+import * as coreHelper from '@vue-storefront/core/helpers'
 import config from 'config'
 
 jest.mock('config', () => ({}))

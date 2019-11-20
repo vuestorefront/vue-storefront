@@ -10,7 +10,7 @@ export default interface CartItemTotals {
   base_tax_amount: number,
   discount_amount: number,
   discount_percent: number,
-  item_id: number,
+  item_id: number | string,
   name: string,
   options: CartItemOption[],
   price: number,

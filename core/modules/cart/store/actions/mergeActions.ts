@@ -57,7 +57,7 @@ const mergeActions = {
     if (!rootGetters['checkout/isUserInCheckout']) {
       const isThisNewItemAddedToTheCart = (!clientItem || !clientItem.server_item_id)
       diffLog.pushNotification(
-        isThisNewItemAddedToTheCart ? notifications.productAddedToCart : notifications.productQuantityUpdated
+        isThisNewItemAddedToTheCart ? notifications.productAddedToCart() : notifications.productQuantityUpdated()
       )
     }
 
@@ -122,8 +122,12 @@ const mergeActions = {
     const diffLog = createDiffLog()
 
     for (const clientItem of clientItems) {
-      const mergeClientItemDiffLog = await dispatch('mergeClientItem', { clientItem, serverItems, forceClientState, dryRun })
-      diffLog.merge(mergeClientItemDiffLog)
+      try {
+        const mergeClientItemDiffLog = await dispatch('mergeClientItem', { clientItem, serverItems, forceClientState, dryRun })
+        diffLog.merge(mergeClientItemDiffLog)
+      } catch (e) {
+        Logger.debug('Problem syncing clientItem', 'cart', clientItem)()
+      }
     }
 
     return diffLog
@@ -150,7 +154,11 @@ const mergeActions = {
     }
 
     const productToAdd = await dispatch('getProductVariant', { serverItem })
-    dispatch('addItem', { productToAdd, forceServerSilence: true })
+
+    if (productToAdd) {
+      dispatch('addItem', { productToAdd, forceServerSilence: true })
+      Logger.debug('Product variant for given serverItem has not found', 'cart', serverItem)()
+    }
 
     return diffLog
   },
@@ -159,8 +167,12 @@ const mergeActions = {
     const definedServerItems = serverItems.filter(serverItem => serverItem)
 
     for (const serverItem of definedServerItems) {
-      const mergeServerItemDiffLog = await dispatch('mergeServerItem', { clientItems, serverItem, forceClientState, dryRun })
-      diffLog.merge(mergeServerItemDiffLog)
+      try {
+        const mergeServerItemDiffLog = await dispatch('mergeServerItem', { clientItems, serverItem, forceClientState, dryRun })
+        diffLog.merge(mergeServerItemDiffLog)
+      } catch (e) {
+        Logger.debug('Problem syncing serverItem', 'cart', serverItem)()
+      }
     }
 
     return diffLog
@@ -194,7 +206,7 @@ const mergeActions = {
       .pushClientParty({ status: getters.isCartHashChanged ? 'update-required' : 'no-changes' })
       .pushServerParty({ status: getters.isTotalsSyncRequired ? 'update-required' : 'no-changes' })
 
-    EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: hookResult.serverItem, clientItems: hookResult.clientItems, dryRun: dryRun, event: event })
+    EventBus.$emit('servercart-after-diff', { diffLog: diffLog, serverItems: hookResult.serverItem, clientItems: hookResult.clientItems, dryRun: dryRun })
     Logger.info('Client/Server cart synchronised ', 'cart', diffLog)()
 
     return diffLog

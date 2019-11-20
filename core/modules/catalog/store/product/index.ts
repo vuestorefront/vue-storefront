@@ -8,6 +8,7 @@ import ProductState from '../../types/ProductState'
 export const productModule: Module<ProductState, RootState> = {
   namespaced: true,
   state: {
+    // TODO use breadcrumbs from category-next, leave here for backward compatibility
     breadcrumbs: {
       routes: [],
       name: ''
@@ -19,7 +20,12 @@ export const productModule: Module<ProductState, RootState> = {
     },
     current_configuration: {},
     parent: null,
-    list: [],
+    list: {
+      start: 0,
+      perPage: 50,
+      total: 0,
+      items: []
+    },
     original: null, // default, not configured product
     related: {},
     offlineImage: null,

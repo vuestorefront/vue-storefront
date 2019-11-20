@@ -9,7 +9,7 @@ import mergeActions from './mergeActions';
 import methodsActions from './methodsActions'
 import productActions from './productActions'
 import quantityActions from './quantityActions'
-import synchronizeActions from './syncrhonizeActions'
+import synchronizeActions from './synchronizeActions'
 import totalsActions from './totalsActions'
 
 const actions: ActionTree<CartState, RootState> = {

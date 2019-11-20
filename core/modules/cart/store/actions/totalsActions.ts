@@ -15,7 +15,7 @@ const totalsActions = {
 
     return CartService.getTotals()
   },
-  async overrideServerTotals ({ commit, dispatch }, { addressInformation, hasShippingInformation }) {
+  async overrideServerTotals ({ commit, getters, dispatch }, { addressInformation, hasShippingInformation }) {
     const { resultCode, result } = await dispatch('getTotals', { addressInformation, hasShippingInformation })
 
     if (resultCode === 200) {
@@ -32,6 +32,11 @@ const totalsActions = {
       commit(types.CART_UPD_TOTALS, { itemsAfterTotal, totals, platformTotalSegments: totals.total_segments })
       commit(types.CART_SET_TOTALS_SYNC)
 
+      // we received payment methods as a result of this call, updating state
+      if (result.payment_methods && getters.canUpdateMethods) {
+        dispatch('checkout/replacePaymentMethods', result.payment_methods, { root: true })
+      }
+
       return
     }
 
@@ -45,7 +50,8 @@ const totalsActions = {
       const shippingMethodsData = methodsData || createOrderData({
         shippingDetails: rootGetters['checkout/getShippingDetails'],
         shippingMethods: rootGetters['checkout/getShippingMethods'],
-        paymentMethods: rootGetters['checkout/getPaymentMethods']
+        paymentMethods: rootGetters['checkout/getPaymentMethods'],
+        paymentDetails: rootGetters['checkout/getPaymentDetails']
       })
 
       if (shippingMethodsData.country) {

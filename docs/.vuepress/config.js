@@ -46,7 +46,9 @@ module.exports = {
             'cookbook/devops',
             'cookbook/tdd',
             'cookbook/internals',
-            'cookbook/vue'
+            'cookbook/vue',
+            'cookbook/multistores',
+            'cookbook/migration'
           ],
         },
         {

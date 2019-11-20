@@ -94,7 +94,7 @@ export function formatBreadCrumbRoutes (categoryPath) {
  */
 export function productThumbnailPath (product, ignoreConfig = false) {
   let thumbnail = product.image
-  if ((product.type_id && product.type_id === 'configurable') && product.hasOwnProperty('configurable_children') &&
+  if ((!thumbnail && product.type_id && product.type_id === 'configurable') && product.hasOwnProperty('configurable_children') &&
     product.configurable_children.length && (ignoreConfig || !product.is_configured) &&
     ('image' in product.configurable_children[0])
   ) {
@@ -193,8 +193,13 @@ export const onlineHelper = Vue.observable({
   isOnline: isServer || navigator.onLine
 })
 
+export const routerHelper = Vue.observable({
+  popStateDetected: false
+})
+
 !isServer && window.addEventListener('online', () => { onlineHelper.isOnline = true })
 !isServer && window.addEventListener('offline', () => { onlineHelper.isOnline = false })
+!isServer && window.addEventListener('popstate', () => { routerHelper.popStateDetected = true })
 
 /*
   * serial executes Promises sequentially.
@@ -223,8 +228,13 @@ export function extendStore (moduleName: string | string[], module: any) {
     for (let key in source) {
       if (Array.isArray(source[key])) {
         object[key] = merge([], source[key])
-      } else if (typeof source[key] === 'object') {
+      } else if (source[key] === null && !object[key]) {
+        object[key] = null
+      } else if (typeof source[key] === 'object' && Object.keys(source[key]).length > 0) {
         object[key] = merge(object[key], source[key])
+      } else if (typeof source[key] === 'object' && object === null) {
+        object = {}
+        object[key] = source[key]
       } else {
         object[key] = source[key]
       }

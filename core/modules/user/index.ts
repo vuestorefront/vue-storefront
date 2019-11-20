@@ -5,12 +5,10 @@ import { isServer } from '@vue-storefront/core/helpers'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import * as types from './store/mutation-types'
 
-export const UserModule: StorefrontModule = async function (app, store, router, moduleConfig, appConfig) {
+export const UserModule: StorefrontModule = async function ({store}) {
   StorageManager.init('user')
   store.registerModule('user', userStore)
   if (!isServer) {
-    await store.dispatch('user/startSession')
-
     EventBus.$on('user-before-logout', () => {
       store.dispatch('user/logout', { silent: false })
       // TODO: Move it to theme
@@ -27,6 +25,8 @@ export const UserModule: StorefrontModule = async function (app, store, router, 
         emailAddress: receivedData.email
       })
     })
+
+    await store.dispatch('user/startSession')
   }
 
   store.subscribe((mutation, state) => {

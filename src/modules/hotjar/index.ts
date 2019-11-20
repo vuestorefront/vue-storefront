@@ -22,7 +22,7 @@ const hotjarSnippet = (hjid) => (function (h, o, t, j, a, r) {
   a.appendChild(r);
 })(window as any, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
 
-export const HotjarModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const HotjarModule: StorefrontModule = function ({store, appConfig}) {
   store.registerModule('hotjar', hotjarStore)
 
   if (!isServer && appConfig.hotjar && appConfig.hotjar.id) {

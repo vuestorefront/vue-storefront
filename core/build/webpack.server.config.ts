@@ -16,7 +16,6 @@ if (config.server.useOutputCache) {
   )
 }
 
-
 export default merge(base, {
   mode: 'development',
   target: 'node',

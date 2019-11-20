@@ -23,6 +23,7 @@
     "paths": {
       "core/*": ["core/*"],
       "theme/*": ["src/themes/default/*"], //needs testing with non-default theme!
+      "theme-amp/*": ["src/themes/default-amp/*"],
       "core/modules/*": ["./core/modules/*"],
       "@vue-storefront/*": ["./"]
     },

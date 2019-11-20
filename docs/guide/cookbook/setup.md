@@ -1,4 +1,4 @@
-# Chapter 3. Starter pack for new comers (Install)
+# Ch 3. Starter pack for new comers (Install)
 <style>
     img[alt*="borderline"] {
         border: 1px #000 solid;
@@ -452,7 +452,6 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
     ],
     "de": {
       "storeCode": "de",
-      "disabled": true,
       "storeId": 3,
       "name": "German Store",
       "url": "/de",
@@ -479,7 +478,6 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
     },
     "it": {
       "storeCode": "it",
-      "disabled": true,
       "storeId": 4,
       "name": "Italian Store",
       "url": "/it",
@@ -512,7 +510,6 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
 - `mapStoreUrlsFor` is used for building url routes in frontend. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts#L85)
 - `de` element contains detailed information of `de` store. You need to have this kind of element for all the additional stores you added to `availableStores` with `storeCode` as the key. `de` and `it` in the `default.json` exhibits an example you can copy & paste for other stores you need to add. 
   - `storeCode` denotes store code for the store. 
-  - `disabled` means if this store is disabled. 
   - `storeId` denotes store ID of the store.
   - `name` denotes the store name.
   - `url` denotes URL for the store.
@@ -954,7 +951,6 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "mapStoreUrlsFor": ["de", "it"],
   "de": {
     "storeCode": "de",
-    "disabled": true,
     "storeId": 3,
     "name": "German Store",
     "url": "/de",
@@ -981,7 +977,6 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   },
   "it": {
     "storeCode": "it",
-    "disabled": true,
     "storeId": 4,
     "name": "Italian Store",
     "url": "/it",
@@ -1136,6 +1131,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "setupVariantByAttributeCode": true,
   "endpoint": "http://localhost:8080/api/product",
   "defaultFilters": ["color", "size", "price", "erin_recommends"],
+  "systemFilterNames": ["sort"],
   "filterFieldMapping": {
     "category.name": "category.name.keyword"
   },
@@ -1226,8 +1222,23 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "defaultCountry": "US",
   "defaultRegion": "",
   "sourcePriceIncludesTax": false,
-  "calculateServerSide": true
+  "calculateServerSide": true,
+  "userGroupId": null,
+  "useOnlyDefaultUserGroupId": false,
+  "deprecatedPriceFieldsSupport": true,
+  "finalPriceIncludesTax": false
 },
+```
+  - `tax`: ...
+    - `defaultCountry` is the code name of the country on which tax is calculated for the store. 
+    - `defaultRegion` is default region.
+    - `sourcePriceIncludesTax` determines whether price is stored with tax applied (`true`) or tax calculated on runtime (`false`).  [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/platform/magento2/tax.js#L12)
+    - `calculateServerSide` determines if price is fetched with(`true`)/without(`false`) tax calculated. [jump to code](https://github.com/DivanteLtd/vue-storefront-api/blob/master/src/api/product.js#L48)
+    - `userGroupId`: null,
+    - `useOnlyDefaultUserGroupId`: false,
+    - `deprecatedPriceFieldsSupport`: true,
+    - `finalPriceIncludesTax`: false
+```json
 "shipping": {
   "methods": [
     {
@@ -1248,7 +1259,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "defaultLocale": "en-US",
   "currencyCode": "USD",
   "currencySign": "$",
-  "currencySignPlacement": "preppend",
+  "priceFormat": "{sign}{amount}",
   "dateFormat": "HH:mm D/M/YYYY",
   "fullCountryName": "United States",
   "fullLanguageName": "English",
@@ -1298,14 +1309,6 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
       {
         "key": "category.name",
         "value" : { "eq": "Tees" }
-      }
-    ]
-  },
-  "coolBags": {
-    "filter": [
-      {
-        "key": "category.name",
-        "value" : { "eq": "Women" }
       }
     ]
   },
@@ -1428,7 +1431,7 @@ $ node ./core/scripts/installer
 From this on, the questions would be the same as installation through `installer`. 
 You can follow it further at [Install using installer](#_2-using-installer)
 
-7. Once the questions has been answered then the remaining process is taken to action. You will see a screen as follows when they finished :
+7. Once the questions have been answered then the remaining process is taken to action. You will see a screen as follows when they finished :
 ```bash
 ? Please provide path for images endpoint https://demo.vuestorefront.io/img/
 
@@ -1469,7 +1472,7 @@ _Vue Storefront_ people prepared the `CLI` way of installing the whole infrastru
 ### 4. Chef's secret (protip)
 #### Secret 1. Install with _manual_ path
 
-#### Secret 2. Install a module skeleton
+#### Secret 2. Install a _module_ skeleton
 
 #### Secret 3. Build your own command for `vsf-cli`
 

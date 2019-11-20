@@ -6,7 +6,7 @@ const getters: GetterTree<CmsBlockState, RootState> = {
   // @deprecated
   cmsBlocks: (state, getters) => getters.getCmsBlocks,
   // @deprecated
-  cmsBlockIdentifier: (state, getters) => (identifier) => getters.cmsBlockIdentifier(identifier),
+  cmsBlockIdentifier: (state, getters) => (identifier) => getters.getCmsBlockByIdentifier(identifier),
   // @deprecated
   cmsBlockId: (state, getters) => (id) => getters.getCmsBlockById(id),
   getCmsBlockByIdentifier: (state) => (identifier) =>

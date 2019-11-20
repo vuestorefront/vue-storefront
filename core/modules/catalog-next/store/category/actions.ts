@@ -6,6 +6,7 @@ import CategoryState from './CategoryState'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { buildFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
 import { router } from '@vue-storefront/core/app'
+import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import FilterVariant from '../../types/FilterVariant'
 import { CategoryService } from '@vue-storefront/core/data-resolver'
 import { changeFilterQuery } from '../../helpers/filterHelpers'
@@ -17,30 +18,37 @@ import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
 import { prefetchStockItems } from '../../helpers/cacheProductsHelper';
 import { preConfigureProduct } from '@vue-storefront/core/modules/catalog/helpers/search'
 import chunk from 'lodash-es/chunk'
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
 import omit from 'lodash-es/omit'
 
 const actions: ActionTree<CategoryState, RootState> = {
-  async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category } = {}) {
-    const searchCategory = category || getters.getCategoryFrom(route.path)
-    await dispatch('loadCategoryFilters', searchCategory)
-    const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
+  async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category, pageSize = 50 } = {}) {
+    const searchCategory = category || getters.getCategoryFrom(route.path) || {}
+    const categoryMappedFilters = getters.getFiltersMap[searchCategory.id]
+    const areFiltersInQuery = !!Object.keys(route[products.routerFiltersSource]).length
+    if (!categoryMappedFilters && areFiltersInQuery) { // loading all filters only when some filters are currently chosen and category has no available filters yet
+      await dispatch('loadCategoryFilters', searchCategory)
+    }
+    const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
-    const {items, perPage, start, total} = await quickSearchByQuery({
+    const {items, perPage, start, total, aggregations} = await quickSearchByQuery({
       query: filterQr,
       sort: searchQuery.sort,
       includeFields: entities.productList.includeFields,
-      excludeFields: entities.productList.excludeFields
+      excludeFields: entities.productList.excludeFields,
+      size: pageSize
     })
+    await dispatch('loadAvailableFiltersFrom', {aggregations, category: searchCategory, filters: searchQuery.filters})
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
     const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
     commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
-    // await dispatch('loadAvailableFiltersFrom', searchResult)
 
     return items
   },
   async loadMoreCategoryProducts ({ commit, getters, rootState, dispatch }) {
     const { perPage, start, total } = getters.getCategorySearchProductsStats
-    if (start >= total || total < perPage) return
+    const totalValue = typeof total === 'object' ? total.value : total
+    if (start >= totalValue || totalValue < perPage) return
 
     const searchQuery = getters.getCurrentSearchQuery
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
@@ -63,7 +71,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     return searchResult.items
   },
   async cacheProducts ({ commit, getters, dispatch, rootState }, { route } = {}) {
-    const searchCategory = getters.getCategoryFrom(route.path)
+    const searchCategory = getters.getCategoryFrom(route.path) || {}
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
 
@@ -88,21 +96,28 @@ const actions: ActionTree<CategoryState, RootState> = {
   async processCategoryProducts ({ dispatch, rootState }, { products = [], filters = {} } = {}) {
     await dispatch('tax/calculateTaxes', { products: products }, { root: true })
     dispatch('registerCategoryProductsMapping', products) // we don't need to wait for this
-    const configuredProducts = products.map(product => {
+    return dispatch('configureProducts', { products, filters })
+  },
+  /**
+   * Configure configurable products to have first available options selected
+   * so they can be added to cart/wishlist/compare without manual configuring
+   */
+  async configureProducts ({ rootState }, { products = [], filters = {} } = {}) {
+    return products.map(product => {
       product = Object.assign({}, preConfigureProduct({ product, populateRequestCacheTags: config.server.useOutputCacheTagging }))
       const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
       return Object.assign(product, omit(configuredProductVariant, ['visibility']))
     })
-    return configuredProducts
   },
   async registerCategoryProductsMapping ({ dispatch }, products = []) {
+    const { storeCode, appendStoreCode } = currentStoreView()
     await Promise.all(products.map(product => {
       const { url_path, sku, slug, type_id } = product
       return dispatch('url/registerMapping', {
-        url: url_path,
+        url: localizedDispatcherRoute(url_path, storeCode),
         routeData: {
           params: { parentSku: product.sku, slug },
-          'name': type_id + '-product'
+          'name': localizedDispatcherRouteName(type_id + '-product', storeCode, appendStoreCode)
         }
       }, { root: true })
     }))
@@ -110,10 +125,21 @@ const actions: ActionTree<CategoryState, RootState> = {
   async findCategories (context, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
     return CategoryService.getCategories(categorySearchOptions)
   },
-  async loadCategories ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
-    const categories = await CategoryService.getCategories(categorySearchOptions)
-    commit(types.CATEGORY_ADD_CATEGORIES, categories)
-    return categories
+  async loadCategories ({ commit, getters }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
+    const searchingByIds = categorySearchOptions && categorySearchOptions.filters && categorySearchOptions.filters.id
+    const searchedIds: string[] = searchingByIds ? (categorySearchOptions.filters.id as string[]) : []
+    if (searchingByIds) { // removing from search query already loaded categories
+      categorySearchOptions.filters.id = searchedIds.filter(categoryId => !getters.getCategoriesMap[categoryId] && !getters.getNotFoundCategoryIds.includes(categoryId))
+    }
+    if (!searchingByIds || categorySearchOptions.filters.id.length) {
+      const categories = await CategoryService.getCategories(categorySearchOptions)
+      const notFoundCategories = searchedIds.filter(categoryId => !categories.some(cat => cat.id === parseInt(categoryId)))
+
+      commit(types.CATEGORY_ADD_CATEGORIES, categories)
+      commit(types.CATEGORY_ADD_NOT_FOUND_CATEGORY_IDS, notFoundCategories)
+      return categories
+    }
+    return []
   },
   async loadCategory ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category> {
     const categories: Category[] = await CategoryService.getCategories(categorySearchOptions)
@@ -127,12 +153,23 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryFilters ({ dispatch, getters }, category) {
     const searchCategory = category || getters.getCurrentCategory
     let filterQr = buildFilterProductsQuery(searchCategory)
-    const searchResult = await quickSearchByQuery({ query: filterQr })
-    await dispatch('loadAvailableFiltersFrom', searchResult)
+    const {aggregations} = await quickSearchByQuery({
+      query: filterQr,
+      size: config.products.maxFiltersQuerySize,
+      excludeFields: ['*']
+    })
+    await dispatch('loadAvailableFiltersFrom', {aggregations, category})
   },
-  async loadAvailableFiltersFrom ({ commit, getters }, {aggregations}) {
-    const filters = getters.getAvailableFiltersFrom(aggregations)
-    commit(types.CATEGORY_SET_AVAILABLE_FILTERS, filters)
+  async loadAvailableFiltersFrom ({ commit, getters }, {aggregations, category, filters = {}}) {
+    const aggregationFilters = getters.getAvailableFiltersFrom(aggregations)
+    const currentCategory = category || getters.getCurrentCategory
+    const categoryMappedFilters = getters.getFiltersMap[currentCategory.id]
+    let resultFilters = aggregationFilters
+    const filtersKeys = Object.keys(filters)
+    if (categoryMappedFilters && filtersKeys.length) {
+      resultFilters = Object.assign({}, categoryMappedFilters, omit(aggregationFilters, filtersKeys))
+    }
+    commit(types.CATEGORY_SET_CATEGORY_FILTERS, {category, filters: resultFilters})
   },
   async switchSearchFilters ({ dispatch }, filterVariants: FilterVariant[] = []) {
     let currentQuery = router.currentRoute[products.routerFiltersSource]

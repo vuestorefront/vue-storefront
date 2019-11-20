@@ -1,4 +1,4 @@
-# Chapter 5. Building a Module from scratch 
+# Ch 5. Building a _Module_ from scratch 
 <style>
     img[alt*="borderline"] {
         border: 1px #000 solid;
@@ -46,7 +46,7 @@ touch index.ts
 ```bash
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
 
 }
 ```
@@ -70,7 +70,7 @@ Judging by this signature, you can access `store`, `router`, `config`s from your
 ```bash
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
 	console.log('Hello World and VSF!'); # Any punch line allowed!
 }
 ```
@@ -183,9 +183,9 @@ We built our `module` house in the territory of `./src/modules`. We created the 
 
 Here `index.ts` uncovers a module is basically a function with access to certain parts of Vue app instance and allows to interact with it. Additionally achieved is a better versatility thanks to `helpers` and `hooks` along with it. 
 
-If you take a look a little deeper, you will arrive at `./core/lib/modules.ts` where module signature and `registerModule` function along with `injectReferences` function take up seats. `registerModule` is the hard worker who works in `src/modules/index.ts` to register modules pushing individuals into `registeredModules`. (Beware the small difference in those names as in `registerModule`, `registeredModules`, `registerModules` and so on, might be confusing if you skim it, but they are correct and appropriate in its own role with matching names) 
+If you take a look a little deeper, you will arrive at `./core/lib/modules.ts` where module signature and `registerModule` function take up seats. `registerModule` is the hard worker who works in `src/modules/index.ts` to register modules pushing individuals into `registeredModules`. (Beware the small difference in those names as in `registerModule`, `registeredModules`, `registerModules` and so on, might be confusing if you skim it, but they are correct and appropriate in its own role with matching names) 
 
-Take one step further to `./core/app.ts`, you will also notice `injectReferences` helping your module directly work with `store`, `router` and `config` of **VueStorefront** app instance. With this approach our module development experience is much straight-forward and *Vue native API* friendly so that code becomes simpler, cleaner and maintainable. 
+With this approach our module development experience is much straight-forward and *Vue native API* friendly so that code becomes simpler, cleaner and maintainable. 
 
 Now you are officially a **Vue Storefront module developer**. Congratulation!
 
@@ -227,7 +227,7 @@ const exampleModuleStore = {
   }
 }
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
 // abridged ...
 ```
 `namespaced` with `true` value means this `store` is encapsulated inside a module and not registered to global store.
@@ -245,7 +245,7 @@ const exampleModuleStore = {
   }
 }
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
 }
 
@@ -274,7 +274,7 @@ const exampleModuleStore = {
   plugins: ['examplePlugin']
 }
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
 }
 ```
@@ -322,20 +322,20 @@ const newProductModule = {
   }
 }
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
 // abridged ...
 ```
 
 4. Run `extendStore` helper method to override or add to existing store `product` as follows : 
 ```ts{4}
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
 
   extendStore('product', newProductModule);
 }
 ```
 
-5. In order to confirm it's successfully extended, we will use [Vue.js Chrome extension](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en) which really comes in handy when you develop _Vue.js_ application. 
+5. In order to confirm it's successfully extended, we will use [Chrome vue-devtools extension](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en) which really comes in handy when you develop _Vue.js_ application. 
 
 Open _Chrome DevTools_ and go to _Vue_ tab, and click _Vuex_ tab or click `ctrl` + `2`. Finally click _Register module : product_, then you will see a screen like as follows confirming `product` store has been extended successfully : 
 
@@ -399,7 +399,7 @@ const examplePlugin = store => {
 
 const exampleRoutes = [{ name: 'liked', path: '/liked', component: Liked, alias: '/liked.html' }]; // compose the router we will use
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
 
   extendStore('product', newProductModule);
@@ -443,7 +443,7 @@ const examplePlugin = store => {
 ```ts{11-13}
 // ...abridged
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
 
   extendStore('product', newProductModule);
@@ -477,11 +477,9 @@ app_1  | whole request [/liked]: 1323ms
 You can read [more in depth](#_3-hooking-into-hooks)
 
 ### 2-5. Recipe E (Manage module-level `config`)
-Sometimes you may need to pass values to populate fields in your module configuration dynamically. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`. 
+Sometimes you may need to pass values to populate fields in your module configuration. We give you the ability to pass a `config` object to `registerModule` function, giving you options to choose when you register the `module`. 
 
-Basically you would have saved your module _configuration_ inside `local.json`, however, you might want to override some of it while registering a module. 
-
-Suppose you need to use a 3rd party service integrated to your storefront. Most of the time you need to provide an API credentials encapsulated in a request to the 3rd party so that they will know _you are you_ and process a service and return a result that belongs to you. This recipe tells you how to do it with overriding 3rd party account during module registration. 
+Suppose you need to use a 3rd party service integrated to your storefront. Most of the time you need to provide an API credentials encapsulated in a request to the 3rd party so that they will know _you are you_ and process a service and return a result that belongs to you. This recipe tells you how to do it with using 3rd party account during module registration. 
 
 
 1. Open the `index.ts` file of `example-module` again at `./src/modules/example-module`
@@ -494,7 +492,7 @@ vi index.ts # of course you can open it with other editors!
 ```ts{8-12,17}
 // ...abridged
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   store.registerModule('example-module', exampleModuleStore);
   // ... abridged ...
 
@@ -502,7 +500,7 @@ export const ExampleModule: StorefrontModule = function (app, store, router, mod
   if (moduleConfig.apiKey) {
     const apiKey = moduleConfig.apiKey
   } else {
-    const apiKey = appConfig.degiService.apiKey // This means you have the apiKey value for degiService in your local.json
+    // raise an error related to failure for sign-in to 3rd party service due to lack of apiKey
   }
 
   // Continue to send a request to the 3rd party as the context demands 
@@ -558,7 +556,7 @@ vi index.ts # of course you can open it with other editors!
 ```ts{4}
 // ... abridged 
 
-export const ExampleModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const ExampleModule: StorefrontModule = function ({app, store, router, moduleConfig, appConfig}) {
   console.log(appConfig.products.defaultFilters); //  "products": {"defaultFilters": ["color", "size", "price", "erin_recommends"]}
 
 // abridged ...
@@ -581,16 +579,81 @@ app_1  | This is one way to use moduleConfig
 ## 3. Hooking into hooks
 Hooks are common development method written by core developers to allow 3rd party developers or module developers to inject their own logic at predefined spots of the program. With this approach, the software can be flexible in design, so that it helps handle issues which were unknown at the time it was designed initially. 
 
-Core developers usually strive to optimize where to put hooks. In _Vue Storefront_, hooks generally fall under either of two groups. One of each is `listner`; it allows us to do something at certain moment of application lifecycle. The other of each is `mutator`; it allows us to modify internal objects before app performs some actions.
+Core developers usually strive to optimize where to put hooks. In _Vue Storefront_, hooks generally fall under either of two groups. One of each is `listener`; it allows us to do something at certain moment of application lifecycle. The other of each is `mutator`; it allows us to modify internal objects before app performs some actions.
 
 In this recipe, we look into where they are and how this can be applied to your _module_ development.
 
 ### 1. Preparation
+ - You need a new module to play with. You would already have had one if you finished [_Recipe 1. How to bootstrap a module_](#_1-how-to-bootstrap-a-module)
+ - You need [multistores set up](/guide/cookbook/multistores) (We assume you have set another store up whose `storeCode` is `de`)
+
+:::warning NOTICE
+ This recipe deals with hooks as of [_1.10_](/guide/upgrade-notes/#_1-9-1-10). If you work with other versions of _Vue Storefront_, please bear in mind they might be different in detail. 
+:::
 
 ### 2. Recipe
+:::tip OBJECTIVE
+We build a module that applies a discount to certain `storeviews` only.
+:::
+
+1. Make up a list of requirements for the module as follows : 
+ - Need _configurations_ as to which `storeviews` may apply to the discount and how much it should be. 
+ - Need to apply discount to the price of products in `category`, `product` pages. 
+ - Need a list of points where the discount should be verified.
+
+2. Now start with the first item, create a _configuration_ for the module to consume. 
+```json
+  discountStore: {
+      "enableDiscountPerStoreViews": true,
+      "storeViewsToApplyTo": ["de"],
+      "globalDiscountInPercentage": 25,
+      "allowLocalOverride": true
+  }
+```
+ - `discountStore` contains nodes of configuration for our module.
+   - `enableDiscountPerStoreViews` : This value determines whether to set this module enabled or not. 
+   - `storeViewsToApplyTo` : This array contains the `storeviews` code.
+   - `globalDiscountInPercentage` : This value is how much discount should be applied to target `storeviews`.
+   - `allowLocalOverride` : This value allows to override discount dynamically.
+
+3. Create a module whose name is _hookExample_ (change to your liking)
+
+
+
 ### 3. Peep into the kitchen (what happens internally)
+
 ### 4. Chef's secret (protip)
+
 #### Secret 1. The list of hooks 
+
+1. `cart` 
+  - `beforeSync` : 
+  - `afterSync` :
+  - `beforeAddToCart` :
+  - `afterAddToCart` : 
+  - `beforeRemoveFromCart` : 
+  - `afterRemoveFromCart` : 
+
+2. `order`
+  - `beforePlaceOrder` : 
+  - `afterPlaceOrder` :
+
+3. `user` 
+  - `afterUserAuthorize` :
+  - `afterUserUnauthorize` :
+
+4. `app` _global level_
+  - `beforeStoreViewChange` :
+  - `afterStoreViewChange` :
+  - `afterAppInit` :
+
+:::warning NOTICE
+The list is of course subject to change, it grows for each core module to handle all use cases. 
+:::
+#### Secret 2. The core hooks design 
+
+#### Secret 3. Rewriting the module again without the hooks
+
 <br />
 <br />
 
@@ -637,6 +700,7 @@ _[INSERT VIDEO HERE]_
 <br />
 
 ## 7. Building a module from A to Z in an iteration
+
 
 ### 1. Preparation
 ### 2. Recipe

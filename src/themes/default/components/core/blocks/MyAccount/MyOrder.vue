@@ -1,5 +1,5 @@
 <template>
-  <div class="mb35">
+  <div class="mb35" v-if="order">
     <!-- My order header -->
     <div class="row mb15">
       <div class="col-xs-12 col-md-2 col-lg-1">
@@ -7,7 +7,7 @@
       </div>
       <div class="col-xs-12 col-md-6">
         <h3 class="m0 mb5 mt5">
-          {{ $t('Order #') }}{{ order.increment_id }}
+          {{ $t('Order #{id}', { id: order.increment_id }) }}
           <span class="brdr-1 brdr-cl-bg-secondary py5 px10 ml20 sans-serif fs-medium-small weight-400 cl-secondary">
             {{ order.status | capitalize }}
           </span>
