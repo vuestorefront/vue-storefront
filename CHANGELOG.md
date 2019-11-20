@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed product sorting - @AdKamil (#3785)
 - Fixed sorting on category page and product tile sizing - @andrzejewsky (#3817)
 - Redirect from simple product using url_path - @benjick (#3804)
+- Mount app in 'beforeResolve' if it's not dispatched in 'onReady' - @gibkigonzo (#3669)
 
 ## [1.11.0-rc.2] - 2019.10.31
 
