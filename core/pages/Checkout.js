@@ -137,6 +137,7 @@ export default {
       this.shippingMethod = payload
     },
     onBeforeShippingMethods (country) {
+      this.$store.dispatch('checkout/updatePropValue', ['country', country])
       this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
       this.$forceUpdate()
     },
