@@ -48,18 +48,6 @@
     "lint": "eslint --ext .js,.vue,.ts core src --fix",
     "lerna": "lerna"
   },
-  "lint-staged": {
-    "*.{js,vue,ts}": "eslint",
-    "**/i18n/*.csv": [
-      "node ./core/scripts/utils/sort-translations.js",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "dependencies": {
     "@types/webpack": "^4.4.23",
     "@types/webpack-dev-server": "^3.1.1",
