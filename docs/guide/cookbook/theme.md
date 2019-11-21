@@ -34,6 +34,128 @@ This recipe helps you resolve errors you encounter after the upgrade as short a 
  - In this recipe, we start with _degi_ child theme based on `1.10` version (git hash : [___1b53bd2a___](https://github.com/DivanteLtd/vue-storefront/commit/1b53bd2a829f7cab571dbd3c2a4021ea46857da7)) of `default` theme. This _degi_ theme is an example you might have created for your own. Which means, you can change it to whatever you like. 
  - In other words, suppose you have a _Vue Storefront_ shop running on a child theme `degi` that was branched off from _Vue Storefront_ `default` theme version `1.10` and want to upgrade to `1.11`. 
 
+
+### 1-1. Contents
+There are many features added/removed/enhanced with `1.11`. This recipe deals with all of them. They are, however, too many to skim in a glance. That's why you might need this _contents_ for them. They are grouped in as features but that's just a conceptual grouping. 
+
+<!-- Javascripts -->
+<script type="text/javascript" src="../../node_modules/diff2html/dist/diff2html.js"></script>
+
+
+- Pages
+  - [Home](#_3-now-we-start-hunting-down-the-culprits-one-by-one)
+  - [Category]
+  - [Checkout]
+  - [CmsPage]
+  - [Compare]
+  - [MyAccount]
+  - [PageNotFound]
+  - [Product]
+  - [Static]
+
+- Core components
+  - Blocks
+    - [Microcart](#_6-now-you-are-ok-with-home-page-but-there-are-still-subtle-changes-made-to-each-corner-of-the-app-let-s-find-them-out)
+    - Auth
+      - [ForgotPass]
+      - [Login]
+      - [Register]
+    - Category
+      - [Sidebar]
+    - Checkout
+      - [OrderConfirmation]
+      - [OrderReview]
+      - [Payment]
+      - [Product]
+      - [Shipping]
+      - [ThankYouPage]
+    - CMS
+      - [Block]
+    - Compare
+      - [AddToCompare]
+    - Footer
+      - [Footer]
+      - [MinimalFooter]
+      - [NewsLetter]
+    - Form
+      - [BaseInputNumber]
+    - Header
+      - [CompareIcon]
+      - [Header]
+      - [MicroCartIcon]
+      - [MinimalHeader]
+      - [WishListIcon]
+    - MyAccount
+      - [MyNewsLetter]
+      - [MyOrder]
+      - [MyOrders]
+      - [MyProfile]
+      - [MyShippingDetails]
+    - Product
+      - [Related]
+    - Reviews
+      - [Reviews]
+    - SearchPanel
+      - [SearchPanel]
+    - SidebarMenu
+      - [SidebarMenu]
+      - [SubCategory]
+    - Switcher
+      - [Language]
+    - Wishlist
+      - [AddToWishlist]
+      - [Product]
+
+  - [Breadcrumb](#_10-next-target-is-breadcrumb-now-breadcrumb-supports-the-multistore-feature)
+  - [AddToCart] 
+  - [ColorSelector] 
+  - [CookieNotification]
+  - [GenericSelector]
+  - [Logo]
+  - [Modal]
+  - [NewsletterPopup]
+  - [OfflineBadge]
+  - [Overlay]
+  - [PriceSelector]
+  - [ProductBundleOptions]
+  - [ProductCustomOptions]
+  - [ProductGalleryCarousel]
+  - [ProductGalleryZoomCarousel]
+  - [ProductImage]
+  - [ProductLinks]
+  - [ProductQuantity]
+  - [ProductTile]
+  - [SizeSelector]
+  - [SortBy]
+  - [Spinner]
+  
+- Theme components
+  - [ButtonFull]
+  - [ButtonOutline]
+  - [WebShare]
+  - Blocks
+    - AsyncSidebar
+      - [AsyncSidebar]
+    - Home
+      - [Onboard]
+    - Inspirations
+      - [InspirationTile]
+    - Reviews
+      - [ReviewsList]
+
+- Store
+  
+- Other Important Files
+  - [helpers/index.ts]
+  - [index.js]
+  - [mixins/filterMixin.ts]
+  - [package.json]
+  - [router/index.js]
+  - Resource
+    - i18n
+
+
+
 ### 2. Recipe
 
 1. Go to your _Vue Storefront_ app root directory and `git checkout` to following hash [`79f0c30f`](https://github.com/DivanteLtd/vue-storefront/commit/79f0c30f1707ff913bde18c7e13654d5ca6bd867) :
@@ -52,27 +174,38 @@ git checkout 79f0c30f # origin/release/v1.11
 By the way, you can also compare the changes made between `1.10` to `1.11` in [github link](https://github.com/DivanteLtd/vue-storefront/commit/a42d480aea56d90f7ab65c5caf6ce3f49b00dfec) with a glance too.
 :::
 
- - First target is located at `./src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue` on line `83` unless you modified it. Replace it as follows :
+ - First target is located at `./src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue`. Replace it as follows :
 :::warning NOTICE
 Line numbers denote the number in the file and they might not match since it assumes no modification. Think of it as an approximation reference.
 :::
 
-```js
-// from
-// import UserOrder from 'src/modules/order-history/components/UserOrders'
-// to 
-import UserOrder from '@vue-storefront/core/modules/order/components/UserOrdersHistory'
-``` 
+<div id="d-my-orders">
+
+</div>
+<script>
+var myOrders = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue\n+++ b/src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue\n@@ -80,7 +80,7 @@\n </template>\n \n <script>\n-import UserOrder from \'src/modules/order-history/components/UserOrders\'\n+import UserOrder from \'@vue-storefront/core/modules/order/components/UserOrdersHistory\'\n \n export default {\n   mixins: [UserOrder]\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-my-orders").innerHTML = myOrders;
+</script>
+
 
 As you can see `UserOrdersHistory` has been moved to `core/modules` package. 
 
- - Next, go to `./src/themes/degi/pages/Home.vue` and fix it as follows on `7`: 
-```html
-<!-- from -->
-<!-- <section class="new-collection container px15" v-if="everythingNewCollection && everythingNewCollection.length"> -->
-<!-- to -->
-<section class="new-collection container px15">
-```
+ - Next, go to `./src/themes/degi/pages/Home.vue` and fix it as follows : 
+
+<div id="d-home">
+
+</div>
+<script>
+var dHome = Diff2Html.getPrettyHtml(
+  '--- a/src/themes/degi/pages/Home.vue\n+++ b/src/themes/degi/pages/Home.vue\n@@ -4,7 +4,7 @@\n \n     <promoted-offers />\n \n-    <section class=\"new-collection container px15\" v-if=\"everythingNewCollection && everythingNewCollection.length\">\n+    <section class=\"new-collection container px15\">\n       <div>\n         <header class=\"col-md-12\">\n',
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-home").innerHTML = dHome;
+</script>
+
 
  And, line `16` :
 ```html
