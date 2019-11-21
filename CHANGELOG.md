@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed null value of search input - @AdKamil (#3778)
 - Sorting fixed on category page - @AdKamil (#3785)
 - Mount app in 'beforeResolve' if it's not dispatched in 'onReady' - @gibkigonzo (#3669)
+- change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
 
 ## [1.10.4] - 18.10.2019
 
