@@ -47,6 +47,13 @@ const actions: ActionTree<UserState, RootState> = {
     return UserService.resetPassword(email)
   },
   /**
+   * Create new password for provided email with resetToken
+   * We could receive resetToken by running user.resetPassword action
+   */
+  createPassword (context, { email, newPassword, resetToken }) {
+    return UserService.createPassword(email, newPassword, resetToken)
+  },
+  /**
    * Login user and return user profile and current token
    */
   async login ({ commit, dispatch }, { username, password }) {
