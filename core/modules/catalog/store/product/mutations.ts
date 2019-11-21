@@ -1,3 +1,4 @@
+import { isServer } from '@vue-storefront/core/helpers';
 import { nonReactiveState } from './index';
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
@@ -32,13 +33,15 @@ const mutations: MutationTree<ProductState> = {
   [types.CATALOG_UPD_PRODUCTS] (state, { products, append }) {
     if (append === false) {
       nonReactiveState.list = cloneDeep(products.items)
-      state.list = cloneDeep({...products, items: products.items.map(prod => prod.sku)})
+      state.list = isServer ? products : cloneDeep({...products, items: products.items.map(prod => prod.sku)})
     } else {
       const pagedProductList = state.list as PagedProductList
       pagedProductList.start = products.start as number
       pagedProductList.perPage = products.perPage as number
       nonReactiveState.list = cloneDeep(nonReactiveState.list.concat(products.items))
-      pagedProductList.items = cloneDeep(pagedProductList.items.concat(products.items.map(prod => prod.sku)))
+      pagedProductList.items = isServer
+        ? pagedProductList.items.concat(products.items)
+        : cloneDeep(pagedProductList.items.concat(products.items.map(prod => prod.sku)))
     }
   },
   [types.CATALOG_SET_PRODUCT_CURRENT] (state, product) {

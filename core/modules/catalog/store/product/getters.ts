@@ -5,10 +5,13 @@ import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
 import cloneDeep from 'lodash-es/cloneDeep'
 
-function mapCategoryProducts (productsSkus, productsData) {
-  return productsSkus.map(prodSku => {
-    const product = productsData.find(prodData => prodData.sku === prodSku)
-    return cloneDeep(product)
+function mapCategoryProducts (productsFromState, productsData) {
+  return productsFromState.map(prodState => {
+    if (typeof prodState === 'string') {
+      const product = productsData.find(prodData => prodData.sku === prodState)
+      return cloneDeep(product)
+    }
+    return prodState
   })
 }
 
