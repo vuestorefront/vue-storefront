@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
 - Add constant which conditions the number of products loading per page - @AdKamil (#3630)
 - Added price filtering key as config - @roywcm
+- Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald #3834
 
 ### Fixed
 - Fixed missing parameter to query function from cms/store/block/actions - @georgiev-ivan (#3909)
