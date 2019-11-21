@@ -9,9 +9,13 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
   }
 }));
 
+let dateTest;
+
 describe('User mutations', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+
+    dateTest = new Date()
   })
 
   describe('USER_TOKEN_CHANGED', () => {
@@ -50,7 +54,6 @@ describe('User mutations', () => {
 
   describe('USER_START_SESSION', () => {
     it('should assign session_started', () => {
-      const dateTest = new Date()
       const stateMock = {
         session_started: dateTest
       }
