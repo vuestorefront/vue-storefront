@@ -1,7 +1,9 @@
+import { nonReactiveState } from './index';
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import ProductState, { PagedProductList } from '../../types/ProductState'
+import cloneDeep from 'lodash-es/cloneDeep'
 
 const mutations: MutationTree<ProductState> = {
   [types.CATALOG_SET_BREADCRUMBS] (state, payload) {
@@ -29,11 +31,14 @@ const mutations: MutationTree<ProductState> = {
   },
   [types.CATALOG_UPD_PRODUCTS] (state, { products, append }) {
     if (append === false) {
-      state.list = products
+      nonReactiveState.list = cloneDeep(products.items)
+      state.list = cloneDeep({...products, items: products.items.map(prod => prod.sku)})
     } else {
-      (state.list as PagedProductList).start = products.start as number
-      (state.list as PagedProductList).perPage = products.perPage as number
-      (state.list as PagedProductList).items = (state.list as PagedProductList).items.concat(products.items)
+      const pagedProductList = state.list as PagedProductList
+      pagedProductList.start = products.start as number
+      pagedProductList.perPage = products.perPage as number
+      nonReactiveState.list = cloneDeep(nonReactiveState.list.concat(products.items))
+      pagedProductList.items = cloneDeep(pagedProductList.items.concat(products.items.map(prod => prod.sku)))
     }
   },
   [types.CATALOG_SET_PRODUCT_CURRENT] (state, product) {
