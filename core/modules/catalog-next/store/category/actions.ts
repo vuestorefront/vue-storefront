@@ -140,7 +140,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       categorySearchOptions.filters.id = searchedIds.filter(categoryId => !getters.getCategoriesMap[categoryId] && !getters.getNotFoundCategoryIds.includes(categoryId))
     }
     if (!searchingByIds || categorySearchOptions.filters.id.length) {
-      categorySearchOptions.filters = Object.assign({}, config.entities.category.filterFields ? config.entities.category.filterFields : {}, categorySearchOptions.filters)
+      categorySearchOptions.filters = Object.assign(config.entities.category.filterFields, categorySearchOptions.filters)
       const categories = await CategoryService.getCategories(categorySearchOptions)
       const notFoundCategories = searchedIds.filter(categoryId => !categories.some(cat => cat.id === parseInt(categoryId)))
 
