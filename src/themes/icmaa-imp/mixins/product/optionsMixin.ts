@@ -16,15 +16,17 @@ export default {
       }
       return this.product.configurable_options || []
     },
-    productOptionsLabels (): string[] {
-      return this.productOptions.map(o => this.getAttributeLabel({ attributeKey: o.attribute_code }))
-    },
     productOptionsLabel (): string|LocaleMessages {
       if (this.productOptions.length === 0 || this.productOptions.length > 1) {
         return i18n.t('Choose options')
       }
 
-      return i18n.t('Choose {attribute}', { attribute: this.productOptionsLabels[0] })
+      if (/size/.test(this.productOptions[0].attribute_code)) {
+        return i18n.t('Choose size')
+      }
+
+      const attribute = this.productOptions[0].label
+      return i18n.t('Choose {attribute}', { attribute })
     },
     availableFilters (): Record<string, any> {
       let filtersMap = {}
