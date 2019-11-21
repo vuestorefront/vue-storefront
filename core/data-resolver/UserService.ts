@@ -22,6 +22,17 @@ const resetPassword = async (email: string): Promise<Task> =>
     }
   })
 
+const createPassword = async (email: string, newPassword: string, resetToken: string): Promise<Task> =>
+  TaskQueue.execute({
+    url: processLocalizedURLAddress(config.users.createPassword_endpoint),
+    payload: {
+      method: 'POST',
+      mode: 'cors',
+      headers,
+      body: JSON.stringify({ email, newPassword, resetToken })
+    }
+  })
+
 const login = async (username: string, password: string): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'login_endpoint')),
@@ -99,6 +110,7 @@ const refreshToken = async (refreshToken: string): Promise<string> =>
 
 export const UserService: DataResolver.UserService = {
   resetPassword,
+  createPassword,
   login,
   register,
   updateProfile,
