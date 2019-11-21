@@ -23,8 +23,8 @@ function createRenderer (bundle, clientManifest, template) {
 
 function getFieldsToFilter () {
   const fields = [
-    ...(config.ssr && config.ssr.initialStateFilter || []),
-    ...(config.ssr && config.ssr.lazyHydrateFor || [])
+    ...(config.ssr && (config.ssr.initialStateFilter || [])),
+    ...(config.ssr && (config.ssr.lazyHydrateFor || []))
   ]
 
   return fields
