@@ -457,6 +457,20 @@ class Storefront extends Abstract {
         config.cms.endpoint = `${backendPath}/api/ext/cms-data/cms{{type}}/{{cmsId}}`
         config.cms.endpointIdentifier = `${backendPath}/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}`
 
+        // Devices
+        config.device = {
+          appendToInstance: false,
+          tests: []
+        }
+
+        if (this.answers.devices_to_inject && !!this.answers.devices_to_inject.length) {
+          config.device.appendToInstance = true
+          for (let answer of this.answers.devices_to_inject) {
+            console.log(answer)
+            config.device.tests.push(`is${answer.split(' ').join('')}`)
+          }
+        }
+
         config.install = {
           is_local_backend: Abstract.wasLocalBackendInstalled,
           backend_dir: this.answers.backend_dir || false
@@ -806,8 +820,29 @@ let questions = [
     when: function (answers) {
       return answers.m2_api_oauth2 === true
     }
+  },
+  {
+    type: 'checkbox',
+    name: 'devices_to_inject',
+    message: 'Select device checkers that will be injected to the this.$device (works with SSR)',
+    choices: [
+      'Mobile',
+      'Mobile Or Tablet',
+      'Tablet',
+      'Desktop',
+      'Desktop Or Tablet',
+      'Ios',
+      'Windows',
+      'MacOS'
+    ],
+    default: [
+      'Mobile',
+      'Tablet',
+      'Desktop'
+    ]
   }
 ]
+
 
 async function processAnswers (answers) {
   let manager = new Manager(answers)

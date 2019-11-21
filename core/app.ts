@@ -30,6 +30,7 @@ import initialStateFactory from '@vue-storefront/core/helpers/initialStateFactor
 import { createRouter, createRouterProxy } from '@vue-storefront/core/helpers/router';
 
 const stateFactory = initialStateFactory(store.state)
+const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Safari/537.36'
 
 let router: VueRouter = null
 let routerProxy: VueRouter = null
@@ -38,7 +39,7 @@ once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
 })
 
-const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
+const createApp = async (ssrContext, config, storeCode = null, headersOrUserAgent: string = DEFAULT_USER_AGENT): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState, device?: any}> => {
   router = createRouter()
   routerProxy = createRouterProxy(router)
   // sync router with vuex 'router' store
@@ -53,7 +54,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   store.state.storeView = storeView
 
   // @deprecated from 2.0
-  once('__VUE_EXTEND__', () => {
+  once('__VUE_EXTEND__', async () => {
     Vue.use(Vuelidate)
     Vue.use(VueLazyload, {attempt: 2, preLoad: 1.5})
     Vue.use(Meta)
@@ -66,6 +67,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     Object.keys(coreMixins).forEach(key => {
       Vue.mixin(coreMixins[key])
     })
+
   })
 
   // @todo remove this part when we'll get rid of global multistore mixin
@@ -76,6 +78,25 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
       },
       writable: true
     })
+  }
+
+  if (config.device && config.device.appendToInstance && config.device.tests && config.device.tests.length) {
+    const deviceLibrary: any = await import(/* webpackChunkName: "device" */ './lib/device')
+    let userAgent = typeof headersOrUserAgent === 'string' ? headersOrUserAgent : null
+    if (!userAgent) {
+      userAgent = headersOrUserAgent['user-agent']
+    }
+    Vue.prototype.$device = deviceLibrary.default(userAgent, config.device.tests)
+    if (userAgent === 'Amazon CloudFront') {
+      if (headersOrUserAgent['cloudfront-is-mobile-viewer'] === 'true') {
+        Vue.prototype.$device.isMobile = true
+        Vue.prototype.$device.isMobileOrTablet = true
+      }
+      if (headersOrUserAgent['cloudfront-is-tablet-viewer'] === 'true') {
+        Vue.prototype.$device.isMobile = false
+        Vue.prototype.$device.isMobileOrTablet = true
+      }
+    }
   }
 
   Object.keys(coreFilters).forEach(key => {
@@ -108,7 +129,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   // @deprecated from 2.0
   EventBus.$emit('application-after-init', app)
 
-  return { app, router: routerProxy, store, initialState: stateFactory.createInitialState(store.state) }
+  return { app, router: routerProxy, store, initialState: stateFactory.createInitialState(store.state), device: Vue.prototype.$device }
 }
 
 export { routerProxy as router, createApp, router as baseRouter }

@@ -65,7 +65,17 @@ export default async context => {
       storeCode = storeCodeFromRoute(currentRoute)
     }
   }
-  const { app, router, store, initialState } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig, storeCode)
+  const { app, router, store, initialState, device } = await createApp(
+    context, context.vs && context.vs.config
+      ? context.vs.config
+      : buildTimeConfig,
+    storeCode,
+    context.server.request.headers
+  )
+
+  if (device) {
+    context.device = device
+  }
 
   RouterManager.flushRouteQueue()
   context.initialState = initialState
