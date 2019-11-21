@@ -29,10 +29,10 @@ export default {
   computed: {
     ...mapGetters('category', ['getCurrentCategory', 'getCurrentCategoryProductQuery', 'getAllCategoryFilters', 'getCategoryBreadcrumbs', 'getCurrentCategoryPath']),
     products () {
-      return this.$store.state.product.list.items
+      return this.$store.getters['product/list']
     },
     productsCounter () {
-      return this.$store.state.product.list.items ? this.$store.state.product.list.items.length : 0
+      return this.products ? this.products.length : 0
     },
     productsTotal () {
       return this.$store.state.product.list.total
@@ -41,7 +41,7 @@ export default {
       return this.getCurrentCategoryProductQuery
     },
     isCategoryEmpty () {
-      return (!(this.$store.state.product.list.items) || this.$store.state.product.list.items.length === 0)
+      return (!(this.products) || this.products.length === 0)
     },
     category () {
       return this.getCurrentCategory
