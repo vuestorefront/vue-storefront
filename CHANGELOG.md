@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Disable product mutation when assigning product variant - @gibkigonzo (#3735)
 - Fixed null value of search input - @AdKamil (#3778)
 - Sorting fixed on category page - @AdKamil (#3785)
+- Mount app in 'beforeResolve' if it's not dispatched in 'onReady' - @gibkigonzo (#3669)
 
 ## [1.10.4] - 18.10.2019
 
