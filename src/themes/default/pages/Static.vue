@@ -36,6 +36,7 @@ import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import StaticExample from 'theme/components/theme/blocks/Static/Example'
 import StaticShortExample from 'theme/components/theme/blocks/Static/Short'
 import { getPathForStaticPage } from 'theme/helpers'
+import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 
 export default {
   components: {
@@ -68,7 +69,7 @@ export default {
       navigation: [
         { title: i18n.t('About us'), link: getPathForStaticPage('/about-us'), component: StaticExample },
         { title: i18n.t('Customer service'), link: getPathForStaticPage('/customer-service'), component: StaticShortExample },
-        { title: i18n.t('Store locator'), link: getPathForStaticPage('/store-locator'), component: StaticExample },
+        { title: i18n.t('Store locator'), link: localizedRoute('/store-locator'), component: StaticExample },
         { title: i18n.t('Delivery'), link: '/delivery', component: StaticShortExample },
         { title: i18n.t('Return policy'), link: '/returns', component: StaticExample },
         { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticShortExample },

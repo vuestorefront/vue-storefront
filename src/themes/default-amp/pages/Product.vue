@@ -33,7 +33,7 @@
               sku: {{ product.sku }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-              <meta itemprop="priceCurrency" :content="currentStore.i18n.currencyCode">
+              <meta itemprop="priceCurrency" :content="priceCurrency">
               <meta itemprop="price" :content="parseFloat(product.price_incl_tax).toFixed(2)">
               <div
                 class="mb40 price serif"
@@ -129,12 +129,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
 import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
 import focusClean from 'theme/components/theme/directives/focusClean'
+import { isServer } from '@vue-storefront/core/helpers'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   components: {
@@ -149,6 +152,14 @@ export default {
       detailsOpen: false
     }
   },
+  computed: {
+    ...mapGetters({
+      breadcrumbs: 'product/getProductBreadcrumbs',
+      product: 'product/getCurrentProduct',
+      gallery: 'product/getProductGallery'
+    }),
+    priceCurrency: () => currentStoreView().i18n.currencyCode
+  },
   directives: { focusClean },
   methods: {
     showDetails (event) {
@@ -156,19 +167,15 @@ export default {
       event.target.classList.add('hidden')
     }
   },
-  asyncData ({ store, route, context }) {
+  async asyncData ({ store, route, context }) {
     context.output.template = 'amp'
     context.output.appendHead = (context) => {
       return '<script async src="https://cdn.ampproject.org/v0.js"><' + '/script>' +
       '<script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"><' + '/script>'
     }
-    // const oldRenderer = context.renderStyles
-    // context.renderStyles = (context) => {
-    //   return oldRenderer().replace('<style>', '<style amp-custom>')
-    // }
-    return new Promise((resolve, reject) => {
-      resolve()
-    })
+    const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
+    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
+    if (isServer) await loadBreadcrumbsPromise
   }
 }
 </script>
