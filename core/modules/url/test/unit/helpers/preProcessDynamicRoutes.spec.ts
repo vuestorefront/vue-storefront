@@ -1,4 +1,4 @@
-import { processDynamicRoute } from '@vue-storefront/core/modules/url/helpers';
+import { preProcessDynamicRoutes } from '@vue-storefront/core/modules/url/helpers';
 import { LocalizedRoute } from '@vue-storefront/core/lib/types'
 import { RouterManager } from '../../../../../lib/router-manager';
 
@@ -26,12 +26,6 @@ jest.mock('@vue-storefront/core/app', () => ({
     addRoutes: jest.fn()
   }
 }))
-jest.mock('@vue-storefront/core/lib/multistore', () => ({
-  currentStoreView: jest.fn(() => ({
-    storeCode: '2',
-    localizedRoute: jest.fn()
-  }))
-}));
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {
     log: jest.fn(() => () => {
@@ -47,45 +41,53 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
   }
 }));
 
-let expectedDynamicRoute;
-let routeData: LocalizedRoute;
+let dispatcherMap: Record<string, any>;
+let expectedPreparedRoutes: LocalizedRoute[];
 
-describe('parametrizeRouteData helper', () => {
+describe('preProcessDynamicRoutes helper', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    routeData = {
-      name: 'category',
-      params: {
-        slug: 'pants-18'
+    dispatcherMap = {
+      '/all-2': {
+        name: 'category',
+        params: {
+          slug: 'all-2'
+        }
       }
     }
-    expectedDynamicRoute = {
-      name: 'urldispatcher-/men/bottoms-men/pants-men/pants-18',
-      params: {
-        slug: 'pants-18'
-      },
-      path: '/men/bottoms-men/pants-men/pants-18'
-    }
+    expectedPreparedRoutes = [
+      {
+        name: 'urldispatcher-/all-2',
+        params: {
+          slug: 'all-2'
+        },
+        path: '/all-2'
+      }
+    ]
   })
 
-  it('should return parametrizedRoute from prepareDynamicRoute', () => {
+  it('should return array with preparedRoutes', () => {
     (RouterManager.findByName as jest.Mock).mockImplementationOnce(() => ({
       name: 'category',
-      path: '/c/:slug'
+      path: '/all-2'
     }));
 
-    const result = processDynamicRoute(routeData, '/men/bottoms-men/pants-men/pants-18', false)
+    const result = preProcessDynamicRoutes(dispatcherMap, true)
 
-    expect(result).toEqual(expectedDynamicRoute)
+    expect(result).toEqual(expectedPreparedRoutes)
   })
 
-  it('should return null from prepareDynamicRoute if it does not find route', () => {
-    routeData.name = 'test-test-test';
-    routeData.params.slug = 'test-test-test';
+  it('should return blank array with null if it does not find user route', () => {
+    (RouterManager.findByName as jest.Mock).mockImplementationOnce(() => ({
+      name: 'category', path: '/all-2'
+    }));
+    dispatcherMap = {
+    }
+    expectedPreparedRoutes = []
 
-    const result = processDynamicRoute(routeData, '', false)
+    const result = preProcessDynamicRoutes(dispatcherMap, true)
 
-    expect(result).toEqual(null)
+    expect(result).toEqual(expectedPreparedRoutes)
   })
 })
