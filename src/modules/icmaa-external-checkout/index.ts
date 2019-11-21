@@ -8,7 +8,7 @@ import moduleRoutes from './routes'
 
 export const KEY = 'external-checkout'
 
-export const IcmaaExternalCheckout: StorefrontModule = function ({ router }) {
+export const IcmaaExternalCheckoutModule: StorefrontModule = function ({ router }) {
   router.beforeEach(beforeEachGuard)
   setupMultistoreRoutes(config, router, moduleRoutes, 10)
 }

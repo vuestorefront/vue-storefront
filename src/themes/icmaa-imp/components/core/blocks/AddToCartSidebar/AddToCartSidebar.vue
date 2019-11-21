@@ -1,7 +1,7 @@
 <template>
   <sidebar :title="productOptionsLabel" :close-on-click="false">
     <div class="t-flex t-flex-wrap t-pb-20">
-      <template v-if="product.type_id =='configurable'">
+      <template v-if="product.type_id === 'configurable'">
         <div class="error t-w-full " v-if="product.errors && Object.keys(product.errors).length > 0">
           {{ product.errors | formatProductMessages }}
         </div>
@@ -10,15 +10,15 @@
             v-for="(filter, key) in availableFilters[option.attribute_code]"
             :key="key"
             :option="filter"
-            :selected-filters="selectedFilters"
             @change="changeFilter"
             :is-last="key === Object.keys(availableFilters[option.attribute_code]).length - 1"
             :is-loading="isLoading"
+            :is-active="selectedOption && selectedOption.id === filter.id"
           />
         </div>
       </template>
       <product-links
-        v-if="product.type_id =='grouped'"
+        v-if="product.type_id === 'grouped'"
         :products="product.product_links"
       />
       <product-bundle-options
@@ -46,6 +46,7 @@ import { notifications } from '@vue-storefront/core/modules/cart/helpers'
 import Composite from '@vue-storefront/core/mixins/composite'
 import ProductOptionsMixin from 'theme/mixins/product/optionsMixin'
 import ProductAddToCartMixin from 'theme/mixins/product/addtocartMixin'
+import ProductStockAlertMixin from 'icmaa-product-alert/mixins/productStockAlertMixin'
 
 import Sidebar from 'theme/components/theme/blocks/AsyncSidebar/Sidebar'
 import DefaultSelector from 'theme/components/core/blocks/AddToCartSidebar/DefaultSelector'
@@ -57,7 +58,7 @@ import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 
 export default {
   name: 'AddToCartSidebar',
-  mixins: [ Composite, ProductOption, ProductOptionsMixin, ProductAddToCartMixin ],
+  mixins: [ Composite, ProductOption, ProductOptionsMixin, ProductAddToCartMixin, ProductStockAlertMixin ],
   components: {
     Sidebar,
     DefaultSelector,
@@ -69,9 +70,13 @@ export default {
   },
   data () {
     return {
+      selectedOption: undefined,
       loading: false,
       quantity: 0
     }
+  },
+  mounted () {
+    this.setSelectedOptionByCurrentConfigurableProduct()
   },
   computed: {
     ...mapGetters({
@@ -85,18 +90,46 @@ export default {
     }
   },
   methods: {
+    setSelectedOptionByCurrentConfigurableProduct () {
+      if (this.product.type_id !== 'configurable') {
+        return
+      }
+
+      this.productOptions.find(filter => {
+        const options = this.availableFilters[filter.attribute_code]
+        return options.find(option => {
+          const selectedVariantFilter = this.selectedFilters[option.type]
+          if (!selectedVariantFilter) {
+            return false
+          }
+
+          if (Array.isArray(selectedVariantFilter)) {
+            return !!selectedVariantFilter.find(o => o.id === option.id)
+          }
+
+          if (selectedVariantFilter.id === option.id) {
+            this.selectedOption = option
+          }
+        })
+      })
+    },
     changeFilter (option) {
       if (option.available) {
         this.$bus.$emit(
           'filter-changed-product',
           Object.assign({ attribute_code: option.type }, option)
         )
+        this.setSelectedOptionByCurrentConfigurableProduct()
+
         this.loading = true
         this.getQuantity()
           .then(() => this.addToCart(this.product))
           .then(() => {
             this.loading = false
           })
+      } else {
+        this.selectedOption = option
+        this.addProductStockAlert(option)
       }
     }
   }

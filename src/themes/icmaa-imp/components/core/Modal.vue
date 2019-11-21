@@ -97,6 +97,8 @@ export default {
       this.close()
     },
     toggle (state) {
+      this.$store.dispatch('ui/closeAll')
+
       this.isVisible = state
       state ? this.setOverlay(state) : setTimeout(() => this.setOverlay(state), this.delay)
       this.$emit(state ? 'show' : 'close', this)

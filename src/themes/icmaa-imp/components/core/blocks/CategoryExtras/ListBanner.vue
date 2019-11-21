@@ -25,10 +25,12 @@ export default {
       categoryExtras: 'icmaaCategoryExtras/getCategoryExtrasByCurrentCategory'
     }),
     isVisible () {
-      const { listBannerShowFrom, listBannerShowTo } = this.categoryExtras
-      return this.categoryExtras &&
-        this.categoryExtras.active &&
-        this.banner &&
+      if (!this.categoryExtras) {
+        return false
+      }
+
+      const { listBannerShowFrom, listBannerShowTo, active } = this.categoryExtras
+      return active && this.banner &&
         isDatetimeInBetween(listBannerShowFrom, listBannerShowTo)
     },
     banner () {

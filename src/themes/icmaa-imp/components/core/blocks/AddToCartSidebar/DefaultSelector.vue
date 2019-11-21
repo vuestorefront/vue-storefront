@@ -7,17 +7,19 @@
   >
     <template v-if="option.available">
       {{ getOptionLabel({ attributeKey: option.type, optionId: option.id }) }}
-      <loader-background v-if="isActive && isLoading" class="t-bottom-0" />
     </template>
     <template v-else>
       <span class="t-flex-auto">
         {{ getOptionLabel({ attributeKey: option.type, optionId: option.id }) }}
       </span>
-      <span class="t-flex-fix t-text-xs">
-        {{ $t('Request size') }}
-      </span>
-      <material-icon icon="mail_outline" class="t-flex-fix t-ml-4" />
+      <span
+        class="t-flex-fix t-text-xs t-leading-1-em t-text-right"
+        :class="{ 't-text-alt-3': isStockAlertSubscrided }"
+        v-html="$t(isStockAlertSubscrided ? 'Subscribed for<br> stock updates' : 'Request size')"
+      />
+      <material-icon :icon="isStockAlertSubscrided ? 'check' : 'mail_outline'" class="t-flex-fix t-ml-2" :class="{ 't-text-alt-3': isStockAlertSubscrided }" />
     </template>
+    <loader-background v-if="isActive && isLoading" class="t-bottom-0" />
   </div>
 </template>
 
@@ -39,11 +41,11 @@ export default {
       type: Object,
       default: () => ({})
     },
-    selectedFilters: {
-      type: Object,
-      required: true
-    },
     isLoading: {
+      type: Boolean,
+      default: false
+    },
+    isActive: {
       type: Boolean,
       default: false
     },
@@ -53,28 +55,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('attribute', { getOptionLabel: 'getOptionLabel' }),
-    isActive () {
-      return this.isActiveOption(this.option)
+    ...mapGetters('attribute', ['getOptionLabel']),
+    ...mapGetters('icmaaProductAlert', ['isOptionSubscribedToStock']),
+    isStockAlertSubscrided () {
+      return this.isOptionSubscribedToStock(this.option)
     }
   },
   methods: {
     selectVariant () {
-      if (!this.isLoading) {
+      if (!this.isLoading && !this.isStockAlertSubscrided) {
         this.$emit('change', this.option)
       }
-    },
-    isActiveOption (option) {
-      const selectedVariantFilter = this.selectedFilters[option.type]
-      if (!selectedVariantFilter) {
-        return false
-      }
-
-      if (Array.isArray(selectedVariantFilter)) {
-        return !!selectedVariantFilter.find(o => o.id === option.id)
-      }
-
-      return selectedVariantFilter.id === option.id
     }
   }
 }
