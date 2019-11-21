@@ -156,7 +156,6 @@ export default {
               }
 
             } catch (err) {
-              console.log(err)
               this.$bus.$emit('notification-progress-stop');
               this.$store.dispatch('notification/spawnNotification', {
                 action1: { label: i18n.t('OK') },
@@ -169,8 +168,6 @@ export default {
           }
         }
       } catch (err) {
-        console.log(err)
-
         // Never invoked (?)
         this.$store.dispatch('notification/spawnNotification', {
           action1: { label: i18n.t('OK') },
@@ -187,7 +184,7 @@ export default {
     const { storeCode } = currentStoreView();
     if (context) {
       if (!route.query.token || !route.query.email) {
-        context.server.response.redirect(`/${storeCode}`);
+        context.server.response.redirect(localizedRoute('/'));
       }
     }
   }
