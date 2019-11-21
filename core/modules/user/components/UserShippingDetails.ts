@@ -81,39 +81,29 @@ export const UserShippingDetails = {
       let updatedShippingDetails
       if (!this.objectsEqual(this.shippingDetails, this.getShippingDetails())) {
         updatedShippingDetails = JSON.parse(JSON.stringify(this.$store.state.user.current))
+        let updatedShippingDetailsAddress = {
+          firstname: this.shippingDetails.firstName,
+          lastname: this.shippingDetails.lastName,
+          street: [this.shippingDetails.street, this.shippingDetails.house],
+          city: this.shippingDetails.city,
+          ...(this.shippingDetails.region ? { region: { region: this.shippingDetails.region } } : {}),
+          country_id: this.shippingDetails.country,
+          postcode: this.shippingDetails.postcode,
+          ...(this.shippingDetails.phone ? { telephone: this.shippingDetails.phone } : {}),
+          default_shipping: true
+        }
         if (this.currentUser.hasOwnProperty('default_shipping')) {
-          let index
-          for (let i = 0; i < this.currentUser.addresses.length; i++) {
+          let i
+          for (i = 0; i < this.currentUser.addresses.length; i++) {
             if (toString(this.currentUser.addresses[i].id) === toString(this.currentUser.default_shipping)) {
-              index = i
+              updatedShippingDetails.addresses[i] = updatedShippingDetailsAddress;
             }
           }
-          if (index >= 0) {
-            updatedShippingDetails.addresses[index].firstname = this.shippingDetails.firstName
-            updatedShippingDetails.addresses[index].lastname = this.shippingDetails.lastName
-            updatedShippingDetails.addresses[index].street = [this.shippingDetails.street, this.shippingDetails.house]
-            updatedShippingDetails.addresses[index].city = this.shippingDetails.city
-            updatedShippingDetails.addresses[index].region = {
-              region: this.shippingDetails.region ? this.shippingDetails.region : null
-            }
-            updatedShippingDetails.addresses[index].country_id = this.shippingDetails.country
-            updatedShippingDetails.addresses[index].postcode = this.shippingDetails.postcode
-            updatedShippingDetails.addresses[index].telephone = this.shippingDetails.phone ? this.shippingDetails.phone : ''
-          } else {
+          if (this.currentUser.addresses.length === 0 || i === this.currentUser.addresses.length) {
             updatedShippingDetails = null
           }
         } else {
-          updatedShippingDetails.addresses.push({
-            firstname: this.shippingDetails.firstName,
-            lastname: this.shippingDetails.lastName,
-            street: [this.shippingDetails.street, this.shippingDetails.house],
-            city: this.shippingDetails.city,
-            ...(this.shippingDetails.region ? { region: { region: this.shippingDetails.region } } : {}),
-            country_id: this.shippingDetails.country,
-            postcode: this.shippingDetails.postcode,
-            ...(this.shippingDetails.phone ? { telephone: this.shippingDetails.phone } : {}),
-            default_shipping: true
-          })
+          updatedShippingDetails.addresses.push(updatedShippingDetailsAddress)
         }
       }
       this.exitSection(null, updatedShippingDetails)
@@ -146,55 +136,46 @@ export const UserShippingDetails = {
         this.shippingDetails = this.getShippingDetails()
       }
     },
-    getShippingDetails () {
-      this.currentUser = Object.assign({}, this.$store.state.user.current)
-      if (this.currentUser) {
-        if (this.currentUser && this.currentUser.hasOwnProperty('default_shipping')) {
-          let index
-          for (let i = 0; i < this.currentUser.addresses.length; i++) {
-            if (toString(this.currentUser.addresses[i].id) === toString(this.currentUser.default_shipping)) {
-              index = i
-            }
-          }
-          if (index >= 0) {
-            return {
-              firstName: this.currentUser.addresses[index].firstname,
-              lastName: this.currentUser.addresses[index].lastname,
-              street: this.currentUser.addresses[index].street[0],
-              house: this.currentUser.addresses[index].street[1],
-              city: this.currentUser.addresses[index].city,
-              postcode: this.currentUser.addresses[index].postcode,
-              region: this.currentUser.addresses[index].region.region ? this.currentUser.addresses[index].region.region : '',
-              country: this.currentUser.addresses[index].country_id,
-              phone: this.currentUser.addresses[index].hasOwnProperty('telephone') ? this.currentUser.addresses[index].telephone : ''
-            }
-          }
-        } else {
+    readShippingDetailsFromCurrentUser (shippingDetails) {
+      for (let address of this.currentUser.addresses) {
+        if (toString(address.id) === toString(this.currentUser.default_shipping)) {
           return {
-            firstName: this.currentUser.firstname,
-            lastName: this.currentUser.lastname,
-            street: '',
-            house: '',
-            city: '',
-            postcode: '',
-            region: '',
-            country: '',
-            phone: ''
+            firstName: address.firstname,
+            lastName: address.lastname,
+            street: address.street[0],
+            house: address.street[1],
+            city: address.city,
+            postcode: address.postcode,
+            region: address.region.region ? address.region.region : '',
+            country: address.country_id,
+            phone: address.hasOwnProperty('telephone') ? address.telephone : ''
           }
-        }
-      } else {
-        return {
-          firstName: '',
-          lastName: '',
-          street: '',
-          house: '',
-          city: '',
-          postcode: '',
-          region: '',
-          country: '',
-          phone: ''
         }
       }
+      return shippingDetails
+    },
+    getShippingDetails () {
+      this.currentUser = Object.assign({}, this.$store.state.user.current)
+      let shippingDetails = {
+        firstName: '',
+        lastName: '',
+        street: '',
+        house: '',
+        city: '',
+        postcode: '',
+        region: '',
+        country: '',
+        phone: ''
+      }
+      if (this.currentUser) {
+        if (this.currentUser && this.currentUser.hasOwnProperty('default_shipping')) {
+          shippingDetails = this.readShippingDetailsFromCurrentUser(shippingDetails);
+        } else {
+          shippingDetails.firstName = this.currentUser.firstname
+          shippingDetails.lastName = this.currentUser.lastname
+        }
+      }
+      return shippingDetails;
     },
     getCountryName () {
       for (let i = 0; i < this.countries.length; i++) {

@@ -22,7 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mount app in 'beforeResolve' if it's not dispatched in 'onReady' - @gibkigonzo (#3669)
 
 ### Changed / Improved
--  Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
+- Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
+- Improve the readability of 'getShippingDetails()' and 'updateDetails()' method of UserShippingDetails component - @adityasharma7 (#3770)
 
 ## [1.11.0-rc.2] - 2019.10.31
 
