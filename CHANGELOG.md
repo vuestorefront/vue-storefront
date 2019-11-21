@@ -80,6 +80,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add defense for incomplete config in preferchCachedAttributes helper
 - Add unit test for \`core/modules/cms\` - @krskibin (#3738)
+- Reset Password confirmation page - @Fifciu (#2576)
 
 ### Fixed
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
