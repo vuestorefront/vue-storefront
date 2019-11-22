@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add unit tests for `core/modules/order` - @dz3n (#3466)
 - Add unit tests for `core/modules/user` - @dz3n (#3470)
 - Add to cart from Wishlist and Product listing for simple products - @Dnd-Dboy, @dz3n (#2637)
+- Add global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
 
 ### Fixed
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
@@ -22,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed sorting on category page and product tile sizing - @andrzejewsky (#3817)
 - Redirect from simple product using url_path - @benjick (#3804)
 - Mount app in 'beforeResolve' if it's not dispatched in 'onReady' - @gibkigonzo (#3669)
+- Fixed AMP pages - @andrzejewsky (#3799)
+- Fixed Product page breadcrumbs problem when products are in multiple categories in different branches of the category tree - @grimasod (#3691)
 - Change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
 
 ### Changed / Improved
@@ -33,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add defense for incomplete config in preferchCachedAttributes helper
+
 
 ### Fixed
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
@@ -57,7 +61,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed missing parameter in the compare list - @andrzejewsky (#3757)
 - Fixed product link on mobile - @andrzejewsky (#3772)
 - Custom module `ConfigProvider` aren't called anymore - @cewald (#3797)
-- Fixed AMP pages - @andrzejewsky (#3799)
 
 ### Added
 - Added Estonian translations - @alphpkeemik
