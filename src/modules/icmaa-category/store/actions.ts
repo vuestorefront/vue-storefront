@@ -37,8 +37,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       return { parent, list: list as Category[] }
     }
   },
-  async loadProductListingWidgetProducts ({ state, commit, dispatch }, params: { categoryId: number, cluster: string, size: number, sort: string }): Promise<ProductListingWidgetState> {
-    const { categoryId, cluster, size, sort } = params
+  async loadProductListingWidgetProducts ({ state, commit, dispatch }, params: { categoryId: number, cluster: string, size: number, sort: string|string[] }): Promise<ProductListingWidgetState> {
+    let { categoryId, cluster, size, sort } = params
 
     if (state.productListingWidget.find(i => i.parent === categoryId && i.list.length >= size)) {
       return
@@ -51,7 +51,9 @@ const actions: ActionTree<CategoryState, RootState> = {
       .applyFilter({ key: 'category_ids', value: { in: [categoryId] } })
 
     if (cluster) {
-      query.applyFilter({ key: 'customercluster', value: { in: [parseInt(cluster)] } })
+      query.applyFilter({ key: 'customercluster', value: { or: [parseInt(cluster)] } })
+      query.applyFilter({ key: 'customercluster', value: { or: null } })
+      sort = [sort as string, 'customercluster:desc']
     }
 
     return dispatch('product/findProducts', { query, size, sort }, { root: true }).then(products => {
