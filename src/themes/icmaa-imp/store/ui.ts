@@ -36,10 +36,10 @@ export const uiStore = {
       state.categoryfilter = false
       state.overlay = false
     },
-    setCheckoutMode (state, action) {
+    setCheckoutMode (state, action: boolean) {
       state.checkoutMode = action === true
     },
-    toggleSidebar (state, property, action) {
+    toggleSidebar (state, property: string, action: boolean) {
       const status = action || !state[property]
       state.sidebarPath = []
       state[property] = status
@@ -55,24 +55,30 @@ export const uiStore = {
         Vue.delete(state.sidebarPath, state.sidebarPath.length - 1)
       }, 500)
     },
-    setOverlay (state, action) {
+    setOverlay (state, action: boolean) {
       state.overlay = action === true
     },
-    setLoader (state, action) {
+    setLoader (state, action: boolean) {
       state.loader = action === true
     },
-    setAuthElem (state, action) {
+    setAuthElem (state, action: boolean) {
       state.authElem = action
     }
   },
   actions: {
-    setViewport ({ commit }, window) {
+    setViewport ({ commit }, window: Window) {
       /**
        * Breakpoints of TailwindCSS:
        * @see https://tailwindcss.com/docs/breakpoints/#app
        */
-      const viewports = [ ['xs', 375], ['sm', 640], ['md', 768], ['lg', 1024], ['xl', 1280] ]
-      const viewport = viewports.find(vp => window.innerWidth <= vp[1])
+      type viewport = [string, number]
+      const viewports: viewport[] = [ ['xs', 375], ['sm', 640], ['md', 768], ['lg', 1024], ['xl', 1280] ]
+      let viewport: viewport = viewports.find(vp => window.innerWidth <= vp[1])
+
+      /** If no viewport is found because its the largest viewport */
+      if (!viewport) {
+        viewport = viewports.slice(-1)[0]
+      }
 
       if (viewport) {
         commit('setViewport', viewport[0])
@@ -81,7 +87,7 @@ export const uiStore = {
     closeAll ({ commit }) {
       commit('setCloseAll')
     },
-    setSidebar ({ commit }, status) {
+    setSidebar ({ commit }, status: boolean) {
       commit('toggleSidebar', 'sidebar', status)
     },
     setUserSidebar ({ commit, dispatch, rootGetters }, status) {
@@ -94,19 +100,19 @@ export const uiStore = {
         dispatch('addSidebarPath', { component: AsyncUserNavigation, title: i18n.t('My account') })
       }
     },
-    setSearchpanel ({ commit }, status) {
+    setSearchpanel ({ commit }, status: boolean) {
       commit('toggleSidebar', 'searchpanel', status)
     },
-    setMicrocart ({ commit }, status) {
+    setMicrocart ({ commit }, status: boolean) {
       commit('toggleSidebar', 'microcart', status)
     },
-    setWishlist ({ commit }, status) {
+    setWishlist ({ commit }, status: boolean) {
       commit('toggleSidebar', 'wishlist', status)
     },
-    setAddtocart ({ commit }, status) {
+    setAddtocart ({ commit }, status: boolean) {
       commit('toggleSidebar', 'addtocart', status)
     },
-    setCategoryfilter ({ commit }, status) {
+    setCategoryfilter ({ commit }, status: boolean) {
       commit('toggleSidebar', 'categoryfilter', status)
     },
     addSidebarPath ({ commit }, pathItem) {
