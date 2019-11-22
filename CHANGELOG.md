@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add unit test for `core/modules/checkout` - @psmyrek (#3460)
+- Add defense against incomplete config in ssr renderer - @oskar1233 (#3774)
 - Add unit tests for `core/modules/order` - @dz3n (#3466)
 - Add unit tests for `core/modules/user` - @dz3n (#3470)
 
