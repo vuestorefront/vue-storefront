@@ -1,8 +1,8 @@
 import * as types from '@vue-storefront/core/modules/url/store/mutation-types'
 import { cacheStorage } from '@vue-storefront/core/modules/recently-viewed/index'
 import { actions as urlActions } from '../../../store/actions'
-import { parametrizeRouteData } from '../../../helpers';
-import { LocalizedRoute } from '@vue-storefront/core/lib/types'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import {StorageManager} from '@vue-storefront/core/lib/storage-manager'
 
 const SearchQuery = {
   applyFilter: jest.fn()
@@ -17,20 +17,21 @@ jest.mock('@vue-storefront/core/modules/recently-viewed/index', () => ({
     clear: jest.fn()
   }
 }));
-jest.mock('@vue-storefront/core/lib/multistore', () => ({
-  currentStoreView: jest.fn(() => ({
-    storeCode: '2',
-    localizedRoute: jest.fn(),
-    appendStoreCode: '2'
-  })),
-  localizedDispatcherRouteName: jest.fn(),
-  removeStoreCodeFromRoute: jest.fn()
-}));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   StorageManager: {
     init: jest.fn(),
-    get: jest.fn(() => cacheStorage)
+    get: jest.fn(() => cacheStorage),
+    getItem: jest.fn()
   }
+}));
+jest.mock('@vue-storefront/core/lib/multistore', () => ({
+  currentStoreView: jest.fn(() => ({
+    storeCode: '',
+    localizedRoute: jest.fn(),
+    appendStoreCode: ''
+  })),
+  localizedDispatcherRouteName: jest.fn(),
+  removeStoreCodeFromRoute: jest.fn()
 }));
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {
@@ -49,11 +50,10 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
 jest.mock('@vue-storefront/core/modules/url/helpers', () => ({
   preProcessDynamicRoutes: jest.fn(),
   parametrizeRouteData: jest.fn(),
-  removeStoreCodeFromRoute: jest.fn()
+  removeStoreCodeFromRoute: jest.fn(),
+  normalizeUrlPath: jest.fn()
 }));
-jest.mock('@vue-storefront/core/lib/storeCodeFromRoute', () => ({
-  storeCodeFromRoute: jest.fn()
-}))
+jest.mock('@vue-storefront/core/lib/storeCodeFromRoute', () => jest.fn());
 jest.mock('config', () => ({}));
 jest.mock('@vue-storefront/core/app', () => ({
   router: {
@@ -120,21 +120,44 @@ describe('Url actions', () => {
 
   /*
   describe('mapUrl action', () => {
-    it('should return resolved promise with parametrizedRoute', async () => {
+    beforeEach(() => {
+      (currentStoreView as jest.Mock).mockImplementation(() => ({storeCode: ''}));
+    });
+
+    it('should return resolved promise with parametrizedRoute if dispatcherMap[url] is set', async () => {
+      const url = '/men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html';
+
+      cacheStorage.getItem.mockImplementationOnce(
+        jest.fn((cacheType, callback) => callback(null, url))
+      )
+
       const contextMock = {
         state: {
           dispatcherMap: {
-            url: 'https://www.example.com'
+            name: 'configurable-product',
+            params: {
+              slug: 'troy-yoga-short-994',
+              parentSku: 'MSH09',
+              childSku: 'MSH09-32-Black'
+            }
           }
         },
         dispatch: jest.fn()
       }
-      const query = 'query';
-      const wrapper = (actions: any) => actions.mapUrl(contextMock, {url, query})
-
-      wrapper(urlActions)
-
-      await expect(parametrizeRouteData({fullPath: contextMock.state.dispatcherMap.url}, query, ''))
+      const query = {childSku: 'MSH09-32-Black'};
+      const expectedResult = {
+        name: 'configurable-product',
+        params: {
+          slug: 'troy-yoga-short-994',
+          parentSku: 'MSH09',
+          childSku: 'MSH09-32-Black'
+        }
+      }
+      const result = await (urlActions as any).mapUrl(contextMock, {url, query})
+      expect(result).toEqual(expectedResult)
+      // expect.assertions(1);
+    //  return expect((actions: any) => actions.mapUrl(contextMock, {url, query})).resolves.toBe(expectedResult)
+      // return (actions: any) => actions.mapUrl(contextMock, {url, query}).then(data => expect(data).toBe(expectedResult))
     })
   })
   */
