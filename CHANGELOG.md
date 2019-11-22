@@ -9,14 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add unit test for `core/modules/checkout` - @psmyrek (#3460)
+- Add defense against incomplete config in ssr renderer - @oskar1233 (#3774)
 - Add unit tests for `core/modules/order` - @dz3n (#3466)
+- Add unit tests for `core/modules/user` - @dz3n (#3470)
 - Theme constant which conditions the number of products loading per page - @AdKamil (#3630)
 
 ### Fixed
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
 - Fixed null value of search input - @AdKamil (#3778)
 - Fixed product sorting - @AdKamil (#3785)
+- Fixed displaying `sale` and `new` mark - @andrzejewsky (#3800)
+- Fixed sorting on category page and product tile sizing - @andrzejewsky (#3817)
+- Redirect from simple product using url_path - @benjick (#3804)
+- Mount app in 'beforeResolve' if it's not dispatched in 'onReady' - @gibkigonzo (#3669)
+- change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
 
+### Changed / Improved
+- Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
+- Improve the readability of 'getShippingDetails()' and 'updateDetails()' method of UserShippingDetails component - @adityasharma7 (#3770)
 
 ## [1.11.0-rc.2] - 2019.10.31
 
@@ -46,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed missing parameter in the compare list - @andrzejewsky (#3757)
 - Fixed product link on mobile - @andrzejewsky (#3772)
 - Custom module `ConfigProvider` aren't called anymore - @cewald (#3797)
+- Fixed AMP pages - @andrzejewsky (#3799)
 
 ### Added
 - Added Estonian translations - @alphpkeemik
@@ -65,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add unit testing to Husky on pre-push hook - @mattheo-geoffray (#3475)
 - Add unit testing on breadcrumbs feature - @mattheo-geoffray (#3457)
 - HTML Minifier has been added, to enable it please switch the `config.server.useHtmlMinifier` - @pkarw (#2182)
 - Output compression module has been added; it's enabled by default on production builds; to disable it please switch the `src/modules/serrver.ts` configuration - @pkarw (#2182)

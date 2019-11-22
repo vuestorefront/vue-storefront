@@ -34,10 +34,10 @@ export const ProductTile = {
       }
     },
     isOnSale () {
-      return this.product.sale === '1' ? 'sale' : ''
+      return [true, '1'].includes(this.product.sale) ? 'sale' : ''
     },
     isNew () {
-      return this.product.new === '1' ? 'new' : ''
+      return [true, '1'].includes(this.product.new) ? 'new' : ''
     }
   }
 }
