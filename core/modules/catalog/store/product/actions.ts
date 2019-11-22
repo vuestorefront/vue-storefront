@@ -294,8 +294,8 @@ const actions: ActionTree<ProductState, RootState> = {
     return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
-          if (populateRequestCacheTags && Vue.prototype.$ssrRequestContext) {
-            Vue.prototype.$ssrRequestContext.output.cacheTags.add(`P${product.id}`)
+          if (populateRequestCacheTags && Vue.prototype.$cacheTags) {
+            Vue.prototype.$cacheTags.add(`P${product.id}`);
           }
           product.errors = {} // this is an object to store validation result for custom options and others
           product.info = {}
