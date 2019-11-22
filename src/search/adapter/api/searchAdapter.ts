@@ -1,12 +1,13 @@
 import { SearchAdapter as OrgSearchAdapter } from '@vue-storefront/core/lib/search/adapter/api/searchAdapter'
 import { prepareElasticsearchQueryBody } from './elasticsearchQuery'
 
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import config from 'config'
+import fetch from 'isomorphic-fetch'
+import queryString from 'query-string'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { processURLAddress } from '@vue-storefront/core/helpers'
 import { currentStoreView, prepareStoreView } from '@vue-storefront/core/lib/multistore'
-import config from 'config'
-import queryString from 'query-string'
 
 export class SearchAdapter extends OrgSearchAdapter {
   /**
