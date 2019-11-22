@@ -9,10 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add unit test for `core/modules/checkout` - @psmyrek (#3460)
+- Add defense against incomplete config in ssr renderer - @oskar1233 (#3774)
 - Add unit tests for `core/modules/order` - @dz3n (#3466)
 - Add unit tests for `core/modules/user` - @dz3n (#3470)
+- Add to cart from Wishlist and Product listing for simple products - @Dnd-Dboy, @dz3n (#2637)
 - Add global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
- 
+
 ### Fixed
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
 - Fixed null value of search input - @AdKamil (#3778)
@@ -23,9 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mount app in 'beforeResolve' if it's not dispatched in 'onReady' - @gibkigonzo (#3669)
 - Fixed AMP pages - @andrzejewsky (#3799)
 - Fixed Product page breadcrumbs problem when products are in multiple categories in different branches of the category tree - @grimasod (#3691)
+- Change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
 
 ### Changed / Improved
--  Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
+- Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
+- Improve the readability of 'getShippingDetails()' and 'updateDetails()' method of UserShippingDetails component - @adityasharma7 (#3770)
+- Keep git after yarn install in dockerfile - @ddanier (#3826)
 
 ## [1.11.0-rc.2] - 2019.10.31
 
