@@ -117,7 +117,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
   - [Overlay](#_41-overlay-needs-fix)
   - [PriceSelector](#_42-priceselector-needs-fix)
   - [ProductBundleOptions](#_43-productbundleoptions-ready-to-update)
-  - [ProductCustomOptions]
+  - [ProductCustomOptions](#_44-productcustomoptions-ready-to-update)
   - [ProductGalleryCarousel]
   - [ProductGalleryZoomCarousel]
   - [ProductImage]
