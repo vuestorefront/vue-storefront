@@ -1326,6 +1326,22 @@ document.getElementById("d-newsletter").innerHTML = dNewsLetter;
 </script>
 
 
+#### 40. _OfflineBadge_ to be tackled
+
+- Go to `./src/themes/degi/components/core/OfflineBadge.vue` and fix it as follows :
+
+<div id="d-offline-badge">
+
+</div>
+<script>
+var dOfflineBadge = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/OfflineBadge.vue\n+++ b/src/themes/degi/components/core/OfflineBadge.vue\n@@ -2,9 +2,9 @@\n   <no-ssr>\n     <div\n       v-show=\"OfflineOnly\"\n-      class=\"offline-badge fixed w-100 p10 bg-cl-th-error cl-white center-xs\"\n+      class=\"offline-badge fixed p10 bg-cl-th-error cl-white center-xs\"\n     >\n-      {\{ $t(\'You are offline, some of the functionalities are limited\') }\}\n+      {\{ $t(\'You are offline. Some features might not be available.\') }\}\n     </div>\n   </no-ssr>\n </template>\n@@ -20,9 +20,14 @@ export default {\n   mixins: [VueOfflineMixin]\n }\n <\/script>\n-<style scoped>\n+<style lang=\"scss\" scoped>\n+@import \'~theme/css/base/global_vars\';\n+$z-index: map-get($z-index, overlay) - 1;\n+\n .offline-badge {\n   bottom: 0;\n   left: 0;\n+  right: 0;\n+  z-index: $z-index;\n }\n </style>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-offline-badge").innerHTML = dOfflineBadge;
+</script>
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
