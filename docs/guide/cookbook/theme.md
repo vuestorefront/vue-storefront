@@ -116,7 +116,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
   - [OfflineBadge](#_40-offlinebadge-to-be-tackled)
   - [Overlay](#_41-overlay-needs-fix)
   - [PriceSelector](#_42-priceselector-needs-fix)
-  - [ProductBundleOptions]
+  - [ProductBundleOptions](#_43-productbundleoptions-ready-to-update)
   - [ProductCustomOptions]
   - [ProductGalleryCarousel]
   - [ProductGalleryZoomCarousel]
