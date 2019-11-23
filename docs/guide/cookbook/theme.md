@@ -1282,15 +1282,15 @@ document.getElementById("d-generic-sel").innerHTML = dGenericSel;
 
 - Go to `./src/themes/degi/components/core/Logo.vue` and fix it as follows :
 
-<div id="d-generic-sel">
+<div id="d-logo">
 
 </div>
 <script>
-var dGenericSel = Diff2Html.getPrettyHtml(
-  "--- a/src/themes/degi/components/core/GenericSelector.vue\n+++ b/src/themes/degi/components/core/GenericSelector.vue\n@@ -1,18 +1,19 @@\n <template>\n   <button\n-    :class=\"{\'active\': active}\"\n+    :class=\"{\'active\': isActive}\"\n     class=\"bg-cl-primary brdr-1 brdr-cl-primary brdr-square h5 cl-tertiary generic-selector\"\n-    @click=\"switchFilter(id, label)\"\n-    :aria-label=\"$t(\'Select \' + label)\"\n+    @click=\"$emit(\'change\', variant)\"\n+    :aria-label=\"$t(\'Select \' + variant.label)\"\n   >\n-    {\{ label }\}\n+    {\{ variant.label }\}\n   </button>\n </template>\n \n <script>\n-import GenericSelector from \'@vue-storefront/core/compatibility/components/GenericSelector\'\n+import filterMixin from \'theme/mixins/filterMixin.ts\'\n+\n export default {\n-  mixins: [GenericSelector]\n+  mixins: [filterMixin]\n }\n <\/script>\n",
+var dLogo = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/Logo.vue\n+++ b/src/themes/degi/components/core/Logo.vue\n@@ -4,13 +4,22 @@\n       :width=\"width\"\n       :height=\"height\"\n       src=\"/assets/logo.svg\"\n-      alt=\"Vuestore logo\"\n+      :alt=\"$t(defaultTitle)\"\n     >\n   </router-link>\n </template>\n \n <script>\n+import config from \'config\'\n+import { currentStoreView } from \'@vue-storefront/core/lib/multistore\'\n+\n export default {\n+  data () {\n+    const storeView = currentStoreView()\n+    return {\n+      defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle\n+    }\n+  },\n   props: {\n     width: {\n       type: [String, Number],",
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
-document.getElementById("d-generic-sel").innerHTML = dGenericSel;
+document.getElementById("d-logo").innerHTML = dLogo;
 </script>
 
 
