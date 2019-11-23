@@ -1374,6 +1374,22 @@ document.getElementById("d-price-sel").innerHTML = dPriceSel;
 </script>
 
 
+#### 43. _ProductBundleOptions_ ready to update
+
+- Go to `./src/themes/degi/components/core/ProductBundleOptions.vue` and fix it as follows :
+
+<div id="d-prod-bundle">
+
+</div>
+<script>
+var dProdBundle = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/ProductBundleOptions.vue\n+++ b/src/themes/degi/components/core/ProductBundleOptions.vue\n@@ -1,7 +1,7 @@\n <template>\n   <form class=\"custom-options\">\n     <div v-for=\"option in product.bundle_options\" :key=\"(\'bundleOption_\' + option.option_id)\">\n-      <product-bundle-option :option=\"option\" @optionChanged=\"optionChanged\" :error-messages=\"errorMessages\" />\n+      <product-bundle-option :option=\"option\" @option-changed=\"optionChanged\" :error-messages=\"errorMessages\" />\n     </div>\n   </form>\n </template>",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-prod-bundle").innerHTML = dProdBundle;
+</script>
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
