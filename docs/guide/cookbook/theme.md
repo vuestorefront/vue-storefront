@@ -1118,9 +1118,52 @@ var dSearchSearch = Diff2Html.getPrettyHtml(
 document.getElementById("d-search-search").innerHTML = dSearchSearch;
 </script>
 
- _Disabling Scroll_ feature is added.
+ _Disabling Scroll_ feature is added to _SearchPanel_.
 
  Javascript `filter`, `map` replaces `forEach` for _products_
+
+
+#### 30. _SidebarMenu_ wants to update too!
+
+- Go to `./src/themes/degi/components/core/blocks/SidebarMenu/SidebarMenu.vue` and fix it as follows :
+
+<div id="d-side-sidebar">
+
+</div>
+<script>
+var dSideSidebar = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/SidebarMenu/SidebarMenu.vue\n+++ b/src/themes/degi/components/core/blocks/SidebarMenu/SidebarMenu.vue\n@@ -18,7 +18,7 @@\n         </button>\n       </div>\n     </div>\n-    <div class=\"sidebar-menu__container row\">\n+    <div class=\"sidebar-menu__container row\" ref=\"container\">\n       <div class=\"col-xs-12 h4 serif\">\n         <ul class=\"p0 m0 relative sidebar-menu__list\" :style=\"mainListStyles\">\n           <li\n@@ -52,7 +52,7 @@\n               <router-link\n                 v-else\n                 class=\"px25 py20 cl-accent no-underline col-xs\"\n-                :to=\"localizedRoute({ name: \'category\', fullPath: category.url_path, params: { id: category.id, slug: category.slug }\})\"\n+                :to=\"categoryLink(category)\"\n               >\n                 {\{ category.name }\}\n               </router-link>\n@@ -140,6 +140,8 @@ import i18n from \'@vue-storefront/i18n\'\n import SidebarMenu from \'@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu\'\n import SubBtn from \'theme/components/core/blocks/SidebarMenu/SubBtn\'\n import SubCategory from \'theme/components/core/blocks/SidebarMenu/SubCategory\'\n+import { formatCategoryLink } from \'@vue-storefront/core/modules/url/helpers\'\n+import { disableBodyScroll, clearAllBodyScrollLocks } from \'body-scroll-lock\'\n \n export default {\n   components: {\n@@ -206,9 +208,13 @@ export default {\n   },\n   mounted () {\n     this.$nextTick(() => {\n-      this.componentLoaded = true\n+      this.componentLoaded = true;\n+      disableBodyScroll(this.$refs.container)\n     })\n   },\n+  destroyed () {\n+    clearAllBodyScrollLocks()\n+  },\n   methods: {\n     login () {\n       if (!this.currentUser && this.isCurrentMenuShowed) {\n@@ -218,6 +224,9 @@ export default {\n           this.$router.push({ name: \'my-account\' })\n         })\n       }\n+    },\n+    categoryLink (category) {\n+      return formatCategoryLink(category)\n     }\n   }\n }\n@@ -243,9 +252,8 @@ $color-mine-shaft: color(mine-shaft);\n \n   &__container {\n     overflow-y: auto;\n-    overflow-x: hidden;\n-    height: calc(100% - 55px);\n     -webkit-overflow-scrolling: touch;\n+    height: calc(100% - 55px);\n   }\n \n   &__list {\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-side-sidebar").innerHTML = dSideSidebar;
+</script>
+
+ _CategoryLink_ gets help from `helper` for formatting. 
+
+ _Disabling Scroll_ feature is added to _SidebarMenu_ too.
+
+- Go to `./src/themes/degi/components/core/blocks/SearchPanel/SearchPanel.vue` and add it as follows :
+
+<div id="d-side-subcate">
+
+</div>
+<script>
+var dSideSubcate = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/SidebarMenu/SubCategory.vue\n+++ b/src/themes/degi/components/core/blocks/SidebarMenu/SubCategory.vue\n@@ -11,7 +11,7 @@\n       >\n         <router-link\n           class=\"px25 py20 cl-accent no-underline col-xs\"\n-          :to=\"localizedRoute({ name: \'category\', fullPath: parentPath, params: { id: id, slug: parentSlug }\})\"\n+          :to=\"categoryLink({ url_path: parentPath, slug: parentSlug })\"\n           data-testid=\"categoryLink\"\n         >\n           {\{ $t(\'View all\') }\}\n@@ -35,7 +35,7 @@\n           <router-link\n             v-else\n             class=\"px25 py20 cl-accent no-underline col-xs\"\n-            :to=\"localizedRoute({ name: \'category\', fullPath: link.url_path, params: { id: link.id, slug: link.slug }\})\"\n+            :to=\"categoryLink(link)\"\n           >\n             {\{ link.name }\}\n           </router-link>\n@@ -84,6 +84,7 @@ import { mapState } from \'vuex\'\n import SubBtn from \'./SubBtn.vue\'\n import i18n from \'@vue-storefront/i18n\'\n import config from \'config\'\n+import { formatCategoryLink } from \'@vue-storefront/core/modules/url/helpers\'\n \n export default {\n   name: \'SubCategory\',\n@@ -142,9 +143,10 @@ export default {\n     }\n   },\n   methods: {\n-    logout () {\n-      this.$bus.$emit(\'user-before-logout\')\n+    async logout () {\n+      await this.$store.dispatch(\'user/logout\', {})\n       this.$router.push(this.localizedRoute(\'/\'))\n+      this.$store.commit(\'ui/setSubmenu\', { depth: false })\n     },\n     notify (title) {\n       if (title === \'My loyalty card\' || title === \'My product reviews\') {\n@@ -154,6 +156,9 @@ export default {\n           action1: { label: i18n.t(\'OK\') }\n         })\n       }\n+    },\n+    categoryLink (category) {\n+      return formatCategoryLink(category)\n     }\n   }\n }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-side-subcate").innerHTML = dSideSubcate;
+</script>
+
+ `async`-`await` implementation also takes place. 
+ 
+ _CategoryLink_ gets help from `helper` for formatting. 
+
+
+
+
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
