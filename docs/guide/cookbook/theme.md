@@ -1422,6 +1422,22 @@ document.getElementById("d-prod-gal").innerHTML = dProdGal;
 </script>
 
 
+#### 46. _ProductGalleryZoomCarousel_ ready to update
+
+- Go to `./src/themes/degi/components/core/ProductGalleryZoomCarousel.vue` and fix it as follows :
+
+<div id="d-prod-gal-zoom">
+
+</div>
+<script>
+var dProdGalZoom = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/ProductGalleryZoomCarousel.vue\n+++ b/src/themes/degi/components/core/ProductGalleryZoomCarousel.vue\n@@ -1,10 +1,9 @@\n <template>\n   <div class=\"media-zoom-carousel\">\n     <div class=\"media-zoom-carousel__container row flex\">\n-      <ul class=\"media-zoom-carousel__thumbs m0 p0\">\n+      <ul class=\"media-zoom-carousel__thumbs m0 p0\" ref=\"thumbs\">\n         <li class=\"media-zoom-carousel__thumb bg-cl-secondary\" v-for=\"(images, index) in gallery\" :key=\"images.src\">\n           <product-image\n-            :class=\"{\'thumb-video\': images.video}\"\n             @click=\"navigate(index)\"\n             :image=\"images\"\n             :alt=\"productName | htmlDecode\"\n@@ -34,7 +33,6 @@\n             >\n               <product-image\n                 v-show=\"hideImageAtIndex !== index\"\n-                :class=\"{\'image--video\': images.video}\"\n                 :image=\"images\"\n                 :alt=\"productName | htmlDecode\"\n               />\n@@ -54,6 +52,7 @@\n \n <script>\n import { Carousel, Slide } from \'vue-carousel\'\n+import { disableBodyScroll, clearAllBodyScrollLocks } from \'body-scroll-lock\'\n import ProductImage from \'./ProductImage\'\n import ProductVideo from \'./ProductVideo\'\n \n@@ -88,6 +87,9 @@ export default {\n     ProductVideo\n   },\n   mounted () {\n+    this.$nextTick(() => {\n+      disableBodyScroll(this.$refs.thumbs)\n+    })\n     this.navigate(this.currentSlide)\n     if (this.$refs.zoomCarousel) {\n       let navigation = this.$refs.zoomCarousel.$children.find(c => c.$el.className === \'VueCarousel-navigation\')\n@@ -100,6 +102,9 @@ export default {\n       }\n     }\n   },\n+  destroyed () {\n+    clearAllBodyScrollLocks()\n+  },\n   methods: {\n     navigate (key) {\n       this.$refs.zoomCarousel.goToPage(key)\n@@ -174,10 +179,9 @@ export default {\n       margin-bottom: 0;\n     }\n \n-    & > .image{\n-      mix-blend-mode: multiply;\n-      opacity: 0.9;\n-      will-change: transform;\n+    & > *{\n+      opacity: .9;\n+      will-change: opacity;\n       transition: .3s opacity $motion-main;\n \n       &:hover{\n@@ -202,13 +206,6 @@ export default {\n   &__slide{\n     height: 100%;\n     max-height: 100%;\n-    & > .image {\n-      mix-blend-mode: multiply;\n-    padding-bottom: calc(710% / (600 / 100));\n-    }\n-    .image--video{\n-      padding-bottom: calc(319% / (568 / 100));\n-    }\n   }\n }\n .thumb-video{\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-prod-gal-zoom").innerHTML = dProdGalZoom;
+</script>
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
