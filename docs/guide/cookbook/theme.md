@@ -1045,7 +1045,28 @@ document.getElementById("d-mya-shipping").innerHTML = dMyShipping;
 </script>
 
  Code styling update and _validation_ added. 
- 
+
+
+#### 27. _Product_ _Related_ is ready to transform. 
+
+- Go to `./src/themes/degi/components/core/blocks/Product/Related.vue` and fix it as follows :
+
+<div id="d-prod-related">
+
+</div>
+<script>
+var dProdRelated = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Product/Related.vue\n+++ b/src/themes/degi/components/core/blocks/Product/Related.vue\n@@ -1,7 +1,7 @@\n <template>\n   <section\n     class=\"py20 new-collection container px15\"\n-    v-if=\"product.related[type] && product.related[type].length > 0\"\n+    v-if=\"getCurrentRelatedProducts.length\"\n   >\n     <div>\n       <header class=\"col-md-12\">\n@@ -10,15 +10,13 @@\n         </h2>\n       </header>\n     </div>\n-    <div class=\"row center-xs\">\n-      <product-listing columns=\"4\" :products=\"product.related[type]\" />\n-    </div>\n+    <product-listing columns=\"4\" :products=\"getCurrentRelatedProducts\" />\n   </section>\n </template>\n \n <script>\n import ProductListing from \'theme/components/core/ProductListing\'\n-\n+import { mapGetters } from \'vuex\'\n import { prepareRelatedQuery } from \'@vue-storefront/core/modules/catalog/queries/related\'\n import i18n from \'@vue-storefront/i18n\'\n import config from \'config\'\n@@ -59,40 +57,43 @@ export default {\n     this.$bus.$off(\'product-after-load\', this.refreshList)\n   },\n   methods: {\n-    refreshList () {\n+    async refreshList () {\n       let sku = this.productLinks ? this.productLinks\n         .filter(pl => pl.link_type === this.type)\n         .map(pl => pl.linked_product_sku) : null\n \n       let key = \'sku\'\n       if (sku === null || (sku.length === 0)) {\n-        sku = this.product.current.category.map(cat => cat.category_id)\n+        sku = this.getCurrentProduct.category_ids\n         key = \'category_ids\'\n       }\n       let relatedProductsQuery = prepareRelatedQuery(key, sku)\n \n-      this.$store.dispatch(\'product/list\', {\n+      const response = await this.$store.dispatch(\'product/list\', {\n         query: relatedProductsQuery,\n         size: 8,\n         prefetchGroupProducts: false,\n         updateState: false\n-      }).then((response) => {\n-        if (response) {\n-          this.$store.dispatch(\'product/related\', {\n-            key: this.type,\n-            items: response.items\n-          })\n-          this.$forceUpdate()\n-        }\n       })\n+      if (response) {\n+        this.$store.dispatch(\'product/related\', {\n+          key: this.type,\n+          items: response.items\n+        })\n+        this.$forceUpdate()\n+      }\n     }\n   },\n   computed: {\n-    product () {\n-      return this.$store.state.product\n+    ...mapGetters({\n+      getProductRelated: \'product/getProductRelated\',\n+      getCurrentProduct: \'product/getCurrentProduct\'\n+    }),\n+    getCurrentRelatedProducts () {\n+      return this.getProductRelated[this.type] || []\n     },\n     productLinks () {\n-      return this.product.current.product_links\n+      return this.getCurrentProduct.product_links\n     }\n   }\n }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-prod-related").innerHTML = dProdRelated;
+</script>
+
+Now you are familiar with `vuex` `mapGetters` implemented in the update. 
+
+`async`-`await` implementation also takes place. 
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
