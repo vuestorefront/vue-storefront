@@ -1160,8 +1160,22 @@ document.getElementById("d-side-subcate").innerHTML = dSideSubcate;
  _CategoryLink_ gets help from `helper` for formatting. 
 
 
+#### 31. It's _Switcher_ _Language_ turn
 
+- Go to `./src/themes/degi/components/core/blocks/Switcher/Language.vue` and fix it as follows :
 
+<div id="d-switch-lang">
+
+</div>
+<script>
+var dSwitchLang = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Switcher/Language.vue\n+++ b/src/themes/degi/components/core/blocks/Switcher/Language.vue\n@@ -6,12 +6,12 @@\n     <div slot=\"content\">\n       <div :class=\"{ \'columns\': enableColumns }\">\n         <div class=\"country country-current\">\n-          <h3>{\{ $t(config.i18n.fullCountryName) }\}</h3>\n+          <h3>{\{ $t(fullCountryName) }\}</h3>\n           <ul>\n-            <li><a href=\"/\">{\{ $t(config.i18n.fullLanguageName) }\}</a></li>\n+            <li><a href=\"/\">{\{ $t(fullLanguageName) }\}</a></li>\n           </ul>\n         </div>\n-        <div class=\"country country-available\" v-for=\"(storeView, storeCode) in storeViews\" :key=\"storeCode\" v-if=\"!storeView.disabled && typeof storeView === \'object\' && storeView.i18n\">\n+        <div class=\"country country-available\" v-for=\"(storeView, storeCode) in storeViews\" :key=\"storeCode\">\n           <h3>{\{ $t(storeView.i18n.fullCountryName) }\}</h3>\n           <ul>\n             <li><a :href=\"storeView.url\">{\{ $t(storeView.i18n.fullLanguageName) }\}</a></li>\n@@ -35,18 +35,23 @@ export default {\n     }\n   },\n   computed: {\n-    storeViews () {\n-      return config.storeViews\n+    fullCountryName () {\n+      return config.i18n.fullCountryName\n     },\n-    config () {\n-      return config\n+    fullLanguageName () {\n+      return config.i18n.fullLanguageName\n     },\n     enableColumns () {\n-      var enableStoreViews = Object.keys(config.storeViews).filter((key) => {\n-        var value = config.storeViews[key]\n-        return (typeof value === \'object\' && value.disabled === false)\n-      })\n+      const enableStoreViews = Object.keys(this.storeViews)\n       return enableStoreViews.length > this.minCountryPerColumn\n+    },\n+    storeViews () {\n+      return Object.keys(config.storeViews).reduce((storeViews, storeCode) => {\n+        if (this.isValidStoreCode(storeCode)) {\n+          storeViews[storeCode] = config.storeViews[storeCode]\n+        }\n+        return storeViews\n+      }, {})\n     }\n   },\n   mounted () {\n@@ -58,6 +63,10 @@ export default {\n   methods: {\n     close () {\n       this.$bus.$emit(\'modal-hide\', \'modal-switcher\')\n+    },\n+    isValidStoreCode (storeCode) {\n+      const storeView = config.storeViews[storeCode]\n+      return !!(storeView && typeof storeView === \'object\' && storeView.i18n)\n     }\n   }\n }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-switch-lang").innerHTML = dSwitchLang;
+</script>
+
+ _Validation_ is added. 
 
 
 
