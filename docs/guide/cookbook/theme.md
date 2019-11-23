@@ -980,6 +980,8 @@ document.getElementById("d-mya-news").innerHTML = dMyNews;
 </script>
 
 
+
+
 - Go to `./src/themes/degi/components/core/blocks/MyAccount/MyOrder.vue` and fix it as follows :
 
 <div id="d-mya-order">
@@ -993,56 +995,57 @@ var dMyOrder = Diff2Html.getPrettyHtml(
 document.getElementById("d-mya-order").innerHTML = dMyOrder;
 </script>
 
- A few code styling has been put into place. 
+ A few styles have been put into place. 
+
+ Product thumbnail has been added. 
 
 
-- Go to `./src/themes/degi/components/core/blocks/Header/MicrocartIcon.vue` and fix it as follows :
+- Go to `./src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue` and fix it as follows :
 
-<div id="d-header-micro">
-
-</div>
-<script>
-var dHeaderMicro = Diff2Html.getPrettyHtml(
-  "--- a/src/themes/degi/components/core/blocks/Header/MicrocartIcon.vue\n+++ b/src/themes/degi/components/core/blocks/Header/MicrocartIcon.vue\n@@ -19,10 +19,28 @@\n </template>\n \n <script>\n+import { mapGetters, mapActions } from \'vuex\'\n import MicrocartIcon from \'@vue-storefront/core/compatibility/components/blocks/Header/MicrocartIcon\'\n \n export default {\n-  mixins: [MicrocartIcon]\n+  // mixins: [MicrocartIcon],\n+  mounted () {\n+    document.addEventListener(\'visibilitychange\', () => {\n+      if (!document.hidden) {\n+        this.$store.dispatch(\'cart/load\')\n+      }\n+    })\n+  },\n+  computed: {\n+    ...mapGetters({\n+      totalQuantity: \'cart/getItemsTotalQuantity\'\n+    })\n+  },\n+  methods: {\n+    ...mapActions({\n+      openMicrocart: \'ui/toggleMicrocart\'\n+    })\n+  }\n }\n",
-  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
-);
-document.getElementById("d-header-micro").innerHTML = dHeaderMicro;
-</script>
-
- `mixins` is commented and `vuex` `mapGetters` are introduced as other updates.
-
-
-- Go to `./src/themes/degi/components/core/blocks/Header/MinimalHeader.vue` and fix it as follows :
-
-<div id="d-header-minimal">
+<div id="d-mya-orders">
 
 </div>
 <script>
-var dHeaderMinimal = Diff2Html.getPrettyHtml(
-  "--- a/src/themes/degi/components/core/blocks/Header/MinimalHeader.vue\n+++ b/src/themes/degi/components/core/blocks/Header/MinimalHeader.vue\n@@ -9,7 +9,11 @@\n           <div class=\"col-sm-4 col-xs-2 middle-xs\">\n             <div>\n               <template>\n-                <a class=\"inline-flex brdr-none p15 icon bg-cl-secondary pointer\" href=\"/\" data-testid=\"returnButton\">\n+                <a\n+                  class=\"inline-flex brdr-none p15 icon bg-cl-secondary pointer\"\n+                  href=\"/\"\n+                  data-testid=\"returnButton\"\n+                >\n                   <i class=\"material-icons\">keyboard_backspace</i>\n                 </a>\n               </template>\n@@ -19,12 +23,7 @@\n           <div class=\"col-sm-4 col-xs-4 center-xs\">\n             <div>\n               <a class=\"no-underline inline-flex\" href=\"/\" data-testid=\"logo\">\n-                <img\n-                  width=\"auto\"\n-                  height=\"41px\"\n-                  src=\"/assets/logo.svg\"\n-                  alt=\"Vuestore logo\"\n-                >\n+                <img width=\"auto\" height=\"41px\" src=\"/assets/logo.svg\" :alt=\"$t(defaultTitle)\">\n               </a>\n             </div>\n           </div>\n@@ -41,8 +40,16 @@\n \n <script>\n import CurrentPage from \'theme/mixins/currentPage\'\n+import { currentStoreView } from \'@vue-storefront/core/lib/multistore\'\n+import config from \'config\'\n \n export default {\n+  data () {\n+    const storeView = currentStoreView()\n+    return {\n+      defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle\n+    }\n+  },\n   mixins: [CurrentPage]\n }\n <\/script>\n@@ -55,7 +62,7 @@ $color-icon-hover: color(secondary, $colors-background);\n header {\n   height: 54px;\n   top: -55px;\n-  z-index: 2;\n+  z-index: 3;\n   transition: top 0.2s ease-in-out;\n   &.is-visible {\n     top: 0;\n@@ -88,12 +95,13 @@ header {\n     }\n   }\n   .col-xs-2:first-of-type {\n-      padding-left: 0;\n+    padding-left: 0;\n   }\n   .col-xs-2:last-of-type {\n-      padding-right: 0;\n+    padding-right: 0;\n   }\n-  a, span {\n+  a,\n+  span {\n     font-size: 12px;\n   }\n }\n",
+var dMyOrders = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue\n+++ b/src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue\n@@ -80,7 +80,7 @@\n </template>\n \n <script>\n-import UserOrder from \'src/modules/order-history/components/UserOrders\'\n+import UserOrder from \'@vue-storefront/core/modules/order/components/UserOrdersHistory\'\n \n export default {\n   mixins: [UserOrder]\n",
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
-document.getElementById("d-header-minimal").innerHTML = dHeaderMinimal;
+document.getElementById("d-mya-orders").innerHTML = dMyOrders;
 </script>
 
- _Multistore_ feature and some styling are updated. 
+ `UserOrdersHistory` module has been moved to core module. 
 
+- Go to `./src/themes/degi/components/core/blocks/MyAccount/MyProfile.vue` and fix it as follows :
 
-- Go to `./src/themes/degi/components/core/blocks/Header/WishListIcon.vue` and fix it as follows :
-
-<div id="d-header-wish">
+<div id="d-mya-profile">
 
 </div>
 <script>
-var dHeaderWish = Diff2Html.getPrettyHtml(
-  "--- a/src/themes/degi/components/core/blocks/Header/WishlistIcon.vue\n+++ b/src/themes/degi/components/core/blocks/Header/WishlistIcon.vue\n@@ -1,11 +1,18 @@\n <template>\n   <button\n     type=\"button\"\n-    class=\"inline-flex bg-cl-transparent brdr-none\"\n+    class=\"inline-flex bg-cl-transparent brdr-none relative\"\n     @click=\"toggleWishlistPanel\"\n     :aria-label=\"$t(\'Open wishlist\')\"\n   >\n     <i class=\"material-icons\">favorite_border</i>\n+    <span\n+      class=\"whishlist-count absolute flex center-xs middle-xs border-box py0 px2 h6 lh16 weight-700 cl-white bg-cl-silver\"\n+      v-cloak\n+      v-show=\"getWishlistItemsCount\"\n+    >\n+      {\{ getWishlistItemsCount }\}\n+    </span>\n   </button>\n </template>\n \n@@ -16,3 +23,13 @@ export default {\n   mixins: [WishlistIcon]\n }\n <\/script>\n+\n+<style scoped>\n+  .whishlist-count {\n+    top: 7px;\n+    left: 50%;\n+    min-width: 16px;\n+    min-height: 16px;\n+    border-radius: 10px;\n+  }\n+</style>\n",
+var dMyProfile = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/MyAccount/MyProfile.vue\n+++ b/src/themes/degi/components/core/blocks/MyAccount/MyProfile.vue\n@@ -195,10 +195,16 @@\n           :placeholder=\"$t(\'City *\')\"\n           v-model.trim=\"userCompany.city\"\n           @input=\"$v.userCompany.city.$touch()\"\n-          :validations=\"[{\n+          :validations=\"[\n+          {\n             condition: !$v.userCompany.city.required && $v.userCompany.city.$error,\n             text: $t(\'Field is required\')\n-          }]\"\n+          },\n+          {\n+            condition: $v.userCompany.city.$error && $v.userCompany.city.required,\n+            text: $t(\'Please provide valid city name\')\n+          }\n+          ]\"\n         />\n \n         <base-input\n@@ -348,6 +354,7 @@\n <script>\n import { required, minLength, email, sameAs } from \'vuelidate/lib/validators\'\n import MyProfile from \'@vue-storefront/core/compatibility/components/blocks/MyAccount/MyProfile\'\n+import { unicodeAlpha, unicodeAlphaNum } from \'@vue-storefront/core/helpers/validators\'\n \n import BaseCheckbox from \'theme/components/core/blocks/Form/BaseCheckbox\'\n import BaseSelect from \'theme/components/core/blocks/Form/BaseSelect\'\n@@ -391,10 +398,12 @@ export default {\n     currentUser: {\n       firstname: {\n         required,\n-        minLength: minLength(2)\n+        minLength: minLength(2),\n+        unicodeAlpha\n       },\n       lastname: {\n-        required\n+        required,\n+        unicodeAlpha\n       },\n       email: {\n         required,\n@@ -419,17 +428,20 @@ export default {\n         required\n       },\n       street: {\n-        required\n+        required,\n+        unicodeAlphaNum\n       },\n       house: {\n-        required\n+        required,\n+        unicodeAlphaNum\n       },\n       postcode: {\n         required,\n         minLength: minLength(3)\n       },\n       city: {\n-        required\n+        required,\n+        unicodeAlpha\n       },\n       taxId: {\n         required,",
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
-document.getElementById("d-header-wish").innerHTML = dHeaderWish;
+document.getElementById("d-mya-profile").innerHTML = dMyProfile;
+</script>
+ 
+ Code styling update and _validation_ added. 
+
+
+- Go to `./src/themes/degi/components/core/blocks/MyAccount/MyShippingDetails.vue` and fix it as follows :
+
+<div id="d-mya-shipping">
+
+</div>
+<script>
+var dMyShipping = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/MyAccount/MyShippingDetails.vue\n+++ b/src/themes/degi/components/core/blocks/MyAccount/MyShippingDetails.vue\n@@ -101,10 +101,16 @@\n           :placeholder=\"`${$t(\'City\')} *`\"\n           v-model.trim=\"shippingDetails.city\"\n           @input=\"$v.shippingDetails.city.$touch()\"\n-          :validations=\"[{\n+          :validations=\"[\n+          {\n             condition: !$v.shippingDetails.city.required && $v.shippingDetails.city.$error,\n             text: $t(\'Field is required\')\n-          }]\"\n+          },\n+          {\n+            condition: $v.shippingDetails.city.$error && $v.shippingDetails.city.required,\n+            text: $t(\'Please provide valid city name\')\n+          }\n+          ]\"\n         />\n \n         <base-input\n@@ -224,6 +230,7 @@\n <script>\n import { required, minLength } from \'vuelidate/lib/validators\'\n import MyShippingDetails from \'@vue-storefront/core/compatibility/components/blocks/MyAccount/MyShippingDetails\'\n+import { unicodeAlpha, unicodeAlphaNum } from \'@vue-storefront/core/helpers/validators\'\n \n import ButtonFull from \'theme/components/theme/ButtonFull\'\n import Tooltip from \'theme/components/core/Tooltip\'\n@@ -254,7 +261,8 @@ export default {\n     shippingDetails: {\n       firstName: {\n         required,\n-        minLength: minLength(2)\n+        minLength: minLength(2),\n+        unicodeAlpha\n       },\n       lastName: {\n         required\n@@ -263,17 +271,20 @@ export default {\n         required\n       },\n       street: {\n-        required\n+        required,\n+        unicodeAlphaNum\n       },\n       house: {\n-        required\n+        required,\n+        unicodeAlphaNum\n       },\n       postcode: {\n         required,\n         minLength: minLength(3)\n       },\n       city: {\n-        required\n+        required,\n+        unicodeAlpha\n       }\n     }\n   }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-mya-shipping").innerHTML = dMyShipping;
 </script>
 
- _Wishlist_ _count_ is added. 
-
+ Code styling update and _validation_ added. 
+ 
 
 ### 3. Peep into the kitchen (what happens internally)
 
