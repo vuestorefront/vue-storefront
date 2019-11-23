@@ -71,19 +71,19 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
     - CMS
       - [Block](#_21-move-on-to-cms-block)
     - Compare
-      - [AddToCompare]
-    - Footer
-      - [Footer]
-      - [MinimalFooter]
-      - [NewsLetter]
+      - [AddToCompare](#_22-copy-addtocompare)
+    - [Footer](#_23-time-for-footer-block)
+      - Footer
+      - MinimalFooter
+      - NewsLetter
     - Form
-      - [BaseInputNumber]
-    - Header
-      - [CompareIcon]
-      - [Header]
-      - [MicroCartIcon]
-      - [MinimalHeader]
-      - [WishListIcon]
+      - [BaseInputNumber](#_24-baseinputnumber-needs-update)
+    - [Header](#_25-header-needs-fix-too)
+      - CompareIcon
+      - Header
+      - MicroCartIcon
+      - MinimalHeader
+      - WishListIcon
     - MyAccount
       - [MyNewsLetter]
       - [MyOrder]
