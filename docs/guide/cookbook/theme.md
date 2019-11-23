@@ -100,7 +100,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
       - SidebarMenu
       - SubCategory
     - Switcher
-      - [Language]
+      - [Language](#_31-it-s-switcher-language-turn)
     - Wishlist
       - [AddToWishlist]
       - [Product]
