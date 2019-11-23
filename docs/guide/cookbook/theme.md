@@ -801,6 +801,102 @@ var dCmsBlock = Diff2Html.getPrettyHtml(
 document.getElementById("d-cms-block").innerHTML = dCmsBlock;
 </script>
 
+ The names of _getters_ are changed to follow the convention throughout the whole update. 
+
+
+#### 22. Copy _AddToCompare_
+
+ - Add new files introduced at `1.11` 
+
+```bash
+cd src
+
+cp themes/default/components/core/blocks/Compare/AddToCompare.vue themes/degi/components/core/blocks/Compare/AddToCompare.vue
+```
+
+
+#### 23. Time for _Footer_ _block_
+
+- Go to `./src/themes/degi/components/core/blocks/Footer/Footer.vue` and fix it as follows :
+
+<div id="d-footer">
+
+</div>
+<script>
+var dFooter = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Footer/Footer.vue\n+++ b/src/themes/degi/components/core/blocks/Footer/Footer.vue\n@@ -55,12 +55,12 @@\n                 {\{ $t(\'About us\') }\}\n               </h3>\n               <div class=\"mt15\">\n-                <router-link class=\"cl-secondary\" :to=\"localizedRoute(\'/i/about-us\')\" exact>\n+                <router-link class=\"cl-secondary\" :to=\"getLinkFor(\'/about-us\')\" exact>\n                   {\{ $t(\'About us (Magento CMS)\') }\}\n                 </router-link>\n               </div>\n               <div class=\"mt15\">\n-                <router-link class=\"cl-secondary\" :to=\"localizedRoute(\'/i/customer-service\')\" exact>\n+                <router-link class=\"cl-secondary\" :to=\"getLinkFor(\'/customer-service\')\" exact>\n                   {\{ $t(\'Customer service (Magento CMS)\') }\}\n                 </router-link>\n               </div>\n@@ -158,10 +158,12 @@\n </template>\n \n <script>\n+import { currentStoreView, localizedRoute } from \'@vue-storefront/core/lib/multistore\'\n import CurrentPage from \'theme/mixins/currentPage\'\n import LanguageSwitcher from \'../../LanguageSwitcher.vue\'\n import Newsletter from \'theme/components/core/blocks/Footer/Newsletter\'\n import BackToTop from \'theme/components/core/BackToTop\'\n+import { getPathForStaticPage } from \'theme/helpers\'\n import config from \'config\'\n \n export default {\n@@ -175,6 +177,11 @@ export default {\n       return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`\n     }\n   },\n+  methods: {\n+    getLinkFor (path) {\n+      return localizedRoute(getPathForStaticPage(path))\n+    }\n+  },\n   components: {\n     Newsletter,\n     LanguageSwitcher,\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-footer").innerHTML = dFooter;
+</script>
+
+ Wrap _multistore_ feature for composing _static_ page path. 
+
+
+- Go to `./src/themes/degi/components/core/blocks/Footer/MinimalFooter.vue` and fix it as follows :
+
+<div id="d-footer-minimal">
+
+</div>
+<script>
+var dFooterMinimal = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Footer/MinimalFooter.vue\n+++ b/src/themes/degi/components/core/blocks/Footer/MinimalFooter.vue\n@@ -14,12 +14,12 @@\n                 {\{ $t(\'Departments\') }\}\n               </h3>\n               <div class=\"mt15\">\n-                <router-link class=\"cl-secondary\" :to=\"localizedRoute(\'/c/women-20\')\" exact>\n+                <router-link class=\"cl-secondary\" :to=\"localizedRoute(\'/women/women-20\')\" exact>\n                   {\{ $t(\'Women fashion\') }\}\n                 </router-link>\n               </div>\n               <div class=\"mt15\">\n-                <router-link class=\"cl-secondary\" :to=\"localizedRoute(\'/c/men-11\')\" exact>\n+                <router-link class=\"cl-secondary\" :to=\"localizedRoute(\'/men/men-11\')\" exact>\n                   {\{ $t(\"Men\'s fashion\") }\}\n                 </router-link>\n               </div>",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-footer-minimal").innerHTML = dFooterMinimal;
+</script>
+
+
+- Go to `./src/themes/degi/components/core/blocks/Footer/NewsLetter.vue` and fix it as follows :
+
+<div id="d-footer-newsletter">
+
+</div>
+<script>
+var dFooterNewsletter = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Footer/Newsletter.vue\n+++ b/src/themes/degi/components/core/blocks/Footer/Newsletter.vue\n@@ -1,5 +1,5 @@\n <template>\n-  <div class=\"newsletter py25 px15 bg-cl-secondary\" v-if=\"!isSubscribed\">\n+  <div class=\"newsletter py25 px15 bg-cl-secondary\" v-show=\"!isSubscribed\">\n     <div class=\"container\">\n       <div class=\"newsletter-content m0 row middle-sm start-md\">\n         <div class=\"col-md-8 col-xs-12\">\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-footer-newsletter").innerHTML = dFooterNewsletter;
+</script>
+
+ `v-if` has been changed to `v-show`.
+
+
+#### 24. _BaseInputNumber_ needs update too
+
+- Go to `./src/themes/degi/components/core/blocks/Form/BaseInputNumber.vue` and fix it as follows :
+
+<div id="d-form-number">
+
+</div>
+<script>
+var dFormNumber = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Form/BaseInputNumber.vue\n+++ b/src/themes/degi/components/core/blocks/Form/BaseInputNumber.vue\n@@ -5,6 +5,8 @@\n       :id=\"getInputId\"\n       type=\"number\"\n       :min=\"min\"\n+      :max=\"max\"\n+      :disabled=\"disabled\"\n       class=\"m0 no-outline base-input-number__input brdr-cl-primary bg-cl-trans\nparent h4\"\n       :focus=\"autofocus\"\n       :value=\"value\"\n@@ -22,10 +24,6 @@ export default {\n   components: {\n     ValidationMessages\n   },\n-  data () {\n-    return {\n-    }\n-  },\n   props: {\n     value: {\n       type: [String, Number],\n@@ -40,6 +38,14 @@ export default {\n       type: Number,\n       default: 0\n     },\n+    max: {\n+      type: Number,\n+      default: undefined\n+    },\n+    disabled: {\n+      type: Boolean,\n+      default: false\n+    },\n     autofocus: {\n       type: Boolean,\n       required: false,\n@@ -59,32 +65,28 @@ export default {\n <\/script>\n \n <style lang=\"scss\" scoped>\n-  @import \'~theme/css/variables/colors\';\n-  @import \'~theme/css/helpers/functions/color\';\n-\n-  .base-input-number {\n-    width: 100%;\n+@import \'~theme/css/variables/colors\';\n+@import \'~theme/css/helpers/functions/color\';\n \n-    &__input {\n-      border-style: solid;\n-      border-width: 0 0 1px 0;\n-      width: 50px;\n-      height: 1.4rem;\n-      line-height: 1.7rem;\n-      @media (min-width: 768px) {\n-        height: 1.7rem;\n-      }\n+.base-input-number {\n+  &__input {\n+    border-style: solid;\n+    border-width: 0 0 1px 0;\n+    width: 50px;\n+    height: 1.4rem;\n+    line-height: 1.7rem;\n+    @media (min-width: 768px) {\n+      height: 1.7rem;\n     }\n+  }\n \n-    &__label {\n-      font-size: 0.8rem;\n-      line-height: 1.2rem;\n-      max-width: 100px;\n-      @media (min-width: 768px) {\n-        font-size: 1rem;\n-        line-height: 1.4rem;\n-      }\n+  &__label {\n+    font-size: 0.8rem;\n+    line-height: 1.2rem;\n+    @media (min-width: 768px) {\n+      font-size: 1rem;\n+      line-height: 1.4rem;\n     }\n   }\n-\n+}\n </style>",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-form-number").innerHTML = dFormNumber;
+</script>
+
+ `max` and `disabled` _properties_ are added. 
+
+ Some styles were updated. 
+
+
+#### 25. _Header_ needs fix too. 
+
+- Go to `./src/themes/degi/components/core/blocks/Header/CompareIcon.vue` and fix it as follows :
+
+<div id="d-header-compare">
+
+</div>
+<script>
+var dHeaderCompare = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Header/CompareIcon.vue\n+++ b/src/themes/degi/components/core/blocks/Header/CompareIcon.vue\n@@ -1,13 +1,34 @@\n <template>\n   <router-link :to=\"localizedRoute(\'/compare\')\" class=\"compare-icon no-underline inline-flex\" v-if=\"isActive\">\n     <i class=\"material-icons\">compare</i>\n+    <span\n+      class=\"compare-count absolute flex center-xs middle-xs border-box py0 px2 h6 lh16 weight-700 cl-white bg-cl-silver\"\n+      v-cloak\n+      v-show=\"getCompareProductsCount\"\n+    >\n+      {\{ getCompareProductsCount }\}\n+    </span>\n   </router-link>\n </template>\n \n <script>\n import CompareIcon from \'@vue-storefront/core/compatibility/components/blocks/Header/CompareIcon\'\n+import { mapGetters } from \'vuex\'\n \n export default {\n-  mixins: [CompareIcon]\n+  mixins: [CompareIcon],\n+  computed: {\n+    ...mapGetters(\'compare\', [\'getCompareProductsCount\'])\n+  }\n }\n <\/script>\n+\n+<style scoped>\n+  .compare-count {\n+    top: 7px;\n+    left: 50%;\n+    min-width: 16px;\n+    min-height: 16px;\n+    border-radius: 10px;\n+  }\n+</style>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-header-compare").innerHTML = dHeaderCompare;
+</script>
 
 ### 3. Peep into the kitchen (what happens internally)
 
