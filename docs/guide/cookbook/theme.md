@@ -1175,6 +1175,24 @@ var dSwitchLang = Diff2Html.getPrettyHtml(
 document.getElementById("d-switch-lang").innerHTML = dSwitchLang;
 </script>
 
+ _Validation_ for _storeCode_ is added. 
+
+
+#### 32. Let's look into _Wishlist_ and make a wish
+
+- Go to `./src/themes/degi/components/core/blocks/Wishlist/AddToWishlist.vue` and fix it as follows :
+
+<div id="d-wish-add-to">
+
+</div>
+<script>
+var dWishAddTo = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Wishlist/AddToWishlist.vue\n+++ b/src/themes/degi/components/core/blocks/Wishlist/AddToWishlist.vue\n@@ -1,12 +1,14 @@\n <template>\n-  <button @click=\"isOnWishlist ? removeFromWishlist(product) : addToWishlist(pr\noduct)\" class=\"p0 inline-flex middle-xs bg-cl-transparent brdr-none action h5 po\ninter cl-secondary\" type=\"button\" data-testid=\"addToWishlist\">\n-    <i class=\"pr5 material-icons\">{\{ favoriteIcon }\}</i>\n-    <template v-if=\"!isOnWishlist\">\n-      {\{ $t(\'Add to favorite\') }\}\n-    </template>\n-    <template v-else>\n-      {\{ $t(\'Remove\') }\}\n-    </template>\n+  <button @click=\"isOnWishlist ? removeProductFromWhishList(product) : addProdu\nctToWhishlist(product)\" class=\"p0 inline-flex middle-xs bg-cl-transparent brdr-n\none action h5 pointer cl-secondary\" type=\"button\" data-testid=\"addToWishlist\">\n+    <slot>\n+      <i class=\"pr5 material-icons\">{\{ favoriteIcon }\}</i>\n+      <template v-if=\"!isOnWishlist\">\n+        {\{ $t(\'Add to favorite\') }\}\n+      </template>\n+      <template v-else>\n+        {\{ $t(\'Remove\') }\}\n+      </template>\n+    </slot>\n   </button>\n </template>\n \n@@ -14,6 +16,8 @@\n import { IsOnWishlist } from \'@vue-storefront/core/modules/wishlist/components/IsOnWishlist\'\n import { AddToWishlist } from \'@vue-storefront/core/modules/wishlist/components/AddToWishlist\'\n import { RemoveFromWishlist } from \'@vue-storefront/core/modules/wishlist/components/RemoveFromWishlist\'\n+import i18n from \'@vue-storefront/i18n\'\n+import { htmlDecode } from \'@vue-storefront/core/lib/store/filters\'\n \n export default {\n   mixins: [ IsOnWishlist, AddToWishlist, RemoveFromWishlist ],\n@@ -21,6 +25,24 @@ export default {\n     favoriteIcon () {\n       return this.isOnWishlist ? \'favorite\' : \'favorite_border\'\n     }\n+  },\n+  methods: {\n+    addProductToWhishlist (product) {\n+      this.$store.dispatch(\'notification/spawnNotification\', {\n+        type: \'success\',\n+        message: i18n.t(\'Product {productName} has been added to wishlist!\', { productName: htmlDecode(product.name) }),\n+        action1: { label: i18n.t(\'OK\') }\n+      }, { root: true })\n+      this.addToWishlist(product)\n+    },\n+    removeProductFromWhishList (product) {\n+      this.$store.dispatch(\'notification/spawnNotification\', {\n+        type: \'success\',\n+        message: i18n.t(\'Product {productName} has been removed from wishlist!\', { productName: htmlDecode(product.name) }),\n+        action1: { label: i18n.t(\'OK\') }\n+      }, { root: true })\n+      this.removeFromWishlist(product)\n+    }\n   }\n }\n <\/script>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-wish-add-to").innerHTML = dWishAddTo;
+</script>
+
  _Validation_ is added. 
 
 
