@@ -1342,6 +1342,22 @@ document.getElementById("d-offline-badge").innerHTML = dOfflineBadge;
 </script>
 
 
+#### 41. _Overlay_ needs fix
+
+- Go to `./src/themes/degi/components/core/Overlay.vue` and fix it as follows :
+
+<div id="d-overlay">
+
+</div>
+<script>
+var dOverlay = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/Overlay.vue\n+++ b/src/themes/degi/components/core/Overlay.vue\n@@ -7,12 +7,6 @@ import Overlay from \'@vue-storefront/core/compatibility/components/Overlay\'\n \n export default {\n   mixins: [Overlay],\n-  beforeCreate () {\n-    document.documentElement.classList.add(\'no-scroll\')\n-  },\n-  destroyed () {\n-    document.documentElement.classList.remove(\'no-scroll\')\n-  },\n   methods: {\n     close () {\n       this.$store.commit(\'ui/setOverlay\', false)\n@@ -20,6 +14,7 @@ export default {\n       this.$store.commit(\'ui/setWishlist\', false)\n       this.$store.commit(\'ui/setSearchpanel\', false)\n       this.$store.commit(\'ui/setSidebar\', false)\n+      this.$store.dispatch(\'themeCart/closeEditMode\')\n     }\n   }\n }",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-overlay").innerHTML = dOverlay;
+</script>
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
