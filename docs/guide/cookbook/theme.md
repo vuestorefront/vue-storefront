@@ -1390,6 +1390,22 @@ document.getElementById("d-prod-bundle").innerHTML = dProdBundle;
 </script>
 
 
+#### 44. _ProductCustomOptions_ ready to update
+
+- Go to `./src/themes/degi/components/core/ProductCustomOptions.vue` and fix it as follows :
+
+<div id="d-prod-custom">
+
+</div>
+<script>
+var dProdCustom = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/ProductCustomOptions.vue\n+++ b/src/themes/degi/components/core/ProductCustomOptions.vue\n@@ -18,7 +18,7 @@\n         >\n         <div class=\"m5 relative\" v-for=\"opval in option.values\" :key=\"opval.option_type_id\" v-if=\"option.type === \'radio\' || option.type === \'select\' || option.type === \'drop_down\'\">\n           <input\n-            @change=\"optionChanged(option, opval)\"\n+            @change=\"optionChanged(option)\"\n             type=\"radio\"\n             class=\"m0 no-outline\"\n             :name=\"(\'customOption_\' + option.option_id)\"\n@@ -30,7 +30,7 @@\n         </div>\n         <div class=\"m5 relative\" v-for=\"opval in option.values\" :key=\"opval.option_type_id\" v-if=\"option.type === \'checkbox\'\">\n           <input\n-            @change=\"optionChanged(option, opval)\"\n+            @change=\"optionChanged(option)\"\n             type=\"checkbox\"\n             class=\"m0 no-outline\"\n             :name=\"(\'customOption_\' + option.option_id)\"\n@@ -115,6 +115,7 @@ export default {\n     position: absolute;\n     top: 3px;\n     left: 0;\n+    opacity: 0;\n     &:checked + label {\n       &:before {\n         background-color: $color-silver;\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-prod-custom").innerHTML = dProdCustom;
+</script>
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
