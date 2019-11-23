@@ -646,6 +646,57 @@ document.getElementById("d-auth-forgot").innerHTML = dAuthForgot;
 </script>
 
 
+- Go to `./src/themes/degi/components/core/blocks/Auth/Login.vue` and fix it as follows :
+
+<div id="d-auth-login">
+
+</div>
+<script>
+var dAuthLogin = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Auth/Login.vue\n+++ b/src/themes/degi/components/core/blocks/Auth/Login.vue\n@@ -1,21 +1,21 @@\n <template>\n   <div>\n     <header class=\"modal-header py25 px65 h1 serif weight-700 bg-cl-secondary\">\n+      {\{ $t(\'Log in\') }\}\n       <i\n         slot=\"close\"\n-        class=\"modal-close material-icons p15 cl-bg-tertiary\"\n+        class=\"modal-close material-icons cl-bg-tertiary\"\n         @click=\"close\"\n       >\n         close\n       </i>\n-      {\{ $t(\'Log in\') }\}\n     </header>\n     <div v-if=\"hasRedirect\" class=\"pt10 pb10 px65 redirect-error\">\n       <p class=\"h5 mb0 mt0\">\n         {\{ $t(\'You need to be logged in to see this page\') }\}\n       </p>\n     </div>\n-    <div class=\"modal-content pt30 pb60 px65 cl-secondary\">\n+    <div class=\"modal-content bg-cl-primary pt30 pb60 px65 cl-secondary\">\n       <form @submit.prevent=\"login\" novalidate>\n         <base-input\n           class=\"mb10\"\n@@ -156,7 +156,14 @@ export default {\n @import \'~theme/css/helpers/functions/color\';\n $color-error: color(error);\n $white: color(white);\n-\n+  .modal-header{\n+    display: flex;\n+    align-items: center;\n+    justify-content: space-between;\n+  }\n+  .modal-close{\n+    cursor: pointer;\n+  }\n   .modal-content {\n     @media (max-width: 400px) {\n       padding-left: 20px;",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-auth-login").innerHTML = dAuthLogin;
+</script>
+
+
+- Go to `./src/themes/degi/components/core/blocks/Auth/Register.vue` and fix it as follows :
+
+<div id="d-auth-register">
+
+</div>
+<script>
+var dAuthRegister = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Auth/Register.vue\n+++ b/src/themes/degi/components/core/blocks/Auth/Register.vue\n@@ -1,17 +1,17 @@\n <template>\n   <div>\n     <header class=\"modal-header py25 px65 h1 serif weight-700 bg-cl-secondary\">\n+      {\{ $t(\'Register\') }\}\n       <i\n         slot=\"close\"\n-        class=\"modal-close material-icons p15 cl-bg-tertiary\"\n+        class=\"modal-close material-icons cl-bg-tertiary\"\n         @click=\"close\"\n       >\n         close\n       </i>\n-      {\{ $t(\'Register\') }\}\n     </header>\n \n-    <div class=\"modal-content pt30 pb60 px65 cl-secondary\">\n+    <div class=\"modal-content bg-cl-primary pt30 pb60 px65 cl-secondary\">\n       <form @submit.prevent=\"register\" novalidate>\n         <base-input\n           class=\"mb10\"\n@@ -37,7 +37,7 @@\n           <base-input\n             class=\"col-xs-6\"\n             type=\"text\"\n-            name=\"fist-name\"\n+            name=\"first-name\"\n             autocomplete=\"given-name\"\n             v-model=\"firstName\"\n             @blur=\"$v.firstName.$touch()\"\n@@ -204,6 +204,14 @@ export default {\n <\/script>\n \n <style lang=\"scss\" scoped>\n+  .modal-header{\n+    display: flex;\n+    align-items: center;\n+    justify-content: space-between;\n+  }\n+  .modal-close{\n+    cursor: pointer;\n+  }\n   .modal-content {\n     @media (max-width: 400px) {\n       padding-left: 20px;",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-auth-register").innerHTML = dAuthRegister;
+</script>
+
+
+#### 19. Next block to fix is _Category/Sidebar_
+
+- Go to `./src/themes/degi/components/core/blocks/Category/Sidebar.vue` and fix it as follows :
+
+<div id="d-cate-sidebar">
+
+</div>
+<script>
+var dCateSidebar = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Category/Sidebar.vue\n+++ b/src/themes/degi/components/core/blocks/Category/Sidebar.vue\n@@ -27,8 +27,9 @@\n           code=\"color\"\n           v-for=\"(color, index) in filter\"\n           :key=\"index\"\n-          :id=\"color.id\"\n-          :label=\"color.label\"\n+          :variant=\"color\"\n+          :selected-filters=\"getCurrentFilters\"\n+          @change=\"$emit(\'changeFilter\', $event)\"\n         />\n       </div>\n       <div v-else-if=\"filterIndex===\'size\'\">\n@@ -38,8 +39,9 @@\n           class=\"size-select mr10 mb10\"\n           v-for=\"(size, index) in sortById(filter)\"\n           :key=\"index\"\n-          :id=\"size.id\"\n-          :label=\"size.label\"\n+          :variant=\"size\"\n+          :selected-filters=\"getCurrentFilters\"\n+          @change=\"$emit(\'changeFilter\', $event)\"\n         />\n       </div>\n       <div v-else-if=\"filterIndex===\'price\'\">\n@@ -53,6 +55,9 @@\n           :from=\"price.from\"\n           :to=\"price.to\"\n           :content=\"price.label\"\n+          :variant=\"price\"\n+          :selected-filters=\"getCurrentFilters\"\n+          @change=\"$emit(\'changeFilter\', $event)\"\n         />\n       </div>\n       <div v-else class=\"sidebar__inline-selecors\">\n@@ -62,8 +67,9 @@\n           :code=\"filterIndex\"\n           v-for=\"(option, index) in filter\"\n           :key=\"index\"\n-          :id=\"option.id\"\n-          :label=\"option.label\"\n+          :variant=\"option\"\n+          :selected-filters=\"getCurrentFilters\"\n+          @change=\"$emit(\'changeFilter\', $event)\"\n         />\n       </div>\n     </div>\n@@ -85,12 +91,11 @@\n </template>\n \n <script>\n-import Sidebar from \'@vue-storefront/core/compatibility/components/blocks/Category/Sidebar\'\n-\n import ColorSelector from \'theme/components/core/ColorSelector\'\n import SizeSelector from \'theme/components/core/SizeSelector\'\n import PriceSelector from \'theme/components/core/PriceSelector\'\n import GenericSelector from \'theme/components/core/GenericSelector\'\n+import pickBy from \'lodash-es/pickBy\'\n \n export default {\n   components: {\n@@ -99,7 +104,31 @@ export default {\n     PriceSelector,\n     GenericSelector\n   },\n-  mixins: [Sidebar]\n+  props: {\n+    filters: {\n+      type: Object,\n+      required: true\n+    }\n+  },\n+  computed: {\n+    hasActiveFilters () {\n+      return this.$store.getters[\'category-next/hasActiveFilters\']\n+    },\n+    getCurrentFilters () {\n+      return this.$store.getters[\'category-next/getCurrentFilters\']\n+    },\n+    availableFilters () {\n+      return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters[\'category-next/getSystemFilterNames\'].includes(filterType)) })\n+    }\n+  },\n+  methods: {\n+    resetAllFilters () {\n+      this.$store.dispatch(\'category-next/resetSearchFilters\')\n+    },\n+    sortById (filters) {\n+      return [...filters].sort((a, b) => { return a.id - b.id })\n+    }\n+  }\n }\n <\/script>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-cate-sidebar").innerHTML = dCateSidebar;
+</script>
+
+ _Events_ are added. 
+
+ _Methods_ and _computed_ are also added for _filters_
+
+
+
+ 
+
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
