@@ -93,7 +93,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
     - Product
       - [Related](#_27-product-related-is-ready-to-transform)
     - Reviews
-      - [Reviews]
+      - [Reviews](#_28-reviews-is-fixed-too)
     - SearchPanel
       - [SearchPanel]
     - SidebarMenu
