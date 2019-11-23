@@ -1310,6 +1310,22 @@ document.getElementById("d-modal").innerHTML = dModal;
 </script>
 
 
+#### 39. Let's fix _NewsletterPopup_
+
+- Go to `./src/themes/degi/components/core/NewsletterPopup.vue` and fix it as follows :
+
+<div id="d-newsletter">
+
+</div>
+<script>
+var dNewsLetter = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/NewsletterPopup.vue\n+++ b/src/themes/degi/components/core/NewsletterPopup.vue\n@@ -59,12 +59,15 @@ export default {\n     this.$off(\'validation-error\')\n   },\n   methods: {\n-    onSuccesfulSubmission () {\n-      this.$store.dispatch(\'notification/spawnNotification\', {\n-        type: \'success\',\n-        message: i18n.t(\'You have been successfully subscribed to our newsletter!\'),\n-        action1: { label: i18n.t(\'OK\') }\n-      })\n+    onSuccesfulSubmission (isSubscribed) {\n+      if (isSubscribed) {\n+        this.$store.dispatch(\'notification/spawnNotification\', {\n+          type: \'success\',\n+          message: i18n.t(\'You have been successfully subscribed to our newsletter!\'),\n+          action1: { label: i18n.t(\'OK\') }\n+        })\n+      }\n+\n       this.$bus.$emit(\'modal-hide\', \'modal-newsletter\')\n     }\n   },\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-newsletter").innerHTML = dNewsLetter;
+</script>
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
