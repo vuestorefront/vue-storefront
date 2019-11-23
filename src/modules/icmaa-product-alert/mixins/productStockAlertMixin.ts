@@ -1,6 +1,6 @@
 import i18n from '@vue-storefront/i18n'
 import { mapGetters } from 'vuex'
-import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 export default {
   computed: {
@@ -10,9 +10,14 @@ export default {
     })
   },
   methods: {
-    async addProductStockAlert (option): Promise<boolean> {
-      if (!this.isLoggedIn) {
+    async addProductStockAlert (option, force = false): Promise<boolean> {
+      if (!this.isLoggedIn && !force) {
         this.$bus.$emit('modal-toggle', 'modal-signup')
+        EventBus.$once('user-after-loggedin', async () => {
+          /** Somehow the isLoggedIn property is still false directly after login
+           * so we use this `force` prop because we know that we are logged in */
+          await this.addProductStockAlert(option, true)
+        })
         return
       }
 

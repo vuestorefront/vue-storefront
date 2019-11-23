@@ -52,7 +52,6 @@
 </template>
 
 <script>
-
 import i18n from '@vue-storefront/i18n'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
@@ -96,8 +95,8 @@ export default {
         this.$v.$touch()
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
-          message: this.$t('Please fix the validation errors'),
-          action1: { label: this.$t('OK') }
+          message: i18n.t('Please fix the validation errors'),
+          action1: { label: i18n.t('OK') }
         })
         return
       }
@@ -116,7 +115,7 @@ export default {
           this.close()
         }
       }).catch(err => {
-        Logger.error(err, 'user')()
+        Logger.error('Error whole login:', 'user', err)()
         this.onFailure({ result: 'Unexpected authorization error. Check your Network connection.' })
         this.$bus.$emit('notification-progress-stop')
       })
@@ -130,15 +129,15 @@ export default {
     onSuccess () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
-        message: this.$t('You are logged in!'),
-        action1: { label: this.$t('OK') }
+        message: i18n.t('You are logged in!'),
+        action1: { label: i18n.t('OK') }
       })
     },
     onFailure (result) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
-        message: this.$t(result.result),
-        action1: { label: this.$t('OK') }
+        message: i18n.t(result.result),
+        action1: { label: i18n.t('OK') }
       })
     },
     close () {
