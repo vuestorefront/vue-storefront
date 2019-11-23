@@ -69,7 +69,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
       - Shipping
       - ThankYouPage
     - CMS
-      - [Block]
+      - [Block](#_21-move-on-to-cms-block)
     - Compare
       - [AddToCompare]
     - Footer
