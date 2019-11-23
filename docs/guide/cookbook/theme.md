@@ -1231,36 +1231,37 @@ document.getElementById("d-add-to-cart").innerHTML = dAddToCart;
 </script>
 
 
-#### 33. Start with _AddToCart_
-
-- Go to `./src/themes/degi/components/core/AddToCart.vue` and fix it as follows :
-
-<div id="d-add-to-cart">
-
-</div>
-<script>
-var dAddToCart = Diff2Html.getPrettyHtml(
-  "--- a/src/themes/degi/components/core/AddToCart.vue\n+++ b/src/themes/degi/components/core/AddToCart.vue\n@@ -6,23 +6,46 @@\n \n <script>\n import { formatProductMessages } from \'@vue-storefront/core/filters/product-messages\'\n+import { notifications } from \'@vue-storefront/core/modules/cart/helpers\'\n import focusClean from \'theme/components/theme/directives/focusClean\'\n import ButtonFull from \'theme/components/theme/ButtonFull.vue\'\n-import { AddToCart } from \'@vue-storefront/core/modules/cart/components/AddToCart\'\n+import { mapGetters } from \'vuex\'\n \n export default {\n-  mixins: [AddToCart],\n   directives: { focusClean },\n   components: { ButtonFull },\n+  props: {\n+    product: {\n+      required: true,\n+      type: Object\n+    },\n+    disabled: {\n+      type: Boolean,\n+      default: false\n+    }\n+  },\n   methods: {\n     onAfterRemovedVariant () {\n       this.$forceUpdate()\n     },\n+    async addToCart (product) {\n+      try {\n+        const diffLog = await this.$store.dispatch(\'cart/addItem\', { productToAdd: product })\n+        diffLog.clientNotifications.forEach(notificationData => {\n+          this.notifyUser(notificationData)\n+        })\n+      } catch (message) {\n+        this.notifyUser(notifications.createNotification({ type: \'error\', message }))\n+      }\n+    },\n     notifyUser (notificationData) {\n       this.$store.dispatch(\'notification/spawnNotification\', notificationData, { root: true })\n     }\n   },\n   computed: {\n+    ...mapGetters({\n+      isAddingToCart: \'cart/getIsAdding\'\n+    }),\n     isProductDisabled () {\n       return this.disabled || formatProductMessages(this.product.errors) !== \'\' || this.isAddingToCart\n     }\n",
-  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
-);
-document.getElementById("d-add-to-cart").innerHTML = dAddToCart;
-</script>
-
-
 #### 34. Next is _ColorSelector_
 
 - Go to `./src/themes/degi/components/core/ColorSelector.vue` and fix it as follows :
 
-<div id="d-add-to-cart">
+<div id="d-color-selector">
 
 </div>
 <script>
-var dAddToCart = Diff2Html.getPrettyHtml(
-  "--- a/src/themes/degi/components/core/AddToCart.vue\n+++ b/src/themes/degi/components/core/AddToCart.vue\n@@ -6,23 +6,46 @@\n \n <script>\n import { formatProductMessages } from \'@vue-storefront/core/filters/product-messages\'\n+import { notifications } from \'@vue-storefront/core/modules/cart/helpers\'\n import focusClean from \'theme/components/theme/directives/focusClean\'\n import ButtonFull from \'theme/components/theme/ButtonFull.vue\'\n-import { AddToCart } from \'@vue-storefront/core/modules/cart/components/AddToCart\'\n+import { mapGetters } from \'vuex\'\n \n export default {\n-  mixins: [AddToCart],\n   directives: { focusClean },\n   components: { ButtonFull },\n+  props: {\n+    product: {\n+      required: true,\n+      type: Object\n+    },\n+    disabled: {\n+      type: Boolean,\n+      default: false\n+    }\n+  },\n   methods: {\n     onAfterRemovedVariant () {\n       this.$forceUpdate()\n     },\n+    async addToCart (product) {\n+      try {\n+        const diffLog = await this.$store.dispatch(\'cart/addItem\', { productToAdd: product })\n+        diffLog.clientNotifications.forEach(notificationData => {\n+          this.notifyUser(notificationData)\n+        })\n+      } catch (message) {\n+        this.notifyUser(notifications.createNotification({ type: \'error\', message }))\n+      }\n+    },\n     notifyUser (notificationData) {\n       this.$store.dispatch(\'notification/spawnNotification\', notificationData, { root: true })\n     }\n   },\n   computed: {\n+    ...mapGetters({\n+      isAddingToCart: \'cart/getIsAdding\'\n+    }),\n     isProductDisabled () {\n       return this.disabled || formatProductMessages(this.product.errors) !== \'\' || this.isAddingToCart\n     }\n",
+var dColorSelector = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/ColorSelector.vue\n+++ b/src/themes/degi/components/core/ColorSelector.vue\n@@ -1,23 +1,25 @@\n <template>\n   <button\n-    :class=\"[\'mr10 mb5 bg-cl-transparent brdr-1 brdr-circle brdr-cl-transparent :brdr-cl-bg-primary relative inline-flex pointer color\', active ? \'active\' : \'\']\"\n-    @click=\"switchFilter(id, label)\"\n-    :aria-label=\"$t(\'Select color \') + label\"\n+    :class=\"[\'mr10 mb5 bg-cl-transparent brdr-1 brdr-circle brdr-cl-transparent :brdr-cl-bg-primary relative inline-flex pointer color\', isActive ? \'active\' : \'\']\"\n+    @click=\"$emit(\'change\', variant)\"\n+    :aria-label=\"$t(\'Select color \') + variant.label\"\n   >\n     <span\n       class=\"absolute brdr-circle brdr-1 brdr-cl-secondary block color-inside\"\n-      :style=\"colorFrom(label)\"\n+      :style=\"colorFrom(variant.label)\"\n     />\n   </button>\n </template>\n \n <script>\n-import GenericSelector from \'@vue-storefront/core/compatibility/components/GenericSelector\'\n import config from \'config\'\n+import filterMixin from \'theme/mixins/filterMixin.ts\'\n+\n export default {\n-  mixins: [GenericSelector],\n+  mixins: [filterMixin],\n   methods: {\n     colorFrom (label) {\n+      if (!label) return \'\'\n       if (config.products.colorMappings) {\n         if (typeof config.products.colorMappings[label] !== \'undefined\') {\n           label = config.products.colorMappings[label]\n",
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
-document.getElementById("d-add-to-cart").innerHTML = dAddToCart;
+document.getElementById("d-color-selector").innerHTML = dColorSelector;
 </script>
+
+
+#### 35. Update _CookieNotification_
+
+- Go to `./src/themes/degi/components/core/CookieNotification.vue` and fix it as follows :
+
+<div id="d-cookie-noti">
+
+</div>
+<script>
+var dCookieNoti = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/CookieNotification.vue\n+++ b/src/themes/degi/components/core/CookieNotification.vue\n@@ -74,13 +74,15 @@ export default {\n <\/script>\n \n <style lang=\"scss\" scoped>\n+@import \'~theme/css/base/global_vars\';\n @import \'~theme/css/variables/colors\';\n @import \'~theme/css/helpers/functions/color\';\n $color-icon: color(black);\n $bg-icon: color(suva-gray);\n+$z-index: map-get($z-index, overlay) - 1;\n \n .cookie {\n-  z-index: 2;\n+  z-index: $z-index;\n   bottom: 0;\n }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-cookie-noti").innerHTML = dCookieNoti;
+</script>
+
 
 
 ### 3. Peep into the kitchen (what happens internally)
