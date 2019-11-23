@@ -109,7 +109,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
   - [AddToCart](#_33-start-with-addtocart) 
   - [ColorSelector](#_34-next-is-colorselector)
   - [CookieNotification](#_35-update-cookienotification)
-  - [GenericSelector]
+  - [GenericSelector](#_36-time-for-fixing-genericselector)
   - [Logo]
   - [Modal]
   - [NewsletterPopup]
