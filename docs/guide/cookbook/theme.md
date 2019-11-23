@@ -84,12 +84,12 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
       - MicroCartIcon
       - MinimalHeader
       - WishListIcon
-    - MyAccount
-      - [MyNewsLetter]
-      - [MyOrder]
-      - [MyOrders]
-      - [MyProfile]
-      - [MyShippingDetails]
+    - [MyAccount](#_26-myaccount-turn-is-now)
+      - MyNewsLetter
+      - MyOrder
+      - MyOrders
+      - MyProfile
+      - MyShippingDetails
     - Product
       - [Related]
     - Reviews
@@ -929,6 +929,119 @@ document.getElementById("d-header-micro").innerHTML = dHeaderMicro;
 </script>
 
  `mixins` is commented and `vuex` `mapGetters` are introduced as other updates.
+
+
+- Go to `./src/themes/degi/components/core/blocks/Header/MinimalHeader.vue` and fix it as follows :
+
+<div id="d-header-minimal">
+
+</div>
+<script>
+var dHeaderMinimal = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Header/MinimalHeader.vue\n+++ b/src/themes/degi/components/core/blocks/Header/MinimalHeader.vue\n@@ -9,7 +9,11 @@\n           <div class=\"col-sm-4 col-xs-2 middle-xs\">\n             <div>\n               <template>\n-                <a class=\"inline-flex brdr-none p15 icon bg-cl-secondary pointer\" href=\"/\" data-testid=\"returnButton\">\n+                <a\n+                  class=\"inline-flex brdr-none p15 icon bg-cl-secondary pointer\"\n+                  href=\"/\"\n+                  data-testid=\"returnButton\"\n+                >\n                   <i class=\"material-icons\">keyboard_backspace</i>\n                 </a>\n               </template>\n@@ -19,12 +23,7 @@\n           <div class=\"col-sm-4 col-xs-4 center-xs\">\n             <div>\n               <a class=\"no-underline inline-flex\" href=\"/\" data-testid=\"logo\">\n-                <img\n-                  width=\"auto\"\n-                  height=\"41px\"\n-                  src=\"/assets/logo.svg\"\n-                  alt=\"Vuestore logo\"\n-                >\n+                <img width=\"auto\" height=\"41px\" src=\"/assets/logo.svg\" :alt=\"$t(defaultTitle)\">\n               </a>\n             </div>\n           </div>\n@@ -41,8 +40,16 @@\n \n <script>\n import CurrentPage from \'theme/mixins/currentPage\'\n+import { currentStoreView } from \'@vue-storefront/core/lib/multistore\'\n+import config from \'config\'\n \n export default {\n+  data () {\n+    const storeView = currentStoreView()\n+    return {\n+      defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle\n+    }\n+  },\n   mixins: [CurrentPage]\n }\n <\/script>\n@@ -55,7 +62,7 @@ $color-icon-hover: color(secondary, $colors-background);\n header {\n   height: 54px;\n   top: -55px;\n-  z-index: 2;\n+  z-index: 3;\n   transition: top 0.2s ease-in-out;\n   &.is-visible {\n     top: 0;\n@@ -88,12 +95,13 @@ header {\n     }\n   }\n   .col-xs-2:first-of-type {\n-      padding-left: 0;\n+    padding-left: 0;\n   }\n   .col-xs-2:last-of-type {\n-      padding-right: 0;\n+    padding-right: 0;\n   }\n-  a, span {\n+  a,\n+  span {\n     font-size: 12px;\n   }\n }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-header-minimal").innerHTML = dHeaderMinimal;
+</script>
+
+ _Multistore_ feature and some styling are updated. 
+
+
+- Go to `./src/themes/degi/components/core/blocks/Header/WishListIcon.vue` and fix it as follows :
+
+<div id="d-header-wish">
+
+</div>
+<script>
+var dHeaderWish = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Header/WishlistIcon.vue\n+++ b/src/themes/degi/components/core/blocks/Header/WishlistIcon.vue\n@@ -1,11 +1,18 @@\n <template>\n   <button\n     type=\"button\"\n-    class=\"inline-flex bg-cl-transparent brdr-none\"\n+    class=\"inline-flex bg-cl-transparent brdr-none relative\"\n     @click=\"toggleWishlistPanel\"\n     :aria-label=\"$t(\'Open wishlist\')\"\n   >\n     <i class=\"material-icons\">favorite_border</i>\n+    <span\n+      class=\"whishlist-count absolute flex center-xs middle-xs border-box py0 px2 h6 lh16 weight-700 cl-white bg-cl-silver\"\n+      v-cloak\n+      v-show=\"getWishlistItemsCount\"\n+    >\n+      {\{ getWishlistItemsCount }\}\n+    </span>\n   </button>\n </template>\n \n@@ -16,3 +23,13 @@ export default {\n   mixins: [WishlistIcon]\n }\n <\/script>\n+\n+<style scoped>\n+  .whishlist-count {\n+    top: 7px;\n+    left: 50%;\n+    min-width: 16px;\n+    min-height: 16px;\n+    border-radius: 10px;\n+  }\n+</style>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-header-wish").innerHTML = dHeaderWish;
+</script>
+
+ _Wishlist_ _count_ is added. 
+
+
+
+#### 26. _MyAccount_ turn is now. 
+
+- Go to `./src/themes/degi/components/core/blocks/MyAccount/MyNewsLetter.vue` and fix it as follows :
+
+<div id="d-my-news">
+
+</div>
+<script>
+var dMyNews = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/MyAccount/MyNewsletter.vue\n+++ b/src/themes/degi/components/core/blocks/MyAccount/MyNewsletter.vue\n@@ -39,6 +39,7 @@\n import { Newsletter } from \'@vue-storefront/core/modules/newsletter/components/Newsletter\'\n import ButtonFull from \'theme/components/theme/ButtonFull.vue\'\n import BaseCheckbox from \'../Form/BaseCheckbox.vue\'\n+import i18n from \'@vue-storefront/i18n\'\n \n export default {\n   components: {\n@@ -53,11 +54,27 @@ export default {\n     edit () {\n       this.isEdited = true\n     },\n-    updateNewsletter () {\n+    async updateNewsletter () {\n       if (this.user.isSubscribed) {\n-        this.subscribe()\n-      } else {\n-        this.unsubscribe()\n+        const isSubscribed = await this.$store.dispatch(\'newsletter/subscribe\', this.email)\n+\n+        if (isSubscribed) {\n+          this.$store.dispatch(\'notification/spawnNotification\', {\n+            type: \'success\',\n+            message: i18n.t(\'You have been successfully subscribed to our newsletter!\'),\n+            action1: { label: i18n.t(\'OK\') }\n+          })\n+        }\n+        return\n+      }\n+\n+      const isUnsubscribed = await this.$store.dispatch(\'newsletter/unsubscribe\', this.email)\n+      if (isUnsubscribed) {\n+        this.$store.dispatch(\'notification/spawnNotification\', {\n+          type: \'success\',\n+          message: i18n.t(\'You have been successfully unsubscribed from our newsletter!\'),\n+          action1: { label: i18n.t(\'OK\') }\n+        })\n       }\n     }\n   },",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-my-news").innerHTML = dMyNews;
+</script>
+
+
+- Go to `./src/themes/degi/components/core/blocks/Header/Header.vue` and fix it as follows :
+
+<div id="d-header-header">
+
+</div>
+<script>
+var dHeaderHeader = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Header/Header.vue\n+++ b/src/themes/degi/components/core/blocks/Header/Header.vue\n@@ -35,7 +35,10 @@\n         <div class=\"row between-xs middle-xs px15 py5\" v-if=\"isCheckoutPage && \n!isThankYouPage\">\n           <div class=\"col-xs-5 col-md-3 middle-xs\">\n             <div>\n-              <router-link :to=\"localizedRoute(\'/\')\" class=\"cl-tertiary links\">\n+              <router-link\n+                :to=\"localizedRoute(\'/\')\"\n+                class=\"cl-tertiary links\"\n+              >\n                 {\{ $t(\'Return to shopping\') }\}\n               </router-link>\n             </div>\n@@ -45,12 +48,13 @@\n           </div>\n           <div class=\"col-xs-5 col-md-3 end-xs\">\n             <div>\n-              <a v-if=\"!currentUser\" href=\"#\" @click.prevent=\"gotoAccount\" clas\ns=\"cl-tertiary links\">\n-                {\{ $t(\'Login to your account\') }\}\n-              </a>\n-              <span v-else>\n-                {\{ $t(\'You are logged in as\') }\} {\{ currentUser.firstname }\}\n-              </span>\n+              <a\n+                v-if=\"!currentUser\"\n+                href=\"#\"\n+                @click.prevent=\"gotoAccount\"\n+                class=\"cl-tertiary links\"\n+              >{\{ $t(\'Login to your account\') }\}</a>\n+              <span v-else>{\{ $t(\'You are logged in as {firstname}\', currentUse\nr) }\}</span>\n             </div>\n           </div>\n         </div>\n@@ -98,13 +102,19 @@ export default {\n       currentUser: state => state.user.current\n     }),\n     isThankYouPage () {\n-      return this.$store.state.checkout.isThankYouPage ? this.$store.state.chec\nkout.isThankYouPage : false\n+      return this.$store.state.checkout.isThankYouPage\n+        ? this.$store.state.checkout.isThankYouPage\n+        : false\n     }\n   },\n   beforeMount () {\n-    window.addEventListener(\'scroll\', () => {\n-      this.isScrolling = true\n-    }, {passive: true})\n+    window.addEventListener(\n+      \'scroll\',\n+      () => {\n+        this.isScrolling = true\n+      },\n+      { passive: true }\n+    )\n \n     setInterval(() => {\n       if (this.isScrolling) {\n@@ -119,7 +129,10 @@ export default {\n     },\n     hasScrolled () {\n       this.scrollTop = window.scrollY\n-      if (this.scrollTop > this.lastScrollTop && this.scrollTop > this.navbarHeight) {\n+      if (\n+        this.scrollTop > this.lastScrollTop &&\n+        this.scrollTop > this.navbarHeight\n+      ) {\n         this.navVisible = false\n       } else {\n         this.navVisible = true\n@@ -138,7 +151,7 @@ $color-icon-hover: color(secondary, $colors-background);\n header {\n   height: 54px;\n   top: -55px;\n-  z-index: 2;\n+  z-index: 3;\n   transition: top 0.2s ease-in-out;\n   &.is-visible {\n     top: 0;\n@@ -171,12 +184,13 @@ header {\n     }\n   }\n   .col-xs-2:first-of-type {\n-      padding-left: 0;\n+    padding-left: 0;\n   }\n   .col-xs-2:last-of-type {\n-      padding-right: 0;\n+    padding-right: 0;\n   }\n-  a, span {\n+  a,\n+  span {\n     font-size: 12px;\n   }\n }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-header-header").innerHTML = dHeaderHeader;
+</script>
+
+ A few code styling has been put into place. 
+
+
+- Go to `./src/themes/degi/components/core/blocks/Header/MicrocartIcon.vue` and fix it as follows :
+
+<div id="d-header-micro">
+
+</div>
+<script>
+var dHeaderMicro = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Header/MicrocartIcon.vue\n+++ b/src/themes/degi/components/core/blocks/Header/MicrocartIcon.vue\n@@ -19,10 +19,28 @@\n </template>\n \n <script>\n+import { mapGetters, mapActions } from \'vuex\'\n import MicrocartIcon from \'@vue-storefront/core/compatibility/components/blocks/Header/MicrocartIcon\'\n \n export default {\n-  mixins: [MicrocartIcon]\n+  // mixins: [MicrocartIcon],\n+  mounted () {\n+    document.addEventListener(\'visibilitychange\', () => {\n+      if (!document.hidden) {\n+        this.$store.dispatch(\'cart/load\')\n+      }\n+    })\n+  },\n+  computed: {\n+    ...mapGetters({\n+      totalQuantity: \'cart/getItemsTotalQuantity\'\n+    })\n+  },\n+  methods: {\n+    ...mapActions({\n+      openMicrocart: \'ui/toggleMicrocart\'\n+    })\n+  }\n }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-header-micro").innerHTML = dHeaderMicro;
+</script>
+
+ `mixins` is commented and `vuex` `mapGetters` are introduced as other updates.
+
+
+- Go to `./src/themes/degi/components/core/blocks/Header/MinimalHeader.vue` and fix it as follows :
+
+<div id="d-header-minimal">
+
+</div>
+<script>
+var dHeaderMinimal = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Header/MinimalHeader.vue\n+++ b/src/themes/degi/components/core/blocks/Header/MinimalHeader.vue\n@@ -9,7 +9,11 @@\n           <div class=\"col-sm-4 col-xs-2 middle-xs\">\n             <div>\n               <template>\n-                <a class=\"inline-flex brdr-none p15 icon bg-cl-secondary pointer\" href=\"/\" data-testid=\"returnButton\">\n+                <a\n+                  class=\"inline-flex brdr-none p15 icon bg-cl-secondary pointer\"\n+                  href=\"/\"\n+                  data-testid=\"returnButton\"\n+                >\n                   <i class=\"material-icons\">keyboard_backspace</i>\n                 </a>\n               </template>\n@@ -19,12 +23,7 @@\n           <div class=\"col-sm-4 col-xs-4 center-xs\">\n             <div>\n               <a class=\"no-underline inline-flex\" href=\"/\" data-testid=\"logo\">\n-                <img\n-                  width=\"auto\"\n-                  height=\"41px\"\n-                  src=\"/assets/logo.svg\"\n-                  alt=\"Vuestore logo\"\n-                >\n+                <img width=\"auto\" height=\"41px\" src=\"/assets/logo.svg\" :alt=\"$t(defaultTitle)\">\n               </a>\n             </div>\n           </div>\n@@ -41,8 +40,16 @@\n \n <script>\n import CurrentPage from \'theme/mixins/currentPage\'\n+import { currentStoreView } from \'@vue-storefront/core/lib/multistore\'\n+import config from \'config\'\n \n export default {\n+  data () {\n+    const storeView = currentStoreView()\n+    return {\n+      defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle\n+    }\n+  },\n   mixins: [CurrentPage]\n }\n <\/script>\n@@ -55,7 +62,7 @@ $color-icon-hover: color(secondary, $colors-background);\n header {\n   height: 54px;\n   top: -55px;\n-  z-index: 2;\n+  z-index: 3;\n   transition: top 0.2s ease-in-out;\n   &.is-visible {\n     top: 0;\n@@ -88,12 +95,13 @@ header {\n     }\n   }\n   .col-xs-2:first-of-type {\n-      padding-left: 0;\n+    padding-left: 0;\n   }\n   .col-xs-2:last-of-type {\n-      padding-right: 0;\n+    padding-right: 0;\n   }\n-  a, span {\n+  a,\n+  span {\n     font-size: 12px;\n   }\n }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-header-minimal").innerHTML = dHeaderMinimal;
+</script>
+
+ _Multistore_ feature and some styling are updated. 
+
+
+- Go to `./src/themes/degi/components/core/blocks/Header/WishListIcon.vue` and fix it as follows :
+
+<div id="d-header-wish">
+
+</div>
+<script>
+var dHeaderWish = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Header/WishlistIcon.vue\n+++ b/src/themes/degi/components/core/blocks/Header/WishlistIcon.vue\n@@ -1,11 +1,18 @@\n <template>\n   <button\n     type=\"button\"\n-    class=\"inline-flex bg-cl-transparent brdr-none\"\n+    class=\"inline-flex bg-cl-transparent brdr-none relative\"\n     @click=\"toggleWishlistPanel\"\n     :aria-label=\"$t(\'Open wishlist\')\"\n   >\n     <i class=\"material-icons\">favorite_border</i>\n+    <span\n+      class=\"whishlist-count absolute flex center-xs middle-xs border-box py0 px2 h6 lh16 weight-700 cl-white bg-cl-silver\"\n+      v-cloak\n+      v-show=\"getWishlistItemsCount\"\n+    >\n+      {\{ getWishlistItemsCount }\}\n+    </span>\n   </button>\n </template>\n \n@@ -16,3 +23,13 @@ export default {\n   mixins: [WishlistIcon]\n }\n <\/script>\n+\n+<style scoped>\n+  .whishlist-count {\n+    top: 7px;\n+    left: 50%;\n+    min-width: 16px;\n+    min-height: 16px;\n+    border-radius: 10px;\n+  }\n+</style>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-header-wish").innerHTML = dHeaderWish;
+</script>
+
+ _Wishlist_ _count_ is added. 
 
 
 ### 3. Peep into the kitchen (what happens internally)
