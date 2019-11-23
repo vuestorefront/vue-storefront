@@ -568,7 +568,7 @@ var dPageNotFound = Diff2Html.getPrettyHtml(
 document.getElementById("d-page-not").innerHTML = dPageNotFound;
 </script>
 
- _ourBestsellersCollection_ is fetched by _vuex_ _store_ via _mapGetters_
+ `ourBestsellersCollection` is fetched by `vuex` _store_ via `mapGetters`
 
 
 
@@ -591,7 +591,7 @@ document.getElementById("d-page-prod").innerHTML = dProductPage;
 
  Here, _template_ part is overhauled. 
 
- Data is filled up by _vuex_ _getters_. 
+ Data is filled up by `vuex` _getters_. 
 
  _Reviews_ are also _lazy hydrated_.
 
@@ -691,7 +691,7 @@ document.getElementById("d-cate-sidebar").innerHTML = dCateSidebar;
 
  _Events_ are added. 
 
- _Methods_ and _computed_ are also added for _filters_
+ `methods` and `computed` are also added for _filters_
 
 
 
