@@ -1087,7 +1087,40 @@ document.getElementById("d-reviews-reviews").innerHTML = dReviewsReviews;
 
  `async`-`await` implementation also takes place. 
 
+ Notification for _Review_ submission has been added. 
 
+
+#### 29. _SearchPanel_ has parts to update
+
+- Go to `./src/themes/degi/components/core/blocks/SearchPanel/SearchPanel.gql.vue` and add it as follows :
+
+<div id="d-search-search-gql">
+
+</div>
+<script>
+var dSearchSearchGql = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/SearchPanel/SearchPanel.gql.vue\n+++ b/src/themes/degi/components/core/blocks/SearchPanel/SearchPanel.gql.vue\n@@ -67,6 +67,7 @@ export default {\n   transition: transform 300ms $motion-main;\n   overflow-y: auto;\n   overflow-x: hidden;\n+  -webkit-overflow-scrolling: touch;\n \n   &.active {\n     transform: translateX(0);",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-search-search-gql").innerHTML = dSearchSearchGql;
+</script>
+
+- Go to `./src/themes/degi/components/core/blocks/SearchPanel/SearchPanel.vue` and add it as follows :
+
+<div id="d-search-search">
+
+</div>
+<script>
+var dSearchSearch = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/SearchPanel/SearchPanel.vue\n+++ b/src/themes/degi/components/core/blocks/SearchPanel/SearchPanel.vue\n@@ -83,6 +83,7 @@ import ProductTile from \'theme/components/core/ProductTile\'\n import VueOfflineMixin from \'vue-offline/mixin\'\n import CategoryPanel from \'theme/components/core/blocks/Category/CategoryPanel\'\n import { minLength } from \'vuelidate/lib/validators\'\n+import { disableBodyScroll, clearAllBodyScrollLocks } from \'body-scroll-lock\'\n \n export default {\n   components: {\n@@ -112,13 +113,16 @@ export default {\n       return productList\n     },\n     categories () {\n-      const categoriesMap = {}\n-      this.products.forEach(product => {\n-        [...product.category].forEach(category => {\n-          categoriesMap[category.category_id] = category\n-        })\n-      })\n-      return Object.keys(categoriesMap).map(categoryId => categoriesMap[categoryId])\n+      const categories = this.products\n+        .filter(p => p.category)\n+        .map(p => p.category)\n+        .flat()\n+\n+      const discinctCategories = Array.from(\n+        new Set(categories.map(c => c.category_id))\n+      ).map(catId => categories.find(c => c.category_id === catId))\n+\n+      return discinctCategories\n     },\n     getNoResultsMessage () {\n       let msg = \'\'\n@@ -138,6 +142,10 @@ export default {\n   mounted () {\n     // add autofocus to search input field\n     this.$refs.search.focus()\n+    disableBodyScroll(this.$el)\n+  },\n+  destroyed () {\n+    clearAllBodyScrollLocks()\n   }\n }\n <\/script>\n@@ -156,6 +164,7 @@ export default {\n   overflow-y: auto;\n   overflow-x: hidden;\n   -webkit-overflow-scrolling: touch;\n+\n   .close-icon-row {\n     display: flex;\n     justify-content: flex-end;\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-search-search").innerHTML = dSearchSearch;
+</script>
+
+ _Disabling Scroll_ feature is added.
+
+ Javascript `filter`, `map` replaces `forEach` for _products_
 
 ### 3. Peep into the kitchen (what happens internally)
 
