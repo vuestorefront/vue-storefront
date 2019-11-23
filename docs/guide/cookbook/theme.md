@@ -695,6 +695,95 @@ document.getElementById("d-cate-sidebar").innerHTML = dCateSidebar;
 
 
 
+#### 20. Next block to fix is _Checkout_
+
+- Go to `./src/themes/degi/components/core/blocks/Checkout/OrderConfirmation.vue` and fix it as follows :
+
+<div id="d-checkout-order-confirm">
+
+</div>
+<script>
+var dCheckoutOrderConfirm = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Checkout/OrderConfirmation.vue\n+++ b/src/themes/degi/components/core/blocks/Checkout/OrderConfirmation.vue\n@@ -6,7 +6,7 @@\n     <div slot=\"content\">\n       <p>{\{ $t(\'Please confirm order you placed when you was offline\') }\}</p>\n       <div class=\"mb40\" v-for=\"(order, key) in ordersData\" :key=\"key\">\n-        <h3>{\{ $t(\'Order #\') }\}{\{ key + 1 }\}</h3>\n+        <h3>{\{ $t(\'Order #{id}\', { id: key + 1}) }\}</h3>\n         <h4>{\{ $t(\'Items ordered\') }\}</h4>\n         <table class=\"brdr-1 brdr-cl-bg-secondary\">\n           <thead>\n@@ -34,13 +34,13 @@\n                 </span>\n               </td>\n               <td class=\"fs-medium lh25\" :data-th=\"$t(\'Price\')\">\n-                {\{ product.priceInclTax | price }\}\n+                {\{ product.price_incl_tax | price }\}\n               </td>\n               <td class=\"fs-medium lh25 align-right\" :data-th=\"$t(\'Qty\')\">\n                 {\{ product.qty }\}\n               </td>\n               <td class=\"fs-medium lh25\" :data-th=\"$t(\'Subtotal\')\">\n-                {\{ product.priceInclTax * product.qty | price }\}\n+                {\{ product.price_incl_tax * product.qty | price }\}\n               </td>\n             </tr>\n           </tbody>",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-checkout-order-confirm").innerHTML = dCheckoutOrderConfirm;
+</script>
+
+
+- Go to `./src/themes/degi/components/core/blocks/Checkout/OrderReview.vue` and fix it as follows :
+
+<div id="d-checkout-order-review">
+
+</div>
+<script>
+var dCheckoutOrderReview = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Checkout/OrderReview.vue\n+++ b/src/themes/degi/components/core/blocks/Checkout/OrderReview.vue\n@@ -116,6 +116,8 @@ import ButtonFull from \'theme/components/theme/ButtonFull\'\n import CartSummary from \'theme/components/core/blocks/Checkout/CartSummary\'\n import Modal from \'theme/components/core/Modal\'\n import { OrderReview } from \'@vue-storefront/core/modules/checkout/components/OrderReview\'\n+import { OrderModule } from \'@vue-storefront/core/modules/order\'\n+import { registerModule } from \'@vue-storefront/core/lib/modules\'\n \n export default {\n   components: {\n@@ -132,6 +134,9 @@ export default {\n       }\n     }\n   },\n+  beforeCreate () {\n+    registerModule(OrderModule)\n+  },\n   methods: {\n     onSuccess () {\n     },",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-checkout-order-review").innerHTML = dCheckoutOrderReview ;
+</script>
+
+ _Order_ module is imported for registration. 
+
+
+- Go to `./src/themes/degi/components/core/blocks/Checkout/Payment.vue` and fix it as follows :
+
+<div id="d-checkout-payment">
+
+</div>
+<script>
+var dCheckoutPayment = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Checkout/Payment.vue\n+++ b/src/themes/degi/components/core/blocks/Checkout/Payment.vue\n@@ -121,10 +121,16 @@\n             v-model.trim=\"payment.city\"\n             @blur=\"$v.payment.city.$touch()\"\n             autocomplete=\"address-level2\"\n-            :validations=\"[{\n+            :validations=\"[\n+            {\n               condition: $v.payment.city.$error && !$v.payment.city.required,\n               text: $t(\'Field is required\')\n-            }]\"\n+            },\n+            {\n+              condition: $v.payment.city.$error && $v.payment.city.required,\n+              text: $t(\'Please provide valid city name\')\n+            }\n+            ]\"\n           />\n \n           <base-input\n@@ -171,7 +177,7 @@\n             v-model=\"payment.country\"\n             autocomplete=\"country-name\"\n             @blur=\"$v.payment.country.$touch()\"\n-            @change=\"$v.payment.country.$touch()\"\n+            @change=\"$v.payment.country.$touch(); changeCountry();\"\n           />\n \n           <base-input",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-checkout-payment").innerHTML = dCheckoutPayment ;
+</script>
+
+
+- Go to `./src/themes/degi/components/core/blocks/Checkout/Product.vue` and fix it as follows :
+
+<div id="d-checkout-product">
+
+</div>
+<script>
+var dCheckoutProduct = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Checkout/Product.vue\n+++ b/src/themes/degi/components/core/blocks/Checkout/Product.vue\n@@ -1,6 +1,8 @@\n <template>\n   <div class=\"row p25 between-xs\">\n-    <product-image :image=\"image\" class=\"blend\" />\n+    <div class=\"blend\">\n+      <product-image :image=\"image\" />\n+    </div>\n     <div class=\"col-xs\">\n       <div class=\"row\">\n         <div class=\"col-xs-12 col-md-9 pb15\">\n@@ -45,9 +47,9 @@\n             <span v-if=\"!product.totals.discount_amount\" class=\"h4\">{\{ product.totals.row_total_incl_tax | price }\}</span>\n           </div>\n           <div v-else>\n-            <span class=\"h4 cl-error\" v-if=\"product.special_price\">{\{ product.priceInclTax * product.qty | price }\} </span>\n-            <span class=\"price-original h5\" v-if=\"product.special_price\">{\{ product.originalPriceInclTax * product.qty | price }\}</span>\n-            <span v-if=\"!product.special_price\" class=\"h4\">{\{ product.priceInclTax * product.qty | price }\}</span>\n+            <span class=\"h4 cl-error\" v-if=\"product.special_price\">{\{ product.price_incl_tax * product.qty | price }\} </span>\n+            <span class=\"price-original h5\" v-if=\"product.special_price\">{\{ product.original_price_incl_tax * product.qty | price }\}</span>\n+            <span v-if=\"!product.special_price\" class=\"h4\">{\{ product.price_incl_tax * product.qty | price }\}</span>\n           </div>\n         </div>\n       </div>\n@@ -84,9 +86,6 @@ export default {\n   text-decoration: line-through;\n }\n .blend {\n-  mix-blend-mode: multiply;\n-  align-self: center;\n   flex: 0 0 121px;\n-  padding-bottom: 32.68%;\n }\n </style>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-checkout-product").innerHTML = dCheckoutProduct ;
+</script>
+
+
+
+- Go to `./src/themes/degi/components/core/blocks/Checkout/Shipping.vue` and fix it as follows :
+
+<div id="d-checkout-shipping">
+
+</div>
+<script>
+var dCheckoutShipping = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Checkout/Shipping.vue\n+++ b/src/themes/degi/components/core/blocks/Checkout/Shipping.vue\n@@ -112,10 +112,16 @@\n             v-model.trim=\"shipping.city\"\n             @blur=\"$v.shipping.city.$touch()\"\n             autocomplete=\"address-level2\"\n-            :validations=\"[{\n+            :validations=\"[\n+            {\n               condition: $v.shipping.city.$error && !$v.shipping.city.required,\n               text: $t(\'Field is required\')\n-            }]\"\n+            },\n+            {\n+              condition: $v.shipping.city.$error && $v.shipping.city.required,\n+              text: $t(\'Please provide valid city name\')\n+            }\n+            ]\"\n           />\n \n           <base-input",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-checkout-shipping").innerHTML = dCheckoutShipping ;
+</script>
+
+
+- Go to `./src/themes/degi/components/core/blocks/Checkout/ThankYouPage.vue` and fix it as follows :
+
+<div id="d-checkout-thanks">
+
+</div>
+<script>
+var dCheckoutThanks = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Checkout/ThankYouPage.vue\n+++ b/src/themes/degi/components/core/blocks/Checkout/ThankYouPage.vue\n@@ -3,7 +3,7 @@\n     <header class=\"thank-you-title bg-cl-secondary py35 pl20\">\n       <div class=\"container\">\n         <breadcrumbs\n-          :routes=\"[{name: \'Homepage\', route_link: \'/\'}]\"\n+          :with-homepage=\"true\"\n           :active-route=\"this.$t(\'Order confirmation\')\"\n         />\n         <h2 class=\"category-title\">\n@@ -19,8 +19,7 @@\n               {\{ $t(\'Your purchase\') }\}\n             </h3>\n             <p v-if=\"OnlineOnly\" v-html=\"this.$t(\'You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.\')\" />\n-            <p v-if=\"OnlineOnly && lastOrderConfirmation\" v-html=\"this.$t(\'The server order id has been set to \') + lastOrderConfirmation.backendOrderId\" />\n-            <p v-if=\"OnlineOnly && lastOrderConfirmation.orderNumber\" v-html=\"this.$t(\'The OrderNumber is \') + lastOrderConfirmation.orderNumber\" />\n+            <p v-if=\"OnlineOnly && lastOrderConfirmation.orderNumber\" v-html=\"this.$t(\'The OrderNumber is {id}\', { id: lastOrderConfirmation.orderNumber })\" />\n \n             <h4 v-if=\"OfflineOnly\">\n               {\{ $t(\'You are offline\') }\}\n@@ -31,6 +30,9 @@\n             <p v-if=\"OfflineOnly && isNotificationSupported && !isPermissionGranted\">\n               {\{ $t(\"You can allow us to remind you about the order via push notification after coming back online. You\'ll only need to click on it to confirm.\") }\}\n             </p>\n+            <p v-if=\"OfflineOnly && isNotificationSupported && !isPermissionGranted\">\n+              {\{ $t(`Or if you will stay on \"Order confirmation\" page, the order will be placed automatically without confirmation, once the internet connection will be back.`) }\}\n+            </p>\n             <p v-if=\"OfflineOnly && isNotificationSupported && isPermissionGranted\">\n               <strong>{\{ $t(\'You will receive Push notification after coming back online. You can confirm the order by clicking on it\') }\}</strong>\n             </p>\n@@ -85,10 +87,15 @@ import VueOfflineMixin from \'vue-offline/mixin\'\n import { EmailForm } from \'@vue-storefront/core/modules/mailer/components/EmailForm\'\n import { isServer } from \'@vue-storefront/core/helpers\'\n import config from \'config\'\n+import { registerModule } from \'@vue-storefront/core/lib/modules\'\n+import { MailerModule } from \'@vue-storefront/core/modules/mailer\'\n \n export default {\n   name: \'ThankYouPage\',\n   mixins: [Composite, VueOfflineMixin, EmailForm],\n+  beforeCreate () {\n+    registerModule(MailerModule)\n+  },\n   data () {\n     return {\n       feedback: \'\'",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-checkout-thanks").innerHTML = dCheckoutThanks ;
+</script>
+
+ _Mailer_ module is registered and auto 
  
 
 ### 3. Peep into the kitchen (what happens internally)
