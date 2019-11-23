@@ -95,7 +95,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
     - Reviews
       - [Reviews](#_28-reviews-is-fixed-too)
     - SearchPanel
-      - [SearchPanel]
+      - [SearchPanel](#_29-searchpanel-has-parts-to-update)
     - SidebarMenu
       - [SidebarMenu]
       - [SubCategory]
