@@ -101,9 +101,9 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
       - SubCategory
     - Switcher
       - [Language](#_31-it-s-switcher-language-turn)
-    - Wishlist
-      - [AddToWishlist]
-      - [Product]
+    - [Wishlist](#_32-let-s-look-into-wishlist-and-make-a-wish)
+      - AddToWishlist
+      - Product
 
   - [Breadcrumb](#_10-next-target-is-breadcrumb-now-breadcrumb-supports-the-multistore-feature)
   - [AddToCart] 
