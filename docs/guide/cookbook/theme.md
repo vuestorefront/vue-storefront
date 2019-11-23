@@ -783,8 +783,24 @@ var dCheckoutThanks = Diff2Html.getPrettyHtml(
 document.getElementById("d-checkout-thanks").innerHTML = dCheckoutThanks ;
 </script>
 
- _Mailer_ module is registered and auto 
- 
+ _Mailer_ module is registered and a message for offline order fulfillment is added. 
+
+
+#### 21. Move on to _CMS/Block_
+
+- Go to `./src/themes/degi/components/core/blocks/Cms/Block.vue` and fix it as follows :
+
+<div id="d-cms-block">
+
+</div>
+<script>
+var dCmsBlock = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Cms/Block.vue\n+++ b/src/themes/degi/components/core/blocks/Cms/Block.vue\n@@ -59,9 +59,9 @@ export default {\n   computed: {\n     getCmsData () {\n       if (this.id) {\n-        return this.$store.getters[`cmsBlock/cmsBlockId`](this.id)\n+        return this.$store.getters[`cmsBlock/getCmsBlockById`](this.id)\n       } else if (this.identifier) {\n-        return this.$store.getters[`cmsBlock/cmsBlockIdentifier`](this.identifier)\n+        return this.$store.getters[`cmsBlock/getCmsBlockByIdentifier`](this.identifier)\n       }\n       return null\n     }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-cms-block").innerHTML = dCmsBlock;
+</script>
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
