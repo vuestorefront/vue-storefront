@@ -1062,9 +1062,30 @@ var dProdRelated = Diff2Html.getPrettyHtml(
 document.getElementById("d-prod-related").innerHTML = dProdRelated;
 </script>
 
-Now you are familiar with `vuex` `mapGetters` implemented in the update. 
+ Now you are familiar with `vuex` `mapGetters` implemented in the update. 
 
-`async`-`await` implementation also takes place. 
+ `async`-`await` implementation also takes place. 
+
+
+
+#### 28. _Reviews_ is fixed too
+
+- Go to `./src/themes/degi/components/core/blocks/Reviews/Reviews.vue` and fix it as follows :
+
+<div id="d-reviews-reviews">
+
+</div>
+<script>
+var dReviewsReviews = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Reviews/Reviews.vue\n+++ b/src/themes/degi/components/core/blocks/Reviews/Reviews.vue\n@@ -6,7 +6,11 @@\n           <h2 class=\"h3 m0 mb10 serif lh20 weight-700\">\n             {\{ $t(\'Reviews\') }\}\n           </h2>\n-          <reviews-list :per-page=\"4\" :items=\"reviews ? reviews : []\" />\n+          <reviews-list\n+            :per-page=\"4\"\n+            :items=\"reviews\"\n+            :product-name=\"productName\"\n+          />\n         </div>\n         <div class=\"col-xs-12 col-md-5 pt50\">\n           <h2 class=\"h3 m0 mb10 serif lh20 weight-700\">\n@@ -110,6 +114,7 @@ import ReviewsList from \'theme/components/theme/blocks/Reviews/ReviewsList\'\n import { Reviews } from \'@vue-storefront/core/modules/review/components/Reviews\'\n import { AddReview } from \'@vue-storefront/core/modules/review/components/AddReview\'\n import NoSSR from \'vue-no-ssr\'\n+import i18n from \'@vue-storefront/i18n\'\n \n export default {\n   name: \'Reviews\',\n@@ -125,8 +130,12 @@ export default {\n   },\n   props: {\n     productId: {\n-      type: Number,\n+      type: [String, Number],\n       required: true\n+    },\n+    productName: {\n+      type: String,\n+      default: \'\'\n     }\n   },\n   computed: {\n@@ -144,16 +153,31 @@ export default {\n     refreshList () {\n       this.$store.dispatch(\'review/list\', { productId: this.productId })\n     },\n-    submit () {\n-      this.addReview({\n+    async submit () {\n+      const isReviewCreated = await this.$store.dispatch(\'review/add\', {\n         \'product_id\': this.productId,\n         \'title\': this.formData.summary,\n         \'detail\': this.formData.review,\n         \'nickname\': this.formData.name,\n         \'review_entity\': \'product\',\n-        \'review_status\': 2,\n         \'customer_id\': this.currentUser ? this.currentUser.id : null\n       })\n+\n+      if (isReviewCreated) {\n+        this.$store.dispatch(\'notification/spawnNotification\', {\n+          type: \'success\',\n+          message: i18n.t(\'You submitted your review for moderation.\'),\n+          action1: { label: i18n.t(\'OK\') }\n+        })\n+\n+        return\n+      }\n+\n+      this.$store.dispatch(\'notification/spawnNotification\', {\n+        type: \'error\',\n+        message: i18n.t(\'Something went wrong. Try again in a few seconds.\'),\n+        action1: { label: i18n.t(\'OK\') }\n+      })\n     },\n     clearReviewForm () {\n       this.formData.name = \'\'\n@@ -186,7 +210,7 @@ export default {\n     this.refreshList()\n     this.fillInUserData()\n   },\n-  mixins: [ Reviews, AddReview ],\n+  mixins: [ Reviews ],\n   validations: {\n     formData: {\n       name: {\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-reviews-reviews").innerHTML = dReviewsReviews;
+</script>
+
+ `i18n` support is added. 
+
+ `async`-`await` implementation also takes place. 
 
 
 
