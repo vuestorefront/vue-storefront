@@ -91,7 +91,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
       - MyProfile
       - MyShippingDetails
     - Product
-      - [Related]
+      - [Related](#_27-product-related-is-ready-to-transform)
     - Reviews
       - [Reviews]
     - SearchPanel
