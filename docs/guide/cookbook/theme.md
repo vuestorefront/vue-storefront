@@ -968,7 +968,7 @@ document.getElementById("d-header-wish").innerHTML = dHeaderWish;
 
 - Go to `./src/themes/degi/components/core/blocks/MyAccount/MyNewsLetter.vue` and fix it as follows :
 
-<div id="d-my-news">
+<div id="d-mya-news">
 
 </div>
 <script>
