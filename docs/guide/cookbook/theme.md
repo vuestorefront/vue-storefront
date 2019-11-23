@@ -113,7 +113,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
   - [Logo](#_37-now-it-s-logo-turn)
   - [Modal](#_38-let-s-fix-modal)
   - [NewsletterPopup](#_39-let-s-fix-newsletterpopup)
-  - [OfflineBadge]
+  - [OfflineBadge](#_40-offlinebadge-to-be-tackled)
   - [Overlay]
   - [PriceSelector]
   - [ProductBundleOptions]
