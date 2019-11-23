@@ -898,6 +898,39 @@ var dHeaderCompare = Diff2Html.getPrettyHtml(
 document.getElementById("d-header-compare").innerHTML = dHeaderCompare;
 </script>
 
+
+- Go to `./src/themes/degi/components/core/blocks/Header/Header.vue` and fix it as follows :
+
+<div id="d-header-header">
+
+</div>
+<script>
+var dHeaderHeader = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Header/Header.vue\n+++ b/src/themes/degi/components/core/blocks/Header/Header.vue\n@@ -35,7 +35,10 @@\n         <div class=\"row between-xs middle-xs px15 py5\" v-if=\"isCheckoutPage && \n!isThankYouPage\">\n           <div class=\"col-xs-5 col-md-3 middle-xs\">\n             <div>\n-              <router-link :to=\"localizedRoute(\'/\')\" class=\"cl-tertiary links\">\n+              <router-link\n+                :to=\"localizedRoute(\'/\')\"\n+                class=\"cl-tertiary links\"\n+              >\n                 {\{ $t(\'Return to shopping\') }\}\n               </router-link>\n             </div>\n@@ -45,12 +48,13 @@\n           </div>\n           <div class=\"col-xs-5 col-md-3 end-xs\">\n             <div>\n-              <a v-if=\"!currentUser\" href=\"#\" @click.prevent=\"gotoAccount\" clas\ns=\"cl-tertiary links\">\n-                {\{ $t(\'Login to your account\') }\}\n-              </a>\n-              <span v-else>\n-                {\{ $t(\'You are logged in as\') }\} {\{ currentUser.firstname }\}\n-              </span>\n+              <a\n+                v-if=\"!currentUser\"\n+                href=\"#\"\n+                @click.prevent=\"gotoAccount\"\n+                class=\"cl-tertiary links\"\n+              >{\{ $t(\'Login to your account\') }\}</a>\n+              <span v-else>{\{ $t(\'You are logged in as {firstname}\', currentUse\nr) }\}</span>\n             </div>\n           </div>\n         </div>\n@@ -98,13 +102,19 @@ export default {\n       currentUser: state => state.user.current\n     }),\n     isThankYouPage () {\n-      return this.$store.state.checkout.isThankYouPage ? this.$store.state.chec\nkout.isThankYouPage : false\n+      return this.$store.state.checkout.isThankYouPage\n+        ? this.$store.state.checkout.isThankYouPage\n+        : false\n     }\n   },\n   beforeMount () {\n-    window.addEventListener(\'scroll\', () => {\n-      this.isScrolling = true\n-    }, {passive: true})\n+    window.addEventListener(\n+      \'scroll\',\n+      () => {\n+        this.isScrolling = true\n+      },\n+      { passive: true }\n+    )\n \n     setInterval(() => {\n       if (this.isScrolling) {\n@@ -119,7 +129,10 @@ export default {\n     },\n     hasScrolled () {\n       this.scrollTop = window.scrollY\n-      if (this.scrollTop > this.lastScrollTop && this.scrollTop > this.navbarHeight) {\n+      if (\n+        this.scrollTop > this.lastScrollTop &&\n+        this.scrollTop > this.navbarHeight\n+      ) {\n         this.navVisible = false\n       } else {\n         this.navVisible = true\n@@ -138,7 +151,7 @@ $color-icon-hover: color(secondary, $colors-background);\n header {\n   height: 54px;\n   top: -55px;\n-  z-index: 2;\n+  z-index: 3;\n   transition: top 0.2s ease-in-out;\n   &.is-visible {\n     top: 0;\n@@ -171,12 +184,13 @@ header {\n     }\n   }\n   .col-xs-2:first-of-type {\n-      padding-left: 0;\n+    padding-left: 0;\n   }\n   .col-xs-2:last-of-type {\n-      padding-right: 0;\n+    padding-right: 0;\n   }\n-  a, span {\n+  a,\n+  span {\n     font-size: 12px;\n   }\n }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-header-header").innerHTML = dHeaderHeader;
+</script>
+
+ A few code styling has been put into place. 
+
+
+- Go to `./src/themes/degi/components/core/blocks/Header/MicrocartIcon.vue` and fix it as follows :
+
+<div id="d-header-micro">
+
+</div>
+<script>
+var dHeaderMicro = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Header/MicrocartIcon.vue\n+++ b/src/themes/degi/components/core/blocks/Header/MicrocartIcon.vue\n@@ -19,10 +19,28 @@\n </template>\n \n <script>\n+import { mapGetters, mapActions } from \'vuex\'\n import MicrocartIcon from \'@vue-storefront/core/compatibility/components/blocks/Header/MicrocartIcon\'\n \n export default {\n-  mixins: [MicrocartIcon]\n+  // mixins: [MicrocartIcon],\n+  mounted () {\n+    document.addEventListener(\'visibilitychange\', () => {\n+      if (!document.hidden) {\n+        this.$store.dispatch(\'cart/load\')\n+      }\n+    })\n+  },\n+  computed: {\n+    ...mapGetters({\n+      totalQuantity: \'cart/getItemsTotalQuantity\'\n+    })\n+  },\n+  methods: {\n+    ...mapActions({\n+      openMicrocart: \'ui/toggleMicrocart\'\n+    })\n+  }\n }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-header-micro").innerHTML = dHeaderMicro;
+</script>
+
+ `mixins` is commented and `vuex` `mapGetters` are introduced as other updates.
+
+
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
