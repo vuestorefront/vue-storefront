@@ -1358,6 +1358,22 @@ document.getElementById("d-overlay").innerHTML = dOverlay;
 </script>
 
 
+#### 42. _PriceSelector_ needs fix
+
+- Go to `./src/themes/degi/components/core/PriceSelector.vue` and fix it as follows :
+
+<div id="d-price-sel">
+
+</div>
+<script>
+var dPriceSel = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/PriceSelector.vue\n+++ b/src/themes/degi/components/core/PriceSelector.vue\n@@ -1,21 +1,21 @@\n <template>\n-  <div @click=\"switchFilter(id, from, to)\">\n+  <div @click=\"$emit(\'change\', variant)\">\n     <button\n       class=\"relative brdr-cl-bg-tertiary brdr-1 bg-cl-transparent mr10 pointer price-selector\"\n-      :class=\"{ active: active }\"\n-      :aria-label=\"$t(\'Price \') + content\"\n+      :class=\"{ active: isActive }\"\n+      :aria-label=\"$t(\'Price {variant}\', { variant: variant.label })\"\n     >\n       <span class=\"bg-cl-transparent absolute block square\" />\n     </button>\n-    <span>{\{ content }\}</span>\n+    <span>{\{ variant.label }\}</span>\n   </div>\n </template>\n \n <script>\n-import PriceSelector from \'@vue-storefront/core/compatibility/components/PriceSelector\'\n+import filterMixin from \'theme/mixins/filterMixin.ts\'\n \n export default {\n-  mixins: [PriceSelector]\n+  mixins: [filterMixin]\n }\n <\/script>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-price-sel").innerHTML = dPriceSel;
+</script>
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
