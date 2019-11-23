@@ -107,7 +107,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
 
   - [Breadcrumb](#_10-next-target-is-breadcrumb-now-breadcrumb-supports-the-multistore-feature)
   - [AddToCart](#_33-start-with-addtocart) 
-  - [ColorSelector] 
+  - [ColorSelector](#_34-next-is-colorselector)
   - [CookieNotification]
   - [GenericSelector]
   - [Logo]
