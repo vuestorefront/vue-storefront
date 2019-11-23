@@ -1406,6 +1406,22 @@ document.getElementById("d-prod-custom").innerHTML = dProdCustom;
 </script>
 
 
+#### 45. _ProductGalleryCarousel_ ready to update
+
+- Go to `./src/themes/degi/components/core/ProductGalleryCarousel.vue` and fix it as follows :
+
+<div id="d-prod-gal">
+
+</div>
+<script>
+var dProdGal = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/ProductGalleryCarousel.vue\n+++ b/src/themes/degi/components/core/ProductGalleryCarousel.vue\n@@ -23,8 +23,7 @@\n           <product-image\n             v-show=\"hideImageAtIndex !== index\"\n             @dblclick=\"openOverlay\"\n-            class=\"product-image pointer\"\n-            :class=\"{\'product-image--video\': images.video}\"\n+            class=\"pointer image\"\n             :image=\"images\"\n             :alt=\"productName | htmlDecode\"\n           />\n@@ -67,7 +66,7 @@ export default {\n     },\n     productName: {\n       type: String,\n-      required: true\n+      default: \'\'\n     },\n     configuration: {\n       type: Object,\n@@ -160,17 +159,13 @@ export default {\n   bottom: 0;\n   right: 0;\n }\n-.product-image{\n-  mix-blend-mode: multiply;\n+.image{\n   opacity: 1;\n-  will-change: transform;\n+  will-change: opacity;\n   transition: .3s opacity $motion-main;\n   &:hover{\n     opacity: .9;\n   }\n-  &--video{\n-    padding-bottom: calc(319% / (568 / 100));\n-  }\n }\n .video-container {\n   align-items: center;",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-prod-gal").innerHTML = dProdGal;
+</script>
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
