@@ -55,19 +55,19 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
 - Core components
   - Blocks
     - [Microcart](#_6-now-you-are-ok-with-home-page-but-there-are-still-subtle-changes-made-to-each-corner-of-the-app-let-s-find-them-out)
-    - Auth
-      - [ForgotPass]
-      - [Login]
-      - [Register]
+    - [Auth](#_18-time-to-work-on-auth-part)
+      - ForgotPass
+      - Login
+      - Register
     - Category
-      - [Sidebar]
-    - Checkout
-      - [OrderConfirmation]
-      - [OrderReview]
-      - [Payment]
-      - [Product]
-      - [Shipping]
-      - [ThankYouPage]
+      - [Sidebar](#_19-next-block-to-fix-is-category-sidebar)
+    - [Checkout](#_20-next-block-to-fix-is-checkout)
+      - OrderConfirmation
+      - OrderReview
+      - Payment
+      - Product
+      - Shipping
+      - ThankYouPage
     - CMS
       - [Block]
     - Compare
