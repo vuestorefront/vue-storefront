@@ -1193,8 +1193,24 @@ var dWishAddTo = Diff2Html.getPrettyHtml(
 document.getElementById("d-wish-add-to").innerHTML = dWishAddTo;
 </script>
 
- _Validation_ is added. 
+ `i18n` support is added. 
 
+ `methods` for adding / removing _product_ to _Wishlist_ are added including notification for them.
+
+
+
+- Go to `./src/themes/degi/components/core/blocks/Wishlist/Product.vue` and fix it as follows :
+
+<div id="d-wish-prod">
+
+</div>
+<script>
+var dWishProd = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/blocks/Wishlist/Product.vue\n+++ b/src/themes/degi/components/core/blocks/Wishlist/Product.vue\n@@ -1,23 +1,13 @@\n <template>\n   <li class=\"row pr55 py20\">\n-    <div class=\"image\" @click=\"closeWishlist\">\n-      <router-link :to=\"localizedRoute({\n-        name: product.type_id + \'-product\',\n-        fullPath: product.url_path,\n-        params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }\n-      })\"\n-      >\n+    <div class=\"blend bg-cl-secondary\" @click=\"closeWishlist\">\n+      <router-link :to=\"productLink\">\n         <product-image :image=\"image\" />\n       </router-link>\n     </div>\n     <div class=\"col-xs between-xs flex pl40 py15\">\n       <div @click=\"closeWishlist\">\n-        <router-link :to=\"localizedRoute({\n-          name: product.type_id + \'-product\',\n-          fullPath: product.url_path,\n-          params: { parentSku: product.parentSku ? product.parentSku : product.sku, slug: product.slug, childSku: product.sku }\n-        })\"\n-        >\n+        <router-link :to=\"productLink\">\n           {\{ product.name | htmlDecode }\}\n         </router-link>\n         <div class=\"h6 cl-bg-tertiary pt5 sku\">\n@@ -27,16 +17,16 @@\n     </div>\n     <div class=\"col-xs flex py15 align-right\">\n       <div>\n-        <span class=\"price-special\" v-if=\"product.special_price\">{\{ product.priceInclTax | price }\}</span>&nbsp;\n-        <span class=\"price-original\" v-if=\"product.special_price\">{\{ product.originalPriceInclTax | price }\}</span>\n+        <span class=\"price-special\" v-if=\"product.special_price\">{\{ product.price_incl_tax | price }\}</span>&nbsp;\n+        <span class=\"price-original\" v-if=\"product.special_price\">{\{ product.original_price_incl_tax | price }\}</span>\n \n         <span v-if=\"!product.special_price\">\n-          {\{ product.priceInclTax | price }\}\n+          {\{ product.price_incl_tax | price }\}\n         </span>\n       </div>\n       <div>\n         <div class=\"mt5\">\n-          <span @click=\"removeFromWishlist(product)\"><remove-button class=\"cl-accent\" /></span>\n+          <span @click=\"removeProductFromWhishList(product)\"><remove-button class=\"cl-accent\" /></span>\n         </div>\n       </div>\n     </div>\n@@ -45,8 +35,12 @@\n \n <script>\n import Product from \'@vue-storefront/core/compatibility/components/blocks/Wishlist/Product\'\n-import RemoveButton from \'./RemoveButton\'\n+import { currentStoreView } from \'@vue-storefront/core/lib/multistore\'\n+import { formatProductLink } from \'@vue-storefront/core/modules/url/helpers\'\n import ProductImage from \'theme/components/core/ProductImage\'\n+import RemoveButton from \'./RemoveButton\'\n+import i18n from \'@vue-storefront/i18n\'\n+import { htmlDecode } from \'@vue-storefront/core/lib/store/filters\'\n \n export default {\n   components: {\n@@ -55,24 +49,49 @@ export default {\n   },\n   mixins: [Product],\n   computed: {\n+    productLink () {\n+      return formatProductLink(this.product, currentStoreView().storeCode)\n+    },\n     image () {\n       return {\n         loading: this.thumbnail,\n         src: this.thumbnail\n       }\n     }\n+  },\n+  methods: {\n+    removeProductFromWhishList (product) {\n+      this.$store.dispatch(\'notification/spawnNotification\', {\n+        type: \'success\',\n+        message: i18n.t(\'Product {productName} has been removed from wishlist!\', { productName: htmlDecode(product.name) }),\n+        action1: { label: i18n.t(\'OK\') }\n+      }, { root: true })\n+      this.removeFromWishlist(product)\n+    }\n   }\n }\n <\/script>\n \n-<style scoped>\n+<style lang=\"scss\" scoped>\n+@import \'~theme/css/animations/transitions\';\n+.blend {\n+  flex: 0 0 121px;\n+  opacity: .8;\n+  will-change: opacity;\n+  transition: .3s opacity $motion-main;\n+  &:hover{\n+     opacity: 1;\n+   }\n+}\n .col-xs {\n   flex-direction: column;\n }\n input {\n   width: 30px;\n }\n-.image{\n-  flex: 0 0 121px;\n+.price-original {\n+  text-decoration: line-through;\n+  color: #828282;\n+  font-size: .95rem;\n }\n </style>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-wish-prod").innerHTML = dWishProd;
+</script>
 
 
 ### 3. Peep into the kitchen (what happens internally)
