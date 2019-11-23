@@ -1263,6 +1263,37 @@ document.getElementById("d-cookie-noti").innerHTML = dCookieNoti;
 </script>
 
 
+#### 36. Time for fixing _GenericSelector_
+
+- Go to `./src/themes/degi/components/core/GenericSelector.vue` and fix it as follows :
+
+<div id="d-generic-sel">
+
+</div>
+<script>
+var dGenericSel = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/GenericSelector.vue\n+++ b/src/themes/degi/components/core/GenericSelector.vue\n@@ -1,18 +1,19 @@\n <template>\n   <button\n-    :class=\"{\'active\': active}\"\n+    :class=\"{\'active\': isActive}\"\n     class=\"bg-cl-primary brdr-1 brdr-cl-primary brdr-square h5 cl-tertiary generic-selector\"\n-    @click=\"switchFilter(id, label)\"\n-    :aria-label=\"$t(\'Select \' + label)\"\n+    @click=\"$emit(\'change\', variant)\"\n+    :aria-label=\"$t(\'Select \' + variant.label)\"\n   >\n-    {\{ label }\}\n+    {\{ variant.label }\}\n   </button>\n </template>\n \n <script>\n-import GenericSelector from \'@vue-storefront/core/compatibility/components/GenericSelector\'\n+import filterMixin from \'theme/mixins/filterMixin.ts\'\n+\n export default {\n-  mixins: [GenericSelector]\n+  mixins: [filterMixin]\n }\n <\/script>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-generic-sel").innerHTML = dGenericSel;
+</script>
+
+#### 37. Now, it's _Logo_ turn
+
+- Go to `./src/themes/degi/components/core/Logo.vue` and fix it as follows :
+
+<div id="d-generic-sel">
+
+</div>
+<script>
+var dGenericSel = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/GenericSelector.vue\n+++ b/src/themes/degi/components/core/GenericSelector.vue\n@@ -1,18 +1,19 @@\n <template>\n   <button\n-    :class=\"{\'active\': active}\"\n+    :class=\"{\'active\': isActive}\"\n     class=\"bg-cl-primary brdr-1 brdr-cl-primary brdr-square h5 cl-tertiary generic-selector\"\n-    @click=\"switchFilter(id, label)\"\n-    :aria-label=\"$t(\'Select \' + label)\"\n+    @click=\"$emit(\'change\', variant)\"\n+    :aria-label=\"$t(\'Select \' + variant.label)\"\n   >\n-    {\{ label }\}\n+    {\{ variant.label }\}\n   </button>\n </template>\n \n <script>\n-import GenericSelector from \'@vue-storefront/core/compatibility/components/GenericSelector\'\n+import filterMixin from \'theme/mixins/filterMixin.ts\'\n+\n export default {\n-  mixins: [GenericSelector]\n+  mixins: [filterMixin]\n }\n <\/script>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-generic-sel").innerHTML = dGenericSel;
+</script>
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
