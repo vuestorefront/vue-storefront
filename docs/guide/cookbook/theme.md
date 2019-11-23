@@ -44,14 +44,13 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
 
 - Pages
   - [Home](#_3-now-we-start-hunting-down-the-culprits-one-by-one)
-  - [Category]
-  - [Checkout]
-  - [CmsPage]
-  - [Compare]
-  - [MyAccount]
-  - [PageNotFound]
-  - [Product]
-  - [Static]
+  - [Category](#_11-the-next-big-chunk-to-take-care-of-is-category-from-pages)
+  - [Checkout](#_12-now-look-into-checkout-from-pages)
+  - [Compare](#_13-next-is-compare-in-pages)
+  - [MyAccount](#_14-here-comes-myaccount-in-pages)
+  - [PageNotFound](#_15-another-page-pagenotfound-in-pages)
+  - [Product](#_16-another-big-update-for-product-in-pages)
+  - [Static](#_17-now-static-in-pages)
 
 - Core components
   - Blocks
