@@ -118,11 +118,11 @@ const actions: ActionTree<CategoryState, RootState> = {
             if (res && res.items && res.items.length) {
               setcat(null, res.items[0]) // eslint-disable-line @typescript-eslint/no-use-before-define
             } else {
-              reject(new Error('Category query returned empty result ' + key + ' = ' + value))
+              reject(new Error('Category query returned empty result1 ' + key + ' = ' + value))
             }
           }).catch(reject)
         } else {
-          reject(new Error('Category query returned empty result ' + key + ' = ' + value))
+          reject(new Error('Category query returned empty result2 ' + key + ' = ' + value))
         }
       }
       let setcat = (error, mainCategory) => {
@@ -172,7 +172,7 @@ const actions: ActionTree<CategoryState, RootState> = {
           if (typeof mainCategory !== 'undefined') {
             recurCatFinder(mainCategory) // TODO: Store breadcrumbs in IndexedDb for further usage to optimize speed?
           } else {
-            reject(new Error('Category query returned empty result ' + key + ' = ' + value))
+            reject(new Error('Category query returned empty result3 ' + key + ' = ' + value))
           }
         } else {
           Vue.prototype.$bus.$emit('category-after-single', { category: mainCategory })

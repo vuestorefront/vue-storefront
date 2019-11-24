@@ -3,7 +3,12 @@ const bodyParser = require('body-parser');
 const apiStatus = require('./utils/api-status')
 const Store = require('data-store')
 const _ = require('lodash')
-const storefront = new Store({path: path.resolve('./config/production.json')});
+
+let storefrontConfig
+if(process.env.NODE_ENV === 'development')
+  storefrontConfig = new Store({path: path.resolve('./config/local.json')});
+else
+  storefrontConfig = new Store({path: path.resolve('./config/production.json')});
 
 module.exports = (config, app) => {
   app.use(bodyParser.urlencoded({extended: false}));
@@ -20,7 +25,7 @@ module.exports = (config, app) => {
 
   app.post('/create-store', (req, res) => {
     let storeData = req.body;
-    let mapStoreUrlsFor = storefront.get('storeViews.mapStoreUrlsFor');
+    let mapStoreUrlsFor = storefrontConfig.get('storeViews.mapStoreUrlsFor');
     let store_data = {
       storeCode: storeData.storefront_url,
       storeName: _.startCase(storeData.magento_store_name),
@@ -68,23 +73,23 @@ module.exports = (config, app) => {
     const StoreCategories = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/banners/${store_data.storeCode}_store_categories.json`)});
     const storePolicies = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/policies/${store_data.storeCode}_store_policies.json`)});
     // If Store has then delete store related all the data
-    if ((storefront.has(`storeViews.${store_data.storeCode}`))) {
-      storefront.del(`storeViews.${store_data.storeCode}`);
+    if ((storefrontConfig.has(`storeViews.${store_data.storeCode}`))) {
+      storefrontConfig.del(`storeViews.${store_data.storeCode}`);
       mainImage.unlink();
       StoreCategories.unlink();
     }
     // start set the store config file
-    if ((storefront.has(`storeViews.${store_data.storeCode}`))) {
-      storefront.del(`storeViews.${store_data.storeCode}`);
+    if ((storefrontConfig.has(`storeViews.${store_data.storeCode}`))) {
+      storefrontConfig.del(`storeViews.${store_data.storeCode}`);
       // mainImage.unlink();
       // StoreCategories.unlink();
     }
-    if ((!_.includes(mapStoreUrlsFor, store_data.storeCode)) || (!_.includes(storefront.get('storeViews.mapStoreUrlsFor'), store_data.storeCode))) {
+    if ((!_.includes(mapStoreUrlsFor, store_data.storeCode)) || (!_.includes(storefrontConfig.get('storeViews.mapStoreUrlsFor'), store_data.storeCode))) {
       // set value in mapStoreUrlsFor
       mapStoreUrlsFor = _.concat(mapStoreUrlsFor, store_data.storeCode)
-      storefront.set('storeViews.mapStoreUrlsFor', mapStoreUrlsFor);
+      storefrontConfig.set('storeViews.mapStoreUrlsFor', mapStoreUrlsFor);
     }
-    storefront.set(`storeViews.${store_data.storeCode}`, store_data);
+    storefrontConfig.set(`storeViews.${store_data.storeCode}`, store_data);
     // end set store config file
     // start set store categories main Banner and samll Banners
     // let magentoStoreCategories = _.take(_.orderBy(_.filter(storeData.store_categories, {'isCategoryCreatedInMagento': true}), 'createdAt', 'desc'), 3);
@@ -208,21 +213,23 @@ module.exports = (config, app) => {
     // end set to product banners
   })
   app.post('disable-store', (req, res) => {
+    // TODO: add authentication for these API Calls
     let storeData = req.body.storeData;
     let status = storeData.status;
-    if (storefront.has(`storeViews.${storeData.store_code}.disabled`)) {
-      storefront.set(`storeViews.${storeData.store_code}.disabled`, status)
+    if (storefrontConfig.has(`storeViews.${storeData.store_code}.disabled`)) {
+      storefrontConfig.set(`storeViews.${storeData.store_code}.disabled`, status)
     }
     apiStatus(res, 200);
   })
   app.post('delete-store', (req, res) => {
+    // TODO: add authentication for these API Calls
     let storeData = req.body
     const mainImage = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/banners/${storeData.storeCode}_main-image.json`)});
     const StoreCategories = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/banners/${storeData.storeCode}_store_categories.json`)});
     const storePolicies = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/policies/${storeData.storeCode}_store_policies.json`)});
-    if (storefront.has(`storeViews.${storeData.storeCode}`)) {
-      storefront.del(`storeViews.${storeData.storeCode}`)
-      storefront.set('storeViews.mapStoreUrlsFor', _.pull(storefront.get('storeViews.mapStoreUrlsFor'), storeData.storeCode))
+    if (storefrontConfig.has(`storeViews.${storeData.storeCode}`)) {
+      storefrontConfig.del(`storeViews.${storeData.storeCode}`)
+      storefrontConfig.set('storeViews.mapStoreUrlsFor', _.pull(storefrontConfig.get('storeViews.mapStoreUrlsFor'), storeData.storeCode))
       mainImage.unlink()
       StoreCategories.unlink()
       storePolicies.unlink()
@@ -232,7 +239,58 @@ module.exports = (config, app) => {
     }
   })
   app.post('/backup-config', (req, res) => {
+    // TODO: add authentication for these API Calls
     console.log('/backup-config', config)
     apiStatus(res, config, 200);
   })
+  app.post('/rebuild-storefront', async (req, res) => {
+    // TODO: add authentication for these API Calls
+    console.log('/rebuild-storefront')
+    console.log('Rebuilding Vue Storefront ~ 3 min')
+    await exec('yarn', ['build'], { shell: true }, true, true);
+    apiStatus(res, config, 200);
+  });
 };
+
+const spawn = require('child_process').spawn;
+function exec(cmd, args, opts, enableLogging = false, limit_output = false) {
+  return new Promise((resolve, reject) => {
+    let child = spawn(cmd, args, opts);
+    child.on('close', (data) => {
+      resolve(data);
+    });
+
+    child.on('error', (error) => {
+      console.error(error);
+      reject(error);
+    });
+
+    let log_counter = 0
+    if(enableLogging){
+      console.log('child = spawn(cmd, args, opts)', cmd, args, opts)
+      child.stdout.on('data', (data) => {
+        if(limit_output){
+          let data2 = data.toString()
+          data2.replace(' ', '')
+          if(Number.isInteger(log_counter/400) && data2.length > 10){
+            console.log('stdout: ', data.toString());
+          }
+          log_counter++
+        }else{
+          console.log('stdout: ', data.toString());
+        }
+      });
+    }
+    child.stderr.on('data', (data) => {
+      if(limit_output){
+        let data_str = data.toString()
+        if((Number.isInteger(log_counter/400) && data_str.length > 10) || data_str.indexOf('Error') !== -1){
+          console.log('stderrO: ', data.toString());
+        }
+        log_counter++
+      }else{
+        console.log('stderr ERROR: ', data.toString());
+      }
+    })
+  })
+}

@@ -1,0 +1,1 @@
+-- while server is running -> and store is synced -> we rebuild the /dist folder remotely -> this causes some files to fail to be overwritten if in use (not sure if this is an issue in practice)

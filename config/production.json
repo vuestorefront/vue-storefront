@@ -46,7 +46,11 @@
     "mapStoreUrlsFor": [
       "de",
       "it",
-      "volkky"
+      "volkky",
+      "fefe",
+      "qweqew",
+      "ddd",
+      "ggg"
     ],
     "de": {
       "storeCode": "de",
@@ -112,6 +116,118 @@
       "elasticsearch": {
         "host": "https://store.procc.co/api/catalog",
         "index": "vue_storefront_catalog_volkky"
+      },
+      "tax": {
+        "defaultCountry": "BG",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "EUR",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "fefe": {
+      "storeCode": "fefe",
+      "storeName": "Volkyyz Store",
+      "disabled": false,
+      "storeId": 24,
+      "name": "Volkyyz Store",
+      "url": "/fefe",
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_fefe"
+      },
+      "tax": {
+        "defaultCountry": "BG",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "EUR",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "qweqew": {
+      "storeCode": "qweqew",
+      "storeName": "Volkyyz Store",
+      "disabled": false,
+      "storeId": 25,
+      "name": "Volkyyz Store",
+      "url": "/qweqew",
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_qweqew"
+      },
+      "tax": {
+        "defaultCountry": "BG",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "EUR",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "ddd": {
+      "storeCode": "ddd",
+      "storeName": "Volkyyz Store",
+      "disabled": false,
+      "storeId": 26,
+      "name": "Volkyyz Store",
+      "url": "/ddd",
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_ddd"
+      },
+      "tax": {
+        "defaultCountry": "BG",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "EUR",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "ggg": {
+      "storeCode": "ggg",
+      "storeName": "Volkyyz Store",
+      "disabled": false,
+      "storeId": 27,
+      "name": "Volkyyz Store",
+      "url": "/ggg",
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_ggg"
       },
       "tax": {
         "defaultCountry": "BG",
