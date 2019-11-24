@@ -1735,6 +1735,17 @@ var dRouterIndex = Diff2Html.getPrettyHtml(
 document.getElementById("d-router-index").innerHTML = dRouterIndex;
 </script>
 
+Finally we are done with it but `i18n`, that is, however, about copying `csv` files. 
+
+
+#### 64. _resource/i18n_
+
+- Go to `./src/themes/degi/resource/i18n` and copy them as follows :
+```bash
+cp -r themes/default/resource/i18n/* themes/degi/resource/i18n/
+```
+
+Keep it mind that if you added/modified/removed `i18n` files aside default ones and used them from a theme, you should also work on it. 
 
 ### 3. Peep into the kitchen (what happens internally)
 
