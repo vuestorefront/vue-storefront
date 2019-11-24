@@ -1551,6 +1551,74 @@ document.getElementById("d-spin").innerHTML = dSpin;
 
 
 
+
+Now, you are done with `core` component part. Move on to `theme` part. 
+
+
+#### 54. _ButtonFull_ in `theme`
+
+- Go to `./src/themes/degi/components/theme/ButtonFull.vue` and fix it as follows :
+
+<div id="d-t-btn">
+
+</div>
+<script>
+var dTBtn = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/theme/ButtonFull.vue\n+++ b/src/themes/degi/components/theme/ButtonFull.vue\n@@ -1,8 +1,8 @@\n <template>\n   <component\n-    :is=\"link ? \'router-link\' : \'button\'\"\n+    :is=\"compontentType\"\n     :type=\"!link ? type : false\"\n-    :to=\"localizedRoute(link)\"\n+    :to=\"redirectionLink\"\n     class=\"no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium\"\n     :class=\"{ \'no-underline pointer align-center border-box\': link, \'disabled\': disabled, \'button-disabled\': disabled }\"\n     data-testid=\"subscribeSubmit\"\n@@ -35,6 +35,14 @@ export default {\n       required: false,\n       default: false\n     }\n+  },\n+  computed: {\n+    compontentType () {\n+      return this.link ? \'router-link\' : \'button\'\n+    },\n+    redirectionLink () {\n+      return this.link ? this.localizedRoute(this.link) : null\n+    }\n   }\n }\n <\/script>",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-t-btn").innerHTML = dTBtn;
+</script>
+
+
+#### 55. _ButtonOutline_ in `theme`
+
+- Go to `./src/themes/degi/components/theme/ButtonOutline.vue` and fix it as follows :
+
+<div id="d-t-btn-out">
+
+</div>
+<script>
+var dBtnOut = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/theme/ButtonOutline.vue\n+++ b/src/themes/degi/components/theme/ButtonOutline.vue\n@@ -1,7 +1,7 @@\n <template>\n   <component\n-    :is=\"link ? \'router-link\' : \'button\'\"\n-    :to=\"localizedRoute(link)\"\n+    :is=\"compontentType\"\n+    :to=\"redirectionLink\"\n     class=\"button-outline no-outline py15 bg-cl-transparent h4 no-underline sans-serif fs-medium\"\n     :class=\"{\n       light : color === \'light\', \'brdr-white\' : color === \'light\', \'cl-white\' : color === \'light\',\n@@ -30,6 +30,14 @@ export default {\n       default: null,\n       required: false\n     }\n+  },\n+  computed: {\n+    compontentType () {\n+      return this.link ? \'router-link\' : \'button\'\n+    },\n+    redirectionLink () {\n+      return this.link ? this.localizedRoute(this.link) : null\n+    }\n   }\n }\n <\/script>",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-t-btn-out").innerHTML = dBtnOut;
+</script>
+
+
+#### 56. _WebShare_ in `theme`
+
+- Go to `./src/themes/degi/components/theme/WebShare.vue` and fix it as follows :
+
+<div id="d-t-web-share">
+
+</div>
+<script>
+var dWebShare = Diff2Html.getPrettyHtml(
+  "--- /dev/null\n+++ b/src/themes/degi/components/theme/WebShare.vue\n@@ -0,0 +1,53 @@\n+<template>\n+  <no-ssr>\n+    <span v-if=\"isSupported\" @click=\"share\">\n+      <slot>\n+        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path d=\"M0 0h24v24H0z\" fill=\"none\" /><path d=\"M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z\" /></svg>\n+      </slot>\n+    </span>\n+  </no-ssr>\n+</template>\n+\n+<script>\n+import NoSSR from \'vue-no-ssr\'\n+import { isServer } from \'@vue-storefront/core/helpers\'\n+\n+export default {\n+  name: \'WebShare\',\n+  components: {\n+    \'no-ssr\': NoSSR\n+  },\n+  props: {\n+    title: {\n+      type: String,\n+      default: \'\'\n+    },\n+    text: {\n+      type: String,\n+      default: \'\'\n+    },\n+    url: {\n+      type: String,\n+      default () {\n+        return typeof window !== \'undefined\' ? window.location.href : \'\'\n+      }\n+    }\n+  },\n+  computed: {\n+    isSupported () {\n+      return !isServer && navigator.share\n+    }\n+  },\n+  methods: {\n+    share () {\n+      if (navigator.share) {\n+        navigator.share({\n+          title: this.title,\n+          text: this.text,\n+          url: this.url || window.location.href\n+        })\n+      }\n+    }\n+  }\n+}\n+<\/script>",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-t-web-share").innerHTML = dWebShare;
+</script>
+
+
+#### 57. _AsyncSidebar_ in `theme` `blocks`
+
+- Go to `./src/themes/degi/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue` and create it as follows :
+
+<div id="d-async-side">
+
+</div>
+<script>
+var dAsyncSide = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue\n+++ b/src/themes/degi/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue\n@@ -4,6 +4,7 @@\n       class=\"mw-100 fixed cl-accent bg-cl-primary\"\n       :class=\"direction === \'left\' ? \'left-sidebar\' : direction === \'right\' ? \'right-sidebar\' : null \"\n       data-testid=\"sidebar\"\n+      ref=\"sidebar\"\n       v-if=\"isOpen\"\n     >\n       <component :is=\"component\" @close=\"$emit(\'close\')\" @reload=\"getComponent\" />\n@@ -14,6 +15,7 @@\n <script>\n import LoadingSpinner from \'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue\'\n import LoadingError from \'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue\'\n+import { disableBodyScroll, clearAllBodyScrollLocks } from \'body-scroll-lock\'\n \n export default {\n   props: {\n@@ -39,6 +41,17 @@ export default {\n   created () {\n     this.getComponent()\n   },\n+  watch: {\n+    isOpen (state) {\n+      if (state) {\n+        this.$nextTick(() => {\n+          disableBodyScroll(this.$refs.sidebar)\n+        })\n+      } else {\n+        clearAllBodyScrollLocks()\n+      }\n+    }\n+  },\n   methods: {\n     getComponent () {\n       this.component = () => ({\n@@ -55,44 +68,45 @@ export default {\n <style lang=\"scss\" scoped>\n   @import \"~theme/css/animations/transitions\";\n \n-  .slide-left-enter-active,\n-  .slide-left-leave-active,\n-  .slide-right-enter-active,\n-  .slide-right-leave-active {\n-    transition: transform .25s;\n-  }\n+.slide-left-enter-active,\n+.slide-left-leave-active,\n+.slide-right-enter-active,\n+.slide-right-leave-active {\n+  transition: transform .25s;\n+}\n \n-  .slide-left-enter,\n-  .slide-left-leave-to {\n-    transform: translateX(100%);\n-  }\n+.slide-left-enter,\n+.slide-left-leave-to {\n+  transform: translateX(100%);\n+}\n \n-  .slide-right-enter,\n-  .slide-right-leave-to {\n-    transform: translateX(-100%);\n-  }\n+.slide-right-enter,\n+.slide-right-leave-to {\n+  transform: translateX(-100%);\n+}\n \n-  .right-sidebar {\n-    top: 0;\n-    right: 0;\n-    z-index: 3;\n-    height: 100%;\n-    width: 800px;\n-    min-width: 320px;\n-    overflow-y: auto;\n-    overflow-x: hidden;\n-    -webkit-overflow-scrolling: touch;\n-  }\n+.right-sidebar {\n+  top: 0;\n+  right: 0;\n+  z-index: 4;\n+  height: 100%;\n+  width: 800px;\n+  min-width: 320px;\n+  overflow-y: auto;\n+  overflow-x: hidden;\n+  -webkit-overflow-scrolling: touch;\n+}\n+\n+.left-sidebar{\n+  height: 100vh;\n+  width: 350px;\n+  top: 0;\n+  left: 0;\n+  overflow: hidden;\n+  overflow-y: auto;\n+  -webkit-overflow-scrolling: touch;\n+  z-index: 4;\n \n-  .left-sidebar{\n-    height: 100vh;\n-    width: 350px;\n-    top: 0;\n-    left: 0;\n-    overflow: hidden;\n-    overflow-y: auto;\n-    z-index: 3;\n-    -webkit-overflow-scrolling: touch;\n     @media (max-width: 767px) {\n       width: 100vh;\n     }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-async-side").innerHTML = dAsyncSide;
+</script>
+
+
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
