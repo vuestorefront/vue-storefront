@@ -136,7 +136,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
     - AsyncSidebar
       - [AsyncSidebar](#_57-asyncsidebar-in-theme-blocks)
     - Home
-      - [Onboard]
+      - [Onboard](#_58-onboard-in-theme-blocks)
     - Inspirations
       - [InspirationTile]
     - Reviews
