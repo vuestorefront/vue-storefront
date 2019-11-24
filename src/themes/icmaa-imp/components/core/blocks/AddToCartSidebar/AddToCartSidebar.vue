@@ -11,6 +11,7 @@
             :key="key"
             :option="filter"
             @change="changeFilter"
+            :price="getOptionPrice(filter)"
             :is-last="key === Object.keys(availableFilters[option.attribute_code]).length - 1"
             :is-loading="isLoading"
             :is-active="selectedOption && selectedOption.id === filter.id"
@@ -44,6 +45,7 @@ import { mapGetters } from 'vuex'
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption'
 import { notifications } from '@vue-storefront/core/modules/cart/helpers'
 import Composite from '@vue-storefront/core/mixins/composite'
+import ProductPriceMixin from 'theme/mixins/product/priceMixin'
 import ProductOptionsMixin from 'theme/mixins/product/optionsMixin'
 import ProductAddToCartMixin from 'theme/mixins/product/addtocartMixin'
 import ProductStockAlertMixin from 'icmaa-product-alert/mixins/productStockAlertMixin'
@@ -58,7 +60,7 @@ import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 
 export default {
   name: 'AddToCartSidebar',
-  mixins: [ Composite, ProductOption, ProductOptionsMixin, ProductAddToCartMixin, ProductStockAlertMixin ],
+  mixins: [ Composite, ProductOption, ProductOptionsMixin, ProductAddToCartMixin, ProductPriceMixin, ProductStockAlertMixin ],
   components: {
     Sidebar,
     DefaultSelector,
@@ -81,6 +83,7 @@ export default {
   computed: {
     ...mapGetters({
       product: 'product/getCurrentProduct',
+      originalProduct: 'product/getOriginalProduct',
       configuration: 'product/getCurrentProductConfiguration',
       options: 'product/getCurrentProductOptions',
       isAddingToCart: 'cart/getIsAdding'
@@ -131,6 +134,16 @@ export default {
         this.selectedOption = option
         this.addProductStockAlert(option)
       }
+    },
+    getOptionPrice (option) {
+      if (this.hasMultiplePrices) {
+        const product = this.product.configurable_children.find(child => child[option.type] === option.id)
+        if (product) {
+          return product.price_incl_tax
+        }
+      }
+
+      return false
     }
   }
 }

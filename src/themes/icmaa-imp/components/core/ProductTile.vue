@@ -17,9 +17,11 @@
           {{ product.original_price_incl_tax | price }}
         </span>
         <span class="price-special t-text-sale t-font-bold" v-if="product.special_price && parseFloat(product.special_price) > 0">
+          <span v-if="hasMultiplePrices" v-text="$t('as low as')" />
           {{ product.price_incl_tax | price }}
         </span>
         <span class="price t-text-base-dark t-font-bold" v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0">
+          <span v-if="hasMultiplePrices" v-text="$t('as low as')" />
           {{ product.price_incl_tax | price }}
         </span>
       </p>
@@ -35,11 +37,12 @@ import ProductImage from 'theme/components/core/ProductImage'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import PromoBanner from 'theme/components/core/blocks/Category/PromoBanner'
 import ProductNameMixin from 'icmaa-catalog/mixins/ProductNameMixin'
+import ProductPriceMixin from 'theme/mixins/product/priceMixin'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile'
 import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
 
 export default {
-  mixins: [ProductTile, IsOnWishlist, ProductNameMixin],
+  mixins: [ProductTile, IsOnWishlist, ProductNameMixin, ProductPriceMixin],
   components: {
     Placeholder,
     ProductImage,

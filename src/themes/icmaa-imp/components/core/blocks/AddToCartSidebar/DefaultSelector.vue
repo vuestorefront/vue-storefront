@@ -5,13 +5,13 @@
     @click="selectVariant"
     :aria-label="$t('Select ' + option.label)"
   >
-    <template v-if="option.available">
+    <span class="t-flex-auto">
       {{ getOptionLabel({ attributeKey: option.type, optionId: option.id }) }}
+    </span>
+    <template v-if="option.available">
+      <span v-if="price" class="t-flex-fix t-text-base-light">{{ price | price }}</span>
     </template>
     <template v-else>
-      <span class="t-flex-auto">
-        {{ getOptionLabel({ attributeKey: option.type, optionId: option.id }) }}
-      </span>
       <span
         class="t-flex-fix t-text-xs t-leading-1-em t-text-right"
         :class="{ 't-text-alt-3': isStockAlertSubscrided }"
@@ -40,6 +40,10 @@ export default {
     option: {
       type: Object,
       default: () => ({})
+    },
+    price: {
+      type: [Number, Boolean],
+      default: false
     },
     isLoading: {
       type: Boolean,

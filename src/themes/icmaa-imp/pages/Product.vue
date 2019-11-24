@@ -37,9 +37,13 @@
                 <template v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax">
                   <span class="t-text-base-tone t-line-through">{{ product.original_price_incl_tax * product.qty | price }}</span>
                   &nbsp;
-                  <span class="t-text-sale t-font-bold">{{ product.price_incl_tax * product.qty | price }}</span>
+                  <span class="t-text-sale t-font-bold">
+                    <span v-if="hasMultiplePrices" v-text="$t('as low as')" class="t-text-sm" />
+                    {{ product.price_incl_tax * product.qty | price }}
+                  </span>
                 </template>
                 <span class="t-font-bold" v-if="!product.special_price && product.price_incl_tax">
+                  <span v-if="hasMultiplePrices" v-text="$t('as low as')" class="t-text-sm" />
                   {{ product.qty > 0 ? product.price_incl_tax * product.qty : product.price_incl_tax | price }}
                 </span>
                 <div class="t-mt-1 t-text-xs t-text-base-light" v-html="taxDisclaimer" />
@@ -151,6 +155,7 @@ import LazyHydrate from 'vue-lazy-hydration'
 import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption'
 import VueOfflineMixin from 'vue-offline/mixin'
 import ProductMetaMixin from 'icmaa-meta/mixins/productMeta'
+import ProductPriceMixin from 'theme/mixins/product/priceMixin'
 import ProductOptionsMixin from 'theme/mixins/product/optionsMixin'
 import ProductAddToCartMixin from 'theme/mixins/product/addtocartMixin'
 import FeaturesMixin from 'theme/mixins/product/featuresMixin'
@@ -177,7 +182,7 @@ export default {
     WebShare,
     LazyHydrate
   },
-  mixins: [ProductOption, IcmaaProduct, ProductMetaMixin, ProductOptionsMixin, ProductAddToCartMixin, FeaturesMixin],
+  mixins: [ProductOption, IcmaaProduct, ProductMetaMixin, ProductPriceMixin, ProductOptionsMixin, ProductAddToCartMixin, FeaturesMixin],
   directives: { focusClean },
   beforeCreate () {
     registerModule(ReviewModule)
