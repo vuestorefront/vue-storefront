@@ -1589,7 +1589,7 @@ document.getElementById("d-t-btn-out").innerHTML = dBtnOut;
 
 #### 56. _WebShare_ in `theme`
 
-- Go to `./src/themes/degi/components/theme/WebShare.vue` and fix it as follows :
+- Go to `./src/themes/degi/components/theme/WebShare.vue` and create it as follows :
 
 <div id="d-t-web-share">
 
@@ -1605,7 +1605,7 @@ document.getElementById("d-t-web-share").innerHTML = dWebShare;
 
 #### 57. _AsyncSidebar_ in `theme` `blocks`
 
-- Go to `./src/themes/degi/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue` and create it as follows :
+- Go to `./src/themes/degi/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue` and fix it as follows :
 
 <div id="d-async-side">
 
@@ -1621,7 +1621,7 @@ document.getElementById("d-async-side").innerHTML = dAsyncSide;
 
 #### 58. _Onboard_ in `theme` `blocks`
 
-- Go to `./src/themes/degi/components/theme/blocks/Home/Onboard.vue` and create it as follows :
+- Go to `./src/themes/degi/components/theme/blocks/Home/Onboard.vue` and fix it as follows :
 
 <div id="d-home-onboard">
 
@@ -1637,7 +1637,7 @@ document.getElementById("d-home-onboard").innerHTML = dHomeOnboard;
 
 #### 59. _InspirationTile_ in `theme` `blocks`
 
-- Go to `./src/themes/degi/components/theme/blocks/Inspirations/InspirationTile.vue` and create it as follows :
+- Go to `./src/themes/degi/components/theme/blocks/Inspirations/InspirationTile.vue` and fix it as follows :
 
 <div id="d-insp">
 
@@ -1653,7 +1653,7 @@ document.getElementById("d-insp").innerHTML = dInspire;
 
 #### 60. _ReviewsList_ in `theme` `blocks`
 
-- Go to `./src/themes/degi/components/theme/blocks/Reviews/ReviewsList.vue` and create it as follows :
+- Go to `./src/themes/degi/components/theme/blocks/Reviews/ReviewsList.vue` and fix it as follows :
 
 <div id="d-reviews-reviewslist">
 
