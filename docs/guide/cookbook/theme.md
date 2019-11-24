@@ -146,7 +146,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
   
 - Other Important Files
   - [helpers/index.ts](#_61-helpers)
-  - [index.js]
+  - [index.js](#_61-index-js)
   - [mixins/filterMixin.ts]
   - [package.json]
   - [router/index.js]
