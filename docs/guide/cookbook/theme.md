@@ -1619,6 +1619,22 @@ document.getElementById("d-async-side").innerHTML = dAsyncSide;
 </script>
 
 
+#### 58. _Onboard_ in `theme` `blocks`
+
+- Go to `./src/themes/degi/components/theme/blocks/Home/Onboard.vue` and create it as follows :
+
+<div id="d-home-onboard">
+
+</div>
+<script>
+var dHomeOnboard = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/theme/blocks/Home/Onboard.vue\n+++ b/src/themes/degi/components/theme/blocks/Home/Onboard.vue\n@@ -2,7 +2,7 @@\n   <modal name=\"modal-onboard\" class=\"modal-onboard\">\n     <div class=\"content relative flex middle-xs\">\n       <i slot=\"close\" class=\"modal-close material-icons p15 cl-bg-tertiary\" @click=\"close\">close</i>\n-      <img src=\"/assets/logo.svg\" alt=\"Vuestore\" class=\"logo\">\n+      <img src=\"/assets/logo.svg\" :alt=\"$t(defaultTitle)\" class=\"logo\">\n \n       <div class=\"copy align-center cl-secondary\">\n         <p class=\"h1\">\n@@ -38,7 +38,16 @@\n </template>\n <script>\n import Modal from \'theme/components/core/Modal.vue\'\n+import config from \'config\'\n+import { currentStoreView } from \'@vue-storefront/core/lib/multistore\'\n+\n export default {\n+  data () {\n+    const storeView = currentStoreView()\n+    return {\n+      defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle\n+    }\n+  },\n   components: {\n     Modal\n   },\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-home-onboard").innerHTML = dHomeOnboard;
+</script>
+
+
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
