@@ -36,7 +36,7 @@ This recipe helps you resolve errors you encounter after the upgrade as short a 
 
 
 ### 1-1. Contents
-There are many features added/removed/enhanced with `1.11`. This recipe deals with all of them. They are, however, too many to skim in a glance. That's why you might need this _contents_ for them. They are grouped in as features but that's just a conceptual grouping. 
+There are many features added/removed/enhanced with `1.11`. This recipe deals with all of them. They are, however, too many to skim in a glance. That's why you might need this _contents_ for them. 
 
 <!-- Javascripts -->
 <script type="text/javascript" src="../../node_modules/diff2html/dist/diff2html.js"></script>
@@ -157,13 +157,19 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
 
 ### 2. Recipe
 
-1. Go to your _Vue Storefront_ app root directory and `git checkout` to following hash [`79f0c30f`](https://github.com/DivanteLtd/vue-storefront/commit/79f0c30f1707ff913bde18c7e13654d5ca6bd867) :
+
+#### 1. Go to your _Vue Storefront_ app root directory and `git checkout` to following hash `e4959550` :
+
 ```bash
 git fetch
-git checkout 79f0c30f # origin/release/v1.11
+git checkout e4959550 # origin/release/v1.11
 ```
 
-2. Resulting screen in your browser would somewhat look like this as sad as can be : 
+:::warning WARNING
+`origin/release/v1.11` is still evolving. It might be different with the latest hash at the time of your reading. This `docs` gets updated periodically, anyway you get the idea. 
+:::
+
+#### 2. Resulting screen in your browser would somewhat look like this as sad as can be : 
 
 ![error_1.11](../images/error_1.11.png)
 
