@@ -151,7 +151,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
   - [package.json]
   - [router/index.js](#_63-router-index-js)
   - Resource
-    - i18n
+    - [i18n](#_64-resource-i18n)
 
 
 
