@@ -1534,6 +1534,22 @@ document.getElementById("d-sort-by").innerHTML = dSortBy;
 </script>
 
 
+#### 53. _Spinner_ 
+
+- Go to `./src/themes/degi/components/core/Spinner.vue` and fix it as follows :
+
+<div id="d-spin">
+
+</div>
+<script>
+var dSpin = Diff2Html.getPrettyHtml(
+  "--- /dev/null\n+++ b/src/themes/degi/components/core/Spinner.vue\n@@ -0,0 +1,18 @@\n+<template functional>\n+  <div class=\"spinner\">\n+    <svg xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.0\" width=\"22px\" height=\"22px\" viewBox=\"0 0 128 128\" xml:space=\"preserve\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"transparent\" /><g transform=\"rotate(135 64 64)\"><circle cx=\"16\" cy=\"64\" r=\"16\" fill=\"#000000\" fill-opacity=\"1\" /><circle cx=\"16\" cy=\"64\" r=\"16\" fill=\"#555555\" fill-opacity=\"0.67\" transform=\"rotate(45,64,64)\" /><circle cx=\"16\" cy=\"64\" r=\"16\" fill=\"#949494\" fill-opacity=\"0.42\" transform=\"rotate(90,64,64)\" /><circle cx=\"16\" cy=\"64\" r=\"16\" fill=\"#cccccc\" fill-opacity=\"0.2\" transform=\"rotate(135,64,64)\" /><circle cx=\"16\" cy=\"64\" r=\"16\" fill=\"#e1e1e1\" fill-opacity=\"0.12\" transform=\"rotate(180,64,64)\" /><circle cx=\"16\" cy=\"64\" r=\"16\" fill=\"#e1e1e1\" fill-opacity=\"0.12\" transform=\"rotate(225,64,64)\" /><circle cx=\"16\" cy=\"64\" r=\"16\" fill=\"#e1e1e1\" fill-opacity=\"0.12\" transform=\"rotate(270,64,64)\" /><circle cx=\"16\" cy=\"64\" r=\"16\" fill=\"#e1e1e1\" fill-opacity=\"0.12\" transform=\"rotate(315,64,64)\" /><animateTransform attributeName=\"transform\" type=\"rotate\" values=\"0 64 64;315 64 64;270 64 64;225 64 64;180 64 64;135 64 64;90 64 64;45 64 64\" calcMode=\"discrete\" dur=\"720ms\" repeatCount=\"indefinite\" /></g></svg>\n+  </div>\n+</template>\n+\n+<script>\n+export default {\n+  name: \'Spinner\',\n+  functional: true\n+}\n+<\/script>\n+\n+<style lang=\"scss\" scoped>\n+.spinner {\n+ padding: 0 15px;\n+}\n+</style>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-spin").innerHTML = dSpin;
+</script>
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
