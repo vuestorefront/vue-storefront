@@ -1667,6 +1667,43 @@ document.getElementById("d-reviews-reviewslist").innerHTML = dReviewsList;
 </script>
 
 
+
+Everything specifically related to `theme` has been covered so far, now time to work on other files. 
+
+
+
+#### 61. _helpers_
+
+- Go to `./src/themes/degi/helpers/index.ts` and create it as follows :
+
+<div id="d-helpers">
+
+</div>
+<script>
+var dHelpers = Diff2Html.getPrettyHtml(
+  "--- /dev/null\n+++ b/src/themes/degi/helpers/index.ts\n@@ -0,0 +1,9 @@\n+import config from \'config\'\n+import { currentStoreView } from \'@vue-storefront/core/lib/multistore\'\n+\n+export function getPathForStaticPage (path: string) {\n+  const { storeCode } = currentStoreView()\n+  const isStoreCodeEquals = storeCode === config.defaultStoreCode\n+\n+  return isStoreCodeEquals ? `/i${path}` : path\n+}\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-helpers").innerHTML = dHelpers;
+</script>
+
+
+#### 61. _index.js_
+
+- Go to `./src/themes/degi/helpers/index.ts` and create it as follows :
+
+<div id="d-helpers">
+
+</div>
+<script>
+var dHelpers = Diff2Html.getPrettyHtml(
+  "--- /dev/null\n+++ b/src/themes/degi/helpers/index.ts\n@@ -0,0 +1,9 @@\n+import config from \'config\'\n+import { currentStoreView } from \'@vue-storefront/core/lib/multistore\'\n+\n+export function getPathForStaticPage (path: string) {\n+  const { storeCode } = currentStoreView()\n+  const isStoreCodeEquals = storeCode === config.defaultStoreCode\n+\n+  return isStoreCodeEquals ? `/i${path}` : path\n+}\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-helpers").innerHTML = dHelpers;
+</script>
+
+
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
