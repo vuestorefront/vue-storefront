@@ -145,7 +145,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
 - [Store](#_4-add-new-files-introduced-from-1-11-as-following-path-from-the-default-theme)
   
 - Other Important Files
-  - [helpers/index.ts]
+  - [helpers/index.ts](#_61-helpers)
   - [index.js]
   - [mixins/filterMixin.ts]
   - [package.json]
