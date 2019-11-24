@@ -122,10 +122,10 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
   - [ProductGalleryZoomCarousel](#_46-productgalleryzoomcarousel-ready-to-update)
   - [ProductImage](#_47-productimage-waits-in-line)
   - [ProductLinks](#_48-productlinks-waits-in-line)
-  - [ProductQuantity]
-  - [ProductTile]
-  - [SizeSelector]
-  - [SortBy]
+  - [ProductQuantity](#_49-productquantity)
+  - [ProductTile](#_50-producttile)
+  - [SizeSelector](#_51-sizeselector)
+  - [SortBy](#_52-sortby)
   - [Spinner]
   
 - Theme components
