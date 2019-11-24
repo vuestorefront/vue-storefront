@@ -1720,6 +1720,22 @@ document.getElementById("d-filter-mixin").innerHTML = dFilterMixin;
 </script>
 
 
+#### 63. _router/index.js_
+
+- Go to `./src/themes/degi/router/index.js` and fix it as follows :
+
+<div id="d-router-index">
+
+</div>
+<script>
+var dRouterIndex = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/router/index.js\n+++ b/src/themes/degi/router/index.js\n@@ -17,12 +17,12 @@ let routes = [\n   { name: \'magazine\', path: \'/magazine\', component: Static, props: {page: \'lorem\', title: \'Magazine\'} },\n   { name: \'sale\', path: \'/sale\', component: Static, props: {page: \'lorem\', title: \'Sale\'} },\n   { name: \'order-tracking\', path: \'/order-tracking\', component: Static, props: {page: \'lorem\', title: \'Track my Order\'} },\n-  { name: \'my-account\', path: \'/my-account\', component: MyAccount, meta: { requiresAuth: true } },\n-  { name: \'my-shipping-details\', path: \'/my-account/shipping-details\', component: MyAccount, props: { activeBlock: \'MyShippingDetails\' }, meta: { requiresAuth: true } },\n-  { name: \'my-newsletter\', path: \'/my-account/newsletter\', component: MyAccount, props: { activeBlock: \'MyNewsletter\' }, meta: { requiresAuth: true } },\n-  { name: \'my-orders\', path: \'/my-account/orders\', component: MyAccount, props: { activeBlock: \'MyOrders\' }, meta: { requiresAuth: true } },\n-  { name: \'my-order\', path: \'/my-account/orders/:orderId\', component: MyAccount, props: { activeBlock: \'MyOrder\' }, meta: { requiresAuth: true } },\n-  { name: \'my-recently-viewed\', path: \'/my-account/recently-viewed\', component: MyAccount, props: { activeBlock: \'MyRecentlyViewed\' }, meta: { requiresAuth: true } },\n+  { name: \'my-account\', path: \'/my-account\', component: MyAccount },\n+  { name: \'my-shipping-details\', path: \'/my-account/shipping-details\', component: MyAccount, props: { activeBlock: \'MyShippingDetails\' } },\n+  { name: \'my-newsletter\', path: \'/my-account/newsletter\', component: MyAccount, props: { activeBlock: \'MyNewsletter\' } },\n+  { name: \'my-orders\', path: \'/my-account/orders\', component: MyAccount, props: { activeBlock: \'MyOrders\' } },\n+  { name: \'my-order\', path: \'/my-account/orders/:orderId\', component: MyAccount, props: { activeBlock: \'MyOrder\' } },\n+  { name: \'my-recently-viewed\', path: \'/my-account/recently-viewed\', component: MyAccount, props: { activeBlock: \'MyRecentlyViewed\' } },\n   { name: \'about-us\', path: \'/about-us\', component: Static, props: {page: \'lorem\', title: \'About us\'} },\n   { name: \'customer-service\', path: \'/customer-service\', component: Static, props: {page: \'lorem\', title: \'Customer service\'} },\n   { name: \'store-locator\', path: \'/store-locator\', component: Static, props: {page: \'lorem\', title: \'Store locator\'} },\n@@ -33,7 +33,7 @@ let routes = [\n   { name: \'order-from-catalog\', path: \'/order-from-catalog\', component: Static, props: {page: \'lorem\', title: \'Order from catalog\'} },\n   { name: \'contact\', path: \'/contact\', component: Static, props: {page: \'contact\', title: \'Contact\'} },\n   { name: \'compare\', path: \'/compare\', component: Compare, props: {title: \'Compare Products\'} },\n-  { name: \'page-not-found\', path: \'/page-not-found\', component: PageNotFound },\n+  { name: \'page-not-found\', path: \'*\', component: PageNotFound },\n   { name: \'error\', path: \'/error\', component: ErrorPage, meta: { layout: \'minimal\' } },\n   { name: \'virtual-product\', path: \'/p/:parentSku/:slug\', component: Product }, // :sku param can be marked as optional with \":sku?\" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site\n   { name: \'bundle-product\', path: \'/p/:parentSku/:slug\', component: Product }, // :sku param can be marked as optional with \":sku?\" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-router-index").innerHTML = dRouterIndex;
+</script>
+
+
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
