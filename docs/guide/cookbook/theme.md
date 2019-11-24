@@ -1749,6 +1749,14 @@ Keep it mind that if you added/modified/removed `i18n` files aside default ones 
 
 ### 3. Peep into the kitchen (what happens internally)
 
+We have been through a thorough scrutiny on what's been changed to `1.11`.
+
+This upgrade recipe deals with _theme_ part only since _modules_ and _core_ part of the upgrade should be dealt diffrently. It won't be easy just to copy/paste updated parts and pray for smooth upgrade when it comes to custom _modules_ for it's next to impossible to guess the true intention of _module_ developer and bend it to work compatibly with the updates unless you are the one who created it. _core_ parts, however, should be working fine with copy/paste upgrade because they were supposed to be untouched in the first place. Once the _core_ parts have been upgraded without a hiccup, it's time to upgrade _theme_ part and this recipe is all about how to just do it. 
+
+In `1.11` upgrade, one notable change is about how it works with data throughout the app. It takes advantage of `vuex` _store_ for data container, and it can be seen in upgrading various blocks as using `mapGetters`. 
+
+
+
 ### 4. Chef's secret (protip)
 1. Debunk _github_ features to uncover the code changes
 
