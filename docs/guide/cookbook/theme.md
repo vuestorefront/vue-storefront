@@ -1704,6 +1704,22 @@ document.getElementById("d-index-js").innerHTML = dIndexJs;
 </script>
 
 
+#### 62. _mixins/filterMixin.ts_
+
+- Go to `./src/themes/degi/mixins/filterMixin.ts` and create it as follows :
+
+<div id="d-filter-mixin">
+
+</div>
+<script>
+var dFilterMixin = Diff2Html.getPrettyHtml(
+  "--- /dev/null\n+++ b/src/themes/degi/mixins/filterMixin.ts\n@@ -0,0 +1,22 @@\n+import toString from \'lodash-es/toString\'\n+\n+export default {\n+  props: {\n+    variant: {\n+      type: Object,\n+      default: () => ({})\n+    },\n+    selectedFilters: {\n+      type: Object,\n+      default: () => ({})\n+    }\n+  },\n+  computed: {\n+    isActive () {\n+      const selectedVariantFilter = this.selectedFilters[this.variant.type]\n+      if (!selectedVariantFilter) return false\n+      if (Array.isArray(selectedVariantFilter)) return !!selectedVariantFilter.find(variant => variant.id === this.variant.id)\n+      return toString(selectedVariantFilter.id) === toString(this.variant.id)\n+    }\n+  }\n+}",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-filter-mixin").innerHTML = dFilterMixin;
+</script>
+
+
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
