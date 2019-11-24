@@ -165,7 +165,7 @@ git fetch
 git checkout e4959550 # origin/release/v1.11
 ```
 
-:::warning WARNING
+:::warning NOTICE
 `origin/release/v1.11` is still evolving. It might be different with the latest hash at the time of your reading. This `docs` gets updated periodically, anyway you get the idea. 
 :::
 
@@ -1757,10 +1757,15 @@ Keep it mind that if you added/modified/removed `i18n` files aside default ones 
 
 We have been through a thorough scrutiny on what's been changed to `1.11`.
 
-This upgrade recipe deals with _theme_ part only since _modules_ and _core_ part of the upgrade should be dealt diffrently. It won't be easy just to copy/paste updated parts and pray for smooth upgrade when it comes to custom _modules_ for it's next to impossible to guess the true intention of _module_ developer and bend it to work compatibly with the updates unless you are the one who created it. _core_ parts, however, should be working fine with copy/paste upgrade because they were supposed to be untouched in the first place. Once the _core_ parts have been upgraded without a hiccup, it's time to upgrade _theme_ part and this recipe is all about how to just do it. 
+This upgrade recipe deals with _theme_ part only since _modules_ and _core_ part of the upgrade should be dealt diffrently. It won't be easy just to copy/paste updated parts and pray for smooth upgrade when it comes to custom _modules_ for it's next to impossible to guess the true intention of _module_ developer and bend it to work compatibly with the updates unless you are the one who created it. _Core_ parts, however, should be working fine with copy/paste upgrade because they were supposed to be untouched in the first place. Once the _core_ parts have been upgraded without a hiccup, it's time to upgrade _theme_ part and this recipe is all about how to just do it. 
 
 In `1.11` upgrade, one notable change is about how it works with data throughout the app. It takes advantage of `vuex` _store_ for data container, and it can be seen in upgrading various blocks as using `mapGetters`. 
 
+_Lazy Hydrate_ has been also applied to product listing and other features and improvement has been placed for better readability and efficiency. 
+
+There are many patches in _theme_ for _core_ and _module_ upgrade to be compatible with new concepts introduced to `1.11`. 
+
+In general, the theme upgrade might be a tedious process for you but it's worth it for your service!
 
 
 ### 4. Chef's secret (protip)
