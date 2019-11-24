@@ -121,7 +121,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
   - [ProductGalleryCarousel](#_45-productgallerycarousel-ready-to-update)
   - [ProductGalleryZoomCarousel](#_46-productgalleryzoomcarousel-ready-to-update)
   - [ProductImage](#_47-productimage-waits-in-line)
-  - [ProductLinks]
+  - [ProductLinks](#_48-productlinks-waits-in-line)
   - [ProductQuantity]
   - [ProductTile]
   - [SizeSelector]
