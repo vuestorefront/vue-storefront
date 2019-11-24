@@ -1690,17 +1690,17 @@ document.getElementById("d-helpers").innerHTML = dHelpers;
 
 #### 61. _index.js_
 
-- Go to `./src/themes/degi/helpers/index.ts` and create it as follows :
+- Go to `./src/themes/degi/index.js` and fix it as follows :
 
-<div id="d-helpers">
+<div id="d-index-js">
 
 </div>
 <script>
-var dHelpers = Diff2Html.getPrettyHtml(
-  "--- /dev/null\n+++ b/src/themes/degi/helpers/index.ts\n@@ -0,0 +1,9 @@\n+import config from \'config\'\n+import { currentStoreView } from \'@vue-storefront/core/lib/multistore\'\n+\n+export function getPathForStaticPage (path: string) {\n+  const { storeCode } = currentStoreView()\n+  const isStoreCodeEquals = storeCode === config.defaultStoreCode\n+\n+  return isStoreCodeEquals ? `/i${path}` : path\n+}\n",
+var dIndexJs = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/index.js\n+++ b/src/themes/degi/index.js\n@@ -4,8 +4,14 @@ import routes from \'./router\'\n import Vue from \'vue\'\n import VueProgressBar from \'vue-progressbar\'\n import \'@vue-storefront/core/lib/passive-listeners\'\n-import { RouterManager } from \'@vue-storefront/core/lib/router-manager\'\n import { once } from \'@vue-storefront/core/helpers\'\n+import { module as cartModule } from \'./store/cart\'\n+\n+import { claimsStore } from \'theme/store/claims\'\n+import { homepageStore } from \'theme/store/homepage\'\n+import { uiStore } from \'theme/store/ui\'\n+import { promotedStore } from \'theme/store/promoted-offers\'\n+import { StorageManager } from \'@vue-storefront/core/lib/storage-manager\'\n \n once(\'__VUE_EXTEND_DROPPOINT_VPB__\', () => {\n   Vue.use(VueProgressBar)\n@@ -13,12 +19,22 @@ once(\'__VUE_EXTEND_DROPPOINT_VPB__\', () => {\n \n const themeEntry = App\n function initTheme (app, router, store, config, ssrContext) {\n-  // if youre\' runing multistore setup this is copying the routed above adding the \'storeCode\' prefix to the urls and the names of the routes\n-  // You can do it on your own and then be able to customize the components used for example for German storeView checkout\n-  // To do so please execlude the desired storeView from the config.storeViews.mapStoreUrlsFor and map the urls by Your own like:\n-  // { name: \'de-checkout\', path: \'/checkout\', component: CheckoutCustomized },\n-  setupMultistoreRoutes(config, router, routes)\n-  RouterManager.addRoutes(routes, router)\n+  store.registerModule(\'themeCart\', cartModule)\n+  // Register theme routes for the current store. In a single store setup this will add routes exactly as they are in the router definition file \'[theme]/router/index.js\'\n+  // In a multistore setup, it depends on the config setting \'appendStoreCode\' for the current store\n+  // - true = the store code will be added to the front of all routes, e.g. name: \'de-checkout\', path: \'/de/checkout\'\n+  // - false = the store code will not be added. In this case you need to define custom routes for each of your stores\n+  // You can also define custom routes to use a different component, for example for German storeView checkout\n+  // To do so, exclude the desired storeView from the config.storeViews.mapStoreUrlsFor, set appendStoreCode = false, and map all the urls by your own like:\n+  // { name: \'de-checkout\', path: \'/checkout\', component: CheckoutCustomized }\n+  // The 4th parameter is the route priority - a higher number will ensure the theme routes override any module routes. The default is 0.\n+  setupMultistoreRoutes(config, router, routes, 10)\n+\n+  StorageManager.init(\'claims\');\n+  store.registerModule(\'claims\', claimsStore);\n+  store.registerModule(\'homepage\', homepageStore);\n+  store.registerModule(\'ui\', uiStore);\n+  store.registerModule(\'promoted\', promotedStore);\n }\n \n export {\n",
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
-document.getElementById("d-helpers").innerHTML = dHelpers;
+document.getElementById("d-index-js").innerHTML = dIndexJs;
 </script>
 
 
