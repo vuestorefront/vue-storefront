@@ -1438,6 +1438,22 @@ document.getElementById("d-prod-gal-zoom").innerHTML = dProdGalZoom;
 </script>
 
 
+#### 47. _ProductImage_ waits in line
+
+- Go to `./src/themes/degi/components/core/ProductImage.vue` and fix it as follows :
+
+<div id="d-prod-img">
+
+</div>
+<script>
+var dProdImg = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/ProductImage.vue\n+++ b/src/themes/degi/components/core/ProductImage.vue\n@@ -1,13 +1,15 @@\n <template>\n-  <div class=\"image\" v-on=\"$listeners\">\n+  <div\n+    class=\"product-image\"\n+    :class=\"{\'product-image--height\': basic, \'product-image--width\': !basic}\"\n+    :style=\"style\"\n+    v-on=\"$listeners\"\n+  >\n     <img\n       v-show=\"showPlaceholder\"\n       src=\"/assets/placeholder.svg\"\n       :alt=\"alt\"\n-      key=\"placeholder\"\n-      ref=\"images\"\n-      itemprop=\"image\"\n-      class=\"image__thumb image__thumb--placeholder\"\n+      class=\"product-image__placeholder\"\n     >\n     <img\n       v-if=\"!lowerQualityImageError || isOnline\"\n@@ -16,10 +18,8 @@\n       :alt=\"alt\"\n       @load=\"imageLoaded(\'lower\', true)\"\n       @error=\"imageLoaded(\'lower\', false)\"\n-      key=\"lowerQualityImage\"\n-      ref=\"images\"\n-      itemprop=\"image\"\n-      class=\"image__thumb\"\n+      ref=\"lQ\"\n+      class=\"product-image__thumb\"\n     >\n     <img\n       v-if=\"!highQualityImageError || isOnline\"\n@@ -28,10 +28,7 @@\n       :alt=\"alt\"\n       @load=\"imageLoaded(\'high\', true)\"\n       @error=\"imageLoaded(\'high\', false)\"\n-      key=\"highQualityImage\"\n-      ref=\"images\"\n-      itemprop=\"image\"\n-      class=\"image__thumb\"\n+      class=\"product-image__thumb\"\n     >\n   </div>\n </template>\n@@ -41,6 +38,10 @@ import { onlineHelper } from \'@vue-storefront/core/helpers\'\n \n export default {\n   props: {\n+    calcRatio: {\n+      type: Boolean,\n+      default: true\n+    },\n     image: {\n       type: Object,\n       default: () => ({\n@@ -58,7 +59,15 @@ export default {\n       lowerQualityImage: false,\n       lowerQualityImageError: false,\n       highQualityImage: false,\n-      highQualityImageError: false\n+      highQualityImageError: false,\n+      basic: true\n+    }\n+  },\n+  watch: {\n+    lowerQualityImage (state) {\n+      if (state) {\n+        this.basic = this.$refs.lQ.naturalWidth < this.$refs.lQ.naturalHeight;\n+      }\n     }\n   },\n   computed: {\n@@ -71,6 +80,13 @@ export default {\n     showHighQuality () {\n       return this.highQualityImage\n     },\n+    imageRatio () {\n+      const {width, height} = this.$store.state.config.products.gallery\n+      return `${height / (width / 100)}%`\n+    },\n+    style () {\n+      return this.calcRatio ? {paddingBottom: this.imageRatio} : {}\n+    },\n     isOnline (value) {\n       return onlineHelper.isOnline\n     }\n@@ -85,25 +101,30 @@ export default {\n <\/script>\n \n <style lang=\"scss\" scoped>\n-  .image{\n+  .product-image{\n     position: relative;\n     width: 100%;\n+    max-width: 100%;\n     height: 0;\n-    padding-bottom: calc(740% / (600 / 100));\n-    overflow: hidden;\n     mix-blend-mode: multiply;\n-    &__thumb{\n-      max-width: 100%;\n-      height: auto;\n+    &__placeholder,\n+    &__thumb {\n       position: absolute;\n       top: 50%;\n       left: 50%;\n-      width: auto;\n-      height: 100%;\n-      transform: translate3d(-50%, -50%, 0);\n-      &--placeholder{\n-        width: auto;\n-        height: auto;\n+      transform: translate(-50%, -50%);\n+    }\n+    &__placeholder {\n+      max-width: 50%;\n+    }\n+    &--height {\n+      .product-image__thumb {\n+        height: 100%;\n+      }\n+    }\n+    &--width {\n+      .product-image__thumb {\n+        width: 100%;\n       }\n     }\n   }\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-prod-img").innerHTML = dProdImg;
+</script>
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
