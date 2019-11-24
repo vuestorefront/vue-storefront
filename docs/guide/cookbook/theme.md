@@ -129,12 +129,12 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
   - [Spinner](#_53-spinner)
   
 - Theme components
-  - [ButtonFull]
-  - [ButtonOutline]
-  - [WebShare]
+  - [ButtonFull](#_54-buttonfull-in-theme)
+  - [ButtonOutline](#_55-buttonoutline-in-theme)
+  - [WebShare](#_56-webshare-in-theme)
   - Blocks
     - AsyncSidebar
-      - [AsyncSidebar]
+      - [AsyncSidebar](#_57-asyncsidebar-in-theme-blocks)
     - Home
       - [Onboard]
     - Inspirations
