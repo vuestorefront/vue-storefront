@@ -1660,7 +1660,7 @@ document.getElementById("d-insp").innerHTML = dInspire;
 </div>
 <script>
 var dReviewsList = Diff2Html.getPrettyHtml(
-  "--- a/src/themes/degi/components/theme/blocks/Inspirations/InspirationTile.vue\n+++ b/src/themes/degi/components/theme/blocks/Inspirations/InspirationTile.vue\n@@ -1,7 +1,7 @@\n <template>\n   <div class=\"inspiration-tile w-100\">\n     <router-link\n-      :to=\"localizedRoute({ name: product.type_id + \'-product\', fullPath: product.url_path, params: { parentSku: product.sku, slug: product.slug }})\"\n+      :to=\"localizedRoute({ name: product.type_id + \'-product\', path: product.url_path, params: { parentSku: product.sku, slug: product.slug }})\"\n     >\n       <div class=\"product-image bg-cl-secondary\">\n         <img :src=\"thumbnail\" class=\"product-thumbnail\">",
+  "--- a/src/themes/degi/components/theme/blocks/Reviews/ReviewsList.vue\n+++ b/src/themes/degi/components/theme/blocks/Reviews/ReviewsList.vue\n@@ -35,7 +35,6 @@\n </template>\n \n <script>\n-import Product from \'@vue-storefront/core/pages/Product\'\n \n export default {\n   props: {\n@@ -46,7 +45,11 @@ export default {\n     },\n     items: {\n       type: Array,\n-      required: true\n+      default: () => []\n+    },\n+    productName: {\n+      type: String,\n+      default: \'\'\n     }\n   },\n   data () {\n@@ -54,7 +57,6 @@ export default {\n       currentPage: 1\n     }\n   },\n-  mixins: [Product],\n   computed: {\n     itemsPerPage () {\n       let start = ((this.currentPage - 1) * this.perPage)\n",
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
 document.getElementById("d-reviews-reviewslist").innerHTML = dReviewsList;
