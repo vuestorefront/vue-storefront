@@ -1454,6 +1454,22 @@ document.getElementById("d-prod-img").innerHTML = dProdImg;
 </script>
 
 
+#### 48. _ProductLinks_ 
+
+- Go to `./src/themes/degi/components/core/ProductLinks.vue` and fix it as follows :
+
+<div id="d-prod-link">
+
+</div>
+<script>
+var dProdLink = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/core/ProductLinks.vue\n+++ b/src/themes/degi/components/core/ProductLinks.vue\n@@ -7,12 +7,12 @@\n             {\{ productLink.product.name | htmlDecode }\}\n           </p>\n           <div class=\"col-xs-4 cl-bg-tertiary\">\n-            <div v-if=\"productLink.product.special_price && productLink.product.priceInclTax && productLink.product.originalPriceInclTax\">\n-              <span class=\"price-special\">{\{ productLink.product.priceInclTax | price }\}</span>&nbsp;\n-              <span class=\"price-original\">{\{ productLink.product.originalPriceInclTax | price }\}</span>\n+            <div v-if=\"productLink.product.special_price && productLink.product.price_incl_tax && productLink.product.original_price_incl_tax\">\n+              <span class=\"price-special\">{\{ productLink.product.price_incl_tax | price }\}</span>&nbsp;\n+              <span class=\"price-original\">{\{ productLink.product.original_price_incl_tax | price }\}</span>\n             </div>\n-            <div v-if=\"!productLink.product.special_price && productLink.product.priceInclTax\">\n-              {\{ productLink.product.priceInclTax | price }\}\n+            <div v-if=\"!productLink.product.special_price && productLink.product.price_incl_tax\">\n+              {\{ productLink.product.price_incl_tax | price }\}\n             </div>\n           </div>\n         </div>\n",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-prod-link").innerHTML = dProdLink;
+</script>
+
+
 
 ### 3. Peep into the kitchen (what happens internally)
 
