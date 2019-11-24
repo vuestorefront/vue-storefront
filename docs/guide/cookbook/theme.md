@@ -1635,6 +1635,38 @@ document.getElementById("d-home-onboard").innerHTML = dHomeOnboard;
 </script>
 
 
+#### 59. _InspirationTile_ in `theme` `blocks`
+
+- Go to `./src/themes/degi/components/theme/blocks/Inspirations/InspirationTile.vue` and create it as follows :
+
+<div id="d-insp">
+
+</div>
+<script>
+var dInspire = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/theme/blocks/Inspirations/InspirationTile.vue\n+++ b/src/themes/degi/components/theme/blocks/Inspirations/InspirationTile.vue\n@@ -1,7 +1,7 @@\n <template>\n   <div class=\"inspiration-tile w-100\">\n     <router-link\n-      :to=\"localizedRoute({ name: product.type_id + \'-product\', fullPath: product.url_path, params: { parentSku: product.sku, slug: product.slug }})\"\n+      :to=\"localizedRoute({ name: product.type_id + \'-product\', path: product.url_path, params: { parentSku: product.sku, slug: product.slug }})\"\n     >\n       <div class=\"product-image bg-cl-secondary\">\n         <img :src=\"thumbnail\" class=\"product-thumbnail\">",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-insp").innerHTML = dInspire;
+</script>
+
+
+#### 60. _ReviewsList_ in `theme` `blocks`
+
+- Go to `./src/themes/degi/components/theme/blocks/Reviews/ReviewsList.vue` and create it as follows :
+
+<div id="d-reviews-reviewslist">
+
+</div>
+<script>
+var dReviewsList = Diff2Html.getPrettyHtml(
+  "--- a/src/themes/degi/components/theme/blocks/Inspirations/InspirationTile.vue\n+++ b/src/themes/degi/components/theme/blocks/Inspirations/InspirationTile.vue\n@@ -1,7 +1,7 @@\n <template>\n   <div class=\"inspiration-tile w-100\">\n     <router-link\n-      :to=\"localizedRoute({ name: product.type_id + \'-product\', fullPath: product.url_path, params: { parentSku: product.sku, slug: product.slug }})\"\n+      :to=\"localizedRoute({ name: product.type_id + \'-product\', path: product.url_path, params: { parentSku: product.sku, slug: product.slug }})\"\n     >\n       <div class=\"product-image bg-cl-secondary\">\n         <img :src=\"thumbnail\" class=\"product-thumbnail\">",
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById("d-reviews-reviewslist").innerHTML = dReviewsList;
+</script>
+
+
 ### 3. Peep into the kitchen (what happens internally)
 
 ### 4. Chef's secret (protip)
