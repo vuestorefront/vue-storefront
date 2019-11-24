@@ -126,7 +126,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
   - [ProductTile](#_50-producttile)
   - [SizeSelector](#_51-sizeselector)
   - [SortBy](#_52-sortby)
-  - [Spinner]
+  - [Spinner](#_53-spinner)
   
 - Theme components
   - [ButtonFull]
