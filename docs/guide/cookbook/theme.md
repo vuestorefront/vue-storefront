@@ -140,7 +140,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
     - Inspirations
       - [InspirationTile](#_59-inspirationtile-in-theme-blocks)
     - Reviews
-      - [ReviewsList]
+      - [ReviewsList](#_60-reviewslist-in-theme-blocks)
 
 - Store
   
