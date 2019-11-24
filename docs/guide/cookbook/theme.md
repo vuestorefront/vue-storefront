@@ -149,7 +149,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
   - [index.js](#_61-index-js)
   - [mixins/filterMixin.ts](#_62-mixins-filtermixin-ts)
   - [package.json]
-  - [router/index.js]
+  - [router/index.js](#_63-router-index-js)
   - Resource
     - i18n
 
