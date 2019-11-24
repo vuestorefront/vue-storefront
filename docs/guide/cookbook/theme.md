@@ -138,7 +138,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
     - Home
       - [Onboard](#_58-onboard-in-theme-blocks)
     - Inspirations
-      - [InspirationTile]
+      - [InspirationTile](#_59-inspirationtile-in-theme-blocks)
     - Reviews
       - [ReviewsList]
 
