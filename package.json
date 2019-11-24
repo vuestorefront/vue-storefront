@@ -66,6 +66,8 @@
     "glob": "^7.1.4",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
+    "intl": "^1.2.5",
+    "intl-locales-supported": "^1.8.2",
     "isomorphic-fetch": "^2.2.1",
     "js-sha3": "^0.8.0",
     "localforage": "^1.7.2",
