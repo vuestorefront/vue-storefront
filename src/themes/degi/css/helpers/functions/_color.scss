@@ -1,0 +1,16 @@
+/// An easy way to get colors from the $colors map
+/// @name color
+/// @param {String} $color - Color name
+/// @param {Map} $map [ map_merge($colors, $colors_theme] - Map of colors
+@function color($color, $map: map_merge($colors, $colors-theme), $variant: default) {
+  @if (type-of(map-get($map, $color)) == map) {
+    @if map_has_key(map-get($map, $color), $variant) {
+      @return map-get(map-get($map, $color), $variant)
+    } @else {
+      @return map-get(map-get($map, $color), default)
+    }
+  } @else {
+    @return map-get($map, $color)
+  }
+
+}
