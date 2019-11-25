@@ -10,6 +10,7 @@
     "now-build": "npm run docs:build && mv .vuepress/dist dist"
   },
   "dependencies": {
+    "diff2html": "^2.12.1",
     "vuepress": "^0.14.11"
   }
 }
