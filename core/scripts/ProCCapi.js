@@ -5,10 +5,7 @@ const Store = require('data-store')
 const _ = require('lodash')
 
 let storefrontConfig
-if(process.env.NODE_ENV === 'development')
-  storefrontConfig = new Store({path: path.resolve('./config/local.json')});
-else
-  storefrontConfig = new Store({path: path.resolve('./config/production.json')});
+if (process.env.NODE_ENV === 'development') { storefrontConfig = new Store({path: path.resolve('./config/local.json')}); } else { storefrontConfig = new Store({path: path.resolve('./config/production.json')}); }
 
 module.exports = (config, app) => {
   app.use(bodyParser.urlencoded({extended: false}));
@@ -34,7 +31,7 @@ module.exports = (config, app) => {
       name: _.startCase(storeData.magento_store_name),
       url: `/${storeData.storefront_url}`,
       elasticsearch: {
-        host: 'https://store.procc.co/api/catalog',
+        host: config.api.url+'/api/catalog',
         index: `vue_storefront_catalog_${_.snakeCase(storeData.storefront_url)}`
       },
       tax: {
@@ -69,9 +66,9 @@ module.exports = (config, app) => {
       'is_cc_store': storeData.brand.is_cc
     };
     // Main Banners and store categories and store policies
-    const mainImage = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/banners/${store_data.storeCode}_main-image.json`)});
-    const StoreCategories = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/banners/${store_data.storeCode}_store_categories.json`)});
-    const storePolicies = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/policies/${store_data.storeCode}_store_policies.json`)});
+    const mainImage = new Store({path: path.resolve(`./src/themes/default/resource/banners/${store_data.storeCode}_main-image.json`)});
+    const StoreCategories = new Store({path: path.resolve(`./src/themes/default/resource/banners/${store_data.storeCode}_store_categories.json`)});
+    const storePolicies = new Store({path: path.resolve(`./src/themes/default/resource/policies/${store_data.storeCode}_store_policies.json`)});
     // If Store has then delete store related all the data
     if ((storefrontConfig.has(`storeViews.${store_data.storeCode}`))) {
       storefrontConfig.del(`storeViews.${store_data.storeCode}`);
@@ -155,13 +152,13 @@ module.exports = (config, app) => {
     }
 
     storePolicies.set('policy', policies);
-    apiStatus(res, 'Vue Storefront: Custom Call found', 200)
+    apiStatus(res, 'Vue Storefront: /create-store Success', 200)
   })
-  app.post('category-link', (req, res) => {
+  app.post('/category-link', (req, res) => {
     // start set to product banners link in vue storefront
     let children_data = req.body.children_data
     let storeCode = req.body.storeCode
-    const StoreCategories = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/banners/${storeCode}_store_categories.json`)});
+    const StoreCategories = new Store({path: path.resolve(`./src/themes/default/resource/banners/${storeCode}_store_categories.json`)});
     let MainBanners = !_.isUndefined(StoreCategories.get('mainBanners')) ? StoreCategories.get('mainBanners') : [];
     let TopAndBottomSideBanners = _.isUndefined(StoreCategories.get('smallBanners')) ? StoreCategories.get('smallBanners') : [];
     if (children_data.length >= 1 && MainBanners.length > 0) {
@@ -176,14 +173,14 @@ module.exports = (config, app) => {
         }
       }
     }
-    apiStatus(res, 'Vue Storefront: Custom Call found', 200)
+    apiStatus(res, 'Vue Storefront: /category-link Success', 200)
     // end set to product banners
   })
-  app.post('product-link', (req, res) => {
+  app.post('/product-link', (req, res) => {
     // start set to product banners link in vue storefront
     let products = req.body.products;
     let storeCode = req.body.storeCode
-    const StoreCategories = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/banners/${storeCode}_store_categories.json`)});
+    const StoreCategories = new Store({path: path.resolve(`./src/themes/default/resource/banners/${storeCode}_store_categories.json`)});
     let productBanners = [];
     let category_ids = [];
     if (StoreCategories.has('mainBanners')) {
@@ -209,10 +206,10 @@ module.exports = (config, app) => {
       }
     });
     StoreCategories.set('productBanners', productBanners);
-    apiStatus(res, 'Vue Storefront: Custom Call found', 200)
+    apiStatus(res, 'Vue Storefront: /product-link Success', 200)
     // end set to product banners
   })
-  app.post('disable-store', (req, res) => {
+  app.post('/disable-store', (req, res) => {
     // TODO: add authentication for these API Calls
     let storeData = req.body.storeData;
     let status = storeData.status;
@@ -221,12 +218,12 @@ module.exports = (config, app) => {
     }
     apiStatus(res, 200);
   })
-  app.post('delete-store', (req, res) => {
+  app.post('/delete-store', (req, res) => {
     // TODO: add authentication for these API Calls
     let storeData = req.body
-    const mainImage = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/banners/${storeData.storeCode}_main-image.json`)});
-    const StoreCategories = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/banners/${storeData.storeCode}_store_categories.json`)});
-    const storePolicies = new Store({path: path.resolve(`../vue-storefront/src/themes/default/resource/policies/${storeData.storeCode}_store_policies.json`)});
+    const mainImage = new Store({path: path.resolve(`./src/themes/default/resource/banners/${storeData.storeCode}_main-image.json`)});
+    const StoreCategories = new Store({path: path.resolve(`./src/themes/default/resource/banners/${storeData.storeCode}_store_categories.json`)});
+    const storePolicies = new Store({path: path.resolve(`./src/themes/default/resource/policies/${storeData.storeCode}_store_policies.json`)});
     if (storefrontConfig.has(`storeViews.${storeData.storeCode}`)) {
       storefrontConfig.del(`storeViews.${storeData.storeCode}`)
       storefrontConfig.set('storeViews.mapStoreUrlsFor', _.pull(storefrontConfig.get('storeViews.mapStoreUrlsFor'), storeData.storeCode))
@@ -253,7 +250,7 @@ module.exports = (config, app) => {
 };
 
 const spawn = require('child_process').spawn;
-function exec(cmd, args, opts, enableLogging = false, limit_output = false) {
+function exec (cmd, args, opts, enableLogging = false, limit_output = false) {
   return new Promise((resolve, reject) => {
     let child = spawn(cmd, args, opts);
     child.on('close', (data) => {
@@ -266,29 +263,29 @@ function exec(cmd, args, opts, enableLogging = false, limit_output = false) {
     });
 
     let log_counter = 0
-    if(enableLogging){
+    if (enableLogging) {
       console.log('child = spawn(cmd, args, opts)', cmd, args, opts)
       child.stdout.on('data', (data) => {
-        if(limit_output){
+        if (limit_output) {
           let data2 = data.toString()
           data2.replace(' ', '')
-          if(Number.isInteger(log_counter/400) && data2.length > 10){
+          if (Number.isInteger(log_counter / 400) && data2.length > 10) {
             console.log('stdout: ', data.toString());
           }
           log_counter++
-        }else{
+        } else {
           console.log('stdout: ', data.toString());
         }
       });
     }
     child.stderr.on('data', (data) => {
-      if(limit_output){
+      if (limit_output) {
         let data_str = data.toString()
-        if((Number.isInteger(log_counter/400) && data_str.length > 10) || data_str.indexOf('Error') !== -1){
+        if ((Number.isInteger(log_counter / 400) && data_str.length > 10) || data_str.indexOf('Error') !== -1) {
           console.log('stderrO: ', data.toString());
         }
         log_counter++
-      }else{
+      } else {
         console.log('stderr ERROR: ', data.toString());
       }
     })
