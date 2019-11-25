@@ -29,6 +29,7 @@ import { IcmaaAdviceModule } from 'icmaa-advice'
 import { IcmaaMetaModule } from 'icmaa-meta'
 import { IcmaaSpotifyModule } from 'icmaa-spotify'
 import { IcmaaProductAlertModule } from 'icmaa-product-alert'
+import { IcmaaTrackingModule } from 'icmaa-tracking'
 import { IcmaaExternalCheckoutModule } from 'icmaa-external-checkout'
 
 import { registerModule } from '@vue-storefront/core/lib/modules'
@@ -65,6 +66,7 @@ export function registerClientModules () {
   registerModule(IcmaaMetaModule)
   registerModule(IcmaaSpotifyModule)
   registerModule(IcmaaProductAlertModule)
+  registerModule(IcmaaTrackingModule)
   registerModule(IcmaaExternalCheckoutModule)
 }
 
