@@ -11,6 +11,6 @@
   },
   "dependencies": {
     "diff2html": "^2.12.1",
-    "vuepress": "^0.14.11"
+    "vuepress": "^1.0.1"
   }
 }
