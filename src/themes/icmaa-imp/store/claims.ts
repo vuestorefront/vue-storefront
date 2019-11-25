@@ -1,12 +1,20 @@
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import UniversalStorage from '@vue-storefront/core/lib/store/storage'
 import { Logger } from '@vue-storefront/core/lib/logger'
+
+const claimCollection = (localized = false): UniversalStorage => {
+  const claimStorageKey = localized ? 'claims' : 'uniClaims'
+  if (!StorageManager.exists(claimStorageKey)) {
+    StorageManager.init(claimStorageKey, localized)
+  }
+  return StorageManager.get(claimStorageKey)
+}
 
 export const claimsStore = {
   namespaced: true,
   actions: {
-    set (context, { claimCode, value, description }) {
-      const claimCollection = StorageManager.get('claims')
-      claimCollection.setItem(claimCode, {
+    set (context, { claimCode, value, description, localized }) {
+      claimCollection(localized).setItem(claimCode, {
         code: claimCode,
         created_at: new Date(),
         value: value,
@@ -15,19 +23,17 @@ export const claimsStore = {
         Logger.error(reason)
       })
     },
-
-    unset (context, { claimCode }) {
-      const claimCollection = StorageManager.get('claims')
-      claimCollection.removeItem(claimCode).catch((reason) => {
-        Logger.error(reason)
-      })
+    unset (context, { claimCode, localized }) {
+      claimCollection(localized).removeItem(claimCode)
+        .catch((reason) => {
+          Logger.error(reason)
+        })
     },
-
-    check (context, { claimCode }) {
-      const claimCollection = StorageManager.get('claims')
-      return claimCollection.getItem(claimCode).catch((reason) => {
-        Logger.error(reason)
-      })
+    check (context, { claimCode, localized }) {
+      return claimCollection(localized).getItem(claimCode)
+        .catch((reason) => {
+          Logger.error(reason)
+        })
     }
   }
 }
