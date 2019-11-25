@@ -31,7 +31,7 @@ module.exports = (config, app) => {
       name: _.startCase(storeData.magento_store_name),
       url: `/${storeData.storefront_url}`,
       elasticsearch: {
-        host: config.api.url+'/api/catalog',
+        host: config.api.url + '/api/catalog',
         index: `vue_storefront_catalog_${_.snakeCase(storeData.storefront_url)}`
       },
       tax: {
