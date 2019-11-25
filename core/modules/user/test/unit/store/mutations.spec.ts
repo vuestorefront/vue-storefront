@@ -15,6 +15,7 @@ describe('User mutations', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
+    jest.spyOn(Date, 'now').mockImplementation(() => 1549427200000)
     dateTest = new Date()
   })
 

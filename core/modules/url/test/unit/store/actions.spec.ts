@@ -34,7 +34,7 @@ jest.mock('@vue-storefront/core/lib/multistore', () => ({
     appendStoreCode: ''
   })),
   localizedDispatcherRouteName: jest.fn(),
-  removeStoreCodeFromRoute: jest.fn()
+  removeStoreCodeFromRoute: jest.fn(() => '/men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html')
 }));
 jest.mock('@vue-storefront/core/lib/logger', () => ({
   Logger: {
@@ -212,6 +212,9 @@ describe('Url actions', () => {
         scope: 'scope',
         options: {}
       };
+
+      contextMock.dispatch.mockImplementationOnce(() => Promise.resolve({ items: { 'qty': 2 }}))
+
       const wrapper = (actions: any) =>
         actions.mappingFallback(contextMock, { url, params });
 
