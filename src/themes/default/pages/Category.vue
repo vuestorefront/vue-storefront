@@ -2,7 +2,7 @@
   <div id="category">
     <header class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="getBreadcrumbs" :active-route="getCurrentCategory.name" />
+        <breadcrumbs />
         <div class="row middle-sm">
           <h1 class="col-sm-8 category-title mb10">
             {{ getCurrentCategory.name }}
@@ -103,7 +103,8 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     const cachedCategory = store.getters['category-next/getCategoryFrom'](route.path)
     const currentCategory = cachedCategory && !forceLoad ? cachedCategory : await store.dispatch('category-next/loadCategory', { filters })
     await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory, pageSize: THEME_PAGE_SIZE})
-    const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
+    const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: currentCategory.name, omitCurrent: true })
+
     if (isServer) await breadCrumbsLoader
     catalogHooksExecutors.categoryPageVisited(currentCategory)
   } catch (e) {
@@ -143,9 +144,6 @@ export default {
     },
     isCategoryEmpty () {
       return this.getCategoryProductsTotal === 0
-    },
-    getBreadcrumbs () {
-      return this.$store.getters['category-next/getBreadcrumbs'].filter(breadcrumb => breadcrumb.name !== this.getCurrentCategory.name)
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
