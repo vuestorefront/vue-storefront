@@ -51,7 +51,7 @@
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "/api/catalog",
+    "host": "https://store.procc.co/api/catalog",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
