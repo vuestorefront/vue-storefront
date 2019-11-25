@@ -1,10 +1,14 @@
 <template>
-  <modal name="modal-switcher" :width="500">
+  <modal name="modal-switcher" :width="500" @close="setLanguageAccepted">
     <div slot="header">
       {{ $t('Switch store') }}
     </div>
     <div class="t-flex t-flex-wrap t--mx-2 t--mb-4">
-      <div class="t-w-1/2 t-px-2 t-pb-4" v-for="(storeView) in storeViews" :key="storeView.storeCode">
+      <div class="t-w-full t-px-2 t-pb-4 t-text-sm" v-if="changeStoreAdvice">
+        <span>{{ $t('We detected a different language.') }}</span><br>
+        <span class="t-font-bold">{{ $t('Are you in the right store?') }}</span>
+      </div>
+      <div class="t-w-1/2 t-px-2 t-pb-4" v-for="(storeView) in storeViews" :key="storeView.storeCode" @click="setLanguageAccepted">
         <language-button :store-view="storeView" :is-current="storeView.storeId === currentStoreView.storeId" />
       </div>
     </div>
@@ -24,6 +28,12 @@ export default {
     Modal,
     LanguageButton
   },
+  props: {
+    changeStoreAdvice: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     ...mapGetters({ storeConfigs: 'icmaaConfig/getMap' }),
     currentStoreView () {
@@ -34,8 +44,10 @@ export default {
     }
   },
   methods: {
-    close () {
-      this.$bus.$emit('modal-hide', 'modal-switcher')
+    setLanguageAccepted () {
+      if (this.changeStoreAdvice) {
+        this.$store.dispatch('claims/set', { claimCode: 'languageAccepted', value: true })
+      }
     }
   },
   mounted () {
