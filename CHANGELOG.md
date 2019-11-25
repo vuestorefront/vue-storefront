@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add constant which conditions the number of products loading per page - @AdKamil (#3630)
 
 ### Fixed
+- Always close zoom overlay after changing product - @psmyrek (#3818)
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
 - Fixed null value of search input - @AdKamil (#3778)
 - Fixed product sorting - @AdKamil (#3785)
