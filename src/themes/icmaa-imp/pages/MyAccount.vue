@@ -26,6 +26,7 @@ import MyAddresses from '../components/core/blocks/MyAccount/MyAddresses'
 import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
+import MyProductAlerts from '../components/core/blocks/MyAccount/MyProductAlerts'
 import NoSSR from 'vue-no-ssr'
 
 export default {
@@ -49,6 +50,7 @@ export default {
     MyNewsletter,
     MyOrders,
     MyOrder,
+    MyProductAlerts,
     'no-ssr': NoSSR
   },
   beforeMount () {

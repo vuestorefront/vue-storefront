@@ -48,6 +48,7 @@ export default {
         { title: this.$t('My orders'), icon: 'local_mall', link: '/my-account/orders' },
         { title: this.$t('My addresses'), icon: 'home', link: '/my-account/addresses' },
         { title: this.$t('My newsletter'), icon: 'mail', link: '/my-account/newsletter' },
+        { title: this.$t('My product-alerts'), icon: 'alarm_on', link: '/my-account/product-alerts' },
         { title: this.$t('My coupons'), icon: 'receipt', link: '/my-account/coupons' }
       ]
     }
