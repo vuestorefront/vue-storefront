@@ -168,6 +168,13 @@ module.exports = {
             'integrations/multistore',
           ],
         },
+        {
+          title: 'Archives',
+          collapsable: true,
+          children: [
+            'archives/modules'
+          ],
+        },
       ],
     },
   },

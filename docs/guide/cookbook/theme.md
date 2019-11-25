@@ -2144,7 +2144,7 @@ In general, the theme upgrade might be a tedious process for you but it's worth 
 ### 4. Chef's secret (protip)
 1. Debunk _github_ features to uncover the code changes
 
-2. 
+
 <br />
 <br />
 <br />
