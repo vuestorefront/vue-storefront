@@ -892,10 +892,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle"> 
-<a href="">
+<a href="https://www.sitewards.com/">
           <img
-            src=""
-            alt=""
+            src="https://divante.com/partners/Vue-Storefront/Sitewards%20Logo.png"
+            alt="Sitewards"
             height="40"
           >
         </a>
