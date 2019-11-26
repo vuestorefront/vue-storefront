@@ -1,7 +1,7 @@
 import * as types from '@vue-storefront/core/modules/url/store/mutation-types';
 import { cacheStorage } from '@vue-storefront/core/modules/recently-viewed/index';
 import { actions as urlActions } from '../../../store/actions';
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore';
 import { normalizeUrlPath, parametrizeRouteData } from '../../../helpers';
 
 const SearchQuery = {
@@ -182,7 +182,6 @@ describe('Url actions', () => {
     });
   });
 
-  /*
   describe('mappingFallBack action', () => {
     beforeEach(() => {
       (currentStoreView as jest.Mock).mockImplementation(() => ({
@@ -191,41 +190,54 @@ describe('Url actions', () => {
       }));
     });
 
-    it('should return the proper URL from API', async () => {
+    it('should return the proper URL from API for products', async () => {
       url = '/men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html';
+      (localizedDispatcherRouteName as jest.Mock).mockImplementation(() => url);
 
       const contextMock = {
         dispatch: jest.fn()
       };
       const params = {
         slug: 'slug',
-        parentSku: 'sku',
+        sku: 'parentsku2',
         childSku: 'childSku'
       };
-      const expectedResult = {
-        name: 'product',
-        params: params
-      };
-      const filter = {
-        attribute: 'key',
-        value: 'value',
-        scope: 'scope',
-        options: {}
-      };
 
-      contextMock.dispatch.mockImplementationOnce(() => Promise.resolve({ items: { 'qty': 2 }}))
+      contextMock.dispatch.mockImplementation(() => Promise.resolve({ items: [ { name: 'name1', qty: 2, slug: 'slug1', sku: 'parentsku2' } ] }))
 
-      const wrapper = (actions: any) =>
-        actions.mappingFallback(contextMock, { url, params });
+      const result = await (urlActions as any).mappingFallback(contextMock, { url, params });
 
-      await wrapper(urlActions);
-
-      expect(contextMock.dispatch).toBeCalledWith(
-        'product/list',
-        { query: filter },
-        { root: true }
-      );
+      expect(result).toEqual({
+        name: '/men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html',
+        params: {
+          slug: 'slug1',
+          parentSku: 'parentsku2',
+          childSku: 'childSku'
+        }
+      });
     });
+
+    it('should return return the proper URL from API for category', async () => {
+      url = '/men/bottoms-men/shorts-men/shorts-19';
+      (localizedDispatcherRouteName as jest.Mock).mockImplementation(() => url);
+
+      const contextMock = {
+        dispatch: jest.fn()
+      };
+      const params = {
+        slug: 'shorts-19'
+      };
+
+      contextMock.dispatch.mockImplementation(() => Promise.resolve({slug: 'shorts-19'}))
+
+      const result = await (urlActions as any).mappingFallback(contextMock, { url, params });
+
+      expect(result).toEqual({
+        name: '/men/bottoms-men/shorts-men/shorts-19',
+        params: {
+          slug: 'shorts-19'
+        }
+      });
+    })
   });
-  */
 });
