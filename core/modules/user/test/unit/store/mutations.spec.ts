@@ -9,14 +9,9 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
   }
 }));
 
-let dateTest;
-
 describe('User mutations', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-
-    jest.spyOn(Date, 'now').mockImplementation(() => 1549427200000)
-    dateTest = new Date()
   })
 
   describe('USER_TOKEN_CHANGED', () => {
@@ -54,18 +49,28 @@ describe('User mutations', () => {
   })
 
   describe('USER_START_SESSION', () => {
+
     it('should assign session_started', () => {
-      const stateMock = {
-        session_started: dateTest
-      }
-      const expectedState = {
-        session_started: dateTest
-      }
-      const wrapper = (mutations: any) => mutations[types.USER_START_SESSION](stateMock)
 
-      wrapper(userMutations)
+      jest.isolateModules(() => {
 
-      expect(stateMock).toEqual(expectedState)
+        let dateTest = new Date(Date.now());
+        jest
+          .spyOn(global, 'Date')
+          .mockImplementationOnce(() => dateTest.toDateString());
+
+        const stateMock = {
+          session_started: new Date
+        }
+        const expectedState = {
+          session_started: new Date
+        }
+        const wrapper = (mutations: any) => mutations[types.USER_START_SESSION](stateMock)
+
+        wrapper(userMutations)
+
+        expect(stateMock).toEqual(expectedState)
+      })
     })
   })
 
