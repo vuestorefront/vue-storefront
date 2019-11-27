@@ -28,7 +28,7 @@ jest.mock('@vue-storefront/core/lib/multistore', () => ({
   }))
 }));
 jest.mock('@vue-storefront/core/helpers', () => ({
-  get isServer () {
+  get isServer() {
     return false
   }
 }));
@@ -529,4 +529,5 @@ describe('User actions', () => {
       expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'getOrdersHistory', {refresh, useCache})
     })
   })
+
 })
