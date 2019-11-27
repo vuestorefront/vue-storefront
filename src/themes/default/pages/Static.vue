@@ -2,7 +2,7 @@
   <div>
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :with-homepage="true" :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
+        <breadcrumbs :with-homepage="true" :active-route="$props.title" />
         <h2 class="fs-big">
           {{ $props.title }}
         </h2>
