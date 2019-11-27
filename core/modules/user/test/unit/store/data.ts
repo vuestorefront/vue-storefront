@@ -54,15 +54,15 @@ let user = {
   ],
   'disable_auto_group_change': 0
 };
-let lastUserToken = 'current-refresh-token';
+let lastUserToken: string = 'current-refresh-token';
 let responseOb = {
   code: 200,
   result: lastUserToken,
   meta: 'meta'
 };
-let email = 'examplename@example.com';
-let username = 'username';
-let password = 'Password456';
+let email: string = 'examplename@example.com';
+let username: string = 'username';
+let password: string = 'Password456';
 let customer = {
   email: 'examplename@example.com',
   firstname: 'ExampleFirstName',
@@ -70,11 +70,11 @@ let customer = {
   addresses: 'addr'
 };
 let ordersHistory = 'orders-history';
-let refresh = true;
-let useCache = true;
-let resolvedFromCache = true;
-let pageSize = 20;
-let currentPage = 1;
+let refresh: boolean = true;
+let useCache: boolean = true;
+let resolvedFromCache: boolean = true;
+let pageSize: number = 20;
+let currentPage: number = 1;
 
 export {
   user, lastUserToken, responseOb, email, username, password, customer,
