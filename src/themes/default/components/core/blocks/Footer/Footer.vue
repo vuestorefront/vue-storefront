@@ -173,9 +173,8 @@ export default {
   name: 'MainFooter',
   methods: {
     goToAccount () {
-      console.log('TEST')
       this.$bus.$emit('modal-toggle', 'modal-signup')
-    },
+    }
   },
   computed: {
     ...mapGetters({
