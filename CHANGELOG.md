@@ -10,20 +10,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add unit tests for `core/modules/url` - @dz3n (#3469)
 - Add unit test for `core/modules/checkout` - @psmyrek (#3460)
+- Add defense against incomplete config in ssr renderer - @oskar1233 (#3774)
 - Add unit tests for `core/modules/order` - @dz3n (#3466)
 - Add unit tests for `core/modules/user` - @dz3n (#3470)
+- Add to cart from Wishlist and Product listing for simple products - @Dnd-Dboy, @dz3n (#2637)
+- Add global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
+- Add constant which conditions the number of products loading per page - @AdKamil (#3630)
 
 ### Fixed
+- Always close zoom overlay after changing product - @psmyrek (#3818)
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
 - Fixed null value of search input - @AdKamil (#3778)
 - Fixed product sorting - @AdKamil (#3785)
+- Fixed displaying `sale` and `new` mark - @andrzejewsky (#3800)
+- Fixed sorting on category page and product tile sizing - @andrzejewsky (#3817)
 - Redirect from simple product using url_path - @benjick (#3804)
+- Mount app in 'beforeResolve' if it's not dispatched in 'onReady' - @gibkigonzo (#3669)
+- Fixed AMP pages - @andrzejewsky (#3799)
+- Fixed Product page breadcrumbs problem when products are in multiple categories in different branches of the category tree - @grimasod (#3691)
+- Change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
 
+### Changed / Improved
+- Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
+- Improve the readability of 'getShippingDetails()' and 'updateDetails()' method of UserShippingDetails component - @adityasharma7 (#3770)
+- Keep git after yarn install in dockerfile - @ddanier (#3826)
 
 ## [1.11.0-rc.2] - 2019.10.31
 
 ### Added
 - Add defense for incomplete config in preferchCachedAttributes helper
+
 
 ### Fixed
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
@@ -67,6 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add unit testing to Husky on pre-push hook - @mattheo-geoffray (#3475)
 - Add unit testing on breadcrumbs feature - @mattheo-geoffray (#3457)
 - HTML Minifier has been added, to enable it please switch the `config.server.useHtmlMinifier` - @pkarw (#2182)
 - Output compression module has been added; it's enabled by default on production builds; to disable it please switch the `src/modules/serrver.ts` configuration - @pkarw (#2182)
