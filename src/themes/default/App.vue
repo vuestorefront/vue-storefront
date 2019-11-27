@@ -30,6 +30,9 @@ export default {
     DefaultLayout,
     EmptyLayout,
     MinimalLayout
+  },
+  mounted () {
+    window.addEventListener('focus', this.$store.dispatch('cart/load'))
   }
 }
 </script>
