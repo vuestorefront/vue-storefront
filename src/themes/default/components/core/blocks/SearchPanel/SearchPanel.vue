@@ -112,13 +112,17 @@ export default {
       return productList
     },
     categories () {
-      const categoriesMap = {}
-      this.products.forEach(product => {
-        [...product.category].forEach(category => {
-          categoriesMap[category.category_id] = category
-        })
-      })
-      return Object.keys(categoriesMap).map(categoryId => categoriesMap[categoryId])
+      const categories = this.products
+        .filter(p => p.category)
+        .map(p => p.category)
+        .flat()
+        .filter(c => c.name)
+
+      const discinctCategories = Array.from(
+        new Set(categories.map(c => c.category_id))
+      ).map(catId => categories.find(c => c.category_id === catId))
+
+      return discinctCategories
     },
     getNoResultsMessage () {
       let msg = ''
