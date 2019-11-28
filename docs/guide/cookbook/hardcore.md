@@ -21,8 +21,8 @@ Some of the topics here were found as a [frequently asked questions from our For
 9. <a href="#tip9">Tip 9: HTML minimization, compression, headers</a>
 10. <a href="tip10">Tip 10: Production catalog indexing + cache invalidation</a>
 11. <a href="tip11">Tip 11: Using Magento Checkout</a>
-12. Tip 12: ElasticSearch production setup
-13. Tip 13: .htaccess, server side redirects, HTTP codes and headers, middlewares
+12. <a href="tip12">Tip 12: ElasticSearch production setup</a>
+13. <a href="tip13">Tip 13: .htaccess, server side redirects, HTTP codes and headers, middlewares</a>
 14. Tip 14: Which fields of product, category and attribute are really being used by VSF
 15. Tip 15: Tracing, monitoring, logging the application and Troubleshooting
  - Cloud trace
@@ -582,4 +582,91 @@ export function beforeEach(to: Route, from: Route, next) {
   }
 }
 
+```
+
+## <a id="tip12">Tip 12: ElasticSearch production setup</a>
+
+ElasticSearch is a viable part of the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) middleware data source. The included Docker files are supposed just for being used in the development mode and they're not ready for production.
+
+ElasticSearch should be run on cluster mode with minimum 3 nodes and having sufficient memory limits (usually it's around 8GB per node minimum). Otherwise ElasticSearch service is not providing the required High Availability level.
+
+Becasue ElasticSearch is a Java service the critical settings are Java Heap size limits - that needs to be set to the limit as high as required to provide Elastic with sufficient memory for the search operations and as low as required for the other parts of OS/services to keep running. To not overrun the container memory limits.
+
+By default, Elasticsearch tells the JVM to use a heap with a minimum and maximum size of 1 GB. When moving to production, it is important to configure heap size to ensure that Elasticsearch has enough heap available.
+
+Quote from the [ElasticSearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/heap-size.html)
+
+The value for these settings depends on the amount of RAM available on your server:
+
+- Set Xmx and Xms to no more than 50% of your physical RAM. Elasticsearch requires memory for purposes other than the JVM heap and it is important to leave space for this. For instance, Elasticsearch uses off-heap buffers for efficient network communication, relies on the operating system’s filesystem cache for efficient access to files, and the JVM itself requires some memory too. It is normal to observe the Elasticsearch process using more memory than the limit configured with the Xmx setting.
+Set Xmx and Xms to no more than the threshold that the JVM uses for compressed object pointers (compressed oops); the exact threshold varies but is near 32 GB. You can verify that you are under the threshold by looking for a line in the logs like the following:
+
+- heap size `1.9gb`, compressed ordinary object pointers `true`
+Ideally set Xmx and Xms to no more than the threshold for zero-based compressed oops; the exact threshold varies but 26 GB is safe on most systems, but can be as large as 30 GB on some systems. You can verify that you are under this threshold by starting Elasticsearch with the JVM options `-XX:+UnlockDiagnosticVMOptions -XX:`+PrintCompressedOopsMode and looking for a line like the following:
+
+```log
+heap address: 0x000000011be00000, size: 27648 MB, zero based Compressed Oops
+showing that zero-based compressed oops are enabled. If zero-based compressed oops are not enabled then you will see a line like the following instead:
+
+heap address: 0x0000000118400000, size: 28672 MB, Compressed Oops with base: 0x00000001183ff000
+```
+
+Read more on [ElasticSearch deployment best practices](https://medium.com/@abhidrona/elasticsearch-deployment-best-practices-d6c1323b25d7)
+
+
+## <a id="tip13">Tip 13: .htaccess, server side redirects, HTTP codes and headers, middlewares</a>
+
+We strongly recommend using kind of HTTP server as a proxy in front of Vue Storefront. Let it be `nginx` (suggested in our [production setup docs](https://docs.vuestorefront.io/guide/installation/production-setup.html)) or `Varnish` or even `Apache`. Any of those HTTP servers allows you to add some authorization or redirects layer before Vue Storefront.
+
+This is a recommended way.
+
+However, by using [advanced output processing](https://docs.vuestorefront.io/guide/core-themes/layouts.html#how-it-works) you can easily generate any text data output from your Vue Storefront site you want. Including JSON, XML and others. It's a way to generate sitemaps and other data based documents.
+
+The other option is to create a `Express.js` middleware. Our `core/scripts/server.ts` is a classical Node.js application so it should be easy. To do so you might want to create a [server module](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/compress/server.ts).
+
+Server modules are located in `src/modules` and always have the `server.ts` entry point which is responding to one of few server entry points:
+
+- `afterProcessStarted` - executed just [after the server started](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L13)
+- `afterApplicationInitialized` - executed just [after Express app got initialized](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L34). It's a good entry point to bind new request handlers (`app.get(...`, `app.use(...`). Read more on [Express.js request handlers and routing](https://expressjs.com/en/guide/routing.html),
+- `beforeOutputRenderedResponse` - executed [after the SSR rendering has been done](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L189) but before sending it out to the browser; it let you to override the rendered SSR content with your own,
+- `afterOutputRenderedResponse` - executed [after advanced output processing pipeline](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L212) executed,
+- `beforeCacheInvalidated`, `afterCacheInvalidated` - executed [before and after cache has been invalidated](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L76)
+
+Here is an [example how to bind](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/google-cloud-trace/server.ts) tracing module just after server process started:
+
+```js
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+serverHooks.afterProcessStarted((config) => {
+  let trace = require('@google-cloud/trace-agent')
+  if (config.has('trace') && config.get('trace.enabled')) {
+    trace.start(config.get('trace.config'))
+  }
+})
+```
+
+[Another example](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/compress/server.ts) - pretty common case - binding new Express middleware to process all user requests BEFORE they're processed by SSR rendering pipeline (including custom URL addresses):
+
+```js
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+const compression = require('compression')
+serverHooks.afterApplicationInitialized(({ app, isProd }) => {
+  if (isProd) {
+    console.log('Output Compression is enabled')
+    app.use(compression({ enabled: isProd }))
+  }
+})
+```
+
+If you'd like to bind custom URL address this example can be modified like this:
+
+```js
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+serverHooks.afterApplicationInitialized(({ app, isProd }) => {
+  app.get('/custom-url-address', (req, res) => {
+    res.end('Custom response')
+  })
+})
 ```
