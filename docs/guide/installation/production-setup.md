@@ -389,7 +389,7 @@ cd vue-storefront
 yarn start
 ```
 
-Both applications use [`PM2` process manager](https://pm2.io/runtime) in production mode (`start` commands) to manage and respawn the node.js processes when needed.
+Both applications use [`PM2` process manager](https://pm2.keymetrics.io/docs/usage/process-management/) in production mode (`start` commands) to manage and respawn the node.js processes when needed.
 
 ## Production setup - using Docker / Kubernetes
 

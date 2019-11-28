@@ -872,6 +872,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
    <td align="center" valign="middle"> 
+<a href="https://www.rvsmedia.co.uk/">
+          <img
+            src="https://divante.com/partners/Vue-Storefront/rvsmedia_logo.png"
+            alt="RVS Media"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+        <tr>
+      <td align="center" valign="middle"> 
+<a href="https://www.hotwax.co/">
+          <img
+            src="https://divante.com/partners/Vue-Storefront/HotWax.png"
+            alt="HotWax"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
 <a href="">
           <img
             src=""
