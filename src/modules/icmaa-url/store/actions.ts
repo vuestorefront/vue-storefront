@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 import { UrlState } from '@vue-storefront/core/modules/url/types/UrlState'
 import { PageStateItem } from 'icmaa-cms/types/PageState'
+import { Competition as CompetitionStateItem } from 'icmaa-competitions/types/CompetitionsState'
 import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import { removeHashFromRoute } from '../helpers'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
@@ -99,6 +100,26 @@ const forCmsPageUrls = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
     .catch(() => undefined)
 }
 
+/**
+ * This is our competitions url fallback mapper
+ */
+const forCmsCompetitionsUrls = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
+  return dispatch('icmaaCompetitions/single', { value: urlPath }, { root: true })
+    .then((competition: CompetitionStateItem) => {
+      if (competition !== null && competition.enabled === true) {
+        return {
+          name: 'icmaa-competition',
+          params: {
+            identifier: competition.identifier
+          }
+        }
+      }
+
+      return undefined
+    })
+    .catch(() => undefined)
+}
+
 export const actions: ActionTree<UrlState, any> = {
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
     const urlPath = getUrlPathFromUrl(url)
@@ -122,6 +143,11 @@ export const actions: ActionTree<UrlState, any> = {
     const cmsPageUrl = await forCmsPageUrls({ dispatch }, paramsObj)
     if (cmsPageUrl) {
       return cmsPageUrl
+    }
+
+    const cmsCompetitionsUrl = await forCmsCompetitionsUrls({ dispatch }, paramsObj)
+    if (cmsCompetitionsUrl) {
+      return cmsCompetitionsUrl
     }
 
     throw new Error('No route found for:' + url)

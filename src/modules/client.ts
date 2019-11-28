@@ -27,6 +27,7 @@ import { IcmaaCmsModule } from 'icmaa-cms'
 import { IcmaaTeaserModule } from 'icmaa-teaser'
 import { IcmaaAdviceModule } from 'icmaa-advice'
 import { IcmaaMetaModule } from 'icmaa-meta'
+import { IcmaaCompetitionsModule } from 'icmaa-competitions'
 import { IcmaaSpotifyModule } from 'icmaa-spotify'
 import { IcmaaProductAlertModule } from 'icmaa-product-alert'
 import { IcmaaTrackingModule } from 'icmaa-tracking'
@@ -59,11 +60,12 @@ export function registerClientModules () {
   registerModule(IcmaaExtendedCatalogModule)
   registerModule(IcmaaExtendedUserModule)
   registerModule(IcmaaExtendedNewsletterModule)
+  registerModule(IcmaaCategoryModule)
+  registerModule(IcmaaCategoryExtrasModule)
   registerModule(IcmaaCmsModule)
   registerModule(IcmaaTeaserModule)
   registerModule(IcmaaAdviceModule)
-  registerModule(IcmaaCategoryModule)
-  registerModule(IcmaaCategoryExtrasModule)
+  registerModule(IcmaaCompetitionsModule)
   registerModule(IcmaaMetaModule)
   registerModule(IcmaaSpotifyModule)
   registerModule(IcmaaProductAlertModule)

@@ -15,4 +15,4 @@ export const getTranslatedCountries = (languageCode?: string) => VsfCountries.ma
   }
 
   return c
-})
+}).sort((a, b) => a.name.localeCompare(b.name))

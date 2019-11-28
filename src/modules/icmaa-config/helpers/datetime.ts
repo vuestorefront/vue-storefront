@@ -26,7 +26,7 @@ export const isValid = (date: string, format?: string): boolean => {
   return jsDate.isValid() && jsDate.format(format) === date
 }
 
-export const toDate = (date: string, format?: string, inputFormat?: string): string => {
+export const toDate = (date: string, format?: string, inputFormat: string = 'YYYY-MM-DD H:i'): string => {
   format = format || storeDateFormat()
   return dayjs(date, inputFormat || format).format(format)
 }

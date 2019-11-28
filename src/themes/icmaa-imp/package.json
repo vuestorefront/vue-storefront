@@ -23,7 +23,7 @@
     "vue-scrollto": "^2.15.0",
     "vue-slider-component": "^3.0.41",
     "vue-the-mask": "^0.11.1",
-    "vuelidate": "^0.6.2",
+    "vuelidate": "^0.7.4",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

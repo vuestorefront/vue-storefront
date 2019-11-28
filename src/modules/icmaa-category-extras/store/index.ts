@@ -6,7 +6,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import CategoryExtrasState from '../types/CategoryExtrasState'
 
 export const categoryExtrasStateKey = 'icmaaCategoryExtras'
-export const categoryExtrasStorageKey = 'category-extras'
+export const categoryExtrasStorageKey = 'icmaa-category-extras'
 
 export const CategoryExtrasStore: Module<CategoryExtrasState, RootState> = {
   namespaced: true,

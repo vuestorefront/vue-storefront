@@ -13,13 +13,19 @@ module.exports = function (config, { isClient, isDev }) {
    * @see https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only
    */
   if (isClient) {
-    config = merge(config, {
+    const addCompiler = {
       resolve: {
         alias: {
           'vue$': 'vue/dist/vue.esm.js'
         }
       }
-    })
+    }
+
+    if (isDev) {
+      config.default = merge(config.default, addCompiler)
+    } else {
+      config = merge(config, addCompiler)
+    }
   }
 
   /**

@@ -6,8 +6,12 @@ export const getCurrentStoreCode = (): string => {
 }
 
 export const localizeRouterLink = (text: string): string => {
-  const regex = /(<router-link\sto=")(.*)(">.*<\/router-link>)/gm;
-  return text.replace(regex, (match, g1, g2, g3) =>
+  const regexLink = /(<a\shref=")(?!http)(.*?)(">)(.*?)(<\/a>)/gm
+  text = text.replace(regexLink, (match, g1, g2, g3, g4) =>
+    ['<router-link to="', g2, g3, g4, '</router-link>'].join(''))
+
+  const regexRouterLink = /(<router-link\sto=")(.*)(">.*<\/router-link>)/gm
+  return text.replace(regexRouterLink, (match, g1, g2, g3) =>
     [g1, localizedRoute(g2, currentStoreView().storeCode), g3].join(''))
 }
 

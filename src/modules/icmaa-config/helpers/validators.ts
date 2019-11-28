@@ -3,7 +3,7 @@ import { isValid } from './datetime'
 
 import { unicodeAlpha as orgUnicodeAlpha, unicodeAlphaNum as orgUnicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
 
-export const date = (v) => isValid(v)
+export const date = (v) => !helpers.req(v) || isValid(v)
 
 export const unicodeAlpha = (v) => !helpers.req(v) || orgUnicodeAlpha(v)
 export const unicodeAlphaNum = (v) => !helpers.req(v) || orgUnicodeAlphaNum(v)
@@ -96,3 +96,7 @@ export const getPostcodeRegex = (code: string = 'XX') => {
 export const postcode = (code: string = 'XX') => (v) => {
   return !helpers.req(v) || getPostcodeRegex(code)[0].test(v)
 }
+
+export const isTrue = (v) => v === true
+
+export const regex = (regex: string) => helpers.regex('regex', new RegExp(regex))

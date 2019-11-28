@@ -152,13 +152,11 @@
           ]"
           class="t-w-1/2 lg:t-w-1/4 t-px-2 t-mb-4"
         />
-        <base-select
+        <country-select
           name="country_id"
           id="country_id"
           v-model="address.country_id"
-          :options="countryOptions"
           :label="$t('Country') + ' *'"
-          :initial-option-text="$t('Country')"
           :validations="[{
             condition: !validation.country_id.required && validation.country_id.$error,
             text: $t('Field is required.')
@@ -249,9 +247,9 @@ import { toDate } from 'icmaa-config/helpers/datetime'
 
 import Headline from 'theme/components/core/blocks/MyAccount/Headline'
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
-import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonComponent from 'theme/components/core/blocks/Button'
+import CountrySelect from 'theme/components/core/blocks/Form/CountrySelect'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 
 import { getTranslatedCountries } from 'icmaa-config/helpers/countries'
@@ -270,9 +268,9 @@ export default {
   components: {
     Headline,
     BaseCheckbox,
-    BaseSelect,
     BaseInput,
     ButtonComponent,
+    CountrySelect,
     MaterialIcon
   },
   computed: {
@@ -291,14 +289,6 @@ export default {
     },
     validation () {
       return this.$v.address
-    },
-    countryOptions () {
-      return this.countries.map((item) => {
-        return {
-          value: item.code,
-          label: item.name
-        }
-      })
     },
     countryId () {
       return this.address.country_id.length > 0 ? this.address.country_id : undefined
