@@ -15,10 +15,10 @@
                 {{ $t('Orders') }}
               </h3>
               <div class="mt15">
-                <router-link v-if="isLogged" class="cl-secondary" :to="localizedRoute('/my-account')" exact>
+                <router-link v-show="isLogged" class="cl-secondary" :to="localizedRoute('/my-account')" exact>
                   {{ $t('My account') }}
                 </router-link>
-                <a v-else class="cl-secondary" href="#" @click.prevent="goToAccount">
+                <a v-show="!isLogged" class="cl-secondary" href="#" @click.prevent="goToAccount">
                   {{ $t('My account') }}
                 </a>
               </div>
