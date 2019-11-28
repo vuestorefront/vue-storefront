@@ -1,7 +1,7 @@
 <template>
   <div class="competition t-container" v-if="competition">
     <div class="t-px-4 t-pt-4 lg:t-pt-8 t-mb-8">
-      <div class="t-flex t-flex-wrap t-mb-8">
+      <div class="t-flex t-flex-wrap t-items-start lg:t-items-stretch t-mb-8">
         <retina-image :image="image" :alt="competition.headline | stripHTML" class="t-w-full lg:t-w-1/2" />
         <div class="t-w-full lg:t-w-1/2 t-bg-white t-p-8 t-flex t-flex-col t-justify-center">
           <h1 class="t-font-light t-leading-tight t-mb-1 t-mb-8 t-text-3xl t-text-primary lg:t-whitespace-pre-line" v-html="competition.headline" />
@@ -18,9 +18,9 @@
           </div>
         </div>
         <div class="t-w-full lg:t-w-1/2 t-pt-px lg:t-pl-px lg:t-pt-0 t-flex">
-          <div class="t-relative t-flex-1">
+          <div class="t-relative t-flex-1 t-bg-white">
             <router-link :to="competition.bannerLink" class="t-flex">
-              <retina-image :image="bannerImage" :alt="competition.bannerLinkText | stripHTML" class="t-flex-1" />
+              <retina-image :image="bannerImage" :alt="competition.bannerLinkText | stripHTML" class="t-flex-1 t-self-start" />
             </router-link>
             <router-link :to="competition.bannerLink" class="t-flex t-items-center t-w-full lg:t-absolute lg:t-bottom-0 t-bg-white t-p-4 lg:t-px-6 lg:t-py-8 t-text-primary t-text-xl">
               <span v-text="competition.bannerLinkText" class="t-flex-1" />
