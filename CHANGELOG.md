@@ -28,7 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed AMP pages - @andrzejewsky (#3799)
 - Fixed Product page breadcrumbs problem when products are in multiple categories in different branches of the category tree - @grimasod (#3691)
 - Change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
-- Fix ecosystem config for pm2 - @andrzejewsky (#3842)
+- Fixed ecosystem config for pm2 - @andrzejewsky (#3842)
+- Fixed `mappingFallback` for extending modules -  @andrzejewsky (#3822)
 
 ### Changed / Improved
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
