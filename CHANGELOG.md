@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed Product page breadcrumbs problem when products are in multiple categories in different branches of the category tree - @grimasod (#3691)
 - Change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
 - Fix ecosystem config for pm2 - @andrzejewsky (#3842)
+- User accounts now get created to the correct website if Magento has more than one - @juho-jaakkola (#3848)
 
 ### Changed / Improved
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)

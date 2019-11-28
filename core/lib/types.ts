@@ -12,6 +12,7 @@ export interface StoreView {
   extend?: string,
   disabled?: boolean,
   storeId: any,
+  websiteId: any,
   name?: string,
   url?: string,
   appendStoreCode?: boolean,

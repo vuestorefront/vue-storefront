@@ -11,6 +11,7 @@ import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { userHooksExecutors, userHooks } from '../hooks'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
@@ -67,9 +68,13 @@ const actions: ActionTree<UserState, RootState> = {
     return resp
   },
   /**
-   * Login user and return user profile and current token
+   * Create a new user and return user profile and current token
    */
   async register (context, { password, ...customer }) {
+    // This is required in multistore setup to create the user
+    // account into the correct store.
+    customer.website_id = currentStoreView().websiteId;
+
     return UserService.register(customer, password)
   },
 

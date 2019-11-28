@@ -82,6 +82,7 @@ If by some reasons you wan't to have the `localStorage` back on for `Products by
 - The getters `cmsBlocks`, `cmsBlockIdentifier`, `cmsBlockId` are deprecated. Please use `getCmsBlocks`, `getCmsBlockIdentifier`, `getCmsBlockId` instead.
 - Translations for "Order #", "Price ", "Select size ", "You are logged in as" and "items" changed, they now include a placeholder for the value. Please refer to [this commit](https://github.com/DivanteLtd/vue-storefront/pull/3550/commits/366d31bf28a1e27a7f14b222369cba8fe0a6d3e0) in order to adjust them, otherwise they might get lost.
 - `i18n.currencySignPlacement` config value is replaced by `i18n.priceFormat` so price format becomes more flexible
+- `storeViews.<storeCode>.websiteId` was added so that VSF will work correctly with Magento setups that have more than one website
 - Theme initialization needs to be modified in customized themes
   - Delete the line `RouterManager.addRoutes(routes, router, true)`. This is now handled in `setupMultistoreRoutes`, including the default store.
   - Optionally give theme routes priority, to ensure they override module routes if there are any conflicts. For example `setupMultistoreRoutes(config, router, routes, 10)`.

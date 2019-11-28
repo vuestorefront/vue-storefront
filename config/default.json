@@ -116,6 +116,7 @@
     "de": {
       "storeCode": "de",
       "storeId": 3,
+      "websiteId": 1,
       "name": "German Store",
       "url": "/de",
       "appendStoreCode": true,
@@ -147,6 +148,7 @@
       "extend": "de",
       "storeCode": "it",
       "storeId": 4,
+      "websiteId": 1,
       "name": "Italian Store",
       "url": "/it",
       "appendStoreCode": true,
