@@ -50,7 +50,7 @@ describe('User mutations', () => {
 
   describe('USER_START_SESSION', () => {
     it('should assign session_started', () => {
-      const sessionDate = new Date()
+      const sessionDate = new Date('2019-11-28T13:41:58.725Z')
 
       const stateMock = {
         session_started: sessionDate
