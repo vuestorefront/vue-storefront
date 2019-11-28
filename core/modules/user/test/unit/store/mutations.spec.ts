@@ -59,7 +59,7 @@ describe('User mutations', () => {
 
       wrapper(userMutations)
 
-      expect(stateMock.session_started.getTime()).toEqual(sessionDate.getTime())
+      expect(stateMock.session_started.toLocaleDateString()).toEqual(sessionDate.toLocaleDateString())
     })
   })
 
