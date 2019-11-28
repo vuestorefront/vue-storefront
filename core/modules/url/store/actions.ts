@@ -6,7 +6,7 @@ import { cacheStorage } from '../'
 import queryString from 'query-string'
 import config from 'config'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData } from '../helpers'
+import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData, getFallbackRouteData } from '../helpers'
 import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 
@@ -52,7 +52,8 @@ export const actions: ActionTree<UrlState, any> = {
         if (routeData !== null) {
           return resolve(parametrizeRouteData(routeData, query, storeCodeInPath))
         } else {
-          dispatch('mappingFallback', { url, params: parsedQuery }).then((routeData) => {
+          dispatch('mappingFallback', { url, params: parsedQuery }).then(mappedFallback => {
+            const routeData = getFallbackRouteData({ mappedFallback, url })
             dispatch('registerMapping', { url, routeData }) // register mapping for further usage
             resolve(parametrizeRouteData(routeData, query, storeCodeInPath))
           }).catch(reject)
@@ -66,6 +67,8 @@ export const actions: ActionTree<UrlState, any> = {
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
+    console.log('original mapping fallback called')
+
     const { storeCode, appendStoreCode } = currentStoreView()
     const productQuery = new SearchQuery()
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
