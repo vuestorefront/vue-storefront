@@ -1,6 +1,6 @@
 {
-  "name": "@vue-storefront/commercetools-api",
-  "version": "0.0.1",
+  "name": "@vue-storefront/api-client",
+  "version": "1.0.0",
   "main": "lib/index.cjs.js",
   "module":"lib/index.es.js",
   "types": "lib/index.d.ts",
@@ -9,11 +9,14 @@
     "dev" : "rollup -c -w"
   },
   "dependencies": {
-  },
-  "devDependencies": {
+    "axios": "^0.19.0",
+    "js-sha3": "^0.8.0",
+    "lodash-es": "^4.17.15",
     "rollup": "^1.25.2",
     "rollup-plugin-terser": "^5.1.2",
-    "rollup-plugin-typescript2": "^0.24.3",
+    "rollup-plugin-typescript2": "^0.24.3"
+  },
+  "devDependencies": {
     "@types/node": "^12.7.12",
     "ts-node": "^8.4.1",
     "tslib": "^1.10.0",

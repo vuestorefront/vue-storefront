@@ -1,5 +1,5 @@
 {
-  "name": "@vue-storefront/commercetools-api",
+  "name": "@vue-storefront/commercetools-helpers",
   "version": "0.0.1",
   "main": "lib/index.cjs.js",
   "module":"lib/index.es.js",
@@ -9,11 +9,11 @@
     "dev" : "rollup -c -w"
   },
   "dependencies": {
-  },
-  "devDependencies": {
     "rollup": "^1.25.2",
     "rollup-plugin-terser": "^5.1.2",
-    "rollup-plugin-typescript2": "^0.24.3",
+    "rollup-plugin-typescript2": "^0.24.3"
+  },
+  "devDependencies": {
     "@types/node": "^12.7.12",
     "ts-node": "^8.4.1",
     "tslib": "^1.10.0",

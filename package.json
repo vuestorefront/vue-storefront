@@ -1,7 +1,6 @@
 {
   "name": "root",
   "private": true,
-  "nohoist": ["**"],
   "scripts": {
     "build:composables": "cd packages/composables && yarn build",
     "build:core": "cd packages/core && tsc",
