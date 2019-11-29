@@ -547,7 +547,7 @@ git checkout e4959550 # origin/release/v1.11
 
 ![error_1.11](../images/error_1.11.png)
 
-3. Now we start hunting down the culprits one by one. 
+#### 3. Now we start hunting down the culprits one by one. 
 
 :::tip TIP
 By the way, you can also compare the changes made between `1.10` to `1.11` in [github link](https://github.com/DivanteLtd/vue-storefront/commit/a42d480aea56d90f7ab65c5caf6ce3f49b00dfec) with a glance too.
@@ -639,7 +639,7 @@ document.getElementById("d-home-4").innerHTML = dHome4;
 
 Again, new `actions` are used here instead of the old way. 
 
-4. Add new files introduced from `1.11` as following path from the `default` theme : 
+#### 4. Add new files introduced from `1.11` as following path from the `default` theme : 
 ```bash
 # Assuming you are at the root directory
 cd src
@@ -649,18 +649,18 @@ cp -r themes/default/store themes/degi/
 cp themes/default/index.js themes/degi/index.js
 ```
 
-5. Open your browser once again, then your errors now be gone as follows :
+#### 5. Open your browser once again, then your errors now be gone as follows :
 
 ![success_home_with_1.11_borderline](../images/success_1.11_home.png)
 
-6. Now you are OK with _Home_ page, but there are still subtle changes made to each corner of the app. Let's find them out. 
+#### 6. Now you are OK with _Home_ page, but there are still subtle changes made to each corner of the app. Let's find them out. 
 Click the _Microcart_ icon then you will see the page like below : 
 
 ![microcart_nan_borderline](../images/microcart_nan.png)
 
 Multiple spots need attention to be fixed. We upgraded _Microcart_ to enable _Edit Mode_ on the fly. Let's fix it. 
 
-7. Copy newly added files from the `default` theme to `degi` theme :
+#### 7. Copy newly added files from the `default` theme to `degi` theme :
 ```bash
 # you are at the root directory
 cd src
@@ -668,7 +668,7 @@ cp themes/default/components/core/blocks/Microcart/EditButton.vue themes/degi/co
 cp themes/default/components/core/blocks/Microcart/EditMode.vue themes/degi/components/core/blocks/Microcart/
 ```
 
-8. Then fix files that you might have modified before upgrade. 
+#### 8. Then fix files that you might have modified before upgrade. 
 
  - Go to `./src/themes/degi/components/core/blocks/Microcart/Microcart.vue` and fix it as follows at `3` : 
 
@@ -825,7 +825,7 @@ document.getElementById("d-micro-remove").innerHTML = dMicroRemove;
 
 Here we added _Vue_ click event.
 
-9. Let's confirm if we got it right so far on your browser. Open it then _Voila !_ : 
+#### 9. Let's confirm if we got it right so far on your browser. Open it then _Voila !_ : 
 
 ![editmode_in_mc_borderline](../images/editmodeInMC.png)
 
