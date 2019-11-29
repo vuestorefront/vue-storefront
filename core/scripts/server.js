@@ -151,6 +151,7 @@ app.get('*', (req, res, next) => {
         console.error(`Resource is not found : ${req.url}`)
         next()
       } else {
+        console.log('REDIRECTING TO PNF')
         res.redirect('/page-not-found')
         console.error(`Redirect for resource not found : ${req.url}`)
       }
