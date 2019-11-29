@@ -251,7 +251,7 @@ export default {
         if (err.message.indexOf('query returned empty result') > 0) {
           this.$store.dispatch('notification/spawnNotification', {
             type: 'error',
-            message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
+            message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.Cat'),
             action1: { label: i18n.t('OK') }
           })
           this.$router.push(localizedRoute('/', currentStoreView().storeCode))
