@@ -30,7 +30,7 @@ const invokeClientEntry = async () => {
     if (err.message.indexOf('query returned empty result') > 0) {
       rootStore.dispatch('notification/spawnNotification', {
         type: 'error',
-        message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
+        message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.CE'),
         action1: { label: i18n.t('OK') }
       })
       router.push(localizedRoute('/', currentStoreView().storeCode))
