@@ -21,17 +21,7 @@ export default {
   plugins: ['~/plugins/api-client'],
   modules: [
     ['@vue-storefront/nuxt', {
-      coreDevelopment: coreDevelopment,
-      useRawSource: {
-        dev: coreDevelopment ? [
-          '@vue-storefront/composables',
-          '@vue-storefront/api-client'
-        ] : [],
-        prod: [        
-          '@vue-storefront/composables',
-          '@vue-storefront/api-client'
-        ]
-      }
+      coreDevelopment: coreDevelopment
     }]
   ]
 }
