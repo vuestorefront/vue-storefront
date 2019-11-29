@@ -2,21 +2,23 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build:composables": "cd packages/composables && yarn build",
-    "build:core": "cd packages/core && tsc",
-    "build:api-client": "cd packages/api-client && yarn build",
     "build:docs": "cd packages/docs && yarn build",
-    "build:tools": "yarn build:core && yarn build:api-client && yarn build:composables",
-    "dev:api-client": "cd packages/api-client && yarn dev",
-    "build": "cd packages/theme && yarn build",
-    "dev": "cd packages/theme && yarn dev"
+    "build:core:interfaces": "cd packages/core/interfaces && tsc",
+    "build:core": "yarn build:core:interfaces",
+    "build:ct:api-client": "cd packages/commercetools/api-client && yarn build",
+    "build:ct:composables": "cd packages/commercetools/composables && yarn build",
+    "build:ct:helpers": "cd packages/commercetools/helpers && yarn build",
+    "build:ct:tools": "yarn build:ct:api-client && yarn build:ct:composables && yarn build:ct:helpers",
+    "build:ct:theme": "cd packages/commercetools/theme && yarn build",
+    "build:all": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
+    "dev": "cd packages/ct/theme && yarn dev"
   },
   "devDependencies": {
     "lerna": "^3.15.0",
     "webpack-bundle-analyzer": "^3.5.2"
   },
   "workspaces": {
-    "packages" : ["packages/*"],
+    "packages" : ["packages/commercetools/*", "packages/core/*"],
     "nohoist": ["**/**/**"]
   }
 }

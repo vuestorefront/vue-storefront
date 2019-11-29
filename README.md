@@ -8,7 +8,7 @@ yarn
 ```
 
 ```
-yarn build:tools
+yarn build:ct:tools
 ```
 ```
 yarn dev
