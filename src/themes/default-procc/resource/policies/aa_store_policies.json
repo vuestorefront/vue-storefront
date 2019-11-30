@@ -1,0 +1,184 @@
+{
+  "policy": [
+    {
+      "type": "privacy",
+      "cookies": {
+        "warranty_title": "Cookies",
+        "conditions": {
+          "what_are_used_for": "ProCC uses cookies to store very simple information which discloses nothing about you or your data.",
+          "cookies_are_required": "Cookies are required to use ProCC and are used by a large number of secure online business services.",
+          "what_is_a_cookie": "A cookie is a small amount of data, which includes some anonymous unique identifiers that we use to remember your last dashboard state and recreate it accurately for you."
+        }
+      },
+      "why_we_collect_data": {
+        "warranty_title": "Why do we collect user data?",
+        "conditions": {
+          "to_deliver_products": "To deliver products to you. We are going to share your address details with our courier partners.",
+          "payment_method_data": "Your Payment Method details are stored only at the payment processor (PayPal) and referenced by a code to us.",
+          "to_help_you_save_time": "You and your customers save, when buying or selling products. We keep your data well organized and easy to use.",
+          "to_understand_your_style": "In order to improve our product recommendations. We do a few recommendations, but we want them to be perfectly aligned with your preferences. In such analytical operations no personally identifiable data is used. Customer data is processed in aggregate."
+        }
+      },
+      "how_do_we_protect": {
+        "warranty_title": "How do we protect your data?",
+        "conditions": {
+          "encryption": "All data transfers on the ProCC platform are encrypted end-to-end with RSA-2048 technology",
+          "GDPR": "ProCC is part of GDPR's jurisdiction and we are proud to be one of the first companies to follow all of its recommendations.",
+          "third_parties_to_a_minimum": "The third parties having access to your data are brought to a minimum as to execute the operational activities of our business."
+        }
+      },
+      "how_to_manage_your_data": {
+        "warranty_title": "How to manage your data?",
+        "conditions": {
+          "where_is_it": "ProCC stores all its data in a secure cloud storage service provided by Google.",
+          "how_how_to_download_it": "If you want to download or delete the information we hold for you, please contact our GDPR Officer at gdpr@procc.co"
+        }
+      },
+      "third_parties": {
+        "warranty_title": "Third-parties and access to your data",
+        "conditions": {
+          "couriers": "Couriers have access only to the delivery relevant information.",
+          "vendors": "Vendors have access the delivery details and purchase details.",
+          "employees": "Our Employees can read the basic user details upon request, but they cannot modify it and/or export it.",
+          "others_without_a2pid": "Our Analytics partners - Google.com and Mixpanel.com have access to your activity in our App, but not your identifiable data."
+        }
+      }
+    },
+    {
+      "type": "shipping",
+      "delivery_locations": {
+        "warranty_title": "Countries we deliver to",
+        "conditions": {
+          "initial_condition": "Greece, Romania, Bulgaria, Slovenia, Slovakia, Hungary, Croatia, Poland, Germany, Austria",
+          "shipping_times": "The shipping time may vary between 1 and 8 working days, depending on your location.",
+          "delivery_fees_variable": "We keep the right to cancel shipments to locations outside the couriers' delivery zones."
+        }
+      },
+      "shipping_fees": {
+        "warranty_title": "Delivery methods and charges",
+        "conditions": {
+          "enter_address": "Enter your home or office address when making your purchase and we will deliver the order to your chosen destination.",
+          "delivery_fees_variable": "The delivery charge and time will vary according to your location. Both are calculated at checkout."
+        }
+      },
+      "order_tracking": {
+        "warranty_title": "Delivery Tracking",
+        "conditions": {
+          "enter_address": "You can check the status of your order at any time in \"My Orders\" in your store account.",
+          "if_not_registered": "Even if you are not registered, you will still receive an email with a tracking link :)"
+        }
+      },
+      "order_return": {
+        "warranty_title": "Postal Returns",
+        "conditions": {
+          "varies_by_country": "The return procedures vary country by country.",
+          "returns_form": "It is best to follow the instructions from your \"Returns Form\", which was included in your package. If not please contact our Customer Support.",
+          "for_more_info": "For more Information on Returns and Exchanges please consult our Warranty Policy."
+        }
+      }
+    },
+    {
+      "type": "warranty",
+      "order_cancellation_before_shipment": {
+        "warranty_title": "One-Hour Cancellation",
+        "conditions": {
+          "initial_condition": "You can cancel your order within 1 hour of confirming it and we will refund the full order amount.",
+          "instructions": "Please login to your Store account and find 'My Orders' :)",
+          "transaction_fees_may_apply": "Transaction fees of up to 3% may apply depending on the payment method."
+        }
+      },
+      "order_cancellation_after_shipment": {
+        "warranty_title": "Order Cancellation",
+        "conditions": {
+          "initial_condition": "You can cancel your order by visiting 'My Orders' in your ProCC account.",
+          "returning_procedure": "We will cooperate with the Courier Company to return the products as fast as possible.",
+          "defective_definition": "Within ${refund_period} days of the cancellation, we will reimburse the cost of the items to your Payment Method",
+          "defective_definition_array": [
+            "Within ",
+            "{\"refund_period\":7}",
+            " days of the cancellation, we will reimburse the cost of the items to your Payment Method"
+          ]
+        },
+        "refund_period": 7
+      },
+      "exchange_size_due_to_misfit": {
+        "warranty_title": "Product Exchange",
+        "conditions": {
+          "initial_condition": "You may exchange an ordered product within ${warranty_max_days} days of the order date.",
+          "is_as_original": "Any items returned must be in the same condition in which you received them.",
+          "exchange_if_available": "If the requested size is not available, we will refund you the amount for the garment.",
+          "exchange_process_duration": "On average the exchange procedure takes ${exchange_process_duration} days in addition to the shipping method's delivery times.",
+          "customer_pays_shipping": "The shipping expenses are ${who_covers_shipment}.",
+          "partial_refund": "We also allow partial refund of up to ${partial_refund_percent}% in order to avoid costly shipping fees.",
+          "initial_condition_array": [
+            "You may exchange an ordered product within ",
+            "{\"warranty_max_days\":15}",
+            " days of the order date."
+          ],
+          "exchange_process_duration_array": [
+            "On average the exchange procedure takes ",
+            "{\"exchange_process_duration\":5}",
+            " days in addition to the shipping method's delivery times."
+          ],
+          "customer_pays_shipping_array": [
+            "The shipping expenses are ",
+            "{\"who_covers_shipment\":\"covered by the Brand\"}",
+            "."
+          ],
+          "partial_refund_array": [
+            "We also allow partial refund of up to ",
+            "{\"partial_refund_percent\":30}",
+            "% in order to avoid costly shipping fees."
+          ]
+        },
+        "warranty_max_days": 15,
+        "who_covers_shipment_select": [
+          "covered by the Customer",
+          "covered by the Brand",
+          "split in half"
+        ],
+        "who_covers_shipment": "covered by the Brand",
+        "partial_refund_percent": 30,
+        "exchange_process_duration": 5
+      },
+      "order_cancellation_after_delivery": {
+        "warranty_title": "Replacements & Refunds",
+        "conditions": {
+          "initial_condition": "Products, which are defective or not-as-described can be returned within ${warranty_max_days} days of the order date. Please send photos of the issue to our Customer Support.",
+          "defective_definition": "Defective products also include such with Wrong or Misleading description, its photos are misleading or the product has been damaged during shipping",
+          "exchange_process_duration": "The refund procedure takes ${exchange_process_duration} days in addition to the shipping method's delivery times.",
+          "customer_pays_shipping": "The additional shipping expenses are ${who_covers_shipment}.",
+          "replacement_flow": "When we receive your package, we will confirm the products are in their original condition and reimburse you as per our Refund Policy.",
+          "partial_refund": "We also allow partial refund of up to ${partial_refund_percent}% in order to avoid costly shipping fees.",
+          "initial_condition_array": [
+            "Products, which are defective or not-as-described can be returned within ",
+            "{\"warranty_max_days\":30}",
+            " days of the order date. Please send photos of the issue to our Customer Support."
+          ],
+          "exchange_process_duration_array": [
+            "The refund procedure takes ",
+            "{\"exchange_process_duration\":7}",
+            " days in addition to the shipping method's delivery times."
+          ],
+          "customer_pays_shipping_array": [
+            "The additional shipping expenses are ",
+            "{\"who_covers_shipment\":\"covered by the Brand\"}",
+            "."
+          ],
+          "partial_refund_array": [
+            "We also allow partial refund of up to ",
+            "{\"partial_refund_percent\":50}",
+            "% in order to avoid costly shipping fees."
+          ]
+        },
+        "warranty_max_days": 30,
+        "partial_refund_percent": 50,
+        "who_covers_shipment_select": [
+          "covered by the Brand"
+        ],
+        "who_covers_shipment": "covered by the Brand",
+        "exchange_process_duration": 7
+      }
+    }
+  ]
+}

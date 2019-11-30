@@ -5,7 +5,8 @@ const Store = require('data-store')
 const _ = require('lodash')
 
 let storefrontConfig
-if (process.env.NODE_ENV === 'development') { storefrontConfig = new Store({path: path.resolve('./config/local.json')}); } else { storefrontConfig = new Store({path: path.resolve('./config/production.json')}); }
+if (process.env.NODE_ENV === 'development') {
+  storefrontConfig = new Store({path: path.resolve('./config/local.json')});} else { storefrontConfig = new Store({path: path.resolve('./config/production.json')}); }
 
 module.exports = (config, app) => {
   app.use(bodyParser.urlencoded({extended: false}));
@@ -30,6 +31,7 @@ module.exports = (config, app) => {
       storeId: parseInt(storeData.magento_store_id),
       name: _.startCase(storeData.magento_store_name),
       url: `/${storeData.storefront_url}`,
+      appendStoreCode: true,
       elasticsearch: {
         host: config.api.url + '/api/catalog',
         index: `vue_storefront_catalog_${_.snakeCase(storeData.storefront_url)}`
@@ -57,6 +59,8 @@ module.exports = (config, app) => {
       'working_hours': storefront_setting.working_hours,
       'title': storefront_setting.banner.title,
       'subtitle': storefront_setting.banner.subtitle,
+      "title_color": storefront_setting.banner.title_color,
+      "subtitle_color": storefront_setting.banner.subtitle_color,
       'logo': storefront_setting.store_logo.original,
       'link': storefront_setting.banner.link,
       'image': storefront_setting.banner.banner_photo.optimized,
@@ -66,9 +70,9 @@ module.exports = (config, app) => {
       'is_cc_store': storeData.brand.is_cc
     };
     // Main Banners and store categories and store policies
-    const mainImage = new Store({path: path.resolve(`./src/themes/default/resource/banners/${store_data.storeCode}_main-image.json`)});
-    const StoreCategories = new Store({path: path.resolve(`./src/themes/default/resource/banners/${store_data.storeCode}_store_categories.json`)});
-    const storePolicies = new Store({path: path.resolve(`./src/themes/default/resource/policies/${store_data.storeCode}_store_policies.json`)});
+    const mainImage = new Store({path: path.resolve(config.themeDir+`/resource/banners/${store_data.storeCode}_main-image.json`)});
+    const StoreCategories = new Store({path: path.resolve(config.themeDir+`/resource/banners/${store_data.storeCode}_store_categories.json`)});
+    const storePolicies = new Store({path: path.resolve(config.themeDir+`/resource/policies/${store_data.storeCode}_store_policies.json`)});
     // If Store has then delete store related all the data
     if ((storefrontConfig.has(`storeViews.${store_data.storeCode}`))) {
       storefrontConfig.del(`storeViews.${store_data.storeCode}`);
@@ -99,6 +103,8 @@ module.exports = (config, app) => {
         {
           'title': magentoStoreCategories[0].name,
           'subtitle': magentoStoreCategories[0].description,
+          "name_color": magentoStoreCategories[0].name_color,
+          "description_color": magentoStoreCategories[0].description_color,
           'image': magentoStoreCategories[0].cover_photo.optimized,
           'link': '/' + _.kebabCase(magentoStoreCategories[0].name),
           'storeCode': storeData.storefront_url,
@@ -111,6 +117,8 @@ module.exports = (config, app) => {
           {
             'title': magentoStoreCategories[1].name,
             'subtitle': magentoStoreCategories[1].description,
+            "name_color": magentoStoreCategories[0].name_color,
+            "description_color": magentoStoreCategories[0].description_color,
             'image': magentoStoreCategories[1].cover_photo.optimized,
             'link': '/' + _.kebabCase(magentoStoreCategories[1].name),
             'storeCode': storeData.storefront_url,
@@ -122,6 +130,8 @@ module.exports = (config, app) => {
           smallBanners.push({
             'title': magentoStoreCategories[2].name,
             'subtitle': magentoStoreCategories[2].description,
+            "name_color": magentoStoreCategories[0].name_color,
+            "description_color": magentoStoreCategories[0].description_color,
             'image': magentoStoreCategories[2].cover_photo.optimized,
             'link': '/' + _.kebabCase(magentoStoreCategories[2].name),
             'storeCode': storeData.storefront_url,
@@ -158,7 +168,7 @@ module.exports = (config, app) => {
     // start set to product banners link in vue storefront
     let children_data = req.body.children_data
     let storeCode = req.body.storeCode
-    const StoreCategories = new Store({path: path.resolve(`./src/themes/default/resource/banners/${storeCode}_store_categories.json`)});
+    const StoreCategories = new Store({path: path.resolve(config.themeDir+`/resource/banners/${storeCode}_store_categories.json`)});
     let MainBanners = !_.isUndefined(StoreCategories.get('mainBanners')) ? StoreCategories.get('mainBanners') : [];
     let TopAndBottomSideBanners = _.isUndefined(StoreCategories.get('smallBanners')) ? StoreCategories.get('smallBanners') : [];
     if (children_data.length >= 1 && MainBanners.length > 0) {
@@ -173,14 +183,18 @@ module.exports = (config, app) => {
         }
       }
     }
-    apiStatus(res, 'Vue Storefront: /category-link Success', 200)
+    console.log('MainBanners', MainBanners)
+    console.log('TopAndBottomSideBanners', TopAndBottomSideBanners)
+    console.log('smallBanners', StoreCategories.get('smallBanners'))
+    console.log('smallBanners3 -----======]]]')
+    apiStatus(res, 'Vue Storefront: /category-link Success', 200);
     // end set to product banners
   })
   app.post('/product-link', (req, res) => {
     // start set to product banners link in vue storefront
     let products = req.body.products;
     let storeCode = req.body.storeCode
-    const StoreCategories = new Store({path: path.resolve(`./src/themes/default/resource/banners/${storeCode}_store_categories.json`)});
+    const StoreCategories = new Store({path: path.resolve(config.themeDir+`/resource/banners/${storeCode}_store_categories.json`)});
     let productBanners = [];
     let category_ids = [];
     if (StoreCategories.has('mainBanners')) {
@@ -206,9 +220,13 @@ module.exports = (config, app) => {
       }
     });
     StoreCategories.set('productBanners', productBanners);
-    apiStatus(res, 'Vue Storefront: /product-link Success', 200)
+    console.log('productBanners', productBanners)
+    console.log('productBanners2', StoreCategories.get('productBanners'))
+    console.log('productBanners3 -----======]]]')
+    apiStatus(res, 'Vue Storefront: /product-link Success', 200);
     // end set to product banners
   })
+
   app.post('/disable-store', (req, res) => {
     // TODO: add authentication for these API Calls
     let storeData = req.body.storeData;
@@ -221,9 +239,9 @@ module.exports = (config, app) => {
   app.post('/delete-store', (req, res) => {
     // TODO: add authentication for these API Calls
     let storeData = req.body
-    const mainImage = new Store({path: path.resolve(`./src/themes/default/resource/banners/${storeData.storeCode}_main-image.json`)});
-    const StoreCategories = new Store({path: path.resolve(`./src/themes/default/resource/banners/${storeData.storeCode}_store_categories.json`)});
-    const storePolicies = new Store({path: path.resolve(`./src/themes/default/resource/policies/${storeData.storeCode}_store_policies.json`)});
+    const mainImage = new Store({path: path.resolve(config.themeDir+`/resource/banners/${storeData.storeCode}_main-image.json`)});
+    const StoreCategories = new Store({path: path.resolve(config.themeDir+`/resource/banners/${storeData.storeCode}_store_categories.json`)});
+    const storePolicies = new Store({path: path.resolve(config.themeDir+`/resource/policies/${storeData.storeCode}_store_policies.json`)});
     if (storefrontConfig.has(`storeViews.${storeData.storeCode}`)) {
       storefrontConfig.del(`storeViews.${storeData.storeCode}`)
       storefrontConfig.set('storeViews.mapStoreUrlsFor', _.pull(storefrontConfig.get('storeViews.mapStoreUrlsFor'), storeData.storeCode))
@@ -244,7 +262,7 @@ module.exports = (config, app) => {
     // TODO: add authentication for these API Calls
     console.log('/rebuild-storefront')
     console.log('Rebuilding Vue Storefront ~ 3 min')
-    await exec('yarn', ['build'], { shell: true }, true, true);
+    await exec('yarn', ['build-silent'], { shell: true }, true, true);
     apiStatus(res, config, 200);
   });
 };

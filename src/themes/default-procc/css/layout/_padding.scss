@@ -1,0 +1,66 @@
+// IMPORTANT: Add new css rules ON DEMAND only when you need them!
+// Try to use multiples of 5 when using pixels
+
+// .p0 .px10 .py5 - example classes for px paddings
+// .px10p - example class for % padding
+
+// Pixels
+$padding-px: 0 5 10 12 15 20 25 45 50;
+$padding-x-px: 2 10 15 20 25 40 55 65 70;
+$padding-y-px: 0 5 10 15 20 25 30 35 40 50;
+$padding-top-px: 0 5 10 15 20 25 30 35 40 45 50 55 70;
+$padding-bottom-px: 10 15 20 30 35 40 45 50 60 70;
+$padding-left-px: 0 20 30 35 40 70;
+$padding-right-px: 0 5 15 20 30 55 70;
+
+// Percents
+$padding-x-p: 10;
+
+// Generators
+@mixin padding {
+  @each $i in $padding-px {
+    .p#{$i} {
+      padding: #{$i}px;
+    }
+  }
+  @each $i in $padding-x-px {
+    .px#{$i} {
+      padding-left: #{$i}px;
+      padding-right: #{$i}px;
+    }
+  }
+  @each $i in $padding-x-p {
+    .px#{$i}p {
+      padding-left: percentage($i/100);
+      padding-right: percentage($i/100);
+    }
+  }
+  @each $i in $padding-y-px {
+    .py#{$i} {
+      padding-top: #{$i}px;
+      padding-bottom: #{$i}px;
+    }
+  }
+  @each $i in $padding-top-px {
+    .pt#{$i} {
+      padding-top: #{$i}px;
+    }
+  }
+  @each $i in $padding-bottom-px {
+    .pb#{$i} {
+      padding-bottom: #{$i}px;
+    }
+  }
+  @each $i in $padding-right-px {
+    .pr#{$i} {
+      padding-right: #{$i}px;
+    }
+  }
+  @each $i in $padding-left-px {
+    .pl#{$i} {
+      padding-left: #{$i}px;
+    }
+  }
+}
+
+@include padding;

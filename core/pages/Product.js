@@ -193,6 +193,7 @@ export default {
         setProductErorrs: true
       }).then((selectedVariant) => {
         if (config.products.setFirstVarianAsDefaultInURL) {
+          console.log('setFirstVarianAsDefaultInURL router.push - ', {params: {childSku: selectedVariant.sku}})
           this.$router.push({params: { childSku: selectedVariant.sku }})
         }
         if (!selectedVariant) {

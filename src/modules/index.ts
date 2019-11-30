@@ -24,10 +24,13 @@ import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
 import { InstantCheckout } from './instant-checkout'
 import { OrderHistory } from './order-history'
+import {StorePolicies} from "./store-policies";
+import {StoreCategories} from "./store-categories";
+
 
 // import { Example } from './module-template'
 
-// This is how you can extend any of VS modues
+// This is how you can extend any of VS modules
 // const extendCartVuex = {
 //   actions: {
 //     load () {
@@ -66,7 +69,7 @@ export const registerModules: VueStorefrontModule[] = [
   RecentlyViewed,
   Homepage,
   Claims,
-  PromotedOffers,
+  // PromotedOffers,
   googleTagManager,
   // GoogleAnalytics,
   // Hotjar,
@@ -76,6 +79,8 @@ export const registerModules: VueStorefrontModule[] = [
   AmpRenderer,
   InstantCheckout,
   Url,
-  OrderHistory
+  OrderHistory,
+  StorePolicies,
+  StoreCategories,
   // Example
 ]
