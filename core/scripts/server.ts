@@ -315,7 +315,11 @@ app.get('*', (req, res, next) => {
 let port = process.env.PORT || config.server.port
 const host = process.env.HOST || config.server.host
 const start = () => {
-  app.listen(port, host)
+  // Keep-Alive Edit
+  const timeout = require('connect-timeout')
+  app.use(timeout(600000));
+
+  let server = app.listen(port, host)
     .on('listening', () => {
       console.log(`\n\n----------------------------------------------------------`)
       console.log('|                                                        |')
@@ -330,5 +334,9 @@ const start = () => {
         start()
       }
     })
+
+  // Keep-Alive Edit
+  server.timeout = 10 * 60 * 1000;
+  server.keepAliveTimeout = 10 * 60 * 1000;
 }
 start()
