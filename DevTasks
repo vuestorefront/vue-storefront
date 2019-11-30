@@ -1,5 +1,7 @@
 Search for "// TODO:" to find smaller tasks
 
+-- find why when accessing a custom store it re-initiates routes -> error: [vue-router] Duplicate named routes definition: { name: "about-us", path: "/about-us" }
+
 -- split ordered products by brand in checkout
 
 -- add shipping method selector in cart for each brand group

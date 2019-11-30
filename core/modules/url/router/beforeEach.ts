@@ -51,7 +51,9 @@ export async function beforeEach (to: Route, from: Route, next) {
         next(localizedRoute('/page-not-found', currentStoreView().storeCode))
       } else {
         const storeCode = currentStoreView().storeCode
-        Vue.prototype.$ssrRequestContext.server.response.redirect((storeCode !== '' ? ('/' + storeCode) : '') + '/page-not-found') // TODO: Refactor this one after @filrak will give us a way to access ServerContext from Modules directly :-)
+        // Modified by dan to always redirect to the same not-found page
+        Vue.prototype.$ssrRequestContext.server.response.redirect('/page-not-found')
+        // Vue.prototype.$ssrRequestContext.server.response.redirect((storeCode !== '' ? ('/' + storeCode) : '') + '/page-not-found') // TODO: Refactor this one after @filrak will give us a way to access ServerContext from Modules directly :-)
         // ps. we can't use the next() call here as it's not doing the real redirect in SSR mode (just processing different component without changing the URL and that causes the CSR / SSR DOM mismatch while hydrating)
       }
     }).finally(() => {
