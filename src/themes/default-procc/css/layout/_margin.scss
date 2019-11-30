@@ -1,0 +1,102 @@
+// Try to use multiples of 5 when using pixels
+
+// .m5 .mx5 .my5 .mt5 .mb5 .ml5 .mr5 - example classes for px margins
+// .m5p .mx5p .my5p .mt5p .mb5p .ml5p .mr5p - example classes for % margins
+
+// Pixels
+$margin-px: 0 5 10 40;
+$margin-x-px: 5 10;
+$margin-y-px: 0 5 10 15 20 30;
+$margin-top-px: 0 5 8 10 15 20 25 30 35 50 55 60;
+$margin-bottom-px: 0 5 10 15 20 25 30 35 40 45 55 80;
+$margin-left-px: 10 15 20 30 40;
+$margin-right-px: 0 5 10 15 20 35;
+
+// Percents
+$margin-p: 5;
+$margin-x-p: 5;
+$margin-y-p: 5;
+$margin-top-p: 5;
+$margin-bottom-p: 5;
+$margin-left-p: 5;
+$margin-right-p: 5;
+
+// Generators
+@mixin margin {
+  @each $i in $margin-px {
+    .m#{$i} {
+      margin: #{$i}px;
+    }
+  }
+  @each $i in $margin-p {
+    .m#{$i}p {
+      margin: percentage($i/100);
+    }
+  }
+  @each $i in $margin-x-px {
+    .mx#{$i} {
+      margin-left: #{$i}px;
+      margin-right: #{$i}px;
+    }
+  }
+  @each $i in $margin-x-p {
+    .mx#{$i}p {
+      margin-left: percentage($i/100);
+      margin-right: percentage($i/100);
+    }
+  }
+  @each $i in $margin-y-px {
+    .my#{$i} {
+      margin-top: #{$i}px;
+      margin-bottom: #{$i}px;
+    }
+  }
+  @each $i in $margin-y-p {
+    .my#{$i}p {
+      margin-top: percentage($i/100);
+      margin-bottom: percentage($i/100);
+    }
+  }
+  @each $i in $margin-top-px {
+    .mt#{$i} {
+      margin-top: #{$i}px;
+    }
+  }
+  @each $i in $margin-top-p {
+    .mt#{$i}p {
+      margin-top: percentage($i/100);
+    }
+  }
+  @each $i in $margin-bottom-px {
+    .mb#{$i} {
+      margin-bottom: #{$i}px;
+    }
+  }
+  @each $i in $margin-bottom-p {
+    .mb#{$i}p {
+      margin-bottom: percentage($i/100);
+    }
+  }
+  @each $i in $margin-left-px {
+    .ml#{$i} {
+      margin-left: #{$i}px;
+    }
+  }
+  @each $i in $margin-left-p {
+    .ml#{$i}p {
+      margin-left: percentage($i/100);
+    }
+  }
+  @each $i in $margin-right-px {
+    .mr#{$i} {
+      margin-right: #{$i}px;
+    }
+  }
+  @each $i in $margin-right-p {
+    .mr#{$i}p {
+      margin-right: percentage($i/100);
+    }
+  }
+}
+
+@include margin;

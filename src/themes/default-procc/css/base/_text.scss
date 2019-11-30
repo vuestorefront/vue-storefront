@@ -1,0 +1,114 @@
+// Global styles for text
+body {
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'Playfair Display', serif;
+}
+
+h1,
+.h1 {
+  font-size: 48px;
+}
+
+h2,
+.h2 {
+  font-size: 36px;
+
+  @media (max-width: 767px) {
+    font-size: 24px;
+  }
+}
+h3,
+.h3 {
+  font-size: 24px;
+}
+h4,
+.h4 {
+  font-size: 18px;
+}
+h5,
+.h5 {
+  font-size: 14px;
+}
+h6,
+.h6 {
+  font-size: 12px;
+}
+
+// Atomic styles for text
+.serif {
+  font-family: 'Playfair Display', serif;
+}
+.sans-serif {
+  font-family: 'Roboto', sans-serif;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.align-center {
+  text-align: center;
+}
+.align-right {
+  text-align: right;
+}
+.align-left {
+  text-align: left;
+}
+.align-justify {
+  text-align: justify;
+}
+
+.weight-400 {
+  font-weight: 400;
+}
+.weight-700 {
+  font-weight: 700;
+}
+
+.lh16 {
+  line-height: 16px;
+}
+.lh20 {
+  line-height: 20px;
+}
+.lh25 {
+  line-height: 25px;
+}
+.lh30 {
+  line-height: 30px;
+}
+.lh35 {
+  line-height: 35px;
+}
+.lh40 {
+  line-height: 40px;
+}
+
+// Sizes
+.fs-medium-small {
+  font-size: 14px;
+}
+.fs-medium {
+  font-size: 18px;
+}
+.fs-large {
+  font-size: 24px;
+}
+.fs-big {
+  font-size: 36px;
+}
+
+// @todo its not in styleguite therefore shouldn't be here, ask Karol Bzik
+.fs16 {
+  font-size: 16px;
+}

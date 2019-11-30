@@ -30,6 +30,8 @@ const invokeClientEntry = async () => {
     store.replaceState(Object.assign({}, store.state, initialState, { config: globalConfig }))
   }
 
+  await store.dispatch('categories/updateHeadImage')
+  await store.dispatch('policies/updateStorePolicies')
   await store.dispatch('url/registerDynamicRoutes')
   RouterManager.flushRouteQueue()
 
