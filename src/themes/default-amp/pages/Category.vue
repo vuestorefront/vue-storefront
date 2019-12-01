@@ -2,7 +2,7 @@
   <div id="category">
     <header class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="breadcrumbs.routes" :active-route="category.name" />
+        <breadcrumbs />
         <div class="row middle-sm">
           <h1 class="col-sm-9 category-title mb10">
             {{ category.name }}

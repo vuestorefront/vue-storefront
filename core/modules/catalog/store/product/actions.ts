@@ -680,12 +680,15 @@ const actions: ActionTree<ProductState, RootState> = {
       context.commit(types.PRODUCT_SET_GALLERY, productGallery)
     }
   },
-  async loadProductBreadcrumbs ({ dispatch }, { product } = {}) {
+  async loadProductBreadcrumbs ({ dispatch, rootGetters }, { product } = {}) {
     if (product && product.category_ids) {
-      const categoryFilters = { 'id': product.category_ids }
-      const categories = await dispatch('category-next/loadCategories', {filters: categoryFilters}, { root: true })
-      const deepestCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
-      await dispatch('category-next/loadCategoryBreadcrumbs', deepestCategory, { root: true })
+      let currentCategory = rootGetters['category-next/getCurrentCategory'] // use current category, if set
+      if (!currentCategory || !currentCategory.id || !product.category_ids.includes(currentCategory.id.toString())) {
+        const categoryFilters = Object.assign({ 'id': product.category_ids }, config.entities.category.breadcrumbFilterFields)
+        const categories = await dispatch('category-next/loadCategories', {filters: categoryFilters}, { root: true })
+        currentCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
+      }
+      await dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: product.name }, { root: true })
     }
   }
 }

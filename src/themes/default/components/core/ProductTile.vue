@@ -198,7 +198,7 @@ $color-white: color(white);
 
 .product-cover {
   overflow: hidden;
-  max-height: 300px;
+
   &__thumb {
     padding-bottom: calc(143.88% / (164.5 / 100));
     @media screen and (min-width: 768px) {

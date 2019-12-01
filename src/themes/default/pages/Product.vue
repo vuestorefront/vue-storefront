@@ -14,8 +14,6 @@
           <div class="col-xs-12 col-md-5 data">
             <breadcrumbs
               class="pt40 pb20 hidden-xs"
-              :routes="getBreadcrumbs"
-              :active-route="getCurrentProduct.name"
             />
             <h1
               class="mb20 mt0 cl-mine-shaft product-name"
@@ -280,7 +278,6 @@ export default {
   computed: {
     ...mapGetters({
       getCurrentCategory: 'category-next/getCurrentCategory',
-      getBreadcrumbs: 'product/getProductBreadcrumbs',
       getCurrentProduct: 'product/getCurrentProduct',
       getProductGallery: 'product/getProductGallery',
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
