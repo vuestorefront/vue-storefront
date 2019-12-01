@@ -142,19 +142,6 @@ module.exports = {
           ],
         },
         {
-          title: 'Modules',
-          collapsable: false,
-          children: [
-            'modules/introduction',
-            'modules/cart',
-            // 'modules/catalog',
-            'modules/user',
-            'modules/checkout',
-            'modules/order',
-            //'modules/review'
-          ],
-        },
-        {
           title: 'Integrations',
           collapsable: false,
           children: [
