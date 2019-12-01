@@ -483,3 +483,719 @@ All state members should have been accessed only by getters. Please take a look 
 - `getTotals` - array with the total segments,
 - `getItemsTotalQuantity` - get the sum of all the items in the shopping cart,
 - `getCoupon` - get the currently applied discount code,
+
+
+## Cart module
+
+This module contains all the logic, components and store related to cart operations.
+
+### Components
+
+#### AddToCart
+
+This component represents a single button that when pressed adds a product to cart.
+
+**Props**
+
+- `product` - product that'll be added to cart
+
+**Methods**
+
+- `addToCart(product)` - adds passed product to the cart. By default correlates with `product` prop
+
+#### Microcart
+
+User cart with a products list and price summary.
+
+**Computed**
+
+- `productsInCart` - array of products that are currently in the cart
+- `appliedCoupon` - return applied cart coupon or `false` if no coupon was applied
+- `totals` - cart totals
+- `isMicrocartOpen` - returns `true` if microcart is open
+
+**Methods**
+
+- `applyCoupon(code)` - applies cart coupon
+- `removeCoupon` - removes currently applied cart coupon
+- `toggleMicrocart` - open/close microcart
+
+#### MicrocartButton
+
+Component responsible for opening/closing Microcart
+
+**Computed**
+
+- `quantity` - number of products in cart
+
+**Methods**
+
+- `toggleMicrocart` - open/close microcart
+
+#### Product
+
+Component representing product in microcart. Allows to modify it's quantity or remove from cart.
+
+**Computed**
+
+- `thumbnail` - returns src of products thumbnail
+
+**Methods**
+
+- `removeFromCart` - removes current product (data property `product`) from cart
+- `updateQuantity` - updates cart quantity for current product (data property `product`)
+
+### Store
+
+Cart Store is designed to handle all actions related the shopping cart.
+
+#### State
+
+```js
+  state: {
+    itemsAfterPlatformTotals: {},
+    platformTotals: null,
+    platformTotalSegments: null,
+    cartIsLoaded: false,
+    cartServerToken: '', // server side ID to synchronize with Backend (for example Magento)
+    shipping: [],
+    payment: [],
+    cartItemsHash: '',
+    bypassCount: 0,
+    cartItems: [] // TODO: check if it's properly namespaced
+  },
+```
+
+Cart state is automatically loaded from `localForage` collection after page has been loaded whenever `core/components/blocks/Microcart.vue` is included. The cart state is loaded by dispatching `cart/load` action and [stored automatically by any change to the cart state](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/index.js#L118).
+
+The cart state data:
+
+- `itemsAfterPlatformTotals` - helper collection, dictionary where the key is Magento cart item `item_id` that stores the totals information per item - received from Magento; it's automatically populated when `config.cart.synchronize_totals` is enabled;
+- `platformTotals` - similarly to above item, here we have the full totals from Magento for the current shopping cart. These collections are populated by [`cart/syncTotals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/actions.js#L49) and the event handler for [`servercart-after-totals`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L30)
+- `cartIsLoaded` (bool) - true after dispatching `cart/load`
+- `shipping` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
+- `payment` - (object) currently selected shipping method - only when NOT using `cart.synchronize_totals` (if so, the shipping and payment's data comes from Magento2),
+- `cartItems` - collection of the cart items; the item format is the same as described in [ElasticSearch Data formats](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/ElasticSearch%20data%20formats.md) - the `product` class; the only difference is that the (int) `qty` field is added
+
+#### Events
+
+The following events are published from `cart` store:
+
+- `EventBus.$emit('cart-after-itemchanged', { item: cartItem })` - executed after [`servercart-after-itemupdated`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) - after server cart sync, that signalize the specific shopping cart item has been changed; `Microcart/Product.vue` component is subscribed to this event to refresh the shopping cart UI
+- `EventBus.$emit('cart-before-add', { product: item })` - fired after product has been added to the cart,
+- `EventBus.$emit('cart-before-save', { items: state.cartItems })` - fired after the product cart has been saved,
+- `EventBus.$emit('cart-before-delete', { items: state.cartItems })` - the event fired before the cart item is going to be deleted with the current cart state (before item is deleted)
+- `EventBus.$emit('cart-after-delete', { items: state.cartItems })` - the event fired before the cart item has been deleted with the current cart state (after item is deleted)
+- `EventBus.$emit('cart-before-itemchanged', { item: record })` - item called before the specific item properties are going to be changed; for example called when [`servercart-after-itemupdated`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) is going to change the `server_item_id` property
+- `EventBus.$emit('cart-after-itemchanged', { item: record })` - item called after the specific item properites has been changed; for example called when [`servercart-after-itemupdated`](https://github.com/DivanteLtd/vue-storefront/blob/c43b2966a9ae10661e5a62b10445403ed9789b32/core/store/modules/cart/index.js#L108) is going to change the `server_item_id` property
+- `EventBus.$emit('application-after-loaded')` - event called after `cart/load` action has been dispatched to notify that cart is being available,
+- `EventBus.$emit('cart-after-updatetotals', { platformTotals: totals, platformTotalSegments: platformTotalSegments })` - event called after the totals from Magento has been synchronized with current state; it's going to be emitted only when `cart.synchronize_totals` option is enabled.
+
+#### Actions
+
+The cart store provides following public actions:
+
+##### `disconnect (context)`
+
+Helper method used to clear the current server cart id (used for cart synchronization)
+
+##### `clear (context)`
+
+This method is called after order has been placed to empty the `cartItems` collection and create the new server cart when the `cart.synchronize_totals` is set to true
+
+##### `save (context)`
+
+Method used to save the cart to the `localForage` browser collection
+
+##### `sync (context, { forceClientState = false })`
+
+This method is used to synchronize the current state of the cart items back and forth between server and current client state. When the `forceClientState` is set to false the communication is one-way only (client -> server). This action is called automatically on any shopping cart change when the `cart.synchronize` is set to true.
+
+##### `syncTotals (context, { forceClientState = false })`
+
+Method is called whenever the cart totals should have been synchronized with the server (after `serverPull`). This method overrides local shopping cart grand totals and specific item values (for example prices after discount).
+
+##### `connect (context, { guestCart = false })`
+
+Action is dispatched to create the server cart and store the cart id (for further synchronization)
+
+##### `load (context)`
+
+This method loads the cart items from `localForage` browser state management.
+
+##### `getItem ({ commit, dispatch, state }, sku)`
+
+This action is used for search the particular item in the shopping cart (by SKU)
+
+##### `addItem ({ commit, dispatch, state }, { productToAdd, forceServerSilence = false })`
+
+This action is used to add the `productToAdd` to the cart, if `config.cart.synchronize` is set to true the next action subsequently called will be `serverPull` to synchronize the cart. The event `cart-before-add` is called whenever new product lands in the shopping cart. The option `forceServerSilence` is used to bypass the server synchronization and it's used for example then the item is added during the ... sync process to avoid circular synchronization cycles.
+
+##### `removeItem ({ commit, dispatch }, product)`
+
+As you may imagine :) This action simply removes the product from the shopping cart and synchronizes the server cart when set. You must at least specify the `product.sku`.
+
+##### `updateQuantity ({ commit, dispatch }, { product, qty, forceServerSilence = false })`
+
+This method is called whenever user changes the quantity of product in the cart (called from `Microcart.vue`). The parameter `qty` is the new quantity of product and by using `forceServerSilence` you may control if the server cart synchronization is being executed or not.
+
+##### `updateItem ({ commit }, { product })`
+
+Updates item properties.
+
+##### `syncPaymentMethods (context)`
+
+Gets a list of payment methods from the backend and saves them to `cart.payment` store state.
+
+##### `syncShippingMethods (context, address)`
+
+Gets a list of shipping methods from the backend and saves them to `cart.shipping` store state. Country ID is passed to this method in a mandatory `address` parameter.
+
+##### `syncTotals (context, methodsData)`
+
+This method sends request to the backend to collect cart totals. It calls different backend endpoints depending on if payment and shipping methods information is available or not.
+
+#### Getters
+
+All state members should have been accessed only by getters. Please take a look at the state reference for data formats
+
+- `getCartToken` - get the current cart token, if empty it does mean we need to call an action `cart/connect` prior to sync with the server,
+- `getLastSyncDate` - this is an integer, timestamp of the last shopping cart sync with the server
+- `getLastTotalsSyncDate` - integer, timestamp of the last totals sync with the server,
+- `getShippingMethod` - object, gets currently selected shipping method in the Checkout,
+- `getPaymentMethod` - object, gets current payment method selected in the checkout,
+- `getLastCartHash` - get the last saved hash/HMAC of the cart items + server token that let's you track the changes of the shipping cart. Hash is being saved by the server sync,
+- `getCurrentCartHash` - get the current hash/HMAC of the cart items + server token. Coparing it to the `getLastCartHash` value let you know if we need a server sync or not,
+- `isCartHashChanged` - comparing the `getLastCartHash` with the `getCurrentCartHash` in order to verify if we need a server sync or not,
+- `isSyncRequired` - checking if the `isCartHashChanged` is true OR if this is the first sync attempt (after the SSR),
+- `isTotalsSyncRequired` - same as `isSyncRequired` but for the totals (not the cart items),
+- `isCartHashEmtpyOrChanged` - checks if `isCartHashChanged` or empty,
+- `getCartItems` - array of products in the shopping cart,
+- `isTotalsSyncEnabled` - check if the `config.cart.synchronize` is true + if we're online + if this is CSR request,
+- `isCartConnected` - check if the `getCartToken` is not empty - which means the `cart/connect` action has been called and we're OK to sync with the server,
+- `isCartSyncEnabled` - the same as `isTotalsSyncEnabled` but for totals (`config.cart.synchronize_totals` flag),
+- `getTotals` - array with the total segments,
+- `getItemsTotalQuantity` - get the sum of all the items in the shopping cart,
+- `getCoupon` - get the currently applied discount code,
+
+
+## User Module
+
+This module contains all the logic, components and store related to the user account
+
+### Components
+
+#### AccountButton
+
+A component to handle redirects to user account page and user logout. Usually used in header.
+
+**Computed**
+
+- `isLoggedIn` - represents if user is logged in;
+- `user` - current user.
+
+**Methods**
+
+- `goToAccount` - is user is logged in, redirects user to account page. Otherwise shows sign-up modal
+- `logout` - emits `user-before-logout` event and redirects user to home page
+
+#### Login
+
+**Methods**
+
+- `close` - closes sign-up modal
+- `callLogin` - starts authentication process with emitting `notification-progress-start`, calls `user/login` action with user's email and password.
+- `switchElem` - triggers `setAuthElem` mutation with `register` parameter
+- `callForgotPassword` - triggers `setAuthElem` mutation with `forgot-pass` parameter
+
+#### Register
+
+**Methods**
+
+- `switchElem` - triggers `setAuthElem` mutation with `register` parameter
+- `close` - closes sign-up modal
+- `callRegister` - starts registration process with emitting `notification-progress-start`, calls `user/register` action with user's email, password, first name and last name.
+
+#### UserAccount
+
+**Methods**
+
+- `onLoggedIn` - sets `currentUser` and `userCompany`. This method is called on `user-after-loggedin` bus event
+- `edit` - sets `isEdited` flag to `true`
+- `objectsEqual (a, b, excludedFields = [])` - checks if two passed objects are equal to each other
+- `updateProfile` - updates user profile with new data. Calls a method `exitSection(null, updatedProfile)`
+- `exitSection` - emits `myAccount-before-updateUser` bus event with updated user profile. Resets component user data to default values.
+- `getUserCompany` - finds user company
+- `getCountryName` - finds user country name
+
+#### UserShippingDetails
+
+**Methods**
+
+- `onLoggedIn` - sets `currentUser` and `shippingDetails`. This method is called on `user-after-loggedin` bus event
+- `edit` - sets `isEdited` flag to `true`
+- `updateDetails` - updates shipping details with new data. Calls a method `updatedShippingDetails`
+- `exitSection` - emits `myAccount-before-updateUser` bus event with updated shipping details. Resets component user data to default values
+- `fillCompanyAddress` - finds shipping details
+- `getCountryName` - finds country name
+- `hasBillingAddres` - returns `true` if user has a billing address
+
+### Store
+
+User Store is designed to handle all actions related to the user account.
+All user related data is stored in the original eCommerce CMS/Magento and the modifying actions are executed directly against the platform API.
+
+#### State
+
+```js
+  state: {
+    token: '',
+    current: null
+  },
+```
+
+The user state data:
+
+- `token` - this is the current user token got from the [`user/login`](https://github.com/DivanteLtd/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L64). It's used to authorize all subsequent calls with the current user identity. If this token is not empty it does mean that the user is authorized.
+- `current` - this is the current user object received from [`user/me`](https://github.com/DivanteLtd/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L105) - immediately called after the login action.
+
+The user data format:
+
+```json
+{
+  "code": 200,
+  "result": {
+    "id": 58,
+    "group_id": 1,
+    "default_billing": "62",
+    "default_shipping": "48",
+    "created_at": "2018-01-23 15:30:00",
+    "updated_at": "2018-03-04 06:39:28",
+    "created_in": "Default Store View",
+    "email": "pkarwatka28@example.pl",
+    "firstname": "Piotr",
+    "lastname": "Karwatka",
+    "store_id": 1,
+    "website_id": 1,
+    "addresses": [
+      {
+        "id": 48,
+        "customer_id": 58,
+        "region": {
+          "region_code": null,
+          "region": null,
+          "region_id": 0
+        },
+        "region_id": 0,
+        "country_id": "PL",
+        "street": ["Street", "12"],
+        "telephone": "",
+        "postcode": "51-169",
+        "city": "City",
+        "firstname": "Piotr",
+        "lastname": "Karwatka",
+        "default_shipping": true
+      },
+      {
+        "id": 62,
+        "customer_id": 58,
+        "region": {
+          "region_code": null,
+          "region": null,
+          "region_id": 0
+        },
+        "region_id": 0,
+        "country_id": "PL",
+        "street": ["Street", "12"],
+        "company": "example",
+        "telephone": "",
+        "postcode": "51-169",
+        "city": "City",
+        "firstname": "Piotr",
+        "lastname": "Karwatka",
+        "vat_id": "PL8951930748",
+        "default_billing": true
+      }
+    ],
+    "disable_auto_group_change": 0
+  }
+}
+```
+
+#### Events
+
+The following events are published from `user` store:
+
+- `EventBus.$emit('session-after-started')` - executed just [after the application has been loaded](https://github.com/DivanteLtd/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L22) and the User UI session has started
+- `EventBus.$emit('user-after-loggedin', res)` - executed after the successful [`user/me` action call](https://github.com/DivanteLtd/vue-storefront/blob/fabea12dd6ab4f8824b58812b0cfdabce94cde70/core/store/modules/user/actions.js#L123) - so the user has been authorized and the profile loaded
+
+#### Actions
+
+The user store provides the following public actions:
+
+##### `startSession (context)`
+
+Just to mark that the session is started and loading the current user token from the `localForage` - for the further usage.
+
+##### `resetPassword (context, { email })`
+
+Calls the `vue-storefront-api` endpoint to send the password reset link to specified `email` address
+
+##### `login (context, { username, password })`
+
+Called to login the user and receive the current token that can be used to authorize subsequent API calls. After user is successfully authorized the `user/me` action is dispatched to load the user profile data.
+
+##### `register (context, { email, firstname, lastname, password })`
+
+Registers the user account in the eCommerce platform / Magento.
+
+##### `me (context, { refresh = true, useCache = true })`
+
+Loads the user profile from eCommerce CMS; when `userCache` is set to true the result will be stored in the `localForage` and if it's stored before - returned from cache using the `fastest` strategy (network vs cache). If `refresh` is set to true - the user data will be pulled from the server despite the cached copy is available.
+
+##### `update (context, userData)`
+
+This action is used to update various user profile data. Please check the [user schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/modules/user/userProfile.schema.json) for the data format details.
+
+##### `changePassword (context, passwordData)`
+
+Tries to change the user password to `passwordData.newPassword`.
+
+##### `logout (context)`
+
+This is used to log out the user, close the session and clear the user token. Please notice - the current shopping cart is closed after this call.
+
+#### Getters
+
+All state members should have been accessed only by getters. Please take a look at the state reference for data formats
+
+```js
+const getters = {
+  isLoggedIn(state) {
+    return state.current !== null;
+  },
+};
+```
+
+
+## Checkout Module
+
+Checkout Module is designed to handle all logic related the checkout operations and UI.
+
+### Components
+
+#### CartSummary
+
+This component displays the cart summary information
+
+**Computed**
+
+- `totals` - mapped getter to show the cart totals
+
+#### OrderReview
+
+A summary of the current order
+
+**Props**
+
+- `isActive` - boolean, required prop
+
+**Methods**
+
+- `placeOrder` - checks if current user has an account. If not, will trigger a `register` method, otherwise will emit `checkout-before-placeOrder` bus event
+- `register` - dispatches a `user/register` action to register a new user
+
+#### Payment
+
+A component to handle payment operations
+
+**Props**
+
+- `isActive` - boolean, required prop
+
+**Computed**
+
+- `currentUser` - the current user mapped from application state
+- `paymentMethods` - available payment methods mapped from `payment/paymentMethods` getter
+
+**Methods**
+
+- `sendDataToCheckout` - emits `checkout-after-paymentDetails` bus event and sets `isFilled` to `true`
+- `edit` - checks `isFilled` and if it's `true`, emits a `checkout-before-edit` bus event
+- `hasBillingData` - checks if current user exists and if it has `default_billing_ property
+- `initializeBillingAddress` - checks if current user exists and if it has `default_billing` property; if so, populates the `payment` data property with current user address data
+- `useShippingAddress` - populates the `payment` data property with `$store.state.checkout.shippingDetails`
+- `useBillingAddress` - populates the `payment` data property with `currentUser.addressess`
+- `useGenerateInvoice` - negates the `generateInvoice` value and if it becomes `false`, will reset `this.payment.company` and `this.payment.taxId`
+- `getCountryName` - gets the country name for the current payment by the country code
+- `getPaymentMethod` - gets the payment method title for the current payment by the payment method code
+- `notInMethods` - checks if passed method is present in `paymentMethods`
+- `changePaymentMethod` - resets the additional payment method component container if exists and emits `checkout-payment-method-changed` bus event
+
+#### Personal Details
+
+User's personal details component
+
+**Props**
+
+- `isActive` - boolean, required prop
+- `focusedField` - a string showing which field is focused
+
+**Computed**
+
+- `currentUser` - the current user mapped from application state
+
+**Methods**
+
+- `onLoggedIn` - populates `personalDetails` with data passed as a parameter
+- `sendDataToCheckout` - performs a check if an account is already created and emits `checkout-after-personalDetails` bus event
+- `edit` - emits `checkout-before-edit` bus event
+- `gotoAccount` - shows a sign-up modal
+
+#### Product
+
+The component representing a product
+
+**Props**
+
+- `product` - current product
+
+**Computed**
+
+- `thumbnail` - returns a thumbnail for product image
+
+**Methods**
+
+- `onProductChanged` - checks `event.item.sku` and if it's equal to `product.sku`, the force update will be triggered
+
+#### Shipping
+
+Component handling all the shipping logic
+
+**Props**
+
+- `isActive` - boolean, required prop
+
+**Computed**
+
+- `currentUser` - the current user mapped from application state
+- `shippingMethods` - available payment methods mapped from `payment/paymentMethods` getter
+- `checkoutShippingDetails` - mapped from `state.checkout.shippingDetails`
+- `paymentMethod` - mapped from `state.payment.methods`
+
+**Methods**
+
+- `onAfterShippingSet` - populates the `shipping` data property with a passed parameter
+- `onAfterPersonalDetail` - checks `isFilled` data property and if it's false, dispatches `checkout/updatePropValue` with user's first and last names
+- `sendDataToCheckout` - emits `checkout-after-shippingDetails` bus event; sets `isFilled` to `true`
+- `edit` - is `isFilled` is true, emits `checkout-before-edit` bus event and sets `isFilled` to `false`
+- `hasShippingDetails` - checks, if `currentUser` exists and has a property `default_shipping`; if so, populates `myAddressDetails` data property with `currentUser.addresses`
+- `useMyAddress` - checks `shipToMyAddress`; if `true`, populates `shipping` data property with `myAddressDetails`
+- `getShippingMethod` - gets the shipping method from `shippingMethods` data property
+- `getCountryName` - gets country name with country code
+- `changeCountry` - emits `checkout-before-shippingMethods` bus event
+- `getCurrentShippingMethod` - calculates a current shipping method with shipping method code
+- `changeShippingMethod` - if `getCurrentShippingMethod` exists, emits `checkout-after-shippingMethodChanged` bus event
+- `notInMethods` - checks if passed method is present in `shippingMethods`
+
+### How to add a custom checkout step
+
+We now show an example of how to add a new step to the checkout page of Vue Storefront.
+
+The step is named `NewStep` and is placed just after the `PersonalDetails` step; changing the step's name and position requires small modifications to the procedure.
+
+#### First, create the NewStep component
+
+1. **Create the NewStep component** according to your needs. To do it quickly, make a copy of the `PersonalDetails` component, name it `NewStep` and customize it.
+
+2. **Customize the sendDataToCheckout method** of the `NewStep` component so that it emits the event `checkout-after-newStep`; for example:
+```javascript
+    sendDataToCheckout () {
+      this.$bus.$emit('checkout-after-newStep', this.newStep, this.$v)
+    }
+```
+
+3. **Call the sendDataToCheckout method** when the button to the next section is clicked. This could be achieved in the template like this:
+```vue
+    <button-full
+      @click.native="sendDataToCheckout"
+    >
+```
+
+#### Then, modify the checkout component
+
+1. **Insert the NewStep component in the checkout template** at the desired position. For example, you could place it between the Personal Details and Shipping steps:
+```vue
+  <personal-details class="line relative" :is-active="activeSection.personalDetails" :focused-field="focusedField"/>
+  <new-step class="line relative" :is-active="activeSection.newStep">
+  <shipping class="line relative" :is-active="activeSection.shipping" v-if="!isVirtualCart"/>
+  <payment class="line relative" :is-active="activeSection.payment"/>
+  <order-review class="line relative" :is-active="activeSection.orderReview"/>
+```
+
+2. **Listen for the checkout-after-newStep event** by adding the following listener to the `beforeMount()` function:
+```javascript
+    this.$bus.$on('checkout-after-newStep', this.onAfterNewStep)
+```
+
+3. **Specify how to jump from the previous step to NewStep**. Modify the `onAfterPersonalDetails()` method in order to activate the `newStep` section instead of the `shipping` step:
+```javascript
+    onAfterPersonalDetails (receivedData, validationResult) {
+      this.personalDetails = receivedData
+      this.validationResults.personalDetails = validationResult
+      this.activateSection('newStep') // show the new step
+      this.savePersonalDetails()
+      this.focusedField = null
+    }
+```
+This is assuming that the new checkout step follows the Personal Details step; if this is not the case, you will need to modify the `onAfter` metod of whatever step precedes `NewStep`.
+
+4. **Specify how to jump from NewStep to the next step** by creating the method `onAfterNewStep`; in this example, the next step is the shipping form:
+```javascript
+    onAfterNewStep (receivedData, validationResult) {
+      this.newStep = receivedData
+      this.validationResults.newStep = validationResult
+      this.activateSection('shipping') // change 'shipping' to whatever you want the next step to be
+      this.saveNewStep() // include this line only if newStep has state
+    }
+```
+Note that calling `activateSection('shipping')` is what ultimately shows the next checkout step to the user.
+
+5. **If needed, save NewStep state** by defining a non-empty method `saveNewStep()`; for example:
+```javascript
+    saveNewStep () {
+      this.$store.dispatch('checkout/saveNewStep', this.newStep)
+    },
+```
+This is needed only if your new step has state, in which case you will also need to define the `checkout/saveNewStep` action in Vuex.
+
+
+### Store
+
+The Checkout Store is designed to handle the passage from user's cart to actual order; it defines actions such as saving the information given by the user during checkout, and placing the order.
+
+#### State
+
+```js
+  state: {
+    order: {},
+    personalDetails: {
+      firstName: '',
+      lastName: '',
+      emailAddress: '',
+      password: '',
+      createAccount: false
+    },
+    shippingDetails: {
+      firstName: '',
+      lastName: '',
+      country: '',
+      streetAddress: '',
+      apartmentNumber: '',
+      city: '',
+      state: '',
+      region_id: 0,
+      zipCode: '',
+      phoneNumber: '',
+      shippingMethod: ''
+    },
+    paymentDetails: {
+      firstName: '',
+      lastName: '',
+      company: '',
+      country: '',
+      streetAddress: '',
+      apartmentNumber: '',
+      city: '',
+      state: '',
+      region_id: 0,
+      zipCode: '',
+      phoneNumber: '',
+      taxId: '',
+      paymentMethod: '',
+      paymentMethodAdditional: {}
+    },
+    isThankYouPage: false,
+    modifiedAt: 0
+  }
+```
+
+The state of the Checkout module contains both the [Order object](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json) and the information given by the user during the checkout process, to be stored for further use in the `localForage`.
+
+The state is modified by [`placeOrder`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L11) action and [`load`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/checkout/actions.js#L41) which loads the state from browser database.
+
+The category state data:
+
+- `order` - this is the last order to be placed, the [schema is defined](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json) in Ajv compliant format
+- `shippingDetails`, `paymentDetails` - the address information provided by the user during the [Checkout](https://github.com/DivanteLtd/vue-storefront/blob/master/core/pages/Checkout.vue).
+
+#### Actions
+
+The cart store provides following public actions:
+
+##### `placeOrder (context, { order })`
+
+Action called by `Checkout.vue` to complete the order. Data object is validated against the [order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/models/order.schema.json), stored within the `localForage` collection by subseqent call of [`order/placeOrder`](https://github.com/DivanteLtd/vue-storefront/blob/1793aaa7afc89b3f08e443f40dd5c6131dd477ba/core/store/modules/order/actions.js#L12)
+
+##### `savePersonalDetails ({ commit }, personalDetails)`
+
+Stores the personal Details (the format is exactly the same as this store `state.personalDetails`) for later use in the browser's storage
+
+##### `saveShippingDetails ({ commit }, shippingDetails)`
+
+Stores the shipping Details (the format is exactly the same as this store `state.shippingDetails`) for later use in the browser's storage
+
+##### `savePaymentDetails ({ commit }, paymentDetails)`
+
+Stores the payment Details (the format is exactly the same as this store `state.paymentDetails`) for later use in the browser's storage
+
+##### `load ({ commit })`
+
+Load the current state from the `localForage`
+
+
+## Order module
+
+This module contains all the logic, components and store related to order operations.
+
+### Components
+
+#### UserOrder
+
+**Computed**
+
+- `ordersHistory` - maps the value from `state.user.orders_history.items`
+- `isHistoryEmpty` - checks if `state.user.orders_history.items` array is empty
+
+**Methods**
+
+- `reorder (products)` - iterates through passed 'products' array, adding each item to cart
+- `skipGrouped (items)` - filters passed 'items' array returning only items without `parent_id`
+
+#### UserSingleOrder
+
+**Computed**
+
+- `ordersHistory` - maps the value from `state.user.orders_history.items`
+- `order` - finds the order in the `orderHistory` computed property with an id matching to route `orderId` parameter
+- `paymentMethod` - returns `payment.additional_information[0]` from the `order` computed property
+- `billingAddress` - returns `billing_address` from the `order` computed property
+- `shippingAddress` - returns `extension_attributes.shipping_assignments[0].shipping.address` from the `order` computed property
+
+**Methods**
+
+- `remakeOrder (items)` - iterates through passed 'items' array, adding each item to cart as a single product
+- `skipGrouped (items)` - filters passed 'items' array returning only items without `parent_id`
+
+### Store
+
+Order store is very simple, used just to pass the current order to the backend service.
+
+### Actions
+
+The order store provides following public actions:
+
+#### `placeOrder ({ commit }, order)`
+
+The order object is queued in the local, indexedDb `ordersCollection` to be sent to the server.
+Please take a look at the [Working with data](../data/data.md) for the details about data formats and how does `localForage` is being used in this project.
