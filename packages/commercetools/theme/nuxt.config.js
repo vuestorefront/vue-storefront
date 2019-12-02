@@ -1,6 +1,4 @@
 
-const coreDevelopment = true
-
 export default {
   mode: 'universal',
   head: {
@@ -21,7 +19,7 @@ export default {
   plugins: ['~/plugins/api-client'],
   modules: [
     ['@vue-storefront/nuxt', {
-      coreDevelopment: coreDevelopment
+      coreDevelopment: true
     }]
   ]
 }
