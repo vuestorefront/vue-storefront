@@ -4,11 +4,11 @@ import StoreDataState from '../types/StoreDataState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<StoreDataState, RootState> = {
-  async updateStoreBanners ({commit, rootState}, data) {
-    let storeCategoriesBannersResource = rootState.storeView && rootState.storeView.storeCode ? `banners/${rootState.storeView.storeCode}_store_banners` : `store_banners`
+  async updateStoreCategories ({commit, rootState}, data) {
+    let storeCategoriesBannersResource = rootState.storeView && rootState.storeView.storeCode ? `banners/${rootState.storeView.storeCode}_store_categories` : `store_categories`
     try {
       const storeCategoriesModule = await import(/* webpackChunkName: "vsf-promoted-offers-[request]" */ `theme/resource/${storeCategoriesBannersResource}.json`)
-      commit('updateStoreBanners', storeCategoriesModule)
+      commit('updateStoreCategories', storeCategoriesModule)
     } catch (err) {
       Logger.debug('Unable to load Store Category On Home' + err)()
     }

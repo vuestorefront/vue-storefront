@@ -11,10 +11,10 @@
             class="offer"
             v-lazy:background-image="banner.image"
           >
-            <h2 class="title m0 h1" :style="{color: banner.name_color}">
+            <h2 class="title m0 h1" :style="{color: banner.title_color}">
               {{ banner.title }}
             </h2>
-            <p class="subtitle m0 serif h3 uppercase" :style="{color: banner.description_color}">
+            <p class="subtitle m0 serif h3 uppercase" :style="{color: banner.subtitle_color}">
               {{ banner.subtitle }}
             </p>
           </div>
@@ -32,8 +32,12 @@
               class="offer offer-small border-box p5 flex bg-cl-th-accent"
               v-lazy:background-image="banner.image"
             >
-              <h2 class="title m0 h1" :style="{color: banner.name_color}">{{ banner.title }}</h2>
-              <p class="subtitle m0 serif h3 uppercase" :style="{color: banner.description_color}">{{ banner.subtitle }}</p>
+              <h2 class="title m0 h1" :style="{color: banner.title_color}">
+                {{ banner.title }}
+              </h2>
+              <p class="subtitle m0 serif h3 uppercase" :style="{color: banner.subtitle_color}">
+                {{ banner.subtitle }}
+              </p>
             </div>
           </router-link>
         </div>
@@ -56,8 +60,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      banners: 'categories/getStoreCategories',
-      currentImage: 'categories/getHeadImage'
+      banners: 'procc/getStoreBanners',
+      currentImage: 'procc/getHeadImage'
     })
   },
   async created () {
@@ -71,7 +75,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateStoreCategories: 'categories/updateStoreCategories'
+      updateStoreCategories: 'procc/updateStoreCategories'
     }),
     sortBanners () {
       let sortBanner = []
@@ -113,7 +117,8 @@ export default {
     height: 735px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
+    padding-left: 10%;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
