@@ -1,6 +1,6 @@
 {
   "name": "vue-storefront",
-  "version": "1.11.0-rc.2",
+  "version": "1.11.0",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
@@ -29,7 +29,7 @@
     "static-server": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/static-server.ts",
     "generate": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/generate.ts",
     "start": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" pm2 start ecosystem.json $PM2_ARGS",
-    "start:inspect": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" node --inspect ./core/scripts/server.js",
+    "start:inspect": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" node --inspect -r ts-node/register ./core/scripts/server",
     "installer": "node ./core/scripts/installer",
     "installer:ci": "yarn installer --default-config",
     "all": "cross-env NODE_ENV=development node ./core/scripts/all",

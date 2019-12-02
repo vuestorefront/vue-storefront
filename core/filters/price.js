@@ -18,6 +18,9 @@ export function price (value) {
     return value;
   }
   const storeView = currentStoreView();
+  if (!storeView.i18n) {
+    return value;
+  }
   const { defaultLocale, currencySign, priceFormat } = storeView.i18n
 
   const formattedValue = formatValue(value, defaultLocale);
