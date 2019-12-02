@@ -1,4 +1,4 @@
-import { getApiEndpointUrl } from '@vue-storefront/core/helpers';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 import { DataResolver } from './types/DataResolver'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'

@@ -2,7 +2,7 @@ import config from 'config';
 import { DataResolver } from './types/DataResolver';
 import { processURLAddress } from '@vue-storefront/core/helpers';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
-import { getApiEndpointUrl } from '@vue-storefront/core/helpers';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 const isSubscribed = (email: string): Promise<boolean> =>
   TaskQueue.execute({

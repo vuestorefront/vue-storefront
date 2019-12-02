@@ -8,7 +8,7 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
-import { getApiEndpointUrl } from '@vue-storefront/core/helpers';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 export class SearchAdapter {
   public entities: any

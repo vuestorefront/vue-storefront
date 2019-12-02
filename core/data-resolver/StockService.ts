@@ -3,7 +3,7 @@ import { DataResolver } from './types/DataResolver';
 import { TaskQueue } from '@vue-storefront/core/lib/sync';
 import Task from '@vue-storefront/core/lib/sync/types/Task';
 import { processURLAddress } from '@vue-storefront/core/helpers';
-import { getApiEndpointUrl } from '@vue-storefront/core/helpers';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 const queueCheck = (sku: string, actionName: string): Promise<any> =>
   TaskQueue.queue({

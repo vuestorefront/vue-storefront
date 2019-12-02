@@ -3,7 +3,7 @@ import { DataResolver } from './types/DataResolver';
 import { Order } from '@vue-storefront/core/modules/order/types/Order'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
-import { getApiEndpointUrl } from '@vue-storefront/core/helpers';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 const placeOrder = (order: Order): Promise<Task> =>
   TaskQueue.execute({ url: getApiEndpointUrl(config.orders, 'endpoint'), // sync the order

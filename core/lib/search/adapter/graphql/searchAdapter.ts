@@ -4,7 +4,8 @@ import fetch from 'isomorphic-fetch'
 import {processESResponseType, processProductsType, processCmsType} from './processor/processType'
 import SearchQuery from '../../searchQuery'
 import config from 'config'
-import { getApiEndpointUrl, isServer } from '@vue-storefront/core/helpers'
+import { isServer } from '@vue-storefront/core/helpers'
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 export class SearchAdapter {
   public entities: any

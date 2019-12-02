@@ -4,7 +4,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
 import config from 'config'
-import { getApiEndpointUrl } from '@vue-storefront/core/helpers';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 const headers = {
   'Accept': 'application/json, text/plain, */*',

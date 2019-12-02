@@ -1,6 +1,6 @@
 import queryString from 'query-string'
 import fetch from 'isomorphic-fetch'
-import { getApiEndpointUrl } from '@vue-storefront/core/helpers'
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 export const processURLAddress = (url: string = '', config: any) => {
   if (url.startsWith('/')) return `${getApiEndpointUrl(config.api, 'url')}${url}`
