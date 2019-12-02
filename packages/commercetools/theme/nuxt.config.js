@@ -16,7 +16,6 @@ export default {
   buildModules: [
     '@nuxt/typescript-build'
   ],
-  plugins: ['~/plugins/api-client'],
   modules: [
     ['@vue-storefront/nuxt', {
       coreDevelopment: true

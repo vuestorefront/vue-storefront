@@ -2330,7 +2330,7 @@
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.3.4.tgz#72a7b80e6110935f56aa0c41154e8d7de20eeb9f"
   integrity sha512-giYs0PsjnPffj+Q5fuQwcoJzBXteTI8zdh8HNEnDlAMLBek2/wPFB3jp5+NdDDYsUtk/t3fBiZNHxSxDIF5Ddw==
 
-"@storefront-ui/vue@^0.3.3":
+"@storefront-ui/vue@^0.3.4":
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.3.4.tgz#dad354ba60ab834613fc217a3c9042f32b1d77ae"
   integrity sha512-GjaVKRQHlDKZEjspZZpMUdQOXgvVshYMcqlpyrqpy+/vTs9iV+y7RfcuKa8aVIHbrvsSMrBgJtSoGQiK3/zdmw==
@@ -4577,7 +4577,7 @@ core-js-compat@^3.1.1, core-js-compat@^3.4.3:
     browserslist "^4.7.3"
     semver "^6.3.0"
 
-core-js@^2.5.3, core-js@^2.6.5:
+core-js@2.6.10, core-js@^2.5.3, core-js@^2.6.5:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.10.tgz#8a5b8391f8cc7013da703411ce5b585706300d7f"
   integrity sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
