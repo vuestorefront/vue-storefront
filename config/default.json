@@ -23,7 +23,7 @@
     "invalidateCacheKey": "aeSu7aip",
     "dynamicConfigReload": true,
     "dynamicConfigContinueOnError": false,
-    "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
+    "dynamicConfigExclude": ["ssr", "entities", "localForage", "boost", "query"],
     "dynamicConfigInclude": [],
     "elasticCacheQuota": 4096,
     "ssrDisabledFor": {

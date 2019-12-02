@@ -3,9 +3,9 @@ import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
 import RootState from '@vue-storefront/core/types/RootState'
-import StoreCategoriesState from '../types/StoreCategoriesState'
+import StoreDataState from '../types/StoreDataState'
 
-export const module: Module<StoreCategoriesState, RootState> = {
+export const module: Module<StoreDataState, RootState> = {
   namespaced: true,
   state: {
     banners: {

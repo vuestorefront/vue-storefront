@@ -1,4 +1,4 @@
-export default interface StoreCategoriesState {
+export default interface StoreDataState {
   banners: {
     mainBanners: any[],
     smallBanners: any[],

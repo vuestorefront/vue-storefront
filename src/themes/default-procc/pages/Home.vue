@@ -5,12 +5,14 @@
     <section class="container pb60 px15" v-if="!isDefaultStore">
       <div class="row center-xs">
         <header class="col-md-12 pt40">
-          <h2 class="align-center cl-accent">{{ $t('New Product Arrivals') }}</h2>
+          <h2 class="align-center cl-accent">
+            {{ $t('New Product Arrivals') }}
+          </h2>
         </header>
       </div>
       <tile-links />
     </section>
-    <available-store v-if="isDefaultStore"/>
+    <available-store v-if="isDefaultStore" />
   </div>
 </template>
 
@@ -118,8 +120,8 @@ export default {
       store.state.homepage.coolbags_collection = coolBagsResult.items
     }
 
-    await store.dispatch('categories/updateHeadImage')
-    await store.dispatch('categories/updateStoreCategories')
+    await store.dispatch('procc/updateHeadImage')
+    await store.dispatch('procc/updateStoreCategories')
     await store.dispatch('policies/updateStorePolicies')
   },
   beforeRouteEnter (to, from, next) {

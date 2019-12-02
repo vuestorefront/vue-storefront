@@ -25,7 +25,7 @@ const invokeClientEntry = async () => {
     store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: globalConfig }))
   }
 
-  await store.dispatch('categories/updateHeadImage')
+  await store.dispatch('procc/updateHeadImage')
   await store.dispatch('policies/updateStorePolicies')
   await store.dispatch('url/registerDynamicRoutes')
   function _commonErrorHandler (err, reject) {

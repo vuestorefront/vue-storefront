@@ -12,7 +12,7 @@
         class="product-image relative bg-cl-secondary"
         :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
       >
-<!--        // Changes Vinod-->
+        <!--        // Changes Vinod-->
         <div class="card relative brdr-none">
           <div class="card-header" v-if="isCCStore">
             <img
@@ -91,7 +91,7 @@ export default {
       }
     },
     ...mapGetters({
-      currentImage: 'categories/getHeadImage'
+      currentImage: 'procc/getHeadImage'
     })
   },
   methods: {

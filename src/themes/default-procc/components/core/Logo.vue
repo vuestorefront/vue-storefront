@@ -13,39 +13,39 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
-  export default {
-    computed: {
-      ...mapGetters({
-        storeLogo: 'categories/getStoreLogo'
-      })
-    },
-    watch: {
-      storeLogo: {
-        handler: function (newValue, oldValue) {
-          if (newValue !== '') {
-            setTimeout(() => this.key++, 10)
-          }
-        },
-        deep: true,
-        immediate: true
-      }
-    },
-    data () {
-      return {
-        key: 0
-      }
-    },
-    props: {
-      width: {
-        type: [String, Number],
-        required: true
+export default {
+  computed: {
+    ...mapGetters({
+      storeLogo: 'procc/getStoreLogo'
+    })
+  },
+  watch: {
+    storeLogo: {
+      handler: function (newValue, oldValue) {
+        if (newValue !== '') {
+          setTimeout(() => this.key++, 10)
+        }
       },
-      height: {
-        type: [String, Number],
-        required: true
-      }
+      deep: true,
+      immediate: true
+    }
+  },
+  data () {
+    return {
+      key: 0
+    }
+  },
+  props: {
+    width: {
+      type: [String, Number],
+      required: true
+    },
+    height: {
+      type: [String, Number],
+      required: true
     }
   }
+}
 </script>

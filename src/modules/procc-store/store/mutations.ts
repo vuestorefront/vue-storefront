@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex'
-import StoreCategoriesState from '../types/StoreCategoriesState'
+import StoreDataState from '../types/StoreDataState'
 
-const mutations: MutationTree<StoreCategoriesState> = {
+const mutations: MutationTree<StoreDataState> = {
   updateStoreCategories (state, data) {
     state.banners = data
   },

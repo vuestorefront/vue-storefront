@@ -24,9 +24,8 @@ import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
 import { InstantCheckout } from './instant-checkout'
 import { OrderHistory } from './order-history'
-import {StorePolicies} from "./store-policies";
-import {StoreCategories} from "./store-categories";
-
+import {StorePolicies} from './store-policies';
+import {ProCCStore} from './procc-store';
 
 // import { Example } from './module-template'
 
@@ -81,6 +80,6 @@ export const registerModules: VueStorefrontModule[] = [
   Url,
   OrderHistory,
   StorePolicies,
-  StoreCategories,
+  ProCCStore
   // Example
 ]
