@@ -1131,6 +1131,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "setupVariantByAttributeCode": true,
   "endpoint": "http://localhost:8080/api/product",
   "defaultFilters": ["color", "size", "price", "erin_recommends"],
+  "systemFilterNames": ["sort"],
   "filterFieldMapping": {
     "category.name": "category.name.keyword"
   },
@@ -1254,7 +1255,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
 "i18n": {
   "defaultCountry": "US",
   "defaultLanguage": "EN",
-  "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL", "cs-CZ"],
+  "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "ja-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL", "cs-CZ"],
   "defaultLocale": "en-US",
   "currencyCode": "USD",
   "currencySign": "$",

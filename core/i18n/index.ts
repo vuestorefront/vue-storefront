@@ -28,12 +28,16 @@ function setI18nLanguage (lang: string): string {
 const loadDateLocales = async (lang: string = 'en'): Promise<void> => {
   let localeCode = lang.toLocaleLowerCase()
   try { // try to load full locale name
-    await import(/* webpackChunkName: "dayjs-locales" */ `dayjs/locale/${localeCode}`)
+    await import(/* webpackChunkName: "dayjs-locales-[request]" */ `dayjs/locale/${localeCode}`)
   } catch (e) { // load simplified locale name, example: de-DE -> de
     const separatorIndex = localeCode.indexOf('-')
     if (separatorIndex) {
       localeCode = separatorIndex ? localeCode.substr(0, separatorIndex) : localeCode
-      await import(/* webpackChunkName: "dayjs-locales" */ `dayjs/locale/${localeCode}`)
+      try {
+        await import(/* webpackChunkName: "dayjs-locales-[request]" */ `dayjs/locale/${localeCode}`)
+      } catch (err) {
+        Logger.debug('Unable to load translation from dayjs')()
+      }
     }
   }
 }
@@ -61,7 +65,5 @@ export async function loadLanguageAsync (lang: string): Promise<string> {
   }
   return lang
 }
-
-loadLanguageAsync(config.i18n.defaultLocale)
 
 export default i18n

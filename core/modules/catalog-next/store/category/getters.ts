@@ -107,7 +107,7 @@ const getters: GetterTree<CategoryState, RootState> = {
   getCurrentSearchQuery: (state, getters, rootState) => getters.getCurrentFiltersFrom(rootState.route[products.routerFiltersSource]),
   getCurrentFilters: (state, getters) => getters.getCurrentSearchQuery.filters,
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
-  getSystemFilterNames: () => ['sort'],
+  getSystemFilterNames: () => products.systemFilterNames,
   getBreadcrumbs: (state, getters) => getters.getBreadcrumbsFor(getters.getCurrentCategory),
   getBreadcrumbsFor: (state, getters) => category => {
     if (!category) return []
@@ -118,7 +118,12 @@ const getters: GetterTree<CategoryState, RootState> = {
     return parseCategoryPath(resultCategoryList)
   },
   getCategorySearchProductsStats: state => state.searchProductsStats || {},
-  getCategoryProductsTotal: (state, getters) => getters.getCategorySearchProductsStats.total || 0
+  getCategoryProductsTotal: (state, getters) => {
+    const { total } = getters.getCategorySearchProductsStats
+    const totalValue = typeof total === 'object' ? total.value : total
+
+    return totalValue || 0
+  }
 }
 
 export default getters

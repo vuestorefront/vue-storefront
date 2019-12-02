@@ -2,12 +2,10 @@ import config from 'config'
 
 function getConfig (queryText) {
   let scoringConfig = config.elasticsearch.hasOwnProperty('searchScoring') ? config.elasticsearch.searchScoring : {}
-  let minimumShouldMatch = ''
+  let minimumShouldMatch = scoringConfig.hasOwnProperty('minimum_should_match') ? scoringConfig.minimum_should_match : '75%'
   if (config.elasticsearch.queryMethod === 'GET') {
     // minimum_should_match param must be have a "%" suffix, which is an illegal char while sending over query string
-    minimumShouldMatch = scoringConfig.hasOwnProperty('minimum_should_match') ? scoringConfig.minimum_should_match + '25' : '75%25'
-  } else {
-    minimumShouldMatch = scoringConfig.hasOwnProperty('minimum_should_match') ? scoringConfig.minimum_should_match : '75%'
+    minimumShouldMatch = encodeURIComponent(minimumShouldMatch)
   }
   // Create config for multi match query
   let multiMatchConfig = {

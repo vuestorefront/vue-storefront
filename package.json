@@ -45,17 +45,8 @@
     "test:unit:watch": "jest -c test/unit/jest.conf.js --watch",
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
-    "lint": "eslint --ext .js,.vue,.ts core src --fix",
+    "lint": "cross-env NODE_ENV=production  eslint --ext .js,.vue,.ts core src --fix",
     "lerna": "lerna"
-  },
-  "lint-staged": {
-    "*.{js,vue,ts}": "eslint",
-    "**/i18n/*.csv": ["node ./core/scripts/utils/sort-translations.js", "git add"]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "dependencies": {
     "@types/webpack": "^4.4.23",
@@ -72,6 +63,7 @@
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
     "fs-extra": "^8.1.0",
+    "glob": "^7.1.4",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "isomorphic-fetch": "^2.2.1",
@@ -145,6 +137,7 @@
     "inquirer": "^3.3.0",
     "is-windows": "^1.0.1",
     "jest": "^24.8.0",
+    "jest-fetch-mock": "^2.1.2",
     "jest-serializer-vue": "^2.0.2",
     "jsonfile": "^4.0.0",
     "lerna": "^3.14.1",

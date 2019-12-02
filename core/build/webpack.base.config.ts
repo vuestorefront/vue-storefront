@@ -1,3 +1,4 @@
+import { buildLocaleIgnorePattern } from './../i18n/helpers';
 import path from 'path';
 import config from 'config';
 import fs from 'fs';
@@ -60,6 +61,7 @@ const isProd = process.env.NODE_ENV === 'production'
 // todo: usemultipage-webpack-plugin for multistore
 export default {
   plugins: [
+    new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
     new webpack.ProgressPlugin(),
     // new BundleAnalyzerPlugin({
     //   generateStatsFile: true

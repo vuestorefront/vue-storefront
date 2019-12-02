@@ -296,7 +296,7 @@ const actions: ActionTree<ProductState, RootState> = {
     return searchResult
   },
   preConfigureAssociated (context, { searchResult, prefetchGroupProducts }) {
-    const storeCode = currentStoreView().storeCode
+    const { storeCode, appendStoreCode } = currentStoreView()
     for (let product of searchResult.items) {
       if (product.url_path) {
         const { parentSku, slug } = product
@@ -305,7 +305,7 @@ const actions: ActionTree<ProductState, RootState> = {
           url: localizedDispatcherRoute(product.url_path, storeCode),
           routeData: {
             params: { parentSku, slug },
-            'name': localizedDispatcherRouteName(product.type_id + '-product', storeCode)
+            'name': localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode)
           }
         }, { root: true })
       }
@@ -680,12 +680,15 @@ const actions: ActionTree<ProductState, RootState> = {
       context.commit(types.PRODUCT_SET_GALLERY, productGallery)
     }
   },
-  async loadProductBreadcrumbs ({ dispatch }, { product } = {}) {
+  async loadProductBreadcrumbs ({ dispatch, rootGetters }, { product } = {}) {
     if (product && product.category_ids) {
-      const categoryFilters = { 'id': product.category_ids }
-      const categories = await dispatch('category-next/loadCategories', {filters: categoryFilters}, { root: true })
-      const deepestCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
-      await dispatch('category-next/loadCategoryBreadcrumbs', deepestCategory, { root: true })
+      let currentCategory = rootGetters['category-next/getCurrentCategory'] // use current category, if set
+      if (!currentCategory || !currentCategory.id || !product.category_ids.includes(currentCategory.id.toString())) {
+        const categoryFilters = Object.assign({ 'id': product.category_ids }, config.entities.category.breadcrumbFilterFields)
+        const categories = await dispatch('category-next/loadCategories', {filters: categoryFilters}, { root: true })
+        currentCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
+      }
+      await dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: product.name }, { root: true })
     }
   }
 }

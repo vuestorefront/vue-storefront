@@ -3,6 +3,9 @@ const createShippingInfoData = (methodsData) => ({
     countryId: methodsData.country,
     ...(methodsData.shippingAddress ? methodsData.shippingAddress : {})
   },
+  billingAddress: {
+    ...(methodsData.billingAddress ? methodsData.billingAddress : {})
+  },
   shippingCarrierCode: methodsData.carrier_code,
   shippingMethodCode: methodsData.method_code
 });
