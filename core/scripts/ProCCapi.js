@@ -63,11 +63,11 @@ module.exports = (config, app) => {
   })
   app.post('/category-link', async (req, res) => {
     let storeData
-    if(req.body.storefront_url && req.body.store_categories){
+    if (req.body.storefront_url && req.body.store_categories) {
       storeData = req.body;
-    }else if(req.body.storeCode) {
+    } else if (req.body.storeCode) {
       storeData = await getStoreData(req.body.storeCode)
-    }else{
+    } else {
       return apiStatus(res, 'Bad Data Input', 400);
     }
     // set Store Categories
@@ -107,7 +107,7 @@ module.exports = (config, app) => {
     let products = req.body.products;
     let storeCode = req.body.storeCode
     let imagesRootURL = req.body.imagesRootURL
-    setProductBanners (products, storeCode, imagesRootURL)
+    setProductBanners(products, storeCode, imagesRootURL)
 
     apiStatus(res, 'Vue Storefront: /product-link Success', 200);
     // end set to product banners
@@ -202,23 +202,23 @@ function setStoreMainImage (storeData) {
 
 function getStoreData (storeCode) {
   return new Promise(async (resolve, reject) => {
-  request({
-    uri:'http://'+storefrontConfig.get('PROCC.API')+'/api/storefront/getStoreDataVSF/'+storeCode,
-    method:'GET',
-  },function (_err, _res, _resBody) {
-    if(_err)reject(_err)
-    let obj = JSON.parse(_resBody)
-    console.log('getStoreData _resBody', obj)
-    resolve(obj.storeData);
-  })
-});
+    request({
+      uri: 'http://' + storefrontConfig.get('PROCC.API') + '/api/storefront/getStoreDataVSF/' + storeCode,
+      method: 'GET'
+    }, (_err, _res, _resBody) => {
+      if (_err)reject(_err)
+      let obj = JSON.parse(_resBody)
+      console.log('getStoreData _resBody', obj)
+      resolve(obj.storeData);
+    })
+  });
 }
 function setStoreCategoryBanners (storeData) {
   let storeCode = storeData.storefront_url
   const StoreCategories = new Store({path: path.resolve(storefrontConfig.get('themeDir') + `/resource/banners/${storeCode}_store_categories.json`)});
-console.log('storefrontConfig themeDir', storefrontConfig.get('themeDir'))
-console.log('storefrontConfig path', path.resolve(storefrontConfig.get('themeDir') + `/resource/banners/${storeCode}_store_categories.json`))
-console.log('storeData.store_categories', storeData.store_categories)
+  console.log('storefrontConfig themeDir', storefrontConfig.get('themeDir'))
+  console.log('storefrontConfig path', path.resolve(storefrontConfig.get('themeDir') + `/resource/banners/${storeCode}_store_categories.json`))
+  console.log('storeData.store_categories', storeData.store_categories)
   // start set store categories main Banner and samll Banners
   let magentoStoreCategories = _.take(_.orderBy(_.filter(storeData.store_categories, {'isCategoryCreatedInMagento': true}), 'createdAt', 'desc'), 3)
   let countCategories = magentoStoreCategories.length;
@@ -232,7 +232,7 @@ console.log('storeData.store_categories', storeData.store_categories)
         'title_color': magentoStoreCategories[0].name_color,
         'subtitle_color': magentoStoreCategories[0].description_color,
         'image': magentoStoreCategories[0].cover_photo.optimized,
-        'link': '/' + _.kebabCase(magentoStoreCategories[0].name)+'/' + _.kebabCase(magentoStoreCategories[0].name),
+        'link': '/' + _.kebabCase(magentoStoreCategories[0].name) + '/' + _.kebabCase(magentoStoreCategories[0].name),
         'storeCode': storeData.storefront_url,
         'productCount': magentoStoreCategories[0].products.length,
         'category_id': parseInt(magentoStoreCategories[0].magento_category_id)
@@ -246,7 +246,7 @@ console.log('storeData.store_categories', storeData.store_categories)
           'title_color': magentoStoreCategories[1].name_color,
           'subtitle_color': magentoStoreCategories[1].description_color,
           'image': magentoStoreCategories[1].cover_photo.optimized,
-          'link': '/' + _.kebabCase(magentoStoreCategories[1].name)+'/'+_.kebabCase(magentoStoreCategories[1].name),
+          'link': '/' + _.kebabCase(magentoStoreCategories[1].name) + '/' + _.kebabCase(magentoStoreCategories[1].name),
           'storeCode': storeData.storefront_url,
           'productCount': magentoStoreCategories[1].products.length,
           'category_id': parseInt(magentoStoreCategories[1].magento_category_id)
@@ -259,7 +259,7 @@ console.log('storeData.store_categories', storeData.store_categories)
           'title_color': magentoStoreCategories[2].name_color,
           'subtitle_color': magentoStoreCategories[2].description_color,
           'image': magentoStoreCategories[2].cover_photo.optimized,
-          'link': '/' + _.kebabCase(magentoStoreCategories[2].name)+'/' + _.kebabCase(magentoStoreCategories[2].name),
+          'link': '/' + _.kebabCase(magentoStoreCategories[2].name) + '/' + _.kebabCase(magentoStoreCategories[2].name),
           'storeCode': storeData.storefront_url,
           'productCount': magentoStoreCategories[2].products.length,
           'category_id': parseInt(magentoStoreCategories[2].magento_category_id)
@@ -309,7 +309,7 @@ function setProductBanners (products, storeCode, imagesRootURL) {
   //   category_ids.push(StoreCategories.get('smallBanners.1.category_id'));
   // }
 
-  for (let product of products){
+  for (let product of products) {
     console.log('/product-link loop product', _.get(product, '_source'))
     let link = !_.isUndefined(product._source.url_path) ? product._source.url_path : product._source.url_key;
     let Banner = {
@@ -330,7 +330,7 @@ function setProductBanners (products, storeCode, imagesRootURL) {
 }
 
 function setStoreData (storeData) {
-  let store_data = getDefaultStoreData (storeData)
+  let store_data = getDefaultStoreData(storeData)
   storefrontConfig.set(`storeViews.${storeData.storefront_url}`, store_data);
 }
 
