@@ -82,12 +82,16 @@ export default {
       default: false
     }
   },
+  data () {
+    return {
+      isCCStore: false
+    }
+  },
   computed: {
     thumbnailObj () {
       return {
         src: this.thumbnail,
-        loading: this.thumbnail,
-        isCCStore: false
+        loading: this.thumbnail
       }
     },
     ...mapGetters({
