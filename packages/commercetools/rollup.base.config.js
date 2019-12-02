@@ -1,9 +1,9 @@
 import typescript from 'rollup-plugin-typescript2';
 import { terser } from "rollup-plugin-terser";
 
-export function generateBaseConfig (pkg, entry = 'src/index.ts') {
+export function generateBaseConfig (pkg) {
   return {
-    input: entry,
+    input: 'src/index.ts',
     output: [
       {
       file: pkg.main,
