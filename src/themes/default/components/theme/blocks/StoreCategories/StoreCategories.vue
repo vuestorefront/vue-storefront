@@ -60,8 +60,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      banners: 'categories/getStoreCategories',
-      currentImage: 'categories/getHeadImage'
+      banners: 'procc/getStoreBanners',
+      currentImage: 'procc/getHeadImage'
     })
   },
   async created () {
@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateStoreCategories: 'categories/updateStoreCategories'
+      updateStoreCategories: 'procc/updateStoreCategories'
     }),
     sortBanners () {
       let sortBanner = []

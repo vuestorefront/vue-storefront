@@ -18,30 +18,32 @@
       </router-link>
     </div>
     <div v-if="(!banners.productBanners) || (banners.productBanners.length === 0)">
-      <h3 class="align-center cl-accent">Product will available soon for you :)</h3>
+      <h3 class="align-center cl-accent">
+        Product will available soon for you :)
+      </h3>
     </div>
   </div>
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex'
-  export default {
-    name: 'TileLinks',
-    computed: {
-      ...mapGetters({
-        banners: 'categories/getStoreCategories'
-      })
-    },
-    async created () {
-      await this.updateStoreCategories()
-      console.log('TileLinks banners', this.banners)
-    },
-    methods: {
-      ...mapActions({
-        updateStoreCategories: 'categories/updateStoreCategories'
-      })
-    }
+import { mapGetters, mapActions } from 'vuex'
+export default {
+  name: 'TileLinks',
+  computed: {
+    ...mapGetters({
+      banners: 'procc/getStoreBanners'
+    })
+  },
+  async created () {
+    await this.updateStoreCategories()
+    console.log('TileLinks banners', this.banners)
+  },
+  methods: {
+    ...mapActions({
+      updateStoreCategories: 'procc/updateStoreCategories'
+    })
   }
+}
 </script>
 
 <style lang='scss' scoped>
@@ -71,4 +73,3 @@
     }
   }
 </style>
-

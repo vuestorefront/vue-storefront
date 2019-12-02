@@ -198,7 +198,7 @@ const actions: ActionTree<ProductState, RootState> = {
   },
   /**
    * This is fix for https://github.com/DivanteLtd/vue-storefront/issues/508
-   * TODO: probably it would be better to have "parent_id" for simple products or to just ensure configurable variants are not visible in categories/search
+   * TODO: probably it would be better to have "parent_id" for simple products or to just ensure configurable variants are not visible in procc/search
    */
   checkConfigurableParent (context, {product}) {
     if (product.type_id === 'simple') {

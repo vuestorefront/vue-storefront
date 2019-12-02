@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentImage: 'categories/getHeadImage'
+      currentImage: 'procc/getHeadImage'
     })
   }
 }
@@ -57,12 +57,12 @@ export default {
     margin-left: 15%;
 
     .title {
-      font-size: 3.4rem;
+      font-size: 2.4rem;
       margin-bottom: 0;
     }
 
     .subtitle {
-      font-size: 0.8rem;
+      font-size: 1.2rem;
       max-width: 340px;
       font-family: 'Roboto', sans-serif;
       line-height: 1.2rem;

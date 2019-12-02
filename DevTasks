@@ -6,7 +6,13 @@ Search for "// TODO:" to find smaller tasks
 
 -- add shipping method selector in cart for each brand group
 
+-- utilize dynamic config -> search for "// Use can use dynamic config by using this function below:"
+
 -- while server is running -> and store is synced -> we rebuild the /dist folder remotely -> this causes some files to fail to be overwritten if in use (not sure if this is an issue in practice)
 
--- ERROR when yarn dev
+-- remove duplication of category in URLs -> store/category/category/product.html url structure (category url_path generation)
+
+-- refactor src/modules/store-policies -> src/modules/procc-store -> move the functions there and its respective uses
+
+-- ERROR when yarn dev ( maybe due to browser with old /dist is requesting something)
     error: ENOENT: no such file or directory, stat 'F:\PROmo\PROmo\vue-storefront\dist\ba5eb275a7c5acd4bab7.hot-update.json'

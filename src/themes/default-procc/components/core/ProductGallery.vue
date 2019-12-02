@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentImage: 'categories/getHeadImage'
+      currentImage: 'procc/getHeadImage'
     }),
     isOnline (value) {
       return onlineHelper.isOnline

@@ -201,7 +201,9 @@
           <div class="col-xs-11 col-sm-9 col-md-10">
             <div class="row">
               <div class="col-sm-10" style="padding: 0">
-                <h3 class="m0">Description</h3>
+                <h3 class="m0">
+                  Description
+                </h3>
                 <p>{{ product.description }}</p>
               </div>
               <div class="col-sm-2" v-if="isCCStore" style="padding: 0">
@@ -212,10 +214,13 @@
                         width="50px"
                         height="50px"
                         :src="product.brand_logo"
-                        alt="Vuestore logo">
+                        alt="Vuestore logo"
+                      >
                     </div>
                     <div class="align-center">
-                      <h4 class="m0">{{ product.brand_name }}</h4>
+                      <h4 class="m0">
+                        {{ product.brand_name }}
+                      </h4>
                     </div>
                   </div>
                 </div>
@@ -225,33 +230,33 @@
               <h3>Size Chart</h3>
             </div>
             <!--<div class="row mb10">-->
-              <!--<size-chart-view class="align-center" :product="product" />-->
+            <!--<size-chart-view class="align-center" :product="product" />-->
             <!--</div>-->
           </div>
         </div>
         <!--<div class="row between-md m0">-->
-          <!--<div class="col-xs-12 col-sm-6">-->
-            <!--<div-->
-              <!--class="lh30 h5"-->
-              <!--itemprop="description"-->
-              <!--v-html="product.description"-->
-            <!--/>-->
-          <!--</div>-->
-          <!--<div class="col-xs-12 col-sm-5">-->
-            <!--<ul class="attributes p0 pt5 m0">-->
-              <!--<product-attribute-->
-                <!--:key="attr.attribute_code"-->
-                <!--v-for="attr in customAttributes"-->
-                <!--:product="product"-->
-                <!--:attribute="attr"-->
-                <!--empty-placeholder="N/A"-->
-              <!--/>-->
-            <!--</ul>-->
-          <!--</div>-->
-          <!--<div-->
-            <!--class="details-overlay"-->
-            <!--@click="showDetails"-->
-          <!--/>-->
+        <!--<div class="col-xs-12 col-sm-6">-->
+        <!--<div-->
+        <!--class="lh30 h5"-->
+        <!--itemprop="description"-->
+        <!--v-html="product.description"-->
+        <!--/>-->
+        <!--</div>-->
+        <!--<div class="col-xs-12 col-sm-5">-->
+        <!--<ul class="attributes p0 pt5 m0">-->
+        <!--<product-attribute-->
+        <!--:key="attr.attribute_code"-->
+        <!--v-for="attr in customAttributes"-->
+        <!--:product="product"-->
+        <!--:attribute="attr"-->
+        <!--empty-placeholder="N/A"-->
+        <!--/>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--<div-->
+        <!--class="details-overlay"-->
+        <!--@click="showDetails"-->
+        <!--/>-->
         <!--</div>-->
       </div>
     </section>
@@ -325,7 +330,7 @@ export default {
     this.isCCStore = this.currentImage.is_cc_store
   },
   beforeUpdate () {
-    console.log('cc Store',this.currentImage)
+    console.log('cc Store', this.currentImage)
   },
   computed: {
     structuredData () {
@@ -333,10 +338,10 @@ export default {
         availability: (this.product.stock.is_in_stock) ? 'InStock' : 'OutOfStock'
       }
     },
-  ...mapGetters({
-    storeLogo: 'categories/getStoreLogo',
-    currentImage: 'categories/getHeadImage'
-  })
+    ...mapGetters({
+      storeLogo: 'procc/getStoreLogo',
+      currentImage: 'procc/getHeadImage'
+    })
   },
   methods: {
     showDetails (event) {

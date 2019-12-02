@@ -1,9 +1,9 @@
 import { ActionTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
-import StoreCategoriesState from '../types/StoreCategoriesState'
+import StoreDataState from '../types/StoreDataState'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-const actions: ActionTree<StoreCategoriesState, RootState> = {
+const actions: ActionTree<StoreDataState, RootState> = {
   async updateStoreCategories ({commit, rootState}, data) {
     let storeCategoriesBannersResource = rootState.storeView && rootState.storeView.storeCode ? `banners/${rootState.storeView.storeCode}_store_categories` : `store_categories`
     try {
