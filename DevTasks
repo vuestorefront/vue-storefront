@@ -4,6 +4,8 @@ Search for "// TODO:" to find smaller tasks
 
 -- split ordered products by brand in checkout
 
+-- Main Home Page add search/filter by store name, product name, category name of all the stores
+
 -- add shipping method selector in cart for each brand group
 
 -- utilize dynamic config -> search for "// Use can use dynamic config by using this function below:"

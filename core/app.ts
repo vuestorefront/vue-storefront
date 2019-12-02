@@ -119,7 +119,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     isServer,
     ssrContext
   }
-
+  console.log('running registerModules 1')
   registerModules(enabledModules, appContext)
   registerExtensions(extensions, app, router, store, config, ssrContext)
   registerTheme(globalConfig.theme, app, router, store, globalConfig, ssrContext)

@@ -291,6 +291,17 @@ const actions: ActionTree<ProductState, RootState> = {
         includeFields = config.entities.product.includeFields
       }
     }
+
+    // Debugging home page query
+    // query._appliedFilters.splice(0, 1)
+    // const util = require('util')
+    // console.log('STARTING quickSearchByQuery in Product', util.inspect(query, false, null, true /* enable colors */))
+    console.log('STARTING quickSearchByQuery in sort: ', sort)
+    // if(query && query._appliedFilters && query._appliedFilters[0].attribute == 'category.name' && query._appliedFilters[0].value.eq == 'Tees'){
+      sort = null
+    // }
+    console.log('DISABLED SORT DUE TO CRASHING MAIN HOME PAGE')
+    console.log('STARTING quickSearchByQuery in Product')
     return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
