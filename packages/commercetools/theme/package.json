@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build",
+    "build": "nuxt build -m",
+    "build:analyze": "nuxt build -a -m",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "test": "jest"
@@ -17,8 +18,8 @@
     "@vue-storefront/commercetools-composables": "^0.0.1",
     "@vue-storefront/commercetools-helpers": "^0.0.1",
     "@vue-storefront/nuxt": "^0.0.1",
-    "core-js": "2.6.10",
-    "nuxt": "^2.0.0"
+    "core-js": "^2.6.5",
+    "nuxt": "^2.10.2"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.3.1",
