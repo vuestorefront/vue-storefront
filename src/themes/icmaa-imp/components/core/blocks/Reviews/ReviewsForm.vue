@@ -87,7 +87,7 @@
         />
       </div>
       <div>
-        <div class="t-mb-2 t-text-sm t-text-alert" v-if="this.$v.reviewForm.recaptcha.$error && !this.$v.reviewForm.recaptcha.required">
+        <div class="t-mb-2 t-text-sm t-text-alert" v-if="$v.reviewForm.recaptcha.$error && !this.$v.reviewForm.recaptcha.required">
           {{ $t('Your Google reCAPTCHA validation is invalid.') }}<br>
           {{ $t('Please try again or contact our customer-support.') }}
         </div>

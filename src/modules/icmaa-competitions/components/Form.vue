@@ -70,7 +70,16 @@
       <div class="lg:t-w-1/2" v-if="['half-single'].includes(element.width)" :key="'spacer-' + i" />
     </template>
     <div class="t-flex t-w-full t-px-2">
-      <button-component :submit="true" type="primary" class="t-flex-1 lg:t-flex-fix">
+      <div class="t-w-full t-mb-2 t-text-sm t-text-alert" v-if="recaptcha && $v.form.recaptcha.$error && !$v.form.recaptcha.required">
+        {{ $t('Your Google reCAPTCHA validation is invalid.') }}<br>
+        {{ $t('Please try again or contact our customer-support.') }}
+      </div>
+      <vue-recaptcha v-if="recaptcha" :sitekey="recaptchaWebsiteKey" :load-recaptcha-script="true" badge="inline" @verify="recaptchaVerify" class="t-w-full">
+        <button-component @click="submit()" type="primary" class="t-w-full lg:t-w-auto t-mt-4">
+          {{ submitButtonText }}
+        </button-component>
+      </vue-recaptcha>
+      <button-component v-else :submit="true" type="primary" class="t-flex-1 lg:t-flex-fix">
         {{ submitButtonText }}
       </button-component>
     </div>
@@ -78,13 +87,14 @@
 </template>
 
 <script>
+import config from 'config'
+import i18n from '@vue-storefront/i18n'
 import { mapGetters } from 'vuex'
 import { isDatetimeInBetween } from 'icmaa-config/helpers/datetime'
 import { required, email } from 'vuelidate/lib/validators'
 import { date, postcode, isTrue, regex } from 'icmaa-config/helpers/validators'
 import { stringToComponent } from 'icmaa-cms/helpers'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import i18n from '@vue-storefront/i18n'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
@@ -92,6 +102,7 @@ import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
 import CountrySelect from 'theme/components/core/blocks/Form/CountrySelect'
 import ButtonComponent from 'theme/components/core/blocks/Button'
+import VueRecaptcha from 'vue-recaptcha'
 
 export default {
   name: 'Form',
@@ -101,9 +112,16 @@ export default {
     BaseCheckbox,
     BaseTextarea,
     CountrySelect,
-    ButtonComponent
+    ButtonComponent,
+    VueRecaptcha
   },
   props: {
+    value: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     formElements: {
       type: Array,
       required: true
@@ -111,6 +129,10 @@ export default {
     submitButtonText: {
       type: String,
       default: i18n.t('Submit')
+    },
+    recaptcha: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -121,6 +143,11 @@ export default {
         email: 'Please provide valid e-mail address.',
         required: 'Field is required.'
       }
+    }
+  },
+  watch: {
+    form (data) {
+      this.$emit('input', data)
     }
   },
   computed: {
@@ -172,6 +199,10 @@ export default {
         validations[element.name] = validation
       })
 
+      if (this.recaptcha) {
+        validations.recaptcha = { required }
+      }
+
       return validations
     },
     validation () {
@@ -212,10 +243,17 @@ export default {
         defaults[element.name] = value
       })
 
+      if (this.recaptcha) {
+        defaults.recaptcha = ''
+      }
+
       return defaults
     },
     countryId () {
       return this.form.country || currentStoreView().i18n.defaultCountry
+    },
+    recaptchaWebsiteKey () {
+      return config.icmaa.googleRecaptcha.websiteKey || false
     }
   },
   methods: {
@@ -226,10 +264,18 @@ export default {
       return stringToComponent(string)
     },
     submit () {
+      if (this.recaptcha && !this.$v.form.recaptcha.$error && !this.$v.form.recaptcha.required) {
+        return
+      }
+
       this.$v.form.$touch()
       if (!this.$v.form.$invalid) {
         this.$emit('submit')
       }
+    },
+    recaptchaVerify (token) {
+      this.form.recaptcha = token
+      this.submit()
     }
   },
   validations () {

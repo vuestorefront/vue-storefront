@@ -29,8 +29,18 @@
           </div>
         </div>
       </div>
-      <form-component v-if="isActive" :form-elements="competition.form" :submit-button-text="$t('Submit') + (competition.disclaimer ? ' *' : '')" @submit="submit" id="competition-form" />
-      <div v-if="isActive && competition.disclaimer" class="t-pt-4 t-pb-8 t-text-sm t-text-base-light">
+      <form-component v-if="isActive && !isSend" :form-elements="competition.form" :submit-button-text="$t('Submit') + (competition.disclaimer ? ' *' : '')" v-model="form" @submit="submit" id="competition-form" />
+      <div v-if="!isActive && !isSend" id="competition-form" class="t-p-4 t-bg-white">
+        {{ $t('Sorry, but this competition is already over.') }}
+      </div>
+      <div v-if="isSend" class="t-p-4 t-bg-white">
+        <div class="t-flex t-items-center t-text-1xl t-font-bold t-text-alt-3 t-mb-2">
+          <material-icon icon="check" size="lg" class="t-mr-2" />
+          {{ $t('Done') }}
+        </div>
+        {{ $t('Thank you. We successfully received your data and will inform you about further steps.') }}
+      </div>
+      <div v-if="isActive && !isSend && competition.disclaimer" class="t-pt-4 t-text-sm t-text-base-light">
         <p v-if="showTo">
           <material-icon icon="asterisk" icon-set="icmaa" size="xxs" class="t-mr-1" />
           {{ $t('Deadline for entries is {showTo}. The decision is final.', { showTo }) }}
@@ -41,11 +51,13 @@
           {{ competition.disclaimer }}
         </p>
       </div>
+      <div class="t-pb-8" />
     </div>
   </div>
 </template>
 
 <script>
+import i18n from '@vue-storefront/i18n'
 import { mapGetters } from 'vuex'
 import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { toDate, isDatetimeInBetween } from 'icmaa-config/helpers/datetime'
@@ -66,7 +78,8 @@ export default {
   },
   data () {
     return {
-      form: {}
+      form: {},
+      isSend: false
     }
   },
   computed: {
@@ -75,6 +88,9 @@ export default {
     }),
     competition () {
       return this.getCompetition(this.$route.params.identifier)
+    },
+    sheetId () {
+      return this.competition.googleSheetId
     },
     isActive () {
       const { showFrom, showTo, enabled } = this.competition
@@ -97,13 +113,37 @@ export default {
     }
   },
   methods: {
-    submit () {
+    async submit () {
       if (!this.isActive) {
         window.location.reload()
         return
       }
 
-      console.log('SUBMIT')
+      this.$bus.$emit('notification-progress-start', i18n.t('Please wait'))
+      this.$store.dispatch('icmaaCompetitions/post', { sheetId: this.sheetId, data: this.form })
+        .then(this.afterSend)
+    },
+    afterSend (success) {
+      this.$bus.$emit('notification-progress-stop')
+
+      if (success) {
+        this.isSend = true
+        this.$bus.$emit('notification-progress-stop')
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'success',
+          message: i18n.t('Thank you. We successfully received your data and will inform you about further steps.'),
+          action1: { label: i18n.t('OK') }
+        })
+      } else {
+        this.onError()
+      }
+    },
+    onError () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: i18n.t('There was an unexpected error. Please check your entered data and try again.'),
+        action1: { label: i18n.t('OK') }
+      })
     }
   },
   async asyncData ({ store, route, context }) {
