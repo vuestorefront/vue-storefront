@@ -17,11 +17,12 @@ const registeredModules: VueStorefrontModuleConfig[] = []
 
 function registerModules (modules: VueStorefrontModule[], context): void {
   modules.forEach(m => m.register())
-  Logger.info('VS Modules registration finished.', 'module', {
-    succesfulyRegistered: registeredModules.length + ' / ' + modules.length,
-    registrationOrder: registeredModules
-  }
-  )()
+  Logger.info('VS Modules registration finished.', 'module')()
+  // Logger.info('VS Modules registration finished.', 'module', {
+  //   succesfulyRegistered: registeredModules.length + ' / ' + modules.length,
+  //   registrationOrder: registeredModules
+  // }
+  // )()
 }
 
 function extendModule (moduleConfig: VueStorefrontModuleConfig) {
