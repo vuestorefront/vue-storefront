@@ -82,7 +82,9 @@
                 name: product.type_id + '-product',
                 params: {
                   parentSku: product.parentSku ? product.parentSku : product.sku,
-                  slug: product.slug,
+                  slug: product.slug + '.html'
+                },
+                query: {
                   childSku: product.sku
                 }
               })"

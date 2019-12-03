@@ -1,8 +1,8 @@
 <template>
   <div class="product-listing row m0 center-xs start-md">
     <div
-      v-for="(product, key) in products"
-      :key="product.id"
+      v-for="(product, index) in products"
+      :key="index"
       class="col-sm-6 flex"
       :class="['col-md-' + (12/columns)%10, wide(product.sale, product.new, key)]"
     >

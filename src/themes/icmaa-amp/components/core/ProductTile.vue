@@ -1,27 +1,15 @@
 <template>
-  <div
-    class="product w-100 pb20 t-cursor-pointer"
-    v-observe-visibility="visibilityChanged"
-  >
-    <router-link
-      class="product-cover t-relative t-bg-white t-mb-4"
-      :to="productLink"
-      data-testid="productLink"
-    >
-      <div
-        class="product-image relative t-bg-white t-pb-10"
-        :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
+  <div>
+    <div class="product-cover t-relative t-bg-white t-mb-4" v-observe-visibility="visibilityChanged">
+      <router-link
+        class="product-link t-block t-z-0"
+        :to="productLink"
+        data-testid="productLink"
       >
-        <amp-img
-          :alt="product.name"
-          :src="thumbnailObj.src"
-          height="433"
-          width="310"
-        />
-      </div>
-    </router-link>
-
-    <router-link :to="productLink" tag="div" class="t-text-sm t-pt-3" v-if="!onlyImage">
+        <product-image-amp :image="thumbnailObj" :alt="product.name | htmlDecode" data-testid="productImageAmp" @load="imageLoading = false" />
+      </router-link>
+    </div>
+    <router-link :to="productLink" tag="div" class="t-text-sm" v-if="!onlyImage">
       <p class="t-mb-1 t-text-primary t-leading-tight" v-if="!onlyImage">
         {{ product.name | htmlDecode }}
       </p>
@@ -54,9 +42,18 @@
 import rootStore from '@vue-storefront/core/store'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
 import config from 'config'
+import ProductImageAmp from './ProductImageAmp'
 
 export default {
   mixins: [ProductTile],
+  components: {
+    ProductImageAmp
+  },
+  data () {
+    return {
+      imageLoading: true
+    }
+  },
   props: {
     labelsActive: {
       type: Boolean,
@@ -100,72 +97,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '~theme/css/animations/transitions';
-@import '~theme/css/variables/colors';
-@import '~theme/css/helpers/functions/color';
-
-$bg-secondary: color(secondary, $colors-background);
-$border-secondary: color(secondary, $colors-border);
-$color-white: color(white);
-
-.product {
-  @media (max-width: 767px) {
-    padding-bottom: 10px;
-  }
-}
-
-.price-original {
-  text-decoration: line-through;
-}
-
-%label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  background-color: $border-secondary;
-  text-transform: uppercase;
-  color: $color-white;
-  font-size: 12px;
-}
-
-.product-image {
-  width: 100%;
-  overflow: hidden;
-  max-height: 433px;
-
-  amp-img {
-    max-height: 100%;
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    margin: auto;
-    /deep/ img {
-        height: initial;
-        width: initial;
-        min-height: initial;
-        min-width: initial;
-    }
-  }
-
-  &.sale {
-    &::after {
-      @extend %label;
-      content: 'Sale';
-    }
-  }
-
-  &.new {
-    &::after {
-      @extend %label;
-      content: 'New';
-    }
-  }
-}
-</style>

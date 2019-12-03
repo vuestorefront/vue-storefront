@@ -1,16 +1,12 @@
 <template>
   <div class="header">
     <header class="t-fixed t-w-full t-bg-white is-visible">
-      <div class="t-h-60px t-flex">
-        <div class="t-container t-px-4 t-flex t-items-center">
+      <div class="t-flex">
+        <div class="t-container t-pr-4 md:t-px-4 t-flex t-items-center">
           <div class="t-flex t-w-full t-flex-wrap t-items-stretch">
-            <a
-              class="inline-flex brdr-none p15 icon bg-cl-secondary pointer"
-              href="/"
-              data-testid="returnButton"
-            >
+            <router-link :to="localizedRoute('/')" :title="$t('Home Page')" class="inline-flex brdr-none p15 icon bg-cl-secondary pointer t-no-underline">
               <i class="material-icons">keyboard_backspace</i>
-            </a>
+            </router-link>
           </div>
           <logo width="174" height="43" class="t-no-underline logo t-flex-fix t--mr-4 xl:t-mr-0 router-link-active" />
         </div>
@@ -38,7 +34,7 @@ export default {
 $color-icon-hover: color(secondary, $colors-background);
 
 header {
-  height: 54px;
+  height: 43px;
   top: -55px;
   z-index: 3;
   transition: top 0.2s ease-in-out;
@@ -59,7 +55,7 @@ header {
   float: right;
 }
 .header-placeholder {
-  height: 54px;
+  height: 43px;
 }
 .links {
   text-decoration: underline;
