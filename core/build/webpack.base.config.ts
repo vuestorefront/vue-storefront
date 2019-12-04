@@ -121,7 +121,7 @@ export default {
     extensions: ['.js', '.vue', '.gql', '.graphqls', '.ts'],
     alias: {
       // Main aliases
-      'config': path.resolve(__dirname, './config.json'),
+      'config': path.resolve(__dirname, './config.js'),
       'src': path.resolve(__dirname, '../../src'),
 
       // Theme aliases
