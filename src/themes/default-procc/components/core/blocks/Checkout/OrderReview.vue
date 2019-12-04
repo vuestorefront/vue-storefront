@@ -39,6 +39,7 @@
               <base-checkbox
                 class="col-xs-11 col-sm-12 col-md-8 bg-cl-secondary p15 mb35 ml10"
                 id="acceptTermsCheckbox"
+                @click="orderReview.terms = !orderReview.terms"
                 @blur="$v.orderReview.terms.$touch()"
                 v-model="orderReview.terms"
                 :validations="[{
@@ -66,7 +67,7 @@
           <div class="col-xs-12 col-md-8 px20">
             <slot name="placeOrderButton">
               <button-full
-                @click.native="placeOrder"
+                @click.native="orderPayment"
                 data-testid="orderReviewSubmit"
                 class="place-order-btn"
                 :disabled="$v.orderReview.$invalid"
@@ -115,14 +116,27 @@ import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import Modal from 'theme/components/core/Modal'
+import TransactionDone from 'theme/pages/TransactionDone'
+import { mapGetters } from 'vuex'
 import { OrderReview } from '@vue-storefront/core/modules/checkout/components/OrderReview'
-
+import ValidationError from 'theme/components/core/ValidationError'
+import { Logger } from '@vue-storefront/core/lib/logger'
+import _ from 'lodash'
 export default {
   components: {
     BaseCheckbox,
     ButtonFull,
     CartSummary,
-    Modal
+    Modal,
+    TransactionDone,
+    ValidationError
+  },
+  data () {
+    return {
+      payment: this.$store.state.checkout.paymentDetails,
+      storeImage: {},
+      transactionId: ''
+    }
   },
   mixins: [OrderReview, Composite],
   validations: {
@@ -132,14 +146,75 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters({
+      currentImage: 'categories/getHeadImage',
+      currentCart: 'carts/getCartToken'
+    })
+  },
+  mounted () {
+    window.callPlaceOrder = (transactionId) => {
+      let BrandId = _.get(this.currentImage, 'brand')
+      this.transactionId = transactionId
+      this.ProCcAPI.updateTransactionStatus({mangopay_transaction_id: transactionId}, BrandId).then((result) => {
+        this.transactionId = result.data.transaction._id
+        if (result.data.message_type === 'success') {
+          this.placeOrder(result.data.transaction._id)
+        }
+      }).catch(err => {
+        Logger.error(err, 'Transaction was not Done!!')()
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Transaction was not done!!!!'),
+          action1: { label: this.$t('OK') }
+        })
+      })
+    }
+  },
   methods: {
     onSuccess () {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: this.$t('You are logged in!'),
+        action1: { label: this.$t('OK') }
+      })
     },
     onFailure (result) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: this.$t(result.result),
         action1: { label: this.$t('OK') }
+      })
+    },
+    orderPayment () {
+      let amount = _.get(_.get(_.filter(this.totals, {'code': 'grand_total'}), ['0']), 'value')
+      let data = {
+        'PaymentType': 'CARD',
+        'ExecutionType': 'WEB',
+        'DebitedFunds': {
+          'Currency': 'EUR',
+          'Amount': amount * 100
+        },
+        'Fees': {
+          'Currency': 'EUR',
+          'Amount': 0
+        },
+        'ReturnURL': 'https://store.procc.co/transactionDone', //  store url
+        'CardType': 'CB_VISA_MASTERCARD',
+        'SecureMode': 'DEFAULT',
+        'Culture': 'EN',
+        'brand': this.currentImage.brand
+      }
+      this.ProCcAPI.mangoPayCheckIn(data, this.currentImage.brand).then(async (response) => {
+        if (!_.isEmpty(response.data.payIn_result) && !_.isUndefined(response.data.payIn_result.RedirectURL)) {
+          window.open(response.data.payIn_result.RedirectURL, 'popUpWindow', 'height=700,width=800,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
+        } else {
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: this.$t('Something goes Wrong :(  Server could not respond'),
+            action1: { label: this.$t('OK') }
+          })
+        }
       })
     }
   }

@@ -99,6 +99,7 @@ export default {
       return this.product_data && this.product_data.available_quantity && this.product_data.available_quantity[sizeName] ? this.product_data.available_quantity[sizeName] : 0
     },
     async getSizeChart () {
+      try {
       this.size_chart_loading = true
       if (this.product && this.product.product) {
         this.product_data = _.cloneDeep(this.product)
@@ -125,6 +126,9 @@ export default {
       let result = await this.ProCcAPI.getSizeChart(this.$props.product.size_chart_id, this.$props.product.procc_brand_id) // product id
       this.size_chart_data = !_.isNull(result.data.sizeChart) ? result.data.sizeChart : {}
       this.$nextTick(() => { this.size_chart_loading = false })
+    }catch (e) {
+        console.log('getSizeChart Error', e)
+      }
     }
   },
   watch: {

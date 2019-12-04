@@ -88,6 +88,8 @@
     "register-service-worker": "^1.5.2",
     "ts-node": "^7.0.1",
     "vue": "^2.6.6",
+    "jsonwebtoken": "^8.5.1",
+    "axios": "^0.19.0",
     "vue-analytics": "^5.16.1",
     "vue-apollo": "^3.0.0-beta.19",
     "vue-carousel": "^0.6.9",
