@@ -17,7 +17,8 @@
     "apollo-link-http": "^1.5.16",
     "cross-env": "^6.0.3",
     "graphql": "^14.5.8",
-    "graphql-tag": "^2.10.1"
+    "graphql-tag": "^2.10.1",
+    "isomorphic-fetch": "^2.2.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",

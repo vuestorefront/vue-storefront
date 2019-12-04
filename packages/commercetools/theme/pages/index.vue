@@ -160,14 +160,16 @@ import { setup, getProduct } from '@vue-storefront/commercetools-api'
 export default {
   name: "Home",
   transition: 'fade',
-  beforeMount () {
+  asyncData () {
     setup({
-      uri: 'https://api.commercetools.com/vue-storefront-next/graphql',
-      authHost: 'https://auth.sphere.io',
-      projectKey: 'vue-storefront-next',
-      clientId: 'ULi2QVos7ZoeBD_cY90aFNmc',
-      clientSecret: '2eX7tGiZsZt0uexGQlcF2tgwbWEXIgbf',
-      scopes: ['manage_products:vue-storefront-next'],
+      config: {
+        uri: 'https://api.commercetools.com/vue-storefront-next/graphql',
+        authHost: 'https://auth.sphere.io',
+        projectKey: 'vue-storefront-next',
+        clientId: 'ULi2QVos7ZoeBD_cY90aFNmc',
+        clientSecret: '2eX7tGiZsZt0uexGQlcF2tgwbWEXIgbf',
+        scopes: ['manage_products:vue-storefront-next'],
+      }
     })
     getProduct().then(r => console.log('res', r))
   },
