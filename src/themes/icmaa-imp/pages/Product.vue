@@ -113,7 +113,6 @@
       <div class="t-container t-px-4">
         <recommendations type="crosssell" :title="$t('You may like these too')" class="lg:t-mb-8" />
         <recommendations type="upsell" :title="$t('Similar products')" class="lg:t-mb-8" />
-        <div class="spacer t-pb-px" />
       </div>
     </lazy-hydrate>
 

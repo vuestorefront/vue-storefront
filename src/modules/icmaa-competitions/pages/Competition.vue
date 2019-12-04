@@ -51,7 +51,6 @@
           {{ competition.disclaimer }}
         </p>
       </div>
-      <div class="t-pb-8" />
     </div>
   </div>
 </template>

@@ -31,6 +31,7 @@
       />
       <main class="t-bg-base-lightest">
         <slot />
+        <div class="t-clearfix" />
       </main>
       <main-footer />
       <notification />
