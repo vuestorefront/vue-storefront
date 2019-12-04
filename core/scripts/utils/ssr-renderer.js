@@ -22,7 +22,10 @@ function createRenderer (bundle, clientManifest, template) {
 }
 
 function getFieldsToFilter () {
-  const fields = [...config.ssr.initialStateFilter, ...config.ssr.lazyHydrateFor]
+  const fields = [
+    ...(config.ssr && (config.ssr.initialStateFilter || [])),
+    ...(config.ssr && (config.ssr.lazyHydrateFor || []))
+  ]
 
   return fields
 }
@@ -97,7 +100,7 @@ function initSSRRequestContext (app, req, res, config) {
       filter: (output, context) => { return output },
       appendHead: (context) => { return ''; },
       template: 'default',
-      cacheTags: null
+      cacheTags: new Set()
     },
     server: {
       app: app,
@@ -112,10 +115,17 @@ function initSSRRequestContext (app, req, res, config) {
   };
 }
 
+function clearContext (context) {
+  Object.keys(context.server).forEach(key => delete context.server[key])
+  delete context.output['cacheTags']
+  delete context['meta']
+}
+
 module.exports = {
   createRenderer,
   initTemplatesCache,
   initSSRRequestContext,
   applyAdvancedOutputProcessing,
-  compileTemplate: compile
+  compileTemplate: compile,
+  clearContext
 }
