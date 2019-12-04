@@ -1,3 +1,5 @@
+import { ApolloClientOptions } from 'apollo-client'
+
 export interface ApiConfig {
   uri: string,
   authHost: string,
@@ -13,4 +15,9 @@ export interface Token {
   expires_in: number,
   scope: string,
   token_type: string
+}
+
+export interface SetupConfig<TCacheShape> {
+  config?: ApiConfig,
+  customOptions?: ApolloClientOptions<TCacheShape>
 }

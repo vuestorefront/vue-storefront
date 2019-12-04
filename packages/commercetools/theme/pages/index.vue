@@ -169,7 +169,7 @@ export default {
       clientSecret: '2eX7tGiZsZt0uexGQlcF2tgwbWEXIgbf',
       scopes: ['manage_products:vue-storefront-next'],
     })
-    getProduct()
+    getProduct().then(r => console.log('res', r))
   },
   data() {
     return {

@@ -11,7 +11,8 @@
     "build:ct:tools": "yarn build:ct:api-client && yarn build:ct:composables && yarn build:ct:helpers",
     "build:ct:theme": "cd packages/commercetools/theme && yarn build",
     "build:all": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
-    "dev": "cd packages/commercetools/theme && yarn dev"
+    "dev": "cd packages/commercetools/theme && yarn dev",
+    "test:ct:api-client": "cd packages/commercetools/api-client && yarn test"
   },
   "devDependencies": {
     "lerna": "^3.15.0",

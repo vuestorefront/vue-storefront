@@ -1,16 +1,22 @@
-import ApolloClient, { ApolloClientOptions } from 'apollo-client'
+import ApolloClient from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import { ApiConfig } from './types/setup'
+import { SetupConfig } from './types/setup'
 import createCommerceToolsLink from './createCommerceToolsLink'
-import getProduct from './getProduct'
+import getProduct from './api/getProduct'
+import createTestApolloClient from './../tests/createTestApolloClient'
 
 let apolloClient: ApolloClient<any> = null
 
-const setup = <TCacheShape>(config: ApiConfig, customOptions?: ApolloClientOptions<TCacheShape>): ApolloClient<TCacheShape> => {
+const setup = <TCacheShape>(setupConfig?: SetupConfig<TCacheShape>): ApolloClient<TCacheShape> => {
+  if (process.env.APP_ENV === 'test') {
+    apolloClient = createTestApolloClient()
+    return apolloClient
+  }
+
   apolloClient = new ApolloClient({
-    link: createCommerceToolsLink(config),
+    link: createCommerceToolsLink(setupConfig.config),
     cache: new InMemoryCache(),
-    ...customOptions
+    ...setupConfig.customOptions
   })
 
   return apolloClient

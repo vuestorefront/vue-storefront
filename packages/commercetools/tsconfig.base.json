@@ -13,6 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "lib": ["es6", "es7"],
-    "strict": false
-  }
+    "strict": false,
+  },
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

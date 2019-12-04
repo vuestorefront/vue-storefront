@@ -1,5 +1,6 @@
 {
   "extends": "../tsconfig.base.json",
-  "include": ["src"],
-  "exclude": ["node_modules", "lib"]
+  "include": ["src", "tests"],
+  "exclude": ["node_modules", "lib"],
+  "files": ["typings.d.ts"],
 }

@@ -1,4 +1,8 @@
-import pkg from './package.json';
+import pkg from './package.json'
 import { generateBaseConfig } from '../rollup.base.config'
+import graphql from 'rollup-plugin-graphql'
 
-export default generateBaseConfig(pkg)
+const baseConfig = generateBaseConfig(pkg)
+baseConfig.plugins.push(graphql())
+
+export default baseConfig

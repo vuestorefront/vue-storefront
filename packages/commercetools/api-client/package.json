@@ -6,7 +6,8 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+    "test": "cross-env APP_ENV=test jest --rootDir ."
   },
   "dependencies": {
     "@commercetools/sdk-auth": "^3.0.1",
@@ -14,10 +15,21 @@
     "apollo-client": "^2.6.4",
     "apollo-link-context": "^1.0.19",
     "apollo-link-http": "^1.5.16",
+    "cross-env": "^6.0.3",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.14",
+    "apollo-link-schema": "^1.2.4",
+    "graphql-tools": "^4.0.6",
+    "jest": "^24.9.0",
+    "jest-transform-graphql": "^2.1.0",
+    "rollup-plugin-graphql": "^0.1.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.3"
+  },
   "files": [
     "lib/**/*"
   ]
