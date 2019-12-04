@@ -126,7 +126,7 @@ You can find some tutorials and explanations on our [YouTube channel](https://ww
 - [Configuration file explained](https://docs.vuestorefront.io/guide/basics/configuration.html)
 - [Vue Storefront Modules](https://docs.vuestorefront.io/guide/modules/introduction.html)
 - [Contribution and issue reporting guideness](https://docs.vuestorefront.io/guide/basics/contributing.html)
-- [FAQ / Receipes](https://docs.vuestorefront.io/guide/basics/recipes.html#problem-starting-docker-while-installing-the-vue-storefront)
+- [FAQ / Recipes](https://docs.vuestorefront.io/guide/basics/recipes.html#problem-starting-docker-while-installing-the-vue-storefront)
 - [Feature list](https://docs.vuestorefront.io/guide/basics/feature-list.html)
 - [TypeScript Action Plan](https://docs.vuestorefront.io/guide/basics/typescript.html)
 - [GraphQL Action Plan](https://docs.vuestorefront.io/guide/basics/graphql.html)

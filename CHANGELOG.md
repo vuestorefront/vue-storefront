@@ -15,8 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add to cart from Wishlist and Product listing for simple products - @Dnd-Dboy, @dz3n (#2637)
 - Add global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
 - Add `Intl.NumberFormat()`/`toLocaleString()` via polyfill support in NodeJs - @cewald (#3836)
+- Add constant which conditions the number of products loading per page - @AdKamil (#3630)
 
 ### Fixed
+- Always close zoom overlay after changing product - @psmyrek (#3818)
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
 - Fixed null value of search input - @AdKamil (#3778)
 - Fixed product sorting - @AdKamil (#3785)
@@ -27,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed AMP pages - @andrzejewsky (#3799)
 - Fixed Product page breadcrumbs problem when products are in multiple categories in different branches of the category tree - @grimasod (#3691)
 - Change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
+- Fixed ecosystem config for pm2 - @andrzejewsky (#3842)
+- Fixed `mappingFallback` for extending modules -  @andrzejewsky (#3822)
 
 ### Changed / Improved
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
@@ -37,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add defense for incomplete config in preferchCachedAttributes helper
-
+- Add unit test for \`core/modules/cms\` - @krskibin (#3738)
 
 ### Fixed
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
