@@ -109,6 +109,14 @@
 
     <div class="spacer t-h-8" />
 
+    <lazy-hydrate when-visible>
+      <div class="t-container t-px-4">
+        <recommendations type="crosssell" :title="$t('You may like these too')" class="lg:t-mb-8" />
+        <recommendations type="upsell" :title="$t('Similar products')" class="lg:t-mb-8" />
+        <div class="spacer t-pb-px" />
+      </div>
+    </lazy-hydrate>
+
     <async-sidebar
       :async-component="AddToCartSidebar"
       :is-open="isAddToCartSidebarOpen"
@@ -149,6 +157,7 @@ import ProductFeatures from 'theme/components/core/blocks/Product/ProductFeature
 import ProductCareInstructions from 'theme/components/core/blocks/Product/ProductCareInstructions'
 import ReviewsShort from 'theme/components/core/blocks/Reviews/ReviewsShort'
 import ReviewsClaim from 'theme/components/core/blocks/Reviews/ReviewsClaim'
+import Recommendations from 'icmaa-recommendations/components/Recommendations'
 import LoaderBackground from 'theme/components/core/LoaderBackground'
 import LazyHydrate from 'vue-lazy-hydration'
 
@@ -179,6 +188,7 @@ export default {
     Reviews,
     ReviewsShort,
     ReviewsClaim,
+    Recommendations,
     WebShare,
     LazyHydrate
   },
