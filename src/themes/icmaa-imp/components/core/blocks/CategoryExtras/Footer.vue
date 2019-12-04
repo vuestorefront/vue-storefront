@@ -1,5 +1,5 @@
 <template>
-  <div class="t-flex t-flex-wrap t--mx-4 t-px-4" v-if="isVisible && description">
+  <div class="t-flex t-flex-wrap t--mx-4 t-px-4" v-if="isVisible && footerDescription">
     <div class="t-w-full md:t-w-1/3 t-mb-8 md:t-mb-0 t-px-4" v-if="hasVideo">
       <h3 class="t-flex t-items-center t-text-xl t-text-youtube t-font-thin t-leading-1-em t-mb-4">
         <span class="t-flex t-flex-fix t-items-center t-justify-center t-w-10 t-h-10 t-rounded-full t-text-white t-bg-youtube t-mr-2">

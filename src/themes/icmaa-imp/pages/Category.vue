@@ -43,14 +43,14 @@
         <product-listing :products="getCategoryProducts" />
       </lazy-hydrate>
       <product-listing v-else :products="getCategoryProducts" />
-      <div class="t-flex t-items-center t-justify-center t-pb-8" v-if="moreProductsInSearchResults">
+      <div class="t-flex t-items-center t-justify-center t-mb-8" v-if="moreProductsInSearchResults">
         <button-component type="ghost" @click.native="loadMoreProducts" :disabled="loadingProducts" class="t-w-2/3 lg:t-w-1/4" :class="{ 't-relative t-opacity-60': loadingProducts }">
           {{ $t('Load more') }}
           <loader-background v-if="loadingProducts" bar="t-bg-base-darkest" class="t-bottom-0" />
         </button-component>
       </div>
-      <div class="t-pb-8">
-        <div class="t-bg-white t-mx-4 t-p-4 t-py-10 t-text-center" v-if="isCategoryEmpty">
+      <div class="t-mb-8" v-if="isCategoryEmpty">
+        <div class="t-bg-white t-mx-4 t-p-4 t-py-10 t-text-center">
           <h4 class="t-text-base t-bold" data-testid="noProductsInfo">
             {{ $t('No products found!') }}
           </h4>
@@ -60,7 +60,7 @@
         </div>
       </div>
       <lazy-hydrate when-visible>
-        <category-extras-footer id="category-info-footer" class="t-pb-8" />
+        <category-extras-footer id="category-info-footer" class="t-mb-8" />
       </lazy-hydrate>
     </div>
 
