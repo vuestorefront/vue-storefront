@@ -298,7 +298,7 @@ const actions: ActionTree<ProductState, RootState> = {
     // console.log('STARTING quickSearchByQuery in Product', util.inspect(query, false, null, true /* enable colors */))
     console.log('STARTING quickSearchByQuery in sort: ', sort)
     // if(query && query._appliedFilters && query._appliedFilters[0].attribute == 'category.name' && query._appliedFilters[0].value.eq == 'Tees'){
-      sort = null
+    sort = null
     // }
     console.log('DISABLED SORT DUE TO CRASHING MAIN HOME PAGE')
     console.log('STARTING quickSearchByQuery in Product')

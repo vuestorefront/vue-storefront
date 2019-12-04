@@ -3,7 +3,7 @@ import i18n from '@vue-storefront/i18n'
 import config from 'config'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { mapGetters } from 'vuex'
-
+import _ from 'lodash'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { isServer } from '@vue-storefront/core/helpers'
@@ -35,12 +35,15 @@ export default {
         shipping: { $invalid: true },
         payment: { $invalid: true }
       },
+      shippingAmount: null,
+      userId: null,
       focusedField: null
     }
   },
   computed: {
     ...mapGetters({
       isVirtualCart: 'cart/isVirtualCart',
+      currentImage: 'procc/getHeadImage',
       isThankYouPage: 'checkout/isThankYouPage'
     })
   },
@@ -103,6 +106,7 @@ export default {
     let country = this.$store.state.checkout.shippingDetails.country
     if (!country) country = storeView.i18n.defaultCountry
     this.$bus.$emit('checkout-before-shippingMethods', country)
+    this.$store.dispatch('cart/getPaymentMethods')
   },
   beforeDestroy () {
     this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
@@ -132,12 +136,42 @@ export default {
       }
     },
     async onAfterShippingMethodChanged (payload) {
-      await this.$store.dispatch('cart/syncTotals', { forceServerSync: true, methodsData: payload })
+      await this.$store.dispatch('cart/refreshTotals', payload).then((res) => {
+        if (payload.carrier_code === 'flatrateone') {
+          let total = res.totals.base_shipping_amount * res.totals.items_qty
+          res.totals.base_shipping_amount = total
+          res.totals.base_shipping_incl_tax = total
+          res.totals.shipping_incl_tax = total
+          res.totals.total_segments[1].value = total
+          res.totals.shipping_amount = total
+
+          this.$store.state.shipping.methods[0].amount = total
+          this.$store.state.shipping.methods[0].base_amount = total
+          this.$store.state.shipping.methods[0].price_excl_tax = total
+          this.$store.state.shipping.methods[0].price_incl_tax = total
+        }
+      })
       this.shippingMethod = payload
     },
-    onBeforeShippingMethods (country) {
-      this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
-      this.$forceUpdate()
+    onBeforeShippingMethods (country, paymentMethod = '') {
+      this.$store.dispatch('cart/getShippingMethods', {
+        country_id: country
+      }).then((response) => {
+        if (response) {
+          let methodCode = _.get(_.get(response, '0'), 'method_code')
+          let carrierCode = _.get(_.get(response, '0'), 'carrier_code')
+          this.$bus.$emit('checkout-after-shippingMethodChanged', {
+            country: country,
+            method_code: methodCode,
+            carrier_code: carrierCode,
+            payment_method: paymentMethod
+          })
+        }
+        this.$store.dispatch('cart/refreshTotals').then((res) => {
+          this.shippingAmount = res.totals.shipping_amount
+          this.$forceUpdate()
+        })
+      })
     },
     async onAfterPlaceOrder (payload) {
       this.confirmation = payload.confirmation
@@ -151,18 +185,25 @@ export default {
     onBeforeEdit (section) {
       this.activateSection(section)
     },
-    onBeforePlaceOrder (payload) {
+    onBeforePlaceOrder (userId) {
+      if (userId) {
+        if (userId.transactionId === 'undefined') {
+          this.userId = userId.toString()
+        } else {
+          this.transactionId = userId.transactionId
+        }
+      }
     },
     onAfterCartSummary (receivedData) {
       this.cartSummary = receivedData
     },
-    onDoPlaceOrder (additionalPayload) {
+    async onDoPlaceOrder (additionalPayload) {
       if (this.$store.state.cart.cartItems.length === 0) {
-        this.notifyEmptyCart()
+        await this.notifyEmptyCart()
         this.$router.push(this.localizedRoute('/'))
       } else {
         this.payment.paymentMethodAdditional = additionalPayload
-        this.placeOrder()
+        await this.placeOrder()
       }
     },
     onAfterPaymentDetails (receivedData, validationResult) {
@@ -260,9 +301,12 @@ export default {
     },
     prepareOrder () {
       this.order = {
-        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
+        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : (this.userId ? this.userId : ''),
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
         products: this.$store.state.cart.cartItems,
+        transaction: this.payment.paymentMethodAdditional.transactionId,
+        store_brand: this.currentImage.brand,
+        shipping_amount: this.$store.state.shipping.methods.amount ? this.$store.state.shipping.methods.amount : this.$store.state.shipping.methods[0].amount,
         addressInformation: {
           billingAddress: {
             region: this.payment.state,

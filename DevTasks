@@ -1,5 +1,7 @@
 Search for "// TODO:" to find smaller tasks
 
+-- make sure payment method works with MANGOPAY and ProCC API
+
 -- find why when accessing a custom store it re-initiates routes -> error: [vue-router] Duplicate named routes definition: { name: "about-us", path: "/about-us" }
 
 -- split ordered products by brand in checkout
