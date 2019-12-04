@@ -70,7 +70,6 @@ export default async context => {
   RouterManager.flushRouteQueue()
   context.initialState = initialState
   return new Promise((resolve, reject) => {
-    context.output.cacheTags = new Set<string>()
     const meta = (app as any).$meta()
     router.push(context.url)
     context.meta = meta
