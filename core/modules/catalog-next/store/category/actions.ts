@@ -35,7 +35,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
     const {items, perPage, start, total, aggregations} = await quickSearchByQuery({
       query: filterQr,
-      sort: searchQuery.sort || 'updated_at:desc',
+      sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       includeFields: entities.productList.includeFields,
       excludeFields: entities.productList.excludeFields,
       size: pageSize
@@ -56,7 +56,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
     const searchResult = await quickSearchByQuery({
       query: filterQr,
-      sort: searchQuery.sort,
+      sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       start: start + perPage,
       size: perPage,
       includeFields: entities.productList.includeFields,
