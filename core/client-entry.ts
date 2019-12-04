@@ -70,23 +70,19 @@ const invokeClientEntry = async () => {
     })
   }
   router.onReady(async () => {
-    // check if app can be mounted
-    const canBeMounted = () => RouterManager.isRouteDispatched() && // route is dispatched
-      !(router as any).history.pending && // there is no pending in router history
-      !(app as any)._isMounted // it's not mounted before
-
-    if (canBeMounted()) {
-      app.$mount('#app')
-    }
     router.beforeResolve((to, from, next) => {
       if (!from.name) {
-        next()
-        if (canBeMounted()) {
+        // Mounting app
+        if (!RouterManager.isRouteDispatched()) {
+          RouterManager.addDispatchCallback(() => {
+            app.$mount('#app')
+          })
+        } else {
           app.$mount('#app')
         }
-        return // do not resolve asyncData on server render - already been done
+        return next() // do not resolve asyncData on server render - already been done
       }
-      if (!Vue.prototype.$cacheTags) Vue.prototype.$cacheTags = new Set<string>()
+      if (Vue.prototype.$ssrRequestContext) Vue.prototype.$ssrRequestContext.output.cacheTags = new Set<string>()
       const matched = router.getMatchedComponents(to)
       if (to) { // this is from url
         if (globalConfig.storeViews.multistore === true) {

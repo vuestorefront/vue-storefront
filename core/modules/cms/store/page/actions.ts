@@ -41,6 +41,8 @@ const actions: ActionTree<CmsPageState, RootState> = {
       }
       return currentItems
     }
+
+    return dispatch('loadFromCache', { key, value, setCurrent })
   },
   async loadFromCache ({ commit }, { key, value, setCurrent }) {
     const cmsStorage = StorageManager.get('cms')

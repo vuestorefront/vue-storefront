@@ -120,8 +120,6 @@ export default {
           this.navigate(index)
         }
       }
-
-      this.$emit('close')
     },
     openOverlay () {
       const currentSlide = this.$refs.carousel.currentPage

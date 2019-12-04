@@ -15,9 +15,5 @@ export const breadcrumbsStore = {
     set ({ commit }, payload) {
       commit('set', payload)
     }
-  },
-  getters: {
-    getBreadcrumbsRoutes: (state) => state.routes,
-    getBreadcrumbsCurrent: (state) => state.current
   }
 }

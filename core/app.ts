@@ -47,12 +47,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   store.state.version = process.env.APPVERSION
   store.state.config = config // @deprecated
   store.state.__DEMO_MODE__ = (config.demomode === true)
-  if (ssrContext) {
-    // @deprecated - we shouldn't share server context between requests
-    Vue.prototype.$ssrRequestContext = {output: {cacheTags: ssrContext.output.cacheTags}}
-
-    Vue.prototype.$cacheTags = ssrContext.output.cacheTags
-  }
+  if (ssrContext) Vue.prototype.$ssrRequestContext = ssrContext
   if (!store.state.config) store.state.config = globalConfig //  @deprecated - we should avoid the `config`
   const storeView = await prepareStoreView(storeCode) // prepare the default storeView
   store.state.storeView = storeView
@@ -71,10 +66,6 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     Object.keys(coreMixins).forEach(key => {
       Vue.mixin(coreMixins[key])
     })
-
-    Object.keys(coreFilters).forEach(key => {
-      Vue.filter(key, coreFilters[key])
-    })
   })
 
   // @todo remove this part when we'll get rid of global multistore mixin
@@ -86,6 +77,10 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
       writable: true
     })
   }
+
+  Object.keys(coreFilters).forEach(key => {
+    Vue.filter(key, coreFilters[key])
+  })
 
   let vueOptions = {
     router: routerProxy,
