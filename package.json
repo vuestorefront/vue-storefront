@@ -16,18 +16,27 @@
     "test:ct:api-client": "cd packages/commercetools/api-client && yarn test"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.14",
+    "cross-env": "^6.0.3",
+    "jest": "^24.9.0",
     "lerna": "^3.15.0",
-    "webpack-bundle-analyzer": "^3.5.2",
     "rollup": "^1.25.2",
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-typescript2": "^0.24.3",
-    "@types/node": "^12.7.12",
+    "ts-jest": "^24.2.0",
     "ts-node": "^8.4.1",
     "tslib": "^1.10.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "webpack-bundle-analyzer": "^3.5.2"
   },
   "workspaces": {
-    "packages" : ["packages/commercetools/*", "packages/core/*"],
-    "nohoist": ["**/**/**"]
+    "packages": [
+      "packages/commercetools/*",
+      "packages/core/*"
+    ],
+    "nohoist": [
+      "**/**/**"
+    ]
   }
 }

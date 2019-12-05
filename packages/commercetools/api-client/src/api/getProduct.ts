@@ -1,6 +1,7 @@
 import { apolloClient } from './../index'
 import gql from 'graphql-tag'
 
+// TODO: implementation
 const getProduct = async () => {
   return await apolloClient.query({
     query: gql`
@@ -12,7 +13,7 @@ const getProduct = async () => {
         }
       }
     `,
-  });
-};
+  })
+}
 
-export default getProduct;
+export default getProduct
