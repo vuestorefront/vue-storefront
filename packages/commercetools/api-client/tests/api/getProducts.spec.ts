@@ -1,4 +1,4 @@
-import getProduct from './../src/api/getProduct'
+import getProduct from './../../src/api/getProduct'
 
 describe('test getProduct', () => {
   it('fetches product', async () => {

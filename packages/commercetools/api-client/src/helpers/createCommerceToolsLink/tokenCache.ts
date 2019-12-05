@@ -1,4 +1,4 @@
-import { Token } from './../types/setup'
+import { Token } from '../../types/setup'
 
 const TOKEN_KEY = 'vsf-commercetools-token'
 
@@ -23,7 +23,6 @@ const getStorage = () => {
 }
 
 const storeToken = (token: Token) => {
-
   const storage = getStorage()
   storage.setItem(TOKEN_KEY, JSON.stringify(token))
 }

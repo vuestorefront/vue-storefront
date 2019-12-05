@@ -5,7 +5,13 @@ import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools'
 import typeDefs from './../schema.graphql'
 
 const createTestApolloClient = (): ApolloClient<NormalizedCacheObject> => {
-  const schema = makeExecutableSchema({ typeDefs })
+  const schema = makeExecutableSchema({
+    typeDefs,
+    resolverValidationOptions: {
+      requireResolversForResolveType: false
+    }
+  })
+
   addMockFunctionsToSchema({ schema })
 
   return new ApolloClient<NormalizedCacheObject>({
