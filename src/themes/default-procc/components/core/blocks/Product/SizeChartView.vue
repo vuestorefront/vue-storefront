@@ -100,33 +100,33 @@ export default {
     },
     async getSizeChart () {
       try {
-      this.size_chart_loading = true
-      if (this.product && this.product.product) {
-        this.product_data = _.cloneDeep(this.product)
-        if (this.product.product && _.isObject(this.product.product)) {
-          if (this.product.product._id) {
-            this.product_data._id = this.product.product._id
-          }
-          if (this.product.product.vendor_images && this.product.product.vendor_images[0] && this.product.product.vendor_images[0].thumb) {
-            this.product_data.vendor_images = this.product.product.vendor_images
-          }
-          if (this.product.product.available_quantity) {
-            this.product_data.available_quantity = this.product.product.available_quantity
-          }
-          if (this.product.product && this.product.product.size_chart) {
-            this.product_data.size_chart = this.product.product.size_chart
+        this.size_chart_loading = true
+        if (this.product && this.product.product) {
+          this.product_data = _.cloneDeep(this.product)
+          if (this.product.product && _.isObject(this.product.product)) {
+            if (this.product.product._id) {
+              this.product_data._id = this.product.product._id
+            }
+            if (this.product.product.vendor_images && this.product.product.vendor_images[0] && this.product.product.vendor_images[0].thumb) {
+              this.product_data.vendor_images = this.product.product.vendor_images
+            }
+            if (this.product.product.available_quantity) {
+              this.product_data.available_quantity = this.product.product.available_quantity
+            }
+            if (this.product.product && this.product.product.size_chart) {
+              this.product_data.size_chart = this.product.product.size_chart
+            }
+          } else {
+            this.product_data._id = this.product.product
           }
         } else {
-          this.product_data._id = this.product.product
+          this.product_data = _.cloneDeep(this.product)
         }
-      } else {
-        this.product_data = _.cloneDeep(this.product)
-      }
 
-      let result = await this.ProCcAPI.getSizeChart(this.$props.product.size_chart_id, this.$props.product.procc_brand_id) // product id
-      this.size_chart_data = !_.isNull(result.data.sizeChart) ? result.data.sizeChart : {}
-      this.$nextTick(() => { this.size_chart_loading = false })
-    }catch (e) {
+        let result = await this.ProCcAPI.getSizeChart(this.$props.product.size_chart_id, this.$props.product.procc_brand_id) // product id
+        this.size_chart_data = !_.isNull(result.data.sizeChart) ? result.data.sizeChart : {}
+        this.$nextTick(() => { this.size_chart_loading = false })
+      } catch (e) {
         console.log('getSizeChart Error', e)
       }
     }

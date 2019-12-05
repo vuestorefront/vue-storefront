@@ -1,5 +1,6 @@
 {
   "server": {
+    "url": "https://store.procc.co",
     "host": "localhost",
     "port": 3000,
     "protocol": "http",

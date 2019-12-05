@@ -6,11 +6,13 @@ const Category = () => import(/* webpackChunkName: "vsf-category" */ 'theme/page
 const CmsPage = () => import(/* webpackChunkName: "vsf-cms" */ 'theme/pages/CmsPage.vue')
 const Checkout = () => import(/* webpackChunkName: "vsf-checkout" */ 'theme/pages/Checkout.vue')
 const Compare = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/Compare.vue')
+const TransactionDone = () => import(/* webpackChunkName: "vsf-transaction" */ 'theme/pages/TransactionDone.vue')
 const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue')
 const Static = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/Static.vue')
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
+  { name: 'Transaction Done', path: '/transactionDone', component: TransactionDone },
   { name: 'checkout', path: '/checkout', component: Checkout },
   { name: 'legal', path: '/legal', component: Static, props: {page: 'lorem', title: 'Legal Notice'}, meta: {title: 'Legal Notice', description: 'Legal Notice - example of description usage'} },
   { name: 'privacy', path: '/privacy', component: Static, props: {page: 'lorem', title: 'Privacy Policy'}, meta: {page: 'privacy'} },

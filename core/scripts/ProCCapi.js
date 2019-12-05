@@ -5,6 +5,7 @@ const Store = require('data-store')
 const _ = require('lodash')
 const request = require('request')
 
+let config_active
 let storefrontConfig
 if (process.env.NODE_ENV === 'development') {
   storefrontConfig = new Store({path: path.resolve('./config/local.json')});
@@ -13,6 +14,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 module.exports = (config, app) => {
+  config_active = config
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
 
@@ -76,7 +78,7 @@ module.exports = (config, app) => {
     // start set to product banners link in vue storefront
     // let children_data = req.body.children_data
     // let storeCode = req.body.storeCode
-    // const StoreCategories = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeCode}_store_categories.json`)});
+    // const StoreCategories = new Store({path: path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_store_categories.json`)});
     // let MainBanners = !_.isUndefined(StoreCategories.get('mainBanners')) ? StoreCategories.get('mainBanners') : [];
     // let smallBanners = !_.isUndefined(StoreCategories.get('smallBanners')) ? StoreCategories.get('smallBanners') : [];
     //
@@ -155,7 +157,7 @@ module.exports = (config, app) => {
 
 function setStorePolicies (storeData) {
   let storefront_setting = storeData.storefront_setting
-  const storePolicies = new Store({path: path.resolve(storefrontConfig.get('themeDir') + `/resource/policies/${storeData.storefront_url}_store_policies.json`)});
+  const storePolicies = new Store({path: path.resolve(config_active.themeDir + `/resource/policies/${storeData.storefront_url}_store_policies.json`)});
 
   let policies = []
 
@@ -178,7 +180,7 @@ function setStorePolicies (storeData) {
 function setStoreMainImage (storeData) {
   let storeCode = storeData.storefront_url
   let storefront_setting = storeData.storefront_setting
-  const mainImage = new Store({path: path.resolve(storefrontConfig.get('themeDir') + `/resource/banners/${storeCode}_main-image.json`)});
+  const mainImage = new Store({path: path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_main-image.json`)});
 
   // Main Image Object
   let storeMainImage = {
@@ -203,9 +205,11 @@ function setStoreMainImage (storeData) {
 function getStoreData (storeCode) {
   return new Promise(async (resolve, reject) => {
     request({
-      uri: 'http://' + storefrontConfig.get('PROCC.API') + '/api/storefront/getStoreDataVSF/' + storeCode,
+      uri: config_active.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode,
       method: 'GET'
     }, (_err, _res, _resBody) => {
+      console.log('GETTING URL: ', config_active.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode)
+      console.log('_resBody', _resBody)
       if (_err)reject(_err)
       let obj = JSON.parse(_resBody)
       console.log('getStoreData _resBody', obj)
@@ -215,9 +219,9 @@ function getStoreData (storeCode) {
 }
 function setStoreCategoryBanners (storeData) {
   let storeCode = storeData.storefront_url
-  const StoreCategories = new Store({path: path.resolve(storefrontConfig.get('themeDir') + `/resource/banners/${storeCode}_store_categories.json`)});
-  console.log('storefrontConfig themeDir', storefrontConfig.get('themeDir'))
-  console.log('storefrontConfig path', path.resolve(storefrontConfig.get('themeDir') + `/resource/banners/${storeCode}_store_categories.json`))
+  const StoreCategories = new Store({path: path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_store_categories.json`)});
+  console.log('storefrontConfig themeDir', config_active.themeDir)
+  console.log('storefrontConfig path', path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_store_categories.json`))
   console.log('storeData.store_categories', storeData.store_categories)
   // start set store categories main Banner and samll Banners
   let magentoStoreCategories = _.take(_.orderBy(_.filter(storeData.store_categories, {'isCategoryCreatedInMagento': true}), 'createdAt', 'desc'), 3)
@@ -294,7 +298,7 @@ function setMapStoreUrlsFor (storeData) {
 }
 
 function setProductBanners (products, storeCode, imagesRootURL) {
-  const StoreCategories = new Store({path: path.resolve(storefrontConfig.get('themeDir') + `/resource/banners/${storeCode}_store_categories.json`)});
+  const StoreCategories = new Store({path: path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_store_categories.json`)});
   let productBanners = [];
 
   // I DONT UNDERSTAND THIS CODE
@@ -345,7 +349,7 @@ function getDefaultStoreData (storeData) {
     url: `/${storeData.storefront_url}`,
     appendStoreCode: true,
     elasticsearch: {
-      host: storefrontConfig.get('api.url') + '/api/catalog',
+      host: config_active.api.url + '/api/catalog',
       index: `vue_storefront_catalog_${_.snakeCase(storeData.storefront_url)}`
     },
     tax: {

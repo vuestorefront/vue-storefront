@@ -44,6 +44,7 @@ export default {
   computed: {
     ...mapGetters({
       isVirtualCart: 'cart/isVirtualCart',
+      getTotals: 'cart/getTotals',
       currentImage: 'procc/getHeadImage',
       isThankYouPage: 'checkout/isThankYouPage'
     })
@@ -108,7 +109,8 @@ export default {
     let country = this.$store.state.checkout.shippingDetails.country
     if (!country) country = storeView.i18n.defaultCountry
     this.$bus.$emit('checkout-before-shippingMethods', country)
-    this.$store.dispatch('cart/getPaymentMethods')
+    // Added by Vinod - Not usre why needed
+    this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
   },
   beforeDestroy () {
     this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
@@ -138,22 +140,25 @@ export default {
       }
     },
     async onAfterShippingMethodChanged (payload) {
-      await this.$store.dispatch('cart/refreshTotals', payload).then((res) => {
-        if (payload.carrier_code === 'flatrateone') {
-          let total = res.totals.base_shipping_amount * res.totals.items_qty
-          res.totals.base_shipping_amount = total
-          res.totals.base_shipping_incl_tax = total
-          res.totals.shipping_incl_tax = total
-          res.totals.total_segments[1].value = total
-          res.totals.shipping_amount = total
-
-          this.$store.state.shipping.methods[0].amount = total
-          this.$store.state.shipping.methods[0].base_amount = total
-          this.$store.state.shipping.methods[0].price_excl_tax = total
-          this.$store.state.shipping.methods[0].price_incl_tax = total
-        }
-      })
+      await this.$store.dispatch('cart/syncTotals', { forceServerSync: true, methodsData: payload })
       this.shippingMethod = payload
+
+      // Some code that adjusts shipping methods for flat rate? by Vinod ...
+      // this.$store.dispatch('cart/refreshTotals', payload)
+      // let res = [...this.getTotals]
+      // if (payload.carrier_code === 'flatrateone') {
+      //   let total = res.totals.base_shipping_amount * res.totals.items_qty
+      //   res.totals.base_shipping_amount = total
+      //   res.totals.base_shipping_incl_tax = total
+      //   res.totals.shipping_incl_tax = total
+      //   res.totals.total_segments[1].value = total
+      //   res.totals.shipping_amount = total
+      //
+      //   this.$store.state.shipping.methods[0].amount = total
+      //   this.$store.state.shipping.methods[0].base_amount = total
+      //   this.$store.state.shipping.methods[0].price_excl_tax = total
+      //   this.$store.state.shipping.methods[0].price_incl_tax = total
+      // }
     },
     onBeforeShippingMethods (country) {
       this.$store.dispatch('checkout/updatePropValue', ['country', country])
@@ -172,25 +177,26 @@ export default {
     onBeforeEdit (section) {
       this.activateSection(section)
     },
-    onBeforePlaceOrder (userId) {
-      if (userId) {
-        if (userId.transactionId === 'undefined') {
-          this.userId = userId.toString()
+    onBeforePlaceOrder (payload) {
+      // Wierd code again with no explaination by Vinod
+      if (payload) {
+        if (payload.transactionId === 'undefined') {
+          this.userId = payload.userId.toString()
         } else {
-          this.transactionId = userId.transactionId
+          this.transactionId = payload.transactionId
         }
       }
     },
     onAfterCartSummary (receivedData) {
       this.cartSummary = receivedData
     },
-    async onDoPlaceOrder (additionalPayload) {
+    onDoPlaceOrder (additionalPayload) {
       if (this.$store.state.cart.cartItems.length === 0) {
-        await this.notifyEmptyCart()
+        this.notifyEmptyCart()
         this.$router.push(this.localizedRoute('/'))
       } else {
         this.payment.paymentMethodAdditional = additionalPayload
-        await this.placeOrder()
+        this.placeOrder()
       }
     },
     onAfterPaymentDetails (receivedData, validationResult) {

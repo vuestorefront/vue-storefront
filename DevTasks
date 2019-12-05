@@ -1,12 +1,24 @@
 Search for "// TODO:" to find smaller tasks
 
 -- make sure payment method works with MANGOPAY and ProCC API
-
--- find why when accessing a custom store it re-initiates routes -> error: [vue-router] Duplicate named routes definition: { name: "about-us", path: "/about-us" }
+-- Checkout Instant Checkout btn -> how does it work, can we test it with mocked payment -> does it work at all ?
 
 -- split ordered products by brand in checkout
 
+-- Refresh in Cart leads to main home page ...? Any refresh needs to render the exact same page as before
+
+-- add smooth scroll down at checkout flow new sections appear and at open
+    --> how do we do smooth scrolling? Same as in ProCC?
+
+-- src/themes/default-procc/pages/Product.vue -> @click="openSizeGuide" -> make it scroll to the size chart bellow
+
 -- Main Home Page add search/filter by store name, product name, category name of all the stores
+
+-- make it easier to go back to other products, after adding a product to cart (not sure how)
+
+-- Rename Payment method of Mangopay from 'Money Order' - > Pay by Card
+   --> add tooltip to describe how -> "ProCC will escrow the amount until you verify that you are happy with your product, to ensure easy returns and refunds. You will receive an email with a link to confirm that you have received the products"
+      -- how do we add a tooltip? Same as in ProCC?
 
 -- add shipping method selector in cart for each brand group
 
