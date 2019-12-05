@@ -26,14 +26,14 @@
       <div class="t-flex-grow">
         <template v-if="isTotalsActive">
           <div class="t-flex t-w-full t-flex-wrap" v-for="opt in product.totals.options" :key="opt.label">
-            <button-component class="t-mr-2" type="tag" size="xs">
+            <button-component class="t-mr-2" type="tag" size="xs" :cursor-pointer="false">
               {{ opt.value }}
             </button-component>
           </div>
         </template>
         <template v-else-if="product.options">
           <div class="t-flex t-w-full t-flex-wrap" v-for="opt in product.options" :key="opt.label">
-            <button-component class="t-mr-2" type="tag" size="xs">
+            <button-component class="t-mr-2" type="tag" size="xs" :cursor-pointer="false">
               {{ opt.value }}
             </button-component>
           </div>

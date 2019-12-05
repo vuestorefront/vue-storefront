@@ -40,7 +40,9 @@ export default {
   },
   data () {
     return {
-      navigation: []
+      meta: {
+        title: i18n.t('My Account')
+      }
     }
   },
   components: {
@@ -54,6 +56,7 @@ export default {
     'no-ssr': NoSSR
   },
   beforeMount () {
+    this.$bus.$on('myAccount-switch-route', this.onSwitchRoute)
     this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
   },
   async mounted () {
@@ -64,6 +67,7 @@ export default {
     }
   },
   destroyed () {
+    this.$bus.$off('myAccount-switch-route', this.onSwitchRoute)
     this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
   },
   computed: {
@@ -72,6 +76,9 @@ export default {
     })
   },
   methods: {
+    onSwitchRoute (routeDTO) {
+      this.meta.title = routeDTO.title
+    },
     async onBeforeUpdateUser (updatedData, passwordData = false, message = false) {
       if (updatedData) {
         this.$bus.$emit('notification-progress-start', i18n.t('Please wait'))
@@ -120,7 +127,7 @@ export default {
   },
   metaInfo () {
     return {
-      title: this.$route.meta.title || i18n.t('My Account'),
+      title: this.$route.meta.title || this.meta.title,
       meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }] : []
     }
   },

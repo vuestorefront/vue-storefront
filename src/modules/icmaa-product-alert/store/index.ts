@@ -8,7 +8,8 @@ import mutations from './mutations'
 export const ProductAlertStore: Module<ProductAlertState, RootState> = {
   namespaced: true,
   state: {
-    stock: []
+    stock: [],
+    product: []
   },
   actions,
   getters,

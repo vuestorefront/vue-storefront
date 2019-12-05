@@ -1,8 +1,9 @@
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
-import ProductAlertState from '../types/ProductAlertState'
+import Product from '@vue-storefront/core/modules/catalog/types/Product'
+import ProductAlert from '../types/ProductAlertState'
 
-const getters: GetterTree<ProductAlertState, RootState> = {
+const getters: GetterTree<ProductAlert, RootState> = {
   getStockItems: (state): string[] => state.stock,
   hasSubscribedToStockItem: (state) => (productId): boolean => state.stock.includes(productId),
   getChildProductIdByCurrentProductOption: (state, getters, RootState, rootGetters) =>
@@ -21,7 +22,10 @@ const getters: GetterTree<ProductAlertState, RootState> = {
     }
 
     return getters.hasSubscribedToStockItem(product)
-  }
+  },
+  getProducts: (state): Product[] => state.product,
+  getParentProductByStockItem: (state, getters) => (stockId: string): Product =>
+    getters.getProducts.find(p => p.configurable_children.find(c => c.id === stockId))
 }
 
 export default getters
