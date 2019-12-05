@@ -12,8 +12,7 @@ const mutations: MutationTree<CategoryState> = {
     state.products = cloneDeep(products).map(prod => prod.sku)
   },
   [types.CATEGORY_ADD_PRODUCTS] (state, products = []) {
-    nonReactiveState.products.push(...products)
-    state.products.push(...products.map(prod => prod.sku))
+    state.products.push(...products)
   },
   [types.CATEGORY_ADD_CATEGORY] (state, category: Category) {
     if (category) {
