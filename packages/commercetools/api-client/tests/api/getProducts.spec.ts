@@ -1,8 +1,15 @@
-import getProduct from './../../src/api/getProduct'
+import getProduct from './../../src/api/getProduct';
 
 describe('test getProduct', () => {
   it('fetches product', async () => {
-    const { data: { product } } = await getProduct()
-    expect(product).toEqual({ id: 'Hello World', key: 'Hello World', __typename: 'Product' })
-  })
-})
+    const {
+      data: { product },
+    } = await getProduct();
+    expect(product).toEqual({
+      id: 'test id',
+      key: 'example key',
+      version: 2,
+      __typename: 'Product',
+    });
+  });
+});

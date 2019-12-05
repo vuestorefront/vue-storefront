@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build:docs": "cd packages/docs && yarn build",
+    "build:docs": "cd packages/core/docs && yarn build",
     "build:core:interfaces": "cd packages/core/interfaces && tsc",
     "build:core": "yarn build:core:interfaces",
     "build:ct:api-client": "cd packages/commercetools/api-client && yarn build",
@@ -12,6 +12,7 @@
     "build:ct:theme": "cd packages/commercetools/theme && yarn build",
     "build:all": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
     "dev": "cd packages/commercetools/theme && yarn dev",
+    "dev:docs": "cd packages/core/docs && yarn dev",
     "test:ct:api-client": "cd packages/commercetools/api-client && yarn test"
   },
   "devDependencies": {
