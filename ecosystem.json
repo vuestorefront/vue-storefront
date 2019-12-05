@@ -10,7 +10,7 @@
         "NODE_ENV": "production"
       },
       "interpreter": "./node_modules/.bin/ts-node",
-      "args": "-P ./tsconfig-build.json ./core/scripts/server.ts",
+      "script": "./core/scripts/server.ts",
       "node_args": "--max_old_space_size=1024",
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "ignore_watch": [
