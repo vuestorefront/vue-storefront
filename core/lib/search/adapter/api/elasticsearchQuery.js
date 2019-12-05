@@ -46,7 +46,7 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
             let rangeAttribute = catalogfilter.attribute
             // filter by product fiunal price
             if (rangeAttribute === 'price') {
-              rangeAttribute = 'final_price'
+              rangeAttribute = config.products.priceFilterKey
             }
             // process range filters
             filterQr = filterQr.andFilter('range', rangeAttribute, catalogfilter.value)

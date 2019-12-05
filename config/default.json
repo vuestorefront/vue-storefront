@@ -346,6 +346,7 @@
       "size": 10,
       "color": 10
     },
+    "priceFilterKey": "final_price",
     "priceFilters": {
       "ranges": [
         { "from": 0, "to": 50 },

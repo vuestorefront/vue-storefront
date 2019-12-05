@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.0] - UNRELEASED
 
 ### Added
+- Add unit tests for `core/modules/url` - @dz3n (#3469)
 - Add unit test for `core/modules/checkout` - @psmyrek (#3460)
 - Add defense against incomplete config in ssr renderer - @oskar1233 (#3774)
 - Add unit tests for `core/modules/order` - @dz3n (#3466)
@@ -15,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add to cart from Wishlist and Product listing for simple products - @Dnd-Dboy, @dz3n (#2637)
 - Add global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
 - Add constant which conditions the number of products loading per page - @AdKamil (#3630)
+- Added price filtering key as config - @roywcm 
 
 ### Fixed
 - Always close zoom overlay after changing product - @psmyrek (#3818)
@@ -31,6 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed ecosystem config for pm2 - @andrzejewsky (#3842)
 - Fixed `mappingFallback` for extending modules -  @andrzejewsky (#3822)
 - Fixed adding products search results to category-next product store - @grimasod (#3877)
+- Use `defaultSortBy` for sorting category products by default @haelbichalex (#3873)
+- Fixed some potential mutations of Config object in `catalog` and `catalog-next` - @grimasod (#3843)
 
 ### Changed / Improved
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
