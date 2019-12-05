@@ -617,6 +617,7 @@ const actions: ActionTree<CartState, RootState> = {
     for (const clientItem of clientItems) {
       cartHasItems = true
       const serverItem = serverItems.find((itm) => {
+        console.log('ServerItem.sku !=? clientItem.sku', String(itm.sku), ' != ', String(clientItem.sku))
         return String(itm.sku) === String(clientItem.sku) || itm.sku.indexOf(clientItem.sku + '-') === 0 /* bundle products */
       })
 

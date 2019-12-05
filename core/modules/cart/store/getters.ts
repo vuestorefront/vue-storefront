@@ -88,7 +88,7 @@ const getters: GetterTree<CartState, RootState> = {
           code: 'shipping',
           title: i18n.t(shipping.method_title),
           value: sumBy(state.cartItems, (p) => {
-            return (shipping.carrier_code ==='flatrateone') ? p.qty * shipping.price_incl_tax : shipping.price_incl_tax
+            return (shipping.carrier_code === 'flatrateone') ? p.qty * shipping.price_incl_tax : shipping.price_incl_tax
           })
         })
       }

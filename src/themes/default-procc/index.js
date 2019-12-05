@@ -8,11 +8,13 @@ import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { once } from '@vue-storefront/core/helpers'
 
 // Added ProCCAPI to global
+import config from 'config'
 import ProCcApi from './helpers/procc_api.js'
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
   Vue.use(VueProgressBar)
   Vue.prototype.ProCcAPI = ProCcApi() // Added by Dan to enable ProCC API
+  Vue.prototype.config = config // Added by Dan to enable ProCC API
 })
 
 const themeEntry = App

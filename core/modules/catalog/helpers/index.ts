@@ -121,6 +121,8 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
 
 export function filterOutUnavailableVariants (context, product) {
   return new Promise((resolve, reject) => {
+    console.log('filterOutUnavailableVariants context: ', context)
+    console.log('filterOutUnavailableVariants product: ', product)
     if (config.products.filterUnavailableVariants) {
       const _filterConfigurableHelper = () => {
         if (product.type_id === 'configurable' && product.configurable_children) {
@@ -390,6 +392,8 @@ function _internalMapOptions (productOption) {
 }
 
 export function populateProductConfigurationAsync (context, { product, selectedVariant }) {
+  console.log('populateProductConfigurationAsync product: ', product)
+  console.log('populateProductConfigurationAsync: ', selectedVariant)
   if (product.configurable_options) {
     for (let option of product.configurable_options) {
       let attribute_code
@@ -443,6 +447,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
       }
     }
   }
+  console.log('populateProductConfigurationAsync END: ', selectedVariant)
   return selectedVariant
 }
 
@@ -502,6 +507,7 @@ export function configureProductAsync (context, { product, configuration, select
       selectedVariant = omit(selectedVariant, fieldsToOmit) // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
       // use chosen variant
       if (selectDefaultVariant) {
+        console.log('setCurrentProduct selectedVariant: ', selectedVariant)
         context.dispatch('setCurrent', selectedVariant)
       }
       Vue.prototype.$bus.$emit('product-after-configure', { product: product, configuration: configuration, selectedVariant: selectedVariant })
@@ -509,6 +515,7 @@ export function configureProductAsync (context, { product, configuration, select
     if (!selectedVariant && setProductErorrs) { // can not find variant anyway, even the default one
       product.errors.variants = i18n.t('No available product variants')
       if (selectDefaultVariant) {
+        console.log('setCurrentProduct2: ', product)
         context.dispatch('setCurrent', product) // without the configuration
       }
     }

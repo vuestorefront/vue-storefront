@@ -196,7 +196,9 @@
             <div class="col-xs-11 col-sm-9 col-md-10">
               <div class="row">
                 <div class="col-sm-10" style="padding: 0">
-                  <h3 class="m0">Description</h3>
+                  <h3 class="m0">
+                    Description
+                  </h3>
                   <p>{{ product.description }}</p>
                 </div>
                 <div class="col-sm-2" v-if="isCCStore" style="padding: 0">
@@ -204,13 +206,16 @@
                     <div class="col mt5">
                       <div>
                         <img
-                        width="50px"
-                        height="50px"
-                        :src="product.brand_logo"
-                        alt="Vuestore logo">
+                          width="50px"
+                          height="50px"
+                          :src="product.brand_logo"
+                          alt="Vuestore logo"
+                        >
                       </div>
                       <div class="align-center">
-                        <h4 class="m0">{{ product.brand_name }}</h4>
+                        <h4 class="m0">
+                          {{ product.brand_name }}
+                        </h4>
                       </div>
                     </div>
                   </div>

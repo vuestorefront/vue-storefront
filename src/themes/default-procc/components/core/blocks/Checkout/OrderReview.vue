@@ -122,6 +122,7 @@ import { OrderReview } from '@vue-storefront/core/modules/checkout/components/Or
 import ValidationError from 'theme/components/core/ValidationError'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import _ from 'lodash'
+
 export default {
   components: {
     BaseCheckbox,
@@ -148,7 +149,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentImage: 'categories/getHeadImage',
+      getTotals: 'cart/getTotals',
+      currentImage: 'procc/getHeadImage',
       currentCart: 'carts/getCartToken'
     })
   },
@@ -187,7 +189,9 @@ export default {
       })
     },
     orderPayment () {
-      let amount = _.get(_.get(_.filter(this.totals, {'code': 'grand_total'}), ['0']), 'value')
+      console.log('this.getTotals: ', this.getTotals)
+      let amount = _.get(_.get(_.filter(this.getTotals, {'code': 'grand_total'}), ['0']), 'value')
+
       let data = {
         'PaymentType': 'CARD',
         'ExecutionType': 'WEB',
@@ -199,12 +203,14 @@ export default {
           'Currency': 'EUR',
           'Amount': 0
         },
-        'ReturnURL': 'https://store.procc.co/transactionDone', //  store url
+        'ReturnURL': this.config.server.url+'/transactionDone', //  store url
         'CardType': 'CB_VISA_MASTERCARD',
         'SecureMode': 'DEFAULT',
         'Culture': 'EN',
         'brand': this.currentImage.brand
       }
+      console.log('ProCcAPI.mangoPayCheckIn data', data)
+      console.log('this.currentImage', this.currentImage)
       this.ProCcAPI.mangoPayCheckIn(data, this.currentImage.brand).then(async (response) => {
         if (!_.isEmpty(response.data.payIn_result) && !_.isUndefined(response.data.payIn_result.RedirectURL)) {
           window.open(response.data.payIn_result.RedirectURL, 'popUpWindow', 'height=700,width=800,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
