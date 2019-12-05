@@ -49,17 +49,28 @@ describe('User mutations', () => {
   })
 
   describe('USER_START_SESSION', () => {
+
     it('should assign session_started', () => {
-      const sessionDate = new Date()
-      const stateMock = {
-        session_started: sessionDate
-      }
 
-      const wrapper = (mutations: any) => mutations[types.USER_START_SESSION](stateMock)
+      jest.isolateModules(() => {
 
-      wrapper(userMutations)
+        let dateTest = new Date(Date.now());
+        jest
+          .spyOn(global, 'Date')
+          .mockImplementationOnce(() => dateTest.toDateString());
 
-      expect(stateMock.session_started.toLocaleDateString()).toEqual(sessionDate.toLocaleDateString())
+        const stateMock = {
+          session_started: new Date
+        }
+        const expectedState = {
+          session_started: new Date
+        }
+        const wrapper = (mutations: any) => mutations[types.USER_START_SESSION](stateMock)
+
+        wrapper(userMutations)
+
+        expect(stateMock).toEqual(expectedState)
+      })
     })
   })
 
