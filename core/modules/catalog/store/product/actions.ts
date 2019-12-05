@@ -19,6 +19,7 @@ import { optionLabel } from '../../helpers/optionLabel'
 import { isOnline } from '@vue-storefront/core/lib/search'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
+import cloneDeep from 'lodash-es/cloneDeep'
 import uniqBy from 'lodash-es/uniqBy'
 import rootStore from '@vue-storefront/core/store'
 import RootState from '@vue-storefront/core/types/RootState'
@@ -684,7 +685,7 @@ const actions: ActionTree<ProductState, RootState> = {
     if (product && product.category_ids) {
       let currentCategory = rootGetters['category-next/getCurrentCategory'] // use current category, if set
       if (!currentCategory || !currentCategory.id || !product.category_ids.includes(currentCategory.id.toString())) {
-        const categoryFilters = Object.assign({ 'id': product.category_ids }, config.entities.category.breadcrumbFilterFields)
+        const categoryFilters = Object.assign({ 'id': [...product.category_ids] }, cloneDeep(config.entities.category.breadcrumbFilterFields))
         const categories = await dispatch('category-next/loadCategories', {filters: categoryFilters}, { root: true })
         currentCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
       }
