@@ -1,4 +1,8 @@
 {
+  "PROCC": {
+    "API": "http://procc-dash-api:8081",
+    "URL": "https://procc.co/api"
+  },
   "server": {
     "url": "https://store.procc.co",
     "host": "localhost",
@@ -30,13 +34,6 @@
     "ssrDisabledFor": {
       "extensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
     }
-  },
-  "seo": {
-    "useUrlDispatcher": true
-  },
-  "console": {
-    "showErrorOnProduction": true,
-    "verbosityLevel": "display-everything"
   },
   "redis": {
     "host": "redis",
@@ -87,6 +84,49 @@
       }
     }
   },
+  "invalidateCacheKey": "aeSu7aip",
+  "dynamicConfigReload": true,
+  "dynamicConfigContinueOnError": false,
+  "dynamicConfigExclude": [
+    "ssr",
+    "entities",
+    "localForage",
+    "boost",
+    "query"
+  ],
+  "dynamicConfigInclude": [
+    "storeViews",
+    "shipping"
+  ],
+  "elasticCacheQuota": 4096,
+  "ssrDisabledFor": {
+    "extensions": [
+      ".png",
+      ".gif",
+      ".jpg",
+      ".jpeg",
+      ".woff",
+      ".eot",
+      ".woff2",
+      ".ttf",
+      ".svg",
+      ".css",
+      ".js",
+      ".json",
+      ".ico",
+      ".tiff",
+      ".tif",
+      ".raw"
+    ]
+  },
+  "seo": {
+    "useUrlDispatcher": true,
+    "disableUrlRoutesPersistentCache": true
+  },
+  "console": {
+    "showErrorOnProduction": true,
+    "verbosityLevel": "display-everything"
+  },
   "ssr": {
     "templates": {
       "default": "dist/index.html",
@@ -103,61 +143,69 @@
     "useInitialStateFilter": true
   },
   "defaultStoreCode": "",
+  "availableStores": [
+    "aa"
+  ],
   "storeViews": {
-    "multistore": false,
-    "commonCache": true,
-    "mapStoreUrlsFor": ["de", "it"],
-    "de": {
-      "storeCode": "de",
-      "disabled": true,
-      "storeId": 3,
-      "name": "German Store",
-      "url": "/de",
+    "multistore": true,
+    "commonCache": false,
+    "mapStoreUrlsFor": [
+      "aa",
+      "cctest"
+    ],
+    "aa": {
+      "storeCode": "aa",
+      "storeName": "Mashup Store",
+      "disabled": false,
+      "storeId": 68,
+      "name": "Mashup Store",
+      "url": "/aa",
       "appendStoreCode": true,
       "elasticsearch": {
-        "host": "/api/catalog",
-        "index": "vue_storefront_catalog_de"
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_aa"
       },
       "tax": {
-        "sourcePriceIncludesTax": false,
-        "defaultCountry": "DE",
+        "defaultCountry": "BG",
         "defaultRegion": "",
-        "calculateServerSide": true
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
       },
       "i18n": {
-        "fullCountryName": "Germany",
-        "fullLanguageName": "German",
-        "defaultLanguage": "DE",
-        "defaultCountry": "DE",
-        "defaultLocale": "de-DE",
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
         "currencyCode": "EUR",
         "currencySign": "EUR",
         "dateFormat": "HH:mm D-M-YYYY"
       }
     },
-    "it": {
-      "storeCode": "it",
-      "disabled": true,
-      "storeId": 4,
-      "name": "Italian Store",
-      "url": "/it",
+    "cctest": {
+      "storeCode": "cctest",
+      "storeName": "Test Judy Store",
+      "disabled": false,
+      "storeId": 69,
+      "name": "Test Judy Store",
+      "url": "/cctest",
       "appendStoreCode": true,
       "elasticsearch": {
-        "host": "/api/catalog",
-        "index": "vue_storefront_catalog_it"
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_cctest"
       },
       "tax": {
-        "sourcePriceIncludesTax": false,
-        "defaultCountry": "IT",
+        "defaultCountry": "BG",
         "defaultRegion": "",
-        "calculateServerSide": true
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
       },
       "i18n": {
-        "fullCountryName": "Italy",
-        "fullLanguageName": "Italian",
-        "defaultCountry": "IT",
-        "defaultLanguage": "IT",
-        "defaultLocale": "it-IT",
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
         "currencyCode": "EUR",
         "currencySign": "EUR",
         "dateFormat": "HH:mm D-M-YYYY"
@@ -212,7 +260,7 @@
       ]
     },
     "productList": {
-      "sort": "",
+      "sort": "updated_at:desc",
       "includeFields": [
         "type_id",
         "sku",
@@ -420,6 +468,7 @@
     "applycoupon_endpoint": "https://store.procc.co/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
   "products": {
+    "useShortCatalogUrls": false,
     "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
     "setFirstVarianAsDefaultInURL": false,
@@ -447,10 +496,11 @@
     },
     "sortByAttributes": {
       "Latest": "updated_at",
-      "Price: Low to high":"final_price",
-      "Price: High to low":"final_price:desc"
+      "Price: Low to high": "final_price",
+      "Price: High to low": "final_price:desc"
     },
     "gallery": {
+      "variantsGroupAttribute": "color",
       "mergeConfigurableChildren": true,
       "imageAttributes": ["image","thumbnail","small_image"],
       "width": 600,
@@ -553,6 +603,9 @@
       }
     ]
   },
+  "syncTasks": {
+    "disablePersistentTaskQueue": true
+  },
   "i18n": {
     "defaultCountry": "US",
     "defaultLanguage": "EN",
@@ -597,7 +650,8 @@
     "contactAddress": "contributors@vuestorefront.io",
     "sendConfirmation": true
   },
-  "theme": "@vue-storefront/theme-default",
+  "theme": "@vue-storefront/theme-default-procc",
+  "themeDir": "./src/themes/default-procc",
   "analytics": {
     "id": false
   },

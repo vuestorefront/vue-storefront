@@ -47,12 +47,8 @@
       "de",
       "it",
       "volkky",
-      "ggg",
-      "gegehg",
-      "puma",
-      "nike",
-      "reebok_store"
-    ],
+      "ggg"
+      ],
     "de": {
       "storeCode": "de",
       "disabled": true,
@@ -145,118 +141,6 @@
       "elasticsearch": {
         "host": "https://store.procc.co/api/catalog",
         "index": "vue_storefront_catalog_ggg"
-      },
-      "tax": {
-        "defaultCountry": "BG",
-        "defaultRegion": "",
-        "calculateServerSide": true,
-        "sourcePriceIncludesTax": false
-      },
-      "i18n": {
-        "fullCountryName": "Bulgaria",
-        "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
-        "defaultLanguage": "EN",
-        "defaultLocale": "en-US",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "gegehg": {
-      "storeCode": "gegehg",
-      "storeName": "Volkyyz Store",
-      "disabled": false,
-      "storeId": 54,
-      "name": "Volkyyz Store",
-      "url": "/gegehg",
-      "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_gegehg"
-      },
-      "tax": {
-        "defaultCountry": "BG",
-        "defaultRegion": "",
-        "calculateServerSide": true,
-        "sourcePriceIncludesTax": false
-      },
-      "i18n": {
-        "fullCountryName": "Bulgaria",
-        "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
-        "defaultLanguage": "EN",
-        "defaultLocale": "en-US",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "puma": {
-      "storeCode": "puma",
-      "storeName": "Puma Store",
-      "disabled": false,
-      "storeId": 3,
-      "name": "Puma Store",
-      "url": "/puma",
-      "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_puma"
-      },
-      "tax": {
-        "defaultCountry": "BG",
-        "defaultRegion": "",
-        "calculateServerSide": true,
-        "sourcePriceIncludesTax": false
-      },
-      "i18n": {
-        "fullCountryName": "Bulgaria",
-        "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
-        "defaultLanguage": "EN",
-        "defaultLocale": "en-US",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "nike": {
-      "storeCode": "nike",
-      "storeName": "Nike Store",
-      "disabled": false,
-      "storeId": 14,
-      "name": "Nike Store",
-      "url": "/nike",
-      "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_nike"
-      },
-      "tax": {
-        "defaultCountry": "BG",
-        "defaultRegion": "",
-        "calculateServerSide": true,
-        "sourcePriceIncludesTax": false
-      },
-      "i18n": {
-        "fullCountryName": "Bulgaria",
-        "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
-        "defaultLanguage": "EN",
-        "defaultLocale": "en-US",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "reebok_store": {
-      "storeCode": "reebok_store",
-      "storeName": "Reebok Store",
-      "disabled": false,
-      "storeId": 17,
-      "name": "Reebok Store",
-      "url": "/reebok_store",
-      "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_reebok_store"
       },
       "tax": {
         "defaultCountry": "BG",

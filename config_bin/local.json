@@ -1,8 +1,10 @@
 {
   "PROCC": {
-    "API": "localhost:8081"
+    "API": "http://localhost:8081",
+    "URL": "https://procc.co/api"
   },
   "server": {
+    "url": "http://localhost:3000",
     "host": "localhost",
     "port": 3000,
     "protocol": "http",
@@ -22,7 +24,16 @@
       "P",
       "C",
       "error"
-    ]
+    ],
+    "invalidateCacheKey": "aeSu7aip",
+    "dynamicConfigReload": true,
+    "dynamicConfigContinueOnError": false,
+    "dynamicConfigExclude": ["ssr", "entities", "localForage", "boost", "query"],
+    "dynamicConfigInclude": [],
+    "elasticCacheQuota": 4096,
+    "ssrDisabledFor": {
+      "extensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
+    }
   },
   "redis": {
     "host": "localhost",
@@ -48,15 +59,11 @@
     "searchScoring": {
       "attributes": {
         "attribute_code": {
-          "scoreValues": {
-            "attribute_value": {
-              "weight": 1
-            }
-          }
+          "scoreValues": { "attribute_value": { "weight": 1 } }
         }
       },
       "fuzziness": 2,
-      "cutoff_frequency": 0.01,
+      "cutoff_frequency":  0.01,
       "max_expansions": 3,
       "minimum_should_match": "75%",
       "prefix_length": 2,
@@ -77,40 +84,40 @@
       }
     }
   },
-    "invalidateCacheKey": "aeSu7aip",
-    "dynamicConfigReload": true,
-    "dynamicConfigContinueOnError": false,
-    "dynamicConfigExclude": [
-      "ssr",
-      "entities",
-      "localForage",
-      "boost",
-      "query"
-    ],
-    "dynamicConfigInclude": [
-      "storeViews",
-      "shipping"
-    ],
-    "elasticCacheQuota": 4096,
-    "ssrDisabledFor": {
-      "extensions": [
-        ".png",
-        ".gif",
-        ".jpg",
-        ".jpeg",
-        ".woff",
-        ".eot",
-        ".woff2",
-        ".ttf",
-        ".svg",
-        ".css",
-        ".js",
-        ".json",
-        ".ico",
-        ".tiff",
-        ".tif",
-        ".raw"
-      ]
+  "invalidateCacheKey": "aeSu7aip",
+  "dynamicConfigReload": true,
+  "dynamicConfigContinueOnError": false,
+  "dynamicConfigExclude": [
+    "ssr",
+    "entities",
+    "localForage",
+    "boost",
+    "query"
+  ],
+  "dynamicConfigInclude": [
+    "storeViews",
+    "shipping"
+  ],
+  "elasticCacheQuota": 4096,
+  "ssrDisabledFor": {
+    "extensions": [
+      ".png",
+      ".gif",
+      ".jpg",
+      ".jpeg",
+      ".woff",
+      ".eot",
+      ".woff2",
+      ".ttf",
+      ".svg",
+      ".css",
+      ".js",
+      ".json",
+      ".ico",
+      ".tiff",
+      ".tif",
+      ".raw"
+    ]
   },
   "seo": {
     "useUrlDispatcher": true,
@@ -143,7 +150,8 @@
     "multistore": true,
     "commonCache": false,
     "mapStoreUrlsFor": [
-      "aa"
+      "aa",
+      "cctest"
     ],
     "aa": {
       "storeCode": "aa",
@@ -156,6 +164,35 @@
       "elasticsearch": {
         "host": "http://localhost:8080/api/catalog",
         "index": "vue_storefront_catalog_aa"
+      },
+      "tax": {
+        "defaultCountry": "BG",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "EUR",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "cctest": {
+      "storeCode": "cctest",
+      "storeName": "Test Judy Store",
+      "disabled": false,
+      "storeId": 69,
+      "name": "Test Judy Store",
+      "url": "/cctest",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_cctest"
       },
       "tax": {
         "defaultCountry": "BG",
@@ -432,6 +469,7 @@
   },
   "products": {
     "useShortCatalogUrls": false,
+    "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
     "setFirstVarianAsDefaultInURL": false,
     "configurableChildrenStockPrefetchStatic": false,
@@ -445,12 +483,7 @@
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
-    "defaultFilters": [
-      "color",
-      "size",
-      "price",
-      "erin_recommends"
-    ],
+    "defaultFilters": ["color", "size", "price", "erin_recommends"],
     "filterFieldMapping": {
       "category.name": "category.name.keyword"
     },
@@ -469,11 +502,7 @@
     "gallery": {
       "variantsGroupAttribute": "color",
       "mergeConfigurableChildren": true,
-      "imageAttributes": [
-        "image",
-        "thumbnail",
-        "small_image"
-      ],
+      "imageAttributes": ["image","thumbnail","small_image"],
       "width": 600,
       "height": 744
     },
@@ -488,21 +517,10 @@
     },
     "priceFilters": {
       "ranges": [
-        {
-          "from": 0,
-          "to": 50
-        },
-        {
-          "from": 50,
-          "to": 100
-        },
-        {
-          "from": 100,
-          "to": 150
-        },
-        {
-          "from": 150
-        }
+        { "from": 0, "to": 50 },
+        { "from": 50, "to": 100 },
+        { "from": 100, "to": 150 },
+        { "from": 150 }
       ]
     }
   },
@@ -584,6 +602,9 @@
         "offline": true
       }
     ]
+  },
+  "syncTasks": {
+    "disablePersistentTaskQueue": true
   },
   "i18n": {
     "defaultCountry": "US",
