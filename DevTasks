@@ -3,6 +3,10 @@ Search for "// TODO:" to find smaller tasks
 -- make sure payment method works with MANGOPAY and ProCC API
 -- Checkout Instant Checkout btn -> how does it work, can we test it with mocked payment -> does it work at all ?
 
+-- when adding items to cart getting Error from M2 -> No server item with sku M008-XS on stock.
+
+-- add all missing strings from the i18n English file -> to be ready for translation
+
 -- split ordered products by brand in checkout
 
 -- Refresh in Cart leads to main home page ...? Any refresh needs to render the exact same page as before

@@ -203,7 +203,7 @@ export default {
           'Currency': 'EUR',
           'Amount': 0
         },
-        'ReturnURL': this.config.server.url+'/transactionDone', //  store url
+        'ReturnURL': this.config.server.url + '/transactionDone', //  store url
         'CardType': 'CB_VISA_MASTERCARD',
         'SecureMode': 'DEFAULT',
         'Culture': 'EN',
