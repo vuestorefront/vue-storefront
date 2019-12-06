@@ -1,5 +1,5 @@
 <template>
-  <h1 class="t-flex t-items-center t-mt-2 t-mb-6 t-text-2xl">
+  <h1 class="t-flex t-flex-wrap t-items-center t-mt-2 t-mb-6 t-text-2xl t-leading-tight">
     <material-icon :icon="icon" size="md" class="t-mr-2" />
     <slot />
   </h1>

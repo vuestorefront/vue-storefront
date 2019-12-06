@@ -14,7 +14,7 @@
         </button-component>
       </div>
     </div>
-    <reviews-form :product="product" v-if="formVisible" />
+    <reviews-form :product="product" v-if="formVisible" class="t-bg-white t-p-4 t-mb-8" />
     <reviews-list :product-name="productName" :per-page="4" />
   </section>
 </template>

@@ -27,6 +27,7 @@ import MyNewsletter from '../components/core/blocks/MyAccount/MyNewsletter'
 import MyOrders from '../components/core/blocks/MyAccount/MyOrders'
 import MyOrder from '../components/core/blocks/MyAccount/MyOrder'
 import MyProductAlerts from '../components/core/blocks/MyAccount/MyProductAlerts'
+import MyOrderReview from 'icmaa-review/components/MyAccount/MyOrderReview'
 import NoSSR from 'vue-no-ssr'
 
 export default {
@@ -38,13 +39,6 @@ export default {
       default: 'MyProfile'
     }
   },
-  data () {
-    return {
-      meta: {
-        title: i18n.t('My Account')
-      }
-    }
-  },
   components: {
     Navigation,
     MyProfile,
@@ -53,10 +47,10 @@ export default {
     MyOrders,
     MyOrder,
     MyProductAlerts,
+    MyOrderReview,
     'no-ssr': NoSSR
   },
   beforeMount () {
-    this.$bus.$on('myAccount-switch-route', this.onSwitchRoute)
     this.$bus.$on('myAccount-before-updateUser', this.onBeforeUpdateUser)
   },
   async mounted () {
@@ -67,18 +61,28 @@ export default {
     }
   },
   destroyed () {
-    this.$bus.$off('myAccount-switch-route', this.onSwitchRoute)
     this.$bus.$off('myAccount-before-updateUser', this.onBeforeUpdateUser)
   },
   computed: {
     ...mapGetters({
       viewport: 'ui/getViewport'
-    })
+    }),
+    metaTitle () {
+      const titleMap = {
+        'MyAccount': 'My profile',
+        'MyOrder': 'My order',
+        'MyOrders': 'My orders',
+        'MyAddresses': 'My addresses',
+        'MyNewsletter': 'My newsletter',
+        'MyProductAlerts': 'My product-alerts',
+        'MyOrderReview': 'Order-Review',
+        'MyCoupons': 'My coupons'
+      }
+
+      return i18n.t(titleMap[this.activeBlock] || 'My Account')
+    }
   },
   methods: {
-    onSwitchRoute (routeDTO) {
-      this.meta.title = routeDTO.title
-    },
     async onBeforeUpdateUser (updatedData, passwordData = false, message = false) {
       if (updatedData) {
         this.$bus.$emit('notification-progress-start', i18n.t('Please wait'))
@@ -127,7 +131,7 @@ export default {
   },
   metaInfo () {
     return {
-      title: this.$route.meta.title || this.meta.title,
+      title: this.$route.meta.title || this.metaTitle,
       meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }] : []
     }
   },

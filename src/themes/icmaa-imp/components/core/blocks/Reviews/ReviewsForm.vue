@@ -1,5 +1,5 @@
 <template>
-  <div class="reviews-form t-bg-white t-p-4 t-mb-8" id="reviews-form">
+  <div class="reviews-form" id="reviews-form">
     <form name="review" action="#" @submit.prevent="outOfScope()">
       <div class="t-mb-4">
         <base-label form-id="name" :label-text="$t('First name')" />

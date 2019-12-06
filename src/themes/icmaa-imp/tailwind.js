@@ -33,7 +33,7 @@ module.exports = {
       },
       spacing: {
         '1/8': '0.125rem',
-        '3-1/2': '0.85rem',
+        '3-1/2': '0.875rem',
         '2px': '2px'
       },
       minHeight: {
