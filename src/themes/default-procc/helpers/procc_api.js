@@ -52,7 +52,7 @@ export default (baseURL = config.PROCC.API + '/api/') => {
   const mangoPayCheckIn = (data, brandId) => api.post('mangopay/VSFOrderPayment', data, getHeader(brandId))
   const updateTransactionStatus = (data, brandId) => api.post('mangopay/updateTransactionStatus', data, getHeader(brandId))
   const getSizeChart = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
-  const updateVsfSyncStatus = (brandData) => api.post('vsf/updateSyncStatusVsf', {brandData}, getHeader(brandData.brand_id))
+  const updateVsfSyncStatus = (brandData) => api.post('vsf/updateVsfSyncStatus', {brandData}, getHeader(brandData.brand_id))
   const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
 
   return {
