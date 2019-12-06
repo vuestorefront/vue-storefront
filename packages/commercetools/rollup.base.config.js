@@ -1,5 +1,5 @@
-import typescript from 'rollup-plugin-typescript2';
-import { terser } from "rollup-plugin-terser";
+import typescript from 'rollup-plugin-typescript2'
+import { terser } from 'rollup-plugin-terser'
 
 export function generateBaseConfig (pkg) {
   return {
@@ -21,7 +21,7 @@ export function generateBaseConfig (pkg) {
       typescript({
       typescript: require('typescript'),
       }),
-      terser() 
+      terser()
     ]
   }
 }

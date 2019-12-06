@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build:docs": "cd packages/docs && yarn build",
+    "build:docs": "cd packages/core/docs && yarn build",
     "build:core:interfaces": "cd packages/core/interfaces && tsc",
     "build:core": "yarn build:core:interfaces",
     "build:ct:api-client": "cd packages/commercetools/api-client && yarn build",
@@ -11,21 +11,32 @@
     "build:ct:tools": "yarn build:ct:api-client && yarn build:ct:composables && yarn build:ct:helpers",
     "build:ct:theme": "cd packages/commercetools/theme && yarn build",
     "build:all": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
-    "dev": "cd packages/ct/theme && yarn dev"
+    "dev": "cd packages/commercetools/theme && yarn dev",
+    "dev:docs": "cd packages/core/docs && yarn dev",
+    "test:ct:api-client": "cd packages/commercetools/api-client && yarn test"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.14",
+    "cross-env": "^6.0.3",
+    "jest": "^24.9.0",
     "lerna": "^3.15.0",
-    "webpack-bundle-analyzer": "^3.5.2",
     "rollup": "^1.25.2",
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-typescript2": "^0.24.3",
-    "@types/node": "^12.7.12",
+    "ts-jest": "^24.2.0",
     "ts-node": "^8.4.1",
     "tslib": "^1.10.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "webpack-bundle-analyzer": "^3.5.2"
   },
   "workspaces": {
-    "packages" : ["packages/commercetools/*", "packages/core/*"],
-    "nohoist": ["**/**/**"]
+    "packages": [
+      "packages/commercetools/*",
+      "packages/core/*"
+    ],
+    "nohoist": [
+      "**/**/**"
+    ]
   }
 }

@@ -1,0 +1,7562 @@
+"""
+Direct the client to resolve this field locally, either from the cache or local resolvers.
+"""
+directive @client(
+  """
+  When true, the client will never use the cache for this value. See
+  https://www.apollographql.com/docs/react/essentials/local-state/#forcing-resolvers-with-clientalways-true
+  """
+  always: Boolean
+) on FIELD | FRAGMENT_DEFINITION | INLINE_FRAGMENT
+
+"""
+Export this locally resolved field as a variable to be used in the remainder of this query. See
+https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
+"""
+directive @export(
+  """The variable name to export this field as."""
+  as: String!
+) on FIELD
+
+"""
+Specify a custom store key for this result. See
+https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
+"""
+directive @connection(
+  """Specify the store key."""
+  key: String!
+
+  """
+  An array of query argument names to include in the generated custom store key.
+  """
+  filter: [String!]
+) on FIELD
+
+type AbsoluteDiscountValue implements CartDiscountValue & ProductDiscountValue {
+  money: [Money!]!
+  type: String!
+}
+
+input AbsoluteDiscountValueInput {
+  money: [MoneyInput!]!
+}
+
+"""A field to access the active cart."""
+interface ActiveCartInterface {
+  activeCart: Cart
+}
+
+input addAttributeDefinition {
+  attributeDefinition: AttributeDefinitionDraft!
+}
+
+input AddCartCustomLineItem {
+  shippingDetails: ItemShippingDetailsDraft
+  custom: CustomFieldsDraft
+  quantity: Long
+  externalTaxRate: ExternalTaxRateDraft
+  taxCategory: ResourceIdentifierInput
+  slug: String!
+  money: BaseMoneyInput!
+  name: [LocalizedStringItemInputType!]!
+}
+
+input AddCartDiscountCode {
+  code: String!
+  validateDuplicates: Boolean = false
+}
+
+input AddCartItemShippingAddress {
+  address: AddressInput!
+}
+
+input AddCartLineItem {
+  shippingDetails: ItemShippingDetailsDraft
+  externalTotalPrice: ExternalLineItemTotalPriceDraft
+  externalPrice: BaseMoneyInput
+  externalTaxRate: ExternalTaxRateDraft
+  custom: CustomFieldsDraft
+  catalog: ReferenceInput
+  distributionChannel: ResourceIdentifierInput
+  supplyChannel: ResourceIdentifierInput
+  variantId: Int
+  quantity: Long
+  sku: String
+  productId: String
+}
+
+input AddCartPayment {
+  payment: ResourceIdentifierInput!
+}
+
+input AddCartShoppingList {
+  shoppingList: ResourceIdentifierInput!
+  supplyChannel: ResourceIdentifierInput
+  distributionChannel: ResourceIdentifierInput
+}
+
+input AddCategoryAsset {
+  position: Int
+  asset: AssetDraftInput!
+}
+
+input AddCustomerAddress {
+  address: AddressInput!
+}
+
+input AddCustomerBillingAddressId {
+  addressId: String!
+}
+
+input AddCustomerShippingAddressId {
+  addressId: String!
+}
+
+input AddCustomerStore {
+  store: ResourceIdentifierInput!
+}
+
+input AddInventoryEntryQuantity {
+  quantity: Long!
+}
+
+input addLocalizedEnumValue {
+  attributeName: String!
+  value: LocalizedEnumValueDraft!
+}
+
+input AddMyCartLineItem {
+  shippingDetails: ItemShippingDetailsDraft
+  custom: CustomFieldsDraft
+  catalog: ReferenceInput
+  distributionChannel: ResourceIdentifierInput
+  supplyChannel: ResourceIdentifierInput
+  variantId: Int
+  quantity: Long
+  sku: String
+  productId: String
+}
+
+input AddOrderDelivery {
+  items: [DeliveryItemDraftType!] = []
+  parcels: [DeliveryItemDraftType!] = []
+  address: AddressInput
+}
+
+input AddOrderItemShippingAddress {
+  address: AddressInput!
+}
+
+input AddOrderParcelToDelivery {
+  deliveryId: String!
+  measurements: ParcelMeasurementsDraftType
+  trackingData: TrackingDataDraftType
+  items: [DeliveryItemDraftType!] = []
+}
+
+input AddOrderPayment {
+  payment: ResourceIdentifierInput!
+}
+
+input AddOrderReturnInfo {
+  items: [ReturnItemDraftType!]!
+  returnDate: DateTime
+  returnTrackingId: String
+}
+
+input addPlainEnumValue {
+  attributeName: String!
+  value: PlainEnumValueDraft!
+}
+
+input AddProductAsset {
+  variantId: Int
+  sku: String
+  catalog: ReferenceInput
+  staged: Boolean = true
+  position: Int
+  asset: AssetDraftInput!
+}
+
+input AddProductExternalImage {
+  variantId: Int
+  sku: String
+  image: ImageInput!
+  staged: Boolean = true
+}
+
+input AddProductPrice {
+  variantId: Int
+  sku: String
+  price: ProductPriceDataInput!
+  catalog: ReferenceInput
+  staged: Boolean = true
+}
+
+input AddProductToCategory {
+  category: ResourceIdentifierInput!
+  orderHint: String
+  staged: Boolean = true
+}
+
+input AddProductVariant {
+  assets: [AssetDraftInput!] = []
+  attributes: [ProductAttributeInput!] = []
+  images: [ImageInput!] = []
+  prices: [ProductPriceDataInput!] = []
+  key: String
+  sku: String
+  staged: Boolean = true
+}
+
+"""An address represents a postal address."""
+type Address {
+  id: String
+  title: String
+  salutation: String
+  firstName: String
+  lastName: String
+  streetName: String
+  streetNumber: String
+  additionalStreetInfo: String
+  postalCode: String
+  city: String
+  region: String
+  state: String
+  country: Country!
+  company: String
+  department: String
+  building: String
+  apartment: String
+  pOBox: String
+  contactInfo: AddressContactInfo!
+  additionalAddressInfo: String
+  externalId: String
+  key: String
+}
+
+type AddressContactInfo {
+  phone: String
+  mobile: String
+  email: String
+  fax: String
+}
+
+input AddressInput {
+  id: String
+  title: String
+  salutation: String
+  firstName: String
+  lastName: String
+  streetName: String
+  streetNumber: String
+  additionalStreetInfo: String
+  postalCode: String
+  city: String
+  region: String
+  state: String
+  country: Country!
+  company: String
+  department: String
+  building: String
+  apartment: String
+  pOBox: String
+  phone: String
+  mobile: String
+  email: String
+  fax: String
+  additionalAddressInfo: String
+  externalId: String
+  key: String
+}
+
+input AddShippingMethodShippingRate {
+  zone: ResourceIdentifierInput!
+  shippingRate: ShippingRateDraft!
+}
+
+input AddShippingMethodZone {
+  zone: ResourceIdentifierInput!
+}
+
+input AddShoppingListLineItem {
+  addedAt: DateTime
+  custom: CustomFieldsDraft
+  quantity: Int = 1
+  variantId: Int
+  sku: String
+  productId: String
+}
+
+input AddShoppingListTextLineItem {
+  addedAt: DateTime
+  custom: CustomFieldsDraft
+  quantity: Int = 1
+  description: [LocalizedStringItemInputType!]
+  name: [LocalizedStringItemInputType!]!
+}
+
+input AddZoneLocation {
+  location: ZoneLocation!
+}
+
+enum AnonymousCartSignInMode {
+  """
+  The anonymous cart is used as new active customer cart. No `LineItem`s get merged.
+  """
+  UseAsNewActiveCustomerCart
+
+  """
+  `LineItem`s of the anonymous cart will be copied to the customer’s active cart that has been modified most recently.
+  
+  The `CartState` of the anonymous cart gets changed to `Merged` while the
+  `CartState` of the customer’s cart remains `Active`.
+  
+  `CustomLineItems` and `CustomFields` of the anonymous cart will not be copied to the customers cart.
+  
+  If a `LineItem` in the anonymous cart matches an existing line item in the
+  customer’s cart (same product ID and variant ID), the maximum quantity of both
+  LineItems is used as the new quantity. In that case `CustomFields` on the
+  `LineItem` of the anonymous cart will not be in the resulting `LineItem`.
+  """
+  MergeWithExistingCustomerCart
+}
+
+"""API Clients can be used to obtain OAuth 2 access tokens"""
+type APIClientWithoutSecret {
+  id: String!
+  name: String!
+  scope: String!
+  createdAt: DateTime
+  lastUsedAt: Date
+}
+
+type APIClientWithoutSecretQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [APIClientWithoutSecret!]!
+}
+
+"""
+API Clients can be used to obtain OAuth 2 access tokens. The secret is only
+shown once in the response of creating the API Client.
+"""
+type APIClientWithSecret {
+  id: String!
+  name: String!
+  scope: String!
+  createdAt: DateTime
+  lastUsedAt: Date
+  secret: String!
+}
+
+input ApplyCartDeltaToCustomLineItemShippingDetailsTargets {
+  customLineItemId: String!
+  targetsDelta: [ShippingTargetDraft!]!
+}
+
+input ApplyCartDeltaToLineItemShippingDetailsTargets {
+  lineItemId: String!
+  targetsDelta: [ShippingTargetDraft!]!
+}
+
+type Asset {
+  id: String!
+  key: String
+  sources: [AssetSource!]!
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]!
+  description(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  descriptionAllLocales: [LocalizedString!]
+  tags: [String!]!
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+type AssetDimensions {
+  width: Int!
+  height: Int!
+}
+
+input AssetDimensionsInput {
+  width: Int!
+  height: Int!
+}
+
+input AssetDraftInput {
+  key: String
+  name: [LocalizedStringItemInputType!]!
+  description: [LocalizedStringItemInputType!]
+  custom: CustomFieldsDraft
+  sources: [AssetSourceInput!]
+  tags: [String!]
+  type: ResourceIdentifierInput
+}
+
+type AssetSource {
+  uri: String!
+  key: String
+  dimensions: AssetDimensions
+  contentType: String
+}
+
+input AssetSourceInput {
+  uri: String!
+  key: String
+  dimensions: AssetDimensionsInput
+  contentType: String
+}
+
+interface Attribute {
+  name: String!
+}
+
+enum AttributeConstraint {
+  """No constraints are applied to the attribute"""
+  None
+
+  """Attribute value should be different in each variant"""
+  Unique
+
+  """
+  A set of attributes, that have this constraint, should have different combinations in each variant
+  """
+  CombinationUnique
+
+  """Attribute value should be the same in all variants"""
+  SameForAll
+}
+
+type AttributeDefinition {
+  type: AttributeDefinitionType!
+  name: String!
+  label(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  isRequired: Boolean!
+  attributeConstraint: AttributeConstraint!
+  inputTip(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  inputHint: TextInputHint!
+  isSearchable: Boolean!
+  labelAllLocales: [LocalizedString!]!
+  inputTipAllLocales: [LocalizedString!]
+}
+
+input AttributeDefinitionDraft {
+  type: AttributeTypeDraft!
+  name: String!
+  label: [LocalizedStringItemInputType!]!
+  isRequired: Boolean!
+  attributeConstraint: AttributeConstraint
+  inputTip: [LocalizedStringItemInputType!]
+  inputHint: TextInputHint
+  isSearchable: Boolean!
+}
+
+type AttributeDefinitionResult {
+  limit: Int
+  offset: Int
+  total: Int!
+  results: [AttributeDefinition!]!
+}
+
+"""
+(https://dev.commercetools.com/http-api-projects-productTypes.html#attributetype)[https://dev.commercetools.com/http-api-projects-productTypes.html#attributetype]
+"""
+interface AttributeDefinitionType {
+  name: String!
+}
+
+input AttributeSetElementTypeDraft {
+  text: SimpleAttributeTypeDraft
+  number: SimpleAttributeTypeDraft
+  money: SimpleAttributeTypeDraft
+  date: SimpleAttributeTypeDraft
+  time: SimpleAttributeTypeDraft
+  datetime: SimpleAttributeTypeDraft
+  boolean: SimpleAttributeTypeDraft
+  reference: ReferenceTypeDefinitionDraft
+  enum: EnumTypeDraft
+  lenum: LocalizableEnumTypeDraft
+  ltext: SimpleAttributeTypeDraft
+}
+
+input AttributeSetTypeDraft {
+  elementType: AttributeSetElementTypeDraft!
+}
+
+input AttributeTypeDraft {
+  set: AttributeSetTypeDraft
+  text: SimpleAttributeTypeDraft
+  number: SimpleAttributeTypeDraft
+  money: SimpleAttributeTypeDraft
+  date: SimpleAttributeTypeDraft
+  time: SimpleAttributeTypeDraft
+  datetime: SimpleAttributeTypeDraft
+  boolean: SimpleAttributeTypeDraft
+  reference: ReferenceTypeDefinitionDraft
+  enum: EnumTypeDraft
+  lenum: LocalizableEnumTypeDraft
+  ltext: SimpleAttributeTypeDraft
+}
+
+interface BaseMoney {
+  type: String!
+  currencyCode: Currency!
+  centAmount: Long!
+  fractionDigits: Int!
+}
+
+input BaseMoneyInput {
+  centPrecision: MoneyInput
+  highPrecision: HighPrecisionMoneyInput
+}
+
+input BaseSearchKeywordInput {
+  whitespace: WhitespaceSuggestTokenizerInput
+  custom: CustomSuggestTokenizerInput
+}
+
+"""
+The `BigDecimal` scalar type represents signed fractional values with arbitrary precision.
+"""
+scalar BigDecimal
+
+type BooleanAttribute implements Attribute {
+  value: Boolean!
+  name: String!
+}
+
+type BooleanAttributeDefinitionType implements AttributeDefinitionType {
+  name: String!
+}
+
+type BooleanField implements CustomField {
+  value: Boolean!
+  name: String!
+}
+
+type BooleanType implements FieldType {
+  name: String!
+}
+
+"""
+A shopping cart holds product variants and can be ordered. Each cart either
+belongs to a registered customer or is an anonymous cart.
+"""
+type Cart implements Versioned {
+  customerId: String
+  customer: Customer
+  customerEmail: String
+  anonymousId: String
+  lineItems: [LineItem!]!
+  customLineItems: [CustomLineItem!]!
+  totalPrice: Money!
+  taxedPrice: TaxedPrice
+  shippingAddress: Address
+  billingAddress: Address
+  inventoryMode: InventoryMode!
+  taxMode: TaxMode!
+  taxRoundingMode: RoundingMode!
+  taxCalculationMode: TaxCalculationMode!
+  customerGroup: CustomerGroup
+  customerGroupRef: Reference
+  country: Country
+  shippingInfo: ShippingInfo
+  discountCodes: [DiscountCodeInfo!]!
+  refusedGifts: [CartDiscount!]!
+  refusedGiftsRefs: [Reference!]!
+  paymentInfo: PaymentInfo
+  locale: Locale
+  shippingRateInput: ShippingRateInput
+  origin: CartOrigin!
+  storeRef: KeyReference @deprecated(reason: "beta feature")
+  store: Store @deprecated(reason: "beta feature")
+  itemShippingAddresses: [Address!]!
+  cartState: CartState!
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+  deleteDaysAfterLastModification: Int
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+input CartClassificationInput {
+  values: [LocalizedEnumValueInput!]!
+}
+
+type CartClassificationType implements ShippingRateInputType {
+  values: [ShippingRateInputLocalizedEnumValue!]!
+  type: String!
+}
+
+"""
+Cart discounts are recalculated every time LineItems or CustomLineItems are
+added or removed from the Cart or an order is created from the cart.
+
+The number of active cart discounts that do not require a discount code
+(isActive=true and requiresDiscountCode=false) is limited to 100.
+"""
+type CartDiscount implements Versioned {
+  cartPredicate: String!
+  validFrom: DateTime
+  validUntil: DateTime
+  stackingMode: StackingMode!
+  isActive: Boolean!
+  requiresDiscountCode: Boolean!
+  sortOrder: String!
+  key: String
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  description(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]!
+  descriptionAllLocales: [LocalizedString!]
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+  value: CartDiscountValue!
+  target: CartDiscountTarget
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+input CartDiscountDraft {
+  value: CartDiscountValueInput!
+  cartPredicate: String!
+  target: CartDiscountTargetInput
+  sortOrder: String!
+  name: [LocalizedStringItemInputType!]!
+  description: [LocalizedStringItemInputType!]
+  validFrom: DateTime
+  validUntil: DateTime
+  stackingMode: StackingMode = Stacking
+  requiresDiscountCode: Boolean = false
+  isActive: Boolean = true
+  custom: CustomFieldsDraft
+  key: String
+}
+
+type CartDiscountQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [CartDiscount!]!
+}
+
+interface CartDiscountTarget {
+  type: String!
+}
+
+input CartDiscountTargetInput {
+  lineItems: LineItemsTargetInput
+  customLineItems: CustomLineItemsTargetInput
+  shipping: ShippingTargetInput
+  multiBuyLineItems: MultiBuyLineItemsTargetInput
+  multiBuyCustomLineItems: MultiBuyCustomLineItemsTargetInput
+}
+
+input CartDiscountUpdateAction {
+  changeCartPredicate: ChangeCartDiscountCartPredicate
+  changeIsActive: ChangeCartDiscountIsActive
+  changeName: ChangeCartDiscountName
+  changeRequiresDiscountCode: ChangeCartDiscountRequiresDiscountCode
+  changeSortOrder: ChangeCartDiscountSortOrder
+  changeStackingMode: ChangeCartDiscountStackingMode
+  changeTarget: ChangeCartDiscountTarget
+  changeValue: ChangeCartDiscountValue
+  setCustomField: SetCartDiscountCustomField
+  setCustomType: SetCartDiscountCustomType
+  setDescription: SetCartDiscountDescription
+  setKey: SetCartDiscountKey
+  setValidFrom: SetCartDiscountValidFrom
+  setValidFromAndUntil: SetCartDiscountValidFromAndUntil
+  setValidUntil: SetCartDiscountValidUntil
+}
+
+interface CartDiscountValue {
+  type: String!
+}
+
+input CartDiscountValueInput {
+  relative: RelativeDiscountValueInput
+  absolute: AbsoluteDiscountValueInput
+  giftLineItem: GiftLineItemValueInput
+}
+
+input CartDraft {
+  currency: Currency!
+  country: Country
+  inventoryMode: InventoryMode = None
+  custom: CustomFieldsDraft
+  customerEmail: String
+  shippingAddress: AddressInput
+  billingAddress: AddressInput
+  shippingMethod: ResourceIdentifierInput
+  taxMode: TaxMode = Platform
+  locale: Locale
+  deleteDaysAfterLastModification: Int
+  itemShippingAddresses: [AddressInput!] = []
+  discountCodes: [String!] = []
+  lineItems: [LineItemDraft!] = []
+  customLineItems: [CustomLineItemDraft!] = []
+  customerId: String
+  externalTaxRateForShippingMethod: ExternalTaxRateDraft
+  anonymousId: String
+  taxRoundingMode: RoundingMode = HalfEven
+  taxCalculationMode: TaxCalculationMode = LineItemLevel
+  customerGroup: ResourceIdentifierInput
+  shippingRateInput: ShippingRateInputDraft
+  origin: CartOrigin = Customer
+  store: ResourceIdentifierInput
+}
+
+enum CartOrigin {
+  """The cart was created by the merchant on behalf of the customer"""
+  Merchant
+
+  """The cart was created by the customer. This is the default value"""
+  Customer
+}
+
+"""
+Fields to access carts. Includes direct access to a single cart and searching for carts.
+"""
+interface CartQueryInterface {
+  cart(id: String!): Cart
+  carts(where: String, sort: [String!], limit: Int, offset: Int): CartQueryResult!
+}
+
+type CartQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [Cart!]!
+}
+
+input CartScoreInput {
+  dummy: String
+}
+
+type CartScoreType implements ShippingRateInputType {
+  type: String!
+}
+
+enum CartState {
+  """The cart was ordered. No further operations on the cart are allowed."""
+  Ordered
+
+  """
+  Anonymous cart whose content was merged into a customers cart on signin. No further operations on the cart are allowed.
+  """
+  Merged
+
+  """The cart can be updated and ordered. It is the default state."""
+  Active
+}
+
+input CartUpdateAction {
+  addCustomLineItem: AddCartCustomLineItem
+  addDiscountCode: AddCartDiscountCode
+  addItemShippingAddress: AddCartItemShippingAddress
+  addLineItem: AddCartLineItem
+  addPayment: AddCartPayment
+  addShoppingList: AddCartShoppingList
+  applyDeltaToCustomLineItemShippingDetailsTargets: ApplyCartDeltaToCustomLineItemShippingDetailsTargets
+  applyDeltaToLineItemShippingDetailsTargets: ApplyCartDeltaToLineItemShippingDetailsTargets
+  changeCustomLineItemMoney: ChangeCartCustomLineItemMoney
+  changeCustomLineItemQuantity: ChangeCartCustomLineItemQuantity
+  changeLineItemQuantity: ChangeCartLineItemQuantity
+  changeTaxCalculationMode: ChangeCartTaxCalculationMode
+  changeTaxMode: ChangeCartTaxMode
+  changeTaxRoundingMode: ChangeCartTaxRoundingMode
+  recalculate: RecalculateCart
+  removeCustomLineItem: RemoveCartCustomLineItem
+  removeDiscountCode: RemoveCartDiscountCode
+  removeItemShippingAddress: RemoveCartItemShippingAddress
+  removeLineItem: RemoveCartLineItem
+  removePayment: RemoveCartPayment
+  setAnonymousId: SetCartAnonymousId
+  setBillingAddress: SetCartBillingAddress
+  setCartTotalTax: SetCartTotalTax
+  setCountry: SetCartCountry
+  setCustomField: SetCartCustomField
+  setCustomLineItemCustomField: SetCartCustomLineItemCustomField
+  setCustomLineItemCustomType: SetCartCustomLineItemCustomType
+  setCustomLineItemShippingDetails: SetCartCustomLineItemShippingDetails
+  setCustomLineItemTaxAmount: SetCartCustomLineItemTaxAmount
+  setCustomLineItemTaxRate: SetCartCustomLineItemTaxRate
+  setCustomShippingMethod: SetCartCustomShippingMethod
+  setCustomType: SetCartCustomType
+  setCustomerEmail: SetCartCustomerEmail
+  setCustomerGroup: SetCartCustomerGroup
+  setCustomerId: SetCartCustomerId
+  setDeleteDaysAfterLastModification: SetCartDeleteDaysAfterLastModification
+  setLineItemCustomField: SetCartLineItemCustomField
+  setLineItemCustomType: SetCartLineItemCustomType
+  setLineItemPrice: SetCartLineItemPrice
+  setLineItemShippingDetails: SetCartLineItemShippingDetails
+  setLineItemTaxAmount: SetCartLineItemTaxAmount
+  setLineItemTaxRate: SetCartLineItemTaxRate
+  setLineItemTotalPrice: SetCartLineItemTotalPrice
+  setLocale: SetCartLocale
+  setShippingAddress: SetCartShippingAddress
+  setShippingMethod: SetCartShippingMethod
+  setShippingMethodTaxAmount: SetCartShippingMethodTaxAmount
+  setShippingMethodTaxRate: SetCartShippingMethodTaxRate
+  setShippingRateInput: SetCartShippingRateInput
+  updateItemShippingAddress: UpdateCartItemShippingAddress
+}
+
+input CartValueInput {
+  dummy: String
+}
+
+type CartValueType implements ShippingRateInputType {
+  type: String!
+}
+
+type Category implements Versioned {
+  id: String!
+  key: String
+  version: Long!
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]!
+  description(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  descriptionAllLocales: [LocalizedString!]
+  slug(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  slugAllLocales: [LocalizedString!]!
+  ancestorsRef: [Reference!]!
+  ancestors: [Category!]!
+  parentRef: Reference
+  parent: Category
+  orderHint: String!
+  externalId: String
+  metaTitle(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  metaKeywords(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  metaDescription(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+
+  """Number of a products in the category subtree."""
+  productCount: Int! @deprecated(reason: "The returned number is representing only staged products. Use 'stagedProductCount' instead")
+
+  """Number of staged products in the category subtree."""
+  stagedProductCount: Int!
+
+  """Number of direct child categories."""
+  childCount: Int!
+
+  """Direct child categories."""
+  children: [Category!]
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  assets: [Asset!]!
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+input CategoryDraft {
+  key: String
+  name: [LocalizedStringItemInputType!]!
+  description: [LocalizedStringItemInputType!]
+  custom: CustomFieldsDraft
+  slug: [LocalizedStringItemInputType!]!
+  externalId: String
+  metaTitle: [LocalizedStringItemInputType!]
+  metaDescription: [LocalizedStringItemInputType!]
+  metaKeywords: [LocalizedStringItemInputType!]
+  orderHint: String
+  parent: ResourceIdentifierInput
+  assets: [AssetDraftInput!] = []
+}
+
+type CategoryOrderHint {
+  categoryId: String!
+  orderHint: String!
+}
+
+input CategoryOrderHintInput {
+  uuid: String!
+  orderHint: String!
+}
+
+type CategoryQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [Category!]!
+}
+
+type CategorySearch {
+  id: String!
+  key: String
+  version: Long!
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]!
+  description(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  descriptionAllLocales: [LocalizedString!]
+  slug(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  slugAllLocales: [LocalizedString!]!
+  ancestorsRef: [Reference!]!
+  ancestors: [CategorySearch!]!
+  parentRef: Reference
+  parent: CategorySearch
+  externalId: String
+  productCount: Int! @deprecated(reason: "The returned number is representing only staged products. Use 'stagedProductCount' instead")
+  stagedProductCount: Int!
+  childCount: Int!
+  productTypeNames: [String!]!
+
+  """Direct child categories."""
+  children: [CategorySearch!]!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  orderHint: String!
+  assets: [Asset!]!
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+type CategorySearchResult {
+  offset: Int!
+  count: Int!
+  total: Int!
+  results: [CategorySearch!]!
+}
+
+input CategoryUpdateAction {
+  addAsset: AddCategoryAsset
+  changeAssetName: ChangeCategoryAssetName
+  changeAssetOrder: ChangeCategoryAssetOrder
+  changeName: ChangeCategoryName
+  changeOrderHint: ChangeCategoryOrderHint
+  changeSlug: ChangeCategorySlug
+  changeParent: ChangeCategoryParent
+  removeAsset: RemoveCategoryAsset
+  setAssetCustomField: SetCategoryAssetCustomField
+  setAssetCustomType: SetCategoryAssetCustomType
+  setAssetDescription: SetCategoryAssetDescription
+  setAssetKey: SetCategoryAssetKey
+  setAssetSources: SetCategoryAssetSources
+  setAssetTags: SetCategoryAssetTags
+  setCustomField: SetCategoryCustomField
+  setCustomType: SetCategoryCustomType
+  setDescription: SetCategoryDescription
+  setKey: SetCategoryKey
+  setMetaDescription: SetCategoryMetaDescription
+  setMetaKeywords: SetCategoryMetaKeywords
+  setMetaTitle: SetCategoryMetaTitle
+  setExternalId: SetCategoryExternalId
+}
+
+input changeAttributeName {
+  attributeName: String!
+  newAttributeName: String!
+}
+
+input changeAttributeOrder {
+  attributeDefinitions: [AttributeDefinitionDraft!]!
+}
+
+input changeAttributeOrderByName {
+  attributeNames: [String!]!
+}
+
+input ChangeCartCustomLineItemMoney {
+  customLineItemId: String!
+  money: BaseMoneyInput!
+}
+
+input ChangeCartCustomLineItemQuantity {
+  customLineItemId: String!
+  quantity: Long!
+}
+
+input ChangeCartDiscountCartPredicate {
+  cartPredicate: String!
+}
+
+input ChangeCartDiscountIsActive {
+  isActive: Boolean!
+}
+
+input ChangeCartDiscountName {
+  name: [LocalizedStringItemInputType!]!
+}
+
+input ChangeCartDiscountRequiresDiscountCode {
+  requiresDiscountCode: Boolean!
+}
+
+input ChangeCartDiscountSortOrder {
+  sortOrder: String!
+}
+
+input ChangeCartDiscountStackingMode {
+  stackingMode: StackingMode!
+}
+
+input ChangeCartDiscountTarget {
+  target: CartDiscountTargetInput!
+}
+
+input ChangeCartDiscountValue {
+  value: CartDiscountValueInput!
+}
+
+input ChangeCartLineItemQuantity {
+  lineItemId: String!
+  quantity: Long!
+  externalPrice: BaseMoneyInput
+  externalTotalPrice: ExternalLineItemTotalPriceDraft
+}
+
+input ChangeCartTaxCalculationMode {
+  taxCalculationMode: TaxCalculationMode!
+}
+
+input ChangeCartTaxMode {
+  taxMode: TaxMode!
+}
+
+input ChangeCartTaxRoundingMode {
+  taxRoundingMode: RoundingMode!
+}
+
+input ChangeCategoryAssetName {
+  name: [LocalizedStringItemInputType!]!
+  assetKey: String
+  assetId: String
+}
+
+input ChangeCategoryAssetOrder {
+  assetOrder: [String!]!
+}
+
+input ChangeCategoryName {
+  name: [LocalizedStringItemInputType!]!
+}
+
+input ChangeCategoryOrderHint {
+  orderHint: String!
+}
+
+input ChangeCategoryParent {
+  parent: ResourceIdentifierInput!
+}
+
+input ChangeCategorySlug {
+  slug: [LocalizedStringItemInputType!]!
+}
+
+input ChangeCustomerAddress {
+  addressId: String!
+  address: AddressInput!
+}
+
+input ChangeCustomerEmail {
+  email: String!
+}
+
+input ChangeCustomerGroupName {
+  name: String!
+}
+
+input changeDescription {
+  description: String!
+}
+
+input ChangeDiscountCodeCartDiscounts {
+  cartDiscounts: [ReferenceInput!]!
+}
+
+input ChangeDiscountCodeGroups {
+  groups: [String!]!
+}
+
+input ChangeDiscountCodeIsActive {
+  isActive: Boolean!
+}
+
+input changeEnumKey {
+  attributeName: String!
+  key: String!
+  newKey: String!
+}
+
+input changeInputHint {
+  attributeName: String!
+  newValue: TextInputHint!
+}
+
+input ChangeInventoryEntryQuantity {
+  quantity: Long!
+}
+
+input changeIsSearchable {
+  attributeName: String!
+  isSearchable: Boolean!
+}
+
+input changeLabel {
+  attributeName: String!
+  label: [LocalizedStringItemInputType!]!
+}
+
+input changeLocalizedEnumValueLabel {
+  attributeName: String!
+  newValue: LocalizedEnumValueDraft!
+}
+
+input changeLocalizedEnumValueOrder {
+  attributeName: String!
+  values: [LocalizedEnumValueDraft!]!
+}
+
+input ChangeMyCartTaxMode {
+  taxMode: TaxMode!
+}
+
+input changeName {
+  name: String!
+}
+
+input ChangeOrderPaymentState {
+  paymentState: PaymentState!
+}
+
+input ChangeOrderShipmentState {
+  shipmentState: ShipmentState!
+}
+
+input ChangeOrderState {
+  orderState: OrderState!
+}
+
+input changePlainEnumValueLabel {
+  attributeName: String!
+  newValue: PlainEnumValueDraft!
+}
+
+input changePlainEnumValueOrder {
+  attributeName: String!
+  values: [PlainEnumValueDraft!]!
+}
+
+input ChangeProductAssetName {
+  variantId: Int
+  sku: String
+  catalog: ReferenceInput
+  staged: Boolean = true
+  name: [LocalizedStringItemInputType!]!
+  assetKey: String
+  assetId: String
+}
+
+input ChangeProductAssetOrder {
+  variantId: Int
+  sku: String
+  catalog: ReferenceInput
+  staged: Boolean = true
+  assetOrder: [String!]!
+}
+
+input ChangeProductDiscountIsActive {
+  isActive: Boolean!
+}
+
+input ChangeProductDiscountName {
+  name: [LocalizedStringItemInputType!]!
+}
+
+input ChangeProductDiscountPredicate {
+  predicate: String!
+}
+
+input ChangeProductDiscountSortOrder {
+  sortOrder: String!
+}
+
+input ChangeProductDiscountValue {
+  value: ProductDiscountValueInput!
+}
+
+input ChangeProductImageLabel {
+  variantId: Int
+  sku: String
+  imageUrl: String!
+  label: String
+  staged: Boolean = true
+}
+
+input ChangeProductMasterVariant {
+  variantId: Int
+  sku: String
+  staged: Boolean = true
+}
+
+input ChangeProductName {
+  name: [LocalizedStringItemInputType!]!
+  staged: Boolean = true
+}
+
+input ChangeProductPrice {
+  priceId: String
+  variantId: Int
+  sku: String
+  price: ProductPriceDataInput!
+  catalog: ReferenceInput
+  staged: Boolean = true
+}
+
+input ChangeProductSlug {
+  slug: [LocalizedStringItemInputType!]!
+  staged: Boolean = true
+}
+
+input ChangeProjectSettingsCountries {
+  countries: [Country!]!
+}
+
+input ChangeProjectSettingsCurrencies {
+  currencies: [Currency!]!
+}
+
+input ChangeProjectSettingsLanguages {
+  languages: [Locale!]!
+}
+
+input ChangeProjectSettingsMessagesConfiguration {
+  messagesConfiguration: MessagesConfigurationDraft!
+}
+
+input ChangeProjectSettingsMessagesEnabled {
+  messagesEnabled: Boolean!
+}
+
+input ChangeProjectSettingsName {
+  name: String!
+}
+
+input ChangeShippingMethodIsDefault {
+  isDefault: Boolean!
+}
+
+input ChangeShippingMethodName {
+  name: String!
+}
+
+input ChangeShippingMethodTaxCategory {
+  taxCategory: ResourceIdentifierInput!
+}
+
+input ChangeShoppingListLineItemQuantity {
+  lineItemId: String!
+  quantity: Int!
+}
+
+input ChangeShoppingListLineItemsOrder {
+  lineItemOrder: [String!]!
+}
+
+input ChangeShoppingListName {
+  name: [LocalizedStringItemInputType!]!
+}
+
+input ChangeShoppingListTextLineItemName {
+  textLineItemId: String!
+  name: [LocalizedStringItemInputType!]!
+}
+
+input ChangeShoppingListTextLineItemQuantity {
+  textLineItemId: String!
+  quantity: Int!
+}
+
+input ChangeShoppingListTextLineItemsOrder {
+  textLineItemOrder: [String!]!
+}
+
+input ChangeZoneName {
+  name: String!
+}
+
+type Channel implements Versioned {
+  id: String!
+  version: Long!
+  key: String!
+  roles: [ChannelRole!]!
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]
+  description(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  descriptionAllLocales: [LocalizedString!]
+  address: Address
+  geoLocation: Geometry
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+}
+
+type ChannelQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [Channel!]!
+}
+
+type ChannelReferenceIdentifier {
+  typeId: String!
+  id: String
+  key: String
+}
+
+enum ChannelRole {
+  """
+  Role tells that this channel can be used to track inventory entries.Channels with this role can be treated as warehouses
+  """
+  InventorySupply
+
+  """
+  Role tells that this channel can be used to expose products to a specific
+  distribution channel. It can be used by the cart to select a product price.
+  """
+  ProductDistribution
+
+  """
+  Role tells that this channel can be used to track order export activities.
+  """
+  OrderExport
+
+  """
+  Role tells that this channel can be used to track order import activities.
+  """
+  OrderImport
+
+  """
+  This role can be combined with some other roles (e.g. with `InventorySupply`)
+  to represent the fact that this particular channel is the primary/master
+  channel among the channels of the same type.
+  """
+  Primary
+}
+
+type ClassificationShippingRateInput implements ShippingRateInput {
+  key: String!
+  type: String!
+  labelAllLocales: [LocalizedString!]!
+  label(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+}
+
+input ClassificationShippingRateInputDraft {
+  key: String!
+}
+
+"""[ISO 3166-1](http://en.wikipedia.org/wiki/ISO_3166-1) country code."""
+scalar Country
+
+input CreateApiClient {
+  name: String!
+  scope: String!
+}
+
+input CreateStore {
+  key: String!
+  name: [LocalizedStringItemInputType!]
+  languages: [Locale!]
+}
+
+input CreateZone {
+  name: String!
+  key: String
+  description: String
+  locations: [ZoneLocation!] = []
+}
+
+"""
+Represents a currency. Currencies are identified by their [ISO
+4217](http://www.iso.org/iso/home/standards/currency_codes.htm) currency codes.
+"""
+scalar Currency
+
+"""
+A customer is a person purchasing products. Carts, Orders and Reviews can be associated to a customer.
+"""
+type Customer implements Versioned {
+  customerNumber: String
+  email: String!
+  password: String!
+  addresses: [Address!]!
+  defaultShippingAddressId: String
+  defaultBillingAddressId: String
+  shippingAddressIds: [String!]!
+  billingAddressIds: [String!]!
+  isEmailVerified: Boolean!
+  customerGroupRef: Reference
+  externalId: String
+  key: String
+  firstName: String
+  lastName: String
+  middleName: String
+  title: String
+  locale: Locale
+  salutation: String
+  dateOfBirth: Date
+  companyName: String
+  vatId: String
+  customerGroup: CustomerGroup
+  defaultShippingAddress: Address
+  defaultBillingAddress: Address
+  shippingAddresses: [Address!]!
+  billingAddresses: [Address!]!
+  storesRef: [KeyReference!]! @deprecated(reason: "beta feature")
+  stores: [Store!]! @deprecated(reason: "beta feature")
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+"""A field to access a customer's active cart."""
+interface CustomerActiveCartInterface {
+  customerActiveCart(customerId: String!): Cart
+}
+
+"""
+A customer can be a member in a customer group (e.g. reseller, gold member). A
+customer group can be used in price calculations with special prices being
+assigned to certain customer groups.
+"""
+type CustomerGroup implements Versioned {
+  id: String!
+  version: Long!
+  name: String!
+  key: String
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+input CustomerGroupDraft {
+  groupName: String!
+  key: String
+  custom: CustomFieldsDraft
+}
+
+type CustomerGroupQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [CustomerGroup!]!
+}
+
+input CustomerGroupUpdateAction {
+  changeName: ChangeCustomerGroupName
+  setKey: SetCustomerGroupKey
+  setCustomType: SetCustomerGroupCustomType
+  setCustomField: SetCustomerGroupCustomField
+}
+
+"""
+Fields to access customer accounts. Includes direct access to a single customer and searching for customers.
+"""
+interface CustomerQueryInterface {
+  customer(
+    """Queries a customer with specified email token"""
+    emailToken: String
+
+    """Queries a customer with specified password token"""
+    passwordToken: String
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Customer
+  customers(where: String, sort: [String!], limit: Int, offset: Int): CustomerQueryResult!
+}
+
+type CustomerQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [Customer!]!
+}
+
+input CustomerSignInDraft {
+  email: String!
+  password: String!
+  anonymousCartId: String
+  anonymousCartSignInMode: AnonymousCartSignInMode = MergeWithExistingCustomerCart
+  anonymousId: String
+  updateProductData: Boolean = false
+}
+
+type CustomerSignInResult {
+  customer: Customer!
+  cart: Cart
+}
+
+input CustomerSignMeInDraft {
+  email: String!
+  password: String!
+  activeCartSignInMode: AnonymousCartSignInMode = MergeWithExistingCustomerCart
+  updateProductData: Boolean = false
+}
+
+input CustomerSignMeUpDraft {
+  email: String!
+  password: String!
+  firstName: String
+  lastName: String
+  middleName: String
+  title: String
+  dateOfBirth: Date
+  companyName: String
+  vatId: String
+  addresses: [AddressInput!] = []
+
+  """
+  The index of the address in the `addresses` list. The
+  `defaultBillingAddressId` of the customer will be set to the ID of that address.
+  """
+  defaultBillingAddress: Int
+
+  """
+  The index of the address in the `addresses` list. The
+  `defaultShippingAddressId` of the customer will be set to the ID of that address.
+  """
+  defaultShippingAddress: Int
+
+  """
+  The indices of the shipping addresses in the `addresses` list. The
+  `shippingAddressIds` of the `Customer` will be set to the IDs of that addresses.
+  """
+  shippingAddresses: [Int!] = []
+
+  """
+  The indices of the billing addresses in the `addresses` list. The
+  `billingAddressIds` of the customer will be set to the IDs of that addresses.
+  """
+  billingAddresses: [Int!] = []
+  custom: CustomFieldsDraft
+  locale: Locale
+  salutation: String
+  key: String
+  stores: [ResourceIdentifierInput!]
+}
+
+input CustomerSignUpDraft {
+  email: String!
+  password: String!
+  firstName: String
+  lastName: String
+  middleName: String
+  title: String
+  dateOfBirth: Date
+  companyName: String
+  vatId: String
+  addresses: [AddressInput!] = []
+
+  """
+  The index of the address in the `addresses` list. The
+  `defaultBillingAddressId` of the customer will be set to the ID of that address.
+  """
+  defaultBillingAddress: Int
+
+  """
+  The index of the address in the `addresses` list. The
+  `defaultShippingAddressId` of the customer will be set to the ID of that address.
+  """
+  defaultShippingAddress: Int
+
+  """
+  The indices of the shipping addresses in the `addresses` list. The
+  `shippingAddressIds` of the `Customer` will be set to the IDs of that addresses.
+  """
+  shippingAddresses: [Int!] = []
+
+  """
+  The indices of the billing addresses in the `addresses` list. The
+  `billingAddressIds` of the customer will be set to the IDs of that addresses.
+  """
+  billingAddresses: [Int!] = []
+  custom: CustomFieldsDraft
+  locale: Locale
+  salutation: String
+  key: String
+  stores: [ResourceIdentifierInput!]
+  customerNumber: String
+  anonymousCartId: String
+  externalId: String
+  customerGroup: ResourceIdentifierInput
+  isEmailVerified: Boolean
+  anonymousId: String
+}
+
+type CustomerToken {
+  id: String!
+  customerId: String!
+  createdAt: DateTime!
+  expiresAt: DateTime!
+  value: String!
+}
+
+input CustomerUpdateAction {
+  addAddress: AddCustomerAddress
+  addBillingAddressId: AddCustomerBillingAddressId
+  addShippingAddressId: AddCustomerShippingAddressId
+  addStore: AddCustomerStore
+  changeAddress: ChangeCustomerAddress
+  changeEmail: ChangeCustomerEmail
+  removeAddress: RemoveCustomerAddress
+  removeBillingAddressId: RemoveCustomerBillingAddressId
+  removeShippingAddressId: RemoveCustomerShippingAddressId
+  removeStore: RemoveCustomerStore
+  setCompanyName: SetCustomerCompanyName
+  setCustomField: SetCustomerCustomField
+  setCustomType: SetCustomerCustomType
+  setCustomerGroup: SetCustomerGroup
+  setKey: SetCustomerKey
+  setLocale: SetCustomerLocale
+  setCustomerNumber: SetCustomerNumber
+  setDateOfBirth: SetCustomerDateOfBirth
+  setDefaultBillingAddress: SetCustomerDefaultBillingAddress
+  setDefaultShippingAddress: SetCustomerDefaultShippingAddress
+  setExternalId: SetCustomerExternalId
+  setFirstName: SetCustomerFirstName
+  setLastName: SetCustomerLastName
+  setMiddleName: SetCustomerMiddleName
+  setSalutation: SetCustomerSalutation
+  setStores: SetCustomerStores
+  setTitle: SetCustomerTitle
+  setVatId: SetCustomerVatId
+}
+
+interface CustomField {
+  name: String!
+}
+
+"""
+A key-value pair representing the field name and value of one single custom field.
+
+The value of this custom field consists of escaped JSON based on the FieldDefinition of the Type.
+
+Examples for `value`:
+
+* FieldType `String`: `"\"This is a string\""`
+* FieldType `DateTimeType`: `"\"2001-09-11T14:00:00.000Z\""`
+* FieldType `Number`: `"4"`
+* FieldType `Set` with an elementType of `String`: `"[\"This is a string\", \"This is another string\"]"`
+* FieldType `Reference`: `"{\"id\", \"b911b62d-353a-4388-93ee-8d488d9af962\", \"typeId\", \"product\"}"`
+"""
+input CustomFieldInput {
+  name: String!
+
+  """
+  The value of this custom field consists of escaped JSON based on the FieldDefinition of the Type.
+  
+  Examples for `value`:
+  
+  * FieldType `String`: `"\"This is a string\""`
+  * FieldType `DateTimeType`: `"\"2001-09-11T14:00:00.000Z\""`
+  * FieldType `Number`: `"4"`
+  * FieldType `Set` with an elementType of `String`: `"[\"This is a string\", \"This is another string\"]"`
+  * FieldType `Reference`: `"{\"id\", \"b911b62d-353a-4388-93ee-8d488d9af962\", \"typeId\", \"product\"}"`
+  """
+  value: String!
+}
+
+input CustomFieldsDraft {
+  typeId: String
+  typeKey: String
+  type: ResourceIdentifierInput
+  fields: [CustomFieldInput!]
+}
+
+type CustomFieldsType {
+  typeRef: Reference!
+  type: TypeDefinition
+
+  """
+  This field contains non-typed data. For a typed alternative, have a look at `customFields`.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!]
+
+  """This field would contain type data"""
+  customFields: Type!
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+"""
+A custom line item is a generic item that can be added to the cart but is not
+bound to a product. You can use it for discounts (negative money), vouchers,
+complex cart rules, additional services or fees. You control the lifecycle of this item.
+"""
+type CustomLineItem {
+  id: String!
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]!
+  money: BaseMoney!
+  totalPrice: Money!
+  slug: String!
+  quantity: Long!
+  state: [ItemState!]!
+  taxCategory: TaxCategory
+  taxCategoryRef: Reference
+  taxRate: TaxRate
+  discountedPricePerQuantity: [DiscountedLineItemPriceForQuantity!]!
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+  shippingDetails: ItemShippingDetails
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+input CustomLineItemDraft {
+  name: [LocalizedStringItemInputType!]!
+  money: BaseMoneyInput!
+  slug: String!
+  taxCategory: ReferenceInput
+  externalTaxRate: ExternalTaxRateDraft
+  quantity: Long
+  custom: CustomFieldsDraft
+  shippingDetails: ItemShippingDetailsDraft
+}
+
+type CustomLineItemReturnItem implements ReturnItem {
+  type: String!
+  customLineItemId: String!
+  id: String!
+  quantity: Long!
+  comment: String
+  shipmentState: ReturnShipmentState!
+  paymentState: ReturnPaymentState!
+  lastModifiedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type CustomLineItemsTarget implements CartDiscountTarget {
+  predicate: String!
+  type: String!
+}
+
+input CustomLineItemsTargetInput {
+  predicate: String!
+}
+
+input CustomSuggestTokenizerInput {
+  text: String!
+  suggestTokenizer: BaseSearchKeywordInput
+}
+
+"""DateTime is a scalar value that represents an ISO8601 formatted date."""
+scalar Date
+
+type DateAttribute implements Attribute {
+  value: Date!
+  name: String!
+}
+
+type DateAttributeDefinitionType implements AttributeDefinitionType {
+  name: String!
+}
+
+type DateField implements CustomField {
+  value: Date!
+  name: String!
+}
+
+"""
+DateTime is a scalar value that represents an ISO8601 formatted date and time.
+"""
+scalar DateTime
+
+type DateTimeAttribute implements Attribute {
+  value: DateTime!
+  name: String!
+}
+
+type DateTimeAttributeDefinitionType implements AttributeDefinitionType {
+  name: String!
+}
+
+type DateTimeField implements CustomField {
+  value: DateTime!
+  name: String!
+}
+
+type DateTimeType implements FieldType {
+  name: String!
+}
+
+type DateType implements FieldType {
+  name: String!
+}
+
+type Delivery {
+  id: String!
+  createdAt: DateTime!
+  items: [DeliveryItem!]!
+  parcels: [Parcel!]!
+  address: Address
+}
+
+type DeliveryItem {
+  id: String!
+  quantity: Long!
+}
+
+input DeliveryItemDraftType {
+  id: String!
+  quantity: Long!
+}
+
+type Dimensions {
+  width: Int!
+  height: Int!
+}
+
+input DimensionsInput {
+  width: Int!
+  height: Int!
+}
+
+"""
+With discount codes it is possible to give specific cart discounts to an
+eligible amount of users. They are defined by a string value which can be added
+to a cart so that specific cart discounts can be applied to the cart.
+"""
+type DiscountCode implements Versioned {
+  code: String!
+  isActive: Boolean!
+  maxApplications: Long
+  maxApplicationsPerCustomer: Long
+  cartPredicate: String
+  applicationVersion: Long
+  validFrom: DateTime
+  validUntil: DateTime
+  groups: [String!]!
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  description(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  cartDiscounts: [CartDiscount!]!
+  nameAllLocales: [LocalizedString!]
+  descriptionAllLocales: [LocalizedString!]
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+
+  """
+  How many times this discount code was applied (only applications that were part of a successful checkout are considered)
+  """
+  applicationCount: Long!
+  cartDiscountRefs: [Reference!]!
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+input DiscountCodeDraft {
+  code: String!
+  name: [LocalizedStringItemInputType!]
+  description: [LocalizedStringItemInputType!]
+  cartDiscounts: [ReferenceInput!]!
+  isActive: Boolean = true
+  maxApplications: Long
+  maxApplicationsPerCustomer: Long
+  cartPredicate: String
+  custom: CustomFieldsDraft
+  validFrom: DateTime
+  validUntil: DateTime
+  groups: [String!] = []
+}
+
+type DiscountCodeInfo {
+  discountCodeRef: Reference!
+  state: DiscountCodeState
+  discountCode: DiscountCode
+}
+
+type DiscountCodeQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [DiscountCode!]!
+}
+
+enum DiscountCodeState {
+  """
+  The discount code is active and none of the discounts were applied because the
+  discount application was stopped by one discount that has the StackingMode of
+  StopAfterThisDiscount defined
+  """
+  ApplicationStoppedByPreviousDiscount
+
+  """
+  The discount code is not valid or it does not contain any valid cart
+  discounts. Validity is determined based on the validFrom and validUntil dates
+  """
+  NotValid
+
+  """
+  maxApplications or maxApplicationsPerCustomer for discountCode has been reached.
+  """
+  MaxApplicationReached
+
+  """
+  The discount code is active and it contains at least one active and valid
+  CartDiscount. The discount code cartPredicate matches the cart and at least
+  one of the contained active discount’s cart predicates matches the cart.
+  """
+  MatchesCart
+
+  """
+  The discount code is active and it contains at least one active and valid
+  CartDiscount. But its cart predicate does not match the cart or none of the
+  contained active discount’s cart predicates match the cart
+  """
+  DoesNotMatchCart
+
+  """
+  The discount code is not active or it does not contain any active cart discounts.
+  """
+  NotActive
+}
+
+input DiscountCodeUpdateAction {
+  changeCartDiscounts: ChangeDiscountCodeCartDiscounts
+  changeGroups: ChangeDiscountCodeGroups
+  changeIsActive: ChangeDiscountCodeIsActive
+  setCartPredicate: SetDiscountCodeCartPredicate
+  setCustomField: SetDiscountCodeCustomField
+  setCustomType: SetDiscountCodeCustomType
+  setDescription: SetDiscountCodeDescription
+  setMaxApplications: SetDiscountCodeMaxApplications
+  setMaxApplicationsPerCustomer: SetDiscountCodeMaxApplicationsPerCustomer
+  setName: SetDiscountCodeName
+  setValidFrom: SetDiscountCodeValidFrom
+  setValidFromAndUntil: SetDiscountCodeValidFromAndUntil
+  setValidUntil: SetDiscountCodeValidUntil
+}
+
+type DiscountedLineItemPortion {
+  discount: CartDiscount
+  discountRef: Reference!
+  discountedAmount: BaseMoney!
+}
+
+type DiscountedLineItemPrice {
+  value: BaseMoney!
+  includedDiscounts: [DiscountedLineItemPortion!]!
+}
+
+type DiscountedLineItemPriceForQuantity {
+  quantity: Long!
+  discountedPrice: DiscountedLineItemPrice!
+}
+
+type DiscountedProductPriceValue {
+  value: BaseMoney!
+  discountRef: Reference!
+  discount: ProductDiscount
+
+  """
+  Temporal. Will be renamed some time in the future. Please use 'discount'.
+  """
+  discountRel: ProductDiscount @deprecated(reason: "Will be removed in the future. Please use 'discount'.")
+}
+
+input DiscountedProductPriceValueInput {
+  value: BaseMoneyInput!
+  discount: ReferenceInput!
+}
+
+type EnumAttribute implements Attribute {
+  key: String!
+  label: String!
+  name: String!
+}
+
+type EnumAttributeDefinitionType implements AttributeDefinitionType {
+  values(
+    """
+    The keys of the enum values to include.
+    
+    If neither `includeKeys` nor `excludeKeys` are provided, then all enum values are returned.
+    """
+    includeKeys: [String!]
+
+    """
+    The keys of the enum values to exclude.
+    
+    If neither `includeKeys` nor `excludeKeys` are provided, then all enum values are returned.
+    """
+    excludeKeys: [String!]
+    limit: Int
+    offset: Int
+    sort: [String!]
+  ): PlainEnumValueResult!
+  name: String!
+}
+
+type EnumField implements CustomField {
+  key: String!
+  name: String!
+}
+
+type EnumType implements FieldType {
+  values: [EnumValue!]!
+  name: String!
+}
+
+input EnumTypeDraft {
+  values: [PlainEnumValueDraft!]!
+}
+
+type EnumValue {
+  key: String!
+  label: String!
+}
+
+type ExternalDiscountValue implements ProductDiscountValue {
+  type: String!
+}
+
+input ExternalDiscountValueInput {
+  dummy: String
+}
+
+input ExternalLineItemTotalPriceDraft {
+  price: BaseMoneyInput!
+  totalPrice: MoneyInput!
+}
+
+type ExternalOAuth {
+  url: String!
+  authorizationHeader: String!
+}
+
+input ExternalOAuthDraft {
+  url: String!
+  authorizationHeader: String!
+}
+
+input ExternalTaxAmountDraft {
+  totalGross: MoneyInput!
+  taxRate: ExternalTaxRateDraft!
+}
+
+input ExternalTaxRateDraft {
+  name: String!
+  amount: Float!
+  country: Country!
+  state: String
+  subRates: [SubRateDraft!] = []
+  includedInPrice: Boolean = false
+}
+
+"""
+Field definitions describe custom fields and allow you to define some meta-information associated with the field.
+"""
+type FieldDefinition {
+  name: String!
+  required: Boolean!
+  inputHint: TextInputHint!
+  label(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  labelAllLocales: [LocalizedString!]!
+  type: FieldType!
+}
+
+interface FieldType {
+  name: String!
+}
+
+interface Geometry {
+  type: String!
+}
+
+type GiftLineItemValue implements CartDiscountValue {
+  type: String!
+  variantId: Int!
+  productRef: ProductReferenceIdentifier!
+  distributionChannelRef: ChannelReferenceIdentifier
+  supplyChannelRef: ChannelReferenceIdentifier
+}
+
+input GiftLineItemValueInput {
+  product: ResourceIdentifierInput!
+  variantId: Int!
+  distributionChannel: ResourceIdentifierInput
+  supplyChannel: ResourceIdentifierInput
+}
+
+type HighPrecisionMoney implements BaseMoney {
+  type: String!
+  currencyCode: Currency!
+  preciseAmount: Long!
+  centAmount: Long!
+  fractionDigits: Int!
+}
+
+input HighPrecisionMoneyInput {
+  currencyCode: Currency!
+  preciseAmount: Long!
+  fractionDigits: Int!
+  centAmount: Long
+}
+
+type Image {
+  url: String!
+  dimensions: Dimensions!
+  label: String
+}
+
+input ImageInput {
+  url: String!
+  label: String
+  dimensions: DimensionsInput!
+}
+
+input ImportOrderCustomLineItemState {
+  customLineItemId: String!
+  state: [ItemStateDraftType!]!
+}
+
+input ImportOrderLineItemState {
+  lineItemId: String!
+  state: [ItemStateDraftType!]!
+}
+
+type Initiator {
+  isPlatformClient: Boolean
+  user: Reference
+  externalUserId: String
+  customer: Reference
+  anonymousId: String
+  clientId: String
+}
+
+type InStore implements CartQueryInterface & CustomerActiveCartInterface & OrderQueryInterface & CustomerQueryInterface & ShippingMethodsByCartInterface & MeFieldInterface {
+  """
+  This field can only be used with an access token created with the password flow or with an anonymous session.
+  
+  It gives access to the data that is specific to the customer or the anonymous session linked to the access token.
+  """
+  me: InStoreMe!
+  shippingMethodsByCart(id: String!): [ShippingMethod!]!
+  customer(
+    """Queries a customer with specified email token"""
+    emailToken: String
+
+    """Queries a customer with specified password token"""
+    passwordToken: String
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Customer
+  customers(where: String, sort: [String!], limit: Int, offset: Int): CustomerQueryResult!
+  cart(id: String!): Cart
+  carts(where: String, sort: [String!], limit: Int, offset: Int): CartQueryResult!
+  customerActiveCart(customerId: String!): Cart
+  order(
+    """Queries with specified ID"""
+    id: String
+    orderNumber: String
+  ): Order
+  orders(where: String, sort: [String!], limit: Int, offset: Int): OrderQueryResult!
+}
+
+type InStoreMe implements MeQueryInterface {
+  customer: Customer
+  cart(id: String!): Cart
+  carts(where: String, sort: [String!], limit: Int, offset: Int): CartQueryResult!
+  activeCart: Cart
+  order(
+    """Queries with specified ID"""
+    id: String
+    orderNumber: String
+  ): Order
+  orders(where: String, sort: [String!], limit: Int, offset: Int): OrderQueryResult!
+  shoppingList(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ShoppingList
+  shoppingLists(where: String, sort: [String!], limit: Int, offset: Int): ShoppingListQueryResult!
+}
+
+type InterfaceInteractionsRaw {
+  typeRef: Reference!
+  type: TypeDefinition
+  fields(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!]!
+}
+
+type InterfaceInteractionsRawResult {
+  limit: Int
+  offset: Int
+  total: Int!
+  results: [InterfaceInteractionsRaw!]!
+}
+
+"""
+Inventory allows you to track stock quantity per SKU and optionally per supply channel
+"""
+type InventoryEntry implements Versioned {
+  sku: String!
+  supplyChannel: Reference
+  quantityOnStock: Long!
+  availableQuantity: Long!
+  restockableInDays: Int
+  expectedDelivery: DateTime
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+input InventoryEntryDraft {
+  sku: String!
+  quantityOnStock: Long
+  restockableInDays: Int
+  expectedDelivery: DateTime
+  supplyChannel: ResourceIdentifierInput
+  custom: CustomFieldsDraft
+}
+
+type InventoryEntryQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [InventoryEntry!]!
+}
+
+input InventoryEntryUpdateAction {
+  addQuantity: AddInventoryEntryQuantity
+  changeQuantity: ChangeInventoryEntryQuantity
+  removeQuantity: RemoveInventoryEntryQuantity
+  setRestockableInDays: SetInventoryEntryRestockableInDays
+  setExpectedDelivery: SetInventoryEntryExpectedDelivery
+  setSupplyChannel: SetInventoryEntrySupplyChannel
+  setCustomType: SetInventoryEntryCustomType
+  setCustomField: SetInventoryEntryCustomField
+}
+
+enum InventoryMode {
+  """
+  Adding items to cart and ordering is independent of inventory. No inventory checks or modifications.
+  This is the default mode for a new cart.
+  """
+  None
+
+  """
+  Creating an order will fail with an OutOfStock error if an unavailable line item exists. Line items in the cart
+  are only reserved for the duration of the ordering transaction.
+  """
+  ReserveOnOrder
+
+  """
+  Orders are tracked on inventory. That means, ordering a LineItem will decrement the available quantity on the
+  respective InventoryEntry. Creating an order will succeed even if the line item’s available quantity is zero or
+  negative. But creating an order will fail with an OutOfStock error if no matching inventory entry exists for a
+  line item.
+  """
+  TrackOnly
+}
+
+type iOSUserType implements Type {
+  typeRef: Reference!
+  type: TypeDefinition!
+  apnsToken: StringField
+  myStore: ReferenceField
+}
+
+type ItemShippingDetails {
+  targets: [ItemShippingTarget!]!
+  valid: Boolean!
+}
+
+input ItemShippingDetailsDraft {
+  targets: [ShippingTargetDraft!]!
+}
+
+input ItemShippingDetailsDraftType {
+  targets: [ShippingTargetDraftType!]!
+}
+
+type ItemShippingTarget {
+  addressKey: String!
+  quantity: Long!
+}
+
+type ItemState {
+  quantity: Long!
+  stateRef: Reference!
+  state: State
+}
+
+input ItemStateDraftType {
+  quantity: Long!
+  state: ReferenceInput!
+}
+
+"""Raw JSON value"""
+scalar Json
+
+type KeyReference {
+  typeId: String!
+  key: String!
+}
+
+"""A key that references a resource."""
+scalar KeyReferenceInput
+
+"""
+A line item is a snapshot of a product variant at the time it was added to the cart.
+
+Since a product variant may change at any time, the ProductVariant data is copied into the field variant.
+The relation to the Product is kept but the line item will not automatically update if the product variant changes.
+On the cart, the line item can be updated manually. The productSlug refers to the current version of the product.
+It can be used to link to the product. If the product has been deleted, the line item remains but refers to a
+non-existent product and the productSlug is left empty.
+
+Please also note that creating an order is impossible if the product or product
+variant a line item relates to has been deleted.
+"""
+type LineItem {
+  id: String!
+  productId: String!
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]!
+  productSlug(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  productType: ProductTypeDefinition
+  productTypeRef: Reference
+  variant: ProductVariant
+  price: ProductPrice!
+  taxedPrice: TaxedItemPrice
+  totalPrice: Money
+  quantity: Long!
+  state: [ItemState!]!
+  taxRate: TaxRate
+  supplyChannel: Channel
+  supplyChannelRef: Reference
+  distributionChannel: Channel
+  distributionChannelRef: Reference
+  discountedPricePerQuantity: [DiscountedLineItemPriceForQuantity!]!
+  lineItemMode: LineItemMode!
+  priceMode: LineItemPriceMode!
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+  shippingDetails: ItemShippingDetails
+  inventoryMode: ItemShippingDetails
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+input LineItemDraft {
+  productId: String
+  sku: String
+  quantity: Long
+  variantId: Int
+  supplyChannel: ResourceIdentifierInput
+  distributionChannel: ResourceIdentifierInput
+  custom: CustomFieldsDraft
+  shippingDetails: ItemShippingDetailsDraft
+  externalTaxRate: ExternalTaxRateDraft
+  externalPrice: BaseMoneyInput
+  externalTotalPrice: ExternalLineItemTotalPriceDraft
+}
+
+enum LineItemMode {
+  """
+  The line item was added automatically, because a discount has added a free gift to the cart.
+  The quantity can not be increased, and it won’t be merged when the same product variant is added.
+  If the gift is removed, an entry is added to the "refusedGifts" array and the discount won’t be applied again
+  to the cart. The price can not be changed externally.
+  All other updates, such as the ones related to custom fields, can be used.
+  """
+  GiftLineItem
+
+  """
+  The line item was added during cart creation or with the update action addLineItem. Its quantity can be
+  changed without restrictions.
+  """
+  Standard
+}
+
+enum LineItemPriceMode {
+  """
+  The price is selected form the product variant. This is the default mode.
+  """
+  Platform
+
+  """
+  The line item price was set externally. Cart discounts can apply to line items
+  with this price mode. All update actions that change the quantity of a line
+  item with this price mode require the externalPrice field to be given.
+  """
+  ExternalPrice
+
+  """The line item price with the total was set externally."""
+  ExternalTotal
+}
+
+type LineItemReturnItem implements ReturnItem {
+  type: String!
+  lineItemId: String!
+  id: String!
+  quantity: Long!
+  comment: String
+  shipmentState: ReturnShipmentState!
+  paymentState: ReturnPaymentState!
+  lastModifiedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type LineItemsTarget implements CartDiscountTarget {
+  predicate: String!
+  type: String!
+}
+
+input LineItemsTargetInput {
+  predicate: String!
+}
+
+"""Locale is a scalar value represented as a string language tag."""
+scalar Locale
+
+type LocalizableEnumAttributeDefinitionType implements AttributeDefinitionType {
+  values(
+    """
+    The keys of the enum values to include.
+    
+    If neither `includeKeys` nor `excludeKeys` are provided, then all enum values are returned.
+    """
+    includeKeys: [String!]
+
+    """
+    The keys of the enum values to exclude.
+    
+    If neither `includeKeys` nor `excludeKeys` are provided, then all enum values are returned.
+    """
+    excludeKeys: [String!]
+    limit: Int
+    offset: Int
+    sort: [String!]
+  ): LocalizableEnumValueTypeResult!
+  name: String!
+}
+
+input LocalizableEnumTypeDraft {
+  values: [LocalizedEnumValueDraft!]!
+}
+
+type LocalizableEnumValueType {
+  key: String!
+  label(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  labelAllLocales: [LocalizedString!]!
+}
+
+type LocalizableEnumValueTypeResult {
+  limit: Int
+  offset: Int
+  total: Int!
+  results: [LocalizableEnumValueType!]!
+}
+
+type LocalizableTextAttributeDefinitionType implements AttributeDefinitionType {
+  name: String!
+}
+
+type LocalizedEnumAttribute implements Attribute {
+  key: String!
+  label(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale!
+  ): String
+  name: String!
+}
+
+type LocalizedEnumField implements CustomField {
+  key: String!
+  label(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale!
+  ): String
+  name: String!
+}
+
+type LocalizedEnumType implements FieldType {
+  values: [LocalizedEnumValue!]!
+  name: String!
+}
+
+type LocalizedEnumValue {
+  key: String!
+  label(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  labelAllLocales: [LocalizedString!]!
+}
+
+input LocalizedEnumValueDraft {
+  key: String!
+  label: [LocalizedStringItemInputType!]!
+}
+
+input LocalizedEnumValueInput {
+  key: String!
+  label: [LocalizedStringItemInputType!]!
+}
+
+type LocalizedString {
+  locale: Locale!
+  value: String!
+}
+
+type LocalizedStringAttribute implements Attribute {
+  value(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale!
+  ): String
+  name: String!
+}
+
+type LocalizedStringField implements CustomField {
+  value(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale!
+  ): String
+  name: String!
+}
+
+input LocalizedStringItemInputType {
+  locale: Locale!
+  value: String!
+}
+
+type LocalizedStringType implements FieldType {
+  name: String!
+}
+
+input LocalizedText {
+  text: String!
+  locale: Locale!
+}
+
+type Location {
+  country: Country!
+  state: String
+}
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+"""Sunrise Product Data Set Structure"""
+type mainProductType implements ProductType {
+  productTypeId: String!
+  creationDate: DateTimeAttribute
+  articleNumberManufacturer: StringAttribute
+  articleNumberMax: StringAttribute
+  matrixId: StringAttribute
+  baseId: StringAttribute
+  designer: EnumAttribute
+  madeInItaly: EnumAttribute
+  completeTheLook: [StringAttribute!]
+  commonSize: EnumAttribute
+  size: StringAttribute
+  color: LocalizedEnumAttribute
+  colorFreeDefinition: LocalizedStringAttribute
+  details: [LocalizedStringAttribute!]
+  style: EnumAttribute
+  gender: EnumAttribute
+  season: StringAttribute
+  isOnStock: BooleanAttribute
+  isLook: BooleanAttribute
+  lookProducts: [StringAttribute!]
+  seasonNew: StringAttribute
+  sapExternalId: StringAttribute
+}
+
+type Me implements MeQueryInterface {
+  customer: Customer
+  cart(id: String!): Cart
+  carts(where: String, sort: [String!], limit: Int, offset: Int): CartQueryResult!
+  activeCart: Cart
+  order(
+    """Queries with specified ID"""
+    id: String
+    orderNumber: String
+  ): Order
+  orders(where: String, sort: [String!], limit: Int, offset: Int): OrderQueryResult!
+  shoppingList(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ShoppingList
+  shoppingLists(where: String, sort: [String!], limit: Int, offset: Int): ShoppingListQueryResult!
+}
+
+"""
+The me field gives access to the data that is specific to the customer or anonymous session linked to the access token.
+"""
+interface MeFieldInterface {
+  me: MeQueryInterface!
+}
+
+interface MeQueryInterface {
+  cart(id: String!): Cart
+  carts(where: String, sort: [String!], limit: Int, offset: Int): CartQueryResult!
+  activeCart: Cart
+  order(
+    """Queries with specified ID"""
+    id: String
+    orderNumber: String
+  ): Order
+  orders(where: String, sort: [String!], limit: Int, offset: Int): OrderQueryResult!
+  shoppingList(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ShoppingList
+  shoppingLists(where: String, sort: [String!], limit: Int, offset: Int): ShoppingListQueryResult!
+}
+
+type MessagesConfiguration {
+  enabled: Boolean!
+  deleteDaysAfterCreation: Int
+}
+
+input MessagesConfigurationDraft {
+  enabled: Boolean!
+  deleteDaysAfterCreation: Int!
+}
+
+type Money implements BaseMoney {
+  type: String!
+  currencyCode: Currency!
+  centAmount: Long!
+
+  """
+  For the `Money` it equals to the default number of fraction digits used with the currency.
+  """
+  fractionDigits: Int!
+}
+
+type MoneyAttribute implements Attribute {
+  centAmount: Long!
+  currencyCode: Currency!
+  name: String!
+}
+
+type MoneyAttributeDefinitionType implements AttributeDefinitionType {
+  name: String!
+}
+
+input MoneyDraft {
+  currencyCode: Currency!
+  centAmount: Long!
+}
+
+type MoneyField implements CustomField {
+  centAmount: Long!
+  currencyCode: Currency!
+  name: String!
+}
+
+input MoneyInput {
+  currencyCode: Currency!
+  centAmount: Long!
+}
+
+type MoneyType implements FieldType {
+  name: String!
+}
+
+input MoveProductImageToPosition {
+  variantId: Int
+  sku: String
+  imageUrl: String!
+  position: Int!
+  staged: Boolean
+}
+
+type MultiBuyCustomLineItemsTarget implements CartDiscountTarget {
+  predicate: String!
+  triggerQuantity: Long!
+  discountedQuantity: Long!
+  maxOccurrence: Int
+  selectionMode: SelectionMode!
+  type: String!
+}
+
+input MultiBuyCustomLineItemsTargetInput {
+  predicate: String!
+  triggerQuantity: Long!
+  discountedQuantity: Long!
+  maxOccurrence: Int
+  selectionMode: SelectionMode
+}
+
+type MultiBuyLineItemsTarget implements CartDiscountTarget {
+  predicate: String!
+  triggerQuantity: Long!
+  discountedQuantity: Long!
+  maxOccurrence: Int
+  selectionMode: SelectionMode!
+  type: String!
+}
+
+input MultiBuyLineItemsTargetInput {
+  predicate: String!
+  triggerQuantity: Long!
+  discountedQuantity: Long!
+  maxOccurrence: Int
+  selectionMode: SelectionMode
+}
+
+type Mutation {
+  createCustomerGroup(draft: CustomerGroupDraft!): CustomerGroup
+  updateCustomerGroup(
+    version: Long!
+    actions: [CustomerGroupUpdateAction!]!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): CustomerGroup
+  deleteCustomerGroup(
+    version: Long!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): CustomerGroup
+  createCategory(draft: CategoryDraft!): Category
+  updateCategory(
+    version: Long!
+    actions: [CategoryUpdateAction!]!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Category
+  deleteCategory(
+    version: Long!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Category
+  createProductType(draft: ProductTypeDraft!): ProductTypeDefinition
+  updateProductType(
+    version: Long!
+    actions: [ProductTypeUpdateAction!]!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ProductTypeDefinition
+  deleteProductType(
+    version: Long!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ProductTypeDefinition
+  createShippingMethod(draft: ShippingMethodDraft!): ShippingMethod
+  updateShippingMethod(
+    version: Long!
+    actions: [ShippingMethodUpdateAction!]!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ShippingMethod
+  deleteShippingMethod(
+    version: Long!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ShippingMethod
+  createZone(draft: CreateZone!): Zone
+  updateZone(
+    version: Long!
+    actions: [ZoneUpdateAction!]!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Zone
+  deleteZone(
+    version: Long!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Zone
+  createTaxCategory(draft: TaxCategoryDraft!): TaxCategory
+  updateTaxCategory(
+    version: Long!
+    actions: [TaxCategoryUpdateAction!]!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): TaxCategory
+  deleteTaxCategory(
+    version: Long!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): TaxCategory
+  createDiscountCode(draft: DiscountCodeDraft!): DiscountCode
+  updateDiscountCode(id: String!, version: Long!, actions: [DiscountCodeUpdateAction!]!): DiscountCode
+  deleteDiscountCode(id: String!, version: Long!): DiscountCode
+  createCartDiscount(draft: CartDiscountDraft!): CartDiscount
+  updateCartDiscount(
+    version: Long!
+    actions: [CartDiscountUpdateAction!]!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): CartDiscount
+  deleteCartDiscount(
+    version: Long!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): CartDiscount
+  createProductDiscount(draft: ProductDiscountDraft!): ProductDiscount
+  updateProductDiscount(
+    version: Long!
+    actions: [ProductDiscountUpdateAction!]!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ProductDiscount
+  deleteProductDiscount(
+    version: Long!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ProductDiscount
+  createProduct(draft: ProductDraft!): Product
+  updateProduct(
+    version: Long!
+    actions: [ProductUpdateAction!]!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Product
+  deleteProduct(
+    version: Long!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Product
+
+  """
+  Creates a customer. If an anonymous cart is given then the cart is assigned to
+  the created customer and the version number of the Cart will increase. If the
+  id of an anonymous session is given, all carts and orders will be assigned to
+  the created customer.
+  """
+  customerSignUp(
+    draft: CustomerSignUpDraft!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): CustomerSignInResult!
+
+  """
+  Retrieves the authenticated customer (a customer that matches the given email/password pair).
+  
+  There may be carts and orders created before the sign in that should be
+  assigned to the customer account. With the `anonymousCartId`, a single
+  anonymous cart can be assigned. With the `anonymousId`, all orders and carts
+  that have this `anonymousId` set will be assigned to the customer.
+  If both `anonymousCartId` and `anonymousId` are given, the anonymous cart must have the `anonymousId`.
+  
+  Additionally, there might also exist one or more active customer carts from an
+  earlier session. On customer sign in there are several ways how to proceed
+  with this cart and the cart referenced by the `anonymousCartId`.
+  
+  * If the customer does not have a cart yet, the anonymous cart becomes the customer's cart.
+  * If the customer already has one or more carts, the content of the anonymous
+  cart will be copied to the customer's active cart that has been modified most recently.
+  
+    In this case the `CartState` of the anonymous cart gets changed to `Merged`
+  while the customer's cart remains the `Active` cart.
+  
+    If a `LineItem` in the anonymous cart matches an existing line item, or a
+  `CustomLineItem` matches an existing custom line item in the customer's cart,
+  the maximum quantity of both line items is used as the new quantity.
+  
+    `ItemShippingDetails` are copied from the item with the highest quantity.
+  
+    If `itemShippingAddresses` are different in the two carts, the resulting cart
+  contains the addresses of both the customer cart and the anonymous cart.
+  
+    Note, that it is not possible to merge carts that differ in their currency (set during creation of the cart).
+  
+  If a cart is is returned as part of the `CustomerSignInResult`, it has been
+  recalculated (it will have up-to-date prices, taxes and discounts, and invalid
+  line items have been removed).
+  """
+  customerSignIn(
+    draft: CustomerSignInDraft!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): CustomerSignInResult!
+  updateCustomer(
+    version: Long!
+    actions: [CustomerUpdateAction!]!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Customer
+  deleteCustomer(
+    version: Long!
+    personalDataErasure: Boolean = false
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Customer
+  customerChangePassword(
+    id: String!
+    version: Long!
+    currentPassword: String!
+    newPassword: String!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Customer
+
+  """
+  The following workflow can be used to reset the customer’s password:
+  
+  1. Create a password reset token and send it embedded in a link to the customer.
+  2. When the customer clicks on the link, you may optionally retrieve customer by password token.
+  3. When the customer entered new password, use reset customer’s password to reset the password.
+  """
+  customerResetPassword(
+    version: Long
+    tokenValue: String!
+    newPassword: String!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Customer
+
+  """Verifies customer's email using a token."""
+  customerConfirmEmail(
+    version: Long
+    tokenValue: String!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Customer
+
+  """
+  The token value is used to reset the password of the customer with the given
+  email. The token is valid only for 10 minutes.
+  """
+  customerCreatePasswordResetToken(
+    email: String!
+
+    """The validity of the created token in minutes."""
+    ttlMinutes: Int
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): CustomerToken
+  customerCreateEmailVerificationToken(
+    id: String!
+    version: Long
+
+    """The validity of the created token in minutes."""
+    ttlMinutes: Int!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): CustomerToken!
+
+  """
+  If used with an access token for Anonymous Sessions, all orders and carts
+  belonging to the anonymousId will be assigned to the newly created customer.
+  """
+  customerSignMeUp(
+    draft: CustomerSignMeUpDraft!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): CustomerSignInResult!
+
+  """
+  Retrieves the authenticated customer (a customer that matches the given email/password pair).
+  
+  If used with an access token for Anonymous Sessions, all orders and carts
+  belonging to the `anonymousId` will be assigned to the newly created customer.
+  
+  * If the customer does not have a cart yet, the anonymous cart that was
+  modified most recently becomes the customer's cart.
+  * If the customer already has a cart, the most recently modified anonymous
+  cart will be handled according to the `AnonymousCartSignInMode`.
+  
+  If a cart is is returned as part of the `CustomerSignInResult`, it has been
+  recalculated (it will have up-to-date prices, taxes and discounts, and invalid
+  line items have been removed).
+  """
+  customerSignMeIn(
+    draft: CustomerSignMeInDraft!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): CustomerSignInResult!
+  updateMyCustomer(
+    version: Long!
+    actions: [MyCustomerUpdateAction!]!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Customer
+  deleteMyCustomer(
+    version: Long!
+    personalDataErasure: Boolean = false
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Customer
+  customerChangeMyPassword(
+    version: Long!
+    currentPassword: String!
+    newPassword: String!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Customer
+  customerConfirmMyEmail(
+    tokenValue: String!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Customer
+  customerResetMyPassword(
+    tokenValue: String!
+    newPassword: String!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Customer
+  createInventoryEntry(draft: InventoryEntryDraft!): InventoryEntry
+  updateInventoryEntry(id: String!, version: Long!, actions: [InventoryEntryUpdateAction!]!): InventoryEntry
+  deleteInventoryEntry(id: String!, version: Long!): InventoryEntry
+  createCart(
+    draft: CartDraft!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Cart
+  updateCart(
+    id: String!
+    version: Long!
+    actions: [CartUpdateAction!]!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Cart
+  deleteCart(
+    id: String!
+    version: Long!
+    personalDataErasure: Boolean = false
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Cart
+  replicateCart(reference: ReferenceInput!): Cart
+  createMyCart(
+    draft: MyCartDraft!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Cart
+  updateMyCart(
+    id: String!
+    version: Long!
+    actions: [MyCartUpdateAction!]!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Cart
+  deleteMyCart(
+    id: String!
+    version: Long!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Cart
+  createOrderFromCart(
+    draft: OrderCartCommand!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Order
+  updateOrder(
+    version: Long!
+    actions: [OrderUpdateAction!]!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+
+    """Queries with specified ID"""
+    id: String
+    orderNumber: String
+  ): Order
+  deleteOrder(
+    version: Long!
+    personalDataErasure: Boolean = false
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+
+    """Queries with specified ID"""
+    id: String
+    orderNumber: String
+  ): Order
+  createMyOrderFromCart(
+    draft: OrderMyCartCommand!
+
+    """
+    Beta feature. The mutation is only performed if the resource is part of the
+    store. Can be used with store-specific OAuth permissions.
+    """
+    storeKey: KeyReferenceInput
+  ): Order
+  createShoppingList(draft: ShoppingListDraft!): ShoppingList
+  updateShoppingList(
+    version: Long!
+    actions: [ShoppingListUpdateAction!]!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ShoppingList
+  deleteShoppingList(
+    version: Long!
+    personalDataErasure: Boolean = false
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ShoppingList
+  createMyShoppingList(draft: MyShoppingListDraft!): ShoppingList
+  updateMyShoppingList(id: String!, version: Long!, actions: [MyShoppingListUpdateAction!]!): ShoppingList
+  deleteMyShoppingList(id: String!, version: Long!): ShoppingList
+  updateProject(version: Long!, actions: [ProjectSettingsUpdateAction!]!): ProjectProjection
+  createStore(draft: CreateStore!): Store @deprecated(reason: "beta feature")
+  updateStore(
+    version: Long!
+    actions: [StoreUpdateAction!]!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Store @deprecated(reason: "beta feature")
+  deleteStore(
+    version: Long!
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Store @deprecated(reason: "beta feature")
+  createApiClient(draft: CreateApiClient!): APIClientWithSecret
+  deleteApiClient(id: String!): APIClientWithoutSecret
+}
+
+input MyCartDraft {
+  currency: Currency!
+  country: Country
+  inventoryMode: InventoryMode = None
+  custom: CustomFieldsDraft
+  customerEmail: String
+  shippingAddress: AddressInput
+  billingAddress: AddressInput
+  shippingMethod: ResourceIdentifierInput
+  taxMode: TaxMode = Platform
+  locale: Locale
+  deleteDaysAfterLastModification: Int
+  itemShippingAddresses: [AddressInput!] = []
+  discountCodes: [String!] = []
+  lineItems: [MyLineItemDraft!] = []
+}
+
+input MyCartUpdateAction {
+  addDiscountCode: AddCartDiscountCode
+  addItemShippingAddress: AddCartItemShippingAddress
+  addLineItem: AddMyCartLineItem
+  addPayment: AddCartPayment
+  addShoppingList: AddCartShoppingList
+  applyDeltaToLineItemShippingDetailsTargets: ApplyCartDeltaToLineItemShippingDetailsTargets
+  changeLineItemQuantity: ChangeCartLineItemQuantity
+  changeTaxMode: ChangeMyCartTaxMode
+  recalculate: RecalculateCart
+  removeDiscountCode: RemoveCartDiscountCode
+  removeItemShippingAddress: RemoveCartItemShippingAddress
+  removeLineItem: RemoveCartLineItem
+  removePayment: RemoveCartPayment
+  setBillingAddress: SetCartBillingAddress
+  setCountry: SetCartCountry
+  setCustomField: SetCartCustomField
+  setCustomType: SetCartCustomType
+  setCustomerEmail: SetCartCustomerEmail
+  setDeleteDaysAfterLastModification: SetCartDeleteDaysAfterLastModification
+  setLineItemCustomField: SetCartLineItemCustomField
+  setLineItemCustomType: SetCartLineItemCustomType
+  setLineItemShippingDetails: SetCartLineItemShippingDetails
+  setLocale: SetCartLocale
+  setShippingMethod: SetMyCartShippingMethod
+  setShippingAddress: SetCartShippingAddress
+  updateItemShippingAddress: UpdateCartItemShippingAddress
+}
+
+input MyCustomerUpdateAction {
+  addAddress: AddCustomerAddress
+  addBillingAddressId: AddCustomerBillingAddressId
+  addShippingAddressId: AddCustomerShippingAddressId
+  changeAddress: ChangeCustomerAddress
+  changeEmail: ChangeCustomerEmail
+  removeAddress: RemoveCustomerAddress
+  removeBillingAddressId: RemoveCustomerBillingAddressId
+  removeShippingAddressId: RemoveCustomerShippingAddressId
+  setCompanyName: SetCustomerCompanyName
+  setCustomField: SetCustomerCustomField
+  setCustomType: SetCustomerCustomType
+  setLocale: SetCustomerLocale
+  setDateOfBirth: SetCustomerDateOfBirth
+  setDefaultBillingAddress: SetCustomerDefaultBillingAddress
+  setDefaultShippingAddress: SetCustomerDefaultShippingAddress
+  setFirstName: SetCustomerFirstName
+  setLastName: SetCustomerLastName
+  setMiddleName: SetCustomerMiddleName
+  setSalutation: SetCustomerSalutation
+  setTitle: SetCustomerTitle
+  setVatId: SetCustomerVatId
+}
+
+input MyLineItemDraft {
+  productId: String
+  sku: String
+  quantity: Long
+  variantId: Int
+  supplyChannel: ResourceIdentifierInput
+  distributionChannel: ResourceIdentifierInput
+  custom: CustomFieldsDraft
+  shippingDetails: ItemShippingDetailsDraft
+}
+
+input MyShoppingListDraft {
+  name: [LocalizedStringItemInputType!]!
+  description: [LocalizedStringItemInputType!]
+  lineItems: [ShoppingListLineItemDraft!] = []
+  textLineItems: [TextLineItemDraft!] = []
+  custom: CustomFieldsDraft
+  deleteDaysAfterLastModification: Int
+}
+
+input MyShoppingListUpdateAction {
+  addLineItem: AddShoppingListLineItem
+  addTextLineItem: AddShoppingListTextLineItem
+  changeLineItemQuantity: ChangeShoppingListLineItemQuantity
+  changeLineItemsOrder: ChangeShoppingListLineItemsOrder
+  changeName: ChangeShoppingListName
+  changeTextLineItemName: ChangeShoppingListTextLineItemName
+  changeTextLineItemQuantity: ChangeShoppingListTextLineItemQuantity
+  changeTextLineItemsOrder: ChangeShoppingListTextLineItemsOrder
+  removeLineItem: RemoveShoppingListLineItem
+  removeTextLineItem: RemoveShoppingListTextLineItem
+  setCustomField: SetShoppingListCustomField
+  setCustomType: SetShoppingListCustomType
+  setDeleteDaysAfterLastModification: SetShoppingListDeleteDaysAfterLastModification
+  setDescription: SetShoppingListDescription
+  setLineItemCustomField: SetShoppingListLineItemCustomField
+  setLineItemCustomType: SetShoppingListLineItemCustomType
+  setTextLineItemCustomField: SetShoppingListTextLineItemCustomField
+  setTextLineItemCustomType: SetShoppingListTextLineItemCustomType
+  setTextLineItemDescription: SetShoppingListTextLineItemDescription
+}
+
+type NestedAttributeDefinitionType implements AttributeDefinitionType {
+  typeReference: Reference!
+  name: String!
+}
+
+type NumberAttribute implements Attribute {
+  value: BigDecimal!
+  name: String!
+}
+
+type NumberAttributeDefinitionType implements AttributeDefinitionType {
+  name: String!
+}
+
+type NumberField implements CustomField {
+  value: BigDecimal!
+  name: String!
+}
+
+type NumberType implements FieldType {
+  name: String!
+}
+
+"""
+An order can be created from a cart, usually after a checkout process has been completed.
+[documentation](https://docs.commercetools.com/http-api-projects-orders.html)
+"""
+type Order implements Versioned {
+  customerId: String
+  customer: Customer
+  customerEmail: String
+  anonymousId: String
+  lineItems: [LineItem!]!
+  customLineItems: [CustomLineItem!]!
+  totalPrice: Money!
+  taxedPrice: TaxedPrice
+  shippingAddress: Address
+  billingAddress: Address
+  inventoryMode: InventoryMode!
+  taxMode: TaxMode!
+  taxRoundingMode: RoundingMode!
+  taxCalculationMode: TaxCalculationMode!
+  customerGroup: CustomerGroup
+  customerGroupRef: Reference
+  country: Country
+  shippingInfo: ShippingInfo
+  discountCodes: [DiscountCodeInfo!]!
+  refusedGifts: [CartDiscount!]!
+  refusedGiftsRefs: [Reference!]!
+  paymentInfo: PaymentInfo
+  locale: Locale
+  shippingRateInput: ShippingRateInput
+  origin: CartOrigin!
+  storeRef: KeyReference @deprecated(reason: "beta feature")
+  store: Store @deprecated(reason: "beta feature")
+  itemShippingAddresses: [Address!]!
+  completedAt: DateTime
+  orderNumber: String
+  orderState: OrderState!
+  stateRef: Reference
+  state: State
+  shipmentState: ShipmentState
+  paymentState: PaymentState
+  syncInfo: [SyncInfo!]!
+  returnInfo: [ReturnInfo!]!
+  lastMessageSequenceNumber: Long!
+  cartRef: Reference
+  cart: Cart
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+input OrderCartCommand {
+  id: String!
+  version: Long!
+  paymentState: PaymentState
+  orderState: OrderState
+  state: ReferenceInput
+  shipmentState: ShipmentState
+  orderNumber: String
+}
+
+input OrderMyCartCommand {
+  id: String!
+  version: Long!
+}
+
+"""
+Fields to access orders. Includes direct access to a single order and searching for orders.
+"""
+interface OrderQueryInterface {
+  order(
+    """Queries with specified ID"""
+    id: String
+    orderNumber: String
+  ): Order
+  orders(where: String, sort: [String!], limit: Int, offset: Int): OrderQueryResult!
+}
+
+type OrderQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [Order!]!
+}
+
+enum OrderState {
+  Confirmed
+  Cancelled
+  Complete
+  Open
+}
+
+input OrderUpdateAction {
+  addDelivery: AddOrderDelivery
+  addItemShippingAddress: AddOrderItemShippingAddress
+  addParcelToDelivery: AddOrderParcelToDelivery
+  addPayment: AddOrderPayment
+  addReturnInfo: AddOrderReturnInfo
+  changeOrderState: ChangeOrderState
+  changePaymentState: ChangeOrderPaymentState
+  changeShipmentState: ChangeOrderShipmentState
+  importCustomLineItemState: ImportOrderCustomLineItemState
+  importLineItemState: ImportOrderLineItemState
+  removeDelivery: RemoveOrderDelivery
+  removeItemShippingAddress: RemoveOrderItemShippingAddress
+  removeParcelFromDelivery: RemoveOrderParcelFromDelivery
+  removePayment: RemoveOrderPayment
+  setBillingAddress: SetOrderBillingAddress
+  setCustomField: SetOrderCustomField
+  setCustomLineItemCustomField: SetOrderCustomLineItemCustomField
+  setCustomLineItemCustomType: SetOrderCustomLineItemCustomType
+  setCustomLineItemShippingDetails: SetOrderCustomLineItemShippingDetails
+  setCustomType: SetOrderCustomType
+  setCustomerEmail: SetOrderCustomerEmail
+  setCustomerId: SetOrderCustomerId
+  setDeliveryAddress: SetOrderDeliveryAddress
+  setDeliveryItems: SetOrderDeliveryItems
+  setLineItemCustomField: SetOrderLineItemCustomField
+  setLineItemCustomType: SetOrderLineItemCustomType
+  setLineItemShippingDetails: SetOrderLineItemShippingDetails
+  setLocale: SetOrderLocale
+  setOrderNumber: SetOrderNumber
+  setParcelItems: SetOrderParcelItems
+  setParcelMeasurements: SetOrderParcelMeasurements
+  setParcelTrackingData: SetOrderParcelTrackingData
+  setReturnPaymentState: SetOrderReturnPaymentState
+  setReturnShipmentState: SetOrderReturnShipmentState
+  setShippingAddress: SetOrderShippingAddress
+  transitionCustomLineItemState: TransitionOrderCustomLineItemState
+  transitionLineItemState: TransitionOrderLineItemState
+  transitionState: TransitionOrderState
+  updateItemShippingAddress: UpdateOrderItemShippingAddress
+  updateSyncInfo: UpdateOrderSyncInfo
+}
+
+type Parcel {
+  id: String!
+  createdAt: DateTime!
+  measurements: ParcelMeasurements
+  trackingData: TrackingData
+  items: [DeliveryItem!]!
+}
+
+type ParcelMeasurements {
+  heightInMillimeter: Int
+  lengthInMillimeter: Int
+  widthInMillimeter: Int
+  weightInGram: Int
+}
+
+input ParcelMeasurementsDraftType {
+  heightInMillimeter: Int
+  lengthInMillimeter: Int
+  widthInMillimeter: Int
+  weightInGram: Int
+}
+
+"""
+Payments hold information about the current state of receiving and/or refunding money.
+[documentation](https://docs.commercetools.com/http-api-projects-payments)
+"""
+type Payment implements Versioned {
+  key: String
+  customerRef: Reference
+  customer: Customer
+  anonymousId: String
+  interfaceId: String
+  amountPlanned: Money!
+  amountAuthorized: Money @deprecated(reason: "https://docs.commercetools.com/release-notes.html#releases-2017-09-29-payment-api-beta-changes")
+  authorizedUntil: DateTime @deprecated(reason: "https://docs.commercetools.com/release-notes.html#releases-2017-09-29-payment-api-beta-changes")
+  amountPaid: Money @deprecated(reason: "https://docs.commercetools.com/release-notes.html#releases-2017-09-29-payment-api-beta-changes")
+  amountRefunded: Money @deprecated(reason: "https://docs.commercetools.com/release-notes.html#releases-2017-09-29-payment-api-beta-changes")
+  paymentMethodInfo: PaymentMethodInfo!
+  paymentStatus: PaymentStatus!
+  transactions: [Transaction!]!
+  interfaceInteractionsRaw(limit: Int, offset: Int): InterfaceInteractionsRawResult!
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+type PaymentInfo {
+  payments: [Payment!]!
+  paymentRefs: [Reference!]!
+}
+
+type PaymentMethodInfo {
+  paymentInterface: String
+  method: String
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]
+}
+
+type PaymentQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [Payment!]!
+}
+
+enum PaymentState {
+  Paid
+  CreditOwed
+  Pending
+  Failed
+  BalanceDue
+}
+
+type PaymentStatus {
+  interfaceCode: String
+  interfaceText: String
+  stateRef: Reference
+  state: State
+}
+
+type PlainEnumValue {
+  key: String!
+  label: String!
+}
+
+input PlainEnumValueDraft {
+  key: String!
+  label: String!
+}
+
+type PlainEnumValueResult {
+  limit: Int
+  offset: Int
+  total: Int!
+  results: [PlainEnumValue!]!
+}
+
+type Point implements Geometry {
+  coordinates: [Float!]!
+  type: String!
+}
+
+type PriceFunction {
+  function: String!
+  currencyCode: Currency!
+}
+
+input PriceFunctionDraft {
+  function: String!
+  currencyCode: Currency!
+}
+
+type Product implements Versioned {
+  id: String!
+  key: String
+  version: Long!
+  productTypeRef: Reference!
+  productType: ProductTypeDefinition
+  masterData: ProductCatalogData!
+  catalogData(id: String!): ProductCatalogData @deprecated(reason: "only 'masterData' supported")
+  skus: [String!]!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  stateRef: Reference
+  state: State
+  taxCategoryRef: Reference
+  taxCategory: TaxCategory
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+}
+
+input ProductAttributeInput {
+  name: String!
+  value: String!
+}
+
+type ProductCatalogData {
+  current: ProductData
+  staged: ProductData
+  published: Boolean!
+  hasStagedChanges: Boolean!
+}
+
+type ProductData {
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  description(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]!
+  descriptionAllLocales: [LocalizedString!]
+  slug(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  categoryOrderHint(categoryId: String!): String
+  categoryOrderHints: [CategoryOrderHint!]!
+  categoriesRef: [Reference!]!
+  categories: [Category!]!
+  searchKeyword(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale!
+  ): [SearchKeyword!]
+  searchKeywords: [SearchKeywords!]!
+  metaTitle(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  metaKeywords(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  metaDescription(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  masterVariant: ProductVariant!
+  variants(
+    """Queries for products with specified SKUs"""
+    skus: [String!]
+    isOnStock: Boolean
+
+    """
+    The IDs of channels for which to check the stock of the `isOnStock`.
+    
+    Variant is returned if at least one of the channels is matching the `isOnStock`
+    
+    If the list is not provided then noChannel is checked for `isOnStock`
+    """
+    stockChannelIds: [String!]
+    hasImages: Boolean
+  ): [ProductVariant!]!
+  allVariants(
+    """Queries for products with specified SKUs"""
+    skus: [String!]
+    isOnStock: Boolean
+
+    """
+    The IDs of channels for which to check the stock of the `isOnStock`.
+    
+    Variant is returned if at least one of the channels is matching the `isOnStock`
+    
+    If the list is not provided then noChannel is checked for `isOnStock`
+    """
+    stockChannelIds: [String!]
+    hasImages: Boolean
+  ): [ProductVariant!]!
+  variant(
+    """Queries for a variant with specified SKU"""
+    sku: String
+
+    """
+    Queries for a variant with specified [key](https://dev.commercetools.com/http-api-projects-products.html#variant_key)
+    """
+    key: String
+  ): ProductVariant
+  skus: [String!]!
+}
+
+"""
+A product price can be discounted in two ways:
+
+* with a relative or an absolute product discount, which will be automatically
+applied to all prices in a product that match a discount predicate.
+  A relative discount reduces the matching price by a fraction (for example 10 %
+off). An absolute discount reduces the matching price by a fixed amount (for
+example 10€ off). If more than one product discount matches a price, the
+discount sort order determines which one will be applied.
+* with an external product discount, which can then be used to explicitly set a
+discounted value on a particular product price.
+
+The discounted price is stored in the discounted field of the Product Price.
+
+Note that when a discount is created, updated or removed it can take up to 15
+minutes to update all the prices with the discounts.
+
+The maximum number of ProductDiscounts that can be active at the same time is **200**.
+"""
+type ProductDiscount implements Versioned {
+  predicate: String!
+  validFrom: DateTime
+  validUntil: DateTime
+  isActive: Boolean!
+  isValid: Boolean!
+  sortOrder: String!
+  key: String
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  description(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]!
+  descriptionAllLocales: [LocalizedString!]
+  value: ProductDiscountValue!
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+}
+
+input ProductDiscountDraft {
+  value: ProductDiscountValueInput!
+  predicate: String!
+  sortOrder: String!
+  name: [LocalizedStringItemInputType!]!
+  description: [LocalizedStringItemInputType!]
+  validFrom: DateTime
+  validUntil: DateTime
+  isActive: Boolean = true
+  key: String
+}
+
+type ProductDiscountQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [ProductDiscount!]!
+}
+
+input ProductDiscountUpdateAction {
+  changeIsActive: ChangeProductDiscountIsActive
+  changeName: ChangeProductDiscountName
+  changePredicate: ChangeProductDiscountPredicate
+  changeSortOrder: ChangeProductDiscountSortOrder
+  changeValue: ChangeProductDiscountValue
+  setDescription: SetProductDiscountDescription
+  setKey: SetProductDiscountKey
+  setValidFrom: SetProductDiscountValidFrom
+  setValidFromAndUntil: SetProductDiscountValidFromAndUntil
+  setValidUntil: SetProductDiscountValidUntil
+}
+
+interface ProductDiscountValue {
+  type: String!
+}
+
+input ProductDiscountValueInput {
+  relative: RelativeDiscountValueInput
+  absolute: AbsoluteDiscountValueInput
+  external: ExternalDiscountValueInput
+}
+
+input ProductDraft {
+  name: [LocalizedStringItemInputType!]!
+  productType: ResourceIdentifierInput!
+  slug: [LocalizedStringItemInputType!]!
+  key: String
+  description: [LocalizedStringItemInputType!]
+  categories: [ResourceIdentifierInput!]
+  categoryOrderHints: [CategoryOrderHintInput!]
+  metaTitle: [LocalizedStringItemInputType!]
+  metaDescription: [LocalizedStringItemInputType!]
+  metaKeywords: [LocalizedStringItemInputType!]
+  masterVariant: ProductVariantInput
+  variants: [ProductVariantInput!] = []
+  taxCategory: ResourceIdentifierInput
+  state: ResourceIdentifierInput
+  searchKeywords: [SearchKeywordInput!]
+  publish: Boolean
+}
+
+type ProductPrice {
+  id: String
+  value: BaseMoney!
+  country: Country
+  customerGroup: Reference
+  channel: Reference
+  validFrom: DateTime
+  validUntil: DateTime
+  discounted: DiscountedProductPriceValue
+  tiers: [ProductPriceTier!]
+
+  """
+  This field contains non-typed data. Consider using `customFields` as a typed alternative.
+  """
+  customFieldsRaw(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [RawCustomField!] @deprecated(reason: "Please use 'custom.customFieldsRaw'")
+
+  """This field would contain type data"""
+  customFields: Type @deprecated(reason: "Please use 'custom.customFields'")
+  custom: CustomFieldsType
+
+  """Custom fields are returned as a list instead of an object structure."""
+  customFieldList(
+    """
+    The names of the custom fields to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom fields to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [CustomField!]
+}
+
+input ProductPriceDataInput {
+  value: BaseMoneyInput!
+  country: Country
+  customerGroup: ReferenceInput
+  channel: ResourceIdentifierInput
+  validFrom: DateTime
+  validUntil: DateTime
+  tiers: [ProductPriceTierInput!] = []
+  custom: CustomFieldsDraft
+}
+
+type ProductPriceTier {
+  minimumQuantity: Int!
+  value: BaseMoney!
+}
+
+input ProductPriceTierInput {
+  minimumQuantity: Int!
+  value: BaseMoneyInput!
+}
+
+type ProductQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [Product!]!
+}
+
+type ProductReferenceIdentifier {
+  typeId: String!
+  id: String
+  key: String
+}
+
+interface ProductType {
+  productTypeId: String!
+}
+
+type ProductTypeDefinition implements Versioned {
+  key: String
+  name: String!
+  description: String!
+  attributeDefinitions(
+    """
+    The names of the attribute definitions to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attribute definitions are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the attribute definitions to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attribute definitions are returned.
+    """
+    excludeNames: [String!]
+    limit: Int
+    offset: Int
+    sort: [String!]
+  ): AttributeDefinitionResult!
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+}
+
+type ProductTypeDefinitionQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [ProductTypeDefinition!]!
+}
+
+input ProductTypeDraft {
+  name: String!
+  description: String!
+  key: String
+  attributeDefinitions: [AttributeDefinitionDraft!]
+}
+
+input ProductTypeUpdateAction {
+  setKey: setKey
+  changeName: changeName
+  changeDescription: changeDescription
+  removeAttributeDefinition: removeAttributeDefinition
+  changeLabel: changeLabel
+  setInputTip: setInputTip
+  changeIsSearchable: changeIsSearchable
+  changeInputHint: changeInputHint
+  addAttributeDefinition: addAttributeDefinition
+  changeAttributeOrder: changeAttributeOrder
+  changeAttributeOrderByName: changeAttributeOrderByName
+  removeEnumValues: removeEnumValues
+  addPlainEnumValue: addPlainEnumValue
+  changePlainEnumValueLabel: changePlainEnumValueLabel
+  changePlainEnumValueOrder: changePlainEnumValueOrder
+  addLocalizedEnumValue: addLocalizedEnumValue
+  changeLocalizedEnumValueLabel: changeLocalizedEnumValueLabel
+  changeLocalizedEnumValueOrder: changeLocalizedEnumValueOrder
+  changeAttributeName: changeAttributeName
+  changeEnumKey: changeEnumKey
+}
+
+input ProductUpdateAction {
+  moveImageToPosition: MoveProductImageToPosition
+  setSearchKeywords: SetSearchKeywords
+  revertStagedChanges: RevertStagedChanges
+  revertStagedVariantChanges: RevertStagedVariantChanges
+  publish: PublishProduct
+  unpublish: UnpublishProduct
+  transitionState: TransitionProductState
+  addAsset: AddProductAsset
+  addExternalImage: AddProductExternalImage
+  addPrice: AddProductPrice
+  addToCategory: AddProductToCategory
+  addVariant: AddProductVariant
+  changeAssetName: ChangeProductAssetName
+  changeAssetOrder: ChangeProductAssetOrder
+  changeMasterVariant: ChangeProductMasterVariant
+  changeImageLabel: ChangeProductImageLabel
+  changeName: ChangeProductName
+  changePrice: ChangeProductPrice
+  changeSlug: ChangeProductSlug
+  removeAsset: RemoveProductAsset
+  removeFromCategory: RemoveProductFromCategory
+  removeImage: RemoveProductImage
+  removePrice: RemoveProductPrice
+  removeVariant: RemoveProductVariant
+  setAssetCustomField: SetProductAssetCustomField
+  setAssetCustomType: SetProductAssetCustomType
+  setAssetDescription: SetProductAssetDescription
+  setAssetKey: SetProductAssetKey
+  setAssetSources: SetProductAssetSources
+  setAssetTags: SetProductAssetTags
+  setCategoryOrderHint: SetProductCategoryOrderHint
+  setDiscountedPrice: SetProductDiscountedPrice
+  setAttribute: SetProductAttribute
+  setAttributeInAllVariants: SetProductAttributeInAllVariants
+  setDescription: SetProductDescription
+  setImageLabel: SetProductImageLabel
+  setKey: SetProductKey
+  setMetaAttributes: SetProductMetaAttributes
+  setMetaDescription: SetProductMetaDescription
+  setMetaKeywords: SetProductMetaKeywords
+  setMetaTitle: SetProductMetaTitle
+  setProductPriceCustomField: SetProductPriceCustomField
+  setProductPriceCustomType: SetProductPriceCustomType
+  setPrices: SetProductPrices
+  setSku: SetProductSku
+  setTaxCategory: SetProductTaxCategory
+  setProductVariantKey: SetProductVariantKey
+}
+
+type ProductVariant {
+  id: Int!
+  key: String
+  sku: String
+  prices: [ProductPrice!]
+
+  """Returns a single price based on the price selection rules."""
+  price(currency: Currency!, country: Country, customerGroupId: String, channelId: String, date: DateTime): ProductPrice
+  images: [Image!]!
+  assets: [Asset!]!
+  availability: ProductVariantAvailabilityWithChannels
+
+  """
+  This field contains non-typed data. Consider using `attributes` as a typed alternative.
+  """
+  attributesRaw(
+    """
+    The names of the attributes to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the attributes to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [RawProductAttribute!]!
+
+  """Product attributes"""
+  attributes: ProductType!
+
+  """
+  Product attributes are returned as a list instead of an object structure.
+  """
+  attributeList(
+    """
+    The names of the attributes to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the attributes to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all attributes are returned.
+    """
+    excludeNames: [String!]
+  ): [Attribute!]!
+}
+
+"""Product variant availabilities"""
+type ProductVariantAvailabilitiesResult {
+  limit: Int
+  offset: Int
+  total: Int!
+  results: [ProductVariantAvailabilityWithChannel!]!
+}
+
+"""Product variant availability"""
+type ProductVariantAvailability {
+  isOnStock: Boolean!
+  restockableInDays: Int
+  availableQuantity: Long
+}
+
+type ProductVariantAvailabilityWithChannel {
+  channelRef: Reference!
+  channel: Channel
+  availability: ProductVariantAvailability!
+}
+
+type ProductVariantAvailabilityWithChannels {
+  noChannel: ProductVariantAvailability
+  channels(
+    """
+    The IDs of channels to include.
+    
+    If neither `includeChannelIds` nor `excludeChannelIds` are provided, then all channels are returned.
+    """
+    includeChannelIds: [String!]
+
+    """
+    The IDs of channels to exclude.
+    
+    If neither `includeChannelIds` nor `excludeChannelIds` are provided, then all channels are returned.
+    """
+    excludeChannelIds: [String!]
+    limit: Int
+    offset: Int
+  ): ProductVariantAvailabilitiesResult!
+}
+
+input ProductVariantInput {
+  sku: String
+  key: String
+  prices: [ProductPriceDataInput!] = []
+  images: [ImageInput!] = []
+  attributes: [ProductAttributeInput!] = []
+  assets: [AssetDraftInput!] = []
+}
+
+"""Project contains information about project."""
+type ProjectProjection {
+  key: String!
+  name: String!
+  languages: [Locale!]!
+  createdAt: DateTime!
+  trialUntil: YearMonth
+  version: Long!
+  externalOAuth: ExternalOAuth
+  messages: MessagesConfiguration!
+  countries: [Country!]!
+  currencies: [Currency!]!
+  shippingRateInputType: ShippingRateInputType
+}
+
+input ProjectSettingsUpdateAction {
+  changeCountries: ChangeProjectSettingsCountries
+  changeCurrencies: ChangeProjectSettingsCurrencies
+  changeLanguages: ChangeProjectSettingsLanguages
+  changeMessagesConfiguration: ChangeProjectSettingsMessagesConfiguration
+  changeMessagesEnabled: ChangeProjectSettingsMessagesEnabled
+  changeName: ChangeProjectSettingsName
+  setExternalOAuth: SetProjectSettingsExternalOAuth
+  setShippingRateInputType: SetProjectSettingsShippingRateInputType
+}
+
+input PublishProduct {
+  scope: PublishScope
+}
+
+enum PublishScope {
+  """Publishes the complete staged projection"""
+  All
+
+  """Publishes only prices on the staged projection"""
+  Prices
+}
+
+type Query implements CartQueryInterface & CustomerActiveCartInterface & OrderQueryInterface & CustomerQueryInterface & ShoppingListQueryInterface & ShippingMethodsByCartInterface & MeFieldInterface {
+  """
+  This field can only be used with an access token created with the password flow or with an anonymous session.
+  
+  It gives access to the data that is specific to the customer or the anonymous session linked to the access token.
+  """
+  me: Me!
+
+  """
+  This field gives access to the resources (such as carts) that are inside the given store.
+  """
+  inStore(key: KeyReferenceInput!): InStore! @deprecated(reason: "beta feature")
+
+  """
+  This field gives access to the resources (such as carts) that are inside one of the given stores.
+  """
+  inStores(keys: [KeyReferenceInput!]!): InStore! @deprecated(reason: "beta feature")
+  customerGroup(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): CustomerGroup
+  customerGroups(where: String, sort: [String!], limit: Int, offset: Int): CustomerGroupQueryResult!
+  category(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Category
+  categories(where: String, sort: [String!], limit: Int, offset: Int): CategoryQueryResult!
+
+  """
+  Autocomplete the categories based on category fields like name, description, etc.
+  """
+  categoryAutocomplete(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale!
+
+    """Incomplete user input."""
+    text: String!
+    limit: Int = 10
+    offset: Int = 0
+
+    """
+    Filters to apply during the search and autocomplete - supported fields are:
+    * `id`
+    * `slug`
+    * `externalId`
+    * `key`
+    * `ancestors`
+    * `parent.id`
+    * `level`
+    * `createdAt`
+    * `modifiedAt`
+    * `name.{language}:missing`
+    * `externalId:missing`
+    * `description.{language}:missing`
+    * `childCount`
+    * `productCount`
+    * `productTypeNames`
+    """
+    filters: [SearchFilter!]
+
+    """Enables experimental features."""
+    experimental: Boolean = false
+  ): CategorySearchResult!
+
+  """Search the categories using full-text search, filtering and sorting"""
+  categorySearch(
+    """Full-text search input."""
+    fulltext: LocalizedText
+    limit: Int = 10
+    offset: Int = 0
+
+    """Filters to apply before the results of facets"""
+    queryFilters: [SearchFilter!]
+
+    """
+    Filters to apply during the search and autocomplete - supported fields are:
+    * `id`
+    * `slug`
+    * `externalId`
+    * `key`
+    * `ancestors`
+    * `parent.id`
+    * `level`
+    * `createdAt`
+    * `modifiedAt`
+    * `name.{language}:missing`
+    * `externalId:missing`
+    * `description.{language}:missing`
+    * `childCount`
+    * `productCount`
+    * `productTypeNames`
+    """
+    filters: [SearchFilter!]
+
+    """
+    Sort result - supported fields are:
+    
+    * `id`
+    * `name`
+    * `createdAt`
+    * `modifiedAt`
+    
+    by default sorted by relevance (a score of matches against the search term in descending order)
+    """
+    sorts: [SearchSort!]
+
+    """Enables experimental features."""
+    experimental: Boolean = false
+  ): CategorySearchResult!
+  channel(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Channel
+  channels(where: String, sort: [String!], limit: Int, offset: Int): ChannelQueryResult!
+  productType(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ProductTypeDefinition
+  productTypes(where: String, sort: [String!], limit: Int, offset: Int): ProductTypeDefinitionQueryResult!
+  typeDefinition(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): TypeDefinition
+  typeDefinitions(where: String, sort: [String!], limit: Int, offset: Int): TypeDefinitionQueryResult!
+  shippingMethod(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ShippingMethod
+  shippingMethods(where: String, sort: [String!], limit: Int, offset: Int): ShippingMethodQueryResult!
+  shippingMethodsByCart(id: String!): [ShippingMethod!]!
+  shippingMethodsByLocation(country: Country!, state: String, currency: Currency): [ShippingMethod!]!
+  zone(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Zone
+  zones(where: String, sort: [String!], limit: Int, offset: Int): ZoneQueryResult!
+  taxCategory(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): TaxCategory
+  taxCategories(where: String, sort: [String!], limit: Int, offset: Int): TaxCategoryQueryResult!
+  discountCode(id: String!): DiscountCode
+  discountCodes(where: String, sort: [String!], limit: Int, offset: Int): DiscountCodeQueryResult!
+  cartDiscount(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): CartDiscount
+  cartDiscounts(where: String, sort: [String!], limit: Int, offset: Int): CartDiscountQueryResult!
+  productDiscount(id: String!): ProductDiscount
+  productDiscounts(where: String, sort: [String!], limit: Int, offset: Int): ProductDiscountQueryResult!
+  product(
+    """Queries for a product with specified SKU"""
+    sku: String
+
+    """
+    Queries for a product with specified [product variant key](https://dev.commercetools.com/http-api-projects-products.html#variant_key)
+    """
+    variantKey: String
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Product
+  products(
+    where: String
+    sort: [String!]
+    limit: Int
+    offset: Int
+
+    """Queries for products with specified SKUs"""
+    skus: [String!]
+  ): ProductQueryResult!
+  state(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): State
+  states(where: String, sort: [String!], limit: Int, offset: Int): StateQueryResult!
+  customer(
+    """Queries a customer with specified email token"""
+    emailToken: String
+
+    """Queries a customer with specified password token"""
+    passwordToken: String
+
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Customer
+  customers(where: String, sort: [String!], limit: Int, offset: Int): CustomerQueryResult!
+  inventoryEntry(id: String!): InventoryEntry
+  inventoryEntries(where: String, sort: [String!], limit: Int, offset: Int): InventoryEntryQueryResult!
+  cart(id: String!): Cart
+  carts(where: String, sort: [String!], limit: Int, offset: Int): CartQueryResult!
+  customerActiveCart(customerId: String!): Cart
+  order(
+    """Queries with specified ID"""
+    id: String
+    orderNumber: String
+  ): Order
+  orders(where: String, sort: [String!], limit: Int, offset: Int): OrderQueryResult!
+  shoppingList(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ShoppingList
+  shoppingLists(where: String, sort: [String!], limit: Int, offset: Int): ShoppingListQueryResult!
+  payment(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Payment
+  payments(where: String, sort: [String!], limit: Int, offset: Int): PaymentQueryResult!
+  project: ProjectProjection!
+  store(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): Store @deprecated(reason: "beta feature")
+  stores(where: String, sort: [String!], limit: Int, offset: Int): StoreQueryResult! @deprecated(reason: "beta feature")
+  apiClient(id: String!): APIClientWithoutSecret
+  apiClients(where: String, sort: [String!], limit: Int, offset: Int): APIClientWithoutSecretQueryResult!
+}
+
+type RawCustomField {
+  name: String!
+  value: Json!
+}
+
+type RawProductAttribute {
+  name: String!
+  value: Json!
+  attributeDefinition: AttributeDefinition
+}
+
+input RecalculateCart {
+  updateProductData: Boolean = false
+}
+
+type Reference {
+  typeId: String!
+  id: String!
+}
+
+type ReferenceAttribute implements Attribute {
+  typeId: String!
+  id: String!
+  name: String!
+}
+
+type ReferenceAttributeDefinitionType implements AttributeDefinitionType {
+  referenceTypeId: String!
+  name: String!
+}
+
+type ReferenceField implements CustomField {
+  typeId: String!
+  id: String!
+  name: String!
+}
+
+input ReferenceInput {
+  typeId: String!
+  id: String!
+}
+
+type ReferenceType implements FieldType {
+  referenceTypeId: String!
+  name: String!
+}
+
+input ReferenceTypeDefinitionDraft {
+  referenceTypeId: String!
+}
+
+type RelativeDiscountValue implements CartDiscountValue & ProductDiscountValue {
+  permyriad: Int!
+  type: String!
+}
+
+input RelativeDiscountValueInput {
+  permyriad: Int!
+}
+
+input removeAttributeDefinition {
+  name: String!
+}
+
+input RemoveCartCustomLineItem {
+  customLineItemId: String!
+}
+
+input RemoveCartDiscountCode {
+  discountCode: ReferenceInput!
+}
+
+input RemoveCartItemShippingAddress {
+  addressKey: String!
+}
+
+input RemoveCartLineItem {
+  lineItemId: String!
+  quantity: Long
+  externalPrice: BaseMoneyInput
+  externalTotalPrice: ExternalLineItemTotalPriceDraft
+  shippingDetailsToRemove: ItemShippingDetailsDraft
+}
+
+input RemoveCartPayment {
+  payment: ResourceIdentifierInput!
+}
+
+input RemoveCategoryAsset {
+  assetKey: String
+  assetId: String
+}
+
+input RemoveCustomerAddress {
+  addressId: String!
+}
+
+input RemoveCustomerBillingAddressId {
+  addressId: String!
+}
+
+input RemoveCustomerShippingAddressId {
+  addressId: String!
+}
+
+input RemoveCustomerStore {
+  store: ResourceIdentifierInput!
+}
+
+input removeEnumValues {
+  attributeName: String!
+  keys: [String!]!
+}
+
+input RemoveInventoryEntryQuantity {
+  quantity: Long!
+}
+
+input RemoveOrderDelivery {
+  deliveryId: String!
+}
+
+input RemoveOrderItemShippingAddress {
+  addressKey: String!
+}
+
+input RemoveOrderParcelFromDelivery {
+  parcelId: String!
+}
+
+input RemoveOrderPayment {
+  payment: ResourceIdentifierInput!
+}
+
+input RemoveProductAsset {
+  variantId: Int
+  sku: String
+  catalog: ReferenceInput
+  staged: Boolean = true
+  assetKey: String
+  assetId: String
+}
+
+input RemoveProductFromCategory {
+  category: ResourceIdentifierInput!
+  staged: Boolean = true
+}
+
+input RemoveProductImage {
+  variantId: Int
+  sku: String
+  imageUrl: String!
+  staged: Boolean = true
+}
+
+input RemoveProductPrice {
+  priceId: String
+  variantId: Int
+  sku: String
+  price: ProductPriceDataInput
+  catalog: ReferenceInput
+  staged: Boolean = true
+}
+
+input RemoveProductVariant {
+  id: Int
+  sku: String
+  staged: Boolean = true
+}
+
+input RemoveShippingMethodShippingRate {
+  zone: ResourceIdentifierInput!
+  shippingRate: ShippingRateDraft!
+}
+
+input RemoveShippingMethodZone {
+  zone: ResourceIdentifierInput!
+}
+
+input RemoveShoppingListLineItem {
+  lineItemId: String!
+  quantity: Int
+}
+
+input RemoveShoppingListTextLineItem {
+  textLineItemId: String!
+  quantity: Int
+}
+
+input RemoveZoneLocation {
+  location: ZoneLocation!
+}
+
+type reservationOrderType implements Type {
+  typeRef: Reference!
+  type: TypeDefinition!
+  isReservation: BooleanField
+}
+
+input ResourceIdentifierInput {
+  typeId: String
+  id: String
+  key: String
+}
+
+"""Stores information about returns connected to this order."""
+type ReturnInfo {
+  items: [ReturnItem!]!
+  returnTrackingId: String
+  returnDate: DateTime
+}
+
+interface ReturnItem {
+  type: String!
+  id: String!
+  quantity: Long!
+  comment: String
+  shipmentState: ReturnShipmentState!
+  paymentState: ReturnPaymentState!
+  lastModifiedAt: DateTime!
+  createdAt: DateTime!
+}
+
+input ReturnItemDraftType {
+  quantity: Long!
+  lineItemId: String
+  customLineItemId: String
+  comment: String
+  shipmentState: ReturnShipmentState!
+}
+
+enum ReturnPaymentState {
+  NotRefunded
+  Refunded
+  Initial
+  NonRefundable
+}
+
+enum ReturnShipmentState {
+  Unusable
+  BackInStock
+  Returned
+  Advised
+}
+
+input RevertStagedChanges {
+  dummy: String
+}
+
+input RevertStagedVariantChanges {
+  variantId: Int!
+}
+
+enum RoundingMode {
+  """
+  [Round half down](https://en.wikipedia.org/wiki/Rounding#Round_half_down).
+  Rounding mode used by, e.g., [Avalara Sales TaxII](https://help.avalara.com/kb/001/How_does_Rounding_with_SalesTaxII_work%3F)
+  """
+  HalfDown
+
+  """[Round half up](https://en.wikipedia.org/wiki/Rounding#Round_half_up)"""
+  HalfUp
+
+  """
+  [Round half to even](https://en.wikipedia.org/wiki/Rounding#Round_half_to_even).
+  Default rounding mode as used in IEEE 754 computing functions and operators.
+  """
+  HalfEven
+}
+
+type ScoreShippingRateInput implements ShippingRateInput {
+  score: Int!
+  type: String!
+}
+
+input ScoreShippingRateInputDraft {
+  score: Int!
+}
+
+"""
+Search filter. It is represented as a string and has th same format as in REST API: "field:filter_criteria"
+"""
+scalar SearchFilter
+
+type SearchKeyword {
+  text: String!
+}
+
+input SearchKeywordInput {
+  locale: Locale!
+  keywords: [CustomSuggestTokenizerInput!]!
+}
+
+type SearchKeywords {
+  locale: Locale!
+  searchKeywords: [SearchKeyword!]!
+}
+
+"""Search sort"""
+scalar SearchSort
+
+"""
+In order to decide which of the matching items will actually be discounted
+"""
+enum SelectionMode {
+  MostExpensive
+  Cheapest
+}
+
+type SetAttributeDefinitionType implements AttributeDefinitionType {
+  elementType: AttributeDefinitionType!
+  name: String!
+}
+
+input SetCartAnonymousId {
+  anonymousId: String
+}
+
+input SetCartBillingAddress {
+  address: AddressInput
+}
+
+input SetCartCountry {
+  country: Country
+}
+
+input SetCartCustomerEmail {
+  email: String
+}
+
+input SetCartCustomerGroup {
+  customerGroup: ResourceIdentifierInput
+}
+
+input SetCartCustomerId {
+  customerId: String
+}
+
+input SetCartCustomField {
+  name: String!
+  value: String
+}
+
+input SetCartCustomLineItemCustomField {
+  customLineItemId: String!
+  name: String!
+  value: String
+}
+
+input SetCartCustomLineItemCustomType {
+  customLineItemId: String!
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetCartCustomLineItemShippingDetails {
+  customLineItemId: String!
+  shippingDetails: ItemShippingDetailsDraft
+}
+
+input SetCartCustomLineItemTaxAmount {
+  customLineItemId: String!
+  externalTaxAmount: ExternalTaxAmountDraft
+}
+
+input SetCartCustomLineItemTaxRate {
+  customLineItemId: String!
+  externalTaxRate: ExternalTaxRateDraft
+}
+
+input SetCartCustomShippingMethod {
+  shippingMethodName: String!
+  shippingRate: ShippingRateDraft!
+  taxCategory: ResourceIdentifierInput
+  externalTaxRate: ExternalTaxRateDraft
+}
+
+input SetCartCustomType {
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetCartDeleteDaysAfterLastModification {
+  deleteDaysAfterLastModification: Int
+}
+
+input SetCartDiscountCustomField {
+  name: String!
+  value: String
+}
+
+input SetCartDiscountCustomType {
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetCartDiscountDescription {
+  description: [LocalizedStringItemInputType!]
+}
+
+input SetCartDiscountKey {
+  key: String
+}
+
+input SetCartDiscountValidFrom {
+  validFrom: DateTime
+}
+
+input SetCartDiscountValidFromAndUntil {
+  validFrom: DateTime
+  validUntil: DateTime
+}
+
+input SetCartDiscountValidUntil {
+  validUntil: DateTime
+}
+
+input SetCartLineItemCustomField {
+  lineItemId: String!
+  name: String!
+  value: String
+}
+
+input SetCartLineItemCustomType {
+  lineItemId: String!
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetCartLineItemPrice {
+  lineItemId: String!
+  externalPrice: BaseMoneyInput
+}
+
+input SetCartLineItemShippingDetails {
+  lineItemId: String!
+  shippingDetails: ItemShippingDetailsDraft
+}
+
+input SetCartLineItemTaxAmount {
+  lineItemId: String!
+  externalTaxAmount: ExternalTaxAmountDraft
+}
+
+input SetCartLineItemTaxRate {
+  lineItemId: String!
+  externalTaxRate: ExternalTaxRateDraft
+}
+
+input SetCartLineItemTotalPrice {
+  lineItemId: String!
+  externalTotalPrice: ExternalLineItemTotalPriceDraft
+}
+
+input SetCartLocale {
+  locale: Locale
+}
+
+input SetCartShippingAddress {
+  address: AddressInput
+}
+
+input SetCartShippingMethod {
+  shippingMethod: ResourceIdentifierInput
+  externalTaxRate: ExternalTaxRateDraft
+}
+
+input SetCartShippingMethodTaxAmount {
+  externalTaxAmount: ExternalTaxAmountDraft
+}
+
+input SetCartShippingMethodTaxRate {
+  externalTaxRate: ExternalTaxRateDraft
+}
+
+input SetCartShippingRateInput {
+  shippingRateInput: ShippingRateInputDraft
+}
+
+input SetCartTotalTax {
+  externalTotalGross: MoneyInput
+  externalTaxPortions: [TaxPortionDraft!] = []
+}
+
+input SetCategoryAssetCustomField {
+  value: String
+  name: String!
+  assetKey: String
+  assetId: String
+}
+
+input SetCategoryAssetCustomType {
+  typeId: String
+  typeKey: String
+  type: ResourceIdentifierInput
+  fields: [CustomFieldInput!]
+  assetKey: String
+  assetId: String
+}
+
+input SetCategoryAssetDescription {
+  description: [LocalizedStringItemInputType!]
+  assetKey: String
+  assetId: String
+}
+
+input SetCategoryAssetKey {
+  assetKey: String
+  assetId: String!
+}
+
+input SetCategoryAssetSources {
+  sources: [AssetSourceInput!] = []
+  assetKey: String
+  assetId: String
+}
+
+input SetCategoryAssetTags {
+  tags: [String!] = []
+  assetKey: String
+  assetId: String
+}
+
+input SetCategoryCustomField {
+  name: String!
+  value: String
+}
+
+input SetCategoryCustomType {
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetCategoryDescription {
+  description: [LocalizedStringItemInputType!]
+}
+
+input SetCategoryExternalId {
+  externalId: String
+}
+
+input SetCategoryKey {
+  key: String
+}
+
+input SetCategoryMetaDescription {
+  metaDescription: [LocalizedStringItemInputType!]
+}
+
+input SetCategoryMetaKeywords {
+  metaKeywords: [LocalizedStringItemInputType!]
+}
+
+input SetCategoryMetaTitle {
+  metaTitle: [LocalizedStringItemInputType!]
+}
+
+input SetCustomerCompanyName {
+  companyName: String
+}
+
+input SetCustomerCustomField {
+  name: String!
+  value: String
+}
+
+input SetCustomerCustomType {
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetCustomerDateOfBirth {
+  dateOfBirth: Date
+}
+
+input SetCustomerDefaultBillingAddress {
+  addressId: String
+}
+
+input SetCustomerDefaultShippingAddress {
+  addressId: String
+}
+
+input SetCustomerExternalId {
+  externalId: String
+}
+
+input SetCustomerFirstName {
+  firstName: String
+}
+
+input SetCustomerGroup {
+  customerGroup: ResourceIdentifierInput
+}
+
+input SetCustomerGroupCustomField {
+  name: String!
+  value: String
+}
+
+input SetCustomerGroupCustomType {
+  typeId: String
+  typeKey: String
+  type: ResourceIdentifierInput
+  fields: [CustomFieldInput!]
+}
+
+input SetCustomerGroupKey {
+  key: String
+}
+
+input SetCustomerKey {
+  key: String
+}
+
+input SetCustomerLastName {
+  lastName: String
+}
+
+input SetCustomerLocale {
+  locale: Locale
+}
+
+input SetCustomerMiddleName {
+  middleName: String
+}
+
+input SetCustomerNumber {
+  customerNumber: String
+}
+
+input SetCustomerSalutation {
+  salutation: String
+}
+
+input SetCustomerStores {
+  stores: [ResourceIdentifierInput!]!
+}
+
+input SetCustomerTitle {
+  title: String
+}
+
+input SetCustomerVatId {
+  vatId: String
+}
+
+input SetDiscountCodeCartPredicate {
+  cartPredicate: String
+}
+
+input SetDiscountCodeCustomField {
+  name: String!
+  value: String
+}
+
+input SetDiscountCodeCustomType {
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetDiscountCodeDescription {
+  description: [LocalizedStringItemInputType!]
+}
+
+input SetDiscountCodeMaxApplications {
+  maxApplications: Long
+}
+
+input SetDiscountCodeMaxApplicationsPerCustomer {
+  maxApplicationsPerCustomer: Long
+}
+
+input SetDiscountCodeName {
+  name: [LocalizedStringItemInputType!]
+}
+
+input SetDiscountCodeValidFrom {
+  validFrom: DateTime
+}
+
+input SetDiscountCodeValidFromAndUntil {
+  validFrom: DateTime
+  validUntil: DateTime
+}
+
+input SetDiscountCodeValidUntil {
+  validUntil: DateTime
+}
+
+input setInputTip {
+  attributeName: String!
+  inputTip: [LocalizedStringItemInputType!]
+}
+
+input SetInventoryEntryCustomField {
+  name: String!
+  value: String
+}
+
+input SetInventoryEntryCustomType {
+  typeId: String
+  typeKey: String
+  type: ResourceIdentifierInput
+  fields: [CustomFieldInput!]
+}
+
+input SetInventoryEntryExpectedDelivery {
+  expectedDelivery: DateTime
+}
+
+input SetInventoryEntryRestockableInDays {
+  restockableInDays: Int
+}
+
+input SetInventoryEntrySupplyChannel {
+  supplyChannel: ResourceIdentifierInput
+}
+
+input setKey {
+  key: String
+}
+
+input SetMyCartShippingMethod {
+  shippingMethod: ResourceIdentifierInput
+}
+
+input SetOrderBillingAddress {
+  address: AddressInput
+}
+
+input SetOrderCustomerEmail {
+  email: String
+}
+
+input SetOrderCustomerId {
+  customerId: String
+}
+
+input SetOrderCustomField {
+  name: String!
+  value: String
+}
+
+input SetOrderCustomLineItemCustomField {
+  customLineItemId: String!
+  name: String!
+  value: String
+}
+
+input SetOrderCustomLineItemCustomType {
+  customLineItemId: String!
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetOrderCustomLineItemShippingDetails {
+  customLineItemId: String!
+  shippingDetails: ItemShippingDetailsDraftType
+}
+
+input SetOrderCustomType {
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetOrderDeliveryAddress {
+  deliveryId: String!
+  address: AddressInput
+}
+
+input SetOrderDeliveryItems {
+  deliveryId: String!
+  items: [DeliveryItemDraftType!]!
+}
+
+input SetOrderLineItemCustomField {
+  lineItemId: String!
+  name: String!
+  value: String
+}
+
+input SetOrderLineItemCustomType {
+  lineItemId: String!
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetOrderLineItemShippingDetails {
+  lineItemId: String!
+  shippingDetails: ItemShippingDetailsDraftType
+}
+
+input SetOrderLocale {
+  locale: Locale
+}
+
+input SetOrderNumber {
+  orderNumber: String
+}
+
+input SetOrderParcelItems {
+  parcelId: String!
+  items: [DeliveryItemDraftType!]!
+}
+
+input SetOrderParcelMeasurements {
+  parcelId: String!
+  measurements: ParcelMeasurementsDraftType
+}
+
+input SetOrderParcelTrackingData {
+  parcelId: String!
+  trackingData: TrackingDataDraftType
+}
+
+input SetOrderReturnPaymentState {
+  returnItemId: String!
+  paymentState: ReturnPaymentState!
+}
+
+input SetOrderReturnShipmentState {
+  returnItemId: String!
+  shipmentState: ReturnShipmentState!
+}
+
+input SetOrderShippingAddress {
+  address: AddressInput
+}
+
+input SetProductAssetCustomField {
+  variantId: Int
+  sku: String
+  catalog: ReferenceInput
+  staged: Boolean = true
+  value: String
+  name: String!
+  assetKey: String
+  assetId: String
+}
+
+input SetProductAssetCustomType {
+  variantId: Int
+  sku: String
+  catalog: ReferenceInput
+  staged: Boolean = true
+  typeId: String
+  typeKey: String
+  type: ResourceIdentifierInput
+  fields: [CustomFieldInput!]
+  assetKey: String
+  assetId: String
+}
+
+input SetProductAssetDescription {
+  variantId: Int
+  sku: String
+  catalog: ReferenceInput
+  staged: Boolean = true
+  description: [LocalizedStringItemInputType!]
+  assetKey: String
+  assetId: String
+}
+
+input SetProductAssetKey {
+  variantId: Int
+  sku: String
+  catalog: ReferenceInput
+  staged: Boolean = true
+  assetKey: String
+  assetId: String!
+}
+
+input SetProductAssetSources {
+  variantId: Int
+  sku: String
+  catalog: ReferenceInput
+  staged: Boolean = true
+  sources: [AssetSourceInput!] = []
+  assetKey: String
+  assetId: String
+}
+
+input SetProductAssetTags {
+  variantId: Int
+  sku: String
+  catalog: ReferenceInput
+  staged: Boolean = true
+  tags: [String!] = []
+  assetKey: String
+  assetId: String
+}
+
+input SetProductAttribute {
+  variantId: Int
+  sku: String
+  name: String!
+  value: String
+  staged: Boolean = true
+}
+
+input SetProductAttributeInAllVariants {
+  name: String!
+  value: String
+  staged: Boolean = true
+}
+
+input SetProductCategoryOrderHint {
+  categoryId: String!
+  orderHint: String
+  staged: Boolean = true
+}
+
+input SetProductDescription {
+  description: [LocalizedStringItemInputType!]
+  staged: Boolean = true
+}
+
+input SetProductDiscountDescription {
+  description: [LocalizedStringItemInputType!]
+}
+
+input SetProductDiscountedPrice {
+  priceId: String!
+  discounted: DiscountedProductPriceValueInput
+  catalog: ReferenceInput
+  staged: Boolean = true
+}
+
+input SetProductDiscountKey {
+  key: String
+}
+
+input SetProductDiscountValidFrom {
+  validFrom: DateTime
+}
+
+input SetProductDiscountValidFromAndUntil {
+  validFrom: DateTime
+  validUntil: DateTime
+}
+
+input SetProductDiscountValidUntil {
+  validUntil: DateTime
+}
+
+input SetProductImageLabel {
+  variantId: Int
+  sku: String
+  imageUrl: String!
+  label: String
+  staged: Boolean = true
+}
+
+input SetProductKey {
+  key: String
+}
+
+input SetProductMetaAttributes {
+  metaDescription: [LocalizedStringItemInputType!]
+  metaKeywords: [LocalizedStringItemInputType!]
+  metaTitle: [LocalizedStringItemInputType!]
+  staged: Boolean = true
+}
+
+input SetProductMetaDescription {
+  metaDescription: [LocalizedStringItemInputType!]
+  staged: Boolean = true
+}
+
+input SetProductMetaKeywords {
+  metaKeywords: [LocalizedStringItemInputType!]
+  staged: Boolean = true
+}
+
+input SetProductMetaTitle {
+  metaTitle: [LocalizedStringItemInputType!]
+  staged: Boolean = true
+}
+
+input SetProductPriceCustomField {
+  priceId: String!
+  catalog: ReferenceInput
+  staged: Boolean = true
+  name: String!
+  value: String
+}
+
+input SetProductPriceCustomType {
+  priceId: String!
+  catalog: ReferenceInput
+  staged: Boolean = true
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetProductPrices {
+  variantId: Int
+  sku: String
+  prices: [ProductPriceDataInput!]!
+  catalog: ReferenceInput
+  staged: Boolean = true
+}
+
+input SetProductSku {
+  variantId: Int!
+  sku: String
+  staged: Boolean = true
+}
+
+input SetProductTaxCategory {
+  taxCategory: ResourceIdentifierInput
+}
+
+input SetProductVariantKey {
+  variantId: Int
+  sku: String
+  key: String
+  staged: Boolean = true
+}
+
+input SetProjectSettingsExternalOAuth {
+  externalOAuth: ExternalOAuthDraft
+}
+
+input SetProjectSettingsShippingRateInputType {
+  shippingRateInputType: ShippingRateInputTypeInput
+}
+
+input SetSearchKeywords {
+  searchKeywords: [SearchKeywordInput!]!
+  staged: Boolean
+}
+
+input SetShippingMethodDescription {
+  description: String
+}
+
+input SetShippingMethodKey {
+  key: String
+}
+
+input SetShippingMethodPredicate {
+  predicate: String
+}
+
+input SetShoppingListAnonymousId {
+  anonymousId: String
+}
+
+input SetShoppingListCustomer {
+  customer: ResourceIdentifierInput
+}
+
+input SetShoppingListCustomField {
+  name: String!
+  value: String
+}
+
+input SetShoppingListCustomType {
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetShoppingListDeleteDaysAfterLastModification {
+  deleteDaysAfterLastModification: Int
+}
+
+input SetShoppingListDescription {
+  description: [LocalizedStringItemInputType!]
+}
+
+input SetShoppingListKey {
+  key: String
+}
+
+input SetShoppingListLineItemCustomField {
+  lineItemId: String!
+  name: String!
+  value: String
+}
+
+input SetShoppingListLineItemCustomType {
+  lineItemId: String!
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetShoppingListSlug {
+  slug: [LocalizedStringItemInputType!]
+}
+
+input SetShoppingListTextLineItemCustomField {
+  textLineItemId: String!
+  name: String!
+  value: String
+}
+
+input SetShoppingListTextLineItemCustomType {
+  textLineItemId: String!
+  fields: [CustomFieldInput!]
+  type: ResourceIdentifierInput
+  typeKey: String
+  typeId: String
+}
+
+input SetShoppingListTextLineItemDescription {
+  textLineItemId: String!
+  description: [LocalizedStringItemInputType!]
+}
+
+input SetStoreLanguages {
+  languages: [Locale!]
+}
+
+input SetStoreName {
+  name: [LocalizedStringItemInputType!]
+}
+
+input SetTaxCategoryKey {
+  key: String
+}
+
+type SetType implements FieldType {
+  elementType: FieldType!
+  name: String!
+}
+
+input SetZoneDescription {
+  description: String
+}
+
+input SetZoneKey {
+  key: String
+}
+
+enum ShipmentState {
+  Delayed
+  Backorder
+  Partial
+  Pending
+  Ready
+  Shipped
+}
+
+type ShippingInfo {
+  shippingMethodName: String!
+  price: Money!
+  shippingRate: ShippingRate!
+  taxRate: TaxRate
+  taxCategory: Reference
+  deliveries: [Delivery!]!
+  discountedPrice: DiscountedLineItemPrice
+  taxedPrice: TaxedItemPrice
+  shippingMethodState: ShippingMethodState!
+  shippingMethod: ShippingMethod
+  shippingMethodRef: Reference
+}
+
+type ShippingMethod implements Versioned {
+  id: String!
+  version: Long!
+  name: String!
+  description: String
+  zoneRates: [ZoneRate!]!
+  isDefault: Boolean!
+  predicate: String
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  key: String
+  lastModifiedBy: Initiator
+  createdBy: Initiator
+  taxCategoryRef: Reference
+  taxCategory: TaxCategory
+}
+
+input ShippingMethodDraft {
+  name: String!
+  description: String
+  taxCategory: ResourceIdentifierInput!
+  zoneRates: [ZoneRateDraft!] = []
+  isDefault: Boolean!
+  predicate: String
+  key: String
+}
+
+type ShippingMethodQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [ShippingMethod!]!
+}
+
+"""A field to retrieve available shipping methods for a cart."""
+interface ShippingMethodsByCartInterface {
+  shippingMethodsByCart(id: String!): [ShippingMethod!]!
+}
+
+enum ShippingMethodState {
+  """
+  Either there is no predicate defined for the ShippingMethod or the given predicate matches the cart
+  """
+  MatchesCart
+
+  """
+  The ShippingMethod predicate does not match the cart. Ordering this cart will
+  fail with error ShippingMethodDoesNotMatchCart
+  """
+  DoesNotMatchCart
+}
+
+input ShippingMethodUpdateAction {
+  addShippingRate: AddShippingMethodShippingRate
+  addZone: AddShippingMethodZone
+  changeIsDefault: ChangeShippingMethodIsDefault
+  changeName: ChangeShippingMethodName
+  changeTaxCategory: ChangeShippingMethodTaxCategory
+  removeShippingRate: RemoveShippingMethodShippingRate
+  removeZone: RemoveShippingMethodZone
+  setDescription: SetShippingMethodDescription
+  setKey: SetShippingMethodKey
+  setPredicate: SetShippingMethodPredicate
+}
+
+"""Shipping Rate"""
+type ShippingRate {
+  price: Money!
+  freeAbove: Money
+  isMatching: Boolean
+  tiers: [ShippingRatePriceTier!]!
+}
+
+type ShippingRateCartClassificationPriceTier implements ShippingRatePriceTier {
+  value: String!
+  price: Money!
+  isMatching: Boolean
+  type: String!
+}
+
+type ShippingRateCartScorePriceTier implements ShippingRatePriceTier {
+  score: Int!
+  price: Money
+  priceFunction: PriceFunction
+  isMatching: Boolean
+  type: String!
+}
+
+type ShippingRateCartValuePriceTier implements ShippingRatePriceTier {
+  minimumCentAmount: Int!
+  price: Money!
+  isMatching: Boolean
+  type: String!
+}
+
+input ShippingRateDraft {
+  price: MoneyDraft!
+  freeAbove: MoneyDraft
+  tiers: [ShippingRatePriceTierDraft!] = []
+}
+
+interface ShippingRateInput {
+  type: String!
+}
+
+input ShippingRateInputDraft {
+  Classification: ClassificationShippingRateInputDraft
+  Score: ScoreShippingRateInputDraft
+}
+
+type ShippingRateInputLocalizedEnumValue {
+  key: String!
+  label(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  labelAllLocales: [LocalizedString!]!
+}
+
+interface ShippingRateInputType {
+  type: String!
+}
+
+input ShippingRateInputTypeInput {
+  CartValue: CartValueInput
+  CartClassification: CartClassificationInput
+  CartScore: CartScoreInput
+}
+
+interface ShippingRatePriceTier {
+  type: String!
+}
+
+input ShippingRatePriceTierCartClassificationDraft {
+  value: String!
+  price: MoneyDraft!
+}
+
+input ShippingRatePriceTierCartScoreDraft {
+  score: Int!
+  price: MoneyDraft
+  priceFunction: PriceFunctionDraft
+}
+
+input ShippingRatePriceTierCartValueDraft {
+  minimumCentAmount: Int!
+  price: MoneyDraft!
+}
+
+input ShippingRatePriceTierDraft {
+  CartValue: ShippingRatePriceTierCartValueDraft
+  CartClassification: ShippingRatePriceTierCartClassificationDraft
+  CartScore: ShippingRatePriceTierCartScoreDraft
+}
+
+type ShippingTarget implements CartDiscountTarget {
+  type: String!
+}
+
+input ShippingTargetDraft {
+  addressKey: String!
+  quantity: Long!
+}
+
+input ShippingTargetDraftType {
+  addressKey: String!
+  quantity: Long!
+}
+
+input ShippingTargetInput {
+  dummy: String
+}
+
+type ShoppingList implements Versioned {
+  key: String
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]!
+  description(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  descriptionAllLocales: [LocalizedString!]
+  slug(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  slugAllLocales: [LocalizedString!]
+  customerRef: Reference
+  customer: Customer
+  anonymousId: String
+  lineItems: [ShoppingListLineItem!]!
+  textLineItems: [TextLineItem!]!
+  custom: CustomFieldsType
+  deleteDaysAfterLastModification: Int
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+}
+
+input ShoppingListDraft {
+  name: [LocalizedStringItemInputType!]!
+  description: [LocalizedStringItemInputType!]
+  lineItems: [ShoppingListLineItemDraft!] = []
+  textLineItems: [TextLineItemDraft!] = []
+  custom: CustomFieldsDraft
+  deleteDaysAfterLastModification: Int
+  key: String
+  customer: ResourceIdentifierInput
+  slug: [LocalizedStringItemInputType!]
+  anonymousId: String
+}
+
+type ShoppingListLineItem {
+  id: String!
+  productId: String!
+  variantId: Int
+  productTypeRef: Reference!
+  productType: ProductTypeDefinition!
+  quantity: Int!
+  addedAt: DateTime!
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]!
+  deactivatedAt: DateTime
+  custom: CustomFieldsType
+  productSlug(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  variant: ProductVariant
+}
+
+input ShoppingListLineItemDraft {
+  productId: String
+  sku: String
+  variantId: Int
+  quantity: Int = 1
+  custom: CustomFieldsDraft
+  addedAt: DateTime
+}
+
+"""
+Fields to access shopping lists. Includes direct access to a single list and searching for shopping lists.
+"""
+interface ShoppingListQueryInterface {
+  shoppingList(
+    """Queries with specified ID"""
+    id: String
+
+    """Queries with specified key"""
+    key: String
+  ): ShoppingList
+  shoppingLists(where: String, sort: [String!], limit: Int, offset: Int): ShoppingListQueryResult!
+}
+
+type ShoppingListQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [ShoppingList!]!
+}
+
+input ShoppingListUpdateAction {
+  addLineItem: AddShoppingListLineItem
+  addTextLineItem: AddShoppingListTextLineItem
+  changeLineItemQuantity: ChangeShoppingListLineItemQuantity
+  changeLineItemsOrder: ChangeShoppingListLineItemsOrder
+  changeName: ChangeShoppingListName
+  changeTextLineItemName: ChangeShoppingListTextLineItemName
+  changeTextLineItemQuantity: ChangeShoppingListTextLineItemQuantity
+  changeTextLineItemsOrder: ChangeShoppingListTextLineItemsOrder
+  removeLineItem: RemoveShoppingListLineItem
+  removeTextLineItem: RemoveShoppingListTextLineItem
+  setAnonymousId: SetShoppingListAnonymousId
+  setCustomField: SetShoppingListCustomField
+  setCustomType: SetShoppingListCustomType
+  setCustomer: SetShoppingListCustomer
+  setDeleteDaysAfterLastModification: SetShoppingListDeleteDaysAfterLastModification
+  setDescription: SetShoppingListDescription
+  setKey: SetShoppingListKey
+  setLineItemCustomField: SetShoppingListLineItemCustomField
+  setLineItemCustomType: SetShoppingListLineItemCustomType
+  setSlug: SetShoppingListSlug
+  setTextLineItemCustomField: SetShoppingListTextLineItemCustomField
+  setTextLineItemCustomType: SetShoppingListTextLineItemCustomType
+  setTextLineItemDescription: SetShoppingListTextLineItemDescription
+}
+
+input SimpleAttributeTypeDraft {
+  dummy: String
+}
+
+"""Describes how this discount interacts with other discounts"""
+enum StackingMode {
+  """Don’t apply any more matching discounts after this one."""
+  StopAfterThisDiscount
+
+  """
+  Default. Continue applying other matching discounts after applying this one.
+  """
+  Stacking
+}
+
+"""[State](http://dev.commercetools.com/http-api-projects-states.html)"""
+type State implements Versioned {
+  id: String!
+  version: Long!
+  key: String
+  type: StateType!
+  roles: [StateRole!]!
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]
+  description(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  descriptionAllLocales: [LocalizedString!]
+  builtIn: Boolean!
+  transitionsRef: [Reference!]
+  transitions: [State!]
+  initial: Boolean!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+}
+
+type StateQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [State!]!
+}
+
+enum StateRole {
+  Return
+  ReviewIncludedInStatistics
+}
+
+enum StateType {
+  OrderState
+  ProductState
+  ReviewState
+  PaymentState
+  LineItemState
+}
+
+"""[BETA] Stores allow defining different contexts for a project."""
+type Store implements Versioned {
+  id: String!
+  version: Long!
+  key: String!
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]
+  languages: [Locale!]
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+}
+
+type StoreQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [Store!]!
+}
+
+input StoreUpdateAction {
+  setLanguages: SetStoreLanguages
+  setName: SetStoreName
+}
+
+type StringAttribute implements Attribute {
+  value: String!
+  name: String!
+}
+
+type StringField implements CustomField {
+  value: String!
+  name: String!
+}
+
+type StringType implements FieldType {
+  name: String!
+}
+
+type SubRate {
+  name: String!
+  amount: Float!
+}
+
+input SubRateDraft {
+  name: String!
+  amount: Float!
+}
+
+"""
+Stores information about order synchronization activities (like export or import).
+"""
+type SyncInfo {
+  channelRef: Reference!
+  channel: Channel
+  externalId: String
+  syncedAt: DateTime!
+}
+
+enum TaxCalculationMode {
+  """
+  This calculation mode calculates the taxes on the unit price before multiplying with the quantity.
+  E.g. `($1.08 * 1.19 = $1.2852 -> $1.29 rounded) * 3 = $3.87`
+  """
+  UnitPriceLevel
+
+  """
+  Default. This calculation mode calculates the taxes after the unit price is multiplied with the quantity.
+  E.g. `($1.08 * 3 = $3.24) * 1.19 = $3.8556 -> $3.86 rounded`
+  """
+  LineItemLevel
+}
+
+"""
+Tax Categories define how products are to be taxed in different countries.
+"""
+type TaxCategory implements Versioned {
+  name: String!
+  description: String
+  rates: [TaxRate!]!
+  key: String
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+}
+
+input TaxCategoryAddTaxRate {
+  taxRate: TaxRateDraft!
+}
+
+input TaxCategoryChangeName {
+  name: String!
+}
+
+input TaxCategoryDraft {
+  name: String!
+  description: String
+  rates: [TaxRateDraft!]
+  key: String
+}
+
+type TaxCategoryQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [TaxCategory!]!
+}
+
+input TaxCategoryRemoveTaxRate {
+  taxRateId: String!
+}
+
+input TaxCategoryReplaceTaxRate {
+  taxRateId: String!
+  taxRate: TaxRateDraft!
+}
+
+input TaxCategorySetDescription {
+  description: String
+}
+
+input TaxCategoryUpdateAction {
+  changeName: TaxCategoryChangeName
+  setDescription: TaxCategorySetDescription
+  addTaxRate: TaxCategoryAddTaxRate
+  replaceTaxRate: TaxCategoryReplaceTaxRate
+  removeTaxRate: TaxCategoryRemoveTaxRate
+  setKey: SetTaxCategoryKey
+}
+
+type TaxedItemPrice {
+  totalNet: Money!
+  totalGross: Money!
+}
+
+type TaxedPrice {
+  totalNet: Money!
+  totalGross: Money!
+  taxPortions: [TaxPortion!]!
+}
+
+enum TaxMode {
+  """No taxes are added to the cart."""
+  Disabled
+
+  """
+  The tax amounts and the tax rates as well as the tax portions are set externally per ExternalTaxAmountDraft.
+  A cart with this tax mode can only be ordered if the cart itself and all line items, all custom line items and
+  the shipping method have an external tax amount and rate set
+  """
+  ExternalAmount
+
+  """
+  The tax rates are set externally per ExternalTaxRateDraft. A cart with this tax mode can only be ordered if all
+  line items, all custom line items and the shipping method have an external tax rate set. The totalNet and
+  totalGross as well as the taxPortions fields are calculated by the platform according to the taxRoundingMode.
+  """
+  External
+
+  """
+  The tax rates are selected by the platform from the TaxCategories based on the cart shipping address.
+  The totalNet and totalGross as well as the taxPortions fields are calculated by the platform according to the
+  taxRoundingMode.
+  """
+  Platform
+}
+
+"""
+Represents the portions that sum up to the totalGross field of a TaxedPrice. The portions are calculated
+from the TaxRates. If a tax rate has SubRates, they are used and can be identified by name. Tax portions
+from line items that have the same rate and name will be accumulated to the same tax portion.
+"""
+type TaxPortion {
+  rate: Float!
+  amount: Money!
+  name: String
+}
+
+input TaxPortionDraft {
+  name: String
+  rate: Float!
+  amount: MoneyInput!
+}
+
+type TaxRate {
+  name: String!
+  amount: Float!
+  includedInPrice: Boolean!
+  country: Country!
+  state: String
+  id: String
+  subRates: [SubRate!]!
+}
+
+input TaxRateDraft {
+  name: String!
+  amount: Float
+  includedInPrice: Boolean!
+  country: Country!
+  state: String
+  subRates: [SubRateDraft!] = []
+}
+
+type TextAttributeDefinitionType implements AttributeDefinitionType {
+  name: String!
+}
+
+"""
+UI hint telling what kind of edit control should be displayed for a text attribute.
+"""
+enum TextInputHint {
+  MultiLine
+  SingleLine
+}
+
+type TextLineItem {
+  id: String!
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]!
+  description(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  descriptionAllLocales: [LocalizedString!]
+  quantity: Int!
+  custom: CustomFieldsType
+  addedAt: DateTime!
+}
+
+input TextLineItemDraft {
+  name: [LocalizedStringItemInputType!]!
+  description: [LocalizedStringItemInputType!]
+  quantity: Int = 1
+  custom: CustomFieldsDraft
+  addedAt: DateTime
+}
+
+"""Time is a scalar value that represents an ISO8601 formatted time."""
+scalar Time
+
+type TimeAttribute implements Attribute {
+  value: Time!
+  name: String!
+}
+
+type TimeAttributeDefinitionType implements AttributeDefinitionType {
+  name: String!
+}
+
+type TimeField implements CustomField {
+  value: Time!
+  name: String!
+}
+
+type TimeType implements FieldType {
+  name: String!
+}
+
+type TrackingData {
+  trackingId: String
+  carrier: String
+  provider: String
+  providerTransaction: String
+  isReturn: Boolean!
+}
+
+input TrackingDataDraftType {
+  trackingId: String
+  carrier: String
+  provider: String
+  providerTransaction: String
+  isReturn: Boolean = false
+}
+
+type Transaction {
+  id: String!
+  timestamp: DateTime
+  type: TransactionType
+  amount: Money!
+  interactionId: String
+  state: TransactionState!
+}
+
+enum TransactionState {
+  Failure
+  Success
+  Pending
+  Initial
+}
+
+enum TransactionType {
+  Chargeback
+  Refund
+  Charge
+  CancelAuthorization
+  Authorization
+}
+
+input TransitionOrderCustomLineItemState {
+  customLineItemId: String!
+  quantity: Long!
+  fromState: ResourceIdentifierInput!
+  toState: ResourceIdentifierInput!
+  actualTransitionDate: DateTime
+}
+
+input TransitionOrderLineItemState {
+  lineItemId: String!
+  quantity: Long!
+  fromState: ResourceIdentifierInput!
+  toState: ResourceIdentifierInput!
+  actualTransitionDate: DateTime
+}
+
+input TransitionOrderState {
+  state: ResourceIdentifierInput!
+  force: Boolean = false
+}
+
+input TransitionProductState {
+  state: ReferenceInput!
+  force: Boolean
+}
+
+interface Type {
+  typeRef: Reference!
+  type: TypeDefinition
+}
+
+"""
+Types define the structure of custom fields which can be attached to different entities throughout the platform.
+"""
+type TypeDefinition implements Versioned {
+  key: String!
+  name(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  description(
+    """
+    String is defined for different locales. This argument specifies the desired locale.
+    """
+    locale: Locale
+
+    """
+    List of languages the client is able to understand, and which locale variant is preferred.
+    """
+    acceptLanguage: [Locale!]
+  ): String
+  nameAllLocales: [LocalizedString!]!
+  descriptionAllLocales: [LocalizedString!]
+  resourceTypeIds: [String!]!
+  fieldDefinitions(
+    """
+    The names of the custom field definitions to include.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    includeNames: [String!]
+
+    """
+    The names of the custom field definitions to exclude.
+    
+    If neither `includeNames` nor `excludeNames` are provided, then all custom fields are returned.
+    """
+    excludeNames: [String!]
+  ): [FieldDefinition!]!
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+}
+
+type TypeDefinitionQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [TypeDefinition!]!
+}
+
+input UnpublishProduct {
+  dummy: String
+}
+
+input UpdateCartItemShippingAddress {
+  address: AddressInput!
+}
+
+input UpdateOrderItemShippingAddress {
+  address: AddressInput!
+}
+
+input UpdateOrderSyncInfo {
+  channel: ResourceIdentifierInput!
+  syncedAt: DateTime
+  externalId: String
+}
+
+"""
+Versioned object have an ID and version and modification. Every update of this object changes it's version.
+"""
+interface Versioned {
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+}
+
+input WhitespaceSuggestTokenizerInput {
+  dummy: String
+}
+
+"""
+YearMonth is a scalar value that represents an ISO8601 formatted year and month.
+"""
+scalar YearMonth
+
+"""Zones allow defining ShippingRates for specific Locations."""
+type Zone implements Versioned {
+  name: String!
+  key: String
+  description: String
+  locations: [Location!]!
+  id: String!
+  version: Long!
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+  createdBy: Initiator
+  lastModifiedBy: Initiator
+}
+
+input ZoneLocation {
+  country: Country!
+  state: String
+}
+
+type ZoneQueryResult {
+  offset: Int!
+  count: Int!
+  total: Long!
+  results: [Zone!]!
+}
+
+type ZoneRate {
+  shippingRates: [ShippingRate!]!
+  zoneRef: Reference
+  zone: Zone
+}
+
+input ZoneRateDraft {
+  zone: ResourceIdentifierInput!
+  shippingRates: [ShippingRateDraft!] = []
+}
+
+input ZoneUpdateAction {
+  addLocation: AddZoneLocation
+  changeName: ChangeZoneName
+  removeLocation: RemoveZoneLocation
+  setDescription: SetZoneDescription
+  setKey: SetZoneKey
+}
