@@ -6,7 +6,8 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build" : "rollup -c",
-    "dev" : "rollup -c -w"
+    "dev" : "rollup -c -w",
+    "test": "jest"
   },
   "dependencies": {
   },

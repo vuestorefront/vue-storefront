@@ -11,5 +11,5 @@ yarn
 yarn build:ct:tools
 ```
 ```
-yarn dev
+yarn dev:ct
 ```

@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build:docs": "cd packages/core/docs && yarn build",
+    "dev:docs": "cd packages/core/docs && yarn dev",
     "build:core:interfaces": "cd packages/core/interfaces && tsc",
     "build:core": "yarn build:core:interfaces",
     "build:ct:api-client": "cd packages/commercetools/api-client && yarn build",
@@ -10,10 +11,12 @@
     "build:ct:helpers": "cd packages/commercetools/helpers && yarn build",
     "build:ct:tools": "yarn build:ct:api-client && yarn build:ct:composables && yarn build:ct:helpers",
     "build:ct:theme": "cd packages/commercetools/theme && yarn build",
-    "build:all": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
-    "dev": "cd packages/commercetools/theme && yarn dev",
-    "dev:docs": "cd packages/core/docs && yarn dev",
-    "test:ct:api-client": "cd packages/commercetools/api-client && yarn test"
+    "build:ct": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
+    "test:ct:api-client": "cd packages/commercetools/api-client && yarn test",
+    "test:ct:composables": "cd packages/commercetools/composables && yarn test",
+    "test:ct:helpers": "cd packages/commercetools/helpers && yarn test",
+    "test:ct": "yarn test:ct:api-client && yarn test:ct:composables && yarn test:ct:helpers",
+    "dev:ct": "cd packages/commercetools/theme && yarn dev"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
