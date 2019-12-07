@@ -3,7 +3,7 @@
     <div class="t-p-4 t-bg-white">
       <headline icon="subject">
         {{ $t('Review order') }}
-        <span class="t-text-sm t-text-base-light t-flex-grow lg:t-flex-fix t-ml-8 lg:t-ml-4"># {{ order.increment_id }}</span>
+        <span v-if="order" class="t-text-sm t-text-base-light t-flex-grow lg:t-flex-fix t-ml-8 lg:t-ml-4"># {{ order.increment_id }}</span>
       </headline>
       <div class="t-text-sm t-text-base-tone">
         {{ $t('Write a product review of your last orders products.') }}
@@ -69,6 +69,11 @@ export default {
   beforeCreate () {
     registerModule(ReviewModule)
     registerModule(IcmaaExtendedReviewModule)
+  },
+  watch: {
+    async order () {
+      this.products = await this.fetchProducts()
+    }
   },
   async mounted () {
     this.products = await this.fetchProducts()
