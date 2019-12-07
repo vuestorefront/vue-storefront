@@ -1,27 +1,16 @@
 <template>
   <div v-if="product">
-    <div class="t-flex t-bg-white">
-      <div class="t-w-1/3">
-        <router-link :to="productLink" :title="translatedProductName" class="t-block">
-          <placeholder ratio="161:233" v-if="imageLoading" />
-          <product-image :image="image" :alt="product.name | htmlDecode" data-testid="productImage" @load="imageLoading = false" />
-        </router-link>
-      </div>
-      <div class="t-flex-1 t-flex t-flex-col t-justify-center t-p-4">
-        <div class="t-mb-2 t-leading-tight">
-          <router-link :to="productLink" v-text="translatedProductName" class="t-text-sm t-text-primary" />
-        </div>
-        <div v-if="options.length > 0" class="t-mb-10">
-          <div v-for="(option, i) in options" :key="i" class="t-flex t-items-center">
-            <span v-text="option.label + ':'" class="t-text-xs t-mr-2" />
-            <button-component type="tag" size="xs" :cursor-pointer="false" v-text="option.value" class="t-mr-2" />
-          </div>
-        </div>
-        <div>
-          <button-component type="ghost" icon="delete" icon-position="left" :icon-only="true" :confirm="true" @click="removeAlert">
-            {{ $t('Delete') }}
-          </button-component>
-        </div>
+    <product-tile :product="product" :show-price="false">
+      <template v-slot:imageOverlay>
+        <button-component type="transparent" :rounded="false" icon="close" icon-position="right" :icon-only="true" :confirm="true" padding-x="t-px-2 lg:t-px-3" @click="removeAlert" class="t-absolute t-bottom-0 t-right-0 t-z-1 lg:t-h-12 t-bg-white">
+          {{ $t('Delete') }}
+        </button-component>
+      </template>
+    </product-tile>
+    <div v-if="options.length > 0" class="t-mt-2">
+      <div v-for="(option, i) in options" :key="i" class="t-flex t-items-center">
+        <span v-text="option.label + ':'" class="t-text-xs t-mr-2" />
+        <button-component type="tag" size="xs" :cursor-pointer="false" v-text="option.value" class="t-mr-2" />
       </div>
     </div>
   </div>
@@ -34,23 +23,14 @@ import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
 import i18n from '@vue-storefront/i18n'
 
-import ProductNameMixin from 'icmaa-catalog/mixins/ProductNameMixin'
-import Placeholder from 'theme/components/core/blocks/Placeholder'
-import ProductImage from 'theme/components/core/ProductImage'
+import ProductTile from 'theme/components/core/ProductTile'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 
 export default {
   name: 'MyProductsAlertProduct',
-  mixins: [ ProductNameMixin ],
   components: {
-    Placeholder,
-    ProductImage,
+    ProductTile,
     ButtonComponent
-  },
-  data () {
-    return {
-      imageLoading: true
-    }
   },
   props: {
     stockItemId: {
@@ -84,18 +64,6 @@ export default {
       })
 
       return options
-    },
-    productLink () {
-      return formatProductLink(this.product, currentStoreView().storeCode)
-    },
-    image () {
-      return {
-        loading: this.thumbnail,
-        src: this.thumbnail
-      }
-    },
-    thumbnail () {
-      return this.getThumbnail(this.product.image)
     }
   },
   methods: {

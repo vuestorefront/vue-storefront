@@ -1,7 +1,9 @@
 <template>
   <div class="product t-cursor-pointer" v-observe-visibility="visibilityChanged">
     <div class="product-cover t-relative t-bg-white" :class="{ 't-mb-4': !onlyImage }">
-      <AddToWishlist class="t-absolute t-bottom-0 t-left-0 t-z-1" :class="{'': isOnWishlist }" :is-overlay="true" :product="product" />
+      <slot name="imageOverlay">
+        <AddToWishlist class="t-absolute t-bottom-0 t-left-0 t-z-1" :is-overlay="true" :product="product" />
+      </slot>
       <router-link :to="productLink" data-testid="productLink" class="product-link t-block t-z-0">
         <promo-banner :product="product" class="t-absolute t-top-0 t-right-0" />
         <placeholder ratio="161:233" v-if="imageLoading" />
@@ -9,10 +11,10 @@
       </router-link>
     </div>
     <router-link :to="productLink" tag="div" class="t-text-sm" v-if="!onlyImage">
-      <p class="t-mb-1 t-text-primary t-leading-tight">
+      <p class="t-text-primary t-leading-tight" :class="{ 't-mb-1': showPrice }">
         {{ translatedProductName | htmlDecode }}
       </p>
-      <p>
+      <p v-if="showPrice">
         <span class="price-original t-text-base-light t-line-through t-mr-2" v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0">
           {{ product.original_price_incl_tax | price }}
         </span>
@@ -62,6 +64,10 @@ export default {
     onlyImage: {
       type: Boolean,
       default: false
+    },
+    showPrice: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
