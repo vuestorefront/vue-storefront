@@ -6,6 +6,9 @@
       "instances": "1",
       "exec_mode": "cluster",
       "script": "./core/scripts/server.js",
+      "env": {
+        "NODE_ENV": "production"
+      },
       "node_args": "--max_old_space_size=1024",
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "ignore_watch": [

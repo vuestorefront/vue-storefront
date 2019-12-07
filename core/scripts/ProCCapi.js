@@ -12,6 +12,9 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   storefrontConfig = new Store({path: path.resolve('./config/production.json')});
 }
+console.log('START process.env.NODE_ENV: ', process.env.NODE_ENV)
+console.log('START storefrontConfig: ', storefrontConfig.clone())
+console.log('START storefrontConfig: ')
 
 module.exports = (config, app) => {
   config_active = config
