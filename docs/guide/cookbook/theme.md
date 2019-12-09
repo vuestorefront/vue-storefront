@@ -1516,7 +1516,7 @@ document.getElementById('d-side-sidebar').innerHTML = dSideSidebar;
 
  _Disabling Scroll_ feature is added to _SidebarMenu_ too.
 
-- Go to `./src/themes/degi/components/core/blocks/SearchPanel/SearchPanel.vue` and add it as follows :
+- Go to `./src/themes/degi/components/core/blocks/SidebarMenu/SubCategory.vue` and add it as follows :
 
 <div id="d-side-subcate">
 
