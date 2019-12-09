@@ -1,3 +1,5 @@
+import { price } from 'icmaa-config/helpers/price'
+
 export default {
   computed: {
     hasMultiplePrices () {
@@ -21,5 +23,8 @@ export default {
       }
       return false
     }
+  },
+  methods: {
+    price
   }
 }
