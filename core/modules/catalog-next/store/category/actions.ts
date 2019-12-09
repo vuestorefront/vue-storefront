@@ -197,7 +197,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryBreadcrumbs ({ dispatch, getters }, { category, currentRouteName, omitCurrent = false }) {
     if (!category) return
     const categoryHierarchyIds = _prepareCategoryPathIds(category) // getters.getCategoriesHierarchyMap.find(categoryMapping => categoryMapping.includes(category.id))
-    const categoryFilters = { 'id': categoryHierarchyIds }
+    const categoryFilters = Object.assign({ 'id': categoryHierarchyIds }, cloneDeep(config.entities.category.breadcrumbFilterFields))
     const categories = await dispatch('loadCategories', {filters: categoryFilters})
     const sorted = []
     for (const id of categoryHierarchyIds) {
