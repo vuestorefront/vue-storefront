@@ -6,7 +6,10 @@ module.exports = {
       includeLevel: [2]
     }
   },
-  head: [['link', { rel: 'icon', href: '/favicon.png' }]],
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.png' }],
+    ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.12.1/diff2html.min.js'}]
+  ],
   themeConfig: {
     repo: 'DivanteLtd/vue-storefront',
     docsDir: 'docs',
