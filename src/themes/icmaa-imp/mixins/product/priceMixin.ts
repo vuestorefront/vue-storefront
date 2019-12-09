@@ -1,3 +1,5 @@
+import { price } from '@vue-storefront/core/filters/price'
+
 export default {
   computed: {
     hasMultiplePrices () {
@@ -20,6 +22,11 @@ export default {
         })
       }
       return false
+    }
+  },
+  methods: {
+    price (value) {
+      return price(value)
     }
   }
 }

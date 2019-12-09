@@ -35,16 +35,16 @@
 
               <div v-if="product.type_id !== 'grouped'" class="price t-mt-5 t-mb-8 t-text-1xl">
                 <template v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax">
-                  <span class="t-text-base-tone t-line-through">{{ product.original_price_incl_tax * product.qty | price }}</span>
+                  <span class="t-text-base-tone t-line-through">{{ price(product.original_price_incl_tax * product.qty) }}</span>
                   &nbsp;
                   <span class="t-text-sale t-font-bold">
                     <span v-if="hasMultiplePrices" v-text="$t('as low as')" class="t-text-sm" />
-                    {{ product.price_incl_tax * product.qty | price }}
+                    {{ price(product.price_incl_tax * product.qty) }}
                   </span>
                 </template>
                 <span class="t-font-bold" v-if="!product.special_price && product.price_incl_tax">
                   <span v-if="hasMultiplePrices" v-text="$t('as low as')" class="t-text-sm" />
-                  {{ product.qty > 0 ? product.price_incl_tax * product.qty : product.price_incl_tax | price }}
+                  {{ price(product.qty > 0 ? product.price_incl_tax * product.qty : product.price_incl_tax) }}
                 </span>
                 <div class="t-mt-1 t-text-xs t-text-base-light" v-html="taxDisclaimer" />
               </div>
