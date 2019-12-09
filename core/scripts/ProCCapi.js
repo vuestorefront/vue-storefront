@@ -133,6 +133,7 @@ module.exports = (config, app) => {
     const mainImage = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeData.storeCode}_main-image.json`)});
     const StoreCategories = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeData.storeCode}_store_categories.json`)});
     const storePolicies = new Store({path: path.resolve(config.themeDir + `/resource/policies/${storeData.storeCode}_store_policies.json`)});
+    // TODO: Add better check for all assets of the store -> return success if it is missing
     if (storefrontConfig.has(`storeViews.${storeData.storeCode}`)) {
       storefrontConfig.del(`storeViews.${storeData.storeCode}`)
       storefrontConfig.set('storeViews.mapStoreUrlsFor', _.pull(storefrontConfig.get('storeViews.mapStoreUrlsFor'), storeData.storeCode))

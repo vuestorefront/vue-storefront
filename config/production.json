@@ -1,7 +1,7 @@
 {
   "elasticsearch": {
     "httpAuth": "",
-    "host": "https://store.procc.co/api/catalog",
+    "host": "http://vue-storefront-api:8080/api/catalog",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -44,75 +44,20 @@
     "multistore": true,
     "commonCache": false,
     "mapStoreUrlsFor": [
-      "de",
-      "it",
-      "volkky",
-      "ggg"
-      ],
-    "de": {
-      "storeCode": "de",
-      "disabled": true,
-      "storeId": 3,
-      "name": "German Store",
-      "url": "/de",
-      "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_de"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": false,
-        "defaultCountry": "DE",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "Germany",
-        "fullLanguageName": "German",
-        "defaultLanguage": "DE",
-        "defaultCountry": "DE",
-        "defaultLocale": "de-DE",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "it": {
-      "storeCode": "it",
-      "disabled": true,
-      "storeId": 4,
-      "name": "Italian Store",
-      "url": "/it",
-      "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_it"
-      },
-      "tax": {
-        "sourcePriceIncludesTax": false,
-        "defaultCountry": "IT",
-        "defaultRegion": "",
-        "calculateServerSide": true
-      },
-      "i18n": {
-        "fullCountryName": "Italy",
-        "fullLanguageName": "Italian",
-        "defaultCountry": "IT",
-        "defaultLanguage": "IT",
-        "defaultLocale": "it-IT",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "volkky": {
-      "storeCode": "volkky",
-      "storeName": "Volkyyz Store",
+      "aa",
+      "cctest"
+    ],
+    "aa": {
+      "storeCode": "aa",
+      "storeName": "Mashup Store",
       "disabled": false,
-      "storeId": 23,
-      "name": "Volkyyz Store",
-      "url": "/volkky",
+      "storeId": 68,
+      "name": "Mashup Store",
+      "url": "/aa",
+      "appendStoreCode": true,
       "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_volkky"
+        "host": "http://vue-storefront-api:8080/api/catalog",
+        "index": "vue_storefront_catalog_aa"
       },
       "tax": {
         "defaultCountry": "BG",
@@ -131,16 +76,17 @@
         "dateFormat": "HH:mm D-M-YYYY"
       }
     },
-    "ggg": {
-      "storeCode": "ggg",
-      "storeName": "Volkyyz Store",
+    "cctest": {
+      "storeCode": "cctest",
+      "storeName": "Test Judy Store",
       "disabled": false,
-      "storeId": 47,
-      "name": "Volkyyz Store",
-      "url": "/ggg",
+      "storeId": 69,
+      "name": "Test Judy Store",
+      "url": "/cctest",
+      "appendStoreCode": true,
       "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_ggg"
+        "host": "http://vue-storefront-api:8080/api/catalog",
+        "index": "vue_storefront_catalog_cctest"
       },
       "tax": {
         "defaultCountry": "BG",
