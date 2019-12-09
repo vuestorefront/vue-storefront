@@ -1,0 +1,22 @@
+codecov:
+  require_ci_to_pass: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+
+  status:
+    patch: no
+    project:
+      default: no
+      commercetools:
+        flags: commercetools
+        target: 90%
+
+flags:
+  commercetools:
+    paths:
+      - packages/commercetools/api-client
+      - packages/commercetools/composables
+      - packages/commercetools/helpers
