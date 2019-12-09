@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "i18n-iso-countries": "^4.3.1",
+    "intl": "^1.2.5",
+    "intl-locales-supported": "^1.8.4",
     "vuelidate": "^0.7.4"
   }
 }

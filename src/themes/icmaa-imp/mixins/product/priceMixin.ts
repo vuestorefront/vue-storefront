@@ -1,4 +1,4 @@
-import { price } from '@vue-storefront/core/filters/price'
+import { price } from 'icmaa-config/helpers/price'
 
 export default {
   computed: {
@@ -25,8 +25,6 @@ export default {
     }
   },
   methods: {
-    price (value) {
-      return price(value)
-    }
+    price
   }
 }
