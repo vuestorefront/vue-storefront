@@ -20,6 +20,24 @@ spec:
       containers:
       - name: vue-storefront
         image: gcr.io/advance-anvil-247513/vsf-app-vue
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 320
+          periodSeconds: 30
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 500
+          periodSeconds: 15
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
         envFrom:
         - configMapRef:
             name: vue-storefront-config
@@ -31,25 +49,14 @@ spec:
           - mountPath: /var/www/config
             name: nfs-drive
             subPath: vsf_config
+          - mountPath: /var/www/src/themes/default-procc/resource/banners
+            name: nfs-drive
+            subPath: vsf_banners
+          - mountPath: /var/www/src/themes/default-procc/resource/policies
+            name: nfs-drive
+            subPath: vsf_policies
 #          - mountPath: /var/www/nfs
 #            name: nfs-drive
-#        livenessProbe:
-#          httpGet:
-#            path: /health
-#            port: 3000
-#          initialDelaySeconds: 300
-#          periodSeconds: 15
-#          timeoutSeconds: 5
-#          failureThreshold: 10
-#        readinessProbe:
-#          httpGet:
-#            path: /health
-#            port: 3000
-#          initialDelaySeconds: 180
-#          periodSeconds: 30
-#          timeoutSeconds: 5
-#          successThreshold: 1
-#          failureThreshold: 5
         resources:
           limits:
             memory: 2048Mi
