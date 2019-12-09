@@ -28,7 +28,7 @@ import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { registerClientModules } from 'src/modules/client'
 import initialStateFactory from '@vue-storefront/core/helpers/initialStateFactory'
 import { createRouter, createRouterProxy } from '@vue-storefront/core/helpers/router'
-import areIntlLocalesSupported from 'intl-locales-supported'
+import { checkForIntlPolyfill } from '@vue-storefront/i18n/intl'
 
 const stateFactory = initialStateFactory(store.state)
 
@@ -110,14 +110,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   registerModules(enabledModules, appContext)
   registerTheme(globalConfig.theme, app, routerProxy, store, globalConfig, ssrContext)
 
-  // Use Intl.js polyfill if needed
-  if (global.Intl) {
-    if (!areIntlLocalesSupported(storeView.i18n.defaultLocale)) {
-      global.Intl = require('intl')
-    }
-  } else {
-    global.Intl = require('intl')
-  }
+  await checkForIntlPolyfill(storeView)
 
   coreHooksExecutors.afterAppInit()
   // @deprecated from 2.0

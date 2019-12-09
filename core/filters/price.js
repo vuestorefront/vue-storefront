@@ -2,7 +2,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 const formatValue = (value, locale) => {
   const price = Math.abs(parseFloat(value))
-  const formatter = Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  const formatter = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   return formatter.format(price)
 }
 
