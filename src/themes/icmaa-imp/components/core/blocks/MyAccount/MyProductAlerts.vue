@@ -12,8 +12,8 @@
       </div>
     </div>
     <template v-if="isLoaded && stockItems.length > 0">
-      <div class="t-flex t-flex-wrap t--mx-2">
-        <product v-for="(stockItemId, i) in stockItems" :key="i" :stock-item-id="stockItemId" class="t-w-full lg:t-w-1/2 t-mt-4 t-px-2" />
+      <div class="t-flex t-flex-wrap t-justify-start t--mx-1 lg:t--mx-2 t-mt-4">
+        <product v-for="(stockItemId, i) in stockItems" :key="i" :stock-item-id="stockItemId" class="t-w-1/2 lg:t-w-1/3 t-px-1 lg:t-px-2 t-mb-8" />
       </div>
     </template>
   </div>
