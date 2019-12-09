@@ -411,10 +411,6 @@ This recipe helps you resolve errors you encounter after the upgrade as short a 
 ### 1-1. Contents
 There are many features added/removed/enhanced with `1.11`. This recipe deals with all of them. They are, however, too many to skim in a glance. That's why you might need this _contents_ for them. 
 
-<!-- Javascripts -->
-<script type="text/javascript" src="../../node_modules/diff2html/dist/diff2html.js"></script>
-<!-- CSS -->
-<link rel="stylesheet" type="text/css" href="../../node_modules/diff2html/dist/diff2html.css">
 
 - Pages
   - [Home](#_3-now-we-start-hunting-down-the-culprits-one-by-one)
