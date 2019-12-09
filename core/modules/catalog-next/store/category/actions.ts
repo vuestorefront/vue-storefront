@@ -20,6 +20,7 @@ import { preConfigureProduct } from '@vue-storefront/core/modules/catalog/helper
 import chunk from 'lodash-es/chunk'
 import Product from 'core/modules/catalog/types/Product';
 import omit from 'lodash-es/omit'
+import cloneDeep from 'lodash-es/cloneDeep'
 import config from 'config'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
 
@@ -35,7 +36,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
     const {items, perPage, start, total, aggregations} = await quickSearchByQuery({
       query: filterQr,
-      sort: searchQuery.sort || 'updated_at:desc',
+      sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       includeFields: entities.productList.includeFields,
       excludeFields: entities.productList.excludeFields,
       size: pageSize
@@ -56,7 +57,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
     const searchResult = await quickSearchByQuery({
       query: filterQr,
-      sort: searchQuery.sort,
+      sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       start: start + perPage,
       size: perPage,
       includeFields: entities.productList.includeFields,
@@ -140,7 +141,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       categorySearchOptions.filters.id = searchedIds.filter(categoryId => !getters.getCategoriesMap[categoryId] && !getters.getNotFoundCategoryIds.includes(categoryId))
     }
     if (!searchingByIds || categorySearchOptions.filters.id.length) {
-      categorySearchOptions.filters = Object.assign(config.entities.category.filterFields, categorySearchOptions.filters)
+      categorySearchOptions.filters = Object.assign(cloneDeep(config.entities.category.filterFields), categorySearchOptions.filters ? cloneDeep(categorySearchOptions.filters) : {})
       const categories = await CategoryService.getCategories(categorySearchOptions)
       const notFoundCategories = searchedIds.filter(categoryId => !categories.some(cat => cat.id === parseInt(categoryId)))
 
@@ -176,7 +177,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     let resultFilters = aggregationFilters
     const filtersKeys = Object.keys(filters)
     if (categoryMappedFilters && filtersKeys.length) {
-      resultFilters = Object.assign({}, categoryMappedFilters, omit(aggregationFilters, filtersKeys))
+      resultFilters = Object.assign(cloneDeep(categoryMappedFilters), cloneDeep(omit(aggregationFilters, filtersKeys)))
     }
     commit(types.CATEGORY_SET_CATEGORY_FILTERS, {category, filters: resultFilters})
   },

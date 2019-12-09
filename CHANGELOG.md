@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add to cart from Wishlist and Product listing for simple products - @Dnd-Dboy, @dz3n (#2637)
 - Add global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
 - Add constant which conditions the number of products loading per page - @AdKamil (#3630)
+- Added price filtering key as config - @roywcm 
 
 ### Fixed
 - Always close zoom overlay after changing product - @psmyrek (#3818)
@@ -31,6 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
 - Fixed ecosystem config for pm2 - @andrzejewsky (#3842)
 - Fixed `mappingFallback` for extending modules -  @andrzejewsky (#3822)
+- Fixed adding products search results to category-next product store - @grimasod (#3877)
+- Use `defaultSortBy` for sorting category products by default @haelbichalex (#3873)
+- Fixed some potential mutations of Config object in `catalog` and `catalog-next` - @grimasod (#3843)
 - Set `null` as default value for custom option in product page -  @gibkigonzo (#3885)
 
 ### Changed / Improved
