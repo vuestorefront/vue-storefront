@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
 - Fixed ecosystem config for pm2 - @andrzejewsky (#3842)
 - Fixed `mappingFallback` for extending modules -  @andrzejewsky (#3822)
+- Set `null` as default value for custom option in product page -  @gibkigonzo (#3885)
 
 ### Changed / Improved
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
