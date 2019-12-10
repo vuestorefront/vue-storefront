@@ -63,8 +63,8 @@ substitutions:
   _OAUTH_TOKEN:   composer_github_oauth_token # access to private code repos
 
 # store artifact
-images: ['gcr.io/$PROJECT_ID/$_DEPLOYMENT:$BRANCH_NAME$TAG_NAME']
-#images: ['gcr.io/$PROJECT_ID/vue-storefront']
+#images: ['gcr.io/$PROJECT_ID/$_DEPLOYMENT:$BRANCH_NAME$TAG_NAME']
+images: ['gcr.io/$PROJECT_ID/vue-storefront']
 
 options:
   machineType: 'N1_HIGHCPU_8'
