@@ -29,14 +29,14 @@ steps:
       - '--cluster=${_K8S_CLUSTER}'
     timeout: '100s'
 
-#  # patch kubernetes deployment to trigger rolling update
-#  - name: 'gcr.io/cloud-builders/kubectl'
-#    args: [ 'patch', 'deployment', '${_DEPLOYMENT}', '-n', '${_NAMESPACE}', '-p',
-#            '{"spec": {"template": {"metadata": {"annotations": {"build":"$BUILD_ID"}}, "spec": {"initContainers": [{"name": "app","image": "gcr.io/$PROJECT_ID/$_DEPLOYMENT:$BRANCH_NAME$TAG_NAME"}]}}}}' ]
-#    env:
-#      # required K8s cluster env variables
-#      - 'CLOUDSDK_COMPUTE_ZONE=${_K8S_ZONE}'
-#      - 'CLOUDSDK_CONTAINER_CLUSTER=${_K8S_CLUSTER}'
+  # patch kubernetes deployment to trigger rolling update
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: [ 'patch', 'deployment', '${_DEPLOYMENT}', '-n', '${_NAMESPACE}', '-p',
+            '{"spec": {"template": {"metadata": {"annotations": {"build":"$BUILD_ID"}}}}}' ]
+    env:
+      # required K8s cluster env variables
+      - 'CLOUDSDK_COMPUTE_ZONE=${_K8S_ZONE}'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=${_K8S_CLUSTER}'
 #
 #  # check rolling deployment status
 #  - name: 'gcr.io/cloud-builders/kubectl'
@@ -51,7 +51,9 @@ steps:
 #    args: [ '-X', 'POST', '-H', 'Content-type: application/json', '--data',
 #            '{"text":"${_DEPLOYMENT} deployment completed!"}', '${_WEBHOOK_URL}' ]
 
-
+# store artifact
+#images: ['gcr.io/$PROJECT_ID/$_DEPLOYMENT:$BRANCH_NAME$TAG_NAME']
+images: ['gcr.io/$PROJECT_ID/vue-storefront']
 
 # arguments
 substitutions:
@@ -61,10 +63,6 @@ substitutions:
   _DEPLOYMENT:    vue-storefront # K8s deployment name
   _WEBHOOK_URL:   slack_notification_webhook  # slack notifications
   _OAUTH_TOKEN:   composer_github_oauth_token # access to private code repos
-
-# store artifact
-#images: ['gcr.io/$PROJECT_ID/$_DEPLOYMENT:$BRANCH_NAME$TAG_NAME']
-images: ['gcr.io/$PROJECT_ID/vue-storefront']
 
 options:
   machineType: 'N1_HIGHCPU_8'
