@@ -123,16 +123,6 @@ module.exports = {
           ],
         },
         {
-          title: 'Extensions',
-          collapsable: false,
-          children: [
-            'extensions/introduction',
-            'extensions/extending-api',
-            'extensions/extending-server-side-routes',
-            'extensions/extensions-to-modify-results'
-          ],
-        },
-        {
           title: 'Working with Vuex',
           collapsable: false,
           children: [
