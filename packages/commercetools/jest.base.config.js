@@ -6,5 +6,8 @@ module.exports = {
     "^.+\\.(ts)$": "ts-jest"
   },
   coverageDirectory: "./coverage/",
+  collectCoverageFrom: [
+    "src/**/*.ts",
+  ],
   collectCoverage: true
 };
