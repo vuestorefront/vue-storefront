@@ -36,3 +36,5 @@ Search for "// TODO:" to find smaller tasks
 
 -- ERROR when yarn dev ( maybe due to browser with old /dist is requesting something)
     error: ENOENT: no such file or directory, stat 'F:\PROmo\PROmo\vue-storefront\dist\ba5eb275a7c5acd4bab7.hot-update.json'
+
+-- fix the order number shown at order completed to match the order number from ProCC API
