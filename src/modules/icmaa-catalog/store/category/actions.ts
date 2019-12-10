@@ -8,7 +8,10 @@ import { router } from '@vue-storefront/core/app'
 import { products } from 'config'
 import { changeFilterQuery } from '@vue-storefront/core/modules/catalog-next/helpers/filterHelpers'
 
+import extendedCoreActions from './actions/index'
+
 const actions: ActionTree<CategoryState, RootState> = {
+  ...extendedCoreActions,
   async loadCategoryWithExtras ({ dispatch }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category> {
     return dispatch('icmaaCategoryExtras/loadCategoryWithExtras', categorySearchOptions, { root: true })
   },
