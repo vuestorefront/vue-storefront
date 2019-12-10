@@ -51,20 +51,20 @@ steps:
 #    args: [ '-X', 'POST', '-H', 'Content-type: application/json', '--data',
 #            '{"text":"${_DEPLOYMENT} deployment completed!"}', '${_WEBHOOK_URL}' ]
 
-    # store artifact
-    images: ['gcr.io/$PROJECT_ID/$_DEPLOYMENT:$BRANCH_NAME$TAG_NAME']
-
-    # arguments
-    substitutions:
-      _K8S_ZONE:      europe-west3-c   # K8s zone
-      _K8S_CLUSTER:   procc-kub2    # K8s cluster name
-      _NAMESPACE:     default         # K8s namespace
-      _DEPLOYMENT:    vue-storefront # K8s deployment name
-      _WEBHOOK_URL:   slack_notification_webhook  # slack notifications
-      _OAUTH_TOKEN:   composer_github_oauth_token # access to private code repos
 
 
-images: ['gcr.io/$PROJECT_ID/vue-storefront']
+# arguments
+substitutions:
+  _K8S_ZONE:      europe-west3-c   # K8s zone
+  _K8S_CLUSTER:   procc-kub2    # K8s cluster name
+  _NAMESPACE:     default         # K8s namespace
+  _DEPLOYMENT:    vue-storefront # K8s deployment name
+  _WEBHOOK_URL:   slack_notification_webhook  # slack notifications
+  _OAUTH_TOKEN:   composer_github_oauth_token # access to private code repos
+
+# store artifact
+images: ['gcr.io/$PROJECT_ID/$_DEPLOYMENT:$BRANCH_NAME$TAG_NAME']
+#images: ['gcr.io/$PROJECT_ID/vue-storefront']
 
 options:
   machineType: 'N1_HIGHCPU_8'
