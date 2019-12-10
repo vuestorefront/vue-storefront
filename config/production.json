@@ -1,7 +1,8 @@
 {
   "elasticsearch": {
     "httpAuth": "",
-    "host": "http://vue-storefront-api:8080/api/catalog",
+    "host": "https://store.procc.co/api/catalog",
+    "host_backend": "http://vue-storefront-api:8080/api/catalog",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -56,7 +57,7 @@
       "url": "/aa",
       "appendStoreCode": true,
       "elasticsearch": {
-        "host": "http://vue-storefront-api:8080/api/catalog",
+        "host": "https://store.procc.co/api/catalog",
         "index": "vue_storefront_catalog_aa"
       },
       "tax": {
@@ -85,7 +86,7 @@
       "url": "/cctest",
       "appendStoreCode": true,
       "elasticsearch": {
-        "host": "http://vue-storefront-api:8080/api/catalog",
+        "host": "https://store.procc.co/api/catalog",
         "index": "vue_storefront_catalog_cctest"
       },
       "tax": {
