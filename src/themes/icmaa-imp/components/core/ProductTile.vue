@@ -33,18 +33,18 @@
 
 <script>
 import config from 'config'
-import rootStore from '@vue-storefront/core/store'
 import Placeholder from 'theme/components/core/blocks/Placeholder'
 import ProductImage from 'theme/components/core/ProductImage'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import PromoBanner from 'theme/components/core/blocks/Category/PromoBanner'
+import ProductTileMixin from 'theme/mixins/product/tileMixin'
 import ProductNameMixin from 'icmaa-catalog/mixins/ProductNameMixin'
 import ProductPriceMixin from 'theme/mixins/product/priceMixin'
-import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile'
 import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
 
 export default {
-  mixins: [ProductTile, IsOnWishlist, ProductNameMixin, ProductPriceMixin],
+  name: 'ProductTile',
+  mixins: [ProductTileMixin, IsOnWishlist, ProductNameMixin, ProductPriceMixin],
   components: {
     Placeholder,
     ProductImage,
@@ -80,40 +80,6 @@ export default {
     favoriteIcon () {
       return this.isOnWishlist ? 'favorite' : 'favorite_border'
     }
-  },
-  methods: {
-    onProductPriceUpdate (product) {
-      if (product.sku === this.product.sku) {
-        Object.assign(this.product, product)
-      }
-    },
-    visibilityChanged (isVisible, entry) {
-      if (
-        isVisible &&
-        config.products.configurableChildrenStockPrefetchDynamic &&
-        config.products.filterUnavailableVariants &&
-        this.product.type_id === 'configurable' &&
-        this.product.configurable_children &&
-        this.product.configurable_children.length > 0
-      ) {
-        const skus = [this.product.sku]
-        for (const confChild of this.product.configurable_children) {
-          const cachedItem = rootStore.state.stock.cache[confChild.id]
-          if (typeof cachedItem === 'undefined' || cachedItem === null) {
-            skus.push(confChild.sku)
-          }
-        }
-        if (skus.length > 0) {
-          rootStore.dispatch('stock/list', { skus: skus }) // store it in the cache
-        }
-      }
-    }
-  },
-  beforeMount () {
-    this.$bus.$on('product-after-priceupdate', this.onProductPriceUpdate)
-  },
-  beforeDestroy () {
-    this.$bus.$off('product-after-priceupdate', this.onProductPriceUpdate)
   }
 }
 </script>

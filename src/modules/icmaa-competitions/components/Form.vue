@@ -90,7 +90,6 @@
 import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import { mapGetters } from 'vuex'
-import { isDatetimeInBetween } from 'icmaa-config/helpers/datetime'
 import { required, email } from 'vuelidate/lib/validators'
 import { date, postcode, isTrue, regex } from 'icmaa-config/helpers/validators'
 import { stringToComponent } from 'icmaa-cms/helpers'
