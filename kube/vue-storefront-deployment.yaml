@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: vue-storefront
-        image: gcr.io/advance-anvil-247513/vsf-app-vue
+        image: gcr.io/advance-anvil-247513/vue-storefront
         readinessProbe:
           httpGet:
             path: /health

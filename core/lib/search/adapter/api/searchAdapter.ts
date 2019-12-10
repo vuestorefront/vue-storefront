@@ -42,11 +42,21 @@ export class SearchAdapter {
 
     Request.index = storeView.elasticsearch.index
 
-    let url = processURLAddress(storeView.elasticsearch.host)
+    // Added 10-12-2019 by Dan to use Internal URL for backend calls, but allow Frontend Client to call the DNS Domain
+    let url
+    if(config.elasticsearch && config.elasticsearch.host_backend)
+     url = processURLAddress(config.elasticsearch.host_backend)
+    else
+     url = processURLAddress(storeView.elasticsearch.host)
+
+    console.log('processURLAddress config.elasticsearch.host_backend: ', config.elasticsearch.host_backend)
+    console.log('processURLAddress storeView.elasticsearch.host: ', storeView.elasticsearch.host)
+    console.log('processURLAddress URL: ', url)
 
     if (this.entities[Request.type].url) {
       url = this.entities[Request.type].url
     }
+    console.log('processURLAddress URL2: ', url)
 
     const httpQuery: HttpQuery = {
       size: Request.size,
