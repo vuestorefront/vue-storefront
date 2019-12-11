@@ -9,6 +9,8 @@ import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
 
+import { isServer } from '@vue-storefront/core/helpers'
+
 export class SearchAdapter {
   public entities: any
 
@@ -42,7 +44,19 @@ export class SearchAdapter {
 
     Request.index = storeView.elasticsearch.index
 
-    let url = processURLAddress(storeView.elasticsearch.host)
+    // Added by Dan 11-12-2019 -> to alter the kubernetes API URL
+    let url = ''
+    if(isServer){
+      if(config.elasticsearch && config.elasticsearch.host_backend){
+        console.log('INSIDE is_server')
+        url = processURLAddress(config.elasticsearch.host_backend)
+      }else{
+        console.error('config.elasticsearch.host_backend IS MISSING. Please specify local server url to avoid CORS ISSUE')
+        url = processURLAddress(storeView.elasticsearch.host)
+      }
+    }else{
+      url = processURLAddress(storeView.elasticsearch.host)
+    }
 
     if (this.entities[Request.type].url) {
       url = this.entities[Request.type].url
