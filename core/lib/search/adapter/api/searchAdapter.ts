@@ -46,15 +46,15 @@ export class SearchAdapter {
 
     // Added by Dan 11-12-2019 -> to alter the kubernetes API URL
     let url = ''
-    if(isServer){
-      if(config.elasticsearch && config.elasticsearch.host_backend){
+    if (isServer) {
+      if (config.elasticsearch && config.elasticsearch.host_backend) {
         console.log('INSIDE is_server')
         url = processURLAddress(config.elasticsearch.host_backend)
-      }else{
+      } else {
         console.error('config.elasticsearch.host_backend IS MISSING. Please specify local server url to avoid CORS ISSUE')
         url = processURLAddress(storeView.elasticsearch.host)
       }
-    }else{
+    } else {
       url = processURLAddress(storeView.elasticsearch.host)
     }
 
