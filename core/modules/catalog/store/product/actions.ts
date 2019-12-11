@@ -303,6 +303,7 @@ const actions: ActionTree<ProductState, RootState> = {
     console.log('DISABLED SORT DUE TO CRASHING MAIN HOME PAGE')
     console.log('STARTING quickSearchByQuery in Product')
     return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
+      console.log('AFTER quickSearchByQuery in Product length: ', resp.items.length)
       if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
         for (let product of resp.items) {
           if (populateRequestCacheTags && Vue.prototype.$ssrRequestContext) {
