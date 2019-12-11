@@ -5,25 +5,19 @@ import createCommerceToolsLink from './helpers/createCommerceToolsLink'
 import getProduct from './api/getProduct'
 
 let apolloClient: ApolloClient<any> = null
+let locale = 'en'
+let currency = 'USD'
 
 const setup = <TCacheShape>(setupConfig?: SetupConfig<TCacheShape>): ApolloClient<TCacheShape> => {
-  if (process.env.APP_ENV === 'test') {
-    const path = require('path')
-    const createTestApolloClient = require(
-      path.resolve(__dirname + './../tests/createTestApolloClient')
-    ).default
-    apolloClient = createTestApolloClient()
-
-    return apolloClient
-  }
-
   apolloClient = new ApolloClient({
     link: createCommerceToolsLink(setupConfig.config),
     cache: new InMemoryCache(),
     ...setupConfig.customOptions
   })
+  locale = setupConfig.locale
+  currency = setupConfig.currency
 
   return apolloClient
 }
 
-export { apolloClient, setup, getProduct }
+export { apolloClient, setup, locale, currency, getProduct }

@@ -1,26 +1,7 @@
-import { Token } from '../../types/setup'
+import { Token } from 'api-client/src/types/setup'
+import getStorage from 'api-client/src/helpers/createCommerceToolsLink/getStorage'
 
 const TOKEN_KEY = 'vsf-commercetools-token'
-
-const getStorage = () => {
-  // @ts-ignore
-  if (typeof window !== 'undefined') {
-     // @ts-ignore
-    return window.localStorage
-  }
-
-  const storage = {}
-
-  return {
-    setItem: (key: string, value: any) => {
-      storage[key] = value
-    },
-    getItem: (key: string): any => {
-      return storage[key]
-    }
-  }
-
-}
 
 const storeToken = (token: Token) => {
   const storage = getStorage()

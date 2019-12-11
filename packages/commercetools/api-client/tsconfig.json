@@ -2,5 +2,8 @@
   "extends": "../tsconfig.base.json",
   "include": ["src", "tests"],
   "exclude": ["node_modules", "lib"],
-  "files": ["typings.d.ts"]
+  "files": ["typings.d.ts"],
+  "compilerOptions": {
+    "resolveJsonModule": true
+  }
 }

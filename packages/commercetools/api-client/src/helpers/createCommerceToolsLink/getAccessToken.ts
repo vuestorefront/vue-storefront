@@ -1,7 +1,7 @@
 import SdkAuth from '@commercetools/sdk-auth'
-import { ApiConfig } from '../../types/setup'
-import { storeToken, getToken } from './tokenCache'
-import { Token } from '../../types/setup'
+import { ApiConfig } from 'api-client/src/types/setup'
+import { storeToken, getToken } from 'api-client/src/helpers/createCommerceToolsLink/tokenCache'
+import { Token } from 'api-client/src/types/setup'
 
 const isTokenExpired = (token: Token): boolean => Date.now() > token.expires_at
 

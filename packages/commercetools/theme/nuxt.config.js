@@ -1,4 +1,3 @@
-
 export default {
   mode: 'universal',
   head: {
@@ -20,5 +19,6 @@ export default {
     ['@vue-storefront/nuxt', {
       coreDevelopment: true
     }]
-  ]
+  ],
+  plugins: ['./plugins/commercetoolsApi.ts']
 }

@@ -155,12 +155,14 @@ import {
   SfImage,
   SfBannerGrid
 } from "@storefront-ui/vue";
-import { setup, getProduct } from '@vue-storefront/commercetools-api'
+import { getProduct } from '@vue-storefront/commercetools-api'
 
 export default {
   name: "Home",
   transition: 'fade',
   data() {
+    getProduct({ catId: '724b250d-9805-4657-ae73-3c02a63a9a13' })
+
     return {
       heroes: [
         {
