@@ -1,7 +1,7 @@
 {
   "PROCC": {
     "API": "http://localhost:8081",
-    "URL": "https://procc.co/api"
+    "URL": "http://localhost:8081"
   },
   "server": {
     "url": "http://localhost:3000",
@@ -28,11 +28,34 @@
     "invalidateCacheKey": "aeSu7aip",
     "dynamicConfigReload": true,
     "dynamicConfigContinueOnError": false,
-    "dynamicConfigExclude": ["ssr", "entities", "localForage", "boost", "query"],
+    "dynamicConfigExclude": [
+      "ssr",
+      "entities",
+      "localForage",
+      "boost",
+      "query"
+    ],
     "dynamicConfigInclude": [],
     "elasticCacheQuota": 4096,
     "ssrDisabledFor": {
-      "extensions": [".png", ".gif", ".jpg", ".jpeg", ".woff", ".eot", ".woff2", ".ttf", ".svg", ".css", ".js", ".json", ".ico", ".tiff", ".tif", ".raw"]
+      "extensions": [
+        ".png",
+        ".gif",
+        ".jpg",
+        ".jpeg",
+        ".woff",
+        ".eot",
+        ".woff2",
+        ".ttf",
+        ".svg",
+        ".css",
+        ".js",
+        ".json",
+        ".ico",
+        ".tiff",
+        ".tif",
+        ".raw"
+      ]
     }
   },
   "redis": {
@@ -50,6 +73,7 @@
   "elasticsearch": {
     "httpAuth": "",
     "host": "/api/catalog",
+    "host_backend": "http://localhost:8080/api/catalog",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -59,11 +83,15 @@
     "searchScoring": {
       "attributes": {
         "attribute_code": {
-          "scoreValues": { "attribute_value": { "weight": 1 } }
+          "scoreValues": {
+            "attribute_value": {
+              "weight": 1
+            }
+          }
         }
       },
       "fuzziness": 2,
-      "cutoff_frequency":  0.01,
+      "cutoff_frequency": 0.01,
       "max_expansions": 3,
       "minimum_should_match": "75%",
       "prefix_length": 2,
@@ -483,7 +511,12 @@
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
-    "defaultFilters": ["color", "size", "price", "erin_recommends"],
+    "defaultFilters": [
+      "color",
+      "size",
+      "price",
+      "erin_recommends"
+    ],
     "filterFieldMapping": {
       "category.name": "category.name.keyword"
     },
@@ -502,7 +535,11 @@
     "gallery": {
       "variantsGroupAttribute": "color",
       "mergeConfigurableChildren": true,
-      "imageAttributes": ["image","thumbnail","small_image"],
+      "imageAttributes": [
+        "image",
+        "thumbnail",
+        "small_image"
+      ],
       "width": 600,
       "height": 744
     },
@@ -517,10 +554,21 @@
     },
     "priceFilters": {
       "ranges": [
-        { "from": 0, "to": 50 },
-        { "from": 50, "to": 100 },
-        { "from": 100, "to": 150 },
-        { "from": 150 }
+        {
+          "from": 0,
+          "to": 50
+        },
+        {
+          "from": 50,
+          "to": 100
+        },
+        {
+          "from": 100,
+          "to": 150
+        },
+        {
+          "from": 150
+        }
       ]
     }
   },
