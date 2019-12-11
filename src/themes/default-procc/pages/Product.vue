@@ -3,7 +3,7 @@
     <section class="bg-cl-secondary px20 product-top-section">
       <div class="container">
         <section class="row m0 between-xs">
-          <div class="col-xs-12 col-md-6 center-xs middle-xs image">
+          <div class="col-xs-12 col-md-6 center-xs middle-xs image" style="z-index: 5000">
             <product-gallery
               :offline="image"
               :gallery="gallery"
@@ -11,7 +11,7 @@
               :product="product"
             />
           </div>
-          <div class="col-xs-12 col-md-5 data">
+          <div class="col-xs-12 col-md-5 data" style="z-index: 4000">
             <breadcrumbs
               class="pt40 pb20 hidden-xs"
               :routes="breadcrumbs.routes"
