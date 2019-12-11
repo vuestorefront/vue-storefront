@@ -74,7 +74,7 @@ export class SearchAdapter {
     url = url + '?' + queryString.stringify(httpQuery)
     return fetch(url, { method: config.elasticsearch.queryMethod,
       mode: 'cors',
-      credentials: 'include', // added by dan to fix CORS ISSUE
+      credentials: 'omit', // added by dan to fix CORS ISSUE
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
