@@ -1,7 +1,7 @@
 {
   "PROCC": {
     "API": "http://procc-dash-api:8081",
-    "URL": "https://procc.co/api"
+    "URL": "https://procc.co"
   },
   "server": {
     "url": "https://store.procc.co",
