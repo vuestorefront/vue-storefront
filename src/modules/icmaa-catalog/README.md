@@ -18,16 +18,6 @@ You can prefetch attribute option values and labels for specific attributes on s
 }
 ```
 
-You can hide the X first category-path items in breadcrumbs using the following config value:
-```
-...
-"icmaa_catalog": {
-  "breadcrumbs": {
-    "skipRootCategories": 2,
-  },
-}
-```
-
 ### Filters
 
 There are some new filter options to setup our filter logic. To find out what they are doing, look at the categore sidebar component in the theme.

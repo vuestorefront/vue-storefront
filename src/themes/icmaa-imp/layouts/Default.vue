@@ -30,6 +30,7 @@
         @close="$store.dispatch('ui/setWishlist')"
       />
       <main class="t-bg-base-lightest">
+        <div class="t-clearfix" />
         <slot />
         <div class="t-clearfix" />
       </main>

@@ -41,6 +41,7 @@ import ProductTileMixin from 'theme/mixins/product/tileMixin'
 import ProductNameMixin from 'icmaa-catalog/mixins/ProductNameMixin'
 import ProductPriceMixin from 'theme/mixins/product/priceMixin'
 import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
+import { productThumbnailPath } from '@vue-storefront/core/helpers'
 
 export default {
   name: 'ProductTile',
@@ -71,6 +72,10 @@ export default {
     }
   },
   computed: {
+    thumbnail () {
+      let thumbnail = productThumbnailPath(this.product)
+      return this.getThumbnail(thumbnail, config.products.thumbnails.width, config.products.thumbnails.height)
+    },
     thumbnailObj () {
       return {
         src: this.thumbnail,

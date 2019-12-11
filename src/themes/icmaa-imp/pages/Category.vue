@@ -115,7 +115,10 @@ const composeInitialPageState = async (store, route, forceLoad = false, pageSize
     const currentCategory = cachedCategory && !forceLoad && hasCategoryExtras ? cachedCategory : await store.dispatch('category-next/loadCategoryWithExtras', { filters })
     await store.dispatch('category-next/loadCategoryProducts', { route, category: currentCategory, pageSize })
 
-    const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', currentCategory)
+    const breadCrumbsLoader = store.dispatch(
+      'category-next/loadCategoryBreadcrumbs',
+      { category: currentCategory, currentRouteName: currentCategory.name, omitCurrent: true }
+    )
     if (isServer) {
       await breadCrumbsLoader
     }
