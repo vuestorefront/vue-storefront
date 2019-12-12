@@ -1,7 +1,7 @@
 import { Ref } from '@vue/composition-api'
 
 export interface UseProduct<PRODUCTS, SEARCH> {
-  products: PRODUCTS;
+  products: Ref<PRODUCTS>;
   search: SEARCH,
   loading: Ref<boolean>;
   error: Ref<any>;
@@ -16,13 +16,13 @@ export interface UseCategory
   APPLY_FILTER,
   CLEAR_FILTERS,
 > {
-  category: CATEGORY;
+  category: Ref<CATEGORY>;
   search: SEARCH;
-  appliedFilters: APPLIED_FILTERS;
+  appliedFilters: Ref<APPLIED_FILTERS>;
   applyFilter: APPLY_FILTER;
   clearFilters: CLEAR_FILTERS;
-  loading: boolean;
-  error: any;
+  loading: Ref<boolean>;
+  error: Ref<any>;
 }
 
 export interface UseCart

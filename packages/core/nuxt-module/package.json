@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vue/composition-api": "^0.3.2",
+    "@vue/composition-api": "^0.3.4",
     "chalk": "^2.4.2",
     "lodash": "^4.17.15",
     "@nuxt/typescript-build": "^0.3.1",

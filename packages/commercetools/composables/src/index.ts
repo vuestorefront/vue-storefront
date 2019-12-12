@@ -1,1 +1,5 @@
-console.log('Hello commercetools composables')
+import useCategory from './useCategory'
+
+export {
+  useCategory
+}

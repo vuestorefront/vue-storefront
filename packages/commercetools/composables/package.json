@@ -1,15 +1,20 @@
 {
   "name": "@vue-storefront/commercetools-composables",
   "version": "0.0.1",
+  "sideEffects": true,
   "main": "lib/index.cjs.js",
   "module":"lib/index.es.js",
-  "types": "lib/index.d.ts",
+  "types": "lib/src/index.d.ts",
   "scripts": {
     "build" : "rollup -c",
     "dev" : "rollup -c -w",
     "test": "jest"
   },
   "dependencies": {
+    "@vue-storefront/interfaces": "^0.0.1",
+    "@vue/composition-api": "^0.3.4",
+    "@vue-storefront/commercetools-api" : "^0.0.1",
+    "vue": "^2.6.x"
   },
   "devDependencies": {
   },
