@@ -1,4 +1,4 @@
-# Module
+# Modules
 
 :::danger REMINDER
 This document is _archived_ and _NOT_ relevant with the latest version which is `1.11` at the time of writing. Please keep in mind this document is supposed to help you maintain legacy product, not the fresh installation. 
