@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add to cart from Wishlist and Product listing for simple products - @Dnd-Dboy, @dz3n (#2637)
 - Add global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
 - Add constant which conditions the number of products loading per page - @AdKamil (#3630)
-- Added price filtering key as config - @roywcm 
+- Added price filtering key as config - @roywcm
 
 ### Fixed
 - Always close zoom overlay after changing product - @psmyrek (#3818)
@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
 - Improve the readability of 'getShippingDetails()' and 'updateDetails()' method of UserShippingDetails component - @adityasharma7 (#3770)
 - Keep git after yarn install in dockerfile - @ddanier (#3826)
+- Update the Storage Manager shipping details cache immediately when then Vuex checkout store is updated - @grimasod (#3894)
 
 ## [1.11.0-rc.2] - 2019.10.31
 
