@@ -4,7 +4,7 @@
 	    "title": "Büro lässig",
 	    "subtitle": "Kollektion",
 	    "image": "/assets/ban1.jpg",
-	    "link": "/c/frauen-20"
+	    "link": "/women/frauen-20"
 	  }
   ],
   "smallBanners": [
@@ -12,13 +12,13 @@
       "title": "Sheinen",
       "subtitle": "Zubehör",
       "image": "/assets/ban2.jpg",
-      "link": "/c/herren-11"
+      "link": "/men/herren-11"
     },
     {
       "title": "Der Frühling kommt",
       "subtitle": "Hüte",
       "image": "/assets/ban3.jpg",
-      "link": "/c/gerat-3"
+      "link": "/gear/gerat-3"
     }
   ],
   "productBanners": [
@@ -26,7 +26,7 @@
 	    "title": "Der Frühling kommt",
 	    "subtitle": "Hüte",
 	    "image": "/assets/ban3.jpg",
-	    "link": "/c/gerat-3"
+	    "link": "/gear/gerat-3"
 	  }
   ]
 }

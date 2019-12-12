@@ -1,7 +1,7 @@
 {
   "name": "@vue-storefront/docs",
   "private": true,
-  "version": "1.10.4",
+  "version": "1.10.5",
   "scripts": {
     "docs:dev": "vuepress dev",
     "docs:build": "vuepress build",
