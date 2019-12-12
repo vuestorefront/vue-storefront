@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use `defaultSortBy` for sorting category products by default @haelbichalex (#3873)
 - Fixed some potential mutations of Config object in `catalog` and `catalog-next` - @grimasod (#3843)
 - Set `null` as default value for custom option in product page -  @gibkigonzo (#3885)
+- Fixed `config.storeViews.commonCache` being ignored - @grimasod (#3895)
 
 ### Changed / Improved
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
