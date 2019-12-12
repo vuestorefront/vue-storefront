@@ -79,7 +79,10 @@ const actions: ActionTree<CategoryState, RootState> = {
    * * Add category whitelist support to hide unimportant categories
    */
   async loadCategoryBreadcrumbs ({ dispatch, getters }, { category, currentRouteName, omitCurrent = false }) {
-    if (!category) return
+    if (!category) {
+      return dispatch('breadcrumbs/set', { current: currentRouteName, routes: [] }, { root: true })
+    }
+
     let categoryHierarchyIds = _prepareCategoryPathIds(category).map(id => Number(id))
     let whitelistCategoryHierarchyIds = intersection(categoryHierarchyIds, icmaa.breadcrumbs.whitelist)
     if (whitelistCategoryHierarchyIds.length > 0) {

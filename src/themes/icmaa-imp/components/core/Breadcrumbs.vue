@@ -45,7 +45,7 @@ export default {
     },
     activeRoute: {
       type: String,
-      default: ''
+      default: undefined
     }
   },
   computed: {
