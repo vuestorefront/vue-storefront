@@ -42,15 +42,16 @@ const register = async (customer: DataResolver.Customer, password: string): Prom
     }
   })
 
-const updateProfile = async (userProfile: UserProfile): Promise<Task> =>
-  TaskQueue.execute({
+const updateProfile = async (userProfile: UserProfile, actionName: string): Promise<any> =>
+  TaskQueue.queue({
     url: processLocalizedURLAddress(config.users.me_endpoint),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
       body: JSON.stringify(userProfile)
-    }
+    },
+    callback_event: `store:${actionName}`
   })
 
 const getProfile = async () =>
