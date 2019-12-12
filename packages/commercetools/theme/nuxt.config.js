@@ -39,5 +39,5 @@ export default {
       }
     }]
   ],
-  plugins: ['./plugins/commercetoolsApi.ts']
+  plugins: ['./plugins/commercetools.js']
 }

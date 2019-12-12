@@ -14,7 +14,8 @@ module.exports = {
         title: 'Commerce Tools',
         collapsable: false,
         children: [
-          ['/commerce-tools/introduction', 'Getting started'],
+          ['/commercetools/introduction', 'Getting started'],
+          ['/commercetools/api-client', 'API Client'],
         ],
       },
     ]
