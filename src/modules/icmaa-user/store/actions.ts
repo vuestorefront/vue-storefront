@@ -6,11 +6,14 @@ import { UserProfile } from '@vue-storefront/core/modules/user/types/UserProfile
 import { UserService } from '@vue-storefront/core/data-resolver'
 import * as types from './mutation-types'
 import * as userTypes from '@vue-storefront/core/modules/user/store/mutation-types'
-import { userHooksExecutors, userHooks } from '@vue-storefront/core/modules/user/hooks'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { userHooksExecutors } from '@vue-storefront/core/modules/user/hooks'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import asyncForEach from 'icmaa-config/helpers/asyncForEach'
 
-import config from 'config'
+import config, { entities } from 'config'
 import Axios from 'axios'
 import isEmpty from 'lodash-es/isEmpty'
 import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
@@ -38,6 +41,44 @@ const actions: ActionTree<UserState, RootState> = {
           })
         }
         return resp
+      })
+  },
+  async refreshOrdersHistory ({ commit, dispatch }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
+    const resp = await UserService.getOrdersHistory(pageSize, currentPage)
+
+    if (resp.code === 200) {
+      /** Load orders products to order state item and localstorage */
+      await asyncForEach(resp.result.items, async (order, index) => {
+        resp.result.items[index] = await dispatch('loadOrderProducts', { order, history: resp.result.items })
+      })
+
+      commit(userTypes.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
+      EventBus.$emit('user-after-loaded-orders', resp.result)
+    }
+
+    if (!resolvedFromCache) {
+      Promise.resolve(resp.code === 200 ? resp : null)
+    }
+
+    return resp
+  },
+  async loadOrderProducts ({ dispatch, getters }, { order, history }) {
+    const index = history.findIndex(o => o.id === order.id)
+    if (history[index] && history[index].products) {
+      return history[index]
+    }
+
+    let query = new SearchQuery()
+    query.applyFilter({ key: 'id', value: { 'eq': order.items.map(oi => oi.product_id) } })
+
+    let { includeFields, excludeFields } = entities.productList
+    excludeFields = excludeFields.filter(f => f !== 'configurable_options')
+    includeFields.push('configurable_options.*')
+
+    return dispatch('product/findProducts', { query, includeFields, excludeFields }, { root: true })
+      .then(products => {
+        history[index].products = products.items
+        return history[index]
       })
   },
   setCluster ({ commit }, cluster) {
