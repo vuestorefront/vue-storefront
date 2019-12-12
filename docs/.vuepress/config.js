@@ -51,7 +51,9 @@ module.exports = {
             'cookbook/internals',
             'cookbook/vue',
             'cookbook/multistores',
-            'cookbook/migration'
+            'cookbook/migration',
+            'cookbook/checklist',
+            'cookbook/history'
           ],
         },
         {
@@ -152,7 +154,8 @@ module.exports = {
           title: 'Archives',
           collapsable: true,
           children: [
-            'archives/modules'
+            'archives/modules',
+            'archives/extensions'
           ],
         },
       ],
