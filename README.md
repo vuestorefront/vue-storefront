@@ -901,10 +901,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
      <td align="center" valign="middle"> 
-<a href="">
+<a href="https://codecoda.com/en">
           <img
-            src=""
-            alt=""
+            src="https://divante.com/partners/Vue-Storefront/CodeCoda-800.png"
+            alt="CodeCoda"
             height="40"
           >
         </a>
