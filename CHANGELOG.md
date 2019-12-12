@@ -37,11 +37,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed some potential mutations of Config object in `catalog` and `catalog-next` - @grimasod (#3843)
 - Set `null` as default value for custom option in product page -  @gibkigonzo (#3885)
 - Fixed Breadcrumb filters - apply to second category fetch  - @grimasod (#3887)
+- Fixed `config.storeViews.commonCache` being ignored - @grimasod (#3895)
 
 ### Changed / Improved
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
 - Improve the readability of 'getShippingDetails()' and 'updateDetails()' method of UserShippingDetails component - @adityasharma7 (#3770)
 - Keep git after yarn install in dockerfile - @ddanier (#3826)
+- Update the Storage Manager shipping details cache immediately when then Vuex checkout store is updated - @grimasod (#3894)
 
 ## [1.11.0-rc.2] - 2019.10.31
 
