@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
-import getProduct from 'api-client/src/api/getProduct'
-import { apolloClient } from 'api-client/src/index'
-import defaultQuery from 'api-client/src/api/getProduct/defaultQuery'
+import getProduct from './../../../src/api/getProduct'
+import { apolloClient } from './../../../src/index'
+import defaultQuery from './../../../src/api/getProduct/defaultQuery'
 
 describe('[commercetools-api-client] getProduct', () => {
   it('fetches product with default query', async () => {

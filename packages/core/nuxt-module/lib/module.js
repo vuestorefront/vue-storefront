@@ -62,7 +62,7 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
       })
     }
     this.options.build.transpile.push(package)
-    log.info(`Using raw source for ${chalk.bold(pkg.name)} ${chalk.italic('[useRawSource]')}`)
+    log.info(`Using raw source/ESM for ${chalk.bold(pkg.name)} ${chalk.italic('[useRawSource]')}`)
   }
 
   // always use raw source on core development mode

@@ -1,7 +1,7 @@
-import getAccessToken from 'api-client/src/helpers/createCommerceToolsLink/getAccessToken';
-import { storeToken, getToken } from 'api-client/src/helpers/createCommerceToolsLink/tokenCache'
+import getAccessToken from './../../src/helpers/createCommerceToolsLink/getAccessToken';
+import { storeToken, getToken } from './../../src/helpers/createCommerceToolsLink/tokenCache'
 
-jest.mock('api-client/src/helpers/createCommerceToolsLink/tokenCache')
+jest.mock('./../../src/helpers/createCommerceToolsLink/tokenCache')
 jest.mock('@commercetools/sdk-auth', () =>
   jest.fn().mockImplementation(() => ({
     clientCredentialsFlow: () => ({ access_token: 'generated access token' })

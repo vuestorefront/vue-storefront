@@ -1,4 +1,4 @@
-import { buildProductWhere } from 'api-client/src/helpers/search'
+import { buildProductWhere } from './../../src/helpers/search'
 
 describe('[commercetools-api-client] search', () => {
   it('returns empty string when parameters is not supperted', () => {

@@ -11,7 +11,7 @@ export default function useCategory (): UseCategory<any, any, any, any, any> {
   const loading = ref(false)
   const error = ref(null)
 
-  getProduct().then(res => {
+  getProduct({ catId: "724b250d-9805-4657-ae73-3c02a63a9a13" }).then(res => {
     category.value = res
   })
 

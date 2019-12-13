@@ -1,10 +1,10 @@
 import { ApolloQueryResult } from 'apollo-client'
 import gql from 'graphql-tag'
-import { apolloClient, locale, currency } from 'api-client/src/index'
-import { ProductSearch } from 'api-client/src/types/Api'
-import { Product } from 'api-client/src/types/GraphQL'
-import defaultQuery from 'api-client/src/api/getProduct/defaultQuery'
-import { buildProductWhere } from 'api-client/src/helpers/search'
+import { apolloClient, locale, currency } from './../../index'
+import { ProductSearch } from './../../types/Api'
+import { Product } from './../../types/GraphQL'
+import defaultQuery from './defaultQuery'
+import { buildProductWhere } from './../../helpers/search'
 
 const getProduct = async (search: ProductSearch): Promise<ApolloQueryResult<Product>> => {
   if (search.customQuery) {

@@ -1,4 +1,4 @@
-import { storeToken, getToken } from 'api-client/src/helpers/createCommerceToolsLink/tokenCache'
+import { storeToken, getToken } from './../../src/helpers/createCommerceToolsLink/tokenCache'
 
 describe('[commercetools-api-client] tokenCache', () => {
   it('returns null', () => {

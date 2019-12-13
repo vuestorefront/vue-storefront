@@ -1862,21 +1862,22 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@storefront-ui/shared@^0.3.4":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.3.4.tgz#72a7b80e6110935f56aa0c41154e8d7de20eeb9f"
+"@storefront-ui/shared@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.3.5.tgz#017f0cc7df4c0d833f35311dfc6b067f54efda8b"
+  integrity sha512-EfS2JxcYjqsjNaHZugJgWEaijYCcxKwyzd4OhuAsQeFV7kiZQ2cUVhSbSAUUO+2P/PSa2Z5pAqKE00HpRnZ8hA==
 
-"@storefront-ui/vue@^0.3.4":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.3.4.tgz#dad354ba60ab834613fc217a3c9042f32b1d77ae"
+"@storefront-ui/vue@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.3.5.tgz#1724fa3e69c06acc3ebd5bb6792a3138544f89cc"
+  integrity sha512-f5T6L+q4FkR0c0qWwF4UCus2bidCKXshlSpBX4Bw0AdKKc3SSsjgQ3VuhiPrDSRCfaEVH7cPbPwrPw47stoLxQ==
   dependencies:
     "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "^0.3.4"
+    "@storefront-ui/shared" "^0.3.5"
     "@vue/babel-preset-app" "^4.0.0-alpha.1"
     core-js "^3.1.3"
     hammerjs "^2.0.8"
     leaflet "^1.5.1"
-    lerna "^3.0.0-rc.0"
     lozad "^1.9.0"
     node-sass "^4.12.0"
     sass-loader "^7.1.0"
@@ -7063,7 +7064,7 @@ left-pad@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/left-pad/-/left-pad-1.3.0.tgz#5b8a3a7765dfe001261dde915589e782f8c94d1e"
 
-lerna@^3.0.0-rc.0, lerna@^3.15.0:
+lerna@^3.15.0:
   version "3.19.0"
   resolved "https://registry.yarnpkg.com/lerna/-/lerna-3.19.0.tgz#6d53b613eca7da426ab1e97c01ce6fb39754da6c"
   dependencies:

@@ -1,4 +1,4 @@
-import { ProductSearch } from 'api-client/src/types/Api'
+import { ProductSearch } from './../../types/Api'
 
 const buildProductWhere = (search: ProductSearch) => {
   if (search.catId) {
