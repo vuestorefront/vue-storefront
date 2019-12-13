@@ -23,17 +23,10 @@ Some of the topics here were found as a [frequently asked questions from our For
 11. <a href="tip11">Tip 11: Using Magento Checkout</a>
 12. <a href="tip12">Tip 12: ElasticSearch production setup</a>
 13. <a href="tip13">Tip 13: .htaccess, server side redirects, HTTP codes and headers, middlewares</a>
-14. Tip 14: Which fields of product, category and attribute are really being used by VSF
-15. Tip 15: Tracing, monitoring, logging the application and Troubleshooting
- - Cloud trace
- - New Relic
- - PM2
- - Output logs explained
-16. Tip 16: Unexpected features (explained by config file properties):
+14. <a href="tip14">Tip 14: Which fields of product, category and attribute are really being used by VSF</a>
+15. <a href="tip15">Tip 15: Unexpected features (explained by config file properties)</a>
  - `dynamicConfigReload` - for easier deployments
  - `useExactUrlsNoProxy` - for not using our default image resizer
- - `sourcePriceIncludesTax` vs `finalPriceIncludesTax` - and how the prices work.
-
 
 ## <a id="tip1">Tip 1: Memory leaks</a>
 Vue Storefront consist of two NodeJS applications:
@@ -670,3 +663,21 @@ serverHooks.afterApplicationInitialized(({ app, isProd }) => {
   })
 })
 ```
+
+## <a id="tip14">Tip 14: Which fields of product, category and attribute are really being used by VSF</a>
+
+The data formats used by Vue Storefront for product and categories are quite sophisticated with a whole range of optional fields. To get a better understanding which fields are truly required and how they work - please look at the [storefront-api](https://github.com/DivanteLtd/storefront-api/) documentation:
+
+- [GraphQL schema](https://divanteltd.github.io/storefront-graphql-api-schema/) which describes the Product and Category entity with the subsequent types,
+- [Product entity](https://sfa-docs.now.sh/guide/integration/format-product.html#product-entity) - minimal set of product fields and how they are being used by VSF,
+- [Category entity](https://sfa-docs.now.sh/guide/integration/format-category.html) - minimal set of category fields and how they are being used by VSF,
+- [Attribute entity](https://sfa-docs.now.sh/guide/integration/format-attribute.html) - minimal set of attribute fields and how they are being used by VSF.
+
+## <a id="tip15">Tip 15: Unexpected features (explained by config file properties)</a>
+
+Vue Storefront contains some pretty useful config variables that are sometimes missed but can be pretty useful:
+
+- `dynamicConfigReload` - by default the config files are processed by [`node-config`](https://github.com/lorenwest/node-config) only during the build process; whenever you modify the config file it must be then re-compiled and bundled into `app.js`. However, with this mode on, the [`core/scripts/server.ts`](https://github.com/DivanteLtd/vue-storefront/blob/77efcdc40a1a69191f8d96c381535517e801820d/core/scripts/server.ts#L271) is reloading the config file with each request. This might be very usefull for the scalability purposes and to pass some dynamic information during the build process. By modifying the `dynamicConfigExclude` and `dynamicConfigInclude` arrays you might want to change which particular sections of the config file are provided to the user browser and which are note. The config is being passed via `window.__INITIAL_STATE__`.
+
+- `useExactUrlsNoProxy` - when set to `true` the strings set in the product properties: `thumbnail`, `image` ... are being used for the `<img ` tags without the `/api/img` middleware - as a raw strings.
+
