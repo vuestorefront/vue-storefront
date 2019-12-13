@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     activeComponent () {
-      const matchedNav = this.navigation.find(nav => nav.link === this.$route.path)
+      const matchedNav = this.navigation.find(nav => nav.link.includes(this.$route.path))
       return matchedNav ? matchedNav.component : null
     }
   },
