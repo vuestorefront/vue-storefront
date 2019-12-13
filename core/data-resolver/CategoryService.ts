@@ -25,10 +25,14 @@ const getCategories = async ({
   }
 
   for (var [key, value] of Object.entries(filters)) {
-    if (Array.isArray(value)) {
-      searchQuery = searchQuery.applyFilter({key: key, value: {'in': value}})
-    } else {
-      searchQuery = searchQuery.applyFilter({key: key, value: {'eq': value}})
+    if (value !== null) {
+      if (Array.isArray(value)) {
+        searchQuery = searchQuery.applyFilter({key: key, value: {'in': value}})
+      } else if (typeof value === 'object') {
+        searchQuery = searchQuery.applyFilter({key: key, value: value})
+      } else {
+        searchQuery = searchQuery.applyFilter({key: key, value: {'eq': value}})
+      }
     }
   }
 

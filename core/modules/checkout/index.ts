@@ -24,7 +24,7 @@ export const CheckoutModule: StorefrontModule = function ({store}) {
     }
 
     if (
-      type.endsWith(types.CHECKOUT_SAVE_SHIPPING_DETAILS)
+      type.endsWith(types.CHECKOUT_SAVE_SHIPPING_DETAILS) || type.endsWith(types.CHECKOUT_UPDATE_PROP_VALUE)
     ) {
       StorageManager.get('checkout').setItem('shipping-details', state.checkout.shippingDetails).catch((reason) => {
         console.error(reason) // it doesn't work on SSR

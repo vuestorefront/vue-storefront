@@ -9,10 +9,11 @@ import cloneDeep from 'lodash-es/cloneDeep'
 const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_SET_PRODUCTS] (state, products = []) {
     nonReactiveState.products = cloneDeep(products)
-    state.products = cloneDeep(products).map(prod => prod.sku)
+    state.products = products.map(prod => prod.sku)
   },
   [types.CATEGORY_ADD_PRODUCTS] (state, products = []) {
-    state.products.push(...products)
+    nonReactiveState.products.push(...cloneDeep(products))
+    state.products.push(...products.map(prod => prod.sku))
   },
   [types.CATEGORY_ADD_CATEGORY] (state, category: Category) {
     if (category) {
