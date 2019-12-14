@@ -7,16 +7,16 @@ actionText: Introduction →
 actionLink: /guide/general/introduction.html
 features:
 - title: How to get started
-  details: Learn how to install, importing data and so on. <br /> <a href="">test</a>
+  details: 
 - title: Basic Information
-  details: Enjoy the dev experience of Vue + webpack, use Vue components in markdown, and develop custom themes with Vue.
+  details: 
 - title: Cookbook
-  details: VuePress generates pre-rendered static HTML for each page, and runs as an SPA once a page is loaded.
+  details: 
 - title: Themes and Frontend 
-  details: VuePress generates pre-rendered static HTML for each page, and runs as an SPA once a page is loaded.
+  details: 
 - title: Data Structure and Modules
-  details: VuePress generates pre-rendered static HTML for each page, and runs as an SPA once a page is loaded.
+  details: 
 - title: Integration
-  details: VuePress generates pre-rendered static HTML for each page, and runs as an SPA once a page is loaded.
+  details: 
 footer: v1.11 optimized |  MIT Licensed | Copyright © Divante
 ---
