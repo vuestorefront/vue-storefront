@@ -100,17 +100,6 @@ module.exports = {
           ],
         },
         {
-          title: 'Components',
-          collapsable: false,
-          children: [
-            'components/home-page',
-            'components/category-page',
-            'components/product',
-            'components/modal',
-            'components/events-list'
-          ],
-        },
-        {
           title: 'Data in Vue Storefront',
           collapsable: false,
           children: [
@@ -155,7 +144,8 @@ module.exports = {
           collapsable: true,
           children: [
             'archives/modules',
-            'archives/extensions'
+            'archives/extensions',
+            'archives/components'
           ],
         },
       ],
