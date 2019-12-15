@@ -1,9 +1,11 @@
 <template>
-  <div>
-    Transaction Are being Process Please Wait...
+  <div style="padding: 3rem;text-align: center; font-family: Helvetica;font-size: larger;opacity: 0.7;color: rgba(0,0,0,0.68);">
+    <p>Transaction is being processed</p>
+    <p>Please Wait...</p>
   </div>
 </template>
 <script>
+  // TODO: i18n the strings
 import _ from 'lodash'
 import CheckOut from './Checkout.vue'
 export default {
