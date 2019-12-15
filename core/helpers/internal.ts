@@ -37,7 +37,7 @@ export function takeOverConsole (level = 'no-console') {
         filterMethods = ['warn', 'debug', 'log']
       }
 
-      if (filterMethods.indexOf(method) >= 0) {
+      if (filterMethods.includes(method)) {
         return
       }
       // do sneaky stuff
