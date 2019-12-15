@@ -17,7 +17,7 @@ Elasticsearch is the choice of _Vue Storefront_ for its data store as naturally 
 <br />
 <br />
 
-## 2. Elasticsearch up and running for VSF
+## 2. Set Elasticsearch up and running for VSF
 ### 1. Preparation
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
@@ -41,7 +41,7 @@ Elasticsearch is the choice of _Vue Storefront_ for its data store as naturally 
 <br />
 <br />
 
-## 5. 
+## 5. Peripheral Tools available for Elasticsearch
 ### 1. Preparation
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
