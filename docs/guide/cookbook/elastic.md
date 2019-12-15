@@ -4,12 +4,12 @@ In this chapter, we are going to cover :
 [[toc]]
 
 ## 0. Introduction
-Elasticsearch is the choice of _Vue Storefront_ for its data store as naturally as there must be reasons behind this. 
+Elasticsearch is the choice of _Vue Storefront_ for its data store as naturally as there must be reasons behind this. What is all this fuss about Elasticsearch? 
 
 <br />
 <br />
 
-## 1. What is all this fuss about Elasticsearch 
+## 1. Where Elasticsearch fits in VSF
 ### 1. Preparation
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
