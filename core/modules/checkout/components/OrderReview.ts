@@ -24,12 +24,17 @@ export const OrderReview = {
     })
   },
   methods: {
-    placeOrder () {
-      if (this.$store.state.checkout.personalDetails.createAccount) {
-        this.register()
-      } else {
-        this.$bus.$emit('checkout-before-placeOrder')
+    placeOrder (transactionId) {
+      if(transactionId){
+        console.log('transactionId', transactionId)
+        this.$bus.$emit('checkout-before-placeOrder', { transactionId })
       }
+      this.$nextTick(()=>{
+        if (this.$store.state.checkout.personalDetails.createAccount) {
+          console.log('register Start')
+          this.register()
+        }
+      })
     },
     async register () {
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
@@ -53,7 +58,7 @@ export const OrderReview = {
         } else {
           this.$bus.$emit('modal-hide', 'modal-signup')
           await this.$store.dispatch('user/setCurrentUser', result.result) // set current user data to process it with the current order
-          this.$bus.$emit('checkout-before-placeOrder', result.result.id)
+          this.$bus.$emit('checkout-before-placeOrder', {userId: result.result.id})
           this.onSuccess()
         }
       }).catch(err => {

@@ -14,6 +14,7 @@ export default {
   mixins: [Composite, VueOfflineMixin],
   data () {
     return {
+      transactionId: '',
       stockCheckCompleted: false,
       stockCheckOK: false,
       confirmation: null, // order confirmation from server
@@ -188,6 +189,7 @@ export default {
     async onAfterPlaceOrder (payload) {
       this.confirmation = payload.confirmation
       if (this.$store.state.checkout.personalDetails.createAccount) {
+        // Store.dispatch is NOT returning Promise?!?!
         await this.$store.dispatch('user/login', { username: this.$store.state.checkout.personalDetails.emailAddress, password: this.$store.state.checkout.personalDetails.password })
       }
       this.$store.dispatch('checkout/setThankYouPage', true)
@@ -198,7 +200,8 @@ export default {
       this.activateSection(section)
     },
     onBeforePlaceOrder (payload) {
-      // Wierd code again with no explaination by Vinod
+      // Weird code again with no explaination by Vinod
+      console.log('onBeforePlaceOrder: ', payload)
       if (payload) {
         if (payload.transactionId === 'undefined') {
           this.userId = payload.userId.toString()
@@ -211,12 +214,20 @@ export default {
       this.cartSummary = receivedData
     },
     onDoPlaceOrder (additionalPayload) {
+      console.log('onDoPlaceOrder additionalPayload', additionalPayload)
       if (this.$store.state.cart.cartItems.length === 0) {
         this.notifyEmptyCart()
         this.$router.push(this.localizedRoute('/'))
       } else {
         this.payment.paymentMethodAdditional = additionalPayload
-        this.placeOrder()
+        // Added by Dan to delay the placeorder to wait for the transactionId event ...
+        // Not sure why this fires first ... :(
+        let placeOrder = this.placeOrder
+        console.log('before TIMEOUT')
+        setTimeout(() => {
+          console.log('AFTER TIMEOUT')
+          placeOrder()
+        }, 400)
       }
     },
     onAfterPaymentDetails (receivedData, validationResult) {
@@ -313,11 +324,15 @@ export default {
       return paymentMethod
     },
     prepareOrder () {
+      console.log('prepareOrder Start')
+      console.log('prepareOrder this.payment', this.payment)
+      console.log('prepareOrder this.transactionId', this.transactionId)
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : (this.userId ? this.userId : ''),
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
         products: this.$store.state.cart.cartItems,
         transaction: this.payment.paymentMethodAdditional.transactionId,
+        transactionId: this.transactionId, // Added by dan to transmit Mangopay transaction ID
         store_brand: this.currentImage.brand,
         shipping_amount: this.$store.state.shipping.methods.amount ? this.$store.state.shipping.methods.amount : this.$store.state.shipping.methods[0].amount,
         addressInformation: {
@@ -364,6 +379,7 @@ export default {
     placeOrder () {
       this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
       if (this.checkStocks()) {
+        console.log('Placing order Start', this.prepareOrder())
         this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
       } else {
         this.notifyNotAvailable()

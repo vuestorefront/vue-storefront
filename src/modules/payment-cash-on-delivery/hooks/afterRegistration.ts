@@ -6,6 +6,7 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
   let correctPaymentMethod = false
   const placeOrder = () => {
     if (correctPaymentMethod) {
+      console.log('afterRegistration payment COD placeOrder')
       Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
     }
   }
