@@ -1,6 +1,7 @@
 # `icmaa-url` module
 
-Set mappings for specific routes to enable custom routes and urls
+Set mappings for specific routes to enable custom routes and urls.
+Also add an auto-redirect to default stores for url's without a store-code in it.
 
 ## Configs
 

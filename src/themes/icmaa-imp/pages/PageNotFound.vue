@@ -1,38 +1,25 @@
 <template>
-  <div id="page_not_found">
-    <section class="bg-cl-secondary py35 px20">
-      <div class="container">
-        <h2>
-          {{ $t("We can't find the page") }}
+  <div id="page_not_found" class="t-container">
+    <div class="t-p-4 t-flex t-flex-wrap t-justify-center">
+      <h1 class="t-w-full lg:t-w-auto t-flex-fix t-no-underline t-flex t-items-center t-justify-center t-bg-primary t-font-black t-font-mono t-py-4 t-px-8 t-text-5xl t-text-white">
+        {{ $t('404') }}
+      </h1>
+      <div class="t-p-8 t-bg-white t-text-base-tone t-text-sm">
+        <h2 class="t-text-base-dark t-font-bold t-text-xl t-mb-2">
+          {{ $t("Unfortunately we can't find the page you are looking for.") }}
         </h2>
+        <i18n path="If you need assistance you can drop {link}." tag="p" class="t-mb-2 lg:t-mb-0">
+          <router-link :to="localizedRoute(`/service`)" place="link" class="t-text-base-tone t-underline">
+            {{ $t('us a line here') }}
+          </router-link>
+        </i18n>
+        <i18n path="You can also use {link} to find anything you were looking for." tag="p">
+          <span @click="toggleSearchpanel" place="link" class="t-cursor-pointer t-text-base-tone t-underline">
+            {{ $t('our search') }}
+          </span>
+        </i18n>
       </div>
-    </section>
-    <section class="bg-cl-primary py35 px20">
-      <div class="container">
-        <div class="lh16 h5 weight-400">
-          <p>
-            {{ $t("Unfortunately we can't find the page you are looking for.") }}
-          </p>
-          <p>
-            {{ $t('If you need an assistance you can drop us a line on') }}
-            <router-link :to="localizedRoute('/')" class="cl-secondary no-underline">
-              {{ $t('a chat') }}
-            </router-link>
-            {{ $t('or write to us through') }}
-            <router-link :to="localizedRoute('/contact')" class="cl-secondary no-underline">
-              {{ $t('a contact page') }}
-            </router-link>.
-          </p>
-          <p>
-            {{ $t('You can also use') }}
-            <a href="#" class="cl-secondary no-underline" @click="toggleSearchpanel">
-              {{ $t('search') }}
-            </a>
-            {{ $t('to find product you were looking for.') }}
-          </p>
-        </div>
-      </div>
-    </section>
+    </div>
   </div>
 </template>
 
