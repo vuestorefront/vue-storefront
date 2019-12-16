@@ -74,6 +74,9 @@ const actions: ActionTree<CheckoutState, RootState> = {
   },
   async replaceShippingMethods ({ commit }, shippingMethods) {
     commit(types.CHECKOUT_SET_SHIPPING_METHODS, shippingMethods)
+  },
+  async updatePaymentDetails ({ commit }, updateData) {
+    commit(types.CHECKOUT_UPDATE_PAYMENT_DETAILS, updateData)
   }
 }
 
