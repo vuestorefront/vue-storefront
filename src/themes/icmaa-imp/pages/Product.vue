@@ -51,9 +51,6 @@
 
               <div class="t-flex t-flex-wrap">
                 <div v-if="product.type_id === 'configurable' && !isOnesizeProduct && !loading" class="t-flex t-flex-grow t-w-full t-mb-4 lg:t-w-3/6 lg:t-mb-0 lg:t-mr-4">
-                  <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
-                    {{ product.errors | formatProductMessages }}
-                  </div>
                   <button-component type="select" icon="arrow_forward" class="t-w-full" :disabled="isAddToCartDisabled" @click.native="openAddtocart">
                     {{ productOptionsLabel }}
                   </button-component>
