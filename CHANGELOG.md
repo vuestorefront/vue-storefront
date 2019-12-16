@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mount app in 'beforeResolve' if it's not dispatched in 'onReady' - @gibkigonzo (#3669)
 - change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
 - Fix product images, my account link, warnings in console - @andrzejewsky (#3850)
+- Fix low-quality images styles - @przspa (#3906)
 
 ## [1.10.4] - 18.10.2019
 
