@@ -229,7 +229,10 @@ import { useCategory } from '@vue-storefront/commercetools-composables'
 
 export default {
   setup () {
-    const { category } = useCategory()
+    const { category, search } = useCategory()
+
+    search({ id: "724b250d-9805-4657-ae73-3c02a63a9a13" })
+
     return {
       category
     }
