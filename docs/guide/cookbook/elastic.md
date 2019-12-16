@@ -29,7 +29,7 @@ _Vue Storefront_ defines itself backend-agnostic PWA e-commerce solution.
 <br />
 <br />
 
-## 3. _Elastic_ and _Search_ in VSF
+## 2. _Elastic_ and _Search_ in VSF
 ### 1. Preparation
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
@@ -37,7 +37,7 @@ _Vue Storefront_ defines itself backend-agnostic PWA e-commerce solution.
 <br />
 <br />
 
-## 4. Now ES7 is also supported in VSF
+## 3. Now ES7 is also supported in VSF
 ### 1. Preparation
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
@@ -45,7 +45,7 @@ _Vue Storefront_ defines itself backend-agnostic PWA e-commerce solution.
 <br />
 <br />
 
-## 5. Peripheral Tools available for Elasticsearch
+## 4. Peripheral Tools available for Elasticsearch
 ### 1. Preparation
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
@@ -53,10 +53,11 @@ _Vue Storefront_ defines itself backend-agnostic PWA e-commerce solution.
 <br />
 <br />
 
+<!-- 
 ## 6. 
 ### 1. Preparation
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 <br />
-<br />
+<br /> -->
