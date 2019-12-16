@@ -34,3 +34,7 @@ export const productModule: Module<ProductState, RootState> = {
   actions,
   mutations
 }
+
+export const nonReactiveState = {
+  list: []
+}

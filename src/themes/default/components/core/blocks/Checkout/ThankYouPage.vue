@@ -3,7 +3,7 @@
     <header class="thank-you-title bg-cl-secondary py35 pl20">
       <div class="container">
         <breadcrumbs
-          :routes="[{name: 'Homepage', route_link: '/'}]"
+          :with-homepage="true"
           :active-route="this.$t('Order confirmation')"
         />
         <h2 class="category-title">

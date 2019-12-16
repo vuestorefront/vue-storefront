@@ -10,7 +10,9 @@ export function price (value) {
   }
   let formattedVal = Math.abs(parseFloat(value)).toFixed(2)
   const storeView = currentStoreView()
-
+  if (!storeView.i18n) {
+    return value;
+  }
   const prependCurrency = (price) => {
     return storeView.i18n.currencySign + price
   }

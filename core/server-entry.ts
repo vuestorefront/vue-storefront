@@ -70,7 +70,6 @@ export default async context => {
   }
   const { app, router, store } = await createApp(context, context.vs && context.vs.config ? context.vs.config : buildTimeConfig, storeCode)
   return new Promise((resolve, reject) => {
-    context.output.cacheTags = new Set<string>()
     const meta = (app as any).$meta()
     router.push(context.url)
     context.meta = meta
