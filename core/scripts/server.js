@@ -62,6 +62,12 @@ if (isProd) {
   })
 }
 
+function clearSSRContext (context) {
+  Object.keys(context.server).forEach(key => delete context.server[key])
+  delete context.output['cacheTags']
+  delete context['meta']
+}
+
 function invalidateCache (req, res) {
   if (config.server.useOutputCache) {
     if (req.query.tag && req.query.key) { // clear cache pages for specific query tag
@@ -171,7 +177,7 @@ app.get('*', (req, res, next) => {
         append: (context) => { return '' },
         appendHead: (context) => { return '' },
         template: 'default',
-        cacheTags: null
+        cacheTags: new Set()
       },
       server: {
         app: app,
@@ -189,7 +195,7 @@ app.get('*', (req, res, next) => {
         res.setHeader('Content-Type', 'text/html')
       }
       let tagsArray = []
-      if (config.server.useOutputCacheTagging && context.output.cacheTags !== null) {
+      if (config.server.useOutputCacheTagging && context.output.cacheTags && context.output.cacheTags.size > 0) {
         tagsArray = Array.from(context.output.cacheTags)
         const cacheTags = tagsArray.join(' ')
         res.setHeader('X-VS-Cache-Tags', cacheTags)
@@ -218,6 +224,9 @@ app.get('*', (req, res, next) => {
       console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
       next()
     }).catch(errorHandler)
+      .finally(() => {
+        clearSSRContext(context)
+      })
   }
 
   const dynamicCacheHandler = () => {

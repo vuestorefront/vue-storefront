@@ -33,7 +33,11 @@ const loadDateLocales = async (lang: string = 'en'): Promise<void> => {
     const separatorIndex = localeCode.indexOf('-')
     if (separatorIndex) {
       localeCode = separatorIndex ? localeCode.substr(0, separatorIndex) : localeCode
-      await import(/* webpackChunkName: "dayjs-locales" */ `dayjs/locale/${localeCode}`)
+      try {
+        await import(/* webpackChunkName: "dayjs-locales" */ `dayjs/locale/${localeCode}`)
+      } catch (err) {
+        Logger.debug('Unable to load translation from dayjs')()
+      }
     }
   }
 }
