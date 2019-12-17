@@ -45,7 +45,7 @@
     "port": 8080
   },
   "api": {
-    "url": "https://store.procc.co/api"
+    "url": "https://store.procc.co"
   },
   "elasticsearch": {
     "httpAuth": "",

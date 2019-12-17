@@ -25,11 +25,11 @@ export const OrderReview = {
   },
   methods: {
     placeOrder (transactionId) {
-      if(transactionId){
+      if (transactionId) {
         console.log('transactionId', transactionId)
         this.$bus.$emit('checkout-before-placeOrder', { transactionId })
       }
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         if (this.$store.state.checkout.personalDetails.createAccount) {
           console.log('register Start')
           this.register()
