@@ -33,7 +33,8 @@ module.exports = {
   },
   transformIgnorePatterns: [
     '<rootDir>/node_modules/(?!lodash)',
-    '<rootDir>/node_modules/(?!lodash-es/.*)'
+    '<rootDir>/node_modules/(?!lodash-es/.*)',
+    'core/node_modules/(.*)'
   ],
   setupFiles: [
     '<rootDir>/test/unit/setupTestEnvironment.ts'

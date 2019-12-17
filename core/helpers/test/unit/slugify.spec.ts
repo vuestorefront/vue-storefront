@@ -15,6 +15,13 @@ describe('getThumbnailPath', () => {
     config.images = {
       useExactUrlsNoProxy: true
     }
+
+    config.products = {
+      thumbnails: {
+        'width': 0,
+        'height': 0
+      }
+    }
     expect(getThumbnailPath('testing')).toBe('testing')
   })
 

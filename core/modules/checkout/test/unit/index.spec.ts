@@ -25,6 +25,7 @@ describe('CheckoutModule', () => {
     jest.clearAllMocks();
 
     store = {
+      dispatch: jest.fn(),
       registerModule: jest.fn(),
       subscribe: jest.fn(fn => {
         subscription = fn;
