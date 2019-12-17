@@ -26,20 +26,7 @@ export default {
       required: false
     }
   },
-  // asyncData ({ store, route, context }) {
-  // @TODO to cover SSR need find a way to pass props identifier/id to the asyncData()
-  // for now it is not possible but assuming from some info it could be available later
-  // we try to dispatch 'single' action which actually dispatch list to prefetch data anyway
-
-  /* return new Promise((resolve, reject) => {
-    store.dispatch('cmsBlock/single', {
-      value: this.identifier
-    }).then(res => {
-      return resolve(res)
-    })
-  }) */
-  // },
-  created () {
+  serverPrefetch () {
     let queryKey = ''
     let queryValue = ''
     if (this.id) {
@@ -50,7 +37,7 @@ export default {
       queryValue = this.identifier
     }
     if (queryKey && queryValue) {
-      this.$store.dispatch('cmsBlock/single', {
+      return this.$store.dispatch('cmsBlock/single', {
         key: queryKey,
         value: queryValue
       })
