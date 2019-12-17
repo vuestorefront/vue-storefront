@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Set `null` as default value for custom option in product page -  @gibkigonzo (#3885)
 - Fixed `config.storeViews.commonCache` being ignored - @grimasod (#3895)
 - Fixed static pages, password notification, offline mode #3902 - @andrzejewsky (#3902)
+- Fetch cms_block content in serverPrefetch method - @gibkigonzo (#3910)
 
 ### Changed / Improved
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
