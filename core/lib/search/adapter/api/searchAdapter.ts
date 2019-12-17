@@ -9,8 +9,6 @@ import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
 
-import { isServer } from '@vue-storefront/core/helpers'
-
 export class SearchAdapter {
   public entities: any
 
@@ -44,19 +42,7 @@ export class SearchAdapter {
 
     Request.index = storeView.elasticsearch.index
 
-    // Added by Dan 11-12-2019 -> to alter the kubernetes API URL
-    let url = ''
-    if (isServer) {
-      if (config.elasticsearch && config.elasticsearch.host_backend) {
-        console.log('INSIDE is_server')
-        url = processURLAddress(config.elasticsearch.host_backend)
-      } else {
-        console.error('config.elasticsearch.host_backend IS MISSING. Please specify local server url to avoid CORS ISSUE')
-        url = processURLAddress(storeView.elasticsearch.host)
-      }
-    } else {
-      url = processURLAddress(storeView.elasticsearch.host)
-    }
+    let url = processURLAddress(storeView.elasticsearch.host)
 
     if (this.entities[Request.type].url) {
       url = this.entities[Request.type].url
@@ -88,17 +74,16 @@ export class SearchAdapter {
     url = url + '?' + queryString.stringify(httpQuery)
     return fetch(url, { method: config.elasticsearch.queryMethod,
       mode: 'cors',
-      // credentials: 'omit', // added by dan to fix CORS ISSUE
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: config.elasticsearch.queryMethod === 'POST' ? JSON.stringify(ElasticsearchQueryBody) : null
     })
-      .then(resp => { return resp.json() })
-      .catch(error => {
-        throw new Error('FetchError in request to ES: ' + error.toString())
-      })
+    .then(resp => { return resp.json() })
+    .catch(error => {
+      throw new Error('FetchError in request to ES: ' + error.toString())
+    })
   }
 
   public handleResult (resp, type, start = 0, size = 50): SearchResponse {
