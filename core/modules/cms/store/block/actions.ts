@@ -12,6 +12,7 @@ const actions: ActionTree<CmsBlockState, RootState> = {
         query: createLoadingBlockQuery({ filterField, filterValues }),
         entityType: 'cms_block',
         size,
+        start,
         excludeFields,
         includeFields
       })
