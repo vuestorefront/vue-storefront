@@ -178,8 +178,8 @@ export const processURLAddress = (url: string = '') => {
   if (isServer) {
     if (config.elasticsearch && config.elasticsearch.host_backend) {
       console.log('INSIDE is_server url1:', url)
-      if(url.indexOf('https://store.procc.co') !== -1){
-        url.replace('https://store.procc.co', config.elasticsearch.host_backend)
+      if (url.indexOf('https://store.procc.co') !== -1) {
+        url = url.replace('https://store.procc.co', config.elasticsearch.host_backend)
       }
       console.log('INSIDE is_server url2:', url)
     }
