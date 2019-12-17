@@ -157,16 +157,17 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Update user profile with data from My Account page
    */
-  async update ({ dispatch }, profile: UserProfile) {
-    const resp = await UserService.updateProfile(profile)
-
-    if (resp.resultCode === 200) {
+  async update (_, profile: UserProfile) {
+    await UserService.updateProfile(profile, 'user/handleUpdateProfile')
+  },
+  async handleUpdateProfile ({ dispatch }, event) {
+    if (event.resultCode === 200) {
       dispatch('notification/spawnNotification', {
         type: 'success',
         message: i18n.t('Account data has successfully been updated'),
         action1: { label: i18n.t('OK') }
       }, { root: true })
-      dispatch('user/setCurrentUser', resp.result, { root: true })
+      dispatch('user/setCurrentUser', event.result, { root: true })
     }
   },
   setCurrentUser ({ commit }, userData) {
@@ -176,6 +177,16 @@ const actions: ActionTree<UserState, RootState> = {
    * Change user password
    */
   async changePassword ({ dispatch, getters }, passwordData) {
+    if (!onlineHelper.isOnline) {
+      dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: i18n.t('Reset password feature does not work while offline!'),
+        action1: { label: i18n.t('OK') }
+      }, { root: true })
+
+      return
+    }
+
     const resp = await UserService.changePassword(passwordData)
 
     if (resp.code === 200) {
