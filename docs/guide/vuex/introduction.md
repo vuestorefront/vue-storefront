@@ -61,4 +61,4 @@ export default {
 
 ## Related
 
-[Working with data](data.md)
+[Working with data](<https://github.com/DivanteLtd/vue-storefront/blob/master/docs/guide/data/data.md>)
