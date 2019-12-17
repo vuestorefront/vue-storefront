@@ -93,14 +93,14 @@ export const UserShippingDetails = {
           default_shipping: true
         }
         if (this.currentUser.hasOwnProperty('default_shipping')) {
-          let i
-          for (i = 0; i < this.currentUser.addresses.length; i++) {
-            if (toString(this.currentUser.addresses[i].id) === toString(this.currentUser.default_shipping)) {
-              updatedShippingDetails.addresses[i] = updatedShippingDetailsAddress;
-            }
-          }
-          if (this.currentUser.addresses.length === 0 || i === this.currentUser.addresses.length) {
+          if (this.currentUser.addresses.length === 0) {
             updatedShippingDetails = null
+          } else {
+            for (let i = 0; i < this.currentUser.addresses.length; i++) {
+              if (toString(this.currentUser.addresses[i].id) === toString(this.currentUser.default_shipping)) {
+                updatedShippingDetails.addresses[i] = updatedShippingDetailsAddress;
+              }
+            }
           }
         } else {
           updatedShippingDetails.addresses.push(updatedShippingDetailsAddress)
