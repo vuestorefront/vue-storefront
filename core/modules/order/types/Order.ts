@@ -13,8 +13,8 @@ export interface Order {
   transaction?: any,  // Added by Dan
   transactionId?: any,// Added by Dan
   store_id?: number | string,
-  transaction?: any,  // Added by Dan
-  transactionId?: any,// Added by Dan
+  transaction?: any, // Added by Dan
+  transactionId?: any, // Added by Dan
   /**
    * Products list
    */
