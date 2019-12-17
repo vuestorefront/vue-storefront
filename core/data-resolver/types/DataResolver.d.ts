@@ -17,7 +17,8 @@ declare namespace DataResolver {
     start?: number,
     sort?: string,
     includeFields?: string[],
-    excludeFields?: string[]
+    excludeFields?: string[],
+    reloadAll?: boolean
   }
 
   interface Customer {
