@@ -73,7 +73,7 @@
   "elasticsearch": {
     "httpAuth": "",
     "host": "/api/catalog",
-    "host_backend": "http://localhost:8080/api/catalog",
+    "host_backend": "http://localhost:8080",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,

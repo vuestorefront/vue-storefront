@@ -174,7 +174,19 @@ export const routerHelper = Vue.observable({
 !isServer && window.addEventListener('popstate', () => { routerHelper.popStateDetected = true })
 
 export const processURLAddress = (url: string = '') => {
+  // Added By Dan to differentiate urls for kubernetes kube-dns vs DNS queries - 17.12.2019
+  if (isServer) {
+    if (config.elasticsearch && config.elasticsearch.host_backend) {
+      console.log('INSIDE is_server url1:', url)
+      if(url.indexOf('https://store.procc.co') !== -1){
+        url.replace('https://store.procc.co', config.elasticsearch.host_backend)
+      }
+      console.log('INSIDE is_server url2:', url)
+    }
+  }
+
   if (url.startsWith('/')) return `${config.api.url}${url}`
+
   return url
 }
 
