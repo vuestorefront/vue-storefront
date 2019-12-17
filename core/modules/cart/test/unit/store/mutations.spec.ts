@@ -369,9 +369,9 @@ describe('Cart mutations', () => {
           product: {sku: 'foo', someProp: 'baz', qty: 20}
         }
       )
-      let firstEmitCall = []
+      let firstEmitCall = [];
 
-      EventBus.$emit.mockImplementationOnce((eventName, args) => {
+      (EventBus.$emit as jest.Mock).mockImplementationOnce((eventName, args) => {
         firstEmitCall.push(eventName)
         firstEmitCall.push(args)
       })
@@ -409,9 +409,9 @@ describe('Cart mutations', () => {
           product: {server_item_id: 123, sku: 'bar', someProp: 'baz', qty: 20}
         }
       )
-      let firstEmitCall = []
+      let firstEmitCall = [];
 
-      EventBus.$emit.mockImplementationOnce((eventName, args) => {
+      (EventBus.$emit as jest.Mock).mockImplementationOnce((eventName, args) => {
         firstEmitCall.push(eventName)
         firstEmitCall.push(args)
       })

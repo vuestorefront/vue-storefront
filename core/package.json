@@ -8,7 +8,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@types/jest": "^24.0.18",
     "@types/mocha": "^5.2.7",
     "@types/webpack": "^4.4.23",
     "@types/webpack-dev-server": "^3.1.1",
@@ -38,7 +37,6 @@
     "reflect-metadata": "^0.1.12",
     "register-service-worker": "^1.5.2",
     "remove-accents": "^0.4.2",
-    "ts-jest": "^24.1.0",
     "ts-node": "^7.0.1",
     "uuid": "^3.3.2",
     "vue": "^2.6.6",
@@ -57,8 +55,8 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.18",
-    "ts-jest": "^24.1.0",
+    "@types/jest": "^24.0.11",
+    "ts-jest": "^24.0.2",
     "@typescript-eslint/eslint-plugin": "^1.7.1-alpha.17",
     "@typescript-eslint/parser": "^1.7.1-alpha.17",
     "@vue/test-utils": "^1.0.0-beta.19",
