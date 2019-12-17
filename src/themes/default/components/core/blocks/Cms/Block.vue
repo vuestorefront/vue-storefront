@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { isServer } from '@vue-storefront/core/helpers'
 export default {
   name: 'CmsBlock',
   props: {
@@ -27,20 +28,30 @@ export default {
     }
   },
   serverPrefetch () {
-    let queryKey = ''
-    let queryValue = ''
-    if (this.id) {
-      queryKey = 'id'
-      queryValue = this.id
-    } else if (this.identifier) {
-      queryKey = 'identifier'
-      queryValue = this.identifier
+    return this.fetchCmsBlock()
+  },
+  created () {
+    if (!isServer) {
+      this.fetchCmsBlock()
     }
-    if (queryKey && queryValue) {
-      return this.$store.dispatch('cmsBlock/single', {
-        key: queryKey,
-        value: queryValue
-      })
+  },
+  methods: {
+    fetchCmsBlock () {
+      let queryKey = ''
+      let queryValue = ''
+      if (this.id) {
+        queryKey = 'id'
+        queryValue = this.id
+      } else if (this.identifier) {
+        queryKey = 'identifier'
+        queryValue = this.identifier
+      }
+      if (queryKey && queryValue) {
+        return this.$store.dispatch('cmsBlock/single', {
+          key: queryKey,
+          value: queryValue
+        })
+      }
     }
   },
   computed: {
