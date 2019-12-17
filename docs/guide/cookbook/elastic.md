@@ -7,7 +7,7 @@ In this chapter, we are going to cover :
 Elasticsearch is the choice of _Vue Storefront_ for its data store as naturally as there must be reasons behind this. 
 By its name, you can deduce _Elastic_ to mean scalable, extendable, distributed and type-agnostic which is great in this big data era while _Search_ implies indexing, filter, _Read_ among _CRUD_ which shows its focus. So far so good, then, what is all this fuss about Elasticsearch? 
 
-Elasticsearch is a full-text search and analysis engine based on Apache Lucene by its definition. It employs 
+Elasticsearch is a full-text search and analysis engine based on Apache Lucene by its definition. It employs inverted index which means _document_ 
 
 
 _Vue Storefront_ defines itself backend-agnostic PWA e-commerce solution. 
