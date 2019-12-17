@@ -24,18 +24,18 @@ spec:
           httpGet:
             path: /health
             port: 3000
-          initialDelaySeconds: 320
-          periodSeconds: 30
-          timeoutSeconds: 3
+          initialDelaySeconds: 260
+          periodSeconds: 33
+          timeoutSeconds: 5
           successThreshold: 1
           failureThreshold: 3
         livenessProbe:
           httpGet:
             path: /health
             port: 3000
-          initialDelaySeconds: 500
-          periodSeconds: 15
-          timeoutSeconds: 5
+          initialDelaySeconds: 300
+          periodSeconds: 10
+          timeoutSeconds: 2
           successThreshold: 1
           failureThreshold: 3
         envFrom:
