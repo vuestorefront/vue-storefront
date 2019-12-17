@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added price filtering key as config - @roywcm
 
 ### Fixed
-- Fixed missing parameter to query function from cms/store/block/actions (#3909)
+- Fixed missing parameter to query function from cms/store/block/actions - @georgiev-ivan (#3909)
 - Always close zoom overlay after changing product - @psmyrek (#3818)
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
 - Fixed null value of search input - @AdKamil (#3778)
