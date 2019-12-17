@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-  // TODO: i18n the strings
+// TODO: i18n the strings
 import _ from 'lodash'
 import CheckOut from './Checkout.vue'
 export default {
