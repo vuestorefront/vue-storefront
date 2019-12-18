@@ -26,14 +26,14 @@ export const UserModule: StorefrontModule = async function ({store}) {
       })
     })
 
-    await store.dispatch('user/startSession')
+    store.dispatch('user/startSession')
   }
 
   store.subscribe((mutation, state) => {
     const type = mutation.type
 
     if (
-      type.endsWith(types.USER_INFO_LOADED)
+      type.endsWith(types.USER_INFO_LOADED) && state.user.current
     ) {
       StorageManager.get('user').setItem('current-user', state.user.current).catch((reason) => {
         console.error(reason) // it doesn't work on SSR
@@ -49,7 +49,7 @@ export const UserModule: StorefrontModule = async function ({store}) {
     }
 
     if (
-      type.endsWith(types.USER_TOKEN_CHANGED)
+      type.endsWith(types.USER_TOKEN_CHANGED) && state.user.token
     ) {
       StorageManager.get('user').setItem('current-token', state.user.token).catch((reason) => {
         console.error(reason) // it doesn't work on SSR
