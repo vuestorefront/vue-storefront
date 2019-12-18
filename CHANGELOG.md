@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added price filtering key as config - @roywcm
 
 ### Fixed
+- Fixed missing parameter to query function from cms/store/block/actions - @georgiev-ivan (#3909)
 - Always close zoom overlay after changing product - @psmyrek (#3818)
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
 - Fixed null value of search input - @AdKamil (#3778)
@@ -39,6 +40,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed Breadcrumb filters - apply to second category fetch  - @grimasod (#3887)
 - Fixed `config.storeViews.commonCache` being ignored - @grimasod (#3895)
 - Fixed static pages, password notification, offline mode #3902 - @andrzejewsky (#3902)
+- Fixed error page display with enabled multistore - @gibkigonzo (#3890)
+- Fixed edit shipping address in my account - @gibkigonzo (#3921)
+- Fetch cms_block content in serverPrefetch method - @gibkigonzo (#3910)
 - Keep category products objects on ssr - @gibkigonzo (#3924)
 
 ### Changed / Improved
