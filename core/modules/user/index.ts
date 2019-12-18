@@ -33,7 +33,7 @@ export const UserModule: StorefrontModule = async function ({store}) {
     const type = mutation.type
 
     if (
-      type.endsWith(types.USER_INFO_LOADED) && state.user.current
+      type.endsWith(types.USER_INFO_LOADED)
     ) {
       StorageManager.get('user').setItem('current-user', state.user.current).catch((reason) => {
         console.error(reason) // it doesn't work on SSR
@@ -49,7 +49,7 @@ export const UserModule: StorefrontModule = async function ({store}) {
     }
 
     if (
-      type.endsWith(types.USER_TOKEN_CHANGED) && state.user.token
+      type.endsWith(types.USER_TOKEN_CHANGED)
     ) {
       StorageManager.get('user').setItem('current-token', state.user.token).catch((reason) => {
         console.error(reason) // it doesn't work on SSR
