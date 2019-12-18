@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed Breadcrumb filters - apply to second category fetch  - @grimasod (#3887)
 - Fixed `config.storeViews.commonCache` being ignored - @grimasod (#3895)
 - Fixed static pages, password notification, offline mode #3902 - @andrzejewsky (#3902)
+- Keep category products objects on ssr - @gibkigonzo (#3924)
 
 ### Changed / Improved
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
