@@ -11,6 +11,8 @@ const actions: ActionTree<CmsBlockState, RootState> = {
       const blockResponse = await quickSearchByQuery({
         query: createLoadingBlockQuery({ filterField, filterValues }),
         entityType: 'cms_block',
+        size,
+        start,
         excludeFields,
         includeFields
       })
