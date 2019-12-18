@@ -271,13 +271,6 @@ export default {
   }
 }
 
-#home {
-  box-sizing: border-box;
-  @include for-desktop {
-    max-width: 1240px;
-    margin: auto;
-  }
-}
 .call-to-action-newsletter {
   margin: $spacer-big 0;
   box-sizing: border-box;

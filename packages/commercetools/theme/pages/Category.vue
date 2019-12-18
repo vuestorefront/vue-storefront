@@ -444,13 +444,6 @@ export default {
     @content;
   }
 }
-#category {
-  box-sizing: border-box;
-  @include for-desktop {
-    max-width: 1240px;
-    margin: auto;
-  }
-}
 .breadcrumbs {
   padding: $spacer-big $spacer-extra-big $spacer-extra-big;
 }
