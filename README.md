@@ -6,7 +6,7 @@
 ![version](https://img.shields.io/badge/node-v8.x-blue.svg)
 ![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg)
 ![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
-<a href="slack.vuestorefront.io">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
+<a href="https://slack.vuestorefront.io">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
 
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/coreshop-vsbridge">Pimcore/CoreShop</a>, [BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront), Prestashop or Shopware) through the API.
 
@@ -178,6 +178,7 @@ Tutorial series on creating themes for Vue Storefront:
 - [Shopping carts, totals and orders sync](https://docs.vuestorefront.io/guide/integrations/totals-sync.html)
 - [Vue Storefront 3rd party platforms integration boilerplate](https://github.com/DivanteLtd/vue-storefront-integration-boilerplate/tree/tutorial) - this is the API You should implement to integrate 3rd party platform
 - [Magento2 MultiStore support](https://docs.vuestorefront.io/guide/integrations/multistore.html)
+- [Vagrant development environment with magento 2](https://github.com/ProxiBlue/vagrant_m2_vuestorefront) - Consistent magento 2 + VSF development environment using vagrant and docker
 
 
 ### 'Default theme' contribution rules
@@ -844,19 +845,66 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle"> 
-<a href="">
+<a href="https://www.lightcom.io/">
           <img
-            src=""
-            alt=""
+            src="https://divante.com/partners/Vue-Storefront/Logo%20PNG%20File.png"
+            alt="Lightcom"
             height="40"
           >
         </a>
 </td>
      <td align="center" valign="middle"> 
-<a href="">
+<a href="https://www.devlineagency.com/">
           <img
-            src=""
-            alt=""
+            src="https://divante.com/partners/Vue-Storefront/devline.png"
+            alt="Devline"
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle"> 
+<a href="https://appeal.digital/">
+          <img
+            src="https://divante.com/partners/Vue-Storefront/appeal-digital%20(1).png"
+            alt="Appeal Digital"
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle"> 
+<a href="https://www.rvsmedia.co.uk/">
+          <img
+            src="https://divante.com/partners/Vue-Storefront/rvsmedia_logo.png"
+            alt="RVS Media"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+        <tr>
+      <td align="center" valign="middle"> 
+<a href="https://www.hotwax.co/">
+          <img
+            src="https://divante.com/partners/Vue-Storefront/HotWax.png"
+            alt="HotWax"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle"> 
+<a href="https://www.sitewards.com/">
+          <img
+            src="https://divante.com/partners/Vue-Storefront/Sitewards%20Logo.png"
+            alt="Sitewards"
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle"> 
+<a href="https://codecoda.com/en">
+          <img
+            src="https://divante.com/partners/Vue-Storefront/CodeCoda-800.png"
+            alt="CodeCoda"
             height="40"
           >
         </a>
@@ -896,3 +944,5 @@ If you like to become our Partner just let us know via contributors@vuestorefron
 ## The license
 
 Vue Storefront source code is completely free and released under the [MIT License](https://github.com/DivanteLtd/vue-storefront/blob/master/LICENSE).
+
+[![analytics](http://www.google-analytics.com/collect?v=1&t=pageview&_s=1&dl=https%3A%2F%2Fgithub.com%2FDivanteLtd%2Fvue-storefront&_u=MAC~&cid=1757014354.1393964045&tid=UA-108235765-10)]()

@@ -60,6 +60,12 @@ if (isProd) {
   })
 }
 
+function clearSSRContext (context) {
+  Object.keys(context.server).forEach(key => delete context.server[key])
+  delete context.output['cacheTags']
+  delete context['meta']
+}
+
 function invalidateCache (req, res) {
   if (config.server.useOutputCache) {
     if (req.query.tag && req.query.key) { // clear cache pages for specific query tag

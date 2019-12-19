@@ -124,4 +124,9 @@ input {
   font-size: 14px;
   text-align: center;
 }
+.price-original {
+  text-decoration: line-through;
+  color: #828282;
+  font-size: .95rem;
+}
 </style>
