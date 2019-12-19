@@ -1,0 +1,20 @@
+version: '3.0'
+services:
+  storefront:
+    container_name: storefront
+    build:
+      context: .
+      dockerfile: ./docker/vue-storefront/Dockerfile
+    volumes:
+      - ./:/var/www
+    ports:
+      - '3000:3000'
+    command: "/bin/sh"
+    stdin_open: true
+    tty: true
+    networks:
+      - procc_network
+
+networks:
+  procc_network:
+    external: true
