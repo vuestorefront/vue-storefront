@@ -130,9 +130,9 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async loadCategories ({ commit, getters }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
     const searchingByIds = !(!categorySearchOptions || !categorySearchOptions.filters || !categorySearchOptions.filters.id)
-    const searchedIds: string[] = searchingByIds ? (categorySearchOptions.filters.id as string[]) : []
+    const searchedIds: string[] = searchingByIds ? ([...categorySearchOptions.filters.id] as string[]) : []
     const loadedCategories: Category[] = []
-    if (searchingByIds) { // removing from search query already loaded categories, they are added to returned results
+    if (searchingByIds && !categorySearchOptions.reloadAll) { // removing from search query already loaded categories, they are added to returned results
       for (const [categoryId, category] of Object.entries(getters.getCategoriesMap)) {
         if (searchedIds.includes(categoryId)) {
           loadedCategories.push(category as Category)
@@ -197,8 +197,8 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryBreadcrumbs ({ dispatch, getters }, { category, currentRouteName, omitCurrent = false }) {
     if (!category) return
     const categoryHierarchyIds = _prepareCategoryPathIds(category) // getters.getCategoriesHierarchyMap.find(categoryMapping => categoryMapping.includes(category.id))
-    const categoryFilters = { 'id': categoryHierarchyIds }
-    const categories = await dispatch('loadCategories', {filters: categoryFilters})
+    const categoryFilters = Object.assign({ 'id': categoryHierarchyIds }, cloneDeep(config.entities.category.breadcrumbFilterFields))
+    const categories = await dispatch('loadCategories', { filters: categoryFilters, reloadAll: Object.keys(config.entities.category.breadcrumbFilterFields).length > 0 })
     const sorted = []
     for (const id of categoryHierarchyIds) {
       const index = categories.findIndex(cat => cat.id.toString() === id)

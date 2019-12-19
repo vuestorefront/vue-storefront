@@ -683,13 +683,16 @@ const actions: ActionTree<ProductState, RootState> = {
   },
   async loadProductBreadcrumbs ({ dispatch, rootGetters }, { product } = {}) {
     if (product && product.category_ids) {
-      let currentCategory = rootGetters['category-next/getCurrentCategory'] // use current category, if set
-      if (!currentCategory || !currentCategory.id || !product.category_ids.includes(currentCategory.id.toString())) {
-        const categoryFilters = Object.assign({ 'id': [...product.category_ids] }, cloneDeep(config.entities.category.breadcrumbFilterFields))
-        const categories = await dispatch('category-next/loadCategories', {filters: categoryFilters}, { root: true })
-        currentCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
+      const currentCategory = rootGetters['category-next/getCurrentCategory']
+      let breadcrumbCategory
+      const categoryFilters = Object.assign({ 'id': [...product.category_ids] }, cloneDeep(config.entities.category.breadcrumbFilterFields))
+      const categories = await dispatch('category-next/loadCategories', { filters: categoryFilters, reloadAll: Object.keys(config.entities.category.breadcrumbFilterFields).length > 0 }, { root: true })
+      if (currentCategory && currentCategory.id && (categories.findIndex(category => category.id === currentCategory.id) >= 0)) {
+        breadcrumbCategory = currentCategory // use current category if set and included in the filtered list
+      } else {
+        breadcrumbCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
       }
-      await dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: product.name }, { root: true })
+      await dispatch('category-next/loadCategoryBreadcrumbs', { category: breadcrumbCategory, currentRouteName: product.name }, { root: true })
     }
   }
 }

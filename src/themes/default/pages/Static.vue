@@ -2,7 +2,7 @@
   <div>
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :with-homepage="true" :active-route="$props.title" />
+        <breadcrumbs :with-homepage="true" :routes="[]" :active-route="$props.title" />
         <h2 class="fs-big">
           {{ $props.title }}
         </h2>
@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     activeComponent () {
-      const matchedNav = this.navigation.find(nav => nav.link === this.$route.path)
+      const matchedNav = this.navigation.find(nav => nav.link.includes(this.$route.path))
       return matchedNav ? matchedNav.component : null
     }
   },

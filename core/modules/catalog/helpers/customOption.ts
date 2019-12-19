@@ -27,18 +27,19 @@ export const selectedCustomOptionValue = (optionType: string, optionValues: Opti
     case 'select':
     case 'drop_down': {
       const selectedValue = optionValues.find((value) => value.option_type_id === inputValue as number)
+      const optionTypeId = selectedValue && selectedValue.option_type_id
 
-      return String(selectedValue && selectedValue.option_type_id) || ''
+      return optionTypeId ? String(optionTypeId) : null
     }
     case 'checkbox': {
       const checkboxOptionValues = inputValue as number[] || []
 
       return optionValues.filter((value) => checkboxOptionValues.includes(value.option_type_id))
         .map((value) => value.option_type_id)
-        .join(',')
+        .join(',') || null
     }
     default: {
-      return ''
+      return null
     }
   }
 }
