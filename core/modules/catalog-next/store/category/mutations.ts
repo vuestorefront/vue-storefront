@@ -1,3 +1,4 @@
+import { isServer } from '@vue-storefront/core/helpers';
 import { nonReactiveState } from './index';
 import Vue from 'vue'
 import { MutationTree } from 'vuex'
@@ -9,11 +10,11 @@ import cloneDeep from 'lodash-es/cloneDeep'
 const mutations: MutationTree<CategoryState> = {
   [types.CATEGORY_SET_PRODUCTS] (state, products = []) {
     nonReactiveState.products = cloneDeep(products)
-    state.products = products.map(prod => prod.sku)
+    state.products = isServer ? products : products.map(prod => prod.sku)
   },
   [types.CATEGORY_ADD_PRODUCTS] (state, products = []) {
     nonReactiveState.products.push(...cloneDeep(products))
-    state.products.push(...products.map(prod => prod.sku))
+    state.products.push(...(isServer ? products : products.map(prod => prod.sku)))
   },
   [types.CATEGORY_ADD_CATEGORY] (state, category: Category) {
     if (category) {

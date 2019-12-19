@@ -2,7 +2,7 @@
   <div class="compare">
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :with-homepage="true" active-route="Compare" />
+        <breadcrumbs :with-homepage="true" :routes="[]" active-route="Compare" />
         <h2>{{ title }}</h2>
       </div>
     </div>

@@ -7,6 +7,8 @@ import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { buildFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
 import { _prepareCategoryPathIds } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
+import config from 'config'
+import cloneDeep from 'lodash-es/cloneDeep'
 
 import { icmaa } from 'config'
 import intersection from 'lodash-es/intersection'
@@ -91,8 +93,8 @@ const actions: ActionTree<CategoryState, RootState> = {
       categoryHierarchyIds = whitelistCategoryHierarchyIds
     }
 
-    const categoryFilters = { 'id': categoryHierarchyIds.map(id => id.toString()) }
-    const categories = await dispatch('loadCategories', { filters: categoryFilters })
+    const categoryFilters = Object.assign({ 'id': categoryHierarchyIds }, cloneDeep(config.entities.category.breadcrumbFilterFields))
+    const categories = await dispatch('loadCategories', { filters: categoryFilters, reloadAll: Object.keys(config.entities.category.breadcrumbFilterFields).length > 0 })
     const sorted = []
     for (const id of categoryHierarchyIds) {
       const index = categories.findIndex(cat => cat.id === id)

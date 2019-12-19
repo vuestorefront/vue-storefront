@@ -16,9 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add to cart from Wishlist and Product listing for simple products - @Dnd-Dboy, @dz3n (#2637)
 - Add global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
 - Add constant which conditions the number of products loading per page - @AdKamil (#3630)
-- Added price filtering key as config - @roywcm 
+- Added price filtering key as config - @roywcm
 
 ### Fixed
+- Fixed missing parameter to query function from cms/store/block/actions - @georgiev-ivan (#3909)
 - Always close zoom overlay after changing product - @psmyrek (#3818)
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
 - Fixed null value of search input - @AdKamil (#3778)
@@ -35,11 +36,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed adding products search results to category-next product store - @grimasod (#3877)
 - Use `defaultSortBy` for sorting category products by default @haelbichalex (#3873)
 - Fixed some potential mutations of Config object in `catalog` and `catalog-next` - @grimasod (#3843)
+- Set `null` as default value for custom option in product page -  @gibkigonzo (#3885)
+- Fixed Breadcrumb filters - apply to second category fetch  - @grimasod (#3887)
+- Fixed `config.storeViews.commonCache` being ignored - @grimasod (#3895)
+- Fixed static pages, password notification, offline mode #3902 - @andrzejewsky (#3902)
+- Fixed error page display with enabled multistore - @gibkigonzo (#3890)
+- Fixed edit shipping address in my account - @gibkigonzo (#3921)
+- Fetch cms_block content in serverPrefetch method - @gibkigonzo (#3910)
+- Keep category products objects on ssr - @gibkigonzo (#3924)
 
 ### Changed / Improved
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
 - Improve the readability of 'getShippingDetails()' and 'updateDetails()' method of UserShippingDetails component - @adityasharma7 (#3770)
 - Keep git after yarn install in dockerfile - @ddanier (#3826)
+- Update the Storage Manager shipping details cache immediately when then Vuex checkout store is updated - @grimasod (#3894)
 
 ## [1.11.0-rc.2] - 2019.10.31
 
