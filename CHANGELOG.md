@@ -279,6 +279,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pass to `registerModule` all parameters as one object - @gibkigonzo (#3634)
 - Include shipping address data in request for shipping methods for more accurate filtering - @rain2o (#2515)
 - remove 'disabled' flag in storeViews config - @gibkigonzo (#3659)
+## [1.10.5] - 28.11.2019
+
+### Fixed
+- Disable product mutation when assigning product variant - @gibkigonzo (#3735)
+- Fix issue with Cannot assign to read only property 'storeCode' - @yuriboyko (#3748)
+- Render correct category links when multistore is active - @gibkigonzo (#3753)
+- Disable product mutation when assigning product variant - @gibkigonzo (#3735)
+- Fixed null value of search input - @AdKamil (#3778)
+- Sorting fixed on category page - @AdKamil (#3785)
+- Mount app in 'beforeResolve' if it's not dispatched in 'onReady' - @gibkigonzo (#3669)
+- change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
+- Fix product images, my account link, warnings in console - @andrzejewsky (#3850)
+
+## [1.10.4] - 18.10.2019
+
+### Fixed
+- Added try/catch for fetching single product in cart synchronization - @gibkigonzo (#3632)
+- Removed infinite loop when changing checkbox in shipping details - @gibkigonzo (#3656)
+- Remove modifying config by reference in multistore - @gibkigonzo (#3617)
+- Fix displaying same country twice in the in the country switcher - @andrzejewsky (#3587)
+- Remove race condition while loading locale messages - @gibkigonzo (#3602)
+- Fixed special price that can break when you change pages (browser navigation for/back) or just go from category to product page - @resubaka (#3638)
+- Change sku to string when checking products equality - @gibkigonzo (#3606)
+- Fixed problem with losing browser history - @andrzejewsky (#3642)
+- Fixed resolving store code on SSR - @andrzejewsky (#3576)
+- Fixed styles for original price on Wishlist sidebar - @przspa (#3392)
+- Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
+- Improved scrolling in Safari on iOS devices (sidebars) - @phoenixdev-kl (#3551)
+- Improved cookie and offline badges (z-index, overflow) - @phoenixdev-kl (#3552)
+- Added config to set Cache-Control header for static assets based on mime type - @phoenix-bjoern (#3268)
+- Added catching of errors when ES is down - @qiqqq
+- `localizedRoute()` doesn't return urlDispatcher routes anymore. Use localizedDispatcherRoute instead - @lukeromanowicz (#3548)
+- Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
+- `localizedRoute()` now supports path (and prefers over fullPath) in LocalizedRoute objects - @lukeromanowicz (#3515)
+- Decreased the `localStorage` quota usage + error handling by introducing new config variables: `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`); `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway); `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW) - @pkarw (#2985)
+- Fixed evaluate detailsLink in the cookie notification - @benjick (#3689)
+
+## Added
+- Added german translations - @schwerdt-ke (3076)
 
 ## [1.10.3] - 2019.09.18
 

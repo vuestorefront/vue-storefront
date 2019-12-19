@@ -1,7 +1,7 @@
 import { MicrocartProduct } from '@vue-storefront/core/modules/cart/components/Product.ts'
 import i18n from '@vue-storefront/i18n'
-import config from 'config'
 import debounce from 'lodash-es/debounce'
+import config from 'config'
 
 export default {
   data () {
