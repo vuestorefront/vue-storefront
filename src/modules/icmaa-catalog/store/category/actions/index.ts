@@ -2,13 +2,11 @@ import { ActionTree } from 'vuex'
 import * as types from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from '@vue-storefront/core/modules/catalog-next/store/category/CategoryState'
-import { products, entities } from 'config'
+import { products } from 'config'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
-import { buildFilterProductsQuery, isServer } from '@vue-storefront/core/helpers'
+import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { _prepareCategoryPathIds } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
-import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
-import config from 'config'
-import cloneDeep from 'lodash-es/cloneDeep'
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
 import { icmaa } from 'config'
 import intersection from 'lodash-es/intersection'
@@ -78,7 +76,8 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   /**
    * Changes:
-   * * Add category whitelist support to hide unimportant categories
+   * * Add category whitelist support to hide unimportant categories.
+   * * Don't load it using `loadCategories` because the result might overwrite the current category in state
    */
   async loadCategoryBreadcrumbs ({ dispatch, getters }, { category, currentRouteName, omitCurrent = false }) {
     if (!category) {
@@ -93,17 +92,16 @@ const actions: ActionTree<CategoryState, RootState> = {
       categoryHierarchyIds = whitelistCategoryHierarchyIds
     }
 
-    const categoryFilters = Object.assign({ 'id': categoryHierarchyIds }, cloneDeep(config.entities.category.breadcrumbFilterFields))
-    const categories = await dispatch('loadCategories', { filters: categoryFilters, reloadAll: Object.keys(config.entities.category.breadcrumbFilterFields).length > 0 })
-    const sorted = []
-    for (const id of categoryHierarchyIds) {
-      const index = categories.findIndex(cat => cat.id === id)
-      if (index >= 0 && (!omitCurrent || categories[index].id !== category.id)) {
-        sorted.push(categories[index])
-      }
-    }
-    await dispatch('breadcrumbs/set', { current: currentRouteName, routes: parseCategoryPath(sorted) }, { root: true })
-    return sorted
+    const filters = { 'id': categoryHierarchyIds }
+    const categories = await dispatch('findCategories', { filters })
+
+    categories.sort((a, b) => a.level - b.level)
+    const routes = categories.map(c => {
+      return { name: c.name, route_link: formatCategoryLink(c) }
+    })
+
+    await dispatch('breadcrumbs/set', { current: currentRouteName, routes }, { root: true })
+    return categories
   }
 }
 

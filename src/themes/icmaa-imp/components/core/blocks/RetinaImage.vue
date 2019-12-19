@@ -53,7 +53,7 @@ export default {
     },
     event (action = 'load') {
       if (this.loading) {
-        this.loading = true
+        this.loading = false
         this.$emit(action)
       }
     }
