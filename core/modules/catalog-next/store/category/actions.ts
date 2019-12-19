@@ -130,7 +130,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   async loadCategories ({ commit, getters }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
     const searchingByIds = !(!categorySearchOptions || !categorySearchOptions.filters || !categorySearchOptions.filters.id)
-    const searchedIds: string[] = searchingByIds ? ([...categorySearchOptions.filters.id] as string[]) : []
+    const searchedIds: string[] = searchingByIds ? [...categorySearchOptions.filters.id].map(String) : []
     const loadedCategories: Category[] = []
     if (searchingByIds && !categorySearchOptions.reloadAll) { // removing from search query already loaded categories, they are added to returned results
       for (const [categoryId, category] of Object.entries(getters.getCategoriesMap)) {
