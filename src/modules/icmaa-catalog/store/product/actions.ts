@@ -3,7 +3,6 @@ import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '@vue-storefront/core/modules/catalog/types/ProductState'
 import config, { icmaa } from 'config'
 import cloneDeep from 'lodash-es/cloneDeep'
-import intersection from 'lodash-es/intersection'
 
 const actions: ActionTree<ProductState, RootState> = {
   /**
@@ -15,24 +14,29 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   async loadProductBreadcrumbs ({ dispatch, rootGetters }, { product } = {}) {
     if (product && product.category_ids) {
-      let currentCategory = rootGetters['category-next/getCurrentCategory'] // use current category, if set
-      if (!currentCategory || !currentCategory.id || !product.category_ids.includes(currentCategory.id.toString())) {
-        const { path } = icmaa.breadcrumbs
-        const categoryFilters = Object.assign(
-          { 'id': [...product.category_ids], path },
-          cloneDeep(config.entities.category.breadcrumbFilterFields)
-        )
+      const currentCategory = rootGetters['category-next/getCurrentCategory']
 
-        const onlyActive = false
-        const categories = await dispatch(
-          'category-next/loadCategories',
-          { filters: categoryFilters, onlyActive },
-          { root: true }
-        )
+      let breadcrumbCategory
+      const onlyActive = false
+      const { path } = icmaa.breadcrumbs
+      const categoryFilters = Object.assign(
+        { 'id': [...product.category_ids], path },
+        cloneDeep(config.entities.category.breadcrumbFilterFields)
+      )
 
-        currentCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
+      const categories = await dispatch(
+        'category-next/loadCategories',
+        { filters: categoryFilters, onlyActive, reloadAll: true },
+        { root: true }
+      )
+
+      if (currentCategory && currentCategory.id && (categories.findIndex(category => category.id === currentCategory.id) >= 0)) {
+        breadcrumbCategory = currentCategory // use current category if set and included in the filtered list
+      } else {
+        breadcrumbCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
       }
-      await dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: product.name }, { root: true })
+
+      await dispatch('category-next/loadCategoryBreadcrumbs', { category: breadcrumbCategory, currentRouteName: product.name }, { root: true })
     }
   }
 }
