@@ -1,7 +1,7 @@
 <template>
   <div v-if="isVisible">
     <div class="category-header t-relative">
-      <retina-image :image="banner" :alt="category.name" v-if="banner" class="t-w-screen" />
+      <retina-image :image="banner" @error="onBannerError" :alt="category.name" v-if="banner" class="t-w-screen" />
       <div class="t-flex t-items-center t-justify-end t-absolute t-bottom-0 t-left-0 t-pb-6 t-px-6 t-w-full">
         <slot />
       </div>
@@ -34,6 +34,11 @@ export default {
       default: false
     }
   },
+  data () {
+    return {
+      bannerExists: true
+    }
+  },
   computed: {
     ...mapGetters({
       category: 'icmaaCategoryExtras/getCurrentCategory',
@@ -55,7 +60,12 @@ export default {
         return false
       }
 
-      return getThumbnailPath('/' + this.categoryExtras.bannerImage, 0, 0, 'media')
+      let banner = this.categoryExtras.bannerImage
+      if (!this.bannerExists) {
+        banner = this.categoryExtras.bannerImage.replace('_mobile', '')
+      }
+
+      return getThumbnailPath('/' + banner, 0, 0, 'media')
     },
     spotifyLogoItems () {
       return Object.values(this.getSpotifyLogoItems).slice(0, this.spotifyLogoLimit || (['xs', 'sm'].includes(this.viewport) ? 4 : 10))
@@ -64,6 +74,9 @@ export default {
   methods: {
     isLast (index, array) {
       return index !== (array.length - 1)
+    },
+    onBannerError () {
+      this.bannerExists = false
     }
   }
 }

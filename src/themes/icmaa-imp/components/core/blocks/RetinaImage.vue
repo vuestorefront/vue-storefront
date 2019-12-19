@@ -1,9 +1,9 @@
 <template>
   <div v-if="placeholder && loading">
     <placeholder :ratio="ratio" />
-    <img :src="src" :srcset="srcset" @load="loaded" class="t-hidden">
+    <img :src="src" :srcset="srcset" @load="loaded" @error="error" class="t-hidden">
   </div>
-  <img :src="src" :srcset="srcset" @load="loaded" v-else>
+  <img :src="src" :srcset="srcset" @load="loaded" @error="error" v-else>
 </template>
 
 <script>
@@ -46,9 +46,15 @@ export default {
   },
   methods: {
     loaded () {
+      this.event('load')
+    },
+    error () {
+      this.event('error')
+    },
+    event (action = 'load') {
       if (this.loading) {
-        this.loading = false
-        this.$emit('load')
+        this.loading = true
+        this.$emit(action)
       }
     }
   }
