@@ -1,19 +1,6 @@
-import { PagedProductList } from './../../types/ProductState';
-import { nonReactiveState } from './index';
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import ProductState from '../../types/ProductState'
-import cloneDeep from 'lodash-es/cloneDeep'
-
-function mapCategoryProducts (productsFromState, productsData) {
-  return productsFromState.map(prodState => {
-    if (typeof prodState === 'string') {
-      const product = productsData.find(prodData => prodData.sku === prodState)
-      return cloneDeep(product)
-    }
-    return prodState
-  })
-}
 
 const getters: GetterTree<ProductState, RootState> = {
   getCurrentProduct: state => state.current,
