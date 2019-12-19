@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed error page display with enabled multistore - @gibkigonzo (#3890)
 - Fixed edit shipping address in my account - @gibkigonzo (#3921)
 - Fetch cms_block content in serverPrefetch method - @gibkigonzo (#3910)
+- Keep category products objects on ssr - @gibkigonzo (#3924)
 - product breadcrumbs - check if current category is not highest one - @gibkigonzo (#3933)
 
 ### Changed / Improved
