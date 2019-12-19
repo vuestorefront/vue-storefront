@@ -1,11 +1,11 @@
 {
   "PROCC": {
-    "API": "http://localhost:8081",
-    "URL": "http://localhost:8081"
+    "API": "http://procc:8081",
+    "URL": "http://procc:8081"
   },
   "server": {
-    "url": "http://localhost:3000",
-    "host": "localhost",
+    "url": "http://storefront:3000",
+    "host": "storefront",
     "port": 3000,
     "protocol": "http",
     "api": "api",
@@ -59,21 +59,21 @@
     }
   },
   "redis": {
-    "host": "localhost",
+    "host": "redis",
     "port": 6379,
     "db": 0
   },
   "graphql": {
-    "host": "localhost",
+    "host": "storefront_api",
     "port": 8080
   },
   "api": {
-    "url": "http://localhost:8080"
+    "url": "http://storefront_api:8080"
   },
   "elasticsearch": {
     "httpAuth": "",
     "host": "/api/catalog",
-    "host_backend": "http://localhost:8080",
+    "host_backend": "http://storefront_api:8080",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -190,7 +190,7 @@
       "url": "/aa",
       "appendStoreCode": true,
       "elasticsearch": {
-        "host": "http://localhost:8080/api/catalog",
+        "host": "http://storefront_api:8080/api/catalog",
         "index": "vue_storefront_catalog_aa"
       },
       "tax": {
@@ -219,7 +219,7 @@
       "url": "/cctest",
       "appendStoreCode": true,
       "elasticsearch": {
-        "host": "http://localhost:8080/api/catalog",
+        "host": "http://storefront_api:8080/api/catalog",
         "index": "vue_storefront_catalog_cctest"
       },
       "tax": {
@@ -483,17 +483,17 @@
     "askBeforeRemoveProduct": true,
     "displayItemDiscounts": true,
     "minicartCountType": "quantities",
-    "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
-    "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
-    "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
-    "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
-    "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}",
-    "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
-    "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-    "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
-    "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
-    "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
-    "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
+    "create_endpoint": "http://storefront_api:8080/api/cart/create?token={{token}}",
+    "updateitem_endpoint": "http://storefront_api:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
+    "deleteitem_endpoint": "http://storefront_api:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
+    "pull_endpoint": "http://storefront_api:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
+    "totals_endpoint": "http://storefront_api:8080/api/cart/totals?token={{token}}&cartId={{cartId}}",
+    "paymentmethods_endpoint": "http://storefront_api:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+    "shippingmethods_endpoint": "http://storefront_api:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
+    "shippinginfo_endpoint": "http://storefront_api:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+    "collecttotals_endpoint": "http://storefront_api:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
+    "deletecoupon_endpoint": "http://storefront_api:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
+    "applycoupon_endpoint": "http://storefront_api:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
   "products": {
     "useShortCatalogUrls": false,
@@ -574,7 +574,7 @@
   },
   "orders": {
     "directBackendSync": true,
-    "endpoint": "http://localhost:8080/api/order",
+    "endpoint": "http://storefront_api:8080/api/order",
     "payment_methods_mapping": {},
     "offline_orders": {
       "automatic_transmission_enabled": false,
@@ -604,27 +604,27 @@
     }
   },
   "reviews": {
-    "create_endpoint": "http://localhost:8080/api/review/create"
+    "create_endpoint": "http://storefront_api:8080/api/review/create"
   },
   "users": {
     "autoRefreshTokens": true,
-    "endpoint": "http://localhost:8080/api/user",
-    "history_endpoint": "http://localhost:8080/api/user/order-history?token={{token}}",
-    "resetPassword_endpoint": "http://localhost:8080/api/user/reset-password",
-    "changePassword_endpoint": "http://localhost:8080/api/user/change-password?token={{token}}",
-    "login_endpoint": "http://localhost:8080/api/user/login",
-    "create_endpoint": "http://localhost:8080/api/user/create",
-    "me_endpoint": "http://localhost:8080/api/user/me?token={{token}}",
-    "refresh_endpoint": "http://localhost:8080/api/user/refresh"
+    "endpoint": "http://storefront_api:8080/api/user",
+    "history_endpoint": "http://storefront_api:8080/api/user/order-history?token={{token}}",
+    "resetPassword_endpoint": "http://storefront_api:8080/api/user/reset-password",
+    "changePassword_endpoint": "http://storefront_api:8080/api/user/change-password?token={{token}}",
+    "login_endpoint": "http://storefront_api:8080/api/user/login",
+    "create_endpoint": "http://storefront_api:8080/api/user/create",
+    "me_endpoint": "http://storefront_api:8080/api/user/me?token={{token}}",
+    "refresh_endpoint": "http://storefront_api:8080/api/user/refresh"
   },
   "stock": {
     "synchronize": true,
     "allowOutOfStockInCart": true,
-    "endpoint": "http://localhost:8080/api/stock"
+    "endpoint": "http://storefront_api:8080/api/stock"
   },
   "images": {
     "useExactUrlsNoProxy": false,
-    "baseUrl": "http://localhost:8080/img/",
+    "baseUrl": "http://storefront_api:8080/img/",
     "productPlaceholder": "/assets/placeholder.jpg"
   },
   "install": {
@@ -680,7 +680,7 @@
     "bundleAllStoreviewLanguages": true
   },
   "mailchimp": {
-    "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
+    "endpoint": "http://storefront_api:8080/api/ext/mailchimp-subscribe/subscribe"
   },
   "expireHeaders": {
     "default": "30d",
@@ -692,8 +692,8 @@
   },
   "mailer": {
     "endpoint": {
-      "send": "http://localhost:8080/api/ext/mail-service/send-email",
-      "token": "http://localhost:8080/api/ext/mail-service/get-token"
+      "send": "http://storefront_api:8080/api/ext/mail-service/send-email",
+      "token": "http://storefront_api:8080/api/ext/mail-service/get-token"
     },
     "contactAddress": "contributors@vuestorefront.io",
     "sendConfirmation": true
@@ -711,8 +711,8 @@
     "id": false
   },
   "cms": {
-    "endpoint": "http://localhost:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",
-    "endpointIdentifier": "http://localhost:8080/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
+    "endpoint": "http://storefront_api:8080/api/ext/cms-data/cms{{type}}/{{cmsId}}",
+    "endpointIdentifier": "http://storefront_api:8080/api/ext/cms-data/cms{{type}}Identifier/{{cmsIdentifier}}/storeId/{{storeId}}"
   },
   "cms_block": {
     "max_count": 500
