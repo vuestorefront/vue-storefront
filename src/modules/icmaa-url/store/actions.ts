@@ -125,6 +125,11 @@ export const actions: ActionTree<UrlState, any> = {
     const urlPath = getUrlPathFromUrl(url)
     const paramsObj = { urlPath, params }
 
+    const customUrl = await forCustomUrls({ dispatch }, paramsObj)
+    if (customUrl) {
+      return customUrl
+    }
+
     const product = await forProduct({ dispatch }, paramsObj)
     if (product) {
       return product
@@ -133,11 +138,6 @@ export const actions: ActionTree<UrlState, any> = {
     const category = await forCategory({ dispatch }, paramsObj)
     if (category) {
       return category
-    }
-
-    const customUrl = await forCustomUrls({ dispatch }, paramsObj)
-    if (customUrl) {
-      return customUrl
     }
 
     const cmsPageUrl = await forCmsPageUrls({ dispatch }, paramsObj)
