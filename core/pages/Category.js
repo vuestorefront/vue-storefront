@@ -248,11 +248,7 @@ export default {
         }
       }).catch(err => {
         if (err.message.indexOf('query returned empty result') > 0) {
-          this.$store.dispatch('notification/spawnNotification', {
-            type: 'error',
-            message: i18n.t('The product, category or CMS page is not available in Offline mode. Redirecting to Home.'),
-            action1: { label: i18n.t('OK') }
-          })
+          Logger.error('[Error-(core/pages/Category.js)] : validateRoute -> err', 'Category', err)()
           this.$router.push(localizedRoute('/', currentStoreView().storeCode))
         }
       })
