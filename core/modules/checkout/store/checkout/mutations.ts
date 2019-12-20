@@ -1,14 +1,13 @@
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import CheckoutState from '../../types/CheckoutState'
-import { ORDER_PLACE_ORDER } from '@vue-storefront/core/modules/order/store/mutation-types'
 
 const mutations: MutationTree<CheckoutState> = {
   /**
    * Setup current order object
    * @param {Object} order Object
    */
-  [ORDER_PLACE_ORDER] (state, order) {
+  [types.CHECKOUT_PLACE_ORDER] (state, order) {
     state.order = order
   },
   [types.CHECKOUT_SET_MODIFIED_AT] (state, timestamp) {
@@ -41,6 +40,21 @@ const mutations: MutationTree<CheckoutState> = {
   },
   [types.CHECKOUT_SET_THANKYOU] (state, payload) {
     state.isThankYouPage = payload
+  },
+  [types.CHECKOUT_ADD_PAYMENT_METHOD] (state, paymentMethod) {
+    state.paymentMethods.push(paymentMethod)
+  },
+  [types.CHECKOUT_SET_PAYMENT_METHODS] (state, paymentMethods = []) {
+    state.paymentMethods = paymentMethods
+  },
+  [types.CHECKOUT_ADD_SHIPPING_METHOD] (state, shippingMethods) {
+    state.shippingMethods.push(shippingMethods)
+  },
+  [types.CHECKOUT_SET_SHIPPING_METHODS] (state, shippingMethods = []) {
+    state.shippingMethods = shippingMethods
+  },
+  [types.CHECKOUT_UPDATE_PAYMENT_DETAILS] (state, updateData = {}) {
+    state.paymentDetails = Object.assign({}, state.paymentDetails, updateData)
   }
 }
 

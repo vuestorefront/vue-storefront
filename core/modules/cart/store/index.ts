@@ -4,7 +4,7 @@ import getters from './getters'
 import mutations from './mutations'
 import CartState from '../types/CartState'
 
-export const module: Module<CartState, any> = {
+export const cartStore: Module<CartState, any> = {
   namespaced: true,
   state: {
     isMicrocartOpen: false,
@@ -18,7 +18,9 @@ export const module: Module<CartState, any> = {
     cartItemsHash: '',
     cartServerLastSyncDate: 0,
     cartServerLastTotalsSyncDate: 0,
-    cartItems: [] // TODO: check if it's properly namespaced
+    cartItems: [], // TODO: check if it's properly namespaced
+    connectBypassCount: 0,
+    isAddingToCart: false
   },
   getters,
   actions,

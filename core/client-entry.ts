@@ -1,31 +1,38 @@
 import Vue from 'vue'
 import union from 'lodash-es/union'
-
 import { createApp } from '@vue-storefront/core/app'
 import rootStore from '@vue-storefront/core/store'
 import { registerSyncTaskProcessor } from '@vue-storefront/core/lib/sync/task'
 import i18n from '@vue-storefront/i18n'
+import omit from 'lodash-es/omit'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
-import { prepareStoreView, currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import { onNetworkStatusChange } from '@vue-storefront/core/modules/offline-order/helpers/onNetworkStatusChange'
 import '@vue-storefront/core/service-worker/registration' // register the service worker
 import { AsyncDataLoader } from './lib/async-data-loader'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import globalConfig from 'config'
+import { coreHooksExecutors } from './hooks'
 import { RouterManager } from './lib/router-manager';
 declare var window: any
 
 const invokeClientEntry = async () => {
   const dynamicRuntimeConfig = window.__INITIAL_STATE__.config ? Object.assign(globalConfig, window.__INITIAL_STATE__.config) : globalConfig
   // Get storeCode from server (received either from cache header or env variable)
-  let storeCode = window.__INITIAL_STATE__.user.current_storecode
+  let storeCode = window.__INITIAL_STATE__.storeView.storeCode
   const { app, router, store } = await createApp(null, dynamicRuntimeConfig, storeCode)
 
   if (window.__INITIAL_STATE__) {
-    store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: globalConfig }))
+    // skip fields that were set by createApp
+    const initialState = coreHooksExecutors.beforeHydrated(
+      omit(window.__INITIAL_STATE__, ['storeView', 'config', 'version'])
+    )
+    store.replaceState(Object.assign({}, store.state, initialState, { config: globalConfig }))
   }
 
   await store.dispatch('url/registerDynamicRoutes')
+  RouterManager.flushRouteQueue()
+
   function _commonErrorHandler (err, reject) {
     if (err.message.indexOf('query returned empty result') > 0) {
       rootStore.dispatch('notification/spawnNotification', {
@@ -93,7 +100,7 @@ const invokeClientEntry = async () => {
           }
         }
       }
-      if (!matched.length) {
+      if (!matched.length || !matched[0]) {
         return next()
       }
       Promise.all(matched.map((c: any) => { // TODO: update me for mixins support
