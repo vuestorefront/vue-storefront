@@ -162,6 +162,10 @@ app.get('*', (req, res, next) => {
 
   const s = Date.now()
   const errorHandler = err => {
+    // Added By Dan to fix infinite redirect on error
+    if (!req)req = {}
+    if (!req.url)req.url = 'Redirect Fix'
+
     if (err && err.code === 404) {
       if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
         apiStatus(res, 'Vue Storefront: Resource is not found', 404)

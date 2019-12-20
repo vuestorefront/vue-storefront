@@ -93,7 +93,7 @@ export default {
     overflow: hidden;
     mix-blend-mode: multiply;
     &__thumb{
-      max-width: 100%;
+      /*max-width: 100%;*/ //Disabled by Dan to keep photo aspect ratio
       height: auto;
       position: absolute;
       top: 50%;
