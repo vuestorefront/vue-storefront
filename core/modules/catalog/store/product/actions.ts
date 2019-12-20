@@ -687,7 +687,11 @@ const actions: ActionTree<ProductState, RootState> = {
       let breadcrumbCategory
       const categoryFilters = Object.assign({ 'id': [...product.category_ids] }, cloneDeep(config.entities.category.breadcrumbFilterFields))
       const categories = await dispatch('category-next/loadCategories', { filters: categoryFilters, reloadAll: Object.keys(config.entities.category.breadcrumbFilterFields).length > 0 }, { root: true })
-      if (currentCategory && currentCategory.id && (categories.findIndex(category => category.id === currentCategory.id) >= 0)) {
+      if (
+        (currentCategory && currentCategory.id) && // current category exist
+        (config.entities.category.categoriesRootCategorylId !== currentCategory.id) && // is not highest category (All) - if we open product from different page then category page
+        (categories.findIndex(category => category.id === currentCategory.id) >= 0) // can be found in fetched categories
+      ) {
         breadcrumbCategory = currentCategory // use current category if set and included in the filtered list
       } else {
         breadcrumbCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
