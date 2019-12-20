@@ -93,6 +93,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - check max quantity in microcart - @gibkigonzo (#3314)
 - Add unit tests for `core/modules/newsletter` - @psmyrek (#3464)
 - Add unit test for `core/modules/wishlist` - @psmyrek (#3471)
+- Add helper that removes non default addresses - @gibkigonzo (#3921)
 
 ### Changed / Improved
 - Use `encodeURIComponent` to encode get parameters in `multimatch.js` - @adityasharma7 (#3736)
