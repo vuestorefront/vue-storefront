@@ -44,20 +44,30 @@ export default {
       return products.list.slice(0, this.limit)
     }
   },
-  async mounted () {
-    let size = this.limit
+  methods: {
+    async fetchProducts () {
+      let size = this.limit
 
-    // If products are not enough because of different limit than product count in state, load more.
-    if (this.products.length < this.limit) {
-      size = this.limit - this.products.length
+      // If products are not enough because of different limit than product count in state, load more.
+      if (this.products.length < this.limit) {
+        size = this.limit - this.products.length
+      }
+
+      await this.$store.dispatch('icmaaCategory/loadProductListingWidgetProducts', {
+        categoryId: this.categoryId,
+        cluster: this.cluster,
+        sort: this.sort,
+        size
+      })
     }
-
-    await this.$store.dispatch('icmaaCategory/loadProductListingWidgetProducts', {
-      categoryId: this.categoryId,
-      cluster: this.cluster,
-      sort: this.sort,
-      size
-    })
+  },
+  watch: {
+    cluster (a, b) {
+      this.fetchProducts()
+    }
+  },
+  mounted () {
+    this.fetchProducts()
   }
 }
 </script>

@@ -8,8 +8,12 @@
         <logo-line :parent-id="14" path="/streetwear" :title="'Brands'" />
       </div>
     </lazy-hydrate>
-    <product-listing-widget :category-id="3278" />
-    <product-listing-widget :category-id="79" sort="price:asc" />
+    <lazy-hydrate when-visible>
+      <product-listing-widget :category-id="3278" />
+    </lazy-hydrate>
+    <lazy-hydrate when-visible>
+      <product-listing-widget :category-id="79" sort="price:asc" />
+    </lazy-hydrate>
   </div>
 </template>
 

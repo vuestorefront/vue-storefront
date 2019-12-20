@@ -5,7 +5,7 @@ import CategoryState, { CategoryStateListItemHydrated, ProductListingWidgetState
 import * as types from './mutation-types'
 import * as catTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 import { fetchCategoryById, fetchChildCategories } from '../helpers'
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import bodybuilder from 'bodybuilder'
 
 import { Logger } from '@vue-storefront/core/lib/logger'
 
@@ -37,27 +37,34 @@ const actions: ActionTree<CategoryState, RootState> = {
       return { parent, list: list as Category[] }
     }
   },
-  async loadProductListingWidgetProducts ({ state, commit, dispatch }, params: { categoryId: number, cluster: string, size: number, sort: string|string[] }): Promise<ProductListingWidgetState> {
+  async loadProductListingWidgetProducts ({ state, commit, dispatch }, params: { categoryId: number, cluster: any, size: number, sort: string|string[] }): Promise<ProductListingWidgetState> {
     let { categoryId, cluster, size, sort } = params
 
-    if (state.productListingWidget.find(i => i.parent === categoryId && i.list.length >= size)) {
+    if (state.productListingWidget.find(i => i.parent === categoryId && i.cluster === cluster && i.list.length >= size)) {
       return
     }
 
-    let query = new SearchQuery()
+    let query = bodybuilder()
     query
-      .applyFilter({ key: 'visibility', value: { in: [2, 3, 4] } })
-      .applyFilter({ key: 'status', value: { in: [0, 1] } })
-      .applyFilter({ key: 'category_ids', value: { in: [categoryId] } })
+      .query('terms', 'visibility', [2, 3, 4])
+      .query('terms', 'status', [0, 1])
+      .query('terms', 'category_ids', [categoryId])
 
     if (cluster) {
-      query.applyFilter({ key: 'customercluster', value: { or: [parseInt(cluster)] } })
-      query.applyFilter({ key: 'customercluster', value: { or: null } })
+      cluster = parseInt(cluster)
+      query.query('bool', (b) => {
+        return b
+          .orQuery('terms', 'customercluster', [cluster])
+          .orQuery('bool', (b) => {
+            return b.notQuery('exists', 'customercluster')
+          })
+      })
+
       sort = [sort as string, 'customercluster:desc']
     }
 
-    return dispatch('product/findProducts', { query, size, sort }, { root: true }).then(products => {
-      const payload = { parent: categoryId, list: products.items }
+    return dispatch('product/findProducts', { query: query.build(), size, sort }, { root: true }).then(products => {
+      const payload = { parent: categoryId, list: products.items, cluster }
       commit(types.ICMAA_CATEGORY_LIST_ADD_PRODUCT, payload)
       return payload
     })
