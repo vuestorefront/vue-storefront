@@ -1,6 +1,6 @@
 import { UseCategory } from '@vue-storefront/interfaces'
 import { ref } from '@vue/composition-api'
-import { getProduct } from '@vue-storefront/commercetools-api'
+import { getCategory, getProduct } from '@vue-storefront/commercetools-api'
 
 interface UseCategorySearchParams {
   /** Category ID  */
@@ -15,11 +15,13 @@ export default function useCategory (): UseCategory<any, any, any, any, any> {
   const loading = ref(false)
   const error = ref(null)
 
+  const search = async (params: UseCategorySearchParams) => {
+    const categoryResponse = await getCategory({ slug: "men-clothing" })
+    const loadedCategory = categoryResponse.data.categories.results[0]
+    const productResponse = await getProduct({ catId: loadedCategory.id })
+    const loadedProducts = productResponse.data.products.results
 
-  const search = async (params: UseCategorySearchParams) => {   
-    await getProduct({ catId: params.id }).then(res => {
-      category.value = res
-    }) 
+    console.log('LOADED DATA', loadedCategory, loadedProducts)
   }
 
   return {
