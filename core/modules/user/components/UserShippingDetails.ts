@@ -1,4 +1,5 @@
 import toString from 'lodash-es/toString'
+import { removeNonDefaultAddress } from '../helpers'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const UserShippingDetails = {
@@ -109,6 +110,7 @@ export const UserShippingDetails = {
           })
         }
       }
+      removeNonDefaultAddress(updatedShippingDetails)
       this.exitSection(null, updatedShippingDetails)
     },
     exitSection (event, updatedShippingDetails) {

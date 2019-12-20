@@ -1,4 +1,5 @@
 import toString from 'lodash-es/toString'
+import { removeNonDefaultAddress } from '../helpers'
 const Countries = require('@vue-storefront/core/i18n/resource/countries.json')
 
 export const UserAccount = {
@@ -148,6 +149,7 @@ export const UserAccount = {
           newPassword: this.password
         })
       }
+      removeNonDefaultAddress(updatedProfile)
       this.exitSection(null, updatedProfile)
     },
     exitSection (event, updatedProfile) {
