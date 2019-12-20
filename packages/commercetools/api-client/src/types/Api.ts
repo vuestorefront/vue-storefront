@@ -15,4 +15,9 @@ interface ProductSearch extends BaseSearch {
   skus?: string[]
 }
 
-export { ProductSearch }
+interface CategorySearch extends BaseSearch {
+  catId?: string
+  slug?: string
+}
+
+export { ProductSearch, CategorySearch }
