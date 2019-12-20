@@ -24,20 +24,20 @@ spec:
           httpGet:
             path: /health
             port: 3000
-          initialDelaySeconds: 260
+          initialDelaySeconds: 320
           periodSeconds: 33
-          timeoutSeconds: 5
+          timeoutSeconds: 3
           successThreshold: 1
-          failureThreshold: 3
+          failureThreshold: 5
         livenessProbe:
           httpGet:
             path: /health
             port: 3000
-          initialDelaySeconds: 300
-          periodSeconds: 10
-          timeoutSeconds: 2
+          initialDelaySeconds: 383
+          periodSeconds: 20
+          timeoutSeconds: 3
           successThreshold: 1
-          failureThreshold: 3
+          failureThreshold: 2
         envFrom:
         - configMapRef:
             name: vue-storefront-config
@@ -59,8 +59,10 @@ spec:
 #            name: nfs-drive
         resources:
           limits:
+            cpu: 400m
             memory: 2048Mi
           requests:
+            cpu: 200m
             memory: 1024Mi
       volumes:
         - name: build-cache

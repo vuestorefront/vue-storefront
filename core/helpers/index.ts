@@ -177,11 +177,11 @@ export const processURLAddress = (url: string = '') => {
   // Added By Dan to differentiate urls for kubernetes kube-dns vs DNS queries - 17.12.2019
   if (isServer) {
     if (config.elasticsearch && config.elasticsearch.host_backend) {
-      console.log('INSIDE is_server url1:', url)
-      if (url.indexOf('https://store.procc.co') !== -1) {
-        url = url.replace('https://store.procc.co', config.elasticsearch.host_backend)
+      // console.log('INSIDE is_server url1:', url)
+      if (url.indexOf(config.server.url) !== -1) {
+        url = url.replace(config.server.url, config.elasticsearch.host_backend)
       }
-      console.log('INSIDE is_server url2:', url)
+      console.log('INSIDE isServer changed url to:', url)
     }
   }
 
