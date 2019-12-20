@@ -18,9 +18,14 @@ export default {
       // @todo move to common middleware in core module and cover use case where we don't have slug at all
       // aka URL dispatcher
       routes.push({
-        name: 'custom',
+        name: 'category',
         path: '/l/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?',
         component: resolve(__dirname, 'pages/Category.vue')
+      })
+      routes.push({
+        name: 'product',
+        path: '/p/:slug_1/',
+        component: resolve(__dirname, 'pages/Product.vue')
       })
     }
   },
