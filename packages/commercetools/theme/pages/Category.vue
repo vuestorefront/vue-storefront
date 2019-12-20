@@ -228,6 +228,7 @@ import {
 import { useCategory } from '@vue-storefront/commercetools-composables' 
 
 export default {
+  transition: 'fade',
   setup () {
     const { category, search } = useCategory()
 
@@ -444,13 +445,7 @@ export default {
     @content;
   }
 }
-#category {
-  box-sizing: border-box;
-  @include for-desktop {
-    max-width: 1240px;
-    margin: auto;
-  }
-}
+
 .breadcrumbs {
   padding: $spacer-big $spacer-extra-big $spacer-extra-big;
 }
