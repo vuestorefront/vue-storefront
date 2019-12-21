@@ -120,7 +120,7 @@
     ]
   },
   "seo": {
-    "useUrlDispatcher": true,
+    "useUrlDispatcher": false,
     "disableUrlRoutesPersistentCache": true
   },
   "console": {

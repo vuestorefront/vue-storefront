@@ -347,7 +347,7 @@ import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
-import StoreCategories from 'theme/components/theme/blocks/StoreCategories/StoreCategories'
+import StoreBanners from 'theme/components/theme/blocks/StoreBanners/StoreBanners'
 import _ from 'lodash'
 import currencyInfo from '../assets/js/currency_info.js'
 
@@ -365,7 +365,7 @@ export default {
     ProductLinks,
     ProductTile,
     PromotedOffers,
-    StoreCategories,
+    StoreBanners,
     SizeChartView,
     RelatedProducts,
     Reviews,

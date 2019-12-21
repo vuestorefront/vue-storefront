@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <head-image />
-    <store-categories v-if="!isDefaultStore" />
+    <store-banners v-if="!isDefaultStore" />
     <section class="container pb60 px15" v-if="!isDefaultStore">
       <div class="row center-xs">
         <header class="col-md-12 pt40">
@@ -31,7 +31,7 @@ import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
 // Theme local components
 import Onboard from 'theme/components/theme/blocks/Home/Onboard'
 import AvailableStore from 'theme/components/theme/blocks/Store/AvailableStore'
-import StoreCategories from 'theme/components/theme/blocks/StoreCategories/StoreCategories'
+import StoreBanners from 'theme/components/theme/blocks/StoreBanners/StoreBanners'
 // import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
 import { Logger } from '@vue-storefront/core/lib/logger'
@@ -44,7 +44,7 @@ export default {
     AvailableStore,
     Onboard,
     ProductListing,
-    StoreCategories,
+    StoreBanners,
     // PromotedOffers,
     TileLinks
   },
@@ -121,7 +121,7 @@ export default {
     }
 
     await store.dispatch('procc/updateHeadImage')
-    await store.dispatch('procc/updateStoreCategories')
+    await store.dispatch('procc/updateStoreBanners')
     await store.dispatch('policies/updateStorePolicies')
   },
   beforeRouteEnter (to, from, next) {

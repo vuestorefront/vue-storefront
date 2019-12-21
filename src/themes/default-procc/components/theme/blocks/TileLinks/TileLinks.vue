@@ -35,12 +35,12 @@ export default {
     })
   },
   async created () {
-    await this.updateStoreCategories()
+    await this.updateStoreBanners()
     console.log('TileLinks banners', this.banners)
   },
   methods: {
     ...mapActions({
-      updateStoreCategories: 'procc/updateStoreCategories'
+      updateStoreBanners: 'procc/updateStoreBanners'
     })
   }
 }
