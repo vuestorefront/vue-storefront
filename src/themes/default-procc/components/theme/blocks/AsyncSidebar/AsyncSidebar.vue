@@ -91,7 +91,7 @@ export default {
     left: 0;
     overflow: hidden;
     overflow-y: auto;
-    z-index: 3;
+    z-index: 4; //Edited by Dan
     -webkit-overflow-scrolling: touch;
     @media (max-width: 767px) {
       width: 100vh;

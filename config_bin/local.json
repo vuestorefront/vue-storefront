@@ -73,7 +73,7 @@
   "elasticsearch": {
     "httpAuth": "",
     "host": "/api/catalog",
-    "host_backend": "http://localhost:8080",
+    "host_backend": "http://localhost:8080/api/catalog",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -148,7 +148,7 @@
     ]
   },
   "seo": {
-    "useUrlDispatcher": true,
+    "useUrlDispatcher": false,
     "disableUrlRoutesPersistentCache": true
   },
   "console": {
@@ -172,55 +172,25 @@
   },
   "defaultStoreCode": "",
   "availableStores": [
-    "aa"
+    "dev"
   ],
   "storeViews": {
     "multistore": true,
     "commonCache": false,
     "mapStoreUrlsFor": [
-      "aa",
-      "cctest"
+      "dev"
     ],
-    "aa": {
-      "storeCode": "aa",
-      "storeName": "Mashup Store",
+    "dev": {
+      "storeCode": "dev",
+      "storeName": "Dev Acc Store",
       "disabled": false,
-      "storeId": 68,
-      "name": "Mashup Store",
-      "url": "/aa",
+      "storeId": 72,
+      "name": "Dev Acc Store",
+      "url": "/dev",
       "appendStoreCode": true,
       "elasticsearch": {
         "host": "http://localhost:8080/api/catalog",
-        "index": "vue_storefront_catalog_aa"
-      },
-      "tax": {
-        "defaultCountry": "BG",
-        "defaultRegion": "",
-        "calculateServerSide": true,
-        "sourcePriceIncludesTax": false
-      },
-      "i18n": {
-        "fullCountryName": "Bulgaria",
-        "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
-        "defaultLanguage": "EN",
-        "defaultLocale": "en-US",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "cctest": {
-      "storeCode": "cctest",
-      "storeName": "Test Judy Store",
-      "disabled": false,
-      "storeId": 69,
-      "name": "Test Judy Store",
-      "url": "/cctest",
-      "appendStoreCode": true,
-      "elasticsearch": {
-        "host": "http://localhost:8080/api/catalog",
-        "index": "vue_storefront_catalog_cctest"
+        "index": "vue_storefront_catalog_dev"
       },
       "tax": {
         "defaultCountry": "BG",

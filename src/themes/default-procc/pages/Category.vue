@@ -198,6 +198,7 @@ export default {
     }
 
     .product-listing {
+      width: 85%;
       justify-content: center;;
     }
 

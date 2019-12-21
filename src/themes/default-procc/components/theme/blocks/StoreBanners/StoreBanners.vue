@@ -50,7 +50,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import _ from 'lodash'
 export default {
-  name: 'StoreCategories',
+  name: 'StoreBanners',
   props: {
     singleBanner: {
       type: Boolean,
@@ -65,7 +65,7 @@ export default {
     })
   },
   async created () {
-    await this.updateStoreCategories()
+    await this.updateStoreBanners()
   },
   beforeUpdate () {
     this.sortBanners()
@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateStoreCategories: 'procc/updateStoreCategories'
+      updateStoreBanners: 'procc/updateStoreBanners'
     }),
     sortBanners () {
       let sortBanner = []
