@@ -31,7 +31,6 @@ module.exports = (config, app) => {
   })
 
   app.post('/test', (req, res) => {
-
     apiStatus(res, testKebab(), 200)
   })
   app.post('/updateStorefrontSettings', (req, res) => {
@@ -143,7 +142,7 @@ function setStorePolicies (storeData) {
   const storePolicies = new Store({path: path.resolve(config_active.themeDir + `/resource/policies/${storeData.storefront_url}_store_policies.json`)});
 
   // Reset the file to avoid bad config
-  if(storePolicies && storePolicies.get('policy'))storePolicies.unlink();
+  if (storePolicies && storePolicies.get('policy'))storePolicies.unlink();
 
   let policies = []
 
@@ -185,7 +184,7 @@ function setStoreMainImage (storeData) {
   };
 
   // Reset the file to avoid bad config
-  if(mainImage && mainImage.get('image'))mainImage.del('image');
+  if (mainImage && mainImage.get('image'))mainImage.del('image');
 
   mainImage.set('image', storeMainImage)
   return mainImage.get('image');
@@ -267,8 +266,8 @@ function setStoreCategoryBanners (storeData) {
     console.log(smallBanners, ' smallBanners data');
 
     // Reset the file to avoid bad config
-    if(StoreBanners && StoreBanners.get('mainBanners'))StoreBanners.del('mainBanners');
-    if(StoreBanners && StoreBanners.get('smallBanners'))StoreBanners.del('smallBanners');
+    if (StoreBanners && StoreBanners.get('mainBanners'))StoreBanners.del('mainBanners');
+    if (StoreBanners && StoreBanners.get('smallBanners'))StoreBanners.del('smallBanners');
 
     StoreBanners.set('mainBanners', mainBanners);
     StoreBanners.set('smallBanners', smallBanners);
@@ -307,7 +306,7 @@ function setProductBanners (products, storeCode, imagesRootURL) {
   }
 
   // Reset the file to avoid bad config
-  if(StoreBanners && StoreBanners.get('productBanners'))StoreBanners.del('productBanners');
+  if (StoreBanners && StoreBanners.get('productBanners'))StoreBanners.del('productBanners');
 
   StoreBanners.set('productBanners', productBanners);
   // console.log('productBanners', productBanners)
@@ -325,7 +324,7 @@ function setMapStoreUrlsFor (storeData) {
     mapStoreUrlsFor = _.concat(mapStoreUrlsFor, storeCode)
 
     // Reset the file to avoid bad config
-    if(mapStoreUrlsFor)storefrontConfig.del('storeViews.mapStoreUrlsFor')
+    if (mapStoreUrlsFor)storefrontConfig.del('storeViews.mapStoreUrlsFor')
 
     storefrontConfig.set('storeViews.mapStoreUrlsFor', mapStoreUrlsFor);
   }
@@ -413,10 +412,9 @@ function exec (cmd, args, opts, enableLogging = false, limit_output = false) {
   })
 }
 
-
 // Need this kebabcase, because lodash.kebabCase is doing it in a different way (numbers == words)
-function kebabForLink(string){
-  function split(text) {
+function kebabForLink (string) {
+  function split (text) {
     let words = text.match(/[A-Za-z0-9]+/g) || [];
 
     if (words.length === 1 && words[0].length === text.length) {
@@ -427,7 +425,7 @@ function kebabForLink(string){
     return words;
   }
 
-  function splitCamelCase(text) {
+  function splitCamelCase (text) {
     let foundFirstUpperCase = /[A-Z]/.exec(text);
     if (!foundFirstUpperCase) {
       return [text];
@@ -446,11 +444,11 @@ function kebabForLink(string){
     return words;
   }
 
-  function kebabCase(text) {
+  function kebabCase (text) {
     return join(split(text));
   }
 
-  function join(words) {
+  function join (words) {
     if (!words.length) {
       return '';
     }
@@ -458,7 +456,7 @@ function kebabForLink(string){
     let ret = String(words[0]).toLowerCase();
 
     for (let i = 1, n = words.length; i < n; i++) {
-      ret += '-' + String(words[i]).toLowerCase();;
+      ret += '-' + String(words[i]).toLowerCase(); ;
     }
 
     return ret;
@@ -467,12 +465,12 @@ function kebabForLink(string){
   Object.defineProperties(kebabCase, {
     split: {
       enumerable: true,
-      value: split,
+      value: split
     },
     join: {
       enumerable: true,
-      value: join,
-    },
+      value: join
+    }
   });
 
   return kebabCase(string)
@@ -482,10 +480,10 @@ function testKebab () {
   console.time('testKebab took')
   let array = ['GG 5', 'GG-5', 'GG 5-5', 'GG 5.5', 'GG5', 'GG5 66.5-7']
   let result = []
-  for (let key in array){
+  for (let key in array) {
     let word1 = array[key]
     let word2 = kebabForLink(word1)
-    let res = 'testKebab TEST '+key+'  -  word1: '+word1+'  -  word2: '+word2
+    let res = 'testKebab TEST ' + key + '  -  word1: ' + word1 + '  -  word2: ' + word2
     console.log(res)
     result.push(res)
   }
