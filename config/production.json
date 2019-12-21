@@ -45,66 +45,6 @@
     "multistore": true,
     "commonCache": false,
     "mapStoreUrlsFor": [
-      "aa",
-      "cctest"
-    ],
-    "aa": {
-      "storeCode": "aa",
-      "storeName": "Mashup Store",
-      "disabled": false,
-      "storeId": 68,
-      "name": "Mashup Store",
-      "url": "/aa",
-      "appendStoreCode": true,
-      "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_aa"
-      },
-      "tax": {
-        "defaultCountry": "BG",
-        "defaultRegion": "",
-        "calculateServerSide": true,
-        "sourcePriceIncludesTax": false
-      },
-      "i18n": {
-        "fullCountryName": "Bulgaria",
-        "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
-        "defaultLanguage": "EN",
-        "defaultLocale": "en-US",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    },
-    "cctest": {
-      "storeCode": "cctest",
-      "storeName": "Test Judy Store",
-      "disabled": false,
-      "storeId": 69,
-      "name": "Test Judy Store",
-      "url": "/cctest",
-      "appendStoreCode": true,
-      "elasticsearch": {
-        "host": "https://store.procc.co/api/catalog",
-        "index": "vue_storefront_catalog_cctest"
-      },
-      "tax": {
-        "defaultCountry": "BG",
-        "defaultRegion": "",
-        "calculateServerSide": true,
-        "sourcePriceIncludesTax": false
-      },
-      "i18n": {
-        "fullCountryName": "Bulgaria",
-        "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
-        "defaultLanguage": "EN",
-        "defaultLocale": "en-US",
-        "currencyCode": "EUR",
-        "currencySign": "EUR",
-        "dateFormat": "HH:mm D-M-YYYY"
-      }
-    }
+    ]
   }
 }
