@@ -1,0 +1,179 @@
+{
+  "productBanners": [
+    {
+      "title": "Stripe Pants",
+      "subtitle": "beige, stretchy, comfortable, cotton and elastane, ",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4d340ac1c960f68fc6f3c.jpg",
+      "link": "/p/DA001/stripe-pants",
+      "category": [
+        {
+          "category_id": 154,
+          "name": "Dev4",
+          "slug": "dev4",
+          "path": "dev4"
+        },
+        {
+          "category_id": 157,
+          "name": "Get 4K",
+          "slug": "get-4k",
+          "path": "get-4k"
+        }
+      ]
+    },
+    {
+      "title": "Posh Orange",
+      "subtitle": "Nice and soft :) Dress in my favourite color",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd51a0fdf3ee2ba4835967.jpg",
+      "link": "/p/DA007/posh-orange",
+      "category": [
+        {
+          "category_id": 153,
+          "name": "Dev3",
+          "slug": "dev3",
+          "path": "dev3"
+        },
+        {
+          "category_id": 157,
+          "name": "Get 4K",
+          "slug": "get-4k",
+          "path": "get-4k"
+        }
+      ]
+    },
+    {
+      "title": "Jeans 2.5-3",
+      "subtitle": "Pure Cotton 2020 New",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4c7364286f127f422fb07.jpg",
+      "link": "/p/DA009/jeans-2-5-3",
+      "category": [
+        {
+          "category_id": 154,
+          "name": "Dev4",
+          "slug": "dev4",
+          "path": "dev4"
+        },
+        {
+          "category_id": 156,
+          "name": "Category 2.5-3",
+          "slug": "category-2-5-3",
+          "path": "category-2-5-3"
+        },
+        {
+          "category_id": 157,
+          "name": "Get 4K",
+          "slug": "get-4k",
+          "path": "get-4k"
+        }
+      ]
+    },
+    {
+      "title": "Gray Sweater",
+      "subtitle": "stretchy gray sweater, everyday use, wool and elastane",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd266fc1be9c0037d8096d.jpg",
+      "link": "/p/DA002/gray-sweater",
+      "category": [
+        {
+          "category_id": 153,
+          "name": "Dev3",
+          "slug": "dev3",
+          "path": "dev3"
+        },
+        {
+          "category_id": 155,
+          "name": "Dev five",
+          "slug": "dev-five",
+          "path": "dev-five"
+        },
+        {
+          "category_id": 157,
+          "name": "Get 4K",
+          "slug": "get-4k",
+          "path": "get-4k"
+        }
+      ]
+    },
+    {
+      "title": "Pink Hoodie",
+      "subtitle": "cotton and elastane, hoodie, warm, everyday fashion",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4c73a4286f127f422fb09.jpg",
+      "link": "/p/DA004/pink-hoodie",
+      "category": [
+        {
+          "category_id": 155,
+          "name": "Dev five",
+          "slug": "dev-five",
+          "path": "dev-five"
+        },
+        {
+          "category_id": 156,
+          "name": "Category 2.5-3",
+          "slug": "category-2-5-3",
+          "path": "category-2-5-3"
+        },
+        {
+          "category_id": 157,
+          "name": "Get 4K",
+          "slug": "get-4k",
+          "path": "get-4k"
+        }
+      ]
+    },
+    {
+      "title": "Blue Formal Suit",
+      "subtitle": "soft fabric, stylish, blue, fitted",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd279ec1be9c0037d80974.jpg",
+      "link": "/p/DA003/blue-formal-suit",
+      "category": [
+        {
+          "category_id": 154,
+          "name": "Dev4",
+          "slug": "dev4",
+          "path": "dev4"
+        },
+        {
+          "category_id": 157,
+          "name": "Get 4K",
+          "slug": "get-4k",
+          "path": "get-4k"
+        }
+      ]
+    }
+  ],
+  "mainBanners": [
+    {
+      "title": "Get 4K",
+      "subtitle": "now",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191021-5dae3214717c1338c0d9859c.jpg",
+      "link": "/c/get-4k",
+      "storeCode": "dev",
+      "productCount": 9,
+      "category_id": 157
+    }
+  ],
+  "smallBanners": [
+    {
+      "title": "Category 2.5-3",
+      "subtitle": "subtt",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191221-5dfe678c415a222c849be5f3.jpg",
+      "link": "/c/category-2-5-3",
+      "storeCode": "dev",
+      "productCount": 2,
+      "category_id": 156
+    },
+    {
+      "title": "Dev five",
+      "subtitle": "sub 4k",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191221-5dfe57204c894719806d005b.jpg",
+      "link": "/c/dev-five",
+      "storeCode": "dev",
+      "productCount": 4,
+      "category_id": 155
+    }
+  ]
+}
