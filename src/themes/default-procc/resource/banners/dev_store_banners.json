@@ -1,6 +1,26 @@
 {
   "productBanners": [
     {
+      "title": "Striped Leather Leggings",
+      "subtitle": "100% Polymer",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd5e1dbbcbcf09e4814471.jpg",
+      "link": "/p/DA008/striped-leather-leggings",
+      "category": [
+        {
+          "category_id": 157,
+          "name": "Get 4K",
+          "slug": "get-4k",
+          "path": "get-4k"
+        },
+        {
+          "category_id": 155,
+          "name": "Dev five",
+          "slug": "dev-five",
+          "path": "dev-five"
+        }
+      ]
+    },
+    {
       "title": "Stripe Pants",
       "subtitle": "beige, stretchy, comfortable, cotton and elastane, ",
       "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4d340ac1c960f68fc6f3c.jpg",
@@ -21,94 +41,16 @@
       ]
     },
     {
-      "title": "Posh Orange",
-      "subtitle": "Nice and soft :) Dress in my favourite color",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd51a0fdf3ee2ba4835967.jpg",
-      "link": "/p/DA007/posh-orange",
-      "category": [
-        {
-          "category_id": 153,
-          "name": "Dev3",
-          "slug": "dev3",
-          "path": "dev3"
-        },
-        {
-          "category_id": 157,
-          "name": "Get 4K",
-          "slug": "get-4k",
-          "path": "get-4k"
-        }
-      ]
-    },
-    {
-      "title": "Jeans 2.5-3",
-      "subtitle": "Pure Cotton 2020 New",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4c7364286f127f422fb07.jpg",
-      "link": "/p/DA009/jeans-2-5-3",
-      "category": [
-        {
-          "category_id": 154,
-          "name": "Dev4",
-          "slug": "dev4",
-          "path": "dev4"
-        },
-        {
-          "category_id": 156,
-          "name": "Category 2.5-3",
-          "slug": "category-2-5-3",
-          "path": "category-2-5-3"
-        },
-        {
-          "category_id": 157,
-          "name": "Get 4K",
-          "slug": "get-4k",
-          "path": "get-4k"
-        }
-      ]
-    },
-    {
-      "title": "Gray Sweater",
-      "subtitle": "stretchy gray sweater, everyday use, wool and elastane",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd266fc1be9c0037d8096d.jpg",
-      "link": "/p/DA002/gray-sweater",
-      "category": [
-        {
-          "category_id": 153,
-          "name": "Dev3",
-          "slug": "dev3",
-          "path": "dev3"
-        },
-        {
-          "category_id": 155,
-          "name": "Dev five",
-          "slug": "dev-five",
-          "path": "dev-five"
-        },
-        {
-          "category_id": 157,
-          "name": "Get 4K",
-          "slug": "get-4k",
-          "path": "get-4k"
-        }
-      ]
-    },
-    {
-      "title": "Pink Hoodie",
-      "subtitle": "cotton and elastane, hoodie, warm, everyday fashion",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4c73a4286f127f422fb09.jpg",
-      "link": "/p/DA004/pink-hoodie",
+      "title": "Sport  Gray Set",
+      "subtitle": "gym, stretchy, cotton, viscose",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd2993c1be9c0037d8097e.jpg",
+      "link": "/p/DA005/sport-gray-set",
       "category": [
         {
           "category_id": 155,
           "name": "Dev five",
           "slug": "dev-five",
           "path": "dev-five"
-        },
-        {
-          "category_id": 156,
-          "name": "Category 2.5-3",
-          "slug": "category-2-5-3",
-          "path": "category-2-5-3"
         },
         {
           "category_id": 157,
@@ -130,6 +72,20 @@
           "slug": "dev4",
           "path": "dev4"
         },
+        {
+          "category_id": 157,
+          "name": "Get 4K",
+          "slug": "get-4k",
+          "path": "get-4k"
+        }
+      ]
+    },
+    {
+      "title": "Grey Sweater",
+      "subtitle": "Amazing Grey Sweater",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191221-5dfd7bb39459900460ea5dd6.jpg",
+      "link": "/p/DA006/grey-sweater",
+      "category": [
         {
           "category_id": 157,
           "name": "Get 4K",
