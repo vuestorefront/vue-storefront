@@ -3,7 +3,7 @@
     {
       "name": "vsf",
       "max_memory_restart": "1G",
-      "instances": "1",
+      "instances": "2",
       "exec_mode": "cluster",
       "env": {
         "TS_NODE_PROJECT": "tsconfig-build.json",
