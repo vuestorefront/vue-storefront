@@ -24,7 +24,7 @@ spec:
           httpGet:
             path: /health
             port: 3000
-          initialDelaySeconds: 360
+          initialDelaySeconds: 320
           periodSeconds: 33
           timeoutSeconds: 3
           successThreshold: 2
@@ -37,7 +37,7 @@ spec:
           periodSeconds: 20
           timeoutSeconds: 3
           successThreshold: 1
-          failureThreshold: 12
+          failureThreshold: 6
         envFrom:
         - configMapRef:
             name: vue-storefront-config
