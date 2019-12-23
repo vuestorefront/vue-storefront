@@ -26,7 +26,6 @@ module.exports = (config, app) => {
       return apiStatus(res, 'ProCC VSF Online', 200);
     } catch (e) {
       return apiStatus(res, e, 502);
-      // return apiStatus(res, 'ERROR ProCC VSF-API Not Connected', 502);
     }
   })
 
