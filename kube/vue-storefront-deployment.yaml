@@ -59,7 +59,7 @@ spec:
 #            name: nfs-drive
         resources:
           limits:
-            cpu: 800m
+            cpu: 1800m
             memory: 4048Mi
           requests:
             cpu: 200m
