@@ -116,8 +116,15 @@ var dLocalJson = Diff2Html.getPrettyHtml(
 document.getElementById('d-local-json').innerHTML = dLocalJson;
 </script>
 
+
+ 5. Once _Elasticsearch 7_ instance is up and running, then run the new script which creates index with the proper data types of fields applied.
+```bash
+yarn db7 new
 ```
-You should newly put mapping for _Elasticsearch 7_ which only allows one _document_ per single _index_. 
+ :vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/UErONnmqK1m2EFNkWRrG0E6p4)
+
+This is because you should newly put mapping for _Elasticsearch 7_ which only allows one _document_ per single _index_. [more info](https://www.elastic.co/guide/en/elasticsearch/reference/current/breaking-changes-7.0.html)
+
 
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
