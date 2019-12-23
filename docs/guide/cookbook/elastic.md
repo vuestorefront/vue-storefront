@@ -50,8 +50,71 @@ As _Vue Storefront_ stack is mostly associated with _Elasticsearch_ through _Vue
  - ES7 is supported from _Vue Storefront API_ version `1.11` and up. You should have it accordingly too. 
 
 ### 2. Recipe
- 1. First off, run the new script from **Vue Storefront API root path** which executes .
-```bash
+ 1. `docker-compose` for _Elasticsearch 7_ is included in `1.11`. Let's run the docker container for _Elasticsearch 7_ from **Vue Storefront API root path** as follows : 
+ ```bash
+docker-compose -f docker-compose.elastic7.yml up
+ ```
+ 
+ 2. You will see the screen as below : 
+ ```bash
+Starting es7 ... 
+Starting vuestorefrontapi_redis_1 ... 
+Starting vuestorefrontapi_redis_1
+Starting vuestorefrontapi_redis_1 ... done
+Attaching to es7, vuestorefrontapi_redis_1
+es7      | OpenJDK 64-Bit Server VM warning: Option UseConcMarkSweepGC was deprecated in version 9.0 and will likely be removed in a future release.
+redis_1  | 1:C 23 Dec 18:00:28.554 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis_1  | 1:C 23 Dec 18:00:28.554 # Redis version=4.0.14, bits=64, commit=00000000, modified=0, pid=1, just started
+redis_1  | 1:C 23 Dec 18:00:28.554 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+redis_1  | 1:M 23 Dec 18:00:28.555 * Running mode=standalone, port=6379.
+redis_1  | 1:M 23 Dec 18:00:28.555 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+redis_1  | 1:M 23 Dec 18:00:28.555 # Server initialized
+redis_1  | 1:M 23 Dec 18:00:28.556 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+redis_1  | 1:M 23 Dec 18:00:28.556 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+redis_1  | 1:M 23 Dec 18:00:28.556 * DB loaded from disk: 0.000 seconds
+redis_1  | 1:M 23 Dec 18:00:28.556 * Ready to accept connections
+es7      | {"type": "server", "timestamp": "2019-12-23T18:00:30,129+0000", "level": "INFO", "component": "o.e.e.NodeEnvironment", "cluster.name": "docker-cluster", "node.name": "be374d24f82e",  "message": "using [1] data paths, mounts [[/ (overlay)]], net usable_space [149.4gb], net total_space [250.9gb], types [overlay]"  }
+es7      | {"type": "server", "timestamp": "2019-12-23T18:00:30,133+0000", "level": "INFO", "component": "o.e.e.NodeEnvironment", "cluster.name": "docker-cluster", "node.name": "be374d24f82e",  "message": "heap size [494.9mb], compressed ordinary object pointers [true]"  }
+es7      | {"type": "server", "timestamp": "2019-12-23T18:00:30,135+0000", "level": "INFO", "component": "o.e.n.Node", "cluster.name": "docker-cluster", "node.name": "be374d24f82e",  "message": "node name [be374d24f82e], node ID [e8P_hrouSEKIWnylBaelVw], cluster name [docker-cluster]"  }
+# abridged ...
+ ```
+ :vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/NcfdFuMkJ5LWzVbgb7m35coOV)
+
+ You may notice the script spawns two containers, one of which is for `redis` while the other is for `elasticsearch 7`. (`kibana` container is optional from `1.11`)
+
+ 3. Visit `localhost:9200` from your browser then it should print likewise as follows :
+```text
+{
+  "name" : "be374d24f82e",
+  "cluster_name" : "docker-cluster",
+  "cluster_uuid" : "3Gk6anHkQU--5TmenJkdrw",
+  "version" : {
+    "number" : "7.3.2",
+    "build_flavor" : "default",
+    "build_type" : "docker",
+    "build_hash" : "1c1faf1",
+    "build_date" : "2019-09-06T14:40:30.409026Z",
+    "build_snapshot" : false,
+    "lucene_version" : "8.1.0",
+    "minimum_wire_compatibility_version" : "6.8.0",
+    "minimum_index_compatibility_version" : "6.0.0-beta1"
+  },
+  "tagline" : "You Know, for Search"
+}
+```
+
+ 4. Fix `local.json` to update configuration for `indexTypes` and `apiVersion` under `elasticsearch` as follows :
+
+<div id="d-local-json">
+
+</div>
+<script>
+var dLocalJson = Diff2Html.getPrettyHtml(
+  '--- a/config/local.json\n+++ b/config/local.json\n@@ -2,8 +2,6 @@\n     \"host\": \"localhost\",\n     \"port\": 9200,\n     \"protocol\": \"http\",\n-    \"user\": \"elastic\",\n-    \"password\": \"changeme\",\n     \"min_score\": 0.01,\n     \"indices\": [\n       \"vue_storefront_catalog\",\n@@ -13,10 +11,11 @@\n     \"indexTypes\": [\n       \"product\",\n       \"category\",\n-      \"cms\",\n+      \"cms_block\",\n+      \"cms_page\",\n       \"attribute\",\n       \"taxrule\",\n       \"review\"\n     ],\n-    \"apiVersion\": \"5.6\"\n-  }, \n+    \"apiVersion\": \"7.1\"\n+  }, ',
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById('d-local-json').innerHTML = dLocalJson;
+</script>
 
 ```
 You should newly put mapping for _Elasticsearch 7_ which only allows one _document_ per single _index_. 
