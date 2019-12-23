@@ -50,7 +50,11 @@ As _Vue Storefront_ stack is mostly associated with _Elasticsearch_ through _Vue
  - ES7 is supported from _Vue Storefront API_ version `1.11` and up. You should have it accordingly too. 
 
 ### 2. Recipe
- 1. First off, you should put mapping for _Elasticsearch 7_ which only allows one _document_ per single _index_.
+ 1. First off, run the new script from **Vue Storefront API root path** which executes .
+```bash
+
+```
+You should newly put mapping for _Elasticsearch 7_ which only allows one _document_ per single _index_. 
 
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
