@@ -210,7 +210,7 @@ function setStoreCategoryBanners (storeData) {
   const StoreBanners = new Store({path: path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_store_banners.json`)});
   console.log('storefrontConfig themeDir', config_active.themeDir)
   console.log('storefrontConfig path', path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_store_banners.json`))
-  console.log('storeData.store_categories', storeData.store_categories)
+  // console.log('storeData.store_categories', storeData.store_categories)
   // start set store categories main Banner and samll Banners
   let top3Categories = _.take(_.orderBy(_.filter(storeData.store_categories, {'isCategoryCreatedInMagento': true}), 'updatedAt', 'desc'), 3)
   let countCategories = top3Categories.length;
@@ -274,9 +274,9 @@ function setStoreCategoryBanners (storeData) {
   // end set store categories main Banner and small Banner
 
   // DEBUG LOGGING
-  console.log('mainBanners GET', StoreBanners.get('mainBanners'));
-  console.log('smallBanners GET', StoreBanners.get('smallBanners'));
-  console.log('BANNERS END -----======]]]')
+  // console.log('mainBanners GET', StoreBanners.get('mainBanners'));
+  // console.log('smallBanners GET', StoreBanners.get('smallBanners'));
+  console.log('BANNERS SET END -----======]]]')
   // DEBUG LOGGING
 
   return {

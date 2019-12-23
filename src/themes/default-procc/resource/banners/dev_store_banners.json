@@ -1,53 +1,28 @@
 {
-  "mainBanners": [
-    {
-      "title": "Get 4K",
-      "subtitle": "now",
-      "title_color": "#ffffff",
-      "subtitle_color": "#ffffff",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191021-5dae3214717c1338c0d9859c.jpg",
-      "link": "/c/get-4k",
-      "storeCode": "dev",
-      "productCount": 9,
-      "category_id": 157
-    }
-  ],
-  "smallBanners": [
-    {
-      "title": "Category 2.5-3",
-      "subtitle": "subtt",
-      "title_color": "#ffffff",
-      "subtitle_color": "#ffffff",
-      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191221-5dfe678c415a222c849be5f3.jpg",
-      "link": "/c/category-2-5-3",
-      "storeCode": "dev",
-      "productCount": 2,
-      "category_id": 156
-    },
-    {
-      "title": "Dev five",
-      "subtitle": "sub 4k",
-      "title_color": "#ffffff",
-      "subtitle_color": "#ffffff",
-      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191221-5dfe57204c894719806d005b.jpg",
-      "link": "/c/dev-five",
-      "storeCode": "dev",
-      "productCount": 4,
-      "category_id": 155
-    }
-  ],
   "productBanners": [
     {
-      "title": "Striped Leather Leggings",
-      "subtitle": "100% Polymer",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd5e1dbbcbcf09e4814471.jpg",
-      "link": "/p/DA008/striped-leather-leggings",
+      "title": "Sport  Gray Set",
+      "subtitle": "gym, stretchy, cotton, viscose",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd2993c1be9c0037d8097e.jpg",
+      "link": "/p/DA005/sport-gray-set",
       "category": [
         {
           "category_id": 157,
           "name": "Get 4K",
           "slug": "get-4k",
           "path": "get-4k"
+        },
+        {
+          "category_id": 159,
+          "name": "products 8",
+          "slug": "products-8",
+          "path": "products-8"
+        },
+        {
+          "category_id": 153,
+          "name": "Dev3",
+          "slug": "dev3",
+          "path": "dev3"
         },
         {
           "category_id": 155,
@@ -64,72 +39,55 @@
       "link": "/p/DA001/stripe-pants",
       "category": [
         {
-          "category_id": 154,
-          "name": "Dev4",
-          "slug": "dev4",
-          "path": "dev4"
+          "category_id": 159,
+          "name": "products 8",
+          "slug": "products-8",
+          "path": "products-8"
         },
         {
-          "category_id": 157,
-          "name": "Get 4K",
-          "slug": "get-4k",
-          "path": "get-4k"
+          "category_id": 153,
+          "name": "Dev3",
+          "slug": "dev3",
+          "path": "dev3"
         }
       ]
+    }
+  ],
+  "mainBanners": [
+    {
+      "title": "Dev five",
+      "subtitle": "sub 4k",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191221-5dfe57204c894719806d005b.jpg",
+      "link": "/c/dev-five",
+      "storeCode": "dev",
+      "productCount": 5,
+      "category_id": 155
+    }
+  ],
+  "smallBanners": [
+    {
+      "title": "products 8",
+      "subtitle": "works :)",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00db027abaf93584b98b8c.jpg",
+      "link": "/c/products-8",
+      "storeCode": "dev",
+      "productCount": 8,
+      "category_id": 159
     },
     {
-      "title": "Sport  Gray Set",
-      "subtitle": "gym, stretchy, cotton, viscose",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd2993c1be9c0037d8097e.jpg",
-      "link": "/p/DA005/sport-gray-set",
-      "category": [
-        {
-          "category_id": 155,
-          "name": "Dev five",
-          "slug": "dev-five",
-          "path": "dev-five"
-        },
-        {
-          "category_id": 157,
-          "name": "Get 4K",
-          "slug": "get-4k",
-          "path": "get-4k"
-        }
-      ]
-    },
-    {
-      "title": "Blue Formal Suit",
-      "subtitle": "soft fabric, stylish, blue, fitted",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd279ec1be9c0037d80974.jpg",
-      "link": "/p/DA003/blue-formal-suit",
-      "category": [
-        {
-          "category_id": 154,
-          "name": "Dev4",
-          "slug": "dev4",
-          "path": "dev4"
-        },
-        {
-          "category_id": 157,
-          "name": "Get 4K",
-          "slug": "get-4k",
-          "path": "get-4k"
-        }
-      ]
-    },
-    {
-      "title": "Grey Sweater",
-      "subtitle": "Amazing Grey Sweater",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191221-5dfd7bb39459900460ea5dd6.jpg",
-      "link": "/p/DA006/grey-sweater",
-      "category": [
-        {
-          "category_id": 157,
-          "name": "Get 4K",
-          "slug": "get-4k",
-          "path": "get-4k"
-        }
-      ]
+      "title": "5 Products 2.6-a",
+      "subtitle": "Nice! :)",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00d4200203fa4d34344290.jpg",
+      "link": "/c/5-products-2-6-a",
+      "storeCode": "dev",
+      "productCount": 4,
+      "category_id": 158
     }
   ]
 }
