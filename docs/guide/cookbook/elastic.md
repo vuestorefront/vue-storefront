@@ -43,10 +43,15 @@ _Elasticsearch_ has been under massive upgrade with interval so intense as only 
 
 As _Vue Storefront_ stack is mostly associated with _Elasticsearch_ through _Vue Storefront API_, you should fix files for _Vue Storefront API_ along with a few callers for it from _Vue Storefront_ too. However, most changes take place in core parts of the platform on purpose so the labor has been minimized for your inner peace. Still, _configs_ and/or _migration_ need fixes where it's necessary. This recipe walks you through how to do it one by one. 
 
-As _Vue Storefront_ stack is mostly associated with _Elasticsearch_ through _Vue Storefront API_, you should fix files for _Vue Storefront API_ along with a few callers for it from _Vue Storefront_ too. 
 
 ### 1. Preparation
+ - You need to have [setup _Vue Storefront_ stack](setup) including _Vue Storefront API_. 
+ - ES7 is supported from _Vue Storefront_ version `1.11` and up. You should have it accordingly. 
+ - ES7 is supported from _Vue Storefront API_ version `1.11` and up. You should have it accordingly too. 
+
 ### 2. Recipe
+ 1. First off, you should put mapping for _Elasticsearch 7_ which only allows one _document_ per single _index_.
+
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 <br />
