@@ -39,7 +39,9 @@ Without much further ado, let's see what's served as an appetizer :)
 <br />
 
 ## 3. Now ES7 is also supported in VSF
-Elasticsearch has been under massively intense upgrade with interval
+_Elasticsearch_ has been under massive upgrade with interval so intense as only two weeks between `6.7` and `7.0`. Can you feel the heat of the community? While we can enjoy the improvement and enhancement of the _Elastic Stack_, there is a list to check before smooth upgrade. And it also works just the same way as you need to fix _Vue Storefront_ stack for compatibility with _Elasticsearch 7.x_. 
+
+As _Vue Storefront_ stack is mostly associated with _Elasticsearch_ through _Vue Storefront API_, you should fix files for _Vue Storefront API_ along with a few callers for it from _Vue Storefront_ too. 
 
 ### 1. Preparation
 ### 2. Recipe
