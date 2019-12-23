@@ -18,6 +18,7 @@
     "test:ct": "yarn test:ct:api-client && yarn test:ct:composables && yarn test:ct:helpers",
     "test:ct:ci": "yarn test:ct:api-client && yarn test:ct:composables && yarn test:ct:helpers && yarn codecov",
     "start:ct": "cd packages/commercetools/theme && yarn start",
+    "dev:ct:composables": "cd packages/commercetools/composables && yarn dev",
     "dev:ct": "cd packages/commercetools/theme && yarn dev"
   },
   "devDependencies": {

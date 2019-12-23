@@ -5,6 +5,12 @@ export default gql`
     id
     slug(locale: $locale)
     name(locale: $locale)
+    children {
+      id
+      slug(locale: $locale)
+      name(locale: $locale)
+      childCount
+    }
   }
 
   query categories($where: String, $sort: [String!], $limit: Int, $offset: Int, $locale: Locale) {
@@ -13,7 +19,10 @@ export default gql`
       count
       total
       results {
-        ...DefaultCategory
+        id
+        slug(locale: $locale)
+        name(locale: $locale)
+        description(locale: $locale)
         childCount
         parent {
           ...DefaultCategory

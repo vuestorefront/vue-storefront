@@ -4,28 +4,27 @@ import { getCategory, getProduct } from '@vue-storefront/commercetools-api'
 
 interface UseCategorySearchParams {
   /** Category ID  */
-  id?: string
+  slug?: string
 }
 
 export default function useCategory (): UseCategory<any, any, any, any, any> {
-  const category = ref({})
+  const categories = ref([])
   const appliedFilters = ref(null)
   const applyFilter = () => { () => { console.log('useCategory:applyFilter') } }
   const clearFilters = () => { () => { console.log('useCategory:clearFilters') } }
-  const loading = ref(false)
+  const loading = ref(true)
   const error = ref(null)
 
   const search = async (params: UseCategorySearchParams) => {
-    const categoryResponse = await getCategory({ slug: "men-clothing" })
-    const loadedCategory = categoryResponse.data.categories.results[0]
-    const productResponse = await getProduct({ catId: loadedCategory.id })
-    const loadedProducts = productResponse.data.products.results
-
-    console.log('LOADED DATA', loadedCategory, loadedProducts)
+    const categoryResponse = await getCategory({ slug: params.slug })
+    categories.value = categoryResponse.data.categories.results
+    // const productResponse = await getProduct({ catId: categories.value.id })
+    // const loadedProducts = productResponse.data.products.results
+    loading.value = false
   }
 
   return {
-    category,
+    categories,
     search,
     appliedFilters,
     applyFilter,
