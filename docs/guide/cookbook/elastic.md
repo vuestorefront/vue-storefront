@@ -11,7 +11,7 @@ _Elasticsearch_ is a full-text search and analysis engine based on _Apache Lucen
 
 The other strong point is, notably, it's inborn distributed. Experience from a single node elasticsearch and multiple clusters of it is almost identical and doing so is painless as it works out of the box. There are virtually tons of points to make for why _Elasticsearch_ is your elected mid-stop between datahouse and storefront. Now let's move on to how it's implemented in _Vue Storefront_. 
 
-_Vue Storefront_ defines itself backend-agnostic PWA e-commerce solution where _Vue Storefront_ is a storefront as the name dictates, and _Elasticsearch_ works as a datastore for _catalog_ and its sibling data such as _taxrule_, _products_ and so on. When a storefront requests information about a product, then it fetches _index_ of _documents_ about the _term_ queried from _Elasticsearch_ without traversing it to the source web store (be it Magento) so it skips all the heavy loading of the store whose database behind also is not concered. 
+_Vue Storefront_ defines itself backend-agnostic PWA e-commerce solution where _Vue Storefront_ is a storefront as the name dictates, and _Elasticsearch_ works as a datastore for _catalog_ and its sibling data such as _taxrule_, _products_ and so on. When a storefront requests information about a product, then it fetches _index_ of _documents_ about the _term_ queried from _Elasticsearch_ without traversing it to the source web store (be it Magento) so it skips all the heavy loading of the store whose database behind also is not concered which makes customers happy for pleasant experience. 
 
 Without much further ado, let's see what's served as an appetizer :)
 <br />
