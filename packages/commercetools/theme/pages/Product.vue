@@ -284,8 +284,20 @@ import {
   SfReview,
   SfBreadcrumbs
 } from "@storefront-ui/vue";
+
+import { useProduct } from '@vue-storefront/commercetools-composables'
+
 export default {
   name: "Product",
+  transition: 'fade',
+  setup () {
+    const { products, search } = useProduct()
+
+    search()
+    return {
+
+    }
+  },
   components: {
     SfAlert,
     SfProperty,

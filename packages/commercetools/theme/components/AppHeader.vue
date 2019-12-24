@@ -6,17 +6,17 @@
       </nuxt-link>
     </template>
     <template #navigation>
-      <nuxt-link to="/l/cat">
+      <nuxt-link to="/c/cat">
         <SfHeaderNavigationItem>
           WOMEN
         </SfHeaderNavigationItem>
       </nuxt-link>
-      <nuxt-link to="/l/cat">
+      <nuxt-link to="/c/cat">
         <SfHeaderNavigationItem>
           MEN
         </SfHeaderNavigationItem>
       </nuxt-link>
-      <nuxt-link to="/l/cat">
+      <nuxt-link to="/c/cat">
         <SfHeaderNavigationItem>
           KIDS
         </SfHeaderNavigationItem>

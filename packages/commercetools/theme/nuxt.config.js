@@ -19,7 +19,7 @@ export default {
       // aka URL dispatcher
       routes.push({
         name: 'category',
-        path: '/l/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?',
+        path: '/c/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?',
         component: resolve(__dirname, 'pages/Category.vue')
       })
       routes.push({

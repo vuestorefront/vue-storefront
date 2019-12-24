@@ -1,7 +1,7 @@
 import { Ref } from '@vue/composition-api'
 
-export interface UseProduct<PRODUCTS, SEARCH> {
-  products: Ref<PRODUCTS>[];
+export interface UseProduct<PRODUCT, SEARCH> {
+  products: Ref<Array<PRODUCT>>;
   search: SEARCH,
   loading: Ref<boolean>;
   error: Ref<any>;
