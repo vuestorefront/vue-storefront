@@ -1,17 +1,17 @@
 <template>
   <div>
     <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
+      {{ $t('Reset password') }}
       <i
         slot="close"
-        class="modal-close material-icons p15 cl-bg-tertiary"
+        class="modal-close material-icons cl-bg-tertiary"
         @click="close"
       >
         close
       </i>
-      {{ $t('Reset password') }}
     </header>
 
-    <div class="modal-content pt30 pb60 px65 cl-secondary">
+    <div class="modal-content bg-cl-primary pt30 pb60 px65 cl-secondary">
       <template v-if="!passwordSent">
         <form @submit.prevent="sendEmail" novalidate>
           <div class="mb20">
@@ -63,12 +63,12 @@
 
 <script>
 
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import BaseInput from '../Form/BaseInput.vue'
-import { required, email } from 'vuelidate/lib/validators'
-import i18n from '@vue-storefront/i18n'
+  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+  import BaseInput from '../Form/BaseInput.vue'
+  import {email, required} from 'vuelidate/lib/validators'
+  import i18n from '@vue-storefront/i18n'
 
-export default {
+  export default {
   validations: {
     email: {
       required,
@@ -83,18 +83,18 @@ export default {
       // todo: send email with reset password instructions
 
       if (this.$v.$invalid) {
-        this.$v.$touch()
+        this.$v.$touch();
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t('Please fix the validation errors'),
           action1: { label: i18n.t('OK') }
-        })
+        });
         return
       }
 
-      this.$bus.$emit('notification-progress-start', i18n.t('Resetting the password ... '))
+      this.$bus.$emit('notification-progress-start', i18n.t('Resetting the password ... '));
       this.$store.dispatch('user/resetPassword', { email: this.email }).then((response) => {
-        this.$bus.$emit('notification-progress-stop')
+        this.$bus.$emit('notification-progress-stop');
         if (response.code === 200) {
           this.passwordSent = true
         } else {
@@ -105,7 +105,7 @@ export default {
           })
         }
       }).catch((err) => {
-        console.error(err)
+        console.error(err);
         this.$bus.$emit('notification-progress-stop')
       })
     },
@@ -128,6 +128,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-close {
+    cursor: pointer;
+  }
   .modal-content {
     @media (max-width: 400px) {
       padding-left: 20px;

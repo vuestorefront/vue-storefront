@@ -112,10 +112,16 @@
             v-model.trim="shipping.city"
             @blur="$v.shipping.city.$touch()"
             autocomplete="address-level2"
-            :validations="[{
+            :validations="[
+            {
               condition: $v.shipping.city.$error && !$v.shipping.city.required,
               text: $t('Field is required')
-            }]"
+            },
+            {
+              condition: $v.shipping.city.$error && $v.shipping.city.required,
+              text: $t('Please provide valid city name')
+            }
+            ]"
           />
 
           <base-input
@@ -162,7 +168,7 @@
             v-model="shipping.country"
             autocomplete="country-name"
             @blur="$v.shipping.country.$touch()"
-            @change.native="$v.shipping.country.$touch(); changeCountry();"
+            @change.native="$v.shipping.country.$touch() changeCountry();"
           />
 
           <base-input
@@ -184,7 +190,7 @@
                 :value="method.method_code"
                 name="shipping-method"
                 v-model="shipping.shippingMethod"
-                @change="$v.shipping.shippingMethod.$touch(); changeShippingMethod();"
+                @change="$v.shipping.shippingMethod.$touch() changeShippingMethod();"
               >
               <span class="checkmark" />
             </label>
@@ -252,17 +258,17 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators'
-import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
-import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipping'
+  import {minLength, required} from 'vuelidate/lib/validators'
+  import {unicodeAlpha, unicodeAlphaNum} from '@vue-storefront/core/helpers/validators'
+  import {Shipping} from '@vue-storefront/core/modules/checkout/components/Shipping'
 
-import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
-import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
-import ButtonFull from 'theme/components/theme/ButtonFull'
-import Tooltip from 'theme/components/core/Tooltip'
+  import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+  import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+  import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
+  import ButtonFull from 'theme/components/theme/ButtonFull'
+  import Tooltip from 'theme/components/core/Tooltip'
 
-export default {
+  export default {
   components: {
     ButtonFull,
     Tooltip,

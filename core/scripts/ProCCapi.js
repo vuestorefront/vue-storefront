@@ -1,23 +1,23 @@
-const path = require('path')
+const path = require('path');
 const bodyParser = require('body-parser');
-const apiStatus = require('./utils/api-status')
-const Store = require('data-store')
-const _ = require('lodash')
-const request = require('request')
+const apiStatus = require('./utils/api-status');
+const Store = require('data-store');
+const _ = require('lodash');
+const request = require('request');
 
-let config_active
-let storefrontConfig
+let config_active;
+let storefrontConfig;
 if (process.env.NODE_ENV === 'development') {
   storefrontConfig = new Store({path: path.resolve('./config/local.json')});
 } else {
   storefrontConfig = new Store({path: path.resolve('./config/production.json')});
 }
-console.log('START process.env.NODE_ENV: ', process.env.NODE_ENV)
-console.log('START storefrontConfig: ', storefrontConfig.clone())
-console.log('START storefrontConfig: ')
+console.log('START process.env.NODE_ENV: ', process.env.NODE_ENV);
+console.log('START storefrontConfig: ', storefrontConfig.clone());
+console.log('START storefrontConfig: ');
 
 module.exports = (config, app) => {
-  config_active = config
+  config_active = config;
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
 
@@ -27,27 +27,27 @@ module.exports = (config, app) => {
     } catch (e) {
       return apiStatus(res, e, 502);
     }
-  })
+  });
 
   app.post('/test', (req, res) => {
     apiStatus(res, testKebab(), 200)
-  })
+  });
   app.post('/updateStorefrontSettings', (req, res) => {
     let storeData = req.body;
     // Setting VSF configs for new store
     // set Store Policies
-    setStorePolicies(storeData)
+    setStorePolicies(storeData);
     // set Main Image
-    setStoreMainImage(storeData)
+    setStoreMainImage(storeData);
 
     // set Store Categories - DISABLED DUE TO also running it separately in /category-link
-    // setStoreCategoryBanners(storeData)
+    // setCategoryBanner(storeData)
 
     // Set 'mapStoreUrlsFor' to enable routing to the store
-    setMapStoreUrlsFor(storeData)
+    setMapStoreUrlsFor(storeData);
 
     // set Store Data
-    setStoreData(storeData)
+    setStoreData(storeData);
 
     // I DONT UNDERSTAND ! If Store has then delete store related all the data
     // if ((storefrontConfig.has(`storeViews.${store_data.storeCode}`))) {
@@ -65,10 +65,10 @@ module.exports = (config, app) => {
     // end set store config file
 
     apiStatus(res, 'Vue Storefront: /updateStorefrontSettings Success', 200)
-  })
+  });
   app.post('/category-link', async (req, res) => {
-    console.log('/category-link STARTED')
-    let storeData
+    console.log('/category-link STARTED');
+    let storeData;
     if (req.body.storefront_url && req.body.store_categories) { // DEPRECATED
       storeData = req.body;
     } else if (req.body.storeCode) {
@@ -77,23 +77,23 @@ module.exports = (config, app) => {
       return apiStatus(res, 'Bad Data Input', 400);
     }
     // set Store Categories
-    console.log(storeData, 'setStoreCategoryBanners DATA:')
-    setStoreCategoryBanners(storeData)
+    console.log(storeData, 'setCategoryBanner DATA:');
+    setCategoryBanner(storeData);
 
     apiStatus(res, 'Vue Storefront: /category-link Success', 200);
     // end set to product banners
-  })
+  });
   app.post('/product-link', (req, res) => {
     // start set to product banners link in vue storefront
     let products = req.body.products;
-    let storeCode = req.body.storeCode
-    let imagesRootURL = req.body.imagesRootURL
-    console.log(products, 'setProductBanners DATA:', storeCode, imagesRootURL)
-    setProductBanners(products, storeCode, imagesRootURL)
+    let storeCode = req.body.storeCode;
+    let imagesRootURL = req.body.imagesRootURL;
+    console.log(products, 'setProductBanners DATA:', storeCode, imagesRootURL);
+    setProductBanners(products, storeCode, imagesRootURL);
 
     apiStatus(res, 'Vue Storefront: /product-link Success', 200);
     // end set to product banners
-  })
+  });
 
   app.post('/disable-store', (req, res) => {
     // TODO: add authentication for these API Calls
@@ -103,47 +103,47 @@ module.exports = (config, app) => {
       storefrontConfig.set(`storeViews.${storeData.store_code}.disabled`, status)
     }
     apiStatus(res, 200);
-  })
+  });
   app.post('/delete-store', (req, res) => {
     // TODO: add authentication for these API Calls
-    let storeData = req.body
+    let storeData = req.body;
     const mainImage = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeData.storeCode}_main-image.json`)});
     const StoreBanners = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeData.storeCode}_store_banners.json`)});
     const storePolicies = new Store({path: path.resolve(config.themeDir + `/resource/policies/${storeData.storeCode}_store_policies.json`)});
     // TODO: Add better check for all assets of the store -> return success if it is missing
     if (storefrontConfig.has(`storeViews.${storeData.storeCode}`)) {
-      storefrontConfig.del(`storeViews.${storeData.storeCode}`)
-      storefrontConfig.set('storeViews.mapStoreUrlsFor', _.pull(storefrontConfig.get('storeViews.mapStoreUrlsFor'), storeData.storeCode))
-      mainImage.unlink()
-      StoreBanners.unlink()
+      storefrontConfig.del(`storeViews.${storeData.storeCode}`);
+      storefrontConfig.set('storeViews.mapStoreUrlsFor', _.pull(storefrontConfig.get('storeViews.mapStoreUrlsFor'), storeData.storeCode));
+      mainImage.unlink();
+      StoreBanners.unlink();
       storePolicies.unlink()
     } else {
-      console.log('Store does not exist', storeData)
+      console.log('Store does not exist', storeData);
       apiStatus(res, 500);
     }
-  })
+  });
   app.post('/backup-config', (req, res) => {
     // TODO: add authentication for these API Calls
-    console.log('/backup-config', config)
+    console.log('/backup-config', config);
     apiStatus(res, config, 200);
-  })
+  });
   app.post('/rebuild-storefront', async (req, res) => {
     // TODO: add authentication for these API Calls
-    console.log('/rebuild-storefront')
-    console.log('Rebuilding Vue Storefront ~ 3 min')
+    console.log('/rebuild-storefront');
+    console.log('Rebuilding Vue Storefront ~ 3 min');
     await exec('yarn', ['build-silent'], { shell: true }, true, true);
     apiStatus(res, config, 200);
   });
 };
 
 function setStorePolicies (storeData) {
-  let storefront_setting = storeData.storefront_setting
+  let storefront_setting = storeData.storefront_setting;
   const storePolicies = new Store({path: path.resolve(config_active.themeDir + `/resource/policies/${storeData.storefront_url}_store_policies.json`)});
 
   // Reset the file to avoid bad config
   if (storePolicies && storePolicies.get('policy'))storePolicies.unlink();
 
-  let policies = []
+  let policies = [];
 
   if (!_.isUndefined(storefront_setting.privacy_policy) && !_.isNull(storefront_setting.privacy_policy)) {
     policies.push(storefront_setting.privacy_policy.policy);
@@ -162,8 +162,8 @@ function setStorePolicies (storeData) {
 }
 
 function setStoreMainImage (storeData) {
-  let storeCode = storeData.storefront_url
-  let storefront_setting = storeData.storefront_setting
+  let storeCode = storeData.storefront_url;
+  let storefront_setting = storeData.storefront_setting;
   const mainImage = new Store({path: path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_main-image.json`)});
 
   // Main Image Object
@@ -185,7 +185,7 @@ function setStoreMainImage (storeData) {
   // Reset the file to avoid bad config
   if (mainImage && mainImage.get('image'))mainImage.del('image');
 
-  mainImage.set('image', storeMainImage)
+  mainImage.set('image', storeMainImage);
   return mainImage.get('image');
 }
 
@@ -195,24 +195,24 @@ function getStoreData (storeCode) {
       uri: config_active.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode,
       method: 'GET'
     }, (_err, _res, _resBody) => {
-      console.log('GETTING URL: ', config_active.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode)
-      console.log('_resBody', _resBody)
-      if (_err)reject(_err)
-      let obj = JSON.parse(_resBody)
-      console.log('getStoreData _resBody', obj)
+      console.log('GETTING URL: ', config_active.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode);
+      // console.log('_resBody', _resBody)
+      if (_err) reject(_err);
+      let obj = JSON.parse(_resBody);
+      // console.log('getStoreData _resBody', obj)
       resolve(obj.storeData);
     })
   });
 }
 
-function setStoreCategoryBanners (storeData) {
-  let storeCode = storeData.storefront_url
+function setCategoryBanner(storeData) {
+  let storeCode = storeData.storefront_url;
   const StoreBanners = new Store({path: path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_store_banners.json`)});
-  console.log('storefrontConfig themeDir', config_active.themeDir)
-  console.log('storefrontConfig path', path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_store_banners.json`))
+  console.log('storefrontConfig themeDir', config_active.themeDir);
+  console.log('storefrontConfig path', path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_store_banners.json`));
   // console.log('storeData.store_categories', storeData.store_categories)
   // start set store categories main Banner and samll Banners
-  let top3Categories = _.take(_.orderBy(_.filter(storeData.store_categories, {'isCategoryCreatedInMagento': true}), 'updatedAt', 'desc'), 3)
+  let top3Categories = _.take(_.orderBy(_.filter(storeData.store_categories, {'isCategoryCreatedInMagento': true}), 'updatedAt', 'desc'), 3);
   let countCategories = top3Categories.length;
   let mainBanners = [];
   let smallBanners = [];
@@ -225,7 +225,7 @@ function setStoreCategoryBanners (storeData) {
         'subtitle_color': top3Categories[0].description_color,
         'image': top3Categories[0].cover_photo.optimized,
         // 'link': '/' + kebabForLink(top3Categories[0].name) + '/' + kebabForLink(top3Categories[0].name),
-        'link': '/c/' + kebabForLink(top3Categories[0].name),
+        'link': '/c/' + kebabForLink(top3Categories[0].name) + '-' + top3Categories[0].magento_category_id,
         'storeCode': storeData.storefront_url,
         'productCount': top3Categories[0].products.length,
         'category_id': parseInt(top3Categories[0].magento_category_id)
@@ -240,12 +240,12 @@ function setStoreCategoryBanners (storeData) {
           'subtitle_color': top3Categories[1].description_color,
           'image': top3Categories[1].cover_photo.optimized,
           // 'link': '/' + kebabForLink(top3Categories[1].name) + '/' + kebabForLink(top3Categories[1].name),
-          'link': '/c/' + kebabForLink(top3Categories[1].name),
+          'link': '/c/' + kebabForLink(top3Categories[1].name) + '-' + top3Categories[1].magento_category_id,
           'storeCode': storeData.storefront_url,
           'productCount': top3Categories[1].products.length,
           'category_id': parseInt(top3Categories[1].magento_category_id)
         }
-      ]
+      ];
       if (countCategories >= 3 && top3Categories[2] && top3Categories[2].cover_photo) {
         smallBanners.push({
           'title': top3Categories[2].name,
@@ -254,7 +254,7 @@ function setStoreCategoryBanners (storeData) {
           'subtitle_color': top3Categories[2].description_color,
           'image': top3Categories[2].cover_photo.optimized,
           // 'link': '/' + kebabForLink(top3Categories[2].name) + '/' + kebabForLink(top3Categories[2].name),
-          'link': '/c/' + kebabForLink(top3Categories[2].name),
+          'link': '/c/' + kebabForLink(top3Categories[2].name) + '-' + top3Categories[2].magento_category_id,
           'storeCode': storeData.storefront_url,
           'productCount': top3Categories[2].products.length,
           'category_id': parseInt(top3Categories[2].magento_category_id)
@@ -276,7 +276,7 @@ function setStoreCategoryBanners (storeData) {
   // DEBUG LOGGING
   // console.log('mainBanners GET', StoreBanners.get('mainBanners'));
   // console.log('smallBanners GET', StoreBanners.get('smallBanners'));
-  console.log('BANNERS SET END -----======]]]')
+  console.log('BANNERS SET END -----======]]]');
   // DEBUG LOGGING
 
   return {
@@ -291,7 +291,7 @@ function setProductBanners (products, storeCode, imagesRootURL) {
   let productBanners = [];
 
   for (let product of products) {
-    console.log('/product-link loop product', _.get(product, '_source'))
+    console.log('/product-link loop product', _.get(product, '_source'));
     let link = !_.isUndefined(product._source.url_path) ? product._source.url_path : product._source.url_key;
     let Banner = {
       'title': product._source.name,
@@ -309,28 +309,28 @@ function setProductBanners (products, storeCode, imagesRootURL) {
 
   StoreBanners.set('productBanners', productBanners);
   // console.log('productBanners', productBanners)
-  console.log('productBanners2', StoreBanners.get('productBanners'))
-  console.log('productBanners3 -----======]]]')
+  console.log('productBanners2', StoreBanners.get('productBanners'));
+  console.log('productBanners3 -----======]]]');
   return StoreBanners.get('productBanners')
 }
 
 function setMapStoreUrlsFor (storeData) {
-  let storeCode = storeData.storefront_url
+  let storeCode = storeData.storefront_url;
   let mapStoreUrlsFor = storefrontConfig.get('storeViews.mapStoreUrlsFor');
 
   if ((!_.includes(mapStoreUrlsFor, storeCode)) || (!_.includes(storefrontConfig.get('storeViews.mapStoreUrlsFor'), storeCode))) {
     // set value in mapStoreUrlsFor
-    mapStoreUrlsFor = _.concat(mapStoreUrlsFor, storeCode)
+    mapStoreUrlsFor = _.concat(mapStoreUrlsFor, storeCode);
 
     // Reset the file to avoid bad config
-    if (mapStoreUrlsFor)storefrontConfig.del('storeViews.mapStoreUrlsFor')
+    if (mapStoreUrlsFor) storefrontConfig.del('storeViews.mapStoreUrlsFor');
 
     storefrontConfig.set('storeViews.mapStoreUrlsFor', mapStoreUrlsFor);
   }
 }
 
 function setStoreData (storeData) {
-  let store_data = getDefaultStoreData(storeData)
+  let store_data = getDefaultStoreData(storeData);
 
   storefrontConfig.set(`storeViews.${storeData.storefront_url}`, store_data);
 }
@@ -381,13 +381,13 @@ function exec (cmd, args, opts, enableLogging = false, limit_output = false) {
       reject(error);
     });
 
-    let log_counter = 0
+    let log_counter = 0;
     if (enableLogging) {
-      console.log('child = spawn(cmd, args, opts)', cmd, args, opts)
+      console.log('child = spawn(cmd, args, opts)', cmd, args, opts);
       child.stdout.on('data', (data) => {
         if (limit_output) {
-          let data2 = data.toString()
-          data2.replace(' ', '')
+          let data2 = data.toString();
+          data2.replace(' ', '');
           if (Number.isInteger(log_counter / 400) && data2.length > 10) {
             console.log('stdout: ', data.toString());
           }
@@ -399,7 +399,7 @@ function exec (cmd, args, opts, enableLogging = false, limit_output = false) {
     }
     child.stderr.on('data', (data) => {
       if (limit_output) {
-        let data_str = data.toString()
+        let data_str = data.toString();
         if ((Number.isInteger(log_counter / 400) && data_str.length > 10) || data_str.indexOf('Error') !== -1) {
           console.log('stderrO: ', data.toString());
         }
@@ -414,7 +414,7 @@ function exec (cmd, args, opts, enableLogging = false, limit_output = false) {
 // Need this kebabcase, because lodash.kebabCase is doing it in a different way (numbers == words)
 function kebabForLink (string) {
   function split (text) {
-    let words = text.match(/[A-Za-z0-9]+/g) || [];
+    let words = text.match(/[A-Za-z0-9.]+/g) || [];
 
     if (words.length === 1 && words[0].length === text.length) {
       if (/[a-z]/.test(text)) {
@@ -430,7 +430,7 @@ function kebabForLink (string) {
       return [text];
     }
 
-    let pattern = /[A-Z][a-z0-9]*/g;
+    let pattern = /[A-Z][a-z0-9.]*/g;
 
     // PascalCase
     if (foundFirstUpperCase.index === 0) {
@@ -455,7 +455,7 @@ function kebabForLink (string) {
     let ret = String(words[0]).toLowerCase();
 
     for (let i = 1, n = words.length; i < n; i++) {
-      ret += '-' + String(words[i]).toLowerCase(); ;
+      ret += '-' + String(words[i]).toLowerCase();
     }
 
     return ret;
@@ -472,21 +472,22 @@ function kebabForLink (string) {
     }
   });
 
-  return kebabCase(string)
+  return kebabCase(string).replace('.', '')
 }
 
 function testKebab () {
-  console.time('testKebab took')
-  let array = ['GG 5', 'GG-5', 'GG 5-5', 'GG 5.5', 'GG5', 'GG5 66.5-7']
-  let result = []
+  console.time('testKebab took');
+  let array = ['GG 5', 'GG-5', 'GG 5-5', 'GG 5.5', 'GG5', 'GG5 66.5-7'];
+  let result = [];
   for (let key in array) {
-    let word1 = array[key]
-    let word2 = kebabForLink(word1)
-    let res = 'testKebab TEST ' + key + '  -  word1: ' + word1 + '  -  word2: ' + word2
-    console.log(res)
+    let word1 = array[key];
+    let word2 = kebabForLink(word1);
+    let res = 'testKebab TEST ' + key + '  -  word1: ' + word1 + '  -  word2: ' + word2;
+    console.log(res);
     result.push(res)
   }
-  console.timeEnd('testKebab took')
+  console.timeEnd('testKebab took');
   return result
 }
-testKebab()
+
+testKebab();

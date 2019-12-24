@@ -7,38 +7,38 @@
 import toString from 'lodash-es/toString'
 
 export function optionLabel (state, { attributeKey, searchBy = 'code', optionId }) {
-  let attrCache = state.labels[attributeKey]
-  console.log('optionLabel END: ', state.labels)
+  let attrCache = state.labels[attributeKey];
+  // console.log('optionLabel END: ', state.labels)
 
   if (attrCache) {
-    let label = attrCache[optionId]
+    let label = attrCache[optionId];
 
     if (label) {
       return label
     }
   }
-  let attr = state['list_by_' + searchBy][attributeKey]
+  let attr = state['list_by_' + searchBy][attributeKey];
   if (attr) {
-    console.log('return attr: ', attr.options)
+    // console.log('return attr: ', attr.options)
 
     let opt = attr.options.find((op) => { // TODO: cache it in memory
       if (toString(op.value) === toString(optionId)) {
         return op
       }
-    }) // TODO: i18n support with  multi-website attribute names
+    }); // TODO: i18n support with  multi-website attribute names
 
     if (opt) {
       if (!state.labels[attributeKey]) {
         state.labels[attributeKey] = {}
       }
-      state.labels[attributeKey][optionId] = opt.label
+      state.labels[attributeKey][optionId] = opt.label;
       return opt ? opt.label : optionId
     } else {
-      console.log('return optionId: ', optionId)
+      // console.log('return optionId: ', optionId)
       return optionId
     }
   } else {
-    console.log('return optionId 2: ', optionId)
+    console.log('return optionId 2: ', optionId);
     return optionId
   }
 }

@@ -200,45 +200,43 @@
 </template>
 
 <script>
-import i18n from '@vue-storefront/i18n'
-import Product from '@vue-storefront/core/pages/Product'
-import VueOfflineMixin from 'vue-offline/mixin'
-import config from 'config'
-import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
-import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
-import AddToCart from 'theme/components/core/AddToCart.vue'
-import GenericSelector from 'theme/components/core/GenericSelector'
-import ColorSelector from 'theme/components/core/ColorSelector.vue'
-import SizeSelector from 'theme/components/core/SizeSelector.vue'
-import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
-import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
-import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
-import ProductLinks from 'theme/components/core/ProductLinks.vue'
-import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
-import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
-import ProductGallery from 'theme/components/core/ProductGallery'
-import Spinner from 'theme/components/core/Spinner'
-import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
-import focusClean from 'theme/components/theme/directives/focusClean'
-import WebShare from 'theme/components/theme/WebShare'
-import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
-import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
-import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
-import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
-import { mapGetters } from 'vuex'
-import LazyHydrate from 'vue-lazy-hydration'
-import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
-import { getAvailableFiltersByProduct, getSelectedFiltersByProduct } from '@vue-storefront/core/modules/catalog/helpers/filters'
-import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
-import { localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { htmlDecode } from '@vue-storefront/core/filters'
-import { ReviewModule } from '@vue-storefront/core/modules/review'
-import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
-import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
-import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
-import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
+  import config from 'config'
+  import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
+  import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
+  import AddToCart from 'theme/components/core/AddToCart.vue'
+  import GenericSelector from 'theme/components/core/GenericSelector'
+  import ColorSelector from 'theme/components/core/ColorSelector.vue'
+  import SizeSelector from 'theme/components/core/SizeSelector.vue'
+  import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
+  import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
+  import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
+  import ProductLinks from 'theme/components/core/ProductLinks.vue'
+  import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
+  import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
+  import ProductGallery from 'theme/components/core/ProductGallery'
+  import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
+  import focusClean from 'theme/components/theme/directives/focusClean'
+  import WebShare from 'theme/components/theme/WebShare'
+  import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
+  import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
+  import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
+  import {mapGetters} from 'vuex'
+  import LazyHydrate from 'vue-lazy-hydration'
+  import {ProductOption} from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
+  import {
+    getAvailableFiltersByProduct,
+    getSelectedFiltersByProduct
+  } from '@vue-storefront/core/modules/catalog/helpers/filters'
+  import {isOptionAvailableAsync} from '@vue-storefront/core/modules/catalog/helpers/index'
+  import {currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore'
+  import {htmlDecode} from '@vue-storefront/core/filters'
+  import {ReviewModule} from '@vue-storefront/core/modules/review'
+  import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
+  import {registerModule} from '@vue-storefront/core/lib/modules'
+  import {isServer, onlineHelper} from '@vue-storefront/core/helpers'
+  import {catalogHooksExecutors} from '@vue-storefront/core/modules/catalog-next/hooks'
 
-export default {
+  export default {
   components: {
     AddToCart,
     AddToCompare,
@@ -263,7 +261,7 @@ export default {
   mixins: [ProductOption],
   directives: { focusClean },
   beforeCreate () {
-    registerModule(ReviewModule)
+    registerModule(ReviewModule);
     registerModule(RecentlyViewedModule)
   },
   data () {
@@ -286,7 +284,7 @@ export default {
     }),
     getOptionLabel () {
       return (option) => {
-        const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
+        const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase();
         return this.getCurrentProductConfiguration[configName] ? this.getCurrentProductConfiguration[configName].label : configName
       }
     },
@@ -339,9 +337,12 @@ export default {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
   },
   async asyncData ({ store, route }) {
-    const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
-    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
-    if (isServer) await loadBreadcrumbsPromise
+    const product = await store.dispatch('product/loadProduct', {
+      parentSku: route.params.parentSku,
+      childSku: route && route.params && route.params.childSku ? route.params.childSku : null
+    });
+    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', {product});
+    if (isServer) await loadBreadcrumbsPromise;
     catalogHooksExecutors.productPageVisited(product)
   },
   beforeRouteEnter (to, from, next) {
@@ -364,7 +365,7 @@ export default {
   },
   methods: {
     showDetails (event) {
-      this.detailsOpen = true
+      this.detailsOpen = true;
       event.target.classList.add('hidden')
     },
     notifyOutStock () {
@@ -389,25 +390,25 @@ export default {
       this.$bus.$emit(
         'filter-changed-product',
         Object.assign({ attribute_code: variant.type }, variant)
-      )
+      );
       this.getQuantity()
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
     },
     isOptionAvailable (option) { // check if the option is available
-      const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
-      currentConfig[option.type] = option
+      const currentConfig = Object.assign({}, this.getCurrentProductConfiguration);
+      currentConfig[option.type] = option;
       return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
     },
     async getQuantity () {
-      if (this.isStockInfoLoading) return // stock info is already loading
-      this.isStockInfoLoading = true
+      if (this.isStockInfoLoading) return; // stock info is already loading
+      this.isStockInfoLoading = true;
       try {
         const res = await this.$store.dispatch('stock/check', {
           product: this.getCurrentProduct,
           qty: this.getCurrentProduct.qty
-        })
+        });
         this.maxQuantity = res.qty
       } finally {
         this.isStockInfoLoading = false
@@ -418,7 +419,7 @@ export default {
     }
   },
   metaInfo () {
-    const storeView = currentStoreView()
+    const storeView = currentStoreView();
     return {
       link: [
         { rel: 'amphtml',

@@ -195,10 +195,16 @@
           :placeholder="$t('City *')"
           v-model.trim="userCompany.city"
           @input="$v.userCompany.city.$touch()"
-          :validations="[{
+          :validations="[
+          {
             condition: !$v.userCompany.city.required && $v.userCompany.city.$error,
             text: $t('Field is required')
-          }]"
+          },
+          {
+            condition: $v.userCompany.city.$error && $v.userCompany.city.required,
+            text: $t('Please provide valid city name')
+          }
+          ]"
         />
 
         <base-input
@@ -346,16 +352,17 @@
 </template>
 
 <script>
-import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
-import MyProfile from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyProfile'
+  import {email, minLength, required, sameAs} from 'vuelidate/lib/validators'
+  import MyProfile from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyProfile'
+  import {unicodeAlpha, unicodeAlphaNum} from '@vue-storefront/core/helpers/validators'
 
-import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
-import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
-import ButtonFull from 'theme/components/theme/ButtonFull'
-import Tooltip from 'theme/components/core/Tooltip'
+  import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+  import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
+  import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+  import ButtonFull from 'theme/components/theme/ButtonFull'
+  import Tooltip from 'theme/components/core/Tooltip'
 
-export default {
+  export default {
   components: {
     BaseCheckbox,
     BaseSelect,
@@ -391,10 +398,12 @@ export default {
     currentUser: {
       firstname: {
         required,
-        minLength: minLength(2)
+        minLength: minLength(2),
+        unicodeAlpha
       },
       lastname: {
-        required
+        required,
+        unicodeAlpha
       },
       email: {
         required,
@@ -419,17 +428,20 @@ export default {
         required
       },
       street: {
-        required
+        required,
+        unicodeAlphaNum
       },
       house: {
-        required
+        required,
+        unicodeAlphaNum
       },
       postcode: {
         required,
         minLength: minLength(3)
       },
       city: {
-        required
+        required,
+        unicodeAlpha
       },
       taxId: {
         required,

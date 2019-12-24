@@ -1,40 +1,23 @@
 <template>
   <router-link :to="localizedRoute('/')" :title="$t('Home Page')" class="no-underline inline-flex">
-    <!--        // Changes Vinod-->
     <img
-      v-show="key > 0"
       :width="width"
       :height="height"
-      :src="storeLogo"
-      :key="key"
-      alt="ProCC Store logo"
+      :alt="$t(defaultTitle)"
+      src="/assets/logo.svg"
     >
   </router-link>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+  import config from 'config'
+  import {currentStoreView} from '@vue-storefront/core/lib/multistore'
 
-export default {
-  computed: {
-    ...mapGetters({
-      storeLogo: 'procc/getStoreLogo'
-    })
-  },
-  watch: {
-    storeLogo: {
-      handler: function (newValue, oldValue) {
-        if (newValue !== '') {
-          setTimeout(() => this.key++, 10)
-        }
-      },
-      deep: true,
-      immediate: true
-    }
-  },
+  export default {
   data () {
+    const storeView = currentStoreView();
     return {
-      key: 0
+      defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle
     }
   },
   props: {

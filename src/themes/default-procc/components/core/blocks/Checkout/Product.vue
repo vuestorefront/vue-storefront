@@ -1,9 +1,11 @@
 <template>
   <div class="row p25 between-xs">
-    <product-image :image="image" class="blend" />
+    <div class="blend">
+      <product-image :image="image"/>
+    </div>
     <div class="col-xs">
       <div class="row">
-        <div class="col-xs-12 col-md-8 pb15">
+        <div class="col-xs-12 col-md-9 pb15">
           <div class="mb15">
             <div class="h4 weight-400 cl-accent serif">
               {{ product.name | htmlDecode }}
@@ -38,16 +40,17 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-12 col-md-4 serif">
+        <div class="col-xs-12 col-md-3 serif">
           <div v-if="isOnline && product.totals">
             <span class="h4 cl-error" v-if="product.totals.discount_amount">{{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }} </span>
             <span class="price-original h5" v-if="product.totals.discount_amount">{{ product.totals.row_total_incl_tax | price }}</span>
             <span v-if="!product.totals.discount_amount" class="h4">{{ product.totals.row_total_incl_tax | price }}</span>
           </div>
           <div v-else>
-            <span class="h4 cl-error" v-if="product.special_price">{{ product.priceInclTax * product.qty | price }} </span>
-            <span class="price-original h5" v-if="product.special_price">{{ product.originalPriceInclTax * product.qty | price }}</span>
-            <span v-if="!product.special_price" class="h4">{{ product.priceInclTax * product.qty | price }}</span>
+            <span class="h4 cl-error"
+                  v-if="product.special_price">{{ product.price_incl_tax * product.qty | price }} </span>
+            <span class="price-original h5" v-if="product.special_price">{{ product.original_price_incl_tax * product.qty | price }}</span>
+            <span class="h4" v-if="!product.special_price">{{ product.price_incl_tax * product.qty | price }}</span>
           </div>
         </div>
       </div>
@@ -56,11 +59,11 @@
 </template>
 
 <script>
-import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
-import { onlineHelper } from '@vue-storefront/core/helpers'
-import ProductImage from 'theme/components/core/ProductImage'
+  import {Product} from '@vue-storefront/core/modules/checkout/components/Product'
+  import {onlineHelper} from '@vue-storefront/core/helpers'
+  import ProductImage from 'theme/components/core/ProductImage'
 
-export default {
+  export default {
   computed: {
     isOnline () {
       return onlineHelper.isOnline
@@ -84,9 +87,6 @@ export default {
   text-decoration: line-through;
 }
 .blend {
-  mix-blend-mode: multiply;
-  align-self: center;
   flex: 0 0 121px;
-  padding-bottom: 32.68%;
 }
 </style>

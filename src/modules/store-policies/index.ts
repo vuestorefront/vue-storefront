@@ -1,8 +1,10 @@
-import { createModule } from '@vue-storefront/core/lib/module'
-import { module } from './store'
+import {StorefrontModule} from '@vue-storefront/core/lib/modules'
+import {module} from './store'
+import {afterRegistration} from "../google-tag-manager/hooks/afterRegistration";
 
-const KEY = 'policies'
-export const StorePolicies = createModule({
-  key: KEY,
-  store: { modules: [{ key: KEY, module }] }
-})
+export const StorePolicies: StorefrontModule = function ({store, router, appConfig}) {
+
+  store.registerModule('policies', module);
+
+  afterRegistration(appConfig, store)
+};

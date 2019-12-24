@@ -4,6 +4,7 @@
       class="mw-100 fixed cl-accent bg-cl-primary"
       :class="direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null "
       data-testid="sidebar"
+      ref="sidebar"
       v-if="isOpen"
     >
       <component :is="component" @close="$emit('close')" @reload="getComponent" />
@@ -12,10 +13,11 @@
 </template>
 
 <script>
-import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
-import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
+  import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
+  import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
+  import {clearAllBodyScrollLocks, disableBodyScroll} from 'body-scroll-lock'
 
-export default {
+  export default {
   props: {
     asyncComponent: {
       type: Function,
@@ -39,6 +41,17 @@ export default {
   created () {
     this.getComponent()
   },
+    watch: {
+      isOpen(state) {
+        if (state) {
+          this.$nextTick(() => {
+            disableBodyScroll(this.$refs.sidebar)
+          })
+        } else {
+          clearAllBodyScrollLocks()
+        }
+      }
+    },
   methods: {
     getComponent () {
       this.component = () => ({
@@ -84,15 +97,16 @@ export default {
     -webkit-overflow-scrolling: touch;
   }
 
-  .left-sidebar{
+  .left-sidebar {
     height: 100vh;
     width: 350px;
     top: 0;
     left: 0;
     overflow: hidden;
     overflow-y: auto;
-    z-index: 4; //Edited by Dan
     -webkit-overflow-scrolling: touch;
+    z-index: 4;
+
     @media (max-width: 767px) {
       width: 100vh;
     }

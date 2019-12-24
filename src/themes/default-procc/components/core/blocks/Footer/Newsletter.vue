@@ -1,5 +1,5 @@
 <template>
-  <div class="newsletter py25 px15 bg-cl-secondary" v-if="!isSubscribed">
+  <div class="newsletter py25 px15 bg-cl-secondary" v-show="!isSubscribed">
     <div class="container">
       <div class="newsletter-content m0 row middle-sm start-md">
         <div class="col-md-8 col-xs-12">
@@ -23,10 +23,11 @@
 </template>
 
 <script>
-import SubscriptionStatus from '@vue-storefront/core/modules/newsletter/mixins/SubscriptionStatus'
-import ButtonOutline from 'theme/components/theme/ButtonOutline'
-import { mapState } from 'vuex'
-const NewsletterPopup = () => import(/* webpackChunkName: "vsf-newsletter-modal" */ 'theme/components/core/NewsletterPopup.vue')
+  import SubscriptionStatus from '@vue-storefront/core/modules/newsletter/mixins/SubscriptionStatus'
+  import ButtonOutline from 'theme/components/theme/ButtonOutline'
+  import {mapState} from 'vuex'
+
+  const NewsletterPopup = () => import(/* webpackChunkName: "vsf-newsletter-modal" */ 'theme/components/core/NewsletterPopup.vue');
 
 export default {
   name: 'Newsletter',
@@ -43,7 +44,7 @@ export default {
   },
   methods: {
     showNewsletterPopup () {
-      this.loadNewsletterPopup = true
+      this.loadNewsletterPopup = true;
       this.$bus.$emit('modal-show', 'modal-newsletter')
     }
   },

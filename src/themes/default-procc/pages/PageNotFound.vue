@@ -49,14 +49,35 @@
 </template>
 
 <script>
-import PageNotFound from '@vue-storefront/core/pages/PageNotFound'
-import ProductTile from '../components/core/ProductTile.vue'
+  import {mapGetters} from 'vuex'
+  import {Logger} from '@vue-storefront/core/lib/logger'
+  import i18n from '@vue-storefront/i18n'
+  import ProductTile from '../components/core/ProductTile.vue'
 
-export default {
+  export default {
   name: 'PageNotFound',
   computed: {
-    ourBestsellersCollection () {
-      return this.$store.state.homepage.bestsellers
+    ...mapGetters({
+      ourBestsellersCollection: 'homepage/getBestsellers'
+    })
+  },
+    async asyncData({store, route, context}) {
+      Logger.log('Entering asyncData for PageNotFound ' + new Date())();
+      if (context) {
+        context.output.cacheTags.add(`page-not-found`);
+        context.server.response.statusCode = 404
+      }
+
+      await store.dispatch('homepage/loadBestsellers')
+    },
+    metaInfo() {
+      return {
+        title: this.$route.meta.title || i18n.t('404 Page Not Found'),
+        meta: this.$route.meta.description ? [{
+          vmid: 'description',
+          name: 'description',
+          content: this.$route.meta.description
+        }] : []
     }
   },
   components: {
@@ -66,8 +87,7 @@ export default {
     toggleSearchpanel () {
       this.$store.commit('ui/setSearchpanel', true)
     }
-  },
-  mixins: [PageNotFound]
+  }
 }
 </script>
 

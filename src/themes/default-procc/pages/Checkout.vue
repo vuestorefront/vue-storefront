@@ -28,16 +28,18 @@
 </template>
 
 <script>
-import Checkout from '@vue-storefront/core/pages/Checkout'
+  import Checkout from '@vue-storefront/core/pages/Checkout'
 
-import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails'
-import Shipping from 'theme/components/core/blocks/Checkout/Shipping'
-import Payment from 'theme/components/core/blocks/Checkout/Payment'
-import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview'
-import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
-import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage'
+  import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails'
+  import Shipping from 'theme/components/core/blocks/Checkout/Shipping'
+  import Payment from 'theme/components/core/blocks/Checkout/Payment'
+  import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview'
+  import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
+  import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage'
+  import {registerModule} from '@vue-storefront/core/lib/modules'
+  import {OrderModule} from '@vue-storefront/core/modules/order'
 
-export default {
+  export default {
   components: {
     PersonalDetails,
     Shipping,
@@ -47,6 +49,9 @@ export default {
     ThankYouPage
   },
   mixins: [Checkout],
+    beforeCreate() {
+      registerModule(OrderModule)
+    },
   methods: {
     notifyEmptyCart () {
       this.$store.dispatch('notification/spawnNotification', {
@@ -58,7 +63,7 @@ export default {
     notifyOutStock (chp) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
-        message: chp.name + this.$t(' is out of the stock!'),
+        message: chp.name + this.$t(' is out of stock!'),
         action1: { label: this.$t('OK') }
       })
     },

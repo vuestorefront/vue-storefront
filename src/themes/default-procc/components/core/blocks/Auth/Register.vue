@@ -1,17 +1,17 @@
 <template>
   <div>
     <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary">
+      {{ $t('Register') }}
       <i
         slot="close"
-        class="modal-close material-icons p15 cl-bg-tertiary"
+        class="modal-close material-icons cl-bg-tertiary"
         @click="close"
       >
         close
       </i>
-      {{ $t('Register') }}
     </header>
 
-    <div class="modal-content pt30 pb60 px65 cl-secondary">
+    <div class="modal-content bg-cl-primary pt30 pb60 px65 cl-secondary">
       <form @submit.prevent="register" novalidate>
         <base-input
           class="mb10"
@@ -37,7 +37,7 @@
           <base-input
             class="col-xs-6"
             type="text"
-            name="fist-name"
+            name="first-name"
             autocomplete="given-name"
             v-model="firstName"
             @blur="$v.firstName.$touch()"
@@ -135,13 +135,13 @@
   </div>
 </template>
 <script>
-import Register from '@vue-storefront/core/compatibility/components/blocks/Auth/Register'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
-import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+  import Register from '@vue-storefront/core/compatibility/components/blocks/Auth/Register'
+  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+  import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
+  import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
+  import {email, minLength, required, sameAs} from 'vuelidate/lib/validators'
 
-export default {
+  export default {
   validations: {
     email: {
       required,
@@ -175,12 +175,12 @@ export default {
   methods: {
     register () {
       if (this.$v.$invalid) {
-        this.$v.$touch()
+        this.$v.$touch();
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: this.$t('Please fix the validation errors'),
           action1: { label: this.$t('OK') }
-        })
+        });
         return
       }
       this.callRegister()
@@ -204,6 +204,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-close {
+    cursor: pointer;
+  }
   .modal-content {
     @media (max-width: 400px) {
       padding-left: 20px;

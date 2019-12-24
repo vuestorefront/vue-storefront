@@ -4,19 +4,19 @@
       p0 bg-cl-primary brdr-1 brdr-cl-primary
       brdr-square h5 cl-tertiary size-selector
     "
-    :class="{ active: active }"
-    @click="switchFilter(id, label)"
-    :aria-label="$t('Select size ') + label"
+    :aria-label="$t('Select size {variant}', { variant: variant.label })"
+    :class="{ active: isActive }"
+    @click="$emit('change', variant)"
   >
-    {{ label }}
+    {{ variant.label }}
   </button>
 </template>
 
 <script>
-import GenericSelector from '@vue-storefront/core/compatibility/components/GenericSelector'
+  import filterMixin from 'theme/mixins/filterMixin.ts'
 
-export default {
-  mixins: [GenericSelector]
+  export default {
+    mixins: [filterMixin]
 }
 </script>
 

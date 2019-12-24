@@ -6,7 +6,11 @@
           <h2 class="h3 m0 mb10 serif lh20 weight-700">
             {{ $t('Reviews') }}
           </h2>
-          <reviews-list :per-page="4" :items="reviews ? reviews : []" />
+          <reviews-list
+            :items="reviews"
+            :per-page="4"
+            :product-name="productName"
+          />
         </div>
         <div class="col-xs-12 col-md-5 pt50">
           <h2 class="h3 m0 mb10 serif lh20 weight-700">
@@ -101,17 +105,17 @@
 </template>
 
 <script>
-import { required, email, minLength } from 'vuelidate/lib/validators'
+  import {email, minLength, required} from 'vuelidate/lib/validators'
 
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
-import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
-import ButtonFull from 'theme/components/theme/ButtonFull'
-import ReviewsList from 'theme/components/theme/blocks/Reviews/ReviewsList'
-import { Reviews } from '@vue-storefront/core/modules/review/components/Reviews'
-import { AddReview } from '@vue-storefront/core/modules/review/components/AddReview'
-import NoSSR from 'vue-no-ssr'
+  import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+  import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
+  import ButtonFull from 'theme/components/theme/ButtonFull'
+  import ReviewsList from 'theme/components/theme/blocks/Reviews/ReviewsList'
+  import {Reviews} from '@vue-storefront/core/modules/review/components/Reviews'
+  import NoSSR from 'vue-no-ssr'
+  import i18n from '@vue-storefront/i18n'
 
-export default {
+  export default {
   name: 'Reviews',
   data () {
     return {
@@ -125,8 +129,12 @@ export default {
   },
   props: {
     productId: {
-      type: Number,
+      type: [String, Number],
       required: true
+    },
+    productName: {
+      type: String,
+      default: ''
     }
   },
   computed: {
@@ -136,7 +144,7 @@ export default {
   },
   methods: {
     validate () {
-      this.$v.$touch()
+      this.$v.$touch();
       if (!this.$v.$invalid) {
         this.submit()
       }
@@ -144,22 +152,37 @@ export default {
     refreshList () {
       this.$store.dispatch('review/list', { productId: this.productId })
     },
-    submit () {
-      this.addReview({
+    async submit() {
+      const isReviewCreated = await this.$store.dispatch('review/add', {
         'product_id': this.productId,
         'title': this.formData.summary,
         'detail': this.formData.review,
         'nickname': this.formData.name,
         'review_entity': 'product',
-        'review_status': 2,
         'customer_id': this.currentUser ? this.currentUser.id : null
+      });
+
+      if (isReviewCreated) {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'success',
+          message: i18n.t('You submitted your review for moderation.'),
+          action1: {label: i18n.t('OK')}
+        });
+
+        return
+      }
+
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: i18n.t('Something went wrong. Try again in a few seconds.'),
+        action1: {label: i18n.t('OK')}
       })
     },
     clearReviewForm () {
-      this.formData.name = ''
-      this.formData.email = ''
-      this.formData.summary = ''
-      this.formData.review = ''
+      this.formData.name = '';
+      this.formData.email = '';
+      this.formData.summary = '';
+      this.formData.review = '';
       this.$v.$reset()
     },
     login () {
@@ -167,26 +190,26 @@ export default {
     },
     fillInUserData () {
       if (this.currentUser) {
-        this.formData.name = this.currentUser.firstname
+        this.formData.name = this.currentUser.firstname;
         this.formData.email = this.currentUser.email
       }
     }
   },
   mounted () {
-    this.$bus.$on('product-after-load', this.refreshList)
-    this.$bus.$on('clear-add-review-form', this.clearReviewForm)
+    this.$bus.$on('product-after-load', this.refreshList);
+    this.$bus.$on('clear-add-review-form', this.clearReviewForm);
     this.$bus.$on('user-after-loggedin', this.fillInUserData)
   },
   destroyed () {
-    this.$bus.$off('product-after-load', this.refreshList)
-    this.$bus.$off('clear-add-review-form', this.clearReviewForm)
+    this.$bus.$off('product-after-load', this.refreshList);
+    this.$bus.$off('clear-add-review-form', this.clearReviewForm);
     this.$bus.$off('user-after-loggedin', this.fillInUserData)
   },
   beforeMount () {
-    this.refreshList()
+    this.refreshList();
     this.fillInUserData()
   },
-  mixins: [ Reviews, AddReview ],
+    mixins: [Reviews],
   validations: {
     formData: {
       name: {

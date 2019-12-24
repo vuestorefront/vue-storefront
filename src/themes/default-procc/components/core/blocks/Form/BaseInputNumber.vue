@@ -5,6 +5,8 @@
       :id="getInputId"
       type="number"
       :min="min"
+      :disabled="disabled"
+      :max="max"
       class="m0 no-outline base-input-number__input brdr-cl-primary bg-cl-transparent h4"
       :focus="autofocus"
       :value="value"
@@ -16,15 +18,12 @@
 </template>
 
 <script>
-import ValidationMessages from './ValidationMessages.vue'
-export default {
+  import ValidationMessages from './ValidationMessages.vue'
+
+  export default {
   name: 'BaseInput',
   components: {
     ValidationMessages
-  },
-  data () {
-    return {
-    }
   },
   props: {
     value: {
@@ -39,6 +38,14 @@ export default {
     min: {
       type: Number,
       default: 0
+    },
+    max: {
+      type: Number,
+      default: undefined
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     autofocus: {
       type: Boolean,
@@ -63,8 +70,6 @@ export default {
   @import '~theme/css/helpers/functions/color';
 
   .base-input-number {
-    width: 100%;
-
     &__input {
       border-style: solid;
       border-width: 0 0 1px 0;
@@ -79,12 +84,10 @@ export default {
     &__label {
       font-size: 0.8rem;
       line-height: 1.2rem;
-      max-width: 100px;
       @media (min-width: 768px) {
         font-size: 1rem;
         line-height: 1.4rem;
       }
     }
   }
-
 </style>

@@ -23,8 +23,7 @@
           <product-image
             v-show="hideImageAtIndex !== index"
             @dblclick="openOverlay"
-            class="product-image pointer"
-            :class="{'product-image--video': images.video}"
+            class="pointer image"
             :image="images"
             :alt="productName | htmlDecode"
           />
@@ -45,14 +44,14 @@
 </template>
 
 <script>
-import config from 'config'
-import { Carousel, Slide } from 'vue-carousel'
-import ProductImage from './ProductImage'
-import ProductVideo from './ProductVideo'
-import reduce from 'lodash-es/reduce'
-import map from 'lodash-es/map'
+  import config from 'config'
+  import {Carousel, Slide} from 'vue-carousel'
+  import ProductImage from './ProductImage'
+  import ProductVideo from './ProductVideo'
+  import reduce from 'lodash-es/reduce'
+  import map from 'lodash-es/map'
 
-export default {
+  export default {
   name: 'ProductGalleryCarousel',
   components: {
     Carousel,
@@ -67,7 +66,7 @@ export default {
     },
     productName: {
       type: String,
-      required: true
+      default: ''
     },
     configuration: {
       type: Object,
@@ -85,21 +84,21 @@ export default {
   },
   computed: {},
   beforeMount () {
-    this.$bus.$on('filter-changed-product', this.selectVariant)
+    this.$bus.$on('filter-changed-product', this.selectVariant);
     this.$bus.$on('product-after-load', this.selectVariant)
   },
   mounted () {
-    this.selectVariant()
+    this.selectVariant();
 
     if (this.configuration.color) {
-      const {color} = this.configuration
+      const {color} = this.configuration;
       this.currentColor = color.id
     }
 
     this.$emit('loaded')
   },
   beforeDestroy () {
-    this.$bus.$off('filter-changed-product', this.selectVariant)
+    this.$bus.$off('filter-changed-product', this.selectVariant);
     this.$bus.$off('product-after-load', this.selectVariant)
   },
   methods: {
@@ -111,34 +110,36 @@ export default {
     selectVariant () {
       if (config.products.gallery.mergeConfigurableChildren) {
         const option = reduce(map(this.configuration, 'attribute_code'), (result, attribute) => {
-          result[attribute] = this.configuration[attribute].id
+          result[attribute] = this.configuration[attribute].id;
           return result
-        }, {})
+        }, {});
         if (option) {
           let index = this.gallery.findIndex(
-            obj => obj.id && Object.entries(obj.id).toString() === Object.entries(option).toString(), option)
-          if (index < 0) index = this.gallery.findIndex(obj => obj.id && obj.id.color === option.color)
+            obj => obj.id && Object.entries(obj.id).toString() === Object.entries(option).toString(), option);
+          if (index < 0) index = this.gallery.findIndex(obj => obj.id && obj.id.color === option.color);
           this.navigate(index)
         }
       }
+
+      this.$emit('close')
     },
     openOverlay () {
-      const currentSlide = this.$refs.carousel.currentPage
+      const currentSlide = this.$refs.carousel.currentPage;
       this.$emit('toggle', currentSlide)
     },
     switchCarouselSpeed () {
-      const {color} = this.configuration
+      const {color} = this.configuration;
       if (color && this.currentColor !== color.id) {
-        this.currentColor = color.id
+        this.currentColor = color.id;
         this.carouselTransitionSpeed = 0
       } else {
         this.carouselTransitionSpeed = 500
       }
     },
     pageChange (index) {
-      this.switchCarouselSpeed()
+      this.switchCarouselSpeed();
 
-      this.currentPage = index
+      this.currentPage = index;
       this.hideImageAtIndex = null
     },
     onVideoStarted (index) {
@@ -160,16 +161,13 @@ export default {
   bottom: 0;
   right: 0;
 }
-.product-image{
-  mix-blend-mode: multiply;
+
+.image {
   opacity: 1;
-  will-change: transform;
+  will-change: opacity;
   transition: .3s opacity $motion-main;
   &:hover{
     opacity: .9;
-  }
-  &--video{
-    padding-bottom: calc(319% / (568 / 100));
   }
 }
 .video-container {

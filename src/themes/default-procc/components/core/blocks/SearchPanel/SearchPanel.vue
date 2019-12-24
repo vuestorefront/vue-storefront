@@ -78,13 +78,14 @@
 </template>
 
 <script>
-import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel'
-import ProductTile from 'theme/components/core/ProductTile'
-import VueOfflineMixin from 'vue-offline/mixin'
-import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel'
-import { minLength } from 'vuelidate/lib/validators'
+  import SearchPanel from '@vue-storefront/core/compatibility/components/blocks/SearchPanel/SearchPanel'
+  import ProductTile from 'theme/components/core/ProductTile'
+  import VueOfflineMixin from 'vue-offline/mixin'
+  import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel'
+  import {minLength} from 'vuelidate/lib/validators'
+  import {clearAllBodyScrollLocks, disableBodyScroll} from 'body-scroll-lock'
 
-export default {
+  export default {
   components: {
     ProductTile,
     CategoryPanel
@@ -102,26 +103,29 @@ export default {
   },
   computed: {
     visibleProducts () {
-      const productList = this.products || []
+      const productList = this.products || [];
       if (this.selectedCategoryIds.length) {
         return productList.filter(product => product.category_ids.some(categoryId => {
-          const catId = parseInt(categoryId)
+          const catId = parseInt(categoryId);
           return this.selectedCategoryIds.includes(catId)
         }))
       }
       return productList
     },
     categories () {
-      const categoriesMap = {}
-      this.products.forEach(product => {
-        [...product.category].forEach(category => {
-          categoriesMap[category.category_id] = category
-        })
-      })
-      return Object.keys(categoriesMap).map(categoryId => categoriesMap[categoryId])
+      const categories = this.products
+        .filter(p => p.category)
+        .map(p => p.category)
+        .flat();
+
+      const discinctCategories = Array.from(
+        new Set(categories.map(c => c.category_id))
+      ).map(catId => categories.find(c => c.category_id === catId));
+
+      return discinctCategories
     },
     getNoResultsMessage () {
-      let msg = ''
+      let msg = '';
       if (!this.$v.search.minLength) {
         msg = 'Searched term should consist of at least 3 characters.'
       } else if (this.emptyResults) {
@@ -137,7 +141,11 @@ export default {
   },
   mounted () {
     // add autofocus to search input field
-    this.$refs.search.focus()
+    this.$refs.search.focus();
+    disableBodyScroll(this.$el)
+  },
+    destroyed() {
+      clearAllBodyScrollLocks()
   }
 }
 </script>
@@ -156,6 +164,7 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+
   .close-icon-row {
     display: flex;
     justify-content: flex-end;

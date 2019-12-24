@@ -1,7 +1,7 @@
 {
   "name": "@vue-storefront/theme-default-procc",
-  "version": "1.10.4",
-  "description": "Default theme for ProCC",
+  "version": "1.11.0",
+  "description": "ProCC",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -1,8 +1,9 @@
 <template>
   <div id="home">
-    <head-image />
+    <head-image :isDefaultStore="isDefaultStore"/>
     <store-banners v-if="!isDefaultStore" />
     <section class="container pb60 px15" v-if="!isDefaultStore">
+      <!--      // ProCC section-->
       <div class="row center-xs">
         <header class="col-md-12 pt40">
           <h2 class="align-center cl-accent">
@@ -12,128 +13,147 @@
       </div>
       <tile-links />
     </section>
-    <available-store v-if="isDefaultStore" />
+    <!--    <promoted-offers />-->
+
+    <!--    <section class="new-collection container px15">-->
+    <!--      <div>-->
+    <!--        <header class="col-md-12">-->
+    <!--          <h2 class="align-center cl-accent">-->
+    <!--            {{ $t('New Product Arrivals') }}-->
+    <!--          </h2>-->
+    <!--        </header>-->
+    <!--      </div>-->
+    <!--      <tile-links />-->
+    <!--    </section>-->
+    <section class="container pb60 px15">
+      <available-store v-if="isDefaultStore"/>
+      <div class="row center-xs" v-else>
+        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+          <product-listing :products="getEverythingNewCollection" columns="4"/>
+        </lazy-hydrate>
+        <product-listing :products="getEverythingNewCollection" columns="4" v-else/>
+      </div>
+      <div class="row center-xs">
+        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+          <product-listing :products="getEverythingNewCollection" columns="4"/>
+        </lazy-hydrate>
+        <product-listing :products="getEverythingNewCollection" columns="4" v-else/>
+      </div>
+    </section>
+
+    <!--    <section v-if="isOnline" class="container pb60 px15">-->
+    <!--      <div class="row center-xs">-->
+    <!--        <header class="col-md-12" :class="{ pt40: getEverythingNewCollection && getEverythingNewCollection.length }">-->
+    <!--          <h2 class="align-center cl-accent">-->
+    <!--            {{ $t('Get inspired') }}-->
+    <!--          </h2>-->
+    <!--        </header>-->
+    <!--      </div>-->
+    <!--      <tile-links />-->
+    <!--    </section>-->
+    <Onboard/>
   </div>
 </template>
 
 <script>
-// query constructor
-import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
-import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-// Core pages
-import Home from '@vue-storefront/core/pages/Home'
+  // query constructor
+  import {isServer, onlineHelper} from '@vue-storefront/core/helpers'
+  import LazyHydrate from 'vue-lazy-hydration'
+  // Core pages
+  import Home from '@vue-storefront/core/pages/Home'
+  // Theme core components
+  import ProductListing from 'theme/components/core/ProductListing'
+  import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
+  // Theme local components
+  import Onboard from 'theme/components/theme/blocks/Home/Onboard'
+  import AvailableStore from 'theme/components/theme/blocks/Store/AvailableStore'
+  import StoreBanners from 'theme/components/theme/blocks/StoreBanners/StoreBanners'
+  import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
+  import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
+  import {Logger} from '@vue-storefront/core/lib/logger'
+  import {mapGetters} from 'vuex'
+  import config from 'config'
+  import {registerModule} from '@vue-storefront/core/lib/modules'
+  import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
 
-// Theme core components
-import ProductListing from 'theme/components/core/ProductListing'
-import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
+  import {currentStoreView} from '@vue-storefront/core/lib/multistore'
 
-// Theme local components
-import Onboard from 'theme/components/theme/blocks/Home/Onboard'
-import AvailableStore from 'theme/components/theme/blocks/Store/AvailableStore'
-import StoreBanners from 'theme/components/theme/blocks/StoreBanners/StoreBanners'
-// import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
-import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
-import { Logger } from '@vue-storefront/core/lib/logger'
-import { mapGetters } from 'vuex'
-
-export default {
+  export default {
+    data() {
+      return {
+        loading: true
+      }
+    },
   mixins: [Home],
   components: {
     HeadImage,
     AvailableStore,
+    StoreBanners,
     Onboard,
     ProductListing,
-    StoreBanners,
-    // PromotedOffers,
-    TileLinks
+    PromotedOffers,
+    TileLinks,
+    LazyHydrate
   },
   computed: {
     ...mapGetters('user', ['isLoggedIn']),
+    ...mapGetters('homepage', ['getEverythingNewCollection']),
     categories () {
       return this.getCategories
     },
-    everythingNewCollection () {
-      return this.$store.state.homepage.new_collection
-    },
-    coolBagsCollection () {
-      return this.$store.state.homepage.coolbags_collection
-    },
     isDefaultStore () {
-      const storeView = currentStoreView()
+      const storeView = currentStoreView();
       return storeView.storeCode === ''
     },
     isOnline () {
       return onlineHelper.isOnline
+    },
+    isLazyHydrateEnabled() {
+      return config.ssr.lazyHydrateFor.some(
+        field => ['homepage', 'homepage.new_collection'].includes(field)
+      )
     }
   },
-  created () {
-    // Load personal and shipping details for Checkout page from IndexedDB
-    this.$store.dispatch('checkout/load')
-  },
-  beforeUpdate () {
-    this.sortBanners()
+    beforeCreate() {
+      registerModule(RecentlyViewedModule)
   },
   async beforeMount () {
     if (this.$store.state.__DEMO_MODE__) {
-      const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' })
+      const onboardingClaim = await this.$store.dispatch('claims/check', {claimCode: 'onboardingAccepted'});
       if (!onboardingClaim) { // show onboarding info
-        this.$bus.$emit('modal-toggle', 'modal-onboard')
+        this.$bus.$emit('modal-toggle', 'modal-onboard');
         this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
       }
     }
   },
   mounted () {
-    if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup')
+    if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup');
     console.log('Current Store', currentStoreView())
   },
   watch: {
     isLoggedIn () {
-      const redirectObj = localStorage.getItem('redirect')
-      if (redirectObj) this.$router.push(redirectObj)
+      const redirectObj = localStorage.getItem('redirect');
+      if (redirectObj) this.$router.push(redirectObj);
       localStorage.removeItem('redirect')
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    const config = store.state.config
-    Logger.info('Calling asyncData in Home (theme)')()
+    const config = store.state.config;
+    Logger.info('Calling asyncData in Home (theme)')();
 
-    let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
-    let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })
-
-    const newProductsResult = await store.dispatch('product/list', {
-      query: newProductsQuery,
-      size: 8,
-      sort: 'created_at:desc'
-    })
-    if (newProductsResult) {
-      store.state.homepage.new_collection = newProductsResult.items
-    }
-
-    const coolBagsResult = await store.dispatch('product/list', {
-      query: coolBagsQuery,
-      size: 4,
-      sort: 'created_at:desc',
-      includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
-    })
-    if (coolBagsResult) {
-      store.state.homepage.coolbags_collection = coolBagsResult.items
-    }
-
-    await store.dispatch('procc/updateHeadImage')
-    await store.dispatch('procc/updateStoreBanners')
-    await store.dispatch('policies/updateStorePolicies')
+    await Promise.all([
+      store.dispatch('homepage/fetchNewCollection'),
+      store.dispatch('promoted/updateHeadImage'),
+      store.dispatch('promoted/updatePromotedOffers')
+    ])
   },
   beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading products to cache on SSR render
-      next(vm => {
-        let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
-        vm.$store.dispatch('product/list', {
-          query: newProductsQuery,
-          size: 8,
-          sort: 'created_at:desc'
+      next(vm =>
+        vm.$store.dispatch('homepage/fetchNewCollection').then(res => {
+          vm.loading = false
         })
-      })
+      )
     } else {
       next()
     }

@@ -19,10 +19,27 @@
 </template>
 
 <script>
-import MicrocartIcon from '@vue-storefront/core/compatibility/components/blocks/Header/MicrocartIcon'
+  import {mapActions, mapGetters} from 'vuex'
 
-export default {
-  mixins: [MicrocartIcon]
+  export default {
+    // mixins: [MicrocartIcon],
+    mounted() {
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          this.$store.dispatch('cart/load')
+        }
+      })
+    },
+    computed: {
+      ...mapGetters({
+        totalQuantity: 'cart/getItemsTotalQuantity'
+      })
+    },
+    methods: {
+      ...mapActions({
+        openMicrocart: 'ui/toggleMicrocart'
+      })
+    }
 }
 </script>
 

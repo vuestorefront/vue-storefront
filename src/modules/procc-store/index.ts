@@ -1,8 +1,10 @@
-import { createModule } from '@vue-storefront/core/lib/module'
-import { module } from './store'
+import {module} from './store'
+import {StorefrontModule} from "core/lib/modules";
+import {afterRegistration} from "../google-tag-manager/hooks/afterRegistration";
 
-const KEY = 'procc'
-export const ProCCStore = createModule({
-  key: KEY,
-  store: { modules: [{ key: KEY, module }] }
-})
+export const ProCCStore: StorefrontModule = function ({store, router, appConfig}) {
+
+  store.registerModule('procc', module);
+
+  afterRegistration(appConfig, store)
+};

@@ -18,7 +18,7 @@
         </button>
       </div>
     </div>
-    <div class="sidebar-menu__container row">
+    <div class="sidebar-menu__container row" ref="container">
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
           <li
@@ -52,7 +52,7 @@
               <router-link
                 v-else
                 class="px25 py20 cl-accent no-underline col-xs"
-                :to="localizedRoute({ name: 'category', fullPath: category.url_path, params: { id: category.id, slug: category.slug }})"
+                :to="categoryLink(category)"
               >
                 {{ category.name }}
               </router-link>
@@ -65,32 +65,32 @@
               :parent-path="category.url_path"
             />
           </li>
-          <!--          <li-->
-          <!--            v-if="isCurrentMenuShowed"-->
-          <!--            @click="closeMenu"-->
-          <!--            class="bg-cl-secondary"-->
-          <!--          >-->
-          <!--            <router-link-->
-          <!--              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"-->
-          <!--              :to="localizedRoute('/sale')"-->
-          <!--              exact-->
-          <!--            >-->
-          <!--              {{ $t('Sale') }}-->
-          <!--            </router-link>-->
-          <!--          </li>-->
-          <!--          <li-->
-          <!--            v-if="isCurrentMenuShowed"-->
-          <!--            @click="closeMenu"-->
-          <!--            class="bg-cl-secondary"-->
-          <!--          >-->
-          <!--            <router-link-->
-          <!--              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"-->
-          <!--              :to="localizedRoute('/magazine')"-->
-          <!--              exact-->
-          <!--            >-->
-          <!--              {{ $t('Magazine') }}-->
-          <!--            </router-link>-->
-          <!--          </li>-->
+          <li
+            @click="closeMenu"
+            class="bg-cl-secondary"
+            v-if="isCurrentMenuShowed"
+          >
+            <router-link
+              :to="localizedRoute('/sale')"
+              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
+              exact
+            >
+              {{ $t('Sale') }}
+            </router-link>
+          </li>
+          <li
+            @click="closeMenu"
+            class="bg-cl-secondary"
+            v-if="isCurrentMenuShowed"
+          >
+            <router-link
+              :to="localizedRoute('/magazine')"
+              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
+              exact
+            >
+              {{ $t('Magazine') }}
+            </router-link>
+          </li>
           <li
             v-if="compareIsActive && isCurrentMenuShowed"
             @click="closeMenu"
@@ -135,13 +135,15 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import i18n from '@vue-storefront/i18n'
-import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu'
-import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
-import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
+  import {mapState} from 'vuex'
+  import i18n from '@vue-storefront/i18n'
+  import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu'
+  import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
+  import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
+  import {formatCategoryLink} from '@vue-storefront/core/modules/url/helpers'
+  import {clearAllBodyScrollLocks, disableBodyScroll} from 'body-scroll-lock'
 
-export default {
+  export default {
   components: {
     SubCategory,
     SubBtn
@@ -206,18 +208,25 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.componentLoaded = true
+      this.componentLoaded = true;
+      disableBodyScroll(this.$refs.container)
     })
   },
+    destroyed() {
+      clearAllBodyScrollLocks()
+    },
   methods: {
     login () {
       if (!this.currentUser && this.isCurrentMenuShowed) {
         this.$nextTick(() => {
-          this.$store.commit('ui/setAuthElem', 'login')
-          this.$bus.$emit('modal-show', 'modal-signup')
+          this.$store.commit('ui/setAuthElem', 'login');
+          this.$bus.$emit('modal-show', 'modal-signup');
           this.$router.push({ name: 'my-account' })
         })
       }
+    },
+    categoryLink(category) {
+      return formatCategoryLink(category)
     }
   }
 }
@@ -243,9 +252,8 @@ $color-mine-shaft: color(mine-shaft);
 
   &__container {
     overflow-y: auto;
-    overflow-x: hidden;
-    height: calc(100% - 55px);
     -webkit-overflow-scrolling: touch;
+    height: calc(100% - 55px);
   }
 
   &__list {

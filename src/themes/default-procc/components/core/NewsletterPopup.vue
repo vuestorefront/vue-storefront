@@ -41,15 +41,15 @@
   </modal>
 </template>
 <script>
-import SubscriptionStatus from '@vue-storefront/core/modules/newsletter/mixins/SubscriptionStatus'
-import Subscribe from '@vue-storefront/core/modules/newsletter/mixins/Subscribe'
-import i18n from '@vue-storefront/i18n'
+  import SubscriptionStatus from '@vue-storefront/core/modules/newsletter/mixins/SubscriptionStatus'
+  import Subscribe from '@vue-storefront/core/modules/newsletter/mixins/Subscribe'
+  import i18n from '@vue-storefront/i18n'
 
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-import Modal from 'theme/components/core/Modal'
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
+  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+  import Modal from 'theme/components/core/Modal'
+  import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
 
-export default {
+  export default {
   mounted () {
     this.$nextTick(() => {
       this.$bus.$emit('modal-show', 'modal-newsletter')
@@ -59,12 +59,15 @@ export default {
     this.$off('validation-error')
   },
   methods: {
-    onSuccesfulSubmission () {
-      this.$store.dispatch('notification/spawnNotification', {
-        type: 'success',
-        message: i18n.t('You have been successfully subscribed to our newsletter!'),
-        action1: { label: i18n.t('OK') }
-      })
+    onSuccesfulSubmission(isSubscribed) {
+      if (isSubscribed) {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'success',
+          message: i18n.t('You have been successfully subscribed to our newsletter!'),
+          action1: {label: i18n.t('OK')}
+        })
+      }
+
       this.$bus.$emit('modal-hide', 'modal-newsletter')
     }
   },

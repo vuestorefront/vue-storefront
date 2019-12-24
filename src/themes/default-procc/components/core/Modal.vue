@@ -1,47 +1,59 @@
 <template>
-  <transition name="fade-in-down">
+  <transition :name="transitionName">
     <div
       class="modal"
       v-if="isVisible"
       ref="modal"
-      @click.self="close"
     >
-      <div class="modal-wrapper">
-        <div class="modal-center">
-          <div class="modal-container bg-cl-primary" ref="modal-content" :style="style">
-            <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary" v-if="$slots.header">
-              <i
-                slot="close"
-                class="modal-close material-icons p15 cl-bg-tertiary"
-                @click="close"
-                data-testid="closeModalButton"
-              >
-                close
-              </i>
-              <slot name="header" />
-            </header>
-            <div class="modal-content pt30 pb60 px65" v-if="$slots.content">
-              <slot name="content" />
-            </div>
-            <slot />
-          </div>
+      <!--      <div class="modal-wrapper">-->
+      <!--        <div class="modal-center">-->
+      <div @click="close" class="modal-backdrop"/>
+      <div :style="style" class="modal-container bg-cl-primary" ref="modal-content">
+        <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary" v-if="$slots.header">
+          <slot name="header"/>
+          <i
+            @click="close"
+            class="modal-close material-icons cl-bg-tertiary"
+            data-testid="closeModalButton"
+            slot="close"
+          >
+            close
+          </i>
+        </header>
+        <div class="modal-content bg-cl-primary pt30 pb60 px65" v-if="$slots.content">
+          <slot name="content"/>
         </div>
+        <slot/>
       </div>
     </div>
+    <!--      </div>-->
+    <!--    </div>-->
   </transition>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
-import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
+  import {mapMutations} from 'vuex'
+  import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
+  import {clearAllBodyScrollLocks, disableBodyScroll} from 'body-scroll-lock'
 
-export default {
+  export default {
   name: 'Modal',
   data () {
     return {
       isVisible: false
     }
   },
+    watch: {
+      isVisible(state) {
+        if (state) {
+          this.$nextTick(() => {
+            disableBodyScroll(this.$refs['modal']);
+          })
+        } else {
+          clearAllBodyScrollLocks();
+        }
+      }
+    },
   methods: {
     onHide (name, state, params) {
       return name === this.name ? this.toggle(false) : false
@@ -51,7 +63,7 @@ export default {
     },
     onToggle (name, state, params) {
       if (name === this.name) {
-        state = typeof state === 'undefined' ? !this.isVisible : state
+        state = typeof state === 'undefined' ? !this.isVisible : state;
         this.toggle(state)
       }
     },
@@ -62,7 +74,7 @@ export default {
       'setOverlay'
     ]),
     toggle (state) {
-      this.isVisible = state
+      this.isVisible = state;
       state ? this.setOverlay(state) : setTimeout(() => this.setOverlay(state), this.delay)
     },
     close () {
@@ -70,13 +82,13 @@ export default {
     }
   },
   beforeMount () {
-    this.$bus.$on('modal-toggle', this.onToggle)
-    this.$bus.$on('modal-show', this.onShow)
+    this.$bus.$on('modal-toggle', this.onToggle);
+    this.$bus.$on('modal-show', this.onShow);
     this.$bus.$on('modal-hide', this.onHide)
   },
   beforeDestroy () {
-    this.$bus.$off('modal-toggle', this.onToggle)
-    this.$bus.$off('modal-show', this.onShow)
+    this.$bus.$off('modal-toggle', this.onToggle);
+    this.$bus.$off('modal-show', this.onShow);
     this.$bus.$off('modal-hide', this.onHide)
   },
   mixins: [onEscapePress],
@@ -93,6 +105,10 @@ export default {
     width: {
       type: Number,
       default: 0
+    },
+    transitionName: {
+      type: String,
+      default: 'fade-in-down'
     }
   },
   computed: {
@@ -103,7 +119,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~theme/css/base/global_vars';
 $z-index-modal: map-get($z-index, modal);
 
@@ -115,28 +131,17 @@ $z-index-modal: map-get($z-index, modal);
   left: 0;
   overflow: auto;
   z-index: $z-index-modal;
-  text-align: inherit;
-
-  .modal-wrapper {
-    display: table;
-    height: 100%;
-    width: 100%;
-    table-layout: fixed;
-    pointer-events: none;
-  }
-
-  .modal-center {
-    display: table-cell;
-    vertical-align: middle;
-  }
 
   .modal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 945px;
     margin: 0 auto;
     max-width: 100%;
     max-height: 100%;
     z-index: $z-index-modal+1;
-    pointer-events: auto;
 
     @media (max-width: 600px) {
       min-height: 100%;
@@ -163,11 +168,22 @@ $z-index-modal: map-get($z-index, modal);
     }
   }
 
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .modal-close {
-    position: absolute;
     cursor: pointer;
-    right: 0;
+  }
+
+  .modal-backdrop {
+    position: absolute;
     top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

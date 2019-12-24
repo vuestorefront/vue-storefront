@@ -2,7 +2,7 @@
   <div>
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" :active-route="$props.title" />
+        <breadcrumbs :active-route="$props.title" :routes="[]" :with-homepage="true"/>
         <h2 class="fs-big">
           {{ $props.title }}
         </h2>
@@ -31,12 +31,11 @@
 </template>
 
 <script>
-import i18n from '@vue-storefront/i18n'
-import Breadcrumbs from 'theme/components/core/Breadcrumbs'
-import StaticExample from 'theme/components/theme/blocks/Static/Example'
-import StaticShortExample from 'theme/components/theme/blocks/Static/Short'
+  import i18n from '@vue-storefront/i18n'
+  import Breadcrumbs from 'theme/components/core/Breadcrumbs'
+  import StaticExample from 'theme/components/theme/blocks/Static/Example'
 
-export default {
+  export default {
   components: {
     Breadcrumbs
   },
@@ -58,23 +57,25 @@ export default {
   },
   computed: {
     activeComponent () {
-      const matchedNav = this.navigation.find(nav => nav.link === this.$route.path)
-      return matchedNav ? matchedNav.component : StaticExample
+      const matchedNav = this.navigation.find(nav => nav.link.includes(this.$route.path));
+      return matchedNav ? matchedNav.component : null
     }
   },
   data () {
     return {
       navigation: [
-        // { title: i18n.t('About us'), link: '/about-us', component: StaticExample },
-        // { title: i18n.t('Customer service'), link: '/customer-service', component: StaticShortExample },
-        // { title: i18n.t('Store locator'), link: '/store-locator', component: StaticExample },
+        // { title: i18n.t('About us'), link: getPathForStaticPage('/about-us'), component: StaticExample },
+        // { title: i18n.t('Customer service'), link: getPathForStaticPage('/customer-service'), component: StaticShortExample },
+        // { title: i18n.t('Store locator'), link: localizedRoute('/store-locator'), component: StaticExample },
         // { title: i18n.t('Delivery'), link: '/delivery', component: StaticShortExample },
         // { title: i18n.t('Return policy'), link: '/returns', component: StaticExample },
+        // { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticShortExample },
+        // { title: i18n.t('Size guide'), link: '/size-guide', component: StaticExample },
+        // { title: i18n.t('Contact us'), link: '/contact', component: StaticShortExample }
         { title: i18n.t('Shipping policy'), link: '/shipping', component: StaticExample },
         { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticExample },
         { title: i18n.t('Warranty policy'), link: '/warranty', component: StaticExample },
         { title: i18n.t('Contact us'), link: '/contact', component: StaticExample }
-        // { title: i18n.t('Size guide'), link: '/size-guide', component: StaticExample },
       ]
     }
   }
