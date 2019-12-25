@@ -15,10 +15,10 @@ const getChecksum = (product: CartItem) => {
 }
 
 const getProductType = (product: CartItem): string =>
-  product.type_id || product.product_type
+  product ? product.type_id || product.product_type : null
 
 const getServerItemId = (product: CartItem): number =>
-  product.server_item_id || product.item_id
+  product ? product.server_item_id || product.item_id : null
 
 const isServerIdsEquals = (product1: CartItem, product2: CartItem): boolean =>
   getServerItemId(product1) === getServerItemId(product2)

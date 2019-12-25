@@ -162,7 +162,7 @@ export default {
   data () {
     return {
       displayItemDiscounts: config.cart.displayItemDiscounts,
-      productsAreReconfigurable: config.cart.productsAreReconfigurable && ['simple', 'configurable'].includes(this.product.type_id)
+      productsAreReconfigurable: config.cart.productsAreReconfigurable && ['simple', 'configurable'].includes(this.product.type_id) && !(this.product.custom_options && this.product.custom_options.length > 0)
     }
   },
   computed: {
