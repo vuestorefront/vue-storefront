@@ -1,16 +1,20 @@
-import VueRouter from 'vue-router'
 import { Store } from 'vuex'
+import VueRouter from 'vue-router'
+import Vue from 'vue'
+import RootState from '@vue-storefront/core/types/RootState'
 
-export interface StorefrontModule { (
-  app: any,
-  store: Store<any>,
-  router: VueRouter,
-  moduleConfig: any,
-  appConfig: any): void
-}
+export type StorefrontModule = (
+  options: {
+    app: Vue,
+    store: Store<RootState>,
+    router: VueRouter,
+    moduleConfig: any,
+    appConfig: any
+  }
+) => void
 
 let refs: any = {}
-let registeredModules: any = []
+let registeredModules: StorefrontModule[] = []
 
 function injectReferences (app: any, store: Store<any>, router: VueRouter, config: any): void {
   refs.app = app
@@ -21,9 +25,19 @@ function injectReferences (app: any, store: Store<any>, router: VueRouter, confi
 
 function registerModule (module: StorefrontModule, config?: any) {
   if (!registeredModules.includes(module)) {
-    module(refs.app, refs.store, refs.router, config, refs.config)
+    module({
+      app: refs.app,
+      store: refs.store,
+      router: refs.router,
+      appConfig: refs.config,
+      moduleConfig: config
+    })
     registeredModules.push(module)
   }
 }
 
-export { refs, injectReferences, registerModule }
+function isModuleRegistered (name: string): boolean {
+  return registeredModules.some(m => m.name === name)
+}
+
+export { refs, injectReferences, registerModule, isModuleRegistered }

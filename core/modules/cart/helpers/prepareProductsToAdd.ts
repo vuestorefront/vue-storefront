@@ -1,18 +1,28 @@
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 import productChecksum from './productChecksum'
+import optimizeProduct from './optimizeProduct'
+
+const readAssociated = product =>
+  product.product_links.filter(p => p.link_type === 'associated').map(p => p.product)
+
+const isDefined = product => typeof product !== 'undefined' || product !== null
+
+const applyQty = product => ({
+  ...product,
+  qty: product.qty && typeof product.qty !== 'number' ? parseInt(product.qty) : product.qty
+});
+
+const applyChecksumForBundles = product =>
+  product.type_id === 'bundle' ? { ...product, checksum: productChecksum(product) } : product
 
 const prepareProductsToAdd = (product: CartItem): CartItem[] => {
-  if (product.type_id === 'grouped') {
-    return product.product_links
-      .filter(p => p.link_type === 'associated')
-      .map(p => p.product)
-  }
+  const products = product.type_id === 'grouped' ? readAssociated(product) : [product]
 
-  if (product.type_id === 'bundle') {
-    product.checksum = productChecksum(product)
-  }
+  return products
+    .filter(isDefined)
+    .map(applyQty)
+    .map(p => optimizeProduct(p))
+    .map(applyChecksumForBundles);
+};
 
-  return [product]
-}
-
-export default prepareProductsToAdd
+export default prepareProductsToAdd;

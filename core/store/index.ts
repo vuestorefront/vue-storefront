@@ -24,7 +24,12 @@ const state = {
   ui: {},
   newsletter: {},
   wishlist: {},
-  attribute: '',
+  attribute: {
+    list_by_code: {},
+    list_by_id: {},
+    blacklist: [],
+    labels: {}
+  },
   category: {
     current_path: '',
     current_product_query: {},

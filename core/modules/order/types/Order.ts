@@ -9,7 +9,7 @@ export interface Order {
   user_id?: string,
   cart_id?: string,
   store_code?: string,
-  store_id?: number,
+  store_id?: number | string,
   /**
    * Products list
    */
@@ -26,7 +26,7 @@ export interface Order {
   addressInformation: {
     shippingAddress?: {
       region?: string,
-      region_id?: number,
+      region_id?: number | string,
       country_id?: string,
       /**
        * Street name

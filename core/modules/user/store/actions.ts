@@ -10,27 +10,26 @@ import { isServer } from '@vue-storefront/core/helpers'
 import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { userHooksExecutors, userHooks } from '../hooks'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
-    const user = localStorage.getItem(`shop/user/current-user`);
     const usersCollection = StorageManager.get('user')
+    const userData = await usersCollection.getItem('current-user')
 
     if (isServer || getters.isLocalDataLoaded) return
     commit(types.USER_LOCAL_DATA_LOADED, true)
 
-    if (user) {
-      commit(types.USER_INFO_LOADED, JSON.parse(user))
+    if (userData) {
+      commit(types.USER_INFO_LOADED, userData)
     }
 
     commit(types.USER_START_SESSION)
-    const newToken = await usersCollection.getItem('current-token')
+    const lastUserToken = await usersCollection.getItem('current-token')
 
-    if (newToken) {
-      commit(types.USER_TOKEN_CHANGED, { newToken })
-      dispatch('sessionAfterAuthorized', {})
-
-      const userData = await usersCollection.getItem('current-user')
+    if (lastUserToken) {
+      commit(types.USER_TOKEN_CHANGED, { newToken: lastUserToken })
+      await dispatch('sessionAfterAuthorized', {})
 
       if (userData) {
         dispatch('setUserGroup', userData)
@@ -52,11 +51,17 @@ const actions: ActionTree<UserState, RootState> = {
    */
   async login ({ commit, dispatch }, { username, password }) {
     const resp = await UserService.login(username, password)
+    userHooksExecutors.afterUserAuthorize(resp)
 
     if (resp.code === 200) {
-      dispatch('resetUserInvalidateLock', {}, { root: true })
-      commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
-      dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+      try {
+        await dispatch('resetUserInvalidateLock', {}, { root: true })
+        commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
+        await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+      } catch (err) {
+        await dispatch('clearCurrentUser')
+        throw new Error(err)
+      }
     }
 
     return resp
@@ -102,7 +107,7 @@ const actions: ActionTree<UserState, RootState> = {
 
     if (currentUser) {
       commit(types.USER_INFO_LOADED, currentUser)
-      dispatch('setUserGroup', currentUser)
+      await dispatch('setUserGroup', currentUser)
       EventBus.$emit('user-after-loggedin', currentUser)
       dispatch('cart/authorize', {}, { root: true })
 
@@ -121,7 +126,7 @@ const actions: ActionTree<UserState, RootState> = {
 
     if (!resolvedFromCache && resp.resultCode === 200) {
       EventBus.$emit('user-after-loggedin', resp.result)
-      await dispatch('cart/authorize', {}, { root: true })
+      dispatch('cart/authorize', {}, { root: true })
       return resp
     }
   },
@@ -152,16 +157,17 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Update user profile with data from My Account page
    */
-  async update ({ dispatch }, profile: UserProfile) {
-    const resp = await UserService.updateProfile(profile)
-
-    if (resp.resultCode === 200) {
+  async update (_, profile: UserProfile) {
+    await UserService.updateProfile(profile, 'user/handleUpdateProfile')
+  },
+  async handleUpdateProfile ({ dispatch }, event) {
+    if (event.resultCode === 200) {
       dispatch('notification/spawnNotification', {
         type: 'success',
         message: i18n.t('Account data has successfully been updated'),
         action1: { label: i18n.t('OK') }
       }, { root: true })
-      dispatch('user/setCurrentUser', resp.result, { root: true })
+      dispatch('user/setCurrentUser', event.result, { root: true })
     }
   },
   setCurrentUser ({ commit }, userData) {
@@ -171,6 +177,16 @@ const actions: ActionTree<UserState, RootState> = {
    * Change user password
    */
   async changePassword ({ dispatch, getters }, passwordData) {
+    if (!onlineHelper.isOnline) {
+      dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: i18n.t('Reset password feature does not work while offline!'),
+        action1: { label: i18n.t('OK') }
+      }, { root: true })
+
+      return
+    }
+
     const resp = await UserService.changePassword(passwordData)
 
     if (resp.code === 200) {
@@ -197,6 +213,7 @@ const actions: ActionTree<UserState, RootState> = {
     commit(types.USER_GROUP_CHANGED, null)
     commit(types.USER_INFO_LOADED, null)
     dispatch('wishlist/clear', null, { root: true })
+    dispatch('compare/clear', null, {root: true})
     dispatch('checkout/savePersonalDetails', {}, { root: true })
     dispatch('checkout/saveShippingDetails', {}, { root: true })
     dispatch('checkout/savePaymentDetails', {}, { root: true })
@@ -218,6 +235,7 @@ const actions: ActionTree<UserState, RootState> = {
         action1: { label: i18n.t('OK') }
       }, { root: true })
     }
+    userHooksExecutors.afterUserUnauthorize()
   },
   async loadOrdersFromCache ({ commit }) {
     const ordersHistoryCollection = StorageManager.get('user')
@@ -230,8 +248,8 @@ const actions: ActionTree<UserState, RootState> = {
       return ordersHistory
     }
   },
-  async refreshOrdersHistory ({ commit }, { resolvedFromCache }) {
-    const resp = await UserService.getOrdersHistory()
+  async refreshOrdersHistory ({ commit }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
+    const resp = await UserService.getOrdersHistory(pageSize, currentPage)
 
     if (resp.code === 200) {
       commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
@@ -247,7 +265,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Load user's orders history
    */
-  async getOrdersHistory ({ dispatch, getters }, { refresh = true, useCache = true }) {
+  async getOrdersHistory ({ dispatch, getters }, { refresh = true, useCache = true, pageSize = 20, currentPage = 1 }) {
     if (!getters.getToken) {
       Logger.debug('No User token, user unathorized', 'user')()
       return Promise.resolve(null)
@@ -264,17 +282,17 @@ const actions: ActionTree<UserState, RootState> = {
     }
 
     if (refresh) {
-      return dispatch('refreshOrdersHistory', { resolvedFromCache })
+      return dispatch('refreshOrdersHistory', { resolvedFromCache, pageSize, currentPage })
     } else {
       if (!resolvedFromCache) {
         Promise.resolve(null)
       }
     }
   },
-  sessionAfterAuthorized ({ dispatch }, { refresh = onlineHelper.isOnline, useCache = true }) {
+  async sessionAfterAuthorized ({ dispatch }, { refresh = onlineHelper.isOnline, useCache = true }) {
     Logger.info('User session authorised ', 'user')()
-    dispatch('me', { refresh, useCache })
-    dispatch('getOrdersHistory', { refresh, useCache })
+    await dispatch('me', { refresh, useCache })
+    await dispatch('getOrdersHistory', { refresh, useCache })
   }
 }
 

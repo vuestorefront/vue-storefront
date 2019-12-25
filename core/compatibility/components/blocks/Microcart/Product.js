@@ -1,7 +1,7 @@
 import { MicrocartProduct } from '@vue-storefront/core/modules/cart/components/Product.ts'
 import i18n from '@vue-storefront/i18n'
-import config from 'config'
 import debounce from 'lodash-es/debounce'
+import config from 'config'
 
 export default {
   data () {
@@ -13,7 +13,7 @@ export default {
     // deprecated, will be moved to theme or removed in the near future #1742
     this.$bus.$on('cart-after-itemchanged', this.onProductChanged)
     this.$bus.$on('notification-after-itemremoved', this.onProductRemoved)
-    this.updateQuantity = debounce(this.updateQuantity, 5000)
+    this.updateQuantity = debounce(this.updateQuantity, 1000)
   },
   beforeDestroy () {
     // deprecated, will be moved to theme or removed in the near future #1742
@@ -52,8 +52,5 @@ export default {
         this.removeFromCart(event.item)
       }
     }
-  },
-  mixins: [
-    MicrocartProduct
-  ]
+  }
 }

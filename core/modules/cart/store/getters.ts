@@ -1,133 +1,45 @@
 import { GetterTree } from 'vuex'
 import sumBy from 'lodash-es/sumBy'
-import i18n from '@vue-storefront/i18n'
 import CartState from '../types/CartState'
 import RootState from '@vue-storefront/core/types/RootState'
 import AppliedCoupon from '../types/AppliedCoupon'
 import { onlineHelper, isServer, calcItemsHmac } from '@vue-storefront/core/helpers'
+import { calculateTotals } from '@vue-storefront/core/modules/cart/helpers'
 import config from 'config'
-import { Logger } from '@vue-storefront/core/lib/logger'
 
 const getters: GetterTree<CartState, RootState> = {
-  getCartToken (state) {
-    return state.cartServerToken
-  },
-  getLastSyncDate (state) {
-    return state.cartServerLastSyncDate
-  },
-  getLastTotalsSyncDate (state) {
-    return state.cartServerLastTotalsSyncDate
-  },
-  getShippingMethod (state) {
-    return state.shipping
-  },
-  getPaymentMethod (state) {
-    return state.payment
-  },
-  getLastCartHash (state) {
-    return state.cartItemsHash
-  },
-  getCurrentCartHash (state) {
-    return calcItemsHmac(state.cartItems, state.cartServerToken)
-  },
-  isCartHashChanged (state, getters) {
-    return getters.getCurrentCartHash !== state.cartItemsHash
-  },
-  isSyncRequired (state, getters) {
-    return !state.cartItemsHash || (getters.getCurrentCartHash !== state.cartItemsHash) || !state.cartServerLastSyncDate // first load - never synced
-  },
-  isTotalsSyncRequired (state, getters) {
-    return !state.cartItemsHash || (getters.getCurrentCartHash !== state.cartItemsHash) || !state.cartServerLastTotalsSyncDate // first load - never synced
-  },
-  isCartHashEmtpyOrChanged (state, getters) {
-    return !state.cartItemsHash || (getters.getCurrentCartHash !== state.cartItemsHash)
-  },
-  getCartItems (state) {
-    return state.cartItems
-  },
-  isTotalsSyncEnabled (state) {
-    return config.cart.synchronize_totals && onlineHelper.isOnline && !isServer
-  },
-  isCartConnected (state) {
-    return !!state.cartServerToken
-  },
-  isCartSyncEnabled (state) {
-    return config.cart.synchronize && onlineHelper.isOnline && !isServer
-  },
-  getTotals (state) {
-    if (state.platformTotalSegments && onlineHelper.isOnline) {
-      return state.platformTotalSegments
-    } else {
-      let shipping = state.shipping instanceof Array ? state.shipping[0] : state.shipping
-      let payment = state.payment instanceof Array ? state.payment[0] : state.payment
-      const totalsArray = [
-        {
-          code: 'subtotal_incl_tax',
-          title: i18n.t('Subtotal incl. tax'),
-          value: sumBy(state.cartItems, (p) => {
-            return p.qty * p.price_incl_tax
-          })
-        },
-        {
-          code: 'grand_total',
-          title: i18n.t('Grand total'),
-          value: sumBy(state.cartItems, (p) => {
-            return p.qty * p.price_incl_tax + (shipping ? shipping.price_incl_tax : 0)
-          })
-        }
-      ]
-      if (payment) {
-        totalsArray.push({
-          code: 'payment',
-          title: i18n.t(payment.title),
-          value: payment.cost_incl_tax
-        })
-      }
-      if (shipping) {
-        totalsArray.push({
-          code: 'shipping',
-          title: i18n.t(shipping.method_title),
-          value: shipping.price_incl_tax
-        })
-      }
-      return totalsArray
-    }
-  },
-  getItemsTotalQuantity (state, getters, rootStore) {
-    if (config.cart.minicartCountType === 'items') {
-      return state.cartItems.length
-    }
+  getCartToken: state => state.cartServerToken,
+  getLastSyncDate: state => state.cartServerLastSyncDate,
+  getLastTotalsSyncDate: state => state.cartServerLastTotalsSyncDate,
+  getShippingMethod: state => state.shipping,
+  getPaymentMethod: state => state.payment,
+  getLastCartHash: state => state.cartItemsHash,
+  getCurrentCartHash: state => calcItemsHmac(state.cartItems, state.cartServerToken),
+  isCartHashChanged: (state, getters) => getters.getCurrentCartHash !== state.cartItemsHash,
+  isSyncRequired: (state, getters) => getters.isCartHashEmptyOrChanged || !state.cartServerLastSyncDate,
+  isTotalsSyncRequired: (state, getters) => getters.isCartHashEmptyOrChanged || !state.cartServerLastTotalsSyncDate,
+  isCartHashEmptyOrChanged: (state, getters) => !state.cartItemsHash || getters.isCartHashChanged,
+  getCartItems: state => state.cartItems,
+  isTotalsSyncEnabled: () => config.cart.synchronize_totals && onlineHelper.isOnline && !isServer,
+  isCartConnected: state => !!state.cartServerToken,
+  isCartSyncEnabled: () => config.cart.synchronize && onlineHelper.isOnline && !isServer,
+  getFirstShippingMethod: state => state.shipping instanceof Array ? state.shipping[0] : state.shipping,
+  getFirstPaymentMethod: state => state.payment instanceof Array ? state.payment[0] : state.payment,
+  getTotals: ({ cartItems, platformTotalSegments }, getters) =>
+    (platformTotalSegments && onlineHelper.isOnline) ? platformTotalSegments : calculateTotals(getters.getFirstShippingMethod, getters.getFirstPaymentMethod, cartItems),
+  getItemsTotalQuantity: ({ cartItems }) => config.cart.minicartCountType === 'items' ? cartItems.length : sumBy(cartItems, p => p.qty),
+  getCoupon: ({ platformTotals }): AppliedCoupon | false =>
+    !(platformTotals && platformTotals.hasOwnProperty('coupon_code')) ? false : { code: platformTotals.coupon_code, discount: platformTotals.discount_amount },
+  isVirtualCart: ({ cartItems }) => cartItems.every(itm => itm.type_id === 'downloadable' || itm.type_id === 'virtual'),
+  canUpdateMethods: (state, getters) => getters.isCartSyncEnabled && getters.isCartConnected,
+  canSyncTotals: (state, getters) => getters.isTotalsSyncEnabled && getters.isCartConnected,
+  isCartEmpty: state => state.cartItems.length === 0,
+  bypassCounter: state => state.connectBypassCount,
+  getShippingMethodCode: state => state.shipping && state.shipping.method_code,
+  getPaymentMethodCode: state => state.payment && state.payment.code,
+  getIsAdding: state => state.isAddingToCart,
+  getIsMicroCartOpen: state => state.isMicrocartOpen
 
-    return sumBy(state.cartItems, (p) => {
-      return p.qty
-    })
-  },
-  getCoupon (state): AppliedCoupon | false {
-    if (!(state.platformTotals && state.platformTotals.hasOwnProperty('coupon_code'))) {
-      return false
-    }
-    return {
-      code: state.platformTotals.coupon_code,
-      discount: state.platformTotals.discount_amount
-    }
-  },
-  /** @deprecated */
-  coupon (state) {
-    Logger.error('The getter cart.coupon has been deprecated please change to cart.getters.getCoupon()')()
-  },
-  /** @deprecated */
-  totalQuantity (state) {
-    Logger.error('The getter cart.totalQuantity has been deprecated please change to cart.getters.getItemsTotalQuantity()')()
-  },
-  /** @deprecated */
-  totals (state) {
-    Logger.error('The getter cart.totals has been deprecated please change to cart.getters.getTotals()')()
-  },
-  isVirtualCart (state) {
-    return state.cartItems.every((itm) => {
-      return itm.type_id === 'downloadable' || itm.type_id === 'virtual' // check for downloadable & virtual products
-    })
-  }
 }
 
 export default getters

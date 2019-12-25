@@ -124,13 +124,14 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import i18n from '@vue-storefront/i18n'
-import { isModuleRegistered } from '@vue-storefront/core/lib/module'
+import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
 
-import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart'
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'
+import { registerModule } from '@vue-storefront/core/lib/modules'
 
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartButton'
@@ -138,6 +139,7 @@ import ButtonFull from 'theme/components/theme/ButtonFull'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import Product from 'theme/components/core/blocks/Microcart/Product'
 import EditMode from './EditMode'
+import { InstantCheckoutModule } from 'src/modules/instant-checkout'
 
 export default {
   components: {
@@ -149,7 +151,6 @@ export default {
     InstantCheckout
   },
   mixins: [
-    Microcart,
     VueOfflineMixin,
     EditMode,
     onEscapePress
@@ -159,7 +160,7 @@ export default {
       addCouponPressed: false,
       couponCode: '',
       componentLoaded: false,
-      isInstantCheckoutRegistered: isModuleRegistered('instant-checkout')
+      isInstantCheckoutRegistered: isModuleRegistered('InstantCheckoutModule')
     }
   },
   props: {
@@ -169,38 +170,55 @@ export default {
       default: () => false
     }
   },
+  beforeCreate () {
+    registerModule(InstantCheckoutModule)
+  },
   mounted () {
     this.$nextTick(() => {
       this.componentLoaded = true
     })
   },
+  computed: {
+    ...mapGetters({
+      productsInCart: 'cart/getCartItems',
+      appliedCoupon: 'cart/getCoupon',
+      totals: 'cart/getTotals',
+      isOpen: 'cart/getIsMicroCartOpen'
+    })
+  },
   methods: {
+    ...mapActions({
+      applyCoupon: 'cart/applyCoupon'
+    }),
     addDiscountCoupon () {
       this.addCouponPressed = true
     },
     clearCoupon () {
-      this.removeCoupon()
+      this.$store.dispatch('cart/removeCoupon')
       this.addCouponPressed = false
     },
-    setCoupon () {
-      this.applyCoupon(this.couponCode).then(() => {
-        this.addCouponPressed = false
-        this.couponCode = ''
-      }).catch(() => {
+    toggleMicrocart () {
+      this.$store.dispatch('ui/toggleMicrocart')
+    },
+    async setCoupon () {
+      const couponApplied = await this.applyCoupon(this.couponCode)
+      this.addCouponPressed = false
+      this.couponCode = ''
+      if (!couponApplied) {
         this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
           message: i18n.t("You've entered an incorrect coupon code. Please try again."),
           action1: { label: i18n.t('OK') }
         })
-      })
+      }
     },
     closeMicrocartExtend () {
-      this.closeMicrocart()
+      this.toggleMicrocart()
       this.$store.commit('ui/setSidebar', false)
       this.addCouponPressed = false
     },
     onEscapePress () {
-      this.closeMicrocart()
+      this.toggleMicrocart()
     },
     clearCart () {
       this.$store.dispatch('notification/spawnNotification', {

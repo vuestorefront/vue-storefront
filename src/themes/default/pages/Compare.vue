@@ -2,7 +2,7 @@
   <div class="compare">
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="[{name: 'Homepage', route_link: '/'}]" active-route="Compare" />
+        <breadcrumbs :with-homepage="true" :routes="[]" active-route="Compare" />
         <h2>{{ title }}</h2>
       </div>
     </div>
@@ -15,9 +15,6 @@
                 {{ $t('Products') }}
               </div>
               <ul class="compare__features-list">
-                <li class="compare__features-item">
-                  {{ $t('SKU') }}
-                </li>
                 <li
                   v-for="(attr, index) in all_comparable_attributes"
                   :key="index"
@@ -40,9 +37,6 @@
                     <product-tile class="col-md-12 collection-product" :product="product" />
                   </div>
                   <ul class="compare__features-list">
-                    <li class="compare__features-item">
-                      {{ product.sku }}
-                    </li>
                     <li
                       v-for="(attr, attIndex) in all_comparable_attributes"
                       :key="attIndex"

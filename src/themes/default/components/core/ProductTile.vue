@@ -108,7 +108,7 @@ export default {
       if (
         isVisible &&
         config.products.configurableChildrenStockPrefetchDynamic &&
-        rootStore.products.filterUnavailableVariants &&
+        config.products.filterUnavailableVariants &&
         this.product.type_id === 'configurable' &&
         this.product.configurable_children &&
         this.product.configurable_children.length > 0
@@ -198,7 +198,7 @@ $color-white: color(white);
 
 .product-cover {
   overflow: hidden;
-  max-height: 300px;
+
   &__thumb {
     padding-bottom: calc(143.88% / (164.5 / 100));
     @media screen and (min-width: 768px) {
@@ -208,16 +208,20 @@ $color-white: color(white);
     will-change: opacity, transform;
     transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
   }
-  &:hover {
-    .product-cover__thumb {
-      opacity: 1;
-      transform: scale(1.1);
-    }
-    &.sale::after,
-    &.new::after {
-      opacity: 0.8;
+
+  @media screen and (min-width: 768px) {
+    &:hover {
+      .product-cover__thumb {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      &.sale::after,
+      &.new::after {
+        opacity: 0.8;
+      }
     }
   }
+
   &.sale {
     &::after {
       @extend %label;

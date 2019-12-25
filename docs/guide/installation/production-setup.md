@@ -95,8 +95,8 @@ This section runs the standard http://prod.vuestorefront.io and creates a wildca
 After you're done with the installation, open the file at `/etc/nginx/sites-enabled/prod.vuestorefront.io-ssl` and add `http2` after the `server_name` value (but before the semicolon!). It should look like this: 
 ```
 server {
-	listen 443 ssl;
-	server_name prod.vuestorefront.io http2;
+    listen 443 ssl http2;
+    server_name prod.vuestorefront.io;
 
 	ssl on;
 	(...the rest of the config...)
@@ -206,7 +206,7 @@ cd /home/www/vuestorefront/vue-storefront
 yarn install
 ```
 
-It may take a few minutes. Once the modules are installed, we can set configuration files for both services.
+It may take a few minutes. The phantomjs dependency requires bzip2 to be installed. Once the modules are installed, we can set configuration files for both services.
 
 #### Vue Storefront configuration
 
@@ -237,7 +237,6 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
     ],
     "multistore": true,
     "de": {
-        "disabled": false,
         "elasticsearch": {
             "httpAuth": "",
             "host": "https://prod.vuestorefront.io/api/catalog",
@@ -245,7 +244,6 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
         }
     },
     "it": {
-        "disabled": false,
         "elasticsearch": {
             "httpAuth": "",
             "host": "https://prod.vuestorefront.io/api/catalog",
@@ -389,7 +387,7 @@ cd vue-storefront
 yarn start
 ```
 
-Both applications use [`PM2` process manager](https://pm2.io/runtime) in production mode (`start` commands) to manage and respawn the node.js processes when needed.
+Both applications use [`PM2` process manager](https://pm2.keymetrics.io/docs/usage/process-management/) in production mode (`start` commands) to manage and respawn the node.js processes when needed.
 
 ## Production setup - using Docker / Kubernetes
 

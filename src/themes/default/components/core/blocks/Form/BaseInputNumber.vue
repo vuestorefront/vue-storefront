@@ -24,9 +24,6 @@ export default {
   components: {
     ValidationMessages
   },
-  data () {
-    return {}
-  },
   props: {
     value: {
       type: [String, Number],
@@ -43,7 +40,7 @@ export default {
     },
     max: {
       type: Number,
-      default: 0
+      default: undefined
     },
     disabled: {
       type: Boolean,

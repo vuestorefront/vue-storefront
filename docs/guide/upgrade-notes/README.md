@@ -4,10 +4,12 @@ We're trying to keep the upgrade process as easy as possible. Unfortunately, som
 
 ## 1.10 -> 1.11
 
-This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible. 
-
+This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible.
+- `src/modules/index.ts` was renamed to `client.ts`, exported property was renamed to `registerClientModules`
+- Output compression module has been added; it's enabled by default on production builds; to disable it please switch the `src/modules/server.ts` configuration
+- The [`formatCategoryLink`](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/modules/url/helpers/index.ts) now supports multistore - adding the `storeCode` when necessary; it could have caused double store prefixes like `/de/de` - but probably only in the Breadcrumbs (#3359)
 - All modules were refactored to new API. You can still register modules in previous format until 2.0
-- `DroppointShipping` and `magento-2-cms `modules were deleted 
+- `DroppointShipping` and `magento-2-cms `modules were deleted
 - example modules moved to https://github.com/DivanteLtd/vsf-samples
 - `core/helpers/initCacheStorage.ts` merged with `StorageManager.ts` (import path alias for backward compatibility added)
 - Old extensions mechanism (before VS 1.4) was finally removed after being deprecated for almost a year (`src/extensions` removal)
@@ -19,13 +21,13 @@ This is the last major release of Vue Storefront 1.x before 2.0 therefore more m
   - `checkoutFieldValues`, `checkoutFieldsCollection` renamed to `checkout` (`checkoutFieldsCollection` wasn’t used)
   - `ordersCollection` and `orders` renamed to just `orders` (`ordersCollection` wasn’t used)
   - `elasticCacheCollection` renamed to `elasticCache`
-  - `usersCollection` `usersData` merged and renamed to `user` 
+  - `usersCollection` `usersData` merged and renamed to `user`
   - `attributesCollection`, `attributes` renamed to just `attributes`
   - `ordersHistoryCollection` merged to `user` cache where it belongs
   - `categoriesCollection` renamed to categories
   - Collections in theme like `claimsCollection` (claims modules) remained untouched
 - `UserOrder` component has been renamed to `UserOrderHistory` and moved from `src/modules/order-history/components/UserOrders` to `@vue-storefront/core/modules/order/components/UserOrdersHistory`. This component was used in `MyOrders` component found here: `src/themes/default/components/core/blocks/MyAccount/MyOrders.vue`. In this file the `import` path has to be updated.
-- `claims`, `promoted-offers`, `homepage` adn `ui` modules have been moved from `@vue-storefront/src/modules` to `src/themes/default/store/` and reduced to stores only.<br>
+- `claims`, `promoted-offers`, `homepage` and `ui` modules have been moved from `@vue-storefront/src/modules` to `src/themes/default/store/` and reduced to stores only.<br>
 Delete those folders:<br>
   -- `src/modules/claims`<br>
   -- `src/modules/promoted-offers`<br>
@@ -51,10 +53,10 @@ store.registerModule('promoted', promotedStore);
 - `WebShare` moved from `@vue-storefront/core/modules/social-share/components/WebShare.vue` to `@vue-storefront/src/themes/default/components/theme/WebShare.vue`. This component was used in `Product` component found here: `src/themes/default/pages/Product.vue`. In this file the `import` path has to be updated.
 
 - We've fixed the naming strategy for product prices; The following fields were renamed: `special_priceInclTax` -> `special_price_incl_tax`, `priceInclTax` -> `price_incl_tax`, `priceTax` -> `price_tax`; The names have been kept and marked as @deprecated. These fields will be **removed with Vue Storefront 2.0rc-1**.
-- We've decreased the `localStorage` quota usage + error handling by introducing new config variables: 
-- `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`); 
-- `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway); 
-- `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW)
+- We've decreased the `localStorage` quota usage + error handling by introducing new config variables:
+- `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`);
+- `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway);
+- `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introduces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW)
 - We've moved files from /store/lib to /lib. Basically to use it from the new directory you have to import now from `@vue-storefront/core/lib/store/` instead of `@vue-storefront/core/store/lib/`. These core files got changed:
 ```js
 core/build/webpack.base.config.ts
@@ -71,7 +73,32 @@ core/modules/order/store/mutations.ts
 core/modules/order/index.ts
 core/modules/wishlist/store/actions.ts
 ```
+If by some reasons you wan't to have the `localStorage` back on for `Products by SKU`, `Url Routes` and `SyncTasks` - please just set these variables back to `false` in your `config/local.json`.
+
+- New page-not-found handling requires to update router/index.js in the theme.
+- The option `config.ssr.lazyHydrateFor` with `category-next.products` value was introduced which is responsible for hydrating products list and loading them only on client side. It means there is no category products in the `__INITIAL__STATE__`. It's enabled by default.
+- The modules: `Review`, `Mailer`, `Order`, `RecentlyViewed`, `InstantCheckout` are no longer loaded by default in the main bundle as they are loading on-demand on the related pages.
+- Authentication guard was moved from user module router to `MyAccount` pages mixin.
+- The getters `cmsBlocks`, `cmsBlockIdentifier`, `cmsBlockId` are deprecated. Please use `getCmsBlocks`, `getCmsBlockIdentifier`, `getCmsBlockId` instead.
+- Translations for "Order #", "Price ", "Select size ", "You are logged in as" and "items" changed, they now include a placeholder for the value. Please refer to [this commit](https://github.com/DivanteLtd/vue-storefront/pull/3550/commits/366d31bf28a1e27a7f14b222369cba8fe0a6d3e0) in order to adjust them, otherwise they might get lost.
+- `i18n.currencySignPlacement` config value is replaced by `i18n.priceFormat` so price format becomes more flexible
+- Theme initialization needs to be modified in customized themes
+  - Delete the line `RouterManager.addRoutes(routes, router, true)`. This is now handled in `setupMultistoreRoutes`, including the default store.
+  - Optionally give theme routes priority, to ensure they override module routes if there are any conflicts. For example `setupMultistoreRoutes(config, router, routes, 10)`.
+  - See `/src/themes/default/index.js` for a complete example.
+- In `storeView` config there is no more `disabled` flag for specific language config. Links for other languages will be displayed if specific `storeView` config exist.
+- Categories can be filtered globally, to never be loaded, by setting `entities.category.filterFields` in local.json, e.g. `"filterFields": { "is_active": true }`.
+- Categories can be filtered in the Breadcrumbs, by setting `entities.category.breadcrumbFilterFields` in local.json, e.g. `"breadcrumbFilterFields": { "include_in_menu": true }`.
+## 1.10 -> 1.10.4
+
+We've decreased the `localStorage` quota usage + error handling by introducing new config variables:
+
+- `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`);
+- `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway);
+- `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW)
+
 If by some reasons you wan't to have the `localStorage` back on for `Products by SKU`, `Url Routes` and `SyncTasks` - please juset set these variables back to `false` in your `config/local.json`.
+
 
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`EventBus.$on()`) now
@@ -86,6 +113,9 @@ If by some reasons you wan't to have the `localStorage` back on for `Products by
       this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
     }
 ```
+- The getter `cart/totals` has been replaced with `cart/getTotals` - @pkarw (#2522)
+- The getter `cart/coupon` has been replaced with `cart/getCoupon` - @pkarw (#2522)
+- The getter `cart/totalQuantity` has been replaced with `cart/getItemsTotalQuantity` - @pkarw (#2522)
 
 ## 1.8 -> 1.9
 - The Url Dispatcher feature added for friendly URLs. When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest `mage2vuestorefront` snapshot and **reimport Your products** to properly set `url_path` fields
@@ -302,7 +332,7 @@ We fixed SSR memory leaks with #1882. It should not affect your custom code, but
 
 #### GraphQL
 
-We added GraphQL support. Please read more on the [GraphQL Action Plan](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/GraphQL%20Action%20Plan.md). Starting from this release, the **bodybuilder** package is **deprecated**. You should use the **SearchQuery** internal class that can be used against API and GraphQL endpoints. Read more on [how to query data](https://github.com/DivanteLtd/vue-storefront/blob/develop/doc/data/ElasticSearch%20Queries.md).
+We added GraphQL support. Please read more on the [GraphQL Action Plan](/guide/basics/graphql.html). Starting from this release, the **bodybuilder** package is **deprecated**. You should use the **SearchQuery** internal class that can be used against API and GraphQL endpoints. Read more on [how to query data](/guide/data/elastic-queries.html).
 
 #### SSR: Advanced output and cache
 

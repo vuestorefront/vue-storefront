@@ -15,6 +15,7 @@
           :configuration="configuration"
           :product-name="product.name"
           @toggle="openOverlay"
+          @close="onEscapePress"
           @loaded="carouselLoaded = true"
         />
       </no-ssr>

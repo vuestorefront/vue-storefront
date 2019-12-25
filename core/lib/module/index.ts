@@ -5,12 +5,11 @@ import Vue from 'vue'
 import merge from 'lodash-es/merge'
 import rootStore from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import { setupMultistoreRoutes } from '..//multistore'
+import { setupMultistoreRoutes } from '../multistore'
 import { router } from '@vue-storefront/core/app'
 import { isServer } from '@vue-storefront/core/helpers'
 import { VSF, VueStorefrontModuleConfig } from './types'
 import { doesStoreAlreadyExists, mergeStores } from './helpers'
-import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import config from 'config'
 
 const moduleExtendings: VueStorefrontModuleConfig[] = []
@@ -23,10 +22,6 @@ function registerModules (modules: VueStorefrontModule[], context): void {
     registrationOrder: registeredModules
   }
   )()
-}
-
-function isModuleRegistered (key: string): boolean {
-  return registeredModules.some(m => m.key === key)
 }
 
 function extendModule (moduleConfig: VueStorefrontModuleConfig) {
@@ -48,7 +43,6 @@ class VueStorefrontModule {
   private static _extendRouter (routerInstance, routes?: RouteConfig[], beforeEach?: NavigationGuard, afterEach?: NavigationGuard): void {
     if (routes) {
       setupMultistoreRoutes(config, routerInstance, routes)
-      RouterManager.addRoutes(routes, routerInstance)
     }
     if (beforeEach) routerInstance.beforeEach(beforeEach)
     if (afterEach) routerInstance.afterEach(afterEach)
@@ -138,6 +132,5 @@ export {
   extendModule,
   VueStorefrontModule,
   registerModules,
-  isModuleRegistered,
   createModule
 }

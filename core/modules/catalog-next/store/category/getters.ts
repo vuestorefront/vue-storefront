@@ -1,3 +1,4 @@
+import { nonReactiveState } from './index';
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
@@ -7,19 +8,43 @@ import FilterVariant from '../../types/FilterVariant'
 import { optionLabel } from '../../helpers/optionLabel'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
+import forEach from 'lodash-es/forEach'
 import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
-import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
+import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
+import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+import cloneDeep from 'lodash-es/cloneDeep'
+
+function mapCategoryProducts (productsFromState, productsData) {
+  return productsFromState.map(prodState => {
+    if (typeof prodState === 'string') {
+      const product = productsData.find(prodData => prodData.sku === prodState)
+      return cloneDeep(product)
+    }
+    return prodState
+  })
+}
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state): Category[] => Object.values(state.categoriesMap),
   getCategoriesMap: (state): { [id: string]: Category} => state.categoriesMap,
-  getCategoryProducts: (state) => state.products,
+  getNotFoundCategoryIds: (state): string[] => state.notFoundCategoryIds,
+  getCategoryProducts: (state) => mapCategoryProducts(state.products, nonReactiveState.products),
   getCategoryFrom: (state, getters) => (path: string = '') => {
-    return getters.getCategories.find(category => path.includes(category.url_path)) || {}
+    return getters.getCategories.find(category => (removeStoreCodeFromRoute(path) as string).replace(/^(\/)/gm, '') === category.url_path)
   },
-  getCurrentCategory: (state, getters, rootState) => getters.getCategoryFrom(rootState.route.path),
+  getCategoryByParams: (state, getters, rootState) => (params: { [key: string]: string } = {}) => {
+    return getters.getCategories.find(category => {
+      let valueCheck = []
+      const searchOptions = getSearchOptionsFromRouteParams(params)
+      forEach(searchOptions, (value, key) => valueCheck.push(category[key] && category[key] === (category[key].constructor)(value)))
+      return valueCheck.filter(check => check === true).length === Object.keys(searchOptions).length
+    }) || {}
+  },
+  getCurrentCategory: (state, getters, rootState) => {
+    return getters.getCategoryByParams(rootState.route.params)
+  },
   getAvailableFiltersFrom: (state, getters, rootState) => (aggregations) => {
     const filters = {}
     if (aggregations) { // populate filter aggregates
@@ -84,25 +109,33 @@ const getters: GetterTree<CategoryState, RootState> = {
     }
     return filters
   },
-  getAvailableFilters: state => state.availableFilters,
-  getCurrentFiltersFrom: (state, getters, rootState) => (filters) => {
+  getFiltersMap: state => state.filtersMap,
+  getAvailableFilters: (state, getters) => getters.getCurrentCategory ? state.filtersMap[getters.getCurrentCategory.id] : {},
+  getCurrentFiltersFrom: (state, getters, rootState) => (filters, categoryFilters) => {
     const currentQuery = filters || rootState.route[products.routerFiltersSource]
-    return getFiltersFromQuery({availableFilters: getters.getAvailableFilters, filtersQuery: currentQuery})
+    const availableFilters = categoryFilters || getters.getAvailableFilters
+    return getFiltersFromQuery({availableFilters, filtersQuery: currentQuery})
   },
   getCurrentSearchQuery: (state, getters, rootState) => getters.getCurrentFiltersFrom(rootState.route[products.routerFiltersSource]),
   getCurrentFilters: (state, getters) => getters.getCurrentSearchQuery.filters,
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
-  getSystemFilterNames: () => ['sort'],
-  getBreadcrumbs: (state, getters) => {
-    if (!getters.getCurrentCategory) return []
-    const categoryHierarchyIds = _prepareCategoryPathIds(getters.getCurrentCategory) // getters.getCategoriesHierarchyMap.find(categoryMapping => categoryMapping.includes(getters.getCurrentCategory.id)) || []
+  getSystemFilterNames: () => products.systemFilterNames,
+  getBreadcrumbs: (state, getters) => getters.getBreadcrumbsFor(getters.getCurrentCategory),
+  getBreadcrumbsFor: (state, getters) => category => {
+    if (!category) return []
+    const categoryHierarchyIds = _prepareCategoryPathIds(category)
     let resultCategoryList = categoryHierarchyIds.map(categoryId => {
       return getters.getCategoriesMap[categoryId]
     }).filter(c => !!c)
     return parseCategoryPath(resultCategoryList)
   },
   getCategorySearchProductsStats: state => state.searchProductsStats || {},
-  getCategoryProductsTotal: (state, getters) => getters.getCategorySearchProductsStats.total || 0
+  getCategoryProductsTotal: (state, getters) => {
+    const { total } = getters.getCategorySearchProductsStats
+    const totalValue = typeof total === 'object' ? total.value : total
+
+    return totalValue || 0
+  }
 }
 
 export default getters

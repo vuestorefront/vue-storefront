@@ -1,25 +1,37 @@
 import { createListenerHook, createMutatorHook } from '@vue-storefront/core/lib/hooks'
 
-const { hook: beforeStoreViewChangeHook, executor: beforeStoreViewChangeExecutor }: {
-  hook: (storeViewMutator: (storeView: any) => any) => void,
-  executor: any
-} = createMutatorHook()
+const {
+  hook: beforeStoreViewChangedHook,
+  executor: beforeStoreViewChangedExecutor
+} = createMutatorHook<any, any>()
 
-const { hook: afterStoreViewChangeHook, executor: afterStoreViewChangeExecutor }: {
-  hook: (storeViewListener: (storeView?: any) => void) => void,
-  executor: any
-} = createListenerHook()
+const {
+  hook: afterStoreViewChangedHook,
+  executor: afterStoreViewChangedExecutor
+} = createListenerHook<any>()
 
-const { hook: afterAppInitHook, executor: afterAppInitExecutor }: {
-  hook: (appInitListener: () => void) => void,
-  executor: any
-} = createListenerHook()
+const {
+  hook: afterAppInitHook,
+  executor: afterAppInitExecutor
+} = createListenerHook<any>()
+
+const {
+  hook: beforeHydratedHook,
+  executor: beforeHydratedExecutor
+} = createMutatorHook<any, any>()
+
+const {
+  hook: afterProductThumbnailPathGeneratedHook,
+  executor: afterProductThumbnailPathGeneratedExecutor
+} = createMutatorHook<{ path: string, sizeX: number, sizeY: number }, { path: string }>()
 
 /** Only for internal usage in core */
 const coreHooksExecutors = {
   afterAppInit: afterAppInitExecutor,
-  beforeStoreViewChange: beforeStoreViewChangeExecutor,
-  afterStoreViewChange: afterStoreViewChangeExecutor
+  beforeStoreViewChanged: beforeStoreViewChangedExecutor,
+  afterStoreViewChanged: afterStoreViewChangedExecutor,
+  beforeHydrated: beforeHydratedExecutor,
+  afterProductThumbnailPathGenerate: afterProductThumbnailPathGeneratedExecutor
 }
 
 const coreHooks = {
@@ -28,11 +40,13 @@ const coreHooks = {
   /** Hook is fired directly before changing current storeView (multistrore)
    * @param storeView Inside this function you have access to order object that you can access and modify. It should return order object.
   */
-  beforeStoreViewChange: beforeStoreViewChangeHook,
+  beforeStoreViewChanged: beforeStoreViewChangedHook,
   /** Hook is fired right after storeView (multistore) is changed
    * @param storeView current storeView
   */
-  afterStoreViewChange: afterStoreViewChangeHook
+  afterStoreViewChanged: afterStoreViewChangedHook,
+  beforeHydrated: beforeHydratedHook,
+  afterProductThumbnailPathGenerate: afterProductThumbnailPathGeneratedHook
 }
 
 export {

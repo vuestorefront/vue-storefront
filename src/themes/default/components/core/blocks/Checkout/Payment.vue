@@ -121,10 +121,16 @@
             v-model.trim="payment.city"
             @blur="$v.payment.city.$touch()"
             autocomplete="address-level2"
-            :validations="[{
+            :validations="[
+            {
               condition: $v.payment.city.$error && !$v.payment.city.required,
               text: $t('Field is required')
-            }]"
+            },
+            {
+              condition: $v.payment.city.$error && $v.payment.city.required,
+              text: $t('Please provide valid city name')
+            }
+            ]"
           />
 
           <base-input
@@ -171,7 +177,7 @@
             v-model="payment.country"
             autocomplete="country-name"
             @blur="$v.payment.country.$touch()"
-            @change="$v.payment.country.$touch()"
+            @change="$v.payment.country.$touch(); changeCountry();"
           />
 
           <base-input
@@ -313,7 +319,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers'
+import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
 import { Payment } from '@vue-storefront/core/modules/checkout/components/Payment'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'

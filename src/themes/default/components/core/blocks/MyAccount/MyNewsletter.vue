@@ -39,6 +39,7 @@
 import { Newsletter } from '@vue-storefront/core/modules/newsletter/components/Newsletter'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
 import BaseCheckbox from '../Form/BaseCheckbox.vue'
+import i18n from '@vue-storefront/i18n'
 
 export default {
   components: {
@@ -53,11 +54,27 @@ export default {
     edit () {
       this.isEdited = true
     },
-    updateNewsletter () {
+    async updateNewsletter () {
       if (this.user.isSubscribed) {
-        this.subscribe()
-      } else {
-        this.unsubscribe()
+        const isSubscribed = await this.$store.dispatch('newsletter/subscribe', this.email)
+
+        if (isSubscribed) {
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'success',
+            message: i18n.t('You have been successfully subscribed to our newsletter!'),
+            action1: { label: i18n.t('OK') }
+          })
+        }
+        return
+      }
+
+      const isUnsubscribed = await this.$store.dispatch('newsletter/unsubscribe', this.email)
+      if (isUnsubscribed) {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'success',
+          message: i18n.t('You have been successfully unsubscribed from our newsletter!'),
+          action1: { label: i18n.t('OK') }
+        })
       }
     }
   },

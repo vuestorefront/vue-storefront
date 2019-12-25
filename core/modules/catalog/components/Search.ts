@@ -15,18 +15,19 @@ export const Search = {
       start: 0,
       placeholder: i18n.t('Type what you are looking for...'),
       emptyResults: false,
-      readMore: true
+      readMore: true,
+      componentLoaded: false
     }
   },
   mounted () {
-    this.search = localStorage.getItem(`shop/user/searchQuery`);
+    this.search = localStorage.getItem(`shop/user/searchQuery`) || ''
 
     if (this.search) {
       this.makeSearch();
     }
   },
   beforeDestroy () {
-    localStorage.setItem(`shop/user/searchQuery`, this.search);
+    localStorage.setItem(`shop/user/searchQuery`, this.search ? this.search : '');
   },
   methods: {
     onEscapePress () {

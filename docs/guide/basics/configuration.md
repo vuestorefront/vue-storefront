@@ -14,6 +14,8 @@ Please take a look at the `node-config` docs as the library is open for some oth
 
 :::tip NOTE
 Currently, the configuration files are being processed by the webpack during the build process. This means that whenever you apply some configuration changes, you shall rebuild the app, even when using the `yarn dev` mode. This limitation can be solved with the VS 1.4 special config variable. Now the config can be reloaded on the fly with each server request if `config.server.dynamicConfigReload`is set to true. However, in that case, the config is added to `window.**INITIAL_STATE**` with the responses.
+
+When you using the `config.server.dynamicConfigReload` plase remember about `config.server.dynamicConfigExclude` and `config.server.dynamicConfigInclude`.
 :::
 
 Please find the configuration properties reference below.
@@ -23,11 +25,43 @@ Please find the configuration properties reference below.
 ```json
 "server": {
   "host": "localhost",
-  "port": 3000
+  "port": 3000,
+  "useHtmlMinifier": false,
+  "htmlMinifierOptions": {
+    "minifyJS": true,
+    "minifyCSS": true
+  },
+  "useOutputCacheTagging": false,
+  "useOutputCache": false
 },
 ```
 
 Vue Storefront starts an HTTP server to deliver the SSR (server-side rendered) pages and static assets. Its node.js server is located in the `core/scripts/server.js`. This is the hostname and TCP port which Vue Storefront is binding.
+
+When the `useHtmlMinifier` is set to true the generated SSR HTML is being minified [using the `htmlMinifierOptions`](https://www.npmjs.com/package/html-minifier#options-quick-reference).
+
+When the `useOutputCacheTagging` and `useOutputCache` options are enabled, Vue Storefront is storing the rendered pages in the Redis-based output cache. Some additional config options are available for the output cache. [Check the details](ssr-cache.md)
+
+## Seo
+
+```json
+"seo": {
+  "useUrlDispatcher": true,
+  "disableUrlRoutesPersistentCache": true,
+  "defaultTitle": "Vuestore"
+},
+```
+
+When `config.seo.useUrlDispatcher` set to true the `product.url_path` and `category.url_path` fields are used as absolute URL addresses (no `/c` and `/p` prefixes anymore). Check the latest [`mage2vuestorefront`] snapshot and reimport Your products to properly set `url_path` fields.
+
+For example, when the `category.url_path` is set to `women/frauen-20` the product will be available under the following URL addresses:
+
+`http://localhost:3000/women/frauen-20`
+`http://localhost:3000/de/women/frauen-20`
+
+For, `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway)
+
+For, `config.seo.defaultTitle` is as name suggest it's default title for the store.
 
 ## Redis
 
@@ -94,6 +128,12 @@ The SSR data is being completed in the `asyncData` static method. If this config
 If it's set to `false`, then **just the** `src/themes/default/pages/Product.vue` -> `asyncData` will be executed.
 This option is referenced in the [core/client-entry.ts](https://github.com/DivanteLtd/vue-storefront/blob/master/core/client-entry.ts) line: 85.
 
+```json
+    "lazyHydrateFor": ["category-next.products", "homepage"],
+```
+
+Filters out given properties from `window.__INITIAL_STATE__` and enables [lazy hydration](https://github.com/maoberlehner/vue-lazy-hydration) on client side
+Available out of the box for `category-next.products` and `homepage`.
 ## Max attempt of tasks
 
 ```json
@@ -122,7 +162,7 @@ This option is used only in the [Multistore setup](../integrations/multistore.md
 ```json
 "storeViews": {
   "multistore": false,
-  "commonCache": true,
+  "commonCache": false,
   "mapStoreUrlsFor": ["de", "it"],
 ```
 
@@ -139,12 +179,6 @@ You should add all the multistore codes to the `mapStoreUrlsFor` as this propert
     "storeCode": "de",
 ```
 This attribute is not inherited through the "extend" mechanism.
-
-```json
-    "disabled": true,
-```
-
-If the specific store is disabled, it won't be used to populate the routing table and won't be displayed in the `Language/Switcher.vue`.
 
 ```json
     "storeId": 3,
@@ -192,6 +226,14 @@ ElasticSearch settings can be overridden in the specific `storeView` config. You
 ```
 
 Taxes section is used by the [core/modules/catalog/helpers/tax](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/catalog/helpers/tax). When `sourcePricesIncludesTax` is set to `true` it means that the prices indexed in the ElasticSearch already consists of the taxes. If it's set to `false` the taxes will be calculated runtime.
+
+```json
+    "seo": {
+      "defaultTitle": 'Vuestore'
+    },
+```
+
+SEO section's `defaultTitle` is used at the set title for the specific store.
 
 The `defaultCountry` and the `defaultRegion` settings are being used for finding the proper tax rate for the anonymous, unidentified user (which country is not yet set).
 
@@ -453,6 +495,12 @@ This is the `vue-storefront-api` endpoint for rendering product lists.
 ```
 
 Here, we have the sort field settings as they're displayed on the Category page.
+
+```json
+  "systemFilterNames": ["sort"],
+```
+
+This is an array of query-fields which won't be treated as filter fields when in URL.
 
 ```json
   "gallery": {

@@ -1,6 +1,9 @@
 export interface ChildrenData {
-  id: number,
-  children_data?: ChildrenData[]
+  id: number | string,
+  children_data?: ChildrenData[],
+  name?: string,
+  slug?: string,
+  url_key?: string
 }
 
 export interface Category {
@@ -9,9 +12,9 @@ export interface Category {
   level: number,
   product_count: number,
   children_count: string,
-  parent_id: number,
+  parent_id: number | string,
   name: string,
-  id: number,
+  id: number | string,
   url_path: string,
   url_key: string,
   children_data: ChildrenData[],

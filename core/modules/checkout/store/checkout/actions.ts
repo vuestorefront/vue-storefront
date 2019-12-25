@@ -6,65 +6,77 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 const actions: ActionTree<CheckoutState, RootState> = {
-  /**
-   * Place order - send it to service worker queue
-   * @param {Object} commit method
-   * @param {Object} order order data to be send
-   */
-  async placeOrder ({ state, commit, dispatch }, { order }) {
+  async placeOrder ({ dispatch }, { order }) {
     try {
-      const result = await dispatch('order/placeOrder', order, {root: true})
+      const result = await dispatch('order/placeOrder', order, { root: true })
       if (!result.resultCode || result.resultCode === 200) {
-        StorageManager.get('user').setItem('last-cart-bypass-ts', new Date().getTime())
-        await dispatch('cart/clear', { recreateAndSyncCart: true }, {root: true})
-        if (state.personalDetails.createAccount) {
-          commit(types.CHECKOUT_DROP_PASSWORD)
-        }
+        await dispatch('updateOrderTimestamp')
+        await dispatch('cart/clear', { recreateAndSyncCart: true }, { root: true })
+        await dispatch('dropPassword')
       }
     } catch (e) {
       Logger.error(e, 'checkout')()
     }
   },
-  setModifiedAt ({ commit }, timestamp) {
+  async updateOrderTimestamp () {
+    const userStorage = StorageManager.get('user')
+    await userStorage.setItem('last-cart-bypass-ts', new Date().getTime())
+  },
+  async dropPassword ({ commit, state }) {
+    if (state.personalDetails.createAccount) {
+      commit(types.CHECKOUT_DROP_PASSWORD)
+    }
+  },
+  async setModifiedAt ({ commit }, timestamp) {
     commit(types.CHECKOUT_SET_MODIFIED_AT, timestamp)
   },
-  savePersonalDetails ({ commit }, personalDetails) {
-    // todo: create and move perdonal details vuex
+  async savePersonalDetails ({ commit }, personalDetails) {
     commit(types.CHECKOUT_SAVE_PERSONAL_DETAILS, personalDetails)
   },
-  saveShippingDetails ({ commit }, shippingDetails) {
-    // todo: move to shipping vuex
+  async saveShippingDetails ({ commit }, shippingDetails) {
     commit(types.CHECKOUT_SAVE_SHIPPING_DETAILS, shippingDetails)
   },
-  savePaymentDetails ({ commit }, paymentDetails) {
-    // todo: move to payment vuex
+  async savePaymentDetails ({ commit }, paymentDetails) {
     commit(types.CHECKOUT_SAVE_PAYMENT_DETAILS, paymentDetails)
   },
-  load ({ commit }) {
-    StorageManager.get('checkout').getItem('personal-details', (err, details) => {
-      if (err) throw new Error(err)
-      if (details) {
-        commit(types.CHECKOUT_LOAD_PERSONAL_DETAILS, details)
-      }
-    })
-    StorageManager.get('checkout').getItem('shipping-details', (err, details) => {
-      if (err) throw new Error(err)
-      if (details) {
-        commit(types.CHECKOUT_LOAD_SHIPPING_DETAILS, details)
-      }
-    })
-    StorageManager.get('checkout').getItem('payment-details', (err, details) => {
-      if (err) throw new Error(err)
-      if (details) {
-        commit(types.CHECKOUT_LOAD_PAYMENT_DETAILS, details)
-      }
-    })
+  async load ({ commit }) {
+    const checkoutStorage = StorageManager.get('checkout')
+    const personalDetails = await checkoutStorage.getItem('personal-details')
+    const shippingDetails = await checkoutStorage.getItem('shipping-details')
+    const paymentDetails = await checkoutStorage.getItem('payment-details')
+
+    if (personalDetails) {
+      commit(types.CHECKOUT_LOAD_PERSONAL_DETAILS, personalDetails)
+    }
+
+    if (shippingDetails) {
+      commit(types.CHECKOUT_LOAD_SHIPPING_DETAILS, shippingDetails)
+    }
+
+    if (paymentDetails) {
+      commit(types.CHECKOUT_LOAD_PAYMENT_DETAILS, paymentDetails)
+    }
   },
-  updatePropValue ({ commit }, payload) {
+  async updatePropValue ({ commit }, payload) {
     commit(types.CHECKOUT_UPDATE_PROP_VALUE, payload)
   },
-  setThankYouPage ({ commit }, payload) {
+  async setThankYouPage ({ commit }, payload) {
     commit(types.CHECKOUT_SET_THANKYOU, payload)
+  },
+  async addPaymentMethod ({ commit }, paymentMethod) {
+    commit(types.CHECKOUT_ADD_PAYMENT_METHOD, paymentMethod)
+  },
+  async replacePaymentMethods ({ commit }, paymentMethods) {
+    commit(types.CHECKOUT_SET_PAYMENT_METHODS, paymentMethods)
+  },
+  async addShippingMethod ({ commit }, shippingMethod) {
+    commit(types.CHECKOUT_ADD_SHIPPING_METHOD, shippingMethod)
+  },
+  async replaceShippingMethods ({ commit }, shippingMethods) {
+    commit(types.CHECKOUT_SET_SHIPPING_METHODS, shippingMethods)
+  },
+  async updatePaymentDetails ({ commit }, updateData) {
+    commit(types.CHECKOUT_UPDATE_PAYMENT_DETAILS, updateData)
   }
 }
 

@@ -1,8 +1,11 @@
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import dayjs from 'dayjs'
 import dayjsLocalizedFormat from 'dayjs/plugin/localizedFormat'
+import { once } from '../helpers';
 
-dayjs.extend(dayjsLocalizedFormat)
+once('__VUE_EXTEND_DAYJS_LOCALIZED_FORMAT__', () => {
+  dayjs.extend(dayjsLocalizedFormat)
+})
 
 /**
  * Converts date to format provided as an argument or defined in config file (if argument not provided)
@@ -13,7 +16,7 @@ export function date (date, format) {
   const displayFormat = format || currentStoreView().i18n.dateFormat
   let storeLocale = currentStoreView().i18n.defaultLocale.toLocaleLowerCase()
   const separatorIndex = storeLocale.indexOf('-')
-  const languageCode = separatorIndex ? storeLocale.substr(0, separatorIndex) : storeLocale
+  const languageCode = (separatorIndex > -1) ? storeLocale.substr(0, separatorIndex) : storeLocale
 
   const isStoreLocale = dayjs().locale(storeLocale).locale()
   const isLanguageLocale = dayjs().locale(languageCode).locale()

@@ -1,15 +1,14 @@
 import { cmsPageModule } from './store/page'
 import { cmsBlockModule } from './store/block'
 import { cmsHierarchyModule } from './store/hierarchy'
-import { plugin } from './store/plugin'
+import cmsPersistPlugin from './store/cmsPersistPlugin'
 import { StorefrontModule } from '@vue-storefront/core/lib/modules';
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
-export const cacheStorage = StorageManager.init('cms')
-
-export const CmsModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const CmsModule: StorefrontModule = function ({store}) {
+  StorageManager.init('cms')
   store.registerModule('cmsPage', cmsPageModule)
   store.registerModule('cmsBlock', cmsBlockModule)
   store.registerModule('cmsHierarchy', cmsHierarchyModule)
-  store.subscribe(plugin)
+  store.subscribe(cmsPersistPlugin)
 }

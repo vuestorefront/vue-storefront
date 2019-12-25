@@ -4,11 +4,14 @@ import getters from './getters'
 import mutations from './mutations'
 import RootState from '@vue-storefront/core/types/RootState'
 import CheckoutState from '../../types/CheckoutState'
+import config from 'config'
 
 export const checkoutModule: Module<CheckoutState, RootState> = {
   namespaced: true,
   state: {
     order: {},
+    paymentMethods: [],
+    shippingMethods: config.shipping.methods,
     personalDetails: {
       firstName: '',
       lastName: '',

@@ -7,7 +7,7 @@
 - [What is the purpose of VS modules?](#what-is-the-purpose-of-vs-modules)
 
 **Technical part**
-- [Module config and it's capabilities](#module-config-and-capabilities)
+- [Module config and its capabilities](#module-config-and-capabilities)
 - [Module file structure](#module-file-structure)
 - [Module registration](#module-registration)
 
@@ -17,9 +17,10 @@
 - [Extending and overriding Vue Storefront modules](#extending-and-overriding-vue-storefront-modules)
 - [Creating third party modules](#Creating-3rd-party-modules)
   
+
 ## What are VS modules?
 
-You can think about each module as a one, independent feature available in Vue Storefront with all its logic and dependencies inside. This 'one feature' however is a common denominator that links all the features inside. For example, the common denominator for adding a product to the cart, receiving a list of items that is in the cart or applying a cart coupon is obviously a `cart` and `cart` is not a feature of anything bigger than itself (its common denominator is the shop) so it should be a module. Wishlist, Reviews or Newsletter are also good examples of the module as we intuitively think about them as standalone features. 
+You can think about each module as a one, independent feature available in Vue Storefront with all its logic and dependencies inside. This *one feature* however is a common denominator that links all the features inside. For example, the common denominator for adding a product to the cart, receiving a list of items that is in the cart or applying a cart coupon is obviously a `cart` and `cart` is not a feature of anything bigger than itself (its common denominator is the shop) so it should be a module. Wishlist, Reviews or Newsletter are also good examples of the module as we intuitively think about them as standalone features. 
 
 ## Motivation
 
@@ -35,7 +36,7 @@ Cool, but there is one problem - since we have all our bricks in one box they lo
 
 When we want to replace the green bricks with, let's say, the black ones we need to look for each green brick separately among all the others which can take a lot of time... and there is still a chance that we will miss some of them! Not to mention that finding the particular green brick that we need to finish the palm tree we are building (<img alt="this one!" src="../images/lego_palm.jpeg" style="width: 150px; height:120px;vertical-align: middle">) will require looking for it among all the other bricks which can make this task extremely difficult and time-consuming.
 
-This is obviously not a situation that we want to end up in with our small lego empire. Neither we want it with Vue Storefront since it's meant to be easily extendable so you can replace your green bricks (or current user cart feature/cms provider/cms content provider) with the black ones (different cart feature with multiple carts, WordPress instead of Prismic for content etc) without hustles and bustles looking for each of them among all the bricks and without worries that you will miss some of them or EU will confiscate all the bricks that you have! We also want to make it easier to find the correct brick that we want right now to finish this damn palm tree!
+This is obviously not a situation that we want to end up in with our small lego empire. Neither do we want it with Vue Storefront since it's meant to be easily extendable so you can replace your green bricks (or current user cart feature/cms provider/cms content provider) with the black ones (different cart feature with multiple carts, WordPress instead of Prismic for content etc) without hustles and bustles looking for each of them among all the bricks and without worries that you will miss some of them or EU will confiscate all the bricks that you have! We also want to make it easier to find the correct brick that we want right now to finish this damn palm tree!
 
 So how do we make this horrible situation better?
 
@@ -57,10 +58,10 @@ The purpose is well described in [this discussion](https://github.com/DivanteLtd
 
 ## Module config and capabilities
 
-Module config is the object that is required to instantiate VS module. The config object you'll provide is later used to extend and hook into different parts of the application (e.g. router, Vuex etc).
+Module config is the object that is required to instantiate VS module. The config object you provide is later used to extend and hook into different parts of the application (e.g. router, Vuex etc).
 Please use this object as the only part that is responsible for extending Vue Storefront. Otherwise it may stop working after some breaking core updates.
 
-Vue Storefront module object with provided config should be exported in `index.ts` entry point. Ideally it should be an export named the same as modules key.
+Vue Storefront module object with provided config should be exported to `index.ts` entry point. Ideally it should be an *export* named the same as modules key.
 
 This is how the signature of Vue Storefront Module looks like:
 
@@ -85,7 +86,7 @@ See code [here](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/m
 
 ### `key` (required)
 
-A key is an ID of your module. It's used to identify your module and to set keys in all key-based extensions that module is doing (e.g. creating namespaced store). This key should be unique.
+A key is an ID of your module. It's used to identify your module and to set keys in all key-based extensions that module is associated (e.g. creating namespaced store). This key should be unique.
 
 ### `store`
 
@@ -123,7 +124,7 @@ The `VSF` object is an instance of your Vue Storefront shop. It contains followi
 ## Module file structure
 
 Below you can see recommended file structure for VS module. All of the core ones are organised in this way.
-Try to have a similar file structure inside the ones that you create. If all the modules are implemented with a similar architecture, it'll be much easier to maintain and understand them. If there is no purpose in organising some of its parts differently, then try to avoid it.
+Try to have a similar file structure inside the ones that you create. If all the modules are implemented with a similar architecture, it'll be much easier to maintain and understand them. Please avoid unnecessary changes in design unless otherwise required so.
 
 Not all of this folders and files should exist in every module. The only mandatory file is `index.ts` which is the entry point. The rest depends on your needs and module functionality.
 

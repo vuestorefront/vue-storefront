@@ -1,0 +1,280 @@
+"My Account","Minu konto"
+"Field is required",Kohustuslik
+"Confirm your order","Kinnitage oma tellimus"
+"Please confirm order you placed when you was offline","Palun kinnitage oma tellimuse, mille ilma interneti ühenduseta varasemalt tegite"
+"Allow notification about the order","Luba tellimusge seotud teadete edastamine"
+"Extension developers would like to thank you for placing an order!","Mooduli loojad tänavad tellimuse tegemise eest!"
+"Compare products","Võrdle tooteid"
+login,"logi sisse"
+"Remove from compare","Eemalda võrdlusest"
+"Resetting the password ... ","Muudame parooli…"
+"Error while sending reset password e-mail","Parooli muutmise e-maili edastamisel esines viga."
+"Authorization in progress ...",Autoriseerime…
+"You have been successfully subscribed to our newsletter!","Olete uudiskirja listi lisatud!"
+"Everything new",Uued
+"Get inspired","Saa Inspiratsiooni"
+"Size guide","Suuruste juhend"
+"Add to favorite","Lisa lemmikuks"
+"Add to compare","Lisa võrdlusesse"
+"Product details","Toote kirjeldus"
+Filters,Filtreeri
+"My account","Minu konto"
+Logout,"Logi välja"
+"Enter your email to receive instructions on how to reset your password.","Sisesta e-mail ja saadame sulle parooli muutmise juhendi."
+"Reset password","Muuda parool"
+or,või
+"return to log in","tagasi sisse logima"
+"Back to login","Tagasi sisse logima"
+"We've sent password reset instructions to your email. Check your inbox and follow the link.","Saatsime Teile parooli muutmise juhendi. Palun kontrollige oma e-maili."
+"Log in","logi sisse"
+"Remember me","Jäta mind meelde"
+"Forgot the password?","Unustasite parooli?"
+"Log in to your account","Logi sisse"
+"You must accept the terms and conditions.","Nõustun kasutustingimustega"
+Register,Registreeri
+"register an account","loo konto"
+"Register an account","Loo konto"
+"login to your account","logi sisse"
+Filter,Filtreeri
+"Clear filters","Tühista filtrid"
+color_filter,värv_filter
+size_filter,suurus_filter
+price_filter,hind_filter
+Price,Hind
+"Order Summary","Tellimuse kokkuvõte"
+Safety,Turvalisus
+Shipping,Tarneviis
+Payment,Makseviis
+Returns,Tagastamine
+"Review order","Tellimuse ülevaade"
+"Please check if all data are correct","Palun kontrollige, et kõik oleks õige"
+"I agree to",Nõustun
+"Terms and conditions",Kasutustingimused
+"Place the order",Telli
+"Edit payment","Muuda makseviisi"
+"We will send you the invoice to given e-mail address","Saadame sisestatud e-mailile tellimuse kinnituse ja arve"
+"Payment method",Makseviis
+"Go review the order","Kontrolli tellimust"
+"Phone number may be needed by carrier","Vajame toodete kohale toimetamiseks teie mobiilinumbrit"
+"Personal Details","Kliendi info"
+"Edit personal details","Muuda kliendi infot"
+"Continue to shipping",Edasi
+"We will send you details regarding the order","Saadame Teile tellimuse kohta informatsiooni"
+"The new account will be created with the purchase. You will receive details on e-mail.","Konto luuakse koos tellimuse vormistamisega. Saadame Teile konto loomise kohta e-maili."
+Qty,Kogus
+"Edit shipping","Muuda tarneviisi"
+"Ship to my default address","Saada kaup mu vaikimisi aadressile"
+"Shipping method",Tarneviis
+"Continue to payment",Edasi
+Departments,Kategooria
+"Women fashion","Naiste riided"
+"Men's fashion","Meeste riided"
+Kidswear,"Laste riided"
+Home,Esileht
+Orders,Tellimused
+"Track my order","Jälgi oma tellimust"
+Delivery,Tarne
+"Return policy",Tagasitamine
+"Customer service",Klienditugi
+"Contact us","Võta ühendust"
+"About us",Meist
+"Price: High to low","Kallimad eespool"
+"Price: Low to high","Odavamad eespool"
+Clear,Tühista
+"About us (Magento CMS)","About us (Magento CMS)"
+"Store locator","Otsi kauplus"
+"Legal notice","Õiguslik teade"
+"Privacy policy",Privaatsustingimused
+"Subscribe to the newsletter and receive a coupon for 10% off","Liitu uudiskirjaga ja saad 10% soodustusega kupongi"
+Subscribe,Liitu
+"Return to shopping",Tagasi
+"Login to your account","Logige sisse"
+"You are logged in as","Olete sisse logitud kui"
+Edit,Muuda
+"Shopping cart",Ostukorv
+"Clear cart","Tühjenda ostukorv"
+"Your shopping cart is empty.","Teie ostukorv on tühi"
+"Don't hesitate and","Ärge muretsege"
+"browse our catalog","Sirvi tooteid"
+"to find something beautiful for You!","leia midagi ilusat"
+"Shopping summary","Ostu kokkuvõte"
+"Go to checkout","Ostu vormistama"
+Remove,Eemalda
+"My newsletter","Minu uudiskiri"
+"Edit newsletter preferences","Muuda uudiskirjaga liitumist"
+"General agreement","Üldine nõustumine"
+Cancel,Tühista
+"Update my preferences","Muuda oma eelistusi"
+"My profile","Minu konto"
+"Edit your profile","Muuda oma kontot"
+"Update my profile","Uuenda oma kontot"
+"My shipping details","Minu aadressid"
+"Edit your shipping details","Muuda oma aadresse"
+"Update my shipping details","Uuenda oma aadresse"
+Country,Riik
+"Similar products","Sarnased tooted"
+"We found other products you might like","Leidsime veel tooteid, mis Teile võiks meeldida"
+"No results were found.","Vasteid ei leitud."
+"Searched term should consist of at least 3 characters.","Otsingu sõna peab sisaldama vähemalt kolme tähte."
+Magazine,Kataloog
+Sale,Allahindlus
+"My orders","Minu tellimused"
+"My loyalty card","Minu loyaalsus kaart"
+"My product reviews","Minu kommentaarid"
+Wishlist,Soovikorv
+"Clear wishlist","Tühjenda soovikorv"
+"Your wishlist is empty.","Teie Sooviskord on tühi"
+"Add to cart",Osta
+"Select color ","Vali värv"
+"See details",Rohkem
+"We use cookies to give you the best shopping experience.","Meie e-pood kasutab küpsiseid. "
+Newsletter,Uudiskiri
+"Sign up to our newsletter and receive a coupon for 10% off!","Liitu meie uudiskirjaga ja saad 10% sooduskupongi!"
+Quantity,Kogus
+"Price ",Hind
+"Select size ","Vali suurus"
+"You have no items to compare.","Võrdlus on tühi"
+"New Luma Yoga Collection","Uus Luma yoga kollektsioon"
+"We can't find the page","Me ei leia soovitud lehekülge"
+"Unfortunately we can't find the page you are looking for.","Kahjuks me ei leia otsitavat lehekülge."
+"If you need an assistance you can drop us a line on","Anna meile märku, kui vajad abi."
+"a chat","kirjuta sõnum"
+"or write to us through","või kirjuta meile"
+"a contact page","sõnumi vorm"
+"You can also use","või kasuta"
+search,otsi
+"to find product you were looking for.",",et leida otsitav toode."
+"See our bestsellers","Vaata meie enim müüdud tooteid"
+"You are offline. Some features might not be available.","Teil puudub internetiühendus. Mõned funktsionaalsused võivad seetõttu mitte töötada."
+Search,Otsi
+Help,Abi
+"Go to Facebook",Facebook
+"Go to Instagram",Instagram
+"Go to Pinterest",Pinterest
+"Go to Youtube",Youtube
+"I accept ",Kinnitan
+"Use my billing data","Kasutage minu makseinformatsiooni"
+"I want to generate an invoice for the company","Soovin ettevõtte nimele arvet"
+"Name must have at least 2 letters.","Nimi peab sisaldama vähemalt kahte tähte"
+"Name must have at least 3 letters.","Nimi peab sisaldama vähemalt kolme tähte"
+"Zip-code must have at least 3 letters.","Sihtnumber peab sisaldama vähemalt viite numbrit"
+"I want to create an account'","Tahan kontot luua'"
+"Copy address data from shipping","Kopeeri aadress tarneaadressi väljadelt"
+"Tax identification number must have at least 3 letters.","Käibemaksukood peab olema vähemalt 3 tähte."
+"Please provide valid e-mail address.","Kontrolli e-maili aadressi"
+"Use my company's address details","Kasuta ettevõtte aadressi"
+"Passwords must be identical","Paroolid ei ole samad"
+"E-mail address *","E-mail *"
+"Password *","Parool *"
+"First name",Eesnimi
+items,tooted
+"Last name",Perekonnanimi
+"Email address",E-mail
+"Change my password","Muuda parooli"
+"I have a company and want to receive an invoice for every order","Soovin iga tellimusega ettevõttele arvet"
+"Company name *","Ettevõtte *"
+"Street name *","Tänav *"
+"House/Apartment number *","Maja/korter *"
+"City *","Linn *"
+"Zip-code *","Sihtnumber *"
+"Tax ID *","Käibemaksunumber *"
+"State / Province",Maakond
+City,Linn
+"Phone Number",Mobiilinumber
+"House/Apartment number",Maja/koter
+"Street name",Tänav
+Zip-code,Sihtnumber
+"Current password *","Kasutusel olev parool *"
+"New password *","Uus parool *"
+"Repeat new password *","Siseta uus parool uuesti *"
+"Passwords must be identical.","Paroolid peav identsed olema."
+"First name *","Eesnimi *"
+"Last name *","Perekonnanimi *"
+"Repeat password *","Sisesta parool uuesti *"
+"Email address *","E-maili aadress *"
+"I want to create an account","Soovin kontot luua"
+"Tax identification number *","Käibemaksu number *"
+"No products found!","Tooteid ei leitud!"
+"Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!","Kahjuks ei leidnud me Teie otsingule vasteid."
+"Erin recommends",Sooviab
+"Open my account","Minu konto"
+"Open microcart",Ostukorv
+"Open wishlist",Soovikorv
+"Open search panel",Otsing
+"Open menu",Menüü
+"Show subcategories",Alamkategooriad
+Back,Tagasi
+Close,Sulge
+"View all","Vaata kõiki"
+"Create a new account","Loo konto"
+"I accept terms and conditions","Nõustun kasutustingimustega"
+"I want to receive a newsletter, and agree to its terms","Soovin uudiskirja ja nõstund tingimustega"
+"Tax ID must have at least 3 letters.","Käibemaksukood peab olema vähemalt 3 tähte."
+"Country *","Riik *"
+"Toggle password visibility","Vaata parooli"
+"You've entered an incorrect coupon code. Please try again.","Kupongikood ei kehti või puudub. Kontrolli sisestatud koodi ja proovi uuesti."
+"Add a discount code","Lisa sooduskood"
+"Discount code",Sooduskood
+"Add discount code","Lisa sooduskood"
+"Order ID","Tellimuse number"
+"Date and time","Kuupäev ja aeg"
+Author,Autor
+Value,Summa
+Type,Tüüp
+Status,Staatus
+Purchase,Tellimus
+"View order","Vaata tellimust"
+"Remake order","Telli uuesti"
+"No orders yet","Tellimusi ei ole veel"
+"Order #","Tellimuse nr."
+"Items ordered","Tellitud tooted"
+"Product Name",Tootenimi
+SKU,Kood
+Subtotal,Kokku
+Tax,Käibemaks
+Discount,Allahindlus
+"Order informations","Tellimuse informatsioon"
+"Shipping address",Tarneaadress
+"Billing address",Makseaadress
+"Order confirmation","Tellimuse kinnitus"
+"Your purchase","Teie tellimus"
+"You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.","Tellimus vormistamine õnnestus. Saadame teile tellimuse kinnituse e-mailile. "
+"E-mail us at <b>demo@vuestorefront.io</b> with any questions, suggestions how we could improve products or shopping experience","Ootame Teie poolset tagasisidet oma teenuse täiendamiseks."
+"Your Account",Konto
+"What we can improve?","Mida võiksime paremini teha?"
+"Your feedback is important for us. Let us know what we could improve.","Teie tagasiside on meile tähtis. Palun kirjutage meile, mida võiksime veelgi paremaks muuta."
+"Type your opinion","Kirjuta oma arvamus"
+"Give a feedback","Anna tagasisidet"
+"Choose your country","Vali riik"
+"You can log to your account using e-mail and password defined earlier. On your account you can <b>edit your profile data,</b> check <b>history of transactions,</b> edit <b>subscription to newsletter.</b>","Saate oma kontole e-maili ja parooli abil siseneda."
+"United States",USA
+English,Inglismaa
+Germany,Saksamaa
+German,Sakslane
+Italy,Itaalia
+Italian,Itaallane
+"Sort By",Sorteeri
+"Custom Cms Page","Kohandatud sisulehekülg"
+"Cms Page Sync","Sisulehekülgede sünkroniseerimine"
+"Password must have at least 8 letters.","Parool peab sisaldama vähemalt 8 tähte."
+"Load more","Lae veel"
+"Select No","Vali number"
+"Select Yes","Vali Jah"
+erin_recommends_filter,soovitab_filter
+Latest,Viimased
+size,suurus
+color,värvus
+"No reviews have been posted yet. Please don't hesitate to share Your opinion and write the first review!","Keegi ei ole veel kommentaare lisanud. Ole esimene ja jaga oma kogemust."
+"Internal Server Error 500","Serveriga seonduv viga 500"
+"We've noticed Internal Server Error while rendering this request.","Päringut teostades tekkis serveriga seondub viga 500"
+"Something went wrong ...","Midagi läks valesti…"
+"This product is out of stock.","See toode on laost otsas."
+"Cash on delivery","Sularahas tellimuse kohaletoimetamisel"
+"DPD Courier","DPD kuller"
+"My Recently viewed products","Minu viimati vaadatud tooted"
+"No products yet","Ei ole veel tooteid kahjuks"
+"The server order id has been set to ","Serveri tellimuse number saadeti"
+"Customer service (Magento CMS)","Customer service (Magento CMS)"
+"Instant Checkout","Kiir ostuvormistamine"
+"Are you sure you would like to remove all the items from the wishlist?","Olete kindel, et soovite kõik tooted soovikorvist eemaldada?"
+"Filter by categories","Filtreeri kategooriate alusel"

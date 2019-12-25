@@ -42,15 +42,16 @@ const register = async (customer: DataResolver.Customer, password: string): Prom
     }
   })
 
-const updateProfile = async (userProfile: UserProfile): Promise<Task> =>
-  TaskQueue.execute({
+const updateProfile = async (userProfile: UserProfile, actionName: string): Promise<any> =>
+  TaskQueue.queue({
     url: processLocalizedURLAddress(config.users.me_endpoint),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
       body: JSON.stringify(userProfile)
-    }
+    },
+    callback_event: `store:${actionName}`
   })
 
 const getProfile = async () =>
@@ -63,9 +64,11 @@ const getProfile = async () =>
     }
   })
 
-const getOrdersHistory = async (): Promise<Task> =>
+const getOrdersHistory = async (pageSize = 20, currentPage = 1): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.users.history_endpoint),
+    url: processLocalizedURLAddress(
+      config.users.history_endpoint.replace('{{pageSize}}', pageSize).replace('{{currentPage}}', currentPage)
+    ),
     payload: {
       method: 'GET',
       mode: 'cors',

@@ -4,7 +4,7 @@ import Vue from 'vue';
 import InfoComponent from './components/Info.vue'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
-export const PaymentCashOnDeliveryModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const PaymentCashOnDeliveryModule: StorefrontModule = function ({store}) {
   // Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
   let correctPaymentMethod = false
   const placeOrder = () => {
@@ -22,7 +22,7 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function (app, stor
     'offline': true,
     'is_server_method': false
   }
-  store.dispatch('payment/addMethod', paymentMethodConfig)
+  store.dispatch('checkout/addPaymentMethod', paymentMethodConfig)
   if (!isServer) {
     // Update the methods
     let paymentMethodConfig = {
@@ -34,7 +34,7 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function (app, stor
       'offline': true,
       'is_server_method': false
     }
-    store.dispatch('payment/addMethod', paymentMethodConfig)
+    store.dispatch('checkout/addPaymentMethod', paymentMethodConfig)
 
     EventBus.$on('checkout-before-placeOrder', placeOrder)
 

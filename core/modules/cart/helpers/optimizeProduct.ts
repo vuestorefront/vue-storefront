@@ -4,6 +4,10 @@ import omit from 'lodash-es/omit'
 import pullAll from 'lodash-es/pullAll'
 
 const optimizeProduct = (product: CartItem): CartItem => {
+  if (!config.entities.optimize || !config.entities.optimizeShoppingCart) {
+    return product
+  }
+
   let fieldsToOmit = config.entities.optimizeShoppingCartOmitFields
 
   if (config.cart.productsAreReconfigurable) {

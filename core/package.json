@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/core",
-  "version": "1.11.0-rc.1",
+  "version": "1.11.0",
   "description": "Vue Storefront Core",
   "license": "MIT",
   "main": "app.js",
@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "bodybuilder": "2.2.13",
+    "compression": "^1.7.4",
     "config": "^1.30.0",
     "express": "^4.14.0",
+    "html-minifier": "^4.0.0",
     "lean-he": "^2.0.0",
     "localforage": "^1.7.2",
     "lodash-es": "^4.17.10",

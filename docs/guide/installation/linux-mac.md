@@ -10,7 +10,7 @@ Let's go!
 
   Already included in `vue-storefront` and `vue-storefront-api` Docker images (required locally, if you do not use containerization):
 
-- Node.js [Active LTS](https://nodejs.org/en/) (>=8.0.0)
+- Node.js [Active LTS](https://nodejs.org/en/) (>=10.x)
 - [Yarn](https://yarnpkg.com/en/docs/install) (>=1.0.0)
 - [ImageMagick](https://www.imagemagick.org/script/index.php) (to fit, resize and crop images)
 

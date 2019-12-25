@@ -42,13 +42,13 @@ export const Shipping = {
       currentUser: (state: RootState) => state.user.current
     }),
     ...mapGetters({
-      shippingMethods: 'shipping/shippingMethods'
+      shippingMethods: 'checkout/getShippingMethods'
     }),
     checkoutShippingDetails () {
       return this.$store.state.checkout.shippingDetails
     },
     paymentMethod () {
-      return this.$store.state.payment.methods
+      return this.$store.getters['checkout/getPaymentMethods']
     }
   },
   watch: {
@@ -60,13 +60,19 @@ export const Shipping = {
     shipToMyAddress: {
       handler () {
         this.useMyAddress()
-      }
+      },
+      immediate: true
     }
   },
   mounted () {
+    this.checkDefaultShippingAddress()
     this.checkDefaultShippingMethod()
+    this.changeShippingMethod()
   },
   methods: {
+    checkDefaultShippingAddress () {
+      this.shipToMyAddress = this.hasShippingDetails()
+    },
     checkDefaultShippingMethod () {
       if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
         let shipping = this.shippingMethods.find(item => item.default)

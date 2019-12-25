@@ -3,6 +3,9 @@ import { onlineHelper } from '@vue-storefront/core/helpers'
 import config from 'config'
 
 jest.mock('@vue-storefront/i18n', () => ({ t: jest.fn(str => str) }));
+jest.mock('@vue-storefront/core/lib/storage-manager', () => jest.fn())
+jest.mock('@vue-storefront/core/app', () => jest.fn())
+jest.mock('@vue-storefront/core/lib/multistore', () => jest.fn())
 jest.mock('@vue-storefront/core/helpers', () => ({
   onlineHelper: {
     get isOnline () {
@@ -39,12 +42,12 @@ describe('Cart getters', () => {
         {'code': 'grand_total', 'title': 'Grand Total', 'value': 38.46, 'area': 'footer'}
       ]
     };
-    const wrapper = (getters: any) => getters.getTotals(stateMock);
+    const wrapper = (getters: any) => getters.getTotals(stateMock, getters);
 
     expect(wrapper(cartGetters)).toEqual(stateMock.platformTotalSegments);
   });
 
-  it(`totals returns totals without shipping and payment prices having neither platformTotalSegments 
+  it(`totals returns totals without shipping and payment prices having neither platformTotalSegments
   nor additional prices`, () => {
     const stateMock = {
       cartItems: [
@@ -52,7 +55,11 @@ describe('Cart getters', () => {
         {qty: 2, price_incl_tax: 2}
       ]
     };
-    const wrapper = (getters: any) => getters.getTotals(stateMock);
+    const wrapper = (getters: any) => getters.getTotals(stateMock, {
+      ...getters,
+      getFirstShippingMethod: getters.getFirstShippingMethod(stateMock),
+      getFirstPaymentMethod: getters.getFirstPaymentMethod(stateMock)
+    });
 
     expect(wrapper(cartGetters)).toEqual([
       {'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5},
@@ -72,7 +79,11 @@ describe('Cart getters', () => {
         {qty: 2, price_incl_tax: 2}
       ]
     };
-    const wrapper = (getters: any) => getters.getTotals(stateMock);
+    const wrapper = (getters: any) => getters.getTotals(stateMock, {
+      ...getters,
+      getFirstShippingMethod: getters.getFirstShippingMethod(stateMock),
+      getFirstPaymentMethod: getters.getFirstPaymentMethod(stateMock)
+    });
 
     expect(wrapper(cartGetters)).toEqual([
       {'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5},
@@ -80,7 +91,7 @@ describe('Cart getters', () => {
     ]);
   });
 
-  it(`totals returns totals including shipping and payment prices having these prices in store 
+  it(`totals returns totals including shipping and payment prices having these prices in store
   but no platformTotalSegments`, () => {
     const stateMock = {
       cartItems: [
@@ -96,7 +107,11 @@ describe('Cart getters', () => {
         price_incl_tax: 8
       }
     };
-    const wrapper = (getters: any) => getters.getTotals(stateMock);
+    const wrapper = (getters: any) => getters.getTotals(stateMock, {
+      ...getters,
+      getFirstShippingMethod: getters.getFirstShippingMethod(stateMock),
+      getFirstPaymentMethod: getters.getFirstPaymentMethod(stateMock)
+    });
 
     expect(wrapper(cartGetters)).toEqual([
       {'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5},
@@ -106,7 +121,7 @@ describe('Cart getters', () => {
     ]);
   });
 
-  it(`totals returns totals including first shipping and first payment prices having multiple prices in store 
+  it(`totals returns totals including first shipping and first payment prices having multiple prices in store
   but no platformTotalSegments`, () => {
     const stateMock = {
       cartItems: [
@@ -134,7 +149,11 @@ describe('Cart getters', () => {
         }
       ]
     };
-    const wrapper = (getters: any) => getters.getTotals(stateMock);
+    const wrapper = (getters: any) => getters.getTotals(stateMock, {
+      ...getters,
+      getFirstShippingMethod: getters.getFirstShippingMethod(stateMock),
+      getFirstPaymentMethod: getters.getFirstPaymentMethod(stateMock)
+    });
 
     expect(wrapper(cartGetters)).toEqual([
       {'code': 'subtotal_incl_tax', 'title': 'Subtotal incl. tax', 'value': 5},

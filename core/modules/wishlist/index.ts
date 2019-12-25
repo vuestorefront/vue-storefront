@@ -1,11 +1,10 @@
 import { StorefrontModule } from '@vue-storefront/core/lib/modules'
 import { wishlistStore } from './store'
-import { plugin } from './store/plugin'
+import whishListPersistPlugin from './store/whishListPersistPlugin'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
-export const cacheStorage = StorageManager.init('wishlist')
-
-export const WishlistModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const WishlistModule: StorefrontModule = function ({store}) {
+  StorageManager.init('wishlist')
   store.registerModule('wishlist', wishlistStore)
-  store.subscribe(plugin)
+  store.subscribe(whishListPersistPlugin)
 }

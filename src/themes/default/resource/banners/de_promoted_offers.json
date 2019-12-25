@@ -1,32 +1,32 @@
 {
   "mainBanners": [
-	  {
-	    "title": "Lässige Büro",
-	    "subtitle": "Kollektion",
-	    "image": "/assets/ban1.jpg",
-	    "link": "/frauen/frauen-20"
-	  }
+    {
+      "title": "Lässige Büro",
+      "subtitle": "Kollektion",
+      "image": "/assets/ban1.jpg",
+      "link": "/women/frauen-20"
+    }
   ],
   "smallBanners": [
     {
       "title": "Glänzen Sie mit",
       "subtitle": "Accessoires",
       "image": "/assets/ban2.jpg",
-      "link": "/herren/herren-11"
+      "link": "/men/herren-11"
     },
     {
       "title": "Der Frühling kommt",
       "subtitle": "Hüte",
       "image": "/assets/ban3.jpg",
-      "link": "/gert/gert-3"
+      "link": "/gear/gerat-3"
     }
   ],
   "productBanners": [
-	  {
-	    "title": "Der Frühling kommt",
-	    "subtitle": "Hüte",
-	    "image": "/assets/ban3.jpg",
-	    "link": "/gert/gert-3"
-	  }
+    {
+      "title": "Der Frühling kommt",
+      "subtitle": "Hüte",
+      "image": "/assets/ban3.jpg",
+      "link": "/gear/gerat-3"
+    }
   ]
 }

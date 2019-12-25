@@ -1,10 +1,10 @@
 {
   "name": "vue-storefront",
-  "version": "1.11.0-rc.1",
+  "version": "1.11.0",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
-    "node": ">=8.x"
+    "node": ">=10.x"
   },
   "repository": {
     "type": "git",
@@ -26,27 +26,28 @@
   },
   "homepage": "https://github.com/DivanteLtd/vue-storefront/README.md",
   "scripts": {
+    "static-server": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/static-server.ts",
+    "generate": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/generate.ts",
     "start": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" pm2 start ecosystem.json $PM2_ARGS",
+    "start:inspect": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" node --inspect -r ts-node/register ./core/scripts/server",
     "installer": "node ./core/scripts/installer",
     "installer:ci": "yarn installer --default-config",
     "all": "cross-env NODE_ENV=development node ./core/scripts/all",
     "cache": "node ./core/scripts/cache",
-    "dev": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/entry.ts",
+    "dev": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/server.ts",
     "dev:sw": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" yarn build:sw && yarn dev",
-    "dev:inspect": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" node --inspect -r ts-node/register ./core/scripts/entry",
+    "dev:inspect": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" node --inspect -r ts-node/register ./core/scripts/server",
     "build:sw": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" webpack --config ./core/build/webpack.prod.sw.config.ts --mode production --progress --hide-modules",
     "build:client": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" webpack --config ./core/build/webpack.prod.client.config.ts --mode production --progress --hide-modules",
     "build:server": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" webpack --config ./core/build/webpack.prod.server.config.ts --mode production --progress --hide-modules",
     "build": "rimraf dist && yarn build:client && yarn build:server && yarn build:sw",
     "test:unit": "jest -c test/unit/jest.conf.js",
+    "test:unit:watch": "jest -c test/unit/jest.conf.js --watch",
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
-    "lint": "eslint --ext .js,.vue,.ts core src --fix",
+    "lint": "cross-env NODE_ENV=production  eslint --ext .js,.vue,.ts core src --fix",
     "lerna": "lerna"
   },
-  "pre-commit": [
-    "lint"
-  ],
   "dependencies": {
     "@types/webpack": "^4.4.23",
     "@types/webpack-dev-server": "^3.1.1",
@@ -54,12 +55,15 @@
     "apollo-client": "^2.3.5",
     "apollo-link": "^1.2.2",
     "apollo-link-http": "^1.5.4",
+    "body-scroll-lock": "^2.6.4",
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
     "cross-env": "^3.1.4",
     "dayjs": "^1.8.15",
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
+    "fs-extra": "^8.1.0",
+    "glob": "^7.1.4",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "isomorphic-fetch": "^2.2.1",
@@ -68,6 +72,7 @@
     "magento2-rest-client": "github:DivanteLtd/magento2-rest-client",
     "ms": "^2.1.2",
     "pm2": "^2.10.4",
+    "proxy-polyfill": "^0.3.0",
     "redis-tag-cache": "^1.2.1",
     "reflect-metadata": "^0.1.12",
     "register-service-worker": "^1.5.2",
@@ -78,6 +83,7 @@
     "vue-carousel": "^0.6.9",
     "vue-gtm": "^2.0.0",
     "vue-i18n": "^8.0.0",
+    "vue-lazy-hydration": "^1.0.0-beta.9",
     "vue-lazyload": "^1.2.6",
     "vue-meta": "^1.5.3",
     "vue-no-ssr": "^0.2.2",
@@ -127,18 +133,20 @@
     "file-loader": "^1.1.11",
     "fs-exists-sync": "^0.1.0",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^2.6.0",
     "inquirer": "^3.3.0",
     "is-windows": "^1.0.1",
     "jest": "^24.8.0",
+    "jest-fetch-mock": "^2.1.2",
     "jest-serializer-vue": "^2.0.2",
     "jsonfile": "^4.0.0",
     "lerna": "^3.14.1",
+    "lint-staged": "^8.2.1",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.12.0",
     "phantomjs-prebuilt": "^2.1.10",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "^3.0.0",
-    "pre-commit": "^1.2.2",
     "print-message": "^2.1.0",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.1.0",
@@ -169,13 +177,12 @@
       "last 2 chrome versions",
       "last 2 firefox versions",
       "last 2 edge versions",
-      "IE 10"
+      "> 5%"
     ],
     "production": [
-      ">0.5%",
+      ">5%",
       "last 4 versions",
-      "Firefox ESR",
-      "not ie < 10"
+      "Firefox ESR"
     ]
   },
   "workspaces": [
@@ -183,6 +190,7 @@
     "core/i18n",
     "src/extensions/*",
     "src/modules/*",
+    "src/trace/*",
     "src/themes/*",
     "docs",
     "core/modules/*",

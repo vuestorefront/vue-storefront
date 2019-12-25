@@ -18,7 +18,7 @@
         </button>
       </div>
     </div>
-    <div class="sidebar-menu__container row">
+    <div class="sidebar-menu__container row" ref="container">
       <div class="col-xs-12 h4 serif">
         <ul class="p0 m0 relative sidebar-menu__list" :style="mainListStyles">
           <li
@@ -141,6 +141,7 @@ import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/Si
 import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
 import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {
   components: {
@@ -207,8 +208,12 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.componentLoaded = true
+      this.componentLoaded = true;
+      disableBodyScroll(this.$refs.container)
     })
+  },
+  destroyed () {
+    clearAllBodyScrollLocks()
   },
   methods: {
     login () {
@@ -221,7 +226,7 @@ export default {
       }
     },
     categoryLink (category) {
-      return this.formatCategoryLink(category)
+      return formatCategoryLink(category)
     }
   }
 }
@@ -247,6 +252,7 @@ $color-mine-shaft: color(mine-shaft);
 
   &__container {
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     height: calc(100% - 55px);
   }
 

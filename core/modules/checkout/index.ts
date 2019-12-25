@@ -5,7 +5,7 @@ import { shippingModule } from './store/shipping'
 import * as types from './store/checkout/mutation-types'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
-export const CheckoutModule: StorefrontModule = function (app, store, router, moduleConfig, appConfig) {
+export const CheckoutModule: StorefrontModule = function ({store}) {
   StorageManager.init('checkout')
 
   store.registerModule('shipping', shippingModule)
@@ -24,7 +24,7 @@ export const CheckoutModule: StorefrontModule = function (app, store, router, mo
     }
 
     if (
-      type.endsWith(types.CHECKOUT_SAVE_SHIPPING_DETAILS)
+      type.endsWith(types.CHECKOUT_SAVE_SHIPPING_DETAILS) || type.endsWith(types.CHECKOUT_UPDATE_PROP_VALUE)
     ) {
       StorageManager.get('checkout').setItem('shipping-details', state.checkout.shippingDetails).catch((reason) => {
         console.error(reason) // it doesn't work on SSR
