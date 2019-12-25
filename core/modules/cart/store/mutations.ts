@@ -11,9 +11,7 @@ const mutations: MutationTree<CartState> = {
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
    */
   [types.CART_ADD_ITEM] (state, { product }) {
-    const record = state.cartItems.find(p => {
-      return productsEquals(p, product)
-    })
+    const record = state.cartItems.find(p => productsEquals(p, product))
     if (!record) {
       let item = {
         ...product,
