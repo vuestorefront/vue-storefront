@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/theme-default-amp",
-  "version": "1.10.4",
+  "version": "1.11.0",
   "description": "Default AMP theme for Vue Storefront",
   "main": "index.js",
   "scripts": {

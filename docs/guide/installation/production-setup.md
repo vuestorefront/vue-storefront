@@ -237,7 +237,6 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
     ],
     "multistore": true,
     "de": {
-        "disabled": false,
         "elasticsearch": {
             "httpAuth": "",
             "host": "https://prod.vuestorefront.io/api/catalog",
@@ -245,7 +244,6 @@ Please find the key sections of the `vue-storefront/config/local.json` file desc
         }
     },
     "it": {
-        "disabled": false,
         "elasticsearch": {
             "httpAuth": "",
             "host": "https://prod.vuestorefront.io/api/catalog",
@@ -389,7 +387,7 @@ cd vue-storefront
 yarn start
 ```
 
-Both applications use [`PM2` process manager](https://pm2.io/runtime) in production mode (`start` commands) to manage and respawn the node.js processes when needed.
+Both applications use [`PM2` process manager](https://pm2.keymetrics.io/docs/usage/process-management/) in production mode (`start` commands) to manage and respawn the node.js processes when needed.
 
 ## Production setup - using Docker / Kubernetes
 

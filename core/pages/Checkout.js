@@ -3,7 +3,7 @@ import i18n from '@vue-storefront/i18n'
 import config from 'config'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { mapGetters } from 'vuex'
-
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { isServer } from '@vue-storefront/core/helpers'
@@ -45,8 +45,9 @@ export default {
     })
   },
   beforeMount () {
+    this.$store.dispatch('checkout/load')
     this.$store.dispatch('checkout/setModifiedAt', Date.now())
-    // TO-DO: Use one event with name as apram
+    // TODO: Use one event with name as apram
     this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
     this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
@@ -71,7 +72,7 @@ export default {
           for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
             if (product.onlineStockCheckid) {
               checkPromises.push(new Promise((resolve, reject) => {
-                Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
+                StorageManager.get('syncTasks').getItem(product.onlineStockCheckid, (err, item) => {
                   if (err || !item) {
                     if (err) Logger.error(err)()
                     resolve(null)
@@ -136,6 +137,7 @@ export default {
       this.shippingMethod = payload
     },
     onBeforeShippingMethods (country) {
+      this.$store.dispatch('checkout/updatePropValue', ['country', country])
       this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
       this.$forceUpdate()
     },
@@ -261,7 +263,7 @@ export default {
     prepareOrder () {
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
-        cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
+        cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {
           billingAddress: {

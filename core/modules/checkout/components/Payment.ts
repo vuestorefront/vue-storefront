@@ -15,7 +15,7 @@ export const Payment = {
     return {
       isFilled: false,
       countries: Countries,
-      payment: this.$store.state.checkout.paymentDetails,
+      payment: this.$store.getters['checkout/getPaymentDetails'],
       generateInvoice: false,
       sendToShippingAddress: false,
       sendToBillingAddress: false
@@ -27,7 +27,8 @@ export const Payment = {
       shippingDetails: (state: RootState) => state.checkout.shippingDetails
     }),
     ...mapGetters({
-      paymentMethods: 'payment/paymentMethods',
+      paymentMethods: 'checkout/getPaymentMethods',
+      paymentDetails: 'checkout/getPaymentDetails',
       isVirtualCart: 'cart/isVirtualCart'
     })
   },
@@ -119,7 +120,7 @@ export const Payment = {
         }
       }
       if (!initialized) {
-        this.payment = {
+        this.payment = this.paymentDetails || {
           firstName: '',
           lastName: '',
           company: '',
@@ -143,7 +144,7 @@ export const Payment = {
       }
 
       if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
-        this.payment = this.$store.state.checkout.paymentDetails
+        this.payment = this.paymentDetails
       }
     },
     copyShippingToBillingAddress () {
@@ -187,7 +188,7 @@ export const Payment = {
       }
 
       if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
-        this.payment = this.$store.state.checkout.paymentDetails
+        this.payment = this.paymentDetails
         this.generateInvoice = false
       }
     },
@@ -232,6 +233,10 @@ export const Payment = {
 
       // Let anyone listening know that we've changed payment method, usually a payment extension.
       this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
+    },
+    changeCountry () {
+      this.$store.dispatch('checkout/updatePaymentDetails', { country: this.payment.country })
+      this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
     }
   }
 }

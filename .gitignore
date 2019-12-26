@@ -23,7 +23,7 @@ core/resource/i18n/en-US.json
 core/resource/i18n/es-ES.json
 core/resource/i18n/fr-FR.json
 core/resource/i18n/it-IT.json
-core/resource/i18n/jp-JP.json
+core/resource/i18n/ja-JP.json
 core/resource/i18n/multistoreLanguages.json
 core/resource/i18n/nl-NL.json
 core/resource/i18n/pl-PL.json
@@ -33,3 +33,4 @@ core/resource/i18n/ru-RU.json
 
 #unit testing
 /test/unit/coverage
+/static

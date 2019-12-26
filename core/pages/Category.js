@@ -28,11 +28,12 @@ export default {
   },
   computed: {
     ...mapGetters('category', ['getCurrentCategory', 'getCurrentCategoryProductQuery', 'getAllCategoryFilters', 'getCategoryBreadcrumbs', 'getCurrentCategoryPath']),
+    ...mapGetters('tax', ['getIsUserGroupedTaxActive']),
     products () {
-      return this.$store.state.product.list.items
+      return this.$store.getters['product/list']
     },
     productsCounter () {
-      return this.$store.state.product.list.items ? this.$store.state.product.list.items.length : 0
+      return this.products ? this.products.length : 0
     },
     productsTotal () {
       return this.$store.state.product.list.total
@@ -41,7 +42,7 @@ export default {
       return this.getCurrentCategoryProductQuery
     },
     isCategoryEmpty () {
-      return (!(this.$store.state.product.list.items) || this.$store.state.product.list.items.length === 0)
+      return (!(this.products) || this.products.length === 0)
     },
     category () {
       return this.getCurrentCategory
@@ -127,7 +128,7 @@ export default {
   beforeMount () {
     this.$bus.$on('filter-changed-category', this.onFilterChanged)
     this.$bus.$on('list-change-sort', this.onSortOrderChanged)
-    if (config.usePriceTiers) {
+    if (config.usePriceTiers || this.getIsUserGroupedTaxActive) {
       this.$bus.$on('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$on('user-after-logout', this.onUserPricesRefreshed)
     }
@@ -135,7 +136,7 @@ export default {
   beforeDestroy () {
     this.$bus.$off('list-change-sort', this.onSortOrderChanged)
     this.$bus.$off('filter-changed-category', this.onFilterChanged)
-    if (config.usePriceTiers) {
+    if (config.usePriceTiers || this.getIsUserGroupedTaxActive) {
       this.$bus.$off('user-after-loggedin', this.onUserPricesRefreshed)
       this.$bus.$off('user-after-logout', this.onUserPricesRefreshed)
     }
