@@ -1,10 +1,10 @@
 {
   "name": "vue-storefront",
-  "version": "1.11.0-rc.2",
+  "version": "1.11.0",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
-    "node": ">=8.x"
+    "node": ">=10.x"
   },
   "repository": {
     "type": "git",

@@ -28,8 +28,11 @@ jest.mock('@vue-storefront/core/lib/multistore', () => ({
   }))
 }));
 jest.mock('@vue-storefront/core/helpers', () => ({
-  get isServer() {
+  get isServer () {
     return false
+  },
+  onlineHelper: {
+    isOnline: true
   }
 }));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
@@ -304,14 +307,11 @@ describe('User actions', () => {
         resultCode: 200,
         result: 200
       };
-      (UserService.updateProfile as jest.Mock).mockImplementation(async () =>
-        (responseOb)
-      );
       const contextMock = {
         dispatch: jest.fn()
       }
 
-      await (userActions as any).update(contextMock, data.user)
+      await (userActions as any).handleUpdateProfile(contextMock, responseOb)
 
       expect(contextMock.dispatch).toHaveBeenCalledWith('user/setCurrentUser', responseOb.result, {root: true})
     })
@@ -529,5 +529,4 @@ describe('User actions', () => {
       expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'getOrdersHistory', {refresh, useCache})
     })
   })
-
 })

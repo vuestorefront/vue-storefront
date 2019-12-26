@@ -89,6 +89,16 @@ If by some reasons you wan't to have the `localStorage` back on for `Products by
 - In `storeView` config there is no more `disabled` flag for specific language config. Links for other languages will be displayed if specific `storeView` config exist.
 - Categories can be filtered globally, to never be loaded, by setting `entities.category.filterFields` in local.json, e.g. `"filterFields": { "is_active": true }`.
 - Categories can be filtered in the Breadcrumbs, by setting `entities.category.breadcrumbFilterFields` in local.json, e.g. `"breadcrumbFilterFields": { "include_in_menu": true }`.
+## 1.10 -> 1.10.4
+
+We've decreased the `localStorage` quota usage + error handling by introducing new config variables:
+
+- `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`);
+- `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway);
+- `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW)
+
+If by some reasons you wan't to have the `localStorage` back on for `Products by SKU`, `Url Routes` and `SyncTasks` - please juset set these variables back to `false` in your `config/local.json`.
+
 
 ## 1.9 -> 1.10
 - Event `application-after-init` is now emitted by event bus instead of root Vue instance (app), so you need to listen to `Vue.prototype.$bus` (`EventBus.$on()`) now
