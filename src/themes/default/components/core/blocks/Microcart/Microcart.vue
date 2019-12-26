@@ -49,7 +49,7 @@
       {{ $t('to find something beautiful for You!') }}
     </div>
     <ul v-if="productsInCart.length" class="bg-cl-primary m0 px40 pb40 products">
-      <product v-for="product in productsInCart" :key="product.checksum || `${product.sku}-${getRandomNumber()}`" :product="product" />
+      <product v-for="product in productsInCart" :key="product.checksum" :product="product" />
     </ul>
     <div v-if="productsInCart.length" class="summary px40 cl-accent serif">
       <h3 class="m0 pt40 mb30 weight-400 summary-heading">
@@ -233,9 +233,6 @@ export default {
         },
         hasNoTimeout: true
       })
-    },
-    getRandomNumber () {
-      return Math.round(Math.random() * 10000000)
     }
   }
 }

@@ -13,6 +13,11 @@ const getDataToHash = (product: CartItem): any => {
     return Array.isArray(bundle_options) ? bundle_options : Object.values(bundle_options)
   }
 
+  if (extension_attributes.custom_options) {
+    const { custom_options } = extension_attributes
+    return Array.isArray(custom_options) ? custom_options : Object.values(custom_options)
+  }
+
   return product.product_option
 }
 
