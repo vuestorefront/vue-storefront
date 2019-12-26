@@ -122,7 +122,7 @@
 
     &--height {
       .product-image__thumb {
-        height: 100%;
+        /*height: 100%;*/ //Turned OFF by Dan -> larger photos == better
       }
     }
 

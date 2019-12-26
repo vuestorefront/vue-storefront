@@ -7,28 +7,34 @@
       "link": "/p/DA005/sport-gray-set",
       "category": [
         {
+          "path": "get-4k-157",
           "category_id": 157,
           "name": "Get 4K",
-          "slug": "get-4k",
-          "path": "get-4k"
+          "slug": "get-4k-157"
         },
         {
+          "path": "products-8-159",
           "category_id": 159,
           "name": "products 8",
-          "slug": "products-8",
-          "path": "products-8"
+          "slug": "products-8-159"
         },
         {
+          "path": "dev3-153",
           "category_id": 153,
           "name": "Dev3",
-          "slug": "dev3",
-          "path": "dev3"
+          "slug": "dev3-153"
         },
         {
+          "path": "dev-five-155",
           "category_id": 155,
           "name": "Dev five",
-          "slug": "dev-five",
-          "path": "dev-five"
+          "slug": "dev-five-155"
+        },
+        {
+          "path": "5-products-26-a-158",
+          "category_id": 158,
+          "name": "5 Products 2.6-a",
+          "slug": "5-products-26-a-158"
         }
       ]
     },
@@ -39,31 +45,123 @@
       "link": "/p/DA001/stripe-pants",
       "category": [
         {
+          "path": "products-8-159",
           "category_id": 159,
           "name": "products 8",
-          "slug": "products-8",
-          "path": "products-8"
+          "slug": "products-8-159"
         },
         {
+          "path": "dev3-153",
           "category_id": 153,
           "name": "Dev3",
-          "slug": "dev3",
-          "path": "dev3"
+          "slug": "dev3-153"
+        },
+        {
+          "path": "5-products-26-a-158",
+          "category_id": 158,
+          "name": "5 Products 2.6-a",
+          "slug": "5-products-26-a-158"
+        }
+      ]
+    },
+    {
+      "title": "Striped Leather Leggings",
+      "subtitle": "100% Polymer",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd5e1dbbcbcf09e4814471.jpg",
+      "link": "/p/DA008/striped-leather-leggings",
+      "category": [
+        {
+          "path": "get-4k-157",
+          "category_id": 157,
+          "name": "Get 4K",
+          "slug": "get-4k-157"
+        },
+        {
+          "path": "dev-five-155",
+          "category_id": 155,
+          "name": "Dev five",
+          "slug": "dev-five-155"
+        },
+        {
+          "path": "category-25-3-156",
+          "category_id": 156,
+          "name": "Category 2.5-3",
+          "slug": "category-25-3-156"
+        },
+        {
+          "path": "products-8-159",
+          "category_id": 159,
+          "name": "products 8",
+          "slug": "products-8-159"
+        },
+        {
+          "path": "5-products-26-a-158",
+          "category_id": 158,
+          "name": "5 Products 2.6-a",
+          "slug": "5-products-26-a-158"
+        }
+      ]
+    },
+    {
+      "title": "Jeans 2.5-3",
+      "subtitle": "Pure Cotton 2020 New",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4c7364286f127f422fb07.jpg",
+      "link": "/p/DA009/jeans-2-5-3",
+      "category": [
+        {
+          "path": "5-products-26-a-158",
+          "category_id": 158,
+          "name": "5 Products 2.6-a",
+          "slug": "5-products-26-a-158"
+        },
+        {
+          "path": "dev-five-155",
+          "category_id": 155,
+          "name": "Dev five",
+          "slug": "dev-five-155"
+        }
+      ]
+    },
+    {
+      "title": "Posh Orange",
+      "subtitle": "Nice and soft :) Dress in my favourite color",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd51a0fdf3ee2ba4835967.jpg",
+      "link": "/p/DA007/posh-orange",
+      "category": [
+        {
+          "category_id": 158,
+          "name": "5 Products 2.6-a",
+          "slug": "5-products-26-a-158",
+          "path": "5-products-26-a-158"
+        }
+      ]
+    },
+    {
+      "title": "Gray Sweater",
+      "subtitle": "stretchy gray sweater, everyday use, wool and elastane",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd266fc1be9c0037d8096d.jpg",
+      "link": "/p/DA002/gray-sweater",
+      "category": [
+        {
+          "path": "products-8-159",
+          "category_id": 159,
+          "name": "products 8",
+          "slug": "products-8-159"
         }
       ]
     }
   ],
   "mainBanners": [
     {
-      "title": "Dev five",
-      "subtitle": "sub 4k",
+      "title": "5 Products 2.6-a",
+      "subtitle": "Nice! :)",
       "title_color": "#ffffff",
       "subtitle_color": "#ffffff",
-      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191221-5dfe57204c894719806d005b.jpg",
-      "link": "/c/dev-five",
+      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00d4200203fa4d34344290.jpg",
+      "link": "/c/5-products-26-a-158",
       "storeCode": "dev",
-      "productCount": 5,
-      "category_id": 155
+      "productCount": 2,
+      "category_id": 158
     }
   ],
   "smallBanners": [
@@ -73,21 +171,21 @@
       "title_color": "#ffffff",
       "subtitle_color": "#ffffff",
       "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00db027abaf93584b98b8c.jpg",
-      "link": "/c/products-8",
+      "link": "/c/products-8-159",
       "storeCode": "dev",
-      "productCount": 8,
+      "productCount": 7,
       "category_id": 159
     },
     {
-      "title": "5 Products 2.6-a",
-      "subtitle": "Nice! :)",
+      "title": "Get 4K",
+      "subtitle": "now",
       "title_color": "#ffffff",
       "subtitle_color": "#ffffff",
-      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00d4200203fa4d34344290.jpg",
-      "link": "/c/5-products-2-6-a",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191021-5dae3214717c1338c0d9859c.jpg",
+      "link": "/c/get-4k-157",
       "storeCode": "dev",
-      "productCount": 4,
-      "category_id": 158
+      "productCount": 3,
+      "category_id": 157
     }
   ]
 }

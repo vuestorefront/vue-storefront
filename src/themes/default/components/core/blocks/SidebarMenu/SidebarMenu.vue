@@ -65,34 +65,32 @@
               :parent-path="category.url_path"
             />
           </li>
-
-          <!--          // Commented out by Dan, since we dont have content for it-->
-          <!--          <li-->
-          <!--            v-if="isCurrentMenuShowed"-->
-          <!--            @click="closeMenu"-->
-          <!--            class="bg-cl-secondary"-->
-          <!--          >-->
-          <!--            <router-link-->
-          <!--              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"-->
-          <!--              :to="localizedRoute('/sale')"-->
-          <!--              exact-->
-          <!--            >-->
-          <!--              {{ $t('Sale') }}-->
-          <!--            </router-link>-->
-          <!--          </li>-->
-          <!--          <li-->
-          <!--            v-if="isCurrentMenuShowed"-->
-          <!--            @click="closeMenu"-->
-          <!--            class="bg-cl-secondary"-->
-          <!--          >-->
-          <!--            <router-link-->
-          <!--              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"-->
-          <!--              :to="localizedRoute('/magazine')"-->
-          <!--              exact-->
-          <!--            >-->
-          <!--              {{ $t('Magazine') }}-->
-          <!--            </router-link>-->
-          <!--          </li>-->
+          <li
+            v-if="isCurrentMenuShowed"
+            @click="closeMenu"
+            class="bg-cl-secondary"
+          >
+            <router-link
+              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
+              :to="localizedRoute('/sale')"
+              exact
+            >
+              {{ $t('Sale') }}
+            </router-link>
+          </li>
+          <li
+            v-if="isCurrentMenuShowed"
+            @click="closeMenu"
+            class="bg-cl-secondary"
+          >
+            <router-link
+              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
+              :to="localizedRoute('/magazine')"
+              exact
+            >
+              {{ $t('Magazine') }}
+            </router-link>
+          </li>
           <li
             v-if="compareIsActive && isCurrentMenuShowed"
             @click="closeMenu"
@@ -137,15 +135,15 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
-  import i18n from '@vue-storefront/i18n'
-  import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu'
-  import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
-  import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
-  import {formatCategoryLink} from '@vue-storefront/core/modules/url/helpers'
-  import {clearAllBodyScrollLocks, disableBodyScroll} from 'body-scroll-lock'
+import { mapState } from 'vuex'
+import i18n from '@vue-storefront/i18n'
+import SidebarMenu from '@vue-storefront/core/compatibility/components/blocks/SidebarMenu/SidebarMenu'
+import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
+import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
-  export default {
+export default {
   components: {
     SubCategory,
     SubBtn

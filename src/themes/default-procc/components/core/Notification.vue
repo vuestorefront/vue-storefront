@@ -104,6 +104,7 @@ $color-action: color(black);
 
   .notification-action {
     background: rgba($color-action, .2);
+    margin-left: auto; // Added BY Dan -> all success buttons need to be on the right side
   }
 
   #notificationAction2 {

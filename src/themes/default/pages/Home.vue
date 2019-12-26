@@ -8,7 +8,7 @@
       <div>
         <header class="col-md-12">
           <h2 class="align-center cl-accent">
-            {{ $t('New Product Arrivals') }}
+            {{ $t('Everything new') }}
           </h2>
         </header>
       </div>
@@ -35,25 +35,26 @@
 </template>
 
 <script>
-  // query constructor
-  import {isServer, onlineHelper} from '@vue-storefront/core/helpers'
-  import LazyHydrate from 'vue-lazy-hydration'
-  // Core pages
-  import Home from '@vue-storefront/core/pages/Home'
-  // Theme core components
-  import ProductListing from 'theme/components/core/ProductListing'
-  import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
-  // Theme local components
-  import Onboard from 'theme/components/theme/blocks/Home/Onboard'
-  import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
-  import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
-  import {Logger} from '@vue-storefront/core/lib/logger'
-  import {mapGetters} from 'vuex'
-  import config from 'config'
-  import {registerModule} from '@vue-storefront/core/lib/modules'
-  import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
+// query constructor
+import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
+import LazyHydrate from 'vue-lazy-hydration'
 
-  export default {
+// Core pages
+import Home from '@vue-storefront/core/pages/Home'
+// Theme core components
+import ProductListing from 'theme/components/core/ProductListing'
+import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
+// Theme local components
+import Onboard from 'theme/components/theme/blocks/Home/Onboard'
+import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
+import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
+import {Logger} from '@vue-storefront/core/lib/logger'
+import {mapGetters} from 'vuex'
+import config from 'config'
+import {registerModule} from '@vue-storefront/core/lib/modules'
+import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
+
+export default {
   data () {
     return {
       loading: true
@@ -88,7 +89,7 @@
   },
   async beforeMount () {
     if (this.$store.state.__DEMO_MODE__) {
-      const onboardingClaim = await this.$store.dispatch('claims/check', {claimCode: 'onboardingAccepted'});
+      const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' });
       if (!onboardingClaim) { // show onboarding info
         this.$bus.$emit('modal-toggle', 'modal-onboard');
         this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })

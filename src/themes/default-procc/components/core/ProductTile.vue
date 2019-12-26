@@ -231,6 +231,13 @@ $color-white: color(white);
   height: 100%;
   max-height: 300px;
 
+  & > .card{
+    padding: 0!important; // Added By Dan to maximise photos
+    & > .card-body{
+      padding: 0!important; // Added By Dan to maximise photos
+    }
+  }
+
   &__thumb {
     padding-bottom: calc(143.88% / (164.5 / 100));
     @media screen and (min-width: 768px) {
