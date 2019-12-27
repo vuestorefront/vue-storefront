@@ -5,8 +5,8 @@ module.exports = {
     'pre-commit': tasks([
       'lint-staged'
     ]),
-    'pre-push': tasks([
-      'yarn test:unit'
-    ])
+    // 'pre-push': tasks([
+    //   'yarn test:unit'
+    // ])
   }
 }
