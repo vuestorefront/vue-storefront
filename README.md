@@ -4,7 +4,7 @@
 
 <a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a>
 ![version](https://img.shields.io/badge/node-v10.x-blue.svg)
-![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg)
+<a href="https://github.com/DivanteLtd/vue-storefront"><img src="https://img.shields.io/badge/stable%20branch-master-blue.svg" alt="Branch stable"></a>
 ![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
 <a href="https://slack.vuestorefront.io">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
 
