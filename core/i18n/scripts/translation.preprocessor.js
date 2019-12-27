@@ -30,7 +30,7 @@ module.exports = function (csvDirectories, config = null) {
 
       if (extName === '.csv') {
         const fileContent = fs.readFileSync(fullFileName, 'utf8')
-        if (languages.indexOf(baseName) === -1) {
+        if (languages.indexOf(baseName) === -1 && currentLocales.indexOf(baseName) !== -1) {
           languages.push(baseName)
         }
         console.debug(`Processing translation file: ${fullFileName}`)
