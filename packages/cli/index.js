@@ -13,6 +13,7 @@ switch (command) {
   case '--help':
     require('./scripts/manual.js')()
     break;
+  case '-v':
   case '--version':
     console.log('v' + require('../package.json').version)
     break;
