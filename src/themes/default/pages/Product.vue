@@ -133,7 +133,7 @@
               :max-quantity="maxQuantity"
               :loading="isStockInfoLoading"
               :is-simple-or-configurable="isSimpleOrConfigurable"
-              show-quantity
+              :show-quantity="showProductQuantity"
               @error="handleQuantityError"
             />
             <div class="row m0">
@@ -272,7 +272,8 @@ export default {
       maxQuantity: 0,
       quantityError: false,
       isStockInfoLoading: false,
-      hasAttributesLoaded: false
+      hasAttributesLoaded: false,
+      manageStock: true
     }
   },
   computed: {
@@ -332,7 +333,14 @@ export default {
     isAddToCartDisabled () {
       return this.quantityError ||
         this.isStockInfoLoading ||
-        (this.isOnline && !this.maxQuantity && this.isSimpleOrConfigurable)
+        (
+          this.isOnline &&
+          (!this.maxQuantity && this.manageStock ) &&
+          this.isSimpleOrConfigurable
+        )
+    },
+    showProductQuantity () {
+      return this.manageStock
     }
   },
   async mounted () {
@@ -409,6 +417,7 @@ export default {
           qty: this.getCurrentProduct.qty
         })
         this.maxQuantity = res.qty
+        this.manageStock = res.manage_stock
       } finally {
         this.isStockInfoLoading = false
       }
