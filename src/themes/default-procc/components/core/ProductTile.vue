@@ -3,18 +3,18 @@
     <div class="product__icons">
       <AddToWishlist :product="product">
         <div
+          class="product__icon"
           :class="{'product__icon--active': isOnWishlist }"
           :title="isOnWishlist ? $t('Remove') : $t('Add to favorite') "
-          class="product__icon"
         >
           <i class="material-icons">{{ favoriteIcon }}</i>
         </div>
       </AddToWishlist>
       <AddToCompare :product="product">
         <div
+          class="product__icon"
           :class="{'product__icon--active':isOnCompare } "
           :title="isOnCompare ? $t('Remove from compare') : $t('Add to compare')"
-          class="product__icon"
         >
           <i class="material-icons">compare</i>
         </div>
@@ -39,15 +39,15 @@
               height="100"
             >
           </div>
-          <div class="card-body">
+<!--          <div class="card-body">-->
             <product-image
-              :calc-ratio="false"
+              class="product-cover__thumb"
               :image="thumbnailObj"
               :alt="product.name | htmlDecode"
-              class="product-cover__thumb"
+              :calc-ratio="false"
               data-testid="productImage"
             />
-          </div>
+<!--          </div>-->
         </div>
       </div>
 
@@ -74,18 +74,19 @@
 </template>
 
 <script>
-  import rootStore from '@vue-storefront/core/store'
-  import {ProductTile} from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
-  import config from 'config'
-  import ProductImage from './ProductImage'
-  import {mapGetters} from 'vuex'
-  import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
-  import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
-  import {IsOnWishlist} from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
-  import {IsOnCompare} from '@vue-storefront/core/modules/compare/components/IsOnCompare'
+import rootStore from '@vue-storefront/core/store'
+import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
+import config from 'config'
+import ProductImage from './ProductImage'
+import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
+import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
+import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
+import { IsOnCompare } from '@vue-storefront/core/modules/compare/components/IsOnCompare'
 
-  export default {
-    mixins: [ProductTile, IsOnWishlist, IsOnCompare],
+import {mapGetters} from 'vuex'
+
+export default {
+  mixins: [ProductTile, IsOnWishlist, IsOnCompare],
   components: {
     ProductImage,
     AddToWishlist,
@@ -116,7 +117,7 @@
         loading: this.thumbnail
       }
     },
-    favoriteIcon() {
+    favoriteIcon () {
       return this.isOnWishlist ? 'favorite' : 'favorite_border'
     }
   },
@@ -126,7 +127,7 @@
         Object.assign(this.product, product)
       }
     },
-    visibilityChanged(isVisible) {
+    visibilityChanged (isVisible, entry) {
       if (
         isVisible &&
         config.products.configurableChildrenStockPrefetchDynamic &&
@@ -143,7 +144,7 @@
           }
         }
         if (skus.length > 0) {
-          rootStore.dispatch('stock/list', {skus: skus}) // store it in the cache
+          rootStore.dispatch('stock/list', { skus: skus }) // store it in the cache
         }
       }
     }

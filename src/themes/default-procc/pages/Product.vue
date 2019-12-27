@@ -228,21 +228,21 @@
     <!--    </section>-->
     <lazy-hydrate when-idle>
       <reviews
-        :product-id="getOriginalProduct.id"
         :product-name="getOriginalProduct.name"
+        :product-id="getOriginalProduct.id"
         v-show="isOnline"
       />
     </lazy-hydrate>
     <lazy-hydrate when-idle>
-      <related-products :heading="$t('We found other products you might like')" type="upsell"/>
+      <related-products type="upsell" :heading="$t('We found other products you might like')" />
     </lazy-hydrate>
     <lazy-hydrate when-idle>
-      <promoted-offers single-banner/>
+      <promoted-offers single-banner />
     </lazy-hydrate>
     <lazy-hydrate when-idle>
-      <related-products type="related"/>
+      <related-products type="related" />
     </lazy-hydrate>
-    <SizeGuide/>
+    <SizeGuide />
   </div>
 </template>
 
@@ -293,7 +293,7 @@
   import _ from 'lodash'
   import currencyInfo from '../assets/js/currency_info.js'
 
-  export default {
+export default {
   components: {
     'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
     AddToCart,
@@ -324,12 +324,12 @@
     BaseInput,
     BaseInputNumber
   },
-    mixins: [ProductOption],
-    directives: {focusClean},
-    beforeCreate() {
-      registerModule(ReviewModule);
-      registerModule(RecentlyViewedModule)
-    },
+  mixins: [ProductOption],
+  directives: { focusClean },
+  beforeCreate () {
+    registerModule(ReviewModule);
+    registerModule(RecentlyViewedModule)
+  },
   data () {
     return {
       detailsOpen: false,
@@ -364,21 +364,21 @@
       getOriginalProduct: 'product/getOriginalProduct',
       attributesByCode: 'attribute/attributeListByCode'
     }),
-    getOptionLabel() {
+    getOptionLabel () {
       return (option) => {
         const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase();
         return this.getCurrentProductConfiguration[configName] ? this.getCurrentProductConfiguration[configName].label : configName
       }
     },
-    isOnline(value) {
+    isOnline (value) {
       return onlineHelper.isOnline
     },
-    structuredData() {
+    structuredData () {
       return {
         availability: this.getCurrentProduct.stock && this.getCurrentProduct.stock.is_in_stock ? 'InStock' : 'OutOfStock'
       }
     },
-    getProductOptions() {
+    getProductOptions () {
       if (
         this.getCurrentProduct.errors &&
         Object.keys(this.getCurrentProduct.errors).length &&
@@ -388,64 +388,59 @@
       }
       return this.getCurrentProduct.configurable_options
     },
-    getOfflineImage() {
+    getOfflineImage () {
       return {
         src: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height),
         error: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height),
         loading: this.getThumbnail(this.getCurrentProduct.image, config.products.thumbnails.width, config.products.thumbnails.height)
       }
     },
-    getCustomAttributes() {
+    getCustomAttributes () {
       return Object.values(this.attributesByCode).filter(a => {
         return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
-      }).sort((a, b) => {
-        return a.attribute_id > b.attribute_id
-      })
+      }).sort((a, b) => { return a.attribute_id > b.attribute_id })
     },
-    getAvailableFilters() {
+    getAvailableFilters () {
       return getAvailableFiltersByProduct(this.getCurrentProduct)
     },
-    getSelectedFilters() {
+    getSelectedFilters () {
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
-    isSimpleOrConfigurable() {
+    isSimpleOrConfigurable () {
       return ['simple', 'configurable'].includes(this.getCurrentProduct.type_id)
     },
-    isAddToCartDisabled() {
+    isAddToCartDisabled () {
       return this.quantityError ||
         this.isStockInfoLoading ||
         (this.isOnline && !this.maxQuantity && this.isSimpleOrConfigurable)
     }
   },
-    async mounted() {
-      await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
-    },
-    async asyncData({store, route}) {
-      const product = await store.dispatch('product/loadProduct', {
-        parentSku: route.params.parentSku,
-        childSku: route && route.params && route.params.childSku ? route.params.childSku : null
-      });
-      const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', {product});
-      if (isServer) await loadBreadcrumbsPromise;
-      catalogHooksExecutors.productPageVisited(product)
-    },
-    beforeRouteEnter(to, from, next) {
-      if (isServer) {
-        next()
-      } else {
-        next((vm) => {
-          vm.getQuantity()
-        })
-      }
-    },
-    watch: {
-      isOnline: {
-        handler(isOnline) {
-          if (isOnline) {
-            this.getQuantity()
-          }
+  async mounted () {
+    await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
+  },
+  async asyncData ({ store, route }) {
+    const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null });
+    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product });
+    if (isServer) await loadBreadcrumbsPromise;
+    catalogHooksExecutors.productPageVisited(product)
+  },
+  beforeRouteEnter (to, from, next) {
+    if (isServer) {
+      next()
+    } else {
+      next((vm) => {
+        vm.getQuantity()
+      })
+    }
+  },
+  watch: {
+    isOnline: {
+      handler (isOnline) {
+        if (isOnline) {
+          this.getQuantity()
         }
       }
+    }
   },
   methods: {
     getDeliveryPolicy() {
@@ -481,44 +476,44 @@
     openSizeGuide() {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
     },
-    showDetails(event) {
+    showDetails (event) {
       this.detailsOpen = true;
       event.target.classList.add('hidden')
     },
-    notifyOutStock() {
+    notifyOutStock () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: this.$t(
           'The product is out of stock and cannot be added to the cart!'
         ),
-        action1: {label: this.$t('OK')}
+        action1: { label: this.$t('OK') }
       })
     },
-    notifyWrongAttributes() {
+    notifyWrongAttributes () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
         message: this.$t(
           'No such configuration for the product. Please do choose another combination of attributes.'
         ),
-        action1: {label: this.$t('OK')}
+        action1: { label: this.$t('OK') }
       })
     },
-    changeFilter(variant) {
+    changeFilter (variant) {
       this.$bus.$emit(
         'filter-changed-product',
-        Object.assign({attribute_code: variant.type}, variant)
+        Object.assign({ attribute_code: variant.type }, variant)
       );
       this.getQuantity()
     },
-    openSizeGuide() {
+    openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
     },
-    isOptionAvailable(option) { // check if the option is available
+    isOptionAvailable (option) { // check if the option is available
       const currentConfig = Object.assign({}, this.getCurrentProductConfiguration);
       currentConfig[option.type] = option;
-      return isOptionAvailableAsync(this.$store, {product: this.getCurrentProduct, configuration: currentConfig})
+      return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
     },
-    async getQuantity() {
+    async getQuantity () {
       if (this.isStockInfoLoading) return; // stock info is already loading
       this.isStockInfoLoading = true;
       try {
@@ -531,34 +526,29 @@
         this.isStockInfoLoading = false
       }
     },
-    handleQuantityError(error) {
+    handleQuantityError (error) {
       this.quantityError = error
     }
   },
-    metaInfo() {
-      const storeView = currentStoreView();
-      return {
-        link: [
-          {
-            rel: 'amphtml',
-            href: this.$router.resolve(localizedRoute({
-              name: this.getCurrentProduct.type_id + '-product-amp',
-              params: {
-                parentSku: this.getCurrentProduct.parentSku ? this.getCurrentProduct.parentSku : this.getCurrentProduct.sku,
-                slug: this.getCurrentProduct.slug,
-                childSku: this.getCurrentProduct.sku
-              }
-            }, storeView.storeCode)).href
-          }
-        ],
-        title: htmlDecode(this.getCurrentProduct.meta_title || this.getCurrentProduct.name),
-        meta: this.getCurrentProduct.meta_description ? [{
-          vmid: 'description',
-          name: 'description',
-          content: htmlDecode(this.getCurrentProduct.meta_description)
-        }] : []
-      }
-    },
+  metaInfo () {
+    const storeView = currentStoreView();
+    return {
+      link: [
+        { rel: 'amphtml',
+          href: this.$router.resolve(localizedRoute({
+            name: this.getCurrentProduct.type_id + '-product-amp',
+            params: {
+              parentSku: this.getCurrentProduct.parentSku ? this.getCurrentProduct.parentSku : this.getCurrentProduct.sku,
+              slug: this.getCurrentProduct.slug,
+              childSku: this.getCurrentProduct.sku
+            }
+          }, storeView.storeCode)).href
+        }
+      ],
+      title: htmlDecode(this.getCurrentProduct.meta_title || this.getCurrentProduct.name),
+      meta: this.getCurrentProduct.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.getCurrentProduct.meta_description) }] : []
+    }
+  },
   validations: {
     product: {
       qty: {

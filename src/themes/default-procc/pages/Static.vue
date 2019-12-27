@@ -2,7 +2,7 @@
   <div>
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :active-route="$props.title" :routes="[]" :with-homepage="true"/>
+        <breadcrumbs :with-homepage="true" :routes="[]" :active-route="$props.title" />
         <h2 class="fs-big">
           {{ $props.title }}
         </h2>
@@ -31,11 +31,14 @@
 </template>
 
 <script>
-  import i18n from '@vue-storefront/i18n'
-  import Breadcrumbs from 'theme/components/core/Breadcrumbs'
-  import StaticExample from 'theme/components/theme/blocks/Static/Example'
+import i18n from '@vue-storefront/i18n'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs'
+import StaticExample from 'theme/components/theme/blocks/Static/Example'
+import StaticShortExample from 'theme/components/theme/blocks/Static/Short'
+import { getPathForStaticPage } from 'theme/helpers'
+import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 
-  export default {
+export default {
   components: {
     Breadcrumbs
   },

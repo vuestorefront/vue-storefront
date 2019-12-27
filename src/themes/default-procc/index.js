@@ -1,25 +1,26 @@
-import {setupMultistoreRoutes} from '@vue-storefront/core/lib/multistore'
+import { setupMultistoreRoutes } from '@vue-storefront/core/lib/multistore'
 import App from './App.vue'
 import routes from './router'
 import Vue from 'vue'
 import VueProgressBar from 'vue-progressbar'
 import '@vue-storefront/core/lib/passive-listeners'
-import {once} from '@vue-storefront/core/helpers'
-import {module as cartModule} from './store/cart'
+import { once } from '@vue-storefront/core/helpers'
+import { module as cartModule } from './store/cart'
 
-import {claimsStore} from 'theme/store/claims'
-import {homepageStore} from 'theme/store/homepage'
-import {uiStore} from 'theme/store/ui'
-import {promotedStore} from 'theme/store/promoted-offers'
-import {StorageManager} from '@vue-storefront/core/lib/storage-manager'
+import { claimsStore } from 'theme/store/claims'
+import { homepageStore } from 'theme/store/homepage'
+import { uiStore } from 'theme/store/ui'
+import { promotedStore } from 'theme/store/promoted-offers'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+
 // Added ProCCAPI to global
 import config from 'config'
 import ProCcApi from './helpers/procc_api.js'
+Vue.prototype.ProCcAPI = ProCcApi(); // Added by Dan to enable ProCC API
+Vue.prototype.config = config; // Added by Dan to enable ProCC API
 
 once('__VUE_EXTEND_DROPPOINT_VPB__', () => {
-  Vue.use(VueProgressBar);
-  Vue.prototype.ProCcAPI = ProCcApi(); // Added by Dan to enable ProCC API
-  Vue.prototype.config = config // Added by Dan to enable ProCC API
+  Vue.use(VueProgressBar)
 });
 
 const themeEntry = App;

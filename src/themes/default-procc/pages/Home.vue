@@ -11,79 +11,58 @@
           </h2>
         </header>
       </div>
-      <tile-links />
-    </section>
-    <!--    <promoted-offers />-->
-
-    <!--    <section class="new-collection container px15">-->
-    <!--      <div>-->
-    <!--        <header class="col-md-12">-->
-    <!--          <h2 class="align-center cl-accent">-->
-    <!--            {{ $t('New Product Arrivals') }}-->
-    <!--          </h2>-->
-    <!--        </header>-->
-    <!--      </div>-->
-    <!--      <tile-links />-->
-    <!--    </section>-->
-    <section class="container pb60 px15">
-      <available-store v-if="isDefaultStore"/>
-      <div class="row center-xs" v-else>
-        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing :products="getEverythingNewCollection" columns="4"/>
-        </lazy-hydrate>
-        <product-listing :products="getEverythingNewCollection" columns="4" v-else/>
-      </div>
       <div class="row center-xs">
         <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing :products="getEverythingNewCollection" columns="4"/>
+          <product-listing columns="4" :products="getEverythingNewCollection" />
         </lazy-hydrate>
-        <product-listing :products="getEverythingNewCollection" columns="4" v-else/>
+        <product-listing v-else columns="4" :products="getEverythingNewCollection" />
       </div>
     </section>
 
-    <!--    <section v-if="isOnline" class="container pb60 px15">-->
-    <!--      <div class="row center-xs">-->
-    <!--        <header class="col-md-12" :class="{ pt40: getEverythingNewCollection && getEverythingNewCollection.length }">-->
-    <!--          <h2 class="align-center cl-accent">-->
-    <!--            {{ $t('Get inspired') }}-->
-    <!--          </h2>-->
-    <!--        </header>-->
-    <!--      </div>-->
-    <!--      <tile-links />-->
-    <!--    </section>-->
-    <Onboard/>
+    <section v-if="isOnline" class="container pb60 px15">
+<!--      <div class="row center-xs">-->
+<!--        <header class="col-md-12" :class="{ pt40: getEverythingNewCollection && getEverythingNewCollection.length }">-->
+<!--          <h2 class="align-center cl-accent">-->
+<!--            {{ $t('Get inspired') }}-->
+<!--          </h2>-->
+<!--        </header>-->
+<!--      </div>-->
+      <tile-links />
+    </section>
+    <Onboard />
   </div>
 </template>
 
 <script>
-  // query constructor
-  import {isServer, onlineHelper} from '@vue-storefront/core/helpers'
-  import LazyHydrate from 'vue-lazy-hydration'
-  // Core pages
-  import Home from '@vue-storefront/core/pages/Home'
-  // Theme core components
-  import ProductListing from 'theme/components/core/ProductListing'
-  import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
-  // Theme local components
-  import Onboard from 'theme/components/theme/blocks/Home/Onboard'
-  import AvailableStore from 'theme/components/theme/blocks/Store/AvailableStore'
-  import StoreBanners from 'theme/components/theme/blocks/StoreBanners/StoreBanners'
-  import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
-  import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
-  import {Logger} from '@vue-storefront/core/lib/logger'
-  import {mapGetters} from 'vuex'
-  import config from 'config'
-  import {registerModule} from '@vue-storefront/core/lib/modules'
-  import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
+// query constructor
+import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
+import LazyHydrate from 'vue-lazy-hydration'
 
-  import {currentStoreView} from '@vue-storefront/core/lib/multistore'
+// Core pages
+import Home from '@vue-storefront/core/pages/Home'
+// Theme core components
+import ProductListing from 'theme/components/core/ProductListing'
+import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
+// Theme local components
+import Onboard from 'theme/components/theme/blocks/Home/Onboard'
+import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
+import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
+import {Logger} from '@vue-storefront/core/lib/logger'
+import {mapGetters} from 'vuex'
+import config from 'config'
+import {registerModule} from '@vue-storefront/core/lib/modules'
+import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
 
-  export default {
-    data() {
-      return {
-        loading: true
-      }
-    },
+import {currentStoreView} from '@vue-storefront/core/lib/multistore'
+import AvailableStore from 'theme/components/theme/blocks/Store/AvailableStore'
+import StoreBanners from 'theme/components/theme/blocks/StoreBanners/StoreBanners'
+
+export default {
+  data () {
+    return {
+      loading: true
+    }
+  },
   mixins: [Home],
   components: {
     HeadImage,
@@ -108,18 +87,18 @@
     isOnline () {
       return onlineHelper.isOnline
     },
-    isLazyHydrateEnabled() {
+    isLazyHydrateEnabled () {
       return config.ssr.lazyHydrateFor.some(
         field => ['homepage', 'homepage.new_collection'].includes(field)
       )
     }
   },
-    beforeCreate() {
-      registerModule(RecentlyViewedModule)
+  beforeCreate () {
+    registerModule(RecentlyViewedModule)
   },
   async beforeMount () {
     if (this.$store.state.__DEMO_MODE__) {
-      const onboardingClaim = await this.$store.dispatch('claims/check', {claimCode: 'onboardingAccepted'});
+      const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' });
       if (!onboardingClaim) { // show onboarding info
         this.$bus.$emit('modal-toggle', 'modal-onboard');
         this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
@@ -127,8 +106,7 @@
     }
   },
   mounted () {
-    if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup');
-    console.log('Current Store', currentStoreView())
+    if (!this.isLoggedIn && localStorage.getItem('redirect')) this.$bus.$emit('modal-show', 'modal-signup')
   },
   watch: {
     isLoggedIn () {
