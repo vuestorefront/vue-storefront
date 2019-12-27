@@ -14,8 +14,6 @@
           <div class="col-xs-12 col-md-5 data">
             <breadcrumbs
               class="pt40 pb20 hidden-xs"
-              :routes="getBreadcrumbs"
-              :active-route="getCurrentProduct.name"
             />
             <h1
               class="mb20 mt0 cl-mine-shaft product-name"
@@ -38,26 +36,26 @@
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="$store.state.storeView.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(getCurrentProduct.priceInclTax).toFixed(2)">
+              <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="getCurrentProduct.url_path">
               <div class="mb40 price serif" v-if="getCurrentProduct.type_id !== 'grouped'">
                 <div
                   class="h3 cl-secondary"
-                  v-if="getCurrentProduct.special_price && getCurrentProduct.priceInclTax && getCurrentProduct.original_price_incl_tax"
+                  v-if="getCurrentProduct.special_price && getCurrentProduct.price_incl_tax && getCurrentProduct.original_price_incl_tax"
                 >
                   <span
                     class="h2 cl-mine-shaft weight-700"
-                  >{{ getCurrentProduct.priceInclTax * getCurrentProduct.qty | price }}</span>&nbsp;
+                  >{{ getCurrentProduct.price_incl_tax * getCurrentProduct.qty | price }}</span>&nbsp;
                   <span
                     class="price-original h3"
                   >{{ getCurrentProduct.original_price_incl_tax * getCurrentProduct.qty | price }}</span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
-                  v-if="!getCurrentProduct.special_price && getCurrentProduct.priceInclTax"
+                  v-if="!getCurrentProduct.special_price && getCurrentProduct.price_incl_tax"
                 >
-                  {{ getCurrentProduct.qty > 0 ? getCurrentProduct.priceInclTax * getCurrentProduct.qty : getCurrentProduct.priceInclTax | price }}
+                  {{ getCurrentProduct.qty > 0 ? getCurrentProduct.price_incl_tax * getCurrentProduct.qty : getCurrentProduct.price_incl_tax | price }}
                 </div>
               </div>
               <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
@@ -280,7 +278,6 @@ export default {
   computed: {
     ...mapGetters({
       getCurrentCategory: 'category-next/getCurrentCategory',
-      getBreadcrumbs: 'product/getProductBreadcrumbs',
       getCurrentProduct: 'product/getCurrentProduct',
       getProductGallery: 'product/getProductGallery',
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',

@@ -148,7 +148,7 @@ export function localizedDispatcherRouteName (routeName: string, storeCode: stri
   return routeName
 }
 
-export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string): any {
+export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig | RawLocation, storeCode: string = null): any {
   if (!storeCode) {
     storeCode = currentStoreView().storeCode
   }

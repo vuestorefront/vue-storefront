@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { isServer } from '@vue-storefront/core/helpers'
 export default {
   name: 'CmsBlock',
   props: {
@@ -26,34 +27,31 @@ export default {
       required: false
     }
   },
-  // asyncData ({ store, route, context }) {
-  // @TODO to cover SSR need find a way to pass props identifier/id to the asyncData()
-  // for now it is not possible but assuming from some info it could be available later
-  // we try to dispatch 'single' action which actually dispatch list to prefetch data anyway
-
-  /* return new Promise((resolve, reject) => {
-    store.dispatch('cmsBlock/single', {
-      value: this.identifier
-    }).then(res => {
-      return resolve(res)
-    })
-  }) */
-  // },
+  serverPrefetch () {
+    return this.fetchCmsBlock()
+  },
   created () {
-    let queryKey = ''
-    let queryValue = ''
-    if (this.id) {
-      queryKey = 'id'
-      queryValue = this.id
-    } else if (this.identifier) {
-      queryKey = 'identifier'
-      queryValue = this.identifier
+    if (!isServer) {
+      this.fetchCmsBlock()
     }
-    if (queryKey && queryValue) {
-      this.$store.dispatch('cmsBlock/single', {
-        key: queryKey,
-        value: queryValue
-      })
+  },
+  methods: {
+    fetchCmsBlock () {
+      let queryKey = ''
+      let queryValue = ''
+      if (this.id) {
+        queryKey = 'id'
+        queryValue = this.id
+      } else if (this.identifier) {
+        queryKey = 'identifier'
+        queryValue = this.identifier
+      }
+      if (queryKey && queryValue) {
+        return this.$store.dispatch('cmsBlock/single', {
+          key: queryKey,
+          value: queryValue
+        })
+      }
     }
   },
   computed: {

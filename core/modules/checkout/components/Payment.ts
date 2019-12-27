@@ -235,6 +235,7 @@ export const Payment = {
       this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
     },
     changeCountry () {
+      this.$store.dispatch('checkout/updatePaymentDetails', { country: this.payment.country })
       this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
     }
   }

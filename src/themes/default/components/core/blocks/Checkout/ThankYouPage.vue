@@ -4,6 +4,7 @@
       <div class="container">
         <breadcrumbs
           :with-homepage="true"
+          :routes="[]"
           :active-route="this.$t('Order confirmation')"
         />
         <h2 class="category-title">
