@@ -1,4 +1,3 @@
-import * as types from '@vue-storefront/core/modules/url/store/mutation-types';
 import { cacheStorage } from '@vue-storefront/core/modules/recently-viewed/index';
 import { actions as urlActions } from '../../../store/actions';
 import { currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore';
@@ -75,17 +74,15 @@ describe('Url actions', () => {
   describe('registerMapping action', () => {
     it('should call register mapping mutation', async () => {
       const contextMock = {
-        commit: jest.fn()
+        state: {
+          dispatcherMap: {}
+        }
       };
       const result = await (urlActions as any).registerMapping(contextMock, {
         url,
         routeData
       });
 
-      expect(contextMock.commit).toHaveBeenCalledWith(types.REGISTER_MAPPING, {
-        url,
-        routeData
-      });
       expect(result).toEqual(routeData);
     });
   });
