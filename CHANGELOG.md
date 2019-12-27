@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed / Improved
 - Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)
+- Remove commit register mapping - @gibkigonzo (#3875)
 
 ## [1.11.0] - 2019.12.20
 
