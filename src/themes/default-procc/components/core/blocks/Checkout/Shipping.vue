@@ -168,7 +168,7 @@
             v-model="shipping.country"
             autocomplete="country-name"
             @blur="$v.shipping.country.$touch()"
-            @change.native="$v.shipping.country.$touch() changeCountry();"
+            @change.native="$v.shipping.country.$touch(); changeCountry();"
           />
 
           <base-input
@@ -190,7 +190,7 @@
                 :value="method.method_code"
                 name="shipping-method"
                 v-model="shipping.shippingMethod"
-                @change="$v.shipping.shippingMethod.$touch() changeShippingMethod();"
+                @change="$v.shipping.shippingMethod.$touch(); changeShippingMethod();"
               >
               <span class="checkmark" />
             </label>

@@ -177,7 +177,7 @@
             v-model="payment.country"
             autocomplete="country-name"
             @blur="$v.payment.country.$touch()"
-            @change="$v.payment.country.$touch() changeCountry();"
+            @change="$v.payment.country.$touch(); changeCountry();"
           />
 
           <base-input
@@ -251,7 +251,7 @@
                 :value="method.code"
                 name="payment-method"
                 v-model="payment.paymentMethod"
-                @change="$v.payment.paymentMethod.$touch() changePaymentMethod();"
+                @change="$v.payment.paymentMethod.$touch(); changePaymentMethod();"
               >
               <span class="checkmark" />
             </label>
