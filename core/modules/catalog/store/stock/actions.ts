@@ -12,7 +12,7 @@ const actions: ActionTree<StockState, RootState> = {
     const checkStatus = {
       qty: product.stock ? product.stock.qty : 0,
       status: getStatus(product, 'ok'),
-      manage_stock: product.stock ? product.stock.manage_stock: true
+      manageStock: product.stock ? product.stock.manage_stock: true
     }
 
     if (config.stock.synchronize) {
@@ -39,14 +39,14 @@ const actions: ActionTree<StockState, RootState> = {
         qty: result ? result.qty : 0,
         status: getStatus(result, 'ok'),
         onlineCheckTaskId: task_id,
-        manage_stock: result ? result.manage_stock : true,
+        manageStock: result ? result.manage_stock : true,
       }
     }
 
     return {
       qty: product.stock ? product.stock.qty : 0,
       status: getStatus(product, 'volatile'),
-      manage_stock: product.stock ? product.stock.manage_stock : true
+      manageStock: product.stock ? product.stock.manage_stock : true
     }
   },
   async list ({ commit }, { skus }) {
