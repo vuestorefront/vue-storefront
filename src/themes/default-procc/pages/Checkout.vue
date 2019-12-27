@@ -28,18 +28,18 @@
 </template>
 
 <script>
-  import Checkout from '@vue-storefront/core/pages/Checkout'
+import Checkout from '@vue-storefront/core/pages/Checkout'
 
-  import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails'
-  import Shipping from 'theme/components/core/blocks/Checkout/Shipping'
-  import Payment from 'theme/components/core/blocks/Checkout/Payment'
-  import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview'
-  import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
-  import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage'
-  import {registerModule} from '@vue-storefront/core/lib/modules'
-  import {OrderModule} from '@vue-storefront/core/modules/order'
+import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails'
+import Shipping from 'theme/components/core/blocks/Checkout/Shipping'
+import Payment from 'theme/components/core/blocks/Checkout/Payment'
+import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview'
+import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
+import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage'
+import { registerModule } from '@vue-storefront/core/lib/modules'
+import { OrderModule } from '@vue-storefront/core/modules/order'
 
-  export default {
+export default {
   components: {
     PersonalDetails,
     Shipping,
@@ -49,9 +49,9 @@
     ThankYouPage
   },
   mixins: [Checkout],
-    beforeCreate() {
-      registerModule(OrderModule)
-    },
+  beforeCreate () {
+    registerModule(OrderModule)
+  },
   methods: {
     notifyEmptyCart () {
       this.$store.dispatch('notification/spawnNotification', {

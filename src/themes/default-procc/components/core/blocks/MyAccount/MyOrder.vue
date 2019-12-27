@@ -19,7 +19,7 @@
       <div class="col-xs-12 h4">
         <p>{{ order.created_at | date('LLL') }}</p>
         <p class="mt35">
-          <a @click.prevent="remakeOrder(singleOrderItems)" class="underline" href="#">{{ $t('Remake order') }}</a>
+          <a href="#" class="underline" @click.prevent="remakeOrder(singleOrderItems)">{{ $t('Remake order') }}</a>
         </p>
       </div>
     </div>
@@ -50,7 +50,7 @@
             </tr>
           </thead>
           <tbody>
-          <tr :key="item.item_id" class="brdr-top-1 brdr-cl-bg-secondary" v-for="item in singleOrderItems">
+            <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="item in singleOrderItems" :key="item.item_id">
               <td class="fs-medium lh25" :data-th="$t('Product Name')">
                 {{ item.name }}
               </td>
@@ -66,38 +66,38 @@
               <td class="fs-medium lh25" :data-th="$t('Subtotal')">
                 {{ item.row_total_incl_tax | price }}
               </td>
-            <td class="fs-medium lh25">
-              <product-image :image="{src: itemThumbnail[item.sku]}"/>
-            </td>
+              <td class="fs-medium lh25">
+                <product-image :image="{src: itemThumbnail[item.sku]}" />
+              </td>
             </tr>
           </tbody>
           <tfoot>
             <tr class="brdr-top-1 brdr-cl-bg-secondary">
-              <td class="align-right" colspan="5">
+              <td colspan="5" class="align-right">
                 {{ $t('Subtotal') }}
               </td>
               <td>{{ order.subtotal | price }}</td>
             </tr>
             <tr>
-              <td class="align-right" colspan="5">
+              <td colspan="5" class="align-right">
                 {{ $t('Shipping') }}
               </td>
               <td>{{ order.shipping_amount | price }}</td>
             </tr>
             <tr>
-              <td class="align-right" colspan="5">
+              <td colspan="5" class="align-right">
                 {{ $t('Tax') }}
               </td>
               <td>{{ order.tax_amount + order.discount_tax_compensation_amount | price }}</td>
             </tr>
             <tr v-if="order.discount_amount">
-              <td class="align-right" colspan="5">
+              <td colspan="5" class="align-right">
                 {{ $t('Discount') }}
               </td>
               <td>{{ order.discount_amount | price }}</td>
             </tr>
             <tr>
-              <td class="align-right" colspan="5">
+              <td colspan="5" class="align-right">
                 {{ $t('Grand total') }}
               </td>
               <td>{{ order.grand_total | price }}</td>
@@ -143,42 +143,37 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
-  import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
-  import ProductImage from 'theme/components/core/ProductImage'
-  import {getThumbnailPath, productThumbnailPath} from '@vue-storefront/core/helpers'
-  import {mapActions} from 'vuex'
+import Vue from 'vue'
+import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
+import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
+import ProductImage from 'theme/components/core/ProductImage'
+import { getThumbnailPath, productThumbnailPath } from '@vue-storefront/core/helpers'
+import { mapActions } from 'vuex'
 
-  export default {
+export default {
   mixins: [MyOrder],
   components: {
     ReturnIcon,
     ProductImage
   },
-    data() {
-      return {
-        itemThumbnail: []
+  data () {
+    return {
+      itemThumbnail: []
+    }
+  },
+  methods: {
+    ...mapActions({
+      getProduct: 'product/single'
+    })
+  },
+  mounted () {
+    this.singleOrderItems.forEach(async item => {
+      if (!this.itemThumbnail[item.sku]) {
+        const product = await this.getProduct({ options: { sku: item.sku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false })
+        const thumbnail = productThumbnailPath(product)
+        Vue.set(this.itemThumbnail, item.sku, getThumbnailPath(thumbnail, 280, 280))
       }
-    },
-    methods: {
-      ...mapActions({
-        getProduct: 'product/single'
-      })
-    },
-    mounted() {
-      this.singleOrderItems.forEach(async item => {
-        if (!this.itemThumbnail[item.sku]) {
-          const product = await this.getProduct({
-            options: {sku: item.sku},
-            setCurrentProduct: false,
-            setCurrentCategoryPath: false,
-            selectDefaultVariant: false
-          });
-          const thumbnail = productThumbnailPath(product);
-          Vue.set(this.itemThumbnail, item.sku, getThumbnailPath(thumbnail, 280, 280))
-        }
-      })
+    })
   }
 }
 </script>

@@ -13,11 +13,11 @@
 </template>
 
 <script>
-  import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
-  import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
-  import {clearAllBodyScrollLocks, disableBodyScroll} from 'body-scroll-lock'
+import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
+import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
-  export default {
+export default {
   props: {
     asyncComponent: {
       type: Function,
@@ -41,17 +41,17 @@
   created () {
     this.getComponent()
   },
-    watch: {
-      isOpen(state) {
-        if (state) {
-          this.$nextTick(() => {
-            disableBodyScroll(this.$refs.sidebar)
-          })
-        } else {
-          clearAllBodyScrollLocks()
-        }
+  watch: {
+    isOpen (state) {
+      if (state) {
+        this.$nextTick(() => {
+          disableBodyScroll(this.$refs.sidebar)
+        })
+      } else {
+        clearAllBodyScrollLocks()
       }
-    },
+    }
+  },
   methods: {
     getComponent () {
       this.component = () => ({
@@ -68,44 +68,44 @@
 <style lang="scss" scoped>
   @import "~theme/css/animations/transitions";
 
-  .slide-left-enter-active,
-  .slide-left-leave-active,
-  .slide-right-enter-active,
-  .slide-right-leave-active {
-    transition: transform .25s;
-  }
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform .25s;
+}
 
-  .slide-left-enter,
-  .slide-left-leave-to {
-    transform: translateX(100%);
-  }
+.slide-left-enter,
+.slide-left-leave-to {
+  transform: translateX(100%);
+}
 
-  .slide-right-enter,
-  .slide-right-leave-to {
-    transform: translateX(-100%);
-  }
+.slide-right-enter,
+.slide-right-leave-to {
+  transform: translateX(-100%);
+}
 
-  .right-sidebar {
-    top: 0;
-    right: 0;
-    z-index: 4;
-    height: 100%;
-    width: 800px;
-    min-width: 320px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-  }
+.right-sidebar {
+  top: 0;
+  right: 0;
+  z-index: 4;
+  height: 100%;
+  width: 800px;
+  min-width: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
 
-  .left-sidebar {
-    height: 100vh;
-    width: 350px;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    z-index: 4;
+.left-sidebar{
+  height: 100vh;
+  width: 350px;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 4;
 
     @media (max-width: 767px) {
       width: 100vh;

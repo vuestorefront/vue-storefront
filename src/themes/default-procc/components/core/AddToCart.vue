@@ -5,37 +5,37 @@
 </template>
 
 <script>
-  import {formatProductMessages} from '@vue-storefront/core/filters/product-messages'
-  import {notifications} from '@vue-storefront/core/modules/cart/helpers'
-  import focusClean from 'theme/components/theme/directives/focusClean'
-  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-  import {mapGetters} from 'vuex'
+import { formatProductMessages } from '@vue-storefront/core/filters/product-messages'
+import { notifications } from '@vue-storefront/core/modules/cart/helpers'
+import focusClean from 'theme/components/theme/directives/focusClean'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { mapGetters } from 'vuex'
 
-  export default {
+export default {
   directives: { focusClean },
   components: { ButtonFull },
-    props: {
-      product: {
-        required: true,
-        type: Object
-      },
-      disabled: {
-        type: Boolean,
-        default: false
-      }
+  props: {
+    product: {
+      required: true,
+      type: Object
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     onAfterRemovedVariant () {
       this.$forceUpdate()
     },
-    async addToCart(product) {
+    async addToCart (product) {
       try {
-        const diffLog = await this.$store.dispatch('cart/addItem', {productToAdd: product});
+        const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
         diffLog.clientNotifications.forEach(notificationData => {
           this.notifyUser(notificationData)
         })
       } catch (message) {
-        this.notifyUser(notifications.createNotification({type: 'error', message}))
+        this.notifyUser(notifications.createNotification({ type: 'error', message }))
       }
     },
     notifyUser (notificationData) {

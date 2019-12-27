@@ -11,7 +11,7 @@
             <li><a href="/">{{ $t(fullLanguageName) }}</a></li>
           </ul>
         </div>
-        <div :key="storeCode" class="country country-available" v-for="(storeView, storeCode) in storeViews">
+        <div class="country country-available" v-for="(storeView, storeCode) in storeViews" :key="storeCode">
           <h3>{{ $t(storeView.i18n.fullCountryName) }}</h3>
           <ul>
             <li><a :href="storeView.url">{{ $t(storeView.i18n.fullLanguageName) }}</a></li>
@@ -22,10 +22,9 @@
   </modal>
 </template>
 <script>
-  import Modal from 'theme/components/core/Modal.vue'
-  import config from 'config'
-
-  export default {
+import Modal from 'theme/components/core/Modal.vue'
+import config from 'config'
+export default {
   components: {
     Modal
   },
@@ -36,17 +35,17 @@
     }
   },
   computed: {
-    fullCountryName() {
+    fullCountryName () {
       return config.i18n.fullCountryName
     },
-    fullLanguageName() {
+    fullLanguageName () {
       return config.i18n.fullLanguageName
     },
     enableColumns () {
-      const enableStoreViews = Object.keys(this.storeViews);
+      const enableStoreViews = Object.keys(this.storeViews)
       return enableStoreViews.length > this.minCountryPerColumn
     },
-    storeViews() {
+    storeViews () {
       return Object.keys(config.storeViews).reduce((storeViews, storeCode) => {
         if (this.isValidStoreCode(storeCode)) {
           storeViews[storeCode] = config.storeViews[storeCode]
@@ -57,7 +56,7 @@
   },
   mounted () {
     this.$nextTick(() => {
-      this.componentLoaded = true;
+      this.componentLoaded = true
       this.$bus.$emit('modal-show', 'modal-switcher')
     })
   },
@@ -65,8 +64,8 @@
     close () {
       this.$bus.$emit('modal-hide', 'modal-switcher')
     },
-    isValidStoreCode(storeCode) {
-      const storeView = config.storeViews[storeCode];
+    isValidStoreCode (storeCode) {
+      const storeView = config.storeViews[storeCode]
       return !!(storeView && typeof storeView === 'object' && storeView.i18n)
     }
   }

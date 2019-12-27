@@ -14,12 +14,12 @@
                 {{ $t('Departments') }}
               </h3>
               <div class="mt15">
-                <router-link :to="localizedRoute('/women/women-20')" class="cl-secondary" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/women/women-20')" exact>
                   {{ $t('Women fashion') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link :to="localizedRoute('/men/men-11')" class="cl-secondary" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/men/men-11')" exact>
                   {{ $t("Men's fashion") }}
                 </router-link>
               </div>
@@ -176,10 +176,10 @@
 </template>
 
 <script>
-  import CurrentPage from 'theme/mixins/currentPage'
-  import config from 'config'
+import CurrentPage from 'theme/mixins/currentPage'
+import config from 'config'
 
-  export default {
+export default {
   name: 'MainFooter',
   computed: {
     multistoreEnabled () {

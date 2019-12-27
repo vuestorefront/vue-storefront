@@ -12,14 +12,14 @@
 </template>
 
 <script>
-  import CompareIcon from '@vue-storefront/core/compatibility/components/blocks/Header/CompareIcon'
-  import {mapGetters} from 'vuex'
+import CompareIcon from '@vue-storefront/core/compatibility/components/blocks/Header/CompareIcon'
+import { mapGetters } from 'vuex'
 
-  export default {
-    mixins: [CompareIcon],
-    computed: {
-      ...mapGetters('compare', ['getCompareProductsCount'])
-    }
+export default {
+  mixins: [CompareIcon],
+  computed: {
+    ...mapGetters('compare', ['getCompareProductsCount'])
+  }
 }
 </script>
 

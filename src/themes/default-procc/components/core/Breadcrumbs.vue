@@ -1,6 +1,6 @@
 <template>
   <div class="breadcrumbs h5 cl-gray">
-    <span :key="link.route_link" v-for="link in paths">
+    <span v-for="link in paths" :key="link.route_link">
       <router-link :to="link.route_link">
         {{ link.name | htmlDecode }}
       </router-link> /
@@ -12,9 +12,9 @@
 </template>
 
 <script>
-  import {Breadcrumbs} from '@vue-storefront/core/modules/breadcrumbs/components/Breadcrumbs.ts'
+import { Breadcrumbs } from '@vue-storefront/core/modules/breadcrumbs/components/Breadcrumbs.ts'
 
-  export default {
+export default {
   mixins: [Breadcrumbs]
 }
 </script>

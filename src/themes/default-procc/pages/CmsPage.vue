@@ -14,9 +14,9 @@
 </template>
 
 <script>
-  import CmsPage from '@vue-storefront/core/pages/CmsPage'
+import CmsPage from '@vue-storefront/core/pages/CmsPage'
 
-  export default {
+export default {
   computed: {
     cmsPageContent () {
       return this.$store.state.cmsPage.current

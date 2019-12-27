@@ -11,8 +11,8 @@
               <template>
                 <a
                   class="inline-flex brdr-none p15 icon bg-cl-secondary pointer"
-                  data-testid="returnButton"
                   href="/"
+                  data-testid="returnButton"
                 >
                   <i class="material-icons">keyboard_backspace</i>
                 </a>
@@ -23,7 +23,7 @@
           <div class="col-sm-4 col-xs-4 center-xs">
             <div>
               <a class="no-underline inline-flex" href="/" data-testid="logo">
-                <img :alt="$t(defaultTitle)" height="41px" src="/assets/logo.svg" width="auto">
+                <img width="auto" height="41px" src="/assets/logo.svg" :alt="$t(defaultTitle)">
               </a>
             </div>
           </div>
@@ -39,17 +39,17 @@
 </template>
 
 <script>
-  import CurrentPage from 'theme/mixins/currentPage'
-  import {currentStoreView} from '@vue-storefront/core/lib/multistore'
-  import config from 'config'
+import CurrentPage from 'theme/mixins/currentPage'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import config from 'config'
 
-  export default {
-    data() {
-      const storeView = currentStoreView();
-      return {
-        defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle
-      }
-    },
+export default {
+  data () {
+    const storeView = currentStoreView()
+    return {
+      defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle
+    }
+  },
   mixins: [CurrentPage]
 }
 </script>

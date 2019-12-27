@@ -49,10 +49,10 @@
           <div class="col-xs-5 col-md-3 end-xs">
             <div>
               <a
+                v-if="!currentUser"
+                href="#"
                 @click.prevent="gotoAccount"
                 class="cl-tertiary links"
-                href="#"
-                v-if="!currentUser"
               >{{ $t('Login to your account') }}</a>
               <span v-else>{{ $t('You are logged in as {firstname}', currentUser) }}</span>
             </div>
@@ -65,17 +65,17 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
-  import CurrentPage from 'theme/mixins/currentPage'
-  import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
-  import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
-  import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
-  import Logo from 'theme/components/core/Logo'
-  import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon'
-  import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
-  import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
+import { mapState } from 'vuex'
+import CurrentPage from 'theme/mixins/currentPage'
+import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
+import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
+import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
+import Logo from 'theme/components/core/Logo'
+import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon'
+import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
+import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
 
-  export default {
+export default {
   name: 'Header',
   components: {
     AccountIcon,
@@ -113,12 +113,12 @@
       () => {
         this.isScrolling = true
       },
-      {passive: true}
-    );
+      { passive: true }
+    )
 
     setInterval(() => {
       if (this.isScrolling) {
-        this.hasScrolled();
+        this.hasScrolled()
         this.isScrolling = false
       }
     }, 250)
@@ -128,7 +128,7 @@
       this.$bus.$emit('modal-toggle', 'modal-signup')
     },
     hasScrolled () {
-      this.scrollTop = window.scrollY;
+      this.scrollTop = window.scrollY
       if (
         this.scrollTop > this.lastScrollTop &&
         this.scrollTop > this.navbarHeight

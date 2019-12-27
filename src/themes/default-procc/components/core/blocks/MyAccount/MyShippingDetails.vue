@@ -228,17 +228,17 @@
 </template>
 
 <script>
-  import {minLength, required} from 'vuelidate/lib/validators'
-  import MyShippingDetails from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyShippingDetails'
-  import {unicodeAlpha, unicodeAlphaNum} from '@vue-storefront/core/helpers/validators'
+import { required, minLength } from 'vuelidate/lib/validators'
+import MyShippingDetails from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyShippingDetails'
+import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
 
-  import ButtonFull from 'theme/components/theme/ButtonFull'
-  import Tooltip from 'theme/components/core/Tooltip'
-  import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
-  import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
-  import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import Tooltip from 'theme/components/core/Tooltip'
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 
-  export default {
+export default {
   components: {
     ButtonFull,
     Tooltip,

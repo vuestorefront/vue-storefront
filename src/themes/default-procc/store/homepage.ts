@@ -1,4 +1,4 @@
-import {prepareQuery} from '@vue-storefront/core/modules/catalog/queries/common'
+import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 
 export const homepageStore = {
   namespaced: true,
@@ -7,45 +7,44 @@ export const homepageStore = {
     bestsellers: []
   },
   actions: {
-    async fetchNewCollection({commit, dispatch}) {
-      const newProductsQuery = prepareQuery({queryConfig: 'newProducts'});
+    async fetchNewCollection ({ commit, dispatch }) {
+      const newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
 
       const newProductsResult = await dispatch('product/list', {
         query: newProductsQuery,
         size: 8,
         sort: 'created_at:desc'
-      }, {root: true});
+      }, { root: true })
       const configuredProducts = await dispatch(
         'category-next/configureProducts',
-        {
-          products: newProductsResult.items
-        }, {root: true});
+        { products: newProductsResult.items
+        }, { root: true })
       commit('SET_NEW_COLLECTION', configuredProducts)
     },
-    async loadBestsellers({commit, dispatch}) {
+    async loadBestsellers ({ commit, dispatch }) {
       const response = await dispatch('product/list', {
-        query: prepareQuery({queryConfig: 'bestSellers'}),
+        query: prepareQuery({ queryConfig: 'bestSellers' }),
         size: 8,
         sort: 'created_at:desc'
-      }, {root: true});
+      }, { root: true })
 
       commit('SET_BESTSELLERS', response.items)
     }
   },
   mutations: {
-    SET_NEW_COLLECTION(state, products) {
+    SET_NEW_COLLECTION (state, products) {
       state.new_collection = products || []
     },
-    SET_BESTSELLERS(state, bestsellers) {
+    SET_BESTSELLERS (state, bestsellers) {
       state.bestsellers = bestsellers
     }
   },
   getters: {
-    getEverythingNewCollection(state) {
+    getEverythingNewCollection (state) {
       return state.new_collection
     },
-    getBestsellers(state) {
+    getBestsellers (state) {
       return state.bestsellers
     }
   }
-};
+}

@@ -2,8 +2,8 @@
   <div @click="$emit('change', variant)">
     <button
       class="relative brdr-cl-bg-tertiary brdr-1 bg-cl-transparent mr10 pointer price-selector"
-      :aria-label="$t('Price {variant}', { variant: variant.label })"
       :class="{ active: isActive }"
+      :aria-label="$t('Price {variant}', { variant: variant.label })"
     >
       <span class="bg-cl-transparent absolute block square" />
     </button>
@@ -12,10 +12,10 @@
 </template>
 
 <script>
-  import filterMixin from 'theme/mixins/filterMixin.ts'
+import filterMixin from 'theme/mixins/filterMixin.ts'
 
-  export default {
-    mixins: [filterMixin]
+export default {
+  mixins: [filterMixin]
 }
 </script>
 

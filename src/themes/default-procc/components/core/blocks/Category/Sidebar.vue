@@ -27,8 +27,8 @@
           code="color"
           v-for="(color, index) in filter"
           :key="index"
-          :selected-filters="getCurrentFilters"
           :variant="color"
+          :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
       </div>
@@ -39,8 +39,8 @@
           class="size-select mr10 mb10"
           v-for="(size, index) in sortById(filter)"
           :key="index"
-          :selected-filters="getCurrentFilters"
           :variant="size"
+          :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
       </div>
@@ -55,8 +55,8 @@
           :from="price.from"
           :to="price.to"
           :content="price.label"
-          :selected-filters="getCurrentFilters"
           :variant="price"
+          :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
       </div>
@@ -67,8 +67,8 @@
           :code="filterIndex"
           v-for="(option, index) in filter"
           :key="index"
-          :selected-filters="getCurrentFilters"
           :variant="option"
+          :selected-filters="getCurrentFilters"
           @change="$emit('changeFilter', $event)"
         />
       </div>
@@ -91,48 +91,44 @@
 </template>
 
 <script>
-  import ColorSelector from 'theme/components/core/ColorSelector'
-  import SizeSelector from 'theme/components/core/SizeSelector'
-  import PriceSelector from 'theme/components/core/PriceSelector'
-  import GenericSelector from 'theme/components/core/GenericSelector'
-  import pickBy from 'lodash-es/pickBy'
+import ColorSelector from 'theme/components/core/ColorSelector'
+import SizeSelector from 'theme/components/core/SizeSelector'
+import PriceSelector from 'theme/components/core/PriceSelector'
+import GenericSelector from 'theme/components/core/GenericSelector'
+import pickBy from 'lodash-es/pickBy'
 
-  export default {
+export default {
   components: {
     ColorSelector,
     SizeSelector,
     PriceSelector,
     GenericSelector
   },
-    props: {
-      filters: {
-        type: Object,
-        required: true
-      }
-    },
-    computed: {
-      hasActiveFilters() {
-        return this.$store.getters['category-next/hasActiveFilters']
-      },
-      getCurrentFilters() {
-        return this.$store.getters['category-next/getCurrentFilters']
-      },
-      availableFilters() {
-        return pickBy(this.filters, (filter, filterType) => {
-          return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType))
-        })
-      }
-    },
-    methods: {
-      resetAllFilters() {
-        this.$store.dispatch('category-next/resetSearchFilters')
-      },
-      sortById(filters) {
-        return [...filters].sort((a, b) => {
-          return a.id - b.id
-        })
-      }
+  props: {
+    filters: {
+      type: Object,
+      required: true
     }
+  },
+  computed: {
+    hasActiveFilters () {
+      return this.$store.getters['category-next/hasActiveFilters']
+    },
+    getCurrentFilters () {
+      return this.$store.getters['category-next/getCurrentFilters']
+    },
+    availableFilters () {
+      return pickBy(this.filters, (filter, filterType) => { return (filter.length && !this.$store.getters['category-next/getSystemFilterNames'].includes(filterType)) })
+    }
+  },
+  methods: {
+    resetAllFilters () {
+      this.$store.dispatch('category-next/resetSearchFilters')
+    },
+    sortById (filters) {
+      return [...filters].sort((a, b) => { return a.id - b.id })
+    }
+  }
 }
 </script>
 

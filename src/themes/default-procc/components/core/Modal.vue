@@ -7,23 +7,23 @@
     >
       <!--      <div class="modal-wrapper">-->
       <!--        <div class="modal-center">-->
-      <div @click="close" class="modal-backdrop"/>
-      <div :style="style" class="modal-container bg-cl-primary" ref="modal-content">
+      <div class="modal-backdrop" @click="close" />
+      <div class="modal-container bg-cl-primary" ref="modal-content" :style="style">
         <header class="modal-header py25 px65 h1 serif weight-700 bg-cl-secondary" v-if="$slots.header">
-          <slot name="header"/>
+          <slot name="header" />
           <i
-            @click="close"
-            class="modal-close material-icons cl-bg-tertiary"
-            data-testid="closeModalButton"
             slot="close"
+            class="modal-close material-icons cl-bg-tertiary"
+            @click="close"
+            data-testid="closeModalButton"
           >
             close
           </i>
         </header>
         <div class="modal-content bg-cl-primary pt30 pb60 px65" v-if="$slots.content">
-          <slot name="content"/>
+          <slot name="content" />
         </div>
-        <slot/>
+        <slot />
       </div>
     </div>
     <!--      </div>-->
@@ -32,28 +32,28 @@
 </template>
 
 <script>
-  import {mapMutations} from 'vuex'
-  import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
-  import {clearAllBodyScrollLocks, disableBodyScroll} from 'body-scroll-lock'
+import { mapMutations } from 'vuex'
+import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
-  export default {
+export default {
   name: 'Modal',
   data () {
     return {
       isVisible: false
     }
   },
-    watch: {
-      isVisible(state) {
-        if (state) {
-          this.$nextTick(() => {
-            disableBodyScroll(this.$refs['modal']);
-          })
-        } else {
-          clearAllBodyScrollLocks();
-        }
+  watch: {
+    isVisible (state) {
+      if (state) {
+        this.$nextTick(() => {
+          disableBodyScroll(this.$refs['modal']);
+        })
+      } else {
+        clearAllBodyScrollLocks();
       }
-    },
+    }
+  },
   methods: {
     onHide (name, state, params) {
       return name === this.name ? this.toggle(false) : false
@@ -63,7 +63,7 @@
     },
     onToggle (name, state, params) {
       if (name === this.name) {
-        state = typeof state === 'undefined' ? !this.isVisible : state;
+        state = typeof state === 'undefined' ? !this.isVisible : state
         this.toggle(state)
       }
     },
@@ -74,7 +74,7 @@
       'setOverlay'
     ]),
     toggle (state) {
-      this.isVisible = state;
+      this.isVisible = state
       state ? this.setOverlay(state) : setTimeout(() => this.setOverlay(state), this.delay)
     },
     close () {
@@ -82,13 +82,13 @@
     }
   },
   beforeMount () {
-    this.$bus.$on('modal-toggle', this.onToggle);
-    this.$bus.$on('modal-show', this.onShow);
+    this.$bus.$on('modal-toggle', this.onToggle)
+    this.$bus.$on('modal-show', this.onShow)
     this.$bus.$on('modal-hide', this.onHide)
   },
   beforeDestroy () {
-    this.$bus.$off('modal-toggle', this.onToggle);
-    this.$bus.$off('modal-show', this.onShow);
+    this.$bus.$off('modal-toggle', this.onToggle)
+    this.$bus.$off('modal-show', this.onShow)
     this.$bus.$off('modal-hide', this.onHide)
   },
   mixins: [onEscapePress],
@@ -168,21 +168,19 @@ $z-index-modal: map-get($z-index, modal);
     }
   }
 
-  .modal-header {
+  .modal-header{
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-
-  .modal-close {
+  .modal-close{
     cursor: pointer;
   }
-
-  .modal-backdrop {
+  .modal-backdrop{
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width:100%;
     height: 100%;
   }
 }

@@ -1,16 +1,16 @@
 <template>
   <form class="custom-options">
     <div v-for="option in product.bundle_options" :key="('bundleOption_' + option.option_id)">
-      <product-bundle-option :error-messages="errorMessages" :option="option" @option-changed="optionChanged"/>
+      <product-bundle-option :option="option" @option-changed="optionChanged" :error-messages="errorMessages" />
     </div>
   </form>
 </template>
 
 <script>
-  import {ProductBundleOptions} from '@vue-storefront/core/modules/catalog/components/ProductBundleOptions.ts'
-  import ProductBundleOption from './ProductBundleOption'
+import { ProductBundleOptions } from '@vue-storefront/core/modules/catalog/components/ProductBundleOptions.ts'
+import ProductBundleOption from './ProductBundleOption'
 
-  export default {
+export default {
   mixins: [ProductBundleOptions],
   components: {
     ProductBundleOption

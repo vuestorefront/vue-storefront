@@ -2,7 +2,7 @@
   <div class="compare">
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
-        <breadcrumbs :routes="[]" :with-homepage="true" active-route="Compare"/>
+        <breadcrumbs :with-homepage="true" :routes="[]" active-route="Compare" />
         <h2>{{ title }}</h2>
       </div>
     </div>
@@ -16,9 +16,9 @@
               </div>
               <ul class="compare__features-list">
                 <li
+                  v-for="(attr, index) in all_comparable_attributes"
                   :key="index"
                   class="compare__features-item"
-                  v-for="(attr, index) in all_comparable_attributes"
                 >
                   {{ attr.default_frontend_label }}
                 </li>
@@ -27,10 +27,10 @@
             <div class="compare__products-wrapper">
               <ul class="compare__products-columns">
                 <li
+                  v-for="(product, index) in items"
                   :key="index"
                   class="compare__product"
                   data-testid="comparedProduct"
-                  v-for="(product, index) in items"
                 >
                   <div class="compare__top-info">
                     <div class="check" />
@@ -70,13 +70,13 @@
 </template>
 
 <script>
-  import Compare from '@vue-storefront/core/pages/Compare'
-  import Breadcrumbs from '../components/core/Breadcrumbs'
-  import ProductTile from '../components/core/ProductTile'
-  import ProductAttribute from '../components/core/blocks/Compare/ProductAttribute'
-  import i18n from '@vue-storefront/i18n'
+import Compare from '@vue-storefront/core/pages/Compare'
+import Breadcrumbs from '../components/core/Breadcrumbs'
+import ProductTile from '../components/core/ProductTile'
+import ProductAttribute from '../components/core/blocks/Compare/ProductAttribute'
+import i18n from '@vue-storefront/i18n'
 
-  export default {
+export default {
   components: {
     Breadcrumbs,
     ProductTile,
@@ -93,7 +93,7 @@
     return {
       title: this.$route.meta.title || this.title || i18n.t('Compare Products'),
       meta: this.$route.meta.description
-        ? [{vmid: 'description', description: this.$route.meta.description}]
+        ? [{ vmid: 'description', description: this.$route.meta.description }]
         : []
     }
   }
@@ -122,7 +122,6 @@ $screen-l: 1170px;
 }
 
 .compare {
-
   &__products-wrapper {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;

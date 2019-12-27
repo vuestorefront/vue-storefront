@@ -1,7 +1,7 @@
 <template>
   <div class="row p25 between-xs">
     <div class="blend">
-      <product-image :image="image"/>
+      <product-image :image="image" />
     </div>
     <div class="col-xs">
       <div class="row">
@@ -47,10 +47,9 @@
             <span v-if="!product.totals.discount_amount" class="h4">{{ product.totals.row_total_incl_tax | price }}</span>
           </div>
           <div v-else>
-            <span class="h4 cl-error"
-                  v-if="product.special_price">{{ product.price_incl_tax * product.qty | price }} </span>
+            <span class="h4 cl-error" v-if="product.special_price">{{ product.price_incl_tax * product.qty | price }} </span>
             <span class="price-original h5" v-if="product.special_price">{{ product.original_price_incl_tax * product.qty | price }}</span>
-            <span class="h4" v-if="!product.special_price">{{ product.price_incl_tax * product.qty | price }}</span>
+            <span v-if="!product.special_price" class="h4">{{ product.price_incl_tax * product.qty | price }}</span>
           </div>
         </div>
       </div>
@@ -59,11 +58,11 @@
 </template>
 
 <script>
-  import {Product} from '@vue-storefront/core/modules/checkout/components/Product'
-  import {onlineHelper} from '@vue-storefront/core/helpers'
-  import ProductImage from 'theme/components/core/ProductImage'
+import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
+import { onlineHelper } from '@vue-storefront/core/helpers'
+import ProductImage from 'theme/components/core/ProductImage'
 
-  export default {
+export default {
   computed: {
     isOnline () {
       return onlineHelper.isOnline

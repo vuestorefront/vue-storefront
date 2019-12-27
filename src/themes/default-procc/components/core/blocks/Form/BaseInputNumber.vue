@@ -5,8 +5,8 @@
       :id="getInputId"
       type="number"
       :min="min"
-      :disabled="disabled"
       :max="max"
+      :disabled="disabled"
       class="m0 no-outline base-input-number__input brdr-cl-primary bg-cl-transparent h4"
       :focus="autofocus"
       :value="value"
@@ -18,9 +18,8 @@
 </template>
 
 <script>
-  import ValidationMessages from './ValidationMessages.vue'
-
-  export default {
+import ValidationMessages from './ValidationMessages.vue'
+export default {
   name: 'BaseInput',
   components: {
     ValidationMessages
@@ -66,28 +65,28 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
 
-  .base-input-number {
-    &__input {
-      border-style: solid;
-      border-width: 0 0 1px 0;
-      width: 50px;
-      height: 1.4rem;
-      line-height: 1.7rem;
-      @media (min-width: 768px) {
-        height: 1.7rem;
-      }
-    }
-
-    &__label {
-      font-size: 0.8rem;
-      line-height: 1.2rem;
-      @media (min-width: 768px) {
-        font-size: 1rem;
-        line-height: 1.4rem;
-      }
+.base-input-number {
+  &__input {
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    width: 50px;
+    height: 1.4rem;
+    line-height: 1.7rem;
+    @media (min-width: 768px) {
+      height: 1.7rem;
     }
   }
+
+  &__label {
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    @media (min-width: 768px) {
+      font-size: 1rem;
+      line-height: 1.4rem;
+    }
+  }
+}
 </style>

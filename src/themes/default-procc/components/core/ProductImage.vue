@@ -1,8 +1,8 @@
 <template>
   <div
+    class="product-image"
     :class="{'product-image--height': basic, 'product-image--width': !basic}"
     :style="style"
-    class="product-image"
     v-on="$listeners"
   >
     <img
@@ -18,8 +18,8 @@
       :alt="alt"
       @load="imageLoaded('lower', true)"
       @error="imageLoaded('lower', false)"
-      class="product-image__thumb"
       ref="lQ"
+      class="product-image__thumb"
     >
     <img
       v-if="!highQualityImageError || isOnline"
@@ -34,9 +34,9 @@
 </template>
 
 <script>
-  import {onlineHelper} from '@vue-storefront/core/helpers'
+import { onlineHelper } from '@vue-storefront/core/helpers'
 
-  export default {
+export default {
   props: {
     calcRatio: {
       type: Boolean,
@@ -63,11 +63,11 @@
       basic: true
     }
   },
-    watch: {
-      lowerQualityImage(state) {
-        if (state) {
-          this.basic = this.$refs.lQ.naturalWidth < this.$refs.lQ.naturalHeight;
-        }
+  watch: {
+    lowerQualityImage (state) {
+      if (state) {
+        this.basic = this.$refs.lQ.naturalWidth < this.$refs.lQ.naturalHeight;
+      }
     }
   },
   computed: {
@@ -80,11 +80,11 @@
     showHighQuality () {
       return this.highQualityImage
     },
-    imageRatio() {
-      const {width, height} = this.$store.state.config.products.gallery;
+    imageRatio () {
+      const {width, height} = this.$store.state.config.products.gallery
       return `${height / (width / 100)}%`
     },
-    style() {
+    style () {
       return this.calcRatio ? {paddingBottom: this.imageRatio} : {}
     },
     isOnline (value) {
@@ -93,7 +93,7 @@
   },
   methods: {
     imageLoaded (type, success = true) {
-      this[`${type}QualityImage`] = success;
+      this[`${type}QualityImage`] = success
       this[`${type}QualityImageError`] = !success
     }
   }
@@ -101,13 +101,12 @@
 </script>
 
 <style lang="scss" scoped>
-  .product-image {
+  .product-image{
     position: relative;
     width: 100%;
     max-width: 100%;
     height: 0;
     mix-blend-mode: multiply;
-
     &__placeholder,
     &__thumb {
       position: absolute;
@@ -115,17 +114,14 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
-
     &__placeholder {
       max-width: 50%;
     }
-
     &--height {
       .product-image__thumb {
-        /*height: 100%;*/ //Turned OFF by Dan -> larger photos == better
+        height: 100%;
       }
     }
-
     &--width {
       .product-image__thumb {
         width: 100%;

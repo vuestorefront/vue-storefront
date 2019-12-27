@@ -10,18 +10,18 @@
         </h2>
       </header>
     </div>
-    <product-listing :products="getCurrentRelatedProducts" columns="4"/>
+    <product-listing columns="4" :products="getCurrentRelatedProducts" />
   </section>
 </template>
 
 <script>
-  import ProductListing from 'theme/components/core/ProductListing'
-  import {mapGetters} from 'vuex'
-  import {prepareRelatedQuery} from '@vue-storefront/core/modules/catalog/queries/related'
-  import i18n from '@vue-storefront/i18n'
-  import config from 'config'
+import ProductListing from 'theme/components/core/ProductListing'
+import { mapGetters } from 'vuex'
+import { prepareRelatedQuery } from '@vue-storefront/core/modules/catalog/queries/related'
+import i18n from '@vue-storefront/i18n'
+import config from 'config'
 
-  export default {
+export default {
   name: 'Related',
   props: {
     type: {
@@ -38,10 +38,10 @@
     ProductListing
   },
   beforeMount () {
-    this.$bus.$on('product-after-load', this.refreshList);
+    this.$bus.$on('product-after-load', this.refreshList)
 
     if (config.usePriceTiers) {
-      this.$bus.$on('user-after-loggedin', this.refreshList);
+      this.$bus.$on('user-after-loggedin', this.refreshList)
       this.$bus.$on('user-after-logout', this.refreshList)
     }
 
@@ -49,7 +49,7 @@
   },
   beforeDestroy () {
     if (config.usePriceTiers) {
-      this.$bus.$off('user-after-loggedin', this.refreshList);
+      this.$bus.$off('user-after-loggedin', this.refreshList)
       this.$bus.$off('user-after-logout', this.refreshList)
     }
   },
@@ -57,29 +57,29 @@
     this.$bus.$off('product-after-load', this.refreshList)
   },
   methods: {
-    async refreshList() {
+    async refreshList () {
       let sku = this.productLinks ? this.productLinks
         .filter(pl => pl.link_type === this.type)
-        .map(pl => pl.linked_product_sku) : null;
+        .map(pl => pl.linked_product_sku) : null
 
-      let key = 'sku';
+      let key = 'sku'
       if (sku === null || (sku.length === 0)) {
-        sku = this.getCurrentProduct.category_ids;
+        sku = this.getCurrentProduct.category_ids
         key = 'category_ids'
       }
-      let relatedProductsQuery = prepareRelatedQuery(key, sku);
+      let relatedProductsQuery = prepareRelatedQuery(key, sku)
 
       const response = await this.$store.dispatch('product/list', {
         query: relatedProductsQuery,
         size: 8,
         prefetchGroupProducts: false,
         updateState: false
-      });
+      })
       if (response) {
         this.$store.dispatch('product/related', {
           key: this.type,
           items: response.items
-        });
+        })
         this.$forceUpdate()
       }
     }
@@ -89,7 +89,7 @@
       getProductRelated: 'product/getProductRelated',
       getCurrentProduct: 'product/getCurrentProduct'
     }),
-    getCurrentRelatedProducts() {
+    getCurrentRelatedProducts () {
       return this.getProductRelated[this.type] || []
     },
     productLinks () {

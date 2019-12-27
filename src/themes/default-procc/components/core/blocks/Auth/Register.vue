@@ -135,13 +135,13 @@
   </div>
 </template>
 <script>
-  import Register from '@vue-storefront/core/compatibility/components/blocks/Auth/Register'
-  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-  import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
-  import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
-  import {email, minLength, required, sameAs} from 'vuelidate/lib/validators'
+import Register from '@vue-storefront/core/compatibility/components/blocks/Auth/Register'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox.vue'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput.vue'
+import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 
-  export default {
+export default {
   validations: {
     email: {
       required,
@@ -175,12 +175,12 @@
   methods: {
     register () {
       if (this.$v.$invalid) {
-        this.$v.$touch();
+        this.$v.$touch()
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: this.$t('Please fix the validation errors'),
           action1: { label: this.$t('OK') }
-        });
+        })
         return
       }
       this.callRegister()
@@ -204,13 +204,12 @@
 </script>
 
 <style lang="scss" scoped>
-  .modal-header {
+  .modal-header{
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-
-  .modal-close {
+  .modal-close{
     cursor: pointer;
   }
   .modal-content {

@@ -80,13 +80,13 @@
   </div>
 </template>
 <script>
-  import {mapState} from 'vuex'
-  import SubBtn from './SubBtn.vue'
-  import i18n from '@vue-storefront/i18n'
-  import config from 'config'
-  import {formatCategoryLink} from '@vue-storefront/core/modules/url/helpers'
+import { mapState } from 'vuex'
+import SubBtn from './SubBtn.vue'
+import i18n from '@vue-storefront/i18n'
+import config from 'config'
+import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
-  export default {
+export default {
   name: 'SubCategory',
   components: {
     SubBtn
@@ -133,7 +133,7 @@
       return this.submenu
     },
     styles () {
-      const pos = this.submenu.path.indexOf(this.id);
+      const pos = this.submenu.path.indexOf(this.id)
       return pos !== -1 ? {
         zIndex: pos + 1
       } : false
@@ -143,10 +143,10 @@
     }
   },
   methods: {
-    async logout() {
-      await this.$store.dispatch('user/logout', {});
-      this.$router.push(this.localizedRoute('/'));
-      this.$store.commit('ui/setSubmenu', {depth: false})
+    async logout () {
+      await this.$store.dispatch('user/logout', {})
+      this.$router.push(this.localizedRoute('/'))
+      this.$store.commit('ui/setSubmenu', { depth: false })
     },
     notify (title) {
       if (title === 'My loyalty card' || title === 'My product reviews') {
@@ -157,7 +157,7 @@
         })
       }
     },
-    categoryLink(category) {
+    categoryLink (category) {
       return formatCategoryLink(category)
     }
   }

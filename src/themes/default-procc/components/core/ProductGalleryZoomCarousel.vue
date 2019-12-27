@@ -51,12 +51,12 @@
 </template>
 
 <script>
-  import {Carousel, Slide} from 'vue-carousel'
-  import {clearAllBodyScrollLocks, disableBodyScroll} from 'body-scroll-lock'
-  import ProductImage from './ProductImage'
-  import ProductVideo from './ProductVideo'
+import { Carousel, Slide } from 'vue-carousel'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
+import ProductImage from './ProductImage'
+import ProductVideo from './ProductVideo'
 
-  export default {
+export default {
   name: 'ProductGalleryZoomCarousel',
   props: {
     currentSlide: {
@@ -89,11 +89,11 @@
   mounted () {
     this.$nextTick(() => {
       disableBodyScroll(this.$refs.thumbs)
-    });
-    this.navigate(this.currentSlide);
+    })
+    this.navigate(this.currentSlide)
     if (this.$refs.zoomCarousel) {
-      let navigation = this.$refs.zoomCarousel.$children.find(c => c.$el.className === 'VueCarousel-navigation');
-      let pagination = this.$refs.zoomCarousel.$children.find(c => c.$el.className === 'VueCarousel-pagination');
+      let navigation = this.$refs.zoomCarousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')
+      let pagination = this.$refs.zoomCarousel.$children.find(c => c.$el.className === 'VueCarousel-pagination')
       if (navigation !== undefined) {
         navigation.$on('navigationclick', this.increaseCarouselTransitionSpeed)
       }
@@ -102,9 +102,9 @@
       }
     }
   },
-    destroyed() {
-      clearAllBodyScrollLocks()
-    },
+  destroyed () {
+    clearAllBodyScrollLocks()
+  },
   methods: {
     navigate (key) {
       this.$refs.zoomCarousel.goToPage(key)
@@ -113,7 +113,7 @@
       this.carouselTransitionSpeed = 500
     },
     pageChange (index) {
-      this.currentPage = index;
+      this.currentPage = index
       this.hideImageAtIndex = null
     },
     onVideoStarted (index) {
@@ -179,7 +179,7 @@
       margin-bottom: 0;
     }
 
-    & > * {
+    & > *{
       opacity: .9;
       will-change: opacity;
       transition: .3s opacity $motion-main;

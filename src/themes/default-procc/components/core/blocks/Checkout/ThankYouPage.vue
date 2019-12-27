@@ -3,8 +3,8 @@
     <header class="thank-you-title bg-cl-secondary py35 pl20">
       <div class="container">
         <breadcrumbs
-          :routes="[]"
           :with-homepage="true"
+          :routes="[]"
           :active-route="this.$t('Order confirmation')"
         />
         <h2 class="category-title">
@@ -20,8 +20,7 @@
               {{ $t('Your purchase') }}
             </h3>
             <p v-if="OnlineOnly" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
-            <p v-html="this.$t('The OrderNumber is {id}', { id: lastOrderConfirmation.orderNumber })"
-               v-if="OnlineOnly && lastOrderConfirmation.orderNumber"/>
+            <p v-if="OnlineOnly && lastOrderConfirmation.orderNumber" v-html="this.$t('The OrderNumber is {id}', { id: lastOrderConfirmation.orderNumber })" />
 
             <h4 v-if="OfflineOnly">
               {{ $t('You are offline') }}
@@ -33,8 +32,7 @@
               {{ $t("You can allow us to remind you about the order via push notification after coming back online. You'll only need to click on it to confirm.") }}
             </p>
             <p v-if="OfflineOnly && isNotificationSupported && !isPermissionGranted">
-              {{ $t(`Or if you will stay on "Order confirmation" page, the order will be placed automatically without
-              confirmation, once the internet connection will be back.`) }}
+              {{ $t(`Or if you will stay on "Order confirmation" page, the order will be placed automatically without confirmation, once the internet connection will be back.`) }}
             </p>
             <p v-if="OfflineOnly && isNotificationSupported && isPermissionGranted">
               <strong>{{ $t('You will receive Push notification after coming back online. You can confirm the order by clicking on it') }}</strong>
@@ -82,23 +80,23 @@
 </template>
 
 <script>
-  import Composite from '@vue-storefront/core/mixins/composite'
-  import Breadcrumbs from 'theme/components/core/Breadcrumbs'
-  import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
-  import ButtonOutline from 'theme/components/theme/ButtonOutline'
-  import VueOfflineMixin from 'vue-offline/mixin'
-  import {EmailForm} from '@vue-storefront/core/modules/mailer/components/EmailForm'
-  import {isServer} from '@vue-storefront/core/helpers'
-  import config from 'config'
-  import {registerModule} from '@vue-storefront/core/lib/modules'
-  import {MailerModule} from '@vue-storefront/core/modules/mailer'
+import Composite from '@vue-storefront/core/mixins/composite'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs'
+import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
+import ButtonOutline from 'theme/components/theme/ButtonOutline'
+import VueOfflineMixin from 'vue-offline/mixin'
+import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
+import { isServer } from '@vue-storefront/core/helpers'
+import config from 'config'
+import { registerModule } from '@vue-storefront/core/lib/modules'
+import { MailerModule } from '@vue-storefront/core/modules/mailer'
 
-  export default {
+export default {
   name: 'ThankYouPage',
   mixins: [Composite, VueOfflineMixin, EmailForm],
-    beforeCreate() {
-      registerModule(MailerModule)
-    },
+  beforeCreate () {
+    registerModule(MailerModule)
+  },
   data () {
     return {
       feedback: ''
@@ -109,11 +107,11 @@
       return this.$store.state.order.last_order_confirmation ? this.$store.state.order.last_order_confirmation.confirmation : {}
     },
     isNotificationSupported () {
-      if (isServer || !('Notification' in window)) return false;
+      if (isServer || !('Notification' in window)) return false
       return 'Notification' in window
     },
     isPermissionGranted () {
-      if (isServer || !('Notification' in window)) return false;
+      if (isServer || !('Notification' in window)) return false
       return Notification.permission === 'granted'
     },
     checkoutPersonalEmailAddress () {
@@ -125,7 +123,7 @@
   },
   methods: {
     requestNotificationPermission () {
-      if (isServer) return false;
+      if (isServer) return false
       if ('Notification' in window && Notification.permission !== 'granted') {
         Notification.requestPermission()
       }
@@ -147,7 +145,7 @@
         type: 'success',
         message,
         action1: { label: this.$t('OK') }
-      });
+      })
       if (this.mailerElements.sendConfirmation) {
         this.sendEmail(
           {

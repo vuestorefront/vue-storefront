@@ -7,8 +7,7 @@
             {{ productLink.product.name | htmlDecode }}
           </p>
           <div class="col-xs-4 cl-bg-tertiary">
-            <div
-              v-if="productLink.product.special_price && productLink.product.price_incl_tax && productLink.product.original_price_incl_tax">
+            <div v-if="productLink.product.special_price && productLink.product.price_incl_tax && productLink.product.original_price_incl_tax">
               <span class="price-special">{{ productLink.product.price_incl_tax | price }}</span>&nbsp;
               <span class="price-original">{{ productLink.product.original_price_incl_tax | price }}</span>
             </div>

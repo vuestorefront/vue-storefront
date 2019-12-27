@@ -77,14 +77,14 @@
 </template>
 
 <script>
-  import Login from '@vue-storefront/core/compatibility/components/blocks/Auth/Login'
+import Login from '@vue-storefront/core/compatibility/components/blocks/Auth/Login'
 
-  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-  import BaseCheckbox from '../Form/BaseCheckbox.vue'
-  import BaseInput from '../Form/BaseInput.vue'
-  import {email, required} from 'vuelidate/lib/validators'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import BaseCheckbox from '../Form/BaseCheckbox.vue'
+import BaseInput from '../Form/BaseInput.vue'
+import { required, email } from 'vuelidate/lib/validators'
 
-  export default {
+export default {
   mixins: [Login],
   validations: {
     email: {
@@ -102,17 +102,17 @@
   },
   methods: {
     close (e) {
-      if (e) localStorage.removeItem('redirect');
+      if (e) localStorage.removeItem('redirect')
       this.$bus.$emit('modal-hide', 'modal-signup')
     },
     login () {
       if (this.$v.$invalid) {
-        this.$v.$touch();
+        this.$v.$touch()
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: this.$t('Please fix the validation errors'),
           action1: { label: this.$t('OK') }
-        });
+        })
         return
       }
       this.callLogin()
@@ -156,15 +156,14 @@
 @import '~theme/css/helpers/functions/color';
 $color-error: color(error);
 $white: color(white);
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.modal-close {
-  cursor: pointer;
-}
+  .modal-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-close{
+    cursor: pointer;
+  }
   .modal-content {
     @media (max-width: 400px) {
       padding-left: 20px;

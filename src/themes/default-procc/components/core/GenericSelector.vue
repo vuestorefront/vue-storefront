@@ -1,19 +1,19 @@
 <template>
   <button
-    :aria-label="$t('Select ' + variant.label)"
-    class="bg-cl-primary brdr-1 brdr-cl-primary brdr-square h5 cl-tertiary generic-selector"
     :class="{'active': isActive}"
+    class="bg-cl-primary brdr-1 brdr-cl-primary brdr-square h5 cl-tertiary generic-selector"
     @click="$emit('change', variant)"
+    :aria-label="$t('Select ' + variant.label)"
   >
     {{ variant.label }}
   </button>
 </template>
 
 <script>
-  import filterMixin from 'theme/mixins/filterMixin.ts'
+import filterMixin from 'theme/mixins/filterMixin.ts'
 
-  export default {
-    mixins: [filterMixin]
+export default {
+  mixins: [filterMixin]
 }
 </script>
 

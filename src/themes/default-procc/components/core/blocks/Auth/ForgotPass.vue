@@ -63,12 +63,12 @@
 
 <script>
 
-  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-  import BaseInput from '../Form/BaseInput.vue'
-  import {email, required} from 'vuelidate/lib/validators'
-  import i18n from '@vue-storefront/i18n'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import BaseInput from '../Form/BaseInput.vue'
+import { required, email } from 'vuelidate/lib/validators'
+import i18n from '@vue-storefront/i18n'
 
-  export default {
+export default {
   validations: {
     email: {
       required,
@@ -83,18 +83,18 @@
       // todo: send email with reset password instructions
 
       if (this.$v.$invalid) {
-        this.$v.$touch();
+        this.$v.$touch()
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: i18n.t('Please fix the validation errors'),
           action1: { label: i18n.t('OK') }
-        });
+        })
         return
       }
 
-      this.$bus.$emit('notification-progress-start', i18n.t('Resetting the password ... '));
+      this.$bus.$emit('notification-progress-start', i18n.t('Resetting the password ... '))
       this.$store.dispatch('user/resetPassword', { email: this.email }).then((response) => {
-        this.$bus.$emit('notification-progress-stop');
+        this.$bus.$emit('notification-progress-stop')
         if (response.code === 200) {
           this.passwordSent = true
         } else {
@@ -105,7 +105,7 @@
           })
         }
       }).catch((err) => {
-        console.error(err);
+        console.error(err)
         this.$bus.$emit('notification-progress-stop')
       })
     },
@@ -128,13 +128,12 @@
 </script>
 
 <style lang="scss" scoped>
-  .modal-header {
+  .modal-header{
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-
-  .modal-close {
+  .modal-close{
     cursor: pointer;
   }
   .modal-content {

@@ -352,17 +352,17 @@
 </template>
 
 <script>
-  import {email, minLength, required, sameAs} from 'vuelidate/lib/validators'
-  import MyProfile from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyProfile'
-  import {unicodeAlpha, unicodeAlphaNum} from '@vue-storefront/core/helpers/validators'
+import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
+import MyProfile from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyProfile'
+import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
 
-  import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
-  import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
-  import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
-  import ButtonFull from 'theme/components/theme/ButtonFull'
-  import Tooltip from 'theme/components/core/Tooltip'
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import Tooltip from 'theme/components/core/Tooltip'
 
-  export default {
+export default {
   components: {
     BaseCheckbox,
     BaseSelect,
