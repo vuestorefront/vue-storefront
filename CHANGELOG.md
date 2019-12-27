@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.12.0-rc1] - UNRELEASED
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
-
+- Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)
 
 ## [1.11.0] - 2019.12.20
 
