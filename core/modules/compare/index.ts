@@ -1,15 +1,11 @@
-import { module } from './store'
-import { createModule } from '@vue-storefront/core/lib/module'
-import { beforeRegistration } from './hooks/beforeRegistration'
-import { afterRegistration } from './hooks/afterRegistration'
-import { initCacheStorage } from '@vue-storefront/core/helpers/initCacheStorage';
-import { plugin } from './store/plugin'
 
-export const KEY = 'compare'
-export const cacheStorage = initCacheStorage(KEY)
-export const Compare = createModule({
-  key: KEY,
-  store: { modules: [{ key: KEY, module }], plugin },
-  beforeRegistration,
-  afterRegistration
-})
+import { compareStore } from './store'
+import cachePersistPlugin from './store/plugin'
+import { StorefrontModule } from '@vue-storefront/core/lib/modules';
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+
+export const CompareModule: StorefrontModule = function ({store}) {
+  StorageManager.init('compare')
+  store.registerModule('compare', compareStore)
+  store.subscribe(cachePersistPlugin)
+}

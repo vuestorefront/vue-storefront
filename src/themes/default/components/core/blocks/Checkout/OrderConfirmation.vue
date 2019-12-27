@@ -6,7 +6,7 @@
     <div slot="content">
       <p>{{ $t('Please confirm order you placed when you was offline') }}</p>
       <div class="mb40" v-for="(order, key) in ordersData" :key="key">
-        <h3>{{ $t('Order #') }}{{ key + 1 }}</h3>
+        <h3>{{ $t('Order #{id}', { id: key + 1}) }}</h3>
         <h4>{{ $t('Items ordered') }}</h4>
         <table class="brdr-1 brdr-cl-bg-secondary">
           <thead>
@@ -34,13 +34,13 @@
                 </span>
               </td>
               <td class="fs-medium lh25" :data-th="$t('Price')">
-                {{ product.priceInclTax | price }}
+                {{ product.price_incl_tax | price }}
               </td>
               <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">
                 {{ product.qty }}
               </td>
               <td class="fs-medium lh25" :data-th="$t('Subtotal')">
-                {{ product.priceInclTax * product.qty | price }}
+                {{ product.price_incl_tax * product.qty | price }}
               </td>
             </tr>
           </tbody>

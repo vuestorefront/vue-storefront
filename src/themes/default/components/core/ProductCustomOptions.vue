@@ -18,7 +18,7 @@
         >
         <div class="m5 relative" v-for="opval in option.values" :key="opval.option_type_id" v-if="option.type === 'radio' || option.type === 'select' || option.type === 'drop_down'">
           <input
-            @change="optionChanged(option, opval)"
+            @change="optionChanged(option)"
             type="radio"
             class="m0 no-outline"
             :name="('customOption_' + option.option_id)"
@@ -30,7 +30,7 @@
         </div>
         <div class="m5 relative" v-for="opval in option.values" :key="opval.option_type_id" v-if="option.type === 'checkbox'">
           <input
-            @change="optionChanged(option, opval)"
+            @change="optionChanged(option)"
             type="checkbox"
             class="m0 no-outline"
             :name="('customOption_' + option.option_id)"
@@ -115,6 +115,7 @@ export default {
     position: absolute;
     top: 3px;
     left: 0;
+    opacity: 0;
     &:checked + label {
       &:before {
         background-color: $color-silver;

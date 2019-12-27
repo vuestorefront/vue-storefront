@@ -25,6 +25,7 @@ This module contains all the logic, components and store related to order operat
 - `paymentMethod` - returns `payment.additional_information[0]` from the `order` computed property
 - `billingAddress` - returns `billing_address` from the `order` computed property
 - `shippingAddress` - returns `extension_attributes.shipping_assignments[0].shipping.address` from the `order` computed property
+- `singleOrderItems` - returns ordered products without `parent_id`
 
 **Methods**
 
