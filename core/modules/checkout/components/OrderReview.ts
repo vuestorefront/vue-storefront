@@ -26,20 +26,19 @@ export const OrderReview = {
     })
   },
   methods: {
-    placeOrder (transactionId) {
-      if (transactionId) {
-        console.log('transactionId', transactionId)
+    placeOrder(transactionId) { // Edited by Dan to verify transaction has passed
+      if (this.getPersonalDetails.createAccount) {
+        console.log('register Start');
+        this.register()
+      } else if(transactionId){
+        console.log('transactionId', transactionId);
         this.$bus.$emit('checkout-before-placeOrder', { transactionId })
+      } else {
+        this.$bus.$emit('checkout-before-placeOrder')
       }
-      this.$nextTick(() => {
-        if (this.getPersonalDetails.createAccount) {
-          console.log('register Start')
-          this.register()
-        }
-      })
     },
     async register () {
-      this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
+      this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'));
 
       try {
         const result = await this.$store.dispatch('user/register', {
@@ -58,11 +57,11 @@ export const OrderReview = {
             ...(this.getShippingDetails.phoneNumber ? { telephone: this.getShippingDetails.phoneNumber } : {}),
             default_shipping: true
           }]
-        })
+        });
 
-        this.$bus.$emit('notification-progress-stop')
+        this.$bus.$emit('notification-progress-stop');
         if (result.code !== 200) {
-          this.onFailure(result)
+          this.onFailure(result);
           // If error includes a word 'password', emit event that eventually focuses on a corresponding field
           if (result.result.includes(i18n.t('password'))) {
             this.$bus.$emit('checkout-after-validationError', 'password')
@@ -72,18 +71,18 @@ export const OrderReview = {
             this.$bus.$emit('checkout-after-validationError', 'email-address')
           }
         } else {
-          this.$bus.$emit('modal-hide', 'modal-signup')
+          this.$bus.$emit('modal-hide', 'modal-signup');
           await this.$store.dispatch('user/login', {
             username: this.getPersonalDetails.emailAddress,
             password: this.getPersonalDetails.password
-          })
-          this.$bus.$emit('checkout-before-placeOrder', result.result.id)
+          });
+          this.$bus.$emit('checkout-before-placeOrder', result.result.id);
           this.onSuccess()
         }
       } catch (err) {
-        this.$bus.$emit('notification-progress-stop')
+        this.$bus.$emit('notification-progress-stop');
         Logger.error(err, 'checkout')()
       }
     }
   }
-}
+};

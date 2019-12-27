@@ -157,26 +157,26 @@
     </section>
     <section class="container px15 pt50 pb35 cl-accent details">
       <h2 class="h3 m0 mb10 serif lh20 details-title">
-              {{ $t('Product details') }}
+        {{ $t('Product details') }}
       </h2>
       <div class="h4 details-wrapper" :class="{'details-wrapper--open': detailsOpen}">
-      <div class="row between-md m0">
-      <div class="col-xs-12 col-sm-6">
-      <div class="lh30 h5" itemprop="description" v-html="getCurrentProduct.description" />
-      </div>
-      <div class="col-xs-12 col-sm-5">
-      <ul class="attributes p0 pt5 m0">
-      <product-attribute
-                      :key="attr.attribute_code"
-                      v-for="attr in getCustomAttributes"
-                      :product="getCurrentProduct"
-                      :attribute="attr"
-                      empty-placeholder="N/A"
-                    />
-      </ul>
-      </div>
-      <div class="details-overlay" @click="showDetails" />
-      </div>
+        <div class="row between-md m0">
+          <div class="col-xs-12 col-sm-6">
+            <div class="lh30 h5" itemprop="description" v-html="getCurrentProduct.description" />
+          </div>
+          <div class="col-xs-12 col-sm-5">
+            <ul class="attributes p0 pt5 m0">
+              <product-attribute
+                :key="attr.attribute_code"
+                v-for="attr in getCustomAttributes"
+                :product="getCurrentProduct"
+                :attribute="attr"
+                empty-placeholder="N/A"
+              />
+            </ul>
+          </div>
+          <div class="details-overlay" @click="showDetails" />
+        </div>
       </div>
     </section>
     <lazy-hydrate when-idle>
@@ -200,43 +200,45 @@
 </template>
 
 <script>
-  import config from 'config'
-  import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
-  import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
-  import AddToCart from 'theme/components/core/AddToCart.vue'
-  import GenericSelector from 'theme/components/core/GenericSelector'
-  import ColorSelector from 'theme/components/core/ColorSelector.vue'
-  import SizeSelector from 'theme/components/core/SizeSelector.vue'
-  import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
-  import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
-  import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
-  import ProductLinks from 'theme/components/core/ProductLinks.vue'
-  import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
-  import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
-  import ProductGallery from 'theme/components/core/ProductGallery'
-  import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
-  import focusClean from 'theme/components/theme/directives/focusClean'
-  import WebShare from 'theme/components/theme/WebShare'
-  import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
-  import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
-  import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
-  import {mapGetters} from 'vuex'
-  import LazyHydrate from 'vue-lazy-hydration'
-  import {ProductOption} from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
-  import {
-    getAvailableFiltersByProduct,
-    getSelectedFiltersByProduct
-  } from '@vue-storefront/core/modules/catalog/helpers/filters'
-  import {isOptionAvailableAsync} from '@vue-storefront/core/modules/catalog/helpers/index'
-  import {currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore'
-  import {htmlDecode} from '@vue-storefront/core/filters'
-  import {ReviewModule} from '@vue-storefront/core/modules/review'
-  import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
-  import {registerModule} from '@vue-storefront/core/lib/modules'
-  import {isServer, onlineHelper} from '@vue-storefront/core/helpers'
-  import {catalogHooksExecutors} from '@vue-storefront/core/modules/catalog-next/hooks'
+import i18n from '@vue-storefront/i18n'
+import Product from '@vue-storefront/core/pages/Product'
+import VueOfflineMixin from 'vue-offline/mixin'
+import config from 'config'
+import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
+import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
+import AddToCart from 'theme/components/core/AddToCart.vue'
+import GenericSelector from 'theme/components/core/GenericSelector'
+import ColorSelector from 'theme/components/core/ColorSelector.vue'
+import SizeSelector from 'theme/components/core/SizeSelector.vue'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
+import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
+import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
+import ProductLinks from 'theme/components/core/ProductLinks.vue'
+import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
+import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
+import ProductGallery from 'theme/components/core/ProductGallery'
+import Spinner from 'theme/components/core/Spinner'
+import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
+import focusClean from 'theme/components/theme/directives/focusClean'
+import WebShare from 'theme/components/theme/WebShare'
+import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
+import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
+import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
+import { mapGetters } from 'vuex'
+import LazyHydrate from 'vue-lazy-hydration'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
+import { getAvailableFiltersByProduct, getSelectedFiltersByProduct } from '@vue-storefront/core/modules/catalog/helpers/filters'
+import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
+import { localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { htmlDecode } from '@vue-storefront/core/filters'
+import { ReviewModule } from '@vue-storefront/core/modules/review'
+import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
+import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
+import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
+import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
-  export default {
+export default {
   components: {
     AddToCart,
     AddToCompare,
@@ -337,11 +339,8 @@
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
   },
   async asyncData ({ store, route }) {
-    const product = await store.dispatch('product/loadProduct', {
-      parentSku: route.params.parentSku,
-      childSku: route && route.params && route.params.childSku ? route.params.childSku : null
-    });
-    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', {product});
+    const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null });
+    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product });
     if (isServer) await loadBreadcrumbsPromise;
     catalogHooksExecutors.productPageVisited(product)
   },

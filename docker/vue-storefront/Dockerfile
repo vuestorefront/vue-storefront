@@ -1,13 +1,12 @@
 FROM node:10-alpine
 
-ENV VS_ENV production
+ENV VS_ENV prod
 
 WORKDIR /var/www
 
 COPY package.json ./
 COPY yarn.lock ./
 
-RUN apk update
 RUN apk add --virtual .build-deps ca-certificates wget git \
   && yarn install \
   && apk del .build-deps
@@ -35,6 +34,7 @@ COPY ./docker ./docker
 COPY ./kubernetes ./kubernetes
 
 EXPOSE 3000
+
 COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
 RUN chmod 774 /usr/local/bin/vue-storefront.sh
 

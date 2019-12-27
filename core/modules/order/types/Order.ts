@@ -9,9 +9,6 @@ export interface Order {
   user_id?: string,
   cart_id?: string,
   store_code?: string,
-  store_id?: number,
-  transaction?: any,  // Added by Dan
-  transactionId?: any,// Added by Dan
   store_id?: number | string,
   transaction?: any, // Added by Dan
   transactionId?: any, // Added by Dan
