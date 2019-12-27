@@ -28,13 +28,15 @@ module.exports = function (csvDirectories, config = null) {
       const extName = path.extname(fullFileName)
       const baseName = path.posix.basename(file, extName)
 
-      if (extName === '.csv') {
-        const fileContent = fs.readFileSync(fullFileName, 'utf8')
-        if (languages.indexOf(baseName) === -1 && currentLocales.indexOf(baseName) !== -1) {
-          languages.push(baseName)
+      if (currentLocales.indexOf(baseName) !== -1) {
+        if (extName === '.csv') {
+          const fileContent = fs.readFileSync(fullFileName, 'utf8')
+          if (languages.indexOf(baseName) === -1) {
+            languages.push(baseName)
+          }
+          console.debug(`Processing translation file: ${fullFileName}`)
+          messages[baseName] = Object.assign(messages[baseName] ? messages[baseName] : {}, convertToObject(dsv.parseRows(fileContent)))
         }
-        console.debug(`Processing translation file: ${fullFileName}`)
-        messages[baseName] = Object.assign(messages[baseName] ? messages[baseName] : {}, convertToObject(dsv.parseRows(fileContent)))
       }
     })
   })
