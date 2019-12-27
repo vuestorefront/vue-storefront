@@ -130,7 +130,7 @@
               class="row m0 mb35"
               v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
               v-model="getCurrentProduct.qty"
-              :max-quantity="maxQuantity"
+              :max-quantity="availableQuantity"
               :loading="isStockInfoLoading"
               :is-simple-or-configurable="isSimpleOrConfigurable"
               :show-quantity="showProductQuantity"
@@ -335,13 +335,19 @@ export default {
         this.isStockInfoLoading ||
         (
           this.isOnline &&
-          (!this.maxQuantity && this.manageStock ) &&
+          !this.hasAvailableQuantity &&
           this.isSimpleOrConfigurable
         )
     },
+    availableQuantity () {
+      return this.manageStock ? this.maxQuantity : 999;
+    },
+    hasAvailableQuantity () {
+      return this.availableQuantity > 0
+    },
     showProductQuantity () {
       return this.manageStock
-    }
+    },
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
