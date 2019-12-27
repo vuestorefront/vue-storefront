@@ -65,7 +65,7 @@ Since core components are just plain JavaScript objects, you can easily modify t
 ```js
 import YourCorePage from '@vue-storefront/core/pages/YourCorePage'
 
-YourCorePage.methods.foo = function () { Logger.log('Overrided method foo')()
+YourCorePage.methods.foo = function () { Logger.log('Overrided method foo')() }
 
 export default {
   ...
