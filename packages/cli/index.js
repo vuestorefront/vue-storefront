@@ -15,7 +15,7 @@ switch (command) {
     break;
   case '-v':
   case '--version':
-    console.log('v' + require('../package.json').version)
+    console.log('v' + require('./package.json').version)
     break;
   default:
     console.log('Unknown command. try one of those:\n')
