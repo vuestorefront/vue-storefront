@@ -423,7 +423,7 @@ export default {
           qty: this.getCurrentProduct.qty
         })
         this.maxQuantity = res.qty
-        this.manageStock = res.manage_stock
+        this.manageStock = res.manageStock
       } finally {
         this.isStockInfoLoading = false
       }
