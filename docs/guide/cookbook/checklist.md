@@ -5,7 +5,7 @@ h4 {
 }
 </style>
 :::tip GUIDE
-This cookbook doesn't have recipes but provide you with a checklist before launching your _VSF_ on production. You can tick the list off one by one having your instance compared with so that making your _restaurant_ ready for _Michelin Inspection_.
+This cookbook doesn't have recipes but provide you with a checklist before launching your _VSF_ on production. You can tick the list off one by one having your instance compared with, so that making your _restaurant_ ready for _Michelin Inspection_.
 :::
 
 In this chapter, we will cover : 
