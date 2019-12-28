@@ -6,11 +6,7 @@ export const importIntlPolyfill = async () => {
 }
 
 export const checkForIntlPolyfill = async (storeView) => {
-  if (global.Intl) {
-    if (!areIntlLocalesSupported(storeView.i18n.defaultLocale)) {
-      await importIntlPolyfill()
-    }
-  } else {
+  if (!global.Intl || !areIntlLocalesSupported(storeView.i18n.defaultLocale)) {
     await importIntlPolyfill()
   }
 }
