@@ -66,7 +66,7 @@ export const getApolloProvider = async () => {
     })
 
     return apolloProvider
-  }
+  } else return null
 }
 
 export default {

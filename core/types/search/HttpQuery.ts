@@ -4,6 +4,7 @@ export default interface HttpQuery {
   from: number,
   sort: string,
   request?: string,
+  request_format?: string,
   _source_exclude?: string,
   _source_include?: string
 }

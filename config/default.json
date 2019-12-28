@@ -3,7 +3,7 @@
     "host": "localhost",
     "port": 3000,
     "protocol": "http",
-    "api": "api",
+    "api": "api-search-query",
     "devServiceWorker": false,
     "useHtmlMinifier": true,
     "htmlMinifierOptions": {
