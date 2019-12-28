@@ -1,6 +1,4 @@
-import config from 'config'
-
-function getConfig (queryText) {
+function getConfig (config, queryText) {
   let scoringConfig = config.elasticsearch.hasOwnProperty('searchScoring') ? config.elasticsearch.searchScoring : {}
   let minimumShouldMatch = scoringConfig.hasOwnProperty('minimum_should_match') ? scoringConfig.minimum_should_match : '75%'
   if (config.elasticsearch.queryMethod === 'GET') {

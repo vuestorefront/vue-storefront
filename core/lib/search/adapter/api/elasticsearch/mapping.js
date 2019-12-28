@@ -1,5 +1,4 @@
-import config from 'config'
-export default function getMapping (attribute, entityType = 'products') {
+export default function getMapping (config, attribute, entityType = 'products') {
   let mapping = [
   ]
 

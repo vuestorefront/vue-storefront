@@ -1,5 +1,4 @@
-import config from 'config'
-export default function getFunctionScores () {
+export default function getFunctionScores (config) {
   if (!config.elasticsearch.hasOwnProperty('searchScoring')) {
     return false
   }
