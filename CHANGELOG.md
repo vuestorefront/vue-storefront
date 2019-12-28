@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Separating endpoints for CSR/SSR - @Fifciu (#2861)
 - Added short hands for version and help flags - @jamesgeorge007 (#3946)
+- Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald (#3960)
 - Add `Intl.NumberFormat()`/`toLocaleString()` via polyfill support in NodeJs - @cewald (#3836)
 
 ### Fixed
