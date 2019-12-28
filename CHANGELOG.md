@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Separating endpoints for CSR/SSR - @Fifciu (#2861)
 - Added short hands for version and help flags - @jamesgeorge007 (#3946)
-- Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald #3834
+- Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald (#3960)
 
 ### Fixed
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
