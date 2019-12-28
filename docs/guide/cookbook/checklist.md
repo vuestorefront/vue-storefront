@@ -95,9 +95,7 @@ The SSR cache is [pretty well documented in our docs](/guide/basics/ssr-cache.ht
 
 [Read on all the caching mechanisms](https://medium.com/the-vue-storefront-journal/caching-on-production-10b00a5614f8) that Vue Storefront is using.
 
-
 #### 2. Using Redis tagging
-
 
 With the SSR Output cache mode enabled, the [`core/server.js`](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/scripts/server.js#L187) stores the rendered output pages along with http headers into Redis cache. If the page exists in Redis, then it gets served without even starting the Vue SSR Renderer.
 
@@ -113,7 +111,23 @@ This `context` argument passed to `asyncData()` is actually the same context obj
 
 #### 3. Invalidating SSR cache
 
+**Note:** With the SSR cache enabled (in the `vue-storefront-api` or `vue-storefront` app) please make sure, you're not using the cache on different layer (for example Varnish or nginx). Otherwise the cache invalidation mechanism won't work. 
 
+The dynamic tags config option: `useOutputCacheTagging` - if set to `true`, Vue Storefront generates the special HTTP Header `X-VS-Cache-Tags`
+
+```js
+res.setHeader('X-VS-Cache-Tags', cacheTags);
+```
+
+Cache tags are assigned regarding the products and categories that are used on the specific page. A typical `X-VS-Cache-Tags` tag looks like this:
+
+```
+X-VS-Cache-Tags: P1852 P198 C20
+```
+
+The tags can be used to invalidate the Varnish cache if you use it. [Read more on that](https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish).
+
+**Note:**  All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/DivanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you properly use the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (either frontend or backend) and it **should be forwarded** to the other. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
 
 <br />
 <br />
