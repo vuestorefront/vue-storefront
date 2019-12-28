@@ -1,4 +1,4 @@
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import SearchQuery from 'storefront-query-builder/lib/searchQuery'
 
 const createHierarchyLoadQuery = ({ id }): SearchQuery => {
   let query = new SearchQuery()

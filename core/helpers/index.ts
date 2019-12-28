@@ -1,4 +1,4 @@
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import SearchQuery from 'storefront-query-builder/lib/searchQuery'
 import { remove as removeAccents } from 'remove-accents'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import Vue from 'vue'

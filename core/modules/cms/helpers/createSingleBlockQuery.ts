@@ -1,4 +1,4 @@
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import SearchQuery from 'storefront-query-builder/lib/searchQuery'
 
 const createSingleBlockQuery = ({ key, value }): SearchQuery => {
   let query = new SearchQuery()
