@@ -1,3 +1,3 @@
-# Ch 14. Checklist for Serious Business
+# Ch 14. Hardcore training for serious business
 
 ## Coming soon!
