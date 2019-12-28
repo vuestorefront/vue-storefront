@@ -58,6 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add defense for incomplete config in preferchCachedAttributes helper
+- Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald #3834
 - Add unit test for \`core/modules/cms\` - @krskibin (#3738)
 
 ### Fixed
