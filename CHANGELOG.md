@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Separating endpoints for CSR/SSR - @Fifciu (#2861)
 - Added short hands for version and help flags - @jamesgeorge007 (#3946)
+- Add `Intl.NumberFormat()`/`toLocaleString()` via polyfill support in NodeJs - @cewald (#3836)
 
 ### Fixed
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
@@ -28,7 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add unit tests for `core/modules/user` - @dz3n (#3470)
 - Add to cart from Wishlist and Product listing for simple products - @Dnd-Dboy, @dz3n (#2637)
 - Add global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
-- Add `Intl.NumberFormat()`/`toLocaleString()` via polyfill support in NodeJs - @cewald (#3836)
 - Add constant which conditions the number of products loading per page - @AdKamil (#3630)
 - Added price filtering key as config - @roywcm
 
