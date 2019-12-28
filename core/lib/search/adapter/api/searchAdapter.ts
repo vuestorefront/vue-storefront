@@ -1,5 +1,5 @@
 import map from 'lodash-es/map'
-import { buildQueryBodyFromSearchQuery } from 'storefront-query-builder'
+import { buildQueryBodyFromSearchQuery } from 'storefront-query-builder/lib'
 import fetch from 'isomorphic-fetch'
 import { slugify, processURLAddress } from '@vue-storefront/core/helpers'
 import queryString from 'query-string'
