@@ -48,13 +48,34 @@ As _Vue Storefront_ stack is mostly associated with _Elasticsearch_ through _Vue
  - You need to have [setup _Vue Storefront_ stack](setup) including _Vue Storefront API_. 
  - ES7 is supported from _Vue Storefront_ version `1.11` and up. You should have it accordingly. 
  - ES7 is supported from _Vue Storefront API_ version `1.11` and up. You should have it accordingly too. 
+ - ES7 is supported from _mage2vuestorefront_ with branch `feature/es7`. You should have it too.  
 
 ### 2. Recipe
+ 0. You should fix `docker-compose.nodejs.yml` file as linked _Elasticsearch_ container should be updated like below : 
+
+<div id="d-nodejs-yml">
+
+</div>
+<script>
+var dNodejsYml = Diff2Html.getPrettyHtml(
+  '--- a/docker-compose.nodejs.yml\n+++ b/docker-compose.nodejs.yml\n@@ -6,7 +6,7 @@ services:\n       context: .\n       dockerfile: docker/vue-storefront-api/Dockerfile\n     depends_on:\n-      - es1\n+      - es7\n       - redis\n     env_file: docker/vue-storefront-api/default.env\n     environment:\n',
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById('d-nodejs-yml').innerHTML = dNodejsYml;
+</script>
+
+
  1. `docker-compose` for _Elasticsearch 7_ is included in `1.11`. Let's run the docker container for _Elasticsearch 7_ from **Vue Storefront API root path** as follows : 
  ```bash
-docker-compose -f docker-compose.elastic7.yml up
+docker-compose -f docker-compose.elastic7.yml -f docker-compose.nodejs.yml up
  ```
- 
+:::tip TIP
+You can run it in the _detach_ mode with option flag `-d` as in 
+ ```bash
+docker-compose -f docker-compose.elastic7.yml -f docker-compose.nodejs.yml up -d
+ ```
+:::
+
  2. You will see the screen as below : 
  ```bash
 Starting es7 ... 
