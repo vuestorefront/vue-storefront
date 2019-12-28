@@ -32,6 +32,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { formatProductLink } from 'core/modules/url/helpers'
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -110,7 +111,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   syncPlatformPricesOver ({ rootGetters }, { skus }) {
     const storeView = currentStoreView()
-    let url = `${config.products.endpoint}/render-list?skus=${encodeURIComponent(skus.join(','))}&currencyCode=${encodeURIComponent(storeView.i18n.currencyCode)}&storeId=${encodeURIComponent(storeView.storeId)}`
+    let url = `${getApiEndpointUrl(config.products, 'endpoint')}/render-list?skus=${encodeURIComponent(skus.join(','))}&currencyCode=${encodeURIComponent(storeView.i18n.currencyCode)}&storeId=${encodeURIComponent(storeView.storeId)}`
     if (rootGetters['tax/getIsUserGroupedTaxActive']) {
       url = `${url}&userGroupId=${rootGetters['tax/getUserTaxGroupId']}`
     }

@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.0-rc1] - UNRELEASED
+
+### Added
+- Separating endpoints for CSR/SSR - @Fifciu (#2861)
+- Added short hands for version and help flags - @jamesgeorge007 (#3946)
+- Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald (#3960)
+
+### Fixed
+- Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
+
+### Changed / Improved
+- Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)
+- Remove commit register mapping - @gibkigonzo (#3875)
+
 ## [1.11.0] - 2019.12.20
 
 ### Added
