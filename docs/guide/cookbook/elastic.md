@@ -101,7 +101,7 @@ es7      | {"type": "server", "timestamp": "2019-12-23T18:00:30,135+0000", "leve
  ```
  :vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/NcfdFuMkJ5LWzVbgb7m35coOV)
 
- You may notice the script spawns two containers, one of which is for `redis` while the other is for `elasticsearch 7`. (`kibana` container is optional from `1.11`)
+ You might notice the script spawns two containers, one of which is for `redis` while the other is for `elasticsearch 7`. (`kibana` container is optional from `1.11`)
 
  3. Visit `localhost:9200` from your browser then it should print likewise as follows :
 ```text
