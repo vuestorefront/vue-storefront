@@ -2,7 +2,7 @@ import { prepareQueryVars } from './gqlQuery'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import fetch from 'isomorphic-fetch'
 import {processESResponseType, processProductsType, processCmsType} from './processor/processType'
-import SearchQuery from '../../searchQuery'
+import SearchQuery from 'storefront-query-builder/lib/searchQuery'
 import config from 'config'
 import { isServer } from '@vue-storefront/core/helpers'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
@@ -46,7 +46,6 @@ export class SearchAdapter {
     if (getApiEndpointUrl(this.entities[Request.type], 'url')) {
       urlGql = getApiEndpointUrl(this.entities[Request.type], 'url')
     } else {
-      
       const serverProtocol = isServer ? getApiEndpointUrl(config.server, 'protocol') : config.server.protocol
       const host = isServer ? getApiEndpointUrl(config.graphql, 'host') : config.graphql.host
       const port = isServer ? getApiEndpointUrl(config.graphql, 'port') : config.graphql.port

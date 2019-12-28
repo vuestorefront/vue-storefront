@@ -13,7 +13,7 @@ import { configureProductAsync,
   configurableChildrenImages,
   attributeImages } from '../../helpers'
 import { preConfigureProduct, getOptimizedFields, configureChildren, storeProductToCache, canCache, isGroupedOrBundle } from '@vue-storefront/core/modules/catalog/helpers/search'
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import SearchQuery from 'storefront-query-builder/lib/searchQuery'
 import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import { optionLabel } from '../../helpers/optionLabel'
 import { isOnline } from '@vue-storefront/core/lib/search'
