@@ -79,10 +79,6 @@ We do have **Static Pages Generator** - currently experimental feature - that ca
 In case you want to dig deeper any concern related to memory leaks, [find out how core teams have dealt with memory leaks](https://github.com/DivanteLtd/vue-storefront/pulls?utf8=%E2%9C%93&q=is%3Apr+memory+is%3Aclosed+leak) in _VueStorefront_ core - and check if any of those edge cases solved can be an inspiration for your project.
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
