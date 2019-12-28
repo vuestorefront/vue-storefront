@@ -12876,8 +12876,8 @@ stealthy-require@^1.1.1:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
 
 "storefront-query-builder@https://github.com/DivanteLtd/storefront-query-builder.git":
-  version "0.0.7"
-  resolved "https://github.com/DivanteLtd/storefront-query-builder.git#62e0129220c1c9968b39e913d2a614c389a2f55b"
+  version "0.0.8"
+  resolved "https://github.com/DivanteLtd/storefront-query-builder.git#26d17c9ae043b54725032687f116b21e83e02a77"
   dependencies:
     clone-deep "^4.0.1"
 

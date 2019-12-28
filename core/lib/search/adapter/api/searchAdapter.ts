@@ -25,7 +25,7 @@ export class SearchAdapter {
     let ElasticsearchQueryBody = {}
     if (Request.searchQuery instanceof SearchQuery) {
       const bodybuilder = await import(/* webpackChunkName: "bodybuilder" */ 'bodybuilder')
-      ElasticsearchQueryBody = await buildQueryBodyFromSearchQuery(config, bodybuilder, Request.searchQuery)
+      ElasticsearchQueryBody = await buildQueryBodyFromSearchQuery(config, bodybuilder.default(), Request.searchQuery)
       if (Request.searchQuery.getSearchText() !== '') {
         ElasticsearchQueryBody['min_score'] = config.elasticsearch.min_score
       }
