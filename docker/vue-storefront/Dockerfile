@@ -7,8 +7,9 @@ WORKDIR /var/www
 COPY package.json ./
 COPY yarn.lock ./
 
-RUN apk add --virtual .build-deps ca-certificates wget git \
-  && yarn install \
+RUN apk add --no-cache --virtual .build-deps ca-certificates wget python make g++ \
+  && apk add --no-cache git \
+  && yarn install --no-cache \
   && apk del .build-deps
 
 COPY shims.d.ts ./
@@ -34,9 +35,9 @@ COPY ./docker ./docker
 COPY ./kubernetes ./kubernetes
 
 EXPOSE 3000
+EXPOSE 3001
 
 COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
 RUN chmod 774 /usr/local/bin/vue-storefront.sh
 
-ENV NODE_ENV production
 CMD ["vue-storefront.sh"]

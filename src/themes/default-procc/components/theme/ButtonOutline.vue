@@ -1,7 +1,7 @@
 <template>
   <component
-    :is="compontentType"
-    :to="redirectionLink"
+    :is="link && link.indexOf('https://') === -1 ? 'router-link' : 'button'"
+    @click="openNewTabProCC"
     class="button-outline no-outline py15 bg-cl-transparent h4 no-underline sans-serif fs-medium"
     :class="{
       light : color === 'light', 'brdr-white' : color === 'light', 'cl-white' : color === 'light',
@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import focusClean from 'theme/components/theme/directives/focusClean'
+  import focusClean from 'theme/components/theme/directives/focusClean'
 
-export default {
+  export default {
   name: 'ButtonOutline',
   directives: { focusClean },
   props: {
@@ -31,14 +31,15 @@ export default {
       required: false
     }
   },
-  computed: {
-    compontentType () {
-      return this.link ? 'router-link' : 'button'
-    },
-    redirectionLink () {
-      return this.link ? this.localizedRoute(this.link) : null
+    methods: {
+      openNewTabProCC() {
+        if (this.link && this.link.indexOf('https://') === 0) {
+          window.open(this.link, '_blank');
+        } else {
+          this.$router.push(this.localizedRoute(this.link))
+        }
+      }
     }
-  }
 }
 </script>
 
