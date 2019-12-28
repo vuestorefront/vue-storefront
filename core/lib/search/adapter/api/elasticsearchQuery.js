@@ -25,11 +25,26 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
           query = query.filter('range', filter.attribute, filter.value)
         } else {
           // process terms filters
+          const operator = Object.keys(filter.value)[0]
           filter.value = filter.value[Object.keys(filter.value)[0]]
-          if (!Array.isArray(filter.value)) {
+          if (!Array.isArray(filter.value) && filter.value !== null) {
             filter.value = [filter.value]
           }
-          query = query.filter('terms', getMapping(filter.attribute), filter.value)
+          if (operator === 'or') {
+            if (filter.value === null) {
+              query = query.orFilter('bool', (b) => {
+                return b.notFilter('exists', getMapping(filter.attribute))
+              })
+            } else {
+              query = query.orFilter('terms', getMapping(filter.attribute), filter.value)
+            }
+          } else {
+            if (filter.value === null) {
+              query = query.filter('exists', getMapping(filter.attribute))
+            } else {
+              query = query.filter('terms', getMapping(filter.attribute), filter.value)
+            }
+          }
         }
       } else if (filter.scope === 'catalog') {
         hasCatalogFilters = true
@@ -46,7 +61,7 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
             let rangeAttribute = catalogfilter.attribute
             // filter by product fiunal price
             if (rangeAttribute === 'price') {
-              rangeAttribute = config.products.priceFilterKey
+              rangeAttribute = 'final_price'
             }
             // process range filters
             filterQr = filterQr.andFilter('range', rangeAttribute, catalogfilter.value)
