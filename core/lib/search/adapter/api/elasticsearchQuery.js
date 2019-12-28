@@ -40,7 +40,7 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
             }
           } else {
             if (filter.value === null) {
-              query = query.filter('exists', getMapping(filter.attribute))
+              query = query.notFilter('exists', getMapping(filter.attribute))
             } else {
               query = query.filter('terms', getMapping(filter.attribute), filter.value)
             }
