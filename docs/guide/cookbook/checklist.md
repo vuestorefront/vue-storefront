@@ -1,6 +1,14 @@
-# Ch 14. Hardcore training for serious business
+# Chef's secret note: Hardcore training for serious business
+<style>
+h4 {
+    font-weight: 500;
+}
+</style>
+:::tip GUIDE
+This cookbook doesn't have recipes but provide you with a checklist before launching your _VSF_ on production. You can tick the list off one by one having your instance compared with so that making your _restaurant_ ready for _Michelin Inspection_.
+:::
 
-In this chapter, we cover : 
+In this chapter, we will cover : 
 
 [[toc]]
 
