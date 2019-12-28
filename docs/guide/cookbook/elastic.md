@@ -142,9 +142,128 @@ document.getElementById('d-local-json').innerHTML = dLocalJson;
 ```bash
 yarn db7 new
 ```
- :vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/UErONnmqK1m2EFNkWRrG0E6p4)
 
 This is because you should newly put mapping for _Elasticsearch 7_ which only allows one _document_ per single _index_. [more info](https://www.elastic.co/guide/en/elasticsearch/reference/current/breaking-changes-7.0.html)
+
+ The screen spits log as follows : 
+```bash
+yarn run v1.21.1
+$ node scripts/db7.js new
+** Hello! I am going to create NEW ES index
+Public index alias does not exists aliases_not_found_exception
+Public index alias does not exists aliases_not_found_exception
+Public index alias does not exists aliases_not_found_exception
+Public index alias does not exists aliases_not_found_exception
+Public index alias does not exists aliases_not_found_exception
+Public index alias does not exists aliases_not_found_exception
+Public index alias does not exists aliases_not_found_exception
+Done in 2.27s.
+```
+ :vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/UErONnmqK1m2EFNkWRrG0E6p4)
+
+Don't worry about `aliases_not_found_exception`. It simply means it failed to cleanse the orphaned aliases since there was none to delete in the first place.
+
+ 6. Check if the mapping has been created successfully from the terminal against Elasticsearch API : 
+```bash
+curl -XGET 'http://localhost:9200/_mapping?pretty=true'
+```
+
+ Result should be shown as : 
+```bash
+{
+  "vue_storefront_catalog_cms_block" : {
+    "mappings" : {
+      "properties" : {
+        "creation_time" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        },
+        "id" : {
+          "type" : "long"
+        },
+        "identifier" : {
+          "type" : "keyword"
+        },
+        "update_time" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        }
+      }
+    }
+  },
+  "vue_storefront_catalog_review" : {
+    "mappings" : { }
+  },
+  "vue_storefront_catalog_taxrule" : {
+    "mappings" : {
+      "properties" : {
+        "id" : {
+          "type" : "long"
+        },
+        "rates" : {
+          "properties" : {
+            "rate" : {
+              "type" : "float"
+            }
+          }
+        }
+      }
+    }
+  },
+
+# ... abridged ...
+
+  "vue_storefront_catalog_category" : {
+    "mappings" : {
+      "properties" : {
+        "created_at" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        },
+        "is_active" : {
+          "type" : "boolean"
+        },
+        "parent_id" : {
+          "type" : "integer"
+        },
+        "position" : {
+          "type" : "integer"
+        },
+        "product_count" : {
+          "type" : "integer"
+        },
+        "slug" : {
+          "type" : "keyword"
+        },
+        "updated_at" : {
+          "type" : "date",
+          "format" : "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        },
+        "url_key" : {
+          "type" : "keyword"
+        },
+        "url_path" : {
+          "type" : "keyword"
+        }
+      }
+    }
+  }
+}
+``` 
+You can find each index has only its single mapping with convention `${indexName}_${entityType}`.
+
+ 7. Next thing is, pumping data from source web store to the newly created ES7 index. Go to _mage2vuestorefront_ directory and fix `apiVersion` inside `elasticsearch` node in `config.js`.
+
+<div id="d-config-js">
+
+</div>
+<script>
+var dConfigJs = Diff2Html.getPrettyHtml(
+  '--- a/src/config.js\n+++ b/src/config.js\n@@ -61,7 +61,7 @@ module.exports = {\n   },\n \n   elasticsearch: {\n-    apiVersion: process.env.ELASTICSEARCH_API_VERSION || \'5.6\'\n+    apiVersion: process.env.ELASTICSEARCH_API_VERSION || \'7.1\' \n   },\n \n   redis: {\n',
+  {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
+);
+document.getElementById('d-config-js').innerHTML = dConfigJs;
+</script>
 
 
 ### 3. Peep into the kitchen (what happens internally)
