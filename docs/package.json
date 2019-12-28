@@ -1,11 +1,14 @@
 {
   "name": "@vue-storefront/docs",
   "private": true,
+  "engines": {
+    "node": "10.0"
+  }, 
   "version": "1.10.5",
   "scripts": {
     "docs:dev": "vuepress dev",
     "docs:build": "vuepress build",
-    "build": "vuepress build && mv .vuepress/dist dist"
+    "build": "node -v && vuepress build && mv .vuepress/dist dist"
   },
   "dependencies": {
     "diff2html": "^2.12.1",
