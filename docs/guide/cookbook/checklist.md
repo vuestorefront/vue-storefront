@@ -21,7 +21,7 @@ These training materials are a set of chief-recipes, experiences learned from th
 Some topics here were taken from [frequently asked questions in our Forum](https://forum.vuestorefront.io/c/help). Some [came from Slack](http://slack.vuestorefront.io). Some came from core-consulting and our own works. One thing in common; each and every recipe is super-crucial for stable _VueStorefront_ run on production and they all cause some serious results when executed carelessly. 
 
 ## 1. Memory leaks
-Vue Storefront consist of two NodeJS applications:
+_VueStorefront_ consists of two Node.js applications:
 - `vue-storefront` - which is the frontend app, with the entry point of [`core/scripts/server.js`](https://github.com/DivanteLtd/vue-storefront/blob/4ed26d7f1978a9e798edcddf1cf2f970c3e64e4f/core/scripts/server.js#L269)
 - `vue-storefornt-api` - which is backend/api app.
 
@@ -36,9 +36,9 @@ Start with `yarn pm2 status` or `yarn pm2 monit` for details from _VueStorefront
 
 The `pm2` [memory usage](http://pm2.keymetrics.io/docs/usage/monitoring/) is growing with each page refresh.
 
-_PM2_ restarts the process after [1GB of RAM (by default)](https://github.com/DivanteLtd/vue-storefront/blob/master/ecosystem.json) is in use; This can be adjusted and together with multiple node `instances` set in `ecosystem.json`, it's pretty good work-around for memory leaks.
+_PM2_ restarts the process after [1GB of RAM (by default)](https://github.com/DivanteLtd/vue-storefront/blob/master/ecosystem.json#L5) is in use; This can be adjusted and together with multiple node `instances` set in `ecosystem.json`, it's pretty good work-around for memory leaks.
 
-Additionally, there are many ways to trace memory leaks, however we're using the browser tools (Memory profile) most of the time. [Here you have it explained in details](https://marmelab.com/blog/2018/04/03/how-to-track-and-fix-memory-leak-with-nodejs.html). Another usefull tools are [New Relic APM](http://newrelic.com) and [Google Trace](https://cloud.google.com/trace/docs/setup/nodejs)
+Additionally, there are many ways to trace memory leaks, however we're using the browser tools (Memory profile) most of the time. [Here you have it explained in details](https://marmelab.com/blog/2018/04/03/how-to-track-and-fix-memory-leak-with-nodejs.html). Another useful tools are [New Relic APM](http://newrelic.com) and [Google Trace](https://cloud.google.com/trace/docs/setup/nodejs)
 
 
 #### 2. How to use Vue plugins
@@ -51,7 +51,7 @@ once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
 })
 ```
-This is a helper _helping_ you safely use plugins. Feel free to use it around with all your plugins and mixins instantiation. 
+This is a helper __helping__ you safely use plugins. Feel free to use it around with all your plugins and mixins instantiation. 
 
 :::tip FURTHER STUDY
 Vue.js docs has pretty good section on [how to avoid Vue.js memory leaks](https://vuejs.org/v2/cookbook/avoiding-memory-leaks.html). 
