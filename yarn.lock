@@ -12864,10 +12864,9 @@ stealthy-require@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
 
-storefront-query-builder@^0.0.3:
+"storefront-query-builder@https://github.com/DivanteLtd/storefront-query-builder.git":
   version "0.0.3"
-  resolved "https://registry.yarnpkg.com/storefront-query-builder/-/storefront-query-builder-0.0.3.tgz#314e01800ee95a973811e02ca93f6449953c6cf8"
-  integrity sha512-x7v2ez+35J7LtyOIXBWa3UbFwXooF5kDrpPBV/SL3VbWGP0bOIryPCVzhNGlwc6ILhpdS1r6m1xnEhD39kEyqg==
+  resolved "https://github.com/DivanteLtd/storefront-query-builder.git#94d55ae5503d0719ae63f4a347641f4d0ae32ff3"
   dependencies:
     lodash-es "^4.17.15"
 
