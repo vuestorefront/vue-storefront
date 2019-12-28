@@ -83,12 +83,19 @@ In case you want to dig deeper any concern related to memory leaks, [find out ho
 <br />
 
 ## 2. SSR Output cache
+_VueStorefront_ supports [Server Side Rendering](https://vuejs.org/v2/guide/ssr.html). In this mode the same code which is executed in browser (CSR; Client Side Rendering), runs on the server in order to generate the HTML markup. The markup, then, gets transfered to the browser, rendered (extremly fast as the browsers have been all optimized to ... render html text in the last 20+ years) and [hydrated](https://ssr.vuejs.org/guide/hydration.html) from the [initial state](https://ssr.vuejs.org/guide/data.html#final-state-injection). During this whole procedure the client side or say browser scripts can use exactly the same code base universally. Another cool feature is that static HTML markup is well indexed by Search Engine crawlers which is extremely important for SEO.
+
+Usually, _VueStorefront_ works pretty fast and all SSR requests are finished in between 100-300ms; However, if your database is huge or your server resources are low, or probably the traffic is extremely high you might want to enable the output cache. The other reason is that you might want to use SSR cache to prevent memory leaks or should I say, hide them ;)
+
+### Protip
+
+#### 1. SSR Cache docs
+The SSR cache is [pretty well documented in our docs](/guide/basics/ssr-cache.html). What's important; It works for both: `vue-storefront` and `vue-storefront-api`.
+
+[Read on all the caching mechanisms](https://medium.com/the-vue-storefront-journal/caching-on-production-10b00a5614f8) that Vue Storefront is using.
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
+#### 2. 
 <br />
 <br />
 
