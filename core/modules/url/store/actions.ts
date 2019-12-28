@@ -1,6 +1,5 @@
 import { UrlState } from '../types/UrlState'
 import { ActionTree } from 'vuex';
-import * as types from './mutation-types'
 // you can use this storage if you want to enable offline capabilities
 import { cacheStorage } from '../'
 import queryString from 'query-string'
@@ -13,8 +12,10 @@ import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
   // if you want to use cache in your module you can load cached data like this
-  async registerMapping ({ commit }, { url, routeData }: { url: string, routeData: any}) {
-    commit(types.REGISTER_MAPPING, { url, routeData })
+  async registerMapping ({ state }, { url, routeData }: { url: string, routeData: any}) {
+    if (!state.dispatcherMap[url]) {
+      state.dispatcherMap[url] = routeData
+    }
     try {
       await cacheStorage.setItem(normalizeUrlPath(url), routeData, null, config.seo.disableUrlRoutesPersistentCache)
     } catch (err) {

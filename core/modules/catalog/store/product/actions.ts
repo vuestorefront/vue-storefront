@@ -19,6 +19,7 @@ import { optionLabel } from '../../helpers/optionLabel'
 import { isOnline } from '@vue-storefront/core/lib/search'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
+import cloneDeep from 'lodash-es/cloneDeep'
 import uniqBy from 'lodash-es/uniqBy'
 import rootStore from '@vue-storefront/core/store'
 import RootState from '@vue-storefront/core/types/RootState'
@@ -31,6 +32,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { formatProductLink } from 'core/modules/url/helpers'
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -109,7 +111,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   syncPlatformPricesOver ({ rootGetters }, { skus }) {
     const storeView = currentStoreView()
-    let url = `${config.products.endpoint}/render-list?skus=${encodeURIComponent(skus.join(','))}&currencyCode=${encodeURIComponent(storeView.i18n.currencyCode)}&storeId=${encodeURIComponent(storeView.storeId)}`
+    let url = `${getApiEndpointUrl(config.products, 'endpoint')}/render-list?skus=${encodeURIComponent(skus.join(','))}&currencyCode=${encodeURIComponent(storeView.i18n.currencyCode)}&storeId=${encodeURIComponent(storeView.storeId)}`
     if (rootGetters['tax/getIsUserGroupedTaxActive']) {
       url = `${url}&userGroupId=${rootGetters['tax/getUserTaxGroupId']}`
     }
@@ -682,13 +684,20 @@ const actions: ActionTree<ProductState, RootState> = {
   },
   async loadProductBreadcrumbs ({ dispatch, rootGetters }, { product } = {}) {
     if (product && product.category_ids) {
-      let currentCategory = rootGetters['category-next/getCurrentCategory'] // use current category, if set
-      if (!currentCategory || !currentCategory.id || !product.category_ids.includes(currentCategory.id.toString())) {
-        const categoryFilters = Object.assign({ 'id': product.category_ids }, config.entities.category.breadcrumbFilterFields)
-        const categories = await dispatch('category-next/loadCategories', {filters: categoryFilters}, { root: true })
-        currentCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
+      const currentCategory = rootGetters['category-next/getCurrentCategory']
+      let breadcrumbCategory
+      const categoryFilters = Object.assign({ 'id': [...product.category_ids] }, cloneDeep(config.entities.category.breadcrumbFilterFields))
+      const categories = await dispatch('category-next/loadCategories', { filters: categoryFilters, reloadAll: Object.keys(config.entities.category.breadcrumbFilterFields).length > 0 }, { root: true })
+      if (
+        (currentCategory && currentCategory.id) && // current category exist
+        (config.entities.category.categoriesRootCategorylId !== currentCategory.id) && // is not highest category (All) - if we open product from different page then category page
+        (categories.findIndex(category => category.id === currentCategory.id) >= 0) // can be found in fetched categories
+      ) {
+        breadcrumbCategory = currentCategory // use current category if set and included in the filtered list
+      } else {
+        breadcrumbCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
       }
-      await dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: product.name }, { root: true })
+      await dispatch('category-next/loadCategoryBreadcrumbs', { category: breadcrumbCategory, currentRouteName: product.name }, { root: true })
     }
   }
 }

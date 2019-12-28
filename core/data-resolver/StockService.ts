@@ -3,10 +3,11 @@ import { DataResolver } from './types/DataResolver';
 import { TaskQueue } from '@vue-storefront/core/lib/sync';
 import Task from '@vue-storefront/core/lib/sync/types/Task';
 import { processURLAddress } from '@vue-storefront/core/helpers';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 const queueCheck = (sku: string, actionName: string): Promise<any> =>
   TaskQueue.queue({
-    url: processURLAddress(`${config.stock.endpoint}/check?sku=${encodeURIComponent(sku)}`),
+    url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -19,7 +20,7 @@ const queueCheck = (sku: string, actionName: string): Promise<any> =>
 
 const check = (sku: string): Promise<Task> =>
   TaskQueue.execute({
-    url: processURLAddress(`${config.stock.endpoint}/check?sku=${encodeURIComponent(sku)}`),
+    url: processURLAddress(`${getApiEndpointUrl(config.stock, 'endpoint')}/check?sku=${encodeURIComponent(sku)}`),
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -32,7 +33,7 @@ const check = (sku: string): Promise<Task> =>
 const list = (skuList: string[]): Promise<Task> =>
   TaskQueue.execute({
     url: processURLAddress(
-      `${config.stock.endpoint}/list?skus=${encodeURIComponent(
+      `${getApiEndpointUrl(config.stock, 'endpoint')}/list?skus=${encodeURIComponent(
         skuList.join(',')
       )}`
     ),

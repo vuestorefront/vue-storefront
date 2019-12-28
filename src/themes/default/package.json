@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/theme-default",
-  "version": "1.11.0-rc.2",
+  "version": "1.11.0",
   "description": "Default theme for Vue Storefront",
   "main": "index.js",
   "scripts": {

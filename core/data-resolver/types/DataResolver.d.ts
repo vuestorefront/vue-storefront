@@ -17,7 +17,8 @@ declare namespace DataResolver {
     start?: number,
     sort?: string,
     includeFields?: string[],
-    excludeFields?: string[]
+    excludeFields?: string[],
+    reloadAll?: boolean
   }
 
   interface Customer {
@@ -40,7 +41,7 @@ declare namespace DataResolver {
     resetPassword: (email: string) => Promise<Task>,
     login: (username: string, password: string) => Promise<Task>,
     register: (customer: Customer, pssword: string) => Promise<Task>,
-    updateProfile: (userProfile: UserProfile) => Promise<Task>,
+    updateProfile: (userProfile: UserProfile, actionName: string) => Promise<Task>,
     getProfile: () => Promise<Task>,
     getOrdersHistory: (pageSize?: number, currentPage?: number) => Promise<Task>,
     changePassword: (passwordData: PasswordData) => Promise<Task>,

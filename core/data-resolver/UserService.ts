@@ -4,6 +4,7 @@ import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
 import config from 'config'
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 
 const headers = {
   'Accept': 'application/json, text/plain, */*',
@@ -12,7 +13,7 @@ const headers = {
 
 const resetPassword = async (email: string): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.users.resetPassword_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'resetPassword_endpoint')),
     payload: {
       method: 'POST',
       mode: 'cors',
@@ -23,7 +24,7 @@ const resetPassword = async (email: string): Promise<Task> =>
 
 const login = async (username: string, password: string): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.users.login_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'login_endpoint')),
     payload: {
       method: 'POST',
       mode: 'cors',
@@ -34,7 +35,7 @@ const login = async (username: string, password: string): Promise<Task> =>
 
 const register = async (customer: DataResolver.Customer, password: string): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.users.create_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'create_endpoint')),
     payload: {
       method: 'POST',
       headers,
@@ -42,20 +43,21 @@ const register = async (customer: DataResolver.Customer, password: string): Prom
     }
   })
 
-const updateProfile = async (userProfile: UserProfile): Promise<Task> =>
-  TaskQueue.execute({
-    url: processLocalizedURLAddress(config.users.me_endpoint),
+const updateProfile = async (userProfile: UserProfile, actionName: string): Promise<any> =>
+  TaskQueue.queue({
+    url:processLocalizedURLAddress(getApiEndpointUrl(config.users, 'me_endpoint')),
     payload: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
       body: JSON.stringify(userProfile)
-    }
+    },
+    callback_event: `store:${actionName}`
   })
 
 const getProfile = async () =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.users.me_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'me_endpoint')),
     payload: {
       method: 'GET',
       mode: 'cors',
@@ -66,7 +68,7 @@ const getProfile = async () =>
 const getOrdersHistory = async (pageSize = 20, currentPage = 1): Promise<Task> =>
   TaskQueue.execute({
     url: processLocalizedURLAddress(
-      config.users.history_endpoint.replace('{{pageSize}}', pageSize).replace('{{currentPage}}', currentPage)
+      getApiEndpointUrl(config.users, 'history_endpoint').replace('{{pageSize}}', pageSize+'').replace('{{currentPage}}', currentPage+'')
     ),
     payload: {
       method: 'GET',
@@ -77,7 +79,7 @@ const getOrdersHistory = async (pageSize = 20, currentPage = 1): Promise<Task> =
 
 const changePassword = async (passwordData: DataResolver.PasswordData): Promise<Task> =>
   TaskQueue.execute({
-    url: processLocalizedURLAddress(config.users.changePassword_endpoint),
+    url: processLocalizedURLAddress(getApiEndpointUrl(config.users, 'changePassword_endpoint')),
     payload: {
       method: 'POST',
       mode: 'cors',
@@ -87,7 +89,7 @@ const changePassword = async (passwordData: DataResolver.PasswordData): Promise<
   })
 
 const refreshToken = async (refreshToken: string): Promise<string> =>
-  fetch(processLocalizedURLAddress(config.users.refresh_endpoint), {
+  fetch(processLocalizedURLAddress(getApiEndpointUrl(config.users, 'refresh_endpoint')), {
     method: 'POST',
     mode: 'cors',
     headers,

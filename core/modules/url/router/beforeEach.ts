@@ -54,6 +54,7 @@ export async function beforeEachGuard (to: Route, from: Route, next) {
   } else {
     next()
     RouterManager.unlockRoute()
+    routerHelper.popStateDetected = false
   }
 
   routerHelper.popStateDetected = false

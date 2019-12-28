@@ -106,8 +106,7 @@ export default {
       const productList = this.products || []
       if (this.selectedCategoryIds.length) {
         return productList.filter(product => product.category_ids.some(categoryId => {
-          const catId = parseInt(categoryId)
-          return this.selectedCategoryIds.includes(catId)
+          return this.selectedCategoryIds.includes(categoryId)
         }))
       }
       return productList
