@@ -1,6 +1,4 @@
-import config from 'config'
-
-export default function getBoosts (attribute = '') {
+export default function getBoosts (config, attribute = '') {
   let searchableAttributes = [
   ]
 
