@@ -182,12 +182,107 @@ More than that - Vue Storefront always get's the **platform totals** (the final 
 
 ## 4. Avoiding stock desynchronization
 
+Pretty much the same case like with the Prices (Tip 3) can occur with the product stocks. By default, all the indexers are setting the [stock information right into the product object](https://github.com/DivanteLtd/vue-storefront-integration-sdk/blob/tutorial/Format-product.md):
+
+ - it's in the main structure of `product.stock`
+ - it's set for the `configurable_children` into `product.configurable_children.stock`.
+
+ This information can be outdated.
+
+ Vue Storefront **by default** checks the current stock information when:
+ - [**user is adding product to the cart**](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/store/actions/itemActions.ts#L53) - this is an async sync (similar one is run when browsing the product variants - you can get info like `0 items available` when switching colors and sizes); `Checkout.js` is waiting for all the results from the [`stock/queueCheck`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/pages/Checkout.js#L69) calls,
+ - when the **cart is synced** with the server - eCommerce backend [checks the product availability once again](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/store/actions/mergeActions.ts#L45) and [notify user](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/components/AddToCart.ts#L31) if the product can't be added to the cart or restores previous quantity (if changed),
+ - when the `filterOutUnavailableVariants` mode is on and the user a) enters the product page, b) browses the category pages.
+
+ The `config.products.filterOutUnavailableVariants` mode is pretty interesting thing because only by having this mode switched on you can be sure we're **not displaying unavailable variants**. When it's true Vue Storefront is taking the Stock information out of Magento and updates the `product.stock` info for the whole product list + product page (current product). Then it removes all the `configurable_children` that are not avaialable. [See the detailed implementation](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L121).
+
+There are two additional settings for this mode on:
+ - `config.prodducts.configurableChildrenStockPrefetchStatic` - when this is true, Vue Storefront is prefetching the stock info for the statically set number of product, it can be configured by `config.products.configurableChildrenStockPrefetchStaticPrefetchCount`,
+ - `config.prodducts.configurableChildrenStockPrefetchDynamic` - when this is set to true, Vue Storefront is prefetching the stock info for any visible product; it's done in the [`ProductTile.vue](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/src/themes/default/components/core/ProductTile.vue#L108) - make sure your theme is supporting this.
+    
+We've got the limited support for Magento MSI in the default implementation. [Make sure you've got it enabled when on Magento 2.3.x](https://github.com/DivanteLtd/vue-storefront-api/pull/226).
+
+**Note:** This feature might then be used for the **Donut caching** strategies (related to Tip 2 - SSR cache).
+
+**Note:** If you need to avoid Magento stock calls there is a way by getting the data with the same format as `https://vue-storefront-api/api/stock/list` is returning but from Elastic. It should be a drop-in replacement - I [mean changing the `stock.endpoint`](https://github.com/DivanteLtd/vue-storefront/blob/bb9044d6aaa36d4881733876f4646fabe7b6e102/config/default.json#L368) to this new one. Et viola: you avoid asking Magento, still having this 'cache punch holing' with `config.products.filterOutUnavailableVariants` mode on
+
+There is a ready made endpoint for getting stock from Elastic (not from Magento) [is here #PR330](https://github.com/DivanteLtd/vue-storefront-api/pull/330).
+
+**Troubleshooting:** If the non-existing variants won't disappear that means some frontend work on your side needs to be done. I mean - with this `filterOutUnavailableVariants` setting, we're pulling the current stock info to `product.stock` and `product.configurable_children.stock` properties. By those properties updated we're then removing the out-of-stock `configurable_children`.
+If the variants arer still available then [take a look at this line](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/store/product/actions.ts#L629) and there should be a change made like:
+
+from:
+
+```js
+        if (isServer) {
+          subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
+          subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
+        } else {
+          attributesPromise.then(() => context.dispatch('setupBreadcrumbs', { product: product })) // if this is client's side request postpone breadcrumbs setup till attributes are loaded to avoid too-early breadcrumb switch #2469
+          context.dispatch('filterUnavailableVariants', { product: product }) // exec async
+        }
+```
+to:
+
+```js
+          subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
+        if (isServer) {
+          subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
+        } else {
+          attributesPromise.then(() => context.dispatch('setupBreadcrumbs', { product: product })) // if this is client's side request postpone breadcrumbs setup till attributes are loaded to avoid too-early breadcrumb switch #2469
+        }
+```
+
+Just in order to make sure that attribute filtering always takes place before rendering the PDP.
 
 <br />
 <br />
 
 ## 5. How Vue Storefront calculates prices and taxes
 
+Vue Storefront has two modes of calculating the product prices:
+- Client side (when `config.tax.calculateServerSide` is set to `false`) - that can be usefull in case the tax should be recalculated based on the address change,
+- Server side (when `config.tax.calculateServerSide` is set to `true`) - which is our default mode.
+
+Depending on the mode, taxes are calulated by [`taxCalc.ts` client side](https://github.com/DivanteLtd/vue-storefront/blob/5f2b5cd6a8496a60884c091e8509d3b58b7a0358/core/modules/catalog/helpers/taxCalc.ts#L74) or [`taxcalc.js` server side](https://github.com/DivanteLtd/vue-storefront-api/blob/d3d0e7892cd063bbd69e545f3f2b6fdd9843d524/src/lib/taxcalc.js#L251-L253). 
+
+You may see that both these files are applying **exactly** the same logic.
+
+In order to calculate the prices and taxes we need first toget the proper tax rate. It's based on [`taxrate`](https://github.com/DivanteLtd/vue-storefront-integration-sdk#taxrate-entity) entity, stored in the Elastic. Each product can have the property [`product.tax_class_id`](https://github.com/DivanteLtd/vue-storefront/blob/5f2b5cd6a8496a60884c091e8509d3b58b7a0358/core/modules/catalog/helpers/taxCalc.ts#L213) set. Depending on it's value Vue Storefront is applying the `taxrate`, it's also applying the [country and region to the filter](https://github.com/DivanteLtd/vue-storefront/blob/5f2b5cd6a8496a60884c091e8509d3b58b7a0358/core/modules/catalog/helpers/taxCalc.ts#L226). 
+
+**Note:** We're currently not supporting searching the tax rules by `customer_tax_class_id` neither by the `tax_postcode` fields of `taxrate` entity. Pull requests more than welcome ;)
+
+After getting the right tax rate we can calculate the prices.
+
+We've got the following price fields priority in the VS:
+- `final_price` - if set, depending on the `config.tax.finalPriceIncludesTax` - it's taken as final price or Net final price,
+- `special_price` - if it's set and it's lower than `price` it will replace the `price` and the `price` value will be set into `original_price` property,
+- `price` - if set, dedending on the `config.tax.sourcePriceIncludesTax` - it's taken as final price or Net final price.
+
+Depending on the `config.tax.finalPriceIncludesTax` and `config.tax.sourcePriceIncludesTax` settings Vue Storefront calculates the prices and stores them into following fields.
+
+Product Special price:
+- `special_price` - optional, if set - it's always Net price,
+- `special_price_incl_tax` - optional, if set - it's always price after taxes,
+- `special_price_tax` - optional, if set it's the tax amount.
+
+Product Regular price:
+- `price` - required, if set - it's always Net price,
+- `price_incl_tax` - required, if set - it's always price after taxes,
+- `price_tax` - required, if set it's the tax amount,
+
+Product Final price:
+- `final_price` - optional, if set - it's always Net price,
+- `final_price_incl_tax` - optional, if set - it's always price after taxes,
+- `final_price_tax` - optional, if set it's the tax amount,
+
+Product Original price (set only if `final_price` or `special_price` are lower than `price`):
+- `original_price` - optional, if set - it's always Net price,
+- `original_price_incl_tax` - optional, if set - it's always price after taxes,
+- `original_price_tax` - optional, if set it's the tax amount.
+
+**Note:** The prices are being set for all `configurable_children` with the exact same format
+**Note:** If any of the `configurable_children` has the price lower than the main product, the main product price will be updated accordingly.
 
 <br />
 <br />
