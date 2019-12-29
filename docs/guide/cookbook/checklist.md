@@ -692,6 +692,61 @@ Read more on [ElasticSearch deployment best practices](https://medium.com/@abhid
 
 ## 13. .htaccess, server side redirects, HTTP codes and headers, middlewares
 
+We strongly recommend using kind of HTTP server as a proxy in front of Vue Storefront. Let it be `nginx` (suggested in our [production setup docs](https://docs.vuestorefront.io/guide/installation/production-setup.html)) or `Varnish` or even `Apache`. Any of those HTTP servers allows you to add some authorization or redirects layer before Vue Storefront.
+
+This is a recommended way.
+
+However, by using [advanced output processing](https://docs.vuestorefront.io/guide/core-themes/layouts.html#how-it-works) you can easily generate any text data output from your Vue Storefront site you want. Including JSON, XML and others. It's a way to generate sitemaps and other data based documents.
+
+The other option is to create a `Express.js` middleware. Our `core/scripts/server.ts` is a classical Node.js application so it should be easy. To do so you might want to create a [server module](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/compress/server.ts).
+
+Server modules are located in `src/modules` and always have the `server.ts` entry point which is responding to one of few server entry points:
+
+- `afterProcessStarted` - executed just [after the server started](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L13)
+- `afterApplicationInitialized` - executed just [after Express app got initialized](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L34). It's a good entry point to bind new request handlers (`app.get(...`, `app.use(...`). Read more on [Express.js request handlers and routing](https://expressjs.com/en/guide/routing.html),
+- `beforeOutputRenderedResponse` - executed [after the SSR rendering has been done](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L189) but before sending it out to the browser; it let you to override the rendered SSR content with your own,
+- `afterOutputRenderedResponse` - executed [after advanced output processing pipeline](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L212) executed,
+- `beforeCacheInvalidated`, `afterCacheInvalidated` - executed [before and after cache has been invalidated](https://github.com/DivanteLtd/vue-storefront/blob/2c6e0e1c8e73952beabf550fe4530344a6bcce15/core/scripts/server.ts#L76)
+
+Here is an [example how to bind](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/google-cloud-trace/server.ts) tracing module just after server process started:
+
+```js
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+serverHooks.afterProcessStarted((config) => {
+  let trace = require('@google-cloud/trace-agent')
+  if (config.has('trace') && config.get('trace.enabled')) {
+    trace.start(config.get('trace.config'))
+  }
+})
+```
+
+[Another example](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/modules/compress/server.ts) - pretty common case - binding new Express middleware to process all user requests BEFORE they're processed by SSR rendering pipeline (including custom URL addresses):
+
+```js
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+const compression = require('compression')
+serverHooks.afterApplicationInitialized(({ app, isProd }) => {
+  if (isProd) {
+    console.log('Output Compression is enabled')
+    app.use(compression({ enabled: isProd }))
+  }
+})
+```
+
+If you'd like to bind custom URL address this example can be modified like this:
+
+```js
+import { serverHooks } from '@vue-storefront/core/server/hooks'
+
+serverHooks.afterApplicationInitialized(({ app, isProd }) => {
+  app.get('/custom-url-address', (req, res) => {
+    res.end('Custom response')
+  })
+})
+```
+
 
 <br />
 <br />
