@@ -359,23 +359,25 @@ Of course, in the end please make sure that you compress (gzip + minify) the SSR
 
 ## 7. Url Dispatcher explained 
 
-Starting with Vue Storefront 1.9 we're supporting [custom url structure](https://docs.vuestorefront.io/guide/basics/url.html). `UrlDispatcher` is enabled by the [`config.seo.useUrlDispatcher`](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/config/default.json#L29). 
+Starting with Vue Storefront 1.9 we support [custom url structure](https://docs.vuestorefront.io/guide/basics/url.html). `UrlDispatcher` is enabled by default in the [`config.seo.useUrlDispatcher`](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/config/default.json#L29). 
 
-The business logick of the dispatcher was implemented as a [Vue router guard](https://router.vuejs.org/guide/advanced/navigation-guards.html) - [`beforeEach`](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/router/beforeEach.ts#L41).
+The business logic of the dispatcher has been implemented as a [Vue router guard](https://router.vuejs.org/guide/advanced/navigation-guards.html) - [`beforeEach`](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/router/beforeEach.ts#L41).
 
-The dispatcher is first runing the [`url/mapUrl`](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/store/actions.ts#L42). This action is first checking the `state.dispatcherMap` for the previously registered URL mapping. If no mapping is set then dispatcher is checking the [`localStorage` cache](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/store/actions.ts#L51) and only after that the `mappingFallback` action is being called.
+The dispatcher first runs the [`url/mapUrl`](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/store/actions.ts#L42). This action first checks the `state.dispatcherMap` for the previously registered URL mapping. If no mapping is set then dispatcher checks the [`localStorage` cache](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/store/actions.ts#L51) and only after that the `mappingFallback` action is called.
 
-It's the place where the true mapping is taking place. By default, Vue Storefront first checks the URL against Elastic, `product` entities - using the `url_path` as a filter. If it's not found (statistically products are 10xmore frequently browsed by URL than categories because of their count), then the request to `category` collection is being made.
+It's the place where the true mapping takes place. By default, Vue Storefront first checks the URL against Elasticsearch, `product` entities - using the `url_path` as a filter. If it's not found (statistically products are 10x more frequently browsed by URL than categories because of their count), then the request to `category` collection is made.
 
 Once the route was mapped it's [registered](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/store/actions.ts#L56) in the `dispatcherMap` in order to not execute the additional network request in the future.
 
 The optimization hack is that [`category-next/loadCategoryProducts`](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/catalog-next/store/category/actions.ts#L100) already registers the mapping - so clicking the product from the category list doesn't require any network call to get the proper route data.
 
-As you might seen the `url/mapUrl` returns the data in a very similar format to routes collection used by vue-router. **It's not the real route though**. It's being converted to `Route` object by the `processDynamicRoute` helper before being processed by the router itself. To avoid any user redirections we're using the `RouterManager` to [add this route to the `vue-router` routing table](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/router/beforeEach.ts#L43) and forward the user to this new, exact match route in order to render the proper page.
+As you've might seen the `url/mapUrl` returns the data in a very similar format to routes collection used by vue-router. **It's not the real route though**. It's converted to `Route` object by the `processDynamicRoute` helper before being processed by the router itself. To avoid any user redirections we're using the `RouterManager` to [add this route to the `vue-router` routing table](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/router/beforeEach.ts#L43) and forward the user to this new, exact match route in order to render the proper page.
 
 This mechanism is pretty flexible as you may add the dynamic routes on the fly. There is even a [community module](https://github.com/kodbruket/vsf-mapping-fallback) letting you map the url routes programmatically.
 
-**Note:** The [`processDynamicRoute`](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/helpers/index.ts#L26) does convert the `routeData` from `url/mapUrl` to **real** vue `Route` object. It works like it's searching thru all the routes registered by `theme` and `modules`. Example:
+:::tip NOTE
+ The [`processDynamicRoute`](https://github.com/DivanteLtd/vue-storefront/blob/3e4191e5e4b1bfc5b349f5d7cff919c695168125/core/modules/url/helpers/index.ts#L26) does convert the `routeData` from `url/mapUrl` to **real** vue `Route` object. It works like it's searching thru all the routes registered by `theme` and `modules`. Example:
+:::
 
 If your route data is (`routeData`):
 
@@ -389,7 +391,7 @@ If your route data is (`routeData`):
 }
 ```
 
-and your `theme/router/index.js` consists the following definition: (`userRoute`)
+and your `theme/router/index.js` consists of the following definition: (`userRoute`)
 
 ```js
   { name: 'configurable-product', path: '/p/:parentSku/:slug/:childSku', component: Product }
@@ -401,10 +403,11 @@ then `processDynamicRoute` helper will return the `Route` object created by merg
   Object.assign({}, userRoute, routeData, { path: '/' + fullRootPath, name: `urldispatcher-${fullRootPath}` })
 ```
 
-`fullRootPath` is the url processed by the dispatcher. This new, virtual route is being added to the vue-router routing table and the user is being forwarded to it. So you may see that `url` module can be switched on/off easily as it's using the on-top mechanism over the existing vue-router - mapping the virtual urls to existing theme or module routes.
+`fullRootPath` is the url processed by the dispatcher. This new, virtual route is added to the vue-router routing table and the user is forwarded to it. So you may see that `url` module can be switched on/off easily as it uses the on-top mechanism over the existing vue-router - mapping the virtual urls to existing theme or module routes.
 
-**Note:** In order to have it up and running please make sure your `products` and `categories` do have the `url_path` properly set and unique.
-
+:::tip NOTE
+ In order to have it up and running please make sure your `products` and `categories` do have the `url_path` properly set and unique.
+:::
 <br />
 <br />
 
