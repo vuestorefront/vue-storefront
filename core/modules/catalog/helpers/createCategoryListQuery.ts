@@ -1,4 +1,4 @@
-import SearchQuery from 'storefront-query-builder/lib/searchQuery'
+import { SearchQuery } from 'storefront-query-builder'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 

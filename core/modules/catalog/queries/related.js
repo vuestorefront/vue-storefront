@@ -1,4 +1,4 @@
-import SearchQuery from 'storefront-query-builder/lib/searchQuery'
+import { SearchQuery } from 'storefront-query-builder'
 import config from 'config'
 
 export function prepareRelatedQuery (key, sku) {

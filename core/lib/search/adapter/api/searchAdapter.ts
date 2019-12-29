@@ -1,10 +1,10 @@
 import map from 'lodash-es/map'
-import { buildQueryBodyFromSearchQuery } from 'storefront-query-builder/lib'
+import { elasticsearch } from 'storefront-query-builder'
 import fetch from 'isomorphic-fetch'
 import { slugify, processURLAddress } from '@vue-storefront/core/helpers'
 import queryString from 'query-string'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
-import SearchQuery from 'storefront-query-builder/lib/searchQuery'
+import { SearchQuery } from 'storefront-query-builder'
 import HttpQuery from '@vue-storefront/core/types/search/HttpQuery'
 import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse'
 import config from 'config'
@@ -25,7 +25,7 @@ export class SearchAdapter {
     let ElasticsearchQueryBody = {}
     if (Request.searchQuery instanceof SearchQuery) {
       const bodybuilder = await import(/* webpackChunkName: "bodybuilder" */ 'bodybuilder')
-      ElasticsearchQueryBody = await buildQueryBodyFromSearchQuery(config, bodybuilder.default(), Request.searchQuery)
+      ElasticsearchQueryBody = await elasticsearch.buildQueryBodyFromSearchQuery(config, bodybuilder.default(), Request.searchQuery)
       if (Request.searchQuery.getSearchText() !== '') {
         ElasticsearchQueryBody['min_score'] = config.elasticsearch.min_score
       }
