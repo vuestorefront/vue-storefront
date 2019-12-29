@@ -158,6 +158,15 @@ node --harmony cli.js products --removeNonExistent=true --partitions=1
 
 #### 1. _alwaysSyncPlatformPricesOver_
 
+When the `config.products.alwaysSyncPlatformPricesOver` option is on, Vue Storefront will update the visible price on all the listings and product detail pages **directly from source web store, say, Magento**. The code in charge for this operation is located in the [`doPlatformPricesSync`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L212) helper which is called from the [`tax/calculateTaxes`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/store/tax/actions.ts#L74) action.
+
+:::tip NOTE
+This mode works whenever the price is calculated in either server or client's side (`config.tax.calculateServerSide` option).
+:::
+
+Check if the way [Vue Storefront syncs the price](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L216) is exactly what you need, and not [override this action](https://docs.vuestorefront.io/guide/cookbook/module.html#_2-2-recipe-b-override-vuex-store-with-extendstore).
+
+
 
 <br />
 <br />
