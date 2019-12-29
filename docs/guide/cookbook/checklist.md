@@ -182,34 +182,49 @@ More than that - Vue Storefront always gets the **platform totals** (the final p
 
 ## 4. Avoiding stock desynchronization
 
-Pretty much the same case like with the Prices (Tip 3) can occur with the product stocks. By default, all the indexers are setting the [stock information right into the product object](https://github.com/DivanteLtd/vue-storefront-integration-sdk/blob/tutorial/Format-product.md):
+Pretty much the same case as with the price can occur with the product stocks. By default, all the indexers set the [stock information right into the product object](https://github.com/DivanteLtd/vue-storefront-integration-sdk/blob/tutorial/Format-product.md) as follows :
 
- - it's in the main structure of `product.stock`
- - it's set for the `configurable_children` into `product.configurable_children.stock`.
+ - In the main structure of `product.stock`
+ - In `product.configurable_children.stock` for `configurable_children`.
 
  This information can be outdated.
 
+### Protip
+
+#### 1. How it stays in sync in real time
+
  Vue Storefront **by default** checks the current stock information when:
- - [**user is adding product to the cart**](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/store/actions/itemActions.ts#L53) - this is an async sync (similar one is run when browsing the product variants - you can get info like `0 items available` when switching colors and sizes); `Checkout.js` is waiting for all the results from the [`stock/queueCheck`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/pages/Checkout.js#L69) calls,
- - when the **cart is synced** with the server - eCommerce backend [checks the product availability once again](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/store/actions/mergeActions.ts#L45) and [notify user](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/components/AddToCart.ts#L31) if the product can't be added to the cart or restores previous quantity (if changed),
+
+ - [**user adds product to the cart**](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/store/actions/itemActions.ts#L53) - this is an asynchronous process (similar one is run when browsing the product variants - you can get info like `0 items available` when switching colors and sizes); `Checkout.js` is waiting for all the results from the [`stock/queueCheck`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/pages/Checkout.js#L69) calls.
+ - when the **cart is synced** with the server - eCommerce backend [checks the product availability once again](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/store/actions/mergeActions.ts#L45) and [notify user](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/cart/components/AddToCart.ts#L31) if the product can't be added to the cart or restores previous quantity (if changed).
  - when the `filterOutUnavailableVariants` mode is on and the user a) enters the product page, b) browses the category pages.
 
- The `config.products.filterOutUnavailableVariants` mode is pretty interesting thing because only by having this mode switched on you can be sure we're **not displaying unavailable variants**. When it's true Vue Storefront is taking the Stock information out of Magento and updates the `product.stock` info for the whole product list + product page (current product). Then it removes all the `configurable_children` that are not avaialable. [See the detailed implementation](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L121).
+ The `config.products.filterOutUnavailableVariants` mode is pretty important thing because only by having this mode switched on you can be sure we're **not displaying unavailable variants**. When it's set `true` Vue Storefront takes the stock information out of Magento and updates the `product.stock` info for the whole product list + product page (current product). Then it removes all the `configurable_children` that are not avaialable. [See the detailed implementation](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L121).
+
+
+#### 2. Additional options
 
 There are two additional settings for this mode on:
- - `config.prodducts.configurableChildrenStockPrefetchStatic` - when this is true, Vue Storefront is prefetching the stock info for the statically set number of product, it can be configured by `config.products.configurableChildrenStockPrefetchStaticPrefetchCount`,
- - `config.prodducts.configurableChildrenStockPrefetchDynamic` - when this is set to true, Vue Storefront is prefetching the stock info for any visible product; it's done in the [`ProductTile.vue](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/src/themes/default/components/core/ProductTile.vue#L108) - make sure your theme is supporting this.
+ - `config.prodducts.configurableChildrenStockPrefetchStatic` - when this is `true`, Vue Storefront prefetches the stock info for the statically set number of product, it can be configured by `config.products.configurableChildrenStockPrefetchStaticPrefetchCount`.
+ - `config.prodducts.configurableChildrenStockPrefetchDynamic` - when this is set to true, Vue Storefront prefetches the stock info for any visible product; it's done in the [`ProductTile.vue`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/src/themes/default/components/core/ProductTile.vue#L108) - Make sure your theme supports this.
     
 We've got the limited support for Magento MSI in the default implementation. [Make sure you've got it enabled when on Magento 2.3.x](https://github.com/DivanteLtd/vue-storefront-api/pull/226).
 
-**Note:** This feature might then be used for the **Donut caching** strategies (related to Tip 2 - SSR cache).
+:::tip NOTE
+This feature might then be used for the **Donut caching** strategies related to [Tip 2 - SSR cache](#_2-ssr-output-cache).
+:::
 
-**Note:** If you need to avoid Magento stock calls there is a way by getting the data with the same format as `https://vue-storefront-api/api/stock/list` is returning but from Elastic. It should be a drop-in replacement - I [mean changing the `stock.endpoint`](https://github.com/DivanteLtd/vue-storefront/blob/bb9044d6aaa36d4881733876f4646fabe7b6e102/config/default.json#L368) to this new one. Et viola: you avoid asking Magento, still having this 'cache punch holing' with `config.products.filterOutUnavailableVariants` mode on
+:::tip NOTE
+ If you want to bypass Magento stock calls there is a way by getting the data with the same format as `https://vue-storefront-api/api/stock/list` that returns it but from Elasticsearch. It should be a drop-in replacement - I mean [changing the `stock.endpoint`](https://github.com/DivanteLtd/vue-storefront/blob/bb9044d6aaa36d4881733876f4646fabe7b6e102/config/default.json#L368) to this new one. Et voila: you skip asking Magento, still having this 'cache hole punching' with `config.products.filterOutUnavailableVariants` mode on
+:::
 
-There is a ready made endpoint for getting stock from Elastic (not from Magento) [is here #PR330](https://github.com/DivanteLtd/vue-storefront-api/pull/330).
+There is a ready-made endpoint for getting stock from Elasticsearch (not from Magento) is [here #PR330](https://github.com/DivanteLtd/vue-storefront-api/pull/330).
 
-**Troubleshooting:** If the non-existing variants won't disappear that means some frontend work on your side needs to be done. I mean - with this `filterOutUnavailableVariants` setting, we're pulling the current stock info to `product.stock` and `product.configurable_children.stock` properties. By those properties updated we're then removing the out-of-stock `configurable_children`.
-If the variants arer still available then [take a look at this line](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/store/product/actions.ts#L629) and there should be a change made like:
+:::warning TROUBLESHOOTING 
+If the non-existing variants won't disappear that means some frontend work on your side needs to be done. 
+:::
+I mean - with this `filterOutUnavailableVariants` setting, we're pulling the current stock info to `product.stock` and `product.configurable_children.stock` properties. As those properties updated we're then removing the out-of-stock `configurable_children`.
+If the variants are still available then [take a look at this line](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/store/product/actions.ts#L629) and there should be a change made like
 
 from:
 
@@ -233,7 +248,7 @@ to:
         }
 ```
 
-Just in order to make sure that attribute filtering always takes place before rendering the PDP.
+Just to make sure that attribute filtering always takes place before rendering the PDP (Product Detail Page).
 
 <br />
 <br />
