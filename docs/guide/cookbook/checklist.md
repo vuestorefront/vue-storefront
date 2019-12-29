@@ -676,11 +676,11 @@ All the official Vue Storefront data indexers including [magento1-vsbridge-index
 
 ## 11. Using Magento Checkout
 
-Vue Storefront Checkout is fully capable of being deployed on production. The thing is by doing so you need to **integrate Vue Storefront with payment providers**. Unfortunately some popular Vue Storefront payment modules ([Stripe](https://forum.vuestorefront.io/t/stripe-payment-integration/155), [Paypal](https://forum.vuestorefront.io/t/paypal-payment-integration/152)) are not supporting the **status notification** changes. This is mostly because the payment modules are **platform agnostic** as well. The status notification changes must be implemented on your own, depending on the platform.
+Vue Storefront Checkout is fully ready to be deployed on production. The thing is, however, in order to complete, you need to **integrate Vue Storefront with payment providers**. Unfortunately some popular Vue Storefront payment modules ([Stripe](https://forum.vuestorefront.io/t/stripe-payment-integration/155), [Paypal](https://forum.vuestorefront.io/t/paypal-payment-integration/152)) are not supporting the **status notification** changes. This is mostly because the payment modules are **platform agnostic** as well. The status notification changes must be implemented on your own, depending on the platform.
 
-Having this said - one of the other viable options for the Checkout integration is [**Magento Checkout Fallback**](https://forum.vuestorefront.io/t/external-checkout/150) module, maintained by [Vendic](http://vendic.nl). 
+Having that said - one of the other viable options for the Checkout integration is [**Magento Checkout Fallback**](https://forum.vuestorefront.io/t/external-checkout/150) module, maintained by [Vendic](http://vendic.nl). 
 
-When using this module, please make sure you've successfully dispatched the `cart/sync` (VS 1.11), `cart/serverPull` (VS 1.10) action and the sync proces has finished. Otherwise there could be a situation when the sync hasn't been fully executed and user getting to the Magento checkout sees some discrepancies between Magento and Vue Storefront carts. For example - product added to the VSF cart hasn't been yet added to Magento cart.
+When using this module, please make sure you've successfully dispatched the `cart/sync` (VSF 1.11), `cart/serverPull` (VSF 1.10) action and the sync process has finished. Otherwise there could be a situation when the sync hasn't been fully executed and user getting to the Magento checkout sees some discrepancies between Magento and Vue Storefront carts. For example - product added to the VSF cart hasn't been yet added to Magento cart.
 
 To avoid this situation you should modify the [beforeEach](https://github.com/Vendic/vsf-external-checkout/blob/baeefd179038b2bd9b4a1a00c95b82b131b61b65/router/beforeEach.ts#L14):
 
