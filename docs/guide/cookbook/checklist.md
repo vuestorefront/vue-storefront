@@ -229,23 +229,23 @@ If the variants are still available then [take a look at this line](https://gith
 from:
 
 ```js
-        if (isServer) {
-          subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
-          subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
-        } else {
-          attributesPromise.then(() => context.dispatch('setupBreadcrumbs', { product: product })) // if this is client's side request postpone breadcrumbs setup till attributes are loaded to avoid too-early breadcrumb switch #2469
-          context.dispatch('filterUnavailableVariants', { product: product }) // exec async
-        }
+if (isServer) {
+  subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
+  subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
+} else {
+  attributesPromise.then(() => context.dispatch('setupBreadcrumbs', { product: product })) // if this is client's side request postpone breadcrumbs setup till attributes are loaded to avoid too-early breadcrumb switch #2469
+  context.dispatch('filterUnavailableVariants', { product: product }) // exec async
+}
 ```
 to:
 
 ```js
-          subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
-        if (isServer) {
-          subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
-        } else {
-          attributesPromise.then(() => context.dispatch('setupBreadcrumbs', { product: product })) // if this is client's side request postpone breadcrumbs setup till attributes are loaded to avoid too-early breadcrumb switch #2469
-        }
+  subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
+if (isServer) {
+  subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
+} else {
+  attributesPromise.then(() => context.dispatch('setupBreadcrumbs', { product: product })) // if this is client's side request postpone breadcrumbs setup till attributes are loaded to avoid too-early breadcrumb switch #2469
+}
 ```
 
 Just to make sure that attribute filtering always takes place before rendering the PDP (Product Detail Page).
