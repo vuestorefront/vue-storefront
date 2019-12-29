@@ -767,6 +767,13 @@ The data formats used by Vue Storefront for product and categories are quite sop
 
 ## 15. Unexpected features (explained by config file properties)
 
+Vue Storefront contains some pretty useful config variables that are sometimes missed but can be pretty useful:
+
+- `dynamicConfigReload` - by default the config files are processed by [`node-config`](https://github.com/lorenwest/node-config) only during the build process; whenever you modify the config file it must be then re-compiled and bundled into `app.js`. However, with this mode on, the [`core/scripts/server.ts`](https://github.com/DivanteLtd/vue-storefront/blob/77efcdc40a1a69191f8d96c381535517e801820d/core/scripts/server.ts#L271) is reloading the config file with each request. This might be very usefull for the scalability purposes and to pass some dynamic information during the build process. By modifying the `dynamicConfigExclude` and `dynamicConfigInclude` arrays you might want to change which particular sections of the config file are provided to the user browser and which are note. The config is being passed via `window.__INITIAL_STATE__`.
+
+- `useExactUrlsNoProxy` - when set to `true` the strings set in the product properties: `thumbnail`, `image` ... are being used for the `<img ` tags without the `/api/img` middleware - as a raw strings.
+
+
 
 <br />
 <br />
