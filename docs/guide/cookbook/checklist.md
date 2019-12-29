@@ -613,6 +613,45 @@ The tags can be used to invalidate the Varnish cache, if you're using it. [Read 
 
 ## 11. Using Magento Checkout
 
+Vue Storefront Checkout is fully capable of being deployed on production. The thing is by doing so you need to **integrate Vue Storefront with payment providers**. Unfortunately some popular Vue Storefront payment modules ([Stripe](https://forum.vuestorefront.io/t/stripe-payment-integration/155), [Paypal](https://forum.vuestorefront.io/t/paypal-payment-integration/152)) are not supporting the **status notification** changes. This is mostly because the payment modules are **platform agnostic** as well. The status notification changes must be implemented on your own, depending on the platform.
+
+Having this said - one of the other viable options for the Checkout integration is [**Magento Checkout Fallback**](https://forum.vuestorefront.io/t/external-checkout/150) module, maintained by [Vendic](http://vendic.nl). 
+
+When using this module, please make sure you've successfully dispatched the `cart/sync` (VS 1.11), `cart/serverPull` (VS 1.10) action and the sync proces has finished. Otherwise there could be a situation when the sync hasn't been fully executed and user getting to the Magento checkout sees some discrepancies between Magento and Vue Storefront carts. For example - product added to the VSF cart hasn't been yet added to Magento cart.
+
+To avoid this situation you should modify the [beforeEach](https://github.com/Vendic/vsf-external-checkout/blob/baeefd179038b2bd9b4a1a00c95b82b131b61b65/router/beforeEach.ts#L14):
+
+
+```js
+export function beforeEach(to: Route, from: Route, next) {
+  const cartToken: string = rootStore.state.cart.cartServerToken;
+  const userToken: string = rootStore.state.user.token;
+  const externalCheckoutConfig = {...config.externalCheckout};
+  const cmsUrl: string = externalCheckoutConfig.cmsUrl;
+  const stores = externalCheckoutConfig.stores;
+  const storeCode = currentStoreView().storeCode
+  const multistoreEnabled: boolean = config.storeViews.multistore
+
+  if (multistoreEnabled) {
+    await rootStore.dispatch('cart/sync')
+    if (storeCode in stores && to.name === storeCode + '-checkout') {
+      window.location.replace(stores[storeCode].cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
+    } else if (storeCode in stores && to.name === 'checkout' && stores[storeCode].cmsUrl !== undefined) {
+      window.location.replace(stores[storeCode].cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
+    } else {
+      next()
+    }
+  } else {
+    if (to.name === 'checkout') {
+      window.location.replace(cmsUrl + '/vue/cart/sync/token/' + userToken + '/cart/' + cartToken)
+    } else {
+      next()
+    }
+  }
+}
+
+```
+
 
 <br />
 <br />
