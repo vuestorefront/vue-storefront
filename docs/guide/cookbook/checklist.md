@@ -370,6 +370,179 @@ then `processDynamicRoute` helper will return the `Route` object created by merg
 
 ## 8. Multistore configuration explained
 
+You can read about the [basic Multistore configuration in the official docs](https://docs.vuestorefront.io/guide/integrations/multistore.html#changing-the-ui-for-specific-store-views). Vue Storefront supports multistore based on the `StoreView` level. 
+
+`StoreView` is a configuration context object, set by the Vue Storefront per each request - accesible via [`currentStoreView()](https://github.com/DivanteLtd/vue-storefront/blob/9dca392a832ba45e9b1c3589eb84f51fbc2e8d6e/core/lib/multistore.ts#L33) helper from [`multistore.ts`](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/lib/multistore.ts).
+
+One `StoreView` is generally speaking a combination of Language + Currency.
+
+Example: If you have a store per country, that supports two languages (eg. Switzerland supporting EURO currency and both French + German languages) you'll probably end up with pair of two `StoreViews`: (EUR; DE) + (EUR; FR). Each `StoreView` has it's own unique name that is being used to differentiate and switch the sites.
+
+Vue Storefront `StoreViews` allows you to differentiate all the basic settings per specific site. [See the config](https://github.com/DivanteLtd/vue-storefront/blob/af640f3aa0372308db534786fea587b24e8e87d3/config/default.json#L91):
+
+```json
+ "storeViews": {
+      "multistore": false,
+      "commonCache": true,
+      "mapStoreUrlsFor": ["de", "it"],
+      "de": {
+        "storeCode": "de",
+        "disabled": true,
+        "storeId": 3,
+        "name": "German Store",
+        "url": "/de",
+        "appendStoreCode": true,
+        "elasticsearch": {
+          "host": "/api/catalog",
+          "index": "vue_storefront_catalog_de"
+        },
+        "tax": {
+          "sourcePriceIncludesTax": false,
+          "defaultCountry": "DE",
+          "defaultRegion": "",
+          "calculateServerSide": true
+        },
+        "i18n": {
+          "fullCountryName": "Germany",
+          "fullLanguageName": "German",
+          "defaultLanguage": "DE",
+          "defaultCountry": "DE",
+          "defaultLocale": "de-DE",
+          "currencyCode": "EUR",
+          "currencySign": "EUR",
+          "dateFormat": "HH:mm D-M-YYYY"
+        }
+      },
+      "it": {
+        "storeCode": "it",
+        "disabled": true,
+        "storeId": 4,
+        "name": "Italian Store",
+        "url": "/it",
+        "appendStoreCode": true,
+        "elasticsearch": {
+          "host": "/api/catalog",
+          "index": "vue_storefront_catalog_it"
+        },
+        "tax": {
+          "sourcePriceIncludesTax": false,
+          "defaultCountry": "IT",
+          "defaultRegion": "",
+          "calculateServerSide": true
+        },
+        "i18n": {
+          "fullCountryName": "Italy",
+          "fullLanguageName": "Italian",
+          "defaultCountry": "IT",
+          "defaultLanguage": "IT",
+          "defaultLocale": "it-IT",
+          "currencyCode": "EUR",
+          "currencySign": "EUR",
+          "dateFormat": "HH:mm D-M-YYYY"
+        }
+      }
+    }
+  ```
+
+### Create the individual indexes per each specific `StoreView`
+
+First of all - we're having separate Elastic search configs per each storeView. This means you can have `product`, `categories` and `attributes` text attributes translated and storead - each in the separate Elastic search indexes.
+
+Our [default indexer](https://github.com/DivanteLtd/mage2vuestorefront#multistore-setup) and the [magento2-vsbridge-indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) both support the multistore indexing.
+
+### Setup the `storeViews` section in the `config/local.json` 
+
+Each storeView must has the unique `code` (`it` and `de` in the example above) set + elasticsearch section pointing to the right index.
+
+**Note:** Remember to populate the same configuration [within the `vue-storefront-api` config file](https://github.com/DivanteLtd/vue-storefront-api/blob/b4198929ef435e20162a192ea2a02cb25e552d45/config/default.json#L50). Please make sure that the `config.availableStores` collection contains all the `storeCodes` you'll be passing to the API as well.
+
+**Note:** The multistore business logick is being applied only when the `config.storeViews.multistore` is set to `true` (the default value is: `false`).
+
+ The `storeCode` parameter [will be appended as a query parameter (`?storeCode`)](https://github.com/DivanteLtd/vue-storefront/blob/9dca392a832ba45e9b1c3589eb84f51fbc2e8d6e/core/lib/multistore.ts#L105) to all `vue-storefront-api` requests that will let API know which backend API endpoints to query. By default - with Magento2 [we're adding the proper `storeCode` to the API request calls](https://github.com/DivanteLtd/vue-storefront-api/blob/b4198929ef435e20162a192ea2a02cb25e552d45/src/platform/magento2/util.js#L7). However you can even [differentiate the base url or Magento2 API credentials if you like](https://github.com/DivanteLtd/vue-storefront-api/blob/b4198929ef435e20162a192ea2a02cb25e552d45/src/platform/magento2/util.js#L20). 
+
+ ### Vue Storefront `storeCode` resolver
+
+ Vue Storefront is setting `currentStoreView` value as one of the first things processing the request. It's being done in the [`app.ts:createStore`](https://github.com/DivanteLtd/vue-storefront/blob/af640f3aa0372308db534786fea587b24e8e87d3/core/app.ts#L73) function. The `storeCode` is retrived from the [server context](https://github.com/DivanteLtd/vue-storefront/blob/af640f3aa0372308db534786fea587b24e8e87d3/core/server-entry.ts#L63) or [from the current route](https://github.com/DivanteLtd/vue-storefront/blob/af640f3aa0372308db534786fea587b24e8e87d3/core/server-entry.ts#L67).
+
+ The [`storeCodeFromRoute`](https://github.com/DivanteLtd/vue-storefront/blob/develop/core/lib/storeCodeFromRoute.ts) helper is supporting two ways of obtaining the current store code:
+
+ 1) from the url path: https://test.storefrontcloud.io/de vs. https://test.storefrontcloud.io/it
+ 2) from the [url domain name and path](https://github.com/DivanteLtd/vue-storefront/blob/9dca392a832ba45e9b1c3589eb84f51fbc2e8d6e/core/lib/storeCodeFromRoute.ts#L30); this way lets you run Vue Storefront multistore on multiple domains.
+
+ **Note:** You can pass the `storeCode` via server context as well. Server context is set by the [`core/scripts/server.ts`](https://github.com/DivanteLtd/vue-storefront/blob/9dca392a832ba45e9b1c3589eb84f51fbc2e8d6e/core/scripts/utils/ssr-renderer.js#L110) - and it's sourced from `ENV.STORE_CODE` or if you're using a HTTP Proxy (like nginx) - from the request header of `x-vs-store-code`. This way you can differentiate store view instances by many different ways and not only by the domain/url.
+
+ ### Routing
+
+ Vue Storefront is adding all the routes to the routing table using [current `storeView` code prefix](https://github.com/DivanteLtd/vue-storefront/blob/9dca392a832ba45e9b1c3589eb84f51fbc2e8d6e/src/themes/default/index.js#L31). If your [theme/router/index.js](https://github.com/DivanteLtd/vue-storefront/blob/develop/src/themes/default/router/index.js) has the following routes defined, and the `currentStoreVioew().storeCode === 'de'`
+
+ ```js
+ let routes = [
+  { name: 'checkout', path: '/checkout', component: Checkout },
+  { name: 'legal', path: '/legal', component: Static, props: {page: 'lorem', title: 'Legal Notice'}, meta: {title: 'Legal Notice', description: 'Legal Notice - example of description usage'} },
+  { name: 'privacy', path: '/privacy', component: Static, props: {page: 'lorem', title: 'Privacy'} },
+ ```
+
+Then the [`setupMultistoreRoutes`](https://github.com/DivanteLtd/vue-storefront/blob/9dca392a832ba45e9b1c3589eb84f51fbc2e8d6e/core/lib/multistore.ts#L172) helper will add these routes to `vue-router` as:
+
+```js
+ let routes = [
+  { name: 'checkout', path: '/de/checkout', component: Checkout },
+  { name: 'legal', path: '/de/legal', component: Static, props: {page: 'lorem', title: 'Legal Notice'}, meta: {title: 'Legal Notice', description: 'Legal Notice - example of description usage'} },
+  { name: 'privacy', path: '/de/privacy', component: Static, props: {page: 'lorem', title: 'Privacy'} },
+```
+
+The business logic of modifying the route configs is embeded in the [`localizedRouteConfig`](https://github.com/DivanteLtd/vue-storefront/blob/9dca392a832ba45e9b1c3589eb84f51fbc2e8d6e/core/lib/multistore.ts#L189) helper.
+
+**Note:** When you're using the `storeCode` resolver, based on `domain + path` schema then you should set the `config.storeViews.*.appendStoreCode` to `false`. This option prevents `localizedRouteConfig` helper from adding the `storeCode` as a path so the store views can be differentiated based on the `currentStoreView().url` instead - which supports `domain + path`.
+
+**Note:** Please make sure you're creating the links within your theme using the same `localizedRoute` helper. This helper supports string URLs:
+
+```html
+<router-link :to="localizedRoute(page.link)" class="cl-accent relative">{{
+  page.title
+}}</router-link>
+```
+
+or route objects:
+
+```html
+<router-link
+  :to="
+    localizedRoute({
+      name: product.type_id + '-product',
+      params: {
+        parentSku: product.parentSku ? product.parentSku : product.sku,
+        slug: product.slug,
+        childSku: product.sku,
+      },
+    })
+  "
+></router-link>
+```
+
+**Note:** The `UrlDispatcher` feature - available from Vue Storefront 1.9 supports the multistore routes as well. The `url_path` field passed to [`url/mapUrl`](https://github.com/DivanteLtd/vue-storefront/blob/9dca392a832ba45e9b1c3589eb84f51fbc2e8d6e/core/modules/url/store/actions.ts#L46) action takes the full url - including `storeCode` as an entry parameter. You might want to use [vsf-mapping-fallback](https://github.com/kodbruket/vsf-mapping-fallback) for some overrides.
+
+ ### Customizing the theme, per store view
+
+ You can run all the `StoreViews` within one, single Vue Storefront instance. It's the default mode. The `StoreViews` are then selected based on the url/path/incoming request headers or env. variables. As simple as it is this mode won't let you apply totally different themes for each individual `StoreView`. It's because the theme files are bundled withing `app.js` bundle provided to the client. Having all themes bundled in will generate a really huge JS bundle and slow down the page in the end.
+
+ You can still customize some UI elements per `storeView` using conditional `v-if` logic and loading specific components within single theme.
+ 
+ **Note:** You can also override some root-level components (like `pages/Category.vue`) by modifying the `theme/router/index.js` routing schema by adding the specific store-view based urls directly in the routing table.
+
+If you really need to use different themes per each individual `storeView` then the best way would be to deploy and execute separate Vue Storefront node instances per each store view (eg. `de` running on port 3000, `it` on 3001 etc); then - make sure your proxy service is routing the request to the proper instance. The instances can have different configs, including different `config.theme` parameter.
+
+Your `nginx` config for this scheme will be something like this:
+
+``` 
+ProxyPass / http://localhost:3000/
+ProxyPassReverse / http://localhost:3000/
+
+ProxyPass /de http://localhost:3001/de
+ProxyPassReverse /de http://localhost:3001/de
+
+ProxyPass /it http://localhost:3002/it
+ProxyPassReverse /it http://localhost:3002/it
 
 <br />
 <br />
