@@ -174,119 +174,71 @@ Check if the way [Vue Storefront syncs the price](https://github.com/DivanteLtd/
 ## 4. Avoiding stock desynchronization
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
 ## 5. How Vue Storefront calculates prices and taxes
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
 ## 6. Limiting SSR HTML size a.k.a. INITIAL_STATE optimization
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
 ## 7. Url Dispatcher explained 
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
 ## 8. Multistore configuration explained
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
 ## 9. HTML minimization, compression, headers
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
 ## 10. Production catalog indexing + cache invalidation
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
 ## 11. Using Magento Checkout
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
 ## 12. ElasticSearch production setup
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
 ## 13. .htaccess, server side redirects, HTTP codes and headers, middlewares
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
 ## 14. Which fields of product, category and attribute are really being used by VSF
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
 
 ## 15. Unexpected features (explained by config file properties)
 
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
 <br />
 <br />
