@@ -543,6 +543,7 @@ ProxyPassReverse /de http://localhost:3001/de
 
 ProxyPass /it http://localhost:3002/it
 ProxyPassReverse /it http://localhost:3002/it
+```
 
 <br />
 <br />
