@@ -66,7 +66,7 @@ The `created` is called in the SSR mode or server side in plain English; But if 
 
 #### 4. Stateful Singleton
 
-Make sure you're having `runInNewContext` set to `true` (default value!) in [`core/scripts/utils/ssr-renderer.js`](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/utils/ssr-renderer.js#L16).
+Make sure you have `runInNewContext` set to `true` (default value!) in [`core/scripts/utils/ssr-renderer.js`](https://github.com/DivanteLtd/vue-storefront/blob/master/core/scripts/utils/ssr-renderer.js#L16).
 
 With setting it `false`, the [Stateful Singletons](https://github.com/DivanteLtd/vue-storefront/issues/2664) like `RouteManager` or `i18n` we're using will cause the memory leaks at huuuuuge scale.
 
