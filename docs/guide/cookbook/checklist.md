@@ -255,26 +255,38 @@ Just to make sure that attribute filtering always takes place before rendering t
 
 ## 5. How Vue Storefront calculates prices and taxes
 
-Vue Storefront has two modes of calculating the product prices:
-- Client side (when `config.tax.calculateServerSide` is set to `false`) - that can be usefull in case the tax should be recalculated based on the address change,
-- Server side (when `config.tax.calculateServerSide` is set to `true`) - which is our default mode.
+
+### Protip
+
+#### 1. Two modes for tax calculation 
+
+Vue Storefront has two modes of calculating the product price :
+- Client side (when `config.tax.calculateServerSide` is set to `false`) - that can be useful in case the tax should be recalculated based on the address change.
+- Server side (when `config.tax.calculateServerSide` is set to `true`) - which is default.
 
 Depending on the mode, taxes are calulated by [`taxCalc.ts` client side](https://github.com/DivanteLtd/vue-storefront/blob/5f2b5cd6a8496a60884c091e8509d3b58b7a0358/core/modules/catalog/helpers/taxCalc.ts#L74) or [`taxcalc.js` server side](https://github.com/DivanteLtd/vue-storefront-api/blob/d3d0e7892cd063bbd69e545f3f2b6fdd9843d524/src/lib/taxcalc.js#L251-L253). 
 
-You may see that both these files are applying **exactly** the same logic.
+You may see that both these files apply **exactly** the same logic.
 
-In order to calculate the prices and taxes we need first toget the proper tax rate. It's based on [`taxrate`](https://github.com/DivanteLtd/vue-storefront-integration-sdk#taxrate-entity) entity, stored in the Elastic. Each product can have the property [`product.tax_class_id`](https://github.com/DivanteLtd/vue-storefront/blob/5f2b5cd6a8496a60884c091e8509d3b58b7a0358/core/modules/catalog/helpers/taxCalc.ts#L213) set. Depending on it's value Vue Storefront is applying the `taxrate`, it's also applying the [country and region to the filter](https://github.com/DivanteLtd/vue-storefront/blob/5f2b5cd6a8496a60884c091e8509d3b58b7a0358/core/modules/catalog/helpers/taxCalc.ts#L226). 
+#### 2. Factors considered for tax rate
 
-**Note:** We're currently not supporting searching the tax rules by `customer_tax_class_id` neither by the `tax_postcode` fields of `taxrate` entity. Pull requests more than welcome ;)
+In order to calculate the prices and taxes we need first to get the proper tax rate. It's based on [`taxrate`](https://github.com/DivanteLtd/vue-storefront-integration-sdk#taxrate-entity) entity, stored in the Elasticsearch. Each product can have the property [`product.tax_class_id`](https://github.com/DivanteLtd/vue-storefront/blob/5f2b5cd6a8496a60884c091e8509d3b58b7a0358/core/modules/catalog/helpers/taxCalc.ts#L213) set. Depending on its value, Vue Storefront applies the `taxrate` and the [country and region to the filter](https://github.com/DivanteLtd/vue-storefront/blob/5f2b5cd6a8496a60884c091e8509d3b58b7a0358/core/modules/catalog/helpers/taxCalc.ts#L226). 
+
+:::tip NOTE
+ We're currently not supporting searching the tax rules by neither `customer_tax_class_id` nor the `tax_postcode` fields of `taxrate` entity. Pull Requests are more than welcome ;)
+:::
+
+#### 3. Calculation
 
 After getting the right tax rate we can calculate the prices.
 
-We've got the following price fields priority in the VS:
+We've got the following price fields priority in the VSF:
+
 - `final_price` - if set, depending on the `config.tax.finalPriceIncludesTax` - it's taken as final price or Net final price,
-- `special_price` - if it's set and it's lower than `price` it will replace the `price` and the `price` value will be set into `original_price` property,
+- `special_price` - if it's set and lower than `price` it will replace the `price` and the `price` value will be set into `original_price` property,
 - `price` - if set, dedending on the `config.tax.sourcePriceIncludesTax` - it's taken as final price or Net final price.
 
-Depending on the `config.tax.finalPriceIncludesTax` and `config.tax.sourcePriceIncludesTax` settings Vue Storefront calculates the prices and stores them into following fields.
+Depending on the `config.tax.finalPriceIncludesTax` and `config.tax.sourcePriceIncludesTax` settings, Vue Storefront calculates the price and stores them into following fields.
 
 Product Special price:
 - `special_price` - optional, if set - it's always Net price,
@@ -296,8 +308,13 @@ Product Original price (set only if `final_price` or `special_price` are lower t
 - `original_price_incl_tax` - optional, if set - it's always price after taxes,
 - `original_price_tax` - optional, if set it's the tax amount.
 
-**Note:** The prices are being set for all `configurable_children` with the exact same format
-**Note:** If any of the `configurable_children` has the price lower than the main product, the main product price will be updated accordingly.
+:::tip NOTE
+ The prices are set for all `configurable_children` with the exact same format
+:::
+
+:::tip NOTE
+If any of the `configurable_children` has the price lower than the main product, the main product price will be updated accordingly.
+:::
 
 <br />
 <br />
