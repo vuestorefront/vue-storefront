@@ -219,8 +219,8 @@ export default {
     login () {
       if (!this.currentUser && this.isCurrentMenuShowed) {
         this.$nextTick(() => {
-          this.$store.commit('ui/setAuthElem', 'login');
-          this.$bus.$emit('modal-show', 'modal-signup');
+          this.$store.commit('ui/setAuthElem', 'login')
+          this.$bus.$emit('modal-show', 'modal-signup')
           this.$router.push({ name: 'my-account' })
         })
       }

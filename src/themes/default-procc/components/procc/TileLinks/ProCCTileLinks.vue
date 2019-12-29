@@ -19,7 +19,7 @@
     </div>
     <div v-if="(!banners.productBanners) || (banners.productBanners.length === 0)">
       <h3 class="align-center cl-accent">
-        Product will available soon for you :)
+        {{ $t('Product will available soon for you :)') }}
       </h3>
     </div>
   </div>
@@ -28,7 +28,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: 'TileLinks',
+  name: 'ProCCTileLinks',
   computed: {
     ...mapGetters({
       banners: 'procc/getStoreBanners'
@@ -36,7 +36,6 @@ export default {
   },
   async created () {
     await this.updateStoreBanners()
-    console.log('TileLinks banners', this.banners)
   },
   methods: {
     ...mapActions({

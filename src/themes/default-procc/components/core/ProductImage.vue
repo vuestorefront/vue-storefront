@@ -124,7 +124,9 @@ export default {
     }
     &--width {
       .product-image__thumb {
-        width: 100%;
+        // Edited by Dan to maximise photo size
+        width: auto;
+        min-height: 100%;
       }
     }
   }

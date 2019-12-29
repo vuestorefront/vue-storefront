@@ -65,32 +65,32 @@
               :parent-path="category.url_path"
             />
           </li>
-          <li
-            v-if="isCurrentMenuShowed"
-            @click="closeMenu"
-            class="bg-cl-secondary"
-          >
-            <router-link
-              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
-              :to="localizedRoute('/sale')"
-              exact
-            >
-              {{ $t('Sale') }}
-            </router-link>
-          </li>
-          <li
-            v-if="isCurrentMenuShowed"
-            @click="closeMenu"
-            class="bg-cl-secondary"
-          >
-            <router-link
-              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"
-              :to="localizedRoute('/magazine')"
-              exact
-            >
-              {{ $t('Magazine') }}
-            </router-link>
-          </li>
+<!--          <li-->
+<!--            v-if="isCurrentMenuShowed"-->
+<!--            @click="closeMenu"-->
+<!--            class="bg-cl-secondary"-->
+<!--          >-->
+<!--            <router-link-->
+<!--              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"-->
+<!--              :to="localizedRoute('/sale')"-->
+<!--              exact-->
+<!--            >-->
+<!--              {{ $t('Sale') }}-->
+<!--            </router-link>-->
+<!--          </li>-->
+<!--          <li-->
+<!--            v-if="isCurrentMenuShowed"-->
+<!--            @click="closeMenu"-->
+<!--            class="bg-cl-secondary"-->
+<!--          >-->
+<!--            <router-link-->
+<!--              class="block px25 py20 brdr-bottom-1 brdr-cl-secondary cl-accent no-underline fs-medium-small"-->
+<!--              :to="localizedRoute('/magazine')"-->
+<!--              exact-->
+<!--            >-->
+<!--              {{ $t('Magazine') }}-->
+<!--            </router-link>-->
+<!--          </li>-->
           <li
             v-if="compareIsActive && isCurrentMenuShowed"
             @click="closeMenu"
@@ -219,8 +219,8 @@ export default {
     login () {
       if (!this.currentUser && this.isCurrentMenuShowed) {
         this.$nextTick(() => {
-          this.$store.commit('ui/setAuthElem', 'login');
-          this.$bus.$emit('modal-show', 'modal-signup');
+          this.$store.commit('ui/setAuthElem', 'login')
+          this.$bus.$emit('modal-show', 'modal-signup')
           this.$router.push({ name: 'my-account' })
         })
       }

@@ -43,7 +43,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   data () {
-    const storeView = currentStoreView();
+    const storeView = currentStoreView()
     return {
       defaultTitle: storeView.seo.defaultTitle ? storeView.seo.defaultTitle : config.seo.defaultTitle
     }

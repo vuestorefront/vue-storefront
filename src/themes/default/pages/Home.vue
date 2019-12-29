@@ -89,9 +89,9 @@ export default {
   },
   async beforeMount () {
     if (this.$store.state.__DEMO_MODE__) {
-      const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' });
+      const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' })
       if (!onboardingClaim) { // show onboarding info
-        this.$bus.$emit('modal-toggle', 'modal-onboard');
+        this.$bus.$emit('modal-toggle', 'modal-onboard')
         this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
       }
     }
@@ -101,13 +101,13 @@ export default {
   },
   watch: {
     isLoggedIn () {
-      const redirectObj = localStorage.getItem('redirect');
-      if (redirectObj) this.$router.push(redirectObj);
+      const redirectObj = localStorage.getItem('redirect')
+      if (redirectObj) this.$router.push(redirectObj)
       localStorage.removeItem('redirect')
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    Logger.info('Calling asyncData in Home (theme)')();
+    Logger.info('Calling asyncData in Home (theme)')()
 
     await Promise.all([
       store.dispatch('homepage/fetchNewCollection'),

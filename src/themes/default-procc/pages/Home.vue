@@ -2,6 +2,9 @@
   <div id="home">
     <head-image :isDefaultStore="isDefaultStore"/>
     <store-banners v-if="!isDefaultStore" />
+
+<!--    <promoted-offers />-->
+
     <section class="container pb60 px15" v-if="!isDefaultStore">
       <!--      // ProCC section-->
       <div class="row center-xs">
@@ -11,12 +14,13 @@
           </h2>
         </header>
       </div>
-      <div class="row center-xs">
-        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
-          <product-listing columns="4" :products="getEverythingNewCollection" />
-        </lazy-hydrate>
-        <product-listing v-else columns="4" :products="getEverythingNewCollection" />
-      </div>
+      <ProCCTileLinks />
+<!--      <div class="row center-xs">-->
+<!--        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">-->
+<!--          <product-listing columns="4" :products="getEverythingNewCollection" />-->
+<!--        </lazy-hydrate>-->
+<!--        <product-listing v-else columns="4" :products="getEverythingNewCollection" />-->
+<!--      </div>-->
     </section>
 
     <section v-if="isOnline" class="container pb60 px15">
@@ -27,7 +31,7 @@
 <!--          </h2>-->
 <!--        </header>-->
 <!--      </div>-->
-      <tile-links />
+<!--      <tile-links />-->
     </section>
     <Onboard />
   </div>
@@ -54,8 +58,9 @@ import {registerModule} from '@vue-storefront/core/lib/modules'
 import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
 
 import {currentStoreView} from '@vue-storefront/core/lib/multistore'
-import AvailableStore from 'theme/components/theme/blocks/Store/AvailableStore'
-import StoreBanners from 'theme/components/theme/blocks/StoreBanners/StoreBanners'
+import AvailableStore from 'theme/components/procc/Store/AvailableStore'
+import StoreBanners from 'theme/components/procc/StoreBanners/StoreBanners'
+import ProCCTileLinks from 'theme/components/procc/TileLinks/ProCCTileLinks'
 
 export default {
   data () {
@@ -68,6 +73,7 @@ export default {
     HeadImage,
     AvailableStore,
     StoreBanners,
+    ProCCTileLinks,
     Onboard,
     ProductListing,
     PromotedOffers,
@@ -98,9 +104,9 @@ export default {
   },
   async beforeMount () {
     if (this.$store.state.__DEMO_MODE__) {
-      const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' });
+      const onboardingClaim = await this.$store.dispatch('claims/check', { claimCode: 'onboardingAccepted' })
       if (!onboardingClaim) { // show onboarding info
-        this.$bus.$emit('modal-toggle', 'modal-onboard');
+        this.$bus.$emit('modal-toggle', 'modal-onboard')
         this.$store.dispatch('claims/set', { claimCode: 'onboardingAccepted', value: true })
       }
     }
@@ -110,19 +116,18 @@ export default {
   },
   watch: {
     isLoggedIn () {
-      const redirectObj = localStorage.getItem('redirect');
-      if (redirectObj) this.$router.push(redirectObj);
+      const redirectObj = localStorage.getItem('redirect')
+      if (redirectObj) this.$router.push(redirectObj)
       localStorage.removeItem('redirect')
     }
   },
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
-    const config = store.state.config;
-    Logger.info('Calling asyncData in Home (theme)')();
+    Logger.info('Calling asyncData in Home (theme)')()
 
     await Promise.all([
       store.dispatch('homepage/fetchNewCollection'),
       store.dispatch('promoted/updateHeadImage'),
-      store.dispatch('promoted/updatePromotedOffers')
+      // store.dispatch('promoted/updatePromotedOffers') // Disabled by Dan 29.12.2019, not using promoted offers yet
     ])
   },
   beforeRouteEnter (to, from, next) {

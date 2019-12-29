@@ -17,7 +17,7 @@
         </p>
         <div :class="{'default-store-btn-class': isDefaultStore}" class="align-center inline-flex"
              v-if="isDefaultStore">
-          <button-outline :link="isDefaultStore ? defaultStore.link : currentImage.link" color="light" style="height: 23px!important">
+          <button-outline :link="isDefaultStore ? defaultStore.link : currentImage.link" color="light">
             {{ isDefaultStore ? defaultStore.button_text : currentImage.button_text }}
           </button-outline>
         </div>
@@ -27,10 +27,10 @@
 </template>
 
 <script>
-  import ButtonOutline from 'theme/components/theme/ButtonOutline'
+  import ButtonOutline from 'theme/components/procc/ButtonOutlineOutsideLink'
   import {mapGetters} from 'vuex'
 
-  export default {
+export default {
   components: {
     ButtonOutline
   },

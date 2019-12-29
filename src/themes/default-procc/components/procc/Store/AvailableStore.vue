@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import StoreCard from 'theme/components/theme/blocks/Store/StoreCard'
+import StoreCard from 'theme/components/procc/Store/StoreCard'
 import store from '@vue-storefront/core/store'
 import _ from 'lodash'
 

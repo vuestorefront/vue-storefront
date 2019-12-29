@@ -1,8 +1,8 @@
 <template>
-  <li :class="{ 'relative': editMode }" class="row py10 bg-cl-white">
+  <li class="row py10 bg-cl-white" :class="{ 'relative': editMode }">
     <div class="mx10 w-100 py10 mb15 edit-mode flex between-xs middle-xs" v-if="editMode">
       Edit mode
-      <button @click="closeEditMode" class="brdr-none bg-cl-transparent">
+      <button class="brdr-none bg-cl-transparent" @click="closeEditMode">
         <span class="cl-accent">
           <i class="material-icons cl-accent mr5">
             close
@@ -20,10 +20,10 @@
         <div class="flex w-100 flex-wrap between-xs">
           <div>
             <router-link
-              :to="productLink"
-              @click.native="$store.commit('ui/setMicrocart', false)"
               class="serif h4 name"
+              :to="productLink"
               data-testid="productLink"
+              @click.native="$store.commit('ui/setMicrocart', false)"
             >
               {{ product.name | htmlDecode }}
             </router-link>
@@ -31,15 +31,15 @@
               {{ product.sku }}
             </div>
             <div class="h6 cl-bg-tertiary pt5 options" v-if="isTotalsActive">
-              <div :key="opt.label" v-for="opt in product.totals.options">
+              <div v-for="opt in product.totals.options" :key="opt.label">
                 <span class="opn">{{ opt.label }}: </span>
-                <span class="opv" v-html="opt.value"/>
+                <span class="opv" v-html="opt.value" />
               </div>
             </div>
             <div class="h6 cl-bg-tertiary pt5 options" v-else-if="!editMode && product.options">
-              <div :key="opt.label" v-for="opt in product.options">
+              <div v-for="opt in product.options" :key="opt.label">
                 <span class="opn">{{ opt.label }}: </span>
-                <span class="opv" v-html="opt.value"/>
+                <span class="opv" v-html="opt.value" />
               </div>
             </div>
             <div class="h6 pt5 cl-error" v-if="hasProductErrors">
@@ -50,14 +50,14 @@
             </div>
           </div>
           <product-quantity
-            :is-simple-or-configurable="isSimpleOrConfigurable"
-            :loading="isStockInfoLoading"
-            :max-quantity="maxQuantity"
-            :value="productQty"
-            @error="handleQuantityError"
-            @input="updateProductQty"
             class="h5 cl-accent lh25 qty"
             v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
+            :value="productQty"
+            :max-quantity="maxQuantity"
+            :loading="isStockInfoLoading"
+            :is-simple-or-configurable="isSimpleOrConfigurable"
+            @input="updateProductQty"
+            @error="handleQuantityError"
           />
         </div>
         <div class="flex mr10 align-right start-xs between-sm prices">
@@ -68,7 +68,7 @@
             <span class="h6 serif price-original" v-if="product.special_price">
               {{ product.original_price_incl_tax * product.qty | price }}
             </span>
-            <span class="h4 serif price-regular" data-testid="productPrice" v-else>
+            <span class="h4 serif price-regular" v-else data-testid="productPrice">
               {{ (product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax) * product.qty | price }}
             </span>
           </div>
@@ -92,81 +92,82 @@
       </div>
       <div class="w-100 pb15 flex flex-wrap bottom-xs" v-if="editMode">
         <div class="ml0 flex flex-wrap filters" v-if="productsAreReconfigurable">
-          <div :key="index" class="h5 pt5 w-100" v-for="(option, index) in product.configurable_options">
+          <div class="h5 pt5 w-100" v-for="(option, index) in product.configurable_options" :key="index">
             <div class="h6 cl-bg-tertiary mr10">
               {{ option.label }}:
             </div>
             <div class="flex flex-wrap pt5" v-if="option.label == 'Color' && editMode">
               <color-selector
-                :key="filter.id"
-                :selected-filters="getSelectedOptions"
-                :variant="filter"
-                @change="changeEditModeFilter"
                 v-for="filter in getAvailableFilters[option.attribute_code]"
                 v-if="isOptionAvailable(filter)"
+                :key="filter.id"
+                :variant="filter"
+                :selected-filters="getSelectedOptions"
+                @change="changeEditModeFilter"
               />
             </div>
             <div class="flex flex-wrap pt5" v-else-if="option.label == 'Size' && editMode">
               <size-selector
-                :key="filter.id"
-                :selected-filters="getSelectedOptions"
-                :variant="filter"
-                @change="changeEditModeFilter"
                 class="mr10 mb10"
                 v-for="filter in getAvailableFilters[option.attribute_code]"
                 v-if="isOptionAvailable(filter)"
+                :key="filter.id"
+                :variant="filter"
+                :selected-filters="getSelectedOptions"
+                @change="changeEditModeFilter"
               />
             </div>
           </div>
         </div>
         <button-full
-          :disabled="isUpdateCartDisabled"
-          @click.native="updateProductVariant"
           class="update-button mb10 mr10"
+          @click.native="updateProductVariant"
+          :disabled="isUpdateCartDisabled"
         >
           {{ $t('Update item') }}
         </button-full>
       </div>
       <div class="w-100 flex middle-xs actions" v-if="!editMode">
-        <edit-button @click="openEditMode" class="mx5" v-if="productsAreReconfigurable && !editMode"/>
-        <remove-button @click="removeItem" class="mx5"/>
+        <edit-button class="mx5" @click="openEditMode" v-if="productsAreReconfigurable && !editMode" />
+        <remove-button class="mx5" @click="removeItem" />
       </div>
     </div>
   </li>
 </template>
 
 <script>
-  import config from 'config'
-  import {currentStoreView} from '@vue-storefront/core/lib/multistore'
-  import {formatProductLink} from '@vue-storefront/core/modules/url/helpers'
-  import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
+import { mapActions } from 'vuex'
+import config from 'config'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
+import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 
-  import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
-  import ProductImage from 'theme/components/core/ProductImage'
-  import ColorSelector from 'theme/components/core/ColorSelector.vue'
-  import SizeSelector from 'theme/components/core/SizeSelector.vue'
-  import RemoveButton from './RemoveButton'
-  import EditButton from './EditButton'
-  import {onlineHelper} from '@vue-storefront/core/helpers'
-  import {ProductOption} from '@vue-storefront/core/modules/catalog/components/ProductOption'
-  import {getProductConfiguration, getThumbnailForProduct} from '@vue-storefront/core/modules/cart/helpers'
-  import ButtonFull from 'theme/components/theme/ButtonFull'
-  import EditMode from './EditMode'
+import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
+import ProductImage from 'theme/components/core/ProductImage'
+import ColorSelector from 'theme/components/core/ColorSelector.vue'
+import SizeSelector from 'theme/components/core/SizeSelector.vue'
+import RemoveButton from './RemoveButton'
+import EditButton from './EditButton'
+import { onlineHelper } from '@vue-storefront/core/helpers'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption'
+import { getThumbnailForProduct, getProductConfiguration } from '@vue-storefront/core/modules/cart/helpers'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import EditMode from './EditMode'
 
-  export default {
-    data() {
-      return {
-        maxQuantity: 0,
-        quantityError: false,
-        isStockInfoLoading: false
-      }
-    },
-    props: {
-      product: {
-        type: Object,
-        required: true
-      }
-    },
+export default {
+  data () {
+    return {
+      maxQuantity: 0,
+      quantityError: false,
+      isStockInfoLoading: false
+    }
+  },
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
   components: {
     RemoveButton,
     ProductImage,
@@ -176,24 +177,24 @@
     ButtonFull,
     ProductQuantity
   },
-    mixins: [Product, ProductOption, EditMode],
+  mixins: [Product, ProductOption, EditMode],
   computed: {
-    hasProductInfo() {
+    hasProductInfo () {
       return this.product.info && Object.keys(this.product.info).length > 0
     },
-    hasProductErrors() {
+    hasProductErrors () {
       return this.product.errors && Object.keys(this.product.errors).length > 0
     },
-    isTotalsActive() {
+    isTotalsActive () {
       return this.isOnline && !this.editMode && this.product.totals && this.product.totals.options
     },
     isOnline () {
       return onlineHelper.isOnline
     },
-    productsAreReconfigurable() {
+    productsAreReconfigurable () {
       return config.cart.productsAreReconfigurable && this.product.type_id === 'configurable' && this.isOnline
     },
-    displayItemDiscounts() {
+    displayItemDiscounts () {
       return config.cart.displayItemDiscounts
     },
     image () {
@@ -202,107 +203,106 @@
         src: this.thumbnail
       }
     },
-    thumbnail() {
+    thumbnail () {
       return getThumbnailForProduct(this.product)
     },
-    configuration() {
+    configuration () {
       return getProductConfiguration(this.product)
     },
-    productLink() {
+    productLink () {
       return formatProductLink(this.product, currentStoreView().storeCode)
     },
-    editMode() {
+    editMode () {
       return this.getEditingProductId === this.product.id
     },
-    productQty() {
+    productQty () {
       return this.editMode ? this.getEditingQty : this.product.qty
     },
-    isSimpleOrConfigurable() {
+    isSimpleOrConfigurable () {
       return ['simple', 'configurable'].includes(this.product.type_id)
     },
-    isUpdateCartDisabled() {
+    isUpdateCartDisabled () {
       return this.quantityError ||
         this.isStockInfoLoading ||
         (this.isOnline && !this.maxQuantity && this.isSimpleOrConfigurable)
     }
   },
-    methods: {
-      updateProductVariant() {
-        this.updateVariant();
-        this.closeEditMode()
-      },
-      updateProductQty(qty) {
-        if (this.editMode) {
-          this.editModeSetQty(qty);
-          return
-        }
+  methods: {
+    updateProductVariant () {
+      this.updateVariant()
+      this.closeEditMode()
+    },
+    updateProductQty (qty) {
+      if (this.editMode) {
+        this.editModeSetQty(qty)
+        return
+      }
 
-        this.updateQuantity(qty)
-      },
-      removeFromCart() {
-        this.$store.dispatch('cart/removeItem', {product: this.product})
-      },
-      updateQuantity(quantity) {
-        this.$store.dispatch('cart/updateQuantity', {product: this.product, qty: quantity})
-      },
-      async getQuantity(product) {
-        if (this.isStockInfoLoading) return; // stock info is already loading
-        this.isStockInfoLoading = true;
-        try {
-          const validProduct = product || this.product;
-          const res = await this.$store.dispatch('stock/check', {
-            product: validProduct,
-            qty: this.productQty
-          });
-          return res.qty
-        } finally {
-          this.isStockInfoLoading = false
-        }
-      },
-      handleQuantityError(error) {
-        this.quantityError = error
-      },
-      async changeEditModeFilter(filter) {
-        const editedProduct = this.getEditedProduct(filter);
-        const maxQuantity = await this.getQuantity(editedProduct);
-        if (!maxQuantity) {
-          this.$store.dispatch('notification/spawnNotification', {
-            type: 'error',
-            message: this.$t(
-              'The product is out of stock and cannot be added to the cart!'
-            ),
-            action1: {label: this.$t('OK')}
-          })
-        } else if (maxQuantity < this.productQty) {
-          this.$store.dispatch('notification/spawnNotification', {
-            type: 'error',
-            message: this.$t('Only {maxQuantity} products of this type are available!', {maxQuantity}),
-            action1: {label: this.$t('OK')}
-          })
-        } else {
-          this.maxQuantity = maxQuantity;
-          this.editModeSetFilters(filter)
-        }
+      this.updateQuantity(qty)
+    },
+    removeFromCart () {
+      this.$store.dispatch('cart/removeItem', { product: this.product })
+    },
+    updateQuantity (quantity) {
+      this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: quantity })
+    },
+    async getQuantity (product) {
+      if (this.isStockInfoLoading) return // stock info is already loading
+      this.isStockInfoLoading = true
+      try {
+        const validProduct = product || this.product
+        const res = await this.$store.dispatch('stock/check', {
+          product: validProduct,
+          qty: this.productQty
+        })
+        return res.qty
+      } finally {
+        this.isStockInfoLoading = false
       }
     },
-    watch: {
-      isOnline: {
-        async handler(isOnline) {
-          if (isOnline) {
-            const maxQuantity = await this.getQuantity();
-            this.maxQuantity = maxQuantity
-          }
-        },
-        immediate: true
+    handleQuantityError (error) {
+      this.quantityError = error
+    },
+    async changeEditModeFilter (filter) {
+      const editedProduct = this.getEditedProduct(filter)
+      const maxQuantity = await this.getQuantity(editedProduct)
+      if (!maxQuantity) {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t(
+            'The product is out of stock and cannot be added to the cart!'
+          ),
+          action1: { label: this.$t('OK') }
+        })
+      } else if (maxQuantity < this.productQty) {
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Only {maxQuantity} products of this type are available!', { maxQuantity }),
+          action1: { label: this.$t('OK') }
+        })
+      } else {
+        this.maxQuantity = maxQuantity
+        this.editModeSetFilters(filter)
+      }
+    }
+  },
+  watch: {
+    isOnline: {
+      async handler (isOnline) {
+        if (isOnline) {
+          const maxQuantity = await this.getQuantity()
+          this.maxQuantity = maxQuantity
+        }
+      },
+      immediate: true
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '~theme/css/variables/colors';
-  @import '~theme/css/helpers/functions/color';
-
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
   .blend {
     flex: 0 0 150px;
   }

@@ -430,7 +430,7 @@ function kebabForLink (string) {
       return [text];
     }
 
-    let pattern = /[A-Z][a-z0-9.]*/g;
+    let pattern = /[A-Z][a-z0-9:;).]*/g;
 
     // PascalCase
     if (foundFirstUpperCase.index === 0) {
@@ -477,12 +477,13 @@ function kebabForLink (string) {
 
 function testKebab () {
   console.time('testKebab took');
-  let array = ['GG 5', 'GG-5', 'GG 5-5', 'GG 5.5', 'GG5', 'GG5 66.5-7'];
+  let array = ['GG 5?', 'GG-5 !', 'GG 5-5 <3', 'GG 5.5', 'GG5 :)', 'GG5 66.5-7'];
+  let expected = ['GG-5', 'GG-5-!', 'GG-5-5-<3', 'GG-55', 'GG5-:-)', 'GG5-66.5-7'];
   let result = [];
   for (let key in array) {
     let word1 = array[key];
     let word2 = kebabForLink(word1);
-    let res = 'testKebab TEST ' + key + '  -  word1: ' + word1 + '  -  word2: ' + word2;
+    let res = 'testKebab TEST ' + key + '  -  test1: ' + word1 + '  -  result: ' + word2 + '  -  expected: ' + expected[key];
     console.log(res);
     result.push(res)
   }

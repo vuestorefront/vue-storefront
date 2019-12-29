@@ -31,23 +31,21 @@
       >
         <!--        // Changes Vinod-->
         <div class="card relative brdr-none">
-          <div class="card-header" v-if="isCCStore">
+          <div class="brand_logo" v-if="isCCStore">
             <img
               :src="product.brand_logo"
-              alt="L"
               width="100"
               height="100"
             >
           </div>
-<!--          <div class="card-body">-->
+          <div class="card-body">
             <product-image
-              class="product-cover__thumb"
+              class="product-image__content"
               :image="thumbnailObj"
               :alt="product.name | htmlDecode"
-              :calc-ratio="false"
               data-testid="productImage"
             />
-<!--          </div>-->
+          </div>
         </div>
       </div>
 
@@ -136,9 +134,9 @@ export default {
         this.product.configurable_children &&
         this.product.configurable_children.length > 0
       ) {
-        const skus = [this.product.sku];
+        const skus = [this.product.sku]
         for (const confChild of this.product.configurable_children) {
-          const cachedItem = rootStore.state.stock.cache[confChild.id];
+          const cachedItem = rootStore.state.stock.cache[confChild.id]
           if (typeof cachedItem === 'undefined' || cachedItem === null) {
             skus.push(confChild.sku)
           }
@@ -175,7 +173,6 @@ $color-white: color(white);
   @media (max-width: 767px) {
     padding-bottom: 10px;
   }
-
   &__icons {
     position: absolute;
     top: 0;
@@ -185,7 +182,6 @@ $color-white: color(white);
     padding-right: 20px;
     padding-top: 10px;
   }
-
   &__icon {
     padding-top: 10px;
     opacity: 0;
@@ -194,12 +190,10 @@ $color-white: color(white);
     @media (max-width: 767px) {
       opacity: 1;
     }
-
     &--active {
       opacity: 1;
     }
   }
-
   &:hover {
     .product__icon {
       opacity: 1;
@@ -255,7 +249,6 @@ $color-white: color(white);
         opacity: 1;
         transform: scale(1.1);
       }
-
       &.sale::after,
       &.new::after {
         opacity: 0.8;
@@ -272,7 +265,6 @@ $color-white: color(white);
       content: 'Sale';
     }
   }
-
   &.new {
     &::after {
       @extend %label;
@@ -283,29 +275,24 @@ $color-white: color(white);
 .card {
   margin: auto;
   mix-blend-mode: darken;
-  padding: 15px 15px 0;
   background-color: #17151500;
-  border-bottom: none !important;
-  top: 0px;
-  right: 16px;
+  border: none !important;
   font-size: 18px;
   height: -webkit-fill-available;
-  width: inherit;
+  width: 100%;
   overflow: hidden;
 }
-.card-header {
+.brand_logo {
   border-radius: 50%;
   margin: auto;
   padding-bottom: 5%;
-  float:right;
-}
-.card-header > img {
-  border-radius: 50%;
+  float:left;
+  & > img {
+    border-radius: 50%;
+  }
 }
 .card-body {
-
   float: none;
   margin: auto;
-
 }
 </style>

@@ -19,7 +19,7 @@
   </card>
 </template>
 <script>
-import Card from 'theme/components/core/Card'
+import Card from 'theme/components/procc/Card'
 
 export default {
   components: {

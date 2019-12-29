@@ -263,7 +263,7 @@ export default {
   mixins: [ProductOption],
   directives: { focusClean },
   beforeCreate () {
-    registerModule(ReviewModule);
+    registerModule(ReviewModule)
     registerModule(RecentlyViewedModule)
   },
   data () {
@@ -286,7 +286,7 @@ export default {
     }),
     getOptionLabel () {
       return (option) => {
-        const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase();
+        const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
         return this.getCurrentProductConfiguration[configName] ? this.getCurrentProductConfiguration[configName].label : configName
       }
     },
@@ -339,9 +339,9 @@ export default {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
   },
   async asyncData ({ store, route }) {
-    const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null });
-    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product });
-    if (isServer) await loadBreadcrumbsPromise;
+    const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
+    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
+    if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
   },
   beforeRouteEnter (to, from, next) {
@@ -364,7 +364,7 @@ export default {
   },
   methods: {
     showDetails (event) {
-      this.detailsOpen = true;
+      this.detailsOpen = true
       event.target.classList.add('hidden')
     },
     notifyOutStock () {
@@ -389,25 +389,25 @@ export default {
       this.$bus.$emit(
         'filter-changed-product',
         Object.assign({ attribute_code: variant.type }, variant)
-      );
+      )
       this.getQuantity()
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
     },
     isOptionAvailable (option) { // check if the option is available
-      const currentConfig = Object.assign({}, this.getCurrentProductConfiguration);
-      currentConfig[option.type] = option;
+      const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
+      currentConfig[option.type] = option
       return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
     },
     async getQuantity () {
-      if (this.isStockInfoLoading) return; // stock info is already loading
-      this.isStockInfoLoading = true;
+      if (this.isStockInfoLoading) return // stock info is already loading
+      this.isStockInfoLoading = true
       try {
         const res = await this.$store.dispatch('stock/check', {
           product: this.getCurrentProduct,
           qty: this.getCurrentProduct.qty
-        });
+        })
         this.maxQuantity = res.qty
       } finally {
         this.isStockInfoLoading = false
@@ -418,7 +418,7 @@ export default {
     }
   },
   metaInfo () {
-    const storeView = currentStoreView();
+    const storeView = currentStoreView()
     return {
       link: [
         { rel: 'amphtml',

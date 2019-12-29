@@ -87,7 +87,7 @@ export default {
     })
   },
   async created () {
-    await this.updatePromotedOffers()
+    // await this.updatePromotedOffers()  // Disabled by Dan 29.12.2019, not using promoted offers yet
   },
   methods: {
     ...mapActions({

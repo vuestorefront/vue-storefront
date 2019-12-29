@@ -59,8 +59,8 @@ export default {
   },
   computed: {
     itemsPerPage () {
-      let start = ((this.currentPage - 1) * this.perPage);
-      let end = start + this.perPage;
+      let start = ((this.currentPage - 1) * this.perPage)
+      let end = start + this.perPage
       return this.items.slice(start, end).filter(review => !!review.review_status)
     },
     pageCount () {
@@ -68,13 +68,13 @@ export default {
     },
     pageList () {
       if (this.pageCount <= 5 || this.currentPage === 1 || this.currentPage === 2) {
-        const pages = [];
+        const pages = []
         for (let i = 1; i <= Math.min(this.pageCount, 5); i += 1) {
           pages.push(i)
         }
         return pages
       } else if (this.currentPage === this.pageCount || this.currentPage === this.pageCount - 1) {
-        const pages = [];
+        const pages = []
         for (let i = this.pageCount; i >= 1 && i >= this.pageCount - 4; i -= 1) {
           pages.unshift(i)
         }

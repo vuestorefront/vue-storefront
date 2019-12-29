@@ -5,9 +5,9 @@
         <section class="row m0 between-xs">
           <div class="col-xs-12 col-md-6 center-xs middle-xs image">
             <product-gallery
-              :configuration="getCurrentProductConfiguration"
-              :gallery="getProductGallery"
               :offline="getOfflineImage"
+              :gallery="getProductGallery"
+              :configuration="getCurrentProductConfiguration"
               :product="getCurrentProduct"
             />
           </div>
@@ -23,22 +23,22 @@
               {{ getCurrentProduct.name | htmlDecode }}
               <web-share
                 :title="getCurrentProduct.name | htmlDecode"
-                class="web-share"
                 text="Check this product!"
+                class="web-share"
               />
             </h1>
             <div
-              :content="getCurrentProduct.sku"
               class="mb20 uppercase cl-secondary"
               itemprop="sku"
+              :content="getCurrentProduct.sku"
             >
               {{ $t('SKU: {sku}', { sku: getCurrentProduct.sku }) }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-              <meta :content="$store.state.storeView.i18n.currencyCode" itemprop="priceCurrency">
-              <meta :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)" itemprop="price">
+              <meta itemprop="priceCurrency" :content="$store.state.storeView.i18n.currencyCode">
+              <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
-              <meta :content="getCurrentProduct.url_path" itemprop="url">
+              <meta itemprop="url" :content="getCurrentProduct.url_path">
               <div class="mb40 price serif" v-if="getCurrentProduct.type_id !== 'grouped'">
                 <div
                   class="h3 cl-secondary"
@@ -55,8 +55,7 @@
                   class="h2 cl-mine-shaft weight-700"
                   v-if="!getCurrentProduct.special_price && getCurrentProduct.price_incl_tax"
                 >
-                  {{ getCurrentProduct.qty > 0 ? getCurrentProduct.price_incl_tax * getCurrentProduct.qty :
-                  getCurrentProduct.price_incl_tax | price }}
+                  {{ getCurrentProduct.qty > 0 ? getCurrentProduct.price_incl_tax * getCurrentProduct.qty : getCurrentProduct.price_incl_tax | price }}
                 </div>
               </div>
               <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
@@ -66,7 +65,7 @@
                 >
                   {{ getCurrentProduct.errors | formatProductMessages }}
                 </div>
-                <div :key="option.id" class="h5" v-for="option in getProductOptions">
+                <div class="h5" v-for="option in getProductOptions" :key="option.id">
                   <div class="variants-label" data-testid="variantsLabel">
                     {{ option.label }}
                     <span
@@ -76,31 +75,31 @@
                   <div class="row top-xs m0 pt15 pb40 variants-wrapper">
                     <div v-if="option.label == 'Color'">
                       <color-selector
-                        :key="filter.id"
-                        :selected-filters="getSelectedFilters"
-                        :variant="filter"
-                        @change="changeFilter"
                         v-for="filter in getAvailableFilters[option.attribute_code]"
+                        :key="filter.id"
+                        :variant="filter"
+                        :selected-filters="getSelectedFilters"
+                        @change="changeFilter"
                       />
                     </div>
                     <div class="sizes" v-else-if="option.label == 'Size'">
                       <size-selector
                         class="mr10 mb10"
-                        :key="filter.id"
-                        :selected-filters="getSelectedFilters"
-                        :variant="filter"
-                        @change="changeFilter"
                         v-for="filter in getAvailableFilters[option.attribute_code]"
+                        :key="filter.id"
+                        :variant="filter"
+                        :selected-filters="getSelectedFilters"
+                        @change="changeFilter"
                       />
                     </div>
                     <div :class="option.attribute_code" v-else>
                       <generic-selector
-                        :key="filter.id"
-                        :selected-filters="getSelectedFilters"
-                        :variant="filter"
-                        @change="changeFilter"
                         class="mr10 mb10"
                         v-for="filter in getAvailableFilters[option.attribute_code]"
+                        :key="filter.id"
+                        :variant="filter"
+                        :selected-filters="getSelectedFilters"
+                        @change="changeFilter"
                       />
                     </div>
                     <span
@@ -116,40 +115,40 @@
               </div>
             </div>
             <product-links
-              :products="getCurrentProduct.product_links"
               v-if="getCurrentProduct.type_id =='grouped'"
+              :products="getCurrentProduct.product_links"
             />
             <product-bundle-options
-              :product="getCurrentProduct"
               v-if="getCurrentProduct.bundle_options && getCurrentProduct.bundle_options.length > 0"
+              :product="getCurrentProduct"
             />
             <product-custom-options
-              :product="getCurrentProduct"
               v-else-if="getCurrentProduct.custom_options && getCurrentProduct.custom_options.length > 0"
+              :product="getCurrentProduct"
             />
             <product-quantity
-              :is-simple-or-configurable="isSimpleOrConfigurable"
-              :loading="isStockInfoLoading"
-              :max-quantity="maxQuantity"
-              @error="handleQuantityError"
               class="row m0 mb35"
-              show-quantity
               v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
               v-model="getCurrentProduct.qty"
+              :max-quantity="maxQuantity"
+              :loading="isStockInfoLoading"
+              :is-simple-or-configurable="isSimpleOrConfigurable"
+              show-quantity
+              @error="handleQuantityError"
             />
             <div class="row m0">
               <add-to-cart
-                :disabled="isAddToCartDisabled"
                 :product="getCurrentProduct"
+                :disabled="isAddToCartDisabled"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
             </div>
             <div class="row py40 add-to-buttons">
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <AddToWishlist :product="getCurrentProduct"/>
+                <AddToWishlist :product="getCurrentProduct" />
               </div>
               <div class="col-xs-6 col-sm-3 col-md-6">
-                <AddToCompare :product="getCurrentProduct"/>
+                <AddToCompare :product="getCurrentProduct" />
               </div>
             </div>
           </div>
@@ -192,7 +191,7 @@
                 <h3>Size Chart</h3>
               </div>
               <div class="row mb10">
-                <size-chart-view class="align-center" :product="product" />
+                <size-chart-view class="align-center" :product="getCurrentProduct" />
               </div>
             </div>
           </div>
@@ -247,55 +246,58 @@
 </template>
 
 <script>
-  import {minValue} from 'vuelidate/lib/validators'
-  import config from 'config'
-  import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
-  import SizeChartView from 'theme/components/core/blocks/Product/SizeChartView.vue'
-  import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
-  import AddToCart from 'theme/components/core/AddToCart.vue'
-  import GenericSelector from 'theme/components/core/GenericSelector'
-  import ColorSelector from 'theme/components/core/ColorSelector.vue'
-  import SizeSelector from 'theme/components/core/SizeSelector.vue'
-  import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
-  import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
-  import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
-  import ProductTile from 'theme/components/core/ProductTile.vue'
-  import ProductLinks from 'theme/components/core/ProductLinks.vue'
-  import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
-  import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
-  import ProductGallery from 'theme/components/core/ProductGallery'
-  import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
-  import focusClean from 'theme/components/theme/directives/focusClean'
-  import {Tab, Tabs} from 'vue-tabs-component'
-  import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
-  import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
-  import WebShare from 'theme/components/theme/WebShare'
-  import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
-  import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
-  import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
-  import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
-  import {mapGetters} from 'vuex'
-  import LazyHydrate from 'vue-lazy-hydration'
-  import {ProductOption} from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
-  import {
-    getAvailableFiltersByProduct,
-    getSelectedFiltersByProduct
-  } from '@vue-storefront/core/modules/catalog/helpers/filters'
-  import {isOptionAvailableAsync} from '@vue-storefront/core/modules/catalog/helpers/index'
-  import {currentStoreView, localizedRoute} from '@vue-storefront/core/lib/multistore'
-  import {htmlDecode} from '@vue-storefront/core/filters'
-  import {ReviewModule} from '@vue-storefront/core/modules/review'
-  import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
-  import {registerModule} from '@vue-storefront/core/lib/modules'
-  import {isServer, onlineHelper} from '@vue-storefront/core/helpers'
-  import {catalogHooksExecutors} from '@vue-storefront/core/modules/catalog-next/hooks'
-  import StoreBanners from 'theme/components/theme/blocks/StoreBanners/StoreBanners'
-  import _ from 'lodash'
-  import currencyInfo from '../assets/js/currency_info.js'
+import i18n from '@vue-storefront/i18n'
+import Product from '@vue-storefront/core/pages/Product'
+import VueOfflineMixin from 'vue-offline/mixin'
+import config from 'config'
+import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
+import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
+import AddToCart from 'theme/components/core/AddToCart.vue'
+import GenericSelector from 'theme/components/core/GenericSelector'
+import ColorSelector from 'theme/components/core/ColorSelector.vue'
+import SizeSelector from 'theme/components/core/SizeSelector.vue'
+import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
+import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
+import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
+import ProductLinks from 'theme/components/core/ProductLinks.vue'
+import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
+import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
+import ProductGallery from 'theme/components/core/ProductGallery'
+import Spinner from 'theme/components/core/Spinner'
+import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
+import focusClean from 'theme/components/theme/directives/focusClean'
+import WebShare from 'theme/components/theme/WebShare'
+import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
+import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
+import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
+import { mapGetters } from 'vuex'
+import LazyHydrate from 'vue-lazy-hydration'
+import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption.ts'
+import { getAvailableFiltersByProduct, getSelectedFiltersByProduct } from '@vue-storefront/core/modules/catalog/helpers/filters'
+import { isOptionAvailableAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
+import { localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { htmlDecode } from '@vue-storefront/core/filters'
+import { ReviewModule } from '@vue-storefront/core/modules/review'
+import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
+import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
+import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
+import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
+
+// ProCC Imports
+import StoreBanners from 'theme/components/procc/StoreBanners/StoreBanners'
+import _ from 'lodash'
+import currencyInfo from '../assets/js/currency_info.js'
+import {Tab, Tabs} from 'vue-tabs-component'
+import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import ProductTile from 'theme/components/core/ProductTile.vue'
+import SizeChartView from 'theme/components/procc/Product/SizeChartView.vue'
+import {minValue} from 'vuelidate/lib/validators'
+
 
 export default {
   components: {
-    'WishlistButton': () => import(/* webpackChunkName: "wishlist" */'theme/components/core/blocks/Wishlist/AddToWishlist'),
     AddToCart,
     AddToCompare,
     AddToWishlist,
@@ -307,27 +309,28 @@ export default {
     ProductCustomOptions,
     ProductGallery,
     ProductLinks,
-    ProductTile,
     PromotedOffers,
-    StoreBanners,
-    SizeChartView,
     RelatedProducts,
     Reviews,
+    // ProCC IMPORTS
+    Tabs,
+    Tab,
+    BaseSelect,
+    ProductTile,
+    BaseInput,
+    StoreBanners,
+    SizeChartView,
+    BaseInputNumber,
     SizeSelector,
     WebShare,
     SizeGuide,
     LazyHydrate,
-    ProductQuantity,
-    Tabs,
-    Tab,
-    BaseSelect,
-    BaseInput,
-    BaseInputNumber
+    ProductQuantity
   },
   mixins: [ProductOption],
   directives: { focusClean },
   beforeCreate () {
-    registerModule(ReviewModule);
+    registerModule(ReviewModule)
     registerModule(RecentlyViewedModule)
   },
   data () {
@@ -346,12 +349,8 @@ export default {
       isCCStore: false
     }
   },
-  directives: { focusClean },
-  mounted () {
-    this.isCCStore = this.currentImage.is_cc_store
-  },
   beforeUpdate () {
-    console.log('cc Store', this.currentImage)
+    console.log('cc Store currentImage', this.currentImage)
   },
   computed: {
     ...mapGetters({
@@ -366,7 +365,7 @@ export default {
     }),
     getOptionLabel () {
       return (option) => {
-        const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase();
+        const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
         return this.getCurrentProductConfiguration[configName] ? this.getCurrentProductConfiguration[configName].label : configName
       }
     },
@@ -417,11 +416,12 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
+    this.isCCStore = this.currentImage.is_cc_store
   },
   async asyncData ({ store, route }) {
-    const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null });
-    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product });
-    if (isServer) await loadBreadcrumbsPromise;
+    const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
+    const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
+    if (isServer) await loadBreadcrumbsPromise
     catalogHooksExecutors.productPageVisited(product)
   },
   beforeRouteEnter (to, from, next) {
@@ -453,15 +453,15 @@ export default {
     updateShippingCost() {
       let couriers = this.delivery_policy.courier;
       let country = this.selected_country;
-      let quantity = parseInt(this.product_quantity);
+      let quantity = parseInt(this.getCurrentProduct.qty);
       let courierPolicy = _.get(_.filter(couriers, (x, y) => y === country), '0');
       let currencySymbol = currencyInfo[courierPolicy.currency].symbol;
-      let weight = (typeof parseFloat(_.get(this.product, 'weight')) !== 'undefined') ? parseFloat((_.get(this.product, 'weight') * quantity)) : parseFloat(0.8 * quantity);
+      let weight = (typeof parseFloat(_.get(this.getCurrentProduct, 'weight')) !== 'undefined') ? parseFloat((_.get(this.getCurrentProduct, 'weight') * quantity)) : parseFloat(0.8 * quantity);
       let pricePerKg = (weight < 1) ? parseFloat(courierPolicy.price_first_kg) : parseFloat(parseInt(courierPolicy.price_first_kg) + ((weight - 1) * parseInt(courierPolicy.price_each_next_kg)));
       let shippingCost = (pricePerKg * (1 + parseFloat(courierPolicy.insurance))).toPrecision(3);
       let higherShippingCost = (parseFloat(shippingCost) / 0.7).toPrecision(3);
       let shippingCostDifference = (parseFloat(higherShippingCost) - parseFloat(shippingCost)).toPrecision(3);
-      let productPrice = parseFloat(parseFloat(_.get(this.product, 'priceInclTax') * quantity));
+      let productPrice = parseFloat(parseFloat(_.get(this.getCurrentProduct, 'priceInclTax') * quantity));
       let codFee = parseFloat(productPrice * parseFloat(courierPolicy.cash_on_delivery_fee)).toPrecision(3);
       let cashOnDeliveryFee = (codFee < parseFloat(courierPolicy.cash_on_delivery_minimum)) ? parseFloat(courierPolicy.cash_on_delivery_minimum) : codFee;
       this.selected_delivery_policy = {
@@ -477,7 +477,7 @@ export default {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
     },
     showDetails (event) {
-      this.detailsOpen = true;
+      this.detailsOpen = true
       event.target.classList.add('hidden')
     },
     notifyOutStock () {
@@ -502,25 +502,25 @@ export default {
       this.$bus.$emit(
         'filter-changed-product',
         Object.assign({ attribute_code: variant.type }, variant)
-      );
+      )
       this.getQuantity()
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
     },
     isOptionAvailable (option) { // check if the option is available
-      const currentConfig = Object.assign({}, this.getCurrentProductConfiguration);
-      currentConfig[option.type] = option;
+      const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
+      currentConfig[option.type] = option
       return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
     },
     async getQuantity () {
-      if (this.isStockInfoLoading) return; // stock info is already loading
-      this.isStockInfoLoading = true;
+      if (this.isStockInfoLoading) return // stock info is already loading
+      this.isStockInfoLoading = true
       try {
         const res = await this.$store.dispatch('stock/check', {
           product: this.getCurrentProduct,
           qty: this.getCurrentProduct.qty
-        });
+        })
         this.maxQuantity = res.qty
       } finally {
         this.isStockInfoLoading = false
@@ -531,7 +531,7 @@ export default {
     }
   },
   metaInfo () {
-    const storeView = currentStoreView();
+    const storeView = currentStoreView()
     return {
       link: [
         { rel: 'amphtml',
@@ -844,19 +844,16 @@ $bg-secondary: color(secondary, $colors-background);
       padding: 4em 2em;
     }
   }
-.card {
-  margin: auto;
-  mix-blend-mode: darken;
-  padding: 15px 15px 0;
-  background-color: #17151500;
-  border-bottom: none !important;
-  top: 0px;
-  right: 16px;
-  font-size: 18px;
-  height: -webkit-fill-available;
-  width: inherit;
-  overflow: hidden;
-}
+  .card {
+    margin: auto;
+    mix-blend-mode: darken;
+    background-color: #17151500;
+    border: none !important;
+    font-size: 18px;
+    height: -webkit-fill-available;
+    width: 100%;
+    overflow: hidden;
+  }
 .card-header > img {
   border-radius: 20%;
 }
