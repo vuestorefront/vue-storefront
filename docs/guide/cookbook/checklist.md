@@ -156,9 +156,9 @@ node --harmony cli.js products --removeNonExistent=true --partitions=1
 
 ### Protip
 
-#### 1. _alwaysSyncPlatformPricesOver_
+#### 1. _alwaysSyncPlatformPricesOver_ to be in sync
 
-When the `config.products.alwaysSyncPlatformPricesOver` option is on, Vue Storefront will update the visible price on all the listings and product detail pages **directly from source web store, say, Magento**. The code in charge for this operation is located in the [`doPlatformPricesSync`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L212) helper which is called from the [`tax/calculateTaxes`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/store/tax/actions.ts#L74) action.
+When the `config.products.alwaysSyncPlatformPricesOver` option is on, Vue Storefront will update the visible price on all the listings and product detail pages **directly from source web store, say, Magento**. (Magento represents source web store hereunder) The code in charge for this operation is located in the [`doPlatformPricesSync`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L212) helper which is called from the [`tax/calculateTaxes`](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/store/tax/actions.ts#L74) action.
 
 :::tip NOTE
 This mode works whenever the price is calculated in either server or client's side (`config.tax.calculateServerSide` option).
@@ -166,15 +166,15 @@ This mode works whenever the price is calculated in either server or client's si
 
 Check if the way [Vue Storefront syncs the price](https://github.com/DivanteLtd/vue-storefront/blob/48233bfa4575be218a51cccd2474ec358671fc01/core/modules/catalog/helpers/index.ts#L216) is exactly what you need, and not [override this action](https://docs.vuestorefront.io/guide/cookbook/module.html#_2-2-recipe-b-override-vuex-store-with-extendstore).
 
-=====================
 
+#### 2. _alwaysSyncPlatformPricesOver_ has 2 options 
 
 The `alwaysSyncPlatformPricesOver` mode has two additional options:
 
-1. Clear the prices before sync: `config.products.clearPricesBeforePlatformSync` - when `true`, user won't see the prices cached in Elastic before getting the new prices from Magento
-2. Synchronous mode - `config.products.waitForPlatformSync` -  by default the price sync is running in parallel to disyplaing the product or category content. We can make it synchronous (waiting for this process to finish) in order we'd like to have just the current prices from Magento rendered in the HTML markup (SSR; otherwise the prices in SSR will be from Elastic).
+1. Clear the price before sync: `config.products.clearPricesBeforePlatformSync` - when set `true`, users won't see the price cached in Elasticsearch before getting the new price from Magento
+2. Synchronous mode - `config.products.waitForPlatformSync` -  by default the price sync runs in parallel to displaying the product or category content, that is, _asynchronous_. We can make it synchronous (waiting for this process to finish) in order to have just the current price from Magento rendered in the HTML markup (SSR; otherwise the price in SSR will be from Elasticsearch).
 
-More than that - Vue Storefront always get's the **platform totals** (the final prices visible in the shopping cart and the order summary) from Magento/any other backend. There is then no risk we'll see the product at the wrongly set price.
+More than that - Vue Storefront always gets the **platform totals** (the final price visible in the shopping cart and the order summary) from Magento or any other backend. There is then no risk your customers see the product with incorrect price.
 
 
 <br />
