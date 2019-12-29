@@ -142,11 +142,23 @@ The tags can be used to invalidate the Varnish cache if you use it. [Read more o
 
 ## 3. Avoiding prices desynchronization 
 
+Vue Storefront indexers (`magento2-vsbridge-indexer`, `magento1-vsbridge-indexer`, `mage2vuestorefront`) all store the product price (before/after catalog rules applied) into the Elasticsearch. But Elasticsearch can be easily out of sync or the synchronization can be lagged. To avoid the risk of displaying an incorrect price to the customers, Vue Storefront has at least 3 mechanisms - with the `alwaysSyncPlatformPricesOver` on the top.
 
-### 1. Preparation
-### 2. Recipe
-### 3. Peep into the kitchen (what happens internally)
-### 4. Chef's secret (protip)
+:::tip NOTE
+If you're using the `mage2vuestorefront` for syncing the products please make sure you're syncing the prices **after catalog rules** applied. For this purpose we have special flags to be set on:
+
+```bash
+export PRODUCTS_SPECIAL_PRICES=true
+export PRODUCTS_RENDER_PRICES=true
+node --harmony cli.js products --removeNonExistent=true --partitions=1
+```
+:::
+
+### Protip
+
+#### 1. _alwaysSyncPlatformPricesOver_
+
+
 <br />
 <br />
 
