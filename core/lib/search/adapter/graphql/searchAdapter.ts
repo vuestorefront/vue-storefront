@@ -2,7 +2,7 @@ import { prepareQueryVars } from './gqlQuery'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import fetch from 'isomorphic-fetch'
 import {processESResponseType, processProductsType, processCmsType} from './processor/processType'
-import SearchQuery from 'storefront-query-builder/lib/searchQuery'
+import { SearchQuery } from 'storefront-query-builder'
 import config from 'config'
 import { isServer } from '@vue-storefront/core/helpers'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';

@@ -3,7 +3,7 @@ import reviewActions from '../../../store/actions';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { createLoadReviewsQuery } from '@vue-storefront/core/modules/review/helpers'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
-import SearchQuery from 'storefront-query-builder/lib/searchQuery'
+import { SearchQuery } from 'storefront-query-builder'
 import { ReviewsService } from '@vue-storefront/core/data-resolver'
 
 jest.mock('@vue-storefront/core/helpers', () => ({
