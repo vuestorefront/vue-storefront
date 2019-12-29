@@ -589,6 +589,24 @@ export default {
 
 ## 10. Production catalog indexing + cache invalidation
 
+Although many Vue Storefornt projects are being developed using [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront/tree/master/src) indexer - it's definitely not a production ready solution. Mostly because of the performance and because it's not fully supporting on-demand indexing (indexing only the changes of products and categories, in real time).
+
+Because of those limitations we created a set of [native indexers](https://medium.com/the-vue-storefront-journal/native-magento-data-indexer-aec3c9ebfb).
+
+The indexers are available for:
+- [Magento1](https://github.com/DivanteLtd/magento1-vsbridge-indexer)
+- [Magento2](https://github.com/DivanteLtd/magento2-vsbridge-indexer)
+
+The native indexer updates the Elastic Search index in the very same format as the mage2vuestorefront. Our intention was to speed up the indexation process and make it more reliable. With native indexer, we were able to use the Magento2 ORM and events to optimize the indexation process. Please do use this module instead of mage2vuestorefront if you experience any issues regarding indexing performance. Both projects are currently officially supported by the Vue Storefront Core team.
+
+When the SSR caching is enabled (<a href="#tip1">see Tip 1</a>) you need to make sure the indexers are properly configured to refresh exactly the pages that changed.
+
+We're tagging the output pages with [product](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/modules/catalog/helpers/search.ts#L69) and [category](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/modules/catalog/store/category/actions.ts#L121) tags. Then all the indexers including: `magento1-vsbridge-indexer`, `mage2vuestorefront`, `magento2-vsbridge-indexer` will invalidate the cache, by specific product or category ID. It means, the [`invalidate`](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/core/scripts/server.js#L156) method will clear out the cache pages tagged with this specific product id. Note: this URL requires you to pass the invalidation token set in the [config](https://github.com/DivanteLtd/vue-storefront/blob/e96bc3c0d1ef8239bc2e64c399f1fe924cebed36/config/default.json#L12).
+
+The tags can be used to invalidate the Varnish cache, if you're using it. [Read more on that](https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish).
+
+**Note:**  All the official Vue Storefront data indexers including [magento1-vsbridge-indexer](https://github.com/DivanteLtd/magento1-vsbridge-indexer), [magento2-vsbridge-indexer](https://github.com/DivanteLtd/magento2-vsbridge-indexer) and [mage2vuestorefront](https://github.com/DivanteLtd/mage2vuestorefront) support the cache invalidation. If the cache is enabled in both API and Vue Storefront frontend app, please make sure you are properly using the `config.server.invalidateCacheForwardUrl` config variable as the indexers can send the cache invalidate request only to one URL (frontend or backend) and it **should be forwarded**. Please check the default forwarding URLs in the `default.json` and adjust the `key` parameter to the value of `server.invalidateCacheKey`.
+
 
 <br />
 <br />
