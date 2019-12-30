@@ -160,7 +160,12 @@ export default {
         options: {
           appendTsSuffixTo: [/\.vue$/]
         },
-        exclude: /node_modules/
+        include: [
+          path.resolve(__dirname, '../../node_modules/@vue-storefront'),
+          path.resolve(__dirname, '../../node_modules/storefront-query-builder'),
+          path.resolve(__dirname, '../../src'),
+          path.resolve(__dirname, '../../core')
+        ]
       },
       {
         test: /\.js$/,
