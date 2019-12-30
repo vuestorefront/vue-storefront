@@ -33,6 +33,7 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { formatProductLink } from 'core/modules/url/helpers'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+import { transformProductUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
 const PRODUCT_REENTER_TIMEOUT = 20000
 
@@ -305,10 +306,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
         context.dispatch('url/registerMapping', {
           url: localizedDispatcherRoute(product.url_path, storeCode),
-          routeData: {
-            params: { parentSku, slug },
-            'name': localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode)
-          }
+          routeData: transformProductUrl({ sku: parentSku, slug })
         }, { root: true })
       }
 

@@ -1,12 +1,13 @@
+import { transformProductUrl, transformCategoryUrl, transformCmsPageUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
+import { processURLAddress } from '@vue-storefront/core/helpers';
 import { UrlState } from '../types/UrlState'
 import { ActionTree } from 'vuex';
 // you can use this storage if you want to enable offline capabilities
 import { cacheStorage } from '../'
 import queryString from 'query-string'
 import config from 'config'
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData, getFallbackRouteData } from '../helpers'
-import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
+import { removeStoreCodeFromRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 
 // it's a good practice for all actions to return Promises with effect of their execution
@@ -68,28 +69,62 @@ export const actions: ActionTree<UrlState, any> = {
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
-    const { storeCode, appendStoreCode } = currentStoreView()
-    const productQuery = new SearchQuery()
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
-    productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
-    const products = await dispatch('product/list', { query: productQuery }, { root: true })
-    if (products && products.items && products.items.length) {
-      const product = products.items[0]
-      return {
-        name: localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode),
-        params: {
-          slug: product.slug,
-          parentSku: product.sku,
-          childSku: params['childSku'] ? params['childSku'] : product.sku
-        }
+
+    // search for record in ES based on `url`
+    const fallbackData = await dispatch('getFallbackByUrl', { url })
+
+    // if there is record in ES then map it to vue-router route structure
+    if (fallbackData) {
+      return dispatch('transformFallback', { ...fallbackData, params })
+    }
+
+    return {
+      name: 'page-not-found',
+      params: {
+        slug: 'page-not-found'
       }
-    } else {
-      const category = await dispatch('category/single', { key: 'url_path', value: url }, { root: true })
-      if (category !== null) {
+    }
+  },
+  async getFallbackByUrl (context, { url }) {
+    try {
+      const { elasticsearch } = currentStoreView()
+      const requestUrl = `${processURLAddress(config.mappingFallback.getUrl_endpoint)}/${elasticsearch.index}`
+      let response: any = await fetch(
+        requestUrl,
+        {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ url })
+        }
+      )
+      response = await response.json()
+      return response
+    } catch (err) {
+      console.error('FetchError in request to ES: ' + JSON.stringify(err, null, 2))
+      return null
+    }
+  },
+  async transformFallback (context, { _type, _source, params }) {
+    switch (_type) {
+      case 'product': {
+        return transformProductUrl(_source, params)
+      }
+      case 'category': {
+        return transformCategoryUrl(_source)
+      }
+      case 'cms_page': {
+        return transformCmsPageUrl(_source)
+      }
+      default: {
         return {
-          name: localizedDispatcherRouteName('category', storeCode, appendStoreCode),
+          name: 'page-not-found',
           params: {
-            slug: category.slug
+            slug: 'page-not-found'
           }
         }
       }
