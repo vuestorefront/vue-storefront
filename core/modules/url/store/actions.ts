@@ -9,6 +9,8 @@ import config from 'config'
 import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData, getFallbackRouteData } from '../helpers'
 import { removeStoreCodeFromRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
+import fetch from 'isomorphic-fetch'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
@@ -63,7 +65,6 @@ export const actions: ActionTree<UrlState, any> = {
       }).catch(reject)
     })
   },
-
   /**
    * Router mapping fallback - get the proper URL from API
    * This method could be overriden in custom module to provide custom URL mapping logic
@@ -74,7 +75,7 @@ export const actions: ActionTree<UrlState, any> = {
     // search for record in ES based on `url`
     const fallbackData = await dispatch('getFallbackByUrl', { url })
 
-    // if there is record in ES then map it to vue-router route structure
+    // if there is record in ES then map data
     if (fallbackData) {
       return dispatch('transformFallback', { ...fallbackData, params })
     }
@@ -86,10 +87,13 @@ export const actions: ActionTree<UrlState, any> = {
       }
     }
   },
+  /**
+   * Search for record in ES which contains url value (check which fields it searches in vsf-api config.urlModule.map.searchedFields)
+   */
   async getFallbackByUrl (context, { url }) {
     try {
       const { elasticsearch } = currentStoreView()
-      const requestUrl = `${processURLAddress(config.mappingFallback.getUrl_endpoint)}/${elasticsearch.index}`
+      const requestUrl = `${processURLAddress(config.urlModule.map_endpoint)}/${elasticsearch.index}`
       let response: any = await fetch(
         requestUrl,
         {
@@ -99,16 +103,23 @@ export const actions: ActionTree<UrlState, any> = {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ url })
+          body: JSON.stringify({
+            url,
+            includeFields: [], // send `includeFields: null || undefined` to fetch all fields
+            excludeFields: []
+          })
         }
       )
       response = await response.json()
       return response
     } catch (err) {
-      console.error('FetchError in request to ES: ' + JSON.stringify(err, null, 2))
+      Logger.error('FetchError in request to ES: ', 'search', err)()
       return null
     }
   },
+  /**
+   * Transforms data to vue-router route format
+   */
   async transformFallback (context, { _type, _source, params }) {
     switch (_type) {
       case 'product': {
