@@ -20,8 +20,10 @@ export class SearchAdapter {
   protected decompactItem (item, fieldsToCompact) {
     for (let key in fieldsToCompact) {
       const value = fieldsToCompact[key]
-      item[key] = item[value]
-      delete item[value]
+      if (typeof item[value] !== 'undefined') {
+        item[key] = item[value]
+        delete item[value]
+      }
     }
     return item
   }
