@@ -503,7 +503,8 @@ export default {
         'filter-changed-product',
         Object.assign({ attribute_code: variant.type }, variant)
       )
-      this.getQuantity()
+      // this.getQuantity()
+      this.getQuantity(variant) //Edited by dan to allow for querying the variant of the SKU
     },
     openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
@@ -513,12 +514,20 @@ export default {
       currentConfig[option.type] = option
       return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
     },
-    async getQuantity () {
+    async getQuantity (variant = null) { // Edited By dan
+      let product = this.getCurrentProduct
+      if(variant && variant.label){
+        if(product.sku && product.sku.indexOf('-'+variant.label) === -1){
+          product.sku =  product.sku + '-' + variant.label // adjusting from parentSKU to size variant sku
+        }
+      }
+
       if (this.isStockInfoLoading) return // stock info is already loading
       this.isStockInfoLoading = true
       try {
         const res = await this.$store.dispatch('stock/check', {
-          product: this.getCurrentProduct,
+          // product: this.getCurrentProduct,
+          product: product, // Edited by dan
           qty: this.getCurrentProduct.qty
         })
         this.maxQuantity = res.qty
