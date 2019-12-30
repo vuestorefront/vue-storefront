@@ -1,4 +1,4 @@
-{
+"{
   "server": {
     "host": "localhost",
     "port": 3000,
@@ -561,3 +561,4 @@
     "map_endpoint": "/api/url/map"
   }
 }
+"
