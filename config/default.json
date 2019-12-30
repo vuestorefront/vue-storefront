@@ -190,11 +190,11 @@
     "productList": {
       "sort": "updated_at:desc",
       "includeFields": [ "activity", "type_id", "*sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "url_path", "url_key", "status", "tier_prices", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "*image","*small_image", "configurable_children.color", "configurable_children.size", "configurable_children.tier_prices", "final_price", "configurable_children.final_price"],
-      "excludeFields": [ "description", "configurable_options", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options" ]
+      "excludeFields": [ "description", "configurable_options", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options", "media_gallery"]
     },
     "productListWithChildren": {
       "includeFields": [ "activity", "type_id", "sku", "name", "tax_class_id", "final_price", "special_price", "special_to_date", "special_from_date", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "configurable_children.tier_prices", "product_links", "url_path", "url_key", "status", "tier_prices", "configurable_children.special_to_date", "configurable_children.special_from_date", "configurable_children.regular_price", "configurable_children.final_price"],
-      "excludeFields": [ "description", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options"]
+      "excludeFields": [ "description", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options", "media_gallery"]
     },
     "review": {
       "excludeFields": ["review_entity", "review_status"]
