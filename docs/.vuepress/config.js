@@ -52,8 +52,8 @@ module.exports = {
             'cookbook/vue',
             'cookbook/multistores',
             'cookbook/migration',
-            'cookbook/checklist',
-            'cookbook/history'
+            'cookbook/history',
+            'cookbook/checklist'
           ],
         },
         {
