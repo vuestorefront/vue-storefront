@@ -306,7 +306,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
         context.dispatch('url/registerMapping', {
           url: localizedDispatcherRoute(product.url_path, storeCode),
-          routeData: transformProductUrl({ sku: parentSku, slug })
+          routeData: transformProductUrl({ sku: parentSku, slug, type_id: product.type_id })
         }, { root: true })
       }
 
@@ -630,11 +630,7 @@ const actions: ActionTree<ProductState, RootState> = {
       sku: parentSku,
       childSku: childSku
     }
-    let product = await dispatch('single', { options: productSingleOptions })
-    product = await dispatch('proccessProduct', { product, route })
-    return product
-  },
-  async proccessProduct ({ dispatch }, { product, route = null }) {
+    const product = await dispatch('single', { options: productSingleOptions })
     if (product.status >= 2) {
       throw new Error(`Product query returned empty result product status = ${product.status}`)
     }
