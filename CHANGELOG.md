@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - CookieNotification CSR&SSR mismatch fixed - @Fifciu (#3922)
-
+- The attribute filter in `attribute/list` was not filtering the already loaded attributes properly - @pkarw (#3964)
 
 ## [1.11.0] - 2019.12.20
 
