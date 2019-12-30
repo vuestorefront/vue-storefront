@@ -9,7 +9,7 @@ import HTMLPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
 import dayjs from 'dayjs';
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
@@ -64,9 +64,9 @@ export default {
   plugins: [
     new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
     new webpack.ProgressPlugin(),
-    new BundleAnalyzerPlugin({
+    /* new BundleAnalyzerPlugin({
       generateStatsFile: true
-    }),
+    }), */
     new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin(),
     // generate output HTML
