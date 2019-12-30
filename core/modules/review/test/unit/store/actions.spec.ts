@@ -27,9 +27,6 @@ jest.mock('@vue-storefront/core/lib/search', () => ({
 jest.mock('@vue-storefront/core/modules/review/helpers', () => ({
   createLoadReviewsQuery: jest.fn()
 }));
-jest.mock('@vue-storefront/core/lib/search/searchQuery', () => ({
-  SearchQuery: jest.fn()
-}));
 jest.mock('@vue-storefront/core/lib/sync', () => ({
   TaskQueue: {
     execute: jest.fn(() => Promise.resolve({code: 200}))
