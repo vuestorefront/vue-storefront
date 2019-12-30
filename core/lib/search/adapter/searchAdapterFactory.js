@@ -10,16 +10,12 @@ export const getSearchAdapter = async (adapterName = server.api) => {
 
   try {
     SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `src/search/adapter/${adapterName}/searchAdapter`)
-  } catch (err) {
-    if (err.code !== 'MODULE_NOT_FOUND') console.error(err)
-  }
+  } catch {}
 
   if (!SearchAdapterModule) {
     try {
       SearchAdapterModule = await import(/* webpackChunkName: "vsf-search-adapter-" */ `./${adapterName}/searchAdapter`)
-    } catch (err) {
-      if (err.code !== 'MODULE_NOT_FOUND') console.error(err)
-    }
+    } catch {}
   }
 
   if (!SearchAdapterModule) {
