@@ -1,9 +1,6 @@
 {
   "name": "@vue-storefront/docs",
   "private": true,
-  "engines": {
-    "node": "10.0"
-  }, 
   "version": "1.11.0",
   "scripts": {
     "docs:dev": "vuepress dev",
