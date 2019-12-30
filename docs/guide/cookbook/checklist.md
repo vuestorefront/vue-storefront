@@ -14,14 +14,14 @@ In this chapter, we will cover :
 
 ## 0. Introduction
 
-_VueStorefront_ is getting tremendous attention from the market and gain traction from developers with more than 20 sites running on production. In the mean time, _VueStorefront_ framework evolves with each new release and the docs can hardly catch up with it! 
+Vue Storefront is getting tremendous attention from the market and gain traction from developers with more than 20 sites running on production. In the mean time, Vue Storefront framework evolves with each new release and the docs can hardly catch up with it! 
 
-These training materials are a set of chief-recipes, experiences learned from the trenches. I’m trying to answer how to run _VueStorefront_ on production, troubleshoot most of the common problems and explain all the hidden features of _VueStorefront_ that can help you scale the application and solve most common issues.
+These training materials are a set of chief-recipes, experiences learned from the trenches. I’m trying to answer how to run Vue Storefront on production, troubleshoot most of the common problems and explain all the hidden features of Vue Storefront that can help you scale the application and solve most common issues.
 
-Some topics here were taken from [frequently asked questions in our Forum](https://forum.vuestorefront.io/c/help). Some [came from Slack](http://slack.vuestorefront.io). Some came from core-consulting and our own works. One thing in common; each and every recipe is super-crucial for stable _VueStorefront_ run on production and they all cause some serious results when executed carelessly. 
+Some topics here were taken from [frequently asked questions in our Forum](https://forum.vuestorefront.io/c/help). Some [came from Slack](http://slack.vuestorefront.io). Some came from core-consulting and our own works. One thing in common; each and every recipe is super-crucial for stable Vue Storefront run on production and they all cause some serious results when executed carelessly. 
 
 ## 1. Memory leaks
-_VueStorefront_ consists of two Node.js applications:
+Vue Storefront consists of two Node.js applications:
 - `vue-storefront` - which is the frontend app, with the entry point of [`core/scripts/server.js`](https://github.com/DivanteLtd/vue-storefront/blob/4ed26d7f1978a9e798edcddf1cf2f970c3e64e4f/core/scripts/server.js#L269)
 - `vue-storefornt-api` - which is backend/api app.
 
@@ -32,7 +32,7 @@ If you're familiar with PHP web application and running PHP on production, be it
 #### 1. First thing first, monitor memory leaks
 How do you know you have memory leaks undercover? 
 
-Start with `yarn pm2 status` or `yarn pm2 monit` for details from _VueStorefront_ root directory. 
+Start with `yarn pm2 status` or `yarn pm2 monit` for details from Vue Storefront root directory. 
 
 The `pm2` [memory usage](http://pm2.keymetrics.io/docs/usage/monitoring/) is growing with each page refresh.
 
@@ -43,7 +43,7 @@ Additionally, there are many ways to trace memory leaks, however we're using the
 
 #### 2. How to use Vue plugins
 
-One thing you must avoid is using `Vue.use` multiple times and you can make it sure by calling it always inside `once`. In the _VueStorefront_ code you can pretty often find a snippet like this:
+One thing you must avoid is using `Vue.use` multiple times and you can make it sure by calling it always inside `once`. In the Vue Storefront code you can pretty often find a snippet like this:
 
 ```js
 import { once } from '@vue-storefront/core/helpers'
@@ -76,16 +76,16 @@ With setting it `false`, the [Stateful Singletons](https://github.com/DivanteLtd
 We do have **Static Pages Generator** - currently experimental feature - that can generate the whole site into a set of static HTML files so they could be served even directly from cloud provider/CDN - no memory leaks possible; waht you need to take care of in this mode is cache invalidation (not currently supported but easy to add). [Read more on static page generator](https://github.com/DivanteLtd/vue-storefront/pull/3256).
 
 #### 6. Learn from core team
-In case you want to dig deeper any concern related to memory leaks, [find out how core teams have dealt with memory leaks](https://github.com/DivanteLtd/vue-storefront/pulls?utf8=%E2%9C%93&q=is%3Apr+memory+is%3Aclosed+leak) in _VueStorefront_ core - and check if any of those edge cases solved can be an inspiration for your project.
+In case you want to dig deeper any concern related to memory leaks, [find out how core teams have dealt with memory leaks](https://github.com/DivanteLtd/vue-storefront/pulls?utf8=%E2%9C%93&q=is%3Apr+memory+is%3Aclosed+leak) in Vue Storefront core - and check if any of those edge cases solved can be an inspiration for your project.
 
 
 <br />
 <br />
 
 ## 2. SSR Output cache
-_VueStorefront_ supports [Server Side Rendering](https://vuejs.org/v2/guide/ssr.html). In this mode the same code which is executed in browser (CSR; Client Side Rendering), runs on the server in order to generate the HTML markup. The markup, then, gets transfered to the browser, rendered (extremly fast as the browsers have been all optimized to ... render html text in the last 20+ years) and [hydrated](https://ssr.vuejs.org/guide/hydration.html) from the [initial state](https://ssr.vuejs.org/guide/data.html#final-state-injection). During this whole procedure the client side or say browser scripts can use exactly the same code base universally. Another cool feature is that static HTML markup is well indexed by Search Engine crawlers which is extremely important for SEO.
+Vue Storefront supports [Server Side Rendering](https://vuejs.org/v2/guide/ssr.html). In this mode the same code which is executed in browser (CSR; Client Side Rendering), runs on the server in order to generate the HTML markup. The markup, then, gets transfered to the browser, rendered (extremly fast as the browsers have been all optimized to ... render html text in the last 20+ years) and [hydrated](https://ssr.vuejs.org/guide/hydration.html) from the [initial state](https://ssr.vuejs.org/guide/data.html#final-state-injection). During this whole procedure the client side or say browser scripts can use exactly the same code base universally. Another cool feature is that static HTML markup is well indexed by Search Engine crawlers which is extremely important for SEO.
 
-Usually, _VueStorefront_ works pretty fast and all SSR requests are finished in between 100-300ms; However, if your database is huge or your server resources are low, or probably the traffic is extremely high you might want to enable the output cache. The other reason is that you might want to use SSR cache to prevent memory leaks or should I say, hide them ;)
+Usually, Vue Storefront works pretty fast and all SSR requests are finished in between 100-300ms; However, if your database is huge or your server resources are low, or probably the traffic is extremely high you might want to enable the output cache. The other reason is that you might want to use SSR cache to prevent memory leaks or should I say, hide them ;)
 
 ### Protip
 
