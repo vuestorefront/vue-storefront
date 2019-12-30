@@ -12877,7 +12877,7 @@ stealthy-require@^1.1.1:
 
 "storefront-query-builder@https://github.com/DivanteLtd/storefront-query-builder.git":
   version "0.0.8"
-  resolved "https://github.com/DivanteLtd/storefront-query-builder.git#26d17c9ae043b54725032687f116b21e83e02a77"
+  resolved "https://github.com/DivanteLtd/storefront-query-builder.git#bddd79ff68ca45bb14826e54b98dc07560730491"
   dependencies:
     clone-deep "^4.0.1"
 
