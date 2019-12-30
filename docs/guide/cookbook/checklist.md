@@ -719,13 +719,13 @@ export function beforeEach(to: Route, from: Route, next) {
 <br />
 <br />
 
-## 12. ElasticSearch production setup
+## 12. Elasticsearch production setup
 
-ElasticSearch is a viable part of the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) middleware data source. The included Docker files are supposed just for being used in the development mode and they're not ready for production.
+Elasticsearch is a viable part of the [`vue-storefront-api`](https://github.com/DivanteLtd/vue-storefront-api) middleware data source. The included Docker files are supposed to be used in the development mode and they're not ready for production.
 
-ElasticSearch should be run on cluster mode with minimum 3 nodes and having sufficient memory limits (usually it's around 8GB per node minimum). Otherwise ElasticSearch service is not providing the required High Availability level.
+Elasticsearch should be run on cluster mode with minimum 3 nodes and having sufficient memory limits (usually it's around 8GB per node minimum). Otherwise Elasticsearch service won't provide the required High Availability level.
 
-Becasue ElasticSearch is a Java service the critical settings are Java Heap size limits - that needs to be set to the limit as high as required to provide Elastic with sufficient memory for the search operations and as low as required for the other parts of OS/services to keep running. To not overrun the container memory limits.
+Being Elasticsearch is a Java service, the critical setting is Java Heap size limits - that needs to be set to the limit as high as required to provide Elasticsearch with sufficient memory for the search operations and as low as required for the other parts of OS/services to keep running. To not overrun the container memory limits.
 
 By default, Elasticsearch tells the JVM to use a heap with a minimum and maximum size of 1 GB. When moving to production, it is important to configure heap size to ensure that Elasticsearch has enough heap available.
 
@@ -733,11 +733,11 @@ Quote from the [ElasticSearch documentation](https://www.elastic.co/guide/en/ela
 
 The value for these settings depends on the amount of RAM available on your server:
 
-- Set Xmx and Xms to no more than 50% of your physical RAM. Elasticsearch requires memory for purposes other than the JVM heap and it is important to leave space for this. For instance, Elasticsearch uses off-heap buffers for efficient network communication, relies on the operating system’s filesystem cache for efficient access to files, and the JVM itself requires some memory too. It is normal to observe the Elasticsearch process using more memory than the limit configured with the Xmx setting.
-Set Xmx and Xms to no more than the threshold that the JVM uses for compressed object pointers (compressed oops); the exact threshold varies but is near 32 GB. You can verify that you are under the threshold by looking for a line in the logs like the following:
+- Set `Xmx` and `Xms` to no more than 50% of your physical RAM. Elasticsearch requires memory for purposes other than the JVM heap and it is important to leave space for this. For instance, Elasticsearch uses off-heap buffers for efficient network communication, relies on the operating system’s filesystem cache for efficient access to files, and the JVM itself requires some memory too. It is normal to observe the Elasticsearch process using more memory than the limit configured with the `Xmx` setting.
+Set `Xmx` and `Xms` to no more than the threshold that the JVM uses for compressed object pointers (compressed oops); the exact threshold varies but is near 32 GB. You can verify that you are under the threshold by looking for a line in the logs like the following:
 
 - heap size `1.9gb`, compressed ordinary object pointers `true`
-Ideally set Xmx and Xms to no more than the threshold for zero-based compressed oops; the exact threshold varies but 26 GB is safe on most systems, but can be as large as 30 GB on some systems. You can verify that you are under this threshold by starting Elasticsearch with the JVM options `-XX:+UnlockDiagnosticVMOptions -XX:`+PrintCompressedOopsMode and looking for a line like the following:
+Ideally set `Xmx` and `Xms` to no more than the threshold for zero-based compressed oops; the exact threshold varies but 26 GB is safe on most systems, but can be as large as 30 GB on some systems. You can verify that you are under this threshold by starting Elasticsearch with the JVM options `-XX:+UnlockDiagnosticVMOptions -XX:`+PrintCompressedOopsMode and looking for a line like the following:
 
 ```log
 heap address: 0x000000011be00000, size: 27648 MB, zero based Compressed Oops
@@ -746,7 +746,7 @@ showing that zero-based compressed oops are enabled. If zero-based compressed oo
 heap address: 0x0000000118400000, size: 28672 MB, Compressed Oops with base: 0x00000001183ff000
 ```
 
-Read more on [ElasticSearch deployment best practices](https://medium.com/@abhidrona/elasticsearch-deployment-best-practices-d6c1323b25d7)
+Read more on [Elasticsearch deployment best practices](https://medium.com/@abhidrona/elasticsearch-deployment-best-practices-d6c1323b25d7)
 
 
 
