@@ -630,7 +630,11 @@ const actions: ActionTree<ProductState, RootState> = {
       sku: parentSku,
       childSku: childSku
     }
-    const product = await dispatch('single', { options: productSingleOptions })
+    let product = await dispatch('single', { options: productSingleOptions })
+    product = await dispatch('proccessProduct', { product, route })
+    return product
+  },
+  async proccessProduct ({ dispatch }, { product, route = null }) {
     if (product.status >= 2) {
       throw new Error(`Product query returned empty result product status = ${product.status}`)
     }

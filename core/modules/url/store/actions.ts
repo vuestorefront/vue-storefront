@@ -11,6 +11,8 @@ import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 import fetch from 'isomorphic-fetch'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processURLAddress } from '@vue-storefront/core/helpers';
+import * as categoryMutationTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
+import * as cmsPageMutationTypes from '@vue-storefront/core/modules/cms/store/page/mutation-types'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
@@ -77,7 +79,11 @@ export const actions: ActionTree<UrlState, any> = {
 
     // if there is record in ES then map data
     if (fallbackData) {
-      return dispatch('transformFallback', { ...fallbackData, params })
+      const [result] = await Promise.all([
+        dispatch('transformFallback', { ...fallbackData, params }),
+        dispatch('saveFallbackData', fallbackData)
+      ])
+      return result
     }
 
     return {
@@ -105,7 +111,7 @@ export const actions: ActionTree<UrlState, any> = {
           },
           body: JSON.stringify({
             url,
-            includeFields: [], // send `includeFields: null || undefined` to fetch all fields
+            includeFields: null, // send `includeFields: null || undefined` to fetch all fields
             excludeFields: []
           })
         }
@@ -138,6 +144,29 @@ export const actions: ActionTree<UrlState, any> = {
             slug: 'page-not-found'
           }
         }
+      }
+    }
+  },
+  /**
+   * Here we can save data based on _type, so there will be no need to create another request for it.
+   */
+  async saveFallbackData ({commit, dispatch}, { _type, _source }) {
+    switch (_type) {
+      case 'product': {
+        // TODO: get `setupProduct` and `syncProducts` from dispatch('product/single') ? Then we could add product without second fetch
+        break
+      }
+      case 'category': {
+        commit('category-next/' + categoryMutationTypes.CATEGORY_ADD_CATEGORY, _source, { root: true })
+        break
+      }
+      case 'cms_page': {
+        commit('cmsPage/' + cmsPageMutationTypes.CMS_PAGE_ADD_CMS_PAGE, _source, { root: true })
+        commit('cmsPage/' + cmsPageMutationTypes.CMS_PAGE_SET_CURRENT, _source, { root: true })
+        break
+      }
+      default: {
+        break
       }
     }
   }
