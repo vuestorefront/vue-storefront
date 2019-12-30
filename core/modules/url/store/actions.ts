@@ -1,5 +1,4 @@
 import { transformProductUrl, transformCategoryUrl, transformCmsPageUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
-import { processURLAddress } from '@vue-storefront/core/helpers';
 import { UrlState } from '../types/UrlState'
 import { ActionTree } from 'vuex';
 // you can use this storage if you want to enable offline capabilities
@@ -11,6 +10,7 @@ import { removeStoreCodeFromRoute, currentStoreView } from '@vue-storefront/core
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 import fetch from 'isomorphic-fetch'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import { processURLAddress } from '@vue-storefront/core/helpers';
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
