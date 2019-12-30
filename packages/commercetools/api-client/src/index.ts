@@ -11,7 +11,7 @@ let currency = 'USD'
 
 const setup = <TCacheShape>(setupConfig?: SetupConfig<TCacheShape>): ApolloClient<TCacheShape> => {
   apolloClient = new ApolloClient({
-    link: createCommerceToolsLink(setupConfig.config),
+    link: createCommerceToolsLink(setupConfig.api),
     cache: new InMemoryCache(),
     ...setupConfig.customOptions
   })
