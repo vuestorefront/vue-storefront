@@ -820,15 +820,15 @@ serverHooks.afterApplicationInitialized(({ app, isProd }) => {
 <br />
 <br />
 
-## 14. Which fields of product, category and attribute are really being used by VSF
+## 14. Which fields of product, category and attribute are really used by VSF
 
 
-The data formats used by Vue Storefront for product and categories are quite sophisticated with a whole range of optional fields. To get a better understanding which fields are truly required and how they work - please look at the [storefront-api](https://github.com/DivanteLtd/storefront-api/) documentation:
+The data formats used by Vue Storefront for products and categories are quite sophisticated with a whole range of optional fields. To get a better understanding which fields are truly required and how they work - please look at the [storefront-api](https://github.com/DivanteLtd/storefront-api/) documentation:
 
-- [GraphQL schema](https://divanteltd.github.io/storefront-graphql-api-schema/) which describes the Product and Category entity with the subsequent types,
-- [Product entity](https://sfa-docs.now.sh/guide/integration/format-product.html#product-entity) - minimal set of product fields and how they are being used by VSF,
-- [Category entity](https://sfa-docs.now.sh/guide/integration/format-category.html) - minimal set of category fields and how they are being used by VSF,
-- [Attribute entity](https://sfa-docs.now.sh/guide/integration/format-attribute.html) - minimal set of attribute fields and how they are being used by VSF.
+- [GraphQL schema](https://divanteltd.github.io/storefront-graphql-api-schema/) which describes the Product and Category entity with the subsequent types.
+- [Product entity](https://sfa-docs.now.sh/guide/integration/format-product.html#product-entity) - minimal set of product fields and how they are used by VSF.
+- [Category entity](https://sfa-docs.now.sh/guide/integration/format-category.html) - minimal set of category fields and how they are used by VSF.
+- [Attribute entity](https://sfa-docs.now.sh/guide/integration/format-attribute.html) - minimal set of attribute fields and how they are used by VSF.
 
 
 <br />
