@@ -108,11 +108,6 @@ export default {
     publicPath: '/dist/',
     filename: '[name].[hash].js'
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all'
-    }
-  },
   resolveLoader: {
     modules: [
       'node_modules',
