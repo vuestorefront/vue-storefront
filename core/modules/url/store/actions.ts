@@ -82,6 +82,7 @@ export const actions: ActionTree<UrlState, any> = {
     productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
     const products = await dispatch('product/list', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
+      console.log(url, productQuery)
       const product = products.items[0]
       return {
         name: localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode),

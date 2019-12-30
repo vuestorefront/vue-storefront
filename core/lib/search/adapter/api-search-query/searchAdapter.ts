@@ -44,7 +44,8 @@ export class SearchAdapter {
       size: Request.size,
       from: Request.from,
       sort: Request.sort,
-      request_format: 'search-query'
+      request_format: 'search-query',
+      response_format: 'compact'
     }
 
     if (Request._sourceExclude) {
@@ -85,10 +86,10 @@ export class SearchAdapter {
     }
     if (resp.hasOwnProperty('hits')) {
       return {
-        items: map(resp.hits.hits, hit => {
-          return Object.assign(hit._source, { _score: hit._score, slug: hit._source.slug ? hit._source.slug : ((hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '')) }) // TODO: assign slugs server side
+        items: map(resp.hits, hit => {
+          return Object.assign(hit, { slug: hit.slug ? hit.slug : ((hit.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit.url_key : (hit.hasOwnProperty('name') ? slugify(hit.name) + '-' + hit.id : '')) }) // TODO: assign slugs server side
         }), // TODO: add scoring information
-        total: resp.hits.total,
+        total: resp.total,
         start: start,
         perPage: size,
         aggregations: resp.aggregations,
