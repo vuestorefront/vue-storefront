@@ -1,99 +1,70 @@
 import { ActionTree } from 'vuex'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import * as types from './mutation-types'
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import RootState from '@vue-storefront/core/types/RootState';
 import CmsPageState from '../../types/CmsPageState'
-import { cacheStorage } from '../../'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { cmsPagesStorageKey } from './'
-import { Logger } from '@vue-storefront/core/lib/logger'
+import { createPageLoadingQuery, createSinglePageLoadQuery } from '@vue-storefront/core/modules/cms/helpers'
 
 const actions: ActionTree<CmsPageState, RootState> = {
-
-  /**
-   * Retrieve cms pages
-   *
-   * @param context
-   * @param {any} filterValues
-   * @param {any} filterField
-   * @param {any} size
-   * @param {any} start
-   * @param {any} excludeFields
-   * @param {any} includeFields
-   * @returns {Promise<T> & Promise<any>}
-   */
   async list ({ commit }, { filterValues = null, filterField = 'identifier', size = 150, start = 0, excludeFields = null, includeFields = null, skipCache = false }) {
-    let query = new SearchQuery()
-    if (filterValues) {
-      query = query.applyFilter({key: filterField, value: {'like': filterValues}})
-    }
-    return quickSearchByQuery({ query, entityType: 'cms_page', excludeFields, includeFields })
-      .then((resp) => {
-        commit(types.CMS_PAGE_UPDATE_CMS_PAGES, resp.items)
-        return resp.items
-      })
-      .catch(err => {
-        Logger.error(err, 'cms')()
-      })
-  },
+    let query = createPageLoadingQuery({ filterField, filterValues })
+    const pageResponse = await quickSearchByQuery({ query, entityType: 'cms_page', excludeFields, includeFields })
 
-  /**
-   * Retrieve single cms page by key value
-   *
-   * @param context
-   * @param {any} key
-   * @param {any} value
-   * @param {any} excludeFields
-   * @param {any} includeFields
-   * @returns {Promise<T> & Promise<any>}
-   */
-  single (context, { key = 'identifier', value, excludeFields = null, includeFields = null, skipCache = false, setCurrent = true }) {
-    let query = new SearchQuery()
-    if (value) {
-      query = query.applyFilter({key: key, value: { 'like': value }})
-    }
-    if (skipCache || (!context.state.items || context.state.items.length === 0) || !context.state.items.find(p => p[key] === value)) {
-      return quickSearchByQuery({ query, entityType: 'cms_page', excludeFields, includeFields })
-        .then((resp) => {
-          if (resp && resp.items && resp.items.length > 0) {
-            context.commit(types.CMS_PAGE_ADD_CMS_PAGE, resp.items[0])
-            if (setCurrent) context.commit(types.CMS_PAGE_SET_CURRENT, resp.items[0])
-            return resp.items[0]
-          } else {
-            throw new Error('CMS query returned empty result')
-          }
-        })
-        .catch(err => {
-          throw err
-        })
-    } else {
-      return new Promise((resolve, reject) => {
-        let resp = context.state.items.find(p => p[key] === value)
-        if (resp) {
-          if (setCurrent) context.commit(types.CMS_PAGE_SET_CURRENT, resp)
-          resolve(resp)
-        } else {
-          cacheStorage.getItem(cmsPagesStorageKey, (err, storedItems) => {
-            if (err) reject(err)
-            if (storedItems) {
-              context.commit(types.CMS_PAGE_UPDATE_CMS_PAGES, storedItems)
-              let resp = storedItems.find(p => p[key] === value)
-              if (!resp) reject(new Error('CMS query returned empty result'))
-              if (setCurrent) context.commit(types.CMS_PAGE_SET_CURRENT, resp)
-              resolve(resp)
-            } else {
-              reject(new Error('CMS query returned empty result'))
-            }
-          })
-        }
+    commit(types.CMS_PAGE_UPDATE_CMS_PAGES, pageResponse.items)
+    return pageResponse.items
+  },
+  async single ({ getters, commit, dispatch }, { key = 'identifier', value, excludeFields = null, includeFields = null, skipCache = false, setCurrent = true }) {
+    const currentItems = getters.findItems({ key, value })
+
+    if (skipCache || !getters.hasItems || !currentItems) {
+      const pageResponse = await quickSearchByQuery({
+        query: createSinglePageLoadQuery({ key, value }),
+        entityType: 'cms_page',
+        excludeFields,
+        includeFields
       })
+
+      if (pageResponse && pageResponse.items && pageResponse.items.length > 0) {
+        commit(types.CMS_PAGE_ADD_CMS_PAGE, pageResponse.items[0])
+        if (setCurrent) commit(types.CMS_PAGE_SET_CURRENT, pageResponse.items[0])
+        return pageResponse.items[0]
+      }
+
+      throw new Error('CMS query returned empty result')
+    }
+
+    if (currentItems) {
+      if (setCurrent) {
+        commit(types.CMS_PAGE_SET_CURRENT, currentItems)
+      }
+      return currentItems
     }
   },
+  async loadFromCache ({ commit }, { key, value, setCurrent }) {
+    const cmsStorage = StorageManager.get('cms')
+    const storedItems = await cmsStorage.getItem(cmsPagesStorageKey)
 
+    if (storedItems) {
+      commit(types.CMS_PAGE_UPDATE_CMS_PAGES, storedItems)
+      const resp = storedItems.find(p => p[key] === value)
+      if (!resp) {
+        throw new Error('CMS query returned empty result')
+      }
+
+      if (setCurrent) {
+        commit(types.CMS_PAGE_SET_CURRENT, resp)
+      }
+
+      return resp
+    }
+
+    throw new Error('CMS query returned empty result')
+  },
   addItem ({ commit }, page) {
     commit(types.CMS_PAGE_ADD_CMS_PAGE, page)
   }
-
 }
 
 export default actions

@@ -1,16 +1,16 @@
 {
   "mainBanners": [
-	  {
-	    "title": "Office casual",
-	    "subtitle": "Collection",
-	    "image": "/assets/ban1.jpg",
-	    "link": "/women/women-20"
-	  }
+    {
+      "title": "Office casual",
+      "subtitle": "Collection",
+      "image": "/assets/ban1.jpg",
+      "link": "/women/women-20"
+    }
   ],
   "smallBanners": [
     {
       "title": "Shine on",
-      "subtitle": "Accesories",
+      "subtitle": "Accessories",
       "image": "/assets/ban2.jpg",
       "link": "/men/men-11"
     },
@@ -22,11 +22,11 @@
     }
   ],
   "productBanners": [
-	  {
-	    "title": "Spring is coming",
-	    "subtitle": "Hats",
-	    "image": "/assets/ban3.jpg",
-	    "link": "/gear/gear-3"
-	  }
+    {
+      "title": "Spring is coming",
+      "subtitle": "Hats",
+      "image": "/assets/ban3.jpg",
+      "link": "/gear/gear-3"
+    }
   ]
 }

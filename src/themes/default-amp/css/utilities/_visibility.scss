@@ -6,13 +6,13 @@
 .hidden-xs {
   display: none;
 
-  @media only screen and (min-width:48em) {
+  @media only screen and (min-width:768px) {
     display: inherit
   }
 }
 
 .hidden-md {
-  @media only screen and (min-width:48em) {
+  @media only screen and (min-width:768px) {
     display: none;
   }
 }

@@ -15,11 +15,12 @@ export const Search = {
       start: 0,
       placeholder: i18n.t('Type what you are looking for...'),
       emptyResults: false,
-      readMore: true
+      readMore: true,
+      componentLoaded: false
     }
   },
   mounted () {
-    this.search = localStorage.getItem(`shop/user/searchQuery`);
+    this.search = localStorage.getItem(`shop/user/searchQuery`) || ''
 
     if (this.search) {
       this.makeSearch();
@@ -47,7 +48,7 @@ export const Search = {
         let startValue = 0;
         this.start = startValue
         this.readMore = true
-        this.$store.dispatch('product/list', { query, start: this.start, size: this.size, updateState: false }).then(resp => {
+        this.$store.dispatch('product/list', { query, start: this.start, configuration: {}, size: this.size, updateState: false }).then(resp => {
           this.products = resp.items
           this.start = startValue + this.size
           this.emptyResults = resp.items.length < 1

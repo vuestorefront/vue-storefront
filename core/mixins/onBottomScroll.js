@@ -1,4 +1,17 @@
-import { isBottomVisible } from '@vue-storefront/core/helpers'
+import { isServer } from '@vue-storefront/core/helpers'
+
+const isBottomVisible = () => {
+  if (isServer) {
+    return false
+  }
+  const SAFETY_MARGIN = 20
+  const scrollY = window.scrollY
+  const visible = window.innerHeight
+  const pageHeight = document.documentElement.scrollHeight
+  const bottomOfPage = scrollY + SAFETY_MARGIN >= pageHeight - visible
+
+  return bottomOfPage || pageHeight < visible
+}
 
 /**
  * By implementing this mixin add "onBottomScroll" mthod in component.

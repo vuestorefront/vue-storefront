@@ -46,7 +46,7 @@ It allows you to send data to the Service Worker. For example, when the order is
    * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
    */
   [types.CHECKOUT_PLACE_ORDER] (state, order) {
-    const ordersCollection = Vue.prototype.$db.ordersCollection
+    const ordersCollection = StorageManager.get('orders')
     const orderId = entities.uniqueEntityId(order) // timestamp as a order id is not the best we can do but it's enough
     order.id = orderId.toString()
     order.transmited = false

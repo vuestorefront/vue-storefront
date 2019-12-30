@@ -4,7 +4,7 @@
 
     <promoted-offers />
 
-    <section class="new-collection container px15" v-if="everythingNewCollection && everythingNewCollection.length">
+    <section class="new-collection container px15">
       <div>
         <header class="col-md-12">
           <h2 class="align-center cl-accent">
@@ -13,13 +13,16 @@
         </header>
       </div>
       <div class="row center-xs">
-        <product-listing columns="4" :products="everythingNewCollection" />
+        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
+          <product-listing columns="4" :products="getEverythingNewCollection" />
+        </lazy-hydrate>
+        <product-listing v-else columns="4" :products="getEverythingNewCollection" />
       </div>
     </section>
 
     <section v-if="isOnline" class="container pb60 px15">
       <div class="row center-xs">
-        <header class="col-md-12" :class="{ pt40: everythingNewCollection && everythingNewCollection.length }">
+        <header class="col-md-12" :class="{ pt40: getEverythingNewCollection && getEverythingNewCollection.length }">
           <h2 class="align-center cl-accent">
             {{ $t('Get inspired') }}
           </h2>
@@ -33,51 +36,56 @@
 
 <script>
 // query constructor
-import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
 import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
+import LazyHydrate from 'vue-lazy-hydration'
 
 // Core pages
 import Home from '@vue-storefront/core/pages/Home'
-
 // Theme core components
 import ProductListing from 'theme/components/core/ProductListing'
 import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
-
 // Theme local components
 import Onboard from 'theme/components/theme/blocks/Home/Onboard'
 import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
-import { Logger } from '@vue-storefront/core/lib/logger'
-import { mapGetters } from 'vuex'
+import {Logger} from '@vue-storefront/core/lib/logger'
+import {mapGetters} from 'vuex'
 import config from 'config'
+import {registerModule} from '@vue-storefront/core/lib/modules'
+import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
 
 export default {
+  data () {
+    return {
+      loading: true
+    }
+  },
   mixins: [Home],
   components: {
     HeadImage,
     Onboard,
     ProductListing,
     PromotedOffers,
-    TileLinks
+    TileLinks,
+    LazyHydrate
   },
   computed: {
     ...mapGetters('user', ['isLoggedIn']),
+    ...mapGetters('homepage', ['getEverythingNewCollection']),
     categories () {
       return this.getCategories
     },
-    everythingNewCollection () {
-      return this.$store.state.homepage.new_collection
-    },
-    coolBagsCollection () {
-      return this.$store.state.homepage.coolbags_collection
-    },
     isOnline () {
       return onlineHelper.isOnline
+    },
+    isLazyHydrateEnabled () {
+      return config.ssr.lazyHydrateFor.some(
+        field => ['homepage', 'homepage.new_collection'].includes(field)
+      )
     }
   },
-  created () {
-    // Load personal and shipping details for Checkout page from IndexedDB
-    this.$store.dispatch('checkout/load')
+  beforeCreate () {
+    registerModule(RecentlyViewedModule)
   },
   async beforeMount () {
     if (this.$store.state.__DEMO_MODE__) {
@@ -101,41 +109,19 @@ export default {
   async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data
     Logger.info('Calling asyncData in Home (theme)')()
 
-    let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
-    let coolBagsQuery = prepareQuery({ queryConfig: 'coolBags' })
-
-    const newProductsResult = await store.dispatch('product/list', {
-      query: newProductsQuery,
-      size: 8,
-      sort: 'created_at:desc'
-    })
-    if (newProductsResult) {
-      store.state.homepage.new_collection = newProductsResult.items
-    }
-
-    const coolBagsResult = await store.dispatch('product/list', {
-      query: coolBagsQuery,
-      size: 4,
-      sort: 'created_at:desc',
-      includeFields: config.entities.optimize ? (config.products.setFirstVarianAsDefaultInURL ? config.entities.productListWithChildren.includeFields : config.entities.productList.includeFields) : []
-    })
-    if (coolBagsResult) {
-      store.state.homepage.coolbags_collection = coolBagsResult.items
-    }
-
-    await store.dispatch('promoted/updateHeadImage')
-    await store.dispatch('promoted/updatePromotedOffers')
+    await Promise.all([
+      store.dispatch('homepage/fetchNewCollection'),
+      store.dispatch('promoted/updateHeadImage'),
+      store.dispatch('promoted/updatePromotedOffers')
+    ])
   },
   beforeRouteEnter (to, from, next) {
     if (!isServer && !from.name) { // Loading products to cache on SSR render
-      next(vm => {
-        let newProductsQuery = prepareQuery({ queryConfig: 'newProducts' })
-        vm.$store.dispatch('product/list', {
-          query: newProductsQuery,
-          size: 8,
-          sort: 'created_at:desc'
+      next(vm =>
+        vm.$store.dispatch('homepage/fetchNewCollection').then(res => {
+          vm.loading = false
         })
-      })
+      )
     } else {
       next()
     }
