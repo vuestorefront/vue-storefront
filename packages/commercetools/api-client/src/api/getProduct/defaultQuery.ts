@@ -20,6 +20,7 @@ export default gql`
   }
 
   fragment DefaultVariant on ProductVariant {
+    id
     sku
     ...Images
     ...Price
@@ -42,10 +43,14 @@ export default gql`
         id
         masterData {
           current {
+            slug(locale: $locale)
             name(locale: $locale)
             metaTitle(locale: $locale)
             metaKeywords(locale: $locale)
             metaDescription(locale: $locale)
+            categoriesRef {
+              id
+            }
             allVariants {
               ...DefaultVariant
             }

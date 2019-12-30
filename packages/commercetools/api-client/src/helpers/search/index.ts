@@ -1,20 +1,21 @@
-import { CategorySearch } from './../../types/Api'
+import { CategorySearch, ProductSearch } from './../../types/Api'
 import { locale } from './../../index'
 
-const buildProductWhere = (search: CategorySearch) => {
-  if (search.catId) {
-    return `masterData(current(categories(id="${search.catId}")))`
+const buildProductWhere = (search: ProductSearch) => {
+  if (search && search.catIds) {
+    const catIds = search.catIds.join('","')
+    return `masterData(current(categories(id in ("${catIds}"))))`
   }
 
   return ''
 }
 
 const buildCategoryWhere = (search: CategorySearch) => {
-  if (search.catId) {
+  if (search && search.catId) {
     return `id="${search.catId}"`
   }
 
-  if (search.slug) {
+  if (search && search.slug) {
     return `slug(${locale}="${search.slug}")`
   }
 

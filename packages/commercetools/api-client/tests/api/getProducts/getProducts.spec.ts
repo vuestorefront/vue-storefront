@@ -6,7 +6,7 @@ import defaultQuery from './../../../src/api/getProduct/defaultQuery'
 describe('[commercetools-api-client] getProduct', () => {
   it('fetches product with default query', async () => {
     const givenVariables = {
-      where: 'masterData(current(categories(id="724b250d-9805-4657-ae73-3c02a63a9a13")))',
+      where: 'masterData(current(categories(id in ("724b250d-9805-4657-ae73-3c02a63a9a13"))))',
       locale: 'en',
       currency: 'USD'
     };
@@ -18,7 +18,7 @@ describe('[commercetools-api-client] getProduct', () => {
       return { data: 'product response' }
     })
 
-    const { data } = await getProduct({ catId: "724b250d-9805-4657-ae73-3c02a63a9a13" })
+    const { data } = await getProduct({ catIds: ["724b250d-9805-4657-ae73-3c02a63a9a13"] })
 
     expect(data).toBe('product response')
   });

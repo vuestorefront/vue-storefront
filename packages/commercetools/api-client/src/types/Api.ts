@@ -11,7 +11,7 @@ interface BaseSearch {
 }
 
 interface ProductSearch extends BaseSearch {
-  catId?: string
+  catIds?: string[]
   skus?: string[]
 }
 

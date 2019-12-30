@@ -109,3 +109,9 @@ export interface UseContent<CONTENT, SEARCH> {
   loading: boolean,
   error: any
 }
+
+export interface UiMediaGalleryItem {
+  small: string
+  normal: string
+  big: string
+}

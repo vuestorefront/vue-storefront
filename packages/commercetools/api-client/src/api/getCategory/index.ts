@@ -10,7 +10,14 @@ interface CategoryData {
   categories: CategoryQueryResult
 }
 
-const getCategory = async (search: CategorySearch): Promise<ApolloQueryResult<CategoryData>> => {
+const getCategory = async (search?: CategorySearch): Promise<ApolloQueryResult<CategoryData>> => {
+  if (!search) {
+    return await apolloClient.query<CategoryData>({
+      query: defaultQuery,
+      variables: { locale }
+    })
+  }
+
   if (search.customQuery) {
     const { query, variables } = search.customQuery
 

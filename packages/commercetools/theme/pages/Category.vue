@@ -120,13 +120,13 @@
           <SfProductCard
             v-for="(product, i) in products"
             :key="i"
-            :title="product.title"
-            :image="product.image"
-            :regular-price="product.price.regular"
-            :special-price="product.price.special"
-            :max-rating="product.rating.max"
-            :score-rating="product.rating.score"
-            :isOnWishlist="product.isOnWishlist"
+            :title="getProductName(product)"
+            :image="getProductGallery(product)[0].big"
+            :regular-price="getProductPrice(product)"
+            :special-price="getProductPrice(product)"
+            :max-rating="5"
+            :score-rating="3"
+            :isOnWishlist="false"
             @click:wishlist="toggleWishlist(i)"
             class="products__product-card"
           />
@@ -224,18 +224,29 @@ import {
   SfSelect,
   SfBreadcrumbs
 } from "@storefront-ui/vue";
-
-import { useCategory } from '@vue-storefront/commercetools-composables' 
+import { computed } from '@vue/composition-api'
+import { useCategory } from '@vue-storefront/commercetools-composables'
+import {
+  getCategoryProducts,
+  getProductVariants,
+  getProductName,
+  getProductGallery,
+  getProductPrice
+} from '@vue-storefront/commercetools-helpers'
 
 export default {
   transition: 'fade',
   setup () {
-    const { categories, search } = useCategory()
+    const { categories, search, loading } = useCategory()
 
-    search({ slug: "men-clothing" })
+    search({ slug: "men" })
+
+    const products = computed(() => getCategoryProducts(categories.value[0], { master: true }))
 
     return {
-      categories
+      categories,
+      products,
+      loading
     }
   },
   components: {
@@ -315,64 +326,6 @@ export default {
           ]
         }
       ],
-      products: [
-        {
-          title: "Cream Beach Bag",
-          image: "assets/storybook/homepage/productA.jpg",
-          price: { regular: "$50.00", special: "$20.00" },
-          rating: { max: 5, score: false },
-          isOnWishlist: true
-        },
-        {
-          title: "Cream Beach Bag",
-          image: "assets/storybook/homepage/productB.jpg",
-          price: { regular: "$50.00" },
-          rating: { max: 5, score: 4 },
-          isOnWishlist: false
-        },
-        {
-          title: "Cream Beach Bag",
-          image: "assets/storybook/homepage/productC.jpg",
-          price: { regular: "$50.00" },
-          rating: { max: 5, score: 4 },
-          isOnWishlist: false
-        },
-        {
-          title: "Cream Beach Bag",
-          image: "assets/storybook/homepage/productA.jpg",
-          price: { regular: "$50.00" },
-          rating: { max: 5, score: 4 },
-          isOnWishlist: false
-        },
-        {
-          title: "Cream Beach Bag",
-          image: "assets/storybook/homepage/productB.jpg",
-          price: { regular: "$50.00" },
-          rating: { max: 5, score: 4 },
-          isOnWishlist: false
-        },
-        {
-          title: "Cream Beach Bag",
-          image: "assets/storybook/homepage/productC.jpg",
-          price: { regular: "$50.00" },
-          rating: { max: 5, score: 4 },
-          isOnWishlist: false
-        },
-        {
-          title: "Cream Beach Bag",
-          image: "assets/storybook/homepage/productA.jpg",
-          price: { regular: "$50.00" },
-          rating: { max: 5, score: 4 },
-          isOnWishlist: false
-        },
-        {
-          title: "Cream Beach Bag",
-          image: "assets/storybook/homepage/productB.jpg",
-          price: { regular: "$50.00" },
-          rating: { max: 5, score: 4 },
-          isOnWishlist: false
-        }
-      ],
       filtersOptions: {
         collection: [
           { label: "Summer fly", value: "summer-fly", count: "10" },
@@ -422,6 +375,9 @@ export default {
     };
   },
   methods: {
+    getProductName,
+    getProductGallery,
+    getProductPrice,
     clearAllFilters() {
       const filters = {};
       const keys = Object.keys(this.filters);
