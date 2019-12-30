@@ -17,6 +17,15 @@ export class SearchAdapter {
     this.initBaseTypes()
   }
 
+  protected decompactItem (item, fieldsToCompact) {
+    for (let key in fieldsToCompact) {
+      const value = fieldsToCompact[key]
+      item[key] = item[value]
+      delete item[value]
+    }
+    return item
+  }
+
   public async search (Request) {
     const rawQueryObject = Request.searchQuery
     if (!this.entities[Request.type]) {
@@ -87,6 +96,14 @@ export class SearchAdapter {
     if (resp.hasOwnProperty('hits')) {
       return {
         items: map(resp.hits, hit => {
+          if (type === 'product') {
+            hit = this.decompactItem(hit, config.products.fieldsToCompact)
+            if (hit.configurable_children) {
+              hit.configurable_children = hit.configurable_children.map(childItem => {
+                return this.decompactItem(childItem, config.products.fieldsToCompact)
+              })
+            }
+          }
           return Object.assign(hit, { slug: hit.slug ? hit.slug : ((hit.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit.url_key : (hit.hasOwnProperty('name') ? slugify(hit.name) + '-' + hit.id : '')) }) // TODO: assign slugs server side
         }), // TODO: add scoring information
         total: resp.total,

@@ -190,17 +190,17 @@
     "productList": {
       "sort": "updated_at:desc",
       "includeFields": [ "activity", "type_id", "*sku", "product_links", "tax_class_id", "special_price", "special_to_date", "special_from_date", "name", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "url_path", "url_key", "status", "tier_prices", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "*image","*small_image", "configurable_children.color", "configurable_children.size", "configurable_children.tier_prices", "final_price", "configurable_children.final_price"],
-      "excludeFields": [ "description", "configurable_options", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options", "media_gallery"]
+      "excludeFields": [ "attribute_set_id", "description", "configurable_options", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options", "media_gallery",  "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "stock.stock_status_changed_auto", "stock.show_default_notification_message", "stock.use_config_qty_increments", "stock.is_decimal_divided"]
     },
     "productListWithChildren": {
       "includeFields": [ "activity", "type_id", "sku", "name", "tax_class_id", "final_price", "special_price", "special_to_date", "special_from_date", "price", "price_incl_tax", "original_price_incl_tax", "original_price", "special_price_incl_tax", "id", "image", "sale", "new", "configurable_children.image", "configurable_children.sku", "configurable_children.price", "configurable_children.special_price", "configurable_children.price_incl_tax", "configurable_children.special_price_incl_tax", "configurable_children.original_price", "configurable_children.original_price_incl_tax", "configurable_children.color", "configurable_children.size", "configurable_children.id", "configurable_children.tier_prices", "product_links", "url_path", "url_key", "status", "tier_prices", "configurable_children.special_to_date", "configurable_children.special_from_date", "configurable_children.regular_price", "configurable_children.final_price"],
-      "excludeFields": [ "description", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options", "media_gallery"]
+      "excludeFields": [ "attribute_set_id", "description", "sgn", "*.sgn", "msrp_display_actual_price_type", "*.msrp_display_actual_price_type", "required_options", "media_gallery",  "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "stock.stock_status_changed_auto", "stock.show_default_notification_message", "stock.use_config_qty_increments", "stock.is_decimal_divided"]
     },
     "review": {
       "excludeFields": ["review_entity", "review_status"]
     },
     "product": {
-      "excludeFields": [ "*.msrp_display_actual_price_type", "required_options", "updated_at", "created_at", "attribute_set_id", "options_container", "msrp_display_actual_price_type", "has_options", "stock.manage_stock", "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "stock.stock_status_changed_auto", "stock.show_default_notification_message", "stock.use_config_qty_increments", "stock.is_decimal_divided", "small_image", "sgn", "*.sgn"],
+      "excludeFields": [ "*.msrp_display_actual_price_type", "required_options", "updated_at", "created_at", "attribute_set_id", "options_container", "msrp_display_actual_price_type", "has_options",  "stock.use_config_min_qty", "stock.use_config_notify_stock_qty", "stock.stock_id",  "stock.use_config_backorders", "stock.use_config_enable_qty_inc", "stock.enable_qty_increments", "stock.use_config_manage_stock", "stock.use_config_min_sale_qty", "stock.notify_stock_qty", "stock.use_config_max_sale_qty", "stock.use_config_max_sale_qty", "stock.qty_increments", "stock.stock_status_changed_auto", "stock.show_default_notification_message", "stock.use_config_qty_increments", "stock.is_decimal_divided", "small_image", "sgn", "*.sgn"],
       "includeFields": null,
       "useDynamicAttributeLoader": true,
       "standardSystemFields": [
@@ -298,6 +298,34 @@
     "disablePersistentAttributesCache": false
   },
   "products": {
+    "fieldsToCompact": {
+      "minimal_price": "mp",
+      "has_options": "ho",
+      "url_key": "u",
+      "status": "s",
+      "required_options": "ro",
+      "name": "nm",
+      "tax_class_id": "tci",
+      "description": "desc",
+      "minimal_regular_price": "mrp",
+      "final_price": "fp", 
+      "price": "p", 
+      "special_price": "sp",
+      "original_final_price": "ofp",
+      "original_price": "op",
+      "original_special_price": "osp",
+      "final_price_incl_tax": "fpit", 
+      "original_price_incl_tax": "opit",
+      "price_incl_tax": "pit",
+      "special_price_incl_tax": "spit", 
+      "final_price_tax": "fpt",
+      "price_tax": "pt",
+      "special_price_tax": "spt",
+      "original_price_tax": "opt",
+      "image": "i", 
+      "small_image": "si",
+      "thumbnail": "t"
+    },    
     "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
     "setFirstVarianAsDefaultInURL": false,
