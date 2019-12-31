@@ -184,7 +184,7 @@ describe('Url actions', () => {
     });
   });
 
-  describe('mappingFallBack action', () => {
+  describe('mapFallbackUrl action', () => {
     beforeEach(() => {
       (currentStoreView as jest.Mock).mockImplementation(() => ({
         storeCode: '',
@@ -200,7 +200,7 @@ describe('Url actions', () => {
         dispatch: jest.fn()
       };
 
-      const wrapper = (actions: any) => actions.mappingFallback(contextMock, { url });
+      const wrapper = (actions: any) => actions.mapFallbackUrl(contextMock, { url });
 
       await wrapper(urlActions);
 
@@ -215,7 +215,7 @@ describe('Url actions', () => {
         dispatch: jest.fn()
       };
 
-      const wrapper = (actions: any) => actions.mappingFallback(contextMock, { url });
+      const wrapper = (actions: any) => actions.mapFallbackUrl(contextMock, { url });
 
       const result = await wrapper(urlActions);
 
