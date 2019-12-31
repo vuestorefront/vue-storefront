@@ -7,13 +7,14 @@ import { cacheStorage } from '../'
 import queryString from 'query-string'
 import config from 'config'
 import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData, getFallbackRouteData } from '../helpers'
-import { removeStoreCodeFromRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 import fetch from 'isomorphic-fetch'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processURLAddress } from '@vue-storefront/core/helpers';
 import * as categoryMutationTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 import * as cmsPageMutationTypes from '@vue-storefront/core/modules/cms/store/page/mutation-types'
+import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {

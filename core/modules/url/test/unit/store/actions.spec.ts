@@ -1,6 +1,6 @@
 import { cacheStorage } from '@vue-storefront/core/modules/recently-viewed/index';
 import { actions as urlActions } from '../../../store/actions';
-import { currentStoreView, removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore';
+import { currentStoreView, removeStoreCodeFromRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore';
 import { normalizeUrlPath, parametrizeRouteData } from '../../../helpers';
 import { transformProductUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
@@ -33,6 +33,7 @@ jest.mock('@vue-storefront/core/lib/multistore', () => ({
     localizedRoute: jest.fn(),
     appendStoreCode: ''
   })),
+  localizedDispatcherRouteName: jest.fn(),
   removeStoreCodeFromRoute: jest.fn(() => '/men/bottoms-men/shorts-men/shorts-19/troy-yoga-short-994.html')
 }));
 jest.mock('@vue-storefront/core/lib/logger', () => ({
