@@ -1,3 +1,4 @@
+import { storeProductToCache, configureChildren } from '@vue-storefront/core/modules/catalog/helpers/search';
 import { transformProductUrl, transformCategoryUrl, transformCmsPageUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 import { UrlState } from '../types/UrlState'
 import { ActionTree } from 'vuex';
@@ -150,10 +151,11 @@ export const actions: ActionTree<UrlState, any> = {
   /**
    * Here we can save data based on _type, so there will be no need to create another request for it.
    */
-  async saveFallbackData ({commit, dispatch}, { _type, _source }) {
+  async saveFallbackData ({ commit }, { _type, _source }) {
     switch (_type) {
       case 'product': {
-        // TODO: get `setupProduct` and `syncProducts` from dispatch('product/single') ? Then we could add product without second fetch
+        configureChildren(_source)
+        storeProductToCache(_source, 'sku')
         break
       }
       case 'category': {
