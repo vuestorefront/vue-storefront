@@ -1,5 +1,5 @@
 <template>
-  <div id="checkout">
+  <div id="checkout" ref="checkout">
     <div class="container">
       <div class="row" v-show="!isThankYouPage">
         <div class="col-sm-7 col-xs-12 pb70">

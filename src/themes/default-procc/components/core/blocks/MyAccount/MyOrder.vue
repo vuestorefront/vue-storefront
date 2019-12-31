@@ -84,7 +84,7 @@
               </td>
               <td>{{ order.shipping_amount | price }}</td>
             </tr>
-            <tr>
+            <tr v-if="!'Disabled by Dan, not configured to tax properly'">
               <td colspan="5" class="align-right">
                 {{ $t('Tax') }}
               </td>

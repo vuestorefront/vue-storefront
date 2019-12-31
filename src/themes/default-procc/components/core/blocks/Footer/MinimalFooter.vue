@@ -124,6 +124,7 @@
               </svg>
             </a>
             <a
+              v-show="!'Disabled by Dan'"
               class="social-icon mx10 brdr-circle no-underline"
               href="https://www.pinterest.com"
               :aria-label="$t('Go to Pinterest')"

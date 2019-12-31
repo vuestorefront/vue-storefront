@@ -128,8 +128,9 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
 
 export function filterOutUnavailableVariants (context, product) {
   return new Promise((resolve, reject) => {
-    console.log('filterOutUnavailableVariants context: ', context)
-    console.log('filterOutUnavailableVariants product: ', product)
+    // TODO: Not really working when variants are not synced by Dan 30-12-2019
+    // console.log('filterOutUnavailableVariants context: ', context)
+    // console.log('filterOutUnavailableVariants product: ', product)
     if (config.products.filterUnavailableVariants) {
       const _filterConfigurableHelper = () => {
         if (product.type_id === 'configurable' && product.configurable_children) {

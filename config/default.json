@@ -137,7 +137,7 @@
         "defaultCountry": "DE",
         "defaultLocale": "de-DE",
         "currencyCode": "EUR",
-        "currencySign": "EUR",
+        "currencySign": "€",
         "dateFormat": "HH:mm D-M-YYYY"
       },
       "seo": {

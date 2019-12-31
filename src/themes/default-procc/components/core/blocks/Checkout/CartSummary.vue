@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <div class="py50 px25">
+    <div class="py50 px25" v-show="false && 'TODO: need to edit the texts'">
       <h4 class="h3 m0">
         {{ $t('Safety') }}
       </h4>

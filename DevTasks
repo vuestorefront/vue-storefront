@@ -38,3 +38,9 @@ Search for "// TODO:" to find smaller tasks
     error: ENOENT: no such file or directory, stat 'F:\PROmo\PROmo\vue-storefront\dist\ba5eb275a7c5acd4bab7.hot-update.json'
 
 -- fix the order number shown at order completed to match the order number from ProCC API
+
+-- Fix the Account creation at checkout!!
+    -> Handle existing account error at First Step of Checkout
+    -> if account exists and password is the same -> automatically login the user
+    -> if user wants to reset his password -> DONT FORCE HIM TO ENTER email again and again!!! auto-fill email
+    -> if user wants to Login -> DONT FORCE HIM TO ENTER email again and again!!! auto-fill email

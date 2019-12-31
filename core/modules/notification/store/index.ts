@@ -34,7 +34,7 @@ export const notificationStore: Module<NotificationState, any> = {
       if (!newNotification.hasNoTimeout) {
         setTimeout(() => {
           dispatch('removeNotificationById', id)
-        }, newNotification.timeToLive || 5000)
+        }, newNotification.timeToLive || 10000) // Increased from 5 to 10 sec by Dan
       }
 
       return newNotification

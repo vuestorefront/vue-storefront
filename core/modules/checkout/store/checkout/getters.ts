@@ -4,6 +4,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 
 const getters: GetterTree<CheckoutState, RootState> = {
   getShippingDetails: (state, getters, rootState) => {
+    console.log('getShippingDetails rootState', rootState)
     if (!state.shippingDetails.country) {
       return { ...state.shippingDetails, country: rootState.storeView.tax.defaultCountry }
     }

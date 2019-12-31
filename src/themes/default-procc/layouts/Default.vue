@@ -59,6 +59,15 @@ const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'the
 const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue')
 
 export default {
+  mounted () {
+    setInterval(this.scrollCheckoutBottom, 30000)
+  },
+  created () {
+    this.$bus.$on('scrollCheckoutBottom', this.scrollCheckoutBottom) // Added by Dan
+  },
+  beforeDestroy () {
+    this.$bus.$off('scrollCheckoutBottom', this.scrollCheckoutBottom) // Added by Dan
+  },
   data () {
     return {
       loadOrderConfirmation: false,
@@ -79,6 +88,15 @@ export default {
     })
   },
   methods: {
+    scrollCheckoutBottom (position_compensation = 0) { // Added by Dan
+      // Scrolling is not working, I think #viewport is not the main scrolling div, so which one is it ?
+      // TODO: need this to be triggred when going trough the steps of the checkout so it is easier for the user
+      let container = this.$el.querySelector("#viewport")
+      if(container){
+        container.scrollTop = container.scrollHeight - position_compensation;
+        console.log('TODO: need to fix scrolling #viewport to bottom at checkout steps')
+      }
+    },
     onOrderConfirmation (payload) {
       this.loadOrderConfirmation = true
       this.ordersData = payload

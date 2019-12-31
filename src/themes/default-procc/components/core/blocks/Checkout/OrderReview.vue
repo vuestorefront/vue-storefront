@@ -27,9 +27,11 @@
 &nbsp;
           </div>
         </div>
-        <div class="row mb15 mt20">
+<!--        <div class="row mb15 mt20">-->
+<!--        // Edited by Dan, to compensate for disabled elements-->
+        <div class="row mb15" style="margin-top: -50px;">
           <div class="col-xs-12">
-            <p class="h4">
+            <p class="h4" v-show="!'Disabled by Dan'">
               {{ $t('Please check if all data are correct') }}
             </p>
             <div class="row">
@@ -38,6 +40,7 @@
               </div>
               <base-checkbox
                 class="col-xs-11 col-sm-12 col-md-8 bg-cl-secondary p15 mb35 ml10"
+                v-show="!'Disabled by Dan'"
                 id="acceptTermsCheckbox"
                 @blur="$v.orderReview.terms.$touch()"
                 v-model="orderReview.terms"
@@ -136,6 +139,12 @@ export default {
   },
   beforeCreate () {
     registerModule(OrderModule)
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.orderReview.terms = true // Added by Dan
+      this.$bus.$emit('scrollCheckoutBottom') // Added by Dan
+    })
   },
   methods: {
     onSuccess () {

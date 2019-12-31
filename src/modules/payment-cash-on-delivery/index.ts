@@ -23,7 +23,8 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function ({store}) 
     'offline': true,
     'is_server_method': false
   }
-  store.dispatch('checkout/addPaymentMethod', paymentMethodConfig)
+  // Disabled by Dan -> not ready for COD
+  // store.dispatch('checkout/addPaymentMethod', paymentMethodConfig)
   if (!isServer) {
     // Update the methods
     let paymentMethodConfig = {
@@ -35,7 +36,8 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function ({store}) 
       'offline': true,
       'is_server_method': false
     }
-    store.dispatch('checkout/addPaymentMethod', paymentMethodConfig)
+    // Disabled by Dan -> not ready for COD
+    // store.dispatch('checkout/addPaymentMethod', paymentMethodConfig)
 
     EventBus.$on('checkout-before-placeOrder', placeOrder)
 

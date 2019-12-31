@@ -21,7 +21,10 @@ const preparePaymentMethodsToSync = (
       uniqueBackendMethods.push(backendMethod)
     }
   }
-
+  console.log('preparePaymentMethodsToSync', 'preparePaymentMethodsToSync')
+  console.log('currentPaymentMethods', currentPaymentMethods)
+  console.log('uniqueBackendMethods', uniqueBackendMethods)
+  console.log('paymentMethods', paymentMethods)
   return { uniqueBackendMethods, paymentMethods }
 }
 

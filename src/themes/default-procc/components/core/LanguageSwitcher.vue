@@ -1,7 +1,9 @@
 <template>
   <div>
     <a href="#" class="store-locale" @click.prevent="showLanguagesModal">
-      {{ country }} / {{ lang }} / {{ currency }}
+<!--      {{ country }} / {{ lang }} / {{ currency }}-->
+<!--      // Edited by Dan-->
+      {{ lang }} / {{ currency }}
     </a>
     <modal-switcher v-if="loadLanguagesModal" />
   </div>

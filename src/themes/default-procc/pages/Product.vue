@@ -39,7 +39,7 @@
               <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="getCurrentProduct.url_path">
-              <div class="mb40 price serif" v-if="getCurrentProduct.type_id !== 'grouped'">
+              <div class="mb40 price serif" v-if="getCurrentProduct.type_id !== 'grouped' && !'Disabled By Dan, because not configured prices with Tax yet'">
                 <div
                   class="h3 cl-secondary"
                   v-if="getCurrentProduct.special_price && getCurrentProduct.price_incl_tax && getCurrentProduct.original_price_incl_tax"
@@ -137,8 +137,9 @@
               @error="handleQuantityError"
             />
             <div class="row m0">
+<!--              // Edited by dan to fix issue with product variants SKUs-->
               <add-to-cart
-                :product="getCurrentProduct"
+                :product="getCurrentProductVariant"
                 :disabled="isAddToCartDisabled"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
@@ -346,6 +347,7 @@ export default {
       selected_delivery_policy: {},
       selected_country: 'BG',
       product_quantity: 1,
+      getCurrentProductVariant: {},
       isCCStore: false
     }
   },
@@ -514,11 +516,13 @@ export default {
       currentConfig[option.type] = option
       return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
     },
-    async getQuantity (variant = null) { // Edited By dan
-      let product = this.getCurrentProduct
+    async getQuantity (variant = null) { // Edited By dan 30-12-2019
+      let product = {...this.getCurrentProduct}
+      console.log('getQuantity product: ', product)
       if(variant && variant.label){
         if(product.sku && product.sku.indexOf('-'+variant.label) === -1){
           product.sku =  product.sku + '-' + variant.label // adjusting from parentSKU to size variant sku
+          this.getCurrentProductVariant = product
         }
       }
 

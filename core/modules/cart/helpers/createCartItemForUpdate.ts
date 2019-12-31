@@ -2,7 +2,8 @@ import config from 'config'
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 
 const createCartItemForUpdate = (clientItem: CartItem, serverItem: any, updateIds: boolean = false): CartItem => {
-  const sku = clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku
+  // const sku = clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku
+  const sku = clientItem.sku ? clientItem.sku : clientItem.parentSku // Edited by dan to fix create order issue when product variants are not synced 30-12-2019
   const cartItem = {
     sku,
     qty: clientItem.qty,

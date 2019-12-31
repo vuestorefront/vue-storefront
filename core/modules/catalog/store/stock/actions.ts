@@ -32,6 +32,7 @@ const actions: ActionTree<StockState, RootState> = {
     }
   },
   async check (context, { product }) {
+    console.log('actions check sku product', product)
     if (config.stock.synchronize) {
       const { result, task_id } = await StockService.check(product.sku)
       return {

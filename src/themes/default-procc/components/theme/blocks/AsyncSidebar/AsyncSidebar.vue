@@ -40,6 +40,10 @@ export default {
   },
   created () {
     this.getComponent()
+    this.$bus.$on('scrollSidebarBottom', this.scrollSidebarBottom) // Added by Dan
+  },
+  beforeDestroy () {
+    this.$bus.$off('scrollSidebarBottom', this.scrollSidebarBottom) // Added by Dan
   },
   watch: {
     isOpen (state) {
@@ -53,6 +57,12 @@ export default {
     }
   },
   methods: {
+    scrollSidebarBottom () { // Added by Dan
+      if(this.$refs && this.$refs.sidebar){
+        this.$refs.sidebar.scrollTop = this.$refs.sidebar.scrollHeight;
+        console.log('scrolled to bottom')
+      }
+    },
     getComponent () {
       this.component = () => ({
         component: this.asyncComponent(),

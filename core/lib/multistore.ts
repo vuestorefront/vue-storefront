@@ -179,7 +179,7 @@ export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteC
   } else {
     allRoutes.push(...routes)
   }
-  console.log(allRoutes, 'allRoutes');
+  // console.log(allRoutes, 'allRoutes');
   router.addRoutes(allRoutes, true, priority)
 }
 

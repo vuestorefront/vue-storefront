@@ -87,7 +87,7 @@ class LocalForageCacheDriver {
               Logger.info('Cache purged', 'cache', { keysPurged })()
             })
           } else {
-            Logger.info('Storage size', 'cache', { storageSizeKB: Math.round(storageSize / 1024) })()
+            // Logger.info('Storage size', 'cache', { storageSizeKB: Math.round(storageSize / 1024) })()
           }
         })
       }, 30000)

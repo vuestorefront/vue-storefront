@@ -53,7 +53,7 @@
                 </router-link>
               </div>
             </div>
-            <div class="start-md">
+            <div class="start-md" v-show="!'ProCC not ready to show this'">
               <h3 class="cl-accent weight-400">
                 {{ $t('About us') }}
               </h3>
@@ -96,6 +96,7 @@
               </svg>
             </a>
             <a
+              v-show="!'Disabled by Dan'"
               class="social-icon mx10 brdr-circle no-underline"
               href="https://www.pinterest.com"
               :aria-label="$t('Go to Pinterest')"

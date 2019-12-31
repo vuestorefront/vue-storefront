@@ -25,7 +25,7 @@
       <div class="col-xs-12 col-sm">
         <h2
           v-if="productsInCart.length"
-          class="cl-accent mt35 mb35"
+          class="cl-accent mt0 editedByDanProCC mb35"
         >
           {{ $t('Shopping cart') }}
         </h2>
@@ -55,7 +55,7 @@
       <h3 class="m0 pt40 mb30 weight-400 summary-heading">
         {{ $t('Shopping summary') }}
       </h3>
-      <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code !== 'grand_total'">
+      <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code !== 'grand_total' && segment.code !== 'tax' && 'Edited by Dan to avoid tax row, not configured'">
         <div class="col-xs">
           {{ segment.title }}
           <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">
@@ -160,7 +160,8 @@ export default {
       addCouponPressed: false,
       couponCode: '',
       componentLoaded: false,
-      isInstantCheckoutRegistered: isModuleRegistered('InstantCheckoutModule')
+      // isInstantCheckoutRegistered: isModuleRegistered('InstantCheckoutModule')
+      isInstantCheckoutRegistered: false // Disabled By Dan, because not tested
     }
   },
   props: {
@@ -176,6 +177,7 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.componentLoaded = true
+      this.$bus.$emit('scrollSidebarBottom') // Added by Dan
     })
   },
   computed: {
@@ -268,7 +270,8 @@ export default {
 
   .products {
     @media (max-width: 767px) {
-      padding: 30px 15px;
+      /*// Edited by Dan*/
+      padding: 0px 15px;
     }
   }
 
@@ -291,8 +294,9 @@ export default {
 
   .summary {
     @media (max-width: 767px) {
+      // Edited by dan
       padding:  0 15px;
-      font-size: 12px;
+      font-size: 18px;
     }
   }
 

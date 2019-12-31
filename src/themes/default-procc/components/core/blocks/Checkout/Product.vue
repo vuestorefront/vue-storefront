@@ -3,7 +3,7 @@
     <div class="blend">
       <product-image :image="image" />
     </div>
-    <div class="col-xs">
+    <div class="col-xs" style="text-align: center">
       <div class="row">
         <div class="col-xs-12 col-md-9 pb15">
           <div class="mb15">
@@ -87,5 +87,6 @@ export default {
 }
 .blend {
   flex: 0 0 121px;
+  overflow: hidden; /*Added BY Dan 30-12-2019*/
 }
 </style>

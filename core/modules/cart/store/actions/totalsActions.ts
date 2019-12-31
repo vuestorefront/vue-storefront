@@ -55,6 +55,7 @@ const totalsActions = {
         paymentDetails: rootGetters['checkout/getPaymentDetails']
       })
 
+      console.log('syncTotals shippingMethodsData' , shippingMethodsData)
       if (shippingMethodsData.country) {
         return dispatch('overrideServerTotals', {
           hasShippingInformation: shippingMethodsData.method_code || shippingMethodsData.carrier_code,

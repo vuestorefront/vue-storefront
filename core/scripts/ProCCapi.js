@@ -362,7 +362,7 @@ function getDefaultStoreData (storeData) {
       defaultLanguage: 'EN',
       defaultLocale: 'en-US',
       currencyCode: 'EUR',
-      currencySign: 'EUR',
+      currencySign: '€',
       dateFormat: 'HH:mm D-M-YYYY'
     }
   };

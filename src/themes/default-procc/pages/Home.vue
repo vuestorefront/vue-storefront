@@ -33,7 +33,10 @@
 <!--      </div>-->
 <!--      <tile-links />-->
     </section>
-    <Onboard />
+<!--    <Onboard />-->
+
+<!--    // ProCC stores-->
+    <available-stores v-if="isDefaultStore" />
   </div>
 </template>
 
@@ -58,7 +61,7 @@ import {registerModule} from '@vue-storefront/core/lib/modules'
 import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
 
 import {currentStoreView} from '@vue-storefront/core/lib/multistore'
-import AvailableStore from 'theme/components/procc/Store/AvailableStore'
+import availableStores from 'theme/components/procc/Store/availableStores'
 import StoreBanners from 'theme/components/procc/StoreBanners/StoreBanners'
 import ProCCTileLinks from 'theme/components/procc/TileLinks/ProCCTileLinks'
 
@@ -71,7 +74,7 @@ export default {
   mixins: [Home],
   components: {
     HeadImage,
-    AvailableStore,
+    availableStores,
     StoreBanners,
     ProCCTileLinks,
     Onboard,

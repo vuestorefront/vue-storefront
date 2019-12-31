@@ -22,7 +22,7 @@ export default {
       if (!data.hasNoTimeout) {
         setTimeout(() => {
           this.action('close', this.notifications.length - 1)
-        }, data.timeToLive || 5000)
+        }, data.timeToLive || 10000) // Increased from 5 to 10 sec by Dan
       }
     },
     action (action, id, notification) {

@@ -13,6 +13,7 @@ export default {
 
 <style lang="scss" scoped>
 .spinner {
- padding: 0 15px;
+ /*padding: 0 15px;*/
+ padding: 22px 25px; /* Edited By Dan to adjust the location of the spinner*/
 }
 </style>

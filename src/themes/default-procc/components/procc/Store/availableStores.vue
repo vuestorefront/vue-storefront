@@ -52,8 +52,8 @@ export default {
   methods: {
     sortStore (sort) {
       this.isActive = sort
-      let availableStore = store.state.config.storeViews
-      this.stores = _.orderBy(availableStore, ['storeCode'], sort.toString())
+      let availableStores = store.state.config.storeViews
+      this.stores = _.orderBy(availableStores, ['storeCode'], sort.toString())
       store.state.config.storeViews = this.stores
     },
     clearFilter () {
