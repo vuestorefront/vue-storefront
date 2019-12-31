@@ -122,12 +122,30 @@ import { OrderReview } from '@vue-storefront/core/modules/checkout/components/Or
 import { OrderModule } from '@vue-storefront/core/modules/order'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
+import { mapGetters } from 'vuex'
+import ProCCTransactionDone from 'theme/pages/ProCCTransactionDone.vue'
+
 export default {
   components: {
     BaseCheckbox,
     ButtonFull,
     CartSummary,
+    ProCCTransactionDone,
     Modal
+  },
+  data () {
+    return {
+      payment: this.$store.state.checkout.paymentDetails,
+      storeImage: {},
+      transactionId: ''
+    }
+  },
+  computed: {
+    ...mapGetters({
+      getTotals: 'cart/getTotals',
+      currentImage: 'procc/getHeadImage',
+      currentCart: 'carts/getCartToken'
+    })
   },
   mixins: [OrderReview, Composite],
   validations: {
@@ -145,6 +163,23 @@ export default {
       this.orderReview.terms = true // Added by Dan
       this.$bus.$emit('scrollCheckoutBottom') // Added by Dan
     })
+    window.callPlaceOrder = (transactionId) => { // ProCC MangoPay Handler
+      let BrandId = this.currentImage.brand
+      this.transactionId = transactionId
+      this.ProCcAPI.updateTransactionStatus({mangopay_transaction_id: transactionId}, BrandId).then((result) => {
+        this.transactionId = result.data.transaction._id
+        if (result.data.message_type === 'success') {
+          this.placeOrder(result.data.transaction._id)
+        }
+      }).catch(err => {
+        Logger.error(err, 'Transaction was not Done!!')()
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Transaction was not done!!!!'),
+          action1: { label: this.$t('OK') }
+        })
+      })
+    }
   },
   methods: {
     onSuccess () {
@@ -154,6 +189,46 @@ export default {
         type: 'error',
         message: this.$t(result.result),
         action1: { label: this.$t('OK') }
+      })
+    },
+    orderPayment () {
+      console.log('this.getTotals: ', this.getTotals)
+      let amount
+      for (let segment of this.getTotals){
+        if(segment.code === 'grand_total'){
+          amount = segment.value
+        }
+      }
+
+      let data = {
+        'PaymentType': 'CARD',
+        'ExecutionType': 'WEB',
+        'DebitedFunds': {
+          'Currency': 'EUR',
+          'Amount': amount * 100
+        },
+        'Fees': {
+          'Currency': 'EUR',
+          'Amount': 0
+        },
+        'ReturnURL': this.config.server.url + '/transactionDone', //  store url
+        'CardType': 'CB_VISA_MASTERCARD',
+        'SecureMode': 'DEFAULT',
+        'Culture': 'EN',
+        'brand': this.currentImage.brand
+      }
+      console.log('ProCcAPI.mangoPayCheckIn data', data)
+      console.log('this.currentImage', this.currentImage)
+      this.ProCcAPI.mangoPayCheckIn(data, this.currentImage.brand).then(async (response) => {
+        if (response.data.payIn_result && response.data.payIn_result.RedirectURL) {
+          window.open(response.data.payIn_result.RedirectURL, 'popUpWindow', 'height=700,width=800,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
+        } else {
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: this.$t('Something goes Wrong :(  Server could not respond'),
+            action1: { label: this.$t('OK') }
+          })
+        }
       })
     }
   }
