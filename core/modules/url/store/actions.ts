@@ -59,7 +59,7 @@ export const actions: ActionTree<UrlState, any> = {
         if (routeData !== null) {
           return resolve(parametrizeRouteData(routeData, query, storeCodeInPath))
         } else {
-          dispatch('mappingFallback', { url, params: parsedQuery }).then(mappedFallback => {
+          dispatch('mapFallbackUrl', { url, params: parsedQuery }).then(mappedFallback => {
             const routeData = getFallbackRouteData({ mappedFallback, url })
             dispatch('registerMapping', { url, routeData }) // register mapping for further usage
             resolve(parametrizeRouteData(routeData, query, storeCodeInPath))
@@ -69,10 +69,44 @@ export const actions: ActionTree<UrlState, any> = {
     })
   },
   /**
+   * @deprecated from 1.13
    * Router mapping fallback - get the proper URL from API
    * This method could be overriden in custom module to provide custom URL mapping logic
    */
   async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
+    console.warn('Deprecated action mappingFallback - use mapFallbackUrl instead')
+    const { storeCode, appendStoreCode } = currentStoreView()
+    const productQuery = new SearchQuery()
+    url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
+    productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
+    const products = await dispatch('product/list', { query: productQuery }, { root: true })
+    if (products && products.items && products.items.length) {
+      const product = products.items[0]
+      return {
+        name: localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode),
+        params: {
+          slug: product.slug,
+          parentSku: product.sku,
+          childSku: params['childSku'] ? params['childSku'] : product.sku
+        }
+      }
+    } else {
+      const category = await dispatch('category/single', { key: 'url_path', value: url }, { root: true })
+      if (category !== null) {
+        return {
+          name: localizedDispatcherRouteName('category', storeCode, appendStoreCode),
+          params: {
+            slug: category.slug
+          }
+        }
+      }
+    }
+  },
+  /**
+   * Router mapping fallback - get the proper URL from API
+   * This method could be overriden in custom module to provide custom URL mapping logic
+   */
+  async mapFallbackUrl ({ dispatch }, { url, params }: { url: string, params: any}) {
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
 
     // search for record in ES based on `url`
