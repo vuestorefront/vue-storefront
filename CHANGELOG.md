@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
+- Revert init filters in Vue app - @gibkigonzo (#3929)
 
 ### Changed / Improved
 - Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)
