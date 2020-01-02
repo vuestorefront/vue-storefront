@@ -6,7 +6,7 @@
         <return-icon class="p12 icon pointer" />
       </div>
       <div class="col-xs-12 col-md-6">
-        <h3 class="m0 mb5 mt5">
+        <h3 class="m0 mt5">
           {{ $t('Order #{id}', { id: order.increment_id }) }}
           <span class="brdr-1 brdr-cl-bg-secondary py5 px10 ml20 sans-serif fs-medium-small weight-400 cl-secondary">
             {{ order.status | capitalize }}

@@ -69,6 +69,8 @@ export default {
     name () {
       if (this.isSimpleOrConfigurable && !this.loading && this.showQuantity) {
         return this.$i18n.t(this.isOnline ? 'Quantity available' : 'Quantity available offline', { qty: this.maxQuantity })
+      }else if(!this.loading){
+        return this.$i18n.t('Select a size') // Edited By Dan, to show accurate message if size is not selected
       }
       return this.$i18n.t('Quantity')
     }

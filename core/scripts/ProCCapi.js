@@ -38,6 +38,7 @@ module.exports = (config, app) => {
     // set Store Policies
     setStorePolicies(storeData);
     // set Main Image
+    console.log('setStoreMainImage', storeData, 'setStoreMainImage')
     setStoreMainImage(storeData);
 
     // set Store Categories - DISABLED DUE TO also running it separately in /category-link

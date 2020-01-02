@@ -30,12 +30,12 @@
                     }
                 }
            ]
-        }, 
+        },
         "addressInformation": {
 
             "properties": {
                 "shippingAddress": {
-                    "required": [ "street", "city", "postcode", "firstname", "lastname" ],
+                    "required": [ "street", "city", "postcode", "firstname", "lastname", "telephone" ],
                     "properties": {
                         "region": { "type": "string" },
                         "region_id": { "type": "number" },

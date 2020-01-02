@@ -12,7 +12,7 @@
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
           <div class="col-xs-12 col-md-7" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
-            <h3 class="m0 mb5">
+            <h3 class="m0">
               {{ $t('Shipping') }}
             </h3>
           </div>
@@ -178,6 +178,12 @@
             :placeholder="$t('Phone Number')"
             v-model.trim="shipping.phoneNumber"
             autocomplete="tel"
+            :validations="[
+              {
+                condition: !$v.shipping.phoneNumber.required,
+                text: $t('Field is required')
+              }
+            ]"
           />
 
           <h4 class="col-xs-12">
@@ -311,6 +317,10 @@ export default {
       },
       shippingMethod: {
         required
+      },
+      phoneNumber: {
+        required
+        //TODO: Need to add proper phone validation and maybe sms verification with twilio
       },
       zipCode: {
         required,

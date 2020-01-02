@@ -2,8 +2,10 @@
   <div id="checkout" ref="checkout">
     <div class="container">
       <div class="row" v-show="!isThankYouPage">
-        <div class="col-sm-7 col-xs-12 pb70">
-          <div class="checkout-title py5 px20">
+<!--        // Edited By Dan-->
+        <div class="col-md-6 col-sm-12 col-xs-12 pb70" style="margin: 0 auto 0 auto;padding-right: 0!important;">
+          <!--    // Edited by Dan 02-01-2020-->
+          <div class="checkout-title py5 px20" style="padding-right: 0!important;">
             <h1>
               {{ $t('Checkout') }}
             </h1>
@@ -18,7 +20,9 @@
           <order-review class="line relative" :is-active="activeSection.orderReview" />
           <div id="custom-steps" />
         </div>
-        <div class="hidden-xs col-sm-5 bg-cl-secondary">
+<!--        <div class="hidden-xs col-sm-5 bg-cl-secondary">-->
+<!--        // TODO: Need to make sure the cart summary shows in mobile version -> 'xs'-->
+        <div class="col-sm-6 bg-cl-secondary">
           <cart-summary />
         </div>
       </div>
@@ -105,6 +109,7 @@ export default {
 
   #checkout {
     .number-circle {
+      margin-top: 6px; // Added By Dan
       width: 35px;
       height: 35px;
 

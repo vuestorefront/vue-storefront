@@ -74,7 +74,7 @@
               </div>
             </div>
           </div>
-          <div class="row social mt30">
+          <div class="row social mt30" style="align-content: space-evenly;">
             <a
               class="social-icon mx10 brdr-circle no-underline"
               href="https://www.facebook.com/"

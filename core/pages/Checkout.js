@@ -169,6 +169,8 @@ export default {
           this.transactionId = payload.transactionId
         }
       }
+      // Added by Dan 02-01-2020
+      this.$bus.$emit('checkout-do-placeOrder', {})
     },
     onAfterCartSummary (receivedData) {
       this.cartSummary = receivedData
@@ -180,7 +182,7 @@ export default {
         this.$router.push(this.localizedRoute('/'))
       } else {
         this.payment.paymentMethodAdditional = additionalPayload;
-        // Added by Dan to delay the placeorder to wait for the transactionId event ...
+        // Added by Dan to delay the place order to wait for the transactionId event ...
         // Not sure why this fires first ... :(
         let placeOrder = this.placeOrder;
         console.log('before TIMEOUT');
@@ -255,7 +257,7 @@ export default {
     },
     activateHashSection () {
       if (!isServer) {
-        var urlStep = window.location.hash.replace('#', '')
+        let urlStep = window.location.hash.replace('#', '')
         if (this.activeSection.hasOwnProperty(urlStep) && this.activeSection[urlStep] === false) {
           this.activateSection(urlStep)
         } else if (urlStep === '') {

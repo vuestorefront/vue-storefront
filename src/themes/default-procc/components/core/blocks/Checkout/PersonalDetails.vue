@@ -12,7 +12,7 @@
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row mb15">
           <div class="col-xs-12 col-md-7" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
-            <h3 class="m0 mb5">
+            <h3 class="m0">
               {{ $t('Personal Details') }}
             </h3>
           </div>

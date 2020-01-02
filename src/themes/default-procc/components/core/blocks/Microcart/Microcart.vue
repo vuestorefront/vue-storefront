@@ -103,14 +103,14 @@
       class="row py20 px40 middle-xs actions"
       v-if="productsInCart.length && !isCheckoutMode"
     >
-      <div class="col-xs-12 col-sm first-sm">
+      <div class="col-xs-12 col-sm-6 first-sm">
         <router-link :to="localizedRoute('/')" class="no-underline cl-secondary link">
           <span @click="closeMicrocartExtend">
             {{ $t('Return to shopping') }}
           </span>
         </router-link>
       </div>
-      <div class="col-xs-12 first-xs col-sm-4 end-sm">
+      <div class="col-xs-12 first-xs col-sm-6 end-sm">
         <button-full
           :link="{ name: 'checkout' }"
           @click.native="closeMicrocartExtend"
@@ -277,7 +277,7 @@ export default {
 
   .actions {
     @media (max-width: 767px) {
-      padding: 0 15px;
+      /*padding: 0 15px;*/ //Disabled By Dan
     }
     .link {
       @media (max-width: 767px) {
@@ -295,7 +295,7 @@ export default {
   .summary {
     @media (max-width: 767px) {
       // Edited by dan
-      padding:  0 15px;
+      /*padding:  0 15px;*/
       font-size: 18px;
     }
   }

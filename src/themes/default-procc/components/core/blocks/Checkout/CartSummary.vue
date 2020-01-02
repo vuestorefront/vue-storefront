@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <div class="brdr-bottom-1 brdr-cl-primary pb60">
+  <div class="w-100">
+<!--    // Edited by Dan 02-01-2020-->
+    <div class="brdr-cl-primary pb60" style="position: fixed;width: 42%;">
       <h3 class="cl-accent ml30 mt50 summary-title">
         {{ $t('Order Summary') }}
       </h3>

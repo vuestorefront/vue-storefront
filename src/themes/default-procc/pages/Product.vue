@@ -133,7 +133,7 @@
               :max-quantity="maxQuantity"
               :loading="isStockInfoLoading"
               :is-simple-or-configurable="isSimpleOrConfigurable"
-              show-quantity
+              :show-quantity="size_has_been_selected"
               @error="handleQuantityError"
             />
             <div class="row m0">
@@ -197,9 +197,9 @@
             </div>
           </div>
         </tab>
-        <tab name="Delivery">
-          Third tab content
-        </tab>
+<!--        <tab name="Delivery">-->
+<!--          Third tab content-->
+<!--        </tab>-->
       </tabs>
     </section>
     <!--    <section class="container px15 pt50 pb35 cl-accent details">-->
@@ -336,6 +336,7 @@ export default {
   },
   data () {
     return {
+      size_has_been_selected: false, // Added by Dan
       detailsOpen: false,
       maxQuantity: 0,
       quantityError: false,
@@ -505,6 +506,7 @@ export default {
         'filter-changed-product',
         Object.assign({ attribute_code: variant.type }, variant)
       )
+      this.size_has_been_selected = true // Added by Dan
       // this.getQuantity()
       this.getQuantity(variant) //Edited by dan to allow for querying the variant of the SKU
     },

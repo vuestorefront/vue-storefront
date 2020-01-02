@@ -4,7 +4,7 @@
       class="footer-links flex pt30 pb60 px40 bg-cl-secondary"
       v-if="!isCheckoutPage"
     >
-      <div class="container">
+      <div class="container w-100">
         <div class="row m0 center-xs between-md">
           <div
             class="row m0 col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile"
@@ -102,7 +102,7 @@
               </div>
             </div>
           </div>
-          <div class="row social mt30">
+          <div class="row social mt30" style="align-content: space-evenly;">
             <a
               class="social-icon mx10 brdr-circle no-underline"
               href="https://www.facebook.com/"

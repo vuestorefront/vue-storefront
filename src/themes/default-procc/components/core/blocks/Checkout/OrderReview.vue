@@ -12,7 +12,7 @@
       <div class="col-xs-11 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-md-12" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
-            <h3 class="m0">
+            <h3 class="m0 mb5">
               {{ $t('Review order') }}
             </h3>
           </div>
@@ -30,7 +30,7 @@
 <!--        <div class="row mb15 mt20">-->
 <!--        // Edited by Dan, to compensate for disabled elements-->
         <div class="row mb15" style="margin-top: -50px;">
-          <div class="col-xs-12">
+          <div class="col-sm-12">
             <p class="h4" v-show="!'Disabled by Dan'">
               {{ $t('Please check if all data are correct') }}
             </p>
@@ -66,10 +66,10 @@
       <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
-          <div class="col-xs-12 col-md-8 px20">
+          <div class="col-xs-12 col-md-8 px20" style="margin-top: 3rem!important;">
             <slot name="placeOrderButton">
               <button-full
-                @click.native="placeOrder"
+                @click.native="ProCCOrderPayment"
                 data-testid="orderReviewSubmit"
                 class="place-order-btn"
                 :disabled="$v.orderReview.$invalid"
@@ -123,7 +123,7 @@ import { OrderModule } from '@vue-storefront/core/modules/order'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
 import { mapGetters } from 'vuex'
-import ProCCTransactionDone from 'theme/pages/ProCCTransactionDone.vue'
+import ProCCTransactionDone from 'theme/components/procc/ProCCTransactionDone.vue'
 
 export default {
   components: {
@@ -191,7 +191,7 @@ export default {
         action1: { label: this.$t('OK') }
       })
     },
-    orderPayment () {
+    ProCCOrderPayment () {
       console.log('this.getTotals: ', this.getTotals)
       let amount
       for (let segment of this.getTotals){
@@ -221,6 +221,7 @@ export default {
       console.log('this.currentImage', this.currentImage)
       this.ProCcAPI.mangoPayCheckIn(data, this.currentImage.brand).then(async (response) => {
         if (response.data.payIn_result && response.data.payIn_result.RedirectURL) {
+          console.log('OPENING THE POPUP')
           window.open(response.data.payIn_result.RedirectURL, 'popUpWindow', 'height=700,width=800,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
         } else {
           this.$store.dispatch('notification/spawnNotification', {
