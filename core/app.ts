@@ -71,10 +71,10 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     Object.keys(coreMixins).forEach(key => {
       Vue.mixin(coreMixins[key])
     })
+  })
 
-    Object.keys(coreFilters).forEach(key => {
-      Vue.filter(key, coreFilters[key])
-    })
+  Object.keys(coreFilters).forEach(key => {
+    Vue.filter(key, coreFilters[key])
   })
 
   // @todo remove this part when we'll get rid of global multistore mixin
