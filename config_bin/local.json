@@ -10,6 +10,11 @@
     "protocol": "http",
     "api": "api",
     "devServiceWorker": false,
+    "useHtmlMinifier": true,
+    "htmlMinifierOptions": {
+      "minifyJS": true,
+      "minifyCSS": true
+    },
     "useOutputCacheTagging": false,
     "useOutputCache": false,
     "outputCacheDefaultTtl": 86400,
@@ -23,15 +28,21 @@
       "my-account",
       "P",
       "C",
-      "error"
+      "error",
+      "attribute",
+      "taxrule"
     ],
     "invalidateCacheKey": "aeSu7aip",
+    "invalidateCacheForwarding": false,
+    "invalidateCacheForwardUrl": "http://localhost:8080/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": true,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": [
       "ssr",
+      "storeViews",
       "entities",
       "localForage",
+      "shipping",
       "boost",
       "query"
     ],
@@ -56,7 +67,15 @@
         ".tif",
         ".raw"
       ]
+    },
+    "trace": {
+      "enabled": false,
+      "config": {}
     }
+  },
+  "staticPages": {
+    "updateOnRequest": true,
+    "destPath": "static"
   },
   "redis": {
     "host": "localhost",
@@ -149,7 +168,8 @@
   },
   "seo": {
     "useUrlDispatcher": false,
-    "disableUrlRoutesPersistentCache": true
+    "disableUrlRoutesPersistentCache": true,
+    "defaultTitle": "ProCC Store"
   },
   "console": {
     "showErrorOnProduction": true,
@@ -162,18 +182,24 @@
       "basic": "dist/index.basic.html",
       "amp": "dist/index.amp.html"
     },
+    "lazyHydrateFor": [
+      "category-next.products",
+      "homepage.new_collection"
+    ],
     "executeMixedinAsyncData": true,
     "initialStateFilter": [
       "__DEMO_MODE__",
       "version",
-      "storeView"
+      "storeView",
+      "attribute.list_by_id"
     ],
     "useInitialStateFilter": true
   },
+  "queues": {
+    "maxNetworkTaskAttempts": 1,
+    "maxCartBypassAttempts": 1
+  },
   "defaultStoreCode": "",
-  "availableStores": [
-    "dev"
-  ],
   "storeViews": {
     "multistore": true,
     "commonCache": false,
@@ -205,7 +231,7 @@
         "defaultLanguage": "EN",
         "defaultLocale": "en-US",
         "currencyCode": "EUR",
-        "currencySign": "EUR",
+        "currencySign": "€",
         "dateFormat": "HH:mm D-M-YYYY"
       }
     }
@@ -214,6 +240,17 @@
     "optimize": true,
     "twoStageCaching": true,
     "optimizeShoppingCart": true,
+    "optimizeShoppingCartOmitFields": [
+      "configurable_children",
+      "configurable_options",
+      "media_gallery",
+      "description",
+      "category",
+      "category_ids",
+      "product_links",
+      "stock",
+      "description"
+    ],
     "category": {
       "includeFields": [
         "id",
@@ -229,17 +266,26 @@
         "url_path",
         "product_count",
         "path",
+        "position",
         "brand_logo"
       ],
       "excludeFields": [
         "sgn"
       ],
+      "filterFields": {},
+      "breadcrumbFilterFields": {},
       "categoriesRootCategorylId": 2,
       "categoriesDynamicPrefetchLevel": 2,
-      "categoriesDynamicPrefetch": true
+      "categoriesDynamicPrefetch": true,
+      "validSearchOptionsFromRouteParams": [
+        "url-key",
+        "slug",
+        "id"
+      ]
     },
     "attribute": {
       "includeFields": [
+        "activity",
         "attribute_code",
         "id",
         "entity_type_id",
@@ -260,8 +306,9 @@
     "productList": {
       "sort": "updated_at:desc",
       "includeFields": [
+        "activity",
         "type_id",
-        "sku",
+        "*sku",
         "product_links",
         "tax_class_id",
         "special_price",
@@ -269,10 +316,10 @@
         "special_from_date",
         "name",
         "price",
-        "priceInclTax",
-        "originalPriceInclTax",
-        "originalPrice",
-        "specialPriceInclTax",
+        "price_incl_tax",
+        "original_price_incl_tax",
+        "original_price",
+        "special_price_incl_tax",
         "id",
         "image",
         "sale",
@@ -284,10 +331,17 @@
         "configurable_children.sku",
         "configurable_children.price",
         "configurable_children.special_price",
-        "configurable_children.priceInclTax",
-        "configurable_children.specialPriceInclTax",
-        "configurable_children.originalPrice",
-        "configurable_children.originalPriceInclTax",
+        "configurable_children.price_incl_tax",
+        "configurable_children.special_price_incl_tax",
+        "configurable_children.original_price",
+        "configurable_children.original_price_incl_tax",
+        "*image",
+        "*small_image",
+        "configurable_children.color",
+        "configurable_children.size",
+        "configurable_children.tier_prices",
+        "final_price",
+        "configurable_children.final_price",
         "brand_logo"
       ],
       "excludeFields": [
@@ -302,18 +356,20 @@
     },
     "productListWithChildren": {
       "includeFields": [
+        "activity",
         "type_id",
         "sku",
         "name",
         "tax_class_id",
+        "final_price",
         "special_price",
         "special_to_date",
         "special_from_date",
         "price",
-        "priceInclTax",
-        "originalPriceInclTax",
-        "originalPrice",
-        "specialPriceInclTax",
+        "price_incl_tax",
+        "original_price_incl_tax",
+        "original_price",
+        "special_price_incl_tax",
         "id",
         "image",
         "sale",
@@ -322,10 +378,10 @@
         "configurable_children.sku",
         "configurable_children.price",
         "configurable_children.special_price",
-        "configurable_children.priceInclTax",
-        "configurable_children.specialPriceInclTax",
-        "configurable_children.originalPrice",
-        "configurable_children.originalPriceInclTax",
+        "configurable_children.price_incl_tax",
+        "configurable_children.special_price_incl_tax",
+        "configurable_children.original_price",
+        "configurable_children.original_price_incl_tax",
         "configurable_children.color",
         "configurable_children.size",
         "configurable_children.id",
@@ -335,6 +391,10 @@
         "url_key",
         "status",
         "tier_prices",
+        "configurable_children.special_to_date",
+        "configurable_children.special_from_date",
+        "configurable_children.regular_price",
+        "configurable_children.final_price",
         "brand_logo"
       ],
       "excludeFields": [
@@ -375,6 +435,10 @@
         "stock.use_config_max_sale_qty",
         "stock.use_config_max_sale_qty",
         "stock.qty_increments",
+        "stock.stock_status_changed_auto",
+        "stock.show_default_notification_message",
+        "stock.use_config_qty_increments",
+        "stock.is_decimal_divided",
         "small_image",
         "sgn",
         "*.sgn"
@@ -389,6 +453,8 @@
         "size_options",
         "regular_price",
         "final_price",
+        "final_price_incl_tax",
+        "final_price_tax",
         "price",
         "color_options",
         "id",
@@ -414,10 +480,10 @@
         "max_regular_price",
         "category",
         "status",
-        "priceTax",
-        "priceInclTax",
-        "specialPriceTax",
-        "specialPriceInclTax",
+        "price_tax",
+        "price_incl_tax",
+        "special_price_tax",
+        "special_price_incl_tax",
         "_score",
         "slug",
         "errors",
@@ -426,13 +492,18 @@
         "special_from_date",
         "news_from_date",
         "custom_design_from",
-        "originalPrice",
-        "originalPriceInclTax",
+        "original_price",
+        "original_price_incl_tax",
         "parentSku",
         "options",
         "product_option",
         "qty",
         "is_configured",
+        "priceInclTax",
+        "specialPriceInclTax",
+        "specialPriceTax",
+        "priceTax",
+        "priceInclTax",
         "brand_logo"
       ]
     }
@@ -452,6 +523,7 @@
     "setConfigurableProductOptions": true,
     "askBeforeRemoveProduct": true,
     "displayItemDiscounts": true,
+    "productsAreReconfigurable": true,
     "minicartCountType": "quantities",
     "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
     "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
@@ -466,14 +538,13 @@
     "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
   },
   "products": {
-    "useShortCatalogUrls": false,
     "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
     "setFirstVarianAsDefaultInURL": false,
     "configurableChildrenStockPrefetchStatic": false,
-    "configurableChildrenStockPrefetchDynamic": false,
+    "configurableChildrenStockPrefetchDynamic": true,
     "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
-    "filterUnavailableVariants": true,
+    "filterUnavailableVariants": false,
     "listOutOfStockProducts": true,
     "preventConfigurableChildrenDirectAccess": true,
     "alwaysSyncPlatformPricesOver": false,
@@ -487,6 +558,11 @@
       "price",
       "erin_recommends"
     ],
+    "systemFilterNames": [
+      "sort"
+    ],
+    "maxFiltersQuerySize": 999,
+    "routerFiltersSource": "query",
     "filterFieldMapping": {
       "category.name": "category.name.keyword"
     },
@@ -498,12 +574,11 @@
       "order": "desc"
     },
     "sortByAttributes": {
-      "Latest": "updated_at",
+      "Latest": "updated_at:desc",
       "Price: Low to high": "final_price",
       "Price: High to low": "final_price:desc"
     },
     "gallery": {
-      "variantsGroupAttribute": "color",
       "mergeConfigurableChildren": true,
       "imageAttributes": [
         "image",
@@ -522,6 +597,7 @@
       "size": 10,
       "color": 10
     },
+    "priceFilterKey": "final_price",
     "priceFilters": {
       "ranges": [
         {
@@ -570,7 +646,7 @@
       "claims": "LOCALSTORAGE",
       "syncTasks": "LOCALSTORAGE",
       "ordersHistory": "LOCALSTORAGE",
-      "checkoutFieldValues": "LOCALSTORAGE"
+      "checkout": "LOCALSTORAGE"
     }
   },
   "reviews": {
@@ -606,15 +682,19 @@
     "defaultCountry": "US",
     "defaultRegion": "",
     "sourcePriceIncludesTax": false,
-    "calculateServerSide": true
+    "calculateServerSide": true,
+    "userGroupId": null,
+    "useOnlyDefaultUserGroupId": false,
+    "deprecatedPriceFieldsSupport": true,
+    "finalPriceIncludesTax": false
   },
   "shipping": {
     "methods": [
       {
-        "method_title": "Flat Rate",
+        "method_title": "DPD Courier",
         "method_code": "flatrate",
         "carrier_code": "flatrate",
-        "amount": 3,
+        "amount": 4,
         "price_incl_tax": 5,
         "default": true,
         "offline": true
@@ -633,7 +713,7 @@
       "fr-FR",
       "es-ES",
       "nl-NL",
-      "jp-JP",
+      "ja-JP",
       "ru-RU",
       "it-IT",
       "pt-BR",
@@ -643,14 +723,11 @@
     "defaultLocale": "en-US",
     "currencyCode": "USD",
     "currencySign": "$",
-    "currencySignPlacement": "preppend",
+    "priceFormat": "{sign}{amount}",
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "United States",
     "fullLanguageName": "English",
     "bundleAllStoreviewLanguages": true
-  },
-  "mailchimp": {
-    "endpoint": "http://localhost:8080/api/ext/mailchimp-subscribe/subscribe"
   },
   "expireHeaders": {
     "default": "30d",
@@ -675,7 +752,18 @@
   },
   "googleTagManager": {
     "id": false,
-    "debug": true
+    "debug": true,
+    "product_attributes": [
+      "name",
+      "id",
+      "sku",
+      {
+        "priceInclTax": "price"
+      },
+      {
+        "qty": "quantity"
+      }
+    ]
   },
   "hotjar": {
     "id": false
@@ -709,16 +797,6 @@
           "key": "category.name",
           "value": {
             "eq": "Tees"
-          }
-        }
-      ]
-    },
-    "coolBags": {
-      "filter": [
-        {
-          "key": "category.name",
-          "value": {
-            "eq": "Women"
           }
         }
       ]
