@@ -7,6 +7,7 @@ services:
       dockerfile: ./docker/vue-storefront/Dockerfile
     volumes:
       - ./:/var/www
+      - /var/www/node_modules
     ports:
       - '3000:3000'
     command: "/bin/sh"
