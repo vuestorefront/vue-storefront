@@ -7,11 +7,8 @@
     <div class="product">
       <div class="product__gallery">
         <SfImage
-          src="/productpage/productA.jpg"
-          class="desktop-only"
-        />
-        <SfImage
-          src="/productpage/productB.jpg"
+          v-for="(image, i) in getProductGallery(product).splice(0, 2)" :key="i"
+          :src="image.big"
           class="desktop-only"
         />
         <SfGallery
@@ -33,13 +30,13 @@
           <div class="product-details__mobile-top">
             <div>
               <SfHeading
-                title="Cashmere Sweater"
+                :title="getProductName(product)"
                 :level="1"
                 class="sf-heading--no-underline sf-heading--left product-details__heading"
               />
               <div class="product-details__sub">
                 <SfPrice
-                  regular="$50.00"
+                  :regular="'$' + getProductPrice(product)"
                   class="sf-price--big product-details__sub-price"
                 />
                 <div class="product-details__sub-rating">
@@ -284,8 +281,15 @@ import {
   SfReview,
   SfBreadcrumbs
 } from "@storefront-ui/vue";
+import { computed } from '@vue/composition-api'
 
 import { useProduct } from '@vue-storefront/commercetools-composables'
+import {
+  getProductVariants,
+  getProductName,
+  getProductGallery,
+  getProductPrice
+} from '@vue-storefront/commercetools-helpers'
 
 export default {
   name: "Product",
@@ -293,10 +297,11 @@ export default {
   setup () {
     const { products, search } = useProduct()
 
-    search()
-    return {
+    search({ slug: 'tods-laceupshoes-C20RE0U820-darkblue' })
 
-    }
+    const product = computed(() => getProductVariants(products.value, { master: true }))
+
+    return { product }
   },
   components: {
     SfAlert,
@@ -457,6 +462,9 @@ export default {
     };
   },
   methods: {
+    getProductName,
+    getProductPrice,
+    getProductGallery,
     toggleWishlist(index) {
       this.products[index].isOnWishlist = !this.products[index].isOnWishlist;
     }

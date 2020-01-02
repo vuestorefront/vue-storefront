@@ -228,7 +228,6 @@ import { computed } from '@vue/composition-api'
 import { useCategory } from '@vue-storefront/commercetools-composables'
 import {
   getCategoryProducts,
-  getProductVariants,
   getProductName,
   getProductGallery,
   getProductPrice

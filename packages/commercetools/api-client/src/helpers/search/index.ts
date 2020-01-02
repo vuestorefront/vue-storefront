@@ -7,6 +7,10 @@ const buildProductWhere = (search: ProductSearch) => {
     return `masterData(current(categories(id in ("${catIds}"))))`
   }
 
+  if (search && search.slug) {
+    return `masterData(current(slug(${locale}="${search.slug}")))`
+  }
+
   return ''
 }
 
