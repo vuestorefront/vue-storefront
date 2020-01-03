@@ -185,7 +185,7 @@ export default {
         let temp = this.storesLocation[0]
         this.storesLocation[0] = this.storesLocation[parseInt(myStoreIndex)];
         this.storesLocation[parseInt(myStoreIndex)] = temp;
-      }  
+      }
     }
   },
   mixins: [StoreLocations]

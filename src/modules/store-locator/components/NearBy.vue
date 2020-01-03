@@ -10,13 +10,13 @@
           <OpenStatus :regular-hours="store.regularHours" />
         </div>
         <p v-if="!store.regularHours">
-          open time not available
+          {{ $t('open time not available') }}
         </p>
         <p v-if="store.primaryPhone">
           {{ store.primaryPhone }}
         </p>
         <p v-if="!store.primaryPhone">
-          Phone number not available
+          {{ $t( 'Phone number not available') }}
         </p>
       </div>
       <div class="row m5 display-inline">

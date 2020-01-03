@@ -3,7 +3,7 @@
     <div class="col-md-12 flex text-center pointer" @click="getCurrentLocation">
       <i class="material-icons  cl-accent location-icon">location_on</i>
       <h4 class="m0">
-        <u> Use my current location </u>
+        <u>  {{ $t('Use my current location') }} </u>
       </h4>
     </div>
   </div>

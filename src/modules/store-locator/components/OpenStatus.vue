@@ -1,11 +1,11 @@
 <template>
   <div>
     <div v-if="openStatusData" class="color-green">
-      <p> Open Today: {{ tConvert(openStatusData.openTime) }} - {{ tConvert(openStatusData.closeTime) }} </p>
+      <p> {{ $t('Open Today:') }} {{ tConvert(openStatusData.openTime) }} - {{ tConvert(openStatusData.closeTime) }} </p>
     </div>
     <div v-if="!openStatusData">
       <p>
-        open time not available
+        {{ $t('open time not available') }}
       </p>
     </div>
   </div>
