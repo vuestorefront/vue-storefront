@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ./docker/vue-storefront/dev/Dockerfile
     volumes:
-      - ./:/var/www
+      - .:/var/www
       - /var/www/node_modules
       - /var/www/config #isolate local config
     ports:
