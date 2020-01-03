@@ -20,6 +20,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import createCategoryListQuery from '@vue-storefront/core/modules/catalog/helpers/createCategoryListQuery'
 import { formatCategoryLink } from 'core/modules/url/helpers'
+import { transformCategoryUrl } from '@vue-storefront/core/modules/url/helpers/transformUrl';
 
 const actions: ActionTree<CategoryState, RootState> = {
   /**
@@ -68,12 +69,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       if (category.url_path) {
         await dispatch('url/registerMapping', {
           url: localizedDispatcherRoute(category.url_path, storeCode),
-          routeData: {
-            params: {
-              'slug': category.slug
-            },
-            'name': localizedDispatcherRouteName('category', storeCode, appendStoreCode)
-          }
+          routeData: transformCategoryUrl(category)
         }, { root: true })
       }
     }
