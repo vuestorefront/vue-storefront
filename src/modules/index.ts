@@ -24,6 +24,7 @@ import { PaymentCashOnDelivery } from './payment-cash-on-delivery';
 import { RawOutputExample } from './raw-output-example'
 import { InstantCheckout } from './instant-checkout'
 import { OrderHistory } from './order-history'
+import { StoreLocator } from './store-locator'
 
 // import { Example } from './module-template'
 
@@ -76,6 +77,7 @@ export const registerModules: VueStorefrontModule[] = [
   AmpRenderer,
   InstantCheckout,
   Url,
-  OrderHistory
+  OrderHistory,
+  StoreLocator
   // Example
 ]

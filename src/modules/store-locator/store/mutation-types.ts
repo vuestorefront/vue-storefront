@@ -1,0 +1,3 @@
+export const STORELOCATOR = 'storeLocator'
+export const SET_STORE_INFO = STORELOCATOR + '/SET_STORE_INFO'
+export const SET_SELECTED_STORE = STORELOCATOR + '/SET_SELECTED_STORE'
