@@ -271,7 +271,29 @@ document.getElementById('d-config-js').innerHTML = dConfigJs;
 <br />
 <br />
 
-## 4. Peripheral Tools available for Elasticsearch
+## 4. Extend Elasticsearch entities for VSF
+
+
+### 1. Preparation
+### 2. Recipe
+### 3. Peep into the kitchen (what happens internally)
+### 4. Chef's secret (protip)
+<br />
+<br />
+
+
+## 5. VSF Configuration pertaining to Elasticsearch
+
+
+### 1. Preparation
+### 2. Recipe
+### 3. Peep into the kitchen (what happens internally)
+### 4. Chef's secret (protip)
+<br />
+<br />
+
+
+## 6. Peripheral Tools available for Elasticsearch
 ### 1. Preparation
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
