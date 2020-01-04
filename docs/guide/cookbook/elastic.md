@@ -283,7 +283,7 @@ document.getElementById('d-config-js').innerHTML = dConfigJs;
 
 
 ## 5. VSF Configuration pertaining to Elasticsearch
-
+There is a handful of configuration you can tweak in `local.json` in order to modify how _Vue Storefront_ behaves in conjunction with _Elasticsearch_. 
 
 ### 1. Preparation
 ### 2. Recipe
