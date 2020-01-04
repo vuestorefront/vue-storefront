@@ -15,9 +15,12 @@
                 {{ $t('Orders') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/my-account')" exact>
+                <router-link v-show="isLogged" class="cl-secondary" :to="localizedRoute('/my-account')" exact>
                   {{ $t('My account') }}
                 </router-link>
+                <a v-show="!isLogged" class="cl-secondary" href="#" @click.prevent="goToAccount">
+                  {{ $t('My account') }}
+                </a>
               </div>
               <div class="mt15">
                 <router-link class="cl-secondary" :to="localizedRoute('/delivery')" exact>
@@ -65,7 +68,7 @@
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="getLinkFor('/store-locator')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/store-locator')" exact>
                   {{ $t('Store locator') }}
                 </router-link>
               </div>
@@ -158,6 +161,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
@@ -169,17 +173,23 @@ import config from 'config'
 export default {
   mixins: [CurrentPage],
   name: 'MainFooter',
+  methods: {
+    goToAccount () {
+      this.$bus.$emit('modal-toggle', 'modal-signup')
+    },
+    getLinkFor (path) {
+      return localizedRoute(getPathForStaticPage(path))
+    }
+  },
   computed: {
+    ...mapGetters({
+      isLogged: 'user/isLoggedIn'
+    }),
     multistoreEnabled () {
       return config.storeViews.multistore
     },
     getVersionInfo () {
       return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
-    }
-  },
-  methods: {
-    getLinkFor (path) {
-      return localizedRoute(getPathForStaticPage(path))
     }
   },
   components: {

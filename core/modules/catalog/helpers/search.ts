@@ -57,7 +57,7 @@ export const storeProductToCache = (product, cacheByKey) => {
 };
 
 export const preConfigureProduct = ({ product, populateRequestCacheTags }) => {
-  const shouldPopulateCacheTags = populateRequestCacheTags && Vue.prototype.$ssrRequestContext;
+  const shouldPopulateCacheTags = populateRequestCacheTags && Vue.prototype.$cacheTags;
   const isFirstVariantAsDefaultInURL =
     config.products.setFirstVarianAsDefaultInURL &&
     product.hasOwnProperty('configurable_children') &&
@@ -66,7 +66,7 @@ export const preConfigureProduct = ({ product, populateRequestCacheTags }) => {
   product.info = {};
 
   if (shouldPopulateCacheTags) {
-    Vue.prototype.$ssrRequestContext.output.cacheTags.add(`P${product.id}`);
+    Vue.prototype.$cacheTags.add(`P${product.id}`);
   }
 
   if (!product.parentSku) {

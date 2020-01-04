@@ -112,3 +112,14 @@ export function formatProductLink (
     return localizedRoute(routeData, storeCode)
   }
 }
+
+export const getFallbackRouteData = ({ mappedFallback, url }) => {
+  if (Array.isArray(mappedFallback)) {
+    return mappedFallback
+      .reverse()
+      .filter(f => f.params && f.params.slug)
+      .find(f => url.includes(f.params.slug))
+  }
+
+  return mappedFallback
+}

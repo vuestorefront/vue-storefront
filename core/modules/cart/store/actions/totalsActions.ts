@@ -34,7 +34,8 @@ const totalsActions = {
 
       // we received payment methods as a result of this call, updating state
       if (result.payment_methods && getters.canUpdateMethods) {
-        dispatch('checkout/replacePaymentMethods', result.payment_methods, { root: true })
+        const backendPaymentMethods = result.payment_methods.map(method => ({ ...method, is_server_method: true }))
+        dispatch('checkout/replacePaymentMethods', backendPaymentMethods, { root: true })
       }
 
       return

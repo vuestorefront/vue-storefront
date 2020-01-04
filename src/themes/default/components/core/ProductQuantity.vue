@@ -4,7 +4,7 @@
       :name="name"
       :value="value"
       :min="1"
-      :max="maxQuantity"
+      :max="max"
       :disabled="disabled"
       @input="$emit('input', $event)"
       @blur="$v.$touch()"
@@ -60,6 +60,9 @@ export default {
     isOnline (value) {
       return onlineHelper.isOnline
     },
+    max () {
+      return this.isOnline ? this.maxQuantity : null
+    },
     disabled () {
       return this.isOnline ? !this.maxQuantity : false
     },
@@ -74,7 +77,7 @@ export default {
     return {
       value: {
         minValue: minValue(1),
-        maxValue: maxValue(this.maxQuantity) && !this.isSimpleOrConfigurable,
+        maxValue: maxValue(this.max) && !this.isSimpleOrConfigurable,
         numeric,
         required
       }

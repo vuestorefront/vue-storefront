@@ -1255,7 +1255,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
 "i18n": {
   "defaultCountry": "US",
   "defaultLanguage": "EN",
-  "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "jp-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL", "cs-CZ"],
+  "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "ja-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL", "cs-CZ"],
   "defaultLocale": "en-US",
   "currencyCode": "USD",
   "currencySign": "$",

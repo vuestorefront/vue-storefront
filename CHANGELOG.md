@@ -5,8 +5,59 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.0] - 2019.12.20
 
-## [1.11.0-rc.2] - unreleased
+### Added
+- Add unit tests for `core/modules/url` - @dz3n (#3469)
+- Add unit test for `core/modules/checkout` - @psmyrek (#3460)
+- Add defense against incomplete config in ssr renderer - @oskar1233 (#3774)
+- Add unit tests for `core/modules/order` - @dz3n (#3466)
+- Add unit tests for `core/modules/user` - @dz3n (#3470)
+- Add to cart from Wishlist and Product listing for simple products - @Dnd-Dboy, @dz3n (#2637)
+- Add global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
+- Add constant which conditions the number of products loading per page - @AdKamil (#3630)
+- Added price filtering key as config - @roywcm
+
+### Fixed
+- Fixed missing parameter to query function from cms/store/block/actions - @georgiev-ivan (#3909)
+- Always close zoom overlay after changing product - @psmyrek (#3818)
+- Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
+- Fixed null value of search input - @AdKamil (#3778)
+- Fixed product sorting - @AdKamil (#3785)
+- Fixed displaying `sale` and `new` mark - @andrzejewsky (#3800)
+- Fixed sorting on category page and product tile sizing - @andrzejewsky (#3817)
+- Redirect from simple product using url_path - @benjick (#3804)
+- Mount app in 'beforeResolve' if it's not dispatched in 'onReady' - @gibkigonzo (#3669)
+- Fixed AMP pages - @andrzejewsky (#3799)
+- Fixed Product page breadcrumbs problem when products are in multiple categories in different branches of the category tree - @grimasod (#3691)
+- Change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
+- Fixed ecosystem config for pm2 - @andrzejewsky (#3842)
+- Fixed `mappingFallback` for extending modules -  @andrzejewsky (#3822)
+- Fixed adding products search results to category-next product store - @grimasod (#3877)
+- Use `defaultSortBy` for sorting category products by default @haelbichalex (#3873)
+- Fixed some potential mutations of Config object in `catalog` and `catalog-next` - @grimasod (#3843)
+- Set `null` as default value for custom option in product page -  @gibkigonzo (#3885)
+- Fixed Breadcrumb filters - apply to second category fetch  - @grimasod (#3887)
+- Fixed `config.storeViews.commonCache` being ignored - @grimasod (#3895)
+- Fixed static pages, password notification, offline mode #3902 - @andrzejewsky (#3902)
+- Fixed error page display with enabled multistore - @gibkigonzo (#3890)
+- Fixed edit shipping address in my account - @gibkigonzo (#3921)
+- Fetch cms_block content in serverPrefetch method - @gibkigonzo (#3910)
+- Fixed saving invalidated user token -  @andrzejewsky (#3923)
+- Keep category products objects on ssr - @gibkigonzo (#3924)
+- product breadcrumbs - check if current category is not highest one - @gibkigonzo (#3933)
+
+### Changed / Improved
+- Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
+- Improve the readability of 'getShippingDetails()' and 'updateDetails()' method of UserShippingDetails component - @adityasharma7 (#3770)
+- Keep git after yarn install in dockerfile - @ddanier (#3826)
+- Update the Storage Manager shipping details cache immediately when then Vuex checkout store is updated - @grimasod (#3894)
+
+## [1.11.0-rc.2] - 2019.10.31
+
+### Added
+- Add defense for incomplete config in preferchCachedAttributes helper
+- Add unit test for \`core/modules/cms\` - @krskibin (#3738)
 
 ### Fixed
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
@@ -17,22 +68,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed typos in docs - @afozbek (#3709)
 - Fixed VSF build fails for some people due to lack of dependencies in the container - @krskibin (#3699)
 - Fixed two graphql problems, one with cms_blocks and the other with default sort order - @resubaka (#3718)
+- Allow falsy value for `parent_id` when searching category - @gibkigonzo (#3732)
 - Remove including .map files in service worker cache - @gibkigonzo (#3734)
 - Changed notification message object to factory fn - @gibkigozno (#3716)
 - Load recently viewed module in my account page - @gibkigonzo (#3722)
 - Added validation message for city field on checkout page - @dz3n (#3723)
+- Make price calculation based on saved original prices - @gibkigonzo (#3740)
+- Improving is_comparable to work with booleans and digits - @dz3n (#3697)
+- Fixed displaying categories on search menu - @andrzejewsky (#3758)
+- Fixed broken link for store locator - @andrzejewsky (#3754)
+- Fixed instant checkout functionality - @andrzejewsky (#3765)
+- Fixed links to the promoted banners - @andrzejewsky (#3753)
+- Fixed missing parameter in the compare list - @andrzejewsky (#3757)
+- Fixed product link on mobile - @andrzejewsky (#3772)
+- Custom module `ConfigProvider` aren't called anymore - @cewald (#3797)
 
 ### Added
+- Added Estonian translations - @alphpkeemik
 - Added support for ES7 - @andrzejewsky (#3690)
 - Added unit tests for `core/modules/mailer` - @krskibin (#3710)
 - Get payment methods with billing address data - @rain2o (#2878)
 - Added custom page-size parameter for `category-next/loadCategoryProducts` action - @cewald (#3713, #3714)
+- Remove unused dayjs locales - @gibkigonzo (#3498)
 - check max quantity in microcart - @gibkigonzo (#3314)
+- Add unit tests for `core/modules/newsletter` - @psmyrek (#3464)
+- Add unit test for `core/modules/wishlist` - @psmyrek (#3471)
+
+### Changed / Improved
+- Use `encodeURIComponent` to encode get parameters in `multimatch.js` - @adityasharma7 (#3736)
 
 ## [1.11.0-rc.1] - 2019.10.03
 
 ### Added
 
+- Add unit testing to Husky on pre-push hook - @mattheo-geoffray (#3475)
 - Add unit testing on breadcrumbs feature - @mattheo-geoffray (#3457)
 - HTML Minifier has been added, to enable it please switch the `config.server.useHtmlMinifier` - @pkarw (#2182)
 - Output compression module has been added; it's enabled by default on production builds; to disable it please switch the `src/modules/serrver.ts` configuration - @pkarw (#2182)
@@ -212,6 +281,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pass to `registerModule` all parameters as one object - @gibkigonzo (#3634)
 - Include shipping address data in request for shipping methods for more accurate filtering - @rain2o (#2515)
 - remove 'disabled' flag in storeViews config - @gibkigonzo (#3659)
+## [1.10.5] - 28.11.2019
+
+### Fixed
+- Disable product mutation when assigning product variant - @gibkigonzo (#3735)
+- Fix issue with Cannot assign to read only property 'storeCode' - @yuriboyko (#3748)
+- Render correct category links when multistore is active - @gibkigonzo (#3753)
+- Disable product mutation when assigning product variant - @gibkigonzo (#3735)
+- Fixed null value of search input - @AdKamil (#3778)
+- Sorting fixed on category page - @AdKamil (#3785)
+- Mount app in 'beforeResolve' if it's not dispatched in 'onReady' - @gibkigonzo (#3669)
+- change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
+- Fix product images, my account link, warnings in console - @andrzejewsky (#3850)
+
+## [1.10.4] - 18.10.2019
+
+### Fixed
+- Added try/catch for fetching single product in cart synchronization - @gibkigonzo (#3632)
+- Removed infinite loop when changing checkbox in shipping details - @gibkigonzo (#3656)
+- Remove modifying config by reference in multistore - @gibkigonzo (#3617)
+- Fix displaying same country twice in the in the country switcher - @andrzejewsky (#3587)
+- Remove race condition while loading locale messages - @gibkigonzo (#3602)
+- Fixed special price that can break when you change pages (browser navigation for/back) or just go from category to product page - @resubaka (#3638)
+- Change sku to string when checking products equality - @gibkigonzo (#3606)
+- Fixed problem with losing browser history - @andrzejewsky (#3642)
+- Fixed resolving store code on SSR - @andrzejewsky (#3576)
+- Fixed styles for original price on Wishlist sidebar - @przspa (#3392)
+- Added debounce for updating quantity method in the cart - @andrzejewsky (#3191)
+- Improved scrolling in Safari on iOS devices (sidebars) - @phoenixdev-kl (#3551)
+- Improved cookie and offline badges (z-index, overflow) - @phoenixdev-kl (#3552)
+- Added config to set Cache-Control header for static assets based on mime type - @phoenix-bjoern (#3268)
+- Added catching of errors when ES is down - @qiqqq
+- `localizedRoute()` doesn't return urlDispatcher routes anymore. Use localizedDispatcherRoute instead - @lukeromanowicz (#3548)
+- Fixed hash in dynamically resolved urls causing resolving issues - @lukeromanowicz (#3515)
+- `localizedRoute()` now supports path (and prefers over fullPath) in LocalizedRoute objects - @lukeromanowicz (#3515)
+- Decreased the `localStorage` quota usage + error handling by introducing new config variables: `config.products.disablePersistentProductsCache` to not store products by SKU (by default it's on). Products are cached in ServiceWorker cache anyway so the `product/list` will populate the in-memory cache (`cache.setItem(..., memoryOnly = true)`); `config.seo.disableUrlRoutesPersistentCache` - to not store the url mappings; they're stored in in-memory cache anyway so no additional requests will be made to the backend for url mapping; however it might cause some issues with url routing in the offline mode (when the offline mode PWA installed on homescreen got reloaded, the in-memory cache will be cleared so there won't potentially be the url mappings; however the same like with `product/list` the ServiceWorker cache SHOULD populate url mappings anyway); `config.syncTasks.disablePersistentTaskQueue` to not store the network requests queue in service worker. Currently only the stock-check and user-data changes were using this queue. The only downside it introuces can be related to the offline mode and these tasks will not be re-executed after connectivity established, but just in a case when the page got reloaded while offline (yeah it might happen using ServiceWorker; `syncTasks` can't be re-populated in cache from SW) - @pkarw (#2985)
+- Fixed evaluate detailsLink in the cookie notification - @benjick (#3689)
+
+## Added
+- Added german translations - @schwerdt-ke (3076)
 
 ## [1.10.3] - 2019.09.18
 
