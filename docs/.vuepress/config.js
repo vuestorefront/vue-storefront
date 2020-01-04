@@ -148,7 +148,16 @@ module.exports = {
             'data-resolvers/category-service',
             'data-resolvers/user-service',
           ]
-        }
+        },
+        {
+          title: 'Archives',
+          collapsable: true,
+          children: [
+            'archives/modules',
+            'archives/extensions',
+            'archives/components'
+          ],
+        },
       ],
     },
   },
