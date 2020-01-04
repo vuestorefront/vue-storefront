@@ -1,0 +1,12 @@
+#!/bin/sh
+
+docker restart storefront
+
+echo " === VSF -> storefront Restarted \n"
+echo "docker storefront logs       ->   (VSF Vue)"
+echo "docker storefront_api logs    ->   (VSF API)"
+echo "docker procc logs            ->   (ProCC Vue)"
+echo "docker procc logs            ->   (ProCC API)"
+
+/bin/sh
+exec "$@"

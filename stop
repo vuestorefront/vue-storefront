@@ -1,0 +1,8 @@
+#!/bin/sh
+
+docker-compose -f docker-compose-dev.yml down
+
+echo -e "VSF Docker Containers are Down"
+
+/bin/sh
+exec "$@"

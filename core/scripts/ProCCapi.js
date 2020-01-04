@@ -5,7 +5,8 @@ const Store = require('data-store');
 const _ = require('lodash');
 const request = require('request');
 
-let config_active;
+// !!!!! CORE MODULES AREN'T TRIGGERING HOT-RELOAD !!!!!
+
 let storefrontConfig;
 if (process.env.NODE_ENV === 'development') {
   storefrontConfig = new Store({path: path.resolve('./config/local.json')});
@@ -17,7 +18,6 @@ console.log('START storefrontConfig: ', storefrontConfig.clone());
 console.log('START storefrontConfig: ');
 
 module.exports = (config, app) => {
-  config_active = config;
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
 
@@ -36,10 +36,10 @@ module.exports = (config, app) => {
     let storeData = req.body;
     // Setting VSF configs for new store
     // set Store Policies
-    setStorePolicies(storeData);
+    setStorePolicies(config, storeData);
     // set Main Image
     console.log('setStoreMainImage', storeData, 'setStoreMainImage')
-    setStoreMainImage(storeData);
+    setStoreMainImage(config, storeData);
 
     // set Store Categories - DISABLED DUE TO also running it separately in /category-link
     // setCategoryBanner(storeData)
@@ -73,13 +73,13 @@ module.exports = (config, app) => {
     if (req.body.storefront_url && req.body.store_categories) { // DEPRECATED
       storeData = req.body;
     } else if (req.body.storeCode) {
-      storeData = await getStoreData(req.body.storeCode)
+      storeData = await getStoreData(config, req.body.storeCode)
     } else {
       return apiStatus(res, 'Bad Data Input', 400);
     }
     // set Store Categories
     console.log(storeData, 'setCategoryBanner DATA:');
-    setCategoryBanner(storeData);
+    setCategoryBanner(config, storeData);
 
     apiStatus(res, 'Vue Storefront: /category-link Success', 200);
     // end set to product banners
@@ -90,7 +90,7 @@ module.exports = (config, app) => {
     let storeCode = req.body.storeCode;
     let imagesRootURL = req.body.imagesRootURL;
     console.log(products, 'setProductBanners DATA:', storeCode, imagesRootURL);
-    setProductBanners(products, storeCode, imagesRootURL);
+    setProductBanners(config, products, storeCode, imagesRootURL);
 
     apiStatus(res, 'Vue Storefront: /product-link Success', 200);
     // end set to product banners
@@ -137,9 +137,9 @@ module.exports = (config, app) => {
   });
 };
 
-function setStorePolicies (storeData) {
+function setStorePolicies (config, storeData) {
   let storefront_setting = storeData.storefront_setting;
-  const storePolicies = new Store({path: path.resolve(config_active.themeDir + `/resource/policies/${storeData.storefront_url}_store_policies.json`)});
+  const storePolicies = new Store({path: path.resolve(config.themeDir + `/resource/policies/${storeData.storefront_url}_store_policies.json`)});
 
   // Reset the file to avoid bad config
   if (storePolicies && storePolicies.get('policy'))storePolicies.unlink();
@@ -162,10 +162,10 @@ function setStorePolicies (storeData) {
   return storePolicies.get('policy');
 }
 
-function setStoreMainImage (storeData) {
+function setStoreMainImage (config, storeData) {
   let storeCode = storeData.storefront_url;
   let storefront_setting = storeData.storefront_setting;
-  const mainImage = new Store({path: path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_main-image.json`)});
+  const mainImage = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeCode}_main-image.json`)});
 
   // Main Image Object
   let storeMainImage = {
@@ -190,13 +190,13 @@ function setStoreMainImage (storeData) {
   return mainImage.get('image');
 }
 
-function getStoreData (storeCode) {
+function getStoreData (config, storeCode) {
   return new Promise(async (resolve, reject) => {
     request({
-      uri: config_active.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode,
+      uri: config.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode,
       method: 'GET'
     }, (_err, _res, _resBody) => {
-      console.log('GETTING URL: ', config_active.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode);
+      console.log('GETTING URL: ', config.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode);
       // console.log('_resBody', _resBody)
       if (_err) reject(_err);
       let obj = JSON.parse(_resBody);
@@ -206,11 +206,11 @@ function getStoreData (storeCode) {
   });
 }
 
-function setCategoryBanner(storeData) {
+function setCategoryBanner(config, storeData) {
   let storeCode = storeData.storefront_url;
-  const StoreBanners = new Store({path: path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_store_banners.json`)});
-  console.log('storefrontConfig themeDir', config_active.themeDir);
-  console.log('storefrontConfig path', path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_store_banners.json`));
+  const StoreBanners = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeCode}_store_banners.json`)});
+  console.log('storefrontConfig themeDir', config.themeDir);
+  console.log('storefrontConfig path', path.resolve(config.themeDir + `/resource/banners/${storeCode}_store_banners.json`));
   // console.log('storeData.store_categories', storeData.store_categories)
   // start set store categories main Banner and samll Banners
   let top3Categories = _.take(_.orderBy(_.filter(storeData.store_categories, {'isCategoryCreatedInMagento': true}), 'updatedAt', 'desc'), 3);
@@ -286,8 +286,8 @@ function setCategoryBanner(storeData) {
   };
 }
 
-function setProductBanners (products, storeCode, imagesRootURL) {
-  const StoreBanners = new Store({path: path.resolve(config_active.themeDir + `/resource/banners/${storeCode}_store_banners.json`)});
+function setProductBanners (config, products, storeCode, imagesRootURL) {
+  const StoreBanners = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeCode}_store_banners.json`)});
 
   let productBanners = [];
 
@@ -347,7 +347,7 @@ function getDefaultStoreData (storeData) {
     url: `/${storeData.storefront_url}`,
     appendStoreCode: true,
     elasticsearch: {
-      host: config_active.api.url + '/api/catalog',
+      host: config.api.url + '/api/catalog',
       index: `vue_storefront_catalog_${_.snakeCase(storeData.storefront_url)}`
     },
     tax: {
