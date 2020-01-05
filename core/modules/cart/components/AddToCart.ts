@@ -23,6 +23,7 @@ export const AddToCart = {
     async addToCart (product: Product) {
       this.isAddingToCart = true
       try {
+        console.log('addToCart product: ', product)
         const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
 
         if (diffLog) {

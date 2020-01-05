@@ -4,7 +4,7 @@
     "URL": "http://localhost:8081"
   },
   "server": {
-    "url": "http://storefront:3000",
+    "url": "http://localhost:3000",
     "host": "storefront",
     "port": 3000,
     "protocol": "http",
@@ -87,12 +87,12 @@
     "port": 8080
   },
   "api": {
-    "url": "http://storefront_api:8080"
+    "url": "http://localhost:8080"
   },
   "elasticsearch": {
     "httpAuth": "",
     "host": "http://localhost:8080/api/catalog",
-    "host_backend": "http://storefront_api:8080/api/catalog",
+    "host_backend": "http://storefront_api:8080",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,

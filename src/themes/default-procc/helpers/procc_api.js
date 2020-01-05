@@ -2,8 +2,14 @@ import axios from 'axios'
 import jwt from 'jsonwebtoken'
 // import jwtPrivateKey from '../../config/jwt.jst'
 import config from 'config';
+import { isServer } from '@vue-storefront/core/helpers'
 
-export default (baseURL = config.PROCC.URL + '/api/') => {
+export default (baseURL = '') => {
+  baseURL = config.PROCC.URL + '/api/'
+  if (isServer) {
+    baseURL = config.PROCC.API + '/api/'
+  }
+
   // ------
   // STEP 1
   // ------

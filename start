@@ -8,5 +8,7 @@ echo "docker storefront_api logs    ->   (VSF API)"
 echo "docker procc logs            ->   (ProCC Vue)"
 echo "docker procc logs            ->   (ProCC API)"
 
+sh logs
+
 /bin/sh
 exec "$@"

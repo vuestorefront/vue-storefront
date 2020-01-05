@@ -136,7 +136,7 @@
               :is-simple-or-configurable="isSimpleOrConfigurable"
               :show-quantity="size_has_been_selected"
               @error="handleQuantityError"
-            />
+            /> 
             <div class="row m0">
 <!--              // Edited by dan to fix issue with product variants SKUs-->
               <add-to-cart
@@ -296,7 +296,8 @@ import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ProductTile from 'theme/components/core/ProductTile.vue'
 import SizeChartView from 'theme/components/procc/Product/SizeChartView.vue'
 import {minValue} from 'vuelidate/lib/validators'
-
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+ 
 
 export default {
   components: {
@@ -349,7 +350,7 @@ export default {
       selected_delivery_policy: {},
       selected_country: 'BG',
       product_quantity: 1,
-      ProCCCurrentProductVariant: {},
+      ProCCCurrentProductVariant: {qty: 1},
       isCCStore: false
     }
   },
@@ -529,12 +530,15 @@ export default {
       if(variant && variant.label){
         if(product.sku && product.sku.indexOf('-'+variant.label) === -1){
           product.sku =  product.sku + '-' + variant.label // adjusting from parentSKU to size variant sku
-          product.qty = 1
-          this.ProCCCurrentProductVariant = product
-          this.onAfterPriceUpdate(product)
         }
+        product.qty = 1
+          this.ProCCCurrentProductVariant = product
+
+          // EventBus.$emit('product-after-priceupdate', product)
       }
       // Edited By dan 30-12-2019 - END
+
+      console.log('getQuantity product22: ', product)
 
       if (this.isStockInfoLoading) return // stock info is already loading
       this.isStockInfoLoading = true

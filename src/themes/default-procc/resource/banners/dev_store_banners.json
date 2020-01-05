@@ -1,4 +1,41 @@
 {
+  "mainBanners": [
+    {
+      "title": "products 8",
+      "subtitle": "works :)",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00db027abaf93584b98b8c.jpg",
+      "link": "/c/products-8-159",
+      "storeCode": "dev",
+      "productCount": 7,
+      "category_id": 159
+    }
+  ],
+  "smallBanners": [
+    {
+      "title": "5 Products 2.6-a",
+      "subtitle": "Nice! :)",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00d4200203fa4d34344290.jpg",
+      "link": "/c/5-products-26-a-158",
+      "storeCode": "dev",
+      "productCount": 2,
+      "category_id": 158
+    },
+    {
+      "title": "Get 4K",
+      "subtitle": "now",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191021-5dae3214717c1338c0d9859c.jpg",
+      "link": "/c/get-4k-157",
+      "storeCode": "dev",
+      "productCount": 3,
+      "category_id": 157
+    }
+  ],
   "productBanners": [
     {
       "title": "Stripe Pants",
@@ -105,20 +142,6 @@
       ]
     },
     {
-      "title": "Gray Sweater",
-      "subtitle": "stretchy gray sweater, everyday use, wool and elastane",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd266fc1be9c0037d8096d.jpg",
-      "link": "/p/DA002/gray-sweater",
-      "category": [
-        {
-          "category_id": 159,
-          "name": "products 8",
-          "slug": "products-8-159",
-          "path": "products-8-159"
-        }
-      ]
-    },
-    {
       "title": "Pink Hoodie",
       "subtitle": "cotton and elastane, hoodie, warm, everyday fashion",
       "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4c73a4286f127f422fb09.jpg",
@@ -137,43 +160,20 @@
           "path": "dev-five-155"
         }
       ]
-    }
-  ],
-  "mainBanners": [
-    {
-      "title": "products 8",
-      "subtitle": "works :)",
-      "title_color": "#ffffff",
-      "subtitle_color": "#ffffff",
-      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00db027abaf93584b98b8c.jpg",
-      "link": "/c/products-8-159",
-      "storeCode": "dev",
-      "productCount": 7,
-      "category_id": 159
-    }
-  ],
-  "smallBanners": [
-    {
-      "title": "5 Products 2.6-a",
-      "subtitle": "Nice! :)",
-      "title_color": "#ffffff",
-      "subtitle_color": "#ffffff",
-      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00d4200203fa4d34344290.jpg",
-      "link": "/c/5-products-26-a-158",
-      "storeCode": "dev",
-      "productCount": 2,
-      "category_id": 158
     },
     {
-      "title": "Get 4K",
-      "subtitle": "now",
-      "title_color": "#ffffff",
-      "subtitle_color": "#ffffff",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191021-5dae3214717c1338c0d9859c.jpg",
-      "link": "/c/get-4k-157",
-      "storeCode": "dev",
-      "productCount": 3,
-      "category_id": 157
+      "title": "Gray Sweater",
+      "subtitle": "stretchy gray sweater, everyday use, wool and elastane",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd266fc1be9c0037d8096d.jpg",
+      "link": "/p/DA002/gray-sweater",
+      "category": [
+        {
+          "category_id": 159,
+          "name": "products 8",
+          "slug": "products-8-159",
+          "path": "products-8-159"
+        }
+      ]
     }
   ]
 }

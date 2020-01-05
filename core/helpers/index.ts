@@ -17,14 +17,16 @@ import { coreHooksExecutors } from '@vue-storefront/core/hooks';
 // Edited by Dan
 export const processURLAddress = (url: string = '') => {
   // Added By Dan to differentiate urls for kubernetes kube-dns vs DNS queries - 17.12.2019
-  if (isServer && process.env.NODE_ENV === 'production') {
+  if (isServer) {
     if (config.elasticsearch && config.elasticsearch.host_backend) {
-      // console.log('INSIDE is_server url1:', url)
-      if (url.indexOf(config.server.url) !== -1) {
-        url = url.replace(config.server.url, config.elasticsearch.host_backend)
+      if (url.indexOf(config.api.url) !== -1) {
+        console.log('INSIDE before changing url: ', url)
+        url = url.replace(config.api.url, config.elasticsearch.host_backend)
       }
       console.log('INSIDE processURLAddress inServer changed url to:', url)
     }
+  }else{
+      console.log('Client API url:', url)
   }
 
   if (url.startsWith('/')) return `${config.api.url}${url}`;
