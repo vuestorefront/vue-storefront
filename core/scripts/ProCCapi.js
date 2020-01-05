@@ -292,7 +292,7 @@ function setProductBanners (config, products, storeCode, imagesRootURL) {
   let productBanners = [];
 
   for (let product of products) {
-    console.log('/product-link loop product', _.get(product, '_source'));
+    // console.log('/product-link loop product', _.get(product, '_source'));
     let link = !_.isUndefined(product._source.url_path) ? product._source.url_path : product._source.url_key;
     let Banner = {
       'title': product._source.name,

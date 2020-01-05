@@ -39,9 +39,9 @@ const itemActions = {
     return getters.getCartItems.find(p => productsEquals(p, product))
   },
   async addItem ({ dispatch, commit }, { productToAdd, forceServerSilence = false }) {
-    console.log('itemActions.ts addItem productToAdd', productToAdd)
+    // console.log('itemActions.ts addItem productToAdd', productToAdd)
     const { cartItem } = cartHooksExecutors.beforeAddToCart({ cartItem: productToAdd })
-    console.log('itemActions.ts addItem productToAdd', prepareProductsToAdd(cartItem))
+    // console.log('itemActions.ts addItem productToAdd', prepareProductsToAdd(cartItem))
     commit(types.CART_ADDING_ITEM, { isAdding: true })
     const result = await dispatch('addItems', { productsToAdd: prepareProductsToAdd(cartItem), forceServerSilence })
     commit(types.CART_ADDING_ITEM, { isAdding: false })
