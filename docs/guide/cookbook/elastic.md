@@ -265,8 +265,26 @@ var dConfigJs = Diff2Html.getPrettyHtml(
 document.getElementById('d-config-js').innerHTML = dConfigJs;
 </script>
 
- With this change in `config.js`, `mage2vuestorefront` knows how to deal with your _Elasticsearch_ with version higher than 6. 
+ With this change in `config.js`, `mage2vuestorefront` knows how to deal with your _Elasticsearch_ whose version is higher than `6`. 
 
+ 8. Now teach the machine your configuration using shell `ENV` as following example : 
+ ```bash
+ export TIME_TO_EXIT=2000
+ export MAGENTO_CONSUMER_KEY=lv1unkldzkcex68l3eojut4j66qqho8w
+ export MAGENTO_CONSUMER_SECRET=zhkuqvweo0bsg14noujqje49x3wht0qr
+ export MAGENTO_ACCESS_TOKEN=z6ftgc5005212bc6lnszxa7d7ocl8hgc
+ export MAGENTO_ACCESS_TOKEN_SECRET=h8tikjq9sz7tqm6hyhdfgs96krb6qzyk
+ 
+ export MAGENTO_URL=http://local.magento/rest # Replace the url with your Magento 2 URL
+ export INDEX_NAME=vue_storefront_catalog # This will be the base name of the index we use
+ ```
+ Type them in a shell then your `ENV` remembers the variables until the session expires. 
+ 
+ :::tip TIP
+ If you don't know how to get those credentials, please take a look at [data import](/guide/cookbook/data-import.html#_2-2-recipe-b-using-on-premise)
+ :::
+ 
+ 
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 <br />
