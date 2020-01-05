@@ -1,8 +1,8 @@
 <template>
   <div class="w-100">
 <!--    // Edited by Dan 02-01-2020-->
-    <div class="brdr-cl-primary pb60" style="position: fixed;width: 42%;">
-      <h3 class="cl-accent ml30 mt50 summary-title">
+    <div class="brdr-cl-primary pb60" style="position: fixed;width: 50%;">
+      <h3 class="cl-accent ml30 mt30 summary-title">
         {{ $t('Order Summary') }}
       </h3>
       <product v-for="product in productsInCart" :key="product.sku" :product="product" />

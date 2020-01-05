@@ -22,7 +22,7 @@
         </div>
 <!--        <div class="hidden-xs col-sm-5 bg-cl-secondary">-->
 <!--        // TODO: Need to make sure the cart summary shows in mobile version -> 'xs'-->
-        <div class="col-sm-6 bg-cl-secondary">
+        <div class="col-sm-6 bg-cl-secondary" style="padding-left: 0!important;z-index: 2">
           <cart-summary />
         </div>
       </div>

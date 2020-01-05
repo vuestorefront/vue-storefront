@@ -6,7 +6,7 @@ import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 
 const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentMethod, cartItems: CartItem[]) => {
   const shippingTax = shippingMethod ? shippingMethod.price_incl_tax : 0
-
+  console.log('calculateTotals cartItems', cartItems)
   const totalsArray = [
     {
       code: 'subtotal_incl_tax',

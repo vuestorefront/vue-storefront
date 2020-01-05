@@ -1,66 +1,54 @@
 {
   "productBanners": [
     {
-      "title": "Sport  Gray Set",
-      "subtitle": "gym, stretchy, cotton, viscose",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd2993c1be9c0037d8097e.jpg",
-      "link": "/p/DA005/sport-gray-set",
-      "category": [
-        {
-          "path": "get-4k-157",
-          "category_id": 157,
-          "name": "Get 4K",
-          "slug": "get-4k-157"
-        },
-        {
-          "path": "products-8-159",
-          "category_id": 159,
-          "name": "products 8",
-          "slug": "products-8-159"
-        },
-        {
-          "path": "dev3-153",
-          "category_id": 153,
-          "name": "Dev3",
-          "slug": "dev3-153"
-        },
-        {
-          "path": "dev-five-155",
-          "category_id": 155,
-          "name": "Dev five",
-          "slug": "dev-five-155"
-        },
-        {
-          "path": "5-products-26-a-158",
-          "category_id": 158,
-          "name": "5 Products 2.6-a",
-          "slug": "5-products-26-a-158"
-        }
-      ]
-    },
-    {
       "title": "Stripe Pants",
       "subtitle": "beige, stretchy, comfortable, cotton and elastane, ",
       "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4d340ac1c960f68fc6f3c.jpg",
       "link": "/p/DA001/stripe-pants",
       "category": [
         {
-          "path": "products-8-159",
           "category_id": 159,
           "name": "products 8",
-          "slug": "products-8-159"
+          "slug": "products-8-159",
+          "path": "products-8-159"
         },
         {
-          "path": "dev3-153",
           "category_id": 153,
           "name": "Dev3",
-          "slug": "dev3-153"
+          "slug": "dev3-153",
+          "path": "dev3-153"
+        }
+      ]
+    },
+    {
+      "title": "Sport  Gray Set",
+      "subtitle": "gym, stretchy, cotton, viscose",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd2993c1be9c0037d8097e.jpg",
+      "link": "/p/DA005/sport-gray-set",
+      "category": [
+        {
+          "category_id": 157,
+          "name": "Get 4K",
+          "slug": "get-4k-157",
+          "path": "get-4k-157"
         },
         {
-          "path": "5-products-26-a-158",
-          "category_id": 158,
-          "name": "5 Products 2.6-a",
-          "slug": "5-products-26-a-158"
+          "category_id": 159,
+          "name": "products 8",
+          "slug": "products-8-159",
+          "path": "products-8-159"
+        },
+        {
+          "category_id": 153,
+          "name": "Dev3",
+          "slug": "dev3-153",
+          "path": "dev3-153"
+        },
+        {
+          "category_id": 155,
+          "name": "Dev five",
+          "slug": "dev-five-155",
+          "path": "dev-five-155"
         }
       ]
     },
@@ -71,54 +59,34 @@
       "link": "/p/DA008/striped-leather-leggings",
       "category": [
         {
-          "path": "get-4k-157",
           "category_id": 157,
           "name": "Get 4K",
-          "slug": "get-4k-157"
+          "slug": "get-4k-157",
+          "path": "get-4k-157"
         },
         {
-          "path": "dev-five-155",
           "category_id": 155,
           "name": "Dev five",
-          "slug": "dev-five-155"
+          "slug": "dev-five-155",
+          "path": "dev-five-155"
         },
         {
-          "path": "category-25-3-156",
           "category_id": 156,
           "name": "Category 2.5-3",
-          "slug": "category-25-3-156"
+          "slug": "category-25-3-156",
+          "path": "category-25-3-156"
         },
         {
-          "path": "products-8-159",
           "category_id": 159,
           "name": "products 8",
-          "slug": "products-8-159"
+          "slug": "products-8-159",
+          "path": "products-8-159"
         },
         {
-          "path": "5-products-26-a-158",
           "category_id": 158,
           "name": "5 Products 2.6-a",
-          "slug": "5-products-26-a-158"
-        }
-      ]
-    },
-    {
-      "title": "Jeans 2.5-3",
-      "subtitle": "Pure Cotton 2020 New",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4c7364286f127f422fb07.jpg",
-      "link": "/p/DA009/jeans-2-5-3",
-      "category": [
-        {
-          "path": "5-products-26-a-158",
-          "category_id": 158,
-          "name": "5 Products 2.6-a",
-          "slug": "5-products-26-a-158"
-        },
-        {
-          "path": "dev-five-155",
-          "category_id": 155,
-          "name": "Dev five",
-          "slug": "dev-five-155"
+          "slug": "5-products-26-a-158",
+          "path": "5-products-26-a-158"
         }
       ]
     },
@@ -143,28 +111,35 @@
       "link": "/p/DA002/gray-sweater",
       "category": [
         {
-          "path": "products-8-159",
           "category_id": 159,
           "name": "products 8",
-          "slug": "products-8-159"
+          "slug": "products-8-159",
+          "path": "products-8-159"
+        }
+      ]
+    },
+    {
+      "title": "Pink Hoodie",
+      "subtitle": "cotton and elastane, hoodie, warm, everyday fashion",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4c73a4286f127f422fb09.jpg",
+      "link": "/p/DA004/pink-hoodie",
+      "category": [
+        {
+          "category_id": 159,
+          "name": "products 8",
+          "slug": "products-8-159",
+          "path": "products-8-159"
+        },
+        {
+          "category_id": 155,
+          "name": "Dev five",
+          "slug": "dev-five-155",
+          "path": "dev-five-155"
         }
       ]
     }
   ],
   "mainBanners": [
-    {
-      "title": "5 Products 2.6-a",
-      "subtitle": "Nice! :)",
-      "title_color": "#ffffff",
-      "subtitle_color": "#ffffff",
-      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00d4200203fa4d34344290.jpg",
-      "link": "/c/5-products-26-a-158",
-      "storeCode": "dev",
-      "productCount": 2,
-      "category_id": 158
-    }
-  ],
-  "smallBanners": [
     {
       "title": "products 8",
       "subtitle": "works :)",
@@ -175,6 +150,19 @@
       "storeCode": "dev",
       "productCount": 7,
       "category_id": 159
+    }
+  ],
+  "smallBanners": [
+    {
+      "title": "5 Products 2.6-a",
+      "subtitle": "Nice! :)",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00d4200203fa4d34344290.jpg",
+      "link": "/c/5-products-26-a-158",
+      "storeCode": "dev",
+      "productCount": 2,
+      "category_id": 158
     },
     {
       "title": "Get 4K",

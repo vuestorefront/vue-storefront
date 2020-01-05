@@ -28,6 +28,12 @@ export const filterChangedProduct = async (filterOption, store, router) => {
   if (config.products.setFirstVarianAsDefaultInURL) {
     router.push({params: { childSku: selectedVariant.sku }})
   }
+  console.log('filterChangedProduct getCurrentProduct', store.getters['product/getCurrentProduct'])
+  console.log('filterChangedProduct changedConfig', changedConfig)
+  console.log('filterChangedProduct selectedVariant', selectedVariant)
+  console.log('filterChangedProduct prevOption', prevOption)
+  console.log('filterChangedProduct filterOption.attribute_code', filterOption.attribute_code)
+  console.log('filterChangedProduct state', store.getters['product/getCurrentProductConfiguration'])
   if (!selectedVariant) {
     if (prevOption) {
       store.commit(prefixMutation(PRODUCT_SET_CURRENT_CONFIGURATION), Object.assign(

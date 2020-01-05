@@ -5,7 +5,7 @@
       class="footer-links flex pt30 pb60 px40 bg-cl-secondary"
       v-if="!isCheckoutPage"
     >
-      <div class="container">
+      <div class="container w-100" style="max-width: 500px !important;margin-left: 0!important;">
         <div class="row m0 center-xs between-md">
           <div
             class="row m0 col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile"

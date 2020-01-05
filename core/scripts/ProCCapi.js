@@ -48,7 +48,7 @@ module.exports = (config, app) => {
     setMapStoreUrlsFor(storeData);
 
     // set Store Data
-    setStoreData(storeData);
+    setStoreData(config, storeData);
 
     // I DONT UNDERSTAND ! If Store has then delete store related all the data
     // if ((storefrontConfig.has(`storeViews.${store_data.storeCode}`))) {
@@ -330,13 +330,13 @@ function setMapStoreUrlsFor (storeData) {
   }
 }
 
-function setStoreData (storeData) {
-  let store_data = getDefaultStoreData(storeData);
+function setStoreData (config, storeData) {
+  let store_data = getDefaultStoreData(config, storeData);
 
   storefrontConfig.set(`storeViews.${storeData.storefront_url}`, store_data);
 }
 
-function getDefaultStoreData (storeData) {
+function getDefaultStoreData (config, storeData) {
   // TODO: Dynamicly change this data according to origin of the owner of the store (country)
   return {
     storeCode: storeData.storefront_url,

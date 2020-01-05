@@ -34,8 +34,8 @@
           <div class="brand_logo" v-if="isCCStore">
             <img
               :src="product.brand_logo"
-              width="100"
-              height="100"
+              width="50"
+              height="50"
             >
           </div>
           <div class="card-body">
@@ -283,12 +283,11 @@ $color-white: color(white);
   overflow: hidden;
 }
 .brand_logo {
-  border-radius: 50%;
+  z-index: 1;
   margin: auto;
-  padding-bottom: 5%;
-  float:left;
+  position: absolute;
   & > img {
-    border-radius: 50%;
+    border-radius: 0% 50% 50% 50%;
   }
 }
 .card-body {

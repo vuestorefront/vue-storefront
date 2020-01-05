@@ -39,7 +39,7 @@
               <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="getCurrentProduct.url_path">
-              <div class="mb40 price serif" v-if="getCurrentProduct.type_id !== 'grouped' && !'Disabled By Dan, because not configured prices with Tax yet'">
+              <div class="mb40 price serif" v-if="getCurrentProduct.type_id !== 'grouped'">
                 <div
                   class="h3 cl-secondary"
                   v-if="getCurrentProduct.special_price && getCurrentProduct.price_incl_tax && getCurrentProduct.original_price_incl_tax"
@@ -129,9 +129,10 @@
             <product-quantity
               class="row m0 mb35"
               v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
-              v-model="getCurrentProduct.qty"
+              v-model="ProCCCurrentProductVariant.qty"
               :max-quantity="maxQuantity"
               :loading="isStockInfoLoading"
+              :is_selector="true"
               :is-simple-or-configurable="isSimpleOrConfigurable"
               :show-quantity="size_has_been_selected"
               @error="handleQuantityError"
@@ -139,7 +140,7 @@
             <div class="row m0">
 <!--              // Edited by dan to fix issue with product variants SKUs-->
               <add-to-cart
-                :product="getCurrentProductVariant"
+                :product="ProCCCurrentProductVariant"
                 :disabled="isAddToCartDisabled"
                 class="col-xs-12 col-sm-4 col-md-6"
               />
@@ -348,7 +349,7 @@ export default {
       selected_delivery_policy: {},
       selected_country: 'BG',
       product_quantity: 1,
-      getCurrentProductVariant: {},
+      ProCCCurrentProductVariant: {},
       isCCStore: false
     }
   },
@@ -403,9 +404,11 @@ export default {
       }).sort((a, b) => { return a.attribute_id > b.attribute_id })
     },
     getAvailableFilters () {
+      console.log('getAvailableFilters', getAvailableFiltersByProduct(this.getCurrentProduct))
       return getAvailableFiltersByProduct(this.getCurrentProduct)
     },
     getSelectedFilters () {
+      console.log('selectedFilters2', this.getCurrentProductConfiguration)
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
     isSimpleOrConfigurable () {
@@ -518,15 +521,20 @@ export default {
       currentConfig[option.type] = option
       return isOptionAvailableAsync(this.$store, { product: this.getCurrentProduct, configuration: currentConfig })
     },
-    async getQuantity (variant = null) { // Edited By dan 30-12-2019
+    async getQuantity (variant = null) {
+      // Edited By dan 30-12-2019
       let product = {...this.getCurrentProduct}
+      console.log('getQuantity variant: ', variant)
       console.log('getQuantity product: ', product)
       if(variant && variant.label){
         if(product.sku && product.sku.indexOf('-'+variant.label) === -1){
           product.sku =  product.sku + '-' + variant.label // adjusting from parentSKU to size variant sku
-          this.getCurrentProductVariant = product
+          product.qty = 1
+          this.ProCCCurrentProductVariant = product
+          this.onAfterPriceUpdate(product)
         }
       }
+      // Edited By dan 30-12-2019 - END
 
       if (this.isStockInfoLoading) return // stock info is already loading
       this.isStockInfoLoading = true
@@ -534,7 +542,7 @@ export default {
         const res = await this.$store.dispatch('stock/check', {
           // product: this.getCurrentProduct,
           product: product, // Edited by dan
-          qty: this.getCurrentProduct.qty
+          qty: this.ProCCCurrentProductVariant.qty  // Edited by dan
         })
         this.maxQuantity = res.qty
       } finally {

@@ -410,6 +410,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
   console.log('populateProductConfigurationAsync: ', selectedVariant)
   if (product.configurable_options) {
     for (let option of product.configurable_options) {
+      console.log('populateProductConfigurationAsync option', option)
       let attribute_code
       let attribute_label
       if (option.attribute_code) {
@@ -469,8 +470,12 @@ export function populateProductConfigurationAsync (context, { product, selectedV
 
 export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true, setProductErorrs = false }) {
   // use current product if product wasn't passed
+  console.log('findConfigurableChildAsync product1', product)
   if (product === null) product = context.getters.getCurrentProduct
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
+
+  console.log('findConfigurableChildAsync product2', product)
+  console.log('findConfigurableChildAsync configuration', configuration)
 
   if (hasConfigurableChildren) {
     // handle custom_attributes for easier comparing in the future
@@ -487,6 +492,7 @@ export function configureProductAsync (context, { product, configuration, select
     // find selected variant
     let desiredProductFound = false
     let selectedVariant = findConfigurableChildAsync({ product, configuration, availabilityCheck: true })
+    console.log('findConfigurableChildAsync', selectedVariant)
     if (!selectedVariant) {
       if (fallbackToDefaultWhenNoAvailable) {
         selectedVariant = findConfigurableChildAsync({ product, selectDefaultChildren: true, availabilityCheck: true }) // return first available child
@@ -500,6 +506,8 @@ export function configureProductAsync (context, { product, configuration, select
 
     if (selectedVariant) {
       if (!desiredProductFound && selectDefaultVariant /** don't change the state when no selectDefaultVariant is set */) { // update the configuration
+        console.log('populateProductConfigurationAsync product', product)
+        console.log('populateProductConfigurationAsync', selectedVariant)
         populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
         configuration = context.state.current_configuration
       }
@@ -531,12 +539,13 @@ export function configureProductAsync (context, { product, configuration, select
     if (!selectedVariant && setProductErorrs) { // can not find variant anyway, even the default one
       product.errors.variants = i18n.t('No available product variants')
       if (selectDefaultVariant) {
-        console.log('setCurrentProduct2: ', product)
+        console.log('setCurrentProduct22: ', product)
         context.dispatch('setCurrent', product) // without the configuration
       }
     }
     return selectedVariant
   } else {
+    console.log('configureProductAsync LAST', product)
     if (fallbackToDefaultWhenNoAvailable) {
       return product
     } else {
