@@ -265,6 +265,7 @@ var dConfigJs = Diff2Html.getPrettyHtml(
 document.getElementById('d-config-js').innerHTML = dConfigJs;
 </script>
 
+ With this change in `config.js`, `mage2vuestorefront` knows how to deal with your _Elasticsearch_ with version higher than 6. 
 
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
