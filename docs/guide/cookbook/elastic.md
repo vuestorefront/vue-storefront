@@ -291,7 +291,9 @@ document.getElementById('d-config-js').innerHTML = dConfigJs;
 <br />
 
 ## 4. Extend Elasticsearch entities for VSF
+Online shops normally have certain types of models and scenarios in common. (Because shops are shops in the end! What do you expect from shops? ;)) They are well known to the community and most of e-commerce software already implemented them into their frameworks as expected which is good. Those are represented as entities, namely, _Catalog_, _Customer_, _Order_, _Promotion_ and more. Since _Vue Storefront_ functions as the gorgeous gateway to those e-commerce backend, it also needs to mirror those entities as smooth as possible.  
 
+ The large part of main entities are already implemented in VSF `core` as expected but you might still need to add or remove additional entities as you want it to fulfill your mission. This recipe will give you an idea of how to do it. 
 
 ### 1. Preparation
 ### 2. Recipe
