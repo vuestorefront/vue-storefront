@@ -1,5 +1,10 @@
 #!/bin/sh
 
+### Fixing issue with files created by the docker containers in root mode...
+echo "   ---   Fixing issue with files created by the docker containers in root mode..."
+echo "running sudo chmod -R 777 ."
+sudo chmod -R 777 .
+
 docker-compose -f docker-compose-dev.yml up -d
 
 echo " === VSF -> storefront Restarted \n"
@@ -10,5 +15,4 @@ echo "docker procc logs            ->   (ProCC API)"
 
 sh logs
 
-/bin/sh
-exec "$@"
+
