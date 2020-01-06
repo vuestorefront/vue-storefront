@@ -7,7 +7,9 @@
       "exec_mode": "cluster",
       "env": {
         "TS_NODE_PROJECT": "tsconfig-build.json",
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "NODE_APP_INSTANCE": "kube",
+        "NODE_CONFIG_STRICT_MODE": "true"
       },
       "interpreter": "./node_modules/.bin/ts-node",
       "script": "./core/scripts/server.ts",
