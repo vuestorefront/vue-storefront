@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Separating endpoints for CSR/SSR - @Fifciu (#2861)
 - Added short hands for version and help flags - @jamesgeorge007 (#3946)
+- Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald (#3960)
+- Add unified fetch in mappingFallback for all searched entities - @gibkigonzo (#3942)
 - Add `Intl.NumberFormat()`/`toLocaleString()` via polyfill support in NodeJs - @cewald (#3836)
 
 ### Fixed
@@ -18,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed / Improved
 - Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)
 - Remove commit register mapping - @gibkigonzo (#3875)
+- Improved method `findConfigurableChildAsync` - find variant with lowest price - @gibkigonzo (#3939)
 
 ## [1.11.0] - 2019.12.20
 
