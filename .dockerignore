@@ -33,3 +33,10 @@ core/resource/i18n/ru-RU.json
 
 #unit testing
 /test/unit/coverage
+
+#Added by Dan
+src/themes/default-procc/resource/banners/
+!src/themes/default-procc/resource/banners/dev_main-image.json
+!src/themes/default-procc/resource/banners/dev_store_banners.json
+src/themes/default-procc/resource/policies/
+!src/themes/default-procc/resource/policies/dev_store_policies.json
