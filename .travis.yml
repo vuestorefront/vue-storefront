@@ -8,6 +8,7 @@ cache:
     - packages/commercetools/api-client/lib
     - packages/commercetools/composables/node_modules
     - packages/commercetools/composables/lib
+    - packages/commercetools/theme/.nuxt
 
 install:
   - yarn
