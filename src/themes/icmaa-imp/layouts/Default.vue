@@ -35,7 +35,7 @@
         <div class="t-clearfix" />
       </main>
       <main-footer />
-      <notification />
+      <notifications />
       <sign-up />
       <cookie-notification />
       <offline-badge />
@@ -47,25 +47,25 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue'
-import MainHeader from 'theme/components/core/blocks/Header/Header.vue'
-import Advice from 'theme/components/core/blocks/Advice/Advice.vue'
-import MainFooter from 'theme/components/core/blocks/Footer/Footer.vue'
-import Overlay from 'theme/components/core/Overlay.vue'
-import Loader from 'theme/components/core/Loader.vue'
-import Notification from 'theme/components/core/Notification.vue'
-import SignUp from 'theme/components/core/blocks/Auth/SignUp.vue'
-import CookieNotification from 'theme/components/core/CookieNotification.vue'
-import OfflineBadge from 'theme/components/core/OfflineBadge.vue'
+import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar'
+import MainHeader from 'theme/components/core/blocks/Header/Header'
+import Advice from 'theme/components/core/blocks/Advice/Advice'
+import MainFooter from 'theme/components/core/blocks/Footer/Footer'
+import Overlay from 'theme/components/core/Overlay'
+import Loader from 'theme/components/core/Loader'
+import Notifications from 'theme/components/core/blocks/Notification/Notifications'
+import SignUp from 'theme/components/core/blocks/Auth/SignUp'
+import CookieNotification from 'theme/components/core/CookieNotification'
+import OfflineBadge from 'theme/components/core/OfflineBadge'
 import { isServer } from '@vue-storefront/core/helpers'
 import viewportMixin from 'theme/mixins/viewportMixin.ts'
 import NoSSR from 'vue-no-ssr'
 
-const SidebarMenu = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu.vue')
-const Microcart = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart.vue')
-const Wishlist = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist.vue')
-const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel.vue')
-const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation.vue')
+const SidebarMenu = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-menu" */ 'theme/components/core/blocks/SidebarMenu/SidebarMenu')
+const Microcart = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-microcart" */ 'theme/components/core/blocks/Microcart/Microcart')
+const Wishlist = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-wishlist" */ 'theme/components/core/blocks/Wishlist/Wishlist')
+const SearchPanel = () => import(/* webpackChunkName: "vsf-search-panel" */ 'theme/components/core/blocks/SearchPanel/SearchPanel')
+const OrderConfirmation = () => import(/* webpackChunkName: "vsf-order-confirmation" */ 'theme/components/core/blocks/Checkout/OrderConfirmation')
 
 export default {
   data () {
@@ -137,7 +137,7 @@ export default {
     SidebarMenu, // eslint-disable-line vue/no-unused-components
     Overlay,
     Loader,
-    Notification,
+    Notifications,
     SignUp,
     CookieNotification,
     OfflineBadge,
