@@ -188,6 +188,7 @@ export function once (key, fn) {
 }
 
 export const isServer: boolean = typeof window === 'undefined'
+export default isServer
 
 // Online/Offline helper
 export const onlineHelper = Vue.observable({

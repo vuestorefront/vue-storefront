@@ -4,7 +4,7 @@ import config from 'config';
 import rootStore from '@vue-storefront/core/store';
 import { sha3_224 } from 'js-sha3';
 import { TaskQueue } from '../../../../../lib/sync';
-import { onlineHelper } from '@vue-storefront/core/helpers';
+import { onlineHelper, isServer } from '@vue-storefront/core/helpers';
 import * as helpers from '@vue-storefront/core/helpers';
 
 jest.mock('@vue-storefront/core/store', () => ({
