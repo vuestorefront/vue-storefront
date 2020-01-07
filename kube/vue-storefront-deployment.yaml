@@ -62,7 +62,7 @@ spec:
             cpu: 1800m
             memory: 4048Mi
           requests:
-            cpu: 400m
+            cpu: 300m
             memory: 1024Mi
       volumes:
         - name: build-cache
