@@ -1,0 +1,294 @@
+"A customer with the same email already exists in an associated website.","Samalla sähköpostiosoitteella on jo asiakas samalla sivustolla."
+"About us (Magento CMS)","Tietoja verkkokaupasta (Magento CMS)"
+"About us","Tietoja verkkokaupasta"
+"Add a discount code","Lisää alennuskoodi"
+"Add discount code","Lisää alennuskoodi"
+"Add to cart","Lisää koriin"
+"Add to compare","Lisää vertailuun"
+"Add to favorite","Lisää suosikiksi"
+"Allow notification about the order","Vastaanota ilmoitus tilauksesta"
+"Are you sure you would like to remove all the items from the shopping cart?",
+"Are you sure you would like to remove all the items from the wishlist?","Haluatko varmasti poistaa kaikki tuotteet toivelistalta?"
+"Authorization in progress ...","Tarkistetaan oikeuksia ..."
+"Back to login","Takaisin kirjautumiseen"
+"Billing address",Laskutusosoite
+"Cash on delivery","Maksu toimituksen yhteydessä"
+"Change my password","Vaihda salasanaa"
+"Choose your country","Valitse maa"
+"City *","Kaupunki *"
+"Clear cart","Tyhjennä ostoskori"
+"Clear filters","Tyhjennä suodattimet"
+"Clear wishlist","Tyhjennä toivelista"
+"Cms Page Sync","Sisältösivun synkronointi"
+"Company name *","Yrityksen nimi *"
+"Compare products","Vertaile tuotteita"
+"Confirm your order","Vahvista tilaus"
+"Contact us","Ota yhteyttä"
+"Continue to payment","Jatka maksuun"
+"Continue to shipping","Jatka toimitukseen"
+"Copy address data from shipping","Kopioi osoite toimitustiedoista"
+"Country *","Maa *"
+"Create a new account","Luo uusi tili"
+"Current password *","Salasana *"
+"Custom Cms Page","Muokattu sisältösivu"
+"Customer service (Magento CMS)","Asiakaspalvelu (Magento CMS)"
+"Customer service",Asiakaspalvelu
+"DPD Courier",DPD-kuriiri
+"Date and time","Päivä ja aika"
+"Discount code",Alennuskoodi
+"Don't hesitate and","Älä epäröi ja"
+"E-mail address *","Sähköposti *"
+"E-mail us at <b>demo@vuestorefront.io</b> with any questions, suggestions how we could improve products or shopping experience","Miten voisimme palvella vielä paremmin? Lähetä meille palautetta yhteydenottosivun kautta."
+"Edit newsletter preferences","Muokkaa uutiskirjeen asetuksia"
+"Edit payment","Muokkaa maksua"
+"Edit personal details","Muokkaa omia tietoja"
+"Edit shipping","Muokkaa toimitusta"
+"Edit your profile","Muokkaa omaa profiilia"
+"Edit your shipping details","Muokkaa omia toimitustietoja"
+"Email address *","Sähköposti *"""
+"Email address","Sähköposti"""
+"Enter your email to receive instructions on how to reset your password.","Syötä sähköpostiosoitteesi, johon haluat vastaanottaa ohjeet salasanan uusimisesta."
+"Erin recommends",Suosittelemme
+"Error while sending reset password e-mail","Sähköpostin lähetys epäonnistui."
+"Everything new",Uutuudet
+"Extension developers would like to thank you for placing an order!","Laajennuksen kehittäjät kiittävät tilauksesta!"
+"Field is required","Vaadittu tieto"
+"Filter by categories","Suodata kategorian mukaan"
+"First name *","Etunimi *"
+"First name",Etunimi
+"Forgot the password?","Unohditko salasanasi?"
+"General agreement","Yleiset sopimusehdot"
+"Get inspired",Inspiroidu
+"Give a feedback","Anna palautetta"
+"Go review the order","Tarkista tilaus"
+"Go to Facebook",Facebook
+"Go to Instagram",Instagram
+"Go to Pinterest",Pinterest
+"Go to Youtube",Youtube
+"Go to checkout",Kassalle
+"House/Apartment number *","Talon/huoneiston numero *"
+"House/Apartment number","Talon/huoneiston numero"
+"I accept ","Hyväksyn "
+"I accept terms and conditions","Hyväksyn ehdot"
+"I agree to","Hyväksyn, että"
+"I have a company and want to receive an invoice for every order","Minulla on yritys ja haluan laskun jokaisesta tilauksesta"
+"I want to create an account","Haluan luoda tilin"
+"I want to create an account'","Haluan luoda tilin"
+"I want to generate an invoice for the company","Haluan laskun yritykselle"
+"I want to receive a newsletter, and agree to its terms","Haluan tilata uutiskirjeen ja hyväksyn ehdot"
+"If you need an assistance you can drop us a line on","Jos tarvitset apua, voit kirjoittaa meille"
+"Instant Checkout",Pikakassa
+"Internal Server Error 500","Palvelinvirhe 500"
+"Items ordered","Tilatut tuotteet"
+"Last name *","Sukunimi *"
+"Last name",Sukunimi
+"Legal notice","Oikeudellinen huomautus"
+"Load more","Näytä lisää"
+"Log in to your account","Kirjaudu omalle tilille"
+"Log in","Kirjaudu sisään"
+"Login to your account","Kirjaudu omalle tilille"
+"Men's fashion","Miesten muoti"
+"My Account","Oma tili"
+"My Recently viewed products","Viimeksi katsomani tuotteet"
+"My account","Oma tili"
+"My loyalty card","Oma kanta-asiakaskortti"
+"My newsletter","Oma uutiskirje"
+"My orders","Omat tilaukset"
+"My product reviews","Omat tuotearvostelut"
+"My profile","Oma profiili"
+"My shipping details","Omat toimitustiedot"
+"Name must have at least 2 letters.","Nimen pitää olla vähintään 2 merkkiä pitkä"
+"Name must have at least 3 letters.","Nimen pitää olla vähintään 3 merkkiä pitkä"
+"New Luma Yoga Collection","Uusi Luma Yoga -valikoima"
+"New password *","Uusi salasana *"
+"No orders yet","Ei tilauksia"
+"No products found!","Tuotteita ei löytynyt."
+"No products yet","Ei vielä yhtään tuotetta"
+"No results were found.","Ei tuloksia"
+"No reviews have been posted yet. Please don't hesitate to share Your opinion and write the first review!","Tuotteella ei ole vielä arvosteluja. Kirjoita rohkeasti ensimmäinen!"
+"Open menu",Menu
+"Open microcart",Ostoskori
+"Open my account","Oma tili"
+"Open search panel",Haku
+"Open wishlist",Toivelista
+"Order #{id}","Tilaus "
+"Order ID",Tilausnumero
+"Order Summary","Tilauksen yhteenveto"
+"Order confirmation",Tilausvahvistus
+"Order informations","Tilauksen tiedot"
+"Password *","Salasana *"
+"Password must have at least 8 letters.","Salasanan pitää sisältää vähintään 8 kirjainta"
+"Passwords must be identical","Salasanojen pitää täsmätä"
+"Passwords must be identical.","Salasanojen pitää täsmätä"
+"Payment method",Maksutapa
+"Personal Details","Omat tiedot"
+"Phone Number",Puhelinnumero
+"Phone number may be needed by carrier","Kuljettaja voi tarvita puhelinnumeroa"
+"Place the order",Tilaa
+"Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!","Muuta hakua ja yritä uudelleen."
+"Please check if all data are correct","Tarkista, että tiedot ovat oikein"
+"Please confirm order you placed when you was offline","Vahvista yhteydettömässä tilassa tekemäsi tilaus"
+"Please provide valid e-mail address.","Anna toimiva sähköpostiosoite"
+"Price {variant}","Hinta {variant}"
+"Price: High to low","Hinta: Kallein ensin"
+"Price: Low to high","Hinta: Halvin ensin"
+"Privacy policy","Yksityisyyden suoja"
+"Product Name","Tuotteen nimi"
+"Product details","Tuotteen lisätiedot"
+"Register an account","Luo tili"
+"Remake order","Tilaa uudelleen"
+"Remember me","Muista minut"
+"Remove from compare","Poista vertailusta"
+"Repeat new password *","Toista uusi salasana *"""
+"Repeat password *","Toista salasana *"
+"Reset password","Uusi salasana"
+"Resetting the password ... ","Asetetaan salasanaa ... "
+"Return policy",Palautuskäytännöt
+"Return to shopping","Jatka ostoksia"
+"Review order","Tarkista tilaus"
+"SKU: {sku}","Tuotekoodi: {sku}"
+"Searched term should consist of at least 3 characters.","Haun pitää sisältää vähintään 3 merkkiä"
+"See details",Lisätiedot
+"See our bestsellers","Katso eniten myydyt"
+"Select No","Valitse ei"
+"Select Yes","Valitse kyllä"
+"Select color ","Valitse väri "
+"Select size {variant}","Valitse koko {variant}"
+"Ship to my default address","Lähetä oletusosoitteeseeni"
+"Shipping address",Toimitusosoite
+"Shipping method",Toimitustapa
+"Shopping cart",Ostoskori
+"Shopping summary","Ostosten yhteenveto"
+"Show subcategories","Näytä alakategoriat"
+"Sign up to our newsletter and receive a coupon for 10% off!","Tilaa uutiskirje. Saat 10% alennuskupungin."
+"Similar products","Samanlaisia tuotteita"
+"Size guide",Koko-opas
+"Something went wrong ...","Jotain meni pieleen ..."
+"Something went wrong. Try again in a few seconds.","Jotain meni pieleen. Yritä uudelleen muutaman sekunnin päästä."
+"Sort By",Järjestys
+"State / Province","Osavaltio / maakunta"
+"Store locator","Etsi myymälä"
+"Street name *","Katu *"
+"Street name",Katu
+"Subscribe to the newsletter and receive a coupon for 10% off","Tilaa uutiskirje. Saat 10% alennuskupungin."
+"Tax ID *",Verotunniste
+"Tax ID must have at least 3 letters.","Verotunnuksen pitää olla vähintään 3 merkkiä pitkä"
+"Tax identification number *","Verotunniste *"
+"Tax identification number must have at least 3 letters.","Verotunnisteen pitää olla vähintään 3 merkkiä pitkä"
+"Terms and conditions",Toimitusehdot
+"The OrderNumber is {id}","Tilausnumero on {id}"
+"The new account will be created with the purchase. You will receive details on e-mail.","Uusi tili luodaan tilauksen yhteydessä. Saat vahvistuksen sähköpostiisi."
+"The order can not be transfered because of server error. Order has been queued",
+"The server order id has been set to ","Palvelimelle tallennettu tilausnumero on "
+"This product is out of stock.","Tuote on loppu varastosta"
+"To finish the order just come back to our store while online. Your order will be sent to the server as soon as you come back here while online and then confirmed regarding the stock quantities of selected items",
+"Toggle password visibility","Näytä/piilota salasana"
+"Track my order","Seuraa tilausta"
+"Type your opinion","Kirjoita mielipiteesi"
+"Unfortunately we can't find the page you are looking for.","Valitettavasti etsimääsi sivua ei löydy"
+"United States",Yhdysvallat
+"Update my preferences","Päivitä omat asetukset"
+"Update my profile","Päivitä oma profiili"
+"Update my shipping details","Päivitä omat toimitustiedot"
+"Use my billing data","Käytä laskutustietojani"
+"Use my company's address details","Käytä yrityksen osoitetta"
+"View all","Näytä kaikki"
+"View order","Näytä tilaus"
+"We can't find the page","Sivua ei löydy"
+"We found other products you might like","Voisit olla kiinnostunut myös näistä tuotteista"
+"We use cookies to give you the best shopping experience.","Sivustolla käytetään evästeitä parhaan ostokokemuksen tarjoamiseksi"
+"We will send you details regarding the order","Lähetämme sinulle vahvistuksen tilauksesta"
+"We will send you the invoice to given e-mail address","Lähetämme sinulle laskun antamaasi sähköpostiosoitteeseen"
+"We've noticed Internal Server Error while rendering this request.","Palvelimella havaittiin virhe"
+"We've sent password reset instructions to your email. Check your inbox and follow the link.",
+"What we can improve?","Miten voisimme palvella vielä paremmin?"
+"Women fashion","Naisten muoti"
+"You are logged in as {firstname}","Olet kirjautuneena, {firstname}"
+"You are offline","Verkkoyhteys ei ole saatavilla."
+"You are offline. Some features might not be available.","Verkkoyhteys ei ole saatavilla. Osa toiminnoista ei ole käytettävissä."
+"You can allow us to remind you about the order via push notification after coming back online. You'll only need to click on it to confirm.",
+"You can also use","Voit myös käyttää"
+"You can log to your account using e-mail and password defined earlier. On your account you can <b>edit your profile data,</b> check <b>history of transactions,</b> edit <b>subscription to newsletter.</b>","Voit kirjautua omalle tilillesi antamallasi sähköpostiosoitteella ja salasanalla. Omalla tililläsi voit muokata käyttäjäprofiilia, selata tapahtumahistoriaa ja muokata uutiskirjeen tilausasetuksia."
+"You have been successfully subscribed to our newsletter!","Uutiskirje on tilattu."
+"You have been successfully unsubscribed from our newsletter!","Uutiskirjeen tilaus on peruutettu."
+"You have no items to compare.","Vertailussa ei ole tuotteita"
+"You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.","Tilauksesi vastaanotettiin onnistuneesti. Lähetämme sinulle vahvistusviestin sähköpostilla."
+"You must accept the terms and conditions.","Sinun täytyy hyväksyä toimitusehdot"
+"You will receive Push notification after coming back online. You can confirm the order by clicking on it","Saat ilmoituksen, kun verkkoyhteys palautuu. Voit vahvistaa tilauksen ilmoituksesta."
+"You've entered an incorrect coupon code. Please try again.","Syöttämäsi alennuskoodi ei kelpaa. Yritä uudelleen."
+"Your Account","Oma tili"
+"Your feedback is important for us. Let us know what we could improve.","Palautteesi on meille tärkeää. Kerro meille miten voisimme palvella vielä paremmin."
+"Your purchase",Tilauksesi
+"Your shopping cart is empty.","Ostoskori on tyhjä"
+"Your wishlist is empty.","Toivelista on tyhjä"
+"Zip-code *","Postinumero *"
+"Zip-code must have at least 3 letters.","Postinumeron pitää olla vähintään 3 merkkiä pitkä"
+"a chat",chatissä
+"a contact page","yhteydenottosivun kautta"
+"browse our catalog","selaa tuotteita"
+"login to your account","kirjaudu omalle tilille"
+"or write to us through","tai kirjoittaa meille viestin"
+"register an account","luo tili"
+"return to log in","palaa kirjautumiseen"
+"to find product you were looking for.","löytääksesi etsimäsi tuotteen"
+"to find something beautiful for You!","ja löydä jotain kaunista itsellesi!"
+"{count} items","{count} tuotetta"
+Author,Tekijä
+Back,Takaisin
+Cancel,Peruuta
+City,Kaupunki
+Clear,Tyhjennä
+Close,Sulje
+Columns,Sarakkeet
+Country,Maa
+Delivery,Lähetys
+Departments,Osastot
+Discount,Alennus
+Edit,Muokkaa
+English,Englanti
+Filter,Suodatin
+Filters,Suodattimet
+German,Sakasalainen
+Germany,Saksa
+Help,Apua
+Home,Koti
+Italian,Italialainen
+Italy,Italia
+Kidswear,Lastenvaatteet
+Latest,Uusin
+Logout,"Kirjaudu ulos"
+Magazine,Kuvasto
+Newsletter,Uutiskirje
+Orders,Tilaukset
+Payment,Maksu
+Price,Hinta
+Products,Tuotteet
+Purchase,Osto
+Qty,Määrä
+Quantity,Määrä
+Register,"Luo tili"
+Remove,Poista
+Returns,Palautukset
+SKU,Tuotekoodi
+Safety,Turvallisuus
+Sale,Alennus
+Search,Hae
+Shipping,Toimitus
+Status,Tila
+Subscribe,Tilaa
+Subtotal,Välisumma
+Tax,Vero
+Type,Tyyppi
+Value,Arvo
+Vuestore,Vuestore
+Wishlist,Toivelista
+Zip-code,Postinumero
+color,väri
+color_filter,väri_suodatin
+erin_recommends_filter,suosittelemme_suodatin
+login,"kirjaudu sisään"
+or,tai
+price_filter,hinta_suodatin
+search,haku
+size,koko
+size_filter,koko_suodatin

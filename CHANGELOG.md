@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.1] - UNRELEASED
 
 ### Fixed
+- Added Finnish translations - @mattiteraslahti and @alphpkeemik
 - Updated Estonian translations to match 1.11 - @alphpkeemik
 - CookieNotification CSR&SSR mismatch fixed - @Fifciu (#3922)
 - The attribute filter in `attribute/list` was not filtering the already loaded attributes properly - @pkarw (#3964)
