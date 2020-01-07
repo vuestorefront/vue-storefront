@@ -1,6 +1,5 @@
 import {serverHooksExecutors} from '@vue-storefront/core/server/hooks'
-console.log('ENV VARIABLES', process.env)
-console.log('ENV VARIABLES NODE_APP_INSTANCE: ', process.env.NODE_APP_INSTANCE)
+
 let config = require('config');
 const path = require('path');
 const glob = require('glob');
@@ -41,8 +40,13 @@ const app = express();
 
 // PROCC Imports
 // Mount Procc APIs
-const procc = require('./ProCCapi.js');
-procc(config, app);
+console.log('ENV VARIABLES', process.env)
+console.log('ENV VARIABLES NODE_APP_INSTANCE: ', process.env.NODE_APP_INSTANCE)
+console.log('VSF config', config)
+const ProCC = require('./ProCCapi.js');
+ProCC(config, app);
+// Mount Procc APIs - END
+
 
 serverHooksExecutors.afterApplicationInitialized({app, config: config.server, isProd});
 
