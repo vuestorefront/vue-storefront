@@ -1,0 +1,43 @@
+language: node_js
+node_js: '10'
+
+cache:
+  yarn: true
+  directories:
+    - packages/commercetools/api-client/node_modules
+    - packages/commercetools/api-client/lib
+    - packages/commercetools/composables/node_modules
+    - packages/commercetools/composables/lib
+
+install:
+  - yarn
+
+jobs:
+  include:
+    - stage: Build
+      name: Build
+      script:
+      - yarn build:ct:tools
+
+    - stage: test
+      script: yarn test:ct:api-client
+      name: Test commercetools api-client
+
+    - stage: test
+      script: yarn test:ct:composables
+      name: Test commercetools composables
+
+    - stage: test
+      script: yarn test:ct:helpers
+      name: Test commercetools helpers
+
+    - stage: deployment
+      script: skip
+      deploy:
+        provider: heroku
+        api_key:
+          secure: kGJQfXL+DxYf+W8N7PgoCLmEfwNZ6S3o0uEQ62mJ+IzL85V3MU7SOZ3CFyP/yCnJ2N26PKUxMfm6Mb6W++S+BKEYYXFwu9FVeFlEU5UlvZYqXDLsRwmd+NhQAjnQzGe2hYJ3IDmf288XCSMAtZq8xU4634Aqigd1Hh5hWo2qTDF8If7LLczHbdImyx732XTpqFGOLGi45KT35TZBR98kgU69GlvY/uShT5uq8tmnKpKRhwDfIl7tgZCmwY/WL2oKiYi6KQ+b54gKJTWSdMkTwU6s2lmEUmqHaHSi+88eJVyrT1LOeT91s5YbYCdW7xTlWjLbxLICx0E0cFI8j0TrU4UTpGfzejkowmh+d13EG+ah6hV5SECafDgIiBGdVOei5zwxVMWK1GZtMkpBRTuDuJf0ZONIz7fOIRJmsD8lHod7IlKNGWBeooc8LzxLTcSEu/bTO5d1yAeXBALazMfcUM1S9qD/fEQ72Yhhrc5AZKBX+gmTS199r6Fsxv26YJQmWnScZqNrR+tLEiKY+R7DIDX+5CXe93VyKCPfyPaRiYzXxoAJV1fkahmpe6jnIp4IwWNu0Av3tE9J4EbzlidIsgo9NVnxitsTawZFFmMPpiAR/wqLgvLpt1/GJIMBDSbvi3UZamN7E4vW2JK+hKE8inV7XZL3Nw6+pLMF8q6u/XU=
+        app: vsf-next-prod
+        on:
+          branch: master
+
