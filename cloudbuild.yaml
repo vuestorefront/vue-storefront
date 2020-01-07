@@ -64,5 +64,5 @@ substitutions:
   _WEBHOOK_URL:   slack_notification_webhook  # slack notifications
   _OAUTH_TOKEN:   composer_github_oauth_token # access to private code repos
 
-options:
-  machineType: 'N1_HIGHCPU_8'
+#options:
+#  machineType: 'N1_HIGHCPU_8'

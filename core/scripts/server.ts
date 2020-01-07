@@ -1,5 +1,6 @@
 import {serverHooksExecutors} from '@vue-storefront/core/server/hooks'
-
+console.log('ENV VARIABLES', process.env)
+console.log('ENV VARIABLES NODE_APP_INSTANCE: ', process.env.NODE_APP_INSTANCE)
 let config = require('config');
 const path = require('path');
 const glob = require('glob');

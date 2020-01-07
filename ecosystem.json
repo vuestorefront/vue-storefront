@@ -14,7 +14,7 @@
       "interpreter": "./node_modules/.bin/ts-node",
       "script": "./core/scripts/server.ts",
       "node_args": "--max_old_space_size=1024",
-      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "log_date_format": "MM-DD HH:mm:ss",
       "ignore_watch": [
         "core/build/config.json",
         "node_modules"
