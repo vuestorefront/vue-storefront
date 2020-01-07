@@ -102,7 +102,7 @@ export function formatProductLink (
     return localizedDispatcherRoute(routeData, storeCode)
   } else {
     const routeData: LocalizedRoute = {
-      name: product.type_id + '-product',
+      name: product.type_id + '-product', // we should use here localizedDispatcherRouteName?
       params: {
         parentSku: product.parentSku ? product.parentSku : product.sku,
         slug: product.slug,

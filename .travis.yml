@@ -18,18 +18,12 @@ jobs:
         - yarn build
       node_js: "10"
 
-    - <<: *build
-      node_js: '8'
-
     - &unit
       stage: Test
       script: yarn test:unit
       name: "NodeJS 10 unit tests"
       node_js: "10"
 
-    - <<: *unit
-      name: "NodeJS 8 unit tests"
-      node_js: "8"
 
     - &installer
       script: yarn installer:ci
@@ -39,7 +33,4 @@ jobs:
       addons:
         chrome: stable
 
-    - <<: *installer
-      name: "NodeJS 8 installer test"
-      node_js: "8"
 

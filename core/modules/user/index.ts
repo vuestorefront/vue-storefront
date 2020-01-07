@@ -26,7 +26,7 @@ export const UserModule: StorefrontModule = async function ({store}) {
       })
     })
 
-    await store.dispatch('user/startSession')
+    store.dispatch('user/startSession')
   }
 
   store.subscribe((mutation, state) => {

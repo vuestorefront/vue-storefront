@@ -6,10 +6,11 @@ import { sha3_224 } from 'js-sha3'
 import store from '@vue-storefront/core/store'
 import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
 const removeAccents = require('remove-accents')
 
 export const processURLAddress = (url: string = '') => {
-  if (url.startsWith('/')) return `${config.api.url}${url}`
+  if (url.startsWith('/')) return `${getApiEndpointUrl(config.api, 'url')}${url}`
   return url
 }
 
@@ -45,7 +46,7 @@ export function slugify (text) {
  * @param {string} pathType
  * @returns {string}
  */
-export function getThumbnailPath (relativeUrl: string, width: number = config.products.thumbnails.width, height: number = config.products.thumbnails.height, pathType: string = 'product'): string {
+export function getThumbnailPath (relativeUrl: string, width: number = 0, height: number = 0, pathType: string = 'product'): string {
   if (config.images.useExactUrlsNoProxy) {
     return coreHooksExecutors.afterProductThumbnailPathGenerate({ path: relativeUrl, sizeX: width, sizeY: height }).path // this is exact url mode
   } else {
@@ -185,6 +186,7 @@ export function once (key, fn) {
     fn()
   }
 }
+
 export const isServer: boolean = typeof window === 'undefined'
 
 // Online/Offline helper

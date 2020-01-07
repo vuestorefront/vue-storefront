@@ -89,21 +89,24 @@ export const UserShippingDetails = {
           ...(this.shippingDetails.region ? { region: { region: this.shippingDetails.region } } : {}),
           country_id: this.shippingDetails.country,
           postcode: this.shippingDetails.postcode,
-          ...(this.shippingDetails.phone ? { telephone: this.shippingDetails.phone } : {}),
-          default_shipping: true
+          ...(this.shippingDetails.phone ? { telephone: this.shippingDetails.phone } : {})
         }
         if (this.currentUser.hasOwnProperty('default_shipping')) {
-          let i
-          for (i = 0; i < this.currentUser.addresses.length; i++) {
-            if (toString(this.currentUser.addresses[i].id) === toString(this.currentUser.default_shipping)) {
-              updatedShippingDetails.addresses[i] = updatedShippingDetailsAddress;
-            }
-          }
-          if (this.currentUser.addresses.length === 0 || i === this.currentUser.addresses.length) {
+          if (this.currentUser.addresses.length === 0) {
             updatedShippingDetails = null
+          } else {
+            updatedShippingDetails.addresses = updatedShippingDetails.addresses.map((address) =>
+              toString(address.id) === toString(this.currentUser.default_shipping)
+                ? {...address, ...updatedShippingDetailsAddress} // update default address if already exist
+                : address
+            )
           }
         } else {
-          updatedShippingDetails.addresses.push(updatedShippingDetailsAddress)
+          // create default address
+          updatedShippingDetails.addresses.push({
+            ...updatedShippingDetailsAddress,
+            default_shipping: true
+          })
         }
       }
       this.exitSection(null, updatedShippingDetails)

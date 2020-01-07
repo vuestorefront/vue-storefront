@@ -527,5 +527,9 @@
         }
       ]
     }
+  },
+  "urlModule": {
+    "endpoint": "/api/url",
+    "map_endpoint": "/api/url/map"
   }
 }
