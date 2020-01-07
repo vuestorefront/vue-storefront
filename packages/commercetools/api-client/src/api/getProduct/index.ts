@@ -29,7 +29,10 @@ const getProduct = async (search: ProductSearch): Promise<ApolloQueryResult<Prod
       offset: search.offset,
       locale,
       currency,
-    }
+    },
+    // temporary, seems like bug in apollo:
+    // @link: https://github.com/apollographql/apollo-client/issues/3234
+    fetchPolicy: 'no-cache'
   })
 }
 

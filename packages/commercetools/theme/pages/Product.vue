@@ -294,10 +294,11 @@ import {
 export default {
   name: "Product",
   transition: 'fade',
-  setup () {
+  setup (props, context) {
+    const { params } = context.root.$route
     const { products, search } = useProduct()
 
-    search({ slug: 'tods-laceupshoes-C20RE0U820-darkblue' })
+    search({ slug: params['slug_1'] })
 
     const product = computed(() => getProductVariants(products.value, { master: true }))
 

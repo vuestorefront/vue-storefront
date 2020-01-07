@@ -10,12 +10,12 @@ const product = {
   _name: 'variant 1',
   _slug: 'variant-1',
   price: {
-    value: { centAmount: 12 }
+    value: { centAmount: 1200 }
   },
   images: [{ url: 'imageV11/url.jpg' }, { url: 'imageV12/url.jpg' }],
 } as any
 
-describe('[commercetools-api-client] product helpers', () => {
+describe('[commercetools-helpers] product helpers', () => {
   it('returns default values', () => {
     expect(getProductName(null)).toBe('')
     expect(getProductSlug(null)).toBe('')

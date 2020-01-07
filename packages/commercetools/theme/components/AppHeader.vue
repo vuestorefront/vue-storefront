@@ -6,12 +6,12 @@
       </nuxt-link>
     </template>
     <template #navigation>
-      <nuxt-link to="/c/cat">
+      <nuxt-link to="/c/women">
         <SfHeaderNavigationItem>
           WOMEN
         </SfHeaderNavigationItem>
       </nuxt-link>
-      <nuxt-link to="/c/cat">
+      <nuxt-link to="/c/men">
         <SfHeaderNavigationItem>
           MEN
         </SfHeaderNavigationItem>

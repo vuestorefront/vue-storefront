@@ -101,14 +101,18 @@
       <div class="sidebar desktop-only">
         <SfAccordion :firstOpen="true" :showChevron="false">
           <SfAccordionItem
-            v-for="(accordion, i) in sidebarAccordion"
+            v-for="(accordion, i) in categoryTree && categoryTree.items"
             :key="i"
-            :header="accordion.header"
+            :header="accordion.label"
           >
             <template>
               <SfList>
                 <SfListItem v-for="(item, j) in accordion.items" :key="j">
-                  <SfMenuItem :label="item.label" :count="item.count" />
+                  <SfMenuItem :label="item.label">
+                    <template #label="{ label }">
+                      <a :href="getCategoryUrl(item.slug)" :class="isCategorySelected(item.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</a>
+                    </template>
+                  </SfMenuItem>
                 </SfListItem>
               </SfList>
             </template>
@@ -122,12 +126,12 @@
             :key="i"
             :title="getProductName(product)"
             :image="getProductGallery(product)[0].big"
-            :regular-price="getProductPrice(product)"
-            :special-price="getProductPrice(product)"
+            :regular-price="'$' + getProductPrice(product)"
             :max-rating="5"
             :score-rating="3"
             :isOnWishlist="false"
             @click:wishlist="toggleWishlist(i)"
+            :link="`/p/${getProductSlug(product)}`"
             class="products__product-card"
           />
         </div>
@@ -224,28 +228,46 @@ import {
   SfSelect,
   SfBreadcrumbs
 } from "@storefront-ui/vue";
-import { computed } from '@vue/composition-api'
+import { computed, watch } from '@vue/composition-api'
 import { useCategory } from '@vue-storefront/commercetools-composables'
 import {
   getCategoryProducts,
   getProductName,
   getProductGallery,
-  getProductPrice
+  getProductPrice,
+  getProductSlug,
+  getCategoryTree,
 } from '@vue-storefront/commercetools-helpers'
+
 
 export default {
   transition: 'fade',
-  setup () {
-    const { categories, search, loading } = useCategory()
+  setup (props, context) {
+    const { params } = context.root.$route
+    const lastSlug = Object.keys(params).reduce(
+      (prev, curr) => params[curr] ? params[curr] : prev,
+      params['slug_1']
+    )
 
-    search({ slug: "men" })
+    const { categories, search } = useCategory()
+
+    search({ slug: lastSlug })
 
     const products = computed(() => getCategoryProducts(categories.value[0], { master: true }))
+    const categoryTree = computed(() => getCategoryTree(categories.value[0]))
+
+    const getCategoryUrl = slug => `/c/${params['slug_1']}/${slug}`
+    const isCategorySelected = slug => slug === (categories.value && categories.value[0].slug)
 
     return {
-      categories,
       products,
-      loading
+      categoryTree,
+      getProductName,
+      getProductGallery,
+      getProductPrice,
+      getProductSlug,
+      getCategoryUrl,
+      isCategorySelected
     }
   },
   components: {
@@ -285,44 +307,6 @@ export default {
         {
           value: "price-down",
           label: "Price from high to low"
-        }
-      ],
-      sidebarAccordion: [
-        {
-          header: "Clothing",
-          items: [
-            { label: "All", count: "280" },
-            { label: "Skirts", count: "23" },
-            { label: "Sweaters", count: "54" },
-            { label: "Dresses", count: "34" },
-            { label: "T-shirts", count: "56" },
-            { label: "Pants", count: "7" },
-            { label: "Underwear", count: "12" }
-          ]
-        },
-        {
-          header: "Accesorries",
-          items: [
-            { label: "All", count: "280" },
-            { label: "Skirts", count: "23" },
-            { label: "Sweaters", count: "54" },
-            { label: "Dresses", count: "34" },
-            { label: "T-shirts", count: "56" },
-            { label: "Pants", count: "7" },
-            { label: "Underwear", count: "12" }
-          ]
-        },
-        {
-          header: "Shoes",
-          items: [
-            { label: "All", count: "280" },
-            { label: "Skirts", count: "23" },
-            { label: "Sweaters", count: "54" },
-            { label: "Dresses", count: "34" },
-            { label: "T-shirts", count: "56" },
-            { label: "Pants", count: "7" },
-            { label: "Underwear", count: "12" }
-          ]
         }
       ],
       filtersOptions: {
@@ -374,9 +358,6 @@ export default {
     };
   },
   methods: {
-    getProductName,
-    getProductGallery,
-    getProductPrice,
     clearAllFilters() {
       const filters = {};
       const keys = Object.keys(this.filters);
@@ -387,7 +368,7 @@ export default {
     },
     toggleWishlist(index) {
       this.products[index].isOnWishlist = !this.products[index].isOnWishlist;
-    }
+    },
   }
 };
 </script>
@@ -539,6 +520,10 @@ export default {
   flex: 0 0 15%;
   padding: $spacer-extra-big;
   border-right: 1px solid $c-light;
+
+  &--cat-selected {
+    font-weight: bold
+  }
 }
 .sort-by {
   flex: unset;

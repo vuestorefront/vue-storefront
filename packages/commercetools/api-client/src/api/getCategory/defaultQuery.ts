@@ -1,15 +1,26 @@
 import gql from 'graphql-tag'
 
 export default gql`
+  fragment Children on Category {
+    id
+    slug(locale: $locale)
+    name(locale: $locale)
+    childCount
+  }
+
   fragment DefaultCategory on Category {
     id
     slug(locale: $locale)
     name(locale: $locale)
+    childCount
     children {
-      id
-      slug(locale: $locale)
-      name(locale: $locale)
-      childCount
+      ...Children
+      children {
+        ...Children
+        children {
+          ...Children
+        }
+      }
     }
   }
 
@@ -26,6 +37,12 @@ export default gql`
         childCount
         parent {
           ...DefaultCategory
+          parent {
+            ...DefaultCategory
+            parent {
+              ...DefaultCategory
+            }
+          }
         }
         children {
           ...DefaultCategory
