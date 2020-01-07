@@ -3,7 +3,8 @@ kind: ConfigMap
 metadata:
   name: vue-storefront-config
 data:
-  NODE_CONFIG_ENV: production
+  NODE_CONFIG_ENV: docker
+  NODE_APP_INSTANCE: kube
   BIND_HOST: 0.0.0.0
   PM2_ARGS: --no-daemon
   VS_ENV: prod

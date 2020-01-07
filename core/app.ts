@@ -29,6 +29,7 @@ import { registerClientModules } from 'src/modules/client';
 import initialStateFactory from '@vue-storefront/core/helpers/initialStateFactory'
 import { createRouter, createRouterProxy } from '@vue-storefront/core/helpers/router';
 
+console.log('globalConfig globalConfig', globalConfig)
 const stateFactory = initialStateFactory(store.state)
 
 let router: VueRouter = null
@@ -107,6 +108,7 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   injectReferences(app, store, routerProxy, globalConfig)
   registerClientModules()
   registerModules(enabledModules, appContext)
+  console.log('globalConfig.theme', globalConfig.theme)
   registerTheme(globalConfig.theme, app, routerProxy, store, globalConfig, ssrContext)
 
   coreHooksExecutors.afterAppInit()
