@@ -136,7 +136,7 @@
               :is-simple-or-configurable="isSimpleOrConfigurable"
               :show-quantity="size_has_been_selected"
               @error="handleQuantityError"
-            /> 
+            />
             <div class="row m0">
 <!--              // Edited by dan to fix issue with product variants SKUs-->
               <add-to-cart
@@ -237,9 +237,9 @@
     <lazy-hydrate when-idle>
       <related-products type="upsell" :heading="$t('We found other products you might like')" />
     </lazy-hydrate>
-    <lazy-hydrate when-idle>
-      <promoted-offers single-banner />
-    </lazy-hydrate>
+<!--    <lazy-hydrate when-idle>-->
+<!--      <promoted-offers single-banner />-->
+<!--    </lazy-hydrate>-->
     <lazy-hydrate when-idle>
       <related-products type="related" />
     </lazy-hydrate>
@@ -297,7 +297,7 @@ import ProductTile from 'theme/components/core/ProductTile.vue'
 import SizeChartView from 'theme/components/procc/Product/SizeChartView.vue'
 import {minValue} from 'vuelidate/lib/validators'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
- 
+
 
 export default {
   components: {
@@ -312,7 +312,7 @@ export default {
     ProductCustomOptions,
     ProductGallery,
     ProductLinks,
-    PromotedOffers,
+    // PromotedOffers,
     RelatedProducts,
     Reviews,
     // ProCC IMPORTS

@@ -40,6 +40,8 @@ once('__VUE_EXTEND_RR__', () => {
 })
 
 const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
+  console.log('globalConfig globalConfig22', globalConfig)
+
   router = createRouter()
   routerProxy = createRouterProxy(router)
   // sync router with vuex 'router' store

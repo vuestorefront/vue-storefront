@@ -6,6 +6,7 @@ const fs = require("fs")
 // TODO: Refactor and simplify themePath resoultion
 let themePath = ''
 let themeName = config.theme
+console.log('globalConfig.themeName', themeName)
 if (detectInstalled.sync(config.theme, { local: true })) {
   themePath = path.resolve(__dirname, '../../node_modules/' + themeName)
 }

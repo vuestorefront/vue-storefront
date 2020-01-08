@@ -40,7 +40,7 @@ function initTheme (app, router, store, config, ssrContext) {
   store.registerModule('claims', claimsStore);
   store.registerModule('homepage', homepageStore);
   store.registerModule('ui', uiStore);
-  store.registerModule('promoted', promotedStore);
+  // store.registerModule('promoted', promotedStore);
 }
 
 export {

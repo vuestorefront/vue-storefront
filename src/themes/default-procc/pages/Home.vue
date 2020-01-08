@@ -23,7 +23,7 @@
 <!--      </div>-->
     </section>
 
-    <section v-if="isOnline" class="container pb60 px15">
+<!--    <section v-if="isOnline" class="container pb60 px15">-->
 <!--      <div class="row center-xs">-->
 <!--        <header class="col-md-12" :class="{ pt40: getEverythingNewCollection && getEverythingNewCollection.length }">-->
 <!--          <h2 class="align-center cl-accent">-->
@@ -32,7 +32,7 @@
 <!--        </header>-->
 <!--      </div>-->
 <!--      <tile-links />-->
-    </section>
+<!--    </section>-->
 <!--    <Onboard />-->
 
 <!--    // ProCC stores-->
@@ -52,7 +52,7 @@ import ProductListing from 'theme/components/core/ProductListing'
 import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
 // Theme local components
 import Onboard from 'theme/components/theme/blocks/Home/Onboard'
-import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
+// import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
 import {Logger} from '@vue-storefront/core/lib/logger'
 import {mapGetters} from 'vuex'
@@ -79,7 +79,7 @@ export default {
     ProCCTileLinks,
     Onboard,
     ProductListing,
-    PromotedOffers,
+    // PromotedOffers,
     TileLinks,
     LazyHydrate
   },

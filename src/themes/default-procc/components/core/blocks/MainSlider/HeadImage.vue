@@ -1,24 +1,47 @@
 <template>
   <section class="head-image w-100 bg-cl-th-accent cl-white">
     <!--        // Changes by Dan-->
-    <div class="container w-100 h-100" v-if="currentImage"
-         v-lazy:background-image="isDefaultStore ? defaultStore.image : currentImage.image">
+    <div class="container w-100 h-100" v-if="!isDefaultStore && currentImage && currentImage.image"
+         v-lazy:background-image="currentImage.image">
       <div :class="{'default-store-class': isDefaultStore}" class="head-image-content">
-        <h1 :style="{color: isDefaultStore ? defaultStore.title_color : currentImage.title_color}" class="title"
+        <h1 :style="{color: currentImage.title_color}" class="title"
             data-testid="mainSliderTitle">
-          {{ isDefaultStore ? defaultStore.title : currentImage.title }}
+          {{ currentImage.title }}
         </h1>
         <p
-          :style="{color: isDefaultStore ? defaultStore.subtitle_color : currentImage.subtitle_color}"
+          :style="{color: currentImage.subtitle_color}"
           data-testid="mainSliderSubtitle"
           class="subtitle mb0 serif h3 procc-title-style"
         >
-          {{ isDefaultStore ? defaultStore.subtitle : currentImage.subtitle }}
+          {{ currentImage.subtitle }}
         </p>
         <div :class="{'default-store-btn-class': isDefaultStore}" class="align-center inline-flex"
              v-if="isDefaultStore">
-          <button-outline :link="isDefaultStore ? defaultStore.link : currentImage.link" color="light">
-            {{ isDefaultStore ? defaultStore.button_text : currentImage.button_text }}
+          <button-outline :link="currentImage.link" color="light">
+            {{ currentImage.button_text }}
+          </button-outline>
+        </div>
+      </div>
+    </div>
+
+    <div class="container w-100 h-100" v-if="isDefaultStore && defaultStore && defaultStore.image"
+         v-lazy:background-image="defaultStore.image">
+      <div :class="{'default-store-class': isDefaultStore}" class="head-image-content">
+        <h1 :style="{ color: defaultStore.title_color }" class="title"
+            data-testid="mainSliderTitle">
+          {{ defaultStore.title }}
+        </h1>
+        <p
+          :style="{color: defaultStore.subtitle_color }"
+          data-testid="mainSliderSubtitle"
+          class="subtitle mb0 serif h3 procc-title-style"
+        >
+          {{ defaultStore.subtitle }}
+        </p>
+        <div :class="{'default-store-btn-class': isDefaultStore}" class="align-center inline-flex"
+             v-if="isDefaultStore">
+          <button-outline :link="defaultStore.link" color="light">
+            {{ defaultStore.button_text }}
           </button-outline>
         </div>
       </div>
