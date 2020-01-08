@@ -1,32 +1,26 @@
 <template>
   <section class="head-image w-100 bg-cl-th-accent cl-white">
     <!--        // Changes by Dan-->
-    <div class="container w-100 h-100" v-if="!isDefaultStore && currentImage && currentImage.image"
-         v-lazy:background-image="currentImage.image">
-      <div :class="{'default-store-class': isDefaultStore}" class="head-image-content">
-        <h1 :style="{color: currentImage.title_color}" class="title"
-            data-testid="mainSliderTitle">
-          {{ currentImage.title }}
-        </h1>
-        <p
-          :style="{color: currentImage.subtitle_color}"
-          data-testid="mainSliderSubtitle"
-          class="subtitle mb0 serif h3 procc-title-style"
-        >
-          {{ currentImage.subtitle }}
-        </p>
-        <div :class="{'default-store-btn-class': isDefaultStore}" class="align-center inline-flex"
-             v-if="isDefaultStore">
-          <button-outline :link="currentImage.link" color="light">
-            {{ currentImage.button_text }}
-          </button-outline>
+      <div class="container w-100 h-100" v-if="!isDefaultStore && currentImage && currentImage.image"
+           v-lazy:background-image="encodeURI(currentImage.image)">
+        <div class="head-image-content">
+          <h1 :style="{color: currentImage.title_color}" class="title"
+              data-testid="mainSliderTitle">
+            {{ currentImage.title }}
+          </h1>
+          <p
+            :style="{color: currentImage.subtitle_color}"
+            data-testid="mainSliderSubtitle"
+            class="subtitle mb0 serif h3 procc-title-style"
+          >
+            {{ currentImage.subtitle }}
+          </p>
         </div>
       </div>
-    </div>
 
-    <div class="container w-100 h-100" v-if="isDefaultStore && defaultStore && defaultStore.image"
-         v-lazy:background-image="defaultStore.image">
-      <div :class="{'default-store-class': isDefaultStore}" class="head-image-content">
+    <div class="container w-100 h-100" v-else-if="isDefaultStore && defaultStore && defaultStore.image"
+         v-lazy:background-image="encodeURI(defaultStore.image)">
+      <div class="default-store-class head-image-content">
         <h1 :style="{ color: defaultStore.title_color }" class="title"
             data-testid="mainSliderTitle">
           {{ defaultStore.title }}
@@ -38,7 +32,7 @@
         >
           {{ defaultStore.subtitle }}
         </p>
-        <div :class="{'default-store-btn-class': isDefaultStore}" class="align-center inline-flex"
+        <div class="default-store-btn-class align-center inline-flex"
              v-if="isDefaultStore">
           <button-outline :link="defaultStore.link" color="light">
             {{ defaultStore.button_text }}
@@ -73,12 +67,17 @@ export default {
         subtitle_color: '#f4def2',
         link: 'https://procc.co/signup/cc',
         button_text: 'Sign Up',
-      }
+      },
+      currentImage: null
     }
+  },
+  mounted(){
+    // Fixing SSR issue with loading the headImage at client
+    this.currentImage = {...this.currentImageGetter}
   },
   computed: {
     ...mapGetters({
-      currentImage: 'procc/getHeadImage'
+      currentImageGetter: 'procc/getHeadImage'
     })
   }
 }
