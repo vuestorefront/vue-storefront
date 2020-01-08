@@ -4,6 +4,7 @@
     <nuxt />
     <BottomNavigation />
     <AppFooter />
+    <CartSidebar />
   </div>
 </template>
 
@@ -11,15 +12,18 @@
 import AppHeader from '~/components/AppHeader.vue'
 import BottomNavigation from '~/components/BottomNavigation.vue'
 import AppFooter from '~/components/AppFooter.vue'
+import CartSidebar from '~/components/CartSidebar.vue'
 
 export default {
   components: {
     AppHeader,
     BottomNavigation,
-    AppFooter
+    AppFooter,
+    CartSidebar
   }
 }
 </script>
+
 <style lang="scss">
 @import "~@storefront-ui/vue/styles";
 @import "~@storefront-ui/shared/styles/helpers/visibility";

@@ -1,5 +1,5 @@
 <template>
-  <SfFooter :column="4" multiple style="max-width: 64rem; margin-left: auto; margin-right: auto">
+  <SfFooter :column="4" multiple id="footer">
     <SfFooterColumn title="About us">
       <SfList>
         <SfListItem
@@ -106,3 +106,11 @@ export default {
   }
 }
 </script>
+
+<style>
+#footer {
+  max-width: 64rem; 
+  margin-left: auto; 
+  margin-right: auto
+}
+</style>
