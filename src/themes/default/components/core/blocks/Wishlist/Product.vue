@@ -31,11 +31,11 @@
     </div>
     <div class="col-xs flex py15 align-right">
       <div>
-        <span class="price-special" v-if="product.special_price">{{ product.price_incl_tax | price }}</span>&nbsp;
-        <span class="price-original" v-if="product.special_price">{{ product.original_price_incl_tax | price }}</span>
+        <span class="price-special" v-if="product.special_price">{{ product.price_incl_tax | price(storeView) }}</span>&nbsp;
+        <span class="price-original" v-if="product.special_price">{{ product.original_price_incl_tax | price(storeView) }}</span>
 
         <span v-if="!product.special_price">
-          {{ product.price_incl_tax | price }}
+          {{ product.price_incl_tax | price(storeView) }}
         </span>
       </div>
       <div>
@@ -80,6 +80,9 @@ export default {
         loading: this.thumbnail,
         src: this.thumbnail
       }
+    },
+    storeView () {
+      return currentStoreView()
     }
   },
   methods: {
