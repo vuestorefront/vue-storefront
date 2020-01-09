@@ -284,6 +284,150 @@ document.getElementById('d-config-js').innerHTML = dConfigJs;
  If you don't know how to get those credentials, please take a look at [data import](/guide/cookbook/data-import.html#_2-2-recipe-b-using-on-premise)
  :::
  
+ 9. Run your worker to pump it up from source web store to Elasticsearch : 
+```bash
+node --harmony cli.js categories --removeNonExistent=true
+```
+
+Screen will show you logs as follows : 
+```bash
+2020-01-07T07:21:00.959Z - debug: Elasticsearch module initialized!
+info: Winston logging library initialized.
+2020-01-07T07:21:00.991Z - info: Connected correctly to server
+2020-01-07T07:21:00.992Z - info: TRANSACTION KEY = 1578381660987
+debug: Calling API endpoint: GET http://franko.local/rest/V1/categories
+debug: Response received.
+Dest. cat path =  default-category-2
+debug: Calling API endpoint: GET http://franko.local/rest/V1/categories/2
+debug: Response received.
+Dest. cat path =  default-category-2
+2020-01-07T07:21:02.029Z - debug: Storing extended category data to cache under: vue_storefront_catalog_cat_2
+debug: Calling API endpoint: GET http://franko.local/rest/V1/categories/4
+debug: Calling API endpoint: GET http://franko.local/rest/V1/categories/5
+debug: Calling API endpoint: GET http://franko.local/rest/V1/categories/3
+debug: Calling API endpoint: GET http://franko.local/rest/V1/categories/7
+debug: Calling API endpoint: GET http://franko.local/rest/V1/categories/8
+debug: Calling API endpoint: GET http://franko.local/rest/V1/categories/9
+debug: Calling API endpoint: GET http://franko.local/rest/V1/categories/6
+debug: Response received.
+Dest. cat path =  boy/pants/pants-4
+2020-01-07T07:21:03.427Z - info: Subcategory data extended for 2, children object 4
+debug: Response received.
+Dest. cat path =  girl/pants/pants-9
+2020-01-07T07:21:03.431Z - info: Subcategory data extended for 2, children object 9
+
+# abridged ...
+```
+:vhs: You may also watch it in [bash playback :movie_camera:](https://asciinema.org/a/IViPWiFBkiE4of9L3ykncoPmU)
+
+Confirm you are on the correct path with following command :
+```bash
+curl -XGET "http://localhost:9200/vue_storefront_catalog_category/_search?pretty=true"
+```
+
+Response should be like below : 
+```bash
+# ... abridged
+      {
+        "_index" : "vue_storefront_catalog_category",
+        "_type" : "_doc",
+        "_id" : "8",
+        "_score" : 1.0,
+        "_source" : {
+          "id" : 8,
+          "parent_id" : 6,
+          "name" : "Outer",
+          "is_active" : true,
+          "position" : 2,
+          "level" : 3,
+          "product_count" : 1,
+          "children_data" : [ ],
+          "children" : "",
+          "created_at" : "2019-12-24 17:05:27",
+          "updated_at" : "2019-12-24 17:05:27",
+          "path" : "1/2/6/8",
+          "available_sort_by" : [ ],
+          "include_in_menu" : true,
+          "display_mode" : "PRODUCTS",
+          "is_anchor" : "1",
+          "children_count" : "0",
+          "custom_use_parent_settings" : "0",
+          "custom_apply_to_products" : "0",
+          "url_key" : "outer-8",
+          "url_path" : "girl/outer/outer-8",
+          "slug" : "outer-8",
+          "tsk" : 1578381660987
+        }
+      },
+      {
+        "_index" : "vue_storefront_catalog_category",
+        "_type" : "_doc",
+        "_id" : "9",
+        "_score" : 1.0,
+        "_source" : {
+          "id" : 9,
+          "parent_id" : 6,
+          "name" : "Pants",
+          "is_active" : true,
+          "position" : 3,
+          "level" : 3,
+          "product_count" : 0,
+          "children_data" : [ ],
+          "children" : "",
+          "created_at" : "2019-12-24 17:05:52",
+          "updated_at" : "2019-12-24 17:05:52",
+          "path" : "1/2/6/9",
+          "available_sort_by" : [ ],
+          "include_in_menu" : true,
+          "display_mode" : "PRODUCTS",
+          "is_anchor" : "1",
+          "children_count" : "0",
+          "custom_use_parent_settings" : "0",
+          "custom_apply_to_products" : "0",
+          "url_key" : "pants-9",
+          "url_path" : "girl/pants/pants-9",
+          "slug" : "pants-9",
+          "tsk" : 1578381660987
+        }
+      },
+      {
+        "_index" : "vue_storefront_catalog_category",
+        "_type" : "_doc",
+        "_id" : "7",
+        "_score" : 1.0,
+        "_source" : {
+          "id" : 7,
+          "parent_id" : 6,
+          "name" : "Skirt",
+          "is_active" : true,
+          "position" : 1,
+          "level" : 3,
+          "product_count" : 1,
+          "children_data" : [ ],
+          "children" : "",
+          "created_at" : "2019-12-24 17:05:13",
+          "updated_at" : "2019-12-24 17:26:22",
+          "path" : "1/2/6/7",
+          "available_sort_by" : [ ],
+          "include_in_menu" : true,
+          "display_mode" : "PRODUCTS",
+          "is_anchor" : "1",
+          "children_count" : "0",
+          "custom_use_parent_settings" : "0",
+          "custom_apply_to_products" : "0",
+          "url_key" : "skirt-7",
+          "url_path" : "girl/skirt/skirt-7",
+          "slug" : "skirt-7",
+          "tsk" : 1578381660987
+        }
+      }
+    ]
+  }
+}
+
+```
+
+10. 
  
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
