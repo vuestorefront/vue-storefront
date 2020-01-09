@@ -427,8 +427,30 @@ Response should be like below :
 
 ```
 
-10. 
- 
+10. Repeat this process until you are done importing entities with all the indices you mapped to _Elasticsearch_ before such as _products_, _attributes_, _taxrules_ and more as follows : 
+```bash
+node --harmony cli.js productcategories
+node --harmony cli.js attributes --removeNonExistent=true
+node --harmony cli.js taxrule --removeNonExistent=true
+node --harmony cli.js products --removeNonExistent=true --partitions=1
+node --harmony cli.js reviews
+node --harmony cli.js blocks
+node --harmony cli.js pages
+```
+
+:::tip NOTE
+API endpoints for _reviews_, _blocks_ and _pages_ from Magento are not available out of the box. You should install additional modules for them on your own. [review](https://github.com/DivanteLtd/magento2-review-api), [cms](https://github.com/SnowdogApps/magento2-cms-api)
+:::
+
+Now you are ready to launch your Vue Storefront shop powered by _Elasticsearch 7_. 
+
+11. Run the following to launch your shop at _Vue Storefront_ root path.
+```sh
+docker-compose up 
+```
+You are all good to go!
+
+
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 <br />
