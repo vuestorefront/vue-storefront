@@ -3,7 +3,6 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery';
 import config from 'config';
 import { DataResolver } from './types/DataResolver';
 import { Category } from 'core/modules/catalog-next/types/Category';
-import Vue from 'vue';
 
 const getCategories = async ({
   parentId = null,
@@ -45,13 +44,6 @@ const getCategories = async ({
     searchQuery = searchQuery.applyFilter({key: 'product_count', value: {'gt': 0}})
   }
   const response = await quickSearchByQuery({ entityType: 'category', query: searchQuery, sort: sort, size: size, start: start, includeFields: includeFields, excludeFields: excludeFields })
-
-  if (Vue.prototype.$cacheTags) {
-    response.items.forEach(category => {
-      Vue.prototype.$cacheTags.add(`C${category.id}`)
-    })
-  }
-
   return response.items as Category[]
 }
 
