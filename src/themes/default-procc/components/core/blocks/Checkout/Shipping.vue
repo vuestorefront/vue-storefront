@@ -1,7 +1,7 @@
 <template>
   <div class="pt20">
     <div class="row pl20">
-      <div class="col-xs-1 col-sm-2 col-md-1">
+      <div class="col-xs-2">
         <div
           class="number-circle lh35 cl-white brdr-circle align-center weight-700"
           :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
@@ -9,7 +9,7 @@
           2
         </div>
       </div>
-      <div class="col-xs-11 col-sm-9 col-md-11">
+      <div class="col-xs-10">
         <div class="row mb15">
           <div class="col-xs-12 col-md-7" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h3 class="m0">

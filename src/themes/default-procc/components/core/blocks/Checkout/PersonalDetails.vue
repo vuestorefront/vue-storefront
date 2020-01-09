@@ -1,7 +1,7 @@
 <template>
   <div class="personal-details">
     <div class="row pl20">
-      <div class="col-xs-1 col-sm-2 col-md-1">
+      <div class="col-xs-2">
         <div
           class="number-circle lh35 cl-white brdr-circle align-center weight-700"
           :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
@@ -9,7 +9,7 @@
           1
         </div>
       </div>
-      <div class="col-xs-11 col-sm-9 col-md-11">
+      <div class="col-xs-10">
         <div class="row mb15">
           <div class="col-xs-12 col-md-7" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h3 class="m0">
@@ -152,24 +152,8 @@
               </span>*
             </base-checkbox>
           </template>
-        </div>
-      </div>
-    </div>
-    <div class="row" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1" />
-      <div class="col-xs-11 col-sm-9 col-md-10">
-        <div class="row my30">
-          <div class="col-xs-12 col-md-7 px20 button-container">
-            <button-full
-              data-testid="personalDetailsSubmit"
-              @click.native="sendDataToCheckout"
-              :disabled="createAccount ? $v.$invalid : $v.personalDetails.$invalid"
-            >
-              {{ $t((isVirtualCart ? 'Continue to payment' : 'Continue to shipping')) }}
-            </button-full>
-          </div>
           <div
-            class="col-xs-12 col-md-5 center-xs end-md"
+            class="col-12" style="text-align: center"
             v-if="!currentUser"
           >
             <p class="h4 cl-accent">
@@ -182,6 +166,37 @@
               </span>
             </p>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" v-show="isActive">
+      <div class="hidden-xs col-sm-2 col-md-1" />
+      <div class="col-12">
+        <div class="row my30">
+          <div class="col-xs-12 col-md-7 px20 button-container">
+            <button-full
+              data-testid="personalDetailsSubmit"
+              @click.native="sendDataToCheckout"
+              :disabled="createAccount ? $v.$invalid : $v.personalDetails.$invalid"
+            >
+              {{ $t((isVirtualCart ? 'Continue to payment' : 'Continue to shipping')) }}
+            </button-full>
+          </div>
+<!--          // Moved by Dan to a bit above-->
+<!--          <div-->
+<!--            class="col-xs-12 col-md-5 center-xs end-md"-->
+<!--            v-if="!currentUser"-->
+<!--          >-->
+<!--            <p class="h4 cl-accent">-->
+<!--              {{ $t('or') }}-->
+<!--              <span-->
+<!--                class="link pointer"-->
+<!--                @click.prevent="gotoAccount"-->
+<!--              >-->
+<!--                {{ $t('login to your account') }}-->
+<!--              </span>-->
+<!--            </p>-->
+<!--          </div>-->
         </div>
       </div>
     </div>

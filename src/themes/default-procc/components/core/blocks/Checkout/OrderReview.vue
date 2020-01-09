@@ -1,7 +1,7 @@
 <template>
   <div class="order-review pt20">
     <div class="row pl20">
-      <div class="col-xs-1 col-sm-2 col-md-1">
+      <div class="col-xs-2">
         <div
           class="number-circle lh35 cl-white brdr-circle align-center weight-700"
           :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
@@ -9,11 +9,12 @@
           {{ (isVirtualCart ? 3 : 4) }}
         </div>
       </div>
-      <div class="col-xs-11 col-sm-9 col-md-11">
+      <div class="col-xs-10">
         <div class="row">
           <div class="col-md-12" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
+<!--            // Edited By Dan-->
             <h3 class="m0 mb5">
-              {{ $t('Review order') }}
+              {{ $t('Place the order') }}
             </h3>
           </div>
         </div>
@@ -74,7 +75,7 @@
                 class="place-order-btn"
                 :disabled="$v.orderReview.$invalid"
               >
-                {{ $t('Place the order') }}
+                {{ $t('Do the Payment') }}
               </button-full>
             </slot>
           </div>
