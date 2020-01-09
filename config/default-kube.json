@@ -553,9 +553,9 @@
     "gallery": {
       "mergeConfigurableChildren": true,
       "imageAttributes": [
-        "image",
-        "thumbnail",
-        "small_image"
+        "image_disabled_by_Dan",
+        "thumbnail_disabled_by_Dan",
+        "small_image_disabled_by_Dan"
       ],
       "width": 600,
       "height": 744
