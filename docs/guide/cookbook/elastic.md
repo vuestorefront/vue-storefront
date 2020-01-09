@@ -452,7 +452,11 @@ You are all good to go!
 
 
 ### 3. Peep into the kitchen (what happens internally)
+_Elasticsearch_ has been through intensive improvement ceaselessly.  
+
 ### 4. Chef's secret (protip)
+
+#### Secret 1. How to upgrade to `1.11` technically? (foolproof)
 <br />
 <br />
 
