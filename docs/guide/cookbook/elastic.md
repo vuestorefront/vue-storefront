@@ -497,7 +497,7 @@ git merge origin/feature/es7
 
 Now you are all set :) 
 
-#### Secret 2. How to install `1.11` technically? foolproof approach.
+<!--#### Secret 2. How to install `1.11` technically? foolproof approach. -->
 
 <br />
 <br />
