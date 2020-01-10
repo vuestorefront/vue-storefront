@@ -469,6 +469,36 @@ If things go as planned, your above-7-Elasticsearch should serve as performant s
 ### 4. Chef's secret (protip)
 
 #### Secret 1. How to upgrade to `1.11` technically? foolproof approach.
+There are 3 repositories that should be upgraded for `1.11`. 
+:::warning CHECK
+Please make sure your git space is clean and has nothing to conflict with upcoming merge. 
+:::
+
+First off, go to ___Vue Storefront API___ folder and type the following : 
+```sh 
+git fetch
+git merge v1.11.0
+```
+:::tip NOTE
+Please note `v1.11.0` is the _tag_ that denotes the final commit for the version at the moment.  
+:::
+
+Next, go to ___Vue Storefront___ folder and type the following : 
+```sh
+git fetch
+git merge v1.11.0
+```
+
+Finally, go to ___mage2vuestorefront___ folder and run the following commands :
+```sh
+git fetch
+git merge origin/feature/es7
+```
+
+Now you are all set :) 
+
+#### Secret 2. How to install `1.11` technically? foolproof approach.
+
 <br />
 <br />
 
