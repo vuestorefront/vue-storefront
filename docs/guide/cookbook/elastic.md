@@ -456,11 +456,16 @@ You are all good to go!
 
 
 ### 3. Peep into the kitchen (what happens internally)
-_Elasticsearch_ has been through intensive improvement ceaselessly.  
+_Elasticsearch_ has been through intensive updates ceaselessly. Mostly, it's gradual changes with backward compatibility so it won't have a big impact even if you upgrade one to another. This time, however, upgrade to `7.x` has a few breaking changes, one notably of which is, multiple `_type` is not allowed for an index. 
+
+Fixing breaks for _Elasticsearch 7.x_ has been successfully included in _Vue Storefront 1.11_ upgrade. 
+
+First thing you need to is, download upgrade with `git`. Upgraded version of containers are described in `docker-compose` files so what it contains inside is well capsulated that you don't have to be concerned of how it works internally unless you want to tweak customization more than the default. 
+
 
 ### 4. Chef's secret (protip)
 
-#### Secret 1. How to upgrade to `1.11` technically? (foolproof)
+#### Secret 1. How to upgrade to `1.11` technically? foolproof approach.
 <br />
 <br />
 
