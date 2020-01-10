@@ -460,8 +460,11 @@ _Elasticsearch_ has been through intensive updates ceaselessly. Mostly, it's gra
 
 Fixing breaks for _Elasticsearch 7.x_ has been successfully included in _Vue Storefront 1.11_ upgrade. 
 
-First thing you need to is, download upgrade with `git`. Upgraded version of containers are described in `docker-compose` files so what it contains inside is well capsulated that you don't have to be concerned of how it works internally unless you want to tweak customization more than the default. 
+First thing you need to is, download upgrade with `git`. Upgraded version of containers are described in `docker-compose` files so what it contains inside is well encapsulated that you don't have to be concerned of how it works internally unless you want to tweak customization more than the default. 
 
+Next, you should newly create each mapping for _Elasticsearch_ index as per the type. Then pumping your data into _Elasticsearch_ using _mage2vuestorefront_.  
+
+If things go as planned, your above-7-Elasticsearch should serve as performant search engine for data store with enhanced indexing ability.  
 
 ### 4. Chef's secret (protip)
 
