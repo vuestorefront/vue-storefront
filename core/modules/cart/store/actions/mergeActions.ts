@@ -14,7 +14,7 @@ import { cartHooksExecutors } from './../../hooks'
 
 // TODO: Please remove this function (and it's usage) after fixed bug in magento (https://github.com/magento/magento2/issues/26297)
 const removeDashFromSku = (serverItem) => {
-  const sku = String(serverItem.sku || '')
+  const sku = serverItem.sku || ''
   return {
     ...serverItem,
     sku: sku.replace(/-*$/, '')
