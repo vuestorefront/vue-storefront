@@ -97,10 +97,12 @@ export default {
       //  b) Display error if fail
 
       // Start progress notification
-      this.$bus.$emit(
-        'notification-progress-start',
-        i18n.t('Changing password in progress ...')
-      );
+      const { id: changingNotificationId } = await this.$store.dispatch('notification/spawnNotification', {
+        action1: { label: i18n.t('OK') },
+        message: i18n.t('Changing password in progress ...'),
+        type: 'success',
+        hasNoTimeout: true
+      });
 
       try {
 
@@ -111,7 +113,7 @@ export default {
           resetToken: this.$route.query.token
         })
 
-        this.$bus.$emit('notification-progress-stop', {});
+        this.$store.dispatch('notification/removeNotificationById', changingNotificationId);
 
         if (response.code === 500) {
           const responseMessage = response.result && response.result.errorMessage && response.result.errorMessage.includes('No such entity with email')
@@ -124,6 +126,7 @@ export default {
             type: 'error'
           });
         } else if (response.code === 200) {
+
           this.$store.dispatch('notification/spawnNotification', {
             action1: { label: i18n.t('OK') },
             message: i18n.t('Sucessfully changed password'),
@@ -131,10 +134,13 @@ export default {
           });
 
           if (this.$store.state.config.users.loginAfterCreatePassword) {
-            this.$bus.$emit(
-            'notification-progress-start',
-            i18n.t('Authorization in progress ...')
-          );
+
+            const { id: authNotificationId } = this.$store.dispatch('notification/spawnNotification', {
+              action1: { label: i18n.t('OK') },
+              message: i18n.t('Authorization in progress ...'),
+              type: 'success',
+              hasNoTimeout: true
+            });
 
             // Now we are singing in
             try {
@@ -142,7 +148,7 @@ export default {
                 username: this.email,
                 password: this.password
               });
-              this.$bus.$emit('notification-progress-stop', {});
+              this.$store.dispatch('notification/removeNotificationById', authNotificationId);
 
               if (loginResult.code !== 200) {
 
@@ -151,12 +157,14 @@ export default {
                   message: i18n.t('Something went wrong, sorry'),
                   type: 'error'
                 });
+
               } else {
                 this.$router.push(this.localizedRoute('/'));
               }
 
             } catch (err) {
-              this.$bus.$emit('notification-progress-stop');
+              this.$store.dispatch('notification/removeNotificationById', authNotificationId);
+
               this.$store.dispatch('notification/spawnNotification', {
                 action1: { label: i18n.t('OK') },
                 message: i18n.t('Something went wrong, sorry'),
@@ -169,7 +177,8 @@ export default {
         }
       } catch (err) {
         // Never invoked (?)
-        this.$store.dispatch('notification/spawnNotification', {
+        await this.$store.dispatch('notification/removeNotificationById', changingNotificationId);
+        await this.$store.dispatch('notification/spawnNotification', {
           action1: { label: i18n.t('OK') },
           message: i18n.t('Something went wrong, sorry'),
           type: 'error'
