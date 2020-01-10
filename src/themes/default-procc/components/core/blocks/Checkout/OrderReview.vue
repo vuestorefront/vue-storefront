@@ -70,7 +70,7 @@
           <div class="col-xs-12 col-md-8 px20" style="margin-top: 3rem!important;">
             <slot name="placeOrderButton">
               <button-full
-                @click.native="ProCCOrderPayment"
+                @click.native="placeOrder"
                 data-testid="orderReviewSubmit"
                 class="place-order-btn"
                 :disabled="$v.orderReview.$invalid"
@@ -170,7 +170,15 @@ export default {
       this.ProCcAPI.updateTransactionStatus({mangopay_transaction_id: transactionId}, BrandId).then((result) => {
         this.transactionId = result.data.transaction._id
         if (result.data.message_type === 'success') {
-          this.placeOrder(result.data.transaction._id)
+          // emit event for place order in megento by shabbir
+          this.$bus.$emit('place-magento-order', {transactionId})
+        }else {
+          this.$bus.$emit('notification-progress-stop');
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: this.$t('Transaction was not done!!!!'),
+            action1: { label: this.$t('OK') }
+          })
         }
       }).catch(err => {
         Logger.error(err, 'Transaction was not Done!!')()

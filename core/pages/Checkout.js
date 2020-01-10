@@ -37,11 +37,13 @@ export default {
       },
       shippingAmount: null, // by ProCC
       userId: null, // by ProCC
-      focusedField: null
+      focusedField: null,
+      procc_order_id: null // by shabbir for ProCC
     }
   },
   computed: {
     ...mapGetters({
+      getTotals: 'cart/getTotals',
       isVirtualCart: 'cart/isVirtualCart',
       currentImage: 'procc/getHeadImage', // by ProCC
       isThankYouPage: 'checkout/isThankYouPage'
@@ -61,6 +63,7 @@ export default {
     this.$bus.$on('checkout-do-placeOrder', this.onDoPlaceOrder)
     this.$bus.$on('checkout-before-edit', this.onBeforeEdit)
     this.$bus.$on('order-after-placed', this.onAfterPlaceOrder)
+    this.$bus.$on('place-magento-order', this.PlaceMagentoOrder)
     this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$on('checkout-after-validationError', this.focusField)
@@ -123,6 +126,7 @@ export default {
     this.$bus.$off('checkout-do-placeOrder', this.onDoPlaceOrder)
     this.$bus.$off('checkout-before-edit', this.onBeforeEdit)
     this.$bus.$off('order-after-placed', this.onAfterPlaceOrder)
+    this.$bus.$off('place-magento-order', this.PlaceMagentoOrder)
     this.$bus.$off('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$off('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
     this.$bus.$off('checkout-after-validationError', this.focusField)
@@ -162,13 +166,6 @@ export default {
     onBeforePlaceOrder (payload) {
       // Weird code again with no explaination by Vinod
       console.log('onBeforePlaceOrder: ', payload);
-      if (payload) {
-        if (payload.transactionId === 'undefined') {
-          this.userId = payload.userId.toString()
-        } else {
-          this.transactionId = payload.transactionId
-        }
-      }
       // Added by Dan 02-01-2020
       this.$bus.$emit('checkout-do-placeOrder', {})
     },
@@ -176,19 +173,16 @@ export default {
       this.cartSummary = receivedData
     },
     onDoPlaceOrder (additionalPayload) {
-      console.log('onDoPlaceOrder additionalPayload', additionalPayload);
+      // add by shabbir for show spinner
+      this.$bus.$emit('notification-progress-start', i18n.t('Processing order...'))
       if (this.$store.state.cart.cartItems.length === 0) {
         this.notifyEmptyCart()
         this.$router.push(this.localizedRoute('/'))
       } else {
         this.payment.paymentMethodAdditional = additionalPayload;
-        // Added by Dan to delay the place order to wait for the transactionId event ...
-        // Not sure why this fires first ... :(
-        let placeOrder = this.placeOrder;
-        console.log('before TIMEOUT');
+        // Change by shabbir
         setTimeout(() => {
-          console.log('AFTER TIMEOUT');
-          placeOrder()
+          this.placeOrder()
         }, 400)
       }
     },
@@ -293,9 +287,7 @@ export default {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
         products: this.$store.state.cart.cartItems,
-        // Added by Dan ProCC
-        transaction: this.payment.paymentMethodAdditional.transactionId,
-        transactionId: this.transactionId, // Added by dan to transmit Mangopay transaction ID
+        order_ids: this.procc_order_id ? this.procc_order_id : null, // Added by shabbir ProCC
         store_brand: this.currentImage.brand,
         // Added by Dan ProCC
         addressInformation: {
@@ -342,11 +334,86 @@ export default {
     placeOrder () {
       this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
       if (this.checkStocks()) {
-        console.log('Placing order Start', this.prepareOrder());
-        this.$store.dispatch('checkout/placeOrder', { order: this.prepareOrder() })
+        this.placeProccOrder()
       } else {
         this.notifyNotAvailable()
       }
+    },
+    // Created function by shabbir for place order in procc
+    placeProccOrder () {
+      let order_data = this.prepareOrder()
+      this.ProCcAPI.addNewOrder(order_data, order_data.store_brand)
+        .then((result) => {
+          if (result.data.message_type === 'success') {
+            this.procc_order_id = result.data.order_ids
+            this.ProCCOrderPayment()
+          }
+        }).catch(err => {
+          Logger.error(err, 'Transaction was not Done!!')
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: this.$t('Unable to place order in procc!!'),
+            action1: { label: this.$t('OK') }
+          })
+        })
+    },
+    // Created function by shabbir for make payment
+    ProCCOrderPayment () {
+      console.log('this.getTotals: ', this.getTotals)
+      let amount
+      for (let segment of this.getTotals) {
+        if (segment.code === 'grand_total') {
+          amount = segment.value
+        }
+      }
+
+      let data = {
+        'PaymentType': 'CARD',
+        'ExecutionType': 'WEB',
+        'DebitedFunds': {
+          'Currency': 'EUR',
+          'Amount': amount * 100
+        },
+        'Fees': {
+          'Currency': 'EUR',
+          'Amount': 0
+        },
+        'ReturnURL': this.config.server.url + '/transactionDone', //  store url
+        'CardType': 'CB_VISA_MASTERCARD',
+        'SecureMode': 'DEFAULT',
+        'Culture': 'EN',
+        'brand': this.currentImage.brand
+      }
+      this.ProCcAPI.mangoPayCheckIn(data, this.currentImage.brand).then(async (response) => {
+        if (response.data.payIn_result && response.data.payIn_result.RedirectURL) {
+          let newWin = window.open(response.data.payIn_result.RedirectURL, 'popUpWindow', 'height=700,width=800,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
+          if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+            this.$store.dispatch('notification/spawnNotification', {
+              type: 'error',
+              message: this.$t('Please allow to open popup window'),
+              action1: { label: this.$t('OK') }
+            })
+          }
+        } else {
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: this.$t('Something goes Wrong :(  Server could not respond'),
+            action1: { label: this.$t('OK') }
+          })
+        }
+      })
+    },
+    // Created function by shabbir for place order in magento
+    PlaceMagentoOrder (payment_data) {
+      debugger
+      if (payment_data && payment_data.transactionId) {
+        let update_data = {
+          mp_transaction: payment_data.transactionId,
+          order_ids: this.procc_order_id
+        }
+        this.ProCcAPI.updateTransactionInOrder(update_data, this.currentImage.brand)
+      }
+      this.$store.dispatch('checkout/placeOrder', {order: this.prepareOrder()})
     },
     savePersonalDetails () {
       this.$store.dispatch('checkout/savePersonalDetails', this.personalDetails)

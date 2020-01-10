@@ -29,7 +29,6 @@ import { registerClientModules } from 'src/modules/client';
 import initialStateFactory from '@vue-storefront/core/helpers/initialStateFactory'
 import { createRouter, createRouterProxy } from '@vue-storefront/core/helpers/router';
 
-console.log('globalConfig globalConfig', globalConfig)
 const stateFactory = initialStateFactory(store.state)
 
 let router: VueRouter = null
@@ -40,8 +39,6 @@ once('__VUE_EXTEND_RR__', () => {
 })
 
 const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
-  console.log('globalConfig globalConfig22', globalConfig)
-
   router = createRouter()
   routerProxy = createRouterProxy(router)
   // sync router with vuex 'router' store
