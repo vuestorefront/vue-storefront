@@ -12,6 +12,15 @@ import {
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem';
 import { cartHooksExecutors } from './../../hooks'
 
+// TODO: Please remove this function (and it's usage) after fixed bug in magento (https://github.com/magento/magento2/issues/26297)
+const removeDashFromSku = (serverItem) => {
+  const sku = String(serverItem.sku || '')
+  return {
+    ...serverItem,
+    sku: sku.replace(/-*$/, '')
+  }
+}
+
 const mergeActions = {
   async updateClientItem ({ dispatch }, { clientItem, serverItem }) {
     const cartItem = clientItem === null ? await dispatch('getItem', serverItem) : clientItem
@@ -192,7 +201,7 @@ const mergeActions = {
     const diffLog = createDiffLog()
     const mergeParameters = {
       clientItems: hookResult.clientItems,
-      serverItems: hookResult.serverItems,
+      serverItems: hookResult.serverItems.map(removeDashFromSku),
       forceClientState,
       dryRun
     }
