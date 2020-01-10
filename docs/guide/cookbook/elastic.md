@@ -49,6 +49,10 @@ As _Vue Storefront_ stack is mostly associated with _Elasticsearch_ through _Vue
  - ES7 is supported from _Vue Storefront_ version `1.11` and up. You should have it accordingly. 
  - ES7 is supported from _Vue Storefront API_ version `1.11` and up. You should have it accordingly too. 
  - ES7 is supported from _mage2vuestorefront_ with branch `feature/es7`. You should have it too.  
+:::tip NOTE
+How to download the latest `1.11` via `git` is explained in [_Protip_](#secret-1-how-to-upgrade-to-1-11-technically-foolproof-approach)
+:::
+
 
 ### 2. Recipe
  0. You should fix `docker-compose.nodejs.yml` file as linked _Elasticsearch_ container should be updated like below : 
