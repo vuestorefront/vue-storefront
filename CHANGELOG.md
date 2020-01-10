@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald (#3960)
 - Add unified fetch in mappingFallback for all searched entities - @gibkigonzo (#3942)
 - add npm-run-all for parallel build - @gibkigonzo (#3819)
+- Add OutputCaching support for x-vs-store-code - @benjick (#3979)
 
 ### Fixed
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
