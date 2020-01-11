@@ -11,7 +11,7 @@
           <p
             :style="{color: currentImage.subtitle_color}"
             data-testid="mainSliderSubtitle"
-            class="subtitle mb0 serif h3 procc-title-style"
+            class="subtitle mb0 serif h3 procc-title-style text-shadow"
           >
             {{ currentImage.subtitle }}
           </p>
@@ -21,14 +21,14 @@
     <div class="container w-100 h-100" v-else-if="isDefaultStore && defaultStore && defaultStore.image"
          v-lazy:background-image="encodeURI(defaultStore.image)">
       <div class="default-store-class head-image-content">
-        <h1 :style="{ color: defaultStore.title_color }" class="title"
+        <h1 :style="{ color: defaultStore.title_color }" class="title text-shadow"
             data-testid="mainSliderTitle">
           {{ defaultStore.title }}
         </h1>
         <p
           :style="{color: defaultStore.subtitle_color }"
           data-testid="mainSliderSubtitle"
-          class="subtitle mb0 serif h3 procc-title-style"
+          class="subtitle mb0 serif h3 procc-title-style text-shadow"
         >
           {{ defaultStore.subtitle }}
         </p>
@@ -87,6 +87,8 @@ export default {
   .procc-title-style {
     padding-left: 10px !important;
     line-height: 30px !important;
+  }
+  .text-shadow{
     text-shadow: 1px 1px 0px rgba(244, 222, 242, 0.48), 1px 1px 1px rgba(255, 255, 255, 0.73) !important;
   }
 

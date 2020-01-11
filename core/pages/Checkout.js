@@ -289,6 +289,8 @@ export default {
         products: this.$store.state.cart.cartItems,
         order_ids: this.procc_order_id ? this.procc_order_id : null, // Added by shabbir ProCC
         store_brand: this.currentImage.brand,
+        // Added by Dan ProCC -> TODO: need to charge 1 shipping fee per brand ordered from and store separate shipping methods for each brand
+        shipping_amount: this.$store.state.cart.platformTotalSegments[1].value,
         // Added by Dan ProCC
         addressInformation: {
           billingAddress: {

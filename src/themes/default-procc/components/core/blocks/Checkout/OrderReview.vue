@@ -75,7 +75,7 @@
                 class="place-order-btn"
                 :disabled="$v.orderReview.$invalid"
               >
-                {{ $t('Do the Payment') }}
+                {{ $t('Payment') }}
               </button-full>
             </slot>
           </div>
