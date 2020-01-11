@@ -460,11 +460,11 @@ _Elasticsearch_ has been through intensive updates ceaselessly. Mostly, it's gra
 
 Fixing breaks for _Elasticsearch 7.x_ has been successfully included in _Vue Storefront 1.11_ upgrade. 
 
-First thing you need to is, download upgrade with `git`. Upgraded version of containers are described in `docker-compose` files so what it contains inside is well encapsulated that you don't have to be concerned of how it works internally unless you want to tweak customization more than the default. 
+First thing you need to do is, download the upgrade with `git`. Upgraded version of containers are described in `docker-compose` files so what it contains inside is well encapsulated that you don't have to be concerned of how it works internally unless you want to tweak customization more than the default. 
 
 Next, you should newly create each mapping for _Elasticsearch_ index as per the type. Then pumping your data into _Elasticsearch_ using _mage2vuestorefront_.  
 
-If things go as planned, your above-7-Elasticsearch should serve as performant search engine for data store with enhanced indexing ability.  
+If things go as planned so far so good, your above-7-Elasticsearch should serve as performant search engine for data store with enhanced indexing ability.  
 
 ### 4. Chef's secret (protip)
 
@@ -508,6 +508,8 @@ Online shops normally have certain types of models and scenarios in common. (Bec
  The large part of main entities are already implemented in VSF `core` as expected but you might still need to add or remove additional entities as you want it to fulfill your mission. This recipe will give you an idea of how to do it. 
 
 ### 1. Preparation
+
+
 ### 2. Recipe
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
