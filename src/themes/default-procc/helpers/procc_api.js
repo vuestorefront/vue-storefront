@@ -55,6 +55,7 @@ export default (baseURL = '') => {
   })
 
   const addNewOrder = (orderData, brandId) => api.post('order/addNewOrder', orderData, getHeader(brandId))
+  const updateTransactionInOrder = (orderData, brandId) => api.post('order/updateTransactionInOrder', orderData, getHeader(brandId))
   const mangoPayCheckIn = (data, brandId) => api.post('mangopay/VSFOrderPayment', data, getHeader(brandId))
   const updateTransactionStatus = (data, brandId) => api.post('mangopay/updateTransactionStatus', data, getHeader(brandId))
   const getSizeChart = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
@@ -67,6 +68,7 @@ export default (baseURL = '') => {
     getSizeChart,
     mangoPayCheckIn,
     updateTransactionStatus,
-    updateVsfSyncStatus
+    updateVsfSyncStatus,
+    updateTransactionInOrder
   }
 }

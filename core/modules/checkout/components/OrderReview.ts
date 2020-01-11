@@ -26,15 +26,13 @@ export const OrderReview = {
     })
   },
   methods: {
-    placeOrder(transactionId) { // Edited by Dan to verify transaction has passed
+    placeOrder() { // Edited by Dan to verify transaction has passed
       if (this.getPersonalDetails.createAccount) {
         console.log('register Start');
         this.register()
-      } else if(transactionId){
-        console.log('transactionId', transactionId);
-        this.$bus.$emit('checkout-before-placeOrder', { transactionId })
       } else {
-        this.$bus.$emit('checkout-before-placeOrder')
+        // change code for place order by shabbir
+        this.$bus.$emit('checkout-do-placeOrder')
       }
     },
     async register () {
@@ -76,7 +74,7 @@ export const OrderReview = {
             username: this.getPersonalDetails.emailAddress,
             password: this.getPersonalDetails.password
           });
-          this.$bus.$emit('checkout-before-placeOrder', result.result.id);
+          this.$bus.$emit('checkout-do-placeOrder', result.result.id);
           this.onSuccess()
         }
       } catch (err) {
