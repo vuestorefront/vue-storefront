@@ -407,7 +407,6 @@ export default {
     },
     // Created function by shabbir for place order in magento
     PlaceMagentoOrder (payment_data) {
-      debugger
       if (payment_data && payment_data.transactionId) {
         let update_data = {
           mp_transaction: payment_data.transactionId,
