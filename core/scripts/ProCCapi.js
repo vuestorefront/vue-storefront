@@ -107,20 +107,25 @@ module.exports = (config, app) => {
   });
   app.post('/delete-store', (req, res) => {
     // TODO: add authentication for these API Calls
-    let storeData = req.body;
-    const mainImage = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeData.storeCode}_main-image.json`)});
-    const StoreBanners = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeData.storeCode}_store_banners.json`)});
-    const storePolicies = new Store({path: path.resolve(config.themeDir + `/resource/policies/${storeData.storeCode}_store_policies.json`)});
-    // TODO: Add better check for all assets of the store -> return success if it is missing
+    let storeData = req.body
+    const mainImage = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeData.storeCode}_main-image.json`)})
+    const StoreBanners = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeData.storeCode}_store_banners.json`)})
+    const storePolicies = new Store({path: path.resolve(config.themeDir + `/resource/policies/${storeData.storeCode}_store_policies.json`)})
+    console.log('Configs loaded for deletion')
+    // TODO: Add better check for all assets of the store -> return success if it is missing or error if exists but fail to delete the store properly
     if (storefrontConfig.has(`storeViews.${storeData.storeCode}`)) {
-      storefrontConfig.del(`storeViews.${storeData.storeCode}`);
-      storefrontConfig.set('storeViews.mapStoreUrlsFor', _.pull(storefrontConfig.get('storeViews.mapStoreUrlsFor'), storeData.storeCode));
-      mainImage.unlink();
-      StoreBanners.unlink();
+      console.log('Configs deletion started')
+      storefrontConfig.del(`storeViews.${storeData.storeCode}`)
+      storefrontConfig.set('storeViews.mapStoreUrlsFor', _.pull(storefrontConfig.get('storeViews.mapStoreUrlsFor'), storeData.storeCode))
+      console.log('Configs deletion pulled from config')
+      mainImage.unlink()
+      StoreBanners.unlink()
       storePolicies.unlink()
+      console.log('Configs deletion deleted store configs')
+      apiStatus(res, 200)
     } else {
-      console.log('Store does not exist', storeData);
-      apiStatus(res, 500);
+      console.log('Store does not exist', storeData)
+      apiStatus(res, 200)
     }
   });
   app.post('/backup-config', (req, res) => {
