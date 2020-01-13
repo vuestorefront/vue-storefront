@@ -24,14 +24,16 @@ export default {
     }
   },
   methods: {
-    unsubscribe () {
+    unsubscribe (success?: Function, failure?: Function) {
       // argument omitted for validation purposes
       if (!this.$v.$invalid) {
         return this.$store.dispatch('newsletter/unsubscribe', this.email).then(res => {
+          if (success) success(res)
           this.$emit('unsubscribed', res)
-        }).catch(err =>
+        }).catch(err => {
+          if (failure) failure(err)
           this.$emit('unsubscription-error', err)
-        )
+        })
       }
     }
   }

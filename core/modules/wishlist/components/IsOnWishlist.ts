@@ -1,5 +1,6 @@
-import { Wishlist as WishlistModule } from '../'
+import { WishlistModule } from '../'
 import wishlistMountedMixin from '@vue-storefront/core/modules/wishlist/mixins/wishlistMountedMixin'
+import { registerModule } from '@vue-storefront/core/lib/modules';
 
 export const IsOnWishlist = {
   name: 'isOnWishlist',
@@ -11,11 +12,11 @@ export const IsOnWishlist = {
     }
   },
   created () {
-    WishlistModule.register()
+    registerModule(WishlistModule)
   },
   computed: {
-    isOnWishlist (): boolean {
-      return !!this.$store.state.wishlist.items.find(p => p.sku === this.product.sku) || false
+    isOnWishlist () {
+      return this.$store.getters['wishlist/isOnWishlist'](this.product)
     }
   }
 }

@@ -20,7 +20,9 @@ module.exports = merge(base, {
       filename: 'service-worker.js',
       staticFileGlobsIgnorePatterns: [/\.map$/],
       staticFileGlobs: [
-        'dist/**.*',
+        'dist/**.*.js',
+        'dist/**.*.json',
+        'dist/**.*.css',
         'assets/**.*',
         'assets/ig/**.*',
         'index.html',
@@ -60,10 +62,12 @@ module.exports = merge(base, {
         {
           urlPattern: '/img/(.*)',
           handler: 'fastest'
-        }, {
-          urlPattern: '/api/catalog/*',
+        },
+        {
+          urlPattern: /(http[s]?:\/\/)?(\/)?([^\/\s]+\/)?(api\/catalog\/)(.*)/g, // eslint-disable-line no-useless-escape
           handler: 'networkFirst'
-        }, {
+        },
+        {
           urlPattern: '/api/*',
           handler: 'networkFirst'
         }, {

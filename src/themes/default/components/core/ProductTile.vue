@@ -1,21 +1,39 @@
 <template>
-  <div
-    class="product align-center w-100 pb20"
-    v-observe-visibility="visibilityChanged"
-  >
+  <div class="product align-center w-100 pb20" v-observe-visibility="visibilityChanged">
+    <div class="product__icons">
+      <AddToWishlist :product="product">
+        <div
+          class="product__icon"
+          :class="{'product__icon--active': isOnWishlist }"
+          :title="isOnWishlist ? $t('Remove') : $t('Add to favorite') "
+        >
+          <i class="material-icons">{{ favoriteIcon }}</i>
+        </div>
+      </AddToWishlist>
+      <AddToCompare :product="product">
+        <div
+          class="product__icon"
+          :class="{'product__icon--active':isOnCompare } "
+          :title="isOnCompare ? $t('Remove from compare') : $t('Add to compare')"
+        >
+          <i class="material-icons">compare</i>
+        </div>
+      </AddToCompare>
+    </div>
     <router-link
       class="block no-underline product-link"
       :to="productLink"
       data-testid="productLink"
     >
       <div
-        class="product-image relative bg-cl-secondary"
+        class="product-cover bg-cl-secondary"
         :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
       >
         <product-image
-          class="product-image__content"
+          class="product-cover__thumb"
           :image="thumbnailObj"
           :alt="product.name | htmlDecode"
+          :calc-ratio="false"
           data-testid="productImage"
         />
       </div>
@@ -26,24 +44,18 @@
 
       <span
         class="price-original mr5 lh30 cl-secondary"
-        v-if="product.special_price && parseFloat(product.originalPriceInclTax) > 0 && !onlyImage"
-      >
-        {{ product.originalPriceInclTax | price }}
-      </span>
+        v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0 && !onlyImage"
+      >{{ product.original_price_incl_tax | price }}</span>
 
       <span
         class="price-special lh30 cl-accent weight-700"
         v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
-      >
-        {{ product.priceInclTax | price }}
-      </span>
+      >{{ product.price_incl_tax | price }}</span>
 
       <span
         class="lh30 cl-secondary"
-        v-if="!product.special_price && parseFloat(product.priceInclTax) > 0 && !onlyImage"
-      >
-        {{ product.priceInclTax | price }}
-      </span>
+        v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
+      >{{ product.price_incl_tax | price }}</span>
     </router-link>
   </div>
 </template>
@@ -53,11 +65,17 @@ import rootStore from '@vue-storefront/core/store'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
 import config from 'config'
 import ProductImage from './ProductImage'
+import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
+import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
+import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
+import { IsOnCompare } from '@vue-storefront/core/modules/compare/components/IsOnCompare'
 
 export default {
-  mixins: [ProductTile],
+  mixins: [ProductTile, IsOnWishlist, IsOnCompare],
   components: {
-    ProductImage
+    ProductImage,
+    AddToWishlist,
+    AddToCompare
   },
   props: {
     labelsActive: {
@@ -75,6 +93,9 @@ export default {
         src: this.thumbnail,
         loading: this.thumbnail
       }
+    },
+    favoriteIcon () {
+      return this.isOnWishlist ? 'favorite' : 'favorite_border'
     }
   },
   methods: {
@@ -84,20 +105,23 @@ export default {
       }
     },
     visibilityChanged (isVisible, entry) {
-      if (isVisible) {
-        if (config.products.configurableChildrenStockPrefetchDynamic && rootStore.products.filterUnavailableVariants) {
-          const skus = [this.product.sku]
-          if (this.product.type_id === 'configurable' && this.product.configurable_children && this.product.configurable_children.length > 0) {
-            for (const confChild of this.product.configurable_children) {
-              const cachedItem = rootStore.state.stock.cache[confChild.id]
-              if (typeof cachedItem === 'undefined' || cachedItem === null) {
-                skus.push(confChild.sku)
-              }
-            }
-            if (skus.length > 0) {
-              rootStore.dispatch('stock/list', { skus: skus }) // store it in the cache
-            }
+      if (
+        isVisible &&
+        config.products.configurableChildrenStockPrefetchDynamic &&
+        config.products.filterUnavailableVariants &&
+        this.product.type_id === 'configurable' &&
+        this.product.configurable_children &&
+        this.product.configurable_children.length > 0
+      ) {
+        const skus = [this.product.sku]
+        for (const confChild of this.product.configurable_children) {
+          const cachedItem = rootStore.state.stock.cache[confChild.id]
+          if (typeof cachedItem === 'undefined' || cachedItem === null) {
+            skus.push(confChild.sku)
           }
+        }
+        if (skus.length > 0) {
+          rootStore.dispatch('stock/list', { skus: skus }) // store it in the cache
         }
       }
     }
@@ -121,8 +145,35 @@ $border-secondary: color(secondary, $colors-border);
 $color-white: color(white);
 
 .product {
+  position: relative;
   @media (max-width: 767px) {
     padding-bottom: 10px;
+  }
+  &__icons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding-right: 20px;
+    padding-top: 10px;
+  }
+  &__icon {
+    padding-top: 10px;
+    opacity: 0;
+    z-index: 2;
+    transition: 0.3s opacity $motion-main;
+    @media (max-width: 767px) {
+      opacity: 1;
+    }
+    &--active {
+      opacity: 1;
+    }
+  }
+  &:hover {
+    .product__icon {
+      opacity: 1;
+    }
   }
 }
 
@@ -145,45 +196,39 @@ $color-white: color(white);
   font-size: 12px;
 }
 
-.product-image{
+.product-cover {
   overflow: hidden;
-  width:100%;
-  height: 100%;
-  max-height: 300px;
 
-  &:hover{
-    .product-image__content{
-      opacity: 1;
-      transform: scale(1.1);
+  &__thumb {
+    padding-bottom: calc(143.88% / (164.5 / 100));
+    @media screen and (min-width: 768px) {
+      padding-bottom: calc(300% / (276.5 / 100));
     }
-    &.sale::after,
-    &.new::after{
-      opacity: .8;
-    }
+    opacity: 0.8;
+    will-change: opacity, transform;
+    transition: 0.3s opacity $motion-main, 0.3s transform $motion-main;
   }
-  &__content{
 
-    padding-bottom: calc(300% / (257 / 100));
-    mix-blend-mode: darken;
-    opacity: .8;
-    transform: scale(1);
-    will-change: transform;
-    transition: .3s opacity $motion-main, .3s transform $motion-main;
-    @media (min-width: 768px) {
-      padding-bottom: calc(208% / (168 / 100));
-    }
-    @media (min-width: 1200px) {
-      padding-bottom: calc(300% / (276 / 100));
+  @media screen and (min-width: 768px) {
+    &:hover {
+      .product-cover__thumb {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      &.sale::after,
+      &.new::after {
+        opacity: 0.8;
+      }
     }
   }
 
-  &.sale{
+  &.sale {
     &::after {
       @extend %label;
       content: 'Sale';
     }
   }
-  &.new{
+  &.new {
     &::after {
       @extend %label;
       content: 'New';

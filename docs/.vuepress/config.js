@@ -52,8 +52,8 @@ module.exports = {
             'cookbook/vue',
             'cookbook/multistores',
             'cookbook/migration',
-            'cookbook/checklist',
-            'cookbook/history'
+            'cookbook/history',
+            'cookbook/checklist'
           ],
         },
         {
@@ -80,6 +80,7 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
+            'basics/static-generator',
             'basics/e2e',
             'basics/url'
           ],
@@ -140,14 +141,14 @@ module.exports = {
           ],
         },
         {
-          title: 'Archives',
-          collapsable: true,
+          title: 'Data Resolvers',
+          collapsable: false,
           children: [
-            'archives/modules',
-            'archives/extensions',
-            'archives/components'
-          ],
-        },
+            'data-resolvers/introduction',
+            'data-resolvers/category-service',
+            'data-resolvers/user-service',
+          ]
+        }
       ],
     },
   },

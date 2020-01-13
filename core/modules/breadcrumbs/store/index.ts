@@ -1,5 +1,5 @@
 
-export const module = {
+export const breadcrumbsStore = {
   namespaced: true,
   state: {
     routes: [],
@@ -15,5 +15,9 @@ export const module = {
     set ({ commit }, payload) {
       commit('set', payload)
     }
+  },
+  getters: {
+    getBreadcrumbsRoutes: (state) => state.routes,
+    getBreadcrumbsCurrent: (state) => state.current
   }
 }
