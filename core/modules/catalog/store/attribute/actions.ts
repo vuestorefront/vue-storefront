@@ -8,9 +8,9 @@ import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import { prefetchCachedAttributes } from '../../helpers/prefetchCachedAttributes'
-import areAttributesAlreadyLoaded from './../../helpers/areAttributesAlreadyLoaded'
 import createAttributesListQuery from './../../helpers/createAttributesListQuery'
 import reduceAttributesLists from './../../helpers/reduceAttributesLists'
+import filterAttributes from '../../helpers/filterAttributes'
 
 const actions: ActionTree<AttributeState, RootState> = {
   async updateAttributes ({ commit, getters }, { attributes }) {
@@ -63,7 +63,8 @@ const actions: ActionTree<AttributeState, RootState> = {
 
     await dispatch('loadCachedAttributes', { filterField, filterValues })
 
-    if (areAttributesAlreadyLoaded({ filterValues, filterField, blacklist, idsList, codesList })) {
+    filterValues = filterAttributes({ filterValues, filterField, blacklist, idsList, codesList })
+    if (filterValues.length === 0) {
       Logger.info('Skipping attribute load - attributes already loaded', 'attr', { orgFilterValues, filterField })()
       return { items: Object.values(codesList) }
     }

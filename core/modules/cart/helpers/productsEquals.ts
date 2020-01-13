@@ -18,6 +18,7 @@ const getServerItemId = (product: CartItem): string | number =>
 const isServerIdsEquals = (product1: CartItem, product2: CartItem): boolean => {
   const product1ItemId = getServerItemId(product1)
   const product2ItemId = getServerItemId(product2)
+
   const areItemIdsDefined = product1ItemId !== undefined && product2ItemId !== undefined
 
   return areItemIdsDefined && product1ItemId === product2ItemId
@@ -38,7 +39,7 @@ const productsEquals = (product1: CartItem, product2: CartItem): boolean => {
     return isServerIdsEquals(product1, product2) || isChecksumEquals(product1, product2)
   }
 
-  return String(product1.sku) === String(product2.sku)
+  return isServerIdsEquals(product1, product2) || String(product1.sku) === String(product2.sku)
 }
 
 export default productsEquals
