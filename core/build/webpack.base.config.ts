@@ -6,9 +6,10 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import VueLoaderPlugin from 'vue-loader/lib/plugin';
 import autoprefixer from 'autoprefixer';
 import HTMLPlugin from 'html-webpack-plugin';
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 import webpack from 'webpack';
 import dayjs from 'dayjs';
+
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 fs.writeFileSync(
   path.resolve(__dirname, './config.json'),
@@ -63,9 +64,9 @@ export default {
   plugins: [
     new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
     new webpack.ProgressPlugin(),
-    // new BundleAnalyzerPlugin({
-    //   generateStatsFile: true
-    // }),
+    /* new BundleAnalyzerPlugin({
+      generateStatsFile: true
+    }), */
     new CaseSensitivePathsPlugin(),
     new VueLoaderPlugin(),
     // generate output HTML

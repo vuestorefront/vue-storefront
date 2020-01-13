@@ -277,7 +277,7 @@ export default {
   metaInfo () {
     const storeView = currentStoreView()
     return {
-      link: [
+      /* link: [
         { rel: 'amphtml',
           href: this.$router.resolve(localizedRoute({
             name: 'category-amp',
@@ -286,7 +286,7 @@ export default {
             }
           }, storeView.storeCode)).href
         }
-      ],
+      ], */
       title: htmlDecode(this.category.meta_title || this.categoryName),
       meta: this.category.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.category.meta_description) }] : []
     }
