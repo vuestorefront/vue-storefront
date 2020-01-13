@@ -39,6 +39,7 @@ declare namespace DataResolver {
 
   interface UserService {
     resetPassword: (email: string) => Promise<Task>,
+    createPassword: (email: string, newPassword: string, resetToken: string) => Promise<Task>,
     login: (username: string, password: string) => Promise<Task>,
     register: (customer: Customer, pssword: string) => Promise<Task>,
     updateProfile: (userProfile: UserProfile, actionName: string) => Promise<Task>,
