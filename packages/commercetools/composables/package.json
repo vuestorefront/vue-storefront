@@ -3,20 +3,22 @@
   "version": "0.0.1",
   "sideEffects": true,
   "main": "lib/index.cjs.js",
-  "module":"lib/index.es.js",
+  "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build" : "rollup -c",
-    "dev" : "rollup -c -w",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
     "test": "jest"
   },
   "dependencies": {
+    "@vue-storefront/commercetools-api": "^0.0.1",
     "@vue-storefront/interfaces": "^0.0.1",
     "@vue/composition-api": "^0.3.4",
-    "@vue-storefront/commercetools-api" : "^0.0.1",
     "vue": "^2.6.x"
   },
   "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.30",
+    "vue-template-compiler": "^2.6.10"
   },
   "files": [
     "lib/**/*"

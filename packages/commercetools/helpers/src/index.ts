@@ -1,5 +1,5 @@
-import { UiMediaGalleryItem, UiCategory } from '@vue-storefront/interfaces'
-import { ProductVariant, Image, Category } from './types/GraphQL'
+import { UiMediaGalleryItem, UiCategory, UiCartProduct } from '@vue-storefront/interfaces'
+import { ProductVariant, Image, Category, Cart, LineItem } from './types/GraphQL'
 
 // Product
 export const getProductName = (product: ProductVariant): string => product ? (product as any)._name : ''
@@ -57,3 +57,30 @@ export const getCategoryTree = (category: Category): UiCategory | null => {
 
   return buildTree(getRoot(category))
 }
+
+
+// Cart
+
+export const getCartProducts = (cart: Cart, includeAttributes: string[] = []): UiCartProduct[] => {
+  if (!cart) {
+    return []
+  }
+
+  const filterAttributes = (attributes) => {
+    if (includeAttributes.length === 0) {
+      return attributes
+    }
+
+    return attributes.filter(f => includeAttributes.includes(f.name))
+  }
+
+  return cart.lineItems.map((lineItem: LineItem) => ({
+    title: lineItem.name,
+    id: lineItem.id,
+    price: { regular: lineItem.price.value.centAmount / 100 },
+    image: lineItem.variant.images[0].url,
+    qty: lineItem.quantity,
+    configuration: filterAttributes((lineItem as any)._configuration)
+  }))
+}
+

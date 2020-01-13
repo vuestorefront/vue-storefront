@@ -1,52 +1,67 @@
-import { UseCart } from '@vue-storefront/interfaces'
-import { ref } from '@vue/composition-api'
+import { UseCart as BaseUseCart, UiCartProduct } from '@vue-storefront/interfaces'
+import {
+  addToCart as apiAddToCart,
+  removeFromCart as apiRemoveFromCart,
+  updateCartQuantity as apiUpdateCartQuantity
+} from '@vue-storefront/commercetools-api'
+import { Ref, ref, watch } from '@vue/composition-api'
+import { ProductVariant, Cart } from './../types/GraphQL'
+import { enhanceCart } from './../helpers/internals'
+import loadCurrentCart from './currentCart'
 
-export default function useCart(): UseCart<any, any, any, any, any, any, any> {
-  const cart = ref({ products: [
-    {
-      title: "Cream Beach Bag",
-      id: "CBB1",
-      image: "/homepage/productA.jpg",
-      price: { regular: "50.00" },
-      configuration: [
-        { name: "Size", value: "XS" },
-        { name: "Color", value: "White" }
-      ],
-      qty: "1",
-      stock: 44
-    },
-    {
-      title: "Cream Beach Bag",
-      id: "CBB2",
-      image: "/homepage/productB.jpg",
-      price: { regular: "50.00", special: "20.05" },
-      configuration: [
-        { name: "Size", value: "XS" },
-        { name: "Color", value: "White" }
-      ],
-      qty: "2",
-      stock: 10
-    },
-    {
-      title: "Cream Beach Bag",
-      id: "CBB3",
-      image: "/homepage/productC.jpg",
-      price: { regular: "50.00", special: "20.50" },
-      configuration: [
-        { name: "Size", value: "XS" },
-        { name: "Color", value: "White" }
-      ],
-      qty: "1",
-      stock: 20
+const cart: Ref<Cart> = ref<Cart>(null)
+const loading: Ref<boolean> = ref<boolean>(false)
+
+type CartRef = Ref<Cart>
+type AddToCartFn = (variant: ProductVariant, quantity: number) => void
+type RemoveFromCartFn = (product: UiCartProduct) => void
+type ClearCartFn = (product: UiCartProduct) => void
+type CouponRef = Ref<any>
+type ApplyCouponFn = () => void
+type RemoveCoupon = () => void
+
+interface UseCart extends BaseUseCart<CartRef, AddToCartFn, RemoveFromCartFn, ClearCartFn, CouponRef, ApplyCouponFn, RemoveCoupon> {
+  updateQuantity: (product: UiCartProduct) => void
+}
+
+export default function useCart(): UseCart {
+
+  watch(async () => {
+    if (!cart.value && !loading.value) {
+      loading.value = true
+      cart.value = await loadCurrentCart()
+      loading.value = false
     }
-  ]})
-  const addToCart = () => { () => { console.log('useCart:addToCart') } }
-  const removeFromCart = () => { () => { console.log('useCart:removeFromCart') } }
-  const clearCart = () => { () => { console.log('useCart:clearCart') } }
+  })
+
+  const addToCart = async (variant: ProductVariant, quantity: number) => {
+    loading.value = true
+    const updateResponse = await apiAddToCart(cart.value, variant, quantity)
+    cart.value = enhanceCart(updateResponse).data.cart
+    loading.value = false
+  }
+
+  const removeFromCart = async (product: UiCartProduct) => {
+    loading.value = true
+    const updateResponse = await apiRemoveFromCart(cart.value, product)
+    cart.value = enhanceCart(updateResponse).data.cart
+    loading.value = false
+  }
+
+  const updateQuantity = async (product: UiCartProduct) => {
+    if (parseInt(product.qty) > 0) {
+      loading.value = true
+      const updateResponse = await apiUpdateCartQuantity(cart.value, product)
+      cart.value = enhanceCart(updateResponse).data.cart
+      loading.value = false
+    }
+  }
+
+  const clearCart = () => console.log('useCart:clearCart')
+  const applyCoupon = () => console.log('useCart:applyCoupon')
+  const removeCoupon = () => console.log('useCart:removeCoupon')
+
   const coupon = ref({})
-  const applyCoupon = () => { () => { console.log('useCart:applyCoupon') } }
-  const removeCoupon = () => { () => { console.log('useCart:removeCoupon') } }
-  const loading = false
   const error = ref(null)
 
   return {
@@ -54,6 +69,7 @@ export default function useCart(): UseCart<any, any, any, any, any, any, any> {
     addToCart,
     removeFromCart,
     clearCart,
+    updateQuantity,
     coupon,
     applyCoupon,
     removeCoupon,

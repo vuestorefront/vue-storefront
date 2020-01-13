@@ -96,7 +96,9 @@
             <SfAddToCart
               :stock="stock"
               v-model="qty"
+              :disabled="loading"
               :canAddToCart="stock > 0"
+              @click="addToCart(product, parseInt(qty))"
               class="product-details__add-to-cart"
             />
             <div class="product-details__action">
@@ -281,9 +283,9 @@ import {
   SfReview,
   SfBreadcrumbs
 } from "@storefront-ui/vue";
-import { computed } from '@vue/composition-api'
+import { ref, computed } from '@vue/composition-api'
 
-import { useProduct } from '@vue-storefront/commercetools-composables'
+import { useProduct, useCart } from '@vue-storefront/commercetools-composables'
 import {
   getProductVariants,
   getProductName,
@@ -295,14 +297,16 @@ export default {
   name: "Product",
   transition: 'fade',
   setup (props, context) {
+    const qty = ref(1)
     const { params } = context.root.$route
     const { products, search } = useProduct()
+    const { cart, addToCart,loading } = useCart()
 
     search({ slug: params['slug_1'] })
 
     const product = computed(() => getProductVariants(products.value, { master: true }))
 
-    return { product }
+    return { qty, product, addToCart, loading }
   },
   components: {
     SfAlert,
@@ -326,7 +330,7 @@ export default {
   },
   data() {
     return {
-      qty: "1",
+      // qty: "1",
       stock: 5,
       size: "",
       sizes: [

@@ -18,9 +18,10 @@
                 :title="product.title"
                 :regular-price="product.price.regular | price"
                 :special-price="product.price.special | price"
-                :stock="product.stock"
+                :stock="99999"
+                @input="updateQuantity(product)"
                 v-model="product.qty"
-                @click:remove="removeHandler(product)"
+                @click:remove="removeFromCart(product)"
                 class="collected-product"
               >
                 <template #configuration>
@@ -77,6 +78,7 @@ import {
 } from '@storefront-ui/vue'
 import { computed } from '@vue/composition-api'
 import { useCart } from '@vue-storefront/commercetools-composables'
+import { getCartProducts } from '@vue-storefront/commercetools-helpers'
 import { isCartSidebarOpen, toggleCartSidebar } from '~/assets/ui-state'
 
 export default {
@@ -95,11 +97,14 @@ export default {
     }
   },
   setup() {
+    const { cart, removeFromCart, updateQuantity } = useCart()
 
-    const { cart } = useCart()
-    
+    const products = computed(() => getCartProducts(cart.value, ['color', 'size']))
+
     return {
-      products: cart.value.products,
+      products,
+      removeFromCart,
+      updateQuantity,
       isCartSidebarOpen,
       toggleCartSidebar
     };
@@ -123,12 +128,6 @@ export default {
         .toFixed(2);
     }
   },
-  methods: {
-    removeHandler(product) {
-      const products = [...this.products];
-      this.products = products.filter(element => element.id !== product.id);
-    }
-  }
 };
 </script>
 <style lang="scss" scoped>

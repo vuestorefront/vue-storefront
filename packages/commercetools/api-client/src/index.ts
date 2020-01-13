@@ -4,6 +4,13 @@ import { SetupConfig } from './types/setup'
 import createCommerceToolsLink from './helpers/createCommerceToolsLink'
 import getProduct from './api/getProduct'
 import getCategory from './api/getCategory'
+import createCart from './api/createCart'
+import updateCart from './api/updateCart'
+import getCart from './api/getCart'
+import addToCart from './api/addToCart'
+import removeFromCart from './api/removeFromCart'
+import updateCartQuantity from './api/updateCartQuantity'
+import getStorage from './helpers/createCommerceToolsLink/getStorage'
 
 let apolloClient: ApolloClient<any> = null
 let locale = 'en'
@@ -21,4 +28,18 @@ const setup = <TCacheShape>(setupConfig?: SetupConfig<TCacheShape>): ApolloClien
   return apolloClient
 }
 
-export { apolloClient, setup, locale, currency, getProduct, getCategory }
+export {
+  apolloClient,
+  setup,
+  locale,
+  currency,
+  getStorage,
+  getProduct,
+  getCategory,
+  createCart,
+  updateCart,
+  getCart,
+  addToCart,
+  removeFromCart,
+  updateCartQuantity
+}

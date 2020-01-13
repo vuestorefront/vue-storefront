@@ -42,7 +42,7 @@ export interface UseCart
   coupon: COUPON;
   applyCoupon: APPLY_COUPON;
   removeCoupon: REMOVE_COUPON;
-  loading: boolean;
+  loading: Ref<boolean>;
   error: any;
 }
 
@@ -120,4 +120,22 @@ export interface UiCategory {
   label: string
   slug?: string
   items: UiCategory[]
+}
+
+export interface UiCartProductConfiguration {
+  name: string
+  value: string
+}
+
+export interface UiCartProductPrice {
+  regular: number
+}
+
+export interface UiCartProduct {
+  title: string
+  id: string
+  image: string
+  price: UiCartProductPrice
+  configuration: UiCartProductConfiguration[]
+  qty: string
 }
