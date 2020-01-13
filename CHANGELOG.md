@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.11.1] - UNRELEASED
 
+### Changed / Improved
+- Set cache tag when loading a category - @haelbichalex (#3940)
+
 ### Fixed
 - Added Finnish translations - @mattiteraslahti and @alphpkeemik
 - Updated Estonian translations to match 1.11 - @alphpkeemik
