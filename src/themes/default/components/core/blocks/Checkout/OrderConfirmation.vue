@@ -34,13 +34,13 @@
                 </span>
               </td>
               <td class="fs-medium lh25" :data-th="$t('Price')">
-                {{ product.price_incl_tax | price }}
+                {{ product.price_incl_tax | price(storeView) }}
               </td>
               <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">
                 {{ product.qty }}
               </td>
               <td class="fs-medium lh25" :data-th="$t('Subtotal')">
-                {{ product.price_incl_tax * product.qty | price }}
+                {{ product.price_incl_tax * product.qty | price(storeView) }}
               </td>
             </tr>
           </tbody>
@@ -65,6 +65,7 @@ import { ConfirmOrders } from '@vue-storefront/core/modules/offline-order/compon
 import { CancelOrders } from '@vue-storefront/core/modules/offline-order/components/CancelOrders'
 import Modal from 'theme/components/core/Modal'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   props: {
@@ -78,6 +79,11 @@ export default {
     this.$nextTick(() => {
       this.$bus.$emit('modal-show', 'modal-order-confirmation')
     })
+  },
+  computed: {
+    storeView () {
+      return currentStoreView()
+    }
   },
   methods: {
     confirmOrders () {

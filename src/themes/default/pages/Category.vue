@@ -197,14 +197,14 @@ export default {
     const meta = meta_description ? [
       { vmid: 'description', name: 'description', content: htmlDecode(meta_description) }
     ] : []
-    const categoryLocaliedLink = localizedRoute({
+    /* const categoryLocaliedLink = localizedRoute({
       name: 'category-amp',
       params: { slug }
     }, storeView.storeCode)
-    const ampCategoryLink = this.$router.resolve(categoryLocaliedLink).href
+    const ampCategoryLink = this.$router.resolve(categoryLocaliedLink).href */
 
     return {
-      link: [ { rel: 'amphtml', href: ampCategoryLink } ],
+      // link: [ { rel: 'amphtml', href: ampCategoryLink } ],
       title: htmlDecode(meta_title || name),
       meta
     }

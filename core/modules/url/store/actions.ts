@@ -6,6 +6,7 @@ import { ActionTree } from 'vuex';
 import { cacheStorage } from '../'
 import queryString from 'query-string'
 import config from 'config'
+import { SearchQuery } from 'storefront-query-builder'
 import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData, getFallbackRouteData } from '../helpers'
 import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
@@ -14,7 +15,6 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { processURLAddress } from '@vue-storefront/core/helpers';
 import * as categoryMutationTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 import * as cmsPageMutationTypes from '@vue-storefront/core/modules/cms/store/page/mutation-types'
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
@@ -82,6 +82,7 @@ export const actions: ActionTree<UrlState, any> = {
     productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
     const products = await dispatch('product/list', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
+      console.log(url, productQuery)
       const product = products.items[0]
       return {
         name: localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode),

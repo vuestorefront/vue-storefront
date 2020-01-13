@@ -78,16 +78,6 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
     })
   })
 
-  // @todo remove this part when we'll get rid of global multistore mixin
-  if (isServer) {
-    Object.defineProperty(ssrContext, 'helpers', {
-      value: {
-        currentStoreView
-      },
-      writable: true
-    })
-  }
-
   let vueOptions = {
     router: routerProxy,
     store,

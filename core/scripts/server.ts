@@ -170,6 +170,9 @@ app.get('*', (req, res, next) => {
       next()
     }
   }
+  
+  const site = req.headers['x-vs-store-code'] || 'main'
+  const cacheKey = `page:${site}:${req.url}`
 
   const dynamicRequestHandler = renderer => {
     if (!renderer) {
@@ -207,7 +210,7 @@ app.get('*', (req, res, next) => {
       output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd);
       if (config.server.useOutputCache && cache) {
         cache.set(
-          'page:' + req.url,
+          cacheKey,
           { headers: res.getHeaders(), body: output },
           tagsArray
         ).catch(errorHandler)
@@ -240,7 +243,7 @@ app.get('*', (req, res, next) => {
   const dynamicCacheHandler = () => {
     if (config.server.useOutputCache && cache) {
       cache.get(
-        'page:' + req.url
+        cacheKey
       ).then(output => {
         if (output !== null) {
           if (output.headers) {

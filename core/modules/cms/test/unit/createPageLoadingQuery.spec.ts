@@ -5,7 +5,7 @@ describe('createPageLoadingQuery', () => {
     const filter = { filterField: 'test', filterValues: ['test1', 'test2'] }
 
     let pageLoadingQuery = createPageLoadingQuery(filter)
-    let [ appliedFilter ] = pageLoadingQuery._appliedFilters
+    let [ appliedFilter ] = pageLoadingQuery.getAppliedFilters()
 
     expect(appliedFilter).toHaveProperty('attribute', filter.filterField)
     expect(appliedFilter).toHaveProperty('value', { like: filter.filterValues })
