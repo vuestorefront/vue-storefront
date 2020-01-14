@@ -20,7 +20,9 @@
   </div>
 </template>
 <script>
-import { getCustomOptionValues, getPriceDeltaFromCustomOptionValues } from '@vue-storefront/core/modules/catalog/helpers/customOption'
+import { getCustomOptionValues, getCustomOptionPriceDelta } from '@vue-storefront/core/modules/catalog/helpers/customOption'
+import { getBundleOptionsValues, getBundleOptionPrice } from '@vue-storefront/core/modules/catalog/helpers/bundleOptions'
+import get from 'lodash-es/get'
 
 export default {
   name: 'ProductPrice',
@@ -35,8 +37,16 @@ export default {
     }
   },
   computed: {
+    bundleOptionsPrice () {
+      const allBundeOptions = this.product.bundle_options || []
+      const selectedBundleOptions = Object.values(get(this.product, 'product_option.extension_attributes.bundle_options', {}))
+      const price = getBundleOptionPrice(
+        getBundleOptionsValues(selectedBundleOptions, allBundeOptions)
+      )
+      return price
+    },
     customOptionsPriceDelta () {
-      const priceDelta = getPriceDeltaFromCustomOptionValues(
+      const priceDelta = getCustomOptionPriceDelta(
         getCustomOptionValues(Object.values(this.customOptions), this.product.custom_options),
         this.product
       )
@@ -49,6 +59,15 @@ export default {
       const defaultPrice = this.product.qty > 0
         ? (this.product.price_incl_tax + this.customOptionsPriceDelta.priceInclTax) * this.product.qty
         : this.product.price_incl_tax
+
+      if (this.bundleOptionsPrice.priceInclTax > 0) {
+        return {
+          special,
+          original,
+          default: this.bundleOptionsPrice.priceInclTax
+        }
+      }
+
       return {
         special,
         original,
