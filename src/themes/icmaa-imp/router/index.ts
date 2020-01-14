@@ -15,6 +15,7 @@ let routes = [
   { name: 'checkout', path: '/checkout', component: Checkout },
   { name: 'my-account', path: '/my-account', component: MyAccount },
   { name: 'my-addresses', path: '/my-account/addresses', component: MyAccount, props: { activeBlock: 'MyAddresses' } },
+  { name: 'my-coupons', path: '/my-account/coupons', component: MyAccount, props: { activeBlock: 'MyGiftcert' } },
   { name: 'my-newsletter', path: '/my-account/newsletter', component: MyAccount, props: { activeBlock: 'MyNewsletter' } },
   { name: 'my-orders', path: '/my-account/orders', component: MyAccount, props: { activeBlock: 'MyOrders' } },
   { name: 'my-order', path: '/my-account/orders/:orderId', component: MyAccount, props: { activeBlock: 'MyOrder' } },

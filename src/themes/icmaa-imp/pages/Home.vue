@@ -1,5 +1,9 @@
 <template>
   <div id="home" class="t-container">
+    <button @click="note('success')" v-text="'success'" />
+    <button @click="note('info')" v-text="'info'" />
+    <button @click="note('error')" v-text="'error'" />
+    <button @click="note('default')" v-text="'default'" />
     <teaser tags="2" class="sm:t-pt-4 t-pb-8" />
     <teaser tags="2" :show-large="false" :show-small-in-row="true" class="t-pb-8" />
     <lazy-hydrate when-idle>
@@ -36,6 +40,15 @@ export default {
   mounted () {
     if (!this.isLoggedIn && localStorage.getItem('redirect')) {
       this.$bus.$emit('modal-show', 'modal-signup')
+    }
+  },
+  methods: {
+    note (type) {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: type,
+        message: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod. ' + new Date().toISOString(),
+        hasNoTimeout: true
+      })
     }
   }
 }
