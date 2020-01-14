@@ -1,4 +1,5 @@
-import { CustomOption, OptionValue, InputValue } from './../types/CustomOption';
+import Product from '@vue-storefront/core/modules/catalog/types/Product';
+import { CustomOption, OptionValue, InputValue, SelectedCustomOption } from '@vue-storefront/core/modules/catalog/types/CustomOption';
 
 export const defaultCustomOptionValue = (customOption: CustomOption): InputValue => {
   switch (customOption.type) {
@@ -43,3 +44,34 @@ export const selectedCustomOptionValue = (optionType: string, optionValues: Opti
     }
   }
 }
+
+export const getCustomOptionValues = (selectedCustomOptions: SelectedCustomOption[], allCustomOptions: CustomOption[]): OptionValue[] => selectedCustomOptions
+  .filter(customOptionIds => customOptionIds.option_value) // remove null | undefined values
+  .map(customOptionIds => {
+    const { values = [] } = allCustomOptions.find(
+      customOption => String(customOption.option_id) === String(customOptionIds.option_id) // get all custom option values based on 'option_id'
+    )
+    const customOptionValues = customOptionIds.option_value
+      .split(',') // split ids, because there can be '1,2' for checkbox
+      .map(optionValueId => values.find(value => String(value.option_type_id) === optionValueId)) // get custom option value based on selected option value id
+      .filter(Boolean) // remove falsy results
+
+    return customOptionValues
+  })
+  .reduce((allCustomOptionValues, customOptionValue) => allCustomOptionValues.concat(customOptionValue), []) // merge all values in one array
+
+export const getCustomOptionPriceDelta = (customOptionValues: OptionValue[], { price, priceInclTax }: Pick<Product, 'price' | 'priceInclTax'>) => customOptionValues
+  .reduce((delta, customOptionValue) => {
+    if (customOptionValue.price_type === 'fixed' && customOptionValue.price !== 0) {
+      delta.price += customOptionValue.price
+      delta.priceInclTax += customOptionValue.price
+    }
+    if (customOptionValue.price_type === 'percent' && customOptionValue.price !== 0) {
+      delta.price += ((customOptionValue.price / 100) * price)
+      delta.priceInclTax += ((customOptionValue.price / 100) * priceInclTax)
+    }
+    return delta
+  }, {
+    price: 0,
+    priceInclTax: 0
+  })
