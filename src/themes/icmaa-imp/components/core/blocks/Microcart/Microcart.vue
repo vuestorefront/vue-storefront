@@ -9,8 +9,8 @@
       <h4 v-if="!productsInCart.length" class="">
         {{ $t('Your shopping cart is empty.') }}
       </h4>
-
       <template v-if="productsInCart.length">
+        <coupon />
         <ul class="t-mb-4">
           <product v-for="product in productsInCart" :key="product.checksum || product.sku" :product="product" />
         </ul>
@@ -51,10 +51,12 @@ import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import Sidebar from 'theme/components/theme/blocks/AsyncSidebar/Sidebar'
 import Product from 'theme/components/core/blocks/Microcart/Product'
+import Coupon from 'theme/components/core/blocks/Microcart/Coupon'
 
 export default {
   components: {
     ButtonComponent,
+    Coupon,
     Sidebar,
     Product
   },

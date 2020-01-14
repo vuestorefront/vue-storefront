@@ -17,9 +17,11 @@
         :autocomplete="autocomplete"
         :value="value"
         :autofocus="autofocus"
+        :disabled="disabled"
         :ref="name"
         v-mask="maskSettings"
         @input="$emit('input', $event.target.value)"
+        @focus="$emit('focus')"
         @blur="$emit('blur')"
         @keyup.enter="$emit('keyup.enter', $event.target.value)"
         @keyup="$emit('keyup', $event)"
@@ -95,7 +97,10 @@ export default {
     },
     focus: {
       type: Boolean,
-      required: false,
+      default: false
+    },
+    disabled: {
+      type: Boolean,
       default: false
     },
     autofocus: {
