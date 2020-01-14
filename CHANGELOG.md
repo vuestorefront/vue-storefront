@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.11.1] - UNRELEASED
 
+### Added
+- Add `ProductPrice` component with bundleOptions and customOptions prices - @gibkigonzo (#3978)
+
 ### Changed / Improved
 - Set cache tag when loading a category - @haelbichalex (#3940)
 
