@@ -36,27 +36,34 @@ export default {
   },
   computed: {
     customOptionsPriceDelta () {
-      const allCustomOptions = this.product.custom_options
-      const priceDelta = Object.values(this.customOptions).reduce((delta, currentCustomOption) => {
-        if (!currentCustomOption.option_value) return delta
-        const { values = [] } = allCustomOptions.find(customOption => String(customOption.option_id) === String(currentCustomOption.option_id)) || {}
-        currentCustomOption.option_value.split(',').forEach(id => {
-          const currentValue = values.find(value => String(value.option_type_id) === id)
-          if (!currentValue) return delta
-          if (currentValue.price_type === 'fixed' && currentValue.price !== 0) {
-            delta.price += currentValue.price
-            delta.priceInclTax += currentValue.price
-          }
-          if (currentValue.price_type === 'percent' && currentValue.price !== 0) {
-            delta.price += ((currentValue.price / 100) * this.product.price)
-            delta.priceInclTax += ((currentValue.price / 100) * this.product.price_incl_tax)
-          }
+      const priceDelta = Object.values(this.customOptions)
+        .filter(customOptionIds => customOptionIds.option_value) // remove null | undefined values
+        .map(customOptionIds => {
+          const { values = [] } = this.product.custom_options.find(
+            customOption => String(customOption.option_id) === String(customOptionIds.option_id) // get all custom option values based on 'option_id'
+          )
+          const customOptionValues = customOptionIds.option_value
+            .split(',') // split ids, because there can be '1,2' for checkbox
+            .map(optionValueId => values.find(value => String(value.option_type_id) === optionValueId)) // get custom option value based on selected option value id
+            .filter(Boolean) // remove falsy results
+
+          return customOptionValues
         })
-        return delta
-      }, {
-        price: 0,
-        priceInclTax: 0
-      })
+        .reduce((allCustomOptionValues, customOptionValue) => allCustomOptionValues.concat(customOptionValue), []) // merge all values in one array
+        .reduce((delta, customOptionValue) => {
+          if (customOptionValue.price_type === 'fixed' && customOptionValue.price !== 0) {
+            delta.price += customOptionValue.price
+            delta.priceInclTax += customOptionValue.price
+          }
+          if (customOptionValue.price_type === 'percent' && customOptionValue.price !== 0) {
+            delta.price += ((customOptionValue.price / 100) * this.product.price)
+            delta.priceInclTax += ((customOptionValue.price / 100) * this.product.price_incl_tax)
+          }
+          return delta
+        }, {
+          price: 0,
+          priceInclTax: 0
+        })
       return priceDelta
     },
     price () {
