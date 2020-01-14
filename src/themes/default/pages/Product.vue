@@ -39,25 +39,12 @@
               <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="getCurrentProduct.url_path">
-              <div class="mb40 price serif" v-if="getCurrentProduct.type_id !== 'grouped'">
-                <div
-                  class="h3 cl-secondary"
-                  v-if="getCurrentProduct.special_price && getCurrentProduct.price_incl_tax && getCurrentProduct.original_price_incl_tax"
-                >
-                  <span
-                    class="h2 cl-mine-shaft weight-700"
-                  >{{ getCurrentProduct.price_incl_tax * getCurrentProduct.qty | price }}</span>&nbsp;
-                  <span
-                    class="price-original h3"
-                  >{{ getCurrentProduct.original_price_incl_tax * getCurrentProduct.qty | price }}</span>
-                </div>
-                <div
-                  class="h2 cl-mine-shaft weight-700"
-                  v-if="!getCurrentProduct.special_price && getCurrentProduct.price_incl_tax"
-                >
-                  {{ getCurrentProduct.qty > 0 ? getCurrentProduct.price_incl_tax * getCurrentProduct.qty : getCurrentProduct.price_incl_tax | price }}
-                </div>
-              </div>
+              <product-price
+                class="mb40"
+                v-if="getCurrentProduct.type_id !== 'grouped'"
+                :product="getCurrentProduct"
+                :custom-options="getCurrentCustomOptions"
+              />
               <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
                 <div
                   class="error"
@@ -201,7 +188,6 @@
 
 <script>
 import i18n from '@vue-storefront/i18n'
-import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
 import config from 'config'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
@@ -237,6 +223,7 @@ import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-view
 import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
 import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
+import ProductPrice from 'theme/components/core/ProductPrice.vue'
 
 export default {
   components: {
@@ -258,7 +245,8 @@ export default {
     WebShare,
     SizeGuide,
     LazyHydrate,
-    ProductQuantity
+    ProductQuantity,
+    ProductPrice
   },
   mixins: [ProductOption],
   directives: { focusClean },
@@ -283,7 +271,8 @@ export default {
       getProductGallery: 'product/getProductGallery',
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
       getOriginalProduct: 'product/getOriginalProduct',
-      attributesByCode: 'attribute/attributeListByCode'
+      attributesByCode: 'attribute/attributeListByCode',
+      getCurrentCustomOptions: 'product/getCurrentCustomOptions'
     }),
     getOptionLabel () {
       return (option) => {
@@ -492,12 +481,6 @@ $bg-secondary: color(secondary, $colors-background);
   }
 }
 
-.price {
-  @media (max-width: 767px) {
-    color: $color-primary;
-  }
-}
-
 .variants-label {
   @media (max-width: 767px) {
     font-size: 14px;
@@ -581,10 +564,6 @@ $bg-secondary: color(secondary, $colors-background);
       display: none;
     }
   }
-}
-
-.price-original {
-  text-decoration: line-through;
 }
 
 .action {
