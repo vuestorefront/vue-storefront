@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CookieNotification CSR&SSR mismatch fixed - @Fifciu (#3922)
 - The attribute filter in `attribute/list` was not filtering the already loaded attributes properly - @pkarw (#3964)
 - Update `hasProductErrors` in Product component and support additional sku in custom options - @gibkigonzo (#3976)
+- Fixed Stock logic not working with manage_stock set to false - @andrzejewsky - (#3957)
 
 ## [1.11.0] - 2019.12.20
 
