@@ -1,21 +1,21 @@
 import get from 'lodash-es/get'
 
-const calculateBundleOptionPriceDelta = ({ price = 1, priceInclTax = 1, qty = '1' }) => {
-  const delta = {
+const calculateBundleOptionProductPrice = ({ price = 1, priceInclTax = 1, qty = '1' }) => {
+  const product = {
     price: 0,
     priceInclTax: 0
   }
   if (parseInt(qty) >= 0) {
-    delta.price += price * parseInt(qty)
-    delta.priceInclTax += priceInclTax * parseInt(qty)
+    product.price += price * parseInt(qty)
+    product.priceInclTax += priceInclTax * parseInt(qty)
   }
-  return delta
+  return product
 }
 
 export const getBundleOptionPrice = (bundleOptionValues) => bundleOptionValues
   .map(bundleOptionValue => {
     const product = get(bundleOptionValue, 'product', {})
-    return calculateBundleOptionPriceDelta({
+    return calculateBundleOptionProductPrice({
       price: product.price,
       priceInclTax: product.price_incl_tax,
       qty: bundleOptionValue.qty
