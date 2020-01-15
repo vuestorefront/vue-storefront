@@ -4,11 +4,11 @@ import { stringToComponent } from '../helpers'
 
 import YAML from 'yaml'
 
-import CmsMetaMixin from 'icmaa-meta/mixins/cmsMeta';
+import CmsMetaMixin from 'icmaa-meta/mixins/cmsMeta'
 
 export default {
   name: 'IcmaaCmsPage',
-  mixins: [CmsMetaMixin],
+  mixins: [ CmsMetaMixin ],
   computed: {
     ...mapGetters('icmaaCmsPage', ['getPageByIdentifier']),
     identifier (): string {
@@ -26,15 +26,17 @@ export default {
           return YAML.parse(this.pageData)
         case 'json':
           return JSON.parse(this.pageData)
+        case 'markdown':
+          return this.page.rte
         default:
-          return this.stringToComponent(this.pageData)
+          return stringToComponent(this.pageData)
       }
+    },
+    isComponent (): boolean {
+      return this.content.hasOwnProperty('template')
     }
   },
-  methods: {
-    stringToComponent: (text: string): object => stringToComponent(text, 'span')
-  },
-  async asyncData ({ store, route, context }) {
+  async asyncData ({ store, route }) {
     await store.dispatch(
       'icmaaCmsPage/single', { value: route.params.identifier }
     )

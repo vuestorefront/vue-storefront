@@ -71,7 +71,7 @@ A script in the parent class will transform this route a bit to give it some uni
 
 ## 03. Populate and use cms data
 
-There are three options in format to add content data to your CMS page: `html`, `yaml` and `json`.
+There are four options in format to add content data to your CMS page: `html`, `markdown`, `yaml` and `json`.
 Dependent on what format your cms page content contains, you can populate your data in your component using the parent computed property `content` of the `Page` mixin. If you wan't to use a specific data type you must define the variable `dataType` like:
 
 ```javascript
@@ -79,7 +79,7 @@ export default {
   mixins: [ Page ],
   data () {
     return {
-      dataType: 'yaml' // 'yaml' | 'json' | 'html' - default: 'html'
+      dataType: 'yaml' // 'yaml' | 'json' | 'html' | 'markdown' - default: 'html'
     }
   }
 }

@@ -86,9 +86,9 @@ const forCustomUrls = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
 const forCmsPageUrls = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
   return dispatch('icmaaCmsPage/single', { value: urlPath }, { root: true })
     .then((page: PageStateItem) => {
-      if (page !== null && page.content) {
+      if (page !== null && (page.content || page.rte)) {
         return {
-          name: page.routeName || 'icmaa-cms-page',
+          name: getLocalizedDispatcherRouteName(page.routeName || 'icmaa-cms-page'),
           params: {
             identifier: page.identifier
           }

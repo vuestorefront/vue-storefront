@@ -1,22 +1,24 @@
 <template>
-  <div id="cms-page" v-if="page">
-    <component :is="content" v-if="isComponent" />
+  <div id="cms-page" class="t-container t-p-4" v-if="page">
+    <vue-markdown v-if="dataType === 'markdown'" :source="content" />
+    <component :is="content" v-else-if="isComponent" />
   </div>
 </template>
 
 <script>
 import Page from 'icmaa-cms/components/Page'
+import VueMarkdown from 'vue-markdown'
 
 export default {
+  name: 'Page',
   mixins: [ Page ],
-  data () {
-    return {
-      dataType: 'html'
-    }
+  components: {
+    VueMarkdown
   },
-  computed: {
-    isComponent () {
-      return this.content.hasOwnProperty('template')
+  props: {
+    dataType: {
+      type: String,
+      default: 'html'
     }
   }
 }
