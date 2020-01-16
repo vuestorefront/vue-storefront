@@ -34,6 +34,7 @@ const getProduct = async (search: ProductSearch): Promise<ApolloQueryResult<Prod
     // @link: https://github.com/apollographql/apollo-client/issues/3234
     fetchPolicy: 'no-cache'
   })
+
 }
 
 export default getProduct

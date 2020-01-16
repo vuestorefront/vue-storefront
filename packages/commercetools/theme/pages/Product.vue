@@ -290,23 +290,36 @@ import {
   getProductVariants,
   getProductName,
   getProductGallery,
-  getProductPrice
+  getProductPrice,
+  getProductAttributes
 } from '@vue-storefront/commercetools-helpers'
 
 export default {
   name: "Product",
   transition: 'fade',
   setup (props, context) {
+    const { slug } = context.root.$route.params
     const qty = ref(1)
     const { params } = context.root.$route
     const { products, search } = useProduct()
     const { cart, addToCart,loading } = useCart()
 
-    search({ slug: params['slug_1'] })
+    search({ slug })
 
     const product = computed(() => getProductVariants(products.value, { master: true }))
 
-    return { qty, product, addToCart, loading }
+    const attributes = computed(() => getProductAttributes(product.value))
+
+    return { 
+      product,
+      attributes,
+      getProductName,
+      getProductPrice,
+      getProductGallery,
+      qty, 
+      addToCart, 
+      loading 
+    }
   },
   components: {
     SfAlert,
@@ -467,9 +480,7 @@ export default {
     };
   },
   methods: {
-    getProductName,
-    getProductPrice,
-    getProductGallery,
+
     toggleWishlist(index) {
       this.products[index].isOnWishlist = !this.products[index].isOnWishlist;
     }

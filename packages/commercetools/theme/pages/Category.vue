@@ -99,7 +99,7 @@
     </div>
     <div class="main section">
       <div class="sidebar desktop-only">
-        <SfAccordion :firstOpen="true" :showChevron="false">
+        <SfAccordion :firstOpen="true">
           <SfAccordionItem
             v-for="(accordion, i) in categoryTree && categoryTree.items"
             :key="i"
@@ -151,6 +151,7 @@
     <SfSidebar
       :visible="isFilterSidebarOpen"
       @close="isFilterSidebarOpen = false"
+      class="filters_sidebar"
     >
       <div class="filters">
         <h3 class="filters__title">Collection</h3>
@@ -373,7 +374,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "~@storefront-ui/vue/styles";
 
 @mixin for-desktop {
@@ -381,7 +382,7 @@ export default {
     @content;
   }
 }
-
+#category {
 .breadcrumbs {
   padding: $spacer-big $spacer-extra-big $spacer-extra-big;
 }
@@ -535,6 +536,13 @@ export default {
     font-size: inherit;
   }
 }
+
+.filters_sidebar {
+  .sf-sidebar__aside {
+
+  }
+}
+
 .filters {
   &__title {
     margin: $spacer-big * 3 0 $spacer-big;
@@ -555,5 +563,6 @@ export default {
     margin-top: 10px;
     background-color: $c-light;
   }
+}
 }
 </style>

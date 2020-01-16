@@ -1,5 +1,6 @@
-import { UiMediaGalleryItem, UiCategory, UiCartProduct } from '@vue-storefront/interfaces'
+import { UiMediaGalleryItem, UiCategory, UiCartProduct, AgnosticProductAttribute } from '@vue-storefront/interfaces'
 import { ProductVariant, Image, Category, Cart, LineItem } from './types/GraphQL'
+import { formatAttributeList } from './_utils'
 
 // Product
 export const getProductName = (product: ProductVariant): string => product ? (product as any)._name : ''
@@ -16,6 +17,7 @@ export const getProductGallery = (product: ProductVariant): UiMediaGalleryItem[]
     normal: image.url
   }))
 
+/** Returns array of product variants meeting criteria */
 export const getProductVariants = (products: ProductVariant[], options: any = {}): ProductVariant | ProductVariant[]  => {
   if (!products) {
     return []
@@ -28,6 +30,18 @@ export const getProductVariants = (products: ProductVariant[], options: any = {}
   return products
 }
 
+export const getProductAttributes = (product: ProductVariant, filterByAttributeName?: Array<string>): Array<AgnosticProductAttribute> => {
+  return (product ? formatAttributeList(product.attributeList) : [])
+  .filter(attribute => {
+    if (filterByAttributeName) return filterByAttributeName.includes(attribute.name)
+    return attribute
+  })
+}
+
+// TODO, get configurable options from product
+export const getProductOptions = (product: ProductVariant) => product
+
+export const getProductDescription = (product: ProductVariant): any => (product as any)._description
 // Category
 export const getCategoryProducts = (category: Category, options: any = {}): ProductVariant[] => {
   if (!category || !(category as any)._products) {

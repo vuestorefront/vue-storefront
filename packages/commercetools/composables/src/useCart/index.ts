@@ -20,6 +20,7 @@ type CouponRef = Ref<any>
 type ApplyCouponFn = () => void
 type RemoveCoupon = () => void
 
+// TODO: Think how to incorporate this into core (updateItem?)
 interface UseCart extends BaseUseCart<CartRef, AddToCartFn, RemoveFromCartFn, ClearCartFn, CouponRef, ApplyCouponFn, RemoveCoupon> {
   updateQuantity: (product: UiCartProduct) => void
 }

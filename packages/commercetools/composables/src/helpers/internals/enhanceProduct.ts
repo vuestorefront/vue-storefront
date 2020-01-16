@@ -16,6 +16,7 @@ const enhanceProduct = (productResponse: ApolloQueryResult<ProductData>): Apollo
         _slug: current.slug,
         _id: product.id,
         _master: current.masterVariant.id === variant.id,
+        _description: current.description,
         _categoriesRef: current.categoriesRef.map(cr => cr.id),
       }));
     })

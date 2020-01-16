@@ -139,3 +139,9 @@ export interface UiCartProduct {
   configuration: UiCartProductConfiguration[]
   qty: string
 }
+
+export interface AgnosticProductAttribute {
+  name: string,
+  value: string | Object
+  label: string
+}

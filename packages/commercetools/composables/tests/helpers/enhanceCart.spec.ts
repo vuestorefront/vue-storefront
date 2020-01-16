@@ -1,10 +1,5 @@
 import enhanceCart from './../../src/helpers/internals/enhanceCart'
 
-jest.mock('./../../src/helpers/attributes', () => ({
-  getAttributeValue: (attr) => attr.value
-}))
-
-
 const createCartResponse = (items): any => ({
   data: {
     cart: {
