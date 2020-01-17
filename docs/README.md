@@ -5,18 +5,19 @@ heroText: Documentation
 tagline: Headless PWA for eCommerce
 actionText: Introduction →
 actionLink: /guide/general/introduction.html
-features:
-- title: How to get started
-  details: 
-- title: Basic Information
-  details: 
-- title: Cookbook
-  details: 
-- title: Themes and Frontend 
-  details: 
-- title: Data Structure and Modules
-  details: 
-- title: Integration
-  details: 
-footer: v1.11 optimized |  MIT Licensed | Copyright © Divante
+
 ---
+
+<div class="features"><div class="feature"><h2>How to get started</h2> <p>test</p></div><div class="feature"><h2>Basic Information</h2> <p>test</p></div><div class="feature"><h2>Cookbook</h2> <p>test</p></div><div class="feature"><h2>Themes and Frontend</h2> <p>test</p></div><div class="feature"><h2>Data Structure and Modules</h2> <p>test</p></div><div class="feature"><h2>Integration</h2> <p>test</p></div></div>
+
+
+
+
+
+
+
+
+
+<div class="footer">
+    v1.11 optimized |  MIT Licensed | Copyright © Divante
+  </div>
