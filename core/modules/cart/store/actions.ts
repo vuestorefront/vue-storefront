@@ -252,7 +252,7 @@ const actions: ActionTree<CartState, RootState> = {
         Logger.info('Syncing cart with the server.', 'cart')()
         dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
       }
-      await dispatch('authorize')
+      await dispatch('create')
     }
   },
   /** Get one single item from the client's cart */
@@ -347,7 +347,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
       productIndex++
     }
-    await dispatch('authorize')
+    await dispatch('create')
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
       return dispatch('sync', { forceClientState: true })
     } else {
@@ -498,15 +498,25 @@ const actions: ActionTree<CartState, RootState> = {
   },
   /**
    * Create cart token when there are products in cart and we don't have token already
-   * or recreate cart for user
    */
-  async authorize ({ dispatch, getters }, { force = false } = {}) {
+  async create ({ dispatch, getters }) {
     const storedItems = getters['getCartItems'] || []
     const cartToken = getters['getCartToken']
-    if (storedItems.length && !cartToken || force) {
+    if (storedItems.length && !cartToken) {
       Logger.info('Creating server cart token', 'cart')()
       await dispatch('connect', { guestCart: false })
     }
+  },
+  /** authorize the cart after user got logged in using the current cart token */
+  authorize ({ dispatch }) {
+    Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
+      if (err) {
+        Logger.error(err, 'cart')()
+      }
+      if (!config.cart.bypassCartLoaderForAuthorizedUsers || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
+        dispatch('connect', { guestCart: false })
+      }
+    })
   },
   /** connect cart to the server and set the cart token */
   async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false }) {
