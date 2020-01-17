@@ -252,18 +252,7 @@ const actions: ActionTree<CartState, RootState> = {
         Logger.info('Syncing cart with the server.', 'cart')()
         dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
       }
-      await dispatch('createCartToken')
-    }
-  },
-  /**
-   * Create cart token only when there are products in cart and we don't have token already
-   */
-  async createCartToken ({dispatch, getters}) {
-    const storedItems = getters['getCartItems'] || []
-    const cartToken = getters['getCartToken']
-    if (storedItems.length && !cartToken) {
-      Logger.info('Creating server cart token', 'cart')()
-      await dispatch('connect', { guestCart: false })
+      await dispatch('authorize')
     }
   },
   /** Get one single item from the client's cart */
@@ -358,7 +347,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
       productIndex++
     }
-    await dispatch('createCartToken')
+    await dispatch('authorize')
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
       return dispatch('sync', { forceClientState: true })
     } else {
@@ -507,9 +496,17 @@ const actions: ActionTree<CartState, RootState> = {
     }
     return false
   },
-  /** authorize the cart after user got logged in using the current cart token */
-  authorize ({ dispatch }) {
-    Logger.warn('deprecated - cart token is created when products is added to cart')
+  /**
+   * Create cart token when there are products in cart and we don't have token already
+   * or recreate cart for user
+   */
+  async authorize ({ dispatch, getters }, { force = false } = {}) {
+    const storedItems = getters['getCartItems'] || []
+    const cartToken = getters['getCartToken']
+    if (storedItems.length && !cartToken || force) {
+      Logger.info('Creating server cart token', 'cart')()
+      await dispatch('connect', { guestCart: false })
+    }
   },
   /** connect cart to the server and set the cart token */
   async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false }) {

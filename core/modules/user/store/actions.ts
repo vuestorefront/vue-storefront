@@ -188,6 +188,7 @@ const actions: ActionTree<UserState, RootState> = {
             context.commit(types.USER_INFO_LOADED, res)
             context.dispatch('setUserGroup', res)
             Vue.prototype.$bus.$emit('user-after-loggedin', res)
+            context.dispatch('cart/authorize', { force: true }, { root: true })
 
             resolve(res)
             resolvedFromCache = true
@@ -213,6 +214,7 @@ const actions: ActionTree<UserState, RootState> = {
             }
             if (!resolvedFromCache && resp.resultCode === 200) {
               Vue.prototype.$bus.$emit('user-after-loggedin', resp.result)
+              context.dispatch('cart/authorize', { force: true }, { root: true })
               resolve(resp)
             } else {
               resolve(null)
