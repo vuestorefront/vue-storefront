@@ -22,10 +22,12 @@ export const AddToCart = {
       this.isAddingToCart = true
       try {
         const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
-        if (diffLog && diffLog.clientNotifications && diffLog.clientNotifications.length > 0) {
-          diffLog.clientNotifications.forEach(notificationData => {
-            this.notifyUser(notificationData)
-          })
+        if (diffLog) {
+          if (diffLog.clientNotifications && diffLog.clientNotifications.length > 0) {
+            diffLog.clientNotifications.forEach(notificationData => {
+              this.notifyUser(notificationData)
+            })
+          }
         } else {
           this.notifyUser({
             type: 'success',

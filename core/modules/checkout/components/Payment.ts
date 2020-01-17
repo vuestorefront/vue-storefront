@@ -73,7 +73,7 @@ export const Payment = {
     },
     paymentMethods: {
       handler: debounce(function () {
-        this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
+        this.changePaymentMethod()
       }, 500)
     }
   },

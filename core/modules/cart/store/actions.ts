@@ -141,7 +141,6 @@ const actions: ActionTree<CartState, RootState> = {
     if (options.recreateAndSyncCart && getters.isCartSyncEnabled) {
       await commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
       await commit(types.CART_SET_ITEMS_HASH, null)
-      await dispatch('connect', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
     }
   },
   /** Refresh the payment methods with the backend */
@@ -256,6 +255,9 @@ const actions: ActionTree<CartState, RootState> = {
       await dispatch('createCartToken')
     }
   },
+  /**
+   * Create cart token only when there are products in cart and we don't have token already
+   */
   async createCartToken ({dispatch, getters}) {
     const storedItems = getters['getCartItems'] || []
     const cartToken = getters['getCartToken']
