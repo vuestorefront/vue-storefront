@@ -226,7 +226,7 @@ const actions: ActionTree<CartState, RootState> = {
     return dispatch('sync', { forceClientState, dryRun })
   },
   /** @description this method is part of "public" cart API */
-  async load ({ getters, commit, rootGetters, dispatch }, { forceClientState = false }: {forceClientState?: boolean} = {}) {
+  async load ({ getters, commit, rootGetters, dispatch }, { forceClientState = false, createCartToken = false }: {forceClientState?: boolean, createCartToken?: boolean} = {}) {
     if (isServer) return
     const cartShippingMethod = getters.getShippingMethod
     if ((!cartShippingMethod || !cartShippingMethod.method_code) && (Array.isArray(rootGetters['shipping/shippingMethods']))) {
@@ -252,7 +252,7 @@ const actions: ActionTree<CartState, RootState> = {
         Logger.info('Cart token received from cache.', 'cache', token)()
         Logger.info('Syncing cart with the server.', 'cart')()
         dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
-      } else {
+      } else if (createCartToken && storedItems.length) { // create cart token only when it's needed and when there are any products
         Logger.info('Creating server cart token', 'cart')()
         await dispatch('connect', { guestCart: false })
       }
