@@ -1,5 +1,5 @@
-import { getCart, createCart, getStorage } from '@vue-storefront/commercetools-api'
-import { enhanceCart } from './../helpers/internals'
+import { getMe, createCart, getStorage } from '@vue-storefront/commercetools-api'
+import { enhanceProfile, enhanceCart } from './../helpers/internals'
 
 const CART_ID_STORAGE_KEY = 'vsf-commercetools-cart-id'
 
@@ -16,10 +16,11 @@ const loadCart = async (storage) => {
   const cartId = storage.getCartId()
 
   if (cartId) {
-    const cartResponse = await getCart(cartId)
+    const profileResponse = await getMe()
 
-    if (cartResponse.data.cart) {
-      return enhanceCart(cartResponse)
+    if (profileResponse.data.me.activeCart) {
+      const enhancedProfile = enhanceProfile(profileResponse)
+      return enhancedProfile.data.me.activeCart
     }
   }
 
@@ -30,17 +31,19 @@ const loadCart = async (storage) => {
 
   const cartResponse = await createCart()
 
-  return enhanceCart(cartResponse)
+  const enhancedCart = enhanceCart(cartResponse)
+
+  return enhancedCart.data.cart
 }
 
 
 const loadCurrentCart = async () => {
   const storage = getCartStorage()
-  const cartResponse = await loadCart(storage)
+  const cart = await loadCart(storage)
 
-  storage.saveCartId(cartResponse.data.cart.id)
+  storage.saveCartId(cart.id)
 
-  return cartResponse.data.cart;
+  return cart;
 };
 
 export default loadCurrentCart

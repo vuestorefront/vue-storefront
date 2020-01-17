@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client'
 import { FetchResult } from 'apollo-link'
-import { Cart } from './GraphQL'
+import { Cart, Me } from './GraphQL'
 
 export interface CustomQuery {
   query: string
@@ -28,7 +28,7 @@ export interface CategorySearch extends BaseSearch {
 
 export type QueryResponse <K extends string, V> = ApolloQueryResult<Record<K, V>>
 export type MutationResponse <K extends string, V> = FetchResult<Record<K, V>>
-
+export type ProfileResponse = QueryResponse<"me", Me>
 export type CartQueryResponse = QueryResponse<"cart", Cart>
 export type CartMutationResponse = MutationResponse<"cart", Cart>
 export type CartResponse = CartQueryResponse | CartMutationResponse

@@ -17,7 +17,7 @@ const fetchAccessToken = async (config: ApiConfig): Promise<Token> => {
     scopes: config.scopes,
   })
 
-  return authClient.clientCredentialsFlow()
+  return authClient.anonymousFlow()
 }
 
 const getAccessToken = async (config: ApiConfig): Promise<string> => {

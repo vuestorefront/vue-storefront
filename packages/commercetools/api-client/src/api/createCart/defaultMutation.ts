@@ -14,8 +14,8 @@ export default gql`
     company
   }
 
-  mutation createCart($draft: CartDraft!, $locale: Locale!, $storeKey: KeyReferenceInput) {
-    cart: createCart(draft: $draft, storeKey: $storeKey) {
+  mutation createCart($draft: MyCartDraft!, $locale: Locale!, $storeKey: KeyReferenceInput) {
+    cart: createMyCart(draft: $draft, storeKey: $storeKey) {
       id
       customerId
       customerEmail

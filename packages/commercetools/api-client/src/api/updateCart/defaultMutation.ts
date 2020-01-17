@@ -14,8 +14,8 @@ export default gql`
     company
   }
 
-  mutation updateCart($id: String!, $version: Long!, $actions: [CartUpdateAction!]!, $locale: Locale!) {
-    cart: updateCart(id: $id, version: $version, actions: $actions) {
+  mutation updateCart($id: String!, $version: Long!, $actions: [MyCartUpdateAction!]!, $locale: Locale!) {
+    cart: updateMyCart(id: $id, version: $version, actions: $actions) {
       id
       customerId
       customerEmail

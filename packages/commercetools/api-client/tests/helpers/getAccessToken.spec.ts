@@ -4,7 +4,7 @@ import { storeToken, getToken } from './../../src/helpers/createCommerceToolsLin
 jest.mock('./../../src/helpers/createCommerceToolsLink/tokenCache')
 jest.mock('@commercetools/sdk-auth', () =>
   jest.fn().mockImplementation(() => ({
-    clientCredentialsFlow: () => ({ access_token: 'generated access token' })
+    anonymousFlow: () => ({ access_token: 'generated access token' })
   }))
 );
 
