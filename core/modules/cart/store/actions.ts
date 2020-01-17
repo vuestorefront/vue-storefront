@@ -226,7 +226,7 @@ const actions: ActionTree<CartState, RootState> = {
     return dispatch('sync', { forceClientState, dryRun })
   },
   /** @description this method is part of "public" cart API */
-  async load ({ getters, commit, rootGetters, dispatch }, { forceClientState = false, createCartToken = false }: {forceClientState?: boolean, createCartToken?: boolean} = {}) {
+  async load ({ getters, commit, rootGetters, dispatch }, { forceClientState = false }: {forceClientState?: boolean} = {}) {
     if (isServer) return
     const cartShippingMethod = getters.getShippingMethod
     if ((!cartShippingMethod || !cartShippingMethod.method_code) && (Array.isArray(rootGetters['shipping/shippingMethods']))) {
@@ -252,10 +252,16 @@ const actions: ActionTree<CartState, RootState> = {
         Logger.info('Cart token received from cache.', 'cache', token)()
         Logger.info('Syncing cart with the server.', 'cart')()
         dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
-      } else if (createCartToken && storedItems.length) { // create cart token only when it's needed and when there are any products
-        Logger.info('Creating server cart token', 'cart')()
-        await dispatch('connect', { guestCart: false })
       }
+      await dispatch('createCartToken')
+    }
+  },
+  async createCartToken ({dispatch, getters}) {
+    const storedItems = getters['getCartItems'] || []
+    const cartToken = getters['getCartToken']
+    if (storedItems.length && !cartToken) {
+      Logger.info('Creating server cart token', 'cart')()
+      await dispatch('connect', { guestCart: false })
     }
   },
   /** Get one single item from the client's cart */
@@ -350,6 +356,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
       productIndex++
     }
+    await dispatch('createCartToken')
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
       return dispatch('sync', { forceClientState: true })
     } else {
@@ -500,14 +507,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   /** authorize the cart after user got logged in using the current cart token */
   authorize ({ dispatch }) {
-    Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
-      if (err) {
-        Logger.error(err, 'cart')()
-      }
-      if (!config.cart.bypassCartLoaderForAuthorizedUsers || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
-        dispatch('connect', { guestCart: false })
-      }
-    })
+    Logger.warn('deprecated - cart token is created when products is added to cart')
   },
   /** connect cart to the server and set the cart token */
   async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false }) {

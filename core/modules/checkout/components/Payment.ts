@@ -1,6 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
+import debounce from 'lodash-es/debounce'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Payment = {
@@ -69,6 +70,11 @@ export const Payment = {
       handler () {
         this.useGenerateInvoice()
       }
+    },
+    paymentMethods: {
+      handler: debounce(function () {
+        this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
+      }, 500)
     }
   },
   methods: {
