@@ -46,7 +46,7 @@
 import { mapGetters } from 'vuex'
 import { stripHTML } from '@vue-storefront/core/filters'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
-import TwitterStatusFeed from 'theme/components/core/blocks/CategoryExtras/TwitterStatusFeed'
+import TwitterStatusFeed from 'theme/components/core/blocks/Twitter/TwitterStatusFeed'
 
 export default {
   name: 'CategoryExtrasFooter',

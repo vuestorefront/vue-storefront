@@ -14,12 +14,12 @@
       </div>
     </div>
     <div v-for="(s, i) in status" :key="i" class="t-bg-white t-mb-2 t-p-4">
-      <div v-html="twitterify(s.text)" class="t-text-base-base-tone t-text-sm t-leading-snug" />
+      <div v-html="twitterify(s.text)" class="t-text-base-tone t-text-sm t-leading-snug" />
       <div class="t-flex t-items-center t-justify-between t-mt-2 t-text-xs t-text-base-lighter">
         <material-icon icon="repeat" size="sm" class="t-mr-1" /> {{ s.retweet_count }}
         <material-icon icon="favorite" size="sm" class="t-mr-1 t-ml-4" /> {{ s.favorite_count }}
         <span class="t-flex-1" />
-        <a :href="`https://twitter.com/thebandGHOST/status/${s.id_str}`" target="_blank" class="t-text-base-lighter">
+        <a :href="`https://twitter.com/${screenName}/status/${s.id_str}`" target="_blank" class="t-text-base-lighter">
           <material-icon icon="chevron_right" size="sm" />
           <span class="t-sr-only">{{ $t('Read more') }}</span>
         </a>
