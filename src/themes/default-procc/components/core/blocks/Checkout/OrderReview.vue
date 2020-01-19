@@ -230,7 +230,7 @@ export default {
       console.log('this.currentImage', this.currentImage)
       this.ProCcAPI.mangoPayCheckIn(data, this.currentImage.brand).then(async (response) => {
         if (response.data.payIn_result && response.data.payIn_result.RedirectURL) {
-          console.log('OPENING THE POPUP')
+          console.log('OPENING THE POPUP', response.data.payIn_result.RedirectURL)
           window.open(response.data.payIn_result.RedirectURL, 'popUpWindow', 'height=700,width=800,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
         } else {
           this.$store.dispatch('notification/spawnNotification', {
