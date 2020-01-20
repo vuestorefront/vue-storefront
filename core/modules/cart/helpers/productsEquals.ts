@@ -14,6 +14,7 @@ const getServerItemId = (product: CartItem): string | number =>
 const isServerIdsEquals = (product1: CartItem, product2: CartItem): boolean => {
   const product1ItemId = getServerItemId(product1)
   const product2ItemId = getServerItemId(product2)
+
   const areItemIdsDefined = product1ItemId !== undefined && product2ItemId !== undefined
 
   return areItemIdsDefined && product1ItemId === product2ItemId

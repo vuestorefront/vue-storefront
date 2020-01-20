@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.1] - UNRELEASED
+
+### Added
+- Add `ProductPrice` component with bundleOptions and customOptions prices - @gibkigonzo (#3978)
+
+### Changed / Improved
+- Set cache tag when loading a category - @haelbichalex (#3940)
+
+### Fixed
+- Added Finnish translations - @mattiteraslahti and @alphpkeemik
+- Updated Estonian translations to match 1.11 - @alphpkeemik
+- CookieNotification CSR&SSR mismatch fixed - @Fifciu (#3922)
+- The attribute filter in `attribute/list` was not filtering the already loaded attributes properly - @pkarw (#3964)
+- Update `hasProductErrors` in Product component and support additional sku in custom options - @gibkigonzo (#3976)
+
 ## [1.11.0] - 2019.12.20
 
 ### Added
