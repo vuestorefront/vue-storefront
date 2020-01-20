@@ -7,6 +7,7 @@ export const getProductName = (product: ProductVariant): string => product ? (pr
 
 export const getProductSlug = (product: ProductVariant): string => product ? (product as any)._slug : ''
 
+// todo change to getProductPrices returning different types of prices https://github.com/DivanteLtd/next/issues/128
 export const getProductPrice = (product: ProductVariant): number | null => product ? product.price.value.centAmount / 100 : null
 
 export const getProductGallery = (product: ProductVariant): UiMediaGalleryItem[] =>
