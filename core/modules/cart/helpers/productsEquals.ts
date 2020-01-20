@@ -5,7 +5,6 @@ const getChecksum = (product: CartItem) => {
   if (product.checksum) {
     return product.checksum
   }
-
   return productChecksum(product)
 }
 

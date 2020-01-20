@@ -13,7 +13,7 @@ const replaceNumberToString = obj => {
 
 const getDataToHash = (product: CartItem): any => {
   if (!product.product_option) {
-    return null
+    return product.sku ? product.sku : null
   }
 
   const { extension_attributes } = product.product_option
