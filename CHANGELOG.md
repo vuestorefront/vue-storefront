@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)
 - Remove commit register mapping - @gibkigonzo (#3875)
 - Improved method `findConfigurableChildAsync` - find variant with lowest price - @gibkigonzo (#3939)
+- Optimized attributes loading - @andrzejewsky (#3948)
 
 ## [1.11.0] - 2019.12.20
 
