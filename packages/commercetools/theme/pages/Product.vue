@@ -11,7 +11,7 @@
           :src="image.big"
           class="desktop-only"
         />
-        <SfGallery
+        <!-- <SfGallery
           class="gallery-mobile mobile-only"
           :images="[
             {
@@ -23,7 +23,7 @@
               big: { url: '/productpage/productM.jpg' }
             }
           ]"
-        />
+        /> -->
       </div>
       <div class="product__description">
         <SfSticky class="product-details">

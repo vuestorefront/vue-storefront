@@ -51,7 +51,9 @@
               <SfPrice :regular="totalPrice | price" class="sf-price--big" />
             </template>
           </SfProperty>
-          <SfButton class="sf-button--full-width">Go to checkout</SfButton>
+          <nuxt-link to="/checkout">
+            <SfButton class="sf-button--full-width">Go to checkout</SfButton>
+          </nuxt-link>
         </div>
         <div v-else class="empty-cart" key="empty-cart">
           <div class="empty-cart__banner">

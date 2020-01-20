@@ -1862,23 +1862,23 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@storefront-ui/shared@^0.4.0":
+"@storefront-ui/shared@file:../storefront-ui/packages/shared":
   version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.4.0.tgz#fcc9a9557a77de008ddb8ea8ae619e8df1a7e5ff"
 
-"@storefront-ui/vue@^0.4.0":
+"@storefront-ui/vue@file:../storefront-ui/packages/vue":
   version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.4.0.tgz#a7c03df6ad347e980a7b5157451c792ef65e5725"
   dependencies:
     "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "^0.4.0"
+    "@storefront-ui/shared" "file:../../Library/Caches/Yarn/v4/npm-@storefront-ui-vue-0.4.0-5a9aae05-ca01-495b-a9a2-2d204d99a7e8-1579198180008/node_modules/@storefront-ui/shared"
     "@vue/babel-preset-app" "^4.0.0-alpha.1"
+    body-scroll-lock "^2.6.4"
     core-js "^3.1.3"
     hammerjs "^2.0.8"
     leaflet "^1.5.1"
     lozad "^1.9.0"
     node-sass "^4.12.0"
     sass-loader "^7.1.0"
+    simplebar-vue "^1.4.0"
     vue-drag-drop "^1.1.4"
     vue-fragment "^1.5.1"
     vue2-leaflet "^2.1.1"
@@ -3181,6 +3181,11 @@ body-parser@1.19.0:
     raw-body "2.4.0"
     type-is "~1.6.17"
 
+body-scroll-lock@^2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/body-scroll-lock/-/body-scroll-lock-2.6.4.tgz#567abc60ef4d656a79156781771398ef40462e94"
+  integrity sha512-NP08WsovlmxEoZP9pdlqrE+AhNaivlTrz9a0FF37BQsnOrpN48eNqivKkE7SYpM9N+YIPjsdVzfLAUQDBm6OQw==
+
 bonjour@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/bonjour/-/bonjour-3.5.0.tgz#8e890a183d8ee9a2393b3844c691a42bcf7bc9f5"
@@ -3520,6 +3525,11 @@ camelcase@^4.1.0:
 camelcase@^5.0.0, camelcase@^5.2.0, camelcase@^5.3.1:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
+
+can-use-dom@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/can-use-dom/-/can-use-dom-0.1.0.tgz#22cc4a34a0abc43950f42c6411024a3f6366b45a"
+  integrity sha1-IsxKNKCrxDlQ9CxkEQJKP2NmtFo=
 
 caniuse-api@^3.0.0:
   version "3.0.0"
@@ -4047,6 +4057,11 @@ core-js-compat@^3.1.1, core-js-compat@^3.4.3:
 core-js@^2.5.3, core-js@^2.6.5:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.10.tgz#8a5b8391f8cc7013da703411ce5b585706300d7f"
+
+core-js@^3.0.1:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.4.tgz#440a83536b458114b9cb2ac1580ba377dc470647"
+  integrity sha512-4paDGScNgZP2IXXilaffL9X7968RuvwlkK3xWtZRVqgd8SYNiVKRJvkFd1aqqEuPfN7E68ZHEp9hDj6lHj4Hyw==
 
 core-js@^3.1.3, core-js@^3.4.3:
   version "3.4.7"
@@ -7231,6 +7246,11 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "^3.0.0"
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
+
 lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
@@ -9768,6 +9788,11 @@ reselect@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/reselect/-/reselect-3.0.1.tgz#efdaa98ea7451324d092b2b2163a6a1d7a9a2147"
 
+resize-observer-polyfill@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
+  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
+
 resolve-cwd@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/resolve-cwd/-/resolve-cwd-2.0.0.tgz#00a9f7387556e27038eae232caa372a6a59b665a"
@@ -10161,6 +10186,26 @@ simple-swizzle@^0.2.2:
   resolved "https://registry.yarnpkg.com/simple-swizzle/-/simple-swizzle-0.2.2.tgz#a4da6b635ffcccca33f70d17cb92592de95e557a"
   dependencies:
     is-arrayish "^0.3.1"
+
+simplebar-vue@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/simplebar-vue/-/simplebar-vue-1.4.0.tgz#d474d0ef6a3e0298d0f7d10ff710cd770ff63150"
+  integrity sha512-bSZrx0RfD1yMZ1jnDQtz4ttsPfq/a++j7kOjehn0MJi+wIH+YMwwkQ+NGavx9lqGHA8KX6JPzQsco5FecvmrGg==
+  dependencies:
+    core-js "^3.0.1"
+    simplebar "^5.1.0"
+
+simplebar@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/simplebar/-/simplebar-5.1.0.tgz#15437ace314ec888accd7d8f24ada672e9bb2717"
+  integrity sha512-bdi1SleK1YOSnfeUjo5UQXt/79zNjsCJVEfzrm6photmGi2aU6x0l7rX4KAGcrtj5AwsWPBVXgDyYAqbbpnuRg==
+  dependencies:
+    can-use-dom "^0.1.0"
+    core-js "^3.0.1"
+    lodash.debounce "^4.0.8"
+    lodash.memoize "^4.1.2"
+    lodash.throttle "^4.1.1"
+    resize-observer-polyfill "^1.5.1"
 
 sisteransi@^1.0.3:
   version "1.0.4"
