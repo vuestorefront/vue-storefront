@@ -1862,14 +1862,16 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@storefront-ui/shared@file:../storefront-ui/packages/shared":
+"@storefront-ui/shared@^0.4.0":
   version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.4.0.tgz#fcc9a9557a77de008ddb8ea8ae619e8df1a7e5ff"
+  integrity sha512-GnapplNTw39OftUSKMjLLaur1eE5rLJqHnTPUIgI5v9UlZEWW8NrU6UrogFiseWVen0oz+XprQ/xEZsS5Im6+w==
 
 "@storefront-ui/vue@file:../storefront-ui/packages/vue":
   version "0.4.0"
   dependencies:
     "@glidejs/glide" "^3.3.0"
-    "@storefront-ui/shared" "file:../../Library/Caches/Yarn/v4/npm-@storefront-ui-vue-0.4.0-5a9aae05-ca01-495b-a9a2-2d204d99a7e8-1579198180008/node_modules/@storefront-ui/shared"
+    "@storefront-ui/shared" "^0.4.0"
     "@vue/babel-preset-app" "^4.0.0-alpha.1"
     body-scroll-lock "^2.6.4"
     core-js "^3.1.3"
