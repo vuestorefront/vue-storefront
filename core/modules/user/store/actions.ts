@@ -297,7 +297,7 @@ const actions: ActionTree<UserState, RootState> = {
     context.dispatch('cart/disconnect', {}, { root: true })
       .then(() => { context.dispatch('clearCurrentUser') })
       .then(() => { Vue.prototype.$bus.$emit('user-after-logout') })
-      .then(() => { context.dispatch('cart/clear', { recreateAndSyncCart: true }, { root: true }) })
+      .then(() => { context.dispatch('cart/clear', null, { root: true }) })
     if (!silent) {
       rootStore.dispatch('notification/spawnNotification', {
         type: 'success',

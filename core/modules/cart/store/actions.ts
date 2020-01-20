@@ -135,13 +135,11 @@ const actions: ActionTree<CartState, RootState> = {
   async disconnect ({ commit }) {
     commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
-  /** Clear the cart content + re-connect to newly created guest cart */
-  async clear ({ commit, dispatch, getters }, options = { recreateAndSyncCart: true }) {
+  /** Clear the cart content */
+  async clear ({ commit, dispatch, getters }) {
     await commit(types.CART_LOAD_CART, [])
-    if (options.recreateAndSyncCart && getters.isCartSyncEnabled) {
-      await commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
-      await commit(types.CART_SET_ITEMS_HASH, null)
-    }
+    await commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
+    await commit(types.CART_SET_ITEMS_HASH, null)
   },
   /** Refresh the payment methods with the backend */
   async syncPaymentMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
