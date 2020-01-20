@@ -11,12 +11,6 @@ export const Compare = {
       allComparableAttributes: 'attribute/getAllComparableAttributes'
     })
   },
-  created () {
-    this.$store.dispatch('attribute/list', {
-      filterValues: [],
-      filterField: 'is_user_defined'
-    })
-  },
   methods: {
     removeFromCompare (product: Product) {
       return this.$store.state['compare']

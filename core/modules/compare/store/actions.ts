@@ -7,13 +7,20 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 
 const actions: ActionTree<CompareState, RootState> = {
   async load ({ commit, getters, dispatch }, force: boolean = false) {
-    if (!force && getters.isCompareLoaded) return
-    commit(types.SET_COMPARE_LOADED)
-    const storedItems = await dispatch('fetchCurrentCompare')
+    if (force || !getters.isCompareLoaded) {
+      commit(types.SET_COMPARE_LOADED)
+      const storedItems = await dispatch('fetchCurrentCompare')
 
-    if (storedItems) {
-      commit(types.COMPARE_LOAD_COMPARE, storedItems)
-      Logger.info('Compare state loaded from browser cache: ', 'cache', storedItems)()
+      if (storedItems) {
+        commit(types.COMPARE_LOAD_COMPARE, storedItems)
+        Logger.info('Compare state loaded from browser cache: ', 'cache', storedItems)()
+      }
+
+      dispatch(
+        'attribute/loadAttributesFromProducts',
+        { products: getters.getCompareItems },
+        { root: true }
+      )
     }
   },
   async fetchCurrentCompare () {

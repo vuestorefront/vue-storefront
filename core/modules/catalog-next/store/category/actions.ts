@@ -41,7 +41,12 @@ const actions: ActionTree<CategoryState, RootState> = {
       excludeFields: entities.productList.excludeFields,
       size: pageSize
     })
-    await dispatch('loadAvailableFiltersFrom', {aggregations, category: searchCategory, filters: searchQuery.filters})
+    await dispatch('loadAvailableFiltersFrom', {
+      aggregations,
+      category: searchCategory,
+      filters: searchQuery.filters,
+      products: items
+    })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
     const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
     commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
@@ -163,14 +168,15 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryFilters ({ dispatch, getters }, category) {
     const searchCategory = category || getters.getCurrentCategory
     let filterQr = buildFilterProductsQuery(searchCategory)
-    const {aggregations} = await quickSearchByQuery({
+    const { items, aggregations } = await quickSearchByQuery({
       query: filterQr,
       size: config.products.maxFiltersQuerySize,
       excludeFields: ['*']
     })
-    await dispatch('loadAvailableFiltersFrom', {aggregations, category})
+    await dispatch('loadAvailableFiltersFrom', { aggregations, category, products: items })
   },
-  async loadAvailableFiltersFrom ({ commit, getters }, {aggregations, category, filters = {}}) {
+  async loadAvailableFiltersFrom ({ commit, getters, dispatch }, {aggregations, category, products, filters = {}}) {
+    await dispatch('attribute/loadAttributesFromProducts', { products }, { root: true })
     const aggregationFilters = getters.getAvailableFiltersFrom(aggregations)
     const currentCategory = category || getters.getCurrentCategory
     const categoryMappedFilters = getters.getFiltersMap[currentCategory.id]
@@ -181,6 +187,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     commit(types.CATEGORY_SET_CATEGORY_FILTERS, {category, filters: resultFilters})
   },
+
   async switchSearchFilters ({ dispatch }, filterVariants: FilterVariant[] = []) {
     let currentQuery = router.currentRoute[products.routerFiltersSource]
     filterVariants.forEach(filterVariant => {

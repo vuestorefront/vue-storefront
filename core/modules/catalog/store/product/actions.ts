@@ -243,35 +243,30 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Setup product current variants
    */
-  setupVariants (context, { product }) {
-    let subloaders = []
+  async setupVariants (context, { product }) {
     if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_options')) {
-      subloaders.push(context.dispatch('product/loadConfigurableAttributes', { product }, { root: true }).then((attributes) => {
-        let productOptions = {}
-        for (let option of product.configurable_options) {
-          for (let ov of option.values) {
-            let lb = ov.label ? ov.label : optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
-            if (trim(lb) !== '') {
-              let optionKey = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
-              if (!productOptions[optionKey]) {
-                productOptions[optionKey] = []
-              }
-              productOptions[optionKey].push({
-                label: lb,
-                id: ov.value_index,
-                attribute_code: option.attribute_code
-              })
+      await context.dispatch('attribute/loadAttributesFromProducts', { products: [product] }, { root: true })
+      let productOptions = {}
+      for (let option of product.configurable_options) {
+        for (let ov of option.values) {
+          let lb = ov.label ? ov.label : optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
+          if (trim(lb) !== '') {
+            let optionKey = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
+            if (!productOptions[optionKey]) {
+              productOptions[optionKey] = []
             }
+            productOptions[optionKey].push({
+              label: lb,
+              id: ov.value_index,
+              attribute_code: option.attribute_code
+            })
           }
         }
-        context.commit(types.PRODUCT_SET_CURRENT_OPTIONS, productOptions)
-        let selectedVariant = context.getters.getCurrentProduct
-        populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
-      }).catch(err => {
-        Logger.error(err)()
-      }))
+      }
+      context.commit(types.PRODUCT_SET_CURRENT_OPTIONS, productOptions)
+      let selectedVariant = context.getters.getCurrentProduct
+      populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
     }
-    return Promise.all(subloaders)
   },
   filterUnavailableVariants (context, { product }) {
     return filterOutUnavailableVariants(context, product)
@@ -455,7 +450,7 @@ const actions: ActionTree<ProductState, RootState> = {
               if (prd.type_id === 'grouped') {
                 subConfigPromises.push(context.dispatch('configureGroupedAsync', prd))
               }
-              subConfigPromises.push(context.dispatch('setupVariants', { product: prd }))
+              context.dispatch('setupVariants', { product: prd })
               Promise.all(subConfigPromises).then(_returnProductNoCacheHelper)
             } else {
               _returnProductNoCacheHelper(null)
@@ -493,7 +488,7 @@ const actions: ActionTree<ProductState, RootState> = {
             }
             if (setCurrentProduct || selectDefaultVariant) {
               const subConfigPromises = []
-              subConfigPromises.push(context.dispatch('setupVariants', { product: res }))
+              context.dispatch('setupVariants', { product: res })
               if (res.type_id === 'bundle') {
                 subConfigPromises.push(context.dispatch('configureBundleAsync', res))
               }
@@ -638,7 +633,8 @@ const actions: ActionTree<ProductState, RootState> = {
       throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
     }
 
-    await dispatch('loadProductAttributes', { product })
+    await dispatch('attribute/loadAttributesFromProducts', { products: [product] }, { root: true })
+
     const syncPromises = []
     const variantsFilter = dispatch('filterUnavailableVariants', { product })
     const gallerySetup = dispatch('setProductGallery', { product })
