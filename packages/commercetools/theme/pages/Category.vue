@@ -491,7 +491,6 @@ export default {
   &__list {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 1.875rem - 0.5rem;
   }
   &__product-card {
     flex: 0 0 50%;
