@@ -190,10 +190,10 @@
             {{ $t('Shipping method') }}
           </h4>
           <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6">
-            <label class="radioStyled"> {{ method.method_title }} | {{ method.amount | price }}
+            <label class="radioStyled"> {{ method.name }} |  {{ method.cost | price }}
               <input
                 type="radio"
-                :value="method.method_code"
+                :value="method._id"
                 name="shipping-method"
                 v-model="shipping.shippingMethod"
                 @change="$v.shipping.shippingMethod.$touch(); changeShippingMethod();"
@@ -251,7 +251,7 @@
               </h4>
             </div>
             <div class="col-md-6 mb15">
-              <label class="radioStyled"> {{ getShippingMethod().method_title }} | {{ getShippingMethod().amount | price }}
+              <label class="radioStyled"> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }}
                 <input type="radio" value="" checked disabled name="chosen-shipping-method">
                 <span class="checkmark" />
               </label>

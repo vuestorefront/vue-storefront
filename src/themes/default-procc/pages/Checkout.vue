@@ -145,7 +145,7 @@ export default {
         height: 25px;
         width: 25px;
         border-radius: 50%;
-        border: 1px solid $bg-secondary;
+        border: 1px solid $color-black;
 
         &:after {
           content: "";

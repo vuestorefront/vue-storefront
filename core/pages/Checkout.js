@@ -352,6 +352,7 @@ export default {
           }
         }).catch(err => {
           Logger.error(err, 'Transaction was not Done!!')
+          this.$bus.$emit('notification-progress-stop');
           this.$store.dispatch('notification/spawnNotification', {
             type: 'error',
             message: this.$t('Unable to place order in procc!!'),
@@ -397,6 +398,7 @@ export default {
             })
           }
         } else {
+          this.$bus.$emit('notification-progress-stop');
           this.$store.dispatch('notification/spawnNotification', {
             type: 'error',
             message: this.$t('Something goes Wrong :(  Server could not respond'),
@@ -412,9 +414,11 @@ export default {
           mp_transaction: payment_data.transactionId,
           order_ids: this.procc_order_id
         }
-        this.ProCcAPI.updateTransactionInOrder(update_data, this.currentImage.brand)
+        this.ProCcAPI.updateTransactionInOrder(update_data, this.currentImage.brand).then((result)=>{
+          this.$bus.$emit('notification-progress-stop');
+        })
       }
-      this.$store.dispatch('checkout/placeOrder', {order: this.prepareOrder()})
+      // this.$store.dispatch('checkout/placeOrder', {order: this.prepareOrder()})
     },
     savePersonalDetails () {
       this.$store.dispatch('checkout/savePersonalDetails', this.personalDetails)

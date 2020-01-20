@@ -139,16 +139,16 @@ export const Shipping = {
     },
     getShippingMethod () {
       for (let i = 0; i < this.shippingMethods.length; i++) {
-        if (this.shippingMethods[i].method_code === this.shipping.shippingMethod) {
+        if (this.shippingMethods[i]._id === this.shipping.shippingMethod) {
           return {
-            method_title: this.shippingMethods[i].method_title,
-            amount: this.shippingMethods[i].amount
+            name: this.shippingMethods[i].name,
+            cost: this.shippingMethods[i].cost
           }
         }
       }
       return {
-        method_title: '',
-        amount: ''
+        name: '',
+        cost: ''
       }
     },
     getCountryName () {

@@ -5,6 +5,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import { preparePaymentMethodsToSync, createOrderData, createShippingInfoData } from '@vue-storefront/core/modules/cart/helpers'
 import PaymentMethod from '../../types/PaymentMethod'
+import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
@@ -82,8 +83,13 @@ const methodsActions = {
         region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
       } : {country_id: storeView.tax.defaultCountry}
 
-      const { result } = await CartService.getShippingMethods(address)
-      await dispatch('updateShippingMethods', { shippingMethods: result })
+      if(getters.getCartItems && getters.getCartItems[0]) {
+        let order_item = getters.getCartItems[0]
+        await ProCcApi().getShippingMethodByBrand(order_item.procc_brand_id)
+          .then((result) => {
+            dispatch('updateShippingMethods', {shippingMethods: result.data.shipping_methods})
+          })
+      }
     } else {
       Logger.debug('Shipping methods does not need to be updated', 'cart')()
     }

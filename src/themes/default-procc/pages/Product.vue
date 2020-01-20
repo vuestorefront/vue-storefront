@@ -424,6 +424,8 @@ export default {
   async mounted () {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
     this.isCCStore = this.currentImage.is_cc_store
+    let selected_filters = this.getSelectedFilters
+    this.changeFilter(selected_filters.size)
   },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
