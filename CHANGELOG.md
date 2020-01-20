@@ -32,7 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add global Category and Breadcrumb filters, defined in local.json - @grimasod (#3691)
 - Add constant which conditions the number of products loading per page - @AdKamil (#3630)
 - Added price filtering key as config - @roywcm
-- Add possibility to add same SKU with different custom options to the cart - @Michal-Dziedzinski (#3595)
 
 ### Fixed
 - Fixed missing parameter to query function from cms/store/block/actions - @georgiev-ivan (#3909)
@@ -62,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed saving invalidated user token -  @andrzejewsky (#3923)
 - Keep category products objects on ssr - @gibkigonzo (#3924)
 - product breadcrumbs - check if current category is not highest one - @gibkigonzo (#3933)
+- Fix possibility to add same SKU with different custom options to the cart - @Michal-Dziedzinski (#3595)
 
 ### Changed / Improved
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
