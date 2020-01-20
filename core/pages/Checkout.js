@@ -414,7 +414,7 @@ export default {
           mp_transaction: payment_data.transactionId,
           order_ids: this.procc_order_id
         }
-        this.ProCcAPI.updateTransactionInOrder(update_data, this.currentImage.brand).then((result)=>{
+        this.ProCcAPI.updateTransactionInOrder(update_data, this.currentImage.brand).then((result) => {
           this.$bus.$emit('notification-progress-stop');
         })
       }
