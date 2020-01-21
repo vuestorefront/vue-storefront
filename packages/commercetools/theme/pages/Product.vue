@@ -190,48 +190,7 @@
         </SfCarouselItem>
       </SfCarousel>
     </SfSection>
-    <SfSection
-      title-heading="Share Your Look"
-      subtitle-heading="#YOURLOOK"
-      class="section"
-    >
-      <div class="images-grid">
-        <div class="images-grid__row">
-          <div class="images-grid__col">
-            <SfImage src="/homepage/imageA.jpg"
-              >katherina_trn</SfImage
-            >
-          </div>
-          <div class="images-grid__col">
-            <SfImage src="/homepage/imageB.jpg"
-              >katherina_trn</SfImage
-            >
-          </div>
-          <div class="images-grid__col">
-            <SfImage src="/homepage/imageC.jpg"
-              >katherina_trn</SfImage
-            >
-          </div>
-        </div>
-        <div class="images-grid__row">
-          <div class="images-grid__col">
-            <SfImage src="/homepage/imageC.jpg"
-              >katherina_trn</SfImage
-            >
-          </div>
-          <div class="images-grid__col">
-            <SfImage src="/homepage/imageD.jpg"
-              >katherina_trn</SfImage
-            >
-          </div>
-          <div class="images-grid__col">
-            <SfImage src="/homepage/imageA.jpg"
-              >katherina_trn</SfImage
-            >
-          </div>
-        </div>
-      </div>
-    </SfSection>
+    <InstagramFeed />
     <SfBanner
       title="Download our application to your mobile"
       image="/homepage/bannerD.png"
@@ -282,7 +241,8 @@ import {
   SfSticky,
   SfReview,
   SfBreadcrumbs
-} from "@storefront-ui/vue";
+} from '@storefront-ui/vue'
+import InstagramFeed from '~/components/InstagramFeed.vue'
 import { ref, computed } from '@vue/composition-api'
 
 import { useProduct, useCart } from '@vue-storefront/commercetools-composables'
@@ -310,15 +270,15 @@ export default {
 
     const attributes = computed(() => getProductAttributes(product.value))
 
-    return { 
+    return {
       product,
       attributes,
       getProductName,
       getProductPrice,
       getProductGallery,
-      qty, 
-      addToCart, 
-      loading 
+      qty,
+      addToCart,
+      loading
     }
   },
   components: {
@@ -339,7 +299,8 @@ export default {
     SfBanner,
     SfSticky,
     SfReview,
-    SfBreadcrumbs
+    SfBreadcrumbs,
+    InstagramFeed
   },
   data() {
     return {
@@ -558,26 +519,6 @@ export default {
   }
   ::v-deep .sf-gallery__stage {
     width: 100%;
-  }
-}
-.images-grid {
-  &__row {
-    display: flex;
-    & + & {
-      margin-top: $spacer-big / 2;
-      @include for-desktop {
-        margin-top: $spacer-big;
-      }
-    }
-  }
-  &__col {
-    margin: 0;
-    & + & {
-      margin-left: $spacer-big / 2;
-      @include for-desktop {
-        margin-left: $spacer-big;
-      }
-    }
   }
 }
 .product {
