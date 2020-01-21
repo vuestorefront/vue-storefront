@@ -36,7 +36,9 @@ const productsEquals = (product1: CartItem, product2: CartItem): boolean => {
   const typeProduct2 = getProductType(product2)
 
   if (typeProduct1 === 'bundle' || typeProduct2 === 'bundle') {
-    return isServerIdsEquals(product1, product2) || isChecksumEquals(product1, product2)
+    if (isServerIdsEquals(product1, product2) || isChecksumEquals(product1, product2)) {
+      return String(product1.sku) === String(product2.sku)
+    }
   }
 
   return isServerIdsEquals(product1, product2) || String(product1.sku) === String(product2.sku)
