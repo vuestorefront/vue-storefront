@@ -30,7 +30,6 @@ export default {
     },
     async addToCart (product) {
       try {
-        // console.log('addToCart Product: ', product)
         const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
         diffLog.clientNotifications.forEach(notificationData => {
           this.notifyUser(notificationData)

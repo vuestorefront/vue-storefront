@@ -1,22 +1,20 @@
 <template>
   <div class="personal-details">
-    <div class="row pl20">
-      <div class="col-xs-2">
+    <div class="row pl20 pr20">
+      <div class="col-xs-12">
         <div
           class="number-circle lh35 cl-white brdr-circle align-center weight-700"
           :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
         >
           1
         </div>
-      </div>
-      <div class="col-xs-10">
-        <div class="row mb15">
-          <div class="col-xs-12 col-md-7" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
-            <h3 class="m0">
+        <div class="mb15">
+          <div class="dt-float-l" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
+            <h4 class="m0">
               {{ $t('Personal Details') }}
-            </h3>
+            </h4>
           </div>
-          <div class="col-xs-12 col-md-5 pr30">
+          <div class="dt-float-r pl20">
             <div class="lh30 flex end-lg" v-if="isFilled && !isActive">
               <a href="#" class="cl-tertiary flex" @click.prevent="edit">
                 <span class="pr5">
@@ -29,9 +27,9 @@
         </div>
       </div>
     </div>
-    <div class="row pl20" v-if="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1" />
-      <div class="col-xs-11 col-sm-9 col-md-10">
+    <div class="row pl20 pr20" v-if="isActive">
+
+      <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="row">
           <base-input
             class="col-xs-12 col-md-6 mb10"
@@ -91,7 +89,7 @@
 
           <base-checkbox
             v-if="!currentUser"
-            class="col-xs-12 mb15"
+            class="col-xs-12"
             id="createAccountCheckbox"
             v-model="createAccount"
           >
@@ -156,32 +154,22 @@
             class="col-12" style="text-align: center"
             v-if="!currentUser"
           >
-            <p class="h4 cl-accent">
-              {{ $t('or') }}
-              <span
-                class="link pointer"
-                @click.prevent="gotoAccount"
-              >
-                {{ $t('login to your account') }}
-              </span>
-            </p>
+
           </div>
         </div>
       </div>
     </div>
-    <div class="row" v-show="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1" />
-      <div class="col-12">
-        <div class="row my30">
-          <div class="col-xs-12 col-md-7 px20 button-container">
-            <button-full
-              data-testid="personalDetailsSubmit"
-              @click.native="sendDataToCheckout"
-              :disabled="createAccount ? $v.$invalid : $v.personalDetails.$invalid"
-            >
-              {{ $t((isVirtualCart ? 'Continue to payment' : 'Continue to shipping')) }}
-            </button-full>
-          </div>
+    <div class="row pl20 pr20 my15 " v-show="isActive">
+      <div class="col-md-6">
+        <button-full
+          data-testid="personalDetailsSubmit"
+          @click.native="sendDataToCheckout"
+          :disabled="createAccount ? $v.$invalid : $v.personalDetails.$invalid"
+        >
+          {{ $t((isVirtualCart ? 'Continue to payment' : 'Continue to shipping')) }}
+        </button-full>
+        <div class="">
+
 <!--          // Moved by Dan to a bit above-->
 <!--          <div-->
 <!--            class="col-xs-12 col-md-5 center-xs end-md"-->
@@ -198,6 +186,17 @@
 <!--            </p>-->
 <!--          </div>-->
         </div>
+      </div>
+      <div class="col-md-6">
+        <p class="h4 cl-accent text-c-dt">
+          {{ $t('or') }}
+          <span
+            class="link pointer"
+            @click.prevent="gotoAccount"
+          >
+                {{ $t('login to your account') }}
+              </span>
+        </p>
       </div>
     </div>
     <div class="row pl20" v-if="!isActive && isFilled">

@@ -39,7 +39,6 @@ const itemActions = {
     return getters.getCartItems.find(p => productsEquals(p, product))
   },
   async addItem ({ dispatch, commit }, { productToAdd, forceServerSilence = false }) {
-    console.log('itemActions.ts addItem productToAdd', productToAdd)
     const { cartItem } = cartHooksExecutors.beforeAddToCart({ cartItem: productToAdd })
     console.log('itemActions.ts addItem productToAdd cartItem', cartItem)
     console.log('itemActions.ts addItem productToAdd2', prepareProductsToAdd(cartItem))

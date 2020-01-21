@@ -191,7 +191,6 @@ const mergeActions = {
     commit(types.CART_SET_ITEMS_HASH, getters.getCurrentCartHash)
   },
   async merge ({ getters, dispatch }, { serverItems, clientItems, dryRun = false, forceClientState = false }) {
-    console.log('mergeActions.ts merge serverItems', serverItems)
 
     const hookResult = cartHooksExecutors.beforeSync({ clientItems, serverItems })
 

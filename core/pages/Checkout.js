@@ -38,7 +38,8 @@ export default {
       shippingAmount: null, // by ProCC
       userId: null, // by ProCC
       focusedField: null,
-      procc_order_id: null // by shabbir for ProCC
+      procc_order_ids: null, // by shabbir for ProCC
+      mangopay_transaction_id: null
     }
   },
   computed: {
@@ -165,7 +166,6 @@ export default {
     },
     onBeforePlaceOrder (payload) {
       // Weird code again with no explaination by Vinod
-      console.log('onBeforePlaceOrder: ', payload);
       // Added by Dan 02-01-2020
       this.$bus.$emit('checkout-do-placeOrder', {})
     },
@@ -280,14 +280,12 @@ export default {
       return paymentMethod
     },
     prepareOrder () {
-      console.log('prepareOrder Start');
-      console.log('prepareOrder this.payment', this.payment);
-      console.log('prepareOrder this.transactionId', this.transactionId);
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
         products: this.$store.state.cart.cartItems,
-        order_ids: this.procc_order_id ? this.procc_order_id : null, // Added by shabbir ProCC
+        order_ids: this.procc_order_ids ? this.procc_order_ids : null, // Added by shabbir ProCC
+        mp_transaction: this.mangopay_transaction_id ? this.mangopay_transaction_id : null, // Added by shabbir ProCC
         store_brand: this.currentImage.brand,
         // Added by Dan ProCC -> TODO: need to charge 1 shipping fee per brand ordered from and store separate shipping methods for each brand
         shipping_amount: this.$store.state.cart.platformTotalSegments[1].value,
@@ -347,8 +345,7 @@ export default {
       this.ProCcAPI.addNewOrder(order_data, order_data.store_brand)
         .then((result) => {
           if (result.data.message_type === 'success') {
-            this.procc_order_id = result.data.order_ids
-            this.ProCCOrderPayment()
+            this.procc_order_ids = result.data.order_ids
           }
         }).catch(err => {
           Logger.error(err, 'Transaction was not Done!!')
@@ -359,6 +356,7 @@ export default {
             action1: { label: this.$t('OK') }
           })
         })
+      this.ProCCOrderPayment()
     },
     // Created function by shabbir for make payment
     ProCCOrderPayment () {
@@ -410,15 +408,9 @@ export default {
     // Created function by shabbir for place order in magento
     PlaceMagentoOrder (payment_data) {
       if (payment_data && payment_data.transactionId) {
-        let update_data = {
-          mp_transaction: payment_data.transactionId,
-          order_ids: this.procc_order_id
-        }
-        this.ProCcAPI.updateTransactionInOrder(update_data, this.currentImage.brand).then((result) => {
-          this.$bus.$emit('notification-progress-stop');
-        })
+        this.mangopay_transaction_id = payment_data.transactionId
       }
-      // this.$store.dispatch('checkout/placeOrder', {order: this.prepareOrder()})
+      this.$store.dispatch('checkout/placeOrder', {order: this.prepareOrder()})
     },
     savePersonalDetails () {
       this.$store.dispatch('checkout/savePersonalDetails', this.personalDetails)

@@ -14,7 +14,6 @@ if (config.server.useOutputCache) {
   }
   const redisConfig = Object.assign(config.redis, { keyPrefix: cacheKey })
 
-  console.log('Redis cache set', redisConfig)
 
   cache = new TagCache({
     redis: redisConfig,

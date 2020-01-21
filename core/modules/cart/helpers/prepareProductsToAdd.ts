@@ -5,7 +5,7 @@ import optimizeProduct from './optimizeProduct'
 const readAssociated = product =>{
   if (product.product_links)
    return product.product_links.filter(p => p.link_type === 'associated').map(p => p.product)
-   else 
+   else
    return product
 }
 const isDefined = product => typeof product !== 'undefined' || product !== null
@@ -19,7 +19,6 @@ const applyChecksumForBundles = product =>
   product.type_id === 'bundle' ? { ...product, checksum: productChecksum(product) } : product
 
 const prepareProductsToAdd = (product: CartItem): CartItem[] => {
-  console.log('prepareProductsToAdd', product)
   const products = product.type_id === 'grouped' ? readAssociated(product) : [product]
   return products
     .filter(isDefined)

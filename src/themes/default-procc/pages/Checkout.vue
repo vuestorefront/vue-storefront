@@ -3,12 +3,13 @@
     <div class="container">
       <div class="row" v-show="!isThankYouPage">
 <!--        // Edited By Dan-->
-        <div class="col-md-6 col-sm-12 col-xs-12 pb70" style="margin: 0 auto 0 auto;padding-right: 0!important;">
+        <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 mt20" style="">
+          <div class="box-left">
           <!--    // Edited by Dan 02-01-2020-->
-          <div class="checkout-title py5 px20" style="padding-right: 0!important;">
-            <h1>
+          <div class="checkout-title py5 px20">
+            <h3>
               {{ $t('Checkout') }}
-            </h1>
+            </h3>
           </div>
           <personal-details
             class="line relative"
@@ -18,12 +19,19 @@
           <shipping class="line relative" :is-active="activeSection.shipping" v-if="!isVirtualCart" />
           <payment class="line relative" :is-active="activeSection.payment" />
           <order-review class="line relative" :is-active="activeSection.orderReview" />
+
           <div id="custom-steps" />
+          </div>
+          <div class="box-left mt20">
+            <cart-summary />
+          </div>
         </div>
 <!--        <div class="hidden-xs col-sm-5 bg-cl-secondary">-->
 <!--        // TODO: Need to make sure the cart summary shows in mobile version -> 'xs'-->
-        <div class="col-sm-6 bg-cl-secondary" style="padding-left: 0!important;z-index: 2">
-          <cart-summary />
+        <div class="col-lg-4 col-md-12 col-sm-12 mt20" style="z-index: 2">
+          <div class="box-right">
+            <order-summary />
+          </div>
         </div>
       </div>
     </div>
@@ -39,6 +47,7 @@ import Shipping from 'theme/components/core/blocks/Checkout/Shipping'
 import Payment from 'theme/components/core/blocks/Checkout/Payment'
 import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
+import OrderSummary from 'theme/components/core/blocks/Checkout/OrderSummary'
 import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { OrderModule } from '@vue-storefront/core/modules/order'
@@ -48,6 +57,7 @@ export default {
     PersonalDetails,
     Shipping,
     Payment,
+    OrderSummary,
     OrderReview,
     CartSummary,
     ThankYouPage
@@ -194,4 +204,46 @@ export default {
       }
     }
   }
+  @media screen and (min-width:1200px){
+  #checkout .container {max-width: 1200px;margin:0 auto;}
+  }
+  #app {background: #f2f2f2;}
+  .box-left, .box-right {background: #fff;    border-radius: 8px;}
+  .checkout-title h3, h3.order-sum{font-size: 24px;
+    color: #000;
+    font-weight: 700;
+    margin-bottom: 24px;
+    margin-top: 8px;
+    line-height: 1.1;}
+  #checkout .number-circle {    float: left;    margin-top: 0px;margin-right: 12px;width: 26px;
+    height: 26px;
+    line-height: 27px;}
+  .store-info p {font-size: 16px;font-weight: 500;float: left;    margin-top: 0;margin-bottom: 8px;}
+  .store-info .store-contact {float: left;margin-left: 15px;padding-left: 30px;
+    position: relative;}
+  .store-info .store-contact i {    position: absolute;
+    left: 0;
+    top: -3px;}
+  #checkout .row {clear: left;}
+  button.normal-icon-btn {    background: none;
+    border: none;}
+  .qty-add-dlt button{background: #f2f2f2;
+    border: none;
+    width: 28px;
+    height: 28px;}
+  .qty-add-dlt button i {    font-size: 18px;
+    line-height: 28px;}
+  .qty-add-dlt span{line-height: 28px;
+    padding: 0 10px;
+    display: inline-block;
+    vertical-align: top;}
+  .static-available {font-size: 14px;color: #da7b05;}
+  .text-c-dt {text-align: center;}
+  .dt-float-l {float: left;}
+  .dt-float-r {float: right;}
+  @media screen and (max-width: 575px){
+    .text-c-dt {text-align: left;}
+    .shipping-text{text-align: left !important;}
+  }
+
 </style>

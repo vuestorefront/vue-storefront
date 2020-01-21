@@ -60,7 +60,6 @@ export default {
     scrollSidebarBottom () { // Added by Dan
       if(this.$refs && this.$refs.sidebar){
         this.$refs.sidebar.scrollTop = this.$refs.sidebar.scrollHeight;
-        console.log('scrolled to bottom')
       }
     },
     getComponent () {

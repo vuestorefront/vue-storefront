@@ -1,22 +1,20 @@
 <template>
-  <div class="pt20">
+  <div class="pt10">
     <div class="row pl20">
-      <div class="col-xs-2">
+      <div class="col-xs-12">
         <div
           class="number-circle lh35 cl-white brdr-circle align-center weight-700"
           :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
         >
           2
         </div>
-      </div>
-      <div class="col-xs-10">
-        <div class="row mb15">
-          <div class="col-xs-12 col-md-7" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
-            <h3 class="m0">
+        <div class="mb15">
+          <div class="" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
+            <h4 class="m0">
               {{ $t('Shipping') }}
-            </h3>
+            </h4>
           </div>
-          <div class="col-xs-12 col-md-5 pr30">
+          <div class=" pr30">
             <div class="lh30 flex end-lg" v-if="isFilled && !isActive">
               <a href="#" class="cl-tertiary flex" @click.prevent="edit">
                 <span class="pr5">

@@ -1,21 +1,19 @@
 <template>
-  <div class="order-review pt20">
-    <div class="row pl20">
-      <div class="col-xs-2">
+  <div class="order-review pt10">
+    <div class="row pl20 pr20">
+      <div class="col-xs-12 mb20">
         <div
           class="number-circle lh35 cl-white brdr-circle align-center weight-700"
           :class="{ 'bg-cl-th-accent' : isActive || isFilled, 'bg-cl-tertiary' : !isFilled && !isActive }"
         >
           {{ (isVirtualCart ? 3 : 4) }}
         </div>
-      </div>
-      <div class="col-xs-10">
-        <div class="row">
-          <div class="col-md-12" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
+        <div class="">
+          <div class="" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
 <!--            // Edited By Dan-->
-            <h3 class="m0 mb5">
+            <h4 class="m0 mb5">
               {{ $t('Place the order') }}
-            </h3>
+            </h4>
           </div>
         </div>
       </div>
@@ -67,7 +65,7 @@
       <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
-          <div class="col-xs-12 col-md-8 px20" style="margin-top: 3rem!important;">
+          <div class="col-xs-12 col-md-8 px20 mb20">
             <slot name="placeOrderButton">
               <button-full
                 @click.native="placeOrder"
@@ -201,7 +199,6 @@ export default {
       })
     },
     ProCCOrderPayment () {
-      console.log('this.getTotals: ', this.getTotals)
       let amount
       for (let segment of this.getTotals){
         if(segment.code === 'grand_total'){
@@ -226,11 +223,8 @@ export default {
         'Culture': 'EN',
         'brand': this.currentImage.brand
       }
-      console.log('ProCcAPI.mangoPayCheckIn data', data)
-      console.log('this.currentImage', this.currentImage)
       this.ProCcAPI.mangoPayCheckIn(data, this.currentImage.brand).then(async (response) => {
         if (response.data.payIn_result && response.data.payIn_result.RedirectURL) {
-          console.log('OPENING THE POPUP', response.data.payIn_result.RedirectURL)
           window.open(response.data.payIn_result.RedirectURL, 'popUpWindow', 'height=700,width=800,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
         } else {
           this.$store.dispatch('notification/spawnNotification', {

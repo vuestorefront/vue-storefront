@@ -8,7 +8,6 @@ import toString from 'lodash-es/toString'
 
 export function optionLabel (state, { attributeKey, searchBy = 'code', optionId }) {
   let attrCache = state.labels[attributeKey];
-  // console.log('optionLabel END: ', state.labels)
 
   if (attrCache) {
     let label = attrCache[optionId];
@@ -19,8 +18,6 @@ export function optionLabel (state, { attributeKey, searchBy = 'code', optionId 
   }
   let attr = state['list_by_' + searchBy][attributeKey];
   if (attr) {
-    // console.log('return attr: ', attr.options)
-
     let opt = attr.options.find((op) => { // TODO: cache it in memory
       if (toString(op.value) === toString(optionId)) {
         return op
@@ -34,11 +31,9 @@ export function optionLabel (state, { attributeKey, searchBy = 'code', optionId 
       state.labels[attributeKey][optionId] = opt.label;
       return opt ? opt.label : optionId
     } else {
-      // console.log('return optionId: ', optionId)
       return optionId
     }
   } else {
-    console.log('return optionId 2: ', optionId);
     return optionId
   }
 }

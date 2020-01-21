@@ -52,8 +52,6 @@ const synchronizeActions = {
     if (!canUpdateMethods || !isSyncRequired) return createDiffLog()
     commit(types.CART_SET_SYNC)
     const { result, resultCode } = await CartService.getItems()
-    console.log('CartService.getItems result', result)
-    console.log('CartService.getItems resultCode', resultCode)
 
     const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
 

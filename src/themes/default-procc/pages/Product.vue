@@ -355,7 +355,7 @@ export default {
     }
   },
   beforeUpdate () {
-    console.log('cc Store currentImage', this.currentImage)
+
   },
   computed: {
     ...mapGetters({
@@ -405,11 +405,9 @@ export default {
       }).sort((a, b) => { return a.attribute_id > b.attribute_id })
     },
     getAvailableFilters () {
-      console.log('getAvailableFilters', getAvailableFiltersByProduct(this.getCurrentProduct))
       return getAvailableFiltersByProduct(this.getCurrentProduct)
     },
     getSelectedFilters () {
-      console.log('selectedFilters2', this.getCurrentProductConfiguration)
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
     isSimpleOrConfigurable () {
@@ -527,8 +525,6 @@ export default {
     async getQuantity (variant = null) {
       // Edited By dan 30-12-2019
       let product = {...this.getCurrentProduct}
-      console.log('getQuantity variant: ', variant)
-      console.log('getQuantity product: ', product)
       if(variant && variant.label){
         if(product.sku && product.sku.indexOf('-'+variant.label) === -1){
           product.sku =  product.sku + '-' + variant.label // adjusting from parentSKU to size variant sku
@@ -539,8 +535,6 @@ export default {
           // EventBus.$emit('product-after-priceupdate', product)
       }
       // Edited By dan 30-12-2019 - END
-
-      console.log('getQuantity product22: ', product)
 
       if (this.isStockInfoLoading) return // stock info is already loading
       this.isStockInfoLoading = true

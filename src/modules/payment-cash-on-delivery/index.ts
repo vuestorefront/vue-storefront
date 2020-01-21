@@ -10,7 +10,6 @@ export const PaymentCashOnDeliveryModule: StorefrontModule = function ({store}) 
   const placeOrder = () => {
     if (correctPaymentMethod) {
       EventBus.$emit('checkout-do-placeOrder', {})
-      console.log('afterRegistration payment COD placeOrder')
     }
   }
   // Update the methods

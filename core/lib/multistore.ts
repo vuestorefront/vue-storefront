@@ -167,7 +167,6 @@ export function localizedRoute (routeObj: LocalizedRoute | string | RouteConfig 
     }
     return localizedRouteConfig(routeObj as RouteConfig, storeCode)
   }
-  console.log(routeObj, ' routeObj');
   return routeObj
 }
 
@@ -179,7 +178,6 @@ export function setupMultistoreRoutes (config, router: VueRouter, routes: RouteC
   } else {
     allRoutes.push(...routes)
   }
-  // console.log(allRoutes, 'allRoutes');
   router.addRoutes(allRoutes, true, priority)
 }
 

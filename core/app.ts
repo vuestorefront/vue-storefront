@@ -107,7 +107,6 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   injectReferences(app, store, routerProxy, globalConfig)
   registerClientModules()
   registerModules(enabledModules, appContext)
-  console.log('globalConfig.theme', globalConfig.theme)
   registerTheme(globalConfig.theme, app, routerProxy, store, globalConfig, ssrContext)
 
   coreHooksExecutors.afterAppInit()
