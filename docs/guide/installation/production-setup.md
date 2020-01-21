@@ -83,9 +83,14 @@ ln -s /etc/nginx/sites-available/prod.vuestorefront.io /etc/nginx/sites-enabled/
 
 You need to replace two lines of the configuration you just downloaded with the actual path to your certificate files with its key. 
 
-In this guide, we will use free `Let's Enrypt` service to get the SSL certificate for the sake of simplicity. 
-You can use any other SSL service provider of your choice which suits your need. 
-In order to use `Let's Encrypt`, however, you need to install `certbot`, the guide is [here](https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx). 
+**Install the SSL certificate**
+
+In this guide, we will use free ___Let's Enrypt___ service to get the SSL certificate for the sake of simplicity. 
+In order to use ___Let's Encrypt___, you need to install `certbot`, the guide is [here](https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx). 
+
+:::tip NOTE
+As sure as it gets, you can use any other SSL service provider of your choice which best suits your need. It's not free most of time though. 
+:::
 
 Once `certbot` installation is done, run the following command to get the certificate information. 
 ```bash
@@ -106,6 +111,33 @@ Found the following certs:
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ```
 
+Replace the paths for certificate and its key in the `/etc/nginx/sites-available/prod.vuestorefront.io` with the info above as follows :
+```bash{5,6}
+# ... abridged
+
+  ssl on;
+
+  ssl_certificate /etc/letsencrypt/live/prod.vuestorefront.io/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/prod.vuestorefront.io/privkey.pem;
+
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+# abridged ...
+``` 
+
+:::tip NOTE
+SSL secured connection is a must to run PWA and use _service-workers_.
+
+```bash
+server {
+  listen 80;
+  server_name prod.vuestorefront.io; 
+  return 301 https://prod.vuestorefront.io$request_uri;
+}
+```
+
+This section runs the standard `http://prod.vuestorefront.io` and creates a wildcard redirect from `http://prod.vuestorefront.io/*` -> `https://prod.vuestorefront.io/*`. 
+:::
 
 Now you can run the NGINX with SSL applied :
 
@@ -113,15 +145,7 @@ Now you can run the NGINX with SSL applied :
 /etc/init.d/nginx restart
 ```
 
-**Install the SSL certificate**
-
-SSL secured connection is a must for run PWA and use service-workers.
-
-For SSL we'll be using Free SSL solution called `Let's Enrypt`
-
-This section runs the standard http://prod.vuestorefront.io and creates a wildcard redirect from http://prod.vuestorefront.io/* -> https://prod.vuestorefront.io/. SSL secured connection is a must to run PWA and use Service Workers.
-
-After you're done with the installation, open the file at `/etc/nginx/sites-enabled/prod.vuestorefront.io-ssl` and add `http2` after the `server_name` value (but before the semicolon!). It should look like this: 
+After you're done with the installation, once again open `/etc/nginx/sites-available/prod.vuestorefront.io` and add `http2` after the `listen 443 ssl` (but before the semicolon!). It should look like this: 
 ```
 server {
     listen 443 ssl http2;
