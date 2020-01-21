@@ -156,7 +156,7 @@ server {
 }
 ```
 
-`http2` is not required, but can optimize the experience for browsers which support it. More details on http/2 can be found at https://developers.google.com/web/fundamentals/performance/http2/  
+`http2` is not required, but can optimize the experience for browsers that support it. More details on http/2 can be found at [here](https://developers.google.com/web/fundamentals/performance/http2/)
 
 ##### Some notes on the provided nginx config 
 
