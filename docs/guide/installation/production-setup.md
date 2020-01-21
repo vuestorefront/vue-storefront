@@ -22,6 +22,10 @@ We'll be hiding the `vue-storefront` and `vue-storefront-api` services behind th
 
 ### Prerequisites
 
+:::tip NOTE
+This guide is tested on Ubuntu 18.04 and other major distros. The list will be updated continuously. 
+:::
+
 Vue Storefront requires **Elasticsearch** and the **Redis server** to be installed. By default, in the development mode, both dependencies are provided with the `docker-compose.yml` Docker images. However, for production purposes, we recommend installing the servers natively.
 
 For the purpose of this tutorial, we will use default packages distributed along with Debian operating systems, without any security hardening, config hardening operations.
@@ -76,13 +80,38 @@ Create NGINX config file from the template (please run as a root user):
 curl https://raw.githubusercontent.com/DivanteLtd/vue-storefront/develop/docs/guide/installation/prod.vuestorefront.io > /etc/nginx/sites-available/prod.vuestorefront.io
 ln -s /etc/nginx/sites-available/prod.vuestorefront.io /etc/nginx/sites-enabled/prod.vuestorefront.io
 ```
-Now you can run the NGINX:
+
+You need to replace two lines of the configuration you just downloaded with the actual path to your certificate files with its key. 
+
+In this guide, we will use free `Let's Enrypt` service to get the SSL certificate for the sake of simplicity. 
+You can use any other SSL service provider of your choice which suits your need. 
+In order to use `Let's Encrypt`, however, you need to install `certbot`, the guide is [here](https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx). 
+
+Once `certbot` installation is done, run the following command to get the certificate information. 
+```bash
+certbot certificates
+```
+
+The result would be like as follows : 
+```bash
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Found the following certs:
+  Certificate Name: prod.vuestorefront.io
+    Domains: prod.vuestorefront.io
+    Expiry Date: 2020-04-19 22:47:19+00:00 (VALID: 89 days)
+    Certificate Path: /etc/letsencrypt/live/prod.vuestorefront.io/fullchain.pem
+    Private Key Path: /etc/letsencrypt/live/prod.vuestorefront.io/privkey.pem
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+```
+
+
+Now you can run the NGINX with SSL applied :
 
 ```bash
 /etc/init.d/nginx restart
 ```
-
-This will allow you to run your site without the SSL certificate
 
 **Install the SSL certificate**
 
