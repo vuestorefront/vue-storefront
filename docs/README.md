@@ -7,8 +7,13 @@ actionText: Introduction →
 actionLink: /guide/general/introduction.html
 
 ---
-
-<div class="features"><div class="feature"><h2>How to get started</h2> <p>test</p></div><div class="feature"><h2>Basic Information</h2> <p>test</p></div><div class="feature"><h2>Cookbook</h2> <p>test</p></div><div class="feature"><h2>Themes and Frontend</h2> <p>test</p></div><div class="feature"><h2>Data Structure and Modules</h2> <p>test</p></div><div class="feature"><h2>Integration</h2> <p>test</p></div></div>
+<style>
+  .feature {
+    margin: 0 auto;
+    text-align: center;
+  }
+</style>
+<div class="features"><div class="feature"><h2>How to get started</h2> <p></p></div><div class="feature"><h2>Basic Information</h2> <p></p></div><div class="feature"><h2>Cookbook</h2> <p></p></div><div class="feature"><h2>Themes and Frontend</h2> <p></p></div><div class="feature"><h2>Data Structure and Modules</h2> <p></p></div><div class="feature"><h2>Integration</h2> <p></p></div></div>
 
 
 
