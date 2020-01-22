@@ -21,6 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `saveBandwidthOverCache` parameter for skipping caching for products data - @andrzejewsky (#3706)
 - New zoom effect for product gallery images - @Michal-Dziedzinski (#2755)
 
+### Changed / Improved
+- Removed `product/loadConfigurableAttributes` calls - @andrzejewsky (#3336)
+
 ### Fixed
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
 - Revert init filters in Vue app - @gibkigonzo (#3929)
