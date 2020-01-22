@@ -18,7 +18,6 @@ import { _prepareCategoryPathIds } from '../../helpers/categoryHelpers';
 import { prefetchStockItems } from '../../helpers/cacheProductsHelper';
 import { preConfigureProduct } from '@vue-storefront/core/modules/catalog/helpers/search'
 import chunk from 'lodash-es/chunk'
-import Product from 'core/modules/catalog/types/Product';
 import omit from 'lodash-es/omit'
 import cloneDeep from 'lodash-es/cloneDeep'
 import config from 'config'
@@ -74,6 +73,10 @@ const actions: ActionTree<CategoryState, RootState> = {
     return searchResult.items
   },
   async cacheProducts ({ commit, getters, dispatch, rootState }, { route } = {}) {
+    if (config.api.saveBandwidthOverCache) {
+      return
+    }
+
     const searchCategory = getters.getCategoryFrom(route.path) || {}
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource])
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)

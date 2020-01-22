@@ -53,7 +53,8 @@
     "port": 8080
   },
   "api": {
-    "url": "http://localhost:8080"
+    "url": "http://localhost:8080",
+    "saveBandwidthOverCache": true
   },
   "elasticsearch": {
     "httpAuth": "",
@@ -308,24 +309,24 @@
       "tax_class_id": "tci",
       "description": "desc",
       "minimal_regular_price": "mrp",
-      "final_price": "fp", 
-      "price": "p", 
+      "final_price": "fp",
+      "price": "p",
       "special_price": "sp",
       "original_final_price": "ofp",
       "original_price": "op",
       "original_special_price": "osp",
-      "final_price_incl_tax": "fpit", 
+      "final_price_incl_tax": "fpit",
       "original_price_incl_tax": "opit",
       "price_incl_tax": "pit",
-      "special_price_incl_tax": "spit", 
+      "special_price_incl_tax": "spit",
       "final_price_tax": "fpt",
       "price_tax": "pt",
       "special_price_tax": "spt",
       "original_price_tax": "opt",
-      "image": "i", 
+      "image": "i",
       "small_image": "si",
       "thumbnail": "t"
-    },    
+    },
     "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
     "setFirstVarianAsDefaultInURL": false,
