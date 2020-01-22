@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added price filtering key as config - @roywcm
 
 ### Fixed
+- Fixed product bundle comparison condition - @gk-daniel (#4004) 
 - Fixed missing parameter to query function from cms/store/block/actions - @georgiev-ivan (#3909)
 - Always close zoom overlay after changing product - @psmyrek (#3818)
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
