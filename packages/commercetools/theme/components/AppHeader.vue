@@ -1,7 +1,8 @@
 <template>
-  <SfHeader 
-    active-sidebar="activeSidebar" 
+  <SfHeader
+    active-sidebar="activeSidebar"
     @click:cart="toggleCartSidebar"
+    @click:account="onAccountClicked"
     >
     <template #logo>
       <nuxt-link to="/" class="sf-header__logo">
@@ -30,17 +31,25 @@
 
 <script>
 import { SfHeader, SfImage } from '@storefront-ui/vue'
-import { toggleCartSidebar } from '../assets/ui-state'
+import uiState from '~/assets/ui-state'
+const { toggleCartSidebar, toggleLoginModal } = uiState
 
 export default {
   setup () {
     return {
-      toggleCartSidebar
+      toggleCartSidebar,
+      toggleLoginModal
     }
   },
   components: {
     SfHeader,
     SfImage
+  },
+  methods: {
+    onAccountClicked() {
+      // When need to go to another page or do something else when logged in
+      toggleLoginModal()
+    }
   }
 }
 </script>

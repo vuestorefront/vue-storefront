@@ -3,7 +3,7 @@
     <SfFooterColumn title="About us">
       <SfList>
         <SfListItem
-          v-for="item in aboutUs" 
+          v-for="item in aboutUs"
           :key="item"
           >
           <SfMenuItem
@@ -109,8 +109,8 @@ export default {
 
 <style>
 #footer {
-  max-width: 64rem; 
-  margin-left: auto; 
+  max-width: 64rem;
+  margin-left: auto;
   margin-right: auto
 }
 </style>
