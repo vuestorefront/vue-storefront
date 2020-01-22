@@ -10,8 +10,6 @@ import { UrlModule } from '@vue-storefront/core/modules/url'
 import { BreadcrumbsModule } from '@vue-storefront/core/modules/breadcrumbs'
 import { UserModule } from '@vue-storefront/core/modules/user'
 import { CmsModule } from '@vue-storefront/core/modules/cms'
-import { GoogleTagManagerModule } from './google-tag-manager';
-// import { AmpRendererModule } from './amp-renderer';
 import { PaymentBackendMethodsModule } from './payment-backend-methods'
 import { PaymentCashOnDeliveryModule } from './payment-cash-on-delivery'
 import { NewsletterModule } from '@vue-storefront/core/modules/newsletter'
@@ -29,6 +27,7 @@ import { IcmaaCmsModule } from 'icmaa-cms'
 import { IcmaaTeaserModule } from 'icmaa-teaser'
 import { IcmaaAdviceModule } from 'icmaa-advice'
 import { IcmaaMetaModule } from 'icmaa-meta'
+import { IcmaaGoogleTagManagerModule } from './icmaa-google-tag-manager';
 import { IcmaaRecommendationsModule } from 'icmaa-recommendations'
 import { IcmaaCompetitionsModule } from 'icmaa-competitions'
 import { IcmaaSpotifyModule } from 'icmaa-spotify'
@@ -54,8 +53,6 @@ export function registerClientModules () {
   registerModule(CatalogNextModule)
   registerModule(CompareModule)
   registerModule(BreadcrumbsModule)
-  registerModule(GoogleTagManagerModule)
-  // registerModule(AmpRendererModule)
   registerModule(CmsModule)
   registerModule(NewsletterModule)
   // ICMAA Modules
@@ -72,14 +69,15 @@ export function registerClientModules () {
   registerModule(IcmaaTeaserModule)
   registerModule(IcmaaAdviceModule)
   registerModule(IcmaaMetaModule)
+  registerModule(IcmaaGoogleTagManagerModule)
   registerModule(IcmaaRecommendationsModule)
   registerModule(IcmaaCompetitionsModule)
   registerModule(IcmaaSpotifyModule)
   registerModule(IcmaaProductAlertModule)
+  registerModule(IcmaaGiftcertModule)
   registerModule(IcmaaTrackingModule)
   registerModule(IcmaaExternalCheckoutModule)
   registerModule(IcmaaAmpRendererModule)
-  registerModule(IcmaaGiftcertModule)
 }
 
 // Deprecated API, will be removed in 2.0

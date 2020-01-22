@@ -22,6 +22,7 @@
 <script>
 import i18n from '@vue-storefront/i18n'
 import ButtonComponent from 'theme/components/core/blocks/Button'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 export default {
   name: 'CookieNotification',
@@ -56,8 +57,9 @@ export default {
       this.setVisited()
       this.isOpen = false
     },
-    setVisited () {
-      this.$store.dispatch('claims/set', {claimCode: 'cookiesAccepted', value: true})
+    async setVisited () {
+      await this.$store.dispatch('claims/set', {claimCode: 'cookiesAccepted', value: true})
+      this.$bus.$emit('cookiesAccepted', true)
     }
   },
   created () {

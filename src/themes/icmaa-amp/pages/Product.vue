@@ -122,6 +122,7 @@ import focusClean from 'theme/components/theme/directives/focusClean'
 import { isServer } from '@vue-storefront/core/helpers'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import ProductDetails from 'theme/components/core/blocks/Product/ProductDetails'
+import ProductGtmMixin from 'icmaa-google-tag-manager/mixins/productGtm'
 
 export default {
   components: {
@@ -132,6 +133,7 @@ export default {
     ProductLinks,
     ProductDetails
   },
+  mixins: [ProductGtmMixin],
   data () {
     return {
       detailsOpen: false

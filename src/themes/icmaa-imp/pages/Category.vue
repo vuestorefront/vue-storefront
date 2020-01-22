@@ -103,6 +103,7 @@ import CategoryExtrasFooter from 'theme/components/core/blocks/CategoryExtras/Fo
 import CategoryMixin from 'icmaa-catalog/components/Category'
 import CategoryExtrasMixin from 'icmaa-category-extras/mixins/categoryExtras'
 import CategoryMetaMixin from 'icmaa-meta/mixins/categoryMeta'
+import CategoryGtmMixin from 'icmaa-google-tag-manager/mixins/categoryGtm'
 import ClusterMixin from 'icmaa-user/mixins/cluster'
 
 const FilterSidebar = () => import(/* webpackPreload: true */ /* webpackChunkName: "vsf-sidebar-categoryfilter" */ 'theme/components/core/blocks/Category/Sidebar')
@@ -145,7 +146,7 @@ export default {
     CategoryExtrasHeader,
     CategoryExtrasFooter
   },
-  mixins: [ CategoryMixin, CategoryExtrasMixin, CategoryMetaMixin, ClusterMixin ],
+  mixins: [ CategoryMixin, CategoryExtrasMixin, CategoryMetaMixin, ClusterMixin, CategoryGtmMixin ],
   data () {
     return {
       pageSizes: [24, 48, 60, 100],

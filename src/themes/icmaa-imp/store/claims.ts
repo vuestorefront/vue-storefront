@@ -2,7 +2,7 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import UniversalStorage from '@vue-storefront/core/lib/store/storage'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-const claimCollection = (localized = false): UniversalStorage => {
+export const claimCollection = (localized = false): UniversalStorage => {
   const claimStorageKey = localized ? 'claims' : 'uniClaims'
   if (!StorageManager.exists(claimStorageKey)) {
     StorageManager.init(claimStorageKey, localized)
