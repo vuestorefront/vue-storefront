@@ -79,7 +79,7 @@ describe('Cart productEquals', () => {
     expect(productsEquals(product1, product2)).toBeTruthy()
   });
 
-  it('returns true because configurable products have the same eku', async () => {
+  it('returns true because configurable products have the same sku', async () => {
     const product1 = createConfigurableProduct({ id: 1, sku: 'WG-001' })
     const product2 = createConfigurableProduct({ id: 2, sku: 'WG-001' })
 
