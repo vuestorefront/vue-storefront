@@ -39,25 +39,12 @@
               <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="getCurrentProduct.url_path">
-              <div class="mb40 price serif" v-if="getCurrentProduct.type_id !== 'grouped'">
-                <div
-                  class="h3 cl-secondary"
-                  v-if="getCurrentProduct.special_price && getCurrentProduct.price_incl_tax && getCurrentProduct.original_price_incl_tax"
-                >
-                  <span
-                    class="h2 cl-mine-shaft weight-700"
-                  >{{ getCurrentProduct.price_incl_tax * getCurrentProduct.qty | price }}</span>&nbsp;
-                  <span
-                    class="price-original h3"
-                  >{{ getCurrentProduct.original_price_incl_tax * getCurrentProduct.qty | price }}</span>
-                </div>
-                <div
-                  class="h2 cl-mine-shaft weight-700"
-                  v-if="!getCurrentProduct.special_price && getCurrentProduct.price_incl_tax"
-                >
-                  {{ getCurrentProduct.qty > 0 ? getCurrentProduct.price_incl_tax * getCurrentProduct.qty : getCurrentProduct.price_incl_tax | price }}
-                </div>
-              </div>
+              <product-price
+                class="mb40"
+                v-if="getCurrentProduct.type_id !== 'grouped'"
+                :product="getCurrentProduct"
+                :custom-options="getCurrentCustomOptions"
+              />
               <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
                 <div
                   class="error"
@@ -133,7 +120,7 @@
               :max-quantity="maxQuantity"
               :loading="isStockInfoLoading"
               :is-simple-or-configurable="isSimpleOrConfigurable"
-              show-quantity
+              :show-quantity="manageQuantity"
               @error="handleQuantityError"
             />
             <div class="row m0">
@@ -201,7 +188,6 @@
 
 <script>
 import i18n from '@vue-storefront/i18n'
-import Product from '@vue-storefront/core/pages/Product'
 import VueOfflineMixin from 'vue-offline/mixin'
 import config from 'config'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
@@ -237,6 +223,7 @@ import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-view
 import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
 import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
+import ProductPrice from 'theme/components/core/ProductPrice.vue'
 
 export default {
   components: {
@@ -258,7 +245,8 @@ export default {
     WebShare,
     SizeGuide,
     LazyHydrate,
-    ProductQuantity
+    ProductQuantity,
+    ProductPrice
   },
   mixins: [ProductOption],
   directives: { focusClean },
@@ -272,7 +260,8 @@ export default {
       maxQuantity: 0,
       quantityError: false,
       isStockInfoLoading: false,
-      hasAttributesLoaded: false
+      hasAttributesLoaded: false,
+      manageQuantity: true
     }
   },
   computed: {
@@ -282,7 +271,8 @@ export default {
       getProductGallery: 'product/getProductGallery',
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
       getOriginalProduct: 'product/getOriginalProduct',
-      attributesByCode: 'attribute/attributeListByCode'
+      attributesByCode: 'attribute/attributeListByCode',
+      getCurrentCustomOptions: 'product/getCurrentCustomOptions'
     }),
     getOptionLabel () {
       return (option) => {
@@ -330,9 +320,11 @@ export default {
       return ['simple', 'configurable'].includes(this.getCurrentProduct.type_id)
     },
     isAddToCartDisabled () {
-      return this.quantityError ||
-        this.isStockInfoLoading ||
-        (this.isOnline && !this.maxQuantity && this.isSimpleOrConfigurable)
+      if (this.quantityError || this.isStockInfoLoading) {
+        return false
+      }
+
+      return this.isOnline && !this.maxQuantity && this.manageQuantity && this.isSimpleOrConfigurable
     }
   },
   async mounted () {
@@ -408,7 +400,9 @@ export default {
           product: this.getCurrentProduct,
           qty: this.getCurrentProduct.qty
         })
-        this.maxQuantity = res.qty
+
+        this.manageQuantity = res.isManageStock
+        this.maxQuantity = res.isManageStock ? res.qty : null
       } finally {
         this.isStockInfoLoading = false
       }
@@ -484,12 +478,6 @@ $bg-secondary: color(secondary, $colors-background);
 .product-name {
   @media (max-width: 767px) {
     font-size: 36px;
-  }
-}
-
-.price {
-  @media (max-width: 767px) {
-    color: $color-primary;
   }
 }
 
@@ -576,10 +564,6 @@ $bg-secondary: color(secondary, $colors-background);
       display: none;
     }
   }
-}
-
-.price-original {
-  text-decoration: line-through;
 }
 
 .action {

@@ -45,7 +45,7 @@ export default {
     },
     maxQuantity: {
       type: Number,
-      required: true
+      default: undefined
     },
     loading: {
       type: Boolean,
