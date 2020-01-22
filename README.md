@@ -894,7 +894,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
   <td align="center" valign="middle">
 <a href="https://www.sitewards.com/">
           <img
-            src="https://divante.com/partners/Vue-Storefront/Sitewards%20Logo.png"
+            src="https://divante.com/partners/Vue-Storefront/sitewards-logo.png"
             alt="Sitewards"
             height="40"
           >
@@ -903,7 +903,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
      <td align="center" valign="middle">
 <a href="https://codecoda.com/en">
           <img
-            src="https://divante.com/partners/Vue-Storefront/CodeCoda-800.png"
+            src="https://divante.com/partners/Vue-Storefront/codecoda-logo.png"
             alt="CodeCoda"
             height="40"
           >
