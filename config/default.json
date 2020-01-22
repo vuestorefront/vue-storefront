@@ -54,7 +54,7 @@
   },
   "api": {
     "url": "http://localhost:8080",
-    "saveBandwidthOverCache": false
+    "saveBandwidthOverCache": true
   },
   "elasticsearch": {
     "httpAuth": "",
