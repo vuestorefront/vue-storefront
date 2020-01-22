@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <div class="row pl20 pr20" v-if="isActive">
+    <div class="row pl20 pr20 mt15" v-if="isActive">
 
       <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="row">

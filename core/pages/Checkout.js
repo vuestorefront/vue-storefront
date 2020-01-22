@@ -46,6 +46,7 @@ export default {
     ...mapGetters({
       getTotals: 'cart/getTotals',
       isVirtualCart: 'cart/isVirtualCart',
+      productsInCartByBrand: 'cart/getCartItemsByBrand',
       currentImage: 'procc/getHeadImage', // by ProCC
       isThankYouPage: 'checkout/isThankYouPage'
     })

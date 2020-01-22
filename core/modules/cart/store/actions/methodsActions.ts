@@ -6,6 +6,8 @@ import { CartService } from '@vue-storefront/core/data-resolver'
 import { preparePaymentMethodsToSync, createOrderData, createShippingInfoData } from '@vue-storefront/core/modules/cart/helpers'
 import PaymentMethod from '../../types/PaymentMethod'
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
+import keys from 'lodash-es/keys'
+import isEmpty from 'lodash-es/isEmpty'
 
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
@@ -61,9 +63,8 @@ const methodsActions = {
     }
   },
   async updateShippingMethods ({ dispatch }, { shippingMethods }) {
-    if (shippingMethods.length > 0) {
-      const newShippingMethods = shippingMethods.map(method => ({ ...method, is_server_method: true }))
-      await dispatch('checkout/replaceShippingMethods', newShippingMethods, { root: true })
+    if (shippingMethods && !isEmpty(shippingMethods)) {
+      await dispatch('checkout/replaceShippingMethods', shippingMethods, { root: true })
     }
   },
   async syncShippingMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
@@ -83,10 +84,11 @@ const methodsActions = {
         region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
       } : {country_id: storeView.tax.defaultCountry}
 
-      if(getters.getCartItems && getters.getCartItems[0]) {
-        let order_item = getters.getCartItems[0]
-        await ProCcApi().getShippingMethodByBrand(order_item.procc_brand_id)
+      if(getters.getCartItemsByBrand && !isEmpty(getters.getCartItemsByBrand)) {
+        const brand_ids = keys(getters.getCartItemsByBrand);
+        await ProCcApi().getShippingMethodByBrand(brand_ids)
           .then((result) => {
+            console.log("result.data.shipping_methods",result.data.shipping_methods)
             dispatch('updateShippingMethods', {shippingMethods: result.data.shipping_methods})
           })
       }

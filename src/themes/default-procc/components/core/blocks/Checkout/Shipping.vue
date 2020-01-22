@@ -1,6 +1,6 @@
 <template>
   <div class="pt10">
-    <div class="row pl20">
+    <div class="row pl20 pr20">
       <div class="col-xs-12">
         <div
           class="number-circle lh35 cl-white brdr-circle align-center weight-700"
@@ -9,12 +9,12 @@
           2
         </div>
         <div class="mb15">
-          <div class="" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
+          <div class="dt-float-l" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h4 class="m0">
               {{ $t('Shipping') }}
             </h4>
           </div>
-          <div class=" pr30">
+          <div class=" dt-float-r pl20">
             <div class="lh30 flex end-lg" v-if="isFilled && !isActive">
               <a href="#" class="cl-tertiary flex" @click.prevent="edit">
                 <span class="pr5">
@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <div class="row pl20" v-if="isActive">
+    <div class="row pl20 pr20 mt15" v-if="isActive">
       <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-11 col-sm-9 col-md-10">
         <div class="row">
@@ -183,25 +183,6 @@
               }
             ]"
           />
-
-          <h4 class="col-xs-12">
-            {{ $t('Shipping method') }}
-          </h4>
-          <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6">
-            <label class="radioStyled"> {{ method.name }} |  {{ method.cost | price }}
-              <input
-                type="radio"
-                :value="method._id"
-                name="shipping-method"
-                v-model="shipping.shippingMethod"
-                @change="$v.shipping.shippingMethod.$touch(); changeShippingMethod();"
-              >
-              <span class="checkmark" />
-            </label>
-          </div>
-          <span class="validation-error" v-if="$v.shipping.shippingMethod.$error && !$v.shipping.shippingMethod.required">
-            {{ $t('Field is required') }}
-          </span>
         </div>
       </div>
     </div>
@@ -242,17 +223,6 @@
             <div v-if="shipping.phoneNumber">
               <span class="pr15">{{ shipping.phoneNumber }}</span>
               <tooltip>{{ $t('Phone number may be needed by carrier') }}</tooltip>
-            </div>
-            <div class="col-xs-12">
-              <h4>
-                {{ $t('Shipping method') }}
-              </h4>
-            </div>
-            <div class="col-md-6 mb15">
-              <label class="radioStyled"> {{ getShippingMethod().name }} | {{ getShippingMethod().cost | price }}
-                <input type="radio" value="" checked disabled name="chosen-shipping-method">
-                <span class="checkmark" />
-              </label>
             </div>
           </div>
         </div>
@@ -312,9 +282,6 @@ export default {
       apartmentNumber: {
         required,
         unicodeAlphaNum
-      },
-      shippingMethod: {
-        required
       },
       phoneNumber: {
         required

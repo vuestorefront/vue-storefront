@@ -4,7 +4,10 @@
       <div class="row" v-show="!isThankYouPage">
 <!--        // Edited By Dan-->
         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 mt20" style="">
-          <div class="box-left">
+          <div class="box-left" v-for="(brand_product, brand_id) in productsInCartByBrand" :key="brand_id">
+            <cart-summary :products="brand_product" />
+          </div>
+          <div class="box-left mt20">
           <!--    // Edited by Dan 02-01-2020-->
           <div class="checkout-title py5 px20">
             <h3>
@@ -21,9 +24,6 @@
           <order-review class="line relative" :is-active="activeSection.orderReview" />
 
           <div id="custom-steps" />
-          </div>
-          <div class="box-left mt20">
-            <cart-summary />
           </div>
         </div>
 <!--        <div class="hidden-xs col-sm-5 bg-cl-secondary">-->
@@ -218,15 +218,28 @@ export default {
   #checkout .number-circle {    float: left;    margin-top: 0px;margin-right: 12px;width: 26px;
     height: 26px;
     line-height: 27px;}
-  .store-info p {font-size: 16px;font-weight: 500;float: left;    margin-top: 0;margin-bottom: 8px;}
-  .store-info .store-contact {float: left;margin-left: 15px;padding-left: 30px;
-    position: relative;}
-  .store-info .store-contact i {    position: absolute;
-    left: 0;
-    top: -3px;}
+  .store-info p {
+    font-size: 16px;
+    font-weight: 500;
+    float: left;
+    margin: 0;
+    max-width: calc(100% - 79px);
+  }
+  .store-info .store-contact {
+    float: left;
+    margin-left: 15px;
+    position: relative;
+    line-height: 0;
+  }
+  .store-info .store-contact i {
+    cursor: pointer;
+  }
   #checkout .row {clear: left;}
   button.normal-icon-btn {    background: none;
     border: none;}
+  button.normal-icon-btn:focus {
+    outline: 0;
+  }
   .qty-add-dlt button{background: #f2f2f2;
     border: none;
     width: 28px;
@@ -241,9 +254,62 @@ export default {
   .text-c-dt {text-align: center;}
   .dt-float-l {float: left;}
   .dt-float-r {float: right;}
+  .flex.qty-fav-delete {
+    flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .flex.qty-fav-delete button.btn.normal-icon-btn {flex: none;}
+
+  .flex.qty-fav-delete .qty-add-dlt {
+    flex: 100%;
+    margin: 10px 0 0;
+  }
+  @media screen and (max-width: 767px){
+    .qty-add-dlt {float: left;}
+    .flex.qty-fav-delete .qty-add-dlt {
+      flex: 1;
+      margin: 0;
+    }
+    .flex.qty-fav-delete {
+      flex-flow: row-reverse;
+    }
+    .static-available {
+      margin-top: 3px;
+    }
+  }
   @media screen and (max-width: 575px){
     .text-c-dt {text-align: left;}
     .shipping-text{text-align: left !important;}
+  }
+
+  @media (max-width: 350px) {
+    .material-icons {
+      font-size: 18px;
+    }
+
+    .qty-add-dlt button {
+      width: 20px;
+      height: 20px;
+      padding: 0;
+    }
+
+    .qty-add-dlt span {
+      line-height: 20px;
+    }
+
+    .qty-add-dlt button i {
+      font-size: 100%;
+      line-height: 20px;
+    }
+    .order-item {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .static-available {
+      font-size: 11px;
+    }
   }
 
 </style>

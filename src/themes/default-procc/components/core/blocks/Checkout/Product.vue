@@ -1,5 +1,5 @@
 <template>
-  <div class="row p10 between-xs">
+  <div class="row p10 between-xs order-item">
     <div class="blend">
       <product-image :image="image" />
     </div>
@@ -13,16 +13,16 @@
             <div class="error" v-if="product.errors && Object.keys(product.errors).length > 0">
               {{ product.errors | formatProductMessages }}
             </div>
-            <div class="h5 cl-tertiary pt5">
+            <div class="h6 cl-tertiary pt5">
               {{ product.sku }}
             </div>
-            <div class="h6 cl-bg-tertiary pt5 options" v-if="product && product.options">
+            <div class="h5 cl-bg-tertiary pt5 options" v-if="product && product.options">
               <div v-for="opt in product.options" :key="opt.label">
                 <span class="opn">{{ opt.label }}: </span>
                 <span class="opv" v-html="opt.value" />
               </div>
             </div>
-            <div class="h6 cl-bg-tertiary pt5 options" v-else-if="product.options">
+            <div class="h5 cl-bg-tertiary pt5 options" v-else-if="product.options">
               <div v-for="opt in product.options" :key="opt.label">
                 <span class="opn">{{ opt.label }}: </span>
                 <span class="opv" v-html="opt.value" />
@@ -43,13 +43,15 @@
           </div>
 
         </div>
-        <div class="col-xs-12 col-md-3 col-sm-4 serif text-c-dt">
-          <button class="btn normal-icon-btn" ><i class="material-icons">favorite_border</i></button>
-          <button class="btn normal-icon-btn" ><i class="material-icons" @click="removeItem">delete</i></button>
-          <div class="qty-add-dlt mt15">
-            <button class="btn" @click="updateQuantity(product.qty-1)"><i class="material-icons">remove</i></button>
-            <span>{{product.qty}}</span>
-            <button class="btn" @click="updateQuantity(product.qty+1)" ><i class="material-icons">add</i></button>
+        <div class="col-xs-12 col-md-3 col-sm-4 serif text-c-dt float-left">
+          <div class="flex qty-fav-delete">
+            <button class="btn normal-icon-btn" ><i class="material-icons">favorite_border</i></button>
+            <button class="btn normal-icon-btn" ><i class="material-icons" @click="removeItem">delete</i></button>
+            <div class="qty-add-dlt">
+              <button class="btn" @click="updateQuantity(product.qty-1)"><i class="material-icons">remove</i></button>
+              <span>{{product.qty}}</span>
+              <button class="btn" @click="updateQuantity(product.qty+1)" ><i class="material-icons">add</i></button>
+            </div>
           </div>
           <div class="static-available mt15">Limited quantity available</div>
         </div>

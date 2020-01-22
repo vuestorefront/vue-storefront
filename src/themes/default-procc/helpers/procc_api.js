@@ -61,7 +61,7 @@ export default (baseURL = '') => {
   const getSizeChart = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
   const updateVsfSyncStatus = (brandData) => api.post('vsf/updateVsfSyncStatus', {brandData}, getHeader(brandData.brand_id))
   const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
-  const getShippingMethodByBrand = (brand_id) => api.get(`shipping-method/getShippingMethodByBrand?brand_id=${brand_id}`, getHeader(brand_id))
+  const getShippingMethodByBrand = (brand_ids) => api.post(`shipping-method/getShippingMethodByBrand`, {brand_ids})
 
   return {
     addNewOrder,

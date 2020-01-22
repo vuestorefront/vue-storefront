@@ -9,6 +9,10 @@ export const Microcart = {
     productsInCart (): Product[] {
       return this.$store.state.cart.cartItems
     },
+    productsInCartByBrand (): {} {
+      return this.$store.getters['cart/getCartItemsByBrand']
+    },
+
     appliedCoupon (): AppliedCoupon | false {
       return this.$store.getters['cart/getCoupon']
     },

@@ -67,7 +67,7 @@ export const Shipping = {
   mounted () {
     this.checkDefaultShippingAddress()
     this.checkDefaultShippingMethod()
-    this.changeShippingMethod()
+    //this.changeShippingMethod()
   },
   methods: {
     checkDefaultShippingAddress () {
@@ -162,13 +162,13 @@ export const Shipping = {
     changeCountry () {
       this.$bus.$emit('checkout-before-shippingMethods', this.shipping.country)
     },
-    getCurrentShippingMethod () {
-      let shippingCode = this.shipping.shippingMethod
-      let currentMethod = this.shippingMethods ? this.shippingMethods.find(item => item.method_code === shippingCode) : {}
+    getCurrentShippingMethod (brand_id) {
+      let shippingCode = this.shipping.shippingMethod[brand_id]
+      let currentMethod = this.shippingMethods && this.shippingMethods[brand_id] ? this.shippingMethods[brand_id].find(item => item.method_code === shippingCode) : {}
       return currentMethod
     },
-    changeShippingMethod () {
-      let currentShippingMethod = this.getCurrentShippingMethod()
+    changeShippingMethod (brand_id) {
+      let currentShippingMethod = this.getCurrentShippingMethod(brand_id)
       if (currentShippingMethod) {
         this.shipping = Object.assign(this.shipping, {shippingCarrier: currentShippingMethod.carrier_code})
         this.$bus.$emit('checkout-after-shippingMethodChanged', {
@@ -178,6 +178,9 @@ export const Shipping = {
           payment_method: this.paymentMethod[0].code
         })
       }
+    },
+    getShippingMethods(brand_id){
+      return this.shippingMethods[brand_id]
     },
     notInMethods (method) {
       let availableMethods = this.shippingMethods

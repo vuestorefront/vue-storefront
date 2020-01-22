@@ -4,7 +4,7 @@ import CartState from '../types/CartState'
 import RootState from '@vue-storefront/core/types/RootState'
 import AppliedCoupon from '../types/AppliedCoupon'
 import { onlineHelper, isServer, calcItemsHmac } from '@vue-storefront/core/helpers'
-import { calculateTotals } from '@vue-storefront/core/modules/cart/helpers'
+import { calculateTotals,getProductByBrand } from '@vue-storefront/core/modules/cart/helpers'
 import config from 'config'
 
 const getters: GetterTree<CartState, RootState> = {
@@ -20,6 +20,7 @@ const getters: GetterTree<CartState, RootState> = {
   isTotalsSyncRequired: (state, getters) => getters.isCartHashEmptyOrChanged || !state.cartServerLastTotalsSyncDate,
   isCartHashEmptyOrChanged: (state, getters) => !state.cartItemsHash || getters.isCartHashChanged,
   getCartItems: state => state.cartItems,
+  getCartItemsByBrand: state => getProductByBrand(state.cartItems),
   isTotalsSyncEnabled: () => config.cart.synchronize_totals && onlineHelper.isOnline && !isServer,
   isCartConnected: state => !!state.cartServerToken,
   isCartSyncEnabled: () => config.cart.synchronize && onlineHelper.isOnline && !isServer,
