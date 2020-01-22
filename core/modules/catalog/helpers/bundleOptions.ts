@@ -17,7 +17,7 @@ export const getBundleOptionPrice = (bundleOptionValues) => bundleOptionValues
     const product = get(bundleOptionValue, 'product', {})
     return calculateBundleOptionProductPrice({
       price: product.price,
-      priceInclTax: product.price_incl_tax,
+      priceInclTax: product.price_incl_tax || product.priceInclTax,
       qty: bundleOptionValue.qty
     })
   })
