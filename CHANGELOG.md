@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `hasProductErrors` in Product component and support additional sku in custom options - @gibkigonzo (#3976)
 - Fixed Stock logic not working with manage_stock set to false - @andrzejewsky - (#3957)
 - Support old price format in `ProductPrice` - @gibkigonzo (#3978)
+- Fixed product bundle comparison condition - @gk-daniel (#4004) 
 
 ## [1.11.0] - 2019.12.20
 
@@ -36,7 +37,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added price filtering key as config - @roywcm
 
 ### Fixed
-- Fixed product bundle comparison condition - @gk-daniel (#4004) 
 - Fixed missing parameter to query function from cms/store/block/actions - @georgiev-ivan (#3909)
 - Always close zoom overlay after changing product - @psmyrek (#3818)
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
