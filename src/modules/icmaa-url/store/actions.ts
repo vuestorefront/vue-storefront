@@ -4,7 +4,7 @@ import { PageStateItem } from 'icmaa-cms/types/PageState'
 import { Competition as CompetitionStateItem } from 'icmaa-competitions/types/CompetitionsState'
 import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import { removeHashFromRoute } from '../helpers'
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { SearchQuery } from 'storefront-query-builder'
 import config from 'config'
 
 interface UrlMapperOptions {
