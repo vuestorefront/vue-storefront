@@ -8,7 +8,7 @@ describe('createHierarchyLoadQuery', () => {
     expect(loadQuery).toHaveProperty('_availableFilters')
     expect(loadQuery).toHaveProperty('_searchText')
 
-    let [ appliedFilter ] = loadQuery._appliedFilters
+    let [ appliedFilter ] = loadQuery.getAppliedFilters()
 
     expect(appliedFilter).toHaveProperty('value', { eq: filter.id })
     expect(appliedFilter).toHaveProperty('attribute', 'identifier')

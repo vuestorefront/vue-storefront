@@ -28,21 +28,21 @@
         class="price-original mr5 lh30 cl-secondary"
         v-if="product.special_price && parseFloat(product.original_price_incl_tax) > 0 && !onlyImage"
       >
-        {{ product.original_price_incl_tax | price }}
+        {{ product.original_price_incl_tax | price(storeView) }}
       </span>
 
       <span
         class="price-special lh30 cl-accent weight-700"
         v-if="product.special_price && parseFloat(product.special_price) > 0 && !onlyImage"
       >
-        {{ product.price_incl_tax | price }}
+        {{ product.price_incl_tax | price(storeView) }}
       </span>
 
       <span
         class="lh30 cl-secondary"
         v-if="!product.special_price && parseFloat(product.price_incl_tax) > 0 && !onlyImage"
       >
-        {{ product.price_incl_tax | price }}
+        {{ product.price_incl_tax | price(storeView) }}
       </span>
     </router-link>
   </div>
@@ -52,6 +52,7 @@
 import rootStore from '@vue-storefront/core/store'
 import { ProductTile } from '@vue-storefront/core/modules/catalog/components/ProductTile.ts'
 import config from 'config'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   mixins: [ProductTile],
@@ -63,6 +64,11 @@ export default {
     onlyImage: {
       type: Boolean,
       default: false
+    }
+  },
+  computed: {
+    storeView () {
+      return currentStoreView()
     }
   },
   methods: {

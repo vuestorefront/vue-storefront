@@ -32,6 +32,7 @@ module.exports = {
     '^.+\\.(css|less)$': '<rootDir>/test/unit/cssStub.js'
   },
   transformIgnorePatterns: [
+    '(.*)storefront-query-builder/node_modules/(.*)',
     '<rootDir>/node_modules/(?!lodash)',
     '<rootDir>/node_modules/(?!lodash-es/.*)'
   ],

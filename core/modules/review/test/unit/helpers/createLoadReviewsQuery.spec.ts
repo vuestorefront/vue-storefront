@@ -4,7 +4,11 @@ const SearchQuery = {
   applyFilter: jest.fn(() => SearchQuery)
 }
 
-jest.mock('@vue-storefront/core/lib/search/searchQuery', () => () => SearchQuery)
+jest.mock('storefront-query-builder', () => ({
+  SearchQuery: function () {
+    return SearchQuery
+  }
+}));
 
 describe('createLoadReviewsQuery', () => {
   beforeEach(() => {

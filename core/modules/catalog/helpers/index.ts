@@ -36,40 +36,50 @@ export const hasImage = (product) => product && product.image && product.image !
  */
 export const childHasImage = (children = []) => children.some(hasImage)
 
+const getVariantWithLowestPrice = (prevVariant, nextVariant) => (
+  !prevVariant || // if this is first variant
+  !prevVariant.final_price || // prev variant doesn't have final_price
+  nextVariant.price_incl_tax <= prevVariant.price_incl_tax // prev variant price is higher then next
+) ? nextVariant : prevVariant
+
 export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
-  let regularProductPrice = product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax
-  let selectedVariant = product.configurable_children.find((configurableChild) => {
+  const regularProductPrice = product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax
+  const selectedVariant = product.configurable_children.reduce((prevVariant, nextVariant) => {
     if (availabilityCheck) {
-      if (configurableChild.stock && !config.products.listOutOfStockProducts) {
-        if (!configurableChild.stock.is_in_stock) {
-          return false
+      if (nextVariant.stock && !config.products.listOutOfStockProducts) {
+        if (!nextVariant.stock.is_in_stock) {
+          return prevVariant
         }
       }
     }
-    if (configurableChild.status >= 2/** disabled product */) {
-      return false
+    if (nextVariant.status >= 2/** disabled product */) {
+      return prevVariant
     }
     if (selectDefaultChildren) {
-      return true // return first
+      return prevVariant || nextVariant // return first
     }
-    if (configuration.sku) {
-      return configurableChild.sku === configuration.sku // by sku or first one
+    if (configuration.sku && nextVariant.sku === configuration.sku) { // by sku or first one
+      return nextVariant
     } else {
       if (!configuration || (configuration && Object.keys(configuration).length === 0)) { // no configuration - return the first child cheaper than the original price - if found
-        if (configurableChild.price_incl_tax <= regularProductPrice) {
-          return true
+        if (nextVariant.price_incl_tax <= regularProductPrice) {
+          return getVariantWithLowestPrice(prevVariant, nextVariant)
         }
       } else {
-        return Object.keys(omit(configuration, ['price'])).every((configProperty) => {
+        const matchConfiguration = Object.keys(omit(configuration, ['price'])).every((configProperty) => {
           let configurationPropertyFilters = configuration[configProperty] || []
           if (!Array.isArray(configurationPropertyFilters)) configurationPropertyFilters = [configurationPropertyFilters]
           const configurationIds = configurationPropertyFilters.map(filter => toString(filter.id)).filter(filterId => !!filterId)
           if (!configurationIds.length) return true // skip empty
-          return configurationIds.includes(toString(configurableChild[configProperty]))
+          return configurationIds.includes(toString(nextVariant[configProperty]))
         })
+
+        if (matchConfiguration) {
+          return getVariantWithLowestPrice(prevVariant, nextVariant)
+        }
       }
     }
-  })
+  }, undefined)
   return selectedVariant
 }
 

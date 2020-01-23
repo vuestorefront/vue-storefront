@@ -34,7 +34,6 @@ jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   }
 }));
 jest.mock('@vue-storefront/core/app', () => ({ router: jest.fn() }))
-jest.mock('@vue-storefront/core/lib/search/searchQuery', () => jest.fn())
 jest.mock('@vue-storefront/core/modules/catalog/helpers', () => ({
   configureProductAsync: jest.fn()
 }));
