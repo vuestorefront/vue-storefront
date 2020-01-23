@@ -9,7 +9,8 @@ export default {
   mixins: [ AbstractMixin ],
   computed: {
     ...mapGetters({
-      ordersHistory: 'user/getOrdersHistory'
+      ordersHistory: 'user/getOrdersHistory',
+      gtmLastOrderId: 'icmaaGoogleTagManager/getLastOrderId'
     }),
     order () {
       return this.ordersHistory.length > 0 ? this.ordersHistory[0] : false
@@ -45,7 +46,7 @@ export default {
   },
   methods: {
     checkoutSuccessGtm () {
-      if (!this.enabled || !this.order) {
+      if (!this.enabled || !this.order || this.gtmLastOrderId === this.order.id) {
         return
       }
 
@@ -73,6 +74,8 @@ export default {
           }
         }
       })
+
+      this.$store.dispatch('icmaaGoogleTagManager/setLastOrderId', this.orderId)
     }
   },
   beforeMount () {

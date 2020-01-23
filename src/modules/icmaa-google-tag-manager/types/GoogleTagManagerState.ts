@@ -1,6 +1,7 @@
 export default interface GoogleTagManagerState {
   key?: null|string,
-  enabled: boolean
+  enabled: boolean,
+  lastOrderId: string
 }
 
 export interface AttributeMapItem {

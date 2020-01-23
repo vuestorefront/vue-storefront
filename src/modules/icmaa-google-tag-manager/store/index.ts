@@ -9,20 +9,31 @@ export const icmaaGoogleTagManagerModule: Module<GoogleTagManagerState, any> = {
   namespaced: true,
   state: {
     key: null,
-    enabled: false
+    enabled: false,
+    lastOrderId: ''
+
   },
   mutations: {
-    enable (state, payload: boolean) {
+    // eslint-disable-next-line no-useless-computed-key
+    ['ICMAA_GTM/ENABLE'] (state, payload: boolean) {
       state.enabled = payload
+    },
+    // eslint-disable-next-line no-useless-computed-key
+    ['ICMAA_GTM/SET_LAST_ORDER_ID'] (state, payload) {
+      state.lastOrderId = payload
     }
   },
   actions: {
     enable ({ commit }, payload: boolean = true) {
-      commit('enable', payload)
+      commit('ICMAA_GTM/ENABLE', payload)
+    },
+    setLastOrderId ({ commit }, payload: boolean = true) {
+      commit('ICMAA_GTM/SET_LAST_ORDER_ID', payload)
     }
   },
   getters: {
     enabled: (state): boolean => state.enabled,
+    getLastOrderId: (state): string => state.lastOrderId,
     getGTMProductDTO: (state, getters, rootState, rootGetters) => (item, attributeMap?: string[] | AttributeMapItem[]) => {
       let product = {}
 

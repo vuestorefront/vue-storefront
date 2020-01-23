@@ -1,25 +1,14 @@
 <template>
-  <div id="teaser-small" class="t-flex t-flex-col md:t-flex-row t-mx-4 t-cursor-pointer t-webkit-tap-transparent" :class="{ 't-bg-white': !backgroundColor }" :style="{ 'background-color': backgroundColor }" @click="redirect">
-    <retina-image :image="imageUrl" class="t-w-full md:t-w-1/2" :placeholder="true" ratio="1:1" :alt="teaser.text1 | htmlDecode" v-if="showLeft" />
-    <div class="t-w-full md:t-w-1/2 t-flex t-items-center">
-      <div class="t-w-full t-p-8">
-        <h1 class="t-w-full t-leading-tight t-font-bold t-text-2-1/2xl t-mb-5" :class="{ 't-text-base-darkest': !textColor }" :style="{ color: textColor }">
-          {{ teaser.text1 }}
-        </h1>
-        <div class="t-w-full t-text-sm t-mb-10" :class="{ 't-text-base-darkest': !textColor }" :style="{ color: textColor }">
-          {{ teaser.text2 }}
-        </div>
-        <div class="t-w-full">
-          <button-component class="t-text-xs t-uppercase t-truncate" :type="textColor ? 'ghost-custom' : 'ghost'" :custom-color="textColor">
-            {{ teaser.buttonText }}
-          </button-component>
-        </div>
-        <div v-if="teaser.text3" class="t-w-full t-hidden lg:t-block t-text-sm t-mt-24" :class="{ 't-text-base-darkest': !textColor }" :style="{ color: textColor }">
-          * {{ teaser.text3 }}
-        </div>
-      </div>
+  <div class="teaser-small t-flex-fix t-w-1/2 md:t-w-1/4 t-px-4 t-flex t-flex-col t-relative t-cursor-pointer t-webkit-tap-transparent" @click="redirect">
+    <div class="t-absolute t-top-0 t-right-0 t-text-sm t-py-2 t-px-3 t-mr-4" :class="{ 't-text-white': !textColor, 't-bg-base-primary': !backgroundColor }" :style="{ 'background-color': backgroundColor, 'color': textColor }" v-if="teaser.buttonText">
+      {{ teaser.buttonText }}
     </div>
-    <retina-image :image="imageUrl" class="t-w-full md:t-w-1/2" :alt="teaser.text1 | htmlDecode" v-if="!showLeft" />
+    <retina-image :image="imageUrl" :alt="teaser.text1 | htmlDecode" :width="288" :height="288" :placeholder="true" ratio="1:1" class="t-flex-fix t-max-w-full" />
+    <h2 class="t-flex-grow t-text-sm t-text-primary t-leading-tight t-pt-4" :class="{ 't-pb-8': !lastRow }">
+      <router-link :to="link" :title="teaser.text1 | htmlDecode" class="t-text-primary">
+        {{ teaser.text1 }}
+      </router-link>
+    </h2>
   </div>
 </template>
 
@@ -32,15 +21,11 @@ export default {
   name: 'TeaserSmall',
   mixins: [ TeaserMixin ],
   components: {
-    RetinaImage,
-    ButtonComponent
+    RetinaImage
   },
   computed: {
-    isUneven () {
-      return this.index % 2 === 0
-    },
-    showLeft () {
-      return this.isUneven || !this.viewport || ['xs', 'sm'].includes(this.viewport)
+    lastRow () {
+      return this.index + 1 > 2
     }
   }
 }

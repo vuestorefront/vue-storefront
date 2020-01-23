@@ -1,5 +1,4 @@
 import { mapGetters } from 'vuex'
-import { getThumbnailPath } from '@vue-storefront/core/helpers'
 
 export default {
   props: {
@@ -15,8 +14,7 @@ export default {
   computed: {
     ...mapGetters({ viewport: 'ui/getViewport' }),
     imageUrl () {
-      const image = this.viewport !== 'sm' && this.teaser['largeImageUrl'] ? 'largeImageUrl' : 'imageUrl'
-      return getThumbnailPath('/' + this.teaser[image], 0, 0, 'media')
+      return this.teaser.imageUrl
     },
     backgroundColor () {
       const { backgroundColor } = this.teaser
@@ -25,11 +23,14 @@ export default {
     textColor () {
       const { textColor } = this.teaser
       return (!textColor || !textColor.startsWith('#')) ? false : textColor
+    },
+    link () {
+      return this.localizedRoute(this.teaser.link)
     }
   },
   methods: {
     redirect () {
-      this.$router.push(this.localizedRoute(this.teaser.link))
+      this.$router.push(this.link)
     }
   }
 }

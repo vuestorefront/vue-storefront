@@ -13,16 +13,16 @@
     </div>
     <template v-else>
       <template v-if="showLarge && teaserLarge">
-        <teaser-large :teaser="teaserLarge" class="t-mb-8" />
+        <teaser-fullsize :teaser="teaserLarge" class="t-mb-8" />
       </template>
       <template v-if="teaserSmall && teaserSmall.length > 0">
         <template v-if="showSmallInRow">
           <div class="t-flex t-flex-wrap t--mx-4 t-px-4">
-            <teaser-small-row v-for="(teaser, index) in teaserSmall" :teaser="teaser" :index="index" :key="'small_' + index" />
+            <teaser-small v-for="(teaser, index) in teaserSmall" :teaser="teaser" :index="index" :key="'small_' + index" />
           </div>
         </template>
         <template v-else>
-          <teaser-small v-for="(teaser, index) in teaserSmall" :teaser="teaser" :index="index" :key="'small_' + index" :class="{ 't-mb-8': index !== (teaserSmall.length - 1) }" />
+          <teaser-split v-for="(teaser, index) in teaserSmall" :teaser="teaser" :index="index" :key="'small_' + index" :class="{ 't-mb-8': index !== (teaserSmall.length - 1) }" />
         </template>
       </template>
     </template>
@@ -30,12 +30,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
 
 import Placeholder from 'theme/components/core/blocks/Placeholder'
-import TeaserLarge from 'theme/components/core/blocks/Teaser/TeaserLarge'
+import TeaserFullsize from 'theme/components/core/blocks/Teaser/TeaserFullsize'
+import TeaserSplit from 'theme/components/core/blocks/Teaser/TeaserSplit'
 import TeaserSmall from 'theme/components/core/blocks/Teaser/TeaserSmall'
-import TeaserSmallRow from 'theme/components/core/blocks/Teaser/TeaserSmallRow'
 
 export default {
   name: 'Teaser',
@@ -64,9 +64,9 @@ export default {
   },
   components: {
     Placeholder,
-    TeaserLarge,
-    TeaserSmall,
-    TeaserSmallRow
+    TeaserFullsize,
+    TeaserSplit,
+    TeaserSmall
   },
   computed: {
     ...mapGetters('icmaaTeaser', ['getSmallTeaser', 'getLargeTeaser']),
