@@ -7,7 +7,7 @@
       <div class="t-flex t-px-4 t-flex-wrap t--mx-4">
         <div v-for="(n, i) in 4" :key="'placeholder-' + i" class="t-px-4" :class="{ 't-w-1/2 lg:t-w-1/4 t-mb-8': showSmallInRow, 't-w-full': !showSmallInRow, 't-mb-8': !showSmallInRow && i !== 3 }">
           <placeholder :ratio="'32:35'" v-if="showSmallInRow" />
-          <placeholder ratio="38:59" :style="`@media (min-width: 1024px) { padding-top: ${1 * 100 / 2}% }`" v-else />
+          <placeholder ratio="59:38" :style="`@media (min-width: 1024px) { padding-top: ${1 * 100 / 2}% }`" v-else />
         </div>
       </div>
     </div>
