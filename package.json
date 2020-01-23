@@ -2,8 +2,8 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build:docs": "cd packages/core/docs && yarn build",
-    "dev:docs": "cd packages/core/docs && yarn dev",
+    "build:docs": "cd packages/commercetools/docs && yarn build",
+    "dev:docs": "cd packages/commercetools/docs && yarn dev",
     "build:core:interfaces": "cd packages/core/interfaces && tsc",
     "build:core": "yarn build:core:interfaces",
     "build:ct:api-client": "cd packages/commercetools/api-client && yarn build",
