@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `hasProductErrors` in Product component and support additional sku in custom options - @gibkigonzo (#3976)
 - Fixed logic for generating ${lang}.json files in multi-store setup - @jpkempf
 - Fixed logic for collecting valid locales in single-store, multi-lang setup - @jpkempf
+- Fixed No image thumbnails leaded on 404 page - @andrzejewsky (#3955)
+- Fixed Stock logic not working with manage_stock set to false - @andrzejewsky - (#3957)
+- Support old price format in `ProductPrice` - @gibkigonzo (#3978)
+- Fixed product bundle comparison condition - @gk-daniel (#4004) 
 
 ## [1.11.0] - 2019.12.20
 
