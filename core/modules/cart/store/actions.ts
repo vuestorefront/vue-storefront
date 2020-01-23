@@ -507,14 +507,7 @@ const actions: ActionTree<CartState, RootState> = {
   },
   /** authorize the cart after user got logged in using the current cart token */
   authorize ({ dispatch }) {
-    Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
-      if (err) {
-        Logger.error(err, 'cart')()
-      }
-      if (!config.cart.bypassCartLoaderForAuthorizedUsers || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
-        dispatch('connect', { guestCart: false })
-      }
-    })
+    dispatch('connect', { guestCart: false })
   },
   /** connect cart to the server and set the cart token */
   async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false }) {
