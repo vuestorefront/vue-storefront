@@ -250,8 +250,8 @@ app.get('*', (req, res, next) => {
           }
           res.setHeader('X-VS-Cache', 'Hit')
 
-          if (content.httpCode) {
-            res.status(content.httpCode)
+          if (output.httpCode) {
+            res.status(output.httpCode)
           }
 
           if (output.body) {
