@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support old price format in `ProductPrice` - @gibkigonzo (#3978)
 - Fixed product bundle comparison condition - @gk-daniel (#4004)
 - Keep registered payment methods after `syncTotals`  - @grimasod (#4020)
+- Added status code to the cache content and use it in cache response - @resubaka (#4014)
 
 ## [1.11.0] - 2019.12.20
 
