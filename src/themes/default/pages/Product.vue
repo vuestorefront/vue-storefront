@@ -1,5 +1,5 @@
 <template>
-  <div id="product" itemscope itemtype="http://schema.org/Product">
+  <div id="product">
     <section class="bg-cl-secondary px20 product-top-section">
       <div class="container">
         <section class="row m0 between-xs">
@@ -18,7 +18,6 @@
             <h1
               class="mb20 mt0 cl-mine-shaft product-name"
               data-testid="productName"
-              itemprop="name"
             >
               {{ getCurrentProduct.name | htmlDecode }}
               <web-share
@@ -29,16 +28,11 @@
             </h1>
             <div
               class="mb20 uppercase cl-secondary"
-              itemprop="sku"
               :content="getCurrentProduct.sku"
             >
               {{ $t('SKU: {sku}', { sku: getCurrentProduct.sku }) }}
             </div>
-            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-              <meta itemprop="priceCurrency" :content="$store.state.storeView.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
-              <meta itemprop="availability" :content="structuredData.availability">
-              <meta itemprop="url" :content="getCurrentProduct.url_path">
+            <div>
               <div class="mb40 price serif" v-if="getCurrentProduct.type_id !== 'grouped'">
                 <div
                   class="h3 cl-secondary"
@@ -162,7 +156,7 @@
       <div class="h4 details-wrapper" :class="{'details-wrapper--open': detailsOpen}">
         <div class="row between-md m0">
           <div class="col-xs-12 col-sm-6">
-            <div class="lh30 h5" itemprop="description" v-html="getCurrentProduct.description" />
+            <div class="lh30 h5" v-html="getCurrentProduct.description" />
           </div>
           <div class="col-xs-12 col-sm-5">
             <ul class="attributes p0 pt5 m0">
@@ -196,6 +190,7 @@
       <related-products type="related" />
     </lazy-hydrate>
     <SizeGuide />
+    <script v-html="getJsonLd" type="application/ld+json" />
   </div>
 </template>
 
@@ -336,6 +331,43 @@ export default {
     },
     storeView () {
       return currentStoreView()
+    },
+    getJsonLd () {
+      const { category, image, name, id, sku, mpn, description, material, price } = this.getCurrentProduct
+      const jsonLd = {
+        '@context': 'http://schema.org',
+        '@type': 'Product',
+        category: category
+          ? category
+            .map(({ name }) => name || null)
+            .filter(name => name !== null)
+          : null,
+        color: this.getCurrentProductConfiguration.label ? this.getCurrentProductConfiguration.label : null,
+        description,
+        image,
+        itemCondition: 'http://schema.org/NewCondition',
+        material: this.getMaterials(material),
+        name,
+        productID: id,
+        sku,
+        mpn,
+        offers: {
+          '@type': 'Offer',
+          category: category
+            ? category
+              .map(({ name }) => name || null)
+              .filter(name => name !== null)
+            : null,
+          mpn,
+          url: this.getCurrentProduct.url_path,
+          priceCurrency: this.$store.state.storeView.i18n.currencyCode,
+          price,
+          itemCondition: 'https://schema.org/NewCondition',
+          availability: this.structuredData.availability,
+          sku: this.getCurrentProduct.sku
+        }
+      }
+      return jsonLd
     }
   },
   async mounted () {
@@ -418,6 +450,19 @@ export default {
     },
     handleQuantityError (error) {
       this.quantityError = error
+    },
+    getMaterials (material) {
+      const materialsArr = []
+      const materialOptions = this.getCustomAttributes.find(({attribute_code}) => attribute_code === 'material').options
+      for (let key in materialOptions) {
+        material.forEach(el => {
+          if (String(el) === materialOptions[key].value) {
+            materialsArr.push(materialOptions[key].label)
+          }
+        })
+      }
+
+      return materialsArr
     }
   },
   metaInfo () {

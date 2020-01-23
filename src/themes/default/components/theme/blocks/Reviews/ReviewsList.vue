@@ -31,6 +31,7 @@
         <i class="material-icons">chevron_right</i>
       </a>
     </div>
+    <script v-html="getJsonLd" type="application/ld+json" />
   </div>
 </template>
 
@@ -86,6 +87,25 @@ export default {
     },
     storeView () {
       return currentStoreView()
+    },
+    getJsonLd () {
+      const { title, detail } = this.itemsPerPage
+      const jsonLd = this.itemsPerPage.map(({title, detail, nickname, created_at}) => (
+        {
+          '@context': 'http://schema.org/',
+          '@type': 'Review',
+          reviewAspect: title,
+          reviewBody: detail,
+          datePublished: created_at,
+          author: nickname,
+          itemReviewed: {
+            '@type': 'Product',
+            name: this.productName
+          }
+        }
+      )
+      )
+      return jsonLd
     }
   },
   methods: {
