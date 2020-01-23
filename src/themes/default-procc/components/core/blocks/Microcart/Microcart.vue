@@ -55,7 +55,7 @@
       <h3 class="m0 pt40 mb30 weight-400 summary-heading">
         {{ $t('Shopping summary') }}
       </h3>
-      <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code !== 'grand_total' && segment.code !== 'tax' && 'Edited by Dan to avoid tax row, not configured'">
+      <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code !== 'grand_total' && segment.code !== 'shipping' && segment.code !== 'tax' && 'Edited by Dan to avoid tax row, not configured'">
         <div class="col-xs">
           {{ segment.title }}
           <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">
@@ -66,6 +66,22 @@
         </div>
         <div v-if="segment.value != null" class="col-xs align-right">
           {{ segment.value | price }}
+        </div>
+      </div>
+      <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code == 'shipping'">
+        <div class="col-xs">
+          {{ segment.title }}
+          <ul style="font-size: 14px">
+            <li v-for="data in segment.value">{{data.name}} ({{ data.cost | price }})</li>
+          </ul>
+          <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">
+            <i class="material-icons cl-accent">
+              close
+            </i>
+          </button>
+        </div>
+        <div v-if="segment.total != null" class="col-xs align-right">
+          {{ segment.total | price}}
         </div>
       </div>
       <!--      <div class="row py20">-->

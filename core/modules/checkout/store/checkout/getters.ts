@@ -1,6 +1,7 @@
 import { GetterTree } from 'vuex'
 import CheckoutState from '../../types/CheckoutState'
 import RootState from '@vue-storefront/core/types/RootState'
+import { getDefaultShippingMethods } from '@vue-storefront/core/modules/checkout/helpers'
 
 const getters: GetterTree<CheckoutState, RootState> = {
   getShippingDetails: (state, getters, rootState) => {
@@ -26,7 +27,9 @@ const getters: GetterTree<CheckoutState, RootState> = {
       (typeof itm !== 'object' || !itm.is_server_method)
     ),
   getShippingMethods: state => state.shippingMethods,
-  getDefaultShippingMethod: state => state.shippingMethods.find(item => item.default)
+  getBrandsDetails: state => state.brandsDetails,
+  getDefaultShippingMethod: state => getDefaultShippingMethods(state.shippingMethods),
+  getDefaultShippingMethods: state => getDefaultShippingMethods(state.shippingMethods),
 }
 
 export default getters

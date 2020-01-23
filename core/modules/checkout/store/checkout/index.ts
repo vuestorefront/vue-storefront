@@ -30,7 +30,7 @@ export const checkoutModule: Module<CheckoutState, RootState> = {
       region_id: 0,
       zipCode: '',
       phoneNumber: '',
-      shippingMethod: ''
+      shippingMethod: null
     },
     paymentDetails: {
       firstName: '',
@@ -48,6 +48,7 @@ export const checkoutModule: Module<CheckoutState, RootState> = {
       paymentMethod: '',
       paymentMethodAdditional: {}
     },
+    brandsDetails: [],
     isThankYouPage: false,
     modifiedAt: 0
   },

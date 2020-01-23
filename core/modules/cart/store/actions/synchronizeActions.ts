@@ -29,15 +29,15 @@ const synchronizeActions = {
 
     if (hash) {
       commit(types.CART_SET_ITEMS_HASH, hash)
-      Logger.info('Cart hash received from cache.', 'cache', hash)()
+      //Logger.info('Cart hash received from cache.', 'cache', hash)()
     }
     if (token) {
       commit(types.CART_LOAD_CART_SERVER_TOKEN, token)
-      Logger.info('Cart token received from cache.', 'cache', token)()
-      Logger.info('Syncing cart with the server.', 'cart')()
+      //Logger.info('Cart token received from cache.', 'cache', token)()
+      //Logger.info('Syncing cart with the server.', 'cart')()
       dispatch('sync', { forceClientState, dryRun: !serverMergeByDefault })
     } else {
-      Logger.info('Creating server cart token', 'cart')()
+      //Logger.info('Creating server cart token', 'cart')()
       await dispatch('connect', { guestCart: false })
     }
   },

@@ -1,6 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
+import find from "lodash-es/find";
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {
@@ -25,6 +26,7 @@ export const Shipping = {
       countries: Countries,
       shipping: this.$store.state.checkout.shippingDetails,
       shipToMyAddress: false,
+      selected_shipping_method:null,
       myAddressDetails: {
         firstname: '',
         lastname: '',
@@ -74,14 +76,27 @@ export const Shipping = {
       this.shipToMyAddress = this.hasShippingDetails()
     },
     checkDefaultShippingMethod () {
-      if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
+      if (!this.shipping.shippingMethod) {
+        let default_shipping_methods = []
+        for (let brand_id in this.shippingMethods) {
+          let store_data = this.shippingMethods[brand_id]
+          let shipping_method_data = find(this.shippingMethods[brand_id]['shipping_methods'], (m) => {
+            return m._id == store_data['default_shipping_method']
+          })
+          default_shipping_methods.push({brand_id, default_shipping_method: shipping_method_data})
+          this.selected_shipping_method[brand_id]=shipping_method_data._id
+        }
+        this.shipping.shippingMethod = default_shipping_methods
+      }
+
+/*      if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
         let shipping = this.shippingMethods.find(item => item.default)
         if (!shipping && this.shippingMethods && this.shippingMethods.length > 0) {
           shipping = this.shippingMethods[0]
         }
         this.shipping.shippingMethod = shipping.method_code
         this.shipping.shippingCarrier = shipping.carrier_code
-      }
+      }*/
     },
     onAfterShippingSet (receivedData) {
       this.shipping = receivedData
@@ -180,7 +195,7 @@ export const Shipping = {
       }
     },
     getShippingMethods(brand_id){
-      return this.shippingMethods[brand_id]
+      return this.shippingMethods[brand_id].shipping_methods
     },
     notInMethods (method) {
       let availableMethods = this.shippingMethods

@@ -1,6 +1,6 @@
 import { mapGetters } from 'vuex'
 import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart'
-
+import find from 'lodash-es/find'
 export const CartSummary = {
   name: 'CartSummary',
   mixins: [Microcart],
@@ -13,8 +13,11 @@ export const CartSummary = {
     ...mapGetters({
       totals: 'cart/getTotals',
       isVirtualCart: 'cart/isVirtualCart',
-      shippingMethods: 'checkout/getShippingMethods'
-    })
+      shippingMethods: 'checkout/getShippingMethods',
+      getBrandsDetails: 'checkout/getBrandsDetails',
+      getDefaultShippingMethods: 'checkout/getDefaultShippingMethods'
+    }),
+
   },
   watch: {
     shippingMethods: {
@@ -24,6 +27,30 @@ export const CartSummary = {
     }
   },
   methods: {
+    getBrandData(id){
+      if(this.getBrandsDetails) {
+        return find(this.getBrandsDetails, function (o) {
+          return o._id == id
+        });
+      }
+      else
+      return {
+        name: '',
+        logo: {thumb:''},
+        customer_support_email:''
+      }
+
+    },
+    getDefaultShippingMethod(id){
+      if(this.getDefaultShippingMethods) {
+        let result =  find(this.getDefaultShippingMethods, function (o) {
+          return o.brand_id == id
+        });
+        return  result.default_shipping_method
+      }
+      else
+        return {}
+    },
     getShippingMethod () {
       for (let i = 0; i < this.shippingMethods.length; i++) {
         if (this.shippingMethods[i]._id === this.shipping.shippingMethod) {
@@ -38,17 +65,22 @@ export const CartSummary = {
         cost: ''
       }
     },
-    showShippingModel(){
-      console.log("showShippingModel", this.loadShippingMethod)
-      //this.$nextTick(() => {
-        this.loadShippingMethod = !this.loadShippingMethod
+    showShippingModel(brand_id){
       this.$nextTick(() => {
-        this.$bus.$emit(this.loadShippingMethod===true?'modal-show':'modal-hide', 'modal-shipping-method')
-      })
-        // this.$forceUpdate()
-      // })
+        this.loadShippingMethod = true
+        this.$bus.$emit('modal-show', 'modal-shipping-method')
+         this.$forceUpdate()
+          this.checkDefaultShippingMethod(brand_id)
+       })
     },
-    checkDefaultShippingMethod () {
+    checkDefaultShippingMethod (brand_id='') {
+      if(this.getDefaultShippingMethods) {
+        let result =  find(this.getDefaultShippingMethods, function (o) {
+          return o.brand_id == brand_id
+        });
+        this.shipping.shippingMethod[brand_id] = result.default_shipping_method._id
+      }
+
       /*if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
         let shipping = this.shippingMethods.find(item => item.default)
         if (!shipping && this.shippingMethods && this.shippingMethods.length > 0) {

@@ -5,17 +5,17 @@
       <h3 class="order-sum cl-accent summary-title">
         {{ $t('Cart Items') }}
       </h3>
-      <div class="store-info">
-        <img src="http://localhost:3000/assets/logo.svg" alt="" class="brand-img">
-        <p>RBRIGHT GLASSES Store</p>
+      <div class="store-info" v-if="products && products[0].procc_brand_id">
+        <img :src="getBrandData(products[0].procc_brand_id).logo.thumb" alt="" class="brand-img">
+        <p>{{getBrandData(products[0].procc_brand_id).name}}</p>
         <div class="store-contact text brand-contact">
-          <button class="btn normal-icon-btn">
+          <a class="btn normal-icon-btn" :href ="'mailto:'+getBrandData(products[0].procc_brand_id).customer_support_email">
             <i class="material-icons" data-v-0ac1abd3="">mail_outline</i>
-          </button>
+          </a>
         </div>
         <div class="store-contact text shipping-method">
-          DHL
-          <button class="btn normal-icon-btn"> <i class="material-icons" data-v-0ac1abd3="" @click="showShippingModel">local_shipping</i>
+          {{getDefaultShippingMethod(products[0].procc_brand_id).name}}
+          <button class="btn normal-icon-btn"> <i class="material-icons" data-v-0ac1abd3="" @click="showShippingModel()">local_shipping</i>
           </button>
         </div>
       </div>

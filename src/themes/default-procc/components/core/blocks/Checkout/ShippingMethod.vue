@@ -4,10 +4,10 @@
       {{ $t('Shipping Methods') }}
     </p>
     <div slot="content">
-        <table class="brdr-1 brdr-cl-bg-secondary">
-          <thead>
+      <table class="brdr-1 brdr-cl-bg-secondary">
+        <thead>
           <tr>
-            <th></th>
+            <th />
             <th>
               {{ $t('Est. Delivery') }}
             </th>
@@ -21,8 +21,8 @@
               {{ $t('Carrier') }}
             </th>
           </tr>
-          </thead>
-          <tbody>
+        </thead>
+        <tbody>
           <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="method in getShippingMethods(storeBrandId)">
             <td class="fs-medium lh25" :data-th="$t('Product Name')">
               <div>
@@ -39,10 +39,11 @@
               </div>
             </td>
             <td class="fs-medium lh25" :data-th="$t('Estimated Delivery')">
-              {{$t('Estimated Delivery Time:')}} {{method.estimated_delivery_period}} {{$t('Days')}}
+              {{ $t('Estimated Delivery Time:') }} {{ method.estimated_delivery_period }} {{ $t('Days') }}
             </td>
             <td class="fs-medium lh25 align-right" :data-th="$t('Cost')">
-              {{method.cost}}
+              <span v-if="method.cost > 0">{{ method.cost | price }}</span>
+              <span v-else>{{ $t('Dynamic Calculate') }}</span>
             </td>
             <td class="fs-medium lh25" :data-th="$t('tracking')">
               <i class="material-icons">
@@ -50,65 +51,65 @@
               </i>
             </td>
             <td class="fs-medium lh25" :data-th="$t('Carrier')">
-              {{method.name}}
+              {{ method.name }}
             </td>
           </tr>
-          </tbody>
-        </table>
+        </tbody>
+      </table>
       <span class="validation-error" v-if="$v.shipping.shippingMethod.$error && !$v.shipping.shippingMethod.required">
-            {{ $t('please select shipping method') }}
+        {{ $t('please select shipping method') }}
       </span>
+    </div>
+    <div class="row between-xs middle-xs mt40">
+      <div class="col-xs-12">
+        <button-full @click.native="saveShippingMethod"
+                     :disabled="$v.shipping.$invalid || shippingMethods.length <= 0"
+        >
+          {{ $t('Apply') }}
+        </button-full>
       </div>
-      <div class="row between-xs middle-xs mt40">
-        <div class="col-xs-12">
-          <button-full @click.native="saveShippingMethod"
-                       :disabled="$v.shipping.$invalid || shippingMethods.length <= 0"
-          >
-            {{ $t('Apply') }}
-          </button-full>
-        </div>
-      </div>
+    </div>
     </div>
   </modal>
 </template>
 
 <script>
-  import Modal from 'theme/components/core/Modal'
-  import ButtonFull from 'theme/components/theme/ButtonFull.vue'
-  import { required, minLength } from 'vuelidate/lib/validators'
-  import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipping'
+import Modal from 'theme/components/core/Modal'
+import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { required, minLength } from 'vuelidate/lib/validators'
+import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipping'
 
-  export default {
-    props: {
-      storeBrandId: {
-        required: true,
-        type: String,
-        default: () => []
-      }
+export default {
+  props: {
+    storeBrandId: {
+      required: true,
+      type: String,
+      default: () => []
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.$bus.$emit('modal-show', 'modal-shipping-method')
+    })
+  },
+  methods: {
+    saveShippingMethod () {
+      this.$bus.$emit('modal-hide', 'modal-shipping-method')
     },
-    mounted () {
-      this.$nextTick(() => {
-        this.$bus.$emit('modal-show', 'modal-shipping-method')
-      })
-    },
-    methods: {
-      saveShippingMethod () {
-        this.$bus.$emit('modal-hide', 'modal-shipping-method')
-      }
-    },
-    components: {
-      Modal,
-      ButtonFull
-    },
-    mixins: [ Shipping ],
-    validations: {
-      shipping: {
-        shippingMethod: {
-          required
-        },
+  },
+  components: {
+    Modal,
+    ButtonFull
+  },
+  mixins: [ Shipping ],
+  validations: {
+    shipping: {
+      shippingMethod: {
+        required
       }
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

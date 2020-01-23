@@ -3,12 +3,17 @@ import PaymentMethod from '@vue-storefront/core/modules/cart/types/PaymentMethod
 import ShippingMethod from '@vue-storefront/core/modules/cart/types/ShippingMethod'
 import CheckoutData from '@vue-storefront/core/modules/cart/types/CheckoutData'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import find from 'lodash-es/find'
 
 const getDefaultShippingMethod = (shippingMethods: ShippingMethod[] = []): ShippingMethod => {
-  const onlineShippingMethods = shippingMethods.filter(shippingMethod => !shippingMethod.offline)
-  if (!onlineShippingMethods.length) return
 
-  return onlineShippingMethods.find(shippingMethod => !!shippingMethod.default) || onlineShippingMethods[0]
+  let default_shipping_methods=[]
+  for(let brand_id in shippingMethods){
+    let store_data= shippingMethods[brand_id]
+    let shipping_method_data = find(shippingMethods[brand_id]['shipping_methods'], (m)=>{return m._id==store_data['default_shipping_method']})
+    default_shipping_methods.push({brand_id, default_shipping_method:shipping_method_data})
+  }
+  return shippingMethods[0]['shipping_methods'][0]['_id']
 }
 
 const getDefaultPaymentMethod = (paymentMethods: PaymentMethod[] = []): PaymentMethod => {

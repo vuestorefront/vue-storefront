@@ -8,6 +8,7 @@ import PaymentMethod from '../../types/PaymentMethod'
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 import keys from 'lodash-es/keys'
 import isEmpty from 'lodash-es/isEmpty'
+import map from 'lodash-es/map'
 
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
@@ -67,6 +68,11 @@ const methodsActions = {
       await dispatch('checkout/replaceShippingMethods', shippingMethods, { root: true })
     }
   },
+  async updateBrandsDetails ({ dispatch }, { brandsDetails }) {
+    if (brandsDetails && !isEmpty(brandsDetails)) {
+      await dispatch('checkout/updateBrandsDetails', brandsDetails, { root: true })
+    }
+  },
   async syncShippingMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
     if (getters.canUpdateMethods && (getters.isTotalsSyncRequired || forceServerSync)) {
       const storeView = currentStoreView()
@@ -90,6 +96,8 @@ const methodsActions = {
           .then((result) => {
             console.log("result.data.shipping_methods",result.data.shipping_methods)
             dispatch('updateShippingMethods', {shippingMethods: result.data.shipping_methods})
+            dispatch('updateBrandsDetails', {brandsDetails: map(result.data.shipping_methods, (o)=> { return o.brand;})
+          })
           })
       }
     } else {

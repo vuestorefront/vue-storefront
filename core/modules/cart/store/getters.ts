@@ -24,7 +24,7 @@ const getters: GetterTree<CartState, RootState> = {
   isTotalsSyncEnabled: () => config.cart.synchronize_totals && onlineHelper.isOnline && !isServer,
   isCartConnected: state => !!state.cartServerToken,
   isCartSyncEnabled: () => config.cart.synchronize && onlineHelper.isOnline && !isServer,
-  getFirstShippingMethod: state => state.shipping instanceof Array ? state.shipping[0] : state.shipping,
+  getFirstShippingMethod: state => state.shipping instanceof Array ? state.shipping : state.shipping,
   getFirstPaymentMethod: state => state.payment instanceof Array ? state.payment[0] : state.payment,
   getTotals: ({ cartItems, platformTotalSegments }, getters) =>
     (platformTotalSegments && onlineHelper.isOnline) ? platformTotalSegments : calculateTotals(getters.getFirstShippingMethod, getters.getFirstPaymentMethod, cartItems),
