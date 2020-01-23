@@ -90,8 +90,7 @@ export const actions: ActionTree<UrlState, any> = {
     }
 
     // This is the code of VSF
-    const fallbackData = await dispatch('getFallbackByUrl', { url })
-    console.log(fallbackData)
+    const fallbackData = await dispatch('getFallbackByUrl', { url: urlPath })
     if (fallbackData) {
       const [result] = await Promise.all([
         dispatch('transformFallback', { ...fallbackData, params }),
