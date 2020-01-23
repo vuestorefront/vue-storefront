@@ -6,23 +6,29 @@
     />
     <div class="product">
       <div class="product__gallery">
-        <SfImage
-          v-for="(image, i) in getProductGallery(product).splice(0, 2)" :key="i"
-          :src="image.big"
-          class="desktop-only"
-        />
         <SfGallery
           class="gallery-mobile mobile-only"
+          :image-width="375"
+          :image-height="490"
           :images="[
             {
               mobile: { url: '/productpage/productM.jpg' },
-              desktop: { url: '/productpage/productM.jpg' }
+              desktop: { url: '/productpage/productM.jpg' },
+              big: { url: '/productpage/productM.jpg' }
             },
             {
               mobile: { url: '/productpage/productM.jpg' },
-              desktop: { url: '/productpage/productM.jpg' }
+              desktop: { url: '/productpage/productM.jpg' },
+              big: { url: '/productpage/productM.jpg' }
             }
           ]"
+        />
+        <SfImage
+          v-for="(image, i) in getProductGallery(product).splice(0, 2)" :key="i"
+          :src="image.big"
+          :width="590"
+          :height="700"
+          class="desktop-only"
         />
       </div>
       <div class="product__description">
@@ -498,23 +504,9 @@ export default {
   @supports (-webkit-overflow-scrolling: touch) {
     height: calc(100vh - #{$height-iOS});
   }
-  ::v-deep .glide {
-    &,
-    * {
-      height: 100%;
-    }
-    &__slide {
-      position: relative;
-      overflow: hidden;
-    }
+  ::v-deep .sf-image {
     img {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      min-width: calc((375 / 490) * (100vh - #{$height-other}));
-      @supports (-webkit-overflow-scrolling: touch) {
-        min-width: calc((375 / 490) * (100vh - #{$height-iOS}));
-      }
+      width: 100%;
     }
   }
   ::v-deep .sf-gallery__stage {

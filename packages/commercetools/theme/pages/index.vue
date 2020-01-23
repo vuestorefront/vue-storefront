@@ -20,7 +20,10 @@
             title="COCKTAIL PARTY"
             description="Find stunning women's cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands."
             button-text="SHOP NOW"
-            image="/homepage/bannerF.jpg"
+            :image="{
+              mobile: '/homepage/bannerB.jpg',
+              desktop: '/homepage/bannerF.jpg'
+            }"
             class="sf-banner--slim"
           />
         </a>

@@ -3,18 +3,18 @@
     <div class="grid grid-images">
       <div class="grid__row">
         <div class="grid__col">
-          <SfImage src="/homepage/imageA.jpg">katherina_trn</SfImage>
+          <SfImage src="/homepage/imageA.jpg" :width="486" :height="486">katherina_trn</SfImage>
         </div>
         <div class="grid__col">
-          <SfImage src="/homepage/imageB.jpg">katherina_trn</SfImage>
+          <SfImage src="/homepage/imageB.jpg" :width="486" :height="486">katherina_trn</SfImage>
         </div>
       </div>
       <div class="grid__row">
         <div class="grid__col">
-          <SfImage src="/homepage/imageC.jpg">katherina_trn</SfImage>
+          <SfImage src="/homepage/imageC.jpg" :width="486" :height="486">katherina_trn</SfImage>
         </div>
         <div class="grid__col">
-          <SfImage src="/homepage/imageD.jpg">katherina_trn</SfImage>
+          <SfImage src="/homepage/imageD.jpg" :width="486" :height="486">katherina_trn</SfImage>
         </div>
       </div>
     </div>
@@ -54,6 +54,7 @@ export default {
   }
   &__col {
     margin: 0;
+    flex: 1;
     & + & {
       margin-left: $spacer-big / 2;
       @include for-desktop {
