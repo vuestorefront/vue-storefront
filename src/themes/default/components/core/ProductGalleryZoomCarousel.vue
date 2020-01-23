@@ -31,10 +31,11 @@
             <div class="media-zoom-carousel__slide bg-cl-secondary"
                  :class="{'video-container h-100 flex relative': images.video}"
             >
-              <product-image
+              <product-gallery-image
                 v-show="hideImageAtIndex !== index"
                 :image="images"
                 :alt="productName | htmlDecode"
+                :is-active="index === currentPage"
               />
               <product-video
                 v-if="images.video && (index === currentPage)"
@@ -54,6 +55,7 @@
 import { Carousel, Slide } from 'vue-carousel'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import ProductImage from './ProductImage'
+import ProductGalleryImage from './ProductGalleryImage'
 import ProductVideo from './ProductVideo'
 
 export default {
@@ -84,6 +86,7 @@ export default {
     Carousel,
     Slide,
     ProductImage,
+    ProductGalleryImage,
     ProductVideo
   },
   mounted () {
