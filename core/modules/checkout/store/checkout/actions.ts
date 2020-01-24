@@ -80,6 +80,9 @@ const actions: ActionTree<CheckoutState, RootState> = {
   },
   async updateBrandsDetails ({ commit }, updateData) {
     commit(types.CHECKOUT_UPDATE_BRANDS_DETAILS, updateData)
+  },
+  async updateSelectedShippingMethod ({ commit }, updateData) {
+    commit(types.CHECKOUT_UPDATE_SELECTED_SHIPPING_METHOD, updateData)
   }
 }
 

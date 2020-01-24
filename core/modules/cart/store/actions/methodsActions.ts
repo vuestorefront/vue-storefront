@@ -9,6 +9,7 @@ import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 import keys from 'lodash-es/keys'
 import isEmpty from 'lodash-es/isEmpty'
 import map from 'lodash-es/map'
+import find from "lodash-es/find";
 
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
@@ -20,12 +21,19 @@ const methodsActions = {
     }
   },
   async setDefaultCheckoutMethods ({ getters, rootGetters, commit }) {
-    if (!getters.getShippingMethodCode) {
-      commit(types.CART_UPD_SHIPPING, rootGetters['checkout/getDefaultShippingMethod'])
-    }
-
     if (!getters.getPaymentMethodCode) {
       commit(types.CART_UPD_PAYMENT, rootGetters['checkout/getDefaultPaymentMethod'])
+    }
+  },
+  async updateCartSelectedShippingMethod ({ commit }, updateData) {
+    commit(types.CART_UPD_SELECTED_SHIPPING_METHODS, updateData)
+  },
+  async setCheckoutShippingMethods ({ getters, rootGetters, commit }) {
+    if ((!getters.getShippingMethods || isEmpty(getters.getShippingMethods))) {
+      commit(types.CART_UPD_SHIPPING_METHODS, rootGetters['checkout/getShippingMethods'])
+    }
+    if ((!getters.getSelectedShippingMethod || isEmpty(getters.getSelectedShippingMethod))) {
+      commit(types.CART_UPD_SELECTED_SHIPPING_METHODS, rootGetters['checkout/getSelectedShippingMethod'])
     }
   },
   async syncPaymentMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
@@ -40,7 +48,8 @@ const methodsActions = {
           shippingDetails: rootGetters['checkout/getShippingDetails'],
           shippingMethods: rootGetters['checkout/getShippingMethods'],
           paymentMethods: rootGetters['checkout/getPaymentMethods'],
-          paymentDetails: paymentDetails
+          paymentDetails: paymentDetails,
+          selectedShippingMethod: rootGetters['checkout/getSelectedShippingMethod']
         })
 
         if (shippingMethodsData.country) {
@@ -63,7 +72,7 @@ const methodsActions = {
       Logger.debug('Payment methods does not need to be updated', 'cart')()
     }
   },
-  async updateShippingMethods ({ dispatch }, { shippingMethods }) {
+  async updateShippingMethods ({ dispatch }, { shippingMethods, commit }) {
     if (shippingMethods && !isEmpty(shippingMethods)) {
       await dispatch('checkout/replaceShippingMethods', shippingMethods, { root: true })
     }
@@ -71,6 +80,11 @@ const methodsActions = {
   async updateBrandsDetails ({ dispatch }, { brandsDetails }) {
     if (brandsDetails && !isEmpty(brandsDetails)) {
       await dispatch('checkout/updateBrandsDetails', brandsDetails, { root: true })
+    }
+  },
+  async updateSelectedShippingMethod ({ dispatch }, { selectedShippingMethod , commit}) {
+    if (selectedShippingMethod && !isEmpty(selectedShippingMethod)) {
+      await dispatch('checkout/updateSelectedShippingMethod', selectedShippingMethod, { root: true })
     }
   },
   async syncShippingMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
@@ -94,10 +108,18 @@ const methodsActions = {
         const brand_ids = keys(getters.getCartItemsByBrand);
         await ProCcApi().getShippingMethodByBrand(brand_ids)
           .then((result) => {
-            console.log("result.data.shipping_methods",result.data.shipping_methods)
-            dispatch('updateShippingMethods', {shippingMethods: result.data.shipping_methods})
-            dispatch('updateBrandsDetails', {brandsDetails: map(result.data.shipping_methods, (o)=> { return o.brand;})
-          })
+            let default_shipping_methods={}
+            let shipping_methods={}
+            for(let brand_id in result.data.shipping_methods){
+              let store_data= result.data.shipping_methods[brand_id]
+              shipping_methods[brand_id] = result.data.shipping_methods[brand_id]['shipping_methods']
+              let shipping_method_data = find(result.data.shipping_methods[brand_id]['shipping_methods'], (m)=>{return m._id==store_data['default_shipping_method']})
+              default_shipping_methods[brand_id] = shipping_method_data
+            }
+            dispatch('updateShippingMethods', {shippingMethods: shipping_methods})
+            dispatch('updateSelectedShippingMethod', {selectedShippingMethod: default_shipping_methods})
+            dispatch('updateBrandsDetails', {brandsDetails: map(result.data.shipping_methods, (o)=> { return o.brand;})})
+            dispatch('setCheckoutShippingMethods')
           })
       }
     } else {

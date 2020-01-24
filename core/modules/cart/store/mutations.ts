@@ -92,6 +92,12 @@ const mutations: MutationTree<CartState> = {
   },
   [types.CART_ADDING_ITEM] (state, { isAdding }) {
     state.isAddingToCart = isAdding
+  },
+  [types.CART_UPD_SHIPPING_METHODS] (state, shippingMethods) {
+    state.shippingMethods = shippingMethods
+  },
+  [types.CART_UPD_SELECTED_SHIPPING_METHODS] (state, selectedShippingMethods) {
+    state.selectedShippingMethod = selectedShippingMethods
   }
 }
 

@@ -14,7 +14,7 @@
           </a>
         </div>
         <div class="store-contact text shipping-method">
-          {{getDefaultShippingMethod(products[0].procc_brand_id).name}}
+          {{getSelectedShippingMethod[products[0].procc_brand_id].name}} | {{getSelectedShippingMethod[products[0].procc_brand_id].cost | price}}
           <button class="btn normal-icon-btn"> <i class="material-icons" data-v-0ac1abd3="" @click="showShippingModel()">local_shipping</i>
           </button>
         </div>
@@ -44,7 +44,7 @@
         Nullam sed tempor lorem. Vivamus volutpat eros id est semper accumsan.
       </p>
     </div>
-    <shipping-method  v-if="loadShippingMethod" :store-brand-id="products[0].procc_brand_id" />
+    <shipping-method  v-if="loadShippingMethod" :store-brand-id="products[0].procc_brand_id" :isActive="true" />
   </div>
 </template>
 

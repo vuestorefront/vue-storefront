@@ -15,7 +15,8 @@ export const CartSummary = {
       isVirtualCart: 'cart/isVirtualCart',
       shippingMethods: 'checkout/getShippingMethods',
       getBrandsDetails: 'checkout/getBrandsDetails',
-      getDefaultShippingMethods: 'checkout/getDefaultShippingMethods'
+      getDefaultShippingMethods: 'checkout/getDefaultShippingMethods',
+      getSelectedShippingMethod: 'checkout/getSelectedShippingMethod'
     }),
 
   },
@@ -70,26 +71,7 @@ export const CartSummary = {
         this.loadShippingMethod = true
         this.$bus.$emit('modal-show', 'modal-shipping-method')
          this.$forceUpdate()
-          this.checkDefaultShippingMethod(brand_id)
        })
-    },
-    checkDefaultShippingMethod (brand_id='') {
-      if(this.getDefaultShippingMethods) {
-        let result =  find(this.getDefaultShippingMethods, function (o) {
-          return o.brand_id == brand_id
-        });
-        this.shipping.shippingMethod[brand_id] = result.default_shipping_method._id
-      }
-
-      /*if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
-        let shipping = this.shippingMethods.find(item => item.default)
-        if (!shipping && this.shippingMethods && this.shippingMethods.length > 0) {
-          shipping = this.shippingMethods[0]
-        }
-        this.shipping.shippingMethod = shipping.method_code
-        this.shipping.shippingCarrier = shipping.carrier_code
-      }*/
-      console.log(" call checkDefaultShippingMethod")
     },
   }
 }

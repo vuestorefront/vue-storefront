@@ -1,13 +1,13 @@
-import i18n from '@vue-storefront/i18n'
-import config from 'config'
-import VueOfflineMixin from 'vue-offline/mixin'
-import { mapGetters } from 'vuex'
-import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import Composite from '@vue-storefront/core/mixins/composite'
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { isServer } from '@vue-storefront/core/helpers'
-import { Logger } from '@vue-storefront/core/lib/logger'
-
+import i18n from '@vue-storefront/i18n';
+import config from 'config';
+import VueOfflineMixin from 'vue-offline/mixin';
+import { mapGetters } from 'vuex';
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager';
+import Composite from '@vue-storefront/core/mixins/composite';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { isServer } from '@vue-storefront/core/helpers';
+import { Logger } from '@vue-storefront/core/lib/logger';
+import find from 'lodash-es/find';
 export default {
   name: 'Checkout',
   mixins: [Composite, VueOfflineMixin],
@@ -144,9 +144,16 @@ export default {
         this.$router.push(this.localizedRoute('/'))
       }
     },
-    async onAfterShippingMethodChanged (payload) {
-      await this.$store.dispatch('cart/syncTotals', { forceServerSync: true, methodsData: payload })
-      this.shippingMethod = payload
+    async onAfterShippingMethodChanged (shippingMethod) {
+      // await this.$store.dispatch('cart/syncTotals', { forceServerSync: true, methodsData: payload })
+      let selectedShippingMethod = {}
+      for (let brand_id in shippingMethod) {
+        selectedShippingMethod[brand_id] = find(this.$store.state.checkout.shippingMethods[brand_id], (s) => { return s._id === shippingMethod[brand_id] })
+      }
+      await this.$store.dispatch('checkout/updateSelectedShippingMethod', selectedShippingMethod)
+      await this.$store.dispatch('cart/updateCartSelectedShippingMethod', selectedShippingMethod)
+      this.shippingMethod = selectedShippingMethod
+      this.$forceUpdate()
     },
     onBeforeShippingMethods (country) {
       this.$store.dispatch('checkout/updatePropValue', ['country', country])
@@ -307,8 +314,7 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
-          shipping_method_code: this.shippingMethod.method_code ? this.shippingMethod.method_code : this.shipping.shippingMethod,
-          shipping_carrier_code: this.shippingMethod.carrier_code ? this.shippingMethod.carrier_code : this.shipping.shippingCarrier,
+          shipping_method_code: this.$store.state.cart.selectedShippingMethod ? this.$store.state.cart.selectedShippingMethod : {},
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields

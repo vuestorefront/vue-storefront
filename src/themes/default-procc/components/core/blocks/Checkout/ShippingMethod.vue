@@ -23,7 +23,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="method in getShippingMethods(storeBrandId)">
+          <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="method in shippingMethods[storeBrandId]">
             <td class="fs-medium lh25" :data-th="$t('Product Name')">
               <div>
                 <label class="radioStyled">
@@ -31,9 +31,7 @@
                     type="radio"
                     :value="method._id"
                     name="shipping-method"
-                    v-model="shipping.shippingMethod"
-                    @change="$v.shipping.shippingMethod.$touch(); changeShippingMethod(storeBrandId);"
-                  >
+                    v-model="selectedShippingMethod[storeBrandId]">
                   <span class="checkmark" />
                 </label>
               </div>
@@ -56,19 +54,14 @@
           </tr>
         </tbody>
       </table>
-      <span class="validation-error" v-if="$v.shipping.shippingMethod.$error && !$v.shipping.shippingMethod.required">
-        {{ $t('please select shipping method') }}
-      </span>
     </div>
     <div class="row between-xs middle-xs mt40">
       <div class="col-xs-12">
         <button-full @click.native="saveShippingMethod"
-                     :disabled="$v.shipping.$invalid || shippingMethods.length <= 0"
-        >
+                     :disabled="shippingMethods.length <= 0">
           {{ $t('Apply') }}
         </button-full>
       </div>
-    </div>
     </div>
   </modal>
 </template>
@@ -93,9 +86,6 @@ export default {
     })
   },
   methods: {
-    saveShippingMethod () {
-      this.$bus.$emit('modal-hide', 'modal-shipping-method')
-    },
   },
   components: {
     Modal,
@@ -103,10 +93,8 @@ export default {
   },
   mixins: [ Shipping ],
   validations: {
-    shipping: {
-      shippingMethod: {
-        required
-      }
+    selectedShippingMethod: {
+      required
     }
   }
 }

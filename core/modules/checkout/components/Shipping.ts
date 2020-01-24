@@ -26,7 +26,7 @@ export const Shipping = {
       countries: Countries,
       shipping: this.$store.state.checkout.shippingDetails,
       shipToMyAddress: false,
-      selected_shipping_method:null,
+      selectedShippingMethod:{},
       myAddressDetails: {
         firstname: '',
         lastname: '',
@@ -44,7 +44,8 @@ export const Shipping = {
       currentUser: (state: RootState) => state.user.current
     }),
     ...mapGetters({
-      shippingMethods: 'checkout/getShippingMethods'
+      shippingMethods: 'checkout/getShippingMethods',
+      getSelectedShippingMethod: 'checkout/getSelectedShippingMethod'
     }),
     checkoutShippingDetails () {
       return this.$store.state.checkout.shippingDetails
@@ -56,7 +57,7 @@ export const Shipping = {
   watch: {
     shippingMethods: {
       handler () {
-        this.checkDefaultShippingMethod()
+        this.checkSelectedShippingMethod()
       }
     },
     shipToMyAddress: {
@@ -68,35 +69,20 @@ export const Shipping = {
   },
   mounted () {
     this.checkDefaultShippingAddress()
-    this.checkDefaultShippingMethod()
-    //this.changeShippingMethod()
+    this.checkSelectedShippingMethod()
   },
   methods: {
     checkDefaultShippingAddress () {
       this.shipToMyAddress = this.hasShippingDetails()
     },
-    checkDefaultShippingMethod () {
-      if (!this.shipping.shippingMethod) {
-        let default_shipping_methods = []
-        for (let brand_id in this.shippingMethods) {
-          let store_data = this.shippingMethods[brand_id]
-          let shipping_method_data = find(this.shippingMethods[brand_id]['shipping_methods'], (m) => {
-            return m._id == store_data['default_shipping_method']
-          })
-          default_shipping_methods.push({brand_id, default_shipping_method: shipping_method_data})
-          this.selected_shipping_method[brand_id]=shipping_method_data._id
-        }
-        this.shipping.shippingMethod = default_shipping_methods
+    checkSelectedShippingMethod () {
+      for (let brand_id in this.getSelectedShippingMethod) {
+        this.selectedShippingMethod[brand_id]=this.getSelectedShippingMethod[brand_id]._id
       }
-
-/*      if (!this.shipping.shippingMethod || this.notInMethods(this.shipping.shippingMethod)) {
-        let shipping = this.shippingMethods.find(item => item.default)
-        if (!shipping && this.shippingMethods && this.shippingMethods.length > 0) {
-          shipping = this.shippingMethods[0]
-        }
-        this.shipping.shippingMethod = shipping.method_code
-        this.shipping.shippingCarrier = shipping.carrier_code
-      }*/
+    },
+    saveShippingMethod () {
+      this.$bus.$emit('modal-hide', 'modal-shipping-method')
+      this.$bus.$emit('checkout-after-shippingMethodChanged', this.selectedShippingMethod)
     },
     onAfterShippingSet (receivedData) {
       this.shipping = receivedData
@@ -193,9 +179,6 @@ export const Shipping = {
           payment_method: this.paymentMethod[0].code
         })
       }
-    },
-    getShippingMethods(brand_id){
-      return this.shippingMethods[brand_id].shipping_methods
     },
     notInMethods (method) {
       let availableMethods = this.shippingMethods

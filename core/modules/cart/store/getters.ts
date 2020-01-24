@@ -27,7 +27,7 @@ const getters: GetterTree<CartState, RootState> = {
   getFirstShippingMethod: state => state.shipping instanceof Array ? state.shipping : state.shipping,
   getFirstPaymentMethod: state => state.payment instanceof Array ? state.payment[0] : state.payment,
   getTotals: ({ cartItems, platformTotalSegments }, getters) =>
-    (platformTotalSegments && onlineHelper.isOnline) ? platformTotalSegments : calculateTotals(getters.getFirstShippingMethod, getters.getFirstPaymentMethod, cartItems),
+    (platformTotalSegments && onlineHelper.isOnline) ? platformTotalSegments : calculateTotals(getters.getSelectedShippingMethod, getters.getFirstPaymentMethod, cartItems),
   getItemsTotalQuantity: ({ cartItems }) => config.cart.minicartCountType === 'items' ? cartItems.length : sumBy(cartItems, p => p.qty),
   getCoupon: ({ platformTotals }): AppliedCoupon | false =>
     !(platformTotals && platformTotals.hasOwnProperty('coupon_code')) ? false : { code: platformTotals.coupon_code, discount: platformTotals.discount_amount },
@@ -38,6 +38,8 @@ const getters: GetterTree<CartState, RootState> = {
   bypassCounter: state => state.connectBypassCount,
   getShippingMethodCode: state => state.shipping && state.shipping.method_code,
   getPaymentMethodCode: state => state.payment && state.payment.code,
+  getShippingMethods: state => state.shippingMethods,
+  getSelectedShippingMethod: state => state.selectedShippingMethod,
   getIsAdding: state => state.isAddingToCart,
   getIsMicroCartOpen: state => state.isMicrocartOpen
 

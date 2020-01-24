@@ -28,6 +28,7 @@ const getters: GetterTree<CheckoutState, RootState> = {
     ),
   getShippingMethods: state => state.shippingMethods,
   getBrandsDetails: state => state.brandsDetails,
+  getSelectedShippingMethod: state => state.selectedShippingMethod,
   getDefaultShippingMethod: state => getDefaultShippingMethods(state.shippingMethods),
   getDefaultShippingMethods: state => getDefaultShippingMethods(state.shippingMethods),
 }

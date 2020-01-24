@@ -27,10 +27,10 @@ const createOrderData = ({
   shippingMethods,
   paymentMethods,
   paymentDetails,
-  taxCountry = currentStoreView().tax.defaultCountry
+  taxCountry = currentStoreView().tax.defaultCountry,
+  selectedShippingMethod
 }: CheckoutData): OrderShippingDetails => {
   const country = shippingDetails.country ? shippingDetails.country : taxCountry
-  const shipping = getDefaultShippingMethod(shippingMethods)
   const payment = getDefaultPaymentMethod(paymentMethods)
 
   return {
@@ -50,8 +50,9 @@ const createOrderData = ({
       street: [paymentDetails.streetAddress],
       countryId: paymentDetails.country
     },
-    method_code: shipping && shipping.method_code ? shipping.method_code : null,
-    carrier_code: shipping && shipping.carrier_code ? shipping.carrier_code : null,
+    selectedShippingMethod:selectedShippingMethod,
+    method_code: null,
+    carrier_code: null,
     payment_method: payment && payment.code ? payment.code : null
   }
 }

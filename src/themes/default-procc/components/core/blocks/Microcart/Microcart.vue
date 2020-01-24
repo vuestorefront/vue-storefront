@@ -71,7 +71,7 @@
       <div v-for="(segment, index) in totals" :key="index" class="row py20" v-if="segment.code == 'shipping'">
         <div class="col-xs">
           {{ segment.title }}
-          <ul style="font-size: 14px">
+          <ul style="font-size: 14px" v-if="segment.value">
             <li v-for="data in segment.value">{{data.name}} ({{ data.cost | price }})</li>
           </ul>
           <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">
@@ -80,8 +80,8 @@
             </i>
           </button>
         </div>
-        <div v-if="segment.total != null" class="col-xs align-right">
-          {{ segment.total | price}}
+        <div class="col-xs align-right">
+          {{ segment.total || 0 | price}}
         </div>
       </div>
       <!--      <div class="row py20">-->

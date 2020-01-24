@@ -8,4 +8,5 @@ export default interface OrderShippingDetails {
   payment_method?: string,
   shippingAddress?: ShippingAddress,
   billingAddress?: BillingAddress
+  selectedShippingMethod:any,
 }

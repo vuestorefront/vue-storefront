@@ -325,6 +325,10 @@ import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import Tooltip from 'theme/components/core/Tooltip'
+import { Logger } from '@vue-storefront/core/lib/logger'
+import { OrderModule } from '@vue-storefront/core/modules/order'
+import { registerModule } from '@vue-storefront/core/lib/modules'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -336,6 +340,11 @@ export default {
   },
   mixins: [Payment],
   computed: {
+    ...mapGetters({
+      getTotals: 'cart/getTotals',
+      currentImage: 'procc/getHeadImage',
+      currentCart: 'carts/getCartToken'
+    }),
     countryOptions () {
       return this.countries.map((item) => {
         return {
@@ -429,6 +438,45 @@ export default {
         }
       }
     }
+  },
+  beforeCreate () {
+    registerModule(OrderModule)
+  },
+  mounted () {
+    window.callPlaceOrder = (transactionId) => { // ProCC MangoPay Handler
+      let BrandId = this.currentImage.brand
+      this.transactionId = transactionId
+      this.ProCcAPI.updateTransactionStatus({mangopay_transaction_id: transactionId}, BrandId).then((result) => {
+        this.transactionId = result.data.transaction._id
+        if (result.data.message_type === 'success') {
+          // emit event for place order in megento by shabbir
+          this.$bus.$emit('place-magento-order', {transactionId})
+        }else {
+          this.$bus.$emit('notification-progress-stop');
+          this.$store.dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: this.$t('Transaction was not done!!!!'),
+            action1: { label: this.$t('OK') }
+          })
+        }
+      }).catch(err => {
+        Logger.error(err, 'Transaction was not Done!!')()
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Transaction was not done!!!!'),
+          action1: { label: this.$t('OK') }
+        })
+      })
+    }
+  },
+  methods: {
+    onFailure(result) {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: this.$t(result.result),
+        action1: {label: this.$t('OK')}
+      })
+    },
   }
 }
 </script>

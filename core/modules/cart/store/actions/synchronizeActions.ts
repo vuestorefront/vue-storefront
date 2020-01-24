@@ -14,6 +14,7 @@ const synchronizeActions = {
     if (isServer) return
 
     dispatch('setDefaultCheckoutMethods')
+    dispatch('setCheckoutShippingMethods')
     const storedItems = await StorageManager.get('cart').getItem('current-cart')
     commit(types.CART_LOAD_CART, storedItems)
     dispatch('synchronizeCart', { forceClientState })

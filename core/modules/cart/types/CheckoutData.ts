@@ -8,5 +8,6 @@ export default interface CheckoutData {
   shippingMethods: ShippingMethod[],
   paymentMethods: PaymentMethod[],
   paymentDetails: PaymentDetails,
-  taxCountry?: string
+  taxCountry?: string,
+  selectedShippingMethod:any
 }
