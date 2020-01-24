@@ -6,6 +6,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import { ActionTree } from 'vuex'
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import uniqBy from 'lodash-es/uniqBy'
 import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import { prefetchCachedAttributes } from '../../helpers/prefetchCachedAttributes'
 import areAttributesAlreadyLoaded from './../../helpers/areAttributesAlreadyLoaded'
@@ -88,6 +89,24 @@ const actions: ActionTree<AttributeState, RootState> = {
       .filter(product => product.attributes_metadata)
       .map(product => product.attributes_metadata)
       .reduce((prev, curr) => ([ ...prev, ...curr ]), [])
+      .reduce((prev, curr) => {
+        const attribute = prev.find(a => a.attribute_id === curr.attribute_id && a.options)
+
+        if (attribute) {
+          return prev.map(attr => {
+            if (attr.attribute_id === curr.attribute_id) {
+              return {
+                ...attr,
+                options: uniqBy([...attr.options, ...curr.options], (obj) => `${obj.label}_${obj.value}`)
+              }
+            }
+
+            return attr
+          })
+        }
+
+        return [...prev, curr]
+      }, [])
       .reduce((prev, curr) => ({
         attrHashByCode: {
           ...(prev.attrHashByCode || {}),
