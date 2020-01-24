@@ -46,17 +46,17 @@
                   v-if="product.special_price && product.priceInclTax && product.originalPriceInclTax"
                 >
                   <span class="h2 cl-mine-shaft weight-700">
-                    {{ product.priceInclTax * product.qty | price }}
+                    {{ product.priceInclTax * product.qty | price(storeView) }}
                   </span>&nbsp;
                   <span class="price-original h3">
-                    {{ product.originalPriceInclTax * product.qty | price }}
+                    {{ product.originalPriceInclTax * product.qty | price(storeView) }}
                   </span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
                   v-if="!product.special_price && product.priceInclTax"
                 >
-                  {{ product.priceInclTax * product.qty | price }}
+                  {{ product.priceInclTax * product.qty | price(storeView) }}
                 </div>
               </div>
               <div
@@ -138,6 +138,7 @@ import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
 import focusClean from 'theme/components/theme/directives/focusClean'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   components: {
@@ -154,6 +155,11 @@ export default {
     }
   },
   directives: { focusClean },
+  computed: {
+    storeView () {
+      return currentStoreView()
+    }
+  },
   methods: {
     showDetails (event) {
       this.detailsOpen = true

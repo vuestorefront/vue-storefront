@@ -27,11 +27,11 @@
     </div>
     <div class="col-xs flex py15 align-right">
       <div>
-        <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price }}</span>&nbsp;
-        <span class="price-original" v-if="product.special_price">{{ product.originalPriceInclTax | price }}</span>
+        <span class="price-special" v-if="product.special_price">{{ product.priceInclTax | price(storeView) }}</span>&nbsp;
+        <span class="price-original" v-if="product.special_price">{{ product.originalPriceInclTax | price(storeView) }}</span>
 
         <span v-if="!product.special_price">
-          {{ product.priceInclTax | price }}
+          {{ product.priceInclTax | price(storeView) }}
         </span>
       </div>
       <div>
@@ -47,6 +47,7 @@
 import Product from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Product'
 import RemoveButton from './RemoveButton'
 import ProductImage from 'theme/components/core/ProductImage'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   components: {
@@ -60,6 +61,9 @@ export default {
         loading: this.thumbnail,
         src: this.thumbnail
       }
+    },
+    storeView () {
+      return currentStoreView()
     }
   }
 }
