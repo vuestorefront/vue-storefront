@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.10.6] - UNRELEASED
 
+## Added
+- Add lazy create cart token - @gibkigonzo (#3994)
+
 ### Fixed
 - Fix low-quality images styles - @przspa (#3906)
 - Fix page-not-found redirect in dispatcher - @gibkigonzo (#3956)
