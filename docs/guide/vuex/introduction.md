@@ -11,15 +11,15 @@ Before you start working with Vuex, it's recommended to get familiar with our [v
 
 ## Vuex modules
 
-- [Product](Product%20Store.md)
-- [Category](Category%20Store.md)
+- [Product](product-store.md)
+- [Category](category-store.md)
 - [Cart](Cart%20Store.md)
 - [Checkout](Checkout%20Store.md)
 - [Order](Order%20Store.md)
-- [Stock](Stock%20Store.md)
-- [Sync](Sync%20Store.md)
+- [Stock](stock-store.md)
+- [Sync](sync-store.md)
 - [User](User%20Store.md)
-- [Attribute](Attribute%20Store.md)
+- [Attribute](attribute-store.md)
 - [UI Store](<https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Working%20with%20UI%20Store%20(interface%20state).md>)
 
 ## Override existing core modules
