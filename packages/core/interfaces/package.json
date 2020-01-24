@@ -4,6 +4,9 @@
   "types": "lib/index.d.ts",
   "description": "",
   "main": "lib/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc"
   },
@@ -11,5 +14,6 @@
     "@vue/composition-api": "^0.3.4"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "gitHead": "2ad0a757063d04ed2b02ac825c478e25e717b29e"
 }
