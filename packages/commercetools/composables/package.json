@@ -1,6 +1,5 @@
 {
   "name": "@vue-storefront/commercetools-composables",
-  "private": true,
   "version": "0.0.1",
   "sideEffects": true,
   "main": "lib/index.cjs.js",
