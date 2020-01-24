@@ -1,18 +1,16 @@
 {
   "name": "@vue-storefront/commercetools-helpers",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "lib/index.cjs.js",
-  "module":"lib/index.es.js",
+  "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build" : "rollup -c",
-    "dev" : "rollup -c -w",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
     "test": "jest"
   },
   "dependencies": {
-    "@vue-storefront/commercetools-api": "^0.0.1"
-  },
-  "devDependencies": {
+    "@vue-storefront/commercetools-api": "^0.0.2"
   },
   "files": [
     "lib/**/*"

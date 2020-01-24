@@ -1,6 +1,6 @@
 {
   "name": "theme",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "My breathtaking Nuxt.js project",
   "author": "Filip Rakowski",
   "private": true,
@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "@storefront-ui/vue": "^0.5.1",
-    "@vue-storefront/commercetools-api": "^0.0.1",
-    "@vue-storefront/commercetools-composables": "^0.0.1",
-    "@vue-storefront/commercetools-helpers": "^0.0.1",
-    "@vue-storefront/nuxt": "^0.0.1-prealpha.0",
+    "@vue-storefront/commercetools-api": "^0.0.2",
+    "@vue-storefront/commercetools-composables": "^0.0.2",
+    "@vue-storefront/commercetools-helpers": "^0.0.2",
+    "@vue-storefront/nuxt": "^0.0.1",
     "core-js": "^2.6.5",
     "nuxt": "^2.10.2"
   },

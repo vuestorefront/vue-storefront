@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/commercetools-composables",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "sideEffects": true,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -11,8 +11,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vue-storefront/commercetools-api": "^0.0.1",
-    "@vue-storefront/interfaces": "^0.0.1",
+    "@vue-storefront/commercetools-api": "^0.0.2",
+    "@vue-storefront/interfaces": "^0.0.2",
     "@vue/composition-api": "^0.3.4",
     "vue": "^2.6.x"
   },
