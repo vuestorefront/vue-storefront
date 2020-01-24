@@ -22,7 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed No image thumbnails leaded on 404 page - @andrzejewsky (#3955)
 - Fixed Stock logic not working with manage_stock set to false - @andrzejewsky - (#3957)
 - Support old price format in `ProductPrice` - @gibkigonzo (#3978)
-- Fixed product bundle comparison condition - @gk-daniel (#4004) 
+- Fixed product bundle comparison condition - @gk-daniel (#4004)
+- Fixed `Processing order...` modal closing too early - @grimasod (#4021)
 
 ## [1.11.0] - 2019.12.20
 
