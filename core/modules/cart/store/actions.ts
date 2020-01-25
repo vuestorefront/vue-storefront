@@ -135,14 +135,11 @@ const actions: ActionTree<CartState, RootState> = {
   async disconnect ({ commit }) {
     commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
-  /** Clear the cart content + re-connect to newly created guest cart */
-  async clear ({ commit, dispatch, getters }, options = { recreateAndSyncCart: true }) {
+  /** Clear the cart content */
+  async clear ({ commit, dispatch, getters }) {
     await commit(types.CART_LOAD_CART, [])
-    if (options.recreateAndSyncCart && getters.isCartSyncEnabled) {
-      await commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
-      await commit(types.CART_SET_ITEMS_HASH, null)
-      await dispatch('connect', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
-    }
+    await commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
+    await commit(types.CART_SET_ITEMS_HASH, null)
   },
   /** Refresh the payment methods with the backend */
   async syncPaymentMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
@@ -252,10 +249,8 @@ const actions: ActionTree<CartState, RootState> = {
         Logger.info('Cart token received from cache.', 'cache', token)()
         Logger.info('Syncing cart with the server.', 'cart')()
         dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
-      } else {
-        Logger.info('Creating server cart token', 'cart')()
-        await dispatch('connect', { guestCart: false })
       }
+      await dispatch('create')
     }
   },
   /** Get one single item from the client's cart */
@@ -350,6 +345,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
       productIndex++
     }
+    await dispatch('create')
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
       return dispatch('sync', { forceClientState: true })
     } else {
@@ -498,16 +494,20 @@ const actions: ActionTree<CartState, RootState> = {
     }
     return false
   },
+  /**
+   * Create cart token when there are products in cart and we don't have token already
+   */
+  async create ({ dispatch, getters }) {
+    const storedItems = getters['getCartItems'] || []
+    const cartToken = getters['getCartToken']
+    if (storedItems.length && !cartToken) {
+      Logger.info('Creating server cart token', 'cart')()
+      await dispatch('connect', { guestCart: false })
+    }
+  },
   /** authorize the cart after user got logged in using the current cart token */
   authorize ({ dispatch }) {
-    Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
-      if (err) {
-        Logger.error(err, 'cart')()
-      }
-      if (!config.cart.bypassCartLoaderForAuthorizedUsers || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
-        dispatch('connect', { guestCart: false })
-      }
-    })
+    dispatch('connect', { guestCart: false })
   },
   /** connect cart to the server and set the cart token */
   async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false }) {

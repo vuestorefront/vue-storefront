@@ -11,7 +11,7 @@
             {{ segment.title }}
           </div>
           <div v-if="segment.value != null" class="col-xs align-right cl-accent h4">
-            {{ segment.value | price }}
+            {{ segment.value | price(storeView) }}
           </div>
         </div>
 
@@ -20,7 +20,7 @@
             {{ segment.title }}
           </div>
           <div class="col-xs align-right">
-            {{ segment.value | price }}
+            {{ segment.value | price(storeView) }}
           </div>
         </div>
       </div>
@@ -53,13 +53,19 @@
 
 <script>
 import { CartSummary } from '@vue-storefront/core/modules/checkout/components/CartSummary'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import Product from './Product'
 
 export default {
   components: {
     Product
   },
-  mixins: [CartSummary]
+  mixins: [CartSummary],
+  computed: {
+    storeView () {
+      return currentStoreView()
+    }
+  }
 }
 </script>
 

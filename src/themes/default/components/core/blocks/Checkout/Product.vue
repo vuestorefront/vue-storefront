@@ -40,14 +40,14 @@
         </div>
         <div class="col-xs-12 col-md-3 serif">
           <div v-if="isOnline && product.totals">
-            <span class="h4 cl-error" v-if="product.totals.discount_amount">{{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }} </span>
-            <span class="price-original h5" v-if="product.totals.discount_amount">{{ product.totals.row_total_incl_tax | price }}</span>
-            <span v-if="!product.totals.discount_amount" class="h4">{{ product.totals.row_total_incl_tax | price }}</span>
+            <span class="h4 cl-error" v-if="product.totals.discount_amount">{{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price(storeView) }} </span>
+            <span class="price-original h5" v-if="product.totals.discount_amount">{{ product.totals.row_total_incl_tax | price(storeView) }}</span>
+            <span v-if="!product.totals.discount_amount" class="h4">{{ product.totals.row_total_incl_tax | price(storeView) }}</span>
           </div>
           <div v-else>
-            <span class="h4 cl-error" v-if="product.special_price">{{ product.priceInclTax * product.qty | price }} </span>
-            <span class="price-original h5" v-if="product.special_price">{{ product.originalPriceInclTax * product.qty | price }}</span>
-            <span v-if="!product.special_price" class="h4">{{ product.priceInclTax * product.qty | price }}</span>
+            <span class="h4 cl-error" v-if="product.special_price">{{ product.priceInclTax * product.qty | price(storeView) }} </span>
+            <span class="price-original h5" v-if="product.special_price">{{ product.originalPriceInclTax * product.qty | price(storeView) }}</span>
+            <span v-if="!product.special_price" class="h4">{{ product.priceInclTax * product.qty | price(storeView) }}</span>
           </div>
         </div>
       </div>
@@ -59,6 +59,7 @@
 import { Product } from '@vue-storefront/core/modules/checkout/components/Product'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 import ProductImage from 'theme/components/core/ProductImage'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   computed: {
@@ -70,6 +71,9 @@ export default {
         loading: this.thumbnail,
         src: this.thumbnail
       }
+    },
+    storeView () {
+      return currentStoreView()
     }
   },
   mixins: [Product],
