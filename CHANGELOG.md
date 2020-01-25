@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix low-quality images styles - @przspa (#3906)
 - Fix page-not-found redirect in dispatcher - @gibkigonzo (#3956)
 - Fix hiding overlay for newsletter modal - @gibkigonzo (#3970)
+- Fix problem with storeView as dependency in filters - @gibkigonzo (#3968)
 
 
 ## [1.10.5] - 28.11.2019

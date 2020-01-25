@@ -55,13 +55,13 @@
                 {{ item.sku }}
               </td>
               <td class="fs-medium lh25" :data-th="$t('Price')">
-                {{ item.price_incl_tax | price }}
+                {{ item.price_incl_tax | price(storeView) }}
               </td>
               <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">
                 {{ item.qty_ordered }}
               </td>
               <td class="fs-medium lh25" :data-th="$t('Subtotal')">
-                {{ item.row_total_incl_tax | price }}
+                {{ item.row_total_incl_tax | price(storeView) }}
               </td>
             </tr>
           </tbody>
@@ -70,31 +70,31 @@
               <td colspan="4" class="align-right">
                 {{ $t('Subtotal') }}
               </td>
-              <td>{{ order.subtotal | price }}</td>
+              <td>{{ order.subtotal | price(storeView) }}</td>
             </tr>
             <tr>
               <td colspan="4" class="align-right">
                 {{ $t('Shipping') }}
               </td>
-              <td>{{ order.shipping_amount | price }}</td>
+              <td>{{ order.shipping_amount | price(storeView) }}</td>
             </tr>
             <tr>
               <td colspan="4" class="align-right">
                 {{ $t('Tax') }}
               </td>
-              <td>{{ order.tax_amount + order.discount_tax_compensation_amount | price }}</td>
+              <td>{{ order.tax_amount + order.discount_tax_compensation_amount | price(storeView) }}</td>
             </tr>
             <tr v-if="order.discount_amount">
               <td colspan="4" class="align-right">
                 {{ $t('Discount') }}
               </td>
-              <td>{{ order.discount_amount | price }}</td>
+              <td>{{ order.discount_amount | price(storeView) }}</td>
             </tr>
             <tr>
               <td colspan="4" class="align-right">
                 {{ $t('Grand total') }}
               </td>
-              <td>{{ order.grand_total | price }}</td>
+              <td>{{ order.grand_total | price(storeView) }}</td>
             </tr>
           </tfoot>
         </table>
@@ -139,11 +139,17 @@
 <script>
 import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
 import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   mixins: [MyOrder],
   components: {
     ReturnIcon
+  },
+  computed: {
+    storeView () {
+      return currentStoreView()
+    }
   }
 }
 </script>
