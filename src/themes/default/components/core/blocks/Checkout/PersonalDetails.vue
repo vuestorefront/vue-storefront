@@ -159,7 +159,7 @@
       <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-11 col-sm-9 col-md-10">
         <div class="row my30">
-          <div class="col-xs-12 col-md-7 px20 button-container">
+          <div class="col-xs-12 col-xl-7 px20 button-container">
             <button-full
               data-testid="personalDetailsSubmit"
               @click.native="sendDataToCheckout"
@@ -169,7 +169,7 @@
             </button-full>
           </div>
           <div
-            class="col-xs-12 col-md-5 center-xs end-md"
+            class="col-xs-12 col-xl-5 center-xs end-xl"
             v-if="!currentUser"
           >
             <p class="h4 cl-accent">
