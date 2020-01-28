@@ -37,6 +37,7 @@
 <script>
 
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import {reviewJsonLd} from '@vue-storefront/core/helpers'
 export default {
   props: {
     perPage: {
@@ -88,23 +89,7 @@ export default {
       return currentStoreView()
     },
     getJsonLd () {
-      const { title, detail } = this.itemsPerPage
-      const jsonLd = this.itemsPerPage.map(({title, detail, nickname, created_at}) => (
-        {
-          '@context': 'http://schema.org/',
-          '@type': 'Review',
-          reviewAspect: title,
-          reviewBody: detail,
-          datePublished: created_at,
-          author: nickname,
-          itemReviewed: {
-            '@type': 'Product',
-            name: this.productName
-          }
-        }
-      )
-      )
-      return jsonLd
+      return reviewJsonLd(this.itemsPerPage, this.productName)
     }
   },
   methods: {

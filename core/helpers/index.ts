@@ -253,3 +253,57 @@ export function extendStore (moduleName: string | string[], module: any) {
   store.unregisterModule(moduleName)
   store.registerModule(moduleName, extendedModule)
 }
+
+export function reviewJsonLd (reviews, name) {
+  return reviews.map(({title, detail, nickname, created_at}) => (
+    {
+      '@context': 'http://schema.org/',
+      '@type': 'Review',
+      reviewAspect: title,
+      reviewBody: detail,
+      datePublished: created_at,
+      author: nickname,
+      itemReviewed: {
+        '@type': 'Product',
+        name
+      }
+    }
+  )
+  )
+}
+
+export function productJsonLd ({ category, image, name, id, sku, mpn, description, price, url_path, stock, is_in_stock }, color, material, priceCurrency) {
+  return {
+    '@context': 'http://schema.org',
+    '@type': 'Product',
+    category: category
+      ? category
+        .map(({ name }) => name || null)
+        .filter(name => name !== null)
+      : null,
+    color,
+    description,
+    image,
+    itemCondition: 'http://schema.org/NewCondition',
+    material,
+    name,
+    productID: id,
+    sku,
+    mpn,
+    offers: {
+      '@type': 'Offer',
+      category: category
+        ? category
+          .map(({ name }) => name || null)
+          .filter(name => name !== null)
+        : null,
+      mpn,
+      url: url_path,
+      priceCurrency,
+      price,
+      itemCondition: 'https://schema.org/NewCondition',
+      availability: stock && is_in_stock ? 'InStock' : 'OutOfStock',
+      sku
+    }
+  }
+}

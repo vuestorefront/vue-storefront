@@ -230,7 +230,7 @@ import { htmlDecode } from '@vue-storefront/core/filters'
 import { ReviewModule } from '@vue-storefront/core/modules/review'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
 import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
-import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
+import { onlineHelper, isServer, productJsonLd } from '@vue-storefront/core/helpers'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
 export default {
@@ -288,11 +288,6 @@ export default {
     isOnline (value) {
       return onlineHelper.isOnline
     },
-    structuredData () {
-      return {
-        availability: this.getCurrentProduct.stock && this.getCurrentProduct.stock.is_in_stock ? 'InStock' : 'OutOfStock'
-      }
-    },
     getProductOptions () {
       if (
         this.getCurrentProduct.errors &&
@@ -333,41 +328,7 @@ export default {
       return currentStoreView()
     },
     getJsonLd () {
-      const { category, image, name, id, sku, mpn, description, material, price } = this.getCurrentProduct
-      const jsonLd = {
-        '@context': 'http://schema.org',
-        '@type': 'Product',
-        category: category
-          ? category
-            .map(({ name }) => name || null)
-            .filter(name => name !== null)
-          : null,
-        color: this.getCurrentProductConfiguration.label ? this.getCurrentProductConfiguration.label : null,
-        description,
-        image,
-        itemCondition: 'http://schema.org/NewCondition',
-        material: this.getMaterials(material),
-        name,
-        productID: id,
-        sku,
-        mpn,
-        offers: {
-          '@type': 'Offer',
-          category: category
-            ? category
-              .map(({ name }) => name || null)
-              .filter(name => name !== null)
-            : null,
-          mpn,
-          url: this.getCurrentProduct.url_path,
-          priceCurrency: this.$store.state.storeView.i18n.currencyCode,
-          price,
-          itemCondition: 'https://schema.org/NewCondition',
-          availability: this.structuredData.availability,
-          sku: this.getCurrentProduct.sku
-        }
-      }
-      return jsonLd
+      return productJsonLd(this.getCurrentProduct, this.getCurrentProductConfiguration.color.label, this.getMaterials(this.getCurrentProduct.material), this.$store.state.storeView.i18n.currencyCode)
     }
   },
   async mounted () {
