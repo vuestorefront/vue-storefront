@@ -53,7 +53,6 @@ const actions: ActionTree<OrderState, RootState> = {
   async processOrder ({ commit, dispatch }, { newOrder, currentOrderHash }) {
     const order = { ...newOrder, transmited: true }
     const task = await OrderService.placeOrder(order)
-    EventBus.$emit('notification-progress-stop')
 
     if (task.resultCode === 200) {
       dispatch('enqueueOrder', { newOrder: order })
@@ -61,7 +60,7 @@ const actions: ActionTree<OrderState, RootState> = {
       commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: task.result })
       orderHooksExecutors.afterPlaceOrder({ order, task })
       EventBus.$emit('order-after-placed', { order, confirmation: task.result })
-
+      EventBus.$emit('notification-progress-stop')
       return task
     }
 
@@ -71,10 +70,10 @@ const actions: ActionTree<OrderState, RootState> = {
       Logger.error('Internal validation error; Order entity is not compliant with the schema: ' + JSON.stringify(task.result), 'orders')()
       dispatch('notification/spawnNotification', notifications.internalValidationError(), { root: true })
       dispatch('enqueueOrder', { newOrder: order })
-
+      EventBus.$emit('notification-progress-stop')
       return task
     }
-
+    EventBus.$emit('notification-progress-stop')
     throw new Error('Unhandled place order request error')
   },
   handlePlacingOrderFailed ({ commit, dispatch }, { newOrder, currentOrderHash }) {
