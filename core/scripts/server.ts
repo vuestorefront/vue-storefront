@@ -208,7 +208,7 @@ app.get('*', (req, res, next) => {
       if (config.server.useOutputCache && cache) {
         cache.set(
           'page:' + req.url,
-          { headers: res.getHeaders(), body: output },
+          { headers: res.getHeaders(), body: output, httpCode: res.statusCode },
           tagsArray
         ).catch(errorHandler)
       }
@@ -249,6 +249,11 @@ app.get('*', (req, res, next) => {
             }
           }
           res.setHeader('X-VS-Cache', 'Hit')
+
+          if (output.httpCode) {
+            res.status(output.httpCode)
+          }
+
           if (output.body) {
             res.end(output.body)
           } else {
