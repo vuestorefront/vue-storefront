@@ -19,15 +19,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `amp-renderer` module has been disabled by default to save the bundle size; If you'd like to enable it uncomment the module from the `src/modules` and uncomment the `product-amp` and `category-amp` links that are added to the `<head>` section in the `src/themes/default/Product.vue` and `src/themes/default/Category.vue`
 - Reset Password confirmation page - @Fifciu (#2576)
 - Add `Intl.NumberFormat()`/`toLocaleString()` via polyfill support in NodeJs - @cewald (#3836)
+- Added `saveBandwidthOverCache` parameter for skipping caching for products data - @andrzejewsky (#3706)
+- New zoom effect for product gallery images - @Michal-Dziedzinski (#2755)
 
 ### Fixed
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
 - Revert init filters in Vue app - @gibkigonzo (#3929)
+- Fix overlapping text in PersonalDetails component - @jakubmakielkowski (#4024)
+- Redirect from checkout to home with a proper store code - @Fifciu
 
 ### Changed / Improved
 - Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)
 - Remove commit register mapping - @gibkigonzo (#3875)
 - Improved method `findConfigurableChildAsync` - find variant with lowest price - @gibkigonzo (#3939)
+- Removed `product/loadConfigurableAttributes` calls - @andrzejewsky (#3336)
 
 ## [1.11.0] - 2019.12.20
 
