@@ -9,72 +9,55 @@
         <div class="accordion__item">
           <div class="accordion__content">
             <p class="content">
-              {{ order.firstName }} {{ order.lastName }}<br />
+              {{ personalDetails.firstName }} {{ personalDetails.lastName }}<br />
             </p>
             <p class="content">
-              {{ order.email }}
+              {{ personalDetails.email }}
             </p>
           </div>
-          <SfButton
-            class="sf-button--text accordion__edit"
-            @click="$emit('click:edit', 0)"
-            >Edit</SfButton
-          >
+          <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 0)">Edit</SfButton>
         </div>
       </SfAccordionItem>
       <SfAccordionItem header="Shipping address">
         <div class="accordion__item">
           <div class="accordion__content">
             <p class="content">
-              <span class="content__label">{{ shippingMethod.label }}</span
-              ><br />
-              {{ shipping.streetName }} {{ shipping.apartment }},
-              {{ shipping.zipCode }}<br />
-              {{ shipping.city }}, {{ shipping.country }}
+              <span class="content__label">{{ getShippingMethodName(chosenShippingMethod) }}</span><br />
+              {{ shippingDetails.streetName }} {{ shippingDetails.apartment }},
+              {{ shippingDetails.zipCode }}<br />
+              {{ shippingDetails.city }}, {{ shippingDetails.country }}
             </p>
-            <p class="content">{{ shipping.phoneNumber }}</p>
+            <p class="content">{{ shippingDetails.phoneNumber }}</p>
           </div>
-          <SfButton
-            class="sf-button--text accordion__edit"
-            @click="$emit('click:edit', 1)"
-            >Edit</SfButton
+          <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 1)">Edit</SfButton
           >
         </div>
       </SfAccordionItem>
       <SfAccordionItem header="Billing address">
         <div class="accordion__item">
           <div class="accordion__content">
-            <p v-if="payment.sameAsShipping" class="content">
+            <p v-if="billingSameAsShipping" class="content">
               Same as shipping address
             </p>
             <template v-else>
               <p class="content">
-                <span class="content__label">{{ payment.shippingMethod }}</span
-                ><br />
-                {{ payment.streetName }} {{ payment.apartment }},
-                {{ payment.zipCode }}<br />
-                {{ payment.city }}, {{ payment.country }}
+                <span class="content__label">{{ chosenPaymentMethod.label }}</span><br />
+                {{ billingDetails.streetName }} {{ billingDetails.apartment }},
+                {{ billingDetails.zipCode }}<br />
+                {{ billingDetails.city }}, {{ billingDetails.country }}
               </p>
-              <p class="content">{{ payment.phoneNumber }}</p>
+              <p class="content">{{ billingDetails.phoneNumber }}</p>
             </template>
           </div>
-          <SfButton
-            class="sf-button--text accordion__edit"
-            @click="$emit('click:edit', 2)"
-            >Edit</SfButton
-          >
+          <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 2)">Edit</SfButton>
         </div>
       </SfAccordionItem>
       <SfAccordionItem header="Payment method">
         <div class="accordion__item">
           <div class="accordion__content">
-            <p class="content">{{ paymentMethod.label }}</p>
+            <p class="content">{{ chosenPaymentMethod.label }}</p>
           </div>
-          <SfButton
-            class="sf-button--text accordion__edit"
-            @click="$emit('click:edit', 2)"
-            >Edit</SfButton
-          >
+          <SfButton class="sf-button--text accordion__edit" @click="$emit('click:edit', 2)">Edit</SfButton>
         </div>
       </SfAccordionItem>
     </SfAccordion>
@@ -85,8 +68,9 @@
           v-for="tableHeader in tableHeaders"
           :key="tableHeader"
           class="table__header"
-          >{{ tableHeader }}</SfTableHeader
         >
+          {{ tableHeader }}
+        </SfTableHeader>
         <SfTableHeader class="table__action"></SfTableHeader>
       </SfTableHeading>
       <SfTableRow
@@ -101,12 +85,12 @@
           <div class="product-title">{{ product.title }}</div>
           <div class="product-sku">{{ product.sku }}</div>
         </SfTableData>
-        <SfTableData class="table__data">{{
-          product.configuration[1].value
-        }}</SfTableData>
-        <SfTableData class="table__data">{{
-          product.configuration[0].value
-        }}</SfTableData>
+        <SfTableData class="table__data">
+          {{ product.configuration[1].value}}
+        </SfTableData>
+        <SfTableData class="table__data">
+          {{ product.configuration[0].value }}
+        </SfTableData>
         <SfTableData class="table__data">{{ product.qty }}</SfTableData>
         <SfTableData class="table__data">
           <SfPrice
@@ -122,7 +106,7 @@
             color="#BEBFC4"
             role="button"
             class="button"
-            @click="removeProduct(index)"
+            @click="removeFromCart(product)"
           />
         </SfTableData>
       </SfTableRow>
@@ -139,18 +123,18 @@
             :value="subtotal"
             class="sf-property--full-width property"
           >
-            <template #name
-              ><span class="property__name">Subtotal</span></template
-            >
+            <template #name>
+              <span class="property__name">Subtotal</span>
+            </template>
           </SfProperty>
           <SfProperty
             name="Shipping"
-            :value="shippingMethod.price"
+            :value="getShippingMethodPrice(chosenShippingMethod)"
             class="sf-property--full-width property"
           >
-            <template #name
-              ><span class="property__name">Shipping</span></template
-            >
+            <template #name>
+              <span class="property__name">Shipping</span>
+            </template>
           </SfProperty>
           <SfProperty
             name="Total"
@@ -169,9 +153,9 @@
         </SfCheckbox>
       </div>
       <div class="summary__group">
-        <SfButton class="sf-button--full-width summary__action-button"
-          >Place my order</SfButton
-        >
+        <SfButton class="sf-button--full-width summary__action-button" @click="processOrder">
+          Place my order
+        </SfButton>
         <SfButton
           class="sf-button--full-width sf-button--text summary__action-button summary__action-button--secondary"
           @click="$emit('click:back')"
@@ -182,6 +166,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import {
   SfHeading,
@@ -193,10 +178,20 @@ import {
   SfPrice,
   SfProperty,
   SfAccordion
-} from "@storefront-ui/vue";
+} from "@storefront-ui/vue"
+import {
+  getShippingMethodName,
+  getShippingMethodPrice,
+  getCartProducts,
+  getCartTotalPrice,
+  getCartSubtotalPrice
+} from '@vue-storefront/commercetools-helpers'
+import { ref, computed } from '@vue/composition-api'
+import { useCheckout, useCart } from '@vue-storefront/commercetools-composables'
+
 export default {
-  name: "ReviewOrder",
-  components: {
+  name: 'ReviewOrder',
+    components: {
     SfHeading,
     SfTable,
     SfCheckbox,
@@ -207,80 +202,50 @@ export default {
     SfProperty,
     SfAccordion
   },
-  props: {
-    order: {
-      type: Object,
-      default: () => ({})
-    },
-    shippingMethods: {
-      type: Array,
-      default: () => []
-    },
-    paymentMethods: {
-      type: Array,
-      default: () => []
+  setup(props, context) {
+    context.emit('changeStep', 3)
+    const billingSameAsShipping = ref(false)
+    const terms = ref(false)
+    const { cart, removeFromCart, updateQuantity } = useCart()
+    const products = computed(() => getCartProducts(cart.value, ['color', 'size']))
+    const subtotal = computed(() => getCartSubtotalPrice(cart.value))
+    const total = computed(() => getCartTotalPrice(cart.value))
+    const {
+      personalDetails,
+      shippingDetails,
+      billingDetails,
+      chosenShippingMethod,
+      chosenPaymentMethod,
+      placeOrder
+    } = useCheckout()
+
+    const processOrder = async () => {
+      await placeOrder()
+      context.emit('nextStep')
     }
-  },
-  data() {
+
     return {
-      terms: false,
+      products,
+      personalDetails,
+      shippingDetails,
+      billingDetails,
+      chosenShippingMethod,
+      chosenPaymentMethod,
+      getShippingMethodName,
+      getShippingMethodPrice,
+      billingSameAsShipping,
+      terms,
+      total,
+      subtotal,
+      removeFromCart,
+      processOrder,
       tableHeaders: ["Description", "Colour", "Size", "Quantity", "Amount"]
-    };
-  },
-  computed: {
-    products() {
-      return this.order.products;
-    },
-    shipping() {
-      return this.order.shipping;
-    },
-    shippingMethod() {
-      const shippingMethod = this.shipping.shippingMethod;
-      const method = this.shippingMethods.find(
-        method => method.value === shippingMethod
-      );
-      return method ? method : { price: "$0.00" };
-    },
-    payment() {
-      return this.order.payment;
-    },
-    paymentMethod() {
-      const paymentMethod = this.payment.paymentMethod;
-      const method = this.paymentMethods.find(
-        method => method.value === paymentMethod
-      );
-      return method ? method : { label: "" };
-    },
-    subtotal() {
-      const products = this.products;
-      const subtotal = products.reduce((previous, current) => {
-        const qty = current.qty;
-        const price = current.price.special
-          ? current.price.special
-          : current.price.regular;
-        const total = qty * parseFloat(price.replace("$", ""));
-        return previous + total;
-      }, 0);
-      return "$" + subtotal.toFixed(2);
-    },
-    total() {
-      const subtotal = parseFloat(this.subtotal.replace("$", ""));
-      const shipping = parseFloat(this.shippingMethod.price.replace("$", ""));
-      const total = subtotal + (isNaN(shipping) ? 0 : shipping);
-      return "$" + total.toFixed(2);
-    }
-  },
-  methods: {
-    removeProduct(index) {
-      const order = { ...this.order };
-      const products = [...order.products];
-      products.splice(index, 1);
-      order.products = products;
-      this.$emit("update:order", order);
     }
   }
-};
+}
+
 </script>
+
 <style lang="scss" scoped>
 @import "~@storefront-ui/shared/styles/variables";
 

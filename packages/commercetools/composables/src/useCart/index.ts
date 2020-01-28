@@ -9,7 +9,7 @@ import { ProductVariant, Cart } from './../types/GraphQL'
 import { enhanceCart } from './../helpers/internals'
 import loadCurrentCart from './currentCart'
 
-const cart: Ref<Cart> = ref<Cart>(null)
+export const cart: Ref<Cart> = ref<Cart>(null)
 const loading: Ref<boolean> = ref<boolean>(false)
 
 type CartRef = Ref<Cart>

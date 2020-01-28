@@ -27,6 +27,39 @@ export default {
         path: '/p/:slug/',
         component: resolve(__dirname, 'pages/Product.vue')
       })
+
+      routes.push({
+        name: 'checkout',
+        path: '/checkout',
+        component: resolve(__dirname, 'pages/Checkout.vue'),
+        children: [
+          {
+            path: 'personal-details',
+            name: 'personal-details',
+            component: resolve(__dirname, 'pages/Checkout/PersonalDetails.vue'),
+          },
+          {
+            path: 'shipping',
+            name: 'shipping',
+            component: resolve(__dirname, 'pages/Checkout/Shipping.vue'),
+          },
+          {
+            path: 'payment',
+            name: 'payment',
+            component: resolve(__dirname, 'pages/Checkout/Payment.vue'),
+          },
+          {
+            path: 'order-review',
+            name: 'order-review',
+            component: resolve(__dirname, 'pages/Checkout/OrderReview.vue'),
+          },
+          {
+            path: 'thank-you',
+            name: 'thank-you',
+            component: resolve(__dirname, 'pages/Checkout/ThankYou.vue'),
+          }
+        ]
+      })
     }
   },
   buildModules: [

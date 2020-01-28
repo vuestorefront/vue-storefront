@@ -19,4 +19,5 @@ setup({
   },
   locale: 'en',
   currency: 'USD',
+  country: 'US'
 })

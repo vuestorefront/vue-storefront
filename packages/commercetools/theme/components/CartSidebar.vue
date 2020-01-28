@@ -19,8 +19,8 @@
                 :regular-price="product.price.regular | price"
                 :special-price="product.price.special | price"
                 :stock="99999"
-                @input="updateQuantity(product)"
                 v-model="product.qty"
+                @input="updateQuantity(product)"
                 @click:remove="removeFromCart(product)"
                 class="collected-product"
               >
@@ -51,7 +51,7 @@
               <SfPrice :regular="totalPrice | price" class="sf-price--big" />
             </template>
           </SfProperty>
-          <nuxt-link to="/checkout">
+          <nuxt-link to="/checkout/personal-details">
             <SfButton class="sf-button--full-width">Go to checkout</SfButton>
           </nuxt-link>
         </div>
@@ -80,8 +80,13 @@ import {
 } from '@storefront-ui/vue'
 import { computed } from '@vue/composition-api'
 import { useCart } from '@vue-storefront/commercetools-composables'
-import { getCartProducts } from '@vue-storefront/commercetools-helpers'
 import uiState from '~/assets/ui-state'
+import {
+  getCartProducts,
+  getCartSubtotalPrice,
+  getCartTotalItems
+} from '@vue-storefront/commercetools-helpers'
+
 const { isCartSidebarOpen, toggleCartSidebar } = uiState
 
 export default {
@@ -101,36 +106,20 @@ export default {
   },
   setup() {
     const { cart, removeFromCart, updateQuantity } = useCart()
-
     const products = computed(() => getCartProducts(cart.value, ['color', 'size']))
+    const totalPrice = computed(() => getCartSubtotalPrice(cart.value))
+    const totalItems = computed(() => getCartTotalItems(cart.value))
 
     return {
       products,
       removeFromCart,
       updateQuantity,
       isCartSidebarOpen,
-      toggleCartSidebar
+      toggleCartSidebar,
+      totalPrice,
+      totalItems
     };
-  },
-  computed: {
-    totalItems() {
-      return this.products.reduce(
-        (totalItems, product) => totalItems + parseInt(product.qty, 10),
-        0
-      );
-    },
-    totalPrice() {
-      return this.products
-        .reduce((totalPrice, product) => {
-          const price = product.price.special
-            ? product.price.special
-            : product.price.regular;
-          const summary = parseFloat(price).toFixed(2) * product.qty;
-          return totalPrice + summary;
-        }, 0)
-        .toFixed(2);
-    }
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>

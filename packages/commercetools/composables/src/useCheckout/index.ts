@@ -1,52 +1,61 @@
+/* istanbul ignore file */
+
 import { UseCheckout } from '@vue-storefront/interfaces';
-import { ref, reactive } from '@vue/composition-api'
+import { placeOrder as processOrder, getShippingMethods } from '@vue-storefront/commercetools-api';
+import { ref, Ref, watch } from '@vue/composition-api'
+import { cart } from './../useCart'
+import { ShippingMethod, AddressInput, Customer } from '@vue-storefront/commercetools-api/lib/src/types/GraphQL';
 
-// TODO: Temporary interface. It should've been discussed and moved somewhere else
-interface PaymentMethod {
-  name: string
-}
-
-// TODO: Temporary interface. It should've been discussed and moved somewhere else
-interface ShippingMethod {
-
-}
-
-const PAYMENT_METHODS_MOCK: PaymentMethod[] = [
+const PAYMENT_METHODS_MOCK = [
   {
-    name: 'PayPal'
+    label: "Visa Debit",
+    value: "debit"
   },
   {
-    name: 'Skrill'
-  }
-]
-const SHIPPING_METHODS_MOCK: ShippingMethod[] = [
-  {
-    name: 'UPC'
+    label: "MasterCard",
+    value: "mastercard"
   },
   {
-    name: 'FedEx'
+    label: "Visa Electron",
+    value: "electron"
+  },
+  {
+    label: "Cash on delivery",
+    value: "cash"
+  },
+  {
+    label: "Check",
+    value: "check"
   }
 ]
+export const paymentMethods: Ref<any[]> = ref(PAYMENT_METHODS_MOCK)
+export const shippingMethods: Ref<any[]> = ref([])
+export const personalDetails: Ref<Customer> = ref({})
+export const shippingDetails: Ref<AddressInput> = ref({})
+export const billingDetails: Ref<AddressInput> = ref({})
+export const chosenPaymentMethod: Ref<string> = ref('')
+export const chosenShippingMethod: Ref<ShippingMethod> = ref({})
 
-export default function useCheckout (): UseCheckout<PaymentMethod[], ShippingMethod[], any, any, any, any, any, any, any, any> {
-  const paymentMethods = reactive([])
-  const shippingMethods = reactive([])
-  const personalDetails = ref(null)
-  const shippingDetails = ref(null)
-  const choosenPaymentMethod = ref(null)
-  const choosenShippingMethod = ref(null)
 
-  const setPersonalDetails = (details: any) => {
-    personalDetails.value = details
-  }
-  const setPaymentMethod = (paymentMethod: any) => {
-    choosenPaymentMethod.value = paymentMethod
-  }
-  const setShippingMethod = (shippingMethod: any) => {
-    choosenShippingMethod.value = shippingMethod
-  }
+ // TODO(CHECKOUT): selecting payment method
+export default function useCheckout (): UseCheckout<any, any, any, any, any, any, any, any> {
+  watch(async () => {
+    if (shippingMethods.value.length === 0) {
+      // TODO(CHECKOUT): Update shipping data for each update form
+      const shippingMethodsResponse = await getShippingMethods()
+      shippingMethods.value = shippingMethodsResponse.data.shippingMethods.results as any
+    }
+  })
+
+
   const placeOrder = async () => {
-    console.log('useCheckout:placeOrder')
+    const orderData = {
+      shippingDetails: shippingDetails.value,
+      billingDetails: billingDetails.value,
+      shippingMethod: chosenShippingMethod.value.id,
+    }
+
+    await processOrder(cart.value, orderData)
   }
 
   const loading = ref(true)
@@ -57,11 +66,9 @@ export default function useCheckout (): UseCheckout<PaymentMethod[], ShippingMet
     shippingMethods,
     personalDetails,
     shippingDetails,
-    choosenPaymentMethod,
-    choosenShippingMethod,
-    setPersonalDetails,
-    setPaymentMethod,
-    setShippingMethod,
+    billingDetails,
+    chosenPaymentMethod,
+    chosenShippingMethod,
     placeOrder,
     loading,
     error

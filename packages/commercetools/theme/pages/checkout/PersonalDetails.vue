@@ -6,21 +6,21 @@
     />
     <div class="form">
       <SfInput
-        v-model="firstName"
+        v-model="personalDetails.firstName"
         label="First name"
         name="firstName"
         class="form__element form__element--half"
         required
       />
       <SfInput
-        v-model="lastName"
+        v-model="personalDetails.lastName"
         label="Last name"
         name="lastName"
         class="form__element form__element--half form__element--half-even"
         required
       />
       <SfInput
-        v-model="email"
+        v-model="personalDetails.email"
         label="Your email"
         name="email"
         class="form__element"
@@ -33,14 +33,12 @@
           label="I want to create an account"
           class="form__checkbox"
         />
-        <SfButton class="sf-button--text info" @click="accountBenefits = true"
-          >+info</SfButton
-        >
+        <SfButton class="sf-button--text info" @click="accountBenefits = true">+info</SfButton>
       </div>
       <transition name="fade">
         <SfInput
           v-if="createAccount"
-          v-model="password"
+          v-model="personalDetails.password"
           type="password"
           label="Create Password"
           class="form__element"
@@ -48,14 +46,12 @@
         />
       </transition>
       <div class="form__action">
-        <SfButton
-          class="sf-button--full-width form__action-button"
-          @click="toShipping"
-          >Continue to shipping</SfButton
-        >
-        <SfButton
-          class="sf-button--full-width sf-button--text form__action-button form__action-button--secondary"
-          >or log in to your account</SfButton
+        <SfButton class="sf-button--full-width form__action-button" @click="$emit('nextStep')">
+          Continue to shipping
+        </SfButton>
+        <SfButton class="sf-button--full-width sf-button--text form__action-button form__action-button--secondary">
+          or log in to your account
+        </SfButton
         >
       </div>
     </div>
@@ -77,13 +73,13 @@
         class="characteristic"
       />
       <SfButton
-        class="sf-button--full-width color-secondary modal__button"
-        @click="accountBenefits = false"
-        >Ok</SfButton
-      >
+        class="sf-button--full-width color-secondary modal__button" @click="accountBenefits = false">
+        Ok
+      </SfButton>
     </SfModal>
   </div>
 </template>
+
 <script>
 import {
   SfInput,
@@ -93,6 +89,9 @@ import {
   SfModal,
   SfCharacteristic
 } from "@storefront-ui/vue";
+import { computed, ref } from '@vue/composition-api'
+import { useCheckout } from '@vue-storefront/commercetools-composables'
+
 export default {
   name: "PersonalDetails",
   components: {
@@ -103,54 +102,28 @@ export default {
     SfModal,
     SfCharacteristic
   },
-  props: {
-    order: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  data() {
+  setup(props, context) {
+    context.emit('changeStep', 0)
+    const { personalDetails } = useCheckout()
+    const accountBenefits = ref(false)
+    const createAccount = ref(false)
+
     return {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      createAccount: false,
-      accountBenefits: false,
+      personalDetails,
+      accountBenefits,
+      createAccount,
       characteristics: [
         { description: "Faster checkout", icon: "clock" },
         { description: "Full rewards program benefits", icon: "rewards" },
         { description: "Earn credits with every purchase", icon: "credits" },
         { description: "Manage your wishliste", icon: "heart" }
       ]
-    };
-  },
-  watch: {
-    order: {
-      handler(value) {
-        this.firstName = value.firstName;
-        this.lastName = value.lastName;
-        this.email = value.email;
-      },
-      immediate: true
-    },
-    createAccount(value) {
-      if (!value) this.password = "";
-    }
-  },
-  methods: {
-    toShipping() {
-      const order = { ...this.order };
-      order.firstName = this.firstName;
-      order.lastName = this.lastName;
-      order.email = this.email;
-      order.password = this.password;
-      order.createAccount = this.createAccount;
-      this.$emit("update:order", order);
     }
   }
-};
+}
+
 </script>
+
 <style lang="scss" scoped>
 @import "~@storefront-ui/shared/styles/variables";
 

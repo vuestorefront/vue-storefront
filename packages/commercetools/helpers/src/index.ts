@@ -1,5 +1,10 @@
-import { UiMediaGalleryItem, UiCategory, UiCartProduct, AgnosticProductAttribute } from '@vue-storefront/interfaces'
-import { ProductVariant, Image, Category, Cart, LineItem } from './types/GraphQL'
+import {
+  UiMediaGalleryItem,
+  UiCategory,
+  UiCartProduct,
+  AgnosticProductAttribute,
+} from '@vue-storefront/interfaces'
+import { ProductVariant, Image, Category, Cart, LineItem, ShippingMethod } from './types/GraphQL'
 import { formatAttributeList } from './_utils'
 
 // Product
@@ -99,3 +104,42 @@ export const getCartProducts = (cart: Cart, includeAttributes: string[] = []): U
   }))
 }
 
+export const getCartTotalPrice = (cart: Cart): number => {
+  if (!cart) {
+    return 0
+  }
+
+  const subtotal = cart.totalPrice.centAmount
+  const shipping = cart.shippingInfo ? cart.shippingInfo.price.centAmount : 0
+
+  return (shipping + subtotal) / 100
+}
+export const getCartSubtotalPrice = (cart: Cart): number => cart ? cart.totalPrice.centAmount / 100 : 0
+export const getCartShippingPrice = (cart: Cart): number => cart && cart.shippingInfo ? cart.shippingInfo.price.centAmount / 100 : 0
+export const getCartTotalItems = (cart: Cart): number => {
+  if (!cart) {
+    return 0
+  }
+
+  return cart.lineItems.reduce((previous, current) => previous + current.quantity, 0)
+}
+
+// ShippingMethod
+
+export const getShippingMethodId = (shippingMethod: ShippingMethod): string =>
+  shippingMethod ? shippingMethod.id : ''
+
+export const getShippingMethodName = (shippingMethod: ShippingMethod): string =>
+  shippingMethod ? shippingMethod.name : ''
+
+export const getShippingMethodDescription = (shippingMethod: ShippingMethod): string =>
+  shippingMethod ? shippingMethod.description : ''
+
+export const getShippingMethodPrice = (shippingMethod: ShippingMethod): number => {
+  if (!shippingMethod || !shippingMethod.zoneRates) {
+    return null
+  }
+
+  // TODO(CHECKOUT): cover the case with zones
+  return shippingMethod.zoneRates[0].shippingRates[0].price.centAmount / 100
+}

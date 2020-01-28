@@ -1,4 +1,4 @@
-import { CartUpdateAction } from '../../types/GraphQL'
+import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL'
 import { apolloClient, locale } from '../../index'
 import CreateCartMutation from './defaultMutation'
 import { CartMutationResponse } from './../../types/Api'
@@ -6,7 +6,7 @@ import { CartMutationResponse } from './../../types/Api'
 interface UpdateCart {
   id: string
   version: number
-  actions: CartUpdateAction[]
+  actions: CartUpdateAction[] | MyCartUpdateAction[]
 }
 
 const updateCart = async (cartData: UpdateCart): Promise<CartMutationResponse> => {

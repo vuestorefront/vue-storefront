@@ -82,22 +82,18 @@ export interface UseCheckout
   SHIPPING_METHODS,
   PERSONAL_DETAILS,
   SHIPPING_DETAILS,
+  BILLING_DETAILS,
   CHOOSEN_PAYMENT_METHOD,
   CHOOSEN_SHIPPING_METHOD,
-  SET_PERSONAL_DETAILS,
-  SET_PAYMENT_METHOD,
-  SET_SHIPPING_METHOD,
   PLACE_ORDER,
 > {
-  paymentMethods: PAYMENT_METHODS
-  shippingMethods: SHIPPING_METHODS
+  paymentMethods: Ref<PAYMENT_METHODS>
+  shippingMethods: Ref<SHIPPING_METHODS>
   personalDetails: PERSONAL_DETAILS
   shippingDetails: SHIPPING_DETAILS
-  choosenPaymentMethod: CHOOSEN_PAYMENT_METHOD
-  choosenShippingMethod: CHOOSEN_SHIPPING_METHOD
-  setPersonalDetails: SET_PERSONAL_DETAILS
-  setPaymentMethod: SET_PAYMENT_METHOD
-  setShippingMethod: SET_SHIPPING_METHOD
+  billingDetails: BILLING_DETAILS
+  chosenPaymentMethod: CHOOSEN_PAYMENT_METHOD
+  chosenShippingMethod: CHOOSEN_SHIPPING_METHOD
   placeOrder: PLACE_ORDER
   loading: Ref<boolean>
   error: any;
@@ -129,6 +125,7 @@ export interface UiCartProductConfiguration {
 
 export interface UiCartProductPrice {
   regular: number
+  special?: number
 }
 
 export interface UiCartProduct {

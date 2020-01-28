@@ -1,0 +1,13 @@
+{
+  "version": "v1",
+  "packages": {
+    "@storefront-ui/vue": {
+      "signature": "7fdb179f4a4b5c5931fc24631367dedc",
+      "pure": true
+    },
+    "@storefront-ui/shared": {
+      "signature": "27c2fb74ad2d943e3c9702906bfad62e",
+      "pure": true
+    }
+  }
+}
