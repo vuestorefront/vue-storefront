@@ -41,9 +41,15 @@ const actions: ActionTree<CheckoutState, RootState> = {
   },
   async load ({ commit }) {
     const checkoutStorage = StorageManager.get('checkout')
-    const personalDetails = await checkoutStorage.getItem('personal-details')
-    const shippingDetails = await checkoutStorage.getItem('shipping-details')
-    const paymentDetails = await checkoutStorage.getItem('payment-details')
+    const [
+      personalDetails,
+      shippingDetails,
+      paymentDetails
+    ] = await Promise.all([
+      checkoutStorage.getItem('personal-details'),
+      checkoutStorage.getItem('shipping-details'),
+      checkoutStorage.getItem('payment-details')
+    ])
 
     if (personalDetails) {
       commit(types.CHECKOUT_LOAD_PERSONAL_DETAILS, personalDetails)

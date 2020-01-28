@@ -37,6 +37,9 @@ export const Payment = {
       this.payment.paymentMethod = this.paymentMethods.length > 0 ? this.paymentMethods[0].code : 'cashondelivery'
     }
   },
+  beforeMount () {
+    this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
+  },
   mounted () {
     if (this.payment.firstName) {
       this.initializeBillingAddress()
@@ -46,6 +49,9 @@ export const Payment = {
       }
     }
     this.changePaymentMethod()
+  },
+  beforeDestroy () {
+    this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
   },
   watch: {
     shippingDetails: {
@@ -237,6 +243,9 @@ export const Payment = {
     changeCountry () {
       this.$store.dispatch('checkout/updatePaymentDetails', { country: this.payment.country })
       this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
+    },
+    onCheckoutLoad () {
+      this.payment = this.$store.getters['checkout/getPaymentDetails']
     }
   }
 }

@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed Stock logic not working with manage_stock set to false - @andrzejewsky - (#3957)
 - Support old price format in `ProductPrice` - @gibkigonzo (#3978)
 - Fixed product bundle comparison condition - @gk-daniel (#4004)
+- Add event callback for checkout load initial data - @gibkigonzo(#3985)
 - Fixed `Processing order...` modal closing too early - @grimasod (#4021)
 - Keep registered payment methods after `syncTotals`  - @grimasod (#4020)
 - Added status code to the cache content and use it in cache response - @resubaka (#4014)
