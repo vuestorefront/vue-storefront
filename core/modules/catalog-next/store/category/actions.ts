@@ -210,7 +210,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     const sorted = []
     for (const id of categoryHierarchyIds) {
       const index = categories.findIndex(cat => cat.id.toString() === id)
-      if (index >= 0 && (!omitCurrent || categories[index].id !== category.id)) {
+      if (index >= 0 && (!omitCurrent || categories[index].id !== category.id) && (entities && entities.category && categories[index].level >= entities.category.categoriesRootCategorylId)) {
         sorted.push(categories[index])
       }
     }
