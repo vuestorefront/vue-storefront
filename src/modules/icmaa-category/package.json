@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "axios": "^0.19.0"
+    "bodybuilder": "^2.2.20"
   },
   "devDependencies": {
     "@vue-storefront/core": "^1.11.0-rc.1"

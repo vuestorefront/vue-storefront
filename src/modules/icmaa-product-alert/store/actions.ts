@@ -5,7 +5,7 @@ import Product from '@vue-storefront/core/modules/catalog/types/Product'
 import ProductAlertState from '../types/ProductAlertState'
 import ProductAlertService from '../data-resolver/ProductAlertService'
 import * as types from './mutation-types'
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { SearchQuery } from 'storefront-query-builder'
 
 const actions: ActionTree<ProductAlertState, RootState> = {
   async addProductStockAlert ({ commit }, productId: string): Promise<boolean> {

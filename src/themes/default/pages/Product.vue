@@ -46,16 +46,16 @@
                 >
                   <span
                     class="h2 cl-mine-shaft weight-700"
-                  >{{ getCurrentProduct.price_incl_tax * getCurrentProduct.qty | price }}</span>&nbsp;
+                  >{{ getCurrentProduct.price_incl_tax * getCurrentProduct.qty | price(storeView) }}</span>&nbsp;
                   <span
                     class="price-original h3"
-                  >{{ getCurrentProduct.original_price_incl_tax * getCurrentProduct.qty | price }}</span>
+                  >{{ getCurrentProduct.original_price_incl_tax * getCurrentProduct.qty | price(storeView) }}</span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
                   v-if="!getCurrentProduct.special_price && getCurrentProduct.price_incl_tax"
                 >
-                  {{ getCurrentProduct.qty > 0 ? getCurrentProduct.price_incl_tax * getCurrentProduct.qty : getCurrentProduct.price_incl_tax | price }}
+                  {{ getCurrentProduct.qty > 0 ? getCurrentProduct.price_incl_tax * getCurrentProduct.qty : getCurrentProduct.price_incl_tax | price(storeView) }}
                 </div>
               </div>
               <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
@@ -333,6 +333,9 @@ export default {
       return this.quantityError ||
         this.isStockInfoLoading ||
         (this.isOnline && !this.maxQuantity && this.isSimpleOrConfigurable)
+    },
+    storeView () {
+      return currentStoreView()
     }
   },
   async mounted () {
@@ -420,7 +423,7 @@ export default {
   metaInfo () {
     const storeView = currentStoreView()
     return {
-      link: [
+      /* link: [
         { rel: 'amphtml',
           href: this.$router.resolve(localizedRoute({
             name: this.getCurrentProduct.type_id + '-product-amp',
@@ -431,7 +434,7 @@ export default {
             }
           }, storeView.storeCode)).href
         }
-      ],
+      ], */
       title: htmlDecode(this.getCurrentProduct.meta_title || this.getCurrentProduct.name),
       meta: this.getCurrentProduct.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.getCurrentProduct.meta_description) }] : []
     }

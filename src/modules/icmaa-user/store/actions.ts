@@ -11,7 +11,7 @@ import { userHooksExecutors } from '@vue-storefront/core/modules/user/hooks'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { SearchQuery } from 'storefront-query-builder'
 import asyncForEach from 'icmaa-config/helpers/asyncForEach'
 
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';

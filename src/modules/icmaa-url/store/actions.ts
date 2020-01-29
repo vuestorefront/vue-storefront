@@ -4,7 +4,7 @@ import { PageStateItem } from 'icmaa-cms/types/PageState'
 import { Competition as CompetitionStateItem } from 'icmaa-competitions/types/CompetitionsState'
 import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import { removeHashFromRoute } from '../helpers'
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
 
 interface UrlMapperOptions {
@@ -20,47 +20,6 @@ const getUrlPathFromUrl = (url): string => {
 const getLocalizedDispatcherRouteName = (name) => {
   const { storeCode, appendStoreCode } = currentStoreView()
   return localizedDispatcherRouteName(name, storeCode, appendStoreCode)
-}
-
-/**
- * This is copy of the product mapping part from @vue-storefront/core/modules/url/store/actions.ts
- */
-const forProduct = async ({ dispatch }, { urlPath, params }: UrlMapperOptions) => {
-  const query = new SearchQuery()
-  const productSlug = urlPath.split('/').reverse()[0]
-  query.applyFilter({key: 'url_path', value: {'eq': productSlug}})
-  const products = await dispatch('product/list', { query }, { root: true })
-  if (products && products.items && products.items.length) {
-    const product = products.items[0]
-    return {
-      name: getLocalizedDispatcherRouteName(product.type_id + '-product'),
-      params: {
-        slug: product.slug,
-        parentSku: product.sku,
-        childSku: params['childSku'] ? params['childSku'] : product.sku
-      }
-    }
-  }
-}
-
-/**
- * This is copy of the category mapping part from @vue-storefront/core/modules/url/store/actions.ts
- */
-const forCategory = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
-  try {
-    const searchOptions = { filters: { 'url_path': urlPath } }
-    const category = await dispatch('category-next/loadCategory', searchOptions, { root: true })
-    if (category !== null) {
-      return {
-        name: getLocalizedDispatcherRouteName('category'),
-        params: {
-          slug: category.slug
-        }
-      }
-    }
-  } catch {
-    return undefined
-  }
 }
 
 /**
@@ -121,7 +80,7 @@ const forCmsCompetitionsUrls = async ({ dispatch }, { urlPath }: UrlMapperOption
 }
 
 export const actions: ActionTree<UrlState, any> = {
-  async mappingFallback ({ dispatch }, { url, params }: { url: string, params: any}) {
+  async mapFallbackUrl ({ dispatch }, { url, params }: { url: string, params: any}) {
     const urlPath = getUrlPathFromUrl(url)
     const paramsObj = { urlPath, params }
 
@@ -130,14 +89,14 @@ export const actions: ActionTree<UrlState, any> = {
       return customUrl
     }
 
-    const product = await forProduct({ dispatch }, paramsObj)
-    if (product) {
-      return product
-    }
-
-    const category = await forCategory({ dispatch }, paramsObj)
-    if (category) {
-      return category
+    // This is the code of VSF
+    const fallbackData = await dispatch('getFallbackByUrl', { url: urlPath })
+    if (fallbackData) {
+      const [result] = await Promise.all([
+        dispatch('transformFallback', { ...fallbackData, params }),
+        dispatch('saveFallbackData', fallbackData)
+      ])
+      return result
     }
 
     const cmsPageUrl = await forCmsPageUrls({ dispatch }, paramsObj)
@@ -150,6 +109,13 @@ export const actions: ActionTree<UrlState, any> = {
       return cmsCompetitionsUrl
     }
 
-    throw new Error('No route found for:' + url)
+    Logger.error('No route found for:', 'icmaa-url', url)()
+
+    return {
+      name: 'page-not-found',
+      params: {
+        slug: 'page-not-found'
+      }
+    }
   }
 }

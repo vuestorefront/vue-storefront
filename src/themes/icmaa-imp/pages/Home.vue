@@ -24,7 +24,7 @@ import { onlineHelper } from '@vue-storefront/core/helpers'
 import LazyHydrate from 'vue-lazy-hydration'
 import Teaser from 'theme/components/core/blocks/Teaser/Teaser'
 import LogoLine from 'theme/components/core/blocks/CategoryExtras/LogoLineBlock'
-import ProductListingWidget from 'theme/components/core/ProductListingWidget'
+import ProductListingWidget from 'icmaa-category/components/core/ProductListingWidget'
 
 export default {
   components: {

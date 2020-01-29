@@ -19,7 +19,7 @@ import { mapGetters } from 'vuex'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { ReviewModule } from '@vue-storefront/core/modules/review'
 import { IcmaaExtendedReviewModule } from 'icmaa-review'
-import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
+import { SearchQuery } from 'storefront-query-builder'
 import last from 'lodash-es/last'
 
 import Headline from 'theme/components/core/blocks/MyAccount/Headline'
