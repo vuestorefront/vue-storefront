@@ -272,7 +272,22 @@ export function reviewJsonLd (reviews, name) {
   )
 }
 
-export function productJsonLd ({ category, image, name, id, sku, mpn, description, price, url_path, stock, is_in_stock }, color, material, priceCurrency) {
+function getMaterials (material, customAttributes) {
+  const materialsArr = []
+  if (customAttributes && customAttributes.length && customAttributes.length > 0) {
+    const materialOptions = customAttributes.find(({attribute_code}) => attribute_code === 'material').options
+    for (let key in materialOptions) {
+      material.forEach(el => {
+        if (String(el) === materialOptions[key].value) {
+          materialsArr.push(materialOptions[key].label)
+        }
+      })
+    }
+  }
+  return materialsArr
+}
+
+export function productJsonLd ({ category, image, name, id, sku, mpn, description, price, url_path, stock, is_in_stock, material }, color, priceCurrency, customAttributes) {
   return {
     '@context': 'http://schema.org',
     '@type': 'Product',
@@ -285,7 +300,7 @@ export function productJsonLd ({ category, image, name, id, sku, mpn, descriptio
     description,
     image,
     itemCondition: 'http://schema.org/NewCondition',
-    material,
+    material: getMaterials(material, customAttributes),
     name,
     productID: id,
     sku,

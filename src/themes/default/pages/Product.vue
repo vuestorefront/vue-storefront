@@ -328,7 +328,7 @@ export default {
       return currentStoreView()
     },
     getJsonLd () {
-      return productJsonLd(this.getCurrentProduct, this.getCurrentProductConfiguration.color.label, this.getMaterials(this.getCurrentProduct.material), this.$store.state.storeView.i18n.currencyCode)
+      return productJsonLd(this.getCurrentProduct, this.getCurrentProductConfiguration.color.label, this.$store.state.storeView.i18n.currencyCode, this.getCustomAttributes)
     }
   },
   async mounted () {
@@ -411,19 +411,6 @@ export default {
     },
     handleQuantityError (error) {
       this.quantityError = error
-    },
-    getMaterials (material) {
-      const materialsArr = []
-      const materialOptions = this.getCustomAttributes.find(({attribute_code}) => attribute_code === 'material').options
-      for (let key in materialOptions) {
-        material.forEach(el => {
-          if (String(el) === materialOptions[key].value) {
-            materialsArr.push(materialOptions[key].label)
-          }
-        })
-      }
-
-      return materialsArr
     }
   },
   metaInfo () {
