@@ -9,5 +9,8 @@
   },
   "peerDependencies": {
     "@vue-storefront/core": "^1.11.0-rc.1"
+  },
+  "dependencies": {
+    "bodybuilder": "^2.2.20"
   }
 }

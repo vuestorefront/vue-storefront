@@ -3881,6 +3881,13 @@ bodybuilder@2.2.13:
   dependencies:
     lodash "^4.9.0"
 
+bodybuilder@^2.2.20:
+  version "2.2.20"
+  resolved "https://registry.yarnpkg.com/bodybuilder/-/bodybuilder-2.2.20.tgz#df593e73e3ba505931020b4e40d6dbb49c7b5122"
+  integrity sha512-yHxV/UrGBoA0pkEYsCmZ7TuONPJ/+LWIqBhNWT87bSwRH1lcSkzQHnMSuZm7wSJiltzlzALgF6301Xeaq5Hbfg==
+  dependencies:
+    lodash "^4.17.11"
+
 bonjour@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/bonjour/-/bonjour-3.5.0.tgz#8e890a183d8ee9a2393b3844c691a42bcf7bc9f5"
