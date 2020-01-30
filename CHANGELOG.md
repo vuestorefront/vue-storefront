@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed `Processing order...` modal closing too early - @grimasod (#4021)
 - Keep registered payment methods after `syncTotals`  - @grimasod (#4020)
 - Added status code to the cache content and use it in cache response - @resubaka (#4014)
+- Fixed sku attribute is missing on compare page - @gibkigonzo (#4036)
 - Fixed z-index for aside in compare list - @gibkigonzo (#4037)
 - Disable checking max quantity when manage stock is set to false - @gibkigonzo (#4038)
 
