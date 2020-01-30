@@ -115,12 +115,6 @@ export default {
     VueRecaptcha
   },
   props: {
-    value: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    },
     formElements: {
       type: Array,
       required: true

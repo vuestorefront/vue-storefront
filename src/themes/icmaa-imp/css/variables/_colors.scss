@@ -30,8 +30,8 @@ $colors: (
 // Value: color value or map with default, hover, focus color values
 $colors-theme: (
   primary: (
-    default: map-get($colors, matterhorn),
-    hover: map-get($colors, matterhorn)
+    default: map-get($colors, primary),
+    hover: map-get($colors, primary)
   ),
   secondary: (
     default: map-get($colors, gray),
