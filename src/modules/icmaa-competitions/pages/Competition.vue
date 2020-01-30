@@ -5,7 +5,7 @@
         <retina-image :image="image" :alt="competition.headline | stripHTML" class="t-w-full lg:t-w-1/2" />
         <div class="t-w-full lg:t-w-1/2 t-bg-white t-p-8 t-flex t-flex-col t-justify-center">
           <h1 class="t-font-light t-leading-tight t-mb-1 t-mb-8 t-text-3xl t-text-primary lg:t-whitespace-pre-line" v-html="competition.headline" />
-          <component :is="description" class="t-text-sm t-leading-relaxed t-text-base-tone" />
+          <component :is="description" class="description t-text-sm t-leading-relaxed t-text-base-tone" />
           <div class="t-mt-8">
             <button-component type="ghost" v-scroll-to="'#competition-form'" v-text="competition.buttonText || $t('Participate now!')" />
           </div>
@@ -62,7 +62,7 @@ import { getThumbnailPath } from '@vue-storefront/core/helpers'
 import { toDate, isDatetimeInBetween } from 'icmaa-config/helpers/datetime'
 import { stringToComponent } from 'icmaa-cms/helpers'
 
-import FormComponent from 'icmaa-competitions/components/Form'
+import FormComponent from 'theme/components/core/blocks/Form/Form'
 import RetinaImage from 'theme/components/core/blocks/RetinaImage'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
@@ -151,3 +151,40 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import '~theme/css/variables/colors';
+@import '~theme/css/helpers/functions/color';
+
+$color-primary: color(primary);
+
+.competition {
+
+  .description {
+    a {
+      color: $color-primary;
+    }
+
+    p, ul, ol {
+      margin-bottom: 16px;
+    }
+
+    ul, ol {
+      margin-left: 16px;
+
+      li > p {
+        margin-bottom: 0;
+      }
+    }
+
+    ul {
+      list-style: disc;
+    }
+
+    ol {
+      list-style: decimal-leading-zero;
+    }
+  }
+}
+
+</style>
