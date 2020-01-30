@@ -4,8 +4,8 @@ query ProductListFilters (
     $pageSize: Int,
     $currentPage: Int,
     $sort: ProductSortInput,
-    $_sourceInclude: [String],
-    $_sourceExclude: [String]
+    $_sourceIncludes: [String],
+    $_sourceExcludes: [String]
   ) {
     products(
       filter: $filter
@@ -13,12 +13,12 @@ query ProductListFilters (
       pageSize: $pageSize
       currentPage: $currentPage
       sort: $sort
-      _sourceInclude: $_sourceInclude
-      _sourceExclude: $_sourceExclude
+      _sourceIncludes: $_sourceIncludes
+      _sourceExcludes: $_sourceExcludes
     )
     {
-      items
-      total_count
+      hits
+      total_count { value }
       aggregations
       sort_fields{
         options {

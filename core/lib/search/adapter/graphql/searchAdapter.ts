@@ -1,11 +1,11 @@
 import { prepareQueryVars } from './gqlQuery'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
-import fetch from 'isomorphic-fetch'
 import {processESResponseType, processProductsType, processCmsType} from './processor/processType'
 import { SearchQuery } from 'storefront-query-builder'
 import config from 'config'
 import { isServer } from '@vue-storefront/core/helpers'
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+import { getApolloProvider } from '@vue-storefront/core/scripts/resolvers/resolveGraphQL'
 
 export class SearchAdapter {
   public entities: any
@@ -35,11 +35,10 @@ export class SearchAdapter {
 
     const gqlQueryVars = prepareQueryVars(Request)
     const query = this.entities[Request.type].query
-
-    const gqlQueryBody = JSON.stringify({
+    const gqlQueryBody = {
       query,
       variables: gqlQueryVars
-    })
+    }
 
     // define GraphQL url from searchAdapter entity or use default graphQl host with storeCode param
     let urlGql = ''
@@ -54,20 +53,12 @@ export class SearchAdapter {
       urlGql = urlGql + '/' + urlStoreCode
     }
 
-    return fetch(urlGql, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: gqlQueryBody
+    const provider = await getApolloProvider()
+    return provider.defaultClient.query(gqlQueryBody).then(res => {
+      return res
+    }).catch(error => {
+      throw new Error('FetchError in request to GraphQL: ' + error.toString())
     })
-      .then(resp => {
-        return resp.json()
-      })
-      .catch(error => {
-        throw new Error('FetchError in request to ES: ' + error.toString())
-      })
   }
 
   /**
@@ -269,7 +260,6 @@ export class SearchAdapter {
         }
       }
     })
-
     this.registerEntityType('cms_hierarchy', {
       gql: './queries/cmsHierarchy.gql',
       queryProcessor: (query) => {

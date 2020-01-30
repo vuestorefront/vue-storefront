@@ -3,14 +3,14 @@ query CategoryList (
     $pageSize: Int,
     $currentPage: Int,
     $sort: CategorySortInput,
-    $_sourceInclude: [String]
+    $_sourceIncludes: [String]
   ) {
   categories(
     filter: $filter
     pageSize: $pageSize
     currentPage: $currentPage
     sort: $sort
-    _sourceInclude: $_sourceInclude
+    _sourceIncludes: $_sourceIncludes
   )
   {
     hits

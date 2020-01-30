@@ -25,7 +25,7 @@ export function processESResponseType (resp, start, size): SearchResponse {
 
 export function processProductsType (resp, start, size): SearchResponse {
   const response = {
-    items: map(resp.items, item => {
+    items: map(resp.hits.hits, item => {
       let options = {}
       if (item._score) {
         options['_score'] = item._score
@@ -38,7 +38,7 @@ export function processProductsType (resp, start, size): SearchResponse {
 
       return Object.assign(item, options) // TODO: assign slugs server side
     }), // TODO: add scoring information
-    total: resp.total_count,
+    total: resp.total_count.value ? resp.total_count.value : resp.total_count,
     start: start,
     perPage: size,
     aggregations: resp.aggregations,
@@ -51,7 +51,7 @@ export function processProductsType (resp, start, size): SearchResponse {
 export function processCmsType (resp, start, size): SearchResponse {
   const response = {
     items: resp.items,
-    total: resp.total_count,
+    total: resp.total_count.value ? resp.total_count.value : resp.total_count,
     start: start,
     perPage: size,
     aggregations: resp.aggregations,

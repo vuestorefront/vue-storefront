@@ -341,7 +341,7 @@
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
-    "defaultFilters": ["color", "size", "price", "erin_recommends"],
+    "defaultFilters": ["color", "size", "price"],
     "systemFilterNames": ["sort"],
     "maxFiltersQuerySize": 999,
     "routerFiltersSource": "query",

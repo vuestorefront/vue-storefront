@@ -20,8 +20,8 @@ export function prepareQueryVars (Request) {
   queryVariables.search = Request.searchQuery.getSearchText()
   queryVariables.sort = {}
   queryVariables.filter = {}
-  queryVariables._sourceInclude = {}
-  queryVariables._sourceExclude = {}
+  queryVariables._sourceIncludes = {}
+  queryVariables._sourceExcludes = {}
 
   // Add aggregations for filters
   const allFilters = Request.searchQuery.getAvailableFilters()
@@ -59,8 +59,8 @@ export function prepareQueryVars (Request) {
   queryVariables.pageSize = Request.size
   queryVariables.currentPage = Request.from / Request.size + 1
   queryVariables.attributes = queryVariables.filter
-  queryVariables._sourceInclude = Request._sourceInclude
-  queryVariables._sourceExclude = Request._sourceExclude
+  queryVariables._sourceIncludes = Request._sourceInclude
+  queryVariables._sourceExcludes = Request._sourceExclude
 
   return queryVariables
 }
