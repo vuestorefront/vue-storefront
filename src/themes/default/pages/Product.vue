@@ -121,6 +121,7 @@
               :loading="isStockInfoLoading"
               :is-simple-or-configurable="isSimpleOrConfigurable"
               :show-quantity="manageQuantity"
+              :check-max-quantity="manageQuantity"
               @error="handleQuantityError"
             />
             <div class="row m0">
