@@ -45,8 +45,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       aggregations,
       attributeMetadata,
       category: searchCategory,
-      filters: searchQuery.filters,
-      products: items
+      filters: searchQuery.filters
     })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
     const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
@@ -169,14 +168,14 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryFilters ({ dispatch, getters }, category) {
     const searchCategory = category || getters.getCurrentCategory
     let filterQr = buildFilterProductsQuery(searchCategory)
-    const { items, aggregations, attributeMetadata } = await quickSearchByQuery({
+    const { aggregations, attributeMetadata } = await quickSearchByQuery({
       query: filterQr,
       size: config.products.maxFiltersQuerySize,
       excludeFields: ['*']
     })
-    await dispatch('loadAvailableFiltersFrom', { aggregations, attributeMetadata: attributeMetadata, category, products: items })
+    await dispatch('loadAvailableFiltersFrom', { aggregations, attributeMetadata: attributeMetadata, category })
   },
-  async loadAvailableFiltersFrom ({ commit, getters, dispatch }, {aggregations, attributeMetadata, category, products, filters = {}}) {
+  async loadAvailableFiltersFrom ({ commit, getters, dispatch }, {aggregations, attributeMetadata, category, filters = {}}) {
     await dispatch('attribute/loadCategoryAttributes', { attributeMetadata }, { root: true })
     const aggregationFilters = getters.getAvailableFiltersFrom(aggregations)
     const currentCategory = category || getters.getCurrentCategory
