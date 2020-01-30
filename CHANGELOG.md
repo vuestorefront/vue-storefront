@@ -18,11 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - This new `api-search-query` adapter supports the `response_format` query parameter which now is sent to the `/api/catalog` endpoint. Currently there is just one additional format supported: `response_format=compact`. When used, the response format got optimized by: a) remapping the results, removing the `_source` from the `hits.hits`; b) compressing the JSON fields names according to the `config.products.fieldsToCompact`; c) removing the JSON fields from the `product.configurable_children` when their values === parent product values; overall response size reduced over -70% - @pkarw
 - The `amp-renderer` module has been disabled by default to save the bundle size; If you'd like to enable it uncomment the module from the `src/modules` and uncomment the `product-amp` and `category-amp` links that are added to the `<head>` section in the `src/themes/default/Product.vue` and `src/themes/default/Category.vue`
 - Reset Password confirmation page - @Fifciu (#2576)
+- Add `Intl.NumberFormat()`/`toLocaleString()` via polyfill support in NodeJs - @cewald (#3836)
 - Added `saveBandwidthOverCache` parameter for skipping caching for products data - @andrzejewsky (#3706)
 - New zoom effect for product gallery images - @Michal-Dziedzinski (#2755)
-
-### Changed / Improved
-- Removed `product/loadConfigurableAttributes` calls - @andrzejewsky (#3336)
 
 ### Fixed
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
@@ -36,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)
 - Remove commit register mapping - @gibkigonzo (#3875)
 - Improved method `findConfigurableChildAsync` - find variant with lowest price - @gibkigonzo (#3939)
+- Removed `product/loadConfigurableAttributes` calls - @andrzejewsky (#3336)
 
 ## [1.11.0] - 2019.12.20
 
