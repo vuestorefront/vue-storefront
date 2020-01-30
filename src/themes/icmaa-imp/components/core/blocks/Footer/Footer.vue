@@ -52,7 +52,7 @@
         <div class="t--mx-4 lg:t-flex">
           <div class="t-flex t-w-full t-flex-wrap t-items-center t-justify-center t-leading-looser">
             <template v-for="(link, index) in metaNavigation">
-              <router-link :to="link.route" class="t-flex-initial t-px-4 t-text-white t-text-xs t-uppercase" :key="index">
+              <router-link :to="localizedRoute(link.route)" class="t-flex-initial t-px-4 t-text-white t-text-xs t-uppercase" :key="index">
                 {{ link.name }}
               </router-link>
             </template>
