@@ -2,12 +2,12 @@
   <div id="teaser">
     <div class="placeholder" v-if="loading">
       <div class="xs:t-px-0 sm:t-px-4 t-mb-8" v-if="showLarge">
-        <placeholder ratio="133:78" :style="`@media (min-width: 1024px) { padding-top: ${7 * 100 / 12}% }`" />
+        <placeholder :ratio="isMobile ? '1:1' : '2:1'" />
       </div>
       <div class="t-flex t-px-4 t-flex-wrap t--mx-4">
         <div v-for="(n, i) in 4" :key="'placeholder-' + i" class="t-px-4" :class="{ 't-w-1/2 lg:t-w-1/4 t-mb-8': showSmallInRow, 't-w-full': !showSmallInRow, 't-mb-8': !showSmallInRow && i !== 3 }">
           <placeholder :ratio="'32:35'" v-if="showSmallInRow" />
-          <placeholder ratio="59:38" :style="`@media (min-width: 1024px) { padding-top: ${1 * 100 / 2}% }`" v-else />
+          <placeholder :ratio="isMobile ? '215:334' : '2:1'" v-else />
         </div>
       </div>
     </div>
@@ -77,6 +77,9 @@ export default {
     teaserSmall () {
       const teaser = this.getSmallTeaser(this.tags)
       return teaser.slice(0, this.TeaserSmallRow ? 4 : this.limit)
+    },
+    isMobile () {
+      return ['xs', 'sm'].includes(this.viewport)
     }
   },
   async mounted () {
