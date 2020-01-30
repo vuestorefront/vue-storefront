@@ -14,9 +14,6 @@ export default function filterAttributes ({
   codesList: any
 }) {
   return filterValues.filter(fv => {
-    if (config.entities.product.standardSystemFields.indexOf(fv) >= 0) {
-      return false
-    }
     if (fv.indexOf('.') >= 0) {
       return false
     }
