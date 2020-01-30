@@ -6,13 +6,12 @@ import RootState from '@vue-storefront/core/types/RootState'
 import { ActionTree } from 'vuex'
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import uniqBy from 'lodash-es/uniqBy'
 import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import { prefetchCachedAttributes } from '../../helpers/prefetchCachedAttributes'
 import areAttributesAlreadyLoaded from './../../helpers/areAttributesAlreadyLoaded'
 import createAttributesListQuery from './../../helpers/createAttributesListQuery'
 import reduceAttributesLists from './../../helpers/reduceAttributesLists'
-import e from 'express'
+import transformMetadataToAttributes from './../../helpers/transformMetadataToAttributes'
 
 const actions: ActionTree<AttributeState, RootState> = {
   async updateAttributes ({ commit, getters }, { attributes }) {
@@ -84,39 +83,18 @@ const actions: ActionTree<AttributeState, RootState> = {
 
     return resp
   },
-  async loadAttributesFromProducts (context, { products }) {
-    const attributes = products
+  async loadProductAttributes (context, { products }) {
+    const attributeMetadata = products
       .filter(product => product.attributes_metadata)
       .map(product => product.attributes_metadata)
-      .reduce((prev, curr) => ([ ...prev, ...curr ]), [])
-      .reduce((prev, curr) => {
-        const attribute = prev.find(a => a.attribute_id === curr.attribute_id && a.options)
 
-        if (attribute) {
-          return prev.map(attr => {
-            if (attr.attribute_id === curr.attribute_id) {
-              return {
-                ...attr,
-                options: uniqBy([...attr.options, ...curr.options], (obj) => `${obj.label}_${obj.value}`)
-              }
-            }
+    const attributes = transformMetadataToAttributes(attributeMetadata)
 
-            return attr
-          })
-        }
-
-        return [...prev, curr]
-      }, [])
-      .reduce((prev, curr) => ({
-        attrHashByCode: {
-          ...(prev.attrHashByCode || {}),
-          [curr.attribute_code]: curr
-        },
-        attrHashById: {
-          ...(prev.attrHashById || {}),
-          [curr.attribute_id]: curr
-        }
-      }), { attrHashByCode: {}, attrHashById: {} })
+    context.commit(types.ATTRIBUTE_UPD_ATTRIBUTES, attributes)
+  },
+  async loadCategoryAttributes (context, { attributeMetadata }) {
+    if (!attributeMetadata) return
+    const attributes = transformMetadataToAttributes([attributeMetadata])
 
     context.commit(types.ATTRIBUTE_UPD_ATTRIBUTES, attributes)
   }

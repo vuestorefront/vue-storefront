@@ -103,6 +103,7 @@ export class SearchAdapter {
         start: start,
         perPage: size,
         aggregations: resp.aggregations,
+        attributeMetadata: resp.attribute_metadata,
         suggestions: resp.suggest
       }
     } else {

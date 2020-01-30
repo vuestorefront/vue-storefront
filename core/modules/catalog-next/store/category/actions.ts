@@ -34,7 +34,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
-    const {items, perPage, start, total, aggregations} = await quickSearchByQuery({
+    const {items, perPage, start, total, aggregations, attributeMetadata} = await quickSearchByQuery({
       query: filterQr,
       sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       includeFields: entities.productList.includeFields,
@@ -43,6 +43,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     })
     await dispatch('loadAvailableFiltersFrom', {
       aggregations,
+      attributeMetadata,
       category: searchCategory,
       filters: searchQuery.filters,
       products: items
@@ -168,15 +169,15 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryFilters ({ dispatch, getters }, category) {
     const searchCategory = category || getters.getCurrentCategory
     let filterQr = buildFilterProductsQuery(searchCategory)
-    const { items, aggregations } = await quickSearchByQuery({
+    const { items, aggregations, attributeMetadata } = await quickSearchByQuery({
       query: filterQr,
       size: config.products.maxFiltersQuerySize,
       excludeFields: ['*']
     })
-    await dispatch('loadAvailableFiltersFrom', { aggregations, category, products: items })
+    await dispatch('loadAvailableFiltersFrom', { aggregations, attributeMetadata: attributeMetadata, category, products: items })
   },
-  async loadAvailableFiltersFrom ({ commit, getters, dispatch }, {aggregations, category, products, filters = {}}) {
-    await dispatch('attribute/loadAttributesFromProducts', { products }, { root: true })
+  async loadAvailableFiltersFrom ({ commit, getters, dispatch }, {aggregations, attributeMetadata, category, products, filters = {}}) {
+    await dispatch('attribute/loadCategoryAttributes', { attributeMetadata }, { root: true })
     const aggregationFilters = getters.getAvailableFiltersFrom(aggregations)
     const currentCategory = category || getters.getCurrentCategory
     const categoryMappedFilters = getters.getFiltersMap[currentCategory.id]

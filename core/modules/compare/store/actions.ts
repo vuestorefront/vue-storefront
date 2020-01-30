@@ -17,7 +17,7 @@ const actions: ActionTree<CompareState, RootState> = {
       }
 
       dispatch(
-        'attribute/loadAttributesFromProducts',
+        'attribute/loadProductAttributes',
         { products: getters.getCompareItems },
         { root: true }
       )

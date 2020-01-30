@@ -245,7 +245,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   async setupVariants (context, { product }) {
     if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_options')) {
-      await context.dispatch('attribute/loadAttributesFromProducts', { products: [product] }, { root: true })
+      await context.dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
       let productOptions = {}
       for (let option of product.configurable_options) {
         for (let ov of option.values) {
@@ -633,7 +633,7 @@ const actions: ActionTree<ProductState, RootState> = {
       throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
     }
 
-    await dispatch('attribute/loadAttributesFromProducts', { products: [product] }, { root: true })
+    await dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
 
     const syncPromises = []
     const variantsFilter = dispatch('filterUnavailableVariants', { product })
