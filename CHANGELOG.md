@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All categories disappearing if you add the child category name to includeFields - @1070rik (#4015)
 - Fix overlapping text in PersonalDetails component - @jakubmakielkowski (#4024)
 - Redirect from checkout to home with a proper store code - @Fifciu
+- Added back error notification when user selects invalid configuration - @1070rik (#4033)
 
 ### Changed / Improved
 - Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)
