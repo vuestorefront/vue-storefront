@@ -244,29 +244,31 @@ const actions: ActionTree<ProductState, RootState> = {
    * Setup product current variants
    */
   async setupVariants (context, { product }) {
-    if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_options')) {
-      await context.dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
-      let productOptions = {}
-      for (let option of product.configurable_options) {
-        for (let ov of option.values) {
-          let lb = ov.label ? ov.label : optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
-          if (trim(lb) !== '') {
-            let optionKey = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
-            if (!productOptions[optionKey]) {
-              productOptions[optionKey] = []
-            }
-            productOptions[optionKey].push({
-              label: lb,
-              id: ov.value_index,
-              attribute_code: option.attribute_code
-            })
+    if (product.type_id !== 'configurable' || !product.hasOwnProperty('configurable_options')) {
+      return
+    }
+    await context.dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
+    let productOptions = {}
+    for (let option of product.configurable_options) {
+      for (let ov of option.values) {
+        let lb = ov.label ? ov.label : optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
+        if (trim(lb) !== '') {
+          let optionKey = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
+          if (!productOptions[optionKey]) {
+            productOptions[optionKey] = []
           }
+
+          productOptions[optionKey].push({
+            label: lb,
+            id: ov.value_index,
+            attribute_code: option.attribute_code
+          })
         }
       }
-      context.commit(types.PRODUCT_SET_CURRENT_OPTIONS, productOptions)
-      let selectedVariant = context.getters.getCurrentProduct
-      populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
     }
+    context.commit(types.PRODUCT_SET_CURRENT_OPTIONS, productOptions)
+    let selectedVariant = context.getters.getCurrentProduct
+    populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
   },
   filterUnavailableVariants (context, { product }) {
     return filterOutUnavailableVariants(context, product)

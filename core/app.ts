@@ -25,9 +25,10 @@ import { enabledModules } from './modules-entry'
 import globalConfig from 'config'
 import { injectReferences } from '@vue-storefront/core/lib/modules'
 import { coreHooksExecutors } from '@vue-storefront/core/hooks'
-import { registerClientModules } from 'src/modules/client';
+import { registerClientModules } from 'src/modules/client'
 import initialStateFactory from '@vue-storefront/core/helpers/initialStateFactory'
-import { createRouter, createRouterProxy } from '@vue-storefront/core/helpers/router';
+import { createRouter, createRouterProxy } from '@vue-storefront/core/helpers/router'
+import { checkForIntlPolyfill } from '@vue-storefront/i18n/intl'
 
 const stateFactory = initialStateFactory(store.state)
 
@@ -98,6 +99,8 @@ const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vu
   registerClientModules()
   registerModules(enabledModules, appContext)
   registerTheme(globalConfig.theme, app, routerProxy, store, globalConfig, ssrContext)
+
+  await checkForIntlPolyfill(storeView)
 
   coreHooksExecutors.afterAppInit()
   // @deprecated from 2.0
