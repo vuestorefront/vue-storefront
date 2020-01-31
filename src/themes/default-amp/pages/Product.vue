@@ -44,17 +44,17 @@
                   v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax"
                 >
                   <span class="h2 cl-mine-shaft weight-700">
-                    {{ product.price_incl_tax * product.qty | price }}
+                    {{ product.price_incl_tax * product.qty | price(storeView) }}
                   </span>&nbsp;
                   <span class="price-original h3">
-                    {{ product.original_price_incl_tax * product.qty | price }}
+                    {{ product.original_price_incl_tax * product.qty | price(storeView) }}
                   </span>
                 </div>
                 <div
                   class="h2 cl-mine-shaft weight-700"
                   v-if="!product.special_price && product.price_incl_tax"
                 >
-                  {{ product.price_incl_tax * product.qty | price }}
+                  {{ product.price_incl_tax * product.qty | price(storeView) }}
                 </div>
               </div>
               <div
@@ -158,6 +158,9 @@ export default {
       product: 'product/getCurrentProduct',
       gallery: 'product/getProductGallery'
     }),
+    storeView () {
+      return currentStoreView()
+    },
     priceCurrency: () => currentStoreView().i18n.currencyCode
   },
   directives: { focusClean },

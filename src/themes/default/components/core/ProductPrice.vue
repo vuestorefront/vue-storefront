@@ -6,16 +6,16 @@
     >
       <span
         class="h2 cl-mine-shaft weight-700"
-      >{{ price.special | price }}</span>&nbsp;
+      >{{ price.special | price(storeView) }}</span>&nbsp;
       <span
         class="price-original h3"
-      >{{ price.original | price }}</span>
+      >{{ price.original | price(storeView) }}</span>
     </div>
     <div
       class="h2 cl-mine-shaft weight-700"
       v-if="!initialPrice.special && initialPrice.default"
     >
-      {{ price.default | price }}
+      {{ price.default | price(storeView) }}
     </div>
   </div>
 </template>
@@ -23,6 +23,7 @@
 import { getCustomOptionValues, getCustomOptionPriceDelta } from '@vue-storefront/core/modules/catalog/helpers/customOption'
 import { getBundleOptionsValues, getBundleOptionPrice } from '@vue-storefront/core/modules/catalog/helpers/bundleOptions'
 import get from 'lodash-es/get'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   name: 'ProductPrice',
@@ -81,6 +82,9 @@ export default {
         original: this.product.original_price_incl_tax || this.product.originalPriceInclTax || 0,
         special: this.product.special_price || this.product.specialPrice || 0
       }
+    },
+    storeView () {
+      return currentStoreView()
     }
   }
 }
