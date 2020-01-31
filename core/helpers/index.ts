@@ -254,7 +254,7 @@ export function extendStore (moduleName: string | string[], module: any) {
   store.registerModule(moduleName, extendedModule)
 }
 
-export function reviewJsonLd (reviews, name) {
+export function reviewJsonLd (reviews, {name, category, mpn, url_path, price, stock, is_in_stock, sku, image, description}, priceCurrency) {
   return reviews.map(({title, detail, nickname, created_at}) => (
     {
       '@context': 'http://schema.org/',
@@ -265,7 +265,24 @@ export function reviewJsonLd (reviews, name) {
       author: nickname,
       itemReviewed: {
         '@type': 'Product',
-        name
+        name,
+        sku,
+        image,
+        description,
+        offers: {
+          '@type': 'Offer',
+          category: category
+            ? category
+              .map(({ name }) => name || null)
+              .filter(name => name !== null)
+            : null,
+          mpn,
+          url: url_path,
+          priceCurrency,
+          price,
+          itemCondition: 'https://schema.org/NewCondition',
+          availability: stock && is_in_stock ? 'InStock' : 'OutOfStock'
+        }
       }
     }
   )
@@ -274,14 +291,22 @@ export function reviewJsonLd (reviews, name) {
 
 function getMaterials (material, customAttributes) {
   const materialsArr = []
-  if (customAttributes && customAttributes.length && customAttributes.length > 0) {
+  if (customAttributes && customAttributes.length && customAttributes.length > 0 && material && material.length && material.length > 0) {
     const materialOptions = customAttributes.find(({attribute_code}) => attribute_code === 'material').options
-    for (let key in materialOptions) {
-      material.forEach(el => {
-        if (String(el) === materialOptions[key].value) {
+    if (Array.isArray(material)) {
+      for (let key in materialOptions) {
+        material.forEach(el => {
+          if (String(el) === materialOptions[key].value) {
+            materialsArr.push(materialOptions[key].label)
+          }
+        })
+      }
+    } else {
+      for (let key in materialOptions) {
+        if (material === materialOptions[key].value) {
           materialsArr.push(materialOptions[key].label)
         }
-      })
+      }
     }
   }
   return materialsArr

@@ -178,6 +178,7 @@
         :product-name="getOriginalProduct.name"
         :product-id="getOriginalProduct.id"
         v-show="isOnline"
+        :product="getCurrentProduct"
       />
     </lazy-hydrate>
     <lazy-hydrate when-idle>

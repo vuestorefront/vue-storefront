@@ -52,6 +52,10 @@ export default {
     productName: {
       type: String,
       default: ''
+    },
+    product: {
+      type: Object,
+      required: true
     }
   },
   data () {
@@ -89,7 +93,7 @@ export default {
       return currentStoreView()
     },
     getJsonLd () {
-      return reviewJsonLd(this.itemsPerPage, this.productName)
+      return reviewJsonLd(this.itemsPerPage, this.product, this.$store.state.storeView.i18n.currencyCode)
     }
   },
   methods: {
