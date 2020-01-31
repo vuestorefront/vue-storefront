@@ -4,8 +4,8 @@
 
 <a href="https://travis-ci.org/DivanteLtd/vue-storefront"><img src="https://travis-ci.org/DivanteLtd/vue-storefront.svg?branch=master" alt="build:passed"></a>
 ![version](https://img.shields.io/badge/node-v10.x-blue.svg)
-![Branch stable](https://img.shields.io/badge/stable%20branch-master-blue.svg)
-![Branch Develop](https://img.shields.io/badge/dev%20branch-develop-blue.svg)
+<a href="https://github.com/DivanteLtd/vue-storefront"><img src="https://img.shields.io/badge/stable%20branch-master-blue.svg" alt="Branch stable"></a>
+<a href="https://github.com/DivanteLtd/vue-storefront/tree/develop"><img src="https://img.shields.io/badge/dev%20branch-develop-blue.svg" alt="Branch Develop"></a>
 <a href="https://slack.vuestorefront.io">![Branch Develop](https://img.shields.io/badge/community%20chat-slack-FF1493.svg)</a>
 
 Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, <a href="https://github.com/DivanteLtd/coreshop-vsbridge">Pimcore/CoreShop</a>, [BigCommerce](https://github.com/DivanteLtd/bigcommerce2vuestorefront), Prestashop or Shopware) through the API.
@@ -275,7 +275,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="https://divante.com/">
           <img
-            src="https://divante.co/about us/LOGO.png"
+            src="https://divante.com/github/shopware-pwa/Divante_logo_1.png"
             alt="Divante"
             width="150"
           >
@@ -894,7 +894,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
   <td align="center" valign="middle">
 <a href="https://www.sitewards.com/">
           <img
-            src="https://divante.com/partners/Vue-Storefront/Sitewards%20Logo.png"
+            src="https://divante.com/partners/Vue-Storefront/sitewards-logo.png"
             alt="Sitewards"
             height="40"
           >
@@ -903,7 +903,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
      <td align="center" valign="middle">
 <a href="https://codecoda.com/en">
           <img
-            src="https://divante.com/partners/Vue-Storefront/CodeCoda-800.png"
+            src="https://divante.com/partners/Vue-Storefront/codecoda-logo.png"
             alt="CodeCoda"
             height="40"
           >

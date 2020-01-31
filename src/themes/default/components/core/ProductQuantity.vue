@@ -47,6 +47,10 @@ export default {
       type: Number,
       default: undefined
     },
+    checkMaxQuantity: {
+      type: Boolean,
+      default: true
+    },
     loading: {
       type: Boolean,
       default: false
@@ -64,7 +68,7 @@ export default {
       return this.isOnline ? this.maxQuantity : null
     },
     disabled () {
-      return this.isOnline ? !this.maxQuantity : false
+      return this.isOnline ? !this.maxQuantity && this.checkMaxQuantity : false
     },
     name () {
       if (this.isSimpleOrConfigurable && !this.loading && this.showQuantity) {
