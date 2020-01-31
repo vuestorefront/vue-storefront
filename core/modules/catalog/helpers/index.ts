@@ -62,7 +62,6 @@ const getConfigurationMatchLevel = (configuration, variant): number => {
 }
 
 export function findConfigurableChildAsync ({ product, configuration = null, selectDefaultChildren = false, availabilityCheck = true }) {
-  const regularProductPrice = product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax
   const selectedVariant = product.configurable_children.reduce((prevVariant, nextVariant) => {
     if (availabilityCheck) {
       if (nextVariant.stock && !config.products.listOutOfStockProducts) {
@@ -80,20 +79,14 @@ export function findConfigurableChildAsync ({ product, configuration = null, sel
     if (configuration.sku && nextVariant.sku === configuration.sku) { // by sku or first one
       return nextVariant
     } else {
-      if (!configuration || (configuration && Object.keys(configuration).length === 0)) { // no configuration - return the first child cheaper than the original price - if found
-        if (nextVariant.price_incl_tax <= regularProductPrice) {
-          return getVariantWithLowestPrice(prevVariant, nextVariant)
-        }
-      } else {
-        const prevVariantMatch = getConfigurationMatchLevel(configuration, prevVariant)
-        const nextVariantMatch = getConfigurationMatchLevel(configuration, nextVariant)
+      const prevVariantMatch = getConfigurationMatchLevel(configuration, prevVariant)
+      const nextVariantMatch = getConfigurationMatchLevel(configuration, nextVariant)
 
-        if (prevVariantMatch === nextVariantMatch) {
-          return getVariantWithLowestPrice(prevVariant, nextVariant)
-        }
-
-        return nextVariantMatch > prevVariantMatch ? nextVariant : prevVariant
+      if (prevVariantMatch === nextVariantMatch) {
+        return getVariantWithLowestPrice(prevVariant, nextVariant)
       }
+
+      return nextVariantMatch > prevVariantMatch ? nextVariant : prevVariant
     }
   }, undefined)
   return selectedVariant
