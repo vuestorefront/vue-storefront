@@ -1,11 +1,14 @@
 <template>
-  <div id="layout" >
-    <AppHeader />
-    <nuxt />
-    <BottomNavigation />
-    <AppFooter />
-    <CartSidebar />
-    <LoginModal />
+  <div>
+    <div id="layout" >
+      <AppHeader />
+      <nuxt />
+      <BottomNavigation />
+      <AppFooter />
+      <CartSidebar />
+      <LoginModal />
+    </div>
+    <Version />
   </div>
 </template>
 
@@ -13,6 +16,8 @@
 import AppHeader from '~/components/AppHeader.vue'
 import BottomNavigation from '~/components/BottomNavigation.vue'
 import AppFooter from '~/components/AppFooter.vue'
+import Version from '~/components/Version.vue'
+
 const CartSidebar = () => import(/* webpackChunkName: "CartSidebar" */ '~/components/CartSidebar.vue')
 const LoginModal = () => import(/* webpackChunkName: "LoginModal" */ '~/components/LoginModal.vue')
 
@@ -22,7 +27,8 @@ export default {
     BottomNavigation,
     AppFooter,
     CartSidebar,
-    LoginModal
+    LoginModal,
+    Version
   }
 }
 </script>

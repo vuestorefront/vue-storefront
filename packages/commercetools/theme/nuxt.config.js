@@ -1,3 +1,14 @@
+import webpack from 'webpack'
+import { readFileSync } from 'fs'
+
+const readLastCommit = () => {
+  try {
+    return String(readFileSync('./../../../version'))
+  } catch (_) {
+    return ''
+  }
+}
+
 export default {
   mode: 'universal',
   head: {
@@ -69,10 +80,6 @@ export default {
   buildModules: [
     '@nuxt/typescript-build' // to core
   ],
-  plugins: [
-    '~/plugins/commercetools',
-    '~/prismic/plugins/html-serializer'
-  ],
   modules: [
     '@nuxtjs/prismic',
     ['@vue-storefront/nuxt', {
@@ -85,9 +92,19 @@ export default {
   ],
   plugins: [
     './plugins/commercetools.js',
-    './prismic/plugins/html-serializer.js'
+    './prismic/plugins/html-serializer.js',
   ],
   prismic: {
     endpoint: 'https://lovecrafts-dev.cdn.prismic.io/api/v2'
+  },
+  build: {
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.VERSION': JSON.stringify({
+          version: require('./package.json').version,
+          lastCommit: readLastCommit()
+        })
+      })
+    ]
   }
 }
