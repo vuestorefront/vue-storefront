@@ -12,7 +12,7 @@
     "build:ct:api-client": "cd packages/commercetools/api-client && yarn build",
     "build:ct:composables": "cd packages/commercetools/composables && yarn build",
     "build:ct:helpers": "cd packages/commercetools/helpers && yarn build",
-    "build:ct:tools": "yarn build:ct:api-client && yarn build:ct:composables && yarn build:ct:helpers",
+    "build:ct:tools": "yarn build:ct:api-client && yarn build:ct:helpers && yarn build:ct:composables",
     "build:ct:theme": "cd packages/commercetools/theme && yarn build",
     "build:ct": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
     "test:ct:api-client": "cd packages/commercetools/api-client && yarn test",

@@ -67,12 +67,14 @@
           </div>
           <div class="product-details__section">
             <SfSelect
-              v-model="size"
+              v-if="options.size"
+              :selected="configuration.size"
+              @change="size => updateFilter({ size })"
               label="Size"
               class="sf-select--bordered product-details__attribute"
             >
               <SfSelectOption
-                v-for="size in sizes"
+                v-for="size in options.size"
                 :key="size.value"
                 :value="size.value"
               >
@@ -80,16 +82,18 @@
               </SfSelectOption>
             </SfSelect>
             <SfSelect
-              v-model="color"
+              v-if="options.color"
+              :selected="configuration.color"
+              @change="color => updateFilter({ color })"
               label="Color"
               class="sf-select--bordered product-details__attribute"
             >
               <SfSelectOption
-                v-for="color in colors"
+                v-for="color in options.color"
                 :key="color.value"
                 :value="color.value"
               >
-                <SfProductOption :label="color.label" :color="color.color" />
+                <SfProductOption :label="color.label" />
               </SfSelectOption>
             </SfSelect>
           </div>
@@ -174,7 +178,6 @@
             :max-rating="product.rating.max"
             :score-rating="product.rating.score"
             :is-on-wishlist="product.isOnWishlist"
-            @click:wishlist="toggleWishlist(i)"
             class="product-card"
           />
         </SfCarouselItem>
@@ -190,7 +193,6 @@
             :max-rating="product.rating.max"
             :score-rating="product.rating.score"
             :is-on-wishlist="product.isOnWishlist"
-            @click:wishlist="toggleWishlist(i)"
             class="product-card"
           />
         </SfCarouselItem>
@@ -264,21 +266,29 @@ export default {
   name: "Product",
   transition: 'fade',
   setup (props, context) {
-    const { slug } = context.root.$route.params
     const qty = ref(1)
-    const { params } = context.root.$route
+    const { slug } = context.root.$route.params
     const { products, search } = useProduct()
-    const { cart, addToCart,loading } = useCart()
+    const { addToCart, loading } = useCart()
 
     search({ slug })
 
-    const product = computed(() => getProductVariants(products.value, { master: true }))
+    const product = computed(() => getProductVariants(products.value, { master: true, attributes: context.root.$route.query }))
+    const options = computed(() => getProductAttributes(products.value, ['color', 'size']))
+    const configuration = computed(() => getProductAttributes(product.value, ['color', 'size']))
 
-    const attributes = computed(() => getProductAttributes(product.value))
+    const updateFilter = filter => {
+      context.root.$router.push({
+        path: context.root.$route.path,
+        query: { ...configuration.value, ...filter }
+      })
+    }
 
     return {
+      updateFilter,
+      configuration,
       product,
-      attributes,
+      options,
       getProductName,
       getProductPrice,
       getProductGallery,
@@ -310,27 +320,7 @@ export default {
   },
   data() {
     return {
-      // qty: "1",
       stock: 5,
-      size: "",
-      sizes: [
-        { label: "XXS", value: "xxs" },
-        { label: "XS", value: "xs" },
-        { label: "S", value: "s" },
-        { label: "M", value: "m" },
-        { label: "L", value: "l" },
-        { label: "XL", value: "xl" },
-        { label: "XXL", value: "xxl" }
-      ],
-      color: "",
-      colors: [
-        { label: "Red", value: "red", color: "#990611" },
-        { label: "Black", value: "black", color: "#000000" },
-        { label: "Yellow", value: "yellow", color: "#DCA742" },
-        { label: "Blue", value: "blue", color: "#004F97" },
-        { label: "Navy", value: "navy", color: "#656466" },
-        { label: "White", value: "white", color: "#FFFFFF" }
-      ],
       properties: [
         {
           name: "Product Code",
@@ -446,12 +436,6 @@ export default {
       ]
     };
   },
-  methods: {
-
-    toggleWishlist(index) {
-      this.products[index].isOnWishlist = !this.products[index].isOnWishlist;
-    }
-  }
 };
 </script>
 <style lang="scss" scoped>

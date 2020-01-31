@@ -118,11 +118,6 @@ export interface UiCategory {
   items: UiCategory[]
 }
 
-export interface UiCartProductConfiguration {
-  name: string
-  value: string
-}
-
 export interface UiCartProductPrice {
   regular: number
   special?: number
@@ -133,12 +128,12 @@ export interface UiCartProduct {
   id: string
   image: string
   price: UiCartProductPrice
-  configuration: UiCartProductConfiguration[]
+  configuration: AgnosticProductAttribute[]
   qty: string
 }
 
 export interface AgnosticProductAttribute {
-  name: string,
+  name?: string
   value: string | Object
   label: string
 }

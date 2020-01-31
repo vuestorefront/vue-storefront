@@ -4,7 +4,7 @@ import {
   getProductPrice,
   getProductGallery,
   getProductVariants,
-  getProductAttributes
+  getProductAttributes,
 } from "./../src/index";
 
 const product = {
@@ -78,6 +78,44 @@ describe("[commercetools-helpers] product helpers", () => {
     expect(getProductVariants(variants as any)).toEqual(variants);
   });
 
+  it("returns product by given attributes", () => {
+    const variant1 = {
+      ...product,
+      attributeList: [
+        {
+          name: "size",
+          stringValue: "36",
+          __typename: "StringAttribute"
+        },
+        {
+          name: "color",
+          stringValue: "white",
+          __typename: "StringAttribute"
+        }
+      ]
+    }
+    const variant2 = {
+      ...product,
+      attributeList: [
+        {
+          name: "size",
+          stringValue: "38",
+          __typename: "StringAttribute"
+        },
+        {
+          name: "color",
+          stringValue: "black",
+          __typename: "StringAttribute"
+        }
+      ]
+    }
+
+    const variants = [variant1, variant2]
+
+    const attributes = { color: 'black', size: '38' }
+    expect(getProductVariants(variants, { attributes })).toEqual(variant2)
+  })
+
   // Attributes
 
   it("returns product attributes", () => {
@@ -89,7 +127,9 @@ describe("[commercetools-helpers] product helpers", () => {
       }
     ];
 
-    expect(getProductAttributes(product)).toEqual(attributes);
+    expect(getProductAttributes([product])).toEqual({
+      articleNumberManufacturer: [{ label: "H805 C195 85072", value: "H805 C195 85072" }]
+    });
   });
 
   it("returns filtered product attributes", () => {
@@ -108,16 +148,12 @@ describe("[commercetools-helpers] product helpers", () => {
       ]
     } as any;
 
-    const filteredattributeList = [
-      { value: "H805 C195 85072", name: "color", label: "H805 C195 85072" }
-    ];
-    expect(getProductAttributes(product, ["color"])).toEqual(
-      filteredattributeList
-    );
+    expect(getProductAttributes([product], ["color"])).toEqual({
+      color: [{ value: "H805 C195 85072", label: "H805 C195 85072" }]
+    });
   });
 
   it("returns empty array if there is no product", () => {
-    const product = null
-    expect(getProductAttributes(product)).toEqual([]);
+    expect(getProductAttributes(null)).toEqual({});
   });
 });

@@ -2,10 +2,15 @@ import {
   UiMediaGalleryItem,
   UiCategory,
   UiCartProduct,
-  AgnosticProductAttribute,
+  AgnosticProductAttribute
 } from '@vue-storefront/interfaces'
 import { ProductVariant, Image, Category, Cart, LineItem, ShippingMethod } from './types/GraphQL'
-import { formatAttributeList } from './_utils'
+import { formatAttributeList, getVariantByAttributes } from './_utils'
+
+interface ProductVariantFilters {
+  master?: boolean
+  attributes?: Record<string, string>
+}
 
 // Product
 export const getProductName = (product: ProductVariant): string => product ? (product as any)._name : ''
@@ -24,30 +29,64 @@ export const getProductGallery = (product: ProductVariant): UiMediaGalleryItem[]
   }))
 
 /** Returns array of product variants meeting criteria */
-export const getProductVariants = (products: ProductVariant[], options: any = {}): ProductVariant | ProductVariant[]  => {
+export const getProductVariants = (products: ProductVariant[], filters: ProductVariantFilters = {}): ProductVariant | ProductVariant[]  => {
   if (!products) {
     return []
   }
 
-  if (options.master) {
+  if (filters.attributes && Object.keys(filters.attributes).length > 0) {
+    return getVariantByAttributes(products, filters.attributes)
+  }
+
+  if (filters.master) {
     return products.find(product => (product as any)._master)
   }
 
   return products
 }
 
-export const getProductAttributes = (product: ProductVariant, filterByAttributeName?: Array<string>): Array<AgnosticProductAttribute> => {
-  return (product ? formatAttributeList(product.attributeList) : [])
-  .filter(attribute => {
-    if (filterByAttributeName) return filterByAttributeName.includes(attribute.name)
-    return attribute
+export const getProductAttributes = (products: ProductVariant[], filterByAttributeName?: Array<string>): Record<string, AgnosticProductAttribute | string> => {
+  const isSingleProduct = !Array.isArray(products)
+  const productList = (isSingleProduct ? [products] : products) as ProductVariant[]
+
+  if (!products || productList.length === 0) {
+    return {} as any
+  }
+
+  const formatAttributes = (product: ProductVariant): Array<AgnosticProductAttribute> =>
+    (product ? formatAttributeList(product.attributeList) : [])
+      .filter(attribute => filterByAttributeName ? filterByAttributeName.includes(attribute.name) : attribute)
+
+
+  const reduceToUniques = (prev, curr) => {
+    const isAttributeExist = prev.some(el => el.name === curr.name && el.value === curr.value)
+
+    if (!isAttributeExist) {
+      return [...prev, curr]
+    }
+
+    return prev
+  }
+
+  const reduceByAttributeName = (prev, curr) => ({
+    ...prev,
+    [curr.name]: isSingleProduct ? curr.value :[
+      ...(prev[curr.name] || []),
+      { value: curr.value, label: curr.label }
+    ]
   })
+
+  return productList
+    .map(product => formatAttributes(product))
+    .reduce((prev, curr) => [...prev, ...curr], [])
+    .reduce(reduceToUniques, [])
+    .reduce(reduceByAttributeName, {})
 }
 
-// TODO, get configurable options from product
-export const getProductOptions = (product: ProductVariant) => product
 
 export const getProductDescription = (product: ProductVariant): any => (product as any)._description
+
+
 // Category
 export const getCategoryProducts = (category: Category, options: any = {}): ProductVariant[] => {
   if (!category || !(category as any)._products) {
@@ -100,7 +139,7 @@ export const getCartProducts = (cart: Cart, includeAttributes: string[] = []): U
     price: { regular: lineItem.price.value.centAmount / 100 },
     image: lineItem.variant.images[0].url,
     qty: lineItem.quantity,
-    configuration: filterAttributes((lineItem as any)._configuration)
+    configuration: formatAttributeList(filterAttributes((lineItem as any)._configuration))
   }))
 }
 

@@ -1,5 +1,6 @@
-import { Attribute } from './types/GraphQL'
 import { AgnosticProductAttribute } from '@vue-storefront/interfaces'
+import { ProductVariant } from './types/GraphQL'
+
 const getAttributeValue = (attribute) => {
   switch(attribute.__typename) {
     case 'StringAttribute':
@@ -22,23 +23,36 @@ const getAttributeValue = (attribute) => {
       return attribute.centAmount
     case 'BooleanAttribute':
       return attribute.booleanValue
-    case 'ReferenceAttribute': 
+    case 'ReferenceAttribute':
       return { typeId: attribute.typeId, id: attribute.id }
     default:
       return null
   }
 }
 
-const formatAttributeList = (attributes: Array<any>): Array<AgnosticProductAttribute> => 
-attributes.map(attr => {
-  const attrValue = getAttributeValue(attr)
-  return {
-    name: attr.name,
-    value: attrValue,
-    label: attr.label ? attr.label : (typeof attrValue === 'string') ? attrValue : null
-  }
-})
+export const formatAttributeList = (attributes: Array<any>): Array<AgnosticProductAttribute> =>
+  attributes.map(attr => {
+    const attrValue = getAttributeValue(attr)
+    return {
+      name: attr.name,
+      value: attrValue,
+      label: attr.label ? attr.label : (typeof attrValue === 'string') ? attrValue : null
+    }
+  })
 
-export {
-  formatAttributeList
+export const getVariantByAttributes = (products: ProductVariant[], attributes: any): ProductVariant => {
+  if (!products || products.length === 0) {
+    return null
+  }
+
+  const configurationKeys = Object.keys(attributes)
+
+  return products.find(product => {
+    const currentAttributes = formatAttributeList(product.attributeList)
+
+    return configurationKeys.every(attrName =>
+      currentAttributes.find(({ name, value }) => attrName === name && attributes[attrName] === value)
+    )
+  })
 }
+
