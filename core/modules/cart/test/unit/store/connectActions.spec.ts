@@ -105,7 +105,7 @@ describe('Cart connectActions', () => {
 
     await (cartActions as any).connect(contextMock, {})
     expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART_SERVER_TOKEN, 'server-cart-token')
-    expect(contextMock.dispatch).toBeCalledWith('sync', { forceClientState: false, dryRun: true })
+    expect(contextMock.dispatch).toBeCalledWith('sync', { forceClientState: false, dryRun: true, mergeQty: true })
   })
 
   it('attempts bypassing guest cart', async () => {

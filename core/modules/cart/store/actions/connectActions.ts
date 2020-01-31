@@ -33,7 +33,7 @@ const connectActions = {
       Logger.info('Server cart token created.', 'cart', result)()
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result)
 
-      return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
+      return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault, mergeQty: true })
     }
 
     if (resultCode === 401 && getters.bypassCounter < config.queues.maxCartBypassAttempts) {

@@ -144,7 +144,8 @@ describe('Cart synchronizeActions', () => {
       clientItems: [],
       dryRun: false,
       forceClientState: true,
-      serverItems: []
+      serverItems: [],
+      mergeQty: false
     })
   })
 
