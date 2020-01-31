@@ -87,10 +87,12 @@ export function findConfigurableChildAsync ({ product, configuration = null, sel
       } else {
         const prevVariantMatch = getConfigurationMatchLevel(configuration, prevVariant)
         const nextVariantMatch = getConfigurationMatchLevel(configuration, nextVariant)
-        // compare variants based on configuration match
-        const bestMatch = nextVariantMatch >= prevVariantMatch ? nextVariant : prevVariant
 
-        return bestMatch
+        if (prevVariantMatch === nextVariantMatch) {
+          return getVariantWithLowestPrice(prevVariant, nextVariant)
+        }
+
+        return nextVariantMatch > prevVariantMatch ? nextVariant : prevVariant
       }
     }
   }, undefined)
