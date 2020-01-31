@@ -1,9 +1,10 @@
-import { currentStoreView } from '@vue-storefront/core/lib/multistore';
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 const formatValue = (value, locale) => {
-  const price = Math.abs(parseFloat(value));
-  return price.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-};
+  const price = Math.abs(parseFloat(value))
+  const formatter = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  return formatter.format(price)
+}
 
 const applyCurrencySign = (formattedPrice, { currencySign, priceFormat }) => {
   return priceFormat.replace('{sign}', currencySign).replace('{amount}', formattedPrice)
@@ -15,20 +16,23 @@ const applyCurrencySign = (formattedPrice, { currencySign, priceFormat }) => {
  */
 export function price (value, storeView) {
   if (isNaN(value)) {
-    return value;
+    return value
   }
+
   const _storeView = storeView || currentStoreView();
+
   if (!_storeView.i18n) {
     return value;
   }
+
   const { defaultLocale, currencySign, priceFormat } = _storeView.i18n
 
-  const formattedValue = formatValue(value, defaultLocale);
+  const formattedValue = formatValue(value, defaultLocale)
   const valueWithSign = applyCurrencySign(formattedValue, { currencySign, priceFormat })
 
   if (value >= 0) {
-    return valueWithSign;
+    return valueWithSign
   } else {
-    return '-' + valueWithSign;
+    return '-' + valueWithSign
   }
 }
