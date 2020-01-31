@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add `ProductPrice` component with bundleOptions and customOptions prices - @gibkigonzo (#3978)
+- Add lazy create cart token - @gibkigonzo (#3994)
 
 ### Changed / Improved
 - Set cache tag when loading a category - @haelbichalex (#3940)

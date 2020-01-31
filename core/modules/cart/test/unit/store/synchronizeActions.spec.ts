@@ -119,7 +119,7 @@ describe('Cart synchronizeActions', () => {
     await (cartActions as any).synchronizeCart(contextMock, { forceClientState: false });
     expect(contextMock.commit).not.toHaveBeenNthCalledWith(1, types.CART_SET_ITEMS_HASH, 'hash-token')
     expect(contextMock.commit).not.toHaveBeenNthCalledWith(2, types.CART_LOAD_CART_SERVER_TOKEN, 'hash-token')
-    expect(contextMock.dispatch).toBeCalledWith('connect', { guestCart: false })
+    expect(contextMock.dispatch).toBeCalledWith('create')
   })
 
   it('merges current cart', async () => {

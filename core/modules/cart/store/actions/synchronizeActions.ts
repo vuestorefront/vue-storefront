@@ -36,10 +36,8 @@ const synchronizeActions = {
       Logger.info('Cart token received from cache.', 'cache', token)()
       Logger.info('Syncing cart with the server.', 'cart')()
       dispatch('sync', { forceClientState, dryRun: !serverMergeByDefault })
-    } else {
-      Logger.info('Creating server cart token', 'cart')()
-      await dispatch('connect', { guestCart: false })
     }
+    await dispatch('create')
   },
   /** @deprecated backward compatibility only */
   async serverPull ({ dispatch }, { forceClientState = false, dryRun = false }) {

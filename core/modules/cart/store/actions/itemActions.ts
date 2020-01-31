@@ -80,6 +80,7 @@ const itemActions = {
         productIndex++
       }
     }
+    await dispatch('create')
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
       return dispatch('sync', { forceClientState: true })
     }

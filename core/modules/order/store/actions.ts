@@ -34,7 +34,7 @@ const actions: ActionTree<OrderState, RootState> = {
     EventBus.$emit('order-before-placed', { order: preparedOrder })
     const order = orderHooksExecutors.beforePlaceOrder(preparedOrder)
 
-    if (!config.orders.directBackendSync || !isOnline()) {
+    if (!isOnline()) {
       dispatch('enqueueOrder', { newOrder: order })
       EventBus.$emit('order-after-placed', { order })
       orderHooksExecutors.beforePlaceOrder({ order, task: { resultCode: 200 } })
