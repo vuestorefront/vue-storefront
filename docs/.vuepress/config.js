@@ -6,7 +6,10 @@ module.exports = {
       includeLevel: [2]
     }
   },
-  head: [['link', { rel: 'icon', href: '/favicon.png' }]],
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.png' }],
+    ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.12.1/diff2html.min.js'}]
+  ],
   themeConfig: {
     repo: 'DivanteLtd/vue-storefront',
     docsDir: 'docs',
@@ -48,7 +51,9 @@ module.exports = {
             'cookbook/internals',
             'cookbook/vue',
             'cookbook/multistores',
-            'cookbook/migration'
+            'cookbook/migration',
+            'cookbook/checklist',
+            'cookbook/history'
           ],
         },
         {
@@ -95,17 +100,6 @@ module.exports = {
           ],
         },
         {
-          title: 'Components',
-          collapsable: false,
-          children: [
-            'components/home-page',
-            'components/category-page',
-            'components/product',
-            'components/modal',
-            'components/events-list'
-          ],
-        },
-        {
           title: 'Data in Vue Storefront',
           collapsable: false,
           children: [
@@ -117,16 +111,6 @@ module.exports = {
             'data/entity-types',
             'data/static-data',
             'data/data-loader'
-          ],
-        },
-        {
-          title: 'Extensions',
-          collapsable: false,
-          children: [
-            'extensions/introduction',
-            'extensions/extending-api',
-            'extensions/extending-server-side-routes',
-            'extensions/extensions-to-modify-results'
           ],
         },
         {
@@ -142,19 +126,6 @@ module.exports = {
           ],
         },
         {
-          title: 'Modules',
-          collapsable: false,
-          children: [
-            'modules/introduction',
-            'modules/cart',
-            // 'modules/catalog',
-            'modules/user',
-            'modules/checkout',
-            'modules/order',
-            //'modules/review'
-          ],
-        },
-        {
           title: 'Integrations',
           collapsable: false,
           children: [
@@ -166,6 +137,15 @@ module.exports = {
             'integrations/tier-prices-sync',
             'integrations/totals-sync',
             'integrations/multistore',
+          ],
+        },
+        {
+          title: 'Archives',
+          collapsable: true,
+          children: [
+            'archives/modules',
+            'archives/extensions',
+            'archives/components'
           ],
         },
       ],

@@ -26,7 +26,8 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
     log: jest.fn(() => () => {}),
     debug: jest.fn(() => () => {}),
     warn: jest.fn(() => () => {}),
-    error: jest.fn(() => () => {})
+    error: jest.fn(() => () => {}),
+    info: jest.fn(() => () => {})
   }
 }));
 jest.mock('@vue-storefront/core/lib/sync', () => ({ TaskQueue: {
@@ -84,39 +85,47 @@ describe('Cart actions', () => {
     expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART, []);
   });
 
-  it('clear dispatches creating a new cart on server with direct backend sync when its configured', async () => {
-    const contextMock = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      getters: { isCartSyncEnabled: true, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true }
-    };
+  describe('create', () => {
+    it('Create cart token when there are products in cart and we don\'t have token already', async () => {
+      const contextMock = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: { getCartItems: [{id: 1}], getCartToken: '' }
+      };
 
-    config.cart = { synchronize: true };
-    config.orders = { directBackendSync: true };
+      const wrapper = (actions: any) => actions.create(contextMock);
+  
+      await wrapper(cartActions);
 
-    const wrapper = (actions: any) => actions.clear(contextMock);
+      expect(contextMock.dispatch).toBeCalledWith('connect', {guestCart: false});
+    })
+    it('doesn\'t create cart token when there are NO products in cart', async () => {
+      const contextMock = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: { getCartItems: [], getCartToken: '' }
+      };
 
-    await wrapper(cartActions);
+      const wrapper = (actions: any) => actions.create(contextMock);
 
-    expect(contextMock.dispatch).toBeCalledWith('connect', {guestCart: false});
-  });
+      await wrapper(cartActions);
 
-  it('clear dispatches creating a new cart on server with queuing when direct backend sync is not configured', async () => {
-    const contextMock = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      getters: { isCartSyncEnabled: true, isTotalsSyncRequired: true, isSyncRequired: true, isCartConnected: true }
-    };
+      expect(contextMock.dispatch).toHaveBeenCalledTimes(0);
+    })
+    it('doesn\'t create cart token when there are products in cart but we have token already', async () => {
+      const contextMock = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: { getCartItems: [{id: 1}], getCartToken: 'xyz' }
+      };
 
-    config.cart = { synchronize: true };
-    config.orders = { directBackendSync: false };
+      const wrapper = (actions: any) => actions.create(contextMock);
 
-    const wrapper = (actions: any) => actions.clear(contextMock);
+      await wrapper(cartActions);
 
-    await wrapper(cartActions);
-
-    expect(contextMock.dispatch).toBeCalledWith('connect', {guestCart: true});
-  });
+      expect(contextMock.dispatch).toHaveBeenCalledTimes(0);
+    })
+  })
 
   describe('sync', () => {
     it('doesn\'t update shipping methods if cart is empty', async () => {

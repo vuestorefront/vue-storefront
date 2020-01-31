@@ -32,7 +32,7 @@ const actions: ActionTree<OrderState, RootState> = {
     }
 
     Vue.prototype.$bus.$emit('order-before-placed', { order: order })
-    if (!config.orders.directBackendSync || !isOnline()) {
+    if (!isOnline()) {
       commit(types.ORDER_PLACE_ORDER, order)
       Vue.prototype.$bus.$emit('order-after-placed', { order: order })
       return {
