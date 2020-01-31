@@ -1,4 +1,4 @@
-import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { price as orgPriceFilter } from '@vue-storefront/core/filters/price'
 
 export const formatValue = (value, locale) => {
   const price = Math.abs(parseFloat(value))
@@ -6,32 +6,4 @@ export const formatValue = (value, locale) => {
   return formatter.format(price)
 }
 
-const applyCurrencySign = (formattedPrice, { currencySign, priceFormat }) => {
-  return priceFormat.replace('{sign}', currencySign).replace('{amount}', formattedPrice)
-}
-
-/**
- * Converts number to price string
- * @param {Number} value
- */
-export function price (value) {
-  if (isNaN(value)) {
-    return value
-  }
-  const storeView = currentStoreView()
-  if (!storeView.i18n) {
-    return value;
-  }
-
-  // @ts-ignore
-  const { defaultLocale, currencySign, priceFormat } = storeView.i18n
-
-  const formattedValue = formatValue(value, defaultLocale)
-  const valueWithSign = applyCurrencySign(formattedValue, { currencySign, priceFormat })
-
-  if (value >= 0) {
-    return valueWithSign
-  } else {
-    return '-' + valueWithSign
-  }
-}
+export const price = orgPriceFilter

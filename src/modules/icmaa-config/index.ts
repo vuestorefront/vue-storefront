@@ -7,8 +7,6 @@ import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { isServer } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-import { checkForIntlPolyfill } from './lib/intl'
-
 export const cacheStorageKey = 'icmaa-config'
 export const cacheStorage = StorageManager.init(cacheStorageKey, false)
 
@@ -37,12 +35,6 @@ export const IcmaaExtendedConfigModule: StorefrontModule = function ({ store }) 
           Logger.debug('Set build time:', 'icmaa-config', envBuildtime)()
           await configStorage.setItem('buildtime', envBuildtime)
         }
-      })
-    }
-
-    if (isServer) {
-      coreHooks.afterAppInit(async () => {
-        await checkForIntlPolyfill()
       })
     }
   }
