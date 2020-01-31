@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import Product from '@vue-storefront/core/pages/Product'
 
 export default {
   props: {
@@ -46,7 +45,11 @@ export default {
     },
     items: {
       type: Array,
-      required: true
+      default: () => []
+    },
+    productName: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -54,7 +57,6 @@ export default {
       currentPage: 1
     }
   },
-  mixins: [Product],
   computed: {
     itemsPerPage () {
       let start = ((this.currentPage - 1) * this.perPage)

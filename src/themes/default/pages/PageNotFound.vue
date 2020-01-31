@@ -37,11 +37,13 @@
               {{ $t('See our bestsellers') }}
             </h3>
           </header>
-          <div class="row center-xs">
-            <div v-for="product in ourBestsellersCollection" :key="product.id" class="col-md-3">
-              <product-tile :product="product" />
+          <lazy-hydrate when-idle>
+            <div class="row center-xs">
+              <div v-for="product in ourBestsellersCollection" :key="product.id" class="col-md-3">
+                <product-tile :product="product" />
+              </div>
             </div>
-          </div>
+          </lazy-hydrate>
         </section>
       </div>
     </section>
@@ -49,25 +51,43 @@
 </template>
 
 <script>
-import PageNotFound from '@vue-storefront/core/pages/PageNotFound'
+import { mapGetters } from 'vuex'
+import { Logger } from '@vue-storefront/core/lib/logger'
+import i18n from '@vue-storefront/i18n'
+import LazyHydrate from 'vue-lazy-hydration'
 import ProductTile from '../components/core/ProductTile.vue'
 
 export default {
   name: 'PageNotFound',
   computed: {
-    ourBestsellersCollection () {
-      return this.$store.state.homepage.bestsellers
+    ...mapGetters({
+      ourBestsellersCollection: 'homepage/getBestsellers'
+    })
+  },
+  async asyncData ({ store, route, context }) {
+    Logger.log('Entering asyncData for PageNotFound ' + new Date())()
+    if (context) {
+      context.output.cacheTags.add(`page-not-found`)
+      context.server.response.statusCode = 404
+    }
+
+    await store.dispatch('homepage/loadBestsellers')
+  },
+  metaInfo () {
+    return {
+      title: this.$route.meta.title || i18n.t('404 Page Not Found'),
+      meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }] : []
     }
   },
   components: {
-    ProductTile
+    ProductTile,
+    LazyHydrate
   },
   methods: {
     toggleSearchpanel () {
       this.$store.commit('ui/setSearchpanel', true)
     }
-  },
-  mixins: [PageNotFound]
+  }
 }
 </script>
 

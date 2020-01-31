@@ -6,16 +6,18 @@ import { execute as taskExecute, _prepareTask } from './task'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 /** Syncs given task. If user is offline requiest will be sent to the server after restored connection */
 async function queue (task) {
-  const tasksCollection = Vue.prototype.$db.syncTaskCollection
+  const tasksCollection = StorageManager.get('syncTasks')
   task = _prepareTask(task)
   Logger.info('Sync task queued ' + task.url, 'sync', { task })()
   return new Promise((resolve, reject) => {
     tasksCollection.setItem(task.task_id.toString(), task, (err, resp) => {
       if (err) Logger.error(err, 'sync')()
-      Vue.prototype.$bus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
+      EventBus.$emit('sync/PROCESS_QUEUE', { config: config }) // process checkout queue
       resolve(task)
     }, config.syncTasks.disablePersistentTaskQueue).catch((reason) => {
       Logger.error(reason, 'sync')() // it doesn't work on SSR
@@ -48,7 +50,7 @@ async function execute (task): Promise<Task> { // not offline task
 
 /** Clear sync tasks that were not transmitted yet */
 function clearNotTransmited () {
-  const syncTaskCollection = Vue.prototype.$db.syncTaskCollection
+  const syncTaskCollection = StorageManager.get('syncTasks')
   syncTaskCollection.iterate((task, id, iterationNumber) => {
     if (!task.transmited) {
       syncTaskCollection.removeItem(id)

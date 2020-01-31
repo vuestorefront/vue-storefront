@@ -1,7 +1,7 @@
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { Logger } from '@vue-storefront/core/lib/logger'
 
-// to be deprecated
+// @deprecated from 2.0
 export default {
   beforeCreated () {
     const eventName = this.$options.name.toLowerCase() + '-before-created'

@@ -2,13 +2,14 @@ export interface LocalizedRoute {
   path?: string,
   name?: string,
   hash?: string,
-  params?: object,
+  params?: { [key: string]: unknown },
   fullPath?: string,
   host?: string
 }
 
 export interface StoreView {
   storeCode: string,
+  extend?: string,
   disabled?: boolean,
   storeId: any,
   name?: string,
@@ -22,7 +23,9 @@ export interface StoreView {
     sourcePriceIncludesTax: boolean,
     defaultCountry: string,
     defaultRegion: null | string,
-    calculateServerSide: boolean
+    calculateServerSide: boolean,
+    userGroupId?: number,
+    useOnlyDefaultUserGroupId: boolean
   },
   i18n: {
     fullCountryName: string,
@@ -33,5 +36,8 @@ export interface StoreView {
     currencyCode: string,
     currencySign: string,
     dateFormat: string
+  },
+  seo: {
+    defaultTitle: string
   }
 }

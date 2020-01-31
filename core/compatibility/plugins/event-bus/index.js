@@ -61,7 +61,7 @@ if (!EventBus.$dataFilters) {
 
 const EventBusPlugin = {
   install (Vue) {
-    if (!Vue.prototype.$bus) {
+    if (!Vue.prototype.$bus) { /** Vue.prototype.$bus is now @deprecated please do use `EventBus` instead */
       Object.defineProperties(Vue.prototype, {
         $bus: {
           get: function () {

@@ -1,3 +1,4 @@
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 export const AccountButton = {
   name: 'AccountButton',
@@ -15,11 +16,11 @@ export const AccountButton = {
         this.$router.push(this.localizedRoute('/my-account'))
       } else {
         this.$store.commit('ui/setAuthElem', 'login')
-        this.$bus.$emit('modal-show', 'modal-signup')
+        EventBus.$emit('modal-show', 'modal-signup')
       }
     },
     logout () {
-      this.$bus.$emit('user-before-logout')
+      EventBus.$emit('user-before-logout')
       this.$router.push(this.localizedRoute('/'))
     }
   }

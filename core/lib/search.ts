@@ -9,6 +9,7 @@ import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
 import { isServer } from '@vue-storefront/core/helpers'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 // TODO - use one from helpers instead
 export function isOnline (): boolean {
@@ -27,7 +28,7 @@ export function isOnline (): boolean {
  * @param {Int} size page size
  * @return {Promise}
  */
-export const quickSearchByQuery = async ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<SearchResponse> => {
+export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null } = {}): Promise<SearchResponse> => {
   const searchAdapter = await getSearchAdapter()
   if (size <= 0) size = 50
   if (start < 0) start = 0
@@ -52,7 +53,7 @@ export const quickSearchByQuery = async ({ query, start = 0, size = 50, entityTy
       Request.groupId = rootStore.state.user.groupId
     }
 
-    const cache = Vue.prototype.$db.elasticCacheCollection // switch to appcache?
+    const cache = StorageManager.get('elasticCache') // switch to appcache?
     let servedFromCache = false
     const cacheKey = sha3_224(JSON.stringify(Request))
     const benchmarkTime = new Date()
@@ -77,7 +78,7 @@ export const quickSearchByQuery = async ({ query, start = 0, size = 50, entityTy
       delete Request.groupId
     }
 
-    if (config.usePriceTiers && rootStore.state.user.groupToken) {
+    if (rootStore.state.user.groupToken) {
       Request.groupToken = rootStore.state.user.groupToken
     }
 

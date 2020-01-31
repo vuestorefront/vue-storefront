@@ -1,3 +1,4 @@
+import { buildLocaleIgnorePattern } from './../i18n/helpers';
 import path from 'path';
 import config from 'config';
 import fs from 'fs';
@@ -18,6 +19,7 @@ fs.writeFileSync(
 import themeRoot from './theme-path';
 
 const themesRoot = '../../src/themes'
+const moduleRoot = path.resolve(__dirname, '../../src/modules')
 const themeResources = themeRoot + '/resource'
 const themeCSS = themeRoot + '/css'
 const themeApp = themeRoot + '/App.vue'
@@ -26,11 +28,22 @@ const themedIndexMinimal = path.join(themeRoot, '/templates/index.minimal.templa
 const themedIndexBasic = path.join(themeRoot, '/templates/index.basic.template.html')
 const themedIndexAmp = path.join(themeRoot, '/templates/index.amp.template.html')
 
+const csvDirectories = [
+  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/')
+]
+
+fs.readdirSync(moduleRoot).forEach(directory => {
+  const dirName = moduleRoot + '/' + directory + '/resource/i18n'
+
+  if (fs.existsSync(dirName)) {
+    csvDirectories.push(dirName);
+  }
+});
+
+csvDirectories.push(path.resolve(__dirname, themeResources + '/i18n/'));
+
 const translationPreprocessor = require('@vue-storefront/i18n/scripts/translation.preprocessor.js')
-translationPreprocessor([
-  path.resolve(__dirname, '../../node_modules/@vue-storefront/i18n/resource/i18n/'),
-  path.resolve(__dirname, themeResources + '/i18n/')
-], config)
+translationPreprocessor(csvDirectories, config)
 
 const postcssConfig = {
   loader: 'postcss-loader',
@@ -48,6 +61,7 @@ const isProd = process.env.NODE_ENV === 'production'
 // todo: usemultipage-webpack-plugin for multistore
 export default {
   plugins: [
+    new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
     new webpack.ProgressPlugin(),
     // new BundleAnalyzerPlugin({
     //   generateStatsFile: true
@@ -117,7 +131,10 @@ export default {
       'theme/resource': themeResources,
 
       // Backward compatible
-      '@vue-storefront/core/store/lib/multistore': path.resolve(__dirname, '../lib/multistore.ts')
+      '@vue-storefront/core/lib/store/multistore': path.resolve(__dirname, '../lib/multistore.ts'),
+      'src/modules/order-history/components/UserOrders': path.resolve(__dirname, '../../core/modules/order/components/UserOrdersHistory'),
+      '@vue-storefront/core/modules/social-share/components/WebShare': path.resolve(__dirname, '../../src/themes/default/components/theme/WebShare.vue'),
+      '@vue-storefront/core/helpers/initCacheStorage': path.resolve(__dirname, '../lib/storage-manager.ts')
     }
   },
   module: {

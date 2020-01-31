@@ -6,7 +6,10 @@ module.exports = {
       includeLevel: [2]
     }
   },
-  head: [['link', { rel: 'icon', href: '/favicon.png' }]],
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.png' }],
+    ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.12.1/diff2html.min.js'}]
+  ],
   themeConfig: {
     repo: 'DivanteLtd/vue-storefront',
     docsDir: 'docs',
@@ -48,7 +51,9 @@ module.exports = {
             'cookbook/internals',
             'cookbook/vue',
             'cookbook/multistores',
-            'cookbook/migration'
+            'cookbook/migration',
+            'cookbook/history',
+            'cookbook/checklist'
           ],
         },
         {
@@ -75,6 +80,7 @@ module.exports = {
             'basics/graphql',
             'basics/ssr-cache',
             'basics/amp',
+            'basics/static-generator',
             'basics/e2e',
             'basics/url'
           ],
@@ -95,17 +101,6 @@ module.exports = {
           ],
         },
         {
-          title: 'Components',
-          collapsable: false,
-          children: [
-            'components/home-page',
-            'components/category-page',
-            'components/product',
-            'components/modal',
-            'components/events-list'
-          ],
-        },
-        {
           title: 'Data in Vue Storefront',
           collapsable: false,
           children: [
@@ -120,16 +115,6 @@ module.exports = {
           ],
         },
         {
-          title: 'Extensions',
-          collapsable: false,
-          children: [
-            'extensions/introduction',
-            'extensions/extending-api',
-            'extensions/extending-server-side-routes',
-            'extensions/extensions-to-modify-results'
-          ],
-        },
-        {
           title: 'Working with Vuex',
           collapsable: false,
           children: [
@@ -139,19 +124,6 @@ module.exports = {
             'vuex/category-store',
             'vuex/stock-store',
             'vuex/attribute-store',
-          ],
-        },
-        {
-          title: 'Modules',
-          collapsable: false,
-          children: [
-            'modules/introduction',
-            'modules/cart',
-            // 'modules/catalog',
-            'modules/user',
-            'modules/checkout',
-            'modules/order',
-            //'modules/review'
           ],
         },
         {
@@ -168,6 +140,15 @@ module.exports = {
             'integrations/multistore',
           ],
         },
+        {
+          title: 'Data Resolvers',
+          collapsable: false,
+          children: [
+            'data-resolvers/introduction',
+            'data-resolvers/category-service',
+            'data-resolvers/user-service',
+          ]
+        }
       ],
     },
   },

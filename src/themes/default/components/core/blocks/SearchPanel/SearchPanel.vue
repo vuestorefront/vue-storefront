@@ -83,6 +83,7 @@ import ProductTile from 'theme/components/core/ProductTile'
 import VueOfflineMixin from 'vue-offline/mixin'
 import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel'
 import { minLength } from 'vuelidate/lib/validators'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {
   components: {
@@ -116,7 +117,6 @@ export default {
         .filter(p => p.category)
         .map(p => p.category)
         .flat()
-        .filter(c => c.name)
 
       const discinctCategories = Array.from(
         new Set(categories.map(c => c.category_id))
@@ -142,6 +142,10 @@ export default {
   mounted () {
     // add autofocus to search input field
     this.$refs.search.focus()
+    disableBodyScroll(this.$el)
+  },
+  destroyed () {
+    clearAllBodyScrollLocks()
   }
 }
 </script>
@@ -160,6 +164,7 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+
   .close-icon-row {
     display: flex;
     justify-content: flex-end;
