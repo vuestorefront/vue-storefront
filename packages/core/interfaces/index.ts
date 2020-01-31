@@ -18,7 +18,7 @@ export interface UseCategory
 > {
   categories: Ref<Array<CATEGORY>>;
   search: SEARCH;
-  appliedFilters: Ref<APPLIED_FILTERS>;
+  appliedFilters: APPLIED_FILTERS;
   applyFilter: APPLY_FILTER;
   clearFilters: CLEAR_FILTERS;
   loading: Ref<boolean>;
@@ -57,7 +57,7 @@ export interface UseWishlist
   addToWishlist: ADD_TO_WISHLIST;
   removeFromWishlist: REMOVE_FROM_WISHLIST;
   clearWishlist: CLEAR_WISHLIST;
-  loading: boolean;
+  loading: Ref<boolean>;
   error: any;
 }
 

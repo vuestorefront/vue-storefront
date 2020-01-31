@@ -9,9 +9,6 @@ import { ProductVariant, Cart } from './../types/GraphQL'
 import { enhanceCart } from './../helpers/internals'
 import loadCurrentCart from './currentCart'
 
-export const cart: Ref<Cart> = ref<Cart>(null)
-const loading: Ref<boolean> = ref<boolean>(false)
-
 type CartRef = Ref<Cart>
 type AddToCartFn = (variant: ProductVariant, quantity: number) => void
 type RemoveFromCartFn = (product: UiCartProduct) => void
@@ -19,6 +16,9 @@ type ClearCartFn = (product: UiCartProduct) => void
 type CouponRef = Ref<any>
 type ApplyCouponFn = () => void
 type RemoveCoupon = () => void
+
+export const cart: Ref<Cart> = ref<Cart>(null)
+const loading: Ref<boolean> = ref<boolean>(false)
 
 // TODO: Think how to incorporate this into core (updateItem?)
 interface UseCart extends BaseUseCart<CartRef, AddToCartFn, RemoveFromCartFn, ClearCartFn, CouponRef, ApplyCouponFn, RemoveCoupon> {

@@ -1,7 +1,7 @@
 {
   "name": "@vue-storefront/commercetools-composables",
   "version": "0.0.3",
-  "sideEffects": true,
+  "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",

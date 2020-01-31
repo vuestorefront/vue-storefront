@@ -46,6 +46,7 @@
   "workspaces": {
     "packages": [
       "packages/commercetools/*",
+      "packages/boilerplate/*",
       "packages/core/*"
     ],
     "nohoist": [

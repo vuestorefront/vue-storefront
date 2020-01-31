@@ -16,8 +16,8 @@
                 :key="product.id"
                 :image="product.image"
                 :title="product.title"
-                :regular-price="product.price.regular | price"
-                :special-price="product.price.special | price"
+                :regular-price="product.price.regular"
+                :special-price="product.price.special"
                 :stock="99999"
                 v-model="product.qty"
                 @input="updateQuantity(product)"
@@ -97,12 +97,6 @@ export default {
     SfProperty,
     SfPrice,
     SfCollectedProduct
-  },
-  filters: {
-    price: function(price) {
-      if (!price) return;
-      return `$${price}`;
-    }
   },
   setup() {
     const { cart, removeFromCart, updateQuantity } = useCart()

@@ -109,8 +109,7 @@ export default {
 
 <style>
 #footer {
-  max-width: 64rem;
-  margin-left: auto;
-  margin-right: auto
+  /* temporary */
+  padding: 0 2.5rem;
 }
 </style>
