@@ -20,11 +20,13 @@ const createSlug = (category: ChildrenData): string => {
 
 const slugifyCategories = (category: Category | ChildrenData): Category | ChildrenData => {
   if (category.children_data) {
-    for (let subcat of category.children_data) {
-      if (subcat.name) {
-        return slugifyCategories({ ...subcat, slug: createSlug(subcat) } as any as ChildrenData)
+    category.children_data.forEach((subCat: ChildrenData): void => {
+      if (subCat.name) {
+        subCat.slug = createSlug(subCat)
       }
-    }
+
+      slugifyCategories(subCat)
+    })
   }
 
   return category

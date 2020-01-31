@@ -35,6 +35,7 @@ export interface StoreView {
     defaultLocale: string,
     currencyCode: string,
     currencySign: string,
+    priceFormat: string,
     dateFormat: string
   },
   seo: {
