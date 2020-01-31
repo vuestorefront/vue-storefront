@@ -46,7 +46,7 @@ const getVariantWithLowestPrice = (prevVariant, nextVariant) => (
 /**
  * Counts how much coniguration match for specific variant
  */
-const countMatchConfiguration = (configuration, variant): number => {
+const getConfigurationMatchLevel = (configuration, variant): number => {
   if (!variant || !configuration) return 0
   const configProperties = Object.keys(omit(configuration, ['price']))
   return configProperties
@@ -85,12 +85,12 @@ export function findConfigurableChildAsync ({ product, configuration = null, sel
           return getVariantWithLowestPrice(prevVariant, nextVariant)
         }
       } else {
-        const prevVariantMatch = countMatchConfiguration(configuration, prevVariant)
-        const nextVariantMatch = countMatchConfiguration(configuration, nextVariant)
+        const prevVariantMatch = getConfigurationMatchLevel(configuration, prevVariant)
+        const nextVariantMatch = getConfigurationMatchLevel(configuration, nextVariant)
         // compare variants based on configuration match
-        const bestConfigVariant = nextVariantMatch > prevVariantMatch ? nextVariant : prevVariant
+        const bestMatch = nextVariantMatch >= prevVariantMatch ? nextVariant : prevVariant
 
-        return bestConfigVariant
+        return bestMatch
       }
     }
   }, undefined)
