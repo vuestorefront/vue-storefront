@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Disable checking max quantity when manage stock is set to false - @gibkigonzo (#4038)
 - Add products quantity only when token is created - @gibkigonzo (#4017)
 - Revert init filters in Vue app - add storeView to global/store and pass it to filters - @gibkigonzo (#3929)
+- Fix v-model not working in BaseRadioButton - @lukeromanowicz (#4035)
 
 ## [1.11.0] - 2019.12.20
 
