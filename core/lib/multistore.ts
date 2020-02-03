@@ -11,6 +11,9 @@ import { coreHooksExecutors } from '@vue-storefront/core/hooks'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { LocalizedRoute, StoreView } from './types'
 import storeCodeFromRoute from './storeCodeFromRoute'
+import cloneDeep from 'lodash-es/cloneDeep'
+import get from 'lodash-es/get'
+import { isServer } from '@vue-storefront/core/helpers'
 
 function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   if (storeView.extend) {
@@ -30,20 +33,28 @@ function getExtendedStoreviewConfig (storeView: StoreView): StoreView {
   return storeView
 }
 
+/**
+ * Returns base storeView object that can be created without storeCode
+ */
+function buildBaseStoreView (): StoreView {
+  return cloneDeep({
+    tax: config.tax,
+    i18n: config.i18n,
+    elasticsearch: config.elasticsearch,
+    storeCode: null,
+    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
+    seo: config.seo
+  })
+}
+
 export function currentStoreView (): StoreView {
-  // TODO: Change to getter all along our code
-  return rootStore.state.storeView
+  const serverStoreView = get(global, 'process.storeView', undefined)
+  const clientStoreView = get(rootStore, 'state.storeView', undefined)
+  return (isServer ? serverStoreView : clientStoreView) || buildBaseStoreView()
 }
 
 export async function prepareStoreView (storeCode: string): Promise<StoreView> {
-  let storeView: StoreView = { // current, default store
-    tax: Object.assign({}, config.tax),
-    i18n: Object.assign({}, config.i18n),
-    elasticsearch: Object.assign({}, config.elasticsearch),
-    storeCode: null,
-    storeId: config.defaultStoreCode && config.defaultStoreCode !== '' ? config.storeViews[config.defaultStoreCode].storeId : 1,
-    seo: Object.assign({}, config.seo)
-  }
+  let storeView: StoreView = buildBaseStoreView() // current, default store
 
   if (config.storeViews.multistore === true) {
     storeView.storeCode = storeCode || config.defaultStoreCode || ''
@@ -61,6 +72,11 @@ export async function prepareStoreView (storeCode: string): Promise<StoreView> {
   if (storeViewHasChanged) {
     storeView = coreHooksExecutors.beforeStoreViewChanged(storeView)
     rootStore.state.storeView = storeView
+
+    if (global && isServer) {
+      (global.process as any).storeView = storeView
+    }
+
     await loadLanguageAsync(storeView.i18n.defaultLocale)
   }
   if (storeViewHasChanged || StorageManager.currentStoreCode !== storeCode) {

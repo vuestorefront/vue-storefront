@@ -351,8 +351,8 @@ describe('Cart mergeActions', () => {
     (createDiffLog as jest.Mock).mockImplementation(() => diffLog)
 
     await (cartActions as any).merge(contextMock, { clientItems: [clientItem], serverItems: [serverItem] });
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'mergeClientItems', { clientItems: [clientItem], serverItems: [serverItem], dryRun: false, forceClientState: false })
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'mergeServerItems', { clientItems: [clientItem], serverItems: [serverItem], dryRun: false, forceClientState: false })
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'mergeClientItems', { clientItems: [clientItem], serverItems: [serverItem], dryRun: false, forceClientState: false, mergeQty: false })
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'mergeServerItems', { clientItems: [clientItem], serverItems: [serverItem], dryRun: false, forceClientState: false, mergeQty: false })
     expect(contextMock.dispatch).toHaveBeenNthCalledWith(3, 'updateTotalsAfterMerge', { clientItems: [clientItem], dryRun: false })
   })
 });
