@@ -20,7 +20,8 @@
     "@vue-storefront/commercetools-helpers": "^0.0.3",
     "@vue-storefront/nuxt": "^0.0.3",
     "core-js": "^2.6.5",
-    "nuxt": "^2.10.2"
+    "nuxt": "^2.10.2",
+    "vee-validate": "^3.2.3"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.3.1",

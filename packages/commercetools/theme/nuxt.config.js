@@ -98,6 +98,9 @@ export default {
     endpoint: 'https://lovecrafts-dev.cdn.prismic.io/api/v2'
   },
   build: {
+    transpile: [
+      'vee-validate/dist/rules'
+    ],
     plugins: [
       new webpack.DefinePlugin({
         'process.VERSION': JSON.stringify({

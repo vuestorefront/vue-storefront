@@ -7,13 +7,13 @@
         <div v-if="isLogin" key="log-in">
           <div class="form">
             <SfInput
-              v-model="email"
+              v-model="form.email"
               name="email"
               label="Your email"
               class="form__input"
             />
             <SfInput
-              v-model="password"
+              v-model="form.password"
               name="password"
               label="Password"
               type="password"
@@ -25,64 +25,80 @@
               label="Remember me"
               class="form__checkbox"
             />
-            <SfButton class="sf-button--full-width form__button"
-              >Login</SfButton
-            >
+            <SfButton class="sf-button--full-width form__button">Login</SfButton>
           </div>
           <div class="action">
-            <SfButton class="sf-button--text button--muted"
-              >Forgotten password?</SfButton
-            >
+            <SfButton class="sf-button--text button--muted">Forgotten password?</SfButton>
           </div>
           <div class="bottom">
             Don't have and account yet?
-            <SfButton class="sf-button--text" @click="isLogin = false"
-              >Register today?</SfButton
-            >
+            <SfButton class="sf-button--text" @click="isLogin = false">Register today?</SfButton>
           </div>
         </div>
         <div v-else key="sign-up" class="form">
-          <div class="from">
-            <SfInput
-              v-model="email"
-              name="email"
-              label="Your email"
-              class="form__input"
-            />
-            <SfInput
-              v-model="firstName"
-              name="first-name"
-              label="First Name"
-              class="form__input"
-            />
-            <SfInput
-              v-model="lastName"
-              name="last-name"
-              label="Last Name"
-              class="form__input"
-            />
-            <SfInput
-              v-model="password"
-              name="password"
-              label="Password"
-              type="password"
-              class="form__input"
-            />
-            <SfCheckbox
-              v-model="createAccount"
-              name="create-account"
-              label="I want to create an account"
-              class="form__checkbox"
-            />
-            <SfButton class="sf-button--full-width form__button"
-              >Create an account</SfButton
-            >
-          </div>
+          <ValidationObserver v-slot="{ handleSubmit }">
+            <form class="from" @submit.prevent="handleSubmit(handleRegister)">
+              <ValidationProvider rules="required|email" v-slot="{ errors }">
+                <SfInput
+                  v-model="form.email"
+                  :valid="!errors[0]"
+                  :errorMessage="errors[0]"
+                  name="email"
+                  label="Your email"
+                  class="form__input"
+                />
+              </ValidationProvider>
+              <ValidationProvider rules="required" v-slot="{ errors }">
+                <SfInput
+                  v-model="form.firstName"
+                  :valid="!errors[0]"
+                  :errorMessage="errors[0]"
+                  name="first-name"
+                  label="First Name"
+                  class="form__input"
+                />
+              </ValidationProvider>
+              <ValidationProvider rules="required" v-slot="{ errors }">
+                <SfInput
+                  v-model="form.lastName"
+                  :valid="!errors[0]"
+                  :errorMessage="errors[0]"
+                  name="last-name"
+                  label="Last Name"
+                  class="form__input"
+                />
+              </ValidationProvider>
+              <ValidationProvider rules="required" v-slot="{ errors }">
+                <SfInput
+                  v-model="form.password"
+                  :valid="!errors[0]"
+                  :errorMessage="errors[0]"
+                  name="password"
+                  label="Password"
+                  type="password"
+                  class="form__input"
+                />
+              </ValidationProvider>
+              <SfCheckbox
+                v-model="createAccount"
+                name="create-account"
+                label="I want to create an account"
+                class="form__checkbox"
+              />
+              <SfButton
+                type="submit"
+                class="sf-button--full-width form__button"
+                :disabled="loading"
+              >
+                <SfLoader :class="{ loader: loading }" :loading="loading">
+                  <div>Create an account</div>
+                </SfLoader>
+              </SfButton>
+            </form>
+          </ValidationObserver>
           <div class="action">
             or
-            <SfButton class="sf-button--text" @click="isLogin = true"
-              >login in to your account</SfButton
-            >
+            <SfButton class="sf-button--text" @click="isLogin = true">login in to your account</SfButton>
           </div>
         </div>
       </transition>
@@ -90,39 +106,61 @@
   </div>
 </template>
 <script>
-import { SfModal, SfInput, SfButton, SfCheckbox } from '@storefront-ui/vue'
+import { computed, ref } from '@vue/composition-api'
+import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader } from '@storefront-ui/vue'
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
+import { required, email } from 'vee-validate/dist/rules'
+import { useUser } from '@vue-storefront/commercetools-composables'
 import uiState from '~/assets/ui-state'
+
 const { isLoginModalOpen, toggleLoginModal } = uiState
+
+extend('email', {
+  ...email,
+  message: 'Invalid email'
+})
+
+extend('required', {
+  ...required,
+  message: 'This field is required'
+})
 
 export default {
   name: 'LoginModal',
-  components: { SfModal, SfInput, SfButton, SfCheckbox },
+  components: {
+    SfModal,
+    SfInput,
+    SfButton,
+    SfCheckbox,
+    SfLoader,
+    ValidationProvider,
+    ValidationObserver
+  },
   setup() {
+    const form = ref({})
+    const isLogin = ref(false)
+    const createAccount = ref(false)
+    const rememberMe = ref(false)
+    const { register, loading } = useUser()
+
+    const handleRegister = async (formData) => {
+      await register(form.value)
+      toggleLoginModal()
+    }
+
+    const handleLogin = () => {}
+
     return {
+      form,
+      loading,
+      isLogin,
+      createAccount,
+      rememberMe,
       isLoginModalOpen,
-      toggleLoginModal
+      toggleLoginModal,
+      handleLogin,
+      handleRegister
     };
-  },
-  data() {
-    return {
-      isLogin: true,
-      email: '',
-      password: '',
-      createAccount: false,
-      rememberMe: false,
-      firstName: '',
-      lastName: ''
-    }
-  },
-  watch: {
-    isLogin() {
-      this.email = ''
-      this.password = ''
-      this.createAccount = false
-      this.rememberMe = false
-      this.firstName = ''
-      this.lastName = ''
-    }
   }
 }
 </script>
@@ -164,5 +202,13 @@ export default {
 }
 .sf-button--muted {
   color: $c-text-muted;
+}
+
+.loader {
+  padding: 11px 0;
+
+  &::v-deep .sf-loader__overlay {
+    background: transparent;
+  }
 }
 </style>

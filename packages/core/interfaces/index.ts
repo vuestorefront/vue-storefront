@@ -8,6 +8,21 @@ export interface UseProduct<PRODUCT, SEARCH> {
   [x: string]: any;
 }
 
+export interface UseUser
+<
+  USER,
+  REGISTER,
+  LOGIN,
+  LOGOUT,
+> {
+  user: USER
+  register: REGISTER
+  login: LOGIN
+  logout: LOGOUT
+  loading: Ref<boolean>
+  error: Ref<any>
+}
+
 export interface UseCategory
 <
   CATEGORY,
