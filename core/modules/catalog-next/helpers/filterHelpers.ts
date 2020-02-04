@@ -38,21 +38,19 @@ export const getFiltersFromQuery = ({filtersQuery = {}, availableFilters = {}} =
   }
   Object.keys(filtersQuery).forEach(filterKey => {
     const filter = availableFilters[filterKey]
-    const queryValue = filtersQuery[filterKey]
+    let queryValue = filtersQuery[filterKey]
     if (!filter) return
+    // keep original value for system filters - for example sort
     if (getSystemFilterNames.includes(filterKey)) {
       searchQuery[filterKey] = queryValue
-    } else if (Array.isArray(queryValue)) {
+    } else {
+      queryValue = [].concat(filtersQuery[filterKey])
       queryValue.map(singleValue => {
         const variant = filter.find(filterVariant => filterVariant.id === singleValue)
         if (!variant) return
-        if (!searchQuery.filters[filterKey] || !Array.isArray(searchQuery.filters[filterKey])) searchQuery.filters[filterKey] = []
+        if (!Array.isArray(searchQuery.filters[filterKey])) searchQuery.filters[filterKey] = []
         searchQuery.filters[filterKey].push({...variant, attribute_code: filterKey})
       })
-    } else {
-      const variant = filter.find(filterVariant => filterVariant.id === queryValue)
-      if (!variant) return
-      searchQuery.filters[filterKey] = {...variant, attribute_code: filterKey}
     }
   })
   return searchQuery
