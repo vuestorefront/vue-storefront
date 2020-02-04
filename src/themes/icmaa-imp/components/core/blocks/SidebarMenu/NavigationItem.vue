@@ -93,7 +93,7 @@ export default {
       return !this.hasChildren
     },
     textColorClass () {
-      return this.backgroundColor !== 'base-lightest' || this.hasBackgroundImage ? 't-text-white' : ''
+      return this.backgroundColor !== 'base-lightest' || this.hasBackgroundImage ? 't-text-white' : 't-text-base-dark'
     }
   }
 }
