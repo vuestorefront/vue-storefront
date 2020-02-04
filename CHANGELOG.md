@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Redirect from checkout to home with a proper store code - @Fifciu
 - Added back error notification when user selects invalid configuration - @1070rik (#4033)
 - findConfigurableChildAsync - return best match for configurable variant - @gibkigonzo (#4042)
+- use storeCode for mappingFallback url - @gibkigonzo (#4050)
 
 ### Changed / Improved
 - Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)

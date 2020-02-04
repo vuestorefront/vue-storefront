@@ -8,7 +8,7 @@ import queryString from 'query-string'
 import config from 'config'
 import { SearchQuery } from 'storefront-query-builder'
 import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData, getFallbackRouteData } from '../helpers'
-import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
+import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName, adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
 import fetch from 'isomorphic-fetch'
 import { Logger } from '@vue-storefront/core/lib/logger'
@@ -135,8 +135,7 @@ export const actions: ActionTree<UrlState, any> = {
    */
   async getFallbackByUrl (context, { url }) {
     try {
-      const { elasticsearch } = currentStoreView()
-      const requestUrl = `${processURLAddress(config.urlModule.map_endpoint)}/${elasticsearch.index}`
+      const requestUrl = `${adjustMultistoreApiUrl(processURLAddress(config.urlModule.map_endpoint))}`
       let response: any = await fetch(
         requestUrl,
         {
@@ -190,8 +189,7 @@ export const actions: ActionTree<UrlState, any> = {
   async saveFallbackData ({ commit }, { _type, _source }) {
     switch (_type) {
       case 'product': {
-        configureChildren(_source)
-        storeProductToCache(_source, 'sku')
+        // TODO: find a way to cache simple, configurable, group, bundle or custom_options products
         break
       }
       case 'category': {
