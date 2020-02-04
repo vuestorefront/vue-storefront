@@ -1,5 +1,6 @@
 import config from 'config'
 import FilterVariant from 'core/modules/catalog-next/types/FilterVariant'
+import { Filters } from '../types/Category'
 
 export const getSystemFilterNames: string[] = config.products.systemFilterNames
 
@@ -32,7 +33,7 @@ export const changeFilterQuery = ({currentQuery = {}, filterVariant}: {currentQu
   return newQuery
 }
 
-export const getFiltersFromQuery = ({filtersQuery = {}, availableFilters = {}} = {}) => {
+export const getFiltersFromQuery = ({filtersQuery = {}, availableFilters = {}} = {}): { filters: Filters } => {
   const searchQuery = {
     filters: {}
   }
