@@ -2,14 +2,14 @@ const path = require('path')
 const webpack = require('webpack')
 const MFS = require('memory-fs')
 
-let baseClientConfig = require('./webpack.client.config')
-let baseServerConfig = require('./webpack.server.config')
+let baseClientConfig = require('./webpack.client.config').default
+let baseServerConfig = require('./webpack.server.config').default
 
 const themeRoot = require('./theme-path')
 const extendedConfig = require(path.join(themeRoot, '/webpack.config.js'))
 
-let clientConfig = extendedConfig(baseClientConfig, { isClient: true, isDev: true }).default;
-let serverConfig = extendedConfig(baseServerConfig, { isClient: false, isDev: true }).default;
+let clientConfig = extendedConfig(baseClientConfig, { isClient: true, isDev: true })
+let serverConfig = extendedConfig(baseServerConfig, { isClient: false, isDev: true })
 
 module.exports = function setupDevServer (app, cb) {
   let bundle
