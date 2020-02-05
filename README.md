@@ -66,8 +66,8 @@ We're trying to be very open regarding our development plans, news, roadmap and 
 
 [![Demo and the architecture of Vue Storefront](docs/.vuepress/public/video-webcast-1.png)](https://www.youtube.com/watch?v=sRSmEP4jva0&feature=youtu.be)
 
-- [Read on how to integrate it with Magento2](https://medium.com/@piotrkarwatka/vue-storefront-how-to-install-and-integrate-with-magento2-227767dd65b2), [Read how to create Vue Storefront theme](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593),
-- [Read the interviews with authors of first production deployments](https://medium.com/@piotrkarwatka/vue-storefront-on-production-interview-with-gogetgold-com-developers-71e4b48ef996)
+- [Read on how to integrate it with Magento2](http://blog.vuestorefront.io/vue-storefront-how-to-install-and-integrate-with-magento-2/), [Read how to create Vue Storefront theme](http://blog.vuestorefront.io/creating-themes-in-vue-storefront-part-1/),
+- [Read the interviews with authors of first production deployments](http://blog.vuestorefront.io/vsf-on-production-interview-with-gogetgold-com/)
 
 ## Is it production ready?
 
@@ -150,7 +150,7 @@ You can find some tutorials and explanations on our [YouTube channel](https://ww
 
 Tutorial series on creating themes for Vue Storefront:
 
-- [Creating themes in Vue Storefront (part 1 — understanding Vue Storefront core)](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593)
+- [Creating themes in Vue Storefront (part 1 — understanding Vue Storefront core)](http://blog.vuestorefront.io/creating-themes-in-vue-storefront-part-1/)
 
 ### Data in Vue Storefront
 
@@ -914,10 +914,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     <td align="center" valign="middle">
-<a href="">
+<a href="https://www.ohmybrand.es/">
           <img
-            src=""
-            alt=""
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/ohmybrand_logo_blue.png"
+            alt="Oh My Brand"
             height="40"
           >
         </a>
