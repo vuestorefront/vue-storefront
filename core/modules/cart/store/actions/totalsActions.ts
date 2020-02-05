@@ -2,10 +2,12 @@ import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import {
+  preparePaymentMethodsToSync,
   prepareShippingInfoForUpdateTotals,
   createOrderData,
   createShippingInfoData
 } from '@vue-storefront/core/modules/cart/helpers'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const totalsActions = {
   async getTotals (context, { addressInformation, hasShippingInformation }) {
@@ -15,7 +17,7 @@ const totalsActions = {
 
     return CartService.getTotals()
   },
-  async overrideServerTotals ({ commit, getters, dispatch }, { addressInformation, hasShippingInformation }) {
+  async overrideServerTotals ({ commit, getters, rootGetters, dispatch }, { addressInformation, hasShippingInformation }) {
     const { resultCode, result } = await dispatch('getTotals', { addressInformation, hasShippingInformation })
 
     if (resultCode === 200) {
@@ -34,8 +36,12 @@ const totalsActions = {
 
       // we received payment methods as a result of this call, updating state
       if (result.payment_methods && getters.canUpdateMethods) {
-        const backendPaymentMethods = result.payment_methods.map(method => ({ ...method, is_server_method: true }))
-        dispatch('checkout/replacePaymentMethods', backendPaymentMethods, { root: true })
+        const { uniqueBackendMethods, paymentMethods } = preparePaymentMethodsToSync(
+          result.payment_methods.map(method => ({ ...method, is_server_method: true })),
+          rootGetters['checkout/getNotServerPaymentMethods']
+        )
+        dispatch('checkout/replacePaymentMethods', paymentMethods, { root: true })
+        EventBus.$emit('set-unique-payment-methods', uniqueBackendMethods)
       }
 
       return

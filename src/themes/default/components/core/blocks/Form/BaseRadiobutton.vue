@@ -9,7 +9,7 @@
         @keyup.enter="$emit('click')"
         @click="$emit('click')"
         @blur="$emit('blur')"
-        @change="$emit('change')"
+        @change="$emit('change', $event.target.checked)"
         :disabled="disabled"
       >
       <label
@@ -30,6 +30,10 @@ export default {
   name: 'BaseRadiobutton',
   components: {
     ValidationMessages
+  },
+  model: {
+    prop: 'value',
+    event: 'change'
   },
   props: {
     id: {

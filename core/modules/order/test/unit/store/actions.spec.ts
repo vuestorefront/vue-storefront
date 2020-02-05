@@ -980,7 +980,7 @@ describe('Order actions', () => {
       expect(contextMock.commit).not.toBeCalledWith(types.ORDER_ADD_SESSION_STAMPS);
     })
 
-    it('should dispatch enqueueOrder', async () => {
+    it('should dispatch processOrder', async () => {
       const contextMock = createContextMock({
         getters: { getSessionOrderHashes: 'current-order-hash' }
       });
@@ -1036,7 +1036,7 @@ describe('Order actions', () => {
 
       await (orderActions as any).placeOrder(contextMock, order)
 
-      expect(contextMock.dispatch).toBeCalledWith('enqueueOrder', { newOrder: newOrder })
+      expect(contextMock.dispatch).toBeCalledWith('processOrder', { newOrder: newOrder, currentOrderHash })
     })
 
     it('should dispatch processOrder', async () => {

@@ -58,6 +58,9 @@ export const PersonalDetails = {
     },
     gotoAccount () {
       this.$bus.$emit('modal-show', 'modal-signup')
+    },
+    onCheckoutLoad () {
+      this.personalDetails = this.$store.state.checkout.personalDetails
     }
   },
   updated () {
@@ -72,9 +75,11 @@ export const PersonalDetails = {
     }
   },
   beforeMount () {
+    this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
     this.$bus.$on('user-after-loggedin', this.onLoggedIn)
   },
-  destroyed () {
+  beforeDestroy () {
+    this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
     this.$bus.$off('user-after-loggedin', this.onLoggedIn)
   }
 }

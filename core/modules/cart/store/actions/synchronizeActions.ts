@@ -36,17 +36,15 @@ const synchronizeActions = {
       Logger.info('Cart token received from cache.', 'cache', token)()
       Logger.info('Syncing cart with the server.', 'cart')()
       dispatch('sync', { forceClientState, dryRun: !serverMergeByDefault })
-    } else {
-      Logger.info('Creating server cart token', 'cart')()
-      await dispatch('connect', { guestCart: false })
     }
+    await dispatch('create')
   },
   /** @deprecated backward compatibility only */
   async serverPull ({ dispatch }, { forceClientState = false, dryRun = false }) {
     Logger.warn('The "cart/serverPull" action is deprecated and will not be supported with the Vue Storefront 1.11', 'cart')()
     return dispatch('sync', { forceClientState, dryRun })
   },
-  async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false }) {
+  async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false }) {
     const shouldUpdateClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
     if (!canUpdateMethods || !isSyncRequired) return createDiffLog()
@@ -59,7 +57,8 @@ const synchronizeActions = {
         dryRun,
         serverItems,
         clientItems,
-        forceClientState: shouldUpdateClientState
+        forceClientState: shouldUpdateClientState,
+        mergeQty
       })
       cartHooksExecutors.afterSync(diffLog)
       return diffLog

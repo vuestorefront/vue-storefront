@@ -8,11 +8,11 @@
           </p>
           <div class="col-xs-4 cl-bg-tertiary">
             <div v-if="productLink.product.special_price && productLink.product.price_incl_tax && productLink.product.original_price_incl_tax">
-              <span class="price-special">{{ productLink.product.price_incl_tax | price }}</span>&nbsp;
-              <span class="price-original">{{ productLink.product.original_price_incl_tax | price }}</span>
+              <span class="price-special">{{ productLink.product.price_incl_tax | price(storeView) }}</span>&nbsp;
+              <span class="price-original">{{ productLink.product.original_price_incl_tax | price(storeView) }}</span>
             </div>
             <div v-if="!productLink.product.special_price && productLink.product.price_incl_tax">
-              {{ productLink.product.price_incl_tax | price }}
+              {{ productLink.product.price_incl_tax | price(storeView) }}
             </div>
           </div>
         </div>
@@ -35,11 +35,17 @@
 </template>
 
 <script>
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 export default {
   props: {
     products: {
       type: Array,
       required: true
+    }
+  },
+  computed: {
+    storeView () {
+      return currentStoreView()
     }
   }
 }

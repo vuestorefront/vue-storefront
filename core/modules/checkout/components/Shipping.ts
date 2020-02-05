@@ -12,10 +12,12 @@ export const Shipping = {
     }
   },
   beforeDestroy () {
+    this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
     this.$bus.$off('checkout-after-personalDetails', this.onAfterPersonalDetails)
     this.$bus.$off('checkout-after-shippingset', this.onAfterShippingSet)
   },
   beforeMount () {
+    this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
     this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
     this.$bus.$on('checkout-after-shippingset', this.onAfterShippingSet)
   },
@@ -185,6 +187,9 @@ export const Shipping = {
         return false
       }
       return true
+    },
+    onCheckoutLoad () {
+      this.shipping = this.$store.state.checkout.shippingDetails
     }
   }
 }

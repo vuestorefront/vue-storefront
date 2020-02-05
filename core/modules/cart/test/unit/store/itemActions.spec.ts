@@ -145,7 +145,8 @@ describe('Cart itemActions', () => {
     await (cartActions as any).addItems(contextMock, { productsToAdd: [product] })
     expect(contextMock.commit).toBeCalledWith(types.CART_ADD_ITEM, { product: { ...product, onlineStockCheckid: 1 } })
     expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'checkProductStatus', { product })
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'sync', { forceClientState: true })
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'create')
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(3, 'sync', { forceClientState: true })
   })
 
   it('removes item from the cart', async () => {

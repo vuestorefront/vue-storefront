@@ -63,29 +63,29 @@
         <div class="flex mr10 align-right start-xs between-sm prices">
           <div class="prices" v-if="!displayItemDiscounts || !isOnline">
             <span class="h4 serif cl-error price-special" v-if="product.special_price">
-              {{ product.price_incl_tax * product.qty | price }}
+              {{ product.price_incl_tax * product.qty | price(storeView) }}
             </span>
             <span class="h6 serif price-original" v-if="product.special_price">
-              {{ product.original_price_incl_tax * product.qty | price }}
+              {{ product.original_price_incl_tax * product.qty | price(storeView) }}
             </span>
             <span class="h4 serif price-regular" v-else data-testid="productPrice">
-              {{ (product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax) * product.qty | price }}
+              {{ (product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax) * product.qty | price(storeView) }}
             </span>
           </div>
           <div class="prices" v-else-if="isOnline && product.totals">
             <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
-              {{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }}
+              {{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price(storeView) }}
             </span>
             <span class="h6 serif price-original" v-if="product.totals.discount_amount">
-              {{ product.totals.row_total_incl_tax | price }}
+              {{ product.totals.row_total_incl_tax | price(storeView) }}
             </span>
             <span class="h4 serif price-regular" v-if="!product.totals.discount_amount">
-              {{ product.totals.row_total_incl_tax | price }}
+              {{ product.totals.row_total_incl_tax | price(storeView) }}
             </span>
           </div>
           <div class="prices" v-else>
             <span class="h4 serif price-regular">
-              {{ (product.regular_price || product.price_incl_tax) * product.qty | price }}
+              {{ (product.regular_price || product.price_incl_tax) * product.qty | price(storeView) }}
             </span>
           </div>
         </div>
@@ -183,7 +183,9 @@ export default {
       return this.product.info && Object.keys(this.product.info).length > 0
     },
     hasProductErrors () {
-      return this.product.errors && Object.keys(this.product.errors).length > 0
+      const errors = this.product.errors || {}
+      const errorsValuesExists = Object.keys(errors).filter(errorKey => errors[errorKey]).length > 0
+      return errorsValuesExists
     },
     isTotalsActive () {
       return this.isOnline && !this.editMode && this.product.totals && this.product.totals.options
@@ -225,6 +227,9 @@ export default {
       return this.quantityError ||
         this.isStockInfoLoading ||
         (this.isOnline && !this.maxQuantity && this.isSimpleOrConfigurable)
+    },
+    storeView () {
+      return currentStoreView()
     }
   },
   methods: {

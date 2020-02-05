@@ -13,15 +13,15 @@ const applyCurrencySign = (formattedPrice, { currencySign, priceFormat }) => {
  * Converts number to price string
  * @param {Number} value
  */
-export function price (value) {
+export function price (value, storeView) {
   if (isNaN(value)) {
     return value;
   }
-  const storeView = currentStoreView();
-  if (!storeView.i18n) {
+  const _storeView = storeView || currentStoreView();
+  if (!_storeView.i18n) {
     return value;
   }
-  const { defaultLocale, currencySign, priceFormat } = storeView.i18n
+  const { defaultLocale, currencySign, priceFormat } = _storeView.i18n
 
   const formattedValue = formatValue(value, defaultLocale);
   const valueWithSign = applyCurrencySign(formattedValue, { currencySign, priceFormat })
