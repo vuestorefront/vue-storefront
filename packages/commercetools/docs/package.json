@@ -1,5 +1,6 @@
 {
   "name": "docs",
+  "version": "0.0.1",
   "private": true,
   "description": "",
   "main": "index.js",
@@ -7,12 +8,13 @@
     "dev": "vuepress dev",
     "build": "vuepress build"
   },
+  "dependencies": {
+    "@vue-storefront/docs": "^0.0.1",
+    "marked": "^0.8.0"
+  },
   "devDependencies": {
     "vuepress": "^1.2.0"
   },
   "author": "DivanteLtd",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  }
+  "license": "MIT"
 }

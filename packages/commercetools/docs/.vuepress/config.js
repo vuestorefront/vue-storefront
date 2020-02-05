@@ -4,18 +4,11 @@ module.exports = {
   themeConfig: {
     sidebar: [
       {
-        title: 'Contributing',
+        title: 'Essentials',
         collapsable: false,
         children: [
-          ['/contributing/getting-started', 'Getting started'],
-        ],
-      },
-      {
-        title: 'Commerce Tools',
-        collapsable: false,
-        children: [
-          ['/commercetools/introduction', 'Getting started'],
-          ['/commercetools/api-client', 'API Client'],
+          ['/overview', 'Overview'],
+          ['/api-client', 'API Client'],
         ],
       },
     ]

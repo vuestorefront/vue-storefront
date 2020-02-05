@@ -1,3 +1,0 @@
-# Commerce Tools integration
-
-<!-- intro -->

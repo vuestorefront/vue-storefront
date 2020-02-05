@@ -1,12 +1,17 @@
+<ApiClient />
 
-# About commercetools API Client
+<!-- Installation command -->
+::: slot installation-ct
+```bash
+npm install --save @vue-storefront/commercetools-api
+# OR
+yarn add @vue-storefront/commercetools-api
+```
+:::
 
-<!-- description of used technologies, purpose etc -->
+<!-- Code example for setup method -->
 
-## Setup
-
-Before you can use any of the commercetools API Client methods you need to set it up with following properties
-
+::: slot setup-ct
 ```javascript
 import { setup } from '@vue-storefront/commercetools-api'
 
@@ -21,14 +26,22 @@ setup({
   }
 })
 ```
+:::
 
-## Methods
+<!-- API Client methods -->
+
+::: slot methods-ct
 
 ### `getProduct`
 
 Method responsible for fetching single or multiple products from commercetools GraphQL API. It accepts configuration object with following properties:
-
-- `query` (optional) - alternative GraphQL query. Please keep in mind that modifying this property can break helper functions.
+- `limit?: number`
+- `offset?: number`
+- `sort?: string[]`
+- `catIds?: string[]`
+- `skus?: string[]`
+- `slug?: string`
+- `query?: CustomQuery` - custom GraphQL query. Please keep in mind that modifying this property can break helper functions.
   <details>
   <summary>See default query</summary>
   <p>
@@ -93,4 +106,6 @@ Method responsible for fetching single or multiple products from commercetools G
 
   </p>
   </details>  
+:::
 
+### `getProduct`
