@@ -54,6 +54,10 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
   </tbody>
 </table>
 
+## Be up to date with the news
+
+We're trying to be very open regarding our development plans, news, roadmap and in general: sharing a lot. Please do bookmark our [Official blog](https://blog.vuestorefront.io/) to be always up to date!
+
 ## Video demo
 
 [![See how it works!](docs/.vuepress/public/Fil-Rakowski-VS-Demo-Youtube.png)](https://www.youtube.com/watch?v=L4K-mq9JoaQ)
@@ -62,8 +66,8 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
 
 [![Demo and the architecture of Vue Storefront](docs/.vuepress/public/video-webcast-1.png)](https://www.youtube.com/watch?v=sRSmEP4jva0&feature=youtu.be)
 
-- [Read on how to integrate it with Magento2](https://medium.com/@piotrkarwatka/vue-storefront-how-to-install-and-integrate-with-magento2-227767dd65b2), [Read how to create Vue Storefront theme](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593),
-- [Read the interviews with authors of first production deployments](https://medium.com/@piotrkarwatka/vue-storefront-on-production-interview-with-gogetgold-com-developers-71e4b48ef996)
+- [Read on how to integrate it with Magento2](http://blog.vuestorefront.io/vue-storefront-how-to-install-and-integrate-with-magento-2/), [Read how to create Vue Storefront theme](http://blog.vuestorefront.io/creating-themes-in-vue-storefront-part-1/),
+- [Read the interviews with authors of first production deployments](http://blog.vuestorefront.io/vsf-on-production-interview-with-gogetgold-com/)
 
 ## Is it production ready?
 
@@ -146,7 +150,7 @@ You can find some tutorials and explanations on our [YouTube channel](https://ww
 
 Tutorial series on creating themes for Vue Storefront:
 
-- [Creating themes in Vue Storefront (part 1 — understanding Vue Storefront core)](https://medium.com/@frakowski/developing-themes-in-vue-storefront-backend-agnostic-ecommerce-pwa-frontend-part-1-72ea3c939593)
+- [Creating themes in Vue Storefront (part 1 — understanding Vue Storefront core)](http://blog.vuestorefront.io/creating-themes-in-vue-storefront-part-1/)
 
 ### Data in Vue Storefront
 
@@ -275,7 +279,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="https://divante.com/">
           <img
-            src="https://divante.co/about us/LOGO.png"
+            src="https://divante.com/github/shopware-pwa/Divante_logo_1.png"
             alt="Divante"
             width="150"
           >
@@ -894,7 +898,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
   <td align="center" valign="middle">
 <a href="https://www.sitewards.com/">
           <img
-            src="https://divante.com/partners/Vue-Storefront/Sitewards%20Logo.png"
+            src="https://divante.com/partners/Vue-Storefront/sitewards-logo.png"
             alt="Sitewards"
             height="40"
           >
@@ -903,17 +907,17 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
      <td align="center" valign="middle">
 <a href="https://codecoda.com/en">
           <img
-            src="https://divante.com/partners/Vue-Storefront/CodeCoda-800.png"
+            src="https://divante.com/partners/Vue-Storefront/codecoda-logo.png"
             alt="CodeCoda"
             height="40"
           >
         </a>
 </td>
     <td align="center" valign="middle">
-<a href="">
+<a href="https://www.ohmybrand.es/">
           <img
-            src=""
-            alt=""
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/ohmybrand_logo_blue.png"
+            alt="Oh My Brand"
             height="40"
           >
         </a>
