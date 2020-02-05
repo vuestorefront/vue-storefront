@@ -34,7 +34,12 @@ setup({
 
 ### `getProduct`
 
+```js
+const { data } = await getProduct({ slug: 'black-dress' })
+```
+
 Method responsible for fetching single or multiple products from commercetools GraphQL API. It accepts configuration object with following properties:
+
 - `limit?: number`
 - `offset?: number`
 - `sort?: string[]`
