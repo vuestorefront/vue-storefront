@@ -1,14 +1,5 @@
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-
-const formatValue = (value, locale) => {
-  const price = Math.abs(parseFloat(value))
-  const formatter = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-  return formatter.format(price)
-}
-
-const applyCurrencySign = (formattedPrice, { currencySign, priceFormat }) => {
-  return priceFormat.replace('{sign}', currencySign).replace('{amount}', formattedPrice)
-}
+import CurrencyFormatter from 'currencyformatter.js'
 
 /**
  * Converts number to price string
@@ -23,14 +14,17 @@ export function price (value, storeView) {
     return value;
   }
 
-  const { defaultLocale, currencySign, priceFormat } = _storeView.i18n
+  let { defaultLocale, currencyCode, currencySign, currencyPattern, currencyDecimal, currencyGroup } = _storeView.i18n;
 
-  const formattedValue = formatValue(value, defaultLocale)
-  const valueWithSign = applyCurrencySign(formattedValue, { currencySign, priceFormat })
+  const separatorIndex = defaultLocale.indexOf('-');
+  const languageCode = (separatorIndex > -1) ? defaultLocale.substr(0, separatorIndex) : defaultLocale;
 
-  if (value >= 0) {
-    return valueWithSign
-  } else {
-    return '-' + valueWithSign
-  }
+  return CurrencyFormatter.format(value, {
+    currencyCode: currencyCode,
+    symbol: currencySign,
+    locale: languageCode,
+    decimal: currencyDecimal,
+    group: currencyGroup,
+    pattern: currencyPattern
+  });
 }

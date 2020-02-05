@@ -59,6 +59,7 @@
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
     "cross-env": "^3.1.4",
+    "currencyformatter.js": "^2.2.0",
     "dayjs": "^1.8.15",
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
