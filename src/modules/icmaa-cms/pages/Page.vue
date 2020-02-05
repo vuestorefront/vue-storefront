@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Page from 'icmaa-cms/components/Page'
+import Page from 'icmaa-cms/mixins/Page'
 import VueMarkdown from 'vue-markdown'
 
 export default {

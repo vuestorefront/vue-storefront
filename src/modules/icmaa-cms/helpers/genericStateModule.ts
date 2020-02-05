@@ -12,7 +12,7 @@ import camelCase from 'lodash-es/camelCase'
 
 let registeredGenericCmsStateModules: string[] = []
 
-const registerGenericCmsStateModule = (stateKey: string, documentType: string, extendStore: Module<GenericState, RootState>) => {
+const registerGenericCmsStateModule = (stateKey: string, documentType: string, extendStore?: Module<GenericState, RootState>) => {
   const namespace = 'icmaa-cms-' + stateKey
   const ccNamespace = camelCase(namespace)
 

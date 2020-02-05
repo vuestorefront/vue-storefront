@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Page from 'icmaa-cms/components/Page'
+import Page from 'icmaa-cms/mixins/Page'
 import Layout from 'theme/components/core/blocks/ICMAA/Cms/Pages/Service/Layout'
 import VueMarkdown from 'vue-markdown'
 

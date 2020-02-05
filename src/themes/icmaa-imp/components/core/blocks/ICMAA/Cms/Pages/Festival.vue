@@ -10,7 +10,7 @@
     <!-- Cities -->
     <ul class="t-flex t-justify-center t-mt-4 t-bg-festival">
       <li class="city-item" v-for="(city, index) in content.cities" :key="index" @click="currentTab = index" :class="{active: currentTab === index}">
-        <router-link :to="'#' + city.name" class="t-text-white t-block t-p-2 md:t-p-5 t-uppercase t-text-sm md:t-text-xl">
+        <router-link :to="'#' + index" class="t-text-white t-block t-p-2 md:t-p-5 t-uppercase t-text-sm md:t-text-xl">
           {{ city.name }}
         </router-link>
       </li>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import Page from 'icmaa-cms/components/Page'
+import Page from 'icmaa-cms/mixins/Page'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 
 export default {

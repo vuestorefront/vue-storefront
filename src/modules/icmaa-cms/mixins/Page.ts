@@ -7,7 +7,6 @@ import YAML from 'yaml'
 import CmsMetaMixin from 'icmaa-meta/mixins/cmsMeta'
 
 export default {
-  name: 'IcmaaCmsPage',
   mixins: [ CmsMetaMixin ],
   computed: {
     ...mapGetters('icmaaCmsPage', ['getPageByIdentifier']),

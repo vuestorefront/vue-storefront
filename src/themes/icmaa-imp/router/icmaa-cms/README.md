@@ -23,7 +23,7 @@ It's recommended to implement the default `page` mixins to your new component to
 </template>
 
 <script>
-import Page from 'icmaa-cms/components/Page'
+import Page from 'icmaa-cms/mixins/Page'
 
 export default {
   mixins: [ Page ],

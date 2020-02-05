@@ -3,9 +3,10 @@
 </template>
 
 <script>
-import Block from 'icmaa-cms/components/Block'
+import Block from 'icmaa-cms/mixins/Block'
 
 export default {
+  name: 'IcmaaCmsBlock',
   mixins: [ Block ]
 }
 </script>

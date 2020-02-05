@@ -5,7 +5,6 @@ import { stringToComponent } from '../helpers'
 import { isServer } from '@vue-storefront/core/helpers'
 
 export default {
-  name: 'IcmaaCmsBlock',
   props: {
     identifier: {
       type: String,

@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 import { UrlState } from '@vue-storefront/core/modules/url/types/UrlState'
 import { PageStateItem } from 'icmaa-cms/types/PageState'
+import { GenericStateItem } from 'icmaa-cms/types/GenericState'
 import { Competition as CompetitionStateItem } from 'icmaa-competitions/types/CompetitionsState'
 import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import { removeHashFromRoute } from '../helpers'
@@ -60,6 +61,26 @@ const forCmsPageUrls = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
 }
 
 /**
+ * This is our cms landing page url fallback mapper
+ */
+const forCmsLandingPageUrls = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
+  return dispatch('icmaaCmsLangingPages/single', { value: urlPath }, { root: true })
+    .then((page: GenericStateItem) => {
+      if (page !== null) {
+        return {
+          name: getLocalizedDispatcherRouteName('icmaa-cms-landing-page'),
+          params: {
+            identifier: page.identifier
+          }
+        }
+      }
+
+      return undefined
+    })
+    .catch(() => undefined)
+}
+
+/**
  * This is our competitions url fallback mapper
  */
 const forCmsCompetitionsUrls = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
@@ -102,6 +123,11 @@ export const actions: ActionTree<UrlState, any> = {
     const cmsPageUrl = await forCmsPageUrls({ dispatch }, paramsObj)
     if (cmsPageUrl) {
       return cmsPageUrl
+    }
+
+    const cmsLandingPageUrl = await forCmsLandingPageUrls({ dispatch }, paramsObj)
+    if (cmsLandingPageUrl) {
+      return cmsLandingPageUrl
     }
 
     const cmsCompetitionsUrl = await forCmsCompetitionsUrls({ dispatch }, paramsObj)

@@ -16,7 +16,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Page from 'icmaa-cms/components/Page'
+import Page from 'icmaa-cms/mixins/Page'
 import Layout from 'theme/components/core/blocks/ICMAA/Cms/Pages/Service/Layout'
 import FormComponent from 'icmaa-forms/components/Form'
 

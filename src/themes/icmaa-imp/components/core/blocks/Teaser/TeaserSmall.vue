@@ -4,7 +4,7 @@
       {{ teaser.buttonText }}
     </div>
     <retina-image :image="imageUrl" :alt="teaser.text1 | htmlDecode" :width="288" :height="288" :placeholder="true" ratio="1:1" class="t-flex-fix t-max-w-full" />
-    <h2 class="t-flex-grow t-text-sm t-text-primary t-leading-tight t-pt-4" :class="{ 't-pb-8': !lastRow }">
+    <h2 class="t-flex-grow t-text-sm t-text-primary t-leading-tight t-pt-4" :class="{ 't-pb-8 lg:t-pb-0': !lastRow }">
       <router-link :to="link" :title="teaser.text1 | htmlDecode" class="t-text-primary">
         {{ teaser.text1 }}
       </router-link>

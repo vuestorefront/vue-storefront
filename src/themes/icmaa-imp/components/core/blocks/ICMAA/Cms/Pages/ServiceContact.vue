@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import Page from 'icmaa-cms/components/Page'
+import Page from 'icmaa-cms/mixins/Page'
 import Layout from 'theme/components/core/blocks/ICMAA/Cms/Pages/Service/Layout'
 import FormComponent from 'icmaa-forms/components/Form'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'

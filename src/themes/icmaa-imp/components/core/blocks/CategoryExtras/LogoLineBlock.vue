@@ -6,7 +6,7 @@
         {{ $t('View all {department}', { department: $t(title) }) }}
       </router-link>
     </h4>
-    <logo-line :parent-id="parentId" :limit="12" :placeholder="true" column-class="t-w-1/3 md:t-w-1/6 lg:t-w-1/4 t-py-2" class="t-justify-between t--mx-2" />
+    <logo-line :parent-id="parentId" :limit="12" :placeholder="true" column-class="t-w-1/3 md:t-w-1/6 lg:t-w-1/4 t-py-2" class="t-justify-between" />
   </div>
 </template>
 
@@ -14,6 +14,7 @@
 import LogoLine from 'theme/components/core/blocks/CategoryExtras/LogoLine'
 
 export default {
+  name: 'LogolineBlock',
   components: {
     LogoLine
   },

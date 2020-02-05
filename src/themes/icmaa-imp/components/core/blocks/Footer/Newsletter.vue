@@ -14,7 +14,7 @@
       </button>
     </div>
     <i18n path="Data is not given to third parties and unsubscription is possible at any time. {policy}" tag="p" class="t-text-xs t-text-base-light t-leading-none t-mb-4">
-      <router-link place="policy" :to="localizedRoute('/policy')">
+      <router-link place="policy" :to="localizedRoute('/service-imprint')">
         {{ $t('Privacy Policy') }}
       </router-link>
     </i18n>

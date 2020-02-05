@@ -4,9 +4,9 @@
       <slot />
     </div>
     <div class="t-absolute t-top-full t-z-1 t-flex t-flex-wrap t-shadow t-bg-white t-border t-border-base-light t-rounded-sm" :class="[`t-${position}-0`, ...dropdownClassObject]" v-show="open">
-      <label v-for="(o, i) in filteredOptions" :key="'option-' + i" class="t-flex t-w-full t-border-base-lighter t-px-3 t-py-2 t-text-left t-text-sm t-cursor-pointer hover:t-bg-base-lightest hover:t-text-primary" :class="[{ 't-bg-base-lighter t-text-primary': isCurrent(o.value) }, { 't-border-b': isLast(i) }]">
+      <label v-for="(o, i) in filteredOptions" :key="'option-' + i + '-' + o.value" class="t-flex t-w-full t-border-base-lighter t-px-3 t-py-2 t-text-left t-text-sm t-cursor-pointer hover:t-bg-base-lightest hover:t-text-primary" :class="[{ 't-bg-base-lighter t-text-primary': isCurrent(o.value) }, { 't-border-b': isLast(i) }]">
         {{ o.label }}
-        <input type="radio" v-model="value" :name="name" :value="o.value" :selected="current === o.value" class="t-hidden" @change="select">
+        <input type="radio" v-model="value" :name="name" :value="o.value" :selected="o.selected" class="t-hidden" @change="select">
       </label>
     </div>
   </div>
@@ -52,7 +52,11 @@ export default {
   },
   computed: {
     filteredOptions () {
-      return this.hideSelected ? this.options.filter(o => !this.isCurrent(o.value)) : this.options
+      const options = this.hideSelected ? this.options.filter(o => !this.isCurrent(o.value)) : this.options
+      return options.map(o => {
+        o.selected = this.isCurrent(o.value)
+        return o
+      })
     },
     dropdownClassObject () {
       let v = this.dropdownClass
@@ -68,7 +72,7 @@ export default {
       this.open = !this.open
     },
     isCurrent (v) {
-      return this.value === v
+      return this.current === v
     },
     select () {
       this.$emit('change', this.value)

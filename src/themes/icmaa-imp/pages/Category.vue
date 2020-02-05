@@ -13,6 +13,7 @@
           </div>
         </category-extras-header>
         <breadcrumbs :active-route="getCurrentCategory.name" class="t-w-full t-my-8" />
+        <block-wrapper :components="getCurrentCategory.ceContentHeader" v-if="getCurrentCategory.ceContentHeader" />
         <div class="t-w-full">
           <div class="t-flex t-flex-wrap t-items-center t--mx-1 lg:t--mx-2">
             <h1 class="category-title t-hidden lg:t-block t-w-3/4 t-px-1 lg:t-px-2 t-mb-4 t-font-light t-text-2xl t-text-base-dark" v-text="title" />
@@ -97,6 +98,7 @@ import Dropdown from 'theme/components/core/blocks/Dropdown'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 import LoaderBackground from 'theme/components/core/LoaderBackground'
+import BlockWrapper from 'icmaa-cms/components/Wrapper'
 
 import CategoryExtrasHeader from 'theme/components/core/blocks/CategoryExtras/Header'
 import CategoryExtrasFooter from 'theme/components/core/blocks/CategoryExtras/Footer'
@@ -144,7 +146,8 @@ export default {
     Breadcrumbs,
     SortBy,
     CategoryExtrasHeader,
-    CategoryExtrasFooter
+    CategoryExtrasFooter,
+    BlockWrapper
   },
   mixins: [ CategoryMixin, CategoryExtrasMixin, CategoryMetaMixin, ClusterMixin, CategoryGtmMixin ],
   data () {

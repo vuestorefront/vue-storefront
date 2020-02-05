@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Page from 'icmaa-cms/components/Page'
+import Page from 'icmaa-cms/mixins/Page'
 import Layout from 'theme/components/core/blocks/ICMAA/Cms/Pages/Service/Layout'
 import SizeLayout from 'theme/components/core/blocks/ICMAA/Cms/Pages/Service/Size/SizeLayout'
 import ShoeLayout from 'theme/components/core/blocks/ICMAA/Cms/Pages/Service/Size/ShoeLayout'

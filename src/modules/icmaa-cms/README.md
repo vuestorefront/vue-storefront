@@ -1,6 +1,6 @@
 # `icmaa-cms` module
 
-Load CMS blocks from API and insert them into state or as component.
+Load CMS blocks, pages and more from API and insert them into state or as component.
 
 ## Configs
 

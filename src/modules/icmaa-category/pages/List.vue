@@ -2,7 +2,7 @@
   <div id="category-list" class="t-container t-px-4 t-my-8" v-if="notEmpty">
     <h1>{{ parent.name }}</h1>
     <lazy-hydrate when-idle>
-      <logo-line :parent-id="rootCategoryId" :limit="12" :placeholder="true" column-class="t-w-1/3 md:t-w-1/6 t-py-2" class="t-justify-between t--mx-2 t-my-8" />
+      <logo-line :parent-id="rootCategoryId" :limit="12" :placeholder="true" column-class="t-w-1/3 md:t-w-1/6 t-py-2" class="t-justify-between t-my-8" />
     </lazy-hydrate>
     <ul class="slingrope t-flex t-overflow-auto t-scrolling-touch">
       <li :key="letter.letter" v-for="letter in categoriesGroupedByFirstLetter">
