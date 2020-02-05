@@ -54,6 +54,10 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
   </tbody>
 </table>
 
+## Be up to date with the news
+
+We're trying to be very open regarding our development plans, news, roadmap and in general: sharing a lot. Please do bookmark our [Official blog](https://blog.vuestorefront.io/) to be always up to date!
+
 ## Video demo
 
 [![See how it works!](docs/.vuepress/public/Fil-Rakowski-VS-Demo-Youtube.png)](https://www.youtube.com/watch?v=L4K-mq9JoaQ)
