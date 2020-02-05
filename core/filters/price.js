@@ -14,7 +14,7 @@ export function price (value, storeView) {
     return value;
   }
 
-  let { defaultLocale, currencyCode, currencySign, currencyPattern, currencyDecimal, currencyGroup } = _storeView.i18n;
+  const { defaultLocale, currencyCode, currencySign, currencyPattern, currencyDecimal, currencyGroup } = _storeView.i18n;
 
   const separatorIndex = defaultLocale.indexOf('-');
   const languageCode = (separatorIndex > -1) ? defaultLocale.substr(0, separatorIndex) : defaultLocale;
