@@ -12,16 +12,31 @@
   <p>
     API Client is a Vanilla JavaScript application and it doesn't require any frontend framework to run.
   </p>
-  
-  <h2>Setting up</h2>
-  <Block type="warning" title="Using API Client outside of VSF Theme">
-    If you're not using our Nuxt theme you first need to install the API Client package:
-    <Content slot-key="installation-ct" />
-  </Block>
-  <p>Once you install the package you need to call its <code>setup</code> method where you will pass the API Clieny configuration like API Url, API key, default language etc.</p>
+  <ul>
+    <li><a href="#configuration">Configuration in Vue Storefront Theme</a></li>
+    <li><a href="#installation">Adding to currently existing JavaScript projects</a></li>
+  </ul>
+  <h2 id="configuration">Configuration in Vue Storefront Theme</h2>
+  <p>
+    If you're using Vue Storefront Nuxt Theme you should already have at least one file in your <code>plugins</code> folder. The name of each file represents 3rd party integration configuration that it's holding. If you want to change the API Urls or set credentials this is the right place to do this.
+    <Block type="danger" title="Storing credentials">
+      <b>Never</b> pass fragile data like API Client secrets as plain strings. Use env variables instead!
+    </Block>
+    <code>Setup</code> method is responsible for configuring the API Client of your integration.
+    </p>
   <Content slot-key="setup-ct"/>
-
+  <h2 id="installation">Adding to currently existing JavaScript projects</h2>
+  <p>
+    As API Client is a vanilla JavaScript application you can use it without VSF Theme or even without Vue.js. 
+    You just need to perform few additional steps that Vue Storefront Theme does for you out of the box
+  </p>
+  <p>
   <h2>Methods</h2>
   <Content slot-key="methods-ct"/>
 </div>
 </template>
+
+  <Block type="warning" title="Using API Client outside of VSF Theme">
+    If you're not using our Nuxt theme you first need to install the API Client package and invoke `setup` method.
+    <Content slot-key="installation-ct" />
+  </Block>
