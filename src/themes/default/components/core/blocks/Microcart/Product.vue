@@ -183,7 +183,9 @@ export default {
       return this.product.info && Object.keys(this.product.info).length > 0
     },
     hasProductErrors () {
-      return this.product.errors && Object.keys(this.product.errors).length > 0
+      const errors = this.product.errors || {}
+      const errorsValuesExists = Object.keys(errors).filter(errorKey => errors[errorKey]).length > 0
+      return errorsValuesExists
     },
     isTotalsActive () {
       return this.isOnline && !this.editMode && this.product.totals && this.product.totals.options

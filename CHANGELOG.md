@@ -38,6 +38,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved method `findConfigurableChildAsync` - find variant with lowest price - @gibkigonzo (#3939)
 - Removed `product/loadConfigurableAttributes` calls - @andrzejewsky (#3336)
 
+## [1.11.1] - 2020.02.05
+
+### Added
+- Add `ProductPrice` component with bundleOptions and customOptions prices - @gibkigonzo (#3978)
+- Add lazy create cart token - @gibkigonzo (#3994)
+
+### Changed / Improved
+- Set cache tag when loading a category - @haelbichalex (#3940)
+- In development build `webpack.config.js` in theme folder is now called without the `default` key
+
+### Fixed
+- Added Finnish translations - @mattiteraslahti and @alphpkeemik
+- Updated Estonian translations to match 1.11 - @alphpkeemik
+- CookieNotification CSR&SSR mismatch fixed - @Fifciu (#3922)
+- The attribute filter in `attribute/list` was not filtering the already loaded attributes properly - @pkarw (#3964)
+- Update `hasProductErrors` in Product component and support additional sku in custom options - @gibkigonzo (#3976)
+- Fixed logic for generating ${lang}.json files in multi-store setup - @jpkempf
+- Fixed logic for collecting valid locales in single-store, multi-lang setup - @jpkempf
+- Make initial custom option value reactive - @gibkigonzo
+- Fixed No image thumbnails leaded on 404 page - @andrzejewsky (#3955)
+- Fixed Stock logic not working with manage_stock set to false - @andrzejewsky - (#3957)
+- Support old price format in `ProductPrice` - @gibkigonzo (#3978)
+- Fixed product bundle comparison condition - @gk-daniel (#4004)
+- Add event callback for checkout load initial data - @gibkigonzo(#3985)
+- Fixed `Processing order...` modal closing too early - @grimasod (#4021)
+- Keep registered payment methods after `syncTotals`  - @grimasod (#4020)
+- Added status code to the cache content and use it in cache response - @resubaka (#4014)
+- Fixed sku attribute is missing on compare page - @gibkigonzo (#4036)
+- Fixed z-index for aside in compare list - @gibkigonzo (#4037)
+- Disable checking max quantity when manage stock is set to false - @gibkigonzo (#4038)
+- Add products quantity only when token is created - @gibkigonzo (#4017)
+- Revert init filters in Vue app - add storeView to global/store and pass it to filters - @gibkigonzo (#3929)
+- Fix v-model not working in BaseRadioButton - @lukeromanowicz (#4035)
+- always keep filters values as array of object - @gibkigonzo (#4045)
+- Fix ecosystem config to work with ts-node - @andrzejewsky (#3981)
+
 ## [1.11.0] - 2019.12.20
 
 ### Added

@@ -1,3 +1,5 @@
+import FilterVariant from './FilterVariant'
+
 export interface ChildrenData {
   id: number | string,
   children_data?: ChildrenData[],
@@ -19,4 +21,8 @@ export interface Category {
   url_key: string,
   children_data: ChildrenData[],
   slug: string
+}
+
+export interface Filters {
+  [key: string]: FilterVariant[]
 }
