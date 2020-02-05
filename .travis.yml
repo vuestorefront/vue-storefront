@@ -13,6 +13,13 @@ cache:
     - packages/commercetools/theme/.nuxt
     - packages/commercetools/theme/node_modules
 
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::8}
+
+services:
+  - docker
+
 install:
   - yarn
 
@@ -35,17 +42,17 @@ jobs:
       script: yarn test:ct:helpers
       name: Test commercetools helpers
 
-    - stage: deployment
-      script: skip
-      before_deploy:
-        - git log --pretty=%H -1 > version
-        - cat version
-      deploy:
-        provider: heroku
-        api_key:
-          secure: kGJQfXL+DxYf+W8N7PgoCLmEfwNZ6S3o0uEQ62mJ+IzL85V3MU7SOZ3CFyP/yCnJ2N26PKUxMfm6Mb6W++S+BKEYYXFwu9FVeFlEU5UlvZYqXDLsRwmd+NhQAjnQzGe2hYJ3IDmf288XCSMAtZq8xU4634Aqigd1Hh5hWo2qTDF8If7LLczHbdImyx732XTpqFGOLGi45KT35TZBR98kgU69GlvY/uShT5uq8tmnKpKRhwDfIl7tgZCmwY/WL2oKiYi6KQ+b54gKJTWSdMkTwU6s2lmEUmqHaHSi+88eJVyrT1LOeT91s5YbYCdW7xTlWjLbxLICx0E0cFI8j0TrU4UTpGfzejkowmh+d13EG+ah6hV5SECafDgIiBGdVOei5zwxVMWK1GZtMkpBRTuDuJf0ZONIz7fOIRJmsD8lHod7IlKNGWBeooc8LzxLTcSEu/bTO5d1yAeXBALazMfcUM1S9qD/fEQ72Yhhrc5AZKBX+gmTS199r6Fsxv26YJQmWnScZqNrR+tLEiKY+R7DIDX+5CXe93VyKCPfyPaRiYzXxoAJV1fkahmpe6jnIp4IwWNu0Av3tE9J4EbzlidIsgo9NVnxitsTawZFFmMPpiAR/wqLgvLpt1/GJIMBDSbvi3UZamN7E4vW2JK+hKE8inV7XZL3Nw6+pLMF8q6u/XU=
-        app: vsf-next-prod
-        skip_cleanup: true
-        on:
-          branch: master
+    - build_image:
+      name: "Build docker image"
+      stage: docker_build
+      script:
+        - docker build -t registry.storefrontcloud.io/vsf-next-demo-storefrontcloud-io/vue-storefront:$COMMIT -f dev/docker/Dockerfile .
+        - echo $DOCKER_PASSWORD | docker login  -u="$DOCKER_USERNAME" --password-stdin registry.storefrontcloud.io
+        - docker push registry.storefrontcloud.io/vsf-next-demo-storefrontcloud-io/vue-storefront:$COMMIT
+
+    - deploy_to_storefrontcloud:
+      name: "Deploy to StorefrontCloud"
+      stage: deploy
+      script:
+        - "curl -u $CLOUD_USERNAME:$CLOUD_PASSWORD -H 'Content-Type: application/json' -X POST -d \"{\\\"code\\\":\\\"vsf-next-demo\\\", \\\"frontContainerVersion\\\":\\\"$COMMIT\\\"}\" https://farmer.storefrontcloud.io/instances"
 
