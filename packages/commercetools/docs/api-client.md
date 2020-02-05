@@ -29,6 +29,12 @@ setup({
 :::
 
 <!-- API Client methods -->
+::: slot standalone-installation-ct 
+```bash
+yarn add @vue-storefront/commercetools-api
+# OR
+npm install --save @vue-storefront/commercetools-api
+:::
 
 ::: slot methods-ct
 
@@ -114,6 +120,6 @@ It accepts configuration object with following properties:
 
   </p>
   </details>  
-:::
 
-### `getProduct`
+### `getCategory`
+:::

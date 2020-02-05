@@ -14,7 +14,9 @@
   </p>
   <ul>
     <li><a href="#configuration">Configuration in Vue Storefront Theme</a></li>
-    <li><a href="#installation">Adding to currently existing JavaScript projects</a></li>
+    <li><a href="#installation">Installation in currently existing JavaScript projects</a></li>
+    <li><a href="#methods">Methods</a></li>
+    <li><a href="#overriding">Overriding API Client methods</a></li>
   </ul>
   <h2 id="configuration">Configuration in Vue Storefront Theme</h2>
   <p>
@@ -23,20 +25,18 @@
       <b>Never</b> pass fragile data like API Client secrets as plain strings. Use env variables instead!
     </Block>
     <code>Setup</code> method is responsible for configuring the API Client of your integration.
-    </p>
+  </p>
   <Content slot-key="setup-ct"/>
-  <h2 id="installation">Adding to currently existing JavaScript projects</h2>
+  <h2 id="installation">Installation in currently existing JavaScript projects</h2>
   <p>
     As API Client is a vanilla JavaScript application you can use it without VSF Theme or even without Vue.js. 
-    You just need to perform few additional steps that Vue Storefront Theme does for you out of the box
+    You just need to perform few additional steps that Vue Storefront Theme does for you out of the box.
   </p>
-  <p>
+  <p>First install the npm package:</p>
+  <Content slot-key="standalone-installation-ct" />
+  <p>Once it's installed you just need to invoke the <code>setup</code> method from the step above <b>before using any other method from API Client</b>.
   <h2>Methods</h2>
   <Content slot-key="methods-ct"/>
+  <h2>Overriding API Client methods</h2>
 </div>
 </template>
-
-  <Block type="warning" title="Using API Client outside of VSF Theme">
-    If you're not using our Nuxt theme you first need to install the API Client package and invoke `setup` method.
-    <Content slot-key="installation-ct" />
-  </Block>
