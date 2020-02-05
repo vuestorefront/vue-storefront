@@ -5188,6 +5188,11 @@ cssstyle@^1.0.0:
   dependencies:
     cssom "0.3.x"
 
+currencyformatter.js@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/currencyformatter.js/-/currencyformatter.js-2.2.0.tgz#ffafd871bbc92127cadf55588e64026cab78d8b0"
+  integrity sha512-kfMfQBOsK9vnzqUT7pQY+I6ZTM7VWkICwiFUOLPLpOzR5Ir+AUoa1kO7I1clsiHXYe1FPyX91BRWBgHOUEH/NQ==
+
 currently-unhandled@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
