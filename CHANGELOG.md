@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Revert init filters in Vue app - add storeView to global/store and pass it to filters - @gibkigonzo (#3929)
 - Fix v-model not working in BaseRadioButton - @lukeromanowicz (#4035)
 - always keep filters values as array of object - @gibkigonzo (#4045)
+- Fix ecosystem config to work with ts-node - @andrzejewsky (#3981)
 
 ## [1.11.0] - 2019.12.20
 
