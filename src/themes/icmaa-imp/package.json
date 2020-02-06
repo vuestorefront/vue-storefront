@@ -5,8 +5,8 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cd ../../../ && node core/scripts/server"
+    "test:e2e": "cypress open --project test/e2e/",
+    "test:e2e:ci": "cypress run --project test/e2e/"
   },
   "author": "cewald <c.ewald@impericon.com> and contributors",
   "license": "MIT",
@@ -27,7 +27,13 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@cypress/webpack-preprocessor": "^4.1.1",
     "@fullhuman/postcss-purgecss": "^1.2.0",
+    "@types/chai": "^4.2.8",
+    "@types/mocha": "^7.0.1",
+    "@types/node": "^13.7.0",
+    "cypress": "^3.8.3",
+    "eslint-plugin-cypress": "^2.9.0",
     "postcss-clean": "^1.1.0",
     "svg-sprite": "^1.5.0",
     "webpack-spritesmith": "^1.0.1"

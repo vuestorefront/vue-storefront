@@ -1,0 +1,14 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "fixturesFolder": "fixtures",
+  "integrationFolder": "integration",
+  "pluginsFile": "plugins/index.js",
+  "supportFile": "support/index.ts",
+  "screenshotsFolder": "screenshots",
+  "trashAssetsBeforeRuns": true,
+  "video": false,
+  "env": {
+    "store_codes": ["de", "fr", "it", "uk"],
+    "current_store_code": "de"
+  }
+}
