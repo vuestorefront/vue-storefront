@@ -13,6 +13,9 @@
   "files": [
     "lib/**/*"
   ],
+  "devDependencies": {
+    "@vue-storefront/boilerplate-api": "^0.0.1"
+  },
   "publishConfig": {
     "access": "public"
   }

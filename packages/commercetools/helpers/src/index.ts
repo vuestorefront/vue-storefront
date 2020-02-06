@@ -29,7 +29,7 @@ export const getProductGallery = (product: ProductVariant): UiMediaGalleryItem[]
   }))
 
 /** Returns array of product variants meeting criteria */
-export const getProductVariants = (products: ProductVariant[], filters: ProductVariantFilters = {}): ProductVariant | ProductVariant[]  => {
+export const getProductVariants = (products: ProductVariant[], filters: ProductVariantFilters | any = {}): ProductVariant | ProductVariant[]  => {
   if (!products) {
     return []
   }
