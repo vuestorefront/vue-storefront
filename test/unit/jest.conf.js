@@ -10,8 +10,11 @@ module.exports = {
   ],
   testMatch: [
     '<rootDir>/src/modules/**/test/unit/**/*.spec.(js|ts)',
-    `<rootDir>/src/themes/**/*.spec.(js|ts)`,
+    '<rootDir>/src/themes/**/*.spec.(js|ts)',
     '<rootDir>/core/**/test/unit/**/*.spec.(js|ts)'
+  ],
+  testPathIgnorePatterns: [
+    '<rootDir>/src/themes/.*/test/e2e/'
   ],
   transform: {
     '^.+\\.js$': '<rootDir>/node_modules/babel-jest',

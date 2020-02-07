@@ -52,7 +52,11 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
 
   Settings.currentStoreView = storeCode
 
-  url = `/${storeCode}${url}`
+  if (!url.startsWith('/')) {
+    url = '/' + url
+  }
+
+  url = `${storeCode}${url}`
 
   return originalFn(url, _.omit(options, ['storeCode']))
 })
@@ -61,6 +65,11 @@ Cypress.Commands.add('visitAsRecurringUser', (url, options) => {
   localStorage.setItem(
     'shop/uniClaims/cookiesAccepted',
     `{"code":"cookiesAccepted","created_at":"${new Date().toISOString()}","value":true}`
+  )
+
+  localStorage.setItem(
+    'shop/uniClaims/languageAccepted',
+    `{"code":"languageAccepted","created_at":"${new Date().toISOString()}","value":"de-DE"}`
   )
 
   cy.visit(url, options)

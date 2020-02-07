@@ -7,10 +7,10 @@ declare namespace Cypress {
   interface Chainable<Subject> {
 
     /**
-   * Get random element from previous element
-   * @example
-   * cy.random()
-   */
+     * Get random element from previous element
+     * @example
+     * cy.random()
+     */
     random(): Chainable<any>,
 
     /**
