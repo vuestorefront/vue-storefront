@@ -11,7 +11,7 @@ const actions: ActionTree<CheckoutState, RootState> = {
       const result = await dispatch('order/placeOrder', order, { root: true })
       if (!result.resultCode || result.resultCode === 200) {
         await dispatch('updateOrderTimestamp')
-        await dispatch('cart/clear', { recreateAndSyncCart: true }, { root: true })
+        await dispatch('cart/clear', null, { root: true })
         await dispatch('dropPassword')
       }
     } catch (e) {
@@ -41,9 +41,15 @@ const actions: ActionTree<CheckoutState, RootState> = {
   },
   async load ({ commit }) {
     const checkoutStorage = StorageManager.get('checkout')
-    const personalDetails = await checkoutStorage.getItem('personal-details')
-    const shippingDetails = await checkoutStorage.getItem('shipping-details')
-    const paymentDetails = await checkoutStorage.getItem('payment-details')
+    const [
+      personalDetails,
+      shippingDetails,
+      paymentDetails
+    ] = await Promise.all([
+      checkoutStorage.getItem('personal-details'),
+      checkoutStorage.getItem('shipping-details'),
+      checkoutStorage.getItem('payment-details')
+    ])
 
     if (personalDetails) {
       commit(types.CHECKOUT_LOAD_PERSONAL_DETAILS, personalDetails)

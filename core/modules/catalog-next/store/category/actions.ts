@@ -1,4 +1,4 @@
-// import Vue from 'vue'
+import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import RootState from '@vue-storefront/core/types/RootState'
@@ -151,6 +151,11 @@ const actions: ActionTree<CategoryState, RootState> = {
     if (!searchingByIds || categorySearchOptions.filters.id.length) {
       categorySearchOptions.filters = Object.assign(cloneDeep(config.entities.category.filterFields), categorySearchOptions.filters ? cloneDeep(categorySearchOptions.filters) : {})
       const categories = await CategoryService.getCategories(categorySearchOptions)
+      if (Vue.prototype.$cacheTags) {
+        categories.forEach(category => {
+          Vue.prototype.$cacheTags.add(`C${category.id}`)
+        })
+      }
       const notFoundCategories = searchedIds.filter(categoryId => !categories.some(cat => cat.id === parseInt(categoryId)))
 
       commit(types.CATEGORY_ADD_CATEGORIES, categories)
@@ -162,6 +167,9 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategory ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category> {
     const categories: Category[] = await CategoryService.getCategories(categorySearchOptions)
     const category: Category = categories && categories.length ? categories[0] : null
+    if (Vue.prototype.$cacheTags) {
+      Vue.prototype.$cacheTags.add(`C${category.id}`)
+    }
     commit(types.CATEGORY_ADD_CATEGORY, category)
     return category
   },

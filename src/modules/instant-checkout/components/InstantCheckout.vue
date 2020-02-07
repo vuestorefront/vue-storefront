@@ -149,7 +149,7 @@ export default {
               this.$store.dispatch('checkout/setThankYouPage', true)
               this.$store.commit('ui/setMicrocart', false)
               this.$router.push(this.localizedRoute('/checkout'))
-              this.$store.dispatch('cart/clear', { recreateAndSyncCart: true }, {root: true})
+              this.$store.dispatch('cart/clear', null, {root: true})
             }
           })
         })

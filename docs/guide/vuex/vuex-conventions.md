@@ -16,7 +16,7 @@ Good examples:
 Bad examples:
 
 - next-module
-- compare (because it’s not saying what its compare)
+- compare (because it’s not saying what it compares)
 
 ## State
 State properties should be simple and their structure should not be nested. Their names are written in underscore-case notation and indicate what they contain. We should avoid having more than one instance of an object, even between modules. In the vast majority of cases, they can be referenced by their unique ID property. Example:
@@ -79,7 +79,7 @@ The Vuex state, except of mutations, should always be accessed by getters, inclu
 
 * Start from `is` when returns Boolean, or `get` otherwise
 * Answer to question `what am I returning?`
-* Contain module name to ensure that getter is unique through whole Vuex, but it doesn’t have to start with that name. First, it should have a natural name, so for example we have module `category` and in the state `availableFilters`. So `what am I returning?` -> `available Filters` and this filters are `category filters`. It's not a Boolean, it’s an array or map so we’re starting with `get` -> `getAvailableCategoryFilters`
+* Contain module name to ensure that getter is unique through whole Vuex, but it doesn’t have to start with that name. First, it should have a natural name, so for example we have module `category` and in the state `availableFilters`. So `what am I returning?` -> `available Filters` and these filters are `category filters`. It's not a Boolean, it’s an array or map so we’re starting with `get` -> `getAvailableCategoryFilters`
 
 Good examples:
 
@@ -98,7 +98,7 @@ Bad examples:
 
 Every state change from outside of a module should be invoked as an action. Actions are meant to:
 
-- Fetch something from the server(or cache)—in this case, they have to be asynchronous (return promise).
+- Fetch something from the server(or cache) — in this case, they have to be asynchronous (return promise).
 - Mutate state of current module.
 - Dispatch actions from the same module (to avoid repeating logic).
 - Dispatch actions from another module (only if it’s absolutely required).

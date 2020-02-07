@@ -35,8 +35,8 @@
 </template>
 
 <script>
-
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+
 export default {
   props: {
     perPage: {

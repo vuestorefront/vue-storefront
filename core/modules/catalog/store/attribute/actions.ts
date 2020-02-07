@@ -1,17 +1,17 @@
 import * as types from './mutation-types'
 import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
-import AttributeState from '../../types/AttributeState'
+import AttributeState from '@vue-storefront/core/modules/catalog/types/AttributeState'
 import RootState from '@vue-storefront/core/types/RootState'
 import { ActionTree } from 'vuex'
 import config from 'config'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
-import { prefetchCachedAttributes } from '../../helpers/prefetchCachedAttributes'
-import areAttributesAlreadyLoaded from './../../helpers/areAttributesAlreadyLoaded'
-import createAttributesListQuery from './../../helpers/createAttributesListQuery'
-import reduceAttributesLists from './../../helpers/reduceAttributesLists'
-import transformMetadataToAttributes from './../../helpers/transformMetadataToAttributes'
+import { prefetchCachedAttributes } from '@vue-storefront/core/modules/catalog/helpers/prefetchCachedAttributes'
+import createAttributesListQuery from '@vue-storefront/core/modules/catalog/helpers/createAttributesListQuery'
+import reduceAttributesLists from '@vue-storefront/core/modules/catalog/helpers/reduceAttributesLists'
+import transformMetadataToAttributes from '@vue-storefront/core/modules/catalog/helpers/transformMetadataToAttributes'
+import filterAttributes from '@vue-storefront/core/modules/catalog/helpers/filterAttributes'
 
 const actions: ActionTree<AttributeState, RootState> = {
   async updateAttributes ({ commit, getters }, { attributes }) {
@@ -64,7 +64,8 @@ const actions: ActionTree<AttributeState, RootState> = {
 
     await dispatch('loadCachedAttributes', { filterField, filterValues })
 
-    if (areAttributesAlreadyLoaded({ filterValues, filterField, blacklist, idsList, codesList })) {
+    filterValues = filterAttributes({ filterValues, filterField, blacklist, idsList, codesList })
+    if (filterValues.length === 0) {
       Logger.info('Skipping attribute load - attributes already loaded', 'attr', { orgFilterValues, filterField })()
       return { items: Object.values(codesList) }
     }
