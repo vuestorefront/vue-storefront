@@ -14,4 +14,9 @@ const getToken = (): Token => {
   return item ? JSON.parse(item) : null
 }
 
-export { storeToken, getToken }
+const cleanToken = () => {
+  const storage = getStorage()
+  storage.removeItem(TOKEN_KEY)
+}
+
+export { storeToken, getToken, cleanToken }

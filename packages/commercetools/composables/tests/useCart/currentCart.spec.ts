@@ -42,7 +42,6 @@ describe('[commercetools-composables] useCart/currentCart', () => {
     const response = await loadCurrentCart()
 
     expect(response).toEqual(cart)
-    expect(getMe).toBeCalled()
     expect(createCart).toBeCalled()
   })
 
@@ -50,7 +49,6 @@ describe('[commercetools-composables] useCart/currentCart', () => {
     (getStorage().getItem as any).mockReturnValue(null);
     const response = await loadCurrentCart()
 
-    expect(getMe).not.toBeCalled()
     expect(createCart).toBeCalled()
     expect(response).toEqual(cart)
   })

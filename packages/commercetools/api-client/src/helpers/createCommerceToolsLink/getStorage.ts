@@ -16,6 +16,9 @@ const getStorage = () => {
     getItem: (key: string): any => {
       return storage[key];
     },
+    removeItem: (key: string): any => {
+      delete storage[key];
+    },
   }
 }
 

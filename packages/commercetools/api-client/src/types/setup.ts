@@ -24,3 +24,8 @@ export interface SetupConfig<TCacheShape> {
   locale: string,
   country?: string
 }
+
+export interface CustomerCredentials {
+  username: string
+  password: string
+}

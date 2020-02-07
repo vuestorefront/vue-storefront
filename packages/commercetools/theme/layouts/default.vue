@@ -1,5 +1,6 @@
 <template>
   <div>
+    <TopBar />
     <div id="layout" >
       <AppHeader />
       <nuxt />
@@ -16,6 +17,7 @@
 import AppHeader from '~/components/AppHeader.vue'
 import BottomNavigation from '~/components/BottomNavigation.vue'
 import AppFooter from '~/components/AppFooter.vue'
+import TopBar from '~/components/TopBar.vue'
 import Version from '~/components/Version.vue'
 
 const CartSidebar = () => import(/* webpackChunkName: "CartSidebar" */ '~/components/CartSidebar.vue')
@@ -23,6 +25,7 @@ const LoginModal = () => import(/* webpackChunkName: "LoginModal" */ '~/componen
 
 export default {
   components: {
+    TopBar,
     AppHeader,
     BottomNavigation,
     AppFooter,

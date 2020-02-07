@@ -1,6 +1,6 @@
 import getMe from '../../../src/api/getMe'
 import { apolloClient } from '../../../src/index'
-import defaultQuery from '../../../src/api/getMe/defaultQuery'
+import { basicProfile, fullProfile } from '../../../src/api/getMe/defaultQuery'
 
 describe('[commercetools-api-client] getMe', () => {
   it('fetches current user data', async () => {
@@ -10,7 +10,7 @@ describe('[commercetools-api-client] getMe', () => {
 
     (apolloClient.query as any).mockImplementation(({ variables, query }) => {
       expect(variables).toEqual(givenVariables)
-      expect(query).toEqual(defaultQuery)
+      expect(query).toEqual(basicProfile)
 
       return { data: 'me response' }
     })

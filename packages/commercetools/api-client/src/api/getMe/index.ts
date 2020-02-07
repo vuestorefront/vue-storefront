@@ -1,10 +1,14 @@
 import { apolloClient, locale } from './../../index'
 import { ProfileResponse } from './../../types/Api'
-import defaultQuery from './defaultQuery'
+import { basicProfile, fullProfile } from './defaultQuery'
 
-const getMe = async (): Promise<ProfileResponse> => {
+interface Options {
+  customer?: boolean
+}
+
+const getMe = async (options: Options = {}): Promise<ProfileResponse> => {
   return await apolloClient.query({
-    query: defaultQuery,
+    query: options.customer ? fullProfile : basicProfile,
     variables: { locale },
     fetchPolicy: 'no-cache'
   })

@@ -4,7 +4,7 @@ import {
   UiCartProduct,
   AgnosticProductAttribute
 } from '@vue-storefront/interfaces'
-import { ProductVariant, Image, Category, Cart, LineItem, ShippingMethod } from './types/GraphQL'
+import { ProductVariant, Image, Category, Cart, LineItem, ShippingMethod, Customer } from './types/GraphQL'
 import { formatAttributeList, getVariantByAttributes } from './_utils'
 
 interface ProductVariantFilters {
@@ -182,3 +182,12 @@ export const getShippingMethodPrice = (shippingMethod: ShippingMethod): number =
   // TODO(CHECKOUT): cover the case with zones
   return shippingMethod.zoneRates[0].shippingRates[0].price.centAmount / 100
 }
+
+
+// User
+
+export const getUserFirstName = (user: Customer): string => user ? user.firstName : ''
+
+export const getUserLastName = (user: Customer): string => user ? user.lastName : ''
+
+export const getUserFullName = (user: Customer): string => user ? `${user.firstName} ${user.lastName}` : ''

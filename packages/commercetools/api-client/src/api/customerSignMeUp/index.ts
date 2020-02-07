@@ -1,13 +1,13 @@
-import { CustomerSignMeUpDraft, CustomerSignInResult } from './../../types/GraphQL'
-import { apolloClient } from './../../index'
+import { CustomerSignMeUpDraft } from './../../types/GraphQL'
+import { apolloClient, locale } from './../../index'
 import CustomerSignMeUpMutation from './defaultMutation'
-import { ApolloQueryResult } from 'apollo-client'
+import { SignInResponse } from './../../types/Api'
 
-const customerSignMeUp = async (draft: CustomerSignMeUpDraft): Promise<ApolloQueryResult<CustomerSignInResult>> => {
+const customerSignMeUp = async (draft: CustomerSignMeUpDraft): Promise<SignInResponse> => {
   return await apolloClient.mutate({
     mutation: CustomerSignMeUpMutation,
-    variables: { draft }
-  }) as ApolloQueryResult<CustomerSignInResult>
+    variables: { draft, locale }
+  }) as SignInResponse
 }
 
 export default customerSignMeUp

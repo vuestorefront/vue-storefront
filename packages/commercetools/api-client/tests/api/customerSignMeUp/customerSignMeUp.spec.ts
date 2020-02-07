@@ -3,14 +3,15 @@ import { apolloClient } from '../../../src/index'
 import defaultMutation from '../../../src/api/customerSignMeUp/defaultMutation'
 
 describe('[commercetools-api-client] customerSignMeUp', () => {
-  it('creates a new cart', async () => {
+  it('creates user account', async () => {
     const givenVariables = {
       draft: {
         firstName: 'John',
         lastName: 'Doe',
         email: 'john@doe.com',
         password: 'xxxxx'
-      }
+      },
+      locale: 'en'
     };
 
     (apolloClient.mutate as any).mockImplementation(({ variables, mutation }) => {

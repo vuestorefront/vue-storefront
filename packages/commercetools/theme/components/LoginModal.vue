@@ -5,28 +5,47 @@
       @close="toggleLoginModal">
       <transition name="fade" mode="out-in">
         <div v-if="isLogin" key="log-in">
-          <div class="form">
-            <SfInput
-              v-model="form.email"
-              name="email"
-              label="Your email"
-              class="form__input"
-            />
-            <SfInput
-              v-model="form.password"
-              name="password"
-              label="Password"
-              type="password"
-              class="form__input"
-            />
-            <SfCheckbox
-              v-model="rememberMe"
-              name="remember-me"
-              label="Remember me"
-              class="form__checkbox"
-            />
-            <SfButton class="sf-button--full-width form__button">Login</SfButton>
-          </div>
+          <ValidationObserver v-slot="{ handleSubmit }">
+            <form class="form" @submit.prevent="handleSubmit(handleLogin)">
+              <ValidationProvider rules="required|email" v-slot="{ errors }">
+                <SfInput
+                  v-model="form.username"
+                  :valid="!errors[0]"
+                  :errorMessage="errors[0]"
+                  name="email"
+                  label="Your email"
+                  class="form__input"
+                />
+              </ValidationProvider>
+              <ValidationProvider rules="required" v-slot="{ errors }">
+                <SfInput
+                  v-model="form.password"
+                  :valid="!errors[0]"
+                  :errorMessage="errors[0]"
+                  name="password"
+                  label="Password"
+                  type="password"
+                  class="form__input"
+                />
+              </ValidationProvider>
+              <SfCheckbox
+                v-model="rememberMe"
+                name="remember-me"
+                label="Remember me"
+                class="form__checkbox"
+              />
+              <SfButton
+                type="submit"
+                class="sf-button--full-width form__button"
+                :disabled="loading"
+              >
+                <SfLoader :class="{ loader: loading }" :loading="loading">
+                  <div>Login</div>
+                </SfLoader>
+              </SfButton>
+              <SfAlert v-if="error" class="alert" type="danger" :message="error" />
+            </form>
+          </ValidationObserver>
           <div class="action">
             <SfButton class="sf-button--text button--muted">Forgotten password?</SfButton>
           </div>
@@ -37,7 +56,7 @@
         </div>
         <div v-else key="sign-up" class="form">
           <ValidationObserver v-slot="{ handleSubmit }">
-            <form class="from" @submit.prevent="handleSubmit(handleRegister)">
+            <form class="from" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
               <ValidationProvider rules="required|email" v-slot="{ errors }">
                 <SfInput
                   v-model="form.email"
@@ -106,8 +125,8 @@
   </div>
 </template>
 <script>
-import { computed, ref } from '@vue/composition-api'
-import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader } from '@storefront-ui/vue'
+import { computed, ref, watch } from '@vue/composition-api'
+import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert } from '@storefront-ui/vue'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules'
 import { useUser } from '@vue-storefront/commercetools-composables'
@@ -133,6 +152,7 @@ export default {
     SfButton,
     SfCheckbox,
     SfLoader,
+    SfAlert,
     ValidationProvider,
     ValidationObserver
   },
@@ -141,16 +161,28 @@ export default {
     const isLogin = ref(false)
     const createAccount = ref(false)
     const rememberMe = ref(false)
-    const { register, loading } = useUser()
+    const { register, login, loading, error } = useUser()
 
-    const handleRegister = async (formData) => {
-      await register(form.value)
-      toggleLoginModal()
+    watch(isLoginModalOpen, () => {
+      if (isLoginModalOpen) {
+        form.value = {}
+      }
+    })
+
+    const handleForm = (fn) => async () => {
+      await fn(form.value)
+
+      if (!error.value) {
+        toggleLoginModal()
+      }
     }
 
-    const handleLogin = () => {}
+    const handleRegister = async () => handleForm(register)()
+
+    const handleLogin = async () => handleForm(login)()
 
     return {
+      error,
       form,
       loading,
       isLogin,
@@ -210,5 +242,10 @@ export default {
   &::v-deep .sf-loader__overlay {
     background: transparent;
   }
+}
+
+.alert {
+  margin: 15px 0;
+  font-size: 13px;
 }
 </style>

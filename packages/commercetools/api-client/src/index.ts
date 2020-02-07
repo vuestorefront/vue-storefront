@@ -16,6 +16,8 @@ import createMyOrderFromCart from './api/createMyOrderFromCart'
 import getShippingMethods from './api/getShippingMethods'
 import updateShippingDetails from './api/updateShippingDetails'
 import customerSignMeUp from './api/customerSignMeUp'
+import customerSignMeIn from './api/customerSignMeIn'
+import customerSignOut from './api/customerSignOut'
 import getStorage from './helpers/createCommerceToolsLink/getStorage'
 
 let apolloClient: ApolloClient<any> = null
@@ -56,5 +58,7 @@ export {
   createMyOrderFromCart,
   getShippingMethods,
   updateShippingDetails,
-  customerSignMeUp
+  customerSignMeUp,
+  customerSignMeIn,
+  customerSignOut
 }
