@@ -210,6 +210,8 @@ export default {
         action1: { label: i18n.t('Cancel'), action: 'close' },
         action2: { label: i18n.t('OK'),
           action: async () => {
+            // We just need to clear cart on frontend and backend.
+            // but cart token can be reused
             await this.$store.dispatch('cart/clear', { disconnect: false })
           }
         },
