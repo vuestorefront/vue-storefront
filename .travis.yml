@@ -43,14 +43,16 @@ jobs:
       name: Test commercetools helpers
 
     - build_image:
+      if: branch = master AND type != pull_request
       name: "Build docker image"
       stage: docker_build
       script:
-        - docker build -t registry.storefrontcloud.io/vsf-next-demo-storefrontcloud-io/vue-storefront:$COMMIT -f dev/docker/Dockerfile .
+        - docker build --build-arg COMMIT -t registry.storefrontcloud.io/vsf-next-demo-storefrontcloud-io/vue-storefront:$COMMIT -f dev/docker/Dockerfile .
         - echo $DOCKER_PASSWORD | docker login  -u="$DOCKER_USERNAME" --password-stdin registry.storefrontcloud.io
         - docker push registry.storefrontcloud.io/vsf-next-demo-storefrontcloud-io/vue-storefront:$COMMIT
 
     - deploy_to_storefrontcloud:
+      if: branch = master AND type != pull_request
       name: "Deploy to StorefrontCloud"
       stage: deploy
       script:
