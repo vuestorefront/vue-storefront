@@ -9,10 +9,21 @@ const connectActions = {
   toggleMicrocart ({ commit }) {
     commit(types.CART_TOGGLE_MICROCART)
   },
-  async clear ({ commit, dispatch, getters }) {
+  /**
+   * It will always clear cart items on frontend.
+   * Options:
+   * sync - if you want to sync it with backend.
+   * disconnect - if you want to clear cart token.
+   */
+  async clear ({ commit, dispatch }, { disconnect = true, sync = true } = {}) {
     await commit(types.CART_LOAD_CART, [])
-    await commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
-    await commit(types.CART_SET_ITEMS_HASH, null)
+    if (sync) {
+      await dispatch('sync', { forceClientState: true })
+    }
+    if (disconnect) {
+      await commit(types.CART_SET_ITEMS_HASH, null)
+      await dispatch('disconnect')
+    }
   },
   async disconnect ({ commit }) {
     commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
