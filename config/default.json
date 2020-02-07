@@ -290,6 +290,7 @@
       "sort": "updated_at:desc",
       "includeFields": [
         "activity",
+        "configurable_children.id",
         "configurable_children.final_price",
         "configurable_children.color",
         "configurable_children.original_price",
@@ -527,9 +528,9 @@
     "filterUnavailableVariants": false,
     "listOutOfStockProducts": true,
     "preventConfigurableChildrenDirectAccess": true,
-    "alwaysSyncPlatformPricesOver": false,
-    "clearPricesBeforePlatformSync": false,
-    "waitForPlatformSync": false,
+    "alwaysSyncPlatformPricesOver": true,
+    "clearPricesBeforePlatformSync": true,
+    "waitForPlatformSync": true,
     "setupVariantByAttributeCode": true,
     "endpoint": "/api/product",
     "defaultFilters": [

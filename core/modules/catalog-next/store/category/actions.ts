@@ -97,9 +97,9 @@ const actions: ActionTree<CategoryState, RootState> = {
    * Configures products
    */
   async processCategoryProducts ({ dispatch, rootState }, { products = [], filters = {} } = {}) {
-    await dispatch('tax/calculateTaxes', { products: products }, { root: true })
+    const consfiguredProducts = await dispatch('configureProducts', { products, filters })
     dispatch('registerCategoryProductsMapping', products) // we don't need to wait for this
-    return dispatch('configureProducts', { products, filters })
+    return dispatch('tax/calculateTaxes', { products: consfiguredProducts }, { root: true })
   },
   /**
    * Configure configurable products to have first available options selected
