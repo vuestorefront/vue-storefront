@@ -1,5 +1,21 @@
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import CurrencyFormatter from 'currencyformatter.js'
+
+const applyCurrencySign = (formattedPrice, { currencySign, priceFormat }) => {
+  return priceFormat.replace('{sign}', currencySign).replace('{amount}', formattedPrice)
+};
+
+const getLocaleSeparators = (defaultLocale) => {
+  return {
+    decimal: (0.01).toLocaleString(defaultLocale).replace(/[0-9]/g, ''),
+    group: (1000).toLocaleString(defaultLocale).replace(/[0-9]/g, '')
+  }
+};
+
+const replaceSeparators = (formattedPrice, currencySeparators, separators) => {
+  if (currencySeparators.decimal) formattedPrice = formattedPrice.replace(separators.decimal, currencySeparators.decimal);
+  if (currencySeparators.group) formattedPrice = formattedPrice.replace(separators.group, currencySeparators.group);
+  return formattedPrice;
+};
 
 /**
  * Converts number to price string
@@ -14,17 +30,21 @@ export function price (value, storeView) {
     return value;
   }
 
-  const { defaultLocale, currencyCode, currencySign, currencyPattern, currencyDecimal, currencyGroup } = _storeView.i18n;
+  const { defaultLocale, currencySign, currencyDecimal, currencyGroup, fractionDigits, priceFormat } = _storeView.i18n;
 
-  const separatorIndex = defaultLocale.indexOf('-');
-  const languageCode = (separatorIndex > -1) ? defaultLocale.substr(0, separatorIndex) : defaultLocale;
+  const options = { minimumFractionDigits: fractionDigits, maximumFractionDigits: fractionDigits };
 
-  return CurrencyFormatter.format(value, {
-    currencyCode: currencyCode,
-    symbol: currencySign,
-    locale: languageCode,
-    decimal: currencyDecimal,
-    group: currencyGroup,
-    pattern: currencyPattern
-  });
+  const localePrice = value.toLocaleString(defaultLocale, options);
+
+  let formattedPrice;
+  if (currencyDecimal || currencyGroup) {
+    formattedPrice = replaceSeparators(localePrice, { decimal: currencyDecimal, group: currencyGroup }, getLocaleSeparators(defaultLocale));
+  }
+  const valueWithSign = applyCurrencySign(formattedPrice, { currencySign, priceFormat });
+
+  if (value >= 0) {
+    return valueWithSign
+  } else {
+    return '-' + valueWithSign
+  }
 }
