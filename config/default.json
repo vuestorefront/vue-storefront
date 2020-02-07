@@ -186,7 +186,8 @@
       "validSearchOptionsFromRouteParams": ["url-key", "slug", "id"]
     },
     "attribute": {
-      "includeFields": [ "activity", "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices", "frontend_input" ]
+      "includeFields": [ "activity", "attribute_code", "id", "entity_type_id", "options", "default_value", "is_user_defined", "frontend_label", "attribute_id", "default_frontend_label", "is_visible_on_front", "is_visible", "is_comparable", "tier_prices", "frontend_input" ],
+      "loadByAttributeMetadata": false
     },
     "productList": {
       "sort": "updated_at:desc",

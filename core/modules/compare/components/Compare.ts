@@ -1,6 +1,7 @@
 import { mapGetters } from 'vuex'
 import Product from '@vue-storefront/core/modules/catalog/types/Product'
 import compareMountedMixin from '@vue-storefront/core/modules/compare/mixins/compareMountedMixin'
+import config from 'config'
 
 export const Compare = {
   name: 'Compare',
@@ -10,6 +11,14 @@ export const Compare = {
       items: 'compare/getCompareItems',
       allComparableAttributes: 'attribute/getAllComparableAttributes'
     })
+  },
+  created () {
+    if (!config.entities.attribute.loadByAttributeMetadata) {
+      this.$store.dispatch('attribute/list', {
+        filterValues: [],
+        filterField: 'is_user_defined'
+      })
+    }
   },
   methods: {
     removeFromCompare (product: Product) {

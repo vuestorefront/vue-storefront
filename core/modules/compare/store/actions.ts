@@ -4,6 +4,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import CompareState from '../types/CompareState'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import config from 'config'
 
 const actions: ActionTree<CompareState, RootState> = {
   async load ({ commit, getters, dispatch }, force: boolean = false) {
@@ -16,11 +17,13 @@ const actions: ActionTree<CompareState, RootState> = {
         Logger.info('Compare state loaded from browser cache: ', 'cache', storedItems)()
       }
 
-      dispatch(
-        'attribute/loadProductAttributes',
-        { products: getters.getCompareItems },
-        { root: true }
-      )
+      if (config.entities.attribute.loadByAttributeMetadata) {
+        dispatch(
+          'attribute/loadProductAttributes',
+          { products: getters.getCompareItems },
+          { root: true }
+        )
+      }
     }
   },
   async fetchCurrentCompare () {

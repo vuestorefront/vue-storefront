@@ -187,7 +187,9 @@ const actions: ActionTree<CategoryState, RootState> = {
     await dispatch('loadAvailableFiltersFrom', { aggregations, attributeMetadata: attributeMetadata, category })
   },
   async loadAvailableFiltersFrom ({ commit, getters, dispatch }, {aggregations, attributeMetadata, category, filters = {}}) {
-    await dispatch('attribute/loadCategoryAttributes', { attributeMetadata }, { root: true })
+    if (config.entities.attribute.loadByAttributeMetadata) {
+      await dispatch('attribute/loadCategoryAttributes', { attributeMetadata }, { root: true })
+    }
     const aggregationFilters = getters.getAvailableFiltersFrom(aggregations)
     const currentCategory = category || getters.getCurrentCategory
     const categoryMappedFilters = getters.getFiltersMap[currentCategory.id]

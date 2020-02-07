@@ -247,7 +247,9 @@ const actions: ActionTree<ProductState, RootState> = {
     if (product.type_id !== 'configurable' || !product.hasOwnProperty('configurable_options')) {
       return
     }
-    await context.dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
+    if (config.entities.attribute.loadByAttributeMetadata) {
+      await context.dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
+    }
     let productOptions = {}
     for (let option of product.configurable_options) {
       for (let ov of option.values) {
@@ -635,7 +637,11 @@ const actions: ActionTree<ProductState, RootState> = {
       throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
     }
 
-    await dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
+    if (config.entities.attribute.loadByAttributeMetadata) {
+      await dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
+    } else {
+      await dispatch('loadProductAttributes', { product })
+    }
 
     const syncPromises = []
     const variantsFilter = dispatch('filterUnavailableVariants', { product })
