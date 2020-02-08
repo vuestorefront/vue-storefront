@@ -36,7 +36,7 @@ export function price (value, storeView) {
 
   const localePrice = value.toLocaleString(defaultLocale, options);
 
-  let formattedPrice;
+  let formattedPrice = localePrice;
   if (currencyDecimal || currencyGroup) {
     formattedPrice = replaceSeparators(localePrice, { decimal: currencyDecimal, group: currencyGroup }, getLocaleSeparators(defaultLocale));
   }
