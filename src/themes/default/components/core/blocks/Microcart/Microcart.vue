@@ -65,7 +65,7 @@
           </button>
         </div>
         <div v-if="segment.value != null" class="col-xs align-right">
-          {{ segment.value | price }}
+          {{ segment.value | price(storeView) }}
         </div>
       </div>
       <div class="row py20">
@@ -94,7 +94,7 @@
           {{ segment.title }}
         </div>
         <div class="col-xs align-right h2 total-price-value">
-          {{ segment.value | price }}
+          {{ segment.value | price(storeView) }}
         </div>
       </div>
     </div>
@@ -127,6 +127,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
@@ -184,7 +185,10 @@ export default {
       appliedCoupon: 'cart/getCoupon',
       totals: 'cart/getTotals',
       isOpen: 'cart/getIsMicroCartOpen'
-    })
+    }),
+    storeView () {
+      return currentStoreView()
+    }
   },
   methods: {
     ...mapActions({
@@ -227,7 +231,7 @@ export default {
         action1: { label: i18n.t('Cancel'), action: 'close' },
         action2: { label: i18n.t('OK'),
           action: async () => {
-            await this.$store.dispatch('cart/clear', { recreateAndSyncCart: false }) // just clear the items without sync
+            await this.$store.dispatch('cart/clear') // just clear the items without sync
             await this.$store.dispatch('cart/sync', { forceClientState: true })
           }
         },

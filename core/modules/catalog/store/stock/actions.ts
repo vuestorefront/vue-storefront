@@ -34,9 +34,11 @@ const actions: ActionTree<StockState, RootState> = {
   async check (context, { product }) {
     if (config.stock.synchronize) {
       const { result, task_id } = await StockService.check(product.sku)
+
       return {
         qty: result ? result.qty : 0,
         status: getStatus(result, 'ok'),
+        isManageStock: result.manage_stock,
         onlineCheckTaskId: task_id
       }
     }

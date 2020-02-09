@@ -43,13 +43,13 @@
                 #{{ order.increment_id }}
               </td>
               <td class="fs-medium lh25 hide-on-xs">
-                {{ order.created_at | date }}
+                {{ order.created_at | date(null, storeView) }}
               </td>
               <td class="fs-medium lh25 hide-on-xs">
                 {{ order.customer_firstname }} {{ order.customer_lastname }}
               </td>
               <td class="fs-medium lh25 hide-on-xs">
-                {{ order.grand_total | price }}
+                {{ order.grand_total | price(storeView) }}
               </td>
               <td class="fs-medium lh25 hide-on-xs">
                 {{ $t('Purchase') }}
@@ -81,9 +81,15 @@
 
 <script>
 import UserOrder from '@vue-storefront/core/modules/order/components/UserOrdersHistory'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
-  mixins: [UserOrder]
+  mixins: [UserOrder],
+  computed: {
+    storeView () {
+      return currentStoreView()
+    }
+  }
 }
 </script>
 

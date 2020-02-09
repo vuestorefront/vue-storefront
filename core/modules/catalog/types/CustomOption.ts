@@ -22,3 +22,8 @@ export interface OptionValue {
 }
 
 export type InputValue = string | number | number[]
+
+export interface SelectedCustomOption {
+  option_id: number,
+  option_value?: string
+}

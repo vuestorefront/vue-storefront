@@ -6,7 +6,7 @@ export const currentBuildLocales = (): string[] => {
     ? Object.values(config.storeViews)
       .map((store: any) => store && typeof store === 'object' && store.i18n && store.i18n.defaultLocale)
       .filter(Boolean)
-    : []
+    : config.i18n.availableLocale
   const locales = multistoreLocales.includes(defaultLocale)
     ? multistoreLocales
     : [defaultLocale, ...multistoreLocales]
