@@ -74,6 +74,7 @@ describe('Cart actions', () => {
   it('clear deletes all cart products and token', async () => {
     const contextMock = {
       commit: jest.fn(),
+      dispatch: jest.fn(),
       getters: { isCartSyncEnabled: false }
     };
     const wrapper = (actions: any) => actions.clear(contextMock);
@@ -82,7 +83,43 @@ describe('Cart actions', () => {
 
     await wrapper(cartActions);
 
-    expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART, []);
+    expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.CART_LOAD_CART, []);
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'sync', { forceClientState: true });
+    expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.CART_SET_ITEMS_HASH, null);
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'disconnect');
+  });
+
+  it('clear deletes all cart products but keep token', async () => {
+    const contextMock = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: { isCartSyncEnabled: false }
+    };
+    const wrapper = (actions: any) => actions.clear(contextMock, { disconnect: false });
+
+    config.cart = { synchronize: false };
+
+    await wrapper(cartActions);
+
+    expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.CART_LOAD_CART, []);
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'sync', { forceClientState: true });
+  });
+
+  it('clear deletes all cart products and token, but not sync with backend', async () => {
+    const contextMock = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: { isCartSyncEnabled: false }
+    };
+    const wrapper = (actions: any) => actions.clear(contextMock, { sync: false });
+
+    config.cart = { synchronize: false };
+
+    await wrapper(cartActions);
+
+    expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.CART_LOAD_CART, []);
+    expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.CART_SET_ITEMS_HASH, null);
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'disconnect');
   });
 
   describe('create', () => {
