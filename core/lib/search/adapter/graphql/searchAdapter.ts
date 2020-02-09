@@ -70,14 +70,14 @@ export class SearchAdapter {
    * @param {string} gql gql file path
    * @param {String} url server URL
    * @param {function} queryProcessor some function which can update query if needed
-   * @param {function} resultPorcessor process results of response
+   * @param {function} resultProcessor process results of response
    * @return {Object}
   */
-  public registerEntityType (entityType, { url = '', gql, queryProcessor, resultPorcessor }) {
+  public registerEntityType (entityType, { url = '', gql, queryProcessor, resultProcessor }) {
     this.entities[entityType] = {
       query: require(`${gql}`),
       queryProcessor: queryProcessor,
-      resultPorcessor: resultPorcessor
+      resultProcessor: resultProcessor
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
@@ -90,14 +90,14 @@ export class SearchAdapter {
    * @param {graphQl} query is the GraphQL query
    * @param {String} url server URL
    * @param {function} queryProcessor some function which can update query if needed
-   * @param {function} resultPorcessor process results of response
+   * @param {function} resultProcessor process results of response
    * @return {Object}
   */
-  public registerEntityTypeByQuery (entityType, { url = '', query, queryProcessor, resultPorcessor }) {
+  public registerEntityTypeByQuery (entityType, { url = '', query, queryProcessor, resultProcessor }) {
     this.entities[entityType] = {
       query: query,
       queryProcessor: queryProcessor,
-      resultPorcessor: resultPorcessor
+      resultProcessor: resultProcessor
     }
     if (url !== '') {
       this.entities[entityType]['url'] = url
@@ -113,7 +113,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -123,7 +123,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'product\'')
+            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'product\'')
           }
         }
       }
@@ -135,7 +135,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -145,7 +145,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'attribute\'')
+            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'attribute\'')
           }
         }
       }
@@ -156,7 +156,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -166,7 +166,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'review\'')
+            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'review\'')
           }
         }
       }
@@ -177,7 +177,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -187,7 +187,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'category\'')
+            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'category\'')
           }
         }
       }
@@ -199,7 +199,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -209,7 +209,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'taxrule\'')
+            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'taxrule\'')
           }
         }
       }
@@ -221,7 +221,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -231,7 +231,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'cmsPage\'')
+            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'cmsPage\'')
           }
         }
       }
@@ -243,7 +243,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -253,7 +253,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'cmsBlock\'')
+            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'cmsBlock\'')
           }
         }
       }
@@ -265,7 +265,7 @@ export class SearchAdapter {
         // function that can modify the query each time before it's being executed
         return query
       },
-      resultPorcessor: (resp, start, size) => {
+      resultProcessor: (resp, start, size) => {
         if (resp === null) {
           throw new Error('Invalid graphQl result - null not exepcted')
         }
@@ -275,7 +275,7 @@ export class SearchAdapter {
           if (resp.error) {
             throw new Error(JSON.stringify(resp.error))
           } else {
-            throw new Error('Unknown error with graphQl result in resultPorcessor for entity type \'cmsHierarchy\'')
+            throw new Error('Unknown error with graphQl result in resultProcessor for entity type \'cmsHierarchy\'')
           }
         }
       }
