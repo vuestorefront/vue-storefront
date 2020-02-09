@@ -1,10 +1,10 @@
 {
   "name": "vue-storefront",
-  "version": "1.11.0-rc.2",
+  "version": "1.11.0",
   "description": "A Vue.js, PWA eCommerce frontend",
   "private": true,
   "engines": {
-    "node": ">=8.x"
+    "node": ">=10.x"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
     "static-server": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/static-server.ts",
     "generate": "cross-env TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/generate.ts",
     "start": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" pm2 start ecosystem.json $PM2_ARGS",
-    "start:inspect": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" node --inspect ./core/scripts/server.js",
+    "start:inspect": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" node --inspect -r ts-node/register ./core/scripts/server",
     "installer": "node ./core/scripts/installer",
     "installer:ci": "yarn installer --default-config",
     "all": "cross-env NODE_ENV=development node ./core/scripts/all",
@@ -45,20 +45,8 @@
     "test:unit:watch": "jest -c test/unit/jest.conf.js --watch",
     "test:e2e": "cypress open",
     "test:e2e:ci": "cypress run",
-    "lint": "eslint --ext .js,.vue,.ts core src --fix",
+    "lint": "cross-env NODE_ENV=production  eslint --ext .js,.vue,.ts core src --fix",
     "lerna": "lerna"
-  },
-  "lint-staged": {
-    "*.{js,vue,ts}": "eslint",
-    "**/i18n/*.csv": [
-      "node ./core/scripts/utils/sort-translations.js",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "dependencies": {
     "@types/webpack": "^4.4.23",

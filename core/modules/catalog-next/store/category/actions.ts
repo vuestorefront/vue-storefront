@@ -20,7 +20,9 @@ import { preConfigureProduct } from '@vue-storefront/core/modules/catalog/helper
 import chunk from 'lodash-es/chunk'
 import Product from 'core/modules/catalog/types/Product';
 import omit from 'lodash-es/omit'
+import cloneDeep from 'lodash-es/cloneDeep'
 import config from 'config'
+import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
 
 const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryProducts ({ commit, getters, dispatch, rootState }, { route, category, pageSize = 50 } = {}) {
@@ -34,7 +36,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
     const {items, perPage, start, total, aggregations} = await quickSearchByQuery({
       query: filterQr,
-      sort: searchQuery.sort,
+      sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       includeFields: entities.productList.includeFields,
       excludeFields: entities.productList.excludeFields,
       size: pageSize
@@ -55,7 +57,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
     const searchResult = await quickSearchByQuery({
       query: filterQr,
-      sort: searchQuery.sort,
+      sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       start: start + perPage,
       size: perPage,
       includeFields: entities.productList.includeFields,
@@ -127,20 +129,27 @@ const actions: ActionTree<CategoryState, RootState> = {
     return CategoryService.getCategories(categorySearchOptions)
   },
   async loadCategories ({ commit, getters }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
-    const searchingByIds = categorySearchOptions && categorySearchOptions.filters && categorySearchOptions.filters.id
-    const searchedIds: string[] = searchingByIds ? (categorySearchOptions.filters.id as string[]) : []
-    if (searchingByIds) { // removing from search query already loaded categories
+    const searchingByIds = !(!categorySearchOptions || !categorySearchOptions.filters || !categorySearchOptions.filters.id)
+    const searchedIds: string[] = searchingByIds ? [...categorySearchOptions.filters.id].map(String) : []
+    const loadedCategories: Category[] = []
+    if (searchingByIds && !categorySearchOptions.reloadAll) { // removing from search query already loaded categories, they are added to returned results
+      for (const [categoryId, category] of Object.entries(getters.getCategoriesMap)) {
+        if (searchedIds.includes(categoryId)) {
+          loadedCategories.push(category as Category)
+        }
+      }
       categorySearchOptions.filters.id = searchedIds.filter(categoryId => !getters.getCategoriesMap[categoryId] && !getters.getNotFoundCategoryIds.includes(categoryId))
     }
     if (!searchingByIds || categorySearchOptions.filters.id.length) {
+      categorySearchOptions.filters = Object.assign(cloneDeep(config.entities.category.filterFields), categorySearchOptions.filters ? cloneDeep(categorySearchOptions.filters) : {})
       const categories = await CategoryService.getCategories(categorySearchOptions)
       const notFoundCategories = searchedIds.filter(categoryId => !categories.some(cat => cat.id === parseInt(categoryId)))
 
       commit(types.CATEGORY_ADD_CATEGORIES, categories)
       commit(types.CATEGORY_ADD_NOT_FOUND_CATEGORY_IDS, notFoundCategories)
-      return categories
+      return [...loadedCategories, ...categories]
     }
-    return []
+    return loadedCategories
   },
   async loadCategory ({ commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category> {
     const categories: Category[] = await CategoryService.getCategories(categorySearchOptions)
@@ -168,7 +177,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     let resultFilters = aggregationFilters
     const filtersKeys = Object.keys(filters)
     if (categoryMappedFilters && filtersKeys.length) {
-      resultFilters = Object.assign({}, categoryMappedFilters, omit(aggregationFilters, filtersKeys))
+      resultFilters = Object.assign(cloneDeep(categoryMappedFilters), cloneDeep(omit(aggregationFilters, filtersKeys)))
     }
     commit(types.CATEGORY_SET_CATEGORY_FILTERS, {category, filters: resultFilters})
   },
@@ -185,11 +194,20 @@ const actions: ActionTree<CategoryState, RootState> = {
   async changeRouterFilterParameters (context, query) {
     router.push({[products.routerFiltersSource]: query})
   },
-  async loadCategoryBreadcrumbs ({ dispatch, getters }, category: Category) {
+  async loadCategoryBreadcrumbs ({ dispatch, getters }, { category, currentRouteName, omitCurrent = false }) {
     if (!category) return
     const categoryHierarchyIds = _prepareCategoryPathIds(category) // getters.getCategoriesHierarchyMap.find(categoryMapping => categoryMapping.includes(category.id))
-    const categoryFilters = { 'id': categoryHierarchyIds }
-    await dispatch('loadCategories', {filters: categoryFilters})
+    const categoryFilters = Object.assign({ 'id': categoryHierarchyIds }, cloneDeep(config.entities.category.breadcrumbFilterFields))
+    const categories = await dispatch('loadCategories', { filters: categoryFilters, reloadAll: Object.keys(config.entities.category.breadcrumbFilterFields).length > 0 })
+    const sorted = []
+    for (const id of categoryHierarchyIds) {
+      const index = categories.findIndex(cat => cat.id.toString() === id)
+      if (index >= 0 && (!omitCurrent || categories[index].id !== category.id)) {
+        sorted.push(categories[index])
+      }
+    }
+    await dispatch('breadcrumbs/set', { current: currentRouteName, routes: parseCategoryPath(sorted) }, { root: true })
+    return sorted
   }
 }
 

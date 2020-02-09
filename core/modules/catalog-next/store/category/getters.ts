@@ -1,3 +1,4 @@
+import { nonReactiveState } from './index';
 import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from './CategoryState'
@@ -13,12 +14,23 @@ import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
 import { _prepareCategoryPathIds, getSearchOptionsFromRouteParams } from '../../helpers/categoryHelpers';
 import { removeStoreCodeFromRoute } from '@vue-storefront/core/lib/multistore'
+import cloneDeep from 'lodash-es/cloneDeep'
+
+function mapCategoryProducts (productsFromState, productsData) {
+  return productsFromState.map(prodState => {
+    if (typeof prodState === 'string') {
+      const product = productsData.find(prodData => prodData.sku === prodState)
+      return cloneDeep(product)
+    }
+    return prodState
+  })
+}
 
 const getters: GetterTree<CategoryState, RootState> = {
   getCategories: (state): Category[] => Object.values(state.categoriesMap),
   getCategoriesMap: (state): { [id: string]: Category} => state.categoriesMap,
   getNotFoundCategoryIds: (state): string[] => state.notFoundCategoryIds,
-  getCategoryProducts: (state) => state.products,
+  getCategoryProducts: (state) => mapCategoryProducts(state.products, nonReactiveState.products),
   getCategoryFrom: (state, getters) => (path: string = '') => {
     return getters.getCategories.find(category => (removeStoreCodeFromRoute(path) as string).replace(/^(\/)/gm, '') === category.url_path)
   },

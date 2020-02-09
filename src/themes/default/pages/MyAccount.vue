@@ -4,6 +4,7 @@
       <div class="container">
         <breadcrumbs
           :with-homepage="true"
+          :routes="[]"
           active-route="My Account"
         />
         <h1>

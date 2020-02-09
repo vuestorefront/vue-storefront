@@ -5,9 +5,13 @@ const glob = require('glob')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
 const serverExtensions = glob.sync('src/modules/*/server.{ts,js}')
+const configProviders: Function[] = []
 
-serverExtensions.forEach(serverModule => {
-  require(resolve(serverModule))
+serverExtensions.map(serverModule => {
+  const module = require(resolve(serverModule))
+  if (module.configProvider && typeof module.configProvider === 'function') {
+    configProviders.push(module.configProvider)
+  }
 })
 
 serverHooksExecutors.afterProcessStarted(config.server)
@@ -179,7 +183,7 @@ app.get('*', (req, res, next) => {
         res.setHeader('Content-Type', 'text/html')
       }
       let tagsArray = []
-      if (config.server.useOutputCacheTagging && context.output.cacheTags !== null) {
+      if (config.server.useOutputCacheTagging && context.output.cacheTags && context.output.cacheTags.size > 0) {
         tagsArray = Array.from(context.output.cacheTags)
         const cacheTags = tagsArray.join(' ')
         res.setHeader('X-VS-Cache-Tags', cacheTags)
@@ -228,6 +232,9 @@ app.get('*', (req, res, next) => {
       console.log(`whole request [${req.url}]: ${Date.now() - s}ms`)
       next()
     }).catch(errorHandler)
+      .finally(() => {
+        ssr.clearContext(context)
+      })
   }
 
   const dynamicCacheHandler = () => {
@@ -268,19 +275,23 @@ app.get('*', (req, res, next) => {
       delete require.cache[require.resolve('config')]
     }
     config = require('config') // reload config
-    if (typeof serverExtensions.configProvider === 'function') {
-      serverExtensions.configProvider(req).then(loadedConfig => {
-        config = config.util.extendDeep(config, loadedConfig)
-        dynamicCacheHandler()
-      }).catch(error => {
-        if (config.server.dynamicConfigContinueOnError) {
-          dynamicCacheHandler()
-        } else {
-          console.log('config provider error:', error)
-          if (req.url !== '/error') {
-            res.redirect('/error')
-          }
-          dynamicCacheHandler()
+    if (configProviders.length > 0) {
+      configProviders.forEach(configProvider => {
+        if (typeof configProvider === 'function') {
+          configProvider(req).then(loadedConfig => {
+            config = config.util.extendDeep(config, loadedConfig)
+            dynamicCacheHandler()
+          }).catch(error => {
+            if (config.server.dynamicConfigContinueOnError) {
+              dynamicCacheHandler()
+            } else {
+              console.log('config provider error:', error)
+              if (req.url !== '/error') {
+                res.redirect('/error')
+              }
+              dynamicCacheHandler()
+            }
+          })
         }
       })
     } else {

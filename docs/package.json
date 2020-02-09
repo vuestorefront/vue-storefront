@@ -1,15 +1,14 @@
 {
   "name": "@vue-storefront/docs",
   "private": true,
-  "version": "1.11.0-rc.2",
+  "version": "1.11.0",
   "scripts": {
     "docs:dev": "vuepress dev",
     "docs:build": "vuepress build",
-    "now-dev": "vue-cli-service serve --port=$PORT",
-    "build": "vuepress build docs",
-    "now-build": "npm run docs:build && mv .vuepress/dist dist"
+    "build": "vuepress build && mv .vuepress/dist dist"
   },
   "dependencies": {
-    "vuepress": "^0.14.11"
+    "diff2html": "^2.12.1",
+    "vuepress": "^1.0.1"
   }
 }
