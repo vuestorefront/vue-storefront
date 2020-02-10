@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove commit register mapping - @gibkigonzo (#3875)
 - Improved method `findConfigurableChildAsync` - find variant with lowest price - @gibkigonzo (#3939)
 - Removed `product/loadConfigurableAttributes` calls - @andrzejewsky (#3336)
+- Removed unused locales in disabled multistore - @gibkigonzo (#4072)
 
 ## [1.11.1] - 2020.02.05
 
