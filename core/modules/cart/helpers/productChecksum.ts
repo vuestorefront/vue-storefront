@@ -17,8 +17,7 @@ const getDataToHash = (product: CartItem): any => {
   }
 
   const { extension_attributes } = product.product_option
-  const { bundle_options } = extension_attributes
-  const { custom_options } = extension_attributes
+  const { bundle_options, custom_options } = extension_attributes
 
   if (bundle_options && ((Array.isArray(bundle_options) && bundle_options.length > 0) || (typeof bundle_options === 'object' && bundle_options !== null && Object.values(bundle_options).length > 0))) {
     return Array.isArray(bundle_options) ? bundle_options : Object.values(replaceNumberToString(bundle_options))
