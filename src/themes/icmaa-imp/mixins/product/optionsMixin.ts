@@ -1,11 +1,13 @@
 import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import { LocaleMessages } from 'vue-i18n'
+import cloneDeep from 'lodash-es/cloneDeep'
 
 export default {
   computed: {
     ...mapGetters({
-      getAttributeLabel: 'attribute/getAttributeLabel'
+      getAttributeLabel: 'attribute/getAttributeLabel',
+      getAttributeListByCode: 'attribute/getAttributeListByCode'
     }),
     productOptions (): any[] {
       if (this.product.errors &&
@@ -14,7 +16,30 @@ export default {
       ) {
         return []
       }
-      return this.product.configurable_options || []
+
+      if (this.product.configurable_options) {
+        return this.sortedProductOptions || []
+      }
+    },
+    sortedProductOptions () {
+      return cloneDeep(this.product.configurable_options).map(o => {
+        // Sort by attributes value `sort_order` parameter
+        o.values = o.values.sort((a, b) => {
+          const attribute = this.getAttributeListByCode[o.attribute_code]
+          const { options } = attribute
+          const aValue = a.value_index
+          const bValue = b.value_index
+
+          let optionSortA = options.find(o => Number(o.value) === aValue)
+          let optionSortB = options.find(o => Number(o.value) === bValue)
+          optionSortA = optionSortA && optionSortA.sort_order ? optionSortA.sort_order : 0
+          optionSortB = optionSortB && optionSortB.sort_order ? optionSortB.sort_order : 0
+
+          return optionSortA - optionSortB
+        })
+
+        return o
+      })
     },
     productOptionsLabel (): string|LocaleMessages {
       if (this.productOptions.length === 0 || this.productOptions.length > 1) {
@@ -32,7 +57,7 @@ export default {
       let filtersMap = {}
       // TODO move to helper
       if (this.product && this.product.configurable_options) {
-        this.product.configurable_options.forEach(configurableOption => {
+        this.productOptions.forEach(configurableOption => {
           const type = configurableOption.attribute_code
           const filterVariants = configurableOption.values.map(
             ({ value_index, label }) => {

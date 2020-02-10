@@ -1,6 +1,6 @@
 import config from 'config'
 import { ActionTree } from 'vuex'
-import RootState from '@vue-storefront/core/types/RootState';
+import RootState from '@vue-storefront/core/types/RootState'
 import ConfigState, { StoreView } from '../types/ConfigState'
 import * as types from './mutation-types'
 import { getExtendedStoreviewConfig } from '../helpers'

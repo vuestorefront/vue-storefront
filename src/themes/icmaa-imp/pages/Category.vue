@@ -32,7 +32,7 @@
               <presets class="t-hidden lg:t-flex t-items-center t-ml-2" />
             </div>
             <div class="t-w-1/2 lg:t-w-1/4 t-px-1 lg:t-px-2">
-              <sort-by :has-label="true" @change="changeFilter" :value="getCurrentSearchQuery.sort" />
+              <sort-by @change="changeFilter" />
             </div>
           </div>
         </div>

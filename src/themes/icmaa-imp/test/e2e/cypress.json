@@ -7,6 +7,8 @@
   "screenshotsFolder": "screenshots",
   "trashAssetsBeforeRuns": true,
   "video": false,
+  "viewportWidth": 375,
+  "viewportHeight": 812,
   "env": {
     "store_codes": ["de", "fr", "it", "uk"],
     "current_store_code": "de"

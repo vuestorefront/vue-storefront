@@ -8,8 +8,8 @@
         <span>{{ $t('We detected a different language.') }}</span><br>
         <span class="t-font-bold">{{ $t('Are you in the right store?') }}</span>
       </div>
-      <div class="t-w-1/2 t-px-2 t-pb-4" v-for="(storeView) in storeViews" :key="storeView.storeCode" @click="setLanguageAccepted">
-        <language-button :store-view="storeView" :is-current="storeView.storeId === currentStoreView.storeId" />
+      <div class="t-w-1/2 t-px-2 t-pb-4" v-for="(storeView) in storeViews" :key="storeView.languageCode" @click="setLanguageAccepted">
+        <language-button :store-view="storeView" :is-current="storeView.storeCode === currentStoreView.storeCode" />
       </div>
     </div>
   </modal>
@@ -35,15 +35,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ storeConfigs: 'icmaaConfig/getMap' }),
     currentStoreView () {
       return currentStoreView()
     },
     storeViews () {
-      return this.storeConfigs.map(s => config.storeViews[s.storeCode])
+      return config.icmaa.languageSwitcher.map(l => ({
+        url: l[0],
+        storeCode: l[1],
+        languageCode: l[2],
+        name: l[3]
+      }))
     }
   },
   methods: {
+
     setLanguageAccepted () {
       if (this.changeStoreAdvice) {
         this.$store.dispatch('claims/set', { claimCode: 'languageAccepted', value: true })

@@ -31,8 +31,8 @@ export default {
   data () {
     return {
       isSubscribed: false,
-      text_subscribe: 'You have been successfully unsubscribed from our newsletter!',
-      text_unsubscribe: 'You have been successfully subscribed to our newsletter!'
+      text_unsubscribe: 'You have been successfully unsubscribed from our newsletter!',
+      text_subscribe: 'We are almost done. A confirmation email has been send to your email address.'
     }
   },
   mounted () {

@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     redirect () {
-      this.$router.push(this.localizedRoute(this.productLink))
+      this.$router.push(this.productLink)
     }
   }
 }

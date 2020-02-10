@@ -14,7 +14,7 @@
       </div>
       <ul @click="$emit('click')" class="t-flex t-flex-wrap t-overflow-hidden" :class="[ visible ? 't-pt-3 t-max-h-screen-100 t-border-b t-border-base-lightest lg:t-border-none' : 't-max-h-0' ]" style="transition: all .5s">
         <li class="t-flex t-w-full" v-for="(page, index) in navigation" :key="index">
-          <router-link @click.native="onClick" :to="localizedRoute(page.link)" class="t-flex t-flex-grow t-items-center t-px-6 t-py-3 t-text-sm">
+          <router-link @click.native="onClick" :to="localizedRoute(page.link)" class="t-flex t-flex-grow t-items-center t-px-6 t-py-3 t-text-sm t-text-base-tone">
             <material-icon v-if="page.icon" :icon="page.icon" size="sm" class="t-mr-4" :class="[ isActive(page.link) ? 't-text-base-darkest' : 't-text-base-light' ]" />
             {{ page.title }}
           </router-link>

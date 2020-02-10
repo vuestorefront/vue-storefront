@@ -70,28 +70,26 @@
     <div class="t-container t-px-4 t-mt-8">
       <div class="t--mx-4 lg:t-px-4 t-flex t-flex-wrap">
         <div class="product-details t-w-full t-p-8 t-bg-white lg:t-w-1/2">
-          <lazy-hydrate on-interaction>
-            <details-tabs :tabs="detailsTabs">
-              <template #pill-details>
-                {{ $t('Product details') }}
-              </template>
-              <template #tab-details>
-                <product-details :product="product" />
-              </template>
-              <template #pill-features>
-                {{ $t('Features') }}
-              </template>
-              <template #tab-features>
-                <product-features :product="product" />
-              </template>
-              <template #pill-care-instructions>
-                {{ $t('Care instructions') }}
-              </template>
-              <template #tab-care-instructions>
-                <product-care-instructions :product="product" />
-              </template>
-            </details-tabs>
-          </lazy-hydrate>
+          <details-tabs :tabs="detailsTabs">
+            <template #pill-details>
+              {{ $t('Product details') }}
+            </template>
+            <template #tab-details>
+              <product-details :product="product" />
+            </template>
+            <template #pill-features>
+              {{ $t('Features') }}
+            </template>
+            <template #tab-features>
+              <product-features :product="product" />
+            </template>
+            <template #pill-care-instructions>
+              {{ $t('Care instructions') }}
+            </template>
+            <template #tab-care-instructions>
+              <product-care-instructions :product="product" />
+            </template>
+          </details-tabs>
         </div>
         <div class="reviews t-relative t-w-full t-p-8 t-bg-base-lighter lg:t-w-1/2" id="reviews">
           <lazy-hydrate when-idle>
