@@ -4,6 +4,7 @@ const fs = require("fs")
 const consola = require('consola')
 const chalk = require('chalk');
 const { mergeWith, isArray } = require('lodash')
+const chokidar = require('chokidar')
 
 const log = {
   info: (message) => consola.info(chalk.bold('VSF'), message),
@@ -35,16 +36,18 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
       return objValue.concat(srcValue);
     }
   })
-
+  
+  
   log.info(chalk.green('Starting Vue Storefront Nuxt Module'))
   this.addPlugin(path.resolve(__dirname, 'plugins/composition-api.js'))
   log.success('Installed Composition API plugin for Vue 2')
 
-  //----------------------s--------------
+  //-------------------------------------
 
   // Using symlinks in lerna somehow breaks composition API behavior as a singleton.
   if (options.coreDevelopment === true) {
-    log.info(`Vue Storefront core development mode is on. ${chalk.italic('[coreDevelopment]')}`)
+    log.info(`Vue Storefront core development mode is on ${chalk.italic('[coreDevelopment]')}`)
+    if (moduleOptions.coreDevelopment) global.coreDev = true
     this.extendBuild(config => {
       config.resolve.alias['@vue/composition-api'] = path.resolve('node_modules/@vue/composition-api')
     })
@@ -69,6 +72,7 @@ module.exports = function VueStorefrontNuxtModule (moduleOptions) {
   options.useRawSource[isProd || options.coreDevelopment ? 'prod' : 'dev'].map(package => {
     useRawSource(package)
   })
+
 }
 
 module.exports.meta = require('../package.json')

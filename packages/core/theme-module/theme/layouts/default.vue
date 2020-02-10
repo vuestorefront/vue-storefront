@@ -19,9 +19,10 @@ import BottomNavigation from '~/components/BottomNavigation.vue'
 import AppFooter from '~/components/AppFooter.vue'
 import TopBar from '~/components/TopBar.vue'
 import Version from '~/components/Version.vue'
-
-const CartSidebar = () => import(/* webpackChunkName: "CartSidebar" */ '~/components/CartSidebar.vue')
-const LoginModal = () => import(/* webpackChunkName: "LoginModal" */ '~/components/LoginModal.vue')
+import CartSidebar from '~/components/CartSidebar.vue'
+import LoginModal from '~/components/LoginModal.vue'
+// const CartSidebar = () => import(/* webpackChunkName: "CartSidebar" */ '~/components/CartSidebar.vue')
+// const LoginModal = () => import(/* webpackChunkName: "LoginModal" */ '~/components/LoginModal.vue')
 
 export default {
   components: {

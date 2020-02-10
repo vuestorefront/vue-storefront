@@ -18,6 +18,9 @@ export default {
     ]
   },
   loading: { color: '#fff' },
+  dir: {
+    layouts: '.nuxt/layouts',
+  },
   router: {
     extendRoutes (routes, resolve) {
       // TEMPORARY, will be removed
@@ -27,11 +30,6 @@ export default {
         name: 'category',
         path: '/c/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?',
         component: resolve(__dirname, 'pages/Category.vue')
-      })
-      routes.push({
-        name: 'product',
-        path: '/p/:slug/',
-        component: resolve(__dirname, 'pages/Product.vue')
       })
       routes.push({ // TEMPORARY: just to show example prismic page
         name: 'prismic',
@@ -83,6 +81,11 @@ export default {
         dev: ['@vue-storefront/commercetools-composables'],
         prod: ['@vue-storefront/commercetools-composables']
       }
+    }],
+    ['@vue-storefront/nuxt-theme', {
+      apiClient: '@vue-storefront/commercetools-api',
+      composables: '@vue-storefront/commercetools-composables',
+      helpers: '@vue-storefront/commercetools-helpers'
     }]
   ],
   plugins: [

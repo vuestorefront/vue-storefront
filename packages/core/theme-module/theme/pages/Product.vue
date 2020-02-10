@@ -253,14 +253,14 @@ import {
 import InstagramFeed from '~/components/InstagramFeed.vue'
 import { ref, computed } from '@vue/composition-api'
 
-import { useProduct, useCart } from '@vue-storefront/commercetools-composables'
+import { useProduct, useCart } from '<%= options.composables %>'
 import {
   getProductVariants,
   getProductName,
   getProductGallery,
   getProductPrice,
   getProductAttributes
-} from '@vue-storefront/commercetools-helpers'
+} from '<%= options.helpers %>'
 
 export default {
   name: "Product",
