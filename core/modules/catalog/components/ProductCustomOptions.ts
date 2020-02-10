@@ -54,9 +54,9 @@ export const ProductCustomOptions = {
     setupInputFields () {
       for (const customOption of this.product.custom_options) {
         const fieldName = customOptionFieldName(customOption)
-        this['inputValues'][fieldName] = defaultCustomOptionValue(customOption)
+        this.$set(this.inputValues, fieldName, defaultCustomOptionValue(customOption))
         if (customOption.is_require) { // validation rules are very basic
-          this.validation.rules[fieldName] = 'required' // TODO: add custom validators for the custom options
+          this.$set(this.validation.rules, fieldName, 'required') // TODO: add custom validators for the custom options
         }
         this.optionChanged(customOption)
       }

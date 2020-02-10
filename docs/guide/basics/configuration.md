@@ -330,13 +330,6 @@ Starting with Vue Storefront 1.7, we added a configuration option `config.entiti
 
 ```json
 "cart": {
-  "bypassCartLoaderForAuthorizedUsers": true,
-```
-
-The cart-loader bypass feature is there because we're posting orders to Magento asynchronously. It may happen that directly after placing an order, the Magento’s user still has the same quote ID, and after browsing through the VS store, old items will be restored to the shopping cart. Now you can disable this behavior by setting `bypassCartLoaderForAuthorizedUsers` option to `false`
-
-```json
-"cart": {
   "serverMergeByDefault": true,
 ```
 

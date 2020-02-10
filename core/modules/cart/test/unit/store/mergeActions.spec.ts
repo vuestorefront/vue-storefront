@@ -76,9 +76,9 @@ jest.mock('@vue-storefront/core/helpers', () => ({
 
 describe('Cart mergeActions', () => {
   it('updates client item', async () => {
-    const clientItem = { sku: 1, name: 'product1', qty: 2, server_item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1 };
     const serverItem = {
-      sku: 1,
+      sku: '1',
       name: 'product1',
       server_item_id: 1,
       server_cart_id: 12,
@@ -98,16 +98,16 @@ describe('Cart mergeActions', () => {
         product_option: 'a',
         server_cart_id: undefined,
         server_item_id: 1,
-        sku: 1,
+        sku: '1',
         type_id: 'b'
       }
     });
   });
 
   it('updates server item - removes when updating was not successful', async () => {
-    const clientItem = { sku: 1, name: 'product1', qty: 2, server_item_id: 1, item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1, item_id: 1 };
     const serverItem = {
-      sku: 1,
+      sku: '1',
       name: 'product1',
       server_item_id: 1,
       server_cart_id: 12,
@@ -131,9 +131,9 @@ describe('Cart mergeActions', () => {
   })
 
   it('updates server item - restoring quantity', async () => {
-    const clientItem = { sku: 1, name: 'product1', qty: 2, server_item_id: 1, item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1, item_id: 1 };
     const serverItem = {
-      sku: 1,
+      sku: '1',
       name: 'product1',
       server_item_id: 1,
       server_cart_id: 12,
@@ -158,9 +158,9 @@ describe('Cart mergeActions', () => {
   })
 
   it('updates server item - deletes non confirmed item', async () => {
-    const clientItem = { sku: 1, name: 'product1', qty: 2, server_item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1 };
     const serverItem = {
-      sku: 1,
+      sku: '1',
       name: 'product1',
       server_item_id: 1,
       server_cart_id: 12,
@@ -186,9 +186,9 @@ describe('Cart mergeActions', () => {
   })
 
   it('updates server item - apply changes for client item', async () => {
-    const clientItem = { sku: 1, name: 'product1', qty: 2, server_item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1 };
     const serverItem = {
-      sku: 1,
+      sku: '1',
       name: 'product1',
       server_item_id: 1,
       server_cart_id: 12,
@@ -218,9 +218,9 @@ describe('Cart mergeActions', () => {
   })
 
   it('synchronizes item with server when there is no given server item', async () => {
-    const clientItem = { sku: 1, name: 'product1', qty: 2, server_item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1 };
     const serverItem = {
-      sku: 1,
+      sku: '1',
       name: 'product1',
       server_item_id: 1,
       server_cart_id: 12,
@@ -241,9 +241,9 @@ describe('Cart mergeActions', () => {
   })
 
   it('synchronizes item with server when there quantities are different', async () => {
-    const clientItem = { sku: 1, name: 'product1', qty: 2, server_item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1 };
     const serverItem = {
-      sku: 1,
+      sku: '1',
       name: 'product1',
       server_item_id: 1,
       server_cart_id: 12,
@@ -265,9 +265,9 @@ describe('Cart mergeActions', () => {
   })
 
   it('merges client item', async () => {
-    const clientItem = { sku: 1, name: 'product1', qty: 2, server_item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1 };
     const serverItem = {
-      sku: 1,
+      sku: '1',
       name: 'product1',
       server_item_id: 1,
       server_cart_id: 12,
@@ -283,13 +283,13 @@ describe('Cart mergeActions', () => {
 
     await (cartActions as any).mergeClientItem(contextMock, { clientItem, serverItems: [serverItem], forceClientState: false, dryRun: false });
     expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'synchronizeServerItem', { serverItem, clientItem, forceClientState: false, dryRun: false })
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'updateItem', { product: { product_option: 'a', server_cart_id: undefined, server_item_id: 1, sku: 1, type_id: 'b' } })
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'updateItem', { product: { product_option: 'a', server_cart_id: undefined, server_item_id: 1, sku: '1', type_id: 'b' } })
   })
 
   it('merges server item', async () => {
-    const clientItem = { sku: 1, name: 'product1', qty: 2, server_item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1 };
     const serverItem = {
-      sku: 1,
+      sku: '1',
       name: 'product1',
       server_item_id: 1,
       server_cart_id: 12,
@@ -310,7 +310,7 @@ describe('Cart mergeActions', () => {
   })
 
   it('updates totals after merge', async () => {
-    const clientItem = { sku: 1, name: 'product1', qty: 2, server_item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1 };
 
     const contextMock = createContextMock({
       getters: {
@@ -324,9 +324,9 @@ describe('Cart mergeActions', () => {
   })
 
   it('merges client and server cart', async () => {
-    const clientItem = { sku: 1, name: 'product1', qty: 2, server_item_id: 1 };
+    const clientItem = { sku: '1', name: 'product1', qty: 2, server_item_id: 1 };
     const serverItem = {
-      sku: 1,
+      sku: '1',
       name: 'product1',
       server_item_id: 1,
       server_cart_id: 12,
@@ -350,8 +350,8 @@ describe('Cart mergeActions', () => {
     (createDiffLog as jest.Mock).mockImplementation(() => diffLog)
 
     await (cartActions as any).merge(contextMock, { clientItems: [clientItem], serverItems: [serverItem] });
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'mergeClientItems', { clientItems: [clientItem], serverItems: [serverItem], dryRun: false, forceClientState: false })
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'mergeServerItems', { clientItems: [clientItem], serverItems: [serverItem], dryRun: false, forceClientState: false })
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'mergeClientItems', { clientItems: [clientItem], serverItems: [serverItem], dryRun: false, forceClientState: false, mergeQty: false })
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'mergeServerItems', { clientItems: [clientItem], serverItems: [serverItem], dryRun: false, forceClientState: false, mergeQty: false })
     expect(contextMock.dispatch).toHaveBeenNthCalledWith(3, 'updateTotalsAfterMerge', { clientItems: [clientItem], dryRun: false })
   })
 });

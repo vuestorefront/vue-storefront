@@ -2,6 +2,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { PRODUCT_SET_CURRENT_CONFIGURATION, PRODUCT_SET_CURRENT } from './store/product/mutation-types'
 import omit from 'lodash-es/omit'
 import config from 'config'
+import i18n from '@vue-storefront/core/i18n';
 
 // Listeners moved from Product.js
 
@@ -46,6 +47,14 @@ export const filterChangedProduct = async (filterOption, store, router) => {
         }
       ), { root: true })
     }
+
+    store.dispatch('notification/spawnNotification', {
+      type: 'warning',
+      message: i18n.t(
+        'No such configuration for the product. Please do choose another combination of attributes.'
+      ),
+      action1: {label: i18n.t('OK')}
+    })
   }
 }
 

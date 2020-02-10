@@ -35,7 +35,6 @@
 </template>
 
 <script>
-
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import {reviewJsonLd} from '@vue-storefront/core/helpers'
 export default {
