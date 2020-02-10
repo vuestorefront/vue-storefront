@@ -5,13 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.11.1] - UNRELEASED
+## [1.11.1] - 2020.02.05
 
 ### Added
 - Add `ProductPrice` component with bundleOptions and customOptions prices - @gibkigonzo (#3978)
+- Add lazy create cart token - @gibkigonzo (#3994)
 
 ### Changed / Improved
 - Set cache tag when loading a category - @haelbichalex (#3940)
+- In development build `webpack.config.js` in theme folder is now called without the `default` key
 
 ### Fixed
 - Added Finnish translations - @mattiteraslahti and @alphpkeemik
@@ -33,6 +35,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed sku attribute is missing on compare page - @gibkigonzo (#4036)
 - Fixed z-index for aside in compare list - @gibkigonzo (#4037)
 - Disable checking max quantity when manage stock is set to false - @gibkigonzo (#4038)
+- Add products quantity only when token is created - @gibkigonzo (#4017)
+- Revert init filters in Vue app - add storeView to global/store and pass it to filters - @gibkigonzo (#3929)
+- Fix v-model not working in BaseRadioButton - @lukeromanowicz (#4035)
+- always keep filters values as array of object - @gibkigonzo (#4045)
+- Fix ecosystem config to work with ts-node - @andrzejewsky (#3981)
 
 ## [1.11.0] - 2019.12.20
 

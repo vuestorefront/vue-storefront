@@ -17,7 +17,7 @@
     <!-- My order body -->
     <div class="row fs16 mb20">
       <div class="col-xs-12 h4">
-        <p>{{ order.created_at | date('LLL') }}</p>
+        <p>{{ order.created_at | date('LLL', storeView) }}</p>
         <p class="mt35">
           <a href="#" class="underline" @click.prevent="remakeOrder(singleOrderItems)">{{ $t('Remake order') }}</a>
         </p>
@@ -58,13 +58,13 @@
                 {{ item.sku }}
               </td>
               <td class="fs-medium lh25" :data-th="$t('Price')">
-                {{ item.price_incl_tax | price }}
+                {{ item.price_incl_tax | price(storeView) }}
               </td>
               <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">
                 {{ item.qty_ordered }}
               </td>
               <td class="fs-medium lh25" :data-th="$t('Subtotal')">
-                {{ item.row_total_incl_tax | price }}
+                {{ item.row_total_incl_tax | price(storeView) }}
               </td>
               <td class="fs-medium lh25">
                 <product-image :image="{src: itemThumbnail[item.sku]}" />
@@ -76,31 +76,31 @@
               <td colspan="5" class="align-right">
                 {{ $t('Subtotal') }}
               </td>
-              <td>{{ order.subtotal | price }}</td>
+              <td>{{ order.subtotal | price(storeView) }}</td>
             </tr>
             <tr>
               <td colspan="5" class="align-right">
                 {{ $t('Shipping') }}
               </td>
-              <td>{{ order.shipping_amount | price }}</td>
+              <td>{{ order.shipping_amount | price(storeView) }}</td>
             </tr>
             <tr>
               <td colspan="5" class="align-right">
                 {{ $t('Tax') }}
               </td>
-              <td>{{ order.tax_amount + order.discount_tax_compensation_amount | price }}</td>
+              <td>{{ order.tax_amount + order.discount_tax_compensation_amount | price(storeView) }}</td>
             </tr>
             <tr v-if="order.discount_amount">
               <td colspan="5" class="align-right">
                 {{ $t('Discount') }}
               </td>
-              <td>{{ order.discount_amount | price }}</td>
+              <td>{{ order.discount_amount | price(storeView) }}</td>
             </tr>
             <tr>
               <td colspan="5" class="align-right">
                 {{ $t('Grand total') }}
               </td>
-              <td>{{ order.grand_total | price }}</td>
+              <td>{{ order.grand_total | price(storeView) }}</td>
             </tr>
           </tfoot>
         </table>
@@ -148,6 +148,7 @@ import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAcco
 import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
 import ProductImage from 'theme/components/core/ProductImage'
 import { getThumbnailPath, productThumbnailPath } from '@vue-storefront/core/helpers'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { mapActions } from 'vuex'
 
 export default {
@@ -159,6 +160,11 @@ export default {
   data () {
     return {
       itemThumbnail: []
+    }
+  },
+  computed: {
+    storeView () {
+      return currentStoreView()
     }
   },
   methods: {

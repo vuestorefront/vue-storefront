@@ -43,7 +43,7 @@ describe('Checkout actions', () => {
       expect(mockContext.dispatch).toHaveBeenCalledTimes(4);
       expect(mockContext.dispatch).toHaveBeenNthCalledWith(1, 'order/placeOrder', order, { root: true });
       expect(mockContext.dispatch).toHaveBeenNthCalledWith(2, 'updateOrderTimestamp');
-      expect(mockContext.dispatch).toHaveBeenNthCalledWith(3, 'cart/clear', { recreateAndSyncCart: true }, { root: true });
+      expect(mockContext.dispatch).toHaveBeenNthCalledWith(3, 'cart/clear', null, { root: true });
       expect(mockContext.dispatch).toHaveBeenNthCalledWith(4, 'dropPassword');
     });
 
@@ -54,7 +54,7 @@ describe('Checkout actions', () => {
       expect(mockContext.dispatch).toHaveBeenCalledTimes(4);
       expect(mockContext.dispatch).toHaveBeenNthCalledWith(1, 'order/placeOrder', order, { root: true });
       expect(mockContext.dispatch).toHaveBeenNthCalledWith(2, 'updateOrderTimestamp');
-      expect(mockContext.dispatch).toHaveBeenNthCalledWith(3, 'cart/clear', { recreateAndSyncCart: true }, { root: true });
+      expect(mockContext.dispatch).toHaveBeenNthCalledWith(3, 'cart/clear', null, { root: true });
       expect(mockContext.dispatch).toHaveBeenNthCalledWith(4, 'dropPassword');
     });
 
@@ -65,7 +65,7 @@ describe('Checkout actions', () => {
       expect(mockContext.dispatch).toHaveBeenCalledTimes(1);
       expect(mockContext.dispatch).toHaveBeenNthCalledWith(1, 'order/placeOrder', order, { root: true });
       expect(mockContext.dispatch).not.toHaveBeenNthCalledWith(2, 'updateOrderTimestamp');
-      expect(mockContext.dispatch).not.toHaveBeenNthCalledWith(3, 'cart/clear', { recreateAndSyncCart: true }, { root: true });
+      expect(mockContext.dispatch).not.toHaveBeenNthCalledWith(3, 'cart/clear', null, { root: true });
       expect(mockContext.dispatch).not.toHaveBeenNthCalledWith(4, 'dropPassword');
     });
 
@@ -76,7 +76,7 @@ describe('Checkout actions', () => {
       expect(mockContext.dispatch).toHaveBeenCalledTimes(1);
       expect(mockContext.dispatch).toHaveBeenNthCalledWith(1, 'order/placeOrder', order, { root: true });
       expect(mockContext.dispatch).not.toHaveBeenNthCalledWith(2, 'updateOrderTimestamp');
-      expect(mockContext.dispatch).not.toHaveBeenNthCalledWith(3, 'cart/clear', { recreateAndSyncCart: true }, { root: true });
+      expect(mockContext.dispatch).not.toHaveBeenNthCalledWith(3, 'cart/clear', null, { root: true });
       expect(mockContext.dispatch).not.toHaveBeenNthCalledWith(4, 'dropPassword');
       expect(Logger.error).toHaveBeenCalled();
     });
