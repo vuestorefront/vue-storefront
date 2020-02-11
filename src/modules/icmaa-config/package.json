@@ -6,10 +6,10 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "@vue-storefront/core": "^1.11.0-rc.1"
+    "@vue-storefront/core": "^1.11.1"
   },
   "peerDependencies": {
-    "@vue-storefront/core": "^1.11.0-rc.1"
+    "@vue-storefront/core": "^1.11.1"
   },
   "dependencies": {
     "i18n-iso-countries": "^4.3.1",
