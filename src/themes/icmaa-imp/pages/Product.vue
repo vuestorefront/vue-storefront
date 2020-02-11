@@ -154,7 +154,6 @@ import Recommendations from 'icmaa-recommendations/components/Recommendations'
 import LoaderBackground from 'theme/components/core/LoaderBackground'
 import LazyHydrate from 'vue-lazy-hydration'
 
-import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption'
 import VueOfflineMixin from 'vue-offline/mixin'
 import ProductMetaMixin from 'icmaa-meta/mixins/productMeta'
 import ProductGtmMixin from 'icmaa-google-tag-manager/mixins/productGtm'
@@ -187,7 +186,7 @@ export default {
     WebShare,
     LazyHydrate
   },
-  mixins: [ProductOption, IcmaaProduct, ProductMetaMixin, ProductPriceMixin, ProductOptionsMixin, ProductAddToCartMixin, FeaturesMixin, ClusterMixin, ProductGtmMixin],
+  mixins: [IcmaaProduct, ProductMetaMixin, ProductPriceMixin, ProductOptionsMixin, ProductAddToCartMixin, FeaturesMixin, ClusterMixin, ProductGtmMixin],
   beforeCreate () {
     registerModule(ReviewModule)
     registerModule(IcmaaExtendedReviewModule)

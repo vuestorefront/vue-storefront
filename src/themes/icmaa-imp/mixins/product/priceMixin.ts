@@ -1,4 +1,5 @@
 import { price } from 'icmaa-config/helpers/price'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   computed: {
@@ -15,10 +16,10 @@ export default {
           }
 
           if (price === 0) {
-            price = c.price
+            price = c.original_price_incl_tax
             return false
           }
-          return c.price !== price
+          return c.original_price_incl_tax !== price
         })
       }
       return false

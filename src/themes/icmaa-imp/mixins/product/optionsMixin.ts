@@ -1,6 +1,8 @@
-import { mapGetters } from 'vuex'
 import i18n from '@vue-storefront/i18n'
+import { mapGetters } from 'vuex'
 import { LocaleMessages } from 'vue-i18n'
+import { findConfigurableChildAsync } from '@vue-storefront/core/modules/catalog/helpers/index'
+
 import cloneDeep from 'lodash-es/cloneDeep'
 
 export default {
@@ -90,6 +92,23 @@ export default {
         })
       }
       return selectedFilters
+    }
+  },
+  methods: {
+    /**
+     * This is a copy of `@vue-storefront/core/modules/catalog/components/ProductOption.ts`
+     * The original function uses the `isOptionAvailableAsync` method which won't return false if the specific option isn't available.
+     * Thats because it uses `findConfigurableChildAsync` and just checks if it returns a variant, but the `findConfigurableChildAsync`
+     * method returns the default or selected variant if the specific one isn't found, so it's true as long as one item is available.
+     * That's why we make our own variant and check for the variant as well.
+     * @param option
+     */
+    isOptionAvailable (option) {
+      let currentConfig = Object.assign({}, this.configuration)
+      currentConfig[option.type] = option
+
+      const variant = findConfigurableChildAsync({ product: this.product, configuration: currentConfig, availabilityCheck: true })
+      return typeof variant !== 'undefined' && variant !== null && variant[option.type] === option.id
     }
   }
 }

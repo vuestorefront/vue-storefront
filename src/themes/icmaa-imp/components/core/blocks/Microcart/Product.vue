@@ -63,7 +63,6 @@ import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import ProductImage from 'theme/components/core/ProductImage'
-import { ProductOption } from '@vue-storefront/core/modules/catalog/components/ProductOption'
 import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers'
 
 export default {
@@ -77,7 +76,7 @@ export default {
     ButtonComponent,
     ProductImage
   },
-  mixins: [Product, ProductOption],
+  mixins: [Product],
   computed: {
     ...mapGetters({ freeCartItems: 'cart/getFreeCartItems' }),
     hasProductInfo () {
