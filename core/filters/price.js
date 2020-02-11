@@ -18,9 +18,7 @@ export function price (value, storeView) {
   if (isNaN(value)) {
     return value
   }
-
   const _storeView = storeView || currentStoreView();
-
   if (!_storeView.i18n) {
     return value;
   }

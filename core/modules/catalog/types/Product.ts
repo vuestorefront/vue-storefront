@@ -1,3 +1,5 @@
+import { CustomOption } from './CustomOption';
+
 export default interface Product {
   category: Record<string, any>[],
   category_ids: string[],
@@ -9,6 +11,7 @@ export default interface Product {
   description: string,
   errors?: Record<string, any>,
   final_price: number,
+  finalPrice: number,
   gift_message_available: string,
   has_options?: string,
   id?: number | string,
@@ -28,7 +31,9 @@ export default interface Product {
   pattern?: string,
   price: number,
   price_incl_tax?: number,
+  priceInclTax?: number,
   price_tax?: number,
+  priceTax?: number,
   product_links?: Record<string, any>[],
   product_option?: Record<string, any>,
   regular_price: number,
@@ -43,6 +48,9 @@ export default interface Product {
   special_price_incl_tax?: any,
   special_price_tax?: any,
   special_price?: number,
+  specialPriceInclTax?: any,
+  specialPriceTax?: any,
+  specialPrice?: number,
   status: number,
   stock: Record<string, any>,
   style_general?: string,
@@ -53,5 +61,6 @@ export default interface Product {
   url_key: string,
   visibility: number,
   _score?: number,
-  qty?: number
+  qty?: number,
+  custom_options?: CustomOption
 }
