@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Sidebar from 'theme/components/theme/blocks/AsyncSidebar/Sidebar'
+import Sidebar from 'theme/components/core/blocks/AsyncSidebar/Sidebar'
 import Wishlist from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Wishlist'
 import Product from 'theme/components/core/blocks/Wishlist/Product'
 import ButtonComponent from 'theme/components/core/blocks/Button'

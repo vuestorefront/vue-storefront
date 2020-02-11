@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner.vue'
-import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError.vue'
+import LoadingSpinner from 'theme/components/core/blocks/AsyncSidebar/LoadingSpinner.vue'
+import LoadingError from 'theme/components/core/blocks/AsyncSidebar/LoadingError.vue'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {

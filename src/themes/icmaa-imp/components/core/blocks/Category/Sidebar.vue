@@ -42,7 +42,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import config from 'config'
-import Sidebar from 'theme/components/theme/blocks/AsyncSidebar/Sidebar'
+import Sidebar from 'theme/components/core/blocks/AsyncSidebar/Sidebar'
 import FilterWrapper from 'theme/components/core/blocks/Category/Filter'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'

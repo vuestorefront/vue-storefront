@@ -65,14 +65,14 @@
         <div class="row">
           <div class="col-xs-12 col-md-8 px20">
             <slot name="placeOrderButton">
-              <button-full
-                @click.native="placeOrder"
+              <button-component
+                @click="placeOrder"
                 data-testid="orderReviewSubmit"
                 class="place-order-btn"
                 :disabled="$v.orderReview.$invalid"
               >
                 {{ $t('Place the order') }}
-              </button-full>
+              </button-component>
             </slot>
           </div>
         </div>
@@ -112,7 +112,7 @@ import { required } from 'vuelidate/lib/validators'
 import Composite from '@vue-storefront/core/mixins/composite'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
-import ButtonFull from 'theme/components/theme/ButtonFull'
+import ButtonComponent from 'theme/components/core/blocks/Button'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import Modal from 'theme/components/core/Modal'
 import { OrderReview } from '@vue-storefront/core/modules/checkout/components/OrderReview'
@@ -122,7 +122,7 @@ import { registerModule } from '@vue-storefront/core/lib/modules'
 export default {
   components: {
     BaseCheckbox,
-    ButtonFull,
+    ButtonComponent,
     CartSummary,
     Modal
   },

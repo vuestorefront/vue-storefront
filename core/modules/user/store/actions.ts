@@ -233,7 +233,7 @@ const actions: ActionTree<UserState, RootState> = {
     await dispatch('cart/disconnect', {}, { root: true })
     await dispatch('clearCurrentUser')
     EventBus.$emit('user-after-logout')
-    await dispatch('cart/clear', { recreateAndSyncCart: true }, { root: true })
+    await dispatch('cart/clear', null, { root: true })
 
     if (!silent) {
       await dispatch('notification/spawnNotification', {

@@ -206,13 +206,13 @@
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 col-md-8 my30 px20">
-            <button-full
+            <button-component
               data-testid="shippingSubmit"
-              @click.native="sendDataToCheckout"
+              @click="sendDataToCheckout"
               :disabled="$v.shipping.$invalid || shippingMethods.length <= 0"
             >
               {{ $t('Continue to payment') }}
-            </button-full>
+            </button-component>
           </div>
         </div>
       </div>
@@ -265,12 +265,12 @@ import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipp
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
-import ButtonFull from 'theme/components/theme/ButtonFull'
+import ButtonComponent from 'theme/components/core/blocks/Button'
 import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
   components: {
-    ButtonFull,
+    ButtonComponent,
     Tooltip,
     BaseCheckbox,
     BaseInput,

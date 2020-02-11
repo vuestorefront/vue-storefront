@@ -1,7 +1,7 @@
 {
   "name": "@icmaa/vsf-theme-imp",
   "description": "ICMAA theme for www.impericon.com",
-  "version": "1.11.0-rc.2",
+  "version": "1.11.1",
   "private": true,
   "main": "index.js",
   "scripts": {

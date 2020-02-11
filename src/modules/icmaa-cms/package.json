@@ -11,9 +11,9 @@
     "yaml": "^1.6.0"
   },
   "devDependencies": {
-    "@vue-storefront/core": "^1.11.0-rc.1"
+    "@vue-storefront/core": "^1.11.1"
   },
   "peerDependencies": {
-    "@vue-storefront/core": "^1.11.0-rc.1"
+    "@vue-storefront/core": "^1.11.1"
   }
 }

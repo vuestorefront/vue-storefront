@@ -21,11 +21,7 @@ module.exports = function (config, { isClient, isDev }) {
       }
     }
 
-    if (isDev) {
-      config.default = merge(config.default, addCompiler)
-    } else {
-      config = merge(config, addCompiler)
-    }
+    config = merge(config, addCompiler)
   }
 
   /**
@@ -81,8 +77,7 @@ module.exports = function (config, { isClient, isDev }) {
     return rule
   }
 
-  let rules = (isDev) ? config.default.module.rules : config.module.rules
-  rules.map(rewriteMapping)
+  config.module.rules.map(rewriteMapping)
 
   /**
    * Add css sprites for service logos
@@ -111,11 +106,7 @@ module.exports = function (config, { isClient, isDev }) {
     ]
   }
 
-  if (isDev) {
-    config.default = merge(config.default, sprites)
-  } else {
-    config = merge(config, sprites)
-  }
+  config = merge(config, sprites)
 
   return config
 }

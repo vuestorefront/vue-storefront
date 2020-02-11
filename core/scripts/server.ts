@@ -170,7 +170,7 @@ app.get('*', (req, res, next) => {
       next()
     }
   }
-  
+
   const site = req.headers['x-vs-store-code'] || 'main'
   const cacheKey = `page:${site}:${req.url}`
 
@@ -210,8 +210,8 @@ app.get('*', (req, res, next) => {
       output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd);
       if (config.server.useOutputCache && cache) {
         cache.set(
-          cacheKey,
-          { headers: res.getHeaders(), body: output },
+          'page:' + req.url,
+          { headers: res.getHeaders(), body: output, httpCode: res.statusCode },
           tagsArray
         ).catch(errorHandler)
       }
@@ -252,6 +252,11 @@ app.get('*', (req, res, next) => {
             }
           }
           res.setHeader('X-VS-Cache', 'Hit')
+
+          if (output.httpCode) {
+            res.status(output.httpCode)
+          }
+
           if (output.body) {
             res.end(output.body)
           } else {

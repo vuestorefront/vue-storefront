@@ -88,7 +88,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 import { getSearchOptionsFromRouteParams } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
 
-import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar.vue'
+import AsyncSidebar from 'theme/components/core/blocks/AsyncSidebar/AsyncSidebar.vue'
 import Sidebar from 'theme/components/core/blocks/Category/Sidebar'
 import SortBy from 'theme/components/core/blocks/Category/SortBy'
 import Presets from 'theme/components/core/blocks/Category/Presets'

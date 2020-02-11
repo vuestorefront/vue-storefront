@@ -160,13 +160,13 @@
       <div class="col-xs-11 col-sm-9 col-md-10">
         <div class="row my30">
           <div class="col-xs-12 col-md-7 px20 button-container">
-            <button-full
+            <button-component
               data-testid="personalDetailsSubmit"
-              @click.native="sendDataToCheckout"
+              @click="sendDataToCheckout"
               :disabled="createAccount ? $v.$invalid : $v.personalDetails.$invalid"
             >
               {{ $t((isVirtualCart ? 'Continue to payment' : 'Continue to shipping')) }}
-            </button-full>
+            </button-component>
           </div>
           <div
             class="col-xs-12 col-md-5 center-xs end-md"
@@ -223,12 +223,12 @@ import { PersonalDetails } from '@vue-storefront/core/modules/checkout/component
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
-import ButtonFull from 'theme/components/theme/ButtonFull'
+import ButtonComponent from 'theme/components/core/blocks/Button'
 import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
   components: {
-    ButtonFull,
+    ButtonComponent,
     Tooltip,
     BaseCheckbox,
     BaseInput

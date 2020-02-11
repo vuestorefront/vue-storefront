@@ -8,9 +8,9 @@
     "bodybuilder": "^2.2.20"
   },
   "devDependencies": {
-    "@vue-storefront/core": "^1.11.0-rc.1"
+    "@vue-storefront/core": "^1.11.1"
   },
   "peerDependencies": {
-    "@vue-storefront/core": "^1.11.0-rc.1"
+    "@vue-storefront/core": "^1.11.1"
   }
 }

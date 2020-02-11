@@ -37,17 +37,14 @@
               <strong>{{ $t('You will receive Push notification after coming back online. You can confirm the order by clicking on it') }}</strong>
             </p>
             <p v-if="!isPermissionGranted && isNotificationSupported">
-              <button-outline color="dark" @click.native="requestNotificationPermission()">
+              <button-component @click="requestNotificationPermission()">
                 {{ $t('Allow notification about the order') }}
-              </button-outline>
+              </button-component>
             </p>
             <p>
-              <button-outline
-                color="dark"
-                @click.native="$router.push('/')"
-              >
+              <button-component @click="$router.push('/')">
                 {{ $t('Return to shopping') }}
-              </button-outline>
+              </button-component>
             </p>
             <div id="thank-you-extensions" />
           </div>
@@ -67,9 +64,9 @@
                 :placeholder="$t('Type your opinion')"
                 :autofocus="true"
               />
-              <button-outline color="dark">
+              <button-component>
                 {{ $t('Give a feedback') }}
-              </button-outline>
+              </button-component>
             </form>
           </div>
         </div>
@@ -82,7 +79,7 @@
 import Composite from '@vue-storefront/core/mixins/composite'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
-import ButtonOutline from 'theme/components/theme/ButtonOutline'
+import ButtonOutline from 'theme/components/core/blocks/Button'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
 import { isServer } from '@vue-storefront/core/helpers'

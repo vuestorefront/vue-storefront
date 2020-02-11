@@ -1,3 +1,4 @@
+"A customer with the same email already exists in an associated website.","Sama e-postiga klient juba eksisteerib."
 "About us (Magento CMS)","About us (Magento CMS)"
 "About us",Meist
 "Add a discount code","Lisa sooduskood"
@@ -6,8 +7,9 @@
 "Add to compare","Lisa võrdlusesse"
 "Add to favorite","Lisa lemmikuks"
 "Allow notification about the order","Luba tellimusge seotud teadete edastamine"
+"Are you sure you would like to remove all the items from the shopping cart?","Olete kindel, et soovi deemaldada kõik tooted ostukorvist?"
 "Are you sure you would like to remove all the items from the wishlist?","Olete kindel, et soovite kõik tooted soovikorvist eemaldada?"
-"Authorization in progress ...",Autoriseerime…
+"Authorization in progress ...","Sisse logimine ..."
 "Back to login","Tagasi sisse logima"
 "Billing address",Makseaadress
 "Cash on delivery","Sularahas tellimuse kohaletoimetamisel"
@@ -109,7 +111,7 @@
 "Open my account","Minu konto"
 "Open search panel",Otsing
 "Open wishlist",Soovikorv
-"Order #","Tellimuse nr."
+"Order #{id}","Tellimus #{id}"
 "Order ID","Tellimuse number"
 "Order Summary","Tellimuse kokkuvõte"
 "Order confirmation","Tellimuse kinnitus"
@@ -127,7 +129,7 @@
 "Please check if all data are correct","Palun kontrollige, et kõik oleks õige"
 "Please confirm order you placed when you was offline","Palun kinnitage oma tellimuse, mille ilma interneti ühenduseta varasemalt tegite"
 "Please provide valid e-mail address.","Kontrolli e-maili aadressi"
-"Price ",Hind
+"Price {variant}","Hind {variant}"
 "Price: High to low","Kallimad eespool"
 "Price: Low to high","Odavamad eespool"
 "Privacy policy",Privaatsustingimused
@@ -140,17 +142,18 @@
 "Repeat new password *","Siseta uus parool uuesti *"
 "Repeat password *","Sisesta parool uuesti *"
 "Reset password","Muuda parool"
-"Resetting the password ... ","Muudame parooli…"
+"Resetting the password ... ","Parooli tühistamine..."
 "Return policy",Tagasitamine
 "Return to shopping",Tagasi
 "Review order","Tellimuse ülevaade"
+"SKU: {sku}","SKU: {sku}"
 "Searched term should consist of at least 3 characters.","Otsingu sõna peab sisaldama vähemalt kolme tähte."
 "See details",Rohkem
 "See our bestsellers","Vaata meie enim müüdud tooteid"
 "Select No","Vali number"
 "Select Yes","Vali Jah"
 "Select color ","Vali värv"
-"Select size ","Vali suurus"
+"Select size {variant}","Vali {variant} suurus"
 "Ship to my default address","Saada kaup mu vaikimisi aadressile"
 "Shipping address",Tarneaadress
 "Shipping method",Tarneviis
@@ -160,7 +163,8 @@
 "Sign up to our newsletter and receive a coupon for 10% off!","Liitu meie uudiskirjaga ja saad 10% sooduskupongi!"
 "Similar products","Sarnased tooted"
 "Size guide","Suuruste juhend"
-"Something went wrong ...","Midagi läks valesti…"
+"Something went wrong ...","Midagi läks valesti ..."
+"Something went wrong. Try again in a few seconds.","Midagi läks valesti. Pooriv uuesti mõne aja pärast.."
 "Sort By",Sorteeri
 "State / Province",Maakond
 "Store locator","Otsi kauplus"
@@ -172,9 +176,12 @@
 "Tax identification number *","Käibemaksu number *"
 "Tax identification number must have at least 3 letters.","Käibemaksukood peab olema vähemalt 3 tähte."
 "Terms and conditions",Kasutustingimused
+"The OrderNumber is {id}","Tellimuse number on {id}"
 "The new account will be created with the purchase. You will receive details on e-mail.","Konto luuakse koos tellimuse vormistamisega. Saadame Teile konto loomise kohta e-maili."
+"The order can not be transfered because of server error. Order has been queued","Tellimus pandi edastamise järjekorda, kuna tellimust ei saadud edasta serveri vea tõttu."
 "The server order id has been set to ","Serveri tellimuse number saadeti"
 "This product is out of stock.","See toode on laost otsas."
+"To finish the order just come back to our store while online. Your order will be sent to the server as soon as you come back here while online and then confirmed regarding the stock quantities of selected items","Tellimuse lõpetamiseks tulge tagasi meie poodi. Teie tellimus saadetakse serverisse niipea, kui te siia intenetiühenduse taastudes tagasi tulete."
 "Toggle password visibility","Vaata parooli"
 "Track my order","Jälgi oma tellimust"
 "Type your opinion","Kirjuta oma arvamus"
@@ -196,14 +203,18 @@
 "We've sent password reset instructions to your email. Check your inbox and follow the link.","Saatsime Teile parooli muutmise juhendi. Palun kontrollige oma e-maili."
 "What we can improve?","Mida võiksime paremini teha?"
 "Women fashion","Naiste riided"
-"You are logged in as","Olete sisse logitud kui"
+"You are logged in as {firstname}","Olete sisse logitud {firstname}"
+"You are offline","Teil puudub internetiühendus. "
 "You are offline. Some features might not be available.","Teil puudub internetiühendus. Mõned funktsionaalsused võivad seetõttu mitte töötada."
+"You can allow us to remind you about the order via push notification after coming back online. You'll only need to click on it to confirm.","Pärast intenetiühenduse taastumist võite lasta endale tellimusest meelde tuletada. Kinnitage see brauseri dialoogis."
 "You can also use","või kasuta"
 "You can log to your account using e-mail and password defined earlier. On your account you can <b>edit your profile data,</b> check <b>history of transactions,</b> edit <b>subscription to newsletter.</b>","Saate oma kontole e-maili ja parooli abil siseneda."
 "You have been successfully subscribed to our newsletter!","Olete uudiskirja listi lisatud!"
+"You have been successfully unsubscribed from our newsletter!","Olete uudiskirja listist eemaldatud!"
 "You have no items to compare.","Võrdlus on tühi"
 "You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.","Tellimus vormistamine õnnestus. Saadame teile tellimuse kinnituse e-mailile. "
 "You must accept the terms and conditions.","Nõustun kasutustingimustega"
+"You will receive Push notification after coming back online. You can confirm the order by clicking on it","Võite tellida intenetiühenduse taastumise teavituse. Kinnitage see brauseri dialoogis."
 "You've entered an incorrect coupon code. Please try again.","Kupongikood ei kehti või puudub. Kontrolli sisestatud koodi ja proovi uuesti."
 "Your Account",Konto
 "Your feedback is important for us. Let us know what we could improve.","Teie tagasiside on meile tähtis. Palun kirjutage meile, mida võiksime veelgi paremaks muuta."
@@ -221,12 +232,14 @@
 "return to log in","tagasi sisse logima"
 "to find product you were looking for.",",et leida otsitav toode."
 "to find something beautiful for You!","leia midagi ilusat"
+"{count} items","{count} kirjeid"
 Author,Autor
 Back,Tagasi
 Cancel,Tühista
 City,Linn
 Clear,Tühista
 Close,Sulge
+Columns,Tulbad
 Country,Riik
 Delivery,Tarne
 Departments,Kategooria
@@ -249,6 +262,7 @@ Newsletter,Uudiskiri
 Orders,Tellimused
 Payment,Makseviis
 Price,Hind
+Products,Tooted
 Purchase,Tellimus
 Qty,Kogus
 Quantity,Kogus
@@ -266,12 +280,12 @@ Subtotal,Kokku
 Tax,Käibemaks
 Type,Tüüp
 Value,Summa
+Vuestore,"Vue Storefront"
 Wishlist,Soovikorv
 Zip-code,Sihtnumber
 color,värvus
 color_filter,värv_filter
 erin_recommends_filter,soovitab_filter
-items,tooted
 login,"logi sisse"
 or,või
 price_filter,hind_filter

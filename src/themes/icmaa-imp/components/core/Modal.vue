@@ -23,7 +23,7 @@ import { mapMutations } from 'vuex'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
-import TopButton from 'theme/components/theme/blocks/AsyncSidebar/TopButton'
+import TopButton from 'theme/components/core/blocks/AsyncSidebar/TopButton'
 
 export default {
   name: 'Modal',

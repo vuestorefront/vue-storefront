@@ -60,7 +60,7 @@ export default {
       this.$store.dispatch('claims/set', {claimCode: 'cookiesAccepted', value: true})
     }
   },
-  created () {
+  mounted () {
     this.$store.dispatch('claims/check', {claimCode: 'cookiesAccepted'}).then((cookieClaim) => {
       if (!cookieClaim) {
         this.isOpen = true

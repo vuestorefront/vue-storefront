@@ -51,9 +51,9 @@
           <a href="#" @click.prevent="cancelOrders()">{{ $t('Cancel') }}</a>
         </div>
         <div class="col-xs-12 col-sm-6">
-          <button-full @click.native="confirmOrders()">
+          <button-component @click="confirmOrders()">
             {{ $t('Confirm your order') }}
-          </button-full>
+          </button-component>
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@
 import { ConfirmOrders } from '@vue-storefront/core/modules/offline-order/components/ConfirmOrders'
 import { CancelOrders } from '@vue-storefront/core/modules/offline-order/components/CancelOrders'
 import Modal from 'theme/components/core/Modal'
-import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import ButtonComponent from 'theme/components/core/blocks/Button'
 
 export default {
   props: {
@@ -91,7 +91,7 @@ export default {
   },
   components: {
     Modal,
-    ButtonFull
+    ButtonComponent
   },
   mixins: [ ConfirmOrders, CancelOrders ]
 }

@@ -18,9 +18,9 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import Submenu from 'theme/components/theme/blocks/AsyncSidebar/Submenu'
-import LoadingSpinner from 'theme/components/theme/blocks/AsyncSidebar/LoadingSpinner'
-import LoadingError from 'theme/components/theme/blocks/AsyncSidebar/LoadingError'
+import Submenu from 'theme/components/core/blocks/AsyncSidebar/Submenu'
+import LoadingSpinner from 'theme/components/core/blocks/AsyncSidebar/LoadingSpinner'
+import LoadingError from 'theme/components/core/blocks/AsyncSidebar/LoadingError'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {

@@ -29,8 +29,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import Sidebar from 'theme/components/theme/blocks/AsyncSidebar/Sidebar'
-import TopButton from 'theme/components/theme/blocks/AsyncSidebar/TopButton'
+import Sidebar from 'theme/components/core/blocks/AsyncSidebar/Sidebar'
+import TopButton from 'theme/components/core/blocks/AsyncSidebar/TopButton'
 import NavigationItem from 'theme/components/core/blocks/SidebarMenu/NavigationItem'
 import FlagIcon from 'theme/components/core/blocks/FlagIcon'
 
