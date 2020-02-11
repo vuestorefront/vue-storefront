@@ -231,8 +231,9 @@ export default {
         action1: { label: i18n.t('Cancel'), action: 'close' },
         action2: { label: i18n.t('OK'),
           action: async () => {
-            await this.$store.dispatch('cart/clear') // just clear the items without sync
-            await this.$store.dispatch('cart/sync', { forceClientState: true })
+            // We just need to clear cart on frontend and backend.
+            // but cart token can be reused
+            await this.$store.dispatch('cart/clear', { disconnect: false })
           }
         },
         hasNoTimeout: true

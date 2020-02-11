@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.2] - UNRELEASED
 
 ### Fixed
+- add disconnect and sync options for cart/clear - @gibkigonzo (#4062)
 - add '1' as searched value for 'is_user_defined' and 'is_visible' (createAttributesListQuery) - @gibkigonzo (#4075)
 
 ## [1.11.1] - 2020.02.05
