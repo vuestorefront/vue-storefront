@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - add disconnect and sync options for cart/clear - @gibkigonzo (#4062)
 - add '1' as searched value for 'is_user_defined' and 'is_visible' (createAttributesListQuery) - @gibkigonzo (#4075)
+- Fix possibility to add same SKU with different custom options to the cart - @Michal-Dziedzinski (#3595)
 
 ## [1.11.1] - 2020.02.05
 
@@ -88,7 +89,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed saving invalidated user token -  @andrzejewsky (#3923)
 - Keep category products objects on ssr - @gibkigonzo (#3924)
 - product breadcrumbs - check if current category is not highest one - @gibkigonzo (#3933)
-- Fix possibility to add same SKU with different custom options to the cart - @Michal-Dziedzinski (#3595)
 
 ### Changed / Improved
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
