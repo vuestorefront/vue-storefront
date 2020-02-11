@@ -118,7 +118,6 @@ import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
-import focusClean from 'theme/components/theme/directives/focusClean'
 import { isServer } from '@vue-storefront/core/helpers'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import ProductDetails from 'theme/components/core/blocks/Product/ProductDetails'
@@ -147,7 +146,6 @@ export default {
     }),
     priceCurrency: () => currentStoreView().i18n.currencyCode
   },
-  directives: { focusClean },
   methods: {
     showDetails (event) {
       this.detailsOpen = true

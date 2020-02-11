@@ -25,13 +25,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import focusClean from 'theme/components/theme/directives/focusClean'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 import LoaderBackground from 'theme/components/core/LoaderBackground'
 
 export default {
   name: 'DefaultSelector',
-  directives: { focusClean },
   components: {
     MaterialIcon,
     LoaderBackground

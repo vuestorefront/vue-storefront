@@ -19,7 +19,7 @@ import { mapState, mapGetters } from 'vuex'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 
-import TopButton from 'theme/components/theme/blocks/AsyncSidebar/TopButton'
+import TopButton from 'theme/components/core/blocks/AsyncSidebar/TopButton'
 
 export default {
   name: 'Sidebar',

@@ -265,13 +265,13 @@
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row">
           <div class="col-xs-12 col-md-8 px20 my30">
-            <button-full
-              @click.native="sendDataToCheckout"
+            <button-component
+              @click="sendDataToCheckout"
               data-testid="paymentSubmit"
               :disabled="$v.payment.$invalid"
             >
               {{ $t('Go review the order') }}
-            </button-full>
+            </button-component>
           </div>
         </div>
       </div>
@@ -325,7 +325,7 @@ import { Payment } from '@vue-storefront/core/modules/checkout/components/Paymen
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
-import ButtonFull from 'theme/components/theme/ButtonFull'
+import ButtonComponent from 'theme/components/core/blocks/Button'
 import Tooltip from 'theme/components/core/Tooltip'
 
 export default {
@@ -333,7 +333,7 @@ export default {
     BaseCheckbox,
     BaseInput,
     BaseSelect,
-    ButtonFull,
+    ButtonComponent,
     Tooltip
   },
   mixins: [Payment],

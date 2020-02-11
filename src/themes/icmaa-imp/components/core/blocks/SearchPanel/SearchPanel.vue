@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Sidebar from 'theme/components/theme/blocks/AsyncSidebar/Sidebar'
+import Sidebar from 'theme/components/core/blocks/AsyncSidebar/Sidebar'
 import ProductTile from 'theme/components/core/ProductTile'
 import CategoryPanel from 'theme/components/core/blocks/SearchPanel/CategoryPanel'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'

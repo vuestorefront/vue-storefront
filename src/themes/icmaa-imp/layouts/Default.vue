@@ -47,7 +47,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar'
+import AsyncSidebar from 'theme/components/core/blocks/AsyncSidebar/AsyncSidebar'
 import MainHeader from 'theme/components/core/blocks/Header/Header'
 import Advice from 'theme/components/core/blocks/Advice/Advice'
 import MainFooter from 'theme/components/core/blocks/Footer/Footer'

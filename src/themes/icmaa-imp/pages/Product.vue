@@ -129,18 +129,17 @@ import { registerModule } from '@vue-storefront/core/lib/modules'
 import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import focusClean from 'theme/components/theme/directives/focusClean'
 
 import { ReviewModule } from '@vue-storefront/core/modules/review'
 import { IcmaaExtendedReviewModule } from 'icmaa-review'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
 import Reviews from 'theme/components/core/blocks/Reviews/Reviews'
 
-import AsyncSidebar from 'theme/components/theme/blocks/AsyncSidebar/AsyncSidebar'
+import AsyncSidebar from 'theme/components/core/blocks/AsyncSidebar/AsyncSidebar'
 import IcmaaProduct from 'icmaa-catalog/components/Product'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import ProductGallery from 'theme/components/core/ProductGallery'
-import WebShare from 'theme/components/theme/WebShare'
+import WebShare from 'theme/components/core/blocks/WebShare'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import CategoryExtrasHeader from 'theme/components/core/blocks/CategoryExtras/Header'
@@ -189,7 +188,6 @@ export default {
     LazyHydrate
   },
   mixins: [ProductOption, IcmaaProduct, ProductMetaMixin, ProductPriceMixin, ProductOptionsMixin, ProductAddToCartMixin, FeaturesMixin, ClusterMixin, ProductGtmMixin],
-  directives: { focusClean },
   beforeCreate () {
     registerModule(ReviewModule)
     registerModule(IcmaaExtendedReviewModule)

@@ -49,7 +49,7 @@ import i18n from '@vue-storefront/i18n'
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import ButtonComponent from 'theme/components/core/blocks/Button'
-import Sidebar from 'theme/components/theme/blocks/AsyncSidebar/Sidebar'
+import Sidebar from 'theme/components/core/blocks/AsyncSidebar/Sidebar'
 import Product from 'theme/components/core/blocks/Microcart/Product'
 import Coupon from 'theme/components/core/blocks/Microcart/Coupon'
 
