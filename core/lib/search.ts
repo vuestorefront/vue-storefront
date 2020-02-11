@@ -87,7 +87,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
     }
 
     searchAdapter.search(Request).then((resp) => { // we're always trying to populate cache - when online
-      const res = searchAdapter.entities[Request.type].resultPorcessor(resp, start, size)
+      const res = searchAdapter.entities[Request.type].resultProcessor(resp, start, size)
 
       if (res) { // otherwise it can be just a offline mode
         cache.setItem(cacheKey, res, null, config.elasticsearch.disablePersistentQueriesCache).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
