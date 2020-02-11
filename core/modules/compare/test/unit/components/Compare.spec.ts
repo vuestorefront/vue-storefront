@@ -7,26 +7,6 @@ jest.mock('@vue-storefront/core/helpers', () => ({
 jest.mock('@vue-storefront/core/modules/compare/mixins/compareMountedMixin', () => ({}))
 
 describe('Compare', () => {
-  it('Compare dispatches attribute list action on created', () => {
-    const storeMock = {
-      modules: {
-        attribute: {
-          actions: {
-            list: jest.fn(() => [])
-          },
-          namespaced: true
-        }
-      }
-    };
-
-    mountMixinWithStore(Compare, storeMock);
-
-    expect(storeMock.modules.attribute.actions.list).toBeCalledWith(expect.anything(), {
-      filterValues: [],
-      filterField: 'is_user_defined'
-    }, undefined);
-  })
-
   it('removeFromCompare dispatches addItem action', () => {
     const product = {};
 
