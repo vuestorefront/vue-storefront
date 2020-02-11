@@ -3,7 +3,7 @@ import * as types from './../store/mutation-types'
 
 export async function afterRegistration ({ Vue, config, store, isServer }) {
   if (!isServer) {
-    await store.dispatch('user/startSession')
+    store.dispatch('user/startSession')
 
     Vue.prototype.$bus.$on('user-before-logout', () => {
       store.dispatch('user/logout', { silent: false })

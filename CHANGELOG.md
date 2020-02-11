@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix problem with storeView as dependency in filters - @gibkigonzo (#3968)
 - Fix v-model not working in BaseRadioButton - @lukeromanowicz (#4035)
 - add disconnect and sync options for clear/cart - @gibkigonzo (#4062)
+- Fix current token invalidation with refresh token - @gibkigonzo (#3928, #3620, #3626)
 
 ## [1.10.5] - 28.11.2019
 
