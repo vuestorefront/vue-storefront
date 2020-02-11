@@ -243,11 +243,13 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Setup product current variants
    */
-  setupVariants (context, { product }) {
+  async setupVariants (context, { product }) {
     if (product.type_id !== 'configurable' || !product.hasOwnProperty('configurable_options')) {
       return
     }
-
+    if (config.entities.attribute.loadByAttributeMetadata) {
+      await context.dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
+    }
     let productOptions = {}
     for (let option of product.configurable_options) {
       for (let ov of option.values) {
@@ -267,7 +269,8 @@ const actions: ActionTree<ProductState, RootState> = {
       }
     }
     context.commit(types.PRODUCT_SET_CURRENT_OPTIONS, productOptions)
-    populateProductConfigurationAsync(context, { selectedVariant: context.getters.getCurrentProduct, product: product })
+    let selectedVariant = context.getters.getCurrentProduct
+    populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
   },
   filterUnavailableVariants (context, { product }) {
     return filterOutUnavailableVariants(context, product)
@@ -634,7 +637,12 @@ const actions: ActionTree<ProductState, RootState> = {
       throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
     }
 
-    await dispatch('loadProductAttributes', { product })
+    if (config.entities.attribute.loadByAttributeMetadata) {
+      await dispatch('attribute/loadProductAttributes', { products: [product] }, { root: true })
+    } else {
+      await dispatch('loadProductAttributes', { product })
+    }
+
     const syncPromises = []
     const variantsFilter = dispatch('filterUnavailableVariants', { product })
     const gallerySetup = dispatch('setProductGallery', { product })

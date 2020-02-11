@@ -1,11 +1,12 @@
 import Vuex from 'vuex'
-import {shallowMount, createLocalVue} from '@vue/test-utils'
+import { shallowMount, createLocalVue, Wrapper, ThisTypedShallowMountOptions } from '@vue/test-utils';
+import Vue, { ComponentOptions } from 'vue';
 
-export const mountMixin = (
-  component: object,
-  mountOptions: object = {},
-  template: string = '<div />'
-) => {
+export const mountMixin = <V extends Vue>(
+  component: ComponentOptions<V>,
+  mountOptions: ThisTypedShallowMountOptions<V> = {},
+  template = '<div />'
+): Wrapper<V> => {
   const localVue = createLocalVue();
 
   localVue.use(Vuex);
@@ -19,12 +20,12 @@ export const mountMixin = (
   })
 };
 
-export const mountMixinWithStore = (
-  component: object,
+export const mountMixinWithStore = <V extends Vue>(
+  component: ComponentOptions<V>,
   storeOptions: object = {},
-  mountOptions: object = {},
-  template: string = '<div />'
-) => {
+  mountOptions: ThisTypedShallowMountOptions<V> = {},
+  template = '<div />'
+): Wrapper<V> => {
   const localVue = createLocalVue();
 
   localVue.use(Vuex);
