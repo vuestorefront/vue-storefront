@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `Intl.NumberFormat()`/`toLocaleString()` via polyfill support in NodeJs - @cewald (#3836, #4040)
 - Added `saveBandwidthOverCache` parameter for skipping caching for products data - @andrzejewsky (#3706)
 - New zoom effect for product gallery images - @Michal-Dziedzinski (#2755)
+- Product Page Schema implementation as JSON-LD - @Michal-Dziedzinski (#3704)
 
 ### Fixed
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
