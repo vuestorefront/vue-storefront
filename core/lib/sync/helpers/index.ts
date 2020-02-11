@@ -19,3 +19,13 @@ export const getResponseMessage = (jsonResponse): string => {
 
   return jsonResponse.result.message
 }
+
+export const getResponseCode = (jsonResponse): number => {
+  let responseCode = null
+  if (jsonResponse.result && jsonResponse.result.code) {
+    responseCode = parseInt(jsonResponse.result.code)
+  } else {
+    responseCode = parseInt(jsonResponse.code)
+  }
+  return responseCode
+}

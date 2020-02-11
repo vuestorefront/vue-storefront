@@ -15,7 +15,7 @@ import { processURLAddress } from '@vue-storefront/core/helpers'
 import { serial } from '@vue-storefront/core/helpers'
 import config from 'config'
 import { onlineHelper } from '@vue-storefront/core/helpers'
-import { hasResponseError, getResponseMessage } from '@vue-storefront/core/lib/sync/helpers'
+import { hasResponseError, getResponseMessage, getResponseCode } from '@vue-storefront/core/lib/sync/helpers'
 
 const AUTO_REFRESH_MAX_ATTEMPTS = 20
 
@@ -73,7 +73,7 @@ function _internalExecute (resolve, reject, task: Task, currentToken, currentCar
     }
   }).then((jsonResponse) => {
     if (jsonResponse) {
-      const responseCode = parseInt(jsonResponse.code)
+      const responseCode = getResponseCode(jsonResponse)
       if (responseCode !== 200) {
         if (responseCode === 401 /** unauthorized */ && currentToken) { // the token is no longer valid, try to invalidate it
           Logger.error('Invalid token - need to be revalidated' + currentToken + task.url + rootStore.state.userTokenInvalidateLock, 'sync')()
