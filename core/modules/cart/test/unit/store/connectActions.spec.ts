@@ -48,22 +48,55 @@ jest.mock('@vue-storefront/core/helpers', () => ({
 }));
 
 describe('Cart connectActions', () => {
-  it('clears cart token and server hash', async () => {
-    const contextMock = createContextMock({
-      getters: {
-        isCartSyncEnabled: true
-      }
-    })
-    config.orders = {
-      directBackendSync: false
-    }
+  it('clear deletes all cart products and token', async () => {
+    const contextMock = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: { isCartSyncEnabled: false }
+    };
+    const wrapper = (actions: any) => actions.clear(contextMock);
+    config.cart = { synchronize: false };
 
-    await (cartActions as any).clear(contextMock)
+    await wrapper(cartActions);
 
     expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.CART_LOAD_CART, []);
-    expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.CART_LOAD_CART_SERVER_TOKEN, null);
-    expect(contextMock.commit).toHaveBeenNthCalledWith(3, types.CART_SET_ITEMS_HASH, null);
-  })
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'sync', { forceClientState: true });
+    expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.CART_SET_ITEMS_HASH, null);
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'disconnect');
+  });
+
+  it('clear deletes all cart products but keep token', async () => {
+    const contextMock = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: { isCartSyncEnabled: false }
+    };
+    const wrapper = (actions: any) => actions.clear(contextMock, { disconnect: false });
+
+    config.cart = { synchronize: false };
+
+    await wrapper(cartActions);
+
+    expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.CART_LOAD_CART, []);
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'sync', { forceClientState: true });
+  });
+
+  it('clear deletes all cart products and token, but not sync with backend', async () => {
+    const contextMock = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: { isCartSyncEnabled: false }
+    };
+    const wrapper = (actions: any) => actions.clear(contextMock, { sync: false });
+
+    config.cart = { synchronize: false };
+
+    await wrapper(cartActions);
+
+    expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.CART_LOAD_CART, []);
+    expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.CART_SET_ITEMS_HASH, null);
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'disconnect');
+  });
 
   it('disconnects cart', async () => {
     const contextMock = createContextMock()

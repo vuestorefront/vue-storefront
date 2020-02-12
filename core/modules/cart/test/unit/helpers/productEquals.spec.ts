@@ -64,12 +64,12 @@ describe('Cart productEquals', () => {
 
     expect(productsEquals(product1, product2)).toBeTruthy()
   });
-  
-  it('returns true because bundle products have not the same options selected', async () => {
+
+  it('returns false because bundle products have not the same options selected', async () => {
     const product1 = createBundleProduct({ id: 1, sku: 'WG-001', type_id: 'bundle', options: [2, 2, 5, 8] })
     const product2 = createBundleProduct({ id: 2, sku: 'WG-001', type_id: 'bundle', options: [2, 4, 5, 8] })
 
-    expect(productsEquals(product1, product2)).toBeTruthy()
+    expect(productsEquals(product1, product2)).toBeFalsy()
   });
 
   it('returns true because bundle products have the same server id', async () => {
