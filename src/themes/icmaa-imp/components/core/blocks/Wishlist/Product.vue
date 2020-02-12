@@ -29,8 +29,8 @@
 <script>
 import Product from '@vue-storefront/core/compatibility/components/blocks/Wishlist/Product'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
+import { formatProductLink } from 'icmaa-url/helpers'
 import i18n from '@vue-storefront/i18n'
 import ProductImage from 'theme/components/core/ProductImage'
 import ButtonComponent from 'theme/components/core/blocks/Button'

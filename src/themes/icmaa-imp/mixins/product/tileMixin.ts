@@ -1,7 +1,7 @@
 import config from 'config'
 import rootStore from '@vue-storefront/core/store'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
+import { formatProductLink } from 'icmaa-url/helpers'
 
 export default {
   props: {

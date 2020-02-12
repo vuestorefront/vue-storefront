@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
+import { formatProductLink } from 'icmaa-url/helpers'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 import ProductNameMixin from 'icmaa-catalog/mixins/ProductNameMixin'

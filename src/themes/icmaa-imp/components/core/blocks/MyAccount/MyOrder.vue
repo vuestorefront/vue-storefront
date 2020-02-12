@@ -134,8 +134,8 @@
 <script>
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { formatProductLink } from 'icmaa-url/helpers'
 import { price } from 'icmaa-config/helpers/price'
 import i18n from '@vue-storefront/i18n'
 import Headline from 'theme/components/core/blocks/MyAccount/Headline'
