@@ -19,7 +19,7 @@ const createProduct = ({ type_id }): CartItem => ({
 describe('Cart prepareProductsToAdd', () => {
   it('returns associated products', async () => {
     const product = createProduct({ type_id: 'grouped' })
-    expect(prepareProductsToAdd(product)).toEqual([{ sku: 'SK-001' }])
+    expect(prepareProductsToAdd(product)).toEqual([{ sku: 'SK-001', checksum: 'some checksum' }])
   });
 
   it('returns products with checksum applied', async () => {
