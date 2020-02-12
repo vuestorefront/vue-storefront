@@ -1,5 +1,4 @@
 import { price } from 'icmaa-config/helpers/price'
-import { Logger } from '@vue-storefront/core/lib/logger'
 
 export default {
   computed: {
@@ -10,7 +9,7 @@ export default {
         product.configurable_children.length > 0
       ) {
         let price = 0
-        return product.configurable_children.find(c => {
+        return product.configurable_children.some(c => {
           if (!(c.stock.is_in_stock && c.stock.qty > 0)) {
             return false
           }

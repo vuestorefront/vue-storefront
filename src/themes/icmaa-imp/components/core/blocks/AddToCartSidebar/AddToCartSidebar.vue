@@ -138,7 +138,7 @@ export default {
       if (this.hasMultiplePrices) {
         const product = this.product.configurable_children.find(child => child[option.type] === option.id)
         if (product) {
-          return product.price_incl_tax
+          return product.original_price_incl_tax
         }
       }
 

@@ -1,12 +1,12 @@
 <template>
-  <li class="t-flex t-py-2 t-border-b t-border-base-lightest">
+  <li class="t-flex t-py-2 t-border-b t-border-base-lightest" data-test-id="MicroCartProduct">
     <div class="t-w-1/3 t-mr-4">
       <product-image :image="image" />
     </div>
 
     <div class="t-w-2/3 t-flex t-flex-col t-py-2">
       <div class="t-mb-4 t-leading-tight">
-        <router-link class="t-text-primary t-text-sm" :to="productLink" data-testid="productLink" @click.native="$store.dispatch('ui/setMicrocart', false)">
+        <router-link class="t-text-primary t-text-sm" :to="productLink" data-test-id="productLink" @click.native="$store.dispatch('ui/setMicrocart', false)">
           {{ productQty }} x {{ product.name | htmlDecode }}
         </router-link>
       </div>
@@ -59,13 +59,14 @@
 import config from 'config'
 import { mapGetters } from 'vuex'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
+import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers'
+import { formatProductLink } from 'icmaa-url/helpers'
 import Product from '@vue-storefront/core/compatibility/components/blocks/Microcart/Product'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import ProductImage from 'theme/components/core/ProductImage'
-import { getThumbnailForProduct } from '@vue-storefront/core/modules/cart/helpers'
 
 export default {
+  name: 'MicroCartProduct',
   props: {
     product: {
       type: Object,

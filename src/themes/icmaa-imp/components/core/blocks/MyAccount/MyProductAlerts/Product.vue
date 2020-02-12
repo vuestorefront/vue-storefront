@@ -19,8 +19,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
+import { formatProductLink } from 'icmaa-url/helpers'
 import i18n from '@vue-storefront/i18n'
 
 import ProductTile from 'theme/components/core/ProductTile'
