@@ -2,6 +2,7 @@ import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
 let config = require('config')
 const path = require('path')
 const glob = require('glob')
+const fs = require('fs')
 const rootPath = require('app-root-path').path
 const resolve = file => path.resolve(rootPath, file)
 const serverExtensions = glob.sync('src/modules/*/server.{ts,js}')
@@ -145,6 +146,12 @@ app.use('/service-worker.js', serve('dist/service-worker.js', false, {
 
 app.post('/invalidate', invalidateCache)
 app.get('/invalidate', invalidateCache)
+
+function cacheVersion (req, res) {
+  res.send(fs.readFileSync(resolve('core/build/cache-version.json')))
+}
+
+app.get('/cache-version.json', cacheVersion)
 
 app.get('*', (req, res, next) => {
   if (NOT_ALLOWED_SSR_EXTENSIONS_REGEX.test(req.url)) {
