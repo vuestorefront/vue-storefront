@@ -91,7 +91,7 @@ export default {
     './prismic/plugins/html-serializer.js',
   ],
   prismic: {
-    endpoint: 'https://lovecrafts-dev.cdn.prismic.io/sapi/v2'
+    endpoint: 'https://lovecrafts-dev.cdn.prismic.io/api/v2'
   },
   build: {
     extend (config) {
