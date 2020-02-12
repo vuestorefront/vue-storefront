@@ -1,4 +1,7 @@
 import webpack from 'webpack'
+import path from 'path'
+
+console.log(path.join(__dirname, '.nuxt/components'))
 
 export default {
   mode: 'universal',
@@ -88,9 +91,14 @@ export default {
     './prismic/plugins/html-serializer.js',
   ],
   prismic: {
-    endpoint: 'https://lovecrafts-dev.cdn.prismic.io/api/v2'
+    endpoint: 'https://lovecrafts-dev.cdn.prismic.io/sapi/v2'
   },
   build: {
+    extend (config) {
+      delete config.resolve.alias['~']
+      config.resolve.alias['~/components'] = path.join(__dirname, '.nuxt/components')
+      config.resolve.alias['~'] = path.join(__dirname)
+    },
     transpile: [
       'vee-validate/dist/rules'
     ],
