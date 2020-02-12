@@ -248,7 +248,7 @@ import {
   SfColor
 } from "@storefront-ui/vue";
 import { computed, watch } from '@vue/composition-api'
-import { useCategory } from '@vue-storefront/commercetools-composables'
+import { useCategory } from '<%= options.composables %>'
 import {
   getCategoryProducts,
   getProductName,
@@ -256,7 +256,7 @@ import {
   getProductPrice,
   getProductSlug,
   getCategoryTree,
-} from '@vue-storefront/commercetools-helpers'
+} from '<%= options.helpers %>'
 
 
 export default {

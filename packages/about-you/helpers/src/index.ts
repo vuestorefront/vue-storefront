@@ -55,20 +55,21 @@ export const getProductDescription = (product: ProductVariant): string => {
   return 'Lorem ipsum dolor sit amet'
 }
 
+
 // Category
 // TODO:  What is options?
 export const getCategoryProducts = (category: Category, options: any = {}): ProductVariant[] => {
   return [{},{},{},{},{}]
 }
 
-export const getCategoryName = (category: Category) => {
-  return category.name || ''
+export const getCategoryName = (category: Category): string => {
+  return category.name
 }
 
 // Cart
 
 // TODO: Change UICartProduct to something agnostic. 
-export const getCartProducts = (cart: Cart, includeAttributes: string[] = []): UiCartProduct[] => {
+export const getCartProducts = (cart: Cart, includeAttributes: string[] = []): any => {
   return [{},{},{},{},{}]
 }
 
@@ -90,18 +91,18 @@ export const getCartTotalItems = (cart: Cart): number => {
 
 // ShippingMethod
 
-export const getShippingMethodId = (shippingMethod: ShippingMethod): string => {
+export const getShippingMethodId = (shippingMethod: any): string => {
   return 'shipping-method-id'
 }
 
-export const getShippingMethodName = (shippingMethod: ShippingMethod): string => {
+export const getShippingMethodName = (shippingMethod: any): string => {
   return 'shipping-method-name'
 }
 
-export const getShippingMethodDescription = (shippingMethod: ShippingMethod): string => {
+export const getShippingMethodDescription = (shippingMethod: any): string => {
   return 'Shipping method description'
 }
 
-export const getShippingMethodPrice = (shippingMethod: ShippingMethod): number => {
+export const getShippingMethodPrice = (shippingMethod: any): number => {
   return 10.00
 }

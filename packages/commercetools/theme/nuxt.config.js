@@ -26,11 +26,6 @@ export default {
       // TEMPORARY, will be removed
       // @todo move to common middleware in core module and cover use case where we don't have slug at all
       // aka URL dispatcher
-      routes.push({
-        name: 'category',
-        path: '/c/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?',
-        component: resolve(__dirname, 'pages/Category.vue')
-      })
       routes.push({ // TEMPORARY: just to show example prismic page
         name: 'prismic',
         path: '/prismic',

@@ -250,6 +250,7 @@ import {
   SfReview,
   SfBreadcrumbs
 } from '@storefront-ui/vue'
+
 import InstagramFeed from '~/components/InstagramFeed.vue'
 import { ref, computed } from '@vue/composition-api'
 

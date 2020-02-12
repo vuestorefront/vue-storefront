@@ -51,11 +51,23 @@ module.exports = function DefaultThemeModule (moduleOptions) {
 
   this.extendRoutes((routes, resolve) => {
     routes.unshift({
+      name: 'home',
+      path: '/',
+      component: resolve(this.options.buildDir, 'pages/Home.vue'),
+    });
+  });
+  this.extendRoutes((routes, resolve) => {
+    routes.unshift({
       name: 'product',
       path: '/p/:slug/',
       component: resolve(this.options.buildDir, 'pages/Product.vue'),
     });
   });
+  routes.push({
+    name: 'category',
+    path: '/c/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?',
+    component: resolve(this.options.buildDir, 'pages/Category.vue'),
+  })
 
   if(global.coreDev) {
     log.info(`Watching theme dir in Theme Module for changes.. ${chalk.italic('[coreDevelopment]')}`)

@@ -1,0 +1,24 @@
+{
+  "name": "@vue-storefront/about-you-composables",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@vue-storefront/about-you-api": "^0.0.1",
+    "@vue-storefront/interfaces": "^0.0.3",
+    "@vue/composition-api": "^0.3.4"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

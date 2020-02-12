@@ -6,7 +6,7 @@ Vue.use(VueCompositionAPI)
 
 const state = reactive({
   isCartSidebarOpen: false,
-  isLoginModalOpen: false
+  isLoginModalOpen: false,
 })
 
 const isCartSidebarOpen = computed(() => state.isCartSidebarOpen )

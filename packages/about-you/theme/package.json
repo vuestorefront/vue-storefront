@@ -1,0 +1,20 @@
+{
+  "name": "ayc-template",
+  "version": "1.0.0",
+  "description": "My tremendous Nuxt.js project",
+  "author": "Filip Rakowski",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@vue-storefront/nuxt" : "^0.0.3",
+    "@vue-storefront/about-you-composables": "0.0.1",
+    "@vue-storefront/about-you-helpers": "0.0.1",
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {}
+}
