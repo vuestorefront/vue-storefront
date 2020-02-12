@@ -103,6 +103,9 @@ const invokeClientEntry = async () => {
       if (!matched.length || !matched[0]) {
         return next()
       }
+
+      store.dispatch('url/setCurrentRoute', to)
+
       Promise.all(matched.map((c: any) => { // TODO: update me for mixins support
         const components = c.mixins && globalConfig.ssr.executeMixedinAsyncData ? Array.from(c.mixins) : []
         union(components, [c]).map(SubComponent => {

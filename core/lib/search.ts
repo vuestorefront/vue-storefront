@@ -33,7 +33,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
   if (size <= 0) size = 50
   if (start < 0) start = 0
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const storeView = currentStoreView()
     const Request: SearchRequest = {
       store: storeCode || storeView.storeCode, // TODO: add grouped product and bundled product support
@@ -58,20 +58,21 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
     const cacheKey = sha3_224(JSON.stringify(Request))
     const benchmarkTime = new Date()
 
-    cache.getItem(cacheKey, (err, res) => {
-      if (err) console.log(err)
+    try {
+      const res = await cache.getItem(cacheKey)
       if (res !== null) {
         res.cache = true
         res.noresults = false
         res.offline = !isOnline() // TODO: refactor it to checking ES heartbit
-        resolve(res)
         Logger.debug('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
 
         servedFromCache = true
+        resolve(res)
+        return
       }
-    }).catch((err) => {
+    } catch (err) {
       console.error('Cannot read cache for ' + cacheKey + ', ' + err)
-    })
+    }
 
     /* use only for cache */
     if (Request.groupId) {

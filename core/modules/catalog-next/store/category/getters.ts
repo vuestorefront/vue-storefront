@@ -9,6 +9,7 @@ import { optionLabel } from '../../helpers/optionLabel'
 import trim from 'lodash-es/trim'
 import toString from 'lodash-es/toString'
 import forEach from 'lodash-es/forEach'
+import get from 'lodash-es/get'
 import { getFiltersFromQuery } from '../../helpers/filterHelpers'
 import { Category } from '../../types/Category'
 import { parseCategoryPath } from '@vue-storefront/core/modules/breadcrumbs/helpers'
@@ -42,8 +43,8 @@ const getters: GetterTree<CategoryState, RootState> = {
       return valueCheck.filter(check => check === true).length === Object.keys(searchOptions).length
     }) || {}
   },
-  getCurrentCategory: (state, getters, rootState) => {
-    return getters.getCategoryByParams(rootState.route.params)
+  getCurrentCategory: (state, getters, rootState, rootGetters) => {
+    return getters.getCategoryByParams(rootGetters['url/getCurrentRoute'].params)
   },
   getAvailableFiltersFrom: (state, getters, rootState) => (aggregations) => {
     const filters = {}
@@ -110,13 +111,16 @@ const getters: GetterTree<CategoryState, RootState> = {
     return filters
   },
   getFiltersMap: state => state.filtersMap,
-  getAvailableFilters: (state, getters) => getters.getCurrentCategory ? state.filtersMap[getters.getCurrentCategory.id] : {},
-  getCurrentFiltersFrom: (state, getters, rootState) => (filters, categoryFilters) => {
-    const currentQuery = filters || rootState.route[products.routerFiltersSource]
+  getAvailableFilters: (state, getters) => {
+    const categoryId = get(getters.getCurrentCategory, 'id', null)
+    return state.filtersMap[categoryId] || {}
+  },
+  getCurrentFiltersFrom: (state, getters, rootState, rootGetters) => (filters, categoryFilters) => {
+    const currentQuery = filters || rootGetters['url/getCurrentRoute'][products.routerFiltersSource]
     const availableFilters = categoryFilters || getters.getAvailableFilters
     return getFiltersFromQuery({availableFilters, filtersQuery: currentQuery})
   },
-  getCurrentSearchQuery: (state, getters, rootState) => getters.getCurrentFiltersFrom(rootState.route[products.routerFiltersSource]),
+  getCurrentSearchQuery: (state, getters, rootState, rootGetters) => getters.getCurrentFiltersFrom(rootGetters['url/getCurrentRoute'][products.routerFiltersSource]),
   getCurrentFilters: (state, getters) => getters.getCurrentSearchQuery.filters,
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
   getSystemFilterNames: () => products.systemFilterNames,
