@@ -78,6 +78,7 @@ export default async context => {
       if (!matchedComponents.length || !matchedComponents[0]) {
         return reject(new HttpError('No components matched', 404)) // TODO - don't redirect if already on page-not-found
       }
+      store.dispatch('url/setCurrentRoute', router.currentRoute)
       Promise.all(matchedComponents.map((Component: any) => {
         const components = Component.mixins ? Array.from(Component.mixins) : []
         union(components, [Component]).map(SubComponent => {

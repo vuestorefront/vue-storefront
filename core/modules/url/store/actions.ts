@@ -93,5 +93,8 @@ export const actions: ActionTree<UrlState, any> = {
         }
       }
     }
+  },
+  setCurrentRoute ({ commit }, payload) {
+    commit(types.SET_CURRENT_ROUTE, payload)
   }
 }
