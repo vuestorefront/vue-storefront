@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed / Improved
 - Set cache tag when loading a category - @haelbichalex (#3940)
 - In development build `webpack.config.js` in theme folder is now called without the `default` key
+- optimizations - improved prefetch strategy - @gibkigonzo (#4080)
 
 ### Fixed
 - Added Finnish translations - @mattiteraslahti and @alphpkeemik
