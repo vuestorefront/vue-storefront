@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.2] - UNRELEASED
+
+### Fixed
+- add disconnect and sync options for cart/clear - @gibkigonzo (#4062)
+- add '1' as searched value for 'is_user_defined' and 'is_visible' (createAttributesListQuery) - @gibkigonzo (#4075)
+- Fix possibility to add same SKU with different custom options to the cart - @Michal-Dziedzinski (#3595)
+- Fix `calculateProductTax` to find matching tax rules from ES for current product - @DylannCordel (#4056)
+
 ## [1.11.1] - 2020.02.05
 
 ### Added

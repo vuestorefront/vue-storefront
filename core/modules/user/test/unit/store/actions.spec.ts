@@ -414,7 +414,7 @@ describe('User actions', () => {
       expect(contextMock.commit).toBeCalledWith(types.USER_END_SESSION)
       expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'cart/disconnect', {}, {root: true})
       expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'clearCurrentUser')
-      expect(contextMock.dispatch).toHaveBeenNthCalledWith(3, 'cart/clear', null, {root: true})
+      expect(contextMock.dispatch).toHaveBeenNthCalledWith(3, 'cart/clear', { sync: false }, {root: true})
       expect(contextMock.dispatch).toHaveBeenNthCalledWith(4, 'notification/spawnNotification', {
         type: 'success',
         message: "You're logged out",
