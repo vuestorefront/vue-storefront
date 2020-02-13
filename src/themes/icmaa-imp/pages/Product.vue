@@ -34,17 +34,17 @@
               <meta itemprop="url" :content="product.url_path">
 
               <div v-if="product.type_id !== 'grouped'" class="price t-mt-5 t-mb-8 t-text-1xl">
-                <template v-if="product.special_price && product.final_price_incl_tax && product.original_price_incl_tax">
+                <template v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax">
                   <span class="t-text-base-tone t-line-through">{{ price(product.original_price_incl_tax * product.qty) }}</span>
                   &nbsp;
                   <span class="t-text-sale t-font-bold">
                     <span v-if="hasMultiplePrices" v-text="$t('as low as')" class="t-text-sm" />
-                    {{ price(product.final_price_incl_tax * product.qty) }}
+                    {{ price(product.price_incl_tax * product.qty) }}
                   </span>
                 </template>
-                <span class="t-font-bold" v-if="!product.special_price && product.final_price_incl_tax">
+                <span class="t-font-bold" v-if="!product.special_price && product.price_incl_tax">
                   <span v-if="hasMultiplePrices" v-text="$t('as low as')" class="t-text-sm" />
-                  {{ price(product.qty > 0 ? product.final_price_incl_tax * product.qty : product.final_price_incl_tax) }}
+                  {{ price(product.qty > 0 ? product.price_incl_tax * product.qty : product.price_incl_tax) }}
                 </span>
                 <div class="t-mt-1 t-text-xs t-text-base-light" v-html="taxDisclaimer" />
               </div>
