@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `saveBandwidthOverCache` parameter for skipping caching for products data - @andrzejewsky (#3706)
 - New zoom effect for product gallery images - @Michal-Dziedzinski (#2755)
 - Product Page Schema implementation as JSON-LD - @Michal-Dziedzinski (#3704)
+- Add `/cache-version.json` route to get current cache version
 
 ### Fixed
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
