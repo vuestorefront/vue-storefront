@@ -1,5 +1,5 @@
 <template>
-  <div id="product" itemscope itemtype="http://schema.org/Product">
+  <div id="product">
     <section class="bg-cl-secondary px20 product-top-section">
       <div class="container">
         <section class="row m0 between-xs">
@@ -18,7 +18,6 @@
             <h1
               class="mb20 mt0 cl-mine-shaft product-name"
               data-testid="productName"
-              itemprop="name"
             >
               {{ getCurrentProduct.name | htmlDecode }}
               <web-share
@@ -29,16 +28,11 @@
             </h1>
             <div
               class="mb20 uppercase cl-secondary"
-              itemprop="sku"
               :content="getCurrentProduct.sku"
             >
               {{ $t('SKU: {sku}', { sku: getCurrentProduct.sku }) }}
             </div>
-            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-              <meta itemprop="priceCurrency" :content="$store.state.storeView.i18n.currencyCode">
-              <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
-              <meta itemprop="availability" :content="structuredData.availability">
-              <meta itemprop="url" :content="getCurrentProduct.url_path">
+            <div>
               <product-price
                 class="mb40"
                 v-if="getCurrentProduct.type_id !== 'grouped'"
@@ -150,7 +144,7 @@
       <div class="h4 details-wrapper" :class="{'details-wrapper--open': detailsOpen}">
         <div class="row between-md m0">
           <div class="col-xs-12 col-sm-6">
-            <div class="lh30 h5" itemprop="description" v-html="getCurrentProduct.description" />
+            <div class="lh30 h5" v-html="getCurrentProduct.description" />
           </div>
           <div class="col-xs-12 col-sm-5">
             <ul class="attributes p0 pt5 m0">
@@ -172,6 +166,7 @@
         :product-name="getOriginalProduct.name"
         :product-id="getOriginalProduct.id"
         v-show="isOnline"
+        :product="getCurrentProduct"
       />
     </lazy-hydrate>
     <lazy-hydrate when-idle>
@@ -184,6 +179,7 @@
       <related-products type="related" />
     </lazy-hydrate>
     <SizeGuide />
+    <script v-html="getJsonLd" type="application/ld+json" />
   </div>
 </template>
 
@@ -222,7 +218,7 @@ import { htmlDecode } from '@vue-storefront/core/filters'
 import { ReviewModule } from '@vue-storefront/core/modules/review'
 import { RecentlyViewedModule } from '@vue-storefront/core/modules/recently-viewed'
 import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/modules'
-import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
+import { onlineHelper, isServer, productJsonLd } from '@vue-storefront/core/helpers'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 import ProductPrice from 'theme/components/core/ProductPrice.vue'
 
@@ -284,11 +280,6 @@ export default {
     isOnline (value) {
       return onlineHelper.isOnline
     },
-    structuredData () {
-      return {
-        availability: this.getCurrentProduct.stock && this.getCurrentProduct.stock.is_in_stock ? 'InStock' : 'OutOfStock'
-      }
-    },
     getProductOptions () {
       if (
         this.getCurrentProduct.errors &&
@@ -307,9 +298,11 @@ export default {
       }
     },
     getCustomAttributes () {
-      return Object.values(this.attributesByCode).filter(a => {
-        return a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
-      }).sort((a, b) => { return a.attribute_id > b.attribute_id })
+      return Object.values(this.attributesByCode || [])
+        .filter(
+          a => a.is_visible && a.is_user_defined && (parseInt(a.is_visible_on_front) || a.is_visible_on_front === true) && this.getCurrentProduct[a.attribute_code]
+        )
+        .sort((a, b) => { return a.attribute_id > b.attribute_id })
     },
     getAvailableFilters () {
       return getAvailableFiltersByProduct(this.getCurrentProduct)
@@ -329,6 +322,9 @@ export default {
     },
     storeView () {
       return currentStoreView()
+    },
+    getJsonLd () {
+      return productJsonLd(this.getCurrentProduct, this.getCurrentProductConfiguration.color.label, this.$store.state.storeView.i18n.currencyCode, this.getCustomAttributes)
     }
   },
   async mounted () {
