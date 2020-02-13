@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `saveBandwidthOverCache` parameter for skipping caching for products data - @andrzejewsky (#3706)
 - New zoom effect for product gallery images - @Michal-Dziedzinski (#2755)
 - Add custom currency separators and amount of fraction digits - @EndPositive (#3553)
+- Product Page Schema implementation as JSON-LD - @Michal-Dziedzinski (#3704)
 
 ### Fixed
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
@@ -38,6 +39,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove commit register mapping - @gibkigonzo (#3875)
 - Improved method `findConfigurableChildAsync` - find variant with lowest price - @gibkigonzo (#3939)
 - Removed `product/loadConfigurableAttributes` calls - @andrzejewsky (#3336)
+- Removed unused locales in disabled multistore - @gibkigonzo (#4072)
+- Optimized attributes loading - @andrzejewsky (#3948)
+- Improve typescript support for test utils - @resubaka (#4067)
+- Removed `product/loadConfigurableAttributes` calls - @andrzejewsky, @gibkigonzo (#3336)
 
 ## [1.11.1] - 2020.02.05
 

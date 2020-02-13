@@ -253,3 +253,97 @@ export function extendStore (moduleName: string | string[], module: any) {
   store.unregisterModule(moduleName)
   store.registerModule(moduleName, extendedModule)
 }
+
+export function reviewJsonLd (reviews, {name, category, mpn, url_path, price, stock, is_in_stock, sku, image, description}, priceCurrency) {
+  return reviews.map(({title, detail, nickname, created_at}) => (
+    {
+      '@context': 'http://schema.org/',
+      '@type': 'Review',
+      reviewAspect: title,
+      reviewBody: detail,
+      datePublished: created_at,
+      author: nickname,
+      itemReviewed: {
+        '@type': 'Product',
+        name,
+        sku,
+        image,
+        description,
+        offers: {
+          '@type': 'Offer',
+          category: category
+            ? category
+              .map(({ name }) => name || null)
+              .filter(name => name !== null)
+            : null,
+          mpn,
+          url: url_path,
+          priceCurrency,
+          price,
+          itemCondition: 'https://schema.org/NewCondition',
+          availability: stock && is_in_stock ? 'InStock' : 'OutOfStock'
+        }
+      }
+    }
+  )
+  )
+}
+
+function getMaterials (material, customAttributes) {
+  const materialsArr = []
+  if (customAttributes && customAttributes.length && customAttributes.length > 0 && material && material.length && material.length > 0) {
+    const materialOptions = customAttributes.find(({attribute_code}) => attribute_code === 'material').options
+    if (Array.isArray(material)) {
+      for (let key in materialOptions) {
+        material.forEach(el => {
+          if (String(el) === materialOptions[key].value) {
+            materialsArr.push(materialOptions[key].label)
+          }
+        })
+      }
+    } else {
+      for (let key in materialOptions) {
+        if (material === materialOptions[key].value) {
+          materialsArr.push(materialOptions[key].label)
+        }
+      }
+    }
+  }
+  return materialsArr
+}
+
+export function productJsonLd ({ category, image, name, id, sku, mpn, description, price, url_path, stock, is_in_stock, material }, color, priceCurrency, customAttributes) {
+  return {
+    '@context': 'http://schema.org',
+    '@type': 'Product',
+    category: category
+      ? category
+        .map(({ name }) => name || null)
+        .filter(name => name !== null)
+      : null,
+    color,
+    description,
+    image,
+    itemCondition: 'http://schema.org/NewCondition',
+    material: getMaterials(material, customAttributes),
+    name,
+    productID: id,
+    sku,
+    mpn,
+    offers: {
+      '@type': 'Offer',
+      category: category
+        ? category
+          .map(({ name }) => name || null)
+          .filter(name => name !== null)
+        : null,
+      mpn,
+      url: url_path,
+      priceCurrency,
+      price,
+      itemCondition: 'https://schema.org/NewCondition',
+      availability: stock && is_in_stock ? 'InStock' : 'OutOfStock',
+      sku
+    }
+  }
+}
