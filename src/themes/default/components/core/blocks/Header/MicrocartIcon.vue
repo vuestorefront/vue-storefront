@@ -21,11 +21,14 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import MicrocartIcon from '@vue-storefront/core/compatibility/components/blocks/Header/MicrocartIcon'
+import {syncCartWhenLocalStorageChange} from '@vue-storefront/core/modules/cart/helpers'
 
 export default {
-  // mixins: [MicrocartIcon],
   mounted () {
-    window.addEventListener('storage', this.getItemsFromStorage)
+    syncCartWhenLocalStorageChange.addEventListener()
+    this.$once('hook:destroyed', () => {
+      syncCartWhenLocalStorageChange.removeEventListener()
+    })
   },
   computed: {
     ...mapGetters({
@@ -42,9 +45,6 @@ export default {
         this.$store.dispatch('cart/syncCartWhenLocalStorageChange', {items: storedItems})
       }
     }
-  },
-  beforeDestroy () {
-    window.removeEventListener('storage', this.getItemsFromStorage)
   }
 }
 </script>
