@@ -25,11 +25,7 @@ import MicrocartIcon from '@vue-storefront/core/compatibility/components/blocks/
 export default {
   // mixins: [MicrocartIcon],
   mounted () {
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) {
-        this.$store.dispatch('cart/load')
-      }
-    })
+    window.addEventListener('storage', this.getItemsFromStorage)
   },
   computed: {
     ...mapGetters({
@@ -39,7 +35,16 @@ export default {
   methods: {
     ...mapActions({
       openMicrocart: 'ui/toggleMicrocart'
-    })
+    }),
+    getItemsFromStorage ({key}) {
+      if (key === 'shop/cart/current-cart') {
+        const storedItems = JSON.parse(localStorage[key])
+        this.$store.dispatch('cart/syncCartWhenLocalStorageChange', {items: storedItems})
+      }
+    }
+  },
+  beforeDestroy () {
+    window.removeEventListener('storage', this.getItemsFromStorage)
   }
 }
 </script>

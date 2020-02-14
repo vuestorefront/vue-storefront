@@ -20,6 +20,9 @@ const synchronizeActions = {
 
     cartHooksExecutors.afterLoad(storedItems)
   },
+  syncCartWhenLocalStorageChange ({commit}, {items}) {
+    commit(types.CART_LOAD_CART, items)
+  },
   async synchronizeCart ({ commit, dispatch }, { forceClientState }) {
     const { synchronize, serverMergeByDefault } = config.cart
     if (!synchronize) return
