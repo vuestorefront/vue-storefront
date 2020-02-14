@@ -94,12 +94,14 @@ describe('getFiltersFromQuery method', () => {
     const result = getFiltersFromQuery({availableFilters, filtersQuery})
     expect(result).toEqual({
       filters: {
-        color: {
-          'id': '49',
-          'label': 'Black',
-          'type': 'color',
-          'attribute_code': 'color'
-        }
+        color: [
+          {
+            'id': '49',
+            'label': 'Black',
+            'type': 'color',
+            'attribute_code': 'color'
+          }
+        ]
       }
     })
   });

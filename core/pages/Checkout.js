@@ -44,8 +44,9 @@ export default {
       isThankYouPage: 'checkout/isThankYouPage'
     })
   },
-  beforeMount () {
-    this.$store.dispatch('checkout/load')
+  async beforeMount () {
+    await this.$store.dispatch('checkout/load')
+    this.$bus.$emit('checkout-after-load')
     this.$store.dispatch('checkout/setModifiedAt', Date.now())
     // TODO: Use one event with name as apram
     this.$bus.$on('cart-after-update', this.onCartAfterUpdate)

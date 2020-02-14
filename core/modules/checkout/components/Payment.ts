@@ -1,6 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
+import debounce from 'lodash-es/debounce'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Payment = {
@@ -37,6 +38,9 @@ export const Payment = {
       this.payment.paymentMethod = this.paymentMethods.length > 0 ? this.paymentMethods[0].code : 'cashondelivery'
     }
   },
+  beforeMount () {
+    this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
+  },
   mounted () {
     if (this.payment.firstName) {
       this.initializeBillingAddress()
@@ -46,6 +50,9 @@ export const Payment = {
       }
     }
     this.changePaymentMethod()
+  },
+  beforeDestroy () {
+    this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
   },
   watch: {
     shippingDetails: {
@@ -70,6 +77,11 @@ export const Payment = {
       handler () {
         this.useGenerateInvoice()
       }
+    },
+    paymentMethods: {
+      handler: debounce(function () {
+        this.changePaymentMethod()
+      }, 500)
     }
   },
   methods: {
@@ -237,6 +249,9 @@ export const Payment = {
     changeCountry () {
       this.$store.dispatch('checkout/updatePaymentDetails', { country: this.payment.country })
       this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
+    },
+    onCheckoutLoad () {
+      this.payment = this.$store.getters['checkout/getPaymentDetails']
     }
   }
 }

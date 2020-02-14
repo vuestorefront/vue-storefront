@@ -101,7 +101,7 @@ We managed to do this by making extensive use of the browser cache. 
 Please note that Service Worker works only in production mode.
 :::
 
-- **For the catalog and store-data cache** we use IndexedDB and Local Storage. We also prefetch products from visited categories so once you enter one, all of its products are available offline. The mechanism of offline storage is located under `core/lin./storage`.
+- **For the catalog and store-data cache** we use IndexedDB and Local Storage. We also prefetch products from visited categories so once you enter one, all of its products are available offline. The mechanism of offline storage is located under `core/lib/store/`.
 
 We use some of the cached data even while the user is online to display the content instantly. This explains why Vue Storefront is lightning fast.
 
