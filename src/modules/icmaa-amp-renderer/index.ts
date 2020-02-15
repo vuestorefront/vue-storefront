@@ -11,6 +11,6 @@ const icmaaAmpRendererStore = {
 }
 
 export const IcmaaAmpRendererModule: StorefrontModule = function ({store, router}) {
-  store.registerModule('icmaa-amp-renderer', icmaaAmpRendererStore);
+  store.registerModule('icmaa-amp-renderer', icmaaAmpRendererStore)
   setupMultistoreRoutes(config, router, moduleRoutes, 10)
 }

@@ -64,7 +64,7 @@ export default class ConfigMutator {
   public remove (type: string, find: FindObject): void {
     const index = this.getRowIndex(type, find)
     if (typeof index === 'number') {
-      this.configs[type].splice(index, 1);
+      this.configs[type].splice(index, 1)
     }
   }
 

@@ -1,5 +1,5 @@
-import config from 'config';
-import { processURLAddress } from '@vue-storefront/core/helpers';
+import config from 'config'
+import { processURLAddress } from '@vue-storefront/core/helpers'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 
 const addProductStockAlert = (product_id: string): Promise<boolean> =>

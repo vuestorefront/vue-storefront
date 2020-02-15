@@ -1,4 +1,4 @@
-import config from 'config';
+import config from 'config'
 import { processURLAddress } from '@vue-storefront/core/helpers'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 

@@ -1,7 +1,7 @@
 import config from 'config'
 import { GetterTree } from 'vuex'
-import CategoryExtrasState, { CategoryExtras, CategoryExtrasCategoryIdMapStateItem } from '../types/CategoryExtrasState'
-import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category';
+import CategoryExtrasState, { CategoryExtras, CategoryExtrasCategoryIdMapStateItem, CategoryExtrasContentHeaderContent } from '../types/CategoryExtrasState'
+import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category'
 import RootState from '@vue-storefront/core/types/RootState'
 import { Logo } from '../helpers/categoryExtras/logo'
 import { getCategoryExtrasKeyByAttribute } from '../helpers/'
@@ -24,7 +24,7 @@ const getters: GetterTree<CategoryExtrasState, RootState> = {
 
     return null
   },
-  getCategoryExtrasByCurrentCategory: (state, getters, rootState, rootGetters): CategoryExtras|boolean => {
+  getCategoryExtrasByCurrentCategory: (state, getters): CategoryExtras|boolean => {
     let category: Category = getters.getCurrentCategory
     if (category) {
       return mapCategoryExtrasAttributes(category)
@@ -86,8 +86,15 @@ const getters: GetterTree<CategoryExtrasState, RootState> = {
 
     return false
   },
-  getCurrentProductDepartmentCategory: (state, getters, rootState, rootGetters): Category => {
+  getCurrentProductDepartmentCategory: (state, getters): Category => {
     return getters.getCategoryBy('id', getters.getCurrentProductDepartmentCategoryId)
+  },
+  getContentHeaderByUrlKey: (state) => (url_key: string): CategoryExtrasContentHeaderContent[] | boolean => {
+    return state.categoryContentHeader[url_key] || false
+  },
+  getContentHeaderByCurrentCategory: (state, getters, rootState, rootGetters): CategoryExtrasContentHeaderContent[] | boolean => {
+    const currentCategory: Category = rootGetters['category-next/getCurrentCategory']
+    return getters.getContentHeaderByUrlKey(currentCategory.url_key)
   }
 }
 

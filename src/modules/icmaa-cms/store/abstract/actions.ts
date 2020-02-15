@@ -92,7 +92,7 @@ export const list = async <T>(options: OptionsInterface): Promise<T[]> => {
       context.commit(mutationTypes.add, result)
       cache.setItem(cacheKey, result)
         .catch(error => Logger.error(error, 'icmaa-cms'))
-    });
+    })
 
     return results
   })
@@ -131,7 +131,7 @@ export const single = async <T>(options: OptionsInterface): Promise<T> => {
       processURLAddress(config.icmaa_cms.endpoint) + '/by-uid',
       { responseType: 'json', params }
     ).then(resp => {
-      let result = resp.data.result;
+      let result = resp.data.result
       if (Object.keys(result).length === 0 || resp.data.code === 400) {
         Logger.log(`No results found for ${key} "${value}"`, `icmaa-cms/${documentType}`)()
         return

@@ -15,6 +15,17 @@ export interface CategoryExtrasCategoryIdMapStateItem {
   children: CategoryExtrasCategoryIdMapChildStateItem[]
 }
 
+export interface CategoryExtrasContentHeader {
+  [identifier: string]: CategoryExtrasContentHeaderContent[]
+}
+
+export interface CategoryExtrasContentHeaderContent {
+  _uid: string,
+  component: string,
+  [key: string]: any
+}
+
 export default interface CategoryExtrasState {
-  childCategoryIdMap: CategoryExtrasCategoryIdMapStateItem[]
+  childCategoryIdMap: CategoryExtrasCategoryIdMapStateItem[],
+  categoryContentHeader: CategoryExtrasContentHeader
 }

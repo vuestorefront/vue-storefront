@@ -13,7 +13,7 @@
           </div>
         </category-extras-header>
         <breadcrumbs :active-route="getCurrentCategory.name" class="t-w-full t-my-8" />
-        <block-wrapper :components="getCurrentCategory.ceContentHeader" v-if="getCurrentCategory.ceContentHeader" />
+        <block-wrapper :components="contentHeader" v-if="contentHeader" />
         <div class="t-w-full">
           <div class="t-flex t-flex-wrap t-items-center t--mx-1 lg:t--mx-2">
             <h1 class="category-title t-hidden lg:t-block t-w-3/4 t-px-1 lg:t-px-2 t-mb-4 t-font-light t-text-2xl t-text-base-dark" v-text="title" />
@@ -171,7 +171,8 @@ export default {
       getCurrentCategory: 'category-next/getCurrentCategory',
       getCategoryProductsTotal: 'category-next/getCategoryProductsTotal',
       getProductsStats: 'category-next/getCategorySearchProductsStats',
-      isInTicketWhitelist: 'category-next/isCurrentCategoryInTicketWhitelist'
+      isInTicketWhitelist: 'category-next/isCurrentCategoryInTicketWhitelist',
+      contentHeader: 'icmaaCategoryExtras/getContentHeaderByCurrentCategory'
     }),
     isLazyHydrateEnabled () {
       return config.ssr.lazyHydrateFor.includes('category-next.products')

@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex'
 import BlockState, { BlockStateItem } from '../../types/BlockState'
 import RootState from '@vue-storefront/core/types/RootState'
-import { Logger } from '@vue-storefront/core/lib/logger';
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 const getters: GetterTree<BlockState, RootState> = {
   getBlocks: (state) => state.items,

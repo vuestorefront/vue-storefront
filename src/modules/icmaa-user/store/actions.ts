@@ -14,7 +14,7 @@ import Task from '@vue-storefront/core/lib/sync/types/Task'
 import { SearchQuery } from 'storefront-query-builder'
 import asyncForEach from 'icmaa-config/helpers/asyncForEach'
 
-import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl';
+import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
 import { processLocalizedURLAddress } from '@vue-storefront/core/helpers'
 
 import config, { entities } from 'config'

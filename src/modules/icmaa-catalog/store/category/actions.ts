@@ -25,7 +25,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     if (currentQuery[attributeKey] && currentFilters.length > 0) {
       currentFilters.forEach(filter => {
         currentQuery = changeFilterQuery({ currentQuery, filterVariant: filter })
-      });
+      })
       await dispatch('changeRouterFilterParameters', currentQuery)
     }
   },
