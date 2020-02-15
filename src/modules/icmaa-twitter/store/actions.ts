@@ -1,5 +1,5 @@
 import { ActionTree } from 'vuex'
-import RootState from '@vue-storefront/core/types/RootState';
+import RootState from '@vue-storefront/core/types/RootState'
 import TwitterState from '../types/TwitterState'
 import * as mutationTypes from './mutation-types'
 import { cacheStorage as cache } from '../'

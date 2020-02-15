@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex'
 import SpotifyState from '../types/SpotifyState'
-import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category';
+import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category'
 import RootState from '@vue-storefront/core/types/RootState'
 
 const getters: GetterTree<SpotifyState, RootState> = {

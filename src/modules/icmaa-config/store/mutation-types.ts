@@ -1,2 +1,1 @@
-export const SN_ICMAA_CONFIG = 'ICMAA_CONFIG'
-export const ICMAA_CONFIG_ADD_MAP = `${SN_ICMAA_CONFIG}/ADD_MAP`
+export const ICMAA_CONFIG_ADD_MAP = 'ADD_MAP'

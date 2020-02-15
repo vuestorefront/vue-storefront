@@ -12,8 +12,8 @@ const loadGiftcert = (number: string): Promise<GiftcertResult> =>
       mode: 'cors',
       body: JSON.stringify({ number: number })
     }
-  }).then(resp => resp.result);
+  }).then(resp => resp.result)
 
 export default {
   loadGiftcert
-};
+}

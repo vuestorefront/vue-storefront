@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex'
-import RootState from '@vue-storefront/core/types/RootState';
+import RootState from '@vue-storefront/core/types/RootState'
 import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category'
-import { DataResolver } from '@vue-storefront/core/data-resolver/types/DataResolver';
+import { DataResolver } from '@vue-storefront/core/data-resolver/types/DataResolver'
 import SpotifyState from '../types/SpotifyState'
 import * as mutationTypes from './mutation-types'
 import { cacheStorage as cache, storageKey } from '../'

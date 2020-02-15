@@ -1,5 +1,5 @@
 import { ActionTree } from 'vuex'
-import RootState from '@vue-storefront/core/types/RootState';
+import RootState from '@vue-storefront/core/types/RootState'
 import TrackingState, { Order } from '../types/TrackingState'
 import TrackingService from '../data-resolver/TrackingService'
 import * as types from './mutation-types'

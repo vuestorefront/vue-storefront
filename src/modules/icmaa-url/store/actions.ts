@@ -1,4 +1,4 @@
-import { ActionTree } from 'vuex';
+import { ActionTree } from 'vuex'
 import { UrlState } from '@vue-storefront/core/modules/url/types/UrlState'
 import { PageStateItem } from 'icmaa-cms/types/PageState'
 import { GenericStateItem } from 'icmaa-cms/types/GenericState'
@@ -28,7 +28,7 @@ const getLocalizedDispatcherRouteName = (name) => {
  */
 const forCustomUrls = async ({ dispatch }, { urlPath }: UrlMapperOptions) => {
   if (config.hasOwnProperty('icmaa_url')) {
-    const urlFromConfig = config.icmaa_url.find((item) => item.request_path === urlPath);
+    const urlFromConfig = config.icmaa_url.find((item) => item.request_path === urlPath)
     if (urlFromConfig) {
       return {
         name: urlFromConfig.name,
