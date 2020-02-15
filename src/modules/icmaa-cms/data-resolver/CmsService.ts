@@ -41,7 +41,7 @@ const singleQueue = (options: { documentType: string, uid: string, storeCode?: s
     },
     is_result_cacheable: true,
     silent: true,
-    callback_event: options.actionName ? `store:${options.actionName}` : undefined
+    callback_event: options.actionName ? options.actionName : undefined
   })
 }
 

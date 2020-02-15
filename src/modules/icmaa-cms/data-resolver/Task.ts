@@ -3,6 +3,7 @@ import { cacheStorage as cache } from '../'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
+import rootStore from '@vue-storefront/core/store'
 
 const createQueryString: Function = (params: Record<string, any>): string =>
   Object.keys(params).map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(params[key])).join('&')
@@ -37,8 +38,21 @@ const IcmaaTaskQueue = {
   },
 
   async queue (task: Record<string, any>): Promise<Task|any> {
-    // @todo Add Caching for queue tasks
-    return TaskQueue.queue(task)
+    Object.assign(
+      task,
+      {
+        real_callback_event: task.callback_event,
+        callback_event: 'store:icmaaCms/taskQueueSync'
+      }
+    )
+
+    const taskId = getTaskId(task.url)
+    const cacheItem = await cache.getItem(taskId)
+    if (cacheItem) {
+      rootStore.dispatch('icmaaCms/taskQueueSync', task)
+    } else {
+      return TaskQueue.queue(task)
+    }
   },
 
   createQueryString,
