@@ -7,7 +7,7 @@ import Task from '@vue-storefront/core/lib/sync/types/Task'
 const createQueryString: Function = (params: Record<string, any>): string =>
   Object.keys(params).map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(params[key])).join('&')
 
-const getHash: Function = (s: string): number => s.split('').reduce((a, b) => (((a << 5) - a) + b.charCodeAt(0)) | 0, 0)
+const getHash: Function = (s: string): number => Math.abs(s.split('').reduce((a, b) => (((a << 5) - a) + b.charCodeAt(0)) | 0, 0))
 
 const getTaskId: Function = (s: string): string => `task-${getHash(s)}`
 

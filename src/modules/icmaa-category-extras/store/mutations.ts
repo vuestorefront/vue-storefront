@@ -15,8 +15,7 @@ const mutations: MutationTree<CategoryExtrasState> = {
     state.childCategoryIdMap = [...state.childCategoryIdMap, ...categories]
   },
   [types.ICMAA_CATEGORY_EXTRAS_CONTENT_HEADER_ADD] (state, { identifier, payload }: CategoryExtrasContentHeaderOptions) {
-    const item: CategoryExtrasContentHeader = { [identifier]: payload }
-    Object.assign(state.categoryContentHeader, item)
+    Vue.set(state.categoryContentHeader, identifier, payload)
   },
   [types.ICMAA_CATEGORY_EXTRAS_CONTENT_HEADER_RMV] (state, identifier: string) {
     Vue.delete(state.categoryContentHeader, identifier)

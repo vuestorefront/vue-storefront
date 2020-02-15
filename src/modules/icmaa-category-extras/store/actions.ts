@@ -54,11 +54,15 @@ const actions: ActionTree<CategoryExtrasState, RootState> = {
 
     context.commit(types.ICMAA_CATEGORY_EXTRAS_CHILDCATEGORIES_ADD, childrenArray)
   },
-  loadContentHeader: async ({ commit }, identifier: string): Promise<CategoryExtrasContentHeader|any[]> => {
+  loadContentHeader: async ({ commit, getters }, identifier: string): Promise<CategoryExtrasContentHeader|any[]> => {
+    const existingContentHeader = getters.getContentHeaderByUrlKey(identifier)
+    if (existingContentHeader) {
+      return existingContentHeader
+    }
+
     const documentType = 'category-extras'
     return CmsService.single({ documentType, uid: identifier })
       .then((result: any|boolean) => {
-        Logger.error('Lorem ipsum', 'DEBUG', result)()
         if (result) {
           const payload: CategoryExtrasContentHeader = result.contentHeader
           const identifier: string = result.identifier
