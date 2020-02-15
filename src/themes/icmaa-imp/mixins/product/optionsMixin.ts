@@ -22,6 +22,8 @@ export default {
       if (this.product.configurable_options) {
         return this.sortedProductOptions || []
       }
+
+      return []
     },
     sortedProductOptions () {
       return cloneDeep(this.product.configurable_options).map(o => {
