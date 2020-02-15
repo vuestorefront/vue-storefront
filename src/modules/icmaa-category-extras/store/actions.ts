@@ -9,9 +9,7 @@ import * as types from './mutation-types'
 import { DataResolver } from '@vue-storefront/core/data-resolver/types/DataResolver'
 import { fetchChildCategories } from 'icmaa-category/helpers'
 import { icmaa_categoryextras } from 'config'
-import { categoryExtrasStateKey } from './index'
 import CmsService from 'icmaa-cms/data-resolver/CmsService'
-import Task from '@vue-storefront/core/lib/sync/types/Task'
 
 import { Logger } from '@vue-storefront/core/lib/logger'
 
@@ -58,18 +56,19 @@ const actions: ActionTree<CategoryExtrasState, RootState> = {
   },
   loadContentHeader: async ({ commit }, identifier: string): Promise<CategoryExtrasContentHeader|any[]> => {
     const documentType = 'category-extras'
-    return CmsService.singleQueue({ documentType, uid: identifier, actionName: `${categoryExtrasStateKey}/syncContentHeader` })
-  },
-  syncContentHeader: async ({ commit }, task: Task): Promise<CategoryExtrasContentHeader|any[]> => {
-    const { result, resultCode } = task
-    if (resultCode === 200 && result.contentHeader) {
-      const payload: CategoryExtrasContentHeader = result.contentHeader
-      const identifier: string = result.identifier
-      commit(types.ICMAA_CATEGORY_EXTRAS_CONTENT_HEADER_ADD, { identifier, payload })
-      return payload
-    }
+    return CmsService.single({ documentType, uid: identifier })
+      .then((result: any|boolean) => {
+        Logger.error('Lorem ipsum', 'DEBUG', result)()
+        if (result) {
+          const payload: CategoryExtrasContentHeader = result.contentHeader
+          const identifier: string = result.identifier
+          commit(types.ICMAA_CATEGORY_EXTRAS_CONTENT_HEADER_ADD, { identifier, payload })
 
-    return []
+          return result
+        }
+
+        return []
+      })
   }
 }
 

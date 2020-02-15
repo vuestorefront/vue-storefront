@@ -1,22 +1,19 @@
 import config from 'config'
-import { processURLAddress } from '@vue-storefront/core/helpers'
-import { TaskQueue } from '@vue-storefront/core/lib/sync'
-
-import Task from '@vue-storefront/core/lib/sync/types/Task'
 
 import { getCurrentStoreCode } from '../helpers'
+import IcmaaTaskQueue from '../data-resolver/Task'
 
-const createQueryString: Function = (params: Record<string, any>): string =>
-  Object.keys(params).map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(params[key])).join('&')
+import { processURLAddress } from '@vue-storefront/core/helpers'
+import Task from '@vue-storefront/core/lib/sync/types/Task'
 
-const single = <T>(options: { documentType: string, uid: string, storeCode?: string }): Promise<T | boolean | Task> => {
-  const queryString = createQueryString({
+const single = <T>(options: { documentType: string, uid: string, storeCode?: string }): Promise<T | boolean> => {
+  const queryString = IcmaaTaskQueue.createQueryString({
     'type': options.documentType,
     'uid': options.uid,
     'lang': options.storeCode || getCurrentStoreCode()
   })
 
-  return TaskQueue.execute({
+  return IcmaaTaskQueue.execute({
     url: processURLAddress(config.icmaa_cms.endpoint) + `/by-uid?${queryString}`,
     payload: {
       method: 'GET',
@@ -29,13 +26,13 @@ const single = <T>(options: { documentType: string, uid: string, storeCode?: str
 }
 
 const singleQueue = (options: { documentType: string, uid: string, storeCode?: string, actionName?: string }): Promise<Task|any> => {
-  const queryString = createQueryString({
+  const queryString = IcmaaTaskQueue.createQueryString({
     'type': options.documentType,
     'uid': options.uid,
     'lang': options.storeCode || getCurrentStoreCode()
   })
 
-  return TaskQueue.queue({
+  return IcmaaTaskQueue.queue({
     url: processURLAddress(config.icmaa_cms.endpoint) + `/by-uid?${queryString}`,
     payload: {
       method: 'GET',

@@ -90,7 +90,7 @@ const getters: GetterTree<CategoryExtrasState, RootState> = {
     return getters.getCategoryBy('id', getters.getCurrentProductDepartmentCategoryId)
   },
   getContentHeaderByUrlKey: (state) => (url_key: string): CategoryExtrasContentHeaderContent[] => {
-    console.log(url_key, state.categoryContentHeader[url_key])
+    console.log(url_key, state.categoryContentHeader[url_key], state.categoryContentHeader)
     return state.categoryContentHeader[url_key] || []
   },
   getContentHeaderByCurrentCategory: (state, getters, rootState, rootGetters): CategoryExtrasContentHeaderContent[] => {
