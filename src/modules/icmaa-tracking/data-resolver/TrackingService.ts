@@ -9,9 +9,9 @@ const getTracking = (orderId: number): Promise<Order|boolean> =>
     payload: {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
-      is_result_cacheable: true
-    }
+      mode: 'cors'
+    },
+    is_result_cacheable: true
   }).then(resp => resp.code === 200 ? resp.result.tracking : false)
 
 export default {

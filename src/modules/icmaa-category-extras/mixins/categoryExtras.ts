@@ -31,6 +31,7 @@ export default {
       const category = this.$store.getters['category-next/getCurrentCategory']
       if (category) {
         await this.$store.dispatch('icmaaSpotify/fetchRelatedArtists', category)
+        await this.$store.dispatch('icmaaCategoryExtras/loadContentHeader', category.url_key)
       }
     }
   }

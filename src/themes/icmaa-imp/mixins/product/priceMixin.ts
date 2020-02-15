@@ -15,10 +15,10 @@ export default {
           }
 
           if (price === 0) {
-            price = c.original_price_incl_tax
+            price = c.price_incl_tax
             return false
           }
-          return c.original_price_incl_tax !== price
+          return c.price_incl_tax !== price
         })
       }
       return false
