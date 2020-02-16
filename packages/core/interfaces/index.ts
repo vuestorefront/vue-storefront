@@ -115,6 +115,25 @@ export interface UseCheckout
   error: any;
 }
 
+export interface UseLocale
+<
+  LOCALE,
+  COUNTRY,
+  CURRENCY,
+  AVAILABLE_LOCALES,
+  AVAILABLE_COUNTRIES,
+  AVAILABLE_CURRENCIES,
+> {
+  locale: LOCALE,
+  country: COUNTRY,
+  currency: CURRENCY
+  availableLocales: AVAILABLE_LOCALES,
+  availableCountries: AVAILABLE_COUNTRIES
+  availableCurrencies: AVAILABLE_CURRENCIES
+  loading: Ref<boolean>
+  error: any;
+}
+
 export interface UseContent<CONTENT, SEARCH> {
   content: CONTENT,
   search: SEARCH,

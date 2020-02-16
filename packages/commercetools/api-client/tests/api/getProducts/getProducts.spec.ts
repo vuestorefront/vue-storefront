@@ -30,7 +30,7 @@ describe('[commercetools-api-client] getProduct', () => {
       currency: 'eur'
     };
 
-    const givenQuery = gql`
+    const givenQuery = `
       query products(
         $where: String
         $sort: [String!]
@@ -51,7 +51,7 @@ describe('[commercetools-api-client] getProduct', () => {
     (apolloClient.query as any).mockImplementation(({ variables, query }) => {
       expect(variables).toEqual(givenVariables)
       expect(query).not.toEqual(defaultQuery)
-      expect(query).toEqual(givenQuery)
+      expect(query).toEqual(gql`${givenQuery}`)
 
       return { data: 'product response' }
     })

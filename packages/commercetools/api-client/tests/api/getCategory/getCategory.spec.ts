@@ -28,7 +28,7 @@ describe('[commercetools-api-client] getCategory', () => {
       locale: 'de',
     };
 
-    const givenQuery = gql`
+    const givenQuery = `
       query categories($where: String, $sort: [String!], $limit: Int, $offset: Int, $locale: Locale) {
         categories(where: $where, sort: $sort, limit: $limit, offset: $offset) {
           offset
@@ -45,7 +45,7 @@ describe('[commercetools-api-client] getCategory', () => {
     (apolloClient.query as any).mockImplementation(({ variables, query }) => {
       expect(variables).toEqual(givenVariables)
       expect(query).not.toEqual(defaultQuery)
-      expect(query).toEqual(givenQuery)
+      expect(query).toEqual(gql`${givenQuery}`)
 
       return { data: 'category response' }
     })
