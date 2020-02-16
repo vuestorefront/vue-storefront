@@ -102,7 +102,9 @@ const composeInitialPageState = async (store, route, forceLoad = false) => {
     const filters = getSearchOptionsFromRouteParams(route.params)
     const cachedCategory = store.getters['category-next/getCategoryFrom'](route.path)
     const currentCategory = cachedCategory && !forceLoad ? cachedCategory : await store.dispatch('category-next/loadCategory', { filters })
-    await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory, pageSize: THEME_PAGE_SIZE})
+    if (!store.getters['url/isBackRoute']) {
+      await store.dispatch('category-next/loadCategoryProducts', {route, category: currentCategory, pageSize: THEME_PAGE_SIZE})
+    }
     const breadCrumbsLoader = store.dispatch('category-next/loadCategoryBreadcrumbs', { category: currentCategory, currentRouteName: currentCategory.name, omitCurrent: true })
 
     if (isServer) await breadCrumbsLoader

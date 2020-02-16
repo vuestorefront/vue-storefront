@@ -9,6 +9,7 @@ import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { preProcessDynamicRoutes, normalizeUrlPath, parametrizeRouteData, getFallbackRouteData } from '../helpers'
 import { removeStoreCodeFromRoute, currentStoreView, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import storeCodeFromRoute from '@vue-storefront/core/lib/storeCodeFromRoute'
+import isEqual from 'lodash-es/isEqual'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
@@ -94,7 +95,9 @@ export const actions: ActionTree<UrlState, any> = {
       }
     }
   },
-  setCurrentRoute ({ commit }, payload) {
-    commit(types.SET_CURRENT_ROUTE, payload)
+  setCurrentRoute ({ commit, state }, {to, from} = {}) {
+    commit(types.SET_CURRENT_ROUTE, to)
+    commit(types.IS_BACK_ROUTE, isEqual(state.prevRoute, state.currentRoute) && state.currentRoute.path !== from.path)
+    commit(types.SET_PREV_ROUTE, from)
   }
 }

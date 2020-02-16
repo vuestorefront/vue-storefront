@@ -5,5 +5,7 @@ import { LocalizedRoute } from '@vue-storefront/core/lib/types'
 // It's a good practice is to name this interface accordingly to the KET (for example mailchimpState)
 export interface UrlState {
   dispatcherMap: { [path: string]: LocalizedRoute},
-  currentRoute: Partial<Route>
+  currentRoute: Partial<Route>,
+  prevRoute: Partial<Route>,
+  isBackRoute: boolean
 }
