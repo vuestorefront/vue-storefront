@@ -26,7 +26,7 @@ import {syncCartWhenLocalStorageChange} from '@vue-storefront/core/modules/cart/
 export default {
   mounted () {
     syncCartWhenLocalStorageChange.addEventListener()
-    this.$once('hook:destroyed', () => {
+    this.$once('hook:beforeDestroy', () => {
       syncCartWhenLocalStorageChange.removeEventListener()
     })
   },
