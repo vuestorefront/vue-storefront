@@ -38,13 +38,7 @@ export default {
   methods: {
     ...mapActions({
       openMicrocart: 'ui/toggleMicrocart'
-    }),
-    getItemsFromStorage ({key}) {
-      if (key === 'shop/cart/current-cart') {
-        const storedItems = JSON.parse(localStorage[key])
-        this.$store.dispatch('cart/syncCartWhenLocalStorageChange', {items: storedItems})
-      }
-    }
+    })
   }
 }
 </script>
