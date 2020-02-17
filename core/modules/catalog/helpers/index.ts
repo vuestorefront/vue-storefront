@@ -37,11 +37,15 @@ export const hasImage = (product) => product && product.image && product.image !
  */
 export const childHasImage = (children = []) => children.some(hasImage)
 
-const getVariantWithLowestPrice = (prevVariant, nextVariant) => (
-  !prevVariant || // if this is first variant
-  !prevVariant.final_price || // prev variant doesn't have final_price
-  nextVariant.price_incl_tax <= prevVariant.price_incl_tax // prev variant price is higher then next
-) ? nextVariant : prevVariant
+const getVariantWithLowestPrice = (prevVariant, nextVariant) => {
+  if (!prevVariant || !prevVariant.original_price_incl_tax) {
+    return nextVariant
+  }
+
+  const prevPrice = prevVariant.price_incl_tax || prevVariant.original_price_incl_tax
+  const nextPrice = nextVariant.price_incl_tax || nextVariant.original_price_incl_tax
+  return nextPrice < prevPrice ? nextVariant : prevVariant
+}
 
 /**
  * Counts how much coniguration match for specific variant
