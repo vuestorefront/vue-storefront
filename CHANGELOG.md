@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.11.2] - UNRELEASED
 
+### Added
+- Add `isBackRoute` that informs if user returns to route, skip loading products for category if he does - @gibkigonzo (issue#4066)
+
 ### Changed / Improved
 - optimizations - improved prefetch strategy - @gibkigonzo (#4080)
 
@@ -17,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix `calculateProductTax` to find matching tax rules from ES for current product - @DylannCordel (#4056)
 - Set `totals` in products in cart always in reactive way - @psmyrek (#4079)
 - Fix sync cart between tabs - @Michal-Dziedzinski (#3838)
+- Add currentRoute to url module and return cached requests - @gibkigonzo (pr#4077, issue#4066)
 
 ## [1.11.1] - 2020.02.05
 
@@ -53,7 +57,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix v-model not working in BaseRadioButton - @lukeromanowicz (#4035)
 - always keep filters values as array of object - @gibkigonzo (#4045)
 - Fix ecosystem config to work with ts-node - @andrzejewsky (#3981)
-- Add currentRoute to url module and return cached requests - @gibkigonzo (#4045)
 
 ## [1.11.0] - 2019.12.20
 
