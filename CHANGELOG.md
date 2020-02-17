@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix possibility to add same SKU with different custom options to the cart - @Michal-Dziedzinski (#3595)
 - Fix `calculateProductTax` to find matching tax rules from ES for current product - @DylannCordel (#4056)
 - Set `totals` in products in cart always in reactive way - @psmyrek (#4079)
+- Fix sync cart between tabs - @Michal-Dziedzinski (#3838)
 - Add currentRoute to url module and return cached requests - @gibkigonzo (pr#4077, issue#4066)
 
 ## [1.11.1] - 2020.02.05
