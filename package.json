@@ -26,15 +26,22 @@
     "dev:ct:helpers": "cd packages/commercetools/helpers && yarn dev",
     "dev:ay:api-client": "cd packages/about-you/api-client && yarn dev",
     "dev:ct": "cd packages/commercetools/theme && yarn dev",
-    "heroku-postbuild": "yarn build:ct"
+    "lint": "eslint . --ext .js,.ts,.vue"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
     "@types/node": "^12.12.14",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "@vue/eslint-config-typescript": "^5.0.1",
     "codecov": "^3.6.1",
     "cross-env": "^6.0.3",
+    "eslint": "^6.0.0",
+    "eslint-plugin-vue": "^6.0.0",
+    "husky": "^4.2.3",
     "jest": "^24.9.0",
     "lerna": "^3.15.0",
+    "lint-staged": "^10.0.7",
     "rollup": "^1.25.2",
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-typescript2": "^0.24.3",
@@ -55,5 +62,13 @@
       "**/**/**"
     ]
   },
-  "dependencies": {}
+  "dependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": "lint"
+  }
 }
