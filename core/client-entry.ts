@@ -25,7 +25,7 @@ const invokeClientEntry = async () => {
   if (window.__INITIAL_STATE__) {
     // skip fields that were set by createApp
     const initialState = coreHooksExecutors.beforeHydrated(
-      omit(window.__INITIAL_STATE__, ['storeView', 'config', 'version'])
+      omit(window.__INITIAL_STATE__, ['storeView', 'config', 'version', 'route'])
     )
     store.replaceState(Object.assign({}, store.state, initialState, { config: globalConfig }))
   }
