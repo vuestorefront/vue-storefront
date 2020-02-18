@@ -1,6 +1,6 @@
 <template>
   <transition name="fade-in-down">
-    <div class="modal" v-if="isVisible">
+    <div class="modal" v-if="isVisible" data-test-id="Modal">
       <div class="modal-backdrop" @click="close" />
       <div class="modal-container t-bg-white t-scrolling-touch t-pb-20 sm:t-pb-0" ref="modal-container" :style="style">
         <div class="t-h-60px t-flex-fix t-px-4 t-bg-white t-border-b t-border-base-lighter t-flex t-items-center">
@@ -8,7 +8,7 @@
           <h2 class="t-text-lg t-text-base-dark" v-if="title" v-text="title" />
           <slot name="header" />
           <div class="t-flex-expand" />
-          <top-button icon="close" text="Close" :tab-index="1" @click.native="close" class="t--mr-2 t-text-base" />
+          <top-button icon="close" text="Close" :tab-index="1" @click.native="close" data-test-id="ModalClose" class="t--mr-2 t-text-base" />
         </div>
         <div class="modal-content" :class="[ padding ]">
           <slot />

@@ -1,5 +1,5 @@
 <template>
-  <div class="t-flex t-flex-wrap t-justify-between t--mx-2">
+  <div class="t-flex t-flex-wrap t-justify-between t--mx-2" data-test-id="LogoLine">
     <div v-for="(logo, index) in logoLineItems" :key="'logo-' + index" class="t-flex-fix t-px-2" :class="[...columnClassObj]">
       <department-logo v-bind="logo.data()" class="t-flex t-justify-center t-px-4 t-py-2" :class="[ ...logoClassObj, white ? 't-bg-white' : 't-border-base-lightest t-border-b' ]" />
     </div>

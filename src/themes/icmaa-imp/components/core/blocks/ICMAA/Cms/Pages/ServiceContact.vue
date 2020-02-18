@@ -3,7 +3,7 @@
     <template v-if="!isSend">
       <p class="t-mb-2 t-font-bold t-text-sm" v-html="content.context" />
       <div :class="{ 't-mb-6': formVisible }">
-        <div v-for="(s, i) in subjects" :key="i">
+        <div v-for="(s, i) in subjects" :key="i" data-test-id="ServiceContactSelector">
           <div class="t-flex t-items-center t-justify-between t-cursor-pointer t-border-t t-border-base-lightest t-p-2 t-pl-0" :class="{ 't-opacity-50': !isSelectedSubject(s.name) && selectedSubject}" @click="toggleSubject(s)">
             <material-icon icon="indeterminate_check_box" v-if="isSelectedSubject(s.name)" />
             <material-icon icon="check_box_outline_blank" v-else class=" t-text-base-lighter" />
@@ -13,7 +13,7 @@
           </div>
           <div v-if="s.children && s.children.length > 0 && selectedSubject === s.name">
             <p class="t-border-base-lightest t-border-t t-py-2 t-font-bold t-text-sm" v-html="content.context_more" />
-            <div v-for="(c, j) in s.children" :key="j" class="t-flex t-items-center t-justify-between t-cursor-pointer t-border-t t-border-base-lightest t-p-2 t-pl-0" :class="{ 't-opacity-50': !isSelectedChildSubject(c.name) && selectedChildSubject}" @click="toggleSubject(c, true)">
+            <div v-for="(c, j) in s.children" :key="j" class="t-flex t-items-center t-justify-between t-cursor-pointer t-border-t t-border-base-lightest t-p-2 t-pl-0" :class="{ 't-opacity-50': !isSelectedChildSubject(c.name) && selectedChildSubject}" @click="toggleSubject(c, true)" data-test-id="ServiceContactChildrenSelector">
               <material-icon icon="indeterminate_check_box" v-if="isSelectedChildSubject(c.name)" />
               <material-icon icon="check_box_outline_blank" v-else class="t-text-base-lighter" />
               <div class="t-flex-1 t-ml-1">

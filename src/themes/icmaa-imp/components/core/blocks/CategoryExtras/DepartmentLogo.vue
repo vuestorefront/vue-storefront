@@ -1,11 +1,12 @@
 <template>
-  <router-link :to="link" :title="alt" @click.native="setCluster">
+  <router-link :to="link" :title="alt" @click.native="setCluster" data-test-id="DepartmentLogo">
     <img :src="url" :srcset="`${url} 1x, ${retinaUrl} 2x`" :alt="alt">
   </router-link>
 </template>
 
 <script>
 export default {
+  name: 'DepartmentLogo',
   props: {
     url: {
       type: String,

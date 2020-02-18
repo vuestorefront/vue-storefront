@@ -1,5 +1,5 @@
 <template>
-  <div class="teaser-split t-flex t-flex-col md:t-flex-row t-mx-4 t-cursor-pointer t-webkit-tap-transparent" :class="{ 't-bg-white': !backgroundColor }" :style="{ 'background-color': backgroundColor }" @click="redirect">
+  <div data-test-id="TeaserSplit" class="teaser-split t-flex t-flex-col md:t-flex-row t-mx-4 t-cursor-pointer t-webkit-tap-transparent" :class="{ 't-bg-white': !backgroundColor }" :style="{ 'background-color': backgroundColor }" @click="redirect">
     <retina-image :image="imageUrl" :width="624" :height="624" :placeholder="true" ratio="1:1" class="t-w-full md:t-w-1/2 md:t-h-full" :alt="teaser.text1 | htmlDecode" v-if="showLeft" />
     <div class="t-w-full md:t-w-1/2 t-flex t-items-center">
       <div class="t-w-full t-p-8">

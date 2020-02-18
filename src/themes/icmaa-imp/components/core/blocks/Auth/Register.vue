@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-test-id="Register">
     <div class="modal-content">
       <form @submit.prevent="register" novalidate class="t-flex t-flex-wrap t--mx-2">
         <input type="hidden" name="cluster" :value="cluster">
@@ -117,11 +117,12 @@
           id="newsletter"
           v-model="newsletter"
           class="t-w-full t-px-2 t-mb-4"
+          data-test-id="newsletterCheckbox"
         >
           {{ $t('I want to receive a newsletter') }}
         </base-checkbox>
         <div class="t-w-full t-px-2">
-          <button-component :submit="true" type="primary" class="t-w-full t-mb-2">
+          <button-component :submit="true" type="primary" class="t-w-full t-mb-2" data-test-id="registerSubmit">
             {{ $t('Register') }} *
           </button-component>
           <no-ssr>

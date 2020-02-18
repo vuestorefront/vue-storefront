@@ -1,9 +1,10 @@
 <template>
   <div
     class="t-flex t-items-center t-h-12 t-px-4 t-text-base-tone t-text-sm t-border-base-lightest t-cursor-pointer t-webkit-tap-transparent"
-    :class="[ {'t-flex t-text-base-light': !option.available}, {'t-bg-base-lightest t-text-black t-relative': isActive && isLoading}, {'t-text-base-light': !isActive && isLoading}, isLast ? 't-border-b-0' : ' t-border-b']"
+    :class="[ {'t-flex t-text-base-light': !option.available}, {'t-bg-base-lightest t-text-black t-relative': isActive && isLoading}, {'t-text-base-light': !isActive && isLoading}, isLast ? 't-border-b-0' : 't-border-b', option.available ? 'available' : 'unavailable']"
     @click="selectVariant"
     :aria-label="$t('Select ' + option.label)"
+    data-test-id="DefaultSelector"
   >
     <span class="t-flex-auto">
       {{ getOptionLabel({ attributeKey: option.type, optionId: option.id }) }}
@@ -16,6 +17,7 @@
         class="t-flex-fix t-text-xs t-leading-1-em t-text-right"
         :class="{ 't-text-alt-3': isStockAlertSubscrided }"
         v-html="$t(isStockAlertSubscrided ? 'Size requested' : 'Request size')"
+        data-test-id="StockAlertSubscribe"
       />
       <material-icon :icon="isStockAlertSubscrided ? 'check' : 'mail_outline'" class="t-flex-fix t-ml-2" :class="{ 't-text-alt-3': isStockAlertSubscrided }" />
     </template>

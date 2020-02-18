@@ -1,5 +1,5 @@
 <template>
-  <div class="newsletter">
+  <div class="newsletter" data-test-id="Newsletter">
     <h4 class="t-text-primary t-text-lg t-font-bold t-mb-2">
       {{ $t("Get your 5€ Voucher") }}
     </h4>

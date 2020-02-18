@@ -5,7 +5,7 @@
       <h2 class="t-pl-2 t-text-lg t-text-base-dark" v-if="title" v-text="title" />
       <slot name="top-after-title" />
       <div class="t-flex-expand" v-if="useExpanderInTitle" />
-      <top-button icon="close" text="Close" :tab-index="1" @click.native="closeMenu" class="t-text-base" />
+      <top-button data-test-id="closeButton" icon="close" text="Close" :tab-index="1" @click.native="closeMenu" class="t-text-base" />
     </div>
     <div @click="closeAfterClick" class="sidebar-content t-p-4">
       <slot />

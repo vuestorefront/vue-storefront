@@ -1,5 +1,5 @@
 <template>
-  <sidebar :title="$t('Shopping cart')" class="microcart t-relative" data-testid="microcart" :close-on-click="false">
+  <sidebar :title="$t('Shopping cart')" class="microcart t-relative" data-test-id="MicroCart" :close-on-click="false">
     <template v-slot:top-after-title>
       <button-component v-if="productsInCart.length" type="transparent" size="sm" icon="delete" :icon-only="true" @click="clearCart">
         {{ $t('Clear cart') }}
@@ -54,6 +54,7 @@ import Product from 'theme/components/core/blocks/Microcart/Product'
 import Coupon from 'theme/components/core/blocks/Microcart/Coupon'
 
 export default {
+  name: 'MicroCart',
   components: {
     ButtonComponent,
     Coupon,

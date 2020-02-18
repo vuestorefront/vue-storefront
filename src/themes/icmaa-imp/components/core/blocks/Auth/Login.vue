@@ -1,5 +1,5 @@
 <template>
-  <form class="" @submit.prevent="login" novalidate>
+  <form class="" @submit.prevent="login" novalidate data-test-id="Login">
     <div v-if="hasRedirect" class="t-mb-4 t-text-sm">
       {{ $t('You need to be logged in to see this page') }}
     </div>
@@ -32,20 +32,20 @@
       ]"
     />
     <div class="t-flex t-items-center t-justify-between t-mb-4">
-      <base-checkbox class="t-mr-4" id="remember" v-model="remember">
+      <base-checkbox class="t-mr-4" id="remember" name="remember" v-model="remember">
         {{ $t('Remember me') }}
       </base-checkbox>
       <div href="#" @click.prevent="callForgotPassword" class="t-text-sm t-cursor-pointer">
         {{ $t('Forgot the password?') }}
       </div>
     </div>
-    <button-component :submit="true" type="primary" class="t-w-full t-mb-2" data-testid="loginSubmit">
+    <button-component :submit="true" type="primary" class="t-w-full t-mb-2" data-test-id="loginSubmit">
       {{ $t('Login to your account') }}
     </button-component>
     <no-ssr>
       <facebook-login-button class="t-w-full t-mb-2" />
     </no-ssr>
-    <button-component type="transparent" class="t-w-full t--mb-2" @click="callRegister" data-testid="registerLink">
+    <button-component type="transparent" class="t-w-full t--mb-2" @click="callRegister" data-test-id="registerLink">
       {{ $t('Not yet an account?') }} <span class="t-ml-1">{{ $t('Register now') }}</span>
     </button-component>
   </form>

@@ -3,7 +3,7 @@
     <div
       class="sidebar t-max-w-full t-fixed t-scrolling-touch t-bg-white"
       :class="[direction === 'left' ? 'left-sidebar' : direction === 'right' ? 'right-sidebar' : null, { 'wide': wide }]"
-      data-testid="sidebar"
+      data-test-id="Sidebar"
       ref="sidebar"
       v-if="isOpen"
     >
@@ -24,6 +24,7 @@ import LoadingError from 'theme/components/core/blocks/AsyncSidebar/LoadingError
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 export default {
+  name: 'Sidebar',
   components: {
     Submenu
   },

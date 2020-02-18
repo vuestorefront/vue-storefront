@@ -1,5 +1,5 @@
 <template>
-  <nav class="customer-account">
+  <nav data-test-id="MyAccountNavigation">
     <div class="t-flex t-flex-wrap t-bg-white">
       <div class="t-flex t-flex-expand t-px-4 t-py-6 t-border-b t-border-base-lightest">
         <material-icon icon="account_circle" size="xl" class="t-mr-3 t-text-primary" />
@@ -20,7 +20,7 @@
           </router-link>
         </li>
         <li class="t-flex t-w-full t-pt-3">
-          <router-link :to="localizedRoute('')" @click.native="logout" class="t-flex t-flex-grow t-items-center t-text-sm t-px-6 t-py-6 t-border-t t-border-base-lightest t-text-base-light">
+          <router-link :to="localizedRoute('')" @click.native="logout" class="t-flex t-flex-grow t-items-center t-text-sm t-px-6 t-py-6 t-border-t t-border-base-lightest t-text-base-light" data-test-id="logoutButton">
             <material-icon icon="exit_to_app" size="sm" class="t-mr-2 t-text-base-light" />
             {{ $t('Logout') }}
           </router-link>
@@ -40,6 +40,7 @@ import i18n from '@vue-storefront/i18n'
 import MaterialIcon from 'theme/components/core/blocks/MaterialIcon'
 
 export default {
+  name: 'MyAccountNavigation',
   data () {
     return {
       visible: !this.accordion,

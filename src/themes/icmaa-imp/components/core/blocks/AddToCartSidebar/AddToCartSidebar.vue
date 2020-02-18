@@ -124,8 +124,7 @@ export default {
         this.setSelectedOptionByCurrentConfigurableProduct()
 
         this.loading = true
-        this.getQuantity()
-          .then(() => this.addToCart(this.product))
+        this.addToCart(this.product)
           .then(() => {
             this.loading = false
           })

@@ -161,7 +161,7 @@
         <div class="row my30">
           <div class="col-xs-12 col-md-7 px20 button-container">
             <button-component
-              data-testid="personalDetailsSubmit"
+              data-test-id="personalDetailsSubmit"
               @click="sendDataToCheckout"
               :disabled="createAccount ? $v.$invalid : $v.personalDetails.$invalid"
             >

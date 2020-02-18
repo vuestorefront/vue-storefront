@@ -1,5 +1,5 @@
 <template>
-  <div id="teaser">
+  <div data-test-id="Teaser">
     <div class="placeholder" v-if="loading">
       <div class="xs:t-px-0 sm:t-px-4 t-mb-8" v-if="showLarge">
         <placeholder :ratio="isMobile ? '1:1' : '2:1'" />

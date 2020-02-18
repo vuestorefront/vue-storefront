@@ -9,13 +9,16 @@
       </div>
     </template>
     <template v-slot:footer>
-      <div class="t-flex-expand t-bg-base-lightest t-p-4">
+      <div class="t-flex-expand t-bg-base-lightest t-p-4" data-test-id="SidebarMenuFooter">
         <div class="t-flex t-items-center t-w-full">
           <div class="t-flex t-items-center t-w-full" @click="closeMenu">
             <template v-for="(link, index) in metaNavigation">
-              <router-link :to="localizedRoute(link.route)" class="t-flex t-flex-fit t-mr-6 t-text-xs t-uppercase t-text-base-tone" :key="index">
+              <router-link :to="localizedRoute(link.route)" class="t-flex t-flex-fit t-mr-6 t-text-xs t-uppercase t-text-base-tone" :key="index" v-if="link.isRoute === true">
                 {{ link.name }}
               </router-link>
+              <a :href="link.route" class="t-flex t-flex-fit t-mr-6 t-text-xs t-uppercase t-text-base-tone" target="_blank" :key="index" v-else>
+                {{ link.name }}
+              </a>
             </template>
           </div>
           <div class="t-flex-expand t-border-base-lighter t-border-r t-h-8 t-mx-4" />
@@ -58,7 +61,9 @@ export default {
       return this.getJsonBlockByIdentifier('navigation-main')
     },
     metaNavigation () {
-      return this.getJsonBlockByIdentifier('navigation-meta')
+      return this.getJsonBlockByIdentifier('navigation-meta').map(link =>
+        Object.assign(link, { isRoute: (typeof link.route === 'object' || link.route.startsWith('/')) })
+      )
     },
     country: () => currentStoreView().i18n.defaultCountry,
     loginButtonText () {

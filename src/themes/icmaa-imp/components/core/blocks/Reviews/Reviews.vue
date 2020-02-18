@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div>
+    <div data-test-id="Reviews">
       <h2 class="t-text-lg t-text-base-dark t-font-bold t-mb-4">
         {{ $t('Reviews') }}
       </h2>

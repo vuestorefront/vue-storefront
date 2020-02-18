@@ -267,7 +267,7 @@
           <div class="col-xs-12 col-md-8 px20 my30">
             <button-component
               @click="sendDataToCheckout"
-              data-testid="paymentSubmit"
+              data-test-id="paymentSubmit"
               :disabled="$v.payment.$invalid"
             >
               {{ $t('Go review the order') }}

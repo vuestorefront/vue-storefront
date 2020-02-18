@@ -1,5 +1,5 @@
 <template>
-  <button-icon :icon="icon" :title="title" :qty="quantity" @click="openSidebarMenu" />
+  <button-icon :icon="icon" :title="title" :qty="quantity" @click="openSidebarMenu" data-test-id="ButtonUiSidebar" />
 </template>
 
 <script>

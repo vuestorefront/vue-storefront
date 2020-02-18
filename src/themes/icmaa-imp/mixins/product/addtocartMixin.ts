@@ -16,6 +16,13 @@ export default {
     },
     async addToCart (product) {
       try {
+        /**
+         * Note: There was a bug which causes the first attemp to put an item in cart to fail without message.
+         * That was because the `cart/create` action, which is called during the add-to-cart action, calls the `cart/connect` action
+         * which again runs the cart sync-/merge-actions and empties the cart again because the server response is empty and there is not yet
+         * a `cartToken`. I could fix this by disabling `cart.serverMergeByDefault`. This will run the `cart/sync` action in `cart/connect`
+         * action with the `dryRun` parameter and prevent the cart diffLog to be emptied.
+         */
         const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
 
         this.$store.dispatch('ui/closeAll')

@@ -3,7 +3,7 @@
     <headline icon="mail">
       {{ $t('My newsletter') }}
     </headline>
-    <base-checkbox class="t-w-full t-px-2 t-mb-4" id="generalAgreement" v-model="isSubscribed">
+    <base-checkbox class="t-w-full t-px-2 t-mb-4" id="generalAgreement" name="generalAgreement" v-model="isSubscribed">
       {{ $t('I want to receive a newsletter, and agree to its terms') }}
     </base-checkbox>
     <div class="t-w-full t-px-2">

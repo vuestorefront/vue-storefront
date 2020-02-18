@@ -1,5 +1,5 @@
 <template>
-  <div class="teaser-fullsize t-mx-0 sm:t-mx-4 t-cursor-pointer t-webkit-tap-transparent" @click="redirect">
+  <div data-test-id="TeaserFullsize" class="teaser-fullsize t-mx-0 sm:t-mx-4 t-cursor-pointer t-webkit-tap-transparent" @click="redirect">
     <div class="t-relative">
       <retina-image :alt="teaser.text1 | htmlDecode" :image="imageUrl" :width="size.width" :height="size.height" :placeholder="true" :ratio="ratio" class="t-w-full" />
       <h2 class="t-absolute t-bottom-0 t-inset-x-0 t-mb-6 t-text-sm t-text-small t-uppercase">

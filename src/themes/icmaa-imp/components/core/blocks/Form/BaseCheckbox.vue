@@ -5,6 +5,7 @@
         class="t-hidden"
         type="checkbox"
         :id="id"
+        :name="name"
         :checked="value === true"
         @keyup.enter="$emit('click')"
         @click="$emit('click')"
@@ -43,6 +44,10 @@ export default {
   },
   props: {
     id: {
+      type: String,
+      required: true
+    },
+    name: {
       type: String,
       required: true
     },

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isVisible" class="loader-overlay t-z-50 t-fixed t-top-0 t-left-0 t-w-full t-h-full t-flex t-items-center t-justify-center">
+  <div v-if="isVisible" class="loader-overlay t-z-50 t-fixed t-top-0 t-left-0 t-w-full t-h-full t-flex t-items-center t-justify-center" data-test-id="Loader">
     <div class="t-flex t-flex-wrap t-item-center t-justify-center">
       <div class="loader color-pulse-ball t-bg-primary" />
       <div class="t-w-full t-text-center t-text-sm t-text-primary t-max-w-screen-75 t--mt-3 t-bg-white t-px-4 t-py-2" v-if="message">

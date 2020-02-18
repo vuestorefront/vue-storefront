@@ -207,7 +207,7 @@
         <div class="row">
           <div class="col-xs-12 col-md-8 my30 px20">
             <button-component
-              data-testid="shippingSubmit"
+              data-test-id="shippingSubmit"
               @click="sendDataToCheckout"
               :disabled="$v.shipping.$invalid || shippingMethods.length <= 0"
             >
@@ -221,7 +221,7 @@
       <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
-          <div class="col-xs-12 h4" data-testid="shippingAddressSummary">
+          <div class="col-xs-12 h4" data-test-id="shippingAddressSummary">
             <p>
               {{ shipping.firstName }} {{ shipping.lastName }}
             </p>

@@ -1,5 +1,5 @@
 <template>
-  <div class="notifications t-fixed t-z-1000 t-w-full t-bottom-0 t-left-0 sm:t-w-3/12 sm:t-ml-4">
+  <div class="notifications t-fixed t-z-1000 t-w-full t-bottom-0 t-left-0 sm:t-w-3/12 sm:t-ml-4" data-test-id="Notifications">
     <transition-group name="fade-down">
       <notification
         class="lg:t-mb-4"
@@ -17,6 +17,7 @@ import { Notification as NotificationMixin } from '@vue-storefront/core/modules/
 import Notification from 'theme/components/core/blocks/Notification/Notification'
 
 export default {
+  name: 'Notifications',
   mixins: [NotificationMixin],
   components: {
     Notification

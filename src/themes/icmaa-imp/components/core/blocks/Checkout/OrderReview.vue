@@ -67,7 +67,7 @@
             <slot name="placeOrderButton">
               <button-component
                 @click="placeOrder"
-                data-testid="orderReviewSubmit"
+                data-test-id="orderReviewSubmit"
                 class="place-order-btn"
                 :disabled="$v.orderReview.$invalid"
               >

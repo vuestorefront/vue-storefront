@@ -1,5 +1,5 @@
 <template>
-  <div id="product" itemscope itemtype="http://schema.org/Product">
+  <div id="product" data-test-id="product" itemscope itemtype="http://schema.org/Product">
     <div class="t-container t-px-4">
       <div class="t--mx-4 lg:t-px-4 t-flex t-flex-wrap">
         <breadcrumbs class="breadcrumbs t-w-full t-my-8 t-hidden lg:t-flex" />
@@ -14,7 +14,7 @@
         <div class="t-w-full t-p-8 t-bg-white lg:t-w-1/2">
           <category-extras-header class="t--mx-8 t--mt-8 t-mb-8 lg:t-pl-px t-border-b t-border-base-lightest" v-if="!['xs', 'sm', 'md'].includes(viewport)" :spotify-logo-limit="spotifyLogoLimit" />
           <div class="t-flex t-flex-wrap">
-            <h1 data-testid="productName" itemprop="name" class="t-flex-grow t-w-1/2 t-mb-0 t-leading-snug">
+            <h1 data-test-id="productName" itemprop="name" class="t-flex-grow t-w-1/2 t-mb-0 t-leading-snug">
               <template v-if="typeof productName === 'object'">
                 <span class="t-block t-text-2xl t-font-thin t-leading-relaxed t-mb-2">{{ productName.mandant | htmlDecode }}</span>
                 <span class="t-block t-text-lg t-font-bold">{{ productName.product | htmlDecode }}</span>
@@ -33,16 +33,16 @@
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="product.url_path">
 
-              <div v-if="product.type_id !== 'grouped'" class="price t-mt-5 t-mb-8 t-text-1xl">
+              <div v-if="product.type_id !== 'grouped'" class="price t-mt-5 t-mb-8 t-text-1xl" data-test-id="price">
                 <template v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax">
-                  <span class="t-text-base-tone t-line-through">{{ price(product.original_price_incl_tax * product.qty) }}</span>
+                  <span class="price-original t-text-base-tone t-line-through">{{ price(product.original_price_incl_tax * product.qty) }}</span>
                   &nbsp;
-                  <span class="t-text-sale t-font-bold">
+                  <span class="price-special t-text-sale t-font-bold">
                     <span v-if="hasMultiplePrices" v-text="$t('as low as')" class="t-text-sm" />
                     {{ price(product.price_incl_tax * product.qty) }}
                   </span>
                 </template>
-                <span class="t-font-bold" v-if="!product.special_price && product.price_incl_tax">
+                <span class="price t-font-bold" v-if="!product.special_price && product.price_incl_tax">
                   <span v-if="hasMultiplePrices" v-text="$t('as low as')" class="t-text-sm" />
                   {{ price(product.qty > 0 ? product.price_incl_tax * product.qty : product.price_incl_tax) }}
                 </span>
@@ -51,11 +51,11 @@
 
               <div class="t-flex t-flex-wrap">
                 <div v-if="product.type_id === 'configurable' && !isOnesizeProduct && !loading" class="t-flex t-flex-grow t-w-full t-mb-4 lg:t-w-3/6 lg:t-mb-0 lg:t-mr-4">
-                  <button-component type="select" icon="arrow_forward" class="t-w-full" :disabled="isAddToCartDisabled" @click.native="openAddtocart">
+                  <button-component type="select" icon="arrow_forward" data-test-id="AddToCartSize" class="t-w-full" :disabled="isAddToCartDisabled" @click.native="openAddtocart">
                     {{ productOptionsLabel }}
                   </button-component>
                 </div>
-                <button-component type="primary" class="t-flex-grow lg:t-w-2/6 disabled:t-opacity-75 t-relative" :disabled="isAddToCartDisabled" @click.native="addToCartButtonClick">
+                <button-component type="primary" data-test-id="AddToCart" class="t-flex-grow lg:t-w-2/6 disabled:t-opacity-75 t-relative" :disabled="isAddToCartDisabled" @click.native="addToCartButtonClick">
                   {{ $t('Add to cart') }}
                   <loader-background v-if="loading && isSingleOptionProduct" class="t-bottom-0" height="t-h-1" bar="t-bg-base-lightest t-opacity-25" />
                 </button-component>
@@ -275,8 +275,7 @@ export default {
       if (!this.loading) {
         if (this.isSingleOptionProduct) {
           this.loading = true
-          this.getQuantity()
-            .then(() => this.addToCart(this.product))
+          this.addToCart(this.product)
             .then(() => { this.loading = false })
             .catch(() => { this.loading = false })
 
@@ -303,16 +302,6 @@ export default {
         ),
         action1: { label: this.$t('OK') }
       })
-    }
-  },
-  watch: {
-    isOnline: {
-      handler (isOnline) {
-        if (isOnline) {
-          this.getQuantity()
-        }
-      },
-      immediate: true
     }
   },
   async asyncData ({ store, route }) {

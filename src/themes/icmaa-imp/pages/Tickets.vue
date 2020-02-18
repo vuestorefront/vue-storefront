@@ -2,7 +2,7 @@
   <div class="t-container">
     <div class="t-p-4 t--mx-1 lg:t--mx-2 t-flex t-flex-wrap">
       <twitter-status-bar screen-name="Impericonticket" :limit="1" class="t-w-full t-px-1 lg:t-px-2 t-mb-4" />
-      <div v-for="(ticket, i) in sortedTickets" :key="i" class="t-w-1/2 lg:t-w-1/4 t-px-1 lg:t-px-2 t-mb-8">
+      <div v-for="(ticket, i) in sortedTickets" :key="i" class="t-w-1/2 lg:t-w-1/4 t-px-1 lg:t-px-2 t-mb-8" data-test-id="Tickets">
         <router-link :to="getCategoryRoute(ticket.category)" :title="ticket.category.name" class="t-block t-mb-4">
           <retina-image :image="getImageUrl(ticket.poster)" :alt="ticket.category.name" :placeholder="true" ratio="263:370" class="t-w-full" />
         </router-link>

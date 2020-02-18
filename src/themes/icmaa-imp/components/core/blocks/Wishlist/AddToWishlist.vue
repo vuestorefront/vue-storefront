@@ -1,9 +1,9 @@
 <template>
-  <div v-if="isOverlay" class="t-w-10 t-h-10 lg:t-w-12 lg:t-h-12 t-bg-base-lighter t-flex t-items-center t-justify-center t-cursor-pointer" @click="toggleWishlist" data-testid="addToWishlist">
+  <div v-if="isOverlay" class="t-w-10 t-h-10 lg:t-w-12 lg:t-h-12 t-bg-base-lighter t-flex t-items-center t-justify-center t-cursor-pointer" @click="toggleWishlist" data-test-id="AddToWishlist">
     <material-icon :icon="favoriteIcon" class="t-text-white" />
     <span class="t-sr-only">{{ !isOnWishlist ? $t('Add to favorite') : $t('Remove') }}</span>
   </div>
-  <button-component v-else :type="buttonType" :icon="favoriteIcon" :icon-only="true" @click.native="toggleWishlist" data-testid="addToWishlist">
+  <button-component v-else :type="buttonType" :icon="favoriteIcon" :icon-only="true" @click.native="toggleWishlist" data-test-id="AddToWishlistButton">
     <slot>
       {{ !isOnWishlist ? $t('Add to favorite') : $t('Remove') }}
     </slot>
@@ -20,6 +20,7 @@ import { htmlDecode } from '@vue-storefront/core/lib/store/filters'
 import i18n from '@vue-storefront/i18n'
 
 export default {
+  name: 'AddToWishlist',
   mixins: [ IsOnWishlist, AddToWishlist, RemoveFromWishlist ],
   components: {
     MaterialIcon,

@@ -1,5 +1,5 @@
 <template>
-  <button-icon icon="person" :title="title" @click="toggleAccount" />
+  <button-icon icon="person" :title="title" @click="toggleAccount" :class="[ isLoggedIn ? 'logged-in' : 'logged-out']" />
 </template>
 
 <script>

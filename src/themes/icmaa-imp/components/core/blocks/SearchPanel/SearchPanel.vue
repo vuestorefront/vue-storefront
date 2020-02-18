@@ -1,11 +1,11 @@
 <template>
-  <sidebar :close-on-click="false" :use-expander-in-title="false" ref="searchSidebar" data-testid="searchSidebar">
+  <sidebar :close-on-click="false" :use-expander-in-title="false" ref="searchSidebar" data-test-id="SearchPanel">
     <template v-slot:top>
       <label for="search" class="t-flex">
         <span class="t-sr-only">{{ $t('Search') }}</span>
         <material-icon icon="search" class="t-mx-2" />
       </label>
-      <input type="text" v-model="searchString" @input="search" @blur="$v.searchString.$touch()" :placeholder="$t('Type what you are looking for...')" autofocus="true" id="search" ref="searchString" class="t-flex-expand t-p-0 t-text-lg t-text-base-tone placeholder:t-text-base-lighter">
+      <input type="text" v-model="searchString" @input="search" @blur="$v.searchString.$touch()" :placeholder="$t('Type what you are looking for...')" autofocus="true" data-test-id="SearchInput" ref="searchString" class="t-flex-expand t-p-0 t-text-lg t-text-base-tone placeholder:t-text-base-lighter">
     </template>
     <div class="t-pb-20">
       <div v-if="getNoResultsMessage" class="t-px-2 t-mt-2 t-text-sm">

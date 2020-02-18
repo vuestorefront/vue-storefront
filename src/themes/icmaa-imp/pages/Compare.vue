@@ -1,5 +1,5 @@
 <template>
-  <div class="compare">
+  <div class="compare" data-test-id="Compare">
     <div class="bg-cl-secondary py35 pl20">
       <div class="container">
         <breadcrumbs :with-homepage="true" active-route="Compare" />
@@ -30,7 +30,7 @@
                   v-for="(product, index) in items"
                   :key="index"
                   class="compare__product"
-                  data-testid="comparedProduct"
+                  data-test-id="comparedProduct"
                 >
                   <div class="compare__top-info">
                     <div class="check" />
@@ -77,6 +77,7 @@ import ProductAttribute from '../components/core/blocks/Compare/ProductAttribute
 import i18n from '@vue-storefront/i18n'
 
 export default {
+  name: 'Compare',
   components: {
     Breadcrumbs,
     ProductTile,

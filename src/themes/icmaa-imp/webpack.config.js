@@ -80,6 +80,33 @@ module.exports = function (config, { isClient, isDev }) {
   config.module.rules.map(rewriteMapping)
 
   /**
+   * Remove `data-test-id` attributes from DOM for production mode
+   * @see https://forum.vuejs.org/t/how-to-remove-attributes-from-tags-inside-vue-components/24138/9
+   */
+  if (!isDev) {
+    config.module.rules.map(rule => {
+      if (rule.loader === 'vue-loader') {
+        rule.options.compilerOptions = {
+          modules: [
+            {
+              preTransformNode (el) {
+                const { attrsMap, attrsList } = el
+                if (attrsMap['data-test-id']) {
+                  delete attrsMap['data-test-id']
+                  attrsList.splice(attrsList.findIndex(x => x.name === 'data-test-id'), 1)
+                }
+                return el
+              }
+            }
+          ]
+        }
+      }
+
+      return rule
+    })
+  }
+
+  /**
    * Add css sprites for service logos
    */
 
