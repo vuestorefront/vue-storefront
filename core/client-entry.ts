@@ -13,6 +13,7 @@ import { AsyncDataLoader } from './lib/async-data-loader'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import globalConfig from 'config'
 import { RouterManager } from './lib/router-manager';
+import omit from 'lodash-es/omit'
 declare var window: any
 
 const invokeClientEntry = async () => {
@@ -22,7 +23,8 @@ const invokeClientEntry = async () => {
   const { app, router, store } = await createApp(null, dynamicRuntimeConfig, storeCode)
 
   if (window.__INITIAL_STATE__) {
-    store.replaceState(Object.assign({}, store.state, window.__INITIAL_STATE__, { config: globalConfig }))
+    const initialState = omit(window.__INITIAL_STATE__, ['storeView', 'config', 'version', 'route'])
+    store.replaceState(Object.assign({}, store.state, initialState, { config: globalConfig }))
   }
 
   await store.dispatch('url/registerDynamicRoutes')
