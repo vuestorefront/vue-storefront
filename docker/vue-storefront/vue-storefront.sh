@@ -1,12 +1,9 @@
 #!/bin/sh
 set -e
 
-yarn install || exit $?
-
-yarn build:client && yarn build:server && yarn build:sw || exit $?
-
 if [ "$VS_ENV" = 'dev' ]; then
+  yarn install
   yarn dev
 else
-  yarn start
+  yarn cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig-build.json\" ts-node ./core/scripts/server.ts --no-daemon
 fi
