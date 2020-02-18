@@ -12,25 +12,25 @@ ENV TERM="xterm" \
 
 EXPOSE 3000
 
-WORKDIR /var/www/vue-storefront
+WORKDIR /var/www/
 
 # Cache base package install
-COPY package.json /var/www/vue-storefront/package.json
-COPY yarn.lock /var/www/vue-storefront/yarn.lock
+COPY package.json /var/www/package.json
+COPY yarn.lock /var/www/yarn.lock
 RUN yarn install
 
-## Copy only needed files to vue-storefront folder
-COPY babel.config.js ecosystem.json .eslintignore .eslintrc.js lerna.json tsconfig.json tsconfig-build.json shims.d.ts /var/www/vue-storefront/
-COPY core /var/www/vue-storefront/core
-COPY test /var/www/vue-storefront/test
-COPY packages /var/www/vue-storefront/packages
-COPY src /var/www/vue-storefront/src
+## Copy only needed files to folder
+COPY babel.config.js ecosystem.json .eslintignore .eslintrc.js lerna.json tsconfig.json tsconfig-build.json shims.d.ts /var/www/
+COPY core /var/www/core
+COPY test /var/www/test
+COPY packages /var/www/packages
+COPY src /var/www/src
 
 ## Install modules from non-base
 RUN yarn install
 
 ## Copy config in after code
-COPY config /var/www/vue-storefront/config
+COPY config /var/www/config
 
 ## Run Builds
 RUN yarn build:client
