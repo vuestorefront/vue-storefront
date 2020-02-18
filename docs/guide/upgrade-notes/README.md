@@ -16,6 +16,12 @@ This new `api-search-query` adapter supports the `response_format` query paramet
 
 The `amp-renderer` module has been disabled by default to save the bundle size; If you'd like to enable it uncomment the module from the `src/modules` and uncomment the `product-amp` and `category-amp` links that are added to the `<head>` section in the `src/themes/default/Product.vue` and `src/themes/default/Category.vue`
 
+**Changes to Docker Setup**
+
+The `docker/vue-storefront/Dockerfile` has been updated to be built inside of the image instead of on start. Volume Bind Mounts removed from default `docker-compose.yml`. The use of `pm2` and `ecosystem.conf` is also removed.
+
+The `docker-compose.yml` file has been updated to include `nginx` and now proxies the `app` container. To scale out the build you can do `docker-compose up -d --build --scale app=4`
+
 ## 1.10 -> 1.11
 
 This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible.
