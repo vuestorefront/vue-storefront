@@ -914,19 +914,18 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     <td align="center" valign="middle">
+         <a href="https://bitbag.io/services/pwa-progressive-web-app/">
+          <img
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/BitBag_logo.png"
+            alt="BitBag"
+            height="40" >
+        </a>
+</td>
+   <td align="center" valign="middle">
 <a href="https://www.ohmybrand.es/">
           <img
             src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/ohmybrand_logo_blue.png"
             alt="Oh My Brand"
-            height="40"
-          >
-        </a>
-</td>
-   <td align="center" valign="middle">
-<a href="">
-          <img
-            src=""
-            alt=""
             height="40"
           >
         </a>
