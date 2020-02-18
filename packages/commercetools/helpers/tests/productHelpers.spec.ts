@@ -5,11 +5,14 @@ import {
   getProductGallery,
   getProductVariants,
   getProductAttributes,
+  getProductCategories,
+  getProductId,
 } from "./../src/index";
 
 const product = {
   _name: "variant 1",
   _slug: "variant-1",
+  _id: 1234,
   price: {
     value: { centAmount: 1200 }
   },
@@ -20,7 +23,11 @@ const product = {
       __typename: "StringAttribute"
     }
   ],
-  images: [{ url: "imageV11/url.jpg" }, { url: "imageV12/url.jpg" }]
+  images: [{ url: "imageV11/url.jpg" }, { url: "imageV12/url.jpg" }],
+  _categoriesRef: [
+    'catA',
+    'catB',
+  ],
 } as any;
 
 describe("[commercetools-helpers] product helpers", () => {
@@ -59,7 +66,7 @@ describe("[commercetools-helpers] product helpers", () => {
     ]);
   });
 
-  it("returns master products", () => {
+  it("returns master variant", () => {
     const variants = [
       { _name: "variant 1", _master: false },
       { _name: "variant 2", _master: true }
@@ -68,6 +75,19 @@ describe("[commercetools-helpers] product helpers", () => {
       _name: "variant 2",
       _master: true
     });
+  });
+
+  it("returns master variants", () => {
+    const variants = [
+      { _name: "variant 1_1", _master: false },
+      { _name: "variant 1_2", _master: true },
+      { _name: "variant 2_1", _master: true },
+      { _name: "variant 2_2", _master: false },
+    ];
+    expect(getProductVariants(variants as any, { masters: true })).toEqual([
+      { _name: "variant 1_2", _master: true },
+      { _name: "variant 2_1", _master: true },
+    ]);
   });
 
   it("returns all variants", () => {
@@ -152,6 +172,17 @@ describe("[commercetools-helpers] product helpers", () => {
       color: [{ value: "H805 C195 85072", label: "H805 C195 85072" }]
     });
   });
+
+  it('returns product categories', () => {
+    expect(getProductCategories(product)).toEqual([
+      'catA',
+      'catB',
+    ])
+  })
+
+  it('returns product ID', () => {
+    expect(getProductId(product)).toEqual(1234)
+  })
 
   it("returns empty array if there is no product", () => {
     expect(getProductAttributes(null)).toEqual({});
