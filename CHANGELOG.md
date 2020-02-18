@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix v-model not working in BaseRadioButton - @lukeromanowicz (#4035)
 - add disconnect and sync options for clear/cart - @gibkigonzo (#4062)
 - Fix current token invalidation with refresh token - @gibkigonzo (#3928, #3620, #3626)
+- Disable overriding `route`, `config`, `storeView`, `version` state in __INITIAL_STATE__ - @gibkigonzo (pr#4095)
 
 ## [1.10.5] - 28.11.2019
 
