@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Set `totals` in products in cart always in reactive way - @psmyrek (#4079)
 - Fix sync cart between tabs - @Michal-Dziedzinski (#3838)
 - Add currentRoute to url module and return cached requests - @gibkigonzo (pr#4077, issue#4066)
+- Disable overriding `route` state in __INITIAL_STATE__ - @gibkigonzo (pr#4095)
 - Fix gtm order placement event when user was guest - @Michal-Dziedzinski (#4064)
 
 ## [1.11.1] - 2020.02.05
