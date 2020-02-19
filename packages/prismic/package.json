@@ -1,0 +1,30 @@
+{
+  "name": "@vue-storefront/prismic",
+  "descrition": "Prismic headless CMS integration for Vue Next",
+  "author": "Marcin Drwiega",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "version": "0.0.1",
+  "private": true,
+  "sideEffect": false,
+  "dependencies": {
+    "@vue/composition-api": "^0.3.4",
+    "@vue/test-utils": "^1.0.0-beta.31",
+    "prismic-dom": "^2.1.0",
+    "prismic-javascript": "^2.1.5",
+    "prismic-vue": "^2.0.0",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "test": "jest"
+  },
+  "files": [
+    "lib/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "8d866340da30761f4f72a6d1b60f78f9665c6738"
+}

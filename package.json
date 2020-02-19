@@ -14,10 +14,12 @@
     "build:ct:helpers": "cd packages/commercetools/helpers && yarn build",
     "build:ct:tools": "yarn build:ct:api-client && yarn build:ct:helpers && yarn build:ct:composables",
     "build:ct:theme": "cd packages/commercetools/theme && yarn build",
+    "build:prismic": "cd packages/prismic && yarn build",
     "build:ct": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
     "test:ct:api-client": "cd packages/commercetools/api-client && yarn test",
     "test:ct:composables": "cd packages/commercetools/composables && yarn test",
     "test:ct:helpers": "cd packages/commercetools/helpers && yarn test",
+    "test:prismic": "cd packages/prismic && yarn test",
     "test:ct": "yarn test:ct:api-client && yarn test:ct:composables && yarn test:ct:helpers",
     "test:ct:ci": "yarn test:ct:api-client && yarn test:ct:composables && yarn test:ct:helpers && yarn codecov",
     "start:ct": "cd packages/commercetools/theme && yarn start",
@@ -56,6 +58,7 @@
       "packages/commercetools/*",
       "packages/boilerplate/*",
       "packages/core/*",
+      "packages/prismic",
       "packages/about-you/*"
     ],
     "nohoist": [

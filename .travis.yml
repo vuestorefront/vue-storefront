@@ -12,6 +12,8 @@ cache:
     - packages/commercetools/composables/lib
     - packages/commercetools/theme/.nuxt
     - packages/commercetools/theme/node_modules
+    - packages/prismic/node_modules
+    - packages/prismic/lib
 
 env:
   global:
@@ -28,7 +30,7 @@ jobs:
     - stage: Build
       name: Build
       script:
-      - yarn build:ct
+      - yarn build:prismic && yarn build:ct
 
     - stage: test
       script: yarn test:ct:api-client
@@ -41,6 +43,10 @@ jobs:
     - stage: test
       script: yarn test:ct:helpers
       name: Test commercetools helpers
+
+    - stage: test
+      script: yarn test:prismic
+      name: Test prismic
 
     - build_image:
       if: branch = master AND type != pull_request

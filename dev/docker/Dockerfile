@@ -10,7 +10,7 @@ WORKDIR /var/www
 COPY . .
 
 RUN yarn install \
-  && yarn build:ct
+  && yarn build:prismic && yarn build:ct
 
 COPY dev/docker/vue-storefront.sh /usr/local/bin/
 

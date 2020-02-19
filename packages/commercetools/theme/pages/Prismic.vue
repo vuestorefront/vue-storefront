@@ -1,14 +1,40 @@
 <template>
-  <custom-page :type="'privacy-policy'" :uid="'privacy-policy'" />
+  <div>
+    <div v-for="page in pages" :key="getPageId(page)">
+      <div v-for="(block, i) in getBlocks(page)" :key="i">
+        <div v-html="block" />
+      </div>
+    </div>
+  </div>
 </template>
-
 <script>
-// @defudef: This is just an example how to use Prismic. It will be deleted soon.
-import CustomPage from '../prismic/components/CustomPage'
+
+import { ref, computed } from '@vue/composition-api'
+import { usePrismic, getPages, getBlocks, getPageId } from '@vue-storefront/prismic'
 
 export default {
-  components: {
-    CustomPage,
+  setup() {
+    const { doc, search, loading, error } = usePrismic()
+    const pages = computed(() => getPages(doc.value))
+
+    search({
+      at: {
+        fragment: 'document.type',
+        value: 'privacy-policy'
+      },
+    })
+
+    search({}, {
+      pageSize: 1,
+    })
+
+    return {
+      pages,
+      loading,
+      error,
+      getBlocks,
+      getPageId
+    }
   }
 }
 </script>
