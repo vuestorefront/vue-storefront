@@ -1,5 +1,5 @@
 import { transformBlock } from './_utils'
-import { PrismicDocument, PrismicPage } from '../types'
+import { PrismicDocument, PrismicPage, PrismicSlice } from '../types'
 
 export const getPages = (doc: PrismicDocument): PrismicPage[] => doc ? doc.results : []
 
@@ -47,8 +47,25 @@ export const getBlocks = ({ data }: PrismicPage, blockName?: string): string | s
   return blockKeys.map(key => transformBlock(data[key]))
 }
 
-// TODO: slices
-export const getSlices = () => {}
+export const getSlices = ({ data }: PrismicPage, sliceType?: string): string[] | Array<string[]> => {
+  const slices = data.body as PrismicSlice[]
+
+  if (sliceType) {
+    const foundSlice = slices.find(slice => slice.slice_type === sliceType)
+
+    if (!foundSlice) {
+      return []
+    }
+
+    return foundSlice.items.map(item => transformBlock(item[Object.keys(item)[0]]))
+  }
+
+  return slices
+    .map(slice => slice.items
+      .map(item => transformBlock(item[Object.keys(item)[0]])
+      )
+    )
+}
 
 // TODO: meta data
 export const getMeta = () => {}

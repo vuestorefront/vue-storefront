@@ -4,7 +4,7 @@ import * as helpers from '../src/helpers/index'
 import { ApiOptions } from "prismic-javascript/d.ts/Api";
 import ResolvedApi from "prismic-javascript/d.ts/ResolvedApi";
 import ApiSearchResponse from "prismic-javascript/d.ts/ApiSearchResponse";
-import { PrismicDocument } from "../src/types";
+import { PrismicDocument, PrismicSlice } from "../src/types";
 
 const createMock = (mockResponse: ApiSearchResponse) => {
   jest
@@ -15,6 +15,37 @@ const createMock = (mockResponse: ApiSearchResponse) => {
       } as ResolvedApi
     })
 }
+
+const generateSlice = (text: string) => ({
+  sampleSliceElement: [{
+    type: 'paragraph',
+    text,
+    spans: []
+  }]
+})
+
+const prismicSlicesMock: PrismicSlice[] = [
+  {
+    slice_type: 'grid-slice',
+    slice_label: 'grid',
+    items: [
+      generateSlice('a'),
+      generateSlice('b'),
+      generateSlice('c'),
+    ],
+    primary: null
+  },
+  {
+    slice_type: 'list-slice',
+    slice_label: 'list',
+    items: [
+      generateSlice('d'),
+      generateSlice('e'),
+      generateSlice('f'),
+    ],
+    primary: null
+  }
+]
 
 const prismicResponseMock: ApiSearchResponse = {
   page: 1,
@@ -39,7 +70,8 @@ const prismicResponseMock: ApiSearchResponse = {
       type: 'test-type',
       uid: '456',
       data: {
-        sampleElement: 'test'
+        sampleElement: 'test',
+        body: prismicSlicesMock
       }
     }
   ],
@@ -169,5 +201,61 @@ describe('[prismic] usePrismic', () => {
     const { getBlocks } = helpers
 
     expect(getBlocks(page, 'sampleElement')).toBe('<p>sample content</p>')
+  })
+
+  it('should return collection of rendered slices', async () => {
+    const { doc, search } = usePrismic()
+
+    createMock(prismicResponseMock)
+
+    await search({})
+
+    const page = doc.value.results[0] as any
+
+    const { getSlices } = helpers
+
+    const slices = getSlices(page)
+
+    expect(Array.isArray(slices)).toBeTruthy()
+    expect(slices).toHaveLength(2)
+    expect(slices[0]).toHaveLength(3)
+    expect(slices[1]).toHaveLength(3)
+    expect(JSON.stringify(slices[0])).toBe('["<p>a</p>","<p>b</p>","<p>c</p>"]')
+    expect(JSON.stringify(slices[1])).toBe('["<p>d</p>","<p>e</p>","<p>f</p>"]')
+  })
+
+  it('should return collection of rendered selected slice', async () => {
+    const { doc, search } = usePrismic()
+
+    createMock(prismicResponseMock)
+
+    await search({})
+
+    const page = doc.value.results[0] as any
+
+    const { getSlices } = helpers
+
+    const slice = getSlices(page, 'grid-slice')
+
+    expect(Array.isArray(slice)).toBeTruthy()
+    expect(slice).toHaveLength(3)
+    expect(JSON.stringify(slice)).toBe('["<p>a</p>","<p>b</p>","<p>c</p>"]')
+  })
+
+  it('should return empty collection if slice not found', async () => {
+    const { doc, search } = usePrismic()
+
+    createMock(prismicResponseMock)
+
+    await search({})
+
+    const page = doc.value.results[0] as any
+
+    const { getSlices } = helpers
+
+    const slice = getSlices(page, 'unknown-slice')
+
+    expect(Array.isArray(slice)).toBeTruthy()
+    expect(slice).toHaveLength(0)
   })
 })

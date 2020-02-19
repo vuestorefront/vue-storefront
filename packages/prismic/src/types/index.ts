@@ -132,3 +132,10 @@ export interface PrismicDocument {
   next_page: string | null
   prev_page: string | null
 }
+
+export interface PrismicSlice {
+  slice_type: string
+  slice_label: string | null
+  primary: PrismicBlock
+  items: PrismicBlock[]
+}

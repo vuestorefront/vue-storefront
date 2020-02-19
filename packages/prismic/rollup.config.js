@@ -7,12 +7,12 @@ export function generateBaseConfig (pkg) {
     input: 'src/index.ts',
     output: [
       {
-      file: pkg.main,
-      format: 'cjs'
+        file: pkg.main,
+        format: 'cjs'
       },
       {
-      file: pkg.module,
-      format: 'es'
+        file: pkg.module,
+        format: 'es'
       },
     ],
     external: [
@@ -20,7 +20,7 @@ export function generateBaseConfig (pkg) {
     ],
     plugins: [
       typescript({
-      typescript: require('typescript'),
+        typescript: require('typescript'),
       }),
       terser()
     ]

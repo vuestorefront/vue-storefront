@@ -1,7 +1,7 @@
 import usePrismic from './composables/usePrismic'
 import PrismicJS from 'prismic-javascript'
 import { ApiOptions } from 'prismic-javascript/d.ts/Api';
-import { getPages, getBlocks, getPageId } from './helpers'
+import { getPages, getBlocks, getPageId, getSlices } from './helpers'
 
 interface SetupConfig {
   endpoint: any
@@ -33,5 +33,6 @@ export {
   usePrismic,
   getPages,
   getBlocks,
+  getSlices,
   getPageId
 }
