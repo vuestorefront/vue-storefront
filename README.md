@@ -84,7 +84,7 @@ For an up-to-date list of supported browsers please see "browserslist" in packag
 
 ## Join the community on Slack
 
-If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtNTAwODYzNzI3MjAzLWFkZjc0YjVjODA1Y2I2MTdlNmM0NThjY2M5MzgzN2U2NzE4YmE2YzA4YTM0MTY3OWQzZjBhMjBlZDhmYjAyNGI)
+If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtOTUwNjQyNjY5MDI0LWFmYzE4NTYxNDBhZDRlMjM5MDUzY2RiMjU0YTRjYWQ3YzdkY2YzZjZhZDZmMDUwMWQyOWRmZjQ3NDgwZGQ3NTk)
 
 ## Roadmap
 
@@ -914,19 +914,18 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     <td align="center" valign="middle">
+         <a href="https://bitbag.io/services/pwa-progressive-web-app/">
+          <img
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/BitBag_logo.png"
+            alt="BitBag"
+            height="40" >
+        </a>
+</td>
+   <td align="center" valign="middle">
 <a href="https://www.ohmybrand.es/">
           <img
             src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/ohmybrand_logo_blue.png"
             alt="Oh My Brand"
-            height="40"
-          >
-        </a>
-</td>
-   <td align="center" valign="middle">
-<a href="">
-          <img
-            src=""
-            alt=""
             height="40"
           >
         </a>
