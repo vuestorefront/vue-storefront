@@ -1,7 +1,7 @@
 <template>
-  <SfSection v-if="displayProducts.length > 0" :title-heading="title" class="section">
+  <SfSection v-if="relatedProducts.length > 0" :title-heading="title" class="section">
     <SfCarousel class="product-carousel">
-      <SfCarouselItem v-for="(product, i) in displayProducts" :key="i">
+      <SfCarouselItem v-for="(product, i) in relatedProducts" :key="i">
         <SfProductCard
           :title="getProductName(product)"
           :image="getProductGallery(product)[0].normal"
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { computed, watch } from '@vue/composition-api';
+import { computed } from '@vue/composition-api';
 
 import {
   SfCarousel,
@@ -50,18 +50,16 @@ export default {
 
   setup({ product }) {
     const { products, search, loading, error } = useProduct();
-    const categories = computed(() => product ? getProductCategories(product) : [])
-    const displayProducts = computed(() => getProductVariants(products.value, { masters: true }).filter(prod => getProductId(prod) !== getProductId(product)))
+    const categories = getProductCategories(product)
+    const relatedProducts = computed(() => getProductVariants(products.value, { masters: true }).filter(prod => getProductId(prod) !== getProductId(product)))
 
-    watch(categories, () => {
-      if (categories.value.length > 0) {
-        const catIndex = Math.floor(Math.random() * categories.value.length)
-        search({ catIds: [categories.value[catIndex]] })
-      }
-    })
+    if (categories.length > 0) {
+      const catIndex = Math.floor(Math.random() * categories.length)
+      search({ catIds: [categories[catIndex]] })
+    }
 
     return {
-      displayProducts,
+      relatedProducts,
       search,
       loading,
       error,
