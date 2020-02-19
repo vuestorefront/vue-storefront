@@ -382,7 +382,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
        <td align="center" valign="middle">
     <a href="https://www.wagento.com">
           <img
-            src="https://www.wagento.com/media/wysiwyg/logo-color-tagline_4x.png"
+            src="https://www.wagento.com/hubfs/logo-standard-color@4x%20(1).png"
             alt="Wagento"
             width="150"
           >
@@ -926,6 +926,53 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
           <img
             src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/ohmybrand_logo_blue.png"
             alt="Oh My Brand"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+            <tr>
+      <td align="center" valign="middle">
+<a href="https://www.solveda.com/">
+          <img
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/SOLVEDA_logo.png"
+            alt="Solveda"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle">
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle">
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle">
+    <a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+   <td align="center" valign="middle">
+<a href="">
+          <img
+            src=""
+            alt=""
             height="40"
           >
         </a>
