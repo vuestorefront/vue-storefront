@@ -1,7 +1,7 @@
-import { cleanToken } from './../../helpers/createCommerceToolsLink/tokenCache'
+import { cleanToken } from './../../helpers/createCommerceToolsLink/tokenCache';
 
 const customerSignOut = async (): Promise<void> => {
-  cleanToken()
-}
+  cleanToken();
+};
 
-export default customerSignOut
+export default customerSignOut;

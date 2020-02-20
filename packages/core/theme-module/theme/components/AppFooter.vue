@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { SfFooter, SfList, SfImage, SfMenuItem } from '@storefront-ui/vue'
+import { SfFooter, SfList, SfImage, SfMenuItem } from '@storefront-ui/vue';
 
 export default {
   components: {
@@ -72,18 +72,18 @@ export default {
   },
   data() {
     return {
-      aboutUs: ["Who we are", "Quality in the details", "Customer Reviews"],
-      departments: ["Women fashion", "Men fashion", "Kidswear", "Home"],
-      help: ["Customer service", "Size guide", "Contact us"],
-      paymentsDelivery: ["Purchase terms", "Guarantee"],
-      social: ["facebook", "pinterest", "twitter", "youtube"],
+      aboutUs: ['Who we are', 'Quality in the details', 'Customer Reviews'],
+      departments: ['Women fashion', 'Men fashion', 'Kidswear', 'Home'],
+      help: ['Customer service', 'Size guide', 'Contact us'],
+      paymentsDelivery: ['Purchase terms', 'Guarantee'],
+      social: ['facebook', 'pinterest', 'twitter', 'youtube'],
       isMobile: false,
       desktopMin: 1024
     };
   },
   computed: {
     style() {
-      return this.isMobile ? { padding: "20px 40px" } : { padding: "6px 0" };
+      return this.isMobile ? { padding: '20px 40px' } : { padding: '6px 0' };
     }
   },
   methods: {
@@ -96,15 +96,15 @@ export default {
       Math.max(document.documentElement.clientWidth, window.innerWidth) <
       this.desktopMin;
     window
-      .matchMedia("(max-width: 1024px)")
+      .matchMedia('(max-width: 1024px)')
       .addListener(this.isMobileHandler);
   },
   beforeDestroy() {
     window
-      .matchMedia("(max-width: 1024px)")
+      .matchMedia('(max-width: 1024px)')
       .removeListener(this.isMobileHandler);
   }
-}
+};
 </script>
 
 <style>

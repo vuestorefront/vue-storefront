@@ -1,4 +1,4 @@
-import {  } from '@aboutyou/backbone/types/BapiCategory.d'
+import { } from '@aboutyou/backbone/types/BapiCategory.d';
 export type Cart = {}
 export type Wishlist = {}
 export type ProductVariant = {}

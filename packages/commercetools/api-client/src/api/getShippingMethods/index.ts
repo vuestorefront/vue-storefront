@@ -1,11 +1,10 @@
-import { ApolloQueryResult } from 'apollo-client'
-import { apolloClient } from '../../index'
-import { QueryResponse } from '../../types/Api'
-import defaultQuery from './defaultQuery'
-import { ShippingMethod, ShippingMethodQueryResult } from './../../types/GraphQL'
+import { ApolloQueryResult } from 'apollo-client';
+import { apolloClient } from '../../index';
+import defaultQuery from './defaultQuery';
+import { ShippingMethodQueryResult } from './../../types/GraphQL';
 
 interface ShippingMethodData {
-  shippingMethods: ShippingMethodQueryResult
+  shippingMethods: ShippingMethodQueryResult;
 }
 
 const getShippingMethods = async (): Promise<ApolloQueryResult<ShippingMethodData>> => {
@@ -13,7 +12,7 @@ const getShippingMethods = async (): Promise<ApolloQueryResult<ShippingMethodDat
     query: defaultQuery,
     variables: {},
     fetchPolicy: 'no-cache'
-  })
-}
+  });
+};
 
-export default getShippingMethods
+export default getShippingMethods;

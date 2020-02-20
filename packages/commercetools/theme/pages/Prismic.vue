@@ -15,20 +15,20 @@
 </template>
 <script>
 
-import { ref, computed } from '@vue/composition-api'
-import { usePrismic, getPages, getBlocks, getSlices, getPageId } from '@vue-storefront/prismic'
+import { computed } from '@vue/composition-api';
+import { usePrismic, getPages, getBlocks, getSlices, getPageId } from '@vue-storefront/prismic';
 
 export default {
   setup() {
-    const { doc, search, loading, error } = usePrismic()
-    const pages = computed(() => getPages(doc.value))
+    const { doc, search, loading, error } = usePrismic();
+    const pages = computed(() => getPages(doc.value));
 
     search({
       at: {
         fragment: 'document.type',
         value: 'slices'
-      },
-    })
+      }
+    });
 
     return {
       pages,
@@ -37,7 +37,7 @@ export default {
       getBlocks,
       getSlices,
       getPageId
-    }
+    };
   }
-}
+};
 </script>

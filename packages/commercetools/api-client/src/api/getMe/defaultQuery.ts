@@ -1,5 +1,5 @@
-import gql from 'graphql-tag'
-import { CartFragment, CustomerFragment } from './../../fragments'
+import gql from 'graphql-tag';
+import { CartFragment, CustomerFragment } from './../../fragments';
 
 const basicProfile = gql`
   ${CartFragment}
@@ -29,4 +29,4 @@ const fullProfile = gql`
   }
 `;
 
-export { basicProfile, fullProfile }
+export { basicProfile, fullProfile };

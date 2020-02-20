@@ -126,94 +126,102 @@ import {
   SfProductCard,
   SfImage,
   SfBannerGrid
-} from "@storefront-ui/vue"
-import InstagramFeed from "~/components/InstagramFeed.vue"
+} from '@storefront-ui/vue';
+import InstagramFeed from '~/components/InstagramFeed.vue';
 
 export default {
-  name: "Home",
+  name: 'Home',
   transition: 'fade',
   data() {
     return {
       heroes: [
         {
-          title: "Colorful summer dresses are already in store",
-          subtitle: "SUMMER COLLECTION 2019",
-          buttonText: "Learn more",
-          background: "#eceff1",
-          image: "/homepage/bannerH.jpg"
+          title: 'Colorful summer dresses are already in store',
+          subtitle: 'SUMMER COLLECTION 2019',
+          buttonText: 'Learn more',
+          background: '#eceff1',
+          image: '/homepage/bannerH.jpg'
         },
         {
-          title: "Colorful summer dresses are already in store",
-          subtitle: "SUMMER COLLECTION 2019",
-          buttonText: "Learn more",
-          background: "#efebe9",
-          image: "/homepage/bannerA.jpg",
+          title: 'Colorful summer dresses are already in store',
+          subtitle: 'SUMMER COLLECTION 2019',
+          buttonText: 'Learn more',
+          background: '#efebe9',
+          image: '/homepage/bannerA.jpg',
           className:
-            "sf-hero-item--position-bg-top-left sf-hero-item--align-right"
+            'sf-hero-item--position-bg-top-left sf-hero-item--align-right'
         },
         {
-          title: "Colorful summer dresses are already in store",
-          subtitle: "SUMMER COLLECTION 2019",
-          buttonText: "Learn more",
-          background: "#fce4ec",
-          image: "/homepage/bannerB.jpg"
+          title: 'Colorful summer dresses are already in store',
+          subtitle: 'SUMMER COLLECTION 2019',
+          buttonText: 'Learn more',
+          background: '#fce4ec',
+          image: '/homepage/bannerB.jpg'
         }
       ],
       products: [
         {
-          title: "Cream Beach Bag",
-          image: "/homepage/productA.jpg",
-          price: { regular: "50.00 $" },
-          rating: { max: 5, score: 4 },
+          title: 'Cream Beach Bag',
+          image: '/homepage/productA.jpg',
+          price: { regular: '50.00 $' },
+          rating: { max: 5,
+            score: 4 },
           isOnWishlist: true
         },
         {
-          title: "Cream Beach Bag",
-          image: "/homepage/productB.jpg",
-          price: { regular: "50.00 $" },
-          rating: { max: 5, score: 4 },
+          title: 'Cream Beach Bag',
+          image: '/homepage/productB.jpg',
+          price: { regular: '50.00 $' },
+          rating: { max: 5,
+            score: 4 },
           isOnWishlist: false
         },
         {
-          title: "Cream Beach Bag",
-          image: "/homepage/productC.jpg",
-          price: { regular: "50.00 $" },
-          rating: { max: 5, score: 4 },
+          title: 'Cream Beach Bag',
+          image: '/homepage/productC.jpg',
+          price: { regular: '50.00 $' },
+          rating: { max: 5,
+            score: 4 },
           isOnWishlist: false
         },
         {
-          title: "Cream Beach Bag",
-          image: "/homepage/productA.jpg",
-          price: { regular: "50.00 $" },
-          rating: { max: 5, score: 4 },
+          title: 'Cream Beach Bag',
+          image: '/homepage/productA.jpg',
+          price: { regular: '50.00 $' },
+          rating: { max: 5,
+            score: 4 },
           isOnWishlist: false
         },
         {
-          title: "Cream Beach Bag",
-          image: "/homepage/productB.jpg",
-          price: { regular: "50.00 $" },
-          rating: { max: 5, score: 4 },
+          title: 'Cream Beach Bag',
+          image: '/homepage/productB.jpg',
+          price: { regular: '50.00 $' },
+          rating: { max: 5,
+            score: 4 },
           isOnWishlist: false
         },
         {
-          title: "Cream Beach Bag",
-          image: "/homepage/productC.jpg",
-          price: { regular: "50.00 $" },
-          rating: { max: 5, score: 4 },
+          title: 'Cream Beach Bag',
+          image: '/homepage/productC.jpg',
+          price: { regular: '50.00 $' },
+          rating: { max: 5,
+            score: 4 },
           isOnWishlist: false
         },
         {
-          title: "Cream Beach Bag",
-          image: "/homepage/productA.jpg",
-          price: { regular: "50.00 $" },
-          rating: { max: 5, score: 4 },
+          title: 'Cream Beach Bag',
+          image: '/homepage/productA.jpg',
+          price: { regular: '50.00 $' },
+          rating: { max: 5,
+            score: 4 },
           isOnWishlist: false
         },
         {
-          title: "Cream Beach Bag",
-          image: "/homepage/productB.jpg",
-          price: { regular: "50.00 $" },
-          rating: { max: 5, score: 4 },
+          title: 'Cream Beach Bag',
+          image: '/homepage/productB.jpg',
+          price: { regular: '50.00 $' },
+          rating: { max: 5,
+            score: 4 },
           isOnWishlist: false
         }
       ]

@@ -1,19 +1,20 @@
-import addToCart from './../../../src/api/addToCart'
+import addToCart from './../../../src/api/addToCart';
 
 const cart = {
   id: 1,
   version: 1
-} as any
+} as any;
 
 describe('[commercetools-api-client] addToCart', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
 
   it('adds product to the cart', async () => {
-    const product = { id: 1, sku: '123' } as any
+    const product = { id: 1,
+      sku: '123' } as any;
 
-    const response = await addToCart(cart, product, 2)
+    const response = await addToCart(cart, product, 2);
 
     expect(response).toEqual({
       id: 1,
@@ -27,6 +28,6 @@ describe('[commercetools-api-client] addToCart', () => {
           }
         }
       ]
-    })
-  })
+    });
+  });
 });

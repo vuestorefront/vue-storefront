@@ -130,27 +130,30 @@ import {
   SfButton,
   SfSelect,
   SfRadio
-} from "@storefront-ui/vue";
+} from '@storefront-ui/vue';
 
-import { ref, onBeforeUnmount } from '@vue/composition-api'
 import {
   getShippingMethodName,
   getShippingMethodDescription,
   getShippingMethodPrice,
   getShippingMethodId
-} from '@vue-storefront/commercetools-helpers'
-import { useCheckout } from '@vue-storefront/commercetools-composables'
+} from '@vue-storefront/commercetools-helpers';
+import { useCheckout } from '@vue-storefront/commercetools-composables';
 
 const COUNTRIES = [
-  { key: 'US', label: "United States" },
-  { key: 'UK', label: "United Kingdom" },
-  { key: 'IT', label: "Italy" },
-  { key: 'PL', label: "Poland" },
-]
+  { key: 'US',
+    label: 'United States' },
+  { key: 'UK',
+    label: 'United Kingdom' },
+  { key: 'IT',
+    label: 'Italy' },
+  { key: 'PL',
+    label: 'Poland' }
+];
 
 export default {
-  name: "PersonalDetails",
-    components: {
+  name: 'PersonalDetails',
+  components: {
     SfHeading,
     SfInput,
     SfButton,
@@ -158,12 +161,12 @@ export default {
     SfRadio
   },
   setup(props, context) {
-    context.emit('changeStep', 1)
+    context.emit('changeStep', 1);
     const {
       shippingDetails,
       chosenShippingMethod,
-      shippingMethods,
-    } = useCheckout()
+      shippingMethods
+    } = useCheckout();
 
     return {
       shippingDetails,
@@ -174,9 +177,9 @@ export default {
       getShippingMethodPrice,
       getShippingMethodId,
       COUNTRIES
-    }
-  },
-}
+    };
+  }
+};
 
 </script>
 

@@ -178,20 +178,20 @@ import {
   SfPrice,
   SfProperty,
   SfAccordion
-} from "@storefront-ui/vue"
+} from '@storefront-ui/vue';
 import {
   getShippingMethodName,
   getShippingMethodPrice,
   getCartProducts,
   getCartTotalPrice,
   getCartSubtotalPrice
-} from '@vue-storefront/commercetools-helpers'
-import { ref, computed } from '@vue/composition-api'
-import { useCheckout, useCart } from '@vue-storefront/commercetools-composables'
+} from '@vue-storefront/commercetools-helpers';
+import { ref, computed } from '@vue/composition-api';
+import { useCheckout, useCart } from '@vue-storefront/commercetools-composables';
 
 export default {
   name: 'ReviewOrder',
-    components: {
+  components: {
     SfHeading,
     SfTable,
     SfCheckbox,
@@ -203,13 +203,13 @@ export default {
     SfAccordion
   },
   setup(props, context) {
-    context.emit('changeStep', 3)
-    const billingSameAsShipping = ref(false)
-    const terms = ref(false)
-    const { cart, removeFromCart, updateQuantity } = useCart()
-    const products = computed(() => getCartProducts(cart.value, ['color', 'size']))
-    const subtotal = computed(() => getCartSubtotalPrice(cart.value))
-    const total = computed(() => getCartTotalPrice(cart.value))
+    context.emit('changeStep', 3);
+    const billingSameAsShipping = ref(false);
+    const terms = ref(false);
+    const { cart, removeFromCart } = useCart();
+    const products = computed(() => getCartProducts(cart.value, ['color', 'size']));
+    const subtotal = computed(() => getCartSubtotalPrice(cart.value));
+    const total = computed(() => getCartTotalPrice(cart.value));
     const {
       personalDetails,
       shippingDetails,
@@ -217,12 +217,12 @@ export default {
       chosenShippingMethod,
       chosenPaymentMethod,
       placeOrder
-    } = useCheckout()
+    } = useCheckout();
 
     const processOrder = async () => {
-      await placeOrder()
-      context.emit('nextStep')
-    }
+      await placeOrder();
+      context.emit('nextStep');
+    };
 
     return {
       products,
@@ -239,10 +239,10 @@ export default {
       subtotal,
       removeFromCart,
       processOrder,
-      tableHeaders: ["Description", "Colour", "Size", "Quantity", "Amount"]
-    }
+      tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount']
+    };
   }
-}
+};
 
 </script>
 

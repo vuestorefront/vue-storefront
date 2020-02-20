@@ -1,5 +1,5 @@
-import usePrismic from './usePrismic'
+import usePrismic from './usePrismic';
 
 export {
   usePrismic
-}
+};

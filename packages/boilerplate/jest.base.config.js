@@ -3,11 +3,11 @@
 
 module.exports = {
   transform: {
-    "^.+\\.(ts)$": "ts-jest"
+    '^.+\\.(ts)$': 'ts-jest'
   },
-  coverageDirectory: "./coverage/",
+  coverageDirectory: './coverage/',
   collectCoverageFrom: [
-    "src/**/*.ts",
+    'src/**/*.ts'
   ],
   collectCoverage: true
 };

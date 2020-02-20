@@ -1,4 +1,4 @@
-import enhanceUser from './../../src/helpers/internals/enhanceUser'
+import enhanceUser from './../../src/helpers/internals/enhanceUser';
 
 const createUserResponse = (cartItems): any => ({
   data: {
@@ -8,13 +8,15 @@ const createUserResponse = (cartItems): any => ({
       }
     }
   }
-})
+});
 
 describe('[commercetools-composables] enhanceUser', () => {
   it('returns cart response items configurations', () => {
     const profileResponse = createUserResponse([
-      { prod: '1', variant: { attributeList: [{ name: 'attr1', value: '20' }] } }
-    ])
+      { prod: '1',
+        variant: { attributeList: [{ name: 'attr1',
+          value: '20' }] } }
+    ]);
 
     expect(enhanceUser(profileResponse)).toEqual({
       data: {
@@ -23,13 +25,15 @@ describe('[commercetools-composables] enhanceUser', () => {
             lineItems: [
               {
                 prod: '1',
-                variant: { attributeList: [{ name: 'attr1', value: '20' }] },
-                _configuration: [{ name: 'attr1', value: '20' }]
+                variant: { attributeList: [{ name: 'attr1',
+                  value: '20' }] },
+                _configuration: [{ name: 'attr1',
+                  value: '20' }]
               }
             ]
           }
         }
       }
-    })
-  })
-})
+    });
+  });
+});

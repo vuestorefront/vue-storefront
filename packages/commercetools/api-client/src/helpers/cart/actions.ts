@@ -1,27 +1,27 @@
-import { UiCartProduct } from '@vue-storefront/interfaces'
-import { ProductVariant, AddressInput } from './../../types/GraphQL'
+import { UiCartProduct } from '@vue-storefront/interfaces';
+import { ProductVariant, AddressInput } from './../../types/GraphQL';
 
 export const createAddLineItemAction = (variant: ProductVariant, quantity: number) => ({
   addLineItem: {
     variantId: variant.id,
     quantity: quantity,
-    sku: variant.sku,
+    sku: variant.sku
   }
-})
+});
 
 export const createRemoveLineItemAction = (product: UiCartProduct) => ({
   removeLineItem: {
     lineItemId: product.id,
     quantity: parseInt(product.qty)
   }
-})
+});
 
 export const createChangeLineItemQuantityAction = (product: UiCartProduct) => ({
   changeLineItemQuantity: {
     lineItemId: product.id,
     quantity: parseInt(product.qty)
   }
-})
+});
 
 export const setShippingAddressAction = (shippingDetails: AddressInput) => ({
   setShippingAddress: {
@@ -35,10 +35,10 @@ export const setShippingAddressAction = (shippingDetails: AddressInput) => ({
       // state: shippingDetails.state,
       postalCode: shippingDetails.postalCode,
       country: shippingDetails.country,
-      phone: shippingDetails.phone,
+      phone: shippingDetails.phone
     }
   }
-})
+});
 
 export const setShippingMethodAction = (shippingMethodId: string) => ({
   setShippingMethod: {
@@ -46,7 +46,7 @@ export const setShippingMethodAction = (shippingMethodId: string) => ({
       id: shippingMethodId
     }
   }
-})
+});
 
 export const setBillingAddressAction = (shippingDetails: AddressInput) => ({
   setBillingAddress: {
@@ -60,10 +60,10 @@ export const setBillingAddressAction = (shippingDetails: AddressInput) => ({
       // state: shippingDetails.state,
       postalCode: shippingDetails.postalCode,
       country: shippingDetails.country,
-      phone: shippingDetails.phone,
+      phone: shippingDetails.phone
     }
   }
-})
+});
 
 export const addPaymentAction = (paymentMethodId: string) => ({
   addPayment: {
@@ -71,4 +71,4 @@ export const addPaymentAction = (paymentMethodId: string) => ({
       id: paymentMethodId
     }
   }
-})
+});

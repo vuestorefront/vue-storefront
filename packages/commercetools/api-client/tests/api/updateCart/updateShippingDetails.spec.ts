@@ -1,25 +1,14 @@
-import updateShippingDetails from './../../../src/api/updateShippingDetails'
+import updateShippingDetails from './../../../src/api/updateShippingDetails';
 
 const cart = {
   id: 1,
   version: 1
-} as any
-
-const address = {
-  firstName: 'John',
-  lastName: 'Doe',
-  country: 'US',
-  city: 'New York',
-  phone: '123',
-  postalCode: '11-111',
-  streetName: 'Street 1',
-  streetNumber: ''
-}
+} as any;
 
 describe('[commercetools-api-client] updateShippingDetails', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
 
   it('updates cart shipping details', async () => {
     const shippingDetails = {
@@ -31,9 +20,9 @@ describe('[commercetools-api-client] updateShippingDetails', () => {
       postalCode: '11-111',
       streetName: 'Street 1',
       streetNumber: ''
-    } as any
+    } as any;
 
-    const response = await updateShippingDetails(cart, shippingDetails)
+    const response = await updateShippingDetails(cart, shippingDetails);
 
     expect(response).toEqual({
       id: 1,
@@ -45,6 +34,6 @@ describe('[commercetools-api-client] updateShippingDetails', () => {
           }
         }
       ]
-    })
-  })
+    });
+  });
 });

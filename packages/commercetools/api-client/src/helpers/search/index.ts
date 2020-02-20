@@ -1,29 +1,29 @@
-import { CategorySearch, ProductSearch } from './../../types/Api'
-import { locale } from './../../index'
+import { CategorySearch, ProductSearch } from './../../types/Api';
+import { locale } from './../../index';
 
 const buildProductWhere = (search: ProductSearch) => {
   if (search && search.catIds) {
-    const catIds = search.catIds.join('","')
-    return `masterData(current(categories(id in ("${catIds}"))))`
+    const catIds = search.catIds.join('","');
+    return `masterData(current(categories(id in ("${catIds}"))))`;
   }
 
   if (search && search.slug) {
-    return `masterData(current(slug(${locale}="${search.slug}")))`
+    return `masterData(current(slug(${locale}="${search.slug}")))`;
   }
 
-  return ''
-}
+  return '';
+};
 
 const buildCategoryWhere = (search: CategorySearch) => {
   if (search && search.catId) {
-    return `id="${search.catId}"`
+    return `id="${search.catId}"`;
   }
 
   if (search && search.slug) {
-    return `slug(${locale}="${search.slug}")`
+    return `slug(${locale}="${search.slug}")`;
   }
 
-  return ''
-}
+  return '';
+};
 
-export { buildProductWhere, buildCategoryWhere }
+export { buildProductWhere, buildCategoryWhere };

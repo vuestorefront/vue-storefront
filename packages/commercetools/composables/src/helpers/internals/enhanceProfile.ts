@@ -1,19 +1,19 @@
-import { ApolloQueryResult } from 'apollo-client'
-import { enhanceLineItems } from './enhanceCart'
-import { Me } from './../../types/GraphQL'
+import { ApolloQueryResult } from 'apollo-client';
+import { enhanceLineItems } from './enhanceCart';
+import { Me } from './../../types/GraphQL';
 
 interface ProfileData {
-  me: Me
+  me: Me;
 }
 
 type ProfileResponse = ApolloQueryResult<ProfileData>
 
 const enhanceProfile = (profileResponse: ProfileResponse): ProfileResponse => {
-  const { lineItems } = profileResponse.data.me.activeCart
+  const { lineItems } = profileResponse.data.me.activeCart;
 
-  profileResponse.data.me.activeCart.lineItems = enhanceLineItems(lineItems)
+  profileResponse.data.me.activeCart.lineItems = enhanceLineItems(lineItems);
 
-  return profileResponse
-}
+  return profileResponse;
+};
 
-export default enhanceProfile
+export default enhanceProfile;

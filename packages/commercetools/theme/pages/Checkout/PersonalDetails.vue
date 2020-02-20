@@ -88,12 +88,12 @@ import {
   SfHeading,
   SfModal,
   SfCharacteristic
-} from "@storefront-ui/vue";
-import { computed, ref } from '@vue/composition-api'
-import { useCheckout } from '@vue-storefront/commercetools-composables'
+} from '@storefront-ui/vue';
+import { ref } from '@vue/composition-api';
+import { useCheckout } from '@vue-storefront/commercetools-composables';
 
 export default {
-  name: "PersonalDetails",
+  name: 'PersonalDetails',
   components: {
     SfInput,
     SfCheckbox,
@@ -103,24 +103,28 @@ export default {
     SfCharacteristic
   },
   setup(props, context) {
-    context.emit('changeStep', 0)
-    const { personalDetails } = useCheckout()
-    const accountBenefits = ref(false)
-    const createAccount = ref(false)
+    context.emit('changeStep', 0);
+    const { personalDetails } = useCheckout();
+    const accountBenefits = ref(false);
+    const createAccount = ref(false);
 
     return {
       personalDetails,
       accountBenefits,
       createAccount,
       characteristics: [
-        { description: "Faster checkout", icon: "clock" },
-        { description: "Full rewards program benefits", icon: "rewards" },
-        { description: "Earn credits with every purchase", icon: "credits" },
-        { description: "Manage your wishliste", icon: "heart" }
+        { description: 'Faster checkout',
+          icon: 'clock' },
+        { description: 'Full rewards program benefits',
+          icon: 'rewards' },
+        { description: 'Earn credits with every purchase',
+          icon: 'credits' },
+        { description: 'Manage your wishliste',
+          icon: 'heart' }
       ]
-    }
+    };
   }
-}
+};
 
 </script>
 

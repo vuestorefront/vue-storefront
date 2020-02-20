@@ -1,1 +1,1 @@
-export default function useContent () {}
+export default function useContent() {}

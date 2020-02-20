@@ -1,8 +1,8 @@
-import createMyOrderFromCart from '../../../src/api/createMyOrderFromCart'
-import { apolloClient } from '../../../src/index'
-import defaultMutation from '../../../src/api/createMyOrderFromCart/defaultMutation'
+import createMyOrderFromCart from '../../../src/api/createMyOrderFromCart';
+import { apolloClient } from '../../../src/index';
+import defaultMutation from '../../../src/api/createMyOrderFromCart/defaultMutation';
 
-jest.unmock('./../../../src/api/createMyOrderFromCart')
+jest.unmock('./../../../src/api/createMyOrderFromCart');
 
 describe('[commercetools-api-client] createMyOrderFromCart', () => {
   it('creates a new order', async () => {
@@ -15,14 +15,15 @@ describe('[commercetools-api-client] createMyOrderFromCart', () => {
     };
 
     (apolloClient.mutate as any).mockImplementation(({ variables, mutation }) => {
-      expect(variables).toEqual(givenVariables)
-      expect(mutation).toEqual(defaultMutation)
+      expect(variables).toEqual(givenVariables);
+      expect(mutation).toEqual(defaultMutation);
 
-      return { data: 'order response' }
-    })
+      return { data: 'order response' };
+    });
 
-    const { data } = await createMyOrderFromCart({ id: '123123', version: 2 })
+    const { data } = await createMyOrderFromCart({ id: '123123',
+      version: 2 });
 
-    expect(data).toBe('order response')
+    expect(data).toBe('order response');
   });
 });

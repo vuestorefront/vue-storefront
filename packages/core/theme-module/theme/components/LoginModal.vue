@@ -125,24 +125,24 @@
   </div>
 </template>
 <script>
-import { computed, ref, watch } from '@vue/composition-api'
-import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert } from '@storefront-ui/vue'
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
-import { required, email } from 'vee-validate/dist/rules'
-import { useUser } from '@vue-storefront/commercetools-composables'
-import uiState from '~/assets/ui-state'
+import { ref, watch } from '@vue/composition-api';
+import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert } from '@storefront-ui/vue';
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+import { required, email } from 'vee-validate/dist/rules';
+import { useUser } from '@vue-storefront/commercetools-composables';
+import uiState from '~/assets/ui-state';
 
-const { isLoginModalOpen, toggleLoginModal } = uiState
+const { isLoginModalOpen, toggleLoginModal } = uiState;
 
 extend('email', {
   ...email,
   message: 'Invalid email'
-})
+});
 
 extend('required', {
   ...required,
   message: 'This field is required'
-})
+});
 
 export default {
   name: 'LoginModal',
@@ -157,29 +157,29 @@ export default {
     ValidationObserver
   },
   setup() {
-    const form = ref({})
-    const isLogin = ref(false)
-    const createAccount = ref(false)
-    const rememberMe = ref(false)
-    const { register, login, loading, error } = useUser()
+    const form = ref({});
+    const isLogin = ref(false);
+    const createAccount = ref(false);
+    const rememberMe = ref(false);
+    const { register, login, loading, error } = useUser();
 
     watch(isLoginModalOpen, () => {
       if (isLoginModalOpen) {
-        form.value = {}
+        form.value = {};
       }
-    })
+    });
 
     const handleForm = (fn) => async () => {
-      await fn(form.value)
+      await fn(form.value);
 
       if (!error.value) {
-        toggleLoginModal()
+        toggleLoginModal();
       }
-    }
+    };
 
-    const handleRegister = async () => handleForm(register)()
+    const handleRegister = async () => handleForm(register)();
 
-    const handleLogin = async () => handleForm(login)()
+    const handleLogin = async () => handleForm(login)();
 
     return {
       error,
@@ -194,7 +194,7 @@ export default {
       handleRegister
     };
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 @import "~@storefront-ui/vue/styles";

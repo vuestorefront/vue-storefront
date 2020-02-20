@@ -24,14 +24,14 @@
 import {
   SfSection,
   SfImage
-} from "@storefront-ui/vue"
+} from '@storefront-ui/vue';
 export default {
-  name: "InstagramFeed",
+  name: 'InstagramFeed',
   components: {
     SfSection,
     SfImage
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 @import "~@storefront-ui/shared/styles/variables";

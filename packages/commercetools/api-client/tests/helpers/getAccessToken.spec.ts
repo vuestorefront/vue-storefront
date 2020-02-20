@@ -1,7 +1,8 @@
+/* eslint-disable camelcase, @typescript-eslint/camelcase */
 import loadAccessToken from './../../src/helpers/createCommerceToolsLink/loadAccessToken';
-import { storeToken, getToken } from './../../src/helpers/createCommerceToolsLink/tokenCache'
+import { storeToken, getToken } from './../../src/helpers/createCommerceToolsLink/tokenCache';
 
-jest.mock('./../../src/helpers/createCommerceToolsLink/tokenCache')
+jest.mock('./../../src/helpers/createCommerceToolsLink/tokenCache');
 jest.mock('@commercetools/sdk-auth', () =>
   jest.fn().mockImplementation(() => ({
     anonymousFlow: () => ({ access_token: 'generated access token' })
@@ -10,8 +11,8 @@ jest.mock('@commercetools/sdk-auth', () =>
 
 describe('[commercetools-api-client] loadAccessToken', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
 
   it('fetches a new access token', async () => {
     const token = await loadAccessToken({
@@ -23,16 +24,16 @@ describe('[commercetools-api-client] loadAccessToken', () => {
       scopes: []
     });
 
-    expect(getToken).toBeCalled()
-    expect(storeToken).toBeCalled()
+    expect(getToken).toBeCalled();
+    expect(storeToken).toBeCalled();
     expect(token).toBe('generated access token');
-  })
+  });
 
   it('loads current access token', async () => {
     (getToken as any).mockImplementation(() => ({
       expires_at: Date.now() + 10000,
       access_token: 'current token'
-    }))
+    }));
 
     const token = await loadAccessToken({
       uri: '',
@@ -43,7 +44,7 @@ describe('[commercetools-api-client] loadAccessToken', () => {
       scopes: []
     });
 
-    expect(getToken).toBeCalled()
+    expect(getToken).toBeCalled();
     expect(token).toBe('current token');
   });
 });

@@ -1,9 +1,9 @@
-import { apolloClient, locale } from './../../index'
-import { ProfileResponse } from './../../types/Api'
-import { basicProfile, fullProfile } from './defaultQuery'
+import { apolloClient, locale } from './../../index';
+import { ProfileResponse } from './../../types/Api';
+import { basicProfile, fullProfile } from './defaultQuery';
 
 interface Options {
-  customer?: boolean
+  customer?: boolean;
 }
 
 const getMe = async (options: Options = {}): Promise<ProfileResponse> => {
@@ -11,7 +11,7 @@ const getMe = async (options: Options = {}): Promise<ProfileResponse> => {
     query: options.customer ? fullProfile : basicProfile,
     variables: { locale },
     fetchPolicy: 'no-cache'
-  })
-}
+  });
+};
 
-export default getMe
+export default getMe;

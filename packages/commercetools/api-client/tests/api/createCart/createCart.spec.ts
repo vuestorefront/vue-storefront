@@ -1,25 +1,25 @@
-import createCart from '../../../src/api/createCart'
-import { apolloClient } from '../../../src/index'
-import defaultMutation from '../../../src/api/createCart/defaultMutation'
+import createCart from '../../../src/api/createCart';
+import { apolloClient } from '../../../src/index';
+import defaultMutation from '../../../src/api/createCart/defaultMutation';
 
 describe('[commercetools-api-client] createCart', () => {
   it('creates a new cart', async () => {
     const givenVariables = {
       locale: 'en',
       draft: {
-        currency: 'USD',
+        currency: 'USD'
       }
     };
 
     (apolloClient.mutate as any).mockImplementation(({ variables, mutation }) => {
-      expect(variables).toEqual(givenVariables)
-      expect(mutation).toEqual(defaultMutation)
+      expect(variables).toEqual(givenVariables);
+      expect(mutation).toEqual(defaultMutation);
 
-      return { data: 'cart response' }
-    })
+      return { data: 'cart response' };
+    });
 
-    const { data } = await createCart()
+    const { data } = await createCart();
 
-    expect(data).toBe('cart response')
+    expect(data).toBe('cart response');
   });
 });

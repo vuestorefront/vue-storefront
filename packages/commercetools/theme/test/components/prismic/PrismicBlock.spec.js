@@ -1,8 +1,9 @@
-import { transformToBlocks } from '@/components/prismic/CustomPage.vue'
+/* eslint-disable camelcase, @typescript-eslint/camelcase */
+import { transformToBlocks } from '@/components/prismic/CustomPage.vue';
 
 describe('[theme/components/prismic] transformToBlocks', () => {
-  let supportedBlocks
-  let unsupportedBlocks
+  let supportedBlocks;
+  let unsupportedBlocks;
 
   beforeEach(() => {
     supportedBlocks = {
@@ -61,23 +62,23 @@ describe('[theme/components/prismic] transformToBlocks', () => {
           'technologies, and deliver an unprecedented user ' +
           'experience. </p></a></div>',
         embed_url: 'https://divante.com/'
-      },
-    }
+      }
+    };
     unsupportedBlocks = {
       geopoint: {
         latitude: 51.114299564839285,
         longitude: 17.041683197021484
       }
-    }
-  })
+    };
+  });
 
   it('should transform primitive values into text objects', () => {
     const primiteValues = {
-      'price': 123.45,
+      price: 123.45,
       'text-field': 'some text here',
       'select-field': 'option1',
-      'timestamp-field': '2020-01-13T23:00:00+0000',
-    }
+      'timestamp-field': '2020-01-13T23:00:00+0000'
+    };
 
     const getParagraphObject = (text) => ([
       {
@@ -85,44 +86,44 @@ describe('[theme/components/prismic] transformToBlocks', () => {
         text,
         type: 'paragraph'
       }
-    ])
+    ]);
 
-    const response = transformToBlocks({ data: primiteValues })
+    const response = transformToBlocks({ data: primiteValues });
 
-    expect(response.length).toEqual(4)
+    expect(response.length).toEqual(4);
 
-    response.forEach(value => {
-      expect(value.type).toBe('text')
-    })
+    response.forEach((value) => {
+      expect(value.type).toBe('text');
+    });
 
-    expect(response[0].document).toStrictEqual(getParagraphObject(123.45))
-    expect(response[1].document).toStrictEqual(getParagraphObject('some text here'))
-    expect(response[2].document).toStrictEqual(getParagraphObject('option1'))
-    expect(response[3].document).toStrictEqual(getParagraphObject('2020-01-13T23:00:00+0000'))
-  })
+    expect(response[0].document).toStrictEqual(getParagraphObject(123.45));
+    expect(response[1].document).toStrictEqual(getParagraphObject('some text here'));
+    expect(response[2].document).toStrictEqual(getParagraphObject('option1'));
+    expect(response[3].document).toStrictEqual(getParagraphObject('2020-01-13T23:00:00+0000'));
+  });
 
   it('should transform supported blocks correctly', () => {
-    const response = transformToBlocks({ data: supportedBlocks })
+    const response = transformToBlocks({ data: supportedBlocks });
 
-    expect(response.length).toEqual(5)
+    expect(response.length).toEqual(5);
 
-    expect(response[0].type).toBe('html')
-    expect(response[1].type).toBe('html')
-    expect(response[2].type).toBe('image')
-    expect(response[3].type).toBe('image')
-    expect(response[4].type).toBe('embed')
+    expect(response[0].type).toBe('html');
+    expect(response[1].type).toBe('html');
+    expect(response[2].type).toBe('image');
+    expect(response[3].type).toBe('image');
+    expect(response[4].type).toBe('embed');
 
-    expect(response[0].document).toStrictEqual(supportedBlocks.header)
-    expect(response[1].document).toStrictEqual(supportedBlocks.content)
-    expect(response[2].document).toStrictEqual(supportedBlocks.sample_image)
-    expect(response[3].document).toStrictEqual(supportedBlocks['media-link'])
-    expect(response[4].document).toStrictEqual(supportedBlocks['embed-field'])
-  })
+    expect(response[0].document).toStrictEqual(supportedBlocks.header);
+    expect(response[1].document).toStrictEqual(supportedBlocks.content);
+    expect(response[2].document).toStrictEqual(supportedBlocks.sample_image);
+    expect(response[3].document).toStrictEqual(supportedBlocks['media-link']);
+    expect(response[4].document).toStrictEqual(supportedBlocks['embed-field']);
+  });
 
   it('should return undefined for each unsupported blocks', () => {
-    const response = transformToBlocks({ data: unsupportedBlocks })
+    const response = transformToBlocks({ data: unsupportedBlocks });
 
-    expect(response).toBeInstanceOf(Array)
-    expect(response.length).toEqual(0)
-  })
-})
+    expect(response).toBeInstanceOf(Array);
+    expect(response.length).toEqual(0);
+  });
+});

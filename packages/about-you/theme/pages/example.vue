@@ -8,31 +8,31 @@
 </template>
 
 <script>
-import { useCategory } from '@vue-storefront/about-you-composables'
-import { getCategoryName } from '@vue-storefront/about-you-helpers'
-import { computed } from '@vue/composition-api'
+import { useCategory } from '@vue-storefront/about-you-composables';
+import { getCategoryName } from '@vue-storefront/about-you-helpers';
+import { computed } from '@vue/composition-api';
 
-import Logo from '~/components/Logo.vue'
+import Logo from '~/components/Logo.vue';
 export default {
-  setup () {
+  setup() {
 
-    const { categories, search } = useCategory()
+    const { categories, search } = useCategory();
 
-    search({})
-    
-    const category = computed(() => categories.value[0])
-    const name = computed(() => getCategoryName(category.value))
+    search({});
+
+    const category = computed(() => categories.value[0]);
+    const name = computed(() => getCategoryName(category.value));
 
     return {
       name,
       getCategoryName,
       categories
-    }
+    };
   },
   components: {
     Logo
   }
-}
+};
 </script>
 
 <style>

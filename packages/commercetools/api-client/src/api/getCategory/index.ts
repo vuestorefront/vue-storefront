@@ -1,13 +1,13 @@
-import { ApolloQueryResult } from 'apollo-client'
-import gql from 'graphql-tag'
-import { apolloClient, locale } from './../../index'
-import { CategorySearch } from './../../types/Api'
-import { CategoryQueryResult } from './../../types/GraphQL'
-import defaultQuery from './defaultQuery'
-import { buildCategoryWhere } from './../../helpers/search'
+import { ApolloQueryResult } from 'apollo-client';
+import gql from 'graphql-tag';
+import { apolloClient, locale } from './../../index';
+import { CategorySearch } from './../../types/Api';
+import { CategoryQueryResult } from './../../types/GraphQL';
+import defaultQuery from './defaultQuery';
+import { buildCategoryWhere } from './../../helpers/search';
 
 interface CategoryData {
-  categories: CategoryQueryResult
+  categories: CategoryQueryResult;
 }
 
 const getCategory = async (search?: CategorySearch): Promise<ApolloQueryResult<CategoryData>> => {
@@ -15,16 +15,16 @@ const getCategory = async (search?: CategorySearch): Promise<ApolloQueryResult<C
     return await apolloClient.query<CategoryData>({
       query: defaultQuery,
       variables: { locale }
-    })
+    });
   }
 
   if (search.customQuery) {
-    const { query, variables } = search.customQuery
+    const { query, variables } = search.customQuery;
 
     return await apolloClient.query<CategoryData>({
       query: gql`${query}`,
       variables
-    })
+    });
   }
 
   return await apolloClient.query<CategoryData>({
@@ -33,9 +33,9 @@ const getCategory = async (search?: CategorySearch): Promise<ApolloQueryResult<C
       where: buildCategoryWhere(search),
       limit: search.limit,
       offset: search.offset,
-      locale,
+      locale
     }
-  })
-}
+  });
+};
 
-export default getCategory
+export default getCategory;

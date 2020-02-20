@@ -131,19 +131,23 @@ import {
   SfRadio,
   SfImage,
   SfCheckbox
-} from "@storefront-ui/vue"
-import { ref, watch } from '@vue/composition-api'
-import { useCheckout } from '@vue-storefront/commercetools-composables'
+} from '@storefront-ui/vue';
+import { ref, watch } from '@vue/composition-api';
+import { useCheckout } from '@vue-storefront/commercetools-composables';
 
 const COUNTRIES = [
-  { key: 'US', label: "United States" },
-  { key: 'UK', label: "United Kingdom" },
-  { key: 'IT', label: "Italy" },
-  { key: 'PL', label: "Poland" },
-]
+  { key: 'US',
+    label: 'United States' },
+  { key: 'UK',
+    label: 'United Kingdom' },
+  { key: 'IT',
+    label: 'Italy' },
+  { key: 'PL',
+    label: 'Poland' }
+];
 
 export default {
-  name: "Payment",
+  name: 'Payment',
   components: {
     SfHeading,
     SfInput,
@@ -154,20 +158,20 @@ export default {
     SfCheckbox
   },
   setup(props, context) {
-    context.emit('changeStep', 2)
-    const { billingDetails, shippingDetails, paymentMethods, chosenPaymentMethod } = useCheckout()
-    const sameAsShipping = ref(false)
+    context.emit('changeStep', 2);
+    const { billingDetails, shippingDetails, paymentMethods, chosenPaymentMethod } = useCheckout();
+    const sameAsShipping = ref(false);
 
     watch(sameAsShipping, () => {
       if (sameAsShipping.value) {
-        billingDetails.value = { ...shippingDetails.value }
+        billingDetails.value = { ...shippingDetails.value };
       } else {
         billingDetails.value = Object.keys(billingDetails.value).reduce((prev, curr) => ({
           ...prev,
           [curr]: ''
-        }), {})
+        }), {});
       }
-    })
+    });
 
     return {
       billingDetails,
@@ -175,9 +179,9 @@ export default {
       chosenPaymentMethod,
       sameAsShipping,
       COUNTRIES
-    }
+    };
   }
-}
+};
 
 </script>
 

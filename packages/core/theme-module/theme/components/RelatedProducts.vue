@@ -20,8 +20,8 @@ import { computed } from '@vue/composition-api';
 import {
   SfCarousel,
   SfProductCard,
-  SfSection,
-} from '@storefront-ui/vue'
+  SfSection
+} from '@storefront-ui/vue';
 
 import { useProduct } from '<%= options.composables %>';
 import {
@@ -31,7 +31,7 @@ import {
   getProductName,
   getProductGallery,
   getProductPrice,
-  getProductId,
+  getProductId
 } from '<%= options.helpers %>';
 
 export default {
@@ -40,22 +40,22 @@ export default {
   components: {
     SfCarousel,
     SfProductCard,
-    SfSection,
+    SfSection
   },
 
   props: {
     title: String,
-    product: Object,
+    product: Object
   },
 
   setup({ product }) {
     const { products, search, loading, error } = useProduct();
-    const categories = getProductCategories(product)
-    const relatedProducts = computed(() => getProductVariants(products.value, { masters: true }).filter(prod => getProductId(prod) !== getProductId(product)))
+    const categories = getProductCategories(product);
+    const relatedProducts = computed(() => getProductVariants(products.value, { masters: true }).filter((prod) => getProductId(prod) !== getProductId(product)));
 
     if (categories.length > 0) {
-      const catIndex = Math.floor(Math.random() * categories.length)
-      search({ catIds: [categories[catIndex]] })
+      const catIndex = Math.floor(Math.random() * categories.length);
+      search({ catIds: [categories[catIndex]] });
     }
 
     return {
@@ -66,8 +66,8 @@ export default {
       getProductSlug,
       getProductName,
       getProductGallery,
-      getProductPrice,
-    }
+      getProductPrice
+    };
   }
 };
 </script>

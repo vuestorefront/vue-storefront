@@ -9,19 +9,19 @@
 <script>
 
 export default {
-  setup(props, context) {
-    const { version, lastCommit } = process.VERSION
-    const address = `https://github.com/DivanteLtd/next/commit/${lastCommit}`
-    const link = lastCommit.substr(0, 7)
+  setup() {
+    const { version, lastCommit } = process.VERSION;
+    const address = `https://github.com/DivanteLtd/next/commit/${lastCommit}`;
+    const link = lastCommit.substr(0, 7);
 
     return {
       lastCommit,
       version,
       address,
       link
-    }
+    };
   }
-}
+};
 
 </script>
 <style lang="scss">

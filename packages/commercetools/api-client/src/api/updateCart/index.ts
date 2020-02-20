@@ -1,12 +1,12 @@
-import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL'
-import { apolloClient, locale } from '../../index'
-import CreateCartMutation from './defaultMutation'
-import { CartMutationResponse } from './../../types/Api'
+import { CartUpdateAction, MyCartUpdateAction } from '../../types/GraphQL';
+import { apolloClient, locale } from '../../index';
+import CreateCartMutation from './defaultMutation';
+import { CartMutationResponse } from './../../types/Api';
 
 interface UpdateCart {
-  id: string
-  version: number
-  actions: CartUpdateAction[] | MyCartUpdateAction[]
+  id: string;
+  version: number;
+  actions: CartUpdateAction[] | MyCartUpdateAction[];
 }
 
 const updateCart = async (cartData: UpdateCart): Promise<CartMutationResponse> => {
@@ -17,7 +17,7 @@ const updateCart = async (cartData: UpdateCart): Promise<CartMutationResponse> =
       ...cartData
     },
     fetchPolicy: 'no-cache'
-  })
-}
+  });
+};
 
-export default updateCart
+export default updateCart;

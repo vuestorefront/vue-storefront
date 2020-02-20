@@ -22,9 +22,8 @@
 </template>
 
 <script>
-import { SfImage, SfSelect, SfButton } from '@storefront-ui/vue'
-import { ref, computed, watch } from '@vue/composition-api'
-import { useLocale } from '@vue-storefront/commercetools-composables'
+import { SfImage, SfSelect, SfButton } from '@storefront-ui/vue';
+import { useLocale } from '@vue-storefront/commercetools-composables';
 
 export default {
   components: {
@@ -33,23 +32,24 @@ export default {
     SfButton
   },
   setup(props, context) {
-    const { $i18n, $router, $route } = context.root
-    const { locale, ...fields } = useLocale()
-    const setCookie = context.root.$i18n.setLocaleCookie
+    const { $i18n, $router, $route } = context.root;
+    const { locale, ...fields } = useLocale();
+    const setCookie = $i18n.setLocaleCookie;
 
     const handleChangeLang = ({ name }) => {
       locale.value = name;
-      setCookie(name)
-      $router.go({ path: $route.fullPath, force: true })
-    }
+      setCookie(name);
+      $router.go({ path: $route.fullPath,
+        force: true });
+    };
 
     return {
       handleChangeLang,
       locale,
       ...fields
-    }
+    };
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

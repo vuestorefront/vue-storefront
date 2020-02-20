@@ -49,25 +49,23 @@
   </div>
 </template>
 <script>
-import { SfHeading, SfButton } from "@storefront-ui/vue";
-import { computed, ref } from '@vue/composition-api'
-import { useCheckout } from '@vue-storefront/commercetools-composables'
+import { SfHeading, SfButton } from '@storefront-ui/vue';
+import { useCheckout } from '@vue-storefront/commercetools-composables';
 import {
   getShippingMethodName,
   getShippingMethodDescription,
-  getShippingMethodPrice,
-  getCartProducts
-} from '@vue-storefront/commercetools-helpers'
+  getShippingMethodPrice
+} from '@vue-storefront/commercetools-helpers';
 
 export default {
-  name: "OrderReview",
+  name: 'OrderReview',
   components: {
     SfHeading,
     SfButton
   },
 
-  setup(props) {
-    const { personalDetails, shippingDetails, chosenShippingMethod, chosenPaymentMethod } = useCheckout()
+  setup() {
+    const { personalDetails, shippingDetails, chosenShippingMethod, chosenPaymentMethod } = useCheckout();
 
     return {
       personalDetails,
@@ -77,7 +75,7 @@ export default {
       getShippingMethodName,
       getShippingMethodDescription,
       getShippingMethodPrice
-    }
+    };
   }
 };
 </script>

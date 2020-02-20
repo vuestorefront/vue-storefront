@@ -1,29 +1,28 @@
-import { ApolloQueryResult } from 'apollo-client'
-import { ProductQueryResult } from './../../types/GraphQL'
+import { ApolloQueryResult } from 'apollo-client';
+import { ProductQueryResult } from './../../types/GraphQL';
 
 interface ProductData {
-  products: ProductQueryResult
+  products: ProductQueryResult;
 }
 
 const enhanceProduct = (productResponse: ApolloQueryResult<ProductData>): ApolloQueryResult<ProductData> => {
   (productResponse.data as any)._variants = productResponse.data.products.results
-    .map(product => {
+    .map((product) => {
       const current = product.masterData.current;
 
-      return current.allVariants.map(variant => ({
+      return current.allVariants.map((variant) => ({
         ...variant,
         _name: current.name,
         _slug: current.slug,
         _id: product.id,
         _master: current.masterVariant.id === variant.id,
         _description: current.description,
-        _categoriesRef: current.categoriesRef.map(cr => cr.id),
+        _categoriesRef: current.categoriesRef.map((cr) => cr.id)
       }));
     })
     .reduce((prev, curr) => [...prev, ...curr], []);
 
-
-  return productResponse
+  return productResponse;
 };
 
 export default enhanceProduct;

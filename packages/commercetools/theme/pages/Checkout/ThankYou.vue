@@ -8,7 +8,7 @@
 
 export default {
   setup(props, context) {
-    context.emit('changeStep', 4)
+    context.emit('changeStep', 4);
   }
-}
+};
 </script>

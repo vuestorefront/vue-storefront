@@ -1,5 +1,5 @@
-import gql from 'graphql-tag'
-import { CustomerFragment, CartFragment } from '../../fragments'
+import gql from 'graphql-tag';
+import { CustomerFragment, CartFragment } from '../../fragments';
 
 export default gql`
   ${CustomerFragment}

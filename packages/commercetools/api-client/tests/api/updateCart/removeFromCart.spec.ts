@@ -1,18 +1,20 @@
-import removeFromCart from './../../../src/api/removeFromCart'
+import removeFromCart from './../../../src/api/removeFromCart';
 
 const cart = {
   id: 1,
   version: 1
-} as any
+} as any;
 
 describe('[commercetools-api-client] removeFromCart', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
 
   it('removes product from cart', async () => {
-    const product = { id: 1, sku: '123', qty: 2 } as any
-    const response = await removeFromCart(cart, product)
+    const product = { id: 1,
+      sku: '123',
+      qty: 2 } as any;
+    const response = await removeFromCart(cart, product);
 
     expect(response).toEqual({
       id: 1,
@@ -25,6 +27,6 @@ describe('[commercetools-api-client] removeFromCart', () => {
           }
         }
       ]
-    })
-  })
+    });
+  });
 });

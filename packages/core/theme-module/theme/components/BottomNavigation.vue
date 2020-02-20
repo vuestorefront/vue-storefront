@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { SfBottomNavigation, SfIcon, SfCircleIcon } from '@storefront-ui/vue'
+import { SfBottomNavigation, SfIcon, SfCircleIcon } from '@storefront-ui/vue';
 
 export default {
   components: {
@@ -31,5 +31,5 @@ export default {
     SfIcon,
     SfCircleIcon
   }
-}
+};
 </script>

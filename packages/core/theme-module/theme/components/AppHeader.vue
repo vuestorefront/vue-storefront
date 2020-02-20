@@ -30,16 +30,16 @@
 </template>
 
 <script>
-import { SfHeader, SfImage } from '@storefront-ui/vue'
-import uiState from '~/assets/ui-state'
-const { toggleCartSidebar, toggleLoginModal } = uiState
+import { SfHeader, SfImage } from '@storefront-ui/vue';
+import uiState from '~/assets/ui-state';
+const { toggleCartSidebar, toggleLoginModal } = uiState;
 
 export default {
-  setup () {
+  setup() {
     return {
       toggleCartSidebar,
       toggleLoginModal
-    }
+    };
   },
   components: {
     SfHeader,
@@ -48,10 +48,10 @@ export default {
   methods: {
     onAccountClicked() {
       // When need to go to another page or do something else when logged in
-      toggleLoginModal()
+      toggleLoginModal();
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -1,1 +1,1 @@
-export default function useUser () {}
+export default function useUser() {}

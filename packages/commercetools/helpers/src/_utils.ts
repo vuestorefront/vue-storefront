@@ -1,58 +1,59 @@
-import { AgnosticProductAttribute } from '@vue-storefront/interfaces'
-import { ProductVariant } from './types/GraphQL'
+import { AgnosticProductAttribute } from '@vue-storefront/interfaces';
+import { ProductVariant } from './types/GraphQL';
 
 const getAttributeValue = (attribute) => {
-  switch(attribute.__typename) {
+  switch (attribute.__typename) {
     case 'StringAttribute':
-      return attribute.stringValue
+      return attribute.stringValue;
     case 'DateAttribute':
-      return attribute.dateValue
+      return attribute.dateValue;
     case 'DateTimeAttribute':
-      return attribute.dateTimeValue
+      return attribute.dateTimeValue;
     case 'TimeAttribute':
-      return attribute.timeValue
+      return attribute.timeValue;
     case 'NumberAttribute':
-      return attribute.numberValue
+      return attribute.numberValue;
     case 'EnumAttribute':
-      return attribute.label
+      return attribute.label;
     case 'LocalizedEnumAttribute':
-      return attribute.localizedLabel
+      return attribute.localizedLabel;
     case 'LocalizedStringAttribute':
-      return attribute.localizedString
+      return attribute.localizedString;
     case 'MoneyAttribute':
-      return attribute.centAmount
+      return attribute.centAmount;
     case 'BooleanAttribute':
-      return attribute.booleanValue
+      return attribute.booleanValue;
     case 'ReferenceAttribute':
-      return { typeId: attribute.typeId, id: attribute.id }
+      return { typeId: attribute.typeId,
+        id: attribute.id };
     default:
-      return null
+      return null;
   }
-}
+};
 
 export const formatAttributeList = (attributes: Array<any>): Array<AgnosticProductAttribute> =>
-  attributes.map(attr => {
-    const attrValue = getAttributeValue(attr)
+  attributes.map((attr) => {
+    const attrValue = getAttributeValue(attr);
     return {
       name: attr.name,
       value: attrValue,
       label: attr.label ? attr.label : (typeof attrValue === 'string') ? attrValue : null
-    }
-  })
+    };
+  });
 
 export const getVariantByAttributes = (products: ProductVariant[], attributes: any): ProductVariant => {
   if (!products || products.length === 0) {
-    return null
+    return null;
   }
 
-  const configurationKeys = Object.keys(attributes)
+  const configurationKeys = Object.keys(attributes);
 
-  return products.find(product => {
-    const currentAttributes = formatAttributeList(product.attributeList)
+  return products.find((product) => {
+    const currentAttributes = formatAttributeList(product.attributeList);
 
-    return configurationKeys.every(attrName =>
+    return configurationKeys.every((attrName) =>
       currentAttributes.find(({ name, value }) => attrName === name && attributes[attrName] === value)
-    )
-  })
-}
+    );
+  });
+};
 

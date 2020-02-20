@@ -1,8 +1,8 @@
-import { Ref } from '@vue/composition-api'
+import { Ref } from '@vue/composition-api';
 
 export interface UseProduct<PRODUCT, SEARCH> {
   products: Ref<Array<PRODUCT>>;
-  search: SEARCH,
+  search: SEARCH;
   loading: Ref<boolean>;
   error: Ref<any>;
   [x: string]: any;
@@ -15,13 +15,13 @@ export interface UseUser
   LOGIN,
   LOGOUT,
 > {
-  user: USER
-  register: REGISTER
-  login: LOGIN
-  logout: LOGOUT
-  isAuthenticated: Ref<boolean>
-  loading: Ref<boolean>
-  error: Ref<any>
+  user: USER;
+  register: REGISTER;
+  login: LOGIN;
+  logout: LOGOUT;
+  isAuthenticated: Ref<boolean>;
+  loading: Ref<boolean>;
+  error: Ref<any>;
 }
 
 export interface UseCategory
@@ -103,15 +103,15 @@ export interface UseCheckout
   CHOOSEN_SHIPPING_METHOD,
   PLACE_ORDER,
 > {
-  paymentMethods: Ref<PAYMENT_METHODS>
-  shippingMethods: Ref<SHIPPING_METHODS>
-  personalDetails: PERSONAL_DETAILS
-  shippingDetails: SHIPPING_DETAILS
-  billingDetails: BILLING_DETAILS
-  chosenPaymentMethod: CHOOSEN_PAYMENT_METHOD
-  chosenShippingMethod: CHOOSEN_SHIPPING_METHOD
-  placeOrder: PLACE_ORDER
-  loading: Ref<boolean>
+  paymentMethods: Ref<PAYMENT_METHODS>;
+  shippingMethods: Ref<SHIPPING_METHODS>;
+  personalDetails: PERSONAL_DETAILS;
+  shippingDetails: SHIPPING_DETAILS;
+  billingDetails: BILLING_DETAILS;
+  chosenPaymentMethod: CHOOSEN_PAYMENT_METHOD;
+  chosenShippingMethod: CHOOSEN_SHIPPING_METHOD;
+  placeOrder: PLACE_ORDER;
+  loading: Ref<boolean>;
   error: any;
 }
 
@@ -124,64 +124,64 @@ export interface UseLocale
   AVAILABLE_COUNTRIES,
   AVAILABLE_CURRENCIES,
 > {
-  locale: LOCALE,
-  country: COUNTRY,
-  currency: CURRENCY
-  availableLocales: AVAILABLE_LOCALES,
-  availableCountries: AVAILABLE_COUNTRIES
-  availableCurrencies: AVAILABLE_CURRENCIES
-  loading: Ref<boolean>
+  locale: LOCALE;
+  country: COUNTRY;
+  currency: CURRENCY;
+  availableLocales: AVAILABLE_LOCALES;
+  availableCountries: AVAILABLE_COUNTRIES;
+  availableCurrencies: AVAILABLE_CURRENCIES;
+  loading: Ref<boolean>;
   error: any;
 }
 
 export interface UseContent<CONTENT, SEARCH> {
-  content: CONTENT,
-  search: SEARCH,
-  loading: boolean,
-  error: any
+  content: CONTENT;
+  search: SEARCH;
+  loading: boolean;
+  error: any;
 }
 
 export interface UiMediaGalleryItem {
-  small: string
-  normal: string
-  big: string
+  small: string;
+  normal: string;
+  big: string;
 }
 
 export interface UiCategory {
-  label: string
-  slug?: string
-  items: UiCategory[]
+  label: string;
+  slug?: string;
+  items: UiCategory[];
 }
 
 export interface UiCartProductPrice {
-  regular: number
-  special?: number
+  regular: number;
+  special?: number;
 }
 
 export interface UiCartProduct {
-  title: string
-  id: string
-  image: string
-  price: UiCartProductPrice
-  configuration: AgnosticProductAttribute[]
-  qty: string
+  title: string;
+  id: string;
+  image: string;
+  price: UiCartProductPrice;
+  configuration: AgnosticProductAttribute[];
+  qty: string;
 }
 
 export interface AgnosticProductAttribute {
-  name?: string
-  value: string | Object
-  label: string
+  name?: string;
+  value: string | Record<string, any>;
+  label: string;
 }
 
 export interface AgnosticUserRegister {
-  email: string
-  password: string
-  firstName?: string
-  lastName?: string
+  email: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 export interface AgnosticUserLogin {
-  username: string
-  password: string
+  username: string;
+  password: string;
 }
 

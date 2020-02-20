@@ -105,9 +105,9 @@ import {
   SfProperty,
   SfCharacteristic,
   SfInput
-} from "@storefront-ui/vue";
-import { computed, ref } from '@vue/composition-api'
-import { useCart, useCheckout } from '@vue-storefront/commercetools-composables'
+} from '@storefront-ui/vue';
+import { computed, ref } from '@vue/composition-api';
+import { useCart, useCheckout } from '@vue-storefront/commercetools-composables';
 
 import {
   getShippingMethodName,
@@ -116,12 +116,11 @@ import {
   getCartProducts,
   getCartTotalPrice,
   getCartSubtotalPrice,
-  getCartShippingPrice,
   getCartTotalItems
-} from '@vue-storefront/commercetools-helpers'
+} from '@vue-storefront/commercetools-helpers';
 
 export default {
-  name: "CartPreview",
+  name: 'CartPreview',
   components: {
     SfHeading,
     SfButton,
@@ -130,16 +129,16 @@ export default {
     SfCharacteristic,
     SfInput
   },
-  setup(props) {
-    const { chosenShippingMethod } = useCheckout()
-    const { cart, removeFromCart, updateQuantity } = useCart()
-    const listIsHidden = ref(false)
-    const promoCode = ref('')
-    const showPromoCode = ref(false)
-    const products = computed(() => getCartProducts(cart.value, ['color', 'size']))
-    const totalItems = computed(() => getCartTotalItems(cart.value))
-    const subtotal = computed(() => getCartSubtotalPrice(cart.value))
-    const total = computed(() => getCartTotalPrice(cart.value))
+  setup() {
+    const { chosenShippingMethod } = useCheckout();
+    const { cart, removeFromCart, updateQuantity } = useCart();
+    const listIsHidden = ref(false);
+    const promoCode = ref('');
+    const showPromoCode = ref(false);
+    const products = computed(() => getCartProducts(cart.value, ['color', 'size']));
+    const totalItems = computed(() => getCartTotalItems(cart.value));
+    const subtotal = computed(() => getCartSubtotalPrice(cart.value));
+    const total = computed(() => getCartTotalPrice(cart.value));
 
     return {
       totalItems,
@@ -157,24 +156,24 @@ export default {
       getShippingMethodPrice,
       characteristics: [
         {
-          title: "Safety",
-          description: "It carefully packaged with a personal touch",
-          icon: "safety"
+          title: 'Safety',
+          description: 'It carefully packaged with a personal touch',
+          icon: 'safety'
         },
         {
-          title: "Easy shipping",
+          title: 'Easy shipping',
           description:
-            "You’ll receive dispatch confirmation and an arrival date",
-          icon: "shipping"
+            'You’ll receive dispatch confirmation and an arrival date',
+          icon: 'shipping'
         },
         {
-          title: "Changed your mind?",
-          description: "Rest assured, we offer free returns within 30 days",
-          icon: "return"
+          title: 'Changed your mind?',
+          description: 'Rest assured, we offer free returns within 30 days',
+          icon: 'return'
         }
       ]
-    }
-  },
+    };
+  }
 };
 </script>
 <style lang="scss" scoped>

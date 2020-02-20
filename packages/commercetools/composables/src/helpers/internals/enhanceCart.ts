@@ -1,17 +1,17 @@
-import { CartResponse } from '@vue-storefront/commercetools-api/lib/src/types/Api'
-import { LineItem } from './../../types/GraphQL'
+import { CartResponse } from '@vue-storefront/commercetools-api/lib/src/types/Api';
+import { LineItem } from './../../types/GraphQL';
 
-export const enhanceLineItems = lineItems => lineItems.map((lineItem: LineItem) => ({
+export const enhanceLineItems = (lineItems) => lineItems.map((lineItem: LineItem) => ({
   ...lineItem,
   _configuration: lineItem.variant.attributeList
-}))
+}));
 
 const enhanceCart = (cartResponse: CartResponse): CartResponse => {
-  const { lineItems } = cartResponse.data.cart
+  const { lineItems } = cartResponse.data.cart;
 
-  cartResponse.data.cart.lineItems = enhanceLineItems(lineItems)
+  cartResponse.data.cart.lineItems = enhanceLineItems(lineItems);
 
-  return cartResponse
-}
+  return cartResponse;
+};
 
-export default enhanceCart
+export default enhanceCart;

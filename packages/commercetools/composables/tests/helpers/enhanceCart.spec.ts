@@ -1,4 +1,4 @@
-import enhanceCart from './../../src/helpers/internals/enhanceCart'
+import enhanceCart from './../../src/helpers/internals/enhanceCart';
 
 const createCartResponse = (items): any => ({
   data: {
@@ -6,13 +6,15 @@ const createCartResponse = (items): any => ({
       lineItems: items
     }
   }
-})
+});
 
 describe('[commercetools-composables] enhanceCart', () => {
   it('returns cart response items configurations', () => {
     const cartResponse = createCartResponse([
-      { prod: '1', variant: { attributeList: [{ name: 'attr1', value: '20' }] } }
-    ])
+      { prod: '1',
+        variant: { attributeList: [{ name: 'attr1',
+          value: '20' }] } }
+    ]);
 
     expect(enhanceCart(cartResponse)).toEqual({
       data: {
@@ -20,12 +22,14 @@ describe('[commercetools-composables] enhanceCart', () => {
           lineItems: [
             {
               prod: '1',
-              variant: { attributeList: [{ name: 'attr1', value: '20' }] },
-              _configuration: [{ name: 'attr1', value: '20' }]
+              variant: { attributeList: [{ name: 'attr1',
+                value: '20' }] },
+              _configuration: [{ name: 'attr1',
+                value: '20' }]
             }
           ]
         }
       }
-    })
-  })
-})
+    });
+  });
+});

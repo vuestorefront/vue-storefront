@@ -12,7 +12,7 @@ export const AddressFragment = `
     country
     company
   }
-`
+`;
 
 export const CustomerFragment = `
   fragment DefaultCustomer on Customer {
@@ -20,9 +20,9 @@ export const CustomerFragment = `
     lastName
     email
   }
-`
+`;
 
-export  const LineItemFragment = `
+export const LineItemFragment = `
   fragment DefaultLineItem on LineItem {
     id
     productId
@@ -83,7 +83,7 @@ export  const LineItemFragment = `
       }
     }
   }
-`
+`;
 
 export const CartFragment = `
   ${AddressFragment}
@@ -128,7 +128,7 @@ export const CartFragment = `
     cartState
     version
   }
-`
+`;
 
 export const OrderFragment = `
   ${LineItemFragment}
@@ -144,7 +144,7 @@ export const OrderFragment = `
     id
     version
   }
-`
+`;
 
 export const ShippingMethodFragment = `
   fragment DefaultShippingMethod on ShippingMethod {
@@ -164,4 +164,4 @@ export const ShippingMethodFragment = `
       }
     }
   }
-`
+`;

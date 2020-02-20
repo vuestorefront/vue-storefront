@@ -246,37 +246,36 @@ import {
   SfBreadcrumbs,
   SfLoader,
   SfColor
-} from "@storefront-ui/vue";
-import { computed, watch } from '@vue/composition-api'
-import { useCategory } from '<%= options.composables %>'
+} from '@storefront-ui/vue';
+import { computed } from '@vue/composition-api';
+import { useCategory } from '<%= options.composables %>';
 import {
   getCategoryProducts,
   getProductName,
   getProductGallery,
   getProductPrice,
   getProductSlug,
-  getCategoryTree,
-} from '<%= options.helpers %>'
-
+  getCategoryTree
+} from '<%= options.helpers %>';
 
 export default {
   transition: 'fade',
-  setup (props, context) {
-    const { params } = context.root.$route
+  setup(props, context) {
+    const { params } = context.root.$route;
     const lastSlug = Object.keys(params).reduce(
       (prev, curr) => params[curr] ? params[curr] : prev,
-      params['slug_1']
-    )
+      params.slug_1
+    );
 
-    const { categories, search, loading } = useCategory()
+    const { categories, search, loading } = useCategory();
 
-    search({ slug: lastSlug })
+    search({ slug: lastSlug });
 
-    const products = computed(() => getCategoryProducts(categories.value[0], { master: true }))
-    const categoryTree = computed(() => getCategoryTree(categories.value[0]))
+    const products = computed(() => getCategoryProducts(categories.value[0], { master: true }));
+    const categoryTree = computed(() => getCategoryTree(categories.value[0]));
 
-    const getCategoryUrl = slug => `/c/${params['slug_1']}/${slug}`
-    const isCategorySelected = slug => slug === (categories.value && categories.value[0].slug)
+    const getCategoryUrl = (slug) => `/c/${params.slug_1}/${slug}`;
+    const isCategorySelected = (slug) => slug === (categories.value && categories.value[0].slug);
 
     return {
       products,
@@ -288,7 +287,7 @@ export default {
       getCategoryUrl,
       isCategorySelected,
       loading
-    }
+    };
   },
   components: {
     SfButton,
@@ -305,119 +304,142 @@ export default {
     SfLoader,
     SfColor
   },
-  data () {
+  data() {
     return {
       currentPage: 1,
-      sortBy: "price-up",
+      sortBy: 'price-up',
       isFilterSidebarOpen: false,
-      filters: {
-        color: [],
-        collection: [],
-        size: [],
-        price: [],
-        material: []
-      },
       sortByOptions: [
         {
-          value: "latest",
-          label: "Latest"
+          value: 'latest',
+          label: 'Latest'
         },
         {
-          value: "price-up",
-          label: "Price from low to high"
+          value: 'price-up',
+          label: 'Price from low to high'
         },
         {
-          value: "price-down",
-          label: "Price from high to low"
+          value: 'price-down',
+          label: 'Price from high to low'
         }
       ],
       filters: {
         collection: [
           {
-            label: "Summer fly",
-            value: "summer-fly",
-            count: "10",
+            label: 'Summer fly',
+            value: 'summer-fly',
+            count: '10',
             selected: false
           },
           {
-            label: "Best 2018",
-            value: "best-2018",
-            count: "23",
+            label: 'Best 2018',
+            value: 'best-2018',
+            count: '23',
             selected: false
           },
           {
-            label: "Your choice",
-            value: "your-choice",
-            count: "54",
+            label: 'Your choice',
+            value: 'your-choice',
+            count: '54',
             selected: false
           }
         ],
         color: [
-	        { label: "Red", value: "red", color: "#990611", selected: false },
-          { label: "Black", value: "black", color: "#000000", selected: false },
+          { label: 'Red',
+            value: 'red',
+            color: '#990611',
+            selected: false },
+          { label: 'Black',
+            value: 'black',
+            color: '#000000',
+            selected: false },
           {
-            label: "Yellow",
-            value: "yellow",
-            color: "#DCA742",
+            label: 'Yellow',
+            value: 'yellow',
+            color: '#DCA742',
             selected: false
           },
-          { label: "Blue", value: "blue", color: "#004F97", selected: false },
-          { label: "Navy", value: "navy", color: "#656466", selected: false }
+          { label: 'Blue',
+            value: 'blue',
+            color: '#004F97',
+            selected: false },
+          { label: 'Navy',
+            value: 'navy',
+            color: '#656466',
+            selected: false }
         ],
         size: [
-	        { label: "Size 2 (XXS)", value: "xxs", count: "10", selected: false },
-          { label: "Size 4-6 (XS)", value: "xs", count: "23", selected: false },
-          { label: "Size 8-10 (S)", value: "s", count: "54", selected: false },
+          { label: 'Size 2 (XXS)',
+            value: 'xxs',
+            count: '10',
+            selected: false },
+          { label: 'Size 4-6 (XS)',
+            value: 'xs',
+            count: '23',
+            selected: false },
+          { label: 'Size 8-10 (S)',
+            value: 's',
+            count: '54',
+            selected: false },
           {
-            label: "Size 12-14 (M)",
-            value: "m",
-            count: "109",
+            label: 'Size 12-14 (M)',
+            value: 'm',
+            count: '109',
             selected: false
           },
-          { label: "Size 16-18 (L)", value: "l", count: "23", selected: false },
+          { label: 'Size 16-18 (L)',
+            value: 'l',
+            count: '23',
+            selected: false },
           {
-            label: "Size 20-22(XL)",
-            value: "xl",
-            count: "12",
+            label: 'Size 20-22(XL)',
+            value: 'xl',
+            count: '12',
             selected: false
           },
           {
-            label: "Size 24-26 (XXL)",
-            value: "xxl",
-            count: "2",
+            label: 'Size 24-26 (XXL)',
+            value: 'xxl',
+            count: '2',
             selected: false
           }
         ],
         price: [
           {
-            label: "Under $200",
-            value: "under-200",
-            count: "23",
+            label: 'Under $200',
+            value: 'under-200',
+            count: '23',
             selected: false
           },
           {
-            label: "Under $300",
-            value: "under-300",
-            count: "54",
+            label: 'Under $300',
+            value: 'under-300',
+            count: '54',
             selected: false
           }
         ],
         material: [
-	        { label: "Cotton", value: "coton", count: "33", selected: false },
-          { label: "Silk", value: "silk", count: "73", selected: false }
+          { label: 'Cotton',
+            value: 'coton',
+            count: '33',
+            selected: false },
+          { label: 'Silk',
+            value: 'silk',
+            count: '73',
+            selected: false }
         ]
       },
       breadcrumbs: [
         {
-          text: "Home",
+          text: 'Home',
           route: {
-            link: "#"
+            link: '#'
           }
         },
         {
-          text: "Women",
+          text: 'Women',
           route: {
-            link: "#"
+            link: '#'
           }
         }
       ]
@@ -426,17 +448,17 @@ export default {
   methods: {
     updateFilter() {},
     clearAllFilters() {
-	    const filters = Object.keys(this.filters);
-      filters.forEach(name => {
+      const filters = Object.keys(this.filters);
+      filters.forEach((name) => {
         const prop = this.filters[name];
-        prop.forEach(value => {
+        prop.forEach((value) => {
           value.selected = false;
         });
       });
     },
     toggleWishlist(index) {
       this.products[index].isOnWishlist = !this.products[index].isOnWishlist;
-    },
+    }
   }
 };
 </script>

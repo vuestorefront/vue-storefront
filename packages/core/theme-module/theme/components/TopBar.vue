@@ -24,19 +24,20 @@
 </template>
 
 <script>
-import { SfButton, SfTopBar } from '@storefront-ui/vue'
-import uiState from '~/assets/ui-state'
-import { useUser } from '@vue-storefront/commercetools-composables'
-import { getUserFullName } from '@vue-storefront/commercetools-helpers'
-import { computed } from '@vue/composition-api'
-import  LocaleSelector from './LocaleSelector'
+import { SfButton, SfTopBar } from '@storefront-ui/vue';
+import uiState from '~/assets/ui-state';
+import { useUser } from '@vue-storefront/commercetools-composables';
+import { getUserFullName } from '@vue-storefront/commercetools-helpers';
+import LocaleSelector from './LocaleSelector';
 
-const { toggleLoginModal } = uiState
+const { toggleLoginModal } = uiState;
 
 export default {
-  components: { SfTopBar, SfButton, LocaleSelector },
+  components: { SfTopBar,
+    SfButton,
+    LocaleSelector },
   setup() {
-    const { isAuthenticated, logout, user } = useUser()
+    const { isAuthenticated, logout, user } = useUser();
 
     return {
       toggleLoginModal,
@@ -44,8 +45,8 @@ export default {
       logout,
       user,
       getUserFullName
-    }
+    };
   }
-}
+};
 
 </script>
