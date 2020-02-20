@@ -33,20 +33,28 @@ jobs:
       - yarn build:prismic && yarn build:ct
 
     - stage: test
-      script: yarn test:ct:api-client
+      script: yarn test:ct:api-client --coverage
       name: Test commercetools api-client
+      after_script:
+        - cat ./packages/commercetools/api-client/coverage/lcov.info | coveralls
 
     - stage: test
-      script: yarn test:ct:composables
+      script: yarn test:ct:composables --coverage
       name: Test commercetools composables
+      after_script:
+        - cat ./packages/commercetools/composables/coverage/lcov.info | coveralls
 
     - stage: test
-      script: yarn test:ct:helpers
+      script: yarn test:ct:helpers --coverage
       name: Test commercetools helpers
+      after_script:
+        - cat ./packages/commercetools/helpers/coverage/lcov.info | coveralls
 
     - stage: test
-      script: yarn test:prismic
+      script: yarn test:prismic --coverage
       name: Test prismic
+      after_script:
+        - cat ./packages/prismic/coverage/lcov.info | coveralls
 
     - build_image:
       if: branch = master AND type != pull_request
