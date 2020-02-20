@@ -1,9 +1,9 @@
-import { ref, Ref } from '@vue/composition-api';
-import { prismic, endpoint } from '../../index';
-import { PrismicQuery } from '../../types';
-import { QueryOptions } from 'prismic-javascript/d.ts/ResolvedApi';
-import ApiSearchResponse from 'prismic-javascript/d.ts/ApiSearchResponse';
-import transformQuery from './transformQuery';
+import { ref, Ref } from '@vue/composition-api'
+import { prismic, endpoint, apiOptions } from '../../index'
+import { PrismicQuery } from '../../types'
+import { QueryOptions } from 'prismic-javascript/d.ts/ResolvedApi'
+import ApiSearchResponse from 'prismic-javascript/d.ts/ApiSearchResponse'
+import transformQuery from './transformQuery'
 
 interface OptionsType {
   orderings?: string;
@@ -29,8 +29,8 @@ export default function usePrismic(): UsePrismic {
     loading.value = true;
 
     doc.value = await prismic
-      .getApi(endpoint)
-      .then((api) => api.query(
+      .getApi(endpoint, apiOptions)
+      .then(api => api.query(
         transformQuery(query),
         options as QueryOptions
       ));
