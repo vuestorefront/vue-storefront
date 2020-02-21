@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add `isBackRoute` that informs if user returns to route, skip loading products for category if he does - @gibkigonzo (issue#4066)
+- Add server context to async data loader - @gibkigonzo (pr#4113)
 
 ### Changed / Improved
 - optimizations - improved prefetch strategy - @gibkigonzo (#4080)
@@ -23,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix sync cart between tabs - @Michal-Dziedzinski (#3838)
 - Add currentRoute to url module and return cached requests - @gibkigonzo (pr#4077, issue#4066)
 - Hide original radio button behind built label - @EndPositive (#4098)
+- Disable overriding `route` state in __INITIAL_STATE__ - @gibkigonzo (pr#4095)
+- Fix gtm order placement event when user was guest - @Michal-Dziedzinski (#4064)
 
 ## [1.11.1] - 2020.02.05
 
