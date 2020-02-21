@@ -5,7 +5,9 @@
         class="m0 no-outline"
         type="radio"
         :id="id"
-        :checked="value"
+        :checked="checked"
+        :value="value"
+        :name="name"
         @keyup.enter="$emit('click')"
         @click="$emit('click')"
         @blur="$emit('blur')"
@@ -41,8 +43,18 @@ export default {
       required: true
     },
     value: {
+      type: [String, Number],
+      default: ''
+    },
+    checked: {
       type: Boolean,
-      required: true
+      required: false,
+      default: false
+    },
+    name: {
+      type: String,
+      required: false,
+      default: ''
     },
     validations: {
       type: Array,
@@ -79,6 +91,7 @@ export default {
   }
 
   input {
+    display: none;
     position: absolute;
     top: 3px;
     left: 0;
