@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed / Improved
 - optimizations - improved prefetch strategy - @gibkigonzo (#4080)
+- improvements to Finnish translations - @evktalo (#4116)
 
 ### Fixed
 - add disconnect and sync options for cart/clear - @gibkigonzo (#4062)
