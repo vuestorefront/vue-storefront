@@ -188,7 +188,7 @@ const actions: ActionTree<UserState, RootState> = {
             context.commit(types.USER_INFO_LOADED, res)
             context.dispatch('setUserGroup', res)
             Vue.prototype.$bus.$emit('user-after-loggedin', res)
-            rootStore.dispatch('cart/authorize')
+            context.dispatch('cart/authorize', null, { root: true })
 
             resolve(res)
             resolvedFromCache = true
@@ -214,7 +214,7 @@ const actions: ActionTree<UserState, RootState> = {
             }
             if (!resolvedFromCache && resp.resultCode === 200) {
               Vue.prototype.$bus.$emit('user-after-loggedin', resp.result)
-              rootStore.dispatch('cart/authorize')
+              context.dispatch('cart/authorize', null, { root: true })
               resolve(resp)
             } else {
               resolve(null)
@@ -297,7 +297,9 @@ const actions: ActionTree<UserState, RootState> = {
     context.dispatch('cart/disconnect', {}, { root: true })
       .then(() => { context.dispatch('clearCurrentUser') })
       .then(() => { Vue.prototype.$bus.$emit('user-after-logout') })
-      .then(() => { context.dispatch('cart/clear', { recreateAndSyncCart: true }, { root: true }) })
+      // clear cart without sync, because after logout we don't want to clear cart on backend
+      // user should have items when he comes back
+      .then(() => { context.dispatch('cart/clear', { sync: false }, { root: true }) })
     if (!silent) {
       rootStore.dispatch('notification/spawnNotification', {
         type: 'success',

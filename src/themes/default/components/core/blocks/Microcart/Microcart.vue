@@ -62,7 +62,7 @@
           </button>
         </div>
         <div v-if="segment.value != null" class="col-xs align-right">
-          {{ segment.value | price }}
+          {{ segment.value | price(storeView) }}
         </div>
       </div>
       <div class="row py20">
@@ -91,7 +91,7 @@
           {{ segment.title }}
         </div>
         <div class="col-xs align-right h2 total-price-value">
-          {{ segment.value | price }}
+          {{ segment.value | price(storeView) }}
         </div>
       </div>
     </div>
@@ -123,6 +123,7 @@
 <script>
 import i18n from '@vue-storefront/i18n'
 import { isModuleRegistered } from '@vue-storefront/core/lib/module'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart'
 import VueOfflineMixin from 'vue-offline/mixin'
@@ -162,6 +163,11 @@ export default {
       type: Boolean,
       required: false,
       default: () => false
+    }
+  },
+  computed: {
+    storeView () {
+      return currentStoreView()
     }
   },
   mounted () {
@@ -204,8 +210,9 @@ export default {
         action1: { label: i18n.t('Cancel'), action: 'close' },
         action2: { label: i18n.t('OK'),
           action: async () => {
-            await this.$store.dispatch('cart/clear', { recreateAndSyncCart: false }) // just clear the items without sync
-            await this.$store.dispatch('cart/sync', { forceClientState: true })
+            // We just need to clear cart on frontend and backend.
+            // but cart token can be reused
+            await this.$store.dispatch('cart/clear', { disconnect: false })
           }
         },
         hasNoTimeout: true

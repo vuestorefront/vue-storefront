@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [1.10.6] - 21.02.2020
+
+## Added
+- Add lazy create cart token - @gibkigonzo (#3994)
+- Add server context to async data loader - @gibkigonzo (pr#4113)
+
+### Fixed
+- Fix low-quality images styles - @przspa (#3906)
+- Fix page-not-found redirect in dispatcher - @gibkigonzo (#3956)
+- Fix hiding overlay for newsletter modal - @gibkigonzo (#3970)
+- Fix problem with storeView as dependency in filters - @gibkigonzo (#3968)
+- Fix v-model not working in BaseRadioButton - @lukeromanowicz (#4035)
+- add disconnect and sync options for clear/cart - @gibkigonzo (#4062)
+- Fix current token invalidation with refresh token - @gibkigonzo (#3928, #3620, #3626)
+- Disable overriding `route`, `config`, `storeView`, `version` state in __INITIAL_STATE__ - @gibkigonzo (pr#4095)
+- Disable zoom image on hover in mobile - @gibkigonzo (pr#4115)
+
 ## [1.10.5] - 28.11.2019
 
 ### Fixed

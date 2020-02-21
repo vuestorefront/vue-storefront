@@ -35,7 +35,6 @@
     >
   </div>
 </template>
-
 <script>
 import { onlineHelper } from '@vue-storefront/core/helpers'
 
@@ -83,7 +82,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
   .image{
     position: relative;
@@ -94,11 +92,11 @@ export default {
     mix-blend-mode: multiply;
     &__thumb{
       max-width: 100%;
+      width: 100%;
       height: auto;
       position: absolute;
       top: 50%;
       left: 50%;
-      width: auto;
       transform: translate3d(-50%, -50%, 0);
       &--placeholder{
         width: auto;

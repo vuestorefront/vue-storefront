@@ -4,24 +4,24 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
  * Converts number to price string
  * @param {Number} value
  */
-export function price (value) {
+export function price (value, storeView) {
   if (isNaN(value)) {
     return value
   }
   let formattedVal = Math.abs(parseFloat(value)).toFixed(2)
-  const storeView = currentStoreView()
-  if (!storeView.i18n) {
+  const _storeView = storeView || currentStoreView();
+  if (!_storeView.i18n) {
     return value;
   }
   const prependCurrency = (price) => {
-    return storeView.i18n.currencySign + price
+    return _storeView.i18n.currencySign + price
   }
 
   const appendCurrency = (price) => {
-    return price + storeView.i18n.currencySign
+    return price + _storeView.i18n.currencySign
   }
 
-  if (storeView.i18n.currencySignPlacement === 'append') {
+  if (_storeView.i18n.currencySignPlacement === 'append') {
     formattedVal = appendCurrency(formattedVal)
   } else {
     formattedVal = prependCurrency(formattedVal)

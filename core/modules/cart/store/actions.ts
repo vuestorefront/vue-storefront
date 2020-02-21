@@ -135,13 +135,20 @@ const actions: ActionTree<CartState, RootState> = {
   async disconnect ({ commit }) {
     commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
-  /** Clear the cart content + re-connect to newly created guest cart */
-  async clear ({ commit, dispatch, getters }, options = { recreateAndSyncCart: true }) {
+  /**
+   * It will always clear cart items on frontend.
+   * Options:
+   * sync - if you want to sync it with backend.
+   * disconnect - if you want to clear cart token.
+   */
+  async clear ({ commit, dispatch }, { disconnect = true, sync = true } = {}) {
     await commit(types.CART_LOAD_CART, [])
-    if (options.recreateAndSyncCart && getters.isCartSyncEnabled) {
-      await commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
+    if (sync) {
+      await dispatch('sync', { forceClientState: true })
+    }
+    if (disconnect) {
       await commit(types.CART_SET_ITEMS_HASH, null)
-      await dispatch('connect', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
+      await dispatch('disconnect')
     }
   },
   /** Refresh the payment methods with the backend */
@@ -184,7 +191,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   /** Sync the shopping cart with server along with totals (when needed) and shipping / payment methods */
-  async sync ({ getters, rootGetters, commit, dispatch }, { forceClientState = false, dryRun = false }) { // pull current cart FROM the server
+  async sync ({ getters, rootGetters, commit, dispatch }, { forceClientState = false, dryRun = false, mergeQty = false }) { // pull current cart FROM the server
     const isUserInCheckout = rootGetters['checkout/isUserInCheckout']
     let diffLog = _getDifflogPrototype()
     if (isUserInCheckout) forceClientState = true // never surprise the user in checkout - #
@@ -201,7 +208,7 @@ const actions: ActionTree<CartState, RootState> = {
           silent: true
         }).then(async task => {
           if (task.resultCode === 200) {
-            diffLog = await dispatch('merge', { serverItems: task.result, clientItems: getters.getCartItems, dryRun: dryRun, forceClientState: forceClientState })
+            diffLog = await dispatch('merge', { serverItems: task.result, clientItems: getters.getCartItems, dryRun: dryRun, forceClientState: forceClientState, mergeQty })
           } else {
             Logger.error(task.result, 'cart') // override with guest cart()
             if (_connectBypassCount < MAX_BYPASS_COUNT) {
@@ -252,10 +259,8 @@ const actions: ActionTree<CartState, RootState> = {
         Logger.info('Cart token received from cache.', 'cache', token)()
         Logger.info('Syncing cart with the server.', 'cart')()
         dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
-      } else {
-        Logger.info('Creating server cart token', 'cart')()
-        await dispatch('connect', { guestCart: false })
       }
+      await dispatch('create')
     }
   },
   /** Get one single item from the client's cart */
@@ -350,6 +355,7 @@ const actions: ActionTree<CartState, RootState> = {
       }
       productIndex++
     }
+    await dispatch('create')
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
       return dispatch('sync', { forceClientState: true })
     } else {
@@ -498,16 +504,20 @@ const actions: ActionTree<CartState, RootState> = {
     }
     return false
   },
+  /**
+   * Create cart token when there are products in cart and we don't have token already
+   */
+  async create ({ dispatch, getters }) {
+    const storedItems = getters['getCartItems'] || []
+    const cartToken = getters['getCartToken']
+    if (storedItems.length && !cartToken) {
+      Logger.info('Creating server cart token', 'cart')()
+      await dispatch('connect', { guestCart: false })
+    }
+  },
   /** authorize the cart after user got logged in using the current cart token */
   authorize ({ dispatch }) {
-    Vue.prototype.$db.usersCollection.getItem('last-cart-bypass-ts', (err, lastCartBypassTs) => {
-      if (err) {
-        Logger.error(err, 'cart')()
-      }
-      if (!config.cart.bypassCartLoaderForAuthorizedUsers || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)) { // don't refresh the shopping cart id up to 24h after last order
-        dispatch('connect', { guestCart: false })
-      }
-    })
+    dispatch('connect', { guestCart: false })
   },
   /** connect cart to the server and set the cart token */
   async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false }) {
@@ -517,7 +527,7 @@ const actions: ActionTree<CartState, RootState> = {
         if (task.resultCode === 200) {
           Logger.info('Server cart token created.', 'cart', cartToken)()
           commit(types.CART_LOAD_CART_SERVER_TOKEN, cartToken)
-          return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault })
+          return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault, mergeQty: true })
         } else {
           let resultString = task.result ? toString(task.result) : null
           if (resultString && (resultString.indexOf(i18n.t('not authorized')) < 0 && resultString.indexOf('not authorized')) < 0) { // not respond to unathorized errors here
@@ -536,7 +546,7 @@ const actions: ActionTree<CartState, RootState> = {
     }
   },
   /**  merge shopping cart with the server results; if dryRun = true only the diff phase is being executed */
-  async merge ({ getters, dispatch, commit, rootGetters }, { serverItems, clientItems, dryRun = false, forceClientState = false }) {
+  async merge ({ getters, dispatch, commit, rootGetters }, { serverItems, clientItems, dryRun = false, forceClientState = false, mergeQty = false }) {
     const diffLog = _getDifflogPrototype()
     let totalsShouldBeRefreshed = getters.isTotalsSyncRequired // when empty it means no sync has yet been executed
     let serverCartUpdateRequired = false
@@ -642,7 +652,7 @@ const actions: ActionTree<CartState, RootState> = {
             })
           }
         }
-      } else if (serverItem.qty !== clientItem.qty) {
+      } else if (serverItem.qty !== clientItem.qty || mergeQty) {
         Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
         diffLog.items.push({ 'party': 'server', 'sku': clientItem.sku, 'status': 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
         if (!dryRun) {
@@ -651,7 +661,7 @@ const actions: ActionTree<CartState, RootState> = {
               cartServerToken: getters.getCartToken,
               cartItem: {
                 sku: clientItem.parentSku && config.cart.setConfigurableProductOptions ? clientItem.parentSku : clientItem.sku,
-                qty: clientItem.qty,
+                qty: mergeQty ? (clientItem.qty + serverItem.qty) : clientItem.qty,
                 item_id: serverItem.item_id,
                 quoteId: serverItem.quote_id,
                 product_option: clientItem.product_option

@@ -1097,7 +1097,6 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   }
 },
 "cart": {
-  "bypassCartLoaderForAuthorizedUsers": true,
   "serverMergeByDefault": true,
   "serverSyncCanRemoveLocalItems": false,
   "serverSyncCanModifyLocalItems": false,
