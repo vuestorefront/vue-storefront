@@ -1,3 +1,5 @@
+import { QueryOptions } from 'prismic-javascript/d.ts/ResolvedApi';
+
 /* eslint-disable camelcase */
 type DateValue = string | number
 
@@ -140,4 +142,19 @@ export interface PrismicSlice {
   slice_label: string | null;
   primary: PrismicBlock;
   items: PrismicBlock[];
+}
+
+export interface PrismicMeta {
+  page: number;
+  results_per_page: number;
+  results_size: number;
+  total_results_size: number;
+  total_pages: number;
+  next_page: string;
+  prev_page: string;
+}
+
+export interface PrismicOptions {
+  queryOptions?: QueryOptions;
+  getFirst?: boolean;
 }

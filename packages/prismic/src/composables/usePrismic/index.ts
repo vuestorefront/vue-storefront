@@ -1,40 +1,31 @@
-import { ref, Ref } from '@vue/composition-api'
-import { prismic, endpoint, apiOptions } from '../../index'
-import { PrismicQuery } from '../../types'
-import { QueryOptions } from 'prismic-javascript/d.ts/ResolvedApi'
-import ApiSearchResponse from 'prismic-javascript/d.ts/ApiSearchResponse'
-import transformQuery from './transformQuery'
+import { ref, Ref } from '@vue/composition-api';
+import { PrismicQuery, PrismicMeta, PrismicOptions } from '../../types';
+import { Document } from 'prismic-javascript/d.ts/documents';
+import loadDocuments from './loadDocuments';
 
-interface OptionsType {
-  orderings?: string;
-  pageSize?: number;
-  page?: number;
-}
-
-type Search = (query: PrismicQuery, options?: OptionsType) => Promise<void>
+type Search = (query: PrismicQuery | PrismicQuery[], options?: PrismicOptions) => Promise<void>;
 
 interface UsePrismic {
   loading: Ref<boolean>;
   error: Ref<boolean>;
-  doc: Ref<ApiSearchResponse>;
+  doc: Ref<Document | Document[]>;
+  meta: Ref<PrismicMeta | null>;
   search: Search;
 }
 
 export default function usePrismic(): UsePrismic {
   const loading = ref(false);
   const error = ref(null);
-  const doc: Ref<ApiSearchResponse> = ref({} as ApiSearchResponse);
+  const doc: Ref<Document | Document[]> = ref({});
+  const meta: Ref<PrismicMeta | null> = ref(null);
 
-  const search: Search = async (query: PrismicQuery, options: OptionsType = {}) => {
+  const search: Search = async (query: PrismicQuery | PrismicQuery[], options: PrismicOptions = {}) => {
     loading.value = true;
 
-    doc.value = await prismic
-      .getApi(endpoint, apiOptions)
-      .then(api => api.query(
-        transformQuery(query),
-        options as QueryOptions
-      ));
+    const { results, metadata } = await loadDocuments(query, options);
 
+    meta.value = metadata;
+    doc.value = results;
     loading.value = false;
   };
 
@@ -42,6 +33,7 @@ export default function usePrismic(): UsePrismic {
     loading,
     error,
     doc,
+    meta,
     search
   };
 }

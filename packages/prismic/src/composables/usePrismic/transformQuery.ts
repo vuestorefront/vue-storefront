@@ -1,12 +1,13 @@
 import { prismic } from '../../index';
 import { PrismicQuery, PrismicQueryTypes } from '../../types';
 
-// TODO: UNIT TEST
-const transformQuery = (query: PrismicQuery): string | string[] => {
+const transformQuery = (query: PrismicQuery | PrismicQuery[]): string | string[] => {
   const predict = (method, args) => prismic.Predicates[method](...args);
 
-  const queries = Object.keys(query).map<string>((key) => {
-    const current: PrismicQueryTypes = query[key];
+  const queryContainer = Array.isArray(query) ? query : [query];
+
+  const queries = queryContainer.map((q) => Object.keys(q).map<string>((key) => {
+    const current: PrismicQueryTypes = q[key];
 
     if (!prismic.Predicates[key]) {
       return undefined;
@@ -43,11 +44,11 @@ const transformQuery = (query: PrismicQuery): string | string[] => {
       default:
         return predict(key, [fragment]);
     }
-  });
+  }));
 
-  return queries.length === 1
-    ? queries[0]
-    : queries.filter((queryElement) => queryElement !== undefined);
+  const flatArray = [].concat(...queries.filter((queryElement) => queryElement !== undefined));
+
+  return flatArray.length === 1 ? flatArray[0] : flatArray;
 };
 
 export default transformQuery;
