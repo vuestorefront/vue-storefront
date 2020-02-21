@@ -155,14 +155,16 @@ $color-white: color(white);
   height: 100%;
   max-height: 300px;
 
-  &:hover{
-    .product-image__content{
-      opacity: 1;
-      transform: scale(1.1);
-    }
-    &.sale::after,
-    &.new::after{
-      opacity: .8;
+  @media (min-width: 1024px) {
+    &:hover{
+      .product-image__content{
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      &.sale::after,
+      &.new::after{
+        opacity: .8;
+      }
     }
   }
   &__content{
