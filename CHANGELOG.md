@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Added
 - Add lazy create cart token - @gibkigonzo (#3994)
+- Add server context to async data loader - @gibkigonzo (pr#4113)
 
 ### Fixed
 - Fix low-quality images styles - @przspa (#3906)
