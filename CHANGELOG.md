@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed / Improved
 - optimizations - improved prefetch strategy - @gibkigonzo (#4080)
+- improvements to Finnish translations - @evktalo (#4116)
 - Radio button now allows separate checked, value and name attributes - @EndPositive (#4098)
 
 ### Fixed
