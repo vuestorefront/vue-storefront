@@ -31,7 +31,7 @@ function _ssrHydrateSubcomponents (components, store, router, resolve, reject, a
       return Promise.resolve(null)
     }
   })).then(() => {
-    AsyncDataLoader.flush({ store, route: router.currentRoute, context: null } /* AsyncDataLoaderActionContext */).then((r) => {
+    AsyncDataLoader.flush({ store, route: router.currentRoute, context } /* AsyncDataLoaderActionContext */).then((r) => {
       if (buildTimeConfig.ssr.useInitialStateFilter) {
         context.state = omit(store.state, config.ssr.initialStateFilter)
       } else {
