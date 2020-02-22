@@ -7,15 +7,15 @@ Vue storefront uses two primary data sources:
 
 ## Local data store
 
-You can access localForage repositories through the `StorageManager` (`@vue-storefront/core/lib/storage-manager`) object anywhere in the code, BUT all data-related operations SHOULD be placed in Vuex stores.
+You can access localForage repositories through the `StorageManager` (`@vue-storefront/core/lib/storage-manager`) object anywhere in the code, BUT all data-related operations ___should___ be placed in Vuex stores.
 
 Details on localForage API can be found [here](http://localforage.github.io/localForage/)
 
 ## Example Vuex store
 
-Here you have an example on how the _Vuex_ store in a _Vue Storefront Module_ should be constructed. The _VSF Module_ itself is nothing more than [_Vuex module_](https://vuex.vuejs.org/guide/modules.html).
+Here you have an example of how the _Vuex_ store in a _Vue Storefront Module_ should be constructed. The _VSF Core Module_ itself is nothing more than [_Vuex module_](https://vuex.vuejs.org/guide/modules.html).
 
-Let's take a look at `store` of `core/modules/checkout` module. `index.ts` file shows as follows : 
+Let's take a look at `store` of `core/modules/checkout` module. [`index.ts`](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/checkout/store/checkout/index.ts) file shows as follows : 
 
 ```js
 import { Module } from 'vuex'
@@ -83,38 +83,10 @@ The actual parts of the _store_ have been separated into several files as _gette
 
 ## Data formats & validation
 
-Data formats for vue-storefront and vue-storefront-api are the same JSON files. There is [Ajv validator](https://github.com/epoberezkin/ajv) issied for the validation.
+Data formats for vue-storefront and vue-storefront-api are the same JSON files.
 
-The convention is that schemas are stored under `/core/store/modules/<module-name>/<model-name>.schema.json` - for example [Order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/modules/order/order.schema.json).
+The convention is that schemas are stored under `/core/modules/<module-name>/store/<model-name>.schema.json` - for example [Order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/order/store/order.schema.json).
 
-Objects validation is rather straightforward:
-
-```js
-const Ajv = require('ajv'); // json validator
-const ajv = new Ajv();
-const validate = ajv.compile(
-  require('core/store/modules/order/order.schema.json'),
-);
-
-if (!validate(order)) {
-  // schema validation of upcoming order
-  throw new ValidationError(validate.errors);
-}
-```
-
-Validation errors format:
-
-```json
-[
-  {
-    "keyword": "additionalProperties",
-    "dataPath": "",
-    "schemaPath": "#/additionalProperties",
-    "params": { "additionalProperty": "id" },
-    "message": "should NOT have additional properties"
-  }
-]
-```
 
 ### Orders
 
