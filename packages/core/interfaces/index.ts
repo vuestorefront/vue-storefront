@@ -158,13 +158,9 @@ export interface UiCartProductPrice {
   special?: number;
 }
 
-export interface UiCartProduct {
-  title: string;
-  id: string;
-  image: string;
-  price: UiCartProductPrice;
-  configuration: AgnosticProductAttribute[];
-  qty: string;
+export interface AgnosticTotals {
+  total: number;
+  subtotal: number;
 }
 
 export interface AgnosticProductAttribute {

@@ -1,5 +1,4 @@
-import { UiCartProduct } from '@vue-storefront/interfaces';
-import { ProductVariant, AddressInput } from './../../types/GraphQL';
+import { ProductVariant, AddressInput, LineItem } from './../../types/GraphQL';
 
 export const createAddLineItemAction = (variant: ProductVariant, quantity: number) => ({
   addLineItem: {
@@ -9,17 +8,17 @@ export const createAddLineItemAction = (variant: ProductVariant, quantity: numbe
   }
 });
 
-export const createRemoveLineItemAction = (product: UiCartProduct) => ({
+export const createRemoveLineItemAction = (product: LineItem) => ({
   removeLineItem: {
     lineItemId: product.id,
-    quantity: parseInt(product.qty)
+    quantity: product.quantity
   }
 });
 
-export const createChangeLineItemQuantityAction = (product: UiCartProduct) => ({
+export const createChangeLineItemQuantityAction = (product: LineItem) => ({
   changeLineItemQuantity: {
     lineItemId: product.id,
-    quantity: parseInt(product.qty)
+    quantity: product.quantity
   }
 });
 

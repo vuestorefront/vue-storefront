@@ -22,14 +22,11 @@ import getStorage from './helpers/createCommerceToolsLink/getStorage';
 
 let apolloClient: ApolloClient<any> = null;
 let locale = 'en';
-let currency = 'USD';
-let country = 'UK';
-let countries = [{ name: 'US',
-  label: 'United States'}];
-let currencies = [{ name: 'EUR',
-  label: 'Euro' }];
-let locales = [{ name: 'en',
-  label: 'English' }];
+let currency = '';
+let country = '';
+let countries = [];
+let currencies = [];
+let locales = [];
 let cookies = {
   currencyCookieName: 'vsf-currency',
   countryCookieName: 'vsf-country',

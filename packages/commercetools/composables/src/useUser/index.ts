@@ -8,7 +8,6 @@ import {
   getMe
 } from '@vue-storefront/commercetools-api';
 import { cart } from './../useCart';
-import { enhanceUser } from './../helpers/internals';
 
 type UserRef = Ref<Customer>
 type RegisterFn = (userData: AgnosticUserRegister) => Promise<void>
@@ -26,9 +25,8 @@ const authenticate = async (userData: UserData, fn) => {
   error.value = null;
   try {
     const userResponse = await fn(userData);
-    const enhancedUserResponse = enhanceUser(userResponse);
-    user.value = enhancedUserResponse.data.user.customer;
-    cart.value = enhancedUserResponse.data.user.cart;
+    user.value = userResponse.data.user.customer;
+    cart.value = userResponse.data.user.cart;
   } catch (err) {
     error.value = err.graphQLErrors ? err.graphQLErrors[0].message : err;
   }
@@ -46,8 +44,7 @@ export default function useUser(): UseUser<UserRef, RegisterFn, LoginFn, LogoutF
     try {
       const profile = await getMe({ customer: true });
       user.value = profile.data.me.customer;
-    // eslint-disable-next-line no-empty
-    } catch (err) {}
+    } catch (err) {} // eslint-disable-line
 
     loading.value = false;
   });

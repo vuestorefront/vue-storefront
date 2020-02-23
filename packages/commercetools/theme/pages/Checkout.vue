@@ -27,9 +27,7 @@
 import { SfSteps } from '@storefront-ui/vue';
 import CartPreview from '~/components/checkout/CartPreview';
 import OrderReview from '~/components/checkout/OrderReview';
-import { computed, ref } from '@vue/composition-api';
-import { useCart } from '@vue-storefront/commercetools-composables';
-import { getCartProducts } from '@vue-storefront/commercetools-helpers';
+import { ref } from '@vue/composition-api';
 
 const STEPS = [
   { name: 'personal-details',
@@ -53,12 +51,9 @@ export default {
     CartPreview,
     OrderReview
   },
-  setup(props, context) {
+  setup(context) {
     const showCartPreview = ref(true);
     const currentStep = ref(0);
-    const { cart } = useCart();
-    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-    const products = computed(() => getCartProducts(cart.value, ['color', 'size']));
 
     const handleShowReview = () => {
       showCartPreview.value = false;

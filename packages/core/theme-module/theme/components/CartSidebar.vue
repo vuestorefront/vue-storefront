@@ -13,24 +13,23 @@
             <transition-group name="fade" tag="div">
               <SfCollectedProduct
                 v-for="product in products"
-                :key="product.id"
-                :image="product.image"
-                :title="product.title"
-                :regular-price="product.price.regular"
-                :special-price="product.price.special"
+                :key="getCartProductName(product)"
+                :image="getCartProductImage(product)"
+                :title="getCartProductName(product)"
+                :regular-price="getCartProductPrice(product)"
                 :stock="99999"
-                v-model="product.qty"
-                @input="updateQuantity(product)"
+                :qty="getCartProductQty(product)"
+                @input="updateQuantity(product, $event)"
                 @click:remove="removeFromCart(product)"
                 class="collected-product"
               >
                 <template #configuration>
                   <div class="collected-product__properties">
                     <SfProperty
-                      v-for="(property, key) in product.configuration"
+                      v-for="(value, key) in getCartProductAttributes(product, ['color', 'size'])"
                       :key="key"
-                      :name="property.name"
-                      :value="property.value"
+                      :name="key"
+                      :value="value"
                     />
                   </div>
                 </template>
@@ -48,7 +47,7 @@
               <span class="sf-property__name">TOTAL</span>
             </template>
             <template #value>
-              <SfPrice :regular="totalPrice | price" class="sf-price--big" />
+              <SfPrice :regular="totals.subtotal" class="sf-price--big" />
             </template>
           </SfProperty>
           <nuxt-link to="/checkout/personal-details">
@@ -83,8 +82,13 @@ import { useCart } from '@vue-storefront/commercetools-composables';
 import uiState from '~/assets/ui-state';
 import {
   getCartProducts,
-  getCartSubtotalPrice,
-  getCartTotalItems
+  getCartTotalItems,
+  getCartTotals,
+  getCartProductName,
+  getCartProductImage,
+  getCartProductPrice,
+  getCartProductQty,
+  getCartProductAttributes
 } from '@vue-storefront/commercetools-helpers';
 
 const { isCartSidebarOpen, toggleCartSidebar } = uiState;
@@ -100,8 +104,8 @@ export default {
   },
   setup() {
     const { cart, removeFromCart, updateQuantity } = useCart();
-    const products = computed(() => getCartProducts(cart.value, ['color', 'size']));
-    const totalPrice = computed(() => getCartSubtotalPrice(cart.value));
+    const products = computed(() => getCartProducts(cart.value));
+    const totals = computed(() => getCartTotals(cart.value));
     const totalItems = computed(() => getCartTotalItems(cart.value));
 
     return {
@@ -110,8 +114,13 @@ export default {
       updateQuantity,
       isCartSidebarOpen,
       toggleCartSidebar,
-      totalPrice,
-      totalItems
+      totals,
+      totalItems,
+      getCartProductName,
+      getCartProductImage,
+      getCartProductPrice,
+      getCartProductQty,
+      getCartProductAttributes
     };
   }
 };

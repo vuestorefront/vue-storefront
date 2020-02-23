@@ -10,10 +10,6 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
     lastName: 'loaded customer' } } } })
 }));
 
-jest.mock('./../../src/helpers/internals', () => ({
-  enhanceUser: (arg) => arg
-}));
-
 describe('[commercetools-composables] useUser', () => {
   beforeEach(() => {
     jest.clearAllMocks();

@@ -1,18 +1,17 @@
-import { UseCart as BaseUseCart, UiCartProduct } from '@vue-storefront/interfaces';
+import { UseCart as BaseUseCart } from '@vue-storefront/interfaces';
 import {
   addToCart as apiAddToCart,
   removeFromCart as apiRemoveFromCart,
   updateCartQuantity as apiUpdateCartQuantity
 } from '@vue-storefront/commercetools-api';
 import { Ref, ref, watch } from '@vue/composition-api';
-import { ProductVariant, Cart } from './../types/GraphQL';
-import { enhanceCart } from './../helpers/internals';
+import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
 
 type CartRef = Ref<Cart>
 type AddToCartFn = (variant: ProductVariant, quantity: number) => void
-type RemoveFromCartFn = (product: UiCartProduct) => void
-type ClearCartFn = (product: UiCartProduct) => void
+type RemoveFromCartFn = (product: LineItem) => void
+type ClearCartFn = (product: LineItem) => void
 type CouponRef = Ref<any>
 type ApplyCouponFn = () => void
 type RemoveCoupon = () => void
@@ -22,7 +21,7 @@ const loading: Ref<boolean> = ref<boolean>(false);
 
 // TODO: Think how to incorporate this into core (updateItem?)
 interface UseCart extends BaseUseCart<CartRef, AddToCartFn, RemoveFromCartFn, ClearCartFn, CouponRef, ApplyCouponFn, RemoveCoupon> {
-  updateQuantity: (product: UiCartProduct) => void;
+  updateQuantity: (product: LineItem, quantity: number) => void;
 }
 
 export default function useCart(): UseCart {
@@ -38,22 +37,28 @@ export default function useCart(): UseCart {
   const addToCart = async (variant: ProductVariant, quantity: number) => {
     loading.value = true;
     const updateResponse = await apiAddToCart(cart.value, variant, quantity);
-    cart.value = enhanceCart(updateResponse).data.cart;
+    cart.value = updateResponse.data.cart;
     loading.value = false;
   };
 
-  const removeFromCart = async (product: UiCartProduct) => {
+  const removeFromCart = async (product: LineItem) => {
     loading.value = true;
     const updateResponse = await apiRemoveFromCart(cart.value, product);
-    cart.value = enhanceCart(updateResponse).data.cart;
+    cart.value = updateResponse.data.cart;
     loading.value = false;
   };
 
-  const updateQuantity = async (product: UiCartProduct) => {
-    if (parseInt(product.qty) > 0) {
+  const updateQuantity = async (product: LineItem, quantity: number) => {
+    if (quantity > 0) {
       loading.value = true;
-      const updateResponse = await apiUpdateCartQuantity(cart.value, product);
-      cart.value = enhanceCart(updateResponse).data.cart;
+      const updateResponse = await apiUpdateCartQuantity(
+        cart.value,
+        {
+          ...product,
+          quantity
+        }
+      );
+      cart.value = updateResponse.data.cart;
       loading.value = false;
     }
   };

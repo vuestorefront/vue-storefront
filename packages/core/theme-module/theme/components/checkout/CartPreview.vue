@@ -16,30 +16,30 @@
           <SfCollectedProduct
             v-for="(product, index) in products"
             :key="index"
-            v-model="product.qty"
-            :image="product.image"
-            :title="product.title"
-            :regular-price="product.price.regular"
+            :qty="getCartProductQty(product)"
+            :image="getCartProductImage(product)"
+            :title="getCartProductName(product)"
+            :regular-price="getCartProductPrice(product)"
             class="collected-product"
             @click:remove="removeFromCart(product)"
-            @input="updateQuantity(product)"
+            @input="updateQuantity(product, $event)"
           >
             <template #configuration>
               <div class="product__properties">
                 <SfProperty
-                  v-for="(property, key) in product.configuration"
+                  v-for="(value, key) in getCartProductAttributes(product, ['color', 'size'])"
                   :key="key"
-                  :name="property.name"
-                  :value="property.value"
+                  :name="key"
+                  :value="value"
                   class="product__property"
                 />
               </div>
             </template>
             <template #actions>
               <div>
-                <div class="product__action">{{ product.sku }}</div>
+                <div class="product__action">{{ getCartProductSku(product) }}</div>
                 <div class="product__action">
-                  Quantity: <span class="product__qty">{{ product.qty }}</span>
+                  Quantity: <span class="product__qty">{{ getCartProductQty(product) }}</span>
                 </div>
               </div>
             </template>
@@ -55,7 +55,7 @@
       />
       <SfProperty
         name="Subtotal"
-        :value="subtotal"
+        :value="totals.subtotal"
         class="sf-property--full-width property"
       />
       <SfProperty
@@ -65,7 +65,7 @@
       />
       <SfProperty
         name="Total"
-        :value="total"
+        :value="totals.total + getShippingMethodPrice(chosenShippingMethod)"
         class="sf-property--full-width property-total"
       />
     </div>
@@ -114,9 +114,14 @@ import {
   getShippingMethodDescription,
   getShippingMethodPrice,
   getCartProducts,
-  getCartTotalPrice,
-  getCartSubtotalPrice,
-  getCartTotalItems
+  getCartTotals,
+  getCartTotalItems,
+  getCartProductName,
+  getCartProductImage,
+  getCartProductPrice,
+  getCartProductQty,
+  getCartProductAttributes,
+  getCartProductSku
 } from '@vue-storefront/commercetools-helpers';
 
 export default {
@@ -135,18 +140,16 @@ export default {
     const listIsHidden = ref(false);
     const promoCode = ref('');
     const showPromoCode = ref(false);
-    const products = computed(() => getCartProducts(cart.value, ['color', 'size']));
+    const products = computed(() => getCartProducts(cart.value));
     const totalItems = computed(() => getCartTotalItems(cart.value));
-    const subtotal = computed(() => getCartSubtotalPrice(cart.value));
-    const total = computed(() => getCartTotalPrice(cart.value));
+    const totals = computed(() => getCartTotals(cart.value));
 
     return {
       totalItems,
       listIsHidden,
       products,
       chosenShippingMethod,
-      total,
-      subtotal,
+      totals,
       promoCode,
       showPromoCode,
       removeFromCart,
@@ -154,6 +157,12 @@ export default {
       getShippingMethodName,
       getShippingMethodDescription,
       getShippingMethodPrice,
+      getCartProductName,
+      getCartProductImage,
+      getCartProductPrice,
+      getCartProductQty,
+      getCartProductAttributes,
+      getCartProductSku,
       characteristics: [
         {
           title: 'Safety',

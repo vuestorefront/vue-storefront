@@ -79,23 +79,22 @@
         class="table__row"
       >
         <SfTableData class="table__image">
-          <SfImage :src="product.image" />
+          <SfImage :src="getCartProductImage(product)" />
         </SfTableData>
         <SfTableData class="table__data table__data--left">
-          <div class="product-title">{{ product.title }}</div>
-          <div class="product-sku">{{ product.sku }}</div>
+          <div class="product-title">{{ getCartProductName(product) }}</div>
+          <div class="product-sku">{{ getCartProductSku(product) }}</div>
         </SfTableData>
-        <SfTableData class="table__data">
-          {{ product.configuration[1].value}}
+        <SfTableData
+          class="table__data" v-for="(value, key) in getCartProductAttributes(product, ['size', 'color'])"
+          :key="key"
+        >
+          {{ value }}
         </SfTableData>
-        <SfTableData class="table__data">
-          {{ product.configuration[0].value }}
-        </SfTableData>
-        <SfTableData class="table__data">{{ product.qty }}</SfTableData>
+        <SfTableData class="table__data">{{ getCartProductQty(product) }}</SfTableData>
         <SfTableData class="table__data">
           <SfPrice
-            :regular="product.price.regular"
-            :special="product.price.special"
+            :regular="getCartProductPrice(product)"
             class="product-price"
           />
         </SfTableData>
@@ -120,7 +119,7 @@
         <div class="summary__total">
           <SfProperty
             name="Subtotal"
-            :value="subtotal"
+            :value="totals.subtotal"
             class="sf-property--full-width property"
           >
             <template #name>
@@ -138,7 +137,7 @@
           </SfProperty>
           <SfProperty
             name="Total"
-            :value="total"
+            :value="totals.total"
             class="sf-property--full-width property--huge summary__property-total"
           >
             <template #name>TOTAL</template>
@@ -183,8 +182,13 @@ import {
   getShippingMethodName,
   getShippingMethodPrice,
   getCartProducts,
-  getCartTotalPrice,
-  getCartSubtotalPrice
+  getCartTotals,
+  getCartProductName,
+  getCartProductImage,
+  getCartProductPrice,
+  getCartProductQty,
+  getCartProductAttributes,
+  getCartProductSku
 } from '@vue-storefront/commercetools-helpers';
 import { ref, computed } from '@vue/composition-api';
 import { useCheckout, useCart } from '@vue-storefront/commercetools-composables';
@@ -207,9 +211,8 @@ export default {
     const billingSameAsShipping = ref(false);
     const terms = ref(false);
     const { cart, removeFromCart } = useCart();
-    const products = computed(() => getCartProducts(cart.value, ['color', 'size']));
-    const subtotal = computed(() => getCartSubtotalPrice(cart.value));
-    const total = computed(() => getCartTotalPrice(cart.value));
+    const products = computed(() => getCartProducts(cart.value));
+    const totals = computed(() => getCartTotals(cart.value));
     const {
       personalDetails,
       shippingDetails,
@@ -235,11 +238,16 @@ export default {
       getShippingMethodPrice,
       billingSameAsShipping,
       terms,
-      total,
-      subtotal,
+      totals,
       removeFromCart,
       processOrder,
-      tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount']
+      tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
+      getCartProductName,
+      getCartProductImage,
+      getCartProductPrice,
+      getCartProductQty,
+      getCartProductAttributes,
+      getCartProductSku
     };
   }
 };

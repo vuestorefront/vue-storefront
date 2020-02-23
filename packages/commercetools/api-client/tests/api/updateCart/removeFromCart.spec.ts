@@ -11,9 +11,11 @@ describe('[commercetools-api-client] removeFromCart', () => {
   });
 
   it('removes product from cart', async () => {
-    const product = { id: 1,
+    const product = {
+      id: 1,
       sku: '123',
-      qty: 2 } as any;
+      quantity: 2
+    } as any;
     const response = await removeFromCart(cart, product);
 
     expect(response).toEqual({

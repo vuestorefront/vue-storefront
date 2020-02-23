@@ -15,11 +15,6 @@ jest.mock('@vue-storefront/commercetools-api', () => ({
   createCart: jest.fn(() => cartResponse)
 }));
 
-jest.mock('./../../src/helpers/internals', () => ({
-  enhanceProfile: (args) => args,
-  enhanceCart: (args) => args
-}));
-
 describe('[commercetools-composables] useCart/currentCart', () => {
   beforeEach(() => {
     jest.clearAllMocks();

@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
 import {
   UiMediaGalleryItem,
-  UiCategory,
-  UiCartProduct,
   AgnosticProductAttribute
 } from '@vue-storefront/interfaces';
 import { ProductVariant, Category, Cart } from '@vue-storefront/boilerplate-api/src/types';
@@ -71,12 +69,13 @@ export const getCartProducts = (cart: Cart, includeAttributes: string[] = []): a
 };
 
 // todo: remove CartPrice and unify with getProductPrice
-export const getCartTotalPrice = (cart: Cart): number => {
-  return 300.00;
+export const getCartTotals = (cart: Cart) => {
+  return {
+    total: 300.00,
+    subtotal: 240.00
+  };
 };
-export const getCartSubtotalPrice = (cart: Cart): number => {
-  return 200.00;
-};
+
 export const getCartShippingPrice = (cart: Cart): number => {
   return 100.00;
 };

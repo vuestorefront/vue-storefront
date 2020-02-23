@@ -18,8 +18,8 @@ describe('[commercetools-composables] useLocale', () => {
     await wrapper.vm.$nextTick();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$data.country).toEqual('UK');
-    expect(wrapper.vm.$data.currency).toEqual('USD');
+    expect(wrapper.vm.$data.country).toEqual('');
+    expect(wrapper.vm.$data.currency).toEqual('');
     expect(wrapper.vm.$data.locale).toEqual('en');
   });
 

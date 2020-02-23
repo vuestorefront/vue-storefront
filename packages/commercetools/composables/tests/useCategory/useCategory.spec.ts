@@ -110,4 +110,16 @@ describe('[commercetools-composables] useCategory', () => {
         name: 'cat3' }
     ]);
   });
+
+  it.skip('applies filter', async () => {
+    const { applyFilter } = useCategory();
+
+    applyFilter();
+  });
+
+  it.skip('clear filters', async () => {
+    const { clearFilters } = useCategory();
+
+    clearFilters();
+  });
 });

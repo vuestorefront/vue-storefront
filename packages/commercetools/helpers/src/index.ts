@@ -1,8 +1,8 @@
 import {
   UiMediaGalleryItem,
   UiCategory,
-  UiCartProduct,
-  AgnosticProductAttribute
+  AgnosticProductAttribute,
+  AgnosticTotals
 } from '@vue-storefront/interfaces';
 import { ProductVariant, Image, Category, Cart, LineItem, ShippingMethod, Customer } from './types/GraphQL';
 import { formatAttributeList, getVariantByAttributes } from './_utils';
@@ -50,7 +50,7 @@ export const getProductVariants = (products: ProductVariant[], filters: ProductV
   return products;
 };
 
-export const getProductAttributes = (products: ProductVariant[], filterByAttributeName?: Array<string>): Record<string, AgnosticProductAttribute | string> => {
+export const getProductAttributes = (products: ProductVariant[] | ProductVariant, filterByAttributeName?: Array<string>): Record<string, AgnosticProductAttribute | string> => {
   const isSingleProduct = !Array.isArray(products);
   const productList = (isSingleProduct ? [products] : products) as ProductVariant[];
 
@@ -126,41 +126,46 @@ export const getCategoryTree = (category: Category): UiCategory | null => {
 
 // Cart
 
-export const getCartProducts = (cart: Cart, includeAttributes: string[] = []): UiCartProduct[] => {
+export const getCartProducts = (cart: Cart): LineItem[] => {
   if (!cart) {
     return [];
   }
 
-  const filterAttributes = (attributes) => {
-    if (includeAttributes.length === 0) {
-      return attributes;
-    }
-
-    return attributes.filter((f) => includeAttributes.includes(f.name));
-  };
-
-  return cart.lineItems.map((lineItem: LineItem) => ({
-    title: lineItem.name,
-    id: lineItem.id,
-    price: { regular: lineItem.price.value.centAmount / 100 },
-    image: lineItem.variant.images[0].url,
-    qty: lineItem.quantity,
-    configuration: formatAttributeList(filterAttributes((lineItem as any)._configuration))
-  }));
+  return cart.lineItems;
 };
 
-export const getCartTotalPrice = (cart: Cart): number => {
+export const getCartProductName = (product: LineItem): string => product.name;
+
+export const getCartProductImage = (product: LineItem): string => product.variant.images[0].url;
+
+export const getCartProductPrice = (product: LineItem): number => product.price.value.centAmount / 100;
+
+export const getCartProductQty = (product: LineItem): number => product.quantity;
+
+export const getCartProductAttributes = (product: LineItem, filterByAttributeName?: Array<string>) =>
+  getProductAttributes(product.variant, filterByAttributeName);
+
+export const getCartProductSku = (product: LineItem): string => product.variant.sku;
+
+export const getCartTotals = (cart: Cart): AgnosticTotals => {
   if (!cart) {
-    return 0;
+    return {
+      total: 0,
+      subtotal: 0
+    };
   }
 
-  const subtotal = cart.totalPrice.centAmount;
+  const subtotalPrice = cart.totalPrice.centAmount;
   const shipping = cart.shippingInfo ? cart.shippingInfo.price.centAmount : 0;
 
-  return (shipping + subtotal) / 100;
+  return {
+    total: (shipping + subtotalPrice) / 100,
+    subtotal: subtotalPrice / 100
+  };
 };
-export const getCartSubtotalPrice = (cart: Cart): number => cart ? cart.totalPrice.centAmount / 100 : 0;
+
 export const getCartShippingPrice = (cart: Cart): number => cart && cart.shippingInfo ? cart.shippingInfo.price.centAmount / 100 : 0;
+
 export const getCartTotalItems = (cart: Cart): number => {
   if (!cart) {
     return 0;
