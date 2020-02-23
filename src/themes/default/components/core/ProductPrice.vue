@@ -2,20 +2,20 @@
   <div class="mb40 price serif">
     <div
       class="h3 cl-secondary"
-      v-if="product.special_price && product.price_incl_tax && product.original_price_incl_tax"
+      v-if="initialPrice.special && initialPrice.default && initialPrice.original"
     >
       <span
         class="h2 cl-mine-shaft weight-700"
-      >{{ price.special | price }}</span>&nbsp;
+      >{{ price.special | price(storeView) }}</span>&nbsp;
       <span
         class="price-original h3"
-      >{{ price.original | price }}</span>
+      >{{ price.original | price(storeView) }}</span>
     </div>
     <div
       class="h2 cl-mine-shaft weight-700"
-      v-if="!product.special_price && product.price_incl_tax"
+      v-if="!initialPrice.special && initialPrice.default"
     >
-      {{ price.default | price }}
+      {{ price.default | price(storeView) }}
     </div>
   </div>
 </template>
@@ -23,6 +23,7 @@
 import { getCustomOptionValues, getCustomOptionPriceDelta } from '@vue-storefront/core/modules/catalog/helpers/customOption'
 import { getBundleOptionsValues, getBundleOptionPrice } from '@vue-storefront/core/modules/catalog/helpers/bundleOptions'
 import get from 'lodash-es/get'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   name: 'ProductPrice',
@@ -54,11 +55,12 @@ export default {
       return priceDelta
     },
     price () {
-      const special = (this.product.price_incl_tax + this.customOptionsPriceDelta.priceInclTax) * this.product.qty
-      const original = (this.product.original_price_incl_tax + this.customOptionsPriceDelta.priceInclTax) * this.product.qty
+      const customOptionPrice = this.customOptionsPriceDelta.priceInclTax
+      const special = (this.initialPrice.default + customOptionPrice) * this.product.qty
+      const original = (this.initialPrice.original + customOptionPrice) * this.product.qty
       const defaultPrice = this.product.qty > 0
-        ? (this.product.price_incl_tax + this.customOptionsPriceDelta.priceInclTax) * this.product.qty
-        : this.product.price_incl_tax
+        ? (this.initialPrice.default + customOptionPrice) * this.product.qty
+        : this.initialPrice.default
 
       if (this.bundleOptionsPrice.priceInclTax > 0) {
         return {
@@ -73,6 +75,16 @@ export default {
         original,
         default: defaultPrice
       }
+    },
+    initialPrice () {
+      return {
+        default: this.product.price_incl_tax || this.product.priceInclTax || 0,
+        original: this.product.original_price_incl_tax || this.product.originalPriceInclTax || 0,
+        special: this.product.special_price || this.product.specialPrice || 0
+      }
+    },
+    storeView () {
+      return currentStoreView()
     }
   }
 }
