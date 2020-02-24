@@ -64,6 +64,11 @@ module.exports = function DefaultThemeModule(moduleOptions) {
       path: '/c/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?',
       component: resolve(this.options.buildDir, 'pages/Category.vue')
     });
+    routes.unshift({
+      name: 'my-account',
+      path: '/my-account/:pageName?',
+      component: resolve(this.options.buildDir, 'pages/MyAccount.vue')
+    });
   });
 
   if (global.coreDev) {

@@ -4,6 +4,23 @@ import { apolloClient } from '../../../src/index';
 import defaultQuery from '../../../src/api/getCategory/defaultQuery';
 
 describe('[commercetools-api-client] getCategory', () => {
+  it('fetches categories without search parameters', async () => {
+    const givenVariables = {
+      locale: 'en'
+    };
+
+    (apolloClient.query as any).mockImplementation(({ variables, query }) => {
+      expect(variables).toEqual(givenVariables);
+      expect(query).toEqual(defaultQuery);
+
+      return { data: 'category response' };
+    });
+
+    const { data } = await getCategory();
+
+    expect(data).toBe('category response');
+  });
+
   it('fetches categories with default query', async () => {
     const givenVariables = {
       where: 'id="724b250d-9805-4657-ae73-3c02a63a9a13"',

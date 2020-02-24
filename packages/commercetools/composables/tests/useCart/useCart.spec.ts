@@ -22,7 +22,7 @@ describe('[commercetools-composables] useCart', () => {
     const wrapper = mountComposable(useCart);
 
     await wrapper.vm.$nextTick();
-    expect(wrapper.vm.$data.loading).toBeTruthy();
+    expect(loadCurrentCart).toBeCalled();
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.$data.loading).toBeFalsy();
     expect(wrapper.vm.$data.cart).toEqual(cartData);

@@ -1,0 +1,404 @@
+<template>
+  <transition name="fade">
+    <SfTabs
+      v-if="editAddress"
+      key="edit-address"
+      :open-tab="1"
+      class="tab-orphan"
+    >
+      <SfTab title="Change the address">
+        <p class="message">
+          Keep your addresses and contact details updated.
+        </p>
+        <div class="form">
+          <SfInput
+            v-model="firstName"
+            name="firstName"
+            label="First Name"
+            required
+            class="form__element form__element--half"
+          />
+          <SfInput
+            v-model="lastName"
+            name="lastName"
+            label="Last Name"
+            required
+            class="form__element form__element--half form__element--half-even"
+          />
+          <SfInput
+            v-model="streetName"
+            name="streetName"
+            label="Street Name"
+            required
+            class="form__element"
+          />
+          <SfInput
+            v-model="apartment"
+            name="apartment"
+            label="House/Apartment number"
+            required
+            class="form__element"
+          />
+          <SfInput
+            v-model="city"
+            name="city"
+            label="City"
+            required
+            class="form__element form__element--half"
+          />
+          <SfInput
+            v-model="state"
+            name="state"
+            label="State/Province"
+            required
+            class="form__element form__element--half form__element--half-even"
+          />
+          <SfInput
+            v-model="zipCode"
+            name="zipCode"
+            label="Zip-code"
+            required
+            class="form__element form__element--half"
+          />
+          <SfSelect
+            v-model="country"
+            name="country"
+            label="Country"
+            required
+            class="sf-select--underlined form__select form__element form__element--half form__element--half-even"
+          >
+            <SfSelectOption
+              v-for="countryOption in countries"
+              :key="countryOption"
+              :value="countryOption"
+            >
+              {{ countryOption }}
+            </SfSelectOption>
+          </SfSelect>
+          <SfInput
+            v-model="phoneNumber"
+            name="phone"
+            label="Phone number"
+            required
+            class="form__element"
+          />
+          <SfButton class="form__button" @click="updateAddress"
+            >Update the address</SfButton
+          >
+        </div>
+      </SfTab>
+    </SfTabs>
+    <SfTabs v-else key="address-list" :open-tab="1" class="tab-orphan">
+      <SfTab title="Shipping details">
+        <p class="message">
+          Manage all the shipping addresses you want (work place, home address
+          ...) This way you won"t have to enter the shipping address manually
+          with each order.
+        </p>
+        <transition-group tag="div" name="fade" class="shipping-list">
+          <div
+            v-for="(shipping, key) in account.shipping"
+            :key="shipping.streetName + shipping.apartment"
+            class="shipping"
+          >
+            <div class="shipping__content">
+              <p class="shipping__address">
+                <span class="shipping__client-name"
+                  >{{ shipping.firstName }} {{ shipping.lastName }}</span
+                ><br />
+                {{ shipping.streetName }} {{ shipping.apartment }}<br />{{
+                  shipping.zipCode
+                }}
+                {{ shipping.city }},<br />{{ shipping.country }}
+              </p>
+              <p class="shipping__address">
+                {{ shipping.phoneNumber }}
+              </p>
+            </div>
+            <div class="shipping__actions">
+              <SfIcon
+                icon="cross"
+                color="gray"
+                size="14px"
+                role="button"
+                class="mobile-only"
+                @click="deleteAddress(key)"
+              />
+              <SfButton @click="changeAddress(key)">Change</SfButton>
+              <SfButton
+                class="shipping__button-delete desktop-only"
+                @click="deleteAddress(key)"
+                >Delete</SfButton
+              >
+            </div>
+          </div>
+        </transition-group>
+        <SfButton class="action-button" @click="changeAddress(-1)"
+          >Add new address</SfButton
+        >
+      </SfTab>
+    </SfTabs>
+  </transition>
+</template>
+<script>
+import {
+  SfTabs,
+  SfInput,
+  SfButton,
+  SfSelect,
+  SfIcon
+} from '@storefront-ui/vue';
+export default {
+  name: 'ShippingDetails',
+  components: {
+    SfTabs,
+    SfInput,
+    SfButton,
+    SfSelect,
+    SfIcon
+  },
+  props: {
+    account: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  data() {
+    return {
+      editAddress: false,
+      editedAddress: -1,
+      firstName: '',
+      lastName: '',
+      streetName: '',
+      apartment: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: '',
+      phoneNumber: '',
+      countries: [
+        'Austria',
+        'Azerbaijan',
+        'Belarus',
+        'Belgium',
+        'Bosnia and Herzegovina',
+        'Bulgaria',
+        'Croatia',
+        'Cyprus',
+        'Czech Republic',
+        'Denmark',
+        'Estonia',
+        'Finland',
+        'France',
+        'Georgia',
+        'Germany',
+        'Greece',
+        'Hungary',
+        'Iceland',
+        'Ireland',
+        'Italy',
+        'Kosovo',
+        'Latvia',
+        'Liechtenstein',
+        'Lithuania',
+        'Luxembourg',
+        'Macedonia',
+        'Malta',
+        'Moldova',
+        'Monaco',
+        'Montenegro',
+        'The Netherlands',
+        'Norway',
+        'Poland',
+        'Portugal',
+        'Romania',
+        'Russia',
+        'San Marino',
+        'Serbia',
+        'Slovakia',
+        'Slovenia',
+        'Spain',
+        'Sweden',
+        'Switzerland',
+        'Turkey',
+        'Ukraine',
+        'United Kingdom',
+        'Vatican City'
+      ]
+    };
+  },
+  methods: {
+    changeAddress(index) {
+      const account = this.account;
+      const shipping = account.shipping[index];
+      if (index > -1) {
+        this.firstName = account.firstName;
+        this.lastName = account.lastName;
+        this.streetName = shipping.streetName;
+        this.apartment = shipping.apartment;
+        this.city = shipping.city;
+        this.state = shipping.state;
+        this.zipCode = shipping.zipCode;
+        this.country = shipping.country;
+        this.phoneNumber = shipping.phoneNumber;
+        this.editedAddress = index;
+      }
+      this.editAddress = true;
+    },
+    updateAddress() {
+      const account = { ...this.account };
+      const shipping = {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        apartment: this.apartment,
+        streetName: this.streetName,
+        city: this.city,
+        state: this.state,
+        zipCode: this.zipCode,
+        country: this.country,
+        phoneNumber: this.phoneNumber
+      };
+      const index = this.editedAddress;
+      if (index > -1) {
+        account.shipping[index] = shipping;
+        this.editedAddress = -1;
+      } else {
+        account.shipping.push(shipping);
+      }
+      this.editAddress = false;
+      this.$emit('update:shipping', account);
+    },
+    deleteAddress(index) {
+      const account = { ...this.account };
+      account.shipping.splice(index, 1);
+      this.$emit('update:shipping', account);
+    }
+  }
+};
+</script>
+<style lang='scss' scoped>
+@import '~@storefront-ui/vue/styles';
+@mixin for-mobile {
+  @media screen and (max-width: $desktop-min) {
+    @content;
+  }
+}
+@mixin for-desktop {
+  @media screen and (min-width: $desktop-min) {
+    @content;
+  }
+}
+.form {
+  @include for-desktop {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  &__element {
+    margin-bottom: $spacer-extra-big;
+    @include for-desktop {
+      flex: 0 0 100%;
+    }
+    &--half {
+      @include for-desktop {
+        flex: 1 1 50%;
+      }
+      &-even {
+        @include for-desktop {
+          padding-left: $spacer-extra-big;
+        }
+      }
+    }
+  }
+  &__select {
+    ::v-deep .sf-select__selected {
+      padding: 5px 0;
+    }
+  }
+  &__button {
+    width: 100%;
+    @include for-desktop {
+      width: auto;
+    }
+  }
+}
+.message {
+  margin: 0 0 $spacer-extra-big 0;
+  font-family: $body-font-family-primary;
+  font-weight: $body-font-weight-primary;
+  line-height: 1.6;
+  font-size: $font-size-regular-mobile;
+  @include for-desktop {
+    font-size: $font-size-regular-desktop;
+  }
+}
+.shipping-list {
+  margin-bottom: $spacer-extra-big;
+}
+.shipping {
+  display: flex;
+  padding: $spacer-big 0;
+  border-top: 1px solid $c-light;
+  &:last-child {
+    border-bottom: 1px solid $c-light;
+  }
+  &__content {
+    flex: 1;
+    color: $c-text;
+    font-size: $font-size-small-mobile;
+    font-weight: 300;
+    line-height: 1.6;
+    @include for-desktop {
+      font-size: $font-size-small-desktop;
+    }
+  }
+  &__actions {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    @include for-desktop {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+    }
+  }
+  &__button-delete {
+    background-color: $c-light;
+    color: $c-text-muted;
+    @include for-desktop {
+      margin-left: $spacer-big;
+    }
+  }
+  &__address {
+    margin: 0 0 $spacer-big 0;
+    &:last-child {
+      margin: 0;
+    }
+  }
+  &__client-name {
+    font-size: $font-size-regular-desktop;
+    font-weight: 500;
+  }
+}
+.action-button {
+  width: 100%;
+  @include for-desktop {
+    width: auto;
+  }
+}
+.tab-orphan {
+  @include for-mobile {
+    ::v-deep .sf-tabs {
+      &__title {
+        display: none;
+      }
+      &__content {
+        border: 0;
+        padding: 0;
+      }
+    }
+  }
+}
+</style>

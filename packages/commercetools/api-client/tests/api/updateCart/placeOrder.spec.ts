@@ -60,4 +60,39 @@ describe('[commercetools-api-client] placeOrder', () => {
       orderResponse: { data: 'order response' }
     });
   });
+
+  it('creates an order with payment method', async () => {
+    const order = {
+      shippingDetails: address,
+      billingDetails: address,
+      shippingMethod: 'dhl',
+      paymentMethod: 'paypal'
+    } as any;
+
+    (createMyOrderFromCart as any).mockImplementation(() => {
+      return { data: 'order response' };
+    });
+
+    (updateCart as any).mockImplementation((draft) => {
+      expect(draft).toEqual({
+        ...cart,
+        actions: [
+          { setShippingAddress: { address } },
+          {
+            setShippingMethod: {
+              shippingMethod: {
+                id: 'dhl'
+              }
+            }
+          },
+          { setBillingAddress: { address } },
+          { addPayment: { payment: { id: 'paypal' } } }
+        ]
+      });
+
+      return { data: { cart } };
+    });
+
+    await placeOrder(cart, order);
+  });
 });
