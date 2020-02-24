@@ -95,8 +95,8 @@ export function afterRegistration (config, store: Store<any>) {
                   'id': orderId,
                   'affiliation': order ? order.store_name : '',
                   'revenue': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_grand_total ? state.cart.platformTotals.base_grand_total : '',
-                  'tax': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_shipping_amount ? state.cart.platformTotals.base_shipping_amount : '',
-                  'shipping': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_tax_amount ? state.cart.platformTotals.base_tax_amount : '',
+                  'tax': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_tax_amount ? state.cart.platformTotals.base_tax_amount : '',
+                  'shipping': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_shipping_amount ? state.cart.platformTotals.base_shipping_amount : '',
                   'coupon': ''
                 },
                 'products': products
