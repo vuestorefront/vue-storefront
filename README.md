@@ -326,7 +326,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://macopedia.com/pl">
           <img
-            src="docs/.vuepress/public/partners/macopedia.svg"
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/macopedia_blue_logo.png"
             alt="Macopedia"
             width="150"
           >
