@@ -8,7 +8,9 @@ import autoprefixer from 'autoprefixer';
 import HTMLPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
 import dayjs from 'dayjs';
+import merge from 'webpack-merge'
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 fs.writeFileSync(
@@ -60,49 +62,8 @@ const postcssConfig = {
 };
 const isProd = process.env.NODE_ENV === 'production'
 // todo: usemultipage-webpack-plugin for multistore
-export default {
-  plugins: [
-    new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
-    new webpack.ProgressPlugin(),
-    /* new BundleAnalyzerPlugin({
-      generateStatsFile: true
-    }), */
-    new CaseSensitivePathsPlugin(),
-    new VueLoaderPlugin(),
-    // generate output HTML
-    new HTMLPlugin({
-      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
-      filename: 'index.html',
-      chunksSortMode: 'none',
-      inject: isProd === false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
-    }),
-    new HTMLPlugin({
-      template: fs.existsSync(themedIndexMinimal) ? themedIndexMinimal : 'src/index.minimal.template.html',
-      filename: 'index.minimal.html',
-      chunksSortMode: 'none',
-      inject: isProd === false
-    }),
-    new HTMLPlugin({
-      template: fs.existsSync(themedIndexBasic) ? themedIndexBasic : 'src/index.basic.template.html',
-      filename: 'index.basic.html',
-      chunksSortMode: 'none',
-      inject: isProd === false
-    }),
-    new HTMLPlugin({
-      template: fs.existsSync(themedIndexAmp) ? themedIndexAmp : 'src/index.amp.template.html',
-      filename: 'index.amp.html',
-      chunksSortMode: 'none',
-      inject: isProd === false
-    }),
-    new webpack.DefinePlugin({
-      'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
-      'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
-    })
-  ],
+const baseConfig = {
   devtool: 'source-map',
-  entry: {
-    app: ['@babel/polyfill', './core/client-entry.ts']
-  },
   output: {
     path: path.resolve(__dirname, '../../dist'),
     publicPath: '/dist/',
@@ -221,3 +182,82 @@ export default {
     ]
   }
 }
+
+const ssrConfig = {
+  entry: {
+    app: ['@babel/polyfill', './core/client-entry.ts']
+  },
+  plugins: [
+    new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
+    new webpack.ProgressPlugin(),
+    /* new BundleAnalyzerPlugin({
+      generateStatsFile: true
+    }), */
+    new CaseSensitivePathsPlugin(),
+    new VueLoaderPlugin(),
+    // generate output HTML
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndex) ? themedIndex : 'src/index.template.html',
+      filename: 'index.html',
+      chunksSortMode: 'none',
+      inject: isProd === false // in dev mode we're not using clientManifest therefore renderScripts() is returning empty string and we need to inject scripts using HTMLPlugin
+    }),
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndexMinimal) ? themedIndexMinimal : 'src/index.minimal.template.html',
+      filename: 'index.minimal.html',
+      chunksSortMode: 'none',
+      inject: isProd === false
+    }),
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndexBasic) ? themedIndexBasic : 'src/index.basic.template.html',
+      filename: 'index.basic.html',
+      chunksSortMode: 'none',
+      inject: isProd === false
+    }),
+    new HTMLPlugin({
+      template: fs.existsSync(themedIndexAmp) ? themedIndexAmp : 'src/index.amp.template.html',
+      filename: 'index.amp.html',
+      chunksSortMode: 'none',
+      inject: isProd === false
+    }),
+    new webpack.DefinePlugin({
+      'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
+      'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss'))
+    })
+  ]
+}
+const spaConfig = {
+  entry: {
+    app: ['@babel/polyfill', './core/spa-entry.ts']
+  },
+  plugins: [
+    new CopyWebpackPlugin([
+      { from: themeRoot + '/assets', to: 'assets' }
+    ]),
+    new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),
+    new webpack.ProgressPlugin(),
+    new CaseSensitivePathsPlugin(),
+    new VueLoaderPlugin(),
+    // generate output HTML
+    new HTMLPlugin({
+      template: 'src/index.spa.template.html',
+      filename: 'index.html',
+      chunksSortMode: 'none',
+      inject: true
+    }),
+    new webpack.DefinePlugin({
+      'process.env.__APPVERSION__': JSON.stringify(require('../../package.json').version),
+      'process.env.__BUILDTIME__': JSON.stringify(dayjs().format('YYYY-MM-DD HH:mm:ss')),
+      'process.env.VUE_ENV': '"client"'
+    })
+  ],
+  output: {
+    path: path.resolve(__dirname, '../../dist'),
+    publicPath: '/',
+    filename: '[name].[hash].js'
+  }
+}
+
+const isSpa = process.argv.includes('--spa')
+
+export default merge(baseConfig, isSpa ? spaConfig : ssrConfig)

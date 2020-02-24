@@ -4,6 +4,7 @@ import base from './webpack.base.config'
 import VueSSRClientPlugin from 'vue-server-renderer/client-plugin'
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
+const isSpa = process.argv.includes('--spa')
 const config = merge(base, {
   optimization: {
     splitChunks: {
@@ -31,7 +32,7 @@ const config = merge(base, {
     new webpack.DefinePlugin({
       'process.env.VUE_ENV': '"client"'
     }),
-    new VueSSRClientPlugin()
+    ...(isSpa ? [] : [new VueSSRClientPlugin()])
   ]
 })
 
