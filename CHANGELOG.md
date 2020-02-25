@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add `isBackRoute` that informs if user returns to route, skip loading products for category if he does - @gibkigonzo (issue#4066)
 - Add server context to async data loader - @gibkigonzo (pr#4113)
+- Add preload and preconnect for google font - @gibkigonzo (pr#4121)
 
 ### Changed / Improved
 - optimizations - improved prefetch strategy - @gibkigonzo (#4080)
