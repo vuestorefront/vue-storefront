@@ -16,7 +16,7 @@
     "availableCacheTags": ["product", "category", "home", "checkout", "page-not-found", "compare", "my-account", "P", "C", "error", "attribute", "taxrule"],
     "invalidateCacheKey": "aeSu7aip",
     "invalidateCacheForwarding": false,
-    "invalidateCacheForwardUrl": "https://next.storefrontcloud.io/invalidate?key=aeSu7aip&tag=",
+    "invalidateCacheForwardUrl": "http://localhost:8080/invalidate?key=aeSu7aip&tag=",
     "dynamicConfigReload": false,
     "dynamicConfigContinueOnError": false,
     "dynamicConfigExclude": ["ssr", "storeViews", "entities", "localForage", "shipping", "boost", "query"],
@@ -53,7 +53,7 @@
     "port": 8080
   },
   "api": {
-    "url": "https://next.storefrontcloud.io",
+    "url": "http://localhost:8080",
     "saveBandwidthOverCache": true
   },
   "elasticsearch": {
@@ -426,7 +426,7 @@
     "endpoint": "/api/user",
     "history_endpoint": "/api/user/order-history?token={{token}}&pageSize={{pageSize}}&currentPage={{currentPage}}",
     "resetPassword_endpoint": "/api/user/reset-password",
-    "createPassword_endpoint": "https://next.storefrontcloud.io/api/user/create-password",
+    "createPassword_endpoint": "http://localhost:8080/api/user/create-password",
     "changePassword_endpoint": "/api/user/change-password?token={{token}}",
     "login_endpoint": "/api/user/login",
     "create_endpoint": "/api/user/create",
