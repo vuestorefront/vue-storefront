@@ -33,9 +33,7 @@ RUN yarn install
 COPY config /var/www/config
 
 ## Run Builds
-RUN yarn build:client
-RUN yarn build:server
-RUN yarn build:sw
+RUN yarn build
 
 ## Copy over scripts
 COPY docker/vue-storefront-alt/vue-storefront.sh /usr/local/bin/
