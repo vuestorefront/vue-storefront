@@ -200,7 +200,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     await dispatch('changeRouterFilterParameters', {})
   },
   async changeRouterFilterParameters (context, query) {
-    router.push({[products.routerFiltersSource]: query})
+    router.push({[products.routerFiltersSource]: query}, () => {})
   },
   async loadCategoryBreadcrumbs ({ dispatch, getters }, { category, currentRouteName, omitCurrent = false }) {
     if (!category) return
