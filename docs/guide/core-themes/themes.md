@@ -29,14 +29,14 @@ Only official themes tested and accepted by the community should be in a `master
 Each theme is a separate Vue.js application with its own dependencies, which can make use of the core or even modify it.
 Below you can find the list of files that are essential for your theme to work:
 
-- `extensions` - theme-specific extension
-  - `index.js` - here you can register your theme-specific extensions
-- `filters` - theme-specific filters (extends `core/filters`)
-  - `index.js` - here you can register your theme-specific filters
+- `assets` - theme-specific assets
+- `components` - theme-specific components
+- `css` - theme-specific css files
+- `helpers` - helper methods
+- `layouts` - layout files
 - `mixins` - theme-specific mixins (extends `core/mixins`)
   - `index.js` - here you can register your theme-specific mixins
 - `pages` - your shop pages
-- `plugins` - theme-specific plugins (extends `core/plugins`, see [Working with plugins](plugins.md)
 - `resource` - theme-specific resources (extends `core/resource`)
 - `router` - theme router
 - `store` - theme-specific stores (extends `core/store`)
