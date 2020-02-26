@@ -78,6 +78,7 @@ export default {
       return filters
         .filter(f => (f.options.length > 1 || (f.options.length === 1 && singleOptionFilters.includes(f.attributeKey))) && !this.getSystemFilterNames.includes(f.attributeKey) && this.isVisibleFilter(f.attributeKey))
         .map(f => { return { ...f, submenu: submenuFilters.includes(f.attributeKey), attributeLabel: this.attributeLabel({ attributeKey: f.attributeKey }), position: attributes[f.attributeKey].position } })
+        .map(this.sortOptions)
     },
     groupedFilters () {
       let allAvailableFilters = sortBy(this.availableFilters, 'position', 'attributeLabel')
@@ -86,10 +87,23 @@ export default {
       return [
         allAvailableFilters.filter(f => parentsOfNestedFilters.includes(f.attributeKey)),
         allAvailableFilters.filter(f => !parentsOfNestedFilters.includes(f.attributeKey))
-      ]
+      ].map(this.sortOptions)
     }
   },
   methods: {
+    sortOptions (filter) {
+      const { options, attributeKey } = filter
+      const attribute = this.attributes[attributeKey]
+      if (attribute && attribute.options) {
+        filter.options.sort((a, b) => {
+          const aSort = attribute.options.find(o => o.value === a.id)
+          const bSort = attribute.options.find(o => o.value === b.id)
+          return aSort.sort_order - bSort.sort_order
+        })
+      }
+
+      return filter
+    },
     resetAllFilters () {
       this.$store.dispatch('category-next/resetSearchFilters')
     },
