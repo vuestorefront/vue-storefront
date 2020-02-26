@@ -1,5 +1,5 @@
-import { transformBlock } from './_utils';
-import { PrismicSlice, PrismicMeta, PrismicBlock } from '../types';
+import { transform as transformFunction } from '../index';
+import { PrismicSlice, PrismicMeta, TransformBlock } from '../types';
 import { Document } from 'prismic-javascript/d.ts/documents';
 
 export const getPages = (doc: Document | Document[], pageUid?: string): Document | null | Document[] => {
@@ -42,44 +42,60 @@ export const getPageSlugs = (page: Document): string[] => page.slugs;
 
 export const getPageLang = (page: Document): string => page.lang;
 
-export const getBlocks = ({ data }: Document, blockName?: string): string | string[] => {
-  const blockKeys = Object.keys(data || {})
+type ElementNameType = string | string[] | null | undefined;
+type FilterSlice = (slice: PrismicSlice) => boolean;
+
+export const getBlocks = (data: any, blockName?: ElementNameType, transform: TransformBlock = transformFunction): string | string[] => {
+  if (typeof data !== 'object' || data === null) {
+    return blockName ? '' : [];
+  }
+
+  const blockKeys = Object.keys(data)
     .filter((key) => key !== 'body')
     .filter((key) => data[key] !== null);
 
-  if (blockName) {
+  if (typeof blockName === 'string') {
     const key = blockKeys.find((blockKey) => blockKey === blockName);
 
     if (key === undefined) {
       return '';
     }
 
-    return transformBlock(data[key]);
+    return transform(data[key]);
   }
 
-  return blockKeys.map((key) => transformBlock(data[key]));
+  const filteredBlockKeys = Array.isArray(blockName)
+    ? blockKeys.filter((key) => blockName.includes(key))
+    : blockKeys;
+
+  return filteredBlockKeys.map((key) => transform(data[key]));
 };
 
-export const getSlices = ({ data }: Document, sliceType?: string): string[] | Array<string[]> => {
-  const renderSliceElements = (slice: PrismicBlock): string => Object.keys(slice)
-    .filter((key) => slice[key] !== null && Object.keys(slice[key].length !== 0))
-    .map((key) => transformBlock(slice[key]))
-    .join('');
+type GetSlicesTypes = {
+  (doc: Document, sliceType: string): PrismicSlice;
+  (doc: Document, sliceType: string[] | null | undefined | FilterSlice): PrismicSlice[];
+  (doc: Document): PrismicSlice[];
+};
 
+export const getSlices: GetSlicesTypes = ({ data }: Document, sliceType?: ElementNameType | FilterSlice): any => {
   const slices = data.body as PrismicSlice[];
 
-  if (sliceType) {
+  if (typeof sliceType === 'string') {
     const foundSlice = slices.find((slice) => slice.slice_type === sliceType);
 
-    if (!foundSlice) {
-      return [];
-    }
-
-    return [foundSlice.primary || {}, ...foundSlice.items].map((item) => renderSliceElements(item));
+    return foundSlice || {
+      primary: null,
+      items: [],
+      slice_type: '', // eslint-disable-line
+      slice_label: null // eslint-disable-line
+    };
   }
 
-  return slices
-    .map((slice) => [slice.primary || {}, ...slice.items]
-      .map((item) => renderSliceElements(item))
-    );
+  const filteredSlices = Array.isArray(sliceType)
+    ? slices.filter((slice) => sliceType.includes(slice.slice_type))
+    : slices;
+
+  return typeof sliceType === 'function'
+    ? filteredSlices.filter((slice) => sliceType(slice))
+    : filteredSlices;
 };

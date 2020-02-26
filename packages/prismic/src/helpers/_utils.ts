@@ -1,7 +1,11 @@
 import PrismicDOM from 'prismic-dom';
-import { PrismicBlockType, PrismicBlock } from 'src/types';
+import { PrismicBlockType, PrismicBlock, TransformBlock } from 'src/types';
 
 const getType = (block: PrismicBlock | number | string | PrismicBlock[]): PrismicBlockType | undefined => {
+  if (!block) {
+    return undefined;
+  }
+
   if (typeof block === 'string' || typeof block === 'number') {
     return 'text';
   }
@@ -35,7 +39,7 @@ const getElement = (block: PrismicBlock | number | string): PrismicBlock | Prism
     spans: [] }];
 };
 
-const transformBlock = (block: PrismicBlock | PrismicBlock[] | number | string): string => {
+const transformBlock: TransformBlock<PrismicBlock | PrismicBlock[] | number | string> = (block): string => {
   const blockType = getType(block);
   const element = getElement(block) as PrismicBlock;
 

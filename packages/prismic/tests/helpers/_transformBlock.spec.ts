@@ -70,7 +70,28 @@ describe('[prismic] transformBlock', () => {
     expect(block3).toBe('<p>lorem ipsum</p>');
   });
   it('should return image type if has dimensions and url', () => {
-    block = transformBlock({
+    const block1 = transformBlock({
+      dimensions: {
+        width: 12,
+        height: 12
+      },
+      height: 12,
+      width: 12,
+      url: 'http://localhost',
+      alt: 'alt-image',
+      name: 'image'
+    });
+    const block2 = transformBlock({
+      dimensions: {
+        width: 12,
+        height: 12
+      },
+      height: 12,
+      width: 12,
+      url: 'http://localhost',
+      name: 'image'
+    });
+    const block3 = transformBlock({
       dimensions: {
         width: 12,
         height: 12
@@ -78,7 +99,9 @@ describe('[prismic] transformBlock', () => {
       url: 'http://localhost'
     });
 
-    expect(block).toBe('<img src="http://localhost" height="" width="" alt="" />');
+    expect(block1).toBe('<img src="http://localhost" height="12" width="12" alt="alt-image" />');
+    expect(block2).toBe('<img src="http://localhost" height="12" width="12" alt="image" />');
+    expect(block3).toBe('<img src="http://localhost" height="" width="" alt="" />');
   });
   it('should render all values for image type when provided', () => {
     block = transformBlock({

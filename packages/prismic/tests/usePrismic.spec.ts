@@ -179,11 +179,11 @@ describe('[prismic] usePrismic', () => {
 
     await search({});
 
-    const page = doc.value[0];
+    const { data } = doc.value[0];
 
     const { getBlocks } = helpers;
 
-    expect(JSON.stringify(getBlocks(page))).toBe('["test"]');
+    expect(JSON.stringify(getBlocks(data))).toBe('["test"]');
   });
 
   it('should find block to render', async () => {
@@ -193,12 +193,40 @@ describe('[prismic] usePrismic', () => {
 
     await search({});
 
-    const page = doc.value[0];
+    const { data } = doc.value[0];
 
     const { getBlocks } = helpers;
 
-    expect(getBlocks(page, 'sampleElement')).toBe('test');
-    expect(getBlocks(page, 'unknownElement')).toBe('');
+    expect(getBlocks(data, 'sampleElement')).toBe('test');
+    expect(getBlocks(data, 'unknownElement')).toBe('');
+  });
+
+  it('should find many blocks to render', async () => {
+    const { doc, search } = usePrismic();
+
+    createMock(prismicResponseMock);
+
+    await search({});
+
+    const { data } = doc.value[0];
+    const { getBlocks } = helpers;
+
+    const blocks = getBlocks(data, ['sampleElement']);
+
+    expect(Array.isArray(blocks)).toBeTruthy();
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toBe('test');
+  });
+
+  it('should pass when wrong data provided', () => {
+    const { getBlocks } = helpers;
+
+    const blocks = getBlocks(undefined);
+    const block = getBlocks(undefined, 'unknown-element');
+
+    expect(Array.isArray(blocks)).toBeTruthy();
+    expect(blocks).toHaveLength(0);
+    expect(block).toBe('');
   });
 
   it('should render paragraph block', async () => {
@@ -218,14 +246,43 @@ describe('[prismic] usePrismic', () => {
 
     await search({});
 
-    const page = doc.value[0];
+    const { data } = doc.value[0];
 
     const { getBlocks } = helpers;
 
-    expect(getBlocks(page, 'sampleElement')).toBe('<p>sample content</p>');
+    expect(getBlocks(data, 'sampleElement')).toBe('<p>sample content</p>');
   });
 
-  it('should return collection of rendered slices', async () => {
+  it('should ignore empty strings in block', async () => {
+    const emptyString = {
+      empty: ''
+    };
+
+    const { getBlocks } = helpers;
+
+    expect(getBlocks(emptyString, 'empty')).toBe('');
+  });
+
+  it('should override getBlocks rendering function', async () => {
+    const { doc, search } = usePrismic();
+
+    createMock(prismicResponseMock);
+
+    await search({});
+
+    const { data } = doc.value[0];
+    const { getBlocks } = helpers;
+
+    const block = getBlocks(data, 'sampleElement', () => 'override');
+    const blocks = getBlocks(data, null, () => 'override');
+
+    expect(block).toBe('override');
+    expect(Array.isArray(blocks)).toBeTruthy();
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toBe('override');
+  });
+
+  it('should render collection of slices items', async () => {
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -234,19 +291,48 @@ describe('[prismic] usePrismic', () => {
 
     const page = doc.value[0];
 
-    const { getSlices } = helpers;
+    const { getSlices, getBlocks } = helpers;
 
     const slices = getSlices(page);
 
     expect(Array.isArray(slices)).toBeTruthy();
     expect(slices).toHaveLength(2);
-    expect(slices[0]).toHaveLength(4);
-    expect(slices[1]).toHaveLength(4);
-    expect(JSON.stringify(slices[0])).toBe('["","<p>a</p>","<p>b</p>","<p>c</p>"]');
-    expect(JSON.stringify(slices[1])).toBe('["","<p>d</p>","<p>e</p>","<p>f</p>"]');
+    expect(slices[0].primary).toBeNull();
+    expect(slices[1].primary).toBeNull();
+    expect(slices[0].items).toHaveLength(3);
+    expect(slices[1].items).toHaveLength(3);
+
+    const renderedItems = [
+      slices[0].items.map((item) => getBlocks(item, 'sampleSliceElement')),
+      slices[1].items.map((item) => getBlocks(item, 'sampleSliceElement'))
+    ];
+
+    expect(JSON.stringify(renderedItems[0])).toBe('["<p>a</p>","<p>b</p>","<p>c</p>"]');
+    expect(JSON.stringify(renderedItems[1])).toBe('["<p>d</p>","<p>e</p>","<p>f</p>"]');
   });
 
-  it('should return collection of rendered selected slice', async () => {
+  it('should render correctly collection of selected slice items', async () => {
+    const { doc, search } = usePrismic();
+
+    createMock(prismicResponseMock);
+
+    await search({});
+
+    const page = doc.value[0];
+
+    const { getSlices, getBlocks } = helpers;
+
+    const slice = getSlices(page, 'grid-slice');
+
+    expect(slice.primary).toBeNull();
+    expect(Array.isArray(slice.items)).toBeTruthy();
+    expect(slice.items).toHaveLength(3);
+    expect(getBlocks(slice.items[0], 'sampleSliceElement')).toBe('<p>a</p>');
+    expect(getBlocks(slice.items[1], 'sampleSliceElement')).toBe('<p>b</p>');
+    expect(getBlocks(slice.items[2], 'sampleSliceElement')).toBe('<p>c</p>');
+  });
+
+  it('should filter correctly selected slices', async () => {
     const { doc, search } = usePrismic();
 
     createMock(prismicResponseMock);
@@ -257,11 +343,30 @@ describe('[prismic] usePrismic', () => {
 
     const { getSlices } = helpers;
 
-    const slice = getSlices(page, 'grid-slice');
+    const slices = getSlices(page, ['grid-slice']);
 
-    expect(Array.isArray(slice)).toBeTruthy();
-    expect(slice).toHaveLength(4);
-    expect(JSON.stringify(slice)).toBe('["","<p>a</p>","<p>b</p>","<p>c</p>"]');
+    expect(Array.isArray(slices)).toBeTruthy();
+    expect(slices).toHaveLength(1);
+    expect(slices[0].primary).toBeNull();
+    expect(slices[0].items).toHaveLength(3);
+  });
+
+  it('should use filtering function when provided', async () => {
+    const { doc, search } = usePrismic();
+
+    createMock(prismicResponseMock);
+
+    await search({});
+
+    const page = doc.value[0];
+
+    const { getSlices } = helpers;
+
+    const slices = getSlices(page, (slice) => slice.slice_type !== 'list-slice');
+
+    expect(Array.isArray(slices)).toBeTruthy();
+    expect(slices).toHaveLength(1);
+    expect(slices[0].slice_type).toBe('grid-slice');
   });
 
   it('should return empty collection if slice not found', async () => {
@@ -277,8 +382,9 @@ describe('[prismic] usePrismic', () => {
 
     const slice = getSlices(page, 'unknown-slice');
 
-    expect(Array.isArray(slice)).toBeTruthy();
-    expect(slice).toHaveLength(0);
+    expect(slice.primary).toBeNull();
+    expect(Array.isArray(slice.items)).toBeTruthy();
+    expect(slice.items).toHaveLength(0);
   });
 
   it('should pass when multiple queries', async () => {
@@ -336,8 +442,9 @@ describe('[prismic] usePrismic', () => {
     await search({}, { getFirst: true });
 
     const { getBlocks } = helpers;
+    const { data } = doc.value as Document;
 
-    const blocks = getBlocks(doc.value as Document);
+    const blocks = getBlocks(data);
 
     expect(blocks).toHaveLength(11);
     expect(blocks[0]).toBe('<h1>Star Maker of The Month </h1>');
@@ -350,7 +457,7 @@ describe('[prismic] usePrismic', () => {
 
     await search({}, { getFirst: true });
 
-    const { getSlices } = helpers;
+    const { getSlices, getBlocks } = helpers;
 
     const page = doc.value as Document;
 
@@ -358,8 +465,7 @@ describe('[prismic] usePrismic', () => {
     const slice = getSlices(page, 'generic_text');
 
     expect(slices).toHaveLength(12);
-    expect(slice).toHaveLength(2);
-    expect(slice[0]).toBe('<h2>lorem ipsum</h2><p>lorem ipsum</p>');
+    expect(getBlocks(slice.primary, 'generic_text')).toBe('<h2>lorem ipsum</h2><p>lorem ipsum</p>');
   });
 
   it('should parse LegalExampleMock', async () => {
@@ -391,9 +497,10 @@ describe('[prismic] usePrismic', () => {
 
     await search({}, { getFirst: true });
 
+    const { data } = doc.value as Document;
     const { getBlocks } = helpers;
 
-    const blocks = getBlocks(doc.value as Document);
+    const blocks = getBlocks(data);
 
     expect(blocks).toHaveLength(3);
     expect(blocks[0]).toBe('terms-of-use');
@@ -406,15 +513,20 @@ describe('[prismic] usePrismic', () => {
 
     await search({}, { getFirst: true });
 
-    const { getSlices } = helpers;
+    const { getSlices, getBlocks } = helpers;
 
     const page = doc.value as Document;
 
     const slices = getSlices(page);
     const slice = getSlices(page, 'text_with_tldr');
 
+    const primaryBlocks = getBlocks(slice.primary);
+
     expect(slices).toHaveLength(13);
-    expect(slice).toHaveLength(2);
-    expect(slice[0]).toBe('<h2>Introduction</h2><p>lorem ipsum</p><p>lorem ipsum<a  href="http://localhost"></a></p>');
+    expect(slice.items).toHaveLength(1);
+    expect(primaryBlocks).toHaveLength(3);
+    expect(primaryBlocks[0]).toBe('<h2>Introduction</h2>');
+    expect(primaryBlocks[1]).toBe('<p>lorem ipsum</p>');
+    expect(primaryBlocks[2]).toBe('<p>lorem ipsum<a  href="http://localhost"></a></p>');
   });
 });

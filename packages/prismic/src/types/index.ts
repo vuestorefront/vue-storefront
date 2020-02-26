@@ -158,3 +158,5 @@ export interface PrismicOptions {
   queryOptions?: QueryOptions;
   getFirst?: boolean;
 }
+
+export type TransformBlock<T = any> = (block: T) => string;
