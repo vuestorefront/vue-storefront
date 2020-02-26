@@ -29,6 +29,11 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
+
+    // Add our custom category filter
+    // @see DivanteLtd/vue-storefront#4111
+    filterQr.applyFilter({ key: 'stock', scope: 'catalog', value: null })
+
     const { includeFields, excludeFields } = getters.getIncludeExcludeFields(searchCategory)
     const { items, perPage, start, total, aggregations } = await quickSearchByQuery({
       query: filterQr,
@@ -56,6 +61,11 @@ const actions: ActionTree<CategoryState, RootState> = {
     const searchQuery = getters.getCurrentSearchQuery
     let filterQr = buildFilterProductsQuery(getters.getCurrentCategory, searchQuery.filters)
     const { includeFields, excludeFields } = getters.getIncludeExcludeFields(getters.getCurrentCategory)
+
+    // Add our custom category filter
+    // @see DivanteLtd/vue-storefront#4111
+    filterQr.applyFilter({ key: 'stock', scope: 'catalog', value: null })
+
     const searchResult = await quickSearchByQuery({
       query: filterQr,
       sort: searchQuery.sort,
