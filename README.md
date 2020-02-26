@@ -119,10 +119,20 @@ You can find some tutorials and explanations on our [YouTube channel](https://ww
 
 ### Installation
 
+- [Starter pack for install](https://docs.vuestorefront.io/guide/cookbook/setup.html)
 - [Installing on Linux/MacOS](https://docs.vuestorefront.io/guide/installation/linux-mac.html)
 - [Installing on Windows](https://docs.vuestorefront.io/guide/installation/windows.html)
 - [How to install and integrate with Magento2](https://docs.vuestorefront.io/guide/installation/magento.html)
 - [Production setup](https://docs.vuestorefront.io/guide/installation/production-setup.html)
+
+### Cookbooks
+
+- [Ch1. Data Imports](https://docs.vuestorefront.io/guide/cookbook/data-import.html)
+- [Ch2. Elasticsearch in the VSF context](https://docs.vuestorefront.io/guide/cookbook/elastic.html)
+- [Ch3. Starter pack for new comers (Install)](https://docs.vuestorefront.io/guide/cookbook/setup.html)
+- [Ch5. Building a Module from scratch](https://docs.vuestorefront.io/guide/cookbook/module.html)
+- [Ch6. Theming in depth](https://docs.vuestorefront.io/guide/cookbook/theme.html)
+- [Chef's secret note: Hardcore training for serious business](https://docs.vuestorefront.io/guide/cookbook/checklist.html)
 
 ### Basics
 
