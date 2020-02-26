@@ -44,7 +44,7 @@ const getters: GetterTree<CategoryState, RootState> = {
     }) || {}
   },
   getCurrentCategory: (state, getters, rootState, rootGetters) => {
-    return getters.getCategoryByParams(rootGetters['url/getCurrentRoute'].params)
+    return getters.getCategoryByParams(rootState.route.params)
   },
   getAvailableFiltersFrom: (state, getters, rootState) => (aggregations) => {
     const filters = {}
@@ -115,12 +115,12 @@ const getters: GetterTree<CategoryState, RootState> = {
     const categoryId = get(getters.getCurrentCategory, 'id', null)
     return state.filtersMap[categoryId] || {}
   },
-  getCurrentFiltersFrom: (state, getters, rootState, rootGetters) => (filters, categoryFilters) => {
-    const currentQuery = filters || rootGetters['url/getCurrentRoute'][products.routerFiltersSource]
+  getCurrentFiltersFrom: (state, getters, rootState) => (filters, categoryFilters) => {
+    const currentQuery = filters || rootState.route[products.routerFiltersSource]
     const availableFilters = categoryFilters || getters.getAvailableFilters
     return getFiltersFromQuery({availableFilters, filtersQuery: currentQuery})
   },
-  getCurrentSearchQuery: (state, getters, rootState, rootGetters) => getters.getCurrentFiltersFrom(rootGetters['url/getCurrentRoute'][products.routerFiltersSource]),
+  getCurrentSearchQuery: (state, getters, rootState) => getters.getCurrentFiltersFrom(rootState.route[products.routerFiltersSource]),
   getCurrentFilters: (state, getters) => getters.getCurrentSearchQuery.filters,
   hasActiveFilters: (state, getters) => !!Object.keys(getters.getCurrentFilters).length,
   getSystemFilterNames: () => products.systemFilterNames,
