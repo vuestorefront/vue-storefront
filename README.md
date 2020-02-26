@@ -12,6 +12,7 @@ yarn
 ```
 
 ```
+yarn build:prismic
 yarn build:ct:tools
 ```
 
