@@ -1,0 +1,19 @@
+version: '2.4'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/vue-storefront-alt/Dockerfile
+    env_file: docker/vue-storefront-alt/default.env
+    restart: on-failure
+    mem_limit: 1G
+  nginx:
+    restart: on-failure
+    image: nginx
+    volumes:
+    - ./docker/vue-storefront-alt/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+    - 80:80
+    depends_on:
+      app:
+        condition: service_healthy

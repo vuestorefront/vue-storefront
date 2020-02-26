@@ -1,14 +1,13 @@
-version: '2.0'
+version: '2.4'
 services:
   app:
     # image: divante/vue-storefront:latest
     build:
       context: .
-      dockerfile: docker/vue-storefront/Dockerfile
-    env_file: docker/vue-storefront/default.env
+      dockerfile: docker/vue-storefront-alt/Dockerfile
+    env_file: docker/vue-storefront-alt/default.env
     environment:
       VS_ENV: dev
-    network_mode: host
     volumes:
       - './babel.config.js:/var/www/babel.config.js'
       - './config:/var/www/config'
@@ -24,9 +23,13 @@ services:
       - './src:/var/www/src'
       - './var:/var/www/var'
       - './packages:/var/www/packages'
-    tmpfs:
-      - /var/www/dist
-    ports:
-      - '3000:3000'
     restart: on-failure
     mem_limit: 1g
+
+  nginx:
+    restart: on-failure
+    image: nginx
+    volumes:
+    - ./docker/vue-storefront-alt/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+    - 80:80
