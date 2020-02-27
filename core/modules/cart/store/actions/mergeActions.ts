@@ -1,4 +1,3 @@
-import { isChecksumEquals } from './../../helpers/productsEquals';
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'

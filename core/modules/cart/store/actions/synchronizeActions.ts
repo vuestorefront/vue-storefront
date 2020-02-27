@@ -8,7 +8,6 @@ import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
 import i18n from '@vue-storefront/i18n'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { cartHooksExecutors } from '../../hooks'
-import cloneDeep from 'lodash-es/cloneDeep'
 
 const synchronizeActions = {
   async load ({ commit, dispatch }, { forceClientState = false }: {forceClientState?: boolean} = {}) {
@@ -48,10 +47,10 @@ const synchronizeActions = {
     Logger.warn('The "cart/serverPull" action is deprecated and will not be supported with the Vue Storefront 1.11', 'cart')()
     return dispatch('sync', { forceClientState, dryRun })
   },
-  async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false }) {
+  async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false, mergeQty = false, forceSync = false }) {
     const shouldUpdateClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
-    if (!canUpdateMethods || !isSyncRequired) return createDiffLog()
+    if ((!canUpdateMethods || !isSyncRequired) && !forceSync) return createDiffLog()
     commit(types.CART_SET_SYNC)
     const { result, resultCode } = await CartService.getItems()
     const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
