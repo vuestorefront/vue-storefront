@@ -6,7 +6,7 @@ const couponActions = {
       const { result } = await CartService.removeCoupon()
 
       if (result) {
-        dispatch('syncTotals', { forceServerSync: true })
+        await dispatch('syncTotals', { forceServerSync: true })
         return result
       }
     }
@@ -16,7 +16,7 @@ const couponActions = {
       const { result } = await CartService.applyCoupon(couponCode)
 
       if (result) {
-        dispatch('syncTotals', { forceServerSync: true })
+        await dispatch('syncTotals', { forceServerSync: true })
       }
       return result
     }

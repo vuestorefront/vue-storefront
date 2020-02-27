@@ -1,3 +1,4 @@
+import { isChecksumEquals } from './../../helpers/productsEquals';
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
@@ -199,7 +200,7 @@ const mergeActions = {
     }
     const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
-    dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
+    await dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
 
     diffLog
       .merge(mergeClientItemsDiffLog)

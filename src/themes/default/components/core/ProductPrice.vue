@@ -2,7 +2,7 @@
   <div class="mb40 price serif">
     <div
       class="h3 cl-secondary"
-      v-if="initialPrice.special && initialPrice.default && initialPrice.original"
+      v-if="initialPrice.special && price.default && price.original"
     >
       <span
         class="h2 cl-mine-shaft weight-700"
@@ -13,7 +13,7 @@
     </div>
     <div
       class="h2 cl-mine-shaft weight-700"
-      v-if="!initialPrice.special && initialPrice.default"
+      v-if="!initialPrice.special && price.default"
     >
       {{ price.default | price(storeView) }}
     </div>

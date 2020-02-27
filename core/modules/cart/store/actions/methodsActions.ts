@@ -40,6 +40,7 @@ const methodsActions = {
         })
 
         if (shippingMethodsData.country) {
+          debugger
           const { result } = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData))
           backendPaymentMethods = result.payment_methods || []
         }

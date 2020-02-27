@@ -8,6 +8,7 @@ import { createDiffLog } from '@vue-storefront/core/modules/cart/helpers'
 import i18n from '@vue-storefront/i18n'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { cartHooksExecutors } from '../../hooks'
+import cloneDeep from 'lodash-es/cloneDeep'
 
 const synchronizeActions = {
   async load ({ commit, dispatch }, { forceClientState = false }: {forceClientState?: boolean} = {}) {
