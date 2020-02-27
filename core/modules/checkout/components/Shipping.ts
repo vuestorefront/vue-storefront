@@ -1,8 +1,8 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
-const Countries = require('@vue-storefront/i18n/resource/countries.json')
 import { createOrderData } from '@vue-storefront/core/modules/cart/helpers'
+const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {
   name: 'Shipping',
@@ -173,21 +173,21 @@ export const Shipping = {
     changeShippingMethod () {
       let currentShippingMethod = this.getCurrentShippingMethod()
       if (currentShippingMethod) {
-        this.shipping = Object.assign(this.shipping, { shippingCarrier: currentShippingMethod.carrier_code})
+        this.shipping = Object.assign(this.shipping, {shippingCarrier: currentShippingMethod.carrier_code})
         this.$store.dispatch('checkout/saveShippingDetails', this.shipping)
-        .then(() => {
-          const shippingMethodsData = createOrderData({
-            shippingDetails: this.$store.getters['checkout/getShippingDetails'],
-            shippingMethods: this.$store.getters['checkout/getShippingMethods'],
-            paymentMethods: this.$store.getters['checkout/getPaymentMethods'],
-            paymentDetails: this.$store.getters['checkout/getPaymentDetails']
+          .then(() => {
+            const shippingMethodsData = createOrderData({
+              shippingDetails: this.$store.getters['checkout/getShippingDetails'],
+              shippingMethods: this.$store.getters['checkout/getShippingMethods'],
+              paymentMethods: this.$store.getters['checkout/getPaymentMethods'],
+              paymentDetails: this.$store.getters['checkout/getPaymentDetails']
+            })
+            Object.assign(shippingMethodsData, {
+              carrier_code: this.shipping.shippingCarrier,
+              method_code: this.shipping.shippingMethod
+            })
+            this.$bus.$emit('checkout-after-shippingMethodChanged', shippingMethodsData)
           })
-          Object.assign(shippingMethodsData, {
-            carrier_code: this.shipping.shippingCarrier,
-            method_code: this.shipping.shippingMethod
-          })
-          this.$bus.$emit('checkout-after-shippingMethodChanged', shippingMethodsData)
-        })
       }
     },
     notInMethods (method) {
