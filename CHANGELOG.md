@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Disable overriding `route` state in __INITIAL_STATE__ - @gibkigonzo (pr#4095)
 - Fix gtm order placement event when user was guest - @Michal-Dziedzinski (#4064)
 - Fix gtm event switched properties - @Michal-Dziedzinski (pr#4106)
+- Keep old category before route is resolved - @gibkigonzo (pr#4124)
 
 ## [1.11.1] - 2020.02.05
 
