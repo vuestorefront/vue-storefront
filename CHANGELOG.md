@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix v-model not working in BaseRadioButton - @lukeromanowicz (#4035)
 - always keep filters values as array of object - @gibkigonzo (#4045)
 - Fix ecosystem config to work with ts-node - @andrzejewsky (#3981)
+- Solve problem of VS Code imports from .ts - @rozzilla (#4127)
 
 ## [1.11.0] - 2019.12.20
 
