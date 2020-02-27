@@ -295,7 +295,7 @@ export default {
           region_id: this.shipping.region_id ? this.shipping.region_id : 0,
           country_id: this.shipping.country,
           street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
-          company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
+          company: '',
           telephone: this.shipping.phoneNumber,
           postcode: this.shipping.zipCode,
           city: this.shipping.city,

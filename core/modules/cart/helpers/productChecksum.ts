@@ -32,11 +32,10 @@ const getDataToHash = (product: CartItem): any => {
 
   const supportedProductOptions = ['bundle_options', 'custom_options', 'configurable_item_options']
 
-  // returns first options that has any value
+  // returns first options that has array with options
   for (let optionName of supportedProductOptions) {
     const options = getProductOptions(product, optionName)
     if (options.length) {
-      console.log(options)
       return options
     }
   }
