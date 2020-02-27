@@ -3,5 +3,9 @@ export default interface ShippingAddress {
   lastname: string,
   city: string,
   postcode: string,
-  street: string[]
+  street: string[],
+  region: string,
+  region_id: number | string,
+  region_code: number | string,
+  country_id: string
 }
