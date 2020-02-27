@@ -41,7 +41,7 @@ export const formatAttributeList = (attributes: Array<any>): Array<AgnosticProdu
     };
   });
 
-export const getVariantByAttributes = (products: ProductVariant[], attributes: any): ProductVariant => {
+export const getVariantByAttributes = (products: ProductVariant[] | Readonly<ProductVariant[]>, attributes: any): ProductVariant => {
   if (!products || products.length === 0) {
     return null;
   }

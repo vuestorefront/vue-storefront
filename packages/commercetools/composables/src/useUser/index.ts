@@ -1,5 +1,5 @@
 import { ref, Ref, watch, computed } from '@vue/composition-api';
-import { UseUser, AgnosticUserLogin, AgnosticUserRegister } from '@vue-storefront/interfaces';
+import { UseUser } from '@vue-storefront/interfaces';
 import { Customer, CustomerSignMeUpDraft, CustomerSignMeInDraft } from '@vue-storefront/commercetools-api/lib/src/types/GraphQL';
 import {
   customerSignMeUp,
@@ -9,15 +9,11 @@ import {
 } from '@vue-storefront/commercetools-api';
 import { cart } from './../useCart';
 
-type UserRef = Ref<Customer>
-type RegisterFn = (userData: AgnosticUserRegister) => Promise<void>
-type LoginFn = (userData: AgnosticUserLogin) => Promise<void>
-type LogoutFn = () => Promise<void>
 type UserData = CustomerSignMeUpDraft | CustomerSignMeInDraft
 
-const user: UserRef = ref({});
-const loading = ref(false);
-const error = ref(null);
+const user: Ref<Customer> = ref({});
+const loading: Ref<boolean> = ref(false);
+const error: Ref<any> = ref(null);
 const isAuthenticated = computed(() => user.value && Object.keys(user.value).length > 0);
 
 const authenticate = async (userData: UserData, fn) => {
@@ -33,7 +29,7 @@ const authenticate = async (userData: UserData, fn) => {
   loading.value = false;
 };
 
-export default function useUser(): UseUser<UserRef, RegisterFn, LoginFn, LogoutFn> {
+export default function useUser(): UseUser<Customer> {
   watch(user, async () => {
     if (isAuthenticated.value) {
       return;
@@ -49,11 +45,11 @@ export default function useUser(): UseUser<UserRef, RegisterFn, LoginFn, LogoutF
     loading.value = false;
   });
 
-  const register = async (userData: AgnosticUserRegister) => {
+  const register = async (userData) => {
     await authenticate(userData, customerSignMeUp);
   };
 
-  const login = async (userData: AgnosticUserLogin) => {
+  const login = async (userData) => {
     const customerLoginDraft = { email: userData.username,
       password: userData.password };
     await authenticate(customerLoginDraft, customerSignMeIn);
@@ -66,12 +62,12 @@ export default function useUser(): UseUser<UserRef, RegisterFn, LoginFn, LogoutF
   };
 
   return {
-    user,
+    user: computed(() => user.value),
     register,
     login,
     logout,
     isAuthenticated,
-    loading,
-    error
+    loading: computed(() => loading.value),
+    error: computed(() => error.value)
   };
 }

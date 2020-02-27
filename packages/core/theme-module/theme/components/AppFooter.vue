@@ -107,9 +107,18 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "~@storefront-ui/shared/styles/variables";
+
+@mixin for-desktop {
+  @media screen and (min-width: $desktop-min) {
+    @content;
+  }
+}
 #footer {
   /* temporary */
-  padding: 0 2.5rem;
+  @include for-desktop {
+    padding: 0 2.5rem;
+  }
 }
 </style>

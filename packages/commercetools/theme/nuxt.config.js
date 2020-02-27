@@ -1,6 +1,5 @@
 import webpack from 'webpack';
-import path from 'path';
-import config from './config';
+import { config } from './plugins/commercetools.js';
 
 const localeNames = config.locales.map((l) => l.name);
 
@@ -27,9 +26,6 @@ export default {
     ]
   },
   loading: { color: '#fff' },
-  dir: {
-    layouts: '.nuxt/layouts'
-  },
   router: {
     extendRoutes(routes, resolve) {
       // TEMPORARY, will be removed
@@ -40,38 +36,6 @@ export default {
         name: 'prismic',
         path: '/prismic',
         component: resolve(__dirname, 'pages/Prismic.vue')
-      });
-      routes.push({
-        name: 'checkout',
-        path: '/checkout',
-        component: resolve(__dirname, 'pages/Checkout.vue'),
-        children: [
-          {
-            path: 'personal-details',
-            name: 'personal-details',
-            component: resolve(__dirname, 'pages/Checkout/PersonalDetails.vue')
-          },
-          {
-            path: 'shipping',
-            name: 'shipping',
-            component: resolve(__dirname, 'pages/Checkout/Shipping.vue')
-          },
-          {
-            path: 'payment',
-            name: 'payment',
-            component: resolve(__dirname, 'pages/Checkout/Payment.vue')
-          },
-          {
-            path: 'order-review',
-            name: 'order-review',
-            component: resolve(__dirname, 'pages/Checkout/OrderReview.vue')
-          },
-          {
-            path: 'thank-you',
-            name: 'thank-you',
-            component: resolve(__dirname, 'pages/Checkout/ThankYou.vue')
-          }
-        ]
       });
     }
   },
@@ -106,11 +70,6 @@ export default {
     './plugins/i18n.js'
   ],
   build: {
-    extend(buildConfig) {
-      delete buildConfig.resolve.alias['~'];
-      buildConfig.resolve.alias['~/components'] = path.join(__dirname, '.nuxt/components');
-      buildConfig.resolve.alias['~'] = path.join(__dirname);
-    },
     transpile: [
       'vee-validate/dist/rules'
     ],

@@ -61,7 +61,7 @@ export default function useLocale(): UseLocale<Locale, Country, Currency, Availa
     availableLocales,
     availableCountries,
     availableCurrencies,
-    loading,
-    error
+    loading: computed(() => loading.value),
+    error: computed(() => error.value)
   };
 }

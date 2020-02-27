@@ -125,6 +125,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 @import "~@storefront-ui/shared/styles/variables";
 @mixin for-desktop {

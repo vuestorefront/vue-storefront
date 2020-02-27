@@ -14,7 +14,7 @@
   </SfSection>
 </template>
 
-<script>
+<script lang="ts">
 import { computed } from '@vue/composition-api';
 
 import {

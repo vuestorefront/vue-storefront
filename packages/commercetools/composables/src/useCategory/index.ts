@@ -1,16 +1,10 @@
 import { UseCategory } from '@vue-storefront/interfaces';
-import { ref } from '@vue/composition-api';
+import { ref, computed } from '@vue/composition-api';
 import { getCategory, getProduct } from '@vue-storefront/commercetools-api';
 import { enhanceProduct, enhanceCategory } from './../helpers/internals';
 import { Category } from './../types/GraphQL';
 
-interface UseCategorySearchParams {
-  slug?: string;
-}
-
-type Search = (params: UseCategorySearchParams) => void
-
-const loadCategories = async (params: UseCategorySearchParams) => {
+const loadCategories = async (params) => {
   const categoryResponse = await getCategory(params);
   const rawCategories = categoryResponse.data.categories.results;
   const catIds = rawCategories.map((c) => c.id);
@@ -20,7 +14,7 @@ const loadCategories = async (params: UseCategorySearchParams) => {
   return enhancedCategory.data.categories.results;
 };
 
-export default function useCategory(): UseCategory<Category, Search, any, any, any> {
+export default function useCategory(): UseCategory<Category, any, any> {
   const categories = ref([]);
   const appliedFilters = ref(null);
   const applyFilter = () => {};
@@ -28,18 +22,18 @@ export default function useCategory(): UseCategory<Category, Search, any, any, a
   const loading = ref(true);
   const error = ref(null);
 
-  const search = async (params: UseCategorySearchParams) => {
+  const search = async (params) => {
     categories.value = await loadCategories(params);
     loading.value = false;
   };
 
   return {
-    categories,
+    categories: computed(() => categories.value),
     search,
-    appliedFilters,
+    appliedFilters: computed(() => appliedFilters.value),
     applyFilter,
     clearFilters,
-    loading,
-    error
+    loading: computed(() => loading.value),
+    error: computed(() => error.value)
   };
 }

@@ -13,6 +13,13 @@ describe('[commercetools-composables] useLocale', () => {
     jest.clearAllMocks();
   });
 
+  it('creates properties', () => {
+    const { loading, error } = useLocale();
+
+    expect(loading.value).toEqual(false);
+    expect(error.value).toEqual(null);
+  });
+
   it('loads default values', async () => {
     const wrapper = mountComposable(useLocale);
     await wrapper.vm.$nextTick();

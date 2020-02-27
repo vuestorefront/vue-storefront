@@ -9,7 +9,7 @@
   },
   "author": "Vue Storefront",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "chalk": "^2.4.2",
     "chokidar": "^3.3.1",
     "consola": "^2.10.1"

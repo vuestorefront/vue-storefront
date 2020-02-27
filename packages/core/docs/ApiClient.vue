@@ -27,7 +27,7 @@
     You just need to perform few additional steps that Vue Storefront Theme does for you out of the box.
   </p>
   <p>First install the npm package:</p>
-  <Content slot-key="standalone-installation-ct" />
+  <Content slot-key="installation-ct" />
   <p>Once it's installed you just need to invoke the <code>setup</code> method from the step above <b>before using any other method from API Client</b>.
 
   <h2 id="configuration">Configuration in Vue Storefront Theme</h2>

@@ -1,8 +1,11 @@
 import { Ref } from '@vue/composition-api';
 
-export interface UseProduct<PRODUCT, SEARCH> {
-  products: Ref<Array<PRODUCT>>;
-  search: SEARCH;
+export interface UseProduct<PRODUCT> {
+  products: Readonly<Ref<Readonly<Array<PRODUCT>>>>;
+  search: (params: {
+    slug?: string;
+    [x: string]: any;
+  }) => Promise<void>;
   loading: Ref<boolean>;
   error: Ref<any>;
   [x: string]: any;
@@ -10,15 +13,22 @@ export interface UseProduct<PRODUCT, SEARCH> {
 
 export interface UseUser
 <
-  USER,
-  REGISTER,
-  LOGIN,
-  LOGOUT,
+  USER
 > {
-  user: USER;
-  register: REGISTER;
-  login: LOGIN;
-  logout: LOGOUT;
+  user: Readonly<Ref<Readonly<USER>>>;
+  register: (user: {
+    email: string;
+    password: string;
+    firstName?: string;
+    lastName?: string;
+    [x: string]: any;
+  }) => Promise<void>;
+  login: (user: {
+    username: string;
+    password: string;
+    [x: string]: any;
+  }) => Promise<void>;
+  logout: () => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: Ref<boolean>;
   error: Ref<any>;
@@ -27,16 +37,17 @@ export interface UseUser
 export interface UseCategory
 <
   CATEGORY,
-  SEARCH,
   APPLIED_FILTERS,
   APPLY_FILTER,
-  CLEAR_FILTERS,
 > {
-  categories: Ref<Array<CATEGORY>>;
-  search: SEARCH;
+  categories: Readonly<Ref<Readonly<Array<CATEGORY>>>>;
+  search: (params: {
+    slug?: string;
+    [x: string]: any;
+  }) => Promise<void>;
   appliedFilters: APPLIED_FILTERS;
   applyFilter: APPLY_FILTER;
-  clearFilters: CLEAR_FILTERS;
+  clearFilters: () => Promise<void> | void;
   loading: Ref<boolean>;
   error: Ref<any>;
 }
@@ -44,20 +55,17 @@ export interface UseCategory
 export interface UseCart
 <
   CART,
-  ADD_TO_CART,
-  REMOVE_FROM_CART,
-  CLEAR_CART,
-  COUPON,
-  APPLY_COUPON,
-  REMOVE_COUPON,
+  PRODUCT,
+  CART_PRODUCT,
+  COUPON
 > {
-  cart: CART;
-  addToCart: ADD_TO_CART;
-  removeFromCart: REMOVE_FROM_CART;
-  clearCart: CLEAR_CART;
-  coupon: COUPON;
-  applyCoupon: APPLY_COUPON;
-  removeCoupon: REMOVE_COUPON;
+  cart: Readonly<Ref<Readonly<CART>>>;
+  addToCart: (product: PRODUCT, quantity: number) => Promise<void>;
+  removeFromCart: (product: CART_PRODUCT, quantity?: number) => Promise<void>;
+  clearCart: () => Promise<void> | void;
+  coupon: Readonly<Ref<Readonly<COUPON>>>;
+  applyCoupon: (coupon: string) => Promise<void> | void;
+  removeCoupon: () => Promise<void> | void;
   loading: Ref<boolean>;
   error: any;
 }
@@ -168,16 +176,3 @@ export interface AgnosticProductAttribute {
   value: string | Record<string, any>;
   label: string;
 }
-
-export interface AgnosticUserRegister {
-  email: string;
-  password: string;
-  firstName?: string;
-  lastName?: string;
-}
-
-export interface AgnosticUserLogin {
-  username: string;
-  password: string;
-}
-

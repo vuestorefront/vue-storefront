@@ -8881,7 +8881,7 @@ nuxt-i18n@^6.5.0:
     vue-i18n "^8.12.0"
     vue-i18n-extensions "^0.2.1"
 
-nuxt@^2.0.0, nuxt@^2.10.2:
+nuxt@^2.10.2:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-2.11.0.tgz#654664fe1a95af2014fd55c38ba2c732bfa5edc5"
   dependencies:

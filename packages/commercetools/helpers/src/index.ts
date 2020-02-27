@@ -9,19 +9,19 @@ import { formatAttributeList, getVariantByAttributes } from './_utils';
 
 interface ProductVariantFilters {
   master?: boolean;
-  masters?: boolean;
   attributes?: Record<string, string>;
 }
 
 // Product
-export const getProductName = (product: ProductVariant): string => product ? (product as any)._name : '';
+export const getProductName = (product: ProductVariant | Readonly<ProductVariant>): string => product ? (product as any)._name : '';
 
-export const getProductSlug = (product: ProductVariant): string => product ? (product as any)._slug : '';
+export const getProductSlug = (product: ProductVariant | Readonly<ProductVariant>): string => product ? (product as any)._slug : '';
 
 // todo change to getProductPrices returning different types of prices https://github.com/DivanteLtd/next/issues/128
-export const getProductPrice = (product: ProductVariant): number | null => product ? product.price.value.centAmount / 100 : null;
 
-export const getProductGallery = (product: ProductVariant): UiMediaGalleryItem[] =>
+export const getProductPrice = (product: ProductVariant | Readonly<ProductVariant>): number | null => product ? product.price.value.centAmount / 100 : null;
+
+export const getProductGallery = (product: ProductVariant | Readonly<ProductVariant>): UiMediaGalleryItem[] =>
   (product ? product.images : [])
     .map((image: Image) => ({
       small: image.url,
@@ -29,22 +29,17 @@ export const getProductGallery = (product: ProductVariant): UiMediaGalleryItem[]
       normal: image.url
     }));
 
-/* Returns array of product variants meeting criteria */
-export const getProductVariants = (products: ProductVariant[], filters: ProductVariantFilters | any = {}): ProductVariant | ProductVariant[] => {
+export const getProductVariants = (products: ProductVariant[] | Readonly<ProductVariant[]>, filters: ProductVariantFilters | any = {}): ProductVariant[] | Readonly<ProductVariant[]> => {
   if (!products) {
     return [];
   }
 
   if (filters.attributes && Object.keys(filters.attributes).length > 0) {
-    return getVariantByAttributes(products, filters.attributes);
-  }
-
-  if (filters.masters) {
-    return products.filter((product) => (product as any)._master);
+    return [getVariantByAttributes(products, filters.attributes)];
   }
 
   if (filters.master) {
-    return products.find((product) => (product as any)._master);
+    return products.filter((product) => (product as any)._master);
   }
 
   return products;

@@ -15,6 +15,13 @@ describe('[commercetools-composables] useUser', () => {
     jest.clearAllMocks();
   });
 
+  it('creates properties', () => {
+    const { loading, error } = useUser();
+
+    expect(loading.value).toEqual(true);
+    expect(error.value).toEqual(null);
+  });
+
   it('registers new customer', async () => {
     const user = { customer: { firstName: 'john',
       lastName: 'doe' } };

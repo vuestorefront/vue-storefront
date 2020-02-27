@@ -4,23 +4,17 @@ import {
   removeFromCart as apiRemoveFromCart,
   updateCartQuantity as apiUpdateCartQuantity
 } from '@vue-storefront/commercetools-api';
-import { Ref, ref, watch } from '@vue/composition-api';
+import { Ref, ref, watch, computed } from '@vue/composition-api';
 import { ProductVariant, Cart, LineItem } from './../types/GraphQL';
 import loadCurrentCart from './currentCart';
 
-type CartRef = Ref<Cart>
-type AddToCartFn = (variant: ProductVariant, quantity: number) => void
-type RemoveFromCartFn = (product: LineItem) => void
-type ClearCartFn = (product: LineItem) => void
-type CouponRef = Ref<any>
-type ApplyCouponFn = () => void
-type RemoveCoupon = () => void
-
 export const cart: Ref<Cart> = ref<Cart>(null);
+const coupon = ref(null);
+const error = ref(null);
 const loading: Ref<boolean> = ref<boolean>(false);
 
 // TODO: Think how to incorporate this into core (updateItem?)
-interface UseCart extends BaseUseCart<CartRef, AddToCartFn, RemoveFromCartFn, ClearCartFn, CouponRef, ApplyCouponFn, RemoveCoupon> {
+interface UseCart extends BaseUseCart<Cart, ProductVariant, LineItem, any> {
   updateQuantity: (product: LineItem, quantity: number) => void;
 }
 
@@ -67,19 +61,16 @@ export default function useCart(): UseCart {
   const applyCoupon = () => console.log('useCart:applyCoupon');
   const removeCoupon = () => console.log('useCart:removeCoupon');
 
-  const coupon = ref({});
-  const error = ref(null);
-
   return {
-    cart,
+    cart: computed(() => cart.value),
     addToCart,
     removeFromCart,
     clearCart,
     updateQuantity,
-    coupon,
+    coupon: computed(() => coupon.value),
     applyCoupon,
     removeCoupon,
-    loading,
-    error
+    loading: computed(() => loading.value),
+    error: computed(() => error.value)
   };
 }

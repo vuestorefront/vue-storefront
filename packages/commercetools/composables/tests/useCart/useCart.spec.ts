@@ -15,6 +15,15 @@ describe('[commercetools-composables] useCart', () => {
     jest.clearAllMocks();
   });
 
+  it('creates properties', () => {
+    const { cart, coupon, loading, error } = useCart();
+
+    expect(cart.value).toEqual(null);
+    expect(coupon.value).toEqual(null);
+    expect(loading.value).toEqual(false);
+    expect(error.value).toEqual(null);
+  });
+
   it('loads cart', async () => {
     const cartData = { products: [{ prod: 1 }] };
     (loadCurrentCart as any).mockReturnValue(Promise.resolve(cartData));
