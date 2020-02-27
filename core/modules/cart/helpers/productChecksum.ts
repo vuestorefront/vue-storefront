@@ -36,6 +36,7 @@ const getDataToHash = (product: CartItem): any => {
   for (let optionName of supportedProductOptions) {
     const options = getProductOptions(product, optionName)
     if (options.length) {
+      console.log(options)
       return options
     }
   }

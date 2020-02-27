@@ -60,7 +60,7 @@ describe('Cart connectActions', () => {
     await wrapper(cartActions);
 
     expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.CART_LOAD_CART, []);
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'sync', { forceClientState: true });
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'sync', { forceClientState: true, forceSync: true });
     expect(contextMock.commit).toHaveBeenNthCalledWith(2, types.CART_SET_ITEMS_HASH, null);
     expect(contextMock.dispatch).toHaveBeenNthCalledWith(2, 'disconnect');
   });
@@ -78,7 +78,7 @@ describe('Cart connectActions', () => {
     await wrapper(cartActions);
 
     expect(contextMock.commit).toHaveBeenNthCalledWith(1, types.CART_LOAD_CART, []);
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'sync', { forceClientState: true });
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'sync', { forceClientState: true, forceSync: true });
   });
 
   it('clear deletes all cart products and token, but not sync with backend', async () => {
@@ -118,7 +118,7 @@ describe('Cart connectActions', () => {
     })
 
     await (cartActions as any).authorize(contextMock)
-    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'connect', { guestCart: false });
+    expect(contextMock.dispatch).toHaveBeenNthCalledWith(1, 'connect', { guestCart: false, mergeQty: true });
   })
 
   it('creates cart token', async () => {
@@ -138,7 +138,7 @@ describe('Cart connectActions', () => {
 
     await (cartActions as any).connect(contextMock, {})
     expect(contextMock.commit).toBeCalledWith(types.CART_LOAD_CART_SERVER_TOKEN, 'server-cart-token')
-    expect(contextMock.dispatch).toBeCalledWith('sync', { forceClientState: false, dryRun: true, mergeQty: true })
+    expect(contextMock.dispatch).toBeCalledWith('sync', { forceClientState: false, dryRun: true, mergeQty: false })
   })
 
   it('attempts bypassing guest cart', async () => {
