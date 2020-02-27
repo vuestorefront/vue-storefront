@@ -114,7 +114,7 @@
     "no-mixed-operators": 2,
     "no-multi-assign": 2,
     "no-unneeded-ternary": 2,
-    "object-property-newline": 2,
+    "object-property-newline": 0,
     "operator-linebreak": 2,
     "quote-props": [
       2,
@@ -138,6 +138,7 @@
     "@typescript-eslint/no-var-requires": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
-    "@typescript-eslint/no-unused-vars": 2
+    "@typescript-eslint/no-unused-vars": 2,
+    "@typescript-eslint/ban-ts-ignore": 0
   }
 }

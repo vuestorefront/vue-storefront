@@ -1,5 +1,5 @@
 {
-  "name": "@vue-storefront/commercetools-composables",
+  "name": "@vue-storefront/utils",
   "version": "0.0.3",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
@@ -11,16 +11,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vue-storefront/commercetools-api": "^0.0.3",
-    "@vue-storefront/interfaces": "^0.0.3",
-    "@vue-storefront/utils": "^0.0.3",
-    "@vue/composition-api": "^0.3.4",
-    "js-cookie": "^2.2.1",
-    "vue": "^2.6.x"
-  },
-  "devDependencies": {
-    "@vue/test-utils": "^1.0.0-beta.30",
-    "vue-template-compiler": "^2.6.x"
+    "@vue/composition-api": "^0.4.0",
+    "vue": "^2.6.11",
+    "yarn": "^1.22.0"
   },
   "files": [
     "lib/**/*"

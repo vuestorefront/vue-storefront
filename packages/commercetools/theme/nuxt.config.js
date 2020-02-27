@@ -49,11 +49,13 @@ export default {
       useRawSource: {
         dev: [
           '@vue-storefront/commercetools-composables',
-          '@vue-storefront/prismic'
+          '@vue-storefront/prismic',
+          '@vue-storefront/utils'
         ],
         prod: [
           '@vue-storefront/commercetools-composables',
-          '@vue-storefront/prismic'
+          '@vue-storefront/prismic',
+          '@vue-storefront/utils'
         ]
       }
     }],

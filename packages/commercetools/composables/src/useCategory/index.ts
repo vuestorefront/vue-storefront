@@ -1,5 +1,6 @@
 import { UseCategory } from '@vue-storefront/interfaces';
-import { ref, computed } from '@vue/composition-api';
+import { usePersistedState } from '@vue-storefront/utils';
+import { ref, Ref, computed } from '@vue/composition-api';
 import { getCategory, getProduct } from '@vue-storefront/commercetools-api';
 import { enhanceProduct, enhanceCategory } from './../helpers/internals';
 import { Category } from './../types/GraphQL';
@@ -14,26 +15,31 @@ const loadCategories = async (params) => {
   return enhancedCategory.data.categories.results;
 };
 
-export default function useCategory(): UseCategory<Category, any, any> {
-  const categories = ref([]);
+export default function useCategory(id: string): UseCategory<Category, any, any> {
+  const { state, persistedResource } = usePersistedState(id);
+  const categories: Ref<Category[]> = ref(state || []);
   const appliedFilters = ref(null);
-  const applyFilter = () => {};
-  const clearFilters = () => {};
-  const loading = ref(true);
+  const loading = ref(false);
   const error = ref(null);
 
+  const applyFilter = () => {};
+  const clearFilters = () => {};
+
   const search = async (params) => {
-    categories.value = await loadCategories(params);
+    if (!state) {
+      loading.value = true;
+    }
+    categories.value = await persistedResource<Category[]>(loadCategories, params);
     loading.value = false;
   };
 
   return {
-    categories: computed(() => categories.value),
     search,
-    appliedFilters: computed(() => appliedFilters.value),
     applyFilter,
     clearFilters,
     loading: computed(() => loading.value),
-    error: computed(() => error.value)
+    error: computed(() => error.value),
+    categories: computed(() => categories.value),
+    appliedFilters: computed(() => appliedFilters.value)
   };
 }

@@ -12,6 +12,8 @@ cache:
     - packages/commercetools/composables/lib
     - packages/commercetools/theme/.nuxt
     - packages/commercetools/theme/node_modules
+    - packages/core/utils/node_modules
+    - packages/core/utils/lib
     - packages/prismic/node_modules
     - packages/prismic/lib
 
@@ -32,25 +34,31 @@ jobs:
       script:
       - yarn build:prismic && yarn build:ct
 
-    - stage: test
+    - stage: test commercetools
       script: yarn test:ct:api-client --coverage
-      name: Test commercetools api-client
+      name: Test api-client
       after_script:
         - cat ./packages/commercetools/api-client/coverage/lcov.info | coveralls
 
-    - stage: test
+    - stage: test commercetools
       script: yarn test:ct:composables --coverage
-      name: Test commercetools composables
+      name: Test composables
       after_script:
         - cat ./packages/commercetools/composables/coverage/lcov.info | coveralls
 
-    - stage: test
+    - stage: test commercetools
       script: yarn test:ct:helpers --coverage
-      name: Test commercetools helpers
+      name: Test helpers
       after_script:
         - cat ./packages/commercetools/helpers/coverage/lcov.info | coveralls
 
-    - stage: test
+    - stage: test core
+      script: yarn test:core:utils --coverage
+      name: Test utils
+      after_script:
+        - cat ./packages/core/utils/coverage/lcov.info | coveralls
+
+    - stage: test prismic
       script: yarn test:prismic --coverage
       name: Test prismic
       after_script:

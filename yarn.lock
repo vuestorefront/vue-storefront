@@ -2408,6 +2408,12 @@
   dependencies:
     tslib "^1.9.3"
 
+"@vue/composition-api@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-0.4.0.tgz#04e600106687de719d587c704296aa4a5b37ca28"
+  dependencies:
+    tslib "^1.9.3"
+
 "@vue/eslint-config-typescript@^5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@vue/eslint-config-typescript/-/eslint-config-typescript-5.0.1.tgz#06d986dd91cadc60583158dadc7c9c4f0372af31"
@@ -13131,6 +13137,10 @@ yargs@^7.0.0:
     which-module "^1.0.0"
     y18n "^3.2.1"
     yargs-parser "^5.0.0"
+
+yarn@^1.22.0:
+  version "1.22.0"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.0.tgz#acf82906e36bcccd1ccab1cfb73b87509667c881"
 
 yn@3.1.1:
   version "3.1.1"

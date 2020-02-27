@@ -226,7 +226,6 @@ import {
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
-
 import { useProduct, useCart } from '<%= options.composables %>';
 import {
   getProductVariants,
@@ -242,7 +241,7 @@ export default {
   setup(props, context) {
     const qty = ref(1);
     const { slug } = context.root.$route.params;
-    const { products, search } = useProduct();
+    const { products, search } = useProduct('product-page');
     const { addToCart, loading } = useCart();
 
     search({ slug });

@@ -49,13 +49,12 @@ export default {
   },
 
   setup({ product }) {
-    const { products, search, loading, error } = useProduct();
+    const { products, search, loading, error } = useProduct('related-products');
     const categories = getProductCategories(product);
     const relatedProducts = computed(() => getProductVariants(products.value, { masters: true }).filter((prod) => getProductId(prod) !== getProductId(product)));
 
     if (categories.length > 0) {
-      const catIndex = Math.floor(Math.random() * categories.length);
-      search({ catIds: [categories[catIndex]] });
+      search({ catIds: [categories[0]] });
     }
 
     return {
