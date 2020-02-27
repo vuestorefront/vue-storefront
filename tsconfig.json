@@ -22,7 +22,7 @@
       "core/*": ["core/*"],
       "theme/*": ["src/themes/default/*"], //needs testing with non-default theme!
       "core/modules/*": ["./core/modules/*"],
-      "@vue-storefront/*": ["./"]
+      "@vue-storefront/*": ["./*"]
     },
     "lib": ["es2017", "dom"]
   },
