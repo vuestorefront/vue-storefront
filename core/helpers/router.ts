@@ -9,7 +9,8 @@ once('__VUE_EXTEND_PUSH_RR__', () => {
     if (onComplete || onAbort) return originalPush.call(this, location, onComplete, onAbort)
     return originalPush.call(this, location).catch(err => err)
   }
-}
+})
+
 export const createRouter = (): VueRouter => {
   return new VueRouter({
     mode: 'history',
