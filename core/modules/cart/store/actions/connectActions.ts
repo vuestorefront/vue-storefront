@@ -18,7 +18,7 @@ const connectActions = {
   async clear ({ commit, dispatch }, { disconnect = true, sync = true } = {}) {
     await commit(types.CART_LOAD_CART, [])
     if (sync) {
-      await dispatch('sync', { forceClientState: true })
+      await dispatch('sync', { forceClientState: true, forceSync: true })
     }
     if (disconnect) {
       await commit(types.CART_SET_ITEMS_HASH, null)
@@ -29,14 +29,18 @@ const connectActions = {
     commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
   },
   async authorize ({ dispatch, getters }) {
-    await dispatch('connect', { guestCart: false })
-
     const coupon = getters.getCoupon.code
-    if (!getters.getCoupon) {
+    if (coupon) {
+      await dispatch('removeCoupon', { sync: false })
+    }
+
+    await dispatch('connect', { guestCart: false, mergeQty: true })
+
+    if (coupon) {
       await dispatch('applyCoupon', coupon)
     }
   },
-  async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false }) {
+  async connect ({ getters, dispatch, commit }, { guestCart = false, forceClientState = false, mergeQty = false }) {
     if (!getters.isCartSyncEnabled) return
     const { result, resultCode } = await CartService.getCartToken(guestCart, forceClientState)
 
@@ -44,7 +48,7 @@ const connectActions = {
       Logger.info('Server cart token created.', 'cart', result)()
       commit(types.CART_LOAD_CART_SERVER_TOKEN, result)
 
-      return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault, mergeQty: true })
+      return dispatch('sync', { forceClientState, dryRun: !config.cart.serverMergeByDefault, mergeQty })
     }
 
     if (resultCode === 401 && getters.bypassCounter < config.queues.maxCartBypassAttempts) {

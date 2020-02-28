@@ -84,7 +84,7 @@ For an up-to-date list of supported browsers please see "browserslist" in packag
 
 ## Join the community on Slack
 
-If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtNTAwODYzNzI3MjAzLWFkZjc0YjVjODA1Y2I2MTdlNmM0NThjY2M5MzgzN2U2NzE4YmE2YzA4YTM0MTY3OWQzZjBhMjBlZDhmYjAyNGI)
+If you have any questions or ideas feel free to join our slack: https://vuestorefront.slack.com via [invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtOTUwNjQyNjY5MDI0LWFmYzE4NTYxNDBhZDRlMjM5MDUzY2RiMjU0YTRjYWQ3YzdkY2YzZjZhZDZmMDUwMWQyOWRmZjQ3NDgwZGQ3NTk)
 
 ## Roadmap
 
@@ -119,10 +119,20 @@ You can find some tutorials and explanations on our [YouTube channel](https://ww
 
 ### Installation
 
+- [Starter pack for install](https://docs.vuestorefront.io/guide/cookbook/setup.html)
 - [Installing on Linux/MacOS](https://docs.vuestorefront.io/guide/installation/linux-mac.html)
 - [Installing on Windows](https://docs.vuestorefront.io/guide/installation/windows.html)
 - [How to install and integrate with Magento2](https://docs.vuestorefront.io/guide/installation/magento.html)
 - [Production setup](https://docs.vuestorefront.io/guide/installation/production-setup.html)
+
+### Cookbooks
+
+- [Ch1. Data Imports](https://docs.vuestorefront.io/guide/cookbook/data-import.html)
+- [Ch2. Elasticsearch in the VSF context](https://docs.vuestorefront.io/guide/cookbook/elastic.html)
+- [Ch3. Starter pack for new comers (Install)](https://docs.vuestorefront.io/guide/cookbook/setup.html)
+- [Ch5. Building a Module from scratch](https://docs.vuestorefront.io/guide/cookbook/module.html)
+- [Ch6. Theming in depth](https://docs.vuestorefront.io/guide/cookbook/theme.html)
+- [Chef's secret note: Hardcore training for serious business](https://docs.vuestorefront.io/guide/cookbook/checklist.html)
 
 ### Basics
 
@@ -326,7 +336,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
       <td align="center" valign="middle">
         <a href="http://macopedia.com/pl">
           <img
-            src="docs/.vuepress/public/partners/macopedia.svg"
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/macopedia_blue_logo.png"
             alt="Macopedia"
             width="150"
           >
@@ -382,7 +392,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
        <td align="center" valign="middle">
     <a href="https://www.wagento.com">
           <img
-            src="https://www.wagento.com/media/wysiwyg/logo-color-tagline_4x.png"
+            src="https://www.wagento.com/hubfs/logo-standard-color@4x%20(1).png"
             alt="Wagento"
             width="150"
           >
@@ -914,10 +924,56 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
     <td align="center" valign="middle">
+         <a href="https://bitbag.io/services/pwa-progressive-web-app/">
+          <img
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/BitBag_logo.png"
+            alt="BitBag"
+            height="40" >
+        </a>
+</td>
+   <td align="center" valign="middle">
 <a href="https://www.ohmybrand.es/">
           <img
             src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/ohmybrand_logo_blue.png"
             alt="Oh My Brand"
+            height="40"
+          >
+        </a>
+</td>
+    </tr>
+            <tr>
+      <td align="center" valign="middle">
+<a href="https://www.solveda.com/">
+          <img
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/SOLVEDA_logo.png"
+            alt="Solveda"
+            height="40"
+          >
+        </a>
+</td>
+  <td align="center" valign="middle">
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+     <td align="center" valign="middle">
+<a href="">
+          <img
+            src=""
+            alt=""
+            height="40"
+          >
+        </a>
+</td>
+    <td align="center" valign="middle">
+    <a href="">
+          <img
+            src=""
+            alt=""
             height="40"
           >
         </a>
