@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Group 'productChecksum' and 'productsEquals' logic for all supported products types. Remove 'checksum' when editing product.
 Remove and add coupon when user login Remove 'NA' as default company. Show qty in microcart for all types of product.
 Remove preload font - it gives good performance, but vue-meta refresh page, because there is script onload. - @gibkigonzo (pr#4128)
+- Fix incorrect root categories when extending includeFields - @Michal-Dziedzinski (#4090)
 
 ## [1.11.1] - 2020.02.05
 
