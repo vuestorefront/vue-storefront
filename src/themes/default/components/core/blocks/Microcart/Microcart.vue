@@ -49,7 +49,7 @@
       {{ $t('to find something beautiful for You!') }}
     </div>
     <ul v-if="productsInCart.length" class="bg-cl-primary m0 px40 pb40 products">
-      <product v-for="product in productsInCart" :key="product.checksum || product.sku" :product="product" />
+      <product v-for="product in productsInCart" :key="product.checksum" :product="product" />
     </ul>
     <div v-if="productsInCart.length" class="summary px40 cl-accent serif">
       <h3 class="m0 pt40 mb30 weight-400 summary-heading">
@@ -231,8 +231,9 @@ export default {
         action1: { label: i18n.t('Cancel'), action: 'close' },
         action2: { label: i18n.t('OK'),
           action: async () => {
-            await this.$store.dispatch('cart/clear') // just clear the items without sync
-            await this.$store.dispatch('cart/sync', { forceClientState: true })
+            // We just need to clear cart on frontend and backend.
+            // but cart token can be reused
+            await this.$store.dispatch('cart/clear', { disconnect: false })
           }
         },
         hasNoTimeout: true
