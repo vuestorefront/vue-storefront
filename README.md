@@ -42,8 +42,7 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
         <a href="https://demo.storefrontcloud.io">
           <img
             src="https://divante.co/open-graph/vuestorefront/GitHub-Readme-Try-Demo.png"
-            alt="B2C Theme demo"
-            style="width: 100px;">
+            alt="B2C Theme demo" />
         </a>
       </td>
       <td align="left" valign="top">
@@ -55,7 +54,7 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
 
 ## 🆕 Capybara Theme
 
-Starting new project on Vue Storefront? Try out the new <a href="https://github.com/DivanteLtd/vsf-capybara">Capybara Theme</a>. Based on a href="https://storefrontui.io">StorefrontUI Design System</>
+Starting new project on Vue Storefront? Try out the new <a href="https://github.com/DivanteLtd/vsf-capybara">Capybara Theme</a>. Based on <a href="https://storefrontui.io">StorefrontUI Design System</a>
 
 
 <table>
@@ -63,10 +62,9 @@ Starting new project on Vue Storefront? Try out the new <a href="https://github.
     <tr>
       <td align="center" valign="middle">
         <a href="https://capybara.storefrontcloud.io/">
-          <img
+          <img width="290" 
             src="http://i3.ytimg.com/vi/x2_w-ZBOfqE/maxresdefault.jpg"
-            alt="B2C Theme demo"
-            style="width: 100px;">
+            alt="B2C Theme demo" />
         </a>
       </td>
       <td align="left" valign="top">
