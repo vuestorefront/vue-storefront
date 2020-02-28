@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add custom currency separators and amount of fraction digits - @EndPositive (#3553)
 - Product Page Schema implementation as JSON-LD - @Michal-Dziedzinski (#3704)
 - Add `/cache-version.json` route to get current cache version
+- Add `region`, `region_id`, and `region_code` and sending full address data on `changeShippingMethod` in `core/modules/checkout/components/Shipping.ts` - @tonyisworking (#4131)
 
 ### Fixed
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
