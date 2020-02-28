@@ -50,7 +50,7 @@
       </li>
     </ul>
     <ul
-      v-if="myAccountLinks && !path.length"
+      v-if="myAccountLinks && !hasChildren"
       class="sidebar-submenu absolute w-100 p0 bg-cl-primary"
       :style="styles"
     >
@@ -124,6 +124,9 @@ export default {
       } else {
         return this.$store.state.category.list.filter(c => { return c.parent_id === this.id }) // return my child categories
       }
+    },
+    hasChildren() {
+      return this.children && this.children.length
     },
     ...mapState({
       submenu: state => state.ui.submenu,
