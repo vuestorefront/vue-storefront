@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.2] - UNRELEASED
+
+### Added
+- Add `isBackRoute` that informs if user returns to route, skip loading products for category if he does - @gibkigonzo (issue#4066)
+- Add server context to async data loader - @gibkigonzo (pr#4113)
+- Add preload and preconnect for google font - @gibkigonzo (pr#4121)
+
+### Changed / Improved
+- optimizations - improved prefetch strategy - @gibkigonzo (#4080)
+- improvements to Finnish translations - @evktalo (#4116)
+- Radio button now allows separate checked, value and name attributes - @EndPositive (#4098)
+
+### Fixed
+- add disconnect and sync options for cart/clear - @gibkigonzo (#4062)
+- add '1' as searched value for 'is_user_defined' and 'is_visible' (createAttributesListQuery) - @gibkigonzo (#4075)
+- Fix possibility to add same SKU with different custom options to the cart - @Michal-Dziedzinski (#3595)
+- Fix `calculateProductTax` to find matching tax rules from ES for current product - @DylannCordel (#4056)
+- Set `totals` in products in cart always in reactive way - @psmyrek (#4079)
+- Fix sync cart between tabs - @Michal-Dziedzinski (#3838)
+- Add currentRoute to url module and return cached requests - @gibkigonzo (pr#4077, issue#4066)
+- Hide original radio button behind built label - @EndPositive (#4098)
+- Disable overriding `route` state in __INITIAL_STATE__ - @gibkigonzo (pr#4095)
+- Fix gtm order placement event when user was guest - @Michal-Dziedzinski (#4064)
+- Fix gtm event switched properties - @Michal-Dziedzinski (pr#4106)
+- Group 'productChecksum' and 'productsEquals' logic for all supported products types. Remove 'checksum' when editing product.
+Remove and add coupon when user login Remove 'NA' as default company. Show qty in microcart for all types of product.
+Remove preload font - it gives good performance, but vue-meta refresh page, because there is script onload. - @gibkigonzo (pr#4128)
+
 ## [1.11.1] - 2020.02.05
 
 ### Added
@@ -13,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed / Improved
 - Set cache tag when loading a category - @haelbichalex (#3940)
-- In development build `webpack.config.js` in theme folder is now called without the `default` key
+- In development build `webpack.config.js` in theme folder is now called without the `default` key - @psmyrek
 
 ### Fixed
 - Added Finnish translations - @mattiteraslahti and @alphpkeemik

@@ -167,15 +167,16 @@ export function updateProductPrices ({ product, rate, sourcePriceInclTax = false
 
 export function calculateProductTax ({ product, taxClasses, taxCountry = 'PL', taxRegion = '', sourcePriceInclTax = false, deprecatedPriceFieldsSupport = false, finalPriceInclTax = true, userGroupId = null, isTaxWithUserGroupIsActive }) {
   let rateFound = false
-  if (product.tax_class_id > 0) {
+  let product_tax_class_id = parseInt(product.tax_class_id)
+  if (product_tax_class_id > 0) {
     let taxClass
     if (isTaxWithUserGroupIsActive) {
       taxClass = taxClasses.find((el) =>
-        el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id)) >= 0 &&
+        el.product_tax_class_ids.indexOf(product_tax_class_id) >= 0 &&
           el.customer_tax_class_ids.indexOf(userGroupId) >= 0
       )
     } else {
-      taxClass = taxClasses.find((el) => el.product_tax_class_ids.indexOf(parseInt(product.tax_class_id) >= 0))
+      taxClass = taxClasses.find((el) => el.product_tax_class_ids.indexOf(product_tax_class_id) >= 0)
     }
 
     if (taxClass) {

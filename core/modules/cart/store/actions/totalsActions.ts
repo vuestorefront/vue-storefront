@@ -62,10 +62,11 @@ const totalsActions = {
       })
 
       if (shippingMethodsData.country) {
-        return dispatch('overrideServerTotals', {
+        await dispatch('overrideServerTotals', {
           hasShippingInformation: shippingMethodsData.method_code || shippingMethodsData.carrier_code,
           addressInformation: createShippingInfoData(shippingMethodsData)
         })
+        return
       }
 
       Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
@@ -73,7 +74,7 @@ const totalsActions = {
   },
   async refreshTotals ({ dispatch }, payload) {
     Logger.warn('The "cart/refreshTotals" action is deprecated and will not be supported with the Vue Storefront 1.11', 'cart')()
-    return dispatch('syncTotals', payload)
+    await dispatch('syncTotals', payload)
   }
 }
 

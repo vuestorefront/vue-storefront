@@ -226,7 +226,9 @@ const actions: ActionTree<UserState, RootState> = {
     await dispatch('cart/disconnect', {}, { root: true })
     await dispatch('clearCurrentUser')
     EventBus.$emit('user-after-logout')
-    await dispatch('cart/clear', null, { root: true })
+    // clear cart without sync, because after logout we don't want to clear cart on backend
+    // user should have items when he comes back
+    await dispatch('cart/clear', { sync: false }, { root: true })
 
     if (!silent) {
       await dispatch('notification/spawnNotification', {
@@ -267,7 +269,7 @@ const actions: ActionTree<UserState, RootState> = {
    */
   async getOrdersHistory ({ dispatch, getters }, { refresh = true, useCache = true, pageSize = 20, currentPage = 1 }) {
     if (!getters.getToken) {
-      Logger.debug('No User token, user unathorized', 'user')()
+      Logger.debug('No User token, user unauthorized', 'user')()
       return Promise.resolve(null)
     }
     let resolvedFromCache = false
