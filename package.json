@@ -80,7 +80,7 @@
     "vue": "^2.6.6",
     "vue-analytics": "^5.16.1",
     "vue-apollo": "^3.0.0-beta.19",
-    "vue-carousel": "^0.6.9",
+    "vue-carousel": "^0.18",
     "vue-gtm": "^2.0.0",
     "vue-i18n": "^8.0.0",
     "vue-lazy-hydration": "^1.0.0-beta.9",
