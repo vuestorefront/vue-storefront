@@ -8,20 +8,20 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "bodybuilder": "2.2.13",
+    "bodybuilder": "2.2.21",
     "compression": "^1.7.4",
     "config": "^1.30.0",
     "express": "^4.14.0",
     "html-minifier": "^4.0.0",
     "lean-he": "^2.0.0",
     "localforage": "^1.7.2",
-    "lodash-es": "^4.17.10",
+    "lodash-es": "^4.17",
     "lru-cache": "^4.0.1",
     "query-string": "^6.2.0",
     "redis-tag-cache": "^1.2.1",
     "remove-accents": "^0.4.2",
     "uuid": "^3.3.2",
-    "vue": "^2.6.6",
+    "vue": "^2.6.11",
     "vue-carousel": "^0.18",
     "vue-i18n": "^8.0.0",
     "vue-lazyload": "^1.2.6",
@@ -29,9 +29,9 @@
     "vue-observe-visibility": "^0.4.1",
     "vue-offline": "^1.0.8",
     "vue-router": "^3.0.1",
-    "vue-server-renderer": "^2.6.6",
+    "vue-server-renderer": "^2.6.11",
     "vuelidate": "^0.6.2",
-    "vuex": "^3.0.1",
+    "vuex": "^3.1.2",
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
     "app-root-path": "^2.0.1",
     "autoprefixer": "^8.6.2",
     "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.3",
+    "babel-loader": "^8.0.6",
     "babel-preset-env": "^1.6.x",
     "babel-preset-stage-2": "^6.13.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
@@ -81,12 +81,12 @@
     "vue-eslint-parser": "^2.0.3",
     "vue-loader": "^15.5.1",
     "vue-ssr-webpack-plugin": "^3.0.0",
-    "vue-template-compiler": "^2.6.6",
+    "vue-template-compiler": "^2.6.11",
     "webpack": "^4.25.1",
-    "webpack-cli": "^3.1.2",
+    "webpack-cli": "^3.3.11",
     "webpack-dev-middleware": "^3.4.0",
     "webpack-hot-middleware": "^2.24.3",
-    "webpack-merge": "^4.1.4"
+    "webpack-merge": "^4.2.2"
   },
   "publishConfig": {
     "access": "public"
