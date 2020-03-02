@@ -60,7 +60,7 @@ const methodsActions = {
     }
   },
   async updateShippingMethods ({ dispatch }, { shippingMethods }) {
-    if (shippingMethods && Array.isArray(shippingMethods) && shippingMethods.length > 0) {
+    if (Array.isArray(shippingMethods) && shippingMethods) {
       const newShippingMethods = shippingMethods.map(method => ({ ...method, is_server_method: true }))
       await dispatch('checkout/replaceShippingMethods', newShippingMethods, { root: true })
     }
