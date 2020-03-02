@@ -34,6 +34,7 @@ Remove and add coupon when user login Remove 'NA' as default company. Show qty i
 Remove preload font - it gives good performance, but vue-meta refresh page, because there is script onload. - @gibkigonzo (pr#4128)
 - Keep old category before route is resolved - @gibkigonzo (pr#4124)
 - Added comments in 'productsEqual' and change logic for different types of products. Remove login user after order in Checkout. Allow changing qty for 'group' and 'bundle'.products - @gibkigonzo (pr#4144)
+- Fix incorrect root categories when extending includeFields - @Michal-Dziedzinski (#4090)
 
 ## [1.11.1] - 2020.02.05
 
