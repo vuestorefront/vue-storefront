@@ -144,9 +144,6 @@ export default {
     },
     async onAfterPlaceOrder (payload) {
       this.confirmation = payload.confirmation
-      if (this.$store.state.checkout.personalDetails.createAccount) {
-        await this.$store.dispatch('user/login', { username: this.$store.state.checkout.personalDetails.emailAddress, password: this.$store.state.checkout.personalDetails.password })
-      }
       this.$store.dispatch('checkout/setThankYouPage', true)
       this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
       Logger.debug(payload.order)()
