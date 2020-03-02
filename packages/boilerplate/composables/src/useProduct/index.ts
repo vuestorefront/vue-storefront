@@ -5,15 +5,14 @@ import { ProductVariant } from '@vue-storefront/boilerplate-api/src/types';
 // Product-specific typings.
 // Those inetrfaces are just recommendations.
 // Feel free to update them to match your platform specification.
-type Search = (params: any) => void
 
-export default function useProduct(): UseProduct<ProductVariant, Search> {
+export default function useProduct(): UseProduct<ProductVariant> {
   const products: Ref<ProductVariant[]> = ref([]);
   const loading: Ref<boolean> = ref(false);
   const error: Ref<string> = ref(null);
 
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  const search: Search = async (params) => {};
+  const search = async (params) => {};
 
   return {
     products,

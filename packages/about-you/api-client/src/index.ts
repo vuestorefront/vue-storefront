@@ -12,15 +12,15 @@ import removeCouponApi from './removeCoupon';
 let api = null;
 
 let methods = {
-  getProductApi,
-  getCategoryApi,
-  addToCartApi,
-  removeFromCartApi,
-  clearCartApi,
-  placeOrderApi,
-  getUserApi,
-  addCouponApi,
-  removeCouponApi
+  getProduct: getProductApi,
+  getCategory: getCategoryApi,
+  addToCart: addToCartApi,
+  removeFromCart: removeFromCartApi,
+  clearCart: clearCartApi,
+  placeOrder: placeOrderApi,
+  getUser: getUserApi,
+  addCoupon: addCouponApi,
+  removeCoupon: removeCouponApi
 };
 
 function override(overrides) {
@@ -38,15 +38,15 @@ function setup() {
 }
 
 /** just because you can't simply do "export x as y..." */
-const getProduct = methods.getProductApi;
-const getCategory = methods.getCategoryApi;
-const addToCart = methods.addToCartApi;
-const removeFromCart = methods.removeFromCartApi;
-const clearCart = methods.clearCartApi;
-const placeOrder = methods.placeOrderApi;
-const getUser = methods.getUserApi;
-const addCoupon = methods.addCouponApi;
-const removeCoupon = methods.removeCouponApi;
+const getProduct = methods.getProduct;
+const getCategory = methods.getCategory;
+const addToCart = methods.addToCart;
+const removeFromCart = methods.removeFromCart;
+const clearCart = methods.clearCart;
+const placeOrder = methods.placeOrder;
+const getUser = methods.getUser;
+const addCoupon = methods.addCoupon;
+const removeCoupon = methods.removeCoupon;
 
 setup();
 async function getCat() {

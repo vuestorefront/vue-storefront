@@ -10,7 +10,6 @@ yarn add @vue-storefront/commercetools-api
 :::
 
 <!-- Code example for setup method -->
-
 ::: slot setup-ct
 ```javascript
 import { setup } from '@vue-storefront/commercetools-api'

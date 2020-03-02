@@ -249,7 +249,12 @@ export default {
     @content;
   }
 }
-
+#home {
+  margin-top: $spacer-big;
+  @include for-desktop {
+    margin-top: 0
+  }
+}
 .call-to-action-newsletter {
   margin: $spacer-big 0;
   box-sizing: border-box;
