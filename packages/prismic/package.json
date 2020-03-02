@@ -6,7 +6,6 @@
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "version": "0.0.1",
-  "private": true,
   "sideEffect": false,
   "dependencies": {
     "@vue/composition-api": "^0.3.4",
