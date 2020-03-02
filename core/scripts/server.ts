@@ -217,7 +217,7 @@ app.get('*', (req, res, next) => {
       output = ssr.applyAdvancedOutputProcessing(context, output, templatesCache, isProd);
       if (config.server.useOutputCache && cache) {
         cache.set(
-          'page:' + req.url,
+          cacheKey,
           { headers: res.getHeaders(), body: output, httpCode: res.statusCode },
           tagsArray
         ).catch(errorHandler)
