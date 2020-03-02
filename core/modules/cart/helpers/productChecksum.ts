@@ -27,7 +27,7 @@ export const getProductOptions = (product, optionsName) => {
 
 const getDataToHash = (product: CartItem): any => {
   if (!product.product_option) {
-    return product.sku ? product.sku : null
+    return null
   }
 
   const supportedProductOptions = ['bundle_options', 'custom_options', 'configurable_item_options']
