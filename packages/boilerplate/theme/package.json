@@ -1,0 +1,33 @@
+{
+  "name": "@vue-storefront/boilerplate-theme",
+  "description": "My breathtaking Nuxt.js project",
+  "author": "Filip Rakowski",
+  "version": "0.0.3",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build -m",
+    "build:analyze": "nuxt build -a -m",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@storefront-ui/vue": "^0.5.1",
+    "@vue-storefront/boilerplate-api": "^0.0.1",
+    "@vue-storefront/boilerplate-composables": "^0.0.1",
+    "@vue-storefront/boilerplate-helpers": "^0.0.1",
+    "@vue-storefront/nuxt": "^0.0.3",
+    "@vue-storefront/nuxt-theme": "^0.0.1",
+    "core-js": "^2.6.5",
+    "nuxt": "^2.10.2",
+    "vee-validate": "^3.2.5"
+  },
+  "devDependencies": {
+    "@nuxt/typescript-build": "^0.3.1",
+    "@vue/test-utils": "^1.0.0-beta.27",
+    "babel-jest": "^24.1.0",
+    "jest": "^24.1.0",
+    "vue-jest": "^4.0.0-0"
+  }
+}
