@@ -206,7 +206,7 @@ $color-white: color(white);
   &__thumb {
     padding-bottom: calc(143.88% / (164.5 / 100));
     @media screen and (min-width: 768px) {
-      padding-bottom: calc(300% / (276.5 / 100));
+      padding-bottom: calc(300% / (276.5 / 115));
     }
     opacity: 0.8;
     will-change: opacity, transform;

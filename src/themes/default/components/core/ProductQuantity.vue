@@ -66,10 +66,17 @@ export default {
       return onlineHelper.isOnline
     },
     max () {
-      return this.isOnline ? this.maxQuantity : null
+      if (!this.isOnline || !this.isSimpleOrConfigurable) {
+        return null
+      }
+
+      return this.maxQuantity
     },
     disabled () {
-      return this.isOnline ? !this.maxQuantity && this.checkMaxQuantity : false
+      if (!this.isOnline) {
+        return false
+      }
+      return !this.maxQuantity && this.checkMaxQuantity && this.isSimpleOrConfigurable
     },
     name () {
       if (this.isSimpleOrConfigurable && !this.loading && this.showQuantity) {
