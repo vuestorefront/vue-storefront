@@ -80,7 +80,7 @@ export default {
       } else {
         const targetValue = parseInt(event.target.value, 10)
         if (!isNaN(targetValue)) {
-          this.inputValue = Math.abs(event.target.value)
+          this.inputValue = targetValue !== 0 ? Math.abs(targetValue) : 1
           this.$emit('input', this.inputValue)
         }
       }
