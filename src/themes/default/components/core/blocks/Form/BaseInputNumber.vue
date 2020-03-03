@@ -77,23 +77,6 @@ export default {
         }
       }
     }
-  },
-  mounted () {
-    this.inputValue = this.value
-  },
-  methods: {
-    onInput (event) {
-      if (!this.onlyPositive) {
-        this.inputValue = event.target.value
-        this.$emit('input', this.inputValue)
-      } else {
-        const targetValue = parseInt(event.target.value, 10)
-        if (!isNaN(targetValue)) {
-          this.inputValue = targetValue !== 0 ? Math.abs(targetValue) : 1
-          this.$emit('input', this.inputValue)
-        }
-      }
-    }
   }
 }
 </script>
