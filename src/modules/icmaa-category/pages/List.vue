@@ -1,6 +1,11 @@
 <template>
   <div id="category-list" class="t-container t-px-4 t-my-8" v-if="notEmpty">
     <h1>{{ parent.name }}</h1>
+    <div class="t-flex t-flex-wrap t--mx-4">
+      <div class="t-w-full">
+        <teaser :tags="teaserTag" :show-large="false" :show-small-in-row="true" />
+      </div>
+    </div>
     <lazy-hydrate when-idle>
       <logo-line :parent-id="rootCategoryId" :limit="12" :placeholder="true" column-class="t-w-1/3 md:t-w-1/6 t-py-2" class="t-justify-between t-my-8" />
     </lazy-hydrate>
@@ -37,17 +42,24 @@
 import LazyHydrate from 'vue-lazy-hydration'
 import List from 'icmaa-category/components/List'
 import LogoLine from 'theme/components/core/blocks/CategoryExtras/LogoLine'
+import Teaser from 'theme/components/core/blocks/Teaser/Teaser'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 
 export default {
   mixins: [ List ],
   components: {
     LogoLine,
+    Teaser,
     LazyHydrate
   },
   methods: {
     getCategoryRoute (category) {
       return formatCategoryLink(category)
+    }
+  },
+  computed: {
+    teaserTag () {
+      return String(this.$route.params.teaserTag)
     }
   }
 }

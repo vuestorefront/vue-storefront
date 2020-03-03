@@ -74,10 +74,14 @@ export default {
       const singleOptionFilters = config.products.singleOptionFilters || []
       const attributes = this.attributes
 
-      let filters = Object.entries(this.filters).map(v => { return { attributeKey: v[0], options: v[1] } })
-      return filters
+      return Object.entries(this.filters)
+        .map(v => {
+          // Quickfix - There is a bug where an empty option is added for `preorder_searchable`
+          const options = v[1].filter(o => o.id !== '0')
+          return { attributeKey: v[0], options }
+        })
         .filter(f => (f.options.length > 1 || (f.options.length === 1 && singleOptionFilters.includes(f.attributeKey))) && !this.getSystemFilterNames.includes(f.attributeKey) && this.isVisibleFilter(f.attributeKey))
-        .map(f => { return { ...f, submenu: submenuFilters.includes(f.attributeKey), attributeLabel: this.attributeLabel({ attributeKey: f.attributeKey }), position: attributes[f.attributeKey].position } })
+        .map(f => ({ ...f, submenu: submenuFilters.includes(f.attributeKey), attributeLabel: this.attributeLabel({ attributeKey: f.attributeKey }), position: attributes[f.attributeKey].position }))
         .map(this.sortOptions)
     },
     groupedFilters () {
@@ -94,7 +98,7 @@ export default {
     sortOptions (filter) {
       const { options, attributeKey } = filter
       const attribute = this.attributes[attributeKey]
-      if (attribute && attribute.options) {
+      if (attribute && attribute.options && attribute.options.length > 1) {
         filter.options.sort((a, b) => {
           const aSort = attribute.options.find(o => o.value === a.id)
           const bSort = attribute.options.find(o => o.value === b.id)
