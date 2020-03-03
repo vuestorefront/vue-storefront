@@ -3,7 +3,7 @@ import { serverHooks } from '@vue-storefront/core/server/hooks'
 
 if (appConfig.storeViews.multistore) {
   serverHooks.afterApplicationInitialized(({ app }) => {
-    const blacklist = ['__webpack_hmr']
+    const blacklist = ['__webpack_hmr', 'invalidate']
     const storeCodes = appConfig.storeViews.mapStoreUrlsFor
 
     const blacklistStr = blacklist.join('|')
