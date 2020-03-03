@@ -7,7 +7,11 @@ import ProductNameMixin from 'icmaa-catalog/mixins/ProductNameMixin'
 
 export default {
   mixins: [ProductNameMixin],
-  async asyncData ({ store }) {
+  async asyncData ({ store, context }) {
+    if (context) {
+      context.output.cacheTags.add(`product`)
+    }
+
     const filterValues = Object.keys(store.getters['product/getCurrentProduct'])
       .filter(fieldName => config.icmaa_catalog.entities.product.prefetchAttributes.includes(fieldName))
     await store.dispatch('attribute/list', { filterValues })
