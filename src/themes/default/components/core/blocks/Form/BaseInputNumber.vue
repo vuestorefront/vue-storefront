@@ -9,8 +9,8 @@
       :disabled="disabled"
       class="m0 no-outline base-input-number__input brdr-cl-primary bg-cl-transparent h4"
       :focus="autofocus"
-      :value="value"
-      @input="$emit('input', $event.target.value)"
+      :value="inputValue"
+      @input="onInput"
       @blur="$emit('blur', $event.target.value)"
     >
     <ValidationMessages v-if="validations" :validations="validations" />
@@ -48,17 +48,42 @@ export default {
     },
     autofocus: {
       type: Boolean,
-      required: false,
       default: false
     },
     validations: {
       type: Array,
       default: () => []
+    },
+    onlyPositive: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data () {
+    return {
+      inputValue: 0
     }
   },
   computed: {
     getInputId () {
       return `input_${this._uid}`
+    }
+  },
+  mounted () {
+    this.inputValue = this.value
+  },
+  methods: {
+    onInput (event) {
+      if (!this.onlyPositive) {
+        this.inputValue = event.target.value
+        this.$emit('input', this.inputValue)
+      } else {
+        const targetValue = parseInt(event.target.value, 10)
+        if (!isNaN(targetValue)) {
+          this.inputValue = Math.abs(event.target.value)
+          this.$emit('input', this.inputValue)
+        }
+      }
     }
   }
 }
