@@ -7,10 +7,13 @@ import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { buildFilterProductsQuery } from '@vue-storefront/core/helpers'
 import { _prepareCategoryPathIds } from '@vue-storefront/core/modules/catalog-next/helpers/categoryHelpers'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
+import { preConfigureProduct } from '@vue-storefront/core/modules/catalog/helpers/search'
+import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 
-import { icmaa } from 'config'
+import config, { icmaa } from 'config'
 import intersection from 'lodash-es/intersection'
 import union from 'lodash-es/union'
+import omit from 'lodash-es/omit'
 
 /**
  * These methods are overwrites of the original ones to extend them for our needs
@@ -86,7 +89,18 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   /**
    * Changes:
-   * * Add category whitelist support to hide unimportant categories.
+   * * Don't overwrite original image by selected variants one
+   */
+  async configureProducts ({ rootState }, { products = [], filters = {} } = {}) {
+    return products.map(product => {
+      product = Object.assign({}, preConfigureProduct({ product, populateRequestCacheTags: config.server.useOutputCacheTagging }))
+      const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
+      return Object.assign(product, omit(configuredProductVariant, ['visibility', 'image']))
+    })
+  },
+  /**
+   * Changes:
+   * * Add category whitelist support to hide unimportant categories
    * * Don't load it using `loadCategories` because the result might overwrite the current category in state
    */
   async loadCategoryBreadcrumbs ({ dispatch, getters }, { category, currentRouteName, omitCurrent = false }) {

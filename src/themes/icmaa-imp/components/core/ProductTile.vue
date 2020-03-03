@@ -73,7 +73,7 @@ export default {
   },
   computed: {
     thumbnail () {
-      let thumbnail = productThumbnailPath(this.product)
+      let thumbnail = this.product.image
       return this.getThumbnail(thumbnail, config.products.thumbnails.width, config.products.thumbnails.height)
     },
     thumbnailObj () {
