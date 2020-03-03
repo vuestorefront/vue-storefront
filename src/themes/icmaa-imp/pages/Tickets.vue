@@ -1,5 +1,6 @@
 <template>
   <div class="t-container">
+    <teaser tags="10" :show-large="false" :show-small-in-row="true" class="t-pt-8 t-pb-4" />
     <div class="t-p-4 t--mx-1 lg:t--mx-2 t-flex t-flex-wrap">
       <twitter-status-bar screen-name="Impericonticket" :limit="1" class="t-w-full t-px-1 lg:t-px-2 t-mb-4" />
       <div v-for="(ticket, i) in sortedTickets" :key="i" class="t-w-1/2 lg:t-w-1/4 t-px-1 lg:t-px-2 t-mb-8" data-test-id="Tickets">
@@ -28,13 +29,15 @@ import orderBy from 'lodash-es/orderBy'
 import RetinaImage from 'theme/components/core/blocks/RetinaImage'
 import ButtonComponent from 'theme/components/core/blocks/Button'
 import TwitterStatusBar from 'theme/components/core/blocks/Twitter/TwitterStatusBar'
+import Teaser from 'theme/components/core/blocks/Teaser/Teaser'
 
 export default {
   name: 'Tickets',
   components: {
     RetinaImage,
     ButtonComponent,
-    TwitterStatusBar
+    TwitterStatusBar,
+    Teaser
   },
   computed: {
     ...mapGetters({
