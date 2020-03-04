@@ -36,7 +36,7 @@ describe('Unsubscribe', () => {
 
     await (wrapper.vm as any).unsubscribe()
 
-    expect(storeMock.modules.newsletter.actions.unsubscribe).toBeCalledWith(expect.anything(), '', undefined);
+    expect(storeMock.modules.newsletter.actions.unsubscribe).toBeCalledWith(expect.anything(), '');
     expect(emit).toBeCalledWith('unsubscribed', true)
   })
 
@@ -64,7 +64,7 @@ describe('Unsubscribe', () => {
 
     await (wrapper.vm as any).unsubscribe()
 
-    expect(storeMock.modules.newsletter.actions.unsubscribe).toBeCalledWith(expect.anything(), '', undefined);
+    expect(storeMock.modules.newsletter.actions.unsubscribe).toBeCalledWith(expect.anything(), '');
     expect(emit).toBeCalledWith('unsubscription-error', 'error')
   })
 });
