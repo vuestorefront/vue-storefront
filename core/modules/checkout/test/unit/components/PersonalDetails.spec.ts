@@ -1,5 +1,6 @@
 import { mountMixinWithStore } from '@vue-storefront/unit-tests/utils';
 import { PersonalDetails } from '../../../components/PersonalDetails';
+import Vue from 'vue'
 
 describe('PersonalDetails', () => {
   let mockStore;
@@ -74,12 +75,14 @@ describe('PersonalDetails', () => {
       expect(mockMountingOptions.mocks.$bus.$off).toHaveBeenCalledWith('user-after-loggedin', (wrapper.vm as any).onLoggedIn);
     });
 
-    it('updated hook should set focus on password field', () => {
+    it('updated hook should set focus on password field', async () => {
       const wrapper = mountMixinWithStore(PersonalDetails, mockStore, mockMountingOptions);
       (wrapper.vm as any).$refs.password = { setFocus: jest.fn() };
 
       wrapper.setData({ isValidationError: false });
       wrapper.setProps({ focusedField: 'password' });
+
+      await Vue.nextTick()
 
       expect((wrapper.vm as any).isValidationError).toBe(true);
       expect((wrapper.vm as any).password).toBe('');

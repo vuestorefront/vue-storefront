@@ -90,7 +90,7 @@ describe('MicrocartProduct', () => {
 
     (wrapper.vm as any).removeFromCart();
 
-    expect(storeMock.modules.cart.actions.removeItem).toBeCalledWith(expect.anything(), { product }, undefined);
+    expect(storeMock.modules.cart.actions.removeItem).toBeCalledWith(expect.anything(), { product });
   });
 
   it('updateQuantity dispatches updateQuantity update product quantity in cart', () => {
@@ -113,8 +113,7 @@ describe('MicrocartProduct', () => {
 
     expect(storeMock.modules.cart.actions.updateQuantity).toBeCalledWith(
       expect.anything(),
-      { product, qty },
-      undefined
+      { product, qty }
     );
   });
 });
