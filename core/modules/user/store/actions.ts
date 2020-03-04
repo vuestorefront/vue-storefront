@@ -126,7 +126,7 @@ const actions: ActionTree<UserState, RootState> = {
 
     if (!resolvedFromCache && resp.resultCode === 200) {
       EventBus.$emit('user-after-loggedin', resp.result)
-      dispatch('cart/authorize', {}, { root: true })
+      await dispatch('cart/authorize', {}, { root: true })
       return resp
     }
   },
