@@ -449,7 +449,7 @@
   "i18n": {
     "defaultCountry": "US",
     "defaultLanguage": "EN",
-    "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "ja-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL", "cs-CZ"],
+    "availableLocale": ["en-US"],
     "defaultLocale": "en-US",
     "currencyCode": "USD",
     "currencySign": "$",
@@ -457,7 +457,7 @@
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "United States",
     "fullLanguageName": "English",
-    "bundleAllStoreviewLanguages": true
+    "bundleAllStoreviewLanguages": false
   },
   "expireHeaders": {
     "default": "30d",
