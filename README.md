@@ -33,7 +33,6 @@ See the ideas behind Vue Storefront [here](https://www.slideshare.net/FilipRakow
 
 PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI library for eCommerce.
 
-
 ## See it in action
 
 <table>
@@ -43,12 +42,33 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
         <a href="https://demo.storefrontcloud.io">
           <img
             src="https://divante.co/open-graph/vuestorefront/GitHub-Readme-Try-Demo.png"
-            alt="B2C Theme demo"
-            style="width: 100px;">
+            alt="B2C Theme demo" />
         </a>
       </td>
       <td align="left" valign="top">
         Try out our open demo and if you like it <strong>first give us some star on Github ★</strong> and then contact us on <a href="https://slack.vuestorefront.io">Slack</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to <a href="http://demo-magento2.vuestorefront.io">Magento 2.2</a> with shopping carts and users synchronization so You can make an order (which unfortunately won't be shipped ;P). <br /><br />If You like to see Magento 1 integration demo please <a href="https://vuestorefront.io">do contact us</a>.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## 🆕 Capybara Theme
+
+Starting new project on Vue Storefront? Try out the new <a href="https://github.com/DivanteLtd/vsf-capybara">Capybara Theme</a>. Based on <a href="https://storefrontui.io">StorefrontUI Design System</a>
+
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://capybara.storefrontcloud.io/">
+          <img width="290" 
+            src="http://i3.ytimg.com/vi/x2_w-ZBOfqE/maxresdefault.jpg"
+            alt="B2C Theme demo" />
+        </a>
+      </td>
+      <td align="left" valign="top">
+        Try out our open demo and if you like it <strong> first give us some star on Github ★</strong> and then contact us on <a href="https://slack.vuestorefront.io">Vue Storefront Official Slack</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to Magento2. <br />
       </td>
     </tr>
   </tbody>
