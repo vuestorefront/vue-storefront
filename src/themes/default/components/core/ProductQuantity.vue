@@ -8,6 +8,7 @@
       :disabled="disabled"
       @input="$emit('input', $event)"
       @blur="$v.$touch()"
+      only-positive
       :validations="[
         {
           condition: !$v.value.numeric || !$v.value.minValue || !$v.value.required,
