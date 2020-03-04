@@ -156,6 +156,33 @@ describe('[commercetools-helpers] product helpers', () => {
     });
   });
 
+  it('returns attributes of single product', () => {
+    expect(getProductAttributes(product)).toEqual({ articleNumberManufacturer: 'H805 C195 85072' });
+  });
+
+  it('returns product unique attributes', () => {
+    const prod = {
+      ...product,
+      attributeList: [
+        {
+          name: 'articleNumberManufacturer',
+          stringValue: 'H805 C195 85072',
+          __typename: 'StringAttribute'
+        },
+        {
+          name: 'articleNumberManufacturer',
+          stringValue: 'H805 C195 85072',
+          __typename: 'StringAttribute'
+        }
+      ]
+    } as any;
+
+    expect(getProductAttributes([prod])).toEqual({
+      articleNumberManufacturer: [{ label: 'H805 C195 85072',
+        value: 'H805 C195 85072' }]
+    });
+  });
+
   it('returns filtered product attributes', () => {
     const product = {
       attributeList: [
