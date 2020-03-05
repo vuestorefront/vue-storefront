@@ -81,7 +81,7 @@ export const list = async <T>(options: OptionsInterface): Promise<T[]> => {
     processURLAddress(config.icmaa_cms.endpoint) + '/search',
     { responseType: 'json', params }
   ).then(resp => {
-    let results = resp.data.result
+    let results = resp.data.result || []
     if (results.length === 0) {
       Logger.log(`No results found for :`, `icmaa-cms/${documentType}`, values)()
       return
