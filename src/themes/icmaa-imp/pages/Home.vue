@@ -2,7 +2,6 @@
   <div id="home" class="t-container">
     <teaser tags="2" :limit="3" class="sm:t-pt-4 t-pb-8" />
     <teaser tags="21" :show-large="false" :show-small-in-row="true" class="t-pb-8" />
-    <teaser tags="9" :show-large="false" :show-small-in-row="true" class="t-pb-8" />
     <teaser tags="20" :show-large="false" :show-small-in-row="true" class="t-pb-8" />
     <lazy-hydrate when-idle>
       <div class="t-flex t-flex-wrap t-px-4 t--mx-4 t-pb-4">
