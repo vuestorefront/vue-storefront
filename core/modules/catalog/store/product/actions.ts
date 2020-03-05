@@ -571,7 +571,7 @@ const actions: ActionTree<ProductState, RootState> = {
       const productUpdated = Object.assign({}, originalProduct, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
       if (!config.products.gallery.mergeConfigurableChildren) {
-        context.commit(types.PRODUCT_SET_GALLERY, attributeImages(productVariant))
+        context.dispatch('setProductGallery', { product: productUpdated })
       }
       context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, productUpdated))
       return productUpdated
