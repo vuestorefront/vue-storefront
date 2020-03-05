@@ -5,33 +5,44 @@
         Feel free to edit any of your details below so your account is always up
         to date
       </p>
-      <div class="form">
-        <SfInput
-          v-model="firstName"
-          name="firstName"
-          label="First Name"
-          required
-          class="form__element form__element--half"
-        />
-        <SfInput
-          v-model="lastName"
-          name="lastName"
-          label="Last Name"
-          required
-          class="form__element form__element--half form__element--half-even"
-        />
-        <SfInput
-          v-model="email"
-          type="email"
-          name="email"
-          label="Your e-mail"
-          required
-          class="form__element"
-        />
-        <SfButton class="form__button" @click="updatePersonal"
-          >Update personal data</SfButton
-        >
-      </div>
+      <ValidationObserver v-slot="{ handleSubmit }">
+        <form class="form" @submit.prevent="handleSubmit(updatePersonal)">
+          <div class="form__horizontal">
+            <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
+              <SfInput
+                v-model="firstName"
+                name="firstName"
+                label="First Name"
+                required
+                :valid="!errors[0]"
+                :errorMessage="errors[0]"
+              />
+            </ValidationProvider>
+            <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
+              <SfInput
+                v-model="lastName"
+                name="lastName"
+                label="Last Name"
+                required
+                :valid="!errors[0]"
+                :errorMessage="errors[0]"
+              />
+            </ValidationProvider>
+          </div>
+          <ValidationProvider rules="required|email" v-slot="{ errors }" class="form__element">
+            <SfInput
+              v-model="email"
+              type="email"
+              name="email"
+              label="Your e-mail"
+              required
+              :valid="!errors[0]"
+              :errorMessage="errors[0]"
+            />
+          </ValidationProvider>
+          <SfButton class="form__button">Update personal data</SfButton>
+        </form>
+      </ValidationObserver>
       <p class="notice">
         At Brand name, we attach great importance to privacy issues and are
         committed to protecting the personal data of our users. Learn more about
@@ -45,46 +56,87 @@
         following information:<br />Your current email address is
         <span class="message__label">example@email.com</span>
       </p>
-      <div class="form">
-        <SfInput
-          v-model="currentPassword"
-          type="password"
-          name="currentPassword"
-          label="Current Password"
-          required
-          class="form__element"
-        />
-        <SfInput
-          v-model="newPassword"
-          type="password"
-          name="newPassword"
-          label="New Password"
-          required
-          class="form__element form__element--half"
-        />
-        <SfInput
-          v-model="repeatPassword"
-          type="password"
-          name="repeatPassword"
-          label="Repeat Password"
-          required
-          class="form__element form__element--half form__element--half-even"
-        />
-        <SfButton class="form__button" @click="updatePassword"
-          >Update password</SfButton
-        >
-      </div>
+      <ValidationObserver v-slot="{ handleSubmit }">
+        <form class="form" @submit.prevent="handleSubmit(updatePassword)">
+          <ValidationProvider rules="required" v-slot="{ errors }" vid="password" class="form__element">
+            <SfInput
+              v-model="currentPassword"
+              type="password"
+              name="currentPassword"
+              label="Current Password"
+              required
+              :valid="!errors[0]"
+              :errorMessage="errors[0]"
+            />
+          </ValidationProvider>
+          <div class="form__horizontal">
+            <ValidationProvider rules="required|password" v-slot="{ errors }" vid="password" class="form__element">
+              <SfInput
+                v-model="newPassword"
+                type="password"
+                name="newPassword"
+                label="New Password"
+                required
+                :valid="!errors[0]"
+                :errorMessage="errors[0]"
+              />
+            </ValidationProvider>
+            <ValidationProvider rules="required|confirmed:password" v-slot="{ errors }" class="form__element">
+              <SfInput
+                v-model="repeatPassword"
+                type="password"
+                name="repeatPassword"
+                label="Repeat Password"
+                required
+                :valid="!errors[0]"
+                :errorMessage="errors[0]"
+              />
+            </ValidationProvider>
+          </div>
+          <SfButton class="form__button">Update password</SfButton>
+        </form>
+      </ValidationObserver>
     </SfTab>
   </SfTabs>
 </template>
 <script>
 import { SfTabs, SfInput, SfButton } from '@storefront-ui/vue';
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+import { email, required, min, confirmed } from 'vee-validate/dist/rules';
+
+extend('email', {
+  ...email,
+  message: 'Invalid email'
+});
+
+extend('required', {
+  ...required,
+  message: 'This field is required'
+});
+
+extend('min', {
+  ...min,
+  message: 'The field should have at least {length} characters'
+});
+
+extend('password', {
+  validate: value => String(value).match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+  message: 'Password must have at least 8 characters including one letter and a number'
+});
+
+extend('confirmed', {
+  ...confirmed,
+  message: 'Passwords don\'t match'
+});
+
 export default {
   name: 'PersonalDetails',
   components: {
     SfTabs,
     SfInput,
-    SfButton
+    SfButton,
+    ValidationProvider,
+    ValidationObserver
   },
   props: {
     account: {
@@ -137,32 +189,33 @@ export default {
     @content;
   }
 }
+
 .form {
-  @include for-desktop {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-  }
   &__element {
+    display: block;
     margin-bottom: $spacer-extra-big;
-    @include for-desktop {
-      flex: 0 0 100%;
-    }
-    &--half {
-      @include for-desktop {
-        flex: 1 1 50%;
-      }
-      &-even {
-        @include for-desktop {
-          padding-left: $spacer-extra-big;
-        }
-      }
-    }
   }
+
   &__button {
-    width: 100%;
+    display: block;
+  }
+
+  &__horizontal {
     @include for-desktop {
-      width: auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .form__element {
+      @include for-desktop {
+        flex: 1;
+        margin-right: $spacer-extra-big;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 }
