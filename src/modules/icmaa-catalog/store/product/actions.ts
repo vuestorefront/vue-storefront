@@ -7,9 +7,34 @@ import config, { icmaa } from 'config'
 import cloneDeep from 'lodash-es/cloneDeep'
 import uniqBy from 'lodash-es/uniqBy'
 
-import { getMediaGallery, configurableChildrenImages, attributeImages } from '@vue-storefront/core/modules/catalog/helpers'
+import { Logger } from '@vue-storefront/core/lib/logger'
+import { getMediaGallery, configurableChildrenImages, populateProductConfigurationAsync } from '@vue-storefront/core/modules/catalog/helpers'
 
 const actions: ActionTree<ProductState, RootState> = {
+  /**
+   * Clone of originial `product/setCurrent`
+   *
+   * Changes:
+   * * Don't just set product-gallery by commit – use action `setProductGallery` which is including more advanced logic
+   * * @see https://github.com/DivanteLtd/vue-storefront/pull/4153
+   */
+  setCurrent (context, productVariant) {
+    const { commit, dispatch, getters } = context
+    if (productVariant && typeof productVariant === 'object') {
+      // get original product
+      const originalProduct = getters.getOriginalProduct
+
+      // check if passed variant is the same as original
+      const productUpdated = Object.assign({}, originalProduct, productVariant)
+      populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
+      if (!config.products.gallery.mergeConfigurableChildren) {
+        // This line is our overwrite – see PR#4153 of DivanteLtd/vue-storefront
+        dispatch('setProductGallery', { product: productUpdated })
+      }
+      commit(types.PRODUCT_SET_CURRENT, Object.assign({}, productUpdated))
+      return productUpdated
+    } else Logger.debug('Unable to update current product.', 'product')()
+  },
   /**
    * Clone of originial `product/setProductGallery`
    *
@@ -17,7 +42,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * * When `mergeConfigurableChildren` is disabled, just show media-gallery items.
    * * Refactor to avoid redundant code.
    */
-  setProductGallery (context, { product }) {
+  setProductGallery ({ commit }, { product }) {
     let gallery = []
     if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_children')) {
       if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
@@ -29,7 +54,7 @@ const actions: ActionTree<ProductState, RootState> = {
       gallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src')
     }
 
-    context.commit(
+    commit(
       types.PRODUCT_SET_GALLERY,
       gallery.filter(f => f.src && f.src !== config.images.productPlaceholder)
     )
