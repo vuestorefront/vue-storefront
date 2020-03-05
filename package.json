@@ -119,7 +119,7 @@
     "command-exists": "^1.2.2",
     "commander": "^2.18.0",
     "css-loader": "^1.0.0",
-    "cypress": "^3.1.5",
+    "cypress": "^4.1.0",
     "d3-dsv": "^1.0.8",
     "detect-installed": "^2.0.4",
     "empty-dir": "^1.0.0",
