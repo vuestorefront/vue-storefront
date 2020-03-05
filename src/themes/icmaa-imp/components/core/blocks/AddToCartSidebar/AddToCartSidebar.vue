@@ -31,7 +31,7 @@
         :product="product"
       />
       <model :product="product" class="t-w-full t-p-4 t-mt-6 t-mb-px t-bg-base-lightest t-text-sm t-text-base-tone" />
-      <router-link :to="localizedRoute('/service-size')" class="t-w-full t-p-4 t-bg-base-lightest t-text-sm t-text-primary">
+      <router-link :to="localizedRoute('/service-size')" class="t-w-full t-p-4 t-bg-base-lightest t-text-sm t-text-primary" @click.native="$emit('close')">
         {{ $t('Which size fits me?') }}
         <material-icon icon="call_made" size="md" class="t-float-right t-align-middle" />
       </router-link>

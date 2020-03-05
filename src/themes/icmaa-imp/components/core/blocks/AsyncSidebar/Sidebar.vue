@@ -53,6 +53,9 @@ export default {
     onEscapePress () {
       this.closeMenu()
     }
+  },
+  mounted () {
+    this.$on('close', this.closeMenu)
   }
 }
 </script>
