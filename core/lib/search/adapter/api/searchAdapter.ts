@@ -102,8 +102,9 @@ export class SearchAdapter {
         suggestions: resp.suggest
       }
     } else {
-      if (resp.error) {
-        throw new Error(JSON.stringify(resp.error))
+      const isErrorObject = (resp && resp.code) >= 400 ? resp : null
+      if (resp.error || isErrorObject) {
+        throw new Error(JSON.stringify(resp.error || resp))
       } else {
         throw new Error('Unknown error with elasticsearch result in resultProcessor for entity type \'' + type + '\'')
       }
