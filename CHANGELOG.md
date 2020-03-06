@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.7] - UNRELEASED
+
+### Fixed
+- Removed duplicate language loading on initialization - @gibkigonzo (#4155)
 
 ## [1.10.6] - 21.02.2020
 
