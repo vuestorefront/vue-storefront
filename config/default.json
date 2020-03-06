@@ -337,6 +337,7 @@
     "listOutOfStockProducts": true,
     "preventConfigurableChildrenDirectAccess": true,
     "alwaysSyncPlatformPricesOver": false,
+    "alwaysSyncPricesClientSide": false,
     "clearPricesBeforePlatformSync": false,
     "waitForPlatformSync": false,
     "setupVariantByAttributeCode": true,

@@ -467,6 +467,12 @@ This is related to `alwaysSyncPlatformPricesOver` and when it's set to true, the
 
 This is related to `alwaysSyncPlatformPricesOver`. When true, Vue Storefront will wait for dynamic prices before rendering the page. Otherwise, the product and category pages will be rendered using the default (Elasticsearch-based) prices and then asynchronously override them with current ones.
 
+```json
+  "alwaysSyncPricesClientSide": false,
+```
+
+This is related to `alwaysSyncPlatformPricesOver`. When true, Vue Storefront will force a refresh of the prices on the client side, including the token from the current logged in user, so customer specific pricing can be applied. 
+
 
 ```json
   "endpoint": "http://localhost:8080/api/product",
