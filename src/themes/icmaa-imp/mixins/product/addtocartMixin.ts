@@ -1,6 +1,7 @@
 import { minValue } from 'vuelidate/lib/validators'
 import { notifications } from '@vue-storefront/core/modules/cart/helpers'
 import * as cartMutationTypes from '@vue-storefront/core/modules/cart/store/mutation-types'
+import i18n from '@vue-storefront/i18n'
 
 export default {
   methods: {
@@ -28,6 +29,11 @@ export default {
         this.$store.dispatch('ui/closeAll')
 
         diffLog.clientNotifications.forEach(notificationData => {
+          // Add go-to-checkout as notification option
+          if (notificationData.type === 'success') {
+            notificationData.action2 = { label: i18n.t('Go to checkout'), action: this.goToCheckout }
+          }
+
           this.notifyUser(notificationData)
         })
       } catch (message) {
@@ -40,6 +46,9 @@ export default {
     },
     notifyUser (notificationData) {
       this.$store.dispatch('notification/spawnNotification', notificationData, { root: true })
+    },
+    goToCheckout () {
+      this.$router.push(this.localizedRoute('/checkout'))
     }
   },
   validations: {
