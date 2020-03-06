@@ -221,6 +221,7 @@ import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/mod
 import { onlineHelper, isServer, productJsonLd } from '@vue-storefront/core/helpers'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 import ProductPrice from 'theme/components/core/ProductPrice.vue'
+import { GTMProduct } from 'src/modules/google-tag-manager/mixins/GTMProduct'
 
 export default {
   components: {
@@ -245,7 +246,7 @@ export default {
     ProductQuantity,
     ProductPrice
   },
-  mixins: [ProductOption],
+  mixins: [ProductOption, GTMProduct],
   directives: { focusClean },
   beforeCreate () {
     registerModule(ReviewModule)

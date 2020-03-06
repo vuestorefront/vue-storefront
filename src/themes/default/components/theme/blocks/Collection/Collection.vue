@@ -9,6 +9,7 @@
 
 import ProductsSlider from 'theme/components/core/ProductsSlider'
 import { prepareQuery } from '@vue-storefront/core/modules/catalog/queries/common'
+import { GTM } from 'src/modules/google-tag-manager/mixins/GTM'
 
 export default {
   name: 'Collection',
@@ -55,10 +56,12 @@ export default {
     })
     if (res) {
       this.products = res.items
+      this.sendProductImpressions(this.products, this.title, 'Collection')
     }
   },
   components: {
     ProductsSlider
-  }
+  },
+  mixins: [GTM]
 }
 </script>

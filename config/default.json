@@ -518,7 +518,7 @@
     "id": false,
     "debug": true,
     "product_attributes": [
-      "name", "id", "sku", { "priceInclTax": "price" }, { "qty": "quantity" }
+      "name", { "sku": "id" }, "sku", { "priceInclTax": "price" }, { "qty": "quantity" }
     ]
   },
   "hotjar": {
