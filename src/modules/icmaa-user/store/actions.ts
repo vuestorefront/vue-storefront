@@ -6,12 +6,13 @@ import { UserProfile } from '@vue-storefront/core/modules/user/types/UserProfile
 import { UserService } from '@vue-storefront/core/data-resolver'
 import * as types from './mutation-types'
 import * as userTypes from '@vue-storefront/core/modules/user/store/mutation-types'
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { SearchQuery } from 'storefront-query-builder'
 import { userHooksExecutors } from '@vue-storefront/core/modules/user/hooks'
+import { isServer } from '@vue-storefront/core/helpers'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
-import { SearchQuery } from 'storefront-query-builder'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import asyncForEach from 'icmaa-config/helpers/asyncForEach'
 
 import getApiEndpointUrl from '@vue-storefront/core/helpers/getApiEndpointUrl'
@@ -22,6 +23,23 @@ import Axios from 'axios'
 import isEmpty from 'lodash-es/isEmpty'
 
 const actions: ActionTree<UserState, RootState> = {
+  async startSessionWithToken ({ commit, dispatch }, token) {
+    await dispatch('clearCurrentUser')
+    if (isServer) {
+      return
+    }
+
+    commit(userTypes.USER_START_SESSION)
+
+    if (token) {
+      commit(userTypes.USER_TOKEN_CHANGED, { newToken: token })
+      await dispatch('sessionAfterAuthorized', {})
+    } else {
+      EventBus.$emit('session-after-nonauthorized')
+    }
+
+    EventBus.$emit('session-after-started')
+  },
   async update ({ dispatch }, profile: UserProfile): Promise<Task> {
     /**
      * The original method now uses the `queue` (instead `execute`) to update the profile.
@@ -77,7 +95,7 @@ const actions: ActionTree<UserState, RootState> = {
 
     return resp
   },
-  async loadOrderProducts ({ dispatch, getters }, { order, history }) {
+  async loadOrderProducts ({ dispatch }, { order, history }) {
     const index = history.findIndex(o => o.id === order.id)
     if (history[index] && history[index].products) {
       return history[index]
