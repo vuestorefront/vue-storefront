@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - optimizations - improved prefetch strategy - @gibkigonzo (#4080)
 - improvements to Finnish translations - @evktalo (#4116)
 - Radio button now allows separate checked, value and name attributes - @EndPositive (#4098)
+- Update backwards compatible dependencies - @simonmaass (#4126)
 
 ### Fixed
 - add disconnect and sync options for cart/clear - @gibkigonzo (#4062)
@@ -36,6 +37,8 @@ Remove preload font - it gives good performance, but vue-meta refresh page, beca
 - Added comments in 'productsEqual' and change logic for different types of products. Remove login user after order in Checkout. Allow changing qty for 'group' and 'bundle'.products - @gibkigonzo (pr#4144)
 - Fix incorrect root categories when extending includeFields - @Michal-Dziedzinski (#4090)
 - Add onlyPositive prop to BaseInputNumber to not allow user type negative value - @Michal-Dziedzinski (#4136)
+- Await for cart/authorize while login user - @gibkigonzo (#4133)
+- Fixed `NOT_ALLOWED_SSR_EXTENSIONS_REGEX` to only match with file extensions having a dot - @haelbichalex (#4100)
 
 ## [1.11.1] - 2020.02.05
 
