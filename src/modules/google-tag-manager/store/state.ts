@@ -1,5 +1,7 @@
-export interface GoogleTagManagerState {
-  key?: null | string,
+import { GoogleTagManagerState } from '../types/GoogleTagManagerState'
+
+export const state: GoogleTagManagerState = {
+  key: null,
   product_list: null,
   product_current: null,
   product_click: null,
