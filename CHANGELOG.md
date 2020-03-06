@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.12.0-rc1] - UNRELEASED
 
 ### Added
+- Include token in pricing sync -  @carlokok (#4156)
 - Separating endpoints for CSR/SSR - @Fifciu (#2861)
 - Added short hands for version and help flags - @jamesgeorge007 (#3946)
 - Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald (#3960)
