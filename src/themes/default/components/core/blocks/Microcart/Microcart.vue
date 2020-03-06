@@ -141,7 +141,6 @@ import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import Product from 'theme/components/core/blocks/Microcart/Product'
 import EditMode from './EditMode'
 import { InstantCheckoutModule } from 'src/modules/instant-checkout'
-import { GTMCart } from 'src/modules/google-tag-manager/mixins/GTMCart'
 
 export default {
   components: {
@@ -155,8 +154,7 @@ export default {
   mixins: [
     VueOfflineMixin,
     EditMode,
-    onEscapePress,
-    GTMCart
+    onEscapePress
   ],
   data () {
     return {

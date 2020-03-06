@@ -94,7 +94,6 @@ import rootStore from '@vue-storefront/core/store';
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 import { localizedRoute, currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { htmlDecode } from '@vue-storefront/core/filters'
-import { GTMCategory } from 'src/modules/google-tag-manager/mixins/GTMCategory'
 
 const THEME_PAGE_SIZE = 50
 
@@ -123,7 +122,7 @@ export default {
     SortBy,
     Columns
   },
-  mixins: [onBottomScroll, GTMCategory],
+  mixins: [onBottomScroll],
   data () {
     return {
       mobileFilters: false,

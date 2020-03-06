@@ -84,14 +84,13 @@ import VueOfflineMixin from 'vue-offline/mixin'
 import CategoryPanel from 'theme/components/core/blocks/Category/CategoryPanel'
 import { minLength } from 'vuelidate/lib/validators'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
-import { GTMSearchPanel } from 'src/modules/google-tag-manager/mixins/GTMSearchPanel'
 
 export default {
   components: {
     ProductTile,
     CategoryPanel
   },
-  mixins: [SearchPanel, VueOfflineMixin, GTMSearchPanel],
+  mixins: [SearchPanel, VueOfflineMixin],
   validations: {
     search: {
       minLength: minLength(3)

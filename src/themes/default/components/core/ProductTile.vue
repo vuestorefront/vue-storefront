@@ -24,7 +24,6 @@
       class="block no-underline product-link"
       :to="productLink"
       data-testid="productLink"
-      @click.native="sendProductClick($vnode.key)"
     >
       <div
         class="product-cover bg-cl-secondary"
@@ -71,10 +70,9 @@ import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
 import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
 import { IsOnCompare } from '@vue-storefront/core/modules/compare/components/IsOnCompare'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import { GTM } from 'src/modules/google-tag-manager/mixins/GTM'
 
 export default {
-  mixins: [ProductTile, IsOnWishlist, IsOnCompare, GTM],
+  mixins: [ProductTile, IsOnWishlist, IsOnCompare],
   components: {
     ProductImage,
     AddToWishlist,

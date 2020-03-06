@@ -19,7 +19,6 @@ import ProductListing from 'theme/components/core/ProductListing'
 import { mapGetters } from 'vuex'
 import { prepareRelatedQuery } from '@vue-storefront/core/modules/catalog/queries/related'
 import { isServer } from '@vue-storefront/core/helpers'
-import { GTM } from 'src/modules/google-tag-manager/mixins/GTM'
 
 import i18n from '@vue-storefront/i18n'
 import config from 'config'
@@ -40,7 +39,6 @@ export default {
   components: {
     ProductListing
   },
-  mixins: [GTM],
   beforeMount () {
     this.$bus.$on('product-after-load', this.refreshList)
 
@@ -80,9 +78,6 @@ export default {
         updateState: false
       })
       if (response) {
-        if (!isServer) {
-          this.sendProductImpressions(response.items, this.heading, 'Related Products')
-        }
         this.$store.dispatch('product/related', {
           key: this.type,
           items: response.items

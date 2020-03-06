@@ -35,6 +35,18 @@ EX: `import { GTMCategory } from 'src/modules/google-tag-manager-ee/mixins/GTMCa
 - checkoutOption
 - purchase
 
+## Install
+
+The updated `google-tag-manager` module has been disabled by default. To Enable uncomment the module from the `src/modules` and update these components:
+
+- In `src/themes/default/pages/Category.vue` add `import { GTMCategory } from 'src/modules/google-tag-manager/mixins/GTMCategory'` and to the mixin list to include `GTMCategory`.
+- In `src/themes/default/pages/Product.vue` add `import { GTMProduct } from 'src/modules/google-tag-manager/mixins/GTMProduct'` and to the mixin list to include `GTMProduct`.
+- In `src/themes/default/components/core/ProductTile.vue` add `import { GTM } from 'src/modules/google-tag-manager/mixins/GTM` and to the mixin list to include `GTM`. Then in the `router-link` add `@click.native="sendProductClick($vnode.key)"`
+- In `src/themes/default/components/core/blocks/Microcart/Microcart.vue` add `import { GTMCart } from 'src/modules/google-tag-manager/mixins/GTMCart` and to the mixin list to include `GTMCart`.
+- In `src/themes/default/components/core/blocks/Product/Related.vue` add `import { GTM } from 'src/modules/google-tag-manager/mixins/GTM'` and to the mixin list to include `GTM`. Add before `this.$store.dispatch('product/related'`  this line `if (!isServer) { this.sendProductImpressions(response.items, this.heading, 'Related Products') }`
+- In `src/themes/default/components/core/blocks/SearchPanel/SearchPanel.vue` add `import { GTMSearchPanel } from 'src/modules/google-tag-manager/mixins/GTMSearchPanel'` and to the mixin list to include `GTMSearchPanel`.
+- In `src/themes/default/components/theme/blocks/Collection/Collection.vue` add `import { GTM } from 'src/modules/google-tag-manager/mixins/GTM'` and to the mixin list to include `GTM`.  Add after `this.products = res.items` this line `if (!isServer) { this.sendProductImpressions(this.products, this.title, 'Collection') }`
+
 ## Notes
 
 - Promos - Use `sendPromoClick` and `sendPromoView` in `mixins/GTM.ts` to add tracking to your marketing promos.

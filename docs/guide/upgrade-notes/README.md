@@ -16,6 +16,18 @@ This new `api-search-query` adapter supports the `response_format` query paramet
 
 The `amp-renderer` module has been disabled by default to save the bundle size; If you'd like to enable it uncomment the module from the `src/modules` and uncomment the `product-amp` and `category-amp` links that are added to the `<head>` section in the `src/themes/default/Product.vue` and `src/themes/default/Category.vue`
 
+**Enable GTM Update**
+
+The updated `google-tag-manager` module has been disabled by default. To Enable uncomment the module from the `src/modules` and update these components:
+
+- In `src/themes/default/pages/Category.vue` add `import { GTMCategory } from 'src/modules/google-tag-manager/mixins/GTMCategory'` and to the mixin list to include `GTMCategory`.
+- In `src/themes/default/pages/Product.vue` add `import { GTMProduct } from 'src/modules/google-tag-manager/mixins/GTMProduct'` and to the mixin list to include `GTMProduct`.
+- In `src/themes/default/components/core/ProductTile.vue` add `import { GTM } from 'src/modules/google-tag-manager/mixins/GTM` and to the mixin list to include `GTM`. Then in the `router-link` add `@click.native="sendProductClick($vnode.key)"`
+- In `src/themes/default/components/core/blocks/Microcart/Microcart.vue` add `import { GTMCart } from 'src/modules/google-tag-manager/mixins/GTMCart` and to the mixin list to include `GTMCart`.
+- In `src/themes/default/components/core/blocks/Product/Related.vue` add `import { GTM } from 'src/modules/google-tag-manager/mixins/GTM'` and to the mixin list to include `GTM`. Add before `this.$store.dispatch('product/related'`  this line `if (!isServer) { this.sendProductImpressions(response.items, this.heading, 'Related Products') }`
+- In `src/themes/default/components/core/blocks/SearchPanel/SearchPanel.vue` add `import { GTMSearchPanel } from 'src/modules/google-tag-manager/mixins/GTMSearchPanel'` and to the mixin list to include `GTMSearchPanel`.
+- In `src/themes/default/components/theme/blocks/Collection/Collection.vue` add `import { GTM } from 'src/modules/google-tag-manager/mixins/GTM'` and to the mixin list to include `GTM`.  Add after `this.products = res.items` this line `if (!isServer) { this.sendProductImpressions(this.products, this.title, 'Collection') }`
+
 ## 1.10 -> 1.11
 
 This is the last major release of Vue Storefront 1.x before 2.0 therefore more manual updates are required to keep external packages compatible with 1.x as long as possible.
