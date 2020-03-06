@@ -39,6 +39,7 @@ Remove preload font - it gives good performance, but vue-meta refresh page, beca
 - Add onlyPositive prop to BaseInputNumber to not allow user type negative value - @Michal-Dziedzinski (#4136)
 - Await for cart/authorize while login user - @gibkigonzo (#4133)
 - Fixed `NOT_ALLOWED_SSR_EXTENSIONS_REGEX` to only match with file extensions having a dot - @haelbichalex (#4100)
+- Add lazy load for vue-carousel - @gibkigonzo (#4157)
 
 ## [1.11.1] - 2020.02.05
 
