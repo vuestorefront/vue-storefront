@@ -13,7 +13,7 @@ export const GTM = {
       if (!isServer && this.product) {
         this.$store.commit('google-tag-manager/SET_PRODUCT_CLICK', {
           product: this.product,
-          list: this.list ? this.list : '',
+          list: this.list ? this.list : 'Category',
           position: position + 1
         })
       }

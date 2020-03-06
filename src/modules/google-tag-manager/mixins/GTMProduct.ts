@@ -22,20 +22,14 @@ export const GTMProduct = {
   },
   computed: {
     ...mapGetters({
-      getList: 'google-tag-manager/product_list',
-      getBreadcrumbs: 'category-next/getBreadcrumbs'
+      getBreadcrumbs: 'breadcrumbs/getBreadcrumbsRoutes'
     }),
     list () {
-      let b = this.getList
-      if (b && b.hasOwnProperty('list')) {
-        return b.list
-      } else {
-        return 'Product'
-      }
+      return 'Product'
     },
     categoryGtm () {
-      if (this.getBreadcrumbs.routes) {
-        let routes = this.getBreadcrumbs.routes
+      if (this.getBreadcrumbs) {
+        let routes = this.getBreadcrumbs
         routes = routes
           .map(el => {
             return el.name
@@ -43,7 +37,7 @@ export const GTMProduct = {
           .join('/')
         return routes
       }
-      return []
+      return ''
     }
   },
   mounted () {
