@@ -110,13 +110,15 @@
           >
             <sub-btn
               v-if="currentUser"
+              id="my-account-links"
+              :is-category="false"
               :name="$t('My account')"
               class="bg-cl-transparent brdr-none fs-medium-small"
             />
             <sub-category
               v-if="currentUser"
               :my-account-links="myAccountLinks"
-              :id="'foo'"
+              id="my-account-links"
               @click.native="closeMenu"
             />
             <a
