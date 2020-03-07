@@ -510,11 +510,15 @@ Online shops normally have certain types of models and scenarios in common. (Bec
 ### 1. Preparation
  - You need to have [setup _Vue Storefront_ stack](setup) including _Vue Storefront API_. 
  - There are two ways to deal with _Search Adapter_ for _Entity Type_ ; One is with _API_ (Recipe A), The other is with [_GraphQL_](https://graphql.org/) (Recipe B)
+ - You should have imported data for the new entity for the sake of testing. [2-0. Prerequisite](#_2-0-prerequisite) guides you in how to do it.
 :::tip TIP
 The default _Search Adapter_ is _API_. 
 
 In order to change which _Search Adapter_ should be in labor, please take a look at here [Chef's secret 1. how to switch search adapters](#secret-1-how-to-switch-search-adapters)
 :::
+
+### 2.0 Prerequisite
+ 1. 
 
 ### 2-1. Recipe A
  0. There are two parts to be done for adding custom entities; one for _Vue Storefront_, the other for _Vue Storefront API_. We start it with _Vue Storefront_.
