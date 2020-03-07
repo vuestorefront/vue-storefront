@@ -572,7 +572,7 @@ Here you can see `registerEntityType` method add `offline_stores` entity type as
 If you want to add more entities, you can clone the example as many times as you want and change entity name to your liking.
 
 :::tip TIP
-Here the method `initCustomTypes` is arbitrarily named out of the blue, so you can actually have any other name for the method. 
+The method `initCustomTypes` above is arbitrarily named out of the blue, so you can actually have any other name for the method. 
 :::
 
 
