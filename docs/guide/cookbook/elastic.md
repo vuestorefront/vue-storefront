@@ -503,16 +503,30 @@ Now you are all set :)
 <br />
 
 ## 4. Extend Elasticsearch entities for VSF
-Online shops normally have certain types of models and scenarios in common. (Because shops are shops in the end! What do you expect from shops? ;)) They are well known to the community and most of e-commerce software already implemented them into their frameworks as expected which is good. Those are represented as entities, namely, _Catalog_, _Customer_, _Order_, _Promotion_ and more. Since _Vue Storefront_ functions as the gorgeous gateway to those e-commerce backend, it also needs to mirror those entities as smooth as possible.  
+Online shops normally have certain types of models and scenarios in common. (Because shops are shops in the end! What do you expect from shops? ;)) They are well known to the community and most of e-commerce software already implemented them into their frameworks as expected which is good for your new business. Those are represented as entities, namely, _Catalog_, _Products_, _Attributes_, _Tax rule_ and more. Since _Vue Storefront_ functions as the gorgeous gateway to those e-commerce backend, it also needs to mirror those entities as smooth as possible.  
 
  The large part of main entities are already implemented in VSF `core` as expected but you might still need to add or remove additional entities as you want it to fulfill your mission. This recipe will give you an idea of how to do it. 
 
 ### 1. Preparation
+ - You need to have [setup _Vue Storefront_ stack](setup) including _Vue Storefront API_. 
+ - There are two ways to deal with _Entity Type_ ; One is with _API_ (Recipe A), The other is with [_GraphQL_](https://graphql.org/) (Recipe B)
+ :::tip TIP
+ The default _Search Adapter_ is _API_. 
+
+In order to change which _Search Adapter_ should be in labor, please take a look at here [Chef's secret 1. how to switch search adapters](#secret-1-how-to-switch-search-adapters)
+ :::
+
+### 2-1. Recipe A
+ 1. 
 
 
-### 2. Recipe
+
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
+
+#### Secret 1. How to switch _Search Adapters_ 
+
+
 <br />
 <br />
 
