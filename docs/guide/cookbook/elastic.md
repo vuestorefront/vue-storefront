@@ -509,18 +509,70 @@ Online shops normally have certain types of models and scenarios in common. (Bec
 
 ### 1. Preparation
  - You need to have [setup _Vue Storefront_ stack](setup) including _Vue Storefront API_. 
- - There are two ways to deal with _Entity Type_ ; One is with _API_ (Recipe A), The other is with [_GraphQL_](https://graphql.org/) (Recipe B)
- :::tip TIP
- The default _Search Adapter_ is _API_. 
+ - There are two ways to deal with _Search Adapter_ for _Entity Type_ ; One is with _API_ (Recipe A), The other is with [_GraphQL_](https://graphql.org/) (Recipe B)
+:::tip TIP
+The default _Search Adapter_ is _API_. 
 
 In order to change which _Search Adapter_ should be in labor, please take a look at here [Chef's secret 1. how to switch search adapters](#secret-1-how-to-switch-search-adapters)
- :::
+:::
 
 ### 2-1. Recipe A
- 1. 
+ 0. There are two parts to be done for adding custom entities; one for _Vue Storefront_, the other for _Vue Storefront API_. We start it with _Vue Storefront_.
+
+ 1. First off, we need to create an `api` folder under `src/search/adapter/` as follows :
+ ```bash
+cd src/search/adapter
+mkdir api 
+ ```
+
+ 2. Copy `searchAdapter` file from `core` folder :
+ ```bash
+cp ../../../core/lib/search/adapter/api/searchAdapter.ts api/
+ ```
+
+:::tip NOTE
+The reason you should copy the whole `searchAdapter.ts` file is, in doing so your adapter also includes default entities from `core` into custom file because your custom entities can't be added incrementally to the default. Here's [why](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/search/adapter/searchAdapterFactory.js#L12-L20)
+:::
+
+ 3. Write a function to handle adding a custom entity type in `searchAdapter.ts` you just copied and initialize it in the _constructor_ of the same class as follows : 
+ ```js{9,14-24}
+// ... abridged
+
+export class SearchAdapter {
+  public entities: any
+
+  public constructor () {
+    this.entities = []
+    this.initBaseTypes()
+    this.initCustomTypes()
+  }
+
+  //... abridged ...
+
+  public initCustomTypes() {
+    this.registerEntityType('offline_stores', {
+      queryProcessor: (query) => {
+        // function that can modify the query each time before it's being executed
+        return query
+      },
+      resultProcessor: (resp, start, size) => {
+        return this.handleResult(resp, 'offline_stores', start, size)
+      }
+    })
+  }
+}
+
+ ```
+Here you can see `registerEntityType` method add `offline_stores` entity type as an example. 
+
+If you want to add more entities, you can clone the example as many times as you want and change entity name to your liking.
+
+:::tip TIP
+Here the method `initCustomTypes` is arbitrarily named out of the blue, so you can actually have any other name for the method. 
+:::
 
 
-
+ 4. 
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 
