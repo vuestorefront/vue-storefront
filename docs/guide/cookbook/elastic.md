@@ -517,7 +517,14 @@ The default _Search Adapter_ is _API_.
 In order to change which _Search Adapter_ should be in labor, please take a look at here [Chef's secret 1. how to switch search adapters](#secret-1-how-to-switch-search-adapters)
 :::
 
-### 2.0 Prerequisite
+### 2-0 Prerequisite
+ 0. Assume you need an entity type for _Offline Stores_ of your online shop for example. So you can store it in data store, which is _Elasticsearch_ in this case, read it whenever you need it like you want to display _offline stores_ to customer for pick-up while on checkout.
+:::tip NOTE
+There are two ways to import your data into data store. One for using `mage2vuestorefront` which runs _NodeJS_ scripts to do the job while the other for using `magento2-vsbridge-indexer` that is a native Magento 2 module for the job. 
+
+In this recipe, we choose the former. But don't worry we will also look into the latter in the [Chef's secret 2](#secret-2-how-to-make-a-custom-import-using-magento2-vsbridge-indexer).
+:::
+
  1. 
 
 ### 2-1. Recipe A
@@ -569,7 +576,7 @@ export class SearchAdapter {
  ```
 Here you can see `registerEntityType` method add `offline_stores` entity type as an example. 
 
-If you want to add more entities, you can clone the example as many times as you want and change entity name to your liking.
+If you want to add more entities, you can clone the example as many times as you want and change entity name to your need.
 
 :::tip TIP
 The method `initCustomTypes` above is arbitrarily named out of the blue, so you can actually have any other name for the method. 
@@ -581,6 +588,8 @@ The method `initCustomTypes` above is arbitrarily named out of the blue, so you 
 ### 4. Chef's secret (protip)
 
 #### Secret 1. How to switch _Search Adapters_ 
+
+#### Secret 2. How to make a custom import using `magento2-vsbridge-indexer` 
 
 
 <br />
