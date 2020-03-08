@@ -518,7 +518,7 @@ In order to change which _Search Adapter_ should be in labor, please take a look
 :::
 
 ### 2-0 Prerequisite
- 0. Assume you need an entity type for _Offline Stores_ of your online shop for example. So you can store it in data store, which is _Elasticsearch_ in this case, read it whenever you need it like you want to display _offline stores_ to customer for pick-up while on checkout.
+ 0. Assume you need an entity type for _Offline Stores_ of your online shop for example. So you can store the information of your stores in data store, which is _Elasticsearch_ in this case, read the data whenever you need it like you want to display _offline stores_ to customer for pick-up while on checkout.
 :::tip NOTE
 There are two ways to import your data into data store. One for using `mage2vuestorefront` which runs _NodeJS_ scripts to do the job while the other for using `magento2-vsbridge-indexer` that is a native Magento 2 module for the job. 
 
