@@ -691,10 +691,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle">
-<a href="https://kodbruket.se/">
+<a href="https://lightcom.io">
           <img
-            src="https://divante.co/partners/Vue-Storefront/kodbruket.png"
-            alt="Kodbrucket"
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/03/lightcom_logo.png"
+            alt="Lightcom"
             height="25"
           >
         </a>
@@ -879,10 +879,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
         </a>
 </td>
   <td align="center" valign="middle">
-<a href="https://www.lightcom.io/">
+<a href="https://www.solveda.com/">
           <img
-            src="https://divante.com/partners/Vue-Storefront/Logo%20PNG%20File.png"
-            alt="Lightcom"
+            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/SOLVEDA_logo.png"
+            alt="Solveda"
             height="40"
           >
         </a>
@@ -963,10 +963,10 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
     </tr>
             <tr>
       <td align="center" valign="middle">
-<a href="https://www.solveda.com/">
+    <a href="">
           <img
-            src="https://blog.vuestorefront.io/wp-content/uploads/2020/02/SOLVEDA_logo.png"
-            alt="Solveda"
+            src=""
+            alt=""
             height="40"
           >
         </a>
