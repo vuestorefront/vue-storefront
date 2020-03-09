@@ -86,7 +86,8 @@ We're trying to be very open regarding our development plans, news, roadmap and 
 
 [![Demo and the architecture of Vue Storefront](https://blog.vuestorefront.io/wp-content/uploads/2020/03/How-to-install-Vue-Storefront-on-Windows_.png)](https://www.youtube.com/watch?v=zL_T3WzVLG0&list=PLIDwzUVxSXjN9pK1NzBTcirV3-K0OCay0&index=2)
 
-- [Read on how to integrate it with Magento2](http://blog.vuestorefront.io/vue-storefront-how-to-install-and-integrate-with-magento-2/), [Read how to create Vue Storefront theme](http://blog.vuestorefront.io/creating-themes-in-vue-storefront-part-1/),
+- [Read on how to integrate it with Magento2](https://docs.vuestorefront.io/guide/installation/magento.html#using-native-magento-2-module),
+- [Read how to create Vue Storefront theme](https://docs.vuestorefront.io/guide/core-themes/themes.html),
 - [Read the interviews with authors of first production deployments](http://blog.vuestorefront.io/vsf-on-production-interview-with-gogetgold-com/)
 
 ## Is it production ready?
