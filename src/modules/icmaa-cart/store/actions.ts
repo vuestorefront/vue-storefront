@@ -1,11 +1,20 @@
 import { ActionTree } from 'vuex'
+import { cart as config } from 'config'
 import RootState from '@vue-storefront/core/types/RootState'
 import CartState from '@vue-storefront/core/modules/cart/types/CartState'
 import { CartService } from '@vue-storefront/core/data-resolver'
 import { cartHooksExecutors } from '@vue-storefront/core/modules/cart/hooks'
+import { Logger } from '@vue-storefront/core/lib/logger'
 import * as types from '../store/mutation-types'
+import * as orgTypes from '@vue-storefront/core/modules/cart/store/mutation-types'
 
 const actions: ActionTree<CartState, RootState> = {
+  async reconnect ({ dispatch, commit }, { token, forceClientState = false }) {
+    Logger.info('Reconnect quote with:', 'cart', token)()
+
+    commit(orgTypes.CART_LOAD_CART_SERVER_TOKEN, token)
+    return dispatch('sync', { forceClientState, dryRun: !config.serverMergeByDefault, mergeQty: true })
+  },
   async removeCoupon ({ getters, dispatch }) {
     if (getters.canSyncTotals) {
       const { result } = await CartService.removeCoupon()

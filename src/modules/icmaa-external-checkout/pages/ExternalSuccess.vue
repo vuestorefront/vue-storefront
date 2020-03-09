@@ -34,36 +34,31 @@ export default {
   mixins: [ Composite, CheckoutSuccessGtmMixin ],
   computed: {
     ...mapGetters({
+      cartItems: 'cart/getCartItems',
       orderHistory: 'user/getOrdersHistory',
       isLoggedIn: 'user/isLoggedIn'
     }),
     lastOrder () {
       return this.orderHistory.length > 0 ? this.orderHistory[0] : false
+    },
+    cartIsNotEmpty () {
+      return this.cartItems.length > 0
     }
   },
   async beforeMount () {
-    if (!this.isLoggedIn && this.$route.query.token) {
-      await this.$store.dispatch('user/startSessionWithToken', this.$route.query.token)
-      await this.$store.dispatch('user/me')
+    if (this.isLoggedIn) {
+      await this.$store.dispatch('user/refreshOrdersHistory', { resolvedFromCache: false })
+      this.$bus.$emit('checkout-success-last-order-loaded', this.lastOrder)
     }
 
-    // Remove token from url
-    this.$router.push(this.localizedRoute('/order-success'))
-
-    await this.$store.dispatch('user/refreshOrdersHistory', { resolvedFromCache: false })
-    this.$bus.$emit('checkout-success-last-order-loaded', this.lastOrder)
-
-    this.clearTheCart()
+    this.clearCart()
   },
   methods: {
-    clearTheCart () {
-      if (this.getNumberOfItemsInCart() > 0) {
+    clearCart () {
+      if (this.cartIsNotEmpty) {
         this.$store.dispatch('cart/clear', {})
         this.$store.dispatch('cart/serverCreate', { guestCart: false })
       }
-    },
-    getNumberOfItemsInCart () {
-      return this.$store.state.cart.cartItems.length
     }
   }
 }

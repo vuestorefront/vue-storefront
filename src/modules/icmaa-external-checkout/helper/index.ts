@@ -3,6 +3,11 @@ import config from 'config'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { isServer } from '@vue-storefront/core/helpers'
 
+export const getCookieHostname = (requestHostname?: string): string => {
+  let hostname = !isServer ? document.location.host : (requestHostname || '')
+  return hostname.startsWith('.') ? hostname : '.' + hostname
+}
+
 export const getExternalCheckoutUrl = (): string => {
   const cartToken: string = rootStore.state.cart.cartServerToken
   const userToken: string = rootStore.state.user.token
