@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
-import { Cart, Me, Order, ShippingMethod, CustomerSignInResult } from './GraphQL';
+import { Cart, Me, Order, ShippingMethod, CustomerSignInResult, Customer } from './GraphQL';
 
 export interface CustomQuery {
   query: string;
@@ -36,4 +36,4 @@ export type OrderMutationResponse = MutationResponse<'order', Order>
 export type OrderResponse = OrderQueryResponse | OrderMutationResponse
 export type ShippingMethodsResponse = QueryResponse<'shippingMethods', ShippingMethod>
 export type SignInResponse = QueryResponse<'user', CustomerSignInResult>
-
+export type ChangeMyPasswordResponse = QueryResponse<'user', Customer>

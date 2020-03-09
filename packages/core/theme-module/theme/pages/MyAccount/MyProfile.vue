@@ -60,7 +60,7 @@
         <form class="form" @submit.prevent="handleSubmit(updatePassword)">
           <ValidationProvider rules="required" v-slot="{ errors }" vid="password" class="form__element">
             <SfInput
-              v-model="currentPassword"
+              v-model="form.currentPassword"
               type="password"
               name="currentPassword"
               label="Current Password"
@@ -72,7 +72,7 @@
           <div class="form__horizontal">
             <ValidationProvider rules="required|password" v-slot="{ errors }" vid="password" class="form__element">
               <SfInput
-                v-model="newPassword"
+                v-model="form.newPassword"
                 type="password"
                 name="newPassword"
                 label="New Password"
@@ -83,7 +83,7 @@
             </ValidationProvider>
             <ValidationProvider rules="required|confirmed:password" v-slot="{ errors }" class="form__element">
               <SfInput
-                v-model="repeatPassword"
+                v-model="form.repeatPassword"
                 type="password"
                 name="repeatPassword"
                 label="Repeat Password"
@@ -93,6 +93,7 @@
               />
             </ValidationProvider>
           </div>
+          <SfAlert v-if="error" class="alert" type="danger" :message="error" />
           <SfButton class="form__button">Update password</SfButton>
         </form>
       </ValidationObserver>
@@ -100,9 +101,11 @@
   </SfTabs>
 </template>
 <script>
-import { SfTabs, SfInput, SfButton } from '@storefront-ui/vue';
+import { ref } from '@vue/composition-api';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { email, required, min, confirmed } from 'vee-validate/dist/rules';
+import { SfTabs, SfInput, SfButton, SfAlert } from '@storefront-ui/vue';
+import { useUser } from '<%= options.composables %>';
 
 extend('email', {
   ...email,
@@ -135,6 +138,7 @@ export default {
     SfTabs,
     SfInput,
     SfButton,
+    SfAlert,
     ValidationProvider,
     ValidationObserver
   },
@@ -144,14 +148,30 @@ export default {
       default: () => ({})
     }
   },
+  setup() {
+    const resetPassForm = () => ({ currentPassword: '', newPassword: '', repeatPassword: '' });
+    const { user, changePassword, error } = useUser();
+    const form = ref(resetPassForm());
+
+    const updatePassword = async () => {
+      await changePassword(form.value.currentPassword, form.value.newPassword);
+      if (!error.value) {
+        form.value = resetPassForm();
+      }
+    };
+
+    return {
+      user,
+      error,
+      form,
+      updatePassword
+    };
+  },
   data() {
     return {
       firstName: '',
       lastName: '',
-      email: '',
-      currentPassword: '',
-      newPassword: '',
-      repeatPassword: ''
+      email: ''
     };
   },
   watch: {
@@ -172,12 +192,6 @@ export default {
         email: this.email
       };
       this.$emit('update:personal', personal);
-    },
-    updatePassword() {
-      const password = {
-        password: this.newPassword
-      };
-      this.$emit('update:password', password);
     }
   }
 };

@@ -29,6 +29,10 @@ export interface UseUser
     [x: string]: any;
   }) => Promise<void>;
   logout: () => Promise<void>;
+  changePassword: (
+    currentPassword: string,
+    newPassword: string
+  ) => Promise<void>;
   isAuthenticated: Ref<boolean>;
   loading: Ref<boolean>;
   error: Ref<any>;

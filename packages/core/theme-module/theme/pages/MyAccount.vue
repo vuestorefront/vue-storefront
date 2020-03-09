@@ -15,7 +15,6 @@
           <MyProfile
             :account="account"
             @update:personal="account = { ...account, ...$event }"
-            @update:password="account = { ...account, ...$event }"
           />
         </SfContentPage>
         <SfContentPage title="Shipping details">
