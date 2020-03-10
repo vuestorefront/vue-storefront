@@ -13,10 +13,16 @@
             @blur="$v.password.$touch()"
             :label="$t('Password') + ' *'"
             :placeholder="$t('Password')"
-            :validations="[{
-              condition: !$v.password.required && $v.password.$error,
-              text: $t('Field is required.')
-            }]"
+            :validations="[
+              {
+                condition: !$v.password.required && $v.password.$error,
+                text: $t('Field is required.')
+              },
+              {
+                condition: !$v.rPassword.minLength,
+                text: $t('Password must have at least 8 letters.')
+              }
+            ]"
           />
         </div>
         <div class="t-w-full lg:t-w-1/3 t-px-4 t-mb-4">
