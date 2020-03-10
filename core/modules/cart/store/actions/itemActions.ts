@@ -11,7 +11,7 @@ import {
 import { cartHooksExecutors } from './../../hooks'
 
 const itemActions = {
-  configureItem (context, { product, configuration }) {
+  async configureItem (context, { product, configuration }) {
     const { commit, dispatch, getters } = context
     const variant = configureProductAsync(context, {
       product,
@@ -29,7 +29,7 @@ const itemActions = {
     commit(types.CART_UPD_ITEM_PROPS, { product: { ...product, ...variant } })
 
     if (getters.isCartSyncEnabled && product.server_item_id) {
-      dispatch('sync', { forceClientState: true })
+      await dispatch('sync', { forceClientState: true })
     }
   },
   updateItem ({ commit }, { product }) {
