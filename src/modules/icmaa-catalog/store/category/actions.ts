@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import CategoryState from '@vue-storefront/core/modules/catalog-next/store/category/CategoryState'
@@ -7,6 +8,7 @@ import { DataResolver } from '@vue-storefront/core/data-resolver/types/DataResol
 import { router } from '@vue-storefront/core/app'
 import { products } from 'config'
 import { changeFilterQuery } from '@vue-storefront/core/modules/catalog-next/helpers/filterHelpers'
+import * as orgTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 
 import extendedCoreActions from './actions/index'
 
@@ -35,6 +37,18 @@ const actions: ActionTree<CategoryState, RootState> = {
       currentQuery = changeFilterQuery({currentQuery, filterVariant})
     })
     await dispatch('changeRouterFilterParameters', currentQuery)
+  },
+  async findCategoriesWithoutBlacklisting ({ dispatch, commit }, categorySearchOptions: DataResolver.CategorySearchOptions): Promise<Category[]> {
+    const categories = await dispatch('findCategories', categorySearchOptions)
+    if (Vue.prototype.$cacheTags) {
+      categories.forEach(category => {
+        Vue.prototype.$cacheTags.add(`C${category.id}`)
+      })
+    }
+
+    commit(orgTypes.CATEGORY_ADD_CATEGORIES, categories)
+
+    return categories
   }
 }
 

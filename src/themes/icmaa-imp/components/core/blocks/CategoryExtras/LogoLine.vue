@@ -112,7 +112,7 @@ export default {
       }
 
       await this.$store.dispatch(
-        'category-next/loadCategories',
+        'category-next/findCategoriesWithoutBlacklisting',
         { filters, size: this.limit, onlyActive: true }
       )
 
