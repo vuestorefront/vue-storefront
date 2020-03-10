@@ -19,7 +19,7 @@
                 text: $t('Field is required.')
               },
               {
-                condition: !$v.rPassword.minLength,
+                condition: !$v.rPassword.minLength && $v.rPassword.$error,
                 text: $t('Password must have at least 8 letters.')
               }
             ]"
