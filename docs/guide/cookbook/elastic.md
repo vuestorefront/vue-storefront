@@ -688,8 +688,102 @@ program
 
  7. All is good, now run the command to import offline stores information!
  ```bash
-node cli.js 
+node cli.js offlinestores
  ```
+ You will see a screen like below : 
+ ```bash
+2020-03-10T09:22:30.359Z - debug: Elasticsearch module initialized!
+info: Winston logging library initialized.
+2020-03-10T09:22:30.796Z - info: Connected correctly to server
+2020-03-10T09:22:30.796Z - info: TRANSACTION KEY = 1583832150786
+debug: Calling API endpoint: GET http://localhost/rest//V1/offline-stores
+debug: Response received.
+2020-03-10T09:22:32.130Z - info: Importing 0 of 3 - 1 with tsk = 1583832150786
+2020-03-10T09:22:32.131Z - info: Tasks count = 2
+2020-03-10T09:22:32.139Z - info: Importing 1 of 3 - 2 with tsk = 1583832150786
+2020-03-10T09:22:32.139Z - info: Tasks count = 1
+2020-03-10T09:22:32.139Z - info: Importing 2 of 3 - 3 with tsk = 1583832150786
+2020-03-10T09:22:32.140Z - info: Tasks count = 0
+2020-03-10T09:22:32.140Z - info: No tasks to process. All records processed!
+2020-03-10T09:22:32.140Z - info: Task done! Exiting in 30s...
+ ```
+:::tip NOTE
+You should tell the machine the environment variable like this before running the command : 
+```bash
+export MAGENTO_URL=http://localhost/rest
+```
+Please replace the url if you use different one for the Magento 2 instance.
+:::
+
+ 8. Let's confirm the result and wrap this up! 
+```bash
+curl localhost:8080/api/catalog/vue_storefront_catalog/offline_stores/_search
+```
+
+The response should be something as follows unless there is something wrong : 
+```bash
+{
+  "took": 2,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 3,
+      "relation": "eq"
+    },
+    "max_score": 1,
+    "hits": [
+      {
+        "_index": "vue_storefront_catalog_offline_stores",
+        "_type": "_doc",
+        "_id": "2",
+        "_score": 1,
+        "_source": {
+          "id": "2",
+          "name": "Wrocaw",
+          "address": "Ulica Romana Dmowskiego 17, 50-203 Wrocaw, Poland",
+          "phone": "+48 577 032 500",
+          "is_active": "1",
+          "tsk": 1583832150786
+        }
+      },
+      {
+        "_index": "vue_storefront_catalog_offline_stores",
+        "_type": "_doc",
+        "_id": "3",
+        "_score": 1,
+        "_source": {
+          "id": "3",
+          "name": "Seoul",
+          "address": "Seoul GangNam Street 1st 12",
+          "phone": "+82 10 2364 3330",
+          "is_active": "1",
+          "tsk": 1583832150786
+        }
+      },
+      {
+        "_index": "vue_storefront_catalog_offline_stores",
+        "_type": "_doc",
+        "_id": "1",
+        "_score": 1,
+        "_source": {
+          "id": "1",
+          "name": "Warszawa",
+          "address": "Koci pw. w. Michaa Archanioa",
+          "phone": "+48 22 845 46 04",
+          "is_active": "1",
+          "tsk": 1583832150786
+        }
+      }
+    ]
+  }
+}
+```
 
 ### 2-1. Recipe A
 
