@@ -1,4 +1,9 @@
 # Ch 2. Elasticsearch in the VSF context
+<style>
+    img[alt*="borderline"] {
+        border: 1px #000 solid;
+    }
+</style>
 
 In this chapter, we are going to cover : 
 [[toc]]
@@ -511,15 +516,15 @@ Online shops normally have certain types of models and scenarios in common. (Bec
  - You need to have [setup _Vue Storefront_ stack](setup) including _Vue Storefront API_. 
  - There are two ways to deal with _Search Adapter_ for _Entity Type_ ; One is with _API_ (Recipe A), The other is with [_GraphQL_](https://graphql.org/) (Recipe B)
  - You should have custom entity module in Magento 2 to import custom entities. Download example module [here](https://github.com/kkdg/Offline_Stores)
- - You should have imported data for the new entity for the sake of testing. [2-0. Prerequisite](#_2-0-prerequisite) guides you in how to do it.
+ - You should have imported data for the new entity for the sake of testing. [2-0. Appetizer](#_2-0-appetizer) guides you in how to do it.
 :::tip TIP
 The default _Search Adapter_ is _API_. 
 
 In order to change which _Search Adapter_ should be in labor, please take a look at here [Chef's secret 1. how to switch search adapters](#secret-1-how-to-switch-search-adapters)
 :::
 
-### 2-0 Prerequisite
- 0. Assume you need an entity type for _Offline Stores_ of your online shop for example. So you can store the information of your stores in data store, which is _Elasticsearch_ in this case, read the data whenever you need it like you want to display _offline stores_ to customer for pick-up while on checkout.
+### 2-0 Appetizer
+ 0. Assume you need an entity type for _Offline Stores_ of your online shop for example. So you can store the information of your stores in data store, which is _Elasticsearch_ in this case, read the data whenever you need it like you want to display _offline stores_ while on checkout for customer to pick up if they live nearby.
 :::tip NOTE
 There are two ways to import your data into data store. One for using [`mage2vuestorefront`](https://github.com/DivanteLtd/mage2vuestorefront) which runs _NodeJS_ scripts to do the job while the other for using [`magento2-vsbridge-indexer`](https://github.com/DivanteLtd/magento2-vsbridge-indexer) that is a native Magento 2 module for the job. 
 
@@ -842,8 +847,34 @@ If you want to add more entities, you can clone the example as many times as you
 The method `initCustomTypes` above is arbitrarily named out of the blue, so you can actually have any other name for the method. 
 :::
 
+Now you are all set to use custom entity you just created. The next step lets you give you a simple idea how to confirm it. (optional)
 
- 4. 
+ 4. Go to `src/modules/instant-checkout/components` and open `InstantCheckout.vue`. Fix it as follows : 
+ ```js{5,12-14}
+// ... abridged 
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { registerModule } from '@vue-storefront/core/lib/modules'
+import { OrderModule } from '@vue-storefront/core/modules/order'
+import { quickSearchByQuery } from '@vue-storefront/core/lib/search';
+
+const storeView = currentStoreView()
+
+// ... abridged
+
+  methods: {
+    async showPayment () {
+      let offlineStores = await quickSearchByQuery({ entityType: 'offline_stores' });
+      alert("Your item will be sent from the shop at " + offlineStores.items[0].address);
+      const payment = new PaymentRequest(this.paymentMethods, this.paymentDetails , this.paymentOptions)
+
+      // abridged ...
+ ```
+
+Now go to your online shop, put an item to cart and open it, click __Instant Checkout__ button, then you will see the screen like below : 
+
+![instant_checkout_store_borderline](../images/stores.png)
+
+
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 
