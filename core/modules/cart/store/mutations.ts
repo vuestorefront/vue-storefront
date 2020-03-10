@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { MutationTree } from 'vuex'
 import * as types from './mutation-types'
 import CartState from '../types/CartState'
@@ -56,7 +57,7 @@ const mutations: MutationTree<CartState> = {
     let record = state.cartItems.find(p => (productsEquals(p, product) || (p.server_item_id && p.server_item_id === product.server_item_id)))
     if (record) {
       EventBus.$emit('cart-before-itemchanged', { item: record })
-      record = Object.assign(record, product)
+      Object.entries(product).forEach(([key, value]) => Vue.set(record, key, value))
       EventBus.$emit('cart-after-itemchanged', { item: record })
     }
   },

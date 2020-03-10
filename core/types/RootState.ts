@@ -32,5 +32,6 @@ export default interface RootState {
   userTokenInvalidated: string | null,
   userTokenInvalidateAttemptsCount: number,
   userTokenInvalidateLock: number,
-  route?: any
+  route?: any,
+  url: any
 }
