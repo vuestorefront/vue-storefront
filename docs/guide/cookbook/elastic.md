@@ -876,6 +876,20 @@ Now go to your online shop, put an item to cart and open it, click __Instant Che
 
 
 ### 3. Peep into the kitchen (what happens internally)
+In this recipe, we iterated a whole journey of building custom entities on your online shop (it was Magento 2 for this time) for whatever reason to deal with various information for enhancing your customer experience.
+
+First, we downloaded a Magento 2 module for _Offline Stores_ entity. It contains basic information for each offline store.
+
+Second, as an appetizer, we had to import data from shop using _mage2vuestorefront_. We followed how core team did it with its sibling open source. 
+
+Third, main dish, we extended core adapters in `src` folder so we are safe for future updates :).
+ It was actually very easy! you just need to `registerEntityType` for your custom entity! We also looked at how to implement it in real example though it was simplified version, you better follow `vuex` best practice. 
+
+We also have a variety of main dish, by giving you an option to go with _GraphQL_. This approach took us a little more to tweak with, but believe me, _GraphQL_ has pretty good advantage over its competitors. 
+
+Now we can extend our shop as good as it gets to handle more versatile information on your shop. Congratulation!
+
+
 ### 4. Chef's secret (protip)
 
 #### Secret 1. How to switch _Search Adapters_ 
