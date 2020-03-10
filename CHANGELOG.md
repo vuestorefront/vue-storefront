@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - use storeCode for mappingFallback url - @gibkigonzo (#4050)
 - `getVariantWithLowestPrice` uses inexistent `final_price` property - @cewald (#4091)
 - Fixed `NOT_ALLOWED_SSR_EXTENSIONS_REGEX` to only match with file extensions having a dot - @haelbichalex (#4100)
+- Fixed problem with not showing error message when placing an order fails - @qiqqq
 
 ### Changed / Improved
 - Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)
