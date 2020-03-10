@@ -4,7 +4,7 @@
     <span class="t-w-7/12 lg:t-w-4/6 t-pl-2">
       <template v-for="(value, index) in values">
         <template v-if="value.optionLink">
-          <router-link :to="value.optionLink" :title="label + ' - ' + value.optionLabel" class="t-text-base-dark" v-text="value.optionLabel" :key="'key-' + index" /><span v-if="valuesCount !== index" v-text="', '" :key="'spacer-' + index" />
+          <router-link :to="value.optionLink" :title="label + ' - ' + value.optionLabel" class="t-text-base-dark t-border-b t-border-base-light t-pb-1" v-text="value.optionLabel" :key="'key-' + index" /><span v-if="valuesCount !== index" v-text="', '" :key="'spacer-' + index" />
         </template>
         <template v-else>
           <span v-text="value.optionLabel" :key="'key-' + index" /><span v-if="valuesCount !== index" v-text="', '" :key="'spacer-' + index" />
