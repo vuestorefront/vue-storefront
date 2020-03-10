@@ -510,6 +510,7 @@ Online shops normally have certain types of models and scenarios in common. (Bec
 ### 1. Preparation
  - You need to have [setup _Vue Storefront_ stack](setup) including _Vue Storefront API_. 
  - There are two ways to deal with _Search Adapter_ for _Entity Type_ ; One is with _API_ (Recipe A), The other is with [_GraphQL_](https://graphql.org/) (Recipe B)
+ - You should have custom entity module in Magento 2 to import custom entities. Download example module [here](https://github.com/kkdg/Offline_Stores)
  - You should have imported data for the new entity for the sake of testing. [2-0. Prerequisite](#_2-0-prerequisite) guides you in how to do it.
 :::tip TIP
 The default _Search Adapter_ is _API_. 
@@ -784,6 +785,8 @@ The response should be something as follows unless there is something wrong :
   }
 }
 ```
+You have successfully imported your custom entities!
+
 
 ### 2-1. Recipe A
 
