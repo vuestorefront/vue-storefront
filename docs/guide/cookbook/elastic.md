@@ -520,15 +520,178 @@ In order to change which _Search Adapter_ should be in labor, please take a look
 ### 2-0 Prerequisite
  0. Assume you need an entity type for _Offline Stores_ of your online shop for example. So you can store the information of your stores in data store, which is _Elasticsearch_ in this case, read the data whenever you need it like you want to display _offline stores_ to customer for pick-up while on checkout.
 :::tip NOTE
-There are two ways to import your data into data store. One for using `mage2vuestorefront` which runs _NodeJS_ scripts to do the job while the other for using `magento2-vsbridge-indexer` that is a native Magento 2 module for the job. 
+There are two ways to import your data into data store. One for using [`mage2vuestorefront`](https://github.com/DivanteLtd/mage2vuestorefront) which runs _NodeJS_ scripts to do the job while the other for using [`magento2-vsbridge-indexer`](https://github.com/DivanteLtd/magento2-vsbridge-indexer) that is a native Magento 2 module for the job. 
 
 In this recipe, we choose the former. But don't worry we will also look into the latter in the [Chef's secret 2](#secret-2-how-to-make-a-custom-import-using-magento2-vsbridge-indexer).
 :::
 
- 1. 
+ 1. Go to ___mage2vuestorefront___ root folder and do the following : 
+ ```bash
+cd src/adapters/magento 
+ ```
+This folder is where the connector adapter should be. 
+
+ 2. Create the following file named, say, `offline_storage.js` as follows : 
+ ```js
+'use strict';
+
+let AbstractMagentoAdapter = require('./abstract');
+const CacheKeys = require('./cache_keys');
+const util = require('util');
+
+class OfflineStoresAdapter extends AbstractMagentoAdapter {
+
+  getEntityType() {
+    return 'offline_stores';
+  }
+
+  getName() {
+    return 'adapters/magento/OfflineStoresAdapter';
+  }
+
+  getSourceData(context) {
+    return this.api.offlineStores.list();
+  }
+
+  /**  Regarding Magento 2 api docs and reality we do have an exception here that items aren't listed straight in the response but under "items" key */
+  prepareItems(items) {
+    if(!items)
+      return items;
+ 
+    if (items.total_count)
+      this.total_count = items.total_count;
+    
+    if(items.items)
+      items = items.items; // this is an exceptional behavior for Magento 2 api  for attributes
+
+    return items;
+  }
+
+  isFederated() {
+    return false;
+  }
+
+  preProcessItem(item) {
+    return new Promise((done, reject) => {
+      if (item) {
+
+      }
+
+      return done(item);
+    });
+  }
+
+  /**
+   * We're transforming the data structure of item to be compliant with Smile.fr Elastic Search Suite
+   * @param {object} item  document to be updated in elastic search
+   */
+  normalizeDocumentFormat(item) {
+    return item;
+  }
+}
+
+module.exports = OfflineStoresAdapter;
+
+ ```
+
+This is the basic skeleton for an adapter. We will look at this later. 
+
+ 3. Now, move on to `magento2-rest-client` library :
+ ```bash
+cd magento2-rest-client/lib
+ ```
+
+ 4. Here we need to create a library file `offline_storage.js` for the adapter with the following :
+ ```js
+var util = require('util');
+
+module.exports = function (restClient) {
+    var module = {};
+
+    module.list = function (searchCriteria) {
+        var endpointUrl = util.format('/offline-stores');
+        return restClient.get(endpointUrl);
+    }
+
+    return module;
+}
+
+ ````
+This library file only deals with _GET_ API to get a list of offline stores from Magento 2. 
+
+ 5. Now we need to include this library in `index.js` : 
+ ```bash
+cd ..
+vi index.js
+ ```
+
+ Then fix it as follows : 
+
+ ```js{5,16}
+// ... abridged 
+
+var blocks = require('./lib/blocks');
+var pages = require('./lib/pages');
+var offlineStores = require('./lib/offline_stores');
+
+const MAGENTO_API_VERSION = 'V1';
+
+module.exports.Magento2Client = function (options) {
+    var instance = {};
+
+    options.version = MAGENTO_API_VERSION;
+
+    var client = RestClient(options);
+
+    instance.offlineStores = offlineStores(client);
+    instance.attributes = attributes(client);
+    instance.categories = categories(client);
+
+// abridged ...
+ ```
+
+ 6. Time for creating a command to import the data, go to the folder where `cli.js` locates :  
+ ```bash
+cd ../../.. # ./src 
+ ```
+
+Open `cli.js` and add a method and a command as follows : 
+ ```js{3-22}
+ // ... abridged 
+
+const reindexOfflineStores = (adapterName) => {
+  return new Promise((resolve, reject) => {
+    let adapter = factory.getAdapter(adapterName, 'offline_stores');
+    adapter.run({
+      done_callback: () => {
+        logger.info('Task done! Exiting in 30s...');
+        setTimeout(process.exit, TIME_TO_EXIT); // let ES commit all changes made
+        resolve();
+      }
+    });
+  });
+}
+
+program
+  .command('offlinestores')
+  .option('--adapter <adapter>', 'name of the adapter', 'magento')
+  .option('--removeNonExistent <removeNonExistent>', 'remove non existent products', false)
+  .action(async (cmd) => {
+    await reindexOfflineStores(cmd.adapter, cmd.removeNonExistent);
+  });
+
+program
+  .command('attributes')
+  .option('--adapter <adapter>', 'name of the adapter', 'magento')
+// abridged...
+ ```
+
+ 7. All is good, now run the command to import offline stores information!
+ ```bash
+node cli.js 
+ ```
 
 ### 2-1. Recipe A
- 0. There are two parts to be done for adding custom entities; one for _Vue Storefront_, the other for _Vue Storefront API_. We start it with _Vue Storefront_.
 
  1. First off, we need to create an `api` folder under `src/search/adapter/` as follows :
  ```bash
