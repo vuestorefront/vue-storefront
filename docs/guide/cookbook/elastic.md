@@ -537,7 +537,7 @@ cd src/adapters/magento
  ```
 This folder is where the connector adapter should be. 
 
- 2. Create the following file named, say, `offline_storage.js` as follows : 
+ 2. Create the following file named, say, `offline_stores.js` as follows : 
  ```js
 'use strict';
 
@@ -607,7 +607,7 @@ This is the basic skeleton for an adapter. We will look at this later.
 cd magento2-rest-client/lib
  ```
 
- 4. Here we need to create a library file `offline_storage.js` for the adapter with the following :
+ 4. Here we need to create a library file `offline_stores.js` for the adapter with the following :
  ```js
 var util = require('util');
 
