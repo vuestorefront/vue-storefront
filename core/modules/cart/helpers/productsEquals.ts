@@ -60,6 +60,7 @@ const makeCheck = (product1: CartItem, product2: CartItem, checks: string[]): bo
       return true
     }
   }
+  return false
 }
 
 const productsEquals = (product1: CartItem, product2: CartItem): boolean => {
