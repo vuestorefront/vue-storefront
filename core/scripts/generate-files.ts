@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
-import themeRoot from '../build/theme-path';
 
 fs.writeFileSync(
   path.resolve(__dirname, '../build/config.json'),
@@ -21,6 +20,7 @@ fs.readdirSync(moduleRoot).forEach(directory => {
   }
 });
 
+const themeRoot = require('../build/theme-path');
 const themeResources = themeRoot + '/resource'
 csvDirectories.push(path.resolve(__dirname, themeResources + '/i18n/'));
 
