@@ -99,6 +99,11 @@ export default {
       const { options, attributeKey } = filter
       const attribute = this.attributes[attributeKey]
       if (attribute && attribute.options && attribute.options.length > 1) {
+        /** Only sort items with `sort_order` prop */
+        if (!filter.options.some(o => o.hasOwnProperty('sort_order'))) {
+          return filter
+        }
+
         filter.options.sort((a, b) => {
           const aSort = attribute.options.find(o => o.value === a.id)
           const bSort = attribute.options.find(o => o.value === b.id)
