@@ -31,7 +31,7 @@ describe('AddToCompare', () => {
 
     (wrapper.vm as any).addToCompare(product);
 
-    expect(storeMock.modules.compare.actions.addItem).toBeCalledWith(expect.anything(), product, undefined);
+    expect(storeMock.modules.compare.actions.addItem).toBeCalledWith(expect.anything(), product);
   })
 
   it('compare module has been registered on created', () => {

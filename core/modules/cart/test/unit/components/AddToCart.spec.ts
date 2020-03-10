@@ -34,6 +34,6 @@ describe('AddToCart', () => {
 
     (wrapper.vm as any).addToCart(product);
 
-    expect(storeMock.modules.cart.actions.addItem).toBeCalledWith(expect.anything(), { productToAdd: product }, undefined);
+    expect(storeMock.modules.cart.actions.addItem).toBeCalledWith(expect.anything(), { productToAdd: product });
   })
 });
