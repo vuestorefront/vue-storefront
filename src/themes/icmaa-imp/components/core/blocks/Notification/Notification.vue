@@ -14,7 +14,7 @@
     <div class="actions t-flex t-justify-between">
       <div
         class="t-px-4 t-py-3 t-uppercase t-font-medium t-border-r-2"
-        :class="[borderColor]"
+        :class="[{ 't-pb-10 lg:t-pb-3' : isLast }, borderColor]"
         id="notificationAction1"
         data-test-id="NotificationItemAction1"
         @click="execAction(action1, index)"
@@ -23,6 +23,7 @@
       </div>
       <div
         class="t-w-full t-px-4 t-py-3 t-uppercase t-font-medium"
+        :class="{ 't-pb-10 lg:t-pb-3' : isLast }"
         id="notificationAction2"
         data-test-id="NotificationItemAction2"
         @click="execAction(action2, index)"
@@ -56,6 +57,10 @@ export default {
     },
     action2: {
       type: [Object, Boolean],
+      default: false
+    },
+    isLast: {
+      type: Boolean,
       default: false
     }
   },

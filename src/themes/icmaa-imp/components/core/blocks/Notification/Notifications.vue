@@ -6,6 +6,7 @@
         v-for="(notification, index) in notifications"
         :key="`${notification.type}_${index}`"
         :index="index"
+        :is-last="index === (notifications.length - 1)"
         v-bind="notification"
       />
     </transition-group>
