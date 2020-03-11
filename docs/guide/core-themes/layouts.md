@@ -32,10 +32,10 @@ We added two new HTML templates + two Vue layouts.
 
 Templates:
 
-- `index.basic.template.html` - We added two new HTML templates + two Vue layouts.
-- `index.minimal.template.html` - which contains the standard HTML markup without any additional injects, so when you render a Vue component, its output will be pasted into `<body>` and that's all. Probably good starting point for [AMPHTML implementation](https://www.ampstart.com/)
+- `index.basic.template.html` - basic elements
+- `index.minimal.template.html` - it contains the standard HTML markup without any additional injects, so when you render a Vue component, its output will be pasted into `<body>` and that's all. Probably good starting point for [AMPHTML implementation](https://www.ampstart.com/)
 
-You can add more templates. All you need is to set the proper `config.ssr.templates` variable:
+You can add more templates. All you need is to set the proper `config.ssr.templates` variable in `config/local.json`:
 
 ```json
     "ssr": {

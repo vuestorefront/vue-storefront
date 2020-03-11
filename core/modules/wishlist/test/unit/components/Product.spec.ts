@@ -54,6 +54,6 @@ describe('Product', () => {
 
     (wrapper.vm as any).removeFromWishlist(product);
 
-    expect(mockStore.modules.wishlist.actions.removeItem).toHaveBeenCalledWith(expect.anything(), product, undefined);
+    expect(mockStore.modules.wishlist.actions.removeItem).toHaveBeenCalledWith(expect.anything(), product);
   });
 });

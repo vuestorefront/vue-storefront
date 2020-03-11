@@ -1,12 +1,12 @@
 import { CartService } from '@vue-storefront/core/data-resolver'
 
 const couponActions = {
-  async removeCoupon ({ getters, dispatch }) {
+  async removeCoupon ({ getters, dispatch }, { sync = true } = {}) {
     if (getters.canSyncTotals) {
       const { result } = await CartService.removeCoupon()
 
-      if (result) {
-        dispatch('syncTotals', { forceServerSync: true })
+      if (result && sync) {
+        await dispatch('syncTotals', { forceServerSync: true })
         return result
       }
     }
@@ -16,7 +16,7 @@ const couponActions = {
       const { result } = await CartService.applyCoupon(couponCode)
 
       if (result) {
-        dispatch('syncTotals', { forceServerSync: true })
+        await dispatch('syncTotals', { forceServerSync: true })
       }
       return result
     }

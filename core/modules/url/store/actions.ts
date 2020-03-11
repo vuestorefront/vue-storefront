@@ -15,6 +15,8 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { processURLAddress } from '@vue-storefront/core/helpers';
 import * as categoryMutationTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 import * as cmsPageMutationTypes from '@vue-storefront/core/modules/cms/store/page/mutation-types'
+import isEqual from 'lodash-es/isEqual'
+import * as types from './mutation-types'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<UrlState, any> = {
@@ -212,5 +214,10 @@ export const actions: ActionTree<UrlState, any> = {
         break
       }
     }
+  },
+  setCurrentRoute ({ commit, state }, {to, from} = {}) {
+    commit(types.SET_CURRENT_ROUTE, to)
+    commit(types.IS_BACK_ROUTE, isEqual(state.prevRoute, state.currentRoute) && state.currentRoute.path !== from.path)
+    commit(types.SET_PREV_ROUTE, from)
   }
 }
