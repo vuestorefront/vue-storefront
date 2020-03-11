@@ -906,6 +906,18 @@ Now we can extend our shop as good as it gets to handle more versatile informati
 ### 4. Chef's secret (protip)
 
 #### Secret 1. How to switch _Search Adapters_ 
+If you want to use _GraphQL_ adapter for your search, you need to change the value for `server.api` node to `graphql` in `./config/local.json` in _Vue Storefront_ as follows : 
+```json{6}
+{
+  "server": {
+    "host": "localhost",
+    "port": 3000,
+    "protocol": "http",
+    "api": "graphql",
+    "devServiceWorker": false,
+    "useHtmlMinifier": true,
+    "htmlMinifierOptions": {
+```
 
 #### Secret 2. How to make a custom import using `magento2-vsbridge-indexer` 
 
