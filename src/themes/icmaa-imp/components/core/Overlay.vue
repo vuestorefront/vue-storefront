@@ -14,7 +14,6 @@ export default {
   methods: {
     close () {
       this.$store.dispatch('ui/closeAll')
-      this.$store.dispatch('themeCart/closeEditMode')
     }
   }
 }
