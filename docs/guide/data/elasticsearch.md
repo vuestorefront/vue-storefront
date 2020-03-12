@@ -1118,7 +1118,7 @@ The suggested data format is a combined result of:
 
 # Example ElasticSearch queries
 
-Elasticsearch is the main data store and [elasticsearch-js library](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/index.html) is used for accessing the data store. We're alsos using the [bodybuilder module](https://www.npmjs.com/package/bodybuilder) for easier ES query building.
+Elasticsearch is the main data store and [elasticsearch-js library](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/index.html) is used for accessing the data store. We're also using the [bodybuilder module](https://www.npmjs.com/package/bodybuilder) for easier ES query building.
 
 ## Product search
 
