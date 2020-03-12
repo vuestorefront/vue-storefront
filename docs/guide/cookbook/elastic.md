@@ -882,18 +882,7 @@ Now go to your online shop, put an item to cart and open it, click __Instant Che
 ![instant_checkout_store_borderline](../images/stores.png)
 
 
-### 2-1. Recipe B (with GraphQL)
 
- 1. First off, we need to create an `graphql` folder under `src/search/adapter/` as follows :
- ```bash
-cd src/search/adapter
-mkdir graphql 
- ```
-
- 2. Copy `searchAdapter` file from `core` folder :
- ```bash
-cp ../../../core/lib/search/adapter/graphql/searchAdapter.ts graphql/
- ```
 
 ### 3. Peep into the kitchen (what happens internally)
 In this recipe, we iterated a whole journey of building custom entities on your online shop (it was Magento 2 for this time) for whatever reason to deal with various information for enhancing your customer experience.
