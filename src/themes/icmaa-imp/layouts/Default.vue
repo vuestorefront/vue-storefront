@@ -99,17 +99,13 @@ export default {
       return this.$store.dispatch('icmaaMeta/load')
     },
     fetchCmsData () {
-      return Promise.all([
-        this.$store.dispatch('icmaaCmsBlock/single', { value: 'navigation-main' }),
-        this.$store.dispatch('icmaaCmsBlock/single', { value: 'navigation-meta' }),
-        this.$store.dispatch('icmaaCmsBlock/single', { value: 'footer' })
-      ])
+      const defaultBlocks = [ 'navigation-main', 'navigation-meta', 'footer' ]
+      return this.$store.dispatch('icmaaCmsBlock/list', defaultBlocks.join(','))
     }
   },
   serverPrefetch () {
     return Promise.all([
-      this.fetchMetaData(),
-      this.fetchCmsData()
+      this.fetchMetaData()
     ])
   },
   beforeMount () {
@@ -123,6 +119,9 @@ export default {
       this.$Progress.finish()
     })
     this.$bus.$on('offline-order-confirmation', this.onOrderConfirmation)
+  },
+  mounted () {
+    this.fetchCmsData()
   },
   beforeDestroy () {
     this.$bus.$off('offline-order-confirmation', this.onOrderConfirmation)
