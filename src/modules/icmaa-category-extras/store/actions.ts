@@ -5,6 +5,7 @@ import RootState from '@vue-storefront/core/types/RootState'
 import CategoryExtrasState, { CategoryExtrasContentHeader } from '../types/CategoryExtrasState'
 import { Category } from '@vue-storefront/core/modules/catalog-next/types/Category'
 import * as types from './mutation-types'
+import { categoryExtrasStateKey } from './'
 
 import { DataResolver } from '@vue-storefront/core/data-resolver/types/DataResolver'
 import { fetchChildCategories } from 'icmaa-category/helpers'
@@ -61,18 +62,14 @@ const actions: ActionTree<CategoryExtrasState, RootState> = {
     }
 
     const documentType = 'category-extras'
-    return CmsService.single({ documentType, uid: identifier })
-      .then((result: any|boolean) => {
-        if (result) {
-          const payload: CategoryExtrasContentHeader = result.contentHeader
-          const identifier: string = result.identifier
-          commit(types.ICMAA_CATEGORY_EXTRAS_CONTENT_HEADER_ADD, { identifier, payload })
-
-          return result
-        }
-
-        return []
-      })
+    const actionName = `store:${categoryExtrasStateKey}/loadContentHeaderSync`
+    return CmsService.singleQueue({ documentType, uid: identifier, actionName })
+  },
+  loadContentHeaderSync: ({ commit }, task: any) => {
+    const { result } = task
+    const payload: CategoryExtrasContentHeader = result.contentHeader
+    const identifier: string = result.identifier
+    commit(types.ICMAA_CATEGORY_EXTRAS_CONTENT_HEADER_ADD, { identifier, payload })
   }
 }
 
