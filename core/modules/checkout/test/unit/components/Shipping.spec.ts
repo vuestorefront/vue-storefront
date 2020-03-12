@@ -216,9 +216,9 @@ describe('Shipping', () => {
       (wrapper.vm as any).onAfterPersonalDetails(personalData);
 
       expect(mockStore.modules.checkout.actions.updatePropValue)
-        .toHaveBeenCalledWith(expect.anything(), ['firstName', 'example first name'], undefined);
+        .toHaveBeenCalledWith(expect.anything(), ['firstName', 'example first name']);
       expect(mockStore.modules.checkout.actions.updatePropValue)
-        .toHaveBeenCalledWith(expect.anything(), ['lastName', 'example last name'], undefined);
+        .toHaveBeenCalledWith(expect.anything(), ['lastName', 'example last name']);
     });
 
     it('sendDataToCheckout should emit event', () => {
