@@ -17,7 +17,11 @@ function createRenderer (bundle, clientManifest, template) {
     cache: require('lru-cache')({
       max: 1000,
       maxAge: 1000 * 60 * 15
-    })
+    }),
+    shouldPrefetch (file, type) {
+      if (['script', 'style'].includes(type)) return false
+      return true
+    }
   })
 }
 

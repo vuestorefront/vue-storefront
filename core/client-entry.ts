@@ -14,6 +14,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import globalConfig from 'config'
 import { coreHooksExecutors } from './hooks'
 import { RouterManager } from './lib/router-manager';
+import loadResources from './helpers/loadResources'
 declare var window: any
 
 const invokeClientEntry = async () => {
@@ -123,6 +124,7 @@ const invokeClientEntry = async () => {
   })
   registerSyncTaskProcessor()
   window.addEventListener('online', () => { onNetworkStatusChange(store) })
+  loadResources()
 }
 
 invokeClientEntry()
