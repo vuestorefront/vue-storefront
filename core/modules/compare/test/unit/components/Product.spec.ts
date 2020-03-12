@@ -25,6 +25,6 @@ describe('Product', () => {
 
     (wrapper.vm as any).removeFromCompare(product);
 
-    expect(storeMock.modules.compare.actions.removeItem).toBeCalledWith(expect.anything(), product, undefined);
+    expect(storeMock.modules.compare.actions.removeItem).toBeCalledWith(expect.anything(), product);
   })
 });

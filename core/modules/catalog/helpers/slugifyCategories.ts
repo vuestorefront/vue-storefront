@@ -3,19 +3,11 @@ import { slugify } from '@vue-storefront/core/helpers'
 import { Category, ChildrenData } from '@vue-storefront/core/modules/catalog-next/types/Category'
 
 const createSlug = (category: ChildrenData): string => {
-  if (category.slug) {
-    return category.slug
-  }
-
   if (category.url_key && config.products.useMagentoUrlKeys) {
     return category.url_key
   }
 
-  if (category.name) {
-    return `${slugify(category.name)}-${category.id}`
-  }
-
-  return ''
+  return `${slugify(category.name)}-${category.id}`
 }
 
 const slugifyCategories = (category: Category | ChildrenData): Category | ChildrenData => {
@@ -28,7 +20,6 @@ const slugifyCategories = (category: Category | ChildrenData): Category | Childr
       slugifyCategories(subCat)
     })
   }
-
   return category
 }
 

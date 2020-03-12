@@ -196,14 +196,14 @@
           v-model.trim="userCompany.city"
           @input="$v.userCompany.city.$touch()"
           :validations="[
-          {
-            condition: !$v.userCompany.city.required && $v.userCompany.city.$error,
-            text: $t('Field is required')
-          },
-          {
-            condition: $v.userCompany.city.$error && $v.userCompany.city.required,
-            text: $t('Please provide valid city name')
-          }
+            {
+              condition: !$v.userCompany.city.required && $v.userCompany.city.$error,
+              text: $t('Field is required')
+            },
+            {
+              condition: $v.userCompany.city.$error && $v.userCompany.city.required,
+              text: $t('Please provide valid city name')
+            }
           ]"
         />
 
