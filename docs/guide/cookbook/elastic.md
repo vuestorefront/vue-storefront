@@ -894,7 +894,7 @@ Second, as an appetizer, we had to import data from shop using _mage2vuestorefro
 Third, main dish, we extended core adapters in `src` folder so we are safe for future updates :).
  It was actually very easy! you just need to `registerEntityType` for your custom entity! We also looked at how to implement it in real example though it was simplified version, you better follow `vuex` best practice. 
 
-We also have a variety of main dish, by giving you an option to go with _GraphQL_. This approach took us a little more to tweak with, but believe me, _GraphQL_ has pretty good advantage over its competitors. 
+We also have a variety of main dish, by giving you an option to go with _GraphQL_. This approach took us a little more to tweak with, but believe me, _GraphQL_ has [pretty good advantage](https://www.altexsoft.com/blog/engineering/graphql-core-features-architecture-pros-and-cons/) over its competitors. 
 
 Now we can extend our shop as good as it gets to handle more versatile information on your shop. Congratulation!
 
