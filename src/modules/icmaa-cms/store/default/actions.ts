@@ -14,7 +14,7 @@ const actions: ActionTree<{}, RootState> = {
       if (task.real_callback_event) {
         const callbackEvent: string = task.real_callback_event
         if (callbackEvent.startsWith('store:')) {
-          dispatch(callbackEvent.split(':')[1], task)
+          dispatch(callbackEvent.split(':')[1], task, { root: true })
         } else {
           EventBus.$emit(callbackEvent, task)
         }

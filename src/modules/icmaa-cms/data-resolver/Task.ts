@@ -49,7 +49,7 @@ const IcmaaTaskQueue = {
     const taskId = getTaskId(task.url)
     const cacheItem = await cache.getItem(taskId)
     if (cacheItem) {
-      rootStore.dispatch('icmaaCms/taskQueueSync', task)
+      rootStore.dispatch('icmaaCms/taskQueueSync', cacheItem)
     } else {
       return TaskQueue.queue(task)
     }
