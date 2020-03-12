@@ -99,11 +99,8 @@ export default {
       return this.$store.dispatch('icmaaMeta/load')
     },
     fetchCmsData () {
-      return Promise.all([
-        this.$store.dispatch('icmaaCmsBlock/single', { value: 'navigation-main' }),
-        this.$store.dispatch('icmaaCmsBlock/single', { value: 'navigation-meta' }),
-        this.$store.dispatch('icmaaCmsBlock/single', { value: 'footer' })
-      ])
+      const defaultBlocks = [ 'navigation-main', 'navigation-meta', 'footer' ]
+      return this.$store.dispatch('icmaaCmsBlock/list', { options: defaultBlocks.join(',') })
     }
   },
   serverPrefetch () {
