@@ -623,7 +623,14 @@ module.exports = function (restClient) {
 }
 
  ````
-This library file only deals with _GET_ API to get a list of offline stores from Magento 2. 
+This library file only deals with _GET_ API to get a list of offline stores from Magento 2.
+
+:::tip NOTE
+```js
+var endpointUrl = util.format('/offline-stores');
+```
+ This line is particularly important, since `'/offline-stores'` is where the API url endpoint is determined. It should match the API url endpoint of Magento 2 side.
+:::
 
  5. Now we need to include this library in `index.js` : 
  ```bash
@@ -713,7 +720,7 @@ debug: Response received.
 2020-03-10T09:22:32.140Z - info: No tasks to process. All records processed!
 2020-03-10T09:22:32.140Z - info: Task done! Exiting in 30s...
  ```
-:::tip NOTE
+:::warning NOTE
 You should tell the machine the environment variable like this before running the command : 
 ```bash
 export MAGENTO_URL=http://localhost/rest
@@ -855,16 +862,16 @@ Now you are all set to use custom entity you just created. The next step lets yo
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { OrderModule } from '@vue-storefront/core/modules/order'
-import { quickSearchByQuery } from '@vue-storefront/core/lib/search';
+import { quickSearchByQuery } from '@vue-storefront/core/lib/search'; // Import the method to fetch data from ES
 
 const storeView = currentStoreView()
 
 // ... abridged
 
   methods: {
-    async showPayment () {
-      let offlineStores = await quickSearchByQuery({ entityType: 'offline_stores' });
-      alert("Your item will be sent from the shop at " + offlineStores.items[0].address);
+    async showPayment () { // the method should be done with async/await
+      let offlineStores = await quickSearchByQuery({ entityType: 'offline_stores' }); 
+      alert("Your item will be sent from the shop at " + offlineStores.items[0].address); 
       const payment = new PaymentRequest(this.paymentMethods, this.paymentDetails , this.paymentOptions)
 
       // abridged ...
