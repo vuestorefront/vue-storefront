@@ -161,7 +161,7 @@ export default {
     const isLogin = ref(false);
     const createAccount = ref(false);
     const rememberMe = ref(false);
-    const { register, login, loading, error } = useUser();
+    const { register, login, loading } = useUser();
 
     watch(isLoginModalOpen, () => {
       if (isLoginModalOpen) {
@@ -171,10 +171,7 @@ export default {
 
     const handleForm = (fn) => async () => {
       await fn(form.value);
-
-      if (!error.value) {
-        toggleLoginModal();
-      }
+      toggleLoginModal();
     };
 
     const handleRegister = async () => handleForm(register)();
@@ -182,7 +179,6 @@ export default {
     const handleLogin = async () => handleForm(login)();
 
     return {
-      error,
       form,
       loading,
       isLogin,

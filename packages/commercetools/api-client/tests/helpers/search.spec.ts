@@ -10,7 +10,7 @@ describe('[commercetools-api-client] search', () => {
   });
 
   it('returns product search query by cat id', () => {
-    expect(buildProductWhere({ catIds: ['cat id'] })).toBe('masterData(current(categories(id in ("cat id"))))');
+    expect(buildProductWhere({ catId: ['cat id'] })).toBe('masterData(current(categories(id in ("cat id"))))');
   });
 
   it('returns category search query by id', () => {

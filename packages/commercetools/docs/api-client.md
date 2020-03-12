@@ -51,7 +51,7 @@ It accepts configuration object with following properties:
 - `limit?: number`
 - `offset?: number`
 - `sort?: string[]`
-- `catIds?: string[]`
+- `catId?: string[]`
 - `skus?: string[]`
 - `slug?: string`
 - `query?: CustomQuery` - custom GraphQL query. Please keep in mind that modifying this property can break helper functions.

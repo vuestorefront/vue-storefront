@@ -18,7 +18,7 @@ describe('[commercetools-api-client] getProduct', () => {
       return { data: 'product response' };
     });
 
-    const { data } = await getProduct({ catIds: ['724b250d-9805-4657-ae73-3c02a63a9a13'] });
+    const { data } = await getProduct({ catId: ['724b250d-9805-4657-ae73-3c02a63a9a13'] });
 
     expect(data).toBe('product response');
   });

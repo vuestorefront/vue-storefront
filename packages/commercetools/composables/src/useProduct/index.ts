@@ -1,9 +1,9 @@
 import { UseProduct } from '@vue-storefront/interfaces';
-import { usePersistedState } from '@vue-storefront/utils';
-import { ref, Ref, computed } from '@vue/composition-api';
+// import { usePersistedState } from '@vue-storefront/utils';
 import { getProduct } from '@vue-storefront/commercetools-api';
 import { enhanceProduct } from './../helpers/internals';
 import { ProductVariant } from './../types/GraphQL';
+import { useProductFactory } from '@vue-storefront/factories';
 
 const loadProductVariants = async (params): Promise<ProductVariant[]> => {
   const productResponse = await getProduct(params);
@@ -12,23 +12,34 @@ const loadProductVariants = async (params): Promise<ProductVariant[]> => {
   return (enhancedProductResponse.data as any)._variants;
 };
 
-export default function useProduct(id: string): UseProduct<ProductVariant> {
-  const { state, persistedResource } = usePersistedState(id);
+const useProduct: (
+  cacheId: string
+) => UseProduct<ProductVariant> = useProductFactory<ProductVariant, any>({
+  productsSearch: loadProductVariants
+});
 
-  const products: Ref<ProductVariant[]> = ref(state || []);
-  const loading = ref(false);
-  const error = ref(null);
+export default useProduct;
 
-  const search = async (params) => {
-    loading.value = true;
-    products.value = await persistedResource<ProductVariant[]>(loadProductVariants, params);
-    loading.value = false;
-  };
+// export default function useProduct(id: string): UseProduct<ProductVariant> {
+//   console.info('SSR Temporarly disbled for product composable https://github.com/DivanteLtd/next/issues/232', id);
+//   // const { state, persistedResource } = usePersistedState(id);
 
-  return {
-    products: computed(() => products.value),
-    search,
-    loading: computed(() => loading.value),
-    error: computed(() => error.value)
-  };
-}
+//   // const products: Ref<ProductVariant[]> = ref(state || []);
+//   const products: Ref<ProductVariant[]> = ref([]);
+//   const loading = products.value.length ? ref(false) : ref(true);
+//   const totalProducts = ref(0);
+
+//   const search = async (params) => {
+//     loading.value = true;
+//     // products.value = await persistedResource<ProductVariant[]>(loadProductVariants, params);
+//     products.value = await loadProductVariants(params);
+//     loading.value = false;
+//   };
+
+//   return {
+//     products: computed(() => products.value),
+//     search,
+//     loading: computed(() => loading.value),
+//     totalProducts: computed(() => totalProducts.value)
+//   };
+// }

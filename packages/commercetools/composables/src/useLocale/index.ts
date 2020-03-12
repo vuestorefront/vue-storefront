@@ -22,7 +22,6 @@ type AvailableCurrencies = Ref<Readonly<LocaleItem[]>>
 
 export default function useLocale(): UseLocale<Locale, Country, Currency, AvailableLocales, AvailableCountries, AvailableCurrencies> {
   const loading = ref(false);
-  const error = ref(null);
   const locale: Locale = ref(null);
   const country: Country = ref(null);
   const currency: Currency = ref(null);
@@ -61,7 +60,6 @@ export default function useLocale(): UseLocale<Locale, Country, Currency, Availa
     availableLocales,
     availableCountries,
     availableCurrencies,
-    loading: computed(() => loading.value),
-    error: computed(() => error.value)
+    loading: computed(() => loading.value)
   };
 }

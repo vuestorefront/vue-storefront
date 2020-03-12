@@ -29,7 +29,6 @@
     "Intl": true
   },
   "rules": {
-    "curly": 2,
     "eqeqeq": 2,
     "no-use-before-define": [
       2,
@@ -51,14 +50,6 @@
     "space-infix-ops": 2,
     "keyword-spacing": 2,
     "space-before-blocks": 2,
-    "space-before-function-paren": [
-      2,
-      {
-        "anonymous": "never",
-        "named": "never",
-        "asyncArrow": "always"
-      }
-    ],
     "spaced-comment": 2,
     "no-multiple-empty-lines": [
       2,

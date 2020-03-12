@@ -17,6 +17,7 @@ $ yarn install
 
 **Verify by building packages:**
 ```sh
+yarn build:core
 yarn build:prismic
 yarn build:ct:tools
 ```

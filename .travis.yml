@@ -14,6 +14,8 @@ cache:
     - packages/commercetools/theme/node_modules
     - packages/core/utils/node_modules
     - packages/core/utils/lib
+    - packages/core/factories/node_modules
+    - packages/core/factories/lib
     - packages/prismic/node_modules
     - packages/prismic/lib
 
@@ -57,6 +59,12 @@ jobs:
       name: Test utils
       after_script:
         - cat ./packages/core/utils/coverage/lcov.info | coveralls
+
+    - stage: test core
+      script: yarn test:core:factories --coverage
+      name: Test factories
+      after_script:
+        - cat ./packages/core/factories/coverage/lcov.info | coveralls
 
     - stage: test prismic
       script: yarn test:prismic --coverage

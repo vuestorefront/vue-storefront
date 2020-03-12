@@ -57,7 +57,6 @@ export default function useCheckout(): UseCheckout<any, any, any, any, any, any,
   };
 
   const loading = ref(true);
-  const error = ref(null);
 
   return {
     paymentMethods,
@@ -68,7 +67,6 @@ export default function useCheckout(): UseCheckout<any, any, any, any, any, any,
     chosenPaymentMethod,
     chosenShippingMethod,
     placeOrder,
-    loading: computed(() => loading.value),
-    error: computed(() => error.value)
+    loading: computed(() => loading.value)
   };
 }

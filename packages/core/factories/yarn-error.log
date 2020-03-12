@@ -1,0 +1,58 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn
+
+PATH: 
+  /Users/frakowski/.npm-global/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/frakowski/.npm-global/bin
+
+Yarn version: 
+  1.16.0
+
+Node version: 
+  10.16.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/frakowski/Desktop/vsf-next/packages/core/factories/package.json: Unexpected token } in JSON at position 412
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:304:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:315:13
+
+npm manifest: 
+  {
+    "name": "@vue-storefront/factories",
+    "version": "0.0.1",
+    "sideEffects": false,
+    "main": "lib/index.cjs.js",
+    "module": "lib/index.es.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+      "build": "rollup -c",
+      "dev": "rollup -c -w",
+      "test": "jest"
+    },
+    "dependencies": {
+      "@vue-storefront/interfaces": "^0.0.3",
+      "@vue-storefront/utils": "^0.0.3",
+      "@vue/composition-api": "^0.3.4",
+    },
+    "devDependencies": {
+      "@vue/test-utils": "^1.0.0-beta.30",
+      "vue-template-compiler": "^2.6.x"
+    },
+    "files": [
+      "lib/**/*"
+    ],
+    "publishConfig": {
+      "access": "public"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

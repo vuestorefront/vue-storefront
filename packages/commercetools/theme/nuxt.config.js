@@ -50,12 +50,15 @@ export default {
         dev: [
           '@vue-storefront/commercetools-composables',
           '@vue-storefront/prismic',
-          '@vue-storefront/utils'
+          '@vue-storefront/utils',
+          '@vue-storefront/factories'
         ],
         prod: [
           '@vue-storefront/commercetools-composables',
           '@vue-storefront/prismic',
-          '@vue-storefront/utils'
+          '@vue-storefront/utils',
+          '@vue-storefront/factories'
+
         ]
       }
     }],

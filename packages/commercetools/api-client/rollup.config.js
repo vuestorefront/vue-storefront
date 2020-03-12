@@ -1,5 +1,5 @@
 import pkg from './package.json';
-import { generateBaseConfig } from '../rollup.base.config';
+import { generateBaseConfig } from '../../rollup.base.config';
 import graphql from 'rollup-plugin-graphql';
 
 const baseConfig = generateBaseConfig(pkg);

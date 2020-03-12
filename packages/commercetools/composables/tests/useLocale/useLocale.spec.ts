@@ -14,10 +14,9 @@ describe('[commercetools-composables] useLocale', () => {
   });
 
   it('creates properties', () => {
-    const { loading, error } = useLocale();
+    const { loading } = useLocale();
 
     expect(loading.value).toEqual(false);
-    expect(error.value).toEqual(null);
   });
 
   it('loads default values', async () => {

@@ -1,6 +1,6 @@
 {
-  "name": "@vue-storefront/commercetools-composables",
-  "version": "0.0.3",
+  "name": "@vue-storefront/factories",
+  "version": "0.0.1",
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
@@ -11,13 +11,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vue-storefront/commercetools-api": "^0.0.3",
     "@vue-storefront/interfaces": "^0.0.3",
     "@vue-storefront/utils": "^0.0.3",
-    "@vue/composition-api": "^0.3.4",
-    "@vue-storefront/factories": "^0.0.1",
-    "js-cookie": "^2.2.1",
-    "vue": "^2.6.x"
+    "@vue/composition-api": "^0.3.4"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.30",
@@ -28,6 +24,5 @@
   ],
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "8d866340da30761f4f72a6d1b60f78f9665c6738"
+  }
 }

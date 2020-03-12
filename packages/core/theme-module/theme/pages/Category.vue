@@ -128,7 +128,7 @@
         </SfAccordion>
         </SfLoader>
       </div>
-      <SfLoader :class="{ loading }" :loading="loading">
+      <SfLoader :class="{ loading: productsLoading }" :loading="productsLoading">
         <div class="products">
           <div class="products__list">
             <SfProductCard
@@ -247,15 +247,15 @@ import {
   SfLoader,
   SfColor
 } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
-import { useCategory } from '<%= options.composables %>';
+import { computed, watch } from '@vue/composition-api';
+import { useCategory, useProduct } from '<%= options.composables %>';
 import {
-  getCategoryProducts,
   getProductName,
   getProductGallery,
   getProductPrice,
   getProductSlug,
-  getCategoryTree
+  getCategoryTree,
+  getProductVariants
 } from '<%= options.helpers %>';
 
 export default {
@@ -268,10 +268,16 @@ export default {
     );
 
     const { categories, search, loading } = useCategory('category-page');
+    const { products: categoryProducts, search: productsSearch, loading: productsLoading } = useProduct('category-products');
 
     search({ slug: lastSlug });
 
-    const products = computed(() => getCategoryProducts(categories.value[0], { master: true }));
+    // ugly workaround until we will have async setup
+    watch(categories, () => {
+      if (categories.value.length) productsSearch({ catId: categories.value[0].id });
+    });
+
+    const products = computed(() => getProductVariants(categoryProducts.value, { master: true}));
     const categoryTree = computed(() => getCategoryTree(categories.value[0]));
 
     const getCategoryUrl = (slug) => `/c/${params.slug_1}/${slug}`;
@@ -279,6 +285,7 @@ export default {
 
     return {
       products,
+      productsLoading,
       categoryTree,
       getProductName,
       getProductGallery,
