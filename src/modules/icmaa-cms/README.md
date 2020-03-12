@@ -4,7 +4,7 @@ Load CMS blocks, pages and more from API and insert them into state or as compon
 
 ## Configs
 
-* Run `yarn` to install modules dependencies: `axios`, `yaml`.  
+* Run `yarn` to install modules dependencies.  
   They are defined in templates `package.json`.
 
 * Add the following API endpoint to `config/local.json`:

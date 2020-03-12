@@ -8,13 +8,13 @@ const getters: GetterTree<BlockState, RootState> = {
   getBlockByIdentifier: (state) => (identifier): BlockStateItem => {
     return state.items.find(item => item.identifier === identifier)
   },
-  getJsonBlockByIdentifier: (state) => (identifier): Record<string, any> => {
+  getJsonBlockByIdentifier: (state) => (identifier): Record<string, any>|false => {
     try {
       let block = state.items.find(item => item.identifier === identifier)
-      return (block && block.content) ? JSON.parse(block.content) : {}
+      return (block && block.content) ? JSON.parse(block.content) : false
     } catch (error) {
       Logger.error(`Error during parsing of block "${identifier}":`, 'IcmaaCms', error)()
-      return {}
+      return false
     }
   }
 }

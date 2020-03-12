@@ -1,7 +1,7 @@
 import { cacheStorage as cache } from '../'
 
-import { Logger } from '@vue-storefront/core/lib/logger'
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
+import { Logger } from '@vue-storefront/core/lib/logger'
 import Task from '@vue-storefront/core/lib/sync/types/Task'
 import rootStore from '@vue-storefront/core/store'
 
@@ -20,7 +20,7 @@ const IcmaaTaskQueue = {
       .then(result => {
         if (!result) {
           return TaskQueue.execute(task).then(resp => {
-            Logger.debug(`Fetched task: ${taskId}`, 'icmaa-task-queue', resp)()
+            Logger.debug(`Fetched task: ${taskId}`, 'icmaa-task-queue', task.url)()
 
             if (resp.resultCode === 200) {
               cache.setItem(taskId, resp)
@@ -31,7 +31,7 @@ const IcmaaTaskQueue = {
           })
         }
 
-        Logger.debug(`Found task in cache: ${taskId}`, 'icmaa-task-queue', result)()
+        Logger.debug(`Found task in cache: ${taskId}`, 'icmaa-task-queue', task.url)()
 
         return result
       })
@@ -47,6 +47,8 @@ const IcmaaTaskQueue = {
     )
 
     const taskId = getTaskId(task.url)
+    Logger.debug(`Queued task: ${taskId}`, 'icmaa-task-queue', task.url)()
+
     const cacheItem = await cache.getItem(taskId)
     if (cacheItem) {
       rootStore.dispatch('icmaaCms/taskQueueSync', cacheItem)
