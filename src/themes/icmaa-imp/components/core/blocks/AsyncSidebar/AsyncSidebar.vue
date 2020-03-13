@@ -66,6 +66,13 @@ export default {
   created () {
     this.getComponent()
   },
+  mounted () {
+    // Close this if browser-back button is called
+    window.addEventListener('popstate', this.onHistoryBack)
+  },
+  destroyed () {
+    window.removeEventListener('popstate', this.onHistoryBack)
+  },
   methods: {
     getComponent () {
       this.component = () => ({
@@ -74,6 +81,9 @@ export default {
         error: LoadingError,
         timeout: 3000
       })
+    },
+    onHistoryBack () {
+      this.$store.dispatch('ui/closeAll')
     }
   },
   computed: {

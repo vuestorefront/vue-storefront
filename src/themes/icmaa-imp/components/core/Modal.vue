@@ -105,7 +105,14 @@ export default {
     },
     close () {
       this.toggle(false)
+    },
+    onHistoryBack () {
+      this.close()
     }
+  },
+  mounted () {
+    // Close this if browser-back button is called
+    window.addEventListener('popstate', this.onHistoryBack)
   },
   beforeMount () {
     this.$bus.$on('modal-toggle', this.onToggle)
@@ -116,6 +123,8 @@ export default {
     this.$bus.$off('modal-toggle', this.onToggle)
     this.$bus.$off('modal-show', this.onShow)
     this.$bus.$off('modal-hide', this.onHide)
+
+    window.removeEventListener('popstate', this.onHistoryBack)
   }
 }
 </script>
