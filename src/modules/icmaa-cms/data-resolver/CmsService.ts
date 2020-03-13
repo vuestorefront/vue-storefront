@@ -45,7 +45,48 @@ const singleQueue = (options: { documentType: string, uid: string, storeCode?: s
   })
 }
 
+const list = <T>(options: { documentType: string, query: Record<string, any>, storeCode?: string }): Promise<T[]> => {
+  const queryString = IcmaaTaskQueue.createQueryString({
+    'type': options.documentType,
+    'q': typeof options.query === 'object' ? JSON.stringify(options.query) : options.query,
+    'lang': options.storeCode || getCurrentStoreCode()
+  })
+
+  return IcmaaTaskQueue.execute({
+    url: processURLAddress(config.icmaa_cms.endpoint) + `/search?${queryString}`,
+    payload: {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'cors'
+    },
+    is_result_cacheable: true,
+    silent: true
+  }).then(resp => resp.resultCode === 200 ? resp.result : false)
+}
+
+const listQueue = (options: { documentType: string, query: Record<string, any>, storeCode?: string, actionName?: string }): Promise<Task|any> => {
+  const queryString = IcmaaTaskQueue.createQueryString({
+    'type': options.documentType,
+    'q': typeof options.query === 'object' ? JSON.stringify(options.query) : options.query,
+    'lang': options.storeCode || getCurrentStoreCode()
+  })
+
+  return IcmaaTaskQueue.queue({
+    url: processURLAddress(config.icmaa_cms.endpoint) + `/search?${queryString}`,
+    payload: {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'cors'
+    },
+    is_result_cacheable: true,
+    silent: true,
+    callback_event: options.actionName ? options.actionName : undefined
+  })
+}
+
 export default {
   single,
-  singleQueue
+  singleQueue,
+  list,
+  listQueue
 }

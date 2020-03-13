@@ -23,9 +23,11 @@ export const CatalogModule: StorefrontModule = async function ({store, router, a
   store.registerModule('tax', taxModule)
   store.registerModule('category', categoryModule)
 
-  await store.dispatch('attribute/list', { // loading attributes for application use
-    filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields])
-  })
+  // MOD < We do the prefetch on our own routine to improve performance – see `icmaa-catalog/index.ts`.
+  // await store.dispatch('attribute/list', { // loading attributes for application use
+  //   filterValues: uniq([...config.products.defaultFilters, ...config.entities.productListWithChildren.includeFields])
+  // })
+  // MOD > End
 
   if (!isServer) {
     // Things moved from Product.js

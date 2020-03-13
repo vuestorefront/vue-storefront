@@ -5,7 +5,7 @@ import CategoryState, { CategoryStateListItemHydrated, ProductListingWidgetState
 import * as types from './mutation-types'
 import * as catTypes from '@vue-storefront/core/modules/catalog-next/store/category/mutation-types'
 import { fetchCategoryById, fetchChildCategories } from '../helpers'
-import bodybuilder from 'bodybuilder'
+import { SearchQuery } from 'storefront-query-builder'
 
 import { Logger } from '@vue-storefront/core/lib/logger'
 
@@ -44,26 +44,21 @@ const actions: ActionTree<CategoryState, RootState> = {
       return
     }
 
-    let query = bodybuilder()
+    let query = new SearchQuery()
     query
-      .query('terms', 'visibility', [2, 3, 4])
-      .query('terms', 'status', [0, 1])
-      .query('terms', 'category_ids', [categoryId])
+      .applyFilter({ key: 'stock', scope: 'catalog', value: null })
+      .applyFilter({ key: 'visibility', value: { in: [2, 3, 4] } })
+      .applyFilter({ key: 'status', value: { in: [0, 1] } })
+      .applyFilter({ key: 'category_ids', value: { in: [categoryId] } })
 
     if (cluster) {
       cluster = parseInt(cluster)
-      query.query('bool', (b) => {
-        return b
-          .orQuery('terms', 'customercluster', [cluster])
-          .orQuery('bool', (b) => {
-            return b.notQuery('exists', 'customercluster')
-          })
-      })
-
+      query.applyFilter({ key: 'customercluster', value: { or: [cluster] } })
+      query.applyFilter({ key: 'customercluster', value: { or: null } })
       sort = [sort as string, 'customercluster:desc']
     }
 
-    return dispatch('product/findProducts', { query: query.build(), size, sort }, { root: true }).then(products => {
+    return dispatch('product/findProducts', { query, size, sort }, { root: true }).then(products => {
       const payload = { parent: categoryId, list: products.items, cluster }
       commit(types.ICMAA_CATEGORY_LIST_ADD_PRODUCT, payload)
       return payload

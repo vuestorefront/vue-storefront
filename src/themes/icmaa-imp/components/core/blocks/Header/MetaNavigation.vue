@@ -18,10 +18,13 @@ import { mapGetters } from 'vuex'
 export default {
   computed: {
     ...mapGetters('icmaaCmsBlock', ['getJsonBlockByIdentifier']),
+    cmsData () {
+      return this.getJsonBlockByIdentifier('navigation-meta')
+    },
     navigation () {
-      return this.getJsonBlockByIdentifier('navigation-meta').map(link =>
+      return this.cmsData ? this.cmsData.map(link =>
         Object.assign(link, { isRoute: (typeof link.route === 'object' || link.route.startsWith('/')) })
-      )
+      ) : []
     }
   }
 }

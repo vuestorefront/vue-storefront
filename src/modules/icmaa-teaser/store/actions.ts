@@ -17,11 +17,12 @@ const mutationTypes: MutationTypesInterface = {
 
 const actions: ActionTree<TeaserState, RootState> = {
   list: async (context, tags: string): Promise<TeaserStateItem[]> => {
+    const datetime = getCurrentStoreviewDatetime()
     const options = {
       tag: { 'in_array': tags },
       active: { 'in': true },
-      show_from: { 'lt-date': getCurrentStoreviewDatetime() },
-      show_to: { 'gt-date': getCurrentStoreviewDatetime() }
+      show_from: { 'lt-date': datetime },
+      show_to: { 'gt-date': datetime }
     }
 
     return listAbstract<TeaserStateItem>({ documentType, mutationTypes, storageKey, context, options, identifier: 'uuid' })

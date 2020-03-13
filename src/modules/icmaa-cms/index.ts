@@ -10,7 +10,7 @@ import { PageStore, cmsPageStateKey } from './store/page'
 import moduleRoutes from './routes'
 
 export const KEY = 'icmaa-cms'
-export const cacheStorage = StorageManager.init(KEY)
+export const cacheStorage = StorageManager.init(KEY, false, 5120)
 
 export const IcmaaCmsModule: StorefrontModule = function ({ store, appConfig, router }) {
   store.registerModule(defaultStateKey, DefaultStore)
