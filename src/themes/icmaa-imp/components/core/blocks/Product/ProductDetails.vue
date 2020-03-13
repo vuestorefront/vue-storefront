@@ -45,7 +45,7 @@ export default {
     }),
     attributes () {
       return Object.values(this.attributesByCode).filter(a => {
-        return a.is_visible && a.is_visible_on_front === true && this.product[a.attribute_code]
+        return a.is_visible && a.is_visible_on_front === true && (this.product[a.attribute_code] && this.product[a.attribute_code][0] !== '')
       })
     },
     blank () {

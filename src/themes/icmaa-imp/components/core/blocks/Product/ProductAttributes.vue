@@ -1,5 +1,5 @@
 <template>
-  <li class="t-flex" v-if="valuesRaw.length > 0">
+  <li class="t-flex" v-if="values.length > 0">
     <span class="t-w-5/12 lg:t-w-2/6 t-font-bold t-overflow-auto t-scrolling-touch">{{ label|htmlDecode }}</span>
     <span class="t-w-7/12 lg:t-w-4/6 t-pl-2">
       <template v-for="(value, index) in values">
@@ -55,12 +55,10 @@ export default {
     valuesRaw () {
       let values = this.product[this.attributeCode]
 
-      if (!values || values === '' || (values.length === 1 && values[0] === '')) {
-        return []
-      } else if (this.isDate) {
+      if (this.isDate) {
         return [date(values)]
-      } else if (!this.isSelect || typeof values !== 'object') {
-        return [values.toString()]
+      } else if (typeof values === 'number') {
+        return [`${values}`]
       } else if (typeof values === 'string') {
         const split = values.split(',')
         return split.length > 0 ? split : [values]
