@@ -10,10 +10,9 @@ import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import { preConfigureProduct } from '@vue-storefront/core/modules/catalog/helpers/search'
 import { configureProductAsync } from '@vue-storefront/core/modules/catalog/helpers'
 
-import config, { icmaa } from 'config'
+import { icmaa, icmaa_catalog } from 'config'
 import intersection from 'lodash-es/intersection'
 import union from 'lodash-es/union'
-import omit from 'lodash-es/omit'
 
 /**
  * These methods are overwrites of the original ones to extend them for our needs
@@ -22,6 +21,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Changes:
    * * Add custom `includeFields`/`excludeFields` loaded via getter
+   * * Disable child-configuration in `processCategoryProducts`
    */
   async loadCategoryProducts ({ commit, getters, dispatch }, { route, category, pageSize = 50 } = {}) {
     const searchCategory = category || getters.getCategoryFrom(route.path) || {}
@@ -55,6 +55,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   /**
    * Changes:
    * * Add custom `includeFields`/`excludeFields` loaded via getter
+   * * Disable child-configuration in `processCategoryProducts`
    */
   async loadMoreCategoryProducts ({ commit, getters, rootState, dispatch }) {
     const { perPage, start, total } = getters.getCategorySearchProductsStats
@@ -89,14 +90,22 @@ const actions: ActionTree<CategoryState, RootState> = {
   },
   /**
    * Changes:
-   * * Don't overwrite original image by selected variants one
+   * * Be able to don't configure the conf product and therefore:
+   *   * overwrite original image by selected variants one
+   *   * overwrite products who got the same children (unisex-products)
    */
-  async configureProducts ({ rootState }, { products = [], filters = {} } = {}) {
-    return products.map(product => {
-      product = Object.assign({}, preConfigureProduct({ product, populateRequestCacheTags: config.server.useOutputCacheTagging }))
-      const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
-      return Object.assign(product, omit(configuredProductVariant, ['visibility', 'image']))
-    })
+  async processCategoryProducts ({ dispatch, rootState }, { products = [], filters = {}, configureChildProduct } = {}) {
+    await dispatch('tax/calculateTaxes', { products: products }, { root: true })
+    dispatch('registerCategoryProductsMapping', products) // we don't need to wait for this
+
+    let configureChild = true
+    if (configureChildProduct !== undefined) {
+      configureChild = configureChildProduct
+    } else if (icmaa_catalog.entities.category.configureChildProductsInCategoryList !== undefined) {
+      configureChild = icmaa_catalog.entities.category.configureChildProductsInCategoryList
+    }
+
+    return configureChild ? dispatch('configureProducts', { products, filters }) : products
   },
   /**
    * Changes:
