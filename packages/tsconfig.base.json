@@ -14,6 +14,9 @@
     "baseUrl": "./",
     "lib": ["es6", "es7"],
     "strict": false,
+    "paths": {
+      "@vue-storefront/interfaces": ["core/interfaces/src"]
+    },
   },
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

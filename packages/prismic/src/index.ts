@@ -6,7 +6,7 @@ import { TransformBlock } from './types';
 import { transformBlock as defaultTransformFunction } from './helpers/_utils';
 
 interface SetupConfig {
-  endpoint: any;
+  endpoint: string;
   apiOptions?: ApiOptions;
   transform?: TransformBlock;
 }

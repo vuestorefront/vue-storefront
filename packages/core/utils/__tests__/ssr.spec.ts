@@ -1,9 +1,9 @@
 import { getCurrentInstance, onServerPrefetch } from '@vue/composition-api';
-import usePersistedState from './../src/ssr';
+import { usePersistedState } from '../src';
 
 jest.mock('@vue/composition-api');
 
-describe('[core/utils] cart helpers', () => {
+describe('[CORE - utils] usePersistedState', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -57,6 +57,16 @@ describe('[core/utils] cart helpers', () => {
     expect(s2.state).toEqual(undefined);
   });
 
+  it('returns window state if window is not set', () => {
+    const vm = { $isServer: false };
+    // @ts-ignore
+    window.__VSF_STATE__ = null;
+
+    (getCurrentInstance as any).mockImplementation(() => vm);
+    const s1 = usePersistedState('some-id');
+    expect(s1.state).toEqual(undefined);
+  });
+
   it('fetches data using persisted state on SSR', async () => {
     const vm = {
       $isServer: true,
@@ -68,13 +78,18 @@ describe('[core/utils] cart helpers', () => {
     };
     (getCurrentInstance as any).mockImplementation(() => vm);
 
-    (onServerPrefetch as any).mockImplementation((fn) => fn());
+    (onServerPrefetch as any).mockImplementation((fn: any) => fn());
     const { persistedResource } = usePersistedState('some-id');
 
-    const result = await persistedResource(() => Promise.resolve('some-response'), 1);
+    const result = await persistedResource(
+      () => Promise.resolve('some-response'),
+      1
+    );
 
     expect(result).toEqual('some-response');
-    expect(vm.$ssrContext.nuxt.vsfState).toEqual({ 'some-id': 'some-response' });
+    expect(vm.$ssrContext.nuxt.vsfState).toEqual({
+      'some-id': 'some-response'
+    });
   });
 
   it('fetches data using persisted state on CSR', async () => {
@@ -91,7 +106,10 @@ describe('[core/utils] cart helpers', () => {
     (onServerPrefetch as any).mockImplementation(() => null);
     const { persistedResource } = usePersistedState('some-id');
 
-    const result = await persistedResource(() => Promise.resolve('some-response'), 1);
+    const result = await persistedResource(
+      () => Promise.resolve('some-response'),
+      1
+    );
 
     expect(result).toEqual('some-response');
     expect(vm.$ssrContext.nuxt.vsfState).toEqual({});

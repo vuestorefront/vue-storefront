@@ -55,16 +55,10 @@ jobs:
         - cat ./packages/commercetools/helpers/coverage/lcov.info | coveralls
 
     - stage: test core
-      script: yarn test:core:utils --coverage
-      name: Test utils
+      script: yarn test:core --coverage
+      name: Test core packages
       after_script:
-        - cat ./packages/core/utils/coverage/lcov.info | coveralls
-
-    - stage: test core
-      script: yarn test:core:factories --coverage
-      name: Test factories
-      after_script:
-        - cat ./packages/core/factories/coverage/lcov.info | coveralls
+        - cat ./packages/core/coverage/lcov.info | coveralls
 
     - stage: test prismic
       script: yarn test:prismic --coverage

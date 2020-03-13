@@ -1,7 +1,7 @@
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, VueClass } from '@vue/test-utils';
 import { createComponent } from '@vue/composition-api';
 
-const mountComposable = (composableFn) => {
+const mountComposable: any = (composableFn: Function) => {
   const component = createComponent({
     template: '<div>my component</div>',
     setup() {
@@ -9,7 +9,7 @@ const mountComposable = (composableFn) => {
     }
   });
 
-  return shallowMount(component);
+  return shallowMount(component as VueClass<Vue>);
 };
 
 export default mountComposable;
