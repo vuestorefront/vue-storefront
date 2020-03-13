@@ -13,7 +13,7 @@
       <product-listing-widget :category-id="3278" />
     </lazy-hydrate>
     <lazy-hydrate when-visible>
-      <product-listing-widget :category-id="79" sort="price:asc" />
+      <product-listing-widget :category-id="4251" />
     </lazy-hydrate>
   </div>
 </template>

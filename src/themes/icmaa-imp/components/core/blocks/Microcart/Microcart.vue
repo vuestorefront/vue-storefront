@@ -6,7 +6,7 @@
       </button-component>
     </template>
     <div class="t-pb-20">
-      <h4 v-if="!productsInCart.length" class="">
+      <h4 v-if="!productsInCart.length" class="t-text-sm">
         {{ $t('Your shopping cart is empty.') }}
       </h4>
       <template v-if="productsInCart.length">
