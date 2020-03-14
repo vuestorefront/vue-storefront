@@ -1,4 +1,4 @@
-export interface InitialResourcesElement {
+export interface InitialResources {
   filters: string[],
   regexps?: RegExp[],
   type?: 'script' | 'style',

@@ -1,7 +1,7 @@
-import { getConfigWithRegex, createRegexpMatcher, flatToRegexpList } from './helpers';
+import { addRegexpListToConfig, createRegexpMatcher, flatToRegexpList } from './helpers';
 import config from 'config'
 
-const initialResources = getConfigWithRegex(config)
+const initialResources = addRegexpListToConfig(config)
 
 const prefetchRegexps = flatToRegexpList(
   initialResources.filter(filterConfig => filterConfig.rel !== 'preload' && filterConfig.onload)
@@ -10,6 +10,9 @@ const preloadRegexps = flatToRegexpList(
   initialResources.filter(filterConfig => filterConfig.rel === 'preload' && filterConfig.onload)
 )
 
+/**
+ * Build links that need to be load and add them on the end of head.
+ */
 const addLinksFromManifest = (manifestFilesUrls: string[], regexps: RegExp[], publicPath: string) => {
   manifestFilesUrls
     .filter((file) => createRegexpMatcher(file)(regexps))
@@ -32,6 +35,9 @@ const getManifest = async () => {
   return ssrManifest
 }
 
+/**
+ * Add links from manifest to head element.
+ */
 export default async () => {
   const ssrManifest = await getManifest()
   if (!ssrManifest) return
