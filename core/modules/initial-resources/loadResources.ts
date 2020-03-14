@@ -1,5 +1,3 @@
-import { isServer } from '@vue-storefront/core/helpers'
-
 const loadResources = async () => {
   let ssrManifest = null
   try {
@@ -31,7 +29,4 @@ const loadResources = async () => {
     })
 }
 
-export default () => {
-  if (isServer) return
-  window.addEventListener('load', loadResources)
-}
+export default loadResources

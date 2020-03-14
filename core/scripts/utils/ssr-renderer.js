@@ -9,6 +9,13 @@ const get = require('lodash/get')
 const config = require('config')
 const minify = require('html-minifier').minify
 
+let shouldPreload
+let shouldPrefetch
+try {
+  shouldPreload = require('../../modules/initial-resources/shouldPreload')
+  shouldPrefetch = require('../../modules/initial-resources/shouldPrefetch')
+} catch (_) {}
+
 function createRenderer (bundle, clientManifest, template) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
   return require('vue-server-renderer').createBundleRenderer(bundle, {
@@ -18,10 +25,8 @@ function createRenderer (bundle, clientManifest, template) {
       max: 1000,
       maxAge: 1000 * 60 * 15
     }),
-    shouldPrefetch (file, type) {
-      if (['script', 'style'].includes(type)) return false
-      return true
-    }
+    shouldPreload,
+    shouldPrefetch
   })
 }
 
