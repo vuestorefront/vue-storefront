@@ -32,7 +32,13 @@
   },
   "initialResources": [
     {
-      "filters": ["vsf-category"],
+      "filters": ["vsf-newsletter-modal", "vsf-languages-modal", "vsf-layout-empty", "vsf-layout-minimal", "vsf-order-confirmation", "vsf-search-panel"],
+      "type": "script",
+      "onload": true,
+      "rel": "prefetch"
+    },
+    {
+      "filters": ["vsf-category", "vsf-home", "vsf-not-found", "vsf-error", "vsf-product", "vsf-cms", "vsf-checkout", "vsf-compare", "vsf-my-account", "vsf-static", "vsf-reset-password"],
       "type": "script",
       "onload": true,
       "rel": "prefetch"
