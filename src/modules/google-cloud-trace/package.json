@@ -1,10 +1,10 @@
 {
   "name": "google-cloud-tracing",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@google-cloud/trace-agent": "^4.1.1"
+    "@google-cloud/trace-agent": "^4.2.5"
   }
 }

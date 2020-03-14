@@ -7,132 +7,86 @@ Vue storefront uses two primary data sources:
 
 ## Local data store
 
-You can access localForage repositories through the `StorageManager` (`@vue-storefront/core/lib/storage-manager`) object anywhere in the code, BUT all data-related operations SHOULD be placed in Vuex stores.
+You can access localForage repositories through the `StorageManager` (`@vue-storefront/core/lib/storage-manager`) object anywhere in the code, BUT all data-related operations ___should___ be placed in Vuex stores.
 
 Details on localForage API can be found [here](http://localforage.github.io/localForage/)
 
 ## Example Vuex store
 
-Here you have an example on how the Vuex store should be constructed. Please notice the _Ajv data validation_:
+Here you have an example of how the _Vuex_ store in a _Vue Storefront Module_ should be constructed. The _VSF Core Module_ itself is nothing more than [_Vuex module_](https://vuex.vuejs.org/guide/modules.html).
+
+Let's take a look at `store` of `core/modules/checkout` module. [`index.ts`](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/checkout/store/checkout/index.ts) file shows as follows : 
 
 ```js
-import * as types from '../mutation-types';
-import { ValidationError } from '@vue-storefront/core/store/lib/exceptions';
-import * as entities from '../../lib/entities';
-import * as sw from '@vue-storefront/core/lib/sw';
-import config from '../../config';
-const Ajv = require('ajv'); // json validator
+import { Module } from 'vuex'
+import actions from './actions'
+import getters from './getters'
+import mutations from './mutations'
+import RootState from '@vue-storefront/core/types/RootState'
+import CheckoutState from '../../types/CheckoutState'
+import config from 'config'
 
-// initial state
-const state = {
-  checkoutQueue: [], // queue of orders to be sent to the server
-};
-
-const getters = {};
-
-// actions
-const actions = {
-  /**
-   * Place order - send it to service worker queue
-   * @param {Object} commit method
-   * @param {Object} order order data to be send
-   */
-  placeOrder({ commit }, order) {
-    const ajv = new Ajv();
-    const validate = ajv.compile(
-      require('core/store/modules/order/order.schema.json'),
-    );
-
-    if (!validate(order)) {
-      // schema validation of upcoming order
-      throw new ValidationError(validate.errors);
-    }
-    commit(types.CHECKOUT_PLACE_ORDER, order);
-  },
-};
-
-// mutations
-const mutations = {
-  /**
-   * Add order to sync. queue
-   * @param {Object} product data format for products is described in /doc/ElasticSearch data formats.md
-   */
-  [types.CHECKOUT_PLACE_ORDER](state, order) {
-    const ordersCollection = StorageManager.ordersCollection;
-    const orderId = entities.uniqueEntityId(order); // timestamp as a order id is not the best we can do but it's enough
-    order.order_id = orderId.toString();
-    order.transmited = false;
-    order.created_at = new Date();
-    order.updated_at = new Date();
-
-    ordersCollection
-      .setItem(orderId.toString(), order)
-      .catch(reason => {
-        console.debug(reason); // it doesn't work on SSR
-      })
-      .then(resp => {
-        sw.postMessage({
-          config: config,
-          command: types.CHECKOUT_PROCESS_QUEUE,
-        }); // process checkout queue
-        console.debug('Order placed, orderId = ' + orderId);
-      }); // populate cache
-  },
-  /**
-   * Add order to sync. queue
-   * @param {Object} queue
-   */
-  [types.CHECKOUT_LOAD_QUEUE](state, queue) {
-    state.checkoutQueue = queue;
-    console.debug(
-      'Order queue loaded, queue size is: ' + state.checkoutQueue.length,
-    );
-  },
-};
-
-export default {
+export const checkoutModule: Module<CheckoutState, RootState> = {
   namespaced: true,
-  state,
+  state: {
+    order: {},
+    paymentMethods: [],
+    shippingMethods: config.shipping.methods,
+    personalDetails: {
+      firstName: '',
+      lastName: '',
+      emailAddress: '',
+      password: '',
+      createAccount: false
+    },
+    shippingDetails: {
+      firstName: '',
+      lastName: '',
+      country: '',
+      streetAddress: '',
+      apartmentNumber: '',
+      city: '',
+      state: '',
+      region_id: 0,
+      zipCode: '',
+      phoneNumber: '',
+      shippingMethod: ''
+    },
+    paymentDetails: {
+      firstName: '',
+      lastName: '',
+      company: '',
+      country: '',
+      streetAddress: '',
+      apartmentNumber: '',
+      city: '',
+      state: '',
+      region_id: 0,
+      zipCode: '',
+      phoneNumber: '',
+      taxId: '',
+      paymentMethod: '',
+      paymentMethodAdditional: {}
+    },
+    isThankYouPage: false,
+    modifiedAt: 0
+  },
   getters,
   actions,
-  mutations,
-};
+  mutations
+}
+
 ```
+
+The actual parts of the _store_ have been separated into several files as _getters_, _mutations_, and _actions_. Parts are assembled here and exported as a _Module_.
+
 
 ## Data formats & validation
 
-Data formats for vue-storefront and vue-storefront-api are the same JSON files. There is [Ajv validator](https://github.com/epoberezkin/ajv) issied for the validation.
+Data formats for vue-storefront and vue-storefront-api are the same JSON files.
 
-The convention is that schemas are stored under `/core/store/modules/<module-name>/<model-name>.schema.json` - for example [Order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/store/modules/order/order.schema.json).
+The convention is that schemas are stored under `/core/modules/<module-name>/store/<model-name>.schema.json` - for example [Order schema](https://github.com/DivanteLtd/vue-storefront/blob/master/core/modules/order/store/order.schema.json).
 
-Objects validation is rather straightforward:
-
-```js
-const Ajv = require('ajv'); // json validator
-const ajv = new Ajv();
-const validate = ajv.compile(
-  require('core/store/modules/order/order.schema.json'),
-);
-
-if (!validate(order)) {
-  // schema validation of upcoming order
-  throw new ValidationError(validate.errors);
-}
-```
-
-Validation errors format:
-
-```json
-[
-  {
-    "keyword": "additionalProperties",
-    "dataPath": "",
-    "schemaPath": "#/additionalProperties",
-    "params": { "additionalProperty": "id" },
-    "message": "should NOT have additional properties"
-  }
-]
-```
 
 ### Orders
 

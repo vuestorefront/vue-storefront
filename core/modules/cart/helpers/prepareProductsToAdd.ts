@@ -12,8 +12,7 @@ const applyQty = product => ({
   qty: product.qty && typeof product.qty !== 'number' ? parseInt(product.qty) : product.qty
 });
 
-const applyChecksumForBundles = product =>
-  product.type_id === 'bundle' ? { ...product, checksum: productChecksum(product) } : product
+const applyChecksum = product => ({ ...product, checksum: productChecksum(product) })
 
 const prepareProductsToAdd = (product: CartItem): CartItem[] => {
   const products = product.type_id === 'grouped' ? readAssociated(product) : [product]
@@ -22,7 +21,7 @@ const prepareProductsToAdd = (product: CartItem): CartItem[] => {
     .filter(isDefined)
     .map(applyQty)
     .map(p => optimizeProduct(p))
-    .map(applyChecksumForBundles);
+    .map(applyChecksum);
 };
 
 export default prepareProductsToAdd;

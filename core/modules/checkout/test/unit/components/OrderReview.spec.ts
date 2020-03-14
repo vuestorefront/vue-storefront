@@ -186,7 +186,7 @@ describe('OrderReview', () => {
           telephone: 'example phone number',
           default_shipping: true
         }]
-      }, undefined);
+      });
     });
 
     it('emits events about start and stop of notification progress', async () => {
@@ -285,7 +285,7 @@ describe('OrderReview', () => {
         expect(mockStore.modules.user.actions.login).toHaveBeenCalledWith(expect.anything(), {
           username: 'example email address',
           password: 'example password'
-        }, undefined);
+        });
       });
     });
   });

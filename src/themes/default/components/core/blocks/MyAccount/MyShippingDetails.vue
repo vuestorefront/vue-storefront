@@ -102,14 +102,14 @@
           v-model.trim="shippingDetails.city"
           @input="$v.shippingDetails.city.$touch()"
           :validations="[
-          {
-            condition: !$v.shippingDetails.city.required && $v.shippingDetails.city.$error,
-            text: $t('Field is required')
-          },
-          {
-            condition: $v.shippingDetails.city.$error && $v.shippingDetails.city.required,
-            text: $t('Please provide valid city name')
-          }
+            {
+              condition: !$v.shippingDetails.city.required && $v.shippingDetails.city.$error,
+              text: $t('Field is required')
+            },
+            {
+              condition: $v.shippingDetails.city.$error && $v.shippingDetails.city.required,
+              text: $t('Please provide valid city name')
+            }
           ]"
         />
 

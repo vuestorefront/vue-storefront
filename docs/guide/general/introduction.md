@@ -101,7 +101,7 @@ We managed to do this by making extensive use of the browser cache. 
 Please note that Service Worker works only in production mode.
 :::
 
-- **For the catalog and store-data cache** we use IndexedDB and Local Storage. We also prefetch products from visited categories so once you enter one, all of its products are available offline. The mechanism of offline storage is located under `core/lin./storage`.
+- **For the catalog and store-data cache** we use IndexedDB and Local Storage. We also prefetch products from visited categories so once you enter one, all of its products are available offline. The mechanism of offline storage is located under `core/lib/store/`.
 
 We use some of the cached data even while the user is online to display the content instantly. This explains why Vue Storefront is lightning fast.
 
@@ -112,7 +112,7 @@ You may not believe me but this is all you need to know to start working with Vu
 ## Useful Links
 
 - [Documentation](https://docs.vuestorefront.io/)
-- [Community slack invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtMzA4MTM2NTE5NjM2LTI1M2RmOWIyOTk0MzFlMDU3YzJlYzcyYzNiNjUyZWJiMTZjZjc3MjRlYmE5ZWQ1YWRhNTQyM2ZjN2ZkMzZlNTg)
+- [Community slack invitation link](https://join.slack.com/t/vuestorefront/shared_invite/enQtOTUwNjQyNjY5MDI0LWFmYzE4NTYxNDBhZDRlMjM5MDUzY2RiMjU0YTRjYWQ3YzdkY2YzZjZhZDZmMDUwMWQyOWRmZjQ3NDgwZGQ3NTk)
 - [Project structure explained](https://docs.vuestorefront.io/guide/basics/project-structure.html)
 - [Configuration file explained](https://docs.vuestorefront.io/guide/basics/configuration.html)
 - [Extending Vue Storefront](https://docs.vuestorefront.io/guide/extensions/introduction.html)

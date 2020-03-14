@@ -6,7 +6,7 @@ async function prefetchCachedAttributes (filterField, filterValues) {
   if (!config.attributes || !config.attributes.disablePersistentAttributesCache) {
     const attrCollection = StorageManager.get('attributes')
     const cachedAttributes = filterValues.map(
-      async filterValue => attrCollection.getItem(entityKeyName(filterField, filterValue.toLowerCase()))
+      async filterValue => attrCollection.getItem(entityKeyName(filterField, String(filterValue).toLowerCase()))
     )
     return Promise.all(cachedAttributes)
   }
