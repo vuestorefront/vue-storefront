@@ -30,6 +30,14 @@
       "config": {}
     }
   },
+  "initialResources": [
+    {
+      "filters": ["vsf-category"],
+      "type": "script",
+      "onload": true,
+      "rel": "prefetch"
+    }
+  ],
   "staticPages": {
     "updateOnRequest": true,
     "destPath": "static"
