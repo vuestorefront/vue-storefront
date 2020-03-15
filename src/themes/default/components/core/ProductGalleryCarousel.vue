@@ -53,8 +53,8 @@ import map from 'lodash-es/map'
 export default {
   name: 'ProductGalleryCarousel',
   components: {
-    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
-    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide),
+    'Carousel': () => import(/* webpackChunkName: "vue-carousel" */ 'vue-carousel').then(Slider => Slider.Carousel),
+    'Slide': () => import(/* webpackChunkName: "vue-carousel" */ 'vue-carousel').then(Slider => Slider.Slide),
     ProductImage,
     ProductVideo
   },
