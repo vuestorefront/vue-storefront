@@ -9,7 +9,7 @@ This project is on the early stages of development. It's not usable yet. Once it
 * [Lerna](https://github.com/lerna/lerna) - Monorepo manager
 * [Typescript](https://www.typescriptlang.org/docs/home.html) - JavaScript superset
 
-## Development
+## Installation
 **Installing dependencies:**
 ```sh
 $ yarn install
@@ -19,10 +19,16 @@ $ yarn install
 ```sh
 yarn build:core
 yarn build:prismic
+```
+
+## Commercetools
+```sh
 yarn build:ct:tools
 ```
 
-**Run the commercetools application**
+then run the app
 ```sh
 yarn dev:ct
 ```
+
+- Documentation: https://vsf-next-docs-ct.netlify.com/
