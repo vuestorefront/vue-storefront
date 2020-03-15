@@ -4,6 +4,8 @@
 
 This project is on the early stages of development. It's not usable yet. Once its production ready this repo will be merged into the [main repo](https://github.com/DivanteLtd/vue-storefront/).
 
+- [Documentation](https://vsf-next-docs.netlify.com)
+- [Demo (plugged to Commercetools backend](https://vsf-next-demo.storefrontcloud.io/)
 ## What you need
 * [yarn](https://yarnpkg.com/getting-started) - Dependency manager
 * [Lerna](https://github.com/lerna/lerna) - Monorepo manager
@@ -30,5 +32,3 @@ then run the app
 ```sh
 yarn dev:ct
 ```
-
-- Documentation: https://vsf-next-docs-ct.netlify.com/
