@@ -10,4 +10,5 @@ export default ({
   Vue.component('Overview', () => import('@vue-storefront/docs/Overview.vue'))
   Vue.component('ApiClient', () => import('@vue-storefront/docs/ApiClient.vue'))
   Vue.component('Theme', () => import('@vue-storefront/docs/Theme.vue'))
+  Vue.component('AuthMiddleware', () => import('@vue-storefront/docs/theme/AuthMiddleware.vue'))
 }

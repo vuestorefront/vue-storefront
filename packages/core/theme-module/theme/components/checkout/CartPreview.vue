@@ -107,7 +107,7 @@ import {
   SfInput
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCart, useCheckout } from '@vue-storefront/commercetools-composables';
+import { useCart, useCheckout } from '<%= options.composables %>';
 
 import {
   getShippingMethodName,
@@ -122,7 +122,7 @@ import {
   getCartProductQty,
   getCartProductAttributes,
   getCartProductSku
-} from '@vue-storefront/commercetools-helpers';
+} from '<%= options.helpers %>';
 
 export default {
   name: 'CartPreview',

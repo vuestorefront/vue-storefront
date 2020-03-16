@@ -105,7 +105,12 @@
     "no-mixed-operators": 2,
     "no-multi-assign": 2,
     "no-unneeded-ternary": 2,
-    "object-property-newline": 0,
+    "object-property-newline": [
+      2,
+      {
+        "allowAllPropertiesOnSameLine": true
+      }
+    ],
     "operator-linebreak": 2,
     "quote-props": [
       2,

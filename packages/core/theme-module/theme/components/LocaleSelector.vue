@@ -23,7 +23,7 @@
 
 <script>
 import { SfImage, SfSelect } from '@storefront-ui/vue';
-import { useLocale } from '@vue-storefront/commercetools-composables';
+import { useLocale } from '<%= options.composables %>';
 
 export default {
   components: {

@@ -50,12 +50,12 @@
 </template>
 <script>
 import { SfHeading, SfButton } from '@storefront-ui/vue';
-import { useCheckout } from '@vue-storefront/commercetools-composables';
+import { useCheckout } from '<%= options.composables %>';
 import {
   getShippingMethodName,
   getShippingMethodDescription,
   getShippingMethodPrice
-} from '@vue-storefront/commercetools-helpers';
+} from '<%= options.helpers %>';
 
 export default {
   name: 'OrderReview',

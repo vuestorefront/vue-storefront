@@ -78,7 +78,7 @@ import {
   SfCollectedProduct
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
-import { useCart } from '@vue-storefront/commercetools-composables';
+import { useCart } from '<%= options.composables %>';
 import uiState from '~/assets/ui-state';
 import {
   getCartProducts,
@@ -89,7 +89,7 @@ import {
   getCartProductPrice,
   getCartProductQty,
   getCartProductAttributes
-} from '@vue-storefront/commercetools-helpers';
+} from '<%= options.helpers %>';
 
 const { isCartSidebarOpen, toggleCartSidebar } = uiState;
 

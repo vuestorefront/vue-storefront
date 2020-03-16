@@ -12,10 +12,8 @@ const log = {
 };
 
 const getAllFiles = (dirPath, arrayOfFiles) => {
-  const files = fs.readdirSync(dirPath);
-
   arrayOfFiles = arrayOfFiles || [];
-
+  const files = fs.readdirSync(dirPath);
   files.forEach((file) => {
     if (fs.statSync(dirPath + '/' + file).isDirectory()) {
       arrayOfFiles = getAllFiles(dirPath + '/' + file, arrayOfFiles);
@@ -32,14 +30,12 @@ module.exports = function DefaultThemeModule(moduleOptions) {
 
   this.options.dir = {
     ...this.options.dir,
-    ...{
-      layouts: '.nuxt/layouts',
-      assets: '.nuxt/assets',
-      pages: '.nuxt/pages'
-    }};
+    layouts: '.nuxt/layouts',
+    assets: '.nuxt/assets',
+    pages: '.nuxt/pages'
+  };
 
   this.extendBuild(config => {
-    delete config.resolve.alias['~'];
     config.resolve.alias['~/components'] = path.join(this.options.buildDir, 'components');
     config.resolve.alias['~/assets'] = path.join(this.options.buildDir, '/assets');
     config.resolve.alias['~'] = path.join(this.options.buildDir);

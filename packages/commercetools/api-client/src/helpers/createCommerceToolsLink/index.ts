@@ -10,7 +10,6 @@ const createCommerceToolsLink = (config: ApiConfig): ApolloLink => {
     fetch });
   const authLink = setContext(async (_, { headers }) => {
     const token = await loadAccessToken(config);
-
     return {
       headers: {
         ...headers,
@@ -24,7 +23,6 @@ const createCommerceToolsLink = (config: ApiConfig): ApolloLink => {
 
       if (!response.errors && ['customerSignMeUp', 'customerSignMeIn'].includes(operationName)) {
         const { email, password } = variables.draft;
-
         loadAccessToken(config, { username: email,
           password });
       }
