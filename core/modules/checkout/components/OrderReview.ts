@@ -20,12 +20,14 @@ export const OrderReview = {
   },
   computed: {
     ...mapGetters({
-      isVirtualCart: 'cart/isVirtualCart'
+      isVirtualCart: 'cart/isVirtualCart',
+      getShippingDetails: 'checkout/getShippingDetails',
+      getPersonalDetails: 'checkout/getPersonalDetails'
     })
   },
   methods: {
     placeOrder () {
-      if (this.$store.state.checkout.personalDetails.createAccount) {
+      if (this.getPersonalDetails.createAccount) {
         this.register()
       } else {
         this.$bus.$emit('checkout-before-placeOrder')
@@ -33,14 +35,28 @@ export const OrderReview = {
     },
     async register () {
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
-      this.$store.dispatch('user/register', {
-        email: this.$store.state.checkout.personalDetails.emailAddress,
-        password: this.$store.state.checkout.personalDetails.password,
-        firstname: this.$store.state.checkout.personalDetails.firstName,
-        lastname: this.$store.state.checkout.personalDetails.lastName
-      }).then(async (result) => {
-        this.$bus.$emit('notification-progress-stop')
+
+      try {
+        const result = await this.$store.dispatch('user/register', {
+          email: this.getPersonalDetails.emailAddress,
+          password: this.getPersonalDetails.password,
+          firstname: this.getPersonalDetails.firstName,
+          lastname: this.getPersonalDetails.lastName,
+          addresses: [{
+            firstname: this.getShippingDetails.firstName,
+            lastname: this.getShippingDetails.lastName,
+            street: [this.getShippingDetails.streetAddress, this.getShippingDetails.apartmentNumber],
+            city: this.getShippingDetails.city,
+            ...(this.getShippingDetails.state ? { region: { region: this.getShippingDetails.state } } : {}),
+            country_id: this.getShippingDetails.country,
+            postcode: this.getShippingDetails.zipCode,
+            ...(this.getShippingDetails.phoneNumber ? { telephone: this.getShippingDetails.phoneNumber } : {}),
+            default_shipping: true
+          }]
+        })
+
         if (result.code !== 200) {
+          this.$bus.$emit('notification-progress-stop')
           this.onFailure(result)
           // If error includes a word 'password', emit event that eventually focuses on a corresponding field
           if (result.result.includes(i18n.t('password'))) {
@@ -52,14 +68,18 @@ export const OrderReview = {
           }
         } else {
           this.$bus.$emit('modal-hide', 'modal-signup')
-          await this.$store.dispatch('user/setCurrentUser', result.result) // set current user data to process it with the current order
+          await this.$store.dispatch('user/login', {
+            username: this.getPersonalDetails.emailAddress,
+            password: this.getPersonalDetails.password
+          })
+          this.$bus.$emit('notification-progress-stop')
           this.$bus.$emit('checkout-before-placeOrder', result.result.id)
           this.onSuccess()
         }
-      }).catch(err => {
+      } catch (err) {
         this.$bus.$emit('notification-progress-stop')
         Logger.error(err, 'checkout')()
-      })
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 # Working with Webpack
 
-To make Vue Storefront fast and developer-friendly, we use webpack under the hood. We need it to transpile assets, handle `.vue` iles, process all styles, and make our code a little more maintainable with linting provided by eslint. With that, you don't need to worry about configuring it by hand to start working on Vue Storefront or to build your own theme for it. However, when you want to tweak it to your special needs, there is also a possibility to do that with extendable webpack configuration for each theme.
+To make Vue Storefront fast and developer-friendly, we use webpack under the hood. We need it to transpile assets, handle `.vue` files, process all styles, and make our code a little more maintainable with linting provided by eslint. With that, you don't need to worry about configuring it by hand to start working on Vue Storefront or to build your own theme for it. However, when you want to tweak it to your special needs, there is also a possibility to do that with extendable webpack configuration for each theme.
 
 ## Core webpack build
 
@@ -30,8 +30,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 module.exports = function(config, { isClient, isDev }) {
   let configLoaders;
   if (isClient) {
-    configLoaders = config[0].module.rules;
-    config[0].plugins.push(
+    configLoaders = config.module.rules;
+    config.plugins.push(
       new BundleAnalyzerPlugin({
         openAnalyzer: false,
         statsFilename: 'test',

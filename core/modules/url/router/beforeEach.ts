@@ -5,10 +5,8 @@ import { Route } from 'vue-router'
 import store from '@vue-storefront/core/store'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { processDynamicRoute, normalizeUrlPath } from '../helpers'
-import { isServer } from '@vue-storefront/core/helpers'
-import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { LocalizedRoute } from '@vue-storefront/core/lib/types'
-import Vue from 'vue'
 import { RouterManager } from '@vue-storefront/core/lib/router-manager'
 import { routerHelper } from '@vue-storefront/core/helpers'
 
@@ -17,7 +15,7 @@ export const UrlDispatchMapper = async (to) => {
   return Object.assign({}, to, routeData)
 }
 
-export async function beforeEach (to: Route, from: Route, next) {
+export async function beforeEachGuard (to: Route, from: Route, next) {
   if (RouterManager.isRouteProcessing()) {
     await RouterManager.getRouteLockPromise()
     next()
@@ -28,39 +26,36 @@ export async function beforeEach (to: Route, from: Route, next) {
   const path = normalizeUrlPath(to.path)
   const hasRouteParams = to.hasOwnProperty('params') && Object.values(to.params).length > 0
   const isPreviouslyDispatchedDynamicRoute = to.matched.length > 0 && to.name && to.name.startsWith('urldispatcher')
-  if (!to.matched.length || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
-    UrlDispatchMapper(to).then((routeData) => {
+  if (!to.matched.length || to.matched[0].name.endsWith('page-not-found') || (isPreviouslyDispatchedDynamicRoute && !hasRouteParams)) {
+    const storeCode = currentStoreView().storeCode
+    try {
+      const routeData = await UrlDispatchMapper(to)
       if (routeData) {
-        let dynamicRoutes: LocalizedRoute[] = processDynamicRoute(routeData, path, !isPreviouslyDispatchedDynamicRoute)
-        if (dynamicRoutes && dynamicRoutes.length > 0) {
+        let dynamicRoute: LocalizedRoute = processDynamicRoute(routeData, path, !isPreviouslyDispatchedDynamicRoute)
+        if (dynamicRoute) {
           next({
-            ...dynamicRoutes[0],
-            replace: routerHelper.popStateDetected || dynamicRoutes[0].fullPath === from.fullPath
+            ...dynamicRoute,
+            replace: routerHelper.popStateDetected || dynamicRoute.fullPath === from.fullPath
           })
         } else {
           Logger.error('Route not found ' + routeData['name'], 'dispatcher')()
-          next(localizedRoute('/page-not-found', currentStoreView().storeCode))
+          next()
         }
       } else {
         Logger.error('No mapping found for ' + path, 'dispatcher')()
-        next(localizedRoute('/page-not-found', currentStoreView().storeCode))
+        next()
       }
-    }).catch(e => {
+    } catch (e) {
       Logger.error(e, 'dispatcher')()
-      if (!isServer) {
-        next(localizedRoute('/page-not-found', currentStoreView().storeCode))
-      } else {
-        const storeCode = currentStoreView().storeCode
-        Vue.prototype.$ssrRequestContext.server.response.redirect((storeCode !== '' ? ('/' + storeCode) : '') + '/page-not-found') // TODO: Refactor this one after @filrak will give us a way to access ServerContext from Modules directly :-)
-        // ps. we can't use the next() call here as it's not doing the real redirect in SSR mode (just processing different component without changing the URL and that causes the CSR / SSR DOM mismatch while hydrating)
-      }
-    }).finally(() => {
-      routerHelper.popStateDetected = false
+      next()
+    } finally {
       RouterManager.unlockRoute()
-    })
+    }
   } else {
     next()
     RouterManager.unlockRoute()
     routerHelper.popStateDetected = false
   }
+
+  routerHelper.popStateDetected = false
 }

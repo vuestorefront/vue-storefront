@@ -452,7 +452,6 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
     ],
     "de": {
       "storeCode": "de",
-      "disabled": true,
       "storeId": 3,
       "name": "German Store",
       "url": "/de",
@@ -479,7 +478,6 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
     },
     "it": {
       "storeCode": "it",
-      "disabled": true,
       "storeId": 4,
       "name": "Italian Store",
       "url": "/it",
@@ -512,7 +510,6 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
 - `mapStoreUrlsFor` is used for building url routes in frontend. [jump to code](https://github.com/DivanteLtd/vue-storefront/blob/master/core/lib/multistore.ts#L85)
 - `de` element contains detailed information of `de` store. You need to have this kind of element for all the additional stores you added to `availableStores` with `storeCode` as the key. `de` and `it` in the `default.json` exhibits an example you can copy & paste for other stores you need to add. 
   - `storeCode` denotes store code for the store. 
-  - `disabled` means if this store is disabled. 
   - `storeId` denotes store ID of the store.
   - `name` denotes the store name.
   - `url` denotes URL for the store.
@@ -950,11 +947,10 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
 "defaultStoreCode": "",
 "storeViews": {
   "multistore": false,
-  "commonCache": true,
+  "commonCache": false,
   "mapStoreUrlsFor": ["de", "it"],
   "de": {
     "storeCode": "de",
-    "disabled": true,
     "storeId": 3,
     "name": "German Store",
     "url": "/de",
@@ -981,7 +977,6 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   },
   "it": {
     "storeCode": "it",
-    "disabled": true,
     "storeId": 4,
     "name": "Italian Store",
     "url": "/it",
@@ -1097,7 +1092,6 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   }
 },
 "cart": {
-  "bypassCartLoaderForAuthorizedUsers": true,
   "serverMergeByDefault": true,
   "serverSyncCanRemoveLocalItems": false,
   "serverSyncCanModifyLocalItems": false,
@@ -1136,6 +1130,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "setupVariantByAttributeCode": true,
   "endpoint": "http://localhost:8080/api/product",
   "defaultFilters": ["color", "size", "price", "erin_recommends"],
+  "systemFilterNames": ["sort"],
   "filterFieldMapping": {
     "category.name": "category.name.keyword"
   },
@@ -1263,7 +1258,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
   "defaultLocale": "en-US",
   "currencyCode": "USD",
   "currencySign": "$",
-  "currencySignPlacement": "preppend",
+  "priceFormat": "{sign}{amount}",
   "dateFormat": "HH:mm D/M/YYYY",
   "fullCountryName": "United States",
   "fullLanguageName": "English",
@@ -1313,14 +1308,6 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
       {
         "key": "category.name",
         "value" : { "eq": "Tees" }
-      }
-    ]
-  },
-  "coolBags": {
-    "filter": [
-      {
-        "key": "category.name",
-        "value" : { "eq": "Women" }
       }
     ]
   },

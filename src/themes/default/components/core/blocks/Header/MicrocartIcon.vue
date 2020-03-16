@@ -19,10 +19,27 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import MicrocartIcon from '@vue-storefront/core/compatibility/components/blocks/Header/MicrocartIcon'
+import {syncCartWhenLocalStorageChange} from '@vue-storefront/core/modules/cart/helpers'
 
 export default {
-  mixins: [MicrocartIcon]
+  mounted () {
+    syncCartWhenLocalStorageChange.addEventListener()
+    this.$once('hook:beforeDestroy', () => {
+      syncCartWhenLocalStorageChange.removeEventListener()
+    })
+  },
+  computed: {
+    ...mapGetters({
+      totalQuantity: 'cart/getItemsTotalQuantity'
+    })
+  },
+  methods: {
+    ...mapActions({
+      openMicrocart: 'ui/toggleMicrocart'
+    })
+  }
 }
 </script>
 

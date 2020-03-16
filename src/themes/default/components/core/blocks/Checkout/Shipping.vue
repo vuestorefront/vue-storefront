@@ -112,10 +112,16 @@
             v-model.trim="shipping.city"
             @blur="$v.shipping.city.$touch()"
             autocomplete="address-level2"
-            :validations="[{
-              condition: $v.shipping.city.$error && !$v.shipping.city.required,
-              text: $t('Field is required')
-            }]"
+            :validations="[
+              {
+                condition: $v.shipping.city.$error && !$v.shipping.city.required,
+                text: $t('Field is required')
+              },
+              {
+                condition: $v.shipping.city.$error && $v.shipping.city.required,
+                text: $t('Please provide valid city name')
+              }
+            ]"
           />
 
           <base-input
@@ -178,7 +184,7 @@
             {{ $t('Shipping method') }}
           </h4>
           <div v-for="(method, index) in shippingMethods" :key="index" class="col-md-6">
-            <label class="radioStyled"> {{ method.method_title }} | {{ method.amount | price }}
+            <label class="radioStyled"> {{ method.method_title }} | {{ method.amount | price(storeView) }}
               <input
                 type="radio"
                 :value="method.method_code"
@@ -239,7 +245,7 @@
               </h4>
             </div>
             <div class="col-md-6 mb15">
-              <label class="radioStyled"> {{ getShippingMethod().method_title }} | {{ getShippingMethod().amount | price }}
+              <label class="radioStyled"> {{ getShippingMethod().method_title }} | {{ getShippingMethod().amount | price(storeView) }}
                 <input type="radio" value="" checked disabled name="chosen-shipping-method">
                 <span class="checkmark" />
               </label>
@@ -255,6 +261,7 @@
 import { required, minLength } from 'vuelidate/lib/validators'
 import { unicodeAlpha, unicodeAlphaNum } from '@vue-storefront/core/helpers/validators'
 import { Shipping } from '@vue-storefront/core/modules/checkout/components/Shipping'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
@@ -279,6 +286,9 @@ export default {
           label: item.name
         }
       })
+    },
+    storeView () {
+      return currentStoreView()
     }
   },
   validations: {

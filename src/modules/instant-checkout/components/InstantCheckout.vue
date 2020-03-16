@@ -12,10 +12,16 @@ import config from 'config'
 import i18n from '@vue-storefront/i18n'
 import rootStore from '@vue-storefront/core/store'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { registerModule } from '@vue-storefront/core/lib/modules'
+import { OrderModule } from '@vue-storefront/core/modules/order'
+
 const storeView = currentStoreView()
 
 export default {
   name: 'InstantCheckoutButton',
+  beforeCreate () {
+    registerModule(OrderModule)
+  },
   data () {
     return {
       supported: false,
@@ -92,7 +98,7 @@ export default {
         let subtotal = 0
 
         this.$store.state.cart.cartItems.forEach(product => {
-          subtotal += parseFloat(product.priceInclTax)
+          subtotal += parseFloat(product.price_incl_tax)
         })
 
         if (this.selectedShippingOption.length > 0) {
@@ -143,7 +149,8 @@ export default {
               this.$store.dispatch('checkout/setThankYouPage', true)
               this.$store.commit('ui/setMicrocart', false)
               this.$router.push(this.localizedRoute('/checkout'))
-              this.$store.dispatch('cart/clear', { recreateAndSyncCart: true }, {root: true})
+              // clear cart without sync, because after order cart will be already cleared on backend
+              this.$store.dispatch('cart/clear', { sync: false }, {root: true})
             }
           })
         })
@@ -217,12 +224,12 @@ export default {
           country_id: this.country
         }, { forceServerSync: true }).then(() => {
           this.shippingOptions = []
-          this.$store.state.shipping.methods.forEach(method => {
+          this.$store.getters['checkout/getShippingMethods'].forEach(method => {
             this.shippingOptions.push({
               id: method.method_code,
               carrier_code: method.carrier_code,
               label: method.method_title,
-              selected: setDefault ? this.$store.state.shipping.methods[0].method_code === method.method_code : false,
+              selected: setDefault ? this.$store.getters['checkout/getShippingMethods'][0].method_code === method.method_code : false,
               amount: {
                 currency: storeView.i18n.currencyCode,
                 value: method.price_incl_tax
@@ -259,7 +266,7 @@ export default {
             region_id: 0,
             country_id: paymentResponse.shippingAddress.country,
             street: [paymentResponse.shippingAddress.addressLine[0], paymentResponse.shippingAddress.addressLine[1]],
-            company: paymentResponse.shippingAddress.organization ? paymentResponse.shippingAddress.organization : 'NA',
+            company: paymentResponse.shippingAddress.organization ? paymentResponse.shippingAddress.organization : '',
             telephone: paymentResponse.shippingAddress.phone,
             postcode: paymentResponse.shippingAddress.postalCode,
             city: paymentResponse.shippingAddress.city,
@@ -273,7 +280,7 @@ export default {
             region_id: 0,
             country_id: paymentResponse.shippingAddress.country,
             street: [paymentResponse.shippingAddress.addressLine[0], paymentResponse.shippingAddress.addressLine[1]],
-            company: paymentResponse.shippingAddress.organization ? paymentResponse.shippingAddress.organization : 'NA',
+            company: paymentResponse.shippingAddress.organization ? paymentResponse.shippingAddress.organization : '',
             telephone: paymentResponse.payerPhone,
             postcode: paymentResponse.shippingAddress.postalCode,
             city: paymentResponse.shippingAddress.city,
@@ -292,7 +299,7 @@ export default {
     },
     getProductPrice (product) {
       if (!config.cart.displayItemDiscounts) {
-        return product.qty * product.priceInclTax
+        return product.qty * product.price_incl_tax
       }
 
       if (product.totals) {

@@ -1,24 +1,25 @@
 import Vue from 'vue'
 import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
-import { formatBreadCrumbRoutes, productThumbnailPath, isServer } from '@vue-storefront/core/helpers'
-import { currentStoreView, localizedDispatcherRoute } from '@vue-storefront/core/lib/multistore'
+import { formatBreadCrumbRoutes, isServer } from '@vue-storefront/core/helpers'
+import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
 import { configureProductAsync,
   doPlatformPricesSync,
   filterOutUnavailableVariants,
-  calculateTaxes,
   populateProductConfigurationAsync,
   setCustomProductOptionsAsync,
   setBundleProductOptionsAsync,
   getMediaGallery,
   configurableChildrenImages,
   attributeImages } from '../../helpers'
+import { preConfigureProduct, getOptimizedFields, configureChildren, storeProductToCache, canCache, isGroupedOrBundle } from '@vue-storefront/core/modules/catalog/helpers/search'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
-import { entityKeyName } from '@vue-storefront/core/store/lib/entities'
+import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
 import { optionLabel } from '../../helpers/optionLabel'
-import { quickSearchByQuery, isOnline } from '@vue-storefront/core/lib/search'
+import { isOnline } from '@vue-storefront/core/lib/search'
 import omit from 'lodash-es/omit'
 import trim from 'lodash-es/trim'
+import cloneDeep from 'lodash-es/cloneDeep'
 import uniqBy from 'lodash-es/uniqBy'
 import rootStore from '@vue-storefront/core/store'
 import RootState from '@vue-storefront/core/types/RootState'
@@ -27,6 +28,9 @@ import { Logger } from '@vue-storefront/core/lib/logger';
 import { TaskQueue } from '@vue-storefront/core/lib/sync'
 import toString from 'lodash-es/toString'
 import config from 'config'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
+import { quickSearchByQuery } from '@vue-storefront/core/lib/search'
 import { formatProductLink } from 'core/modules/url/helpers'
 
 const PRODUCT_REENTER_TIMEOUT = 20000
@@ -36,8 +40,8 @@ const actions: ActionTree<ProductState, RootState> = {
    * Reset current configuration and selected variatnts
    */
   reset (context) {
-    const productOriginal = context.getters.productOriginal
-    context.commit(types.CATALOG_RESET_PRODUCT, productOriginal)
+    const originalProduct = Object.assign({}, context.getters.getOriginalProduct)
+    context.commit(types.PRODUCT_RESET_CURRENT, originalProduct)
   },
   /**
    * Setup product breadcrumbs path
@@ -104,9 +108,14 @@ const actions: ActionTree<ProductState, RootState> = {
   /**
    * Download Magento2 / other platform prices to put them over ElasticSearch prices
    */
-  syncPlatformPricesOver (context, { skus }) {
+  syncPlatformPricesOver ({ rootGetters }, { skus }) {
     const storeView = currentStoreView()
-    return TaskQueue.execute({ url: config.products.endpoint + '/render-list?skus=' + encodeURIComponent(skus.join(',')) + '&currencyCode=' + encodeURIComponent(storeView.i18n.currencyCode) + '&storeId=' + encodeURIComponent(storeView.storeId), // sync the cart
+    let url = `${config.products.endpoint}/render-list?skus=${encodeURIComponent(skus.join(','))}&currencyCode=${encodeURIComponent(storeView.i18n.currencyCode)}&storeId=${encodeURIComponent(storeView.storeId)}`
+    if (rootGetters['tax/getIsUserGroupedTaxActive']) {
+      url = `${url}&userGroupId=${rootGetters['tax/getUserTaxGroupId']}`
+    }
+
+    return TaskQueue.execute({ url, // sync the cart
       payload: {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -124,7 +133,7 @@ const actions: ActionTree<ProductState, RootState> = {
     let subloaders = []
     if (product.type_id === 'grouped') {
       product.price = 0
-      product.priceInclTax = 0
+      product.price_incl_tax = 0
       Logger.debug(product.name + ' SETUP ASSOCIATED', product.type_id)()
       if (product.product_links && product.product_links.length > 0) {
         for (let pl of product.product_links) {
@@ -140,7 +149,7 @@ const actions: ActionTree<ProductState, RootState> = {
                 pl.product = asocProd
                 pl.product.qty = 1
                 product.price += pl.product.price
-                product.priceInclTax += pl.product.priceInclTax
+                product.price_incl_tax += pl.product.price_incl_tax
                 product.tax += pl.product.tax
               } else {
                 Logger.error('Product link not found', pl.linked_product_sku)()
@@ -154,7 +163,7 @@ const actions: ActionTree<ProductState, RootState> = {
     }
     if (product.type_id === 'bundle') {
       product.price = 0
-      product.priceInclTax = 0
+      product.price_incl_tax = 0
       Logger.debug(product.name + ' SETUP ASSOCIATED', product.type_id)()
       if (product.bundle_options && product.bundle_options.length > 0) {
         for (let bo of product.bundle_options) {
@@ -174,7 +183,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
                 if (pl.id === defaultOption.id) {
                   product.price += pl.product.price * pl.product.qty
-                  product.priceInclTax += pl.product.priceInclTax * pl.product.qty
+                  product.price_incl_tax += pl.product.price_incl_tax * pl.product.qty
                   product.tax += pl.product.tax * pl.product.qty
                 }
               } else {
@@ -196,12 +205,12 @@ const actions: ActionTree<ProductState, RootState> = {
       Logger.log('Checking configurable parent')()
 
       let searchQuery = new SearchQuery()
-      searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': context.state.current.sku}})
+      searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': context.getters.getCurrentProduct.sku}})
 
       return context.dispatch('list', {query: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
         if (resp.items.length >= 1) {
           const parentProduct = resp.items[0]
-          context.commit(types.CATALOG_SET_PRODUCT_PARENT, parentProduct)
+          context.commit(types.PRODUCT_SET_PARENT, parentProduct)
         }
       }).catch((err) => {
         Logger.error(err)()
@@ -236,17 +245,16 @@ const actions: ActionTree<ProductState, RootState> = {
     let subloaders = []
     if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_options')) {
       subloaders.push(context.dispatch('product/loadConfigurableAttributes', { product }, { root: true }).then((attributes) => {
-        context.state.current_options = {
-        }
+        let productOptions = {}
         for (let option of product.configurable_options) {
           for (let ov of option.values) {
             let lb = ov.label ? ov.label : optionLabel(context.rootState.attribute, { attributeKey: option.attribute_id, searchBy: 'id', optionId: ov.value_index })
             if (trim(lb) !== '') {
               let optionKey = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
-              if (!context.state.current_options[optionKey]) {
-                context.state.current_options[optionKey] = []
+              if (!productOptions[optionKey]) {
+                productOptions[optionKey] = []
               }
-              context.state.current_options[optionKey].push({
+              productOptions[optionKey].push({
                 label: lb,
                 id: ov.value_index,
                 attribute_code: option.attribute_code
@@ -254,8 +262,8 @@ const actions: ActionTree<ProductState, RootState> = {
             }
           }
         }
-        Vue.set(context.state, 'current_options', context.state.current_options)
-        let selectedVariant = context.state.current
+        context.commit(types.PRODUCT_SET_CURRENT_OPTIONS, productOptions)
+        let selectedVariant = context.getters.getCurrentProduct
         populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
       }).catch(err => {
         Logger.error(err)()
@@ -275,97 +283,82 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Int} size page size
    * @return {Promise}
    */
-  list (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
-    let isCacheable = (includeFields === null && excludeFields === null)
-    if (isCacheable) {
-      Logger.debug('Entity cache is enabled for productList')()
-    } else {
-      Logger.debug('Entity cache is disabled for productList')()
+  async list ({ dispatch, commit }, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', prefetchGroupProducts = !isServer, updateState = false, meta = {}, excludeFields = null, includeFields = null, configuration = null, append = false, populateRequestCacheTags = true }) {
+    const searchResult = await dispatch('findProducts', { query, start, size, entityType, sort, cacheByKey, excludeFields, includeFields, configuration, populateRequestCacheTags })
+    await dispatch('preConfigureAssociated', { searchResult, prefetchGroupProducts })
+
+    if (updateState) {
+      if (append) commit(types.PRODUCT_ADD_PAGED_PRODUCTS, searchResult)
+      else commit(types.PRODUCT_SET_PAGED_PRODUCTS, searchResult)
     }
 
-    if (config.entities.optimize) {
-      if (excludeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
-        excludeFields = config.entities.product.excludeFields
-      }
-      if (includeFields === null) { // if not set explicitly we do optimize the amount of data by using some default field list; this is cacheable
-        includeFields = config.entities.product.includeFields
-      }
-    }
-    return quickSearchByQuery({ query, start, size, entityType, sort, excludeFields, includeFields }).then((resp) => {
-      if (resp.items && resp.items.length) { // preconfigure products; eg: after filters
-        for (let product of resp.items) {
-          if (populateRequestCacheTags && Vue.prototype.$cacheTags) {
-            Vue.prototype.$cacheTags.add(`P${product.id}`);
-          }
-          product.errors = {} // this is an object to store validation result for custom options and others
-          product.info = {}
-          if (!product.parentSku) {
-            product.parentSku = product.sku
-          }
-          if (config.products.setFirstVarianAsDefaultInURL && product.hasOwnProperty('configurable_children') && product.configurable_children.length > 0) {
-            product.sku = product.configurable_children[0].sku
-          }
-          if (configuration) {
-            let selectedVariant = configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: false })
-            product = Object.assign({}, product, omit(selectedVariant, ['visibility']))
-          }
-          if (product.url_path) {
-            rootStore.dispatch('url/registerMapping', {
-              url: localizedDispatcherRoute(product.url_path, currentStoreView().storeCode),
-              routeData: {
-                params: {
-                  'parentSku': product.parentSku,
-                  'slug': product.slug
-                },
-                'name': product.type_id + '-product'
-              }
-            }, { root: true })
-          }
-        }
-      }
-      return calculateTaxes(resp.items, context).then((updatedProducts) => {
-        // handle cache
-        const cache = Vue.prototype.$db.elasticCacheCollection
-        for (let prod of resp.items) { // we store each product separately in cache to have offline access to products/single method
-          if (prod.configurable_children) {
-            for (let configurableChild of prod.configurable_children) {
-              if (configurableChild.custom_attributes) {
-                for (let opt of configurableChild.custom_attributes) {
-                  configurableChild[opt.attribute_code] = opt.value
-                }
-              }
-            }
-          }
-          if (!prod[cacheByKey]) {
-            cacheByKey = 'id'
-          }
-          const cacheKey = entityKeyName(cacheByKey, prod[(cacheByKey === 'sku' && prod['parentSku']) ? 'parentSku' : cacheByKey]) // to avoid caching products by configurable_children.sku
-          if (isCacheable) { // store cache only for full loads
-            cache.setItem(cacheKey, prod, null, config.products.disablePersistentProductsCache)
-              .catch((err) => {
-                Logger.error('Cannot store cache for ' + cacheKey, err)()
-                if (
-                  err.name === 'QuotaExceededError' ||
-                  err.name === 'NS_ERROR_DOM_QUOTA_REACHED'
-                ) { // quota exceeded error
-                  cache.clear() // clear products cache if quota exceeded
-                }
-              })
-          }
-          if ((prod.type_id === 'grouped' || prod.type_id === 'bundle') && prefetchGroupProducts && !isServer) {
-            context.dispatch('setupAssociated', { product: prod })
-          }
-        }
-        // commit update products list mutation
-        if (updateState) {
-          context.commit(types.CATALOG_UPD_PRODUCTS, { products: resp, append: append })
-        }
-        Vue.prototype.$bus.$emit('product-after-list', { query: query, start: start, size: size, sort: sort, entityType: entityType, meta: meta, result: resp })
-        return resp
-      })
-    })
+    EventBus.$emit('product-after-list', { query, start, size, sort, entityType, meta, result: searchResult })
+
+    return searchResult
   },
+  preConfigureAssociated (context, { searchResult, prefetchGroupProducts }) {
+    const { storeCode, appendStoreCode } = currentStoreView()
+    for (let product of searchResult.items) {
+      if (product.url_path) {
+        const { parentSku, slug } = product
 
+        context.dispatch('url/registerMapping', {
+          url: localizedDispatcherRoute(product.url_path, storeCode),
+          routeData: {
+            params: { parentSku, slug },
+            'name': localizedDispatcherRouteName(product.type_id + '-product', storeCode, appendStoreCode)
+          }
+        }, { root: true })
+      }
+
+      if (isGroupedOrBundle(product) && prefetchGroupProducts && !isServer) {
+        context.dispatch('setupAssociated', { product })
+      }
+    }
+  },
+  preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
+    let prod = preConfigureProduct({ product, populateRequestCacheTags })
+
+    if (configuration) {
+      const selectedVariant = configureProductAsync(context, { product: prod, selectDefaultVariant: false, configuration })
+      prod = Object.assign({}, prod, omit(selectedVariant, ['visibility']))
+    }
+
+    return prod
+  },
+  async configureLoadedProducts (context, { products, isCacheable, cacheByKey, populateRequestCacheTags, configuration }) {
+    if (products.items && products.items.length) { // preconfigure products; eg: after filters
+      for (let product of products.items) {
+        product = await context.dispatch('preConfigureProduct', { product, populateRequestCacheTags, configuration }) // preConfigure(product)
+      }
+    }
+
+    await context.dispatch('tax/calculateTaxes', { products: products.items }, { root: true })
+
+    for (let prod of products.items) { // we store each product separately in cache to have offline access to products/single method
+      prod = configureChildren(prod)
+
+      if (isCacheable) { // store cache only for full loads
+        storeProductToCache(prod, cacheByKey)
+      }
+    }
+
+    return products
+  },
+  async findProducts (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', excludeFields = null, includeFields = null, configuration = null, populateRequestCacheTags = true }) {
+    const isCacheable = canCache({ includeFields, excludeFields })
+    const { excluded, included } = getOptimizedFields({ excludeFields, includeFields })
+    const resp = await quickSearchByQuery({ query, start, size, entityType, sort, excludeFields: excluded, includeFields: included })
+    const products = await context.dispatch('configureLoadedProducts', { products: resp, isCacheable, cacheByKey, populateRequestCacheTags, configuration })
+
+    return products
+  },
+  async findConfigurableParent (context, { product, configuration }) {
+    const searchQuery = new SearchQuery()
+    const query = searchQuery.applyFilter({key: 'configurable_children.sku', value: { 'eq': product.sku }})
+    const products = await context.dispatch('findProducts', { query, configuration })
+    return products.items && products.items.length > 0 ? products.items[0] : null
+  },
   /**
    * Update associated products for bundle product
    * @param context
@@ -378,7 +371,7 @@ const actions: ActionTree<ProductState, RootState> = {
         skipCache: true
       })
       .then(() => { context.dispatch('setCurrent', product) })
-      .then(() => { Vue.prototype.$bus.$emit('product-after-setup-associated') })
+      .then(() => { EventBus.$emit('product-after-setup-associated') })
   },
 
   /**
@@ -407,7 +400,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
     return new Promise((resolve, reject) => {
       const benchmarkTime = new Date()
-      const cache = Vue.prototype.$db.elasticCacheCollection
+      const cache = StorageManager.get('elasticCache')
 
       const setupProduct = (prod) => {
         // set product quantity to 1
@@ -451,7 +444,7 @@ const actions: ActionTree<ProductState, RootState> = {
           if (res && res.items && res.items.length) {
             let prd = res.items[0]
             const _returnProductNoCacheHelper = (subresults) => {
-              Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
+              EventBus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
               resolve(setupProduct(prd))
             }
             if (setCurrentProduct || selectDefaultVariant) {
@@ -487,15 +480,15 @@ const actions: ActionTree<ProductState, RootState> = {
               const cachedProduct = setupProduct(res)
               if (config.products.alwaysSyncPlatformPricesOver) {
                 doPlatformPricesSync([cachedProduct]).then((products) => {
-                  Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
+                  EventBus.$emitFilter('product-after-single', { key: key, options: options, product: products[0] })
                   resolve(products[0])
                 })
                 if (!config.products.waitForPlatformSync) {
-                  Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+                  EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
                   resolve(cachedProduct)
                 }
               } else {
-                Vue.prototype.$bus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
+                EventBus.$emitFilter('product-after-single', { key: key, options: options, product: cachedProduct })
                 resolve(cachedProduct)
               }
             }
@@ -541,13 +534,13 @@ const actions: ActionTree<ProductState, RootState> = {
 
   setCurrentOption (context, productOption) {
     if (productOption && typeof productOption === 'object') { // TODO: this causes some kind of recurrency error
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, context.state.current, { product_option: productOption }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.getters.getCurrentProduct, { product_option: productOption }))
     }
   },
 
   setCurrentErrors (context, errors) {
     if (errors && typeof errors === 'object') {
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, context.state.current, { errors: errors }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, context.getters.getCurrentProduct, { errors: errors }))
     }
   },
   /**
@@ -555,7 +548,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   setCustomOptions (context, { customOptions, product }) {
     if (customOptions) { // TODO: this causes some kind of recurrency error
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.state.current, customOptions: customOptions }) }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setCustomProductOptionsAsync(context, { product: context.getters.getCurrentProduct, customOptions: customOptions }) }))
     }
   },
   /**
@@ -563,7 +556,7 @@ const actions: ActionTree<ProductState, RootState> = {
    */
   setBundleOptions (context, { bundleOptions, product }) {
     if (bundleOptions) { // TODO: this causes some kind of recurrency error
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.state.current, bundleOptions: bundleOptions }) }))
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, product, { product_option: setBundleProductOptionsAsync(context, { product: context.getters.getCurrentProduct, bundleOptions: bundleOptions }) }))
     }
   },
   /**
@@ -574,15 +567,15 @@ const actions: ActionTree<ProductState, RootState> = {
   setCurrent (context, productVariant) {
     if (productVariant && typeof productVariant === 'object') {
       // get original product
-      const productOriginal = context.getters.productOriginal
+      const originalProduct = context.getters.getOriginalProduct
 
       // check if passed variant is the same as original
-      const productUpdated = Object.assign({}, productOriginal, productVariant)
+      const productUpdated = Object.assign({}, originalProduct, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
       if (!config.products.gallery.mergeConfigurableChildren) {
-        context.commit(types.CATALOG_UPD_GALLERY, attributeImages(productVariant))
+        context.commit(types.PRODUCT_SET_GALLERY, attributeImages(productVariant))
       }
-      context.commit(types.CATALOG_SET_PRODUCT_CURRENT, productUpdated)
+      context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, productUpdated))
       return productUpdated
     } else Logger.debug('Unable to update current product.', 'product')()
   },
@@ -592,76 +585,83 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Object} originalProduct
    */
   setOriginal (context, originalProduct) {
-    if (originalProduct && typeof originalProduct === 'object') context.commit(types.CATALOG_SET_PRODUCT_ORIGINAL, originalProduct)
+    if (originalProduct && typeof originalProduct === 'object') context.commit(types.PRODUCT_SET_ORIGINAL, Object.assign({}, originalProduct))
     else Logger.debug('Unable to setup original product.', 'product')()
   },
   /**
    * Set related products
    */
   related (context, { key = 'related-products', items }) {
-    context.commit(types.CATALOG_UPD_RELATED, { key, items })
+    context.commit(types.PRODUCT_SET_RELATED, { key, items })
+  },
+
+  // Deprecated methods, remove in 2.0
+  async fetch () {
+    throw new Error('product/fetch has been moved into product/loadProduct')
+  },
+  async fetchAsync () {
+    throw new Error('product/fetchAsync has been moved into product/loadProduct')
   },
 
   /**
-   * Load the product data
+   * Load product attributes
    */
-  fetch (context, { parentSku, childSku = null }) {
+  async loadProductAttributes ({ dispatch }, { product }) {
+    const productFields = Object.keys(product).filter(fieldName => {
+      return !config.entities.product.standardSystemFields.includes(fieldName) // don't load metadata info for standard fields
+    })
+    const { product: { useDynamicAttributeLoader }, optimize, attribute } = config.entities
+    return dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
+      filterValues: useDynamicAttributeLoader ? productFields : null,
+      only_visible: !!useDynamicAttributeLoader,
+      only_user_defined: true,
+      includeFields: optimize ? attribute.includeFields : null
+    }, { root: true })
+  },
+
+  /**
+   * Load the product data and sets current product
+   */
+  async loadProduct ({ dispatch }, { parentSku, childSku = null, route = null }) {
+    Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
+    EventBus.$emit('product-before-load', { store: rootStore, route: route })
+    await dispatch('reset')
     // pass both id and sku to render a product
     const productSingleOptions = {
       sku: parentSku,
       childSku: childSku
     }
-    return context.dispatch('single', { options: productSingleOptions }).then((product) => {
-      if (product.status >= 2) {
-        throw new Error(`Product query returned empty result product status = ${product.status}`)
+    const product = await dispatch('single', { options: productSingleOptions })
+    if (product.status >= 2) {
+      throw new Error(`Product query returned empty result product status = ${product.status}`)
+    }
+    if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
+      throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
+    }
+
+    await dispatch('loadProductAttributes', { product })
+    const syncPromises = []
+    const variantsFilter = dispatch('filterUnavailableVariants', { product })
+    const gallerySetup = dispatch('setProductGallery', { product })
+    if (isServer) {
+      syncPromises.push(variantsFilter)
+      syncPromises.push(gallerySetup)
+    }
+    if (config.products.preventConfigurableChildrenDirectAccess) {
+      const parentChecker = dispatch('checkConfigurableParent', { product })
+      if (isServer) {
+        syncPromises.push(parentChecker)
       }
-      if (product.visibility === 1) { // not visible individually (https://magento.stackexchange.com/questions/171584/magento-2-table-name-for-product-visibility)
-        throw new Error(`Product query returned empty result product visibility = ${product.visibility}`)
-      }
-
-      let subloaders = []
-      if (product) {
-        const productFields = Object.keys(product).filter(fieldName => {
-          return config.entities.product.standardSystemFields.indexOf(fieldName) < 0 // don't load metadata info for standard fields
-        })
-        const attributesPromise = context.dispatch('attribute/list', { // load attributes to be shown on the product details - the request is now async
-          filterValues: config.entities.product.useDynamicAttributeLoader ? productFields : null,
-          only_visible: config.entities.product.useDynamicAttributeLoader === true,
-          only_user_defined: true,
-          includeFields: config.entities.optimize ? config.entities.attribute.includeFields : null
-        }, { root: true }) // TODO: it might be refactored to kind of: `await context.dispatch('attributes/list) - or using new Promise() .. to wait for attributes to be loaded before executing the next action. However it may decrease the performance - so for now we're just waiting with the breadcrumbs
-        if (isServer) {
-          subloaders.push(context.dispatch('setupBreadcrumbs', { product: product }))
-          subloaders.push(context.dispatch('filterUnavailableVariants', { product: product }))
-        } else {
-          attributesPromise.then(() => context.dispatch('setupBreadcrumbs', { product: product })) // if this is client's side request postpone breadcrumbs setup till attributes are loaded to avoid too-early breadcrumb switch #2469
-          context.dispatch('filterUnavailableVariants', { product: product }) // exec async
-        }
-        subloaders.push(attributesPromise)
-
-        // subloaders.push(context.dispatch('setupVariants', { product: product })) -- moved to "product/single"
-        /* if (product.type_id === 'grouped' || product.type_id === 'bundle') { -- moved to "product/single"
-          subloaders.push(context.dispatch('setupAssociated', { product: product }).then((subloaderresults) => {
-            context.dispatch('setCurrent', product) // because setup Associated can modify the product price we need to update the current product
-          }))
-        } */
-
-        context.dispatch('setProductGallery', { product: product })
-
-        if (config.products.preventConfigurableChildrenDirectAccess) {
-          subloaders.push(context.dispatch('checkConfigurableParent', { product: product }))
-        }
-      } else { // error or redirect
-
-      }
-      return subloaders
-    })
+    }
+    await Promise.all(syncPromises)
+    await EventBus.$emitFilter('product-after-load', { store: rootStore, route: route })
+    return product
   },
   /**
    * Add custom option validator for product custom options
    */
   addCustomOptionValidator (context, { validationRule, validatorFunction }) {
-    context.commit(types.CATALOG_ADD_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
+    context.commit(types.PRODUCT_SET_CUSTOM_OPTION_VALIDATOR, { validationRule, validatorFunction })
   },
 
   /**
@@ -671,54 +671,33 @@ const actions: ActionTree<ProductState, RootState> = {
   setProductGallery (context, { product }) {
     if (product.type_id === 'configurable' && product.hasOwnProperty('configurable_children')) {
       if (!config.products.gallery.mergeConfigurableChildren && product.is_configured) {
-        context.commit(types.CATALOG_UPD_GALLERY, attributeImages(context.state.current))
+        context.commit(types.PRODUCT_SET_GALLERY, attributeImages(context.getters.getCurrentProduct))
       } else {
         let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
-        context.commit(types.CATALOG_UPD_GALLERY, productGallery)
+        context.commit(types.PRODUCT_SET_GALLERY, productGallery)
       }
     } else {
       let productGallery = uniqBy(configurableChildrenImages(product).concat(getMediaGallery(product)), 'src').filter(f => { return f.src && f.src !== config.images.productPlaceholder })
-      context.commit(types.CATALOG_UPD_GALLERY, productGallery)
+      context.commit(types.PRODUCT_SET_GALLERY, productGallery)
     }
   },
-
-  /**
-   * Load the product data - async version for asyncData()
-   */
-  fetchAsync (context, { parentSku, childSku = null, route = null }) {
-    if (context.state.productLoadStart && (Date.now() - context.state.productLoadStart) < PRODUCT_REENTER_TIMEOUT) {
-      Logger.log('Product is being fetched ...', 'product')()
-    } else {
-      context.state.productLoadPromise = new Promise((resolve, reject) => {
-        context.state.productLoadStart = Date.now()
-        Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
-        Vue.prototype.$bus.$emit('product-before-load', { store: rootStore, route: route })
-        context.dispatch('reset').then(() => {
-          context.dispatch('fetch', { parentSku: parentSku, childSku: childSku }).then((subpromises) => {
-            Promise.all(subpromises).then(subresults => {
-              Vue.prototype.$bus.$emitFilter('product-after-load', { store: rootStore, route: route }).then((results) => {
-                context.state.productLoadStart = null
-                return resolve()
-              }).catch((err) => {
-                context.state.productLoadStart = null
-                Logger.error(err, 'product')()
-                return resolve()
-              })
-            }).catch(errs => {
-              context.state.productLoadStart = null
-              reject(errs)
-            })
-          }).catch(err => {
-            context.state.productLoadStart = null
-            reject(err)
-          }).catch(err => {
-            context.state.productLoadStart = null
-            reject(err)
-          })
-        })
-      })
+  async loadProductBreadcrumbs ({ dispatch, rootGetters }, { product } = {}) {
+    if (product && product.category_ids) {
+      const currentCategory = rootGetters['category-next/getCurrentCategory']
+      let breadcrumbCategory
+      const categoryFilters = Object.assign({ 'id': [...product.category_ids] }, cloneDeep(config.entities.category.breadcrumbFilterFields))
+      const categories = await dispatch('category-next/loadCategories', { filters: categoryFilters, reloadAll: Object.keys(config.entities.category.breadcrumbFilterFields).length > 0 }, { root: true })
+      if (
+        (currentCategory && currentCategory.id) && // current category exist
+        (config.entities.category.categoriesRootCategorylId !== currentCategory.id) && // is not highest category (All) - if we open product from different page then category page
+        (categories.findIndex(category => category.id === currentCategory.id) >= 0) // can be found in fetched categories
+      ) {
+        breadcrumbCategory = currentCategory // use current category if set and included in the filtered list
+      } else {
+        breadcrumbCategory = categories.sort((a, b) => (a.level > b.level) ? -1 : 1)[0] // sort starting by deepest level
+      }
+      await dispatch('category-next/loadCategoryBreadcrumbs', { category: breadcrumbCategory, currentRouteName: product.name }, { root: true })
     }
-    return context.state.productLoadPromise
   }
 }
 

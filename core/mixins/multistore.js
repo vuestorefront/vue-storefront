@@ -10,13 +10,7 @@ export const multistore = {
      * @param {Int} height
      */
     localizedRoute (routeObj) {
-      let storeView
-
-      if (isServer) {
-        storeView = this.$ssrContext.helpers.currentStoreView()
-      } else {
-        storeView = currentStoreView()
-      }
+      const storeView = currentStoreView()
 
       return localizedRouteHelper(routeObj, storeView.storeCode)
     },
@@ -27,13 +21,7 @@ export const multistore = {
      * @param {Int} height
      */
     localizedDispatcherRoute (routeObj) {
-      let storeView
-
-      if (isServer) {
-        storeView = this.$ssrContext.helpers.currentStoreView()
-      } else {
-        storeView = currentStoreView()
-      }
+      const storeView = currentStoreView()
 
       return localizedDispatcherRouteHelper(routeObj, storeView.storeCode)
     }

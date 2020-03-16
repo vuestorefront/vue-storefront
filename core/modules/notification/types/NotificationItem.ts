@@ -4,6 +4,7 @@ interface ActionItem {
 }
 
 export default interface NotificationItem {
+  id?: number,
   type: string,
   message: string,
   timeToLive?: number,

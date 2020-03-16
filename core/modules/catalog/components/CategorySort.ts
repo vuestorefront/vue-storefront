@@ -20,13 +20,25 @@ export const CategorySort = {
   methods: {
     // emit to category, todo: move all logic inside
     sort () {
-      this.$bus.$emit('list-change-sort', { attribute: this.sortby })
+      this.$emit('change', this.sortby)
+      // this.$bus.$emit('list-change-sort', { attribute: this.sortby })
     }
   },
   computed: {
     ...mapGetters('category', ['getCurrentCategoryProductQuery']),
     sortingOptions () {
       return config.products.sortByAttributes
+    },
+    sortingVariants () {
+      let variants = []
+      Object.keys(this.sortingOptions).map(label => {
+        variants.push({
+          label: label,
+          id: this.sortingOptions[label],
+          type: 'sort'
+        })
+      })
+      return variants
     }
   }
 }

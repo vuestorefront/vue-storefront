@@ -1,10 +1,9 @@
 <template>
   <div class="media-zoom-carousel">
     <div class="media-zoom-carousel__container row flex">
-      <ul class="media-zoom-carousel__thumbs m0 p0">
+      <ul class="media-zoom-carousel__thumbs m0 p0" ref="thumbs">
         <li class="media-zoom-carousel__thumb bg-cl-secondary" v-for="(images, index) in gallery" :key="images.src">
           <product-image
-            :class="{'thumb-video': images.video}"
             @click="navigate(index)"
             :image="images"
             :alt="productName | htmlDecode"
@@ -34,7 +33,6 @@
             >
               <product-image
                 v-show="hideImageAtIndex !== index"
-                :class="{'image--video': images.video}"
                 :image="images"
                 :alt="productName | htmlDecode"
               />
@@ -53,7 +51,7 @@
 </template>
 
 <script>
-import { Carousel, Slide } from 'vue-carousel'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import ProductImage from './ProductImage'
 import ProductVideo from './ProductVideo'
 
@@ -82,12 +80,15 @@ export default {
     }
   },
   components: {
-    Carousel,
-    Slide,
+    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
+    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide),
     ProductImage,
     ProductVideo
   },
   mounted () {
+    this.$nextTick(() => {
+      disableBodyScroll(this.$refs.thumbs)
+    })
     this.navigate(this.currentSlide)
     if (this.$refs.zoomCarousel) {
       let navigation = this.$refs.zoomCarousel.$children.find(c => c.$el.className === 'VueCarousel-navigation')
@@ -99,6 +100,9 @@ export default {
         pagination.$on('paginationclick', this.increaseCarouselTransitionSpeed)
       }
     }
+  },
+  destroyed () {
+    clearAllBodyScrollLocks()
   },
   methods: {
     navigate (key) {
@@ -174,10 +178,9 @@ export default {
       margin-bottom: 0;
     }
 
-    & > .image{
-      mix-blend-mode: multiply;
-      opacity: 0.9;
-      will-change: transform;
+    & > *{
+      opacity: .9;
+      will-change: opacity;
       transition: .3s opacity $motion-main;
 
       &:hover{
@@ -202,13 +205,6 @@ export default {
   &__slide{
     height: 100%;
     max-height: 100%;
-    & > .image {
-      mix-blend-mode: multiply;
-    padding-bottom: calc(710% / (600 / 100));
-    }
-    .image--video{
-      padding-bottom: calc(319% / (568 / 100));
-    }
   }
 }
 .thumb-video{

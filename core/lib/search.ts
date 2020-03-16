@@ -9,6 +9,7 @@ import { SearchResponse } from '@vue-storefront/core/types/search/SearchResponse
 import { Logger } from '@vue-storefront/core/lib/logger'
 import config from 'config'
 import { isServer } from '@vue-storefront/core/helpers'
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 
 // TODO - use one from helpers instead
 export function isOnline (): boolean {
@@ -27,12 +28,12 @@ export function isOnline (): boolean {
  * @param {Int} size page size
  * @return {Promise}
  */
-export const quickSearchByQuery = async ({ query, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null }): Promise<SearchResponse> => {
+export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, entityType = 'product', sort = '', storeCode = null, excludeFields = null, includeFields = null } = {}): Promise<SearchResponse> => {
   const searchAdapter = await getSearchAdapter()
   if (size <= 0) size = 50
   if (start < 0) start = 0
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const storeView = currentStoreView()
     const Request: SearchRequest = {
       store: storeCode || storeView.storeCode, // TODO: add grouped product and bundled product support
@@ -52,32 +53,33 @@ export const quickSearchByQuery = async ({ query, start = 0, size = 50, entityTy
       Request.groupId = rootStore.state.user.groupId
     }
 
-    const cache = Vue.prototype.$db.elasticCacheCollection // switch to appcache?
+    const cache = StorageManager.get('elasticCache') // switch to appcache?
     let servedFromCache = false
     const cacheKey = sha3_224(JSON.stringify(Request))
     const benchmarkTime = new Date()
 
-    cache.getItem(cacheKey, (err, res) => {
-      if (err) console.log(err)
+    try {
+      const res = await cache.getItem(cacheKey)
       if (res !== null) {
         res.cache = true
         res.noresults = false
         res.offline = !isOnline() // TODO: refactor it to checking ES heartbit
-        resolve(res)
         Logger.debug('Result from cache for ' + cacheKey + ' (' + entityType + '), ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
 
         servedFromCache = true
+        resolve(res)
+        return
       }
-    }).catch((err) => {
+    } catch (err) {
       console.error('Cannot read cache for ' + cacheKey + ', ' + err)
-    })
+    }
 
     /* use only for cache */
     if (Request.groupId) {
       delete Request.groupId
     }
 
-    if (config.usePriceTiers && rootStore.state.user.groupToken) {
+    if (rootStore.state.user.groupToken) {
       Request.groupToken = rootStore.state.user.groupToken
     }
 
@@ -86,7 +88,7 @@ export const quickSearchByQuery = async ({ query, start = 0, size = 50, entityTy
     }
 
     searchAdapter.search(Request).then((resp) => { // we're always trying to populate cache - when online
-      const res = searchAdapter.entities[Request.type].resultPorcessor(resp, start, size)
+      const res = searchAdapter.entities[Request.type].resultProcessor(resp, start, size)
 
       if (res) { // otherwise it can be just a offline mode
         cache.setItem(cacheKey, res, null, config.elasticsearch.disablePersistentQueriesCache).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })

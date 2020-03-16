@@ -23,8 +23,7 @@
           <product-image
             v-show="hideImageAtIndex !== index"
             @dblclick="openOverlay"
-            class="product-image pointer"
-            :class="{'product-image--video': images.video}"
+            class="pointer image"
             :image="images"
             :alt="productName | htmlDecode"
           />
@@ -46,7 +45,6 @@
 
 <script>
 import config from 'config'
-import { Carousel, Slide } from 'vue-carousel'
 import ProductImage from './ProductImage'
 import ProductVideo from './ProductVideo'
 import reduce from 'lodash-es/reduce'
@@ -55,8 +53,8 @@ import map from 'lodash-es/map'
 export default {
   name: 'ProductGalleryCarousel',
   components: {
-    Carousel,
-    Slide,
+    'Carousel': () => import('vue-carousel').then(Slider => Slider.Carousel),
+    'Slide': () => import('vue-carousel').then(Slider => Slider.Slide),
     ProductImage,
     ProductVideo
   },
@@ -67,7 +65,7 @@ export default {
     },
     productName: {
       type: String,
-      required: true
+      default: ''
     },
     configuration: {
       type: Object,
@@ -121,6 +119,8 @@ export default {
           this.navigate(index)
         }
       }
+
+      this.$emit('close')
     },
     openOverlay () {
       const currentSlide = this.$refs.carousel.currentPage
@@ -160,16 +160,12 @@ export default {
   bottom: 0;
   right: 0;
 }
-.product-image{
-  mix-blend-mode: multiply;
+.image{
   opacity: 1;
-  will-change: transform;
+  will-change: opacity;
   transition: .3s opacity $motion-main;
   &:hover{
     opacity: .9;
-  }
-  &--video{
-    padding-bottom: calc(319% / (568 / 100));
   }
 }
 .video-container {

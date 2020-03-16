@@ -32,10 +32,10 @@ We added two new HTML templates + two Vue layouts.
 
 Templates:
 
-- `index.basic.template.html` - We added two new HTML templates + two Vue layouts.
-- `index.minimal.template.html` - which contains the standard HTML markup without any additional injects, so when you render a Vue component, its output will be pasted into `<body>` and that's all. Probably good starting point for [AMPHTML implementation](https://www.ampstart.com/)
+- `index.basic.template.html` - basic elements
+- `index.minimal.template.html` - it contains the standard HTML markup without any additional injects, so when you render a Vue component, its output will be pasted into `<body>` and that's all. Probably good starting point for [AMPHTML implementation](https://www.ampstart.com/)
 
-You can add more templates. All you need is to set the proper `config.ssr.templates` variable:
+You can add more templates. All you need is to set the proper `config.ssr.templates` variable in `config/local.json`:
 
 ```json
     "ssr": {
@@ -184,3 +184,10 @@ output = contentPrepend + output + contentAppend;
 Please note that the `context` contains a lot of interesting features you can use to control the CSS, SCRIPT and META injection. [Read more on Vue SSR Styles and Scripts injection](https://ssr.vuejs.org/guide/build-config.html#client-config)
 
 **Note: [The context object = Vue.prototype.$ssrContext](https://ssr.vuejs.org/guide/head.html)**
+
+
+## Output compression
+
+HTML Minifier has been added to Vue Storefront 1.11. To enable this feature please switch the `config.server.useHtmlMinifier`. You can set the specific configuration of the `htmlMinifier` using the `config.server.htmlMinifierOptions`. Read more on the [available configuration](https://www.npmjs.com/package/html-minifier). The minified output is tthen being cached by `SSR Output cache` mechanism.
+
+Output compression has been also enabled (if the `src/modules/server.ts` contains the `compression` module on the list). By default it works just for produdction builds. It uses the `gzip` compression by default. [Read more about the `compression` module](https://www.npmjs.com/package/compression) that we're using for this implementation.

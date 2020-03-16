@@ -6,7 +6,7 @@
     <div slot="content">
       <p>{{ $t('Please confirm order you placed when you was offline') }}</p>
       <div class="mb40" v-for="(order, key) in ordersData" :key="key">
-        <h3>{{ $t('Order #') }}{{ key + 1 }}</h3>
+        <h3>{{ $t('Order #{id}', { id: key + 1}) }}</h3>
         <h4>{{ $t('Items ordered') }}</h4>
         <table class="brdr-1 brdr-cl-bg-secondary">
           <thead>
@@ -34,13 +34,13 @@
                 </span>
               </td>
               <td class="fs-medium lh25" :data-th="$t('Price')">
-                {{ product.priceInclTax | price }}
+                {{ product.price_incl_tax | price(storeView) }}
               </td>
               <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">
                 {{ product.qty }}
               </td>
               <td class="fs-medium lh25" :data-th="$t('Subtotal')">
-                {{ product.priceInclTax * product.qty | price }}
+                {{ product.price_incl_tax * product.qty | price(storeView) }}
               </td>
             </tr>
           </tbody>
@@ -65,6 +65,7 @@ import { ConfirmOrders } from '@vue-storefront/core/modules/offline-order/compon
 import { CancelOrders } from '@vue-storefront/core/modules/offline-order/components/CancelOrders'
 import Modal from 'theme/components/core/Modal'
 import ButtonFull from 'theme/components/theme/ButtonFull.vue'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   props: {
@@ -78,6 +79,11 @@ export default {
     this.$nextTick(() => {
       this.$bus.$emit('modal-show', 'modal-order-confirmation')
     })
+  },
+  computed: {
+    storeView () {
+      return currentStoreView()
+    }
   },
   methods: {
     confirmOrders () {

@@ -15,6 +15,7 @@
           :configuration="configuration"
           :product-name="product.name"
           @toggle="openOverlay"
+          @close="onEscapePress"
           @loaded="carouselLoaded = true"
         />
       </no-ssr>
@@ -30,8 +31,7 @@ import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import NoSSR from 'vue-no-ssr'
 import ProductImage from './ProductImage'
 import { onlineHelper } from '@vue-storefront/core/helpers'
-
-const ProductGalleryCarousel = () => import(/* webpackChunkName: "vsf-product-gallery-carousel" */ './ProductGalleryCarousel.vue')
+import ProductGalleryCarousel from './ProductGalleryCarousel.vue'
 
 export default {
   components: {

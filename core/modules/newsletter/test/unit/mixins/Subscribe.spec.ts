@@ -34,7 +34,7 @@ describe('Subscribe', () => {
 
     (wrapper.vm as any).subscribe()
 
-    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '', undefined);
+    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '');
   })
 
   it('method subscribe dispatches subscription action successfully with success Callback', async () => {
@@ -61,7 +61,7 @@ describe('Subscribe', () => {
 
     await (wrapper.vm as any).subscribe(successCallback)
 
-    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '', undefined);
+    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '');
     expect(successCallback).toBeCalledWith(true)
   })
 
@@ -87,7 +87,7 @@ describe('Subscribe', () => {
 
     await (wrapper.vm as any).subscribe(() => {})
 
-    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '', undefined);
+    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '');
   })
 
   it('method subscribe dispatches subscription action that fails given an error handler', async () => {
@@ -114,7 +114,7 @@ describe('Subscribe', () => {
 
     await (wrapper.vm as any).subscribe(() => {}, errorCallback)
 
-    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '', undefined);
+    expect(storeMock.modules.newsletter.actions.subscribe).toBeCalledWith(expect.anything(), '');
     expect(errorCallback).toBeCalledWith('subscription failed')
   })
 });

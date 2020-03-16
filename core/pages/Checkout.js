@@ -3,7 +3,7 @@ import i18n from '@vue-storefront/i18n'
 import config from 'config'
 import VueOfflineMixin from 'vue-offline/mixin'
 import { mapGetters } from 'vuex'
-
+import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import Composite from '@vue-storefront/core/mixins/composite'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { isServer } from '@vue-storefront/core/helpers'
@@ -44,9 +44,11 @@ export default {
       isThankYouPage: 'checkout/isThankYouPage'
     })
   },
-  beforeMount () {
+  async beforeMount () {
+    await this.$store.dispatch('checkout/load')
+    this.$bus.$emit('checkout-after-load')
     this.$store.dispatch('checkout/setModifiedAt', Date.now())
-    // TO-DO: Use one event with name as apram
+    // TODO: Use one event with name as apram
     this.$bus.$on('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$on('cart-after-delete', this.onCartAfterUpdate)
     this.$bus.$on('checkout-after-personalDetails', this.onAfterPersonalDetails)
@@ -71,7 +73,7 @@ export default {
           for (let product of this.$store.state.cart.cartItems) { // check the results of online stock check
             if (product.onlineStockCheckid) {
               checkPromises.push(new Promise((resolve, reject) => {
-                Vue.prototype.$db.syncTaskCollection.getItem(product.onlineStockCheckid, (err, item) => {
+                StorageManager.get('syncTasks').getItem(product.onlineStockCheckid, (err, item) => {
                   if (err || !item) {
                     if (err) Logger.error(err)()
                     resolve(null)
@@ -136,14 +138,12 @@ export default {
       this.shippingMethod = payload
     },
     onBeforeShippingMethods (country) {
+      this.$store.dispatch('checkout/updatePropValue', ['country', country])
       this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
       this.$forceUpdate()
     },
     async onAfterPlaceOrder (payload) {
       this.confirmation = payload.confirmation
-      if (this.$store.state.checkout.personalDetails.createAccount) {
-        await this.$store.dispatch('user/login', { username: this.$store.state.checkout.personalDetails.emailAddress, password: this.$store.state.checkout.personalDetails.password })
-      }
       this.$store.dispatch('checkout/setThankYouPage', true)
       this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
       Logger.debug(payload.order)()
@@ -261,7 +261,7 @@ export default {
     prepareOrder () {
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
-        cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
+        cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {
           billingAddress: {
@@ -292,7 +292,7 @@ export default {
           region_id: this.shipping.region_id ? this.shipping.region_id : 0,
           country_id: this.shipping.country,
           street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
-          company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
+          company: '',
           telephone: this.shipping.phoneNumber,
           postcode: this.shipping.zipCode,
           city: this.shipping.city,

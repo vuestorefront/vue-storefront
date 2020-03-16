@@ -1,37 +1,34 @@
 <template>
-  <div class="image" v-on="$listeners">
+  <div
+    class="product-image"
+    :class="{'product-image--height': basic, 'product-image--width': !basic}"
+    :style="style"
+    v-on="$listeners"
+  >
     <img
       v-show="showPlaceholder"
       src="/assets/placeholder.svg"
       :alt="alt"
-      key="placeholder"
-      ref="images"
-      itemprop="image"
-      class="image__thumb image__thumb--placeholder"
+      class="product-image__placeholder"
     >
     <img
       v-if="!lowerQualityImageError || isOnline"
       v-show="showLowerQuality"
-      :src="image.loading"
+      v-lazy="image.loading"
       :alt="alt"
       @load="imageLoaded('lower', true)"
       @error="imageLoaded('lower', false)"
-      key="lowerQualityImage"
-      ref="images"
-      itemprop="image"
-      class="image__thumb"
+      ref="lQ"
+      class="product-image__thumb"
     >
     <img
       v-if="!highQualityImageError || isOnline"
       v-show="showHighQuality"
-      :src="image.src"
+      v-lazy="image.src"
       :alt="alt"
       @load="imageLoaded('high', true)"
       @error="imageLoaded('high', false)"
-      key="highQualityImage"
-      ref="images"
-      itemprop="image"
-      class="image__thumb"
+      class="product-image__thumb"
     >
   </div>
 </template>
@@ -41,6 +38,10 @@ import { onlineHelper } from '@vue-storefront/core/helpers'
 
 export default {
   props: {
+    calcRatio: {
+      type: Boolean,
+      default: true
+    },
     image: {
       type: Object,
       default: () => ({
@@ -58,7 +59,15 @@ export default {
       lowerQualityImage: false,
       lowerQualityImageError: false,
       highQualityImage: false,
-      highQualityImageError: false
+      highQualityImageError: false,
+      basic: true
+    }
+  },
+  watch: {
+    lowerQualityImage (state) {
+      if (state) {
+        this.basic = this.$refs.lQ.naturalWidth < this.$refs.lQ.naturalHeight;
+      }
     }
   },
   computed: {
@@ -70,6 +79,13 @@ export default {
     },
     showHighQuality () {
       return this.highQualityImage
+    },
+    imageRatio () {
+      const {width, height} = this.$store.state.config.products.gallery
+      return `${height / (width / 100)}%`
+    },
+    style () {
+      return this.calcRatio ? {paddingBottom: this.imageRatio} : {}
     },
     isOnline (value) {
       return onlineHelper.isOnline
@@ -85,24 +101,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .image{
+  .product-image{
     position: relative;
     width: 100%;
+    max-width: 100%;
     height: 0;
-    padding-bottom: calc(740% / (600 / 100));
-    overflow: hidden;
     mix-blend-mode: multiply;
-    &__thumb{
-      max-width: 100%;
-      height: auto;
+    &__placeholder,
+    &__thumb {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: auto;
-      transform: translate3d(-50%, -50%, 0);
-      &--placeholder{
-        width: auto;
-        height: auto;
+      transform: translate(-50%, -50%);
+    }
+    &__placeholder {
+      max-width: 50%;
+    }
+    &--height {
+      .product-image__thumb {
+        height: 100%;
+      }
+    }
+    &--width {
+      .product-image__thumb {
+        width: 100%;
       }
     }
   }

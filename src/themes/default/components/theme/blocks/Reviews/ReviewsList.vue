@@ -9,7 +9,7 @@
         {{ item.title }}
       </h4>
       <p class="cl-tertiary mt10 mb20 fs-medium-small">
-        {{ item.nickname }}, {{ item.created_at | date }}
+        {{ item.nickname }}, {{ item.created_at | date(null, storeView) }}
       </p>
       <p class="cl-gray lh25" itemprop="reviewBody" :content="item.detail">
         {{ item.detail }}
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import Product from '@vue-storefront/core/pages/Product'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export default {
   props: {
@@ -46,7 +46,11 @@ export default {
     },
     items: {
       type: Array,
-      required: true
+      default: () => []
+    },
+    productName: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -54,7 +58,6 @@ export default {
       currentPage: 1
     }
   },
-  mixins: [Product],
   computed: {
     itemsPerPage () {
       let start = ((this.currentPage - 1) * this.perPage)
@@ -80,6 +83,9 @@ export default {
       } else {
         return [this.currentPage - 2, this.currentPage - 1, this.currentPage, this.currentPage + 1, this.currentPage + 2]
       }
+    },
+    storeView () {
+      return currentStoreView()
     }
   },
   methods: {

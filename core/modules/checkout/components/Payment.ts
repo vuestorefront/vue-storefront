@@ -1,6 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
+import debounce from 'lodash-es/debounce'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Payment = {
@@ -15,7 +16,7 @@ export const Payment = {
     return {
       isFilled: false,
       countries: Countries,
-      payment: this.$store.state.checkout.paymentDetails,
+      payment: this.$store.getters['checkout/getPaymentDetails'],
       generateInvoice: false,
       sendToShippingAddress: false,
       sendToBillingAddress: false
@@ -27,7 +28,8 @@ export const Payment = {
       shippingDetails: (state: RootState) => state.checkout.shippingDetails
     }),
     ...mapGetters({
-      paymentMethods: 'payment/paymentMethods',
+      paymentMethods: 'checkout/getPaymentMethods',
+      paymentDetails: 'checkout/getPaymentDetails',
       isVirtualCart: 'cart/isVirtualCart'
     })
   },
@@ -35,6 +37,9 @@ export const Payment = {
     if (!this.payment.paymentMethod || this.notInMethods(this.payment.paymentMethod)) {
       this.payment.paymentMethod = this.paymentMethods.length > 0 ? this.paymentMethods[0].code : 'cashondelivery'
     }
+  },
+  beforeMount () {
+    this.$bus.$on('checkout-after-load', this.onCheckoutLoad)
   },
   mounted () {
     if (this.payment.firstName) {
@@ -45,6 +50,9 @@ export const Payment = {
       }
     }
     this.changePaymentMethod()
+  },
+  beforeDestroy () {
+    this.$bus.$off('checkout-after-load', this.onCheckoutLoad)
   },
   watch: {
     shippingDetails: {
@@ -69,6 +77,11 @@ export const Payment = {
       handler () {
         this.useGenerateInvoice()
       }
+    },
+    paymentMethods: {
+      handler: debounce(function () {
+        this.changePaymentMethod()
+      }, 500)
     }
   },
   methods: {
@@ -119,7 +132,7 @@ export const Payment = {
         }
       }
       if (!initialized) {
-        this.payment = {
+        this.payment = this.paymentDetails || {
           firstName: '',
           lastName: '',
           company: '',
@@ -143,7 +156,7 @@ export const Payment = {
       }
 
       if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
-        this.payment = this.$store.state.checkout.paymentDetails
+        this.payment = this.paymentDetails
       }
     },
     copyShippingToBillingAddress () {
@@ -187,7 +200,7 @@ export const Payment = {
       }
 
       if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
-        this.payment = this.$store.state.checkout.paymentDetails
+        this.payment = this.paymentDetails
         this.generateInvoice = false
       }
     },
@@ -231,7 +244,16 @@ export const Payment = {
       }
 
       // Let anyone listening know that we've changed payment method, usually a payment extension.
-      this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
+      if (this.payment.paymentMethod) {
+        this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
+      }
+    },
+    changeCountry () {
+      this.$store.dispatch('checkout/updatePaymentDetails', { country: this.payment.country })
+      this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
+    },
+    onCheckoutLoad () {
+      this.payment = this.$store.getters['checkout/getPaymentDetails']
     }
   }
 }

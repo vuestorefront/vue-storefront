@@ -1,21 +1,38 @@
+import Vue from 'vue'
+import VueGtm from 'vue-gtm'
+import { Store } from 'vuex'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { isServer } from '@vue-storefront/core/helpers'
 
-export function afterRegistration ({ Vue, config, store, isServer }) {
-  if (config.googleTagManager.id && !isServer) {
+export const isEnabled = (gtmId: string | null) => {
+  return typeof gtmId === 'string' && gtmId.length > 0 && !isServer
+}
+
+export function afterRegistration (config, store: Store<any>) {
+  if (isEnabled(config.googleTagManager.id)) {
+    const GTM: VueGtm = (Vue as any).gtm
+
     const storeView = currentStoreView()
     const currencyCode = storeView.i18n.currencyCode
 
     const getProduct = (item) => {
-      const { name, id, sku, priceInclTax: price, category, qty: quantity } = item
-      let product = {
-        name,
-        id,
-        sku,
-        price
-      }
-      if (quantity) {
-        product['quantity'] = quantity
-      }
+      let product = {}
+
+      const attributeMap: string[]|Record<string, any>[] = config.googleTagManager.product_attributes
+      attributeMap.forEach(attribute => {
+        const isObject = typeof attribute === 'object'
+        let attributeField = isObject ? Object.keys(attribute)[0] : attribute
+        let attributeName = isObject ? Object.values(attribute)[0] : attribute
+
+        if (item.hasOwnProperty(attributeField) || product.hasOwnProperty(attributeName)) {
+          const value = item[attributeField] || product[attributeName]
+          if (value) {
+            product[attributeName] = value
+          }
+        }
+      })
+
+      const { category } = item
       if (category && category.length > 0) {
         product['category'] = category.slice(-1)[0].name
       }
@@ -26,7 +43,7 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
     store.subscribe(({ type, payload }, state) => {
       // Adding a Product to a Shopping Cart
       if (type === 'cart/cart/ADD') {
-        Vue.gtm.trackEvent({
+        GTM.trackEvent({
           event: 'addToCart',
           ecommerce: {
             currencyCode: currencyCode,
@@ -39,7 +56,7 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
 
       // Removing a Product from a Shopping Cart
       if (type === 'cart/cart/DEL') {
-        Vue.gtm.trackEvent({
+        GTM.trackEvent({
           event: 'removeFromCart',
           ecommerce: {
             remove: {
@@ -51,7 +68,7 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
 
       // Measuring Views of Product Details
       if (type === 'product/product/SET_PRODUCT_CURRENT') {
-        Vue.gtm.trackEvent({
+        GTM.trackEvent({
           ecommerce: {
             detail: {
               'actionField': { 'list': '' }, // 'detail' actions have an optional list property.
@@ -62,7 +79,7 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
       }
 
       // Measuring Purchases
-      if (type === 'order/order/LAST_ORDER_CONFIRMATION') {
+      if (type === 'order/orders/LAST_ORDER_CONFIRMATION') {
         const orderId = payload.confirmation.backendOrderId
         const products = payload.order.products.map(product => getProduct(product))
         store.dispatch(
@@ -70,24 +87,22 @@ export function afterRegistration ({ Vue, config, store, isServer }) {
           { refresh: true, useCache: false }
         ).then(() => {
           const orderHistory = state.user.orders_history
-          const order = orderHistory.items.find((order) => order['entity_id'].toString() === orderId)
-          if (order) {
-            Vue.gtm.trackEvent({
-              'ecommerce': {
-                'purchase': {
-                  'actionField': {
-                    'id': orderId,
-                    'affiliation': order.store_name,
-                    'revenue': order.total_due,
-                    'tax': order.tax_amount,
-                    'shipping': order.shipping_amount,
-                    'coupon': ''
-                  },
-                  'products': products
-                }
+          const order = state.user.orders_history ? orderHistory.items.find((order) => order['entity_id'].toString() === orderId) : null
+          GTM.trackEvent({
+            'ecommerce': {
+              'purchase': {
+                'actionField': {
+                  'id': orderId,
+                  'affiliation': order ? order.store_name : '',
+                  'revenue': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_grand_total ? state.cart.platformTotals.base_grand_total : '',
+                  'tax': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_tax_amount ? state.cart.platformTotals.base_tax_amount : '',
+                  'shipping': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_shipping_amount ? state.cart.platformTotals.base_shipping_amount : '',
+                  'coupon': ''
+                },
+                'products': products
               }
-            })
-          }
+            }
+          })
         })
       }
     })
