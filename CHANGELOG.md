@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Update eslint and fix code style. - @gibkigonzo (#4179 #4181)
+- add missing cache tags for category and product - @gibkigonzo (#4173)
 
 ## [1.11.2] - 2020.03.10
 

@@ -148,7 +148,8 @@ export default {
       return this.getCategoryProductsTotal === 0
     }
   },
-  async asyncData ({ store, route }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
+  async asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data - and it's always executed before parent component methods
+    if (context) context.output.cacheTags.add('category')
     await composeInitialPageState(store, route)
   },
   async beforeRouteEnter (to, from, next) {
