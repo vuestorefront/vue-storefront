@@ -13,7 +13,7 @@ let product
 describe('RecentlyViewed actions', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    product = {id: 'xyz'};
+    product = { id: 'xyz' };
   });
 
   describe('addItem', () => {

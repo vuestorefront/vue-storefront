@@ -114,15 +114,15 @@ export function productThumbnailPath (product, ignoreConfig = false) {
 export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO add aggregation of color_options and size_options fields
   let searchProductQuery = new SearchQuery()
   searchProductQuery = searchProductQuery
-    .applyFilter({key: 'visibility', value: {'in': [2, 3, 4]}})
-    .applyFilter({key: 'status', value: {'in': [0, 1]}}) /* 2 = disabled, 4 = out of stock */
+    .applyFilter({ key: 'visibility', value: { 'in': [2, 3, 4] } })
+    .applyFilter({ key: 'status', value: { 'in': [0, 1] } }) /* 2 = disabled, 4 = out of stock */
 
   if (config.products.listOutOfStockProducts === false) {
-    searchProductQuery = searchProductQuery.applyFilter({key: 'stock.is_in_stock', value: {'eq': true}})
+    searchProductQuery = searchProductQuery.applyFilter({ key: 'stock.is_in_stock', value: { 'eq': true } })
   }
   // Add available catalog filters
   for (let attrToFilter of filters) {
-    searchProductQuery = searchProductQuery.addAvailableFilter({field: attrToFilter, scope: 'catalog'})
+    searchProductQuery = searchProductQuery.addAvailableFilter({ field: attrToFilter, scope: 'catalog' })
   }
 
   let childCats = [parentCategory.id]
@@ -145,7 +145,7 @@ export function baseFilterProductsQuery (parentCategory, filters = []) { // TODO
     }
     recurCatFinderBuilder(parentCategory)
   }
-  searchProductQuery = searchProductQuery.applyFilter({key: 'category_ids', value: {'in': childCats}})
+  searchProductQuery = searchProductQuery.applyFilter({ key: 'category_ids', value: { 'in': childCats } })
   return searchProductQuery
 }
 
@@ -159,9 +159,9 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters = {}, d
 
     if (Array.isArray(filter) && attributeCode !== 'price') {
       const values = filter.map(filter => filter.id)
-      filterQr = filterQr.applyFilter({key: attributeCode, value: {'in': values}, scope: 'catalog'})
+      filterQr = filterQr.applyFilter({ key: attributeCode, value: { 'in': values }, scope: 'catalog' })
     } else if (attributeCode !== 'price') {
-      filterQr = filterQr.applyFilter({key: attributeCode, value: {'eq': filter.id}, scope: 'catalog'})
+      filterQr = filterQr.applyFilter({ key: attributeCode, value: { 'eq': filter.id }, scope: 'catalog' })
     } else { // multi should be possible filter here?
       const rangeqr = {}
       const filterValues = Array.isArray(filter) ? filter : [filter]
@@ -169,7 +169,7 @@ export function buildFilterProductsQuery (currentCategory, chosenFilters = {}, d
         if (singleFilter.from) rangeqr['gte'] = singleFilter.from
         if (singleFilter.to) rangeqr['lte'] = singleFilter.to
       })
-      filterQr = filterQr.applyFilter({key: attributeCode, value: rangeqr, scope: 'catalog'})
+      filterQr = filterQr.applyFilter({ key: attributeCode, value: rangeqr, scope: 'catalog' })
     }
   }
 

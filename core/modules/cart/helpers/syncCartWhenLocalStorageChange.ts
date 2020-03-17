@@ -1,9 +1,9 @@
 import rootStore from '@vue-storefront/core/store';
 
-function getItemsFromStorage ({key}) {
+function getItemsFromStorage ({ key }) {
   if (key === 'shop/cart/current-cart') {
     const storedItems = JSON.parse(localStorage[key])
-    rootStore.dispatch('cart/syncCartWhenLocalStorageChange', {items: storedItems})
+    rootStore.dispatch('cart/syncCartWhenLocalStorageChange', { items: storedItems })
   }
 }
 

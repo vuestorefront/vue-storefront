@@ -59,7 +59,7 @@ class Message {
 
     message([
       ...text
-    ], {color: 'blue', border: false, marginTop: 1})
+    ], { color: 'blue', border: false, marginTop: 1 })
   }
 
   /**
@@ -88,7 +88,7 @@ class Message {
       ...text,
       '',
       logDetailsInfo
-    ], {borderColor: 'red', marginBottom: 1})
+    ], { borderColor: 'red', marginBottom: 1 })
 
     shell.exit(1)
   }
@@ -104,7 +104,7 @@ class Message {
     message([
       'WARNING:',
       ...text
-    ], {color: 'yellow', border: false, marginTop: 1})
+    ], { color: 'yellow', border: false, marginTop: 1 })
   }
 
   /**
@@ -118,7 +118,7 @@ class Message {
 
     message([
       ...text
-    ], Object.assign(isLastMessage ? {marginTop: 1} : {}, {borderColor: 'green', marginBottom: 1}))
+    ], Object.assign(isLastMessage ? { marginTop: 1 } : {}, { borderColor: 'green', marginBottom: 1 }))
   }
 }
 
@@ -270,7 +270,7 @@ class Backend extends Abstract {
         config.magento2.api.accessToken = this.answers.m2_api_access_token || config.magento2.api.accessToken
         config.magento2.api.accessTokenSecret = this.answers.m2_api_access_token_secret || config.magento2.api.accessTokenSecret
 
-        jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, {spaces: 2})
+        jsonFile.writeFileSync(TARGET_BACKEND_CONFIG_FILE, config, { spaces: 2 })
       } catch (e) {
         reject(new Error('Can\'t create backend config. Original error: ' + e))
       }
@@ -462,7 +462,7 @@ class Storefront extends Abstract {
           backend_dir: this.answers.backend_dir || false
         }
 
-        jsonFile.writeFileSync(TARGET_FRONTEND_CONFIG_FILE, config, {spaces: 2})
+        jsonFile.writeFileSync(TARGET_FRONTEND_CONFIG_FILE, config, { spaces: 2 })
       } catch (e) {
         reject(new Error('Can\'t create storefront config.'))
       }
@@ -536,7 +536,7 @@ class Manager extends Abstract {
       Message.info('Trying to create log files...')
 
       try {
-        mkdirp.sync(LOG_DIR, {mode: parseInt('0755', 8)})
+        mkdirp.sync(LOG_DIR, { mode: parseInt('0755', 8) })
 
         let logFiles = [
           INSTALL_LOG_FILE,
@@ -681,7 +681,7 @@ let questions = [
     },
     validate: function (value) {
       try {
-        mkdirp.sync(value, {mode: parseInt('0755', 8)})
+        mkdirp.sync(value, { mode: parseInt('0755', 8) })
 
         if (!isEmptyDir.sync(value)) {
           return 'Please provide path to empty directory.'

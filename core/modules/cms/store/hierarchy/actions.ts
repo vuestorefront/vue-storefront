@@ -5,7 +5,7 @@ import CmsHierarchyState from '../../types/CmsHierarchyState'
 import { createHierarchyLoadQuery } from '@vue-storefront/core/modules/cms/helpers'
 
 const actions: ActionTree<CmsHierarchyState, RootState> = {
-  list (context, {id, entityType = 'cms_hierarchy', excludeFields = null, includeFields = null}) {
+  list (context, { id, entityType = 'cms_hierarchy', excludeFields = null, includeFields = null }) {
     return quickSearchByQuery({
       query: createHierarchyLoadQuery({ id }),
       entityType,

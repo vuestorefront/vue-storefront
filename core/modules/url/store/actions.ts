@@ -71,7 +71,7 @@ export const actions: ActionTree<UrlState, any> = {
     const { storeCode, appendStoreCode } = currentStoreView()
     const productQuery = new SearchQuery()
     url = (removeStoreCodeFromRoute(url.startsWith('/') ? url.slice(1) : url) as string)
-    productQuery.applyFilter({key: 'url_path', value: {'eq': url}}) // Tees category
+    productQuery.applyFilter({ key: 'url_path', value: { 'eq': url } }) // Tees category
     const products = await dispatch('product/list', { query: productQuery }, { root: true })
     if (products && products.items && products.items.length) {
       const product = products.items[0]
@@ -95,7 +95,7 @@ export const actions: ActionTree<UrlState, any> = {
       }
     }
   },
-  setCurrentRoute ({ commit, state }, {to, from} = {}) {
+  setCurrentRoute ({ commit, state }, { to, from } = {}) {
     commit(types.SET_CURRENT_ROUTE, to)
     commit(types.IS_BACK_ROUTE, isEqual(state.prevRoute, state.currentRoute) && state.currentRoute.path !== from.path)
     commit(types.SET_PREV_ROUTE, from)
