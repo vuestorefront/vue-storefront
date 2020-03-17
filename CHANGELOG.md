@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `getVariantWithLowestPrice` uses inexistent `final_price` property - @cewald (#4091)
 - Fixed `NOT_ALLOWED_SSR_EXTENSIONS_REGEX` to only match with file extensions having a dot - @haelbichalex (#4100)
 - Fixed problem with not showing error message when placing an order fails - @qiqqq
+- Invoking afterCacheInvalidated server hook in a proper moment - @Fifciu (#4176)
 - Fixed `cart/isVirtualCart` to return `false` when cart is empty - @haelbichalex(#4182)
 
 ### Changed / Improved
