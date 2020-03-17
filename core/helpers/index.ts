@@ -219,7 +219,7 @@ export const serial = async promises => {
   return results
 }
 
-// helper to calcuate the hash of the shopping cart
+// helper to calculate the hash of the shopping cart
 export const calcItemsHmac = (items, token) => {
   return sha3_224(JSON.stringify({ items, token: token }))
 }

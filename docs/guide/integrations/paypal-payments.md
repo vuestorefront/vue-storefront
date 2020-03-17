@@ -16,7 +16,7 @@ $ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/
 
 Or as dependency. Add the extension to your Vue Storefront `package.json` using:
 ```shell
-$ npm install vsf-payment-paypal --save
+$ yarn add vsf-payment-paypal -W
 ```
 
 Add the following as well to your `config/local.json` Set `paypal.env` to `sandbox` or `production`.

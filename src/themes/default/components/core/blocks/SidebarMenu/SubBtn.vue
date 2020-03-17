@@ -38,6 +38,10 @@ export default {
     name: {
       type: String,
       default: ''
+    },
+    isCategory: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -47,7 +51,7 @@ export default {
   },
   methods: {
     next () {
-      if (config.entities.category.categoriesDynamicPrefetch) this.$store.dispatch('category/list', { parent: this.id })
+      if (config.entities.category.categoriesDynamicPrefetch && this.isCategory) this.$store.dispatch('category/list', { parent: this.id })
       this.$store.commit('ui/setSubmenu', {
         id: this.id,
         depth: ++this.submenu.depth

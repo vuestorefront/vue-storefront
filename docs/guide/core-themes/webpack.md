@@ -30,8 +30,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 module.exports = function(config, { isClient, isDev }) {
   let configLoaders;
   if (isClient) {
-    configLoaders = config[0].module.rules;
-    config[0].plugins.push(
+    configLoaders = config.module.rules;
+    config.plugins.push(
       new BundleAnalyzerPlugin({
         openAnalyzer: false,
         statsFilename: 'test',
