@@ -228,7 +228,7 @@ describe('Url actions', () => {
         slug: 'shorts-19'
       };
 
-      contextMock.dispatch.mockImplementation(() => Promise.resolve({slug: 'shorts-19'}))
+      contextMock.dispatch.mockImplementation(() => Promise.resolve({ slug: 'shorts-19' }))
 
       const result = await (urlActions as any).mappingFallback(contextMock, { url, params });
 

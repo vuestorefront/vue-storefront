@@ -26,7 +26,7 @@ const actions: ActionTree<CompareState, RootState> = {
   async removeItem ({ commit }, product) {
     commit(types.COMPARE_DEL_ITEM, { product })
   },
-  async clear ({commit}) {
+  async clear ({ commit }) {
     commit(types.COMPARE_LOAD_COMPARE, [])
   }
 }

@@ -80,7 +80,7 @@ const methodsActions = {
         postcode: shippingDetails.zipCode,
         city: shippingDetails.city,
         region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
-      } : {country_id: storeView.tax.defaultCountry}
+      } : { country_id: storeView.tax.defaultCountry }
 
       const { result } = await CartService.getShippingMethods(address)
       await dispatch('updateShippingMethods', { shippingMethods: result })

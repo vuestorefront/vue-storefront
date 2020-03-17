@@ -91,7 +91,7 @@ export async function prepareElasticsearchQueryBody (searchQuery) {
   }
   // Get searchable fields based on user-defined config.
   let getQueryBody = function (b) {
-    let searchableAttributes = config.elasticsearch.hasOwnProperty('searchableAttributes') ? config.elasticsearch.searchableAttributes : {'name': {'boost': 1}}
+    let searchableAttributes = config.elasticsearch.hasOwnProperty('searchableAttributes') ? config.elasticsearch.searchableAttributes : { 'name': { 'boost': 1 } }
     let searchableFields = [
     ]
     for (const attribute of Object.keys(searchableAttributes)) {

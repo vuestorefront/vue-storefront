@@ -1,4 +1,4 @@
-import {prefetchStockItems} from '../../helpers/cacheProductsHelper';
+import { prefetchStockItems } from '../../helpers/cacheProductsHelper';
 import config from 'config';
 
 describe('prefetchStockItems method', () => {
@@ -19,17 +19,17 @@ describe('prefetchStockItems method', () => {
     it('returns the skus of the children of a configurable', () => {
       const cachedProductsResponse = {
         items: [
-          {sku: 'foo'},
+          { sku: 'foo' },
           {
             sku: 'bar',
             type_id: 'configurable',
             configurable_children: [
-              {sku: 'bar.foo'},
-              {sku: 'bar.bar'},
-              {sku: 'bar.baz'}
+              { sku: 'bar.foo' },
+              { sku: 'bar.bar' },
+              { sku: 'bar.baz' }
             ]
           },
-          {sku: 'baz'}
+          { sku: 'baz' }
         ]
       }
       const result = prefetchStockItems(cachedProductsResponse)
@@ -39,9 +39,9 @@ describe('prefetchStockItems method', () => {
     it('returns the same skus of the provided simple products', () => {
       const cachedProductsResponse = {
         items: [
-          {sku: 'foo'},
-          {sku: 'bar'},
-          {sku: 'baz'}
+          { sku: 'foo' },
+          { sku: 'bar' },
+          { sku: 'baz' }
         ]
       }
       const result = prefetchStockItems(cachedProductsResponse)
@@ -51,20 +51,20 @@ describe('prefetchStockItems method', () => {
     it('ignores the pre-cached skus of children of a configurable', () => {
       const cachedProductsResponse = {
         items: [
-          {sku: 'foo'},
+          { sku: 'foo' },
           {
             sku: 'bar',
             type_id: 'configurable',
             configurable_children: [
-              {sku: 'bar.foo', id: 1337},
-              {sku: 'bar.bar'},
-              {sku: 'bar.baz', id: 4711}
+              { sku: 'bar.foo', id: 1337 },
+              { sku: 'bar.bar' },
+              { sku: 'bar.baz', id: 4711 }
             ]
           },
-          {sku: 'baz'}
+          { sku: 'baz' }
         ]
       }
-      const result = prefetchStockItems(cachedProductsResponse, {1337: {}, 4711: {}})
+      const result = prefetchStockItems(cachedProductsResponse, { 1337: {}, 4711: {} })
       expect(result).toEqual(['foo', 'bar', 'bar.bar', 'baz']);
     })
   })

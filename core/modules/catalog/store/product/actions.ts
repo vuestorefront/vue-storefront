@@ -200,14 +200,14 @@ const actions: ActionTree<ProductState, RootState> = {
    * This is fix for https://github.com/DivanteLtd/vue-storefront/issues/508
    * TODO: probably it would be better to have "parent_id" for simple products or to just ensure configurable variants are not visible in categories/search
    */
-  checkConfigurableParent (context, {product}) {
+  checkConfigurableParent (context, { product }) {
     if (product.type_id === 'simple') {
       Logger.log('Checking configurable parent')()
 
       let searchQuery = new SearchQuery()
-      searchQuery = searchQuery.applyFilter({key: 'configurable_children.sku', value: {'eq': context.getters.getCurrentProduct.sku}})
+      searchQuery = searchQuery.applyFilter({ key: 'configurable_children.sku', value: { 'eq': context.getters.getCurrentProduct.sku } })
 
-      return context.dispatch('list', {query: searchQuery, start: 0, size: 1, updateState: false}).then((resp) => {
+      return context.dispatch('list', { query: searchQuery, start: 0, size: 1, updateState: false }).then((resp) => {
         if (resp.items.length >= 1) {
           const parentProduct = resp.items[0]
           context.commit(types.PRODUCT_SET_PARENT, parentProduct)
@@ -355,7 +355,7 @@ const actions: ActionTree<ProductState, RootState> = {
   },
   async findConfigurableParent (context, { product, configuration }) {
     const searchQuery = new SearchQuery()
-    const query = searchQuery.applyFilter({key: 'configurable_children.sku', value: { 'eq': product.sku }})
+    const query = searchQuery.applyFilter({ key: 'configurable_children.sku', value: { 'eq': product.sku } })
     const products = await context.dispatch('findProducts', { query, configuration })
     return products.items && products.items.length > 0 ? products.items[0] : null
   },
@@ -434,7 +434,7 @@ const actions: ActionTree<ProductState, RootState> = {
 
       const syncProducts = () => {
         let searchQuery = new SearchQuery()
-        searchQuery = searchQuery.applyFilter({key: key, value: {'eq': options[key]}})
+        searchQuery = searchQuery.applyFilter({ key: key, value: { 'eq': options[key] } })
 
         return context.dispatch('list', { // product list syncs the platform price on it's own
           query: searchQuery,
@@ -623,7 +623,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * Load the product data and sets current product
    */
   async loadProduct ({ dispatch }, { parentSku, childSku = null, route = null }) {
-    Logger.info('Fetching product data asynchronously', 'product', {parentSku, childSku})()
+    Logger.info('Fetching product data asynchronously', 'product', { parentSku, childSku })()
     EventBus.$emit('product-before-load', { store: rootStore, route: route })
     await dispatch('reset')
     // pass both id and sku to render a product
