@@ -10,9 +10,9 @@
       CLI concatenates default theme from nuxt module with integration-specific files and outputs a regular Nuxt project conatining all of that files. For client projects there is no inheritance mechanism.
     </Block>
     <p>
-      Because of that it's very important to <b>keep the agnostic APIs in default themes</b>. Clients can do whatever they want in their projects but we should keep agnosticity for maintanance purposes.
+      Because of that it's very important to <b>keep the agnostic APIs in default theme</b>. Clients can do whatever they want in their projects but we should keep agnosticity for maintanance purposes.
     </p>
-    <p>Default theme is located in <code>core/theme-module</code> folder and recognized as <code>@vue-storefront/nuxt-theme-module</code> </p>
+    <p>Default theme is located in <code>core/theme-module</code> folder and recognized as <code>@vue-storefront/nuxt-theme</code> </p>
     <h2>Configuring default theme for your integration</h2>
     <p>
       To inherit from default theme in your integration theme you need to install internal <code>@vue-storefront/comemrcetools-composables</code> package.

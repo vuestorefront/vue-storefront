@@ -15,7 +15,8 @@
     "lib": ["es6", "es7"],
     "strict": false,
     "paths": {
-      "@vue-storefront/interfaces": ["core/interfaces/src"]
+      "@vue-storefront/interfaces": ["core/interfaces/src"],
+      "@vue-storefront/utils": ["core/utils/src"]
     },
   },
   "exclude": ["node_modules", "**/*.spec.ts"]

@@ -5,8 +5,8 @@
     "node": "10.x"
   },
   "scripts": {
-    "build:ct:docs": "cd packages/commercetools/docs && yarn build",
-    "dev:ct:docs": "cd packages/commercetools/docs && yarn dev",
+    "build:docs": "cd packages/core/docs && yarn build",
+    "dev:docs": "cd packages/core/docs && yarn dev",
     "build:core:interfaces": "cd packages/core/interfaces && tsc",
     "build:core:utils": "cd packages/core/utils && yarn build",
     "build:core:factories": "cd packages/core/factories && yarn build",

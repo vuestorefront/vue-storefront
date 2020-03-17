@@ -3,6 +3,7 @@ const fs = require('fs');
 const consola = require('consola');
 const chalk = require('chalk');
 const chokidar = require('chokidar');
+const compileTemplates = require('./compileTemplates.js');
 
 const log = {
   info: (message) => consola.info(chalk.bold('VSF'), message),
@@ -27,99 +28,105 @@ const getAllFiles = (dirPath, arrayOfFiles) => {
 
 module.exports = function DefaultThemeModule(moduleOptions) {
   log.info(chalk.green('Starting Theme Module'));
+  const themeFiles = getAllFiles(path.join(__dirname, 'theme')).filter(file => !file.includes('/static/'));
+  const projectLocalThemeDir = this.options.buildDir.replace('.nuxt', '.theme');
 
-  this.options.dir = {
-    ...this.options.dir,
-    layouts: '.nuxt/layouts',
-    assets: '.nuxt/assets',
-    pages: '.nuxt/pages'
+  const compileAgnosticTemplates = () => {
+    themeFiles.forEach((file) => {
+      compileTemplates(
+        path.join(__dirname, file),
+        this.options.buildDir.split('.nuxt').pop() + '.theme/' + file.split('theme/').pop(),
+        {
+          apiClient: moduleOptions.apiClient,
+          helpers: moduleOptions.helpers,
+          composables: moduleOptions.composables
+        }
+      );
+    });
   };
-
-  this.extendBuild(config => {
-    config.resolve.alias['~/components'] = path.join(this.options.buildDir, 'components');
-    config.resolve.alias['~/assets'] = path.join(this.options.buildDir, '/assets');
-    config.resolve.alias['~'] = path.join(this.options.buildDir);
-  });
 
   log.info('Adding theme files...');
 
-  const themeFiles = getAllFiles(path.join(__dirname, 'theme')).filter(file => !file.includes('/static/'));
+  compileAgnosticTemplates();
 
-  themeFiles.forEach((file) => {
-    this.addTemplate({
-      fileName: file.split('theme/').pop(),
-      src: path.join(__dirname, file),
-      options: {
-        apiClient: moduleOptions.apiClient,
-        helpers: moduleOptions.helpers,
-        composables: moduleOptions.composables
-      }
-    });
+  this.options.dir = {
+    ...this.options.dir,
+    ...{
+      layouts: '.theme/layouts',
+      assets: '.theme/assets',
+      pages: '.theme/pages'
+    }};
+
+  this.extendBuild(config => {
+    delete config.resolve.alias['~'];
+    config.resolve.alias['~/components'] = path.join(projectLocalThemeDir, '/components');
+    config.resolve.alias['~/assets'] = path.join(projectLocalThemeDir, '/assets');
+    config.resolve.alias['~'] = path.join(projectLocalThemeDir);
   });
 
-  log.success(`Added ${themeFiles.length} theme file(s) to ${chalk.bold('.nuxt')} folder`);
+  log.success(`Added ${themeFiles.length} theme file(s) to ${chalk.bold('.theme')} folder`);
 
   this.extendRoutes((routes, resolve) => {
     routes.unshift({
       name: 'home',
       path: '/',
-      component: resolve(this.options.buildDir, 'pages/Home.vue')
+      component: resolve(projectLocalThemeDir, 'pages/Home.vue')
     });
     routes.push({
       name: 'product',
       path: '/p/:slug/',
-      component: resolve(this.options.buildDir, 'pages/Product.vue')
+      component: resolve(projectLocalThemeDir, 'pages/Product.vue')
     });
     routes.push({
       name: 'category',
       path: '/c/:slug_1/:slug_2?/:slug_3?/:slug_4?/:slug_5?',
-      component: resolve(this.options.buildDir, 'pages/Category.vue')
+      component: resolve(projectLocalThemeDir, 'pages/Category.vue')
     });
     routes.push({
       name: 'my-account',
       path: '/my-account/:pageName?',
-      component: resolve(this.options.buildDir, 'pages/MyAccount.vue')
+      component: resolve(projectLocalThemeDir, 'pages/MyAccount.vue')
     });
     routes.push({
       name: 'checkout',
       path: '/checkout',
-      component: resolve(this.options.buildDir, 'pages/Checkout.vue'),
+      component: resolve(projectLocalThemeDir, 'pages/Checkout.vue'),
       children: [
         {
           path: 'personal-details',
           name: 'personal-details',
-          component: resolve(this.options.buildDir, 'pages/Checkout/PersonalDetails.vue')
+          component: resolve(projectLocalThemeDir, 'pages/Checkout/PersonalDetails.vue')
         },
         {
           path: 'shipping',
           name: 'shipping',
-          component: resolve(this.options.buildDir, 'pages/Checkout/Shipping.vue')
+          component: resolve(projectLocalThemeDir, 'pages/Checkout/Shipping.vue')
         },
         {
           path: 'payment',
           name: 'payment',
-          component: resolve(this.options.buildDir, 'pages/Checkout/Payment.vue')
+          component: resolve(projectLocalThemeDir, 'pages/Checkout/Payment.vue')
         },
         {
           path: 'order-review',
           name: 'order-review',
-          component: resolve(this.options.buildDir, 'pages/Checkout/OrderReview.vue')
+          component: resolve(projectLocalThemeDir, 'pages/Checkout/OrderReview.vue')
         },
         {
           path: 'thank-you',
           name: 'thank-you',
-          component: resolve(this.options.buildDir, 'pages/Checkout/ThankYou.vue')
+          component: resolve(projectLocalThemeDir, 'pages/Checkout/ThankYou.vue')
         }
       ]
     });
   });
 
   if (global.coreDev) {
-    log.info(`Watching theme dir in Theme Module for changes.. ${chalk.italic('[coreDevelopment]')}`);
-    this.nuxt.hook('build:before', (builder) => {
-      chokidar.watch(path.join(__dirname, '../theme/')).on('all', () => {
-        builder.generateRoutesAndFiles();
-      });
+    log.info('Watching changes in @vue-storefront/nuxt-theme');
+    chokidar.watch(path.join(__dirname, '/theme/')).on('all', () => {
+      // TODO: Compile only the template that has changed
+      compileAgnosticTemplates();
+      log.success('Theme files recompiled');
     });
   }
 };

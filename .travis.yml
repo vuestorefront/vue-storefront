@@ -1,5 +1,5 @@
 language: node_js
-node_js: '10'
+node_js: "10"
 
 cache:
   yarn: true
@@ -31,10 +31,16 @@ install:
 
 jobs:
   include:
+    - stage: test core
+      script: yarn test:core --coverage
+      name: Test core packages
+      after_script:
+        - cat ./packages/core/coverage/lcov.info | coveralls
+
     - stage: Build
       name: Build
       script:
-      - yarn build:prismic && yarn build:ct
+        - yarn build:prismic && yarn build:ct
 
     - stage: test commercetools
       script: yarn test:ct:api-client --coverage
@@ -53,12 +59,6 @@ jobs:
       name: Test helpers
       after_script:
         - cat ./packages/commercetools/helpers/coverage/lcov.info | coveralls
-
-    - stage: test core
-      script: yarn test:core --coverage
-      name: Test core packages
-      after_script:
-        - cat ./packages/core/coverage/lcov.info | coveralls
 
     - stage: test prismic
       script: yarn test:prismic --coverage
@@ -81,4 +81,3 @@ jobs:
       stage: deploy
       script:
         - "curl -u $CLOUD_USERNAME:$CLOUD_PASSWORD -H 'Content-Type: application/json' -X POST -d \"{\\\"code\\\":\\\"vsf-next-demo\\\", \\\"frontContainerVersion\\\":\\\"$COMMIT\\\"}\" https://farmer.storefrontcloud.io/instances"
-

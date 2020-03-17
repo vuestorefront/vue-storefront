@@ -1,0 +1,50 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn add typedoc
+
+PATH: 
+  /Users/frakowski/.npm-global/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/frakowski/.npm-global/bin
+
+Yarn version: 
+  1.16.0
+
+Node version: 
+  10.16.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/frakowski/Desktop/vsf-next/packages/commercetools/docs/package.json: Unexpected token } in JSON at position 241
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:304:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:315:13
+
+npm manifest: 
+  {
+    "name": "docs",
+    "version": "0.0.1",
+    "private": true,
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "dev": "vuepress dev",
+      "build": "vuepress build"
+    },
+    "dependencies": {
+      "@vue-storefront/docs": "^0.0.1",
+    },
+    "devDependencies": {
+      "vuepress": "^1.2.0",
+      "@vue-storefront/commercetools-api": "^0.0.3"
+    },
+    "author": "DivanteLtd",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
