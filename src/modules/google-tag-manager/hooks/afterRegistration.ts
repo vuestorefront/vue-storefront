@@ -79,7 +79,7 @@ export function afterRegistration (config, store: Store<any>) {
       }
 
       // Measuring Purchases
-      if (type === 'order/order/LAST_ORDER_CONFIRMATION') {
+      if (type === 'order/orders/LAST_ORDER_CONFIRMATION') {
         const orderId = payload.confirmation.backendOrderId
         const products = payload.order.products.map(product => getProduct(product))
         store.dispatch(
@@ -87,24 +87,22 @@ export function afterRegistration (config, store: Store<any>) {
           { refresh: true, useCache: false }
         ).then(() => {
           const orderHistory = state.user.orders_history
-          const order = orderHistory.items.find((order) => order['entity_id'].toString() === orderId)
-          if (order) {
-            GTM.trackEvent({
-              'ecommerce': {
-                'purchase': {
-                  'actionField': {
-                    'id': orderId,
-                    'affiliation': order.store_name,
-                    'revenue': order.total_due,
-                    'tax': order.tax_amount,
-                    'shipping': order.shipping_amount,
-                    'coupon': ''
-                  },
-                  'products': products
-                }
+          const order = state.user.orders_history ? orderHistory.items.find((order) => order['entity_id'].toString() === orderId) : null
+          GTM.trackEvent({
+            'ecommerce': {
+              'purchase': {
+                'actionField': {
+                  'id': orderId,
+                  'affiliation': order ? order.store_name : '',
+                  'revenue': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_grand_total ? state.cart.platformTotals.base_grand_total : '',
+                  'tax': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_tax_amount ? state.cart.platformTotals.base_tax_amount : '',
+                  'shipping': order ? order.total_due : state.cart.platformTotals && state.cart.platformTotals.base_shipping_amount ? state.cart.platformTotals.base_shipping_amount : '',
+                  'coupon': ''
+                },
+                'products': products
               }
-            })
-          }
+            }
+          })
         })
       }
     })

@@ -15,6 +15,7 @@ import getProductOptions from './getProductOptions'
 import getProductConfiguration from './getProductConfiguration'
 import createOrderData from './createOrderData'
 import createShippingInfoData from './createShippingInfoData'
+import * as syncCartWhenLocalStorageChange from './syncCartWhenLocalStorageChange'
 
 export {
   cartCacheHandlerFactory,
@@ -33,5 +34,6 @@ export {
   getProductOptions,
   getProductConfiguration,
   createOrderData,
-  createShippingInfoData
+  createShippingInfoData,
+  syncCartWhenLocalStorageChange
 }

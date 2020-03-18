@@ -117,6 +117,10 @@ const actions: ActionTree<ProductState, RootState> = {
       url = `${url}&userGroupId=${rootGetters['tax/getUserTaxGroupId']}`
     }
 
+    if (rootGetters['user/getToken']) {
+      url = `${url}&token=${rootGetters['user/getToken']}`
+    }
+
     return TaskQueue.execute({ url, // sync the cart
       payload: {
         method: 'GET',

@@ -221,6 +221,7 @@ import { registerModule, isModuleRegistered } from '@vue-storefront/core/lib/mod
 import { onlineHelper, isServer, productJsonLd } from '@vue-storefront/core/helpers'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 import ProductPrice from 'theme/components/core/ProductPrice.vue'
+import { doPlatformPricesSync } from '@vue-storefront/core/modules/catalog/helpers'
 
 export default {
   components: {
@@ -324,7 +325,7 @@ export default {
       return currentStoreView()
     },
     getJsonLd () {
-      return productJsonLd(this.getCurrentProduct, this.getCurrentProductConfiguration.color.label, this.$store.state.storeView.i18n.currencyCode, this.getCustomAttributes)
+      return productJsonLd(this.getCurrentProduct, this.getCurrentProductConfiguration.color && this.getCurrentProductConfiguration.color.label, this.$store.state.storeView.i18n.currencyCode, this.getCustomAttributes)
     }
   },
   async mounted () {
@@ -396,6 +397,9 @@ export default {
       if (this.isStockInfoLoading) return // stock info is already loading
       this.isStockInfoLoading = true
       try {
+        if (config.products.alwaysSyncPricesClientSide) {
+          doPlatformPricesSync([this.getCurrentProduct]);
+        }
         const res = await this.$store.dispatch('stock/check', {
           product: this.getCurrentProduct,
           qty: this.getCurrentProduct.qty

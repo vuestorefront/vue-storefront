@@ -10,6 +10,17 @@ const config = require('config')
 const minify = require('html-minifier').minify
 
 function createRenderer (bundle, clientManifest, template) {
+  let shouldPreload = () => {}
+  let shouldPrefetch = () => {}
+  try {
+    const scripts = require('../../modules/initial-resources/serverResourcesFilter')
+    shouldPreload = scripts.shouldPreload
+    shouldPrefetch = scripts.shouldPrefetch
+  } catch (err) {
+    if (config.initialResources) {
+      console.error(err)
+    }
+  }
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
   return require('vue-server-renderer').createBundleRenderer(bundle, {
     clientManifest,
@@ -17,7 +28,9 @@ function createRenderer (bundle, clientManifest, template) {
     cache: require('lru-cache')({
       max: 1000,
       maxAge: 1000 * 60 * 15
-    })
+    }),
+    shouldPreload,
+    shouldPrefetch
   })
 }
 

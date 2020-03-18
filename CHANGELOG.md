@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `/cache-version.json` route to get current cache version
 
 ### Fixed
+
 - Fixed Search product fails for category filter when categoryId is string - @adityasharma7 (#3929)
 - Revert init filters in Vue app - @gibkigonzo (#3929)
 - All categories disappearing if you add the child category name to includeFields - @1070rik (#4015)
@@ -36,9 +37,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - use storeCode for mappingFallback url - @gibkigonzo (#4050)
 - `getVariantWithLowestPrice` uses inexistent `final_price` property - @cewald (#4091)
 - Fixed `NOT_ALLOWED_SSR_EXTENSIONS_REGEX` to only match with file extensions having a dot - @haelbichalex (#4100)
+- Fixed problem with not showing error message when placing an order fails - @qiqqq
+- Invoking afterCacheInvalidated server hook in a proper moment - @Fifciu (#4176)
+- Fixed `cart/isVirtualCart` to return `false` when cart is empty - @haelbichalex(#4182)
 - Use `setProductGallery` in `product/setCurrent` to use logic of the action - @cewald (#4153)
 
 ### Changed / Improved
+
 - Optimized `translation.processor` to process only enabled locale CSV files - @pkarw (#3950)
 - Remove commit register mapping - @gibkigonzo (#3875)
 - Improved method `findConfigurableChildAsync` - find variant with lowest price - @gibkigonzo (#3939)
@@ -48,24 +53,67 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve typescript support for test utils - @resubaka (#4067)
 - Removed `product/loadConfigurableAttributes` calls - @andrzejewsky, @gibkigonzo (#3336)
 - Disable `mapFallback` url by default - @gibkigonzo(#4092)
+- Include token in pricing sync -  @carlokok (#4156)
+
+## [1.11.2] - 2020.03.10
+
+### Added
+
+- Add `isBackRoute` that informs if user returns to route, skip loading products for category if he does - @gibkigonzo (#4066)
+- Add server context to async data loader - @gibkigonzo (#4113)
+- Add preload and preconnect for google font - @gibkigonzo (#4121)
+
+### Changed / Improved
+
+- optimizations - improved prefetch strategy - @gibkigonzo (#4080)
+- improvements to Finnish translations - @evktalo (#4116)
+- Radio button now allows separate checked, value and name attributes - @EndPositive (#4098)
+- Update backwards compatible dependencies - @simonmaass (#4126)
+
+### Fixed
+
+- add disconnect and sync options for cart/clear - @gibkigonzo (#4062)
+- add '1' as searched value for 'is_user_defined' and 'is_visible' (createAttributesListQuery) - @gibkigonzo (#4075)
+- Fix possibility to add same SKU with different custom options to the cart - @Michal-Dziedzinski (#3595)
+- Fix `calculateProductTax` to find matching tax rules from ES for current product - @DylannCordel (#4056)
+- Set `totals` in products in cart always in reactive way - @psmyrek (#4079)
+- Fix sync cart between tabs - @Michal-Dziedzinski (#3838)
+- Add currentRoute to url module and return cached requests - @gibkigonzo (#4077, #4066)
+- Hide original radio button behind built label - @EndPositive (#4098)
+- Disable overriding `route` state in **INITIAL_STATE** - @gibkigonzo (#4095)
+- Fix gtm order placement event when user was guest - @Michal-Dziedzinski (#4064)
+- Fix gtm event switched properties - @Michal-Dziedzinski (#4106)
+- Group 'productChecksum' and 'productsEquals' logic for all supported products types. Remove 'checksum' when editing product.
+  Remove and add coupon when user login Remove 'NA' as default company. Show qty in microcart for all types of product.
+  Remove preload font - it gives good performance, but vue-meta refresh page, because there is script onload. - @gibkigonzo (#4128)
+- Keep old category before route is resolved - @gibkigonzo (#4124)
+- Added comments in 'productsEqual' and change logic for different types of products. Remove login user after order in Checkout. Allow changing qty for 'group' and 'bundle'.products - @gibkigonzo (#4144)
+- Fix incorrect root categories when extending includeFields - @Michal-Dziedzinski (#4090)
+- Add onlyPositive prop to BaseInputNumber to not allow user type negative value - @Michal-Dziedzinski (#4136)
+- Await for cart/authorize while login user - @gibkigonzo (#4133)
+- Fixed `NOT_ALLOWED_SSR_EXTENSIONS_REGEX` to only match with file extensions having a dot - @haelbichalex (#4100)
+- Add lazy load for vue-carousel - @gibkigonzo (#4157)
 
 ## [1.11.1] - 2020.02.05
 
 ### Added
+
 - Add `ProductPrice` component with bundleOptions and customOptions prices - @gibkigonzo (#3978)
 - Add lazy create cart token - @gibkigonzo (#3994)
 
 ### Changed / Improved
+
 - Set cache tag when loading a category - @haelbichalex (#3940)
-- In development build `webpack.config.js` in theme folder is now called without the `default` key
+- In development build `webpack.config.js` in theme folder is now called without the `default` key - @psmyrek
 
 ### Fixed
+
 - Added Finnish translations - @mattiteraslahti and @alphpkeemik
 - Updated Estonian translations to match 1.11 - @alphpkeemik
 - CookieNotification CSR&SSR mismatch fixed - @Fifciu (#3922)
 - The attribute filter in `attribute/list` was not filtering the already loaded attributes properly - @pkarw (#3964)
 - Update `hasProductErrors` in Product component and support additional sku in custom options - @gibkigonzo (#3976)
-- Fixed logic for generating ${lang}.json files in multi-store setup - @jpkempf
+- Fixed logic for generating \${lang}.json files in multi-store setup - @jpkempf
 - Fixed logic for collecting valid locales in single-store, multi-lang setup - @jpkempf
 - Make initial custom option value reactive - @gibkigonzo
 - Fixed No image thumbnails leaded on 404 page - @andrzejewsky (#3955)
@@ -74,7 +122,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed product bundle comparison condition - @gk-daniel (#4004)
 - Add event callback for checkout load initial data - @gibkigonzo(#3985)
 - Fixed `Processing order...` modal closing too early - @grimasod (#4021)
-- Keep registered payment methods after `syncTotals`  - @grimasod (#4020)
+- Keep registered payment methods after `syncTotals` - @grimasod (#4020)
 - Added status code to the cache content and use it in cache response - @resubaka (#4014)
 - Fixed sku attribute is missing on compare page - @gibkigonzo (#4036)
 - Fixed z-index for aside in compare list - @gibkigonzo (#4037)
@@ -88,6 +136,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.0] - 2019.12.20
 
 ### Added
+
 - Add unit tests for `core/modules/url` - @dz3n (#3469)
 - Add unit test for `core/modules/checkout` - @psmyrek (#3460)
 - Add defense against incomplete config in ssr renderer - @oskar1233 (#3774)
@@ -99,6 +148,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added price filtering key as config - @roywcm
 
 ### Fixed
+
 - Fixed missing parameter to query function from cms/store/block/actions - @georgiev-ivan (#3909)
 - Always close zoom overlay after changing product - @psmyrek (#3818)
 - Fixed problem with cutting image height in category page on 1024px+ screen res - @AdKamil (#3781)
@@ -112,22 +162,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed Product page breadcrumbs problem when products are in multiple categories in different branches of the category tree - @grimasod (#3691)
 - Change translation from jp-JP to ja-JP - @gibkigonzo (#3824)
 - Fixed ecosystem config for pm2 - @andrzejewsky (#3842)
-- Fixed `mappingFallback` for extending modules -  @andrzejewsky (#3822)
+- Fixed `mappingFallback` for extending modules - @andrzejewsky (#3822)
 - Fixed adding products search results to category-next product store - @grimasod (#3877)
 - Use `defaultSortBy` for sorting category products by default @haelbichalex (#3873)
 - Fixed some potential mutations of Config object in `catalog` and `catalog-next` - @grimasod (#3843)
-- Set `null` as default value for custom option in product page -  @gibkigonzo (#3885)
-- Fixed Breadcrumb filters - apply to second category fetch  - @grimasod (#3887)
+- Set `null` as default value for custom option in product page - @gibkigonzo (#3885)
+- Fixed Breadcrumb filters - apply to second category fetch - @grimasod (#3887)
 - Fixed `config.storeViews.commonCache` being ignored - @grimasod (#3895)
 - Fixed static pages, password notification, offline mode #3902 - @andrzejewsky (#3902)
 - Fixed error page display with enabled multistore - @gibkigonzo (#3890)
 - Fixed edit shipping address in my account - @gibkigonzo (#3921)
 - Fetch cms_block content in serverPrefetch method - @gibkigonzo (#3910)
-- Fixed saving invalidated user token -  @andrzejewsky (#3923)
+- Fixed saving invalidated user token - @andrzejewsky (#3923)
 - Keep category products objects on ssr - @gibkigonzo (#3924)
 - product breadcrumbs - check if current category is not highest one - @gibkigonzo (#3933)
 
 ### Changed / Improved
+
 - Changed pre commit hook to use NODE_ENV production to check for debugger statements - @resubaka (#3686)
 - Improve the readability of 'getShippingDetails()' and 'updateDetails()' method of UserShippingDetails component - @adityasharma7 (#3770)
 - Keep git after yarn install in dockerfile - @ddanier (#3826)
@@ -136,15 +187,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.11.0-rc.2] - 2019.10.31
 
 ### Added
+
 - Add defense for incomplete config in preferchCachedAttributes helper
 - Add unit test for \`core/modules/cms\` - @krskibin (#3738)
 
 ### Fixed
+
 - Fixed deprecated getter in cmsBlock store - @resubaka (#3683)
 - Fixed problem around dynamic urls when default storeView is set with appendStoreCode false and url set to / . @resubaka (#3685)
 - Fixed three problems you can run into when you have bundle products - @resubaka (#3692)
 - Reset nested menu after logout - @gibkigonzo (#3680)
-- Fixed handling checkbox custom option -  @gibkigonzo (#2781)
+- Fixed handling checkbox custom option - @gibkigonzo (#2781)
 - Fixed typos in docs - @afozbek (#3709)
 - Fixed VSF build fails for some people due to lack of dependencies in the container - @krskibin (#3699)
 - Fixed two graphql problems, one with cms_blocks and the other with default sort order - @resubaka (#3718)
@@ -164,6 +217,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Custom module `ConfigProvider` aren't called anymore - @cewald (#3797)
 
 ### Added
+
 - Added Estonian translations - @alphpkeemik
 - Added support for ES7 - @andrzejewsky (#3690)
 - Added unit tests for `core/modules/mailer` - @krskibin (#3710)
@@ -175,6 +229,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add unit test for `core/modules/wishlist` - @psmyrek (#3471)
 
 ### Changed / Improved
+
 - Use `encodeURIComponent` to encode get parameters in `multimatch.js` - @adityasharma7 (#3736)
 
 ## [1.11.0-rc.1] - 2019.10.03
@@ -292,7 +347,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove modifying config by reference in multistore - @gibkigonzo (#3617)
 - Add translation key for add review - @gibkigonzo (#3611)
 - Add product name prop to reviews component - @gibkigonzo (#3607)
-- Show default cms pages when current store code is not equals to default  - @andrzejewsky (#3579)
+- Show default cms pages when current store code is not equals to default - @andrzejewsky (#3579)
 - Fix login errors with mailchimp - @gibkigonzo (#3612)
 - Hydration error on homepage - @patzick (#3609)
 - Fix adding products with custom options - @andrzejewsky (#3597)
@@ -361,9 +416,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pass to `registerModule` all parameters as one object - @gibkigonzo (#3634)
 - Include shipping address data in request for shipping methods for more accurate filtering - @rain2o (#2515)
 - remove 'disabled' flag in storeViews config - @gibkigonzo (#3659)
+
 ## [1.10.5] - 28.11.2019
 
 ### Fixed
+
 - Disable product mutation when assigning product variant - @gibkigonzo (#3735)
 - Fix issue with Cannot assign to read only property 'storeCode' - @yuriboyko (#3748)
 - Render correct category links when multistore is active - @gibkigonzo (#3753)
@@ -377,6 +434,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.10.4] - 18.10.2019
 
 ### Fixed
+
 - Added try/catch for fetching single product in cart synchronization - @gibkigonzo (#3632)
 - Removed infinite loop when changing checkbox in shipping details - @gibkigonzo (#3656)
 - Remove modifying config by reference in multistore - @gibkigonzo (#3617)
@@ -399,17 +457,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed evaluate detailsLink in the cookie notification - @benjick (#3689)
 
 ## Added
+
 - Added german translations - @schwerdt-ke (3076)
 
 ## [1.10.3] - 2019.09.18
 
 ### Fixed
+
 - Broken sidebar menu in mobile view - @przspa (#3549)
 - UrlDispatcher issues with multistore routes - @pkarw (#3568)
 
 ## [1.10.2] - 2019.09.06
 
 ### Fixed
+
 - Product image is missing on PDP - @przspa, @NavaneethVijay (#3483)
 - Mounting app when routes are resolved, should completly remove recent SSR errors - patzick (#3499)
 - Fixed `categoriesDynamicPrefetchLevel` that now can be equal to 0 - @pkarw (#3495)
@@ -417,6 +478,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.10.1] - 2019.09.03
 
 ### Fixed
+
 - Invalid Discount code error handled by theme - @grimasod (#3385)
 - Fallback for empty value or no_selection child image - @ngongoll (#3397)
 - `order.order_id` was not assigned in the `orders.directBackendSync` mode - @pkarw (#3398)
@@ -563,7 +625,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored Travis config - @Tjitse-E (#3035)
 - Renamed the `stock/check` to `stock/queueCheck` to better emphasize it's async nature; added `stock/check` which does exactly what name suggests - returning the true stock values - @pkarw (#3150)
 - Cart unit tests throwing lots of type warnings - @lukeromanowicz (#3185)
-- Lack of possibility to mock src modules and  theme components - @lukeromanowicz (#3185)
+- Lack of possibility to mock src modules and theme components - @lukeromanowicz (#3185)
 - Outdated signature of Registration hooks for google-tag-manager - @vishal-7037 (#3208)
 - Added serveral missing german translations and fixed german language file structure - @unherz (#3202)
 - Refactored the informal way of adressing to formal in german translation files - @unherz (#3213)
