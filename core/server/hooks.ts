@@ -13,6 +13,11 @@ interface beforeCacheInvalidatedParamter {
   req: Request
 }
 
+interface afterCacheInvalidatedParamter {
+  tags: string[],
+  req: Request
+}
+
 const {
   hook: beforeCacheInvalidatedHook,
   executor: beforeCacheInvalidatedExecutor
@@ -21,7 +26,7 @@ const {
 const {
   hook: afterCacheInvalidatedHook,
   executor: afterCacheInvalidatedExecutor
-} = createListenerHook<any>()
+} = createListenerHook<afterCacheInvalidatedParamter>()
 
 // beforeStartApp
 interface Extend {

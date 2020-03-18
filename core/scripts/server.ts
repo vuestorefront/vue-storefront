@@ -1,4 +1,5 @@
 import { serverHooksExecutors } from '@vue-storefront/core/server/hooks'
+
 let config = require('config')
 const path = require('path')
 const glob = require('glob')
@@ -92,13 +93,13 @@ function invalidateCache (req, res) {
         }
       })
 
-      serverHooksExecutors.afterCacheInvalidated()
-
       Promise.all(subPromises).then(r => {
         apiStatus(res, `Tags invalidated successfully [${req.query.tag}]`, 200)
       }).catch(error => {
         apiStatus(res, error, 500)
         console.error(error)
+      }).finally(() => {
+        serverHooksExecutors.afterCacheInvalidated({ tags, req })
       })
 
       if (config.server.invalidateCacheForwarding) { // forward invalidate request to the next server in the chain

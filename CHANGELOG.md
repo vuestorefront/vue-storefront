@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.12.0-rc1] - UNRELEASED
 
 ### Added
-
 - Separating endpoints for CSR/SSR - @Fifciu (#2861)
 - Added short hands for version and help flags - @jamesgeorge007 (#3946)
 - Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald (#3960)
@@ -39,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `getVariantWithLowestPrice` uses inexistent `final_price` property - @cewald (#4091)
 - Fixed `NOT_ALLOWED_SSR_EXTENSIONS_REGEX` to only match with file extensions having a dot - @haelbichalex (#4100)
 - Fixed problem with not showing error message when placing an order fails - @qiqqq
+- Invoking afterCacheInvalidated server hook in a proper moment - @Fifciu (#4176)
+- Fixed `cart/isVirtualCart` to return `false` when cart is empty - @haelbichalex(#4182)
 - Add `x-vs-store-code` to `cacheKey` in `dynamicRequestHandler` method - @cewald (#4143)
 
 ### Changed / Improved
@@ -52,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve typescript support for test utils - @resubaka (#4067)
 - Removed `product/loadConfigurableAttributes` calls - @andrzejewsky, @gibkigonzo (#3336)
 - Disable `mapFallback` url by default - @gibkigonzo(#4092)
+- Include token in pricing sync -  @carlokok (#4156)
 
 ## [1.11.2] - 2020.03.10
 
