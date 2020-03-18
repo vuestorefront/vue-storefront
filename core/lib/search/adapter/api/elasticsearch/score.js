@@ -23,7 +23,7 @@ export default function getFunctionScores () {
     }
   }
   if (filter.length) {
-    return {'functions': filter,
+    return { 'functions': filter,
       'score_mode': config.score_mode ? config.score_mode : 'multiply',
       'boost_mode': config.boost_mode ? config.boost_mode : 'multiply',
       'max_boost': config.max_boost ? config.max_boost : 100,

@@ -34,14 +34,14 @@ const actions: ActionTree<CategoryState, RootState> = {
     }
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
-    const {items, perPage, start, total, aggregations} = await quickSearchByQuery({
+    const { items, perPage, start, total, aggregations } = await quickSearchByQuery({
       query: filterQr,
       sort: searchQuery.sort || `${products.defaultSortBy.attribute}:${products.defaultSortBy.order}`,
       includeFields: entities.productList.includeFields,
       excludeFields: entities.productList.excludeFields,
       size: pageSize
     })
-    await dispatch('loadAvailableFiltersFrom', {aggregations, category: searchCategory, filters: searchQuery.filters})
+    await dispatch('loadAvailableFiltersFrom', { aggregations, category: searchCategory, filters: searchQuery.filters })
     commit(types.CATEGORY_SET_SEARCH_PRODUCTS_STATS, { perPage, start, total })
     const configuredProducts = await dispatch('processCategoryProducts', { products: items, filters: searchQuery.filters })
     commit(types.CATEGORY_SET_PRODUCTS, configuredProducts)
@@ -108,7 +108,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   async configureProducts ({ rootState }, { products = [], filters = {} } = {}) {
     return products.map(product => {
       product = Object.assign({}, preConfigureProduct({ product, populateRequestCacheTags: config.server.useOutputCacheTagging }))
-      const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
+      const configuredProductVariant = configureProductAsync({ rootState, state: { current_configuration: {} } }, { product, configuration: filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false })
       return Object.assign(product, omit(configuredProductVariant, ['visibility']))
     })
   },
@@ -171,14 +171,14 @@ const actions: ActionTree<CategoryState, RootState> = {
   async loadCategoryFilters ({ dispatch, getters }, category) {
     const searchCategory = category || getters.getCurrentCategory
     let filterQr = buildFilterProductsQuery(searchCategory)
-    const {aggregations} = await quickSearchByQuery({
+    const { aggregations } = await quickSearchByQuery({
       query: filterQr,
       size: config.products.maxFiltersQuerySize,
       excludeFields: ['*']
     })
-    await dispatch('loadAvailableFiltersFrom', {aggregations, category})
+    await dispatch('loadAvailableFiltersFrom', { aggregations, category })
   },
-  async loadAvailableFiltersFrom ({ commit, getters }, {aggregations, category, filters = {}}) {
+  async loadAvailableFiltersFrom ({ commit, getters }, { aggregations, category, filters = {} }) {
     const aggregationFilters = getters.getAvailableFiltersFrom(aggregations)
     const currentCategory = category || getters.getCurrentCategory
     const categoryMappedFilters = getters.getFiltersMap[currentCategory.id]
@@ -187,20 +187,20 @@ const actions: ActionTree<CategoryState, RootState> = {
     if (categoryMappedFilters && filtersKeys.length) {
       resultFilters = Object.assign(cloneDeep(categoryMappedFilters), cloneDeep(omit(aggregationFilters, filtersKeys)))
     }
-    commit(types.CATEGORY_SET_CATEGORY_FILTERS, {category, filters: resultFilters})
+    commit(types.CATEGORY_SET_CATEGORY_FILTERS, { category, filters: resultFilters })
   },
   async switchSearchFilters ({ dispatch }, filterVariants: FilterVariant[] = []) {
     let currentQuery = router.currentRoute[products.routerFiltersSource]
     filterVariants.forEach(filterVariant => {
-      currentQuery = changeFilterQuery({currentQuery, filterVariant})
+      currentQuery = changeFilterQuery({ currentQuery, filterVariant })
     })
     await dispatch('changeRouterFilterParameters', currentQuery)
   },
-  async resetSearchFilters ({dispatch}) {
+  async resetSearchFilters ({ dispatch }) {
     await dispatch('changeRouterFilterParameters', {})
   },
   async changeRouterFilterParameters (context, query) {
-    router.push({[products.routerFiltersSource]: query})
+    router.push({ [products.routerFiltersSource]: query })
   },
   async loadCategoryBreadcrumbs ({ dispatch, getters }, { category, currentRouteName, omitCurrent = false }) {
     if (!category) return

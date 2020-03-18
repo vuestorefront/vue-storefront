@@ -89,7 +89,7 @@ export function updateProductPrices ({ product, rate, sourcePriceInclTax = false
 
   // save original prices
   if (!hasOriginalPrices) {
-    assignPrice({product, target: 'original_price', ...priceWithTax, deprecatedPriceFieldsSupport})
+    assignPrice({ product, target: 'original_price', ...priceWithTax, deprecatedPriceFieldsSupport })
 
     if (specialPriceWithTax.price) {
       product.original_special_price = specialPriceWithTax.price
@@ -112,12 +112,12 @@ export function updateProductPrices ({ product, rate, sourcePriceInclTax = false
 
   if (product.final_price) {
     if (product.final_price < product.price) { // compare the prices with the product final price if provided; final prices is used in case of active catalog promo rules for example
-      assignPrice({product, target: 'price', ...finalPriceWithTax, deprecatedPriceFieldsSupport})
+      assignPrice({ product, target: 'price', ...finalPriceWithTax, deprecatedPriceFieldsSupport })
       if (product.special_price && product.final_price < product.special_price) { // for VS - special_price is any price lowered than regular price (`price`); in Magento there is a separate mechanism for setting the `special_prices`
-        assignPrice({product, target: 'price', ...specialPriceWithTax, deprecatedPriceFieldsSupport}) // if the `final_price` is lower than the original `special_price` - it means some catalog rules were applied over it
-        assignPrice({product, target: 'special_price', ...finalPriceWithTax, deprecatedPriceFieldsSupport})
+        assignPrice({ product, target: 'price', ...specialPriceWithTax, deprecatedPriceFieldsSupport }) // if the `final_price` is lower than the original `special_price` - it means some catalog rules were applied over it
+        assignPrice({ product, target: 'special_price', ...finalPriceWithTax, deprecatedPriceFieldsSupport })
       } else {
-        assignPrice({product, target: 'price', ...finalPriceWithTax, deprecatedPriceFieldsSupport})
+        assignPrice({ product, target: 'price', ...finalPriceWithTax, deprecatedPriceFieldsSupport })
       }
     }
   }

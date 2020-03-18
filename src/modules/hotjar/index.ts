@@ -14,7 +14,7 @@ const hotjarSnippet = (hjid) => (function (h, o, t, j, a, r) {
     function () {
       (h.hj.q = h.hj.q || []).push(arguments);
     };
-  h._hjSettings = {hjid, hjsv: 6};
+  h._hjSettings = { hjid, hjsv: 6 };
   a = o.getElementsByTagName('head')[0];
   r = o.createElement('script');
   r.async = 1;
@@ -22,7 +22,7 @@ const hotjarSnippet = (hjid) => (function (h, o, t, j, a, r) {
   a.appendChild(r);
 })(window as any, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
 
-export const HotjarModule: StorefrontModule = function ({store, appConfig}) {
+export const HotjarModule: StorefrontModule = function ({ store, appConfig }) {
   store.registerModule('hotjar', hotjarStore)
 
   if (!isServer && appConfig.hotjar && appConfig.hotjar.id) {
