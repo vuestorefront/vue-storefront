@@ -1,5 +1,5 @@
 <template>
-  <div data-test-id="TeaserSmall" class="teaser-small t-flex-fix t-w-1/2 md:t-w-1/4 t-px-4 t-flex t-flex-col t-relative t-cursor-pointer t-webkit-tap-transparent" @click="redirect">
+  <div data-test-id="TeaserSmall" class="teaser-small t-flex-fix t-w-1/2 md:t-w-1/4 t-px-4 t-flex t-flex-col t-relative t-cursor-pointer t-webkit-tap-transparent" @click="redirect" @mouseover="onHover" @mouseleave="onHover">
     <div class="t-absolute t-top-0 t-right-0 t-text-sm t-py-2 t-px-3 t-mr-4" :class="{ 't-text-white': !textColor, 't-bg-base-primary': !backgroundColor }" :style="{ 'background-color': backgroundColor, 'color': textColor }" v-if="teaser.buttonText">
       {{ teaser.buttonText }}
     </div>
@@ -9,7 +9,7 @@
         {{ teaser.text1 }}
       </router-link>
     </h2>
-    <edit-button :edit-url="editUrl" class="t-left-0 t-ml-6 t--mt-4" />
+    <edit-button :edit-url="editUrl" class="t-left-0 t-ml-2 t--mt-2" :class="{ 't-hidden': !hover }" />
   </div>
 </template>
 

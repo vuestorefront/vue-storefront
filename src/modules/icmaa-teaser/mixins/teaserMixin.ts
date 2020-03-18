@@ -17,6 +17,11 @@ export default {
       default: false
     }
   },
+  data () {
+    return {
+      hover: false
+    }
+  },
   computed: {
     ...mapGetters({ viewport: 'ui/getViewport' }),
     imageUrl () {
@@ -40,6 +45,11 @@ export default {
   methods: {
     redirect () {
       this.$router.push(this.link)
+    },
+    onHover (e) {
+      if (this.redirectToEdit) {
+        this.hover = (e.type === 'mouseover')
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div v-if="editUrl" class="t-absolute t-top-0 t-mt-2">
-    <a :href="editUrl" @click.stop="/** Don't call parent redirect */" target="_blank" class="t-block t-bg-white t-p-2 t-rounded-full t-text-xs t-font-mono t-text-base-tone">
+    <a :href="editUrl" @click.stop="/** Don't call parent redirect */" target="_blank" class="t-block t-bg-white t-p-2 t-text-xs t-font-mono t-text-base-tone">
       <material-icon icon="edit" size="lg" class="t-align-middle" />
     </a>
   </div>
