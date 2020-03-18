@@ -9,9 +9,11 @@ const config = merge(base, {
     splitChunks: {
       cacheGroups: {
         commons: {
-          test: /[\\/]node_modules[\\/](vue|vuex|vue-router|vue-meta|vue-i18n|vuex-router-sync|localforage)[\\/]/,
+          // create 'vendor' group from initial packages from node_modules
+          test: /node_modules/,
           name: 'vendor',
-          chunks: 'all'
+          chunks: 'initial',
+          priority: 1
         }
       }
     },

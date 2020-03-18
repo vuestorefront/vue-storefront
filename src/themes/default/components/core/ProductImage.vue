@@ -14,7 +14,7 @@
     <img
       v-if="!lowerQualityImageError || isOnline"
       v-show="showLowerQuality"
-      :src="image.loading"
+      v-lazy="image.loading"
       :alt="alt"
       @load="imageLoaded('lower', true)"
       @error="imageLoaded('lower', false)"
@@ -24,7 +24,7 @@
     <img
       v-if="!highQualityImageError || isOnline"
       v-show="showHighQuality"
-      :src="image.src"
+      v-lazy="image.src"
       :alt="alt"
       @load="imageLoaded('high', true)"
       @error="imageLoaded('high', false)"

@@ -260,7 +260,7 @@ The internationalization settings are used by the translation engine (`defautlLo
 ```
 
 You can inherit settings from other storeview of your choice. Result config will be deep merged with chosen storeview by storecode set in `extend` property prioritizing current storeview values.
-Keep in mind that `url`, `storeCode` and `appendStoreCode` attributes cannot be inherited from oter storeviews.
+Keep in mind that `url`, `storeCode` and `appendStoreCode` attributes cannot be inherited from other storeviews.
 
 ## Entities
 

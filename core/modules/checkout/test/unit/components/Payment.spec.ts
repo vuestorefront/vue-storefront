@@ -587,8 +587,11 @@ describe('Payment', () => {
       expect((wrapper.vm as any).notInMethods('invalid payment method')).toBe(true);
     });
 
-    it('changePaymentMethod method should emit an event', () => {
+    it('changePaymentMethod method should emit an event when there is paymentMethod', () => {
       mockMethods['changePaymentMethod'].mockRestore();
+      mockStore.modules.checkout.getters.getPaymentDetails.mockImplementation(() => ({
+        paymentMethod: 'payment method'
+      }));
 
       const wrapper = mountMixinWithStore(Payment, mockStore, mockMountingOptions);
       (wrapper.vm as any).changePaymentMethod();
