@@ -6,13 +6,15 @@ import { isServer } from '@vue-storefront/core/helpers'
 
 import { claimCollection } from 'theme/store/claims'
 
-export const isEnabled = async (gtmId: string | null) => {
+export const isEnabled = async (config: any): Promise<boolean> => {
+  const { id, forceCookieAccept } = config
   const cookie = await claimCollection(false).getItem('cookiesAccepted')
-  return typeof gtmId === 'string' && gtmId.length > 0 && !isServer && (cookie && cookie.value === true)
+  const accepted = (!forceCookieAccept || (cookie && cookie.value === true))
+  return typeof id === 'string' && id.length > 0 && !isServer && accepted
 }
 
 export async function afterRegistration (config, store: Store<any>) {
-  const enabled = await isEnabled(config.googleTagManager.id)
+  const enabled = await isEnabled(config.googleTagManager)
   if (!enabled) {
     return
   }

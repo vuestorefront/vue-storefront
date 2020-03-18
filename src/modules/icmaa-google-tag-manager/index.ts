@@ -13,7 +13,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 const initGTM = async ({ store, router, appConfig }) => {
   const { id, debug } = appConfig.googleTagManager
-  const enabled = await isEnabled(id)
+  const enabled = await isEnabled(appConfig.googleTagManager)
   if (enabled) {
     once('__VUE_EXTEND_GTM__', () => {
       Vue.use(VueGtm, { enabled, id, debug, vueRouter: router })
