@@ -112,6 +112,8 @@
               v-if="getCurrentProduct.type_id !== 'grouped' && getCurrentProduct.type_id !== 'bundle'"
               v-model="getCurrentProduct.qty"
               :max-quantity="maxQuantity"
+              :min-quantity="minQuantity"
+              :step-quantity="stepQuantity"
               :loading="isStockInfoLoading"
               :is-simple-or-configurable="isSimpleOrConfigurable"
               :show-quantity="manageQuantity"
@@ -256,6 +258,8 @@ export default {
     return {
       detailsOpen: false,
       maxQuantity: 0,
+      minQuantity: 1,
+      stepQuantity: 1,
       quantityError: false,
       isStockInfoLoading: false,
       hasAttributesLoaded: false,
@@ -407,6 +411,13 @@ export default {
 
         this.manageQuantity = res.isManageStock
         this.maxQuantity = res.isManageStock ? res.qty : null
+        // use 'product.stock.qty_increments' data been loaded from Elasticsearch for min/step values
+        if(this.getCurrentProduct.stock) {
+          this.stepQuantity = this.getCurrentProduct.stock.qty_increments ?? 1
+          this.minQuantity = this.stepQuantity
+        }
+        // current qty (items to be placed into the cart) should not be less than 'min' value
+        if (this.getCurrentProduct.qty < this.minQuantity) this.getCurrentProduct.qty = parseInt(this.minQuantity)
       } finally {
         this.isStockInfoLoading = false
       }

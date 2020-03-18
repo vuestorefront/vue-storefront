@@ -6,6 +6,7 @@
       type="number"
       :min="min"
       :max="max"
+      :step="step"
       :disabled="disabled"
       class="m0 no-outline base-input-number__input brdr-cl-primary bg-cl-transparent h4"
       :focus="autofocus"
@@ -35,11 +36,15 @@ export default {
     },
     min: {
       type: Number,
-      default: 0
+      default: 1
     },
     max: {
       type: Number,
       default: undefined
+    },
+    step: {
+      type: Number,
+      default: 1
     },
     disabled: {
       type: Boolean,
