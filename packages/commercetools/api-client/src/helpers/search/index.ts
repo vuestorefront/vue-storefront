@@ -1,4 +1,8 @@
-import { CategorySearch, ProductSearch } from './../../types/Api';
+import {
+  CategorySearch,
+  ProductSearch,
+  OrderSearch
+} from './../../types/Api';
 import { locale } from './../../index';
 
 const buildProductWhere = (search: ProductSearch) => {
@@ -32,4 +36,16 @@ const buildCategoryWhere = (search: CategorySearch) => {
   return '';
 };
 
-export { buildProductWhere, buildCategoryWhere };
+const buildOrderWhere = (search: OrderSearch): string => {
+  if (search?.id) {
+    return `id="${search.id}"`;
+  }
+
+  return null;
+};
+
+export {
+  buildProductWhere,
+  buildCategoryWhere,
+  buildOrderWhere
+};

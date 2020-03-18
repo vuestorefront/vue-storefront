@@ -1,4 +1,8 @@
-import { buildProductWhere, buildCategoryWhere } from './../../src/helpers/search';
+import {
+  buildProductWhere,
+  buildCategoryWhere,
+  buildOrderWhere
+} from './../../src/helpers/search';
 
 describe('[commercetools-api-client] search', () => {
   it('returns undefined when parameters are not supported', () => {
@@ -7,6 +11,10 @@ describe('[commercetools-api-client] search', () => {
 
   it('returns undefined string when parameters are not supported', () => {
     expect(buildCategoryWhere(null)).toBe('');
+  });
+
+  it('returns undefined string when parameters are not supported', () => {
+    expect(buildOrderWhere(null)).toBe(null);
   });
 
   it('returns product search query by cat id', () => {
@@ -24,4 +32,9 @@ describe('[commercetools-api-client] search', () => {
   it('returns product search query by slug', () => {
     expect(buildProductWhere({ slug: 'product-slug' })).toBe('masterData(current(slug(en="product-slug")))');
   });
+
+  it('returns order search query by id', () => {
+    expect(buildOrderWhere({ id: 'orderid' })).toBe('id="orderid"');
+  });
+
 });

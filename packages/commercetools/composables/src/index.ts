@@ -5,6 +5,7 @@ import useCart from './useCart';
 import useCheckout from './useCheckout';
 import useUser from './useUser';
 import useLocale from './useLocale';
+import useUserOrders from './useUserOrders';
 
 export {
   useCategory,
@@ -12,6 +13,7 @@ export {
   useCart,
   useCheckout,
   useUser,
-  useLocale
+  useLocale,
+  useUserOrders
 };
 

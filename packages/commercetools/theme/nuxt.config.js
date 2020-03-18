@@ -61,7 +61,6 @@ export default {
           '@vue-storefront/prismic',
           '@vue-storefront/utils',
           '@vue-storefront/factories'
-
         ]
       }
     }],

@@ -44,7 +44,8 @@ export default function useUser(): UseUser<Customer, any> {
     try {
       const profile = await getMe({ customer: true });
       user.value = profile.data.me.customer;
-    } catch (err) {} // eslint-disable-line
+    // eslint-disable-next-line no-empty
+    } catch (err) {}
 
     loading.value = false;
   });

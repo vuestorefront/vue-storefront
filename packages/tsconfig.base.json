@@ -14,6 +14,7 @@
     "baseUrl": "./",
     "lib": ["es6", "es7"],
     "strict": false,
+    "preserveSymlinks": true,
     "paths": {
       "@vue-storefront/interfaces": ["core/interfaces/src"],
       "@vue-storefront/utils": ["core/utils/src"]

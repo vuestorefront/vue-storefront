@@ -16,6 +16,8 @@ cache:
     - packages/core/utils/lib
     - packages/core/factories/node_modules
     - packages/core/factories/lib
+    - packages/core/interfaces/node_modules
+    - packages/core/interfaces/lib
     - packages/prismic/node_modules
     - packages/prismic/lib
 

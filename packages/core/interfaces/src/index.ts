@@ -195,3 +195,13 @@ export interface AgnosticProductAttribute {
   value: string | Record<string, any>;
   label: string;
 }
+
+export enum AgnosticOrderStatus {
+  Open = 'Open',
+  Pending = 'Pending',
+  Confirmed = 'Confirmed',
+  Shipped = 'Shipped',
+  Complete = 'Complete',
+  Cancelled = 'Cancelled',
+  Refunded = 'Refunded'
+}

@@ -32,7 +32,7 @@
       </SfContentCategory>
       <SfContentCategory title="Order details">
         <SfContentPage title="Order history">
-          <OrderHistory :account="account" />
+          <OrderHistory />
         </SfContentPage>
         <SfContentPage title="My reviews">
           <MyReviews />

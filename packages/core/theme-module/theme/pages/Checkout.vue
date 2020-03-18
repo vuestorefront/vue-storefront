@@ -51,7 +51,7 @@ export default {
     CartPreview,
     OrderReview
   },
-  setup(context) {
+  setup(props, context) {
     const showCartPreview = ref(true);
     const currentStep = ref(0);
 

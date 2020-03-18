@@ -25,6 +25,10 @@ export interface CategorySearch extends BaseSearch {
   slug?: string;
 }
 
+export interface OrderSearch extends BaseSearch {
+  id?: string;
+}
+
 export type QueryResponse <K extends string, V> = ApolloQueryResult<Record<K, V>>
 export type MutationResponse <K extends string, V> = FetchResult<Record<K, V>>
 export type ProfileResponse = QueryResponse<'me', Me>

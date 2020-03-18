@@ -11,7 +11,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vue-storefront/commercetools-api": "^0.0.3"
+    "@vue-storefront/commercetools-api": "^0.0.3",
+    "@vue-storefront/interfaces": "^0.0.3"
   },
   "files": [
     "lib/**/*"

@@ -1,11 +1,25 @@
 import {
-  UiMediaGalleryItem,
-  UiCategory,
+  AgnosticOrderStatus,
   AgnosticProductAttribute,
-  AgnosticTotals
+  AgnosticTotals,
+  UiCategory,
+  UiMediaGalleryItem
 } from '@vue-storefront/interfaces';
-import { ProductVariant, Image, Category, Cart, LineItem, ShippingMethod, Customer } from './types/GraphQL';
-import { formatAttributeList, getVariantByAttributes } from './_utils';
+import {
+  Cart,
+  Category,
+  Customer,
+  Image,
+  LineItem,
+  Order,
+  OrderState,
+  ProductVariant,
+  ShippingMethod
+} from './types/GraphQL';
+import {
+  formatAttributeList,
+  getVariantByAttributes
+} from './_utils';
 
 interface ProductVariantFilters {
   master?: boolean;
@@ -70,8 +84,10 @@ export const getProductAttributes = (products: ProductVariant[] | ProductVariant
     ...prev,
     [curr.name]: isSingleProduct ? curr.value : [
       ...(prev[curr.name] || []),
-      { value: curr.value,
-        label: curr.label }
+      {
+        value: curr.value,
+        label: curr.label
+      }
     ]
   });
 
@@ -195,3 +211,20 @@ export const getUserFirstName = (user: Customer): string => user ? user.firstNam
 export const getUserLastName = (user: Customer): string => user ? user.lastName : '';
 
 export const getUserFullName = (user: Customer): string => user ? `${user.firstName} ${user.lastName}` : '';
+
+// Order
+
+export const getOrderDate = (order: Order): string => order?.createdAt || '';
+
+export const getOrderNumber = (order: Order): string => order?.id || '';
+
+const orderStatusMap = {
+  [OrderState.Open]: AgnosticOrderStatus.Open,
+  [OrderState.Confirmed]: AgnosticOrderStatus.Confirmed,
+  [OrderState.Complete]: AgnosticOrderStatus.Complete,
+  [OrderState.Cancelled]: AgnosticOrderStatus.Cancelled
+};
+
+export const getOrderStatus = (order: Order): AgnosticOrderStatus | '' => order?.orderState ? orderStatusMap[order.orderState] : '';
+
+export const getOrderTotal = (order: Order): number | null => order ? order.totalPrice.centAmount / 100 : null;
