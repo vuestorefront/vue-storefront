@@ -444,6 +444,10 @@ yarn start
 
 Both applications use [`PM2` process manager](https://pm2.keymetrics.io/docs/usage/process-management/) in production mode (`start` commands) to manage and respawn the node.js processes when needed.
 
+## Varnish cache for VSF
+_Vue Storefront_ has multiple layers of cache, and the forefront cache is _Varnish_ which serves a request just as fast as a static HTML page once it's hit. You can install it from [here](https://github.com/new-fantastic/vsf-cache-varnish).
+
+
 ## Production setup - using Docker / Kubernetes
 
 To be prepared.
