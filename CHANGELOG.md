@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.12.0-rc1] - UNRELEASED
 
 ### Added
-
 - Separating endpoints for CSR/SSR - @Fifciu (#2861)
 - Added short hands for version and help flags - @jamesgeorge007 (#3946)
 - Add `or` operator for Elasticsearch filters in `quickSearchByQuery` and use exists if value is `null` - @cewald (#3960)
@@ -53,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve typescript support for test utils - @resubaka (#4067)
 - Removed `product/loadConfigurableAttributes` calls - @andrzejewsky, @gibkigonzo (#3336)
 - Disable `mapFallback` url by default - @gibkigonzo(#4092)
+- Include token in pricing sync -  @carlokok (#4156)
 
 ## [1.11.2] - 2020.03.10
 
