@@ -1,3 +1,5 @@
+import { isServer } from '@vue-storefront/core/helpers'
+
 export default {
   async asyncData ({ store, route }) {
     /**
@@ -27,11 +29,17 @@ export default {
     }
   },
   methods: {
+    fetchContentHeader (urlKey) {
+      // Only load them client-side, we use the queue in this action which won't work on SSR
+      return !isServer ? this.$store.dispatch('icmaaCategoryExtras/loadContentHeader', urlKey) : true
+    },
     async fetchAsyncData () {
       const category = this.$store.getters['category-next/getCurrentCategory']
       if (category) {
-        await this.$store.dispatch('icmaaSpotify/fetchRelatedArtists', category)
-        await this.$store.dispatch('icmaaCategoryExtras/loadContentHeader', category.url_key)
+        await Promise.all([
+          this.$store.dispatch('icmaaSpotify/fetchRelatedArtists', category),
+          this.fetchContentHeader(category.url_key)
+        ])
       }
     }
   }

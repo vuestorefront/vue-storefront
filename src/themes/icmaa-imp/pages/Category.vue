@@ -64,7 +64,7 @@
           </p>
         </div>
       </div>
-      <lazy-hydrate when-visible>
+      <lazy-hydrate when-idle>
         <category-extras-footer id="category-info-footer" class="t-mb-8" />
       </lazy-hydrate>
     </div>
