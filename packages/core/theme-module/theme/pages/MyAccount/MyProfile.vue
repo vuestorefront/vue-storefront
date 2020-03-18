@@ -207,7 +207,7 @@ export default {
 .form {
   &__element {
     display: block;
-    margin-bottom: $spacer-extra-big;
+    margin-bottom: var(--spacer-extra-big);
   }
 
   &__button {
@@ -224,7 +224,7 @@ export default {
     .form__element {
       @include for-desktop {
         flex: 1;
-        margin-right: $spacer-extra-big;
+        margin-right: var(--spacer-extra-big);
       }
 
       &:last-child {
@@ -235,27 +235,27 @@ export default {
 }
 .message,
 .notice {
-  font-family: $body-font-family-primary;
-  font-weight: $body-font-weight-primary;
+  font-family: var(--body-font-family-primary);
+  font-weight: var(--body-font-weight-primary);
   line-height: 1.6;
 }
 .message {
-  margin: 0 0 $spacer-extra-big 0;
-  font-size: $font-size-regular-mobile;
+  margin: 0 0 var(--spacer-extra-big) 0;
+  font-size: var(--font-size-regular-mobile);
   @include for-desktop {
-    font-size: $font-size-regular-desktop;
+    font-size: var(--font-size-regular-desktop);
   }
   &__label {
     font-weight: 400;
   }
 }
 .notice {
-  margin: $spacer-big 0 0 0;
-  font-size: $font-size-extra-small-mobile;
+  margin: var(--spacer-big) 0 0 0;
+  font-size: var(--font-size-extra-small-mobile);
   @include for-desktop {
     max-width: 70%;
-    margin: $spacer 0 0 0;
-    font-size: $font-size-extra-small-desktop;
+    margin: var(--spacer) 0 0 0;
+    font-size: var(--font-size-extra-small-desktop);
   }
 }
 </style>

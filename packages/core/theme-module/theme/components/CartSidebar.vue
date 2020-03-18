@@ -145,25 +145,25 @@ export default {
   display: flex;
   flex-direction: column;
   &__total-items {
-    font-family: $body-font-family-secondary;
-    font-size: $font-size-big-mobile;
-    font-weight: $body-font-weight-secondary;
+    font-family: var(--body-font-family-secondary);
+    font-size: var(--font-size-big-mobile);
+    font-weight: var(--body-font-weight-secondary);
     @include for-desktop {
-      font-size: $font-size-big-desktop;
+      font-size: var(--font-size-big-desktop);
     }
   }
   &__total-price {
-    margin-bottom: $spacer-big;
+    margin-bottom: var(--spacer-big);
   }
 }
 .collected-product-list {
   flex: 1;
-  margin: $spacer-big -#{$spacer-big};
+  margin: var(--spacer-big) -#{var(--spacer-big)};
 }
 .collected-product {
-  margin: $spacer-big 0;
+  margin: var(--spacer-big) 0;
   &__properties {
-    margin-top: $spacer-big;
+    margin-top: var(--spacer-big);
   }
   &__actions {
     opacity: 0;
@@ -200,11 +200,11 @@ export default {
     text-align: center;
   }
   &__label {
-    margin-top: $spacer-extra-big;
-    font-size: $font-size-big-desktop;
+    margin-top: var(--spacer-extra-big);
+    font-size: var(--font-size-big-desktop);
   }
   &__description {
-    margin-top: $spacer-big;
+    margin-top: var(--spacer-big);
   }
 }
 </style>

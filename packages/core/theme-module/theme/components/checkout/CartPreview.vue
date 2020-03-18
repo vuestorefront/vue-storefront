@@ -197,8 +197,8 @@ export default {
   box-sizing: border-box;
   width: 100%;
   background-color: #f1f2f3;
-  padding: $spacer-extra-big;
-  margin-bottom: $spacer-big;
+  padding: var(--spacer-extra-big);
+  margin-bottom: var(--spacer-big);
   &:last-child {
     margin-bottom: 0;
   }
@@ -207,26 +207,26 @@ export default {
   }
 }
 .title {
-  margin-bottom: $spacer-extra-big;
+  margin-bottom: var(--spacer-extra-big);
 }
 .total-items {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $spacer-big;
+  margin-bottom: var(--spacer-big);
 }
 .property {
-  margin-bottom: $spacer;
+  margin-bottom: var(--spacer);
   ::v-deep .sf-property__name {
     text-transform: unset;
   }
 }
 .property-total {
-  margin-top: $spacer-extra-big;
-  font-size: $font-size-extra-big-desktop;
+  margin-top: var(--spacer-extra-big);
+  font-size: var(--font-size-extra-big-desktop);
   font-weight: 500;
   ::v-deep .sf-property__name {
-    color: $c-text;
+    color: var(--c-text);
   }
 }
 .collected-product-list {
@@ -234,46 +234,46 @@ export default {
 }
 .collected-product {
   &:not(:last-child) {
-    margin-bottom: $spacer-big;
+    margin-bottom: var(--spacer-big);
   }
 }
 .characteristic {
   &:not(:last-child) {
-    margin-bottom: $spacer-big;
+    margin-bottom: var(--spacer-big);
   }
 }
 .promo-code {
   &__button {
     padding: 0;
     background-color: transparent;
-    color: $c-primary;
-    font-size: $font-size-big-desktop;
+    color: var(--c-primary);
+    font-size: var(--font-size-big-desktop);
   }
   &__input {
-    margin: $spacer-big 0;
+    margin: var(--spacer-big) 0;
     ::v-deep input {
-      border-color: $c-gray-variant;
+      border-color: var(--c-gray-variant);
     }
   }
 }
 .product {
   &__properties {
-    margin: $spacer-big 0 0 0;
+    margin: var(--spacer-big) 0 0 0;
   }
   &__property,
   &__action {
-    font-size: $font-size-extra-small-desktop;
+    font-size: var(--font-size-extra-small-desktop);
   }
   &__action {
-    color: $c-gray-variant;
-    font-size: $font-size-extra-small-desktop;
-    margin: 0 0 $spacer-small 0;
+    color: var(--c-gray-variant);
+    font-size: var(--font-size-extra-small-desktop);
+    margin: 0 0 var(--spacer-small) 0;
     &:last-child {
       margin: 0;
     }
   }
   &__qty {
-    color: $c-text;
+    color: var(--c-text);
   }
 }
 </style>

@@ -199,7 +199,7 @@ export default {
   }
 }
 .title {
-  margin-bottom: $spacer-extra-big;
+  margin-bottom: var(--spacer-extra-big);
 }
 .form {
   @include for-desktop {
@@ -209,7 +209,7 @@ export default {
     align-items: center;
   }
   &__element {
-    margin-bottom: $spacer-extra-big;
+    margin-bottom: var(--spacer-extra-big);
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -219,7 +219,7 @@ export default {
       }
       &-even {
         @include for-desktop {
-          padding-left: $spacer-extra-big;
+          padding-left: var(--spacer-extra-big);
         }
       }
     }
@@ -233,7 +233,7 @@ export default {
   &__action-button {
     flex: 1;
     &--secondary {
-      margin: $spacer-big 0;
+      margin: var(--spacer-big) 0;
       @include for-desktop {
         order: -1;
         margin: 0;
@@ -263,13 +263,13 @@ export default {
 .payment-methods {
   @include for-desktop {
     display: flex;
-    padding: $spacer-big 0;
-    border-top: 1px solid $c-light;
-    border-bottom: 1px solid $c-light;
+    padding: var(--spacer-big) 0;
+    border-top: 1px solid var(--c-light);
+    border-bottom: 1px solid var(--c-light);
   }
 }
 .payment-method {
-  border-top: 1px solid $c-light;
+  border-top: 1px solid var(--c-light);
   @include for-mobile {
     background-color: transparent;
   }
@@ -278,7 +278,7 @@ export default {
     border-radius: 4px;
   }
   &:last-child {
-    border-bottom: 1px solid $c-light;
+    border-bottom: 1px solid var(--c-light);
     @include for-desktop {
       border-bottom: 0;
     }
@@ -289,13 +289,13 @@ export default {
         align-items: center;
       }
       &__content {
-        margin: 0 0 0 $spacer;
+        margin: 0 0 0 var(--spacer);
       }
     }
   }
 }
 .credit-card-form {
-  margin-bottom: $spacer-big;
+  margin-bottom: var(--spacer-big);
   @include for-desktop {
     flex: 0 0 66.666%;
     padding: 0 calc((100% - 66.666%) / 2);
@@ -304,7 +304,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0 0 $spacer-big 0;
+    margin: 0 0 var(--spacer-big) 0;
   }
   &__label {
     flex: unset;
@@ -319,7 +319,7 @@ export default {
       flex: 0 0 46.666%;
     }
     & + & {
-      margin-left: $spacer-big;
+      margin-left: var(--spacer-big);
     }
   }
 }

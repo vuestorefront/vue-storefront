@@ -39,8 +39,6 @@ export default {
 
 <style lang="scss">
 @import "~@storefront-ui/vue/styles";
-@import "~@storefront-ui/shared/styles/helpers/visibility";
-@import "~@storefront-ui/vue/src/utilities/transitions/transitions";
 
 body {
   padding: 0;

@@ -263,19 +263,19 @@ export default {
   }
 }
 .title {
-  margin-bottom: $spacer-extra-big;
+  margin-bottom: var(--spacer-extra-big);
 }
 .table {
-  margin-bottom: $spacer-big;
+  margin-bottom: var(--spacer-big);
   &__header {
-    font-size: $font-size-regular-desktop;
-    font-weight: $body-font-weight-primary;
+    font-size: var(--font-size-regular-desktop);
+    font-weight: var(--body-font-weight-primary);
     @include for-desktop {
       text-align: center;
     }
   }
   &__data {
-    font-size: $font-size-small-desktop;
+    font-size: var(--font-size-small-desktop);
     text-align: center;
   }
   &__image {
@@ -293,7 +293,7 @@ export default {
   }
 }
 .accordion {
-  margin: 0 0 $spacer-extra-big 0;
+  margin: 0 0 var(--spacer-extra-big) 0;
   &__item {
     display: flex;
     align-items: flex-start;
@@ -306,26 +306,26 @@ export default {
   }
 }
 .summary {
-  background-color: $c-light;
-  margin: 0 -#{$spacer-big};
-  padding: $spacer-big;
+  background-color: var(--c-light);
+  margin: 0 -#{var(--spacer-big)};
+  padding: var(--spacer-big);
   @include for-desktop {
     background-color: transparent;
   }
   &__group {
     @include for-desktop {
       display: flex;
-      margin: 0 0 $spacer-extra-big 0;
+      margin: 0 0 var(--spacer-extra-big) 0;
     }
   }
   &__terms {
     flex: 1;
     order: -1;
-    margin-bottom: $spacer-big;
+    margin-bottom: var(--spacer-big);
   }
   &__total {
-    margin: 0 0 $spacer-extra-big 0;
-    padding: 0 $spacer-big;
+    margin: 0 0 var(--spacer-extra-big) 0;
+    padding: 0 var(--spacer-big);
     flex: 0 0 16.875rem;
     @include for-desktop {
       padding: 0;
@@ -334,7 +334,7 @@ export default {
   &__action-button {
     flex: 1;
     &--secondary {
-      margin: $spacer-big 0;
+      margin: var(--spacer-big) 0;
       @include for-desktop {
         order: -1;
         margin: 0;
@@ -343,9 +343,9 @@ export default {
     }
   }
   &__property-total {
-    margin: $spacer-big 0 0 0;
+    margin: var(--spacer-big) 0 0 0;
     text-transform: uppercase;
-    font-size: $font-size-regular-desktop;
+    font-size: var(--font-size-regular-desktop);
     line-height: 1.6;
     font-weight: 500;
   }
@@ -354,17 +354,17 @@ export default {
   cursor: pointer;
 }
 .property {
-  margin: 0 0 $spacer 0;
-  font-size: $font-size-small-desktop;
+  margin: 0 0 var(--spacer) 0;
+  font-size: var(--font-size-small-desktop);
   line-height: 1.6;
   &__name {
-    color: $c-text-muted;
+    color: var(--c-text-muted);
   }
 }
 .content {
-  margin: 0 0 $spacer-big 0;
-  color: $c-text;
-  font-size: $font-size-extra-small-desktop;
+  margin: 0 0 var(--spacer-big) 0;
+  color: var(--c-text);
+  font-size: var(--font-size-extra-small-desktop);
   font-weight: 300;
   line-height: 1.6;
   &:last-child {
@@ -379,19 +379,17 @@ export default {
 .product-sku {
   line-height: 1.6;
 }
-.product-title {
-}
 .product-sku {
-  color: $c-text-muted;
-  font-size: $font-size-extra-small-desktop;
+  color: var(--c-text-muted);
+  font-size: var(--font-size-extra-small-desktop);
 }
 .product-price {
   display: flex;
   flex-direction: column;
-  font-size: $font-size-small-desktop;
+  font-size: var(--font-size-small-desktop);
   ::v-deep .sf-price__special {
     order: 1;
-    color: $c-text;
+    color: var(--c-text);
   }
 }
 </style>

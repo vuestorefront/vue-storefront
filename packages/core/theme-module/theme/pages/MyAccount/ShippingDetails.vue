@@ -350,7 +350,7 @@ export default {
 .form {
   &__element {
     display: block;
-    margin-bottom: $spacer-extra-big;
+    margin-bottom: var(--spacer-extra-big);
   }
 
   &__button {
@@ -367,7 +367,7 @@ export default {
     .form__element {
       @include for-desktop {
         flex: 1;
-        margin-right: $spacer-extra-big;
+        margin-right: var(--spacer-extra-big);
       }
 
       &:last-child {
@@ -377,33 +377,33 @@ export default {
   }
 }
 .message {
-  margin: 0 0 $spacer-extra-big 0;
-  font-family: $body-font-family-primary;
-  font-weight: $body-font-weight-primary;
+  margin: 0 0 var(--spacer-extra-big) 0;
+  font-family: var(--body-font-family-primary);
+  font-weight: var(--body-font-weight-primary);
   line-height: 1.6;
-  font-size: $font-size-regular-mobile;
+  font-size: var(--font-size-regular-mobile);
   @include for-desktop {
-    font-size: $font-size-regular-desktop;
+    font-size: var(--font-size-regular-desktop);
   }
 }
 .shipping-list {
-  margin-bottom: $spacer-extra-big;
+  margin-bottom: var(--spacer-extra-big);
 }
 .shipping {
   display: flex;
-  padding: $spacer-big 0;
-  border-top: 1px solid $c-light;
+  padding: var(--spacer-big) 0;
+  border-top: 1px solid var(--c-light);
   &:last-child {
-    border-bottom: 1px solid $c-light;
+    border-bottom: 1px solid var(--c-light);
   }
   &__content {
     flex: 1;
-    color: $c-text;
-    font-size: $font-size-small-mobile;
+    color: var(--c-text);
+    font-size: var(--font-size-small-mobile);
     font-weight: 300;
     line-height: 1.6;
     @include for-desktop {
-      font-size: $font-size-small-desktop;
+      font-size: var(--font-size-small-desktop);
     }
   }
   &__actions {
@@ -419,20 +419,20 @@ export default {
     }
   }
   &__button-delete {
-    background-color: $c-light;
-    color: $c-text-muted;
+    background-color: var(--c-light);
+    color: var(--c-text-muted);
     @include for-desktop {
-      margin-left: $spacer-big;
+      margin-left: var(--spacer-big);
     }
   }
   &__address {
-    margin: 0 0 $spacer-big 0;
+    margin: 0 0 var(--spacer-big) 0;
     &:last-child {
       margin: 0;
     }
   }
   &__client-name {
-    font-size: $font-size-regular-desktop;
+    font-size: var(--font-size-regular-desktop);
     font-weight: 500;
   }
 }

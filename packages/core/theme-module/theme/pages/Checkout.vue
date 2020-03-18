@@ -81,7 +81,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@storefront-ui/shared/styles/variables";
-@import "~@storefront-ui/shared/styles/helpers/visibility";
 
 @mixin for-desktop {
   @media screen and (min-width: $desktop-min) {
@@ -90,11 +89,11 @@ export default {
 }
 #checkout {
   box-sizing: border-box;
-  padding: 0 $spacer-big;
+  padding: 0 var(--spacer-big);
   @include for-desktop {
     max-width: 1240px;
     margin: auto;
-    padding: $spacer-extra-big;
+    padding: var(--spacer-extra-big);
   }
 }
 .checkout {

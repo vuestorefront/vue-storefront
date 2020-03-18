@@ -13,7 +13,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@storefront-ui/vue": "^0.5.1",
+    "@storefront-ui/vue": "^0.6.2",
     "@vue-storefront/commercetools-api": "^0.0.3",
     "@vue-storefront/commercetools-composables": "^0.0.3",
     "@vue-storefront/commercetools-helpers": "^0.0.3",

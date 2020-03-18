@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <button
+    <SfButton
       v-for="lang in availableLocales"
       :key="lang.name"
       :class="['container__lang', { 'container__lang--selected': lang.name === locale}]"
       @click="handleChangeLang(lang)"
     >
       <SfImage :src="`/icons/langs/${lang.name}.png`" width="20" />
-    </button>
+    </SfButton>
     <SfSelect v-model="country" class="container__select">
       <SfSelectOption v-for="currentCountry in availableCountries" :key="currentCountry.name" :value="currentCountry.name">
         <div>{{ currentCountry.label }}</div>
@@ -22,11 +22,12 @@
 </template>
 
 <script>
-import { SfImage, SfSelect } from '@storefront-ui/vue';
+import { SfButton, SfImage, SfSelect } from '@storefront-ui/vue';
 import { useLocale } from '<%= options.composables %>';
 
 export default {
   components: {
+    SfButton,
     SfImage,
     SfSelect
   },
@@ -78,6 +79,7 @@ export default {
   }
 
   &__lang {
+    --image-width: 20px;
     background: none;
     padding: 0 5px;
     display: flex;

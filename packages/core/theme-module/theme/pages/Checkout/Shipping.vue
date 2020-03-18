@@ -192,7 +192,7 @@ export default {
   }
 }
 .title {
-  margin-bottom: $spacer-extra-big;
+  margin-bottom: var(--spacer-extra-big);
 }
 .form {
   @include for-desktop {
@@ -201,7 +201,7 @@ export default {
     align-items: center;
   }
   &__element {
-    margin-bottom: $spacer-extra-big;
+    margin-bottom: var(--spacer-extra-big);
     @include for-desktop {
       flex: 0 0 100%;
     }
@@ -211,7 +211,7 @@ export default {
       }
       &-even {
         @include for-desktop {
-          padding-left: $spacer-extra-big;
+          padding-left: var(--spacer-extra-big);
         }
       }
     }
@@ -225,7 +225,7 @@ export default {
   &__action-button {
     flex: 1;
     &--secondary {
-      margin: $spacer-big 0;
+      margin: var(--spacer-big) 0;
       @include for-desktop {
         order: -1;
         margin: 0;
@@ -243,12 +243,12 @@ export default {
     margin-bottom: 0;
     &-group {
       flex: 0 0 100%;
-      margin: 0 0 $spacer-extra-big 0;
+      margin: 0 0 var(--spacer-extra-big) 0;
     }
   }
 }
 .shipping {
-  margin: 0 -#{$spacer-big};
+  margin: 0 -#{var(--spacer-big)};
   &__label {
     display: flex;
     justify-content: space-between;
@@ -258,24 +258,24 @@ export default {
     margin-top: 0;
   }
   &__delivery {
-    color: $c-text-muted;
+    color: var(--c-text-muted);
   }
   &__action {
     align-items: center;
-    margin-left: $spacer;
+    margin-left: var(--spacer);
     text-decoration: none;
     &::before {
       content: "+";
     }
     &--is-active {
-      color: $c-primary;
+      color: var(--c-primary);
       &::before {
         content: "-";
       }
     }
   }
   &__info {
-    margin-top: $spacer;
+    margin-top: var(--spacer);
   }
 }
 </style>

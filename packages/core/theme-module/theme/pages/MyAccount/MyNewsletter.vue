@@ -65,18 +65,18 @@ export default {
 }
 .form {
   &__element {
-    margin: 0 0 $spacer-big 0;
+    margin: 0 0 var(--spacer-big) 0;
     &:last-child {
       margin: 0;
     }
   }
   &__checkbox-group {
-    margin: 0 0 $spacer-extra-big 0;
+    margin: 0 0 var(--spacer-extra-big) 0;
   }
   &__title {
-    margin: 0 0 $spacer-big 0;
-    font-family: $body-font-family-secondary;
-    font-size: $font-size-regular-desktop;
+    margin: 0 0 var(--spacer-big) 0;
+    font-family: var(--body-font-family-secondary);
+    font-size: var(--font-size-regular-desktop);
     font-weight: 500;
     line-height: 1.6;
   }
@@ -89,24 +89,24 @@ export default {
 }
 .message,
 .notice {
-  font-family: $body-font-family-primary;
-  font-weight: $body-font-weight-primary;
+  font-family: var(--body-font-family-primary);
+  font-weight: var(--body-font-weight-primary);
   line-height: 1.6;
 }
 .message {
-  margin: 0 0 $spacer-extra-big 0;
-  font-size: $font-size-regular-mobile;
+  margin: 0 0 var(--spacer-extra-big) 0;
+  font-size: var(--font-size-regular-mobile);
   @include for-desktop {
-    font-size: $font-size-regular-desktop;
+    font-size: var(--font-size-regular-desktop);
   }
 }
 .notice {
-  margin: $spacer-big 0 0 0;
-  font-size: $font-size-extra-small-desktop;
+  margin: var(--spacer-big) 0 0 0;
+  font-size: var(--font-size-extra-small-desktop);
   @include for-desktop {
     max-width: 70%;
-    margin: $spacer 0 0 0;
-    font-size: $font-size-extra-small-desktop;
+    margin: var(--spacer) 0 0 0;
+    font-size: var(--font-size-extra-small-desktop);
   }
 }
 .tab-orphan {

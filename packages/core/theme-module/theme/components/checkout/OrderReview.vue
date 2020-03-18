@@ -91,8 +91,8 @@ export default {
   box-sizing: border-box;
   width: 100%;
   background-color: #f1f2f3;
-  padding: $spacer-extra-big;
-  margin-bottom: $spacer-big;
+  padding: var(--spacer-extra-big);
+  margin-bottom: var(--spacer-big);
   &:last-child {
     margin-bottom: 0;
   }
@@ -103,21 +103,21 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: $spacer-big;
+    margin-bottom: var(--spacer-big);
   }
   &__title {
-    font-family: $body-font-family-primary;
-    font-size: $font-size-big-desktop;
+    font-family: var(--body-font-family-primary);
+    font-size: var(--font-size-big-desktop);
     line-height: 1.6;
   }
 }
 .title {
-  margin-bottom: $spacer-extra-big;
+  margin-bottom: var(--spacer-extra-big);
 }
 .content {
-  margin: 0 0 $spacer-big 0;
-  color: $c-text;
-  font-size: $font-size-extra-small-desktop;
+  margin: 0 0 var(--spacer-big) 0;
+  color: var(--c-text);
+  font-size: var(--font-size-extra-small-desktop);
   font-weight: 300;
   line-height: 1.6;
   &:last-child {

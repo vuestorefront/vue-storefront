@@ -250,16 +250,16 @@ export default {
   }
 }
 #home {
-  margin-top: $spacer-big;
+  margin-top: var(--spacer-big);
   @include for-desktop {
     margin-top: 0
   }
 }
 .call-to-action-newsletter {
-  margin: $spacer-big 0;
+  margin: var(--spacer-big) 0;
   box-sizing: border-box;
   @include for-desktop {
-    margin: $spacer-extra-big * 2 0;
+    margin: calc(var(--spacer-extra-big) * 2) 0;
   }
 }
 .product-card {
@@ -271,7 +271,7 @@ export default {
   }
 }
 .product-carousel {
-  margin: -20px -#{$spacer-big} -20px 0;
+  margin: -20px -#{var(--spacer-big)} -20px 0;
   @include for-desktop {
     margin: -20px 0;
   }
@@ -296,28 +296,28 @@ export default {
   padding-left: 2.5rem;
   line-height: 1.6;
   &__title {
-    margin: $spacer-big 0 0 0;
-    font-size: $h1-font-size-desktop;
-    font-weight: $h1-font-weight-desktop;
+    margin: var(--spacer-big) 0 0 0;
+    font-size: var(--h1-font-size-desktop);
+    font-weight: var(--h1-font-weight-desktop);
   }
   &__subtitle {
     color: #a3a5ad;
-    font-family: $body-font-family-primary;
-    font-size: $font-size-extra-big-desktop;
-    font-weight: $body-font-weight-primary;
+    font-family: var(--body-font-family-primary);
+    font-size: var(--font-size-extra-big-desktop);
+    font-weight: var(--body-font-weight-primary);
   }
   &__download {
     max-height: 47px;
-    margin-top: $spacer-extra-big;
+    margin-top: var(--spacer-extra-big);
     & + & {
-      margin-left: $spacer-big;
+      margin-left: var(--spacer-big);
     }
   }
 }
 .banners {
-  margin: $spacer-big 0;
+  margin: var(--spacer-big) 0;
   @include for-desktop {
-    margin: $spacer-extra-big 0;
+    margin: var(--spacer-extra-big) 0;
   }
 }
 .sf-banner {
@@ -325,8 +325,8 @@ export default {
 }
 .section {
   @media (max-width: $desktop-min) {
-    padding-left: $spacer-big;
-    padding-right: $spacer-big;
+    padding-left: var(--spacer-big);
+    padding-right: var(--spacer-big);
   }
 }
 .bottom-navigation-circle {

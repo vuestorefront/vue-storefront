@@ -481,7 +481,7 @@ export default {
 
 #category {
   .breadcrumbs {
-    padding: $spacer-big $spacer-extra-big $spacer-extra-big;
+    padding: var(--spacer-big) var(--spacer-extra-big) var(--spacer-extra-big);
   }
   .main {
     display: flex;
@@ -490,16 +490,16 @@ export default {
     position: relative;
     display: flex;
     @include for-desktop {
-      border-top: 1px solid $c-light;
-      border-bottom: 1px solid $c-light;
+      border-top: 1px solid var(--c-light);
+      border-bottom: 1px solid var(--c-light);
     }
     &::after {
       position: absolute;
       bottom: 0;
-      left: $spacer-big;
-      width: calc(100% - (#{$spacer-big} * 2));
+      left: var(--spacer-big);
+      width: calc(100% - (#{var(--spacer-big)} * 2));
       height: 1px;
-      background-color: $c-light;
+      background-color: var(--c-light);
       content: "";
       @include for-desktop {
         content: none;
@@ -509,22 +509,22 @@ export default {
       display: flex;
       align-items: center;
       flex: 0 0 15%;
-      padding: $spacer-big $spacer-extra-big;
-      border-right: 1px solid $c-light;
+      padding: var(--spacer-big) var(--spacer-extra-big);
+      border-right: 1px solid var(--c-light);
     }
     &__main {
       flex: 1;
       display: flex;
       align-items: center;
-      padding: $spacer-medium 0;
-      font-size: $font-size-small-desktop;
+      padding: var(--spacer-medium) 0;
+      font-size: var(--font-size-small-desktop);
       @include for-desktop {
-        padding: $spacer-big 0;
+        padding: var(--spacer-big) 0;
       }
     }
     &__title {
       padding: 0;
-      font-size: $font-size-big-desktop;
+      font-size: var(--font-size-big-desktop);
       line-height: 2.23;
     }
     &__filters-button {
@@ -537,30 +537,30 @@ export default {
       font-size: inherit;
       font-weight: 500;
       @include for-desktop {
-        margin: 0 0 0 $spacer-extra-big;
+        margin: 0 0 0 var(--spacer-extra-big);
         font-weight: 400;
         text-transform: none;
       }
       svg {
-        fill: $c-dark;
+        fill: var(--c-dark);
         @include for-desktop {
-          fill: $c-gray-variant;
+          fill: var(--c-gray-variant);
         }
       }
       &:hover {
-        color: $c-primary;
+        color: var(--c-primary);
         svg {
-          fill: $c-primary;
+          fill: var(--c-primary);
         }
       }
     }
     &__label {
-      color: $c-gray-variant;
+      color: var(--c-gray-variant);
     }
     &__sort {
       display: flex;
       align-items: center;
-      margin-left: $spacer-extra-big;
+      margin-left: var(--spacer-extra-big);
       margin-right: auto;
     }
     &__counter {
@@ -572,7 +572,7 @@ export default {
     &__view {
       display: flex;
       align-items: center;
-      margin: 0 $spacer-extra-big;
+      margin: 0 var(--spacer-extra-big);
       &-icon {
         margin-left: 10px;
       }
@@ -586,9 +586,9 @@ export default {
 .products {
   box-sizing: border-box;
   flex: 1;
-  margin: 0 -#{$spacer};
+  margin: 0 -#{var(--spacer)};
   @include for-desktop {
-    margin: $spacer-big;
+    margin: var(--spacer-big);
   }
   &__list {
     display: flex;
@@ -596,23 +596,23 @@ export default {
   }
     &__product-card {
       flex: 0 0 50%;
-      padding: $spacer;
+      padding: var(--spacer);
       @include for-desktop {
         flex: 0 0 25%;
-        padding: $spacer-big;
+        padding: var(--spacer-big);
       }
     }
     &__pagination {
       @include for-desktop {
         display: flex;
         justify-content: center;
-        margin-top: $spacer-extra-big;
+        margin-top: var(--spacer-extra-big);
       }
     }
   }
   .section {
-    padding-left: $spacer-big;
-    padding-right: $spacer-big;
+    padding-left: var(--spacer-big);
+    padding-right: var(--spacer-big);
     @include for-desktop {
       padding-left: 0;
       padding-right: 0;
@@ -620,8 +620,8 @@ export default {
   }
   .sidebar {
     flex: 0 0 15%;
-    padding: $spacer-extra-big;
-    border-right: 1px solid $c-light;
+    padding: var(--spacer-extra-big);
+    border-right: 1px solid var(--c-light);
 
     &--cat-selected {
       font-weight: bold
@@ -636,26 +636,26 @@ export default {
 }
 .filters {
   &__title {
-    margin: $spacer-big * 3 0 $spacer-big;
-    font-size: $font-size-big-desktop;
+    margin: calc(var(--spacer-big) * 3) 0 var(--spacer-big);
+    font-size: var(--font-size-big-desktop);
     line-height: 1.6;
     &:first-child {
-      margin: 0 0 $spacer-big 0;
+      margin: 0 0 var(--spacer-big) 0;
     }
   }
   &__item {
-    padding: $spacer-small 0;
+    padding: var(--spacer-small) 0;
     &--color {
-      margin: 0 $spacer;
+      margin: 0 var(--spacer);
     }
   }
   &__buttons {
-    margin: $spacer-big * 3 0 0 0;
+    margin: calc(var(--spacer-big) * 3) 0 0 0;
   }
   &__button-clear {
     color: #a3a5ad;
     margin-top: 10px;
-    background-color: $c-light;
+    background-color: var(--c-light);
   }
 }
 </style>

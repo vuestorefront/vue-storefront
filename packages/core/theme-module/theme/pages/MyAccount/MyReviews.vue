@@ -31,13 +31,13 @@ export default {
   }
 }
 .message {
-  margin: 0 0 $spacer-extra-big 0;
-  font-size: $font-size-regular-mobile;
-  font-family: $body-font-family-primary;
-  font-weight: $body-font-weight-primary;
+  margin: 0 0 var(--spacer-extra-big) 0;
+  font-size: var(--font-size-regular-mobile);
+  font-family: var(--body-font-family-primary);
+  font-weight: var(--body-font-weight-primary);
   line-height: 1.6;
   @include for-desktop {
-    font-size: $font-size-regular-desktop;
+    font-size: var(--font-size-regular-desktop);
   }
 }
 .tab-orphan {

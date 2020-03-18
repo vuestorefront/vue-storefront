@@ -1933,12 +1933,38 @@
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.5.1.tgz#313cf978470e43cf7a1af401d65617eb496f6ba4"
 
+"@storefront-ui/shared@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/shared/-/shared-0.6.2.tgz#b12e2bd77ac37ab9d18cc80d962a07cc3d60156e"
+  integrity sha512-ziIr112QMl7tqvvLNxHAyOsfU0YyIjyl5Wn39RxoYdOuqSzEbMQDNeVQgIkTE1FNgKWAbvnuz3CeD+pCR6J1dg==
+
 "@storefront-ui/vue@^0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.5.1.tgz#62c69d204232bd4050beb01963829fc4a4fbf751"
   dependencies:
     "@glidejs/glide" "^3.3.0"
     "@storefront-ui/shared" "^0.5.1"
+    "@vue/babel-preset-app" "^4.0.0-alpha.1"
+    body-scroll-lock "^2.6.4"
+    core-js "^3.1.3"
+    hammerjs "^2.0.8"
+    leaflet "^1.5.1"
+    lozad "^1.9.0"
+    node-sass "^4.12.0"
+    sass-loader "^7.1.0"
+    simplebar-vue "^1.4.0"
+    vue-drag-drop "^1.1.4"
+    vue-fragment "^1.5.1"
+    vue2-leaflet "^2.1.1"
+    webpack-dev-middleware "3.6.0"
+
+"@storefront-ui/vue@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@storefront-ui/vue/-/vue-0.6.2.tgz#00ddc0ec6ab4564fe522be4bb7af7b94fc94f646"
+  integrity sha512-USPUW0VlmcJaCO7Zsuc0d83S9arq7ehdo2yQ+igXWfX6G7UMLjCVkGsUUfACp6XasRZ2GSqvX1No/IiKMhZ4NQ==
+  dependencies:
+    "@glidejs/glide" "^3.3.0"
+    "@storefront-ui/shared" "^0.6.2"
     "@vue/babel-preset-app" "^4.0.0-alpha.1"
     body-scroll-lock "^2.6.4"
     core-js "^3.1.3"
