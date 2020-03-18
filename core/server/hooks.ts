@@ -8,7 +8,7 @@ const {
   executor: afterProcessStartedExecutor
 } = createListenerHook<any>()
 
-interface beforeCacheInvalidatedParamter {
+interface BeforeCacheInvalidatedParamter {
   tags: string[],
   req: Request
 }
@@ -16,7 +16,7 @@ interface beforeCacheInvalidatedParamter {
 const {
   hook: beforeCacheInvalidatedHook,
   executor: beforeCacheInvalidatedExecutor
-} = createListenerHook<beforeCacheInvalidatedParamter>()
+} = createListenerHook<BeforeCacheInvalidatedParamter>()
 
 const {
   hook: afterCacheInvalidatedHook,

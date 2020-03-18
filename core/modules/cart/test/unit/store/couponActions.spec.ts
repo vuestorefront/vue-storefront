@@ -24,7 +24,7 @@ jest.mock('@vue-storefront/core/lib/logger', () => ({
 jest.mock('@vue-storefront/core/data-resolver', () => ({ CartService: {
   applyCoupon: async () => ({ result: true }),
   removeCoupon: async () => ({ result: true })
-}}));
+} }));
 jest.mock('@vue-storefront/core/lib/storage-manager', () => ({
   StorageManager: {
     get: jest.fn()

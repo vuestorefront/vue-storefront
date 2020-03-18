@@ -50,7 +50,7 @@ const itemActions = {
     const record = getters.getCartItems.find(p => productsEquals(p, product))
     const qty = record ? record.qty + 1 : (product.qty ? product.qty : 1)
 
-    return dispatch('stock/queueCheck', { product, qty }, {root: true})
+    return dispatch('stock/queueCheck', { product, qty }, { root: true })
   },
   async addItems ({ commit, dispatch, getters }, { productsToAdd, forceServerSilence = false }) {
     let productIndex = 0

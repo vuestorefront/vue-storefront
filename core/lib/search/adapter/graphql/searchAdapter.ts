@@ -1,7 +1,7 @@
 import { prepareQueryVars } from './gqlQuery'
 import { currentStoreView, prepareStoreView } from '../../../multistore'
 import fetch from 'isomorphic-fetch'
-import {processESResponseType, processProductsType, processCmsType} from './processor/processType'
+import { processESResponseType, processProductsType, processCmsType } from './processor/processType'
 import SearchQuery from '../../searchQuery'
 import config from 'config'
 

@@ -7,12 +7,12 @@ const createCategoryListQuery = ({ parent, level, key, value, onlyActive, onlyNo
   let searchQuery = new SearchQuery()
 
   if (parent) {
-    searchQuery = searchQuery.applyFilter({key: 'parent_id', value: { 'eq': typeof parent === 'object' ? parent.id : parent }})
+    searchQuery = searchQuery.applyFilter({ key: 'parent_id', value: { 'eq': typeof parent === 'object' ? parent.id : parent } })
     isCustomizedQuery = true
   }
 
   if (level !== null) {
-    searchQuery = searchQuery.applyFilter({key: 'level', value: {'eq': level}})
+    searchQuery = searchQuery.applyFilter({ key: 'level', value: { 'eq': level } })
     if (level !== config.entities.category.categoriesDynamicPrefetchLevel && !isServer) {
       isCustomizedQuery = true
     }
@@ -20,19 +20,19 @@ const createCategoryListQuery = ({ parent, level, key, value, onlyActive, onlyNo
 
   if (key !== null) {
     if (Array.isArray(value)) {
-      searchQuery = searchQuery.applyFilter({key: key, value: { 'in': value }})
+      searchQuery = searchQuery.applyFilter({ key: key, value: { 'in': value } })
     } else {
-      searchQuery = searchQuery.applyFilter({key: key, value: { 'eq': value }})
+      searchQuery = searchQuery.applyFilter({ key: key, value: { 'eq': value } })
     }
     isCustomizedQuery = true
   }
 
   if (onlyActive === true) {
-    searchQuery = searchQuery.applyFilter({key: 'is_active', value: { 'eq': true }})
+    searchQuery = searchQuery.applyFilter({ key: 'is_active', value: { 'eq': true } })
   }
 
   if (onlyNotEmpty === true) {
-    searchQuery = searchQuery.applyFilter({key: 'product_count', value: { 'gt': 0 }})
+    searchQuery = searchQuery.applyFilter({ key: 'product_count', value: { 'gt': 0 } })
     isCustomizedQuery = true
   }
 

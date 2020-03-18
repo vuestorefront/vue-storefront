@@ -90,7 +90,7 @@ export default {
     this.selectVariant()
 
     if (this.configuration.color) {
-      const {color} = this.configuration
+      const { color } = this.configuration
       this.currentColor = color.id
     }
 
@@ -127,7 +127,7 @@ export default {
       this.$emit('toggle', currentSlide)
     },
     switchCarouselSpeed () {
-      const {color} = this.configuration
+      const { color } = this.configuration
       if (color && this.currentColor !== color.id) {
         this.currentColor = color.id
         this.carouselTransitionSpeed = 0
